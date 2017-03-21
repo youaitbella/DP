@@ -118,7 +118,7 @@ public class CostCenterDataImporter {
             int val = nf.parse(dataString).intValue();
             item.setCostCenterNumber(val);
         } catch (ParseException ex) {
-            throw new IllegalArgumentException("[Nummer der Kostenstelle] " + Utils.getMessage("msgNotANumber") + ": " + dataString);
+            throw new IllegalArgumentException("[Nummer der Kostenstelle] " + Utils.getMessage("msgNotAnInteger") + ": " + dataString);
         }
     }
 
@@ -132,7 +132,7 @@ public class CostCenterDataImporter {
             }
             item.setAmount(val);
         } catch (ParseException ex) {
-            throw new IllegalArgumentException("[Kostenvolumen] " + Utils.getMessage("msgNotANumber") + ": " + dataString);
+            throw new IllegalArgumentException("[Kostenvolumen] " + Utils.getMessage("msgNotAnInteger") + ": " + dataString);
         }
     }
 
@@ -160,7 +160,7 @@ public class CostCenterDataImporter {
             }
             item.setServiceSum(val);
         } catch (ParseException ex) {
-            throw new IllegalArgumentException("[Summe der Leistungseinheiten] " + Utils.getMessage("msgNotANumber") + ": " + dataString);
+            throw new IllegalArgumentException("[Summe der Leistungseinheiten] " + Utils.getMessage("msgNotAnInteger") + ": " + dataString);
         }
     }
 

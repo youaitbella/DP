@@ -1221,85 +1221,85 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                         try {
                             ccc.setBedCnt(Integer.parseInt(values[4]));
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 5: Ganzzahl erwartet.\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 5: " + Utils.getMessage("msgNotAnInteger") + "\\n";
                             continue;
                         }
                         try {
                             ccc.setCareDays(Integer.parseInt(values[5]));
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 6: Ganzzahl erwartet.\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 6: " + Utils.getMessage("msgNotAnInteger") + "\\n";
                             continue;
                         }
                         try {
                             ccc.setPprMinutes(Integer.parseInt(values[6]));
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 7: Ganzzahl erwartet.\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 7: " + Utils.getMessage("msgNotAnInteger") + "\\n";
                             continue;
                         }
                         try {
                             ccc.setPprWeight(Integer.parseInt(values[7]));
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 8: Ganzzahl erwartet.\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 8: " + Utils.getMessage("msgNotAnInteger") + "\\n";
                             continue;
                         }
                         try {
                             ccc.setMedicalServiceCnt(parseLocalizedDouble(values[8]));
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 9: Zahl erwartet.\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 9: " + Utils.getMessage("msgNotANumber") + "\\n";
                             continue;
                         }
                         try {
                             ccc.setNursingServiceCnt(parseLocalizedDouble(values[9]));
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 10: Zahl erwartet.\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 10: " + Utils.getMessage("msgNotANumber") + "\\n";
                             continue;
                         }
                         try {
                             ccc.setFunctionalServiceCnt(parseLocalizedDouble(values[10]));
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 11: Zahl erwartet.\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 11: " + Utils.getMessage("msgNotANumber") + "\\n";
                             continue;
                         }
                         try {
                             ccc.setMedicalServiceAmount(Integer.parseInt(values[11]));
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 12: Ganzzahl erwartet.\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 12: " + Utils.getMessage("msgNotAnInteger") + "\\n";
                             continue;
                         }
                         try {
                             ccc.setNursingServiceAmount(Integer.parseInt(values[12]));
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 13: Ganzzahl erwartet.\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 13: " + Utils.getMessage("msgNotAnInteger") + "\\n";
                             continue;
                         }
                         try {
                             ccc.setFunctionalServiceAmount(Integer.parseInt(values[13]));
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 14: Ganzzahl erwartet.\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 14: " + Utils.getMessage("msgNotAnInteger") + "\\n";
                             continue;
                         }
                         try {
                             ccc.setOverheadsMedicine(Integer.parseInt(values[14]));
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 15: Ganzzahl erwartet.\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 15: " + Utils.getMessage("msgNotAnInteger") + "\\n";
                             continue;
                         }
                         try {
                             ccc.setOverheadsMedicalGoods(Integer.parseInt(values[15]));
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 16: Ganzzahl erwartet.\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 16: " + Utils.getMessage("msgNotAnInteger") + "\\n";
                             continue;
                         }
                         try {
                             ccc.setMedicalInfrastructureCost(Integer.parseInt(values[16]));
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 17: Ganzzahl erwartet.\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 17: " + Utils.getMessage("msgNotAnInteger") + "\\n";
                             continue;
                         }
                         try {
                             ccc.setNonMedicalInfrastructureCost(Integer.parseInt(values[17]));
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 18: Ganzzahl erwartet.\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 18: " + Utils.getMessage("msgNotAnInteger") + "\\n";
                             continue;
                         }
                         if (checkCostCenterCostRedundantEntry(ccc)) {
@@ -1351,7 +1351,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                         try {
                             radio.setCostCenterNumber(Integer.parseInt(values[0]));
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 1: Zahl erwartet.\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 1: " + Utils.getMessage("msgNotANumber") + "\\n";
                             continue;
                         }
                         radio.setCostCenterText(values[1]);
@@ -1371,25 +1371,25 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                         try {
                             radio.setServiceVolumePre(Integer.parseInt(values[4]));
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 4: Zahl erwartet.\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 5: " + Utils.getMessage("msgNotANumber") + "\\n";
                             continue;
                         }
                         try {
                             radio.setAmountPre(Integer.parseInt(values[5]));
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 5: Zahl erwartet.\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 6: " + Utils.getMessage("msgNotANumber") + "\\n";
                             continue;
                         }
                         try {
                             radio.setServiceVolumePost(Integer.parseInt(values[6]));
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 6: Zahl erwartet.\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 7: " + Utils.getMessage("msgNotANumber") + "\\n";
                             continue;
                         }
                         try {
                             radio.setAmountPost(Integer.parseInt(values[7]));
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 7: Zahl erwartet.\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 8: " + Utils.getMessage("msgNotANumber") + "\\n";
                             continue;
                         }
                         if (checkRadiologyRedundantEntry(radio)) {
@@ -1462,7 +1462,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                         try {
                             medInfra.setAmount(Integer.parseInt(values[3]));
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 4: Zahl erwartet.\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 4: " + Utils.getMessage("msgNotANumber") + "\\n";
                             continue;
                         }
                         if (checkMedInfraRedundantEntry(medInfra)) {

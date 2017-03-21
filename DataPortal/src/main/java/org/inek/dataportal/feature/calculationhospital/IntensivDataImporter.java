@@ -152,7 +152,7 @@ public class IntensivDataImporter {
             }
             bind.accept(item, val);
         } catch (ParseException ex) {
-            throw new IllegalArgumentException(errorMsg + Utils.getMessage("msgNotANumber") + ": " + data);
+            throw new IllegalArgumentException(errorMsg + Utils.getMessage("msgNotAnInteger") + ": " + data);
         }
     }
 
