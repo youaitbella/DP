@@ -32,7 +32,7 @@ public class DocumentationUtil {
     }
 
     /**
-     * 
+     *
      * @param o
      * @return Map of fieldname, displayname
      */
@@ -105,12 +105,12 @@ public class DocumentationUtil {
 
     private void docElement(Documentation doc, String fieldName, Object rawValue) {
         String name = getName(doc, fieldName);
+        if (!doc.headline().isEmpty()) {
+            addDoc("", doc.headline(), doc, 0);
+        }
         if (rawValue instanceof Collection) {
             documentCollection(doc, name, (Collection) rawValue);
         } else {
-            if (!doc.headline().isEmpty()) {
-                addDoc("", doc.headline(), doc, 0);
-            }
             addDoc(name, rawValue, doc, 0);
         }
     }
@@ -282,25 +282,26 @@ public class DocumentationUtil {
         }
 
     }
-    
+
     private boolean omitOnValue(Object rawValue, Documentation doc) {
         if (doc.omitOnValues().isEmpty() && doc.omitOnOtherValues().isEmpty()) {
             return false;
         }
         List<String> values = Arrays.asList(doc.omitOnValues().split(";"));
-        if (values.contains("" + rawValue)){
+        if (values.contains("" + rawValue)) {
             return true;
         }
-        List<String> otherValues =  Arrays.asList(doc.omitOnOtherValues().split(";"));
+        List<String> otherValues = Arrays.asList(doc.omitOnOtherValues().split(";"));
         for (String otherNameValue : otherValues) {
-            String [] tokens = otherNameValue.split("=");
-            if (tokens.length != 2){continue;}
-            if (_fieldValues.containsKey(tokens[0]) && _fieldValues.get(tokens[0]).equals(tokens[1])){
+            String[] tokens = otherNameValue.split("=");
+            if (tokens.length != 2) {
+                continue;
+            }
+            if (_fieldValues.containsKey(tokens[0]) && _fieldValues.get(tokens[0]).equals(tokens[1])) {
                 return true;
             }
         }
         return false;
     }
 
-    
 }
