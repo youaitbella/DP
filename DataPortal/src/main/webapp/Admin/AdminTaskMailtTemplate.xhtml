@@ -65,7 +65,7 @@
                              styleClass="inputwide"
                              required="false"
                              disabled="#{adminTask.mailTemplate == null}">
-                    <f:validator validatorId="EmailValidator"/>
+                    <f:validator validatorId="MultiEmailValidator"/>
                     <f:ajax render="@this msgBcc mnuTemplate btnMailTemplateSave :logout:remaining" listener="#{adminTask.mailTemplateChangeListener}"/>
                 </h:inputText>
             </div>

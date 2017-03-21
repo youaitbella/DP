@@ -143,7 +143,10 @@
 
                 <h:column>
                     <f:facet name="header"><h:outputLabel value="genehmigt" title="Das InEK hat die geplante Kostenverteilung geprüft und genehmigt"/></f:facet>
-                    <inek:Checkbox value="#{item.approved}" readonly="#{not editDistributionModel.requestCorrectionEnabled or cc.attrs.model.statusId ne 10}" styleClass="col03em"/>
+                    <inek:Checkbox value="#{item.approved}" 
+                                   readonly="#{not editDistributionModel.requestCorrectionEnabled or cc.attrs.model.statusId ne 10}" 
+                                   renderElement="@form"
+                                   styleClass="col03em"/>
                 </h:column>
 
                 <h:column>

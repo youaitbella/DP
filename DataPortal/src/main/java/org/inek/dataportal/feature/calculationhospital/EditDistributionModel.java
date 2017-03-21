@@ -265,7 +265,6 @@ public class EditDistributionModel extends AbstractEditController implements Ser
     @Inject private Mailer _mailer;
 
     private void sendMessage(String name) {
-        Account sender = _sessionController.getAccount();
         Account receiver = _accountFacade.find(_appTools.isEnabled(ConfigKey.TestMode) ? _sessionController.getAccountId() : _model.getAccountId());
         MailTemplate template = _mailer.getMailTemplate(name);
         String subject = template.getSubject()
@@ -274,7 +273,8 @@ public class EditDistributionModel extends AbstractEditController implements Ser
         String body = template.getBody()
                 .replace("{formalSalutation}", _mailer.getFormalSalutation(receiver))
                 .replace("{note}", _model.getNoteInek());
-        _mailer.sendMailFrom(sender.getEmail(), receiver.getEmail(), "", "", subject, body);
+        String bcc = template.getBcc().replace("{accountMail}", _sessionController.getAccount().getEmail());
+        _mailer.sendMailFrom(template.getFrom(), receiver.getEmail(), "", bcc, subject, body);
     }
 
     public boolean isTakeEnabled() {

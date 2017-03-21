@@ -20,7 +20,7 @@
     <cc:implementation>
         <h:dataTable headerClass="list-header" id="calcHospitalInfos"
                      value="#{cc.attrs.parentNode.sortedChildren}" var="node" width="100%" rowClasses="row1, row2" 
-                     columnClasses="#{cc.attrs.showSelectBox.equals('true') ? 'colIcon, ' : ''} colIcon, colIcon, colIcon, colIk, #{cc.attrs.isSealed.equals('true') ? 'col10em,' : ''} colValue">
+                     columnClasses="#{cc.attrs.showSelectBox.equals('true') ? 'colIcon, ' : ''} colIcon, colIcon, colIcon, colIk, colValue, #{cc.attrs.isSealed.equals('true') ? 'col10em,' : ''} colValue">
             
             <h:column rendered="#{cc.attrs.showSelectBox}">
                 <f:facet name="header">
@@ -71,6 +71,18 @@
                 </f:facet>
                 <h:link outcome="#{calcHospitalList.editHospitalInfo(node.calcHospitalInfo.type)}"
                                value="#{node.calcHospitalInfo.ik}" >
+                    <f:param name="id" value="#{node.calcHospitalInfo.id}"/>
+                </h:link>
+            </h:column>
+            
+            <h:column>
+                <f:facet name="header">
+                    <h:commandLink value="#{msg.lblHospital} #{cc.attrs.parentNode.sortCriteria.equals('Hospital') ? (cc.attrs.parentNode.descending ? '↓' : '↑') : ''}">
+                        <f:ajax listener="#{cc.attrs.parentNode.setSortCriteria('Hospital')}" render="calcHospitalInfos :logout:remaining"/>
+                    </h:commandLink>
+                </f:facet>
+                <h:link outcome="#{calcHospitalList.editHospitalInfo(node.calcHospitalInfo.type)}"
+                        value="#{applicationTools.retrieveHospitalInfo(node.calcHospitalInfo.ik)}" > 
                     <f:param name="id" value="#{node.calcHospitalInfo.id}"/>
                 </h:link>
             </h:column>
