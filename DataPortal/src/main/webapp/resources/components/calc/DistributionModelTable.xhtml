@@ -87,7 +87,9 @@
 
                 <h:column rendered="#{cc.attrs.model.details.stream().anyMatch(d -> d.isUseProcCode())}">
                     <f:facet name="header"><h:outputLabel value="Erläuterung OPS" title="Optionale Erläuterung zur Verteilung via Prozeduren, z.B. Angabe des oder der OPS Codes"/></f:facet>
-                    <inek:InputTextWithMessage value="#{item.noteProcCode}" disabled="#{editDistributionModel.readOnly or not item.useProcCode}"/>
+                    <inek:InputTextWithMessage value="#{item.noteProcCode}" 
+                                               readonly="#{editDistributionModel.readOnly}"
+                                               disabled="#{not item.useProcCode}"/>
                 </h:column>
 
                 <h:column>
@@ -97,7 +99,9 @@
 
                 <h:column rendered="#{cc.attrs.model.details.stream().anyMatch(d -> d.isUseDiagCode())}">
                     <f:facet name="header"><h:outputLabel value="Erläuterung ICD" title="Optionale Erläuterung zur Verteilung via Diagnosen, z.B. Angabe des oder der ICD Codes"/></f:facet>
-                    <inek:InputTextWithMessage value="#{item.noteDiagCode}" disabled="#{editDistributionModel.readOnly or not item.useDiagCode}"/>
+                    <inek:InputTextWithMessage value="#{item.noteDiagCode}" 
+                                               readonly="#{editDistributionModel.readOnly}"
+                                               disabled="#{not item.useDiagCode}"/>
                 </h:column>
 
                 <h:column>
@@ -108,7 +112,9 @@
 
                 <h:column rendered="#{cc.attrs.model.details.stream().anyMatch(d -> d.isUseGroupResult())}">
                     <f:facet name="header"><h:outputLabel value="Erläuterung #{cc.attrs.model.type eq 0 ? 'DRG' : 'PEPP'}" title="Optionale Erläuterung zur Verteilung via Fallgruppierung"/></f:facet>
-                    <inek:InputTextWithMessage value="#{item.noteGroupResult}" disabled="#{editDistributionModel.readOnly or not item.useGroupResult}"/>
+                    <inek:InputTextWithMessage value="#{item.noteGroupResult}" 
+                                               readonly="#{editDistributionModel.readOnly}"
+                                               disabled="#{not item.useGroupResult}"/>
                 </h:column>
 
                 <h:column>
@@ -118,7 +124,10 @@
 
                 <h:column rendered="#{cc.attrs.model.details.stream().anyMatch(d -> d.isUseOtherCode())}">
                     <f:facet name="header"><h:outputLabel value="Erläuterung sonstiger Schlüssel" title="Erläuterung zur Verteilung via sonstigem Schlüssel"/></f:facet>
-                    <inek:InputTextWithMessage value="#{item.noteOtherCode}" disabled="#{editDistributionModel.readOnly or not item.useOtherCode}" required="#{not editDistributionModel.readOnly and item.useOtherCode}"/>
+                    <inek:InputTextWithMessage value="#{item.noteOtherCode}" 
+                                               readonly="#{editDistributionModel.readOnly}" 
+                                               disabled="#{not item.useOtherCode}" 
+                                               required="#{not editDistributionModel.readOnly and item.useOtherCode}"/>
                 </h:column>
 
                 <h:column>
