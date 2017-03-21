@@ -61,7 +61,7 @@ public class KGLListMedInfra implements Serializable {
     @Documentation (name = "Nummer der Kostenstelle:", rank = 20)
     private String _costCenterNumber = "";
 
-    @Size(max = 20)
+    @Size(max = 100)
     public String getCostCenterNumber() {
         return _costCenterNumber;
     }
@@ -76,7 +76,7 @@ public class KGLListMedInfra implements Serializable {
     @Documentation (name = "Name der Kostenstelle:", rank = 30)
     private String _costCenterText = "";
 
-    @Size(max = 100)
+    @Size(max = 200)
     public String getCostCenterText() {
         return _costCenterText;
     }
@@ -91,7 +91,7 @@ public class KGLListMedInfra implements Serializable {
     @Documentation (name = "Verwendeter Schlüssel:", rank = 40)
     private String _keyUsed = "";
 
-    @Size(max = 50)
+    @Size(max = 200)
     public String getKeyUsed() {
         return _keyUsed;
     }
