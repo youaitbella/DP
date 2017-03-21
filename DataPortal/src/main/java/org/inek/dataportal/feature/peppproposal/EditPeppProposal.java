@@ -368,7 +368,7 @@ public class EditPeppProposal extends AbstractEditController {
             return getActiveTopic().getOutcome();
         }
 
-        _peppProposal.setStatus(WorkflowStatus.Provided.getValue());
+        _peppProposal.setStatus(WorkflowStatus.Provided.getId());
         _peppProposal.setDateSealed(Calendar.getInstance().getTime());
         _peppProposal.setSealedBy(_sessionController.getAccountId());
         if (_peppProposal.getLastModified() == null ){
@@ -393,7 +393,7 @@ public class EditPeppProposal extends AbstractEditController {
         if (!peppProposalIsComplete()) {
             return null;
         }
-        _peppProposal.setStatus(WorkflowStatus.ApprovalRequested.getValue());
+        _peppProposal.setStatus(WorkflowStatus.ApprovalRequested.getId());
         setModifiedInfo();
         _peppProposal = _peppProposalFacade.savePeppProposal(_peppProposal);
         return null;
@@ -562,7 +562,7 @@ public class EditPeppProposal extends AbstractEditController {
         String subject = "Korrektur Pepp-Vorschlag \"" + _peppProposal.getName() + "\" erforderlich";
         Account sender = _sessionController.getAccount();
         Account receiver = _accountFacade.find(_peppProposal.getAccountId());
-        _peppProposal.setStatus(WorkflowStatus.New.getValue());
+        _peppProposal.setStatus(WorkflowStatus.New.getId());
         if (!isReadOnly()) {
             // there might have been changes by that user
             setModifiedInfo();

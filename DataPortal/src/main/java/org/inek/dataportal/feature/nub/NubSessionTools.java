@@ -431,7 +431,7 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
     }
 
     private boolean trySendRequest(NubRequest nubRequest) {
-        if (nubRequest.getStatus().getValue() >= WorkflowStatus.Provided.getValue() || nubRequest.getStatus() == WorkflowStatus.Unknown) {
+        if (nubRequest.getStatus().getId() >= WorkflowStatus.Provided.getId() || nubRequest.getStatus() == WorkflowStatus.Unknown) {
             return false;
         }
         if (!isSealEnabled(nubRequest)) {

@@ -46,13 +46,13 @@ public class DrgProposalFacade extends AbstractFacade<DrgProposal> {
         Predicate sealed;
         Order order;
         if (dataSet == DataSet.AllOpen) {
-            sealed = cb.lessThan(request.get("_status"), WorkflowStatus.Provided.getValue());
+            sealed = cb.lessThan(request.get("_status"), WorkflowStatus.Provided.getId());
             order = cb.asc(request.get("_id"));
         } else if (dataSet == DataSet.ApprovalRequested) {
-            sealed = cb.equal(request.get("_status"), WorkflowStatus.ApprovalRequested.getValue());
+            sealed = cb.equal(request.get("_status"), WorkflowStatus.ApprovalRequested.getId());
             order = cb.asc(request.get("_id"));
         } else {
-            sealed = cb.greaterThanOrEqualTo(request.get("_status"), WorkflowStatus.Provided.getValue());
+            sealed = cb.greaterThanOrEqualTo(request.get("_status"), WorkflowStatus.Provided.getId());
             order = cb.desc(request.get("_id"));
         }
         Predicate checkYear;
@@ -124,8 +124,8 @@ public class DrgProposalFacade extends AbstractFacade<DrgProposal> {
         TypedQuery<Integer> query = getEntityManager().createQuery(jpql, Integer.class);
         query.setParameter("accountIds", accountIds);
         query.setParameter("year", year);
-        query.setParameter("statusLow", statusLow.getValue());
-        query.setParameter("statusHigh", statusHigh.getValue());
+        query.setParameter("statusLow", statusLow.getId());
+        query.setParameter("statusHigh", statusHigh.getId());
         return new HashSet<>(query.getResultList());
     }
 

@@ -89,7 +89,7 @@ public class InsuranceNubNotice implements Serializable {
     }
 
     public void setWorkflowStatus(WorkflowStatus value) {
-        _workflowStatusId = value.getValue();
+        _workflowStatusId = value.getId();
     }    
     // </editor-fold>
 

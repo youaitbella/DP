@@ -88,7 +88,7 @@ public class NubRequestList {
     public String getConfirmMessage(int requestId) {
         NubRequest proposal = _nubRequestFacade.find(requestId);
         String msg = proposal.getName() + "\n"
-                + (proposal.getStatus().getValue() <= 9 ? Utils.getMessage("msgConfirmDelete") : Utils.getMessage("msgConfirmRetire"));
+                + (proposal.getStatus().getId() <= 9 ? Utils.getMessage("msgConfirmDelete") : Utils.getMessage("msgConfirmRetire"));
         msg = msg.replace("\r\n", "\n").replace("\n", "\\r\\n").replace("'", "\\'").replace("\"", "\\'");
         return "return confirm ('" + msg + "');";
     }
@@ -99,7 +99,7 @@ public class NubRequestList {
             return "";
         }
         if (_sessionController.isMyAccount(nubRequest.getAccountId())) {
-            if (nubRequest.getStatus().getValue() < WorkflowStatus.Provided.getValue()) {
+            if (nubRequest.getStatus().getId() < WorkflowStatus.Provided.getId()) {
                 _nubRequestFacade.delete(nubRequest);
             } else if (nubRequest.getExternalState().trim().isEmpty()) {
                 nubRequest.setStatus(WorkflowStatus.Retired);

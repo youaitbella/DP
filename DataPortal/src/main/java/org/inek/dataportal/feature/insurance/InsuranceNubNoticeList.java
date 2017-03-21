@@ -42,7 +42,7 @@ public class InsuranceNubNoticeList {
     public String getConfirmMessage(int noticeId) {
         InsuranceNubNotice notice = _insuranceFacade.findFreshNubNotice(noticeId);
         String msg = "Meldung für " + notice.getHospitalIk() + "\n"
-                + (notice.getWorkflowStatus().getValue() <= 9 ? Utils.getMessage("msgConfirmDelete") : Utils.getMessage("msgConfirmRetire"));
+                + (notice.getWorkflowStatus().getId() <= 9 ? Utils.getMessage("msgConfirmDelete") : Utils.getMessage("msgConfirmRetire"));
         msg = msg.replace("\r\n", "\n").replace("\n", "\\r\\n").replace("'", "\\'").replace("\"", "\\'");
         return "return confirm ('" + msg + "');";
     }
@@ -52,7 +52,7 @@ public class InsuranceNubNoticeList {
             return "";
         }
         if (_sessionController.isMyAccount(notice.getAccountId())) {
-            if (notice.getWorkflowStatusId() < WorkflowStatus.Provided.getValue()) {
+            if (notice.getWorkflowStatusId() < WorkflowStatus.Provided.getId()) {
                 _insuranceFacade.delete(notice);
             } else {
                 notice.setWorkflowStatus(WorkflowStatus.Retired);

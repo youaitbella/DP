@@ -127,7 +127,7 @@ public class EditDistributionModel extends AbstractEditController implements Ser
         if (_sessionController.isMyAccount(model.getAccountId(), false)) {
             return true;
         }
-        if (isInekEditable(model)) {
+        if (isInekViewable(model)) {
             return true;
         }
         return _cooperationTools.isAllowed(Feature.CALCULATION_HOSPITAL, model.getStatus(), model.getAccountId());
@@ -160,6 +160,10 @@ public class EditDistributionModel extends AbstractEditController implements Ser
         return _sessionController.isInekUser(Feature.CALCULATION_HOSPITAL, true) && model != null && (model.getStatus() == WorkflowStatus.Provided || model.getStatus() == WorkflowStatus.ReProvided);
     }
 
+    private boolean isInekViewable(DistributionModel model) {
+        return _sessionController.isInekUser(Feature.CALCULATION_HOSPITAL, true) && model != null && model.getStatusId() >= WorkflowStatus.Provided.getId();
+    }
+
     @Override
     protected void addTopics() {
         addTopic("TopicFrontPage", Pages.CalcDrgBasics.URL());
@@ -167,7 +171,6 @@ public class EditDistributionModel extends AbstractEditController implements Ser
 
     public String save() {
         removeEmptyCenters();
-        setAppovedIfPossible();
         setModifiedInfo();
         _model = _distModelFacade.saveDistributionModel(_model);
         addDetailIfMissing();
@@ -182,16 +185,6 @@ public class EditDistributionModel extends AbstractEditController implements Ser
             return null;
         }
         return Pages.Error.URL();
-    }
-
-    private void setAppovedIfPossible() {
-        if (!isInekEditable(_model)) {
-            return;
-        }
-        boolean completelyApproved = _model.getDetails().stream().allMatch(d -> d.isApproved());
-        if (completelyApproved) {
-            _model.setStatus(WorkflowStatus.Taken);
-        }
     }
 
     private void setModifiedInfo() {
@@ -220,7 +213,9 @@ public class EditDistributionModel extends AbstractEditController implements Ser
         if (!_appTools.isEnabled(ConfigKey.IsDistributionModelSendEnabled)) {
             return false;
         }
-        return (_model.getStatus() == WorkflowStatus.Provided || _model.getStatus() == WorkflowStatus.ReProvided) && _sessionController.isInekUser(Feature.CALCULATION_HOSPITAL, true);
+        return (_model.getStatus() == WorkflowStatus.Provided || _model.getStatus() == WorkflowStatus.ReProvided) 
+                && _sessionController.isInekUser(Feature.CALCULATION_HOSPITAL, true)
+                && _model != null;
     }
 
     public String requestCorrection() {
@@ -241,18 +236,38 @@ public class EditDistributionModel extends AbstractEditController implements Ser
             detail.setMasterId(-1);
         }
         _distModelFacade.saveDistributionModel(_model);
-        sendMessage();
+        sendMessage("KVM Konkretisierung");
 
+        return Pages.CalculationHospitalSummary.URL();
+    }
+    
+    public boolean isSendApprovalEnabled() {
+        return (_model.getStatus() == WorkflowStatus.Provided || _model.getStatus() == WorkflowStatus.ReProvided) 
+                && _sessionController.isInekUser(Feature.CALCULATION_HOSPITAL, true)
+                && _model != null
+                && _model.getDetails().stream().allMatch(d -> d.isApproved());
+    }
+
+    public String sendApproval(){
+        if (!isInekEditable(_model) || _model.getDetails().stream().anyMatch(d -> !d.isApproved())) {
+            return "";
+        }
+        removeEmptyCenters();
+        setModifiedInfo();
+        _model.setStatus(WorkflowStatus.Taken);
+        _distModelFacade.saveDistributionModel(_model);
+        sendMessage("KVM Genehmigung");
+        
         return Pages.CalculationHospitalSummary.URL();
     }
     
     @Inject AccountFacade _accountFacade;
     @Inject private Mailer _mailer;
 
-    private void sendMessage() {
+    private void sendMessage(String name) {
         Account sender = _sessionController.getAccount();
         Account receiver = _accountFacade.find(_appTools.isEnabled(ConfigKey.TestMode) ? _sessionController.getAccountId() : _model.getAccountId());
-        MailTemplate template = _mailer.getMailTemplate("KVM Konkretisierung");
+        MailTemplate template = _mailer.getMailTemplate(name);
         String subject = template.getSubject()
                 .replace("{type}", _model.getType() == 0 ? "DRG" : "PSY")
                 .replace("{ik}", "" + _model.getIk());

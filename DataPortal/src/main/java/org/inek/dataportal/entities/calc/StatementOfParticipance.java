@@ -112,7 +112,7 @@ public class StatementOfParticipance implements Serializable{
     }
 
     public void setStatus(WorkflowStatus status) {
-        _statusId = status.getValue();
+        _statusId = status.getId();
     }
     // </editor-fold>
 

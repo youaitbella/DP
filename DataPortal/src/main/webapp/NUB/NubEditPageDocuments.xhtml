@@ -54,7 +54,7 @@
                 <div class="inputPart"><h:outputLabel styleClass="label" value="#{msg.lblUploadedFiles}:"/></div>
                 <h:dataTable  headerClass="list-header" id="tblDropBoxes"
                               value="#{editNubRequest.nubRequest.documents}" var="file" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colValue">
-                    <h:column id="colDeleteId" rendered="#{editNubRequest.nubRequest.status.value lt 10}">
+                    <h:column id="colDeleteId" rendered="#{editNubRequest.nubRequest.status.id lt 10}">
                         <f:facet name="header">
                             <h:outputText value=""/>
                         </f:facet>
@@ -74,7 +74,7 @@
 
         </div>
 
-        <div class="inputPart" jsf:rendered = "#{editNubRequest.nubRequest.status.value ge 0 and editNubRequest.nubRequest.status.value lt 5}">
+        <div class="inputPart" jsf:rendered = "#{editNubRequest.nubRequest.status.valid 0 and editNubRequest.nubRequest.status.valid 5}">
             <div id="file-uploader">
                 <script>
                     createUploader();
@@ -85,8 +85,7 @@
             <h:commandLink id="refresh" style="display: none" action="#{editNubRequest.refresh}" value="refresh"/>
         </div>
         
-        <div class="inputPart" jsf:rendered = "#{editNubRequest.nubRequest.status.value lt 0}">
-            <b>#{msg.msgNubSaveDoc}</b>
+        <div class="inputPart" jsf:rendered = "#{editNubRequest.nubRequest.status.value lt id            <b>#{msg.msgNubSaveDoc}</b>
         </div>
 
     </ui:define>

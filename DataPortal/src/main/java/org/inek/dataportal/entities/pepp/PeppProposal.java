@@ -277,7 +277,7 @@ public class PeppProposal implements Serializable {
     }
 
     public void setStatus(WorkflowStatus status) {
-        _status = status.getValue();
+        _status = status.getId();
     }
 
     public String getInstitute() {

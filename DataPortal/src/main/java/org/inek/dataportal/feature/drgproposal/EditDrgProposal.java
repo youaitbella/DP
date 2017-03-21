@@ -444,7 +444,7 @@ public class EditDrgProposal extends AbstractEditController {
             return getActiveTopic().getOutcome();
         }
 
-        _drgProposal.setStatus(WorkflowStatus.Provided.getValue());
+        _drgProposal.setStatus(WorkflowStatus.Provided.getId());
         _drgProposal.setDateSealed(Calendar.getInstance().getTime());
         _drgProposal.setSealedBy(_sessionController.getAccountId());
         if (_drgProposal.getLastModified() == null) {
@@ -634,7 +634,7 @@ public class EditDrgProposal extends AbstractEditController {
         String subject = "Korrektur DRG-Vorschlag \"" + _drgProposal.getName() + "\" erforderlich";
         Account sender = _sessionController.getAccount();
         Account receiver = _accountFacade.find(_drgProposal.getAccountId());
-        _drgProposal.setStatus(WorkflowStatus.New.getValue());
+        _drgProposal.setStatus(WorkflowStatus.New.getId());
         if (!isReadOnly()) {
             // there might have been changes by that user
             setModifiedInfo();

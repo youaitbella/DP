@@ -79,7 +79,7 @@ public class CalcFacade extends AbstractDataAccess {
 
     public List<CalcHospitalInfo> getListCalcInfo(Set<Integer> accountIds, int year, WorkflowStatus statusLow, WorkflowStatus statusHigh) {
         String accountCond = " in (" + accountIds.stream().map(i -> i.toString()).collect(Collectors.joining(", ")) + ") ";
-        String statusCond = " between " + statusLow.getValue() + " and " + statusHigh.getValue();
+        String statusCond = " between " + statusLow.getId() + " and " + statusHigh.getId();
         String sql = "select sopId as Id, 0 as [Type], sopAccountId as AccountId, sopDataYear as DataYear, sopIk as IK, sopStatusId as StatusId,\n"
                 + " '" + Utils.getMessage("lblStatementOfParticipance") + "' as Name, sopLastChanged as LastChanged\n"
                 + "from calc.StatementOfParticipance\n"
@@ -128,7 +128,7 @@ public class CalcFacade extends AbstractDataAccess {
     }
 
     public Set<Integer> checkAccountsForYear(Set<Integer> accountIds, int year, WorkflowStatus statusLow, WorkflowStatus statusHigh) {
-        String statusCond = " between " + statusLow.getValue() + " and " + statusHigh.getValue();
+        String statusCond = " between " + statusLow.getId() + " and " + statusHigh.getId();
         String accountCond = " in (" + accountIds.stream().map(i -> i.toString()).collect(Collectors.joining(", ")) + ") ";
         String sql = "select sopAccountId as AccountId\n"
                 + "from calc.StatementOfParticipance\n"
@@ -832,7 +832,7 @@ public class CalcFacade extends AbstractDataAccess {
                 + "		select aaiIK from dbo.AccountAdditionalIK where aaiAccountId = " + accountId + "\n"
                 + "	) \n"
                 + "     and r2.mcrRoleId is null\n"
-                + "	and sopStatusId = " + WorkflowStatus.Provided.getValue() + "\n" //+ " and " + (WorkflowStatus.Retired.getValue() - 1) + "\n"
+                + "	and sopStatusId = " + WorkflowStatus.Provided.getId() + "\n" //+ " and " + (WorkflowStatus.Retired.getId() - 1) + "\n"
                 + "	and sopIsDrg = 1\n"
                 + "	and sopObligatoryCalcType != 1\n"
                 + "	and sopDataYear = " + year + "\n"
@@ -865,7 +865,7 @@ public class CalcFacade extends AbstractDataAccess {
                 + "		select aaiIK from dbo.AccountAdditionalIK where aaiAccountId = " + accountId + "\n"
                 + "	) \n"
                 + "     and r2.mcrRoleId is null\n"
-                + "	and sopStatusId = " + WorkflowStatus.Provided.getValue() + "\n" //+ " and " + (WorkflowStatus.Retired.getValue() - 1) + "\n"
+                + "	and sopStatusId = " + WorkflowStatus.Provided.getId() + "\n" //+ " and " + (WorkflowStatus.Retired.getId() - 1) + "\n"
                 + "	and sopIsPsy = 1\n"
                 + "	and sopObligatoryCalcType != 1\n"
                 + "	and sopDataYear = " + year + "\n"

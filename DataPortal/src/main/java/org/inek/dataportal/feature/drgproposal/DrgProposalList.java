@@ -36,7 +36,7 @@ public class DrgProposalList {
             return "";
         }
         if (_sessionController.isMyAccount(proposal.getAccountId())) {
-            if (proposal.getStatus().getValue() < 9) {
+            if (proposal.getStatus().getId() < 9) {
                 _drgProposalFacade.remove(proposal);
             } else {
                 proposal.setStatus(WorkflowStatus.Retired);

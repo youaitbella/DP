@@ -115,14 +115,14 @@ public class CooperationTools implements Serializable {
     }
 
     public boolean isReadOnly(Feature feature, WorkflowStatus state, int ownerId, Integer ik) {
-        if (state.getValue() >= WorkflowStatus.Provided.getValue()) {
+        if (state.getId() >= WorkflowStatus.Provided.getId()) {
             return true;
         }
         if (ownerId == _sessionController.getAccountId()) {
             return false;
         }
         CooperativeRight right = getAchievedRight(feature, ownerId, ik == null ? -1 : ik);
-        return !right.canWriteAlways() && !(state.getValue() >= WorkflowStatus.ApprovalRequested.getValue() && right.canWriteCompleted());
+        return !right.canWriteAlways() && !(state.getId() >= WorkflowStatus.ApprovalRequested.getId() && right.canWriteCompleted());
     }
 
     /**
@@ -142,7 +142,7 @@ public class CooperationTools implements Serializable {
     }
 
     public boolean isApprovalRequestEnabled(Feature feature, WorkflowStatus state, int ownerId, Integer ik) {
-        if (state ==  WorkflowStatus.CorrectionRequested || state.getValue() >= WorkflowStatus.ApprovalRequested.getValue()) {
+        if (state ==  WorkflowStatus.CorrectionRequested || state.getId() >= WorkflowStatus.ApprovalRequested.getId()) {
             return false;
         }
         if (isReadOnly(feature, state, ownerId, ik)) {
@@ -223,7 +223,7 @@ public class CooperationTools implements Serializable {
     }
 
     public boolean isSealedEnabled(Feature feature, WorkflowStatus state, int ownerId, Integer ik) {
-        if (state ==  WorkflowStatus.CorrectionRequested || state.getValue() >= WorkflowStatus.Provided.getValue()) {
+        if (state ==  WorkflowStatus.CorrectionRequested || state.getId() >= WorkflowStatus.Provided.getId()) {
             return false;
         }
         Account account = _sessionController.getAccount();
@@ -248,7 +248,7 @@ public class CooperationTools implements Serializable {
     }
 
     public boolean isRequestCorrectionEnabled(Feature feature, WorkflowStatus state, int ownerId, Integer ik) {
-        if (state.getValue() != WorkflowStatus.ApprovalRequested.getValue()) {
+        if (state.getId() != WorkflowStatus.ApprovalRequested.getId()) {
             return false;
         }
         Account account = _sessionController.getAccount();

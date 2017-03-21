@@ -281,7 +281,7 @@ public class NubRequestHistory implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     public String getExternalId() {
-        return _status == WorkflowStatus.CorrectionRequested.getValue() || _status >= WorkflowStatus.Provided.getValue() ? "N" + _id : "";
+        return _status == WorkflowStatus.CorrectionRequested.getId() || _status >= WorkflowStatus.Provided.getId() ? "N" + _id : "";
     }
 
     public int getTargetYear() {
@@ -309,7 +309,7 @@ public class NubRequestHistory implements Serializable {
     }
 
     public void setStatus(WorkflowStatus status) {
-        _status = status.getValue();
+        _status = status.getId();
     }
 
     public Date getCreationDate() {
