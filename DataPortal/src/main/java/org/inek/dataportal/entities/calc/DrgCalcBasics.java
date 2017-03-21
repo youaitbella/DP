@@ -808,6 +808,7 @@ public class DrgCalcBasics implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property List RadiologyServices">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "rsBaseInformationId", referencedColumnName = "biID")
+    @Documentation(name = "KGLRadiologyService", rank = 25016)
     private List<KGLRadiologyService> _radiologyServices = new Vector<>();
 
     

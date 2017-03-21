@@ -113,6 +113,7 @@ public class KGLListCostCenter implements Serializable, ListCostCenter {
 
     // <editor-fold defaultstate="collapsed" desc="FullVigorCnt">
     @Column(name = "ccFullVigorCnt")
+    @Documentation (name = "ccFullVigorCnt", rank = 60)
     private double _fullVigorCnt;
 
     @Override
@@ -162,6 +163,7 @@ public class KGLListCostCenter implements Serializable, ListCostCenter {
 
     // <editor-fold defaultstate="collapsed" desc="ServiceSum">
     @Column(name = "ccServiceSum")
+    @Documentation (name = "Summe", rank = 70)
     private double _serviceSum;
 
     @Override
@@ -180,6 +182,7 @@ public class KGLListCostCenter implements Serializable, ListCostCenter {
 //    @JoinColumn(name = "ccBaseInformationId", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
     @Column(name = "ccBaseInformationId")
+    @Documentation (name = "ccBaseInformationId", rank = 80)
     private int _baseInformationId;
 
     @Override
