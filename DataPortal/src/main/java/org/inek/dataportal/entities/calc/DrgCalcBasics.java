@@ -728,6 +728,7 @@ public class DrgCalcBasics implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "dfBaseInformationId", referencedColumnName = "biId")
     @OrderBy(value = "_contentTextId")
+    @Documentation(name = "DrgDelimitationFact", rank = 25005) 
     private List<DrgDelimitationFact> _delimitationFacts = new Vector<>();
 
     public List<DrgDelimitationFact> getDelimitationFacts() {
@@ -752,11 +753,30 @@ public class DrgCalcBasics implements Serializable {
     public void setCostCenters(List<KGLListCostCenter> costCenter) {
         this._costCenters = costCenter;
     }
+
+    @Documentation(name = "Kostenstellen",headline = "Kostenstellengruppe 11 (Diagnostische Bereiche)", rank = 9000) 
+    @JsonIgnore
+    public List<KGLListCostCenter> getCostCenters11() {
+        return _costCenters.stream().filter(c -> c.getCostCenterId() == 11).collect(Collectors.toList());
+    }
+    
+    @Documentation(name = "Kostenstellen",headline = "Kostenstellengruppe 12 (Therapeutische Verfahren)", rank = 10000) 
+    @JsonIgnore
+    public List<KGLListCostCenter> getCostCenters12() {
+        return _costCenters.stream().filter(c -> c.getCostCenterId() == 12).collect(Collectors.toList());
+    }
+    
+    @Documentation(name = "Kostenstellen",headline = "Kostenstellengruppe 13 (Patientenaufnahme)", rank = 11000) 
+    @JsonIgnore
+    public List<KGLListCostCenter> getCostCenters13() {
+        return _costCenters.stream().filter(c -> c.getCostCenterId() == 13).collect(Collectors.toList());
+    }
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Property List RadiologyLaboratories">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "rlBaseInformationId", referencedColumnName = "biID")
+    @Documentation(name = "KGLListRadiologyLaboratory", rank = 25015)
     private List<KGLListRadiologyLaboratory> _radiologyLaboratories = new Vector<>();
 
     
@@ -772,6 +792,7 @@ public class DrgCalcBasics implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property List ObstetricsGynecologies">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "ogBaseInformationId", referencedColumnName = "biID")
+    @Documentation(name = "KGLListObstetricsGynecology", rank = 25015)
     private List<KGLListObstetricsGynecology> _obstetricsGynecologies  = new Vector<>();
     
     
@@ -1059,6 +1080,7 @@ public class DrgCalcBasics implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property List _costCenterCosts">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "cccBaseInformationId", referencedColumnName = "biID")
+    @Documentation(name = "KGLListCostCenterCost_1", rank = 25040)
     private List<KGLListCostCenterCost> _costCenterCosts = new Vector<>();
     
     public List<KGLListCostCenterCost> getCostCenterCosts() {

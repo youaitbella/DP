@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
+import org.inek.dataportal.utils.Documentation;
 
 /**
  *
@@ -46,6 +47,7 @@ public class KGLListCostCenterCost implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="CostCenter">
     @Column(name = "cccCostCenterID")
+    @Documentation (name = "Nummer:", rank = 10)
     private int _costCenterId;
 
     public int getCostCenter() {
@@ -59,6 +61,7 @@ public class KGLListCostCenterCost implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="CostCenterText">
     @Column(name = "cccCostCenterText")
+    @Documentation (name = "Name:", rank = 20)
     private String _costCenterText = "";
 
     @Size(max = 200, message = "Für Kostenstellenbezeichnung sind max. {max} Zeichen zulässig.")
@@ -73,6 +76,7 @@ public class KGLListCostCenterCost implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="DepartmentKey">
     @Column(name = "cccDepartmentKey")
+    @Documentation (name = "FAB-Schlüssel:", rank = 30)
     private String _departmentKey = "";
 
     @Size(max = 4, message = "Für FAB-Schlüssel sind max. {max} Zeichen zulässig.")
@@ -87,6 +91,7 @@ public class KGLListCostCenterCost implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="DepartmentAssignment">
     @Column(name = "cccDepartmentAssignment")
+    @Documentation (name = "Belegung/FAB:", rank = 40)
     private String _departmentAssignment = "";
 
     @Size(max = 100, message = "Für Belegung/FAB sind max. {max} Zeichen zulässig.")
@@ -101,6 +106,7 @@ public class KGLListCostCenterCost implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="BedCnt">
     @Column(name = "cccBedCnt")
+    @Documentation (name = "Anzahl Betten:", rank = 50)
     private int _bedCnt;
 
     public int getBedCnt() {
@@ -114,6 +120,7 @@ public class KGLListCostCenterCost implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="CareDays">
     @Column(name = "cccCareDays")
+    @Documentation (name = "Pfelegetage:", rank = 60)
     private int _careDays;
 
     public int getCareDays() {
