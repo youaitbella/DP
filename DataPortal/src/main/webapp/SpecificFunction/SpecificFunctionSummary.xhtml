@@ -39,7 +39,7 @@
             </ui:repeat>
 
             <div jsf:rendered="#{sessionController.isInekUser('SPECIFIC_FUNCTION')}">
-                <h2>An das InEK gesendete Kalkulationsgrundlagen</h2>
+                <h2>An das InEK gesendete Besondere Aufgaben / Zentrum</h2>
                 <ui:repeat value="#{inekSpfTreeHandler.rootNode.children}" var="accountNode" >
                     <div style="margin-left:16px;">
                         <h:commandLink action="#{accountNode.toggle}" immediate="true" >
