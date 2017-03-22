@@ -66,7 +66,7 @@ public class DrgDelimitationFact implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property ContentText">
     @OneToOne
     @PrimaryKeyJoinColumn(name = "dfContentTextId")
-    @Documentation (name = "Beschreibung", rank = 40)
+    @Documentation (name = "Beschreibung", rank = 1)
     private DrgContentText _contentText;
 
     public DrgContentText getContentText() {

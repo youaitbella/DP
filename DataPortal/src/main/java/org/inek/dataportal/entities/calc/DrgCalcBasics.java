@@ -731,11 +731,17 @@ public class DrgCalcBasics implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "dfBaseInformationId", referencedColumnName = "biId")
     @OrderBy(value = "_contentTextId")
-    @Documentation(name = "DrgDelimitationFact", rank = 25005) 
+    //@Documentation(name = "DrgDelimitationFact", rank = 1120) 
     private List<DrgDelimitationFact> _delimitationFacts = new Vector<>();
 
     public List<DrgDelimitationFact> getDelimitationFacts() {
         return _delimitationFacts;
+    }
+    
+    @Documentation(name = "Berücksichtigte Abgrenzungstatbestände", rank = 1120)
+    @JsonIgnore
+    public List<DrgDelimitationFact> getDelimitationFactsInUse() {
+        return _delimitationFacts.stream().filter(i -> i.isUsed() == true).collect(Collectors.toList());
     }
 
     public void setDelimitationFacts(List<DrgDelimitationFact> _delimitationFacts) {
