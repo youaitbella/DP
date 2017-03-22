@@ -20,7 +20,7 @@
     <cc:implementation>
         <h:dataTable headerClass="list-header" id="specificFunctionRequests"
                      value="#{cc.attrs.parentNode.sortedChildren}" var="node" width="100%" rowClasses="row1, row2" 
-                     columnClasses="#{cc.attrs.showSelectBox.equals('true') ? 'colIcon, ' : ''} colIcon, colIcon, colIcon, colIk, colValue, #{cc.attrs.isSealed.equals('true') ? 'col10em,' : ''} colValue">
+                     columnClasses="#{cc.attrs.showSelectBox.equals('true') ? 'colIcon, ' : ''} colIcon, colIcon, colIcon, colIk, colValue, #{cc.attrs.isSealed.equals('true') ? 'col10em,' : ''} colValue, colValue">
             
             <h:column rendered="#{cc.attrs.showSelectBox}">
                 <f:facet name="header">
@@ -107,6 +107,16 @@
                 </f:facet>
                 <h:link outcome="#{specificFunctionRequestList.edit()}"
                                value="#{node.specificFunctionRequest.name}">
+                    <f:param name="id" value="#{node.specificFunctionRequest.id}"/>
+                </h:link>
+            </h:column>
+            
+            <h:column>
+                <f:facet name="header">
+                    Vertragskennzeichen
+                </f:facet>
+                <h:link outcome="#{specificFunctionRequestList.edit()}"
+                               value="#{node.specificFunctionRequest.code}">
                     <f:param name="id" value="#{node.specificFunctionRequest.id}"/>
                 </h:link>
             </h:column>

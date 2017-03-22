@@ -73,7 +73,7 @@
                                    action="#{editSpecificFunction.save}"
                                    value="#{msg.btnSave}"
                                    immediate="true"
-                                   rendered="#{!editSpecificFunction.readOnly}">
+                                   rendered="#{!editSpecificFunction.readOnly or sessionController.isInekUser('SPECIFIC_FUNCTION')}">
                     </h:commandLink>
 
                     <h:commandLink styleClass="sendButton"
