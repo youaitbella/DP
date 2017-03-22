@@ -14,7 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
-import org.inek.dataportal.entities.calc.iface.IdValue;
+import org.inek.dataportal.entities.calc.iface.BaseIdValue;
 
 /**
  *
@@ -22,7 +22,7 @@ import org.inek.dataportal.entities.calc.iface.IdValue;
  */
 @Entity
 @Table(name = "KGPListDelimitationFact", schema = "calc")
-public class KGPListDelimitationFact implements Serializable, IdValue {
+public class KGPListDelimitationFact implements Serializable, BaseIdValue {
 
     private static final long serialVersionUID = 1L;
 

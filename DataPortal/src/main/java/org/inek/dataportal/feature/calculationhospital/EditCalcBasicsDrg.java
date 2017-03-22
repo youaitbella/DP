@@ -34,9 +34,6 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.Part;
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
 import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
@@ -70,7 +67,6 @@ import org.inek.dataportal.entities.calc.KGLOpAn;
 import org.inek.dataportal.entities.calc.KGLPKMSAlternative;
 import org.inek.dataportal.entities.calc.KGLPersonalAccounting;
 import org.inek.dataportal.entities.calc.KGLRadiologyService;
-import org.inek.dataportal.entities.common.CostType;
 import org.inek.dataportal.enums.CalcHospitalFunction;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
@@ -80,6 +76,7 @@ import org.inek.dataportal.facades.calc.CalcFacade;
 import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.common.CostTypeFacade;
 import org.inek.dataportal.feature.AbstractEditController;
+import org.inek.dataportal.helper.BeanValidator;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.structures.MessageContainer;
 import org.inek.dataportal.utils.DocumentationUtil;
@@ -190,7 +187,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
         // Delimitation facts
         calcBasics.getDelimitationFacts().clear();
-        for (DrgContentText ct : _calcFacade.retrieveContentTexts(1, Calendar.getInstance().get(Calendar.YEAR))) {
+        for (DrgContentText ct : _calcFacade.retrieveContentTexts(1, calcBasics.getDataYear())) {
             DrgDelimitationFact df = new DrgDelimitationFact();
             df.setBaseInformationId(calcBasics.getId());
             df.setContentTextId(ct.getId());
@@ -366,7 +363,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         if (_sessionController.isMyAccount(calcBasics.getAccountId(), false)) {
             return true;
         }
-        if (_sessionController.isInekUser(Feature.CALCULATION_HOSPITAL)){
+        if (_sessionController.isInekUser(Feature.CALCULATION_HOSPITAL)) {
             return true;
         }
         return _cooperationTools.isAllowed(Feature.CALCULATION_HOSPITAL, calcBasics.getStatus(), calcBasics.getAccountId());
@@ -680,23 +677,15 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         result.remove(differential);
     }
 
-    public List<KGLListIntensivStroke> getIntensivStroke(boolean getIntensiv) {
+    public List<KGLListIntensivStroke> getIntensivStroke(int intensiveType) {
         return _calcBasics.getIntensivStrokes().stream()
-                .filter(i -> getIntensiv ? i.getIntensiveType() == 1 : i.getIntensiveType() == 2)
+                .filter(i -> i.getIntensiveType() == intensiveType)
                 .collect(Collectors.toList());
     }
 
-    public List<KGLListIntensivStroke> addIntensivStroke(boolean isIntensiv) {
-        List<KGLListIntensivStroke> result = _calcBasics.getIntensivStrokes();
-        KGLListIntensivStroke item = new KGLListIntensivStroke();
-        item.setBaseInformationId(_calcBasics.getId());
-        if (isIntensiv) {
-            item.setIntensiveType(1);
-        } else {
-            item.setIntensiveType(2);
-        }
-        result.add(item);
-        return result;
+    public void addIntensivStroke(int intensiveType) {
+        KGLListIntensivStroke item = new KGLListIntensivStroke(_calcBasics.getId(), intensiveType);
+        _calcBasics.getIntensivStrokes().add(item);
     }
 
     public void deleteIntensivStroke(KGLListIntensivStroke item) {
@@ -897,7 +886,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     public boolean isReadOnly() {
-        if (_sessionController.isInekUser(Feature.CALCULATION_HOSPITAL)  && !_appTools.isEnabled(ConfigKey.TestMode)){
+        if (_sessionController.isInekUser(Feature.CALCULATION_HOSPITAL) && !_appTools.isEnabled(ConfigKey.TestMode)) {
             return true;
         }
         // todo apply rights depending on ik?
@@ -969,7 +958,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         if (_calcBasics.getStatusId() < 10 || !_appTools.isEnabled(ConfigKey.IsCalculationBasicsDrgSendEnabled)) {
             return false;
         }
-        if (_sessionController.isInekUser(Feature.CALCULATION_HOSPITAL) && !_appTools.isEnabled(ConfigKey.TestMode)){
+        if (_sessionController.isInekUser(Feature.CALCULATION_HOSPITAL) && !_appTools.isEnabled(ConfigKey.TestMode)) {
             return false;
         }
         return !_calcFacade.existActiveCalcBasicsDrg(_calcBasics.getIk());
@@ -1223,97 +1212,94 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                         ccc.setDepartmentKey(values[2]);
                         ccc.setDepartmentAssignment(values[3]);
 
-                        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
-                        Set<ConstraintViolation<KGLListCostCenterCost>> violations = validator.validate(ccc);
-                        for (ConstraintViolation<KGLListCostCenterCost> violation : violations) {
-                            alertText += "Zeile " + lineNum + ": Fehler bei der Datenvalidierung " + violation.getMessage() + "\\n";
-                        }
-                        if (!violations.isEmpty()){
+                        String validateText = BeanValidator.validateData(ccc, lineNum);
+                        if (!validateText.isEmpty()){
+                            alertText += validateText;
                             continue;
                         }
 
                         try {
                             ccc.setBedCnt(Integer.parseInt(values[4]));
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 5: Ganzzahl erwartet.\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 5: " + Utils.getMessage("msgNotAnInteger") + "\\n";
                             continue;
                         }
                         try {
                             ccc.setCareDays(Integer.parseInt(values[5]));
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 6: Ganzzahl erwartet.\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 6: " + Utils.getMessage("msgNotAnInteger") + "\\n";
                             continue;
                         }
                         try {
                             ccc.setPprMinutes(Integer.parseInt(values[6]));
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 7: Ganzzahl erwartet.\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 7: " + Utils.getMessage("msgNotAnInteger") + "\\n";
                             continue;
                         }
                         try {
                             ccc.setPprWeight(Integer.parseInt(values[7]));
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 8: Ganzzahl erwartet.\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 8: " + Utils.getMessage("msgNotAnInteger") + "\\n";
                             continue;
                         }
                         try {
                             ccc.setMedicalServiceCnt(parseLocalizedDouble(values[8]));
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 9: Zahl erwartet.\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 9: " + Utils.getMessage("msgNotANumber") + "\\n";
                             continue;
                         }
                         try {
                             ccc.setNursingServiceCnt(parseLocalizedDouble(values[9]));
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 10: Zahl erwartet.\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 10: " + Utils.getMessage("msgNotANumber") + "\\n";
                             continue;
                         }
                         try {
                             ccc.setFunctionalServiceCnt(parseLocalizedDouble(values[10]));
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 11: Zahl erwartet.\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 11: " + Utils.getMessage("msgNotANumber") + "\\n";
                             continue;
                         }
                         try {
                             ccc.setMedicalServiceAmount(Integer.parseInt(values[11]));
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 12: Ganzzahl erwartet.\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 12: " + Utils.getMessage("msgNotAnInteger") + "\\n";
                             continue;
                         }
                         try {
                             ccc.setNursingServiceAmount(Integer.parseInt(values[12]));
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 13: Ganzzahl erwartet.\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 13: " + Utils.getMessage("msgNotAnInteger") + "\\n";
                             continue;
                         }
                         try {
                             ccc.setFunctionalServiceAmount(Integer.parseInt(values[13]));
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 14: Ganzzahl erwartet.\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 14: " + Utils.getMessage("msgNotAnInteger") + "\\n";
                             continue;
                         }
                         try {
                             ccc.setOverheadsMedicine(Integer.parseInt(values[14]));
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 15: Ganzzahl erwartet.\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 15: " + Utils.getMessage("msgNotAnInteger") + "\\n";
                             continue;
                         }
                         try {
                             ccc.setOverheadsMedicalGoods(Integer.parseInt(values[15]));
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 16: Ganzzahl erwartet.\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 16: " + Utils.getMessage("msgNotAnInteger") + "\\n";
                             continue;
                         }
                         try {
                             ccc.setMedicalInfrastructureCost(Integer.parseInt(values[16]));
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 17: Ganzzahl erwartet.\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 17: " + Utils.getMessage("msgNotAnInteger") + "\\n";
                             continue;
                         }
                         try {
                             ccc.setNonMedicalInfrastructureCost(Integer.parseInt(values[17]));
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 18: Ganzzahl erwartet.\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 18: " + Utils.getMessage("msgNotAnInteger") + "\\n";
                             continue;
                         }
                         if (checkCostCenterCostRedundantEntry(ccc)) {
@@ -1365,7 +1351,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                         try {
                             radio.setCostCenterNumber(Integer.parseInt(values[0]));
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 1: Zahl erwartet.\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 1: " + Utils.getMessage("msgNotANumber") + "\\n";
                             continue;
                         }
                         radio.setCostCenterText(values[1]);
@@ -1385,31 +1371,32 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                         try {
                             radio.setServiceVolumePre(Integer.parseInt(values[4]));
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 4: Zahl erwartet.\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 5: " + Utils.getMessage("msgNotANumber") + "\\n";
                             continue;
                         }
                         try {
                             radio.setAmountPre(Integer.parseInt(values[5]));
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 5: Zahl erwartet.\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 6: " + Utils.getMessage("msgNotANumber") + "\\n";
                             continue;
                         }
                         try {
                             radio.setServiceVolumePost(Integer.parseInt(values[6]));
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 6: Zahl erwartet.\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 7: " + Utils.getMessage("msgNotANumber") + "\\n";
                             continue;
                         }
                         try {
                             radio.setAmountPost(Integer.parseInt(values[7]));
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 7: Zahl erwartet.\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 8: " + Utils.getMessage("msgNotANumber") + "\\n";
                             continue;
                         }
                         if (checkRadiologyRedundantEntry(radio)) {
                             alertText += "Hinweis: Zeile " + lineNum + " wurde bereits hinzugefügt.";
                             continue;
                         }
+                        
                         _calcBasics.getRadiologyLaboratories().add(radio);
                     }
                 }
@@ -1467,18 +1454,15 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                         medInfra.setCostCenterText(values[1]);
                         medInfra.setKeyUsed(values[2]);
 
-                        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
-                        Set<ConstraintViolation<KGLListMedInfra>> violations = validator.validate(medInfra);
-                        for (ConstraintViolation<KGLListMedInfra> violation : violations) {
-                            alertText += "Zeile " + lineNum + ": Fehler bei der Datenvalidierung " + violation.getMessage() + "\\n";
-                        }
-                        if (!violations.isEmpty()){
+                        String validateText = BeanValidator.validateData(medInfra, lineNum);
+                        if (!validateText.isEmpty()){
+                            alertText += validateText;
                             continue;
                         }
                         try {
                             medInfra.setAmount(Integer.parseInt(values[3]));
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 4: Zahl erwartet.\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 4: " + Utils.getMessage("msgNotANumber") + "\\n";
                             continue;
                         }
                         if (checkMedInfraRedundantEntry(medInfra)) {
@@ -1495,6 +1479,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         } catch (IOException | NoSuchElementException e) {
         }
     }
+
 
     private boolean checkMedInfraRedundantEntry(KGLListMedInfra medInfra) {
         for (KGLListMedInfra mi : _calcBasics.getMedInfras()) {
@@ -1756,7 +1741,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             NumberFormat nf = NumberFormat.getInstance(Locale.GERMANY);
             Number n = nf.parse(input);
             return n.doubleValue();
-        } catch(ParseException e) {
+        } catch (ParseException e) {
             throw new NumberFormatException();
         }
     }

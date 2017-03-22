@@ -143,6 +143,11 @@ public class CalcBasicsDrgValueCleaner {
 
     //<editor-fold defaultstate="collapsed" desc="cleanValvularIntervention">
     private static void cleanValvularIntervention(DrgCalcBasics calcBasics) {
+        if (calcBasics.isMinimalValvularIntervention()){
+            return;
+        }
+        calcBasics.setMviFulfilled(-1);
+        calcBasics.setMviGuidelineAspired(false);
     }
     //</editor-fold>
 

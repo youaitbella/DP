@@ -39,26 +39,43 @@ public class DocumentLoader {
     @Inject private DocumentDomainFacade _docDomain;
     @Inject private Mailer _mailer;
 
-    private int _waitCounter = 0;
+    private volatile int _waitCounter = 0;
+
+    private synchronized void setWaitCounter(int val) {
+        _waitCounter = val;
+    }
+
+    private synchronized boolean waitAndDecrementCounter() {
+        if (_waitCounter > 0) {
+            _waitCounter--;
+            return true;
+        }
+        return false;
+    }
 
     @Asynchronous
     public void monitorDocumentRoot() {
-        if (_waitCounter > 0) {
-            _waitCounter--;
-            return;
-        }
-        _waitCounter = 30;
-        File baseDir = new File(_config.read(ConfigKey.FolderRoot), _config.read(ConfigKey.FolderDocumentScanBase));
-        if (!baseDir.exists()) {
-            baseDir.mkdirs();
-        }
-        for (File dir : baseDir.listFiles()) {
-            if (dir.isDirectory()) {
-                _logger.log(Level.INFO, "Check document folder ({0})", dir);
-                checkDocumentFolder(dir);
+        try {
+            if (waitAndDecrementCounter()) {
+                return;
             }
+            setWaitCounter(30);
+            File baseDir = new File(_config.read(ConfigKey.FolderRoot), _config.read(ConfigKey.FolderDocumentScanBase));
+            if (!baseDir.exists()) {
+                baseDir.mkdirs();
+            }
+            for (File dir : baseDir.listFiles()) {
+                if (dir.isDirectory()) {
+                    _logger.log(Level.INFO, "Check document folder ({0})", dir);
+                    checkDocumentFolder(dir);
+                }
+            }
+            setWaitCounter(0);
+        } catch (Exception ex) {
+            // baseDir.listFiles() might become null if the drive is not available
+            // log (to detect possible other faults) and ignore 
+            _logger.log(Level.SEVERE, ex.getMessage());
         }
-        _waitCounter = 0;
     }
 
     private void checkDocumentFolder(File dir) {

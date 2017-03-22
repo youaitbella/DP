@@ -26,7 +26,7 @@ public enum WorkflowStatus {
 
     public static WorkflowStatus fromValue (int value){
         for (WorkflowStatus status : WorkflowStatus.values()){
-            if (status.getValue() == value){return status;}
+            if (status.getId() == value){return status;}
         }
         return WorkflowStatus.Unknown;
     }
@@ -37,9 +37,16 @@ public enum WorkflowStatus {
         _icon = icon;
     }
 
+    // conveniance method, because the value is used as id in the DB
+    public int getId() {
+        return _value;
+    }
+
+    @Deprecated
     public int getValue() {
         return _value;
     }
+
 
     public String getDescription() {
         return _description;

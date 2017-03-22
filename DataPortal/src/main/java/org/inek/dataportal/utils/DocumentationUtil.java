@@ -31,6 +31,11 @@ public class DocumentationUtil {
         return docUtil.getFieldValues();
     }
 
+    /**
+     *
+     * @param o
+     * @return Map of fieldname, displayname
+     */
     public static Map<String, String> getFieldTranslationMap(Object o) {
         DocumentationUtil docUtil = new DocumentationUtil();
         return docUtil.getFieldTranslations(o);
@@ -67,6 +72,7 @@ public class DocumentationUtil {
         if (obj == null) {
             return;
         }
+        obtainFieldValues(obj);
         for (Field field : obj.getClass().getDeclaredFields()) {
             Documentation doc = field.getAnnotation(Documentation.class);
             if (doc == null) {
@@ -83,7 +89,7 @@ public class DocumentationUtil {
             } catch (IllegalArgumentException | IllegalAccessException ex) {
             }
         }
-        for (Method method : obj.getClass().getMethods()) {
+        for (Method method : obj.getClass().getDeclaredMethods()) {
             Documentation doc = method.getAnnotation(Documentation.class);
             if (doc == null) {
                 continue;
@@ -99,12 +105,12 @@ public class DocumentationUtil {
 
     private void docElement(Documentation doc, String fieldName, Object rawValue) {
         String name = getName(doc, fieldName);
+        if (!doc.headline().isEmpty()) {
+            addDoc("", doc.headline(), doc, 0);
+        }
         if (rawValue instanceof Collection) {
             documentCollection(doc, name, (Collection) rawValue);
         } else {
-            if(!doc.headline().isEmpty()){
-                addDoc("", doc.headline(), doc, 0);
-            }
             addDoc(name, rawValue, doc, 0);
         }
     }
@@ -169,11 +175,8 @@ public class DocumentationUtil {
             return;
         }
 
-        if (rawValue != null && !doc.omitOnValues().isEmpty()) {
-            List<String> values = Arrays.asList(doc.omitOnValues().split(";"));
-            if (values.contains(rawValue.toString())) {
-                return;
-            }
+        if (omitOnValue(rawValue, doc)) {
+            return;
         }
         String value = translate(rawValue, doc);
         subList.put(sorterKey, new KeyValueLevel<>(name, value, 1));
@@ -185,11 +188,8 @@ public class DocumentationUtil {
         if ((rawValue.toString().length() == 0 && doc.omitOnEmpty()) || doc.omitAlways()) {
             return;
         }
-        if (!doc.omitOnValues().isEmpty()) {
-            List<String> values = Arrays.asList(doc.omitOnValues().split(";"));
-            if (values.contains(rawValue.toString())) {
-                return;
-            }
+        if (omitOnValue(rawValue, doc)) {
+            return;
         }
         if (rawValue instanceof Collection) {
             _sorter.put(sorterKey, new KeyValueLevel<>(name, rawValue, level));
@@ -263,6 +263,45 @@ public class DocumentationUtil {
             return defaultName.substring(1, 2).toUpperCase() + defaultName.substring(2);
         }
         return defaultName;
+    }
+
+    private Map<String, String> _fieldValues = new HashMap<>();
+
+    private void obtainFieldValues(Object obj) {
+        for (Field field : obj.getClass().getDeclaredFields()) {
+            try {
+                field.setAccessible(true);
+                Object rawValue = field.get(obj);
+                if (rawValue instanceof Collection) {
+                    continue;
+                }
+                String key = obj.getClass().getSimpleName() + "." + field.getName();
+                _fieldValues.put(key, "" + rawValue);
+            } catch (IllegalArgumentException | IllegalAccessException ex) {
+            }
+        }
+
+    }
+
+    private boolean omitOnValue(Object rawValue, Documentation doc) {
+        if (doc.omitOnValues().isEmpty() && doc.omitOnOtherValues().isEmpty()) {
+            return false;
+        }
+        List<String> values = Arrays.asList(doc.omitOnValues().split(";"));
+        if (values.contains("" + rawValue)) {
+            return true;
+        }
+        List<String> otherValues = Arrays.asList(doc.omitOnOtherValues().split(";"));
+        for (String otherNameValue : otherValues) {
+            String[] tokens = otherNameValue.split("=");
+            if (tokens.length != 2) {
+                continue;
+            }
+            if (_fieldValues.containsKey(tokens[0]) && _fieldValues.get(tokens[0]).equals(tokens[1])) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

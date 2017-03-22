@@ -16,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
+import org.inek.dataportal.utils.Documentation;
 
 /**
  *
@@ -61,6 +62,7 @@ public class KGLListCostCenter implements Serializable, ListCostCenter {
 
     // <editor-fold defaultstate="collapsed" desc="CostCenterNumber">
     @Column(name = "ccCostCenterNumber")
+    @Documentation (name = "Nummer:", rank = 10)
     private int _costCenterNumber;
 
     @Override
@@ -76,10 +78,11 @@ public class KGLListCostCenter implements Serializable, ListCostCenter {
 
     // <editor-fold defaultstate="collapsed" desc="CostCenterText">
     @Column(name = "ccCostCenterText")
+    @Documentation (name = "Bezeichnung", rank = 20)
     private String _costCenterText = "";
 
     @Override
-    @Size(max = 50)
+    @Size(max = 200, message = "Für Bezeichnung sind max. {max} Zeichen zulässig.")
     public String getCostCenterText() {
         return _costCenterText;
     }
@@ -93,6 +96,7 @@ public class KGLListCostCenter implements Serializable, ListCostCenter {
     // <editor-fold defaultstate="collapsed" desc="Amount">
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "ccAmount")
+    @Documentation (name = "Kostenvolumen", rank = 40)
     private int _amount;
 
     @Override
@@ -109,6 +113,7 @@ public class KGLListCostCenter implements Serializable, ListCostCenter {
 
     // <editor-fold defaultstate="collapsed" desc="FullVigorCnt">
     @Column(name = "ccFullVigorCnt")
+    @Documentation (name = "ccFullVigorCnt", rank = 60)
     private double _fullVigorCnt;
 
     @Override
@@ -125,10 +130,11 @@ public class KGLListCostCenter implements Serializable, ListCostCenter {
 
     // <editor-fold defaultstate="collapsed" desc="ServiceKey">
     @Column(name = "ccServiceKey")
+    @Documentation (name = "Leistungsschlüssel", rank = 30)
     private String _serviceKey = "";
 
     @Override
-    @Size(max = 50)
+    @Size(max = 100, message = "Für Leistungsschlüssel sind max. {max} Zeichen zulässig.")
     public String getServiceKey() {
         return _serviceKey;
     }
@@ -141,6 +147,7 @@ public class KGLListCostCenter implements Serializable, ListCostCenter {
 
     // <editor-fold defaultstate="collapsed" desc="ServiceKeyDescription">
     @Column(name = "ccServiceKeyDescription")
+    @Documentation (name = "Beschreibung Schlüssel", rank = 50)
     private String _serviceKeyDescription = "";
 
     @Override
@@ -156,6 +163,7 @@ public class KGLListCostCenter implements Serializable, ListCostCenter {
 
     // <editor-fold defaultstate="collapsed" desc="ServiceSum">
     @Column(name = "ccServiceSum")
+    @Documentation (name = "Summe", rank = 70)
     private double _serviceSum;
 
     @Override
@@ -174,6 +182,7 @@ public class KGLListCostCenter implements Serializable, ListCostCenter {
 //    @JoinColumn(name = "ccBaseInformationId", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
     @Column(name = "ccBaseInformationId")
+    @Documentation (name = "ccBaseInformationId", rank = 80)
     private int _baseInformationId;
 
     @Override

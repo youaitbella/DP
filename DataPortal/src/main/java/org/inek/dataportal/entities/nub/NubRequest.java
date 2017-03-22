@@ -539,7 +539,7 @@ public class NubRequest implements Serializable {
 
     @Documentation(name = "Verfahrens-Nr.", omitOnEmpty = true, rank = 0)
     public String getExternalId() {
-        return _status == WorkflowStatus.CorrectionRequested.getValue() || _status >= WorkflowStatus.Provided.getValue() ? "N" + _id : "";
+        return _status == WorkflowStatus.CorrectionRequested.getId() || _status >= WorkflowStatus.Provided.getId() ? "N" + _id : "";
     }
 
     public int getTargetYear() {
@@ -568,7 +568,7 @@ public class NubRequest implements Serializable {
     }
 
     public void setStatus(WorkflowStatus status) {
-        _status = status.getValue();
+        _status = status.getId();
     }
 
     public Date getCreationDate() {
@@ -994,7 +994,7 @@ public class NubRequest implements Serializable {
     }
 
     public boolean isSealed() {
-        return getStatus().getValue() >= WorkflowStatus.Provided.getValue();
+        return getStatus().getId() >= WorkflowStatus.Provided.getId();
     }
 
 }

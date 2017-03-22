@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.inek.dataportal.utils.Documentation;
 
 /**
  *
@@ -72,6 +73,7 @@ public class KGLListRadiologyLaboratory implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="costCenterNumber">
     @Column(name = "rlCostCenterNumber")
+    @Documentation (name = "Kostenstellen Nummer:", rank = 10)
     private int _costCenterNumber;
 
     public int getCostCenterNumber() {
@@ -85,6 +87,7 @@ public class KGLListRadiologyLaboratory implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="CostCenterText">
     @Column(name = "rlCostCenterText")
+    @Documentation (name = "Kostenstellen Bezeichnung:", rank = 20)
     private String _costCenterText = "";
 
     @Size(max = 200)
@@ -99,6 +102,7 @@ public class KGLListRadiologyLaboratory implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="serviceDocHome">
     @Column(name = "rlServiceDocHome")
+    @Documentation (name = "rlServiceDocHome:", rank = 30)
     private boolean _serviceDocHome;
 
     public boolean isServiceDocHome() {

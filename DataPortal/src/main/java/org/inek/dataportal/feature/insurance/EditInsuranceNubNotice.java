@@ -152,7 +152,7 @@ public class EditInsuranceNubNotice extends AbstractEditController {
     }
 
     public boolean getReadOnly() {
-        if (_notice.getWorkflowStatusId() >= WorkflowStatus.Provided.getValue()) {
+        if (_notice.getWorkflowStatusId() >= WorkflowStatus.Provided.getId()) {
             return true;
         }
         return false;

@@ -130,6 +130,19 @@ public class DrgContentText implements Serializable {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Property InputRequired">
+    @Column(name = "ctInputRequired")
+    private boolean _inputRequired;
+
+    public boolean isInputRequired() {
+        return _inputRequired;
+    }
+
+    public void setInputRequired(boolean value) {
+        this._inputRequired = value;
+    }
+    // </editor-fold>
+
     // <editor-fold defaultstate="collapsed" desc="hashCode + equals + toString">
     @Override
     public int hashCode() {

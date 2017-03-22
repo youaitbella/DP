@@ -56,6 +56,12 @@ public @interface Documentation {
     public String omitOnValues() default "";
     
     /**
+     * omit documentation if the strin value an other field has a specific value
+     * usage omitOnOtherValues = "className.fieldName=value[;className.fieldName=value...]
+     */
+    public String omitOnOtherValues() default "";
+    
+    /**
      * omit documentation if value is empty
      */
     public boolean omitOnEmpty() default false;

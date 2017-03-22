@@ -68,7 +68,7 @@ public class SpecificFunctionRequestList {
             // might be deleted by somebody else
             return;
         }
-        if (request.getStatus().getValue() >= WorkflowStatus.Provided.getValue()) {
+        if (request.getStatus().getId() >= WorkflowStatus.Provided.getId()) {
             request.setStatus(WorkflowStatus.Retired);
             _specificFunctionFacade.saveSpecificFunctionRequest(request);
         } else {

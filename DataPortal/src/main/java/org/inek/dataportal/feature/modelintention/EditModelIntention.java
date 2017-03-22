@@ -236,7 +236,7 @@ public class EditModelIntention extends AbstractEditController {
     }
 
     public boolean isReadOnly() {
-        return _modelIntention.getStatus().getValue() >= WorkflowStatus.Provided.getValue()
+        return _modelIntention.getStatus().getId() >= WorkflowStatus.Provided.getId()
                 || _modelIntention.getAccountId() != _sessionController.getAccountId();
     }
 
@@ -268,7 +268,7 @@ public class EditModelIntention extends AbstractEditController {
      * @return
      */
     public String seal() {
-        if (_modelIntention.getStatus().getValue() >= 10) {
+        if (_modelIntention.getStatus().getId() >= 10) {
             return Pages.Error.URL();
         }
 
@@ -284,7 +284,7 @@ public class EditModelIntention extends AbstractEditController {
             return getActiveTopic().getOutcome();
         }
 
-        _modelIntention.setStatus(10 + _modelIntention.getStatus().getValue());
+        _modelIntention.setStatus(10 + _modelIntention.getStatus().getId());
         _modelIntention = _modelIntentionFacade.saveModelIntention(_modelIntention);
 
         if (isValidId(_modelIntention.getId())) {

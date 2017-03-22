@@ -571,6 +571,7 @@ div#wrapper {
     width: 60%;
 }
 
+.element08em,
 .element12em,
 .element100-12em,
 .element100-13em,
@@ -581,6 +582,7 @@ div#wrapper {
 .element25em,
 .element30,
 .element33,
+.element37em,
 .element40,
 .element50,
 .element60,
@@ -592,12 +594,20 @@ div#wrapper {
     display:inline-block;
 }
 
+.element08em{
+    width: 8em;
+}
+
 .element12em{
     width: 12em;
 }
 
 .element25em{
     width: 25em;
+}
+
+.element37em{
+    width: 37em;
 }
 
 .element100-12em{

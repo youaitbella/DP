@@ -11,6 +11,7 @@ import java.util.Locale;
 import java.util.function.BiConsumer;
 import org.inek.dataportal.entities.calc.KGPListMedInfra;
 import org.inek.dataportal.entities.calc.PeppCalcBasics;
+import org.inek.dataportal.helper.BeanValidator;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.utils.StringUtil;
 
@@ -85,8 +86,13 @@ public class MedInfraDataImporterPepp {
             tryImportString(item, data[1], (i,s) -> i.setCostCenterText(s), "Name der Kostenstelle ungültig: ");
             tryImportString(item, data[2], (i,s) -> i.setKeyUsed(s), "Verwendeter Schlüssel ungültig: ");
             tryImportInteger(item, data[3], (i,s) -> i.setAmount(s), "Kostenvolumen ungültig: ");
+            String validateText = BeanValidator.validateData(item);
+            if (!validateText.isEmpty()) {
+                throw new IllegalArgumentException(validateText);
+            }
                         
             if(itemExists(item)) {
+                addRowErrorMsg("Datenzeile existiert bereits");
                 return;
             }
 

@@ -14,7 +14,7 @@ import org.junit.Test;
  *
  * @author muellermi
  */
-public class DocumentationUtilTest {
+public class DocumentationUtilTest0 {
     
     @Test
     public void testGetDocumentation() {
@@ -60,7 +60,7 @@ class TestEntity{
     @Documentation(dateFormat = "dd.MM.yyyy")
     private Date _dateOnly;
 
-    @Documentation
+    @Documentation(omitOnOtherValues = "TestEntity1._name=xxx")
     private List<Person> _persons = new ArrayList<>();
         
 }

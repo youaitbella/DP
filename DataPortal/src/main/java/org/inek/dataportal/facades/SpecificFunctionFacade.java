@@ -48,8 +48,8 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
         TypedQuery<SpecificFunctionRequest> query = getEntityManager().createQuery(jpql, SpecificFunctionRequest.class);
         query.setParameter("accountId", accountId);
         query.setParameter("year", year);
-        query.setParameter("statusLow", statusLow.getValue());
-        query.setParameter("statusHigh", statusHigh.getValue());
+        query.setParameter("statusLow", statusLow.getId());
+        query.setParameter("statusHigh", statusHigh.getId());
         return query.getResultList();
     }
     
@@ -69,8 +69,8 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
         String jpql = "select s._accountId from SpecificFunctionRequest s where s._dataYear = :year and s._statusId between :statusLow and :statusHigh and s._accountId in :accountIds";
         Query query = getEntityManager().createQuery(jpql);
         query.setParameter("year", year);
-        query.setParameter("statusLow", statusLow.getValue());
-        query.setParameter("statusHigh", statusHigh.getValue());
+        query.setParameter("statusLow", statusLow.getId());
+        query.setParameter("statusHigh", statusHigh.getId());
         query.setParameter("accountIds", accountIds);
         @SuppressWarnings("unchecked") HashSet<Integer> result = new HashSet<>(query.getResultList());
         return result;
@@ -134,7 +134,7 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
                 + "from spf.RequestMaster\n"
                 + "join CallCenterDB.dbo.ccCustomer on rmIk = cuIK\n"
                 + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
-                + "join CallCenterDB.dbo.ccCalcInformation on caId = ciCalcAgreementId\n"
+                + "join CallCenterDB.dbo.ccCalcInformation on caId = ciCalcAgreementId and rmDataYear-1 = ciDataYear \n"
                 + "join CallCenterDB.dbo.mapCustomerReportAgent on ciId = mcraCalcInformationId\n"
                 + "join CallCenterDB.dbo.ccAgent on mcraAgentId = agId\n"
                 + "left join dbo.Account on agEMail = acMail\n"
@@ -153,7 +153,7 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
 //                + "from spf.RequestMaster\n"
 //                + "join CallCenterDB.dbo.ccCustomer on rmIk = cuIK\n"
 //                + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
-//                + "join CallCenterDB.dbo.ccCalcInformation on caId = ciCalcAgreementId\n"
+//                + "join CallCenterDB.dbo.ccCalcInformation on caId = ciCalcAgreementId and rmDataYear-1 = ciDataYear \n"
 //                + "join CallCenterDB.dbo.mapCustomerReportAgent on ciId = mcraCalcInformationId\n"
 //                + "join CallCenterDB.dbo.ccAgent on mcraAgentId = agId\n"
 //                + "where agEMail = '" + account.getEmail() + "'\n"
@@ -167,7 +167,7 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
                 + "from spf.RequestMaster\n"
                 + "join CallCenterDB.dbo.ccCustomer on rmIk = cuIK\n"
                 + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
-                + "join CallCenterDB.dbo.ccCalcInformation on caId = ciCalcAgreementId\n"
+                + "join CallCenterDB.dbo.ccCalcInformation on caId = ciCalcAgreementId and rmDataYear-1 = ciDataYear \n"
                 + "join CallCenterDB.dbo.mapCustomerReportAgent on ciId = mcraCalcInformationId\n"
                 + "join CallCenterDB.dbo.ccAgent on mcraAgentId = agId\n"
                 + "where agEMail = '" + account.getEmail() + "'\n"

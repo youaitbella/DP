@@ -14,6 +14,9 @@
         <cc:attribute name="styleClassComponent" default="inputPart"/>
         <cc:attribute name="styleClassLabel" default="label marginRight"/>
         <cc:attribute name="renderElement" default="@this"/>
+        <cc:editableValueHolder name="box"/>
+        <cc:actionSource name="box"/>
+        <cc:clientBehavior name="clientChange" targets="box" event="valueChange"/>
     </cc:interface>
 
     <!-- IMPLEMENTATION -->

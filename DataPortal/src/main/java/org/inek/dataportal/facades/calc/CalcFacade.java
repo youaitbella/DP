@@ -11,7 +11,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
@@ -30,6 +29,7 @@ import org.inek.dataportal.entities.calc.CalcContact;
 import org.inek.dataportal.entities.calc.DrgContentText;
 import org.inek.dataportal.entities.calc.DrgHeaderText;
 import org.inek.dataportal.entities.calc.CalcHospitalInfo;
+import org.inek.dataportal.entities.calc.DrgDelimitationFact;
 import org.inek.dataportal.entities.calc.DrgNeonatData;
 import org.inek.dataportal.entities.calc.KGLListCentralFocus;
 import org.inek.dataportal.entities.calc.KGLListContentTextOps;
@@ -37,6 +37,7 @@ import org.inek.dataportal.entities.calc.KGLListCostCenter;
 import org.inek.dataportal.entities.calc.KGLListCostCenterCost;
 import org.inek.dataportal.entities.calc.KGLListEndoscopyAmbulant;
 import org.inek.dataportal.entities.calc.KGLListEndoscopyDifferential;
+import org.inek.dataportal.entities.calc.KGLListIntensivStroke;
 import org.inek.dataportal.entities.calc.KGLListKstTop;
 import org.inek.dataportal.entities.calc.KGLListLocation;
 import org.inek.dataportal.entities.calc.KGLListMedInfra;
@@ -53,13 +54,13 @@ import org.inek.dataportal.entities.calc.KGPListContentText;
 import org.inek.dataportal.entities.calc.KGPListServiceProvisionType;
 import org.inek.dataportal.entities.calc.KGPPersonalAccounting;
 import org.inek.dataportal.entities.calc.StatementOfParticipance;
-import org.inek.dataportal.entities.calc.iface.IdValue;
 import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.enums.CalcHospitalFunction;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.AbstractDataAccess;
 import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.entities.calc.iface.BaseIdValue;
 
 /**
  *
@@ -78,7 +79,7 @@ public class CalcFacade extends AbstractDataAccess {
 
     public List<CalcHospitalInfo> getListCalcInfo(Set<Integer> accountIds, int year, WorkflowStatus statusLow, WorkflowStatus statusHigh) {
         String accountCond = " in (" + accountIds.stream().map(i -> i.toString()).collect(Collectors.joining(", ")) + ") ";
-        String statusCond = " between " + statusLow.getValue() + " and " + statusHigh.getValue();
+        String statusCond = " between " + statusLow.getId() + " and " + statusHigh.getId();
         String sql = "select sopId as Id, 0 as [Type], sopAccountId as AccountId, sopDataYear as DataYear, sopIk as IK, sopStatusId as StatusId,\n"
                 + " '" + Utils.getMessage("lblStatementOfParticipance") + "' as Name, sopLastChanged as LastChanged\n"
                 + "from calc.StatementOfParticipance\n"
@@ -127,7 +128,7 @@ public class CalcFacade extends AbstractDataAccess {
     }
 
     public Set<Integer> checkAccountsForYear(Set<Integer> accountIds, int year, WorkflowStatus statusLow, WorkflowStatus statusHigh) {
-        String statusCond = " between " + statusLow.getValue() + " and " + statusHigh.getValue();
+        String statusCond = " between " + statusLow.getId() + " and " + statusHigh.getId();
         String accountCond = " in (" + accountIds.stream().map(i -> i.toString()).collect(Collectors.joining(", ")) + ") ";
         String sql = "select sopAccountId as AccountId\n"
                 + "from calc.StatementOfParticipance\n"
@@ -510,7 +511,7 @@ public class CalcFacade extends AbstractDataAccess {
         return result;
     }
 
-    public List<Object[]> retrieveCurrentStatementOfParticipanceData(int ik) {
+    public List<Object[]> retrieveCurrentStatementOfParticipanceData(int ik, int dataYear) {
         String sql = "select dbo.concatenate(case caCalcTypeId when 1 then 'DRG' when 3 then 'PSY' when 4 then 'INV' when 5 then 'TPG' when 6 then 'obligatory' when 7 then 'OBD' end) as domain, \n"
                 + "    max(isnull(left(dk.ctpValue, 1), 'F')) as DrgKvm,\n"
                 + "    max(isnull(left(dm.ctpValue, 1), '0')) as DrgMultiyear,\n"
@@ -525,13 +526,14 @@ public class CalcFacade extends AbstractDataAccess {
                 + "left join CallCenterDB.dbo.ccCustomerCalcTypeProperty pk on ciId = pk.ctpCalcInformationId and pk.ctpPropertyId = 3 and caCalcTypeId = 3\n"
                 + "left join CallCenterDB.dbo.ccCustomerCalcTypeProperty pm on ciId = pm.ctpCalcInformationId and pm.ctpPropertyId = 6 and caCalcTypeId = 3\n"
                 + "where caCalcTypeId in (1, 3, 4, 5, 6, 7) and caHasAgreement = 1 and caIsInactive = 0 and ciParticipation = 1 and ciParticipationRetreat = 0 and cuIk = " + ik + "\n"
+                + "      and ciDataYear = " + dataYear + "\n"
                 + "group by cuIk, cuDrgDelivery, cuPsyDelivery";
         Query query = getEntityManager().createNativeQuery(sql);
         @SuppressWarnings("unchecked") List<Object[]> result = query.getResultList();
         return result;
     }
 
-    public List<CalcContact> retrieveCurrentContacts(int ik) {
+    public List<CalcContact> retrieveCurrentContacts(int ik, int dataYear) {
         String sql = "select case coSexId when 'F' then 1 when 'H' then 2 else 0 end as gender, "
                 + "    coTitle, coFirstName, coLastName, p.cdDetails as phone, e.cdDetails as email, "
                 + "    dbo.concatenate(case caCalcTypeId when 1 then 'DRG' when 3 then 'PSY' when 4 then 'INV' when 5 then 'TPG' when 6 then 'obligatory' when 7 then 'OBD' end) as domain\n"
@@ -544,6 +546,7 @@ public class CalcFacade extends AbstractDataAccess {
                 + "left join CallCenterDB.dbo.ccContactDetails p on coId=p.cdContactId and p.cdContactDetailTypeId = 'T'\n"
                 + "where caCalcTypeId in (1, 3, 4, 5, 6, 7) and caHasAgreement = 1 and caIsInactive = 0 and ciParticipation = 1 and ciParticipationRetreat = 0 and coIsActive = 1 and cuIk = " + ik + "\n"
                 + "and not exists (select 1 from CallCenterDB.dbo.mapContactRole where mcrRoleId = 14 and mcrContactId = coId)\n"
+                + "      and ciDataYear = " + dataYear + "\n"
                 + "group by cuIk, coSexId, coTitle, coFirstName, coLastName, p.cdDetails, e.cdDetails";
         Query query = getEntityManager().createNativeQuery(sql);
         List<CalcContact> contacts = new Vector<>();
@@ -603,6 +606,7 @@ public class CalcFacade extends AbstractDataAccess {
 
         merge(calcBasics.getOpAn());
         saveNeonatData(calcBasics);  // workarround for known problem (persist saves all, merge only one new entry)
+        saveDelimitationFacts(calcBasics);
         saveTopItems(calcBasics);
         saveServiceProvisions(calcBasics);
         saveEndoscopyDifferentials(calcBasics);
@@ -618,11 +622,21 @@ public class CalcFacade extends AbstractDataAccess {
         saveEndoscopyAmbulant(calcBasics);
         saveNormalStationDocMinutes(calcBasics);
         saveMedInfra(calcBasics);
+        saveIntensiveStroke(calcBasics);
         return merge(calcBasics);
     }
     
     private void saveNormalStationDocMinutes(DrgCalcBasics calcBasics) {
         for(KGLNormalStationServiceDocumentation item : calcBasics.getNormalStationServiceDocumentations()) {
+            if(item.getId() == -1)
+                persist(item);
+            else
+                merge(item);
+        }
+    }
+    
+    private void saveDelimitationFacts(DrgCalcBasics calcBasics) {
+        for(DrgDelimitationFact item : calcBasics.getDelimitationFacts()) {
             if(item.getId() == -1)
                 persist(item);
             else
@@ -636,6 +650,16 @@ public class CalcFacade extends AbstractDataAccess {
                 persist(medInfra);
             else {
                 merge(medInfra);
+            }
+        }
+    }
+    
+    private void saveIntensiveStroke(DrgCalcBasics calcBasics) {
+        for(KGLListIntensivStroke item : calcBasics.getIntensivStrokes()) {
+            if(item.getId() == -1)
+                persist(item);
+            else {
+                merge(item);
             }
         }
     }
@@ -832,7 +856,7 @@ public class CalcFacade extends AbstractDataAccess {
                 + "		select aaiIK from dbo.AccountAdditionalIK where aaiAccountId = " + accountId + "\n"
                 + "	) \n"
                 + "     and r2.mcrRoleId is null\n"
-                + "	and sopStatusId = " + WorkflowStatus.Provided.getValue() + "\n" //+ " and " + (WorkflowStatus.Retired.getValue() - 1) + "\n"
+                + "	and sopStatusId = " + WorkflowStatus.Provided.getId() + "\n" //+ " and " + (WorkflowStatus.Retired.getId() - 1) + "\n"
                 + "	and sopIsDrg = 1\n"
                 + "	and sopObligatoryCalcType != 1\n"
                 + "	and sopDataYear = " + year + "\n"
@@ -865,7 +889,7 @@ public class CalcFacade extends AbstractDataAccess {
                 + "		select aaiIK from dbo.AccountAdditionalIK where aaiAccountId = " + accountId + "\n"
                 + "	) \n"
                 + "     and r2.mcrRoleId is null\n"
-                + "	and sopStatusId = " + WorkflowStatus.Provided.getValue() + "\n" //+ " and " + (WorkflowStatus.Retired.getValue() - 1) + "\n"
+                + "	and sopStatusId = " + WorkflowStatus.Provided.getId() + "\n" //+ " and " + (WorkflowStatus.Retired.getId() - 1) + "\n"
                 + "	and sopIsPsy = 1\n"
                 + "	and sopObligatoryCalcType != 1\n"
                 + "	and sopDataYear = " + year + "\n"
@@ -1043,6 +1067,7 @@ public class CalcFacade extends AbstractDataAccess {
         }
         
         saveIdList(calcBasics.getLocations());
+        saveIdList(calcBasics.getDelimitationFacts());
         saveIdList(calcBasics.getServiceProvisions());
         saveIdList(calcBasics.getTherapies());
         saveIdList(calcBasics.getCostCenters());
@@ -1065,8 +1090,8 @@ public class CalcFacade extends AbstractDataAccess {
         return merged;
     }
     
-    private void saveIdList(List<? extends IdValue> list) {
-        for (IdValue item : list) {
+    private void saveIdList(List<? extends BaseIdValue> list) {
+        for (BaseIdValue item : list) {
             if (item.getId() == -1) {
                 persist(item);
             } else {
@@ -1092,16 +1117,17 @@ public class CalcFacade extends AbstractDataAccess {
     public List<Account> getInekAccounts() {
         String sql = "select distinct account.*\n"
                 //        String sql = "select distinct acId, acCreated, acLastModified, acIsDeactivated, acMail, acMailUnverified, acUser, acGender, acTitle, acFirstName, acLastName, acInitials, acPhone, acRoleId, acCompany, acCustomerTypeId, acIK, acStreet, acPostalCode, acTown, acCustomerPhone, acCustomerFax, acNubConfirmation, acMessageCopy, acNubInformationMail, acReportViaPortal, acDropBoxHoldTime\n"
-                + "from (select biIk from calc.KGLBaseInformation where biStatusID = 10 and biDataYear = " + Utils.getTargetYear(Feature.CALCULATION_HOSPITAL) + "\n"
-                + "union select biIk from calc.KGPBaseInformation where biStatusID = 10 and biDataYear = " + Utils.getTargetYear(Feature.CALCULATION_HOSPITAL) + " ) base\n"
+                + "from (select biIk, biDataYear from calc.KGLBaseInformation where biStatusID = 10 \n"
+                + "union select biIk, biDataYear from calc.KGPBaseInformation where biStatusID = 10 ) base\n"
                 + "join CallCenterDB.dbo.ccCustomer on biIk = cuIK\n"
                 + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
-                + "join CallCenterDB.dbo.ccCalcInformation on caId = ciCalcAgreementId\n"
+                + "join CallCenterDB.dbo.ccCalcInformation on caId = ciCalcAgreementId and biDataYear = ciDataYear \n"
                 + "join CallCenterDB.dbo.mapCustomerReportAgent on ciId = mcraCalcInformationId\n"
                 + "join CallCenterDB.dbo.ccAgent on mcraAgentId = agId\n"
                 + "left join dbo.Account on agEMail = acMail\n"
                 + "where agActive = 1 and agDomainId in ('O', 'E')\n"
-                + "	and mcraReportTypeId in (1, 3)"; // 1=Drg, 3=Psy
+                + "	and mcraReportTypeId in (1, 3) \n"
+                + "     and biDataYear = " + Utils.getTargetYear(Feature.CALCULATION_HOSPITAL);
         Query query = getEntityManager().createNativeQuery(sql, Account.class);
         @SuppressWarnings("unchecked") List<Account> result = query.getResultList();
         return result;
@@ -1114,7 +1140,7 @@ public class CalcFacade extends AbstractDataAccess {
                 + "union select biId, biIk, 2 as biType, biDataYear, biAccountID, biStatusId, biLastChanged, '" + Utils.getMessage("lblCalculationBasicsPsy") + "' as Name from calc.KGPBaseInformation where biStatusID = 10) base \n"
                 + "join CallCenterDB.dbo.ccCustomer on biIk = cuIK\n"
                 + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
-                + "join CallCenterDB.dbo.ccCalcInformation on caId = ciCalcAgreementId\n"
+                + "join CallCenterDB.dbo.ccCalcInformation on caId = ciCalcAgreementId and biDataYear = ciDataYear \n"
                 + "join CallCenterDB.dbo.mapCustomerReportAgent on ciId = mcraCalcInformationId\n"
                 + "join CallCenterDB.dbo.ccAgent on mcraAgentId = agId\n"
                 + "where agEMail = '" + account.getEmail() + "'\n"

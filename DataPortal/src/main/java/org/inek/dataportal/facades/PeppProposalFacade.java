@@ -126,8 +126,8 @@ public class PeppProposalFacade extends AbstractFacade<PeppProposal> {
         TypedQuery<Integer> query = getEntityManager().createQuery(jpql, Integer.class);
         query.setParameter("accountIds", accountIds);
         query.setParameter("year", year);
-        query.setParameter("statusLow", statusLow.getValue());
-        query.setParameter("statusHigh", statusHigh.getValue());
+        query.setParameter("statusLow", statusLow.getId());
+        query.setParameter("statusHigh", statusHigh.getId());
         return new HashSet<>(query.getResultList());
     }
 

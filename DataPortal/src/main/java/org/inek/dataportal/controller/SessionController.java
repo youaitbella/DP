@@ -663,4 +663,15 @@ public class SessionController implements Serializable {
         //return (T) facesContext.getApplication().evaluateExpressionGet(facesContext, "#{" + beanName + "}", Object.class);
     }
 
+    public void hideData(boolean enabled) {
+        if (!enabled) {
+            String msg = "Sie haben gerade einen Bereich, der möglicherweise Daten enthält, ausgeblendet. "
+                    + "Sofern dieser Daten enthält, bleiben diese vorerst erhalten, so dass diese zur Verfügung stehen, wenn Sie den Bereich wieder aktivieren. "
+                    + "Sobald Sie die Daten an das InEK senden, werden diese bereinigt.";
+            //Utils.showMessageInBrowser(msg);
+            setScript("alert('" + msg + "');");
+        }
+    }
+
+    
 }

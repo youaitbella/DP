@@ -490,7 +490,7 @@ public class EditNubRequest extends AbstractEditController {
 
     public boolean isRejectedNub() {
         // if the user has bookmarked a page, than he might try to open a non-existant request
-        return _nubRequest != null && WorkflowStatus.Rejected.getValue() == _nubRequest.getStatus().getValue();
+        return _nubRequest != null && WorkflowStatus.Rejected.getId() == _nubRequest.getStatus().getId();
     }
 
     public boolean isSealEnabled() {
@@ -713,7 +713,7 @@ public class EditNubRequest extends AbstractEditController {
         String subject = "Korrektur NUB-Anfrage \"" + _nubRequest.getName() + "\" erforderlich";
         Account sender = _sessionController.getAccount();
         Account receiver = _accountFacade.find(_nubRequest.getAccountId());
-        _nubRequest.setStatus(WorkflowStatus.New.getValue());
+        _nubRequest.setStatus(WorkflowStatus.New.getId());
         if (!isReadOnly()) {
             // there might have been changes by that user
             setModifiedInfo();

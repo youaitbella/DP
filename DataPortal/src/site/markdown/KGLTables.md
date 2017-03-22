@@ -41,11 +41,8 @@ Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGL\Anpass
 |||Qualifikation||ndContentTextID|
 |||Erfüllt (Datum)/Anzahl/Kosten||ndData|
 |Leistungsdokumentation (ext. Lei)|||||
-|||Bereich|KGLListServiceProvisionType|sptText|
-|||wird nicht erbracht|KGLListServiceProvision|spNotProvided|
-|||keine Fremdvergabe||spNoExternalAssignment|
-|||vollständige Fremdvergabe||spFullExternalAssignment|
-|||teilweise Fremdvergabe||spPartialExternalAssignment|
+|||Bereich|KGLListServiceProvision|sptText|
+|||wird nicht erbracht, keine Fremdvergabe, vollständige Fremdvergabe, teilweise Fremdvergabe||spProvidedType|
 |||Fremdvergebene Teilbereiche||spPartitionExternalAssignment|
 |||Anmerkung||spNote|
 |||Kostenvolumen||spAmount|
@@ -119,8 +116,8 @@ Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGL\Anpass
 |||Fallzahl ambulant||rsCaseCntAmbulant|
 |||abgegr. Kostenvolumen ambulant||rsAmbulantAmount|
 |Leistungsdokumentation(Radiologie + Laboratorien)|||KGLListRadiologyLaboratory||
-|||Kostenartengruppe||rlCostTypeID|
 |||Kostenstelle||rlCostCenterID|
+|||Nummer der Kostenstelle||rlCostCenterNumber|
 |||Name Kostenstelle||rlCostCenterText|
 |||Leistungsdokumentation Hauskatalog*||rlServiceDocHome|
 |||Leistungsdokumentation DKG-NT||rlServiceDocDKG|
@@ -134,7 +131,8 @@ Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGL\Anpass
 |||Kostenvolumen nach Abgrenzung||rlAmountPost|
 |Leistungsdokumentation (KST 11-13)|||KGLListCostCenter||
 |||Kostenstelle||ccCostCenterID|
-|||Name Kostenstelle||ccCostCenterText|
+|||Name der Kostenstelle||ccCostCenterText|
+|||Nummer der Kostenstelle||ccCostCenterNumber|
 |||Kostenvolumen||ccAmount|
 |||Anzahl zugeordenter Vollkräfte…||ccFullVigorCnt|
 |||Leistungsschlüssel||ccServiceKey|
@@ -155,15 +153,14 @@ Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGL\Anpass
 |||Anzahl kalkulierter Fälle mit PKMS||biPKMSCaseCnt|
 |||Erfassung PKMS Normalstation und KIS-Integration/Manuell||biPKMSRecording|
 |||Sonstiges||biPKMSOther|
+|||Kalkulierte Fälle mit PKMS||biPKMComplex|
 |Normalstation|Hochaufwendige Pflegeleistungen (Alternativen)||KGLPKMSAlternative||
 |||Fachabteilung||paDepartment|
 |||FAB Schlüssel 301||paDepartmentKey|
 |||Alternativverfahren||paAlternative|
 |Normalstation|Leistungsdokumentation für die Kostenartengruppen 2, 4a und 6a||KGLNormalStationServiceDocumentation||
+|||Wert||nssContentTextID|
 |||Ja/Nein||nssUsed|
-|||Fachabteilung||nssDepartment|
-|||FAB Schlüssel 301||nssDepartmentKey|
-|||Alternativverfahren||nssAlternative|
 |Normalstation|Ärzte in freier Mitarbeit||KGLNormalFreelancer||
 |||Bereich||nfDivision|
 |||AnzahlVK||nfFullVigorCnt|
@@ -176,9 +173,9 @@ Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGL\Anpass
 |||Anzahl Fälle||nfcCaseCnt|
 |||abgegr. Kostenvolumen||nfcAmount|
 |Normalstation|Kosten KstGr 1||KGLListCostCenterCost||
-|||Nummer der Kostenstelle||cccCostCenter|
+|||Zugeordnete Kostenstellengruppe||cccCostCenterID|
+|||Nummer der Kostenstelle||cccCostCenterNumber|
 |||Name der Kostenstelle||cccCostCenterText|
-|||Zugeordnete Kostenstellengruppe||cccCostTypeID|
 |||FAB Schlüssel 301||cccDepartmentKey|
 |||Belegung: FAB||cccDepartmentAssignment|
 |||Bettenzahl||cccBedCnt|
@@ -199,11 +196,11 @@ Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGL\Anpass
 |||Gleichungsverfahren, Stufenleiterverfahren, Anbauverfahren, Sonstige||biIBLVMethodMedInfra|
 |||Erläuterung Sonstige Vorgehensweise||biOtherMethodMedInfra|
 |Nicht Med Infra|Gewähltes Verfahren||KGLBaseInformation||
-|||Gleichungsverfahren, Stufenleiterverfahren, Anbauverfahren, Sonstige||biIBLVMethodNonMedInfra|
-|||Erläuterung Sonstige Vorgehensweise||biOtherMethodNonMedInfra|
+|||Gleichungsverfahren, Stufenleiterverfahren, Anbauverfahren, Sonstige||biIBLVMethodMedInfra|
+|||Erläuterung Sonstige Vorgehensweise||biOtherMethodMedInfra|
 |Med Infra/Nicht Med Infra|Verrechnungsschlüssel und Kostenvolumen||KGLListMedInfra||
 |||Kostenartengruppe||miCostTypeID|
-|||Nummer der Kostenstelle||miCostCenter|
+|||Nummer der Kostenstelle||miCostCenterNumber|
 |||Name der Kostenstelle||miCostCenterText|
 |||Verwendeter Schlüssel||miKeyUsed|
 |||Kostenvolumen||miAmount|
@@ -213,9 +210,7 @@ Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGL\Anpass
 |||Intensivbetten Schlaganfall||biIntensiveStrokeBed|
 |Intensiv_Stroke|||KGLListIntensivStroke||
 |||IntensivTyp zur Unterscheidung Intensiv/Stroke||isIntensiveType|
-|||Nummer Kostenstelle||isCostCenterID|
 |||Name Kostenstelle||isCostCenterText|
-|||FAB Schlüssel||isDepartmentKey|
 |||Belegung: FAB||isDepartmentAssignment|
 |||Anzahl Betten||isBedCnt|
 |||Anzahl Fälle||isCaseCnt|

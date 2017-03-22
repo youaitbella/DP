@@ -100,11 +100,6 @@ public class CalcBasicsDrgValidator {
             checkField(message, opAn.getDescriptionRzAN(), "Bitte Rüstzeit Alternative OP angeben", "", "TopicCalcOpAn");
         }
 
-//        checkField(message, opAn.getMedicalServiceAmountOP(), 1, 999999999, "Bitte Leistungsminuten OP ÄD angeben", "", "TopicCalcOpAn");
-//        checkField(message, opAn.getFunctionalServiceAmountOP(), 1, 999999999, "Bitte Leistungsminuten OP FD/MTD angeben", "", "TopicCalcOpAn");
-//        checkField(message, opAn.getMedicalServiceAmountAN(), 1, 999999999, "Bitte Leistungsminuten AN ÄD angeben", "", "TopicCalcOpAn");
-//        checkField(message, opAn.getFunctionalServiceAmountAN(), 1, 999999999, "Bitte Leistungsminuten AN FD/MTD angeben", "", "TopicCalcOpAn");
-
         int line = 0;
         for (KGLListKstTop top : calcBasics.getKstTopOp()) {
             line++;
@@ -113,8 +108,8 @@ public class CalcBasicsDrgValidator {
             } else {
                 checkField(message, top.getText(), "Top 3 Leistung, Zeile " + line + ": Bitte Bezeichnung angeben", "", "TopicCalcOpAn");
                 checkField(message, top.getCaseCount(), 1, 9999999, "Top 3 Leistung, Zeile " + line + ": Bitte Fallzahl angeben", "", "TopicCalcOpAn");
-                checkField(message, top.getAmount(), 1, 9999999, "Top 3 Leistung, Zeile " + line + ": Bitte Erlösvolumen angeben", "", "TopicCalcOpAn");
-                checkField(message, top.getDelimitationAmount(), 1, 9999999, "Top 3 Leistung, Zeile " + line + ": Bitte abgegr. Kostenvolumen angeben", "", "TopicCalcOpAn");
+                //checkField(message, top.getAmount(), 1, 9999999, "Top 3 Leistung, Zeile " + line + ": Bitte Erlösvolumen angeben", "", "TopicCalcOpAn");
+                //checkField(message, top.getDelimitationAmount(), 1, 9999999, "Top 3 Leistung, Zeile " + line + ": Bitte abgegr. Kostenvolumen angeben", "", "TopicCalcOpAn");
             }
         }
     }

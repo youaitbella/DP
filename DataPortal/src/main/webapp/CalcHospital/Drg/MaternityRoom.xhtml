@@ -13,12 +13,18 @@
 
     <inek:LabeledCheckbox label="#{msg.lblHasGynecology}" 
                           styleClassLabel="label60"
-                          value="#{editCalcBasicsDrg.calcBasics.gynecology}"
-                          renderElement="@form"/>
+                          value="#{editCalcBasicsDrg.calcBasics.gynecology}">
+            <f:ajax event="clientChange"  
+                    render="@form :script"
+                    listener="#{sessionController.hideData(editCalcBasicsDrg.calcBasics.gynecology or editCalcBasicsDrg.calcBasics.obstetrical)}"/>
+    </inek:LabeledCheckbox>
     <inek:LabeledCheckbox label="#{msg.lblHasObstetrical}" 
                           styleClassLabel="label60"
-                          value="#{editCalcBasicsDrg.calcBasics.obstetrical}"
-                          renderElement="@form"/>
+                          value="#{editCalcBasicsDrg.calcBasics.obstetrical}">
+            <f:ajax event="clientChange"  
+                    render="@form :script"
+                    listener="#{sessionController.hideData(editCalcBasicsDrg.calcBasics.gynecology or editCalcBasicsDrg.calcBasics.obstetrical)}"/>
+    </inek:LabeledCheckbox>
 
     <div jsf:id="maternity" jsf:rendered="#{editCalcBasicsDrg.calcBasics.gynecology 
                                             || editCalcBasicsDrg.calcBasics.obstetrical}">
@@ -32,10 +38,10 @@
         <br/>
         <h:outputLabel styleClass="label50" value="Summe der Aufenthaltszeit der Patientin im Kreißsaal in Stunden (ausschließlich für vollstationäre Patientinnen)"/>
         <h:inputText styleClass="element15" id="deliveryRoomHours" value="#{editCalcBasicsDrg.calcBasics.deliveryRoomHours}" required="true">
-            <f:ajax event="blur" render="@this :logout:remaining" />
+            <f:ajax event="blur" render="@this lblDiffDeliveryRoomHours :logout:remaining" />
         </h:inputText>
         <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.priorCalcBasics.deliveryRoomHours}"/>
-        <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.priorCalcBasics.deliveryRoomHours - editCalcBasicsDrg.calcBasics.deliveryRoomHours}"/>
+        <h:outputLabel styleClass="label15 number" id="lblDiffDeliveryRoomHours" value="#{editCalcBasicsDrg.calcBasics.deliveryRoomHours - editCalcBasicsDrg.priorCalcBasics.deliveryRoomHours}"/>
 
         <br/>
         <h:outputLabel styleClass="label50"  value="davon für vorgeburtliche Kreißsaalaufenthalte"/>
@@ -44,15 +50,15 @@
             <f:ajax event="blur" render="@this lblDiffPreBirthHabitantCnt :maternity:txtStructure :logout:remaining" />
         </h:inputText>
         <h:outputLabel styleClass="label15 number" id="lblPreBirthHabitantCnt" value="#{editCalcBasicsDrg.priorCalcBasics.deliveryRoomPreBirthHabitationCnt}"/>
-        <h:outputLabel styleClass="label15 number" id="lblDiffPreBirthHabitantCnt" value="#{editCalcBasicsDrg.priorCalcBasics.deliveryRoomPreBirthHabitationCnt - editCalcBasicsDrg.calcBasics.deliveryRoomPreBirthHabitationCnt}"/>
+        <h:outputLabel styleClass="label15 number" id="lblDiffPreBirthHabitantCnt" value="#{editCalcBasicsDrg.calcBasics.deliveryRoomPreBirthHabitationCnt - editCalcBasicsDrg.priorCalcBasics.deliveryRoomPreBirthHabitationCnt}"/>
 
         <br/>
         <h:outputLabel styleClass="label50"  value="Anzahl vollstationär geborener Kinder"/>
         <h:inputText styleClass="element15" id="instationBirthCnt" value="#{editCalcBasicsDrg.calcBasics.deliveryRoomInstationBirthCnt}" required="true">
-            <f:ajax event="blur" render="@this :logout:remaining" />
+            <f:ajax event="blur" render="@this lblDiffInstationBirthCnt :logout:remaining" />
         </h:inputText>
         <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.priorCalcBasics.deliveryRoomInstationBirthCnt}"/>
-        <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.priorCalcBasics.deliveryRoomInstationBirthCnt - editCalcBasicsDrg.calcBasics.deliveryRoomInstationBirthCnt}"/>
+        <h:outputLabel styleClass="label15 number" id="lblDiffInstationBirthCnt" value="#{editCalcBasicsDrg.calcBasics.deliveryRoomInstationBirthCnt - editCalcBasicsDrg.priorCalcBasics.deliveryRoomInstationBirthCnt}"/>
         
         <br/>
         <h:outputLabel styleClass="label50" value="Bei vorgeburtlichen Fällen fielen im Datenjahr 2016 keine 'Aufenthaltszeiten der Patientin im Kreißsaal' an:"/>

@@ -81,6 +81,13 @@
                                    rendered="#{editDistributionModel.requestCorrectionEnabled}">
                     </h:commandLink>
 
+                    <h:commandLink styleClass="bigButton"
+                                   action="#{editDistributionModel.sendApproval}"
+                                   value="KVM genehmigen"
+                                   immediate="true"
+                                   rendered="#{editDistributionModel.sendApprovalEnabled}">
+                    </h:commandLink>
+
                     
                     <a href="/DataPortal/resources/manual/#{editDistributionModel.model.type == 0 ? 'Anlage 10 (DRG).pdf' : 'Anlage 10 (PSY).pdf'}" target="blank"  title="Anlage 10" class="bigButton">
                         #{editDistributionModel.model.type == 0 ? 'Anlage 10 (DRG)' : 'Anlage 10 (PSY)'} ansehen              
@@ -90,7 +97,6 @@
 
             </div>
         </h:form>
-
     </ui:define>
 
 </ui:composition>

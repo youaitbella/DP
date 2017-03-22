@@ -15,7 +15,11 @@
 
     <div class="inputPart">
         <span class="label">Kommentar:<sup style="font-size: 9px;">1</sup></span><br/>
-        <h:inputTextarea value="#{editCalcBasicsPepp.calcBasics.intensiveExceptionalPermission}" styleClass="areaMiddleLow" /><br/>
+        <h:inputTextarea value="#{editCalcBasicsPepp.calcBasics.intensiveExceptionalPermission}" styleClass="areaMiddleLow" >
+        <f:ajax event="blur" render="@this :logout:remaining"/>
+        </h:inputTextarea>
+        <br/>
+        
         <span class="label"><sup style="font-size: 10px;">1: Bitte tragen Sie hier auch ein, falls eine Ausnahmegenehmigung für das Datenjahr vorliegt</sup></span>
     </div>
 

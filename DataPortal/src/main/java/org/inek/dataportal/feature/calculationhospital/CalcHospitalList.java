@@ -217,7 +217,7 @@ public class CalcHospitalList {
             // might be deleted by somebody else
             return;
         }
-        if (statement.getStatus().getValue() >= WorkflowStatus.Provided.getValue()) {
+        if (statement.getStatus().getId() >= WorkflowStatus.Provided.getId()) {
             statement.setStatus(WorkflowStatus.Retired);
             _calcFacade.saveStatementOfParticipance(statement);
         } else {
@@ -227,7 +227,7 @@ public class CalcHospitalList {
 
     private void deleteCalculationBasicsDrg(CalcHospitalInfo hospitalInfo) {
         DrgCalcBasics calcBasics = _calcFacade.findCalcBasicsDrg(hospitalInfo.getId());
-        if (calcBasics.getStatus().getValue() >= WorkflowStatus.Provided.getValue()) {
+        if (calcBasics.getStatus().getId() >= WorkflowStatus.Provided.getId()) {
             calcBasics.setStatus(WorkflowStatus.Retired);
             _calcFacade.saveCalcBasicsDrg(calcBasics);
         } else {
@@ -237,7 +237,7 @@ public class CalcHospitalList {
 
     private void deleteCalculationBasicsPepp(CalcHospitalInfo hospitalInfo) {
         PeppCalcBasics calcBasics = _calcFacade.findCalcBasicsPepp(hospitalInfo.getId());
-        if (calcBasics.getStatus().getValue() >= WorkflowStatus.Provided.getValue()) {
+        if (calcBasics.getStatus().getId() >= WorkflowStatus.Provided.getId()) {
             calcBasics.setStatus(WorkflowStatus.Retired);
             _calcFacade.saveCalcBasicsPepp(calcBasics);
         } else {
@@ -247,7 +247,7 @@ public class CalcHospitalList {
 
     private void deleteDistributionModel(CalcHospitalInfo hospitalInfo) {
         DistributionModel model = _distModelFacade.findDistributionModel(hospitalInfo.getId());
-        if (model.getStatus().getValue() >= WorkflowStatus.Provided.getValue()) {
+        if (model.getStatus().getId() >= WorkflowStatus.Provided.getId()) {
             model.setStatus(WorkflowStatus.Retired);
             _distModelFacade.saveDistributionModel(model);
         } else {

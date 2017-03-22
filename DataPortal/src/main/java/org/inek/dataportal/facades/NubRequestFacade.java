@@ -70,21 +70,21 @@ public class NubRequestFacade extends AbstractDataAccess {
         if (null != dataSet) {
             switch (dataSet) {
                 case All:
-                    condition = cb.ge(request.get("_status"), WorkflowStatus.New.getValue());
+                    condition = cb.ge(request.get("_status"), WorkflowStatus.New.getId());
                     order = cb.asc(request.get("_id"));
                     break;
                 case AllOpen:
-                    condition = cb.lessThan(request.get("_status"), WorkflowStatus.Provided.getValue());
+                    condition = cb.lessThan(request.get("_status"), WorkflowStatus.Provided.getId());
                     order = cb.asc(request.get("_id"));
                     break;
                 case ApprovalRequested:
-                    condition = cb.or(cb.equal(request.get("_status"), WorkflowStatus.ApprovalRequested.getValue()),
-                            cb.equal(request.get("_status"), WorkflowStatus.CorrectionRequested.getValue()));
+                    condition = cb.or(cb.equal(request.get("_status"), WorkflowStatus.ApprovalRequested.getId()),
+                            cb.equal(request.get("_status"), WorkflowStatus.CorrectionRequested.getId()));
                     order = cb.asc(request.get("_id"));
                     break;
                 default:
                     // provided (sealed)
-                    condition = cb.greaterThanOrEqualTo(request.get("_status"), WorkflowStatus.Provided.getValue());
+                    condition = cb.greaterThanOrEqualTo(request.get("_status"), WorkflowStatus.Provided.getId());
                     order = cb.desc(request.get("_id"));
                     break;
             }
@@ -198,8 +198,8 @@ public class NubRequestFacade extends AbstractDataAccess {
         TypedQuery<Integer> query = getEntityManager().createQuery(jpql, Integer.class);
         query.setParameter("accountIds", accountIds);
         query.setParameter("year", year);
-        query.setParameter("statusLow", statusLow.getValue());
-        query.setParameter("statusHigh", statusHigh.getValue());
+        query.setParameter("statusLow", statusLow.getId());
+        query.setParameter("statusHigh", statusHigh.getId());
         return new HashSet<>(query.getResultList());
     }
 
@@ -269,7 +269,7 @@ public class NubRequestFacade extends AbstractDataAccess {
         String jpql = "SELECT p FROM NubRequest p WHERE p._dateCorrectionRequested < :date and p._status = :status ";
         TypedQuery<NubRequest> query = getEntityManager().createQuery(jpql, NubRequest.class);
         query.setParameter("date", date);
-        query.setParameter("status", WorkflowStatus.CorrectionRequested.getValue());
+        query.setParameter("status", WorkflowStatus.CorrectionRequested.getId());
         List<NubRequest> nubRequests = query.getResultList();
         for (NubRequest nubRequest : nubRequests) {
             resetNubRequest(nubRequest);

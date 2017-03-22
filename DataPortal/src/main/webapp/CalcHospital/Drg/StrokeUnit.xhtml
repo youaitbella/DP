@@ -14,19 +14,27 @@
 
     <inek:BooleanRadioButton label="#{msg.lblHospitalHasIntensiveStrokeBeds}" 
                              value="#{editCalcBasicsDrg.calcBasics.strokeBed}"
-                             labelStyle="label40"
-                             renderElement="@form :logout:remaining">
+                             labelStyle="label element25em">
+        <f:ajax event="clientChange"  
+                render="@form :script"
+                listener="#{sessionController.hideData(editCalcBasicsDrg.calcBasics.strokeBed)}"/>
     </inek:BooleanRadioButton>
     <br/>
-    <h:outputLabel styleClass="label30" value="#{msg.lblIntensivStrokeSumNotWeighted}"/>
-    <h:outputLabel id="sumIntNotWeighted" styleClass="label15 number" value="#{editCalcBasicsDrg.sumIntensivStrokeNotWeighted}"/>
-    <br/>
-    <h:outputLabel styleClass="label30" value="#{msg.lblIntensivStrokeSumWeighted}"/>
-    <h:outputLabel id="sumIntWeighted" styleClass="label15 number" value="#{editCalcBasicsDrg.sumIntensivStrokeWeighted}"/>
 
     <div jsf:id="intensivCareDetail" jsf:rendered="#{editCalcBasicsDrg.calcBasics.strokeBed}">
-        
-        <calc:IntensivStroke id="intStroke" isIntensiv="#{false}" backingBean="#{editCalcBasicsDrg}"/>
+        <h:outputLabel styleClass="label element25em" value="#{msg.lblIntensivStrokeSumNotWeighted}"/>
+        <h:outputLabel id="sumIntNotWeighted" styleClass="label element08em number" 
+                       value="#{editCalcBasicsDrg.sumIntensivStrokeNotWeighted}">
+            <f:convertNumber pattern="#,##0" locale="de" />
+        </h:outputLabel>
+        <br/>
+        <h:outputLabel styleClass="label element25em" value="#{msg.lblIntensivStrokeSumWeighted}"/>
+        <h:outputLabel id="sumIntWeighted" styleClass="label element08em number" 
+                       value="#{editCalcBasicsDrg.sumIntensivStrokeWeighted}">
+            <f:convertNumber pattern="#,##0" locale="de" />
+        </h:outputLabel>
+
+        <calc:IntensivStroke id="intStroke" intensiveType="2"/>
     </div>
 
 </ui:composition>

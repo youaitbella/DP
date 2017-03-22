@@ -11,6 +11,7 @@ import java.util.stream.Stream;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.calc.CalcHospitalInfo;
@@ -33,6 +34,7 @@ public class DistributionModellTreeHandler implements Serializable, TreeNodeObse
     
     @Inject private DistributionModelFacade _distributionModelFacade;
     @Inject private SessionController _sessionController;
+    @Inject private ApplicationTools _appTools;
     
     private final RootNode _rootNode = RootNode.create(0, this);
     private AccountTreeNode _accountNode;
@@ -105,6 +107,13 @@ public class DistributionModellTreeHandler implements Serializable, TreeNodeObse
                     sorted = stream.sorted((n1, n2) -> Integer.compare(n2.getCalcHospitalInfo().getIk(), n1.getCalcHospitalInfo().getIk()));
                 } else {
                     sorted = stream.sorted((n1, n2) -> Integer.compare(n1.getCalcHospitalInfo().getIk(), n2.getCalcHospitalInfo().getIk()));
+                }
+                break;
+            case "hospital":
+                if (treeNode.isDescending()) {
+                    sorted = stream.sorted((n1, n2) -> _appTools.retrieveHospitalInfo(n2.getCalcHospitalInfo().getIk()).compareTo(_appTools.retrieveHospitalInfo(n1.getCalcHospitalInfo().getIk())));
+                } else {
+                    sorted = stream.sorted((n1, n2) -> _appTools.retrieveHospitalInfo(n1.getCalcHospitalInfo().getIk()).compareTo(_appTools.retrieveHospitalInfo(n2.getCalcHospitalInfo().getIk())));
                 }
                 break;
             case "name":

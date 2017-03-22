@@ -26,7 +26,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
-import org.inek.dataportal.entities.calc.iface.IdValue;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.utils.Documentation;
 
@@ -36,7 +35,7 @@ import org.inek.dataportal.utils.Documentation;
  */
 @Entity
 @Table(name = "KGPBaseInformation", schema = "calc")
-public class PeppCalcBasics implements Serializable, IdValue {
+public class PeppCalcBasics implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -46,12 +45,10 @@ public class PeppCalcBasics implements Serializable, IdValue {
     @Column(name = "biId")
     private int _id = -1;
 
-    @Override
     public int getId() {
         return _id;
     }
 
-    @Override
     public void setId(int id) {
         _id = id;
     }
@@ -125,13 +122,13 @@ public class PeppCalcBasics implements Serializable, IdValue {
         _statusId = statusId;
     }
 
-    @Documentation(key = "lblWorkstate", rank = 10, headline = "Diese Druckfunktion steht Ihnen in Kürze zur Verfügung.")
+    @Documentation(key = "lblWorkstate", rank = 10, headline = "Diese Druckansicht steht Ihnen in Kürze zur Verfügung.")
     public WorkflowStatus getStatus() {
         return WorkflowStatus.fromValue(_statusId);
     }
 
     public void setStatus(WorkflowStatus status) {
-        _statusId = status.getValue();
+        _statusId = status.getId();
     }
     // </editor-fold>
 

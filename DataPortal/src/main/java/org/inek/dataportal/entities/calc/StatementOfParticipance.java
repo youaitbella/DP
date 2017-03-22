@@ -23,7 +23,6 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
-import org.inek.dataportal.entities.calc.iface.IdValue;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.helper.Utils;
@@ -35,7 +34,7 @@ import org.inek.dataportal.utils.Documentation;
  */
 @Entity
 @Table(name = "StatementOfParticipance", schema = "calc")
-public class StatementOfParticipance implements Serializable, IdValue {
+public class StatementOfParticipance implements Serializable{
 
     private static final long serialVersionUID = 1L;
 
@@ -113,7 +112,7 @@ public class StatementOfParticipance implements Serializable, IdValue {
     }
 
     public void setStatus(WorkflowStatus status) {
-        _statusId = status.getValue();
+        _statusId = status.getId();
     }
     // </editor-fold>
 

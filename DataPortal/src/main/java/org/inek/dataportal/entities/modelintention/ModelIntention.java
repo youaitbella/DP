@@ -883,7 +883,7 @@ public class ModelIntention implements Serializable {
     }
 
     public void setStatus(WorkflowStatus status) {
-        _status = status.getValue();
+        _status = status.getId();
     }
     // </editor-fold>
 

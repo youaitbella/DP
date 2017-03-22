@@ -10,13 +10,12 @@
 
     <!-- INTERFACE -->
     <cc:interface>
-        <cc:attribute name="isIntensiv" />
-        <cc:attribute name="backingBean"/> <!-- class="org.inek.dataportal.feature.calculationhospital.EditCalcBasicsDrg" might be Pepp, too -->
+        <cc:attribute name="intensiveType" />
     </cc:interface>
 
     <!-- IMPLEMENTATION -->
     <cc:implementation>
-        <h2>Intensiv #{cc.attrs.isIntensiv ? "" : "Stroke"} Datenjahr #{cc.attrs.backingBean.calcBasics.dataYear}</h2>
+        <h2>#{cc.attrs.intensiveType == 1 ? "Intensiv" : "Stroke Unit"} Datenjahr #{editCalcBasicsDrg.calcBasics.dataYear}</h2>
         <style>
             #tbl {
                 margin-top: 20px;
@@ -69,10 +68,10 @@
                         Anzahl Fälle
                     </td>
                     <td class="">
-                        Mindestmerkmale #{cc.attrs.isIntensiv ? "OPS 8-980" : "OPS 8-981"} erfüllt
+                        Mindestmerkmale #{cc.attrs.intensiveType == 1 ? "OPS 8-980" : "OPS 8-981"} erfüllt
                     </td>
                     <td class="">
-                        Mindestmerkmale #{cc.attrs.isIntensiv ? "OPS 8-98f" : "OPS 8-98b"} erfüllt
+                        Mindestmerkmale #{cc.attrs.intensiveType == 1 ? "OPS 8-98f" : "OPS 8-98b"} erfüllt
                     </td>
                     <td class="">
                         Mindest-merkmale nur erfüllt im Zeitabschnitt:
@@ -99,25 +98,17 @@
                         Erläuterung
                     </td>
                 </tr>
-                <ui:repeat id="tbl-int1" value="#{cc.attrs.backingBean.getIntensivStroke(cc.attrs.isIntensiv) }" var="x" varStatus="loop">
+                <ui:repeat id="tbl-int1" value="#{editCalcBasicsDrg.getIntensivStroke(cc.attrs.intensiveType) }" var="x" varStatus="loop">
                     <tr>
                         <td>
                     <h:commandLink styleClass="colIcon">
                         <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
-                        <f:ajax event="click" render="@form :logout:remaining" listener="#{cc.attrs.backingBean.deleteIntensivStroke(x)}"/>
+                        <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.deleteIntensivStroke(x)}"/>
                     </h:commandLink>
                     </td>
-<!--                    <td>
-                    <inek:InputNumberWithMessage value="# {varIntensiv.costCenterID}"  renderElement=""/>
-                    </td>-->
                     <td>
                     <inek:InputTextWithMessage id="costCenterText1" value="#{x.costCenterText}" renderElement="#{cc.attrs.id}:tbl-cont:#{loop.index}:costCenterText2:text"/>
                     </td>
-<!--                    <td>
-                    <h:inputText value="# {x.departmentKey}" >
-                        <f:ajax event="blur" render="@this :logout:remaining" />
-                    </h:inputText>
-                    </td>-->
                     <td>
                     <inek:InputTextWithMessage id="department1" value="#{x.departmentAssignment}" renderElement="#{cc.attrs.id}:tbl-cont:#{loop.index}:department2:text"/>
                     </td>
@@ -169,12 +160,12 @@
                 </ui:repeat>
             </table>
             <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}"
-                           rendered="#{!cc.attrs.backingBean.readOnly}">
-                <f:ajax event="click" render="@form :logout:remaining" listener="#{cc.attrs.backingBean.addIntensivStroke(cc.attrs.isIntensiv)}"/>
+                           rendered="#{!editCalcBasicsDrg.readOnly}">
+                <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.addIntensivStroke(cc.attrs.intensiveType)}"/>
             </h:commandLink>
         </div>
 
-        <h2>Personal Intensiv #{cc.attrs.isIntensiv ? "" : "Stroke"} Datenjahr #{cc.attrs.backingBean.calcBasics.dataYear}</h2>
+        <h2>Personal #{cc.attrs.intensiveType == 1 ? "Intensiv" : "Stroke Unit"} Datenjahr #{editCalcBasicsDrg.calcBasics.dataYear}</h2>
         <div style="overflow-x: scroll;">
             <table id='tbl'>
                 <tr>
@@ -225,12 +216,12 @@
                         Kostensatz je VK PD
                     </td>
                 </tr>
-                <ui:repeat id="tbl-cont" value="#{cc.attrs.backingBean.getIntensivStroke(cc.attrs.isIntensiv)}" var="x" varStatus="loop">
+                <ui:repeat id="tbl-cont" value="#{editCalcBasicsDrg.getIntensivStroke(cc.attrs.intensiveType)}" var="x" varStatus="loop">
                     <tr>
                         <td>
                     <h:commandLink styleClass="colIcon">
                         <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
-                        <f:ajax event="click" render="@form :logout:remaining" listener="#{cc.attrs.backingBean.deleteIntensivStroke(x)}"/>
+                        <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.deleteIntensivStroke(x)}"/>
                     </h:commandLink>
                     </td>
                     <td>
@@ -299,8 +290,8 @@
                 </ui:repeat>
             </table>
             <h:commandLink id="addButtonPersonal" styleClass="addButton inputPart" value="#{msg.btnAddEntry}"
-                           rendered="#{!cc.attrs.backingBean.readOnly}">
-                <f:ajax event="click" render="@form :logout:remaining" listener="#{cc.attrs.backingBean.addIntensivStroke(cc.attrs.isIntensiv)}"/>
+                           rendered="#{!editCalcBasicsDrg.readOnly}">
+                <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.addIntensivStroke(cc.attrs.intensiveType)}"/>
             </h:commandLink>
         </div>
 

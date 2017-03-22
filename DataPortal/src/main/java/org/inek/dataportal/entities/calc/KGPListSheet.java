@@ -14,7 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
-import org.inek.dataportal.entities.calc.iface.IdValue;
+import org.inek.dataportal.entities.calc.iface.BaseIdValue;
 
 /**
  *
@@ -22,7 +22,7 @@ import org.inek.dataportal.entities.calc.iface.IdValue;
  */
 @Entity
 @Table(name = "KGPListSheet", schema = "calc")
-public class KGPListSheet implements Serializable, IdValue {
+public class KGPListSheet implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -32,12 +32,10 @@ public class KGPListSheet implements Serializable, IdValue {
     @Column(name = "sID")
     private int _id;
 
-    @Override
     public int getId() {
         return _id;
     }
 
-    @Override
     public void setId(int id) {
         this._id = id;
     }

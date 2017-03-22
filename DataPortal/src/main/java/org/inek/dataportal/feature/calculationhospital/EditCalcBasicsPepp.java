@@ -278,7 +278,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         }
 
         calcBasics.getDelimitationFacts().clear();
-        for (KGPListContentText ct : _calcFacade.retrieveContentTextsPepp(1, Calendar.getInstance().get(Calendar.YEAR))) {
+        for (KGPListContentText ct : _calcFacade.retrieveContentTextsPepp(1, calcBasics.getDataYear())) {
             KGPListDelimitationFact df = new KGPListDelimitationFact();
             df.setBaseInformationId(calcBasics.getId());
             df.setContentTextId(ct.getId());

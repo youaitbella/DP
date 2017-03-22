@@ -44,6 +44,9 @@ public class FeatureRequestHandler {
                 return true;
             }
             _facade.remove(featureRequest);
+            if (_config.readBool(ConfigKey.TestMode)) {
+                return false;
+            }
         }
         featureRequest = new AccountFeatureRequest();
         featureRequest.setAccountId(account.getId());

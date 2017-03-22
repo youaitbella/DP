@@ -13,6 +13,7 @@ import java.util.Locale;
 import java.util.function.BiConsumer;
 import org.inek.dataportal.entities.calc.KGPListTherapy;
 import org.inek.dataportal.entities.calc.PeppCalcBasics;
+import org.inek.dataportal.helper.BeanValidator;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.utils.StringUtil;
 
@@ -79,8 +80,12 @@ public class TherapyDataImporterPepp {
             tryImportInteger(item, data[0], (i,s) -> i.setCostCenterId(s), "Keine zulässige KST-Gruppe (23-26) : ");
             tryImportString(item, data[1], (i,s) -> i.setCostCenterText(s), "Ungültige Zeichenkette: ");
             tryImportFremdvergabe(item, data[2], (i,s) -> i.setExternalService(s), "Keine zulässige Leistungserbringung 'Keine, Teilweise, Vollständige Fremdvergabe' : ");
-            
             tryImportString(item, data[3], (i,s) -> i.setKeyUsed(s), "Kein gültiger Leistungsschlüssel: ");
+            String validateText = BeanValidator.validateData(item);
+            if (!validateText.isEmpty()) {
+                throw new IllegalArgumentException(validateText);
+            }
+            
             tryImportInteger(item, data[4], (i,s) -> i.setServiceUnitsCt1(s), "Ungültiger Wert für Summe Leistungseinheiten KoArtGr 1: ");
             tryImportInteger(item, data[5], (i,s) -> i.setPersonalCostCt1(s), "Ungültiger Wert für Personalkosten KoArtGr 1: ");
             tryImportInteger(item, data[6], (i,s) -> i.setServiceUnitsCt3a(s), "Ungültiger Wert für Summe Leistungseinheiten KoArtGr 3a: ");
@@ -95,6 +100,7 @@ public class TherapyDataImporterPepp {
             tryImportInteger(item, data[15], (i,s) -> i.setPersonalCostCt3(s), "Ungültiger Wert für Personalkosten KoArtGr 3: ");
                         
             if(itemExists(item)) {
+                addRowErrorMsg("Datenzeile existiert bereits");
                 return;
             }
 

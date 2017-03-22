@@ -5,11 +5,13 @@
  */
 package org.inek.dataportal.entities.calc;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 import java.util.stream.Collectors;
+import javax.faces.model.SelectItem;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -30,6 +32,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import org.inek.dataportal.enums.WorkflowStatus;
+import org.inek.dataportal.feature.calculationhospital.CalcBasicsStaticData;
 import org.inek.dataportal.utils.Documentation;
 
 /**
@@ -42,7 +45,7 @@ import org.inek.dataportal.utils.Documentation;
 public class DrgCalcBasics implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
+    
     //<editor-fold defaultstate="collapsed" desc="id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -126,13 +129,13 @@ public class DrgCalcBasics implements Serializable {
         this._statusId = statusId;
     }
 
-    @Documentation(key = "lblWorkstate", rank = 10, headline = "Diese Druckfunktion steht Ihnen in Kürze zur Verfügung.")
+    @Documentation(key = "lblWorkstate", rank = 10, headline = "Diese Druckansicht steht Ihnen in Kürze zur Verfügung.")
     public WorkflowStatus getStatus() {
         return WorkflowStatus.fromValue(_statusId);
     }
 
     public void setStatus(WorkflowStatus status) {
-        _statusId = status.getValue();
+        _statusId = status.getId();
     }
     //</editor-fold>
     
@@ -330,7 +333,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="gynecology">
     @Column(name = "biGynecology")
-    @Documentation(name = "Leistungen im Bereich der Gynäkologie", headline = "Kreißsaal", rank = 4000)
+    @Documentation(name = "Leistungen im Bereich der Gynäkologie", headline = "Kostenstellengruppe 6 (Kreißsaal)", rank = 4000)
     private boolean _gynecology;
 
     public boolean isGynecology() {
@@ -474,6 +477,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="endoscopy">
     @Column(name = "biEndoscopy")
+    @Documentation(name = "Leistungen im Bereich der Endoskopie", rank = 6000, headline = "Kostenstellengruppe 8 (Endoskopie)" )
     private boolean _endoscopy;
 
     public boolean isEndoscopy() {
@@ -487,6 +491,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="endoscopyRoomCnt">
     @Column(name = "biEndoscopyRoomCnt")
+    @Documentation(name = "Anzahl endoskopischer Eingriffsräume", rank = 6010, omitOnValues = "0")
     private int _endoscopyRoomCnt;
 
     @Min(0)
@@ -501,6 +506,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="endoscopyCaseCnt">
     @Column(name = "biEndoscopyCaseCnt")
+    @Documentation(name = "Anzahl kalkulationsrelevanter endoskopischer Fälle", rank = 6010, omitOnValues = "0")
     private int _endoscopyCaseCnt;
 
     @Min(0)
@@ -515,6 +521,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="minimalValvularIntervention">
     @Column(name = "biMinimalValvularIntervention")
+    @Documentation(name = "KH führt minimalinvasiven Herzklappeninterventionen durch", rank = 17000, headline = "Ergänzende Angaben zur minimalinvasiven Herzklappeninterventionen")
     private boolean _minimalValvularIntervention;
 
     public boolean isMinimalValvularIntervention() {
@@ -537,10 +544,21 @@ public class DrgCalcBasics implements Serializable {
     public void setMviFulfilled(int mviFulfilled) {
         this._mviFulfilled = mviFulfilled;
     }
+    
+    @Documentation(name = "Erfüllung der Anforderungen", rank = 17010, omitOnEmpty = true)
+    @JsonIgnore
+    private String getMviFulfilledText(){
+        return CalcBasicsStaticData.staticGetMviFulfillmentItems()
+                .stream()
+                .filter(i -> (int)i.getValue() == _mviFulfilled)
+                .findAny().orElse(new SelectItem(-1, ""))
+                .getLabel();
+    }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="mviGuidelineAspired">
     @Column(name = "biMviGuidelineAspired")
+    @Documentation(name = "Das KH wird im kommenden Datenjahr die notwendigen Anforderungen erfüllen", rank = 17020)
     private boolean _mviGuidelineAspired;
 
     public boolean isMviGuidelineAspired() {
@@ -554,6 +572,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="normalFreelancing">
     @Column(name = "biNormalFreelancing")
+    @Documentation(name = "Ärzte freie Mitarbeit", rank = 12000, headline = "Ergänzende Angaben zur Normalstation")
     private boolean _normalFreelancing;
 
     public boolean isNormalFreelancing() {
@@ -567,6 +586,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="feeContract">
     @Column(name = "biFeeContract")
+    @Documentation(name = "Honorarverträge", rank = 12020)
     private boolean _feeContract;
 
     public boolean isFeeContract() {
@@ -578,21 +598,23 @@ public class DrgCalcBasics implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="pkmsRecording">
-    @Column(name = "biPKMSRecording")
-    private int _pkmsRecording;
+    //<editor-fold defaultstate="collapsed" desc="PKMSComplex">
+    @Column(name = "biPKMSComplex")
+    @Documentation(name = "Es liegen Patienten mit PKMS vor", rank = 12050)
+    private boolean _pkmsComplex;
 
-    public int getPkmsRecording() {
-        return _pkmsRecording;
+    public boolean isPkmsComplex() {
+        return _pkmsComplex;
     }
 
-    public void setPkmsRecording(int pkmsRecording) {
-        this._pkmsRecording = pkmsRecording;
+    public void setPkmsComplex(boolean _pkmsComplex) {
+        this._pkmsComplex = _pkmsComplex;
     }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="pkmsCaseCnt">
     @Column(name = "biPKMSCaseCnt")
+    @Documentation(name = "Anzahl der kalkulierten Fälle mit PKMS", rank = 12060)
     private int _pkmsCaseCnt;
 
     @Min(0)
@@ -605,19 +627,24 @@ public class DrgCalcBasics implements Serializable {
     }
     //</editor-fold>
     
-    @Column(name = "biPKMSComplex")
-    private boolean _pkmsComplex;
+    //<editor-fold defaultstate="collapsed" desc="pkmsRecording">
+    @Column(name = "biPKMSRecording")
+    @Documentation(name = "Erfassung des PKMS liegt in allen relevanten Normalstationen", rank = 12070, 
+            translateValue = "0=Nein;1=Ja;2=KIS-integriert;3=Manuell;4=Sonstiges")
+    private int _pkmsRecording;
 
-    public boolean isPkmsComplex() {
-        return _pkmsComplex;
+    public int getPkmsRecording() {
+        return _pkmsRecording;
     }
 
-    public void setPkmsComplex(boolean _pkmsComplex) {
-        this._pkmsComplex = _pkmsComplex;
+    public void setPkmsRecording(int pkmsRecording) {
+        this._pkmsRecording = pkmsRecording;
     }
+    //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="PkmsOther">
     @Column(name = "biPKMSOther")
+    @Documentation(name = "Erläuterung PKMS sonstiges", rank = 12080)
     private String _pkmsOther = "";
 
     public String getPkmsOther() {
@@ -631,11 +658,14 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property IBLVMethodMedInfra">
     @Column(name = "biIBLVMethodMedInfra")
+    @Documentation(name = "Gewähltes Verfahren bei Durchführung der IBLV",headline = "Ergänzende Angaben zur innerbetrieblichen Leistungsverrechnung (medizinische Infrastruktur)", rank = 14000)
     private int _iblvMethodMedInfra;
 
     public int getIblvMethodMedInfra() {
         return _iblvMethodMedInfra;
     }
+    
+    
 
     public void setIblvMethodMedInfra(int iblvMethodMedInfra) {
         this._iblvMethodMedInfra = iblvMethodMedInfra;
@@ -644,6 +674,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="otherMethodMedInfra">
     @Column(name = "biOtherMethodMedInfra")
+    @Documentation(name = "Erläuterung", rank = 14010)
     private String _otherMethodMedInfra = "";
 
     public String getOtherMethodMedInfra() {
@@ -670,6 +701,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="intensiveBed">
     @Column(name = "biIntensiveBed")
+    
     private boolean _intensiveBed;
 
     public boolean isIntensiveBed() {
@@ -683,6 +715,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="strokeBed">
     @Column(name = "biStrokeBed")
+    @Documentation(name = "Das Krankenhaus hat Intensivbetten zur Behandlung des akuten Schlaganfalls", rank = 14000,translateValue = "0=Nein;1=Ja", headline = "Ergänzende Angaben zur Stroke Unit")
     private boolean _strokeBed;
 
     public boolean isStrokeBed() {
@@ -698,6 +731,7 @@ public class DrgCalcBasics implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "dfBaseInformationId", referencedColumnName = "biId")
     @OrderBy(value = "_contentTextId")
+    @Documentation(name = "DrgDelimitationFact", rank = 25005) 
     private List<DrgDelimitationFact> _delimitationFacts = new Vector<>();
 
     public List<DrgDelimitationFact> getDelimitationFacts() {
@@ -722,11 +756,30 @@ public class DrgCalcBasics implements Serializable {
     public void setCostCenters(List<KGLListCostCenter> costCenter) {
         this._costCenters = costCenter;
     }
+
+    @Documentation(name = "Kostenstellen",headline = "Kostenstellengruppe 11 (Diagnostische Bereiche)", rank = 9000) 
+    @JsonIgnore
+    public List<KGLListCostCenter> getCostCenters11() {
+        return _costCenters.stream().filter(c -> c.getCostCenterId() == 11).collect(Collectors.toList());
+    }
+    
+    @Documentation(name = "Kostenstellen",headline = "Kostenstellengruppe 12 (Therapeutische Verfahren)", rank = 10000) 
+    @JsonIgnore
+    public List<KGLListCostCenter> getCostCenters12() {
+        return _costCenters.stream().filter(c -> c.getCostCenterId() == 12).collect(Collectors.toList());
+    }
+    
+    @Documentation(name = "Kostenstellen",headline = "Kostenstellengruppe 13 (Patientenaufnahme)", rank = 11000) 
+    @JsonIgnore
+    public List<KGLListCostCenter> getCostCenters13() {
+        return _costCenters.stream().filter(c -> c.getCostCenterId() == 13).collect(Collectors.toList());
+    }
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Property List RadiologyLaboratories">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "rlBaseInformationId", referencedColumnName = "biID")
+    @Documentation(name = "KGLListRadiologyLaboratory", rank = 25015)
     private List<KGLListRadiologyLaboratory> _radiologyLaboratories = new Vector<>();
 
     
@@ -742,6 +795,7 @@ public class DrgCalcBasics implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property List ObstetricsGynecologies">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "ogBaseInformationId", referencedColumnName = "biID")
+    @Documentation(name = "KGLListObstetricsGynecology", rank = 25015)
     private List<KGLListObstetricsGynecology> _obstetricsGynecologies  = new Vector<>();
     
     
@@ -757,6 +811,7 @@ public class DrgCalcBasics implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property List RadiologyServices">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "rsBaseInformationId", referencedColumnName = "biID")
+    @Documentation(name = "KGLRadiologyService", rank = 25016)
     private List<KGLRadiologyService> _radiologyServices = new Vector<>();
 
     
@@ -819,10 +874,16 @@ public class DrgCalcBasics implements Serializable {
         this._kstTop = kstTop;
     }
     
-    @Documentation(name = "TOP 3 Leistungen", rank = 3100)
+    @Documentation(name = "TOP 3 Leistungen", rank = 3100, omitOnOtherValues = "KGLOpAn._centralOPCnt=0")
     public List<KGLListKstTop> getKstTopOp() {
         ensureTopList();
         return _kstTop.stream().filter(i -> i.getKtCostCenterId() == 4).collect(Collectors.toList());
+    }
+    
+    @Documentation(name = "TOP 5 Leistungen", rank = 4100)
+    public List<KGLListKstTop> getKstTopMaternityRoom() {
+        ensureTopList();
+        return _kstTop.stream().filter(i -> i.getKtCostCenterId() == 6).collect(Collectors.toList());
     }
     
     private void ensureTopList() {
@@ -905,6 +966,7 @@ public class DrgCalcBasics implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property List IntensivStrokes">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "isBaseInformationId", referencedColumnName = "biID")
+    @Documentation (name = "Intensiv", rank = 13010)
     private List<KGLListIntensivStroke> _intensivStrokes = new Vector<>();
     
     public List<KGLListIntensivStroke> getIntensivStrokes() {
@@ -919,11 +981,26 @@ public class DrgCalcBasics implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property List medInfras">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "miBaseInformationId", referencedColumnName = "biID")
+  
+    //@Documentation (name = "Personal Intensiv", rank = 13020)
     private List<KGLListMedInfra> _medInfras = new Vector<>();
     
     public List<KGLListMedInfra> getMedInfras() {
         return _medInfras;
     }
+    
+    @Documentation(name = "Kostenstellen", rank = 14020) 
+    @JsonIgnore
+    public List<KGLListMedInfra> getMedInfras170() {
+        return _medInfras.stream().filter(c -> c.getCostTypeId() == 170).collect(Collectors.toList());
+    }   
+    
+    @Documentation(name = "Kostenstellen",headline = "Ergänzende Angaben zur innerbetrieblichen Leistungsverrechnung (nicht medizinische Infrastruktur)", rank = 15000) 
+    @JsonIgnore
+    public List<KGLListMedInfra> getMedInfras180() {
+        return _medInfras.stream().filter(c -> c.getCostTypeId() == 180).collect(Collectors.toList());
+    }
+    
     
     public void setMedInfras(List<KGLListMedInfra> medInfras) {
         this._medInfras = medInfras;
@@ -962,7 +1039,7 @@ public class DrgCalcBasics implements Serializable {
     
     //<editor-fold defaultstate="collapsed" desc="neonatLvl">
     @Column(name = "biNeonatLvl")
-    @Documentation(name = "Versorgungsstufe des Perinatalzentrums", headline = "Neonatologische Versorgung", rank = 19000)
+    @Documentation(name = "Versorgungsstufe des Perinatalzentrums", headline = "Ergänzende Angaben zur Neonatologischen Versorgung", rank = 19000)
     private int _neonatLvl;
 
     public int getNeonatLvl() {
@@ -993,6 +1070,7 @@ public class DrgCalcBasics implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "nssBaseInformationId", referencedColumnName = "biID")
     @OrderBy(value = "_contentTextId")
+    @Documentation(name = "Leistungsdokumentation für die Kostenartengruppen 2, 4a und 6a", rank = 12020)
     private List<KGLNormalStationServiceDocumentation> _normalStationServiceDocumentations = new Vector<>();
     
     public List<KGLNormalStationServiceDocumentation> getNormalStationServiceDocumentations() {
@@ -1006,6 +1084,7 @@ public class DrgCalcBasics implements Serializable {
     
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "nssdmBaseInformationId", referencedColumnName = "biID")
+    @Documentation(name = "Minutenwerte gem. PPR / Alternativverfahren", rank = 12020)
     private List<KGLNormalStationServiceDocumentationMinutes> _normalStationServiceDocumentationMinutes = new Vector<>();
 
     public List<KGLNormalStationServiceDocumentationMinutes> getNormalStationServiceDocumentationMinutes() {
@@ -1019,6 +1098,7 @@ public class DrgCalcBasics implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property List _costCenterCosts">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "cccBaseInformationId", referencedColumnName = "biID")
+    @Documentation(name = "Kosten (Normalstation)", rank = 12120)
     private List<KGLListCostCenterCost> _costCenterCosts = new Vector<>();
     
     public List<KGLListCostCenterCost> getCostCenterCosts() {
@@ -1033,6 +1113,7 @@ public class DrgCalcBasics implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property List pkmsAlternatives">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "paBaseInformationId", referencedColumnName = "biID")
+    @Documentation(name = "KGLPKMSAlternative", rank = 25041)
     private List<KGLPKMSAlternative> _pkmsAlternatives = new Vector<>();
     
     public List<KGLPKMSAlternative> getPkmsAlternatives() {

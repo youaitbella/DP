@@ -79,7 +79,7 @@ public class ModelIntentionList {
             // TODO: When switched to Java 8 replace this ugly code by streams with filter
             for (Iterator<EntityInfo> itr = _partnerEntityInfos.iterator(); itr.hasNext();) {
                 EntityInfo entry = itr.next();
-                if (entry.getStatus().getValue() < WorkflowStatus.Provided.getValue()) {
+                if (entry.getStatus().getId() < WorkflowStatus.Provided.getId()) {
                     for (CooperationRight right : achievedRights) {
                         if (right.getOwnerId() == entry.getAccountId() && right.getCooperativeRight() == CooperativeRight.ReadSealed) {
                             itr.remove();
@@ -110,10 +110,10 @@ public class ModelIntentionList {
             return "";
         }
         if (_sessionController.isMyAccount(intention.getAccountId())) {
-            if (intention.getStatus().getValue() <= WorkflowStatus.Provided.getValue()) {
+            if (intention.getStatus().getId() <= WorkflowStatus.Provided.getId()) {
                 _modelIntentionFacade.remove(intention);
             } else {
-                intention.setStatus(WorkflowStatus.Retired.getValue());
+                intention.setStatus(WorkflowStatus.Retired.getId());
                 _modelIntentionFacade.saveModelIntention(intention);
             }
         }

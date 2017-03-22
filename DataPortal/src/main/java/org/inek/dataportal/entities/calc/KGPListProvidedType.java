@@ -14,7 +14,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
-import org.inek.dataportal.entities.calc.iface.IdValue;
 
 /**
  *
@@ -22,7 +21,7 @@ import org.inek.dataportal.entities.calc.iface.IdValue;
  */
 @Entity
 @Table(name = "KGPListProvidedType", schema = "calc")
-public class KGPListProvidedType implements Serializable, IdValue {
+public class KGPListProvidedType implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -32,12 +31,10 @@ public class KGPListProvidedType implements Serializable, IdValue {
     @Column(name = "ptID")
     private int _id = -1;
 
-    @Override
     public int getId() {
         return _id;
     }
 
-    @Override
     public void setId(int id) {
         this._id = id;
     }

@@ -14,6 +14,7 @@ import java.util.stream.Stream;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.CooperationTools;
 import static org.inek.dataportal.common.CooperationTools.canReadCompleted;
 import static org.inek.dataportal.common.CooperationTools.canReadSealed;
@@ -49,6 +50,7 @@ public class CalcHospitalTreeHandler implements Serializable, TreeNodeObserver {
     @Inject private SessionController _sessionController;
     @Inject private CooperationTools _cooperationTools;
     @Inject private AccountFacade _accountFacade;
+    @Inject private ApplicationTools _appTools;
 
     private final RootNode _rootNode = RootNode.create(0, this);
     private AccountTreeNode _accountNode;
@@ -225,6 +227,13 @@ public class CalcHospitalTreeHandler implements Serializable, TreeNodeObserver {
                     sorted = stream.sorted((n1, n2) -> Integer.compare(n2.getCalcHospitalInfo().getIk(), n1.getCalcHospitalInfo().getIk()));
                 } else {
                     sorted = stream.sorted((n1, n2) -> Integer.compare(n1.getCalcHospitalInfo().getIk(), n2.getCalcHospitalInfo().getIk()));
+                }
+                break;
+            case "hospital":
+                if (treeNode.isDescending()) {
+                    sorted = stream.sorted((n1, n2) -> _appTools.retrieveHospitalInfo(n2.getCalcHospitalInfo().getIk()).compareTo(_appTools.retrieveHospitalInfo(n1.getCalcHospitalInfo().getIk())));
+                } else {
+                    sorted = stream.sorted((n1, n2) -> _appTools.retrieveHospitalInfo(n1.getCalcHospitalInfo().getIk()).compareTo(_appTools.retrieveHospitalInfo(n2.getCalcHospitalInfo().getIk())));
                 }
                 break;
             case "name":

@@ -6,7 +6,6 @@
 package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,6 +15,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import org.inek.dataportal.utils.Documentation;
 
 /**
  *
@@ -81,6 +81,7 @@ public class DrgDelimitationFact implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property personalCost">
     @Column(name = "dfPersonalCost")
+    @Documentation (name = "Personalkosten", rank = 10)
     private int _personalCost;
 
     public int getPersonalCost() {
@@ -94,6 +95,7 @@ public class DrgDelimitationFact implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property materialCost">
     @Column(name = "dfMaterialCost")
+    @Documentation (name = "Materialkosten", rank = 20)
     private int _materialCost;
 
     public int getMaterialCost() {
@@ -107,6 +109,7 @@ public class DrgDelimitationFact implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property infraCost">
     @Column(name = "dfInfraCost")
+    @Documentation (name = "Infrastrukturkosten", rank = 30)
     private int _infraCost;
 
     public int getInfraCost() {
@@ -121,6 +124,7 @@ public class DrgDelimitationFact implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property ContentText">
     @OneToOne
     @PrimaryKeyJoinColumn(name = "dfContentTextId")
+    @Documentation (name = "Beschreibung", rank = 40)
     private DrgContentText _contentText;
 
     public DrgContentText getContentText() {

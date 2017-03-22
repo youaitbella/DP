@@ -59,7 +59,7 @@ public class DistributionModelDetail implements Serializable {
     @Documentation(name = "Artikel", rank = 100)
     private String _article = "";
 
-    @Size(max = 250)
+    @Size(max = 250, message = "Für Artikelbezsichnung sind max. {max} Zeichen zulässig.")
     public String getArticle() {
         return _article;
     }

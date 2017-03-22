@@ -5,11 +5,9 @@
  */
 package org.inek.dataportal.feature.calculationhospital;
 
-import com.sun.deploy.uitoolkit.impl.fx.ui.FXUIFactory;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -40,7 +38,6 @@ import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.structures.MessageContainer;
 import org.inek.dataportal.mail.Mailer;
-import org.inek.dataportal.services.MessageService;
 import org.inek.dataportal.utils.DocumentationUtil;
 
 /**
@@ -68,6 +65,15 @@ public class EditDistributionModel extends AbstractEditController implements Ser
 
     public void setModel(DistributionModel model) {
         this._model = model;
+    }
+
+    private DistributionModel _priorModel;
+    public DistributionModel getPriorModel() {
+        return _priorModel;
+    }
+
+    public void setPriorModel(DistributionModel model) {
+        this._priorModel = model;
     }
 
     private boolean _showWide = false;
@@ -99,6 +105,9 @@ public class EditDistributionModel extends AbstractEditController implements Ser
                 return;
             }
             _model = model;
+            if (isRequestCorrectionEnabled()){
+                _priorModel = _distModelFacade.findPriorDistributionModel(_model);
+            }
         } else {
             Utils.navigate(Pages.Error.RedirectURL());
         }
@@ -118,7 +127,7 @@ public class EditDistributionModel extends AbstractEditController implements Ser
         if (_sessionController.isMyAccount(model.getAccountId(), false)) {
             return true;
         }
-        if (isInekEditable(model)) {
+        if (isInekViewable(model)) {
             return true;
         }
         return _cooperationTools.isAllowed(Feature.CALCULATION_HOSPITAL, model.getStatus(), model.getAccountId());
@@ -151,6 +160,10 @@ public class EditDistributionModel extends AbstractEditController implements Ser
         return _sessionController.isInekUser(Feature.CALCULATION_HOSPITAL, true) && model != null && (model.getStatus() == WorkflowStatus.Provided || model.getStatus() == WorkflowStatus.ReProvided);
     }
 
+    private boolean isInekViewable(DistributionModel model) {
+        return _sessionController.isInekUser(Feature.CALCULATION_HOSPITAL, true) && model != null && model.getStatusId() >= WorkflowStatus.Provided.getId();
+    }
+
     @Override
     protected void addTopics() {
         addTopic("TopicFrontPage", Pages.CalcDrgBasics.URL());
@@ -158,7 +171,6 @@ public class EditDistributionModel extends AbstractEditController implements Ser
 
     public String save() {
         removeEmptyCenters();
-        setAppovedIfPossible();
         setModifiedInfo();
         _model = _distModelFacade.saveDistributionModel(_model);
         addDetailIfMissing();
@@ -173,16 +185,6 @@ public class EditDistributionModel extends AbstractEditController implements Ser
             return null;
         }
         return Pages.Error.URL();
-    }
-
-    private void setAppovedIfPossible() {
-        if (!isInekEditable(_model)) {
-            return;
-        }
-        boolean completelyApproved = _model.getDetails().stream().allMatch(d -> d.isApproved());
-        if (completelyApproved) {
-            _model.setStatus(WorkflowStatus.Taken);
-        }
     }
 
     private void setModifiedInfo() {
@@ -211,7 +213,9 @@ public class EditDistributionModel extends AbstractEditController implements Ser
         if (!_appTools.isEnabled(ConfigKey.IsDistributionModelSendEnabled)) {
             return false;
         }
-        return (_model.getStatus() == WorkflowStatus.Provided || _model.getStatus() == WorkflowStatus.ReProvided) && _sessionController.isInekUser(Feature.CALCULATION_HOSPITAL, true);
+        return (_model.getStatus() == WorkflowStatus.Provided || _model.getStatus() == WorkflowStatus.ReProvided) 
+                && _sessionController.isInekUser(Feature.CALCULATION_HOSPITAL, true)
+                && _model != null;
     }
 
     public String requestCorrection() {
@@ -220,27 +224,57 @@ public class EditDistributionModel extends AbstractEditController implements Ser
         }
         removeEmptyCenters();
         setModifiedInfo();
+        // set as retired
+        _model.setStatus(WorkflowStatus.Retired);
+        _distModelFacade.saveDistributionModel(_model);
+        
+        // create copy to edit (persist detached object with default Ids)
         _model.setStatus(WorkflowStatus.New);
-        _model = _distModelFacade.saveDistributionModel(_model);
-        sendMessage();
+        _model.setId(-1);
+        for (DistributionModelDetail detail : _model.getDetails()) {
+            detail.setId(-1);
+            detail.setMasterId(-1);
+        }
+        _distModelFacade.saveDistributionModel(_model);
+        sendMessage("KVM Konkretisierung");
 
         return Pages.CalculationHospitalSummary.URL();
     }
+    
+    public boolean isSendApprovalEnabled() {
+        return (_model.getStatus() == WorkflowStatus.Provided || _model.getStatus() == WorkflowStatus.ReProvided) 
+                && _sessionController.isInekUser(Feature.CALCULATION_HOSPITAL, true)
+                && _model != null
+                && _model.getDetails().stream().allMatch(d -> d.isApproved());
+    }
 
+    public String sendApproval(){
+        if (!isInekEditable(_model) || _model.getDetails().stream().anyMatch(d -> !d.isApproved())) {
+            return "";
+        }
+        removeEmptyCenters();
+        setModifiedInfo();
+        _model.setStatus(WorkflowStatus.Taken);
+        _distModelFacade.saveDistributionModel(_model);
+        sendMessage("KVM Genehmigung");
+        
+        return Pages.CalculationHospitalSummary.URL();
+    }
+    
     @Inject AccountFacade _accountFacade;
     @Inject private Mailer _mailer;
 
-    private void sendMessage() {
-        Account sender = _sessionController.getAccount();
+    private void sendMessage(String name) {
         Account receiver = _accountFacade.find(_appTools.isEnabled(ConfigKey.TestMode) ? _sessionController.getAccountId() : _model.getAccountId());
-        MailTemplate template = _mailer.getMailTemplate("KVM Konkretisierung");
+        MailTemplate template = _mailer.getMailTemplate(name);
         String subject = template.getSubject()
                 .replace("{type}", _model.getType() == 0 ? "DRG" : "PSY")
                 .replace("{ik}", "" + _model.getIk());
         String body = template.getBody()
                 .replace("{formalSalutation}", _mailer.getFormalSalutation(receiver))
                 .replace("{note}", _model.getNoteInek());
-        _mailer.sendMailFrom(sender.getEmail(), receiver.getEmail(), "", "", subject, body);
+        String bcc = template.getBcc().replace("{accountMail}", _sessionController.getAccount().getEmail());
+        _mailer.sendMailFrom(template.getFrom(), receiver.getEmail(), "", bcc, subject, body);
     }
 
     public boolean isTakeEnabled() {

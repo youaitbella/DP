@@ -143,41 +143,46 @@
         <c:forEach items="#{editCalcBasicsDrg.calcBasics.normalStationServiceDocumentations}" var="item" varStatus="loop">
             <tr>
                 <td>
-            <inek:BooleanRadioButton value="#{item.used}" label="#{item.contentText.text}" renderElement="@this @all :logout:remaining" />
-            <h:dataTable value="#{editCalcBasicsDrg.calcBasics.normalStationServiceDocumentationMinutes}"
-                         var="minutes"
-                         width="100%"
-                         rowClasses="row1, row2"
-                         rendered="#{!item.used and item.contentTextId == 85}"
-                         >
-                <h:column>
-                    <h:commandLink styleClass="colIcon">
-                        <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
-                        <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.deleteNormalStationServiceDocMinutes(minutes)}"/>
-                    </h:commandLink>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">Fachabteilung</f:facet>
-                    <h:inputText styleClass="inputwide" value="#{minutes.department}" required="#{!item.used}">
-                        <f:ajax event="blur" render="@this :logout:remaining" />
-                    </h:inputText>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">FAB-Schlüssel gemäß § 301 SGB V (4-stellig)</f:facet>
-                    <h:inputText styleClass="inputwide" value="#{minutes.departmentKey}" required="#{!item.used}">
-                        <f:ajax event="blur" render="@this :logout:remaining" />
-                    </h:inputText>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">Alternativverfahren</f:facet>
-                    <h:inputText styleClass="inputwide" value="#{minutes.alternative}" required="#{!item.used}">
-                        <f:ajax event="blur" render="@this :logout:remaining" />
-                    </h:inputText>
-                </h:column>
-            </h:dataTable>
-            <h:commandLink id="addButton5" rendered="#{!item.used and item.contentTextId == 85}" styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
-                <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.addNormalStationServiceDocMinutes()}"/>
-            </h:commandLink>
+            <inek:BooleanRadioButton value="#{item.used}" label="#{item.contentText.text}">
+                <f:ajax event="clientChange"  
+                        render="@form :script"
+                        listener="#{sessionController.hideData(not item.used or item.contentTextId ne 85)}"/>
+            </inek:BooleanRadioButton> 
+            <h:panelGroup id="ServiceDocumentationMinutes" rendered="#{!item.used and item.contentTextId == 85}">
+                <h:dataTable value="#{editCalcBasicsDrg.calcBasics.normalStationServiceDocumentationMinutes}"
+                             var="minutes"
+                             width="100%"
+                             rowClasses="row1, row2"
+                             >
+                    <h:column>
+                        <h:commandLink styleClass="colIcon">
+                            <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
+                            <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.deleteNormalStationServiceDocMinutes(minutes)}"/>
+                        </h:commandLink>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Fachabteilung</f:facet>
+                        <h:inputText styleClass="inputwide" value="#{minutes.department}" required="#{!item.used}">
+                            <f:ajax event="blur" render="@this :logout:remaining" />
+                        </h:inputText>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">FAB-Schlüssel gemäß § 301 SGB V (4-stellig)</f:facet>
+                        <h:inputText styleClass="inputwide" value="#{minutes.departmentKey}" required="#{!item.used}">
+                            <f:ajax event="blur" render="@this :logout:remaining" />
+                        </h:inputText>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Alternativverfahren</f:facet>
+                        <h:inputText styleClass="inputwide" value="#{minutes.alternative}" required="#{!item.used}">
+                            <f:ajax event="blur" render="@this :logout:remaining" />
+                        </h:inputText>
+                    </h:column>
+                </h:dataTable>
+                <h:commandLink id="addButton5" styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
+                    <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.addNormalStationServiceDocMinutes()}"/>
+                </h:commandLink>
+            </h:panelGroup>
             </td>
             </tr>
         </c:forEach>
@@ -194,16 +199,12 @@
     <h:panelGroup rendered="#{editCalcBasicsDrg.calcBasics.pkmsComplex}">
 
         <div class="inputPart">
-            <span class="label">Anzahl der kalkulierten Fälle mit Pflegekomplexmaßnahmen-Score (PKMS):</span><br/>
+            <h:outputLabel value="Anzahl der kalkulierten Fälle mit Pflegekomplexmaßnahmen-Score (PKMS):" styleClass="label element37em"/>
             <inek:InputNumberWithMessage value="#{editCalcBasicsDrg.calcBasics.pkmsCaseCnt}" styleClass="inputMedium"/>
         </div>
 
-        <table>
-            <tr>
-                <th>Die Erfassung des PKMS liegt in allen relevanten Normalstationen vor:</th>
-            </tr>
-            <tr>
-                <td>
+        <div class="inputPart">
+            <h:outputLabel value="Die Erfassung des PKMS liegt in allen relevanten Normalstationen vor:" styleClass="label element37em"/>
             <h:selectOneMenu value="#{editCalcBasicsDrg.calcBasics.pkmsRecording}">
                 <f:selectItem itemValue="0" itemLabel="Nein" />
                 <f:selectItem itemValue="1" itemLabel="Ja" />
@@ -212,10 +213,16 @@
                 <f:selectItem itemValue="4" itemLabel="Sonstiges" />
                 <f:ajax event="change" render="@form :logout:remaining" />
             </h:selectOneMenu>
-            </td>
-            </tr>
-        </table>
+        </div>
 
+        <inek:LabeledText id="pkmsOther" 
+                          label="Bitte erläutern"
+                          styleClassLabel="label marginRight"
+                          value="#{editCalcBasicsDrg.calcBasics.pkmsOther}" 
+                          singleLine="true"
+                          required="true"
+                          rendered="#{editCalcBasicsDrg.calcBasics.pkmsRecording eq 4}"/>
+        
         <h:dataTable  headerClass="list-header" id="pkmsAlt"
                       value="#{editCalcBasicsDrg.calcBasics.pkmsAlternatives}" var="item" width="100%" rowClasses="row1, row2" 
                       columnClasses=""
@@ -300,11 +307,13 @@
 
     </style>
 
+    <h2>Kosten in der Kostenstellengruppe 1 (Normalstation)</h2>
+    
     <div style="overflow-x: scroll;">
         <table id="tbl">
             <tr>
                 <td></td>
-                <td class="" colspan="9">Kosten in der Kostenstellengruppe 1 (Normalstation)</td>
+                <td class="" colspan="9">Allgemeine Angaben</td>
                 <td colspan="3">Anzahl der zugeordneten VK</td>
                 <td colspan="7">Kosten der Kostenstelle</td>
             </tr>
@@ -544,21 +553,21 @@
             </tr>
             <tr>
                 <td colspan="20">
-                    <h:commandLink id="addButton4" styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
-                        <f:ajax event="click" render="@form sumBeds:text :logout:remaining" listener="#{editCalcBasicsDrg.addCostCenterCosts()}"/>
-                    </h:commandLink>
-                    <div class="uploadFile inlineBlock marginRight">
-                        <h:inputFile style="width: 154px;" styleClass="hiddenFile" id="file" value="#{editCalcBasicsDrg.file}" >
-                            <f:ajax listener="#{editCalcBasicsDrg.uploadNormalWard()}" render="@all"/>
-                        </h:inputFile>
-                        <div class="fakeFile">
-                            <h:outputLabel style="margin-top: 1px;" styleClass="button" value="Upload"/>
-                        </div>
-                    </div>
-                    <div class="inlineBlock">
-                        <h:commandLink styleClass="button" value="Download Musterdatei" action="#{editCalcBasicsDrg.downloadNormalStationTemplate}" immediate="true"/>
-                    </div>
-                </td>
+            <h:commandLink id="addButton4" styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
+                <f:ajax event="click" render="@form sumBeds:text :logout:remaining" listener="#{editCalcBasicsDrg.addCostCenterCosts()}"/>
+            </h:commandLink>
+            <div class="uploadFile inlineBlock marginRight">
+                <h:inputFile style="width: 154px;" styleClass="hiddenFile" id="file" value="#{editCalcBasicsDrg.file}" >
+                    <f:ajax listener="#{editCalcBasicsDrg.uploadNormalWard()}" render="@all"/>
+                </h:inputFile>
+                <div class="fakeFile">
+                    <h:outputLabel style="margin-top: 1px;" styleClass="button" value="Upload"/>
+                </div>
+            </div>
+            <div class="inlineBlock">
+                <h:commandLink styleClass="button" value="Download Musterdatei" action="#{editCalcBasicsDrg.downloadNormalStationTemplate}" immediate="true"/>
+            </div>
+            </td>
             </tr>
         </table>
     </div>
