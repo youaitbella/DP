@@ -5,6 +5,7 @@
  */
 package org.inek.dataportal.entities.calc;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -113,12 +114,9 @@ public class KGPListDelimitationFact implements Serializable, BaseIdValue {
     private int _contentTextId;
 
     public int getContentTextId() {
-        return _contentTextId;
+        return _contentText.getId();
     }
 
-    public void setContentTextId(int contentTextId) {
-        this._contentTextId = contentTextId;
-    }
     //</editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property ContentText">
@@ -132,12 +130,13 @@ public class KGPListDelimitationFact implements Serializable, BaseIdValue {
 
     public void setContentText(KGPListContentText contentText) {
         _contentText = contentText;
+        _contentTextId = contentText.getId();
     }
     // </editor-fold>
 
+    @JsonIgnore
     public boolean isRequireInputs() {
-        int id = getContentText().getId();
-        return id == 1 || id == 2 || id == 5 || id == 6 || id == 15 || id == 16;
+        return getContentText().isInputRequired();
     }
 
     public KGPListDelimitationFact() {

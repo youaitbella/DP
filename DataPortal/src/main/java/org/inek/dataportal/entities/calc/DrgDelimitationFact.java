@@ -5,6 +5,7 @@
  */
 package org.inek.dataportal.entities.calc;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,7 +15,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import org.inek.dataportal.utils.Documentation;
 
 /**
@@ -55,17 +55,30 @@ public class DrgDelimitationFact implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property contentTextId">
     @Column(name = "dfContentTextId")
-    private int _contentTextId;
+    private int _contentTextId;    
 
+    // conveniance method
     public int getContentTextId() {
-        return _contentTextId;
-    }
-
-    public void setContentTextId(int contentTextId) {
-        this._contentTextId = contentTextId;
+        return _contentText.getId();
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Property ContentText">
+    @OneToOne
+    @PrimaryKeyJoinColumn(name = "dfContentTextId")
+    @Documentation (name = "Beschreibung", rank = 40)
+    private DrgContentText _contentText;
+
+    public DrgContentText getContentText() {
+        return _contentText;
+    }
+
+    public void setContentText(DrgContentText contentText) {
+        _contentText = contentText;
+        _contentTextId = contentText.getId();
+    }
+    // </editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc="Property used">
     @Column(name = "dfUsed")
     private boolean _used;
@@ -121,31 +134,10 @@ public class DrgDelimitationFact implements Serializable {
     }
     // </editor-fold>
     
-    // <editor-fold defaultstate="collapsed" desc="Property ContentText">
-    @OneToOne
-    @PrimaryKeyJoinColumn(name = "dfContentTextId")
-    @Documentation (name = "Beschreibung", rank = 40)
-    private DrgContentText _contentText;
-
-    public DrgContentText getContentText() {
-        return _contentText;
-    }
-
-    public void setContentText(DrgContentText contentText) {
-        _contentText = contentText;
-    }
-    // </editor-fold>
-    
     //<editor-fold defaultstate="collapsed" desc="Property requireInputs">
-    @Transient
-    private boolean _requireInputs = false;
-
+    @JsonIgnore
     public boolean isRequireInputs() {
-        return _requireInputs;
-    }
-
-    public void setRequireInputs(boolean _requireInputs) {
-        this._requireInputs = _requireInputs;
+        return getContentText().isInputRequired();
     }
     // </editor-fold>
 
@@ -157,7 +149,7 @@ public class DrgDelimitationFact implements Serializable {
         if (this._id != -1) return hash;
         
         hash = 79 * hash + this._baseInformationId;
-        hash = 79 * hash + this._contentTextId;
+        hash = 79 * hash + this.getContentText().getId();
         hash = 79 * hash + (this._used ? 1 : 0);
         hash = 79 * hash + this._personalCost;
         hash = 79 * hash + this._materialCost;
@@ -183,7 +175,7 @@ public class DrgDelimitationFact implements Serializable {
         if (this._baseInformationId != other._baseInformationId) {
             return false;
         }
-        if (this._contentTextId != other._contentTextId) {
+        if (this.getContentText().getId() != other.getContentText().getId()) {
             return false;
         }
         if (this._used != other._used) {
