@@ -22,6 +22,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
@@ -119,6 +120,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             }
             _calcBasics = calcBasics;
             retrievePriorData(_calcBasics);
+            populateDelimitationFactsIfAbsent(_calcBasics);
         } else {
             Utils.navigate(Pages.Error.RedirectURL());
         }
@@ -187,19 +189,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
         // Delimitation facts
         calcBasics.getDelimitationFacts().clear();
-        for (DrgContentText ct : _calcFacade.retrieveContentTexts(1, calcBasics.getDataYear())) {
-            DrgDelimitationFact df = new DrgDelimitationFact();
-            df.setBaseInformationId(calcBasics.getId());
-            df.setContentTextId(ct.getId());
-            df.setContentText(ct);
-            for (DrgDelimitationFact pdf : _priorCalcBasics.getDelimitationFacts()) {
-                if (df.getContentTextId() == pdf.getContentTextId()) {
-                    df.setUsed(pdf.isUsed());
-                }
-            }
-            calcBasics.getDelimitationFacts().add(df);
-        }
-        checkRequireInputsForDelimitationFact(calcBasics);
+        populateDelimitationFactsIfAbsent(calcBasics);
 
         // Personal Accounting
         calcBasics.setPersonalAccountingDescription(_priorCalcBasics.getPersonalAccountingDescription());
@@ -348,12 +338,27 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     }
 
+    private void populateDelimitationFactsIfAbsent(DrgCalcBasics calcBasics) {
+        if (!calcBasics.getDelimitationFacts().isEmpty()) {
+            return;
+        }
+        if (calcBasics.getId() > 0){
+            // This should not be. But sometimes we lost the delimitationFacts...
+            _logger.log(Level.WARNING, "Populate DRG DelimitationFacts for existing data: Id = {0}", calcBasics.getId());
+        }
+        for (DrgContentText ct : _calcFacade.retrieveContentTexts(1, calcBasics.getDataYear())) {
+            DrgDelimitationFact df = new DrgDelimitationFact();
+            df.setBaseInformationId(calcBasics.getId());
+            df.setContentText(ct);
+            df.setUsed(getPriorDelimitationFact(ct.getId()).isUsed());
+            calcBasics.getDelimitationFacts().add(df);
+        }
+    }
+
     private DrgCalcBasics loadCalcBasicsDrg(String idObject) {
         int id = Integer.parseInt(idObject);
         DrgCalcBasics calcBasics = _calcFacade.findCalcBasicsDrg(id);
         if (hasSufficientRights(calcBasics)) {
-//            calcBasics.setDescNonMedicalInfra(!calcBasics.getOtherMethodNonMedInfra().isEmpty());
-            checkRequireInputsForDelimitationFact(calcBasics);
             return calcBasics;
         }
         return new DrgCalcBasics();
@@ -490,22 +495,11 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     }
 
-    private void checkRequireInputsForDelimitationFact(DrgCalcBasics calcBasic) {
-        for (DrgDelimitationFact df : calcBasic.getDelimitationFacts()) {
-            int id = df.getContentText().getId();
-            if (id == 1 || id == 5 || id == 6 || id == 16 || id == 17 || id == 18) {
-                df.setRequireInputs(true);
-            }
-        }
-    }
-
+    // used by page only
     public DrgDelimitationFact getPriorDelimitationFact(int contentTextId) {
-        for (DrgDelimitationFact df : _priorCalcBasics.getDelimitationFacts()) {
-            if (df.getContentTextId() == contentTextId) {
-                return df;
-            }
-        }
-        return new DrgDelimitationFact();
+        return _priorCalcBasics.getDelimitationFacts().stream()
+                .filter(f -> f.getContentTextId() == contentTextId)
+                .findAny().orElse(new DrgDelimitationFact());
     }
 
     public List<String> getDelimitationFactsSubTitles() {
@@ -916,7 +910,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     public void saveData() {
         setModifiedInfo();
         _calcBasics = _calcFacade.saveCalcBasicsDrg(_calcBasics);
-        checkRequireInputsForDelimitationFact(_calcBasics);
     }
 
     private void setModifiedInfo() {
@@ -1213,7 +1206,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                         ccc.setDepartmentAssignment(values[3]);
 
                         String validateText = BeanValidator.validateData(ccc, lineNum);
-                        if (!validateText.isEmpty()){
+                        if (!validateText.isEmpty()) {
                             alertText += validateText;
                             continue;
                         }
@@ -1396,7 +1389,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                             alertText += "Hinweis: Zeile " + lineNum + " wurde bereits hinzugefügt.";
                             continue;
                         }
-                        
+
                         _calcBasics.getRadiologyLaboratories().add(radio);
                     }
                 }
@@ -1455,7 +1448,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                         medInfra.setKeyUsed(values[2]);
 
                         String validateText = BeanValidator.validateData(medInfra, lineNum);
-                        if (!validateText.isEmpty()){
+                        if (!validateText.isEmpty()) {
                             alertText += validateText;
                             continue;
                         }
@@ -1479,7 +1472,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         } catch (IOException | NoSuchElementException e) {
         }
     }
-
 
     private boolean checkMedInfraRedundantEntry(KGLListMedInfra medInfra) {
         for (KGLListMedInfra mi : _calcBasics.getMedInfras()) {

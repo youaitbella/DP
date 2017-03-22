@@ -16,6 +16,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
@@ -129,6 +130,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
             }
             _calcBasics = calcBasics;
             retrievePriorData(_calcBasics);
+            populateDelimitationFactsIfAbsent(_calcBasics);
         } else {
             Utils.navigate(Pages.Error.RedirectURL());
         }
@@ -278,15 +280,25 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         }
 
         calcBasics.getDelimitationFacts().clear();
+        populateDelimitationFactsIfAbsent(calcBasics);
+
+    }
+
+    private void populateDelimitationFactsIfAbsent(PeppCalcBasics calcBasics) {
+        if (!calcBasics.getDelimitationFacts().isEmpty()) {
+            return;
+        }
+        if (calcBasics.getId() > 0){
+            // This should not be. But sometimes we lost the delimitationFacts...
+            _logger.log(Level.WARNING, "Populate PSY DelimitationFacts for existing data: Id = {0}", calcBasics.getId());
+        }
         for (KGPListContentText ct : _calcFacade.retrieveContentTextsPepp(1, calcBasics.getDataYear())) {
             KGPListDelimitationFact df = new KGPListDelimitationFact();
             df.setBaseInformationId(calcBasics.getId());
-            df.setContentTextId(ct.getId());
             df.setContentText(ct);
             df.setUsed(getPriorDelimitationFact(ct.getId()).isUsed());
             calcBasics.getDelimitationFacts().add(df);
         }
-
     }
 
     public List<String> getDelimitationFactsSubTitles() {
@@ -739,12 +751,9 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     }
 
     public KGPListDelimitationFact getPriorDelimitationFact(int contentTextId) {
-        for (KGPListDelimitationFact df : _priorCalcBasics.getDelimitationFacts()) {
-            if (df.getContentTextId() == contentTextId) {
-                return df;
-            }
-        }
-        return new KGPListDelimitationFact();
+        return _priorCalcBasics.getDelimitationFacts().stream()
+                .filter(f -> f.getContentTextId() == contentTextId)
+                .findAny().orElse(new KGPListDelimitationFact());
     }
 
     public void addLocation() {
