@@ -15,7 +15,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import org.inek.dataportal.entities.calc.iface.BaseIdValue;
 
 /**
  *
@@ -137,6 +136,19 @@ public class KGPListContentText implements Serializable {
     }
     //</editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Property InputRequired">
+    @Column(name = "ctInputRequired")
+    private boolean _inputRequired;
+
+    public boolean isInputRequired() {
+        return _inputRequired;
+    }
+
+    public void setInputRequired(boolean value) {
+        this._inputRequired = value;
+    }
+    // </editor-fold>
+    
     public KGPListContentText() {
     }
 
