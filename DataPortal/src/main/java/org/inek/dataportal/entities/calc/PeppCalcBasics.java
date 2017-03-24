@@ -56,7 +56,7 @@ public class PeppCalcBasics implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property DataYear">
     @Column(name = "biDataYear")
-    @Documentation(key = "lblYearData")
+    @Documentation(key = "lblYearData", headline = "Allgemeine Informationen", rank = 20)
     private int _dataYear;
 
     public int getDataYear() {
@@ -149,7 +149,7 @@ public class PeppCalcBasics implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property _caseInStationCnt">
     @Column(name = "biCaseInStationCnt")
-    @Documentation(name = "Fälle vollstationär")
+    @Documentation(name = "Fälle vollstationär", rank = 1020)
     private int _caseInStationCnt;
 
     public int getCaseInStationCnt() {
@@ -177,7 +177,7 @@ public class PeppCalcBasics implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property _careDaysInStationCnt">
     @Column(name = "biCareDaysInStationCnt")
-    @Documentation(name = "Pflegetage vollstationär")
+    @Documentation(name = "Pflegetage vollstationär", rank = 1030)
     private int _careDaysInStationCnt;
 
     public int getCareDaysInStationCnt() {
@@ -205,7 +205,7 @@ public class PeppCalcBasics implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property _casePartialStationCnt">
     @Column(name = "biCasePartialStationCnt")
-    @Documentation(name = "Fälle teilstationär")
+    @Documentation(name = "Fälle teilstationär", rank = 1040)
     private int _casePartialStationCnt;
 
     public int getCasePartialStationCnt() {
@@ -233,7 +233,7 @@ public class PeppCalcBasics implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property _daysPartialStation">
     @Column(name = "biDaysPartialStation")
-    @Documentation(name = "Berechnungstage teilstationär")
+    @Documentation(name = "Berechnungstage teilstationär", rank = 1050)
     private int _daysPartialStation;
 
     public int getDaysPartialStation() {
@@ -261,7 +261,7 @@ public class PeppCalcBasics implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property _patientEscort">
     @Column(name = "biPatientEscort")
-    @Documentation(name = "Begleitpersonen")
+    @Documentation(name = "Begleitpersonen", rank = 1060)
     private int _patientEscort;
 
     public int getPatientEscort() {
@@ -275,7 +275,7 @@ public class PeppCalcBasics implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property _preStation">
     @Column(name = "biPreStation")
-    @Documentation(name = "Fälle rein vorstationär")
+    @Documentation(name = "Fälle rein vorstationär", rank = 1070)
     private int _preStation;
 
     public int getPreStation() {
@@ -289,7 +289,7 @@ public class PeppCalcBasics implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property _beds">
     @Column(name = "biBeds")
-    @Documentation(name = "Anzahl Betten (PSY)")
+    @Documentation(name = "Anzahl Betten (PSY)", rank = 1080)
     private int _beds;
 
     public int getBeds() {
@@ -317,7 +317,7 @@ public class PeppCalcBasics implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property _sumCalcCost">
     @Column(name = "biSumCalcCost")
-    @Documentation(key = "lblSumCalcCost")
+    @Documentation(key = "lblSumCalcCost", rank = 1010, headline = "Erklärung zur Kalkulationsgrundlage")
     private int _sumCalcCost;
 
     public int getSumCalcCost() {
@@ -331,7 +331,7 @@ public class PeppCalcBasics implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property _locationCnt">
     @Column(name = "biLocationCnt")
-    @Documentation(name = "Anzahl Standorte")
+    @Documentation(name = "Anzahl Standorte", rank = 1090)
     private int _locationCnt;
 
     public int getLocationCnt() {
