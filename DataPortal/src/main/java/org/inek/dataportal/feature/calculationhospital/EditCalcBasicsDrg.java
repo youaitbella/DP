@@ -342,7 +342,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         if (!calcBasics.getDelimitationFacts().isEmpty()) {
             return;
         }
-        if (calcBasics.getId() > 0){
+        if (calcBasics.getId() > 0) {
             // This should not be. But sometimes we lost the delimitationFacts...
             _logger.log(Level.WARNING, "Populate DRG DelimitationFacts for existing data: Id = {0}", calcBasics.getId());
         }
@@ -617,11 +617,10 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     public List<KGLListMedInfra> getMedInfra(int costType) {
-        List<KGLListMedInfra> tmp = new ArrayList<>();
-        _calcBasics.getMedInfras().stream().filter((mi) -> (mi.getCostTypeId() == costType)).forEachOrdered((mi) -> {
-            tmp.add(mi);
-        });
-        return tmp;
+        return _calcBasics.getMedInfras()
+                .stream()
+                .filter(mi -> mi.getCostTypeId() == costType)
+                .collect(Collectors.toList());
     }
 
     public void deleteMedInfra(KGLListMedInfra mif) {
@@ -1589,12 +1588,11 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     public int getMedInfraSum(int type) {
-        int sumAmount = 0;
-        for (KGLListMedInfra m : _calcBasics.getMedInfras()) {
-            if (m.getCostTypeId() == type) {
-                sumAmount += m.getAmount();
-            }
-        }
+        int sumAmount = _calcBasics.getMedInfras()
+                .stream()
+                .filter(m -> m.getCostTypeId() == type)
+                .mapToInt(m -> m.getAmount())
+                .sum();
         return sumAmount;
     }
 
