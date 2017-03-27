@@ -14,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 import org.inek.dataportal.utils.Documentation;
 
 /**
@@ -72,6 +73,7 @@ public class KGLListKstTop implements Serializable {
     @Documentation(key = "lblNotation")
     private String _text = "";
 
+    @Size(max = 100, message = "Für Bezeichnung sind max. {max} Zeichen zulässig.")
     public String getText() {
         return _text;
     }

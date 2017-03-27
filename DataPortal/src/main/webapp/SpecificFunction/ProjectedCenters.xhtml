@@ -37,7 +37,8 @@
                                  required="true"
                                  requiredMessage="#{msg.msgValueNeeded}"
                                  value="#{center.centerId}"
-                                 hideNoSelectionOption="true" >
+                                 hideNoSelectionOption="true"  
+                                 readonly="#{editSpecificFunction.readOnly}">
                     <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
                     <f:selectItems value="#{editSpecificFunction.centerNames}" var="centerName" itemValue="#{centerName.id}" itemLabel="#{centerName.name}"/>
                     <f:selectItem itemLabel="Sonstiges (bitte angeben)" itemValue="#{-1}"/>
@@ -51,7 +52,8 @@
                                  title="Bezeichung eines sonstigen Zentrums"
                                  styleClass="element100"
                                  value="#{center.otherCenterName}" 
-                                 required="true">
+                                 required="true" 
+                                 readonly="#{editSpecificFunction.readOnly}">
                         <f:ajax rendered=":logout:remaining msgCenterOtherName"/>
                     </h:inputText>
                     <h:message for="txtCenterOtherName" id="msgCenterOtherName" styleClass="errorMessage"/>
@@ -63,6 +65,7 @@
                               value="#{center.location}" 
                               styleClassLabel="label element12em" 
                               styleClass="element100-12em"
+                              readonly="#{editSpecificFunction.readOnly}"
                               singleLine="true"/>
 
             <div class="inputPart">
@@ -76,6 +79,7 @@
                     <h:selectManyCheckbox id="specificFunction"
                                           layout="pageDirection"
                                           required="true"
+                                          readonly="#{editSpecificFunction.readOnly}"
                                           requiredMessage="#{msg.msgValueNeeded}"
                                           value="#{center.specificFunctions}">
                         <f:selectItems value="#{editSpecificFunction.specificFunctions}" var="function" itemValue="#{function}" itemLabel="#{function.text}"/>
@@ -105,6 +109,7 @@
                               title="Für Verhandlung vorgesehene besondere Aufgaben (Stichpunktartige Auflistung der zentralen Aufgaben)" 
                               value="#{center.otherSpecificFunction}" 
                               required="true"
+                              readonly="#{editSpecificFunction.readOnly}"
                               styleClassLabel="label element12em" 
                               styleClass="element100-12em"
                               singleLine="true"/>
@@ -113,6 +118,7 @@
                               title="Voraussichtliche Anzahl der durch das Zentrum /den Schwerpunkt betreuten Patientinnen/Patienten" 
                               value="#{center.estimatedPatientCount}" 
                               required="true"
+                              readonly="#{editSpecificFunction.readOnly}"
                               styleClassLabel="label element12em" 
                               styleClass="col04em number"                              
                               singleLine="true"/>
@@ -122,6 +128,7 @@
                 <h:selectOneMenu id="type"
                                  title="Bitte angeben"
                                  required="true"
+                                 readonly="#{editSpecificFunction.readOnly}"
                                  requiredMessage="#{msg.msgValueNeeded}"
                                  value="#{center.typeId}"
                                  hideNoSelectionOption="true" >

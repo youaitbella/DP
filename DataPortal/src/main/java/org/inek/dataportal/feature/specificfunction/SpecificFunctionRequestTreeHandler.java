@@ -14,6 +14,7 @@ import java.util.stream.Stream;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.CooperationTools;
 import static org.inek.dataportal.common.CooperationTools.canReadCompleted;
 import static org.inek.dataportal.common.CooperationTools.canReadSealed;
@@ -49,6 +50,7 @@ public class SpecificFunctionRequestTreeHandler implements Serializable, TreeNod
     @Inject private SessionController _sessionController;
     @Inject private CooperationTools _cooperationTools;
     @Inject private AccountFacade _accountFacade;
+    @Inject private ApplicationTools _appTools;
 
     private final RootNode _rootNode = RootNode.create(0, this);
     private AccountTreeNode _accountNode;
@@ -225,6 +227,13 @@ public class SpecificFunctionRequestTreeHandler implements Serializable, TreeNod
                     sorted = stream.sorted((n1, n2) -> Integer.compare(n2.getSpecificFunctionRequest().getId(), n1.getSpecificFunctionRequest().getId()));
                 } else {
                     sorted = stream.sorted((n1, n2) -> Integer.compare(n1.getSpecificFunctionRequest().getId(), n2.getSpecificFunctionRequest().getId()));
+                }
+                break;
+            case "hospital":
+                if (treeNode.isDescending()) {
+                    sorted = stream.sorted((n1, n2) -> _appTools.retrieveHospitalInfo(n2.getSpecificFunctionRequest().getIk()).compareTo(_appTools.retrieveHospitalInfo(n1.getSpecificFunctionRequest().getIk())));
+                } else {
+                    sorted = stream.sorted((n1, n2) -> _appTools.retrieveHospitalInfo(n1.getSpecificFunctionRequest().getIk()).compareTo(_appTools.retrieveHospitalInfo(n2.getSpecificFunctionRequest().getIk())));
                 }
                 break;
             case "name":
