@@ -74,7 +74,7 @@
 
         </div>
 
-        <div class="inputPart" jsf:rendered = "#{editNubRequest.nubRequest.status.valid 0 and editNubRequest.nubRequest.status.valid 5}">
+        <div class="inputPart" jsf:rendered = "#{editNubRequest.nubRequest.status.value ge 0 and editNubRequest.nubRequest.status.value lt 5}">
             <div id="file-uploader">
                 <script>
                     createUploader();
@@ -85,7 +85,8 @@
             <h:commandLink id="refresh" style="display: none" action="#{editNubRequest.refresh}" value="refresh"/>
         </div>
         
-        <div class="inputPart" jsf:rendered = "#{editNubRequest.nubRequest.status.value lt id            <b>#{msg.msgNubSaveDoc}</b>
+        <div class="inputPart" jsf:rendered = "#{editNubRequest.nubRequest.status.value lt 0}">
+            <b>#{msg.msgNubSaveDoc}</b>
         </div>
 
     </ui:define>
