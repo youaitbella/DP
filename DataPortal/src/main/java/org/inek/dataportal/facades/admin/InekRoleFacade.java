@@ -15,6 +15,7 @@ public class InekRoleFacade extends AbstractFacade<InekRole> {
         super(InekRole.class);
     }
 
+    @SuppressWarnings("unchecked")
     public List<Account> findForFeature(Feature feature) {
         String sql = "select Account.* \n"
                 + "from adm.listInekRole \n"
