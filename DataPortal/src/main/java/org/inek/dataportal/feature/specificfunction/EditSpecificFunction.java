@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
@@ -25,6 +26,8 @@ import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountAdditionalIK;
+import org.inek.dataportal.entities.admin.InekRole;
+import org.inek.dataportal.entities.admin.MailTemplate;
 import org.inek.dataportal.entities.specificfunction.CenterName;
 import org.inek.dataportal.entities.specificfunction.RequestAgreedCenter;
 import org.inek.dataportal.entities.specificfunction.RequestProjectedCenter;
@@ -35,9 +38,12 @@ import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.SpecificFunctionFacade;
+import org.inek.dataportal.facades.account.AccountFacade;
+import org.inek.dataportal.facades.admin.InekRoleFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.structures.MessageContainer;
+import org.inek.dataportal.mail.Mailer;
 import org.inek.dataportal.utils.DocumentationUtil;
 
 /**
@@ -101,7 +107,7 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
         if (_sessionController.isMyAccount(calcBasics.getAccountId(), false)) {
             return true;
         }
-        if (_sessionController.isInekUser(Feature.SPECIFIC_FUNCTION)){
+        if (_sessionController.isInekUser(Feature.SPECIFIC_FUNCTION)) {
             return true;
         }
         return _cooperationTools.isAllowed(Feature.SPECIFIC_FUNCTION, calcBasics.getStatus(), calcBasics.getAccountId());
@@ -141,7 +147,7 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
         if (_request == null) {
             return true;
         }
-        if (_sessionController.isInekUser(Feature.CALCULATION_HOSPITAL)  && !_appTools.isEnabled(ConfigKey.TestMode)){
+        if (_sessionController.isInekUser(Feature.CALCULATION_HOSPITAL) && !_appTools.isEnabled(ConfigKey.TestMode)) {
             return true;
         }
         return _cooperationTools.isReadOnly(Feature.SPECIFIC_FUNCTION, _request.getStatus(), _request.getAccountId(), _request.getIk());
@@ -165,6 +171,36 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
             return null;
         }
         return Pages.Error.URL();
+    }
+
+    public String saveAndMail() {
+        removeEmptyCenters();
+        setModifiedInfo();
+        _request = _specificFunctionFacade.saveSpecificFunctionRequest(_request);
+        addCentersIfMissing();
+
+        if (isValidId(_request.getId())) {
+            // CR+LF or LF only will be replaced by "\r\n"
+            String script = "alert ('" + Utils.getMessage("msgSave").replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
+            _sessionController.setScript(script);
+            sendMessage("Besondere Aufgaben / Zentrum: Vertragskennzeichen");
+            return null;
+        }
+        return Pages.Error.URL();
+    }
+
+    @Inject private AccountFacade _accountFacade;
+    @Inject private Mailer _mailer;
+
+    private void sendMessage(String name) {
+        Account receiver = _accountFacade.find(_appTools.isEnabled(ConfigKey.TestMode) ? _sessionController.getAccountId() : _request.getAccountId());
+        MailTemplate template = _mailer.getMailTemplate(name);
+        String subject = template.getSubject()
+                .replace("{ik}", "" + _request.getIk());
+        String body = template.getBody()
+                .replace("{formalSalutation}", _mailer.getFormalSalutation(receiver));
+        String bcc = template.getBcc().replace("{accountMail}", _sessionController.getAccount().getEmail());
+        _mailer.sendMailFrom(template.getFrom(), receiver.getEmail(), "", bcc, subject, body);
     }
 
     private void setModifiedInfo() {
@@ -227,12 +263,21 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
         _request = _specificFunctionFacade.saveSpecificFunctionRequest(_request);
 
         if (isValidId(_request.getId())) {
+            sendNotification();
             Utils.getFlash().put("headLine", Utils.getMessage("nameSPECIFIC_FUNCTION"));
             Utils.getFlash().put("targetPage", Pages.SpecificFunctionSummary.URL());
             Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(_request));
             return Pages.PrintView.URL();
         }
         return "";
+    }
+
+    @Inject InekRoleFacade _inekRoleFacade;
+
+    public void sendNotification() {
+        List<Account> inekAccounts = _inekRoleFacade.findForFeature(Feature.SPECIFIC_FUNCTION);
+        String receipients = inekAccounts.stream().map(a -> a.getEmail()).collect(Collectors.joining(";"));
+        _mailer.sendMail(receipients, "Besondere Aufgaben / Zentrum", "Es wurde ein Datensatz an das InEK gesendet.");
     }
 
     private boolean requestIsComplete() {

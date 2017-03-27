@@ -76,6 +76,13 @@
                                    rendered="#{!editSpecificFunction.readOnly or sessionController.isInekUser('SPECIFIC_FUNCTION')}">
                     </h:commandLink>
 
+                    <h:commandLink styleClass="bigButton"
+                                   action="#{editSpecificFunction.saveAndMail}"
+                                   value="Speichern + E-Mail"
+                                   immediate="true"
+                                   rendered="#{editSpecificFunction.request.statusId eq 10 and sessionController.isInekUser('SPECIFIC_FUNCTION')}">
+                    </h:commandLink>
+
                     <h:commandLink styleClass="sendButton"
                                    action="#{editSpecificFunction.requestApproval}"
                                    value="#{msg.btnRequestApproval}"

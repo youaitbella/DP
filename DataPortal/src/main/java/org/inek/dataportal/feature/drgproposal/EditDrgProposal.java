@@ -385,9 +385,15 @@ public class EditDrgProposal extends AbstractEditController {
         return _cooperationTools.isReadOnly(Feature.DRG_PROPOSAL, _drgProposal.getStatus(), _drgProposal.getAccountId());
     }
 
+    @Override
+    protected void topicChanged() {
+        if (_sessionController.getAccount().isAutoSave() && !isReadOnly()) {
+            saveData();
+        }
+    }
+    
     public String save() {
-        setModifiedInfo();
-        _drgProposal = _drgProposalFacade.saveDrgProposal(_drgProposal);
+        saveData();
 
         if (_drgProposal != null && isValidId(_drgProposal.getId())) {
             // CR+LF or LF only will be replaced by "\r\n"
@@ -396,6 +402,11 @@ public class EditDrgProposal extends AbstractEditController {
             return null;
         }
         return Pages.Error.URL();
+    }
+
+    private void saveData() {
+        setModifiedInfo();
+        _drgProposal = _drgProposalFacade.saveDrgProposal(_drgProposal);
     }
 
     private void setModifiedInfo() {
@@ -470,8 +481,7 @@ public class EditDrgProposal extends AbstractEditController {
             return null;
         }
         _drgProposal.setStatus(WorkflowStatus.ApprovalRequested);
-        setModifiedInfo();
-        _drgProposal = _drgProposalFacade.saveDrgProposal(_drgProposal);
+        saveData();
         return "";
     }
 
@@ -614,8 +624,7 @@ public class EditDrgProposal extends AbstractEditController {
 
     public String requestCorrection() {
         if (!isReadOnly()) {
-            setModifiedInfo();
-            _drgProposal = _drgProposalFacade.saveDrgProposal(_drgProposal);
+            saveData();
         }
         return Pages.DrgProposalRequestCorrection.URL();
     }

@@ -152,7 +152,7 @@ public class EditDistributionModel extends AbstractEditController implements Ser
     }
 
     public boolean isReadOnly() {
-        return _cooperationTools.isReadOnly(Feature.CALCULATION_HOSPITAL, _model.getStatus(), _model.getAccountId(), _model.getIk())
+        return _cooperationTools.isReadOnly(Feature.CALCULATION_HOSPITAL, _model.getStatus(), _model.getAccountId())
                 || _sessionController.isInekUser(Feature.CALCULATION_HOSPITAL) && !isOwnModel();
     }
 

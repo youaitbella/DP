@@ -375,7 +375,18 @@ public class EditNubRequest extends AbstractEditController {
         return "";
     }
 
+    @Override
+    protected void topicChanged() {
+        if (_sessionController.getAccount().isAutoSave() && !isReadOnly()) {
+            saveData(false);
+        }
+    }
+
     public String save() {
+        return saveData(true);
+    }
+
+    public String saveData(boolean showSaveMessage) {
         setModifiedInfo();
         formatProxyIks();
         boolean isNewRequest = !isValidId(_nubRequest.getId());
@@ -385,7 +396,9 @@ public class EditNubRequest extends AbstractEditController {
             if (!isValidId(_nubRequest.getId())) {
                 return Pages.Error.RedirectURL();
             }
-            msg = Utils.getMessage("msgSave");
+            if (showSaveMessage) {
+                msg = Utils.getMessage("msgSave");
+            }
         } catch (Exception ex) {
             if (isNewRequest || !(ex.getCause() instanceof OptimisticLockException)) {
                 return Pages.DataError.RedirectURL();
@@ -395,8 +408,10 @@ public class EditNubRequest extends AbstractEditController {
         if (_nubRequest != null) {
             _nubRequestBaseline = _nubRequestFacade.findFresh(_nubRequest.getId());  // update base line
         }
-        String script = "alert ('" + msg.replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
-        _sessionController.setScript(script);
+        if (!msg.isEmpty()) {
+            String script = "alert ('" + msg.replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
+            _sessionController.setScript(script);
+        }
         return "";
 
     }
@@ -519,11 +534,11 @@ public class EditNubRequest extends AbstractEditController {
     }
 
     public boolean isTakeEnabled() {
-        if (_cooperationTools == null){
+        if (_cooperationTools == null) {
             _logger.log(Level.WARNING, "Unxepected null value: _cooperationTools");
             return false;
         }
-        if (_nubRequest == null){
+        if (_nubRequest == null) {
             _logger.log(Level.WARNING, "Unxepected null value: _nubRequest");
             return false;
         }
@@ -671,7 +686,7 @@ public class EditNubRequest extends AbstractEditController {
         return !message.containsMessage();
     }
     // </editor-fold>
-    
+
     public String downloadTemplate() {
         String content = getNubController().createTemplate(_nubRequest);
         Utils.downloadText(content, _nubRequest.getName() + ".nub\"");

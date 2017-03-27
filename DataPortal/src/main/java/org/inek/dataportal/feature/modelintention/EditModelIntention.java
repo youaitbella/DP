@@ -29,7 +29,6 @@ import org.inek.dataportal.entities.modelintention.ModelIntentionContact;
 import org.inek.dataportal.entities.modelintention.ModelLife;
 import org.inek.dataportal.entities.modelintention.Quality;
 import org.inek.dataportal.entities.modelintention.Remuneration;
-import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.Region;
@@ -152,6 +151,13 @@ public class EditModelIntention extends AbstractEditController {
         return (ModelIntentionController) _sessionController.getFeatureController(Feature.MODEL_INTENTION);
     }
 
+    @Override
+    protected void topicChanged() {
+        if (_sessionController.getAccount().isAutoSave() && !isReadOnly()) {
+            saveToDatabase();
+        }
+    }
+    
     public String save() {
         if (saveToDatabase()) {
             // CR+LF or LF only will be replaced by "\r\n"

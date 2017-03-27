@@ -314,9 +314,15 @@ public class EditPeppProposal extends AbstractEditController {
         return _cooperationTools.isReadOnly(Feature.PEPP_PROPOSAL, getPeppProposal().getStatus(), getPeppProposal().getAccountId());
     }
 
+    @Override
+    protected void topicChanged() {
+        if (_sessionController.getAccount().isAutoSave() && !isReadOnly()) {
+            saveData();
+        }
+    }
+
     public String save() {
-        setModifiedInfo();
-        _peppProposal = _peppProposalFacade.savePeppProposal(getPeppProposal());
+        saveData();
 
         if (isValidId(getPeppProposal().getId())) {
             // CR+LF or LF only will be replaced by "\r\n"
@@ -325,6 +331,11 @@ public class EditPeppProposal extends AbstractEditController {
             return null;
         }
         return Pages.Error.URL();
+    }
+
+    private void saveData() {
+        setModifiedInfo();
+        _peppProposal = _peppProposalFacade.savePeppProposal(getPeppProposal());
     }
 
     private boolean isValidId(Integer id) {
@@ -528,8 +539,7 @@ public class EditPeppProposal extends AbstractEditController {
 
     public String requestCorrection() {
         if (!isReadOnly()) {
-            setModifiedInfo();
-            _peppProposal = _peppProposalFacade.savePeppProposal(getPeppProposal());
+            saveData();
         }
         return Pages.PeppProposalRequestCorrection.URL();
     }
