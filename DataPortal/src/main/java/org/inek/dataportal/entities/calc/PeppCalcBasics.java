@@ -163,7 +163,7 @@ public class PeppCalcBasics implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property _caseInStationCntPsy">
     @Column(name = "biCaseInStationCntPsy")
-    @Documentation(name = "Fälle vollstationär Psychosomatik")
+    @Documentation(name = "Fälle vollstationär Psychosomatik", rank = 1021)
     private int _caseInStationCntPsy;
 
     public int getCaseInStationCntPsy() {
@@ -191,7 +191,7 @@ public class PeppCalcBasics implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property _careDaysInStationCntPsy">
     @Column(name = "biCareDaysInStationCntPsy")
-    @Documentation(name = "Pflegetage vollstationär Psychosomatik")
+    @Documentation(name = "Pflegetage vollstationär Psychosomatik", rank = 1031)
     private int _careDaysInStationCntPsy;
 
     public int getCareDaysInStationCntPsy() {
@@ -219,7 +219,7 @@ public class PeppCalcBasics implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property _casePartialStationCntPsy">
     @Column(name = "biCasePartialStationCntPsy")
-    @Documentation(name = "Fälle teilstationär Psychosomatik")
+    @Documentation(name = "Fälle teilstationär Psychosomatik", rank = 1041)
     private int _casePartialStationCntPsy;
 
     public int getCasePartialStationCntPsy() {
@@ -247,7 +247,7 @@ public class PeppCalcBasics implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property _daysPartialStationPsy">
     @Column(name = "biDaysPartialStationPsy")
-    @Documentation(name = "Berechnungstage teilstationär Psychosomatik")
+    @Documentation(name = "Berechnungstage teilstationär Psychosomatik", rank = 1051)
     private int _daysPartialStationPsy;
 
     public int getDaysPartialStationPsy() {
@@ -345,7 +345,7 @@ public class PeppCalcBasics implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property _difLocationSupply">
     @Column(name = "biDifLocationSupply")
-    @Documentation(name = "Differenzierter Versorgungsauftrag")
+    @Documentation(name = "Differenzierter Versorgungsauftrag", rank = 1100)
     private boolean _difLocationSupply;
 
     public boolean isDifLocationSupply() {
@@ -359,6 +359,7 @@ public class PeppCalcBasics implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property _medicineCostMapping">
     @Column(name = "biMedicineCostMapping")
+    @Documentation(name = "Wird eine Einzelkostenzuordnung für Arzneimittel vorgenommen?", rank = 1120)
     private boolean _medicineCostMapping;
 
     public boolean isMedicineCostMapping() {
@@ -372,6 +373,7 @@ public class PeppCalcBasics implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property _courtPlacement">
     @Column(name = "biCourtPlacement")
+    @Documentation(name = "Ergänzende Datenbereitstellung zum Status der gerichtlichen Unterbringung Wurden in Ihrer Einrichtung im aktuellen Datenjahr Patienten gerichtlich untergebracht?", rank = 1130)
     private boolean _courtPlacement;
 
     public boolean isCourtPlacement() {
@@ -385,6 +387,7 @@ public class PeppCalcBasics implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property _additionalDataAllocation">
     @Column(name = "biAdditionalDataAllocation")
+    @Documentation(name = "Ist es Ihnen möglich, die Daten in der von der ergänzenden Datenbereitstellung vorgesehenen Form aufzubereiten und zu übermitteln?", rank = 1140)
     private boolean _additionalDataAllocation;
 
     public boolean isAdditionalDataAllocation() {
@@ -503,6 +506,7 @@ public class PeppCalcBasics implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property List _kgpMedInfraList">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "miBaseInformationId", referencedColumnName = "biID")
+    @Documentation(name = "Unbekannte Liste", rank = 20000)
     private List<KGPListMedInfra> _kgpMedInfraList = new Vector<>();
 
     public List<KGPListMedInfra> getKgpMedInfraList() {
