@@ -16,6 +16,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 import org.inek.dataportal.entities.calc.iface.BaseIdValue;
+import org.inek.dataportal.utils.Documentation;
 
 /**
  *
@@ -46,6 +47,7 @@ public class KGPListRadiologyLaboratory implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _costCenterId">
     @Column(name = "rlCostCenterID")
+    @Documentation(name = "Kostenstelle", rank = 10)
     private int _costCenterId;
 
     public int getCostCenterId() {
@@ -59,6 +61,7 @@ public class KGPListRadiologyLaboratory implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _costCenterNumber">
     @Column(name = "rlCostCenterNumber")
+    @Documentation(name = "Nummer der Kostenstelle", rank = 20)
     private int _costCenterNumber;
 
     public int getCostCenterNumber() {
@@ -72,6 +75,7 @@ public class KGPListRadiologyLaboratory implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _costCenterText">
     @Column(name = "rlCostCenterText")
+    @Documentation(name = "Name Kostenstelle", rank = 30)
     private String _costCenterText = "";
 
     @Size(max = 100)
@@ -86,6 +90,7 @@ public class KGPListRadiologyLaboratory implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _serviceDocHome">
     @Column(name = "rlServiceDocHome")
+    @Documentation(name = "Leistungsdokumentation Hauskatalog", rank = 40)
     private boolean _serviceDocHome;
 
     public boolean isServiceDocHome() {
@@ -99,6 +104,7 @@ public class KGPListRadiologyLaboratory implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _serviceDocDKG">
     @Column(name = "rlServiceDocDKG")
+    @Documentation(name = "Leistungsdokumentation DKG-NT", rank = 50)
     private boolean _serviceDocDKG;
 
     public boolean isServiceDocDKG() {

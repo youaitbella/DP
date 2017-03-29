@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import org.inek.dataportal.entities.calc.iface.BaseIdValue;
+import org.inek.dataportal.utils.Documentation;
 
 /**
  *
@@ -58,6 +59,7 @@ public class KGPListLocation implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _location">
     @Column(name = "lLocation")
+    @Documentation(name = "Entlassender Standort", rank = 10)
     private String _location = "";
 
     @Size(max = 300)
@@ -72,6 +74,7 @@ public class KGPListLocation implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _locationNo">
     @Column(name = "lLocationNo")
+    @Documentation(name = "Nummer", rank = 20)
     private short _locationNo;
 
     public short getLocationNo() {

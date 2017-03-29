@@ -18,6 +18,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 import org.inek.dataportal.entities.calc.iface.BaseIdValue;
+import org.inek.dataportal.utils.Documentation;
 
 /**
  *
@@ -48,6 +49,7 @@ public class KGPListServiceProvision implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _partitionExternalAssignment">
     @Column(name = "spPartitionExternalAssignment")
+    @Documentation(name = "Fremdvergebene Teilbereiche", rank = 10)
     private String _partitionExternalAssignment = "";
 
     @Size(max = 200)
@@ -62,6 +64,7 @@ public class KGPListServiceProvision implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _note">
     @Column(name = "spNote")
+    @Documentation(name = "Anmerkung", rank = 20)
     private String _note = "";
 
     public String getNote() {
@@ -75,6 +78,7 @@ public class KGPListServiceProvision implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _amount">
     @Column(name = "spAmount")
+    @Documentation(name = "Kostenvolumen", rank = 30)
     private int _amount;
 
     public int getAmount() {
@@ -120,6 +124,7 @@ public class KGPListServiceProvision implements Serializable, BaseIdValue {
 //    @JoinColumn(name = "spServiceProvisionTypeId", referencedColumnName = "sptID")
 //    @ManyToOne(optional = false)
     @Column(name = "spServiceProvisionTypeId")
+    @Documentation(name = "Bereiche", rank = 40)
     private int _serviceProvisionTypeId;
 
     public int getServiceProvisionTypeId() {
