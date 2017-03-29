@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import org.inek.dataportal.entities.calc.iface.BaseIdValue;
+import org.inek.dataportal.utils.Documentation;
 
 /**
  *
@@ -43,6 +44,7 @@ public class KGPListServiceProvisionType implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property _text">
     @Column(name = "sptText")
+    @Documentation(name = "Text", rank = 10)
     private String _text = "";
 
     @Size(max = 200)
@@ -57,6 +59,7 @@ public class KGPListServiceProvisionType implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property _firstYear">
     @Column(name = "sptFirstYear")
+    @Documentation(name = "Erstes Jahr", rank = 20)
     private int _firstYear;
 
     public int getFirstYear() {
@@ -70,6 +73,7 @@ public class KGPListServiceProvisionType implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property _lastYear">
     @Column(name = "sptLastYear")
+    @Documentation(name = "Letztes Jahr", rank = 30)
     private int _lastYear;
 
     public int getLastYear() {

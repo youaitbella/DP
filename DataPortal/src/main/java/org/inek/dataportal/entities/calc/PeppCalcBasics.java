@@ -597,6 +597,7 @@ public class PeppCalcBasics implements Serializable {
     //@OneToMany(cascade = CascadeType.ALL, mappedBy = "thBaseInformationId")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "thBaseInformationId", referencedColumnName = "biID")
+    @Documentation(name = "Kostenstellen", rank = 3010, headline = "Therapeutischer Bereich (Kostenstellengruppen 23 bis 26)")
     private List<KGPListTherapy> _therapies = new Vector<>();
 
     public List<KGPListTherapy> getTherapies() {

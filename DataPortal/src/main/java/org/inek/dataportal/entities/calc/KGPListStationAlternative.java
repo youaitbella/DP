@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import org.inek.dataportal.entities.calc.iface.BaseIdValue;
+import org.inek.dataportal.utils.Documentation;
 
 /**
  *
@@ -45,6 +46,7 @@ public class KGPListStationAlternative implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _departmentName">
     @Column(name = "saDepartmentName")
+    @Documentation(name = "FAB Schlüssel 301", rank = 10)
     private String _departmentName = "";
 
     @Size(max = 50)
@@ -59,6 +61,7 @@ public class KGPListStationAlternative implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _alternative">
     @Column(name = "saAlternative")
+    @Documentation(name = "Alternativverfahren", rank = 20)
     private String _alternative = "";
 
     @Size(max = 300)
@@ -90,6 +93,7 @@ public class KGPListStationAlternative implements Serializable, BaseIdValue {
 //    @JoinColumn(name = "seBaseInformationId", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
     @Column(name = "saDepartmentKey")
+    @Documentation(name = "Fachabteilung", rank = 30)
     private int _departmentKey;
 
     public int getDepartmentKey() {

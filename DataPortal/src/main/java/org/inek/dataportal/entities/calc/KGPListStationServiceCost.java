@@ -17,6 +17,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import org.inek.dataportal.entities.calc.iface.BaseIdValue;
+import org.inek.dataportal.utils.Documentation;
 
 /**
  *
@@ -47,6 +48,7 @@ public class KGPListStationServiceCost implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _costCenterID">
     @Column(name = "sscCostCenterID")
+    @Documentation(name = "Kostenstelle", rank = 10)
     private int _costCenterID;
 
     public int getCostCenterID() {
@@ -60,6 +62,7 @@ public class KGPListStationServiceCost implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _costCenterNumber">
     @Column(name = "sscCostCenterNumber")
+    @Documentation(name = "Kostenstellennummer", rank = 20)
     private String _costCenterNumber = "";
 
     public String getCostCenterNumber() {
@@ -73,6 +76,7 @@ public class KGPListStationServiceCost implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _station">
     @Column(name = "sscStation")
+    @Documentation(name = "Station", rank = 30)
     private String _station = "";
 
     @Size(max = 200)
@@ -87,6 +91,7 @@ public class KGPListStationServiceCost implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _bedCnt">
     @Column(name = "sscBedCnt")
+    @Documentation(name = "Anzahl Betten", rank = 40)
     private int _bedCnt;
 
     public int getBedCnt() {
@@ -100,6 +105,7 @@ public class KGPListStationServiceCost implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _receivingStation">
     @Column(name = "sscReceivingStation")
+    @Documentation(name = "ReceivingStation", rank = 40)
     private boolean _receivingStation;
 
     public boolean isReceivingStation() {
@@ -113,6 +119,7 @@ public class KGPListStationServiceCost implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _regularCareDays">
     @Column(name = "sscRegularCareDays")
+    @Documentation(name = "Pflegetage", rank = 50)
     private int _regularCareDays;
 
     public int getRegularCareDays() {
@@ -126,6 +133,7 @@ public class KGPListStationServiceCost implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _regularWeight">
     @Column(name = "sscRegularWeight")
+    @Documentation(name = "RegularWeight", rank = 60)
     private int _regularWeight;
 
     public int getRegularWeight() {
@@ -139,6 +147,7 @@ public class KGPListStationServiceCost implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _intensiveCareDays">
     @Column(name = "sscIntensiveCareDays")
+    @Documentation(name = "Intensivtage", rank = 70)
     private int _intensiveCareDays;
 
     public int getIntensiveCareDays() {
@@ -152,6 +161,7 @@ public class KGPListStationServiceCost implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _intensiveWeight">
     @Column(name = "sscIntensiveWeight")
+    @Documentation(name = "Intensivgewicht", rank = 80)
     private int _intensiveWeight;
 
     public int getIntensiveWeight() {
@@ -166,6 +176,7 @@ public class KGPListStationServiceCost implements Serializable, BaseIdValue {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     //<editor-fold defaultstate="collapsed" desc="Property _medicalServiceCnt">
     @Column(name = "sscMedicalServiceCnt")
+    @Documentation(name = "MedicalServiceCnt", rank = 90)
     private double _medicalServiceCnt;
 
     public double getMedicalServiceCnt() {

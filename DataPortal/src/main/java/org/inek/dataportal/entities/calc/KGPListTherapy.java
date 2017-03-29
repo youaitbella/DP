@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import org.inek.dataportal.entities.calc.iface.BaseIdValue;
+import org.inek.dataportal.utils.Documentation;
 
 /**
  *
@@ -45,6 +46,7 @@ public class KGPListTherapy implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _costCenterID">
     @Column(name = "thCostCenterID")
+    @Documentation(name = "Kostenstellen Gruppe", rank = 10)
     private int _costCenterId;
 
     public int getCostCenterId() {
@@ -58,6 +60,7 @@ public class KGPListTherapy implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _costCenterText">
     @Column(name = "thCostCenterText")
+    @Documentation(name = "Leistungsinhalt der Kostenstelle", rank = 20)
     private String _costCenterText = "";
 
     @Size(max = 100)
@@ -72,6 +75,7 @@ public class KGPListTherapy implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _externalService">
     @Column(name = "thExternalService")
+    @Documentation(name = "externe Leistungserbringung", rank = 30)
     private int _externalService;
 
     public int getExternalService() {
@@ -85,6 +89,7 @@ public class KGPListTherapy implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _keyUsed">
     @Column(name = "thKeyUsed")
+    @Documentation(name = "verwendeter Leistungsschlüssel", rank = 40)
     private String _keyUsed = "";
 
     @Size(max = 50)
@@ -99,6 +104,7 @@ public class KGPListTherapy implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _serviceUnitsCt1">
     @Column(name = "thServiceUnitsCt1")
+    @Documentation(name = "Summe Leistungseinheiten KoArtGr 1", rank = 50)
     private int _serviceUnitsCt1;
 
     public int getServiceUnitsCt1() {
@@ -112,6 +118,7 @@ public class KGPListTherapy implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _personalCostCt1">
     @Column(name = "thPersonalCostCt1")
+    @Documentation(name = "Personalkosten KoArtGr 1", rank = 60)
     private int _personalCostCt1;
 
     public int getPersonalCostCt1() {
@@ -125,6 +132,7 @@ public class KGPListTherapy implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _serviceUnitsCt2">
     @Column(name = "thServiceUnitsCt2")
+    @Documentation(name = "Summe Leistungseinheiten KoArtGr 2", rank = 70)
     private int _serviceUnitsCt2;
 
     public int getServiceUnitsCt2() {
@@ -138,6 +146,7 @@ public class KGPListTherapy implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _personalCostCt2">
     @Column(name = "thPersonalCostCt2")
+    @Documentation(name = "Personalkosten KoArtGr 2", rank = 80)
     private int _personalCostCt2;
 
     public int getPersonalCostCt2() {
@@ -151,6 +160,7 @@ public class KGPListTherapy implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _serviceUnitsCt3">
     @Column(name = "thServiceUnitsCt3")
+    @Documentation(name = "Summe Leistungseinheiten KoArtGr 3", rank = 90)
     private int _serviceUnitsCt3;
 
     public int getServiceUnitsCt3() {
@@ -164,6 +174,7 @@ public class KGPListTherapy implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _personalCostCt3">
     @Column(name = "thPersonalCostCt3")
+    @Documentation(name = "Personalkosten KoArtGr 3", rank = 100)
     private int _personalCostCt3;
 
     public int getPersonalCostCt3() {
@@ -177,6 +188,7 @@ public class KGPListTherapy implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _serviceUnitsCt3a">
     @Column(name = "thServiceUnitsCt3a")
+    @Documentation(name = "Summe Leistungseinheiten KoArtGr 3a", rank = 110)
     private int _serviceUnitsCt3a;
 
     public int getServiceUnitsCt3a() {
@@ -190,6 +202,7 @@ public class KGPListTherapy implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _personalCostCt3a">
     @Column(name = "thPersonalCostCt3a")
+    @Documentation(name = "Personalkosten KoArtGr 3a", rank = 120)
     private int _personalCostCt3a;
 
     public int getPersonalCostCt3a() {
@@ -203,6 +216,7 @@ public class KGPListTherapy implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _serviceUnitsCt3b">
     @Column(name = "thServiceUnitsCt3b")
+    @Documentation(name = "Summe Leistungseinheiten KoArtGr 3b", rank = 130)
     private int _serviceUnitsCt3b;
 
     public int getServiceUnitsCt3b() {
@@ -216,6 +230,7 @@ public class KGPListTherapy implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _personalCostCt3b">
     @Column(name = "thPersonalCostCt3b")
+    @Documentation(name = "Personalkosten KoArtGr 3b", rank = 140)
     private int _personalCostCt3b;
 
     public int getPersonalCostCt3b() {
@@ -229,6 +244,7 @@ public class KGPListTherapy implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _serviceUnitsCt3c">
     @Column(name = "thServiceUnitsCt3c")
+    @Documentation(name = "Summe Leistungseinheiten KoArtGr 3c", rank = 150)
     private int _serviceUnitsCt3c;
 
     public int getServiceUnitsCt3c() {
@@ -242,6 +258,7 @@ public class KGPListTherapy implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _personalCostCt3c">
     @Column(name = "thPersonalCostCt3c")
+    @Documentation(name = "Personalkosten KoArtGr 3c", rank = 140)
     private int _personalCostCt3c;
 
     public int getPersonalCostCt3c() {

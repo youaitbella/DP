@@ -16,6 +16,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import org.inek.dataportal.entities.calc.iface.BaseIdValue;
+import org.inek.dataportal.utils.Documentation;
 
 /**
  *
@@ -46,6 +47,7 @@ public class KGPListDelimitationFact implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property used">
     @Column(name = "dfUsed")
+    @Documentation(name = "bitte markieren", rank = 10)
     private boolean _used;
 
     public boolean isUsed() {
@@ -59,6 +61,7 @@ public class KGPListDelimitationFact implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property personalCost">
     @Column(name = "dfPersonalCost")
+    @Documentation(name = "Personalkosten", rank = 20)
     private int _personalCost;
 
     public int getPersonalCost() {
@@ -72,6 +75,7 @@ public class KGPListDelimitationFact implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property materialCost">
     @Column(name = "dfMaterialcost")
+    @Documentation(name = "Sachkosten", rank = 30)
     private int _materialCost;
 
     public int getMaterialCost() {
@@ -85,6 +89,7 @@ public class KGPListDelimitationFact implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property infraCost">
     @Column(name = "dfInfraCost")
+    @Documentation(name = "Infrastrukturkosten", rank = 40)
     private int _infraCost;
 
     public int getInfraCost() {
