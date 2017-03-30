@@ -23,7 +23,7 @@
                                   singleLine="true"
                                   displayAsLabel="true"
                                   label="#{msg.lblContractKey}" 
-                                  value="#{sessionController.isInekUser('SPECIFIC_FUNCTION') or editModelIntention.modelIntention.code.length() gt 0
+                                  value="#{sessionController.isInekUser('SPECIFIC_FUNCTION') or editSpecificFunction.request.code.length() gt 0
                                            ? editSpecificFunction.request.code 
                                            : msg.lblNotGrantedYet}" />
                 <inek:LabeledText rendered="#{sessionController.isInekUser('SPECIFIC_FUNCTION')}" 
