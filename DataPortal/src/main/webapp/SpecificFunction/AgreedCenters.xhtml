@@ -13,6 +13,7 @@
     <inek:LabeledCheckbox label="Für unser Haus liegt für das Budgetjahr 2016 bereits eine Vereinbarung gem. § 5 Abs. 3 KHEntgG vor" 
                           styleClassComponent="marginTop01em"
                           value="#{editSpecificFunction.request.hasAgreement}"
+                          readonly="#{editSpecificFunction.readOnly}"
                           renderElement="@form"/>
 
     <h:dataTable value="#{editSpecificFunction.request.requestAgreedCenters}" var="item"

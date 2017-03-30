@@ -13,6 +13,7 @@
     <inek:LabeledCheckbox label="Wir beabsichtigen über die Vereinbarung von Zuschlägen gem. § 5 Abs. 3 KHEntgG zu verhandeln" 
                           styleClassComponent="marginTop01em"
                           value="#{editSpecificFunction.request.willNegotiate}"
+                          readonly="#{editSpecificFunction.readOnly}"
                           renderElement="@form"/>
 
     <ui:repeat value="#{editSpecificFunction.request.requestProjectedCenters}" var="center" 

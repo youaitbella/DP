@@ -299,9 +299,8 @@ public class SessionController implements Serializable {
             return false;
         }
 
-        if (_account.getEmail().toLowerCase().endsWith("@inek-drg.de") && isInternalClient()) {
-            FacesContext.getCurrentInstance().getExternalContext().setSessionMaxInactiveInterval(36000); // session timeout extended to 10 hour
-        }
+        int sessionTimeout = (_account.getEmail().toLowerCase().endsWith("@inek-drg.de") && isInternalClient()) ? 36000 : 1800; // session timeout extended to 10 hour for internal user
+        FacesContext.getCurrentInstance().getExternalContext().setSessionMaxInactiveInterval(sessionTimeout);
         return true;
     }
 
@@ -673,5 +672,4 @@ public class SessionController implements Serializable {
         }
     }
 
-    
 }

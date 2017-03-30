@@ -234,7 +234,7 @@ public class SpecificFunctionRequest implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property WillNegotiate">
     @Column(name = "rmWillNegotiate")
-    private boolean _willNegotiate;
+    private boolean _willNegotiate = true;
 
     public boolean isWillNegotiate() {
         return _willNegotiate;
