@@ -119,10 +119,10 @@
                     <inek:InputNumberWithMessage value="#{x.caseCnt}" renderElement="@this calc-field-#{loop.index}:text"/>
                     </td>
                     <td>
-                    <inek:Checkbox value="#{x.ops8980}" renderElement="#{cc.attrs.id}:tbl-cont:#{loop.index}:medServCnt:text"/>
+                        <inek:Checkbox value="#{cc.attrs.intensiveType == 1 ? x.ops8980 : x.ops8981}" renderElement="#{cc.attrs.id}:tbl-cont:#{loop.index}:medServCnt:text"/>
                     </td>
                     <td>
-                    <inek:Checkbox value="#{x.ops898f}"  renderElement="#{cc.attrs.id}:tbl-cont:#{loop.index}:medServCnt:text"/>
+                        <inek:Checkbox value="#{cc.attrs.intensiveType == 1 ? x.ops898f : x.ops898b}"  renderElement="#{cc.attrs.id}:tbl-cont:#{loop.index}:medServCnt:text"/>
                     </td>
                     <td>
                     <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
