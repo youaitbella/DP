@@ -146,9 +146,6 @@ public class DropBoxController extends AbstractFeatureController {
             String fileName = "EMailInfo" + new SimpleDateFormat("ddMMyyyyHHmmss").format(ts) + ".txt";
             File file = new File(dir, fileName);
             pw = new PrintWriter(new FileOutputStream(file));
-            if (getAccount().isReportViaPortal()) {
-                pw.println("Account.Mail=" + getAccount().getEmail());
-            }
             pw.println("From=" + getAccount().getEmail());
             pw.println("Accept=Dropbox");
             pw.println("Received=" + new SimpleDateFormat("dd.MM.yyyy HH:mm").format(ts));

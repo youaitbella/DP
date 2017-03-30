@@ -168,10 +168,12 @@ public class Contact implements Serializable {
     @Column(name = "coDPReceiver")
     private boolean _reportViaPortal;
 
+    @Deprecated
     public boolean isReportViaPortal() {
         return _reportViaPortal;
     }
 
+    @Deprecated
     public void setReportViaPortal(boolean reportViaPortal) {
         _reportViaPortal = reportViaPortal;
     }

@@ -85,9 +85,6 @@ public class TransferFileCreator {
     private static String obtainInfoText(SessionController sessionController, String type, int ik) {
         Date ts = Calendar.getInstance().getTime();
         String content = "";
-        if (sessionController.getAccount().isReportViaPortal()) {
-            content += "Account.Mail=" + sessionController.getAccount().getEmail() + "\r\n";
-        }
         content += "Accept=Dataportal\r\n";
         content += "From=" + sessionController.getAccount().getEmail() + "\r\n";
         content += "Received=" + new SimpleDateFormat("dd.MM.yyyy HH:mm").format(ts) + "\r\n";

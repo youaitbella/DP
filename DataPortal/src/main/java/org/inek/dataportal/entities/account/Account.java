@@ -123,10 +123,12 @@ public class Account implements Serializable, Person {
     @Column(name = "acReportViaPortal")
     private boolean _reportViaPortal;
 
+    @Deprecated
     public boolean isReportViaPortal() {
         return _reportViaPortal;
     }
 
+    @Deprecated
     public void setReportViaPortal(boolean reportViaPortal) {
         _reportViaPortal = reportViaPortal;
     }
