@@ -16,6 +16,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import org.inek.dataportal.entities.calc.iface.ListCostCenter;
 import org.inek.dataportal.entities.calc.iface.BaseIdValue;
+import org.inek.dataportal.utils.Documentation;
 
 /**
  *
@@ -46,6 +47,7 @@ public class KGPListCostCenter implements Serializable, ListCostCenter, BaseIdVa
 
     //<editor-fold defaultstate="collapsed" desc="Property _costCenterId">
     @Column(name = "ccCostCenterID")
+    @Documentation(name = "Kostenstelle", rank = 10)
     private int _costCenterId;
 
     @Override
@@ -76,6 +78,7 @@ public class KGPListCostCenter implements Serializable, ListCostCenter, BaseIdVa
 
     //<editor-fold defaultstate="collapsed" desc="Property _costCenterText">
     @Column(name = "ccCostCenterText")
+    @Documentation(name = "Name der Kostenstelle", rank = 20)
     private String _costCenterText = "";
 
     @Override
@@ -92,6 +95,7 @@ public class KGPListCostCenter implements Serializable, ListCostCenter, BaseIdVa
 
     //<editor-fold defaultstate="collapsed" desc="Property _amount">
     @Column(name = "ccAmount")
+    @Documentation(name = "Kostenvolumen", rank = 30)
     private int _amount;
 
     @Override
@@ -107,6 +111,7 @@ public class KGPListCostCenter implements Serializable, ListCostCenter, BaseIdVa
 
     //<editor-fold defaultstate="collapsed" desc="Property _fullVigorCnt">
     @Column(name = "ccFullVigorCnt")
+    @Documentation(name = "Anzahl zugeordenter Vollkräfte…", rank = 40)
     private double _fullVigorCnt;
 
     @Override
@@ -122,6 +127,7 @@ public class KGPListCostCenter implements Serializable, ListCostCenter, BaseIdVa
 
     //<editor-fold defaultstate="collapsed" desc="Property _serviceKey">
     @Column(name = "ccServiceKey")
+    @Documentation(name = "Leistungsschlüssel", rank = 50)
     private String _serviceKey = "";
 
     @Override
@@ -138,6 +144,7 @@ public class KGPListCostCenter implements Serializable, ListCostCenter, BaseIdVa
 
     //<editor-fold defaultstate="collapsed" desc="Property _serviceKeyDescription">
     @Column(name = "ccServiceKeyDescription")
+    @Documentation(name = "Beschreibung Leistungsschlüssel", rank = 60)
     private String _serviceKeyDescription = "";
 
     @Override
@@ -153,6 +160,7 @@ public class KGPListCostCenter implements Serializable, ListCostCenter, BaseIdVa
 
     //<editor-fold defaultstate="collapsed" desc="Property _serviceSum">
     @Column(name = "ccServiceSum")
+    @Documentation(name = "Summe Leistungseinheiten", rank = 70)
     private double _serviceSum;
 
     @Override

@@ -5,12 +5,14 @@
  */
 package org.inek.dataportal.entities.calc;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Vector;
+import java.util.stream.Collectors;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -401,6 +403,7 @@ public class PeppCalcBasics implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property _bimAll">
     @Column(name = "biBimAll")
+    @Documentation(name = "Leistungsdokumentation gem. BIM", rank = 9010, headline = "Ergänzende Angaben zum stationären Bereich")
     private boolean _bimAll;
 
     public boolean isBimAll() {
@@ -414,6 +417,7 @@ public class PeppCalcBasics implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property _intensiveExceptionalPermission">
     @Column(name = "biIntensiveExceptionalPermission")
+    @Documentation(name = "Ausnahmegenehmigung für das Datenjahr (Kommentar)", rank = 9020)
     private String _intensiveExceptionalPermission = "";
 
     public String getIntensiveExceptionalPermission() {
@@ -427,6 +431,7 @@ public class PeppCalcBasics implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property _intensiveCriteriaBullets">
     @Column(name = "biIntensiveCriteriaBullets")
+    @Documentation(name = "Stichwortartig Kriterien Pflegetage", rank = 9030)
     private String _intensiveCriteriaBullets = "";
 
     public String getIntensiveCriteriaBullets() {
@@ -440,6 +445,7 @@ public class PeppCalcBasics implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property _intensiveMethodBullets">
     @Column(name = "biIntensiveMethodBullets")
+    @Documentation(name = "Stichwortartig Verfahren zur Verrechnung der Kosten", rank = 9040)
     private String _intensiveMethodBullets = "";
 
     public String getIntensiveMethodBullets() {
@@ -535,6 +541,7 @@ public class PeppCalcBasics implements Serializable {
     //@OneToMany(cascade = CascadeType.ALL, mappedBy = "paBaseInformationId")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "paBaseInformationId", referencedColumnName = "biID")
+    @Documentation(name = "ListPersonalAccounting", rank = 20008) 
     @OrderBy(value = "_costTypeId")
     private List<KGPPersonalAccounting> _personalAccountings = new Vector<>();
 
@@ -551,6 +558,7 @@ public class PeppCalcBasics implements Serializable {
     //@OneToMany(cascade = CascadeType.ALL, mappedBy = "spBaseInformationId")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "spBaseInformationId", referencedColumnName = "biID")
+    @Documentation(name = "ListListServiceProvision", rank = 20007) 
     @OrderBy(value = "_sequence")
     private List<KGPListServiceProvision> _serviceProvisions = new Vector<>();
 
@@ -567,6 +575,7 @@ public class PeppCalcBasics implements Serializable {
     //@OneToMany(cascade = CascadeType.ALL, mappedBy = "ccBaseInformationId")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "ccBaseInformationId", referencedColumnName = "biID")
+    @Documentation(name = "ListCostCenter", rank = 20006) 
     private List<KGPListCostCenter> _costCenters = new Vector<>();
 
     public List<KGPListCostCenter> getCostCenters() {
@@ -613,6 +622,7 @@ public class PeppCalcBasics implements Serializable {
     //@OneToMany(cascade = CascadeType.ALL, mappedBy = "seBaseInformationId")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "saBaseInformationId", referencedColumnName = "biID")
+    @Documentation(name = "ListStationAlternative", rank = 20005) 
     private List<KGPListStationAlternative> _kgpStationDepartmentList = new Vector<>();
 
     public List<KGPListStationAlternative> getKgpStationDepartmentList() {
@@ -628,10 +638,42 @@ public class PeppCalcBasics implements Serializable {
     //@OneToMany(cascade = CascadeType.ALL, mappedBy = "rlBaseInformationId")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "rlBaseInformationId", referencedColumnName = "biID")
+   // @Documentation(name = "Kostenstellen", rank = 5010, headline = "Kostenstellengruppe 9 (Radiologie)")
     private List<KGPListRadiologyLaboratory> _radiologyLaboratories = new Vector<>();
 
     public List<KGPListRadiologyLaboratory> getRadiologyLaboratories() {
         return _radiologyLaboratories;
+    }
+    
+    
+    @Documentation(name = "Kostenstellen",headline = "Kostenstellengruppe 9 (Radiologie)", rank = 5000) 
+    @JsonIgnore
+    public List<KGPListRadiologyLaboratory> getRadiologyLaboratories9() {
+        return _radiologyLaboratories.stream().filter(c -> c.getCostCenterId() == 9).collect(Collectors.toList());
+    }
+    
+    @Documentation(name = "Kostenstellen",headline = "Kostenstellengruppe 10 (Laboratorien)", rank = 6000) 
+    @JsonIgnore
+    public List<KGPListRadiologyLaboratory> getRadiologyLaboratories10() {
+        return _radiologyLaboratories.stream().filter(c -> c.getCostCenterId() == 10).collect(Collectors.toList());
+    }
+    
+    @Documentation(name = "Kostenstellen",headline = "Kostenstellengruppe 11 (Diagnostische Bereiche)", rank = 7000) 
+    @JsonIgnore
+    public List<KGPListRadiologyLaboratory> getRadiologyLaboratories11() {
+        return _radiologyLaboratories.stream().filter(c -> c.getCostCenterId() == 11).collect(Collectors.toList());
+    }
+    
+    @Documentation(name = "Kostenstellen",headline = "Kostenstellengruppe 12 (Therapeutische Verfahren)", rank = 8000) 
+    @JsonIgnore
+    public List<KGPListRadiologyLaboratory> getRadiologyLaboratories12() {
+        return _radiologyLaboratories.stream().filter(c -> c.getCostCenterId() == 12).collect(Collectors.toList());
+    }
+    
+    @Documentation(name = "Kostenstellen",headline = "Kostenstellengruppe 13 (Patientenaufnahme)", rank = 9000) 
+    @JsonIgnore
+    public List<KGPListRadiologyLaboratory> getRadiologyLaboratories13() {
+        return _radiologyLaboratories.stream().filter(c -> c.getCostCenterId() == 13).collect(Collectors.toList());
     }
 
     public void setRadiologyLaboratories(List<KGPListRadiologyLaboratory> radiologyLaboratories) {
@@ -644,6 +686,7 @@ public class PeppCalcBasics implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "dfBaseInformationId", referencedColumnName = "biID")
     @OrderBy(value = "_contentTextId")
+    @Documentation(name = "Liste DelimitationFact", rank = 20004)
     private List<KGPListDelimitationFact> _delimitationFacts = new Vector<>();
 
     public List<KGPListDelimitationFact> getDelimitationFacts() {
@@ -659,6 +702,7 @@ public class PeppCalcBasics implements Serializable {
     //@OneToMany(cascade = CascadeType.ALL, mappedBy = "doBaseInformationId")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "doBaseInformationId", referencedColumnName = "biID")
+    @Documentation(name = "Liste Dokumente", rank = 20000)
     private List<KGPDocuments> _kgpDocumentsList = new Vector<>();
 
     public List<KGPDocuments> getKgpDocumentsList() {
@@ -674,7 +718,7 @@ public class PeppCalcBasics implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "lBaseInformationId", referencedColumnName = "biID")
     private List<KGPListLocation> _locations = new Vector<>();
-
+    @Documentation(name = "Liste Standorte", rank = 20001)
     public List<KGPListLocation> getLocations() {
         return _locations;
     }

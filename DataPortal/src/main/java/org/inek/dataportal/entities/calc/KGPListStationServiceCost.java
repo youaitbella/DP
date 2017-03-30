@@ -62,7 +62,7 @@ public class KGPListStationServiceCost implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _costCenterNumber">
     @Column(name = "sscCostCenterNumber")
-    @Documentation(name = "Kostenstellennummer", rank = 20)
+    @Documentation(name = "Nummer der Kostenstelle", rank = 20)
     private String _costCenterNumber = "";
 
     public String getCostCenterNumber() {
@@ -105,7 +105,7 @@ public class KGPListStationServiceCost implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _receivingStation">
     @Column(name = "sscReceivingStation")
-    @Documentation(name = "ReceivingStation", rank = 40)
+    @Documentation(name = "Bettenführende Aufnahmestation", rank = 50)
     private boolean _receivingStation;
 
     public boolean isReceivingStation() {
@@ -119,7 +119,7 @@ public class KGPListStationServiceCost implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _regularCareDays">
     @Column(name = "sscRegularCareDays")
-    @Documentation(name = "Pflegetage", rank = 50)
+    @Documentation(name = "Summe Pflegetage Regelbehandlung", rank = 60)
     private int _regularCareDays;
 
     public int getRegularCareDays() {
@@ -133,7 +133,7 @@ public class KGPListStationServiceCost implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _regularWeight">
     @Column(name = "sscRegularWeight")
-    @Documentation(name = "RegularWeight", rank = 60)
+    @Documentation(name = "Summe Gewichtungspunkte Regelbehandlung", rank = 70)
     private int _regularWeight;
 
     public int getRegularWeight() {
@@ -147,7 +147,7 @@ public class KGPListStationServiceCost implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _intensiveCareDays">
     @Column(name = "sscIntensiveCareDays")
-    @Documentation(name = "Intensivtage", rank = 70)
+    @Documentation(name = "Summe Pflegetage Intensiv", rank = 80)
     private int _intensiveCareDays;
 
     public int getIntensiveCareDays() {
@@ -161,7 +161,7 @@ public class KGPListStationServiceCost implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _intensiveWeight">
     @Column(name = "sscIntensiveWeight")
-    @Documentation(name = "Intensivgewicht", rank = 80)
+    @Documentation(name = "Summe Gewichtungspunkte Intensiv", rank = 90)
     private int _intensiveWeight;
 
     public int getIntensiveWeight() {
@@ -176,7 +176,7 @@ public class KGPListStationServiceCost implements Serializable, BaseIdValue {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     //<editor-fold defaultstate="collapsed" desc="Property _medicalServiceCnt">
     @Column(name = "sscMedicalServiceCnt")
-    @Documentation(name = "MedicalServiceCnt", rank = 90)
+    @Documentation(name = "Anzahl VK ÄD", rank = 100)
     private double _medicalServiceCnt;
 
     public double getMedicalServiceCnt() {
@@ -190,6 +190,7 @@ public class KGPListStationServiceCost implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _nursingServiceCnt">
     @Column(name = "sscNursingServiceCnt")
+    @Documentation(name = "Anzahl VK PD", rank = 110)
     private double _nursingServiceCnt;
 
     public double getNursingServiceCnt() {
@@ -203,6 +204,7 @@ public class KGPListStationServiceCost implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _psychologistCnt">
     @Column(name = "sscPsychologistCnt")
+    @Documentation(name = "Anzahl VK Psychologen", rank = 120)
     private double _psychologistCnt;
 
     public double getPsychologistCnt() {
@@ -216,6 +218,7 @@ public class KGPListStationServiceCost implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _socialWorkerCnt">
     @Column(name = "sscSocialWorkerCnt")
+    @Documentation(name = "Anzahl VK Sozialarbeiter", rank = 130)
     private double _socialWorkerCnt;
 
     public double getSocialWorkerCnt() {
@@ -229,6 +232,7 @@ public class KGPListStationServiceCost implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _specialTherapistCnt">
     @Column(name = "sscSpecialTherapistCnt")
+    @Documentation(name = "Anzahl VK Spezialtherapeuten", rank = 140)
     private double _specialTherapistCnt;
 
     public double getSpecialTherapistCnt() {
@@ -242,6 +246,7 @@ public class KGPListStationServiceCost implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _functionalServiceCnt">
     @Column(name = "sscFunctionalServiceCnt")
+    @Documentation(name = "Anzahl VK FD", rank = 150)
     private double _functionalServiceCnt;
 
     public double getFunctionalServiceCnt() {
@@ -255,6 +260,7 @@ public class KGPListStationServiceCost implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _medicalServiceAmount">
     @Column(name = "sscMedicalServiceAmount")
+    @Documentation(name = "Kosten ÄD", rank = 160)
     private int _medicalServiceAmount;
 
     public int getMedicalServiceAmount() {
@@ -268,6 +274,7 @@ public class KGPListStationServiceCost implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _nursingServiceAmount">
     @Column(name = "sscNursingServiceAmount")
+    @Documentation(name = "Kosten PD", rank = 170)
     private int _nursingServiceAmount;
 
     public int getNursingServiceAmount() {
@@ -281,6 +288,7 @@ public class KGPListStationServiceCost implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _psychologistAmount">
     @Column(name = "sscPsychologistAmount")
+    @Documentation(name = "Kosten Psychologen", rank = 180)
     private int _psychologistAmount;
 
     public int getPsychologistAmount() {
@@ -294,6 +302,7 @@ public class KGPListStationServiceCost implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _socialWorkerAmount">
     @Column(name = "sscSocialWorkerAmount")
+    @Documentation(name = "Kosten Sozialarbeiter", rank = 190)
     private int _socialWorkerAmount;
 
     public int getSocialWorkerAmount() {
@@ -307,6 +316,7 @@ public class KGPListStationServiceCost implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _specialTherapistAmount">
     @Column(name = "sscSpecialTherapistAmount")
+    @Documentation(name = "Kosten Spezialtherapeuten", rank = 200)
     private int _specialTherapistAmount;
 
     public int getSpecialTherapistAmount() {
@@ -320,6 +330,7 @@ public class KGPListStationServiceCost implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _functionalServiceAmount">
     @Column(name = "sscFunctionalServiceAmount")
+    @Documentation(name = "Kosten FD", rank = 210)
     private int _functionalServiceAmount;
 
     public int getFunctionalServiceAmount() {
@@ -333,6 +344,7 @@ public class KGPListStationServiceCost implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _medicalInfrastructureAmount">
     @Column(name = "sscMedicalInfrastructureAmount")
+    @Documentation(name = "Kosten med. Infra.", rank = 220)
     private int _medicalInfrastructureAmount;
 
     public int getMedicalInfrastructureAmount() {
@@ -346,6 +358,7 @@ public class KGPListStationServiceCost implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _nonMedicalInfrastructureAmount">
     @Column(name = "sscNonMedicalInfrastructureAmount")
+    @Documentation(name = "Kosten nicht med. Infra.", rank = 230)
     private int _nonMedicalInfrastructureAmount;
 
     public int getNonMedicalInfrastructureAmount() {
