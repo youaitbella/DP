@@ -27,6 +27,7 @@ import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
+import javax.persistence.Version;
 import javax.validation.constraints.Size;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.utils.Documentation;
@@ -56,6 +57,12 @@ public class PeppCalcBasics implements Serializable {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Property Version">
+    @Column(name = "biVersion")
+    @Version
+    private int _version;
+    // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="Property DataYear">
     @Column(name = "biDataYear")
     @Documentation(key = "lblYearData", headline = "Allgemeine Informationen", rank = 20)

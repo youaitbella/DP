@@ -27,6 +27,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.persistence.Version;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
@@ -61,6 +62,12 @@ public class DrgCalcBasics implements Serializable {
     }
     //</editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Property Version">
+    @Column(name = "biVersion")
+    @Version
+    private int _version;
+    // </editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc="dataYear">
     @Column(name = "biDataYear")
     @Documentation(key = "lblYearData")

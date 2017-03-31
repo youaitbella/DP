@@ -34,6 +34,7 @@ import javax.faces.model.SelectItem;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.OptimisticLockException;
 import javax.servlet.http.Part;
 import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.CooperationTools;
@@ -907,9 +908,24 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         return Pages.Error.URL();
     }
 
-    public void saveData() {
+    private boolean saveData() {
         setModifiedInfo();
-        _calcBasics = _calcFacade.saveCalcBasicsDrg(_calcBasics);
+        try {
+            _calcBasics = _calcFacade.saveCalcBasicsDrg(_calcBasics);
+            return true;
+        } catch (Exception ex) {
+            if (!(ex.getCause() instanceof OptimisticLockException)) {
+                throw ex;
+            }
+            // todo
+            throw ex;
+            /*
+            _calcBasics = _calcFacade.findCalcBasicsDrg(_calcBasics.getId());  // reload
+            String script = "alert ('Änderung im Mehrbenutzerbetrieb. Bitte beachten Sie die entsprechenden Hinweise im Handbuch');";
+            _sessionController.setScript(script);
+            return false;
+            */
+        }
     }
 
     private void setModifiedInfo() {
