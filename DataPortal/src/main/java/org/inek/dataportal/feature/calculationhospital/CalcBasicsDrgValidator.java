@@ -176,7 +176,7 @@ public class CalcBasicsDrgValidator {
             applyMessageValues(message, "Die Summe der Kostenvolumina der med. Infrastruktur darf nicht negativ sein.", "TopicCalcMedicalInfrastructure", "");
         }
         if (getMedInfraSum(calcBasics, 180) < 0) {
-            applyMessageValues(message, "Die Summe der Kostenvolumina der med. Infrastruktur darf nicht negativ sein.", "TopicCalcNonMedicalInfrastructure", "");
+            applyMessageValues(message, "Die Summe der Kostenvolumina der nicht med. Infrastruktur darf nicht negativ sein.", "TopicCalcNonMedicalInfrastructure", "");
         }
     }
     

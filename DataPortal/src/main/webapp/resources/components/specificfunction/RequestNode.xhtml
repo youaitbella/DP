@@ -101,19 +101,10 @@
 
             <h:column>
                 <f:facet name="header">
-                    <h:commandLink value="#{msg.lblAppellation} #{cc.attrs.parentNode.sortCriteria.equals('Name') ? (cc.attrs.parentNode.descending ? '↓' : '↑') : ''}">
-                        <f:ajax listener="#{cc.attrs.parentNode.setSortCriteria('Name')}" render="specificFunctionRequests :logout:remaining"/>
+                    <h:commandLink value="Vertragskennzeichen #{cc.attrs.parentNode.sortCriteria.equals('Code') ? (cc.attrs.parentNode.descending ? '↓' : '↑') : ''}">
+                        <f:ajax listener="#{cc.attrs.parentNode.setSortCriteria('Code')}" render="specificFunctionRequests :logout:remaining"/>
                     </h:commandLink>
-                </f:facet>
-                <h:link outcome="#{specificFunctionRequestList.edit()}"
-                               value="#{node.specificFunctionRequest.name}">
-                    <f:param name="id" value="#{node.specificFunctionRequest.id}"/>
-                </h:link>
-            </h:column>
-            
-            <h:column>
-                <f:facet name="header">
-                    Vertragskennzeichen
+                    
                 </f:facet>
                 <h:link outcome="#{specificFunctionRequestList.edit()}"
                                value="#{node.specificFunctionRequest.code}">

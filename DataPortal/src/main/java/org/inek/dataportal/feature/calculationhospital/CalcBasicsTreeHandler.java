@@ -79,7 +79,6 @@ public class CalcBasicsTreeHandler implements Serializable, TreeNodeObserver {
         }
     }
 
-
     private void obtainAccountNodeChildren(AccountTreeNode accountTreeNode, Collection<TreeNode> children) {
         List<CalcHospitalInfo> infos = _calcFacade.getCalcBasicsForAccount(accountTreeNode.getAccount());
         accountTreeNode.getChildren().clear();

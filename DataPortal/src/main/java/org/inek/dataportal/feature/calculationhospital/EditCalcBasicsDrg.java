@@ -959,10 +959,11 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     public void copyForResend() {
         // in a first approch, we do not copy the data
-        // just reset the status to "new"
-        _calcBasics.setStatus(WorkflowStatus.New);
+        // just reset the status to "CorrectionRequested"
+        _calcBasics.setStatus(WorkflowStatus.CorrectionRequested);
         _calcBasics = _calcFacade.saveCalcBasicsDrg(_calcBasics);
         /*
+        _calcBasics.setStatus(WorkflowStatus.New);
         _calcBasics.setId(-1);
         _calcBasics.setStatus(WorkflowStatus.New);
         _calcBasics.setAccountId(_sessionController.getAccountId());

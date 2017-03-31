@@ -410,8 +410,8 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
 
     public void copyForResend() {
         // in a first approch, we do not copy the data
-        // just reset the status to "new"
-        _calcBasics.setStatus(WorkflowStatus.New);
+        // just reset the status to "CorrectionRequested"
+        _calcBasics.setStatus(WorkflowStatus.CorrectionRequested);
         _calcBasics = _calcFacade.saveCalcBasicsPepp(_calcBasics);
         /*
         _calcBasics.setId(-1);

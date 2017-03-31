@@ -94,6 +94,13 @@ public class InekSpfTreeHandler implements Serializable, TreeNodeObserver {
                     sorted = stream.sorted((n1, n2) -> n1.getSpecificFunctionRequest().getName().compareTo(n2.getSpecificFunctionRequest().getName()));
                 }
                 break;
+            case "code":
+                if (treeNode.isDescending()) {
+                    sorted = stream.sorted((n1, n2) -> n2.getSpecificFunctionRequest().getCode().compareTo(n1.getSpecificFunctionRequest().getCode()));
+                } else {
+                    sorted = stream.sorted((n1, n2) -> n1.getSpecificFunctionRequest().getCode().compareTo(n2.getSpecificFunctionRequest().getCode()));
+                }
+                break;
             case "status":
             default:
                 sorted = stream;

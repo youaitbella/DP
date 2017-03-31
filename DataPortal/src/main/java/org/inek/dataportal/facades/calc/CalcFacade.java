@@ -1117,8 +1117,8 @@ public class CalcFacade extends AbstractDataAccess {
     public List<Account> getInekAccounts() {
         String sql = "select distinct account.*\n"
                 //        String sql = "select distinct acId, acCreated, acLastModified, acIsDeactivated, acMail, acMailUnverified, acUser, acGender, acTitle, acFirstName, acLastName, acInitials, acPhone, acRoleId, acCompany, acCustomerTypeId, acIK, acStreet, acPostalCode, acTown, acCustomerPhone, acCustomerFax, acNubConfirmation, acMessageCopy, acNubInformationMail, acReportViaPortal, acDropBoxHoldTime\n"
-                + "from (select biIk, biDataYear from calc.KGLBaseInformation where biStatusID = 10 \n"
-                + "union select biIk, biDataYear from calc.KGPBaseInformation where biStatusID = 10 ) base\n"
+                + "from (select biIk, biDataYear from calc.KGLBaseInformation where biStatusID between 3 and 10 \n"
+                + "union select biIk, biDataYear from calc.KGPBaseInformation where biStatusID between 3 and 10 ) base\n"
                 + "join CallCenterDB.dbo.ccCustomer on biIk = cuIK\n"
                 + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
                 + "join CallCenterDB.dbo.ccCalcInformation on caId = ciCalcAgreementId and biDataYear = ciDataYear \n"
@@ -1136,8 +1136,8 @@ public class CalcFacade extends AbstractDataAccess {
     public List<CalcHospitalInfo> getCalcBasicsForAccount(Account account) {
         String sql = "select distinct biId as Id, biType as [Type], biAccountId as AccountId, biDataYear as DataYear, biIk as IK, biStatusId as StatusId,\n"
                 + "Name, biLastChanged as LastChanged\n"
-                + "from (select biId, biIk, 1 as biType, biDataYear, biAccountID, biStatusId, biLastChanged, '" + Utils.getMessage("lblCalculationBasicsDrg") + "' as Name from calc.KGLBaseInformation where biStatusID = 10 "
-                + "union select biId, biIk, 2 as biType, biDataYear, biAccountID, biStatusId, biLastChanged, '" + Utils.getMessage("lblCalculationBasicsPsy") + "' as Name from calc.KGPBaseInformation where biStatusID = 10) base \n"
+                + "from (select biId, biIk, 1 as biType, biDataYear, biAccountID, biStatusId, biLastChanged, '" + Utils.getMessage("lblCalculationBasicsDrg") + "' as Name from calc.KGLBaseInformation where biStatusID between 3 and 10 "
+                + "union select biId, biIk, 2 as biType, biDataYear, biAccountID, biStatusId, biLastChanged, '" + Utils.getMessage("lblCalculationBasicsPsy") + "' as Name from calc.KGPBaseInformation where biStatusID between 3 and 10) base \n"
                 + "join CallCenterDB.dbo.ccCustomer on biIk = cuIK\n"
                 + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
                 + "join CallCenterDB.dbo.ccCalcInformation on caId = ciCalcAgreementId and biDataYear = ciDataYear \n"
