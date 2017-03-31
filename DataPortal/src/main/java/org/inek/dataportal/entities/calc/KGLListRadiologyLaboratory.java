@@ -60,6 +60,7 @@ public class KGLListRadiologyLaboratory implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="costCenterID">
     @Column(name = "rlCostCenterID")
+    @Documentation (name = "Kostenstelle", rank = 10)
     private int _costCenterId;
 
     public int getCostCenterId() {
@@ -87,7 +88,7 @@ public class KGLListRadiologyLaboratory implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="CostCenterText">
     @Column(name = "rlCostCenterText")
-    @Documentation (name = "Kostenstellen Bezeichnung:", rank = 20)
+    @Documentation (name = "Name Kostenstelle", rank = 20)
     private String _costCenterText = "";
 
     @Size(max = 200)
@@ -102,7 +103,7 @@ public class KGLListRadiologyLaboratory implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="serviceDocHome">
     @Column(name = "rlServiceDocHome")
-    @Documentation (name = "rlServiceDocHome:", rank = 30)
+    @Documentation (name = "Leistungsdokumentation Hauskatalog", rank = 30)
     private boolean _serviceDocHome;
 
     public boolean isServiceDocHome() {
@@ -116,6 +117,7 @@ public class KGLListRadiologyLaboratory implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="serviceDocDKG">
     @Column(name = "rlServiceDocDKG")
+    @Documentation (name = "Leistungsdokumentation DKG-NT", rank = 40)
     private boolean _serviceDocDKG;
 
     public boolean isServiceDocDKG() {
@@ -129,6 +131,7 @@ public class KGLListRadiologyLaboratory implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="serviceDocEBM">
     @Column(name = "rlServiceDocEBM")
+    @Documentation (name = "Leistungsdokumentation EBM", rank = 50)
     private boolean _serviceDocEBM;
 
     public boolean isServiceDocEBM() {
@@ -142,6 +145,7 @@ public class KGLListRadiologyLaboratory implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="serviceDocGOA">
     @Column(name = "rlServiceDocGOA")
+    @Documentation (name = "Leistungsdokumentation GOÄ", rank = 60)
     private boolean _serviceDocGOA;
 
     public boolean isServiceDocGOA() {
@@ -155,6 +159,7 @@ public class KGLListRadiologyLaboratory implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="serviceDocDif">
     @Column(name = "rlServiceDocDif")
+    @Documentation (name = "Leistungsdokumentation sonstige", rank = 70)
     private boolean _serviceDocDif;
 
     public boolean isServiceDocDif() {
@@ -168,6 +173,7 @@ public class KGLListRadiologyLaboratory implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Description">
     @Column(name = "rlDescription")
+    @Documentation (name = "Beschreibung", rank = 80)
     private String _description = "";
 
     public String getDescription() {
@@ -181,6 +187,7 @@ public class KGLListRadiologyLaboratory implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="ServiceVolumePre">
     @Column(name = "rlServiceVolumePre")
+    @Documentation (name = "Leistungsvolumen vor Abgrenzung", rank = 90)
     private int _serviceVolumePre;
 
     public int getServiceVolumePre() {
@@ -194,6 +201,7 @@ public class KGLListRadiologyLaboratory implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="AmountPre">
     @Column(name = "rlAmountPre")
+    @Documentation (name = "Kostenvolumen vor Abgrenzung", rank = 100)
     private int _amountPre;
 
     public int getAmountPre() {
@@ -207,6 +215,7 @@ public class KGLListRadiologyLaboratory implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="ServiceVolumePost">
     @Column(name = "rlServiceVolumePost")
+    @Documentation (name = "Leistungsvolumen nach Abgrenzung", rank = 110)
     private int _serviceVolumePost;
 
     public int getServiceVolumePost() {
@@ -220,6 +229,7 @@ public class KGLListRadiologyLaboratory implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="AmountPost">
     @Column(name = "rlAmountPost")
+    @Documentation (name = "Kostenvolumen nach Abgrenzung", rank = 120)
     private int _amountPost;
 
     public int getAmountPost() {
