@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
+import org.inek.dataportal.utils.Documentation;
 
 /**
  *
@@ -42,6 +43,7 @@ public class KGLNormalFreelancer implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property _division">
     @Column(name = "nfDivision")
+    @Documentation (name = "Bereich", rank = 10)
     private String _division = "";
 
     @Size(max = 300)
@@ -56,6 +58,7 @@ public class KGLNormalFreelancer implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property _fullVigorCnt">
     @Column(name = "nfFullVigorCnt")
+    @Documentation (name = "AnzahlVK", rank = 20)
     private double _fullVigorCnt;
 
     public double getFullVigorCnt() {
@@ -69,6 +72,7 @@ public class KGLNormalFreelancer implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property _amount">
     @Column(name = "nfAmount")
+    @Documentation (name = "Kostenvolumen", rank = 30)
     private int _amount;
 
     public int getAmount() {
@@ -82,6 +86,7 @@ public class KGLNormalFreelancer implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property _costType1">
     @Column(name = "nfCostType1")
+    @Documentation (name = "KoArtGr 1", rank = 40)
     private boolean _costType1;
 
     public boolean isCostType1() {
@@ -95,6 +100,7 @@ public class KGLNormalFreelancer implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property _costType6c">
     @Column(name = "nfCostType6c")
+    @Documentation (name = "KoArtGr 6c", rank = 50)
     private boolean _costType6c;
 
     public boolean isCostType6c() {

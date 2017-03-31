@@ -47,7 +47,7 @@ public class KGLListCostCenterCost implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="CostCenter">
     @Column(name = "cccCostCenterID")
-    @Documentation (name = "Nummer:", rank = 10)
+    @Documentation (name = "Zugeordnete Kostenstellengruppe", rank = 10)
     private int _costCenterId;
 
     public int getCostCenter() {
@@ -61,7 +61,7 @@ public class KGLListCostCenterCost implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="CostCenterText">
     @Column(name = "cccCostCenterText")
-    @Documentation (name = "Name:", rank = 20)
+    @Documentation (name = "Name der Kostenstelle", rank = 20)
     private String _costCenterText = "";
 
     @Size(max = 200, message = "Für Kostenstellenbezeichnung sind max. {max} Zeichen zulässig.")
@@ -76,7 +76,7 @@ public class KGLListCostCenterCost implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="DepartmentKey">
     @Column(name = "cccDepartmentKey")
-    @Documentation (name = "FAB-Schlüssel:", rank = 30)
+    @Documentation (name = "FAB-Schlüssel 301:", rank = 30)
     private String _departmentKey = "";
 
     @Size(max = 4, message = "Für FAB-Schlüssel sind max. {max} Zeichen zulässig.")
@@ -91,7 +91,7 @@ public class KGLListCostCenterCost implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="DepartmentAssignment">
     @Column(name = "cccDepartmentAssignment")
-    @Documentation (name = "Belegung/FAB:", rank = 40)
+    @Documentation (name = "Belegung/FAB", rank = 40)
     private String _departmentAssignment = "";
 
     @Size(max = 100, message = "Für Belegung/FAB sind max. {max} Zeichen zulässig.")
@@ -106,7 +106,7 @@ public class KGLListCostCenterCost implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="BedCnt">
     @Column(name = "cccBedCnt")
-    @Documentation (name = "Anzahl Betten:", rank = 50)
+    @Documentation (name = "Anzahl Betten", rank = 50)
     private int _bedCnt;
 
     public int getBedCnt() {
@@ -134,6 +134,7 @@ public class KGLListCostCenterCost implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="PPRMinutes">
     @Column(name = "cccPPRMinutes")
+    @Documentation (name = "PPR-Minuten", rank = 70)
     private int _pprMinutes;
 
     public int getPprMinutes() {
@@ -147,6 +148,7 @@ public class KGLListCostCenterCost implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="PPRWeight">
     @Column(name = "cccPPRWeight")
+    @Documentation (name = "zusätzliche Gewichtung PPR", rank = 80)
     private int _pprWeight;
 
     public int getPprWeight() {
@@ -161,6 +163,7 @@ public class KGLListCostCenterCost implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="MedicalServiceCnt">
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "cccMedicalServiceCnt")
+    @Documentation (name = "Anz. VK ÄD", rank = 90)
     private double _medicalServiceCnt;
 
     public double getMedicalServiceCnt() {
@@ -174,6 +177,7 @@ public class KGLListCostCenterCost implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="NursingServiceCnt">
     @Column(name = "cccNursingServiceCnt")
+    @Documentation (name = "Anz. VK PD", rank = 100)
     private double _nursingServiceCnt;
 
     public double getNursingServiceCnt() {
@@ -187,6 +191,7 @@ public class KGLListCostCenterCost implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="FunctionalServiceCnt">
     @Column(name = "cccFunctionalServiceCnt")
+    @Documentation (name = "Anz. VK FD", rank = 110)
     private double _functionalServiceCnt;
 
     public double getFunctionalServiceCnt() {
@@ -200,6 +205,7 @@ public class KGLListCostCenterCost implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="MedicalServiceAmount">
     @Column(name = "cccMedicalServiceAmount")
+    @Documentation (name = "Kosten ÄD", rank = 120)
     private int _medicalServiceAmount;
 
     public int getMedicalServiceAmount() {
@@ -213,6 +219,7 @@ public class KGLListCostCenterCost implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="NursingServiceAmount">
     @Column(name = "cccNursingServiceAmount")
+    @Documentation (name = "Kosten PD", rank = 130)
     private int _nursingServiceAmount;
 
     public int getNursingServiceAmount() {
@@ -226,6 +233,7 @@ public class KGLListCostCenterCost implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="FunctionalServiceAmount">
     @Column(name = "cccFunctionalServiceAmount")
+    @Documentation (name = "Kosten FD", rank = 140)
     private int _functionalServiceAmount;
 
     public int getFunctionalServiceAmount() {
@@ -239,6 +247,7 @@ public class KGLListCostCenterCost implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="OverheadsMedicine">
     @Column(name = "cccOverheadsMedicine")
+    @Documentation (name = "Gemeinkosten Arzneimittel", rank = 150)
     private int _overheadsMedicine;
 
     public int getOverheadsMedicine() {
@@ -252,6 +261,7 @@ public class KGLListCostCenterCost implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="OverheadsMedicalGoods">
     @Column(name = "cccOverheadsMedicalGoods")
+    @Documentation (name = "Gemeinkosten Sachbedarf", rank = 160)
     private int _overheadsMedicalGoods;
 
     public int getOverheadsMedicalGoods() {
@@ -265,6 +275,7 @@ public class KGLListCostCenterCost implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="MedicalInfrastructureCost">
     @Column(name = "cccMedicalInfrastructureCost")
+    @Documentation (name = "Kosten MedInfra", rank = 170)
     private int _medicalInfrastructureCost;
 
     public int getMedicalInfrastructureCost() {
@@ -278,6 +289,7 @@ public class KGLListCostCenterCost implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="NonMedicalInfrastructureCost">
     @Column(name = "cccNonMedicalInfrastructureCost")
+    @Documentation (name = "Kosten nicht MedInfra", rank = 180)
     private int _nonMedicalInfrastructureCost;
 
     public int getNonMedicalInfrastructureCost() {

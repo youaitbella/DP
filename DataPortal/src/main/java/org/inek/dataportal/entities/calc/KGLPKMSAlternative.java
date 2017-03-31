@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.inek.dataportal.utils.Documentation;
 
 /**
  *
@@ -44,6 +45,7 @@ public class KGLPKMSAlternative implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property _department">
     @Column(name = "paDepartment")
+    @Documentation (name = "Fachabteilung", rank = 10)
     private String _department = "";
 
     @Size(max = 200)
@@ -58,6 +60,7 @@ public class KGLPKMSAlternative implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property _departmentKey">
     @Column(name = "paDepartmentKey")
+    @Documentation (name = "FAB Schlüssel 301", rank = 20)
     private String _departmentKey = "";
 
     @Size(max = 4)
@@ -72,6 +75,7 @@ public class KGLPKMSAlternative implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property _alternative">
     @Column(name = "paAlternative")
+    @Documentation (name = "Alternativverfahren", rank = 30)
     private String _alternative = "";
 
     @Size(max = 200)

@@ -48,6 +48,7 @@ public class KGLPersonalAccounting implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property _costTypeId">
     @Column(name = "paCostTypeID")
+    @Documentation (name = "Kostenartengruppe", rank = 10)
     private int _costTypeId;
 
     public int getCostTypeId() {
@@ -153,7 +154,7 @@ public class KGLPersonalAccounting implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property _other">
     @Column(name = "paOther")
-    @Documentation(name = "Sonstiges")
+    @Documentation(name = "Sonstige")
     private boolean _other;
 
     public boolean isOther() {

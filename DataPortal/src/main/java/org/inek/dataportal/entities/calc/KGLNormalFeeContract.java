@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
+import org.inek.dataportal.utils.Documentation;
 
 /**
  *
@@ -42,6 +43,7 @@ public class KGLNormalFeeContract implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property _division">
     @Column(name = "nfcDivision")
+    @Documentation (name = "Bereich", rank = 10)
     private String _division = "";
 
     @Size(max = 300)
@@ -56,6 +58,7 @@ public class KGLNormalFeeContract implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property _departmentKey">
     @Column(name = "nfcDepartmentKey")
+    @Documentation (name = "FAB Schlüssel 301", rank = 20)
     private String _departmentKey = "";
 
     @Size(max = 4)
@@ -70,6 +73,7 @@ public class KGLNormalFeeContract implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property _caseCnt">
     @Column(name = "nfcCaseCnt")
+    @Documentation (name = "Anzahl Fälle", rank = 30)
     private int _caseCnt;
 
     public int getCaseCnt() {
@@ -83,6 +87,7 @@ public class KGLNormalFeeContract implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property _amount">
     @Column(name = "nfcAmount")
+    @Documentation (name = "abgegr. Kostenvolumen", rank = 40)
     private int _amount;
 
     public int getAmount() {
