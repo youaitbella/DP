@@ -1454,7 +1454,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                             continue;
                         }
                         try {
-                            medInfra.setAmount(Integer.parseInt(values[3]));
+                            int amount = (int) Math.round(parseLocalizedDouble(values[3]));
+                            medInfra.setAmount(amount);
                         } catch (NumberFormatException ex) {
                             alertText += "Fehler: Zeile " + lineNum + ", Spalte 4: " + Utils.getMessage("msgNotAnInteger") + "\\n";
                             continue;

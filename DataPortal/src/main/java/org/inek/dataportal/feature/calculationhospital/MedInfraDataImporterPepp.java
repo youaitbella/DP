@@ -48,9 +48,11 @@ public class MedInfraDataImporterPepp {
     }
 
     /**
-     * For upload set the value 170 med infra and 180 non med infra. All other values will be reported as error.
-     * @param costTypeId 
-     */    
+     * For upload set the value 170 med infra and 180 non med infra. All other
+     * values will be reported as error.
+     *
+     * @param costTypeId
+     */
     void setCostTypeId(int costTypeId) {
         _costTypeId = costTypeId;
     }
@@ -60,11 +62,11 @@ public class MedInfraDataImporterPepp {
     }
 
     public String getMessage() {
-        return (_totalCount - _errorRowCount) + " von " + _totalCount + " Zeilen gelesen\r\n\r\n" 
-                + _errorColumnCount + " fehlerhafte Spalte(n) eingelesen\n" 
+        return (_totalCount - _errorRowCount) + " von " + _totalCount + " Zeilen gelesen\r\n\r\n"
+                + _errorColumnCount + " fehlerhafte Spalte(n) eingelesen\n"
                 + _infoColumnCount + " nicht angegebene Werte\n\n" + _errorMsg;
     }
-    
+
     public void tryImportLine(String line) {
         if (_costTypeId != 170 && _costTypeId != 180) {
             throw new IllegalStateException("internal error: cost type not set");
@@ -82,16 +84,16 @@ public class MedInfraDataImporterPepp {
             item.setBaseInformationId(_calcBasics.getId());
             item.setCostTypeId(_costTypeId);
 
-            tryImportString(item, data[0], (i,s) -> i.setCostCenterNumber(s), "Nummer der Kostenstelle ungültig: ");
-            tryImportString(item, data[1], (i,s) -> i.setCostCenterText(s), "Name der Kostenstelle ungültig: ");
-            tryImportString(item, data[2], (i,s) -> i.setKeyUsed(s), "Verwendeter Schlüssel ungültig: ");
-            tryImportInteger(item, data[3], (i,s) -> i.setAmount(s), "Kostenvolumen ungültig: ");
+            tryImportString(item, data[0], (i, s) -> i.setCostCenterNumber(s), "Nummer der Kostenstelle ungültig: ");
+            tryImportString(item, data[1], (i, s) -> i.setCostCenterText(s), "Name der Kostenstelle ungültig: ");
+            tryImportString(item, data[2], (i, s) -> i.setKeyUsed(s), "Verwendeter Schlüssel ungültig: ");
+            tryImportRoundedInteger(item, data[3], (i, s) -> i.setAmount(s), "Kostenvolumen ungültig: ");
             String validateText = BeanValidator.validateData(item);
             if (!validateText.isEmpty()) {
                 throw new IllegalArgumentException(validateText);
             }
-                        
-            if(itemExists(item)) {
+
+            if (itemExists(item)) {
                 addRowErrorMsg("Datenzeile existiert bereits");
                 return;
             }
@@ -101,33 +103,32 @@ public class MedInfraDataImporterPepp {
             addRowErrorMsg(ex.getMessage());
         }
     }
-    
+
     private void addRowErrorMsg(String message) {
         _errorMsg += "\r\nFehler in Zeile " + _totalCount + ": " + message;
         _errorRowCount++;
     }
-    
+
     private void addColumnErrorMsg(String message) {
         _errorMsg += "\r\nFehler in Zeile " + _totalCount + ": " + message;
         _errorColumnCount++;
     }
-    
+
     private void addColumnInfoMsg(String message) {
         _errorMsg += "\r\nHinweis in Zeile " + _totalCount + ": " + message;
         _infoColumnCount++;
     }
-    
+
     private boolean itemExists(KGPListMedInfra item) {
         for (KGPListMedInfra infra : _calcBasics.getKgpMedInfraList()) {
-            if (infra.getCostCenterNumber().equals(item.getCostCenterNumber()) &&
-                    infra.getCostCenterText().equals(item.getCostCenterText()) &&
-                    infra.getKeyUsed().equals(item.getKeyUsed())
-                    ) {
+            if (infra.getCostCenterNumber().equals(item.getCostCenterNumber())
+                    && infra.getCostCenterText().equals(item.getCostCenterText())
+                    && infra.getKeyUsed().equals(item.getKeyUsed())) {
                 if (infra.getAmount() != item.getAmount()) {
-                    _errorMsg += "\r\nZeile "+_totalCount+" bereits vorhanden. Spalte aktualisiert : alt " + infra.getAmount() + " neu " + item.getAmount();
+                    _errorMsg += "\r\nZeile " + _totalCount + " bereits vorhanden. Spalte aktualisiert : alt " + infra.getAmount() + " neu " + item.getAmount();
                     infra.setAmount(item.getAmount());
                 } else {
-                    _errorMsg += "\r\nZeile "+_totalCount+" bereits vorhanden.";
+                    _errorMsg += "\r\nZeile " + _totalCount + " bereits vorhanden.";
                 }
                 return true;
             }
@@ -142,18 +143,13 @@ public class MedInfraDataImporterPepp {
             throw new IllegalArgumentException(ex.getMessage() + "\n" + errorMsg + data);
         }
     }
-    
-    private void tryImportInteger(KGPListMedInfra item, String data, BiConsumer<KGPListMedInfra, Integer> bind, String errorMsg) {
+
+    private void tryImportRoundedInteger(KGPListMedInfra item, String data, BiConsumer<KGPListMedInfra, Integer> bind, String errorMsg) {
         try {
             NumberFormat nf = NumberFormat.getInstance(Locale.GERMAN);
-            nf.setParseIntegerOnly(true);
-            int val = nf.parse(data).intValue();
-            if (val < 0){
-                bind.accept(item, 0);
-                addColumnErrorMsg(errorMsg + "Wert darf nicht kleiner 0 sein: " + Utils.getMessage("msgNotANumber") + ": " + data);
-            } else {
-                bind.accept(item, val);
-            }
+            nf.setParseIntegerOnly(false);
+            int val = (int) Math.round(nf.parse(data).doubleValue());
+            bind.accept(item, val);
         } catch (ParseException ex) {
             bind.accept(item, 0);
             if (data.isEmpty()) {
@@ -163,13 +159,13 @@ public class MedInfraDataImporterPepp {
             }
         }
     }
-    
+
     private void tryImportDouble(KGPListMedInfra item, String data, BiConsumer<KGPListMedInfra, Double> bind, String errorMsg) {
         try {
             NumberFormat nf = NumberFormat.getInstance(Locale.GERMAN);
             nf.setParseIntegerOnly(false);
             double val = nf.parse(data).doubleValue();
-            if (val < 0){
+            if (val < 0) {
                 bind.accept(item, 0.0);
                 throw new IllegalArgumentException(errorMsg + "Wert darf nicht kleiner 0 sein: " + Utils.getMessage("msgNotANumber") + ": " + data);
             }
@@ -178,5 +174,5 @@ public class MedInfraDataImporterPepp {
             throw new IllegalArgumentException(errorMsg + Utils.getMessage("msgNotANumber") + ": " + data);
         }
     }
-    
+
 }
