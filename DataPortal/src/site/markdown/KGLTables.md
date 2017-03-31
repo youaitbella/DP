@@ -36,6 +36,11 @@ Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGL\Anpass
 |||Personalkosten||dfPersonalCost|
 |||Sachkosten||dfMaterialcost|
 |||Infrastrukturkosten||dfInfraCost|
+
+|Unbekannt|Unbekannt||KGLListEndoscopyAmbulant||
+|||Unbekannt||leaAmbulantService|
+
+
 |Neonatologie||Levels der Versorgungsstufe des Perinatalzentrums|KGLBaseInformation|biNeonatLvl|
 |Neonatologie|Qualifikationen gem. Richtlinie||KGLNeonatData||
 |||Qualifikation||ndContentTextID|
