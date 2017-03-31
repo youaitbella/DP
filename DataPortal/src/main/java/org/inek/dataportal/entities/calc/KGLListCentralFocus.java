@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.inek.dataportal.utils.Documentation;
 
 /**
  *
@@ -57,6 +58,7 @@ public class KGLListCentralFocus implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="text">
     @Column(name = "cfText")
+    @Documentation(name = "Bezeichnung", rank = 10)
     private String _text = "";
 
     @Size(max = 300)
@@ -71,6 +73,7 @@ public class KGLListCentralFocus implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="caseCnt">
     @Column(name = "cfCaseCnt")
+    @Documentation(name = "Fallzahl", rank = 20)
     private int _caseCnt;
 
     public int getCaseCnt() {
@@ -84,6 +87,7 @@ public class KGLListCentralFocus implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="personalCost">
     @Column(name = "cfPersonalCost")
+    @Documentation(name = "Personalkosten", rank = 30)
     private int _personalCost;
 
     public int getPersonalCost() {
@@ -97,6 +101,7 @@ public class KGLListCentralFocus implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="materialcost">
     @Column(name = "cfMaterialcost")
+    @Documentation(name = "Sachkosten", rank = 40)
     private int _materialcost;
 
     public int getMaterialcost() {
@@ -110,6 +115,7 @@ public class KGLListCentralFocus implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="_infraCost">
     @Column(name = "cfInfraCost")
+    @Documentation(name = "Infrastrukturkosten", rank = 50)
     private int _infraCost;
 
     public int getInfraCost() {
@@ -123,6 +129,7 @@ public class KGLListCentralFocus implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="remunerationAmount">
     @Column(name = "cfRemunerationAmount")
+    @Documentation(name = "Vereinbartes Entgelt", rank = 60)
     private int _remunerationAmount;
 
     public int getRemunerationAmount() {
@@ -136,6 +143,7 @@ public class KGLListCentralFocus implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="_remunerationKey">
     @Column(name = "cfRemunerationKey")
+    @Documentation(name = "Entgeltschlüssel", rank = 70)
     private String _remunerationKey = "";
 
     @Size(max = 8)

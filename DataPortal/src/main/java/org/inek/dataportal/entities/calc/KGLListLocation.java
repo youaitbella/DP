@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
+import org.inek.dataportal.utils.Documentation;
 
 /**
  *
@@ -55,6 +56,7 @@ public class KGLListLocation implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="location">
     @Column(name = "lLocation")
+    @Documentation(name = "Name", rank = 10)
     private String _location = "";
 
     @Size(max = 300)
@@ -69,6 +71,7 @@ public class KGLListLocation implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="locationNo">
     @Column(name = "lLocationNo")
+    @Documentation(name = "Nummer", rank = 10)
     private short _locationNo;
 
     public short getLocationNo() {

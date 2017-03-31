@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.inek.dataportal.utils.Documentation;
 
 /**
  *
@@ -44,6 +45,7 @@ public class KGLListServiceProvisionType implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Text">
     @Column(name = "sptText")
+    @Documentation(name = "Beschreibung", rank = 10)
     private String _text = "";
 
     @Size(max = 200)
@@ -58,6 +60,7 @@ public class KGLListServiceProvisionType implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="FirstYear">
     @Column(name = "sptFirstYear")
+    @Documentation(name = "Erstes Jahr", rank = 20)
     private int _firstYear;
 
     public int getFirstYear() {
@@ -71,6 +74,7 @@ public class KGLListServiceProvisionType implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="LastYear">
     @Column(name = "sptLastYear")
+    @Documentation(name = "Letztes Jahr", rank = 30)
     private int _lastYear;
 
     public int getLastYear() {

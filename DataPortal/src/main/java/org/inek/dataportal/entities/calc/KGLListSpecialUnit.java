@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.inek.dataportal.utils.Documentation;
 
 /**
  *
@@ -57,6 +58,7 @@ public class KGLListSpecialUnit implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="type">
     @Column(name = "suType")
+    @Documentation(name = "Art der BE", rank = 10)
     private String _type = "";
 
     @Size(max = 300)
@@ -71,6 +73,7 @@ public class KGLListSpecialUnit implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="caseCnt">
     @Column(name = "suCaseCnt")
+    @Documentation(name = "Fallzahl", rank = 20)
     private int _caseCnt;
 
     public int getCaseCnt() {
@@ -84,6 +87,7 @@ public class KGLListSpecialUnit implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="cost">
     @Column(name = "suCost")
+    @Documentation(name = "Kostenvolumen", rank = 30)
     private int _cost;
 
     public int getCost() {

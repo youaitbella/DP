@@ -853,6 +853,7 @@ public class DrgCalcBasics implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "spBaseInformationId", referencedColumnName = "biId")
     @OrderBy("_sequence")
+    @Documentation(name = "Ext. Leistungen",headline = "(Externe) Leistungserbringung / Fremdvergabe", rank = 2010) 
     private List<KGLListServiceProvision> _serviceProvisions = new Vector<>();
     
     
@@ -1163,6 +1164,7 @@ public class DrgCalcBasics implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "lBaseInformationId", referencedColumnName = "biID")
     @OrderBy(value = "_locationNo")
+    @Documentation(name = "Entlassender Standort", rank = 1020)
     private List<KGLListLocation> _locations = new Vector<>();
 
     public List<KGLListLocation> getLocations() {
