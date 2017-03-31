@@ -5,8 +5,10 @@
  */
 package org.inek.dataportal.feature.calculationhospital;
 
+import org.inek.dataportal.entities.calc.DrgCalcBasics;
 import org.inek.dataportal.entities.calc.PeppCalcBasics;
 import org.inek.dataportal.enums.Pages;
+import static org.inek.dataportal.feature.calculationhospital.CalcBasicsDrgValidator.getMedInfraSum;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.structures.MessageContainer;
 
@@ -27,8 +29,7 @@ public class CalcBasicsPsyValidator {
         checkLaboratory(calcBasics, message);
         checkDiagnosticScope(calcBasics, message);
         checkStationaryScope(calcBasics, message);
-        checkMedicalInfrastructure(calcBasics, message);
-        checkNonMedicalInfrastructure(calcBasics, message);
+        checkInfrastructure(calcBasics, message);
         checkStaffCost(calcBasics, message);
 
         return message;
@@ -76,8 +77,24 @@ public class CalcBasicsPsyValidator {
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="checkMedicalInfrastructure">
-    private static void checkMedicalInfrastructure(PeppCalcBasics calcBasics, MessageContainer message) {
+    private static void checkInfrastructure(PeppCalcBasics calcBasics, MessageContainer message) {
+        if (getMedInfraSum(calcBasics, 170) < 0) {
+            applyMessageValues(message, "Die Summe der Kostenvolumina der med. Infrastruktur darf nicht negativ sein.", "TopicCalcMedicalInfrastructure", "");
+        }
+        if (getMedInfraSum(calcBasics, 180) < 0) {
+            applyMessageValues(message, "Die Summe der Kostenvolumina der med. Infrastruktur darf nicht negativ sein.", "TopicCalcNonMedicalInfrastructure", "");
+        }
     }
+    
+    public static int getMedInfraSum(PeppCalcBasics calcBasics, int type) {
+        int sumAmount = calcBasics.getKgpMedInfraList()
+                .stream()
+                .filter(m -> m.getCostTypeId() == type)
+                .mapToInt(m -> m.getAmount())
+                .sum();
+        return sumAmount;
+    }
+    
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="checkNonMedicalInfrastructure">

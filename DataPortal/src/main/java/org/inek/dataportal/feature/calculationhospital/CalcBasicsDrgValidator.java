@@ -5,9 +5,6 @@
  */
 package org.inek.dataportal.feature.calculationhospital;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.validation.ConstraintViolation;
@@ -44,8 +41,7 @@ public class CalcBasicsDrgValidator {
         checkNormalWard(calcBasics, message);
         checkIntensiveCare(calcBasics, message);
         checkStrokeUnit(calcBasics, message);
-        checkMedicalInfrastructure(calcBasics, message);
-        checkNonMedicalInfrastructure(calcBasics, message);
+        checkInfrastructure(calcBasics, message);
         checkStaffCost(calcBasics, message);
         checkValvularIntervention(calcBasics, message);
         checkNeonat(calcBasics, message);
@@ -175,12 +171,22 @@ public class CalcBasicsDrgValidator {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="checkMedicalInfrastructure">
-    private static void checkMedicalInfrastructure(DrgCalcBasics calcBasics, MessageContainer message) {
+    private static void checkInfrastructure(DrgCalcBasics calcBasics, MessageContainer message) {
+        if (getMedInfraSum(calcBasics, 170) < 0) {
+            applyMessageValues(message, "Die Summe der Kostenvolumina der med. Infrastruktur darf nicht negativ sein.", "TopicCalcMedicalInfrastructure", "");
+        }
+        if (getMedInfraSum(calcBasics, 180) < 0) {
+            applyMessageValues(message, "Die Summe der Kostenvolumina der med. Infrastruktur darf nicht negativ sein.", "TopicCalcNonMedicalInfrastructure", "");
+        }
     }
-    //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="checkNonMedicalInfrastructure">
-    private static void checkNonMedicalInfrastructure(DrgCalcBasics calcBasics, MessageContainer message) {
+    
+    public static int getMedInfraSum(DrgCalcBasics calcBasics, int type) {
+        int sumAmount = calcBasics.getMedInfras()
+                .stream()
+                .filter(m -> m.getCostTypeId() == type)
+                .mapToInt(m -> m.getAmount())
+                .sum();
+        return sumAmount;
     }
     //</editor-fold>
 

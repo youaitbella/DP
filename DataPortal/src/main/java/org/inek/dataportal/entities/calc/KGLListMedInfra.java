@@ -106,7 +106,6 @@ public class KGLListMedInfra implements Serializable {
     @Documentation (name = "Kostenvolumen:", rank = 50)
     private int _amount;
 
-    @Min(0)
     public int getAmount() {
         return _amount;
     }

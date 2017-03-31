@@ -107,7 +107,7 @@ public class KGLOpAn implements Serializable {
 
     @Min.List({@Min(value = 0),
         @Min(value = 1, groups = {Seal.class}, message = "Bitte Schnitt-Naht-Zeit OP ÄD wählen", payload = TopicCalcOpAn.class)})
-    @Max(value = 1, groups = {Seal.class}, message = "Bitte Schnitt-Naht-Zeit OP ÄD wählen", payload = TopicCalcOpAn.class)
+    @Max(value = 4, groups = {Seal.class}, message = "Bitte Schnitt-Naht-Zeit OP ÄD wählen", payload = TopicCalcOpAn.class)
     public int getMedicalServiceSnzOP() {
         return _medicalServiceSnzOP;
     }
