@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.inek.dataportal.utils.Documentation;
 
 /**
  *
@@ -50,6 +51,7 @@ public class KGLListEndoscopyAmbulant implements Serializable {
     }
     
     @Column(name = "leaAmbulantService")
+    @Documentation(name = "Ambulante Leistungen im endoskopischen Bereich", rank = 5)
     private String _ambulantService = "";
 
     @Size(max = 255)
@@ -62,6 +64,7 @@ public class KGLListEndoscopyAmbulant implements Serializable {
     }
     
     @Column(name = "leaServiceKey")
+    @Documentation(name = "Leistungsschlüssel", rank = 10)
     private int _serviceKey = -1;
 
     public int getServiceKey() {
@@ -73,6 +76,7 @@ public class KGLListEndoscopyAmbulant implements Serializable {
     }
     
     @Column(name = "leaNumServices")
+    @Documentation(name = "Anzahl erbrachter amb. Leistungen", rank = 20)
     private int _numServices = 0;
 
     public int getNumServices() {
@@ -84,6 +88,7 @@ public class KGLListEndoscopyAmbulant implements Serializable {
     }
     
     @Column(name = "leaCostVolumeMedical")
+    @Documentation(name = "abgegr. Kostenvolumen ÄD", rank = 30)
     private double _costVolumeMedical = 0.0;
 
     public double getCostVolumeMedical() {
@@ -95,6 +100,7 @@ public class KGLListEndoscopyAmbulant implements Serializable {
     }
     
     @Column(name = "leaCostVolumeFunction")
+    @Documentation(name = "abgegr. Kostenvolumen FD", rank = 30)
     private double _costVolumeFunction = 0.0;
 
     public double getCostVolumeFunction() {
@@ -106,6 +112,7 @@ public class KGLListEndoscopyAmbulant implements Serializable {
     }
     
     @Column(name = "leaCostVolumeMedInfra")
+    @Documentation(name = "abgegr. Kostenvolumen  med. Infrastruktur", rank = 40)
     private double _costVolumeMedInfra = 0.0;
 
     public double getCostVolumeMedInfra() {
@@ -117,6 +124,7 @@ public class KGLListEndoscopyAmbulant implements Serializable {
     }
     
     @Column(name = "leaCostVolumeNonMedInfra")
+    @Documentation(name = "abgegr. Kostenvolumen  nicht med. Infrastruktur", rank = 40)
     private double _costVolumeNonMedInfra = 0.0;
 
     public double getCostVolumeNonMedInfra() {
@@ -128,6 +136,7 @@ public class KGLListEndoscopyAmbulant implements Serializable {
     }
     
     @Column(name = "leaMiscText")
+    @Documentation(name = "Beschreibung", rank = 40)
     private String _miscText = "";
 
     @Size(max = 255)

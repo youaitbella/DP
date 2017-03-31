@@ -37,7 +37,14 @@ Die Basisdateien der nachfolgenden Struktur liegen unter W:\Oekonomie\KGL\Anpass
 |||Sachkosten||dfMaterialcost|
 |||Infrastrukturkosten||dfInfraCost|
 |Unbekannt|Unbekannt||KGLListEndoscopyAmbulant||
-|||Unbekannt||leaAmbulantService|
+|||Leistungsschlüssel||leaServiceKey|
+|||Ambulante Leistungen im endoskopischen Bereich||leaAmbulantService|
+|||Anzahl erbrachter amb. Leistungen||leaNumServices|
+|||abgegr. Kostenvolumen ÄD||leaCostVolumeMedical|
+|||abgegr. Kostenvolumen FD||leaCostVolumeFunction|
+|||abgegr. Kostenvolumen med. Infrastruktur||leaCostVolumeMedInfra|
+|||abgegr. Kostenvolumen nicht med.Infrastruktur||leaCostVolumeNonMedInfra|
+|||Unbekannt||leaMiscText|
 |Neonatologie||Levels der Versorgungsstufe des Perinatalzentrums|KGLBaseInformation|biNeonatLvl|
 |Neonatologie|Qualifikationen gem. Richtlinie||KGLNeonatData||
 |||Qualifikation||ndContentTextID|
