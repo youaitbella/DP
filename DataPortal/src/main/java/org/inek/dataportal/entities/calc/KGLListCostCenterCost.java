@@ -318,6 +318,7 @@ public class KGLListCostCenterCost implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="costTypeId">
     @Column(name = "cccCostCenterNumber")
+    @Documentation (name = "Nummer der Kostenstelle", rank = 190)
     private String _costCenterNumber;
 
     @Size(max = 20, message = "Für Kostenstellennummer sind max. {max} Zeichen zulässig.")

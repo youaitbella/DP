@@ -44,7 +44,7 @@ public class KGLListMedInfra implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property _costTypeId">
     @Column(name = "miCostTypeID")
-    //@Documentation (name = "Kostengruppe:", rank = 10)
+    @Documentation (name = "Kostenartengruppe", rank = 10)
     private int _costTypeId;
 
     public int getCostTypeId() {
@@ -73,7 +73,7 @@ public class KGLListMedInfra implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property _costCenterText">
     @Column(name = "miCostCenterText")
-    @Documentation (name = "Name der Kostenstelle:", rank = 30)
+    @Documentation (name = "Name der Kostenstelle", rank = 30)
     private String _costCenterText = "";
 
     @Size(max = 200)
@@ -88,7 +88,7 @@ public class KGLListMedInfra implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property _keyUsed">
     @Column(name = "miKeyUsed")
-    @Documentation (name = "Verwendeter Schlüssel:", rank = 40)
+    @Documentation (name = "Verwendeter Schlüssel", rank = 40)
     private String _keyUsed = "";
 
     @Size(max = 200)
