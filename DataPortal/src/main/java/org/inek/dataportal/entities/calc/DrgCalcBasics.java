@@ -763,6 +763,19 @@ public class DrgCalcBasics implements Serializable {
         this._costCenters = costCenter;
     }
 
+    
+    @Documentation(name = "Kostenstellen1", rank = 4040) 
+    @JsonIgnore
+    public List<KGLListCostCenter> getCostCenters1() {
+        return _costCenters.stream().filter(c -> c.getCostCenterId() == 1).collect(Collectors.toList());
+    }
+    
+    @Documentation(name = "Kostenstellen6", rank = 4050) 
+    @JsonIgnore
+    public List<KGLListCostCenter> getCostCenters6() {
+        return _costCenters.stream().filter(c -> c.getCostCenterId() == 6).collect(Collectors.toList());
+    }
+    
     @Documentation(name = "Kostenstellen",headline = "Kostenstellengruppe 11 (Diagnostische Bereiche)", rank = 9000) 
     @JsonIgnore
     public List<KGLListCostCenter> getCostCenters11() {

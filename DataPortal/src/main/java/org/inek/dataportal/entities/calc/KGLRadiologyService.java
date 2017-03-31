@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.inek.dataportal.utils.Documentation;
 
 /**
  *
@@ -44,6 +45,7 @@ public class KGLRadiologyService implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property _opsCode">
     @Column(name = "rsOpsCode")
+    @Documentation(name = "OPS", rank = 10)
     private String _opsCode = "";
 
     @Size(max = 10)
@@ -58,6 +60,7 @@ public class KGLRadiologyService implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property _serviceCost">
     @Column(name = "rsServiceCost")
+    @Documentation(name = "Kosten pro Leistung", rank = 20)
     private int _serviceCost;
 
     public int getServiceCost() {
@@ -71,6 +74,7 @@ public class KGLRadiologyService implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property _caseCntStationary">
     @Column(name = "rsCaseCntStationary")
+    @Documentation(name = "Fallzahl stationär", rank = 30)
     private int _caseCntStationary;
 
     public int getCaseCntStationary() {
@@ -84,6 +88,7 @@ public class KGLRadiologyService implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property _caseCntAmbulant">
     @Column(name = "rsCaseCntAmbulant")
+    @Documentation(name = "Fallzahl ambulant", rank = 40)
     private int _caseCntAmbulant;
 
     public int getCaseCntAmbulant() {
@@ -97,6 +102,7 @@ public class KGLRadiologyService implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property _ambulantAmount">
     @Column(name = "rsAmbulantAmount")
+    @Documentation(name = "abgegr. Kostenvolumen ambulant", rank = 50)
     private int _ambulantAmount;
 
     public int getAmbulantAmount() {

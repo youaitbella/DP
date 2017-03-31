@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
+import org.inek.dataportal.utils.Documentation;
 
 /**
  *
@@ -42,6 +43,7 @@ public class KGLListEndoscopyDifferential implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Division">
     @Column(name = "edDivision")
+    @Documentation(name = "Bereich", rank = 10)
     private String _division = "";
 
     @Size(max = 100)
@@ -56,6 +58,7 @@ public class KGLListEndoscopyDifferential implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="ActivityKey">
     @Column(name = "edActivityKey")
+    @Documentation(name = "Leistungsschlüssel", rank = 20)
     private String _activityKey = "";
 
     @Size(max = 20)

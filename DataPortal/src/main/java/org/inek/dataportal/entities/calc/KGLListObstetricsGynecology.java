@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.inek.dataportal.utils.Documentation;
 
 /**
  *
@@ -44,6 +45,7 @@ public class KGLListObstetricsGynecology implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="ogCostCenterText">
     @Column(name = "ogCostCenterText")
+    @Documentation(name = "Kostenstelle", rank = 10)
     private String _costCenterText = "";
 
     @Size(max = 100)
@@ -58,6 +60,7 @@ public class KGLListObstetricsGynecology implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="ogMedicalServiceCnt">
     @Column(name = "ogMedicalServiceCnt")
+    @Documentation(name = "Ärztlicher Dienst", rank = 20)
     private double _medicalServiceCnt;
 
     public double getMedicalServiceCnt() {
@@ -71,6 +74,7 @@ public class KGLListObstetricsGynecology implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="ogAttendingDoctorCnt">
     @Column(name = "ogAttendingDoctorCnt")
+    @Documentation(name = "davon Belegärzte", rank = 30)
     private double _attendingDoctorCnt;
 
     public double getAttendingDoctorCnt() {
@@ -84,6 +88,7 @@ public class KGLListObstetricsGynecology implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="ogNursingServiceCnt">
     @Column(name = "ogNursingServiceCnt")
+    @Documentation(name = "Pflegedienst", rank = 40)
     private double _nursingServiceCnt;
 
     public double getNursingServiceCnt() {
@@ -97,6 +102,7 @@ public class KGLListObstetricsGynecology implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="ogFunctionalServiceCnt">
     @Column(name = "ogFunctionalServiceCnt")
+    @Documentation(name = "Funktionsdienst (ohne Hebammen)", rank = 50)
     private double _functionalServiceCnt;
 
     public double getFunctionalServiceCnt() {
@@ -110,6 +116,7 @@ public class KGLListObstetricsGynecology implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="ogMidwifeCnt">
     @Column(name = "ogMidwifeCnt")
+    @Documentation(name = "Hebammen", rank = 60)
     private double _midwifeCnt;
 
     public double getMidwifeCnt() {
@@ -123,6 +130,7 @@ public class KGLListObstetricsGynecology implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="ogAttendingMidwifeCnt">
     @Column(name = "ogAttendingMidwifeCnt")
+    @Documentation(name = "davon Beleg-Hebammen", rank = 70)
     private double _attendingMidwifeCnt;
 
     public double getAttendingMidwifeCnt() {
@@ -136,6 +144,7 @@ public class KGLListObstetricsGynecology implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="ogCostTypeId">
     @Column(name = "ogCostTypeID")
+    @Documentation(name = "Zuordnung Kostenstelle", rank = 11)
     private double _costTypeId;
 
     public double getCostTypeId() {
