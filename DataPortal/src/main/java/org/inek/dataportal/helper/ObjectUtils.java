@@ -14,13 +14,16 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.Transient;
 import org.inek.dataportal.helper.structures.FieldValues;
+import org.inek.dataportal.utils.Documentation;
+import org.inek.dataportal.utils.IgnoreOnCompare;
 
 /**
  *
  * @author muellermi
  */
-@SuppressWarnings("unchecked") 
+@SuppressWarnings("unchecked")
 public class ObjectUtils {
 
     private static final Logger logger = Logger.getLogger("ObjectUtils");
@@ -217,7 +220,11 @@ public class ObjectUtils {
         return params;
     }
 
-    public static <T> boolean areEqualObjects(T obj1, T obj2) {
+    private static <T> boolean areEqualObjects(T obj1, T obj2) {
+        if (obj1 != null) {
+            System.out.println("areEqualObjects: " + obj1.getClass() + " Value: " + obj1);
+        }
+
         if (obj1 == null && obj2 == null) {
             return true;
         }
@@ -260,7 +267,22 @@ public class ObjectUtils {
         }
 
         for (Class clazz = obj1.getClass(); !clazz.equals(Object.class); clazz = clazz.getSuperclass()) {
+//            if (obj1.getClass().getName().equals("java.lang.ref.SoftReference")) {
+//                continue;
+//            }
+//            if (obj1.getClass().getName().equals("org.eclipse.persistence.internal.identitymaps.HardCacheWeakIdentityMap$ReferenceCacheKey")) {
+//                continue;
+//            }
+//            if (obj1.getClass().getName().equals("org.eclipse.persistence.internal.helper.linkedlist.LinkedNode")) {
+//                continue;
+//            }
+//            if (obj1.getClass().getName().equals("java.lang.reflect.Constructor")) {
+//                continue;
+//            }
             for (Field field : clazz.getDeclaredFields()) {
+                if (isFieldToIgnore(field, null)) {
+                    continue;
+                }
                 if (!areEqualFields(field, obj1, obj2)) {
                     return false;
                 }
@@ -301,10 +323,7 @@ public class ObjectUtils {
 
         for (Class clazz = obj1.getClass(); !clazz.equals(Object.class); clazz = clazz.getSuperclass()) {
             for (Field field : clazz.getDeclaredFields()) {
-                if (field.getName().startsWith("_persistence_")) {
-                    continue;
-                }   // ignore fields of JPA proxy (hopefully no other stat with this perfix...) alterntive: remember and check for all objects in object graph
-                if (excludedTypes.contains(field.getType())) {
+                if (isFieldToIgnore(field, excludedTypes)) {
                     continue;
                 }
                 if (!areEqualFields(field, obj1, obj2)) {
@@ -321,7 +340,30 @@ public class ObjectUtils {
         return differences;
     }
 
+    private static boolean isFieldToIgnore(Field field, List<Class> excludedTypes) {
+        if (field.getName().startsWith("_persistence_")) {
+            // ignore fields of JPA proxy (hopefully no other stat with this prefix...) alterntive: remember and check for all objects in object graph
+            return true;
+        } 
+        if (excludedTypes != null && excludedTypes.contains(field.getType())) {
+            return true;
+        }
+        if (field.getAnnotation(Transient.class) != null) {
+            return true;
+        }
+        if (field.getAnnotation(IgnoreOnCompare.class) != null) {
+            return true;
+        }
+        return false;
+    }
+
     private static boolean areEqualLists(List list1, List list2) {
+        if (list1 == null && list2 == null) {
+            return true;
+        }
+        if (list1 == null || list2 == null) {
+            return false;
+        }
         if (list1.size() != list2.size()) {
             return false;
         }

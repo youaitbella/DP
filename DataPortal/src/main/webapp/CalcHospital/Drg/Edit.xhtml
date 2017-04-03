@@ -23,7 +23,7 @@
                         <f:selectItems value="#{editCalcBasicsDrg.visibleTopics}" var="t" 
                                        itemLabel="#{t.title}" itemValue="#{t.key}"
                                        />
-                        <f:ajax event="change" render="edit :logout:remaining"/> 
+                        <f:ajax event="change" render="edit :logout:remaining :script"/> 
                     </h:selectOneMenu>
                     </li>
                 </ul>
@@ -36,14 +36,14 @@
                                    value="#{msg.btnPriorPage}"
                                    disabled="#{!editCalcBasicsDrg.priorTopic}"
                                    actionListener="#{editCalcBasicsDrg.activatePriorTopic()}">
-                        <f:ajax render="@form"/>                        
+                        <f:ajax render="@form :script"/>                        
                     </h:commandLink>
 
                     <h:commandLink styleClass="button"
                                    value="#{msg.btnNextPage}"
                                    disabled="#{!editCalcBasicsDrg.nextTopic}"
                                    actionListener="#{editCalcBasicsDrg.activateNextTopic()}">
-                        <f:ajax render="@form"/>                        
+                        <f:ajax render="@form :script"/>                        
                     </h:commandLink>
                 </div>
 

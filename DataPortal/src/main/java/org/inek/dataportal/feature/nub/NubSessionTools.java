@@ -480,7 +480,7 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         if (!_appTools.isEnabled(ConfigKey.IsNubSendEnabled)) {
             return false;
         }
-        return _cooperationTools.isSealedEnabled(Feature.NUB, nubRequest.getStatus(), nubRequest.getAccountId(), nubRequest.getIk());
+        return _cooperationTools.isSealedEnabled(Feature.NUB, nubRequest.getStatus(), nubRequest.getAccountId(), nubRequest.getIk(), true);
     }
 
     public MessageContainer composeMissingFieldsMessage(NubRequest nubRequest) {

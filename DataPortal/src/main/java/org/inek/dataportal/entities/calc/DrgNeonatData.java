@@ -17,6 +17,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import org.inek.dataportal.utils.Documentation;
+import org.inek.dataportal.utils.IgnoreOnCompare;
 
 /**
  *
@@ -72,6 +73,7 @@ public class DrgNeonatData implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property ContentText">
     @OneToOne
     @PrimaryKeyJoinColumn(name = "ndContentTextId")
+    @IgnoreOnCompare
     private DrgContentText _contentText;
 
     @Documentation(name = "Bereich")

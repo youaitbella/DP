@@ -16,6 +16,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import org.inek.dataportal.utils.Documentation;
+import org.inek.dataportal.utils.IgnoreOnCompare;
 
 /**
  *
@@ -67,6 +68,7 @@ public class DrgDelimitationFact implements Serializable {
     @OneToOne
     @PrimaryKeyJoinColumn(name = "dfContentTextId")
     @Documentation (name = "Beschreibung", rank = 1)
+    @IgnoreOnCompare
     private DrgContentText _contentText;
 
     public DrgContentText getContentText() {

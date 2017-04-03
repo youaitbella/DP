@@ -108,12 +108,12 @@ public class ConfigFacade extends AbstractFacade<Config> {
         save(ConfigKey.IsNubSendEnabled, false);
     }
 
-    @Schedule(month = "04", dayOfMonth = "1", hour = "0")
+    @Schedule(month = "4", dayOfMonth = "1", hour = "0")
     private void disableCreateDrgProposal() {
         save(ConfigKey.IsDrgProposalCreateEnabled, false);
     }
 
-    @Schedule(month = "04", dayOfMonth = "3", hour = "0")
+    @Schedule(month = "4", dayOfMonth = "3", hour = "0")
     private void disableSendDrgProposal() {
         save(ConfigKey.IsDrgProposalSendEnabled, false);
     }

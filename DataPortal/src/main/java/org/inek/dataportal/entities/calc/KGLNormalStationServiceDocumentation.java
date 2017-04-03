@@ -15,6 +15,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import org.inek.dataportal.utils.Documentation;
+import org.inek.dataportal.utils.IgnoreOnCompare;
 
 /**
  *
@@ -88,6 +89,7 @@ public class KGLNormalStationServiceDocumentation implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property ContentText">
     @OneToOne
     @PrimaryKeyJoinColumn(name = "nssContentTextID")
+    @IgnoreOnCompare
     private DrgContentText _contentText;
 
     public DrgContentText getContentText() {

@@ -16,6 +16,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 import org.inek.dataportal.utils.Documentation;
+import org.inek.dataportal.utils.IgnoreOnCompare;
 
 /**
  *
@@ -343,6 +344,7 @@ public class KGLListCostCenterCost implements Serializable {
     }
 
     @Transient
+    @IgnoreOnCompare
     private KGLListCostCenterCost _prior;
 
     public KGLListCostCenterCost getPrior() {

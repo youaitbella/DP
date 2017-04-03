@@ -431,7 +431,7 @@ public class EditNubRequest extends AbstractEditController {
 
         Map<String, String> documentationFields = DocumentationUtil.getFieldTranslationMap(_nubRequest);
 
-        String msgKey = _nubRequest.isSealed() ? "msgDatasetSealed" : collisions.isEmpty() ? "msgMergeOk" : "msgMergeCollision";
+        String msgKey = _nubRequest.isSealed() ? "msgNubDatasetSealed" : collisions.isEmpty() ? "msgMergeOk" : "msgMergeCollision";
         _sessionController.logMessage("ConcurrentUpdate [" + msgKey.substring(3) + "], NUB: " + modifiedNubRequest.getId());
         String msg = Utils.getMessage(msgKey);
         for (String fieldName : collisions) {
@@ -523,7 +523,7 @@ public class EditNubRequest extends AbstractEditController {
         if (!_appTools.isEnabled(ConfigKey.IsNubSendEnabled)) {
             return false;
         }
-        return _cooperationTools.isApprovalRequestEnabled(Feature.NUB, _nubRequest.getStatus(), _nubRequest.getAccountId(), _nubRequest.getIk());
+        return _cooperationTools.isApprovalRequestEnabled(Feature.NUB, _nubRequest.getStatus(), _nubRequest.getAccountId(), _nubRequest.getIk(), true);
     }
 
     public boolean isRequestCorrectionEnabled() {

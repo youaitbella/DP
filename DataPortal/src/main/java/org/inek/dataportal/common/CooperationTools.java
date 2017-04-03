@@ -142,7 +142,14 @@ public class CooperationTools implements Serializable {
     }
 
     public boolean isApprovalRequestEnabled(Feature feature, WorkflowStatus state, int ownerId, Integer ik) {
-        if (state ==  WorkflowStatus.CorrectionRequested || state.getId() >= WorkflowStatus.ApprovalRequested.getId()) {
+        return isApprovalRequestEnabled(feature, state, ownerId, ik, false);
+    }
+    
+    public boolean isApprovalRequestEnabled(Feature feature, WorkflowStatus state, int ownerId, Integer ik, boolean hasUpdateButton) {
+        if (state.getId() >= WorkflowStatus.ApprovalRequested.getId()) {
+            return false;
+        }
+        if (hasUpdateButton && state ==  WorkflowStatus.CorrectionRequested) {
             return false;
         }
         if (isReadOnly(feature, state, ownerId, ik)) {
@@ -223,7 +230,14 @@ public class CooperationTools implements Serializable {
     }
 
     public boolean isSealedEnabled(Feature feature, WorkflowStatus state, int ownerId, Integer ik) {
-        if (state ==  WorkflowStatus.CorrectionRequested || state.getId() >= WorkflowStatus.Provided.getId()) {
+        return isSealedEnabled(feature, state, ownerId, ik, false);
+    }
+    
+    public boolean isSealedEnabled(Feature feature, WorkflowStatus state, int ownerId, Integer ik, boolean hasUpdateButton) {
+        if (hasUpdateButton && state ==  WorkflowStatus.CorrectionRequested) {
+            return false;
+        }
+        if (state.getId() >= WorkflowStatus.Provided.getId()) {
             return false;
         }
         Account account = _sessionController.getAccount();
@@ -257,7 +271,7 @@ public class CooperationTools implements Serializable {
 
     /**
      * update is enabled when correction is requested by inek 
-     * and it's the user's data or the user is allowed to seal or th write
+     * and it's the user's data or the user is allowed to seal or o write
      *
      * @param feature
      * @param state

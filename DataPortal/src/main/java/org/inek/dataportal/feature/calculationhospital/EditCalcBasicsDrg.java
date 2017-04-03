@@ -8,6 +8,7 @@ package org.inek.dataportal.feature.calculationhospital;
 import org.inek.dataportal.helper.TransferFileCreator;
 import java.io.IOException;
 import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
@@ -15,6 +16,8 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -69,6 +72,7 @@ import org.inek.dataportal.entities.calc.KGLOpAn;
 import org.inek.dataportal.entities.calc.KGLPKMSAlternative;
 import org.inek.dataportal.entities.calc.KGLPersonalAccounting;
 import org.inek.dataportal.entities.calc.KGLRadiologyService;
+import org.inek.dataportal.entities.nub.NubRequest;
 import org.inek.dataportal.enums.CalcHospitalFunction;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
@@ -79,7 +83,9 @@ import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.common.CostTypeFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.BeanValidator;
+import org.inek.dataportal.helper.ObjectUtils;
 import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.helper.structures.FieldValues;
 import org.inek.dataportal.helper.structures.MessageContainer;
 import org.inek.dataportal.utils.Documentation;
 import org.inek.dataportal.utils.DocumentationUtil;
@@ -105,6 +111,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     private String _script;
     private DrgCalcBasics _calcBasics;
+    private DrgCalcBasics _baseLine;
     private DrgCalcBasics _priorCalcBasics;
 
     // </editor-fold>
@@ -114,6 +121,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         String id = "" + params.get("id");
         if (id.equals("new")) {
             _calcBasics = newCalcBasicsDrg();
+            _baseLine = null;
         } else if (Utils.isInteger(id)) {
             DrgCalcBasics calcBasics = loadCalcBasicsDrg(id);
             if (calcBasics.getId() == -1) {
@@ -121,6 +129,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                 return;
             }
             _calcBasics = calcBasics;
+            _baseLine = _calcFacade.findCalcBasicsDrg(_calcBasics.getId());
             retrievePriorData(_calcBasics);
             populateDelimitationFactsIfAbsent(_calcBasics);
         } else {
@@ -894,40 +903,107 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     @Override
     protected void topicChanged() {
         if (_sessionController.getAccount().isAutoSave() && !isReadOnly()) {
-            saveData();
+            saveData(false);
         }
     }
 
     public String save() {
-        saveData();
-
-        if (isValidId(_calcBasics.getId())) {
-            // CR+LF or LF only will be replaced by "\r\n"
-            String script = "alert ('" + Utils.getMessage("msgSave").replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
-            _sessionController.setScript(script);
-            return null;
-        }
-        return Pages.Error.URL();
+        return saveData(true);
     }
 
-    private boolean saveData() {
+    private String saveData(boolean showSaveMessage) {
         setModifiedInfo();
+        String msg = "";
         try {
             _calcBasics = _calcFacade.saveCalcBasicsDrg(_calcBasics);
-            return true;
+            if (!isValidId(_calcBasics.getId())) {
+                return Pages.Error.RedirectURL();
+            }
+            if (showSaveMessage) {
+                msg = Utils.getMessage("msgSave");
+            }
         } catch (Exception ex) {
-            if (!(ex.getCause() instanceof OptimisticLockException)) {
+            if (!(ex instanceof OptimisticLockException) && !(ex.getCause() instanceof OptimisticLockException)) {
                 throw ex;
             }
-            // todo
-            throw ex;
-            /*
-            _calcBasics = _calcFacade.findCalcBasicsDrg(_calcBasics.getId());  // reload
-            String script = "alert ('Änderung im Mehrbenutzerbetrieb. Bitte beachten Sie die entsprechenden Hinweise im Handbuch');";
-            _sessionController.setScript(script);
-            return false;
-            */
+            msg = mergeAndReportChanges();
         }
+        _baseLine = _calcFacade.findCalcBasicsDrg(_calcBasics.getId());
+        if (!msg.isEmpty()) {
+            // CR+LF or LF only will be replaced by "\r\n"
+            String script = "alert ('" + msg.replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
+            _sessionController.setScript(script);
+        }
+        return null;
+    }
+
+    private String mergeAndReportChanges() {
+        DrgCalcBasics modifiedCalcBasics = _calcBasics;
+        _calcBasics = _calcFacade.findCalcBasicsDrg(modifiedCalcBasics.getId());
+        if (_calcBasics == null) {
+            _sessionController.logMessage("ConcurrentUpdate [DatasetDeleted], CalcBasicsDrg: " + modifiedCalcBasics.getId());
+            Utils.navigate(Pages.CalculationHospitalSummary.URL());
+            return Utils.getMessage("msgDatasetDeleted");
+        }
+        if (_calcBasics.isSealed()) {
+            _sessionController.logMessage("ConcurrentUpdate [DatasetSealed], CalcBasicsDrg: " + modifiedCalcBasics.getId());
+            Utils.navigate(Pages.CalculationHospitalSummary.URL());
+            return Utils.getMessage("msgDatasetSealed");
+        }
+        Map<String, FieldValues> differencesPartner = getDifferencesPartner(getExcludedTypes());
+        Map<String, FieldValues> differencesUser = getDifferencesUser(modifiedCalcBasics, getExcludedTypes());
+
+        List<String> collisions = updateFields(differencesUser, differencesPartner, modifiedCalcBasics);
+
+        Map<String, String> documentationFields = DocumentationUtil.getFieldTranslationMap(_calcBasics);
+
+        String msgKey = _calcBasics.isSealed() ? "msgDatasetSealed" : collisions.isEmpty() ? "msgMergeOk" : "msgMergeCollision";
+        _sessionController.logMessage("ConcurrentUpdate [" + msgKey.substring(3) + "], CalcBasicsDrg: " + modifiedCalcBasics.getId());
+        String msg = Utils.getMessage(msgKey);
+        for (String fieldName : collisions) {
+            msg += "\r\n### " + documentationFields.get(fieldName) + " ###";
+        }
+        for (String fieldName : differencesPartner.keySet()) {
+            msg += "\r\n" + documentationFields.get(fieldName);
+        }
+        if (!_calcBasics.isSealed()) {
+            _calcBasics = _calcFacade.saveCalcBasicsDrg(_calcBasics);
+        }
+        return msg;
+    }
+
+    private List<Class> getExcludedTypes() {
+        List<Class> excludedTypes = new ArrayList<>();
+        excludedTypes.add(Date.class);
+        return excludedTypes;
+    }
+
+    private Map<String, FieldValues> getDifferencesUser(DrgCalcBasics modifiedCalcBasics, List<Class> excludedTypes) {
+        Map<String, FieldValues> differencesUser = ObjectUtils.getDifferences(_baseLine, modifiedCalcBasics, excludedTypes);
+        differencesUser.remove("_statusId");
+        return differencesUser;
+    }
+
+    private Map<String, FieldValues> getDifferencesPartner(List<Class> excludedTypes) {
+        Map<String, FieldValues> differencesPartner = ObjectUtils.getDifferences(_baseLine, _calcBasics, excludedTypes);
+        differencesPartner.remove("_statusId");
+        differencesPartner.remove("_version");
+        return differencesPartner;
+    }
+
+    private List<String> updateFields(Map<String, FieldValues> differencesUser, Map<String, FieldValues> differencesPartner, DrgCalcBasics modifiedCalcBasics) {
+        List<String> collisions = new ArrayList<>();
+        for (String fieldName : differencesUser.keySet()) {
+            if (differencesPartner.containsKey(fieldName) || _calcBasics.isSealed()) {
+                collisions.add(fieldName);
+                differencesPartner.remove(fieldName);
+                continue;
+            }
+            FieldValues fieldValues = differencesUser.get(fieldName);
+            Field field = fieldValues.getField();
+            ObjectUtils.setField(field, modifiedCalcBasics, _calcBasics);
+        }
+        return collisions;
     }
 
     private void setModifiedInfo() {
