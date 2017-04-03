@@ -711,7 +711,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         return result;
     }
 
-    @Documentation(name = "Intensivstunden",  rank = 100000)
+    @Documentation(name = "Intensivstunden", rank = 100000)
     public int getSumIntensivStrokeNotWeighted() {
         List<KGLListIntensivStroke> intensivStrokes = _calcBasics.getIntensivStrokes();
         int result = 0;
@@ -912,6 +912,14 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     private String saveData(boolean showSaveMessage) {
+        if (_baseLine != null && ObjectUtils.getDifferences(_baseLine, _calcBasics, null).isEmpty()) {
+            // nothing is changed, but we will reload the data if changed by somebody else
+            if (_baseLine.getVersion() != _calcFacade.getCalcBasicsDrgVersion(_calcBasics.getId())) {
+                _baseLine = _calcFacade.findCalcBasicsDrg(_calcBasics.getId());
+                _calcBasics = _calcFacade.findCalcBasicsDrg(_calcBasics.getId());
+            }
+            return null;
+        }
         setModifiedInfo();
         String msg = "";
         try {

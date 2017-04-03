@@ -160,7 +160,7 @@ public class ObjectUtils {
                 }
             }
             if (constructor == null) {
-                System.out.println(targetClass.getName());
+                logger.log(Level.INFO, "Constructor is null: {0}", targetClass.getName());
             }
             constructor.setAccessible(true);
             Class[] types = constructor.getParameterTypes();
@@ -191,7 +191,7 @@ public class ObjectUtils {
             targetField.set(target, copyObject(value));
 
         } catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException ex) {
-            logger.log(Level.SEVERE, "error during setField");
+            logger.log(Level.SEVERE, "error during setField: " + field.getName());
         }
     }
 
@@ -220,10 +220,6 @@ public class ObjectUtils {
     }
 
     private static <T> boolean areEqualObjects(T obj1, T obj2) {
-        if (obj1 != null) {
-            System.out.println("areEqualObjects: " + obj1.getClass() + " Value: " + obj1);
-        }
-
         if (obj1 == null && obj2 == null) {
             return true;
         }

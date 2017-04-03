@@ -61,6 +61,10 @@ public class PeppCalcBasics implements Serializable {
     @Column(name = "biVersion")
     @Version
     private int _version;
+    
+    public int getVersion(){
+        return _version;
+    }
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Property DataYear">

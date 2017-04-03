@@ -67,6 +67,10 @@ public class DrgCalcBasics implements Serializable {
     @Column(name = "biVersion")
     @Version
     private int _version;
+    
+    public int getVersion(){
+        return _version;
+    }
     // </editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="dataYear">
@@ -739,7 +743,7 @@ public class DrgCalcBasics implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "dfBaseInformationId", referencedColumnName = "biId")
     @OrderBy(value = "_contentTextId")
-    //@Documentation(name = "DrgDelimitationFact", rank = 1120) 
+    @Documentation(name = "Abgrenzungstatbestände", rank = 1120) 
     private List<DrgDelimitationFact> _delimitationFacts = new Vector<>();
 
     public List<DrgDelimitationFact> getDelimitationFacts() {

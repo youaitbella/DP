@@ -590,6 +590,16 @@ public class CalcFacade extends AbstractDataAccess {
     public DrgCalcBasics findCalcBasicsDrg(int id) {
         return findFresh(DrgCalcBasics.class, id);
     }
+    
+    public int getCalcBasicsDrgVersion(int id){
+        String sql = "select biVersion from calc.KGLBaseInformation where biId = " + id;
+                Query query = getEntityManager().createNativeQuery(sql);
+        @SuppressWarnings("unchecked") List<Integer> result = query.getResultList();
+        if (result.isEmpty()){
+            return -1;
+        }
+        return result.get(0);
+    }
 
     public DrgCalcBasics saveCalcBasicsDrg(DrgCalcBasics calcBasics) {
         prepareServiceProvisionTypes(calcBasics.getServiceProvisions());
