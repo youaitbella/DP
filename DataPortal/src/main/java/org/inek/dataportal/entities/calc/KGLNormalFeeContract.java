@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
+import org.inek.dataportal.entities.calc.iface.BaseIdValue;
 import org.inek.dataportal.utils.Documentation;
 
 /**
@@ -22,7 +23,7 @@ import org.inek.dataportal.utils.Documentation;
  */
 @Entity
 @Table(name = "KGLNormalFeeContract", schema = "calc")
-public class KGLNormalFeeContract implements Serializable {
+public class KGLNormalFeeContract implements Serializable, BaseIdValue {
 
     private static final long serialVersionUID = 1L;
 
@@ -32,10 +33,12 @@ public class KGLNormalFeeContract implements Serializable {
     @Column(name = "nfcID")
     private int _id = -1;
 
+    @Override
     public int getId() {
         return _id;
     }
 
+    @Override
     public void setId(int id) {
         this._id = id;
     }
@@ -105,10 +108,12 @@ public class KGLNormalFeeContract implements Serializable {
     @Column(name = "nfcBaseInformationId")
     private int _baseInformationId;
 
+    @Override
     public int getBaseInformationId() {
         return _baseInformationId;
     }
 
+    @Override
     public void setBaseInformationId(int baseInformationId) {
         this._baseInformationId = baseInformationId;
     }
@@ -117,16 +122,8 @@ public class KGLNormalFeeContract implements Serializable {
     public KGLNormalFeeContract() {
     }
 
-    public KGLNormalFeeContract(Integer nfcID) {
-        this._id = nfcID;
-    }
-
-    public KGLNormalFeeContract(Integer nfcID, String nfcDivision, String nfcDepartmentKey, int nfcCaseCnt, int nfcAmount) {
-        this._id = nfcID;
-        this._division = nfcDivision;
-        this._departmentKey = nfcDepartmentKey;
-        this._caseCnt = nfcCaseCnt;
-        this._amount = nfcAmount;
+    public KGLNormalFeeContract(int baseInformationId) {
+        _baseInformationId = baseInformationId;
     }
 
     //<editor-fold defaultstate="collapsed" desc="hash && equals && toString">

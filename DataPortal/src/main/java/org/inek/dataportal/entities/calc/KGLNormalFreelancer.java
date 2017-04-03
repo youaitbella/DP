@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
+import org.inek.dataportal.entities.calc.iface.BaseIdValue;
 import org.inek.dataportal.utils.Documentation;
 
 /**
@@ -22,7 +23,7 @@ import org.inek.dataportal.utils.Documentation;
  */
 @Entity
 @Table(name = "KGLNormalFreelancer", schema = "calc")
-public class KGLNormalFreelancer implements Serializable {
+public class KGLNormalFreelancer implements Serializable, BaseIdValue {
 
     private static final long serialVersionUID = 1L;
 
@@ -32,10 +33,12 @@ public class KGLNormalFreelancer implements Serializable {
     @Column(name = "nfID")
     private int _id = -1;
 
+    @Override
     public int getId() {
         return _id;
     }
 
+    @Override
     public void setId(int id) {
         this._id = id;
     }
@@ -118,10 +121,12 @@ public class KGLNormalFreelancer implements Serializable {
     @Column(name = "nfBaseInformationId")
     private int _baseInformationId;
 
+    @Override
     public int getBaseInformationId() {
         return _baseInformationId;
     }
 
+    @Override
     public void setBaseInformationId(int baseInformationId) {
         this._baseInformationId = baseInformationId;
     }
@@ -131,17 +136,8 @@ public class KGLNormalFreelancer implements Serializable {
     public KGLNormalFreelancer() {
     }
 
-    public KGLNormalFreelancer(Integer nfID) {
-        this._id = nfID;
-    }
-
-    public KGLNormalFreelancer(Integer nfID, String nfDivision, double nfFullVigorCnt, int nfAmount, boolean nfCostType1, boolean nfCostType6c) {
-        this._id = nfID;
-        this._division = nfDivision;
-        this._fullVigorCnt = nfFullVigorCnt;
-        this._amount = nfAmount;
-        this._costType1 = nfCostType1;
-        this._costType6c = nfCostType6c;
+    public KGLNormalFreelancer(int baseId) {
+        _baseInformationId = baseId;
     }
 
     @Override
@@ -172,7 +168,7 @@ public class KGLNormalFreelancer implements Serializable {
             return false;
         }
         final KGLNormalFreelancer other = (KGLNormalFreelancer) obj;
-        if (this._id != -1 && this._id == other._id) {
+        if (this._id > -1 && this._id == other._id) {
             return true;
         }
         if (this._id != other._id) {
