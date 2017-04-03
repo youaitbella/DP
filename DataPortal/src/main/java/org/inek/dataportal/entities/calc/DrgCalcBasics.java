@@ -821,7 +821,7 @@ public class DrgCalcBasics implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property List ObstetricsGynecologies">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "ogBaseInformationId", referencedColumnName = "biID")
-    @Documentation(name = "KGLListObstetricsGynecology", rank = 25015)
+    @Documentation(name = "KGLListObstetricsGynecology", rank = 4050)
     private List<KGLListObstetricsGynecology> _obstetricsGynecologies  = new Vector<>();
     
     
