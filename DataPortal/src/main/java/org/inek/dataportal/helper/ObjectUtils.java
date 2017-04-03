@@ -16,7 +16,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.Transient;
 import org.inek.dataportal.helper.structures.FieldValues;
-import org.inek.dataportal.utils.Documentation;
 import org.inek.dataportal.utils.IgnoreOnCompare;
 
 /**
@@ -267,18 +266,6 @@ public class ObjectUtils {
         }
 
         for (Class clazz = obj1.getClass(); !clazz.equals(Object.class); clazz = clazz.getSuperclass()) {
-//            if (obj1.getClass().getName().equals("java.lang.ref.SoftReference")) {
-//                continue;
-//            }
-//            if (obj1.getClass().getName().equals("org.eclipse.persistence.internal.identitymaps.HardCacheWeakIdentityMap$ReferenceCacheKey")) {
-//                continue;
-//            }
-//            if (obj1.getClass().getName().equals("org.eclipse.persistence.internal.helper.linkedlist.LinkedNode")) {
-//                continue;
-//            }
-//            if (obj1.getClass().getName().equals("java.lang.reflect.Constructor")) {
-//                continue;
-//            }
             for (Field field : clazz.getDeclaredFields()) {
                 if (isFieldToIgnore(field, null)) {
                     continue;
@@ -342,7 +329,7 @@ public class ObjectUtils {
 
     private static boolean isFieldToIgnore(Field field, List<Class> excludedTypes) {
         if (field.getName().startsWith("_persistence_")) {
-            // ignore fields of JPA proxy (hopefully no other stat with this prefix...) alterntive: remember and check for all objects in object graph
+            // ignore fields of JPA proxy (hopefully no other start with this prefix...) alternative: remember and check for all objects in object graph
             return true;
         } 
         if (excludedTypes != null && excludedTypes.contains(field.getType())) {
