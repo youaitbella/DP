@@ -965,7 +965,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
         Map<String, String> documentationFields = DocumentationUtil.getFieldTranslationMap(_calcBasics);
 
-        String msgKey = _calcBasics.isSealed() ? "msgDatasetSealed" : collisions.isEmpty() ? "msgMergeOk" : "msgMergeCollision";
+        String msgKey = collisions.isEmpty() ? "msgMergeOk" : "msgMergeCollision";
         _sessionController.logMessage("ConcurrentUpdate [" + msgKey.substring(3) + "], CalcBasicsDrg: " + modifiedCalcBasics.getId());
         String msg = Utils.getMessage(msgKey);
         for (String fieldName : collisions) {
