@@ -368,7 +368,7 @@ public class CalcFacade extends AbstractDataAccess {
             //temp Tabelle mit Kontaktinfos anlegen
                 +  "insert into tmp.dpContacts (cuid, coid, gender, title, firstName, lastName, mail, phone, consultantCompany, rw) \n"
                 +  "select *, ROW_NUMBER() OVER (order by a.coid) rw from ("
-                +  "select c.cuid, cr.coId, a.coGender gender, a.coTitle title, a.coFirstName firstName, a.coLastName lastName, a.coMail mail, a.coPhone phone, case when b.coIsConsultant = 1 then b.sopConsultantCompany else '' end consultantCompany \n"
+                +  "select c.cuid, cr.coId, a.coGender gender, a.coTitle title, a.coFirstName firstName, a.coLastName lastName, a.coMail mail, a.coPhone phone, case when a.coIsConsultant = 1 then b.sopConsultantCompany else '' end consultantCompany \n"
                 +  "from DataPortal.calc.Contact a \n"
                 +  "join DataPortal.calc.StatementOfParticipance b on sopId = coStatementOfParticipanceId \n"
                 +  "join CallCenterDB.dbo.ccCustomer c on sopik = cuik \n"
