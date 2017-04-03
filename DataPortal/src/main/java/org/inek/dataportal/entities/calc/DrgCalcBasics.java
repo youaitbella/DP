@@ -708,7 +708,7 @@ public class DrgCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="intensiveBed">
     @Column(name = "biIntensiveBed")
-    
+    @Documentation(name = "Das Krankenhaus hat Intensivbetten", rank = 13010, headline = "Ergänzende Angaben zur Intensivbehandlung")
     private boolean _intensiveBed;
 
     public boolean isIntensiveBed() {
@@ -783,6 +783,8 @@ public class DrgCalcBasics implements Serializable {
         return _costCenters.stream().filter(c -> c.getCostCenterId() == 6).collect(Collectors.toList());
     }
     
+    
+    
     @Documentation(name = "Kostenstellen",headline = "Kostenstellengruppe 11 (Diagnostische Bereiche)", rank = 9000) 
     @JsonIgnore
     public List<KGLListCostCenter> getCostCenters11() {
@@ -805,12 +807,23 @@ public class DrgCalcBasics implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property List RadiologyLaboratories">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "rlBaseInformationId", referencedColumnName = "biID")
-    @Documentation(name = "KGLListRadiologyLaboratory", rank = 25015)
     private List<KGLListRadiologyLaboratory> _radiologyLaboratories = new Vector<>();
 
     
     public List<KGLListRadiologyLaboratory> getRadiologyLaboratories() {
         return _radiologyLaboratories;
+    }
+    
+    @Documentation(name = "Kostenstellen",headline = "Kostenstellengruppe 9 (Radiologie)", rank = 7000) 
+    @JsonIgnore
+    public List<KGLListRadiologyLaboratory> getLaboratoryType9() {
+        return _radiologyLaboratories.stream().filter(c -> c.getCostCenterId() == 9).collect(Collectors.toList());
+    }
+    
+    @Documentation(name = "Kostenstellen",headline = "Kostenstellengruppe 10 (Laboratorien)", rank = 8000) 
+    @JsonIgnore
+    public List<KGLListRadiologyLaboratory> getLaboratoryType10() {
+        return _radiologyLaboratories.stream().filter(c -> c.getCostCenterId() == 10).collect(Collectors.toList());
     }
 
     public void setRadiologyLaboratories(List<KGLListRadiologyLaboratory> radiologyLaboratory) {
@@ -837,7 +850,7 @@ public class DrgCalcBasics implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property List RadiologyServices">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "rsBaseInformationId", referencedColumnName = "biID")
-    @Documentation(name = "KGLRadiologyService", rank = 25016)
+    @Documentation(name = "Ausgewählte Leistungen", rank = 7020)
     private List<KGLRadiologyService> _radiologyServices = new Vector<>();
 
     
@@ -937,6 +950,7 @@ public class DrgCalcBasics implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property List EndoscopyDifferentials">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "edBaseInformationId", referencedColumnName = "biId")
+    @Documentation(name = "Endoskopischer Bereich", rank = 6050)
     private List<KGLListEndoscopyDifferential> _endoscopyDifferentials = new Vector<>();
     
     
@@ -993,7 +1007,7 @@ public class DrgCalcBasics implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property List IntensivStrokes">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "isBaseInformationId", referencedColumnName = "biID")
-    @Documentation (name = "Intensiv", rank = 13010)
+    @Documentation (name = "Intensiv", rank = 13050)
     private List<KGLListIntensivStroke> _intensivStrokes = new Vector<>();
     
     public List<KGLListIntensivStroke> getIntensivStrokes() {

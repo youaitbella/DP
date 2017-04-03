@@ -81,6 +81,7 @@ import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.BeanValidator;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.structures.MessageContainer;
+import org.inek.dataportal.utils.Documentation;
 import org.inek.dataportal.utils.DocumentationUtil;
 import org.inek.dataportal.utils.StringUtil;
 
@@ -701,6 +702,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         return result;
     }
 
+    @Documentation(name = "Intensivstunden",  rank = 100000)
     public int getSumIntensivStrokeNotWeighted() {
         List<KGLListIntensivStroke> intensivStrokes = _calcBasics.getIntensivStrokes();
         int result = 0;
