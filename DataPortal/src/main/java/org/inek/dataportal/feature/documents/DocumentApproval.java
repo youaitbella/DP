@@ -208,13 +208,17 @@ public class DocumentApproval implements TreeNodeObserver, Serializable {
         if (!_sessionController.isInekUser(Feature.DOCUMENTS)) {
             return "";
         }
+        if (doc == null || doc.getContent() == null){
+            _logger.log(Level.SEVERE, "Doocument or content missing: {0}", docId);
+            return Pages.Error.URL();
+        }
         try {
             byte[] buffer = doc.getContent();
             externalContext.setResponseHeader("Content-Type", Helper.getContentType(doc.getName()));
             externalContext.setResponseHeader("Content-Length", "" + buffer.length);
             externalContext.setResponseHeader("Content-Disposition", "attachment;filename=\"" + doc.getName() + "\"");
             ByteArrayInputStream is = new ByteArrayInputStream(buffer);
-            new StreamHelper().copyStream(is, externalContext.getResponseOutputStream());
+            StreamHelper.copyStream(is, externalContext.getResponseOutputStream());
 
         } catch (IOException ex) {
             _logger.log(Level.SEVERE, null, ex);
