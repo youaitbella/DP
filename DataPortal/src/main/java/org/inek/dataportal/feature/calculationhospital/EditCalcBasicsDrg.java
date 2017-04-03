@@ -16,7 +16,6 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -72,7 +71,6 @@ import org.inek.dataportal.entities.calc.KGLOpAn;
 import org.inek.dataportal.entities.calc.KGLPKMSAlternative;
 import org.inek.dataportal.entities.calc.KGLPersonalAccounting;
 import org.inek.dataportal.entities.calc.KGLRadiologyService;
-import org.inek.dataportal.entities.nub.NubRequest;
 import org.inek.dataportal.enums.CalcHospitalFunction;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
@@ -258,9 +256,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         calcBasics.setNormalFreelancing(_priorCalcBasics.isNormalFreelancing());
         calcBasics.getNormalFreelancers().clear();
         for (KGLNormalFreelancer pnf : _priorCalcBasics.getNormalFreelancers()) {
-            KGLNormalFreelancer nf = new KGLNormalFreelancer();
+            KGLNormalFreelancer nf = new KGLNormalFreelancer(calcBasics.getId());
             nf.setId(-1);
-            nf.setBaseInformationId(calcBasics.getId());
             nf.setAmount(pnf.getAmount());
             nf.setCostType1(pnf.isCostType1());
             nf.setCostType6c(pnf.isCostType6c());
@@ -599,8 +596,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     public void addFreelancer() {
-        KGLNormalFreelancer nf = new KGLNormalFreelancer();
-        nf.setBaseInformationId(_calcBasics.getId());
+        KGLNormalFreelancer nf = new KGLNormalFreelancer(_calcBasics.getId());
         _calcBasics.getNormalFreelancers().add(nf);
     }
 
