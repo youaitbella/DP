@@ -13,8 +13,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
+import org.inek.dataportal.entities.calc.iface.BaseIdValue;
 import org.inek.dataportal.utils.Documentation;
 
 /**
@@ -23,7 +23,7 @@ import org.inek.dataportal.utils.Documentation;
  */
 @Entity
 @Table(name = "KGLListMedInfra", schema = "calc")
-public class KGLListMedInfra implements Serializable {
+public class KGLListMedInfra implements Serializable, BaseIdValue {
 
     private static final long serialVersionUID = 1L;
 
@@ -33,10 +33,12 @@ public class KGLListMedInfra implements Serializable {
     @Column(name = "miID")
     private int _id = -1;
 
+    @Override
     public int getId() {
         return _id;
     }
 
+    @Override
     public void setId(int id) {
         this._id = id;
     }
@@ -120,10 +122,12 @@ public class KGLListMedInfra implements Serializable {
     //@Documentation (name = "_baseInformationId:", rank = 50)
     private int _baseInformationId;
 
+    @Override
     public int getBaseInformationId() {
         return _baseInformationId;
     }
 
+    @Override
     public void setBaseInformationId(int baseInformationId) {
         this._baseInformationId = baseInformationId;
     }

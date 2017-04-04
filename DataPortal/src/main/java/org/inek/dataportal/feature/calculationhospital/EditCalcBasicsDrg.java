@@ -439,7 +439,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         for (DrgContentText ct : _calcFacade.findAllCalcContentTexts()) {
             if (ct.getHeaderTextId() == 12) {
                 KGLRadiologyService rs = new KGLRadiologyService();
-                rs.setRsBaseInformationId(calcBasics.getId());
+                rs.setBaseInformationId(calcBasics.getId());
                 rs.setRsContentTextID(ct.getId());
                 KGLListContentTextOps ops = _calcFacade.findOpsCodeByContentTextId(ct.getId());
                 if (ops != null) {

@@ -15,6 +15,7 @@ import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import org.inek.dataportal.entities.Document;
+import org.inek.dataportal.entities.calc.iface.BaseIdValue;
 
 /**
  *
@@ -22,7 +23,7 @@ import org.inek.dataportal.entities.Document;
  */
 @Entity
 @Table(name = "KGLDocuments", schema = "calc")
-public class KGLDocument implements Serializable, Document{
+public class KGLDocument implements Serializable, Document, BaseIdValue{
     
 
     private static final long serialVersionUID = 1L;
@@ -33,10 +34,12 @@ public class KGLDocument implements Serializable, Document{
     @Column(name = "doId")
     private int _id = -1;
 
+    @Override
     public int getId() {
         return _id;
     }
 
+    @Override
     public void setId(int id) {
         _id = id;
     }
@@ -46,10 +49,12 @@ public class KGLDocument implements Serializable, Document{
     @Column(name = "doBaseInformationId")
     private int _baseInformationId;
 
+    @Override
     public int getBaseInformationId() {
         return _baseInformationId;
     }
 
+    @Override
     public void setBaseInformationId(int baseInformationId) {
         _baseInformationId = baseInformationId;
     }

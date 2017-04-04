@@ -13,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
+import org.inek.dataportal.entities.calc.iface.BaseIdValue;
 import org.inek.dataportal.utils.Documentation;
 
 /**
@@ -21,17 +22,20 @@ import org.inek.dataportal.utils.Documentation;
  */
 @Entity
 @Table(name = "KGLNormalStationServiceDocumentationMinutes", schema = "calc")
-public class KGLNormalStationServiceDocumentationMinutes implements Serializable {
+public class KGLNormalStationServiceDocumentationMinutes implements Serializable, BaseIdValue {
+    
     //<editor-fold defaultstate="collapsed" desc="Property _id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "nssdmId")
     private int _id = -1;
 
+    @Override
     public int getId() {
         return _id;
     }
 
+    @Override
     public void setId(int id) {
         this._id = id;
     }
@@ -40,10 +44,12 @@ public class KGLNormalStationServiceDocumentationMinutes implements Serializable
     @Column(name = "nssdmBaseInformationId")
     private int _baseInformationId = -1;
 
+    @Override
     public int getBaseInformationId() {
         return _baseInformationId;
     }
 
+    @Override
     public void setBaseInformationId(int _baseInformationId) {
         this._baseInformationId = _baseInformationId;
     }

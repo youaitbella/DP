@@ -29,25 +29,10 @@ import org.inek.dataportal.entities.calc.CalcContact;
 import org.inek.dataportal.entities.calc.DrgContentText;
 import org.inek.dataportal.entities.calc.DrgHeaderText;
 import org.inek.dataportal.entities.calc.CalcHospitalInfo;
-import org.inek.dataportal.entities.calc.DrgDelimitationFact;
-import org.inek.dataportal.entities.calc.DrgNeonatData;
-import org.inek.dataportal.entities.calc.KGLListCentralFocus;
 import org.inek.dataportal.entities.calc.KGLListContentTextOps;
-import org.inek.dataportal.entities.calc.KGLListCostCenter;
-import org.inek.dataportal.entities.calc.KGLListCostCenterCost;
-import org.inek.dataportal.entities.calc.KGLListEndoscopyAmbulant;
-import org.inek.dataportal.entities.calc.KGLListEndoscopyDifferential;
-import org.inek.dataportal.entities.calc.KGLListIntensivStroke;
-import org.inek.dataportal.entities.calc.KGLListKstTop;
-import org.inek.dataportal.entities.calc.KGLListLocation;
-import org.inek.dataportal.entities.calc.KGLListMedInfra;
-import org.inek.dataportal.entities.calc.KGLListObstetricsGynecology;
-import org.inek.dataportal.entities.calc.KGLListRadiologyLaboratory;
 import org.inek.dataportal.entities.calc.KGLListServiceProvision;
 import org.inek.dataportal.entities.calc.KGLListServiceProvisionType;
-import org.inek.dataportal.entities.calc.KGLListSpecialUnit;
 import org.inek.dataportal.entities.calc.KGLNormalFreelancer;
-import org.inek.dataportal.entities.calc.KGLNormalStationServiceDocumentation;
 import org.inek.dataportal.entities.calc.KGLOpAn;
 import org.inek.dataportal.entities.calc.KGLPersonalAccounting;
 import org.inek.dataportal.entities.calc.KGLRadiologyService;
@@ -616,114 +601,33 @@ public class CalcFacade extends AbstractDataAccess {
         }
 
         merge(calcBasics.getOpAn());
-        saveNeonatData(calcBasics);  // workarround for known problem (persist saves all, merge only one new entry)
-        saveDelimitationFacts(calcBasics);
-        saveTopItems(calcBasics);
-        saveServiceProvisions(calcBasics);
-        saveEndoscopyDifferentials(calcBasics);
-        saveLocations(calcBasics);
-        saveSpecialUnits(calcBasics);
-        saveCentralFocus(calcBasics);
-        saveLaboratoryData(calcBasics);
-        saveCostCenterData(calcBasics);
-        savePersonalAccounting(calcBasics);
-        saveObstetricsGynecologies(calcBasics);
-        saveCostCenterCosts(calcBasics);
-        saveRadioServices(calcBasics);
-        saveEndoscopyAmbulant(calcBasics);
-        saveNormalWardDocMinutes(calcBasics);
+        // workarround for known problem (persist saves all, merge only one new entry): save lists first
+        saveIdList(calcBasics.getLocations());
+        saveIdList(calcBasics.getSpecialUnits());
+        saveIdList(calcBasics.getDelimitationFacts());
+        saveIdList(calcBasics.getServiceProvisions());
+        saveIdList(calcBasics.getKstTop());
+        saveIdList(calcBasics.getCostCenters());
+        saveIdList(calcBasics.getCostCenterCosts());
+        saveIdList(calcBasics.getObstetricsGynecologies());
+        saveIdList(calcBasics.getEndoscopyAmbulant());
+        saveIdList(calcBasics.getEndoscopyDifferentials());
+        saveIdList(calcBasics.getRadiologyLaboratories());
+        saveIdList(calcBasics.getRadiologyServices());
+        saveIdList(calcBasics.getNormalStationServiceDocumentations());
+        saveIdList(calcBasics.getNormalStationServiceDocumentationMinutes());
         saveIdList(calcBasics.getNormalFreelancers());
         saveIdList(calcBasics.getNormalFeeContracts());
-        saveMedInfra(calcBasics);
-        saveIntensiveStroke(calcBasics);
+        saveIdList(calcBasics.getMedInfras());
+        saveIdList(calcBasics.getNeonateData());
+        saveIdList(calcBasics.getDocuments());
+        saveIdList(calcBasics.getCentralFocuses());
+        saveIdList(calcBasics.getIntensivStrokes());
+        saveIdList(calcBasics.getPkmsAlternatives());
+        saveIdList(calcBasics.getPersonalAccountings());
         return merge(calcBasics);
     }
     
-    private void saveNormalWardDocMinutes(DrgCalcBasics calcBasics) {
-        for(KGLNormalFreelancer item : calcBasics.getNormalFreelancers()) {
-            if(item.getId() == -1)
-                persist(item);
-            else
-                merge(item);
-        }
-    }
-    
-    private void saveDelimitationFacts(DrgCalcBasics calcBasics) {
-        for(DrgDelimitationFact item : calcBasics.getDelimitationFacts()) {
-            if(item.getId() == -1)
-                persist(item);
-            else
-                merge(item);
-        }
-    }
-    
-    private void saveMedInfra(DrgCalcBasics calcBasics) {
-        for(KGLListMedInfra medInfra : calcBasics.getMedInfras()) {
-            if(medInfra.getId() == -1)
-                persist(medInfra);
-            else {
-                merge(medInfra);
-            }
-        }
-    }
-    
-    private void saveIntensiveStroke(DrgCalcBasics calcBasics) {
-        for(KGLListIntensivStroke item : calcBasics.getIntensivStrokes()) {
-            if(item.getId() == -1)
-                persist(item);
-            else {
-                merge(item);
-            }
-        }
-    }
-    
-    private void saveRadioServices(DrgCalcBasics calcBasics) {
-        for(KGLRadiologyService rs : calcBasics.getRadiologyServices()) {
-            if(rs.getId() == -1)
-                persist(rs);
-            else
-                merge(rs);
-        }
-    }
-    
-    private void saveCostCenterCosts(DrgCalcBasics calcBasic) {
-        for(KGLListCostCenterCost ccc : calcBasic.getCostCenterCosts()) {
-            if(ccc.getId() == -1)
-                persist(ccc);
-            else
-                merge(ccc);
-        }
-    }
-    
-    private void saveLaboratoryData(DrgCalcBasics calcBasics) {
-        for (KGLListRadiologyLaboratory item : calcBasics.getRadiologyLaboratories()) {
-            if (item.getId() == -1) {
-                persist(item);
-            } else {
-                merge(item);
-            }
-        }
-    }
-    
-    private void saveEndoscopyAmbulant(DrgCalcBasics calcBasics) {
-        for(KGLListEndoscopyAmbulant item : calcBasics.getEndoscopyAmbulant()) {
-            if(item.getId() == -1)
-                persist(item);
-            else
-                merge(item);
-        }
-    }
-
-    private void saveCostCenterData(DrgCalcBasics calcBasics) {
-        for (KGLListCostCenter item : calcBasics.getCostCenters()) {
-            if (item.getId() == -1) {
-                persist(item);
-            } else {
-                merge(item);
-            }
-        }
-    }
-
     private void prepareServiceProvisionTypes(List<KGLListServiceProvision> serviceProvisions) {
         for (KGLListServiceProvision serviceProvision : serviceProvisions) {
             if (serviceProvision.getServiceProvisionTypeId() == -1 && !serviceProvision.getDomain().trim().isEmpty()) {
@@ -753,96 +657,6 @@ public class CalcFacade extends AbstractDataAccess {
         TypedQuery<KGLListContentTextOps> query = getEntityManager().createQuery(jpql, KGLListContentTextOps.class);
         query.setParameter("id", contextTextId);
         return query.getSingleResult();
-    }
-
-    private void saveNeonatData(DrgCalcBasics calcBasics) {
-        for (DrgNeonatData item : calcBasics.getNeonateData()) {
-            if (item.getId() == -1) {
-                persist(item);
-            } else {
-                merge(item);
-            }
-        }
-    }
-
-    private void saveTopItems(DrgCalcBasics calcBasics) {
-        for (KGLListKstTop item : calcBasics.getKstTop()) {
-            if (item.getId() == -1) {
-                persist(item);
-            } else {
-                merge(item);
-            }
-        }
-    }
-
-    private void saveLocations(DrgCalcBasics calcBasics) {
-        for (KGLListLocation loc : calcBasics.getLocations()) {
-            if (loc.getId() == -1) {
-                persist(loc);
-            } else {
-                merge(loc);
-            }
-        }
-    }
-
-    private void saveSpecialUnits(DrgCalcBasics calcBasics) {
-        for (KGLListSpecialUnit su : calcBasics.getSpecialUnits()) {
-            if (su.getId() == -1) {
-                persist(su);
-            } else {
-                merge(su);
-            }
-        }
-    }
-
-    private void saveCentralFocus(DrgCalcBasics calcBasics) {
-        for (KGLListCentralFocus cf : calcBasics.getCentralFocuses()) {
-            if (cf.getId() == -1) {
-                persist(cf);
-            } else {
-                merge(cf);
-            }
-        }
-    }
-
-    private void saveServiceProvisions(DrgCalcBasics calcBasics) {
-        for (KGLListServiceProvision item : calcBasics.getServiceProvisions()) {
-            if (item.getId() == -1) {
-                persist(item);
-            } else {
-                merge(item);
-            }
-        }
-    }
-
-    private void saveEndoscopyDifferentials(DrgCalcBasics calcBasics) {
-        for (KGLListEndoscopyDifferential item : calcBasics.getEndoscopyDifferentials()) {
-            if (item.getId() == -1) {
-                persist(item);
-            } else {
-                merge(item);
-            }
-        }
-    }
-    
-    private void savePersonalAccounting(DrgCalcBasics calcBasics) {
-        for (KGLPersonalAccounting item : calcBasics.getPersonalAccountings()) {
-            if (item.getId() == -1) {
-                persist(item);
-            } else {
-                merge(item);
-            }
-        }
-    }
-
-    private void saveObstetricsGynecologies(DrgCalcBasics calcBasics) {
-        for (KGLListObstetricsGynecology item : calcBasics.getObstetricsGynecologies()) {
-            if (item.getId() == -1) {
-                persist(item);
-            } else {
-                merge(item);
-            }
-        }
     }
 
     public Set<Integer> obtainIks4NewBasics(CalcHospitalFunction calcFunct, int accountId, int year, boolean testMode) {

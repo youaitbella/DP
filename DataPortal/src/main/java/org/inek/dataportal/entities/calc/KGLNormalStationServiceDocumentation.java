@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import org.inek.dataportal.entities.calc.iface.BaseIdValue;
 import org.inek.dataportal.utils.Documentation;
 import org.inek.dataportal.utils.IgnoreOnCompare;
 
@@ -23,7 +24,7 @@ import org.inek.dataportal.utils.IgnoreOnCompare;
  */
 @Entity
 @Table(name = "KGLNormalStationServiceDocumentation", schema = "calc")
-public class KGLNormalStationServiceDocumentation implements Serializable {
+public class KGLNormalStationServiceDocumentation implements Serializable, BaseIdValue {
 
     private static final long serialVersionUID = 1L;
 
@@ -33,10 +34,12 @@ public class KGLNormalStationServiceDocumentation implements Serializable {
     @Column(name = "nssID")
     private int _id = -1;
 
+    @Override
     public int getId() {
         return _id;
     }
 
+    @Override
     public void setId(int id) {
         this._id = id;
     }
@@ -62,10 +65,12 @@ public class KGLNormalStationServiceDocumentation implements Serializable {
     @Column(name = "nssBaseInformationId")
     private int _baseInformationId;
 
+    @Override
     public int getBaseInformationId() {
         return _baseInformationId;
     }
 
+    @Override
     public void setBaseInformationId(int baseInformationId) {
         this._baseInformationId = baseInformationId;
     }

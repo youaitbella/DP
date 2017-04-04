@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import org.inek.dataportal.entities.calc.iface.BaseIdValue;
 import org.inek.dataportal.utils.Documentation;
 import org.inek.dataportal.utils.IgnoreOnCompare;
 
@@ -24,7 +25,7 @@ import org.inek.dataportal.utils.IgnoreOnCompare;
  */
 @Entity
 @Table(name = "KGLListDelimitationFact", schema = "calc")
-public class DrgDelimitationFact implements Serializable {
+public class DrgDelimitationFact implements Serializable, BaseIdValue {
 
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
@@ -32,10 +33,12 @@ public class DrgDelimitationFact implements Serializable {
     @Column(name = "dfId")
     private int _id;
 
+    @Override
     public int getId() {
         return _id;
     }
 
+    @Override
     public void setId(int id) {
         _id = id;
     }
@@ -45,10 +48,12 @@ public class DrgDelimitationFact implements Serializable {
     @Column(name = "dfBaseInformationId")
     private int _baseInformationId;
 
+    @Override
     public int getBaseInformationId() {
         return _baseInformationId;
     }
 
+    @Override
     public void setBaseInformationId(int baseInformationId) {
         this._baseInformationId = baseInformationId;
     }

@@ -16,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
+import org.inek.dataportal.entities.calc.iface.BaseIdValue;
 import org.inek.dataportal.utils.Documentation;
 
 /**
@@ -24,7 +25,7 @@ import org.inek.dataportal.utils.Documentation;
  */
 @Entity
 @Table(name = "KGLListCostCenter", schema = "calc")
-public class KGLListCostCenter implements Serializable, ListCostCenter {
+public class KGLListCostCenter implements Serializable, ListCostCenter, BaseIdValue {
 
     private static final long serialVersionUID = 1L;
 

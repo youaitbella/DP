@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
+import org.inek.dataportal.entities.calc.iface.BaseIdValue;
 import org.inek.dataportal.utils.Documentation;
 import org.inek.dataportal.utils.IgnoreOnCompare;
 
@@ -24,7 +25,7 @@ import org.inek.dataportal.utils.IgnoreOnCompare;
  */
 @Entity
 @Table(name = "KGLListCostCenterCost", schema = "calc")
-public class KGLListCostCenterCost implements Serializable {
+public class KGLListCostCenterCost implements Serializable, BaseIdValue {
 
     private static final long serialVersionUID = 1L;
 
@@ -37,10 +38,12 @@ public class KGLListCostCenterCost implements Serializable {
     @Column(name = "cccID")
     private int _id = -1;
 
+    @Override
     public int getId() {
         return _id;
     }
 
+    @Override
     public void setId(int id) {
         this._id = id;
     }
@@ -308,10 +311,12 @@ public class KGLListCostCenterCost implements Serializable {
     @Column(name = "cccBaseInformationId")
     private int _baseInformationId = -1;
 
+    @Override
     public int getBaseInformationId() {
         return _baseInformationId;
     }
 
+    @Override
     public void setBaseInformationId(int baseInformationId) {
         this._baseInformationId = baseInformationId;
     }

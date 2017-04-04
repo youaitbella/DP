@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.inek.dataportal.entities.calc.iface.BaseIdValue;
 import org.inek.dataportal.utils.Documentation;
 
 /**
@@ -24,7 +25,7 @@ import org.inek.dataportal.utils.Documentation;
 @Entity
 @Table(name = "KGLRadiologyService", schema = "calc")
 @XmlRootElement
-public class KGLRadiologyService implements Serializable {
+public class KGLRadiologyService implements Serializable, BaseIdValue {
 
     private static final long serialVersionUID = 1L;
 
@@ -34,10 +35,12 @@ public class KGLRadiologyService implements Serializable {
     @Column(name = "rsID")
     private int _id = -1;
 
+    @Override
     public int getId() {
         return _id;
     }
 
+    @Override
     public void setId(int id) {
         this._id = id;
     }
@@ -114,18 +117,20 @@ public class KGLRadiologyService implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property rsBaseInformationId">
-//    @JoinColumn(name = "rsBaseInformationId", referencedColumnName = "biID")
+    //<editor-fold defaultstate="collapsed" desc="Property _baseInformationId">
+//    @JoinColumn(name = "_baseInformationId", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
     @Column(name = "rsBaseInformationId")
-    private int rsBaseInformationId;
+    private int _baseInformationId;
 
-    public int getRsBaseInformationId() {
-        return rsBaseInformationId;
+    @Override
+    public int getBaseInformationId() {
+        return _baseInformationId;
     }
 
-    public void setRsBaseInformationId(int rsBaseInformationId) {
-        this.rsBaseInformationId = rsBaseInformationId;
+    @Override
+    public void setBaseInformationId(int baseInformationId) {
+        this._baseInformationId = baseInformationId;
     }
     //</editor-fold>
 
@@ -173,7 +178,7 @@ public class KGLRadiologyService implements Serializable {
         hash = 71 * hash + this._caseCntStationary;
         hash = 71 * hash + this._caseCntAmbulant;
         hash = 71 * hash + this._ambulantAmount;
-        hash = 71 * hash + this.rsBaseInformationId;
+        hash = 71 * hash + this._baseInformationId;
         hash = 71 * hash + this.rsContentTextID;
         return hash;
     }
@@ -208,7 +213,7 @@ public class KGLRadiologyService implements Serializable {
         if (Double.doubleToLongBits(this._ambulantAmount) != Double.doubleToLongBits(other._ambulantAmount)) {
             return false;
         }
-        if (this.rsBaseInformationId != other.rsBaseInformationId) {
+        if (this._baseInformationId != other._baseInformationId) {
             return false;
         }
         if (this.rsContentTextID != other.rsContentTextID) {

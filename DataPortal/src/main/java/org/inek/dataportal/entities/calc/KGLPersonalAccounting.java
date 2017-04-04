@@ -17,6 +17,7 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.inek.dataportal.entities.calc.iface.BaseIdValue;
 import org.inek.dataportal.entities.common.CostType;
 import org.inek.dataportal.utils.Documentation;
 
@@ -27,7 +28,7 @@ import org.inek.dataportal.utils.Documentation;
 @Entity
 @Table(name = "KGLPersonalAccounting", schema = "calc")
 @XmlRootElement
-public class KGLPersonalAccounting implements Serializable {
+public class KGLPersonalAccounting implements Serializable, BaseIdValue {
 
     private static final long serialVersionUID = 1L;
 
@@ -37,10 +38,12 @@ public class KGLPersonalAccounting implements Serializable {
     @Column(name = "paID")
     private int _id = -1;
 
+    @Override
     public int getId() {
         return _id;
     }
 
+    @Override
     public void setId(int id) {
         this._id = id;
     }
@@ -186,10 +189,12 @@ public class KGLPersonalAccounting implements Serializable {
     @Column(name = "paBaseInformationId")
     private int _baseInformationId = -1;
 
+    @Override
     public int getBaseInformationId() {
         return _baseInformationId;
     }
 
+    @Override
     public void setBaseInformationId(int baseInformationId) {
         this._baseInformationId = baseInformationId;
     }

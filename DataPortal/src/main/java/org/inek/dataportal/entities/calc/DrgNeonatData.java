@@ -16,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import org.inek.dataportal.entities.calc.iface.BaseIdValue;
 import org.inek.dataportal.utils.Documentation;
 import org.inek.dataportal.utils.IgnoreOnCompare;
 
@@ -25,7 +26,7 @@ import org.inek.dataportal.utils.IgnoreOnCompare;
  */
 @Entity
 @Table(name = "KGLNeonatData", schema = "calc")
-public class DrgNeonatData implements Serializable {
+public class DrgNeonatData implements Serializable, BaseIdValue {
 
     private static final long serialVersionUID = 1L;
 
@@ -35,10 +36,12 @@ public class DrgNeonatData implements Serializable {
     @Column(name = "ndId")
     private int _id = -1;
 
+    @Override
     public int getId() {
         return _id;
     }
 
+    @Override
     public void setId(int id) {
         _id = id;
     }
@@ -48,10 +51,12 @@ public class DrgNeonatData implements Serializable {
     @Column(name = "ndBaseInformationId")
     private int _baseInformationId;
 
+    @Override
     public int getBaseInformationId() {
         return _baseInformationId;
     }
 
+    @Override
     public void setBaseInformationId(int baseInformationId) {
         _baseInformationId = baseInformationId;
     }

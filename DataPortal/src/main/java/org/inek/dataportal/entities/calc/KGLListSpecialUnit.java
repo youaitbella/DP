@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.inek.dataportal.entities.calc.iface.BaseIdValue;
 import org.inek.dataportal.utils.Documentation;
 
 /**
@@ -24,7 +25,7 @@ import org.inek.dataportal.utils.Documentation;
 @Entity
 @Table(name = "KGLListSpecialUnit", schema = "calc")
 @XmlRootElement
-public class KGLListSpecialUnit implements Serializable {
+public class KGLListSpecialUnit implements Serializable, BaseIdValue {
 
     private static final long serialVersionUID = 1L;
 
@@ -34,10 +35,12 @@ public class KGLListSpecialUnit implements Serializable {
     @Column(name = "suID")
     private int _id = -1;
 
+    @Override
     public int getId() {
         return _id;
     }
 
+    @Override
     public void setId(int id) {
         this._id = id;
     }
@@ -47,10 +50,12 @@ public class KGLListSpecialUnit implements Serializable {
     @Column(name = "suBaseInformationId")
     private int _baseInformationId = -1;
 
+    @Override
     public int getBaseInformationId() {
         return _baseInformationId;
     }
 
+    @Override
     public void setBaseInformationId(int baseInformationId) {
         this._baseInformationId = baseInformationId;
     }
