@@ -556,9 +556,6 @@ public class EditStatementOfParticipance extends AbstractEditController {
         } while (file.exists());
 
         try (PrintWriter pw = new PrintWriter(new FileOutputStream(file))) {
-            if (_sessionController.getAccount().isReportViaPortal()) {
-                pw.println("Account.Mail=" + _sessionController.getAccount().getEmail());
-            }
             pw.println("From=" + _sessionController.getAccount().getEmail());
             pw.println("Received=" + new SimpleDateFormat("dd.MM.yyyy HH:mm").format(ts));
             pw.println("Subject=Teilnahmeerklärung_" + statement.getIk());

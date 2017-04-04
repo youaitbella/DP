@@ -30,6 +30,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.persistence.Transient;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import org.inek.dataportal.entities.admin.InekRole;
@@ -119,22 +120,7 @@ public class Account implements Serializable, Person {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property ReportViaPortal">
-    @Column(name = "acReportViaPortal")
-    private boolean _reportViaPortal;
-
-    @Deprecated
-    public boolean isReportViaPortal() {
-        return _reportViaPortal;
-    }
-
-    @Deprecated
-    public void setReportViaPortal(boolean reportViaPortal) {
-        _reportViaPortal = reportViaPortal;
-    }
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Property ReportViaPortal">
+    // <editor-fold defaultstate="collapsed" desc="Property AutoSave">
     @Column(name = "acAutoSave")
     private boolean _autoSave;
 
@@ -397,6 +383,7 @@ public class Account implements Serializable, Person {
     }
 
     // </editor-fold>
+    
     public Set<Integer> getFullIkList() {
         Set<Integer> iks = new HashSet<>();
         if (_ik != null && _ik > 0) {
@@ -456,4 +443,31 @@ public class Account implements Serializable, Person {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Transient Property ReportViaPortal">
+    @Transient
+    private boolean _reportViaPortal = true;
+
+    public boolean isReportViaPortal() {
+        return _reportViaPortal;
+    }
+
+    public void setReportViaPortal(boolean reportViaPortal) {
+        _reportViaPortal = reportViaPortal;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Transient Property Tag">
+    @Transient
+    private String _tag = "";
+
+    public String getReportViaPortal() {
+        return _tag;
+    }
+
+    public void setReportViaPortal(String tag) {
+        _tag = tag;
+    }
+    // </editor-fold>
+
+    
 }

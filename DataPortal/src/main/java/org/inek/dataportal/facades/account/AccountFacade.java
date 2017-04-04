@@ -267,7 +267,7 @@ public class AccountFacade extends AbstractFacade<Account> {
         _accountChangeMailFacade.remove(changeMail);
 
         TransferFileCreator.createEmailTransferFile(_configFacade, account.getEmail());
-        
+
         return true;
     }
 
@@ -340,7 +340,7 @@ public class AccountFacade extends AbstractFacade<Account> {
     public boolean isReRegister(String email) {
         try {
             Account account = findByMail(email);
-            if (account == null){
+            if (account == null) {
                 return false;
             }
             _mailer.sendReRegisterMail(account);
@@ -373,4 +373,18 @@ public class AccountFacade extends AbstractFacade<Account> {
         return result;
     }
 
+    public void obtainRoleInfo(int ik, List<String> emailAddreses) {
+        String addresses = emailAddreses.stream().map(m -> "'" + m + "'").collect(Collectors.joining(", "));
+        String sql = "select cdDetails, dbo.concatenate(roText)\n"
+                + "from CallCenterDB.dbo.ccCustomer\n"
+                + "join CallCenterDB.dbo.ccContact on cuId = coCustomerId\n"
+                + "join CallCenterDB.dbo.mapContactRole r1 on coId = r1.mcrContactId and r1.mcrRoleId in (3, 12, 14, 15, 16, 18, 19)\n"
+                + "join CallCenterDB.dbo.listRole on r1.mcrRoleId = roId\n"
+                + "join CallCenterDB.dbo.ccContactDetails on coId = cdContactId\n"
+                + "where cuIk = "+ ik + "\n"
+                + "	and coIsActive = 1\n"
+                + "	and cdContactDetailTypeId = 'E'\n"
+                + "     and cdDetails in("+ addresses + ")\n"
+                + "group by cdDetails";
+    }
 }
