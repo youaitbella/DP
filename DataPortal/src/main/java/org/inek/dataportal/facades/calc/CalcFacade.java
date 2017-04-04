@@ -893,11 +893,13 @@ public class CalcFacade extends AbstractDataAccess {
             return calcBasics;
         }
         
+        saveIdList(calcBasics.getKgpDocumentsList());
         saveIdList(calcBasics.getLocations());
         saveIdList(calcBasics.getDelimitationFacts());
         saveIdList(calcBasics.getServiceProvisions());
         saveIdList(calcBasics.getTherapies());
         saveIdList(calcBasics.getCostCenters());
+        saveIdList(calcBasics.getKgpStationDepartmentList());
         saveIdList(calcBasics.getPersonalAccountings());
         saveIdList(calcBasics.getStationServiceCosts());
         saveIdList(calcBasics.getKgpMedInfraList());
