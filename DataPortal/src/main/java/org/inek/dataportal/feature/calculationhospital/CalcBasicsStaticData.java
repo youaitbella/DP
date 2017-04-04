@@ -77,6 +77,20 @@ public class CalcBasicsStaticData {
         items.add(new SelectItem(0, "Das Krankenhaus erfüllt in diesem Datenjahr die Anforderungen der Richtlinie für die Durchführung von minimalinvasiven Herzklappeninterventionen nicht"));
         return items;
     }
+    
+    public List<SelectItem> getProvidedTypeText() {
+        return staticGetProvidedTypeText();
+    }
+    
+    public static List<SelectItem> staticGetProvidedTypeText() {
+        List<SelectItem> items = new ArrayList<>();
+        items.add(new SelectItem(1, "keine Fremdvergabe"));
+        items.add(new SelectItem(2, "vollständige Fremdvergabe"));
+        items.add(new SelectItem(3, "teilweise Fremdvergabe"));
+        items.add(new SelectItem(0, "wird nicht erbracht"));
+        return items;
+    }
+    
 
     public List<SelectItem> getInternalCostAllocationItems() {
         return staticGetInternalCostAllocationItems();
