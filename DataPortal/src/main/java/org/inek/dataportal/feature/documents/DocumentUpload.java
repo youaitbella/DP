@@ -301,8 +301,10 @@ public class DocumentUpload implements Serializable {
                     break;
                 case IK:
                     for (Account account : _accounts) {
+                        if (account.isReportViaPortal()){
                             storeDocument(accountDocument, account.getId());
                             accounts.add(account);
+                        }
                     }
                     break;
                 default:
