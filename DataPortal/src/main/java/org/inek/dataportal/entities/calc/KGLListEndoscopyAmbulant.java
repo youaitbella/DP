@@ -5,7 +5,9 @@
  */
 package org.inek.dataportal.entities.calc;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
+import javax.faces.model.SelectItem;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,6 +17,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import org.inek.dataportal.entities.calc.iface.BaseIdValue;
+import org.inek.dataportal.feature.calculationhospital.CalcBasicsStaticData;
 import org.inek.dataportal.utils.Documentation;
 
 /**
@@ -69,11 +72,21 @@ public class KGLListEndoscopyAmbulant implements Serializable, BaseIdValue {
     }
     
     @Column(name = "leaServiceKey")
-    @Documentation(name = "Leistungsschlüssel", rank = 10)
+    //@Documentation(name = "Leistungsschlüssel", rank = 10)
     private int _serviceKey = -1;
 
     public int getServiceKey() {
         return _serviceKey;
+    }
+    
+    @Documentation(name = "Leistungsschlüssel", rank = 10)
+    @JsonIgnore
+    public String getServiceKeyText(){
+        return CalcBasicsStaticData.staticGetServiceKeyItems()
+                .stream()
+                .filter(i -> (int)i.getValue() == _serviceKey)
+                .findAny().orElse(new SelectItem(-1, ""))
+                .getLabel();
     }
 
     public void setServiceKey(int _serviceKey) {

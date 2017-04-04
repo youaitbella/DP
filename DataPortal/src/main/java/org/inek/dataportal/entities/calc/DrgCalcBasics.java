@@ -970,6 +970,7 @@ public class DrgCalcBasics implements Serializable {
     
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "leaBaseInformationId", referencedColumnName = "biId")
+    @Documentation(name = "Ambulante Leistungen im endoskopischen Bereich ", rank = 6060)
     private List<KGLListEndoscopyAmbulant> _endoscopyAmbulant = new Vector<>();
 
     public List<KGLListEndoscopyAmbulant> getEndoscopyAmbulant() {

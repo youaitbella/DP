@@ -184,7 +184,7 @@ public class KGLListCostCenter implements Serializable, ListCostCenter, BaseIdVa
 //    @JoinColumn(name = "ccBaseInformationId", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
     @Column(name = "ccBaseInformationId")
-    @Documentation (name = "ccBaseInformationId", rank = 80)
+  //  @Documentation (name = "ccBaseInformationId", rank = 80)
     private int _baseInformationId;
 
     @Override

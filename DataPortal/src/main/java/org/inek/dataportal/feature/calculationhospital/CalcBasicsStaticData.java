@@ -117,6 +117,21 @@ public class CalcBasicsStaticData {
         items.add(new SelectItem(4, "Teilweise Fremdvergabe"));
         return items;
     }
+    
+    
+    public List<SelectItem> getServiceKeyItems() {
+        return staticGetServiceKeyItems();
+    }
+
+    public static List<SelectItem> staticGetServiceKeyItems() {
+        List<SelectItem> items = new ArrayList<>();
+        items.add(new SelectItem(0, "DGVS"));
+        items.add(new SelectItem(1, "Leistungszeit"));
+        items.add(new SelectItem(2, "Punktesystem"));
+        items.add(new SelectItem(3, "Sonstige"));
+        return items;
+    }
+    
 
     public List<SelectItem> getTimeRecordingTypeItemsSNZ() {
         return staticGetTimeRecordingTypeItemsSNZ();
