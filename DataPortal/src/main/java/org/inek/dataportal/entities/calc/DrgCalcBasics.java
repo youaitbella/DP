@@ -35,7 +35,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.feature.calculationhospital.CalcBasicsStaticData;
 import org.inek.dataportal.utils.Documentation;
-import org.inek.dataportal.utils.IgnoreOnCompare;
 
 /**
  *
@@ -68,6 +67,7 @@ public class DrgCalcBasics implements Serializable {
     @Version
     private int _version;
     
+    @JsonIgnore
     public int getVersion(){
         return _version;
     }

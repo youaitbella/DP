@@ -254,15 +254,23 @@
     <div class="inputPart">
         <h:outputLabel styleClass="label" value="Anzahl Standorte:" /> &nbsp;
         <h:inputText styleClass="inputshort" value="#{editCalcBasicsDrg.calcBasics.locationCnt}" required="true">
-            <f:ajax event="blur" render="@this :logout:remaining"/>
+            <f:ajax event="blur" render="@form :logout:remaining" listener="#{editCalcBasicsDrg}"/>
         </h:inputText>
     </div>
 
     <div class="inputPart">
         <inek:BooleanRadioButton label="Liegt ein nach Standorten differenzierter Versorgungsauftrag vor:"  
-                                 renderElement="@this :logout:remaining" value="#{editCalcBasicsDrg.calcBasics.difLocationSupply}" labelStyle="label"/>
+                                 value="#{editCalcBasicsDrg.calcBasics.difLocationSupply}" labelStyle="label"/>
     </div>
 
+    <h:panelGroup styleClass="inputPart" rendered="#{editCalcBasicsDrg.calcBasics.difLocationSupply}">
+        Falls Sie "nein" angegeben haben, möchten wir Sie dennoch bitten, die Differenzierung im Datenfeld "entlassender    
+        Standort" des übermittelten §21-Datensatzes vorzunehmen und die Standorte in der nachfolgenden Tabelle zu benennen. 
+        Wir möchten Sie darauf hinweisen, dass die Differenzierung der Standorte lediglich für die Plausibilisierung der 
+        Kalkulationsdaten verwendet wird. Eine Weitergabe dieser Angaben im Zuge der Datenlieferung nach § 21 Abs. 3 KHEntgG
+        wird nicht erfolgen.
+    </h:panelGroup>
+    
     <h:dataTable  headerClass="list-header" id="exitLocation"
                   value="#{editCalcBasicsDrg.calcBasics.locations}" var="item" width="70%" rowClasses="row1, row2" 
                   columnClasses="colIcon, col90, colShort"

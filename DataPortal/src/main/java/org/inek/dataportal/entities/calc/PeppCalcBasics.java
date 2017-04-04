@@ -62,6 +62,7 @@ public class PeppCalcBasics implements Serializable {
     @Version
     private int _version;
     
+    @JsonIgnore
     public int getVersion(){
         return _version;
     }

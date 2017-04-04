@@ -9,6 +9,7 @@ import org.inek.dataportal.helper.TransferFileCreator;
 import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
@@ -36,6 +37,7 @@ import javax.faces.model.SelectItem;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.Id;
 import javax.persistence.OptimisticLockException;
 import javax.servlet.http.Part;
 import org.inek.dataportal.common.ApplicationTools;
@@ -71,6 +73,7 @@ import org.inek.dataportal.entities.calc.KGLOpAn;
 import org.inek.dataportal.entities.calc.KGLPKMSAlternative;
 import org.inek.dataportal.entities.calc.KGLPersonalAccounting;
 import org.inek.dataportal.entities.calc.KGLRadiologyService;
+import org.inek.dataportal.entities.calc.iface.BaseIdValue;
 import org.inek.dataportal.enums.CalcHospitalFunction;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
@@ -1056,21 +1059,64 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     public void copyForResend() {
-        // in a first approch, we do not copy the data
-        // just reset the status to "CorrectionRequested"
-        _calcBasics.setStatus(WorkflowStatus.CorrectionRequested);
-        _calcBasics = _calcFacade.saveCalcBasicsDrg(_calcBasics);
-        /*
-        _calcBasics.setStatus(WorkflowStatus.New);
+        if (true) {
+            // in a first approch, we do not copy the data
+            // just reset the status to "CorrectionRequested"
+            _calcBasics.setStatus(WorkflowStatus.CorrectionRequested);
+            _calcBasics = _calcFacade.saveCalcBasicsDrg(_calcBasics);
+            return;
+        }
+        
+        _calcBasics.setStatus(WorkflowStatus.Retired);
+        _calcFacade.saveCalcBasicsDrg(_calcBasics);
+
+        _calcFacade.detach(_calcBasics);
         _calcBasics.setId(-1);
         _calcBasics.setStatus(WorkflowStatus.New);
-        _calcBasics.setAccountId(_sessionController.getAccountId());
-        for (KGLListCentralFocus item : _calcBasics.getCentralFocuses()) {
-            item.setId(-1);
-            item.setBaseInformationId(-1);
+
+        _calcFacade.detach(_calcBasics.getOpAn());
+        _calcBasics.getOpAn().setBaseInformationId(-1);
+
+        for (Field field : _calcBasics.getClass().getDeclaredFields()) {
+            try {
+                if (Modifier.isTransient(field.getModifiers())) {
+                    continue;
+                }
+                if (field.getAnnotation(Id.class) != null) {
+                    continue;
+                }
+                if (Modifier.isStatic(field.getModifiers())) {
+                    continue;
+                }
+                field.setAccessible(true);
+                Object value = field.get(_calcBasics);
+                if (!(value instanceof List)) {
+                    continue;
+                }
+                List list = (List) value;
+                for (Object object : list) {
+                    if (object instanceof BaseIdValue) {
+                        _calcFacade.detach(object);
+                        BaseIdValue baseIdValue = (BaseIdValue) object;
+                        baseIdValue.setId(-1);
+                        baseIdValue.setBaseInformationId(-1);
+                    }
+                }
+            } catch (IllegalArgumentException | IllegalAccessException ex) {
+                _logger.log(Level.SEVERE, "error during setDataToNew: {0}", field.getName());
+            }
+
         }
-        // todo: update Ids for all Lists. Use interface or use copy constructer as alternative
-         */
+
+        _calcBasics.setAccountId(_sessionController.getAccountId());
+
+        _calcBasics.setStatus(WorkflowStatus.CorrectionRequested);
+        try {
+            _calcBasics = _calcFacade.saveCalcBasicsDrg(_calcBasics);
+        } catch (Exception ex) {
+            _logger.log(Level.WARNING, "Exception during setDataToNew: {0}", ex.getMessage());
+        }
+        _baseLine = null;
     }
 
     /**

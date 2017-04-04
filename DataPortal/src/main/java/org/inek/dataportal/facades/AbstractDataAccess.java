@@ -65,6 +65,10 @@ public abstract class AbstractDataAccess {
         _em.refresh(entity);
     }
 
+    public void detach(Object entity) {
+        _em.detach(entity);
+    }
+
     protected <T> T find(Class<T> entityClass, Object id) {
         return _em.find(entityClass, id);
     }

@@ -5,6 +5,7 @@
  */
 package org.inek.dataportal.entities.calc;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -101,6 +102,16 @@ public class DrgNeonatData implements Serializable, BaseIdValue {
 
     public void setData(BigDecimal data) {
         _data = data;
+    }
+    
+    // conveniance method for int values
+    @JsonIgnore
+    public int getIntValue(){
+        return _data.intValueExact();
+    }
+    
+    public void setIntValue(int val){
+        _data = new BigDecimal(val);
     }
     // </editor-fold>
 

@@ -29,7 +29,7 @@
                 <h:selectOneMenu id="fulFillment"
                                  required="true"
                                  requiredMessage="#{msg.msgValueNeeded}"
-                                 value="#{data.data}"
+                                 value="#{data.intValue}"
                                  hideNoSelectionOption="true" >
                     <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
                     <f:selectItems value="#{calcBasicsStaticData.neonatFulfillmentItems}" />
