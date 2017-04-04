@@ -569,7 +569,7 @@ public class PeppCalcBasics implements Serializable {
     //@OneToMany(cascade = CascadeType.ALL, mappedBy = "spBaseInformationId")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "spBaseInformationId", referencedColumnName = "biID")
-    @Documentation(name = "ListListServiceProvision", rank = 20007) 
+    @Documentation(name = "Leistungen", rank = 2000, headline = "(Externe) Leistungserbringung / Fremdvergabe") 
     @OrderBy(value = "_sequence")
     private List<KGPListServiceProvision> _serviceProvisions = new Vector<>();
 
@@ -586,11 +586,29 @@ public class PeppCalcBasics implements Serializable {
     //@OneToMany(cascade = CascadeType.ALL, mappedBy = "ccBaseInformationId")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "ccBaseInformationId", referencedColumnName = "biID")
-    @Documentation(name = "ListCostCenter", rank = 20006) 
+   // @Documentation(name = "ListCostCenter", rank = 20006) 
     private List<KGPListCostCenter> _costCenters = new Vector<>();
 
     public List<KGPListCostCenter> getCostCenters() {
         return _costCenters;
+    }
+    
+    @Documentation(name = "Kostenstellen",headline = "Kostenstellengruppe 11 (Diagnostische Bereiche)", rank = 7000) 
+    @JsonIgnore
+    public List<KGPListCostCenter> getCostCenter11() {
+        return _costCenters.stream().filter(c -> c.getCostCenterId() == 11).collect(Collectors.toList());
+    }
+    
+    @Documentation(name = "Kostenstellen",headline = "Kostenstellengruppe 12 (Therapeutische Verfahren)", rank = 8000) 
+    @JsonIgnore
+    public List<KGPListCostCenter> getCostCenter12() {
+        return _costCenters.stream().filter(c -> c.getCostCenterId() == 12).collect(Collectors.toList());
+    }
+    
+    @Documentation(name = "Kostenstellen",headline = "Kostenstellengruppe 13 (Patientenaufnahme)", rank = 9000) 
+    @JsonIgnore
+    public List<KGPListCostCenter> getCostCenter13() {
+        return _costCenters.stream().filter(c -> c.getCostCenterId() == 13).collect(Collectors.toList());
     }
 
     public void setCostCenters(List<KGPListCostCenter> costCenters) {
@@ -669,24 +687,6 @@ public class PeppCalcBasics implements Serializable {
         return _radiologyLaboratories.stream().filter(c -> c.getCostCenterId() == 10).collect(Collectors.toList());
     }
     
-    @Documentation(name = "Kostenstellen",headline = "Kostenstellengruppe 11 (Diagnostische Bereiche)", rank = 7000) 
-    @JsonIgnore
-    public List<KGPListRadiologyLaboratory> getRadiologyLaboratories11() {
-        return _radiologyLaboratories.stream().filter(c -> c.getCostCenterId() == 11).collect(Collectors.toList());
-    }
-    
-    @Documentation(name = "Kostenstellen",headline = "Kostenstellengruppe 12 (Therapeutische Verfahren)", rank = 8000) 
-    @JsonIgnore
-    public List<KGPListRadiologyLaboratory> getRadiologyLaboratories12() {
-        return _radiologyLaboratories.stream().filter(c -> c.getCostCenterId() == 12).collect(Collectors.toList());
-    }
-    
-    @Documentation(name = "Kostenstellen",headline = "Kostenstellengruppe 13 (Patientenaufnahme)", rank = 9000) 
-    @JsonIgnore
-    public List<KGPListRadiologyLaboratory> getRadiologyLaboratories13() {
-        return _radiologyLaboratories.stream().filter(c -> c.getCostCenterId() == 13).collect(Collectors.toList());
-    }
-
     public void setRadiologyLaboratories(List<KGPListRadiologyLaboratory> radiologyLaboratories) {
         this._radiologyLaboratories = radiologyLaboratories;
     }
