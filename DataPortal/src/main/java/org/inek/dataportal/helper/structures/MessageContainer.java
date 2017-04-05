@@ -3,10 +3,11 @@ package org.inek.dataportal.helper.structures;
 import java.util.Objects;
 
 /**
- *
+ * Container to hold error message and position (page and element) where the error occurs.
+ * 
  * @author muellermi
  */
-public class MessageContainer{
+public class MessageContainer {
 
     private String _message;
     private String _topic;

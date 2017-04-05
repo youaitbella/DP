@@ -1,11 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.inek.dataportal.feature.calculationhospital;
 
-import org.inek.dataportal.helper.TransferFileCreator;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -36,29 +30,28 @@ import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.calc.DrgCalcBasics;
 import org.inek.dataportal.entities.calc.DrgContentText;
 import org.inek.dataportal.entities.calc.DrgNeonatData;
-import org.inek.dataportal.entities.calc.KGPListCostCenter;
 import org.inek.dataportal.entities.calc.KGPListContentText;
+import org.inek.dataportal.entities.calc.KGPListCostCenter;
 import org.inek.dataportal.entities.calc.KGPListDelimitationFact;
-import org.inek.dataportal.entities.calc.KGPListMedInfra;
-import org.inek.dataportal.entities.calc.KGPPersonalAccounting;
 import org.inek.dataportal.entities.calc.KGPListLocation;
+import org.inek.dataportal.entities.calc.KGPListMedInfra;
 import org.inek.dataportal.entities.calc.KGPListRadiologyLaboratory;
 import org.inek.dataportal.entities.calc.KGPListServiceProvision;
 import org.inek.dataportal.entities.calc.KGPListServiceProvisionType;
 import org.inek.dataportal.entities.calc.KGPListStationAlternative;
 import org.inek.dataportal.entities.calc.KGPListStationServiceCost;
 import org.inek.dataportal.entities.calc.KGPListTherapy;
+import org.inek.dataportal.entities.calc.KGPPersonalAccounting;
 import org.inek.dataportal.entities.calc.PeppCalcBasics;
-import org.inek.dataportal.entities.common.CostType;
 import org.inek.dataportal.enums.CalcHospitalFunction;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.calc.CalcFacade;
-import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.common.CostTypeFacade;
 import org.inek.dataportal.feature.AbstractEditController;
+import org.inek.dataportal.helper.TransferFileCreator;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.structures.MessageContainer;
 import org.inek.dataportal.utils.DocumentationUtil;
@@ -69,18 +62,18 @@ import org.inek.dataportal.utils.DocumentationUtil;
  */
 @Named
 @ViewScoped
+//@SuppressWarnings("PMD.LawOfDemeter")
+@SuppressWarnings("PMD")
 public class EditCalcBasicsPepp extends AbstractEditController implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="fields & enums">
-    private static final Logger _logger = Logger.getLogger("EditCalcBasicsPepp");
+    private static final Logger _LOGGER = Logger.getLogger("EditCalcBasicsPepp");
 
     @Inject private CooperationTools _cooperationTools;
     @Inject private SessionController _sessionController;
     @Inject private CalcFacade _calcFacade;
-    @Inject ApplicationTools _appTools;
+    @Inject private ApplicationTools _appTools;
     @Inject private CostTypeFacade _costTypeFacade;
-
-    private String _script;
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     private PeppCalcBasics _priorCalcBasics;
@@ -116,16 +109,16 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
 
     @PostConstruct
     private void init() {
-        _logger.info("start init EditCalcBasicPepp");
+        _LOGGER.info("start init EditCalcBasicPepp");
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        String id = "" + params.get("id");
-        if (id.equals("new")) {
+        String id = params.get("id");
+        if ("new".equals(id)) {
             _calcBasics = newCalcBasicsPepp();
         } else if (Utils.isInteger(id)) {
             PeppCalcBasics calcBasics = loadCalcBasicsPepp(id);
             if (calcBasics.getId() == -1) {
                 Utils.navigate(Pages.NotAllowed.RedirectURL());
-                _logger.info("end init EditCalcBasicPepp");
+                _LOGGER.info("end init EditCalcBasicPepp");
                 return;
             }
             _calcBasics = calcBasics;
@@ -134,8 +127,9 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         } else {
             Utils.navigate(Pages.Error.RedirectURL());
         }
-        FacesContext.getCurrentInstance().getExternalContext().setSessionMaxInactiveInterval(3600); // session timeout extended to 1 hour (to provide enough time for an upload)
-        _logger.info("end init EditCalcBasicPepp");
+        // session timeout extended to 1 hour (to provide enough time for an upload)
+        FacesContext.getCurrentInstance().getExternalContext().setSessionMaxInactiveInterval(3600); 
+        _LOGGER.info("end init EditCalcBasicPepp");
     }
 
     public void retrievePriorData(PeppCalcBasics calcBasics) {
@@ -197,11 +191,13 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         if (_sessionController.isInekUser(Feature.CALCULATION_HOSPITAL)){
             return true;
         }
-        return _cooperationTools.isAllowed(Feature.CALCULATION_HOSPITAL, calcBasics.getStatus(), calcBasics.getAccountId());
+        return _cooperationTools.isAllowed(Feature.CALCULATION_HOSPITAL, 
+                calcBasics.getStatus(), 
+                calcBasics.getAccountId());
     }
 
     private PeppCalcBasics newCalcBasicsPepp() {
-        _logger.info("start newCalcBasicsPepp");
+        _LOGGER.info("start newCalcBasicsPepp");
         Account account = _sessionController.getAccount();
         PeppCalcBasics calcBasics = new PeppCalcBasics();
         calcBasics.setAccountId(account.getId());
@@ -215,7 +211,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
 
         retrievePriorData(calcBasics);
         preloadData(calcBasics);
-        _logger.info("end newCalcBasicsPepp");
+        _LOGGER.info("end newCalcBasicsPepp");
         return calcBasics;
     }
 
@@ -249,7 +245,8 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
 
     private void preloadServiceProvision(PeppCalcBasics calcBasics) {
         calcBasics.getServiceProvisions().clear();
-        List<KGPListServiceProvisionType> provisionTypes = _calcFacade.retrieveServiceProvisionTypesPepp(calcBasics.getDataYear(), true);
+        List<KGPListServiceProvisionType> provisionTypes 
+                = _calcFacade.retrieveServiceProvisionTypesPepp(calcBasics.getDataYear(), true);
 
         int seq = 0;
 
@@ -265,7 +262,8 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
 
         // get prior values and additional entries
         for (KGPListServiceProvision prior : _priorCalcBasics.getServiceProvisions()) {
-            Optional<KGPListServiceProvision> currentOpt = calcBasics.getServiceProvisions().stream().filter(sp -> sp.getServiceProvisionTypeId() == prior.getServiceProvisionTypeId()).findAny();
+            Optional<KGPListServiceProvision> currentOpt = calcBasics.getServiceProvisions().stream()
+                    .filter(sp -> sp.getServiceProvisionTypeId() == prior.getServiceProvisionTypeId()).findAny();
             if (currentOpt.isPresent()) {
                 KGPListServiceProvision current = currentOpt.get();
                 current.setProvidedTypeId(prior.getProvidedTypeId());
@@ -291,7 +289,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         }
         if (calcBasics.getId() > 0){
             // This should not be. But sometimes we lost the delimitationFacts...
-            _logger.log(Level.WARNING, "Populate PSY DelimitationFacts for existing data: Id = {0}", calcBasics.getId());
+            _LOGGER.log(Level.WARNING, "Populate PSY DelimitationFacts for existing data: Id = {0}", calcBasics.getId());
         }
         for (KGPListContentText ct : _calcFacade.retrieveContentTextsPepp(1, calcBasics.getDataYear())) {
             KGPListDelimitationFact df = new KGPListDelimitationFact();
@@ -336,7 +334,9 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         if (_sessionController.isInekUser(Feature.CALCULATION_HOSPITAL)  && !_appTools.isEnabled(ConfigKey.TestMode)){
             return true;
         }
-        return _cooperationTools.isReadOnly(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId());
+        return _cooperationTools.isReadOnly(Feature.CALCULATION_HOSPITAL, 
+                _calcBasics.getStatus(), 
+                _calcBasics.getAccountId());
     }
 
     @Override
@@ -375,21 +375,27 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         if (!_appTools.isEnabled(ConfigKey.IsCalculationBasicsPsySendEnabled)) {
             return false;
         }
-        return _cooperationTools.isSealedEnabled(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId());
+        return _cooperationTools.isSealedEnabled(Feature.CALCULATION_HOSPITAL,
+                _calcBasics.getStatus(), 
+                _calcBasics.getAccountId());
     }
 
     public boolean isApprovalRequestEnabled() {
         if (!_appTools.isEnabled(ConfigKey.IsCalculationBasicsPsySendEnabled)) {
             return false;
         }
-        return _cooperationTools.isApprovalRequestEnabled(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId());
+        return _cooperationTools.isApprovalRequestEnabled(Feature.CALCULATION_HOSPITAL, 
+                _calcBasics.getStatus(), 
+                _calcBasics.getAccountId());
     }
 
     public boolean isRequestCorrectionEnabled() {
         if (!_appTools.isEnabled(ConfigKey.IsCalculationBasicsPsySendEnabled)) {
             return false;
         }
-        return _cooperationTools.isRequestCorrectionEnabled(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId());
+        return _cooperationTools.isRequestCorrectionEnabled(Feature.CALCULATION_HOSPITAL, 
+                _calcBasics.getStatus(), 
+                _calcBasics.getAccountId());
     }
 
     public boolean isTakeEnabled() {
@@ -485,13 +491,17 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Tab Address">
-    List<SelectItem> _ikItems;
+    private List<SelectItem> _ikItems;
 
     public List<SelectItem> getIks() {
         if (_ikItems == null) {
             //Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.CALCULATION_HOSPITAL, canReadSealed());
             boolean testMode = _appTools.isEnabled(ConfigKey.TestMode);
-            Set<Integer> iks = _calcFacade.obtainIks4NewBasics(CalcHospitalFunction.CalculationBasicsPepp, _sessionController.getAccountId(), Utils.getTargetYear(Feature.CALCULATION_HOSPITAL), testMode);
+            Set<Integer> iks = _calcFacade
+                    .obtainIks4NewBasics(CalcHospitalFunction.CalculationBasicsPepp, 
+                            _sessionController.getAccountId(), 
+                            Utils.getTargetYear(Feature.CALCULATION_HOSPITAL), 
+                            testMode);
             if (_calcBasics != null && _calcBasics.getIk() > 0) {
                 iks.add(_calcBasics.getIk());
             }
@@ -507,7 +517,9 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     // </editor-fold>
     //<editor-fold defaultstate="collapsed" desc="Tab ServiceProvision">
     public int priorProvisionAmount(KGPListServiceProvision current) {
-        Optional<KGPListServiceProvision> prior = _priorCalcBasics.getServiceProvisions().stream().filter(p -> p.getServiceProvisionTypeId() == current.getServiceProvisionTypeId()).findAny();
+        Optional<KGPListServiceProvision> prior = _priorCalcBasics.getServiceProvisions().stream()
+                .filter(p -> p.getServiceProvisionTypeId() == current.getServiceProvisionTypeId())
+                .findAny();
         if (prior.isPresent()) {
             return prior.get().getAmount();
         }
@@ -568,15 +580,15 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         _fileTherapyPepp = file;
     }
 
-    private static final String HeadlineTherapy = "KST-Gruppe;Leistungsinhalt der Kostenstelle;Fremdvergabe (keine, teilweise, vollständig);Leistungsschlüssel;KoArtG 1 Summe Leistungseinheiten;KoArtG 1 Personalkosten;KoArtG 3a Summe Leistungseinheiten;KoArtG 3a Personalkosten;KoArtG 2 Summe Leistungseinheiten;KoArtG 2 Personalkosten;KoArtG 3b Summe Leistungseinheiten;KoArtG 3b Personalkosten;KoArtG 3c Summe Leistungseinheiten;KoArtG 3c Personalkosten;KoArtG 3 Summe Leistungseinheiten;KoArtG 3 Personalkosten";
+    private static final String HEADLINE_THERAPY = "KST-Gruppe;Leistungsinhalt der Kostenstelle;Fremdvergabe (keine, teilweise, vollständig);Leistungsschlüssel;KoArtG 1 Summe Leistungseinheiten;KoArtG 1 Personalkosten;KoArtG 3a Summe Leistungseinheiten;KoArtG 3a Personalkosten;KoArtG 2 Summe Leistungseinheiten;KoArtG 2 Personalkosten;KoArtG 3b Summe Leistungseinheiten;KoArtG 3b Personalkosten;KoArtG 3c Summe Leistungseinheiten;KoArtG 3c Personalkosten;KoArtG 3 Summe Leistungseinheiten;KoArtG 3 Personalkosten";
 
     public void downloadTemplateTherapy() {
-        Utils.downloadText(HeadlineTherapy + "\n", "Therapeutischer_Bereich_.csv");
+        Utils.downloadText(HEADLINE_THERAPY + "\n", "Therapeutischer_Bereich_.csv");
     }
-    private static final String HeadLine = "Kostenstellengruppe;Kostenstellennummer;Kostenstellenname;Kostenvolumen;VollkräfteÄD;Leistungsschlüssel;Beschreibung;SummeLeistungseinheiten";
+    private static final String HEADLINE = "Kostenstellengruppe;Kostenstellennummer;Kostenstellenname;Kostenvolumen;VollkräfteÄD;Leistungsschlüssel;Beschreibung;SummeLeistungseinheiten";
 
     public void downloadTemplate() {
-        Utils.downloadText(HeadLine + "\n", "Kostenstellengruppe_11_12_13.csv");
+        Utils.downloadText(HEADLINE + "\n", "Kostenstellengruppe_11_12_13.csv");
     }
 
     private String _importMessage = "";
@@ -664,7 +676,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
                 itemImporter.setCalcBasics(_calcBasics);
                 while (scanner.hasNextLine()) {
                     String line = Utils.convertFromUtf8(scanner.nextLine());
-                    if (!line.equals(HeadlineTherapy)) {
+                    if (!line.equals(HEADLINE_THERAPY)) {
                         itemImporter.tryImportLine(line);
                     }
                 }
@@ -696,7 +708,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
                 itemImporter.setCalcBasics(_calcBasics);
                 while (scanner.hasNextLine()) {
                     String line = Utils.convertFromUtf8(scanner.nextLine());
-                    if (!line.equals(HeadLine)) {
+                    if (!line.equals(HEADLINE)) {
                         itemImporter.tryImportLine(line);
                     }
                 }
@@ -769,9 +781,11 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
 
     public List<KGPListMedInfra> getMedInfra(int costType) {
         List<KGPListMedInfra> tmp = new ArrayList<>();
-        _calcBasics.getKgpMedInfraList().stream().filter((mi) -> (mi.getCostTypeId() == costType)).forEachOrdered((mi) -> {
-            tmp.add(mi);
-        });
+        _calcBasics.getKgpMedInfraList().stream()
+                .filter((mi) -> (mi.getCostTypeId() == costType))
+                .forEachOrdered((mi) -> {
+                    tmp.add(mi);
+                });
         return tmp;
     }
 
@@ -788,14 +802,15 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
 
     @Inject private Instance<MedInfraDataImporterPepp> _importMedInfraPepp;
 
-    private static final String HeadlineMedInfra = "Nummer der Kostenstelle;Name der Kostenstelle;Verwendeter Schlüssel;Kostenvolumen";
+    private static final String HEADLINE_MED_INFRA 
+            = "Nummer der Kostenstelle;Name der Kostenstelle;Verwendeter Schlüssel;Kostenvolumen";
 
     public void downloadTemplateHeadlineMedInfra() {
-        Utils.downloadText(HeadlineMedInfra + "\n", "Med_Infra.csv");
+        Utils.downloadText(HEADLINE_MED_INFRA + "\n", "Med_Infra.csv");
     }
 
     public void downloadTemplateHeadlineNonMedInfra() {
-        Utils.downloadText(HeadlineMedInfra + "\n", "Nicht_Med_Infra.csv");
+        Utils.downloadText(HEADLINE_MED_INFRA + "\n", "Nicht_Med_Infra.csv");
     }
 
     private String _importMessageMedInfra = "";
@@ -831,7 +846,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
                 itemImporter.setCalcBasics(_calcBasics);
                 while (scanner.hasNextLine()) {
                     String line = Utils.convertFromUtf8(scanner.nextLine());
-                    if (!line.equals(HeadlineMedInfra)) {
+                    if (!line.equals(HEADLINE_MED_INFRA)) {
                         itemImporter.tryImportLine(line);
                     }
                 }
@@ -869,7 +884,8 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     }
 
     public List<KGPListTherapy> getTherapies(int costCenterId) {
-        return _calcBasics.getTherapies().stream().filter(t -> t.getCostCenterId() == costCenterId).collect(Collectors.toList());
+        return _calcBasics.getTherapies().stream()
+                .filter(t -> t.getCostCenterId() == costCenterId).collect(Collectors.toList());
     }
 
     public void deleteTherapy(KGPListTherapy item) {
