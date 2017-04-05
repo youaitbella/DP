@@ -1,7 +1,9 @@
 package org.inek.dataportal.feature.documents;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -21,8 +23,32 @@ public class DocumentList{
     @Inject PortalMessageFacade _messageFacade;
     @Inject CooperationRequestFacade _cooperationRequestFacade;
     
+    private String _filter = "";
+
+    public String getFilter() {
+        return _filter;
+    }
+
+    public void setFilter(String filter) {
+        _filter = filter;
+        _documents.clear();
+    }
+
+    public String reload() {
+        return "";
+    }
+
+    List<DocInfo> _documents = Collections.emptyList();
+
+    private void ensureDocuments() {
+        if (_documents.isEmpty()) {
+            _documents = _accountDocFacade.getDocInfos(_sessionController.getAccountId());
+        }
+    }
+    
     public List<DocInfo> getDocuments() {
-        return _accountDocFacade.getDocInfos(_sessionController.getAccountId());
+        ensureDocuments();
+        return _documents.stream().filter(d -> d.getName().toLowerCase().contains(_filter) || d.getDomain().toLowerCase().contains(_filter)).collect(Collectors.toList());
     }
 
     public boolean renderDocList() {
@@ -72,4 +98,30 @@ public class DocumentList{
         return "" + count;
     }
 
+    // <editor-fold defaultstate="collapsed" desc="Property SortCriteria + state">    
+    private String _sortCriteria = "";
+    private boolean _isDescending = false;
+
+    public boolean isDescending() {
+        return _isDescending;
+    }
+
+    public void setDescending(boolean isDescending) {
+        _isDescending = isDescending;
+    }
+
+    public void setSortCriteria(String sortCriteria) {
+        if (_sortCriteria.equals(sortCriteria)) {
+            _isDescending = !_isDescending;
+        } else {
+            _isDescending = false;
+        }
+        _sortCriteria = sortCriteria == null ? "" : sortCriteria;
+    }
+
+    public String getSortCriteria() {
+        return _sortCriteria;
+    }
+    // </editor-fold>    
+    
 }

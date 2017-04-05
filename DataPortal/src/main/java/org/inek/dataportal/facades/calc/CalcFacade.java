@@ -348,6 +348,7 @@ public class CalcFacade extends AbstractDataAccess {
         }
         String sql = ""
             //temp Tabelle mit Kontaktinfos anlegen
+                // todo: remove rw when removing prio
                 +  "insert into tmp.dpContacts (cuid, coid, gender, title, firstName, lastName, mail, phone, consultantCompany, rw) \n"
                 +  "select *, ROW_NUMBER() OVER (order by a.coid) rw from ("
                 +  "select c.cuid, cr.coId, a.coGender gender, a.coTitle title, a.coFirstName firstName, a.coLastName lastName, a.coMail mail, a.coPhone phone, case when a.coIsConsultant = 1 then b.sopConsultantCompany else '' end consultantCompany \n"
@@ -434,7 +435,8 @@ public class CalcFacade extends AbstractDataAccess {
                 +  "left join CallCenterDB.dbo.mapCustomerCalcContact on a.coId = mcccContactId and ciId = mcccCalcInformationId \n"
                 +  "where mcccContactId is null and a.coid is not null\n"
                 +  "\n\n"
-            //Prio setzen
+            //Prio setzen  
+                // todo: remove prio
                 +  "update a \n"
                 +  "set coPrio = case when b.coid is not null then rw else 99 end \n"
                 +  "from CallCenterDB.dbo.ccContact a \n"

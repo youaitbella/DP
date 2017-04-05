@@ -8,6 +8,12 @@
 
     <h:outputLabel id="noDocs" rendered="#{!documentList.renderDocList()}" value="#{msg.lblNoDocs}" />
 
+            <div class="inputPart">
+                <h:outputLabel value="Filter: " styleClass="label marginRight" for="filter"/>
+                <h:inputText id="filter" styleClass="input marginRight" value="#{documentList.filter}"/>
+                <h:commandButton value="Filtern" styleClass="smallButton" action="#{documentList.reload}" immediate="false"/>
+            </div>
+    
     <h:dataTable rendered="#{documentList.renderDocList()}"  headerClass="list-header" id="tblDocList" 
                  value="#{documentList.documents}" var="doc" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colIcon, colValue, colValue, colValue, colValue">
 

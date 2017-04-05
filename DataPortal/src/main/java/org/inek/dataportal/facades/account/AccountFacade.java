@@ -400,6 +400,7 @@ public class AccountFacade extends AbstractFacade<Account> {
         for (Account account : accounts) {
             String email = account.getEmail().toLowerCase();
             String roles = mailRole.containsKey(email) ? mailRole.get(email) : "";
+            account.setReportViaPortal(!roles.isEmpty());
             accountRoles.put(account, roles);
         }
         return accountRoles;
