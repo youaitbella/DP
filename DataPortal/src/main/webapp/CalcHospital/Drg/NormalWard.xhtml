@@ -273,9 +273,19 @@
     </h:panelGroup>   
 
     <style>
-        #tbl {
-            margin-top: 20px;
+        #tblX {
+            table-layout: fixed;
         }
+        #tblX thead tr {
+            display: block;
+            position: relative;
+        }  
+        #tblX tbody {
+            display: block;
+            height: 300px;
+            overflow: auto;
+            width: 100%;
+        }        
         #tbl tr:first-child td {
             text-align: center;
             font-size: 1.2em;
@@ -310,73 +320,73 @@
     <h2>Kosten in der Kostenstellengruppe 1 (Normalstation)</h2>
 
     <div class="container marginTop" style="max-height: 40em;">
-        <table id="tbl" style="table-layout: fixed;">
+        <table id="tbl">
             <thead>
-            <tr>
-                <td class="" colspan="9">Allgemeine Angaben</td>
-                <td colspan="3">Anzahl der zugeordneten VK</td>
-                <td colspan="7">Kosten der Kostenstelle</td>
-            </tr>
-            <tr>
-                <td></td>
-                <td class="">
-                    Nummer der Kostenstelle
-                </td>
-                <td class="">
-                    Name der Kostenstelle
-                </td>
-                <td class="">
-                    FAB-Schlüssel gemäß § 301 SGB V (4-stellig) 
-                </td>
-                <td class="">
-                    Belegung: FAB
-                </td>
-                <td class="">
-                    Bettenzahl
-                </td>
-                <td class="">
-                    Pflegetage
-                </td>
-                <td class="">
-                    PPR-Minuten
-                </td>
-                <td class="">
-                    zusätzliche Gewichtung außer PPR
-                </td>
-                <td class="">
-                    Auslastung
-                </td>
-                <td>
-                    Ärztlicher Dienst
-                </td>
-                <td>
-                    Pflegedienst
-                </td>
-                <td>
-                    Funktionsdienst
-                </td>
-                <td>
-                    Ärztlicher Dienst
-                </td>
-                <td>
-                    Pflegedienst
-                </td>
-                <td>
-                    Funktionsdienst
-                </td>
-                <td>
-                    Gemeinkosten Arzneimittel
-                </td>
-                <td>
-                    Gemeinkosten med. Sachbedarf
-                </td>
-                <td>
-                    medizinische Infrastruktur
-                </td>
-                <td>
-                    nicht med. Infrastruktur
-                </td>
-            </tr>
+                <tr>
+                    <td class="" colspan="9">Allgemeine Angaben</td>
+                    <td colspan="3">Anzahl der zugeordneten VK</td>
+                    <td colspan="7">Kosten der Kostenstelle</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td class="">
+                        Nummer der Kostenstelle
+                    </td>
+                    <td class="">
+                        Name der Kostenstelle
+                    </td>
+                    <td class="">
+                        FAB-Schlüssel gemäß § 301 SGB V (4-stellig) 
+                    </td>
+                    <td class="">
+                        Belegung: FAB
+                    </td>
+                    <td class="">
+                        Bettenzahl
+                    </td>
+                    <td class="">
+                        Pflegetage
+                    </td>
+                    <td class="">
+                        PPR-Minuten
+                    </td>
+                    <td class="">
+                        zusätzliche Gewichtung außer PPR
+                    </td>
+                    <td class="">
+                        Auslastung
+                    </td>
+                    <td>
+                        Ärztlicher Dienst
+                    </td>
+                    <td>
+                        Pflegedienst
+                    </td>
+                    <td>
+                        Funktionsdienst
+                    </td>
+                    <td>
+                        Ärztlicher Dienst
+                    </td>
+                    <td>
+                        Pflegedienst
+                    </td>
+                    <td>
+                        Funktionsdienst
+                    </td>
+                    <td>
+                        Gemeinkosten Arzneimittel
+                    </td>
+                    <td>
+                        Gemeinkosten med. Sachbedarf
+                    </td>
+                    <td>
+                        medizinische Infrastruktur
+                    </td>
+                    <td>
+                        nicht med. Infrastruktur
+                    </td>
+                </tr>
             </thead>
 
             <tbody>
@@ -428,7 +438,7 @@
                 <inek:InputNumberWithMessage value="#{x.medicalServiceCnt}"  renderElement="diff-msc-#{loop.index} sumMedicalService:text" isInt="false"/>
                 <h:outputLabel  id="diff-msc-#{loop.index}"
                                 styleClass="prior diff" 
-                               rendered="#{x.prior != null}"
+                                rendered="#{x.prior != null}"
                                 value="#{x.prior != null ? editCalcBasicsDrg.calcPercentualDiff(x.prior.medicalServiceCnt, x.medicalServiceCnt) : ''}" />
                 </td>
                 <td>
@@ -439,7 +449,7 @@
                 <inek:InputNumberWithMessage value="#{x.nursingServiceCnt}"  renderElement="diff-nsc-#{loop.index} sumNurseService:text" isInt="false"/>
                 <h:outputLabel  id="diff-nsc-#{loop.index}"
                                 styleClass="prior diff" 
-                               rendered="#{x.prior != null}"
+                                rendered="#{x.prior != null}"
                                 value="#{x.prior != null ? editCalcBasicsDrg.calcPercentualDiff(x.prior.nursingServiceCnt, x.nursingServiceCnt) : ''}" />
                 </td>
                 <td>
@@ -450,7 +460,7 @@
                 <inek:InputNumberWithMessage value="#{x.functionalServiceCnt}"  renderElement="diff-fsc-#{loop.index} sumFuncService:text" isInt="false"/>
                 <h:outputLabel  id="diff-fsc-#{loop.index}"
                                 styleClass="prior diff" 
-                               rendered="#{x.prior != null}"
+                                rendered="#{x.prior != null}"
                                 value="#{x.prior != null ? editCalcBasicsDrg.calcPercentualDiff(x.prior.functionalServiceCnt, x.functionalServiceCnt) : ''}" />
                 </td>
                 <td>
@@ -461,7 +471,7 @@
                 <inek:InputNumberWithMessage value="#{x.medicalServiceAmount}"  renderElement="diff-msa-#{loop.index} sumMedicalService2:text"/>
                 <h:outputLabel  id="diff-msa-#{loop.index}"
                                 styleClass="prior diff" 
-                               rendered="#{x.prior != null}"
+                                rendered="#{x.prior != null}"
                                 value="#{x.prior != null ? editCalcBasicsDrg.calcPercentualDiff(x.prior.medicalServiceAmount, x.medicalServiceAmount) : ''}" />
                 </td>
                 <td>
@@ -472,7 +482,7 @@
                 <inek:InputNumberWithMessage value="#{x.nursingServiceAmount}"  renderElement="diff-nsa-#{loop.index} sumNurseService2:text"/>
                 <h:outputLabel  id="diff-nsa-#{loop.index}"
                                 styleClass="prior diff" 
-                               rendered="#{x.prior != null}"
+                                rendered="#{x.prior != null}"
                                 value="#{x.prior != null ? editCalcBasicsDrg.calcPercentualDiff(x.prior.nursingServiceAmount, x.nursingServiceAmount) : ''}" />
                 </td>
                 <td>
@@ -483,7 +493,7 @@
                 <inek:InputNumberWithMessage value="#{x.functionalServiceAmount}"  renderElement="diff-fsa-#{loop.index} sumFuncService2:text"/>
                 <h:outputLabel  id="diff-fsa-#{loop.index}"
                                 styleClass="prior diff" 
-                               rendered="#{x.prior != null}"
+                                rendered="#{x.prior != null}"
                                 value="#{x.prior != null ? editCalcBasicsDrg.calcPercentualDiff(x.prior.functionalServiceAmount, x.functionalServiceAmount) : ''}" />
                 </td>
                 <td>
@@ -494,7 +504,7 @@
                 <inek:InputNumberWithMessage value="#{x.overheadsMedicine}"  renderElement="diff-oa-#{loop.index} sumShareMedicine:text"/>
                 <h:outputLabel  id="diff-oa-#{loop.index}"
                                 styleClass="prior diff" 
-                               rendered="#{x.prior != null}"
+                                rendered="#{x.prior != null}"
                                 value="#{x.prior != null ? editCalcBasicsDrg.calcPercentualDiff(x.prior.overheadsMedicine, x.overheadsMedicine) : ''}" />
                 </td>
                 <td>
@@ -504,7 +514,7 @@
                                value="#{x.prior != null ? x.prior.overheadsMedicalGoods : ''}" />
                 <inek:InputNumberWithMessage value="#{x.overheadsMedicalGoods}"  renderElement="diff-omg-#{loop.index} sumShareMedicineStuff:text"/>
                 <h:outputLabel  id="diff-omg-#{loop.index}"
-                               rendered="#{x.prior != null}"
+                                rendered="#{x.prior != null}"
                                 styleClass="prior diff" 
                                 value="#{x.prior != null ? editCalcBasicsDrg.calcPercentualDiff(x.prior.overheadsMedicalGoods, x.overheadsMedicalGoods) : ''}" />
                 </td>
@@ -515,7 +525,7 @@
                                value="#{x.prior != null ? x.prior.medicalInfrastructureCost : ''}" />
                 <inek:InputNumberWithMessage value="#{x.medicalInfrastructureCost}"  renderElement="diff-mic-#{loop.index} sumMedInfra:text"/>
                 <h:outputLabel  id="diff-mic-#{loop.index}"
-                               rendered="#{x.prior != null}"
+                                rendered="#{x.prior != null}"
                                 styleClass="prior diff" 
                                 value="#{x.prior != null ? editCalcBasicsDrg.calcPercentualDiff(x.prior.medicalInfrastructureCost, x.medicalInfrastructureCost) : ''}" />
                 </td>
@@ -527,12 +537,12 @@
                 <inek:InputNumberWithMessage value="#{x.nonMedicalInfrastructureCost}"  renderElement="diff-nmic-#{loop.index} sumNonMedInfra:text"/>
                 <h:outputLabel  id="diff-nmic-#{loop.index}"
                                 styleClass="prior diff" 
-                               rendered="#{x.prior != null}"
+                                rendered="#{x.prior != null}"
                                 value="#{x.prior != null ? editCalcBasicsDrg.calcPercentualDiff(x.prior.nonMedicalInfrastructureCost, x.nonMedicalInfrastructureCost) : ''}" />
                 </td>
                 </tr>
             </ui:repeat>
-            
+
             <tr>
                 <td colspan="2">Summen</td>
                 <td colspan="3"></td>
@@ -576,7 +586,7 @@
             </td>
             </tr>
             </tbody>
-            
+
         </table>
 
     </div>
