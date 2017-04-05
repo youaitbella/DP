@@ -376,7 +376,11 @@ public class AccountFacade extends AbstractFacade<Account> {
     }
 
     public Map<Account, String> obtainRoleInfo(int ik, List<Account> accounts) {
+        Map<Account, String> accountRoles = new HashMap<>();
         String addresses = accounts.stream().map(a -> "'" + a.getEmail().toLowerCase() + "'").collect(Collectors.joining(", "));
+        if (addresses.isEmpty()) {
+            return accountRoles;
+        }
         String sql = "select cdDetails, dbo.concatenate(roText)\n"
                 + "from CallCenterDB.dbo.ccCustomer\n"
                 + "join CallCenterDB.dbo.ccContact on cuId = coCustomerId\n"
@@ -396,7 +400,6 @@ public class AccountFacade extends AbstractFacade<Account> {
             String roles = (String) obj[1];
             mailRole.put(email.toLowerCase(), roles);
         }
-        Map<Account, String> accountRoles = new HashMap<>();
         for (Account account : accounts) {
             String email = account.getEmail().toLowerCase();
             String roles = mailRole.containsKey(email) ? mailRole.get(email) : "";

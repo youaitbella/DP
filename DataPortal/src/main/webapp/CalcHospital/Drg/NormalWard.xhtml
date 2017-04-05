@@ -138,7 +138,7 @@
 
     <table id="serviceCost">
         <tr>
-            <th>Dokumentation</th>
+            <th class="colInput">Dokumentation</th>
         </tr>
         <c:forEach items="#{editCalcBasicsDrg.calcBasics.normalStationServiceDocumentations}" var="item" varStatus="loop">
             <tr>
@@ -222,7 +222,7 @@
                           singleLine="true"
                           required="true"
                           rendered="#{editCalcBasicsDrg.calcBasics.pkmsRecording eq 4}"/>
-        
+
         <h:dataTable  headerClass="list-header" id="pkmsAlt"
                       value="#{editCalcBasicsDrg.calcBasics.pkmsAlternatives}" var="item" width="100%" rowClasses="row1, row2" 
                       columnClasses=""
@@ -274,12 +274,38 @@
 
     <style>
         #tbl {
-            margin-top: 20px;
+            table-layout: fixed;
         }
-        #tbl tr:first-child td {
+        #tbl thead tr {
+            display: block;
+            position: relative;
+        }  
+        #tbl tbody {
+            display: block;
+            height: 300px;
+            overflow-y: scroll;
+            width: 100%;
+        }        
+        #tbl .colDelete {
+            width: 16px;
+        }
+        #tbl th.colInput {
+            width: 100px;
+        }
+        #tbl td.colInput {
+            width: 112px;
+        }
+        #tbl .col8 {
+            width: 896px;
+        }
+        #tbl .col3 {
+            width: 330px;
+        }
+        #tbl tr:first-child th {
             text-align: center;
             font-size: 1.2em;
         }
+        #tbl th,
         #tbl td {
             background-color: #7F9BAF;
             font-weight: bold;
@@ -308,108 +334,112 @@
     </style>
 
     <h2>Kosten in der Kostenstellengruppe 1 (Normalstation)</h2>
-    
-    <div style="overflow-x: scroll;">
+
+    <div class="container marginTop">
         <table id="tbl">
-            <tr>
-                <td></td>
-                <td class="" colspan="9">Allgemeine Angaben</td>
-                <td colspan="3">Anzahl der zugeordneten VK</td>
-                <td colspan="7">Kosten der Kostenstelle</td>
-            </tr>
-            <tr>
-                <td></td>
-                <td class="">
-                    Nummer der Kostenstelle
-                </td>
-                <td class="">
-                    Name der Kostenstelle
-                </td>
-                <td class="">
-                    FAB-Schlüssel gemäß § 301 SGB V (4-stellig) 
-                </td>
-                <td class="">
-                    Belegung: FAB
-                </td>
-                <td class="">
-                    Bettenzahl
-                </td>
-                <td class="">
-                    Pflegetage
-                </td>
-                <td class="">
-                    PPR-Minuten
-                </td>
-                <td class="">
-                    zusätzliche Gewichtung außer PPR
-                </td>
-                <td class="">
-                    Auslastung
-                </td>
-                <td>
-                    Ärztlicher Dienst
-                </td>
-                <td>
-                    Pflegedienst
-                </td>
-                <td>
-                    Funktionsdienst
-                </td>
-                <td>
-                    Ärztlicher Dienst
-                </td>
-                <td>
-                    Pflegedienst
-                </td>
-                <td>
-                    Funktionsdienst
-                </td>
-                <td>
-                    Gemeinkosten Arzneimittel
-                </td>
-                <td>
-                    Gemeinkosten med. Sachbedarf
-                </td>
-                <td>
-                    medizinische Infrastruktur
-                </td>
-                <td>
-                    nicht med. Infrastruktur
-                </td>
-            </tr>
+            <thead>
+                <tr>
+                    <th class="colDelete"/>
+                    <th class="col8">Allgemeine Angaben</th>
+                    <th class="col3">Anzahl der zugeordneten VK</th>
+                    <th class="col8">Kosten der Kostenstelle</th>
+                </tr>
+                <tr>
+                    <th class="colDelete"/>
+                    <th class="colInput">
+                        Nummer der Kostenstelle
+                    </th>
+                    <th class="colInput">
+                        Name der Kostenstelle
+                    </th>
+                    <th class="colInput">
+                        FAB-Schlüssel gemäß § 301 SGB V (4-stellig) 
+                    </th>
+                    <th class="colInput">
+                        Belegung: FAB
+                    </th>
+                    <th class="colInput">
+                        Bettenzahl
+                    </th>
+                    <th class="colInput">
+                        Pflegetage
+                    </th>
+                    <th class="colInput">
+                        PPR-Minuten
+                    </th>
+                    <th class="colInput">
+                        zusätzliche Gewichtung außer PPR
+                    </th>
+                    <th class="colInput">
+                        Auslastung
+                    </th>
+                    <th class="colInput">
+                        Ärztlicher Dienst
+                    </th>
+                    <th class="colInput">
+                        Pflegedienst
+                    </th>
+                    <th class="colInput">
+                        Funktionsdienst
+                    </th>
+                    <th class="colInput">
+                        Ärztlicher Dienst
+                    </th>
+                    <th class="colInput">
+                        Pflegedienst
+                    </th>
+                    <th class="colInput">
+                        Funktionsdienst
+                    </th>
+                    <th class="colInput">
+                        Gemeinkosten Arzneimittel
+                    </th>
+                    <th class="colInput">
+                        Gemeinkosten med. Sachbedarf
+                    </th>
+                    <th class="colInput">
+                        medizinische Infrastruktur
+                    </th>
+                    <th class="colInput">
+                        nicht med. Infrastruktur
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody>
             <ui:repeat id="tbl-cont" value="#{editCalcBasicsDrg.calcBasics.costCenterCosts}" var="x" varStatus="loop">
                 <tr>
-                    <td>
+                    <td class="colDelete">
                 <h:commandLink styleClass="colIcon">
                     <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
                     <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.deleteCostCenterCosts(x)}"/>
                 </h:commandLink>
                 </td>
-                <td>
+                <td class="colInput">
                 <inek:InputTextWithMessage value="#{x.costCenterNumber}"/>
                 </td>
-                <td>
+                <td class="colInput">
                 <inek:InputTextWithMessage value="#{x.costCenterText}"/>
                 </td>
-                <td>
+                <td class="colInput">
                 <inek:InputTextWithMessage value="#{x.departmentKey}"/>
                 </td>
-                <td>
+                <td class="colInput">
                 <inek:InputTextWithMessage value="#{x.departmentAssignment}" renderElement=""/>
                 </td>
-                <td>
+                <td class="colInput">
                 <inek:InputNumberWithMessage value="#{x.bedCnt}"  renderElement="calc-field-#{loop.index}:text sumBeds:text"/>
                 </td>
-                <td>
+                <td class="colInput">
                 <inek:InputNumberWithMessage value="#{x.careDays}"  renderElement="calc-field-#{loop.index}:text"/>
                 </td>
-                <td>
+                <td class="colInput">
                 <inek:InputNumberWithMessage value="#{x.pprMinutes}"/>
                 </td>
-                <td>
+                <td class="colInput">
                 <inek:InputNumberWithMessage value="#{x.pprWeight}"  renderElement="sumAddPpr:text"/>
                 </td>
-                <td>
+                <td class="colInput">
                 <inek:InputNumberWithMessage title="#{(x.careDays != 0 and x.bedCnt != 0 and (x.careDays / (x.bedCnt * 365)) lt 0.6) ? 'Der Wert ist unter 60%!' : ''}" 
                                              styleClass="#{(x.careDays != 0 and x.bedCnt != 0 and (x.careDays / (x.bedCnt * 365)) lt 0.6) ? 'red' : ''}"
                                              id="calc-field-#{loop.index}" disabled="true" 
@@ -417,160 +447,193 @@
                                              renderElement="@this :logout:remaining" isInt="false"
                                              pattern="0.00"/>
                 </td>
-                <td>
+                <td class="colInput">
                 <h:outputLabel styleClass="prior" 
+                               rendered="#{x.prior != null}"
                                title="Vorjahreswert (#{editCalcBasicsDrg.priorCalcBasics.dataYear})" 
                                value="#{x.prior != null ? x.prior.medicalServiceCnt : ''}" />
                 <inek:InputNumberWithMessage value="#{x.medicalServiceCnt}"  renderElement="diff-msc-#{loop.index} sumMedicalService:text" isInt="false"/>
                 <h:outputLabel  id="diff-msc-#{loop.index}"
                                 styleClass="prior diff" 
+                                rendered="#{x.prior != null}"
                                 value="#{x.prior != null ? editCalcBasicsDrg.calcPercentualDiff(x.prior.medicalServiceCnt, x.medicalServiceCnt) : ''}" />
                 </td>
-                <td>
+                <td class="colInput">
                 <h:outputLabel styleClass="prior" 
+                               rendered="#{x.prior != null}"
                                title="Vorjahreswert (#{editCalcBasicsDrg.priorCalcBasics.dataYear})" 
                                value="#{x.prior != null ? x.prior.nursingServiceCnt : ''}" />
                 <inek:InputNumberWithMessage value="#{x.nursingServiceCnt}"  renderElement="diff-nsc-#{loop.index} sumNurseService:text" isInt="false"/>
                 <h:outputLabel  id="diff-nsc-#{loop.index}"
                                 styleClass="prior diff" 
+                                rendered="#{x.prior != null}"
                                 value="#{x.prior != null ? editCalcBasicsDrg.calcPercentualDiff(x.prior.nursingServiceCnt, x.nursingServiceCnt) : ''}" />
                 </td>
-                <td>
+                <td class="colInput">
                 <h:outputLabel styleClass="prior" 
+                               rendered="#{x.prior != null}"
                                title="Vorjahreswert (#{editCalcBasicsDrg.priorCalcBasics.dataYear})" 
                                value="#{x.prior != null ? x.prior.functionalServiceCnt : ''}" />
                 <inek:InputNumberWithMessage value="#{x.functionalServiceCnt}"  renderElement="diff-fsc-#{loop.index} sumFuncService:text" isInt="false"/>
                 <h:outputLabel  id="diff-fsc-#{loop.index}"
                                 styleClass="prior diff" 
+                                rendered="#{x.prior != null}"
                                 value="#{x.prior != null ? editCalcBasicsDrg.calcPercentualDiff(x.prior.functionalServiceCnt, x.functionalServiceCnt) : ''}" />
                 </td>
-                <td>
+                <td class="colInput">
                 <h:outputLabel styleClass="prior" 
+                               rendered="#{x.prior != null}"
                                title="Vorjahreswert (#{editCalcBasicsDrg.priorCalcBasics.dataYear})" 
                                value="#{x.prior != null ? x.prior.medicalServiceAmount : ''}" />
                 <inek:InputNumberWithMessage value="#{x.medicalServiceAmount}"  renderElement="diff-msa-#{loop.index} sumMedicalService2:text"/>
                 <h:outputLabel  id="diff-msa-#{loop.index}"
                                 styleClass="prior diff" 
+                                rendered="#{x.prior != null}"
                                 value="#{x.prior != null ? editCalcBasicsDrg.calcPercentualDiff(x.prior.medicalServiceAmount, x.medicalServiceAmount) : ''}" />
                 </td>
-                <td>
+                <td class="colInput">
                 <h:outputLabel styleClass="prior" 
+                               rendered="#{x.prior != null}"
                                title="Vorjahreswert (#{editCalcBasicsDrg.priorCalcBasics.dataYear})" 
                                value="#{x.prior != null ? x.prior.nursingServiceAmount : ''}" />
                 <inek:InputNumberWithMessage value="#{x.nursingServiceAmount}"  renderElement="diff-nsa-#{loop.index} sumNurseService2:text"/>
                 <h:outputLabel  id="diff-nsa-#{loop.index}"
                                 styleClass="prior diff" 
+                                rendered="#{x.prior != null}"
                                 value="#{x.prior != null ? editCalcBasicsDrg.calcPercentualDiff(x.prior.nursingServiceAmount, x.nursingServiceAmount) : ''}" />
                 </td>
-                <td>
+                <td class="colInput">
                 <h:outputLabel styleClass="prior" 
+                               rendered="#{x.prior != null}"
                                title="Vorjahreswert (#{editCalcBasicsDrg.priorCalcBasics.dataYear})" 
                                value="#{x.prior != null ? x.prior.functionalServiceAmount : ''}" />
                 <inek:InputNumberWithMessage value="#{x.functionalServiceAmount}"  renderElement="diff-fsa-#{loop.index} sumFuncService2:text"/>
                 <h:outputLabel  id="diff-fsa-#{loop.index}"
                                 styleClass="prior diff" 
+                                rendered="#{x.prior != null}"
                                 value="#{x.prior != null ? editCalcBasicsDrg.calcPercentualDiff(x.prior.functionalServiceAmount, x.functionalServiceAmount) : ''}" />
                 </td>
-                <td>
+                <td class="colInput">
                 <h:outputLabel styleClass="prior" 
+                               rendered="#{x.prior != null}"
                                title="Vorjahreswert (#{editCalcBasicsDrg.priorCalcBasics.dataYear})" 
                                value="#{x.prior != null ? x.prior.overheadsMedicine : ''}" />
                 <inek:InputNumberWithMessage value="#{x.overheadsMedicine}"  renderElement="diff-oa-#{loop.index} sumShareMedicine:text"/>
                 <h:outputLabel  id="diff-oa-#{loop.index}"
                                 styleClass="prior diff" 
+                                rendered="#{x.prior != null}"
                                 value="#{x.prior != null ? editCalcBasicsDrg.calcPercentualDiff(x.prior.overheadsMedicine, x.overheadsMedicine) : ''}" />
                 </td>
-                <td>
+                <td class="colInput">
                 <h:outputLabel styleClass="prior" 
+                               rendered="#{x.prior != null}"
                                title="Vorjahreswert (#{editCalcBasicsDrg.priorCalcBasics.dataYear})" 
                                value="#{x.prior != null ? x.prior.overheadsMedicalGoods : ''}" />
                 <inek:InputNumberWithMessage value="#{x.overheadsMedicalGoods}"  renderElement="diff-omg-#{loop.index} sumShareMedicineStuff:text"/>
                 <h:outputLabel  id="diff-omg-#{loop.index}"
+                                rendered="#{x.prior != null}"
                                 styleClass="prior diff" 
                                 value="#{x.prior != null ? editCalcBasicsDrg.calcPercentualDiff(x.prior.overheadsMedicalGoods, x.overheadsMedicalGoods) : ''}" />
                 </td>
-                <td>
+                <td class="colInput">
                 <h:outputLabel styleClass="prior" 
+                               rendered="#{x.prior != null}"
                                title="Vorjahreswert (#{editCalcBasicsDrg.priorCalcBasics.dataYear})" 
                                value="#{x.prior != null ? x.prior.medicalInfrastructureCost : ''}" />
                 <inek:InputNumberWithMessage value="#{x.medicalInfrastructureCost}"  renderElement="diff-mic-#{loop.index} sumMedInfra:text"/>
                 <h:outputLabel  id="diff-mic-#{loop.index}"
+                                rendered="#{x.prior != null}"
                                 styleClass="prior diff" 
                                 value="#{x.prior != null ? editCalcBasicsDrg.calcPercentualDiff(x.prior.medicalInfrastructureCost, x.medicalInfrastructureCost) : ''}" />
                 </td>
-                <td>
+                <td class="colInput">
                 <h:outputLabel styleClass="prior" 
+                               rendered="#{x.prior != null}"
                                title="Vorjahreswert (#{editCalcBasicsDrg.priorCalcBasics.dataYear})" 
                                value="#{x.prior != null ? x.prior.nonMedicalInfrastructureCost : ''}" />
                 <inek:InputNumberWithMessage value="#{x.nonMedicalInfrastructureCost}"  renderElement="diff-nmic-#{loop.index} sumNonMedInfra:text"/>
                 <h:outputLabel  id="diff-nmic-#{loop.index}"
                                 styleClass="prior diff" 
+                                rendered="#{x.prior != null}"
                                 value="#{x.prior != null ? editCalcBasicsDrg.calcPercentualDiff(x.prior.nonMedicalInfrastructureCost, x.nonMedicalInfrastructureCost) : ''}" />
                 </td>
                 </tr>
             </ui:repeat>
+
             <tr>
-                <td colspan="2">Summen</td>
-                <td colspan="3"></td>
-                <td>
+                <td class="colDelete"/>
+                <td class="colInput">Summen</td>
+                 <td class="colInput"/>
+                 <td class="colInput"/>
+                 <td class="colInput"/>
+                <td class="colInput">
             <inek:InputNumberWithMessage id="sumBeds" value="#{editCalcBasicsDrg.getCostCenterCostsSums().get(0)}" disabled="true" />
             </td>
-            <td colspan="2"></td>
-            <td>
+            <td class="colInput" colspan="2"></td>
+            <td class="colInput">
             <inek:InputNumberWithMessage id="sumAddPpr" value="#{editCalcBasicsDrg.getCostCenterCostsSums().get(1)}" disabled="true" />
             </td>
-            <td></td>
-            <td>
+            <td class="colInput"></td>
+            <td class="colInput">
             <inek:InputNumberWithMessage id="sumMedicalService" value="#{editCalcBasicsDrg.getCostCenterCostsSums().get(2)}" disabled="true" />
             </td>
-            <td>
+            <td class="colInput">
             <inek:InputNumberWithMessage id="sumNurseService" value="#{editCalcBasicsDrg.getCostCenterCostsSums().get(3)}" disabled="true" />
             </td>
-            <td>
+            <td class="colInput">
             <inek:InputNumberWithMessage id="sumFuncService" value="#{editCalcBasicsDrg.getCostCenterCostsSums().get(4)}" disabled="true" />
             </td>
-            <td>
+            <td class="colInput">
             <inek:InputNumberWithMessage id="sumMedicalService2" value="#{editCalcBasicsDrg.getCostCenterCostsSums().get(5)}" disabled="true" />
             </td>
-            <td>
+            <td class="colInput">
             <inek:InputNumberWithMessage id="sumNurseService2" value="#{editCalcBasicsDrg.getCostCenterCostsSums().get(6)}" disabled="true" />
             </td>
-            <td>
+            <td class="colInput">
             <inek:InputNumberWithMessage id="sumFuncService2" value="#{editCalcBasicsDrg.getCostCenterCostsSums().get(7)}" disabled="true" />
             </td>
-            <td>
+            <td class="colInput">
             <inek:InputNumberWithMessage id="sumShareMedicine" value="#{editCalcBasicsDrg.getCostCenterCostsSums().get(8)}" disabled="true" />
             </td>
-            <td>
+            <td class="colInput">
             <inek:InputNumberWithMessage id="sumShareMedicineStuff" value="#{editCalcBasicsDrg.getCostCenterCostsSums().get(9)}" disabled="true" />
             </td>
-            <td>
+            <td class="colInput">
             <inek:InputNumberWithMessage id="sumMedInfra" value="#{editCalcBasicsDrg.getCostCenterCostsSums().get(10)}" disabled="true" />
             </td>
-            <td>
+            <td class="colInput">
             <inek:InputNumberWithMessage id="sumNonMedInfra" value="#{editCalcBasicsDrg.getCostCenterCostsSums().get(11)}" disabled="true" />
             </td>
             </tr>
-            <tr>
-                <td colspan="20">
-            <h:commandLink id="addButton4" styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
-                <f:ajax event="click" render="@form sumBeds:text :logout:remaining" listener="#{editCalcBasicsDrg.addCostCenterCosts()}"/>
-            </h:commandLink>
-            <div class="uploadFile inlineBlock marginRight">
-                <h:inputFile style="width: 154px;" styleClass="hiddenFile" id="file" value="#{editCalcBasicsDrg.file}" >
-                    <f:ajax listener="#{editCalcBasicsDrg.uploadNormalWard()}" render="@all"/>
-                </h:inputFile>
-                <div class="fakeFile">
-                    <h:outputLabel style="margin-top: 1px;" styleClass="button" value="Upload"/>
-                </div>
-            </div>
-            <div class="inlineBlock">
-                <h:commandLink styleClass="button" value="Download Musterdatei" action="#{editCalcBasicsDrg.downloadNormalStationTemplate}" immediate="true"/>
-            </div>
-            </td>
-            </tr>
+            </tbody>
+
         </table>
+
     </div>
+
+    <h:commandLink id="addButton4" styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
+        <f:ajax event="click" render="@form sumBeds:text :logout:remaining" listener="#{editCalcBasicsDrg.addCostCenterCosts()}"/>
+    </h:commandLink>
+    <div class="uploadFile inlineBlock marginRight">
+        <h:inputFile style="width: 154px;" styleClass="hiddenFile" id="file" value="#{editCalcBasicsDrg.file}">
+            <f:ajax listener="#{editCalcBasicsDrg.uploadNormalWard()}" render="@all"/>
+        </h:inputFile>
+        <div class="fakeFile">
+            <h:outputLabel style="margin-top: 1px;" styleClass="button" value="Upload"/>
+        </div>
+    </div>
+    <div class="inlineBlock">
+        <h:commandLink styleClass="button" value="Download Musterdatei" action="#{editCalcBasicsDrg.downloadNormalStationTemplate}" immediate="true"/>
+    </div>
+    <div class="inlineBlock">
+        <h:commandLink styleClass="button" value="Export" action="#{editCalcBasicsDrg.downloadNormalStation}" immediate="true"/>
+    </div>
+    <div class="inlineBlock">
+        <h:commandLink styleClass="button" value="Alle löschen" action="#{editCalcBasicsDrg.deleteAllCostCenterCosts}" immediate="true">
+            <cb:confirmDelete/>
+        </h:commandLink>
+    </div>
+
 
 </ui:composition>
 

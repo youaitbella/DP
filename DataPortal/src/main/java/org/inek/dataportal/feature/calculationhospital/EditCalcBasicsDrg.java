@@ -18,6 +18,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -508,35 +509,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     // used by page only
-    public DrgDelimitationFact getPriorDelimitationFact(int contentTextId) {
-        return _priorCalcBasics.getDelimitationFacts().stream()
-                .filter(f -> f.getContentTextId() == contentTextId)
-                .findAny().orElse(new DrgDelimitationFact());
-    }
-
-    public List<String> getDelimitationFactsSubTitles() {
-        List<String> tmp = new ArrayList<>();
-        tmp.add("Personalkosten");
-        tmp.add("Sachkosten");
-        tmp.add("Infrastrukturkosten");
-        return tmp;
-    }
-
-    public void addLocation() {
-        KGLListLocation loc = new KGLListLocation();
-        loc.setBaseInformationId(_calcBasics.getId());
-        _calcBasics.getLocations().add(loc);
-    }
-
-    public void deleteLocation(KGLListLocation loc) {
-        _calcBasics.getLocations().remove(loc);
-    }
-
-    public void addSpecialUnit() {
-        KGLListSpecialUnit su = new KGLListSpecialUnit();
-        su.setBaseInformationId(_calcBasics.getId());
-        _calcBasics.getSpecialUnits().add(su);
-    }
 
     public void addCostCenterCosts() {
         KGLListCostCenterCost ccc = new KGLListCostCenterCost();
@@ -547,6 +519,10 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     public void deleteCostCenterCosts(KGLListCostCenterCost x) {
         _calcBasics.getCostCenterCosts().remove(x);
+    }
+
+    public void deleteAllCostCenterCosts() {
+        _calcBasics.getCostCenterCosts().clear();
     }
 
     public void deleteSpecialUnit(KGLListSpecialUnit su) {
@@ -1205,6 +1181,58 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Tab BasicExplanation">
+    public DrgDelimitationFact getPriorDelimitationFact(int contentTextId) {
+        return _priorCalcBasics.getDelimitationFacts().stream()
+                .filter(f -> f.getContentTextId() == contentTextId)
+                .findAny().orElse(new DrgDelimitationFact());
+    }
+
+    public List<String> getDelimitationFactsSubTitles() {
+        List<String> tmp = new ArrayList<>();
+        tmp.add("Personalkosten");
+        tmp.add("Sachkosten");
+        tmp.add("Infrastrukturkosten");
+        return tmp;
+    }
+
+    public void changeLocationCount(AjaxBehaviorEvent event){
+        removeEmptyLocations();
+        int diff = _calcBasics.getLocationCnt() - _calcBasics.getLocations().size();
+        while(diff > 0){
+            addLocation();
+            diff--;
+        }
+    }
+
+    public void addLocation() {
+        KGLListLocation loc = new KGLListLocation();
+        loc.setBaseInformationId(_calcBasics.getId());
+        _calcBasics.getLocations().add(loc);
+    }
+
+    public void deleteLocation(KGLListLocation loc) {
+        _calcBasics.getLocations().remove(loc);
+    }
+
+    private void removeEmptyLocations() {
+        Iterator<KGLListLocation> iter = _calcBasics.getLocations().iterator();
+        while (iter.hasNext()) {
+            KGLListLocation location = iter.next();
+            if (location.getLocationNo() == 0 && location.getLocation().isEmpty()) {
+                iter.remove();
+            }
+        }
+    }
+    
+    public void addSpecialUnit() {
+        KGLListSpecialUnit su = new KGLListSpecialUnit();
+        su.setBaseInformationId(_calcBasics.getId());
+        _calcBasics.getSpecialUnits().add(su);
+    }
+
+    // </editor-fold>
+
     //<editor-fold defaultstate="collapsed" desc="Tab ServiceProvision">
     public int priorProvisionAmount(KGLListServiceProvision current) {
         Optional<KGLListServiceProvision> prior = _priorCalcBasics.getServiceProvisions().stream().filter(p -> p.getServiceProvisionTypeId() == current.getServiceProvisionTypeId()).findAny();
@@ -1266,6 +1294,32 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     public void downloadNormalStationTemplate() {
         Utils.downloadText(normalHeadLine + "\n", "Normalstation.csv");
+    }
+
+    public void downloadNormalStation() {
+        String content = normalHeadLine + "\n";
+        for (KGLListCostCenterCost costCenterCost : _calcBasics.getCostCenterCosts()) {
+            String line = costCenterCost.getCostCenterNumber() + ";"
+                    + costCenterCost.getCostCenterText() + ";"
+                    + costCenterCost.getDepartmentKey()+ ";"
+                    + costCenterCost.getDepartmentAssignment() + ";"
+                    + costCenterCost.getBedCnt() + ";"
+                    + costCenterCost.getCareDays()+ ";"
+                    + costCenterCost.getPprMinutes() + ";"
+                    + costCenterCost.getPprWeight() + ";"
+                    + costCenterCost.getMedicalServiceCnt() + ";"
+                    + costCenterCost.getNursingServiceCnt() + ";"
+                    + costCenterCost.getFunctionalServiceCnt() + ";"
+                    + costCenterCost.getMedicalServiceAmount() + ";"
+                    + costCenterCost.getNursingServiceAmount() + ";"
+                    + costCenterCost.getFunctionalServiceAmount() + ";"
+                    + costCenterCost.getOverheadsMedicine() + ";"
+                    + costCenterCost.getOverheadsMedicalGoods() + ";"
+                    + costCenterCost.getMedicalInfrastructureCost() + ";"
+                    + costCenterCost.getNonMedicalInfrastructureCost() + "\n";
+            content += line;
+        }
+        Utils.downloadText(content, "Normalstation.csv");
     }
 
     private String _importMessage = "";

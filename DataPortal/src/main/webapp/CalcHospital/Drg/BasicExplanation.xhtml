@@ -254,17 +254,19 @@
     <div class="inputPart">
         <h:outputLabel styleClass="label" value="Anzahl Standorte:" /> &nbsp;
         <h:inputText styleClass="inputshort" value="#{editCalcBasicsDrg.calcBasics.locationCnt}" required="true">
-            <f:ajax event="blur" render="@form :logout:remaining" listener="#{editCalcBasicsDrg}"/>
+            <f:ajax event="blur" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.changeLocationCount}"/>
         </h:inputText>
     </div>
 
     <div class="inputPart">
         <inek:BooleanRadioButton label="Liegt ein nach Standorten differenzierter Versorgungsauftrag vor:"  
-                                 value="#{editCalcBasicsDrg.calcBasics.difLocationSupply}" labelStyle="label"/>
+                                 value="#{editCalcBasicsDrg.calcBasics.difLocationSupply}" 
+                                 renderElement="@form"
+                                 labelStyle="label"/>
     </div>
 
-    <h:panelGroup styleClass="inputPart" rendered="#{editCalcBasicsDrg.calcBasics.difLocationSupply}">
-        Falls Sie "nein" angegeben haben, möchten wir Sie dennoch bitten, die Differenzierung im Datenfeld "entlassender    
+    <h:panelGroup styleClass="inputPart" rendered="#{!editCalcBasicsDrg.calcBasics.difLocationSupply}">
+        Obwohl Sie "nein" angegeben haben, möchten wir Sie dennoch bitten, die Differenzierung im Datenfeld "entlassender    
         Standort" des übermittelten §21-Datensatzes vorzunehmen und die Standorte in der nachfolgenden Tabelle zu benennen. 
         Wir möchten Sie darauf hinweisen, dass die Differenzierung der Standorte lediglich für die Plausibilisierung der 
         Kalkulationsdaten verwendet wird. Eine Weitergabe dieser Angaben im Zuge der Datenlieferung nach § 21 Abs. 3 KHEntgG
@@ -273,11 +275,11 @@
     
     <h:dataTable  headerClass="list-header" id="exitLocation"
                   value="#{editCalcBasicsDrg.calcBasics.locations}" var="item" width="70%" rowClasses="row1, row2" 
-                  columnClasses="colIcon, col90, colShort"
+                  columnClasses="#{editCalcBasicsDrg.calcBasics.locations.size() gt editCalcBasicsDrg.calcBasics.locationCnt ? 'colIcon,' : ''} col90, colShort"
                   rendered="true"
                   >
 
-        <h:column>
+        <h:column rendered="#{editCalcBasicsDrg.calcBasics.locations.size() gt editCalcBasicsDrg.calcBasics.locationCnt}">
             <f:facet name="header">
                 <h:outputText value=""/>
             </f:facet>
@@ -290,8 +292,7 @@
 
         <h:column>
             <f:facet name="header">
-                <h:outputText value="Entlassender Standort"/><br/>
-                <h:outputText value="(aussagekräftiger Name)"/>
+                <h:outputText value="Entlassender Standort (aussagekräftiger Name)"/><br/>
             </f:facet>
             <h:inputText value="#{item.location}" styleClass="inputwide" required="true">
                 <f:ajax render="@this :logout:remaining"/>
@@ -308,10 +309,6 @@
         </h:column>
 
     </h:dataTable>
-
-    <h:commandLink id="addButtonLocation" styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
-        <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.addLocation()}"/>
-    </h:commandLink>
 
     <h2>Besondere Einrichtungen (BE)</h2>
 

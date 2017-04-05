@@ -96,7 +96,9 @@ public class AccountDocumentFacade extends AbstractFacade<AccountDocument> {
 
     public boolean isDocRead(int docId) {
         AccountDocument doc = find(docId);
-        if (doc.isRead()) {
+        // the the user has opened multiple browsers or tabs, the document might be deleted somewhere else
+        // thus we need to check for null
+        if (doc != null && doc.isRead()) {  
             return true;
         }
         return false;
