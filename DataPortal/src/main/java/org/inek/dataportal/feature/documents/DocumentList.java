@@ -1,11 +1,11 @@
 package org.inek.dataportal.feature.documents;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -18,7 +18,7 @@ import org.inek.dataportal.helper.structures.DocInfo;
 
 @Named
 @ViewScoped
-public class DocumentList {
+public class DocumentList implements Serializable{
 
     @Inject AccountDocumentFacade _accountDocFacade;
     @Inject SessionController _sessionController;
