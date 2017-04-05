@@ -18,6 +18,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -508,35 +509,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     // used by page only
-    public DrgDelimitationFact getPriorDelimitationFact(int contentTextId) {
-        return _priorCalcBasics.getDelimitationFacts().stream()
-                .filter(f -> f.getContentTextId() == contentTextId)
-                .findAny().orElse(new DrgDelimitationFact());
-    }
-
-    public List<String> getDelimitationFactsSubTitles() {
-        List<String> tmp = new ArrayList<>();
-        tmp.add("Personalkosten");
-        tmp.add("Sachkosten");
-        tmp.add("Infrastrukturkosten");
-        return tmp;
-    }
-
-    public void addLocation() {
-        KGLListLocation loc = new KGLListLocation();
-        loc.setBaseInformationId(_calcBasics.getId());
-        _calcBasics.getLocations().add(loc);
-    }
-
-    public void deleteLocation(KGLListLocation loc) {
-        _calcBasics.getLocations().remove(loc);
-    }
-
-    public void addSpecialUnit() {
-        KGLListSpecialUnit su = new KGLListSpecialUnit();
-        su.setBaseInformationId(_calcBasics.getId());
-        _calcBasics.getSpecialUnits().add(su);
-    }
 
     public void addCostCenterCosts() {
         KGLListCostCenterCost ccc = new KGLListCostCenterCost();
@@ -1203,6 +1175,58 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }
         return _ikItems;
     }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Tab BasicExplanation">
+    public DrgDelimitationFact getPriorDelimitationFact(int contentTextId) {
+        return _priorCalcBasics.getDelimitationFacts().stream()
+                .filter(f -> f.getContentTextId() == contentTextId)
+                .findAny().orElse(new DrgDelimitationFact());
+    }
+
+    public List<String> getDelimitationFactsSubTitles() {
+        List<String> tmp = new ArrayList<>();
+        tmp.add("Personalkosten");
+        tmp.add("Sachkosten");
+        tmp.add("Infrastrukturkosten");
+        return tmp;
+    }
+
+    public void changeLocationCount(AjaxBehaviorEvent event){
+        removeEmptyLocations();
+        int diff = _calcBasics.getLocationCnt() - _calcBasics.getLocations().size();
+        while(diff > 0){
+            addLocation();
+            diff--;
+        }
+    }
+
+    public void addLocation() {
+        KGLListLocation loc = new KGLListLocation();
+        loc.setBaseInformationId(_calcBasics.getId());
+        _calcBasics.getLocations().add(loc);
+    }
+
+    public void deleteLocation(KGLListLocation loc) {
+        _calcBasics.getLocations().remove(loc);
+    }
+
+    private void removeEmptyLocations() {
+        Iterator<KGLListLocation> iter = _calcBasics.getLocations().iterator();
+        while (iter.hasNext()) {
+            KGLListLocation location = iter.next();
+            if (location.getLocationNo() == 0 && location.getLocation().isEmpty()) {
+                iter.remove();
+            }
+        }
+    }
+    
+    public void addSpecialUnit() {
+        KGLListSpecialUnit su = new KGLListSpecialUnit();
+        su.setBaseInformationId(_calcBasics.getId());
+        _calcBasics.getSpecialUnits().add(su);
+    }
+
     // </editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Tab ServiceProvision">

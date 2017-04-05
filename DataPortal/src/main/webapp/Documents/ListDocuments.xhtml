@@ -19,7 +19,7 @@
 
         <h:column id="colRead">
             <f:facet name="header">
-                <h:commandLink value="gel. #{documentList.sortCriteria.equals('read') ? (documentViewer.descending ? '↓' : '↑') : ''}">
+                <h:commandLink value="gel. #{documentList.sortCriteria.equals('read') ? (documentList.descending ? '↓' : '↑') : ''}">
                     <f:ajax listener="#{documentList.setSortCriteria('read')}" render="@form :logout:remaining"/>
                 </h:commandLink>
             </f:facet>
@@ -38,7 +38,7 @@
 
         <h:column id="colDomain">
             <f:facet name="header">
-                <h:commandLink value="Bereich #{documentList.sortCriteria.equals('domain') ? (documentViewer.descending ? '↓' : '↑') : ''}">
+                <h:commandLink value="Bereich #{documentList.sortCriteria.equals('domain') ? (documentList.descending ? '↓' : '↑') : ''}">
                     <f:ajax listener="#{documentList.setSortCriteria('domain')}" render="@form :logout:remaining"/>
                 </h:commandLink>
             </f:facet>
@@ -49,7 +49,7 @@
 
         <h:column id="colName">
             <f:facet name="header">
-                <h:commandLink value="Dokument #{documentList.sortCriteria.equals('document') ? (documentViewer.descending ? '↓' : '↑') : ''}">
+                <h:commandLink value="Dokument #{documentList.sortCriteria.equals('document') ? (documentList.descending ? '↓' : '↑') : ''}">
                     <f:ajax listener="#{documentList.setSortCriteria('document')}" render="@form :logout:remaining"/>
                 </h:commandLink>
             </f:facet>
@@ -60,7 +60,7 @@
 
         <h:column id="colDate">
             <f:facet name="header">
-                <h:commandLink value="Datum #{documentList.sortCriteria.equals('date') ? (documentViewer.descending ? '↓' : '↑') : ''}">
+                <h:commandLink value="Datum #{documentList.sortCriteria.equals('date') ? (documentList.descending ? '↓' : '↑') : ''}">
                     <f:ajax listener="#{documentList.setSortCriteria('date')}" render="@form :logout:remaining"/>
                 </h:commandLink>
             </f:facet>
@@ -71,7 +71,7 @@
 
         <h:column id="colValid">
             <f:facet name="header">
-                <h:commandLink value="verfügbar bis #{documentList.sortCriteria.equals('validUntil') ? (documentViewer.descending ? '↓' : '↑') : ''}">
+                <h:commandLink value="verfügbar bis #{documentList.sortCriteria.equals('validUntil') ? (documentList.descending ? '↓' : '↑') : ''}">
                     <f:ajax listener="#{documentList.setSortCriteria('validUntil')}" render="@form :logout:remaining"/>
                 </h:commandLink>
             </f:facet>
