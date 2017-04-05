@@ -8,18 +8,20 @@
 
     <h:outputLabel id="noDocs" rendered="#{!documentList.renderDocList()}" value="#{msg.lblNoDocs}" />
 
-            <div class="inputPart">
-                <h:outputLabel value="Filter: " styleClass="label marginRight" for="filter"/>
-                <h:inputText id="filter" styleClass="input marginRight" value="#{documentList.filter}"/>
-                <h:commandButton value="Filtern" styleClass="smallButton" action="#{documentList.reload}" immediate="false"/>
-            </div>
-    
+    <div class="inputPart">
+        <h:outputLabel value="Filter: " styleClass="label marginRight" for="filter"/>
+        <h:inputText id="filter" styleClass="input marginRight" value="#{documentList.filter}"/>
+        <h:commandButton value="Filtern" styleClass="smallButton" action="#{documentList.reload}" immediate="false"/>
+    </div>
+
     <h:dataTable rendered="#{documentList.renderDocList()}"  headerClass="list-header" id="tblDocList" 
                  value="#{documentList.documents}" var="doc" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colIcon, colValue, colValue, colValue, colValue">
 
         <h:column id="colRead">
             <f:facet name="header">
-                <h:outputText value="gel."/>
+                <h:commandLink value="gel. #{documentList.sortCriteria.equals('read') ? (documentViewer.descending ? '↓' : '↑') : ''}">
+                    <f:ajax listener="#{documentList.setSortCriteria('read')}" render="@form :logout:remaining"/>
+                </h:commandLink>
             </f:facet>
             <h:graphicImage id="readImg" alt="gelesen?" name="Icon/small/#{doc.read ? 'tick.png' : 'new.png'}" title="gelesen?" value=""/>
         </h:column>
@@ -36,7 +38,9 @@
 
         <h:column id="colDomain">
             <f:facet name="header">
-                <h:outputText value="Bereich"/>
+                <h:commandLink value="Bereich #{documentList.sortCriteria.equals('domain') ? (documentViewer.descending ? '↓' : '↑') : ''}">
+                    <f:ajax listener="#{documentList.setSortCriteria('domain')}" render="@form :logout:remaining"/>
+                </h:commandLink>
             </f:facet>
             <h:commandLink action="#{editDocument.downloadDocument(doc.id)}" value="#{doc.domain}" immediate="true">
                 <f:ajax event="blur" render="@all"/>
@@ -45,7 +49,9 @@
 
         <h:column id="colName">
             <f:facet name="header">
-                <h:outputText value="Dokument"/>
+                <h:commandLink value="Dokument #{documentList.sortCriteria.equals('document') ? (documentViewer.descending ? '↓' : '↑') : ''}">
+                    <f:ajax listener="#{documentList.setSortCriteria('document')}" render="@form :logout:remaining"/>
+                </h:commandLink>
             </f:facet>
             <h:commandLink action="#{editDocument.downloadDocument(doc.id)}" value="#{doc.name}" immediate="true">
                 <f:ajax event="blur" render="@all"/>
@@ -54,16 +60,20 @@
 
         <h:column id="colDate">
             <f:facet name="header">
-                <h:outputText value="Datum"/>
+                <h:commandLink value="Datum #{documentList.sortCriteria.equals('date') ? (documentViewer.descending ? '↓' : '↑') : ''}">
+                    <f:ajax listener="#{documentList.setSortCriteria('date')}" render="@form :logout:remaining"/>
+                </h:commandLink>
             </f:facet>
-            <h:commandLink action="#{editDocument.downloadDocument(doc.id)}" value="#{doc.createdString}" immediate="true">
+            <h:commandLink action="#{documentList.downloadDocument(doc.id)}" value="#{doc.createdString}" immediate="true">
                 <f:ajax event="blur" render="@all"/>
             </h:commandLink>
         </h:column>
 
         <h:column id="colValid">
             <f:facet name="header">
-                <h:outputText value="verfügbar bis"/>
+                <h:commandLink value="verfügbar bis #{documentList.sortCriteria.equals('validUntil') ? (documentViewer.descending ? '↓' : '↑') : ''}">
+                    <f:ajax listener="#{documentList.setSortCriteria('validUntil')}" render="@form :logout:remaining"/>
+                </h:commandLink>
             </f:facet>
             <h:commandLink action="#{editDocument.downloadDocument(doc.id)}" value="#{doc.validUntilString}" immediate="true">
                 <f:ajax event="blur" render="@all"/>

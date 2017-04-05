@@ -12,7 +12,7 @@
     <ui:define name="content">
         <h:outputStylesheet name="css/fileuploader.css"/>
 
-        <h:form id="calcBasicsPepp" prependId="false" enctype="multipart/form-data">
+        <h:form id="calcBasicsPepp" prependId="true" enctype="multipart/form-data">
             <h1><h:commandLink value="#{msg.lblCalcBasicPepp} #{msg.lblYearData} #{editCalcBasicsPepp.calcBasics.dataYear}" 
                                action="#{sessionController.navigate(sessionTools.pages.CalculationHospitalSummary)}" immediate="true"/></h1>
 

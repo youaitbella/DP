@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
@@ -15,14 +17,14 @@ import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.structures.DocInfo;
 
 @Named
-@RequestScoped
-public class DocumentList{
+@ViewScoped
+public class DocumentList {
 
     @Inject AccountDocumentFacade _accountDocFacade;
     @Inject SessionController _sessionController;
     @Inject PortalMessageFacade _messageFacade;
     @Inject CooperationRequestFacade _cooperationRequestFacade;
-    
+
     private String _filter = "";
 
     public String getFilter() {
@@ -45,10 +47,29 @@ public class DocumentList{
             _documents = _accountDocFacade.getDocInfos(_sessionController.getAccountId());
         }
     }
-    
+
     public List<DocInfo> getDocuments() {
         ensureDocuments();
-        return _documents.stream().filter(d -> d.getName().toLowerCase().contains(_filter) || d.getDomain().toLowerCase().contains(_filter)).collect(Collectors.toList());
+        Stream<DocInfo> docInfoStream = _documents.stream();
+        if (!_filter.isEmpty()) {
+            docInfoStream = docInfoStream.filter(d -> d.getName().toLowerCase().contains(_filter) || d.getDomain().toLowerCase().contains(_filter));
+        }
+        int direction = _isDescending ? -1 : 1;
+        switch (_sortCriteria.toLowerCase()) {
+            case "domain":
+                docInfoStream = docInfoStream.sorted((n1, n2) -> direction * n1.getDomain().compareTo(n2.getDomain()));
+            case "document":
+                docInfoStream = docInfoStream.sorted((n1, n2) -> direction * n1.getName().compareTo(n2.getName()));
+            case "validuntil":
+                docInfoStream = docInfoStream.sorted((n1, n2) -> direction * n1.getValidUntil().compareTo(n2.getValidUntil()));
+            case "date":
+                docInfoStream = docInfoStream.sorted((n1, n2) -> direction * n1.getCreated().compareTo(n2.getCreated()));
+            case "read":
+                docInfoStream = docInfoStream.sorted((n1, n2) -> direction * Boolean.compare(n1.isRead(), n2.isRead()));
+            default:
+        }
+        return docInfoStream.collect(Collectors.toList());
+
     }
 
     public boolean renderDocList() {
@@ -123,5 +144,5 @@ public class DocumentList{
         return _sortCriteria;
     }
     // </editor-fold>    
-    
+
 }

@@ -52,37 +52,18 @@ public class DocumentViewer implements Serializable {
 
     public List<DocInfo> getDocuments() {
         ensureDocuments();
+        int direction = _isDescending ? -1 : 1;
         switch (_sortCriteria) {
             case "receipient":
-                if (_isDescending) {
-                    return _documents.stream().sorted((n1, n2) -> n2.getTag().compareTo(n1.getTag())).collect(Collectors.toList());
-                } else {
-                    return _documents.stream().sorted((n1, n2) -> n1.getTag().compareTo(n2.getTag())).collect(Collectors.toList());
-                }
+                return _documents.stream().sorted((n1, n2) -> direction * n1.getTag().compareTo(n2.getTag())).collect(Collectors.toList());
             case "domain":
-                if (_isDescending) {
-                    return _documents.stream().sorted((n1, n2) -> n2.getDomain().compareTo(n1.getDomain())).collect(Collectors.toList());
-                } else {
-                    return _documents.stream().sorted((n1, n2) -> n1.getDomain().compareTo(n2.getDomain())).collect(Collectors.toList());
-                }
+                return _documents.stream().sorted((n1, n2) -> direction * n1.getDomain().compareTo(n2.getDomain())).collect(Collectors.toList());
             case "document":
-                if (_isDescending) {
-                    return _documents.stream().sorted((n1, n2) -> n2.getName().compareTo(n1.getName())).collect(Collectors.toList());
-                } else {
-                    return _documents.stream().sorted((n1, n2) -> n1.getName().compareTo(n2.getName())).collect(Collectors.toList());
-                }
+                return _documents.stream().sorted((n1, n2) -> direction * n1.getName().compareTo(n2.getName())).collect(Collectors.toList());
             case "date":
-                if (_isDescending) {
-                    return _documents.stream().sorted((n1, n2) -> n2.getLongCreatedString().compareTo(n1.getLongCreatedString())).collect(Collectors.toList());
-                } else {
-                    return _documents.stream().sorted((n1, n2) -> n1.getLongCreatedString().compareTo(n2.getLongCreatedString())).collect(Collectors.toList());
-                }
+                return _documents.stream().sorted((n1, n2) -> direction * n1.getLongCreatedString().compareTo(n2.getLongCreatedString())).collect(Collectors.toList());
             case "read":
-                if (_isDescending) {
-                    return _documents.stream().sorted((n1, n2) -> Boolean.compare(n2.isRead(), n1.isRead())).collect(Collectors.toList());
-                } else {
-                    return _documents.stream().sorted((n1, n2) -> Boolean.compare(n1.isRead(), n2.isRead())).collect(Collectors.toList());
-                }
+                return _documents.stream().sorted((n1, n2) -> direction * Boolean.compare(n1.isRead(), n2.isRead())).collect(Collectors.toList());
             default:
                 return _documents;
         }

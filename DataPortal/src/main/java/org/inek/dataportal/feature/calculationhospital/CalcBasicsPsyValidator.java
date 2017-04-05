@@ -37,7 +37,7 @@ public class CalcBasicsPsyValidator {
 
     //<editor-fold defaultstate="collapsed" desc="checkBasics">
    private static void checkBasics(PeppCalcBasics calcBasics, MessageContainer message) {
-       checkField(message, calcBasics.getIk(), 100000000, 999999999, "lblIK", "form:ikMulti", "TopicFrontPage");
+       checkField(message, calcBasics.getIk(), 100000000, 999999999, "lblIK", "calcBasicsPepp:ikMulti", "TopicFrontPage");
    }
     //</editor-fold>
     
