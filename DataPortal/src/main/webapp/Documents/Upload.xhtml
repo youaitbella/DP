@@ -105,7 +105,7 @@
                 <div>
                     <h:dataTable value="#{documentUpload.accounts}" var="account"
                                  headerClass="list-header" id="tblAccounts"
-                                 width="100%" rowClasses="row1, row2" columnClasses="colIcon, colValue, colValuem, colValue, colValue">                        
+                                 width="100%" rowClasses="row1, row2" columnClasses="colIcon, colValue, colValuem, colValue, colValue, colValue">                        
                         <h:column>
                             <h:selectBooleanCheckbox value="#{account.reportViaPortal}">
                                 <f:ajax render=":logout:remaining"/>
@@ -122,6 +122,9 @@
                         </h:column>
                         <h:column>
                             #{account.company}
+                        </h:column>
+                        <h:column>
+                            #{documentUpload.getRoles(account)}
                         </h:column>
                     </h:dataTable>
                 </div>

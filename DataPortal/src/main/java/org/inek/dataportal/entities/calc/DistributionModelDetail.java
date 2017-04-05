@@ -103,9 +103,6 @@ public class DistributionModelDetail implements Serializable {
 
     @Documentation(name = "KstArtGr", rank = 110)
     public String getCostTypeName() {
-        // todo
-//        CostType cost = _valueLists.getCostType(_costTypeId);
-//        return cost.getCharId() + " " + cost.getText();
         Map<Integer, String> costTypes = new HashMap<>();
         costTypes.put(142, "4b");
         costTypes.put(150, "5");

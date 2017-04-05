@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.faces.application.FacesMessage;
@@ -102,9 +103,9 @@ public class DocumentUpload implements Serializable {
     public void setIk(Integer ik) {
         _ik = ik;
         Customer customer = _customerFacade.getCustomerByIK(_ik);
-        Set<String> emails = customer.getContacts().stream().filter(c -> c.getPrio() < 90).flatMap(c -> c.getContactDetails().stream().filter(d -> d.getContactDetailTypeId().equals("E")).map(d -> d.getDetails().toLowerCase())).collect(Collectors.toSet());
-        _accounts = _accountFacade.getAccounts4Ik(_ik).stream().filter(a -> emails.contains(a.getEmail().toLowerCase())).collect(Collectors.toList());
-
+        Set<String> emails = customer.getContacts().stream().flatMap(c -> c.getContactDetails().stream().filter(d -> d.getContactDetailTypeId().equals("E")).map(d -> d.getDetails().toLowerCase())).collect(Collectors.toSet());
+        List<Account> accounts = _accountFacade.getAccounts4Ik(_ik).stream().filter(a -> emails.contains(a.getEmail().toLowerCase())).collect(Collectors.toList());
+        _accountRoles = _accountFacade.obtainRoleInfo(_ik, accounts);
         loadLastDocuments();
     }
     // </editor-fold>
@@ -118,13 +119,14 @@ public class DocumentUpload implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Accounts">
-    private List<Account> _accounts = Collections.emptyList();
+    private Map<Account, String> _accountRoles = Collections.emptyMap();
 
-    public List<Account> getAccounts() {
-        return _accounts;
+    public Set<Account> getAccounts() {
+        return _accountRoles.keySet();
     }
     // </editor-fold>
 
+    
     // <editor-fold defaultstate="collapsed" desc="Property AvailableUntil">
     private int _availability = 60;
 
@@ -173,6 +175,10 @@ public class DocumentUpload implements Serializable {
 
     public List<DocumentDomain> getDomains() {
         return _domainFacade.findAll();
+    }
+
+    public String getRoles(Account account) {
+        return _accountRoles.get(account);
     }
 
     public String getEmail() {
@@ -250,7 +256,7 @@ public class DocumentUpload implements Serializable {
                 if (_ik == null || _ik < 0) {
                     return;
                 }
-                for (Account account : _accounts) {
+                for (Account account : _accountRoles.keySet()) {
                     addDocuments(_docs, account);
                 }
                 break;
@@ -300,7 +306,7 @@ public class DocumentUpload implements Serializable {
                     }
                     break;
                 case IK:
-                    for (Account account : _accounts) {
+                    for (Account account : _accountRoles.keySet()) {
                         if (account.isReportViaPortal()){
                             storeDocument(accountDocument, account.getId());
                             accounts.add(account);

@@ -2,8 +2,10 @@ package org.inek.dataportal.facades.account;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Level;
@@ -373,18 +375,33 @@ public class AccountFacade extends AbstractFacade<Account> {
         return result;
     }
 
-    public void obtainRoleInfo(int ik, List<String> emailAddreses) {
-        String addresses = emailAddreses.stream().map(m -> "'" + m + "'").collect(Collectors.joining(", "));
+    public Map<Account, String> obtainRoleInfo(int ik, List<Account> accounts) {
+        String addresses = accounts.stream().map(a -> "'" + a.getEmail().toLowerCase() + "'").collect(Collectors.joining(", "));
         String sql = "select cdDetails, dbo.concatenate(roText)\n"
                 + "from CallCenterDB.dbo.ccCustomer\n"
                 + "join CallCenterDB.dbo.ccContact on cuId = coCustomerId\n"
                 + "join CallCenterDB.dbo.mapContactRole r1 on coId = r1.mcrContactId and r1.mcrRoleId in (3, 12, 14, 15, 16, 18, 19)\n"
                 + "join CallCenterDB.dbo.listRole on r1.mcrRoleId = roId\n"
                 + "join CallCenterDB.dbo.ccContactDetails on coId = cdContactId\n"
-                + "where cuIk = "+ ik + "\n"
+                + "where cuIk = " + ik + "\n"
                 + "	and coIsActive = 1\n"
                 + "	and cdContactDetailTypeId = 'E'\n"
-                + "     and cdDetails in("+ addresses + ")\n"
+                + "     and cdDetails in(" + addresses + ")\n"
                 + "group by cdDetails";
+        Query query = getEntityManager().createNativeQuery(sql);
+        Map<String, String> mailRole = new HashMap<>();
+        @SuppressWarnings("unchecked") List<Object[]> objects = query.getResultList();
+        for (Object[] obj : objects) {
+            String email = (String) obj[0];
+            String roles = (String) obj[1];
+            mailRole.put(email.toLowerCase(), roles);
+        }
+        Map<Account, String> accountRoles = new HashMap<>();
+        for (Account account : accounts) {
+            String email = account.getEmail().toLowerCase();
+            String roles = mailRole.containsKey(email) ? mailRole.get(email) : "";
+            accountRoles.put(account, roles);
+        }
+        return accountRoles;
     }
 }

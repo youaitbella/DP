@@ -151,19 +151,6 @@ public class Contact implements Serializable {
     }
     // </editor-fold>
     
-    // <editor-fold defaultstate="collapsed" desc="Property Prio">
-    @Column(name = "coPrio")
-    private int _prio;
-
-    public int getPrio() {
-        return _prio;
-    }
-
-    public void setPrio(int prio) {
-        _prio = prio;
-    }
-    // </editor-fold>
-    
     // <editor-fold defaultstate="collapsed" desc="Property ReportViaPortal">
     @Column(name = "coDPReceiver")
     private boolean _reportViaPortal;
