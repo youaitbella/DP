@@ -521,6 +521,10 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         _calcBasics.getCostCenterCosts().remove(x);
     }
 
+    public void deleteAllCostCenterCosts() {
+        _calcBasics.getCostCenterCosts().clear();
+    }
+
     public void deleteSpecialUnit(KGLListSpecialUnit su) {
         _calcBasics.getSpecialUnits().remove(su);
     }
@@ -1290,6 +1294,32 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     public void downloadNormalStationTemplate() {
         Utils.downloadText(normalHeadLine + "\n", "Normalstation.csv");
+    }
+
+    public void downloadNormalStation() {
+        String content = normalHeadLine + "\n";
+        for (KGLListCostCenterCost costCenterCost : _calcBasics.getCostCenterCosts()) {
+            String line = costCenterCost.getCostCenterNumber() + ";"
+                    + costCenterCost.getCostCenterText() + ";"
+                    + costCenterCost.getDepartmentKey()+ ";"
+                    + costCenterCost.getDepartmentAssignment() + ";"
+                    + costCenterCost.getBedCnt() + ";"
+                    + costCenterCost.getCareDays()+ ";"
+                    + costCenterCost.getPprMinutes() + ";"
+                    + costCenterCost.getPprWeight() + ";"
+                    + costCenterCost.getMedicalServiceCnt() + ";"
+                    + costCenterCost.getNursingServiceCnt() + ";"
+                    + costCenterCost.getFunctionalServiceCnt() + ";"
+                    + costCenterCost.getMedicalServiceAmount() + ";"
+                    + costCenterCost.getNursingServiceAmount() + ";"
+                    + costCenterCost.getFunctionalServiceAmount() + ";"
+                    + costCenterCost.getOverheadsMedicine() + ";"
+                    + costCenterCost.getOverheadsMedicalGoods() + ";"
+                    + costCenterCost.getMedicalInfrastructureCost() + ";"
+                    + costCenterCost.getNonMedicalInfrastructureCost() + "\n";
+            content += line;
+        }
+        Utils.downloadText(content, "Normalstation.csv");
     }
 
     private String _importMessage = "";
