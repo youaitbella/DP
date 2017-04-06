@@ -26,7 +26,6 @@ import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountAdditionalIK;
-import org.inek.dataportal.entities.admin.InekRole;
 import org.inek.dataportal.entities.admin.MailTemplate;
 import org.inek.dataportal.entities.specificfunction.CenterName;
 import org.inek.dataportal.entities.specificfunction.RequestAgreedCenter;
@@ -193,12 +192,14 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
     @Inject private Mailer _mailer;
 
     private void sendMessage(String name) {
+        //todo: refactor for gloabal usage (move to mailer?) and remove all similar methods
         Account receiver = _accountFacade.find(_appTools.isEnabled(ConfigKey.TestMode) ? _sessionController.getAccountId() : _request.getAccountId());
         MailTemplate template = _mailer.getMailTemplate(name);
         String subject = template.getSubject()
                 .replace("{ik}", "" + _request.getIk());
         String body = template.getBody()
-                .replace("{formalSalutation}", _mailer.getFormalSalutation(receiver));
+                .replace("{formalSalutation}", _mailer.getFormalSalutation(receiver))
+                .replace("{note}", _request.getNoteInek());
         String bcc = template.getBcc().replace("{accountMail}", _sessionController.getAccount().getEmail());
         _mailer.sendMailFrom(template.getFrom(), receiver.getEmail(), "", bcc, subject, body);
     }
@@ -212,7 +213,7 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
     }
 
     public boolean isSealEnabled() {
-        if (!_appTools.isEnabled(ConfigKey.IsCalculationBasicsDrgSendEnabled)) {
+        if (!_appTools.isEnabled(ConfigKey.IsSpecificFunctionRequestSendEnabled)) {
             return false;
         }
         if (_request == null) {
@@ -222,7 +223,7 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
     }
 
     public boolean isApprovalRequestEnabled() {
-        if (!_appTools.isEnabled(ConfigKey.IsCalculationBasicsDrgSendEnabled)) {
+        if (!_appTools.isEnabled(ConfigKey.IsSpecificFunctionRequestSendEnabled)) {
             return false;
         }
         if (_request == null) {
@@ -232,13 +233,41 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
     }
 
     public boolean isRequestCorrectionEnabled() {
-        if (!_appTools.isEnabled(ConfigKey.IsCalculationBasicsDrgSendEnabled)) {
+        if (!_appTools.isEnabled(ConfigKey.IsSpecificFunctionRequestSendEnabled)) {
             return false;
         }
         if (_request == null) {
             return false;
         }
-        return _cooperationTools.isRequestCorrectionEnabled(Feature.SPECIFIC_FUNCTION, _request.getStatus(), _request.getAccountId());
+        return (_request.getStatus() == WorkflowStatus.Provided || _request.getStatus() == WorkflowStatus.ReProvided)
+                && _sessionController.isInekUser(Feature.SPECIFIC_FUNCTION, true);
+    }
+
+    public String requestCorrection() {
+        if (!isRequestCorrectionEnabled()) {
+            return "";
+        }
+        removeEmptyCenters();
+        setModifiedInfo();
+        // set as retired
+        _request.setStatus(WorkflowStatus.Retired);
+        _specificFunctionFacade.saveSpecificFunctionRequest(_request);
+
+        // create copy to edit (persist detached object with default Ids)
+        _request.setStatus(WorkflowStatus.New);
+        _request.setId(-1);
+        for (RequestProjectedCenter requestProjectedCenter : _request.getRequestProjectedCenters()) {
+            requestProjectedCenter.setId(-1);
+            requestProjectedCenter.setRequestMasterId(-1);
+        }
+        for (RequestAgreedCenter requestAgreedCenter : _request.getRequestAgreedCenters()) {
+            requestAgreedCenter.setId(-1);
+            requestAgreedCenter.setRequestMasterId(-1);
+        }
+        _specificFunctionFacade.saveSpecificFunctionRequest(_request);
+        sendMessage("BA Konkretisierung");
+
+        return Pages.SpecificFunctionSummary.URL();
     }
 
     public boolean isTakeEnabled() {

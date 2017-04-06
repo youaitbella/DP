@@ -288,6 +288,20 @@ public class SpecificFunctionRequest implements Serializable {
     }
     //</editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Property NoteInek">
+    @Column(name = "rmNoteInek")
+    @Documentation(name = "Bemerkung InEK", rank = 175, omitOnEmpty = true)
+    private String _noteInek = "";
+
+    public String getNoteInek() {
+        return _noteInek;
+    }
+
+    public void setNoteInek(String noteInek) {
+        _noteInek = noteInek;
+    }
+    // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public int hashCode() {

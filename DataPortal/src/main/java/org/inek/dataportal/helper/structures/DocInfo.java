@@ -1,5 +1,6 @@
 package org.inek.dataportal.helper.structures;
 
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -8,7 +9,7 @@ import java.util.Date;
  *
  * @author muellermi
  */
-public class DocInfo {
+public class DocInfo implements Serializable{
 
     private final int _id;
     private final String _name;
