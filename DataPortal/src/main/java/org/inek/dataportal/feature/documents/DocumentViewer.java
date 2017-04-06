@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.annotation.PostConstruct;
+import javax.faces.model.SelectItem;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -25,6 +27,20 @@ public class DocumentViewer implements Serializable {
 
     private String _filter = "";
     private int _maxAge = 30;
+    private int _agentId = -1;
+
+    @PostConstruct
+    private void init() {
+        _agentId = _sessionController.getAccountId();
+    }
+
+    public int getAgentId() {
+        return _agentId;
+    }
+
+    public void setAgentId(int agentId) {
+        this._agentId = agentId;
+    }
 
     public String getFilter() {
         return _filter;
@@ -69,15 +85,22 @@ public class DocumentViewer implements Serializable {
         }
     }
 
+    public List<SelectItem> getSupervisingAgents() {
+        List<SelectItem> agents = _accountDocFacade.getSupervisingAccounts(_maxAge);
+        agents.add(new SelectItem(-1, "<alle>"));
+        return agents;
+    }
+
     private void ensureDocuments() {
         if (!_documents.isEmpty()) {
             return;
         }
-        if (_sessionController.isInekUser(Feature.ADMIN)) {
-            _documents = _accountDocFacade.getSupervisedDocInfos(-1, _filter, _maxAge);
-        } else {
-            _documents = _accountDocFacade.getSupervisedDocInfos(_sessionController.getAccountId(), _filter, _maxAge);
-        }
+//        if (_sessionController.isInekUser(Feature.ADMIN)) {
+//            _documents = _accountDocFacade.getSupervisedDocInfos(-1, _filter, _maxAge);
+//        } else {
+//            _documents = _accountDocFacade.getSupervisedDocInfos(_sessionController.getAccountId(), _filter, _maxAge);
+//        }
+        _documents = _accountDocFacade.getSupervisedDocInfos(_agentId, _filter, _maxAge);
     }
 
     public boolean renderDocList() {

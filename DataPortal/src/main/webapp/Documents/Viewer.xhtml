@@ -14,8 +14,14 @@
                 <h:outputLabel value="Filter: " styleClass="label marginRight" for="filter"/>
                 <h:inputText id="filter" styleClass="input marginRight" value="#{documentViewer.filter}"/>
                 <h:outputLabel value="Alter bis: " styleClass="label marginRight" for="maxAge"/>
-                <h:inputText id="maxAge" styleClass="marginRight" value="#{documentViewer.maxAge}"/>
+                <h:inputText id="maxAge" styleClass="marginRight" value="#{documentViewer.maxAge}">
+                    <f:ajax/>
+                </h:inputText>
                 <h:outputLabel value="(Tage)" styleClass="label marginRight" for="maxAge"/>
+                <h:outputLabel value="Bearbeiter:" styleClass="label marginRight" for="agent"/>
+                <h:selectOneMenu value="#{documentViewer.agentId}">
+                    <f:selectItems value="#{documentViewer.supervisingAgents}"/>
+                </h:selectOneMenu>
                 <h:commandButton value="go" styleClass="smallButton" action="#{documentViewer.reload}" immediate="false"/>
             </div>
 

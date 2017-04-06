@@ -8,8 +8,10 @@ import java.util.logging.Level;
 import javax.ejb.Asynchronous;
 import javax.ejb.Schedule;
 import javax.ejb.Stateless;
+import javax.faces.model.SelectItem;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountDocument;
 import org.inek.dataportal.facades.AbstractFacade;
 import org.inek.dataportal.helper.structures.DocInfo;
@@ -72,6 +74,19 @@ public class AccountDocumentFacade extends AbstractFacade<AccountDocument> {
         return docInfos;
     }
 
+    public List<SelectItem> getSupervisingAccounts(int maxAge) {
+        String sql = "acId, acFirstName + ' ' + acLastName as AgentName \n"
+                + "from account \n"
+                + "where acId in (\n"
+                + "	select adAgentAccountId \n"
+                + "	from AccountDocument \n"
+                + "	where adAgentAccountId > 0\n"
+                + "		and DATEDIFF(DAY, adCreated, getDate()) <= " + maxAge + "\n"
+                + "	)";
+        Query query = getEntityManager().createQuery(sql, Account.class);
+        return query.getResultList();
+    }
+
     public List<String> getNewDocs(int accountId) {
         String sql = "SELECT d._name FROM AccountDocument d WHERE d._accountId = :accountId and d._created > :referenceDate ORDER BY d._id DESC";
         TypedQuery<String> query = getEntityManager().createQuery(sql, String.class);
@@ -98,7 +113,7 @@ public class AccountDocumentFacade extends AbstractFacade<AccountDocument> {
         AccountDocument doc = find(docId);
         // the the user has opened multiple browsers or tabs, the document might be deleted somewhere else
         // thus we need to check for null
-        if (doc != null && doc.isRead()) {  
+        if (doc != null && doc.isRead()) {
             return true;
         }
         return false;
@@ -109,7 +124,7 @@ public class AccountDocumentFacade extends AbstractFacade<AccountDocument> {
     private void scheduleSweepOldDocuments() {
         sweepOldDocuments();
     }
-    
+
     @Asynchronous
     private void sweepOldDocuments() {
         _logger.log(Level.INFO, "Sweeping old documents");
