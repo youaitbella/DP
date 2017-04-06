@@ -65,9 +65,9 @@ import org.inek.dataportal.utils.DocumentationUtil;
 //@SuppressWarnings("PMD.LawOfDemeter")
 @SuppressWarnings("PMD")
 public class EditCalcBasicsPepp extends AbstractEditController implements Serializable {
-
     // <editor-fold defaultstate="collapsed" desc="fields & enums">
     private static final Logger _LOGGER = Logger.getLogger("EditCalcBasicsPepp");
+    private static final int ONE_HOUR = 3600;
 
     @Inject private CooperationTools _cooperationTools;
     @Inject private SessionController _sessionController;
@@ -128,7 +128,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
             Utils.navigate(Pages.Error.RedirectURL());
         }
         // session timeout extended to 1 hour (to provide enough time for an upload)
-        FacesContext.getCurrentInstance().getExternalContext().setSessionMaxInactiveInterval(3600); 
+        FacesContext.getCurrentInstance().getExternalContext().setSessionMaxInactiveInterval(ONE_HOUR); 
         _LOGGER.info("end init EditCalcBasicPepp");
     }
 
@@ -289,7 +289,8 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         }
         if (calcBasics.getId() > 0){
             // This should not be. But sometimes we lost the delimitationFacts...
-            _LOGGER.log(Level.WARNING, "Populate PSY DelimitationFacts for existing data: Id = {0}", calcBasics.getId());
+            _LOGGER.log(Level.WARNING, 
+                    "Populate PSY DelimitationFacts for existing data: Id = {0}", calcBasics.getId());
         }
         for (KGPListContentText ct : _calcFacade.retrieveContentTextsPepp(1, calcBasics.getDataYear())) {
             KGPListDelimitationFact df = new KGPListDelimitationFact();

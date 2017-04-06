@@ -7,6 +7,7 @@ package org.inek.dataportal.feature.calculationhospital;
 
 import java.util.List;
 import org.inek.dataportal.entities.calc.KGPListStationServiceCost;
+import org.inek.dataportal.entities.calc.KGPPersonalAccounting;
 import org.inek.dataportal.entities.calc.PeppCalcBasics;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.structures.MessageContainer;
@@ -85,28 +86,30 @@ public final class CalcBasicsPsyValidator {
         final int unbelievableAmountOfBeds = 1000;
         List<KGPListStationServiceCost> stationServiceCosts = calcBasics.getStationServiceCosts();
         for (KGPListStationServiceCost serviceCost : stationServiceCosts) {
-            checkField(message, serviceCost.getStation(), "Stationsname muss angegeben werden.", elementId, pageName); 
+            String station = serviceCost.getStation();
+            checkField(message, station, "Stationsname muss angegeben werden.", elementId, pageName); 
             checkField(message, serviceCost.getBedCnt(), 1, unbelievableAmountOfBeds, 
-                    "Anzahl Betten darf nicht leer sein.", elementId, pageName);
+                    "Anzahl Betten auf " + station + " darf nicht leer sein.", elementId, pageName);
+            // medical and nursing service is mandatory
+            checkFieldsBothSet(message, 
+                    serviceCost.getMedicalServiceAmount(), serviceCost.getMedicalServiceCnt(),
+                    "ärztlichen Dienst", station, elementId, pageName);
+            checkFieldsBothSet(message, 
+                    serviceCost.getNursingServiceAmount(), serviceCost.getNursingServiceCnt(),
+                    "Pflegedienst", station, elementId, pageName);
             // cnt and amount should be both > 0 or 0
             checkFieldsBothEmptyOrSet(message, 
-                    serviceCost.getFunctionalServiceAmount(), serviceCost.getFunctionalServiceCnt(),
-                    "Funktionsdienst", elementId, pageName);
-            checkFieldsBothEmptyOrSet(message, 
-                    serviceCost.getMedicalServiceAmount(), serviceCost.getMedicalServiceCnt(),
-                    "ärztlichen Dienst", elementId, pageName);
-            checkFieldsBothEmptyOrSet(message, 
-                    serviceCost.getNursingServiceAmount(), serviceCost.getNursingServiceCnt(),
-                    "Pflegedienst", elementId, pageName);
-            checkFieldsBothEmptyOrSet(message, 
                     serviceCost.getPsychologistAmount(), serviceCost.getPsychologistCnt(),
-                    "psychologischen Dienst", elementId, pageName);
+                    "psychologischen Dienst", station, elementId, pageName);
             checkFieldsBothEmptyOrSet(message, 
                     serviceCost.getSocialWorkerAmount(), serviceCost.getSocialWorkerCnt(),
-                    "sozialien Dienst", elementId, pageName);
+                    "sozialien Dienst", station, elementId, pageName);
             checkFieldsBothEmptyOrSet(message, 
                     serviceCost.getSpecialTherapistAmount(), serviceCost.getSpecialTherapistCnt(),
-                    "spezialtherapeutischen Dienst", elementId, pageName);            
+                    "spezialtherapeutischen Dienst", station, elementId, pageName);            
+            checkFieldsBothEmptyOrSet(message, 
+                    serviceCost.getFunctionalServiceAmount(), serviceCost.getFunctionalServiceCnt(),
+                    "Funktionsdienst", station, elementId, pageName);
         }
     }
     //</editor-fold>
@@ -141,6 +144,20 @@ public final class CalcBasicsPsyValidator {
     
     //<editor-fold defaultstate="collapsed" desc="checkStaffCost">
     private static void checkStaffCost(PeppCalcBasics calcBasics, MessageContainer message) {
+        final String pageName = "TopicCalcStaffCost";
+        final String elementId = "";
+        List<KGPPersonalAccounting> personalAccountings = calcBasics.getPersonalAccountings();
+        for (KGPPersonalAccounting accounting : personalAccountings) {
+            boolean methodChecked = accounting.isExpertRating() 
+                    || accounting.isOther()
+                    || accounting.isServiceEvaluation()
+                    || accounting.isServiceStatistic()
+                    || accounting.isStaffEvaluation()
+                    || accounting.isStaffRecording();
+            int amount = accounting.getAmount();
+            String costTypeText = accounting.getCostType().getText();
+            checkFieldsCheckAndAmountSetOrEmpty(message, methodChecked, amount, costTypeText,elementId, pageName);
+        }
     }
     //</editor-fold>
     
@@ -179,19 +196,44 @@ public final class CalcBasicsPsyValidator {
             applyMessageValues(message, msgKey, topicKey, elementId);
         }
     }
+    
+    private static void checkFieldsBothSet(MessageContainer message, 
+            int personalCosts, double personalCnt, 
+            String area, String station, String elementId, String topicKey) {
+        if (0 == personalCnt || 0 == personalCosts) {
+            applyMessageValues(message, 
+                    "Personal und Kosten sind für " + area + " auf " + station + " pflicht.", topicKey, elementId);
+        }
+    }
 
     private static void checkFieldsBothEmptyOrSet(MessageContainer message, 
             int personalCosts, double personalCnt, 
-            String area, String elementId, String topicKey) {
+            String area, String station, String elementId, String topicKey) {
         if (!(0 == personalCnt && 0 == personalCosts)) {
             if (0 != personalCnt) {
-                applyMessageValues(message, "Personal im " + area + " ohne Kosten", topicKey, elementId);
+                applyMessageValues(message, 
+                        "Personal im " + area + " auf Station " + station + " sind ohne Kosten", topicKey, elementId);
             } else {
-                applyMessageValues(message, "Kosten im " + area + " ohne Personal", topicKey, elementId);
+                applyMessageValues(message, 
+                        "Kosten im " + area + " auf Station " + station + " ohne Personal", topicKey, elementId);
             }
         }
     }
     
+    private static void checkFieldsCheckAndAmountSetOrEmpty(MessageContainer message,
+            boolean methodChecked, int amount,
+            String costTypeText, String elementId, String pageName) {
+        if (!(methodChecked && 0 == amount)) {
+            if (methodChecked) {
+                applyMessageValues(message, "Bitte Verfahren für " + costTypeText + " auswählen.", pageName, elementId);
+            } else {
+                applyMessageValues(message, "Bitte Kostenvolumen für " + costTypeText + " angeben.",
+                        pageName, elementId);
+            }
+        }
+    }
+
+
     /**
      * Copy the parameter into the message container, performing some checks.
      * Several messages will be combined, only one topic and element can be given.
