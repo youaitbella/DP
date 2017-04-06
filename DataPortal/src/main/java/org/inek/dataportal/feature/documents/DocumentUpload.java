@@ -103,8 +103,8 @@ public class DocumentUpload implements Serializable {
     public void setIk(Integer ik) {
         _ik = ik;
         Customer customer = _customerFacade.getCustomerByIK(_ik);
-        Set<String> emails = customer.getContacts().stream().flatMap(c -> c.getContactDetails().stream().filter(d -> d.getContactDetailTypeId().equals("E")).map(d -> d.getDetails().toLowerCase())).collect(Collectors.toSet());
-        List<Account> accounts = _accountFacade.getAccounts4Ik(_ik).stream().filter(a -> emails.contains(a.getEmail().toLowerCase())).collect(Collectors.toList());
+        Set<String> emails = customer.getContacts().stream().filter(c -> c.isActive()).flatMap(c -> c.getContactDetails().stream().filter(d -> d.getContactDetailTypeId().equals("E")).map(d -> d.getDetails().toLowerCase())).collect(Collectors.toSet());
+        List<Account> accounts = _accountFacade.getAccounts4Ik(_ik, emails);
         _accountRoles = _accountFacade.obtainRoleInfo(_ik, accounts);
         loadLastDocuments();
     }
@@ -121,8 +121,9 @@ public class DocumentUpload implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property Accounts">
     private Map<Account, String> _accountRoles = Collections.emptyMap();
 
-    public Set<Account> getAccounts() {
-        return _accountRoles.keySet();
+    public List<Account> getAccounts() {
+        // need to return a list rather then a set to keep order
+        return _accountRoles.keySet().stream().sorted((a1, a2) -> Boolean.compare(a2.isReportViaPortal(), a1.isReportViaPortal())).collect(Collectors.toList());
     }
     // </editor-fold>
 

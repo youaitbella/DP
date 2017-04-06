@@ -280,7 +280,7 @@ public class EditNubRequest extends AbstractEditController {
     }
 
     public boolean isExternalStateVisible() {
-        return !_nubRequest.getExternalState().isEmpty();
+        return _nubRequest != null && !_nubRequest.getExternalState().isEmpty();
     }
 
     // <editor-fold defaultstate="collapsed" desc="Codes">

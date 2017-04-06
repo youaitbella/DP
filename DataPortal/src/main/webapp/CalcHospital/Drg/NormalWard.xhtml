@@ -276,23 +276,25 @@
         #tbl {
             table-layout: fixed;
         }
-        #tbl thead tr {
+        #tbl thead tr,
+        #tbl tfoot tr {
             display: block;
             position: relative;
         }  
         #tbl tbody {
             display: block;
-            height: 300px;
+            max-height: 300px;
             overflow-y: scroll;
             width: 100%;
         }        
         #tbl .colDelete {
             width: 16px;
         }
-        #tbl th.colInput {
+        #tbl th.colInput,
+        #tbl tfoot td.colInput {
             width: 100px;
         }
-        #tbl td.colInput {
+        #tbl thead td.colInput {
             width: 112px;
         }
         #tbl .col8 {
@@ -559,7 +561,9 @@
                 </td>
                 </tr>
             </ui:repeat>
+            </tbody>
 
+            <tfoot>
             <tr>
                 <td class="colDelete"/>
                 <td class="colInput">Summen</td>
@@ -605,7 +609,7 @@
             <inek:InputNumberWithMessage id="sumNonMedInfra" value="#{editCalcBasicsDrg.getCostCenterCostsSums().get(11)}" disabled="true" />
             </td>
             </tr>
-            </tbody>
+            </tfoot>
 
         </table>
 
@@ -625,7 +629,7 @@
     <div class="inlineBlock">
         <h:commandLink styleClass="button" value="Download Musterdatei" action="#{editCalcBasicsDrg.downloadNormalStationTemplate}" immediate="true"/>
     </div>
-    <div class="inlineBlock">
+    <div class="inlineBlock" jsf:rendered="#{sessionController.isInekUser('CALCULATION_HOSPITAL')}">
         <h:commandLink styleClass="button" value="Export" action="#{editCalcBasicsDrg.downloadNormalStation}" immediate="true"/>
     </div>
     <div class="inlineBlock">
@@ -633,7 +637,6 @@
             <cb:confirmDelete/>
         </h:commandLink>
     </div>
-
 
 </ui:composition>
 
