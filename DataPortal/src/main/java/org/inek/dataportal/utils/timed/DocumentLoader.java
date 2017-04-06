@@ -59,7 +59,7 @@ public class DocumentLoader {
             if (waitAndDecrementCounter()) {
                 return;
             }
-            setWaitCounter(30);
+            setWaitCounter(100);
             File baseDir = new File(_config.read(ConfigKey.FolderRoot), _config.read(ConfigKey.FolderDocumentScanBase));
             if (!baseDir.exists()) {
                 baseDir.mkdirs();
@@ -78,7 +78,7 @@ public class DocumentLoader {
         }
     }
 
-    private void checkDocumentFolder(File dir) {
+    private synchronized void checkDocumentFolder(File dir) {
         if (!_config.readBool(ConfigKey.DocumentScanDir, dir.getName())) {
             return;
         }

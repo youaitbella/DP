@@ -33,13 +33,13 @@ public class AccountDocumentFacade extends AbstractFacade<AccountDocument> {
         @SuppressWarnings("unchecked") List<Object[]> objects = query.getResultList();
         List<DocInfo> docInfos = new ArrayList<>();
         for (Object[] obj : objects) {
-            docInfos.add(new DocInfo((int) obj[0], (String) obj[1], (String) obj[2], (Date) obj[3], (Date) obj[4], (boolean) obj[5], (int) obj[6], (int) obj[7], ""));
+            docInfos.add(new DocInfo((int) obj[0], (String) obj[1], (String) obj[2], (Date) obj[3], (Date) obj[4], (boolean) obj[5], (int) obj[6], (int) obj[7], "", ""));
         }
         return docInfos;
     }
 
     public List<DocInfo> getSupervisedDocInfos(int accountId, String filter, int maxAge) {
-        String jpql = "SELECT d._id, d._name, dd._name, d._created, null, d._read, d._accountId, d._agentAccountId, a._ik, a._company, a._town, a._firstName, a._lastName "
+        String jpql = "SELECT d._id, d._name, dd._name, d._created, null, d._read, d._accountId, d._agentAccountId, a._ik, concat (a._company, ' ', a._town, ' (', a._firstName, ' ', a._lastName, ')') "
                 + "FROM AccountDocument d "
                 + "join DocumentDomain dd "
                 + "join Account a "
@@ -67,7 +67,7 @@ public class AccountDocumentFacade extends AbstractFacade<AccountDocument> {
         @SuppressWarnings("unchecked") List<Object[]> objects = query.getResultList();
         List<DocInfo> docInfos = new ArrayList<>();
         for (Object[] obj : objects) {
-            docInfos.add(new DocInfo((int) obj[0], (String) obj[1], (String) obj[2], (Date) obj[3], (Date) obj[4], (boolean) obj[5], (int) obj[6], (int) obj[7], obj[8] + " " + obj[9] + " " + obj[10] + " (" + obj[11] + " " + obj[12] + ")"));
+            docInfos.add(new DocInfo((int) obj[0], (String) obj[1], (String) obj[2], (Date) obj[3], (Date) obj[4], (boolean) obj[5], (int) obj[6], (int) obj[7], "", obj[8] + " " + obj[9]));
         }
         return docInfos;
     }
