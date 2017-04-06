@@ -183,4 +183,28 @@ public class CalcBasicsStaticData {
         items.add(new SelectItem(0, "sonstige Vorgehensweise"));
         return items;
     }
+    
+    public List<SelectItem> getServiceProvivionItem() {
+        return staticGetServiceProvivionItem();
+    }
+
+    public static List<SelectItem> staticGetServiceProvivionItem() {
+        List<SelectItem> items = new ArrayList<>();
+        items.add(new SelectItem(1, "Elektrokrampftherapie (EKT) [OPS 8-630*]"));
+        items.add(new SelectItem(2, "Dialyse (Kostenstellengruppe 3)"));
+        items.add(new SelectItem(3, "OP (Kostenstellengruppe 4)"));
+        items.add(new SelectItem(4, "Anästhesie (Kostenstellengruppe 5 u.a. auch für EKT-Leistungen)"));
+        items.add(new SelectItem(5, "Geburtshilfe/Gynäkologie (Kostenstellengruppe 6)"));
+        items.add(new SelectItem(6, "Kardiologie (Kostenstellengruppe 7)"));
+        items.add(new SelectItem(7, "Endoskopie (Kostenstellengruppe 8)"));
+        items.add(new SelectItem(8, "Radiologie (Kostenstellengruppe 9)"));
+        items.add(new SelectItem(9, "Laboratorien (Kostenstellengruppe 10)"));
+        items.add(new SelectItem(10, "Diagnostische Bereiche (Kostenstellengruppe 11)"));
+        items.add(new SelectItem(11, "Therapeutische Verfahren (Kostenstellengruppe 12)"));
+        items.add(new SelectItem(12, "Apotheke"));
+        items.add(new SelectItem(13, "Sterilisation"));
+        items.add(new SelectItem(14, "Externe Konsile"));
+        items.add(new SelectItem(15, "Sonstige"));
+        return items;
+    }
 }

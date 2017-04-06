@@ -5,8 +5,10 @@
  */
 package org.inek.dataportal.entities.calc;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Objects;
+import javax.faces.model.SelectItem;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,6 +20,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 import org.inek.dataportal.entities.calc.iface.BaseIdValue;
+import org.inek.dataportal.feature.calculationhospital.CalcBasicsStaticData;
 import org.inek.dataportal.utils.Documentation;
 
 /**
@@ -109,10 +112,21 @@ public class KGPListServiceProvision implements Serializable, BaseIdValue {
 //    @JoinColumn(name = "spProvidedTypeId", referencedColumnName = "ptID")
 //    @ManyToOne(optional = false)
     @Column(name = "spProvidedTypeId")
+    //@Documentation(name = "Erbringungsart", rank = 30)
     private int _providedTypeId;
 
     public int getProvidedTypeId() {
         return _providedTypeId;
+    }
+    
+    @Documentation(name = "Erbringungsart", rank = 30)
+    @JsonIgnore
+    public String getProvidedTypeText(){
+        return CalcBasicsStaticData.staticGetProvidedTypeText()
+                .stream()
+                .filter(i -> (int)i.getValue() == _providedTypeId)
+                .findAny().orElse(new SelectItem(-1, ""))
+                .getLabel();
     }
 
     public void setProvidedTypeId(int providedTypeId) {
@@ -124,11 +138,21 @@ public class KGPListServiceProvision implements Serializable, BaseIdValue {
 //    @JoinColumn(name = "spServiceProvisionTypeId", referencedColumnName = "sptID")
 //    @ManyToOne(optional = false)
     @Column(name = "spServiceProvisionTypeId")
-    @Documentation(name = "Bereiche", rank = 40)
+    
     private int _serviceProvisionTypeId;
 
     public int getServiceProvisionTypeId() {
         return _serviceProvisionTypeId;
+    }
+    
+    @Documentation(name = "Bereich", rank = 40)
+    @JsonIgnore
+    public String getServiceProvisionTypeText(){
+        return CalcBasicsStaticData.staticGetServiceProvivionItem()
+                .stream()
+                .filter(i -> (int)i.getValue() == _serviceProvisionTypeId)
+                .findAny().orElse(new SelectItem(-1, ""))
+                .getLabel();
     }
 
     public void setServiceProvisionTypeId(int serviceProvisionTypeId) {
@@ -145,6 +169,8 @@ public class KGPListServiceProvision implements Serializable, BaseIdValue {
         return _serviceProvisionType;
     }
 
+    
+    
     public void setServiceProvisionType(KGPListServiceProvisionType serviceProvisionType) {
         _serviceProvisionType = serviceProvisionType;
     }
