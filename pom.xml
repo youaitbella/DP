@@ -75,14 +75,14 @@
                         <ruleset>/rulesets/java/javabeans.xml</ruleset>
                     </rulesets>
                 </configuration>
-                <executions>
+<!--                <executions>
                     <execution>
                         <goals>
                             <goal>check</goal>
-                            <!--<goal>cpd-check</goal>-->
+                            <goal>cpd-check</goal>
                         </goals>
                     </execution>
-                </executions>
+                </executions>-->
             </plugin>
         </plugins>
     </build>
