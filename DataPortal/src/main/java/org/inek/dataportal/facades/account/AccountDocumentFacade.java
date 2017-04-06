@@ -74,8 +74,9 @@ public class AccountDocumentFacade extends AbstractFacade<AccountDocument> {
         return docInfos;
     }
 
+    @SuppressWarnings("unchecked")
     public List<SelectItem> getSupervisingAccounts(int maxAge) {
-        String sql = "acId, acFirstName + ' ' + acLastName as AgentName \n"
+        String sql = "select acId, acFirstName + ' ' + acLastName as AgentName \n"
                 + "from account \n"
                 + "where acId in (\n"
                 + "	select adAgentAccountId \n"
@@ -83,8 +84,14 @@ public class AccountDocumentFacade extends AbstractFacade<AccountDocument> {
                 + "	where adAgentAccountId > 0\n"
                 + "		and DATEDIFF(DAY, adCreated, getDate()) <= " + maxAge + "\n"
                 + "	)";
-        Query query = getEntityManager().createQuery(sql, Account.class);
-        return query.getResultList();
+        Query query = getEntityManager().createNativeQuery(sql);
+        List<Object[]> objects = query.getResultList();
+        List<SelectItem> items = new ArrayList<>();
+        for (Object[] obj : objects) {
+            items.add(new SelectItem((int) obj[0], (String) obj[1]));
+        }
+        items.add(new SelectItem(-1, "<alle>"));
+        return items;
     }
 
     public List<String> getNewDocs(int accountId) {
