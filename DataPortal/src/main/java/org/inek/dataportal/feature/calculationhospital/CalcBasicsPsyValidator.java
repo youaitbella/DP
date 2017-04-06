@@ -15,9 +15,13 @@ import org.inek.dataportal.helper.structures.MessageContainer;
  *
  * @author muellermi
  */
-public class CalcBasicsPsyValidator {
+public final class CalcBasicsPsyValidator {
+
+    private CalcBasicsPsyValidator() {
+        // utility class, should not be created
+    }
     
-   public static MessageContainer composeMissingFieldsMessage(PeppCalcBasics calcBasics) {
+    public static MessageContainer composeMissingFieldsMessage(PeppCalcBasics calcBasics) {
         MessageContainer message = new MessageContainer();
 
         checkBasics(calcBasics, message);
@@ -36,7 +40,9 @@ public class CalcBasicsPsyValidator {
 
     //<editor-fold defaultstate="collapsed" desc="checkBasics">
     private static void checkBasics(PeppCalcBasics calcBasics, MessageContainer message) {
-        checkField(message, calcBasics.getIk(), 100000000, 999999999, 
+        final int minIkWith9Digits = 100000000;
+        final int maxIkWith9Digits = 999999999;
+        checkField(message, calcBasics.getIk(), minIkWith9Digits, maxIkWith9Digits, 
                 "lblIK", "calcBasicsPepp:ikMulti", "TopicFrontPage");
     }
     //</editor-fold>
@@ -73,27 +79,35 @@ public class CalcBasicsPsyValidator {
     
     //<editor-fold defaultstate="collapsed" desc="checkNormalWard">
     private static void checkStationaryScope(PeppCalcBasics calcBasics, MessageContainer message) {
-       //lblCalcStation
-       List<KGPListStationServiceCost> stationServiceCosts = calcBasics.getStationServiceCosts();
+        //lblCalcStation
+        final String pageName = "lblCalcStation";
+        final String elementId = "";
+        final int unbelievableAmountOfBeds = 1000;
+        List<KGPListStationServiceCost> stationServiceCosts = calcBasics.getStationServiceCosts();
         for (KGPListStationServiceCost serviceCost : stationServiceCosts) {
-            checkField(message, serviceCost.getStation(), "Stationsname muss angegeben werden.", "", "lblCalcStation"); 
-            serviceCost.getBedCnt(); // count beds have to be > 0
+            checkField(message, serviceCost.getStation(), "Stationsname muss angegeben werden.", elementId, pageName); 
+            checkField(message, serviceCost.getBedCnt(), 1, unbelievableAmountOfBeds, 
+                    "Anzahl Betten darf nicht leer sein.", elementId, pageName);
             // cnt and amount should be both > 0 or 0
-            serviceCost.getFunctionalServiceAmount();
-            serviceCost.getFunctionalServiceCnt();
-            serviceCost.getMedicalServiceAmount();
-            serviceCost.getMedicalServiceCnt();
-            serviceCost.getNursingServiceAmount();
-            serviceCost.getNursingServiceCnt();
-            serviceCost.getPsychologistAmount();
-            serviceCost.getPsychologistCnt();
-            serviceCost.getSocialWorkerAmount();
-            serviceCost.getSocialWorkerCnt();
-            serviceCost.getSpecialTherapistAmount();
-            serviceCost.getSpecialTherapistCnt();
-            
+            checkFieldsBothEmptyOrSet(message, 
+                    serviceCost.getFunctionalServiceAmount(), serviceCost.getFunctionalServiceCnt(),
+                    "Funktionsdienst", elementId, pageName);
+            checkFieldsBothEmptyOrSet(message, 
+                    serviceCost.getMedicalServiceAmount(), serviceCost.getMedicalServiceCnt(),
+                    "ärztlichen Dienst", elementId, pageName);
+            checkFieldsBothEmptyOrSet(message, 
+                    serviceCost.getNursingServiceAmount(), serviceCost.getNursingServiceCnt(),
+                    "Pflegedienst", elementId, pageName);
+            checkFieldsBothEmptyOrSet(message, 
+                    serviceCost.getPsychologistAmount(), serviceCost.getPsychologistCnt(),
+                    "psychologischen Dienst", elementId, pageName);
+            checkFieldsBothEmptyOrSet(message, 
+                    serviceCost.getSocialWorkerAmount(), serviceCost.getSocialWorkerCnt(),
+                    "sozialien Dienst", elementId, pageName);
+            checkFieldsBothEmptyOrSet(message, 
+                    serviceCost.getSpecialTherapistAmount(), serviceCost.getSpecialTherapistCnt(),
+                    "spezialtherapeutischen Dienst", elementId, pageName);            
         }
-       
     }
     //</editor-fold>
     
@@ -166,8 +180,23 @@ public class CalcBasicsPsyValidator {
         }
     }
 
+    private static void checkFieldsBothEmptyOrSet(MessageContainer message, 
+            int personalCosts, double personalCnt, 
+            String area, String elementId, String topicKey) {
+        if (!(0 == personalCnt && 0 == personalCosts)) {
+            if (0 != personalCnt) {
+                applyMessageValues(message, "Personal im " + area + " ohne Kosten", topicKey, elementId);
+            } else {
+                applyMessageValues(message, "Kosten im " + area + " ohne Personal", topicKey, elementId);
+            }
+        }
+    }
+    
     /**
      * Copy the parameter into the message container, performing some checks.
+     * Several messages will be combined, only one topic and element can be given.
+     * So when there are errors on several pages only the first one will be reached by this message container.
+     * But all errors found will be mentioned.
      * 
      * @param message container to hold error message and position (page and element)
      * @param msgKey error message or property id containing the message.
@@ -181,5 +210,4 @@ public class CalcBasicsPsyValidator {
             message.setElementId(elementId);
         }
     }
-    
 }
