@@ -76,14 +76,15 @@ public class AccountDocumentFacade extends AbstractFacade<AccountDocument> {
 
     @SuppressWarnings("unchecked")
     public List<SelectItem> getSupervisingAccounts(int maxAge) {
-        String sql = "select acId, acFirstName + ' ' + acLastName as AgentName \n"
+        String sql = "select acId, acLastName + ', ' + acFirstName as AgentName \n"
                 + "from account \n"
                 + "where acId in (\n"
                 + "	select adAgentAccountId \n"
                 + "	from AccountDocument \n"
                 + "	where adAgentAccountId > 0\n"
                 + "		and DATEDIFF(DAY, adCreated, getDate()) <= " + maxAge + "\n"
-                + "	)";
+                + "	) \n"
+                + "order by 2";
         Query query = getEntityManager().createNativeQuery(sql);
         List<Object[]> objects = query.getResultList();
         List<SelectItem> items = new ArrayList<>();
