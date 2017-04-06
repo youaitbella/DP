@@ -84,7 +84,7 @@ public class RequestAgreedCenter implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property Amount">
     @Column(name = "racAmount")
-    @Documentation(name = "Betrag")
+    @Documentation(name = "Betrag", omitOnValues = "0")
     private int _amount;
 
     @Min(0)
@@ -94,6 +94,21 @@ public class RequestAgreedCenter implements Serializable {
 
     public void setAmount(int amount) {
         _amount = amount;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property Percent">
+    @Column(name = "racPercent")
+    @Documentation(name = "Prozent", omitOnValues = "0")
+    private int _percent;
+
+    @Min(0)
+    public int getPercent() {
+        return _percent;
+    }
+
+    public void setPercent(int percent) {
+        _percent = percent;
     }
     // </editor-fold>
 

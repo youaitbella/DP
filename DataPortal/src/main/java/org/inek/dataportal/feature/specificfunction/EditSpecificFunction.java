@@ -336,7 +336,12 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
             }
             checkField(message, center.getCenter(), "Bitte Art des Zentrums angeben", "");
             checkField(message, center.getRemunerationKey(), "Bitte Entgeltschlüssel angeben", "");
-            checkField(message, center.getAmount(), 1, 99999999, "Bitte Betrag angeben", "");
+            if (center.getPercent() <= 0.0) {
+                checkField(message, center.getAmount(), 1, 99999999, "Bitte Betrag oder Prozentsatz angeben", "");
+            }
+            if (center.getAmount() > 0 && center.getPercent() > 0.0) {
+                applyMessageValues(message, "Sie können entweder einen Betrag oder einen Prozentsatz angeben, nicht aber beides.", "");
+            }
             hasCenters = true;
         }
         if (request.isHasAgreement() && !hasCenters) {

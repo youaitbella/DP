@@ -66,7 +66,7 @@ public class EditDocument extends AbstractEditController {
 
     public String deleteDocument(int docId) {
         AccountDocument doc = _accDocFacade.find(docId);
-        if (_sessionController.getAccountId() == doc.getAccountId()) {
+        if (doc != null && _sessionController.getAccountId() == doc.getAccountId()) {
             _accDocFacade.remove(doc);
         }
         return "";
