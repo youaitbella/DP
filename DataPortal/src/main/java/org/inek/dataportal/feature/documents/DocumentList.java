@@ -58,14 +58,19 @@ public class DocumentList implements Serializable{
         switch (_sortCriteria.toLowerCase()) {
             case "domain":
                 docInfoStream = docInfoStream.sorted((n1, n2) -> direction * n1.getDomain().compareTo(n2.getDomain()));
+                break;
             case "document":
                 docInfoStream = docInfoStream.sorted((n1, n2) -> direction * n1.getName().compareTo(n2.getName()));
+                break;
             case "validuntil":
                 docInfoStream = docInfoStream.sorted((n1, n2) -> direction * n1.getValidUntil().compareTo(n2.getValidUntil()));
+                break;
             case "date":
                 docInfoStream = docInfoStream.sorted((n1, n2) -> direction * n1.getCreated().compareTo(n2.getCreated()));
+                break;
             case "read":
                 docInfoStream = docInfoStream.sorted((n1, n2) -> direction * Boolean.compare(n1.isRead(), n2.isRead()));
+                break;
             default:
         }
         return docInfoStream.collect(Collectors.toList());
