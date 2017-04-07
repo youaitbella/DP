@@ -97,7 +97,8 @@
         <module name="FallThrough"/>
         <module name="MissingSwitchDefault"/>
         <module name="HiddenField"/>
-        <module name="MagicNumber"/>
+        <!-- need to configure magic number before using it, e.g do not check within annotation -->
+        <!--module name="MagicNumber"/-->
         <!-- Checks for Javadoc comments.                     -->
         <!-- See http://checkstyle.sf.net/config_javadoc.html -->
         <!-- <module name="JavadocMethod">
