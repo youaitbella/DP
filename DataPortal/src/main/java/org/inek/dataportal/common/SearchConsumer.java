@@ -11,10 +11,10 @@ package org.inek.dataportal.common;
  */
 public interface SearchConsumer {
 
-    public void addDiagnosis(String code);
-    public void addProcedure(String code);
-    public void addDrg(String code) ;
-    public void addPepp(String code) ;
-    public void addDept(String code) ;
+    void addDiagnosis(String code);
+    void addProcedure(String code);
+    void addDrg(String code) ;
+    void addPepp(String code) ;
+    void addDept(String code) ;
     
 }

@@ -54,8 +54,8 @@ public class KGLListEndoscopyAmbulant implements Serializable, BaseIdValue {
     }
 
     @Override
-    public void setBaseInformationId(int _baseInformationId) {
-        this._baseInformationId = _baseInformationId;
+    public void setBaseInformationId(int baseInformationId) {
+        this._baseInformationId = baseInformationId;
     }
     
     @Column(name = "leaAmbulantService")
@@ -67,8 +67,8 @@ public class KGLListEndoscopyAmbulant implements Serializable, BaseIdValue {
         return _ambulantService;
     }
 
-    public void setAmbulantService(String _ambulantService) {
-        this._ambulantService = _ambulantService;
+    public void setAmbulantService(String ambulantService) {
+        this._ambulantService = ambulantService;
     }
     
     @Column(name = "leaServiceKey")
@@ -89,8 +89,8 @@ public class KGLListEndoscopyAmbulant implements Serializable, BaseIdValue {
                 .getLabel();
     }
 
-    public void setServiceKey(int _serviceKey) {
-        this._serviceKey = _serviceKey;
+    public void setServiceKey(int serviceKey) {
+        this._serviceKey = serviceKey;
     }
     
     @Column(name = "leaNumServices")
@@ -101,8 +101,8 @@ public class KGLListEndoscopyAmbulant implements Serializable, BaseIdValue {
         return _numServices;
     }
 
-    public void setNumServices(int _numServices) {
-        this._numServices = _numServices;
+    public void setNumServices(int numServices) {
+        this._numServices = numServices;
     }
     
     @Column(name = "leaCostVolumeMedical")
@@ -113,8 +113,8 @@ public class KGLListEndoscopyAmbulant implements Serializable, BaseIdValue {
         return _costVolumeMedical;
     }
 
-    public void setCostVolumeMedical(double _costVolumeMedical) {
-        this._costVolumeMedical = _costVolumeMedical;
+    public void setCostVolumeMedical(double costVolumeMedical) {
+        this._costVolumeMedical = costVolumeMedical;
     }
     
     @Column(name = "leaCostVolumeFunction")
@@ -125,8 +125,8 @@ public class KGLListEndoscopyAmbulant implements Serializable, BaseIdValue {
         return _costVolumeFunction;
     }
 
-    public void setCostVolumeFunction(double _costVolumeFunction) {
-        this._costVolumeFunction = _costVolumeFunction;
+    public void setCostVolumeFunction(double costVolumeFunction) {
+        this._costVolumeFunction = costVolumeFunction;
     }
     
     @Column(name = "leaCostVolumeMedInfra")
@@ -137,8 +137,8 @@ public class KGLListEndoscopyAmbulant implements Serializable, BaseIdValue {
         return _costVolumeMedInfra;
     }
 
-    public void setCostVolumeMedInfra(double _costVolumeMedInfra) {
-        this._costVolumeMedInfra = _costVolumeMedInfra;
+    public void setCostVolumeMedInfra(double costVolumeMedInfra) {
+        this._costVolumeMedInfra = costVolumeMedInfra;
     }
     
     @Column(name = "leaCostVolumeNonMedInfra")
@@ -149,8 +149,8 @@ public class KGLListEndoscopyAmbulant implements Serializable, BaseIdValue {
         return _costVolumeNonMedInfra;
     }
 
-    public void setCostVolumeNonMedInfra(double _costVolumeNonMedInfra) {
-        this._costVolumeNonMedInfra = _costVolumeNonMedInfra;
+    public void setCostVolumeNonMedInfra(double costVolumeNonMedInfra) {
+        this._costVolumeNonMedInfra = costVolumeNonMedInfra;
     }
     
     @Column(name = "leaMiscText")
@@ -162,7 +162,7 @@ public class KGLListEndoscopyAmbulant implements Serializable, BaseIdValue {
         return _miscText;
     }
 
-    public void setMiscText(String _miscText) {
-        this._miscText = _miscText;
+    public void setMiscText(String miscText) {
+        this._miscText = miscText;
     }
 }

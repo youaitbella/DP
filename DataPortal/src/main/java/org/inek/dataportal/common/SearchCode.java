@@ -31,14 +31,14 @@ import org.inek.dataportal.helper.Utils;
 public class SearchCode implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private @Inject SessionController _sessionController;
+    @Inject private SessionController _sessionController;
     private String _searchText;
     private String _hint = "";
     private int _proposalSection = GlobalVars.ProposalSectionPepp.getVal(); 
 
     public void checkSearchToken(FacesContext context, UIComponent component, Object value) {
         _hint = "";
-        String tokens[] = value.toString().split("(\\s|,)");
+        String[] tokens = value.toString().split("(\\s|,)");
         for (String t : tokens) {
             if (t.replace("sch", "_").replace("ch", "_").replace("ck", "_").replace("st", "_").replace("qu", "_").length() < 3) {
                 FacesMessage msg = new FacesMessage(getBundle().getString("msgSearchMinLen"));

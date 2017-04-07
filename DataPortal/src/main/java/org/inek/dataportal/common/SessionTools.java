@@ -43,10 +43,10 @@ public class SessionTools implements Serializable {
     private List<Integer> _hospitals;
     private int _result;
     private Map<String, String> _pages;
-    @Inject transient private ContactRoleFacade _contactRoleFacade;
-    @Inject transient private CustomerTypeFacade _typeFacade;
-    @Inject transient private DropBoxTypeFacade _dropBoxTypeFacade;
-    @Inject transient TrashMailFacade _trashMailfacade;
+    @Inject private transient ContactRoleFacade _contactRoleFacade;
+    @Inject private transient CustomerTypeFacade _typeFacade;
+    @Inject private transient DropBoxTypeFacade _dropBoxTypeFacade;
+    @Inject private transient TrashMailFacade _trashMailfacade;
 
     public int getCurrentYear() {
         return Calendar.getInstance().get(Calendar.YEAR);

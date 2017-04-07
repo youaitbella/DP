@@ -37,7 +37,7 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
     private final ExceptionHandler _wrapped;
     @Inject private Mailer _mailer;
     @Inject private SessionController _sessionController;
-    @Inject ApplicationTools _appTools;
+    @Inject private ApplicationTools _appTools;
 
     PortalExceptionHandler(ExceptionHandler wrapped) {
         _wrapped = wrapped;
