@@ -80,8 +80,8 @@ public final class CalcBasicsPsyValidator {
     
     //<editor-fold defaultstate="collapsed" desc="checkNormalWard">
     private static void checkStationaryScope(PeppCalcBasics calcBasics, MessageContainer message) {
-        //lblCalcStation
-        final String pageName = "lblCalcStation";
+        //TopicCalcStation
+        final String pageName = "TopicCalcStation";
         final String elementId = "";
         final int unbelievableAmountOfBeds = 1000;
         List<KGPListStationServiceCost> stationServiceCosts = calcBasics.getStationServiceCosts();
@@ -209,7 +209,7 @@ public final class CalcBasicsPsyValidator {
     private static void checkFieldsBothEmptyOrSet(MessageContainer message, 
             int personalCosts, double personalCnt, 
             String area, String station, String elementId, String topicKey) {
-        if (!(0 == personalCnt && 0 == personalCosts)) {
+        if ((0 == personalCnt) ^ (0 == personalCosts)) {
             if (0 != personalCnt) {
                 applyMessageValues(message, 
                         "Personal im " + area + " auf Station " + station + " sind ohne Kosten", topicKey, elementId);
@@ -223,12 +223,12 @@ public final class CalcBasicsPsyValidator {
     private static void checkFieldsCheckAndAmountSetOrEmpty(MessageContainer message,
             boolean methodChecked, int amount,
             String costTypeText, String elementId, String pageName) {
-        if (!(methodChecked && 0 == amount)) {
+        if (methodChecked ^ (0 != amount)) {
             if (methodChecked) {
-                applyMessageValues(message, "Bitte Verfahren für " + costTypeText + " auswählen.", pageName, elementId);
-            } else {
                 applyMessageValues(message, "Bitte Kostenvolumen für " + costTypeText + " angeben.",
                         pageName, elementId);
+            } else {
+                applyMessageValues(message, "Bitte Verfahren für " + costTypeText + " auswählen.", pageName, elementId);
             }
         }
     }

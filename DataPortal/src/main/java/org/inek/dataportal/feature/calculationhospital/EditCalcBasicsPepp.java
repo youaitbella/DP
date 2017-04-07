@@ -320,7 +320,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         addTopic("TopicCalcDiagnosticScope", Pages.CalcPeppDiagnosticScope.URL());
         addTopic("TopicCalcTherapeuticScope", Pages.CalcPeppTherapeuticScope.URL());
         addTopic("TopicCalcPatientAdmission", Pages.CalcPeppPatientAdmission.URL());
-        addTopic("lblCalcStation", Pages.CalcPeppStation.URL());
+        addTopic("TopicCalcStation", Pages.CalcPeppStation.URL());
         addTopic("TopicCalcMedicalInfrastructure", Pages.CalcPeppMedicalInfrastructure.URL());
         addTopic("TopicCalcNonMedicalInfrastructure", Pages.CalcPeppNonMedicalInfrastructure.URL());
         addTopic("TopicCalcStaffCost", Pages.CalcPeppStaffCost.URL());
@@ -438,7 +438,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
      */
     public String seal() {
         if (!calcBasicsIsComplete()) {
-            return getActiveTopic().getOutcome();
+            return "";
         }
         CalcBasicsPsyValueCleaner.clearUnusedFields(_calcBasics);
 
