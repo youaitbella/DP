@@ -353,9 +353,9 @@ public class AccountFacade extends AbstractFacade<Account> {
     }
 
     public List<Account> getAccounts4Ik(Integer ik, Set<String> emails) {
-        String emailCond = " a._email in (" + emails.stream().map(e -> "'" + e + "'").collect(Collectors.joining(", ")) + ") ";
+        String orEmailCond = emails.isEmpty() ? "" : " or a._email in (" + emails.stream().map(e -> "'" + e + "'").collect(Collectors.joining(", ")) + ") ";
         String jpql = "SELECT DISTINCT a FROM Account a left join AccountAdditionalIK i "
-                + "WHERE  a._ik = :ik  or a._id = i._accountId and i._ik = :ik or " + emailCond
+                + "WHERE  a._ik = :ik  or a._id = i._accountId and i._ik = :ik" + orEmailCond
                 + "order by a._lastName";
         TypedQuery<Account> query = getEntityManager().createQuery(jpql, Account.class);
         query.setParameter("ik", ik);
