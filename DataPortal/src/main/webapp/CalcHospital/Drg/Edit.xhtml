@@ -16,6 +16,8 @@
             <h1><h:commandLink value="#{msg.lblCalcBasicDrg} #{msg.lblYearData} #{editCalcBasicsDrg.calcBasics.dataYear}" 
                                action="#{sessionController.navigate(sessionTools.pages.CalculationHospitalSummary)}" immediate="true"/></h1>
 
+            <h:outputLabel value="#{editCalcBasicsDrg.calcBasics.ik} #{applicationTools.retrieveHospitalInfo(editCalcBasicsDrg.calcBasics.ik)}" styleClass="marginLeft10"/>
+
             <div class="tab">
                 <ul class="tab">
                     <li class="activetab">
@@ -112,21 +114,21 @@
 
             </h:panelGroup>
         </h:form>
-        
+
         <script type="text/javascript">
-            $(function() {
-                $('body').on('click', 'input[type=text]', function() {
+            $(function () {
+                $('body').on('click', 'input[type=text]', function () {
                     var val = $(this).val();
                     val = val.replace(',', '');
-                    while(val.indexOf('.') >= 0) {
+                    while (val.indexOf('.') >= 0) {
                         val = val.replace('.', '');
                     }
-                    if($.isNumeric(val))
+                    if ($.isNumeric(val))
                         $(this).select();
                 });
             });
         </script>
-        
+
     </ui:define>
 
 </ui:composition>

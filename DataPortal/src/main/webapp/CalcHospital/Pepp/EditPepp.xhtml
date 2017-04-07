@@ -16,6 +16,8 @@
             <h1><h:commandLink value="#{msg.lblCalcBasicPepp} #{msg.lblYearData} #{editCalcBasicsPepp.calcBasics.dataYear}" 
                                action="#{sessionController.navigate(sessionTools.pages.CalculationHospitalSummary)}" immediate="true"/></h1>
 
+                               <h:outputLabel value="#{editCalcBasicsPepp.calcBasics.ik} #{applicationTools.retrieveHospitalInfo(editCalcBasicsPepp.calcBasics.ik)}" styleClass="marginLeft10"/>
+
             <div class="tab">
                 <ul class="tab">
                     <li class="activetab">

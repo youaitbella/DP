@@ -509,7 +509,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     // used by page only
-
     public void addCostCenterCosts() {
         KGLListCostCenterCost ccc = new KGLListCostCenterCost();
         ccc.setBaseInformationId(_calcBasics.getId());
@@ -1042,7 +1041,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             _calcBasics = _calcFacade.saveCalcBasicsDrg(_calcBasics);
             return;
         }
-        
+
         _calcBasics.setStatus(WorkflowStatus.Retired);
         _calcFacade.saveCalcBasicsDrg(_calcBasics);
 
@@ -1196,10 +1195,10 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         return tmp;
     }
 
-    public void changeLocationCount(AjaxBehaviorEvent event){
+    public void changeLocationCount(AjaxBehaviorEvent event) {
         removeEmptyLocations();
         int diff = _calcBasics.getLocationCnt() - _calcBasics.getLocations().size();
-        while(diff > 0){
+        while (diff > 0) {
             addLocation();
             diff--;
         }
@@ -1224,7 +1223,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             }
         }
     }
-    
+
     public void addSpecialUnit() {
         KGLListSpecialUnit su = new KGLListSpecialUnit();
         su.setBaseInformationId(_calcBasics.getId());
@@ -1232,7 +1231,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     // </editor-fold>
-
     //<editor-fold defaultstate="collapsed" desc="Tab ServiceProvision">
     public int priorProvisionAmount(KGLListServiceProvision current) {
         Optional<KGLListServiceProvision> prior = _priorCalcBasics.getServiceProvisions().stream().filter(p -> p.getServiceProvisionTypeId() == current.getServiceProvisionTypeId()).findAny();
@@ -1297,19 +1295,23 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     public void downloadNormalStation() {
+        NumberFormat formatter = NumberFormat.getInstance(Locale.getDefault());
+        formatter.setMaximumFractionDigits(2);
+        formatter.setMinimumFractionDigits(2);
+
         String content = normalHeadLine + "\n";
         for (KGLListCostCenterCost costCenterCost : _calcBasics.getCostCenterCosts()) {
             String line = costCenterCost.getCostCenterNumber() + ";"
                     + costCenterCost.getCostCenterText() + ";"
-                    + costCenterCost.getDepartmentKey()+ ";"
+                    + costCenterCost.getDepartmentKey() + ";"
                     + costCenterCost.getDepartmentAssignment() + ";"
                     + costCenterCost.getBedCnt() + ";"
-                    + costCenterCost.getCareDays()+ ";"
+                    + costCenterCost.getCareDays() + ";"
                     + costCenterCost.getPprMinutes() + ";"
                     + costCenterCost.getPprWeight() + ";"
-                    + costCenterCost.getMedicalServiceCnt() + ";"
-                    + costCenterCost.getNursingServiceCnt() + ";"
-                    + costCenterCost.getFunctionalServiceCnt() + ";"
+                    + formatter.format(costCenterCost.getMedicalServiceCnt()) + ";"
+                    + formatter.format(costCenterCost.getNursingServiceCnt()) + ";"
+                    + formatter.format(costCenterCost.getFunctionalServiceCnt()) + ";"
                     + costCenterCost.getMedicalServiceAmount() + ";"
                     + costCenterCost.getNursingServiceAmount() + ";"
                     + costCenterCost.getFunctionalServiceAmount() + ";"
