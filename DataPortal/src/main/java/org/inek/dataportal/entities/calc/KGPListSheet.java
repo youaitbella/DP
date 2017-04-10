@@ -29,7 +29,7 @@ public class KGPListSheet implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property _id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "sID")
+    @Column(name = "sID", updatable = false, nullable = false)
     private int _id;
 
     public int getId() {

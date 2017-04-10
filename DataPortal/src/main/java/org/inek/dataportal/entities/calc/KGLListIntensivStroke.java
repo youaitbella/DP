@@ -32,7 +32,7 @@ public class KGLListIntensivStroke implements Serializable, BaseIdValue {
     // <editor-fold defaultstate="collapsed" desc="id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "isID")
+    @Column(name = "isID", updatable = false, nullable = false)
     private int _id = -1;
 
     @Override

@@ -31,7 +31,7 @@ public class KGLListEndoscopyAmbulant implements Serializable, BaseIdValue {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "leaId")
+    @Column(name = "leaId", updatable = false, nullable = false)
     private int _id = -1;
 
     @Override

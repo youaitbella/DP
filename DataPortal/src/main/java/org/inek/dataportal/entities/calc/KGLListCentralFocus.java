@@ -32,7 +32,7 @@ public class KGLListCentralFocus implements Serializable, BaseIdValue {
     //<editor-fold defaultstate="collapsed" desc="id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "cfID")
+    @Column(name = "cfID", updatable = false, nullable = false)
     private int _id = -1;
 
     @Override

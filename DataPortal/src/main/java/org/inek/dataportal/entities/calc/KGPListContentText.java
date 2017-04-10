@@ -30,7 +30,7 @@ public class KGPListContentText implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property _id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ctID")
+    @Column(name = "ctID", updatable = false, nullable = false)
     private int _id = -1;
 
     public int getId() {

@@ -28,7 +28,7 @@ public class KGPListPsyPVTypes implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property _id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "pptID")
+    @Column(name = "pptID", updatable = false, nullable = false)
     private int _id = -1;
 
     public int getId() {

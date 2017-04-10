@@ -31,7 +31,7 @@ public class KGLListKstTop implements Serializable, BaseIdValue {
     //<editor-fold defaultstate="collapsed" desc="Property id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ktID")
+    @Column(name = "ktID", updatable = false, nullable = false)
     private int _id = -1;
     
     @Override

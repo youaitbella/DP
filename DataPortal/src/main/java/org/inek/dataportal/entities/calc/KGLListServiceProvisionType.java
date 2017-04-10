@@ -31,7 +31,7 @@ public class KGLListServiceProvisionType implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="ID">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "sptID")
+    @Column(name = "sptID", updatable = false, nullable = false)
     private int _id = -1;
 
     public int getId() {

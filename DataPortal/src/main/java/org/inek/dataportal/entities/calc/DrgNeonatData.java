@@ -34,7 +34,7 @@ public class DrgNeonatData implements Serializable, BaseIdValue {
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ndId")
+    @Column(name = "ndId", updatable = false, nullable = false)
     private int _id = -1;
 
     @Override

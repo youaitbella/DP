@@ -32,7 +32,7 @@ public class KGPDocuments implements Serializable, BaseIdValue {
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "doID")
+    @Column(name = "doID", updatable = false, nullable = false)
     private int _id = -1;
 
     @Override

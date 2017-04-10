@@ -27,7 +27,7 @@ public class DrgContentText implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ctId")
+    @Column(name = "ctId", updatable = false, nullable = false)
     private int _id = -1;
 
     public int getId() {

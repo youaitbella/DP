@@ -32,7 +32,7 @@ public class KGLListObstetricsGynecology implements Serializable, BaseIdValue {
     // <editor-fold defaultstate="collapsed" desc="id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ogID")
+    @Column(name = "ogID", updatable = false, nullable = false)
     private int _id = -1;
 
     @Override

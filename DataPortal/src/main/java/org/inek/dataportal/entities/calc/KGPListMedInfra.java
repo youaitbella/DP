@@ -28,7 +28,7 @@ public class KGPListMedInfra implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _id">
     @Id
-    @Column(name = "miID")
+    @Column(name = "miID", updatable = false, nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int _id = -1;
 

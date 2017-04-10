@@ -7,6 +7,7 @@ package org.inek.dataportal.entities.calc;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -45,7 +46,7 @@ public class PeppCalcBasics implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "biId")
+    @Column(name = "biId", updatable = false, nullable = false)
     private int _id = -1;
 
     public int getId() {
@@ -555,7 +556,7 @@ public class PeppCalcBasics implements Serializable {
     @JoinColumn(name = "paBaseInformationId", referencedColumnName = "biID")
     @Documentation(name = "ListPersonalAccounting", rank = 20008) 
     @OrderBy(value = "_costTypeId")
-    private List<KGPPersonalAccounting> _personalAccountings = new Vector<>();
+    private List<KGPPersonalAccounting> _personalAccountings = new ArrayList<>();
 
     public List<KGPPersonalAccounting> getPersonalAccountings() {
         return _personalAccountings;

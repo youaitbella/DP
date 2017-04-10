@@ -904,17 +904,7 @@ public class CalcFacade extends AbstractDataAccess {
         saveIdList(calcBasics.getKgpMedInfraList());
         saveIdList(calcBasics.getRadiologyLaboratories());
 
-        Map<Integer, Integer> priorPersonalAccountingsAmount = new HashMap<>();
-        for (KGPPersonalAccounting ppa :  retrievePriorCalcBasics(calcBasics).getPersonalAccountings()) {
-            priorPersonalAccountingsAmount.put(ppa.getCostTypeId(), ppa.getAmount());
-        }
-        
         PeppCalcBasics merged = merge(calcBasics);
-        for (KGPPersonalAccounting pa : merged.getPersonalAccountings()) {
-            if (priorPersonalAccountingsAmount.containsKey(pa.getCostTypeId())) {
-                pa.setPriorCostAmount(priorPersonalAccountingsAmount.get(pa.getCostTypeId()));
-            }
-        }
         return merged;
     }
     

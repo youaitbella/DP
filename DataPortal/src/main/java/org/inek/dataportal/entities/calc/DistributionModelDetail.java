@@ -29,7 +29,7 @@ public class DistributionModelDetail implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "dmdId")
+    @Column(name = "dmdId", updatable = false, nullable = false)
     private int _id = -1;
 
     public int getId() {

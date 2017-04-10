@@ -23,7 +23,7 @@ public class KGLListContentTextOps implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ctoID")
+    @Column(name = "ctoID", updatable = false, nullable = false)
     private int _id = -1;
     
     public int getId() {

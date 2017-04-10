@@ -30,7 +30,7 @@ public class KGLListEndoscopyDifferential implements Serializable, BaseIdValue {
     // <editor-fold defaultstate="collapsed" desc="id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "edID")
+    @Column(name = "edID", updatable = false, nullable = false)
     private int _id = -1;
 
     @Override

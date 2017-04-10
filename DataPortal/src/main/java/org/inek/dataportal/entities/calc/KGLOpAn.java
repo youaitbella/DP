@@ -28,7 +28,7 @@ public class KGLOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="baseInformationId">
     @Id
-    @Column(name = "oaBaseInformationId")
+    @Column(name = "oaBaseInformationId", nullable = false)
     private int _baseInformationId;
 
     public int getBaseInformationId() {

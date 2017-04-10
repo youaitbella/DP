@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import org.inek.dataportal.utils.Documentation;
 
 @Entity
 @Table(name = "listCostType", schema = "dbo")
@@ -28,6 +29,7 @@ public class CostType implements Serializable {
     
     // <editor-fold defaultstate="collapsed" desc="charId">
     @Column (name = "ctCharId")
+    @Documentation(name = "KAGr")
     private String _charId;
     
     public String getCharId() {
@@ -41,6 +43,7 @@ public class CostType implements Serializable {
     
     // <editor-fold defaultstate="collapsed" desc="text">
     @Column (name = "ctText")
+    @Documentation(name = "Bezeichung KAGr")
     private String _text;
     
     public String getText() {

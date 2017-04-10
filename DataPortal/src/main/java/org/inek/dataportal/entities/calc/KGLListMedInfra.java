@@ -30,7 +30,7 @@ public class KGLListMedInfra implements Serializable, BaseIdValue {
     //<editor-fold defaultstate="collapsed" desc="Property _id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "miID")
+    @Column(name = "miID", updatable = false, nullable = false)
     private int _id = -1;
 
     @Override

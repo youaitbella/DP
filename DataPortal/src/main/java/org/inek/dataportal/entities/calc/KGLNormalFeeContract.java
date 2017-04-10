@@ -30,7 +30,7 @@ public class KGLNormalFeeContract implements Serializable, BaseIdValue {
     //<editor-fold defaultstate="collapsed" desc="Property _id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "nfcID")
+    @Column(name = "nfcID", updatable = false, nullable = false)
     private int _id = -1;
 
     @Override

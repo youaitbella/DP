@@ -32,7 +32,7 @@ public class KGLListRadiologyLaboratory implements Serializable, BaseIdValue {
     // <editor-fold defaultstate="collapsed" desc="id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "rlID")
+    @Column(name = "rlID", updatable = false, nullable = false)
     private int _id = -1;
 
     @Override

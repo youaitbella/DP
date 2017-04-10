@@ -31,7 +31,7 @@ public class KGPListDelimitationFact implements Serializable, BaseIdValue {
     //<editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "dfID")
+    @Column(name = "dfID", updatable = false, nullable = false)
     private int _id = -1;
 
     @Override

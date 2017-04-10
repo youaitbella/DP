@@ -32,7 +32,7 @@ public class KGLListCostCenter implements Serializable, ListCostCenter, BaseIdVa
     // <editor-fold defaultstate="collapsed" desc="id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ccID")
+    @Column(name = "ccID", updatable = false, nullable = false)
     private int _id = -1;
 
     @Override

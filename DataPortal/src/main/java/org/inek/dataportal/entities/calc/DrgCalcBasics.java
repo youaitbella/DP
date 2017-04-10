@@ -50,7 +50,7 @@ public class DrgCalcBasics implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "biID")
+    @Column(name = "biID", updatable = false, nullable = false)
     private int _id = -1;
 
     public int getId() {
@@ -619,8 +619,8 @@ public class DrgCalcBasics implements Serializable {
         return _pkmsComplex;
     }
 
-    public void setPkmsComplex(boolean _pkmsComplex) {
-        this._pkmsComplex = _pkmsComplex;
+    public void setPkmsComplex(boolean pkmsComplex) {
+        this._pkmsComplex = pkmsComplex;
     }
     //</editor-fold>
 
@@ -706,8 +706,8 @@ public class DrgCalcBasics implements Serializable {
         return _hasDescMedicalInfra;
     }
 
-    public void setDescMedicalInfra(boolean _hasDesc) {
-        this._hasDescMedicalInfra = _hasDesc;
+    public void setDescMedicalInfra(boolean hasDesc) {
+        this._hasDescMedicalInfra = hasDesc;
     }
     //</editor-fold>
 
@@ -756,8 +756,8 @@ public class DrgCalcBasics implements Serializable {
         return _delimitationFacts.stream().filter(i -> i.isUsed() == true).collect(Collectors.toList());
     }
 
-    public void setDelimitationFacts(List<DrgDelimitationFact> _delimitationFacts) {
-        this._delimitationFacts = _delimitationFacts;
+    public void setDelimitationFacts(List<DrgDelimitationFact> delimitationFacts) {
+        this._delimitationFacts = delimitationFacts;
     }
     // </editor-fold>
 
@@ -977,8 +977,8 @@ public class DrgCalcBasics implements Serializable {
         return _endoscopyAmbulant;
     }
 
-    public void setEndoscopyAmbulant(List<KGLListEndoscopyAmbulant> _endoscopyAmbulant) {
-        this._endoscopyAmbulant = _endoscopyAmbulant;
+    public void setEndoscopyAmbulant(List<KGLListEndoscopyAmbulant> endoscopyAmbulant) {
+        this._endoscopyAmbulant = endoscopyAmbulant;
     }
     
     //<editor-fold defaultstate="collapsed" desc="Property List normalFeeContracts">
@@ -1138,8 +1138,8 @@ public class DrgCalcBasics implements Serializable {
         return _normalStationServiceDocumentationMinutes;
     }
 
-    public void setNormalStationServiceDocumentationMinutes(List<KGLNormalStationServiceDocumentationMinutes> _normalStationServiceDocumentationMinutes) {
-        this._normalStationServiceDocumentationMinutes = _normalStationServiceDocumentationMinutes;
+    public void setNormalStationServiceDocumentationMinutes(List<KGLNormalStationServiceDocumentationMinutes> normalStationServiceDocumentationMinutes) {
+        this._normalStationServiceDocumentationMinutes = normalStationServiceDocumentationMinutes;
     }    
     
     //<editor-fold defaultstate="collapsed" desc="Property List _costCenterCosts">

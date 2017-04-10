@@ -35,7 +35,7 @@ public class KGLPersonalAccounting implements Serializable, BaseIdValue {
     //<editor-fold defaultstate="collapsed" desc="Property _id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "paID")
+    @Column(name = "paID", updatable = false, nullable = false)
     private int _id = -1;
 
     @Override

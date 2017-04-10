@@ -1019,7 +1019,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     public boolean isCopyForResendAllowed() {
-        if (_calcBasics.getStatusId() < 10 || !_appTools.isEnabled(ConfigKey.IsCalculationBasicsDrgSendEnabled)) {
+        if (_calcBasics.getStatusId() < 10 || _calcBasics.getStatusId() > 20 || !_appTools.isEnabled(ConfigKey.IsCalculationBasicsDrgSendEnabled)) {
             return false;
         }
         if (_sessionController.isInekUser(Feature.CALCULATION_HOSPITAL) && !_appTools.isEnabled(ConfigKey.TestMode)) {
@@ -1048,6 +1048,9 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         _calcFacade.detach(_calcBasics.getOpAn());
         _calcBasics.getOpAn().setBaseInformationId(-1);
 
+        // this loop seems to be really complicated,
+        // but we need to copy the lists on a defined order (by id)
+        // otherwise most list within the copy become shuffled
         for (Field field : _calcBasics.getClass().getDeclaredFields()) {
             try {
                 if (Modifier.isTransient(field.getModifiers())) {
@@ -1073,9 +1076,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                         _calcFacade.detach(object);
                         BaseIdValue baseIdValue = (BaseIdValue) object;
                         data.add(baseIdValue);
-                        baseIdValue.setId(-1);
-                        baseIdValue.setBaseInformationId(-1);
-                        data.add(baseIdValue);
                 }
                 List<BaseIdValue> dataCopy = new ArrayList();
                 data.stream().sorted((b1, b2) -> Integer.compare(b1. getId(), b2.getId())).forEach(
@@ -1088,7 +1088,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             } catch (IllegalArgumentException | IllegalAccessException ex) {
                 LOGGER.log(Level.SEVERE, "error during setDataToNew: {0}", field.getName());
             }
-
         }
 
         _calcBasics.setAccountId(_sessionController.getAccountId());

@@ -32,7 +32,7 @@ public class KGLListSpecialUnit implements Serializable, BaseIdValue {
     //<editor-fold defaultstate="collapsed" desc="id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "suID")
+    @Column(name = "suID", updatable = false, nullable = false)
     private int _id = -1;
 
     @Override

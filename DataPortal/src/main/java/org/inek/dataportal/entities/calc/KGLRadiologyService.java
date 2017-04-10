@@ -32,7 +32,7 @@ public class KGLRadiologyService implements Serializable, BaseIdValue {
     //<editor-fold defaultstate="collapsed" desc="Property _id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "rsID")
+    @Column(name = "rsID", updatable = false, nullable = false)
     private int _id = -1;
 
     @Override

@@ -41,7 +41,7 @@ public class StatementOfParticipance implements Serializable{
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "sopId")
+    @Column(name = "sopId", updatable = false, nullable = false)
     private int _id = -1;
 
     public int getId() {

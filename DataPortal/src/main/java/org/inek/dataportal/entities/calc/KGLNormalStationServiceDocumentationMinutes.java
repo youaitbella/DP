@@ -27,7 +27,7 @@ public class KGLNormalStationServiceDocumentationMinutes implements Serializable
     //<editor-fold defaultstate="collapsed" desc="Property _id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "nssdmId")
+    @Column(name = "nssdmId", updatable = false, nullable = false)
     private int _id = -1;
 
     @Override

@@ -32,7 +32,7 @@ public class DRGSheetName implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property ID">
     @Id
-    @Column(name = "sID")
+    @Column(name = "sID", updatable = false, nullable = false)
     private int _id = -1;
 
     public int getID() {

@@ -30,7 +30,7 @@ public class DrgDelimitationFact implements Serializable, BaseIdValue {
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "dfId")
+    @Column(name = "dfId", updatable = false, nullable = false)
     private int _id;
 
     @Override

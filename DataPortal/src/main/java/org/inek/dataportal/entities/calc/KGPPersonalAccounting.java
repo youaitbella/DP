@@ -33,7 +33,7 @@ public class KGPPersonalAccounting implements Serializable, BaseIdValue {
     //<editor-fold defaultstate="collapsed" desc="Property _id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "paID")
+    @Column(name = "paID", updatable = false, nullable = false)
     private int _id = -1;
 
     @Override
@@ -48,16 +48,9 @@ public class KGPPersonalAccounting implements Serializable, BaseIdValue {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property _costTypeId">
-    @Column(name = "paCostTypeID")
     @Documentation(name = "Kostenartengruppe", rank = 10)
-    private int _costTypeId;
-
     public int getCostTypeId() {
-        return _costTypeId;
-    }
-
-    public void setCostTypeId(int costTypeId) {
-        this._costTypeId = costTypeId;
+        return _costType.getId();
     }
     //</editor-fold>
 
@@ -214,22 +207,9 @@ public class KGPPersonalAccounting implements Serializable, BaseIdValue {
         this._id = paID;
     }
 
-    public KGPPersonalAccounting(int costTypeId, int prior) {
-        this._costTypeId = costTypeId;
+    public KGPPersonalAccounting(CostType costType, int prior) {
+        this._costType = costType;
         this.priorCostAmount = prior;
-    }
-
-    public KGPPersonalAccounting(int paID, int paCostTypeID, boolean paStaffRecording, boolean paStaffEvaluation, boolean paServiceEvaluation, boolean paServiceStatistic, boolean paExpertRating, boolean paOther, int paAmount, int paBaseInfoID) {
-        this._id = paID;
-        this._costTypeId = paCostTypeID;
-        this._staffRecording = paStaffRecording;
-        this._staffEvaluation = paStaffEvaluation;
-        this._serviceEvaluation = paServiceEvaluation;
-        this._serviceStatistic = paServiceStatistic;
-        this._expertRating = paExpertRating;
-        this._other = paOther;
-        this._amount = paAmount;
-        this._baseInformationId = paBaseInfoID;
     }
 
     //<editor-fold defaultstate="collapsed" desc="hash && equals && toString">
@@ -240,7 +220,7 @@ public class KGPPersonalAccounting implements Serializable, BaseIdValue {
         if (this._id != -1) {
             return hash;
         }
-        hash = 97 * hash + this._costTypeId;
+        hash = 97 * hash + this._costType.getId();
         hash = 97 * hash + (this._staffRecording ? 1 : 0);
         hash = 97 * hash + (this._staffEvaluation ? 1 : 0);
         hash = 97 * hash + (this._serviceEvaluation ? 1 : 0);
@@ -267,7 +247,7 @@ public class KGPPersonalAccounting implements Serializable, BaseIdValue {
         if (this._id != other._id) {
             return false;
         }
-        if (this._costTypeId != other._costTypeId) {
+        if (this._costType.getId() != other._costType.getId()) {
             return false;
         }
         if (this._staffRecording != other._staffRecording) {

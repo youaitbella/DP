@@ -31,7 +31,7 @@ public class KGLDocument implements Serializable, Document, BaseIdValue{
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "doId")
+    @Column(name = "doId", updatable = false, nullable = false)
     private int _id = -1;
 
     @Override

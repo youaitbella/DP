@@ -2,8 +2,11 @@ package org.inek.dataportal.feature.calculationhospital;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -22,6 +25,7 @@ import javax.faces.model.SelectItem;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.Id;
 import javax.servlet.http.Part;
 import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.CooperationTools;
@@ -43,6 +47,7 @@ import org.inek.dataportal.entities.calc.KGPListStationServiceCost;
 import org.inek.dataportal.entities.calc.KGPListTherapy;
 import org.inek.dataportal.entities.calc.KGPPersonalAccounting;
 import org.inek.dataportal.entities.calc.PeppCalcBasics;
+import org.inek.dataportal.entities.calc.iface.BaseIdValue;
 import org.inek.dataportal.enums.CalcHospitalFunction;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
@@ -55,6 +60,7 @@ import org.inek.dataportal.helper.TransferFileCreator;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.structures.MessageContainer;
 import org.inek.dataportal.utils.DocumentationUtil;
+import org.inek.dataportal.utils.ValueLists;
 
 /**
  *
@@ -65,8 +71,9 @@ import org.inek.dataportal.utils.DocumentationUtil;
 //@SuppressWarnings("PMD.LawOfDemeter")
 @SuppressWarnings("PMD")
 public class EditCalcBasicsPepp extends AbstractEditController implements Serializable {
+
     // <editor-fold defaultstate="collapsed" desc="fields & enums">
-    private static final Logger _LOGGER = Logger.getLogger("EditCalcBasicsPepp");
+    private static final Logger LOGGER = Logger.getLogger("EditCalcBasicsPepp");
     private static final int ONE_HOUR = 3600;
 
     @Inject private CooperationTools _cooperationTools;
@@ -109,7 +116,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
 
     @PostConstruct
     private void init() {
-        _LOGGER.info("start init EditCalcBasicPepp");
+        LOGGER.info("start init EditCalcBasicPepp");
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         String id = params.get("id");
         if ("new".equals(id)) {
@@ -118,7 +125,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
             PeppCalcBasics calcBasics = loadCalcBasicsPepp(id);
             if (calcBasics.getId() == -1) {
                 Utils.navigate(Pages.NotAllowed.RedirectURL());
-                _LOGGER.info("end init EditCalcBasicPepp");
+                LOGGER.info("end init EditCalcBasicPepp");
                 return;
             }
             _calcBasics = calcBasics;
@@ -128,8 +135,8 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
             Utils.navigate(Pages.Error.RedirectURL());
         }
         // session timeout extended to 1 hour (to provide enough time for an upload)
-        FacesContext.getCurrentInstance().getExternalContext().setSessionMaxInactiveInterval(ONE_HOUR); 
-        _LOGGER.info("end init EditCalcBasicPepp");
+        FacesContext.getCurrentInstance().getExternalContext().setSessionMaxInactiveInterval(ONE_HOUR);
+        LOGGER.info("end init EditCalcBasicPepp");
     }
 
     public void retrievePriorData(PeppCalcBasics calcBasics) {
@@ -156,17 +163,22 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         // Personal Accounting
         calcBasics.setPersonalAccountingDescription(_priorCalcBasics.getPersonalAccountingDescription());
         ensurePersonalAccountingData(calcBasics);
+
+        Map<Integer, KGPPersonalAccounting> priorPersonalAccountingsAmount = new HashMap<>();
         for (KGPPersonalAccounting ppa : _priorCalcBasics.getPersonalAccountings()) {
-            for (KGPPersonalAccounting pa : calcBasics.getPersonalAccountings()) {
-                if (ppa.getCostTypeId() == pa.getCostTypeId()) {
-                    pa.setPriorCostAmount(ppa.getAmount());
-                    pa.setExpertRating(ppa.isExpertRating());
-                    pa.setOther(ppa.isOther());
-                    pa.setServiceEvaluation(ppa.isServiceEvaluation());
-                    pa.setServiceStatistic(ppa.isServiceStatistic());
-                    pa.setStaffEvaluation(ppa.isStaffEvaluation());
-                    pa.setStaffRecording(ppa.isStaffRecording());
-                }
+            priorPersonalAccountingsAmount.put(ppa.getCostTypeId(), ppa);
+        }
+
+        for (KGPPersonalAccounting pa : calcBasics.getPersonalAccountings()) {
+            if (priorPersonalAccountingsAmount.containsKey(pa.getCostTypeId())) {
+                KGPPersonalAccounting ppa = priorPersonalAccountingsAmount.get(pa.getCostTypeId());
+                pa.setPriorCostAmount(ppa.getAmount());
+                pa.setExpertRating(ppa.isExpertRating());
+                pa.setOther(ppa.isOther());
+                pa.setServiceEvaluation(ppa.isServiceEvaluation());
+                pa.setServiceStatistic(ppa.isServiceStatistic());
+                pa.setStaffEvaluation(ppa.isStaffEvaluation());
+                pa.setStaffRecording(ppa.isStaffRecording());
             }
         }
 
@@ -188,16 +200,16 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         if (_sessionController.isMyAccount(calcBasics.getAccountId(), false)) {
             return true;
         }
-        if (_sessionController.isInekUser(Feature.CALCULATION_HOSPITAL)){
+        if (_sessionController.isInekUser(Feature.CALCULATION_HOSPITAL)) {
             return true;
         }
-        return _cooperationTools.isAllowed(Feature.CALCULATION_HOSPITAL, 
-                calcBasics.getStatus(), 
+        return _cooperationTools.isAllowed(Feature.CALCULATION_HOSPITAL,
+                calcBasics.getStatus(),
                 calcBasics.getAccountId());
     }
 
     private PeppCalcBasics newCalcBasicsPepp() {
-        _LOGGER.info("start newCalcBasicsPepp");
+        LOGGER.info("start newCalcBasicsPepp");
         Account account = _sessionController.getAccount();
         PeppCalcBasics calcBasics = new PeppCalcBasics();
         calcBasics.setAccountId(account.getId());
@@ -211,18 +223,20 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
 
         retrievePriorData(calcBasics);
         preloadData(calcBasics);
-        _LOGGER.info("end newCalcBasicsPepp");
+        LOGGER.info("end newCalcBasicsPepp");
         return calcBasics;
     }
 
+    @Inject private ValueLists _valueLists;
+
     private void ensurePersonalAccountingData(PeppCalcBasics calcBasics) {
         calcBasics.getPersonalAccountings().clear();
-        calcBasics.getPersonalAccountings().add(new KGPPersonalAccounting(110, 0));
-        calcBasics.getPersonalAccountings().add(new KGPPersonalAccounting(120, 0));
-        calcBasics.getPersonalAccountings().add(new KGPPersonalAccounting(130, 0));
-        calcBasics.getPersonalAccountings().add(new KGPPersonalAccounting(131, 0));
-        calcBasics.getPersonalAccountings().add(new KGPPersonalAccounting(132, 0));
-        calcBasics.getPersonalAccountings().add(new KGPPersonalAccounting(133, 0));
+        calcBasics.getPersonalAccountings().add(new KGPPersonalAccounting(_valueLists.getCostType(110), 0));
+        calcBasics.getPersonalAccountings().add(new KGPPersonalAccounting(_valueLists.getCostType(120), 0));
+        calcBasics.getPersonalAccountings().add(new KGPPersonalAccounting(_valueLists.getCostType(130), 0));
+        calcBasics.getPersonalAccountings().add(new KGPPersonalAccounting(_valueLists.getCostType(131), 0));
+        calcBasics.getPersonalAccountings().add(new KGPPersonalAccounting(_valueLists.getCostType(132), 0));
+        calcBasics.getPersonalAccountings().add(new KGPPersonalAccounting(_valueLists.getCostType(133), 0));
     }
 
     private void ensureNeonateData(DrgCalcBasics calcBasics) {
@@ -245,7 +259,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
 
     private void preloadServiceProvision(PeppCalcBasics calcBasics) {
         calcBasics.getServiceProvisions().clear();
-        List<KGPListServiceProvisionType> provisionTypes 
+        List<KGPListServiceProvisionType> provisionTypes
                 = _calcFacade.retrieveServiceProvisionTypesPepp(calcBasics.getDataYear(), true);
 
         int seq = 0;
@@ -287,9 +301,9 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         if (!calcBasics.getDelimitationFacts().isEmpty()) {
             return;
         }
-        if (calcBasics.getId() > 0){
+        if (calcBasics.getId() > 0) {
             // This should not be. But sometimes we lost the delimitationFacts...
-            _LOGGER.log(Level.WARNING, 
+            LOGGER.log(Level.WARNING,
                     "Populate PSY DelimitationFacts for existing data: Id = {0}", calcBasics.getId());
         }
         for (KGPListContentText ct : _calcFacade.retrieveContentTextsPepp(1, calcBasics.getDataYear())) {
@@ -332,11 +346,11 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     }
 
     public boolean isReadOnly() {
-        if (_sessionController.isInekUser(Feature.CALCULATION_HOSPITAL)  && !_appTools.isEnabled(ConfigKey.TestMode)){
+        if (_sessionController.isInekUser(Feature.CALCULATION_HOSPITAL) && !_appTools.isEnabled(ConfigKey.TestMode)) {
             return true;
         }
-        return _cooperationTools.isReadOnly(Feature.CALCULATION_HOSPITAL, 
-                _calcBasics.getStatus(), 
+        return _cooperationTools.isReadOnly(Feature.CALCULATION_HOSPITAL,
+                _calcBasics.getStatus(),
                 _calcBasics.getAccountId());
     }
 
@@ -377,7 +391,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
             return false;
         }
         return _cooperationTools.isSealedEnabled(Feature.CALCULATION_HOSPITAL,
-                _calcBasics.getStatus(), 
+                _calcBasics.getStatus(),
                 _calcBasics.getAccountId());
     }
 
@@ -385,8 +399,8 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         if (!_appTools.isEnabled(ConfigKey.IsCalculationBasicsPsySendEnabled)) {
             return false;
         }
-        return _cooperationTools.isApprovalRequestEnabled(Feature.CALCULATION_HOSPITAL, 
-                _calcBasics.getStatus(), 
+        return _cooperationTools.isApprovalRequestEnabled(Feature.CALCULATION_HOSPITAL,
+                _calcBasics.getStatus(),
                 _calcBasics.getAccountId());
     }
 
@@ -394,8 +408,8 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         if (!_appTools.isEnabled(ConfigKey.IsCalculationBasicsPsySendEnabled)) {
             return false;
         }
-        return _cooperationTools.isRequestCorrectionEnabled(Feature.CALCULATION_HOSPITAL, 
-                _calcBasics.getStatus(), 
+        return _cooperationTools.isRequestCorrectionEnabled(Feature.CALCULATION_HOSPITAL,
+                _calcBasics.getStatus(),
                 _calcBasics.getAccountId());
     }
 
@@ -409,23 +423,80 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         if (_calcBasics.getStatusId() < 10 || !_appTools.isEnabled(ConfigKey.IsCalculationBasicsPsySendEnabled)) {
             return false;
         }
-        if (_sessionController.isInekUser(Feature.CALCULATION_HOSPITAL) && !_appTools.isEnabled(ConfigKey.TestMode)){
+        if (_sessionController.isInekUser(Feature.CALCULATION_HOSPITAL) && !_appTools.isEnabled(ConfigKey.TestMode)) {
             return false;
         }
         return !_calcFacade.existActiveCalcBasicsPsy(_calcBasics.getIk());
     }
 
+    @SuppressWarnings("unchecked")
     public void copyForResend() {
-        // in a first approch, we do not copy the data
-        // just reset the status to "CorrectionRequested"
-        _calcBasics.setStatus(WorkflowStatus.CorrectionRequested);
-        _calcBasics = _calcFacade.saveCalcBasicsPepp(_calcBasics);
-        /*
+        if (false) {
+            // in a first approch, we do not copy the data
+            // just reset the status to "CorrectionRequested"
+            _calcBasics.setStatus(WorkflowStatus.CorrectionRequested);
+            _calcBasics = _calcFacade.saveCalcBasicsPepp(_calcBasics);
+            return;
+        }
+
+        _calcBasics.setStatus(WorkflowStatus.Retired);
+        _calcFacade.saveCalcBasicsPepp(_calcBasics);
+
+        _calcFacade.detach(_calcBasics);
         _calcBasics.setId(-1);
         _calcBasics.setStatus(WorkflowStatus.New);
+
+        // this loop seems to be really complicated,
+        // but we need to copy the lists on a defined order (by id)
+        // otherwise most list within the copy become shuffled
+        for (Field field : _calcBasics.getClass().getDeclaredFields()) {
+            try {
+                if (Modifier.isTransient(field.getModifiers())) {
+                    continue;
+                }
+                if (field.getAnnotation(Id.class) != null) {
+                    continue;
+                }
+                if (Modifier.isStatic(field.getModifiers())) {
+                    continue;
+                }
+                field.setAccessible(true);
+                Object value = field.get(_calcBasics);
+                if (!(value instanceof List)) {
+                    continue;
+                }
+                List list = (List) value;
+                if (list.isEmpty() || !(list.get(0) instanceof BaseIdValue)) {
+                    continue;
+                }
+                List<BaseIdValue> data = new ArrayList();
+                for (Object object : list) {
+                    _calcFacade.detach(object);
+                    BaseIdValue baseIdValue = (BaseIdValue) object;
+                    data.add(baseIdValue);
+                }
+                List<BaseIdValue> dataCopy = new ArrayList();
+                data.stream().sorted((b1, b2) -> Integer.compare(b1.getId(), b2.getId())).forEach(
+                        baseIdValue -> {
+                            baseIdValue.setId(-1);
+                            baseIdValue.setBaseInformationId(-1);
+                            dataCopy.add(baseIdValue);
+                        });
+                field.set(_calcBasics, dataCopy);
+            } catch (IllegalArgumentException | IllegalAccessException ex) {
+                LOGGER.log(Level.SEVERE, "error during setDataToNew: {0}", field.getName());
+            }
+        }
+
         _calcBasics.setAccountId(_sessionController.getAccountId());
-        // todo: update Ids for all Lists. Use interface or use copy constructer as alternative
-         */
+
+        _calcBasics.setStatus(WorkflowStatus.CorrectionRequested);
+        try {
+            _calcBasics = _calcFacade.saveCalcBasicsPepp(_calcBasics);
+        } catch (Exception ex) {
+            LOGGER.log(Level.WARNING, "Exception during setDataToNew: {0}", ex.getMessage());
+        }
+        //_baseLine = null;
     }
 
     /**
@@ -499,9 +570,9 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
             //Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.CALCULATION_HOSPITAL, canReadSealed());
             boolean testMode = _appTools.isEnabled(ConfigKey.TestMode);
             Set<Integer> iks = _calcFacade
-                    .obtainIks4NewBasics(CalcHospitalFunction.CalculationBasicsPepp, 
-                            _sessionController.getAccountId(), 
-                            Utils.getTargetYear(Feature.CALCULATION_HOSPITAL), 
+                    .obtainIks4NewBasics(CalcHospitalFunction.CalculationBasicsPepp,
+                            _sessionController.getAccountId(),
+                            Utils.getTargetYear(Feature.CALCULATION_HOSPITAL),
                             testMode);
             if (_calcBasics != null && _calcBasics.getIk() > 0) {
                 iks.add(_calcBasics.getIk());
@@ -617,7 +688,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     public void setFileStation(Part fileStation) {
         this._fileStation = fileStation;
     }
-        
+
     private String _importMessageStation;
 
     public String getImportMessageStation() {
@@ -627,7 +698,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     public void setImportMessageStation(String importMessageStation) {
         this._importMessageStation = importMessageStation;
     }
-    
+
     private boolean _showJournalStation;
 
     public boolean isShowJournalStation() {
@@ -637,16 +708,16 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     public void setShowJournalStation(boolean showJournalStation) {
         this._showJournalStation = showJournalStation;
     }
-    
+
     public void toggleJournalStation() {
         this._showJournalStation = !this._showJournalStation;
     }
-            
+
     public void getDownloadTemplateStation() {
         StationDataImporterPepp stationProvider = _stationProviderPepp.get();
         stationProvider.downloadTemplate();
     }
-    
+
     public void uploadNoticesStation() {
         StationDataImporterPepp stationProvider = _stationProviderPepp.get();
         stationProvider.setFile(_fileStation);
@@ -803,7 +874,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
 
     @Inject private Instance<MedInfraDataImporterPepp> _importMedInfraPepp;
 
-    private static final String HEADLINE_MED_INFRA 
+    private static final String HEADLINE_MED_INFRA
             = "Nummer der Kostenstelle;Name der Kostenstelle;Verwendeter Schlüssel;Kostenvolumen";
 
     public void downloadTemplateHeadlineMedInfra() {
@@ -864,7 +935,6 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         }
     }
 
-    
     public boolean renderPersonalAccountingDescription() {
         for (KGPPersonalAccounting pa : _calcBasics.getPersonalAccountings()) {
             if (pa.isExpertRating() || pa.isServiceStatistic() || pa.isOther()) {

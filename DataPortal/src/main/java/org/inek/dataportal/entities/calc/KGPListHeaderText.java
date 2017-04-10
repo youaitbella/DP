@@ -14,7 +14,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
-import org.inek.dataportal.entities.calc.iface.BaseIdValue;
 
 /**
  *
@@ -29,7 +28,7 @@ public class KGPListHeaderText implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property _id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "htID")
+    @Column(name = "htID", updatable = false, nullable = false)
     private int _id = -1;
 
     public int getId() {
