@@ -7,7 +7,7 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:composition>
         <h2>
-            <h:commandLink action="#{sessionController.navigate(sessionTools.pages.InsuranceSummary)}" value="#{msg.lblInsurance}" immediate="true"/>
+            <h:commandLink action="#{sessionController.navigate(sessionTools.pages.InsuranceSummary)}" value="#{msg.lblInsuranceNub}" immediate="true"/>
         </h2>
 
         <inek:InsuranceNubNoticeList list="#{insuranceNubNoticeList.openNotices}"/>

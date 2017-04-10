@@ -156,6 +156,7 @@ public enum Pages {
     InsuranceSummary("/Insurance/InsuranceSummary"),
     InsuranceNubNoticeEditAddress("/Insurance/InsuranceNubNoticeEdit"),
     InsuranceNubNoticeEditList("/Insurance/InsuranceNubNoticeEdit"),
+    InsuranceSpecificFunctionSummary("/Insurance/InsuranceSpfSummary"),
     
     //
     PartSpecificFunction("/SpecificFunction/PartSpecificFunction"),

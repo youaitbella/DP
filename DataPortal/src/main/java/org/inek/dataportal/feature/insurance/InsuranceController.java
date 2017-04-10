@@ -24,7 +24,8 @@ public class InsuranceController extends AbstractFeatureController {
 
     @Override
     protected void addTopics(Topics topics) {
-        topics.addTopic(Utils.getMessage("lblInsurance"), Pages.InsuranceSummary.URL());
+        topics.addTopic(Utils.getMessage("lblInsuranceNub"), Pages.InsuranceSummary.URL());
+        topics.addTopic(Utils.getMessage("lblInsuranceSpecificFuntions"), Pages.InsuranceSummary.URL());
     }
 
     @Override
