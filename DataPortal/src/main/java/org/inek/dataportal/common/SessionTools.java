@@ -37,7 +37,7 @@ import org.inek.dataportal.helper.faceletvalidators.EmailValidator;
 @Named
 @SessionScoped
 public class SessionTools implements Serializable {
-    
+
     private List<SelectItem> _roleItems;
     private List<SelectItem> _customerTypeItems;
     private List<Integer> _hospitals;
@@ -47,6 +47,7 @@ public class SessionTools implements Serializable {
     @Inject private transient CustomerTypeFacade _typeFacade;
     @Inject private transient DropBoxTypeFacade _dropBoxTypeFacade;
     @Inject private transient TrashMailFacade _trashMailfacade;
+    @Inject private transient CustomerFacade _customerFacade;
 
     public int getCurrentYear() {
         return Calendar.getInstance().get(Calendar.YEAR);
@@ -63,16 +64,17 @@ public class SessionTools implements Serializable {
     }
 
     private String _language = "de";
+
     public String getLanguage() {
         return _language;
     }
 
-    public void putLanguage (String language){
+    public void putLanguage(String language) {
         _language = language;
         Locale newLocale = new Locale(language);
         FacesContext.getCurrentInstance().getViewRoot().setLocale(newLocale);
     }
-    
+
     public List<SelectItem> getContactRoleItems() {
         if (_roleItems == null) {
             _roleItems = new ArrayList<>();
@@ -178,8 +180,6 @@ public class SessionTools implements Serializable {
         String domain = address.substring(address.indexOf("@") + 1);
         return !_trashMailfacade.exists(domain);
     }
-
-    @Inject transient CustomerFacade _customerFacade;
 
     public void checkIk(FacesContext context, UIComponent component, Object value) {
         if (value == null || value.toString().isEmpty()) {

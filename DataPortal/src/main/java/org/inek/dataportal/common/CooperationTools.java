@@ -43,7 +43,7 @@ public class CooperationTools implements Serializable {
 
     /**
      * gets the cooperation rights by delegating the first request to the
-     * service and retrieving them from a local cache for subsequent requests
+     * service and retrieving them from a local cache for subsequent requests.
      *
      * @param feature
      * @param account
@@ -97,7 +97,7 @@ public class CooperationTools implements Serializable {
 
     /**
      * Data is readonly when - provided to InEK - is foreign data and no edit
-     * right is granted to current user
+     * right is granted to current user.
      *
      * @param feature
      * @param state
@@ -122,9 +122,9 @@ public class CooperationTools implements Serializable {
     /**
      * the approval request will be enabled if the status is less than "approval
      * requested" and the user is allowed to write and if (is owned by other)
-     * the user is alloed to write but not a superviror himself and if (owned by
+     * the user is allowed to write but not a superviror himself and if (owned by
      * himself) if (cooperativ supervisor exist) the current user is no
-     * cooperative supervisor
+     * cooperative supervisor.
      *
      * @param feature
      * @param state
@@ -195,7 +195,7 @@ public class CooperationTools implements Serializable {
     }
 
     /**
-     * determines, if data needs to be sealed by any ik supervisor
+     * Determines, if data needs to be sealed by any ik supervisor.
      *
      * @param feature
      * @param account
@@ -212,7 +212,7 @@ public class CooperationTools implements Serializable {
     /**
      * sealing|providing is enabled when it is the own data and the providing
      * right is not granted to any other or the user owns the sealing right and
-     * approval is requested or the user ownd both edit and sealing right
+     * approval is requested or the user owned both edit and sealing right.
      *
      * @param feature
      * @param state
@@ -244,7 +244,7 @@ public class CooperationTools implements Serializable {
 
     /**
      * A supervisor may request a correction from the owner of a dataset This
-     * function indicates, whether this request is feasible
+     * function indicates, whether this request is feasible.
      *
      * @param feature
      * @param state
@@ -265,7 +265,7 @@ public class CooperationTools implements Serializable {
 
     /**
      * update is enabled when correction is requested by inek 
-     * and it's the user's data or the user is allowed to seal or o write
+     * and it's the user's data or the user is allowed to seal or o write.
      *
      * @param feature
      * @param state
@@ -295,7 +295,7 @@ public class CooperationTools implements Serializable {
     }
 
     /**
-     * Indicates, if it is allowed to take ownership of a dataset
+     * Indicates, if it is allowed to take ownership of a dataset.
      *
      * @param feature
      * @param state
@@ -319,7 +319,7 @@ public class CooperationTools implements Serializable {
      * Determines and returns the achieved rights A user might get rights from
      * two sources: ik supervision or individual If an ik supervisor is needed,
      * than and individiual supervising right is canceled. If both rights are
-     * provided, than determine the higher rights
+     * provided, than determine the higher rights.
      *
      * @param feature
      * @param partnerId
@@ -350,7 +350,7 @@ public class CooperationTools implements Serializable {
 
     /**
      * Collects all iks for given feature and partner where the current account
-     * achieved rights
+     * achieved rights.
      *
      * @param feature
      * @param partnerId

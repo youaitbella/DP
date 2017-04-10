@@ -73,6 +73,10 @@
 
     <module name="TreeWalker">
         
+        <module name="JavadocStyle">
+            <property name="checkFirstSentence" value="false"/>
+        </module>
+                
         <module name="PackageDeclaration"/>
 
         <module name="MemberName">

@@ -25,7 +25,7 @@ import org.inek.dataportal.helper.Utils;
 @RequestScoped
 public class RequestController implements Serializable {
 
-    private static final Logger _logger = Logger.getLogger("RequestController");
+    private static final Logger LOGGER = Logger.getLogger("RequestController");
 
     @Inject private SessionController _sessionController;
 
@@ -97,7 +97,7 @@ public class RequestController implements Serializable {
         if (_sessionController.isInternalClient()) {
             return;
         }
-        _logger.log(Level.WARNING, "Attempt to call admin page from ip: {0}", Utils.getClientIP());
+        LOGGER.log(Level.WARNING, "Attempt to call admin page from ip: {0}", Utils.getClientIP());
         FacesContext facesContext = FacesContext.getCurrentInstance();
         tryLogout("Attempt to call admin page from ip: " + Utils.getClientIP());
         facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, Pages.Error.URL());

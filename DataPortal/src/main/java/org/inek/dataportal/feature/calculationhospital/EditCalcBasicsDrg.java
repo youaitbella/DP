@@ -81,8 +81,6 @@ import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.calc.CalcFacade;
-import org.inek.dataportal.facades.CustomerFacade;
-import org.inek.dataportal.facades.common.CostTypeFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.BeanValidator;
 import org.inek.dataportal.helper.ObjectUtils;
@@ -102,16 +100,13 @@ import org.inek.dataportal.utils.StringUtil;
 public class EditCalcBasicsDrg extends AbstractEditController implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="fields & enums">
-    private static final Logger _logger = Logger.getLogger("EditCalcBasicsDrg");
+    private static final Logger LOGGER = Logger.getLogger("EditCalcBasicsDrg");
 
     @Inject private CooperationTools _cooperationTools;
     @Inject private SessionController _sessionController;
     @Inject private CalcFacade _calcFacade;
     @Inject ApplicationTools _appTools;
-    @Inject private CustomerFacade _customerFacade;
-    @Inject private CostTypeFacade _costTypeFacade;
 
-    private String _script;
     private DrgCalcBasics _calcBasics;
     private DrgCalcBasics _baseLine;
     private DrgCalcBasics _priorCalcBasics;
@@ -357,7 +352,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }
         if (calcBasics.getId() > 0) {
             // This should not be. But sometimes we lost the delimitationFacts...
-            _logger.log(Level.WARNING, "Populate DRG DelimitationFacts for existing data: Id = {0}", calcBasics.getId());
+            LOGGER.log(Level.WARNING, "Populate DRG DelimitationFacts for existing data: Id = {0}", calcBasics.getId());
         }
         for (DrgContentText ct : _calcFacade.retrieveContentTexts(1, calcBasics.getDataYear())) {
             DrgDelimitationFact df = new DrgDelimitationFact();
@@ -1035,7 +1030,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     @SuppressWarnings("unchecked")
     public void copyForResend() {
-        if (true) {
+        if (false) {
             // in a first approch, we do not copy the data
             // just reset the status to "CorrectionRequested"
             _calcBasics.setStatus(WorkflowStatus.CorrectionRequested);
@@ -1091,7 +1086,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                 });
                 field.set(_calcBasics, dataCopy);
             } catch (IllegalArgumentException | IllegalAccessException ex) {
-                _logger.log(Level.SEVERE, "error during setDataToNew: {0}", field.getName());
+                LOGGER.log(Level.SEVERE, "error during setDataToNew: {0}", field.getName());
             }
 
         }
@@ -1102,7 +1097,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         try {
             _calcBasics = _calcFacade.saveCalcBasicsDrg(_calcBasics);
         } catch (Exception ex) {
-            _logger.log(Level.WARNING, "Exception during setDataToNew: {0}", ex.getMessage());
+            LOGGER.log(Level.WARNING, "Exception during setDataToNew: {0}", ex.getMessage());
         }
         _baseLine = null;
     }
