@@ -31,7 +31,7 @@ import org.inek.portallib.util.Helper;
 @RequestScoped
 public class EditDocument extends AbstractEditController {
 
-    private static final Logger _logger = Logger.getLogger("EditDocument");
+    private static final Logger LOGGER = Logger.getLogger("EditDocument");
 
     @Inject
     private AccountDocumentFacade _accDocFacade;
@@ -41,6 +41,10 @@ public class EditDocument extends AbstractEditController {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         ExternalContext externalContext = facesContext.getExternalContext();
         AccountDocument doc = _accDocFacade.find(docId);
+        if (doc == null){
+            LOGGER.log(Level.WARNING, "Document not found: {0}", docId);
+            return "";
+        }
         if (_sessionController.getAccountId() != doc.getAccountId() && !_sessionController.isInekUser(Feature.DOCUMENTS)) {
             return "";
         }
@@ -53,7 +57,7 @@ public class EditDocument extends AbstractEditController {
             new StreamHelper().copyStream(is, externalContext.getResponseOutputStream());
 
         } catch (IOException ex) {
-            _logger.log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
             return Pages.Error.URL();
         }
         facesContext.responseComplete();

@@ -199,7 +199,7 @@ public class EditNubRequest extends AbstractEditController {
     }
 
     private boolean isOwnNub(NubRequest nubRequest) {
-        return _sessionController.isMyAccount(nubRequest.getAccountId(), false);
+        return nubRequest != null && _sessionController.isMyAccount(nubRequest.getAccountId(), false);
     }
 
     private void ensureCooperativeRight(NubRequest nubRequest) {
