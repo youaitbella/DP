@@ -9,7 +9,7 @@ package org.inek.portallib.tree;
  *
  * @author muellermi
  */
-public class YearTreeNode extends TreeNode{
+public final class YearTreeNode extends TreeNode{
 
 
     private YearTreeNode(TreeNode parent, int year) {

@@ -272,24 +272,8 @@ public class KGLListRadiologyLaboratory implements Serializable, BaseIdValue {
         this._description = source._description;
     }
 
-    public KGLListRadiologyLaboratory(int rlID) {
-        this._id = rlID;
-    }
-
-    public KGLListRadiologyLaboratory(int id, int baseInformationID, int costTypeId, int costCenterID, boolean serviceDocHome, boolean serviceDocDKG, boolean serviceDocEBM, boolean serviceDocGOA, boolean serviceDocDif, int serviceVolumePre, int amountPre, int serviceVolumePost, int amountPost) {
-        this._id = id;
-        this._baseInformationId = baseInformationID;
-        this._costCenterId = costTypeId;
-        this._costCenterNumber = costCenterID;
-        this._serviceDocHome = serviceDocHome;
-        this._serviceDocDKG = serviceDocDKG;
-        this._serviceDocEBM = serviceDocEBM;
-        this._serviceDocGOA = serviceDocGOA;
-        this._serviceDocDif = serviceDocDif;
-        this._serviceVolumePre = serviceVolumePre;
-        this._amountPre = amountPre;
-        this._serviceVolumePost = serviceVolumePost;
-        this._amountPost = amountPost;
+    public KGLListRadiologyLaboratory(int baseInformationID) {
+        _baseInformationId = baseInformationID;
     }
 
     //<editor-fold defaultstate="collapsed" desc="hash && equals && toString">

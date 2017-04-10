@@ -159,7 +159,7 @@ public abstract class TreeNode implements Serializable{
         }
     }
 
-    protected TreeNodeObserver _observer;
+    private TreeNodeObserver _observer;
 
     public void registerObserver(TreeNodeObserver observer) {
         _observer = observer;

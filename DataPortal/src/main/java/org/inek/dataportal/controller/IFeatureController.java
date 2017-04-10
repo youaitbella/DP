@@ -12,9 +12,9 @@ import org.inek.dataportal.helper.Topics;
  * @author muellermi
  */
 public interface IFeatureController{
-    public Topics getTopics();
-    public String getMainPart();
-    public Feature getFeature();
-    public boolean isActive();
-    public void setActive (boolean isActive);
+    Topics getTopics();
+    String getMainPart();
+    Feature getFeature();
+    boolean isActive();
+    void setActive (boolean isActive);
 }

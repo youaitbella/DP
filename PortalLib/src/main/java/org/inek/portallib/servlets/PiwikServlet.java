@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLDecoder;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.annotation.WebServlet;
@@ -27,7 +26,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(urlPatterns = {"/piwik/"}, name = "PiwikServlet")
 public class PiwikServlet extends HttpServlet {
-    private static final Logger _logger = Logger.getLogger("PiwikServlet");
+    private static final Logger LOGGER = Logger.getLogger("PiwikServlet");
     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {

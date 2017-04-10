@@ -1,10 +1,9 @@
-
 package org.inek.dataportal.entities.account;
 
 import java.io.Serializable;
 import java.util.Objects;
 
-public class AccountActivationId  implements Serializable{
+public class AccountActivationId implements Serializable {
 
     @Override
     public int hashCode() {
@@ -31,6 +30,6 @@ public class AccountActivationId  implements Serializable{
         }
         return true;
     }
-     Integer _accountId;
-     String _guid;
+    Integer _accountId;
+    String _guid;
 }

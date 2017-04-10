@@ -9,7 +9,7 @@ package org.inek.portallib.tree;
  *
  * @author muellermi
  */
-public class RootNode extends TreeNode {
+public final class RootNode extends TreeNode {
 
     private RootNode(TreeNode parent, int id) {
         super(parent);

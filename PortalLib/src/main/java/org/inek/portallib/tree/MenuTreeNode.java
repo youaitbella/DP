@@ -13,7 +13,7 @@ import java.util.Objects;
  *
  * @author muellermi
  */
-public class MenuTreeNode {
+public final class MenuTreeNode {
 
     // <editor-fold defaultstate="collapsed" desc="Property Level">    
     private final int _level;
@@ -66,16 +66,6 @@ public class MenuTreeNode {
         MenuTreeNode node = new MenuTreeNode(0, text, url);
         return node;
     }
-
-//    public static MenuTreeNode createCopy(MenuTreeNode node) {
-//        MenuTreeNode copy = new MenuTreeNode(node._level, node._text, node._url);
-//        copy._isExpanded = node._isExpanded;
-//        for (MenuTreeNode child : node._children) {
-//            copy._children.add(child);
-//        }
-//        
-//        return copy;
-//    }
 
     public MenuTreeNode addChild(String text, String url) {
         MenuTreeNode node = new MenuTreeNode(_level + 1, text, url);

@@ -8,13 +8,13 @@ package org.inek.dataportal.components;
  */
 public interface ExpandingTableLine {
     
-    public Integer getId();
-    public void setId(Integer id);
+    Integer getId();
+    void setId(Integer id);
     
-    public String getCode();
-    public void setCode(String code);
+    String getCode();
+    void setCode(String code);
     
-    public String getDescription();
-    public void setDescription(String description);
+    String getDescription();
+    void setDescription(String description);
     
 }

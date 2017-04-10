@@ -55,8 +55,8 @@ public class EmailLog implements Serializable {
         return _senderAccountId;
     }
 
-    public void setSenderAccountId(int _senderAccountId) {
-        this._senderAccountId = _senderAccountId;
+    public void setSenderAccountId(int senderAccountId) {
+        this._senderAccountId = senderAccountId;
     }
     
     @Column(name = "elReceiverAccountId")
@@ -66,8 +66,8 @@ public class EmailLog implements Serializable {
         return _receiverAccountId;
     }
 
-    public void setReceiverAccountId(int _receiverAccountId) {
-        this._receiverAccountId = _receiverAccountId;
+    public void setReceiverAccountId(int receiverAccountId) {
+        this._receiverAccountId = receiverAccountId;
     }
     
     @Column(name = "elTemplateId")
@@ -77,8 +77,8 @@ public class EmailLog implements Serializable {
         return _templateId;
     }
 
-    public void setTemplateId(int _templateId) {
-        this._templateId = _templateId;
+    public void setTemplateId(int templateId) {
+        this._templateId = templateId;
     }
     
     @Column(name = "elSent")
@@ -89,8 +89,8 @@ public class EmailLog implements Serializable {
         return _sent;
     }
 
-    public void setSent(Date _sent) {
-        this._sent = _sent;
+    public void setSent(Date sent) {
+        this._sent = sent;
     }
     
     @Column(name = "elType")
@@ -100,8 +100,8 @@ public class EmailLog implements Serializable {
         return _type;
     }
 
-    public void setType(int _type) {
-        this._type = _type;
+    public void setType(int type) {
+        this._type = type;
     }
     
     @Override

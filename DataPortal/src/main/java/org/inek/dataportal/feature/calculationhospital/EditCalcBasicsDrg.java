@@ -1033,6 +1033,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         return !_calcFacade.existActiveCalcBasicsDrg(_calcBasics.getIk());
     }
 
+    @SuppressWarnings("unchecked")
     public void copyForResend() {
         if (true) {
             // in a first approch, we do not copy the data
@@ -1069,14 +1070,26 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                     continue;
                 }
                 List list = (List) value;
+                if (list.isEmpty() || !(list.get(0) instanceof BaseIdValue)){
+                    continue;
+                }
+                List<BaseIdValue> data = new ArrayList();
                 for (Object object : list) {
-                    if (object instanceof BaseIdValue) {
                         _calcFacade.detach(object);
                         BaseIdValue baseIdValue = (BaseIdValue) object;
+                        data.add(baseIdValue);
                         baseIdValue.setId(-1);
                         baseIdValue.setBaseInformationId(-1);
-                    }
+                        data.add(baseIdValue);
                 }
+                List<BaseIdValue> dataCopy = new ArrayList();
+                data.stream().sorted((b1, b2) -> Integer.compare(b1. getId(), b2.getId())).forEach(
+                        baseIdValue -> {
+                        baseIdValue.setId(-1);
+                        baseIdValue.setBaseInformationId(-1);
+                        dataCopy.add(baseIdValue);
+                });
+                field.set(_calcBasics, dataCopy);
             } catch (IllegalArgumentException | IllegalAccessException ex) {
                 _logger.log(Level.SEVERE, "error during setDataToNew: {0}", field.getName());
             }

@@ -164,20 +164,8 @@ public class KGLListCentralFocus implements Serializable, BaseIdValue {
     public KGLListCentralFocus() {
     }
 
-    public KGLListCentralFocus(Integer cfID) {
-        this._id = cfID;
-    }
-
-    public KGLListCentralFocus(int cfID, int baseInformationID, String cfText, int cfCaseCnt, int cfPersonalCost, int cfMaterialcost, int cfInfraCost, int cfRemunerationAmount, String cfRemunerationKey) {
-        this._id = cfID;
+    public KGLListCentralFocus(Integer baseInformationID) {
         this._baseInformationId = baseInformationID;
-        this._text = cfText;
-        this._caseCnt = cfCaseCnt;
-        this._personalCost = cfPersonalCost;
-        this._materialcost = cfMaterialcost;
-        this._infraCost = cfInfraCost;
-        this._remunerationAmount = cfRemunerationAmount;
-        this._remunerationKey = cfRemunerationKey;
     }
 
     //<editor-fold defaultstate="collapsed" desc="hash && equals && toString">

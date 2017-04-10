@@ -10,7 +10,7 @@ import java.util.List;
  */
 public interface ExpandingTableData {
     
-    public List<ExpandingTableLine> getData();
+    List<ExpandingTableLine> getData();
     
-    public ExpandingTableLine createElement();
+    ExpandingTableLine createElement();
 }

@@ -42,8 +42,8 @@ public class KGLListContentTextOps implements Serializable {
         return _contentTextId;
     }
 
-    public void setContentTextId(int _contentTextId) {
-        this._contentTextId = _contentTextId;
+    public void setContentTextId(int contentTextId) {
+        this._contentTextId = contentTextId;
     }
     
     @Column(name = "ctoOpsId")
@@ -53,8 +53,8 @@ public class KGLListContentTextOps implements Serializable {
         return _opsId;
     }
 
-    public void setOpsId(int _opsId) {
-        this._opsId = _opsId;
+    public void setOpsId(int opsId) {
+        this._opsId = opsId;
     }
     
     @Column(name = "ctoOpsCode")
@@ -64,7 +64,7 @@ public class KGLListContentTextOps implements Serializable {
         return _opsCode;
     }
 
-    public void setOpsCode(String _opsCode) {
-        this._opsCode = _opsCode;
+    public void setOpsCode(String opsCode) {
+        this._opsCode = opsCode;
     }
 }

@@ -54,7 +54,7 @@ import org.inek.dataportal.system.SessionCounter;
 public class SessionController implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private static final Logger _logger = Logger.getLogger("SessionController");
+    private static final Logger LOGGER = Logger.getLogger("SessionController");
     @Inject private AccountFacade _accountFacade;
     @Inject private ProcedureFacade _procedureFacade;
     @Inject private DiagnosisFacade _diagnosisFacade;
@@ -184,17 +184,17 @@ public class SessionController implements Serializable {
             int minutes = 30;
             conversation.setTimeout(minutes * 60000);
             conversation.begin(UUID.randomUUID().toString());
-            _logger.log(Level.INFO, "Conversation started: {0}", conversation.getId());
+            LOGGER.log(Level.INFO, "Conversation started: {0}", conversation.getId());
             return conversation.getId();
         } else {
-            _logger.log(Level.INFO, "Conversation still running: {0}", conversation.getId());
+            LOGGER.log(Level.INFO, "Conversation still running: {0}", conversation.getId());
             return conversation.getId();
         }
     }
 
     public void endConversation(Conversation conversation) {
         if (!conversation.isTransient()) {
-            _logger.log(Level.INFO, "Conversation stopping: {0}", conversation.getId());
+            LOGGER.log(Level.INFO, "Conversation stopping: {0}", conversation.getId());
             conversation.end();
         }
     }
@@ -245,7 +245,7 @@ public class SessionController implements Serializable {
                 sessionId = retrieveSessionId();
                 //_logger.log(Level.INFO, "invalidateSession: new session {0}", sessionId);
             } catch (Exception ex) {
-                _logger.log(Level.WARNING, "Exception during invalidatesesion");
+                LOGGER.log(Level.WARNING, "Exception during invalidatesesion");
             }
         }
     }
@@ -514,7 +514,7 @@ public class SessionController implements Serializable {
             return true;
         }
         if (log) {
-            _logger.log(Level.WARNING, "Account {0} tried to access object from account {1}", new Object[]{_account.getId(), accountId});
+            LOGGER.log(Level.WARNING, "Account {0} tried to access object from account {1}", new Object[]{_account.getId(), accountId});
         }
         return false;
     }
