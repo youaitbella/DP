@@ -4,7 +4,6 @@
  */
 package org.inek.dataportal.feature.insurance;
 
-
 import org.inek.dataportal.controller.AbstractFeatureController;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.enums.Feature;
@@ -25,7 +24,9 @@ public class InsuranceController extends AbstractFeatureController {
     @Override
     protected void addTopics(Topics topics) {
         topics.addTopic(Utils.getMessage("lblInsuranceNub"), Pages.InsuranceSummary.URL());
-        topics.addTopic(Utils.getMessage("lblInsuranceSpecificFuntions"), Pages.InsuranceSummary.URL());
+        if (getSessionController().isInekUser(Feature.INSURANCE)) { // todo: remove when publioc available
+            topics.addTopic(Utils.getMessage("lblInsuranceSpecificFuntions"), Pages.InsuranceSpecificFunctionSummary.URL());
+        }
     }
 
     @Override

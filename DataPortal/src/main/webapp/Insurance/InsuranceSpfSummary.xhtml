@@ -17,21 +17,9 @@
     <ui:define name="content">
         <h:form id="form" prependId="false">
 
-            <h1>#{msg.lblInsuranceNub}</h1>
+            <h1>#{msg.lblInsuranceSpecificFuntions}</h1>
 
-            <h4><h:outputLabel value="#{msg.infoOpenNubReport}"/></h4>
-            <inek:InsuranceNubNoticeList list="#{insuranceNubNoticeList.openNotices}"/>
-
-            <div class="toolBar marginLeft">
-                <h:commandLink styleClass="bigButton" action="#{insuranceNubNoticeList.editNotice}" 
-                               immediate="true" value="#{msg.btnInsuranceNubMessage}">
-                    <f:param name="id" value="new"/>
-                </h:commandLink>
-            </div>
-            
-            <h4><h:outputLabel value="#{msg.infoSealedNubReport}"/></h4>
-            <inek:InsuranceNubNoticeList list="#{insuranceNubNoticeList.providedNotices}"/>
-            
+            - in Kürze verfügbar - 
         </h:form>
     </ui:define>
 
