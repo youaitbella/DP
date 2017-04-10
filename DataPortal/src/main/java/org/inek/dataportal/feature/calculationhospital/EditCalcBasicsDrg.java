@@ -723,6 +723,14 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         Utils.downloadText(_headLineRadiology + "\n", "Radiology.csv");
     }
 
+    private static final String _headLineLaboratory = "KostenstelleNummer;KostenstelleName;"
+            + "Leistungsdokumentation;Beschreibung;LeistungsvolumenVor;"
+            + "KostenvolumenVor;KostenvolumenNach";
+
+    public void downloadLaboratoryTemplate() {
+        Utils.downloadText(_headLineLaboratory + "\n", "Laboratory.csv");
+    }
+
     private static final String _headLineMedInfra = "KostenstelleNummer;KostenstelleText;Schlüssel;Kostenvolumen";
 
     public void downloadMedInfraTemplate() {
@@ -1671,10 +1679,105 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         } catch (IOException | NoSuchElementException e) {
         }
     }
+    public void uploadLaboratory() {
+        try {
+            int headlineLength = _headLineLaboratory.split(";").length;
+            if (_file != null) {
+                //Scanner scanner = new Scanner(_file.getInputStream(), "UTF-8");
+                // We assume most of the documents coded with the Windows character set
+                // Thus, we read with the system default
+                // in case of an UTF-8 file, all German Umlauts will be corrupted.
+                // We simply replace them.
+                // Drawbacks: this only converts the German Umlauts, no other chars.
+                // By intention it fails for other charcters
+                // Alternative: implement a library which guesses th correct character set and read properly
+                // Since we support German only, we started using the simple approach
+                Scanner scanner = new Scanner(_file.getInputStream());
+                if (!scanner.hasNextLine()) {
+                    return;
+                }
+                String alertText = "";
+                int lineNum = 0;
+                while (scanner.hasNextLine()) {
+                    String line = Utils.convertFromUtf8(scanner.nextLine());
+                    lineNum++;
+                    if (!line.equals(_headLineLaboratory)) {
+                        String[] values = StringUtil.splitAtUnquotedSemicolon(line);
+                        if (values.length != headlineLength) {
+                            alertText += "Zeile " + lineNum + ": Fehlerhafte Anzahl Spalten. (" + headlineLength + " erwartet, " + values.length + " gefunden) \\n";
+                            continue;
+                        }
+                        KGLListRadiologyLaboratory radio = new KGLListRadiologyLaboratory();
+                        radio.setBaseInformationId(_calcBasics.getId());
+                        radio.setCostCenterId(10);
+                        try {
+                            radio.setCostCenterNumber(Integer.parseInt(values[0]));
+                        } catch (NumberFormatException ex) {
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 1: " + Utils.getMessage("msgNotANumber") + "\\n";
+                            continue;
+                        }
+                        radio.setCostCenterText(values[1]);
+                        String service = values[2].toLowerCase();
+                        if (service.equals("hauskatalog")) {
+                            radio.setServiceDocHome(true);
+                        } else if (service.equals("dkg-nt")) {
+                            radio.setServiceDocDKG(true);
+                        } else if (service.equals("ebm")) {
+                            radio.setServiceDocEBM(true);
+                        } else if (service.equals("goä")) {
+                            radio.setServiceDocGOA(true);
+                        } else if (service.equals("sonstige")) {
+                            radio.setServiceDocDif(true);
+                        }
+                        radio.setDescription(values[3]);
+                        try {
+                            radio.setServiceVolumePre(Integer.parseInt(values[4]));
+                        } catch (NumberFormatException ex) {
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 5: " + Utils.getMessage("msgNotANumber") + "\\n";
+                            continue;
+                        }
+                        try {
+                            radio.setAmountPre(Integer.parseInt(values[5]));
+                        } catch (NumberFormatException ex) {
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 6: " + Utils.getMessage("msgNotANumber") + "\\n";
+                            continue;
+                        }
+                        try {
+                            radio.setServiceVolumePost(Integer.parseInt(values[6]));
+                        } catch (NumberFormatException ex) {
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 7: " + Utils.getMessage("msgNotANumber") + "\\n";
+                            continue;
+                        }
+                        if (checkLaboratoryRedundantEntry(radio)) {
+                            alertText += "Hinweis: Zeile " + lineNum + " wurde bereits hinzugefügt.";
+                            continue;
+                        }
+
+                        _calcBasics.getRadiologyLaboratories().add(radio);
+                    }
+                }
+                if (alertText.length() > 0) {
+                    _sessionController.alertClient(alertText);
+                }
+            }
+        } catch (IOException | NoSuchElementException e) {
+        }
+    }
 
     private boolean checkRadiologyRedundantEntry(KGLListRadiologyLaboratory radio) {
         for (KGLListRadiologyLaboratory rl : _calcBasics.getRadiologyLaboratories()) {
             if (rl.getCostCenterId() == 9) {
+                if (rl.equals(radio)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean checkLaboratoryRedundantEntry(KGLListRadiologyLaboratory radio) {
+        for (KGLListRadiologyLaboratory rl : _calcBasics.getRadiologyLaboratories()) {
+            if (rl.getCostCenterId() == 10) {
                 if (rl.equals(radio)) {
                     return true;
                 }
