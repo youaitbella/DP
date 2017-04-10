@@ -652,9 +652,10 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     public List<KGLListIntensivStroke> getIntensivStroke(int intensiveType) {
-        return _calcBasics.getIntensivStrokes().stream()
+        List<KGLListIntensivStroke> collect = _calcBasics.getIntensivStrokes().stream()
                 .filter(i -> i.getIntensiveType() == intensiveType)
                 .collect(Collectors.toList());
+        return collect;
     }
 
     public void addIntensivStroke(int intensiveType) {
@@ -702,6 +703,18 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         Utils.downloadText(HeadLineIntensiv + "\n", "Intensiv.csv");
     }
 
+    private static final String HeadLineStrokeUnit
+            = "Intensivstation;FAB;Anzahl_Betten;Anzahl_Fälle;Mindestmerkmale_OPS_8-981_erfüllt;"
+            + "Mindestmerkmale_OPS_8-98b_erfüllt;Mindestmerkmale_nur_erfüllt_im_Zeitabschnitt;"
+            + "Summe_gewichtete_Intensivstunden;Summe_ungewichtete_Intensivstunden;"
+            + "Minimum;Maximum;Erläuterung;Vollkraft_ÄD;Vollkraft_PD;Vollkraft_FD;"
+            + "Kosten_ÄD;Kosten_PD;Kosten_FD;Kosten_GK_Arzneimittel;Kosten_GK_med_Sachbedarf;"
+            + "Kosten_med_Infra;Kosten_nicht_med_Infra";
+
+    public void downloadTemplateStrokeUnit() {
+        Utils.downloadText(HeadLineStrokeUnit + "\n", "StrokeUnit.csv");
+    }
+
     private static final String _headLineRadiology = "KostenstelleNummer;KostenstelleName;"
             + "Leistungsdokumentation;Beschreibung;LeistungsvolumenVor;"
             + "KostenvolumenVor;LeistungsvolumenNach;KostenvolumenNach";
@@ -716,7 +729,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         Utils.downloadText(_headLineMedInfra + "\n", "MedInfra.csv");
     }
 
-    private String _importMessageIntensiv = "";
+    private transient String _importMessageIntensiv = "";
 
     public String getImportMessageIntensiv() {
         return _importMessageIntensiv;
@@ -724,7 +737,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     @Inject private Instance<IntensivDataImporter> _importIntensivProvider;
 
-    private Part _fileIntensivCare;
+    private transient Part _fileIntensivCare;
 
     public Part getFileIntensivCare() {
         return _fileIntensivCare;
@@ -732,6 +745,24 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     public void setFileIntensivCare(Part file) {
         _fileIntensivCare = file;
+    }
+
+    private transient String _importMessageStrokeUnit = "";
+
+    public String getImportMessageStrokeUnit() {
+        return _importMessageStrokeUnit;
+    }
+
+    @Inject private Instance<StrokeUnitDataImporter> _importStrokeUnitProvider;
+
+    private transient Part _fileStrokeUnit;
+
+    public Part getFileStrokeUnit() {
+        return _fileStrokeUnit;
+    }
+
+    public void setFileStrokeUnit(Part file) {
+        _fileStrokeUnit = file;
     }
 
     public void uploadNoticesIntensiv() {
@@ -763,6 +794,38 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                 _showJournal = false;
             }
         } catch (IOException | NoSuchElementException e) {
+        }
+    }
+
+    public void uploadNoticesStrokeUnit() {
+        try {
+            if (_fileStrokeUnit != null) {
+                //Scanner scanner = new Scanner(_file.getInputStream(), "UTF-8");
+                // We assume most of the documents coded with the Windows character set
+                // Thus, we read with the system default
+                // in case of an UTF-8 file, all German Umlauts will be corrupted.
+                // We simply replace them.
+                // Drawbacks: this only converts the German Umlauts, no other chars.
+                // By intention it fails for other charcters
+                // Alternative: implement a library which guesses th correct character set and read properly
+                // Since we support German only, we started using the simple approach
+                Scanner scanner = new Scanner(_fileStrokeUnit.getInputStream());
+                if (!scanner.hasNextLine()) {
+                    return;
+                }
+                StrokeUnitDataImporter itemImporter = _importStrokeUnitProvider.get();
+                itemImporter.setCalcBasics(_calcBasics);
+                while (scanner.hasNextLine()) {
+                    String line = Utils.convertFromUtf8(scanner.nextLine());
+                    if (!line.equals(HeadLineStrokeUnit)) {
+                        itemImporter.tryImportLine(line);
+                    }
+                }
+                _importMessageStrokeUnit = itemImporter.getMessage();
+                _sessionController.alertClient(_importMessageStrokeUnit);
+                _showJournal = false;
+            }
+        } catch (IOException | NoSuchElementException | IllegalArgumentException e) {
         }
     }
 
