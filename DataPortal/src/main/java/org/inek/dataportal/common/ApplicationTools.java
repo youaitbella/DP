@@ -23,7 +23,7 @@ public class ApplicationTools {
 
     private Properties _properties;
 
-    private static final Logger _logger = Logger.getLogger("ApplicationTools");
+    private static final Logger LOGGER = Logger.getLogger("ApplicationTools");
     @Inject
     private ConfigFacade _config;
 
@@ -43,7 +43,7 @@ public class ApplicationTools {
         try {
             _properties.load(new FileInputStream(rootPath + "WEB-INF/classes/org/inek/dataportal/project.properties"));
         } catch (IOException e) {
-            _logger.log(Level.WARNING, "Unexpected IOException whilst reading properties. Will use defaults.", e);
+            LOGGER.log(Level.WARNING, "Unexpected IOException whilst reading properties. Will use defaults.", e);
         }
     }
     

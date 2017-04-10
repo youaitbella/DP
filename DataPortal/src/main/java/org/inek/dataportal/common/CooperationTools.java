@@ -18,7 +18,6 @@ import org.inek.dataportal.entities.cooperation.CooperationRight;
 import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.WorkflowStatus;
-import org.inek.dataportal.facades.NubRequestFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.cooperation.CooperationRightFacade;
 
@@ -38,14 +37,9 @@ import org.inek.dataportal.facades.cooperation.CooperationRightFacade;
 @RequestScoped
 public class CooperationTools implements Serializable {
 
-    @Inject
-    CooperationRightFacade _cooperationRightFacade;
-    @Inject
-    SessionController _sessionController;
-    @Inject
-    NubRequestFacade _nubRequestFacade;
-    @Inject
-    AccountFacade _accountFacade;
+    @Inject private CooperationRightFacade _cooperationRightFacade;
+    @Inject private SessionController _sessionController;
+    @Inject private AccountFacade _accountFacade;
 
     /**
      * gets the cooperation rights by delegating the first request to the
