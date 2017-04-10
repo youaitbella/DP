@@ -89,6 +89,7 @@ public class DrgNeonatData implements Serializable, BaseIdValue {
 
     public void setContentText(DrgContentText contentText) {
         _contentText = contentText;
+        _contentTextId = contentText.getId();
     }
     // </editor-fold>
 
