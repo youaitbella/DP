@@ -6,10 +6,8 @@
 package org.inek.dataportal.facades.calc;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 import java.util.logging.Level;
@@ -35,7 +33,6 @@ import org.inek.dataportal.entities.calc.KGLListServiceProvisionType;
 import org.inek.dataportal.entities.calc.KGLOpAn;
 import org.inek.dataportal.entities.calc.KGPListContentText;
 import org.inek.dataportal.entities.calc.KGPListServiceProvisionType;
-import org.inek.dataportal.entities.calc.KGPPersonalAccounting;
 import org.inek.dataportal.entities.calc.StatementOfParticipance;
 import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.enums.CalcHospitalFunction;
@@ -723,6 +720,7 @@ public class CalcFacade extends AbstractDataAccess {
                 + "		select 1\n"
                 + "		from calc.KGPBaseInformation\n"
                 + "		where biDataYear = " + year + "\n"
+                + "			and biStatusId < 200 \n"
                 + "			and sopIk = biIk\n"
                 + "	)";
 

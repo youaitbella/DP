@@ -49,6 +49,9 @@ public class KGPPersonalAccounting implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _costTypeId">
     @Documentation(name = "Kostenartengruppe", rank = 10)
+    @Column(name = "paCostTypeID")
+    private int _costTypeId;    
+
     public int getCostTypeId() {
         return _costType.getId();
     }
@@ -65,6 +68,7 @@ public class KGPPersonalAccounting implements Serializable, BaseIdValue {
 
     public void setCostType(CostType costType) {
         _costType = costType;
+        _costTypeId = costType.getId();
     }
 
     @Documentation(name = "Kostenartengruppe", rank = 10)
@@ -208,8 +212,8 @@ public class KGPPersonalAccounting implements Serializable, BaseIdValue {
     }
 
     public KGPPersonalAccounting(CostType costType, int prior) {
-        this._costType = costType;
-        this.priorCostAmount = prior;
+        setCostType(costType);
+        priorCostAmount = prior;
     }
 
     //<editor-fold defaultstate="collapsed" desc="hash && equals && toString">

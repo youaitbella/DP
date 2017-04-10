@@ -36,9 +36,9 @@ import org.inek.dataportal.facades.modelintention.AdjustmentTypeFacade;
 @Singleton
 public class ValueLists{
 
-    @Inject CostCenterFacade _costCenterFacade;
-    @Inject CostTypeFacade _costTypeFacade;
-    @Inject AdjustmentTypeFacade _adjustmentTypeFacade;
+    @Inject private CostCenterFacade _costCenterFacade;
+    @Inject private CostTypeFacade _costTypeFacade;
+    @Inject private AdjustmentTypeFacade _adjustmentTypeFacade;
 
     @PostConstruct
     private void init() {
@@ -46,8 +46,8 @@ public class ValueLists{
 
     }
 
-    List<CostCenter> _costCenters;
-    List<CostType> _costTypes;
+    private List<CostCenter> _costCenters;
+    private List<CostType> _costTypes;
 
     private void loadCostCenters() {
         _costCenters = _costCenterFacade.findAll();
@@ -131,7 +131,7 @@ public class ValueLists{
         return _costTypes.stream().filter(c -> c.getId() == id).findAny().orElse(new CostType());
     }
 
-    List<SelectItem> _adjustmentTypes;
+    private List<SelectItem> _adjustmentTypes;
 
     public synchronized List<SelectItem> getAdjustmentTypes() {
         ensureAdjustmentTypes();

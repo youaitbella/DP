@@ -555,7 +555,7 @@ public class PeppCalcBasics implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "paBaseInformationId", referencedColumnName = "biID")
     @Documentation(name = "ListPersonalAccounting", rank = 20008) 
-    @OrderBy(value = "_id")
+    @OrderBy(value = "_costTypeId")
     private List<KGPPersonalAccounting> _personalAccountings = new ArrayList<>();
 
     public List<KGPPersonalAccounting> getPersonalAccountings() {
