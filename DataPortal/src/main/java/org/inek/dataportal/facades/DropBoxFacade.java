@@ -77,7 +77,7 @@ public class DropBoxFacade extends AbstractFacade<DropBox> {
 
     public DropBox updateDropBox(DropBox dropbox) {
         if (dropbox.getDropBoxId() == null) {
-            _logger.log(Level.SEVERE, "attempt to update a non-existing dropbox");
+            LOGGER.log(Level.SEVERE, "attempt to update a non-existing dropbox");
             return null;  // let the client crash or handle
         } else {
             return merge(dropbox);
@@ -86,7 +86,7 @@ public class DropBoxFacade extends AbstractFacade<DropBox> {
 
     public DropBox createDropBox(DropBox dropbox) {
         if (dropbox.getDropBoxId() != null) {
-            _logger.log(Level.SEVERE, "attempt to create an existing dropbox");
+            LOGGER.log(Level.SEVERE, "attempt to create an existing dropbox");
             return null;  // let the client crash or handle
         }
         String dir;
@@ -128,7 +128,7 @@ public class DropBoxFacade extends AbstractFacade<DropBox> {
     @Inject private ApplicationTools _appTools;
 
     private void delete(DropBox dropBox) {
-        _logger.log(Level.WARNING, "Remove invalid DropBox {0}", dropBox.getDropBoxId());
+        LOGGER.log(Level.WARNING, "Remove invalid DropBox {0}", dropBox.getDropBoxId());
         File uploadDir = new File(_appTools.readConfig(ConfigKey.FolderRoot), _appTools.readConfig(ConfigKey.FolderUpload));
         File dropBoxDir = new File(uploadDir, dropBox.getDirectory());
         deleteDirectory(dropBoxDir);

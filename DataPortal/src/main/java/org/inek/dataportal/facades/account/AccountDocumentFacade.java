@@ -135,7 +135,7 @@ public class AccountDocumentFacade extends AbstractFacade<AccountDocument> {
 
     @Asynchronous
     private void sweepOldDocuments() {
-        _logger.log(Level.INFO, "Sweeping old documents");
+        LOGGER.log(Level.INFO, "Sweeping old documents");
         String sql = "DELETE FROM AccountDocument d WHERE d._validUntil < :date";
         Query query = getEntityManager().createQuery(sql, AccountDocument.class);
         query.setParameter("date", Calendar.getInstance().getTime());

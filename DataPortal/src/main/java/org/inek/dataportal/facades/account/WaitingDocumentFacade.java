@@ -7,7 +7,6 @@ import javax.ejb.Asynchronous;
 import javax.ejb.Schedule;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
@@ -63,9 +62,9 @@ public class WaitingDocumentFacade extends AbstractFacade<WaitingDocument> {
     @Schedule(hour = "2", minute = "30", info = "once a day")
     // for test: @Schedule(hour = "*", minute = "*/1", info = "once a minute")
     private void startDeleteOldDocuments() {
-        _logger.log(Level.INFO, "Start deleting old documents");
+        LOGGER.log(Level.INFO, "Start deleting old documents");
         deleteOldDocuments();
-        _logger.log(Level.INFO, "Finished deleting old documents");
+        LOGGER.log(Level.INFO, "Finished deleting old documents");
     }
     
     @Asynchronous
@@ -75,7 +74,7 @@ public class WaitingDocumentFacade extends AbstractFacade<WaitingDocument> {
         query.setParameter("referenceDate", DateUtils.getDateWithDayOffset(-60));
         List<WaitingDocument> docs = query.getResultList();
         for (WaitingDocument doc : docs) {
-            _logger.log(Level.INFO, "Delete old waiting document {0} of agent {1}", new Object[]{doc.getName(), doc.getAgentAccountId()});
+            LOGGER.log(Level.INFO, "Delete old waiting document {0} of agent {1}", new Object[]{doc.getName(), doc.getAgentAccountId()});
             remove(doc);
         }
     }

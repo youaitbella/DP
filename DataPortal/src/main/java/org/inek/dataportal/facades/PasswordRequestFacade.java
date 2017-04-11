@@ -35,7 +35,7 @@ public class PasswordRequestFacade extends AbstractFacade<PasswordRequest> {
     private void cleanPasswordRequests() {
         List<PasswordRequest> requests = findRequestsOlderThan(DateUtils.getDateWithMinuteOffset(-60));
         for (PasswordRequest request : requests) {
-            _logger.log(Level.WARNING, "Clean password request {0}", request.getAccountId());
+            LOGGER.log(Level.WARNING, "Clean password request {0}", request.getAccountId());
             remove(request);
         }
     }
