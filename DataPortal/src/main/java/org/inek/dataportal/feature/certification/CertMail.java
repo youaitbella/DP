@@ -23,7 +23,6 @@ import org.inek.dataportal.entities.certification.RemunerationSystem;
 import org.inek.dataportal.enums.CertMailType;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Genders;
-import org.inek.dataportal.enums.RemunSystem;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.admin.MailTemplateFacade;
 import org.inek.dataportal.facades.certification.EmailLogFacade;
@@ -31,7 +30,6 @@ import org.inek.dataportal.facades.certification.EmailReceiverFacade;
 import org.inek.dataportal.facades.certification.EmailReceiverLabelFacade;
 import org.inek.dataportal.facades.certification.SystemFacade;
 import org.inek.dataportal.helper.scope.FeatureScoped;
-import org.inek.dataportal.helper.structures.Triple;
 import org.inek.dataportal.mail.Mailer;
 
 /**
@@ -46,14 +44,13 @@ public class CertMail implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Email creation/preview fields.">
     private boolean _previewEnabled = false;
-    private List<String> _emailList = new ArrayList<>();
+    private final List<String> _emailList = new ArrayList<>();
     private String _selectedEmailAddressPreview = "";
     private String _previewSubject = "";
     private String _previewBody = "";
     private String _attachement = "";
     private UIComponent _previewButton;
-    private Triple<String, String, String> _emailSentInformation = new Triple<>();
-    private List<Triple<String, String, String>> _emailSentInfoDataTable = new ArrayList<>();
+    private final List<EmailSentInfo> _emailSentInfoDataTable = new ArrayList<>();
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Email receiver lists - fields.">
@@ -419,9 +416,9 @@ public class CertMail implements Serializable {
                 if(!_mailer.sendMailFrom(mt.getFrom(), emailAddress, getCC(emailAddressInfo), mt.getBcc(), subject, body, _attachement))
                     throw new Exception("Fehler bei Mailversand!");
                 createEmailLogEntry(version, mt, emailAddress);
-                _emailSentInfoDataTable.add(new Triple<>(emailAddressInfo, mt.getBcc(), "Erfolgreich"));
+                _emailSentInfoDataTable.add(new EmailSentInfo(emailAddressInfo, mt.getBcc(), "Erfolgreich"));
             } catch (Exception ex) {
-                _emailSentInfoDataTable.add(new Triple<>(emailAddressInfo, mt.getBcc(), "Fehler!\n" + ex.getMessage()));
+                _emailSentInfoDataTable.add(new EmailSentInfo(emailAddressInfo, mt.getBcc(), "Fehler!\n" + ex.getMessage()));
             }
         }
         return "";
@@ -533,7 +530,7 @@ public class CertMail implements Serializable {
         this._previewButton = _previewButton;
     }
 
-    public List<Triple<String, String, String>> getEmailSentSuccess() {
+    public List<EmailSentInfo> getEmailSentSuccess() {
         return _emailSentInfoDataTable;
     }
     

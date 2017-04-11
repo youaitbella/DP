@@ -11,24 +11,20 @@
                 >
 
     <ui:define name="content">
-            <h1>#{msg.lblInsuranceSpecificFuntions}</h1>
+        <h1>#{msg.lblInsuranceSpecificFuntions}</h1>
 
         <h:form id="insuranceSpecificFunction" class="paddingElement">
 
-            <h4><h:outputLabel value="#{msg.infoOpenNubReport}"/></h4>
-            <inek:InsuranceNubNoticeList list="#{insuranceNubNoticeList.openNotices}"/>
+            <h:commandLink styleClass="bigButton #{insuranceSpecificFunctionList.newAllowed? '' : 'buttonDisabled'}"
+                           action="#{insuranceSpecificFunctionList.newRequest()}"
+                           immediate="true"
+                           value="#{msg.btnNewSpecificFunctionRequest}"
+                           disabled="#{!insuranceSpecificFunctionList.newAllowed}"
+                           >
+                <f:param name="id" value="new"/>
+            </h:commandLink>
 
-            <div class="toolBar marginLeft">
-                <h:commandLink styleClass="bigButton" action="#{insuranceNubNoticeList.editNotice}" 
-                               immediate="true" value="#{msg.btnInsuranceNubMessage}">
-                    <f:param name="id" value="new"/>
-                </h:commandLink>
-            </div>
             
-            <h4><h:outputLabel value="#{msg.infoSealedNubReport}"/></h4>
-            <inek:InsuranceNubNoticeList list="#{insuranceNubNoticeList.providedNotices}"/>
-            
-            - in Kürze verfügbar - 
         </h:form>
     </ui:define>
 

@@ -80,7 +80,6 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     @Inject private SessionController _sessionController;
     @Inject private CalcFacade _calcFacade;
     @Inject private ApplicationTools _appTools;
-    @Inject private CostTypeFacade _costTypeFacade;
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     private PeppCalcBasics _priorCalcBasics;

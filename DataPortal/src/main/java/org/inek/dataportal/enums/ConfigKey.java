@@ -24,6 +24,8 @@ public enum ConfigKey {
     IsCalculationBasicsPsySendEnabled(false),
     IsSpecificFunctionRequestCreateEnabled(false),
     IsSpecificFunctionRequestSendEnabled(false),
+    IsSpecificFunctionAgreedCreateEnabled(false),
+    IsSpecificFunctionAgreedSendEnabled(false),
     IsDistributionModelSendEnabled(false), 
     IsDistributionModelDrgCreateEnabled(false), 
     IsDistributionModelPeppCreateEnabled(false),

@@ -31,7 +31,7 @@ import org.inek.dataportal.utils.DocumentationUtil;
 public class SpecificFunctionRequestList {
 
     // <editor-fold defaultstate="collapsed" desc="fields">
-    private static final Logger _logger = Logger.getLogger(SpecificFunctionRequestList.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(SpecificFunctionRequestList.class.getName());
 
     @Inject private CooperationTools _cooperationTools;
     @Inject private SessionController _sessionController;

@@ -16,9 +16,9 @@
 
         <c:forEach items="#{editCooperation.cooperationInfos}" var="cooperationInfo">
             <div class="marginTop">
-                <h:outputLabel value="#{cooperationInfo.value1.description}" styleClass="label25"/>
-                <h:selectOneMenu value="#{cooperationInfo.value3.cooperativeRight}" >
-                    <f:selectItems value="#{cooperationInfo.value2}"/>
+                <h:outputLabel value="#{cooperationInfo.feature.description}" styleClass="label25"/>
+                <h:selectOneMenu value="#{cooperationInfo.right.cooperativeRight}" >
+                    <f:selectItems value="#{cooperationInfo.selectItems}"/>
                     <f:ajax event="blur" render="@this :logout:remaining"/>
                 </h:selectOneMenu>
 

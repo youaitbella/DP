@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/Templates/PortalMenuTemplate.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components"
+
+                xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+    <ui:define name="content">
+
+        <h:form id="specificFuntion" enctype="multipart/form-data">
+            <h1><h:commandLink value="#{msg.lblSpecificFunction}" styleClass="marginTop01em"
+                               action="#{sessionController.navigate(sessionTools.pages.SpecificFunctionSummary)}" immediate="true"/></h1>
+
+            <div class="edit">
+                <inek:LabeledText rendered="#{not sessionController.isInekUser('SPECIFIC_FUNCTION')}"
+                                  readonly="true"
+                                  singleLine="true"
+                                  displayAsLabel="true"
+                                  label="#{msg.lblContractKey}" 
+                                  value="#{sessionController.isInekUser('SPECIFIC_FUNCTION') or editSpecificFunction.request.code.length() gt 0
+                                           ? editSpecificFunction.request.code 
+                                           : msg.lblNotGrantedYet}" />
+                <inek:LabeledText rendered="#{sessionController.isInekUser('SPECIFIC_FUNCTION')}" 
+                                  singleLine="true"
+                                  displayAsLabel="true"
+                                  label="#{msg.lblContractKey}" 
+                                  value="#{editSpecificFunction.request.code}" />
+
+                <h2 style="margin-bottom: 1em;"></h2>
+
+                <inek:MultiIk id="ikMulti" value="#{editSpecificFunction.request.ik}" 
+                              ikList="#{editSpecificFunction.iks}"
+                              listener="#{editSpecificFunction.ikChanged}" 
+                              renderElement="spfData"
+                              readonly="#{editSpecificFunction.readOnly}" 
+                              isFixed="#{editSpecificFunction.request.id gt 0}"/>
+
+                <div jsf:id="spfData" jsf:rendered="#{editSpecificFunction.request.ik gt 0}">
+                    <h2>#{msg.lblContactPerson}</h2>
+
+                    <h:panelGroup styleClass="element100 marginTop01em">
+                        <h:outputLabel styleClass="label10" for="cbxGender" value="#{msg.lblSalutation}"/>
+                        <h:selectOneMenu styleClass="inputshort" id="cbxGender" value="#{editSpecificFunction.request.gender}"
+                                         required="true" requiredMessage="#{msg.msgChooseEntryShort}">
+                            <f:selectItems value="#{sessionTools.genderItems}"/>
+                            <f:ajax event="blur" render="@this msgGender"/>
+                        </h:selectOneMenu>
+                        <h:message id="msgGender" for="cbxGender" styleClass="errorMessage"/>
+                    </h:panelGroup>
+                    <inek:LabeledText id="title" label="#{msg.lblTitle}" value="#{editSpecificFunction.request.title}" singleLine="true" styleClassLabel="label10" styleClass="element50" readonly="#{editSpecificFunction.readOnly}"/>
+                    <inek:LabeledText id="firstName" label="#{msg.lblFirstName}" value="#{editSpecificFunction.request.firstName}" singleLine="true" styleClassLabel="label10" styleClass="element50" required="true" readonly="#{editSpecificFunction.readOnly}"/>
+                    <inek:LabeledText id="lastName" label="#{msg.lblLastName}" value="#{editSpecificFunction.request.lastName}" singleLine="true" styleClassLabel="label10" styleClass="element50" required="true" readonly="#{editSpecificFunction.readOnly}"/>
+                    <inek:LabeledText id="phone" label="#{msg.lblPhone}" value="#{editSpecificFunction.request.phone}" singleLine="true" styleClassLabel="label10" styleClass="element50" required="true" readonly="#{editSpecificFunction.readOnly}"/>
+                    <inek:LabeledText id="mail" label="#{msg.lblMail}" value="#{editSpecificFunction.request.mail}" singleLine="true" styleClassLabel="label10" styleClass="element50" required="true" readonly="#{editSpecificFunction.readOnly}"/>
+
+                    <ui:include src="ProjectedCenters.xhtml"/>
+                    <ui:include src="AgreedCenters.xhtml"/>
+
+                    <h:messages showDetail="true" globalOnly="true"/>
+                </div>
+
+                <div jsf:rendered="#{editSpecificFunction.requestCorrectionEnabled or not empty editSpecificFunction.request.noteInek}">
+                    <h2 style="margin-top: 1em; margin-bottom: 1em;"></h2>
+
+                    <inek:LabeledTextarea label="Bemerkung InEK" 
+                                          value="#{editSpecificFunction.request.noteInek}" 
+                                          styleClassLabel="label20 alignTop"
+                                          styleClassText="area70High alignTop"
+                                          readonly="#{not editSpecificFunction.requestCorrectionEnabled}"/>
+                </div>
+
+
+                <div class="toolBar">
+                    <h:commandLink styleClass="bigButton"
+                                   action="#{editSpecificFunction.save}"
+                                   value="#{msg.btnSave}"
+                                   immediate="true"
+                                   rendered="#{!editSpecificFunction.readOnly or sessionController.isInekUser('SPECIFIC_FUNCTION')}">
+                    </h:commandLink>
+
+                    <h:commandLink styleClass="bigButton"
+                                   action="#{editSpecificFunction.saveAndMail}"
+                                   value="Speichern + E-Mail"
+                                   immediate="true"
+                                   rendered="#{editSpecificFunction.request.statusId eq 10 and sessionController.isInekUser('SPECIFIC_FUNCTION')}">
+                    </h:commandLink>
+
+                    <h:commandLink styleClass="sendButton"
+                                   action="#{editSpecificFunction.requestApproval}"
+                                   value="#{msg.btnRequestApproval}"
+                                   rendered="#{editSpecificFunction.approvalRequestEnabled}"
+                                   title="#{msg.infoSaveAndClose}">
+                        <cb:confirmRequestApproval/>
+                    </h:commandLink>
+
+                    <h:commandLink styleClass="sendButton"
+                                   action="#{editSpecificFunction.seal}"
+                                   value="#{msg.btnSaveAndClose}"
+                                   rendered="#{editSpecificFunction.sealEnabled}"
+                                   immediate="false"
+                                   title="#{msg.infoSaveAndClose}">
+                        <cb:confirmSeal/>
+                    </h:commandLink>
+
+                    <h:commandLink styleClass="bigButton"
+                                   action="#{editSpecificFunction.take}"
+                                   value="#{msg.btnTake}"
+                                   immediate="true"
+                                   rendered="#{editSpecificFunction.takeEnabled}"
+                                   onclick="#{sessionController.getConfirmMessage('msgConfirmTake')};">
+                    </h:commandLink>
+
+                    <h:commandLink styleClass="bigButton"
+                                   action="#{editSpecificFunction.requestCorrection}"
+                                   value="#{msg.btnRequestCorrection}"
+                                   immediate="true"
+                                   rendered="#{editSpecificFunction.requestCorrectionEnabled}">
+                    </h:commandLink>
+
+
+                </div>
+            </div>
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>
+

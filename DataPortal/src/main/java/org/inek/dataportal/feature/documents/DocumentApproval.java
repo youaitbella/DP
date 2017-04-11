@@ -35,7 +35,6 @@ import org.inek.dataportal.facades.account.WaitingDocumentFacade;
 import org.inek.dataportal.helper.StreamHelper;
 import org.inek.dataportal.helper.scope.FeatureScoped;
 import org.inek.dataportal.helper.structures.DocInfo;
-import org.inek.dataportal.helper.structures.Pair;
 import org.inek.dataportal.helper.tree.AccountTreeNode;
 import org.inek.dataportal.helper.tree.DocumentInfoTreeNode;
 import org.inek.dataportal.mail.Mailer;
@@ -132,12 +131,12 @@ public class DocumentApproval implements TreeNodeObserver, Serializable {
 
         _rootNode.getSelectedNodes().stream().map((node) -> approveAndReturnMailInfo(node.getId())).forEach((mailInfo) -> {
             // collect mail info to reduce redundant mails
-            String key = mailInfo.getValue1();
+            String key = mailInfo.getJsonMail();
             Set<Account> accounts = mailInfos.get(key);
             if (accounts == null) {
                 accounts = new HashSet<>();
             }
-            accounts.addAll(mailInfo.getValue2());
+            accounts.addAll(mailInfo.getAccounts());
             mailInfos.put(key, accounts);
         });
         
@@ -154,12 +153,12 @@ public class DocumentApproval implements TreeNodeObserver, Serializable {
     }
 
     public void approve(int docId) {
-        Pair<String, List<Account>> mailInfo = approveAndReturnMailInfo(docId);
-        notify(mailInfo.getValue1(), mailInfo.getValue2());
+        MailInfo mailInfo = approveAndReturnMailInfo(docId);
+        notify(mailInfo.getJsonMail(), mailInfo.getAccounts());
         _rootNode.refresh();
     }
 
-    public Pair<String, List<Account>> approveAndReturnMailInfo(int docId) {
+    private MailInfo approveAndReturnMailInfo(int docId) {
         WaitingDocument waitingDoc = _waitingDocFacade.find(docId);
         List<Account> accounts = waitingDoc.getAccounts();
         for (Account account : accounts) {
@@ -168,7 +167,7 @@ public class DocumentApproval implements TreeNodeObserver, Serializable {
         String jsonMail = waitingDoc.getJsonMail();
         //waitingDoc.getAccounts().clear();
         _waitingDocFacade.remove(waitingDoc);
-        return new Pair<>(jsonMail, accounts);
+        return new MailInfo(jsonMail, accounts);
     }
 
     private void createAccountDocument(Account account, WaitingDocument waitingDoc) {
@@ -228,4 +227,22 @@ public class DocumentApproval implements TreeNodeObserver, Serializable {
         return "";
     }
 
+    private static class MailInfo{
+        private final String _jsonMail;
+        private final List<Account> _accounts;
+
+        private MailInfo(String jsonMail, List<Account> accounts) {
+            _jsonMail = jsonMail;
+            _accounts = accounts;
+        }
+
+        public String getJsonMail() {
+            return _jsonMail;
+        }
+
+        public List<Account> getAccounts() {
+            return _accounts;
+        }
+
+    }
 }

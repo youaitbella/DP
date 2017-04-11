@@ -156,12 +156,13 @@ public enum Pages {
     InsuranceSummary("/Insurance/InsuranceSummary"),
     InsuranceNubNoticeEditAddress("/Insurance/InsuranceNubNoticeEdit"),
     InsuranceNubNoticeEditList("/Insurance/InsuranceNubNoticeEdit"),
-    InsuranceSpecificFunctionSummary("/Insurance/InsuranceSpfSummary"),
     
     //
     PartSpecificFunction("/SpecificFunction/PartSpecificFunction"),
     SpecificFunctionSummary("/SpecificFunction/SpecificFunctionSummary"),
     SpecificFunctionEditRequest("/SpecificFunction/EditRequest"),
+    SpecificFunctionEditAgreed("/SpecificFunction/EditAgreed"),
+    InsuranceSpecificFunctionSummary("/SpecificFunction/InsuranceSpfSummary"),
 
     //
     NotAllowed("/common/NotAllowed"),

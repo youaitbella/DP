@@ -37,7 +37,6 @@ import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.Topic;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
-import org.inek.dataportal.helper.structures.Triple;
 import org.inek.dataportal.services.MessageService;
 
 /**
@@ -73,8 +72,6 @@ public class EditCooperation extends AbstractEditController {
         tabCooperationOther;
     }
 
-    // <editor-fold defaultstate="collapsed" desc="fields">
-    // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     public Account getPartnerAccount() {
         return _partnerAccount;
@@ -92,9 +89,9 @@ public class EditCooperation extends AbstractEditController {
         _isOutstandingCooperationRequest = isRequest;
     }
 
-    private List<Triple<Feature, List<SelectItem>, CooperationRight>> _cooperationInfos;
+    private List<CooperationInfo> _cooperationInfos;
 
-    public List<Triple<Feature, List<SelectItem>, CooperationRight>> getCooperationInfos() {
+    public List<CooperationInfo> getCooperationInfos() {
         if (_cooperationInfos == null) {
             _cooperationInfos = new ArrayList<>();
             tryAddFeature(Feature.MODEL_INTENTION, this::getCooperativeReadRights);
@@ -116,7 +113,7 @@ public class EditCooperation extends AbstractEditController {
             } else {
                 right = addAndReturnMissingCooperationRight(feature);
             }
-            _cooperationInfos.add(new Triple<>(feature, cooperativeRights.get(), right));
+            _cooperationInfos.add(new CooperationInfo(feature, cooperativeRights.get(), right));
         }
     }
 
@@ -320,6 +317,7 @@ public class EditCooperation extends AbstractEditController {
     }
 
     private boolean _createMessage = false;
+
     public boolean isCreateMessage() {
         return _createMessage;
     }
