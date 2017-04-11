@@ -96,7 +96,7 @@ public class AgreedSpecificFunction implements Serializable {
     @Documentation(key = "lblInsuranceName")
     private String _insuranceName = "";
 
-    @Size(max = 50)
+    @Size(max = 250)
     public String getInsuranceName() {
         return _insuranceName;
     }
@@ -111,7 +111,7 @@ public class AgreedSpecificFunction implements Serializable {
     @Documentation(key = "lblStreet")
     private String _insuranceStreet = "";
 
-    @Size(max = 50)
+    @Size(max = 100)
     public String getInsuranceStreet() {
         return _insuranceStreet;
     }
@@ -121,9 +121,38 @@ public class AgreedSpecificFunction implements Serializable {
     }
     // </editor-fold>
    
+    // <editor-fold defaultstate="collapsed" desc="Property InsuranceStreet">
+    @Column(name = "amInsurancePostCode")
+    @Documentation(key = "lblPostalCode")
+    private String _insurancePostCode = "";
+
+    @Size(max = 100)
+    public String getInsurancePostCode() {
+        return _insurancePostCode;
+    }
+
+    public void setInsurancePostCode(String insurancePostCode) {
+        _insurancePostCode = insurancePostCode;
+    }
+    // </editor-fold>
+   
+    // <editor-fold defaultstate="collapsed" desc="Property InsuranceTown">
+    @Column(name = "amInsuranceTown")
+    @Documentation(key = "lblTown")
+    private String _insuranceTown = "";
+
+    @Size(max = 100)
+    public String getInsuranceTown() {
+        return _insuranceTown;
+    }
+
+    public void setInsuranceTown(String insuranceTown) {
+        _insuranceTown = insuranceTown;
+    }
+    // </editor-fold>
+   
 /*
     
-	[amInsuranceStreet] [nvarchar](100) NOT NULL,
 	[amInsurancePostCode] [nvarchar](10) NOT NULL,
 	[amInsuranceTown] [nvarchar](100) NOT NULL,
      
