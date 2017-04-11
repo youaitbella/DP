@@ -61,7 +61,7 @@ public class MailTemplateFacade extends AbstractFacade<MailTemplate> {
         try {
             return query.setParameter("name", name).getSingleResult();
         } catch (Exception ex) {
-            _logger.log(Level.WARNING, "MailTemplate not found: {0}", name);
+            LOGGER.log(Level.WARNING, "MailTemplate not found: {0}", name);
         }
         return null;
     }
@@ -73,7 +73,7 @@ public class MailTemplateFacade extends AbstractFacade<MailTemplate> {
         try {
             return query.setParameter("feature", f).getResultList();
         } catch (Exception ex) {
-            _logger.log(Level.WARNING, "MailTemplate not found: {0}", f);
+            LOGGER.log(Level.WARNING, "MailTemplate not found: {0}", f);
         }
         return null;
     }

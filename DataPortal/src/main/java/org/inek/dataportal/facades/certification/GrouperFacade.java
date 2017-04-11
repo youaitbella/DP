@@ -37,7 +37,7 @@ public class GrouperFacade extends AbstractFacade<Grouper> {
         try {
             return getEntityManager().createQuery(query, Grouper.class).setParameter("accId", accountId).setParameter("sysId", systemId).getSingleResult();
         } catch (Exception ex) {
-            _logger.log(Level.WARNING, "No grouper found for account {0} and system {1}", new Object[]{accountId, systemId});
+            LOGGER.log(Level.WARNING, "No grouper found for account {0} and system {1}", new Object[]{accountId, systemId});
             return new Grouper();
         }
     }

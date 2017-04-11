@@ -181,7 +181,7 @@ public class AccountFacade extends AbstractFacade<Account> {
 
     public Account updateAccount(Account account) {
         if (account.getId() == null) {
-            getLogger().log(Level.SEVERE, "attempt to update a non-existing account");
+            getLOGGER().log(Level.SEVERE, "attempt to update a non-existing account");
             return null;  // let the client crash
         }
 
@@ -220,11 +220,11 @@ public class AccountFacade extends AbstractFacade<Account> {
         }
         AccountRequest accountRequest = _accountRequestFacade.findByMailOrUser(mailOrUser);
         if (accountRequest == null) {
-            getLogger().log(Level.WARNING, "No account request found for {0}", mailOrUser);
+            getLOGGER().log(Level.WARNING, "No account request found for {0}", mailOrUser);
             return false;
         }
         if (!accountRequest.getPasswordHash().equals(Crypt.hashPassword(password, accountRequest.getSalt())) || !accountRequest.getActivationKey().equals(activationKey)) {
-            getLogger().log(Level.WARNING, "Password or activation key does not match {0}", mailOrUser);
+            getLOGGER().log(Level.WARNING, "Password or activation key does not match {0}", mailOrUser);
             return false;
         }
         Account account = ObjectUtil.copyObject(Account.class, accountRequest);
@@ -308,11 +308,11 @@ public class AccountFacade extends AbstractFacade<Account> {
         }
         Account account = findByMailOrUser(mail);
         if (account == null) {
-            _logger.log(Level.INFO, "Password request for unknown account {0}", mail);
+            LOGGER.log(Level.INFO, "Password request for unknown account {0}", mail);
             return false;
         }
         if (account.isDeactivated()) {
-            _logger.log(Level.INFO, "Password request for deactivated account {0}", mail);
+            LOGGER.log(Level.INFO, "Password request for deactivated account {0}", mail);
             return false;
         }
         PasswordRequest request = _pwdRequestFacade.find(account.getId());
@@ -334,7 +334,7 @@ public class AccountFacade extends AbstractFacade<Account> {
         if (_mailer.sendPasswordActivationMail(request, account)) {
             return true;
         }
-        getLogger().log(Level.WARNING, "Could not send password activation mail for {0}", account.getEmail());
+        gegetLOGGER.log(Level.WARNING, "Could not send password activation mail for {0}", account.getEmail());
         _pwdRequestFacade.remove(request);
         return false;
     }

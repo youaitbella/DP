@@ -85,12 +85,12 @@ public class PeppProposalFacade extends AbstractFacade<PeppProposal> {
     private void logData(Object data) {
         List<KeyValueLevel> doc = DocumentationUtil.getDocumentation(data);
         // ensure these messages to be logged
-        Level oldLevel = _logger.getLevel();
-        _logger.setLevel(Level.INFO);
+        Level oldLevel = LOGGER.getLevel();
+        LOGGER.setLevel(Level.INFO);
         for (KeyValueLevel kv : doc) {
-            _logger.log(Level.INFO, "{0} ^ Key: {1} ^ Length: {2} ^ Value: {3}", new Object[]{data.getClass().getSimpleName(), kv.getKey(), kv.getValue().toString().length(), kv.getValue()});
+            LOGGER.log(Level.INFO, "{0} ^ Key: {1} ^ Length: {2} ^ Value: {3}", new Object[]{data.getClass().getSimpleName(), kv.getKey(), kv.getValue().toString().length(), kv.getValue()});
         }
-        _logger.setLevel(oldLevel);
+        LOGGER.setLevel(oldLevel);
     }
 
     public List<ProposalInfo> getPeppProposalInfos(int accountId, DataSet dataSet) {

@@ -20,7 +20,7 @@ import org.eclipse.persistence.jpa.JpaQuery;
  */
 public abstract class AbstractFacade<T> {
 
-    protected static final Logger _logger = Logger.getLogger("Facade");
+    protected static final Logger LOGGER = Logger.getLogger("Facade");
 
     @PersistenceContext(unitName = "DataPortalPU")
     private EntityManager _em;
@@ -37,8 +37,8 @@ public abstract class AbstractFacade<T> {
         _entityClass = entityClass;
     }
 
-    public static Logger getLogger() {
-        return _logger;
+    public static Logger getLOGGER() {
+        return LOGGER;
     }
 
     protected EntityManager getEntityManager() {
@@ -56,7 +56,7 @@ public abstract class AbstractFacade<T> {
         } catch (Exception ex) {
             // EJB wont populate any exection up to a caller. It allways forces a rollback.
             // To check for those kind of problems, we log it and re-throw the exception
-            _logger.log(Level.SEVERE, ex.getMessage());
+            LOGGER.log(Level.SEVERE, ex.getMessage());
             throw ex;
         }
     }
@@ -70,7 +70,7 @@ public abstract class AbstractFacade<T> {
             // EJB wont populate any exection up to a caller. It allways forces a rollback.
             // To check for those kind of problems, we log it and return a null
             // at the caller level we may chack for null or let it crash and catch an exception there
-            _logger.log(Level.SEVERE, ex.getMessage());
+            LOGGER.log(Level.SEVERE, ex.getMessage());
             return null;
         }
     }
