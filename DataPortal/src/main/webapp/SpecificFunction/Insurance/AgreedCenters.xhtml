@@ -1,0 +1,153 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components"
+                >
+
+    <h2 style="margin-top: 1em;"></h2>
+    <inek:LabeledCheckbox label="Wir beabsichtigen über die Vereinbarung von Zuschlägen gem. § 5 Abs. 3 KHEntgG zu verhandeln" 
+                          styleClassComponent="marginTop01em"
+                          value="#{editSpecificFunction.request.willNegotiate}"
+                          readonly="#{editSpecificFunction.readOnly}"
+                          renderElement="@form"/>
+
+    <ui:repeat value="#{editSpecificFunction.request.requestProjectedCenters}" var="center" 
+               rendered="#{editSpecificFunction.request.willNegotiate}">
+        <div class="rectangle">
+            <div class="inputPart">
+                <h:commandLink rendered="#{!editSpecificFunction.readOnly}">
+                    <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value=""/>
+                    <cb:confirmDelete/>
+                    <f:ajax render="@form :logout:remaining" listener="#{editSpecificFunction.deleteProjectedCenter(center)}"/>
+                </h:commandLink>
+            </div>
+
+            <div class="inputPart">
+                <h:outputLabel for="centerName" 
+                               value="Zentrumszuschlag für" 
+                               title="Zentrumszuschlag für (Art des Zentrums)"
+                               styleClass="label element12em" />
+
+                <h:selectOneMenu id="centerName"
+                                 styleClass="element25em"
+                                 required="true"
+                                 requiredMessage="#{msg.msgValueNeeded}"
+                                 value="#{center.centerId}"
+                                 hideNoSelectionOption="true"  
+                                 readonly="#{editSpecificFunction.readOnly}">
+                    <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
+                    <f:selectItems value="#{editSpecificFunction.centerNames}" var="centerName" itemValue="#{centerName.id}" itemLabel="#{centerName.name}"/>
+                    <f:selectItem itemLabel="Sonstiges (bitte angeben)" itemValue="#{-1}"/>
+                    <f:ajax event="change" render="@form :logout:remaining msgCenterName"/>
+                </h:selectOneMenu>
+                <h:message for="centerName" id="msgCenterName" styleClass="errorMessage"/>
+                <h:panelGroup id="otherName" 
+                              styleClass="element100-37em"
+                              rendered="#{center.centerId eq -1}">
+                    <h:inputText id="txtCenterOtherName"
+                                 title="Bezeichung eines sonstigen Zentrums"
+                                 styleClass="element100"
+                                 value="#{center.otherCenterName}" 
+                                 required="true" 
+                                 readonly="#{editSpecificFunction.readOnly}">
+                        <f:ajax rendered=":logout:remaining msgCenterOtherName"/>
+                    </h:inputText>
+                    <h:message for="txtCenterOtherName" id="msgCenterOtherName" styleClass="errorMessage"/>
+                </h:panelGroup>
+            </div>
+
+            <inek:LabeledText label="Standort"
+                              title="Angabe des Standortes bei nach Standorten differenziertem Versorgungsauftrag gemäß Krankenhausplan des Landes; sobald verfügbar (spätestens ab 01.01.2020) Angabe des Standort-Kennzeichens nach § 293 Absatz 6 SGB V." 
+                              value="#{center.location}" 
+                              styleClassLabel="label element12em" 
+                              styleClass="element100-12em"
+                              readonly="#{editSpecificFunction.readOnly}"
+                              singleLine="true"/>
+
+            <div class="inputPart">
+                <h:outputLabel for="specificFunction" 
+                               value="Besondere Aufgaben" 
+                               title="Für Verhandlung vorgesehene besondere Aufgaben (Stichpunktartige Auflistung der zentralen Aufgaben)" 
+                               styleClass="label element12em alignTop" />
+
+                <div class="container10em element100-13em">
+
+                    <h:selectManyCheckbox id="specificFunction"
+                                          layout="pageDirection"
+                                          required="true"
+                                          readonly="#{editSpecificFunction.readOnly}"
+                                          requiredMessage="#{msg.msgValueNeeded}"
+                                          value="#{center.specificFunctions}">
+                        <f:selectItems value="#{editSpecificFunction.specificFunctions}" var="function" itemValue="#{function}" itemLabel="#{function.text}"/>
+                        <f:converter converterId="SpecificFunctionConverter"/>
+                        <f:ajax event="change" render="@form :logout:remaining msgSpecificFunction"/>
+                    </h:selectManyCheckbox>
+                </div>
+                    <h:message for="specificFunction" id="msgSpecificFunction" styleClass="errorMessage elementRight70"/>
+            </div>
+
+            <!--div class="inputPart">
+                <h:outputLabel id="lblOtherSpecificFunction" value="Sonstige Aufgaben" styleClass="label element12em" for="otherSpecificFunction"/>
+                <h:inputText id="otherSpecificFunction" 
+                             styleClass="element100-12em"
+                             readonly="# not center.specificFunctions.stream().anyMatch(f -> f.getId() == -1)}"
+                             required="# {center.specificFunctions.stream().anyMatch(f -> f.getId() == -1)}"
+                             title="Für Verhandlung vorgesehene besondere Aufgaben (Stichpunktartige Auflistung der zentralen Aufgaben)"
+                             value="# {center.otherSpecificFunction}" >
+                    <f:ajax event="focus" render="@this lblOtherSpecificFunction :logout:remaining msgOtherSpecificFunction"/>
+                    <f:ajax event="change" render="@this lblOtherSpecificFunction :logout:remaining msgOtherSpecificFunction"/ second event causes an error if agent is edited :(>
+                </h:inputText>
+                <h:message id="msgOtherSpecificFunction" for="otherSpecificFunction" styleClass="errorMessage right"/>
+            </div-->
+
+            <inek:LabeledText label="Sonstige Aufgaben"
+                              rendered="#{center.specificFunctions.stream().anyMatch(f -> f.getId() == -1)}"
+                              title="Für Verhandlung vorgesehene besondere Aufgaben (Stichpunktartige Auflistung der zentralen Aufgaben)" 
+                              value="#{center.otherSpecificFunction}" 
+                              required="true"
+                              readonly="#{editSpecificFunction.readOnly}"
+                              styleClassLabel="label element12em" 
+                              styleClass="element100-12em"
+                              singleLine="true"/>
+
+            <inek:LabeledText label="Anzahl Patienten (ca.)"
+                              title="Voraussichtliche Anzahl der durch das Zentrum /den Schwerpunkt betreuten Patientinnen/Patienten" 
+                              value="#{center.estimatedPatientCount}" 
+                              required="true"
+                              readonly="#{editSpecificFunction.readOnly}"
+                              styleClassLabel="label element12em" 
+                              styleClass="col04em number"                              
+                              singleLine="true"/>
+
+            <div class="marginTop">
+                <h:outputLabel for="type" value="Ausweisung und Festsetzung der besonderen Aufgaben" styleClass="label marginRight"/>
+                <h:selectOneMenu id="type"
+                                 title="Bitte angeben"
+                                 required="true"
+                                 readonly="#{editSpecificFunction.readOnly}"
+                                 requiredMessage="#{msg.msgValueNeeded}"
+                                 value="#{center.typeId}"
+                                 hideNoSelectionOption="true" >
+                    <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
+                    <f:selectItems value="#{editSpecificFunction.typeItems}" var="item" itemLabel="#{item.value}" itemValue="#{item.key}"/>
+                    <f:ajax event="change" render="@form :logout:remaining msgType"/>
+                </h:selectOneMenu>
+                <h:message for="type" id="msgType" styleClass="errorMessage"/>
+            </div>
+
+        </div>
+    </ui:repeat>
+
+
+    <h:commandLink styleClass="addButton marginRight" value="#{msg.btnAddEntry}"
+                   rendered="#{editSpecificFunction.request.willNegotiate and !editSpecificFunction.readOnly}">
+        <f:ajax event="click" render="@form :logout:remaining" listener="#{editSpecificFunction.addProjectedCenter()}"/>
+    </h:commandLink>
+
+</ui:composition>
+

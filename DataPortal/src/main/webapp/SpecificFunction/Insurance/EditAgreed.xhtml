@@ -15,7 +15,7 @@
 
         <h:form id="specificFuntion" enctype="multipart/form-data">
             <h1><h:commandLink value="#{msg.lblSpecificFunction}" styleClass="marginTop01em"
-                               action="#{sessionController.navigate(sessionTools.pages.SpecificFunctionSummary)}" immediate="true"/></h1>
+                               action="#{sessionController.navigate(sessionTools.pages.InsuranceSpecificFunctionSummary)}" immediate="true"/></h1>
 
             <div class="edit">
                 <inek:LabeledText rendered="#{not sessionController.isInekUser('SPECIFIC_FUNCTION')}"
@@ -23,104 +23,103 @@
                                   singleLine="true"
                                   displayAsLabel="true"
                                   label="#{msg.lblContractKey}" 
-                                  value="#{sessionController.isInekUser('SPECIFIC_FUNCTION') or editSpecificFunction.request.code.length() gt 0
-                                           ? editSpecificFunction.request.code 
+                                  value="#{sessionController.isInekUser('SPECIFIC_FUNCTION') or editInsuranceSpecificFunction.request.code.length() gt 0
+                                           ? editInsuranceSpecificFunction.request.code 
                                            : msg.lblNotGrantedYet}" />
                 <inek:LabeledText rendered="#{sessionController.isInekUser('SPECIFIC_FUNCTION')}" 
                                   singleLine="true"
                                   displayAsLabel="true"
                                   label="#{msg.lblContractKey}" 
-                                  value="#{editSpecificFunction.request.code}" />
+                                  value="#{editInsuranceSpecificFunction.request.code}" />
 
                 <h2 style="margin-bottom: 1em;"></h2>
 
-                <inek:MultiIk id="ikMulti" value="#{editSpecificFunction.request.ik}" 
-                              ikList="#{editSpecificFunction.iks}"
-                              listener="#{editSpecificFunction.ikChanged}" 
+                <inek:MultiIk id="ikMulti" value="#{editInsuranceSpecificFunction.request.ik}" 
+                              ikList="#{editInsuranceSpecificFunction.iks}"
+                              listener="#{editInsuranceSpecificFunction.ikChanged}" 
                               renderElement="spfData"
-                              readonly="#{editSpecificFunction.readOnly}" 
-                              isFixed="#{editSpecificFunction.request.id gt 0}"/>
+                              readonly="#{editInsuranceSpecificFunction.readOnly}" 
+                              isFixed="#{editInsuranceSpecificFunction.request.id gt 0}"/>
 
-                <div jsf:id="spfData" jsf:rendered="#{editSpecificFunction.request.ik gt 0}">
+                <div jsf:id="spfData" jsf:rendered="#{editInsuranceSpecificFunction.request.ik gt 0}">
                     <h2>#{msg.lblContactPerson}</h2>
 
                     <h:panelGroup styleClass="element100 marginTop01em">
                         <h:outputLabel styleClass="label10" for="cbxGender" value="#{msg.lblSalutation}"/>
-                        <h:selectOneMenu styleClass="inputshort" id="cbxGender" value="#{editSpecificFunction.request.gender}"
+                        <h:selectOneMenu styleClass="inputshort" id="cbxGender" value="#{editInsuranceSpecificFunction.request.gender}"
                                          required="true" requiredMessage="#{msg.msgChooseEntryShort}">
                             <f:selectItems value="#{sessionTools.genderItems}"/>
                             <f:ajax event="blur" render="@this msgGender"/>
                         </h:selectOneMenu>
                         <h:message id="msgGender" for="cbxGender" styleClass="errorMessage"/>
                     </h:panelGroup>
-                    <inek:LabeledText id="title" label="#{msg.lblTitle}" value="#{editSpecificFunction.request.title}" singleLine="true" styleClassLabel="label10" styleClass="element50" readonly="#{editSpecificFunction.readOnly}"/>
-                    <inek:LabeledText id="firstName" label="#{msg.lblFirstName}" value="#{editSpecificFunction.request.firstName}" singleLine="true" styleClassLabel="label10" styleClass="element50" required="true" readonly="#{editSpecificFunction.readOnly}"/>
-                    <inek:LabeledText id="lastName" label="#{msg.lblLastName}" value="#{editSpecificFunction.request.lastName}" singleLine="true" styleClassLabel="label10" styleClass="element50" required="true" readonly="#{editSpecificFunction.readOnly}"/>
-                    <inek:LabeledText id="phone" label="#{msg.lblPhone}" value="#{editSpecificFunction.request.phone}" singleLine="true" styleClassLabel="label10" styleClass="element50" required="true" readonly="#{editSpecificFunction.readOnly}"/>
-                    <inek:LabeledText id="mail" label="#{msg.lblMail}" value="#{editSpecificFunction.request.mail}" singleLine="true" styleClassLabel="label10" styleClass="element50" required="true" readonly="#{editSpecificFunction.readOnly}"/>
+                    <inek:LabeledText id="title" label="#{msg.lblTitle}" value="#{editInsuranceSpecificFunction.request.title}" singleLine="true" styleClassLabel="label10" styleClass="element50" readonly="#{editInsuranceSpecificFunction.readOnly}"/>
+                    <inek:LabeledText id="firstName" label="#{msg.lblFirstName}" value="#{editInsuranceSpecificFunction.request.firstName}" singleLine="true" styleClassLabel="label10" styleClass="element50" required="true" readonly="#{editInsuranceSpecificFunction.readOnly}"/>
+                    <inek:LabeledText id="lastName" label="#{msg.lblLastName}" value="#{editInsuranceSpecificFunction.request.lastName}" singleLine="true" styleClassLabel="label10" styleClass="element50" required="true" readonly="#{editInsuranceSpecificFunction.readOnly}"/>
+                    <inek:LabeledText id="phone" label="#{msg.lblPhone}" value="#{editInsuranceSpecificFunction.request.phone}" singleLine="true" styleClassLabel="label10" styleClass="element50" required="true" readonly="#{editInsuranceSpecificFunction.readOnly}"/>
+                    <inek:LabeledText id="mail" label="#{msg.lblMail}" value="#{editInsuranceSpecificFunction.request.mail}" singleLine="true" styleClassLabel="label10" styleClass="element50" required="true" readonly="#{editInsuranceSpecificFunction.readOnly}"/>
 
-                    <ui:include src="ProjectedCenters.xhtml"/>
                     <ui:include src="AgreedCenters.xhtml"/>
 
                     <h:messages showDetail="true" globalOnly="true"/>
                 </div>
 
-                <div jsf:rendered="#{editSpecificFunction.requestCorrectionEnabled or not empty editSpecificFunction.request.noteInek}">
+                <div jsf:rendered="#{editInsuranceSpecificFunction.requestCorrectionEnabled or not empty editInsuranceSpecificFunction.request.noteInek}">
                     <h2 style="margin-top: 1em; margin-bottom: 1em;"></h2>
 
                     <inek:LabeledTextarea label="Bemerkung InEK" 
-                                          value="#{editSpecificFunction.request.noteInek}" 
+                                          value="#{editInsuranceSpecificFunction.request.noteInek}" 
                                           styleClassLabel="label20 alignTop"
                                           styleClassText="area70High alignTop"
-                                          readonly="#{not editSpecificFunction.requestCorrectionEnabled}"/>
+                                          readonly="#{not editInsuranceSpecificFunction.requestCorrectionEnabled}"/>
                 </div>
 
 
                 <div class="toolBar">
                     <h:commandLink styleClass="bigButton"
-                                   action="#{editSpecificFunction.save}"
+                                   action="#{editInsuranceSpecificFunction.save}"
                                    value="#{msg.btnSave}"
                                    immediate="true"
-                                   rendered="#{!editSpecificFunction.readOnly or sessionController.isInekUser('SPECIFIC_FUNCTION')}">
+                                   rendered="#{!editInsuranceSpecificFunction.readOnly or sessionController.isInekUser('SPECIFIC_FUNCTION')}">
                     </h:commandLink>
 
                     <h:commandLink styleClass="bigButton"
-                                   action="#{editSpecificFunction.saveAndMail}"
+                                   action="#{editInsuranceSpecificFunction.saveAndMail}"
                                    value="Speichern + E-Mail"
                                    immediate="true"
-                                   rendered="#{editSpecificFunction.request.statusId eq 10 and sessionController.isInekUser('SPECIFIC_FUNCTION')}">
+                                   rendered="#{editInsuranceSpecificFunction.request.statusId eq 10 and sessionController.isInekUser('SPECIFIC_FUNCTION')}">
                     </h:commandLink>
 
                     <h:commandLink styleClass="sendButton"
-                                   action="#{editSpecificFunction.requestApproval}"
+                                   action="#{editInsuranceSpecificFunction.requestApproval}"
                                    value="#{msg.btnRequestApproval}"
-                                   rendered="#{editSpecificFunction.approvalRequestEnabled}"
+                                   rendered="#{editInsuranceSpecificFunction.approvalRequestEnabled}"
                                    title="#{msg.infoSaveAndClose}">
                         <cb:confirmRequestApproval/>
                     </h:commandLink>
 
                     <h:commandLink styleClass="sendButton"
-                                   action="#{editSpecificFunction.seal}"
+                                   action="#{editInsuranceSpecificFunction.seal}"
                                    value="#{msg.btnSaveAndClose}"
-                                   rendered="#{editSpecificFunction.sealEnabled}"
+                                   rendered="#{editInsuranceSpecificFunction.sealEnabled}"
                                    immediate="false"
                                    title="#{msg.infoSaveAndClose}">
                         <cb:confirmSeal/>
                     </h:commandLink>
 
                     <h:commandLink styleClass="bigButton"
-                                   action="#{editSpecificFunction.take}"
+                                   action="#{editInsuranceSpecificFunction.take}"
                                    value="#{msg.btnTake}"
                                    immediate="true"
-                                   rendered="#{editSpecificFunction.takeEnabled}"
+                                   rendered="#{editInsuranceSpecificFunction.takeEnabled}"
                                    onclick="#{sessionController.getConfirmMessage('msgConfirmTake')};">
                     </h:commandLink>
 
                     <h:commandLink styleClass="bigButton"
-                                   action="#{editSpecificFunction.requestCorrection}"
+                                   action="#{editInsuranceSpecificFunction.requestCorrection}"
                                    value="#{msg.btnRequestCorrection}"
                                    immediate="true"
-                                   rendered="#{editSpecificFunction.requestCorrectionEnabled}">
+                                   rendered="#{editInsuranceSpecificFunction.requestCorrectionEnabled}">
                     </h:commandLink>
 
 

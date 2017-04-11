@@ -159,10 +159,10 @@ public enum Pages {
     
     //
     PartSpecificFunction("/SpecificFunction/PartSpecificFunction"),
-    SpecificFunctionSummary("/SpecificFunction/SpecificFunctionSummary"),
-    SpecificFunctionEditRequest("/SpecificFunction/EditRequest"),
+    SpecificFunctionSummary("/SpecificFunction/Hospital/SpecificFunctionSummary"),
+    SpecificFunctionEditRequest("/SpecificFunction/Hospital/EditRequest"),
     SpecificFunctionEditAgreed("/SpecificFunction/EditAgreed"),
-    InsuranceSpecificFunctionSummary("/SpecificFunction/InsuranceSpfSummary"),
+    InsuranceSpecificFunctionSummary("/SpecificFunction/SpecificFunctionSummary"),
 
     //
     NotAllowed("/common/NotAllowed"),
