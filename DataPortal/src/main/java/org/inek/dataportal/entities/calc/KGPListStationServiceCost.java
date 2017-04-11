@@ -499,7 +499,7 @@ public class KGPListStationServiceCost implements Serializable, BaseIdValue {
                 case "P":
                     _psychosomaticMapping = true;
                     break;
-                default: ;
+                default: throw new IllegalArgumentException("unknown Psy PV value " + psyPvMapping);
             }
         }
         this._psyPvMapping = getPsyPvMapping();
