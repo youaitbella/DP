@@ -351,11 +351,11 @@ public class CalcFacade extends AbstractDataAccess {
                 + "join DataPortal.calc.StatementOfParticipance b on sopId = coStatementOfParticipanceId \n"
                 + "join CallCenterDB.dbo.ccCustomer c on sopik = cuik \n"
                 + "left join (select coid, coCustomerId customerID, coFirstName firstName, coLastName lastName \n"
-                + "			from CallCenterDB.dbo.ccContact a \n"
-                + "			join CallCenterDB.dbo.mapContactRole b on a.coId = b.mcrContactId \n"
-                + "			join CallCenterDB.dbo.listRole c on b.mcrRoleId = c.roId \n"
-                + "			where coIsMain = 0 \n"
-                + "			and mcrRoleId = " + roleID + "\n"
+                + "    from CallCenterDB.dbo.ccContact a \n"
+                + "    join CallCenterDB.dbo.mapContactRole b on a.coId = b.mcrContactId \n"
+                + "    join CallCenterDB.dbo.listRole c on b.mcrRoleId = c.roId \n"
+                + "    where coIsMain = 0 \n"
+                + "    and mcrRoleId = " + roleID + "\n"
                 + ")cr on cuid = customerId and a.coFirstName = cr.firstName and a.coLastName = cr.lastName \n"
                 + "where sopIs" + columnCons + " = 1 \n"
                 + "and sopIk = " + ik + "\n"
@@ -458,8 +458,8 @@ public class CalcFacade extends AbstractDataAccess {
 
     /**
      * Check, whether the customers assigned to the account iks have an
-     * agreement and the account is a well known contact (2) An IK is only
-     * available, if no SoP exists for the given year
+     * agreement and the account is a well known contact (2). An IK is only
+     * available, if no SoP exists for the given year.
      *
      * @param accountId
      * @param year
@@ -476,13 +476,13 @@ public class CalcFacade extends AbstractDataAccess {
                 + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
                 + "left join calc.StatementOfParticipance on cuIk = sopIk and sopDataYear = " + year + "\n"
                 + "where caHasAgreement = 1 and caIsInactive = 0 and caCalcTypeId in (1, 3, 6)\n"
-                + "     and cuIk in (\n"
-                + "		select acIk from dbo.Account where acIk > 0 and acId = " + accountId + "\n"
-                + "		union \n"
-                + "		select aaiIK from dbo.AccountAdditionalIK where aaiAccountId = " + accountId + "\n"
-                + "	) \n"
-                + "	and sopId is null \n"
-                + "     and r2.mcrRoleId is null";
+                + "    and cuIk in (\n"
+                + "        select acIk from dbo.Account where acIk > 0 and acId = " + accountId + "\n"
+                + "        union \n"
+                + "        select aaiIK from dbo.AccountAdditionalIK where aaiAccountId = " + accountId + "\n"
+                + "    ) \n"
+                + "    and sopId is null \n"
+                + "    and r2.mcrRoleId is null";
         Query query = getEntityManager().createNativeQuery(sql);
         @SuppressWarnings("unchecked") HashSet<Integer> result = new HashSet<>(query.getResultList());
         return result;

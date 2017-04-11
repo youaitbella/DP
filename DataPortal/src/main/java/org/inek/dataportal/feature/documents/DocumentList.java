@@ -20,10 +20,10 @@ import org.inek.dataportal.helper.structures.DocInfo;
 @ViewScoped
 public class DocumentList implements Serializable{
 
-    @Inject AccountDocumentFacade _accountDocFacade;
-    @Inject SessionController _sessionController;
-    @Inject PortalMessageFacade _messageFacade;
-    @Inject CooperationRequestFacade _cooperationRequestFacade;
+    @Inject private AccountDocumentFacade _accountDocFacade;
+    @Inject private SessionController _sessionController;
+    @Inject private PortalMessageFacade _messageFacade;
+    @Inject private CooperationRequestFacade _cooperationRequestFacade;
 
     private String _filter = "";
 
@@ -40,7 +40,7 @@ public class DocumentList implements Serializable{
         return "";
     }
 
-    List<DocInfo> _documents = Collections.emptyList();
+    private List<DocInfo> _documents = Collections.emptyList();
 
     private void ensureDocuments() {
         if (_documents.isEmpty()) {

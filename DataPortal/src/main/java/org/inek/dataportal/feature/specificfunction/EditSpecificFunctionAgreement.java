@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -59,7 +60,7 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
     @Inject private CooperationTools _cooperationTools;
     @Inject private SessionController _sessionController;
     @Inject private SpecificFunctionFacade _specificFunctionFacade;
-    @Inject ApplicationTools _appTools;
+    @Inject private ApplicationTools _appTools;
 
     private SpecificFunctionAgreement _agreement;
 
@@ -510,4 +511,7 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
         return _specificFunctionFacade.getSpecificFunctions();
     }
 
+    public void changeCode(ActionEvent event){
+        
+    }
 }

@@ -18,57 +18,49 @@
                                action="#{sessionController.navigate(sessionTools.pages.InsuranceSpecificFunctionSummary)}" immediate="true"/></h1>
 
             <div class="edit">
-                <inek:LabeledText rendered="#{not sessionController.isInekUser('SPECIFIC_FUNCTION')}"
-                                  readonly="true"
-                                  singleLine="true"
-                                  displayAsLabel="true"
+                <inek:LabeledText singleLine="true"
                                   label="#{msg.lblContractKey}" 
-                                  value="#{sessionController.isInekUser('SPECIFIC_FUNCTION') or editInsuranceSpecificFunction.agreement.code.length() gt 0
-                                           ? editInsuranceSpecificFunction.agreement.code 
-                                           : msg.lblNotGrantedYet}" />
-                <inek:LabeledText rendered="#{sessionController.isInekUser('SPECIFIC_FUNCTION')}" 
-                                  singleLine="true"
-                                  displayAsLabel="true"
-                                  label="#{msg.lblContractKey}" 
-                                  value="#{editInsuranceSpecificFunction.agreement.code}" />
+                                  value="#{editSpecificFunctionAgreement.agreement.code}">
+                    <f:ajax listener="#{editSpecificFunctionAgreement.changeCode}" render="@form"/>
+                </inek:LabeledText>
 
                 <h2 style="margin-bottom: 1em;"></h2>
 
-                <inek:MultiIk id="ikMulti" value="#{editInsuranceSpecificFunction.agreement.ik}" 
+                <inek:MultiIk id="ikMulti" value="#{editSpecificFunctionAgreement.agreement.ik}" 
                               ikList="#{editSpecificFunctionAgreement.iks}"
                               listener="#{editSpecificFunctionAgreement.ikChanged}" 
                               renderElement="spfData"
                               readonly="#{editSpecificFunctionAgreement.readOnly}" 
-                              isFixed="#{editInsuranceSpecificFunction.agreement.id gt 0}"/>
+                              isFixed="#{editSpecificFunctionAgreement.agreement.id gt 0}"/>
 
-                <div jsf:id="spfData" jsf:rendered="#{editInsuranceSpecificFunction.agreement.ik gt 0}">
+                <div jsf:id="spfData" jsf:rendered="#{editSpecificFunctionAgreement.agreement.ik gt 0}">
                     <h2>#{msg.lblContactPerson}</h2>
 
                     <h:panelGroup styleClass="element100 marginTop01em">
                         <h:outputLabel styleClass="label10" for="cbxGender" value="#{msg.lblSalutation}"/>
-                        <h:selectOneMenu styleClass="inputshort" id="cbxGender" value="#{editInsuranceSpecificFunction.agreement.gender}"
+                        <h:selectOneMenu styleClass="inputshort" id="cbxGender" value="#{editSpecificFunctionAgreement.agreement.gender}"
                                          required="true" requiredMessage="#{msg.msgChooseEntryShort}">
                             <f:selectItems value="#{sessionTools.genderItems}"/>
                             <f:ajax event="blur" render="@this msgGender"/>
                         </h:selectOneMenu>
                         <h:message id="msgGender" for="cbxGender" styleClass="errorMessage"/>
                     </h:panelGroup>
-                    <inek:LabeledText id="title" label="#{msg.lblTitle}" value="#{editInsuranceSpecificFunction.agreement.title}" singleLine="true" styleClassLabel="label10" styleClass="element50" readonly="#{editSpecificFunctionAgreement.readOnly}"/>
-                    <inek:LabeledText id="firstName" label="#{msg.lblFirstName}" value="#{editInsuranceSpecificFunction.agreement.firstName}" singleLine="true" styleClassLabel="label10" styleClass="element50" required="true" readonly="#{editSpecificFunctionAgreement.readOnly}"/>
-                    <inek:LabeledText id="lastName" label="#{msg.lblLastName}" value="#{editInsuranceSpecificFunction.agreement.lastName}" singleLine="true" styleClassLabel="label10" styleClass="element50" required="true" readonly="#{editSpecificFunctionAgreement.readOnly}"/>
-                    <inek:LabeledText id="phone" label="#{msg.lblPhone}" value="#{editInsuranceSpecificFunction.agreement.phone}" singleLine="true" styleClassLabel="label10" styleClass="element50" required="true" readonly="#{editSpecificFunctionAgreement.readOnly}"/>
-                    <inek:LabeledText id="mail" label="#{msg.lblMail}" value="#{editInsuranceSpecificFunction.agreement.mail}" singleLine="true" styleClassLabel="label10" styleClass="element50" required="true" readonly="#{editSpecificFunctionAgreement.readOnly}"/>
+                    <inek:LabeledText id="title" label="#{msg.lblTitle}" value="#{editSpecificFunctionAgreement.agreement.title}" singleLine="true" styleClassLabel="label10" styleClass="element50" readonly="#{editSpecificFunctionAgreement.readOnly}"/>
+                    <inek:LabeledText id="firstName" label="#{msg.lblFirstName}" value="#{editSpecificFunctionAgreement.agreement.firstName}" singleLine="true" styleClassLabel="label10" styleClass="element50" required="true" readonly="#{editSpecificFunctionAgreement.readOnly}"/>
+                    <inek:LabeledText id="lastName" label="#{msg.lblLastName}" value="#{editSpecificFunctionAgreement.agreement.lastName}" singleLine="true" styleClassLabel="label10" styleClass="element50" required="true" readonly="#{editSpecificFunctionAgreement.readOnly}"/>
+                    <inek:LabeledText id="phone" label="#{msg.lblPhone}" value="#{editSpecificFunctionAgreement.agreement.phone}" singleLine="true" styleClassLabel="label10" styleClass="element50" required="true" readonly="#{editSpecificFunctionAgreement.readOnly}"/>
+                    <inek:LabeledText id="mail" label="#{msg.lblMail}" value="#{editSpecificFunctionAgreement.agreement.mail}" singleLine="true" styleClassLabel="label10" styleClass="element50" required="true" readonly="#{editSpecificFunctionAgreement.readOnly}"/>
 
                     <ui:include src="AgreedCenters.xhtml"/>
 
                     <h:messages showDetail="true" globalOnly="true"/>
                 </div>
 
-                <div jsf:rendered="#{editInsuranceSpecificFunction.requestCorrectionEnabled or not empty editInsuranceSpecificFunction.agreement.noteInek}">
+                <div jsf:rendered="#{editSpecificFunctionAgreement.requestCorrectionEnabled or not empty editSpecificFunctionAgreement.agreement.noteInek}">
                     <h2 style="margin-top: 1em; margin-bottom: 1em;"></h2>
 
                     <inek:LabeledTextarea label="Bemerkung InEK" 
-                                          value="#{editInsuranceSpecificFunction.agreement.noteInek}" 
+                                          value="#{editSpecificFunctionAgreement.agreement.noteInek}" 
                                           styleClassLabel="label20 alignTop"
                                           styleClassText="area70High alignTop"
                                           readonly="#{not editSpecificFunctionAgreement.requestCorrectionEnabled}"/>
@@ -87,7 +79,7 @@
                                    action="#{editSpecificFunctionAgreement.saveAndMail}"
                                    value="Speichern + E-Mail"
                                    immediate="true"
-                                   rendered="#{editInsuranceSpecificFunction.agreement.statusId eq 10 and sessionController.isInekUser('SPECIFIC_FUNCTION')}">
+                                   rendered="#{editSpecificFunctionAgreement.agreement.statusId eq 10 and sessionController.isInekUser('SPECIFIC_FUNCTION')}">
                     </h:commandLink>
 
                     <h:commandLink styleClass="sendButton"
