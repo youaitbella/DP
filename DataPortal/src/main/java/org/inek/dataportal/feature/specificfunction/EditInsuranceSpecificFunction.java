@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.feature.insurance;
+package org.inek.dataportal.feature.specificfunction;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -36,6 +36,7 @@ import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.InsuranceFacade;
 import org.inek.dataportal.facades.common.ProcedureFacade;
 import org.inek.dataportal.feature.AbstractEditController;
+import org.inek.dataportal.feature.insurance.NoticeItemImporter;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
 
@@ -298,52 +299,4 @@ public class EditInsuranceSpecificFunction extends AbstractEditController {
         return _importMessage;
     }
 
-    @Inject private Instance<NoticeItemImporter> _importProvider;
-
-    public void uploadNotices() {
-        try {
-            if (_file != null) {
-                //Scanner scanner = new Scanner(_file.getInputStream(), "UTF-8");
-                // We assume most of the documents coded with the Windows character set
-                // Thus, we read with the system default
-                // in case of an UTF-8 file, all German Umlauts will be corrupted.
-                // We simply replace them.
-                // Drawbacks: this only converts the German Umlauts, no other chars.
-                // By intention it fails for other charcters
-                // Alternative: implement a library which guesses th correct character set and read properly
-                // Since we support German only, we started using the simple approach
-                Scanner scanner = new Scanner(_file.getInputStream());
-                if (!scanner.hasNextLine()) {
-                    return;
-                }
-                NoticeItemImporter itemImporter = _importProvider.get();
-                itemImporter.setNotice(_notice);
-                while (scanner.hasNextLine()) {
-                    String line = Utils.convertFromUtf8(scanner.nextLine());
-                    if (!line.contains(";Form;Menge;Einheit;Anzahl;Preis;Entgelt")) {
-                        itemImporter.tryImportLine(line);
-                    }
-                }
-                _importMessage = itemImporter.getMessage();
-                _sessionController.alertClient(_importMessage);
-                _showJournal = false;
-            }
-        } catch (IOException | NoSuchElementException e) {
-        }
-    }
-
-    public String toggleJournal() {
-        _showJournal = !_showJournal;
-        return "";
-    }
-    
-    private boolean _showJournal = false;
-
-    public boolean isShowJournal() {
-        return _showJournal;
-    }
-
-    public void setShowJournal(boolean showJournal) {
-        this._showJournal = showJournal;
-    }
 }

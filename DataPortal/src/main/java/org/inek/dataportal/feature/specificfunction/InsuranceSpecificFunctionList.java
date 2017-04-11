@@ -1,4 +1,4 @@
-package org.inek.dataportal.feature.insurance;
+package org.inek.dataportal.feature.specificfunction;
 
 import java.util.List;
 import java.util.logging.Logger;

@@ -6,10 +6,10 @@ import java.io.Serializable;
  *
  * @author muellermi
  */
-public class MapAccountInekRoleId implements Serializable{
+public class MapAccountInekRoleId implements Serializable {
 
-     int _accountId;
-     int _inekRoleId;
+    private int _accountId;
+    private int _inekRoleId;
 
     @Override
     public int hashCode() {
@@ -30,5 +30,5 @@ public class MapAccountInekRoleId implements Serializable{
         final MapAccountInekRoleId other = (MapAccountInekRoleId) obj;
         return _accountId == other._accountId && _inekRoleId == other._inekRoleId;
     }
-    
+
 }

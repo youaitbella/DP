@@ -48,39 +48,39 @@ public class NubFormerRequest implements Serializable {
         return _id;
     }
 
-    public void setId(int _id) {
-        this._id = _id;
+    public void setId(int id) {
+        this._id = id;
     }
 
     public String getExternalId() {
         return _externalId;
     }
 
-    public void setExternalId(String _externalId) {
-        this._externalId = _externalId;
+    public void setExternalId(String externalId) {
+        this._externalId = externalId;
     }
 
     public int getIk() {
         return _ik;
     }
 
-    public void setIk(int _ik) {
-        this._ik = _ik;
+    public void setIk(int ik) {
+        this._ik = ik;
     }
 
     public String getName() {
         return _name;
     }
 
-    public void setName(String _name) {
-        this._name = _name;
+    public void setName(String name) {
+        this._name = name;
     }
 
     public int getInekMethod() {
         return _inekMethod;
     }
 
-    public void setInekMethod(int _inekMethod) {
-        this._inekMethod = _inekMethod;
+    public void setInekMethod(int inekMethod) {
+        this._inekMethod = inekMethod;
     }
 }

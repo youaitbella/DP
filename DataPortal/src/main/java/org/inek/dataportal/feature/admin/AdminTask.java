@@ -34,7 +34,7 @@ import org.inek.dataportal.helper.scope.FeatureScoped;
 @FeatureScoped(name = "AdminTask")
 public class AdminTask extends AbstractEditController {
 
-    private static final Logger _logger = Logger.getLogger("AdminTask");
+    private static final Logger LOGGER = Logger.getLogger("AdminTask");
 
     public AdminTask() {
         //_logger.log(Level.INFO, "Ctor AdminTask");
@@ -91,8 +91,7 @@ public class AdminTask extends AbstractEditController {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="tab MailTemplate">
-    @Inject
-    MailTemplateFacade _mailTemplateFacade;
+    @Inject private MailTemplateFacade _mailTemplateFacade;
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     public List<SelectItem> getMailTemplates() {
@@ -121,8 +120,6 @@ public class AdminTask extends AbstractEditController {
         _mailTemplate = mailTemplate;
     }
 
-    private int _templateId = -1;
-
     public int getTemplateId() {
         return _mailTemplate.getId();
     }
@@ -147,8 +144,8 @@ public class AdminTask extends AbstractEditController {
     public void setTemplateChanged(boolean isChanged) {
         _templateChanged = isChanged;
     }
-
     // </editor-fold>
+
     public String newMailTemplate() {
         _mailTemplate = new MailTemplate();
         return Pages.AdminTaskMailTemplate.RedirectURL();
@@ -172,8 +169,8 @@ public class AdminTask extends AbstractEditController {
     public void mailTemplateChangeListener(AjaxBehaviorEvent event) {
         setTemplateChanged(true);
     }
-
     // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="tab InEK roles">
     private boolean _roleChanged = false;
 
@@ -185,8 +182,7 @@ public class AdminTask extends AbstractEditController {
         _roleChanged = isChanged;
     }
 
-    @Inject
-    InekRoleFacade _inekRoleFacade;
+    @Inject private InekRoleFacade _inekRoleFacade;
 
     private List<InekRole> _originalInekRoles;
     private List<InekRole> _inekRoles;
@@ -249,10 +245,10 @@ public class AdminTask extends AbstractEditController {
     public void roleChangeListener(AjaxBehaviorEvent event) {
         setRoleChanged(true);
     }
-
     // </editor-fold>
+
     // <editor-fold defaultstate="collapsed" desc="tab RoleMapping">
-    @Inject AccountFacade _accountFacade;
+    @Inject private AccountFacade _accountFacade;
 
     private List<SelectItem> _inekAgents;
 

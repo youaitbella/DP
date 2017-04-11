@@ -201,22 +201,22 @@ public class KGLPersonalAccounting implements Serializable, BaseIdValue {
     //</editor-fold>
 
     @Transient
-    private int priorCostAmount;
+    private int _priorCostAmount;
 
     public int getPriorCostAmount() {
-        return priorCostAmount;
+        return _priorCostAmount;
     }
 
     public void setPriorCostAmount(int priorCostAmount) {
-        this.priorCostAmount = priorCostAmount;
+        _priorCostAmount = priorCostAmount;
     }
 
     public KGLPersonalAccounting() {
     }
 
     public KGLPersonalAccounting(int costTypeId, int prior) {
-        this._costTypeId = costTypeId;
-        this.priorCostAmount = prior;
+        _costTypeId = costTypeId;
+        _priorCostAmount = prior;
     }
 
     public KGLPersonalAccounting(int paID, int paCostTypeID, boolean paStaffRecording, boolean paStaffEvaluation, boolean paServiceEvaluation, boolean paServiceStatistic, boolean paExpertRating, boolean paOther, int paAmount) {

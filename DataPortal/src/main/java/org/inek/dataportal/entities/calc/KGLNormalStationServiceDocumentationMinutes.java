@@ -23,7 +23,7 @@ import org.inek.dataportal.utils.Documentation;
 @Entity
 @Table(name = "KGLNormalStationServiceDocumentationMinutes", schema = "calc")
 public class KGLNormalStationServiceDocumentationMinutes implements Serializable, BaseIdValue {
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,7 +40,7 @@ public class KGLNormalStationServiceDocumentationMinutes implements Serializable
         this._id = id;
     }
     //</editor-fold>
-    
+
     @Column(name = "nssdmBaseInformationId")
     private int _baseInformationId = -1;
 
@@ -50,10 +50,10 @@ public class KGLNormalStationServiceDocumentationMinutes implements Serializable
     }
 
     @Override
-    public void setBaseInformationId(int _baseInformationId) {
-        this._baseInformationId = _baseInformationId;
+    public void setBaseInformationId(int baseInformationId) {
+        this._baseInformationId = baseInformationId;
     }
-    
+
     @Column(name = "nssdmDepartment")
     @Documentation(name = "Fachabteilung")
     private String _department = "";
@@ -63,10 +63,10 @@ public class KGLNormalStationServiceDocumentationMinutes implements Serializable
         return _department;
     }
 
-    public void setDepartment(String _department) {
-        this._department = _department;
+    public void setDepartment(String department) {
+        this._department = department;
     }
-    
+
     @Column(name = "nssdmDepartmentKey")
     @Documentation(name = "FAB-Schlüssel")
     private String _departmentKey = "";
@@ -76,10 +76,10 @@ public class KGLNormalStationServiceDocumentationMinutes implements Serializable
         return _departmentKey;
     }
 
-    public void setDepartmentKey(String _departmentKey) {
-        this._departmentKey = _departmentKey;
+    public void setDepartmentKey(String departmentKey) {
+        this._departmentKey = departmentKey;
     }
-    
+
     @Column(name = "nssdmAlternative")
     @Documentation(name = "Alternativverfahren")
     private String _alternative = "";
@@ -89,7 +89,7 @@ public class KGLNormalStationServiceDocumentationMinutes implements Serializable
         return _alternative;
     }
 
-    public void setAlternative(String _alternative) {
-        this._alternative = _alternative;
+    public void setAlternative(String alternative) {
+        this._alternative = alternative;
     }
 }

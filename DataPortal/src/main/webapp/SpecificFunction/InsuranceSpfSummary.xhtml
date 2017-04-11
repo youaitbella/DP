@@ -10,14 +10,10 @@
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 >
 
-    <ui:define name="title">
-        Information gem. § 5 der Zentrumsvereinbarung
-    </ui:define>
-
     <ui:define name="content">
-        <h:form id="form">
-
             <h1>#{msg.lblInsuranceSpecificFuntions}</h1>
+
+        <h:form id="insuranceSpecificFunction" class="paddingElement">
 
             <h4><h:outputLabel value="#{msg.infoOpenNubReport}"/></h4>
             <inek:InsuranceNubNoticeList list="#{insuranceNubNoticeList.openNotices}"/>
