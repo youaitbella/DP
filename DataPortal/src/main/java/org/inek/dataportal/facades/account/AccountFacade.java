@@ -334,7 +334,7 @@ public class AccountFacade extends AbstractFacade<Account> {
         if (_mailer.sendPasswordActivationMail(request, account)) {
             return true;
         }
-        gegetLOGGER.log(Level.WARNING, "Could not send password activation mail for {0}", account.getEmail());
+        LOGGER.log(Level.WARNING, "Could not send password activation mail for {0}", account.getEmail());
         _pwdRequestFacade.remove(request);
         return false;
     }
