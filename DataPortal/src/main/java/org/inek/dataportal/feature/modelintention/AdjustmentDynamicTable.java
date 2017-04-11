@@ -20,7 +20,7 @@ public class AdjustmentDynamicTable extends DynamicTable<Adjustment> {
 
     @Override
     protected boolean isEmptyEntry(Adjustment adjustment) {
-        return adjustment.getAdjustmentTypeId() == 0l && adjustment.getDateFrom() == null && adjustment.getDateTo() == null;
+        return adjustment.getAdjustmentTypeId() == 0L && adjustment.getDateFrom() == null && adjustment.getDateTo() == null;
     }
 
 }

@@ -723,6 +723,7 @@ public class CertGrouperResults implements Serializable{
                 _grouper.setCertStatus(CertStatus.CertUpload1);
                 _grouper.setCertCheck1(null);
                 _grouper.setCertError1(-1);
+                break;
             case CertUpload2:
                 _grouper.setCertStatus(CertStatus.CertFailed1);
                 _grouper.setCertUpload2(null);
