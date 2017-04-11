@@ -20,16 +20,11 @@ public abstract class AbstractEditController implements SearchConsumer, Serializ
     // <editor-fold defaultstate="collapsed" desc="fields">
 
     private static final long serialVersionUID = 1L;
-    private Topics _topics;
+    private final Topics _topics;
     // </editor-fold>
 
     public AbstractEditController() {
         _topics = new Topics();
-    }
-
-    @PostConstruct
-    private void init() {
-        addTopics();
     }
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
@@ -96,6 +91,7 @@ public abstract class AbstractEditController implements SearchConsumer, Serializ
     }
     // </editor-fold>
 
+    @PostConstruct
     private void initTopics() {
         addTopics();
     }

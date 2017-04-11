@@ -12,18 +12,18 @@
     <h2 style="margin-top: 1em;"></h2>
     <inek:LabeledCheckbox label="Wir beabsichtigen über die Vereinbarung von Zuschlägen gem. § 5 Abs. 3 KHEntgG zu verhandeln" 
                           styleClassComponent="marginTop01em"
-                          value="#{editSpecificFunction.request.willNegotiate}"
-                          readonly="#{editSpecificFunction.readOnly}"
+                          value="#{editInsuranceSpecificFunction.agreement.willNegotiate}"
+                          readonly="#{editSpecificFunctionAgreement.readOnly}"
                           renderElement="@form"/>
 
-    <ui:repeat value="#{editSpecificFunction.request.requestProjectedCenters}" var="center" 
-               rendered="#{editSpecificFunction.request.willNegotiate}">
+    <ui:repeat value="#{editInsuranceSpecificFunction.agreement.requestProjectedCenters}" var="center" 
+               rendered="#{editInsuranceSpecificFunction.agreement.willNegotiate}">
         <div class="rectangle">
             <div class="inputPart">
-                <h:commandLink rendered="#{!editSpecificFunction.readOnly}">
+                <h:commandLink rendered="#{!editSpecificFunctionAgreement.readOnly}">
                     <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value=""/>
                     <cb:confirmDelete/>
-                    <f:ajax render="@form :logout:remaining" listener="#{editSpecificFunction.deleteProjectedCenter(center)}"/>
+                    <f:ajax render="@form :logout:remaining" listener="#{editSpecificFunctionAgreement.deleteProjectedCenter(center)}"/>
                 </h:commandLink>
             </div>
 
@@ -39,9 +39,9 @@
                                  requiredMessage="#{msg.msgValueNeeded}"
                                  value="#{center.centerId}"
                                  hideNoSelectionOption="true"  
-                                 readonly="#{editSpecificFunction.readOnly}">
+                                 readonly="#{editSpecificFunctionAgreement.readOnly}">
                     <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
-                    <f:selectItems value="#{editSpecificFunction.centerNames}" var="centerName" itemValue="#{centerName.id}" itemLabel="#{centerName.name}"/>
+                    <f:selectItems value="#{editSpecificFunctionAgreement.centerNames}" var="centerName" itemValue="#{centerName.id}" itemLabel="#{centerName.name}"/>
                     <f:selectItem itemLabel="Sonstiges (bitte angeben)" itemValue="#{-1}"/>
                     <f:ajax event="change" render="@form :logout:remaining msgCenterName"/>
                 </h:selectOneMenu>
@@ -54,7 +54,7 @@
                                  styleClass="element100"
                                  value="#{center.otherCenterName}" 
                                  required="true" 
-                                 readonly="#{editSpecificFunction.readOnly}">
+                                 readonly="#{editSpecificFunctionAgreement.readOnly}">
                         <f:ajax rendered=":logout:remaining msgCenterOtherName"/>
                     </h:inputText>
                     <h:message for="txtCenterOtherName" id="msgCenterOtherName" styleClass="errorMessage"/>
@@ -66,7 +66,7 @@
                               value="#{center.location}" 
                               styleClassLabel="label element12em" 
                               styleClass="element100-12em"
-                              readonly="#{editSpecificFunction.readOnly}"
+                              readonly="#{editSpecificFunctionAgreement.readOnly}"
                               singleLine="true"/>
 
             <div class="inputPart">
@@ -80,10 +80,10 @@
                     <h:selectManyCheckbox id="specificFunction"
                                           layout="pageDirection"
                                           required="true"
-                                          readonly="#{editSpecificFunction.readOnly}"
+                                          readonly="#{editSpecificFunctionAgreement.readOnly}"
                                           requiredMessage="#{msg.msgValueNeeded}"
                                           value="#{center.specificFunctions}">
-                        <f:selectItems value="#{editSpecificFunction.specificFunctions}" var="function" itemValue="#{function}" itemLabel="#{function.text}"/>
+                        <f:selectItems value="#{editSpecificFunctionAgreement.specificFunctions}" var="function" itemValue="#{function}" itemLabel="#{function.text}"/>
                         <f:converter converterId="SpecificFunctionConverter"/>
                         <f:ajax event="change" render="@form :logout:remaining msgSpecificFunction"/>
                     </h:selectManyCheckbox>
@@ -110,7 +110,7 @@
                               title="Für Verhandlung vorgesehene besondere Aufgaben (Stichpunktartige Auflistung der zentralen Aufgaben)" 
                               value="#{center.otherSpecificFunction}" 
                               required="true"
-                              readonly="#{editSpecificFunction.readOnly}"
+                              readonly="#{editSpecificFunctionAgreement.readOnly}"
                               styleClassLabel="label element12em" 
                               styleClass="element100-12em"
                               singleLine="true"/>
@@ -119,7 +119,7 @@
                               title="Voraussichtliche Anzahl der durch das Zentrum /den Schwerpunkt betreuten Patientinnen/Patienten" 
                               value="#{center.estimatedPatientCount}" 
                               required="true"
-                              readonly="#{editSpecificFunction.readOnly}"
+                              readonly="#{editSpecificFunctionAgreement.readOnly}"
                               styleClassLabel="label element12em" 
                               styleClass="col04em number"                              
                               singleLine="true"/>
@@ -129,12 +129,12 @@
                 <h:selectOneMenu id="type"
                                  title="Bitte angeben"
                                  required="true"
-                                 readonly="#{editSpecificFunction.readOnly}"
+                                 readonly="#{editSpecificFunctionAgreement.readOnly}"
                                  requiredMessage="#{msg.msgValueNeeded}"
                                  value="#{center.typeId}"
                                  hideNoSelectionOption="true" >
                     <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
-                    <f:selectItems value="#{editSpecificFunction.typeItems}" var="item" itemLabel="#{item.value}" itemValue="#{item.key}"/>
+                    <f:selectItems value="#{editSpecificFunctionAgreement.typeItems}" var="item" itemLabel="#{item.value}" itemValue="#{item.key}"/>
                     <f:ajax event="change" render="@form :logout:remaining msgType"/>
                 </h:selectOneMenu>
                 <h:message for="type" id="msgType" styleClass="errorMessage"/>
@@ -145,8 +145,8 @@
 
 
     <h:commandLink styleClass="addButton marginRight" value="#{msg.btnAddEntry}"
-                   rendered="#{editSpecificFunction.request.willNegotiate and !editSpecificFunction.readOnly}">
-        <f:ajax event="click" render="@form :logout:remaining" listener="#{editSpecificFunction.addProjectedCenter()}"/>
+                   rendered="#{editInsuranceSpecificFunction.agreement.willNegotiate and !editInsuranceSpecificFunction.readOnly}">
+        <f:ajax event="click" render="@form :logout:remaining" listener="#{editSpecificFunctionAgreement.addProjectedCenter()}"/>
     </h:commandLink>
 
 </ui:composition>

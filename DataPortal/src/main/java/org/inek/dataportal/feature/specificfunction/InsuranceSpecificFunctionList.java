@@ -40,7 +40,7 @@ public class InsuranceSpecificFunctionList {
     // </editor-fold>
 
     public boolean isNewAllowed() {
-        return _appTools.isEnabled(ConfigKey.IsSpecificFunctionAgreedCreateEnabled);
+        return _appTools.isEnabled(ConfigKey.IsSpecificFunctionAgreementCreateEnabled);
     }
 
     public String newRequest() {

@@ -161,8 +161,8 @@ public enum Pages {
     PartSpecificFunction("/SpecificFunction/PartSpecificFunction"),
     SpecificFunctionSummary("/SpecificFunction/Hospital/SpecificFunctionSummary"),
     SpecificFunctionEditRequest("/SpecificFunction/Hospital/EditRequest"),
-    SpecificFunctionEditAgreed("/SpecificFunction/EditAgreed"),
-    InsuranceSpecificFunctionSummary("/SpecificFunction/SpecificFunctionSummary"),
+    InsuranceSpecificFunctionSummary("/SpecificFunction/Insurance/SpecificFunctionSummary"),
+    SpecificFunctionEditAgreed("/SpecificFunction/Insurance/EditAgreed"),
 
     //
     NotAllowed("/common/NotAllowed"),

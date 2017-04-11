@@ -14,8 +14,8 @@ import org.inek.dataportal.utils.Documentation;
  * @author muellermi
  */
 @Entity
-@Table(name = "AgreedMaster", schema = "spf")
-public class AgreedSpecificFunction implements Serializable {
+@Table(name = "AgreementMaster", schema = "spf")
+public class SpecificFunctionAgreement implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -384,10 +384,10 @@ public class AgreedSpecificFunction implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        if (!(object instanceof AgreedSpecificFunction)) {
+        if (!(object instanceof SpecificFunctionAgreement)) {
             return false;
         }
-        AgreedSpecificFunction other = (AgreedSpecificFunction) object;
+        SpecificFunctionAgreement other = (SpecificFunctionAgreement) object;
 
         return _id == other._id;
     }

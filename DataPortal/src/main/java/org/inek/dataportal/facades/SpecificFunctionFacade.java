@@ -18,6 +18,7 @@ import org.inek.dataportal.entities.specificfunction.CenterName;
 import org.inek.dataportal.entities.specificfunction.RequestAgreedCenter;
 import org.inek.dataportal.entities.specificfunction.RequestProjectedCenter;
 import org.inek.dataportal.entities.specificfunction.SpecificFunction;
+import org.inek.dataportal.entities.specificfunction.SpecificFunctionAgreement;
 import org.inek.dataportal.entities.specificfunction.SpecificFunctionRequest;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.WorkflowStatus;
@@ -153,6 +154,14 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
         query.setParameter("dataYear", dataYear);
         List<SpecificFunctionRequest> result = query.getResultList();
         return result;
+    }
+
+    public SpecificFunctionAgreement findSpecificFunctionAgreement(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public SpecificFunctionAgreement saveSpecificFunctionAgreement(SpecificFunctionAgreement agreement) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

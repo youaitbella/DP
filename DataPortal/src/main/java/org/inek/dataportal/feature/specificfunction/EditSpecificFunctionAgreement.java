@@ -31,7 +31,7 @@ import org.inek.dataportal.entities.specificfunction.CenterName;
 import org.inek.dataportal.entities.specificfunction.RequestAgreedCenter;
 import org.inek.dataportal.entities.specificfunction.RequestProjectedCenter;
 import org.inek.dataportal.entities.specificfunction.SpecificFunction;
-import org.inek.dataportal.entities.specificfunction.SpecificFunctionRequest;
+import org.inek.dataportal.entities.specificfunction.SpecificFunctionAgreement;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
@@ -51,25 +51,24 @@ import org.inek.dataportal.utils.DocumentationUtil;
  */
 @Named
 @ViewScoped
-public class EditInsuranceSpecificFunction extends AbstractEditController implements Serializable {
+public class EditSpecificFunctionAgreement extends AbstractEditController implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="fields & enums">
-    private static final Logger _logger = Logger.getLogger("EditSpecificFunctionRequest");
+    private static final Logger LOGGER = Logger.getLogger("EditSpecificFunctionAgreement");
 
     @Inject private CooperationTools _cooperationTools;
     @Inject private SessionController _sessionController;
     @Inject private SpecificFunctionFacade _specificFunctionFacade;
     @Inject ApplicationTools _appTools;
 
-    private String _script;
-    private SpecificFunctionRequest _request;
+    private SpecificFunctionAgreement _agreement;
 
-    public SpecificFunctionRequest getRequest() {
-        return _request;
+    public SpecificFunctionAgreement getAgreement() {
+        return _agreement;
     }
 
-    public void setRequest(SpecificFunctionRequest request) {
-        this._request = request;
+    public void setAgreement(SpecificFunctionAgreement agreement) {
+        this._agreement = agreement;
     }
     // </editor-fold>
 
@@ -78,31 +77,31 @@ public class EditInsuranceSpecificFunction extends AbstractEditController implem
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         String id = "" + params.get("id");
         if (id.equals("new")) {
-            _request = newSpecificFunctionRequest();
+            _agreement = newSpecificFunctionAgreement();
             addCentersIfMissing();
         } else if (Utils.isInteger(id)) {
-            SpecificFunctionRequest request = loadSpecificFunctionRequest(id);
+            SpecificFunctionAgreement request = loadSpecificFunctionAgreement(id);
             if (request.getId() == -1) {
                 Utils.navigate(Pages.NotAllowed.RedirectURL());
                 return;
             }
-            _request = request;
+            _agreement = request;
             addCentersIfMissing();
         } else {
             Utils.navigate(Pages.Error.RedirectURL());
         }
     }
 
-    private SpecificFunctionRequest loadSpecificFunctionRequest(String idObject) {
+    private SpecificFunctionAgreement loadSpecificFunctionAgreement(String idObject) {
         int id = Integer.parseInt(idObject);
-        SpecificFunctionRequest calcBasics = _specificFunctionFacade.findSpecificFunctionRequest(id);
-        if (hasSufficientRights(calcBasics)) {
-            return calcBasics;
+        SpecificFunctionAgreement agreement = _specificFunctionFacade.findSpecificFunctionAgreement(id);
+        if (hasSufficientRights(agreement)) {
+            return agreement;
         }
-        return new SpecificFunctionRequest();
+        return new SpecificFunctionAgreement();
     }
 
-    private boolean hasSufficientRights(SpecificFunctionRequest calcBasics) {
+    private boolean hasSufficientRights(SpecificFunctionAgreement calcBasics) {
         if (_sessionController.isMyAccount(calcBasics.getAccountId(), false)) {
             return true;
         }
@@ -112,9 +111,9 @@ public class EditInsuranceSpecificFunction extends AbstractEditController implem
         return _cooperationTools.isAllowed(Feature.INSURANCE, calcBasics.getStatus(), calcBasics.getAccountId());
     }
 
-    private SpecificFunctionRequest newSpecificFunctionRequest() {
+    private SpecificFunctionAgreement newSpecificFunctionAgreement() {
         Account account = _sessionController.getAccount();
-        SpecificFunctionRequest request = new SpecificFunctionRequest();
+        SpecificFunctionAgreement request = new SpecificFunctionAgreement();
         request.setAccountId(account.getId());
         request.setGender(account.getGender());
         request.setTitle(account.getTitle());
@@ -139,17 +138,17 @@ public class EditInsuranceSpecificFunction extends AbstractEditController implem
 
     // <editor-fold defaultstate="collapsed" desc="actions">
     public boolean isOwnStatement() {
-        return _sessionController.isMyAccount(_request.getAccountId(), false);
+        return _sessionController.isMyAccount(_agreement.getAccountId(), false);
     }
 
     public boolean isReadOnly() {
-        if (_request == null) {
+        if (_agreement == null) {
             return true;
         }
         if (_sessionController.isInekUser(Feature.CALCULATION_HOSPITAL) && !_appTools.isEnabled(ConfigKey.TestMode)) {
             return true;
         }
-        return _cooperationTools.isReadOnly(Feature.SPECIFIC_FUNCTION, _request.getStatus(), _request.getAccountId(), _request.getIk());
+        return _cooperationTools.isReadOnly(Feature.SPECIFIC_FUNCTION, _agreement.getStatus(), _agreement.getAccountId(), _agreement.getIk());
     }
 
     @Override
@@ -160,10 +159,10 @@ public class EditInsuranceSpecificFunction extends AbstractEditController implem
     public String save() {
         removeEmptyCenters();
         setModifiedInfo();
-        _request = _specificFunctionFacade.saveSpecificFunctionRequest(_request);
+        _agreement = _specificFunctionFacade.saveSpecificFunctionAgreement(_agreement);
         addCentersIfMissing();
 
-        if (isValidId(_request.getId())) {
+        if (isValidId(_agreement.getId())) {
             // CR+LF or LF only will be replaced by "\r\n"
             String script = "alert ('" + Utils.getMessage("msgSave").replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
             _sessionController.setScript(script);
@@ -175,10 +174,10 @@ public class EditInsuranceSpecificFunction extends AbstractEditController implem
     public String saveAndMail() {
         removeEmptyCenters();
         setModifiedInfo();
-        _request = _specificFunctionFacade.saveSpecificFunctionRequest(_request);
+        _agreement = _specificFunctionFacade.saveSpecificFunctionAgreement(_agreement);
         addCentersIfMissing();
 
-        if (isValidId(_request.getId())) {
+        if (isValidId(_agreement.getId())) {
             // CR+LF or LF only will be replaced by "\r\n"
             String script = "alert ('" + Utils.getMessage("msgSave").replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
             _sessionController.setScript(script);
@@ -193,19 +192,19 @@ public class EditInsuranceSpecificFunction extends AbstractEditController implem
 
     private void sendMessage(String name) {
         //todo: refactor for gloabal usage (move to mailer?) and remove all similar methods
-        Account receiver = _accountFacade.find(_appTools.isEnabled(ConfigKey.TestMode) ? _sessionController.getAccountId() : _request.getAccountId());
+        Account receiver = _accountFacade.find(_appTools.isEnabled(ConfigKey.TestMode) ? _sessionController.getAccountId() : _agreement.getAccountId());
         MailTemplate template = _mailer.getMailTemplate(name);
         String subject = template.getSubject()
-                .replace("{ik}", "" + _request.getIk());
+                .replace("{ik}", "" + _agreement.getIk());
         String body = template.getBody()
                 .replace("{formalSalutation}", _mailer.getFormalSalutation(receiver))
-                .replace("{note}", _request.getNoteInek());
+                .replace("{note}", _agreement.getNoteInek());
         String bcc = template.getBcc().replace("{accountMail}", _sessionController.getAccount().getEmail());
         _mailer.sendMailFrom(template.getFrom(), receiver.getEmail(), "", bcc, subject, body);
     }
 
     private void setModifiedInfo() {
-        _request.setLastChanged(Calendar.getInstance().getTime());
+        _agreement.setLastChanged(Calendar.getInstance().getTime());
     }
 
     private boolean isValidId(Integer id) {
@@ -213,33 +212,33 @@ public class EditInsuranceSpecificFunction extends AbstractEditController implem
     }
 
     public boolean isSealEnabled() {
-        if (!_appTools.isEnabled(ConfigKey.IsSpecificFunctionRequestSendEnabled)) {
+        if (!_appTools.isEnabled(ConfigKey.IsSpecificFunctionAgreementSendEnabled)) {
             return false;
         }
-        if (_request == null) {
+        if (_agreement == null) {
             return false;
         }
-        return _cooperationTools.isSealedEnabled(Feature.SPECIFIC_FUNCTION, _request.getStatus(), _request.getAccountId());
+        return _cooperationTools.isSealedEnabled(Feature.SPECIFIC_FUNCTION, _agreement.getStatus(), _agreement.getAccountId());
     }
 
     public boolean isApprovalRequestEnabled() {
-        if (!_appTools.isEnabled(ConfigKey.IsSpecificFunctionRequestSendEnabled)) {
+        if (!_appTools.isEnabled(ConfigKey.IsSpecificFunctionAgreementSendEnabled)) {
             return false;
         }
-        if (_request == null) {
+        if (_agreement == null) {
             return false;
         }
-        return _cooperationTools.isApprovalRequestEnabled(Feature.SPECIFIC_FUNCTION, _request.getStatus(), _request.getAccountId());
+        return _cooperationTools.isApprovalRequestEnabled(Feature.SPECIFIC_FUNCTION, _agreement.getStatus(), _agreement.getAccountId());
     }
 
     public boolean isRequestCorrectionEnabled() {
-        if (!_appTools.isEnabled(ConfigKey.IsSpecificFunctionRequestSendEnabled)) {
+        if (!_appTools.isEnabled(ConfigKey.IsSpecificFunctionAgreementSendEnabled)) {
             return false;
         }
-        if (_request == null) {
+        if (_agreement == null) {
             return false;
         }
-        return (_request.getStatus() == WorkflowStatus.Provided || _request.getStatus() == WorkflowStatus.ReProvided)
+        return (_agreement.getStatus() == WorkflowStatus.Provided || _agreement.getStatus() == WorkflowStatus.ReProvided)
                 && _sessionController.isInekUser(Feature.SPECIFIC_FUNCTION, true);
     }
 
@@ -250,28 +249,28 @@ public class EditInsuranceSpecificFunction extends AbstractEditController implem
         removeEmptyCenters();
         setModifiedInfo();
         // set as retired
-        _request.setStatus(WorkflowStatus.Retired);
-        _specificFunctionFacade.saveSpecificFunctionRequest(_request);
+        _agreement.setStatus(WorkflowStatus.Retired);
+        _specificFunctionFacade.saveSpecificFunctionAgreement(_agreement);
 
         // create copy to edit (persist detached object with default Ids)
-        _request.setStatus(WorkflowStatus.New);
-        _request.setId(-1);
-        for (RequestProjectedCenter requestProjectedCenter : _request.getRequestProjectedCenters()) {
+        _agreement.setStatus(WorkflowStatus.New);
+        _agreement.setId(-1);
+        for (RequestProjectedCenter requestProjectedCenter : _agreement.getRequestProjectedCenters()) {
             requestProjectedCenter.setId(-1);
             requestProjectedCenter.setRequestMasterId(-1);
         }
-        for (RequestAgreedCenter requestAgreedCenter : _request.getRequestAgreedCenters()) {
+        for (RequestAgreedCenter requestAgreedCenter : _agreement.getRequestAgreedCenters()) {
             requestAgreedCenter.setId(-1);
             requestAgreedCenter.setRequestMasterId(-1);
         }
-        _specificFunctionFacade.saveSpecificFunctionRequest(_request);
+        _specificFunctionFacade.saveSpecificFunctionAgreement(_agreement);
         sendMessage("BA Konkretisierung");
 
         return Pages.SpecificFunctionSummary.URL();
     }
 
     public boolean isTakeEnabled() {
-        return _cooperationTools.isTakeEnabled(Feature.SPECIFIC_FUNCTION, _request.getStatus(), _request.getAccountId());
+        return _cooperationTools.isTakeEnabled(Feature.SPECIFIC_FUNCTION, _agreement.getStatus(), _agreement.getAccountId());
     }
 
     /**
@@ -287,15 +286,15 @@ public class EditInsuranceSpecificFunction extends AbstractEditController implem
             return null;
         }
         removeEmptyCenters();
-        _request.setStatus(WorkflowStatus.Provided);
+        _agreement.setStatus(WorkflowStatus.Provided);
         setModifiedInfo();
-        _request = _specificFunctionFacade.saveSpecificFunctionRequest(_request);
+        _agreement = _specificFunctionFacade.saveSpecificFunctionAgreement(_agreement);
 
-        if (isValidId(_request.getId())) {
+        if (isValidId(_agreement.getId())) {
             sendNotification();
             Utils.getFlash().put("headLine", Utils.getMessage("nameSPECIFIC_FUNCTION"));
             Utils.getFlash().put("targetPage", Pages.SpecificFunctionSummary.URL());
-            Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(_request));
+            Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(_agreement));
             return Pages.PrintView.URL();
         }
         return "";
@@ -310,7 +309,7 @@ public class EditInsuranceSpecificFunction extends AbstractEditController implem
     }
 
     private boolean requestIsComplete() {
-        MessageContainer message = composeMissingFieldsMessage(_request);
+        MessageContainer message = composeMissingFieldsMessage(_agreement);
         if (message.containsMessage()) {
             message.setMessage(Utils.getMessage("infoMissingFields") + "\\r\\n" + message.getMessage());
             //setActiveTopic(message.getTopic());
@@ -323,7 +322,7 @@ public class EditInsuranceSpecificFunction extends AbstractEditController implem
         return !message.containsMessage();
     }
 
-    public MessageContainer composeMissingFieldsMessage(SpecificFunctionRequest request) {
+    public MessageContainer composeMissingFieldsMessage(SpecificFunctionAgreement request) {
         MessageContainer message = new MessageContainer();
 
         String ik = request.getIk() <= 0 ? "" : "" + request.getIk();
@@ -333,9 +332,10 @@ public class EditInsuranceSpecificFunction extends AbstractEditController implem
         checkField(message, request.getPhone(), "lblPhone", "specificFuntion:phone");
         checkField(message, request.getMail(), "lblMail", "specificFuntion:mail");
 
-        if (!request.isWillNegotiate() && !request.isHasAgreement()) {
-            applyMessageValues(message, "Bitte mindestens eine zu verhandelnde oder vorhandene Vereinbarung angeben", "");
-        }
+// todo        
+//        if (!request.isWillNegotiate() && !request.isHasAgreement()) {
+//            applyMessageValues(message, "Bitte mindestens eine zu verhandelnde oder vorhandene Vereinbarung angeben", "");
+//        }
         boolean hasCenters = false;
         for (RequestProjectedCenter center : request.getRequestProjectedCenters()) {
             if (center.isEmpty()) {
@@ -354,9 +354,10 @@ public class EditInsuranceSpecificFunction extends AbstractEditController implem
             checkField(message, center.getEstimatedPatientCount(), 1, 99999999, "Anzahl der Patienten muss größer 0 sein.", "");
             hasCenters = true;
         }
-        if (request.isWillNegotiate() && !hasCenters) {
-            applyMessageValues(message, "Bitte mindestens eine Vereinbarung angeben", "");
-        }
+// todo        
+//        if (request.isWillNegotiate() && !hasCenters) {
+//            applyMessageValues(message, "Bitte mindestens eine Vereinbarung angeben", "");
+//        }
 
         hasCenters = false;
         for (RequestAgreedCenter center : request.getRequestAgreedCenters()) {
@@ -373,9 +374,10 @@ public class EditInsuranceSpecificFunction extends AbstractEditController implem
             }
             hasCenters = true;
         }
-        if (request.isHasAgreement() && !hasCenters) {
-            applyMessageValues(message, "Sie haben 'vorliegende Vereinbarung' markiert, jedoch keine Vereinbarung angegeben.", "");
-        }
+// todo        
+//        if (request.isHasAgreement() && !hasCenters) {
+//            applyMessageValues(message, "Sie haben 'vorliegende Vereinbarung' markiert, jedoch keine Vereinbarung angegeben.", "");
+//        }
 
         return message;
     }
@@ -406,9 +408,9 @@ public class EditInsuranceSpecificFunction extends AbstractEditController implem
         if (!requestIsComplete()) {
             return null;
         }
-        _request.setStatus(WorkflowStatus.ApprovalRequested);
+        _agreement.setStatus(WorkflowStatus.ApprovalRequested);
         setModifiedInfo();
-        _request = _specificFunctionFacade.saveSpecificFunctionRequest(_request);
+        _agreement = _specificFunctionFacade.saveSpecificFunctionAgreement(_agreement);
         return "";
     }
 
@@ -416,9 +418,9 @@ public class EditInsuranceSpecificFunction extends AbstractEditController implem
         if (!isTakeEnabled()) {
             return Pages.Error.URL();
         }
-        _request.setAccountId(_sessionController.getAccountId());
+        _agreement.setAccountId(_sessionController.getAccountId());
         setModifiedInfo();
-        _request = _specificFunctionFacade.saveSpecificFunctionRequest(_request);
+        _agreement = _specificFunctionFacade.saveSpecificFunctionAgreement(_agreement);
         return "";
     }
 
@@ -428,8 +430,8 @@ public class EditInsuranceSpecificFunction extends AbstractEditController implem
 
     public List<SelectItem> getIks() {
         Set<Integer> iks = new HashSet<>();
-        if (_request != null && _request.getIk() > 0) {
-            iks.add(_request.getIk());
+        if (_agreement != null && _agreement.getIk() > 0) {
+            iks.add(_agreement.getIk());
         }
         Account account = _sessionController.getAccount();
         if (account.getIK() != null && account.getIK() > 0) {
@@ -446,21 +448,21 @@ public class EditInsuranceSpecificFunction extends AbstractEditController implem
     }
 
     public void addProjectedCenter() {
-        RequestProjectedCenter center = new RequestProjectedCenter(_request.getId());
-        _request.getRequestProjectedCenters().add(center);
+        RequestProjectedCenter center = new RequestProjectedCenter(_agreement.getId());
+        _agreement.getRequestProjectedCenters().add(center);
     }
 
     public void deleteProjectedCenter(RequestProjectedCenter center) {
-        _request.getRequestProjectedCenters().remove(center);
+        _agreement.getRequestProjectedCenters().remove(center);
     }
 
     public void addAgreedCenter() {
-        RequestAgreedCenter center = new RequestAgreedCenter(_request.getId());
-        _request.getRequestAgreedCenters().add(center);
+        RequestAgreedCenter center = new RequestAgreedCenter(_agreement.getId());
+        _agreement.getRequestAgreedCenters().add(center);
     }
 
     public void deleteAgreedCenter(RequestAgreedCenter center) {
-        _request.getRequestAgreedCenters().remove(center);
+        _agreement.getRequestAgreedCenters().remove(center);
     }
     // </editor-fold>
 
@@ -470,7 +472,7 @@ public class EditInsuranceSpecificFunction extends AbstractEditController implem
     }
 
     private void removeEmptyProjectedCenters() {
-        Iterator<RequestProjectedCenter> iter = _request.getRequestProjectedCenters().iterator();
+        Iterator<RequestProjectedCenter> iter = _agreement.getRequestProjectedCenters().iterator();
         while (iter.hasNext()) {
             RequestProjectedCenter center = iter.next();
             if (center.isEmpty()) {
@@ -482,7 +484,7 @@ public class EditInsuranceSpecificFunction extends AbstractEditController implem
     }
 
     private void removeEmptyAgreedCenters() {
-        Iterator<RequestAgreedCenter> iter = _request.getRequestAgreedCenters().iterator();
+        Iterator<RequestAgreedCenter> iter = _agreement.getRequestAgreedCenters().iterator();
         while (iter.hasNext()) {
             RequestAgreedCenter center = iter.next();
             if (center.isEmpty()) {
@@ -492,10 +494,10 @@ public class EditInsuranceSpecificFunction extends AbstractEditController implem
     }
 
     private void addCentersIfMissing() {
-        if (_request.getRequestProjectedCenters().isEmpty()) {
+        if (_agreement.getRequestProjectedCenters().isEmpty()) {
             addProjectedCenter();
         }
-        if (_request.getRequestAgreedCenters().isEmpty()) {
+        if (_agreement.getRequestAgreedCenters().isEmpty()) {
             addAgreedCenter();
         }
     }

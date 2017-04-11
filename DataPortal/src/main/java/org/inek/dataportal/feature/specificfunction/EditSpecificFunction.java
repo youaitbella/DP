@@ -54,14 +54,13 @@ import org.inek.dataportal.utils.DocumentationUtil;
 public class EditSpecificFunction extends AbstractEditController implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="fields & enums">
-    private static final Logger _logger = Logger.getLogger("EditSpecificFunctionRequest");
+    private static final Logger LOGGER = Logger.getLogger("EditSpecificFunctionRequest");
 
     @Inject private CooperationTools _cooperationTools;
     @Inject private SessionController _sessionController;
     @Inject private SpecificFunctionFacade _specificFunctionFacade;
     @Inject ApplicationTools _appTools;
 
-    private String _script;
     private SpecificFunctionRequest _request;
 
     public SpecificFunctionRequest getRequest() {
