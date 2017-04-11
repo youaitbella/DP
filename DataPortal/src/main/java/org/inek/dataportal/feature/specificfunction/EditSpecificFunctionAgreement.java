@@ -33,6 +33,7 @@ import org.inek.dataportal.entities.specificfunction.RequestAgreedCenter;
 import org.inek.dataportal.entities.specificfunction.RequestProjectedCenter;
 import org.inek.dataportal.entities.specificfunction.SpecificFunction;
 import org.inek.dataportal.entities.specificfunction.SpecificFunctionAgreement;
+import org.inek.dataportal.entities.specificfunction.SpecificFunctionRequest;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
@@ -513,5 +514,7 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
 
     public void changeCode(){
         System.out.println("changeCode: " + _agreement.getCode());
+        SpecificFunctionRequest request = _specificFunctionFacade.findSpecificFunctionRequestByCode(_agreement.getCode());
+        _agreement.setIk(request.getIk());
     }
 }

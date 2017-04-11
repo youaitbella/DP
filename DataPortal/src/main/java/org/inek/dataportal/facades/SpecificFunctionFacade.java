@@ -36,7 +36,6 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
         return findFresh(SpecificFunctionRequest.class, id);
     }
 
-
     public List<SpecificFunctionRequest> obtainSpecificFunctionRequests(int accountId) {
         String jpql = "SELECT s FROM SpecificFunctionRequest s WHERE s._accountId = :accountId ORDER BY s._id DESC";
         TypedQuery<SpecificFunctionRequest> query = getEntityManager().createQuery(jpql, SpecificFunctionRequest.class);
@@ -53,7 +52,7 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
         query.setParameter("statusHigh", statusHigh.getId());
         return query.getResultList();
     }
-    
+
     public void deleteSpecificFunctionRequest(SpecificFunctionRequest statement) {
         remove(statement);
     }
@@ -84,7 +83,7 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
         @SuppressWarnings("unchecked") HashSet<Integer> result = new HashSet<>(query.getResultList());
         return result;
     }
-    
+
     public SpecificFunctionRequest saveSpecificFunctionRequest(SpecificFunctionRequest request) {
         if (request.getStatus() == WorkflowStatus.Unknown) {
             request.setStatus(WorkflowStatus.New);
@@ -94,7 +93,7 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
             persist(request);
             return request;
         }
-        
+
         //todo: save lists
         for (RequestProjectedCenter item : request.getRequestProjectedCenters()) {
             if (item.getId() == -1) {
@@ -110,7 +109,7 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
                 merge(item);
             }
         }
-        
+
         return merge(request);
     }
 
@@ -121,11 +120,11 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
                 .sorted((n1, n2) -> (n1.getId() == -1 ? "ZZZ" : n1.getName()).compareTo((n2.getId() == -1 ? "ZZZ" : n2.getName())))
                 .collect(Collectors.toList());
     }
-  
+
     public List<SpecificFunction> getSpecificFunctions() {
         return findAll(SpecificFunction.class)
                 .stream()
-                .sorted((f1, f2) -> (f1.getId() == -1 ? 999 : f1.getId()) - (f2.getId() == -1 ? 999 : f2.getId()) )
+                .sorted((f1, f2) -> (f1.getId() == -1 ? 999 : f1.getId()) - (f2.getId() == -1 ? 999 : f2.getId()))
                 .collect(Collectors.toList());
     }
 
@@ -163,5 +162,16 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
     public SpecificFunctionAgreement saveSpecificFunctionAgreement(SpecificFunctionAgreement agreement) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
+    public SpecificFunctionRequest findSpecificFunctionRequestByCode(String code) {
+        String jpql = "select spf from SpecificFunctionRequest spf where spf._code = :code";
+        TypedQuery<SpecificFunctionRequest> query = getEntityManager().createQuery(jpql, SpecificFunctionRequest.class);
+        query.setParameter("code", code);
+        try {
+            return query.getSingleResult();
+        } catch (Exception ex) {
+            return new SpecificFunctionRequest();
+        }
+    }
+
 }

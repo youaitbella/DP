@@ -27,14 +27,8 @@
                 
                 <h2 style="margin-bottom: 1em;"></h2>
 
-                <inek:MultiIk id="ikMulti" value="#{editSpecificFunctionAgreement.agreement.ik}" 
-                              ikList="#{editSpecificFunctionAgreement.iks}"
-                              listener="#{editSpecificFunctionAgreement.ikChanged}" 
-                              renderElement="spfData"
-                              readonly="#{editSpecificFunctionAgreement.readOnly}" 
-                              isFixed="#{editSpecificFunctionAgreement.agreement.id gt 0}"/>
-
                 <div jsf:id="spfData" jsf:rendered="#{editSpecificFunctionAgreement.agreement.ik gt 0}">
+                    <inek:LabeledText id="ik" label="#{msg.lblIK}" value="#{editSpecificFunctionAgreement.agreement.ik}" singleLine="true" styleClassLabel="label10" styleClass="element50" readonly="true"/>
                     <h2>#{msg.lblContactPerson}</h2>
 
                     <h:panelGroup styleClass="element100 marginTop01em">
@@ -52,7 +46,7 @@
                     <inek:LabeledText id="phone" label="#{msg.lblPhone}" value="#{editSpecificFunctionAgreement.agreement.phone}" singleLine="true" styleClassLabel="label10" styleClass="element50" required="true" readonly="#{editSpecificFunctionAgreement.readOnly}"/>
                     <inek:LabeledText id="mail" label="#{msg.lblMail}" value="#{editSpecificFunctionAgreement.agreement.mail}" singleLine="true" styleClassLabel="label10" styleClass="element50" required="true" readonly="#{editSpecificFunctionAgreement.readOnly}"/>
 
-                    <ui:include src="AgreedCenters.xhtml"/>
+                    <!--ui:include src="AgreedCenters.xhtml"/-->
 
                     <h:messages showDetail="true" globalOnly="true"/>
                 </div>
