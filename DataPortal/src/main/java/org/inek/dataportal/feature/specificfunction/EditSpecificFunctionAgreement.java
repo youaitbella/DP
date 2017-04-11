@@ -511,7 +511,7 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
         return _specificFunctionFacade.getSpecificFunctions();
     }
 
-    public void changeCode(ActionEvent event){
-        
+    public void changeCode(){
+        System.out.println("changeCode: " + _agreement.getCode());
     }
 }

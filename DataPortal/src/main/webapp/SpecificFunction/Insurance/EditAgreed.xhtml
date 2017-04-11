@@ -20,10 +20,11 @@
             <div class="edit">
                 <inek:LabeledText singleLine="true"
                                   label="#{msg.lblContractKey}" 
-                                  value="#{editSpecificFunctionAgreement.agreement.code}">
-                    <f:ajax listener="#{editSpecificFunctionAgreement.changeCode}" render="@form"/>
+                                  value="#{editSpecificFunctionAgreement.agreement.code}"
+                                  listener="#{editSpecificFunctionAgreement.changeCode}"
+                                  renderElement="@form">
                 </inek:LabeledText>
-
+                
                 <h2 style="margin-bottom: 1em;"></h2>
 
                 <inek:MultiIk id="ikMulti" value="#{editSpecificFunctionAgreement.agreement.ik}" 

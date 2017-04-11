@@ -20,32 +20,32 @@
     <!-- IMPLEMENTATION -->
     <cc:implementation>
         <cc:editableValueHolder name="#{cc.id}" targets="ikMulti"/>
-                <div class="inputPart">
-                    <h:outputLabel styleClass="label10 #{cc.attrs.required and not cc.attrs.readonly and not cc.attrs.isFixed ? ' required ' : ''}" for="ikMulti" value="#{msg.lblIkShort}:"/>
+        <div class="inputPart">
+            <h:outputLabel styleClass="label10 #{cc.attrs.required and not cc.attrs.readonly and not cc.attrs.isFixed ? ' required ' : ''}" for="ikMulti" value="#{msg.lblIkShort}:"/>
 
-                    <h:selectOneMenu styleClass="col08em #{cc.attrs.required ? ' required ' : ''}"
-                                     rendered="#{!cc.attrs.readonly and cc.attrs.ikList.size() gt 1 and not cc.attrs.isFixed}"
-                                     id="ikMulti"
-                                     title="#{msg.titleIK}"
-                                     required="#{cc.attrs.required}"
-                                     requiredMessage="#{msg.msgValueNeeded}"
-                                     value="#{cc.attrs.value}"
-                                     hideNoSelectionOption="true" >
-                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
-                        <f:selectItems value="#{cc.attrs.ikList}"/>
-                        <f:ajax event="blur" render="#{cc.attrs.renderElement} :logout:remaining msgMultiIk"/>
-                        <f:ajax event="change" listener="#{cc.attrs.listener}" render="@form :logout:remaining msgMultiIk" />
-                    </h:selectOneMenu>
+            <h:selectOneMenu styleClass="col08em #{cc.attrs.required ? ' required ' : ''}"
+                             rendered="#{!cc.attrs.readonly and cc.attrs.ikList.size() gt 1 and not cc.attrs.isFixed}"
+                             id="ikMulti"
+                             title="#{msg.titleIK}"
+                             required="#{cc.attrs.required}"
+                             requiredMessage="#{msg.msgValueNeeded}"
+                             value="#{cc.attrs.value}"
+                             hideNoSelectionOption="true" >
+                <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
+                <f:selectItems value="#{cc.attrs.ikList}"/>
+                <f:ajax event="blur" render="#{cc.attrs.renderElement} :logout:remaining msgMultiIk"/>
+                <f:ajax event="change" listener="#{cc.attrs.listener}" render="@form :logout:remaining msgMultiIk" />
+            </h:selectOneMenu>
 
-                    <h:inputText styleClass="col07em" readonly="true" value="#{cc.attrs.value}" rendered="#{cc.attrs.readonly or cc.attrs.ikList.size() le 1 or cc.attrs.isFixed}"/>
+            <h:inputText styleClass="col07em" readonly="true" value="#{cc.attrs.value}" rendered="#{cc.attrs.readonly or cc.attrs.ikList.size() le 1 or cc.attrs.isFixed}"/>
 
-                    <h:outputLabel id="hospitalName" styleClass="label marginLeft" value="#{applicationTools.retrieveHospitalInfo(cc.attrs.value)}"/>
+            <h:outputLabel id="hospitalName" styleClass="label marginLeft" value="#{applicationTools.retrieveHospitalInfo(cc.attrs.value)}"/>
 
-                    <h:message for="ikMulti" id="msgMultiIk" styleClass="errorMessage"/>
+            <h:message for="ikMulti" id="msgMultiIk" styleClass="errorMessage"/>
 
-                    <br/>
-                    <h:outputLabel styleClass="label10" value="" rendered="#{!cc.attrs.readonly and cc.attrs.ikList.size() gt 1 and not cc.attrs.isFixed}"/>
-                    <h:outputText value="#{msg.lblNubHintMoreIks}" rendered="#{!cc.attrs.readonly and cc.attrs.ikList.size() gt 1 and not cc.attrs.isFixed}"/>
-                </div>
+            <br/>
+            <h:outputLabel styleClass="label10" value="" rendered="#{!cc.attrs.readonly and cc.attrs.ikList.size() gt 1 and not cc.attrs.isFixed}"/>
+            <h:outputText value="#{msg.lblNubHintMoreIks}" rendered="#{!cc.attrs.readonly and cc.attrs.ikList.size() gt 1 and not cc.attrs.isFixed}"/>
+        </div>
     </cc:implementation>
 </html>
