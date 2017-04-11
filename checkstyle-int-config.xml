@@ -100,7 +100,11 @@
         <module name="EqualsHashCode"/>
         <module name="FallThrough"/>
         <module name="MissingSwitchDefault"/>
-        <module name="HiddenField"/>
+<!--        <module name="HiddenField"/>-->
+        <module name="RequireThis">
+            <property name="checkMethods" value="false"/>
+            <property name="validateOnlyOverlapping" value="true"/>
+        </module>
         <!-- need to configure magic number before using it, e.g do not check within annotation -->
         <!--module name="MagicNumber"/-->
         <!-- Checks for Javadoc comments.                     -->

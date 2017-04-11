@@ -116,7 +116,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     private void init() {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         String id = "" + params.get("id");
-        if (id.equals("new")) {
+        if ("new".equals(id)) {
             _calcBasics = newCalcBasicsDrg();
             _baseLine = null;
         } else if (Utils.isInteger(id)) {
@@ -1628,15 +1628,15 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                         }
                         radio.setCostCenterText(values[1]);
                         String service = values[2].toLowerCase();
-                        if (service.equals("hauskatalog")) {
+                        if ("hauskatalog".equals(service)) {
                             radio.setServiceDocHome(true);
-                        } else if (service.equals("dkg-nt")) {
+                        } else if ("dkg-nt".equals(service)) {
                             radio.setServiceDocDKG(true);
-                        } else if (service.equals("ebm")) {
+                        } else if ("ebm".equals(service)) {
                             radio.setServiceDocEBM(true);
-                        } else if (service.equals("goä")) {
+                        } else if ("goä".equals(service)) {
                             radio.setServiceDocGOA(true);
-                        } else if (service.equals("sonstige")) {
+                        } else if ("sonstige".equals(service)) {
                             radio.setServiceDocDif(true);
                         }
                         radio.setDescription(values[3]);
@@ -1718,15 +1718,15 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                         }
                         radio.setCostCenterText(values[1]);
                         String service = values[2].toLowerCase();
-                        if (service.equals("hauskatalog")) {
+                        if ("hauskatalog".equals(service)) {
                             radio.setServiceDocHome(true);
-                        } else if (service.equals("dkg-nt")) {
+                        } else if ("dkg-nt".equals(service)) {
                             radio.setServiceDocDKG(true);
-                        } else if (service.equals("ebm")) {
+                        } else if ("ebm".equals(service)) {
                             radio.setServiceDocEBM(true);
-                        } else if (service.equals("goä")) {
+                        } else if ("goä".equals(service)) {
                             radio.setServiceDocGOA(true);
-                        } else if (service.equals("sonstige")) {
+                        } else if ("sonstige".equals(service)) {
                             radio.setServiceDocDif(true);
                         }
                         radio.setDescription(values[3]);
