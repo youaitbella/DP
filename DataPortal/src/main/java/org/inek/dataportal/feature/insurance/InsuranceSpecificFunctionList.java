@@ -19,7 +19,7 @@ import org.inek.dataportal.utils.DocumentationUtil;
 @RequestScoped
 public class InsuranceSpecificFunctionList {
 
-    private static final Logger _logger = Logger.getLogger("InsuranceNubNoticeList");
+    private static final Logger LOGGER = Logger.getLogger("InsuranceSpecificFunctionList");
 
     @Inject private InsuranceFacade _insuranceFacade;
     @Inject private SessionController _sessionController;

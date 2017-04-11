@@ -14,22 +14,22 @@ import org.inek.dataportal.utils.Documentation;
  * @author muellermi
  */
 @Entity
-@Table(name = "RequestProjectedCenter", schema = "spf")
-public class RequestProjectedCenter implements Serializable {
+@Table(name = "AgreedCenter", schema = "spf")
+public class AgreedCenter implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public RequestProjectedCenter() {
+    public AgreedCenter() {
     }
 
-    public RequestProjectedCenter(int masterId) {
-        _requestMasterId = masterId;
+    public AgreedCenter(int masterId) {
+        _agreedMasterId = masterId;
     }
 
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "rpcId")
+    @Column(name = "acId")
     private int _id = -1;
 
     public int getId() {
@@ -41,21 +41,21 @@ public class RequestProjectedCenter implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property RequestMasterId">
-    @Column(name = "rpcRequestMasterId")
-    private int _requestMasterId = -1;
+    // <editor-fold defaultstate="collapsed" desc="Property AgreedMasterId">
+    @Column(name = "acAgreedMasterId")
+    private int _agreedMasterId = -1;
 
-    public int getRequestMasterId() {
-        return _requestMasterId;
+    public int getAgreedMasterId() {
+        return _agreedMasterId;
     }
 
-    public void setRequestMasterId(int requestMasterId) {
-        _requestMasterId = requestMasterId;
+    public void setAgreedMasterId(int agreedMasterId) {
+        _agreedMasterId = agreedMasterId;
     }
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property CenterId">
-    @Column(name = "rpcCenterId")
+    @Column(name = "acCenterId")
     private int _centerId;
 
     public int getCenterId() {
@@ -69,7 +69,7 @@ public class RequestProjectedCenter implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property CenterName">
     @OneToOne
-    @PrimaryKeyJoinColumn(name = "rpcCenterId")
+    @PrimaryKeyJoinColumn(name = "acCenterId")
     @Documentation(name = "Zentrum")
     private CenterName _centerName;
 
@@ -83,7 +83,7 @@ public class RequestProjectedCenter implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property OtherCenterName">
-    @Column(name = "rpcOtherCenterName")
+    @Column(name = "acOtherCenterName")
     @Documentation(name = "Sonstige Art des Zentrums", omitOnEmpty = true)
     private String _otherCenterName = "";
 
@@ -98,7 +98,7 @@ public class RequestProjectedCenter implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Location">
-    @Column(name = "rpcLocation")
+    @Column(name = "acLocation")
     @Documentation(name = "Standort", omitOnEmpty = true)
     private String _location = "";
 
@@ -115,12 +115,12 @@ public class RequestProjectedCenter implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property SpecificFunction">
     @OneToMany
     @JoinTable(
-            name = "mapProjectedCenterSpecificFunction",
+            name = "mapAgreedCenterSpecificFunction",
             schema = "spf",
             joinColumns = {
-                @JoinColumn(name = "pcsfProjectedCenterId", referencedColumnName = "rpcId")},
+                @JoinColumn(name = "acsfAgreedCenterId", referencedColumnName = "acId")},
             inverseJoinColumns = {
-                @JoinColumn(name = "pcsfSpecificFunctionId", referencedColumnName = "sfId", unique = true)}
+                @JoinColumn(name = "acsfSpecificFunctionId", referencedColumnName = "sfId", unique = true)}
     )
     @Documentation(name = "Besondere Aufgaben")
     private List<SpecificFunction> _specificFunctions = new Vector<>();
@@ -135,7 +135,7 @@ public class RequestProjectedCenter implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property OtherSpecificFunction">
-    @Column(name = "rpcOtherSpecificFunction")
+    @Column(name = "acOtherSpecificFunction")
     @Documentation(name = "Sonstige Besondere Aufgaben", omitOnEmpty = true)
     private String _otherSpecificFunction = "";
 
@@ -149,37 +149,80 @@ public class RequestProjectedCenter implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property TypeId">
-    @Column(name = "rpcTypeId")
+    // <editor-fold defaultstate="collapsed" desc="Property CostSum">
+    @Column(name = "acCostSum")
+    private double _costSum;
+
+    @Min(0)
+    public double getCostSum() {
+        return _costSum;
+    }
+
+    public void setCostSum(double costSum) {
+        _costSum = costSum;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property RelatedId">
+    @Column(name = "acRelatedId")
+    private int _relatedId;
+
+    public int getRelatedId() {
+        return _relatedId;
+    }
+
+    public void setRelatedId(int value) {
+        _relatedId = value;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property CenterName">
+    @OneToOne
+    @PrimaryKeyJoinColumn(name = "acRelatedId")
+    @Documentation(name = "Zentrum")
+    private RelatedName _relatedName;
+
+    public RelatedName getRelatedName() {
+        return _relatedName;
+    }
+
+    public void setRelatedName(RelatedName value) {
+        _relatedName = value;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property OtherRelatedText">
+    @Column(name = "acOtherRelatedText")
+    @Documentation(name = "Sonstige Art des Zentrums", omitOnEmpty = true)
+    private String _otherRelatedText = "";
+
+    @Size(max = 250)
+    public String getOtherRelatedText() {
+        return _otherRelatedText;
+    }
+
+    public void setOtherRelatedText(String otherRelatedText) {
+        _otherRelatedText = otherRelatedText;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property ExtraAmount">
+    @Column(name = "acExtraAmount")
+    @Documentation(name = "Höhe des Zuschlags (€)")
+    private double _extraAmount;
+
+    @Min(0)
+    public double getExtraAmount() {
+        return _extraAmount;
+    }
+
+    public void setExtraAmount(double extraAmount) {
+        _extraAmount = extraAmount;
+    }
+    // </editor-fold>
+
     
-    @Documentation(name = "Ausweisung und Festsetzung", translateValue = "1=im Krankenhausplan des Landes;2=durch gleichartige Festlegung der zuständigen Landesbehörde")
-    private int _typeId;
-
-    @Min(0)
-    public int getTypeId() {
-        return _typeId;
-    }
-
-    public void setTypeId(int typeId) {
-        _typeId = typeId;
-    }
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Property EstimatedPatientCount">
-    @Column(name = "rpcEstimatedPatientCount")
-    @Documentation(name = "Anzahl Patienten (ca.)")
-    private int _estimatedPatientCount;
-
-    @Min(0)
-    public int getEstimatedPatientCount() {
-        return _estimatedPatientCount;
-    }
-
-    public void setEstimatedPatientCount(int estimatedPatientCount) {
-        _estimatedPatientCount = estimatedPatientCount;
-    }
-    // </editor-fold>
-
+    // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public int hashCode() {
         if (_id > 0) {
@@ -187,16 +230,13 @@ public class RequestProjectedCenter implements Serializable {
         }
         int hash = 7;
         hash = 97 * hash + this._id;
-        hash = 97 * hash + this._requestMasterId;
+        hash = 97 * hash + this._agreedMasterId;
         hash = 97 * hash + Objects.hashCode(this._otherCenterName);
         hash = 97 * hash + Objects.hashCode(this._location);
         hash = 97 * hash + Objects.hashCode(this._otherSpecificFunction);
-        hash = 97 * hash + this._typeId;
-        hash = 97 * hash + this._estimatedPatientCount;
         return hash;
     }
 
-    // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -208,17 +248,17 @@ public class RequestProjectedCenter implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final RequestProjectedCenter other = (RequestProjectedCenter) obj;
+        final AgreedCenter other = (AgreedCenter) obj;
         if (_id > 0 || other._id > 0) {
             return _id == other._id;
         }
-        if (this._requestMasterId != other._requestMasterId) {
+        if (this._agreedMasterId != other._agreedMasterId) {
             return false;
         }
-        if (this._typeId != other._typeId) {
+        if (this._costSum != other._costSum) {
             return false;
         }
-        if (this._estimatedPatientCount != other._estimatedPatientCount) {
+        if (this._extraAmount != other._extraAmount) {
             return false;
         }
         if (!Objects.equals(this._otherCenterName, other._otherCenterName)) {
@@ -246,8 +286,8 @@ public class RequestProjectedCenter implements Serializable {
                 && _location.isEmpty() 
                 && _specificFunctions.isEmpty()
                 && _otherSpecificFunction.isEmpty() 
-                && _typeId == 0 
-                && _estimatedPatientCount == 0;
+                && _costSum == 0d 
+                && _extraAmount == 0d;
     }
 
 }

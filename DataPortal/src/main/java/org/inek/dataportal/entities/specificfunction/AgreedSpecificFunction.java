@@ -121,12 +121,12 @@ public class AgreedSpecificFunction implements Serializable {
     }
     // </editor-fold>
    
-    // <editor-fold defaultstate="collapsed" desc="Property InsuranceStreet">
+    // <editor-fold defaultstate="collapsed" desc="Property InsurancePostCode">
     @Column(name = "amInsurancePostCode")
     @Documentation(key = "lblPostalCode")
     private String _insurancePostCode = "";
 
-    @Size(max = 100)
+    @Size(max = 10)
     public String getInsurancePostCode() {
         return _insurancePostCode;
     }
@@ -151,13 +151,6 @@ public class AgreedSpecificFunction implements Serializable {
     }
     // </editor-fold>
    
-/*
-    
-	[amInsurancePostCode] [nvarchar](10) NOT NULL,
-	[amInsuranceTown] [nvarchar](100) NOT NULL,
-     
-    */    
-
     //<editor-fold defaultstate="collapsed" desc="Property AccountId">
     @Column(name = "amAccountId")
     private int _accountId;
@@ -401,7 +394,7 @@ public class AgreedSpecificFunction implements Serializable {
 
     @Override
     public String toString() {
-        return "RequestMaster[id=" + _id + "]";
+        return "AgreedMaster[id=" + _id + "]";
     }
     // </editor-fold>
 
