@@ -27,10 +27,10 @@ import org.inek.dataportal.mail.Mailer;
  */
 public class DocumentLoader {
 
-    private static final Logger _logger = Logger.getLogger("DocumentLoader");
-    private final static String ImportDir = "Import.Dataportal";
-    private final static String ArchiveDir = "Imported";
-    private final static String FailedDir = "Failed";
+    private static final Logger LOGGER = Logger.getLogger("DocumentLoader");
+    private final static String IMPORT_DIR = "Import.Dataportal";
+    private final static String ARCHIV_DIR = "Imported";
+    private final static String FAILED_DIR = "Failed";
 
     @Inject private ConfigFacade _config;
     @Inject private AccountFacade _accountFacade;
@@ -66,7 +66,7 @@ public class DocumentLoader {
             }
             for (File dir : baseDir.listFiles()) {
                 if (dir.isDirectory()) {
-                    _logger.log(Level.INFO, "Check document folder ({0})", dir);
+                    LOGGER.log(Level.INFO, "Check document folder ({0})", dir);
                     checkDocumentFolder(dir);
                 }
             }
@@ -74,7 +74,7 @@ public class DocumentLoader {
         } catch (Exception ex) {
             // baseDir.listFiles() might become null if the drive is not available
             // log (to detect possible other faults) and ignore 
-            _logger.log(Level.SEVERE, ex.getMessage());
+            LOGGER.log(Level.SEVERE, ex.getMessage());
         }
     }
 
@@ -83,9 +83,9 @@ public class DocumentLoader {
             return;
         }
         for (File file : dir.listFiles(f -> f.isFile() && f.getName().toLowerCase().endsWith(".zip"))) {
-            moveFile(ImportDir, file);
+            moveFile(IMPORT_DIR, file);
         }
-        File importDir = new File(dir, ImportDir);
+        File importDir = new File(dir, IMPORT_DIR);
         for (File file : importDir.listFiles(f -> f.isFile() && f.getName().toLowerCase().endsWith(".zip"))) {
             handleContainer(file);
         }
@@ -99,19 +99,19 @@ public class DocumentLoader {
             }
             file.renameTo(new File(targetDir, file.getName()));
         } catch (Exception ex) {
-            _logger.log(Level.INFO, "Could not rename {0}", file.getName());
+            LOGGER.log(Level.INFO, "Could not rename {0}", file.getName());
         }
     }
 
     private synchronized void handleContainer(File file) {
         DocumentImportInfo importInfo = new DocumentImportInfo(file, _accountFacade);
         if (!importInfo.isValid()) {
-            _logger.log(Level.WARNING, "Could not import {0}", importInfo.getError());
-            moveFile(FailedDir, file);
+            LOGGER.log(Level.WARNING, "Could not import {0}", importInfo.getError());
+            moveFile(FAILED_DIR, file);
             return;
         }
         if (importInfo.getFiles().isEmpty()) {
-            _logger.log(Level.WARNING, "No files found to import for container {0}", file.getName());
+            LOGGER.log(Level.WARNING, "No files found to import for container {0}", file.getName());
             return;
         }
 
@@ -120,7 +120,7 @@ public class DocumentLoader {
         } else {
             createDocuments(importInfo);
         }
-        moveFile(ArchiveDir, file);
+        moveFile(ARCHIV_DIR, file);
     }
 
     private void createDocuments(DocumentImportInfo importInfo) {
@@ -157,10 +157,10 @@ public class DocumentLoader {
         doc.setAgentAccountId(importInfo.getUploadAccount().getId());
         _accountDocFacade.save(doc);
         _accountDocFacade.clearCache();
-        _logger.log(Level.INFO, "Document created: {0} for account {1}", new Object[]{name, account.getId()});
+        LOGGER.log(Level.INFO, "Document created: {0} for account {1}", new Object[]{name, account.getId()});
     }
 
-    private void createWaitingDocuments(DocumentImportInfo importInfo) {
+    private synchronized void createWaitingDocuments(DocumentImportInfo importInfo) {
         int validity = _config.readInt(ConfigKey.ReportValidity);
         Map<String, byte[]> files = importInfo.getFiles();
 
@@ -207,7 +207,7 @@ public class DocumentLoader {
         doc.setIk(importInfo.getIk());
         doc.setJsonMail(jsonMail.toString());
         _waitingDocFacade.save(doc);
-        _logger.log(Level.INFO, "Document created for approval: {0} for account {1}", new Object[]{name, importInfo.getApprovalAccount().getId()});
+        LOGGER.log(Level.INFO, "Document created for approval: {0} for account {1}", new Object[]{name, importInfo.getApprovalAccount().getId()});
     }
 
 }

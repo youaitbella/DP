@@ -79,10 +79,9 @@ public class WaitingDocumentFacade extends AbstractFacade<WaitingDocument> {
         }
     }
 
-    public WaitingDocument save(WaitingDocument waitingDocument) {
+    public void save(WaitingDocument waitingDocument) {
+        clearCache();  // paranoid call, because sometimes documents have been stored twice, although the log contains only one creation
         persist(waitingDocument);
-        clearCache();
-        return findFresh(waitingDocument.getId());
     }
 
 }
