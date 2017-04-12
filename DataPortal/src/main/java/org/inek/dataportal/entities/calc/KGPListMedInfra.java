@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import org.inek.dataportal.entities.calc.iface.BaseIdValue;
+import org.inek.dataportal.utils.Documentation;
 
 /**
  *
@@ -45,6 +46,7 @@ public class KGPListMedInfra implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _costTypeId">
     @Column(name = "miCostTypeID")
+  //  @Documentation(name = "Kostenstellenart", rank = 10)
     private int _costTypeId;
 
     public int getCostTypeId() {
@@ -58,6 +60,7 @@ public class KGPListMedInfra implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _costCenterNumber">
     @Column(name = "miCostCenterNumber")
+    @Documentation(name = "Nummer der Kostenstelle", rank = 20)
     private String _costCenterNumber = "";
 
     @Size(max = 20)
@@ -72,6 +75,7 @@ public class KGPListMedInfra implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _costCenterText">
     @Column(name = "miCostCenterText")
+    @Documentation(name = "Name der Kostenstelle", rank = 30)
     private String _costCenterText = "";
 
     @Size(max = 100)
@@ -86,6 +90,7 @@ public class KGPListMedInfra implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _keyUsed">
     @Column(name = "miKeyUsed")
+    @Documentation(name = "Verwendeter Schlüssel", rank = 40)
     private String _keyUsed = "";
 
     @Size(max = 50)
@@ -100,6 +105,7 @@ public class KGPListMedInfra implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property _amount">
     @Column(name = "miAmount")
+    @Documentation(name = "Kostenvolumen vor Durchführung der IBLV und vor Abgrenzung nicht kalkulationsrelevanter Kosten", rank = 50)
     private int _amount;
 
     public int getAmount() {

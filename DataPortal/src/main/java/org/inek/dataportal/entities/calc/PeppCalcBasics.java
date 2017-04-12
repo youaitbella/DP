@@ -472,6 +472,7 @@ public class PeppCalcBasics implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property IBLVMethodMedInfra">
     @Column(name = "biIBLVMethodMedInfra")
+    @Documentation(name = "Gewähltes Verfahren bei Durchführung der IBLV", rank = 10010, translateValue = "0= ;1=Gleichungsverfahren;2=Stufenleiterverfahren;3=Anbauverfahren;4=Sonstige Vorgehensweise")
     private int _iblvMethodMedInfra;
 
     public int getIblvMethodMedInfra() {
@@ -485,6 +486,7 @@ public class PeppCalcBasics implements Serializable {
     
     // <editor-fold defaultstate="collapsed" desc="Property _otherMethodMedInfra">
     @Column(name = "biOtherMethodMedInfra")
+    @Documentation(name = "Gewähltes Verfahren bei Durchführung der IBLV", rank = 11010, translateValue = "0= ;1=Gleichungsverfahren;2=Stufenleiterverfahren;3=Anbauverfahren;4=Sonstige Vorgehensweise")
     private String _otherMethodMedInfra = "";
 
     public String getOtherMethodMedInfra() {
@@ -525,11 +527,23 @@ public class PeppCalcBasics implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property List _kgpMedInfraList">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "miBaseInformationId", referencedColumnName = "biID")
-    @Documentation(name = "Unbekannte Liste", rank = 20000)
+    //@Documentation(name = "Unbekannte Liste (A)", rank = 20000)
     private List<KGPListMedInfra> _kgpMedInfraList = new Vector<>();
 
     public List<KGPListMedInfra> getKgpMedInfraList() {
         return _kgpMedInfraList;
+    }
+    
+    @Documentation(name = "Verrechnungsschlüssel und Kostenvolumen der Kostenstellen der medizinischen Infrastruktur",headline = "Ergänzende Angaben zur innerbetrieblichen Leistungsverrechnung (medizinische Infrastruktur)", rank = 10020) 
+    @JsonIgnore
+    public List<KGPListMedInfra> getCostCenter170() {
+        return _kgpMedInfraList.stream().filter(c -> c.getCostTypeId()== 170).collect(Collectors.toList());
+    }
+    
+    @Documentation(name = "Verrechnungsschlüssel und Kostenvolumen der Kostenstellen der nicht medizinischen Infrastruktur",headline = "Ergänzende Angaben zur innerbetrieblichen Leistungsverrechnung (nicht medizinische Infrastruktur)", rank = 11020) 
+    @JsonIgnore
+    public List<KGPListMedInfra> getCostCenter180() {
+        return _kgpMedInfraList.stream().filter(c -> c.getCostTypeId()== 180).collect(Collectors.toList());
     }
 
     public void setKgpMedInfraList(List<KGPListMedInfra> kgpMedInfraList) {
@@ -539,6 +553,7 @@ public class PeppCalcBasics implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property _personalAccountingDescription">
     @Column(name = "biPersonalAccountingDescription")
+    @Documentation(name = "Erläuterung bzgl. Datengrundlage, Vorgehen und Kostenvolumen", rank = 12030)
     private String _personalAccountingDescription = "";
 
     public String getPersonalAccountingDescription() {
@@ -554,7 +569,7 @@ public class PeppCalcBasics implements Serializable {
     //@OneToMany(cascade = CascadeType.ALL, mappedBy = "paBaseInformationId")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "paBaseInformationId", referencedColumnName = "biID")
-    @Documentation(name = "ListPersonalAccounting", rank = 20008) 
+    @Documentation(name = "Gewähltes Verfahren für die Durchführung der Personalkostenverrechnung", rank = 12010, headline = "Ergänzende Angaben zur Personalkostenverrechnung") 
     @OrderBy(value = "_costTypeId")
     private List<KGPPersonalAccounting> _personalAccountings = new ArrayList<>();
 
@@ -588,7 +603,6 @@ public class PeppCalcBasics implements Serializable {
     //@OneToMany(cascade = CascadeType.ALL, mappedBy = "ccBaseInformationId")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "ccBaseInformationId", referencedColumnName = "biID")
-   // @Documentation(name = "ListCostCenter", rank = 20006) 
     private List<KGPListCostCenter> _costCenters = new Vector<>();
 
     public List<KGPListCostCenter> getCostCenters() {
@@ -622,6 +636,7 @@ public class PeppCalcBasics implements Serializable {
     //@OneToMany(cascade = CascadeType.ALL, mappedBy = "sscBaseInformationId")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "sscBaseInformationId", referencedColumnName = "biID")
+    @Documentation(name = "Stationen", rank = 9050)
     private List<KGPListStationServiceCost> _stationServiceCosts = new Vector<>();
 
     public List<KGPListStationServiceCost> getStationServiceCosts() {
@@ -676,7 +691,6 @@ public class PeppCalcBasics implements Serializable {
         return _radiologyLaboratories;
     }
     
-    
     @Documentation(name = "Kostenstellen",headline = "Kostenstellengruppe 9 (Radiologie)", rank = 5000) 
     @JsonIgnore
     public List<KGPListRadiologyLaboratory> getRadiologyLaboratories9() {
@@ -699,7 +713,7 @@ public class PeppCalcBasics implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "dfBaseInformationId", referencedColumnName = "biID")
     @OrderBy(value = "_contentTextId")
-    @Documentation(name = "Liste DelimitationFact", rank = 20004)
+    @Documentation(name = "Berücksichtigte Abgrenzungstatbestände", rank = 1200)
     private List<KGPListDelimitationFact> _delimitationFacts = new Vector<>();
 
     public List<KGPListDelimitationFact> getDelimitationFacts() {
