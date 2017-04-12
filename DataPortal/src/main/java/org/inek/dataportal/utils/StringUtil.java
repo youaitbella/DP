@@ -4,8 +4,11 @@
  */
 package org.inek.dataportal.utils;
 
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  *
@@ -51,6 +54,20 @@ public class StringUtil {
         
         String[] result = new String[toks.size()];
         return toks.toArray(result);
+    }
+
+    public static int parseLocalizedDoubleAsInt(String input) {
+        return (int) Math.round(parseLocalizedDouble(input));
+    }
+    
+    public static double parseLocalizedDouble(String input) {
+        try {
+            NumberFormat nf = NumberFormat.getInstance(Locale.GERMANY);
+            Number n = nf.parse(input);
+            return n.doubleValue();
+        } catch (ParseException e) {
+            throw new NumberFormatException();
+        }
     }
 
 }

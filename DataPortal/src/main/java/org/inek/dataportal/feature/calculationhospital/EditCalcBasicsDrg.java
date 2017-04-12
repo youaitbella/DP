@@ -1139,22 +1139,22 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                     continue;
                 }
                 List list = (List) value;
-                if (list.isEmpty() || !(list.get(0) instanceof BaseIdValue)){
+                if (list.isEmpty() || !(list.get(0) instanceof BaseIdValue)) {
                     continue;
                 }
                 List<BaseIdValue> data = new ArrayList();
                 for (Object object : list) {
-                        _calcFacade.detach(object);
-                        BaseIdValue baseIdValue = (BaseIdValue) object;
-                        data.add(baseIdValue);
+                    _calcFacade.detach(object);
+                    BaseIdValue baseIdValue = (BaseIdValue) object;
+                    data.add(baseIdValue);
                 }
                 List<BaseIdValue> dataCopy = new ArrayList();
-                data.stream().sorted((b1, b2) -> Integer.compare(b1. getId(), b2.getId())).forEach(
+                data.stream().sorted((b1, b2) -> Integer.compare(b1.getId(), b2.getId())).forEach(
                         baseIdValue -> {
-                        baseIdValue.setId(-1);
-                        baseIdValue.setBaseInformationId(-1);
-                        dataCopy.add(baseIdValue);
-                });
+                            baseIdValue.setId(-1);
+                            baseIdValue.setBaseInformationId(-1);
+                            dataCopy.add(baseIdValue);
+                        });
                 field.set(_calcBasics, dataCopy);
             } catch (IllegalArgumentException | IllegalAccessException ex) {
                 LOGGER.log(Level.SEVERE, "error during setDataToNew: {0}", field.getName());
@@ -1493,85 +1493,93 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                         try {
                             ccc.setBedCnt(Integer.parseInt(values[4]));
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 5: " + Utils.getMessage("msgNotAnInteger") + "\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 5 (Bettenzahl): " + Utils.getMessage("msgNotAnInteger") + "\\n";
                             continue;
                         }
                         try {
+
                             ccc.setCareDays(Integer.parseInt(values[5]));
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 6: " + Utils.getMessage("msgNotAnInteger") + "\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 6 (Pflegetage): " + Utils.getMessage("msgNotAnInteger") + "\\n";
                             continue;
                         }
                         try {
                             ccc.setPprMinutes(Integer.parseInt(values[6]));
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 7: " + Utils.getMessage("msgNotAnInteger") + "\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 7 (PPR-Minuten): " + Utils.getMessage("msgNotAnInteger") + "\\n";
                             continue;
                         }
                         try {
                             ccc.setPprWeight(Integer.parseInt(values[7]));
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 8: " + Utils.getMessage("msgNotAnInteger") + "\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 8: (zus. Gewichtung außer PPR)" + Utils.getMessage("msgNotAnInteger") + "\\n";
                             continue;
                         }
                         try {
-                            ccc.setMedicalServiceCnt(parseLocalizedDouble(values[8]));
+                            ccc.setMedicalServiceCnt(StringUtil.parseLocalizedDouble(values[8]));
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 9: " + Utils.getMessage("msgNotANumber") + "\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 9 (Ärztlicher Dienst): " + Utils.getMessage("msgNotANumber") + "\\n";
                             continue;
                         }
                         try {
-                            ccc.setNursingServiceCnt(parseLocalizedDouble(values[9]));
+                            ccc.setNursingServiceCnt(StringUtil.parseLocalizedDouble(values[9]));
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 10: " + Utils.getMessage("msgNotANumber") + "\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 10 (Pflegedienst): " + Utils.getMessage("msgNotANumber") + "\\n";
                             continue;
                         }
                         try {
-                            ccc.setFunctionalServiceCnt(parseLocalizedDouble(values[10]));
+                            ccc.setFunctionalServiceCnt(StringUtil.parseLocalizedDouble(values[10]));
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 11: " + Utils.getMessage("msgNotANumber") + "\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 11 (Funktionsdienst): " + Utils.getMessage("msgNotANumber") + "\\n";
                             continue;
                         }
                         try {
-                            ccc.setMedicalServiceAmount(Integer.parseInt(values[11]));
+                            int amount = StringUtil.parseLocalizedDoubleAsInt(values[11]);
+                            ccc.setMedicalServiceAmount(amount);
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 12: " + Utils.getMessage("msgNotAnInteger") + "\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 12 (Ärztlicher Dienst): " + Utils.getMessage("msgNotAnInteger") + "\\n";
                             continue;
                         }
                         try {
-                            ccc.setNursingServiceAmount(Integer.parseInt(values[12]));
+                            int amount = StringUtil.parseLocalizedDoubleAsInt(values[12]);
+                            ccc.setNursingServiceAmount(amount);
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 13: " + Utils.getMessage("msgNotAnInteger") + "\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 13 (Pflegedienst): " + Utils.getMessage("msgNotAnInteger") + "\\n";
                             continue;
                         }
                         try {
-                            ccc.setFunctionalServiceAmount(Integer.parseInt(values[13]));
+                            int amount = StringUtil.parseLocalizedDoubleAsInt(values[13]);
+                            ccc.setFunctionalServiceAmount(amount);
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 14: " + Utils.getMessage("msgNotAnInteger") + "\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 14 (Funktionsdienst): " + Utils.getMessage("msgNotAnInteger") + "\\n";
                             continue;
                         }
                         try {
-                            ccc.setOverheadsMedicine(Integer.parseInt(values[14]));
+                            int amount = StringUtil.parseLocalizedDoubleAsInt(values[14]);
+                            ccc.setOverheadsMedicine(amount);
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 15: " + Utils.getMessage("msgNotAnInteger") + "\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 15 (Arzneimittel: " + Utils.getMessage("msgNotAnInteger") + "\\n";
                             continue;
                         }
                         try {
-                            ccc.setOverheadsMedicalGoods(Integer.parseInt(values[15]));
+                            int amount = StringUtil.parseLocalizedDoubleAsInt(values[15]);
+                            ccc.setOverheadsMedicalGoods(amount);
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 16: " + Utils.getMessage("msgNotAnInteger") + "\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 16 (med. Sachbedarf): " + Utils.getMessage("msgNotAnInteger") + "\\n";
                             continue;
                         }
                         try {
-                            ccc.setMedicalInfrastructureCost(Integer.parseInt(values[16]));
+                            int amount = StringUtil.parseLocalizedDoubleAsInt(values[16]);
+                            ccc.setMedicalInfrastructureCost(amount);
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 17: " + Utils.getMessage("msgNotAnInteger") + "\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 17 (med. Infrastruktur: " + Utils.getMessage("msgNotAnInteger") + "\\n";
                             continue;
                         }
                         try {
-                            ccc.setNonMedicalInfrastructureCost(Integer.parseInt(values[17]));
+                            int amount = StringUtil.parseLocalizedDoubleAsInt(values[17]);
+                            ccc.setNonMedicalInfrastructureCost(amount);
                         } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 18: " + Utils.getMessage("msgNotAnInteger") + "\\n";
+                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 18 (nicht med. Infra.): " + Utils.getMessage("msgNotAnInteger") + "\\n";
                             continue;
                         }
                         if (checkCostCenterCostRedundantEntry(ccc)) {
@@ -1679,6 +1687,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         } catch (IOException | NoSuchElementException e) {
         }
     }
+
     public void uploadLaboratory() {
         try {
             int headlineLength = _headLineLaboratory.split(";").length;
@@ -1827,7 +1836,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                             continue;
                         }
                         try {
-                            int amount = (int) Math.round(parseLocalizedDouble(values[3]));
+                            int amount = StringUtil.parseLocalizedDoubleAsInt(values[3]);
                             medInfra.setAmount(amount);
                         } catch (NumberFormatException ex) {
                             alertText += "Fehler: Zeile " + lineNum + ", Spalte 4: " + Utils.getMessage("msgNotAnInteger") + "\\n";
@@ -1994,13 +2003,4 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         return new KGLRadiologyService();
     }
 
-    private double parseLocalizedDouble(String input) {
-        try {
-            NumberFormat nf = NumberFormat.getInstance(Locale.GERMANY);
-            Number n = nf.parse(input);
-            return n.doubleValue();
-        } catch (ParseException e) {
-            throw new NumberFormatException();
-        }
-    }
 }
