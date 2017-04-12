@@ -1048,7 +1048,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             }
             FieldValues fieldValues = differencesUser.get(fieldName);
             Field field = fieldValues.getField();
-            ObjectUtils.setField(field, modifiedCalcBasics, _calcBasics);
+            ObjectUtils.copyFieldValue(field, modifiedCalcBasics, _calcBasics);
         }
         return collisions;
     }

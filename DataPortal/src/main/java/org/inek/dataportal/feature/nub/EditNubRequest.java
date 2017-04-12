@@ -481,7 +481,7 @@ public class EditNubRequest extends AbstractEditController {
             }
             FieldValues fieldValues = differencesUser.get(fieldName);
             Field field = fieldValues.getField();
-            ObjectUtils.setField(field, modifiedNubRequest, _nubRequest);
+            ObjectUtils.copyFieldValue(field, modifiedNubRequest, _nubRequest);
         }
         return collisions;
     }

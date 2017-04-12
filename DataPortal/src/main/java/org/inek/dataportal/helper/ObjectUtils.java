@@ -25,10 +25,19 @@ import org.inek.dataportal.utils.IgnoreOnCompare;
 @SuppressWarnings("unchecked")
 public class ObjectUtils {
 
-    private static final Logger logger = Logger.getLogger("ObjectUtils");
+    private static final Logger LOGGER = Logger.getLogger("ObjectUtils");
 
+    /**
+     * Performs a deep copy of object original.
+     *
+     * @param <T>
+     * @param original
+     * @return
+     */
     public static <T> T copy(T original) {
         boolean isSerializable = false;
+        // checks, whether class implements interface Serializable
+        // todo: check if contained objects are serializable too
         for (Class c : original.getClass().getInterfaces()) {
             if (c == Serializable.class) {
                 isSerializable = true;
@@ -55,14 +64,7 @@ public class ObjectUtils {
         }
     }
 
-    /**
-     * performs a deep copy of object source
-     *
-     * @param <T>
-     * @param source
-     * @return
-     */
-    public static <T> T copyObject(T source) {
+    private static <T> T copyObject(T source) {
         if (source == null) {
             return null;
         }
@@ -95,7 +97,7 @@ public class ObjectUtils {
      * @param target
      * @return
      */
-    public static <T> T copyObject(T source, T target) {
+    private static <T> T copyObject(T source, T target) {
         try {
             if (source == null || target == null) {
                 return null;
@@ -109,11 +111,11 @@ public class ObjectUtils {
 
             for (Class clazz = source.getClass(); !clazz.equals(Object.class); clazz = clazz.getSuperclass()) {
                 for (Field field : clazz.getDeclaredFields()) {
-                    setField(field, source, target);
+                    copyFieldValue(field, source, target);
                 }
             }
         } catch (Exception e) {
-            logger.log(Level.WARNING, "Error during copyObject", e);
+            LOGGER.log(Level.WARNING, "Error during copyObject", e);
             throw e;
         }
         return target;
@@ -160,7 +162,7 @@ public class ObjectUtils {
                 }
             }
             if (constructor == null) {
-                logger.log(Level.INFO, "Constructor is null: {0}", targetClass.getName());
+                LOGGER.log(Level.INFO, "Constructor is null: {0}", targetClass.getName());
             }
             constructor.setAccessible(true);
             Class[] types = constructor.getParameterTypes();
@@ -174,11 +176,14 @@ public class ObjectUtils {
         return target;
     }
 
-    public static <T> void setField(Field field, Object source, T target) {
+    public static <T> void copyFieldValue(Field field, Object source, T target) {
         try {
             String name = field.getName();
             field.setAccessible(true);
             if (Modifier.isStatic(field.getModifiers())) {
+                return;
+            }
+            if (Modifier.isTransient(field.getModifiers())) {
                 return;
             }
             Object value = field.get(source);
@@ -191,7 +196,7 @@ public class ObjectUtils {
             targetField.set(target, copyObject(value));
 
         } catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException ex) {
-            logger.log(Level.SEVERE, "error during setField: " + field.getName());
+            LOGGER.log(Level.SEVERE, "error during setField: " + field.getName());
         }
     }
 
@@ -396,7 +401,7 @@ public class ObjectUtils {
             return areEqualObjects(value1, value2);
 
         } catch (IllegalArgumentException | IllegalAccessException ex) {
-            logger.log(Level.WARNING, "Exception during areEqualFields");
+            LOGGER.log(Level.WARNING, "Exception during areEqualFields");
         }
         return false;
     }
