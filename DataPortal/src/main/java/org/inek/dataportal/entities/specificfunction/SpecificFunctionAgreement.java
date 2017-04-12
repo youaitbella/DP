@@ -48,20 +48,6 @@ public class SpecificFunctionAgreement implements Serializable {
     }
     //</editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property Name">
-    @Column(name = "amName")
-    private String _name = "";
-
-    @Size(max = 250)
-    public String getName() {
-        return _name;
-    }
-
-    public void setName(String name) {
-        _name = name == null ? "" : name;
-    }
-    // </editor-fold>
-
     // <editor-fold defaultstate="collapsed" desc="Property Code">
     @Column(name = "amCode")
     @Documentation(key = "lblContractKey")

@@ -236,13 +236,6 @@ public class SpecificFunctionRequestTreeHandler implements Serializable, TreeNod
                     sorted = stream.sorted((n1, n2) -> _appTools.retrieveHospitalInfo(n1.getSpecificFunctionRequest().getIk()).compareTo(_appTools.retrieveHospitalInfo(n2.getSpecificFunctionRequest().getIk())));
                 }
                 break;
-            case "name":
-                if (treeNode.isDescending()) {
-                    sorted = stream.sorted((n1, n2) -> n2.getSpecificFunctionRequest().getName().compareTo(n1.getSpecificFunctionRequest().getName()));
-                } else {
-                    sorted = stream.sorted((n1, n2) -> n1.getSpecificFunctionRequest().getName().compareTo(n2.getSpecificFunctionRequest().getName()));
-                }
-                break;
             case "date":
                 if (treeNode.isDescending()) {
                     sorted = stream.sorted((n1, n2) -> n2.getSpecificFunctionRequest().getLastChanged().compareTo(n1.getSpecificFunctionRequest().getLastChanged()));
