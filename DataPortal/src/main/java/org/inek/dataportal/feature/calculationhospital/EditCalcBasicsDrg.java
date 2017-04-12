@@ -14,7 +14,6 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 import java.text.NumberFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -1649,25 +1648,29 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                         }
                         radio.setDescription(values[3]);
                         try {
-                            radio.setServiceVolumePre(Integer.parseInt(values[4]));
+                            int amount = StringUtil.parseLocalizedDoubleAsInt(values[4]);
+                            radio.setServiceVolumePre(amount);
                         } catch (NumberFormatException ex) {
                             alertText += "Fehler: Zeile " + lineNum + ", Spalte 5: " + Utils.getMessage("msgNotANumber") + "\\n";
                             continue;
                         }
                         try {
-                            radio.setAmountPre(Integer.parseInt(values[5]));
+                            int amount = StringUtil.parseLocalizedDoubleAsInt(values[5]);
+                            radio.setAmountPre(amount);
                         } catch (NumberFormatException ex) {
                             alertText += "Fehler: Zeile " + lineNum + ", Spalte 6: " + Utils.getMessage("msgNotANumber") + "\\n";
                             continue;
                         }
                         try {
-                            radio.setServiceVolumePost(Integer.parseInt(values[6]));
+                            int amount = StringUtil.parseLocalizedDoubleAsInt(values[6]);
+                            radio.setServiceVolumePost(amount);
                         } catch (NumberFormatException ex) {
                             alertText += "Fehler: Zeile " + lineNum + ", Spalte 7: " + Utils.getMessage("msgNotANumber") + "\\n";
                             continue;
                         }
                         try {
-                            radio.setAmountPost(Integer.parseInt(values[7]));
+                            int amount = StringUtil.parseLocalizedDoubleAsInt(values[7]);
+                            radio.setAmountPost(amount);
                         } catch (NumberFormatException ex) {
                             alertText += "Fehler: Zeile " + lineNum + ", Spalte 8: " + Utils.getMessage("msgNotANumber") + "\\n";
                             continue;
@@ -1740,19 +1743,22 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                         }
                         radio.setDescription(values[3]);
                         try {
-                            radio.setServiceVolumePre(Integer.parseInt(values[4]));
+                            int amount = StringUtil.parseLocalizedDoubleAsInt(values[4]);
+                            radio.setServiceVolumePre(amount);
                         } catch (NumberFormatException ex) {
                             alertText += "Fehler: Zeile " + lineNum + ", Spalte 5: " + Utils.getMessage("msgNotANumber") + "\\n";
                             continue;
                         }
                         try {
-                            radio.setAmountPre(Integer.parseInt(values[5]));
+                            int amount = StringUtil.parseLocalizedDoubleAsInt(values[5]);
+                            radio.setAmountPre(amount);
                         } catch (NumberFormatException ex) {
                             alertText += "Fehler: Zeile " + lineNum + ", Spalte 6: " + Utils.getMessage("msgNotANumber") + "\\n";
                             continue;
                         }
                         try {
-                            radio.setServiceVolumePost(Integer.parseInt(values[6]));
+                            int amount = StringUtil.parseLocalizedDoubleAsInt(values[6]);
+                            radio.setServiceVolumePost(amount);
                         } catch (NumberFormatException ex) {
                             alertText += "Fehler: Zeile " + lineNum + ", Spalte 7: " + Utils.getMessage("msgNotANumber") + "\\n";
                             continue;

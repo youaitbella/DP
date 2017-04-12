@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.function.BiConsumer;
+import org.inek.dataportal.entities.calc.KGLListIntensivStroke;
 import org.inek.dataportal.entities.calc.KGPListTherapy;
 import org.inek.dataportal.entities.calc.PeppCalcBasics;
 import org.inek.dataportal.helper.BeanValidator;
@@ -87,17 +88,17 @@ public class TherapyDataImporterPepp {
             }
             
             tryImportInteger(item, data[4], (i,s) -> i.setServiceUnitsCt1(s), "Ungültiger Wert für Summe Leistungseinheiten KoArtGr 1: ");
-            tryImportInteger(item, data[5], (i,s) -> i.setPersonalCostCt1(s), "Ungültiger Wert für Personalkosten KoArtGr 1: ");
+            tryImportDoubleAsInt(item, data[5], (i,s) -> i.setPersonalCostCt1(s), "Ungültiger Wert für Personalkosten KoArtGr 1: ");
             tryImportInteger(item, data[6], (i,s) -> i.setServiceUnitsCt3a(s), "Ungültiger Wert für Summe Leistungseinheiten KoArtGr 3a: ");
-            tryImportInteger(item, data[7], (i,s) -> i.setPersonalCostCt3a(s), "Ungültiger Wert für Personalkosten KoArtGr 3a: ");
+            tryImportDoubleAsInt(item, data[7], (i,s) -> i.setPersonalCostCt3a(s), "Ungültiger Wert für Personalkosten KoArtGr 3a: ");
             tryImportInteger(item, data[8], (i,s) -> i.setServiceUnitsCt2(s), "Ungültiger Wert für Summe Leistungseinheiten KoArtGr 2: ");
-            tryImportInteger(item, data[9], (i,s) -> i.setPersonalCostCt2(s), "Ungültiger Wert für Personalkosten KoArtGr 2: ");
+            tryImportDoubleAsInt(item, data[9], (i,s) -> i.setPersonalCostCt2(s), "Ungültiger Wert für Personalkosten KoArtGr 2: ");
             tryImportInteger(item, data[10], (i,s) -> i.setServiceUnitsCt3b(s), "Ungültiger Wert für Summe Leistungseinheiten KoArtGr 3b: ");
-            tryImportInteger(item, data[11], (i,s) -> i.setPersonalCostCt3b(s), "Ungültiger Wert für Personalkosten KoArtGr 3b: ");
+            tryImportDoubleAsInt(item, data[11], (i,s) -> i.setPersonalCostCt3b(s), "Ungültiger Wert für Personalkosten KoArtGr 3b: ");
             tryImportInteger(item, data[12], (i,s) -> i.setServiceUnitsCt3c(s), "Ungültiger Wert für Summe Leistungseinheiten KoArtGr 3c: ");
-            tryImportInteger(item, data[13], (i,s) -> i.setPersonalCostCt3c(s), "Ungültiger Wert für Personalkosten KoArtGr 3c: ");
+            tryImportDoubleAsInt(item, data[13], (i,s) -> i.setPersonalCostCt3c(s), "Ungültiger Wert für Personalkosten KoArtGr 3c: ");
             tryImportInteger(item, data[14], (i,s) -> i.setServiceUnitsCt3(s), "Ungültiger Wert für Summe Leistungseinheiten KoArtGr 3: ");
-            tryImportInteger(item, data[15], (i,s) -> i.setPersonalCostCt3(s), "Ungültiger Wert für Personalkosten KoArtGr 3: ");
+            tryImportDoubleAsInt(item, data[15], (i,s) -> i.setPersonalCostCt3(s), "Ungültiger Wert für Personalkosten KoArtGr 3: ");
                         
             if(itemExists(item)) {
                 addRowErrorMsg("Datenzeile existiert bereits");
@@ -236,6 +237,18 @@ public class TherapyDataImporterPepp {
         }
     }
     
+    private void tryImportDoubleAsInt(KGPListTherapy item, String data, BiConsumer<KGPListTherapy, Integer> bind, String errorMsg) {
+        try {
+            int val = StringUtil.parseLocalizedDoubleAsInt(data);
+            if (val < 0) {
+                throw new IllegalArgumentException(errorMsg + "Wert darf nicht kleiner 0 sein: " + Utils.getMessage("msgNotANumber") + ": " + data);
+            }
+            bind.accept(item, val);
+        } catch (NumberFormatException ex) {
+            throw new IllegalArgumentException(errorMsg + Utils.getMessage("msgNotANumber") + ": " + data);
+        }
+    }
+
     private void tryImportDouble(KGPListTherapy item, String data, BiConsumer<KGPListTherapy, Double> bind, String errorMsg) {
         try {
             NumberFormat nf = NumberFormat.getInstance(Locale.GERMAN);

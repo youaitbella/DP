@@ -80,13 +80,13 @@ public class StrokeUnitDataImporter {
             tryImportDouble(item, data[12], (i, s) -> i.setMedicalServiceCnt(s), "[Vollkraft ÄD] ");
             tryImportDouble(item, data[13], (i, s) -> i.setNursingServiceCnt(s), "[Vollkraft PD] ");
             tryImportDouble(item, data[14], (i, s) -> i.setFunctionalServiceCnt(s), "[Vollkraft FD] ");
-            tryImportInteger(item, data[15], (i, s) -> i.setMedicalServiceCost(s), "[Kosten_ÄD] ");
-            tryImportInteger(item, data[16], (i, s) -> i.setNursingServiceCost(s), "[Kosten_PD] ");
-            tryImportInteger(item, data[17], (i, s) -> i.setFunctionalServiceCost(s), "[Kosten_FD] ");
-            tryImportInteger(item, data[18], (i, s) -> i.setOverheadsMedicine(s), "[Kosten_GK_Arzneimittel] ");
-            tryImportInteger(item, data[19], (i, s) -> i.setOverheadMedicalGoods(s), "[Kosten_GK_med_Sachbedarf] ");
-            tryImportInteger(item, data[20], (i, s) -> i.setMedicalInfrastructureCost(s), "[Kosten_med_Infra] ");
-            tryImportInteger(item, data[21], (i, s) -> i.setNonMedicalInfrastructureCost(s), "[Kosten_nicht_med_Infra] ");
+            tryImportDoubleAsInt(item, data[15], (i, s) -> i.setMedicalServiceCost(s), "[Kosten_ÄD] ");
+            tryImportDoubleAsInt(item, data[16], (i, s) -> i.setNursingServiceCost(s), "[Kosten_PD] ");
+            tryImportDoubleAsInt(item, data[17], (i, s) -> i.setFunctionalServiceCost(s), "[Kosten_FD] ");
+            tryImportDoubleAsInt(item, data[18], (i, s) -> i.setOverheadsMedicine(s), "[Kosten_GK_Arzneimittel] ");
+            tryImportDoubleAsInt(item, data[19], (i, s) -> i.setOverheadMedicalGoods(s), "[Kosten_GK_med_Sachbedarf] ");
+            tryImportDoubleAsInt(item, data[20], (i, s) -> i.setMedicalInfrastructureCost(s), "[Kosten_med_Infra] ");
+            tryImportDoubleAsInt(item, data[21], (i, s) -> i.setNonMedicalInfrastructureCost(s), "[Kosten_nicht_med_Infra] ");
             String validateText = BeanValidator.validateData(item);
             if (!validateText.isEmpty()) {
                 throw new IllegalArgumentException(validateText);
@@ -157,6 +157,18 @@ public class StrokeUnitDataImporter {
             bind.accept(item, val);
         } catch (ParseException ex) {
             throw new IllegalArgumentException(errorMsg + Utils.getMessage("msgNotAnInteger") + ": " + data);
+        }
+    }
+
+    private void tryImportDoubleAsInt(KGLListIntensivStroke item, String data, BiConsumer<KGLListIntensivStroke, Integer> bind, String errorMsg) {
+        try {
+            int val = StringUtil.parseLocalizedDoubleAsInt(data);
+            if (val < 0) {
+                throw new IllegalArgumentException(errorMsg + "Wert darf nicht kleiner 0 sein: " + Utils.getMessage("msgNotANumber") + ": " + data);
+            }
+            bind.accept(item, val);
+        } catch (NumberFormatException ex) {
+            throw new IllegalArgumentException(errorMsg + Utils.getMessage("msgNotANumber") + ": " + data);
         }
     }
 

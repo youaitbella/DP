@@ -122,14 +122,12 @@ public class CostCenterDataImporterPepp {
 
     private void tryImportCostVolume(KGPListCostCenter item, String dataString) {
         try{
-            NumberFormat nf = NumberFormat.getInstance(Locale.GERMAN);
-            nf.setParseIntegerOnly(true);
-            int val = nf.parse(dataString).intValue();
+            int val = StringUtil.parseLocalizedDoubleAsInt(dataString);
             if (val < 0){
                  throw new IllegalArgumentException("[Kostenvolumen] Wert darf nicht kleiner 0 sein: " + dataString);
             }
             item.setAmount(val);
-        } catch (ParseException ex) {
+        } catch (NumberFormatException ex) {
             throw new IllegalArgumentException("[Kostenvolumen] " + Utils.getMessage("msgNotANumber") + ": " + dataString);
         }
     }
