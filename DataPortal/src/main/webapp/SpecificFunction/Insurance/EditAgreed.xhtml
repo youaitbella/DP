@@ -19,32 +19,119 @@
 
             <div class="edit">
                 <inek:LabeledText singleLine="true"
-                                  label="#{msg.lblContractKey}" 
+                                  label="#{msg.lblContractKeyAbbr}" 
                                   value="#{editSpecificFunctionAgreement.agreement.code}"
                                   listener="#{editSpecificFunctionAgreement.changeCode}"
+                                  styleClassComponent="inlineBlock inputPart"
+                                  styleClassLabel="label element08em" 
+                                  styleClass="element08em" 
                                   renderElement="@form">
                 </inek:LabeledText>
-                
-                <h2 style="margin-bottom: 1em;"></h2>
+                <h:outputLabel value="suchen" styleClass="smallButton marginLeft"/>
 
                 <div jsf:id="spfData" jsf:rendered="#{editSpecificFunctionAgreement.agreement.ik gt 0}">
-                    <inek:LabeledText id="ik" label="#{msg.lblIK}" value="#{editSpecificFunctionAgreement.agreement.ik}" singleLine="true" styleClassLabel="label10" styleClass="element50" readonly="true"/>
+
+                    <inek:LabeledText id="ik" 
+                                      label="#{msg.lblIkAbbr}" 
+                                      value="#{editSpecificFunctionAgreement.agreement.ik}" 
+                                      singleLine="true" 
+                                      styleClassComponent="inlineBlock inputPart"
+                                      styleClassLabel="label element08em" 
+                                      styleClass="element08em" 
+                                      readonly="true"/>
+                    <h:outputLabel id="hospitalName" styleClass="label marginLeft" value="#{applicationTools.retrieveHospitalInfo(editSpecificFunctionAgreement.agreement.ik)}"/>
+
+                    <h2>#{msg.lblInsurance}</h2>
+
+                    <inek:LabeledText id="insuranceIk" 
+                                      label="#{msg.lblIkAbbr}" 
+                                      value="#{editSpecificFunctionAgreement.agreement.insuranceIk}" 
+                                      singleLine="true" 
+                                      styleClassLabel="label element08em" 
+                                      styleClass="element50" 
+                                      readonly="true"/>
+                    <inek:LabeledText id="insuranceName" 
+                                      label="#{msg.lblName}" 
+                                      value="#{editSpecificFunctionAgreement.agreement.insuranceName}" 
+                                      singleLine="true" 
+                                      styleClassLabel="label element08em" 
+                                      styleClass="element50" 
+                                      readonly="true"/>
+                    <inek:LabeledText id="insuranceStreet" 
+                                      label="#{msg.lblStreet}" 
+                                      value="#{editSpecificFunctionAgreement.agreement.insuranceStreet}" 
+                                      singleLine="true" 
+                                      styleClassLabel="label element08em" 
+                                      styleClass="element50" 
+                                      readonly="true"/>
+                    <inek:LabeledText id="insurancePostCode" 
+                                      label="#{msg.lblPostalCode}" 
+                                      value="#{editSpecificFunctionAgreement.agreement.insurancePostCode}" 
+                                      singleLine="true" 
+                                      styleClassLabel="label element08em" 
+                                      styleClass="element50" 
+                                      readonly="true"/>
+                    <inek:LabeledText id="insuranceTown" 
+                                      label="#{msg.lblTown}" 
+                                      value="#{editSpecificFunctionAgreement.agreement.insuranceTown}" 
+                                      singleLine="true" 
+                                      styleClassLabel="label element08em" 
+                                      styleClass="element50" 
+                                      readonly="true"/>
+
                     <h2>#{msg.lblContactPerson}</h2>
 
                     <h:panelGroup styleClass="element100 marginTop01em">
                         <h:outputLabel styleClass="label10" for="cbxGender" value="#{msg.lblSalutation}"/>
-                        <h:selectOneMenu styleClass="inputshort" id="cbxGender" value="#{editSpecificFunctionAgreement.agreement.gender}"
-                                         required="true" requiredMessage="#{msg.msgChooseEntryShort}">
+                        <h:selectOneMenu id="cbxGender" 
+                                         styleClass="inputshort" 
+                                         value="#{editSpecificFunctionAgreement.agreement.gender}"
+                                         required="true" 
+                                         requiredMessage="#{msg.msgChooseEntryShort}">
                             <f:selectItems value="#{sessionTools.genderItems}"/>
                             <f:ajax event="blur" render="@this msgGender"/>
                         </h:selectOneMenu>
                         <h:message id="msgGender" for="cbxGender" styleClass="errorMessage"/>
                     </h:panelGroup>
-                    <inek:LabeledText id="title" label="#{msg.lblTitle}" value="#{editSpecificFunctionAgreement.agreement.title}" singleLine="true" styleClassLabel="label10" styleClass="element50" readonly="#{editSpecificFunctionAgreement.readOnly}"/>
-                    <inek:LabeledText id="firstName" label="#{msg.lblFirstName}" value="#{editSpecificFunctionAgreement.agreement.firstName}" singleLine="true" styleClassLabel="label10" styleClass="element50" required="true" readonly="#{editSpecificFunctionAgreement.readOnly}"/>
-                    <inek:LabeledText id="lastName" label="#{msg.lblLastName}" value="#{editSpecificFunctionAgreement.agreement.lastName}" singleLine="true" styleClassLabel="label10" styleClass="element50" required="true" readonly="#{editSpecificFunctionAgreement.readOnly}"/>
-                    <inek:LabeledText id="phone" label="#{msg.lblPhone}" value="#{editSpecificFunctionAgreement.agreement.phone}" singleLine="true" styleClassLabel="label10" styleClass="element50" required="true" readonly="#{editSpecificFunctionAgreement.readOnly}"/>
-                    <inek:LabeledText id="mail" label="#{msg.lblMail}" value="#{editSpecificFunctionAgreement.agreement.mail}" singleLine="true" styleClassLabel="label10" styleClass="element50" required="true" readonly="#{editSpecificFunctionAgreement.readOnly}"/>
+                    <inek:LabeledText id="title" 
+                                      label="#{msg.lblTitle}" 
+                                      value="#{editSpecificFunctionAgreement.agreement.title}" 
+                                      singleLine="true" 
+                                      styleClassLabel="label element08em" 
+                                      styleClass="element50" 
+                                      readonly="#{editSpecificFunctionAgreement.readOnly}"/>
+                    <inek:LabeledText id="firstName" 
+                                      label="#{msg.lblFirstName}" 
+                                      value="#{editSpecificFunctionAgreement.agreement.firstName}" 
+                                      singleLine="true" 
+                                      styleClassLabel="label element08em" 
+                                      styleClass="element50" 
+                                      required="true" 
+                                      readonly="#{editSpecificFunctionAgreement.readOnly}"/>
+                    <inek:LabeledText id="lastName" 
+                                      label="#{msg.lblLastName}" 
+                                      value="#{editSpecificFunctionAgreement.agreement.lastName}" 
+                                      singleLine="true" 
+                                      styleClassLabel="label element08em" 
+                                      styleClass="element50" 
+                                      required="true" 
+                                      readonly="#{editSpecificFunctionAgreement.readOnly}"/>
+                    <inek:LabeledText id="phone" 
+                                      label="#{msg.lblPhone}" 
+                                      value="#{editSpecificFunctionAgreement.agreement.phone}" 
+                                      singleLine="true" 
+                                      styleClassLabel="label element08em" 
+                                      styleClass="element50" 
+                                      required="true" 
+                                      readonly="#{editSpecificFunctionAgreement.readOnly}"/>
+                    <inek:LabeledText id="mail" 
+                                      label="#{msg.lblMail}" 
+                                      value="#{editSpecificFunctionAgreement.agreement.mail}" 
+                                      singleLine="true" 
+                                      styleClassLabel="label element08em" 
+                                      styleClass="element50" 
+                                      required="true" 
+                                      readonly="#{editSpecificFunctionAgreement.readOnly}"/>
 
                     <!--ui:include src="AgreedCenters.xhtml"/-->
 

@@ -17,7 +17,6 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -28,6 +27,7 @@ import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountAdditionalIK;
 import org.inek.dataportal.entities.admin.MailTemplate;
+import org.inek.dataportal.entities.specificfunction.AgreedCenter;
 import org.inek.dataportal.entities.specificfunction.CenterName;
 import org.inek.dataportal.entities.specificfunction.RequestAgreedCenter;
 import org.inek.dataportal.entities.specificfunction.RequestProjectedCenter;
@@ -257,13 +257,9 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
         // create copy to edit (persist detached object with default Ids)
         _agreement.setStatus(WorkflowStatus.New);
         _agreement.setId(-1);
-        for (RequestProjectedCenter requestProjectedCenter : _agreement.getRequestProjectedCenters()) {
-            requestProjectedCenter.setId(-1);
-            requestProjectedCenter.setRequestMasterId(-1);
-        }
-        for (RequestAgreedCenter requestAgreedCenter : _agreement.getRequestAgreedCenters()) {
-            requestAgreedCenter.setId(-1);
-            requestAgreedCenter.setRequestMasterId(-1);
+        for (AgreedCenter agreedCenter : _agreement.getAgreedCenters()) {
+            agreedCenter.setId(-1);
+            agreedCenter.setAgreedMasterId(-1);
         }
         _specificFunctionFacade.saveSpecificFunctionAgreement(_agreement);
         sendMessage("BA Konkretisierung");
@@ -339,7 +335,7 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
 //            applyMessageValues(message, "Bitte mindestens eine zu verhandelnde oder vorhandene Vereinbarung angeben", "");
 //        }
         boolean hasCenters = false;
-        for (RequestProjectedCenter center : request.getRequestProjectedCenters()) {
+        for (AgreedCenter center : request.getAgreedCenters()) {
             if (center.isEmpty()) {
                 continue;
             }
@@ -352,8 +348,6 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
             if (center.getSpecificFunctions().stream().anyMatch(f -> f.getId() == -1)) {
                 checkField(message, center.getOtherSpecificFunction(), "Bitte sonstige besondere Aufgaben angeben", "");
             }
-            checkField(message, center.getTypeId(), 1, 2, "Bitte Ausweisung und Festsetzung angeben", "");
-            checkField(message, center.getEstimatedPatientCount(), 1, 99999999, "Anzahl der Patienten muss größer 0 sein.", "");
             hasCenters = true;
         }
 // todo        
@@ -361,25 +355,6 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
 //            applyMessageValues(message, "Bitte mindestens eine Vereinbarung angeben", "");
 //        }
 
-        hasCenters = false;
-        for (RequestAgreedCenter center : request.getRequestAgreedCenters()) {
-            if (center.isEmpty()) {
-                continue;
-            }
-            checkField(message, center.getCenter(), "Bitte Art des Zentrums angeben", "");
-            checkField(message, center.getRemunerationKey(), "Bitte Entgeltschlüssel angeben", "");
-            if (center.getPercent() <= 0.0) {
-                checkField(message, center.getAmount(), 1, 99999999, "Bitte Betrag oder Prozentsatz angeben", "");
-            }
-            if (center.getAmount() > 0 && center.getPercent() > 0.0) {
-                applyMessageValues(message, "Sie können entweder einen Betrag oder einen Prozentsatz angeben, nicht aber beides.", "");
-            }
-            hasCenters = true;
-        }
-// todo        
-//        if (request.isHasAgreement() && !hasCenters) {
-//            applyMessageValues(message, "Sie haben 'vorliegende Vereinbarung' markiert, jedoch keine Vereinbarung angegeben.", "");
-//        }
 
         return message;
     }
@@ -449,46 +424,24 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
         return items;
     }
 
-    public void addProjectedCenter() {
-        RequestProjectedCenter center = new RequestProjectedCenter(_agreement.getId());
-        _agreement.getRequestProjectedCenters().add(center);
-    }
-
-    public void deleteProjectedCenter(RequestProjectedCenter center) {
-        _agreement.getRequestProjectedCenters().remove(center);
-    }
-
     public void addAgreedCenter() {
-        RequestAgreedCenter center = new RequestAgreedCenter(_agreement.getId());
-        _agreement.getRequestAgreedCenters().add(center);
+        AgreedCenter center = new AgreedCenter(_agreement.getId());
+        _agreement.getAgreedCenters().add(center);
     }
 
-    public void deleteAgreedCenter(RequestAgreedCenter center) {
-        _agreement.getRequestAgreedCenters().remove(center);
+    public void deleteAgreedCenter(AgreedCenter center) {
+        _agreement.getAgreedCenters().remove(center);
     }
     // </editor-fold>
 
     private void removeEmptyCenters() {
-        removeEmptyProjectedCenters();
         removeEmptyAgreedCenters();
     }
-
-    private void removeEmptyProjectedCenters() {
-        Iterator<RequestProjectedCenter> iter = _agreement.getRequestProjectedCenters().iterator();
-        while (iter.hasNext()) {
-            RequestProjectedCenter center = iter.next();
-            if (center.isEmpty()) {
-                iter.remove();
-            } else if (!center.getSpecificFunctions().stream().anyMatch(f -> f.getId() == -1)) {
-                center.setOtherSpecificFunction("");
-            }
-        }
-    }
-
+    
     private void removeEmptyAgreedCenters() {
-        Iterator<RequestAgreedCenter> iter = _agreement.getRequestAgreedCenters().iterator();
+        Iterator<AgreedCenter> iter = _agreement.getAgreedCenters().iterator();
         while (iter.hasNext()) {
-            RequestAgreedCenter center = iter.next();
+            AgreedCenter center = iter.next();
             if (center.isEmpty()) {
                 iter.remove();
             }
@@ -496,10 +449,7 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
     }
 
     private void addCentersIfMissing() {
-        if (_agreement.getRequestProjectedCenters().isEmpty()) {
-            addProjectedCenter();
-        }
-        if (_agreement.getRequestAgreedCenters().isEmpty()) {
+        if (_agreement.getAgreedCenters().isEmpty()) {
             addAgreedCenter();
         }
     }
@@ -513,8 +463,10 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
     }
 
     public void changeCode(){
-        System.out.println("changeCode: " + _agreement.getCode());
         SpecificFunctionRequest request = _specificFunctionFacade.findSpecificFunctionRequestByCode(_agreement.getCode());
         _agreement.setIk(request.getIk());
+        if (request.getIk() < 1){
+            Utils.showMessageInBrowser("Das Vertragskennzeichen " + _agreement.getCode() + " ist unbekannt.");
+        }
     }
 }

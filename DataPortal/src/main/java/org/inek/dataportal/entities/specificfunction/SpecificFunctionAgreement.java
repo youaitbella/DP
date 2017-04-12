@@ -332,33 +332,18 @@ public class SpecificFunctionAgreement implements Serializable {
     }
     // </editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property RequestProjectedCenter">
+    //<editor-fold defaultstate="collapsed" desc="Property AgreedCenter">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "rpcRequestMasterId", referencedColumnName = "amId")
-    @Documentation(name = "geplante Vereinbarung", omitOnEmpty = true)
-    private List<RequestProjectedCenter> _requestProjectedCenters = new Vector<>();
+    @JoinColumn(name = "acAgreedMasterId", referencedColumnName = "amId")
+    @Documentation(name = "vereinbarte Kostenstellen", omitOnEmpty = true)
+    private List<AgreedCenter> _agreedCenters = new Vector<>();
 
-    public List<RequestProjectedCenter> getRequestProjectedCenters() {
-        return _requestProjectedCenters;
+    public List<AgreedCenter> getAgreedCenters() {
+        return _agreedCenters;
     }
 
-    public void setRequestProjectedCenters(List<RequestProjectedCenter> requestProjectedCenters) {
-        this._requestProjectedCenters = requestProjectedCenters;
-    }
-    //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="Property RequestAgreedCenter">
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "racRequestMasterId", referencedColumnName = "amId")
-    @Documentation(name = "vorliegende Vereinbarung", omitOnEmpty = true)
-    private List<RequestAgreedCenter> _requestAgreedCenters = new Vector<>();
-
-    public List<RequestAgreedCenter> getRequestAgreedCenters() {
-        return _requestAgreedCenters;
-    }
-
-    public void setRequestAgreedCenters(List<RequestAgreedCenter> requestAgreedCenters) {
-        this._requestAgreedCenters = requestAgreedCenters;
+    public void setAgreedCenters(List<AgreedCenter> agreedCenters) {
+        this._agreedCenters = agreedCenters;
     }
     //</editor-fold>
 

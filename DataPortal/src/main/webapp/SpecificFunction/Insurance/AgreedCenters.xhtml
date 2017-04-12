@@ -16,7 +16,7 @@
                           readonly="#{editSpecificFunctionAgreement.readOnly}"
                           renderElement="@form"/>
 
-    <ui:repeat value="#{editSpecificFunctionAgreement.agreement.requestProjectedCenters}" var="center" 
+    <ui:repeat value="#{editSpecificFunctionAgreement.agreement.agreedCenters}" var="center" 
                rendered="#{editSpecificFunctionAgreement.agreement.willNegotiate}">
         <div class="rectangle">
             <div class="inputPart">

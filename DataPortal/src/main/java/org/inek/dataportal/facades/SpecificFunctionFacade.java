@@ -14,6 +14,7 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import org.inek.dataportal.entities.account.Account;
+import org.inek.dataportal.entities.specificfunction.AgreedCenter;
 import org.inek.dataportal.entities.specificfunction.CenterName;
 import org.inek.dataportal.entities.specificfunction.RequestAgreedCenter;
 import org.inek.dataportal.entities.specificfunction.RequestProjectedCenter;
@@ -94,7 +95,6 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
             return request;
         }
 
-        //todo: save lists
         for (RequestProjectedCenter item : request.getRequestProjectedCenters()) {
             if (item.getId() == -1) {
                 persist(item);
@@ -160,7 +160,23 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
     }
 
     public SpecificFunctionAgreement saveSpecificFunctionAgreement(SpecificFunctionAgreement agreement) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (agreement.getStatus() == WorkflowStatus.Unknown) {
+            agreement.setStatus(WorkflowStatus.New);
+        }
+
+        if (agreement.getId() == -1) {
+            persist(agreement);
+            return agreement;
+        }
+
+        for (AgreedCenter item : agreement.getAgreedCenters()) {
+            if (item.getId() == -1) {
+                persist(item);
+            } else {
+                merge(item);
+            }
+        }
+        return merge(agreement);
     }
 
     public SpecificFunctionRequest findSpecificFunctionRequestByCode(String code) {
