@@ -49,8 +49,8 @@ public class SearchController {
         _peppFacade = peppFacade;
         _drgFacade = drgFacade;
     }
-    // <editor-fold defaultstate="collapsed" desc="getter / setter">
 
+    // <editor-fold defaultstate="collapsed" desc="getter / setter">
     public boolean isEnableProc() {
         return _enableProc;
     }
@@ -98,10 +98,10 @@ public class SearchController {
     public void setCodeType(CodeType codeType) {
         if (_codeType != codeType) {
             _codeType = codeType;
-            _codeList = new ArrayList<CodeInfo>();
+            _codeList = new ArrayList<>();
         }
     }
-    
+
     public CodeType getCodeSystem() {
         return _codeSystem;
     }
@@ -109,7 +109,7 @@ public class SearchController {
     public void setCodeSystem(CodeType codeSystem) {
         if (_codeSystem != codeSystem) {
             _codeSystem = codeSystem;
-           
+
         }
     }
 
@@ -132,8 +132,8 @@ public class SearchController {
     public void setTargetPage(String targetPage) {
         _targetPage = targetPage;
     }
-
     // </editor-fold>
+
     public SearchController bindSearchConsumer(SearchConsumer searchConsumer) {
         setSearchConsumer(searchConsumer);
         return this;
@@ -171,6 +171,8 @@ public class SearchController {
             case Dept:
                 _enableDept = true;
                 break;
+            default:
+                throw new IllegalArgumentException("unhandled codeType: " + codeType);
         }
 
         return this;
@@ -205,12 +207,10 @@ public class SearchController {
                 }
                 break;
             case Drg:
-
                 List<DrgInfo> drgs = _drgFacade.findAll(searchText, firstYear, lastYear);
                 for (DrgInfo drg : drgs) {
                     getCodeList().add(new CodeInfo(drg.getCode(), drg.getYear(), 0, drg.getText()));
                 }
-
                 break;
             case Pepp:
                 List<PeppInfo> pepps = _peppFacade.findAll(searchText, firstYear, lastYear);
@@ -220,6 +220,8 @@ public class SearchController {
                 break;
             case Dept:
                 break;
+            default:
+                throw new IllegalArgumentException("unhandled codeType: " + _codeType);
         }
     }
 
@@ -239,7 +241,8 @@ public class SearchController {
                 break;
             case Dept:
                 break;
-
+            default:
+                throw new IllegalArgumentException("unhandled codeType: " + _codeType);
         }
         return getTargetPage();
     }

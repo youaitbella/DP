@@ -86,7 +86,6 @@ import org.inek.dataportal.helper.ObjectUtils;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.structures.FieldValues;
 import org.inek.dataportal.helper.structures.MessageContainer;
-import org.inek.dataportal.utils.Documentation;
 import org.inek.dataportal.utils.DocumentationUtil;
 import org.inek.dataportal.utils.StringUtil;
 
@@ -104,16 +103,19 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     @Inject private CooperationTools _cooperationTools;
     @Inject private SessionController _sessionController;
     @Inject private CalcFacade _calcFacade;
-    @Inject ApplicationTools _appTools;
+    @Inject private ApplicationTools _appTools;
 
     private DrgCalcBasics _calcBasics;
     private DrgCalcBasics _baseLine;
     private DrgCalcBasics _priorCalcBasics;
-
     // </editor-fold>
+
     @PostConstruct
     private void init() {
-        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+        Map<String, String> params = FacesContext
+                .getCurrentInstance()
+                .getExternalContext()
+                .getRequestParameterMap();
         String id = "" + params.get("id");
         if ("new".equals(id)) {
             _calcBasics = newCalcBasicsDrg();
@@ -275,7 +277,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }
 
         // ServiceProvision
-        preloadServiceProvision(calcBasics);
+        initServiceProvision(calcBasics);
 
         // cardiology
         calcBasics.setCardiology(_priorCalcBasics.isCardiology());
@@ -466,22 +468,26 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }
     }
 
-    private void preloadServiceProvision(DrgCalcBasics calcBasics) {
+    private void initServiceProvision(DrgCalcBasics calcBasics) {
         calcBasics.getServiceProvisions().clear();
+        
         List<KGLListServiceProvisionType> provisionTypes = _calcFacade.retrieveServiceProvisionTypes(calcBasics.getDataYear(), true);
 
-        int seq = 0;
+        loadMandatoryServiceProvision(provisionTypes, calcBasics);
+        addMissingPriorProvisionTypes(provisionTypes, calcBasics);
 
+    }
+
+    private void loadMandatoryServiceProvision(List<KGLListServiceProvisionType> provisionTypes, DrgCalcBasics calcBasics) {
         // always populate mandatory entries
         for (KGLListServiceProvisionType provisionType : provisionTypes) {
-            KGLListServiceProvision data = new KGLListServiceProvision();
-            data.setBaseInformationId(calcBasics.getId());
+            KGLListServiceProvision data = new KGLListServiceProvision(calcBasics.getId());
             data.setServiceProvisionType(provisionType);
-            data.setServiceProvisionTypeId(provisionType.getId());
-            data.setSequence(++seq);
             calcBasics.getServiceProvisions().add(data);
         }
+    }
 
+    private void addMissingPriorProvisionTypes(List<KGLListServiceProvisionType> provisionTypes, DrgCalcBasics calcBasics) {
         // get prior values and additional entries
         for (KGLListServiceProvision prior : _priorCalcBasics.getServiceProvisions()) {
             Optional<KGLListServiceProvision> currentOpt = calcBasics.getServiceProvisions().stream().filter(sp -> sp.getServiceProvisionTypeId() == prior.getServiceProvisionTypeId()).findAny();
@@ -490,17 +496,14 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                 current.setProvidedTypeId(prior.getProvidedTypeId());
             } else if (!prior.isEmpty()) {
                 // take old entries only, if they contain values!
-                KGLListServiceProvision data = new KGLListServiceProvision();
-                data.setBaseInformationId(calcBasics.getId());
-                data.setServiceProvisionType(prior.getServiceProvisionType());
-                data.setServiceProvisionTypeId(prior.getServiceProvisionTypeId());
-                data.setProvidedTypeId(prior.getProvidedTypeId());
-                data.setSequence(++seq);
-                calcBasics.getServiceProvisions().add(data);
+                KGLListServiceProvision newSP = new KGLListServiceProvision(calcBasics.getId());
+                newSP.setServiceProvisionType(prior.getServiceProvisionType());
+                newSP.setProvidedTypeId(prior.getProvidedTypeId());
+                calcBasics.getServiceProvisions().add(newSP);
             }
         }
-
     }
+
 
     // used by page only
     public void addCostCenterCosts() {
@@ -680,7 +683,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         return result;
     }
 
-    @Documentation(name = "Intensivstunden", rank = 100000)
     public int getSumIntensivStrokeNotWeighted() {
         List<KGLListIntensivStroke> intensivStrokes = _calcBasics.getIntensivStrokes();
         int result = 0;
@@ -1306,8 +1308,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         su.setBaseInformationId(_calcBasics.getId());
         _calcBasics.getSpecialUnits().add(su);
     }
-
     // </editor-fold>
+
     //<editor-fold defaultstate="collapsed" desc="Tab ServiceProvision">
     public int priorProvisionAmount(KGLListServiceProvision current) {
         Optional<KGLListServiceProvision> prior = _priorCalcBasics.getServiceProvisions().stream().filter(p -> p.getServiceProvisionTypeId() == current.getServiceProvisionTypeId()).findAny();
@@ -1318,12 +1320,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     public void addServiceProvision() {
-        int seq = _calcBasics.getServiceProvisions().stream().mapToInt(sp -> sp.getSequence()).max().orElse(0);
-        KGLListServiceProvision data = new KGLListServiceProvision();
-        data.setBaseInformationId(_calcBasics.getId());
-        data.setServiceProvisionTypeId(-1);
-        data.setSequence(++seq);
-        _calcBasics.getServiceProvisions().add(data);
+        _calcBasics.getServiceProvisions().add(new KGLListServiceProvision(_calcBasics.getId()));
     }
 
     public void deleteServiceProvision(KGLListServiceProvision item) {

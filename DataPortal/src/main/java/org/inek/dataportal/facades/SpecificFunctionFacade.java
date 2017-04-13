@@ -33,17 +33,18 @@ import org.inek.dataportal.helper.Utils;
 @Transactional
 public class SpecificFunctionFacade extends AbstractDataAccess {
 
+    //<editor-fold defaultstate="collapsed" desc="Specific Function Request">
     public SpecificFunctionRequest findSpecificFunctionRequest(int id) {
         return findFresh(SpecificFunctionRequest.class, id);
     }
-
+    
     public List<SpecificFunctionRequest> obtainSpecificFunctionRequests(int accountId) {
         String jpql = "SELECT s FROM SpecificFunctionRequest s WHERE s._accountId = :accountId ORDER BY s._id DESC";
         TypedQuery<SpecificFunctionRequest> query = getEntityManager().createQuery(jpql, SpecificFunctionRequest.class);
         query.setParameter("accountId", accountId);
         return query.getResultList();
     }
-
+    
     public List<SpecificFunctionRequest> obtainSpecificFunctionRequests(int accountId, int year, WorkflowStatus statusLow, WorkflowStatus statusHigh) {
         String jpql = "SELECT s FROM SpecificFunctionRequest s WHERE s._accountId = :accountId and s._dataYear = :year and s._statusId between :statusLow and :statusHigh ORDER BY s._id DESC";
         TypedQuery<SpecificFunctionRequest> query = getEntityManager().createQuery(jpql, SpecificFunctionRequest.class);
@@ -53,11 +54,7 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
         query.setParameter("statusHigh", statusHigh.getId());
         return query.getResultList();
     }
-
-    public void deleteSpecificFunctionRequest(SpecificFunctionRequest statement) {
-        remove(statement);
-    }
-
+    
     public boolean existActiveSpecificFunctionRequest(int ik) {
         String jpql = "select s from SpecificFunctionRequest s where s._ik = :ik and s._dataYear = :year and s._statusId < 10";
         TypedQuery<SpecificFunctionRequest> query = getEntityManager().createQuery(jpql, SpecificFunctionRequest.class);
@@ -65,8 +62,8 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
         query.setParameter("year", Utils.getTargetYear(Feature.SPECIFIC_FUNCTION));
         return query.getResultList().size() == 1;
     }
-
-    public Set<Integer> checkAccountsForYear(Set<Integer> accountIds, int year, WorkflowStatus statusLow, WorkflowStatus statusHigh) {
+    
+    public Set<Integer> checkRequestAccountsForYear(Set<Integer> accountIds, int year, WorkflowStatus statusLow, WorkflowStatus statusHigh) {
         String jpql = "select s._accountId from SpecificFunctionRequest s where s._dataYear = :year and s._statusId between :statusLow and :statusHigh and s._accountId in :accountIds";
         Query query = getEntityManager().createQuery(jpql);
         query.setParameter("year", year);
@@ -76,25 +73,25 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
         @SuppressWarnings("unchecked") HashSet<Integer> result = new HashSet<>(query.getResultList());
         return result;
     }
-
-    public Set<Integer> getCalcYears(Set<Integer> accountIds) {
+    
+    public Set<Integer> getRequestCalcYears(Set<Integer> accountIds) {
         String jpql = "select s._dataYear from SpecificFunctionRequest s where s._accountId in :accountIds and s._statusId >= 10";
         Query query = getEntityManager().createQuery(jpql);
         query.setParameter("accountIds", accountIds);
         @SuppressWarnings("unchecked") HashSet<Integer> result = new HashSet<>(query.getResultList());
         return result;
     }
-
+    
     public SpecificFunctionRequest saveSpecificFunctionRequest(SpecificFunctionRequest request) {
         if (request.getStatus() == WorkflowStatus.Unknown) {
             request.setStatus(WorkflowStatus.New);
         }
-
+        
         if (request.getId() == -1) {
             persist(request);
             return request;
         }
-
+        
         for (RequestProjectedCenter item : request.getRequestProjectedCenters()) {
             if (item.getId() == -1) {
                 persist(item);
@@ -109,10 +106,14 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
                 merge(item);
             }
         }
-
+        
         return merge(request);
     }
-
+    
+    public void deleteSpecificFunctionRequest(SpecificFunctionRequest statement) {
+        remove(statement);
+    }
+    
     public List<CenterName> getCenterNames() {
         return findAll(CenterName.class)
                 .stream()
@@ -120,14 +121,14 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
                 .sorted((n1, n2) -> (n1.getId() == -1 ? "ZZZ" : n1.getName()).compareTo((n2.getId() == -1 ? "ZZZ" : n2.getName())))
                 .collect(Collectors.toList());
     }
-
+    
     public List<SpecificFunction> getSpecificFunctions() {
         return findAll(SpecificFunction.class)
                 .stream()
                 .sorted((f1, f2) -> (f1.getId() == -1 ? 999 : f1.getId()) - (f2.getId() == -1 ? 999 : f2.getId()))
                 .collect(Collectors.toList());
     }
-
+    
     public List<Account> getInekAccounts() {
         String sql = "select distinct account.*\n"
                 //        String sql = "select distinct acId, acCreated, acLastModified, acIsDeactivated, acMail, acMailUnverified, acUser, acGender, acTitle, acFirstName, acLastName, acInitials, acPhone, acRoleId, acCompany, acCustomerTypeId, acIK, acStreet, acPostalCode, acTown, acCustomerPhone, acCustomerFax, acNubConfirmation, acMessageCopy, acNubInformationMail, acReportViaPortal, acDropBoxHoldTime\n"
@@ -146,7 +147,7 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
         @SuppressWarnings("unchecked") List<Account> result = query.getResultList();
         return result;
     }
-
+    
     public List<SpecificFunctionRequest> getCalcBasicsForInek(int dataYear) {
         String jpql = "select spf from SpecificFunctionRequest spf where spf._statusId = 10 and spf._dataYear = :dataYear";
         TypedQuery<SpecificFunctionRequest> query = getEntityManager().createQuery(jpql, SpecificFunctionRequest.class);
@@ -154,21 +155,21 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
         List<SpecificFunctionRequest> result = query.getResultList();
         return result;
     }
-
+    
     public SpecificFunctionAgreement findSpecificFunctionAgreement(int id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
     public SpecificFunctionAgreement saveSpecificFunctionAgreement(SpecificFunctionAgreement agreement) {
         if (agreement.getStatus() == WorkflowStatus.Unknown) {
             agreement.setStatus(WorkflowStatus.New);
         }
-
+        
         if (agreement.getId() == -1) {
             persist(agreement);
             return agreement;
         }
-
+        
         for (AgreedCenter item : agreement.getAgreedCenters()) {
             if (item.getId() == -1) {
                 persist(item);
@@ -178,7 +179,7 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
         }
         return merge(agreement);
     }
-
+    
     public SpecificFunctionRequest findSpecificFunctionRequestByCode(String code) {
         String jpql = "select spf from SpecificFunctionRequest spf where spf._code = :code";
         TypedQuery<SpecificFunctionRequest> query = getEntityManager().createQuery(jpql, SpecificFunctionRequest.class);
@@ -189,5 +190,8 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
             return new SpecificFunctionRequest();
         }
     }
-
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Specific Function Agreement">
+    //</editor-fold>
 }

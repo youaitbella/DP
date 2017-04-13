@@ -24,14 +24,18 @@
     <br/>
 
     <div jsf:id="intensivCareDetail" jsf:rendered="#{editCalcBasicsDrg.calcBasics.intensiveBed}">
-        <h:outputLabel styleClass="label element25em" value="#{msg.lblIntensivStrokeSumNotWeighted}"/>
-        <h:outputLabel id="sumIntNotWeighted" styleClass="label element08em number" 
+        <h:outputLabel styleClass="label element25em" 
+                       value="#{msg.lblIntensivStrokeSumNotWeighted}"/>
+        <h:outputLabel id="sumIntNotWeighted" 
+                       styleClass="label element08em number" 
                        value="#{editCalcBasicsDrg.sumIntensivStrokeNotWeighted}">
             <f:convertNumber pattern="#,##0" locale="de" />
         </h:outputLabel>
         <br/>
-        <h:outputLabel styleClass="label element25em" value="#{msg.lblIntensivStrokeSumWeighted}"/>
-        <h:outputLabel id="sumIntWeighted" styleClass="label element08em number" 
+        <h:outputLabel styleClass="label element25em" 
+                       value="#{msg.lblIntensivStrokeSumWeighted}"/>
+        <h:outputLabel id="sumIntWeighted" 
+                       styleClass="label element08em number" 
                        value="#{editCalcBasicsDrg.sumIntensivStrokeWeighted}">
             <f:convertNumber pattern="#,##0" locale="de" />
         </h:outputLabel>

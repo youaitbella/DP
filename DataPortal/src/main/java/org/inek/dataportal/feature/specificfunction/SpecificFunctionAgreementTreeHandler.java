@@ -41,9 +41,9 @@ import org.inek.dataportal.utils.KeyValueLevel;
  * @author muellermi
  */
 @Named @SessionScoped
-public class SpecificFunctionRequestTreeHandler implements Serializable, TreeNodeObserver {
+public class SpecificFunctionAgreementTreeHandler implements Serializable, TreeNodeObserver {
 
-    private static final Logger LOGGER = Logger.getLogger("SpecificFunctionRequestTreeHandler");
+    private static final Logger LOGGER = Logger.getLogger("SpecificFunctionAgreementTreeHandler");
     private static final long serialVersionUID = 1L;
 
     @Inject private SpecificFunctionFacade _specificFunctionFacade;

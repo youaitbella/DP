@@ -631,7 +631,6 @@ public class CalcFacade extends AbstractDataAccess {
                     persist(provisionType);
                 }
                 serviceProvision.setServiceProvisionType(provisionType);
-                serviceProvision.setServiceProvisionTypeId(provisionType.getId());
             }
         }
     }
@@ -751,8 +750,9 @@ public class CalcFacade extends AbstractDataAccess {
         String jpql = "select pt from KGLListServiceProvisionType pt "
                 + "where pt._firstYear <= :year and pt._lastYear >= :year ";
         if (mandatoryOnly) {
-            jpql += " and pt._firstYear > 1900";
+            jpql += " and pt._firstYear > 1900 ";
         }
+        jpql += " order by pt._id";
         TypedQuery<KGLListServiceProvisionType> query = getEntityManager().createQuery(jpql, KGLListServiceProvisionType.class);
         query.setParameter("year", year);
         return query.getResultList();

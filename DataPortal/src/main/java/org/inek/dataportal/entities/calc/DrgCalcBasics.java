@@ -890,7 +890,7 @@ public class DrgCalcBasics implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property List ServiceProvisions">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "spBaseInformationId", referencedColumnName = "biId")
-    @OrderBy("_sequence")
+    @OrderBy("_serviceProvisionTypeId")
     @Documentation(name = "Ext. Leistungen",headline = "(Externe) Leistungserbringung / Fremdvergabe", rank = 2010) 
     private List<KGLListServiceProvision> _serviceProvisions = new Vector<>();
     

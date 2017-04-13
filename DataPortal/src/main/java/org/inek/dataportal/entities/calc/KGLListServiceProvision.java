@@ -52,19 +52,6 @@ public class KGLListServiceProvision implements Serializable, BaseIdValue {
     }
     // </editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property Sequence">
-    @Column(name = "spSequence")
-    private int _sequence;
-
-    public int getSequence() {
-        return _sequence;
-    }
-
-    public void setSequence(int sequence) {
-        this._sequence = sequence;
-    }
-    //</editor-fold>
-
     // <editor-fold defaultstate="collapsed" desc="PartitionExternalAssignment">
     @Column(name = "spPartitionExternalAssignment")
     @Documentation(name = "Fremdvergebene Teilbereiche", rank = 10)
@@ -152,19 +139,14 @@ public class KGLListServiceProvision implements Serializable, BaseIdValue {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="ServiceProvisionTypeId">
-//    @JoinColumn(name = "spServiceProvisionTypeId", referencedColumnName = "sptID")
-//    @ManyToOne(optional = false)
     @Column(name = "spServiceProvisionTypeId")
     @Documentation(name = "Fremdvergebene Teilbereiche", rank = 50)
-    private int _serviceProvisionTypeId;
+    private int _serviceProvisionTypeId = -1;
 
     public int getServiceProvisionTypeId() {
         return _serviceProvisionTypeId;
     }
 
-    public void setServiceProvisionTypeId(int serviceProvisionTypeId) {
-        this._serviceProvisionTypeId = serviceProvisionTypeId;
-    }
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property KGLListServiceProvisionType">
@@ -178,6 +160,7 @@ public class KGLListServiceProvision implements Serializable, BaseIdValue {
 
     public void setServiceProvisionType(KGLListServiceProvisionType serviceProvisionType) {
         _serviceProvisionType = serviceProvisionType;
+        _serviceProvisionTypeId = serviceProvisionType == null ? -1 : serviceProvisionType.getId();
     }
     // </editor-fold>
 
@@ -194,15 +177,16 @@ public class KGLListServiceProvision implements Serializable, BaseIdValue {
     }
     //</editor-fold>
     
+    @JsonIgnore
     public boolean isEmpty(){
         return _partitionExternalAssignment.isEmpty() && _note.isEmpty() && _amount <= 0 && _providedTypeId <=0;
-                
     }
+
     public KGLListServiceProvision() {
     }
 
-    public KGLListServiceProvision(int spID) {
-        this._id = spID;
+    public KGLListServiceProvision(int baseInformationId) {
+        _baseInformationId = baseInformationId;
     }
 
     @Override
@@ -212,7 +196,6 @@ public class KGLListServiceProvision implements Serializable, BaseIdValue {
         if (this._id != -1) {
             return hash;
         }
-        hash = 37 * hash + this._sequence;
         hash = 37 * hash + Objects.hashCode(this._partitionExternalAssignment);
         hash = 37 * hash + Objects.hashCode(this._note);
         hash = 37 * hash + this._amount;
@@ -239,9 +222,6 @@ public class KGLListServiceProvision implements Serializable, BaseIdValue {
             return true;
         }
         if (this._id != other._id) {
-            return false;
-        }
-        if (this._sequence != other._sequence) {
             return false;
         }
         if (this._amount != other._amount) {
