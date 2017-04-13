@@ -8,18 +8,40 @@
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+                xmlns:spf="http://xmlns.jcp.org/jsf/composite/components/specificfunction"
                 >
 
     <ui:define name="content">
+        #{specificFunctionAgreementTreeHandler.refreshNodes()}
+        
         <h1>#{msg.lblInsuranceSpecificFuntions}</h1>
 
         <h:form id="insuranceSpecificFunction" class="paddingElement">
 
-            <h:commandLink styleClass="bigButton #{insuranceSpecificFunctionList.newAllowed? '' : 'buttonDisabled'}"
-                           action="#{insuranceSpecificFunctionList.newRequest()}"
+            <ui:repeat value="#{specificFunctionAgreementTreeHandler.editNode.children}" var="accountNode" >
+                <div style="margin-left:16px;">
+                    <h:commandLink action="#{accountNode.toggle}" immediate="true" >
+                        <h:graphicImage alt="auf/zuklappen" name="Icon/small/#{accountNode.expanded ? 'ButtonMinus.png' : 'ButtonPlus.png'}" title="Details auf/zuklappen" value=""/>
+                        <f:ajax render="@this proposalEdit :logout:remaining"/>
+                    </h:commandLink>
+                    <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" value="#{accountNode.account.firstName} #{accountNode.account.lastName}" immediate="true"/>
+                    <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" value="#{accountNode.account.company}" immediate="true"/>
+                    <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" value="#{accountNode.account.town}" immediate="true"/>
+
+                    <div jsf:id="edit" style="margin-left:16px; padding-bottom: 1em;">
+                        <h:outputLabel value="Dieser Kooperationspartner hat noch keine Daten zur Freigabe an Sie gesendet" rendered="#{accountNode.expanded and accountNode.children.size() eq 0}"/>
+                        <spf:AgreementNode parentNode="#{accountNode}"
+                                         showDelete="true" showSelectBox="false"
+                                         rendered="#{accountNode.children.size() gt 0}"/>
+                    </div>
+                </div>
+            </ui:repeat>
+
+            <h:commandLink styleClass="bigButton #{specificFunctionAgreementList.newAllowed? '' : 'buttonDisabled'}"
+                           action="#{specificFunctionAgreementList.newRequest()}"
                            immediate="true"
                            value="#{msg.btnNewSpecificFunctionRequest}"
-                           disabled="#{!insuranceSpecificFunctionList.newAllowed}"
+                           disabled="#{!specificFunctionAgreementList.newAllowed}"
                            >
                 <f:param name="id" value="new"/>
             </h:commandLink>

@@ -13,6 +13,7 @@ import javax.inject.Named;
 import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
+import org.inek.dataportal.entities.specificfunction.SpecificFunctionAgreement;
 import org.inek.dataportal.entities.specificfunction.SpecificFunctionRequest;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Pages;
@@ -28,10 +29,10 @@ import org.inek.dataportal.utils.DocumentationUtil;
  */
 @Named
 @RequestScoped
-public class InsuranceSpecificFunctionList {
+public class SpecificFunctionAgreementList {
 
     // <editor-fold defaultstate="collapsed" desc="fields">
-    private static final Logger LOGGER = Logger.getLogger(SpecificFunctionRequestList.class.getName());
+    private static final Logger LOGGER = Logger.getLogger("SpecificFunctionAgreementList");
 
     @Inject private CooperationTools _cooperationTools;
     @Inject private SessionController _sessionController;
@@ -45,7 +46,7 @@ public class InsuranceSpecificFunctionList {
 
     public String newRequest() {
         destroyFeatureBeans();
-        return Pages.SpecificFunctionEditAgreed.URL();
+        return Pages.SpecificFunctionEditAgreement.URL();
     }
 
     private void destroyFeatureBeans() {
@@ -63,22 +64,22 @@ public class InsuranceSpecificFunctionList {
         return Pages.PrintView.URL();
     }
 
-    public void delete(SpecificFunctionRequest request) {
-        if (request == null) {
+    public void delete(SpecificFunctionAgreement agreement) {
+        if (agreement == null) {
             // might be deleted by somebody else
             return;
         }
-        if (request.getStatus().getId() >= WorkflowStatus.Provided.getId()) {
-            request.setStatus(WorkflowStatus.Retired);
-            _specificFunctionFacade.saveSpecificFunctionRequest(request);
+        if (agreement.getStatus().getId() >= WorkflowStatus.Provided.getId()) {
+            agreement.setStatus(WorkflowStatus.Retired);
+            _specificFunctionFacade.saveSpecificFunctionAgreement(agreement);
         } else {
-            _specificFunctionFacade.deleteSpecificFunctionRequest(request);
+            _specificFunctionFacade.deleteSpecificFunctionAgreement(agreement);
         }
     }
 
     public String edit() {
         destroyFeatureBeans();
-        return Pages.SpecificFunctionEditAgreed.URL();
+        return Pages.SpecificFunctionEditAgreement.URL();
     }
 
 }

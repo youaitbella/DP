@@ -162,7 +162,7 @@ public enum Pages {
     SpecificFunctionSummary("/SpecificFunction/Hospital/SpecificFunctionSummary"),
     SpecificFunctionEditRequest("/SpecificFunction/Hospital/EditRequest"),
     InsuranceSpecificFunctionSummary("/SpecificFunction/Insurance/SpecificFunctionSummary"),
-    SpecificFunctionEditAgreed("/SpecificFunction/Insurance/EditAgreed"),
+    SpecificFunctionEditAgreement("/SpecificFunction/Insurance/EditAgreed"),
 
     //
     NotAllowed("/common/NotAllowed"),

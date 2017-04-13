@@ -105,8 +105,7 @@ public class SpecificFunctionRequestTreeHandler implements Serializable, TreeNod
 
     private void obtainEditNodeChildren(RootNode node, Collection<TreeNode> children) {
         Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.SPECIFIC_FUNCTION, canReadCompleted());
-        accountIds = _specificFunctionFacade.checkRequestAccountsForYear(accountIds, Utils.getTargetYear(Feature.SPECIFIC_FUNCTION), WorkflowStatus.New, WorkflowStatus.ApprovalRequested);
-        List<Account> accounts = _accountFacade.getAccountsForIds(accountIds);
+        List<Account> accounts = _specificFunctionFacade.loadRequestAccountsForYear(accountIds, Utils.getTargetYear(Feature.SPECIFIC_FUNCTION), WorkflowStatus.New, WorkflowStatus.ApprovalRequested);
         Account currentUser = _sessionController.getAccount();
         if (accounts.contains(currentUser)) {
             // ensure current user is first, if in list
@@ -144,8 +143,7 @@ public class SpecificFunctionRequestTreeHandler implements Serializable, TreeNod
 
     private void obtainYearNodeChildren(YearTreeNode node, Collection<TreeNode> children) {
         Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.SPECIFIC_FUNCTION, canReadSealed());
-        accountIds = _specificFunctionFacade.checkRequestAccountsForYear(accountIds, node.getId(), WorkflowStatus.Provided, WorkflowStatus.Retired);
-        List<Account> accounts = _accountFacade.getAccountsForIds(accountIds);
+        List<Account> accounts = _specificFunctionFacade.loadRequestAccountsForYear(accountIds, node.getId(), WorkflowStatus.Provided, WorkflowStatus.Retired);
         Account currentUser = _sessionController.getAccount();
         if (accounts.contains(currentUser)) {
             // ensure current user is first, if in list
