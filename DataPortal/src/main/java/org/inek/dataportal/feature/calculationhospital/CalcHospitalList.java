@@ -149,9 +149,9 @@ public class CalcHospitalList {
         switch (hospitalInfo.getType()) {
             case SOP:
                 return printStatementOfParticipance(hospitalInfo);
-            case KGL:
+            case CBD:
                 return printCalculationBasicsDrg(hospitalInfo);
-            case KGP:
+            case CBP:
                 return printCalculationBasicsPepp(hospitalInfo);
             case CDM:
                 return printDistributionModel(hospitalInfo);
@@ -196,10 +196,10 @@ public class CalcHospitalList {
             case SOP:
                 deleteStatementOfParticipance(hospitalInfo);
                 break;
-            case KGL:
+            case CBD:
                 deleteCalculationBasicsDrg(hospitalInfo);
                 break;
-            case KGP:
+            case CBP:
                 deleteCalculationBasicsPepp(hospitalInfo);
                 break;
             case CDM:
@@ -259,9 +259,9 @@ public class CalcHospitalList {
         switch (type) {
             case SOP:
                 return Pages.StatementOfParticipanceEditAddress.URL();
-            case KGL:
+            case CBD:
                 return Pages.CalcDrgEdit.RedirectURL();
-            case KGP:
+            case CBP:
                 return Pages.CalcPeppEdit.URL();
             case CDM:
                 return Pages.CalcDistributionModel.URL();

@@ -10,10 +10,22 @@ package org.inek.dataportal.enums;
  * @author muellermi
  */
 public enum CalcInfoType {
-    SOP,
-    KGL,
-    KGP,
-    KGI,
-    KGO,
-    CDM
+    SOP("Statement of Participance"),
+    CBD("Calculation Basics Drg"),
+    CBP("Calculation Basics Psy"),
+    CBI("Calculation Basics Investment"),
+    CBA("Calculation Basics Autopsy"),
+    CDM("Clinical Distribution Model");
+
+    private final String _description;
+
+    private CalcInfoType(String description) {
+        _description = description;
+    }
+
+    @Override
+    public String toString() {
+        return _description;
+    }
+
 }
