@@ -91,7 +91,7 @@
             <property name="basicOffset" value="4"/>
             <property name="braceAdjustment" value="0"/>
             <property name="throwsIndent" value="4"/>
-            <property name="lineWrappingIndentation" value="4"/>
+            <property name="lineWrappingIndentation" value="8"/>
         </module>
         
         <module name="DefaultComesLast"/>
@@ -101,10 +101,10 @@
         <module name="FallThrough"/>
         <module name="MissingSwitchDefault"/>
 <!--        <module name="HiddenField"/>-->
-        <module name="RequireThis">
+<!--        <module name="RequireThis">
             <property name="checkMethods" value="false"/>
             <property name="validateOnlyOverlapping" value="true"/>
-        </module>
+        </module>-->
         <!-- need to configure magic number before using it, e.g do not check within annotation -->
         <!--module name="MagicNumber"/-->
         <!-- Checks for Javadoc comments.                     -->
