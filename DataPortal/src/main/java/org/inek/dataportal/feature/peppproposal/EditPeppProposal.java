@@ -548,8 +548,8 @@ public class EditPeppProposal extends AbstractEditController {
         if (!isTakeEnabled()) {
             return Pages.Error.URL();
         }
-            _peppProposal.setAccountId(_sessionController.getAccountId());
-            _peppProposal = _peppProposalFacade.savePeppProposal(getPeppProposal());
+        _peppProposal.setAccountId(_sessionController.getAccountId());
+        _peppProposal = _peppProposalFacade.savePeppProposal(getPeppProposal());
         return "";
     }
 

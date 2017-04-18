@@ -423,8 +423,8 @@ public class NubRequestFacade extends AbstractDataAccess {
                     m.setName(nr.getName());
                     return m;
                 }).forEachOrdered((m) -> {
-            list.add(m);
-        });
+                    list.add(m);
+                });
 
         if (!maxYearOnly) {
             TypedQuery<NubFormerRequest> oldIdsQuery = getQueryForOldNubIds(ik, filter);
@@ -438,8 +438,8 @@ public class NubRequestFacade extends AbstractDataAccess {
                         m.setName(nfr.getName());
                         return m;
                     }).forEachOrdered((m) -> {
-                list.add(m);
-            });
+                        list.add(m);
+                    });
         }
         return list;
     }

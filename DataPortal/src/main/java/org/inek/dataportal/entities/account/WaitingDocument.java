@@ -98,7 +98,7 @@ public class WaitingDocument implements Serializable, Document {
     @Column(name = "wdName")
     private String _name;
 
-        @Override
+    @Override
     public String getName() {
         return _name;
     }

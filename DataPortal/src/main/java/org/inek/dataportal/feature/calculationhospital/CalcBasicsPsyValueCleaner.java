@@ -13,7 +13,7 @@ import org.inek.dataportal.entities.calc.PeppCalcBasics;
  */
 public class CalcBasicsPsyValueCleaner {
     
-   public static void clearUnusedFields(PeppCalcBasics calcBasics) {
+    public static void clearUnusedFields(PeppCalcBasics calcBasics) {
         cleanBasics(calcBasics);
         cleanBasicExplanation(calcBasics);
         cleanExternalServiceProvision(calcBasics);

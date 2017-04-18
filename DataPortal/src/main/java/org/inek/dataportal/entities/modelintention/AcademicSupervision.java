@@ -65,7 +65,7 @@ public class AcademicSupervision implements Serializable {/*
     @Documentation(key = "lblRemitter")
     private String _remitter = "";
     
-     public String getRemitter() {
+    public String getRemitter() {
         return _remitter;
     }
 

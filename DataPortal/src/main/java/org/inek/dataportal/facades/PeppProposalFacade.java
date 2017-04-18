@@ -60,7 +60,7 @@ public class PeppProposalFacade extends AbstractFacade<PeppProposal> {
         }
         Predicate checkYear;
         if (year > 0){
-          checkYear = cb.equal(request.get("_targetYear"), year);  
+            checkYear = cb.equal(request.get("_targetYear"), year);  
         }else{
             checkYear = cb.notEqual(request.get("_targetYear"), year);  
         }

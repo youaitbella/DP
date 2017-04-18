@@ -141,7 +141,7 @@ public class DocumentApproval implements TreeNodeObserver, Serializable {
         });
         
         for (Entry<String, Set<Account>> entry : mailInfos.entrySet()) {
-                notify(entry.getKey(), entry.getValue());
+            notify(entry.getKey(), entry.getValue());
         }
         _rootNode.refresh();
     }

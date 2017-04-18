@@ -37,7 +37,7 @@ public class KeyValueLevel<K, V> {
             return false;
         }
         KeyValueLevel other = (KeyValueLevel) object;
-       return _key.equals(other._key) 
+        return _key.equals(other._key) 
                && _value.equals(other._value)
                && _level == other._level;
     }

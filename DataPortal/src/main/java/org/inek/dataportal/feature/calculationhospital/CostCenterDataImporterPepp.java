@@ -88,13 +88,13 @@ public class CostCenterDataImporterPepp {
     private boolean itemExists(KGPListCostCenter item) {
         for(KGPListCostCenter cc : _calcBasics.getCostCenters()) {
             if( cc.getAmount() == item.getAmount() &&
-                cc.getCostCenterId() == item.getCostCenterId() &&
-                cc.getCostCenterNumber() == item.getCostCenterNumber() &&
-                cc.getCostCenterText().equals(item.getCostCenterText()) &&
-                cc.getFullVigorCnt() == item.getFullVigorCnt() &&
-                cc.getServiceKey().equals(item.getServiceKey()) &&
-                cc.getServiceKeyDescription().equals(item.getServiceKeyDescription()) &&
-                cc.getServiceSum() == item.getServiceSum())
+                    cc.getCostCenterId() == item.getCostCenterId() &&
+                    cc.getCostCenterNumber() == item.getCostCenterNumber() &&
+                    cc.getCostCenterText().equals(item.getCostCenterText()) &&
+                    cc.getFullVigorCnt() == item.getFullVigorCnt() &&
+                    cc.getServiceKey().equals(item.getServiceKey()) &&
+                    cc.getServiceKeyDescription().equals(item.getServiceKeyDescription()) &&
+                    cc.getServiceSum() == item.getServiceSum())
                 return true;
         }
         return false;

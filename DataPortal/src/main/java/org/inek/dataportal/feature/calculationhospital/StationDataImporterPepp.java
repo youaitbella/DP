@@ -66,7 +66,7 @@ public class StationDataImporterPepp {
                 if (!scanner.hasNextLine()) {
                     return;
                 }
-                 _columnCnt = HEADLINE.split(";").length;
+                _columnCnt = HEADLINE.split(";").length;
                 while (scanner.hasNextLine()) {
                     String line = Utils.convertFromUtf8(scanner.nextLine());
                     if (!line.equals(HEADLINE)) {

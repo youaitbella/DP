@@ -25,7 +25,7 @@ public class InsuranceNubNoticeList {
     @Inject private SessionController _sessionController;
 
     public List<InsuranceNubNotice> getOpenNotices() {
-         return _insuranceFacade.getAccountNotices(_sessionController.getAccountId(), DataSet.AllOpen);
+        return _insuranceFacade.getAccountNotices(_sessionController.getAccountId(), DataSet.AllOpen);
     }
 
     public List<InsuranceNubNotice> getProvidedNotices() {

@@ -90,13 +90,13 @@ public class CostCenterDataImporter {
     private boolean itemExists(KGLListCostCenter item) {
         for(KGLListCostCenter cc : _calcBasics.getCostCenters()) {
             if( cc.getAmount() == item.getAmount() &&
-                cc.getCostCenterId() == item.getCostCenterId() &&
-                cc.getCostCenterNumber() == item.getCostCenterNumber() &&
-                cc.getCostCenterText().equals(item.getCostCenterText()) &&
-                cc.getFullVigorCnt() == item.getFullVigorCnt() &&
-                cc.getServiceKey().equals(item.getServiceKey()) &&
-                cc.getServiceKeyDescription().equals(item.getServiceKeyDescription()) &&
-                cc.getServiceSum() == item.getServiceSum())
+                    cc.getCostCenterId() == item.getCostCenterId() &&
+                    cc.getCostCenterNumber() == item.getCostCenterNumber() &&
+                    cc.getCostCenterText().equals(item.getCostCenterText()) &&
+                    cc.getFullVigorCnt() == item.getFullVigorCnt() &&
+                    cc.getServiceKey().equals(item.getServiceKey()) &&
+                    cc.getServiceKeyDescription().equals(item.getServiceKeyDescription()) &&
+                    cc.getServiceSum() == item.getServiceSum())
                 return true;
         }
         return false;
@@ -126,7 +126,7 @@ public class CostCenterDataImporter {
         try{
             int val = StringUtil.parseLocalizedDoubleAsInt(dataString);
             if (val < 0){
-                 throw new IllegalArgumentException("[Kostenvolumen] Wert darf nicht kleiner 0 sein: " + dataString);
+                throw new IllegalArgumentException("[Kostenvolumen] Wert darf nicht kleiner 0 sein: " + dataString);
             }
             item.setAmount(val);
         } catch (NumberFormatException ex) {
@@ -140,7 +140,7 @@ public class CostCenterDataImporter {
             nf.setParseIntegerOnly(false);
             double val = nf.parse(dataString).doubleValue();
             if (val < 0){
-                 throw new IllegalArgumentException("[Anzahl VK ÄD] Wert darf nicht kleiner 0 sein: " + dataString);
+                throw new IllegalArgumentException("[Anzahl VK ÄD] Wert darf nicht kleiner 0 sein: " + dataString);
             }
             item.setFullVigorCnt(val);
         } catch (ParseException ex) {
@@ -154,7 +154,7 @@ public class CostCenterDataImporter {
             nf.setParseIntegerOnly(true);
             int val = nf.parse(dataString).intValue();
             if (val < 0){
-                 throw new IllegalArgumentException("[Summe der Leistungseinheiten] Wert darf nicht kleiner 0 sein: " + dataString);
+                throw new IllegalArgumentException("[Summe der Leistungseinheiten] Wert darf nicht kleiner 0 sein: " + dataString);
             }
             item.setServiceSum(val);
         } catch (ParseException ex) {

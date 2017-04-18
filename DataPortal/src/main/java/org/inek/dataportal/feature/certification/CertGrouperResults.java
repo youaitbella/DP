@@ -476,15 +476,15 @@ public class CertGrouperResults implements Serializable{
     public String sendCertificateEmail() {
         EmailLog el = new EmailLog();
         if(_mailer.sendMailFrom(_mtFacade.findByName(_templateEmailCertificate).getFrom(), _receiverEmailCertificate, _mtFacade.findByName(_templateEmailCertificate).getBcc(), getEmailCertificateSubject(), getEmailCertificateBody())) {
-           el.setType(CertMailType.Certificate.getId());
-           el.setReceiverAccountId(_accFacade.findByMailOrUser(_receiverEmailCertificate).getId());
-           el.setSenderAccountId(_sessionController.getAccountId());
-           el.setSent(new Date());
-           el.setSystemId(_grouper.getSystemId());
-           el.setTemplateId(_mtFacade.findByName(_templateEmailCertificate).getId());
-           _grouper.setCertStatus(CertStatus.CertificationPassed);
-           _grouper.setCertification(new Date());
-           _elFacade.save(el);
+            el.setType(CertMailType.Certificate.getId());
+            el.setReceiverAccountId(_accFacade.findByMailOrUser(_receiverEmailCertificate).getId());
+            el.setSenderAccountId(_sessionController.getAccountId());
+            el.setSent(new Date());
+            el.setSystemId(_grouper.getSystemId());
+            el.setTemplateId(_mtFacade.findByName(_templateEmailCertificate).getId());
+            _grouper.setCertStatus(CertStatus.CertificationPassed);
+            _grouper.setCertification(new Date());
+            _elFacade.save(el);
             try {
                 Grouper savedGrouper = _grouperFacade.merge(_grouper);
                 _grouper = savedGrouper;
