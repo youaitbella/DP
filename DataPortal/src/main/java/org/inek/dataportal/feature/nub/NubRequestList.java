@@ -22,10 +22,10 @@ import org.inek.dataportal.utils.DocumentationUtil;
 public class NubRequestList {
 
     private static final Logger LOGGER = Logger.getLogger("NubRequestList");
-    @Inject NubRequestFacade _nubRequestFacade;
-    @Inject SessionController _sessionController;
-    @Inject CooperationTools _cooperationTools;
-    @Inject NubSessionTools _nubSessionTools;
+    @Inject private NubRequestFacade _nubRequestFacade;
+    @Inject private SessionController _sessionController;
+    @Inject private CooperationTools _cooperationTools;
+    @Inject private NubSessionTools _nubSessionTools;
 
     private List<ProposalInfo> _openNubs;
     private List<ProposalInfo> _sealedNubs;

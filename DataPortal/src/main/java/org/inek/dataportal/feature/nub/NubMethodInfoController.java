@@ -25,7 +25,7 @@ import org.inek.dataportal.facades.NubRequestFacade;
 @Named
 public class NubMethodInfoController implements Serializable {
 
-    @Inject NubRequestFacade _nubRequestFacade;
+    @Inject private NubRequestFacade _nubRequestFacade;
 
     // <editor-fold defaultstate="collapsed" desc="NubMethodInfos head + tail">    
     public List<NubMethodInfo> getNubMethodInfosHead() {
@@ -120,9 +120,9 @@ public class NubMethodInfoController implements Serializable {
         _description = "";
     }
 
-    int _elementsPerPart = 50;
-    int _part = 0;
-    int _split = 0;
+    private int _elementsPerPart = 50;
+    private int _part = 0;
+    private int _split = 0;
 
     public int getPart() {
         return _part;
@@ -142,7 +142,7 @@ public class NubMethodInfoController implements Serializable {
         return "";
     }
 
-    String _description = "";
+    private String _description = "";
 
     public String getDescription() {
         return _description;
@@ -150,7 +150,7 @@ public class NubMethodInfoController implements Serializable {
     // </editor-fold>    
 
     // <editor-fold defaultstate="collapsed" desc="Search tokens">    
-    List<String> _searchTokens = Collections.emptyList();
+    private List<String> _searchTokens = Collections.emptyList();
 
     public String getFilter() {
         return obtainFilter(_searchTokens);
@@ -242,7 +242,7 @@ public class NubMethodInfoController implements Serializable {
     // </editor-fold>    
 
     // <editor-fold defaultstate="collapsed" desc="Property RestrictToOne">    
-    boolean _restrictToOne = false;
+    private boolean _restrictToOne = false;
 
     public boolean isRestrictToOne() {
         return _restrictToOne;

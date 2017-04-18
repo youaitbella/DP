@@ -53,10 +53,10 @@ public class DocumentApproval implements TreeNodeObserver, Serializable {
 
     private static final Logger LOGGER = Logger.getLogger("DocumentApproval");
 
-    @Inject SessionController _sessionController;
-    @Inject WaitingDocumentFacade _waitingDocFacade;
-    @Inject AccountDocumentFacade _accountDocFacade;
-    @Inject AccountFacade _accountFacade;
+    @Inject private SessionController _sessionController;
+    @Inject private WaitingDocumentFacade _waitingDocFacade;
+    @Inject private AccountDocumentFacade _accountDocFacade;
+    @Inject private AccountFacade _accountFacade;
 
     private final RootNode _rootNode = RootNode.create(0, this);
 

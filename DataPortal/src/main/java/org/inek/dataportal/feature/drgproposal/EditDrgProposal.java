@@ -61,7 +61,7 @@ public class EditDrgProposal extends AbstractEditController {
     @Inject private ProcedureFacade _procedureFacade;
     @Inject private DiagnosisFacade _diagnosisFacade;
     @Inject private DrgProposalFacade _drgProposalFacade;
-    @Inject ApplicationTools _appTools;
+    @Inject private ApplicationTools _appTools;
     // </editor-fold>
     
     private String _script;
@@ -618,9 +618,9 @@ public class EditDrgProposal extends AbstractEditController {
 
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="Request correction">
-    @Inject AccountFacade _accountFacade;
-    @Inject PortalMessageFacade _messageFacade;
-    @Inject MessageService _messageService;
+    @Inject private AccountFacade _accountFacade;
+    @Inject private PortalMessageFacade _messageFacade;
+    @Inject private MessageService _messageService;
 
     public String requestCorrection() {
         if (!isReadOnly()) {

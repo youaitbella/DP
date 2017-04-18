@@ -33,9 +33,8 @@ public class EditDocument extends AbstractEditController {
 
     private static final Logger LOGGER = Logger.getLogger("EditDocument");
 
-    @Inject
-    private AccountDocumentFacade _accDocFacade;
-    @Inject SessionController _sessionController;
+    @Inject private AccountDocumentFacade _accDocFacade;
+    @Inject private SessionController _sessionController;
 
     public String downloadDocument(int docId) {
         FacesContext facesContext = FacesContext.getCurrentInstance();

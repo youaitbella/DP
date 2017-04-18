@@ -56,14 +56,14 @@ import org.inek.dataportal.utils.DocumentationUtil;
 public class EditPeppProposal extends AbstractEditController {
 
     private static final Logger LOGGER = Logger.getLogger("EditPeppProposal");
-    @Inject CooperationTools _cooperationTools;
+    @Inject private CooperationTools _cooperationTools;
 
     // <editor-fold defaultstate="collapsed" desc="fields">
     @Inject private SessionController _sessionController;
     @Inject private ProcedureFacade _procedureFacade;
     @Inject private DiagnosisFacade _diagnosisFacade;
     @Inject private PeppProposalFacade _peppProposalFacade;
-    @Inject ApplicationTools _appTools;
+    @Inject private ApplicationTools _appTools;
     private String _script;
     private PeppProposal _peppProposal;
 
@@ -236,7 +236,7 @@ public class EditPeppProposal extends AbstractEditController {
         _sessionController.getSearchController().bindSearchConsumer(this)
                 .bindTargetPage(Pages.PeppProposalEdit.URL())
                 .enableCodeType(CodeType.Diag).enableCodeType(CodeType.Proc).enableCodeType(CodeType.Pepp)
-                .bindCodeType(codeType).setCodeSystem(CodeType.Pepp);;
+                .bindCodeType(codeType).setCodeSystem(CodeType.Pepp);
         return "/common/SearchCode";
     }
 

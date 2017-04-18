@@ -10,7 +10,6 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
-import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.facades.account.AccountDocumentFacade;
 import org.inek.dataportal.facades.cooperation.CooperationRequestFacade;
 import org.inek.dataportal.facades.cooperation.PortalMessageFacade;
@@ -20,10 +19,10 @@ import org.inek.dataportal.helper.structures.DocInfo;
 @ViewScoped
 public class DocumentViewer implements Serializable {
 
-    @Inject AccountDocumentFacade _accountDocFacade;
-    @Inject SessionController _sessionController;
-    @Inject PortalMessageFacade _messageFacade;
-    @Inject CooperationRequestFacade _cooperationRequestFacade;
+    @Inject private AccountDocumentFacade _accountDocFacade;
+    @Inject private SessionController _sessionController;
+    @Inject private PortalMessageFacade _messageFacade;
+    @Inject private CooperationRequestFacade _cooperationRequestFacade;
 
     private String _filter = "";
     private int _maxAge = 30;

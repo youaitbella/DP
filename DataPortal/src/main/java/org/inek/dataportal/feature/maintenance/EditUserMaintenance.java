@@ -7,11 +7,9 @@ package org.inek.dataportal.feature.maintenance;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -56,7 +54,7 @@ public class EditUserMaintenance extends AbstractEditController {
     }
     private static final Logger LOGGER = Logger.getLogger("EditUserMaintenance");
 
-    @Inject ApplicationTools _appTools;
+    @Inject private ApplicationTools _appTools;
     @Inject private SessionTools _sessionTools;
     @Inject private NubSessionTools _nubSessionTools;
     @Inject private SessionController _sessionController;
@@ -66,15 +64,15 @@ public class EditUserMaintenance extends AbstractEditController {
     private String _user;
     private String _email;
     private Account _accountWorkingCopy;
-    List<FeatureEditorDAO> _features;
+    private List<FeatureEditorDAO> _features;
     private boolean _isMofified = false;
-    List<Integer> _additionalIKs;
+    private List<Integer> _additionalIKs;
     private String _oldPassword;
     private String _newPassword;
     private String _repeatPassword;
     private String _script = "";
-
     // </editor-fold>
+
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     public Account getAccount() {
         return _accountWorkingCopy;

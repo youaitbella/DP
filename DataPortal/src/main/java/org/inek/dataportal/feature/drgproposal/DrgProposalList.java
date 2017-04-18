@@ -8,7 +8,6 @@ import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.drg.DrgProposal;
-import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.DrgProposalFacade;
@@ -19,17 +18,17 @@ import org.inek.dataportal.utils.DocumentationUtil;
 @Named
 @RequestScoped
 public class DrgProposalList {
-    
-    @Inject DrgProposalFacade _drgProposalFacade;
-    @Inject SessionController _sessionController;
-    @Inject CooperationTools _cooperationTools;
-    @Inject ApplicationTools _appTools;
-    
+
+    @Inject private DrgProposalFacade _drgProposalFacade;
+    @Inject private SessionController _sessionController;
+    @Inject private CooperationTools _cooperationTools;
+    @Inject private ApplicationTools _appTools;
+
     public String editDrgProposal() {
         FeatureScopedContextHolder.Instance.destroyBeansOfScope("EditDrgProposal");
         return Pages.DrgProposalEditAddress.URL();
     }
-    
+
     public String deleteDrgProposal(int proposalId) {
         DrgProposal proposal = _drgProposalFacade.find(proposalId);
         if (proposal == null) {
@@ -45,7 +44,7 @@ public class DrgProposalList {
         }
         return "";
     }
-    
+
     public String printDrgProposal(int proposalId) {
         DrgProposal drgProposal = _drgProposalFacade.find(proposalId);
         String headLine = Utils.getMessage("nameDRG_PROPOSAL") + " " + drgProposal.getExternalId();
@@ -54,5 +53,5 @@ public class DrgProposalList {
         Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(drgProposal));
         return Pages.PrintView.URL();
     }
-    
+
 }

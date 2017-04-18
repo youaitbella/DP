@@ -71,7 +71,7 @@ public class EditNubRequest extends AbstractEditController {
     @Inject private NubRequestFacade _nubRequestFacade;
     @Inject private CustomerFacade _customerFacade;
     @Inject private NubSessionTools _nubSessionTools;
-    @Inject ApplicationTools _appTools;
+    @Inject private ApplicationTools _appTools;
     private NubRequest _nubRequest;
     private NubRequest _nubRequestBaseline;
     private CooperativeRight _cooperativeRight;
@@ -136,10 +136,10 @@ public class EditNubRequest extends AbstractEditController {
             }
         }
     }
-
     // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="getter / setter maxYearOnly">
-    boolean _maxYearOnly = true;
+    private boolean _maxYearOnly = true;
 
     public boolean isMaxYearOnly() {
         return _maxYearOnly;
@@ -333,7 +333,7 @@ public class EditNubRequest extends AbstractEditController {
     }
 
     public void formatProxyIks() {
-        String iks[] = _nubRequest.getProxyIKs().split("\\s|,|\r|\n");
+        String[] iks = _nubRequest.getProxyIKs().split("\\s|,|\r|\n");
         String formatted = "";
         for (String ik : iks) {
             if (ik.isEmpty() || ik.equals("" + _nubRequest.getIk())) {
@@ -693,8 +693,7 @@ public class EditNubRequest extends AbstractEditController {
         return null;
     }
 
-    @Inject
-    AccountFacade _accountFacade;
+    @Inject private AccountFacade _accountFacade;
 
     public void copyNubRequest(AjaxBehaviorEvent event) {
         if (_nubSessionTools.copyNubRequest(_nubRequest)) {
@@ -703,8 +702,8 @@ public class EditNubRequest extends AbstractEditController {
     }
 
     // <editor-fold defaultstate="collapsed" desc="Request correction">
-    @Inject PortalMessageFacade _messageFacade;
-    @Inject MessageService _messageService;
+    @Inject private PortalMessageFacade _messageFacade;
+    @Inject private MessageService _messageService;
 
     public String requestCorrection() {
         if (!isReadOnly()) {

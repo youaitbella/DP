@@ -303,9 +303,9 @@ public class EditModelIntention extends AbstractEditController {
     }
 
     // <editor-fold defaultstate="collapsed" desc="CheckElements">
-    String _msg = "";
-    String _elementId = "";
-    String _nextTopic = "";
+    private String _msg = "";
+    private String _elementId = "";
+    private String _nextTopic = "";
 
     private boolean requestIsComplete() {
         _msg = "";
@@ -688,7 +688,7 @@ public class EditModelIntention extends AbstractEditController {
         _modelIntention.getContacts().remove(contact);
     }
 
-    String _contactScript = "";
+    private String _contactScript = "";
 
     public void setContactMessage(String msg) {
         _contactScript = "alert('" + msg + "');";
