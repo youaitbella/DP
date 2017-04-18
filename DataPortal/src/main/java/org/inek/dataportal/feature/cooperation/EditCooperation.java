@@ -293,7 +293,7 @@ public class EditCooperation extends AbstractEditController {
     @Inject private PortalMessageFacade _messageFacade;
     @Inject private MessageService _messageService;
 
-    List<PortalMessage> _messages;
+    private List<PortalMessage> _messages;
 
     private String _message = "";
 

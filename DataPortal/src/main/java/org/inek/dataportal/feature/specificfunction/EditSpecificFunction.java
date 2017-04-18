@@ -59,7 +59,7 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
     @Inject private CooperationTools _cooperationTools;
     @Inject private SessionController _sessionController;
     @Inject private SpecificFunctionFacade _specificFunctionFacade;
-    @Inject ApplicationTools _appTools;
+    @Inject private ApplicationTools _appTools;
 
     private SpecificFunctionRequest _request;
 
@@ -300,7 +300,7 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
         return "";
     }
 
-    @Inject InekRoleFacade _inekRoleFacade;
+    @Inject private InekRoleFacade _inekRoleFacade;
 
     public void sendNotification() {
         List<Account> inekAccounts = _inekRoleFacade.findForFeature(Feature.SPECIFIC_FUNCTION);

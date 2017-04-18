@@ -48,7 +48,7 @@ public class CertManager implements Serializable{
     @Inject private SessionController _sessionController;
     @Inject private SystemFacade _systemFacade;
     @Inject private GrouperFacade _grouperFacade;
-    @Inject ApplicationTools _appTools;
+    @Inject private ApplicationTools _appTools;
 
     @PreDestroy
     private void preDestroy() {
@@ -238,7 +238,7 @@ public class CertManager implements Serializable{
         setSystemChanged(true);
     }
 
-    @Inject AccountFacade _accountFacade;
+    @Inject private AccountFacade _accountFacade;
 
     private List<SelectItem> _certAccounts;
 

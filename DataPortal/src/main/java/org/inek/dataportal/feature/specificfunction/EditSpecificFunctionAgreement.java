@@ -299,7 +299,7 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
         return "";
     }
 
-    @Inject InekRoleFacade _inekRoleFacade;
+    @Inject private InekRoleFacade _inekRoleFacade;
 
     public void sendNotification() {
         List<Account> inekAccounts = _inekRoleFacade.findForFeature(Feature.SPECIFIC_FUNCTION);

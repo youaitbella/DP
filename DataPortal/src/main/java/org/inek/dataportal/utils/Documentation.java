@@ -27,7 +27,7 @@ public @interface Documentation {
      * Replaces the field or method name by this literal name
      * @return 
      */
-    public String name() default "";
+    String name() default "";
 
     /**
      * Replaces the field or method name 
@@ -35,9 +35,9 @@ public @interface Documentation {
      *
      * @return
      */
-    public String key() default "";
+    String key() default "";
 
-    public String headline() default "";
+    String headline() default "";
 
     /**
      * Translates values which are given as a list of pairs, separated by semicolon:
@@ -47,54 +47,54 @@ public @interface Documentation {
      * If no such key is found, then the translation is literaly used.
      * @return
      */
-    public String translateValue() default "";
+    String translateValue() default "";
 
     /**
      * omit documentation if the translated value of the field has a specific value
      * A couple of values might be provided, separated by semicolon
      */
-    public String omitOnValues() default "";
+    String omitOnValues() default "";
     
     /**
      * omit documentation if the strin value an other field has a specific value
      * usage omitOnOtherValues = "className.fieldName=value[;className.fieldName=value...]
      */
-    public String omitOnOtherValues() default "";
+    String omitOnOtherValues() default "";
     
     /**
      * omit documentation if value is empty
      */
-    public boolean omitOnEmpty() default false;
+    boolean omitOnEmpty() default false;
     
     /**
      * always omit documentation 
      * no documentation is generated, but a field translation
      */
-    public boolean omitAlways() default false;
+    boolean omitAlways() default false;
     
     /**
      * relative order
      *
      * @return
      */
-    public int rank() default 100;
+    int rank() default 100;
 
     /**
      *
      * @return
      */
-    public String dateFormat() default "dd.MM.yyyy HH:mm";
+    String dateFormat() default "dd.MM.yyyy HH:mm";
     
     /**
      *
      * @return
      */
-    public boolean isMoneyFormat() default false;
+    boolean isMoneyFormat() default false;
     
     /**
      * Includes documentation of this object onto top level.
      * Use this for documentation of OneToOne joined objects
      * @return 
      */
-    public boolean include() default false;
+    boolean include() default false;
 }

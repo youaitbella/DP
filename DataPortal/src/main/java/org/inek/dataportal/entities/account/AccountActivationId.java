@@ -30,6 +30,6 @@ public class AccountActivationId implements Serializable {
         }
         return true;
     }
-    Integer _accountId;
-    String _guid;
+    private Integer _accountId;
+    private String _guid;
 }

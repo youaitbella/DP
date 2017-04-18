@@ -468,8 +468,8 @@ public class EditPeppProposal extends AbstractEditController {
     }
 
     // <editor-fold defaultstate="collapsed" desc="CheckElements">
-    String _msg = "";
-    String _elementId = "";
+    private String _msg = "";
+    private String _elementId = "";
 
     private boolean peppProposalIsComplete() {
         _msg = "";
@@ -532,10 +532,8 @@ public class EditPeppProposal extends AbstractEditController {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Request correction">
-    @Inject private Mailer _mailer;
-    @Inject AccountFacade _accountFacade;
-    @Inject PortalMessageFacade _messageFacade;
-    @Inject MessageService _messageService;
+    @Inject private AccountFacade _accountFacade;
+    @Inject private MessageService _messageService;
 
     public String requestCorrection() {
         if (!isReadOnly()) {

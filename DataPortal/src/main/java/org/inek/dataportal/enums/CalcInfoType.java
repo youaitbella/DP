@@ -19,7 +19,7 @@ public enum CalcInfoType {
 
     private final String _description;
 
-    private CalcInfoType(String description) {
+    CalcInfoType(String description) {
         _description = description;
     }
 

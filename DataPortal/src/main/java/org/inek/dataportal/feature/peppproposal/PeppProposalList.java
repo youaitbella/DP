@@ -9,7 +9,6 @@ import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.pepp.PeppProposal;
-import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.enums.Feature;
@@ -25,10 +24,10 @@ import org.inek.dataportal.utils.DocumentationUtil;
 @RequestScoped
 public class PeppProposalList {
 
-    @Inject PeppProposalFacade _peppProposalFacade;
-    @Inject SessionController _sessionController;
-    @Inject CooperationTools _cooperationTools;
-    @Inject ApplicationTools _appTools;
+    @Inject private PeppProposalFacade _peppProposalFacade;
+    @Inject private SessionController _sessionController;
+    @Inject private CooperationTools _cooperationTools;
+    @Inject private ApplicationTools _appTools;
 
     public List<ProposalInfo> getPeppProposals() {
         return _peppProposalFacade.getPeppProposalInfos(_sessionController.getAccountId(), DataSet.AllOpen);

@@ -31,8 +31,8 @@ public class NubReminder {
     private static final Logger LOGGER = Logger.getLogger("NubReminder");
     @Inject private AccountFacade _accountFacade;
     @Inject private NubRequestFacade _nubFacade;
-    @Inject Mailer _mailer;
-    @Inject ConfigFacade _config;
+    @Inject private Mailer _mailer;
+    @Inject private ConfigFacade _config;
 
 //    @Schedule(hour = "*", minute = "*/1", info = "every minute") // use this for testing purpose
 //    public void remindSealTest() {

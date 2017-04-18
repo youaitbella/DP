@@ -19,9 +19,9 @@ import org.inek.dataportal.helper.Utils;
 @MultipartConfig(fileSizeThreshold = 10 * 1024 * 1024)
 public class NubTemplateUploadServlet extends AbstractUploadServlet {
 
-    @Inject SessionController _sessionController;
-    @Inject NubRequestFacade _nubFacade;
-    @Inject NubSessionTools _nubSessionTools;
+    @Inject private SessionController _sessionController;
+    @Inject private NubRequestFacade _nubFacade;
+    @Inject private NubSessionTools _nubSessionTools;
     
     @Override
     protected void stream2Document(String filename, InputStream is, HttpUtil httpUtil) throws IOException {

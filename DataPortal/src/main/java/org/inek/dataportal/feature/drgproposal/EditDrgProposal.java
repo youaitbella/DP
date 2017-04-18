@@ -555,8 +555,8 @@ public class EditDrgProposal extends AbstractEditController {
     }
 
     // <editor-fold defaultstate="collapsed" desc="CheckElements">
-    String _msg = "";
-    String _elementId = "";
+    private String _msg = "";
+    private String _elementId = "";
 
     private boolean drgProposalIsComplete() {
         _msg = "";

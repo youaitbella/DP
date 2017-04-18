@@ -63,7 +63,7 @@ public class DocumentViewer implements Serializable {
         _documents.clear();
     }
 
-    List<DocInfo> _documents = Collections.emptyList();
+    private List<DocInfo> _documents = Collections.emptyList();
 
     public List<DocInfo> getDocuments() {
         ensureDocuments();

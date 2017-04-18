@@ -48,9 +48,9 @@ public enum ConfigKey {
     ReportValidity(60);
 
     //
-    Object _defaultValue;
+    private final Object _defaultValue;
 
-    private ConfigKey(Object defaultValue) {
+    ConfigKey(Object defaultValue) {
         _defaultValue = defaultValue;
     }
 

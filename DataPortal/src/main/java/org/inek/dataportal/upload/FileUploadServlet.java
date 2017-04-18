@@ -16,8 +16,7 @@ import org.inek.dataportal.helper.StreamHelper;
 @MultipartConfig(fileSizeThreshold = 10 * 1024 * 1024)
 public class FileUploadServlet extends AbstractUploadServlet {
 
-    @Inject
-    SessionController _sessionController;
+    @Inject private SessionController _sessionController;
 
     @Override
     protected void stream2Document(String filename, InputStream is, HttpUtil httpUtil) throws IOException {
