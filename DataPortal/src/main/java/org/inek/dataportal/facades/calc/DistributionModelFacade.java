@@ -157,7 +157,7 @@ public class DistributionModelFacade extends AbstractDataAccess {
     }
 
     public List<CalcHospitalInfo> getDistributionModelsForAccount(Account account) {
-        String sql = "select distinct dmmId as Id, 3 + dmmType as [Type], dmmAccountId as AccountId, dmmDataYear as DataYear, dmmIk as IK, dmmStatusId as StatusId,\n"
+        String sql = "select distinct dmmId as Id, 'CDM' as [Type], dmmAccountId as AccountId, dmmDataYear as DataYear, dmmIk as IK, dmmStatusId as StatusId,\n"
                 + " '" + Utils.getMessage("lblClinicalDistributionModel") + " ' + case dmmType when 0 then 'DRG' when 1 then 'PEPP' else '???' end as Name, dmmLastChanged as LastChanged\n"
                 + "from calc.DistributionModelMaster \n"
                 + "join CallCenterDB.dbo.ccCustomer on dmmIk = cuIK\n"

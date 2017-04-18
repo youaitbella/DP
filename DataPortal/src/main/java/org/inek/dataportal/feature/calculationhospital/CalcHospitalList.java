@@ -24,6 +24,7 @@ import org.inek.dataportal.entities.calc.DrgCalcBasics;
 import org.inek.dataportal.entities.calc.PeppCalcBasics;
 import org.inek.dataportal.entities.calc.StatementOfParticipance;
 import org.inek.dataportal.enums.CalcHospitalFunction;
+import org.inek.dataportal.enums.CalcInfoType;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
@@ -69,22 +70,7 @@ public class CalcHospitalList {
     }
 
     public String newStatementOfParticipance() {
-        destroyFeatureBeans();
         return Pages.StatementOfParticipanceEditAddress.URL();
-    }
-
-    private void destroyFeatureBeans() {
-        // if the user hit the browser's back-button, a request might be still active.
-        // To prevent invoking the wrong, we destroy all Feature scoped beans first
-        FeatureScopedContextHolder.Instance.destroyBeansOfScope(EditStatementOfParticipance.class.getSimpleName());
-        // todo: add other classes
-    }
-
-    public boolean isNewCalculationBasicsDrgAllowed() {
-        if (!_appTools.isEnabled(ConfigKey.IsCalculationBasicsDrgCreateEnabled)) {
-            return false;
-        }
-        return determineButtonAllowed(CalcHospitalFunction.CalculationBasicsDrg);
     }
 
     public boolean isNewDistributionModelDrgAllowed() {
@@ -113,10 +99,14 @@ public class CalcHospitalList {
         return _allowedButtons.get(calcFunct);
     }
 
-    
-    public String newCalculationBasicsDrg() {
-        destroyFeatureBeans();
+    public boolean isNewCalculationBasicsDrgAllowed() {
+        if (!_appTools.isEnabled(ConfigKey.IsCalculationBasicsDrgCreateEnabled)) {
+            return false;
+        }
+        return determineButtonAllowed(CalcHospitalFunction.CalculationBasicsDrg);
+    }
 
+    public String newCalculationBasicsDrg() {
         return Pages.CalcDrgEdit.RedirectURL();
     }
 
@@ -125,6 +115,21 @@ public class CalcHospitalList {
             return false;
         }
         return determineButtonAllowed(CalcHospitalFunction.CalculationBasicsPepp);
+    }
+
+    public String newCalculationBasicsPepp() {
+        return Pages.CalcPeppEdit.RedirectURL();  // todo
+    }
+
+    public boolean isNewCalculationBasicsObdAllowed() {
+        if (!_appTools.isEnabled(ConfigKey.IsCalculationBasicsObdCreateEnabled)) {
+            return false;
+        }
+        return determineButtonAllowed(CalcHospitalFunction.CalculationBasicsPepp);
+    }
+
+    public String newCalculationBasicsObd() {
+        return Pages.CalcObdEdit.RedirectURL();  // todo
     }
 
     private boolean determineButtonAllowed(CalcHospitalFunction calcFunct) {
@@ -140,25 +145,19 @@ public class CalcHospitalList {
         return _allowedButtons.get(calcFunct);
     }
 
-    public String newCalculationBasicsPepp() {
-        destroyFeatureBeans();
-        //return Pages.StatementOfParticipanceEditAddress.URL();  // todo
-        return Pages.CalcPeppEdit.RedirectURL();  // todo
-    }
-
     public String printHospitalInfo(CalcHospitalInfo hospitalInfo) {
         switch (hospitalInfo.getType()) {
-            case 0:
+            case SOP:
                 return printStatementOfParticipance(hospitalInfo);
-            case 1:
+            case KGL:
                 return printCalculationBasicsDrg(hospitalInfo);
-            case 2:
+            case KGP:
                 return printCalculationBasicsPepp(hospitalInfo);
-            case 3:
-            case 4:
+            case CDM:
                 return printDistributionModel(hospitalInfo);
+            default:
+                throw new IllegalArgumentException("Unknown calcInfoType: " + hospitalInfo.getType());
         }
-        return "";
     }
 
     public String printStatementOfParticipance(CalcHospitalInfo hospitalInfo) {
@@ -194,26 +193,27 @@ public class CalcHospitalList {
 
     public String deleteHospitalInfo(CalcHospitalInfo hospitalInfo) {
         switch (hospitalInfo.getType()) {
-            case 0:
+            case SOP:
                 deleteStatementOfParticipance(hospitalInfo);
                 break;
-            case 1:
+            case KGL:
                 deleteCalculationBasicsDrg(hospitalInfo);
                 break;
-            case 2:
+            case KGP:
                 deleteCalculationBasicsPepp(hospitalInfo);
                 break;
-            case 3:
-            case 4:
+            case CDM:
                 deleteDistributionModel(hospitalInfo);
                 break;
+            default:
+                throw new IllegalArgumentException("Unknown calcInfoType: " + hospitalInfo.getType());
         }
         return "";
     }
 
     private void deleteStatementOfParticipance(CalcHospitalInfo hospitalInfo) {
         StatementOfParticipance statement = _calcFacade.findStatementOfParticipance(hospitalInfo.getId());
-        if (statement == null){
+        if (statement == null) {
             // might be deleted by somebody else
             return;
         }
@@ -255,20 +255,19 @@ public class CalcHospitalList {
         }
     }
 
-    public String editHospitalInfo(int type) {
-        destroyFeatureBeans();
+    public String editHospitalInfo(CalcInfoType type) {
         switch (type) {
-            case 0:
+            case SOP:
                 return Pages.StatementOfParticipanceEditAddress.URL();
-            case 1:
+            case KGL:
                 return Pages.CalcDrgEdit.RedirectURL();
-            case 2:
+            case KGP:
                 return Pages.CalcPeppEdit.URL();
-            case 3:
-            case 4:
+            case CDM:
                 return Pages.CalcDistributionModel.URL();
+            default:
+                throw new IllegalArgumentException("Unknown calcInfoType: " + type);
         }
-        return "";
     }
 
 }

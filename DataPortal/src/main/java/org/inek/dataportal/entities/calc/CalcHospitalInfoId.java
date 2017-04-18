@@ -6,6 +6,7 @@
 package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
+import org.inek.dataportal.enums.CalcInfoType;
 
 /**
  *
@@ -14,14 +15,14 @@ import java.io.Serializable;
 public class CalcHospitalInfoId implements Serializable {
 
     private int _id;
-    private int _type;
+    private CalcInfoType _type;
 
     @Override
     public int hashCode() {
         int hash = 3;
         hash = 37 * hash + this._id;
         if (_id != -1) return hash;
-        hash = 37 * hash + this._type;
+        hash = 37 * hash + this._type.hashCode();
         return hash;
     }
 
@@ -43,7 +44,7 @@ public class CalcHospitalInfoId implements Serializable {
         if (this._id != other._id) {
             return false;
         }
-        return this._type == other._type;
+        return this._type.equals(other._type);
     }
     
 }

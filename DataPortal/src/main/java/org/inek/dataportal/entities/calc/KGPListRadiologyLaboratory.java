@@ -203,7 +203,7 @@ public class KGPListRadiologyLaboratory implements Serializable, BaseIdValue {
             case 5:
                 _serviceDocDif = true;
                 break;
-            default: ;
+            default: 
         }
 
         this._serviceDocType = type;
