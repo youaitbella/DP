@@ -18,7 +18,7 @@ public class MessageService {
 
     @Inject private Mailer _mailer;
     @Inject PortalMessageFacade _messageFacade;
-    protected static final Logger _logger = Logger.getLogger("MessageService");
+    protected static final Logger LOGGER = Logger.getLogger("MessageService");
 
     /**
      * Sends an internal message from sender to receiver If the receiver checked

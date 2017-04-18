@@ -29,6 +29,7 @@ import org.inek.dataportal.entities.account.AccountAdditionalIK;
 import org.inek.dataportal.entities.admin.MailTemplate;
 import org.inek.dataportal.entities.specificfunction.AgreedCenter;
 import org.inek.dataportal.entities.specificfunction.CenterName;
+import org.inek.dataportal.entities.specificfunction.RelatedName;
 import org.inek.dataportal.entities.specificfunction.RequestAgreedCenter;
 import org.inek.dataportal.entities.specificfunction.RequestProjectedCenter;
 import org.inek.dataportal.entities.specificfunction.SpecificFunction;
@@ -456,6 +457,10 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
 
     public List<CenterName> getCenterNames() {
         return _specificFunctionFacade.getCenterNames();
+    }
+
+    public List<RelatedName> getRelatedNames() {
+        return _specificFunctionFacade.getRelatedNames();
     }
 
     public List<SpecificFunction> getSpecificFunctions() {

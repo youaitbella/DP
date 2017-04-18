@@ -63,7 +63,7 @@ import org.inek.dataportal.utils.DocumentationUtil;
 @FeatureScoped
 public class EditNubRequest extends AbstractEditController {
 
-    private static final Logger _logger = Logger.getLogger("EditNubRequest");
+    private static final Logger LOGGER = Logger.getLogger("EditNubRequest");
 
     @Inject private CooperationTools _cooperationTools;
     @Inject private ProcedureFacade _procedureFacade;
@@ -183,7 +183,7 @@ public class EditNubRequest extends AbstractEditController {
                 return nubRequest;
             }
         } catch (NumberFormatException ex) {
-            _logger.info(ex.getMessage());
+            LOGGER.info(ex.getMessage());
         }
         _nubRequestBaseline = newNubRequest();
         return newNubRequest();
@@ -535,11 +535,11 @@ public class EditNubRequest extends AbstractEditController {
 
     public boolean isTakeEnabled() {
         if (_cooperationTools == null) {
-            _logger.log(Level.WARNING, "Unxepected null value: _cooperationTools");
+            LOGGER.log(Level.WARNING, "Unxepected null value: _cooperationTools");
             return false;
         }
         if (_nubRequest == null) {
-            _logger.log(Level.WARNING, "Unxepected null value: _nubRequest");
+            LOGGER.log(Level.WARNING, "Unxepected null value: _nubRequest");
             return false;
         }
         return _cooperationTools.isTakeEnabled(Feature.NUB, _nubRequest.getStatus(), _nubRequest.getAccountId(), _nubRequest.getIk());

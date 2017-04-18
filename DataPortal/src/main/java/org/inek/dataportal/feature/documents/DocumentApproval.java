@@ -51,7 +51,7 @@ import org.inek.portallib.util.Helper;
 @FeatureScoped(name = "DocumentUpload")
 public class DocumentApproval implements TreeNodeObserver, Serializable {
 
-    private static final Logger _logger = Logger.getLogger("DocumentApproval");
+    private static final Logger LOGGER = Logger.getLogger("DocumentApproval");
 
     @Inject SessionController _sessionController;
     @Inject WaitingDocumentFacade _waitingDocFacade;
@@ -208,7 +208,7 @@ public class DocumentApproval implements TreeNodeObserver, Serializable {
             return "";
         }
         if (doc == null || doc.getContent() == null){
-            _logger.log(Level.SEVERE, "Doocument or content missing: {0}", docId);
+            LOGGER.log(Level.SEVERE, "Doocument or content missing: {0}", docId);
             return Pages.Error.URL();
         }
         try {
@@ -220,7 +220,7 @@ public class DocumentApproval implements TreeNodeObserver, Serializable {
             StreamHelper.copyStream(is, externalContext.getResponseOutputStream());
 
         } catch (IOException ex) {
-            _logger.log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
             return Pages.Error.URL();
         }
         facesContext.responseComplete();

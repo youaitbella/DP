@@ -557,7 +557,7 @@ public class CalcFacade extends AbstractDataAccess {
             Customer customer = query.getSingleResult();
             return customer.getObligateCalculationYear() > year - 5;
         } catch (Exception ex) {
-            _logger.log(Level.WARNING, "isObligateCalculation - non unique ik {0}", ik);
+            LOGGER.log(Level.WARNING, "isObligateCalculation - non unique ik {0}", ik);
             return false;
         }
     }

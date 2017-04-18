@@ -21,7 +21,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "ccContactDetails", catalog="CallCenterDB", schema="dbo")
 public class ContactDetail implements Serializable {
-    private static final Logger _logger = Logger.getLogger("ContactDetails");
+    private static final Logger LOGGER = Logger.getLogger("ContactDetails");
     private static final long serialVersionUID = 1L;
     
     // <editor-fold defaultstate="collapsed" desc="Property Id">

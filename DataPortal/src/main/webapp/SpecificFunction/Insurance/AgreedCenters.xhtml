@@ -10,20 +10,16 @@
                 >
 
     <h2 style="margin-top: 1em;"></h2>
-    <inek:LabeledCheckbox label="Wir beabsichtigen über die Vereinbarung von Zuschlägen gem. § 5 Abs. 3 KHEntgG zu verhandeln" 
-                          styleClassComponent="marginTop01em"
-                          value="#{editSpecificFunctionAgreement.agreement.willNegotiate}"
-                          readonly="#{editSpecificFunctionAgreement.readOnly}"
-                          renderElement="@form"/>
+    Wir sind bzgl. der Vereinbarung  von Zuschlägen gem. § 5 Abs. 3 KHEntgG zu folgendem Verhandlungsergebnis gekommen:
 
-    <ui:repeat value="#{editSpecificFunctionAgreement.agreement.agreedCenters}" var="center" 
-               rendered="#{editSpecificFunctionAgreement.agreement.willNegotiate}">
+    <ui:repeat value="#{editSpecificFunctionAgreement.agreement.agreedCenters}" 
+               var="center" >
         <div class="rectangle">
             <div class="inputPart">
                 <h:commandLink rendered="#{!editSpecificFunctionAgreement.readOnly}">
                     <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value=""/>
                     <cb:confirmDelete/>
-                    <f:ajax render="@form :logout:remaining" listener="#{editSpecificFunctionAgreement.deleteProjectedCenter(center)}"/>
+                    <f:ajax render="@form :logout:remaining" listener="#{editSpecificFunctionAgreement.deleteAgreedCenter(center)}"/>
                 </h:commandLink>
             </div>
 
@@ -46,6 +42,7 @@
                     <f:ajax event="change" render="@form :logout:remaining msgCenterName"/>
                 </h:selectOneMenu>
                 <h:message for="centerName" id="msgCenterName" styleClass="errorMessage"/>
+
                 <h:panelGroup id="otherName" 
                               styleClass="element100-37em"
                               rendered="#{center.centerId eq -1}">
@@ -72,7 +69,7 @@
             <div class="inputPart">
                 <h:outputLabel for="specificFunction" 
                                value="Besondere Aufgaben" 
-                               title="Für Verhandlung vorgesehene besondere Aufgaben (Stichpunktartige Auflistung der zentralen Aufgaben)" 
+                               title="In Verhandlung gewährte besondere Aufgaben (Stichpunktartige Auflistung der zentralen Aufgaben)" 
                                styleClass="label element12em alignTop" />
 
                 <div class="container10em element100-13em">
@@ -91,23 +88,9 @@
                     <h:message for="specificFunction" id="msgSpecificFunction" styleClass="errorMessage elementRight70"/>
             </div>
 
-            <!--div class="inputPart">
-                <h:outputLabel id="lblOtherSpecificFunction" value="Sonstige Aufgaben" styleClass="label element12em" for="otherSpecificFunction"/>
-                <h:inputText id="otherSpecificFunction" 
-                             styleClass="element100-12em"
-                             readonly="# not center.specificFunctions.stream().anyMatch(f -> f.getId() == -1)}"
-                             required="# {center.specificFunctions.stream().anyMatch(f -> f.getId() == -1)}"
-                             title="Für Verhandlung vorgesehene besondere Aufgaben (Stichpunktartige Auflistung der zentralen Aufgaben)"
-                             value="# {center.otherSpecificFunction}" >
-                    <f:ajax event="focus" render="@this lblOtherSpecificFunction :logout:remaining msgOtherSpecificFunction"/>
-                    <f:ajax event="change" render="@this lblOtherSpecificFunction :logout:remaining msgOtherSpecificFunction"/ second event causes an error if agent is edited :(>
-                </h:inputText>
-                <h:message id="msgOtherSpecificFunction" for="otherSpecificFunction" styleClass="errorMessage right"/>
-            </div-->
-
             <inek:LabeledText label="Sonstige Aufgaben"
                               rendered="#{center.specificFunctions.stream().anyMatch(f -> f.getId() == -1)}"
-                              title="Für Verhandlung vorgesehene besondere Aufgaben (Stichpunktartige Auflistung der zentralen Aufgaben)" 
+                              title="In Verhandlung gewährte besondere Aufgaben (Stichpunktartige Auflistung der zentralen Aufgaben)" 
                               value="#{center.otherSpecificFunction}" 
                               required="true"
                               readonly="#{editSpecificFunctionAgreement.readOnly}"
@@ -115,38 +98,67 @@
                               styleClass="element100-12em"
                               singleLine="true"/>
 
-            <inek:LabeledText label="Anzahl Patienten (ca.)"
-                              title="Voraussichtliche Anzahl der durch das Zentrum /den Schwerpunkt betreuten Patientinnen/Patienten" 
-                              value="#{center.estimatedPatientCount}" 
+            <inek:LabeledText label="Zuschlagsf. Kosten"
+                              title="Summe der zuschlagsfähigen Kosten (in €)" 
+                              value="#{center.costSum}" 
                               required="true"
                               readonly="#{editSpecificFunctionAgreement.readOnly}"
                               styleClassLabel="label element12em" 
                               styleClass="col04em number"                              
                               singleLine="true"/>
 
-            <div class="marginTop">
-                <h:outputLabel for="type" value="Ausweisung und Festsetzung der besonderen Aufgaben" styleClass="label marginRight"/>
-                <h:selectOneMenu id="type"
-                                 title="Bitte angeben"
+            <div class="inputPart">
+                <h:outputLabel for="centerName" 
+                               value="Bezug des Zuschlags" 
+                               title="Bezug des Zuschlags (z.B. Fall, DRG etc."
+                               styleClass="label element12em" />
+
+                <h:selectOneMenu id="relatedName"
+                                 styleClass="element25em"
                                  required="true"
-                                 readonly="#{editSpecificFunctionAgreement.readOnly}"
                                  requiredMessage="#{msg.msgValueNeeded}"
-                                 value="#{center.typeId}"
-                                 hideNoSelectionOption="true" >
+                                 value="#{center.centerId}"
+                                 hideNoSelectionOption="true"  
+                                 readonly="#{editSpecificFunctionAgreement.readOnly}">
                     <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
-                    <f:selectItems value="#{editSpecificFunctionAgreement.typeItems}" var="item" itemLabel="#{item.value}" itemValue="#{item.key}"/>
-                    <f:ajax event="change" render="@form :logout:remaining msgType"/>
+                    <f:selectItems value="#{editSpecificFunctionAgreement.relatedNames}" var="item" itemValue="#{item.id}" itemLabel="#{item.name}"/>
+                    <f:selectItem itemLabel="Sonstiges (bitte angeben)" itemValue="#{-1}"/>
+                    <f:ajax event="change" render="@form :logout:remaining msgRelatedName"/>
                 </h:selectOneMenu>
-                <h:message for="type" id="msgType" styleClass="errorMessage"/>
+                <h:message for="relatedName" id="msgRelatedName" styleClass="errorMessage"/>
+
+                <h:panelGroup id="otherRelatedName" 
+                              styleClass="element100-37em"
+                              rendered="#{center.relatedId eq -1}">
+                    <h:inputText id="txtOtherRelatedName"
+                                 title="Bezeichung eines sonstigen Zentrums"
+                                 styleClass="element100"
+                                 value="#{center.otherRelatedText}" 
+                                 required="true" 
+                                 readonly="#{editSpecificFunctionAgreement.readOnly}">
+                        <f:ajax rendered=":logout:remaining msgOtherRelatedName"/>
+                    </h:inputText>
+                    <h:message for="txtOtherRelatedName" id="msgOtherRelatedName" styleClass="errorMessage"/>
+                </h:panelGroup>
             </div>
+
+            
+            <inek:LabeledText label="Zuschlagshöhe"
+                              title="Höhe des Zuschlags (in €)" 
+                              value="#{center.extraAmount}" 
+                              required="true"
+                              readonly="#{editSpecificFunctionAgreement.readOnly}"
+                              styleClassLabel="label element12em" 
+                              styleClass="col04em number"                              
+                              singleLine="true"/>
 
         </div>
     </ui:repeat>
 
 
     <h:commandLink styleClass="addButton marginRight" value="#{msg.btnAddEntry}"
-                   rendered="#{editSpecificFunctionAgreement.agreement.willNegotiate and !editSpecificFunctionAgreement.readOnly}">
-        <f:ajax event="click" render="@form :logout:remaining" listener="#{editSpecificFunctionAgreement.addProjectedCenter()}"/>
+                   rendered="#{!editSpecificFunctionAgreement.readOnly}">
+        <f:ajax event="click" render="@form :logout:remaining" listener="#{editSpecificFunctionAgreement.addAgreedCenter()}"/>
     </h:commandLink>
 
 </ui:composition>

@@ -33,7 +33,7 @@ import org.jboss.weld.exceptions.WeldException;
  */
 public class PortalExceptionHandler extends ExceptionHandlerWrapper {
 
-    static final Logger _logger = Logger.getLogger(PortalExceptionHandler.class.getName());
+    static final Logger LOGGER = Logger.getLogger(PortalExceptionHandler.class.getName());
     private final ExceptionHandler _wrapped;
     @Inject private Mailer _mailer;
     @Inject private SessionController _sessionController;
@@ -65,7 +65,7 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
             ExceptionQueuedEventContext context = (ExceptionQueuedEventContext) event.getSource();
             Throwable exception = context.getException();
             if (exception instanceof ViewExpiredException) {
-                _logger.log(Level.SEVERE, "[View expired]", exception.getMessage());
+                LOGGER.log(Level.SEVERE, "[View expired]", exception.getMessage());
                 ViewExpiredException viewExpiredExeption = (ViewExpiredException) exception;
                 Map<String, Object> requestMap = fc.getExternalContext().getRequestMap();
                 if (!viewExpiredExeption.getViewId().contains("Login.xhtml")) {
@@ -73,7 +73,7 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
                     requestMap.put("currentViewId", viewExpiredExeption.getViewId());
                 }
             } else if (exception instanceof NotLoggedInException) {
-                _logger.log(Level.SEVERE, "[Not logged in]", exception.getMessage());
+                LOGGER.log(Level.SEVERE, "[Not logged in]", exception.getMessage());
                 if (targetPage.isEmpty()) {
                     targetPage = Pages.SessionTimeout.RedirectURL();
                 }
@@ -81,21 +81,21 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
                     || exception.getClass().toString().equals("class org.jboss.weld.exceptions.WeldException") // check for exception's name as workarround
                     || exception instanceof FacesException && exception.getMessage() != null && exception.getMessage().contains("WELD-000049:")) {
                 String head = "[PortalExceptionHandler NonexistentConversationException] ";
-                _logger.log(Level.SEVERE, head, exception);
+                LOGGER.log(Level.SEVERE, head, exception);
                 // we don't like to get this reported: collectException(messageCollector, head, exception);
                 if (targetPage.isEmpty()) {
                     targetPage = Pages.InvalidConversation.RedirectURL();
                 }
             } else if (exception instanceof ELException && !exception.getMessage().toLowerCase().contains("not logged in")) {
                 String head = "[PortalExceptionHandler ELException] ";
-                _logger.log(Level.SEVERE, head, exception);
+                LOGGER.log(Level.SEVERE, head, exception);
                 collectException(messageCollector, head, exception);
                 if (targetPage.isEmpty()) {
                     targetPage = Pages.Error.RedirectURL();
                 }
             } else if (exception instanceof FacesException) {
                 String head = "[PortalExceptionHandler FacesException] ";
-                _logger.log(Level.SEVERE, head, exception);
+                LOGGER.log(Level.SEVERE, head, exception);
                 collectException(messageCollector, head, exception);
                 if (targetPage.isEmpty()) {
                     if (exception.getMessage().contains("javax.ejb.EJBException")) {
@@ -108,7 +108,7 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
                 String msg = exception.getMessage();
                 if (msg == null || !msg.contains("Conversation lock timed out") && !msg.equals("getOutputStream() has already been called for this response")) {  // getOutput... happens on IE, but does not affect the user
                     String head = "[PortalExceptionHandler OtherException] ";
-                    _logger.log(Level.SEVERE, head, exception);
+                    LOGGER.log(Level.SEVERE, head, exception);
                     collectException(messageCollector, head, exception);
                 }
             }
@@ -180,7 +180,7 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
             }
         }
         if (_mailer == null) {
-            _logger.log(Level.SEVERE, "##### Mailer not injected #####");
+            LOGGER.log(Level.SEVERE, "##### Mailer not injected #####");
             return;
         }
         String name = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()).getServerName();

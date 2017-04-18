@@ -18,7 +18,7 @@ import javax.servlet.http.Part;
  */
 public class HttpUtil {
 
-    private static final Logger _logger = Logger.getLogger("HttpUtil");
+    private static final Logger LOGGER = Logger.getLogger("HttpUtil");
     private final HttpServletRequest _request;
     private final HttpServletResponse _response;
 
@@ -59,7 +59,7 @@ public class HttpUtil {
                 pw.flush();
             }
         } catch (IOException e) {
-            _logger.log(Level.SEVERE, "Could not retrieve a print writer", e);
+            LOGGER.log(Level.SEVERE, "Could not retrieve a print writer", e);
         }
     }
 

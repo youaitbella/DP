@@ -34,7 +34,7 @@ import org.inek.dataportal.facades.admin.ConfigFacade;
  */
 public class TransferFileCreator {
 
-    protected static final Logger _logger = Logger.getLogger("TransferFileCreator");
+    protected static final Logger LOGGER = Logger.getLogger("TransferFileCreator");
 
     public static void createCalcBasicsTransferFile(SessionController sessionController, Object calcBasics) {
         String type;
@@ -133,7 +133,7 @@ public class TransferFileCreator {
         } catch (IOException ex) {
             // any problem whilst creating the transfer file shall not hamper the user
             // we just log for further investigation and ignore the execption
-            _logger.log(Level.WARNING, ex.getMessage());
+            LOGGER.log(Level.WARNING, ex.getMessage());
         }
 
     }

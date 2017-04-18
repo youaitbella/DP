@@ -16,7 +16,7 @@ import org.inek.dataportal.utils.StreamUtils;
 
 public abstract class AbstractUploadServlet extends HttpServlet {
 
-    private static final Logger _logger = Logger.getLogger("UploadServlet");
+    private static final Logger LOGGER = Logger.getLogger("UploadServlet");
     private static final long serialVersionUID = 1L;
 
     @Override
@@ -24,7 +24,7 @@ public abstract class AbstractUploadServlet extends HttpServlet {
         try {
             response.sendRedirect("/DataPortal");
         } catch (IOException ex) {
-            _logger.log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         }
     }
     @Override
@@ -39,7 +39,7 @@ public abstract class AbstractUploadServlet extends HttpServlet {
             httpUtil.getResponse().setStatus(HttpServletResponse.SC_OK);
             httpUtil.writeStatus("{\"success\": true}");
         } catch (IOException | ServletException | IllegalArgumentException e) {
-            _logger.log(Level.WARNING, "FileUploadServlet got Exception: {0}{1}", new Object[]{e.getMessage(), e.getStackTrace()[0].toString()});
+            LOGGER.log(Level.WARNING, "FileUploadServlet got Exception: {0}{1}", new Object[]{e.getMessage(), e.getStackTrace()[0].toString()});
             httpUtil.getResponse().setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             httpUtil.writeStatus("{\"success\": false, \"message\": \"" + e.getMessage() + "\"}");
         }

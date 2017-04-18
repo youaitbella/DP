@@ -35,7 +35,7 @@ import org.inek.portallib.util.Helper;
  */
 public class DocumentImportInfo {
 
-    private static final Logger _logger = Logger.getLogger("DocumentLoader");
+    private static final Logger LOGGER = Logger.getLogger("DocumentLoader");
 
     List<String> _infoFile = new ArrayList<>();
     private final Set<Account> _accounts = new HashSet<>();
@@ -83,7 +83,7 @@ public class DocumentImportInfo {
                 }
             }
         } catch (Exception ex) {
-            _logger.log(Level.SEVERE, "Couldn't extract import document. (" + file.getName() + "). " + ex.getMessage());
+            LOGGER.log(Level.SEVERE, "Couldn't extract import document. (" + file.getName() + "). " + ex.getMessage());
             throw ex;
         }
     }
@@ -109,20 +109,20 @@ public class DocumentImportInfo {
                     try {
                         _ik = Integer.parseInt(value);
                     } catch (NumberFormatException ex) {
-                        _logger.log(Level.WARNING, "Parse IK, not a number {0}", value);
+                        LOGGER.log(Level.WARNING, "Parse IK, not a number {0}", value);
                     }
                     break;
                 case "account.id":
                     try {
                         _accounts.add(accountFacade.find(Integer.parseInt(value)));
                     } catch (Exception ex) {
-                        _logger.log(Level.WARNING, "Unknown account id");
+                        LOGGER.log(Level.WARNING, "Unknown account id");
                     }
                     break;
                 case "account.mail":
                     Account account = accountFacade.findByMail(value);
                     if (account == null) {
-                        _logger.log(Level.WARNING, "Unknown account mail {0}", value);
+                        LOGGER.log(Level.WARNING, "Unknown account mail {0}", value);
                     } else {
                         _accounts.add(account);
                     }
@@ -137,14 +137,14 @@ public class DocumentImportInfo {
                     try {
                         _approvalAccount = accountFacade.find(Integer.parseInt(value));
                     } catch (Exception ex) {
-                        _logger.log(Level.WARNING, "Unknown account id");
+                        LOGGER.log(Level.WARNING, "Unknown account id");
                         getDefaultApprovalAccount(accountFacade);
                     }
                     break;
                 case "approval.mail":
                     Account approvalAccount = accountFacade.findByMail(value);
                     if (approvalAccount == null) {
-                        _logger.log(Level.WARNING, "Unknown account mail {0}", value);
+                        LOGGER.log(Level.WARNING, "Unknown account mail {0}", value);
                         getDefaultApprovalAccount(accountFacade);
                     } else {
                         _approvalAccount = approvalAccount;
@@ -154,21 +154,21 @@ public class DocumentImportInfo {
                     try {
                         _uploadAccount = accountFacade.find(Integer.parseInt(value));
                     } catch (Exception ex) {
-                        _logger.log(Level.WARNING, "Unknown account id");
+                        LOGGER.log(Level.WARNING, "Unknown account id");
                     }
                     break;
                 case "upload.mail":
                     try {
                         _uploadAccount = accountFacade.findByMail(value);
                     } catch (Exception ex) {
-                        _logger.log(Level.WARNING, "Unknown account mail");
+                        LOGGER.log(Level.WARNING, "Unknown account mail");
                     }
                     break;
                 case "mail.sender":
                     if (value.matches("(\\w[a-zA-Z_0-9+-.]*\\w|\\w+)@(\\w(\\w|-|\\.)*\\w|\\w+)\\.[a-zA-Z]+")) {
                         _sender = value;
                     } else {
-                        _logger.log(Level.WARNING, "Wrong format sender");
+                        LOGGER.log(Level.WARNING, "Wrong format sender");
                     }
                     break;
                 case "mail.bcc":

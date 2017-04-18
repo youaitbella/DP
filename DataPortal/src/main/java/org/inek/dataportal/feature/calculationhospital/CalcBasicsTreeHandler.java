@@ -28,7 +28,7 @@ import org.inek.portallib.tree.TreeNodeObserver;
 @Named @SessionScoped
 public class CalcBasicsTreeHandler implements Serializable, TreeNodeObserver {
 
-    private static final Logger _logger = Logger.getLogger("CalcBasicsTreeHandler");
+    private static final Logger LOGGER = Logger.getLogger("CalcBasicsTreeHandler");
     private static final long serialVersionUID = 1L;
 
     @Inject private CalcFacade _calcFacade;

@@ -7,6 +7,7 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -34,6 +35,7 @@ import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.calc.DrgCalcBasics;
 import org.inek.dataportal.entities.calc.DrgContentText;
 import org.inek.dataportal.entities.calc.DrgNeonatData;
+import org.inek.dataportal.entities.calc.KGLListCostCenter;
 import org.inek.dataportal.entities.calc.KGPListContentText;
 import org.inek.dataportal.entities.calc.KGPListCostCenter;
 import org.inek.dataportal.entities.calc.KGPListDelimitationFact;
@@ -629,6 +631,15 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
 
     public void deleteCostCenter(KGPListCostCenter item) {
         _calcBasics.getCostCenters().remove(item);
+    }
+
+    public void deleteCostCenters(int costCenterId) {
+        for (Iterator<KGPListCostCenter> itr = _calcBasics.getCostCenters().iterator(); itr.hasNext();) {
+            KGPListCostCenter center = itr.next();
+            if (center.getCostCenterId() == costCenterId) {
+                itr.remove();
+            }
+        }
     }
 
     private Part _file;

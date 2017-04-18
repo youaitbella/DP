@@ -30,7 +30,7 @@ import org.inek.dataportal.utils.DateUtils;
 @Stateless
 public class FeatureRequestHandler {
 
-    private static final Logger _logger = Logger.getLogger("FeatureRequestHandler");
+    private static final Logger LOGGER = Logger.getLogger("FeatureRequestHandler");
     @Inject private AccountFeatureRequestFacade _facade;
     @Inject private ContactRoleFacade _roleFacade;
     @Inject private CustomerFacade _customerFacade;

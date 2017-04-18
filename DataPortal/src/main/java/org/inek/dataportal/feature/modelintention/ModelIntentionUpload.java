@@ -22,7 +22,7 @@ public class ModelIntentionUpload {
 
     private EditModelIntention _modelIntention;
     @Inject private ValueLists _valueLists;
-    private static final Logger _logger = Logger.getLogger("ModelIntentionUpload");
+    private static final Logger LOGGER = Logger.getLogger("ModelIntentionUpload");
     private Part _file;
 
     public Part getFile() {

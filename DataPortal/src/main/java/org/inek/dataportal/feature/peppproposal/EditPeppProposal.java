@@ -55,7 +55,7 @@ import org.inek.dataportal.utils.DocumentationUtil;
 @FeatureScoped
 public class EditPeppProposal extends AbstractEditController {
 
-    private static final Logger _logger = Logger.getLogger("EditPeppProposal");
+    private static final Logger LOGGER = Logger.getLogger("EditPeppProposal");
     @Inject CooperationTools _cooperationTools;
 
     // <editor-fold defaultstate="collapsed" desc="fields">
@@ -120,7 +120,7 @@ public class EditPeppProposal extends AbstractEditController {
 
     @PreDestroy
     private void destroy() {
-        //_logger.log(Level.WARNING, "Destroy EditPeppProposal");
+        //LOGGER.log(Level.WARNING, "Destroy EditPeppProposal");
     }
 
     private PeppProposal loadPeppProposal(Object ppId) {
@@ -135,7 +135,7 @@ public class EditPeppProposal extends AbstractEditController {
                 return peppProposal;
             }
         } catch (NumberFormatException ex) {
-            _logger.info(ex.getMessage());
+            LOGGER.info(ex.getMessage());
         }
         return newPeppProposal();
     }
@@ -450,7 +450,7 @@ public class EditPeppProposal extends AbstractEditController {
             try {
                 new StreamHelper().copyStream(is, externalContext.getResponseOutputStream());
             } catch (IOException ex) {
-                _logger.log(Level.SEVERE, null, ex);
+                LOGGER.log(Level.SEVERE, null, ex);
                 return Pages.Error.URL();
             }
             facesContext.responseComplete();

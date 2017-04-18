@@ -47,7 +47,7 @@ import org.inek.dataportal.services.MessageService;
 @FeatureScoped
 public class EditCooperation extends AbstractEditController {
 
-    private static final Logger _logger = Logger.getLogger("EditCooperation");
+    private static final Logger LOGGER = Logger.getLogger("EditCooperation");
 
     @Inject private SessionController _sessionController;
     @Inject CooperationRequestFacade _cooperationRequestFacade;
@@ -131,7 +131,7 @@ public class EditCooperation extends AbstractEditController {
     // </editor-fold>
     @PostConstruct
     private void init() {
-        //_logger.log(Level.WARNING, "Init EditCooperation");
+        //LOGGER.log(Level.WARNING, "Init EditCooperation");
         Object partnerId = Utils.getFlash().get("partnerId");
         setPartnerAccount(loadAccount(partnerId));
 
@@ -143,7 +143,7 @@ public class EditCooperation extends AbstractEditController {
 
     @PreDestroy
     private void destroy() {
-        //_logger.log(Level.WARNING, "Destroy EditCooperation");
+        //LOGGER.log(Level.WARNING, "Destroy EditCooperation");
     }
 
     private Account loadAccount(Object partnerId) {
@@ -151,7 +151,7 @@ public class EditCooperation extends AbstractEditController {
             int id = Integer.parseInt("" + partnerId);
             return _accountFacade.find(id);
         } catch (NumberFormatException ex) {
-            _logger.info(ex.getMessage());
+            LOGGER.info(ex.getMessage());
         }
         return new Account();
     }
@@ -168,7 +168,7 @@ public class EditCooperation extends AbstractEditController {
     private void setTopicVisibility(String topicName, List<Feature> features) {
         Topic topic = findTopic(topicName);
         if (topic == null) {
-            _logger.log(Level.WARNING, "Unknown topic {0}", topicName);
+            LOGGER.log(Level.WARNING, "Unknown topic {0}", topicName);
             return;
         }
         boolean hasSubcribed = features.stream().anyMatch(feature -> userHasSubscribedFeature(feature));

@@ -54,7 +54,7 @@ public class EditUserMaintenance extends AbstractEditController {
         tabUMOther,
         tabUMConfig;
     }
-    private static final Logger _logger = Logger.getLogger("EditUserMaintenance");
+    private static final Logger LOGGER = Logger.getLogger("EditUserMaintenance");
 
     @Inject ApplicationTools _appTools;
     @Inject private SessionTools _sessionTools;

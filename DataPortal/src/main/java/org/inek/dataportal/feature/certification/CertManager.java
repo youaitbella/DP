@@ -43,7 +43,7 @@ import org.inek.dataportal.utils.DateUtils;
 @FeatureScoped(name = "Certification")
 public class CertManager implements Serializable{
 
-    private static final Logger _logger = Logger.getLogger("CertManager");
+    private static final Logger LOGGER = Logger.getLogger("CertManager");
 
     @Inject private SessionController _sessionController;
     @Inject private SystemFacade _systemFacade;

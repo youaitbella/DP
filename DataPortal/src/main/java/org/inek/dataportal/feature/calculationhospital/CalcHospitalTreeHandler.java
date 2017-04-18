@@ -43,7 +43,7 @@ import org.inek.dataportal.utils.KeyValueLevel;
 @Named @SessionScoped
 public class CalcHospitalTreeHandler implements Serializable, TreeNodeObserver {
 
-    private static final Logger _logger = Logger.getLogger("CalcHospitalTreeHandler");
+    private static final Logger LOGGER = Logger.getLogger("CalcHospitalTreeHandler");
     private static final long serialVersionUID = 1L;
 
     @Inject private CalcFacade _calcFacade;

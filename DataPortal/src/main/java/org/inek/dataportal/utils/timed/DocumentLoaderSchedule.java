@@ -17,7 +17,7 @@ import javax.inject.Inject;
 @Stateless
 public class DocumentLoaderSchedule {
 
-    private static final Logger _logger = Logger.getLogger("DocumentLoaderSchedule");
+    private static final Logger LOGGER = Logger.getLogger("DocumentLoaderSchedule");
 
     @Inject
     private DocumentLoader _docLoader;

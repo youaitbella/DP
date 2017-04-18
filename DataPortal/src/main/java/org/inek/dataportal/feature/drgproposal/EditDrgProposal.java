@@ -54,7 +54,7 @@ import org.inek.dataportal.utils.DocumentationUtil;
 public class EditDrgProposal extends AbstractEditController {
 
     // <editor-fold defaultstate="collapsed" desc="fields">
-    private static final Logger _logger = Logger.getLogger("EditDrgProposal");
+    private static final Logger LOGGER = Logger.getLogger("EditDrgProposal");
 
     @Inject private CooperationTools _cooperationTools;
     @Inject private SessionController _sessionController;
@@ -117,7 +117,7 @@ public class EditDrgProposal extends AbstractEditController {
 
     @PreDestroy
     private void destroy() {
-        //_logger.log(Level.WARNING, "Destroy EditPeppProposal");
+        //LOGGER.log(Level.WARNING, "Destroy EditPeppProposal");
     }
 
     private DrgProposal loadDrgProposal(Object drgId) {
@@ -132,7 +132,7 @@ public class EditDrgProposal extends AbstractEditController {
                 return drgProposal;
             }
         } catch (NumberFormatException ex) {
-            _logger.info(ex.getMessage());
+            LOGGER.info(ex.getMessage());
         }
         return newDrgProposal();
     }
@@ -537,7 +537,7 @@ public class EditDrgProposal extends AbstractEditController {
                 new StreamHelper().copyStream(is, externalContext.getResponseOutputStream());
 
             } catch (IOException ex) {
-                _logger.log(Level.SEVERE, null, ex);
+                LOGGER.log(Level.SEVERE, null, ex);
                 return Pages.Error.URL();
             }
             facesContext.responseComplete();

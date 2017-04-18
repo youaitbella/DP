@@ -46,7 +46,7 @@ import org.inek.dataportal.utils.KeyValueLevel;
 @Named @SessionScoped
 public class PeppProposalTreeHandler implements Serializable, TreeNodeObserver {
 
-    private static final Logger _logger = Logger.getLogger("PeppProposalTreeHandler");
+    private static final Logger LOGGER = Logger.getLogger("PeppProposalTreeHandler");
     private static final long serialVersionUID = 1L;
 
     @Inject private CooperationRightFacade _cooperationRightFacade;

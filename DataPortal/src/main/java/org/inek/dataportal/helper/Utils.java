@@ -45,7 +45,7 @@ import org.inek.portallib.util.Helper;
  */
 public class Utils {
 
-    private static final Logger _logger = Logger.getLogger(Utils.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(Utils.class.getName());
 
     public static String getMessageForScript(String key) {
         return getMessage(key).replace("\r\n", "\n").replace("\n", "\\r\\n");
@@ -131,7 +131,7 @@ public class Utils {
     }
 
     public static void logMessageAndLogoff(String msg) {
-        _logger.severe(msg);
+        LOGGER.severe(msg);
         FacesContext facesContext = FacesContext.getCurrentInstance();
         facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, Pages.Login.URL());
 
@@ -261,7 +261,7 @@ public class Utils {
         try {
             new StreamHelper().copyStream(is, externalContext.getResponseOutputStream());
         } catch (IOException ex) {
-            _logger.log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
             return Pages.Error.URL();
         }
         facesContext.responseComplete();
@@ -286,7 +286,7 @@ public class Utils {
             response.flushBuffer();
             facesContext.responseComplete();
         } catch (IOException ex) {
-            _logger.log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
             NavigationHandler nav = facesContext.getApplication().getNavigationHandler();
             nav.handleNavigation(facesContext, null, Pages.Error.RedirectURL());
         }
@@ -296,7 +296,7 @@ public class Utils {
         try {
             return URLEncoder.encode(url, "UTF-8");
         } catch (UnsupportedEncodingException ex) {
-            _logger.log(Level.WARNING, ex.getMessage());
+            LOGGER.log(Level.WARNING, ex.getMessage());
             return url;
         }
     }
@@ -305,7 +305,7 @@ public class Utils {
         try {
             return URLDecoder.decode(url, "UTF-8");
         } catch (UnsupportedEncodingException ex) {
-            _logger.log(Level.WARNING, ex.getMessage());
+            LOGGER.log(Level.WARNING, ex.getMessage());
             return url;
         }
     }
@@ -314,7 +314,7 @@ public class Utils {
         try {
             Thread.sleep(millis);
         } catch (InterruptedException ex) {
-            _logger.log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         }
     }
 

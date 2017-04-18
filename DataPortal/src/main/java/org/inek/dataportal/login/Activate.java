@@ -27,7 +27,7 @@ public class Activate implements Serializable {
     @Inject private SessionController _sessionController;
     @Inject private AccountFacade _accountFacade;
 
-    protected static final Logger _logger = Logger.getLogger("Activate");
+    protected static final Logger LOGGER = Logger.getLogger("Activate");
 
     private String _emailOrUser;
     private String _password;
@@ -76,14 +76,14 @@ public class Activate implements Serializable {
     // </editor-fold>
     public String activateAndLogin() {
         if (!_accountFacade.activateAccount(_emailOrUser, _password, _key)) {
-            _logger.log(Level.WARNING, "Activation failed: {0}", _emailOrUser);
+            LOGGER.log(Level.WARNING, "Activation failed: {0}", _emailOrUser);
             return null;
         }
         if (!_sessionController.loginAndSetTopics(_emailOrUser, _password)) {
-            _logger.log(Level.WARNING, "Login and set topics failed: {0}", _emailOrUser);
+            LOGGER.log(Level.WARNING, "Login and set topics failed: {0}", _emailOrUser);
             return null;
         }
-        _logger.log(Level.INFO, "Activation successful: {0}", _emailOrUser);
+        LOGGER.log(Level.INFO, "Activation successful: {0}", _emailOrUser);
         if (_sessionController.countInstalledFeatures() <= 1) {
             _sessionController.setCurrentTopicByUrl(Pages.UserMaintenanceMasterData.URL());
             return Pages.UserMaintenanceFeatures.URL();

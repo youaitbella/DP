@@ -88,7 +88,7 @@ public class DropBoxController extends AbstractFeatureController {
      */
     public List<DropBoxItem> getUploadedFiles(DropBox dropBox) {
         if (dropBox == null) {
-            _logger.log(Level.WARNING, "MissingDropBox");
+            LOGGER.log(Level.WARNING, "MissingDropBox");
             return new ArrayList<>();
         }
         if (!dropBox.isComplete()) {

@@ -46,7 +46,7 @@ import org.inek.dataportal.helper.Utils;
 @Startup
 public class Mailer {
 
-    protected static final Logger _logger = Logger.getLogger("Mailer");
+    protected static final Logger LOGGER = Logger.getLogger("Mailer");
 
     @Inject
     MailTemplateFacade _mailTemplateFacade;
@@ -109,8 +109,8 @@ public class Mailer {
             Transport.send(message);
             return true;
         } catch (Exception ex) { // catch all, not only MessagingException
-            _logger.log(Level.SEVERE, "Mailer failed");
-            _logger.log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, "Mailer failed");
+            LOGGER.log(Level.SEVERE, null, ex);
         }
         return false;
     }
@@ -196,7 +196,7 @@ public class Mailer {
     }
 
     public boolean sendPasswordActivationMail(PasswordRequest pwdRequest, Account account) {
-        _logger.log(Level.INFO, "Password request for {0}", account.getId());
+        LOGGER.log(Level.INFO, "Password request for {0}", account.getId());
         MailTemplate template = getMailTemplate("PasswordActivationMail");
         if (template == null) {
             return false;
@@ -236,7 +236,7 @@ public class Mailer {
     }
 
     public void sendException(Level level, String head, Exception exception) {
-        _logger.log(level, head, exception);
+        LOGGER.log(level, head, exception);
 
         StringBuilder msg = new StringBuilder();
         msg.append(head).append("\r\n\r\n");

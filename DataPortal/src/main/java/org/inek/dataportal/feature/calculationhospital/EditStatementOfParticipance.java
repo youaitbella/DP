@@ -55,7 +55,7 @@ import org.inek.dataportal.utils.DocumentationUtil;
 public class EditStatementOfParticipance extends AbstractEditController {
 
     // <editor-fold defaultstate="collapsed" desc="fields & enums">
-    private static final Logger _logger = Logger.getLogger("EditStatementOfParticipance");
+    private static final Logger LOGGER = Logger.getLogger("EditStatementOfParticipance");
 
     @Inject private CooperationTools _cooperationTools;
     @Inject private SessionController _sessionController;
@@ -111,7 +111,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
                 return statement;
             }
         } catch (NumberFormatException ex) {
-            _logger.info(ex.getMessage());
+            LOGGER.info(ex.getMessage());
         }
         return newStatementOfParticipance();
     }

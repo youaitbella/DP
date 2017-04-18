@@ -35,7 +35,7 @@ import org.inek.dataportal.helper.scope.FeatureScoped;
 @FeatureScoped(name = "Certification")
 public class EditCert extends AbstractEditController {
 
-    private static final Logger _logger = Logger.getLogger("EditCert");
+    private static final Logger LOGGER = Logger.getLogger("EditCert");
 
     @Inject ApplicationTools _appTools;
     @Inject private SessionController _sessionController;
@@ -43,12 +43,12 @@ public class EditCert extends AbstractEditController {
 
 //    @PostConstruct
 //    private void init() {
-//        _logger.log(Level.WARNING, "Init EditCert");
+//        LOGGER.log(Level.WARNING, "Init EditCert");
 //    }
 //
 //    @PreDestroy
 //    private void destroy() {
-//        _logger.log(Level.WARNING, "Destroy EditCert");
+//        LOGGER.log(Level.WARNING, "Destroy EditCert");
 //    }
     @Override
     protected void addTopics() {
@@ -116,7 +116,7 @@ public class EditCert extends AbstractEditController {
         }
         RemunerationSystem system = _systemFacade.find(systemId);
         if (system == null) {
-            _logger.log(Level.WARNING, "Certification, missing system with id {0}", systemId);
+            LOGGER.log(Level.WARNING, "Certification, missing system with id {0}", systemId);
         }
         return system;
     }
@@ -134,7 +134,7 @@ public class EditCert extends AbstractEditController {
         try {
             folder.mkdirs();
         } catch (Exception ex) {
-            _logger.log(Level.WARNING, "upload, error during creating folder {0}", folder.getAbsolutePath());
+            LOGGER.log(Level.WARNING, "upload, error during creating folder {0}", folder.getAbsolutePath());
             return Optional.empty();
         }
         return Optional.of(folder);
@@ -161,12 +161,12 @@ public class EditCert extends AbstractEditController {
         if (uploadFile == null) {
             return;
         }
-        _logger.log(Level.INFO, "uploading file {0}", uploadFile.getSubmittedFileName());
+        LOGGER.log(Level.INFO, "uploading file {0}", uploadFile.getSubmittedFileName());
         try (InputStream inStream = uploadFile.getInputStream();
                 BufferedOutputStream dest = new BufferedOutputStream(new FileOutputStream(target), BufLen)) {
             new StreamHelper().copyStream(inStream, dest);
         } catch (IOException e) {
-            _logger.log(Level.WARNING, "upload exception: {0}", e.getMessage());
+            LOGGER.log(Level.WARNING, "upload exception: {0}", e.getMessage());
         }
     }
 
@@ -174,7 +174,7 @@ public class EditCert extends AbstractEditController {
         if (uploadFile == null) {
             return;
         }
-        _logger.log(Level.INFO, "uploading file {0}", uploadFile.getSubmittedFileName());
+        LOGGER.log(Level.INFO, "uploading file {0}", uploadFile.getSubmittedFileName());
         try (InputStream inStream = uploadFile.getInputStream();
                 CheckedInputStream checksum = new CheckedInputStream(inStream, new Adler32());
                 ZipInputStream zis = new ZipInputStream(new BufferedInputStream(checksum))) {
@@ -186,7 +186,7 @@ public class EditCert extends AbstractEditController {
                 }
             }
         } catch (IOException e) {
-            _logger.log(Level.WARNING, "upload exception: {0}", e.getMessage());
+            LOGGER.log(Level.WARNING, "upload exception: {0}", e.getMessage());
         }
     }
 

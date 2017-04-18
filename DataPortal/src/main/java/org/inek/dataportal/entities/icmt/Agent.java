@@ -15,7 +15,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "ccAgent", catalog="CallCenterDB", schema="dbo")
 public class Agent implements Serializable {
-    private static final Logger _logger = Logger.getLogger("Agent");
+    private static final Logger LOGGER = Logger.getLogger("Agent");
     private static final long serialVersionUID = 1L;
         
     // <editor-fold defaultstate="collapsed" desc="Property Id">
@@ -185,7 +185,7 @@ public class Agent implements Serializable {
     @PrePersist
     @PreUpdate
     private void preventUpdate(){
-        _logger.warning("Attempt to write Agent");
+        LOGGER.warning("Attempt to write Agent");
         throw new IllegalStateException("Attempt to write Agent");
     }
 }

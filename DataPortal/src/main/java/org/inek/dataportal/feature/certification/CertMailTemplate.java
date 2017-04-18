@@ -22,7 +22,7 @@ import org.inek.dataportal.helper.scope.FeatureScoped;
 @FeatureScoped(name = "Certification")
 public class CertMailTemplate implements Serializable {
     
-    private static final Logger _logger = Logger.getLogger("CertMail");
+    private static final Logger LOGGER = Logger.getLogger("CertMail");
     
     @Inject
     private MailTemplateFacade _mailTemplateFacade;

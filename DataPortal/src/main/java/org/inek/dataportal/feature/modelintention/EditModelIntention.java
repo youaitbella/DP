@@ -49,7 +49,7 @@ import org.inek.dataportal.utils.DocumentationUtil;
 @FeatureScoped
 public class EditModelIntention extends AbstractEditController {
 
-    private static final Logger _logger = Logger.getLogger("EditModelIntention");
+    private static final Logger LOGGER = Logger.getLogger("EditModelIntention");
 
     @Inject private SessionController _sessionController;
     @Inject private ModelIntentionFacade _modelIntentionFacade;
@@ -127,7 +127,7 @@ public class EditModelIntention extends AbstractEditController {
 
     @PreDestroy
     private void destroy() {
-        //_logger.log(Level.WARNING, "Destroy EditModelIntation");
+        //LOGGER.log(Level.WARNING, "Destroy EditModelIntation");
     }
 
     private ModelIntention loadModelIntention(Object ppId) {
@@ -136,7 +136,7 @@ public class EditModelIntention extends AbstractEditController {
             ModelIntention modelIntention = _modelIntentionFacade.find(id);
             return modelIntention;
         } catch (NumberFormatException ex) {
-            _logger.info(ex.getMessage());
+            LOGGER.info(ex.getMessage());
         }
         return newModelIntention();
     }
@@ -176,9 +176,9 @@ public class EditModelIntention extends AbstractEditController {
         removeObsolteTexts();
         Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
         Set<ConstraintViolation<ModelIntention>> violations = validator.validate(_modelIntention);
-        //violations.forEach(v -> _logger.log(Level.WARNING, v.getMessage()));
+        //violations.forEach(v -> LOGGER.log(Level.WARNING, v.getMessage()));
         for (ConstraintViolation<ModelIntention> v : violations) {
-            _logger.log(Level.WARNING, v.getMessage());
+            LOGGER.log(Level.WARNING, v.getMessage());
         }
         _modelIntention = _modelIntentionFacade.saveModelIntention(_modelIntention);
         resetDynamicTables();

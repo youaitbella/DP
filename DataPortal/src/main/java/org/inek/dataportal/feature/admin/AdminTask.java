@@ -37,7 +37,7 @@ public class AdminTask extends AbstractEditController {
     private static final Logger LOGGER = Logger.getLogger("AdminTask");
 
     public AdminTask() {
-        //_logger.log(Level.INFO, "Ctor AdminTask");
+        //LOGGER.log(Level.INFO, "Ctor AdminTask");
     }
 
     @Inject private SessionController _sessionController;

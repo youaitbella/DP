@@ -15,7 +15,7 @@ import org.inek.dataportal.helper.Topics;
  * @author muellermi
  */
 public abstract class AbstractFeatureController implements IFeatureController, Serializable {
-    protected static final Logger _logger = Logger.getLogger("FeatureController");
+    protected static final Logger LOGGER = Logger.getLogger("FeatureController");
     private static final long serialVersionUID = 1L;
 
     private boolean _isActive;

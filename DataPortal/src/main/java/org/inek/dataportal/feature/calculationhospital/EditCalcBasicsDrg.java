@@ -1348,6 +1348,15 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         _calcBasics.getCostCenters().remove(item);
     }
 
+    public void deleteCostCenters(int costCenterId) {
+        for (Iterator<KGLListCostCenter> itr = _calcBasics.getCostCenters().iterator(); itr.hasNext();) {
+            KGLListCostCenter center = itr.next();
+            if (center.getCostCenterId() == costCenterId) {
+                itr.remove();
+            }
+        }
+    }
+
     private Part _file;
 
     public Part getFile() {

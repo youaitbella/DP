@@ -17,7 +17,7 @@ import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
 @WebListener
 public class SessionCounter implements HttpSessionListener {
 
-    private static final Logger _logger = Logger.getLogger("SessionCounter");
+    private static final Logger LOGGER = Logger.getLogger("SessionCounter");
     private static final AtomicInteger _count = new AtomicInteger(0);
 
     public static int getCount() {
@@ -26,7 +26,7 @@ public class SessionCounter implements HttpSessionListener {
 
     @Override
     public void sessionCreated(HttpSessionEvent event) {
-        _logger.log(Level.INFO, "Session created");
+        LOGGER.log(Level.INFO, "Session created");
         _count.incrementAndGet();
     }
 
@@ -36,7 +36,7 @@ public class SessionCounter implements HttpSessionListener {
         @SuppressWarnings("unchecked") Map<String, FeatureScopedContextHolder.FeatureScopedInstance> map
                 = (Map<String, FeatureScopedContextHolder.FeatureScopedInstance>) session.getAttribute("FeatureScoped");
         FeatureScopedContextHolder.Instance.destroyAllBeansExcept(map, "");
-        _logger.log(Level.INFO, "Session destroyed");
+        LOGGER.log(Level.INFO, "Session destroyed");
         _count.decrementAndGet();
     }
 

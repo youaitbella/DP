@@ -28,7 +28,7 @@ import org.inek.dataportal.mail.Mailer;
 @Startup
 public class NubReminder {
 
-    private static final Logger _logger = Logger.getLogger("NubReminder");
+    private static final Logger LOGGER = Logger.getLogger("NubReminder");
     @Inject private AccountFacade _accountFacade;
     @Inject private NubRequestFacade _nubFacade;
     @Inject Mailer _mailer;
@@ -55,10 +55,10 @@ public class NubReminder {
     @Asynchronous
     public void remindSeal() {
         if (!_config.readBool(ConfigKey.RemindNubSeal) || _config.readBool(ConfigKey.TestMode)) {
-            _logger.log(Level.INFO, "RemindNubSeal is not enabled");
+            LOGGER.log(Level.INFO, "RemindNubSeal is not enabled");
             return;
         }
-        _logger.log(Level.INFO, "Start remindSeal");
+        LOGGER.log(Level.INFO, "Start remindSeal");
         Map<Integer, Integer> accounts = _nubFacade.countOpenPerIk();
         for (int accountId : accounts.keySet()) {
             Account account = _accountFacade.find(accountId);

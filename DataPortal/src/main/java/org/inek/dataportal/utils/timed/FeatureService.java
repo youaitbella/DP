@@ -31,7 +31,7 @@ import org.inek.dataportal.requestmanager.FeatureRequestHandler;
 @Startup
 public class FeatureService {
 
-    private static final Logger _logger = Logger.getLogger("FeatureService");
+    private static final Logger LOGGER = Logger.getLogger("FeatureService");
     @Inject private AccountFacade _accountFacade;
     @Inject private AccountFeatureRequestFacade _requestFacade;
     @Inject private FeatureRequestHandler _handler;
@@ -45,7 +45,7 @@ public class FeatureService {
     @Asynchronous
     public void checkFeatures() {
         
-        _logger.log(Level.INFO, "Start checkFeatures");
+        LOGGER.log(Level.INFO, "Start checkFeatures");
         check4requestedFeatures();
         check4orphantRequests();
     }

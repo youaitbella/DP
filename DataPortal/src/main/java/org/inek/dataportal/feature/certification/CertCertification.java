@@ -45,7 +45,7 @@ import org.inek.portallib.util.Helper;
 @FeatureScoped(name = "Certification")
 public class CertCertification implements Serializable{
 
-    private static final Logger _logger = Logger.getLogger("CertCertification");
+    private static final Logger LOGGER = Logger.getLogger("CertCertification");
 
     @Inject private SessionController _sessionController;
     @Inject private SystemFacade _systemFacade;
@@ -53,12 +53,12 @@ public class CertCertification implements Serializable{
 
     @PostConstruct
     private void init() {
-        // _logger.log(Level.WARNING, "Init CertCertification");
+        // LOGGER.log(Level.WARNING, "Init CertCertification");
     }
 
     @PreDestroy
     private void destroy() {
-        // _logger.log(Level.WARNING, "Destroy CertCertification");
+        // LOGGER.log(Level.WARNING, "Destroy CertCertification");
     }
 
     public List<SelectItem> getSystems4Account() {
@@ -171,7 +171,7 @@ public class CertCertification implements Serializable{
                 new StreamHelper().copyStream(is, externalContext.getResponseOutputStream());
             }
         } catch (IOException ex) {
-            _logger.log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
             return Pages.Error.URL();
         }
         facesContext.responseComplete();
@@ -243,7 +243,7 @@ public class CertCertification implements Serializable{
     private Optional<File> getUploadFolder(EditCert editCert) {
         RemunerationSystem system = _systemFacade.find(_grouper.getSystemId());
         if (system == null) {
-            _logger.log(Level.WARNING, "upload, missing system with id {0}", _grouper.getSystemId());
+            LOGGER.log(Level.WARNING, "upload, missing system with id {0}", _grouper.getSystemId());
             return Optional.empty();
         }
         Optional<File> uploadFolderBase = editCert.getUploadFolder(system, "Ergebnis");
@@ -264,7 +264,7 @@ public class CertCertification implements Serializable{
             try {
                 marker.createNewFile();
             } catch (IOException ex) {
-                _logger.log(Level.WARNING, "Could not create marker file {0}", marker.getAbsolutePath());
+                LOGGER.log(Level.WARNING, "Could not create marker file {0}", marker.getAbsolutePath());
             }
         }
     }

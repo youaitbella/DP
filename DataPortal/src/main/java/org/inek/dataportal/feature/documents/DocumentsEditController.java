@@ -22,7 +22,7 @@ import org.inek.dataportal.helper.scope.FeatureScoped;
 @FeatureScoped(name = "DocumentUpload")
 public class DocumentsEditController extends AbstractEditController {
 
-    private static final Logger _logger = Logger.getLogger("DocumentsMangager");
+    private static final Logger LOGGER = Logger.getLogger("DocumentsMangager");
 
     @Inject private SessionController _sessionController;
 

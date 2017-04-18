@@ -37,7 +37,7 @@ import org.inek.dataportal.mail.Mailer;
 @FeatureScoped(name = "Certification")
 public class CertGrouperResults implements Serializable{
 
-    private static final Logger _logger = Logger.getLogger("CertGrouperResults");
+    private static final Logger LOGGER = Logger.getLogger("CertGrouperResults");
     private Grouper _grouper;
     private int _runs = 0;
     private String _selectedTemplate = "";

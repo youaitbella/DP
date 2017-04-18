@@ -31,7 +31,7 @@ import org.inek.dataportal.helper.Utils;
 @MultipartConfig(fileSizeThreshold = 10 * 1024 * 1024)
 public class ToolUploadServlet extends HttpServlet {
 
-    private static final Logger _logger = Logger.getLogger("ToolUploadServlet");
+    private static final Logger LOGGER = Logger.getLogger("ToolUploadServlet");
     private static final long serialVersionUID = 1L;
     @Inject ApplicationTools _appTools;
     @Inject private SessionController _sessionController;
@@ -43,7 +43,7 @@ public class ToolUploadServlet extends HttpServlet {
         try {
             response.sendRedirect("/DataPortal");
         } catch (IOException ex) {
-            _logger.log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         }
     }
     

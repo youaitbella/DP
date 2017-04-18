@@ -14,14 +14,14 @@ import org.eclipse.persistence.jpa.JpaQuery;
 
 public abstract class AbstractDataAccess {
 
-    protected static final Logger _logger = Logger.getLogger("DataAccess");
+    protected static final Logger LOGGER = Logger.getLogger("DataAccess");
 
     @PersistenceContext(unitName = "DataPortalPU")
     private EntityManager _em;
 
 
     public static Logger getLogger() {
-        return _logger;
+        return LOGGER;
     }
 
     protected EntityManager getEntityManager() {
@@ -39,8 +39,8 @@ public abstract class AbstractDataAccess {
         } catch (Exception ex) {
             // EJB wont populate any exection up to a caller. It allways forces a rollback.
             // To check for those kind of problems, we log it and re-throw the exception
-            _logger.log(Level.SEVERE, ex.getMessage());
-           //_logger.log(Level.SEVERE, ex.getStackTrace().toString());
+            LOGGER.log(Level.SEVERE, ex.getMessage());
+           //LOGGER.log(Level.SEVERE, ex.getStackTrace().toString());
             throw ex;
         }
     }
@@ -51,7 +51,7 @@ public abstract class AbstractDataAccess {
             _em.flush();
             return mergedEntity;
         } catch (Exception ex) {
-            _logger.log(Level.SEVERE, ex.getMessage());
+            LOGGER.log(Level.SEVERE, ex.getMessage());
             throw ex;
         }
     }

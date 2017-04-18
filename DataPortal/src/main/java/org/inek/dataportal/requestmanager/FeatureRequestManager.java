@@ -29,7 +29,7 @@ import org.inek.dataportal.mail.Mailer;
 @RequestScoped
 public class FeatureRequestManager implements Serializable {
 
-    private static final Logger _logger = Logger.getLogger("FeatureRequestManager");
+    private static final Logger LOGGER = Logger.getLogger("FeatureRequestManager");
     private static final long serialVersionUID = 1L;
     @Inject Mailer _mailer;
     @Inject AccountFacade _accountFacade;

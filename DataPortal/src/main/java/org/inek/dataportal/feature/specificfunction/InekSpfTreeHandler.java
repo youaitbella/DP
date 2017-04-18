@@ -26,7 +26,7 @@ import org.inek.portallib.tree.TreeNodeObserver;
 @Named @SessionScoped
 public class InekSpfTreeHandler implements Serializable, TreeNodeObserver {
 
-    private static final Logger _logger = Logger.getLogger("InekSpfTreeHandler");
+    private static final Logger LOGGER = Logger.getLogger("InekSpfTreeHandler");
     private static final long serialVersionUID = 1L;
 
     @Inject private SpecificFunctionFacade _specificFunctionFacade;

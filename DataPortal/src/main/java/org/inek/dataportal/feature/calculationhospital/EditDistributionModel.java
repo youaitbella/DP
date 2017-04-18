@@ -49,7 +49,7 @@ import org.inek.dataportal.utils.DocumentationUtil;
 public class EditDistributionModel extends AbstractEditController implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="fields & enums">
-    private static final Logger _logger = Logger.getLogger("EditDistributionModel");
+    private static final Logger LOGGER = Logger.getLogger("EditDistributionModel");
 
     @Inject private CooperationTools _cooperationTools;
     @Inject private SessionController _sessionController;

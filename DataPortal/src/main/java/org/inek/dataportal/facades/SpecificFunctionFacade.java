@@ -16,6 +16,7 @@ import javax.transaction.Transactional;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.specificfunction.AgreedCenter;
 import org.inek.dataportal.entities.specificfunction.CenterName;
+import org.inek.dataportal.entities.specificfunction.RelatedName;
 import org.inek.dataportal.entities.specificfunction.RequestAgreedCenter;
 import org.inek.dataportal.entities.specificfunction.RequestProjectedCenter;
 import org.inek.dataportal.entities.specificfunction.SpecificFunction;
@@ -206,6 +207,14 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
     //<editor-fold defaultstate="collapsed" desc="Common">
     public List<CenterName> getCenterNames() {
         return findAll(CenterName.class)
+                .stream()
+                .filter(n -> n.getId() > 0)
+                .sorted((n1, n2) -> (n1.getId() == -1 ? "ZZZ" : n1.getName()).compareTo((n2.getId() == -1 ? "ZZZ" : n2.getName())))
+                .collect(Collectors.toList());
+    }
+    
+    public List<RelatedName> getRelatedNames() {
+        return findAll(RelatedName.class)
                 .stream()
                 .filter(n -> n.getId() > 0)
                 .sorted((n1, n2) -> (n1.getId() == -1 ? "ZZZ" : n1.getName()).compareTo((n2.getId() == -1 ? "ZZZ" : n2.getName())))

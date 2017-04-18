@@ -33,7 +33,7 @@ import org.inek.dataportal.mail.Mailer;
 @FeatureScoped
 public class EditDropBox implements Serializable {
 
-    private static final Logger _logger = Logger.getLogger("EditDropBox");
+    private static final Logger LOGGER = Logger.getLogger("EditDropBox");
     @Inject private SessionController _sessionController;
     @Inject private DropBoxFacade _dropBoxFacade;
     private DropBox _dropBox;
@@ -44,7 +44,7 @@ public class EditDropBox implements Serializable {
 
     @PostConstruct
     private void init() {
-        //_logger.log(Level.WARNING, "Init EditDropBox");
+        //LOGGER.log(Level.WARNING, "Init EditDropBox");
         Object dbId = Utils.getFlash().get("dbId");
         _dropBox = loadDropBox(dbId);
 
@@ -52,7 +52,7 @@ public class EditDropBox implements Serializable {
 
     @PreDestroy
     private void destroy() {
-        //_logger.log(Level.WARNING, "Destroy EditDropBox");
+        //LOGGER.log(Level.WARNING, "Destroy EditDropBox");
     }
 
     private DropBox loadDropBox(Object dbId) {
@@ -64,9 +64,9 @@ public class EditDropBox implements Serializable {
                 dropBoxController.setCurrentDropBox(dropBox);
                 return dropBox;
             }
-            _logger.log(Level.WARNING, "No DropBox found for id {0}", dbId);
+            LOGGER.log(Level.WARNING, "No DropBox found for id {0}", dbId);
         } catch (NumberFormatException ex) {
-            _logger.log(Level.WARNING, ex.getMessage());
+            LOGGER.log(Level.WARNING, ex.getMessage());
         }
         dropBoxController.setCurrentDropBox(null);
         return null;
@@ -116,7 +116,7 @@ public class EditDropBox implements Serializable {
             }
             return Pages.DropBoxUpload.URL();
         } catch (ProcessingException e) {
-            _logger.log(Level.SEVERE, null, e);
+            LOGGER.log(Level.SEVERE, null, e);
             return Pages.Error.URL();
         }
     }

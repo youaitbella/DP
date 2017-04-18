@@ -55,7 +55,7 @@ import org.inek.dataportal.utils.KeyValueLevel;
 @Named @SessionScoped
 public class NubSessionTools implements Serializable, TreeNodeObserver {
 
-    private static final Logger _logger = Logger.getLogger("NubSessionTools");
+    private static final Logger LOGGER = Logger.getLogger("NubSessionTools");
     private static final long serialVersionUID = 1L;
 
     @Inject private CooperationRightFacade _cooperationRightFacade;
@@ -266,7 +266,7 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         for (ProposalInfo info : infos) {
             if (info == null){
                 // paranoid check: this should not happen
-                _logger.log(Level.WARNING, "info is null");
+                LOGGER.log(Level.WARNING, "info is null");
             }
             ProposalInfoTreeNode node = ProposalInfoTreeNode.create(accountTreeNode, info, this);
             if (checked.contains(node.getId())) {
@@ -448,7 +448,7 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
                 return true;
             }
         } catch (Exception ex) {
-            _logger.log(Level.WARNING, ex.getMessage());
+            LOGGER.log(Level.WARNING, ex.getMessage());
         }
 
         return false;

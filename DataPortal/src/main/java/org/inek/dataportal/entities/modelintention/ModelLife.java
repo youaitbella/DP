@@ -27,7 +27,7 @@ import org.inek.dataportal.utils.Documentation;
 public class ModelLife implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private static final Logger _logger = Logger.getLogger("ModelLife");
+    private static final Logger LOGGER = Logger.getLogger("ModelLife");
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

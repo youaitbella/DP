@@ -21,7 +21,7 @@ import org.inek.dataportal.utils.DocumentationUtil;
 @RequestScoped
 public class NubRequestList {
 
-    private static final Logger _logger = Logger.getLogger("NubRequestList");
+    private static final Logger LOGGER = Logger.getLogger("NubRequestList");
     @Inject NubRequestFacade _nubRequestFacade;
     @Inject SessionController _sessionController;
     @Inject CooperationTools _cooperationTools;

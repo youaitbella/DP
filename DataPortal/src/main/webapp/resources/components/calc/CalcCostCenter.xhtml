@@ -81,16 +81,20 @@
                 <f:ajax event="click" render="@form :logout:remaining" listener="#{cc.attrs.backingBean.addCostCenter(cc.attrs.costCenterId)}"/>
             </h:commandLink>
 
-            <div class="uploadFile inlineBlock marginRight">
+            <div class="uploadFile inlineBlock marginLeft">
                 <h:inputFile styleClass="hiddenFile" id="file" value="#{cc.attrs.backingBean.file}" >
                     <f:ajax listener="#{cc.attrs.backingBean.uploadNotices()}" render="@all"/>
                 </h:inputFile>
                 <div class="fakeFile">
-                    <h:outputLabel style="margin-top: 1px;" styleClass="button element100" value="Upload Kostenstellengruppen 11-13"/>
+                    <h:outputLabel style="margin-top: 0px;" styleClass="button element100" value="Upload Kostenstellengruppen 11-13"/>
                 </div>
             </div>
-            
+
             <h:commandLink styleClass="button" value="Download Musterdatei" action="#{cc.attrs.backingBean.downloadTemplate}" immediate="true"/>
+
+            <h:commandLink styleClass="button" value="Tabelle löschen" action="#{cc.attrs.backingBean.deleteCostCenters(cc.attrs.costCenterId)}" immediate="true">
+                <cb:confirmDelete/>
+            </h:commandLink>
 
             <h:commandLink rendered="#{cc.attrs.backingBean.importMessage.length() gt 0}" 
                            styleClass="button"
@@ -104,6 +108,6 @@
                              readonly="true"
                              styleClass="element100 #{cc.attrs.backingBean.importMessage.length() > 500 ? 'areaHugh' : 'areaWideHigh'}"/>
         </h:panelGroup>
-        
+
     </cc:implementation>
 </html>

@@ -52,7 +52,7 @@ import org.inek.dataportal.helper.scope.FeatureScoped;
 @FeatureScoped
 public class EditInsuranceNubNotice extends AbstractEditController {
 
-    private static final Logger _logger = Logger.getLogger("EditInsuranceNubNotice");
+    private static final Logger LOGGER = Logger.getLogger("EditInsuranceNubNotice");
 
     // <editor-fold defaultstate="collapsed" desc="override AbstractEditController">    
     @Override

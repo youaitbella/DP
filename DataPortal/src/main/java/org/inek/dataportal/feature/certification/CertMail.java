@@ -40,7 +40,7 @@ import org.inek.dataportal.mail.Mailer;
 @FeatureScoped(name = "Certification")
 public class CertMail implements Serializable {
 
-    private static final Logger _logger = Logger.getLogger("CertMail");
+    private static final Logger LOGGER = Logger.getLogger("CertMail");
 
     //<editor-fold defaultstate="collapsed" desc="Email creation/preview fields.">
     private boolean _previewEnabled = false;

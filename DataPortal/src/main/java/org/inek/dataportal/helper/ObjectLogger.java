@@ -14,20 +14,20 @@ import java.util.logging.Logger;
  */
 public class ObjectLogger {
 
-    private static final Logger _logger = Logger.getLogger("ObjectLogger");
+    private static final Logger LOGGER = Logger.getLogger("ObjectLogger");
 
     public static void logObject(Object o) {
-        Level oldLevel = _logger.getLevel();
-        _logger.setLevel(Level.INFO);
+        Level oldLevel = LOGGER.getLevel();
+        LOGGER.setLevel(Level.INFO);
         for (Field field : o.getClass().getDeclaredFields()) {
             try {
                 field.setAccessible(true);
                 String value = field.get(o) == null ? "" : field.get(o).toString().replace((char) 7, '*');
-                _logger.log(Level.INFO, "{0} ^ Key: {1} ^ Length: {2} ^ Value: {3}", new Object[]{o.getClass().getSimpleName(), field.getName(), value.toString().length(), value});
+                LOGGER.log(Level.INFO, "{0} ^ Key: {1} ^ Length: {2} ^ Value: {3}", new Object[]{o.getClass().getSimpleName(), field.getName(), value.toString().length(), value});
 
             } catch (IllegalArgumentException | IllegalAccessException ex) {
             }
-            _logger.setLevel(oldLevel);
+            LOGGER.setLevel(oldLevel);
 
         }
 

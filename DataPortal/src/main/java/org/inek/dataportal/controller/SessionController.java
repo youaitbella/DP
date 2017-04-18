@@ -239,11 +239,11 @@ public class SessionController implements Serializable {
         String sessionId = retrieveSessionId();
         if (sessionId.length() > 0) {
             try {
-                //_logger.log(Level.INFO, "invalidateSession: old session {0}", sessionId);
+                //LOGGER.log(Level.INFO, "invalidateSession: old session {0}", sessionId);
                 FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
                 FacesContext.getCurrentInstance().getExternalContext().getSession(true);
                 sessionId = retrieveSessionId();
-                //_logger.log(Level.INFO, "invalidateSession: new session {0}", sessionId);
+                //LOGGER.log(Level.INFO, "invalidateSession: new session {0}", sessionId);
             } catch (Exception ex) {
                 LOGGER.log(Level.WARNING, "Exception during invalidatesesion");
             }
