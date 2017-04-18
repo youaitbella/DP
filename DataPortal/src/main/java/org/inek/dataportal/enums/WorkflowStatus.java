@@ -31,7 +31,7 @@ public enum WorkflowStatus {
         return WorkflowStatus.Unknown;
     }
             
-    private WorkflowStatus(int value, String description, String icon) {
+    WorkflowStatus(int value, String description, String icon) {
         _value = value;
         _description = description;
         _icon = icon;

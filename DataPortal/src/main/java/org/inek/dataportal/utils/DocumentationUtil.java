@@ -23,7 +23,7 @@ import org.inek.dataportal.helper.Utils;
  */
 public class DocumentationUtil {
 
-    private final static String KeyNotFound = "### key not found";
+    private static final String KeyNotFound = "### key not found";
 
     public static List<KeyValueLevel> getDocumentation(Object o) {
         DocumentationUtil docUtil = new DocumentationUtil();

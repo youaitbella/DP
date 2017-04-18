@@ -20,7 +20,7 @@ public enum QualityUsage {
     private final int _id;
     private final String _textId;
 
-    private QualityUsage(int id, String textId) {
+    QualityUsage(int id, String textId) {
         _id = id;
         _textId = textId;
     }

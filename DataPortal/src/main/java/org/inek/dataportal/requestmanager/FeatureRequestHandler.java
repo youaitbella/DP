@@ -60,7 +60,7 @@ public class FeatureRequestHandler {
         return false;
     }
 
-    @Inject Mailer _mailer;
+    @Inject private Mailer _mailer;
 
     private boolean sendApprovalRequestMail(Account account, AccountFeatureRequest featureRequest) {
         MailTemplate template = _mailer.getMailTemplate("ApprovalRequestMail");

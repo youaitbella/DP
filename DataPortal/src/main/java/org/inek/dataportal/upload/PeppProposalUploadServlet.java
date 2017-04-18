@@ -15,7 +15,7 @@ import org.inek.dataportal.feature.peppproposal.PeppProposalController;
 @MultipartConfig(fileSizeThreshold = 10 * 1024 * 1024)
 public class PeppProposalUploadServlet extends AbstractUploadServlet {
 
-    @Inject SessionController _sessionController;
+    @Inject private SessionController _sessionController;
 
     @Override
     protected void stream2Document(String filename, InputStream is, HttpUtil httpUtil) throws IOException {

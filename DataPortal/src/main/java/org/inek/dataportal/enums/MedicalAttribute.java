@@ -21,7 +21,7 @@ public enum MedicalAttribute {
     private final int _id;
     private final String _textId;
 
-    private MedicalAttribute(int id, String textId) {
+    MedicalAttribute(int id, String textId) {
         _id = id;
         _textId = textId;
     }

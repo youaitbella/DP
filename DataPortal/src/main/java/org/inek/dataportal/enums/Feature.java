@@ -21,7 +21,7 @@ public enum Feature {
     CALCULATION_HOSPITAL(14, "Teilnahme Kostenkalkulation", true),
     SPECIFIC_FUNCTION(15, "Besondere Aufgaben", true);
 
-    private Feature(int id, String description, boolean needsApproval) {
+    Feature(int id, String description, boolean needsApproval) {
         _id = id;
         _description = description;
         _needsApproval = needsApproval;

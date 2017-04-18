@@ -22,7 +22,7 @@ public enum SettleType {
     private final int _id;
     private final String _textId;
 
-    private SettleType(int id, String textId) {
+    SettleType(int id, String textId) {
         _id = id;
         _textId = textId;
     }

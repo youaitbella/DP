@@ -22,7 +22,7 @@ public enum HospitalType {
     private final int _id;
     private final String _textId;
 
-    private HospitalType(int id, String textId) {
+    HospitalType(int id, String textId) {
         _id = id;
         _textId = textId;
     }

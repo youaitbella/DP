@@ -88,8 +88,8 @@ public class SecurePassword {
         return Quality.Poor;
     }
 
-    @Inject AccountPwdFacade _pwdFacade;
-    Quality _quality = Quality.Poor;
+    @Inject private AccountPwdFacade _pwdFacade;
+    private Quality _quality = Quality.Poor;
 
     public void checkPasswordQuality(AjaxBehaviorEvent event) {
         UIInput pw = (UIInput) event.getComponent();

@@ -65,7 +65,7 @@ public abstract class AbstractUploadServlet extends HttpServlet {
         }
     }
 
-    abstract protected void stream2Document(String filename, InputStream is, HttpUtil httpUtil) throws IOException;
+    protected abstract void stream2Document(String filename, InputStream is, HttpUtil httpUtil) throws IOException;
 
     protected void showFileName(String filename, HttpUtil httpUtil) {
     }

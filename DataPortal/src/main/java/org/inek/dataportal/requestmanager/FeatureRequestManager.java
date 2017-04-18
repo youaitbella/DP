@@ -31,11 +31,11 @@ public class FeatureRequestManager implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger("FeatureRequestManager");
     private static final long serialVersionUID = 1L;
-    @Inject Mailer _mailer;
-    @Inject AccountFacade _accountFacade;
-    @Inject AccountFeatureRequestFacade _featureRequestFacade;
-    @Inject CustomerFacade _customerFacade;
-    @Inject ContactRoleFacade _roleFacade;
+    @Inject private Mailer _mailer;
+    @Inject private AccountFacade _accountFacade;
+    @Inject private AccountFeatureRequestFacade _featureRequestFacade;
+    @Inject private CustomerFacade _customerFacade;
+    @Inject private ContactRoleFacade _roleFacade;
     private AccountFeatureRequest _request;
     private Account _account;
 

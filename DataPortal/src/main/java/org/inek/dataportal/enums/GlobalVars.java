@@ -17,7 +17,7 @@ public enum GlobalVars {
     ProposalSectionNub(103);
     
     private final int _val;
-    private GlobalVars(int val){
+    GlobalVars(int val){
         _val = val;
     }
     

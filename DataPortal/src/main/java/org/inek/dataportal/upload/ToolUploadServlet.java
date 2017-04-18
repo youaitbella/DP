@@ -33,7 +33,7 @@ public class ToolUploadServlet extends HttpServlet {
 
     private static final Logger LOGGER = Logger.getLogger("ToolUploadServlet");
     private static final long serialVersionUID = 1L;
-    @Inject ApplicationTools _appTools;
+    @Inject private ApplicationTools _appTools;
     @Inject private SessionController _sessionController;
     @Inject private SessionTools _sessionTools;
     @Inject private DropBoxFacade _dropBoxFacade;

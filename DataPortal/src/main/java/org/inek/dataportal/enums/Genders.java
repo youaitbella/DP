@@ -20,7 +20,7 @@ public enum Genders {
     private final int _id;
     private final String _textId;
 
-    private Genders(int id, String textId) {
+    Genders(int id, String textId) {
         _id = id;
         _textId = textId;
     }

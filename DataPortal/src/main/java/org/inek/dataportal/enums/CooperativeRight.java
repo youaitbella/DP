@@ -39,7 +39,7 @@ public enum CooperativeRight {
      */
     private final boolean _isPublic;
 
-    private CooperativeRight(String rights, boolean isPublic) {
+    CooperativeRight(String rights, boolean isPublic) {
         _rights = rights;
         _isPublic = isPublic;
     }

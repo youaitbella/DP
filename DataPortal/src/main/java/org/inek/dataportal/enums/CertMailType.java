@@ -18,7 +18,7 @@ public enum CertMailType {
     Certificate(7,"Zertifikat-Email");
     
 
-    private CertMailType(int id, String label) {
+    CertMailType(int id, String label) {
         _id = id;
         _label = label;
     }

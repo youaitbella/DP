@@ -21,7 +21,7 @@ public enum TreatmentType {
     private final int _id;
     private final String _textId;
 
-    private TreatmentType(int id, String textId) {
+    TreatmentType(int id, String textId) {
         _id = id;
         _textId = textId;
     }

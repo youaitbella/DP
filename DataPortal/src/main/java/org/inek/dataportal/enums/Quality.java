@@ -17,7 +17,7 @@ public enum Quality {
     
     private final String _color;
 
-    private Quality(String color) {
+    Quality(String color) {
         _color = color;
     }
     

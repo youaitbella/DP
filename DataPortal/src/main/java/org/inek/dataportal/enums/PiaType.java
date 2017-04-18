@@ -23,7 +23,7 @@ public enum PiaType {
     private final int _id;
     private final String _textId;
 
-    private PiaType(int id, String textId) {
+    PiaType(int id, String textId) {
         _id = id;
         _textId = textId;
     }

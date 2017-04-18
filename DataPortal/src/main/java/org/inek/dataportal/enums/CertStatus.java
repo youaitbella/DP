@@ -26,7 +26,7 @@ public enum CertStatus {
     CertificationFailed(80, "Grouper NICHT zertifiziert"),
     CertificationPassed(90, "Grouper zertifiziert");
 
-    private CertStatus(int status, String label) {
+    CertStatus(int status, String label) {
         _status = status;
         _label = label;
     }

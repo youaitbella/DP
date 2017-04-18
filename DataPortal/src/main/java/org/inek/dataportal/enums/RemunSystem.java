@@ -12,7 +12,7 @@ public enum RemunSystem {
 
     private final int _id;
     private final String _name;
-    private RemunSystem(int id, String name) {
+    RemunSystem(int id, String name) {
         _id = id;
         _name = name;
     }

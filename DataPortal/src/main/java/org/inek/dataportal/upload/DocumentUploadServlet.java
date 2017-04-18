@@ -19,7 +19,7 @@ import org.inek.dataportal.utils.StreamUtils;
 @MultipartConfig(fileSizeThreshold = 16 * 1024 * 1024, maxFileSize = Integer.MAX_VALUE - 5)
 public class DocumentUploadServlet extends AbstractUploadServlet {
 
-    @Inject SessionController _sessionController;
+    @Inject private SessionController _sessionController;
 
     @Override
     protected void stream2Document(String filename, InputStream is, HttpUtil httpUtil) throws IOException, IllegalArgumentException {

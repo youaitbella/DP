@@ -198,7 +198,7 @@ public enum Pages {
 
     private final String _url;
 
-    private Pages(String url) {
+    Pages(String url) {
         _url = url;
     }
 

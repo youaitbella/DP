@@ -18,10 +18,10 @@ public enum SelfHospitalisationType {
     EmergencyPossible(1, "enmSelfHospitalisationTypeEmergency"),
     NotPossible(2, "enmSelfHospitalisationTypeImpossible");
 
-    private int _id;
-    private String _textId;
+    private final int _id;
+    private final String _textId;
 
-    private SelfHospitalisationType(int id, String textId) {
+    SelfHospitalisationType(int id, String textId) {
         _id = id;
         _textId = textId;
     }
