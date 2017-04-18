@@ -112,9 +112,12 @@
         <!-- <module name="JavadocMethod">
             <property name="scope" value="public"/>
         </module>  -->
-        <module name="JavadocType">
+		
+        <!-- temp. disable check for java doc
+		<module name="JavadocType">
             <property name="scope" value="public"/>
         </module>
+		-->
         <!--
         <module name="JavadocVariable">
             <property name="scope" value="public"/>
