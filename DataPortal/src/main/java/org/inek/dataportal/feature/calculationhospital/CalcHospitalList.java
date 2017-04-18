@@ -118,7 +118,7 @@ public class CalcHospitalList {
     }
 
     public String newCalculationBasicsPepp() {
-        return Pages.CalcPeppEdit.RedirectURL();  // todo
+        return Pages.CalcPeppEdit.RedirectURL(); 
     }
 
     public boolean isNewCalculationBasicsObdAllowed() {
@@ -129,7 +129,7 @@ public class CalcHospitalList {
     }
 
     public String newCalculationBasicsObd() {
-        return Pages.CalcObdEdit.RedirectURL();  // todo
+        return Pages.CalcObdEdit.RedirectURL(); 
     }
 
     private boolean determineButtonAllowed(CalcHospitalFunction calcFunct) {

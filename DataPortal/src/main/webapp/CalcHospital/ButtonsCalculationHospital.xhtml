@@ -34,10 +34,10 @@
             <f:param name="id" value="new"/>
         </h:link>
 
-        <h:link styleClass="bigButton #{calcHospitalList.newCalculationBasicsPeppAllowed ? '' : 'buttonDisabled'}"
-                outcome="#{sessionTools.pages.CalcPeppEdit}"
+        <h:link styleClass="bigButton #{calcHospitalList.newCalculationBasicsObdAllowed ? '' : 'buttonDisabled'}"
+                outcome="#{sessionTools.pages.CalcObdEdit}"
                 value="#{msg.btnNewCalculationBasicsPsy}"
-                disabled="#{!calcHospitalList.newCalculationBasicsPeppAllowed}"
+                disabled="#{!calcHospitalList.newCalculationBasicsObdAllowed}"
                 >
             <f:param name="id" value="new"/>
         </h:link>
