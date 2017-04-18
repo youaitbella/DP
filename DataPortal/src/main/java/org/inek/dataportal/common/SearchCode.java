@@ -145,6 +145,8 @@ public class SearchCode implements Serializable {
                 resultYear = Utils.getTargetYear(Feature.NUB);
                 break;
             }
+            default:
+                throw new IllegalArgumentException("Unknown proposalSection: " + _proposalSection);
         }
         return resultYear;
     }

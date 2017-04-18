@@ -41,7 +41,7 @@ public class FeatureFactory {
             case PEPP_PROPOSAL:
                 return new PeppProposalController(sessionController);
             case DRG_PROPOSAL:
-                return new DrgProposalController(sessionController);    
+                return new DrgProposalController(sessionController);
             case DROPBOX:
                 return new DropBoxController(sessionController);
             case COOPERATION:
@@ -62,13 +62,14 @@ public class FeatureFactory {
                 return new CalcHospitalController(sessionController);
             case SPECIFIC_FUNCTION:
                 return new SpecificFunctionController(sessionController);
+            default:
+                throw new IllegalArgumentException("no such controller");
         }
-        throw new IllegalArgumentException("no such controller");
     }
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     // place getter and setters here
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     // place this methods here
     // </editor-fold>

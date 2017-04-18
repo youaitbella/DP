@@ -517,35 +517,8 @@ public class KGPListStationServiceCost implements Serializable, BaseIdValue {
     public KGPListStationServiceCost() {
     }
 
-    public KGPListStationServiceCost(int sscID) {
-        this._id = sscID;
-    }
-
-    public KGPListStationServiceCost(int sscID, int sscCostCenterID, String sscCostCenterNumber, String sscStation, int sscBedCnt, boolean sscReceivingStation, int sscRegularCareDays, int sscRegularWeight, int sscIntensiveCareDays, int sscIntensiveWeight, double sscMedicalServiceCnt, double sscNursingServiceCnt, double sscPsychologistCnt, double sscSocialWorkerCnt, double sscSpecialTherapistCnt, double sscFunctionalServiceCnt, int sscMedicalServiceAmount, int sscNursingServiceAmount, int sscPsychologistAmount, int sscSocialWorkerAmount, int sscSpecialTherapistAmount, int sscFunctionalServiceAmount, int sscMedicalInfrastructureAmount, int sscNonMedicalInfrastructureAmount) {
-        this._id = sscID;
-        this._costCenterID = sscCostCenterID;
-        this._costCenterNumber = sscCostCenterNumber;
-        this._station = sscStation;
-        this._bedCnt = sscBedCnt;
-        this._receivingStation = sscReceivingStation;
-        this._regularCareDays = sscRegularCareDays;
-        this._regularWeight = sscRegularWeight;
-        this._intensiveCareDays = sscIntensiveCareDays;
-        this._intensiveWeight = sscIntensiveWeight;
-        this._medicalServiceCnt = sscMedicalServiceCnt;
-        this._nursingServiceCnt = sscNursingServiceCnt;
-        this._psychologistCnt = sscPsychologistCnt;
-        this._socialWorkerCnt = sscSocialWorkerCnt;
-        this._specialTherapistCnt = sscSpecialTherapistCnt;
-        this._functionalServiceCnt = sscFunctionalServiceCnt;
-        this._medicalServiceAmount = sscMedicalServiceAmount;
-        this._nursingServiceAmount = sscNursingServiceAmount;
-        this._psychologistAmount = sscPsychologistAmount;
-        this._socialWorkerAmount = sscSocialWorkerAmount;
-        this._specialTherapistAmount = sscSpecialTherapistAmount;
-        this._functionalServiceAmount = sscFunctionalServiceAmount;
-        this._medicalInfrastructureAmount = sscMedicalInfrastructureAmount;
-        this._nonMedicalInfrastructureAmount = sscNonMedicalInfrastructureAmount;
+    public KGPListStationServiceCost(int baseInformationId) {
+        _baseInformationId = baseInformationId;
     }
 
     //<editor-fold defaultstate="collapsed" desc="hash && equals && toString">

@@ -230,10 +230,12 @@ public class KGPListRadiologyLaboratory implements Serializable, BaseIdValue {
     @Column(name = "rlBaseInformationId")
     private int _baseInformationId;
 
+    @Override
     public int getBaseInformationId() {
         return _baseInformationId;
     }
 
+    @Override
     public void setBaseInformationId(int baseInformationId) {
         this._baseInformationId = baseInformationId;
     }
@@ -242,21 +244,8 @@ public class KGPListRadiologyLaboratory implements Serializable, BaseIdValue {
     public KGPListRadiologyLaboratory() {
     }
 
-    public KGPListRadiologyLaboratory(int rlID) {
-        this._id = rlID;
-    }
-
-    public KGPListRadiologyLaboratory(int rlID, int rlCostCenterID, int rlCostCenterNumber, String rlCostCenterText, boolean rlServiceDocHome, boolean rlServiceDocDKG, boolean rlServiceDocEBM, boolean rlServiceDocGOA, boolean rlServiceDocDif, String rlDescription) {
-        this._id = rlID;
-        this._costCenterId = rlCostCenterID;
-        this._costCenterNumber = rlCostCenterNumber;
-        this._costCenterText = rlCostCenterText;
-        this._serviceDocHome = rlServiceDocHome;
-        this._serviceDocDKG = rlServiceDocDKG;
-        this._serviceDocEBM = rlServiceDocEBM;
-        this._serviceDocGOA = rlServiceDocGOA;
-        this._serviceDocDif = rlServiceDocDif;
-        this._description = rlDescription;
+    public KGPListRadiologyLaboratory(int baseInformationId) {
+        _baseInformationId = baseInformationId;
     }
 
     //<editor-fold defaultstate="collapsed" desc="hash && equals && toString">

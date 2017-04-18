@@ -2,7 +2,6 @@ package org.inek.dataportal.controller;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -126,7 +125,7 @@ public class SessionController implements Serializable {
     }
 
     /**
-     * returns the account id if logged in otherwise it redirects to session
+     * returns the account id if logged in, otherwise it redirects to session.
      * timeOut
      *
      * @return
@@ -633,7 +632,7 @@ public class SessionController implements Serializable {
         }
         return "InEK-Datenportal.pdf";
     }
-    @Inject ApplicationTools _appTools;
+    @Inject private ApplicationTools _appTools;
 
     public ApplicationTools getApplicationTools() {
         return _appTools;

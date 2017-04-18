@@ -219,18 +219,6 @@ public class KGLPersonalAccounting implements Serializable, BaseIdValue {
         _priorCostAmount = prior;
     }
 
-    public KGLPersonalAccounting(int paID, int paCostTypeID, boolean paStaffRecording, boolean paStaffEvaluation, boolean paServiceEvaluation, boolean paServiceStatistic, boolean paExpertRating, boolean paOther, int paAmount) {
-        this._id = paID;
-        this._costTypeId = paCostTypeID;
-        this._staffRecording = paStaffRecording;
-        this._staffEvaluation = paStaffEvaluation;
-        this._serviceEvaluation = paServiceEvaluation;
-        this._serviceStatistic = paServiceStatistic;
-        this._expertRating = paExpertRating;
-        this._other = paOther;
-        this._amount = paAmount;
-    }
-
     //<editor-fold defaultstate="collapsed" desc="hash && equals && toString">
     @Override
     public int hashCode() {

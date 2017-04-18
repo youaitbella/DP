@@ -289,28 +289,8 @@ public class KGPListTherapy implements Serializable, BaseIdValue {
     public KGPListTherapy() {
     }
 
-    public KGPListTherapy(int thID) {
-        this._id = thID;
-    }
-
-    public KGPListTherapy(int thID, int thCostCenterID, String thCostCenterText, int thExternalService, String thKeyUsed, int thServiceUnitsCt1, int thPersonalCostCt1, int thServiceUnitsCt2, int thPersonalCostCt2, int thServiceUnitsCt3, int thPersonalCostCt3, int thServiceUnitsCt3a, int thPersonalCostCt3a, int thServiceUnitsCt3b, int thPersonalCostCt3b, int thServiceUnitsCt3c, int thPersonalCostCt3c) {
-        this._id = thID;
-        this._costCenterId = thCostCenterID;
-        this._costCenterText = thCostCenterText;
-        this._externalService = thExternalService;
-        this._keyUsed = thKeyUsed;
-        this._serviceUnitsCt1 = thServiceUnitsCt1;
-        this._personalCostCt1 = thPersonalCostCt1;
-        this._serviceUnitsCt2 = thServiceUnitsCt2;
-        this._personalCostCt2 = thPersonalCostCt2;
-        this._serviceUnitsCt3 = thServiceUnitsCt3;
-        this._personalCostCt3 = thPersonalCostCt3;
-        this._serviceUnitsCt3a = thServiceUnitsCt3a;
-        this._personalCostCt3a = thPersonalCostCt3a;
-        this._serviceUnitsCt3b = thServiceUnitsCt3b;
-        this._personalCostCt3b = thPersonalCostCt3b;
-        this._serviceUnitsCt3c = thServiceUnitsCt3c;
-        this._personalCostCt3c = thPersonalCostCt3c;
+    public KGPListTherapy(int baseInformationId) {
+        _baseInformationId = baseInformationId;
     }
 
     //<editor-fold defaultstate="collapsed" desc="hash && equals && toString">
