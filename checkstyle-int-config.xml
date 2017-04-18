@@ -76,7 +76,7 @@
         <module name="JavadocStyle">
             <property name="checkFirstSentence" value="false"/>
         </module>
-                
+
         <module name="PackageDeclaration"/>
 
         <module name="MemberName">
@@ -119,7 +119,6 @@
         <module name="JavadocVariable">
             <property name="scope" value="public"/>
         </module> -->
-        <module name="JavadocStyle"/>
 
 
         <!-- Checks for Size Violations.                    -->

@@ -111,7 +111,7 @@ public class DocumentUpload implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Agencies">
-    @Inject AgencyFacade _agencyFacade;
+    @Inject private AgencyFacade _agencyFacade;
 
     public List<Agency> getAgencies() {
         return _agencyFacade.findAll();
@@ -172,7 +172,7 @@ public class DocumentUpload implements Serializable {
     }
     // </editor-fold>    
 
-    @Inject DocumentDomainFacade _domainFacade;
+    @Inject private DocumentDomainFacade _domainFacade;
 
     public List<DocumentDomain> getDomains() {
         return _domainFacade.findAll();
@@ -326,7 +326,7 @@ public class DocumentUpload implements Serializable {
         return "";
     }
 
-    @Inject AccountDocumentFacade _docFacade;
+    @Inject private AccountDocumentFacade _docFacade;
 
     private void storeDocument(AccountDocument accountDocument, int accountId) {
         accountDocument.setAccountId(accountId);

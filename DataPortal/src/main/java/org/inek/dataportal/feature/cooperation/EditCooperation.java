@@ -50,9 +50,9 @@ public class EditCooperation extends AbstractEditController {
     private static final Logger LOGGER = Logger.getLogger("EditCooperation");
 
     @Inject private SessionController _sessionController;
-    @Inject CooperationRequestFacade _cooperationRequestFacade;
-    @Inject CooperationFacade _cooperationFacade;
-    @Inject AccountFacade _accountFacade;
+    @Inject private CooperationRequestFacade _cooperationRequestFacade;
+    @Inject private CooperationFacade _cooperationFacade;
+    @Inject private AccountFacade _accountFacade;
     private Account _partnerAccount;
     private boolean _isOutstandingCooperationRequest;
 
@@ -214,8 +214,7 @@ public class EditCooperation extends AbstractEditController {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="tab NUB">
-    @Inject
-    CooperationRightFacade _cooperationRightFacade;
+    @Inject private CooperationRightFacade _cooperationRightFacade;
     private List<CooperationRight> _cooperationRights;
 
     public List<CooperationRight> getCooperationRights() {
@@ -291,8 +290,8 @@ public class EditCooperation extends AbstractEditController {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="tab Messages">
-    @Inject PortalMessageFacade _messageFacade;
-    @Inject MessageService _messageService;
+    @Inject private PortalMessageFacade _messageFacade;
+    @Inject private MessageService _messageService;
 
     List<PortalMessage> _messages;
 
