@@ -125,7 +125,7 @@ public class CalcHospitalList {
         if (!_appTools.isEnabled(ConfigKey.IsCalculationBasicsObdCreateEnabled)) {
             return false;
         }
-        return determineButtonAllowed(CalcHospitalFunction.CalculationBasicsPepp);
+        return determineButtonAllowed(CalcHospitalFunction.CalculationBasicsAutopsy);
     }
 
     public String newCalculationBasicsObd() {

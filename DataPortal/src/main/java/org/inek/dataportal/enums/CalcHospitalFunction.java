@@ -13,6 +13,7 @@ public enum CalcHospitalFunction {
     StatementOfParticipance,
     CalculationBasicsDrg,
     CalculationBasicsPepp,
+    CalculationBasicsAutopsy,
     ClinicalDistributionModelDrg,
     ClinicalDistributionModelPepp
 }
