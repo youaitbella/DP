@@ -31,14 +31,14 @@ import org.inek.dataportal.utils.DocumentationUtil;
 @RequestScoped
 public class ModelIntentionList {
 
-    @Inject ModelIntentionFacade _modelIntentionFacade;
-    @Inject SessionController _sessionController;
-    @Inject AccountFacade _accountFacade;
-    @Inject CooperationFacade _cooperationFacade;
-    @Inject CooperationRightFacade _cooperationRightFacade;
-    Map<Account, List<EntityInfo>> _modelIntentionInfos;
+    @Inject private ModelIntentionFacade _modelIntentionFacade;
+    @Inject private SessionController _sessionController;
+    @Inject private AccountFacade _accountFacade;
+    @Inject private CooperationFacade _cooperationFacade;
+    @Inject private CooperationRightFacade _cooperationRightFacade;
+    private Map<Account, List<EntityInfo>> _modelIntentionInfos;
     private List<Account> _partners;
-    List<EntityInfo> _partnerEntityInfos;
+    private List<EntityInfo> _partnerEntityInfos;
 
     public List<EntityInfo> getModelIntentions() {
         return _modelIntentionFacade.getModelIntentionInfos(_sessionController.getAccountId(), DataSet.All, UserSet.DenotedUsers);

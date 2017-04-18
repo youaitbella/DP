@@ -20,6 +20,6 @@ import javax.inject.Scope;
 @Scope
 public @interface FeatureScoped {
 
-    public String name() default "";
+    String name() default "";
 
 }

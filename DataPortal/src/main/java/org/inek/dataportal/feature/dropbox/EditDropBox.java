@@ -125,7 +125,7 @@ public class EditDropBox implements Serializable {
         return "";
     }
 
-    @Inject Mailer _mailer;
+    @Inject private Mailer _mailer;
     private void notifyInek(File target) {
         _mailer.sendMail("edv@inek-drg.de", "DropBox", "Neue Dokumente per DropBox geliefert: " + target.getAbsolutePath() 
                 + "\r\nAbsender: [" + _sessionController.getAccount().getId() + "] " + _sessionController.getAccount().getCompany()

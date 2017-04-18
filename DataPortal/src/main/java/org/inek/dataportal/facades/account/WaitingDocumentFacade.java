@@ -19,7 +19,7 @@ import org.inek.dataportal.utils.DateUtils;
 @Stateless
 public class WaitingDocumentFacade extends AbstractFacade<WaitingDocument> {
 
-    @Inject SessionController _sessionController;
+    @Inject private SessionController _sessionController;
 
     public WaitingDocumentFacade() {
         super(WaitingDocument.class);

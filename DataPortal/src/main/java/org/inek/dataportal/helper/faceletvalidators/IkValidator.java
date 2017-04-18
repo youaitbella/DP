@@ -20,7 +20,7 @@ import org.inek.dataportal.helper.Utils;
  */
 @FacesValidator(value="IkValidator")
 public class IkValidator implements Validator{
-    @Inject CustomerFacade _customerFacade;
+    @Inject private CustomerFacade _customerFacade;
     
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {

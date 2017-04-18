@@ -37,7 +37,7 @@ public class DocumentImportInfo {
 
     private static final Logger LOGGER = Logger.getLogger("DocumentLoader");
 
-    List<String> _infoFile = new ArrayList<>();
+    private List<String> _infoFile = new ArrayList<>();
     private final Set<Account> _accounts = new HashSet<>();
     private final Map<String, String> _fileDomains = new HashMap<>();
     private final Map<String, byte[]> _files = new HashMap<>();

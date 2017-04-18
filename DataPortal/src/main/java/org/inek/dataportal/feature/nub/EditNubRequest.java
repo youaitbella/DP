@@ -770,7 +770,7 @@ public class EditNubRequest extends AbstractEditController {
         _formerRequests.clear();
     }
 
-    List<NubFormerRequestMerged> _formerRequests = new Vector<>();
+    private List<NubFormerRequestMerged> _formerRequests = new Vector<>();
 
     public List<NubFormerRequestMerged> getAllNubIds() {
         if (_formerRequests.isEmpty() && _nubRequest.getIk() != null) {

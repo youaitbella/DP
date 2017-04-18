@@ -336,7 +336,7 @@ public class AdminTask extends AbstractEditController {
         return "";
     }
 
-    @Inject RoleMappingFacade _mappingFacade;
+    @Inject private RoleMappingFacade _mappingFacade;
 
     public String saveRoleMapping() {
         List<RoleMapping> former = copyList(_inekRole.getMappings());

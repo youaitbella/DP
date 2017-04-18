@@ -61,7 +61,7 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
     @Inject private CooperationRightFacade _cooperationRightFacade;
     @Inject private NubRequestFacade _nubRequestFacade;
     @Inject private SessionController _sessionController;
-    @Inject ApplicationTools _appTools;
+    @Inject private ApplicationTools _appTools;
 
     private String _nubFilter = "";
 
@@ -562,7 +562,7 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
     @Inject private CustomerFacade _customerFacade;
 
     public String checkProxyIKs(String value) {
-        String iks[] = value.split("\\s|,|\r|\n");
+        String[] iks = value.split("\\s|,|\r|\n");
         StringBuilder invalidIKs = new StringBuilder();
         for (String ik : iks) {
             if (ik.isEmpty()) {
@@ -585,7 +585,7 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         return invalidIKs.toString();
     }
 
-    @Inject Mailer _mailer;
+    @Inject private Mailer _mailer;
 
     public boolean sendNubConfirmationMail(NubRequest nubRequest) {
         Account current = _sessionController.getAccount();

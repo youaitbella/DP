@@ -46,7 +46,7 @@ public class AccountRequestFacade extends AbstractFacade<AccountRequest> {
         return getEntityManager().createQuery(cq).getResultList();
     }
 
-    @Inject Mailer _mailer;
+    @Inject private Mailer _mailer;
     public boolean createAccountRequest(AccountRequest accountRequest) {
         if (accountRequest.getAccountId() != null) {
             return false;

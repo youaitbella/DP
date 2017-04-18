@@ -25,8 +25,8 @@ import javax.faces.convert.FacesConverter;
 @FacesConverter(value="FlexibleDateTimeConverter")
 public class FlexibleDateTimeConverter extends DateTimeConverter {
 
-    SimpleDateFormat dfShort;   // mm 2010-01-08 DateFormat replaced by SimpleDateFormat (medium had displayed name of month, is now allways number)
-    SimpleDateFormat dfMedium;
+    private SimpleDateFormat dfShort;   // mm 2010-01-08 DateFormat replaced by SimpleDateFormat (medium had displayed name of month, is now allways number)
+    private SimpleDateFormat dfMedium;
 
     public FlexibleDateTimeConverter() {
         super();

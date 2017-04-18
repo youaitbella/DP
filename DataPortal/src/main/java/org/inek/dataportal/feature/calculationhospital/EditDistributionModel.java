@@ -54,7 +54,7 @@ public class EditDistributionModel extends AbstractEditController implements Ser
     @Inject private CooperationTools _cooperationTools;
     @Inject private SessionController _sessionController;
     @Inject private DistributionModelFacade _distModelFacade;
-    @Inject ApplicationTools _appTools;
+    @Inject private ApplicationTools _appTools;
 
     private String _script;
     private DistributionModel _model;
@@ -261,7 +261,7 @@ public class EditDistributionModel extends AbstractEditController implements Ser
         return Pages.CalculationHospitalSummary.URL();
     }
     
-    @Inject AccountFacade _accountFacade;
+    @Inject private AccountFacade _accountFacade;
     @Inject private Mailer _mailer;
 
     private void sendMessage(String name) {

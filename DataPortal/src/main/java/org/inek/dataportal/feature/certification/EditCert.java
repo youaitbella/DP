@@ -37,7 +37,7 @@ public class EditCert extends AbstractEditController {
 
     private static final Logger LOGGER = Logger.getLogger("EditCert");
 
-    @Inject ApplicationTools _appTools;
+    @Inject private ApplicationTools _appTools;
     @Inject private SessionController _sessionController;
     @Inject private SystemFacade _systemFacade;
 

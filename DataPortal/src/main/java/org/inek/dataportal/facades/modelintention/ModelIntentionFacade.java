@@ -10,8 +10,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
@@ -35,7 +33,7 @@ import org.inek.dataportal.helper.structures.EntityInfo;
 @Stateless
 public class ModelIntentionFacade extends AbstractFacade<ModelIntention> {
 
-    @Inject SessionController _sessionController;
+    @Inject private SessionController _sessionController;
 
     public ModelIntentionFacade() {
         super(ModelIntention.class);

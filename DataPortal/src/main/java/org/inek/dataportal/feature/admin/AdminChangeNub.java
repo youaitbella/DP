@@ -32,8 +32,8 @@ import org.inek.dataportal.helper.scope.FeatureScoped;
 public class AdminChangeNub implements Serializable{
 
     @Inject private SessionController _sessionController;
-    @Inject AccountFacade _accountFacade;
-    @Inject NubRequestFacade _nubFacade;
+    @Inject private AccountFacade _accountFacade;
+    @Inject private NubRequestFacade _nubFacade;
     private int _ik;
     private Account _account;
     private List<AccountInfo> _accountInfos = Collections.emptyList();

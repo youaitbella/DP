@@ -31,13 +31,11 @@ import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.calc.CalcContact;
 import org.inek.dataportal.entities.calc.StatementOfParticipance;
-import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.calc.CalcFacade;
-import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.Utils;
@@ -60,8 +58,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
     @Inject private CooperationTools _cooperationTools;
     @Inject private SessionController _sessionController;
     @Inject private CalcFacade _calcFacade;
-    @Inject ApplicationTools _appTools;
-    @Inject private CustomerFacade _customerFacade;
+    @Inject private ApplicationTools _appTools;
     @Inject private AccountFacade _accFacade;
 
     private StatementOfParticipance _statement;
@@ -574,7 +571,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Tab Address">
-    List<SelectItem> _iks;
+    private List<SelectItem> _iks;
 
     public List<SelectItem> getIks() {
         Account account = _sessionController.getAccount();

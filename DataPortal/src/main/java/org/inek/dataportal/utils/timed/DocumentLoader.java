@@ -28,9 +28,9 @@ import org.inek.dataportal.mail.Mailer;
 public class DocumentLoader {
 
     private static final Logger LOGGER = Logger.getLogger("DocumentLoader");
-    private final static String IMPORT_DIR = "Import.Dataportal";
-    private final static String ARCHIV_DIR = "Imported";
-    private final static String FAILED_DIR = "Failed";
+    private static final String IMPORT_DIR = "Import.Dataportal";
+    private static final String ARCHIV_DIR = "Imported";
+    private static final String FAILED_DIR = "Failed";
 
     @Inject private ConfigFacade _config;
     @Inject private AccountFacade _accountFacade;

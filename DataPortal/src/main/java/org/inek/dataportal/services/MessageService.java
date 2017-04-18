@@ -17,7 +17,7 @@ import org.inek.dataportal.mail.Mailer;
 public class MessageService {
 
     @Inject private Mailer _mailer;
-    @Inject PortalMessageFacade _messageFacade;
+    @Inject private PortalMessageFacade _messageFacade;
     protected static final Logger LOGGER = Logger.getLogger("MessageService");
 
     /**

@@ -50,7 +50,7 @@ public class AccountChangeMailFacade extends AbstractFacade<AccountChangeMail> {
         return getEntityManager().createQuery(cq).getResultList();
     }
 
-    @Inject Mailer _mailer;
+    @Inject private Mailer _mailer;
     public boolean changeMail(int accountId, final String newMail) {
         if (StringUtil.isNullOrEmpty(newMail)) {
             return false;

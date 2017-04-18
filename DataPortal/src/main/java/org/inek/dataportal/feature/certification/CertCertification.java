@@ -225,7 +225,7 @@ public class CertCertification implements Serializable{
         return new File(uploadFolder.get(), outFile).getAbsolutePath();
     }
 
-    @Inject GrouperActionFacade _actionFacade;
+    @Inject private GrouperActionFacade _actionFacade;
 
     public void logAction(String message) {
         GrouperAction action = new GrouperAction();
@@ -269,7 +269,7 @@ public class CertCertification implements Serializable{
         }
     }
 
-    @Inject Mailer _mailer;
+    @Inject private Mailer _mailer;
 
     public String saveFile() {
         setPersistUploadFile();

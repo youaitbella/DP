@@ -32,7 +32,7 @@ public class AdminIkSupervisor implements Serializable{
 
     @Inject private CooperationRightFacade _cooperationRightFacade;
     @Inject private SessionController _sessionController;
-    @Inject AccountFacade _accountFacade;
+    @Inject private AccountFacade _accountFacade;
     private int _ik;
     private Account _account;
     private Feature _feature = Feature.NUB;

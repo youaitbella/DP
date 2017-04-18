@@ -36,7 +36,7 @@ public enum CertStatus {
         return _status;
     }
 
-    public final String _label;
+    private final String _label;
     public String getLabel() {
         return _label;
     }

@@ -11,8 +11,6 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.ApplicationTools;
-import org.inek.dataportal.common.CooperationTools;
-import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.specificfunction.SpecificFunctionRequest;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Pages;
@@ -33,10 +31,8 @@ public class SpecificFunctionRequestList {
     // <editor-fold defaultstate="collapsed" desc="fields">
     private static final Logger LOGGER = Logger.getLogger(SpecificFunctionRequestList.class.getName());
 
-    @Inject private CooperationTools _cooperationTools;
-    @Inject private SessionController _sessionController;
     @Inject private SpecificFunctionFacade _specificFunctionFacade;
-    @Inject ApplicationTools _appTools;
+    @Inject private ApplicationTools _appTools;
     // </editor-fold>
 
     public boolean isNewAllowed() {
