@@ -8,7 +8,7 @@ import org.inek.dataportal.enums.Feature;
  * @author muellermi
  */
 public class CooperationrightKey {
-   private Feature _feature;
+    private Feature _feature;
     private Integer _ownerId;
     private Integer _partnerId;
     private Integer _ik;

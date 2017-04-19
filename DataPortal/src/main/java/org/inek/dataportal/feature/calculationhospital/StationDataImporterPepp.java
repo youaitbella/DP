@@ -253,9 +253,10 @@ public class StationDataImporterPepp {
     
     private boolean itemExists(KGPListStationServiceCost item) {
         for (KGPListStationServiceCost costs : _calcBasics.getStationServiceCosts()) {
-            if (costs.getCostCenterNumber().equals(item.getCostCenterNumber()) &&
+            if (
+                    costs.getCostCenterNumber().equals(item.getCostCenterNumber()) &&
                     costs.getStation().equals(item.getStation())
-                    ) {
+            ) {
                 boolean valueChanged = false;
 
                 if (!costs.getPsyPvMapping().equalsIgnoreCase(item.getPsyPvMapping())) {

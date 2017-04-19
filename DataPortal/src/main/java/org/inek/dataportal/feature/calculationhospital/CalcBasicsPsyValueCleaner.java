@@ -28,8 +28,8 @@ public class CalcBasicsPsyValueCleaner {
     }
 
     //<editor-fold defaultstate="collapsed" desc="cleanBasics">
-   private static void cleanBasics(PeppCalcBasics calcBasics) {
-   }
+    private static void cleanBasics(PeppCalcBasics calcBasics) {
+    }
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="cleanBasicExplanation">

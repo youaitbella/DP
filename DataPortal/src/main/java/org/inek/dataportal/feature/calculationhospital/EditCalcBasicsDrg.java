@@ -330,8 +330,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             c.setDepartmentKey(ccc.getDepartmentKey());
             return c;
         }).forEachOrdered((c) -> {
-            calcBasics.getCostCenterCosts().add(c);
-        });
+                    calcBasics.getCostCenterCosts().add(c);
+                });
 
     }
 

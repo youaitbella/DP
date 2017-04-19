@@ -116,7 +116,7 @@ public class RemunerationTest {
         assertFalse(instance.hashCode() == other.hashCode());
     }
     
-     @Test
+    @Test
     public void testObjectsWithSameNullIdAndDifferentIndicatorShallBeTreatedAsDifferent() {
         System.out.println("testObjectsWithSameNullIdAndDifferentIndicatorShallBeTreatedAsDifferent");
         Remuneration instance = new Remuneration();
