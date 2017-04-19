@@ -27,6 +27,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.persistence.Version;
 import javax.validation.constraints.Size;
@@ -125,6 +126,33 @@ public class PeppCalcBasics implements Serializable {
     }
     // </editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="accountIdLastChange">
+    @Column(name = "biLastChangedBy")
+    private int _accountIdLastChange;
+
+    public int getAccountIdLastChange() {
+        return _accountIdLastChange;
+    }
+
+    public void setAccountIdLastChange(int accountId) {
+        this._accountIdLastChange = accountId;
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Sealed">
+    @Column(name = "biSealed")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date _sealed = new Date (0,0,1);
+
+    public Date getSealed() {
+        return _sealed;
+    }
+
+    public void setSealed(Date sealed) {
+        this._sealed = sealed;
+    }
+    //</editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="Property StatusId / Status">
     @Column(name = "biStatusId")
     private int _statusId;

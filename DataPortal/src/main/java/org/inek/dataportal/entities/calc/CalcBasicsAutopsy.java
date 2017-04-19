@@ -6,12 +6,17 @@
 package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import org.inek.dataportal.enums.WorkflowStatus;
+import org.inek.dataportal.utils.Documentation;
 
 /**
  *
@@ -37,6 +42,112 @@ public class CalcBasicsAutopsy implements Serializable {
         _id = id;
     }
     // </editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="dataYear">
+    @Column(name = "cbaDataYear")
+    @Documentation(key = "lblYearData")
+    private int _dataYear;
+
+    public int getDataYear() {
+        return _dataYear;
+    }
+
+    public void setDataYear(int dataYear) {
+        this._dataYear = dataYear;
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property Ik">
+    @Column(name = "cbaIK")
+    @Documentation(key = "lblIK")
+    private int _ik;
+
+    public int getIk() {
+        return _ik;
+    }
+
+    public void setIk(int ik) {
+        this._ik = ik;
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property AccountId">
+    @Column(name = "cbaAccountId")
+    private int _accountId;
+
+    public int getAccountId() {
+        return _accountId;
+    }
+
+    public void setAccountId(int accountId) {
+        this._accountId = accountId;
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property LastChanged">
+    @Column(name = "cbaLastChanged")
+    @Documentation(name = "Stand")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date _lastChanged;
+
+    public Date getLastChanged() {
+        return _lastChanged;
+    }
+
+    public void setLastChanged(Date lastChanged) {
+        this._lastChanged = lastChanged;
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="accountIdLastChange">
+    @Column(name = "cbaLastChangedBy")
+    private int _accountIdLastChange;
+
+    public int getAccountIdLastChange() {
+        return _accountIdLastChange;
+    }
+
+    public void setAccountIdLastChange(int accountId) {
+        this._accountIdLastChange = accountId;
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Sealed">
+    @Column(name = "cbaSealed")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date _sealed = new Date (0,0,1);
+
+    public Date getSealed() {
+        return _sealed;
+    }
+
+    public void setSealed(Date sealed) {
+        this._sealed = sealed;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property StatusId">
+    @Column(name = "cbaStatusId")
+    private int _statusId;
+
+    public int getStatusId() {
+        return _statusId;
+    }
+
+    public void setStatusId(int statusId) {
+        this._statusId = statusId;
+    }
+
+    @Documentation(key = "lblWorkstate", rank = 10)
+    public WorkflowStatus getStatus() {
+        return WorkflowStatus.fromValue(_statusId);
+    }
+
+    public void setStatus(WorkflowStatus status) {
+        _statusId = status.getId();
+    }
+    //</editor-fold>
+
     
     // <editor-fold defaultstate="collapsed" desc="Property HasCostCenterForensic">
     @Column(name = "cbaHasCostCenterForensic")
@@ -311,7 +422,7 @@ public class CalcBasicsAutopsy implements Serializable {
     }
     // </editor-fold>
 
-//<editor-fold defaultstate="collapsed" desc="hashCode, equals, toString">
+    //<editor-fold defaultstate="collapsed" desc="hashCode, equals, toString">
     @Override
     public int hashCode() {
         int hash = 7;
@@ -341,6 +452,6 @@ public class CalcBasicsAutopsy implements Serializable {
     public String toString() {
         return "CalcBasicsAutopsy{" + "_id=" + _id + '}';
     }
-//</editor-fold>
+    //</editor-fold>
     
 }

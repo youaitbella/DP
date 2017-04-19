@@ -103,7 +103,20 @@ public class DrgCalcBasics implements Serializable {
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="lastChanged">
+    //<editor-fold defaultstate="collapsed" desc="accountIdLastChange">
+    @Column(name = "biLastChangedBy")
+    private int _accountIdLastChange;
+
+    public int getAccountIdLastChange() {
+        return _accountIdLastChange;
+    }
+
+    public void setAccountIdLastChange(int accountId) {
+        this._accountIdLastChange = accountId;
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Sealed">
     @Column(name = "biSealed")
     @Temporal(TemporalType.TIMESTAMP)
     private Date _sealed = new Date (0,0,1);

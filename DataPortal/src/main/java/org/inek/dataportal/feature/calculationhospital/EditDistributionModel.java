@@ -189,6 +189,7 @@ public class EditDistributionModel extends AbstractEditController implements Ser
 
     private void setModifiedInfo() {
         _model.setLastChanged(Calendar.getInstance().getTime());
+        _model.setAccountIdLastChange(_sessionController.getAccountId());
     }
 
     private boolean isValidId(Integer id) {
@@ -298,6 +299,7 @@ public class EditDistributionModel extends AbstractEditController implements Ser
         removeEmptyCenters();
         _model.setStatus(WorkflowStatus.Provided);
         setModifiedInfo();
+        _model.setSealed(Calendar.getInstance().getTime());
         _model = _distModelFacade.saveDistributionModel(_model);
 
         if (isValidId(_model.getId())) {

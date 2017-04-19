@@ -208,6 +208,7 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
 
     private void setModifiedInfo() {
         _agreement.setLastChanged(Calendar.getInstance().getTime());
+        _agreement.setAccountIdLastChange(_sessionController.getAccountId());
     }
 
     private boolean isValidId(Integer id) {
@@ -287,6 +288,7 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
         removeEmptyCenters();
         _agreement.setStatus(WorkflowStatus.Provided);
         setModifiedInfo();
+        _agreement.setSealed(Calendar.getInstance().getTime());
         _agreement = _specificFunctionFacade.saveSpecificFunctionAgreement(_agreement);
 
         if (isValidId(_agreement.getId())) {

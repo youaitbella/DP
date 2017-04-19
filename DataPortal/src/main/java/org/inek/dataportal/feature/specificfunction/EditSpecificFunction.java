@@ -205,6 +205,7 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
 
     private void setModifiedInfo() {
         _request.setLastChanged(Calendar.getInstance().getTime());
+        _request.setAccountIdLastChange(_sessionController.getAccountId());
     }
 
     private boolean isValidId(Integer id) {
@@ -288,6 +289,7 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
         removeEmptyCenters();
         _request.setStatus(WorkflowStatus.Provided);
         setModifiedInfo();
+        _request.setSealed(Calendar.getInstance().getTime());
         _request = _specificFunctionFacade.saveSpecificFunctionRequest(_request);
 
         if (isValidId(_request.getId())) {

@@ -381,6 +381,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
 
     private void setModifiedInfo() {
         _calcBasics.setLastChanged(Calendar.getInstance().getTime());
+        _calcBasics.setAccountIdLastChange(_sessionController.getAccountId());
     }
 
     private boolean isValidId(Integer id) {
@@ -515,6 +516,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         CalcBasicsPsyValueCleaner.clearUnusedFields(_calcBasics);
 
         _calcBasics.setStatus(WorkflowStatus.Provided);
+        _calcBasics.setSealed(Calendar.getInstance().getTime());
         saveData();
 
         TransferFileCreator.createCalcBasicsTransferFile(_sessionController, _calcBasics);

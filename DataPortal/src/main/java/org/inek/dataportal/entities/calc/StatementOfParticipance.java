@@ -23,6 +23,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.helper.Utils;
@@ -131,6 +132,33 @@ public class StatementOfParticipance implements Serializable{
     }
     // </editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="accountIdLastChange">
+    @Column(name = "sopLastChangedBy")
+    private int _accountIdLastChange;
+
+    public int getAccountIdLastChange() {
+        return _accountIdLastChange;
+    }
+
+    public void setAccountIdLastChange(int accountId) {
+        this._accountIdLastChange = accountId;
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Sealed">
+    @Column(name = "sopSealed")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date _sealed = new Date (0,0,1);
+
+    public Date getSealed() {
+        return _sealed;
+    }
+
+    public void setSealed(Date sealed) {
+        this._sealed = sealed;
+    }
+    //</editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="Property Obligatory">
     @Column(name = "sopIsObligatory")
     private boolean _obligatory;

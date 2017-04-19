@@ -105,6 +105,33 @@ public class SpecificFunctionRequest implements Serializable {
     }
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="accountIdLastChange">
+    @Column(name = "rmLastChangedBy")
+    private int _accountIdLastChange;
+
+    public int getAccountIdLastChange() {
+        return _accountIdLastChange;
+    }
+
+    public void setAccountIdLastChange(int accountId) {
+        this._accountIdLastChange = accountId;
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Sealed">
+    @Column(name = "rmSealed")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date _sealed = new Date (0,0,1);
+
+    public Date getSealed() {
+        return _sealed;
+    }
+
+    public void setSealed(Date sealed) {
+        this._sealed = sealed;
+    }
+    //</editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc="Property StatusId">
     @Column(name = "rmStatusId")
     private int _statusId;

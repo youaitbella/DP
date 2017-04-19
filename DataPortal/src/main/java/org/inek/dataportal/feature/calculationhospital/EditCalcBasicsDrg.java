@@ -1053,6 +1053,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     private void setModifiedInfo() {
         _calcBasics.setLastChanged(Calendar.getInstance().getTime());
+        _calcBasics.setAccountIdLastChange(_sessionController.getAccountId());
     }
 
     private boolean isValidId(Integer id) {
@@ -1185,6 +1186,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
         _calcBasics.setStatus(WorkflowStatus.Provided);
         setModifiedInfo();
+        _calcBasics.setSealed(Calendar.getInstance().getTime());
         _calcBasics = _calcFacade.saveCalcBasicsDrg(_calcBasics);
 
         TransferFileCreator.createCalcBasicsTransferFile(_sessionController, _calcBasics);

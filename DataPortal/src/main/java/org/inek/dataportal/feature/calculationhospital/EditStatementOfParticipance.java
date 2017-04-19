@@ -234,6 +234,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
 
     private void setModifiedInfo() {
         _statement.setLastChanged(Calendar.getInstance().getTime());
+        _statement.setAccountIdLastChange(_sessionController.getAccountId());
     }
 
     private boolean isValidId(Integer id) {
@@ -305,7 +306,8 @@ public class EditStatementOfParticipance extends AbstractEditController {
         }
         _statement.setStatus(WorkflowStatus.Provided);
         setModifiedInfo();
-
+        _statement.setSealed(Calendar.getInstance().getTime());
+        
         for (StatementOfParticipance sop : _calcFacade.listStatementOfParticipanceByIk(_statement.getIk())) {
             sop.setStatus(WorkflowStatus.Retired);
             _calcFacade.saveStatementOfParticipance(sop);
