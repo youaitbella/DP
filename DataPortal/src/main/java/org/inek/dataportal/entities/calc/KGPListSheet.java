@@ -14,7 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
-import org.inek.dataportal.entities.calc.iface.BaseIdValue;
+import org.inek.dataportal.entities.iface.BaseIdValue;
 
 /**
  *

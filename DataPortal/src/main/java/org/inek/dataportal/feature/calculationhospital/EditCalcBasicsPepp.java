@@ -49,7 +49,7 @@ import org.inek.dataportal.entities.calc.KGPListStationServiceCost;
 import org.inek.dataportal.entities.calc.KGPListTherapy;
 import org.inek.dataportal.entities.calc.KGPPersonalAccounting;
 import org.inek.dataportal.entities.calc.PeppCalcBasics;
-import org.inek.dataportal.entities.calc.iface.BaseIdValue;
+import org.inek.dataportal.entities.iface.BaseIdValue;
 import org.inek.dataportal.enums.CalcHospitalFunction;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;

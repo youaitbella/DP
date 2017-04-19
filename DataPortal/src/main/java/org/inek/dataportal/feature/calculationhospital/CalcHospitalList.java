@@ -9,13 +9,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.ApplicationTools;
-import org.inek.dataportal.common.CooperationTools;
-import static org.inek.dataportal.common.CooperationTools.canReadSealed;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.calc.CalcHospitalInfo;
@@ -30,10 +29,8 @@ import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.calc.CalcFacade;
-import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.calc.DistributionModelFacade;
 import org.inek.dataportal.helper.Utils;
-import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
 import org.inek.dataportal.utils.DocumentationUtil;
 import org.inek.dataportal.utils.KeyValueLevel;
 
@@ -48,11 +45,9 @@ public class CalcHospitalList {
     // <editor-fold defaultstate="collapsed" desc="fields">
     private static final Logger LOGGER = Logger.getLogger(CalcHospitalList.class.getName());
 
-    @Inject private CooperationTools _cooperationTools;
     @Inject private SessionController _sessionController;
     @Inject private CalcFacade _calcFacade;
     @Inject private DistributionModelFacade _distModelFacade;
-    @Inject private AccountFacade _accountFacade;
     @Inject private ApplicationTools _appTools;
     private final Map<CalcHospitalFunction, Boolean> _allowedButtons = new HashMap<>();
     // </editor-fold>
@@ -118,7 +113,7 @@ public class CalcHospitalList {
     }
 
     public String newCalculationBasicsPepp() {
-        return Pages.CalcPeppEdit.RedirectURL(); 
+        return Pages.CalcPeppEdit.RedirectURL();
     }
 
     public boolean isNewCalculationBasicsObdAllowed() {
@@ -129,7 +124,7 @@ public class CalcHospitalList {
     }
 
     public String newCalculationBasicsObd() {
-        return Pages.CalcObdEdit.RedirectURL(); 
+        return Pages.CalcObdEdit.RedirectURL();
     }
 
     private boolean determineButtonAllowed(CalcHospitalFunction calcFunct) {
@@ -147,47 +142,27 @@ public class CalcHospitalList {
     public String printHospitalInfo(CalcHospitalInfo hospitalInfo) {
         switch (hospitalInfo.getType()) {
             case SOP:
-                return printStatementOfParticipance(hospitalInfo);
+                return printData(_calcFacade::findStatementOfParticipance, hospitalInfo);
             case CBD:
-                return printCalculationBasicsDrg(hospitalInfo);
+                return printData(_calcFacade::findCalcBasicsDrg, hospitalInfo);
             case CBP:
-                return printCalculationBasicsPepp(hospitalInfo);
+                return printData(_calcFacade::findCalcBasicsPepp, hospitalInfo);
+            case CBA:
+                return printData(_calcFacade::findCalcBasicsAutopsy, hospitalInfo);
             case CDM:
-                return printDistributionModel(hospitalInfo);
+                return printData(_distModelFacade::findDistributionModel, hospitalInfo);
             default:
                 throw new IllegalArgumentException("Unknown calcInfoType: " + hospitalInfo.getType());
         }
     }
 
-    public String printStatementOfParticipance(CalcHospitalInfo hospitalInfo) {
-        StatementOfParticipance statement = _calcFacade.findStatementOfParticipance(hospitalInfo.getId());
-        List<KeyValueLevel> documentation = DocumentationUtil.getDocumentation(statement);
-        return preparePrintView(documentation);
-    }
-
-    private String preparePrintView(List<KeyValueLevel> documentation) {
+    private <T> String printData(Function<Integer, T> f, CalcHospitalInfo hospitalInfo) {
+        T data = f.apply(hospitalInfo.getId());
+        List<KeyValueLevel> documentation = DocumentationUtil.getDocumentation(data);
         Utils.getFlash().put("headLine", Utils.getMessage("nameCALCULATION_HOSPITAL"));
         Utils.getFlash().put("targetPage", Pages.CalculationHospitalSummary.URL());
         Utils.getFlash().put("printContent", documentation);
         return Pages.PrintView.URL();
-    }
-
-    private String printCalculationBasicsDrg(CalcHospitalInfo hospitalInfo) {
-        DrgCalcBasics calcBasics = _calcFacade.findCalcBasicsDrg(hospitalInfo.getId());
-        List<KeyValueLevel> documentation = DocumentationUtil.getDocumentation(calcBasics);
-        return preparePrintView(documentation);
-    }
-
-    private String printCalculationBasicsPepp(CalcHospitalInfo hospitalInfo) {
-        PeppCalcBasics calcBasics = _calcFacade.findCalcBasicsPepp(hospitalInfo.getId());
-        List<KeyValueLevel> documentation = DocumentationUtil.getDocumentation(calcBasics);
-        return preparePrintView(documentation);
-    }
-
-    private String printDistributionModel(CalcHospitalInfo hospitalInfo) {
-        DistributionModel model = _distModelFacade.findDistributionModel(hospitalInfo.getId());
-        List<KeyValueLevel> documentation = DocumentationUtil.getDocumentation(model);
-        return preparePrintView(documentation);
     }
 
     public String deleteHospitalInfo(CalcHospitalInfo hospitalInfo) {
@@ -250,7 +225,7 @@ public class CalcHospitalList {
             model.setStatus(WorkflowStatus.Retired);
             _distModelFacade.saveDistributionModel(model);
         } else {
-            _distModelFacade.deleteDistributionModel(model);
+            _distModelFacade.delete(model);
         }
     }
 
@@ -259,9 +234,11 @@ public class CalcHospitalList {
             case SOP:
                 return Pages.StatementOfParticipanceEditAddress.URL();
             case CBD:
-                return Pages.CalcDrgEdit.RedirectURL();
+                return Pages.CalcDrgEdit.URL();
             case CBP:
                 return Pages.CalcPeppEdit.URL();
+            case CBA:
+                return Pages.CalcObdEdit.URL();
             case CDM:
                 return Pages.CalcDistributionModel.URL();
             default:

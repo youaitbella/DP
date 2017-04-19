@@ -14,8 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
-import org.inek.dataportal.entities.calc.iface.ListCostCenter;
-import org.inek.dataportal.entities.calc.iface.BaseIdValue;
+import org.inek.dataportal.entities.iface.BaseIdValue;
 import org.inek.dataportal.utils.Documentation;
 
 /**
@@ -24,7 +23,7 @@ import org.inek.dataportal.utils.Documentation;
  */
 @Entity
 @Table(name = "KGPListCostCenter", schema = "calc")
-public class KGPListCostCenter implements Serializable, ListCostCenter, BaseIdValue {
+public class KGPListCostCenter implements Serializable, BaseIdValue {
 
     private static final long serialVersionUID = 1L;
 
@@ -50,12 +49,10 @@ public class KGPListCostCenter implements Serializable, ListCostCenter, BaseIdVa
     @Documentation(name = "Kostenstelle", rank = 10)
     private int _costCenterId;
 
-    @Override
     public int getCostCenterId() {
         return _costCenterId;
     }
 
-    @Override
     public void setCostCenterId(int costCenterId) {
         this._costCenterId = costCenterId;
     }
@@ -65,12 +62,10 @@ public class KGPListCostCenter implements Serializable, ListCostCenter, BaseIdVa
     @Column(name = "ccCostCenterNumber")
     private int _costCenterNumber;
 
-    @Override
     public int getCostCenterNumber() {
         return _costCenterNumber;
     }
 
-    @Override
     public void setCostCenterNumber(int costCenterNumber) {
         this._costCenterNumber = costCenterNumber;
     }
@@ -81,13 +76,11 @@ public class KGPListCostCenter implements Serializable, ListCostCenter, BaseIdVa
     @Documentation(name = "Name der Kostenstelle", rank = 20)
     private String _costCenterText = "";
 
-    @Override
     @Size(max = 50)
     public String getCostCenterText() {
         return _costCenterText;
     }
 
-    @Override
     public void setCostCenterText(String costCenterText) {
         this._costCenterText = costCenterText;
     }
@@ -98,12 +91,10 @@ public class KGPListCostCenter implements Serializable, ListCostCenter, BaseIdVa
     @Documentation(name = "Kostenvolumen", rank = 30)
     private int _amount;
 
-    @Override
     public int getAmount() {
         return _amount;
     }
 
-    @Override
     public void setAmount(int amount) {
         this._amount = amount;
     }
@@ -114,12 +105,10 @@ public class KGPListCostCenter implements Serializable, ListCostCenter, BaseIdVa
     @Documentation(name = "Anzahl zugeordenter Vollkräfte…", rank = 40)
     private double _fullVigorCnt;
 
-    @Override
     public double getFullVigorCnt() {
         return _fullVigorCnt;
     }
 
-    @Override
     public void setFullVigorCnt(double fullVigorCnt) {
         this._fullVigorCnt = fullVigorCnt;
     }
@@ -130,13 +119,11 @@ public class KGPListCostCenter implements Serializable, ListCostCenter, BaseIdVa
     @Documentation(name = "Leistungsschlüssel", rank = 50)
     private String _serviceKey = "";
 
-    @Override
     @Size(max = 50)
     public String getServiceKey() {
         return _serviceKey;
     }
 
-    @Override
     public void setServiceKey(String serviceKey) {
         this._serviceKey = serviceKey;
     }
@@ -147,12 +134,10 @@ public class KGPListCostCenter implements Serializable, ListCostCenter, BaseIdVa
     @Documentation(name = "Beschreibung Leistungsschlüssel", rank = 60)
     private String _serviceKeyDescription = "";
 
-    @Override
     public String getServiceKeyDescription() {
         return _serviceKeyDescription;
     }
 
-    @Override
     public void setServiceKeyDescription(String serviceKeyDescription) {
         this._serviceKeyDescription = serviceKeyDescription;
     }
@@ -163,12 +148,10 @@ public class KGPListCostCenter implements Serializable, ListCostCenter, BaseIdVa
     @Documentation(name = "Summe Leistungseinheiten", rank = 70)
     private double _serviceSum;
 
-    @Override
     public double getServiceSum() {
         return _serviceSum;
     }
 
-    @Override
     public void setServiceSum(double serviceSum) {
         this._serviceSum = serviceSum;
     }

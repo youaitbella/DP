@@ -134,7 +134,7 @@ public class DistributionModelFacade extends AbstractDataAccess {
         return merge(model);
     }
 
-    public void deleteDistributionModel(DistributionModel model) {
+    public void delete(DistributionModel model) {
         remove(model);
     }
 

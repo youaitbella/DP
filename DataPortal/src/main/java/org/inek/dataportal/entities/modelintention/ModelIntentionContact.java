@@ -21,7 +21,7 @@ import org.inek.dataportal.utils.Documentation;
 @Table(name = "Contacts", schema = "mvh")
 public class ModelIntentionContact implements Serializable {
 
-    private static final long serialVercsonUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     public ModelIntentionContact() {
     }

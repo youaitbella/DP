@@ -73,7 +73,7 @@ import org.inek.dataportal.entities.calc.KGLOpAn;
 import org.inek.dataportal.entities.calc.KglPkmsAlternative;
 import org.inek.dataportal.entities.calc.KGLPersonalAccounting;
 import org.inek.dataportal.entities.calc.KGLRadiologyService;
-import org.inek.dataportal.entities.calc.iface.BaseIdValue;
+import org.inek.dataportal.entities.iface.BaseIdValue;
 import org.inek.dataportal.enums.CalcHospitalFunction;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
@@ -1238,7 +1238,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Tab Address">
-    List<SelectItem> _ikItems;
+    private List<SelectItem> _ikItems;
 
     public List<SelectItem> getIks() {
         if (_ikItems == null) {

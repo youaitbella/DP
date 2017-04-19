@@ -300,7 +300,7 @@ public class AccountFacade extends AbstractFacade<Account> {
         return true;
     }
 
-    @Inject Mailer _mailer;
+    @Inject private Mailer _mailer;
 
     public boolean requestPassword(final String mail, final String password) {
         if (StringUtil.isNullOrEmpty(mail) || StringUtil.isNullOrEmpty(password)) {
@@ -390,9 +390,9 @@ public class AccountFacade extends AbstractFacade<Account> {
                 + "join CallCenterDB.dbo.listRole on r1.mcrRoleId = roId\n"
                 + "join CallCenterDB.dbo.ccContactDetails on coId = cdContactId\n"
                 + "where cuIk = " + ik + "\n"
-                + "	and coIsActive = 1\n"
-                + "	and cdContactDetailTypeId = 'E'\n"
-                + "     and cdDetails in(" + addresses + ")\n"
+                + "    and coIsActive = 1\n"
+                + "    and cdContactDetailTypeId = 'E'\n"
+                + "    and cdDetails in(" + addresses + ")\n"
                 + "group by cdDetails";
         Query query = getEntityManager().createNativeQuery(sql);
         Map<String, String> mailRole = new HashMap<>();

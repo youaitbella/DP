@@ -17,7 +17,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
-import org.inek.dataportal.entities.calc.iface.BaseIdValue;
+import org.inek.dataportal.entities.iface.BaseIdValue;
 import org.inek.dataportal.utils.Documentation;
 import org.inek.dataportal.utils.IgnoreOnCompare;
 

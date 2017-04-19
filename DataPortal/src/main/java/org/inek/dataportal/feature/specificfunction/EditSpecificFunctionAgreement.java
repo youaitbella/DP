@@ -30,8 +30,6 @@ import org.inek.dataportal.entities.admin.MailTemplate;
 import org.inek.dataportal.entities.specificfunction.AgreedCenter;
 import org.inek.dataportal.entities.specificfunction.CenterName;
 import org.inek.dataportal.entities.specificfunction.RelatedName;
-import org.inek.dataportal.entities.specificfunction.RequestAgreedCenter;
-import org.inek.dataportal.entities.specificfunction.RequestProjectedCenter;
 import org.inek.dataportal.entities.specificfunction.SpecificFunction;
 import org.inek.dataportal.entities.specificfunction.SpecificFunctionAgreement;
 import org.inek.dataportal.entities.specificfunction.SpecificFunctionRequest;
@@ -116,31 +114,24 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
 
     private SpecificFunctionAgreement newSpecificFunctionAgreement() {
         Account account = _sessionController.getAccount();
-        SpecificFunctionAgreement request = new SpecificFunctionAgreement();
-        request.setAccountId(account.getId());
-        request.setGender(account.getGender());
-        request.setTitle(account.getTitle());
-        request.setFirstName(account.getFirstName());
-        request.setLastName(account.getLastName());
-        request.setPhone(account.getPhone());
-        request.setMail(account.getEmail());
-        request.setDataYear(Utils.getTargetYear(Feature.SPECIFIC_FUNCTION));
+        SpecificFunctionAgreement agreement = new SpecificFunctionAgreement();
+        agreement.setAccountId(account.getId());
+        agreement.setGender(account.getGender());
+        agreement.setTitle(account.getTitle());
+        agreement.setFirstName(account.getFirstName());
+        agreement.setLastName(account.getLastName());
+        agreement.setPhone(account.getPhone());
+        agreement.setMail(account.getEmail());
+        agreement.setDataYear(Utils.getTargetYear(Feature.SPECIFIC_FUNCTION));
         List<SelectItem> iks = getIks();
         if (iks.size() == 1) {
-            request.setIk((int) iks.get(0).getValue());
+            agreement.setIk((int) iks.get(0).getValue());
         }
-        return request;
-    }
-
-    public List<SelectItem> getTypeItems() {
-        List<SelectItem> items = new ArrayList<>();
-        items.add(new SelectItem(1, "im Krankenhausplan des Landes"));
-        items.add(new SelectItem(2, "durch gleichartige Festlegung durch zuständige Landesbehörde"));
-        return items;
+        return agreement;
     }
 
     // <editor-fold defaultstate="collapsed" desc="actions">
-    public boolean isOwnStatement() {
+    public boolean isOwnAgreement() {
         return _sessionController.isMyAccount(_agreement.getAccountId(), false);
     }
 
@@ -148,10 +139,10 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
         if (_agreement == null) {
             return true;
         }
-        if (_sessionController.isInekUser(Feature.CALCULATION_HOSPITAL) && !_appTools.isEnabled(ConfigKey.TestMode)) {
+        if (_sessionController.isInekUser(Feature.SPECIFIC_FUNCTION) && !_appTools.isEnabled(ConfigKey.TestMode)) {
             return true;
         }
-        return _cooperationTools.isReadOnly(Feature.SPECIFIC_FUNCTION, _agreement.getStatus(), _agreement.getAccountId(), _agreement.getIk());
+        return _cooperationTools.isReadOnly(Feature.INSURANCE, _agreement.getStatus(), _agreement.getAccountId(), _agreement.getIk());
     }
 
     @Override

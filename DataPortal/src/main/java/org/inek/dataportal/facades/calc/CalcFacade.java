@@ -21,6 +21,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import org.inek.dataportal.entities.account.Account;
+import org.inek.dataportal.entities.calc.CalcBasicsAutopsy;
 import org.inek.dataportal.entities.calc.DrgCalcBasics;
 import org.inek.dataportal.entities.calc.PeppCalcBasics;
 import org.inek.dataportal.entities.calc.CalcContact;
@@ -40,7 +41,7 @@ import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.AbstractDataAccess;
 import org.inek.dataportal.helper.Utils;
-import org.inek.dataportal.entities.calc.iface.BaseIdValue;
+import org.inek.dataportal.entities.iface.BaseIdValue;
 
 /**
  *
@@ -992,6 +993,10 @@ public class CalcFacade extends AbstractDataAccess {
         Query query = getEntityManager().createNativeQuery(sql);
         @SuppressWarnings("unchecked") Set<Integer> result = new HashSet<>(query.getResultList());
         return result;
+    }
+
+    public CalcBasicsAutopsy findCalcBasicsAutopsy(int id) {
+        return findFresh(CalcBasicsAutopsy.class, id);
     }
     
 }

@@ -18,7 +18,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import org.inek.dataportal.entities.common.CostType;
 import org.inek.dataportal.utils.Documentation;
-import org.inek.dataportal.entities.calc.iface.BaseIdValue;
+import org.inek.dataportal.entities.iface.BaseIdValue;
 
 /**
  *

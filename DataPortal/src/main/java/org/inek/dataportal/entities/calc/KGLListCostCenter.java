@@ -5,7 +5,6 @@
  */
 package org.inek.dataportal.entities.calc;
 
-import org.inek.dataportal.entities.calc.iface.ListCostCenter;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Column;
@@ -16,7 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
-import org.inek.dataportal.entities.calc.iface.BaseIdValue;
+import org.inek.dataportal.entities.iface.BaseIdValue;
 import org.inek.dataportal.utils.Documentation;
 
 /**
@@ -25,7 +24,7 @@ import org.inek.dataportal.utils.Documentation;
  */
 @Entity
 @Table(name = "KGLListCostCenter", schema = "calc")
-public class KGLListCostCenter implements Serializable, ListCostCenter, BaseIdValue {
+public class KGLListCostCenter implements Serializable, BaseIdValue {
 
     private static final long serialVersionUID = 1L;
 
@@ -48,15 +47,13 @@ public class KGLListCostCenter implements Serializable, ListCostCenter, BaseIdVa
 
     // <editor-fold defaultstate="collapsed" desc="CostCenterId">
     @Column(name = "ccCostCenterID")
-    @Documentation (name = "Kostenstelle", rank = 10)
+    @Documentation(name = "Kostenstelle", rank = 10)
     private int _costCenterId;
 
-    @Override
     public int getCostCenterId() {
         return _costCenterId;
     }
 
-    @Override
     public void setCostCenterId(int costCenterId) {
         this._costCenterId = costCenterId;
     }
@@ -64,15 +61,13 @@ public class KGLListCostCenter implements Serializable, ListCostCenter, BaseIdVa
 
     // <editor-fold defaultstate="collapsed" desc="CostCenterNumber">
     @Column(name = "ccCostCenterNumber")
-    @Documentation (name = "Nummer:", rank = 10)
+    @Documentation(name = "Nummer:", rank = 10)
     private int _costCenterNumber;
 
-    @Override
     public int getCostCenterNumber() {
         return _costCenterNumber;
     }
 
-    @Override
     public void setCostCenterNumber(int costCenterNumber) {
         this._costCenterNumber = costCenterNumber;
     }
@@ -80,16 +75,14 @@ public class KGLListCostCenter implements Serializable, ListCostCenter, BaseIdVa
 
     // <editor-fold defaultstate="collapsed" desc="CostCenterText">
     @Column(name = "ccCostCenterText")
-    @Documentation (name = "Name der Kostenstelle", rank = 20)
+    @Documentation(name = "Name der Kostenstelle", rank = 20)
     private String _costCenterText = "";
 
-    @Override
     @Size(max = 200, message = "Für Bezeichnung sind max. {max} Zeichen zulässig.")
     public String getCostCenterText() {
         return _costCenterText;
     }
 
-    @Override
     public void setCostCenterText(String costCenterText) {
         this._costCenterText = costCenterText;
     }
@@ -98,16 +91,14 @@ public class KGLListCostCenter implements Serializable, ListCostCenter, BaseIdVa
     // <editor-fold defaultstate="collapsed" desc="Amount">
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "ccAmount")
-    @Documentation (name = "Kostenvolumen", rank = 40)
+    @Documentation(name = "Kostenvolumen", rank = 40)
     private int _amount;
 
-    @Override
     @Min(0)
     public int getAmount() {
         return _amount;
     }
 
-    @Override
     public void setAmount(int amount) {
         this._amount = amount;
     }
@@ -115,16 +106,14 @@ public class KGLListCostCenter implements Serializable, ListCostCenter, BaseIdVa
 
     // <editor-fold defaultstate="collapsed" desc="FullVigorCnt">
     @Column(name = "ccFullVigorCnt")
-    @Documentation (name = "Anzahl zugeordenter Vollkräfte…", rank = 60)
+    @Documentation(name = "Anzahl zugeordenter Vollkräfte…", rank = 60)
     private double _fullVigorCnt;
 
-    @Override
     @Min(0)
     public double getFullVigorCnt() {
         return _fullVigorCnt;
     }
 
-    @Override
     public void setFullVigorCnt(double fullVigorCnt) {
         this._fullVigorCnt = fullVigorCnt;
     }
@@ -132,16 +121,14 @@ public class KGLListCostCenter implements Serializable, ListCostCenter, BaseIdVa
 
     // <editor-fold defaultstate="collapsed" desc="ServiceKey">
     @Column(name = "ccServiceKey")
-    @Documentation (name = "Leistungsschlüssel", rank = 30)
+    @Documentation(name = "Leistungsschlüssel", rank = 30)
     private String _serviceKey = "";
 
-    @Override
     @Size(max = 100, message = "Für Leistungsschlüssel sind max. {max} Zeichen zulässig.")
     public String getServiceKey() {
         return _serviceKey;
     }
 
-    @Override
     public void setServiceKey(String serviceKey) {
         this._serviceKey = serviceKey;
     }
@@ -149,15 +136,13 @@ public class KGLListCostCenter implements Serializable, ListCostCenter, BaseIdVa
 
     // <editor-fold defaultstate="collapsed" desc="ServiceKeyDescription">
     @Column(name = "ccServiceKeyDescription")
-    @Documentation (name = "Beschreibung Schlüssel", rank = 50)
+    @Documentation(name = "Beschreibung Schlüssel", rank = 50)
     private String _serviceKeyDescription = "";
 
-    @Override
     public String getServiceKeyDescription() {
         return _serviceKeyDescription;
     }
 
-    @Override
     public void setServiceKeyDescription(String serviceKeyDescription) {
         this._serviceKeyDescription = serviceKeyDescription;
     }
@@ -165,16 +150,14 @@ public class KGLListCostCenter implements Serializable, ListCostCenter, BaseIdVa
 
     // <editor-fold defaultstate="collapsed" desc="ServiceSum">
     @Column(name = "ccServiceSum")
-    @Documentation (name = "Summe Leistungsschlüssel", rank = 70)
+    @Documentation(name = "Summe Leistungsschlüssel", rank = 70)
     private double _serviceSum;
 
-    @Override
     @Min(0)
     public double getServiceSum() {
         return _serviceSum;
     }
 
-    @Override
     public void setServiceSum(double serviceSum) {
         this._serviceSum = serviceSum;
     }
@@ -184,7 +167,7 @@ public class KGLListCostCenter implements Serializable, ListCostCenter, BaseIdVa
 //    @JoinColumn(name = "ccBaseInformationId", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
     @Column(name = "ccBaseInformationId")
-  //  @Documentation (name = "ccBaseInformationId", rank = 80)
+    //  @Documentation (name = "ccBaseInformationId", rank = 80)
     private int _baseInformationId;
 
     @Override
