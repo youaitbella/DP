@@ -7,6 +7,9 @@ package org.inek.dataportal.entities.calc;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.ZoneOffset;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -33,6 +36,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.inek.dataportal.entities.iface.StatusEntity;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.feature.calculationhospital.CalcBasicsStaticData;
 import org.inek.dataportal.utils.Documentation;
@@ -44,7 +48,7 @@ import org.inek.dataportal.utils.Documentation;
 @Entity
 @Table(name = "KGLBaseInformation", schema = "calc")
 @XmlRootElement
-public class DrgCalcBasics implements Serializable {
+public class DrgCalcBasics implements Serializable, StatusEntity {
 
     private static final long serialVersionUID = 1L;
     
@@ -119,7 +123,7 @@ public class DrgCalcBasics implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Sealed">
     @Column(name = "biSealed")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date _sealed = new Date (0,0,1);
+    private Date _sealed = Date.from(LocalDate.of(2000, Month.JANUARY, 1).atStartOfDay().toInstant(ZoneOffset.UTC));
 
     public Date getSealed() {
         return _sealed;
@@ -170,10 +174,12 @@ public class DrgCalcBasics implements Serializable {
     }
 
     @Documentation(key = "lblWorkstate", rank = 10)
+    @Override
     public WorkflowStatus getStatus() {
         return WorkflowStatus.fromValue(_statusId);
     }
 
+    @Override
     public void setStatus(WorkflowStatus status) {
         _statusId = status.getId();
     }

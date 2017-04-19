@@ -1,10 +1,14 @@
 package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 import javax.persistence.*;
+import org.inek.dataportal.entities.iface.StatusEntity;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.utils.Documentation;
 
@@ -14,7 +18,7 @@ import org.inek.dataportal.utils.Documentation;
  */
 @Entity
 @Table(name = "DistributionModelMaster", schema = "calc")
-public class DistributionModel implements Serializable {
+public class DistributionModel implements Serializable, StatusEntity {
     private static final long serialVersionUID = 1L;
 
     // <editor-fold defaultstate="collapsed" desc="Property Id">
@@ -118,7 +122,7 @@ public class DistributionModel implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Sealed">
     @Column(name = "dmmSealed")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date _sealed = new Date (0,0,1);
+    private Date _sealed = Date.from(LocalDate.of(2000, Month.JANUARY, 1).atStartOfDay().toInstant(ZoneOffset.UTC));
 
     public Date getSealed() {
         return _sealed;
@@ -142,10 +146,12 @@ public class DistributionModel implements Serializable {
     }
 
     @Documentation(key = "lblWorkstate", rank = 10)
+    @Override
     public WorkflowStatus getStatus() {
         return WorkflowStatus.fromValue(_statusId);
     }
 
+    @Override
     public void setStatus(WorkflowStatus status) {
         _statusId = status.getId();
     }

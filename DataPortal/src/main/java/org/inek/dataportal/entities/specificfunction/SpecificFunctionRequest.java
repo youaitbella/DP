@@ -1,11 +1,15 @@
 package org.inek.dataportal.entities.specificfunction;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import org.inek.dataportal.entities.iface.StatusEntity;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.utils.Documentation;
 
@@ -15,7 +19,7 @@ import org.inek.dataportal.utils.Documentation;
  */
 @Entity
 @Table(name = "RequestMaster", schema = "spf")
-public class SpecificFunctionRequest implements Serializable {
+public class SpecificFunctionRequest implements Serializable, StatusEntity {
 
     private static final long serialVersionUID = 1L;
 
@@ -25,10 +29,12 @@ public class SpecificFunctionRequest implements Serializable {
     @Column(name = "rmId")
     private int _id = -1;
 
+    @Override
     public int getId() {
         return _id;
     }
 
+    @Override
     public void setId(int id) {
         _id = id;
     }
@@ -121,7 +127,7 @@ public class SpecificFunctionRequest implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Sealed">
     @Column(name = "rmSealed")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date _sealed = new Date (0,0,1);
+    private Date _sealed = Date.from(LocalDate.of(2000, Month.JANUARY, 1).atStartOfDay().toInstant(ZoneOffset.UTC));
 
     public Date getSealed() {
         return _sealed;
@@ -145,10 +151,12 @@ public class SpecificFunctionRequest implements Serializable {
     }
 
     @Documentation(key = "lblWorkstate", rank = 10)
+    @Override
     public WorkflowStatus getStatus() {
         return WorkflowStatus.fromValue(_statusId);
     }
 
+    @Override
     public void setStatus(WorkflowStatus status) {
         _statusId = status.getId();
     }

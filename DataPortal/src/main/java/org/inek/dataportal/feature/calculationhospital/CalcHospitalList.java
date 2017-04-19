@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
@@ -22,6 +23,7 @@ import org.inek.dataportal.entities.calc.DistributionModel;
 import org.inek.dataportal.entities.calc.DrgCalcBasics;
 import org.inek.dataportal.entities.calc.PeppCalcBasics;
 import org.inek.dataportal.entities.calc.StatementOfParticipance;
+import org.inek.dataportal.entities.iface.StatusEntity;
 import org.inek.dataportal.enums.CalcHospitalFunction;
 import org.inek.dataportal.enums.CalcInfoType;
 import org.inek.dataportal.enums.ConfigKey;
@@ -44,7 +46,7 @@ public class CalcHospitalList {
 
     // <editor-fold defaultstate="collapsed" desc="fields">
     private static final Logger LOGGER = Logger.getLogger(CalcHospitalList.class.getName());
-
+    
     @Inject private SessionController _sessionController;
     @Inject private CalcFacade _calcFacade;
     @Inject private DistributionModelFacade _distModelFacade;
@@ -63,25 +65,25 @@ public class CalcHospitalList {
         }
         return _allowedButtons.get(CalcHospitalFunction.StatementOfParticipance);
     }
-
+    
     public String newStatementOfParticipance() {
         return Pages.StatementOfParticipanceEditAddress.URL();
     }
-
+    
     public boolean isNewDistributionModelDrgAllowed() {
         if (!_appTools.isEnabled(ConfigKey.IsDistributionModelDrgCreateEnabled)) {
             return false;
         }
         return determineDistModelButtonAllowed(CalcHospitalFunction.ClinicalDistributionModelDrg);
     }
-
+    
     public boolean isNewDistributionModelPeppAllowed() {
         if (!_appTools.isEnabled(ConfigKey.IsDistributionModelPeppCreateEnabled)) {
             return false;
         }
         return determineDistModelButtonAllowed(CalcHospitalFunction.ClinicalDistributionModelPepp);
     }
-
+    
     private boolean determineDistModelButtonAllowed(CalcHospitalFunction calcFunct) {
         if (!_allowedButtons.containsKey(calcFunct)) {
             boolean testMode = _appTools.isEnabled(ConfigKey.TestMode);
@@ -93,40 +95,40 @@ public class CalcHospitalList {
         }
         return _allowedButtons.get(calcFunct);
     }
-
+    
     public boolean isNewCalculationBasicsDrgAllowed() {
         if (!_appTools.isEnabled(ConfigKey.IsCalculationBasicsDrgCreateEnabled)) {
             return false;
         }
         return determineButtonAllowed(CalcHospitalFunction.CalculationBasicsDrg);
     }
-
+    
     public String newCalculationBasicsDrg() {
         return Pages.CalcDrgEdit.RedirectURL();
     }
-
+    
     public boolean isNewCalculationBasicsPeppAllowed() {
         if (!_appTools.isEnabled(ConfigKey.IsCalculationBasicsPsyCreateEnabled)) {
             return false;
         }
         return determineButtonAllowed(CalcHospitalFunction.CalculationBasicsPepp);
     }
-
+    
     public String newCalculationBasicsPepp() {
         return Pages.CalcPeppEdit.RedirectURL();
     }
-
+    
     public boolean isNewCalculationBasicsObdAllowed() {
         if (!_appTools.isEnabled(ConfigKey.IsCalculationBasicsObdCreateEnabled)) {
             return false;
         }
         return determineButtonAllowed(CalcHospitalFunction.CalculationBasicsAutopsy);
     }
-
+    
     public String newCalculationBasicsObd() {
         return Pages.CalcObdEdit.RedirectURL();
     }
-
+    
     private boolean determineButtonAllowed(CalcHospitalFunction calcFunct) {
         if (!_allowedButtons.containsKey(calcFunct)) {
             boolean testMode = _appTools.isEnabled(ConfigKey.TestMode);
@@ -138,7 +140,7 @@ public class CalcHospitalList {
         }
         return _allowedButtons.get(calcFunct);
     }
-
+    
     public String printHospitalInfo(CalcHospitalInfo hospitalInfo) {
         switch (hospitalInfo.getType()) {
             case SOP:
@@ -155,23 +157,23 @@ public class CalcHospitalList {
                 throw new IllegalArgumentException("Unknown calcInfoType: " + hospitalInfo.getType());
         }
     }
-
-    private <T> String printData(Function<Integer, T> f, CalcHospitalInfo hospitalInfo) {
-        T data = f.apply(hospitalInfo.getId());
+    
+    private <T> String printData(Function<Integer, T> findData, CalcHospitalInfo hospitalInfo) {
+        T data = findData.apply(hospitalInfo.getId());
         List<KeyValueLevel> documentation = DocumentationUtil.getDocumentation(data);
         Utils.getFlash().put("headLine", Utils.getMessage("nameCALCULATION_HOSPITAL"));
         Utils.getFlash().put("targetPage", Pages.CalculationHospitalSummary.URL());
         Utils.getFlash().put("printContent", documentation);
         return Pages.PrintView.URL();
     }
-
+    
     public String deleteHospitalInfo(CalcHospitalInfo hospitalInfo) {
         switch (hospitalInfo.getType()) {
             case SOP:
                 deleteStatementOfParticipance(hospitalInfo);
                 break;
             case CBD:
-                deleteCalculationBasicsDrg(hospitalInfo);
+                deleteData(_calcFacade::findCalcBasicsDrg, _calcFacade::saveCalcBasicsDrg, _calcFacade::delete, hospitalInfo);
                 break;
             case CBP:
                 deleteCalculationBasicsPepp(hospitalInfo);
@@ -185,10 +187,25 @@ public class CalcHospitalList {
         return "";
     }
 
+    private <T> void deleteData(Function<Integer, T> findData, Function<T, T> saveData, Consumer<T> deleteData, CalcHospitalInfo hospitalInfo) {
+        T data = findData.apply(hospitalInfo.getId());
+        if (data == null) {
+            // might be deleted by somebody else
+            return;
+        }
+        StatusEntity entity = (StatusEntity) data;
+        if (entity.getStatus().getId() >= WorkflowStatus.Provided.getId()) {
+            entity.setStatus(WorkflowStatus.Retired);
+            saveData.apply(data);
+        } else {
+            deleteData.accept(data);
+        }
+        
+    }
+
     private void deleteStatementOfParticipance(CalcHospitalInfo hospitalInfo) {
         StatementOfParticipance statement = _calcFacade.findStatementOfParticipance(hospitalInfo.getId());
         if (statement == null) {
-            // might be deleted by somebody else
             return;
         }
         if (statement.getStatus().getId() >= WorkflowStatus.Provided.getId()) {
@@ -198,7 +215,7 @@ public class CalcHospitalList {
             _calcFacade.delete(statement);
         }
     }
-
+    
     private void deleteCalculationBasicsDrg(CalcHospitalInfo hospitalInfo) {
         DrgCalcBasics calcBasics = _calcFacade.findCalcBasicsDrg(hospitalInfo.getId());
         if (calcBasics.getStatus().getId() >= WorkflowStatus.Provided.getId()) {
@@ -208,7 +225,7 @@ public class CalcHospitalList {
             _calcFacade.delete(calcBasics);
         }
     }
-
+    
     private void deleteCalculationBasicsPepp(CalcHospitalInfo hospitalInfo) {
         PeppCalcBasics calcBasics = _calcFacade.findCalcBasicsPepp(hospitalInfo.getId());
         if (calcBasics.getStatus().getId() >= WorkflowStatus.Provided.getId()) {
@@ -218,7 +235,7 @@ public class CalcHospitalList {
             _calcFacade.delete(calcBasics);
         }
     }
-
+    
     private void deleteDistributionModel(CalcHospitalInfo hospitalInfo) {
         DistributionModel model = _distModelFacade.findDistributionModel(hospitalInfo.getId());
         if (model.getStatus().getId() >= WorkflowStatus.Provided.getId()) {
@@ -228,7 +245,7 @@ public class CalcHospitalList {
             _distModelFacade.delete(model);
         }
     }
-
+    
     public String editHospitalInfo(CalcInfoType type) {
         switch (type) {
             case SOP:
@@ -245,5 +262,5 @@ public class CalcHospitalList {
                 throw new IllegalArgumentException("Unknown calcInfoType: " + type);
         }
     }
-
+    
 }

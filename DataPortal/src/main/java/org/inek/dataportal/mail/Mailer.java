@@ -48,8 +48,7 @@ public class Mailer {
 
     protected static final Logger LOGGER = Logger.getLogger("Mailer");
 
-    @Inject
-    MailTemplateFacade _mailTemplateFacade;
+    @Inject private MailTemplateFacade _mailTemplateFacade;
     @Inject private ConfigFacade _config;
 
     public boolean sendMail(String recipient, String subject, String body) {

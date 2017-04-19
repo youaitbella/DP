@@ -6,6 +6,9 @@
 package org.inek.dataportal.entities.calc;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.ZoneOffset;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -24,6 +27,7 @@ import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import org.inek.dataportal.entities.iface.StatusEntity;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.helper.Utils;
@@ -35,7 +39,7 @@ import org.inek.dataportal.utils.Documentation;
  */
 @Entity
 @Table(name = "StatementOfParticipance", schema = "calc")
-public class StatementOfParticipance implements Serializable{
+public class StatementOfParticipance implements Serializable, StatusEntity{
 
     private static final long serialVersionUID = 1L;
 
@@ -108,10 +112,12 @@ public class StatementOfParticipance implements Serializable{
     }
 
     @Documentation(key = "lblWorkstate", rank = 10)
+    @Override
     public WorkflowStatus getStatus() {
         return WorkflowStatus.fromValue(_statusId);
     }
 
+    @Override
     public void setStatus(WorkflowStatus status) {
         _statusId = status.getId();
     }
@@ -148,7 +154,7 @@ public class StatementOfParticipance implements Serializable{
     //<editor-fold defaultstate="collapsed" desc="Sealed">
     @Column(name = "sopSealed")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date _sealed = new Date (0,0,1);
+    private Date _sealed = Date.from(LocalDate.of(2000, Month.JANUARY, 1).atStartOfDay().toInstant(ZoneOffset.UTC));
 
     public Date getSealed() {
         return _sealed;
