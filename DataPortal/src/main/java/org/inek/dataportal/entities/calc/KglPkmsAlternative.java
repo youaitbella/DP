@@ -25,7 +25,7 @@ import org.inek.dataportal.utils.Documentation;
 @Entity
 @Table(name = "KGLPKMSAlternative", schema = "calc")
 @XmlRootElement
-public class KGLPKMSAlternative implements Serializable, BaseIdValue {
+public class KglPkmsAlternative implements Serializable, BaseIdValue {
 
     private static final long serialVersionUID = 1L;
 
@@ -108,18 +108,11 @@ public class KGLPKMSAlternative implements Serializable, BaseIdValue {
     }
     //</editor-fold>
 
-    public KGLPKMSAlternative() {
+    public KglPkmsAlternative() {
     }
 
-    public KGLPKMSAlternative(Integer paID) {
-        this._id = paID;
-    }
-
-    public KGLPKMSAlternative(Integer paID, String paDepartment, String paDepartmentKey, String paAlternative) {
-        this._id = paID;
-        this._department = paDepartment;
-        this._departmentKey = paDepartmentKey;
-        this._alternative = paAlternative;
+    public KglPkmsAlternative(Integer baseInformationId) {
+        _baseInformationId = baseInformationId;
     }
 
     //<editor-fold defaultstate="collapsed" desc="hash && equals && toString">
@@ -148,7 +141,7 @@ public class KGLPKMSAlternative implements Serializable, BaseIdValue {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final KGLPKMSAlternative other = (KGLPKMSAlternative) obj;
+        final KglPkmsAlternative other = (KglPkmsAlternative) obj;
         if (this._id != -1 && this._id == other._id) {
             return true;
         }

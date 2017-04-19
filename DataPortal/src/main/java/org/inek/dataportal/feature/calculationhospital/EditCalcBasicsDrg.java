@@ -70,7 +70,7 @@ import org.inek.dataportal.entities.calc.KGLNormalFreelancer;
 import org.inek.dataportal.entities.calc.KGLNormalStationServiceDocumentation;
 import org.inek.dataportal.entities.calc.KGLNormalStationServiceDocumentationMinutes;
 import org.inek.dataportal.entities.calc.KGLOpAn;
-import org.inek.dataportal.entities.calc.KGLPKMSAlternative;
+import org.inek.dataportal.entities.calc.KglPkmsAlternative;
 import org.inek.dataportal.entities.calc.KGLPersonalAccounting;
 import org.inek.dataportal.entities.calc.KGLRadiologyService;
 import org.inek.dataportal.entities.calc.iface.BaseIdValue;
@@ -470,7 +470,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     private void initServiceProvision(DrgCalcBasics calcBasics) {
         calcBasics.getServiceProvisions().clear();
-        
+
         List<KGLListServiceProvisionType> provisionTypes = _calcFacade.retrieveServiceProvisionTypes(calcBasics.getDataYear(), true);
 
         loadMandatoryServiceProvision(provisionTypes, calcBasics);
@@ -503,7 +503,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             }
         }
     }
-
 
     // used by page only
     public void addCostCenterCosts() {
@@ -580,19 +579,16 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     public void addFeeContract() {
-        KGLNormalFeeContract fc = new KGLNormalFeeContract();
-        fc.setBaseInformationId(_calcBasics.getId());
+        KGLNormalFeeContract fc = new KGLNormalFeeContract(_calcBasics.getId());
         _calcBasics.getNormalFeeContracts().add(fc);
     }
 
     public void addPkmsService() {
-        KGLPKMSAlternative pkmsAlt = new KGLPKMSAlternative();
-        pkmsAlt.setBaseInformationId(_calcBasics.getId());
-        _calcBasics.getPkmsAlternatives().add(pkmsAlt);
+        _calcBasics.addKglPkmsAlternative();
     }
 
-    public void deletePkmsService(KGLPKMSAlternative item) {
-        _calcBasics.getPkmsAlternatives().remove(item);
+    public void deletePkmsService(KglPkmsAlternative item) {
+        _calcBasics.removePkmsAlternative(item);
     }
 
     public void deleteFeeContract(KGLNormalFeeContract fc) {
@@ -1349,12 +1345,11 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     public void deleteCostCenters(int costCenterId) {
-        for (Iterator<KGLListCostCenter> itr = _calcBasics.getCostCenters().iterator(); itr.hasNext();) {
-            KGLListCostCenter center = itr.next();
-            if (center.getCostCenterId() == costCenterId) {
-                itr.remove();
-            }
-        }
+        List<KGLListCostCenter> centersToDelete = _calcBasics.getCostCenters()
+                .stream()
+                .filter(c -> c.getCostCenterId() == costCenterId)
+                .collect(Collectors.toList());
+        _calcBasics.getCostCenters().removeAll(centersToDelete);
     }
 
     private Part _file;

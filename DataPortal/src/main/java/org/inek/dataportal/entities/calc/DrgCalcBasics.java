@@ -7,6 +7,7 @@ package org.inek.dataportal.entities.calc;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
@@ -99,6 +100,20 @@ public class DrgCalcBasics implements Serializable {
 
     public void setLastChanged(Date lastChanged) {
         this._lastChanged = lastChanged;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="lastChanged">
+    @Column(name = "biSealed")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date _sealed = new Date (0,0,1);
+
+    public Date getSealed() {
+        return _sealed;
+    }
+
+    public void setSealed(Date sealed) {
+        this._sealed = sealed;
     }
     //</editor-fold>
     
@@ -1161,14 +1176,18 @@ public class DrgCalcBasics implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "paBaseInformationId", referencedColumnName = "biID")
     @Documentation(name = "KGLPKMSAlternative", rank = 25041)
-    private List<KGLPKMSAlternative> _pkmsAlternatives = new Vector<>();
+    private List<KglPkmsAlternative> _pkmsAlternatives = new Vector<>();
     
-    public List<KGLPKMSAlternative> getPkmsAlternatives() {
-        return _pkmsAlternatives;
+    public List<KglPkmsAlternative> getPkmsAlternatives() {
+        return Collections.unmodifiableList(_pkmsAlternatives);
     }
     
-    public void setPkmsAlternatives(List<KGLPKMSAlternative> pkmsAlternatives) {
-        this._pkmsAlternatives = pkmsAlternatives;
+    public void addKglPkmsAlternative(){
+        _pkmsAlternatives.add(new KglPkmsAlternative(_id));
+    }
+    
+    public void removePkmsAlternative(KglPkmsAlternative item){
+        _pkmsAlternatives.remove(item);
     }
     //</editor-fold>
               
