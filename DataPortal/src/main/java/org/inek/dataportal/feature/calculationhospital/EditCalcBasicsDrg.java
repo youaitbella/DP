@@ -172,14 +172,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             calcBasics.getLocations().add(loc);
         }
 
-        // Special units
-        /*        
-        calcBasics.getSpecialUnits().clear();
-        for (KGLListSpecialUnit specialUnit : _priorCalcBasics.getSpecialUnits()) {
-            specialUnit.setId(-1);
-            specialUnit.setBaseInformationId(calcBasics.getId());
-            calcBasics.getSpecialUnits().add(specialUnit);
-        } Thumser, Vorjahreswerte sollen hier nicht geladen werden*/
         // Central focuses
         calcBasics.getCentralFocuses().clear();
         calcBasics.setCentralFocus(_priorCalcBasics.isCentralFocus());
@@ -309,10 +301,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             }
         });
 
-        // NonMedicalInfrastructure
-//        calcBasics.setDescNonMedicalInfra(_priorCalcBasics.getIblvMethodNonMedInfra() == 0);
-//        calcBasics.setOtherMethodNonMedInfra(_priorCalcBasics.getOtherMethodNonMedInfra());
-//        calcBasics.setIblvMethodNonMedInfra(_priorCalcBasics.getIblvMethodNonMedInfra());
         // MedicalInfrastructure
         calcBasics.setDescMedicalInfra(_priorCalcBasics.getIblvMethodMedInfra() == 0);
         calcBasics.setOtherMethodMedInfra(_priorCalcBasics.getOtherMethodMedInfra());

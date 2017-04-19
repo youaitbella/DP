@@ -19,10 +19,6 @@ import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.calc.CalcHospitalInfo;
-import org.inek.dataportal.entities.calc.DistributionModel;
-import org.inek.dataportal.entities.calc.DrgCalcBasics;
-import org.inek.dataportal.entities.calc.PeppCalcBasics;
-import org.inek.dataportal.entities.calc.StatementOfParticipance;
 import org.inek.dataportal.entities.iface.StatusEntity;
 import org.inek.dataportal.enums.CalcHospitalFunction;
 import org.inek.dataportal.enums.CalcInfoType;
@@ -87,7 +83,8 @@ public class CalcHospitalList {
     private boolean determineDistModelButtonAllowed(CalcHospitalFunction calcFunct) {
         if (!_allowedButtons.containsKey(calcFunct)) {
             boolean testMode = _appTools.isEnabled(ConfigKey.TestMode);
-            Set<Integer> possibleIks = _distModelFacade.obtainIks4NewDistributionModel(calcFunct, _sessionController.getAccountId(), Utils.getTargetYear(Feature.CALCULATION_HOSPITAL), testMode);
+            int year = Utils.getTargetYear(Feature.CALCULATION_HOSPITAL);
+            Set<Integer> possibleIks = _distModelFacade.obtainIks4NewDistributionModel(calcFunct, _sessionController.getAccountId(), year, testMode);
             Account account = _sessionController.getAccount();
             boolean isAllowed = possibleIks.contains(account.getIK())
                     || account.getAdditionalIKs().stream().anyMatch(ai -> possibleIks.contains(ai.getIK()));
@@ -132,7 +129,8 @@ public class CalcHospitalList {
     private boolean determineButtonAllowed(CalcHospitalFunction calcFunct) {
         if (!_allowedButtons.containsKey(calcFunct)) {
             boolean testMode = _appTools.isEnabled(ConfigKey.TestMode);
-            Set<Integer> possibleIks = _calcFacade.obtainIks4NewBasics(calcFunct, _sessionController.getAccountId(), Utils.getTargetYear(Feature.CALCULATION_HOSPITAL), testMode);
+            Set<Integer> possibleIks = _calcFacade
+                    .obtainIks4NewBasics(calcFunct, _sessionController.getAccountId(), Utils.getTargetYear(Feature.CALCULATION_HOSPITAL), testMode);
             Account account = _sessionController.getAccount();
             boolean isAllowed = possibleIks.contains(account.getIK())
                     || account.getAdditionalIKs().stream().anyMatch(ai -> possibleIks.contains(ai.getIK()));
@@ -170,16 +168,19 @@ public class CalcHospitalList {
     public String deleteHospitalInfo(CalcHospitalInfo hospitalInfo) {
         switch (hospitalInfo.getType()) {
             case SOP:
-                deleteStatementOfParticipance(hospitalInfo);
+                deleteData(_calcFacade::findStatementOfParticipance, _calcFacade::saveStatementOfParticipance, _calcFacade::delete, hospitalInfo);
                 break;
             case CBD:
                 deleteData(_calcFacade::findCalcBasicsDrg, _calcFacade::saveCalcBasicsDrg, _calcFacade::delete, hospitalInfo);
                 break;
             case CBP:
-                deleteCalculationBasicsPepp(hospitalInfo);
+                deleteData(_calcFacade::findCalcBasicsPepp, _calcFacade::saveCalcBasicsPepp, _calcFacade::delete, hospitalInfo);
+                break;
+            case CBA:
+                deleteData(_calcFacade::findCalcBasicsAutopsy, _calcFacade::saveCalcBasicsAutopsy, _calcFacade::delete, hospitalInfo);
                 break;
             case CDM:
-                deleteDistributionModel(hospitalInfo);
+                deleteData( _distModelFacade::findDistributionModel, _distModelFacade::saveDistributionModel, _distModelFacade::delete, hospitalInfo);
                 break;
             default:
                 throw new IllegalArgumentException("Unknown calcInfoType: " + hospitalInfo.getType());
@@ -203,49 +204,6 @@ public class CalcHospitalList {
         
     }
 
-    private void deleteStatementOfParticipance(CalcHospitalInfo hospitalInfo) {
-        StatementOfParticipance statement = _calcFacade.findStatementOfParticipance(hospitalInfo.getId());
-        if (statement == null) {
-            return;
-        }
-        if (statement.getStatus().getId() >= WorkflowStatus.Provided.getId()) {
-            statement.setStatus(WorkflowStatus.Retired);
-            _calcFacade.saveStatementOfParticipance(statement);
-        } else {
-            _calcFacade.delete(statement);
-        }
-    }
-    
-    private void deleteCalculationBasicsDrg(CalcHospitalInfo hospitalInfo) {
-        DrgCalcBasics calcBasics = _calcFacade.findCalcBasicsDrg(hospitalInfo.getId());
-        if (calcBasics.getStatus().getId() >= WorkflowStatus.Provided.getId()) {
-            calcBasics.setStatus(WorkflowStatus.Retired);
-            _calcFacade.saveCalcBasicsDrg(calcBasics);
-        } else {
-            _calcFacade.delete(calcBasics);
-        }
-    }
-    
-    private void deleteCalculationBasicsPepp(CalcHospitalInfo hospitalInfo) {
-        PeppCalcBasics calcBasics = _calcFacade.findCalcBasicsPepp(hospitalInfo.getId());
-        if (calcBasics.getStatus().getId() >= WorkflowStatus.Provided.getId()) {
-            calcBasics.setStatus(WorkflowStatus.Retired);
-            _calcFacade.saveCalcBasicsPepp(calcBasics);
-        } else {
-            _calcFacade.delete(calcBasics);
-        }
-    }
-    
-    private void deleteDistributionModel(CalcHospitalInfo hospitalInfo) {
-        DistributionModel model = _distModelFacade.findDistributionModel(hospitalInfo.getId());
-        if (model.getStatus().getId() >= WorkflowStatus.Provided.getId()) {
-            model.setStatus(WorkflowStatus.Retired);
-            _distModelFacade.saveDistributionModel(model);
-        } else {
-            _distModelFacade.delete(model);
-        }
-    }
-    
     public String editHospitalInfo(CalcInfoType type) {
         switch (type) {
             case SOP:

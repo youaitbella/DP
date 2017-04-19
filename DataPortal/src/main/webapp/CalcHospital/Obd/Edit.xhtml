@@ -12,59 +12,59 @@
     <ui:define name="content">
 
         <h:form id="sop">
-            <h1><h:commandLink value="#{msg.lblCalcBasic} OBD #{msg.lblYearData} #{editSpecificFunctionAgreement.agreement.dataYear}" 
+            <h1><h:commandLink value="#{msg.lblCalcBasic} OBD #{msg.lblYearData} #{editCalcBasicsAutopsy.calcBasics.dataYear}" 
                                action="#{sessionController.navigate(sessionTools.pages.CalculationHospitalSummary)}" immediate="true"/></h1>
 
 
             <div class="edit">
-                <!--<ui:include src="# {editDrgProposal.part}"/>-->
-                <ui:insert name="editContent">Content</ui:insert>
+
+                <!--ui:insert name="editContent">Content</ui:insert-->
 
                 <div class="toolBar">
                     <h:commandLink styleClass="bigButton"
-                                   action="#{editSpecificFunctionAgreement.save}"
+                                   action="#{editCalcBasicsAutopsy.save}"
                                    value="#{msg.btnSave}"
                                    immediate="true"
-                                   rendered="#{!editSpecificFunctionAgreement.readOnly}">
+                                   rendered="#{!editCalcBasicsAutopsy.readOnly}">
                     </h:commandLink>
 
                     <h:commandLink styleClass="sendButton"
-                                   action="#{editSpecificFunctionAgreement.requestApproval}"
+                                   action="#{editCalcBasicsAutopsy.requestApproval}"
                                    value="#{msg.btnRequestApproval}"
-                                   rendered="#{editSpecificFunctionAgreement.approvalRequestEnabled}"
+                                   rendered="#{editCalcBasicsAutopsy.approvalRequestEnabled}"
                                    title="#{msg.infoSaveAndClose}">
                         <cb:confirmRequestApproval/>
                     </h:commandLink>
 
                     <h:commandLink styleClass="sendButton"
                                    immediate="true"
-                                   action="#{editSpecificFunctionAgreement.seal}"
+                                   action="#{editCalcBasicsAutopsy.seal}"
                                    value="#{msg.btnSaveAndClose}"
-                                   rendered="#{editSpecificFunctionAgreement.sealEnabled and (editSpecificFunctionAgreement.activeTopicKey ne 'tabStatementOfParticipanceAddress' or editSpecificFunctionAgreement.statement.obligatoryCalcType eq 1)}"
+                                   rendered="#{editCalcBasicsAutopsy.sealEnabled and (editCalcBasicsAutopsy.activeTopicKey ne 'tabStatementOfParticipanceAddress' or editCalcBasicsAutopsy.statement.obligatoryCalcType eq 1)}"
                                    title="#{msg.infoSaveAndClose}">
                         <cb:confirmSeal/>
                     </h:commandLink>
 
-                    <h:commandLink styleClass="bigButton"
-                                   action="#{editSpecificFunctionAgreement.copyForResend}"
-                                   value="#{msg.btnChangeData}"
+                    <!--h:commandLink styleClass="bigButton"
+                                   action="# {editCalcBasicsAutopsy.copyForResend}"
+                                   value="# {msg.btnChangeData}"
                                    immediate="true"
-                                   rendered="#{editSpecificFunctionAgreement.copyForResendAllowed}">
+                                   rendered="# {editCalcBasicsAutopsy.copyForResendAllowed}">
                         <cb:confirmChangeData/>
-                    </h:commandLink>
+                    </h:commandLink-->
 
                     <h:commandLink styleClass="bigButton"
-                                   action="#{editSpecificFunctionAgreement.take}"
+                                   action="#{editCalcBasicsAutopsy.take}"
                                    value="#{msg.btnTake}"
                                    immediate="true"
-                                   rendered="#{editSpecificFunctionAgreement.takeEnabled}"
+                                   rendered="#{editCalcBasicsAutopsy.takeEnabled}"
                                    onclick="#{sessionController.getConfirmMessage('msgConfirmTake')};">
                     </h:commandLink>
                     
                     <h:commandLink styleClass="bigButton"
                                    value="#{msg.btnNextPage}"
-                                   rendered="#{editSpecificFunctionAgreement.activeTopicKey eq 'tabStatementOfParticipanceAddress' and (not editSpecificFunctionAgreement.statement.obligatory or editSpecificFunctionAgreement.statement.obligatoryCalcType eq 2)}"
-                                   actionListener="#{editSpecificFunctionAgreement.activateNextTopic}"
+                                   rendered="#{editCalcBasicsAutopsy.activeTopicKey eq 'tabStatementOfParticipanceAddress' and (not editCalcBasicsAutopsy.statement.obligatory or editCalcBasicsAutopsy.statement.obligatoryCalcType eq 2)}"
+                                   actionListener="#{editCalcBasicsAutopsy.activateNextTopic}"
                                    action="/CalcHospital/StatementOfParticipance/EditStatements"
                                    immediate="true"> <!--action="# {sessionController.navigate(sessionTools.pages.StatementOfParticipanceEditStatements)}"-->
 

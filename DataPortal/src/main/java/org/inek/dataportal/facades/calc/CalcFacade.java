@@ -902,16 +902,6 @@ public class CalcFacade extends AbstractDataAccess {
         return merged;
     }
 
-    private void saveIdList(List<? extends BaseIdValue> list) {
-        for (BaseIdValue item : list) {
-            if (item.getId() == -1) {
-                persist(item);
-            } else {
-                merge(item);
-            }
-        }
-    }
-
     public void delete(PeppCalcBasics calcBasics) {
         remove(calcBasics);
     }
@@ -962,6 +952,7 @@ public class CalcFacade extends AbstractDataAccess {
         return result;
     }
 
+    //<editor-fold defaultstate="collapsed" desc="Autopsy">
     private Set<Integer> obtainIks4NewBasiscsAutopsy(int accountId, int year, boolean testMode) {
         String sql = "select distinct sopIk \n"
                 + "from calc.StatementOfParticipance\n"
@@ -989,14 +980,40 @@ public class CalcFacade extends AbstractDataAccess {
                 + "			and cbaStatusId < 200 \n"
                 + "			and sopIk = cbaIk\n"
                 + "	)";
-
+        
         Query query = getEntityManager().createNativeQuery(sql);
         @SuppressWarnings("unchecked") Set<Integer> result = new HashSet<>(query.getResultList());
         return result;
     }
-
+    
     public CalcBasicsAutopsy findCalcBasicsAutopsy(int id) {
         return findFresh(CalcBasicsAutopsy.class, id);
     }
+    
+    public CalcBasicsAutopsy saveCalcBasicsAutopsy(CalcBasicsAutopsy calcBasics) {
+        if (calcBasics.getId() == -1) {
+            persist(calcBasics);
+            return calcBasics;
+        }
+        
+        CalcBasicsAutopsy merged = merge(calcBasics);
+        return merged;
+    }
+
+    public void delete(CalcBasicsAutopsy calcBasics) {
+        remove(calcBasics);
+    }
+    //</editor-fold>
+    
+    private void saveIdList(List<? extends BaseIdValue> list) {
+        for (BaseIdValue item : list) {
+            if (item.getId() == -1) {
+                persist(item);
+            } else {
+                merge(item);
+            }
+        }
+    }
+
     
 }

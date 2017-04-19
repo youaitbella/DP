@@ -1,0 +1,380 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package org.inek.dataportal.feature.calculationhospital;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+import org.inek.dataportal.common.ApplicationTools;
+import org.inek.dataportal.common.CooperationTools;
+import org.inek.dataportal.controller.SessionController;
+import org.inek.dataportal.entities.account.Account;
+import org.inek.dataportal.entities.account.AccountAdditionalIK;
+import org.inek.dataportal.entities.admin.MailTemplate;
+import org.inek.dataportal.entities.calc.CalcBasicsAutopsy;
+import org.inek.dataportal.enums.CalcHospitalFunction;
+import org.inek.dataportal.enums.ConfigKey;
+import org.inek.dataportal.enums.Feature;
+import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.enums.WorkflowStatus;
+import org.inek.dataportal.facades.account.AccountFacade;
+import org.inek.dataportal.facades.calc.CalcFacade;
+import org.inek.dataportal.feature.AbstractEditController;
+import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.helper.structures.MessageContainer;
+import org.inek.dataportal.mail.Mailer;
+import org.inek.dataportal.utils.DocumentationUtil;
+
+/**
+ *
+ * @author muellermi
+ */
+@Named
+@ViewScoped
+public class EditCalcBasicsAutopsy extends AbstractEditController implements Serializable {
+
+    // <editor-fold defaultstate="collapsed" desc="fields & enums">
+    private static final Logger LOGGER = Logger.getLogger("EditCalcBasicsAutopsy");
+
+    @Inject private CooperationTools _cooperationTools;
+    @Inject private SessionController _sessionController;
+    @Inject private CalcFacade _calcFacade;
+    @Inject private ApplicationTools _appTools;
+
+    private CalcBasicsAutopsy _calcBasics;
+
+    public CalcBasicsAutopsy getCalcBasics() {
+        return _calcBasics;
+    }
+
+    public void setCalcBasics(CalcBasicsAutopsy calcBasics) {
+        this._calcBasics = calcBasics;
+    }
+
+    private CalcBasicsAutopsy _priorCalcBasics;
+
+    public CalcBasicsAutopsy getPriorCalcBasics() {
+        return _priorCalcBasics;
+    }
+
+    public void setPriorCalcBasics(CalcBasicsAutopsy calcBasics) {
+        this._priorCalcBasics = calcBasics;
+    }
+    // </editor-fold>
+
+    @PostConstruct
+    private void init() {
+        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+        String id = "" + params.get("id");
+        if (id.equals("new")) {
+            _calcBasics = newCalcBasics();
+        } else if (Utils.isInteger(id)) {
+            CalcBasicsAutopsy calcBasics = loadCalcBasics(id);
+            if (calcBasics.getId() == -1) {
+                Utils.navigate(Pages.NotAllowed.RedirectURL());
+                return;
+            }
+            _calcBasics = calcBasics;
+            if (isRequestCorrectionEnabled()) {
+               //todo  _priorCalcBasics = _calcFacade.findPriorCalcBasics(_calcBasics);
+            }
+        } else {
+            Utils.navigate(Pages.Error.RedirectURL());
+        }
+    }
+
+    private CalcBasicsAutopsy loadCalcBasics(String idObject) {
+        int id = Integer.parseInt(idObject);
+        CalcBasicsAutopsy calcBasics = _calcFacade.findCalcBasicsAutopsy(id);
+        if (hasSufficientRights(calcBasics)) {
+            return calcBasics;
+        }
+        return new CalcBasicsAutopsy();
+    }
+
+    private boolean hasSufficientRights(CalcBasicsAutopsy model) {
+        if (_sessionController.isMyAccount(model.getAccountId(), false)) {
+            return true;
+        }
+        if (isInekViewable(model)) {
+            return true;
+        }
+        return _cooperationTools.isAllowed(Feature.CALCULATION_HOSPITAL, model.getStatus(), model.getAccountId());
+    }
+
+    private CalcBasicsAutopsy newCalcBasics() {
+        CalcBasicsAutopsy calcBasics = new CalcBasicsAutopsy();
+        Account account = _sessionController.getAccount();
+        calcBasics.setAccountId(account.getId());
+        calcBasics.setDataYear(Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
+        List<SelectItem> ikItems = getIkItems(calcBasics);
+        if (ikItems.size() == 1) {
+            calcBasics.setIk((int) ikItems.get(0).getValue());
+        }
+        return calcBasics;
+    }
+
+    // <editor-fold defaultstate="collapsed" desc="actions">
+    public boolean isOwnModel() {
+        return _sessionController.isMyAccount(_calcBasics.getAccountId(), false);
+    }
+
+    public boolean isReadOnly() {
+        return _cooperationTools.isReadOnly(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId())
+                || _sessionController.isInekUser(Feature.CALCULATION_HOSPITAL) && !isOwnModel();
+    }
+
+    private boolean isInekEditable(CalcBasicsAutopsy calcBasics) {
+        return _sessionController.isInekUser(Feature.CALCULATION_HOSPITAL, true) && calcBasics != null && (calcBasics.getStatus() == WorkflowStatus.Provided || calcBasics.getStatus() == WorkflowStatus.ReProvided);
+    }
+
+    private boolean isInekViewable(CalcBasicsAutopsy calcBasics) {
+        return _sessionController.isInekUser(Feature.CALCULATION_HOSPITAL, true) && calcBasics != null && calcBasics.getStatusId() >= WorkflowStatus.Provided.getId();
+    }
+
+    @Override
+    protected void addTopics() {
+        addTopic("TopicFrontPage", Pages.CalcDrgBasics.URL());
+    }
+
+    public String save() {
+        setModifiedInfo();
+        _calcBasics = _calcFacade.saveCalcBasicsAutopsy(_calcBasics);
+
+        if (isValidId(_calcBasics.getId())) {
+            // CR+LF or LF only will be replaced by "\r\n"
+            String script = "alert ('" + Utils.getMessage("msgSave").replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
+            _sessionController.setScript(script);
+            if (_calcBasics.getStatus() == WorkflowStatus.Taken) {
+                return Pages.CalculationHospitalSummary.URL();
+            }
+            return null;
+        }
+        return Pages.Error.URL();
+    }
+
+    private void setModifiedInfo() {
+        _calcBasics.setLastChanged(Calendar.getInstance().getTime());
+        _calcBasics.setAccountIdLastChange(_sessionController.getAccountId());
+    }
+
+    private boolean isValidId(Integer id) {
+        return id != null && id >= 0;
+    }
+
+    public boolean isSealEnabled() {
+        if (!_appTools.isEnabled(ConfigKey.IsDistributionModelSendEnabled)) {
+            return false;
+        }
+        return _cooperationTools.isSealedEnabled(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId());
+    }
+
+    public boolean isApprovalRequestEnabled() {
+        if (!_appTools.isEnabled(ConfigKey.IsDistributionModelSendEnabled)) {
+            return false;
+        }
+        return _cooperationTools.isApprovalRequestEnabled(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId());
+    }
+
+    public boolean isRequestCorrectionEnabled() {
+        if (!_appTools.isEnabled(ConfigKey.IsDistributionModelSendEnabled)) {
+            return false;
+        }
+        return (_calcBasics.getStatus() == WorkflowStatus.Provided || _calcBasics.getStatus() == WorkflowStatus.ReProvided)
+                && _sessionController.isInekUser(Feature.CALCULATION_HOSPITAL, true)
+                && _calcBasics != null;
+    }
+
+    public String requestCorrection() {
+        if (!isRequestCorrectionEnabled()) {
+            return "";
+        }
+        setModifiedInfo();
+        // set as retired
+        _calcBasics.setStatus(WorkflowStatus.Retired);
+        _calcFacade.saveCalcBasicsAutopsy(_calcBasics);
+
+        // create copy to edit (persist detached object with default Ids)
+        _calcBasics.setStatus(WorkflowStatus.New);
+        _calcBasics.setId(-1);
+        _calcFacade.saveCalcBasicsAutopsy(_calcBasics);
+        sendMessage("KVM Konkretisierung");
+
+        return Pages.CalculationHospitalSummary.URL();
+    }
+
+    public boolean isSendApprovalEnabled() {
+        return (_calcBasics.getStatus() == WorkflowStatus.Provided || _calcBasics.getStatus() == WorkflowStatus.ReProvided)
+                && _sessionController.isInekUser(Feature.CALCULATION_HOSPITAL, true)
+                && _calcBasics != null;
+    }
+
+    public String sendApproval() {
+        if (!isInekEditable(_calcBasics)) {
+            return "";
+        }
+        setModifiedInfo();
+        _calcBasics.setStatus(WorkflowStatus.Taken);
+        _calcFacade.saveCalcBasicsAutopsy(_calcBasics);
+        sendMessage("KVM Genehmigung");
+
+        return Pages.CalculationHospitalSummary.URL();
+    }
+
+    @Inject private AccountFacade _accountFacade;
+    @Inject private Mailer _mailer;
+
+    private void sendMessage(String name) {
+        Account receiver = _accountFacade.find(_appTools.isEnabled(ConfigKey.TestMode) ? _sessionController.getAccountId() : _calcBasics.getAccountId());
+        MailTemplate template = _mailer.getMailTemplate(name);
+        String subject = template.getSubject()
+                .replace("{ik}", "" + _calcBasics.getIk());
+        String body = template.getBody()
+                .replace("{formalSalutation}", _mailer.getFormalSalutation(receiver))
+                ; // todo.replace("{note}", _calcBasics.getNoteInek());
+        String bcc = template.getBcc().replace("{accountMail}", _sessionController.getAccount().getEmail());
+        _mailer.sendMailFrom(template.getFrom(), receiver.getEmail(), "", bcc, subject, body);
+    }
+
+    public boolean isTakeEnabled() {
+        return false;
+        // todo: do not allow consultant
+        //return _cooperationTools.isTakeEnabled(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId());
+    }
+
+    /**
+     * This function seals a statement od participance if possible. Sealing is possible, if all mandatory fields are fulfilled. After sealing, the
+     * statement od participance can not be edited anymore and is available for the InEK.
+     *
+     * @return
+     */
+    public String seal() {
+        if (!modelIsComplete()) {
+            return "";
+        }
+        _calcBasics.setStatus(WorkflowStatus.Provided);
+        setModifiedInfo();
+        _calcBasics.setSealed(Calendar.getInstance().getTime());
+        _calcBasics = _calcFacade.saveCalcBasicsAutopsy(_calcBasics);
+
+        if (isValidId(_calcBasics.getId())) {
+            Utils.getFlash().put("headLine", Utils.getMessage("nameCALCULATION_HOSPITAL"));
+            Utils.getFlash().put("targetPage", Pages.CalculationHospitalSummary.URL());
+            Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(_calcBasics));
+            return Pages.PrintView.URL();
+        }
+        return "";
+    }
+
+    private boolean modelIsComplete() {
+        MessageContainer message = composeMissingFieldsMessage(_calcBasics);
+        if (message.containsMessage()) {
+            message.setMessage(Utils.getMessage("infoMissingFields") + "\\r\\n" + message.getMessage());
+            //setActiveTopic(message.getTopic());
+            String script = "alert ('" + message.getMessage() + "');";
+            if (!message.getElementId().isEmpty()) {
+                script += "\r\n document.getElementById('" + message.getElementId() + "').focus();";
+            }
+            _sessionController.setScript(script);
+        }
+        return !message.containsMessage();
+    }
+
+    public MessageContainer composeMissingFieldsMessage(CalcBasicsAutopsy model) {
+        MessageContainer message = new MessageContainer();
+
+        checkField(message, model.getIk(), 100000000, 999999999, "lblIK", "calcBasicsAutopsy:ikMulti");
+
+
+        return message;
+    }
+
+    private void checkField(MessageContainer message, String value, String msgKey, String elementId) {
+        if (Utils.isNullOrEmpty(value)) {
+            applyMessageValues(message, msgKey, elementId);
+        }
+    }
+
+    private void checkField(MessageContainer message, Integer value, Integer minValue, Integer maxValue, String msgKey, String elementId) {
+        if (value == null
+                || minValue != null && value < minValue
+                || maxValue != null && value > maxValue) {
+            applyMessageValues(message, msgKey, elementId);
+        }
+    }
+
+    private void applyMessageValues(MessageContainer message, String msgKey, String elementId) {
+        message.setMessage(message.getMessage() + "\\r\\n" + Utils.getMessageOrKey(msgKey));
+        if (message.getTopic().isEmpty()) {
+            message.setTopic("");
+            message.setElementId(elementId);
+        }
+    }
+
+    public String requestApproval() {
+        if (!modelIsComplete()) {
+            return null;
+        }
+        _calcBasics.setStatus(WorkflowStatus.ApprovalRequested);
+        setModifiedInfo();
+        _calcBasics = _calcFacade.saveCalcBasicsAutopsy(_calcBasics);
+        return "";
+    }
+
+    public String take() {
+        if (!isTakeEnabled()) {
+            return Pages.Error.URL();
+        }
+        _calcBasics.setAccountId(_sessionController.getAccountId());
+        setModifiedInfo();
+        _calcBasics = _calcFacade.saveCalcBasicsAutopsy(_calcBasics);
+        return "";
+    }
+
+    public void ikChanged() {
+        // dummy listener, used by component MultiIk - do not delete
+    }
+
+    private List<SelectItem> _ikItems;
+
+    public List<SelectItem> getIkItems() {
+        return getIkItems(_calcBasics);
+    }
+
+    public List<SelectItem> getIkItems(CalcBasicsAutopsy model) {
+        // todo: get correct IK list, depending on type
+        if (_ikItems == null && model != null) {
+            Account account = _sessionController.getAccount();
+            boolean testMode = _appTools.isEnabled(ConfigKey.TestMode);
+            Set<Integer> possibleIks = _calcFacade.obtainIks4NewBasics(CalcHospitalFunction.CalculationBasicsAutopsy, account.getId(), Utils.getTargetYear(Feature.CALCULATION_HOSPITAL), testMode);
+
+            _ikItems = new ArrayList<>();
+            if (model.getIk() > 0) {
+                _ikItems.add(new SelectItem(model.getIk()));
+            }
+            if (account.getIK() != null && account.getIK() > 0 && possibleIks.contains(account.getIK())) {
+                _ikItems.add(new SelectItem(account.getIK()));
+            }
+            for (AccountAdditionalIK additionalIK : account.getAdditionalIKs()) {
+                if (possibleIks.contains(additionalIK.getIK())) {
+                    _ikItems.add(new SelectItem(additionalIK.getIK()));
+                }
+            }
+        }
+        return _ikItems;
+    }
+
+}
