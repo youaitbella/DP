@@ -72,10 +72,10 @@ public class DataImporterWorker {
             
             //KGPListTherapy item = new KGPListTherapy();
             //item.setBaseInformationId(_calcBasics.getId());
-            ErrorCounter counter = new ErrorCounter();
+            //ErrorCounter counter = new ErrorCounter();
 
             DataImportCheck<KGPListTherapy, Integer> intChecker 
-                    = new DataImportCheck<>(counter, 
+                    = new DataImportCheck<>(ErrorCounter.obtainErrorCounter("test"), 
                             DataImportCheck::tryImportInteger,
                             (i, s) -> i.setCostCenterId(s), 
                             "Keine zulässige KST-Gruppe (23-26) : ");

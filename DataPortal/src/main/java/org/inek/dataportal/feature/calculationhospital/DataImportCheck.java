@@ -5,11 +5,11 @@
  */
 package org.inek.dataportal.feature.calculationhospital;
 
+import java.io.Serializable;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 import org.inek.dataportal.helper.Utils;
 
 /**
@@ -17,7 +17,7 @@ import org.inek.dataportal.helper.Utils;
  * 
  * @author kunkelan
  */
-public class DataImportCheck<T,I> {
+public class DataImportCheck<T,I> implements Serializable {
     private final ErrorCounter counter;
     private final QuintConsumer<T, String, BiConsumer<T,I>, String, ErrorCounter> check;
     private final BiConsumer<T, I> assign;
@@ -28,6 +28,10 @@ public class DataImportCheck<T,I> {
         this.check = check;
         this.assign = assign;
         this.errorMsg = errorMsg;
+    }
+    
+    public void resetCounter() {
+        counter.reset();
     }
     
     public void tryImport(T item, String data) {

@@ -5,14 +5,17 @@
  */
 package org.inek.dataportal.feature.calculationhospital;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- *
+ * Several {@linkplain DataImportCheck} will supply information about checking progress.
+ * This information will be stored here for later retrievment.
+ * 
  * @author kunkelan
  */
-public class ErrorCounter {
+public class ErrorCounter implements Serializable {
     private static Map<String, ErrorCounter> counters = new HashMap<>();
     
     private String _errorMsg = "";
@@ -21,11 +24,31 @@ public class ErrorCounter {
     private int _totalCount = 0;
     private int _errorColumnCount = 0;
 
+    private ErrorCounter() {
+        // use only ErrorCounters via obtainErrorCounter
+    }
+
+    /**
+     * Return the named ErrorCounter, generating one if not exists.
+     * @param importer name who demands an ErrorCounter.
+     * @return the named ErrorCounter
+     */
     public static ErrorCounter obtainErrorCounter(String importer) {
         if (!counters.containsKey(importer)) {
             counters.put(importer, new ErrorCounter());
         }
         return counters.get(importer);
+    }
+    
+    /**
+     * For a new upload clear the old message. 
+     */
+    public void reset() {
+        _errorMsg = "";
+        _infoColumnCount = 0;
+        _errorRowCount = 0;
+        _totalCount = 0;
+        _errorColumnCount = 0;
     }
     
     public boolean containsError() {
