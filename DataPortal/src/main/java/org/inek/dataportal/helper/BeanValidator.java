@@ -11,7 +11,7 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 
 /**
- *
+ * Check if the member variables confirm the annotions like @Min, @Max, @Length ...
  * @author muellermi
  */
 public class BeanValidator {
