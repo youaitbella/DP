@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "KGLListProvidedType", schema = "calc")
 @XmlRootElement
-public class KGLListProvidedType implements Serializable {
+public class KglListProvidedType implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -82,14 +82,14 @@ public class KGLListProvidedType implements Serializable {
     }
     //</editor-fold>
 
-    public KGLListProvidedType() {
+    public KglListProvidedType() {
     }
 
-    public KGLListProvidedType(int ptID) {
+    public KglListProvidedType(int ptID) {
         this._id = ptID;
     }
 
-    public KGLListProvidedType(int ptID, String ptText, int ptFirstYear, int ptLastYear) {
+    public KglListProvidedType(int ptID, String ptText, int ptFirstYear, int ptLastYear) {
         this._id = ptID;
         this._text = ptText;
         this._firstYear = ptFirstYear;
@@ -123,7 +123,7 @@ public class KGLListProvidedType implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final KGLListProvidedType other = (KGLListProvidedType) obj;
+        final KglListProvidedType other = (KglListProvidedType) obj;
 
         if (this._id != -1 && this._id == other._id) {
             return true;
