@@ -17,9 +17,6 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.calc.CalcBasicsAutopsy;
 import org.inek.dataportal.entities.calc.DrgCalcBasics;
@@ -430,7 +427,7 @@ public class CalcFacade extends AbstractDataAccess {
                 + "left join CallCenterDB.dbo.mapCustomerCalcContact on a.coId = mcccContactId and ciId = mcccCalcInformationId \n"
                 + "where mcccContactId is null and a.coid is not null\n"
                 + "\n\n"
-                //Prio setzen  
+                //Prio setzen
                 // todo: remove prio
                 + "update a \n"
                 + "set coPrio = case when b.coid is not null then rw else 99 end \n"
@@ -458,9 +455,8 @@ public class CalcFacade extends AbstractDataAccess {
     }
 
     /**
-     * Check, whether the customers assigned to the account iks have an
-     * agreement and the account is a well known contact (2). An IK is only
-     * available, if no SoP exists for the given year.
+     * Check, whether the customers assigned to the account iks have an agreement and the account is a well known
+     * contact (2). An IK is only available, if no SoP exists for the given year.
      *
      * @param accountId
      * @param year
@@ -980,22 +976,22 @@ public class CalcFacade extends AbstractDataAccess {
                 + "                     and cbaStatusId < 200 \n"
                 + "                     and sopIk = cbaIk\n"
                 + "     )";
-        
+
         Query query = getEntityManager().createNativeQuery(sql);
         @SuppressWarnings("unchecked") Set<Integer> result = new HashSet<>(query.getResultList());
         return result;
     }
-    
+
     public CalcBasicsAutopsy findCalcBasicsAutopsy(int id) {
         return findFresh(CalcBasicsAutopsy.class, id);
     }
-    
+
     public CalcBasicsAutopsy saveCalcBasicsAutopsy(CalcBasicsAutopsy calcBasics) {
         if (calcBasics.getId() == -1) {
             persist(calcBasics);
             return calcBasics;
         }
-        
+
         CalcBasicsAutopsy merged = merge(calcBasics);
         return merged;
     }
@@ -1004,7 +1000,7 @@ public class CalcFacade extends AbstractDataAccess {
         remove(calcBasics);
     }
     //</editor-fold>
-    
+
     private void saveIdList(List<? extends BaseIdValue> list) {
         for (BaseIdValue item : list) {
             if (item.getId() == -1) {
@@ -1015,5 +1011,4 @@ public class CalcFacade extends AbstractDataAccess {
         }
     }
 
-    
 }
