@@ -42,7 +42,7 @@ public class CalcHospitalList {
 
     // <editor-fold defaultstate="collapsed" desc="fields">
     private static final Logger LOGGER = Logger.getLogger(CalcHospitalList.class.getName());
-    
+
     @Inject private SessionController _sessionController;
     @Inject private CalcFacade _calcFacade;
     @Inject private DistributionModelFacade _distModelFacade;
@@ -61,25 +61,25 @@ public class CalcHospitalList {
         }
         return _allowedButtons.get(CalcHospitalFunction.StatementOfParticipance);
     }
-    
+
     public String newStatementOfParticipance() {
         return Pages.StatementOfParticipanceEditAddress.URL();
     }
-    
+
     public boolean isNewDistributionModelDrgAllowed() {
         if (!_appTools.isEnabled(ConfigKey.IsDistributionModelDrgCreateEnabled)) {
             return false;
         }
         return determineDistModelButtonAllowed(CalcHospitalFunction.ClinicalDistributionModelDrg);
     }
-    
+
     public boolean isNewDistributionModelPeppAllowed() {
         if (!_appTools.isEnabled(ConfigKey.IsDistributionModelPeppCreateEnabled)) {
             return false;
         }
         return determineDistModelButtonAllowed(CalcHospitalFunction.ClinicalDistributionModelPepp);
     }
-    
+
     private boolean determineDistModelButtonAllowed(CalcHospitalFunction calcFunct) {
         if (!_allowedButtons.containsKey(calcFunct)) {
             boolean testMode = _appTools.isEnabled(ConfigKey.TestMode);
@@ -92,40 +92,40 @@ public class CalcHospitalList {
         }
         return _allowedButtons.get(calcFunct);
     }
-    
+
     public boolean isNewCalculationBasicsDrgAllowed() {
         if (!_appTools.isEnabled(ConfigKey.IsCalculationBasicsDrgCreateEnabled)) {
             return false;
         }
         return determineButtonAllowed(CalcHospitalFunction.CalculationBasicsDrg);
     }
-    
+
     public String newCalculationBasicsDrg() {
         return Pages.CalcDrgEdit.RedirectURL();
     }
-    
+
     public boolean isNewCalculationBasicsPeppAllowed() {
         if (!_appTools.isEnabled(ConfigKey.IsCalculationBasicsPsyCreateEnabled)) {
             return false;
         }
         return determineButtonAllowed(CalcHospitalFunction.CalculationBasicsPepp);
     }
-    
+
     public String newCalculationBasicsPepp() {
         return Pages.CalcPeppEdit.RedirectURL();
     }
-    
+
     public boolean isNewCalculationBasicsObdAllowed() {
         if (!_appTools.isEnabled(ConfigKey.IsCalculationBasicsObdCreateEnabled)) {
             return false;
         }
         return determineButtonAllowed(CalcHospitalFunction.CalculationBasicsAutopsy);
     }
-    
+
     public String newCalculationBasicsObd() {
         return Pages.CalcObdEdit.RedirectURL();
     }
-    
+
     private boolean determineButtonAllowed(CalcHospitalFunction calcFunct) {
         if (!_allowedButtons.containsKey(calcFunct)) {
             boolean testMode = _appTools.isEnabled(ConfigKey.TestMode);
@@ -138,7 +138,7 @@ public class CalcHospitalList {
         }
         return _allowedButtons.get(calcFunct);
     }
-    
+
     public String printHospitalInfo(CalcHospitalInfo hospitalInfo) {
         switch (hospitalInfo.getType()) {
             case SOP:
@@ -155,7 +155,7 @@ public class CalcHospitalList {
                 throw new IllegalArgumentException("Unknown calcInfoType: " + hospitalInfo.getType());
         }
     }
-    
+
     private <T> String printData(Function<Integer, T> findData, CalcHospitalInfo hospitalInfo) {
         T data = findData.apply(hospitalInfo.getId());
         List<KeyValueLevel> documentation = DocumentationUtil.getDocumentation(data);
@@ -164,7 +164,7 @@ public class CalcHospitalList {
         Utils.getFlash().put("printContent", documentation);
         return Pages.PrintView.URL();
     }
-    
+
     public String deleteHospitalInfo(CalcHospitalInfo hospitalInfo) {
         switch (hospitalInfo.getType()) {
             case SOP:
@@ -180,7 +180,7 @@ public class CalcHospitalList {
                 deleteData(_calcFacade::findCalcBasicsAutopsy, _calcFacade::saveCalcBasicsAutopsy, _calcFacade::delete, hospitalInfo);
                 break;
             case CDM:
-                deleteData( _distModelFacade::findDistributionModel, _distModelFacade::saveDistributionModel, _distModelFacade::delete, hospitalInfo);
+                deleteData(_distModelFacade::findDistributionModel, _distModelFacade::saveDistributionModel, _distModelFacade::delete, hospitalInfo);
                 break;
             default:
                 throw new IllegalArgumentException("Unknown calcInfoType: " + hospitalInfo.getType());
@@ -201,7 +201,7 @@ public class CalcHospitalList {
         } else {
             deleteData.accept(data);
         }
-        
+
     }
 
     public String editHospitalInfo(CalcInfoType type) {
@@ -220,5 +220,5 @@ public class CalcHospitalList {
                 throw new IllegalArgumentException("Unknown calcInfoType: " + type);
         }
     }
-    
+
 }

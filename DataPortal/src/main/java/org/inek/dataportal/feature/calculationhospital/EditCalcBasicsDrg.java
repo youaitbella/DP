@@ -1962,7 +1962,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     public String calcPercentualDiff(BigDecimal priorValue, BigDecimal currentValue) {
-        if (priorValue.doubleValue() == 0) {
+        if (priorValue == null || priorValue.doubleValue() == 0) {
             return "";
         }
         MathContext mc = new MathContext(2);
