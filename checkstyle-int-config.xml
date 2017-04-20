@@ -105,12 +105,26 @@
             <property name="ignoreSetter" value="true"/>
             <property name="setterCanReturnItsClass" value="true"/>
         </module>
+        <module name="ModifiedControlVariable"/>
+<!--        Erschreckend viele Duplikate
+        <module name="MultipleStringLiterals"/>-->
+        <module name="AbbreviationAsWordInName">
+            <property name="allowedAbbreviationLength" value="1"/>
+        </module>
+            
 <!--        <module name="RequireThis">
             <property name="checkMethods" value="false"/>
             <property name="validateOnlyOverlapping" value="true"/>
         </module>-->
         <!-- need to configure magic number before using it, e.g do not check within annotation -->
-        <!--module name="MagicNumber"/-->
+        <!-- um die 500 Fehler immer noch, später einführen
+        <module name="MagicNumber">
+            <property name="ignoreNumbers" value="-1, 0, 1, 2, 3, 4, 5"/>
+            <property name="ignoreAnnotation" value="true"/>
+            <property name="ignoreHashCodeMethod" value="true"/>
+            <property name="constantWaiverParentToken" value="ASSIGN, ARRAY_INIT, EXPR, UNARY_PLUS, UNARY_MINUS, TYPECAST, ELIST, LITERAL_NEW, METHOD_CALL, STAR, DIV, PLUS, MINUS"/>
+        </module>
+        -->
         <!-- Checks for Javadoc comments.                     -->
         <!-- See http://checkstyle.sf.net/config_javadoc.html -->
         <!-- <module name="JavadocMethod">
