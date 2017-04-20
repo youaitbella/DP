@@ -55,23 +55,23 @@ public class DistributionModelFacade extends AbstractDataAccess {
                 + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
                 + "where caHasAgreement = 1 and caIsInactive = 0 and caCalcTypeId in (1, 3, 6)\n"
                 + "     and cuIk in (\n"
-                + "		select acIk from dbo.Account where acIk > 0 and acId = " + accountId + "\n"
-                + "		union \n"
-                + "		select aaiIK from dbo.AccountAdditionalIK where aaiAccountId = " + accountId + "\n"
-                + "	) \n"
+                + "             select acIk from dbo.Account where acIk > 0 and acId = " + accountId + "\n"
+                + "             union \n"
+                + "             select aaiIK from dbo.AccountAdditionalIK where aaiAccountId = " + accountId + "\n"
+                + "     ) \n"
                 + "     and r2.mcrRoleId is null\n"
-                + "	and sopStatusId = " + WorkflowStatus.Provided.getId() + "\n" //+ " and " + (WorkflowStatus.Retired.getId() - 1) + "\n"
-                + "	and sopIsDrg = 1\n"
-                + "	and sopCdmDrg = 1\n"
-                + "	and sopObligatoryCalcType != 1\n"
-                + "	and sopDataYear = " + year + "\n"
-                + "	and not exists (\n"
-                + "		select 1\n"
-                + "		from calc.DistributionModelMaster\n"
-                + "		where dmmDataYear = " + year + "\n"
-                + "			and dmmType = 0\n"
-                + "			and sopIk = dmmIk\n"
-                + "	)";
+                + "     and sopStatusId = " + WorkflowStatus.Provided.getId() + "\n" //+ " and " + (WorkflowStatus.Retired.getId() - 1) + "\n"
+                + "     and sopIsDrg = 1\n"
+                + "     and sopCdmDrg = 1\n"
+                + "     and sopObligatoryCalcType != 1\n"
+                + "     and sopDataYear = " + year + "\n"
+                + "     and not exists (\n"
+                + "             select 1\n"
+                + "             from calc.DistributionModelMaster\n"
+                + "             where dmmDataYear = " + year + "\n"
+                + "                     and dmmType = 0\n"
+                + "                     and sopIk = dmmIk\n"
+                + "     )";
 
         Query query = getEntityManager().createNativeQuery(sql);
         @SuppressWarnings("unchecked") Set<Integer> result = new HashSet<>(query.getResultList());
@@ -90,23 +90,23 @@ public class DistributionModelFacade extends AbstractDataAccess {
                 + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
                 + "where caHasAgreement = 1 and caIsInactive = 0 and caCalcTypeId in (1, 3, 6)\n"
                 + "     and cuIk in (\n"
-                + "		select acIk from dbo.Account where acIk > 0 and acId = " + accountId + "\n"
-                + "		union \n"
-                + "		select aaiIK from dbo.AccountAdditionalIK where aaiAccountId = " + accountId + "\n"
-                + "	) \n"
+                + "             select acIk from dbo.Account where acIk > 0 and acId = " + accountId + "\n"
+                + "             union \n"
+                + "             select aaiIK from dbo.AccountAdditionalIK where aaiAccountId = " + accountId + "\n"
+                + "     ) \n"
                 + "     and r2.mcrRoleId is null\n"
-                + "	and sopStatusId = " + WorkflowStatus.Provided.getId() + "\n" //+ " and " + (WorkflowStatus.Retired.getId() - 1) + "\n"
-                + "	and sopIsPsy = 1\n"
-                + "	and sopCdmPsy = 1\n"
-                + "	and sopObligatoryCalcType != 1\n"
-                + "	and sopDataYear = " + year + "\n"
-                + "	and not exists (\n"
-                + "		select 1\n"
-                + "		from calc.DistributionModelMaster\n"
-                + "		where dmmDataYear = " + year + "\n"
-                + "			and dmmType = 1\n"
-                + "			and sopIk = dmmIk\n"
-                + "	)";
+                + "     and sopStatusId = " + WorkflowStatus.Provided.getId() + "\n" //+ " and " + (WorkflowStatus.Retired.getId() - 1) + "\n"
+                + "     and sopIsPsy = 1\n"
+                + "     and sopCdmPsy = 1\n"
+                + "     and sopObligatoryCalcType != 1\n"
+                + "     and sopDataYear = " + year + "\n"
+                + "     and not exists (\n"
+                + "             select 1\n"
+                + "             from calc.DistributionModelMaster\n"
+                + "             where dmmDataYear = " + year + "\n"
+                + "                     and dmmType = 1\n"
+                + "                     and sopIk = dmmIk\n"
+                + "     )";
 
         Query query = getEntityManager().createNativeQuery(sql);
         @SuppressWarnings("unchecked") Set<Integer> result = new HashSet<>(query.getResultList());
@@ -149,8 +149,8 @@ public class DistributionModelFacade extends AbstractDataAccess {
                 + "join CallCenterDB.dbo.ccAgent on mcraAgentId = agId\n"
                 + "left join dbo.Account on agEMail = acMail\n"
                 + "where dmmStatusId >= 10 \n"
-                + "	and agActive = 1 and agDomainId in ('O', 'E')\n"
-                + "	and mcraReportTypeId in (1, 3)"; // 1=Drg, 3=Psy
+                + "     and agActive = 1 and agDomainId in ('O', 'E')\n"
+                + "     and mcraReportTypeId in (1, 3)"; // 1=Drg, 3=Psy
         Query query = getEntityManager().createNativeQuery(sql, Account.class);
         @SuppressWarnings("unchecked") List<Account> result = query.getResultList();
         return result;
@@ -166,8 +166,8 @@ public class DistributionModelFacade extends AbstractDataAccess {
                 + "join CallCenterDB.dbo.mapCustomerReportAgent on ciId = mcraCalcInformationId\n"
                 + "join CallCenterDB.dbo.ccAgent on mcraAgentId = agId\n"
                 + "where dmmStatusId >= 10 \n"
-                + "	and agEMail = '" + account.getEmail() + "'\n"
-                + "	and mcraReportTypeId in (1, 3)\n"
+                + "     and agEMail = '" + account.getEmail() + "'\n"
+                + "     and mcraReportTypeId in (1, 3)\n"
                 + "order by dmmIk, dmmId desc";
         Query query = getEntityManager().createNativeQuery(sql, CalcHospitalInfo.class);
         @SuppressWarnings("unchecked") List<CalcHospitalInfo> result = query.getResultList();

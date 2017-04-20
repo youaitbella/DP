@@ -108,9 +108,11 @@
         <module name="ModifiedControlVariable"/>
 <!--        Erschreckend viele Duplikate
         <module name="MultipleStringLiterals"/>-->
+<!--        Anfang Mai scharf schalten in der Hoffnung, das bis dahin viele 
+        Verletzungen behoben sind
         <module name="AbbreviationAsWordInName">
             <property name="allowedAbbreviationLength" value="1"/>
-        </module>
+        </module>-->
             
 <!--        <module name="RequireThis">
             <property name="checkMethods" value="false"/>

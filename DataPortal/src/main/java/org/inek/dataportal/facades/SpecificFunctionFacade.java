@@ -119,7 +119,7 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
                 + "left join dbo.Account on agEMail = acMail\n"
                 + "where agActive = 1 and agDomainId in ('O', 'E')\n"
                 + "     and rmStatusId = 10 \n"
-                + "	and mcraReportTypeId in (1, 3) \n"
+                + "     and mcraReportTypeId in (1, 3) \n"
                 + "     and rmDataYear = " + Utils.getTargetYear(Feature.SPECIFIC_FUNCTION);
         Query query = getEntityManager().createNativeQuery(sql, Account.class);
         @SuppressWarnings("unchecked") List<Account> result = query.getResultList();

@@ -675,21 +675,21 @@ public class CalcFacade extends AbstractDataAccess {
                 + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
                 + "where caHasAgreement = 1 and caIsInactive = 0 and caCalcTypeId in (1, 3, 6)\n"
                 + "     and cuIk in (\n"
-                + "		select acIk from dbo.Account where acIk > 0 and acId = " + accountId + "\n"
-                + "		union \n"
-                + "		select aaiIK from dbo.AccountAdditionalIK where aaiAccountId = " + accountId + "\n"
-                + "	) \n"
+                + "             select acIk from dbo.Account where acIk > 0 and acId = " + accountId + "\n"
+                + "             union \n"
+                + "             select aaiIK from dbo.AccountAdditionalIK where aaiAccountId = " + accountId + "\n"
+                + "     ) \n"
                 + "     and r2.mcrRoleId is null\n"
-                + "	and sopStatusId = " + WorkflowStatus.Provided.getId() + "\n" //+ " and " + (WorkflowStatus.Retired.getId() - 1) + "\n"
-                + "	and sopIsDrg = 1\n"
-                + "	and sopObligatoryCalcType != 1\n"
-                + "	and sopDataYear = " + year + "\n"
-                + "	and not exists (\n"
-                + "		select 1\n"
-                + "		from calc.KGLBaseInformation\n"
-                + "		where biDataYear = " + year + "\n"
-                + "			and sopIk = biIk\n"
-                + "	)";
+                + "     and sopStatusId = " + WorkflowStatus.Provided.getId() + "\n" //+ " and " + (WorkflowStatus.Retired.getId() - 1) + "\n"
+                + "     and sopIsDrg = 1\n"
+                + "     and sopObligatoryCalcType != 1\n"
+                + "     and sopDataYear = " + year + "\n"
+                + "     and not exists (\n"
+                + "             select 1\n"
+                + "             from calc.KGLBaseInformation\n"
+                + "             where biDataYear = " + year + "\n"
+                + "                     and sopIk = biIk\n"
+                + "     )";
 
         Query query = getEntityManager().createNativeQuery(sql);
         @SuppressWarnings("unchecked") Set<Integer> result = new HashSet<>(query.getResultList());
@@ -708,22 +708,22 @@ public class CalcFacade extends AbstractDataAccess {
                 + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
                 + "where caHasAgreement = 1 and caIsInactive = 0 and caCalcTypeId in (1, 3, 6)\n"
                 + "     and cuIk in (\n"
-                + "		select acIk from dbo.Account where acIk > 0 and acId = " + accountId + "\n"
-                + "		union \n"
-                + "		select aaiIK from dbo.AccountAdditionalIK where aaiAccountId = " + accountId + "\n"
-                + "	) \n"
+                + "             select acIk from dbo.Account where acIk > 0 and acId = " + accountId + "\n"
+                + "             union \n"
+                + "             select aaiIK from dbo.AccountAdditionalIK where aaiAccountId = " + accountId + "\n"
+                + "     ) \n"
                 + "     and r2.mcrRoleId is null\n"
-                + "	and sopStatusId = " + WorkflowStatus.Provided.getId() + "\n" //+ " and " + (WorkflowStatus.Retired.getId() - 1) + "\n"
-                + "	and sopIsPsy = 1\n"
-                + "	and sopObligatoryCalcType != 1\n"
-                + "	and sopDataYear = " + year + "\n"
-                + "	and not exists (\n"
-                + "		select 1\n"
-                + "		from calc.KGPBaseInformation\n"
-                + "		where biDataYear = " + year + "\n"
-                + "			and biStatusId < 200 \n"
-                + "			and sopIk = biIk\n"
-                + "	)";
+                + "     and sopStatusId = " + WorkflowStatus.Provided.getId() + "\n" //+ " and " + (WorkflowStatus.Retired.getId() - 1) + "\n"
+                + "     and sopIsPsy = 1\n"
+                + "     and sopObligatoryCalcType != 1\n"
+                + "     and sopDataYear = " + year + "\n"
+                + "     and not exists (\n"
+                + "             select 1\n"
+                + "             from calc.KGPBaseInformation\n"
+                + "             where biDataYear = " + year + "\n"
+                + "                     and biStatusId < 200 \n"
+                + "                     and sopIk = biIk\n"
+                + "     )";
 
         Query query = getEntityManager().createNativeQuery(sql);
         @SuppressWarnings("unchecked") Set<Integer> result = new HashSet<>(query.getResultList());
@@ -927,7 +927,7 @@ public class CalcFacade extends AbstractDataAccess {
                 + "join CallCenterDB.dbo.ccAgent on mcraAgentId = agId\n"
                 + "left join dbo.Account on agEMail = acMail\n"
                 + "where agActive = 1 and agDomainId in ('O', 'E')\n"
-                + "	and mcraReportTypeId in (1, 3) \n"
+                + "     and mcraReportTypeId in (1, 3) \n"
                 + "     and biDataYear = " + Utils.getTargetYear(Feature.CALCULATION_HOSPITAL);
         Query query = getEntityManager().createNativeQuery(sql, Account.class);
         @SuppressWarnings("unchecked") List<Account> result = query.getResultList();
@@ -945,7 +945,7 @@ public class CalcFacade extends AbstractDataAccess {
                 + "join CallCenterDB.dbo.mapCustomerReportAgent on ciId = mcraCalcInformationId\n"
                 + "join CallCenterDB.dbo.ccAgent on mcraAgentId = agId\n"
                 + "where agEMail = '" + account.getEmail() + "'\n"
-                + "	and mcraReportTypeId in (1, 3) \n"
+                + "     and mcraReportTypeId in (1, 3) \n"
                 + "     and biDataYear = " + Utils.getTargetYear(Feature.CALCULATION_HOSPITAL);
         Query query = getEntityManager().createNativeQuery(sql, CalcHospitalInfo.class);
         @SuppressWarnings("unchecked") List<CalcHospitalInfo> result = query.getResultList();
@@ -965,21 +965,21 @@ public class CalcFacade extends AbstractDataAccess {
                 + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
                 + "where caHasAgreement = 1 and caIsInactive = 0 and caCalcTypeId in (7)\n"
                 + "     and cuIk in (\n"
-                + "		select acIk from dbo.Account where acIk > 0 and acId = " + accountId + "\n"
-                + "		union \n"
-                + "		select aaiIK from dbo.AccountAdditionalIK where aaiAccountId = " + accountId + "\n"
-                + "	) \n"
+                + "             select acIk from dbo.Account where acIk > 0 and acId = " + accountId + "\n"
+                + "             union \n"
+                + "             select aaiIK from dbo.AccountAdditionalIK where aaiAccountId = " + accountId + "\n"
+                + "     ) \n"
                 + "     and r2.mcrRoleId is null\n"
-                + "	and sopStatusId = " + WorkflowStatus.Provided.getId() + "\n" //+ " and " + (WorkflowStatus.Retired.getId() - 1) + "\n"
-                + "	and sopIsObd = 1\n"
-                + "	and sopDataYear = " + year + "\n"
-                + "	and not exists (\n"
-                + "		select 1\n"
-                + "		from calc.CalcBasicsAutopsy\n"
-                + "		where cbaDataYear = " + year + "\n"
-                + "			and cbaStatusId < 200 \n"
-                + "			and sopIk = cbaIk\n"
-                + "	)";
+                + "     and sopStatusId = " + WorkflowStatus.Provided.getId() + "\n" //+ " and " + (WorkflowStatus.Retired.getId() - 1) + "\n"
+                + "     and sopIsObd = 1\n"
+                + "     and sopDataYear = " + year + "\n"
+                + "     and not exists (\n"
+                + "             select 1\n"
+                + "             from calc.CalcBasicsAutopsy\n"
+                + "             where cbaDataYear = " + year + "\n"
+                + "                     and cbaStatusId < 200 \n"
+                + "                     and sopIk = cbaIk\n"
+                + "     )";
         
         Query query = getEntityManager().createNativeQuery(sql);
         @SuppressWarnings("unchecked") Set<Integer> result = new HashSet<>(query.getResultList());

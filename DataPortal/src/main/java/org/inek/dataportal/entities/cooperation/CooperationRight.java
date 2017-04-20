@@ -25,12 +25,12 @@ import org.inek.dataportal.enums.Feature;
 @Table(name = "CooperationRight", schema = "usr")
 public class CooperationRight implements Serializable {
 /*
-    	[corId] [int] IDENTITY(1,1) NOT NULL,
-	[corOwnerId] [int] NOT NULL,
-	[corPartnerId] [int] NOT NULL,
-	[corFeature] [varchar](50) NOT NULL,
-	[corIk] [int] NOT NULL,
-	[corRight] [varchar](50) NOT NULL,
+        [corId] [int] IDENTITY(1,1) NOT NULL,
+        [corOwnerId] [int] NOT NULL,
+        [corPartnerId] [int] NOT NULL,
+        [corFeature] [varchar](50) NOT NULL,
+        [corIk] [int] NOT NULL,
+        [corRight] [varchar](50) NOT NULL,
 */
     
     private static final long serialVersionUID = 1L;
