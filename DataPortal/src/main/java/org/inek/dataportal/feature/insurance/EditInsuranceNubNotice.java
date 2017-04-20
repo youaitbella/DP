@@ -168,7 +168,7 @@ public class EditInsuranceNubNotice extends AbstractEditController {
     }
 
     public void validateRemuneration(FacesContext context, UIComponent component, Object value) {
-        if (value.equals("")) {
+        if ("".equals(value)) {
 //            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
 //                    "Kein Entgeltschlüssel angegeben",
 //                    "Kein Entgeltschlüssel angegeben");
@@ -257,7 +257,7 @@ public class EditInsuranceNubNotice extends AbstractEditController {
             validatorMessage = "Es gibt keine Meldungen, die ans InEK gesendet werden könnten.";
         }
         for (InsuranceNubNoticeItem item : _notice.getItems()) {
-            if (item.getExternalId() == null || item.getExternalId().equals("N0")) {
+            if ("N0".equals(item.getExternalId())) {
                 validatorMessage += "Zeile " + lines + ": Name ist ein Pflichtfeld.\n";
             }
             if (item.getQuantity() <= 0) {
@@ -271,7 +271,7 @@ public class EditInsuranceNubNotice extends AbstractEditController {
             }
             lines++;
         }
-        if (!validatorMessage.equals("")) {
+        if (!"".equals(validatorMessage)) {
             _sessionController.alertClient(validatorMessage);
             return "";
         }

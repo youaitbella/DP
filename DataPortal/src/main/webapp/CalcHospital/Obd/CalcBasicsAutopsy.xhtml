@@ -19,25 +19,39 @@
 
     <hr/>
     <div jsf:id="cdaData" jsf:rendered="#{editCalcBasicsAutopsy.calcBasics.ik gt 0}">
-        
+
         <h2>Pathologie: Kosteninformationen</h2>
 
-        Personalkosten
-        
-        <inek:LabeledText singleLine="true"
-                          label="Anzahl Vollkräfte Ärztlicher Dienst" 
-                          value="#{editCalcBasicsAutopsy.calcBasics.costVolumeMedicalBeforeAccrual}" 
-                          readonly="#{editCalcBasicsAutopsy.readOnly}"
-        <inek:InputTextWithMessage value="#{editCalcBasicsAutopsy.calcBasics.hasCostCenterForensic}"
-                                   readonly="#{editCalcBasicsAutopsy.readOnly}"/>
+        <h3>Personalkosten</h3>
 
+        <div class="inputPart">
+            <h:outputLabel styleClass="label element25em"
+                           value="Anzahl Vollkräfte Ärztlicher Dienst"/>
+            <inek:InputNumberWithMessage readonly="#{editCalcBasicsAutopsy.readOnly}"
+                                         styleClassComponent="element08em"
+                                         value="#{editCalcBasicsAutopsy.calcBasics.fullVigorMedicalBeforeAccrual}"/>
+            <inek:InputNumberWithMessage readonly="#{editCalcBasicsAutopsy.readOnly}"
+                                         styleClassComponent="element08em"
+                                         value="#{editCalcBasicsAutopsy.calcBasics.fullVigorMedicalAfterAccrual}"/>
+        </div>
+
+        <div class="inputPart">
+            <h:outputLabel styleClass="label element25em"
+                           value="Kostenvolumen Ärztlicher Dienst"/>
+            <inek:InputNumberWithMessage readonly="#{editCalcBasicsAutopsy.readOnly}"
+                                         styleClassComponent="element08em"
+                                         value="#{editCalcBasicsAutopsy.calcBasics.costVolumeMedicalBeforeAccrual}"/>
+            <inek:InputNumberWithMessage readonly="#{editCalcBasicsAutopsy.readOnly}"
+                                         styleClassComponent="element08em"
+                                         value="#{editCalcBasicsAutopsy.calcBasics.costVolumeMedicalAfterAccrual}"/>
+        </div>
 
         <h2>Pathologie: Leistungs- und Kosteninformationen</h2>
 
         <inek:LabeledCheckbox label="Es ist eine eigenständige Kostenstelle Rechtsmedizin vorhanden"
                               renderElement="@form"
                               value="#{editCalcBasicsAutopsy.calcBasics.hasCostCenterForensic}"/>
-        
+
 
         <inek:LabeledText singleLine="true"
                           label="Kostenvolumen" 

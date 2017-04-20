@@ -67,7 +67,7 @@
                     <p>
                     <h:panelGrid columns="2" width="90%">
                         <h:panelGroup styleClass="inputmedium">
-                            <h:outputLabel styleClass="label" for="cbxGender" value="#{msg.lblSalutation}"/>
+                            <h:outputLabel styleClass="label" for="cbxGender" value="#{msg.lblSalutation}:"/>
                             <h:message id="msgGender" for="cbxGender" styleClass="errorMessage"/>
                             <br/>
                             <h:selectOneMenu styleClass="inputshort" id="cbxGender" value="#{register.accountRequest.gender}"
@@ -77,7 +77,7 @@
                             </h:selectOneMenu>
                         </h:panelGroup>
                         <h:panelGroup>
-                            <h:outputLabel styleClass="label" for="title" value="#{msg.lblTitle}"/>
+                            <h:outputLabel styleClass="label" for="title" value="#{msg.lblTitle}:"/>
                             <br/>
                             <h:inputText styleClass="inputmedium" id="title" value="#{register.accountRequest.title}" required="false" maxlength="50"/>
                         </h:panelGroup>
@@ -111,14 +111,15 @@
                     </h:selectOneMenu>
                     </p>
                     <p>
-                    <h:outputLabel styleClass="label" for="contactPhone" value="#{msg.lblPhone}:"/>
+                    <h:outputLabel styleClass="label" for="contactPhone" value="#{msg.lblPhone} mit Durchwahl:"/>
                     <h:message id="msgContactPhone" for="contactPhone" styleClass="errorMessage"/>
                     <br/>
-                    <h:inputText styleClass="input" id="contactPhone" value="#{register.accountRequest.phone}" required="false" maxlength="50">
+                    <h:inputText styleClass="input" id="contactPhone" value="#{register.accountRequest.phone}" required="true" maxlength="50">
                         <f:ajax event="blur" render="@this msgContactPhone"/>
                     </h:inputText>
                     </p>
                 </div>
+                
                 <div class="inputright">
                     <p>
                     <h:outputLabel styleClass="label" for="company" value="#{msg.lblCompany}:"/>
@@ -177,7 +178,7 @@
                     </h:inputText>
                     </p>
                     <p>
-                    <h:outputLabel styleClass="label" for="companyPhone" value="#{msg.lblPhone}:"/>
+                    <h:outputLabel styleClass="label" for="companyPhone" value="#{msg.lblPhone} (Zentrale):"/>
                     <h:message id="msgCompanyPhone" for="companyPhone" styleClass="errorMessage"/>
                     <br/>
                     <h:inputText styleClass="input" id="companyPhone" value="#{register.accountRequest.customerPhone}" required="false" maxlength="50" title="#{msg.titleRegisterPhone}">

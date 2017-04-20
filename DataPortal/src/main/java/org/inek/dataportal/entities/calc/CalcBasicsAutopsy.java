@@ -9,12 +9,15 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneOffset;
+import java.util.Calendar;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -101,6 +104,13 @@ public class CalcBasicsAutopsy implements Serializable, StatusEntity {
     public void setLastChanged(Date lastChanged) {
         this._lastChanged = lastChanged;
     }
+    
+    @PrePersist 
+    @PreUpdate
+    private void updateDate(){
+        _lastChanged = Calendar.getInstance().getTime();
+    }
+   
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="accountIdLastChange">
@@ -322,6 +332,20 @@ public class CalcBasicsAutopsy implements Serializable, StatusEntity {
         _costVolumeNonMedicalInfraAfterAccrual = costVolumeNonMedicalInfraAfterAccrual;
     }
     // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property TotalAutopsys">
+    @Column(name = "cbaTotalAutopsys")
+    private int _totalAutopsys;
+
+    public int getTotalAutopsys() {
+        return _totalAutopsys;
+    }
+
+    public void setTotalAutopsys(int value) {
+        _totalAutopsys = value;
+    }
+    // </editor-fold>
+
 
     // <editor-fold defaultstate="collapsed" desc="Property CalcAutopsys">
     @Column(name = "cbaCalcAutopsys")
