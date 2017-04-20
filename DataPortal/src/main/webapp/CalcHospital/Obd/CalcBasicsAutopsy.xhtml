@@ -26,6 +26,15 @@
 
         <div class="inputPart">
             <h:outputLabel styleClass="label element25em"
+                           value=""/>
+            <h:outputLabel styleClass="label element08em"
+                           value="vor Abgrenzung"/>
+            <h:outputLabel styleClass="label"
+                           value="nach Abgrenzung"/>
+        </div>
+
+        <div class="inputPart">
+            <h:outputLabel styleClass="label element25em"
                            value="Anzahl Vollkräfte Ärztlicher Dienst"/>
             <inek:InputNumberWithMessage readonly="#{editCalcBasicsAutopsy.readOnly}"
                                          styleClassComponent="element08em"
@@ -44,6 +53,28 @@
             <inek:InputNumberWithMessage readonly="#{editCalcBasicsAutopsy.readOnly}"
                                          styleClassComponent="element08em"
                                          value="#{editCalcBasicsAutopsy.calcBasics.costVolumeMedicalAfterAccrual}"/>
+        </div>
+
+        <div class="inputPart">
+            <h:outputLabel styleClass="label element25em"
+                           value="Anzahl Vollkräfte Sektionsgehilfen/Präparator etc."/>
+            <inek:InputNumberWithMessage readonly="#{editCalcBasicsAutopsy.readOnly}"
+                                         styleClassComponent="element08em"
+                                         value="#{editCalcBasicsAutopsy.calcBasics.fullVigorOtherBeforeAccrual}"/>
+            <inek:InputNumberWithMessage readonly="#{editCalcBasicsAutopsy.readOnly}"
+                                         styleClassComponent="element08em"
+                                         value="#{editCalcBasicsAutopsy.calcBasics.fullVigorOtherAfterAccrual}"/>
+        </div>
+
+        <div class="inputPart">
+            <h:outputLabel styleClass="label element25em"
+                           value="Kostenvolumen Sektionsgehilfen/Präparator etc."/>
+            <inek:InputNumberWithMessage readonly="#{editCalcBasicsAutopsy.readOnly}"
+                                         styleClassComponent="element08em"
+                                         value="#{editCalcBasicsAutopsy.calcBasics.costVolumeOtherBeforeAccrual}"/>
+            <inek:InputNumberWithMessage readonly="#{editCalcBasicsAutopsy.readOnly}"
+                                         styleClassComponent="element08em"
+                                         value="#{editCalcBasicsAutopsy.calcBasics.costVolumeOtherAfterAccrual}"/>
         </div>
 
         <h2>Pathologie: Leistungs- und Kosteninformationen</h2>

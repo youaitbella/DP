@@ -11,6 +11,12 @@
     <ui:define name="documentContent">
         <h:form id="approval">
 
+            <div class="inputPart">
+                <h:outputLabel value="Filter: " styleClass="label marginRight" for="filter"/>
+                <h:inputText id="filter" styleClass="input marginRight" value="#{documentApproval.filter}"/>
+                <h:commandButton value="Filtern" styleClass="smallButton" action="#{documentApproval.reload}" immediate="false"/>
+            </div>
+
             <ui:repeat value="#{documentApproval.rootNode.children}" var="accountNode" >
                 <div style="margin-left:16px;">
                     <h:commandLink action="#{accountNode.toggle}" immediate="true" >
@@ -20,7 +26,7 @@
                     <h:outputText styleClass="third marginTop" value="#{accountNode.account.firstName} #{accountNode.account.lastName}"/>
                     <div  jsf:id="docList" style="margin-left:16px; padding-bottom: 1em;">
 
-                        <h:dataTable value="#{accountNode.children}" var ="docNode" rendered="#{accountNode.expanded}"
+                        <h:dataTable value="#{accountNode.sortedChildren}" var ="docNode" rendered="#{accountNode.expanded}"
                                      width="100%" rowClasses="row1, row2" 
                                      columnClasses="colIcon, colIcon, colValue, colValue, colValue, colValue">
 
@@ -40,7 +46,7 @@
                             </h:column>
 
                             <h:column>
-                                <h:commandLink action="#{documentApproval.delete(docNode.docInfo.id)}" immediate="true" onclick="return confirm('Dokument #{docNode.docInfo.name} löschen?')">
+                                <h:commandLink action="#{documentApproval.delete(docNode.docInfo.id)}" immediate="true" onclick="return confirm('Achtung!\\r\\nDokument #{docNode.docInfo.name} wirklich löschen?')">
                                     <h:graphicImage alt="Löschen" name="Icon/small/delete.png" title="Löschen" value=""/>
                                     <f:ajax render="@all"/>
                                 </h:commandLink>
@@ -48,7 +54,9 @@
 
                             <h:column id="colIk">
                                 <f:facet name="header">
-                                    <h:outputText value="Empfänger"/>
+                                    <h:commandLink value="Empfänger #{documentApproval.sortCriteria.equals('rceipient') ? (documentApproval.descending ? '↓' : '↑') : ''}">
+                                        <f:ajax listener="#{documentApproval.setSortCriteria('rceipient')}" render="@form :logout:remaining"/>
+                                    </h:commandLink>
                                 </f:facet>
                                 <h:commandLink action="#{documentApproval.downloadDocument(docNode.docInfo.id)}" value="#{docNode.docInfo.tag}" immediate="true">
                                     <f:ajax event="blur" render="@all"/>
@@ -57,7 +65,9 @@
 
                             <h:column id="colDomain">
                                 <f:facet name="header">
-                                    <h:outputText value="Bereich"/>
+                                    <h:commandLink value="Bereich #{documentApproval.sortCriteria.equals('domain') ? (documentApproval.descending ? '↓' : '↑') : ''}">
+                                        <f:ajax listener="#{documentApproval.setSortCriteria('domain')}" render="@form :logout:remaining"/>
+                                    </h:commandLink>
                                 </f:facet>
                                 <h:commandLink action="#{documentApproval.downloadDocument(docNode.docInfo.id)}" value="#{docNode.docInfo.domain}" immediate="true">
                                     <f:ajax event="blur" render="@all"/>
@@ -66,7 +76,9 @@
 
                             <h:column id="colName">
                                 <f:facet name="header">
-                                    <h:outputText value="Dokument"/>
+                                    <h:commandLink value="Dokument #{documentApproval.sortCriteria.equals('document') ? (documentApproval.descending ? '↓' : '↑') : ''}">
+                                        <f:ajax listener="#{documentApproval.setSortCriteria('document')}" render="@form :logout:remaining"/>
+                                    </h:commandLink>
                                 </f:facet>
                                 <h:commandLink action="#{documentApproval.downloadDocument(docNode.docInfo.id)}" value="#{docNode.docInfo.name}" immediate="true">
                                     <f:ajax event="blur" render="@all"/>
@@ -75,7 +87,9 @@
 
                             <h:column id="colDate">
                                 <f:facet name="header">
-                                    <h:outputText value="Datum"/>
+                                    <h:commandLink value="Datum #{documentApproval.sortCriteria.equals('date') ? (documentApproval.descending ? '↓' : '↑') : ''}">
+                                        <f:ajax listener="#{documentApproval.setSortCriteria('date')}" render="@form :logout:remaining"/>
+                                    </h:commandLink>
                                 </f:facet>
                                 <h:commandLink action="#{documentApproval.downloadDocument(docNode.docInfo.id)}" value="#{docNode.docInfo.longCreatedString}" immediate="true">
                                     <f:ajax event="blur" render="@all"/>

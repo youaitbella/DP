@@ -15,6 +15,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.annotation.PostConstruct;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -37,6 +39,7 @@ import org.inek.dataportal.helper.scope.FeatureScoped;
 import org.inek.dataportal.helper.structures.DocInfo;
 import org.inek.dataportal.helper.tree.AccountTreeNode;
 import org.inek.dataportal.helper.tree.DocumentInfoTreeNode;
+import org.inek.dataportal.helper.tree.ProposalInfoTreeNode;
 import org.inek.dataportal.mail.Mailer;
 import org.inek.portallib.tree.RootNode;
 import org.inek.portallib.tree.TreeNode;
@@ -56,7 +59,6 @@ public class DocumentApproval implements TreeNodeObserver, Serializable {
     @Inject private SessionController _sessionController;
     @Inject private WaitingDocumentFacade _waitingDocFacade;
     @Inject private AccountDocumentFacade _accountDocFacade;
-    @Inject private AccountFacade _accountFacade;
 
     private final RootNode _rootNode = RootNode.create(0, this);
 
@@ -65,6 +67,48 @@ public class DocumentApproval implements TreeNodeObserver, Serializable {
         _rootNode.setExpanded(true);
     }
 
+    // <editor-fold defaultstate="collapsed" desc="Property Filter">    
+    private String _filter = "";
+
+    public String getFilter() {
+        return _filter;
+    }
+
+    public void setFilter(String filter) {
+        _filter = filter;
+    }
+    
+    public String reload() {
+        return "";
+    }
+    // </editor-fold>    
+
+    // <editor-fold defaultstate="collapsed" desc="Property SortCriteria + state">    
+    private String _sortCriteria = "";
+    private boolean _isDescending = false;
+
+    public boolean isDescending() {
+        return _isDescending;
+    }
+
+    public void setDescending(boolean isDescending) {
+        _isDescending = isDescending;
+    }
+
+    public void setSortCriteria(String sortCriteria) {
+        if (_sortCriteria.equals(sortCriteria)) {
+            _isDescending = !_isDescending;
+        } else {
+            _isDescending = false;
+        }
+        _sortCriteria = sortCriteria == null ? "" : sortCriteria;
+    }
+
+    public String getSortCriteria() {
+        return _sortCriteria;
+    }
+    // </editor-fold>    
+    
     public RootNode getRootNode() {
         return _rootNode;
     }
@@ -81,7 +125,37 @@ public class DocumentApproval implements TreeNodeObserver, Serializable {
 
     @Override
     public Collection<TreeNode> obtainSortedChildren(TreeNode treeNode, Collection<TreeNode> children) {
+        if (treeNode instanceof AccountTreeNode) {
+            return sortAccountNodeChildren((AccountTreeNode) treeNode, children);
+        }
         return children;
+    }
+
+    public Collection<TreeNode> sortAccountNodeChildren(AccountTreeNode treeNode, Collection<TreeNode> children) {
+        Stream<DocumentInfoTreeNode> docInfoStream = children.stream().map(n -> (DocumentInfoTreeNode) n);
+        if (!_filter.isEmpty()) {
+            docInfoStream = docInfoStream
+                    .filter(d -> d.getDocInfo().getName().toLowerCase().contains(_filter) 
+                            || d.getDocInfo().getDomain().toLowerCase().contains(_filter)
+                            || d.getDocInfo().getTag().toLowerCase().contains(_filter));
+        }
+        int direction = _isDescending ? -1 : 1;
+        switch (_sortCriteria.toLowerCase()) {
+            case "domain":
+                docInfoStream = docInfoStream.sorted((n1, n2) -> direction * n1.getDocInfo().getDomain().compareTo(n2.getDocInfo().getDomain()));
+                break;
+            case "document":
+                docInfoStream = docInfoStream.sorted((n1, n2) -> direction * n1.getDocInfo().getName().compareTo(n2.getDocInfo().getName()));
+                break;
+            case "rceipient":
+                docInfoStream = docInfoStream.sorted((n1, n2) -> direction * n1.getDocInfo().getTag().compareTo(n2.getDocInfo().getTag()));
+                break;
+            case "date":
+                docInfoStream = docInfoStream.sorted((n1, n2) -> direction * n1.getDocInfo().getCreated().compareTo(n2.getDocInfo().getCreated()));
+                break;
+            default:
+        }
+        return docInfoStream.collect(Collectors.toList());
     }
 
     private void obtainRootNodeChildren(RootNode node, Collection<TreeNode> children) {
