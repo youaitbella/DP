@@ -572,7 +572,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     public void addPkmsService() {
-        _calcBasics.addKglPkmsAlternative();
+        _calcBasics.addPkmsAlternative();
     }
 
     public void deletePkmsService(KglPkmsAlternative item) {

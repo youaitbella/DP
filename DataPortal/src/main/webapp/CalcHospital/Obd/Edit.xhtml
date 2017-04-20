@@ -18,7 +18,8 @@
 
             <div class="edit">
 
-                <!--ui:insert name="editContent">Content</ui:insert-->
+                       <ui:include src="CalcBasicsAutopsy.xhtml"/>
+
 
                 <div class="toolBar">
                     <h:commandLink styleClass="bigButton"
@@ -45,13 +46,13 @@
                         <cb:confirmSeal/>
                     </h:commandLink>
 
-                    <!--h:commandLink styleClass="bigButton"
-                                   action="# {editCalcBasicsAutopsy.copyForResend}"
-                                   value="# {msg.btnChangeData}"
+                    <h:commandLink styleClass="bigButton"
+                                   action="#{editCalcBasicsAutopsy.copyForResend}"
+                                   value="#{msg.btnChangeData}"
                                    immediate="true"
-                                   rendered="# {editCalcBasicsAutopsy.copyForResendAllowed}">
+                                   rendered="#{editCalcBasicsAutopsy.copyForResendAllowed}">
                         <cb:confirmChangeData/>
-                    </h:commandLink-->
+                    </h:commandLink>
 
                     <h:commandLink styleClass="bigButton"
                                    action="#{editCalcBasicsAutopsy.take}"

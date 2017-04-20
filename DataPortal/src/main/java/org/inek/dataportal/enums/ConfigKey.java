@@ -25,6 +25,7 @@ public enum ConfigKey {
     IsStatemenOfParticipanceResendEnabled(true),
     IsCalculationBasicsDrgSendEnabled(false),
     IsCalculationBasicsPsySendEnabled(false),
+    IsCalculationBasicsObdSendEnabled(false),
     IsSpecificFunctionRequestCreateEnabled(false),
     IsSpecificFunctionRequestSendEnabled(false),
     IsSpecificFunctionAgreementCreateEnabled(false),

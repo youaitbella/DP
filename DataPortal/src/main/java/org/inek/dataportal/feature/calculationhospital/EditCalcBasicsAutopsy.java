@@ -120,7 +120,7 @@ public class EditCalcBasicsAutopsy extends AbstractEditController implements Ser
         Account account = _sessionController.getAccount();
         calcBasics.setAccountId(account.getId());
         calcBasics.setDataYear(Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
-        List<SelectItem> ikItems = getIkItems(calcBasics);
+        List<SelectItem> ikItems = getIks();
         if (ikItems.size() == 1) {
             calcBasics.setIk((int) ikItems.get(0).getValue());
         }
@@ -150,6 +150,28 @@ public class EditCalcBasicsAutopsy extends AbstractEditController implements Ser
         addTopic("TopicFrontPage", Pages.CalcDrgBasics.URL());
     }
 
+    private List<SelectItem> _ikItems;
+
+    public List<SelectItem> getIks() {
+        if (_ikItems == null) {
+            boolean testMode = _appTools.isEnabled(ConfigKey.TestMode);
+            Set<Integer> iks = _calcFacade.obtainIks4NewBasics(CalcHospitalFunction.CalculationBasicsAutopsy, _sessionController.getAccountId(), Utils.getTargetYear(Feature.CALCULATION_HOSPITAL), testMode);
+            if (_calcBasics != null && _calcBasics.getIk() > 0) {
+                iks.add(_calcBasics.getIk());
+            }
+
+            _ikItems = new ArrayList<>();
+            for (int ik : iks) {
+                _ikItems.add(new SelectItem(ik));
+            }
+        }
+        return _ikItems;
+    }
+    
+    public void ikChanged() {
+        // dummy listener, used by component MultiIk - do not delete
+    }
+    
     public String save() {
         setModifiedInfo();
         _calcBasics = _calcFacade.saveCalcBasicsAutopsy(_calcBasics);
@@ -255,6 +277,20 @@ public class EditCalcBasicsAutopsy extends AbstractEditController implements Ser
         //return _cooperationTools.isTakeEnabled(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId());
     }
 
+    public boolean isCopyForResendAllowed() {
+        if (_calcBasics.getStatusId() < 10 || _calcBasics.getStatusId() > 20 || !_appTools.isEnabled(ConfigKey.IsCalculationBasicsObdSendEnabled)) {
+            return false;
+        }
+        if (_sessionController.isInekUser(Feature.CALCULATION_HOSPITAL) && !_appTools.isEnabled(ConfigKey.TestMode)) {
+            return false;
+        }
+        return !_calcFacade.existActiveCalcBasicsDrg(_calcBasics.getIk());
+    }
+
+    @SuppressWarnings("unchecked")
+    public void copyForResend() {
+    }
+    
     /**
      * This function seals a statement od participance if possible. Sealing is possible, if all mandatory fields are fulfilled. After sealing, the
      * statement od participance can not be edited anymore and is available for the InEK.
@@ -342,39 +378,6 @@ public class EditCalcBasicsAutopsy extends AbstractEditController implements Ser
         setModifiedInfo();
         _calcBasics = _calcFacade.saveCalcBasicsAutopsy(_calcBasics);
         return "";
-    }
-
-    public void ikChanged() {
-        // dummy listener, used by component MultiIk - do not delete
-    }
-
-    private List<SelectItem> _ikItems;
-
-    public List<SelectItem> getIkItems() {
-        return getIkItems(_calcBasics);
-    }
-
-    public List<SelectItem> getIkItems(CalcBasicsAutopsy model) {
-        // todo: get correct IK list, depending on type
-        if (_ikItems == null && model != null) {
-            Account account = _sessionController.getAccount();
-            boolean testMode = _appTools.isEnabled(ConfigKey.TestMode);
-            Set<Integer> possibleIks = _calcFacade.obtainIks4NewBasics(CalcHospitalFunction.CalculationBasicsAutopsy, account.getId(), Utils.getTargetYear(Feature.CALCULATION_HOSPITAL), testMode);
-
-            _ikItems = new ArrayList<>();
-            if (model.getIk() > 0) {
-                _ikItems.add(new SelectItem(model.getIk()));
-            }
-            if (account.getIK() != null && account.getIK() > 0 && possibleIks.contains(account.getIK())) {
-                _ikItems.add(new SelectItem(account.getIK()));
-            }
-            for (AccountAdditionalIK additionalIK : account.getAdditionalIKs()) {
-                if (possibleIks.contains(additionalIK.getIK())) {
-                    _ikItems.add(new SelectItem(additionalIK.getIK()));
-                }
-            }
-        }
-        return _ikItems;
     }
 
 }
