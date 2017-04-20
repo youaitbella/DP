@@ -96,7 +96,7 @@ public abstract class AbstractEditController implements SearchConsumer, Serializ
         addTopics();
     }
 
-    abstract protected void addTopics();
+    protected abstract void addTopics();
 
     protected void addTopic(String key, String outcome) {
         _topics.addTopic(key, Utils.getMessage(key), outcome);

@@ -18,7 +18,7 @@ public enum FeatureScopedContextHolder {
 
     Instance;
 
-    private final static String FeatureKey = "FeatureScoped";
+    private static final String FeatureKey = "FeatureScoped";
 
     /**
      * Gets the FeaturedScoped bean of the given type for the session, if any

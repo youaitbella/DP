@@ -45,7 +45,7 @@ public abstract class DynamicTable<T> {
         _list.add(entry);
     }
 
-    abstract protected void addNewEntry();
+    protected abstract void addNewEntry();
 
     public void removeEmptyEntries() {
         for (Iterator<T> itr = _list.iterator(); itr.hasNext();) {
@@ -56,7 +56,7 @@ public abstract class DynamicTable<T> {
         }
     }
 
-    abstract protected boolean isEmptyEntry(T entry);
+    protected abstract boolean isEmptyEntry(T entry);
 
     public String deleteEntry(T entry) {
         _list.remove(entry);

@@ -128,7 +128,10 @@ public class DataImporter<T extends BaseIdValue> {
         checkers.get(0).resetCounter();
     }
 
-    
+    public String getHeadLine() {
+        return headLine;
+    }
+
     private FileHolder fileHolder;
     private String headLine;
     private List<DataImportCheck<T, ?>> checkers;

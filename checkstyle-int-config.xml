@@ -100,7 +100,11 @@
         <module name="EqualsHashCode"/>
         <module name="FallThrough"/>
         <module name="MissingSwitchDefault"/>
-<!--        <module name="HiddenField"/>-->
+        <module name="HiddenField">
+            <property name="ignoreConstructorParameter" value="true"/>
+            <property name="ignoreSetter" value="true"/>
+            <property name="setterCanReturnItsClass" value="true"/>
+        </module>
 <!--        <module name="RequireThis">
             <property name="checkMethods" value="false"/>
             <property name="validateOnlyOverlapping" value="true"/>
@@ -128,7 +132,7 @@
         <!-- See http://checkstyle.sf.net/config_sizes.html -->
         <!-- <module name="FileLength"/>  it's not a treewalker check therefore it's moved up-->
         <module name="LineLength">
-            <property name="max" value="122"/>
+            <property name="max" value="150"/>
             <property name="severity" value="warning"/>
         </module>
 
