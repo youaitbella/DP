@@ -92,11 +92,11 @@ public class EditDistributionModel extends AbstractEditController implements Ser
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         String id = "" + params.get("id");
         String type = "" + params.get("type");
-        if (id.equals("new") && !type.equals("0") && !type.equals("1")) {
+        if ("new".equals(id) && !"0".equals(type) && !"1".equals(type)) {
             Utils.navigate(Pages.NotAllowed.RedirectURL());
             return;
         }
-        if (id.equals("new")) {
+        if ("new".equals(id)) {
             _model = newDistributionModel(type);
         } else if (Utils.isInteger(id)) {
             DistributionModel model = loadDistributionModel(id);
@@ -138,7 +138,7 @@ public class EditDistributionModel extends AbstractEditController implements Ser
         Account account = _sessionController.getAccount();
         model.setAccountId(account.getId());
         model.setDataYear(Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
-        model.setType(type.equals("0") ? 0 : 1);
+        model.setType("0".equals(type) ? 0 : 1);
         List<SelectItem> ikItems = getIkItems(model);
         if (ikItems.size() == 1) {
             model.setIk((int) ikItems.get(0).getValue());

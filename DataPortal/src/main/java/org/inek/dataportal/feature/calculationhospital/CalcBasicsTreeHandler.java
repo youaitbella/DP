@@ -39,7 +39,7 @@ public class CalcBasicsTreeHandler implements Serializable, TreeNodeObserver {
     private final RootNode _rootNode = RootNode.create(0, this);
 
     public RootNode getRootNode() {
-        if (!_rootNode.isExpanded()){
+        if (!_rootNode.isExpanded()) {
             _rootNode.expand();
         }
         return _rootNode;
@@ -102,15 +102,15 @@ public class CalcBasicsTreeHandler implements Serializable, TreeNodeObserver {
         Stream<CalcHospitalTreeNode> stream = children.stream().map(n -> (CalcHospitalTreeNode) n);
         switch (treeNode.getSortCriteria().toLowerCase()) {
             case "ik":
-                    stream = stream.sorted((n1, n2) -> direction * Integer.compare(n1.getCalcHospitalInfo().getIk(), n2.getCalcHospitalInfo().getIk()));
+                stream = stream.sorted((n1, n2) -> direction * Integer.compare(n1.getCalcHospitalInfo().getIk(), n2.getCalcHospitalInfo().getIk()));
                 break;
             case "hospital":
-                    stream = stream
-                            .sorted((n1, n2) -> direction * _appTools.retrieveHospitalInfo(n1.getCalcHospitalInfo().getIk())
-                                    .compareTo(_appTools.retrieveHospitalInfo(n2.getCalcHospitalInfo().getIk())));
+                stream = stream
+                        .sorted((n1, n2) -> direction * _appTools.retrieveHospitalInfo(n1.getCalcHospitalInfo().getIk())
+                        .compareTo(_appTools.retrieveHospitalInfo(n2.getCalcHospitalInfo().getIk())));
                 break;
             case "name":
-                    stream = stream.sorted((n1, n2) -> direction * n1.getCalcHospitalInfo().getName().compareTo(n2.getCalcHospitalInfo().getName()));
+                stream = stream.sorted((n1, n2) -> direction * n1.getCalcHospitalInfo().getName().compareTo(n2.getCalcHospitalInfo().getName()));
                 break;
             default:
         }

@@ -76,7 +76,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
         if (id == null) {
             Utils.navigate(Pages.NotAllowed.RedirectURL());
             return;
-        } else if (id.toString().equals("new")) {
+        } else if ("new".equals(id.toString())) {
             if (!_appTools.isEnabled(ConfigKey.IsStatemenOfParticipanceCreateEnabled)) {
                 Utils.navigate(Pages.NotAllowed.RedirectURL());
                 return;
@@ -140,10 +140,10 @@ public class EditStatementOfParticipance extends AbstractEditController {
                 statement.setPsyCalc(isPsy);
             } else {
                 statement.setDrgCalc(domain.contains("DRG"));
-                statement.setClinicalDistributionModelDrg(drgKvm.equals("T") ? 1 : 0);
+                statement.setClinicalDistributionModelDrg("T".equals(drgKvm) ? 1 : 0);
                 statement.setMultiyearDrg(Integer.parseInt(drgMultiyear));
                 statement.setPsyCalc(domain.contains("PSY"));
-                statement.setClinicalDistributionModelPsy(psyKvm.equals("T") ? 1 : 0);
+                statement.setClinicalDistributionModelPsy("T".equals(psyKvm) ? 1 : 0);
                 statement.setMultiyearPsy(Integer.parseInt(psyMultiyear));
                 statement.setInvCalc(domain.contains("INV"));
                 statement.setTpgCalc(domain.contains("TPG"));

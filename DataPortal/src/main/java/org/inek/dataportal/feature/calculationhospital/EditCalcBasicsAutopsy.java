@@ -79,7 +79,7 @@ public class EditCalcBasicsAutopsy extends AbstractEditController implements Ser
     private void init() {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         String id = "" + params.get("id");
-        if (id.equals("new")) {
+        if ("new".equals(id)) {
             _calcBasics = newCalcBasics();
         } else if (Utils.isInteger(id)) {
             CalcBasicsAutopsy calcBasics = loadCalcBasics(id);

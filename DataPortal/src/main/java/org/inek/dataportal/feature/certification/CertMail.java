@@ -194,7 +194,7 @@ public class CertMail implements Serializable {
         String userEmail = _selectedReceiverNewList.substring(_selectedReceiverNewList.indexOf('(') + 1, _selectedReceiverNewList.length() - 1);
         EmailReceiver er = new EmailReceiver();
         er.setAccountId(_accFacade.findByMailOrUser(userEmail).getId());
-        if (!_selectedReceiverNewList.equals("")) {
+        if (!"".equals(_selectedReceiverNewList)) {
             if (_emailReceivers.size() > 0) {
                 er.setReceiverList(_emailReceivers.get(0).getReceiverList());
             } else if (_emailReceivers.isEmpty()) {
@@ -244,7 +244,7 @@ public class CertMail implements Serializable {
     }
 
     public String deleteReceiverList() {
-        if (_selectedListEditName.equals("")) {
+        if ("".equals(_selectedListEditName)) {
             return ""; // throw exception here.
         }
         MapEmailReceiverLabel erl = _emailReceiverLabelFacade.find(_emailReceiverLabelFacade.findEmailReceiverListByLabel(_selectedListEditName));
@@ -387,7 +387,7 @@ public class CertMail implements Serializable {
     private String buildEmailSalutation(String receiverEmail) {
         String receiver = receiverEmail;
         Account receiverAccount = _accFacade.findByMailOrUser(receiver);
-        String title = receiverAccount.getTitle().equals("") ? "" : " " + receiverAccount.getTitle();
+        String title = "".equals(receiverAccount.getTitle()) ? "" : " " + receiverAccount.getTitle();
         boolean isFemale = true;
         if (receiverAccount.getGender() == Genders.Male.id()) {
             isFemale = false;
@@ -426,7 +426,7 @@ public class CertMail implements Serializable {
 
     private void createEmailLogEntry(String version, MailTemplate mt, String emailAddress) {
         EmailLog log = new EmailLog();
-        if (!version.equals("")) {
+        if (!"".equals(version)) {
             log.setSystemId(_systemFacade.findRemunerationSystemByName(version).getId());
         }
         if(version.isEmpty()) {
@@ -446,88 +446,88 @@ public class CertMail implements Serializable {
         return _selectedTemplate;
     }
 
-    public void setSelectedTemplate(String _selectedTemplate) {
-        this._selectedTemplate = _selectedTemplate;
+    public void setSelectedTemplate(String selectedTemplate) {
+        this._selectedTemplate = selectedTemplate;
     }
 
     public String getSystemReceiverList() {
         return _systemReceiverList;
     }
 
-    public void setSystemReceiverList(String _systemReceiverList) {
-        this._systemReceiverList = _systemReceiverList;
+    public void setSystemReceiverList(String systemReceiverList) {
+        this._systemReceiverList = systemReceiverList;
     }
 
     public String getSingleReceiver() {
         return _singleReceiver;
     }
 
-    public void setSingleReceiver(String _singleReceiver) {
-        this._singleReceiver = _singleReceiver;
+    public void setSingleReceiver(String singleReceiver) {
+        this._singleReceiver = singleReceiver;
     }
 
     public String getSelectedReceiverNewList() {
         return _selectedReceiverNewList;
     }
 
-    public void setSelectedReceiverNewList(String _selectedReceiverNewList) {
-        this._selectedReceiverNewList = _selectedReceiverNewList;
+    public void setSelectedReceiverNewList(String selectedReceiverNewList) {
+        this._selectedReceiverNewList = selectedReceiverNewList;
     }
 
     public String getSelectedListEdit() {
         return _selectedListEditName;
     }
 
-    public void setSelectedListEdit(String _selectedListEdit) {
-        this._selectedListEditName = _selectedListEdit;
+    public void setSelectedListEdit(String selectedListEdit) {
+        this._selectedListEditName = selectedListEdit;
     }
 
     public String getReceiverListsName() {
         return _receiverListsName;
     }
 
-    public void setReceiverListsName(String _receiverListsName) {
-        this._receiverListsName = _receiverListsName;
+    public void setReceiverListsName(String receiverListsName) {
+        this._receiverListsName = receiverListsName;
     }
 
     public List<EmailReceiver> getEmailReceivers() {
         return _emailReceivers;
     }
 
-    public void setEmailReceivers(List<EmailReceiver> _emailReceivers) {
-        this._emailReceivers = _emailReceivers;
+    public void setEmailReceivers(List<EmailReceiver> emailReceivers) {
+        this._emailReceivers = emailReceivers;
     }
 
     public String getSelectedEmailAddressPreview() {
         return _selectedEmailAddressPreview;
     }
 
-    public void setSelectedEmailAddressPreview(String _selectedEmailAddressPreview) {
-        this._selectedEmailAddressPreview = _selectedEmailAddressPreview;
+    public void setSelectedEmailAddressPreview(String selectedEmailAddressPreview) {
+        this._selectedEmailAddressPreview = selectedEmailAddressPreview;
     }
 
     public String getPreviewSubject() {
         return _previewSubject;
     }
 
-    public void setPreviewSubject(String _previewSubject) {
-        this._previewSubject = _previewSubject;
+    public void setPreviewSubject(String previewSubject) {
+        this._previewSubject = previewSubject;
     }
 
     public String getPreviewBody() {
         return _previewBody;
     }
 
-    public void setPreviewBody(String _previewBody) {
-        this._previewBody = _previewBody;
+    public void setPreviewBody(String previewBody) {
+        this._previewBody = previewBody;
     }
 
     public UIComponent getPreviewButton() {
         return _previewButton;
     }
 
-    public void setPreviewButton(UIComponent _previewButton) {
-        this._previewButton = _previewButton;
+    public void setPreviewButton(UIComponent previewButton) {
+        this._previewButton = previewButton;
     }
 
     public List<EmailSentInfo> getEmailSentSuccess() {
@@ -538,8 +538,8 @@ public class CertMail implements Serializable {
         return _attachement;
     }
 
-    public void setAttachement(String _attachement) {
-        this._attachement = _attachement;
+    public void setAttachement(String attachement) {
+        this._attachement = attachement;
     }
     public int getSystemForEmail() {
         return _systemForEmail;
