@@ -344,8 +344,8 @@ public class KGLListCostCenterCost implements Serializable, BaseIdValue {
         return _priorId;
     }
 
-    public void setPriorId(int _priorId) {
-        this._priorId = _priorId;
+    public void setPriorId(int priorId) {
+        this._priorId = priorId;
     }
 
     @Transient
@@ -356,8 +356,8 @@ public class KGLListCostCenterCost implements Serializable, BaseIdValue {
         return _prior;
     }
 
-    public void setPrior(KGLListCostCenterCost _prior) {
-        this._prior = _prior;
+    public void setPrior(KGLListCostCenterCost prior) {
+        this._prior = prior;
     }
 
     //<editor-fold defaultstate="collapsed" desc="hash && equals && toString">

@@ -537,8 +537,8 @@ public class PeppProposal implements Serializable {
         return _publication;
     }
 
-    public void setPublication(boolean _publication) {
-        this._publication = _publication;
+    public void setPublication(boolean publication) {
+        this._publication = publication;
     }
     
     // </editor-fold>

@@ -19,24 +19,24 @@ public class NubFormerRequestMerged {
         return _id;
     }
 
-    public void setId(String _id) {
-        this._id = _id;
+    public void setId(String id) {
+        this._id = id;
     }
 
     public String getName() {
         return _name;
     }
 
-    public void setName(String _name) {
-        this._name = _name;
+    public void setName(String name) {
+        this._name = name;
     }
 
     public int getIk() {
         return _ik;
     }
 
-    public void setIk(int _ik) {
-        this._ik = _ik;
+    public void setIk(int ik) {
+        this._ik = ik;
     }
     
     

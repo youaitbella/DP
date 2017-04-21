@@ -134,6 +134,7 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
     @Column(name = "biLastChangedBy")
     private int _accountIdLastChange;
 
+    @JsonIgnore
     public int getAccountIdLastChange() {
         return _accountIdLastChange;
     }
@@ -148,6 +149,7 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
     @Temporal(TemporalType.TIMESTAMP)
     private Date _sealed = Date.from(LocalDate.of(2000, Month.JANUARY, 1).atStartOfDay().toInstant(ZoneOffset.UTC));
 
+    @JsonIgnore
     public Date getSealed() {
         return _sealed;
     }
