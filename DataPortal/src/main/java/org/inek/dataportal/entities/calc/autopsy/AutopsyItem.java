@@ -26,7 +26,7 @@ public class AutopsyItem implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "astId", updatable = false, nullable = false)
+    @Column(name = "cbaiId", updatable = false, nullable = false)
     private int id;
 
     public int getId() {
@@ -38,14 +38,28 @@ public class AutopsyItem implements Serializable {
     }
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Property DescriptionAccrual">
+    @Column(name = "cbaiDescriptionAccrual")
+    private String _descriptionAccrual;
+    
+    public String getDescriptionAccrual() {
+        return _descriptionAccrual;
+    }
+    
+    public void setDescriptionAccrual(String descriptionAccrual) {
+        this._descriptionAccrual = descriptionAccrual;
+    }
+    //</editor-fold>
+    
+    
     /*
-cbaiId	int	Unchecked
+	int	Unchecked
 cbaiCalcBasicsAutopsyId	int	Unchecked
 cbaiAutopsyServiceTextId	int	Unchecked
 cbaiCountCases	int	Unchecked
 cbaiCostVolumeMedical	int	Unchecked
 cbaiCostVolumeOther	int	Unchecked
-cbaiDescriptionAccrual	nvarchar(MAX)	Unchecked    
+	nvarchar(MAX)	Unchecked    
     */
     @Override
     public int hashCode() {

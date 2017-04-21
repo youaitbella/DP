@@ -27,37 +27,58 @@ public class AutopsyServiceText implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "astId", updatable = false, nullable = false)
-    private int id;
+    private int _id;
     
     public int getId() {
-        return id;
+        return _id;
     }
     
     public void setId(int id) {
-        this.id = id;
+        this._id = id;
     }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property Text">
+    @Column(name = "astText")
+    private String _text;
+    
+    public String getText() {
+        return _text;
+    }
+    
+    public void setText(String text) {
+        this._text = text;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property ShowOnForensic">
+    @Column(name = "astShowOnForensic")
+    private boolean _showOnForensic;
+    
+    public boolean getShowOnForensic() {
+        return _showOnForensic;
+    }
+    
+    public void setShowOnForensic(boolean showOnForensic) {
+        this._showOnForensic = showOnForensic;
+    }
+    //</editor-fold>
+    
     
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (int) id;
+        hash += (int) _id;
         return hash;
     }
-    //</editor-fold>
-    
-/*
-    astId	int	Unchecked
-astText	nvarchar(100)	Unchecked
-astShowOnForensic	bit	Unchecked
-    */    
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
+        // TODO: Warning - this method won't work in the case the _showOnForensic fields are not set
         if (!(object instanceof AutopsyServiceText)) {
             return false;
         }
         AutopsyServiceText other = (AutopsyServiceText) object;
-        if (this.id != other.id) {
+        if (this._showOnForensic != other._showOnForensic) {
             return false;
         }
         return true;
@@ -65,7 +86,7 @@ astShowOnForensic	bit	Unchecked
 
     @Override
     public String toString() {
-        return "org.inek.dataportal.entities.calc.autopsy.AutopsyServiceText[ id=" + id + " ]";
+        return "org.inek.dataportal.entities.calc.autopsy.AutopsyServiceText[ id=" + _showOnForensic + " ]";
     }
     
 }
