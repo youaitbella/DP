@@ -3,7 +3,9 @@ package org.inek.dataportal.common;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.ApplicationScoped;
@@ -94,13 +96,18 @@ public class ApplicationTools {
     // </editor-fold>
 
     @Inject private CustomerFacade _customerFacade;
-    
+    private final Map<Integer, String> _hospitalInfo = new ConcurrentHashMap<>();
     public String retrieveHospitalInfo(int ik) {
+        if (_hospitalInfo.containsKey(ik)){
+            return _hospitalInfo.get(ik);
+        }
         Customer c = _customerFacade.getCustomerByIK(ik);
         if (c == null || c.getName() == null) {
             return "";
         }
-        return c.getName() + ", " + c.getTown();
+        String info =  c.getName() + ", " + c.getTown();
+        _hospitalInfo.put(ik, info);
+        return  info;
     }
     
 }

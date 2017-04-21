@@ -11,6 +11,7 @@ import java.util.stream.Stream;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.calc.CalcHospitalInfo;
@@ -33,6 +34,7 @@ public class CalcBasicsTreeHandler implements Serializable, TreeNodeObserver {
 
     @Inject private CalcFacade _calcFacade;
     @Inject private SessionController _sessionController;
+    @Inject private ApplicationTools _appTools;
 
     private final RootNode _rootNode = RootNode.create(0, this);
 
@@ -96,27 +98,22 @@ public class CalcBasicsTreeHandler implements Serializable, TreeNodeObserver {
     }
 
     public Collection<TreeNode> sortAccountNodeChildren(AccountTreeNode treeNode, Collection<TreeNode> children) {
+        int direction = treeNode.isDescending() ? -1 : 1;
         Stream<CalcHospitalTreeNode> stream = children.stream().map(n -> (CalcHospitalTreeNode) n);
-        Stream<CalcHospitalTreeNode> sorted;
         switch (treeNode.getSortCriteria().toLowerCase()) {
             case "ik":
-                if (treeNode.isDescending()) {
-                    sorted = stream.sorted((n1, n2) -> Integer.compare(n2.getCalcHospitalInfo().getIk(), n1.getCalcHospitalInfo().getIk()));
-                } else {
-                    sorted = stream.sorted((n1, n2) -> Integer.compare(n1.getCalcHospitalInfo().getIk(), n2.getCalcHospitalInfo().getIk()));
-                }
+                    stream = stream.sorted((n1, n2) -> direction * Integer.compare(n1.getCalcHospitalInfo().getIk(), n2.getCalcHospitalInfo().getIk()));
+                break;
+            case "hospital":
+                    stream = stream
+                            .sorted((n1, n2) -> direction * _appTools.retrieveHospitalInfo(n1.getCalcHospitalInfo().getIk())
+                                    .compareTo(_appTools.retrieveHospitalInfo(n2.getCalcHospitalInfo().getIk())));
                 break;
             case "name":
-                if (treeNode.isDescending()) {
-                    sorted = stream.sorted((n1, n2) -> n2.getCalcHospitalInfo().getName().compareTo(n1.getCalcHospitalInfo().getName()));
-                } else {
-                    sorted = stream.sorted((n1, n2) -> n1.getCalcHospitalInfo().getName().compareTo(n2.getCalcHospitalInfo().getName()));
-                }
+                    stream = stream.sorted((n1, n2) -> direction * n1.getCalcHospitalInfo().getName().compareTo(n2.getCalcHospitalInfo().getName()));
                 break;
-            case "status":
             default:
-                sorted = stream;
         }
-        return sorted.collect(Collectors.toList());
+        return stream.collect(Collectors.toList());
     }
 }
