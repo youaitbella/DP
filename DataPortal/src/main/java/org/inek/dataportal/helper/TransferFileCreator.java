@@ -23,8 +23,8 @@ import java.util.zip.CheckedOutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import org.inek.dataportal.controller.SessionController;
-import org.inek.dataportal.entities.calc.DrgCalcBasics;
-import org.inek.dataportal.entities.calc.PeppCalcBasics;
+import org.inek.dataportal.entities.calc.drg.DrgCalcBasics;
+import org.inek.dataportal.entities.calc.psy.PeppCalcBasics;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.facades.admin.ConfigFacade;
 

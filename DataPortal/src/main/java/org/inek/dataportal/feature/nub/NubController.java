@@ -198,6 +198,8 @@ public class NubController extends AbstractFeatureController {
                 case RequestedEarlierOther:
                     request.setRequestedEarlierOther(Boolean.parseBoolean(content));
                     break;
+            default:
+                throw new IllegalArgumentException("Unknown Key [NUB]: + " + key);
             }
         }
         if (request.getHelperId() == request.getAccountId()) {

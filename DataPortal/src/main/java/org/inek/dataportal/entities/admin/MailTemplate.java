@@ -126,8 +126,8 @@ public class MailTemplate implements Serializable {
         return _type;
     }
 
-    public void setType(int _type) {
-        this._type = _type;
+    public void setType(int type) {
+        this._type = type;
     }
     // </editor-fold>
     

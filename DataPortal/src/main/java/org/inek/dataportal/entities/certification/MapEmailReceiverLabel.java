@@ -39,8 +39,8 @@ public class MapEmailReceiverLabel implements Serializable {
         return _label;
     }
 
-    public void setLabel(String _label) {
-        this._label = _label;
+    public void setLabel(String label) {
+        this._label = label;
     }
     
     @Override

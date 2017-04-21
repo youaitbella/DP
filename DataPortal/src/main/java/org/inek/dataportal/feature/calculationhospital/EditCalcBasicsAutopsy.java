@@ -24,7 +24,7 @@ import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountAdditionalIK;
 import org.inek.dataportal.entities.admin.MailTemplate;
-import org.inek.dataportal.entities.calc.CalcBasicsAutopsy;
+import org.inek.dataportal.entities.calc.autopsy.CalcBasicsAutopsy;
 import org.inek.dataportal.enums.CalcHospitalFunction;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;

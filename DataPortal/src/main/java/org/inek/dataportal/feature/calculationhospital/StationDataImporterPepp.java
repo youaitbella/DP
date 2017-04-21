@@ -15,8 +15,8 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.function.BiConsumer;
 import javax.servlet.http.Part;
-import org.inek.dataportal.entities.calc.KGPListStationServiceCost;
-import org.inek.dataportal.entities.calc.PeppCalcBasics;
+import org.inek.dataportal.entities.calc.psy.KGPListStationServiceCost;
+import org.inek.dataportal.entities.calc.psy.PeppCalcBasics;
 import org.inek.dataportal.helper.Utils;
 
 /**

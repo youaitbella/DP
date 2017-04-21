@@ -164,8 +164,8 @@ public class RemunerationSystem implements Serializable {
         return _archived;
     }
 
-    public void setArchived(boolean _archived) {
-        this._archived = _archived;
+    public void setArchived(boolean archived) {
+        this._archived = archived;
     }
     // </editor-fold>
 
@@ -212,8 +212,8 @@ public class RemunerationSystem implements Serializable {
         return systemRoot;
     }
     // </editor-fold>
-
     // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public boolean equals(Object object) {

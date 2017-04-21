@@ -106,7 +106,7 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
                 }
             } else {
                 String msg = exception.getMessage();
-                if (msg == null || !msg.contains("Conversation lock timed out") && !msg.equals("getOutputStream() has already been called for this response")) {  // getOutput... happens on IE, but does not affect the user
+                if (msg == null || !msg.contains("Conversation lock timed out") && !"getOutputStream() has already been called for this response".equals(msg)) {  // getOutput... happens on IE, but does not affect the user
                     String head = "[PortalExceptionHandler OtherException] ";
                     LOGGER.log(Level.SEVERE, head, exception);
                     collectException(messageCollector, head, exception);

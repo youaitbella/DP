@@ -5,8 +5,8 @@
  */
 package org.inek.dataportal.feature.calculationhospital;
 
-import org.inek.dataportal.entities.calc.DrgCalcBasics;
-import org.inek.dataportal.entities.calc.KGLOpAn;
+import org.inek.dataportal.entities.calc.drg.DrgCalcBasics;
+import org.inek.dataportal.entities.calc.drg.KGLOpAn;
 
 /**
  *

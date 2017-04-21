@@ -163,8 +163,8 @@ public class ModelIntention implements Serializable {
         return _regionType;
     }
 
-    public void setRegionType(Integer _regionType) {
-        this._regionType = _regionType;
+    public void setRegionType(Integer regionType) {
+        this._regionType = regionType;
     }
     // </editor-fold>
 
