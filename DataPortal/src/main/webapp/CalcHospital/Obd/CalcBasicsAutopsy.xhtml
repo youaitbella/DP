@@ -18,14 +18,13 @@
     </inek:MultiIk>
 
     <hr/>
+    
     <div jsf:id="cdaData" jsf:rendered="#{editCalcBasicsAutopsy.calcBasics.ik gt 0}">
 
-        <h2>Pathologie: Kosteninformationen</h2>
-
-        <h3>Personalkosten</h3>
+        <h5 class="blockHeader">Pathologie: Kosteninformationen</h5>
 
         <div class="inputPart">
-            <h:outputLabel styleClass="label element25em"
+            <h:outputLabel styleClass="label element37em"
                            value=""/>
             <h:outputLabel styleClass="label element08em"
                            value="vor Abgrenzung"/>
@@ -34,7 +33,7 @@
         </div>
 
         <div class="inputPart">
-            <h:outputLabel styleClass="label element25em"
+            <h:outputLabel styleClass="label element37em"
                            value="Anzahl Vollkräfte Ärztlicher Dienst"/>
             <inek:InputNumberWithMessage readonly="#{editCalcBasicsAutopsy.readOnly}"
                                          styleClassComponent="element08em"
@@ -45,7 +44,7 @@
         </div>
 
         <div class="inputPart">
-            <h:outputLabel styleClass="label element25em"
+            <h:outputLabel styleClass="label element37em"
                            value="Kostenvolumen Ärztlicher Dienst"/>
             <inek:InputNumberWithMessage readonly="#{editCalcBasicsAutopsy.readOnly}"
                                          styleClassComponent="element08em"
@@ -56,7 +55,7 @@
         </div>
 
         <div class="inputPart">
-            <h:outputLabel styleClass="label element25em"
+            <h:outputLabel styleClass="label element37em"
                            value="Anzahl Vollkräfte Sektionsgehilfen/Präparator etc."/>
             <inek:InputNumberWithMessage readonly="#{editCalcBasicsAutopsy.readOnly}"
                                          styleClassComponent="element08em"
@@ -67,7 +66,7 @@
         </div>
 
         <div class="inputPart">
-            <h:outputLabel styleClass="label element25em"
+            <h:outputLabel styleClass="label element37em"
                            value="Kostenvolumen Sektionsgehilfen/Präparator etc."/>
             <inek:InputNumberWithMessage readonly="#{editCalcBasicsAutopsy.readOnly}"
                                          styleClassComponent="element08em"
@@ -77,21 +76,102 @@
                                          value="#{editCalcBasicsAutopsy.calcBasics.costVolumeOtherAfterAccrual}"/>
         </div>
 
-        <h2>Pathologie: Leistungs- und Kosteninformationen</h2>
+        <div class="inputPart">
+            <h:outputLabel styleClass="label element37em"
+                           value="Kostenvolumen medizinische Infrastruktur"/>
+            <inek:InputNumberWithMessage readonly="#{editCalcBasicsAutopsy.readOnly}"
+                                         styleClassComponent="element08em"
+                                         value="#{editCalcBasicsAutopsy.calcBasics.costVolumeMedicalInfraBeforeAccrual}"/>
+            <inek:InputNumberWithMessage readonly="#{editCalcBasicsAutopsy.readOnly}"
+                                         styleClassComponent="element08em"
+                                         value="#{editCalcBasicsAutopsy.calcBasics.costVolumeMedicalInfraAfterAccrual}"/>
+        </div>
 
+        <div class="inputPart">
+            <h:outputLabel styleClass="label element37em"
+                           value="Kostenvolumen nicht medizinische Infrastruktur"/>
+            <inek:InputNumberWithMessage readonly="#{editCalcBasicsAutopsy.readOnly}"
+                                         styleClassComponent="element08em"
+                                         value="#{editCalcBasicsAutopsy.calcBasics.costVolumeNonMedicalInfraBeforeAccrual}"/>
+            <inek:InputNumberWithMessage readonly="#{editCalcBasicsAutopsy.readOnly}"
+                                         styleClassComponent="element08em"
+                                         value="#{editCalcBasicsAutopsy.calcBasics.costVolumeNonMedicalInfraAfterAccrual}"/>
+        </div>
+
+        <h5 class="blockHeader">Rechtsmedizin: Kosteninformationen</h5>
+        
         <inek:LabeledCheckbox label="Es ist eine eigenständige Kostenstelle Rechtsmedizin vorhanden"
+                              styleClassLabel="label element37em"
                               renderElement="@form"
                               value="#{editCalcBasicsAutopsy.calcBasics.hasCostCenterForensic}"/>
 
+        <div class="inputPart" jsf:rendered="#{editCalcBasicsAutopsy.calcBasics.hasCostCenterForensic}">
+            <h:outputLabel styleClass="label element37em"
+                           value="Kostenvolumen Rechtsmedizin"/>
+            <inek:InputNumberWithMessage readonly="#{editCalcBasicsAutopsy.readOnly}"
+                                         styleClassComponent="element08em"
+                                         value="#{editCalcBasicsAutopsy.calcBasics.costVolumeForensic}"/>
+            <inek:InputNumberWithMessage readonly="#{editCalcBasicsAutopsy.readOnly}"
+                                         styleClassComponent="element08em"
+                                         value="#{editCalcBasicsAutopsy.calcBasics.costVolumeForensicAccural}"/>
+        </div>
 
-        <inek:LabeledText singleLine="true"
-                          label="Kostenvolumen" 
-                          value="#{editCalcBasicsAutopsy.calcBasics.costVolumeForensic}" 
-                          rendered="#{editCalcBasicsAutopsy.calcBasics.hasCostCenterForensic}"/>
 
+        <h5 class="blockHeader">Pathologie: Leistungs- und Kosteninformationen</h5>
+        
+        <div class="inputPart">
+            Bitte im Folgenden nur ausfüllen, wenn in diesen Bereichen Leistungen erbracht wurden
+        </div>
+            
+        <div class="inputPart">
+            <h:outputLabel styleClass="label element37em"
+                           value="Anzahl insgesamt durchgeführter klinischer Sektionen"/>
+            <inek:InputNumberWithMessage readonly="#{editCalcBasicsAutopsy.readOnly}"
+                                         styleClassComponent="element08em"
+                                         value="#{editCalcBasicsAutopsy.calcBasics.totalAutopsys}"/>
+        </div>
+        
+        <div class="inputPart">
+            <h:outputLabel styleClass="label element37em"
+                           value="davon: kalkulationsrelevante Anzahl"/>
+            <inek:InputNumberWithMessage readonly="#{editCalcBasicsAutopsy.readOnly}"
+                                         styleClassComponent="element08em"
+                                         value="#{editCalcBasicsAutopsy.calcBasics.calcAutopsys}"/>
+        </div>
+        
 
-        <h2 style="margin-bottom: 1em;"></h2>
-
+        <h5 class="blockHeader">Weitere Leistungsbereiche: Kosten- und Leistungsinformationen</h5>
+        
+        <div class="inputPart">
+            <h:outputLabel styleClass="label element37em"
+                           value="Kostenvolumen Kostenstellengruppe 10 (Labor) für klinische Sektionen"/>
+            <inek:InputNumberWithMessage readonly="#{editCalcBasicsAutopsy.readOnly}"
+                                         styleClassComponent="element08em"
+                                         value="#{editCalcBasicsAutopsy.calcBasics.costVolumeLaboratoryBeforeAccrual}"/>
+            <inek:InputNumberWithMessage readonly="#{editCalcBasicsAutopsy.readOnly}"
+                                         styleClassComponent="element08em"
+                                         value="#{editCalcBasicsAutopsy.calcBasics.costVolumeLaboratoryAfterAccrual}"/>
+        </div>
+        
+        <div class="inputPart">
+            <h:outputLabel styleClass="label element37em"
+                           value="Anzahl Fälle mit Röntgenleistungen für klinische Sektionen"/>
+            <inek:InputNumberWithMessage readonly="#{editCalcBasicsAutopsy.readOnly}"
+                                         styleClassComponent="element08em"
+                                         value="#{editCalcBasicsAutopsy.calcBasics.caseCountXRay}"/>
+        </div>
+        
+        <div class="inputPart">
+            <h:outputLabel styleClass="label element37em"
+                           value="Kostenvolumen Kostenstellengruppe 9 (Radiologie) für klinische Sektionen"/>
+            <inek:InputNumberWithMessage readonly="#{editCalcBasicsAutopsy.readOnly}"
+                                         styleClassComponent="element08em"
+                                         value="#{editCalcBasicsAutopsy.calcBasics.costVolumeXRayBeforeAccrual}"/>
+            <inek:InputNumberWithMessage readonly="#{editCalcBasicsAutopsy.readOnly}"
+                                         styleClassComponent="element08em"
+                                         value="#{editCalcBasicsAutopsy.calcBasics.costVolumeXRayAfterAccrual}"/>
+        </div>
+        
     </div>    
 </ui:composition>
 

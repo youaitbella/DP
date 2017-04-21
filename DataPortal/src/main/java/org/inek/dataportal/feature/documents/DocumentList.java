@@ -89,7 +89,7 @@ public class DocumentList implements Serializable{
     }
 
     public boolean renderNumDocs(String topic) {
-        if (topic.equals("Dokumente")) {
+        if ("Dokumente".equals(topic)) {
             List<DocInfo> docs = getDocuments();
             if (getDocuments().size() > 0) {
                 for (DocInfo doc : docs) {
@@ -108,7 +108,7 @@ public class DocumentList implements Serializable{
 
     public String getNumberOfUnreadDocs(String topic) {
         int count = 0;
-        if (topic.equals("Dokumente")) {
+        if ("Dokumente".equals(topic)) {
             List<DocInfo> docs = new ArrayList<>();
             for (DocInfo doc : getDocuments()) {
                 if (!_accountDocFacade.isDocRead((int) doc.getId())) {
