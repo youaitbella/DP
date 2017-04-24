@@ -77,7 +77,7 @@ public class DocumentApproval implements TreeNodeObserver, Serializable {
     public void setFilter(String filter) {
         _filter = filter;
     }
-    
+
     public String reload() {
         return "";
     }
@@ -108,7 +108,7 @@ public class DocumentApproval implements TreeNodeObserver, Serializable {
         return _sortCriteria;
     }
     // </editor-fold>    
-    
+
     public RootNode getRootNode() {
         return _rootNode;
     }
@@ -135,9 +135,9 @@ public class DocumentApproval implements TreeNodeObserver, Serializable {
         Stream<DocumentInfoTreeNode> docInfoStream = children.stream().map(n -> (DocumentInfoTreeNode) n);
         if (!_filter.isEmpty()) {
             docInfoStream = docInfoStream
-                    .filter(d -> d.getDocInfo().getName().toLowerCase().contains(_filter) 
-                            || d.getDocInfo().getDomain().toLowerCase().contains(_filter)
-                            || d.getDocInfo().getTag().toLowerCase().contains(_filter));
+                    .filter(d -> d.getDocInfo().getName().toLowerCase().contains(_filter)
+                    || d.getDocInfo().getDomain().toLowerCase().contains(_filter)
+                    || d.getDocInfo().getTag().toLowerCase().contains(_filter));
         }
         int direction = _isDescending ? -1 : 1;
         switch (_sortCriteria.toLowerCase()) {
@@ -213,7 +213,7 @@ public class DocumentApproval implements TreeNodeObserver, Serializable {
             accounts.addAll(mailInfo.getAccounts());
             mailInfos.put(key, accounts);
         });
-        
+
         for (Entry<String, Set<Account>> entry : mailInfos.entrySet()) {
             notify(entry.getKey(), entry.getValue());
         }
@@ -227,19 +227,25 @@ public class DocumentApproval implements TreeNodeObserver, Serializable {
     }
 
     public void approve(int docId) {
-        MailInfo mailInfo = approveAndReturnMailInfo(docId);
-        notify(mailInfo.getJsonMail(), mailInfo.getAccounts());
+        try {
+            MailInfo mailInfo = approveAndReturnMailInfo(docId);
+            notify(mailInfo.getJsonMail(), mailInfo.getAccounts());
+        } catch (IllegalArgumentException ex) {
+            LOGGER.log(Level.WARNING, ex.getMessage());
+        }
         _rootNode.refresh();
     }
 
     private MailInfo approveAndReturnMailInfo(int docId) {
         WaitingDocument waitingDoc = _waitingDocFacade.find(docId);
+        if (waitingDoc == null) {
+            throw new IllegalArgumentException("WaitingDocument not found: " + docId);
+        }
         List<Account> accounts = waitingDoc.getAccounts();
         for (Account account : accounts) {
             createAccountDocument(account, waitingDoc);
         }
         String jsonMail = waitingDoc.getJsonMail();
-        //waitingDoc.getAccounts().clear();
         _waitingDocFacade.remove(waitingDoc);
         return new MailInfo(jsonMail, accounts);
     }
@@ -281,7 +287,7 @@ public class DocumentApproval implements TreeNodeObserver, Serializable {
         if (!_sessionController.isInekUser(Feature.DOCUMENTS)) {
             return "";
         }
-        if (doc == null || doc.getContent() == null){
+        if (doc == null || doc.getContent() == null) {
             LOGGER.log(Level.SEVERE, "Doocument or content missing: {0}", docId);
             return Pages.Error.URL();
         }
@@ -301,7 +307,8 @@ public class DocumentApproval implements TreeNodeObserver, Serializable {
         return "";
     }
 
-    private static class MailInfo{
+    private static class MailInfo {
+
         private final String _jsonMail;
         private final List<Account> _accounts;
 
