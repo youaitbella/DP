@@ -36,6 +36,10 @@ public class DropBox implements Serializable {
     @Column(name = "dbValidUntil")
     @Temporal(value = javax.persistence.TemporalType.TIMESTAMP)
     private Date _validUntil;
+    
+    @Column(name = "dbName")
+    private String _name = "";
+    
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "dbiDropBoxId", referencedColumnName = "dbId")
     @OrderBy("_name")
@@ -104,6 +108,14 @@ public class DropBox implements Serializable {
 
     public void setValidUntil(Date creationDate) {
         _validUntil = creationDate;
+    }
+
+    public String getName() {
+        return _name;
+    }
+
+    public void setName(String name) {
+        this._name = name;
     }
 
     public List<DropBoxItem> getItems() {
