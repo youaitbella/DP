@@ -31,6 +31,13 @@ public class AutopsyItem implements Serializable {
     @Column(name = "cbaiId", updatable = false, nullable = false)
     private int id;
 
+    public AutopsyItem() {
+    }
+
+    AutopsyItem(AutopsyServiceText serviceText) {
+        _autopsyServiceText = serviceText;
+    }
+
     public int getId() {
         return id;
     }

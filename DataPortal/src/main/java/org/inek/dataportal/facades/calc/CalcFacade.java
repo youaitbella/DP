@@ -25,6 +25,7 @@ import org.inek.dataportal.entities.calc.sop.CalcContact;
 import org.inek.dataportal.entities.calc.drg.DrgContentText;
 import org.inek.dataportal.entities.calc.drg.DrgHeaderText;
 import org.inek.dataportal.entities.calc.CalcHospitalInfo;
+import org.inek.dataportal.entities.calc.autopsy.AutopsyServiceText;
 import org.inek.dataportal.entities.calc.drg.KGLListContentTextOps;
 import org.inek.dataportal.entities.calc.drg.KGLListServiceProvision;
 import org.inek.dataportal.entities.calc.drg.KGLListServiceProvisionType;
@@ -1022,6 +1023,10 @@ public class CalcFacade extends AbstractDataAccess {
                 merge(item);
             }
         }
+    }
+
+    public List<AutopsyServiceText> findAllServiceTexts() {
+        return findAll(AutopsyServiceText.class);
     }
 
 }

@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneOffset;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
@@ -455,11 +456,11 @@ public class CalcBasicsAutopsy implements Serializable, StatusEntity {
     private List<AutopsyItem> _autopsyItems = new Vector<>();
 
     public List<AutopsyItem> getAutopsyItems() {
-        return _autopsyItems;
+        return  Collections.unmodifiableList(_autopsyItems);
     }
     
-    public void setAutopsyItems(List<AutopsyItem> autopsyItems) {
-        this._autopsyItems = autopsyItems;
+    public void addAutopsyItem(AutopsyServiceText serviceText) {
+        _autopsyItems.add(new AutopsyItem(serviceText));
     }
     // </editor-fold>
 
@@ -494,5 +495,6 @@ public class CalcBasicsAutopsy implements Serializable, StatusEntity {
         return "CalcBasicsAutopsy{" + "_id=" + _id + '}';
     }
     //</editor-fold>
+
     
 }

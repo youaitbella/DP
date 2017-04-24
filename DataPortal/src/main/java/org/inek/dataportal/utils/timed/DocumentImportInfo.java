@@ -245,7 +245,7 @@ public class DocumentImportInfo {
     }
 
     public boolean isValid() {
-        return _error.isEmpty() && _version.equals("1.0") && !_accounts.isEmpty();
+        return _error.isEmpty() && "1.0".equals(_version) && !_accounts.isEmpty();
     }
 
     public String getParent() {

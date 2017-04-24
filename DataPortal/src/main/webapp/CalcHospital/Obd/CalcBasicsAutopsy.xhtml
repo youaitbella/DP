@@ -18,7 +18,7 @@
     </inek:MultiIk>
 
     <hr/>
-    
+
     <div jsf:id="cdaData" jsf:rendered="#{editCalcBasicsAutopsy.calcBasics.ik gt 0}">
 
         <h5 class="blockHeader">Pathologie: Kosteninformationen</h5>
@@ -99,7 +99,7 @@
         </div>
 
         <h5 class="blockHeader">Rechtsmedizin: Kosteninformationen</h5>
-        
+
         <inek:LabeledCheckbox label="Es ist eine eigenständige Kostenstelle Rechtsmedizin vorhanden"
                               styleClassLabel="label element37em"
                               renderElement="@form"
@@ -118,11 +118,11 @@
 
 
         <h5 class="blockHeader">Pathologie: Leistungs- und Kosteninformationen</h5>
-        
+
         <div class="inputPart">
             Bitte im Folgenden nur ausfüllen, wenn in diesen Bereichen Leistungen erbracht wurden
         </div>
-            
+
         <div class="inputPart">
             <h:outputLabel styleClass="label element37em"
                            value="Anzahl insgesamt durchgeführter klinischer Sektionen"/>
@@ -130,7 +130,7 @@
                                          styleClassComponent="element08em"
                                          value="#{editCalcBasicsAutopsy.calcBasics.totalAutopsys}"/>
         </div>
-        
+
         <div class="inputPart">
             <h:outputLabel styleClass="label element37em"
                            value="davon: kalkulationsrelevante Anzahl"/>
@@ -138,10 +138,50 @@
                                          styleClassComponent="element08em"
                                          value="#{editCalcBasicsAutopsy.calcBasics.calcAutopsys}"/>
         </div>
-        
+
+        <ui:repeat value="#{editCalcBasicsAutopsy.calcBasics.autopsyItems}"
+                   var="item">
+
+            <br/>
+            <h:outputLabel value="#{item.autopsyServiceText.text}"
+                           styleClass="blockHeader2"/>
+
+            <div class="inputPart">
+                <h:outputLabel styleClass="label element37em"
+                               value="Anzahl Fälle"/>
+                <inek:InputNumberWithMessage readonly="#{editCalcBasicsAutopsy.readOnly}"
+                                             styleClassComponent="element08em"
+                                             value="#{item.countCases}"/>
+            </div>
+
+            <div class="inputPart">
+                <h:outputLabel styleClass="label element37em"
+                               value="hierfür abgegrenztes Kostenvolumen Ärztlicher Dienst der Pathologie"/>
+                <inek:InputNumberWithMessage readonly="#{editCalcBasicsAutopsy.readOnly}"
+                                             styleClassComponent="element08em"
+                                             value="#{item.costVolumeMedical}"/>
+            </div>
+
+            <div class="inputPart">
+                <h:outputLabel styleClass="label element37em"
+                               value="hierfür abgegrenztes Kostenvolumen übrige Personalkosten der Pathologie"/>
+                <inek:InputNumberWithMessage readonly="#{editCalcBasicsAutopsy.readOnly}"
+                                             styleClassComponent="element08em"
+                                             value="#{item.costVolumeOther}"/>
+            </div>
+
+            <div class="inputPart">
+                <h:outputLabel styleClass="label element37em"
+                               value="Kurzbeschreibung des durchgeführten Abgrenzungsverfahrens"/>
+                <inek:InputNumberWithMessage readonly="#{editCalcBasicsAutopsy.readOnly}"
+                                             styleClassComponent="element08em"
+                                             value="#{item.descriptionAccrual}"/>
+            </div>
+
+        </ui:repeat>
 
         <h5 class="blockHeader">Weitere Leistungsbereiche: Kosten- und Leistungsinformationen</h5>
-        
+
         <div class="inputPart">
             <h:outputLabel styleClass="label element37em"
                            value="Kostenvolumen Kostenstellengruppe 10 (Labor) für klinische Sektionen"/>
@@ -152,7 +192,7 @@
                                          styleClassComponent="element08em"
                                          value="#{editCalcBasicsAutopsy.calcBasics.costVolumeLaboratoryAfterAccrual}"/>
         </div>
-        
+
         <div class="inputPart">
             <h:outputLabel styleClass="label element37em"
                            value="Anzahl Fälle mit Röntgenleistungen für klinische Sektionen"/>
@@ -160,7 +200,7 @@
                                          styleClassComponent="element08em"
                                          value="#{editCalcBasicsAutopsy.calcBasics.caseCountXRay}"/>
         </div>
-        
+
         <div class="inputPart">
             <h:outputLabel styleClass="label element37em"
                            value="Kostenvolumen Kostenstellengruppe 9 (Radiologie) für klinische Sektionen"/>
@@ -171,7 +211,7 @@
                                          styleClassComponent="element08em"
                                          value="#{editCalcBasicsAutopsy.calcBasics.costVolumeXRayAfterAccrual}"/>
         </div>
-        
+
     </div>    
 </ui:composition>
 

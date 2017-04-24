@@ -24,6 +24,7 @@ import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountAdditionalIK;
 import org.inek.dataportal.entities.admin.MailTemplate;
+import org.inek.dataportal.entities.calc.autopsy.AutopsyServiceText;
 import org.inek.dataportal.entities.calc.autopsy.CalcBasicsAutopsy;
 import org.inek.dataportal.enums.CalcHospitalFunction;
 import org.inek.dataportal.enums.ConfigKey;
@@ -124,9 +125,18 @@ public class EditCalcBasicsAutopsy extends AbstractEditController implements Ser
         if (ikItems.size() == 1) {
             calcBasics.setIk((int) ikItems.get(0).getValue());
         }
+        initAutopsyItems(calcBasics);
         return calcBasics;
     }
 
+    private void initAutopsyItems(CalcBasicsAutopsy calcBasics) {
+       List<AutopsyServiceText> serviceTexts = _calcFacade.findAllServiceTexts();
+        for (AutopsyServiceText serviceText : serviceTexts) {
+            calcBasics.addAutopsyItem(serviceText);
+        }
+    }
+
+    
     // <editor-fold defaultstate="collapsed" desc="actions">
     public boolean isOwnModel() {
         return _sessionController.isMyAccount(_calcBasics.getAccountId(), false);
