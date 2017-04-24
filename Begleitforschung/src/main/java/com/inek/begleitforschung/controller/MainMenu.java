@@ -5,6 +5,7 @@
  */
 package com.inek.begleitforschung.controller;
 
+import com.inek.begleitforschung.entities.ApplicationData;
 import com.inek.begleitforschung.model.MenuModel;
 import java.io.File;
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ import org.inek.portallib.tree.MenuTreeNode;
 @RequestScoped
 public class MainMenu {
     
-    private final static String DATA_YEAR_DIR = "//vfileserver01/company$/EDV/Projekte/InEK-Browsers/Begleitforschung/";
+    private final static String DATA_YEAR_DIR = ApplicationData.BASE_PATH;
 
     public String callMenu(String url) {
         return url;
