@@ -69,13 +69,13 @@ public class ProcedureFacade extends AbstractFacade<ProcedureInfo> {
         String[] codes = value.split(splitRegex);
         StringBuilder invalidCodes = new StringBuilder();
         for (String code : codes) {
-            code = code.replace("*", "");
-            if (code.endsWith(".")){
-                code = code.substring(0, code.length()-1);
+            String searchCode = code.replace("*", "");
+            if (searchCode.endsWith(".")){
+                searchCode = searchCode.substring(0, searchCode.length()-1);
             }
-            if (code.isEmpty()){continue;}
-            if (findProcedure(code, firstYear, lastYear).equals("")) {
-                invalidCodes.append(invalidCodes.length() > 0 ? ", " : "").append(code);
+            if (searchCode.isEmpty()){continue;}
+            if (findProcedure(searchCode, firstYear, lastYear).equals("")) {
+                invalidCodes.append(invalidCodes.length() > 0 ? ", " : "").append(searchCode);
             }
         }
         if (invalidCodes.length() > 0) {

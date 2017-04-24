@@ -25,7 +25,7 @@ import java.util.zip.ZipOutputStream;
  */
 public class StreamHelper {
 
-    public static final int BufLen = 8192;
+    public static final int BUFFER_LENGHT = 8192;
 
     public void compressFiles(File[] files, File target) throws ProcessingException {
 
@@ -35,7 +35,7 @@ public class StreamHelper {
                     CheckedOutputStream checkedOut = new CheckedOutputStream(fileOut, new Adler32());
                     ZipOutputStream compressedOut = new ZipOutputStream(new BufferedOutputStream(checkedOut))) {
                 for (File file : files) {
-                    try (BufferedInputStream is = new BufferedInputStream(new FileInputStream(file), BufLen)) {
+                    try (BufferedInputStream is = new BufferedInputStream(new FileInputStream(file), BUFFER_LENGHT)) {
                         compressedOut.putNextEntry(new ZipEntry(file.getName()));
                         copyStream(is, compressedOut);
                     }
@@ -62,7 +62,7 @@ public class StreamHelper {
                 ZipEntry entry;
                 while ((entry = zis.getNextEntry()) != null) {
                     File file = new File(dir, entry.getName());
-                    try (BufferedOutputStream dest = new BufferedOutputStream(new FileOutputStream(file), BufLen)) {
+                    try (BufferedOutputStream dest = new BufferedOutputStream(new FileOutputStream(file), BUFFER_LENGHT)) {
                         copyStream(zis, dest);
                         dest.flush();
                     }
@@ -74,7 +74,7 @@ public class StreamHelper {
     }
 
     public static void copyStream(InputStream is, OutputStream os) throws IOException {
-        byte[] buff = new byte[BufLen];
+        byte[] buff = new byte[BUFFER_LENGHT];
         int count;
         while ((count = is.read(buff)) != -1) {
             os.write(buff, 0, count);

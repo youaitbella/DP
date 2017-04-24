@@ -39,6 +39,9 @@ public class StringUtil {
                 case '\"':
                     withinQuote = !withinQuote;
                     break;
+                default:
+                    // do nothing
+                    break;
             }
         }
         if (start < line.length()) {

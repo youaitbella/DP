@@ -307,7 +307,7 @@ public class DocumentApproval implements TreeNodeObserver, Serializable {
         return "";
     }
 
-    private static class MailInfo {
+    private final static class MailInfo {
 
         private final String _jsonMail;
         private final List<Account> _accounts;

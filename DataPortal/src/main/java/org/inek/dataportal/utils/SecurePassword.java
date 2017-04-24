@@ -30,7 +30,7 @@ public class SecurePassword {
         boolean whitespace = false;
         boolean nonAscii = false;
         // -----------
-        if (password.equals("")) {
+        if (password.isEmpty()) {
             return Quality.Poor;
         }
         char lastChar = 0;

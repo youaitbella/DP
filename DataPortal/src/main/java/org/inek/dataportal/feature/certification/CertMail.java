@@ -164,6 +164,8 @@ public class CertMail implements Serializable {
                 _receiverListsName = "";
                 _emailReceivers.clear();
                 break;
+            default:
+                throw new IllegalArgumentException("Unknown component id " + event.getComponent().getId());
         }
         _previewEnabled = false;
         _emailSentInfoDataTable.clear();

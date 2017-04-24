@@ -11,6 +11,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 /**
@@ -38,29 +40,86 @@ public class AutopsyItem implements Serializable {
     }
     //</editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Property CalcBasicsAutopsyId">
+    @Column(name = "cbaiCalcBasicsAutopsyId")
+    private int _calcBasicsAutopsyId;
+
+    public int getCalcBasicsAutopsyId() {
+        return _calcBasicsAutopsyId;
+    }
+
+    public void setCalcBasicsAutopsyId(int calcBasicsAutopsyId) {
+        _calcBasicsAutopsyId = calcBasicsAutopsyId;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property AutopsyServiceTextId">
+    @ManyToOne
+    @PrimaryKeyJoinColumn(name = "cbaiAutopsyServiceTextId")
+    private AutopsyServiceText _autopsyServiceText;
+
+    public AutopsyServiceText getAutopsyServiceText() {
+        return _autopsyServiceText;
+    }
+
+    public void setAutopsyServiceText(AutopsyServiceText autopsyServiceText) {
+        _autopsyServiceText = autopsyServiceText;
+
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property CountCases">
+    @Column(name = "cbaiCountCases")
+    private int _countCases;
+
+    public int getCountCases() {
+        return _countCases;
+    }
+
+    public void setCountCases(int countCases) {
+        _countCases = countCases;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property CostVolumeMedical">
+    @Column(name = "cbaiCostVolumeMedical")
+    private int _costVolumeMedical;
+
+    public int getCostVolumeMedical() {
+        return _costVolumeMedical;
+    }
+
+    public void setCostVolumeMedical(int costVolumeMedical) {
+        _costVolumeMedical = costVolumeMedical;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property CostVolumeOther">
+    @Column(name = "cbaiCostVolumeOther")
+    private int _costVolumeOther;
+
+    public int getCostVolumeOther() {
+        return _costVolumeOther;
+    }
+
+    public void setCostVolumeOther(int costVolumeOther) {
+        _costVolumeOther = costVolumeOther;
+    }
+    // </editor-fold>
+
     //<editor-fold defaultstate="collapsed" desc="Property DescriptionAccrual">
     @Column(name = "cbaiDescriptionAccrual")
     private String _descriptionAccrual;
-    
+
     public String getDescriptionAccrual() {
         return _descriptionAccrual;
     }
-    
+
     public void setDescriptionAccrual(String descriptionAccrual) {
         this._descriptionAccrual = descriptionAccrual;
     }
     //</editor-fold>
-    
-    
-    /*
-	int	Unchecked
-cbaiCalcBasicsAutopsyId	int	Unchecked
-cbaiAutopsyServiceTextId	int	Unchecked
-cbaiCountCases	int	Unchecked
-cbaiCostVolumeMedical	int	Unchecked
-cbaiCostVolumeOther	int	Unchecked
-	nvarchar(MAX)	Unchecked    
-    */
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -70,20 +129,16 @@ cbaiCostVolumeOther	int	Unchecked
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof AutopsyItem)) {
             return false;
         }
         AutopsyItem other = (AutopsyItem) object;
-        if (this.id != other.id) {
-            return false;
-        }
-        return true;
+        return this.id == other.id;
     }
 
     @Override
     public String toString() {
         return "org.inek.dataportal.entities.calc.autopsy.AutopsyItem[ id=" + id + " ]";
     }
-    
+
 }

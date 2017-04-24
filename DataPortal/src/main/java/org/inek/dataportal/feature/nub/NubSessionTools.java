@@ -676,8 +676,9 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
                 return copySelected(nubRequests);
             case "take":
                 return takeSelected(nubRequests);
+            default:
+                throw new IllegalArgumentException("Unknown action: " + action);
         }
-        return "";
     }
 
     private List<NubRequest> collectRequests(RootNode root) {

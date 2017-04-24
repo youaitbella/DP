@@ -78,10 +78,7 @@ public class AutopsyServiceText implements Serializable {
             return false;
         }
         AutopsyServiceText other = (AutopsyServiceText) object;
-        if (this._showOnForensic != other._showOnForensic) {
-            return false;
-        }
-        return true;
+        return this._showOnForensic == other._showOnForensic;
     }
 
     @Override

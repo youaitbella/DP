@@ -18,7 +18,7 @@ public enum FeatureScopedContextHolder {
 
     Instance;
 
-    private static final String FeatureKey = "FeatureScoped";
+    private static final String FEATURE_KEY = "FeatureScoped";
 
     /**
      * Gets the FeaturedScoped bean of the given type for the session, if any
@@ -88,11 +88,11 @@ public enum FeatureScopedContextHolder {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         Map<String, Object> map = facesContext.getExternalContext().getSessionMap();
         Map<String, FeatureScopedInstance> featureBeans;
-        if (map.containsKey(FeatureKey)) {
-            featureBeans = (Map<String, FeatureScopedInstance>) map.get(FeatureKey);
+        if (map.containsKey(FEATURE_KEY)) {
+            featureBeans = (Map<String, FeatureScopedInstance>) map.get(FEATURE_KEY);
         } else {
             featureBeans = new HashMap<>();
-            map.put(FeatureKey, featureBeans);
+            map.put(FEATURE_KEY, featureBeans);
         }
         return featureBeans;
     }

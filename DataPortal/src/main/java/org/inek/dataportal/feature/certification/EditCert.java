@@ -24,8 +24,8 @@ import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.certification.SystemFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.StreamHelper;
-import static org.inek.dataportal.helper.StreamHelper.BufLen;
 import org.inek.dataportal.helper.scope.FeatureScoped;
+import static org.inek.dataportal.helper.StreamHelper.BUFFER_LENGHT;
 
 /**
  *
@@ -163,7 +163,7 @@ public class EditCert extends AbstractEditController {
         }
         LOGGER.log(Level.INFO, "uploading file {0}", uploadFile.getSubmittedFileName());
         try (InputStream inStream = uploadFile.getInputStream();
-                BufferedOutputStream dest = new BufferedOutputStream(new FileOutputStream(target), BufLen)) {
+                BufferedOutputStream dest = new BufferedOutputStream(new FileOutputStream(target), BUFFER_LENGHT)) {
             new StreamHelper().copyStream(inStream, dest);
         } catch (IOException e) {
             LOGGER.log(Level.WARNING, "upload exception: {0}", e.getMessage());
@@ -180,7 +180,7 @@ public class EditCert extends AbstractEditController {
                 ZipInputStream zis = new ZipInputStream(new BufferedInputStream(checksum))) {
             ZipEntry entry;
             while ((entry = zis.getNextEntry()) != null) {
-                try (BufferedOutputStream dest = new BufferedOutputStream(new FileOutputStream(target), BufLen)) {
+                try (BufferedOutputStream dest = new BufferedOutputStream(new FileOutputStream(target), BUFFER_LENGHT)) {
                     new StreamHelper().copyStream(zis, dest);
                     dest.flush();
                 }

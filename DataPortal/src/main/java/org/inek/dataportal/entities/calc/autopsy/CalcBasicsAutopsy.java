@@ -5,19 +5,28 @@
  */
 package org.inek.dataportal.entities.calc.autopsy;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneOffset;
 import java.util.Date;
+import java.util.List;
+import java.util.Vector;
+import java.util.stream.Collectors;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import org.inek.dataportal.entities.calc.drg.DrgDelimitationFact;
 import org.inek.dataportal.entities.iface.StatusEntity;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.utils.Documentation;
@@ -437,6 +446,20 @@ public class CalcBasicsAutopsy implements Serializable, StatusEntity {
 
     public void setCostVolumeXRayAfterAccrual(int costVolumeXRayAfterAccrual) {
         _costVolumeXRayAfterAccrual = costVolumeXRayAfterAccrual;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property List DelimitationFacts">
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "cbaiCalcBasicsAutopsyId", referencedColumnName = "cbaId")
+    private List<AutopsyItem> _autopsyItems = new Vector<>();
+
+    public List<AutopsyItem> getAutopsyItems() {
+        return _autopsyItems;
+    }
+    
+    public void setAutopsyItems(List<AutopsyItem> autopsyItems) {
+        this._autopsyItems = autopsyItems;
     }
     // </editor-fold>
 

@@ -164,7 +164,7 @@ public class CertCertification implements Serializable{
         FacesContext facesContext = FacesContext.getCurrentInstance();
         ExternalContext externalContext = facesContext.getExternalContext();
         try {
-            try (BufferedInputStream is = new BufferedInputStream(new FileInputStream(file), StreamHelper.BufLen)) {
+            try (BufferedInputStream is = new BufferedInputStream(new FileInputStream(file), StreamHelper.BUFFER_LENGHT)) {
                 externalContext.setResponseHeader("Content-Type", Helper.getContentType(file.getName()));
                 externalContext.setResponseHeader("Content-Length", "");
                 externalContext.setResponseHeader("Content-Disposition", "attachment;filename=\"" + file.getName() + "\"");

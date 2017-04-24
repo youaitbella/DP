@@ -64,7 +64,7 @@ public abstract class DynamicTable<T> {
         return "";
     }
 
-    String _script = "";
+    private String _script = "";
 
     public void checkDynamicListener(AjaxBehaviorEvent event) {
         if (false && ensureEmptyEntry() && event.getSource() instanceof HtmlInputText) {
