@@ -8,7 +8,7 @@ import javax.persistence.*;
 /**
  * This entity is used to signal a cooperation request
  * It will be deleted after confirmation of the cooperation 
- * or after a defined amount of time, whichever occurs first
+ * or after a defined amount of time, whichever occurs first.
  * @author muellermi
  */
 @Entity
