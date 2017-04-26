@@ -40,6 +40,10 @@ public class DropBox implements Serializable {
     @Column(name = "dbName")
     private String _name = "";
     
+    @Column(name = "dbSealed")
+    @Temporal(value = javax.persistence.TemporalType.TIMESTAMP)
+    private Date _sealed;
+    
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "dbiDropBoxId", referencedColumnName = "dbId")
     @OrderBy("_name")
@@ -116,6 +120,14 @@ public class DropBox implements Serializable {
 
     public void setName(String name) {
         this._name = name;
+    }
+
+    public Date getSealed() {
+        return _sealed;
+    }
+
+    public void setSealed(Date sealed) {
+        this._sealed = sealed;
     }
 
     public List<DropBoxItem> getItems() {

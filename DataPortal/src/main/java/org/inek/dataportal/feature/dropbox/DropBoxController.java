@@ -103,6 +103,7 @@ public class DropBoxController extends AbstractFeatureController {
         addEmailInfo(dropBox);
         File target = moveFiles2Target(dropBox);
         dropBox.setName(target.getName());
+        dropBox.setSealed(Calendar.getInstance().getTime());
         _dropBoxFacade.updateDropBox(dropBox);
         return target;
     }
