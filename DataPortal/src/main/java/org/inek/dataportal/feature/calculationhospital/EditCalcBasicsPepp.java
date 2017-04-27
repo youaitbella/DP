@@ -35,7 +35,6 @@ import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.calc.drg.DrgCalcBasics;
 import org.inek.dataportal.entities.calc.drg.DrgContentText;
 import org.inek.dataportal.entities.calc.drg.DrgNeonatData;
-import org.inek.dataportal.entities.calc.drg.KGLListCostCenter;
 import org.inek.dataportal.entities.calc.psy.KGPListContentText;
 import org.inek.dataportal.entities.calc.psy.KGPListCostCenter;
 import org.inek.dataportal.entities.calc.psy.KGPListDelimitationFact;
@@ -56,7 +55,6 @@ import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.calc.CalcFacade;
-import org.inek.dataportal.facades.common.CostTypeFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.TransferFileCreator;
 import org.inek.dataportal.helper.Utils;
@@ -502,10 +500,8 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     }
 
     /**
-     * This function seals a statement od participance if possible. Sealing is
-     * possible, if all mandatory fields are fulfilled. After sealing, the
-     * statement od participance can not be edited anymore and is available for
-     * the InEK.
+     * This function seals a statement od participance if possible. Sealing is possible, if all mandatory fields are
+     * fulfilled. After sealing, the statement od participance can not be edited anymore and is available for the InEK.
      *
      * @return
      */
@@ -884,69 +880,92 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         _calcBasics.getKgpMedInfraList().remove(mif);
     }
 
-    @Inject private Instance<MedInfraDataImporterPepp> _importMedInfraPepp;
+    @Inject private DataImporterPool importerPool;
 
-    private static final String HEADLINE_MED_INFRA
-            = "Nummer der Kostenstelle;Name der Kostenstelle;Verwendeter Schlüssel;Kostenvolumen";
+    public Part getMedInfraFile() {
+        return importerPool.getDataImporter("peppmedinfra").getFile();
+    }
+
+    public void setMedInfraFile(Part file) {
+        importerPool.getDataImporter("peppmedinfra").setFile(file);
+    }
 
     public void downloadTemplateHeadlineMedInfra() {
-        Utils.downloadText(HEADLINE_MED_INFRA + "\n", "Med_Infra.csv");
+        importerPool.getDataImporter("peppmedinfra").downloadTemplate();
     }
-
-    public void downloadTemplateHeadlineNonMedInfra() {
-        Utils.downloadText(HEADLINE_MED_INFRA + "\n", "Nicht_Med_Infra.csv");
-    }
-
-    private String _importMessageMedInfra = "";
 
     public String getImportMessageMedInfra() {
-        return _importMessageMedInfra;
-    }
-
-    private String _importMessageNonMedInfra = "";
-
-    public String getImportMessageNonMedInfra() {
-        return _importMessageNonMedInfra;
+        return importerPool.getDataImporter("peppmedinfra").getMessage();
     }
 
     public void uploadNoticesMedInfra(int costType) {
-        try {
-            if (_file != null) {
-                //Scanner scanner = new Scanner(_file.getInputStream(), "UTF-8");
-                // We assume most of the documents coded with the Windows character set
-                // Thus, we read with the system default
-                // in case of an UTF-8 file, all German Umlauts will be corrupted.
-                // We simply replace them.
-                // Drawbacks: this only converts the German Umlauts, no other chars.
-                // By intention it fails for other charcters
-                // Alternative: implement a library which guesses th correct character set and read properly
-                // Since we support German only, we started using the simple approach
-                Scanner scanner = new Scanner(_file.getInputStream());
-                if (!scanner.hasNextLine()) {
-                    return;
-                }
-                MedInfraDataImporterPepp itemImporter = _importMedInfraPepp.get();
-                itemImporter.setCostTypeId(costType);
-                itemImporter.setCalcBasics(_calcBasics);
-                while (scanner.hasNextLine()) {
-                    String line = Utils.convertFromUtf8(scanner.nextLine());
-                    if (!line.equals(HEADLINE_MED_INFRA)) {
-                        itemImporter.tryImportLine(line);
-                    }
-                }
-                if (costType == 170) {
-                    _importMessageMedInfra = itemImporter.getMessage();
-                    _sessionController.alertClient(_importMessageMedInfra);
-                } else {
-                    _importMessageNonMedInfra = itemImporter.getMessage();
-                    _sessionController.alertClient(_importMessageNonMedInfra);
-                }
-                _showJournal = itemImporter.containsError();
-            }
-        } catch (IOException | NoSuchElementException e) {
-        }
+        importerPool.getDataImporter("peppmedinfra").uploadNoticesPepp(_calcBasics);
+        _sessionController.alertClient(getImportMessageMedInfra());
+        _showJournal = importerPool.getDataImporter("peppmedinfra").containsError();
     }
 
+//    @Inject private Instance<MedInfraDataImporterPepp> _importMedInfraPepp;
+//
+//    private static final String HEADLINE_MED_INFRA
+//            = "Nummer der Kostenstelle;Name der Kostenstelle;Verwendeter Schlüssel;Kostenvolumen";
+//
+//    public void downloadTemplateHeadlineMedInfra() {
+//        Utils.downloadText(HEADLINE_MED_INFRA + "\n", "Med_Infra.csv");
+//    }
+//
+//    public void downloadTemplateHeadlineNonMedInfra() {
+//        Utils.downloadText(HEADLINE_MED_INFRA + "\n", "Nicht_Med_Infra.csv");
+//    }
+//
+//    private String _importMessageMedInfra = "";
+//
+//    public String getImportMessageMedInfra() {
+//        return _importMessageMedInfra;
+//    }
+//
+//    private String _importMessageNonMedInfra = "";
+//
+//    public String getImportMessageNonMedInfra() {
+//        return _importMessageNonMedInfra;
+//    }
+//
+//    public void uploadNoticesMedInfra(int costType) {
+//        try {
+//            if (_file != null) {
+//                //Scanner scanner = new Scanner(_file.getInputStream(), "UTF-8");
+//                // We assume most of the documents coded with the Windows character set
+//                // Thus, we read with the system default
+//                // in case of an UTF-8 file, all German Umlauts will be corrupted.
+//                // We simply replace them.
+//                // Drawbacks: this only converts the German Umlauts, no other chars.
+//                // By intention it fails for other charcters
+//                // Alternative: implement a library which guesses th correct character set and read properly
+//                // Since we support German only, we started using the simple approach
+//                Scanner scanner = new Scanner(_file.getInputStream());
+//                if (!scanner.hasNextLine()) {
+//                    return;
+//                }
+//                MedInfraDataImporterPepp itemImporter = _importMedInfraPepp.get();
+//                itemImporter.setCostTypeId(costType);
+//                itemImporter.setCalcBasics(_calcBasics);
+//                while (scanner.hasNextLine()) {
+//                    String line = Utils.convertFromUtf8(scanner.nextLine());
+//                    if (!line.equals(HEADLINE_MED_INFRA)) {
+//                        itemImporter.tryImportLine(line);
+//                    }
+//                }
+//                if (costType == 170) {
+//                    _importMessageMedInfra = itemImporter.getMessage();
+//                    _sessionController.alertClient(_importMessageMedInfra);
+//                } else {
+//                    _importMessageNonMedInfra = itemImporter.getMessage();
+//                    _sessionController.alertClient(_importMessageNonMedInfra);
+//                }
+//                _showJournal = itemImporter.containsError();
+//            }
+//        } catch (IOException | NoSuchElementException e) {
+//        }
+//    }
     public boolean renderPersonalAccountingDescription() {
         for (KGPPersonalAccounting pa : _calcBasics.getPersonalAccountings()) {
             if (pa.isExpertRating() || pa.isServiceStatistic() || pa.isOther()) {

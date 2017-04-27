@@ -1,18 +1,24 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.inek.dataportal.feature.calculationhospital;
 
+import java.io.Serializable;
 import javax.servlet.http.Part;
 
 /**
  *
  * @author kunkelan
  */
-public class FileHolder {
+public class FileHolder implements Serializable {
+
     private Part file;
+    private final String fileName;
+
+    public FileHolder(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
 
     public Part getFile() {
         return file;
@@ -20,5 +26,5 @@ public class FileHolder {
 
     public void setFile(Part file) {
         this.file = file;
-    }    
+    }
 }

@@ -3,14 +3,13 @@ package org.inek.dataportal.utils;
 import java.util.ArrayList;
 import java.util.List;
 import static org.junit.Assert.assertEquals;
-import org.junit.Test;
 
 /**
  *
  * @author muellermi
  */
 public class DocumentationUtilTest2 {
-    
+
     //@Test
     public void testTranslation0() {
         System.out.println("testTranslation1");
@@ -22,7 +21,7 @@ public class DocumentationUtilTest2 {
         System.out.println(result.size());
         assertEquals(expResult, result);
     }
-    
+
     //@Test
     public void testTranslation1() {
         System.out.println("testTranslation1");
@@ -34,7 +33,7 @@ public class DocumentationUtilTest2 {
         System.out.println(result.size());
         assertEquals(expResult, result);
     }
-    
+
     //@Test
     public void testTranslation2() {
         System.out.println("testTranslation1");
@@ -46,7 +45,7 @@ public class DocumentationUtilTest2 {
         System.out.println(result.size());
         assertEquals(expResult, result);
     }
-    
+
     //@Test
     public void testTranslation3() {
         System.out.println("testTranslation1");
@@ -58,20 +57,19 @@ public class DocumentationUtilTest2 {
         System.out.println(result.size());
         assertEquals(expResult, result);
     }
-    
+
 }
 
-class TranslateEntity{
-        
+class TranslateEntity {
+
     @Documentation(name = "toy", translateValue = "translateToy()")
     public int _toy;
-    
-    private String translateToy(int id){
-        switch (id){
+
+    private String translateToy(int id) {
+        switch (id) {
             case 1: return "puppet";
             case 2: return "playstation";
             default: return "";
         }
     }
 }
-

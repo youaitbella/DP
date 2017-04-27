@@ -15,6 +15,7 @@ public abstract class DynamicTable<T> {
     }
 
     private final List<T> _list;
+
     public List<T> getList() {
         return _list;
     }
@@ -69,8 +70,9 @@ public abstract class DynamicTable<T> {
     public void checkDynamicListener(AjaxBehaviorEvent event) {
         if (false && ensureEmptyEntry() && event.getSource() instanceof HtmlInputText) {
             HtmlInputText t = (HtmlInputText) event.getSource();
-            if(t.getValue().toString().length() <= 0)
+            if (t.getValue().toString().length() <= 0) {
                 return;
+            }
             String currentId = t.getClientId();
             _script = "setCaretPosition('" + currentId + "', " + t.getValue().toString().length() + ");";
         } else {
@@ -79,14 +81,13 @@ public abstract class DynamicTable<T> {
         }
     }
 
-    public void setMessage(String msg){
+    public void setMessage(String msg) {
         _script = "alert('" + msg + "');";
     }
-    
+
     public String getScript() {
         String script = _script;
         _script = "";
         return script;
     }
 }
-
