@@ -123,6 +123,7 @@ public class DataImporter<T extends BaseIdValue> implements Serializable {
             if (data.length != cntColumns) {
                 throw new IllegalArgumentException(Utils.getMessage("msgWrongElementCount"));
             }
+            errorCounter.incRowCounter();
             item = clazz.newInstance();
             item.setBaseInformationId(calcBasics.getId());
 

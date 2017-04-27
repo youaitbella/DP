@@ -14,45 +14,46 @@ import org.inek.dataportal.helper.Utils;
 
 /**
  * Holds the Info where the data will be stored and which check to perform to validate the input.
- * 
+ *
  * @author kunkelan
  */
-public class DataImportCheck<T,I> implements Serializable {
+public class DataImportCheck<T, I> implements Serializable {
+
     private final ErrorCounter counter;
-    private final QuintConsumer<T, String, BiConsumer<T,I>, String, ErrorCounter> check;
+    private final QuintConsumer<T, String, BiConsumer<T, I>, String, ErrorCounter> check;
     private final BiConsumer<T, I> assign;
     private final String errorMsg;
 
-    public DataImportCheck(ErrorCounter counter, QuintConsumer<T, String, BiConsumer<T,I>, String, ErrorCounter> check, BiConsumer<T, I> assign, String errorMsg) {
+    public DataImportCheck(ErrorCounter counter, QuintConsumer<T, String, BiConsumer<T, I>, String, ErrorCounter> check, BiConsumer<T, I> assign, String errorMsg) {
         this.counter = counter;
         this.check = check;
         this.assign = assign;
         this.errorMsg = errorMsg;
     }
-    
+
     public void resetCounter() {
         counter.reset();
     }
-    
+
     public void tryImport(T item, String data) {
         check.accept(item, data, assign, errorMsg, counter);
     }
-    
-    public static <T> void tryImportString(T item, String data, BiConsumer<T,String> assign, String errorMsg, ErrorCounter counter) {
+
+    public static <T> void tryImportString(T item, String data, BiConsumer<T, String> assign, String errorMsg, ErrorCounter counter) {
         try {
-            //@SuppressWarnings("unchecked") I val = (I) data; 
+            //@SuppressWarnings("unchecked") I val = (I) data;
             assign.accept(item, data);
         } catch (Exception ex) {
             throw new IllegalArgumentException(ex.getMessage() + "\n" + errorMsg + data);
         }
     }
 
-    public static <T> void tryImportInteger(T item, String data, BiConsumer<T,Integer> assign, String errorMsg, ErrorCounter counter) {
+    public static <T> void tryImportInteger(T item, String data, BiConsumer<T, Integer> assign, String errorMsg, ErrorCounter counter) {
         try {
             NumberFormat nf = NumberFormat.getInstance(Locale.GERMAN);
             nf.setParseIntegerOnly(true);
             int val = nf.parse(data).intValue();
-            if (val < 0){
+            if (val < 0) {
                 assign.accept(item, 0);
                 counter.addColumnErrorMsg(errorMsg + "Wert darf nicht kleiner 0 sein: " + Utils.getMessage("msgNotANumber") + ": " + data);
             } else {
@@ -67,13 +68,13 @@ public class DataImportCheck<T,I> implements Serializable {
             }
         }
     }
-    
-    public static <T> void tryImportRoundedInteger(T item, String data, BiConsumer<T,Integer> assign, String errorMsg, ErrorCounter counter) {
+
+    public static <T> void tryImportRoundedInteger(T item, String data, BiConsumer<T, Integer> assign, String errorMsg, ErrorCounter counter) {
         try {
             NumberFormat nf = NumberFormat.getInstance(Locale.GERMAN);
             nf.setParseIntegerOnly(false);
             int val = (int) Math.round(nf.parse(data).doubleValue());
-            if (val < 0){
+            if (val < 0) {
                 assign.accept(item, 0);
                 counter.addColumnErrorMsg(errorMsg + "Wert darf nicht kleiner 0 sein: " + Utils.getMessage("msgNotANumber") + ": " + data);
             } else {
@@ -88,7 +89,7 @@ public class DataImportCheck<T,I> implements Serializable {
             }
         }
     }
-    
+
 //    private void tryImportString(T item, String data, BiConsumer<T, String> bind, String errorMsg) {
 //        try {
 //            bind.accept(item, data);
@@ -96,7 +97,6 @@ public class DataImportCheck<T,I> implements Serializable {
 //            throw new IllegalArgumentException(ex.getMessage() + "\n" + errorMsg + data);
 //        }
 //    }
-    
 //    private void tryImportInteger(T item, String data, BiConsumer<T ,Integer> bind, String errorMsg) {
 //        try {
 //            NumberFormat nf = NumberFormat.getInstance(Locale.GERMAN);
@@ -117,13 +117,12 @@ public class DataImportCheck<T,I> implements Serializable {
 //            }
 //        }
 //    }
-    
     private void tryImportDouble(T item, String data, BiConsumer<T, Double> bind, String errorMsg) {
         try {
             NumberFormat nf = NumberFormat.getInstance(Locale.GERMAN);
             nf.setParseIntegerOnly(false);
             double val = nf.parse(data).doubleValue();
-            if (val < 0){
+            if (val < 0) {
                 throw new IllegalArgumentException(errorMsg + "Wert darf nicht kleiner 0 sein: " + Utils.getMessage("msgNotANumber") + ": " + data);
             }
             bind.accept(item, val);
@@ -131,7 +130,7 @@ public class DataImportCheck<T,I> implements Serializable {
             throw new IllegalArgumentException(errorMsg + Utils.getMessage("msgNotANumber") + ": " + data);
         }
     }
-    
+
     private void tryImportBoolean(T item, String data, BiConsumer<T, Boolean> bind, String errorMsg) {
         try {
             if (data.trim().length() > 1) {
@@ -158,5 +157,5 @@ public class DataImportCheck<T,I> implements Serializable {
             counter.addColumnErrorMsg(errorMsg + " " + data);
         }
     }
-    
+
 }

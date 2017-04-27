@@ -10,14 +10,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Several {@linkplain DataImportCheck} will supply information about checking progress.
- * This information will be stored here for later retrievment.
- * 
+ * Several {@linkplain DataImportCheck} will supply information about checking progress. This information will be stored
+ * here for later retrievment.
+ *
  * @author kunkelan
  */
 public class ErrorCounter implements Serializable {
+
     private static Map<String, ErrorCounter> counters = new HashMap<>();
-    
+
     private String _errorMsg = "";
     private int _infoColumnCount = 0;
     private int _errorRowCount = 0;
@@ -30,6 +31,7 @@ public class ErrorCounter implements Serializable {
 
     /**
      * Return the named ErrorCounter, generating one if not exists.
+     *
      * @param importer name who demands an ErrorCounter.
      * @return the named ErrorCounter
      */
@@ -39,9 +41,9 @@ public class ErrorCounter implements Serializable {
         }
         return counters.get(importer);
     }
-    
+
     /**
-     * For a new upload clear the old message. 
+     * For a new upload clear the old message.
      */
     public void reset() {
         _errorMsg = "";
@@ -50,26 +52,30 @@ public class ErrorCounter implements Serializable {
         _totalCount = 0;
         _errorColumnCount = 0;
     }
-    
+
     public boolean containsError() {
-        return !_errorMsg.isEmpty();
+        return !_errorMsg.contains("Fehler");
+    }
+
+    public void incRowCounter() {
+        _totalCount++;
     }
 
     public void addRowErrorMsg(String message) {
         _errorMsg += "\r\nFehler in Zeile " + _totalCount + ": " + message;
         _errorRowCount++;
     }
-    
+
     public void addColumnErrorMsg(String message) {
         _errorMsg += "\r\nFehler in Zeile " + _totalCount + ": " + message;
         _errorColumnCount++;
     }
-    
+
     public void addColumnInfoMsg(String message) {
         _errorMsg += "\r\nHinweis in Zeile " + _totalCount + ": " + message;
         _infoColumnCount++;
     }
-    
+
     public void addChangeColumn(int oldVal, int newVal) {
         _errorMsg += "\r\nZeile " + _totalCount
                 + " bereits vorhanden. Spalte aktualisiert : alt " + oldVal + " neu " + newVal;
@@ -92,10 +98,10 @@ public class ErrorCounter implements Serializable {
     }
 
     public String getMessage() {
-        return (_totalCount - _errorRowCount) + " von " + _totalCount + " Zeilen gelesen\r\n\r\n" 
-                + _errorColumnCount + " fehlerhafte Spalte(n) eingelesen\n" 
-                + _infoColumnCount + " nicht angegebene Werte\n\n" 
+        return (_totalCount - _errorRowCount) + " von " + _totalCount + " Zeilen gelesen\r\n\r\n"
+                + _errorColumnCount + " fehlerhafte Spalte(n) eingelesen\n"
+                + _infoColumnCount + " nicht angegebene Werte\n\n"
                 + _errorMsg;
     }
-    
+
 }
