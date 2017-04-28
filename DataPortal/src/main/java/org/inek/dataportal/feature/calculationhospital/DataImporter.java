@@ -116,32 +116,51 @@ public class DataImporter<T extends BaseIdValue> implements Serializable {
 
         T item = null;
         try {
-            if (line.endsWith(";")) {
-                line = line + " ";
-            }
-            String[] data = StringUtil.splitAtUnquotedSemicolon(line);
-            if (data.length != cntColumns) {
-                throw new IllegalArgumentException(Utils.getMessage("msgWrongElementCount"));
-            }
+            String[] data = splitLineInColumns(line, cntColumns);
             errorCounter.incRowCounter();
-            item = clazz.newInstance();
-            item.setBaseInformationId(calcBasics.getId());
 
-            int i = 0;
-            for (DataImportCheck<T, ?> checker : checkers) {
-                checker.tryImport(item, data[i++]);
-            }
+            item = createNewItem(item, calcBasics);
 
-            String validateText = BeanValidator.validateData(item);
-            if (!validateText.isEmpty()) {
-                throw new IllegalArgumentException(validateText);
-            }
+            applyImport(item, data);
+
+            validateImport(item);
 
         } catch (InstantiationException | IllegalAccessException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
             throw new IllegalArgumentException("can not instantiate type " + clazz.getSimpleName());
         }
         return item;
+    }
+
+    private T createNewItem(T item, PeppCalcBasics calcBasics) throws IllegalAccessException, InstantiationException {
+        item = clazz.newInstance();
+        item.setBaseInformationId(calcBasics.getId());
+        return item;
+    }
+
+    private void validateImport(T item) throws IllegalArgumentException {
+        String validateText = BeanValidator.validateData(item);
+        if (!validateText.isEmpty()) {
+            throw new IllegalArgumentException(validateText);
+        }
+    }
+
+    private void applyImport(T item, String[] data) {
+        int i = 0;
+        for (DataImportCheck<T, ?> checker : checkers) {
+            checker.tryImport(item, data[i++]);
+        }
+    }
+
+    private String[] splitLineInColumns(String line, int cntColumns) throws IllegalArgumentException {
+        if (line.endsWith(";")) {
+            line = line + " ";
+        }
+        String[] data = StringUtil.splitAtUnquotedSemicolon(line);
+        if (data.length != cntColumns) {
+            throw new IllegalArgumentException(Utils.getMessage("msgWrongElementCount"));
+        }
+        return data;
     }
 
     private void resetCounter() {
