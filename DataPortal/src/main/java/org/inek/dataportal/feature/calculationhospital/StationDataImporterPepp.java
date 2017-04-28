@@ -24,40 +24,39 @@ import org.inek.dataportal.helper.Utils;
  * @author muellermi
  */
 public class StationDataImporterPepp {
-    
+
     //<editor-fold defaultstate="collapsed" desc="file">
     private Part _file;
     private int _columnCnt;
-    
+
     public Part getFile() {
         return _file;
     }
-    
+
     public void setFile(Part file) {
         _file = file;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="show journal">
     private boolean _showJournal = false;
-    
+
     public boolean isShowJournal() {
         return _showJournal;
     }
-    
+
     public void setShowJournal(boolean showJournal) {
         this._showJournal = showJournal;
     }
-    
+
     public void toggleJournal() {
         _showJournal = !_showJournal;
     }
     //</editor-fold>
-    
+
     public void downloadTemplate() {
         Utils.downloadText(HEADLINE + "\n", "Station_kstg_21_22.csv");
     }
-
 
     public void uploadNotices() {
         try {
@@ -79,7 +78,6 @@ public class StationDataImporterPepp {
         }
     }
 
-    
     private static final String HEADLINE = "Nummer der Kostenstelle;Station;Eindeutige Zuordnung nach Psych-PV* (A, S, G, KJP, P);Anzahl Betten;bettenführende Aufnahmestation (bitte ankreuzen);Summe Pflegetage Regelbehandlung;Summe Gewichtungspunkte** Regelbehandlung;Summe Pflegetage Intensivbehandlung;Summe Gewichtungspunkte** Intensivbehandlung;VK Ärztlicher Dienst;VK Pflegedienst/Erziehungsdienst;VK Psychologen;VK Sozialarbeiter/Sozial-/Heil-pädagogen;VK Spezialtherapeuten;VK med.-techn. Dienst/Funktionsdienst;Kosten Ärztlicher Dienst;Kosten Pflegedienst/Erziehungsdienst;Kosten Psychologen;Kosten Sozialarbeiter/Sozial-/Heil-pädagogen;Kosten Spezialtherapeuten;Kosten med.-techn. Dienst/Funktionsdienst;Kosten med. Infrastruktur;Kosten nicht med. Infrastruktur";
     private String _errorMsg = "";
     private int _totalCount = 0;
@@ -111,11 +109,11 @@ public class StationDataImporterPepp {
     }
 
     public String getMessage() {
-        return (_totalCount - _errorRowCount) + " von " + _totalCount + " Zeilen gelesen\r\n\r\n" 
-                + _errorColumnCount + " fehlerhafte Spalte(n) eingelesen\n" 
+        return (_totalCount - _errorRowCount) + " von " + _totalCount + " Zeilen gelesen\r\n\r\n"
+                + _errorColumnCount + " fehlerhafte Spalte(n) eingelesen\n"
                 + _infoColumnCount + " nicht angegebene Werte\n\n" + _errorMsg;
     }
-    
+
     public void tryImportLine(String line) {
         _totalCount++;
         try {
@@ -125,7 +123,7 @@ public class StationDataImporterPepp {
             }
             KGPListStationServiceCost item = new KGPListStationServiceCost();
             item.setBaseInformationId(_calcBasics.getId());
-         
+
 //            Nummer der Kostenstelle;
 //            Station;
 //            Eindeutige Zuordnung nach Psych-PV* (A, S, G, KJP, P);
@@ -149,32 +147,31 @@ public class StationDataImporterPepp {
 //            Kosten med.-techn. Dienst/Funktionsdienst;
 //            Kosten med. Infrastruktur;
 //            Kosten nicht med. Infrastruktur
+            tryImportString(item, data.get(0), (i, s) -> i.setCostCenterNumber(s), "Nummer der Kostenstelle ungültig: ");
+            tryImportString(item, data.get(1), (i, s) -> i.setStation(s), "Name der Station ungültig: ");
+            tryImportString(item, data.get(2), (i, s) -> i.setPsyPvMapping(s), "Eindeutige Zuordnung nach Psych-PV* (A, S, G, KJP, P) ungültig: ");
+            tryImportInteger(item, data.get(3), (i, s) -> i.setBedCnt(s), "Anzahl Betten ungültig: ");
+            tryImportBoolean(item, data.get(4), (i, s) -> i.setReceivingStation(s), "bettenführende Aufnahmestation (bitte ankreuzen) ungültig: ");
+            tryImportInteger(item, data.get(5), (i, s) -> i.setRegularCareDays(s), "Summe Pflegetage Regelbehandlung ungültig: ");
+            tryImportInteger(item, data.get(6), (i, s) -> i.setRegularWeight(s), "Summe Gewichtungspunkte** Regelbehandlung ungültig: ");
+            tryImportInteger(item, data.get(7), (i, s) -> i.setIntensiveCareDays(s), "Summe Pflegetage Intensivbehandlung ungültig: ");
+            tryImportInteger(item, data.get(8), (i, s) -> i.setIntensiveWeight(s), "Summe Gewichtungspunkte** Intensivbehandlung ungültig: ");
+            tryImportDouble(item, data.get(9), (i, s) -> i.setMedicalServiceCnt(s), "VK Ärztlicher Dienst ungültig: ");
+            tryImportDouble(item, data.get(10), (i, s) -> i.setNursingServiceCnt(s), "VK Pflegedienst/Erziehungsdienst ungültig: ");
+            tryImportDouble(item, data.get(11), (i, s) -> i.setPsychologistCnt(s), "VK Psychologen ungültig: ");
+            tryImportDouble(item, data.get(12), (i, s) -> i.setSocialWorkerCnt(s), "VK Sozialarbeiter/Sozial-/Heil-pädagogen ungültig: ");
+            tryImportDouble(item, data.get(13), (i, s) -> i.setSpecialTherapistCnt(s), "VK Spezialtherapeuten ungültig: ");
+            tryImportDouble(item, data.get(14), (i, s) -> i.setFunctionalServiceCnt(s), "VK med.-techn. Dienst/Funktionsdienst ungültig: ");
+            tryImportInteger(item, data.get(15), (i, s) -> i.setMedicalServiceAmount(s), "Kosten Ärztlicher Dienst ungültig: ");
+            tryImportInteger(item, data.get(16), (i, s) -> i.setNursingServiceAmount(s), "Kosten Pflegedienst/Erziehungsdienst ungültig: ");
+            tryImportInteger(item, data.get(17), (i, s) -> i.setPsychologistAmount(s), "Kosten Psychologen ungültig: ");
+            tryImportInteger(item, data.get(18), (i, s) -> i.setSocialWorkerAmount(s), "Kosten Sozialarbeiter/Sozial-/Heil-pädagogen ungültig: ");
+            tryImportInteger(item, data.get(19), (i, s) -> i.setSpecialTherapistAmount(s), "Kosten Spezialtherapeuten ungültig: ");
+            tryImportInteger(item, data.get(20), (i, s) -> i.setFunctionalServiceAmount(s), "Kosten med.-techn. Dienst/Funktionsdienst ungültig: ");
+            tryImportInteger(item, data.get(21), (i, s) -> i.setMedicalInfrastructureAmount(s), "Kosten med. Infrastruktur ungültig: ");
+            tryImportInteger(item, data.get(22), (i, s) -> i.setNonMedicalInfrastructureAmount(s), "Kosten nicht med. Infrastruktur ungültig: ");
 
-            tryImportString(item, data.get(0), (i,s) -> i.setCostCenterNumber(s), "Nummer der Kostenstelle ungültig: ");
-            tryImportString(item, data.get(1), (i,s) -> i.setStation(s), "Name der Station ungültig: ");
-            tryImportString(item, data.get(2), (i,s) -> i.setPsyPvMapping(s), "Eindeutige Zuordnung nach Psych-PV* (A, S, G, KJP, P) ungültig: ");
-            tryImportInteger(item, data.get(3), (i,s) -> i.setBedCnt(s), "Anzahl Betten ungültig: ");
-            tryImportBoolean(item, data.get(4), (i,s) -> i.setReceivingStation(s), "bettenführende Aufnahmestation (bitte ankreuzen) ungültig: ");
-            tryImportInteger(item, data.get(5), (i,s) -> i.setRegularCareDays(s), "Summe Pflegetage Regelbehandlung ungültig: ");
-            tryImportInteger(item, data.get(6), (i,s) -> i.setRegularWeight(s), "Summe Gewichtungspunkte** Regelbehandlung ungültig: ");
-            tryImportInteger(item, data.get(7), (i,s) -> i.setIntensiveCareDays(s), "Summe Pflegetage Intensivbehandlung ungültig: ");
-            tryImportInteger(item, data.get(8), (i,s) -> i.setIntensiveWeight(s), "Summe Gewichtungspunkte** Intensivbehandlung ungültig: ");
-            tryImportDouble(item, data.get(9), (i,s) -> i.setMedicalServiceCnt(s), "VK Ärztlicher Dienst ungültig: ");
-            tryImportDouble(item, data.get(10), (i,s) -> i.setNursingServiceCnt(s), "VK Pflegedienst/Erziehungsdienst ungültig: ");
-            tryImportDouble(item, data.get(11), (i,s) -> i.setPsychologistCnt(s), "VK Psychologen ungültig: ");
-            tryImportDouble(item, data.get(12), (i,s) -> i.setSocialWorkerCnt(s), "VK Sozialarbeiter/Sozial-/Heil-pädagogen ungültig: ");
-            tryImportDouble(item, data.get(13), (i,s) -> i.setSpecialTherapistCnt(s), "VK Spezialtherapeuten ungültig: ");
-            tryImportDouble(item, data.get(14), (i,s) -> i.setFunctionalServiceCnt(s), "VK med.-techn. Dienst/Funktionsdienst ungültig: ");
-            tryImportInteger(item, data.get(15), (i,s) -> i.setMedicalServiceAmount(s), "Kosten Ärztlicher Dienst ungültig: ");
-            tryImportInteger(item, data.get(16), (i,s) -> i.setNursingServiceAmount(s), "Kosten Pflegedienst/Erziehungsdienst ungültig: ");
-            tryImportInteger(item, data.get(17), (i,s) -> i.setPsychologistAmount(s), "Kosten Psychologen ungültig: ");
-            tryImportInteger(item, data.get(18), (i,s) -> i.setSocialWorkerAmount(s), "Kosten Sozialarbeiter/Sozial-/Heil-pädagogen ungültig: ");
-            tryImportInteger(item, data.get(19), (i,s) -> i.setSpecialTherapistAmount(s), "Kosten Spezialtherapeuten ungültig: ");
-            tryImportInteger(item, data.get(20), (i,s) -> i.setFunctionalServiceAmount(s), "Kosten med.-techn. Dienst/Funktionsdienst ungültig: ");
-            tryImportInteger(item, data.get(21), (i,s) -> i.setMedicalInfrastructureAmount(s), "Kosten med. Infrastruktur ungültig: ");
-            tryImportInteger(item, data.get(22), (i,s) -> i.setNonMedicalInfrastructureAmount(s), "Kosten nicht med. Infrastruktur ungültig: ");
-                        
-            if(itemExists(item)) {
+            if (itemExists(item)) {
                 return;
             }
 
@@ -184,6 +181,7 @@ public class StationDataImporterPepp {
         }
     }
 
+    @SuppressWarnings("EmptyStatement")
     private List<String> splitAtUnquotedSemicolon(String line) {
         if (line.endsWith(";")) {
             line = line + " ";
@@ -204,6 +202,7 @@ public class StationDataImporterPepp {
                 case '\"':
                     withinQuote = !withinQuote;
                     break;
+                default:; // nothing to change for quote state
             }
         }
         if (start < line.length()) {
@@ -213,50 +212,48 @@ public class StationDataImporterPepp {
         for (int i = 0; i < toks.size(); i++) {
             String trimmedTok = toks.get(i).trim();
             if (trimmedTok.startsWith("\"") && trimmedTok.endsWith("\"")) {
-                toks.set(i, trimmedTok.substring(1, trimmedTok.length()-1));
+                toks.set(i, trimmedTok.substring(1, trimmedTok.length() - 1));
             }
         }
-        
+
         return toks;
     }
-    
+
     private void addRowErrorMsg(String message) {
         _errorMsg += "\r\nFehler in Zeile " + _totalCount + ": " + message;
         _errorRowCount++;
     }
-    
+
     private void addColumnErrorMsg(String message) {
         _errorMsg += "\r\nFehler in Zeile " + _totalCount + ": " + message;
         _errorColumnCount++;
     }
-    
+
     private void addColumnInfoMsg(String message) {
         _errorMsg += "\r\nHinweis in Zeile " + _totalCount + ": " + message;
         _infoColumnCount++;
     }
-    
+
     private void addChangeColumn(String oldVal, String newVal) {
-        _errorMsg += "\r\nZeile "+_totalCount+" bereits vorhanden. Spalte aktualisiert : alt " + oldVal + " neu " + newVal;
+        _errorMsg += "\r\nZeile " + _totalCount + " bereits vorhanden. Spalte aktualisiert : alt " + oldVal + " neu " + newVal;
     }
-    
+
     private void addChangeColumn(boolean oldVal, boolean newVal) {
-        _errorMsg += "\r\nZeile "+_totalCount+" bereits vorhanden. Spalte aktualisiert : alt " + (oldVal ? "x" : " ") + " neu " + (newVal ? "x" : " ");
+        _errorMsg += "\r\nZeile " + _totalCount + " bereits vorhanden. Spalte aktualisiert : alt " + (oldVal ? "x" : " ") + " neu " + (newVal ? "x" : " ");
     }
-    
+
     private void addChangeColumn(int oldVal, int newVal) {
         addChangeColumn(String.valueOf(oldVal), String.valueOf(newVal));
     }
-    
+
     private void addChangeColumn(double oldVal, double newVal) {
         addChangeColumn(String.valueOf(oldVal), String.valueOf(newVal));
     }
-    
+
     private boolean itemExists(KGPListStationServiceCost item) {
         for (KGPListStationServiceCost costs : _calcBasics.getStationServiceCosts()) {
-            if (
-                    costs.getCostCenterNumber().equals(item.getCostCenterNumber()) &&
-                    costs.getStation().equals(item.getStation())
-            ) {
+            if (costs.getCostCenterNumber().equals(item.getCostCenterNumber())
+                    && costs.getStation().equals(item.getStation())) {
                 boolean valueChanged = false;
 
                 if (!costs.getPsyPvMapping().equalsIgnoreCase(item.getPsyPvMapping())) {
@@ -364,7 +361,7 @@ public class StationDataImporterPepp {
                     costs.setNonMedicalInfrastructureAmount(item.getNonMedicalInfrastructureAmount());
                     valueChanged = true;
                 }
-                
+
                 return true;
 
             }
@@ -379,13 +376,13 @@ public class StationDataImporterPepp {
             throw new IllegalArgumentException(ex.getMessage() + "\n" + errorMsg + data);
         }
     }
-    
+
     private void tryImportInteger(KGPListStationServiceCost item, String data, BiConsumer<KGPListStationServiceCost, Integer> bind, String errorMsg) {
         try {
             NumberFormat nf = NumberFormat.getInstance(Locale.GERMAN);
             nf.setParseIntegerOnly(true);
             int val = nf.parse(data).intValue();
-            if (val < 0){
+            if (val < 0) {
                 bind.accept(item, 0);
                 addColumnErrorMsg(errorMsg + "Wert darf nicht kleiner 0 sein: " + Utils.getMessage("msgNotANumber") + ": " + data);
             } else {
@@ -400,13 +397,13 @@ public class StationDataImporterPepp {
             }
         }
     }
-    
+
     private void tryImportDouble(KGPListStationServiceCost item, String data, BiConsumer<KGPListStationServiceCost, Double> bind, String errorMsg) {
         try {
             NumberFormat nf = NumberFormat.getInstance(Locale.GERMAN);
             nf.setParseIntegerOnly(false);
             double val = nf.parse(data).doubleValue();
-            if (val < 0){
+            if (val < 0) {
                 bind.accept(item, 0.0);
                 addColumnErrorMsg(errorMsg + "Wert darf nicht kleiner 0 sein: " + Utils.getMessage("msgNotANumber") + ": " + data);
             } else {
@@ -421,7 +418,7 @@ public class StationDataImporterPepp {
             }
         }
     }
-    
+
     private void tryImportBoolean(KGPListStationServiceCost item, String data, BiConsumer<KGPListStationServiceCost, Boolean> bind, String errorMsg) {
         try {
             if ((data.trim().length() > 1) || (data.trim().length() == 1 && !data.trim().toLowerCase().equals("x"))) {
@@ -434,5 +431,5 @@ public class StationDataImporterPepp {
             throw new IllegalArgumentException(ex.getMessage() + "\n" + errorMsg + data);
         }
     }
-    
+
 }

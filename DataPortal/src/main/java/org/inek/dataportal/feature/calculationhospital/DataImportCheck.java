@@ -117,34 +117,34 @@ public class DataImportCheck<T, I> implements Serializable {
 //            }
 //        }
 //    }
-    private void tryImportDouble(T item, String data, BiConsumer<T, Double> bind, String errorMsg) {
+    private void tryImportDouble(T item, String data, BiConsumer<T, Double> bind, String errorMessage) {
         try {
             NumberFormat nf = NumberFormat.getInstance(Locale.GERMAN);
             nf.setParseIntegerOnly(false);
             double val = nf.parse(data).doubleValue();
             if (val < 0) {
-                throw new IllegalArgumentException(errorMsg + "Wert darf nicht kleiner 0 sein: " + Utils.getMessage("msgNotANumber") + ": " + data);
+                throw new IllegalArgumentException(errorMessage + "Wert darf nicht kleiner 0 sein: " + Utils.getMessage("msgNotANumber") + ": " + data);
             }
             bind.accept(item, val);
         } catch (ParseException ex) {
-            throw new IllegalArgumentException(errorMsg + Utils.getMessage("msgNotANumber") + ": " + data);
+            throw new IllegalArgumentException(errorMessage + Utils.getMessage("msgNotANumber") + ": " + data);
         }
     }
 
-    private void tryImportBoolean(T item, String data, BiConsumer<T, Boolean> bind, String errorMsg) {
+    private void tryImportBoolean(T item, String data, BiConsumer<T, Boolean> bind, String errorMessage) {
         try {
             if (data.trim().length() > 1) {
-                throw new IllegalArgumentException(errorMsg + " ist nicht leer, x oder X : " + data);
+                throw new IllegalArgumentException(errorMessage + " ist nicht leer, x oder X : " + data);
             } else if (data.trim().length() == 1 && !data.trim().toLowerCase().equals("x")) {
-                throw new IllegalArgumentException(errorMsg + " ist nicht leer, x oder X : " + data);
+                throw new IllegalArgumentException(errorMessage + " ist nicht leer, x oder X : " + data);
             }
             bind.accept(item, data.trim().toLowerCase().equals("x"));
         } catch (Exception ex) {
-            throw new IllegalArgumentException(ex.getMessage() + "\n" + errorMsg + data);
+            throw new IllegalArgumentException(ex.getMessage() + "\n" + errorMessage + data);
         }
     }
 
-    private void tryImportFremdvergabe(T item, String data, BiConsumer<T, Integer> bind, String errorMsg) {
+    private void tryImportFremdvergabe(T item, String data, BiConsumer<T, Integer> bind, String errorMessage) {
         String lowerData = data.trim().toLowerCase();
         if (lowerData.startsWith("keine")) {
             bind.accept(item, 0);
@@ -154,7 +154,7 @@ public class DataImportCheck<T, I> implements Serializable {
             bind.accept(item, 2);
         } else {
             bind.accept(item, 0);
-            counter.addColumnErrorMsg(errorMsg + " " + data);
+            counter.addColumnErrorMsg(errorMessage + " " + data);
         }
     }
 

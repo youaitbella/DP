@@ -15,7 +15,7 @@ import java.util.Map;
  *
  * @author kunkelan
  */
-public class ErrorCounter implements Serializable {
+public final class ErrorCounter implements Serializable {
 
     private static Map<String, ErrorCounter> counters = new HashMap<>();
 
