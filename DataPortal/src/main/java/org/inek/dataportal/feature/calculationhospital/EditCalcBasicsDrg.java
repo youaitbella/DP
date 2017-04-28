@@ -95,10 +95,14 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     // <editor-fold defaultstate="collapsed" desc="fields & enums">
     private static final Logger LOGGER = Logger.getLogger("EditCalcBasicsDrg");
 
-    @Inject private CooperationTools _cooperationTools;
-    @Inject private SessionController _sessionController;
-    @Inject private CalcFacade _calcFacade;
-    @Inject private ApplicationTools _appTools;
+    @Inject
+    private CooperationTools _cooperationTools;
+    @Inject
+    private SessionController _sessionController;
+    @Inject
+    private CalcFacade _calcFacade;
+    @Inject
+    private ApplicationTools _appTools;
 
     private DrgCalcBasics _calcBasics;
     private DrgCalcBasics _baseLine;
@@ -270,7 +274,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     private void preloadPersonalAccounting(DrgCalcBasics calcBasics) {
         calcBasics.setPersonalAccountingDescription(_priorCalcBasics.getPersonalAccountingDescription());
-        
+
         ensurePersonalAccountingData(calcBasics);
         for (KGLPersonalAccounting ppa : _priorCalcBasics.getPersonalAccountings()) {
             for (KGLPersonalAccounting pa : calcBasics.getPersonalAccountings()) {
@@ -349,7 +353,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                 } else {
                     optDat.get().setData(old.getData());
                 }
-                
+
             }
         });
     }
@@ -730,7 +734,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         return _importMessageIntensiv;
     }
 
-    @Inject private Instance<IntensivDataImporter> _importIntensivProvider;
+    @Inject
+    private Instance<IntensivDataImporter> _importIntensivProvider;
 
     private transient Part _fileIntensivCare;
 
@@ -748,7 +753,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         return _importMessageStrokeUnit;
     }
 
-    @Inject private Instance<StrokeUnitDataImporter> _importStrokeUnitProvider;
+    @Inject
+    private Instance<StrokeUnitDataImporter> _importStrokeUnitProvider;
 
     private transient Part _fileStrokeUnit;
 
@@ -1161,8 +1167,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     /**
-     * This function seals a statement od participance if possible. Sealing is possible, if all mandatory fields are
-     * fulfilled. After sealing, the statement od participance can not be edited anymore and is available for the InEK.
+     * This function seals a statement od participance if possible. Sealing is possible, if all mandatory fields are fulfilled. After sealing, the
+     * statement od participance can not be edited anymore and is available for the InEK.
      *
      * @return
      */
@@ -1398,7 +1404,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         return _importMessage;
     }
 
-    @Inject private Instance<CostCenterDataImporter> _importProvider;
+    @Inject
+    private Instance<CostCenterDataImporter> _importProvider;
 
     public void uploadNotices() {
         try {
