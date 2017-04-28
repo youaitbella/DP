@@ -5,7 +5,6 @@
  */
 package org.inek.dataportal.entities.calc.autopsy;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
@@ -14,7 +13,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
-import java.util.stream.Collectors;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,11 +21,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import org.inek.dataportal.entities.calc.drg.DrgDelimitationFact;
 import org.inek.dataportal.entities.iface.StatusEntity;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.utils.Documentation;
@@ -48,10 +44,12 @@ public class CalcBasicsAutopsy implements Serializable, StatusEntity {
     @Column(name = "cbaId", updatable = false, nullable = false)
     private int _id = -1;
 
+    @Override
     public int getId() {
         return _id;
     }
 
+    @Override
     public void setId(int id) {
         _id = id;
     }

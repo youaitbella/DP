@@ -32,14 +32,12 @@ import org.inek.dataportal.entities.account.WaitingDocument;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.account.AccountDocumentFacade;
-import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.account.WaitingDocumentFacade;
 import org.inek.dataportal.helper.StreamHelper;
 import org.inek.dataportal.helper.scope.FeatureScoped;
 import org.inek.dataportal.helper.structures.DocInfo;
 import org.inek.dataportal.helper.tree.AccountTreeNode;
 import org.inek.dataportal.helper.tree.DocumentInfoTreeNode;
-import org.inek.dataportal.helper.tree.ProposalInfoTreeNode;
 import org.inek.dataportal.mail.Mailer;
 import org.inek.portallib.tree.RootNode;
 import org.inek.portallib.tree.TreeNode;
@@ -307,7 +305,7 @@ public class DocumentApproval implements TreeNodeObserver, Serializable {
         return "";
     }
 
-    private final static class MailInfo {
+    private static final class MailInfo {
 
         private final String _jsonMail;
         private final List<Account> _accounts;

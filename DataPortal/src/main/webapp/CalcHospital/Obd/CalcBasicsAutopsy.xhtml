@@ -139,7 +139,7 @@
                                          value="#{editCalcBasicsAutopsy.calcBasics.calcAutopsys}"/>
         </div>
 
-        <ui:repeat value="#{editCalcBasicsAutopsy.calcBasics.autopsyItems}"
+        <ui:repeat value="#{editCalcBasicsAutopsy.calcBasics.autopsyItems.stream().filter(i -> !editCalcBasicsAutopsy.calcBasics.hasCostCenterForensic || i.getAutopsyServiceText().getShowOnForensic()).toList()}"
                    var="item">
 
             <br/>

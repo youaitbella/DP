@@ -330,8 +330,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             c.setDepartmentKey(ccc.getDepartmentKey());
             return c;
         }).forEachOrdered((c) -> {
-                    calcBasics.getCostCenterCosts().add(c);
-                });
+            calcBasics.getCostCenterCosts().add(c);
+        });
 
     }
 
@@ -1159,10 +1159,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     /**
-     * This function seals a statement od participance if possible. Sealing is
-     * possible, if all mandatory fields are fulfilled. After sealing, the
-     * statement od participance can not be edited anymore and is available for
-     * the InEK.
+     * This function seals a statement od participance if possible. Sealing is possible, if all mandatory fields are
+     * fulfilled. After sealing, the statement od participance can not be edited anymore and is available for the InEK.
      *
      * @return
      */

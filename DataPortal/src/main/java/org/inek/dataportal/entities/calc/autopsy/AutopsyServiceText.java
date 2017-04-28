@@ -25,7 +25,7 @@ public class AutopsyServiceText implements Serializable {
     
     //<editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "astId", updatable = false, nullable = false)
     private int _id;
     

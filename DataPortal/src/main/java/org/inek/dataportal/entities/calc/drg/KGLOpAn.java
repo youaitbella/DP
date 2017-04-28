@@ -22,6 +22,7 @@ import org.inek.dataportal.utils.Documentation;
  */
 @Entity
 @Table(name = "KGLOpAn", schema = "calc")
+@SuppressWarnings("Indentation")
 public class KGLOpAn implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -62,6 +63,7 @@ public class KGLOpAn implements Serializable {
     private int _centralOPCnt;
 
     @Min(value = 0, groups = {Seal.class}, message = "Die Anzahl der OPs darf nicht negativ sein", payload = TopicCalcOpAn.class)
+    
     @Max(value = 99, groups = {Seal.class}, message = "Die Anzahl der OPs ist unplausibel hoch", payload = TopicCalcOpAn.class)
     public int getCentralOPCnt() {
         return _centralOPCnt;
@@ -102,11 +104,13 @@ public class KGLOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="medicalServiceSnzOP">    
     @Column(name = "oaMedicalServiceSnzOP")
-    @Documentation(name = "Schnitt-Naht-Zeit OP ÄD", rank = 3010, omitOnOtherValues = "KGLOpAn._centralOPCnt=0", translateValue = "1=mit fallindividuellem Gleichzeitigkeitsfaktor;2=mit standardisiertem Gleichzeitigkeitsfaktor je OP-Art;4=Alternative (bitte beschreiben)")
+    @Documentation(name = "Schnitt-Naht-Zeit OP ÄD", rank = 3010, omitOnOtherValues = "KGLOpAn._centralOPCnt=0",
+            translateValue = "1=mit fallindividuellem Gleichzeitigkeitsfaktor;2=mit standardisiertem Gleichzeitigkeitsfaktor je OP-Art;4=Alternative (bitte beschreiben)")
     private int _medicalServiceSnzOP;
 
     @Min.List({@Min(value = 0),
         @Min(value = 1, groups = {Seal.class}, message = "Bitte Schnitt-Naht-Zeit OP ÄD wählen", payload = TopicCalcOpAn.class)})
+    
     @Max(value = 4, groups = {Seal.class}, message = "Bitte Schnitt-Naht-Zeit OP ÄD wählen", payload = TopicCalcOpAn.class)
     public int getMedicalServiceSnzOP() {
         return _medicalServiceSnzOP;
@@ -148,6 +152,7 @@ public class KGLOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="medicalServiceRzOP">    
     @Column(name = "oaMedicalServiceRzOP")
+    
     @Documentation(name = "Rüstzeit OP ÄD", rank = 3010, omitOnOtherValues = "KGLOpAn._centralOPCnt=0", translateValue = "1=als fallindividuell erfasster Wert je Mitarbeiter(in);2=als abgestufter Standardwert je OP-Art;3=als Einheitswert;4=Alternative (bitte beschreiben)")
     private int _medicalServiceRzOP;
 
@@ -162,6 +167,7 @@ public class KGLOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="functionalServiceRzOP">    
     @Column(name = "oaFunctionalServiceRzOP")
+    
     @Documentation(name = "Rüstzeit OP FD/MTD", rank = 3010, omitOnOtherValues = "KGLOpAn._centralOPCnt=0", translateValue = "1=als fallindividuell erfasster Wert je Mitarbeiter(in);2=als abgestufter Standardwert je OP-Art;3=als Einheitswert;4=Alternative (bitte beschreiben)")
     private int _functionalServiceRzOP;
 
@@ -294,6 +300,7 @@ public class KGLOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="medicalServiceRzAN">    
     @Column(name = "oaMedicalServiceRzAN")
+    
     @Documentation(name = "Rüstzeit AN ÄD", rank = 3010, omitOnOtherValues = "KGLOpAn._centralOPCnt=0", translateValue = "1=als fallindividuell erfasster Wert je Mitarbeiter(in);2=als abgestufter Standardwert je OP-Art;3=als Einheitswert;4=Alternative (bitte beschreiben)")
     private int _medicalServiceRzAN;
 
@@ -308,6 +315,7 @@ public class KGLOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="functionalServiceRzAN">    
     @Column(name = "oaFunctionalServiceRzAN")
+    
     @Documentation(name = "Rüstzeit AN FD/MTD", rank = 3010, omitOnOtherValues = "KGLOpAn._centralOPCnt=0", translateValue = "1=als fallindividuell erfasster Wert je Mitarbeiter(in);2=als abgestufter Standardwert je OP-Art;3=als Einheitswert;4=Alternative (bitte beschreiben)")
     private int _functionalServiceRzAN;
 

@@ -13,7 +13,7 @@ import org.inek.dataportal.helper.structures.ProposalInfo;
  *
  * @author muellermi
  */
-public class ProposalInfoTreeNode extends TreeNode{
+public final class ProposalInfoTreeNode extends TreeNode{
     
     private final ProposalInfo _info;
     

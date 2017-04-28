@@ -13,7 +13,7 @@ import org.inek.portallib.tree.TreeNodeObserver;
  *
  * @author muellermi
  */
-public class CalcHospitalTreeNode extends TreeNode{
+public final class CalcHospitalTreeNode extends TreeNode{
     
     private final CalcHospitalInfo _info;
     

@@ -53,8 +53,8 @@ public class EmailReceiver implements Serializable {
         return _accountId;
     }
 
-    public void setAccountId(int _accountId) {
-        this._accountId = _accountId;
+    public void setAccountId(int accountId) {
+        this._accountId = accountId;
     }
     
     @Override

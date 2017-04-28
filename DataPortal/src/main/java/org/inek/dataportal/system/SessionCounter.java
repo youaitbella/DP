@@ -18,6 +18,7 @@ import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
 public class SessionCounter implements HttpSessionListener {
 
     private static final Logger LOGGER = Logger.getLogger("SessionCounter");
+    @SuppressWarnings("ConstantName")
     private static final AtomicInteger _count = new AtomicInteger(0);
 
     public static int getCount() {

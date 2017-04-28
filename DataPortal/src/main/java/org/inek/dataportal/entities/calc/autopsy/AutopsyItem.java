@@ -27,7 +27,7 @@ public class AutopsyItem implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cbaiId", updatable = false, nullable = false)
     private int id;
 
@@ -61,6 +61,9 @@ public class AutopsyItem implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property AutopsyServiceTextId">
+    @Column(name = "cbaiAutopsyServiceTextId")
+    private int _autopsyServiceTextId;  // needed for storing only 
+
     @ManyToOne
     @PrimaryKeyJoinColumn(name = "cbaiAutopsyServiceTextId")
     private AutopsyServiceText _autopsyServiceText;
@@ -71,7 +74,7 @@ public class AutopsyItem implements Serializable {
 
     public void setAutopsyServiceText(AutopsyServiceText autopsyServiceText) {
         _autopsyServiceText = autopsyServiceText;
-
+        _autopsyServiceTextId = autopsyServiceText.getId();
     }
     // </editor-fold>
 

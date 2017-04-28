@@ -22,7 +22,6 @@ import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
-import org.inek.dataportal.entities.account.AccountAdditionalIK;
 import org.inek.dataportal.entities.admin.MailTemplate;
 import org.inek.dataportal.entities.calc.autopsy.AutopsyServiceText;
 import org.inek.dataportal.entities.calc.autopsy.CalcBasicsAutopsy;
@@ -90,7 +89,7 @@ public class EditCalcBasicsAutopsy extends AbstractEditController implements Ser
             }
             _calcBasics = calcBasics;
             if (isRequestCorrectionEnabled()) {
-               //todo  _priorCalcBasics = _calcFacade.findPriorCalcBasics(_calcBasics);
+                //todo  _priorCalcBasics = _calcFacade.findPriorCalcBasics(_calcBasics);
             }
         } else {
             Utils.navigate(Pages.Error.RedirectURL());
@@ -130,13 +129,12 @@ public class EditCalcBasicsAutopsy extends AbstractEditController implements Ser
     }
 
     private void initAutopsyItems(CalcBasicsAutopsy calcBasics) {
-       List<AutopsyServiceText> serviceTexts = _calcFacade.findAllServiceTexts();
+        List<AutopsyServiceText> serviceTexts = _calcFacade.findAllServiceTexts();
         for (AutopsyServiceText serviceText : serviceTexts) {
             calcBasics.addAutopsyItem(serviceText);
         }
     }
 
-    
     // <editor-fold defaultstate="collapsed" desc="actions">
     public boolean isOwnModel() {
         return _sessionController.isMyAccount(_calcBasics.getAccountId(), false);
@@ -177,11 +175,11 @@ public class EditCalcBasicsAutopsy extends AbstractEditController implements Ser
         }
         return _ikItems;
     }
-    
+
     public void ikChanged() {
         // dummy listener, used by component MultiIk - do not delete
     }
-    
+
     public String save() {
         setModifiedInfo();
         _calcBasics = _calcFacade.saveCalcBasicsAutopsy(_calcBasics);
@@ -275,8 +273,7 @@ public class EditCalcBasicsAutopsy extends AbstractEditController implements Ser
         String subject = template.getSubject()
                 .replace("{ik}", "" + _calcBasics.getIk());
         String body = template.getBody()
-                .replace("{formalSalutation}", _mailer.getFormalSalutation(receiver))
-                ; // todo.replace("{note}", _calcBasics.getNoteInek());
+                .replace("{formalSalutation}", _mailer.getFormalSalutation(receiver)); // todo.replace("{note}", _calcBasics.getNoteInek());
         String bcc = template.getBcc().replace("{accountMail}", _sessionController.getAccount().getEmail());
         _mailer.sendMailFrom(template.getFrom(), receiver.getEmail(), "", bcc, subject, body);
     }
@@ -300,10 +297,12 @@ public class EditCalcBasicsAutopsy extends AbstractEditController implements Ser
     @SuppressWarnings("unchecked")
     public void copyForResend() {
     }
-    
+
     /**
-     * This function seals a statement od participance if possible. Sealing is possible, if all mandatory fields are fulfilled. After sealing, the
-     * statement od participance can not be edited anymore and is available for the InEK.
+     * This function seals a statement od participance if possible. Sealing is
+     * possible, if all mandatory fields are fulfilled. After sealing, the
+     * statement od participance can not be edited anymore and is available for
+     * the InEK.
      *
      * @return
      */
@@ -343,7 +342,6 @@ public class EditCalcBasicsAutopsy extends AbstractEditController implements Ser
         MessageContainer message = new MessageContainer();
 
         checkField(message, model.getIk(), 100000000, 999999999, "lblIK", "calcBasicsAutopsy:ikMulti");
-
 
         return message;
     }

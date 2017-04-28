@@ -13,7 +13,7 @@ import org.inek.portallib.tree.TreeNodeObserver;
  *
  * @author muellermi
  */
-public class DocumentInfoTreeNode extends TreeNode{
+public final class DocumentInfoTreeNode extends TreeNode{
     
     private final DocInfo _info;
     

@@ -21,9 +21,7 @@ import org.inek.dataportal.helper.Utils;
  *
  * @author muellermi
  */
-public class DocumentationUtil {
-
-    private static final String KeyNotFound = "### key not found";
+public final class DocumentationUtil {
 
     public static List<KeyValueLevel> getDocumentation(Object o) {
         DocumentationUtil docUtil = new DocumentationUtil();
@@ -213,13 +211,13 @@ public class DocumentationUtil {
         if (rawValue instanceof BigDecimal) {
             if (doc.isMoneyFormat()) {
                 DecimalFormat decim = new DecimalFormat("0.00");
-                return decim.format(rawValue).toString() + " €";
+                return decim.format(rawValue) + " €";
             } else {
                 return rawValue.toString();
             }
         }
 
-        String value = rawValue == null ? "" : rawValue.toString().replace((char) 7, '*');
+        String value = rawValue.toString().replace((char) 7, '*');
 
         if (doc.translateValue().matches("[a-zA-Z]\\w*\\[(][)])")) {
             return translateByFunction(doc, value);
@@ -241,11 +239,7 @@ public class DocumentationUtil {
                 String val = pair.substring(0, pos).trim();
                 String key = pair.substring(pos + 1).trim();
                 if (val.equals(value)) {
-                    String translatedValue = Utils.getMessageOrKey(key);
-                    if (!translatedValue.startsWith(KeyNotFound)) {
-                        return translatedValue;
-                    }
-                    break;
+                    return Utils.getMessageOrKey(key);
                 }
             }
         }
@@ -265,7 +259,7 @@ public class DocumentationUtil {
         return defaultName;
     }
 
-    private Map<String, String> _fieldValues = new HashMap<>();
+    private final Map<String, String> _fieldValues = new HashMap<>();
 
     private void obtainFieldValues(Object obj) {
         for (Field field : obj.getClass().getDeclaredFields()) {

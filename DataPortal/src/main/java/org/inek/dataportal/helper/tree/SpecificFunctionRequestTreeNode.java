@@ -13,7 +13,7 @@ import org.inek.portallib.tree.TreeNodeObserver;
  *
  * @author muellermi
  */
-public class SpecificFunctionRequestTreeNode extends TreeNode{
+public final class SpecificFunctionRequestTreeNode extends TreeNode{
     
     private final SpecificFunctionRequest _request;
     

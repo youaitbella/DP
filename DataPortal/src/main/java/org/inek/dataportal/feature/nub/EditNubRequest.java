@@ -336,7 +336,7 @@ public class EditNubRequest extends AbstractEditController {
         String[] iks = _nubRequest.getProxyIKs().split("\\s|,|\r|\n");
         String formatted = "";
         for (String ik : iks) {
-            if (ik.isEmpty() || ik.equals(_nubRequest.getIk() + "")) {
+            if (ik.isEmpty() || (_nubRequest.getIk() + "").equals(ik)) {
                 continue;
             }
             if (formatted.length() > 0) {

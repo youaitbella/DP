@@ -13,7 +13,7 @@ import org.inek.dataportal.entities.account.Account;
  *
  * @author muellermi
  */
-public class AccountTreeNode extends TreeNode{
+public final class AccountTreeNode extends TreeNode{
 
     private final Account _account;
 
