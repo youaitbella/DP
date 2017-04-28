@@ -898,10 +898,32 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         return importerPool.getDataImporter("peppmedinfra").getMessage();
     }
 
+    public Part getNonMedInfraFile() {
+        return importerPool.getDataImporter("peppnonmedinfra").getFile();
+    }
+
+    public void setNonMedInfraFile(Part file) {
+        importerPool.getDataImporter("peppnonmedinfra").setFile(file);
+    }
+
+    public void downloadTemplateHeadlineNonMedInfra() {
+        importerPool.getDataImporter("peppnonmedinfra").downloadTemplate();
+    }
+
+    public String getImportMessageNonMedInfra() {
+        return importerPool.getDataImporter("peppnonmedinfra").getMessage();
+    }
+
     public void uploadNoticesMedInfra(int costType) {
-        importerPool.getDataImporter("peppmedinfra").uploadNoticesPepp(_calcBasics);
-        _sessionController.alertClient(getImportMessageMedInfra());
-        _showJournal = importerPool.getDataImporter("peppmedinfra").containsError();
+        DataImporter<? extends BaseIdValue> dataImporter;
+        if (170 == costType) {
+            dataImporter = importerPool.getDataImporter("peppmedinfra");
+        } else {
+            dataImporter = importerPool.getDataImporter("peppnonmedinfra");
+        }
+        dataImporter.uploadNoticesPepp(_calcBasics);
+        _sessionController.alertClient(dataImporter.getMessage());
+        _showJournal = dataImporter.containsError();
     }
 
 //    @Inject private Instance<MedInfraDataImporterPepp> _importMedInfraPepp;
