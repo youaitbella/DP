@@ -34,7 +34,7 @@ public class ObjectUtil {
                 continue;
             }
             try {
-                if (name.equals("serialVersionUID")) {
+                if ("serialVersionUID".equals(name)) {
                     continue;
                 }
                 field.setAccessible(true);

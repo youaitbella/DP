@@ -158,155 +158,35 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         KGLOpAn opAn = new KGLOpAn(calcBasics.getId(), _priorCalcBasics.getOpAn());
         calcBasics.setOpAn(opAn);
 
-        // Locations
-        calcBasics.setLocationCnt(_priorCalcBasics.getLocationCnt());
-        calcBasics.setDifLocationSupply(_priorCalcBasics.isDifLocationSupply());
-        calcBasics.setSpecialUnit(_priorCalcBasics.isSpecialUnit());
-        calcBasics.getLocations().clear();
-        for (KGLListLocation location : _priorCalcBasics.getLocations()) {
-            KGLListLocation loc = new KGLListLocation();
-            loc.setId(-1);
-            loc.setBaseInformationId(calcBasics.getId());
-            loc.setLocation(location.getLocation());
-            loc.setLocationNo(location.getLocationNo());
-            calcBasics.getLocations().add(loc);
-        }
-
-        // Central focuses
-        calcBasics.getCentralFocuses().clear();
-        calcBasics.setCentralFocus(_priorCalcBasics.isCentralFocus());
-        for (KGLListCentralFocus centralFocus : _priorCalcBasics.getCentralFocuses()) {
-            KGLListCentralFocus cf = new KGLListCentralFocus();
-            cf.setId(-1);
-            cf.setBaseInformationId(calcBasics.getId());
-            cf.setCaseCnt(0);
-            cf.setInfraCost(0);
-            cf.setMaterialcost(0);
-            cf.setRemunerationAmount(0);
-            cf.setRemunerationKey("");
-            cf.setPersonalCost(0);
-            cf.setText(centralFocus.getText());
-            calcBasics.getCentralFocuses().add(cf);
-        }
-
-        // Delimitation facts
+        preloadLocations(calcBasics);
+        preloadCentralFocuses(calcBasics);
         calcBasics.getDelimitationFacts().clear();
         populateDelimitationFactsIfAbsent(calcBasics);
-
-        // Personal Accounting
-        calcBasics.setPersonalAccountingDescription(_priorCalcBasics.getPersonalAccountingDescription());
-
-        ensurePersonalAccountingData(calcBasics);
-        for (KGLPersonalAccounting ppa : _priorCalcBasics.getPersonalAccountings()) {
-            for (KGLPersonalAccounting pa : calcBasics.getPersonalAccountings()) {
-                if (ppa.getCostTypeId() == pa.getCostTypeId()) {
-                    pa.setPriorCostAmount(ppa.getAmount());
-                    pa.setCostTypeId(ppa.getCostTypeId());
-                    pa.setExpertRating(ppa.isExpertRating());
-                    pa.setOther(ppa.isOther());
-                    pa.setServiceEvaluation(ppa.isServiceEvaluation());
-                    pa.setServiceStatistic(ppa.isServiceStatistic());
-                    pa.setStaffEvaluation(ppa.isStaffEvaluation());
-                    pa.setStaffRecording(ppa.isStaffRecording());
-                }
-            }
-        }
-
-        // Radiology & Laboratory
-        calcBasics.getRadiologyLaboratories().clear();
-        for (KGLListRadiologyLaboratory prl : _priorCalcBasics.getRadiologyLaboratories()) {
-            KGLListRadiologyLaboratory rl = new KGLListRadiologyLaboratory();
-            rl.setId(-1);
-            rl.setBaseInformationId(calcBasics.getId());
-            rl.setAmountPost(prl.getAmountPost());
-            rl.setAmountPre(prl.getAmountPre());
-            rl.setCostCenterId(prl.getCostCenterId());
-            rl.setCostCenterNumber(prl.getCostCenterNumber());
-            rl.setCostCenterText(prl.getCostCenterText());
-            rl.setDescription(prl.getDescription());
-            rl.setServiceDocDKG(prl.isServiceDocDKG());
-            rl.setServiceDocDif(prl.isServiceDocDif());
-            rl.setServiceDocEBM(prl.isServiceDocEBM());
-            rl.setServiceDocGOA(prl.isServiceDocGOA());
-            rl.setServiceDocHome(prl.isServiceDocHome());
-            rl.setServiceVolumePost(prl.getServiceVolumePost());
-            rl.setServiceVolumePre(prl.getServiceVolumePre());
-            calcBasics.getRadiologyLaboratories().add(rl);
-        }
-
-        // ObstetricsGynecologies
-        calcBasics.getObstetricsGynecologies().clear();
-        for (KGLListObstetricsGynecology pObst : _priorCalcBasics.getObstetricsGynecologies()) {
-            KGLListObstetricsGynecology obst = new KGLListObstetricsGynecology();
-            obst.setBaseInformationId(calcBasics.getId());
-            obst.setCostCenterText(pObst.getCostCenterText());
-            obst.setCostTypeId(pObst.getCostTypeId());
-            calcBasics.getObstetricsGynecologies().add(obst);
-        }
-
-        // Normal Ward
-        calcBasics.setNormalFreelancing(_priorCalcBasics.isNormalFreelancing());
-        calcBasics.getNormalFreelancers().clear();
-        for (KGLNormalFreelancer pnf : _priorCalcBasics.getNormalFreelancers()) {
-            KGLNormalFreelancer nf = new KGLNormalFreelancer(calcBasics.getId());
-            nf.setId(-1);
-            nf.setAmount(pnf.getAmount());
-            nf.setCostType1(pnf.isCostType1());
-            nf.setCostType6c(pnf.isCostType6c());
-            nf.setDivision(pnf.getDivision());
-            nf.setFullVigorCnt(pnf.getFullVigorCnt());
-            calcBasics.getNormalFreelancers().add(nf);
-        }
-        calcBasics.getNormalFeeContracts().clear();
-        for (KGLNormalFeeContract pfc : _priorCalcBasics.getNormalFeeContracts()) {
-            KGLNormalFeeContract fc = new KGLNormalFeeContract();
-            fc.setId(-1);
-            fc.setBaseInformationId(calcBasics.getId());
-            fc.setCaseCnt(pfc.getCaseCnt());
-            fc.setDivision(pfc.getDivision());
-            fc.setDepartmentKey(pfc.getDepartmentKey());
-            calcBasics.getNormalFeeContracts().add(fc);
-        }
-
-        // ServiceProvision
+        preloadPersonalAccounting(calcBasics);
+        preloadRadiologyAndLab(calcBasics);
+        preloadObstetricsGynecologies(calcBasics);
+        preloadNormalWard(calcBasics);
         initServiceProvision(calcBasics);
-
         // cardiology
         calcBasics.setCardiology(_priorCalcBasics.isCardiology());
         calcBasics.setCardiologyCaseCnt(_priorCalcBasics.getCardiologyCaseCnt());
         calcBasics.setCardiologyRoomCnt(_priorCalcBasics.getCardiologyRoomCnt());
-
         // endoscopy
         calcBasics.setEndoscopy(_priorCalcBasics.isEndoscopy());
         calcBasics.setEndoscopyCaseCnt(_priorCalcBasics.getEndoscopyCaseCnt());
         calcBasics.setEndoscopyRoomCnt(_priorCalcBasics.getEndoscopyRoomCnt());
-
         // maternity
         calcBasics.setGynecology(_priorCalcBasics.isGynecology());
         calcBasics.setObstetrical(_priorCalcBasics.isObstetrical());
-
-        // neonat
-        calcBasics.setNeonatLvl(_priorCalcBasics.getNeonatLvl());
-        //calcBasics.getNeonateData().clear();
-        int headerId = _calcFacade.retrieveHeaderTexts(calcBasics.getDataYear(), 20, 0).get(0).getId();
-        _priorCalcBasics.getNeonateData().stream().filter(old -> old.getContentText().getHeaderTextId() == headerId).forEach(old -> {
-            Optional<DrgNeonatData> optDat = calcBasics.getNeonateData().stream().filter(nd -> nd.getContentTextId() == old.getContentTextId()).findFirst();
-            if (optDat.isPresent()) {
-                if (optDat.get().getContentText().getHeaderTextId() == 2) {
-                    optDat.get().setData(new BigDecimal(old.getData().intValue()));
-                } else {
-                    optDat.get().setData(old.getData());
-                }
-
-            }
-        });
-
+        preloadNeonat(calcBasics);
         // MedicalInfrastructure
         calcBasics.setDescMedicalInfra(_priorCalcBasics.getIblvMethodMedInfra() == 0);
         calcBasics.setOtherMethodMedInfra(_priorCalcBasics.getOtherMethodMedInfra());
         calcBasics.setIblvMethodMedInfra(_priorCalcBasics.getIblvMethodMedInfra());
+        preloadNormalWardServiceDocumentation(calcBasics);
+    }
 
-        // NormalStationServiceDocumentation
+    private void preloadNormalWardServiceDocumentation(DrgCalcBasics calcBasics) {
         calcBasics.getNormalStationServiceDocumentations().clear();
         for (DrgContentText ct : getNormalWardServiceDocHeaders()) {
             KGLNormalStationServiceDocumentation add = new KGLNormalStationServiceDocumentation();
@@ -332,7 +212,118 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }).forEachOrdered((c) -> {
             calcBasics.getCostCenterCosts().add(c);
         });
+    }
 
+    private void preloadNormalWard(DrgCalcBasics calcBasics) {
+        calcBasics.setNormalFreelancing(_priorCalcBasics.isNormalFreelancing());
+        calcBasics.getNormalFreelancers().clear();
+        for (KGLNormalFreelancer pnf : _priorCalcBasics.getNormalFreelancers()) {
+            KGLNormalFreelancer nf = new KGLNormalFreelancer(calcBasics.getId());
+            nf.setId(-1);
+            nf.setAmount(pnf.getAmount());
+            nf.setCostType1(pnf.isCostType1());
+            nf.setCostType6c(pnf.isCostType6c());
+            nf.setDivision(pnf.getDivision());
+            nf.setFullVigorCnt(pnf.getFullVigorCnt());
+            calcBasics.getNormalFreelancers().add(nf);
+        }
+        calcBasics.getNormalFeeContracts().clear();
+        for (KGLNormalFeeContract pfc : _priorCalcBasics.getNormalFeeContracts()) {
+            KGLNormalFeeContract fc = new KGLNormalFeeContract();
+            fc.setId(-1);
+            fc.setBaseInformationId(calcBasics.getId());
+            fc.setCaseCnt(pfc.getCaseCnt());
+            fc.setDivision(pfc.getDivision());
+            fc.setDepartmentKey(pfc.getDepartmentKey());
+            calcBasics.getNormalFeeContracts().add(fc);
+        }
+    }
+
+    private void preloadObstetricsGynecologies(DrgCalcBasics calcBasics) {
+        calcBasics.getObstetricsGynecologies().clear();
+        for (KGLListObstetricsGynecology pObst : _priorCalcBasics.getObstetricsGynecologies()) {
+            KGLListObstetricsGynecology obst = new KGLListObstetricsGynecology();
+            obst.setBaseInformationId(calcBasics.getId());
+            obst.setCostCenterText(pObst.getCostCenterText());
+            obst.setCostTypeId(pObst.getCostTypeId());
+            calcBasics.getObstetricsGynecologies().add(obst);
+        }
+    }
+
+    private void preloadRadiologyAndLab(DrgCalcBasics calcBasics) {
+        calcBasics.getRadiologyLaboratories().clear();
+        for (KGLListRadiologyLaboratory prl : _priorCalcBasics.getRadiologyLaboratories()) {
+            KGLListRadiologyLaboratory rl = new KGLListRadiologyLaboratory();
+            rl.setId(-1);
+            rl.setBaseInformationId(calcBasics.getId());
+            rl.setAmountPost(prl.getAmountPost());
+            rl.setAmountPre(prl.getAmountPre());
+            rl.setCostCenterId(prl.getCostCenterId());
+            rl.setCostCenterNumber(prl.getCostCenterNumber());
+            rl.setCostCenterText(prl.getCostCenterText());
+            rl.setDescription(prl.getDescription());
+            rl.setServiceDocDKG(prl.isServiceDocDKG());
+            rl.setServiceDocDif(prl.isServiceDocDif());
+            rl.setServiceDocEBM(prl.isServiceDocEBM());
+            rl.setServiceDocGOA(prl.isServiceDocGOA());
+            rl.setServiceDocHome(prl.isServiceDocHome());
+            rl.setServiceVolumePost(prl.getServiceVolumePost());
+            rl.setServiceVolumePre(prl.getServiceVolumePre());
+            calcBasics.getRadiologyLaboratories().add(rl);
+        }
+    }
+
+    private void preloadPersonalAccounting(DrgCalcBasics calcBasics) {
+        calcBasics.setPersonalAccountingDescription(_priorCalcBasics.getPersonalAccountingDescription());
+        
+        ensurePersonalAccountingData(calcBasics);
+        for (KGLPersonalAccounting ppa : _priorCalcBasics.getPersonalAccountings()) {
+            for (KGLPersonalAccounting pa : calcBasics.getPersonalAccountings()) {
+                if (ppa.getCostTypeId() == pa.getCostTypeId()) {
+                    pa.setPriorCostAmount(ppa.getAmount());
+                    pa.setCostTypeId(ppa.getCostTypeId());
+                    pa.setExpertRating(ppa.isExpertRating());
+                    pa.setOther(ppa.isOther());
+                    pa.setServiceEvaluation(ppa.isServiceEvaluation());
+                    pa.setServiceStatistic(ppa.isServiceStatistic());
+                    pa.setStaffEvaluation(ppa.isStaffEvaluation());
+                    pa.setStaffRecording(ppa.isStaffRecording());
+                }
+            }
+        }
+    }
+
+    private void preloadCentralFocuses(DrgCalcBasics calcBasics) {
+        calcBasics.getCentralFocuses().clear();
+        calcBasics.setCentralFocus(_priorCalcBasics.isCentralFocus());
+        for (KGLListCentralFocus centralFocus : _priorCalcBasics.getCentralFocuses()) {
+            KGLListCentralFocus cf = new KGLListCentralFocus();
+            cf.setId(-1);
+            cf.setBaseInformationId(calcBasics.getId());
+            cf.setCaseCnt(0);
+            cf.setInfraCost(0);
+            cf.setMaterialcost(0);
+            cf.setRemunerationAmount(0);
+            cf.setRemunerationKey("");
+            cf.setPersonalCost(0);
+            cf.setText(centralFocus.getText());
+            calcBasics.getCentralFocuses().add(cf);
+        }
+    }
+
+    private void preloadLocations(DrgCalcBasics calcBasics) {
+        calcBasics.setLocationCnt(_priorCalcBasics.getLocationCnt());
+        calcBasics.setDifLocationSupply(_priorCalcBasics.isDifLocationSupply());
+        calcBasics.setSpecialUnit(_priorCalcBasics.isSpecialUnit());
+        calcBasics.getLocations().clear();
+        for (KGLListLocation location : _priorCalcBasics.getLocations()) {
+            KGLListLocation loc = new KGLListLocation();
+            loc.setId(-1);
+            loc.setBaseInformationId(calcBasics.getId());
+            loc.setLocation(location.getLocation());
+            loc.setLocationNo(location.getLocationNo());
+            calcBasics.getLocations().add(loc);
+        }
     }
 
     private void populateDelimitationFactsIfAbsent(DrgCalcBasics calcBasics) {
@@ -350,6 +341,22 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             df.setUsed(getPriorDelimitationFact(ct.getId()).isUsed());
             calcBasics.getDelimitationFacts().add(df);
         }
+    }
+
+    private void preloadNeonat(DrgCalcBasics calcBasics) {
+        calcBasics.setNeonatLvl(_priorCalcBasics.getNeonatLvl());
+        int headerId = _calcFacade.retrieveHeaderTexts(calcBasics.getDataYear(), 20, 0).get(0).getId();
+        _priorCalcBasics.getNeonateData().stream().filter(old -> old.getContentText().getHeaderTextId() == headerId).forEach(old -> {
+            Optional<DrgNeonatData> optDat = calcBasics.getNeonateData().stream().filter(nd -> nd.getContentTextId() == old.getContentTextId()).findFirst();
+            if (optDat.isPresent()) {
+                if (optDat.get().getContentText().getHeaderTextId() == 2) {
+                    optDat.get().setData(new BigDecimal(old.getData().intValue()));
+                } else {
+                    optDat.get().setData(old.getData());
+                }
+                
+            }
+        });
     }
 
     private DrgCalcBasics loadCalcBasicsDrg(String idObject) {
@@ -676,7 +683,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         return result;
     }
 
-    private static final String HeadLineIntensiv
+    private static final String HEADLINE_INTENSIVE
             = "Intensivstation;FAB;Anzahl_Betten;Anzahl_Fälle;Mindestmerkmale_OPS_8-980_erfüllt;"
             + "Mindestmerkmale_OPS_8-98f_erfüllt;Mindestmerkmale_nur_erfüllt_im_Zeitabschnitt;"
             + "Summe_gewichtete_Intensivstunden;Summe_ungewichtete_Intensivstunden;"
@@ -685,10 +692,10 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             + "Kosten_med_Infra;Kosten_nicht_med_Infra";
 
     public void downloadTemplateIntensiv() {
-        Utils.downloadText(HeadLineIntensiv + "\n", "Intensiv.csv");
+        Utils.downloadText(HEADLINE_INTENSIVE + "\n", "Intensiv.csv");
     }
 
-    private static final String HeadLineStrokeUnit
+    private static final String HEADLINE_STROKE_UNIT
             = "Intensivstation;FAB;Anzahl_Betten;Anzahl_Fälle;Mindestmerkmale_OPS_8-981_erfüllt;"
             + "Mindestmerkmale_OPS_8-98b_erfüllt;Mindestmerkmale_nur_erfüllt_im_Zeitabschnitt;"
             + "Summe_gewichtete_Intensivstunden;Summe_ungewichtete_Intensivstunden;"
@@ -697,29 +704,29 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             + "Kosten_med_Infra;Kosten_nicht_med_Infra";
 
     public void downloadTemplateStrokeUnit() {
-        Utils.downloadText(HeadLineStrokeUnit + "\n", "StrokeUnit.csv");
+        Utils.downloadText(HEADLINE_STROKE_UNIT + "\n", "StrokeUnit.csv");
     }
 
-    private static final String _headLineRadiology = "KostenstelleNummer;KostenstelleName;"
+    private static final String HEADLINE_RADIOLOGY = "KostenstelleNummer;KostenstelleName;"
             + "Leistungsdokumentation;Beschreibung;LeistungsvolumenVor;"
             + "KostenvolumenVor;LeistungsvolumenNach;KostenvolumenNach";
 
     public void downloadRadiologyTemplate() {
-        Utils.downloadText(_headLineRadiology + "\n", "Radiology.csv");
+        Utils.downloadText(HEADLINE_RADIOLOGY + "\n", "Radiology.csv");
     }
 
-    private static final String _headLineLaboratory = "KostenstelleNummer;KostenstelleName;"
+    private static final String HEADLINE_LABORATY = "KostenstelleNummer;KostenstelleName;"
             + "Leistungsdokumentation;Beschreibung;LeistungsvolumenVor;"
             + "KostenvolumenVor;KostenvolumenNach";
 
     public void downloadLaboratoryTemplate() {
-        Utils.downloadText(_headLineLaboratory + "\n", "Laboratory.csv");
+        Utils.downloadText(HEADLINE_LABORATY + "\n", "Laboratory.csv");
     }
 
-    private static final String _headLineMedInfra = "KostenstelleNummer;KostenstelleText;Schlüssel;Kostenvolumen";
+    private static final String HEADLINE_MED_INFRA = "KostenstelleNummer;KostenstelleText;Schlüssel;Kostenvolumen";
 
     public void downloadMedInfraTemplate() {
-        Utils.downloadText(_headLineMedInfra + "\n", "MedInfra.csv");
+        Utils.downloadText(HEADLINE_MED_INFRA + "\n", "MedInfra.csv");
     }
 
     private transient String _importMessageIntensiv = "";
@@ -778,7 +785,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                 itemImporter.setCalcBasics(_calcBasics);
                 while (scanner.hasNextLine()) {
                     String line = Utils.convertFromUtf8(scanner.nextLine());
-                    if (!line.equals(HeadLineIntensiv)) {
+                    if (!line.equals(HEADLINE_INTENSIVE)) {
                         itemImporter.tryImportLine(line);
                     }
                 }
@@ -810,7 +817,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                 itemImporter.setCalcBasics(_calcBasics);
                 while (scanner.hasNextLine()) {
                     String line = Utils.convertFromUtf8(scanner.nextLine());
-                    if (!line.equals(HeadLineStrokeUnit)) {
+                    if (!line.equals(HEADLINE_STROKE_UNIT)) {
                         itemImporter.tryImportLine(line);
                     }
                 }
@@ -1350,14 +1357,14 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         _file = file;
     }
 
-    private static final String HeadLine = "Kostenstellengruppe;Kostenstellennummer;Kostenstellenname;Kostenvolumen;VollkräfteÄD;Leistungsschlüssel;Beschreibung;SummeLeistungseinheiten";
+    private static final String HEADLINE_11_12_13 = "Kostenstellengruppe;Kostenstellennummer;Kostenstellenname;Kostenvolumen;VollkräfteÄD;Leistungsschlüssel;Beschreibung;SummeLeistungseinheiten";
 
     public void downloadTemplate() {
-        Utils.downloadText(HeadLine + "\n", "Kostenstellengruppe_11_12_13.csv");
+        Utils.downloadText(HEADLINE_11_12_13 + "\n", "Kostenstellengruppe_11_12_13.csv");
     }
 
     public void downloadNormalStationTemplate() {
-        Utils.downloadText(normalHeadLine + "\n", "Normalstation.csv");
+        Utils.downloadText(HEADLINE_NORMAL_WARD + "\n", "Normalstation.csv");
     }
 
     public void downloadNormalStation() {
@@ -1365,7 +1372,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         formatter.setMaximumFractionDigits(2);
         formatter.setMinimumFractionDigits(2);
 
-        String content = normalHeadLine + "\n";
+        String content = HEADLINE_NORMAL_WARD + "\n";
         for (KGLListCostCenterCost costCenterCost : _calcBasics.getCostCenterCosts()) {
             String line = costCenterCost.getCostCenterNumber() + ";"
                     + costCenterCost.getCostCenterText() + ";"
@@ -1418,7 +1425,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                 itemImporter.setCalcBasics(_calcBasics);
                 while (scanner.hasNextLine()) {
                     String line = Utils.convertFromUtf8(scanner.nextLine());
-                    if (!line.equals(HeadLine)) {
+                    if (!line.equals(HEADLINE_11_12_13)) {
                         itemImporter.tryImportLine(line);
                     }
                 }
@@ -1430,7 +1437,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }
     }
 
-    private String normalHeadLine = "NummerKostenstelle;NameKostenstelle;FABSchluessel;"
+    private final static String HEADLINE_NORMAL_WARD = "NummerKostenstelle;NameKostenstelle;FABSchluessel;"
             + "BelegungFAB;Bettenzahl;Pflegetage;PPRMinuten;zusaetlicheGewichtung;"
             + "AerztlicherDienstVK;PflegedienstVK;FunktionsdienstVK;"
             + "AerztlicherDienstKostenstelle;PflegedienstKostenstelle;"
@@ -1439,7 +1446,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     public void uploadNormalWard() {
         try {
-            int headlineLength = normalHeadLine.split(";").length;
+            int headlineLength = HEADLINE_NORMAL_WARD.split(";").length;
             if (_file != null) {
                 //Scanner scanner = new Scanner(_file.getInputStream(), "UTF-8");
                 // We assume most of the documents coded with the Windows character set
@@ -1459,7 +1466,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                 while (scanner.hasNextLine()) {
                     String line = Utils.convertFromUtf8(scanner.nextLine());
                     lineNum++;
-                    if (!line.equals(normalHeadLine)) {
+                    if (!line.equals(HEADLINE_NORMAL_WARD)) {
                         String[] values = StringUtil.splitAtUnquotedSemicolon(line);
                         if (values.length != headlineLength) {
                             alertText += "Zeile " + lineNum + ": Fehlerhafte Anzahl Spalten. (" + headlineLength + " erwartet, " + values.length + " gefunden) \\n";
@@ -1587,7 +1594,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     public void uploadRadiology() {
         try {
-            int headlineLength = _headLineRadiology.split(";").length;
+            int headlineLength = HEADLINE_RADIOLOGY.split(";").length;
             if (_file != null) {
                 //Scanner scanner = new Scanner(_file.getInputStream(), "UTF-8");
                 // We assume most of the documents coded with the Windows character set
@@ -1607,7 +1614,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                 while (scanner.hasNextLine()) {
                     String line = Utils.convertFromUtf8(scanner.nextLine());
                     lineNum++;
-                    if (!line.equals(_headLineRadiology)) {
+                    if (!line.equals(HEADLINE_RADIOLOGY)) {
                         String[] values = StringUtil.splitAtUnquotedSemicolon(line);
                         if (values.length != headlineLength) {
                             alertText += "Zeile " + lineNum + ": Fehlerhafte Anzahl Spalten. (" + headlineLength + " erwartet, " + values.length + " gefunden) \\n";
@@ -1682,7 +1689,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     public void uploadLaboratory() {
         try {
-            int headlineLength = _headLineLaboratory.split(";").length;
+            int headlineLength = HEADLINE_LABORATY.split(";").length;
             if (_file != null) {
                 //Scanner scanner = new Scanner(_file.getInputStream(), "UTF-8");
                 // We assume most of the documents coded with the Windows character set
@@ -1702,7 +1709,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                 while (scanner.hasNextLine()) {
                     String line = Utils.convertFromUtf8(scanner.nextLine());
                     lineNum++;
-                    if (!line.equals(_headLineLaboratory)) {
+                    if (!line.equals(HEADLINE_LABORATY)) {
                         String[] values = StringUtil.splitAtUnquotedSemicolon(line);
                         if (values.length != headlineLength) {
                             alertText += "Zeile " + lineNum + ": Fehlerhafte Anzahl Spalten. (" + headlineLength + " erwartet, " + values.length + " gefunden) \\n";
@@ -1792,7 +1799,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     public void uploadMedInfra(int costType) {
         try {
-            int headlineLength = _headLineMedInfra.split(";").length;
+            int headlineLength = HEADLINE_MED_INFRA.split(";").length;
             if (_file != null) {
                 //Scanner scanner = new Scanner(_file.getInputStream(), "UTF-8");
                 // We assume most of the documents coded with the Windows character set
@@ -1812,7 +1819,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                 while (scanner.hasNextLine()) {
                     String line = Utils.convertFromUtf8(scanner.nextLine());
                     lineNum++;
-                    if (!line.equals(_headLineMedInfra)) {
+                    if (!line.equals(HEADLINE_MED_INFRA)) {
                         String[] values = StringUtil.splitAtUnquotedSemicolon(line);
                         if (values.length != headlineLength) {
                             alertText += "Zeile " + lineNum + ": Fehlerhafte Anzahl Spalten. (" + headlineLength + " erwartet, " + values.length + " gefunden) \\n";

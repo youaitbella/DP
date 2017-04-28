@@ -49,7 +49,7 @@ public class AutopsyItem implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property CalcBasicsAutopsyId">
     @Column(name = "cbaiCalcBasicsAutopsyId")
-    private int _calcBasicsAutopsyId;
+    private int _calcBasicsAutopsyId = -1;
 
     public int getCalcBasicsAutopsyId() {
         return _calcBasicsAutopsyId;
@@ -119,7 +119,7 @@ public class AutopsyItem implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property DescriptionAccrual">
     @Column(name = "cbaiDescriptionAccrual")
-    private String _descriptionAccrual;
+    private String _descriptionAccrual = "";
 
     public String getDescriptionAccrual() {
         return _descriptionAccrual;

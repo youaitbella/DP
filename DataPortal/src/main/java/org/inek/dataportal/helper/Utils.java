@@ -182,7 +182,7 @@ public class Utils {
 
         for (UIComponent child : root.getChildren()) {
             String containerId = child.getNamingContainer() != null ? child.getNamingContainer().getClientId() : "";
-            if (!containerId.equals("")) {
+            if (!"".equals(containerId)) {
                 containerId += ":";
             }
             if (child.getId().equals(containerId + id)) {
