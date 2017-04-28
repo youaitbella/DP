@@ -41,18 +41,16 @@ import org.inek.dataportal.utils.DateUtils;
  */
 @Named
 @FeatureScoped(name = "Certification")
-public class CertManager implements Serializable{
+public class CertManager implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger("CertManager");
 
-    @Inject private SessionController _sessionController;
     @Inject private SystemFacade _systemFacade;
     @Inject private GrouperFacade _grouperFacade;
     @Inject private ApplicationTools _appTools;
 
     @PreDestroy
     private void preDestroy() {
-        System.out.println("Destroy CertManager");
         cleanupUploadFiles();
     }
 
@@ -64,12 +62,12 @@ public class CertManager implements Serializable{
         list.add(emptyItem);
         return list;
     }
-    
+
     public List<SelectItem> getSystemsWithoutNew() {
         List<SelectItem> list = _systemFacade.getRemunerationSystemInfos();
         SelectItem emptyItem = new SelectItem(-1, "");
         emptyItem.setNoSelectionOption(true);
-        list.add(0,emptyItem);
+        list.add(0, emptyItem);
         return list;
     }
 
@@ -132,10 +130,11 @@ public class CertManager implements Serializable{
         setSystemChanged(false);
         return Pages.CertSystemManagement.RedirectURL();
     }
-    
+
+    @SuppressWarnings("ModifiedControlVariable")
     public List<Grouper> findFreshGrouper() {
         List<Grouper> freshList = getSystem().getGrouperList();
-        for(Grouper g : freshList) {
+        for (Grouper g : freshList) {
             g = _grouperFacade.findFresh(g.getId());
         }
         getSystem().setGrouperList(freshList);
@@ -165,14 +164,13 @@ public class CertManager implements Serializable{
         setSystemChanged(false);
         return "";
     }
-    
+
     private Grouper mergeGrouper(Grouper grouper) {
         Grouper currentGrouper = _grouperFacade.findFresh(grouper.getId());
         currentGrouper.setPasswordRequest(grouper.getPasswordRequest());
         currentGrouper.setCertStatus(grouper.getCertStatus());
         return _grouperFacade.merge(currentGrouper);
     }
-    
 
     public String resetSystem() {
         for (Grouper grouper : _system.getGrouperList()) {
@@ -292,24 +290,25 @@ public class CertManager implements Serializable{
         grouper.setCertStatus(CertStatus.PasswordRequested);
         setSystemChanged(true);
     }
-    
+
     public void addedHp(Grouper grouper) {
         grouper.setWebsiteRelease(Calendar.getInstance().getTime());
         setSystemChanged(true);
     }
-    
+
     public boolean isCertVendorOnWebsite(Grouper grouper) {
         return grouper.getWebsiteRelease() != null;
     }
-    
+
     public String getCertHpInactiveClass(Grouper grouper) {
-        if(isCertVendorOnWebsite(grouper))
+        if (isCertVendorOnWebsite(grouper)) {
             return "certWebsiteButtonInactive";
+        }
         return "";
     }
-    
+
     public String getCertWebsiteDate(Grouper grouper) {
-        if(isCertVendorOnWebsite(grouper)) {
+        if (isCertVendorOnWebsite(grouper)) {
             SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
             return sdf.format(grouper.getWebsiteRelease());
         }
@@ -367,16 +366,18 @@ public class CertManager implements Serializable{
         }
         newGrouper.setEmailCopy(source.getEmailCopy());
     }
-    
+
     public boolean disableApprovedCheckbox() {
-        if(!_system.isCheckList() || !_system.isSpecManual())
+        if (!_system.isCheckList() || !_system.isSpecManual()) {
             return true;
+        }
         return false;
     }
-    
+
     public boolean disableCheckAndSpecCheckbox() {
-        if(_system.isApproved())
+        if (_system.isApproved()) {
             return true;
+        }
         return false;
     }
 }
