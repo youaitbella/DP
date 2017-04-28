@@ -30,6 +30,7 @@
                     </h:commandLink>
 
                     <h:commandLink styleClass="sendButton"
+                                   immediate="false"
                                    action="#{editCalcBasicsAutopsy.requestApproval}"
                                    value="#{msg.btnRequestApproval}"
                                    rendered="#{editCalcBasicsAutopsy.approvalRequestEnabled}"
@@ -38,7 +39,7 @@
                     </h:commandLink>
 
                     <h:commandLink styleClass="sendButton"
-                                   immediate="true"
+                                   immediate="false"
                                    action="#{editCalcBasicsAutopsy.seal}"
                                    value="#{msg.btnSaveAndClose}"
                                    rendered="#{editCalcBasicsAutopsy.sealEnabled and (editCalcBasicsAutopsy.activeTopicKey ne 'tabStatementOfParticipanceAddress' or editCalcBasicsAutopsy.statement.obligatoryCalcType eq 1)}"

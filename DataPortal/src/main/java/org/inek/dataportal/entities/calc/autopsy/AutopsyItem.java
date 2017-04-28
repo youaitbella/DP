@@ -35,7 +35,7 @@ public class AutopsyItem implements Serializable {
     }
 
     AutopsyItem(AutopsyServiceText serviceText) {
-        _autopsyServiceText = serviceText;
+        setAutopsyServiceText(serviceText);
     }
 
     public int getId() {
@@ -63,6 +63,10 @@ public class AutopsyItem implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property AutopsyServiceTextId">
     @Column(name = "cbaiAutopsyServiceTextId")
     private int _autopsyServiceTextId;  // needed for storing only 
+    
+    public int getAutopsyServiceTextId(){
+        return _autopsyServiceTextId;
+    }
 
     @ManyToOne
     @PrimaryKeyJoinColumn(name = "cbaiAutopsyServiceTextId")
@@ -72,7 +76,7 @@ public class AutopsyItem implements Serializable {
         return _autopsyServiceText;
     }
 
-    public void setAutopsyServiceText(AutopsyServiceText autopsyServiceText) {
+    public final void setAutopsyServiceText(AutopsyServiceText autopsyServiceText) {
         _autopsyServiceText = autopsyServiceText;
         _autopsyServiceTextId = autopsyServiceText.getId();
     }

@@ -21,11 +21,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Min;
 import org.inek.dataportal.entities.iface.StatusEntity;
 import org.inek.dataportal.enums.WorkflowStatus;
+import org.inek.dataportal.helper.groupinterface.Seal;
 import org.inek.dataportal.utils.Documentation;
 
 /**
@@ -34,8 +37,9 @@ import org.inek.dataportal.utils.Documentation;
  */
 @Entity
 @Table(name = "CalcBasicsAutopsy", schema = "calc")
+@SuppressWarnings("Indentation")
 public class CalcBasicsAutopsy implements Serializable, StatusEntity {
-    
+
     private static final long serialVersionUID = 1L;
 
     // <editor-fold defaultstate="collapsed" desc="Property Id">
@@ -54,7 +58,7 @@ public class CalcBasicsAutopsy implements Serializable, StatusEntity {
         _id = id;
     }
     // </editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="dataYear">
     @Column(name = "cbaDataYear")
     @Documentation(key = "lblYearData")
@@ -137,7 +141,7 @@ public class CalcBasicsAutopsy implements Serializable, StatusEntity {
         this._sealed = sealed;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property StatusId">
     @Column(name = "cbaStatusId")
     private int _statusId;
@@ -161,7 +165,7 @@ public class CalcBasicsAutopsy implements Serializable, StatusEntity {
         _statusId = status.getId();
     }
     //</editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property HasCostCenterForensic">
     @Column(name = "cbaHasCostCenterForensic")
     private boolean _hasCostCenterForensic;
@@ -179,6 +183,8 @@ public class CalcBasicsAutopsy implements Serializable, StatusEntity {
     @Column(name = "cbaFullVigorMedicalBeforeAccrual")
     private double _fullVigorMedicalBeforeAccrual;
 
+    @Min.List({@Min(value = 0),
+        @Min(value = 1, groups = {Seal.class}, message = "Bitte angeben")})
     public double getFullVigorMedicalBeforeAccrual() {
         return _fullVigorMedicalBeforeAccrual;
     }
@@ -192,6 +198,8 @@ public class CalcBasicsAutopsy implements Serializable, StatusEntity {
     @Column(name = "cbaFullVigorMedicalAfterAccrual")
     private double _fullVigorMedicalAfterAccrual;
 
+    @Min.List({@Min(value = 0),
+        @Min(value = 1, groups = {Seal.class}, message = "Bitte angeben")})
     public double getFullVigorMedicalAfterAccrual() {
         return _fullVigorMedicalAfterAccrual;
     }
@@ -205,6 +213,8 @@ public class CalcBasicsAutopsy implements Serializable, StatusEntity {
     @Column(name = "cbaCostVolumeMedicalBeforeAccrual")
     private int _costVolumeMedicalBeforeAccrual;
 
+    @Min.List({@Min(value = 0),
+        @Min(value = 1, groups = {Seal.class}, message = "Bitte angeben")})
     public int getCostVolumeMedicalBeforeAccrual() {
         return _costVolumeMedicalBeforeAccrual;
     }
@@ -218,6 +228,8 @@ public class CalcBasicsAutopsy implements Serializable, StatusEntity {
     @Column(name = "cbaCostVolumeMedicalAfterAccrual")
     private int _costVolumeMedicalAfterAccrual;
 
+    @Min.List({@Min(value = 0),
+        @Min(value = 1, groups = {Seal.class}, message = "Bitte angeben")})
     public int getCostVolumeMedicalAfterAccrual() {
         return _costVolumeMedicalAfterAccrual;
     }
@@ -231,6 +243,8 @@ public class CalcBasicsAutopsy implements Serializable, StatusEntity {
     @Column(name = "cbaFullVigorOtherBeforeAccrual")
     private double _fullVigorOtherBeforeAccrual;
 
+    @Min.List({@Min(value = 0),
+        @Min(value = 1, groups = {Seal.class}, message = "Bitte angeben")})
     public double getFullVigorOtherBeforeAccrual() {
         return _fullVigorOtherBeforeAccrual;
     }
@@ -244,6 +258,8 @@ public class CalcBasicsAutopsy implements Serializable, StatusEntity {
     @Column(name = "cbaFullVigorOtherAfterAccrual")
     private double _fullVigorOtherAfterAccrual;
 
+    @Min.List({@Min(value = 0),
+        @Min(value = 1, groups = {Seal.class}, message = "Bitte angeben")})
     public double getFullVigorOtherAfterAccrual() {
         return _fullVigorOtherAfterAccrual;
     }
@@ -257,6 +273,8 @@ public class CalcBasicsAutopsy implements Serializable, StatusEntity {
     @Column(name = "cbaCostVolumeOtherBeforeAccrual")
     private int _costVolumeOtherBeforeAccrual;
 
+    @Min.List({@Min(value = 0),
+        @Min(value = 1, groups = {Seal.class}, message = "Bitte angeben")})
     public int getCostVolumeOtherBeforeAccrual() {
         return _costVolumeOtherBeforeAccrual;
     }
@@ -270,6 +288,8 @@ public class CalcBasicsAutopsy implements Serializable, StatusEntity {
     @Column(name = "cbaCostVolumeOtherAfterAccrual")
     private int _costVolumeOtherAfterAccrual;
 
+    @Min.List({@Min(value = 0),
+        @Min(value = 1, groups = {Seal.class}, message = "Bitte angeben")})
     public int getCostVolumeOtherAfterAccrual() {
         return _costVolumeOtherAfterAccrual;
     }
@@ -283,6 +303,8 @@ public class CalcBasicsAutopsy implements Serializable, StatusEntity {
     @Column(name = "cbaCostVolumeMedicalInfraBeforeAccrual")
     private int _costVolumeMedicalInfraBeforeAccrual;
 
+    @Min.List({@Min(value = 0),
+        @Min(value = 1, groups = {Seal.class}, message = "Bitte angeben")})
     public int getCostVolumeMedicalInfraBeforeAccrual() {
         return _costVolumeMedicalInfraBeforeAccrual;
     }
@@ -296,6 +318,8 @@ public class CalcBasicsAutopsy implements Serializable, StatusEntity {
     @Column(name = "cbaCostVolumeMedicalInfraAfterAccrual")
     private int _costVolumeMedicalInfraAfterAccrual;
 
+    @Min.List({@Min(value = 0),
+        @Min(value = 1, groups = {Seal.class}, message = "Bitte angeben")})
     public int getCostVolumeMedicalInfraAfterAccrual() {
         return _costVolumeMedicalInfraAfterAccrual;
     }
@@ -309,6 +333,8 @@ public class CalcBasicsAutopsy implements Serializable, StatusEntity {
     @Column(name = "cbaCostVolumeNonMedicalInfraBeforeAccrual")
     private int _costVolumeNonMedicalInfraBeforeAccrual;
 
+    @Min.List({@Min(value = 0),
+        @Min(value = 1, groups = {Seal.class}, message = "Bitte angeben")})
     public int getCostVolumeNonMedicalInfraBeforeAccrual() {
         return _costVolumeNonMedicalInfraBeforeAccrual;
     }
@@ -322,6 +348,8 @@ public class CalcBasicsAutopsy implements Serializable, StatusEntity {
     @Column(name = "cbaCostVolumeNonMedicalInfraAfterAccrual")
     private int _costVolumeNonMedicalInfraAfterAccrual;
 
+    @Min.List({@Min(value = 0),
+        @Min(value = 1, groups = {Seal.class}, message = "Bitte angeben")})
     public int getCostVolumeNonMedicalInfraAfterAccrual() {
         return _costVolumeNonMedicalInfraAfterAccrual;
     }
@@ -335,6 +363,8 @@ public class CalcBasicsAutopsy implements Serializable, StatusEntity {
     @Column(name = "cbaTotalAutopsys")
     private int _totalAutopsys;
 
+    @Min.List({@Min(value = 0),
+        @Min(value = 1, groups = {Seal.class}, message = "Bitte angeben")})
     public int getTotalAutopsys() {
         return _totalAutopsys;
     }
@@ -348,6 +378,8 @@ public class CalcBasicsAutopsy implements Serializable, StatusEntity {
     @Column(name = "cbaCalcAutopsys")
     private int _calcAutopsys;
 
+    @Min.List({@Min(value = 0),
+        @Min(value = 1, groups = {Seal.class}, message = "Bitte angeben")})
     public int getCalcAutopsys() {
         return _calcAutopsys;
     }
@@ -361,6 +393,8 @@ public class CalcBasicsAutopsy implements Serializable, StatusEntity {
     @Column(name = "cbaCostVolumeForensic")
     private int _costVolumeForensic;
 
+    @Min.List({@Min(value = 0),
+        @Min(value = 1, groups = {Seal.class}, message = "Bitte angeben")})
     public int getCostVolumeForensic() {
         return _costVolumeForensic;
     }
@@ -374,6 +408,8 @@ public class CalcBasicsAutopsy implements Serializable, StatusEntity {
     @Column(name = "cbaCostVolumeForensicAccural")
     private int _costVolumeForensicAccural;
 
+    @Min.List({@Min(value = 0),
+        @Min(value = 1, groups = {Seal.class}, message = "Bitte angeben")})
     public int getCostVolumeForensicAccural() {
         return _costVolumeForensicAccural;
     }
@@ -387,6 +423,8 @@ public class CalcBasicsAutopsy implements Serializable, StatusEntity {
     @Column(name = "cbaCostVolumeLaboratoryBeforeAccrual")
     private int _costVolumeLaboratoryBeforeAccrual;
 
+    @Min.List({@Min(value = 0),
+        @Min(value = 1, groups = {Seal.class}, message = "Bitte angeben")})
     public int getCostVolumeLaboratoryBeforeAccrual() {
         return _costVolumeLaboratoryBeforeAccrual;
     }
@@ -400,6 +438,8 @@ public class CalcBasicsAutopsy implements Serializable, StatusEntity {
     @Column(name = "cbaCostVolumeLaboratoryAfterAccrual")
     private int _costVolumeLaboratoryAfterAccrual;
 
+    @Min.List({@Min(value = 0),
+        @Min(value = 1, groups = {Seal.class}, message = "Bitte angeben")})
     public int getCostVolumeLaboratoryAfterAccrual() {
         return _costVolumeLaboratoryAfterAccrual;
     }
@@ -448,15 +488,16 @@ public class CalcBasicsAutopsy implements Serializable, StatusEntity {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property List DelimitationFacts">
+    // <editor-fold defaultstate="collapsed" desc="Property List AutopsyItems">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "cbaiCalcBasicsAutopsyId", referencedColumnName = "cbaId")
+    @OrderBy("_autopsyServiceTextId")
     private List<AutopsyItem> _autopsyItems = new Vector<>();
 
     public List<AutopsyItem> getAutopsyItems() {
-        return  Collections.unmodifiableList(_autopsyItems);
+        return Collections.unmodifiableList(_autopsyItems);
     }
-    
+
     public void addAutopsyItem(AutopsyServiceText serviceText) {
         _autopsyItems.add(new AutopsyItem(serviceText));
     }
@@ -469,7 +510,7 @@ public class CalcBasicsAutopsy implements Serializable, StatusEntity {
         hash = 61 * hash + this._id;
         return hash;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -487,12 +528,11 @@ public class CalcBasicsAutopsy implements Serializable, StatusEntity {
         }
         return true;
     }
-    
+
     @Override
     public String toString() {
         return "CalcBasicsAutopsy{" + "_id=" + _id + '}';
     }
     //</editor-fold>
 
-    
 }
