@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -24,11 +25,13 @@ import javax.inject.Named;
  * @author vohldo
  */
 @Named
-@SessionScoped
+@RequestScoped
 public class Entities implements Serializable {
 
     @Inject private ApplicationData _appData;
     private NumberFormat _nf;
+    
+    private int _dataYear = 0;
     
     private Integer pinOrder[] = new Integer[45];
     
@@ -148,63 +151,72 @@ public class Entities implements Serializable {
     }
 
     public List<C_111_211> getC_111(int dataYear) {
-        if (_c_111 == null) {
+        if(_c_111 == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _c_111 = getC_111_211(dataYear).stream().filter(c -> (c.getType() == 1)).collect(Collectors.toList());
         }
         return _c_111;
     }
 
     public List<C_111_211> getC_211(int dataYear) {
-        if (_c_211 == null) {
+        if(_c_211 == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _c_211 = getC_111_211(dataYear).stream().filter((c) -> (c.getType() == 2)).collect(Collectors.toList());
         }
         return _c_211;
     }
 
     private List<C_111_211> getC_111_211(int dataYear) {
-        if (_c_111_211 == null) {
+        if(_c_111_211 == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _c_111_211 = mapC_111_211(_appData.readDataFile(dataYear, "C_111_211"));
         }
         return _c_111_211;
     }
 
     public List<C_112_212> getC_112(int dataYear) {
-        if (_c_112 == null) {
+        if(_c_112 == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _c_112 = getC_112_212(dataYear).stream().filter((c) -> (c.getType() == 1)).collect(Collectors.toList());
         }
         return _c_112;
     }
 
     public List<C_112_212> getC_212(int dataYear) {
-        if (_c_212 == null) {
+        if(_c_212 == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _c_212 = getC_112_212(dataYear).stream().filter((c) -> (c.getType() == 2)).collect(Collectors.toList());
         }
         return _c_212;
     }
 
     private List<C_112_212> getC_112_212(int dataYear) {
-        if (_c_112_212 == null) {
+        if(_c_112_212 == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _c_112_212 = mapC_112_212(_appData.readDataFile(dataYear, "C_112_212"));
         }
         return _c_112_212;
     }
 
     public List<C_113_213> getC_113(int dataYear) {
-        if (_c_113 == null) {
+        if(_c_113 == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _c_113 = getC_113_213(dataYear).stream().filter((c) -> (c.getType() == 1)).collect(Collectors.toList());
         }
         return _c_113;
     }
 
     public List<C_113_213> getC_213(int dataYear) {
-        if (_c_213 == null) {
+        if(_c_213 == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _c_213 = getC_113_213(dataYear).stream().filter((c) -> (c.getType() == 2)).collect(Collectors.toList());
         }
         return _c_213;
     }
 
     private List<C_113_213> getC_113_213(int dataYear) {
-        if (_c_113_213 == null) {
+        if(_c_113_213 == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _c_113_213 = mapC_113_213(_appData.readDataFile(dataYear, "C_113_213"));
         }
         return _c_113_213;
@@ -219,358 +231,415 @@ public class Entities implements Serializable {
     }
 
     public List<C_122_222> getC_122_A(int dataYear) {
-        if (_c_122_A == null) {
+        if(_c_122_A == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _c_122_A = getC_122_222(dataYear).stream().filter(c -> (c.getType() == 1 && c.getType2() == 'A')).collect(Collectors.toList());
         }
         return _c_122_A;
     }
 
     public List<C_122_222> getC_122_E(int dataYear) {
-        if (_c_122_E == null) {
+        if(_c_122_E == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _c_122_E = getC_122_222(dataYear).stream().filter(c -> (c.getType() == 1 && c.getType2() == 'E')).collect(Collectors.toList());
         }
         return _c_122_E;
     }
 
     public List<C_122_222> getC_222_A(int dataYear) {
-        if (_c_222_A == null) {
+        if(_c_222_A == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _c_222_A = getC_122_222(dataYear).stream().filter(c -> (c.getType() == 2 && c.getType2() == 'A')).collect(Collectors.toList());
         }
         return _c_222_A;
     }
 
     public List<C_122_222> getC_222_E(int dataYear) {
-        if (_c_222_E == null) {
+        if(_c_222_E == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _c_222_E = getC_122_222(dataYear).stream().filter(c -> (c.getType() == 2 && c.getType2() == 'E')).collect(Collectors.toList());
         }
         return _c_222_E;
     }
 
     private List<C_122_222> getC_122_222(int dataYear) {
-        if (_c_122_222 == null) {
+        if(_c_122_222 == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _c_122_222 = mapC_122_222(_appData.readDataFile(dataYear, "C_122_222"));
         }
         return _c_122_222;
     }
 
     public List<NumOperations> getNumOperationsPrimary(int dataYear) {
-        if (_numOperationsPrimary == null) {
+        if(_numOperationsPrimary == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _numOperationsPrimary = getNumOperations(dataYear).stream().filter(c -> (c.getType() == 1)).collect(Collectors.toList());
         }
         return _numOperationsPrimary;
     }
 
     public List<NumOperations> getNumOperationsSlipMc(int dataYear) {
-        if (_numOperationsSlipMc == null) {
+        if(_numOperationsSlipMc == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _numOperationsSlipMc = getNumOperations(dataYear).stream().filter(c -> (c.getType() == 2)).collect(Collectors.toList());
         }
         return _numOperationsSlipMc;
     }
 
     private List<NumOperations> getNumOperations(int dataYear) {
-        if (_numOperations == null) {
+        if(_numOperations == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _numOperations = mapNumOperations(_appData.readDataFile(dataYear, "C_123_223"));
         }
         return _numOperations;
     }
 
     public List<PartialInpatientCare> getPartialInpatientCaresPdChapter(int dataYear) {
-        if (_partialInpatientCaresPdChapter == null) {
+        if(_partialInpatientCaresPdChapter == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _partialInpatientCaresPdChapter = getInpatientCares(dataYear).stream().filter(c -> (c.getType() == 1)).collect(Collectors.toList());
         }
         return _partialInpatientCaresPdChapter;
     }
 
     public List<PartialInpatientCare> getPartialInpatientCaresPdGroup(int dataYear) {
-        if (_partialInpatientCaresPdGroup == null) {
+        if(_partialInpatientCaresPdGroup == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _partialInpatientCaresPdGroup = getInpatientCares(dataYear).stream().filter(c -> (c.getType() == 2)).collect(Collectors.toList());
         }
         return _partialInpatientCaresPdGroup;
     }
 
     public List<PartialInpatientCare> getPartialInpatientCaresPdCat(int dataYear) {
-        if (_partialInpatientCaresPdCat == null) {
+        if(_partialInpatientCaresPdCat == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _partialInpatientCaresPdCat = getInpatientCares(dataYear).stream().filter(c -> (c.getType() == 3)).collect(Collectors.toList());
         }
         return _partialInpatientCaresPdCat;
     }
 
     public List<PartialInpatientCare> getPartialInpatientCaresProcChapter(int dataYear) {
-        if (_partialInpatientCaresProcChapter == null) {
+        if(_partialInpatientCaresProcChapter == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _partialInpatientCaresProcChapter = getInpatientCares(dataYear).stream().filter(c -> (c.getType() == 4)).collect(Collectors.toList());
         }
         return _partialInpatientCaresProcChapter;
     }
 
     public List<PartialInpatientCare> getPartialInpatientCaresProcArea(int dataYear) {
-        if (_partialInpatientCaresProcArea == null) {
+        if(_partialInpatientCaresProcArea == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _partialInpatientCaresProcArea = getInpatientCares(dataYear).stream().filter(c -> (c.getType() == 5)).collect(Collectors.toList());
         }
         return _partialInpatientCaresProcArea;
     }
 
     private List<PartialInpatientCare> getInpatientCares(int dataYear) {
-        if (_partialInpatientCares == null) {
+        if(_partialInpatientCares == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _partialInpatientCares = mapPartialInpatientCares(_appData.readDataFile(dataYear, "D"));
         }
         return _partialInpatientCares;
     }
     
     public List<PrimaryDiagsProcs> getPrimaryDiagsProcsInpatientPdChapter(int dataYear) {
-        if(_primaryDiagsProcsInpatientPdChapter == null) {
+        if(_primaryDiagsProcsInpatientPdChapter == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _primaryDiagsProcsInpatientPdChapter = getPrimaryDiagsProcs(dataYear).stream().filter(c -> (c.getType() == 1 && c.getType2() == 1)).collect(Collectors.toList());
         }
         return _primaryDiagsProcsInpatientPdChapter;
     }
     
     public List<PrimaryDiagsProcs> getPrimaryDiagsProcsInpatientPdGroup(int dataYear) {
-        if(_primaryDiagsProcsInpatientPdGroup == null) {
+        if(_primaryDiagsProcsInpatientPdGroup == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _primaryDiagsProcsInpatientPdGroup = getPrimaryDiagsProcs(dataYear).stream().filter(c -> (c.getType() == 2 && c.getType2() == 1)).collect(Collectors.toList());
         }
         return _primaryDiagsProcsInpatientPdGroup;
     }
     
     public List<PrimaryDiagsProcs> getPrimaryDiagsProcsInpatientPdCat(int dataYear) {
-        if(_primaryDiagsProcsInpatientPdCat == null) {
+        if(_primaryDiagsProcsInpatientPdCat == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _primaryDiagsProcsInpatientPdCat = getPrimaryDiagsProcs(dataYear).stream().filter(c -> (c.getType() == 3 && c.getType2() == 1)).collect(Collectors.toList());
         }
         return _primaryDiagsProcsInpatientPdCat;
     }
     
     public List<PrimaryDiagsProcs> getPrimaryDiagsProcsInpatientProcChapter(int dataYear) {
-        if(_primaryDiagsProcsInpatientProcChapter == null) {
+        if(_primaryDiagsProcsInpatientProcChapter == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _primaryDiagsProcsInpatientProcChapter = getPrimaryDiagsProcs(dataYear).stream().filter(c -> (c.getType() == 1 && c.getType2() == 2)).collect(Collectors.toList());
         }
         return _primaryDiagsProcsInpatientProcChapter;
     }
     
     public List<PrimaryDiagsProcs> getPrimaryDiagsProcsInpatientProcSum(int dataYear) {
-        if(_primaryDiagsProcsInpatientProcSum == null) {
+        if(_primaryDiagsProcsInpatientProcSum == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _primaryDiagsProcsInpatientProcSum = mapPrimaryDiagProcsProcSum(_appData.readDataFile(dataYear, "C_115_sum"));
         }
         return _primaryDiagsProcsInpatientProcSum;
     }
     
     public List<PrimaryDiagsProcs> getPrimaryDiagsProcsSlipMcProcSum(int dataYear) {
-        if(_primaryDiagsProcsSlipMcProcSum == null) {
+        if(_primaryDiagsProcsSlipMcProcSum == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _primaryDiagsProcsSlipMcProcSum = mapPrimaryDiagProcsProcSum(_appData.readDataFile(dataYear, "C_215_sum"));
         }
         return _primaryDiagsProcsSlipMcProcSum;
     }
     
     public List<PrimaryDiagsProcs> getPrimaryDiagsProcsInpatientProcArea(int dataYear) {
-        if(_primaryDiagsProcsInpatientProcArea == null) {
+        if(_primaryDiagsProcsInpatientProcArea == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _primaryDiagsProcsInpatientProcArea = getPrimaryDiagsProcs(dataYear).stream().filter(c -> (c.getType() == 2 && c.getType2() == 2)).collect(Collectors.toList());
         }
         return _primaryDiagsProcsInpatientProcArea;
     }
     
     public List<PrimaryDiagsProcs> getPrimaryDiagsProcsInpatientProcCode(int dataYear) {
-        if(_primaryDiagsProcsInpatientProcCode == null) {
+        if(_primaryDiagsProcsInpatientProcCode == null || (dataYear != 0 && _dataYear != dataYear)) {
             _primaryDiagsProcsInpatientProcCode = getPrimaryDiagsProcs(dataYear).stream().filter(c -> (c.getType() == 3 && c.getType2() == 2)).collect(Collectors.toList());
         }
         return _primaryDiagsProcsInpatientProcCode;
     }
     
     public List<PrimaryDiagsProcs> getPrimaryDiagsProcsSlipMcPdChapter(int dataYear) {
-        if(_primaryDiagsProcsSlipMcPdChapter == null) {
+        if(_primaryDiagsProcsSlipMcPdChapter == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _primaryDiagsProcsSlipMcPdChapter = getPrimaryDiagsProcs(dataYear).stream().filter(c -> (c.getType() == 1 && c.getType2() == 3)).collect(Collectors.toList());
         }
         return _primaryDiagsProcsSlipMcPdChapter;
     }
     
     public List<PrimaryDiagsProcs> getPrimaryDiagsProcsSlipMcPdGroup(int dataYear) {
-        if(_primaryDiagsProcsSlipMcPdGroup == null) {
+        if(_primaryDiagsProcsSlipMcPdGroup == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _primaryDiagsProcsSlipMcPdGroup = getPrimaryDiagsProcs(dataYear).stream().filter(c -> (c.getType() == 2 && c.getType2() == 3)).collect(Collectors.toList());
         }
         return _primaryDiagsProcsSlipMcPdGroup;
     }
     
     public List<PrimaryDiagsProcs> getPrimaryDiagsProcsSlipMcPdCat(int dataYear) {
-        if(_primaryDiagsProcsSlipMcPdCat == null) {
+        if(_primaryDiagsProcsSlipMcPdCat == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _primaryDiagsProcsSlipMcPdCat = getPrimaryDiagsProcs(dataYear).stream().filter(c -> (c.getType() == 3 && c.getType2() == 3)).collect(Collectors.toList());
         }
         return _primaryDiagsProcsSlipMcPdCat;
     }
     
     public List<PrimaryDiagsProcs> getPrimaryDiagsProcsSlipMcProcChapter(int dataYear) {
-        if(_primaryDiagsProcsSlipMcProcChapter == null) {
+        if(_primaryDiagsProcsSlipMcProcChapter == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _primaryDiagsProcsSlipMcProcChapter = getPrimaryDiagsProcs(dataYear).stream().filter(c -> (c.getType() == 1 && c.getType2() == 4)).collect(Collectors.toList());
         }
         return _primaryDiagsProcsSlipMcProcChapter;
     }
     
     public List<PrimaryDiagsProcs> getPrimaryDiagsProcsSlipMcProcArea(int dataYear) {
-        if(_primaryDiagsProcsSlipMcProcArea == null) {
+        if(_primaryDiagsProcsSlipMcProcArea == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _primaryDiagsProcsSlipMcProcArea = getPrimaryDiagsProcs(dataYear).stream().filter(c -> (c.getType() == 2 && c.getType2() == 4)).collect(Collectors.toList());
         }
         return _primaryDiagsProcsSlipMcProcArea;
     }
     
     public List<PrimaryDiagsProcs> getPrimaryDiagsProcsSlipMcProcCode(int dataYear) {
-        if(_primaryDiagsProcsSlipMcProcCode == null) {
+        if(_primaryDiagsProcsSlipMcProcCode == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _primaryDiagsProcsSlipMcProcCode = getPrimaryDiagsProcs(dataYear).stream().filter(c -> (c.getType() == 3 && c.getType2() == 4)).collect(Collectors.toList());
         }
         return _primaryDiagsProcsSlipMcProcCode;
     }
     
     private List<PrimaryDiagsProcs> getPrimaryDiagsProcs(int dataYear) {
-        if(_primaryDiagsProcs == null) {
+        if(_primaryDiagsProcs == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _primaryDiagsProcs = mapPrimaryDiagsProcs(_appData.readDataFile(dataYear, "C_1_2abc"));
         }
         return _primaryDiagsProcs;
     }
     
     public List<PrimaryDiagsProcs> getPrimaryDiagsProcsInpatientPdSum(int dataYear) {
-        if(_primaryDiagsInpatientPdSum == null) {
+        if(_primaryDiagsInpatientPdSum == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _primaryDiagsInpatientPdSum = mapPartialInpatientCaresSum(_appData.readDataFile(dataYear, "C_114_sum"));
         }
         return _primaryDiagsInpatientPdSum;
     }
     
     public List<PrimaryDiagsProcs> getPrimaryDiagsProcsSlipMcPdSum(int dataYear) {
-        if(_primaryDiagsSlipMcPdSum == null) { 
+        if(_primaryDiagsSlipMcPdSum == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _primaryDiagsSlipMcPdSum = mapPartialInpatientCaresSum(_appData.readDataFile(dataYear, "C_214_sum"));
         }
         return _primaryDiagsSlipMcPdSum;
     }
     
     public List<DataQuality> getDataQuality(int dataYear) {
-        if(_dataQuality == null) {
+        if(_dataQuality == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _dataQuality = mapDataQuality(_appData.readDataFile(dataYear, "A_2_Datenqualitaet"));
         }
         return _dataQuality;
     }
     
     public List<UnspecificCoding> getUnspecificCoding(int dataYear) {
-        if(_unspecificCoding == null) {
+        if(_unspecificCoding == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _unspecificCoding = mapUnspecificCoding(_appData.readDataFile(dataYear, "A_3_Unspezif_Kodierung"));
         }
         return _unspecificCoding;
     }
     
     public List<Participation> getParticipation(int dataYear) {
-        if(_participation == null) {
+        if(_participation == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _participation = mapParticipation(_appData.readDataFile(dataYear, "A_1_KH"));
         }
         return _participation;
     }
     
     public List<Participation> getParticipationSum(int dataYear) {
-        if(_participationSum == null) {
+        if(_participationSum == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _participationSum = mapParticipationSum(_appData.readDataFile(dataYear, "A_1_sum"));
         }
         return _participationSum;
     }
     
     public List<SystemRated> getSystemRatedPdLessComplex(int dataYear) {
-        if(_systemRatedPdLessComplex == null) {
+        if(_systemRatedPdLessComplex == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _systemRatedPdLessComplex = getSystemRated(dataYear).stream().filter(c -> (c.getType() == 1)).collect(Collectors.toList());
         }
         return _systemRatedPdLessComplex;
     }
     
     public List<SystemRated> getSystemRatedPdComplex(int dataYear) {
-        if(_systemRatedPdComplex == null) {
+        if(_systemRatedPdComplex == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _systemRatedPdComplex = getSystemRated(dataYear).stream().filter(c -> (c.getType() == 3)).collect(Collectors.toList());
         }
         return _systemRatedPdComplex;
     }
     
     public List<SystemRated> getSystemRatedPdFrequently(int dataYear) {
-        if(_systemRatedPdFrequently == null) {
+        if(_systemRatedPdFrequently == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _systemRatedPdFrequently = getSystemRated(dataYear).stream().filter(c -> (c.getType() == 5)).collect(Collectors.toList());
         }
         return _systemRatedPdFrequently;
     }
     
     public List<SystemRated> getSystemRatedSlipMcLessComplex(int dataYear) {
-        if(_systemRatedSlipMcLessComplex == null) {
+        if(_systemRatedSlipMcLessComplex == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _systemRatedSlipMcLessComplex = getSystemRated(dataYear).stream().filter(c -> (c.getType() == 2)).collect(Collectors.toList());
         }
         return _systemRatedSlipMcLessComplex;
     }
     
     public List<SystemRated> getSystemRatedSlipMcComplex(int dataYear) {
-        if(_systemRatedSlipMcComplex == null) {
+        if(_systemRatedSlipMcComplex == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _systemRatedSlipMcComplex = getSystemRated(dataYear).stream().filter(c -> (c.getType() == 4)).collect(Collectors.toList());
         }
         return _systemRatedSlipMcComplex;
     }
     
     public List<SystemRated> getSystemRatedSlipMcFrequently(int dataYear) {
-        if(_systemRatedSlipMcFrequently == null) {
+        if(_systemRatedSlipMcFrequently == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _systemRatedSlipMcFrequently = getSystemRated(dataYear).stream().filter(c -> (c.getType() == 6)).collect(Collectors.toList());
         }
         return _systemRatedSlipMcFrequently;
     }
     
     private List<SystemRated> getSystemRated(int dataYear) {
-        if(_systemRated == null) {
+        if(_systemRated == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _systemRated = mapSystemRated(_appData.readDataFile(dataYear, "E"));
         }
         return _systemRated;
     }
     
     public List<PartialInpatientCare> getPartialInpatientCaresPdSum(int dataYear) {
-        if(_partialInpatientCaresPdSum == null) {
+        if(_partialInpatientCaresPdSum == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _partialInpatientCaresPdSum = mapPartInpatientCaresSum(_appData.readDataFile(dataYear, "D_1_sum"));
         }
         return _partialInpatientCaresPdSum;
     }
     
     public List<PartialInpatientCare> getPartialInpatientCaresProcSum(int dataYear) {
-        if(_partialInpatientCaresProcSum == null) {
+        if(_partialInpatientCaresProcSum == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _partialInpatientCaresProcSum = mapPartInpatientCaresSum(_appData.readDataFile(dataYear, "D_2_sum"));
         }
         return _partialInpatientCaresProcSum;
     }
     
     public List<SystemRated> getSystemRatedPdLessComplexSum(int dataYear) {
-        if(_systemRatedPdLessComplexSum == null)
+        if(_systemRatedPdLessComplexSum == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _systemRatedPdLessComplexSum = mapSystemRatedSum(_appData.readDataFile(dataYear, "E_1a_sum"));
+        }
         return _systemRatedPdLessComplexSum;
     }
     
     public List<SystemRated> getSystemRatedPdComplexSum(int dataYear) {
-        if(_systemRatedPdComplexSum == null)
+        if(_systemRatedPdComplexSum == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _systemRatedPdComplexSum = mapSystemRatedSum(_appData.readDataFile(dataYear, "E_2a_sum"));
+        }
         return _systemRatedPdComplexSum;
     }
     
     public List<SystemRated> getSystemRatedPdFrequentlySum(int dataYear) {
-        if(_systemRatedPdFrequentlySum == null)
+        if(_systemRatedPdFrequentlySum == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _systemRatedPdFrequentlySum = mapSystemRatedSum(_appData.readDataFile(dataYear, "E_3a_sum"));
+        }
         return _systemRatedPdFrequentlySum;
     }
     
     public List<SystemRated> getSystemRatedSlipMcLessComplexSum(int dataYear) {
-        if(_systemRatedSlipMcLessComplexSum == null)
+        if(_systemRatedSlipMcLessComplexSum == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _systemRatedSlipMcLessComplexSum = mapSystemRatedSum(_appData.readDataFile(dataYear, "E_1b_sum"));
+        }
         return _systemRatedSlipMcLessComplexSum;
     }
     
     public List<SystemRated> getSystemRatedSlipMcComplexSum(int dataYear) {
-        if(_systemRatedSlipMcComplexSum == null)
+        if(_systemRatedSlipMcComplexSum == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _systemRatedSlipMcComplexSum = mapSystemRatedSum(_appData.readDataFile(dataYear, "E_2b_sum"));
+        }
         return _systemRatedSlipMcComplexSum;
     }
     
     public List<SystemRated> getSystemRatedSlipMcFrequentlySum(int dataYear) {
-        if(_systemRatedSlipMcFrequentlySum == null)
+        if(_systemRatedSlipMcFrequentlySum == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _systemRatedSlipMcFrequentlySum = mapSystemRatedSum(_appData.readDataFile(dataYear, "E_3b_sum"));
+        }
         return _systemRatedSlipMcFrequentlySum;
     }
     
     public double getPercentHa(int dataYear) {
-        if(_percentHa == 0) {
+        if(_percentHa == 0 || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _percentHa = mapPercent(_appData.readDataFile(dataYear, "Proz_HA_BA"), 1);
         }
         return _percentHa;
     }
     
     public double getPercentBa(int dataYear) {
-        if(_percentBa == 0) {
+        if(_percentBa == 0 || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _percentBa = mapPercent(_appData.readDataFile(dataYear, "Proz_HA_BA"), 2);
         }
         return _percentBa;
@@ -578,42 +647,50 @@ public class Entities implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="sum">
     public List<C_111_211> getC_111_sum(int dataYear) {
-        if(_c_111_sum == null) {
+        if(_c_111_sum == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _c_111_sum = mapC_111_211_sum(_appData.readDataFile(dataYear, "C_111_sum"));
         }
         return _c_111_sum;
     }
 
     public List<C_111_211> getC_211_sum(int dataYear) {
-        if(_c_211_sum == null) {
+        if(_c_211_sum == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _c_211_sum = mapC_111_211_sum(_appData.readDataFile(dataYear, "C_211_sum"));
         }
         return _c_211_sum;
     }
 
     public List<C_112_212> getC_112_sum(int dataYear) {
-        if(_c_112_sum == null) {
+        if(_c_112_sum == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _c_112_sum = map_C_112_212_sum(_appData.readDataFile(dataYear, "C_112_sum"));
         }
         return _c_112_sum;
     }
 
     public List<C_112_212> getC_212_sum(int dataYear) {
-        if(_c_212_sum == null) {
+        if(_c_212_sum == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _c_212_sum = map_C_112_212_sum(_appData.readDataFile(dataYear, "C_212_sum"));
         }
         return _c_212_sum;
     }
 
     public List<C_113_213> getC_113_sum(int dataYear) {
-        if(_c_113_sum == null)
+        if(_c_113_sum == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _c_113_sum = mapC_113_213_sum(_appData.readDataFile(dataYear, "C_113_sum"));
+        }
         return _c_113_sum;
     }
 
     public List<C_113_213> getC_213_sum(int dataYear) {
-        if(_c_213_sum == null)
+        if(_c_213_sum == null || (dataYear != 0 && _dataYear != dataYear)) {
+            _dataYear = dataYear;
             _c_213_sum = mapC_113_213_sum(_appData.readDataFile(dataYear, "C_213_sum"));
+        }
         return _c_213_sum;
     }
     

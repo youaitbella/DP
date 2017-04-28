@@ -545,7 +545,7 @@ and open the template in the editor.
         </h:form>
         
         <p class="info-text">
-            Im Durchschnitt hat ein Fall <i><h:outputText value="#{entities.getPercentHa(param['dataYear'])}"><f:convertNumber type="percent" minFractionDigits="2"/></h:outputText></i> Prozeduren.
+            Im Durchschnitt hat ein Fall <i><h:outputText value="#{entities.getPercentHa(param['dataYear'])}"><f:convertNumber locale="de-De"></f:convertNumber></h:outputText></i> Prozeduren.
             <br/><br />
             ohne Duplikate<br/>
             ohne Mischfälle (Versorgung in Hauptabteilung und belegärztlicher Versorgung)

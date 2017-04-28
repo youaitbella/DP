@@ -27,7 +27,8 @@ import org.inek.portallib.structures.KeyValue;
 @ApplicationScoped
 public class ApplicationData {
 
-    public final static String BASE_PATH = "//vfileserver01/company$/EDV/Projekte/InEK-Browsers/Begleitforschung/";
+    public final static String BASE_PATH = "//vfileserver01/company$/EDV/Projekte/InEK-Browsers/BegleitforschungTest/";
+    private int _lastDataYear = 0;
 
     // <editor-fold defaultstate="collapsed" desc="States">
     private Map<Integer, String> _states;
@@ -83,7 +84,9 @@ public class ApplicationData {
     }
 
     public List<String[]> readDataFile(int dataYear, String fileName) {
-        File folder = new File(BASE_PATH, "" + dataYear);
+        if(dataYear != 0)
+            _lastDataYear = dataYear;
+        File folder = new File(BASE_PATH, "" + _lastDataYear);
         return readDataFile(folder, fileName);
     }
 

@@ -33,7 +33,7 @@
                                 filterBy="#{data.level}" filterMatchMode="contains">
                     <h:outputText id="sizegCell" value="#{data.level}"/>
                 </ace:column>
-                <ace:column styleClass="data-table-left" id="hospitalCount" headerText="Anzahl KH" sortBy="#{data.hospitalCount}"
+                <ace:column styleClass="data-table-right" id="hospitalCount" headerText="Anzahl KH" sortBy="#{data.hospitalCount}"
                             filterBy="#{data.hospitalCount}" filterMatchMode="contains">
                     <h:outputText id="hospitalCountCell" value="#{data.hospitalCount}">
                         <f:convertNumber pattern="###,###,###"/>

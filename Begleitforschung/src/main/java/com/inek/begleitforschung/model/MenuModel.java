@@ -92,6 +92,7 @@ public class MenuModel implements Serializable{
         node3.addChild("20 häufigste Fallgruppen", baseUrl+"/views/SystemRatedSlipMcFrequently.xhtml?dataYear="+_dataYear);
         
         _menuRoot.addChild("Download Daten", baseUrl + "?dataYear="+_dataYear+"&download=1");
+        _menuRoot.addChild("Download Handbuch "+_dataYear, baseUrl+"/resources/manual/G-DRG-Begleitforschungsbrowser"+_dataYear+".pdf");
     }
     
     public MenuTreeNode getMenuRoot() {
