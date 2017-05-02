@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import org.inek.dataportal.utils.Documentation;
 
 /**
  *
@@ -29,7 +30,7 @@ public class AutopsyItem implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cbaiId", updatable = false, nullable = false)
-    private int id;
+    private int id = -1;
 
     public AutopsyItem() {
     }
@@ -80,10 +81,16 @@ public class AutopsyItem implements Serializable {
         _autopsyServiceText = autopsyServiceText;
         _autopsyServiceTextId = autopsyServiceText.getId();
     }
+    @Documentation(name = "Bereich", rank = 10)
+    public String getAutopsyServiceTextText() {
+        return _autopsyServiceText.getText();
+    }
+
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property CountCases">
     @Column(name = "cbaiCountCases")
+    @Documentation(name = "Anzahl Fälle")
     private int _countCases;
 
     public int getCountCases() {
@@ -97,6 +104,7 @@ public class AutopsyItem implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property CostVolumeMedical">
     @Column(name = "cbaiCostVolumeMedical")
+    @Documentation(name = "hierfür abgegrenztes Kostenvolumen Ärztlicher Dienst der Pathologie")
     private int _costVolumeMedical;
 
     public int getCostVolumeMedical() {
@@ -110,6 +118,7 @@ public class AutopsyItem implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property CostVolumeOther">
     @Column(name = "cbaiCostVolumeOther")
+    @Documentation(name = "hierfür abgegrenztes Kostenvolumen übrige Personalkosten der Pathologie")
     private int _costVolumeOther;
 
     public int getCostVolumeOther() {
@@ -123,6 +132,7 @@ public class AutopsyItem implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property DescriptionAccrual">
     @Column(name = "cbaiDescriptionAccrual")
+    @Documentation(name = "Kurzbeschreibung des durchgeführten Abgrenzungsverfahrens")
     private String _descriptionAccrual = "";
 
     public String getDescriptionAccrual() {

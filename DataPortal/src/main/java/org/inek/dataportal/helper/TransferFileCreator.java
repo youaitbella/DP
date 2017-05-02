@@ -23,6 +23,7 @@ import java.util.zip.CheckedOutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import org.inek.dataportal.controller.SessionController;
+import org.inek.dataportal.entities.calc.autopsy.CalcBasicsAutopsy;
 import org.inek.dataportal.entities.calc.drg.DrgCalcBasics;
 import org.inek.dataportal.entities.calc.psy.PeppCalcBasics;
 import org.inek.dataportal.enums.ConfigKey;
@@ -42,9 +43,14 @@ public class TransferFileCreator {
         if (calcBasics instanceof DrgCalcBasics) {
             ik = ((DrgCalcBasics) calcBasics).getIk();
             type = "KGL";
-        } else {
+        } else if (calcBasics instanceof PeppCalcBasics){
             ik = ((PeppCalcBasics) calcBasics).getIk();
             type = "KGP";
+        } else if (calcBasics instanceof CalcBasicsAutopsy){
+            ik = ((CalcBasicsAutopsy) calcBasics).getIk();
+            type = "KGS";
+        }else{
+            throw new IllegalArgumentException("unknown object type: " + calcBasics);
         }
         File workingDir = new File(sessionController.getApplicationTools().readConfig(ConfigKey.FolderRoot), sessionController.getApplicationTools().readConfig(ConfigKey.FolderUpload));
         File targetDir = new File(sessionController.getApplicationTools().readConfig(ConfigKey.FolderRoot), "added");

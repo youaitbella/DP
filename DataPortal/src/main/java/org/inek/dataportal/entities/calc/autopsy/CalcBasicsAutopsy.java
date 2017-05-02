@@ -168,6 +168,7 @@ public class CalcBasicsAutopsy implements Serializable, StatusEntity {
 
     // <editor-fold defaultstate="collapsed" desc="Property HasCostCenterForensic">
     @Column(name = "cbaHasCostCenterForensic")
+    @Documentation(name = "Eigenständige Kostenstelle Rechtsmedizin vorhanden")
     private boolean _hasCostCenterForensic;
 
     public boolean getHasCostCenterForensic() {
@@ -492,6 +493,7 @@ public class CalcBasicsAutopsy implements Serializable, StatusEntity {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "cbaiCalcBasicsAutopsyId", referencedColumnName = "cbaId")
     @OrderBy("_autopsyServiceTextId")
+    @Documentation(name = "Leistungs- und Kosteninformationen")
     private List<AutopsyItem> _autopsyItems = new Vector<>();
 
     public List<AutopsyItem> getAutopsyItems() {
