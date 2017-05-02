@@ -1,6 +1,9 @@
 package org.inek.dataportal.entities.dropbox;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -42,7 +45,7 @@ public class DropBox implements Serializable {
     
     @Column(name = "dbSealed")
     @Temporal(value = javax.persistence.TemporalType.TIMESTAMP)
-    private Date _sealed;
+    private Date _sealed  = Date.from(LocalDate.of(2000, Month.JANUARY, 1).atStartOfDay().toInstant(ZoneOffset.UTC));
     
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "dbiDropBoxId", referencedColumnName = "dbId")
