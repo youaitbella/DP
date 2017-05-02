@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import org.inek.dataportal.entities.iface.BaseIdValue;
@@ -80,13 +81,14 @@ public class KGLListRadiologyLaboratory implements Serializable, BaseIdValue {
     // <editor-fold defaultstate="collapsed" desc="costCenterNumber">
     @Column(name = "rlCostCenterNumber")
     @Documentation (name = "Kostenstellen Nummer:", rank = 10)
-    private int _costCenterNumber;
+    private String _costCenterNumber = "";
 
-    public int getCostCenterNumber() {
+    @Max(20)
+    public String getCostCenterNumber() {
         return _costCenterNumber;
     }
 
-    public void setCostCenterNumber(int rlCostCenterNumber) {
+    public void setCostCenterNumber(String rlCostCenterNumber) {
         this._costCenterNumber = rlCostCenterNumber;
     }
     // </editor-fold>
@@ -288,7 +290,7 @@ public class KGLListRadiologyLaboratory implements Serializable, BaseIdValue {
 
         hash = 43 * hash + this._baseInformationId;
         hash = 43 * hash + this._costCenterId;
-        hash = 43 * hash + this._costCenterNumber;
+        hash = 43 * hash + _costCenterNumber.hashCode();
         hash = 43 * hash + Objects.hashCode(this._costCenterText);
         hash = 43 * hash + (this._serviceDocHome ? 1 : 0);
         hash = 43 * hash + (this._serviceDocDKG ? 1 : 0);

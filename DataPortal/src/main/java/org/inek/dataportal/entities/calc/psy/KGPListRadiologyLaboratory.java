@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Size;
 import org.inek.dataportal.entities.iface.BaseIdValue;
 import org.inek.dataportal.utils.Documentation;
@@ -62,13 +63,14 @@ public class KGPListRadiologyLaboratory implements Serializable, BaseIdValue {
     //<editor-fold defaultstate="collapsed" desc="Property _costCenterNumber">
     @Column(name = "rlCostCenterNumber")
     @Documentation(name = "Nummer der Kostenstelle", rank = 20)
-    private int _costCenterNumber;
+    private String _costCenterNumber = "";
 
-    public int getCostCenterNumber() {
+    @Max(20)
+    public String getCostCenterNumber() {
         return _costCenterNumber;
     }
 
-    public void setCostCenterNumber(int costCenterNumber) {
+    public void setCostCenterNumber(String costCenterNumber) {
         this._costCenterNumber = costCenterNumber;
     }
     //</editor-fold>
@@ -257,7 +259,7 @@ public class KGPListRadiologyLaboratory implements Serializable, BaseIdValue {
             return hash;
         }
         hash = 23 * hash + this._costCenterId;
-        hash = 23 * hash + this._costCenterNumber;
+        hash = 23 * hash + this._costCenterNumber.hashCode();
         hash = 23 * hash + Objects.hashCode(this._costCenterText);
         hash = 23 * hash + (this._serviceDocHome ? 1 : 0);
         hash = 23 * hash + (this._serviceDocDKG ? 1 : 0);
