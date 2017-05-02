@@ -13,7 +13,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import org.inek.dataportal.entities.iface.BaseIdValue;
@@ -65,7 +64,7 @@ public class KGLListCostCenter implements Serializable, BaseIdValue {
     @Documentation(name = "Nummer:", rank = 10)
     private String _costCenterNumber = "";
 
-    @Max(20)
+    @Size(max = 20)
     public String getCostCenterNumber() {
         return _costCenterNumber;
     }

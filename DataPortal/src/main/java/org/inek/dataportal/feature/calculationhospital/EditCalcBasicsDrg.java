@@ -382,23 +382,15 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     public List<KGLListRadiologyLaboratory> getLaboratories() {
-        List<KGLListRadiologyLaboratory> rls = new ArrayList<>();
-        for (KGLListRadiologyLaboratory rl : _calcBasics.getRadiologyLaboratories()) {
-            if (rl.getCostCenterId() == 10) {
-                rls.add(rl);
-            }
-        }
-        return rls;
+        return getRadLab(10);
     }
 
     public List<KGLListRadiologyLaboratory> getRadiologies() {
-        List<KGLListRadiologyLaboratory> rls = new ArrayList<>();
-        for (KGLListRadiologyLaboratory rl : _calcBasics.getRadiologyLaboratories()) {
-            if (rl.getCostCenterId() == 9) {
-                rls.add(rl);
-            }
-        }
-        return rls;
+        return getRadLab(9);
+    }
+
+    private List<KGLListRadiologyLaboratory> getRadLab(int costCenterId) {
+        return _calcBasics.getRadiologyLaboratories().stream().filter(c -> c.getCostCenterId() == costCenterId).collect(Collectors.toList());
     }
 
     private DrgCalcBasics newCalcBasicsDrg() {
@@ -1616,12 +1608,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                         KGLListRadiologyLaboratory radio = new KGLListRadiologyLaboratory();
                         radio.setBaseInformationId(_calcBasics.getId());
                         radio.setCostCenterId(9);
-                        try {
-                            radio.setCostCenterNumber(Integer.parseInt(values[0]));
-                        } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 1: " + Utils.getMessage("msgNotANumber") + "\\n";
-                            continue;
-                        }
+                        radio.setCostCenterNumber(values[0]);
                         radio.setCostCenterText(values[1]);
                         String service = values[2].toLowerCase();
                         if ("hauskatalog".equals(service)) {
@@ -1711,12 +1698,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                         KGLListRadiologyLaboratory radio = new KGLListRadiologyLaboratory();
                         radio.setBaseInformationId(_calcBasics.getId());
                         radio.setCostCenterId(10);
-                        try {
-                            radio.setCostCenterNumber(Integer.parseInt(values[0]));
-                        } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 1: " + Utils.getMessage("msgNotANumber") + "\\n";
-                            continue;
-                        }
+                        radio.setCostCenterNumber(values[0]);
                         radio.setCostCenterText(values[1]);
                         String service = values[2].toLowerCase();
                         if ("hauskatalog".equals(service)) {

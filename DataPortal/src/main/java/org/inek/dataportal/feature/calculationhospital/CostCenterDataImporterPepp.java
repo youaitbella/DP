@@ -62,7 +62,7 @@ public class CostCenterDataImporterPepp {
             KGPListCostCenter item = new KGPListCostCenter();
             item.setBaseInformationId(_calcBasics.getId());
             tryImportCostCenterId(item, data[0]);
-            tryImportCostCenterNumber(item, data[1]);
+            item.setCostCenterNumber(data[1]);
             item.setCostCenterText(data[2]);
             tryImportCostVolume(item, data[3]);
             tryImportFullVigorCnt(item, data[4]);
@@ -106,17 +106,6 @@ public class CostCenterDataImporterPepp {
             item.setCostCenterId(Integer.parseInt(dataString));
         } else{
             throw new IllegalArgumentException("Keine zulässige Kostenstellengruppe: " + dataString);
-        }
-    }
-
-    private void tryImportCostCenterNumber(KGPListCostCenter item, String dataString) {
-        try{
-            NumberFormat nf = NumberFormat.getInstance(Locale.GERMAN);
-            nf.setParseIntegerOnly(true);
-            int val = nf.parse(dataString).intValue();
-            item.setCostCenterNumber(val);
-        } catch (ParseException ex) {
-            throw new IllegalArgumentException("[Nummer der Kostenstelle] " + Utils.getMessage("msgNotANumber") + ": " + dataString);
         }
     }
 

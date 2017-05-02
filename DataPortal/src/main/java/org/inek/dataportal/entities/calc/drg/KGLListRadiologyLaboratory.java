@@ -13,7 +13,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import org.inek.dataportal.entities.iface.BaseIdValue;
@@ -83,13 +82,13 @@ public class KGLListRadiologyLaboratory implements Serializable, BaseIdValue {
     @Documentation (name = "Kostenstellen Nummer:", rank = 10)
     private String _costCenterNumber = "";
 
-    @Max(20)
+    @Size(max = 20)
     public String getCostCenterNumber() {
         return _costCenterNumber;
     }
 
-    public void setCostCenterNumber(String rlCostCenterNumber) {
-        this._costCenterNumber = rlCostCenterNumber;
+    public void setCostCenterNumber(String costCenterNumber) {
+        this._costCenterNumber = costCenterNumber;
     }
     // </editor-fold>
 

@@ -62,7 +62,7 @@ public class CostCenterDataImporter {
             KGLListCostCenter item = new KGLListCostCenter();
             item.setBaseInformationId(_calcBasics.getId());
             tryImportCostCenterId(item, data[0]);
-            tryImportCostCenterNumber(item, data[1]);
+            item.setCostCenterNumber(data[1]);
             item.setCostCenterText(data[2]);
             tryImportCostVolume(item, data[3]);
             tryImportFullVigorCnt(item, data[4]);
@@ -91,7 +91,7 @@ public class CostCenterDataImporter {
         for(KGLListCostCenter cc : _calcBasics.getCostCenters()) {
             if( cc.getAmount() == item.getAmount() &&
                     cc.getCostCenterId() == item.getCostCenterId() &&
-                    cc.getCostCenterNumber() == item.getCostCenterNumber() &&
+                    cc.getCostCenterNumber().equals(item.getCostCenterNumber()) &&
                     cc.getCostCenterText().equals(item.getCostCenterText()) &&
                     cc.getFullVigorCnt() == item.getFullVigorCnt() &&
                     cc.getServiceKey().equals(item.getServiceKey()) &&
@@ -108,17 +108,6 @@ public class CostCenterDataImporter {
             item.setCostCenterId(Integer.parseInt(dataString));
         } else{
             throw new IllegalArgumentException("Keine zulässige Kostenstellengruppe: " + dataString);
-        }
-    }
-
-    private void tryImportCostCenterNumber(KGLListCostCenter item, String dataString) {
-        try{
-            NumberFormat nf = NumberFormat.getInstance(Locale.GERMAN);
-            nf.setParseIntegerOnly(true);
-            int val = nf.parse(dataString).intValue();
-            item.setCostCenterNumber(val);
-        } catch (ParseException ex) {
-            throw new IllegalArgumentException("[Nummer der Kostenstelle] " + Utils.getMessage("msgNotAnInteger") + ": " + dataString);
         }
     }
 

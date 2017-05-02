@@ -14,7 +14,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.Size;
 import org.inek.dataportal.entities.iface.BaseIdValue;
 import org.inek.dataportal.utils.Documentation;
@@ -65,7 +64,7 @@ public class KGPListRadiologyLaboratory implements Serializable, BaseIdValue {
     @Documentation(name = "Nummer der Kostenstelle", rank = 20)
     private String _costCenterNumber = "";
 
-    @Max(20)
+    @Size(max = 20)
     public String getCostCenterNumber() {
         return _costCenterNumber;
     }
