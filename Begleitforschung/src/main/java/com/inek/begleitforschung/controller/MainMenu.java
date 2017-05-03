@@ -23,7 +23,7 @@ import org.inek.portallib.tree.MenuTreeNode;
 @RequestScoped
 public class MainMenu {
     
-    private final static String DATA_YEAR_DIR = ApplicationData.BASE_PATH;
+    private static final String DATA_YEAR_DIR = ApplicationData.BASE_PATH;
 
     public String callMenu(String url) {
         return url;

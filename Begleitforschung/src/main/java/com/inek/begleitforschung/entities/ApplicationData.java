@@ -27,15 +27,16 @@ import org.inek.portallib.structures.KeyValue;
 @ApplicationScoped
 public class ApplicationData {
 
-    public final static String BASE_PATH = "//vfileserver01/company$/EDV/Projekte/InEK-Browsers/BegleitforschungTest/";
+    public static final String BASE_PATH = "//vfileserver01/company$/EDV/Projekte/InEK-Browsers/BegleitforschungTest/";
     private int _lastDataYear = 0;
 
     // <editor-fold defaultstate="collapsed" desc="States">
     private Map<Integer, String> _states;
+
     public Map<Integer, String> obtainStateMap() {
-        if (_states == null){
+        if (_states == null) {
             List<String[]> data = readDataFile("Bundesland");
-             _states = data.stream().collect(Collectors.toMap(a -> Integer.parseInt(a[0]), a -> a[1]));
+            _states = data.stream().collect(Collectors.toMap(a -> Integer.parseInt(a[0]), a -> a[1]));
         }
         return _states;
     }
@@ -48,10 +49,11 @@ public class ApplicationData {
 
     // <editor-fold defaultstate="collapsed" desc="BedClasses">
     private Map<Integer, String> _bedClasses;
+
     public Map<Integer, String> obtainBedClassMap() {
-        if (_bedClasses == null){
+        if (_bedClasses == null) {
             List<String[]> data = readDataFile("Bettenstufe");
-             _bedClasses = data.stream().collect(Collectors.toMap(a -> Integer.parseInt(a[0]), a -> a[1]));
+            _bedClasses = data.stream().collect(Collectors.toMap(a -> Integer.parseInt(a[0]), a -> a[1]));
         }
         return _bedClasses;
     }
@@ -64,10 +66,11 @@ public class ApplicationData {
 
     // <editor-fold defaultstate="collapsed" desc="Responsibles">
     private Map<Integer, String> _responsibles;
+
     public Map<Integer, String> obtainResponsibleMap() {
-        if (_responsibles == null){
+        if (_responsibles == null) {
             List<String[]> data = readDataFile("Traeger");
-             _responsibles = data.stream().collect(Collectors.toMap(a -> Integer.parseInt(a[0]), a -> a[1]));
+            _responsibles = data.stream().collect(Collectors.toMap(a -> Integer.parseInt(a[0]), a -> a[1]));
         }
         return _responsibles;
     }
@@ -77,15 +80,16 @@ public class ApplicationData {
         return obtainResponsibleMap().entrySet().stream().map(e -> new KeyValue<>(e.getKey(), e.getValue())).collect(Collectors.toList());
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="read data">
     public List<String[]> readDataFile(String fileName) {
         return readDataFile(new File(BASE_PATH), fileName);
     }
 
     public List<String[]> readDataFile(int dataYear, String fileName) {
-        if(dataYear != 0)
+        if (dataYear != 0) {
             _lastDataYear = dataYear;
+        }
         File folder = new File(BASE_PATH, "" + _lastDataYear);
         return readDataFile(folder, fileName);
     }
