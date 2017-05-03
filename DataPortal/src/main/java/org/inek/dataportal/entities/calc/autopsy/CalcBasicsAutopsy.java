@@ -182,6 +182,7 @@ public class CalcBasicsAutopsy implements Serializable, StatusEntity {
 
     // <editor-fold defaultstate="collapsed" desc="Property FullVigorMedicalBeforeAccrual">
     @Column(name = "cbaFullVigorMedicalBeforeAccrual")
+    @Documentation(name="Anzahl Vollkräfte Ärztlicher Dienst vor Abgrenzung")
     private double _fullVigorMedicalBeforeAccrual;
 
     @Min.List({@Min(value = 0),
@@ -197,6 +198,7 @@ public class CalcBasicsAutopsy implements Serializable, StatusEntity {
 
     // <editor-fold defaultstate="collapsed" desc="Property FullVigorMedicalAfterAccrual">
     @Column(name = "cbaFullVigorMedicalAfterAccrual")
+    @Documentation(name="Anzahl Vollkräfte Ärztlicher Dienst nach Abgrenzung")
     private double _fullVigorMedicalAfterAccrual;
 
     @Min.List({@Min(value = 0),
