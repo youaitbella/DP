@@ -66,7 +66,8 @@ public class DataImporter<T extends BaseIdValue> implements Serializable {
                                         "Kostenvolumen ungültig: ")
                         ),
                         //s -> s.getKgpMedInfraList().stream().filter(t -> 170 == t.getCostTypeId()).collect(Collectors.toList()),
-                        (s, t) -> s.getKgpMedInfraList().add(t),
+                        //(s, t) -> s.getKgpMedInfraList().add(t),
+                        (s, t) -> s.addMedInfraItem(t),
                         KGPListMedInfra.class
                 );
             case "peppnonmedinfra":
@@ -108,7 +109,7 @@ public class DataImporter<T extends BaseIdValue> implements Serializable {
                                         },
                                         "Kostenvolumen ungültig: ")
                         ),
-                        (s, t) -> s.getKgpMedInfraList().add(t),
+                        (s, t) -> s.addMedInfraItem(t),
                         KGPListMedInfra.class
                 );
 
@@ -122,7 +123,8 @@ public class DataImporter<T extends BaseIdValue> implements Serializable {
 //
 //            )
 
-    DataImporter(String headLine, FileHolder fileHolder, ErrorCounter errorCounter, List<DataImportCheck<T, ?>> checker, BiConsumer<PeppCalcBasics, T> dataSink, Class<T> clazz) {
+    DataImporter(String headLine, FileHolder fileHolder, ErrorCounter errorCounter,
+            List<DataImportCheck<T, ?>> checker, BiConsumer<PeppCalcBasics, T> dataSink, Class<T> clazz) {
         this.headLine = headLine;
         this.fileHolder = fileHolder;
         this.errorCounter = errorCounter;

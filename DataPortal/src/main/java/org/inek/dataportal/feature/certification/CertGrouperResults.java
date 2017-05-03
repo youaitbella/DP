@@ -238,7 +238,9 @@ public class CertGrouperResults implements Serializable {
         if (mailType == null) {
             return false;
         }
-        return _elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(_grouper.getSystemId(), _grouper.getAccountId(), mailType.getId()).size() >= numofMails;
+        return _elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(
+                _grouper.getSystemId(), _grouper.getAccountId(), mailType.getId()
+        ).size() >= numofMails;
     }
 
     public String getReiceiver() {
@@ -422,8 +424,10 @@ public class CertGrouperResults implements Serializable {
     }
 
     public boolean renderReceivedCertificationEmail() {
-        return _elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(_grouper.getSystemId(), _grouper.getAccountId(), CertMailType.Certificate.getId()).isEmpty()
-                && _elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(_grouper.getSystemId(), _grouper.getAccountId(), CertMailType.Certified.getId()).size() > 0
+        return _elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(
+                        _grouper.getSystemId(), _grouper.getAccountId(), CertMailType.Certificate.getId()).isEmpty()
+                && _elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(
+                        _grouper.getSystemId(), _grouper.getAccountId(), CertMailType.Certified.getId()).size() > 0
                 && _grouper.getCertStatus() == CertStatus.CertSucceed;
     }
 
@@ -505,7 +509,13 @@ public class CertGrouperResults implements Serializable {
 
     public String sendCertificateEmail() {
         EmailLog el = new EmailLog();
-        if (_mailer.sendMailFrom(_mtFacade.findByName(_templateEmailCertificate).getFrom(), _receiverEmailCertificate, _mtFacade.findByName(_templateEmailCertificate).getBcc(), getEmailCertificateSubject(), getEmailCertificateBody())) {
+        if (_mailer.sendMailFrom(
+                _mtFacade.findByName(_templateEmailCertificate).getFrom(),
+                _receiverEmailCertificate,
+                _mtFacade.findByName(_templateEmailCertificate).getBcc(),
+                getEmailCertificateSubject(),
+                getEmailCertificateBody())) {
+
             el.setType(CertMailType.Certificate.getId());
             el.setReceiverAccountId(_accFacade.findByMailOrUser(_receiverEmailCertificate).getId());
             el.setSenderAccountId(_sessionController.getAccountId());

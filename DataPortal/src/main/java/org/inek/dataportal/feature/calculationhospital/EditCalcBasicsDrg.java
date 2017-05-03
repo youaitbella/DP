@@ -1,6 +1,5 @@
 package org.inek.dataportal.feature.calculationhospital;
 
-import org.inek.dataportal.helper.TransferFileCreator;
 import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.Field;
@@ -45,8 +44,8 @@ import org.inek.dataportal.entities.calc.drg.DrgContentText;
 import org.inek.dataportal.entities.calc.drg.DrgDelimitationFact;
 import org.inek.dataportal.entities.calc.drg.DrgHeaderText;
 import org.inek.dataportal.entities.calc.drg.DrgNeonatData;
-import org.inek.dataportal.entities.calc.drg.KGLListCentralFocus;
 import org.inek.dataportal.entities.calc.drg.KGLDocument;
+import org.inek.dataportal.entities.calc.drg.KGLListCentralFocus;
 import org.inek.dataportal.entities.calc.drg.KGLListContentTextOps;
 import org.inek.dataportal.entities.calc.drg.KGLListCostCenter;
 import org.inek.dataportal.entities.calc.drg.KGLListCostCenterCost;
@@ -55,8 +54,8 @@ import org.inek.dataportal.entities.calc.drg.KGLListEndoscopyDifferential;
 import org.inek.dataportal.entities.calc.drg.KGLListIntensivStroke;
 import org.inek.dataportal.entities.calc.drg.KGLListLocation;
 import org.inek.dataportal.entities.calc.drg.KGLListMedInfra;
-import org.inek.dataportal.entities.calc.drg.KGLListRadiologyLaboratory;
 import org.inek.dataportal.entities.calc.drg.KGLListObstetricsGynecology;
+import org.inek.dataportal.entities.calc.drg.KGLListRadiologyLaboratory;
 import org.inek.dataportal.entities.calc.drg.KGLListServiceProvision;
 import org.inek.dataportal.entities.calc.drg.KGLListServiceProvisionType;
 import org.inek.dataportal.entities.calc.drg.KGLListSpecialUnit;
@@ -65,9 +64,9 @@ import org.inek.dataportal.entities.calc.drg.KGLNormalFreelancer;
 import org.inek.dataportal.entities.calc.drg.KGLNormalStationServiceDocumentation;
 import org.inek.dataportal.entities.calc.drg.KGLNormalStationServiceDocumentationMinutes;
 import org.inek.dataportal.entities.calc.drg.KGLOpAn;
-import org.inek.dataportal.entities.calc.psy.KglPkmsAlternative;
 import org.inek.dataportal.entities.calc.drg.KGLPersonalAccounting;
 import org.inek.dataportal.entities.calc.drg.KGLRadiologyService;
+import org.inek.dataportal.entities.calc.psy.KglPkmsAlternative;
 import org.inek.dataportal.entities.iface.BaseIdValue;
 import org.inek.dataportal.enums.CalcHospitalFunction;
 import org.inek.dataportal.enums.ConfigKey;
@@ -78,6 +77,7 @@ import org.inek.dataportal.facades.calc.CalcFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.BeanValidator;
 import org.inek.dataportal.helper.ObjectUtils;
+import org.inek.dataportal.helper.TransferFileCreator;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.structures.FieldValues;
 import org.inek.dataportal.helper.structures.MessageContainer;
@@ -200,17 +200,18 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             calcBasics.getNormalStationServiceDocumentations().add(add);
         }
         calcBasics.getCostCenterCosts().clear();
-        _priorCalcBasics.getCostCenterCosts().stream().map((ccc) -> {
-            KGLListCostCenterCost c = new KGLListCostCenterCost();
-            c.setPrior(ccc);
-            c.setCostCenterText(ccc.getCostCenterText());
-            c.setCostCenter(ccc.getCostCenter());
-            c.setPriorId(ccc.getPriorId());
-            c.setDepartmentKey(ccc.getDepartmentKey());
-            return c;
-        }).forEachOrdered((c) -> {
-            calcBasics.getCostCenterCosts().add(c);
-        });
+        _priorCalcBasics.getCostCenterCosts().stream()
+                .map((ccc) -> {
+                    KGLListCostCenterCost c = new KGLListCostCenterCost();
+                    c.setPrior(ccc);
+                    c.setCostCenterText(ccc.getCostCenterText());
+                    c.setCostCenter(ccc.getCostCenter());
+                    c.setPriorId(ccc.getPriorId());
+                    c.setDepartmentKey(ccc.getDepartmentKey());
+                    return c;
+                }).forEachOrdered((c) -> {
+                    calcBasics.getCostCenterCosts().add(c);
+                });
     }
 
     private void preloadNormalWard(DrgCalcBasics calcBasics) {
@@ -1921,7 +1922,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }
         return "" + (data.getData().subtract(priorValue));
     }
-    // </editor-fold>    
+    // </editor-fold>
 
     public void deleteObstreticsGynecology(KGLListObstetricsGynecology item) {
         _calcBasics.getObstetricsGynecologies().remove(item);

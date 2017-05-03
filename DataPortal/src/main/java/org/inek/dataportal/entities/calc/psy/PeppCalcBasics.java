@@ -37,6 +37,7 @@ import javax.validation.constraints.Size;
 import org.inek.dataportal.entities.iface.StatusEntity;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.utils.Documentation;
+import org.inek.dataportal.utils.ListUtil;
 
 /**
  *
@@ -67,13 +68,13 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
     @Column(name = "biVersion")
     @Version
     private int _version;
-    
+
     @JsonIgnore
     public int getVersion(){
         return _version;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property DataYear">
     @Column(name = "biDataYear")
     @Documentation(key = "lblYearData", headline = "Allgemeine Informationen", rank = 20)
@@ -158,7 +159,7 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
         this._sealed = sealed;
     }
     //</editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property StatusId / Status">
     @Column(name = "biStatusId")
     private int _statusId;
@@ -519,7 +520,7 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
         this._iblvMethodMedInfra = iblvMethodMedInfra;
     }
     //</editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property _otherMethodMedInfra">
     @Column(name = "biOtherMethodMedInfra")
     @Documentation(name = "Gewähltes Verfahren bei Durchführung der IBLV", rank = 11010, translateValue = "0= ;1=Gleichungsverfahren;2=Stufenleiterverfahren;3=Anbauverfahren;4=Sonstige Vorgehensweise")
@@ -569,14 +570,14 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
     public List<KGPListMedInfra> getKgpMedInfraList() {
         return _kgpMedInfraList;
     }
-    
-    @Documentation(name = "Verrechnungsschlüssel und Kostenvolumen der Kostenstellen der medizinischen Infrastruktur",headline = "Ergänzende Angaben zur innerbetrieblichen Leistungsverrechnung (medizinische Infrastruktur)", rank = 10020) 
+
+    @Documentation(name = "Verrechnungsschlüssel und Kostenvolumen der Kostenstellen der medizinischen Infrastruktur",headline = "Ergänzende Angaben zur innerbetrieblichen Leistungsverrechnung (medizinische Infrastruktur)", rank = 10020)
     @JsonIgnore
     public List<KGPListMedInfra> getCostCenter170() {
         return _kgpMedInfraList.stream().filter(c -> c.getCostTypeId()== 170).collect(Collectors.toList());
     }
-    
-    @Documentation(name = "Verrechnungsschlüssel und Kostenvolumen der Kostenstellen der nicht medizinischen Infrastruktur",headline = "Ergänzende Angaben zur innerbetrieblichen Leistungsverrechnung (nicht medizinische Infrastruktur)", rank = 11020) 
+
+    @Documentation(name = "Verrechnungsschlüssel und Kostenvolumen der Kostenstellen der nicht medizinischen Infrastruktur",headline = "Ergänzende Angaben zur innerbetrieblichen Leistungsverrechnung (nicht medizinische Infrastruktur)", rank = 11020)
     @JsonIgnore
     public List<KGPListMedInfra> getCostCenter180() {
         return _kgpMedInfraList.stream().filter(c -> c.getCostTypeId()== 180).collect(Collectors.toList());
@@ -584,6 +585,18 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
 
     public void setKgpMedInfraList(List<KGPListMedInfra> kgpMedInfraList) {
         this._kgpMedInfraList = kgpMedInfraList;
+    }
+
+    public void addMedInfraItem(KGPListMedInfra item) {
+        KGPListMedInfra foundItem = ListUtil.findItem(_kgpMedInfraList, item, (a, b) ->
+                a.getCostCenterNumber().equals(b.getCostCenterNumber())
+                        && a.getCostCenterText().equals(b.getCostCenterText())
+                        && a.getKeyUsed().equals(b.getKeyUsed()));
+        if (foundItem != null) {
+            foundItem.setAmount(item.getAmount());
+        } else {
+            _kgpMedInfraList.add(item);
+        }
     }
     // </editor-fold>
 
@@ -605,7 +618,7 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
     //@OneToMany(cascade = CascadeType.ALL, mappedBy = "paBaseInformationId")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "paBaseInformationId", referencedColumnName = "biID")
-    @Documentation(name = "Gewähltes Verfahren für die Durchführung der Personalkostenverrechnung", rank = 12010, headline = "Ergänzende Angaben zur Personalkostenverrechnung") 
+    @Documentation(name = "Gewähltes Verfahren für die Durchführung der Personalkostenverrechnung", rank = 12010, headline = "Ergänzende Angaben zur Personalkostenverrechnung")
     @OrderBy(value = "_costTypeId")
     private List<KGPPersonalAccounting> _personalAccountings = new ArrayList<>();
 
@@ -622,7 +635,7 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
     //@OneToMany(cascade = CascadeType.ALL, mappedBy = "spBaseInformationId")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "spBaseInformationId", referencedColumnName = "biID")
-    @Documentation(name = "Leistungen", rank = 2000, headline = "(Externe) Leistungserbringung / Fremdvergabe") 
+    @Documentation(name = "Leistungen", rank = 2000, headline = "(Externe) Leistungserbringung / Fremdvergabe")
     @OrderBy(value = "_sequence")
     private List<KGPListServiceProvision> _serviceProvisions = new Vector<>();
 
@@ -644,20 +657,20 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
     public List<KGPListCostCenter> getCostCenters() {
         return _costCenters;
     }
-    
-    @Documentation(name = "Kostenstellen",headline = "Kostenstellengruppe 11 (Diagnostische Bereiche)", rank = 7000) 
+
+    @Documentation(name = "Kostenstellen",headline = "Kostenstellengruppe 11 (Diagnostische Bereiche)", rank = 7000)
     @JsonIgnore
     public List<KGPListCostCenter> getCostCenter11() {
         return _costCenters.stream().filter(c -> c.getCostCenterId() == 11).collect(Collectors.toList());
     }
-    
-    @Documentation(name = "Kostenstellen",headline = "Kostenstellengruppe 12 (Therapeutische Verfahren)", rank = 8000) 
+
+    @Documentation(name = "Kostenstellen",headline = "Kostenstellengruppe 12 (Therapeutische Verfahren)", rank = 8000)
     @JsonIgnore
     public List<KGPListCostCenter> getCostCenter12() {
         return _costCenters.stream().filter(c -> c.getCostCenterId() == 12).collect(Collectors.toList());
     }
-    
-    @Documentation(name = "Kostenstellen",headline = "Kostenstellengruppe 13 (Patientenaufnahme)", rank = 9000) 
+
+    @Documentation(name = "Kostenstellen",headline = "Kostenstellengruppe 13 (Patientenaufnahme)", rank = 9000)
     @JsonIgnore
     public List<KGPListCostCenter> getCostCenter13() {
         return _costCenters.stream().filter(c -> c.getCostCenterId() == 13).collect(Collectors.toList());
@@ -704,7 +717,7 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
     //@OneToMany(cascade = CascadeType.ALL, mappedBy = "seBaseInformationId")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "saBaseInformationId", referencedColumnName = "biID")
-    @Documentation(name = "ListStationAlternative", rank = 20005) 
+    @Documentation(name = "ListStationAlternative", rank = 20005)
     private List<KGPListStationAlternative> _kgpStationDepartmentList = new Vector<>();
 
     public List<KGPListStationAlternative> getKgpStationDepartmentList() {
@@ -726,19 +739,19 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
     public List<KGPListRadiologyLaboratory> getRadiologyLaboratories() {
         return _radiologyLaboratories;
     }
-    
-    @Documentation(name = "Kostenstellen",headline = "Kostenstellengruppe 9 (Radiologie)", rank = 5000) 
+
+    @Documentation(name = "Kostenstellen",headline = "Kostenstellengruppe 9 (Radiologie)", rank = 5000)
     @JsonIgnore
     public List<KGPListRadiologyLaboratory> getRadiologyLaboratories9() {
         return _radiologyLaboratories.stream().filter(c -> c.getCostCenterId() == 9).collect(Collectors.toList());
     }
-    
-    @Documentation(name = "Kostenstellen",headline = "Kostenstellengruppe 10 (Laboratorien)", rank = 6000) 
+
+    @Documentation(name = "Kostenstellen",headline = "Kostenstellengruppe 10 (Laboratorien)", rank = 6000)
     @JsonIgnore
     public List<KGPListRadiologyLaboratory> getRadiologyLaboratories10() {
         return _radiologyLaboratories.stream().filter(c -> c.getCostCenterId() == 10).collect(Collectors.toList());
     }
-    
+
     public void setRadiologyLaboratories(List<KGPListRadiologyLaboratory> radiologyLaboratories) {
         this._radiologyLaboratories = radiologyLaboratories;
     }
