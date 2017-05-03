@@ -149,8 +149,9 @@ public class DataImporter<T extends BaseIdValue> implements Serializable {
 
             String header = scanner.nextLine();
             if (!headLine.equals(header)) {
-                throw new IllegalArgumentException("Datei hat falsches Format, erwartete Kopfzeile " + headLine
+                errorCounter.addRowErrorMsg("Datei hat falsches Format, erwartete Kopfzeile " + headLine
                         + " aber geliefert " + header);
+                return;
             }
 
             while (scanner.hasNextLine()) {
