@@ -856,15 +856,24 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
         return _radiologyLaboratories;
     }
     
+    public void deleteLaboratories() {
+        _radiologyLaboratories.removeAll(getLaboratories());
+    }
+
+    public void deleteRadiologies() {
+        _radiologyLaboratories.removeAll(getRadiologies());
+    }
+
+    
     @Documentation(name = "Kostenstellen",headline = "Kostenstellengruppe 9 (Radiologie)", rank = 7000) 
     @JsonIgnore
-    public List<KGLListRadiologyLaboratory> getLaboratoryType9() {
+    public List<KGLListRadiologyLaboratory> getRadiologies() {
         return _radiologyLaboratories.stream().filter(c -> c.getCostCenterId() == 9).collect(Collectors.toList());
     }
     
     @Documentation(name = "Kostenstellen",headline = "Kostenstellengruppe 10 (Laboratorien)", rank = 8000) 
     @JsonIgnore
-    public List<KGLListRadiologyLaboratory> getLaboratoryType10() {
+    public List<KGLListRadiologyLaboratory> getLaboratories() {
         return _radiologyLaboratories.stream().filter(c -> c.getCostCenterId() == 10).collect(Collectors.toList());
     }
 

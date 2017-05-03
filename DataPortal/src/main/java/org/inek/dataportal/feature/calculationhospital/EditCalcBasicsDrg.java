@@ -521,16 +521,12 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     public void addLaboratory() {
-        KGLListRadiologyLaboratory rl = new KGLListRadiologyLaboratory();
-        rl.setBaseInformationId(_calcBasics.getId());
-        rl.setCostCenterId(10);
+        KGLListRadiologyLaboratory rl = new KGLListRadiologyLaboratory(_calcBasics.getId(), 10);
         _calcBasics.getRadiologyLaboratories().add(rl);
     }
 
     public void addRadiology() {
-        KGLListRadiologyLaboratory rl = new KGLListRadiologyLaboratory();
-        rl.setBaseInformationId(_calcBasics.getId());
-        rl.setCostCenterId(9);
+        KGLListRadiologyLaboratory rl = new KGLListRadiologyLaboratory(_calcBasics.getId(), 9);
         _calcBasics.getRadiologyLaboratories().add(rl);
     }
 
@@ -538,6 +534,15 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         _calcBasics.getRadiologyLaboratories().remove(rl);
     }
 
+    public void deleteLaboratories() {
+        _calcBasics.deleteLaboratories();
+    }
+
+    public void deleteRadiologies() {
+        _calcBasics.deleteRadiologies();
+    }
+
+    
     public void addNormalStationServiceDocMinutes() {
         KGLNormalStationServiceDocumentationMinutes min = new KGLNormalStationServiceDocumentationMinutes();
         min.setBaseInformationId(_calcBasics.getId());
@@ -1393,6 +1398,10 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     private String _importMessage = "";
 
     public String getImportMessage() {
+        return _importMessage;
+    }
+
+    public String getDummyImportMessage() {
         return _importMessage;
     }
 
