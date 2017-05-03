@@ -166,20 +166,6 @@ public class CalcBasicsAutopsy implements Serializable, StatusEntity {
     }
     //</editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property HasCostCenterForensic">
-    @Column(name = "cbaHasCostCenterForensic")
-    @Documentation(name = "Eigenständige Kostenstelle Rechtsmedizin vorhanden")
-    private boolean _hasCostCenterForensic;
-
-    public boolean getHasCostCenterForensic() {
-        return _hasCostCenterForensic;
-    }
-
-    public void setHasCostCenterForensic(boolean hasCostCenterForensic) {
-        _hasCostCenterForensic = hasCostCenterForensic;
-    }
-    // </editor-fold>
-
     // <editor-fold defaultstate="collapsed" desc="Property FullVigorMedicalBeforeAccrual">
     @Column(name = "cbaFullVigorMedicalBeforeAccrual")
     @Documentation(name="Anzahl Vollkräfte Ärztlicher Dienst vor Abgrenzung")
@@ -214,6 +200,7 @@ public class CalcBasicsAutopsy implements Serializable, StatusEntity {
 
     // <editor-fold defaultstate="collapsed" desc="Property CostVolumeMedicalBeforeAccrual">
     @Column(name = "cbaCostVolumeMedicalBeforeAccrual")
+    @Documentation(name="Kostenvolumen Ärztlicher Dienst vor Abgrenzung")
     private int _costVolumeMedicalBeforeAccrual;
 
     @Min.List({@Min(value = 0),
@@ -229,6 +216,7 @@ public class CalcBasicsAutopsy implements Serializable, StatusEntity {
 
     // <editor-fold defaultstate="collapsed" desc="Property CostVolumeMedicalAfterAccrual">
     @Column(name = "cbaCostVolumeMedicalAfterAccrual")
+    @Documentation(name="Kostenvolumen Ärztlicher Dienst nach Abgrenzung")
     private int _costVolumeMedicalAfterAccrual;
 
     @Min.List({@Min(value = 0),
@@ -244,6 +232,7 @@ public class CalcBasicsAutopsy implements Serializable, StatusEntity {
 
     // <editor-fold defaultstate="collapsed" desc="Property FullVigorOtherBeforeAccrual">
     @Column(name = "cbaFullVigorOtherBeforeAccrual")
+    @Documentation(name="Anzahl Vollkräfte Sektionsgehilfen/Präparator etc. vor Abgrenzung" , headline = "Pathologie: Kosteninformationen")
     private double _fullVigorOtherBeforeAccrual;
 
     @Min.List({@Min(value = 0),
@@ -259,6 +248,7 @@ public class CalcBasicsAutopsy implements Serializable, StatusEntity {
 
     // <editor-fold defaultstate="collapsed" desc="Property FullVigorOtherAfterAccrual">
     @Column(name = "cbaFullVigorOtherAfterAccrual")
+    @Documentation(name="Anzahl Vollkräfte Sektionsgehilfen/Präparator etc. nach Abgrenzung")
     private double _fullVigorOtherAfterAccrual;
 
     @Min.List({@Min(value = 0),
@@ -274,6 +264,7 @@ public class CalcBasicsAutopsy implements Serializable, StatusEntity {
 
     // <editor-fold defaultstate="collapsed" desc="Property CostVolumeOtherBeforeAccrual">
     @Column(name = "cbaCostVolumeOtherBeforeAccrual")
+    @Documentation(name="Kostenvolumen Sektionsgehilfen/Präparator etc. vor Abgrenzung")
     private int _costVolumeOtherBeforeAccrual;
 
     @Min.List({@Min(value = 0),
@@ -289,6 +280,7 @@ public class CalcBasicsAutopsy implements Serializable, StatusEntity {
 
     // <editor-fold defaultstate="collapsed" desc="Property CostVolumeOtherAfterAccrual">
     @Column(name = "cbaCostVolumeOtherAfterAccrual")
+    @Documentation(name="Kostenvolumen Sektionsgehilfen/Präparator etc. nach Abgrenzung")
     private int _costVolumeOtherAfterAccrual;
 
     @Min.List({@Min(value = 0),
@@ -304,6 +296,7 @@ public class CalcBasicsAutopsy implements Serializable, StatusEntity {
 
     // <editor-fold defaultstate="collapsed" desc="Property CostVolumeMedicalInfraBeforeAccrual">
     @Column(name = "cbaCostVolumeMedicalInfraBeforeAccrual")
+    @Documentation(name = "Kostenvolumen medizinische Infrastruktur vor Abgrenzung")
     private int _costVolumeMedicalInfraBeforeAccrual;
 
     @Min.List({@Min(value = 0),
@@ -319,6 +312,7 @@ public class CalcBasicsAutopsy implements Serializable, StatusEntity {
 
     // <editor-fold defaultstate="collapsed" desc="Property CostVolumeMedicalInfraAfterAccrual">
     @Column(name = "cbaCostVolumeMedicalInfraAfterAccrual")
+    @Documentation(name="Kostenvolumen medizinische Infrastruktur nach Abgrenzung")
     private int _costVolumeMedicalInfraAfterAccrual;
 
     @Min.List({@Min(value = 0),
@@ -334,6 +328,7 @@ public class CalcBasicsAutopsy implements Serializable, StatusEntity {
 
     // <editor-fold defaultstate="collapsed" desc="Property CostVolumeNonMedicalInfraBeforeAccrual">
     @Column(name = "cbaCostVolumeNonMedicalInfraBeforeAccrual")
+    @Documentation(name="Kostenvolumen nicht medizinische Infrastruktur vor Abgrenzung")
     private int _costVolumeNonMedicalInfraBeforeAccrual;
 
     @Min.List({@Min(value = 0),
@@ -349,6 +344,7 @@ public class CalcBasicsAutopsy implements Serializable, StatusEntity {
 
     // <editor-fold defaultstate="collapsed" desc="Property CostVolumeNonMedicalInfraAfterAccrual">
     @Column(name = "cbaCostVolumeNonMedicalInfraAfterAccrual")
+    @Documentation(name="Kostenvolumen nicht medizinische Infrastruktur nach Abgrenzung")
     private int _costVolumeNonMedicalInfraAfterAccrual;
 
     @Min.List({@Min(value = 0),
@@ -362,38 +358,23 @@ public class CalcBasicsAutopsy implements Serializable, StatusEntity {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property TotalAutopsys">
-    @Column(name = "cbaTotalAutopsys")
-    private int _totalAutopsys;
+    // <editor-fold defaultstate="collapsed" desc="Property HasCostCenterForensic">
+    @Column(name = "cbaHasCostCenterForensic")
+    @Documentation(name = "Eigenständige Kostenstelle Rechtsmedizin vorhanden", headline = "Rechtsmedizin: Kosteninformationen")
+    private boolean _hasCostCenterForensic;
 
-    @Min.List({@Min(value = 0),
-        @Min(value = 1, groups = {Seal.class}, message = "Bitte angeben")})
-    public int getTotalAutopsys() {
-        return _totalAutopsys;
+    public boolean getHasCostCenterForensic() {
+        return _hasCostCenterForensic;
     }
 
-    public void setTotalAutopsys(int value) {
-        _totalAutopsys = value;
-    }
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Property CalcAutopsys">
-    @Column(name = "cbaCalcAutopsys")
-    private int _calcAutopsys;
-
-    @Min.List({@Min(value = 0),
-        @Min(value = 1, groups = {Seal.class}, message = "Bitte angeben")})
-    public int getCalcAutopsys() {
-        return _calcAutopsys;
-    }
-
-    public void setCalcAutopsys(int calcAutopsys) {
-        _calcAutopsys = calcAutopsys;
+    public void setHasCostCenterForensic(boolean hasCostCenterForensic) {
+        _hasCostCenterForensic = hasCostCenterForensic;
     }
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property CostVolumeForensic">
     @Column(name = "cbaCostVolumeForensic")
+    @Documentation(name="Kostenvolumen Rechtsmedizin vor Abgrenzung")
     private int _costVolumeForensic;
 
     @Min.List({@Min(value = 0),
@@ -409,6 +390,7 @@ public class CalcBasicsAutopsy implements Serializable, StatusEntity {
 
     // <editor-fold defaultstate="collapsed" desc="Property CostVolumeForensicAccural">
     @Column(name = "cbaCostVolumeForensicAccural")
+    @Documentation(name="Kostenvolumen Rechtsmedizin nach Abgrenzung")
     private int _costVolumeForensicAccural;
 
     @Min.List({@Min(value = 0),
@@ -422,8 +404,42 @@ public class CalcBasicsAutopsy implements Serializable, StatusEntity {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property CostVolumeLaboratoryBeforeAccrual">
+   // <editor-fold defaultstate="collapsed" desc="Property TotalAutopsys">
+    @Column(name = "cbaTotalAutopsys")
+    @Documentation(name="Anzahl insgesamt durchgeführter klinischer Sektionen" , headline = "Pathologie: Leistungs- und Kosteninformationen")
+    private int _totalAutopsys;
+
+    @Min.List({@Min(value = 0),
+        @Min(value = 1, groups = {Seal.class}, message = "Bitte angeben")})
+    public int getTotalAutopsys() {
+        return _totalAutopsys;
+    }
+
+    public void setTotalAutopsys(int value) {
+        _totalAutopsys = value;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property CalcAutopsys">
+    @Column(name = "cbaCalcAutopsys")
+    @Documentation(name="davon: kalkulationsrelevante Anzahl")
+    private int _calcAutopsys;
+
+    @Min.List({@Min(value = 0),
+        @Min(value = 1, groups = {Seal.class}, message = "Bitte angeben")})
+    public int getCalcAutopsys() {
+        return _calcAutopsys;
+    }
+
+    public void setCalcAutopsys(int calcAutopsys) {
+        _calcAutopsys = calcAutopsys;
+    }
+    // </editor-fold>
+
+     // <editor-fold defaultstate="collapsed" desc="Property CostVolumeLaboratoryBeforeAccrual">
     @Column(name = "cbaCostVolumeLaboratoryBeforeAccrual")
+    @Documentation(name="Kostenvolumen Kostenstellengruppe 10 (Labor) für klinische Sektionen vor Abgrenzung", rank = 200,
+            headline = "Weitere Leistungsbereiche: Kosten- und Leistungsinformationen")
     private int _costVolumeLaboratoryBeforeAccrual;
 
     @Min.List({@Min(value = 0),
@@ -439,6 +455,7 @@ public class CalcBasicsAutopsy implements Serializable, StatusEntity {
 
     // <editor-fold defaultstate="collapsed" desc="Property CostVolumeLaboratoryAfterAccrual">
     @Column(name = "cbaCostVolumeLaboratoryAfterAccrual")
+    @Documentation(name="Kostenvolumen Kostenstellengruppe 10 (Labor) für klinische Sektionen nach Abgrenzung", rank=200)
     private int _costVolumeLaboratoryAfterAccrual;
 
     @Min.List({@Min(value = 0),
@@ -454,6 +471,7 @@ public class CalcBasicsAutopsy implements Serializable, StatusEntity {
 
     // <editor-fold defaultstate="collapsed" desc="Property CaseCountXRay">
     @Column(name = "cbaCaseCountXRay")
+    @Documentation(name = "Anzahl Fälle mit Röntgenleistungen für klinische Sektionen", rank=200)
     private int _caseCountXRay;
 
     public int getCaseCountXRay() {
@@ -467,6 +485,7 @@ public class CalcBasicsAutopsy implements Serializable, StatusEntity {
 
     // <editor-fold defaultstate="collapsed" desc="Property cbaCostVolumeXRayBeforeAccrual">
     @Column(name = "cbaCostVolumeXRayBeforeAccrual")
+    @Documentation(name="Kostenvolumen Kostenstellengruppe 9 (Radiologie) für klinische Sektionen vor Abgrenzung", rank=200)
     private int _costVolumeXRayBeforeAccrual;
 
     public int getCostVolumeXRayBeforeAccrual() {
@@ -480,6 +499,7 @@ public class CalcBasicsAutopsy implements Serializable, StatusEntity {
 
     // <editor-fold defaultstate="collapsed" desc="Property CostVolumeXRayAfterAccrual">
     @Column(name = "cbaCostVolumeXRayAfterAccrual")
+    @Documentation(name="Kostenvolumen Kostenstellengruppe 9 (Radiologie) für klinische Sektionen nach Abgrenzung", rank=200)
     private int _costVolumeXRayAfterAccrual;
 
     public int getCostVolumeXRayAfterAccrual() {
