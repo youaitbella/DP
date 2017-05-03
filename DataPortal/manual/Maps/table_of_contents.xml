@@ -232,6 +232,9 @@
       <topicref type="topic" id="427595416159886" build="ALL" modified="2017-02-22T17:15:52.234Z" icon="0" href="CalculationBasiscsPsy">
         <caption translate="true">Kalkulationsgrundlage PSY</caption>
       </topicref>
+      <topicref type="topic" id="428576096113991" build="ALL" modified="2017-05-02T17:19:33.494Z" icon="0" href="CalculationBasiscsAutopsy">
+        <caption translate="true">Kalkulationsgrundlage OBD</caption>
+      </topicref>
       <topicref type="topic" id="427866033856711" build="ALL" modified="2017-02-22T10:29:53.547Z" icon="0" href="ClinicalDistributionModel">
         <caption translate="true">Klinische Verteilungsmodelle (KVM)</caption>
       </topicref>

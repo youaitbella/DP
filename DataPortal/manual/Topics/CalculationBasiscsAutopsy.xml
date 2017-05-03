@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Kalkulationsgrundlage OBD</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Kalkulationsgrundlage OBD</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sofern Sie für ein Haus eine Teilnahmeerklärung für den Bereich OBD (Obduktion bzw. klinische Sektion) an das InEK gesendet haben, können Sie für dieses Haus mittels </text><text styleclass="Button" translate="true">[ neue Kalk.Grundlage OBD ]</text><text styleclass="Normal" translate="true"> die Kalkulationsgrundlagen OBD erfassen. Haben Sie für das Haus die Kalkulationsgrundlagen bereits in Arbeit oder an das InEK gesendet, können Sie für dieses Haus keine neuen Kalkulationsgrundlagen mehr anlegen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="CalcBasicsObd01.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Kalkulationsgrundlage OBD (klin. Sektion, oberer Ausschnitt)</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="CalcBasicsObd02.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Kalkulationsgrundlage OBD (klin. Sektion, unterer Ausschnitt)</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Der Eingabedialog unterscheidet zwischen Pflicht- und Kannfeldern. Pflichtfelder sind gesondert markiert und müssen vor dem Senden ans InEK mit einem Wert größer Null gefüllt sein. Andernfalls werden fehlende Felder entsprechend markiert. Füllen Sie den Dialog entsprechend den Feldbeschriftungen aus.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Abhängig davon, ob eine eigenständige Kostenstelle Rechtsmedizin vorhanden ist, sind entweder hierfür Kostenwerte anzugeben oder aber </text><text styleclass="Normal" style="font-style:italic;" translate="true">Leistungen für gerichtlich angeordnete Sektionen</text><text styleclass="Normal" translate="true">. Die entsprechenden Eingabefelder werden abhängig von dem Ankreuzfeld dynamisch ein- oder ausgeblendet.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sie können die Daten jederzeit </text><text styleclass="Button" translate="true">[ Speichern ]</text><text styleclass="Normal" translate="true">. Erst, wenn Sie die Daten </text><text styleclass="Button" translate="true">[ ans InEK senden ]</text><text styleclass="Normal" translate="true"> möchten, erfolgt die Prüfung auf Vollständigkeit. Sofern vollständig, werden die Daten so gespeichert, dass sie beim InEK in die weitere Verarbeitung gelangen. Damit sind die Daten nicht mehr änderbar. </text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Bei den Kalkulationsgrundlagen kann es erforderlich werden, diese nochmals zu überarbeiten und an das InEK zu senden. Mittels [ Datensatz ändern ] legen Sie eine Kopie Ihrer Daten an, die Sie dann erneut bearbeiten können. Die vorher an das InEK gesendete Version bleibt dabei erhalten und ist mit Status &quot;zurückgezogen&quot; weiterhin sichtbar.</text></para>
+  </body>
+</topic>

@@ -11,6 +11,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
@@ -23,6 +24,7 @@ import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.admin.MailTemplate;
+import org.inek.dataportal.entities.calc.autopsy.AutopsyItem;
 import org.inek.dataportal.entities.calc.autopsy.AutopsyServiceText;
 import org.inek.dataportal.entities.calc.autopsy.CalcBasicsAutopsy;
 import org.inek.dataportal.enums.CalcHospitalFunction;
@@ -207,21 +209,21 @@ public class EditCalcBasicsAutopsy extends AbstractEditController implements Ser
     }
 
     public boolean isSealEnabled() {
-        if (!_appTools.isEnabled(ConfigKey.IsDistributionModelSendEnabled)) {
+        if (!_appTools.isEnabled(ConfigKey.IsCalculationBasicsObdSendEnabled)) {
             return false;
         }
         return _cooperationTools.isSealedEnabled(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId());
     }
 
     public boolean isApprovalRequestEnabled() {
-        if (!_appTools.isEnabled(ConfigKey.IsDistributionModelSendEnabled)) {
+        if (!_appTools.isEnabled(ConfigKey.IsCalculationBasicsObdSendEnabled)) {
             return false;
         }
         return _cooperationTools.isApprovalRequestEnabled(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId());
     }
 
     public boolean isRequestCorrectionEnabled() {
-        if (!_appTools.isEnabled(ConfigKey.IsDistributionModelSendEnabled)) {
+        if (!_appTools.isEnabled(ConfigKey.IsCalculationBasicsObdSendEnabled)) {
             return false;
         }
         return (_calcBasics.getStatus() == WorkflowStatus.Provided || _calcBasics.getStatus() == WorkflowStatus.ReProvided)
@@ -292,11 +294,27 @@ public class EditCalcBasicsAutopsy extends AbstractEditController implements Ser
         if (_sessionController.isInekUser(Feature.CALCULATION_HOSPITAL) && !_appTools.isEnabled(ConfigKey.TestMode)) {
             return false;
         }
-        return !_calcFacade.existActiveCalcBasicsDrg(_calcBasics.getIk());
+        return !_calcFacade.existActiveCalcBasicsAutopsy(_calcBasics.getIk());
     }
 
-    @SuppressWarnings("unchecked")
     public void copyForResend() {
+        _calcBasics.setStatus(WorkflowStatus.Retired);
+        _calcFacade.saveCalcBasicsAutopsy(_calcBasics);
+
+        _calcFacade.detach(_calcBasics);
+        _calcBasics.setId(-1);
+        _calcBasics.setStatus(WorkflowStatus.New);
+        _calcBasics.setAccountId(_sessionController.getAccountId());
+        for (AutopsyItem item : _calcBasics.getAutopsyItems()) {
+            item.setId(-1);
+            item.setCalcBasicsAutopsyId(-1);
+        }
+        _calcBasics.setStatus(WorkflowStatus.CorrectionRequested);
+        try {
+            _calcBasics = _calcFacade.saveCalcBasicsAutopsy(_calcBasics);
+        } catch (Exception ex) {
+            LOGGER.log(Level.WARNING, "Exception during setDataToNew: {0}", ex.getMessage());
+        }
     }
 
     /**

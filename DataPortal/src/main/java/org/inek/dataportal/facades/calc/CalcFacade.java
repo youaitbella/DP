@@ -1022,6 +1022,14 @@ public class CalcFacade extends AbstractDataAccess {
     public void delete(CalcBasicsAutopsy calcBasics) {
         remove(calcBasics);
     }
+
+    public boolean existActiveCalcBasicsAutopsy(int ik) {
+        String jpql = "select c from CalcBasicsAutopsy c where c._ik = :ik and c._dataYear = :year and c._statusId < 10";
+        TypedQuery<StatementOfParticipance> query = getEntityManager().createQuery(jpql, StatementOfParticipance.class);
+        query.setParameter("ik", ik);
+        query.setParameter("year", Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
+        return !query.getResultList().isEmpty();
+    }
     //</editor-fold>
 
     private void saveIdList(List<? extends BaseIdValue> list) {
