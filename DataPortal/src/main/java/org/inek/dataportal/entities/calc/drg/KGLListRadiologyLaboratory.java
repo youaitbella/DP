@@ -308,7 +308,7 @@ public class KGLListRadiologyLaboratory implements Serializable, BaseIdValue {
         if (this._costCenterId != other._costCenterId) {
             return false;
         }
-        if (this._costCenterNumber != other._costCenterNumber) {
+        if (this._costCenterNumber.equals(other._costCenterNumber)) {
             return false;
         }
         if (this._serviceDocHome != other._serviceDocHome) {

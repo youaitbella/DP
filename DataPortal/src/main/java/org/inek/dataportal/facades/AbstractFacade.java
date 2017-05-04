@@ -37,7 +37,7 @@ public abstract class AbstractFacade<T> {
         _entityClass = entityClass;
     }
 
-    public static Logger getLOGGER() {
+    public static Logger getLogger() {
         return LOGGER;
     }
 

@@ -136,18 +136,9 @@ public class KGLListMedInfra implements Serializable, BaseIdValue {
     public KGLListMedInfra() {
     }
 
-    public KGLListMedInfra(Integer miID) {
-        this._id = miID;
-    }
-
-    public KGLListMedInfra(Integer miID, int miCostTypeID, String miCostCenter, String miCostCenterText, String miKeyUsed, int miAmount, int baseInfo) {
-        this._id = miID;
-        this._costTypeId = miCostTypeID;
-        this._costCenterNumber = miCostCenter;
-        this._costCenterText = miCostCenterText;
-        this._keyUsed = miKeyUsed;
-        this._amount = miAmount;
-        this._baseInformationId = baseInfo;
+    public KGLListMedInfra(int baseInformationId, int costTypeId) {
+        _baseInformationId = baseInformationId;
+        _costTypeId = costTypeId;
     }
 
     //<editor-fold defaultstate="collapsed" desc="hash && equals && toString">
