@@ -22,8 +22,8 @@ import org.inek.dataportal.utils.Documentation;
  * @author kunkelan
  */
 @Entity
-@Table(name = "KGPListMedInfra", schema = "calc")
-public class KGPListMedInfra implements Serializable, BaseIdValue {
+@Table(name = "KgpListMedInfra", schema = "calc")
+public class KgpListMedInfra implements Serializable, BaseIdValue {
 
     private static final long serialVersionUID = 1L;
 
@@ -132,21 +132,12 @@ public class KGPListMedInfra implements Serializable, BaseIdValue {
     }
     //</editor-fold>
 
-    public KGPListMedInfra() {
+    public KgpListMedInfra() {
     }
 
-    public KGPListMedInfra(int miID) {
-        this._id = miID;
-    }
-
-    public KGPListMedInfra(int miID, int miCostTypeID, String miCostCenterNumber, String miCostCenterText, String miKeyUsed, int miAmount, int baseInfo) {
-        this._id = miID;
-        this._costTypeId = miCostTypeID;
-        this._costCenterNumber = miCostCenterNumber;
-        this._costCenterText = miCostCenterText;
-        this._keyUsed = miKeyUsed;
-        this._amount = miAmount;
-        this._baseInformationId = baseInfo;
+    public KgpListMedInfra(int baseInformationId, int costTypeId) {
+        _baseInformationId = baseInformationId;
+        _costTypeId = costTypeId;
     }
 
     //<editor-fold defaultstate="collapsed" desc="hash && equals && toString">
@@ -171,10 +162,10 @@ public class KGPListMedInfra implements Serializable, BaseIdValue {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof KGPListMedInfra)) {
+        if (!(obj instanceof KgpListMedInfra)) {
             return false;
         }
-        final KGPListMedInfra other = (KGPListMedInfra) obj;
+        final KgpListMedInfra other = (KgpListMedInfra) obj;
         if (this._id != -1 && this._id == other._id) {
             return true;
         }
@@ -204,7 +195,7 @@ public class KGPListMedInfra implements Serializable, BaseIdValue {
 
     @Override
     public String toString() {
-        return "org.inek.dataportal.entities.calc.KGPListMedInfra[ miID=" + _id + " ]";
+        return "org.inek.dataportal.entities.calc.KgpListMedInfra[ miID=" + _id + " ]";
     }
     //</editor-fold>
 

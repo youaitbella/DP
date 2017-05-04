@@ -81,35 +81,17 @@
         </tr>
     </table>
     
-    <h:panelGroup id="pnlProtokoll" rendered="#{!editCalcBasicsPepp.readOnly}" class="inputPart">
-            <!--180 = nicht med. Infra-->
-            <h:commandLink id="addButtonLocation" styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
-                <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsPepp.addMedInfra(180)}"/>
-            </h:commandLink>
-
-            <div class="uploadFile inlineBlock marginRight">
-                <h:inputFile styleClass="hiddenFile" id="file" value="#{editCalcBasicsPepp.nonMedInfraFile}" >
-                    <f:ajax listener="#{editCalcBasicsPepp.uploadNoticesMedInfra(180)}" render="@all"/>
-                </h:inputFile>
-                <div class="fakeFile">
-                    <h:outputLabel style="margin-top: 1px;" styleClass="button element100" value="Upload nicht medizinische Infrastruktur"/>
-                </div>
-            </div>
-            
-            <h:commandLink styleClass="button" value="Download Musterdatei" action="#{editCalcBasicsPepp.downloadTemplateHeadlineNonMedInfra()}" immediate="true"/>
-
-            <h:commandLink rendered="#{editCalcBasicsPepp.importMessageNonMedInfra.length() gt 0}" 
-                           styleClass="button"
-                           value="#{msg.btnJournal} &nbsp; #{editCalcBasicsPepp.showJournal ? '˄' : '˅'}" 
-                           actionListener="#{editCalcBasicsPepp.toggleJournal}">
-                <f:ajax render="@this :pnlProtokoll :logout:remaining"/>
-            </h:commandLink>
-
-            <h:inputTextarea id="journalTherapy" rendered="#{editCalcBasicsPepp.importMessageNonMedInfra.length() gt 0 and editCalcBasicsPepp.showJournal}" 
-                             value="#{editCalcBasicsPepp.importMessageNonMedInfra}"
-                             readonly="true"
-                             styleClass="element100 #{editCalcBasicsPepp.importMessageNonMedInfra.length() > 500 ? 'areaHugh' : 'areaWideHigh'}"/>
-        </h:panelGroup>
-        
+    <inek:UploadButtons readOnly="#{editCalcBasicsPepp.readOnly}"
+                        addListener="#{editCalcBasicsPepp.addMedInfra(180)}"
+                        uploadButtonText="Upload"
+                        uploadListener="#{editCalcBasicsPepp.uploadNoticesMedInfra(180)}"
+                        file="#{editCalcBasicsPepp.nonMedInfraFile}"
+                        actionTemplate="#{editCalcBasicsPepp.downloadTemplateHeadlineMedInfra}"
+                        actionDeleteTable="#{editCalcBasicsPepp.deleteKgpMedInfraList(180)}"
+                        importMessage="#{editCalcBasicsPepp.importMessageNonMedInfra}"
+                        showJournal="#{editCalcBasicsPepp.showJournal}"
+                        toggleJournal="#{editCalcBasicsPepp.toggleJournal}"
+                        />
+    
 </ui:composition>
 

@@ -39,7 +39,7 @@ import org.inek.dataportal.entities.calc.psy.KGPListContentText;
 import org.inek.dataportal.entities.calc.psy.KGPListCostCenter;
 import org.inek.dataportal.entities.calc.psy.KGPListDelimitationFact;
 import org.inek.dataportal.entities.calc.psy.KGPListLocation;
-import org.inek.dataportal.entities.calc.psy.KGPListMedInfra;
+import org.inek.dataportal.entities.calc.psy.KgpListMedInfra;
 import org.inek.dataportal.entities.calc.psy.KGPListRadiologyLaboratory;
 import org.inek.dataportal.entities.calc.psy.KGPListServiceProvision;
 import org.inek.dataportal.entities.calc.psy.KGPListServiceProvisionType;
@@ -213,8 +213,8 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         PeppCalcBasics calcBasics = new PeppCalcBasics();
         calcBasics.setAccountId(account.getId());
         calcBasics.setDataYear(Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
-        // calcBasics.getKgpMedInfraList().add(new KGPListMedInfra(-1, 170, "", "", "", 0, calcBasics.getId()));
-        // calcBasics.getKgpMedInfraList().add(new KGPListMedInfra(-1, 180, "", "", "", 0, calcBasics.getId()));
+        // calcBasics.getKgpMedInfraList().add(new KgpListMedInfra(-1, 170, "", "", "", 0, calcBasics.getId()));
+        // calcBasics.getKgpMedInfraList().add(new KgpListMedInfra(-1, 180, "", "", "", 0, calcBasics.getId()));
         setCachedIks(getIks());
         if (getCachedIks().size() == 1) {
             calcBasics.setIk((int) getCachedIks().get(0).getValue());
@@ -859,8 +859,8 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         _calcBasics.getLocations().remove(loc);
     }
 
-    public List<KGPListMedInfra> getMedInfra(int costType) {
-        List<KGPListMedInfra> tmp = new ArrayList<>();
+    public List<KgpListMedInfra> getMedInfra(int costType) {
+        List<KgpListMedInfra> tmp = new ArrayList<>();
         _calcBasics.getKgpMedInfraList().stream()
                 .filter((mi) -> (mi.getCostTypeId() == costType))
                 .forEachOrdered((mi) -> {
@@ -869,14 +869,16 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         return tmp;
     }
 
-    public void addMedInfra(int costType) {
-        KGPListMedInfra mif = new KGPListMedInfra();
-        mif.setBaseInformationId(_calcBasics.getId());
-        mif.setCostTypeId(costType);
+    public void addMedInfra(int costTypeId) {
+        KgpListMedInfra mif = new KgpListMedInfra(_calcBasics.getId(), costTypeId);
         _calcBasics.getKgpMedInfraList().add(mif);
     }
 
-    public void deleteMedInfra(KGPListMedInfra mif) {
+    public void deleteKgpMedInfraList(int costTypeId){
+        _calcBasics.deleteKgpMedInfraList(costTypeId);
+    }    
+    
+    public void deleteMedInfra(KgpListMedInfra mif) {
         _calcBasics.getKgpMedInfraList().remove(mif);
     }
 
@@ -999,7 +1001,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
 
     public int getMedInfraSum(int type) {
         int sumAmount = 0;
-        for (KGPListMedInfra m : _calcBasics.getKgpMedInfraList()) {
+        for (KgpListMedInfra m : _calcBasics.getKgpMedInfraList()) {
             if (m.getCostTypeId() == type) {
                 sumAmount += m.getAmount();
             }
@@ -1034,8 +1036,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     }
 
     public void addStationServiceCost() {
-        KGPListStationServiceCost sc = new KGPListStationServiceCost();
-        sc.setBaseInformationId(_calcBasics.getId());
+        KGPListStationServiceCost sc = new KGPListStationServiceCost(_calcBasics.getId());
         _calcBasics.getStationServiceCosts().add(sc);
     }
 
@@ -1043,6 +1044,10 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         _calcBasics.getStationServiceCosts().remove(item);
     }
 
+    public void clearStationServiceCosts(){
+        _calcBasics.clearStationServiceCosts();
+    }
+    
     public List<KGPListRadiologyLaboratory> getRadiologyLaboritories(int costCenter) {
         return _calcBasics.getRadiologyLaboratories().stream()
                 .filter(r -> r.getCostCenterId() == costCenter)
