@@ -9,7 +9,7 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
 import java.util.function.BiConsumer;
-import org.inek.dataportal.entities.calc.psy.KGPListMedInfra;
+import org.inek.dataportal.entities.calc.psy.KgpListMedInfra;
 import org.inek.dataportal.entities.calc.psy.PeppCalcBasics;
 import org.inek.dataportal.helper.BeanValidator;
 import org.inek.dataportal.helper.Utils;
@@ -80,7 +80,7 @@ public class MedInfraDataImporterPepp {
             if (data.length != 4) {
                 throw new IllegalArgumentException(Utils.getMessage("msgWrongElementCount"));
             }
-            KGPListMedInfra item = new KGPListMedInfra();
+            KgpListMedInfra item = new KgpListMedInfra();
             item.setBaseInformationId(_calcBasics.getId());
             item.setCostTypeId(_costTypeId);
 
@@ -119,8 +119,8 @@ public class MedInfraDataImporterPepp {
         _infoColumnCount++;
     }
 
-    private boolean itemExists(KGPListMedInfra item) {
-        for (KGPListMedInfra infra : _calcBasics.getKgpMedInfraList()) {
+    private boolean itemExists(KgpListMedInfra item) {
+        for (KgpListMedInfra infra : _calcBasics.getKgpMedInfraList()) {
             if (infra.getCostCenterNumber().equals(item.getCostCenterNumber())
                     && infra.getCostCenterText().equals(item.getCostCenterText())
                     && infra.getKeyUsed().equals(item.getKeyUsed())) {
@@ -136,7 +136,7 @@ public class MedInfraDataImporterPepp {
         return false;
     }
 
-    private void tryImportString(KGPListMedInfra item, String data, BiConsumer<KGPListMedInfra, String> bind, String errorMsg) {
+    private void tryImportString(KgpListMedInfra item, String data, BiConsumer<KgpListMedInfra, String> bind, String errorMsg) {
         try {
             bind.accept(item, data);
         } catch (Exception ex) {
@@ -144,7 +144,7 @@ public class MedInfraDataImporterPepp {
         }
     }
 
-    private void tryImportRoundedInteger(KGPListMedInfra item, String data, BiConsumer<KGPListMedInfra, Integer> bind, String errorMsg) {
+    private void tryImportRoundedInteger(KgpListMedInfra item, String data, BiConsumer<KgpListMedInfra, Integer> bind, String errorMsg) {
         try {
             NumberFormat nf = NumberFormat.getInstance(Locale.GERMAN);
             nf.setParseIntegerOnly(false);
@@ -160,7 +160,7 @@ public class MedInfraDataImporterPepp {
         }
     }
 
-    private void tryImportDouble(KGPListMedInfra item, String data, BiConsumer<KGPListMedInfra, Double> bind, String errorMsg) {
+    private void tryImportDouble(KgpListMedInfra item, String data, BiConsumer<KgpListMedInfra, Double> bind, String errorMsg) {
         try {
             NumberFormat nf = NumberFormat.getInstance(Locale.GERMAN);
             nf.setParseIntegerOnly(false);

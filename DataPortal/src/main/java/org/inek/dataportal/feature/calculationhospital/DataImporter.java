@@ -9,7 +9,7 @@ import java.util.function.BiConsumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.Part;
-import org.inek.dataportal.entities.calc.psy.KGPListMedInfra;
+import org.inek.dataportal.entities.calc.psy.KgpListMedInfra;
 import org.inek.dataportal.entities.calc.psy.PeppCalcBasics;
 import org.inek.dataportal.entities.iface.BaseIdValue;
 import org.inek.dataportal.helper.BeanValidator;
@@ -29,20 +29,19 @@ public final class DataImporter<T extends BaseIdValue> implements Serializable {
     public static DataImporter obtainDataImporter(String importer) {
         switch (importer.toLowerCase()) {
             case "peppmedinfra":
-                return new DataImporter<KGPListMedInfra>(
+                return new DataImporter<KgpListMedInfra>(
                         "Nummer der Kostenstelle;Name der Kostenstelle;Verwendeter Schlüssel;Kostenvolumen",
                         new FileHolder("Med_Infra.csv"),
                         ErrorCounter.obtainErrorCounter("PEPP_MED_INFRA"),
-                        Arrays.asList(
-                                new DataImportCheck<KGPListMedInfra, String>(
-                                        ErrorCounter.obtainErrorCounter("PEPP_MED_INFRA"),
-                                        DataImportCheck::tryImportString,
-                                        (i, s) -> {
-                                            i.setCostTypeId(170);
-                                            i.setCostCenterNumber(s);
-                                        },
-                                        "Nummer der Kostenstelle ungültig: "),
-                                new DataImportCheck<KGPListMedInfra, String>(
+                        Arrays.asList(new DataImportCheck<KgpListMedInfra, String>(
+                                ErrorCounter.obtainErrorCounter("PEPP_MED_INFRA"),
+                                DataImportCheck::tryImportString,
+                                (i, s) -> {
+                                    i.setCostTypeId(170);
+                                    i.setCostCenterNumber(s);
+                                },
+                                "Nummer der Kostenstelle ungültig: "),
+                                new DataImportCheck<KgpListMedInfra, String>(
                                         ErrorCounter.obtainErrorCounter("PEPP_MED_INFRA"),
                                         DataImportCheck::tryImportString,
                                         (i, s) -> {
@@ -50,7 +49,7 @@ public final class DataImporter<T extends BaseIdValue> implements Serializable {
                                             i.setCostCenterText(s);
                                         },
                                         "Name der Kostenstelle ungültig: "),
-                                new DataImportCheck<KGPListMedInfra, String>(
+                                new DataImportCheck<KgpListMedInfra, String>(
                                         ErrorCounter.obtainErrorCounter("PEPP_MED_INFRA"),
                                         DataImportCheck::tryImportString,
                                         (i, s) -> {
@@ -58,7 +57,7 @@ public final class DataImporter<T extends BaseIdValue> implements Serializable {
                                             i.setKeyUsed(s);
                                         },
                                         "Verwendeter Schlüssel ungültig: "),
-                                new DataImportCheck<KGPListMedInfra, Integer>(
+                                new DataImportCheck<KgpListMedInfra, Integer>(
                                         ErrorCounter.obtainErrorCounter("PEPP_MED_INFRA"),
                                         DataImportCheck::tryImportRoundedInteger,
                                         (i, s) -> {
@@ -70,23 +69,22 @@ public final class DataImporter<T extends BaseIdValue> implements Serializable {
                         //s -> s.getKgpMedInfraList().stream().filter(t -> 170 == t.getCostTypeId()).collect(Collectors.toList()),
                         //(s, t) -> s.getKgpMedInfraList().add(t),
                         (s, t) -> s.addMedInfraItem(t),
-                        KGPListMedInfra.class
+                        KgpListMedInfra.class
                 );
             case "peppnonmedinfra":
-                return new DataImporter<KGPListMedInfra>(
+                return new DataImporter<KgpListMedInfra>(
                         "Nummer der Kostenstelle;Name der Kostenstelle;Verwendeter Schlüssel;Kostenvolumen",
                         new FileHolder("NON_Med_Infra.csv"),
                         ErrorCounter.obtainErrorCounter("PEPP_NON_MED_INFRA"),
-                        Arrays.asList(
-                                new DataImportCheck<KGPListMedInfra, String>(
-                                        ErrorCounter.obtainErrorCounter("PEPP_NON_MED_INFRA"),
-                                        DataImportCheck::tryImportString,
-                                        (i, s) -> {
-                                            i.setCostTypeId(180);
-                                            i.setCostCenterNumber(s);
-                                        },
-                                        "Nummer der Kostenstelle ungültig: "),
-                                new DataImportCheck<KGPListMedInfra, String>(
+                        Arrays.asList(new DataImportCheck<KgpListMedInfra, String>(
+                                ErrorCounter.obtainErrorCounter("PEPP_NON_MED_INFRA"),
+                                DataImportCheck::tryImportString,
+                                (i, s) -> {
+                                    i.setCostTypeId(180);
+                                    i.setCostCenterNumber(s);
+                                },
+                                "Nummer der Kostenstelle ungültig: "),
+                                new DataImportCheck<KgpListMedInfra, String>(
                                         ErrorCounter.obtainErrorCounter("PEPP_NON_MED_INFRA"),
                                         DataImportCheck::tryImportString,
                                         (i, s) -> {
@@ -94,7 +92,7 @@ public final class DataImporter<T extends BaseIdValue> implements Serializable {
                                             i.setCostCenterText(s);
                                         },
                                         "Name der Kostenstelle ungültig: "),
-                                new DataImportCheck<KGPListMedInfra, String>(
+                                new DataImportCheck<KgpListMedInfra, String>(
                                         ErrorCounter.obtainErrorCounter("PEPP_NON_MED_INFRA"),
                                         DataImportCheck::tryImportString,
                                         (i, s) -> {
@@ -102,7 +100,7 @@ public final class DataImporter<T extends BaseIdValue> implements Serializable {
                                             i.setKeyUsed(s);
                                         },
                                         "Verwendeter Schlüssel ungültig: "),
-                                new DataImportCheck<KGPListMedInfra, Integer>(
+                                new DataImportCheck<KgpListMedInfra, Integer>(
                                         ErrorCounter.obtainErrorCounter("PEPP_NON_MED_INFRA"),
                                         DataImportCheck::tryImportRoundedInteger,
                                         (i, s) -> {
@@ -112,7 +110,7 @@ public final class DataImporter<T extends BaseIdValue> implements Serializable {
                                         "Kostenvolumen ungültig: ")
                         ),
                         (s, t) -> s.addMedInfraItem(t),
-                        KGPListMedInfra.class
+                        KgpListMedInfra.class
                 );
 
             default:

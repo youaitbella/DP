@@ -57,7 +57,7 @@
             </h:column>
 
         </h:dataTable>
-        <h:commandLink styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
+        <h:commandLink styleClass="addButton button inputPart" value="#{msg.btnAddEntry}">
             <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsPepp.addStationAlternative()}"/>
         </h:commandLink>
     </div>
@@ -172,7 +172,7 @@
         </ui:repeat>
         <tr>
             <td colspan="10">
-        <h:commandLink styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
+        <h:commandLink styleClass="addButton button inputPart" value="#{msg.btnAddEntry}">
             <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsPepp.addStationServiceCost()}"/>
         </h:commandLink>
         </td>
@@ -234,7 +234,7 @@
         </ui:repeat>
         <tr>
             <td colspan="8">
-        <h:commandLink styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
+        <h:commandLink styleClass="addButton button inputPart" value="#{msg.btnAddEntry}">
             <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsPepp.addStationServiceCost()}"/>
         </h:commandLink>
         </td>
@@ -302,40 +302,19 @@
             </td>
             </tr>
         </ui:repeat>
-        <tr>
-            <td colspan="10">
-        <h:commandLink styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
-            <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsPepp.addStationServiceCost()}"/>
-        </h:commandLink>
-        </td>
-        </tr>
     </table>
 
-    <h:panelGroup id="pnlProtokoll" rendered="#{!editCalcBasicsPepp.readOnly}" class="inputPart">
-
-        <div class="uploadFile inlineBlock marginRight">
-            <h:inputFile styleClass="hiddenFile" id="file" value="#{editCalcBasicsPepp.fileStation}" >
-                <f:ajax listener="#{editCalcBasicsPepp.uploadNoticesStation()}" render="@all"/>
-            </h:inputFile>
-            <div class="fakeFile">
-                <h:outputLabel style="margin-top: 1px;" styleClass="button element100" value="Upload Stationärer Bereich"/>
-            </div>
-        </div>
-
-        <h:commandLink styleClass="button" value="Download Musterdatei" action="#{editCalcBasicsPepp.getDownloadTemplateStation()}" immediate="true"/>
-
-        <h:commandLink rendered="#{editCalcBasicsPepp.importMessageStation.length() gt 0}" 
-                       styleClass="button"
-                       value="#{msg.btnJournal} &nbsp; #{editCalcBasicsPepp.showJournalStation ? '˄' : '˅'}" 
-                       actionListener="#{editCalcBasicsPepp.toggleJournalStation}">
-            <f:ajax render="@this :pnlProtokoll :logout:remaining"/>
-        </h:commandLink>
-
-        <h:inputTextarea id="journalStation" rendered="#{editCalcBasicsPepp.importMessageStation.length() gt 0 and editCalcBasicsPepp.showJournalStation}" 
-                         value="#{editCalcBasicsPepp.importMessageStation}"
-                         readonly="true"
-                         styleClass="element100 #{editCalcBasicsPepp.importMessageStation.length() > 500 ? 'areaHugh' : 'areaWideHigh'}"/>
-    </h:panelGroup>
+    <inek:UploadButtons readOnly="#{editCalcBasicsPepp.readOnly}"
+                        addListener="#{editCalcBasicsPepp.addStationServiceCost()}"
+                        uploadButtonText="Upload"
+                        uploadListener="#{editCalcBasicsPepp.uploadNoticesStation()}"
+                        file="#{editCalcBasicsPepp.fileStation}"
+                        actionTemplate="#{editCalcBasicsPepp.getDownloadTemplateStation}"
+                        actionDeleteTable="#{editCalcBasicsPepp.clearStationServiceCosts()}"
+                        importMessage="#{editCalcBasicsPepp.importMessageStation}"
+                        showJournal="#{editCalcBasicsPepp.showJournalStation}"
+                        toggleJournal="#{editCalcBasicsPepp.toggleJournalStation}"
+                        />
 
 </ui:composition>
 

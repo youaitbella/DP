@@ -10,7 +10,7 @@ import java.util.Map;
  */
 public class DataImporterPool implements Serializable {
 
-    private Map<String, DataImporter<?>> importers = new HashMap<>();
+    private final Map<String, DataImporter<?>> importers = new HashMap<>();
 
     public DataImporterPool() {
         importers.put("peppmedinfra", DataImporter.obtainDataImporter("peppmedinfra"));

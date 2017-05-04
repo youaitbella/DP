@@ -565,30 +565,35 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "miBaseInformationId", referencedColumnName = "biID")
     //@Documentation(name = "Unbekannte Liste (A)", rank = 20000)
-    private List<KGPListMedInfra> _kgpMedInfraList = new Vector<>();
+    private List<KgpListMedInfra> _kgpMedInfraList = new Vector<>();
 
-    public List<KGPListMedInfra> getKgpMedInfraList() {
+    public List<KgpListMedInfra> getKgpMedInfraList() {
         return _kgpMedInfraList;
     }
 
     @Documentation(name = "Verrechnungsschlüssel und Kostenvolumen der Kostenstellen der medizinischen Infrastruktur",headline = "Ergänzende Angaben zur innerbetrieblichen Leistungsverrechnung (medizinische Infrastruktur)", rank = 10020)
     @JsonIgnore
-    public List<KGPListMedInfra> getCostCenter170() {
+    public List<KgpListMedInfra> getCostCenter170() {
         return _kgpMedInfraList.stream().filter(c -> c.getCostTypeId()== 170).collect(Collectors.toList());
     }
 
     @Documentation(name = "Verrechnungsschlüssel und Kostenvolumen der Kostenstellen der nicht medizinischen Infrastruktur",headline = "Ergänzende Angaben zur innerbetrieblichen Leistungsverrechnung (nicht medizinische Infrastruktur)", rank = 11020)
     @JsonIgnore
-    public List<KGPListMedInfra> getCostCenter180() {
+    public List<KgpListMedInfra> getCostCenter180() {
         return _kgpMedInfraList.stream().filter(c -> c.getCostTypeId()== 180).collect(Collectors.toList());
     }
 
-    public void setKgpMedInfraList(List<KGPListMedInfra> kgpMedInfraList) {
+    public void deleteKgpMedInfraList(int costTypeId){
+        List<KgpListMedInfra> itemsToDelete = _kgpMedInfraList.stream().filter(c -> c.getCostTypeId()== costTypeId).collect(Collectors.toList());
+        _kgpMedInfraList.removeAll(itemsToDelete);
+    }
+    
+    public void setKgpMedInfraList(List<KgpListMedInfra> kgpMedInfraList) {
         this._kgpMedInfraList = kgpMedInfraList;
     }
 
-    public void addMedInfraItem(KGPListMedInfra item) {
-        KGPListMedInfra foundItem = ListUtil.findItem(_kgpMedInfraList, item, (a, b) ->
+    public void addMedInfraItem(KgpListMedInfra item) {
+        KgpListMedInfra foundItem = ListUtil.findItem(_kgpMedInfraList, item, (a, b) ->
                 a.getCostCenterNumber().equals(b.getCostCenterNumber())
                         && a.getCostCenterText().equals(b.getCostCenterText())
                         && a.getKeyUsed().equals(b.getKeyUsed()));
@@ -694,6 +699,10 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
 
     public void setStationServiceCosts(List<KGPListStationServiceCost> kgpStationServiceCostList) {
         this._stationServiceCosts = kgpStationServiceCostList;
+    }
+    
+    public void clearStationServiceCosts(){
+        _stationServiceCosts.clear();
     }
     // </editor-fold>
 

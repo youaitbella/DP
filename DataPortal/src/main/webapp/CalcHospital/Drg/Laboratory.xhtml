@@ -8,7 +8,7 @@
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components"
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
-    
+
     <style>
         td {
             vertical-align: top !important;
@@ -30,7 +30,7 @@
         .col5 {
             max-width: 120px;
         }
-        
+
         input[type=checkbox] {
             float: right;
             margin-right: 30px;
@@ -38,12 +38,12 @@
     </style>
 
     <h:dataTable value="#{editCalcBasicsDrg.laboratories}" 
-                     var="item" 
-                     width="100%"
-                     rowClasses="row1, row2"
-                     columnClasses="colIcon, col1, col2, col3, col4, col5"
-                     styleClass="marginTop">
-        
+                 var="item" 
+                 width="100%"
+                 rowClasses="row1, row2"
+                 columnClasses="colIcon, col1, col2, col3, col4, col5"
+                 styleClass="marginTop">
+
         <h:column>
             <f:facet name="header">
                 <h:outputText value=""/>
@@ -53,7 +53,7 @@
                 <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.deleteLaboratory(item)}"/>
             </h:commandLink>
         </h:column>
-        
+
         <h:column>
             <f:facet name="header">
                 <h:outputLabel value="Nr. Kostenstelle"/>
@@ -62,7 +62,7 @@
                 <f:ajax event="blur" render="@this :logout:remaining" />
             </h:inputText>
         </h:column>
-        
+
         <h:column>
             <f:facet name="header">
                 <h:outputLabel value="Name Kostenstelle"/><br/>
@@ -72,38 +72,38 @@
                 <f:ajax event="blur" render="@this :logout:remaining" />
             </h:inputText>
         </h:column>
-        
+
         <h:column>
             <f:facet name="header">
                 <h:outputLabel value="Leistungsdokumentation"/>
             </f:facet>
-            
+
             <h:outputLabel value="Hauskatalog" for="serviceHome" />&nbsp;
             <h:selectBooleanCheckbox disabled="#{editCalcBasicsDrg.disableRadiologyServiceCheckboxes(item) and !item.serviceDocHome}" id="serviceHome" value="#{item.serviceDocHome}">
                 <f:ajax event="change" render="@form :logout:remaining" />
             </h:selectBooleanCheckbox> <br/>
-            
+
             <h:outputLabel value="DKG-NT" for="serviceDocDKG" /> &nbsp;
             <h:selectBooleanCheckbox disabled="#{editCalcBasicsDrg.disableRadiologyServiceCheckboxes(item) and !item.serviceDocDKG}" id="serviceDocDKG" value="#{item.serviceDocDKG}">
                 <f:ajax event="change" render="@form :logout:remaining" />
             </h:selectBooleanCheckbox> <br/>
-            
+
             <h:outputLabel value="EBM" for="EBM" /> &nbsp;
             <h:selectBooleanCheckbox disabled="#{editCalcBasicsDrg.disableRadiologyServiceCheckboxes(item) and !item.serviceDocEBM}" id="EBM" value="#{item.serviceDocEBM}">
                 <f:ajax event="change" render="@form :logout:remaining" />
             </h:selectBooleanCheckbox><br/>
-            
+
             <h:outputLabel value="GOÄ" for="serviceDocGOA" /> &nbsp;
             <h:selectBooleanCheckbox disabled="#{editCalcBasicsDrg.disableRadiologyServiceCheckboxes(item) and !item.serviceDocGOA}" id="serviceDocGOA" value="#{item.serviceDocGOA}">
                 <f:ajax event="change" render="@form :logout:remaining" />
             </h:selectBooleanCheckbox><br/>
-            
+
             <h:outputLabel value="Sonstige" for="serviceDocDif" /> &nbsp;
             <h:selectBooleanCheckbox disabled="#{editCalcBasicsDrg.disableRadiologyServiceCheckboxes(item) and !item.serviceDocDif}" id="serviceDocDif" value="#{item.serviceDocDif}">
                 <f:ajax event="change" render="@form :logout:remaining" />
             </h:selectBooleanCheckbox>
         </h:column>
-        
+
         <h:column>
             <f:facet name="header">
                 <h:outputLabel value="Beschreibung"/>
@@ -112,7 +112,7 @@
                 <f:ajax event="blur" render="@this :logout:remaining" />
             </h:inputTextarea>
         </h:column>
-        
+
         <h:column>
             <f:facet name="header">
                 <h:outputLabel value="Leistungsvolumen"/><br/>
@@ -120,7 +120,7 @@
             </f:facet>
             <inek:InputNumberWithMessage renderElement="point-value:text" value="#{item.serviceVolumePre}" />
         </h:column>
-        
+
         <h:column>
             <f:facet name="header">
                 <h:outputLabel value="Kostenvolumen"/><br/>
@@ -128,7 +128,7 @@
             </f:facet>
             <inek:InputNumberWithMessage value="#{item.amountPre}" renderElement="point-value:text"/>
         </h:column>
-        
+
         <h:column>
             <f:facet name="header">
                 <h:outputLabel value="Kostenvolumen"/><br/>
@@ -136,7 +136,7 @@
             </f:facet>
             <inek:InputNumberWithMessage value="#{item.amountPost}" />
         </h:column>
-        
+
         <h:column>
             <f:facet name="header">
                 <h:outputLabel value="Punktwert"/><br/>
@@ -144,18 +144,18 @@
             <inek:InputNumberWithMessage id="point-value" value="#{(item.amountPre != 0 and item.serviceVolumePre != 0) ? item.amountPre / item.serviceVolumePre : 0}" readonly="true" pattern="0.0"/>
         </h:column>
     </h:dataTable>
-    
+
     <inek:UploadButtons readOnly="#{editCalcBasicsDrg.readOnly}"
                         addListener="#{editCalcBasicsDrg.addLaboratory()}"
                         uploadButtonText="Upload"
                         uploadListener="#{editCalcBasicsDrg.uploadLaboratory()}"
                         file="#{editCalcBasicsDrg.file}"
                         actionTemplate="#{editCalcBasicsDrg.downloadLaboratoryTemplate}"
-                        actionDeleteTable="#{editCalcBasicsDrg.calcBasics.deleteLaboratories()}"
-                        importMessage="#{editCalcBasicsDrg.dummyImportMessage}"
+                        actionDeleteTable="#{editCalcBasicsDrg.deleteLaboratories()}"
+                        importMessage="#{editCalcBasicsDrg.importMessageLaboraty}"
                         showJournal="#{editCalcBasicsDrg.showJournal}"
                         toggleJournal="#{editCalcBasicsDrg.toggleJournal}"
                         />
-    
+
 </ui:composition>
 

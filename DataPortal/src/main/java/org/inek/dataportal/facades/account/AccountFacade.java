@@ -181,7 +181,7 @@ public class AccountFacade extends AbstractFacade<Account> {
 
     public Account updateAccount(Account account) {
         if (account.getId() == null) {
-            getLOGGER().log(Level.SEVERE, "attempt to update a non-existing account");
+            getLogger().log(Level.SEVERE, "attempt to update a non-existing account");
             return null;  // let the client crash
         }
 
@@ -220,11 +220,11 @@ public class AccountFacade extends AbstractFacade<Account> {
         }
         AccountRequest accountRequest = _accountRequestFacade.findByMailOrUser(mailOrUser);
         if (accountRequest == null) {
-            getLOGGER().log(Level.WARNING, "No account request found for {0}", mailOrUser);
+            getLogger().log(Level.WARNING, "No account request found for {0}", mailOrUser);
             return false;
         }
         if (!accountRequest.getPasswordHash().equals(Crypt.hashPassword(password, accountRequest.getSalt())) || !accountRequest.getActivationKey().equals(activationKey)) {
-            getLOGGER().log(Level.WARNING, "Password or activation key does not match {0}", mailOrUser);
+            getLogger().log(Level.WARNING, "Password or activation key does not match {0}", mailOrUser);
             return false;
         }
         Account account = ObjectUtil.copyObject(Account.class, accountRequest);

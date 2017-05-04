@@ -80,23 +80,18 @@
         </tr>
     </table>
     
-    <!--180 = nicht med. Infra-->
-    <h:commandLink id="addButtonLocation" styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
-        <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.addMedInfra(180)}"/>
-    </h:commandLink>
-    
-    <div class="uploadFile inlineBlock marginRight">
-        <h:inputFile style="width: 154px;" styleClass="hiddenFile" id="file" value="#{editCalcBasicsDrg.file}" >
-            <f:ajax  render="@all" listener="#{editCalcBasicsDrg.uploadMedInfra(180)}"/>
-        </h:inputFile>
-        <div class="fakeFile">
-            <h:outputLabel style="margin-top: 1px;" styleClass="button" value="Upload"/>
-        </div>
-    </div>
-    <div class="inlineBlock">
-        <h:commandLink styleClass="button" value="Download Musterdatei" action="#{editCalcBasicsDrg.downloadMedInfraTemplate}" immediate="true"/>
-    </div>
-    
+    <inek:UploadButtons readOnly="#{editCalcBasicsDrg.readOnly}"
+                        addListener="#{editCalcBasicsDrg.addMedInfra(180)}"
+                        uploadButtonText="Upload"
+                        uploadListener="#{editCalcBasicsDrg.uploadMedInfra(180)}"
+                        file="#{editCalcBasicsDrg.file}"
+                        actionTemplate="#{editCalcBasicsDrg.downloadMedInfraTemplate}"
+                        actionDeleteTable="#{editCalcBasicsDrg.deleteMedInfraItems(180)}"
+                        importMessage="#{editCalcBasicsDrg.importMessageNonMedInfra}"
+                        showJournal="#{editCalcBasicsDrg.showJournal}"
+                        toggleJournal="#{editCalcBasicsDrg.toggleJournal}"
+                        />
+   
         
 </ui:composition>
 

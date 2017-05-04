@@ -200,7 +200,9 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             calcBasics.getNormalStationServiceDocumentations().add(add);
         }
         calcBasics.getCostCenterCosts().clear();
-        _priorCalcBasics.getCostCenterCosts().stream()
+        _priorCalcBasics
+                .getCostCenterCosts()
+                .stream()
                 .map((ccc) -> {
                     KGLListCostCenterCost c = new KGLListCostCenterCost();
                     c.setPrior(ccc);
@@ -399,8 +401,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         DrgCalcBasics calcBasics = new DrgCalcBasics();
         calcBasics.setAccountId(account.getId());
         calcBasics.setDataYear(Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
-        calcBasics.getMedInfras().add(new KGLListMedInfra(-1, 170, "", "", "", 0, calcBasics.getId()));
-        calcBasics.getMedInfras().add(new KGLListMedInfra(-1, 180, "", "", "", 0, calcBasics.getId()));
+        calcBasics.getMedInfras().add(new KGLListMedInfra(calcBasics.getId(), 170));
+        calcBasics.getMedInfras().add(new KGLListMedInfra(calcBasics.getId(), 180));
 
         if (getIks().size() == 1) {
             calcBasics.setIk((int) getIks().get(0).getValue());
@@ -543,7 +545,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         _calcBasics.deleteRadiologies();
     }
 
-    
     public void addNormalStationServiceDocMinutes() {
         KGLNormalStationServiceDocumentationMinutes min = new KGLNormalStationServiceDocumentationMinutes();
         min.setBaseInformationId(_calcBasics.getId());
@@ -554,11 +555,13 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         _calcBasics.getNormalStationServiceDocumentationMinutes().remove(item);
     }
 
-    public void addMedInfra(int costType) {
-        KGLListMedInfra mif = new KGLListMedInfra();
-        mif.setBaseInformationId(_calcBasics.getId());
-        mif.setCostTypeId(costType);
+    public void addMedInfra(int costTypeId) {
+        KGLListMedInfra mif = new KGLListMedInfra(_calcBasics.getId(), costTypeId);
         _calcBasics.getMedInfras().add(mif);
+    }
+
+    public void deleteMedInfraItems(int costTypeId) {
+        _calcBasics.deleteMedInfraItems(costTypeId);
     }
 
     public void addFreelancer() {
@@ -653,15 +656,15 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         _calcBasics.getIntensivStrokes().add(item);
     }
 
+    public void deleteIntensivStrokeItems(int intensiveType) {
+        List<KGLListIntensivStroke> itemsToDelete = _calcBasics.getIntensivStrokes().stream().filter(i -> i.getIntensiveType() == intensiveType).collect(Collectors.toList());
+        _calcBasics.getIntensivStrokes().removeAll(itemsToDelete);
+    }
+
     public void deleteIntensivStroke(KGLListIntensivStroke item) {
         _calcBasics.getIntensivStrokes().remove(item);
     }
 
-//    public Optional<KGLListIntensivStroke> getPriorIntensivStroke(KGLListIntensivStroke item) {
-//        return _priorCalcBasics.getIntensivStrokes().stream()
-//                .filter(i -> i.getCostCenterID() == item.getCostCenterID())
-//                .findAny();
-//    }
     public int getSumIntensivStrokeWeighted() {
         List<KGLListIntensivStroke> intensivStrokes = _calcBasics.getIntensivStrokes();
         int result = 0;
@@ -680,6 +683,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         return result;
     }
 
+    @SuppressWarnings("MultipleStringLiterals")
     private static final String HEADLINE_INTENSIVE
             = "Intensivstation;FAB;Anzahl_Betten;Anzahl_Fälle;Mindestmerkmale_OPS_8-980_erfüllt;"
             + "Mindestmerkmale_OPS_8-98f_erfüllt;Mindestmerkmale_nur_erfüllt_im_Zeitabschnitt;"
@@ -692,6 +696,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         Utils.downloadText(HEADLINE_INTENSIVE + "\n", "Intensiv.csv");
     }
 
+    @SuppressWarnings("MultipleStringLiterals")
     private static final String HEADLINE_STROKE_UNIT
             = "Intensivstation;FAB;Anzahl_Betten;Anzahl_Fälle;Mindestmerkmale_OPS_8-981_erfüllt;"
             + "Mindestmerkmale_OPS_8-98b_erfüllt;Mindestmerkmale_nur_erfüllt_im_Zeitabschnitt;"
@@ -704,6 +709,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         Utils.downloadText(HEADLINE_STROKE_UNIT + "\n", "StrokeUnit.csv");
     }
 
+    @SuppressWarnings("MultipleStringLiterals")
     private static final String HEADLINE_RADIOLOGY = "KostenstelleNummer;KostenstelleName;"
             + "Leistungsdokumentation;Beschreibung;LeistungsvolumenVor;"
             + "KostenvolumenVor;LeistungsvolumenNach;KostenvolumenNach";
@@ -712,6 +718,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         Utils.downloadText(HEADLINE_RADIOLOGY + "\n", "Radiology.csv");
     }
 
+    @SuppressWarnings("MultipleStringLiterals")
     private static final String HEADLINE_LABORATY = "KostenstelleNummer;KostenstelleName;"
             + "Leistungsdokumentation;Beschreibung;LeistungsvolumenVor;"
             + "KostenvolumenVor;KostenvolumenNach";
@@ -720,6 +727,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         Utils.downloadText(HEADLINE_LABORATY + "\n", "Laboratory.csv");
     }
 
+    @SuppressWarnings("MultipleStringLiterals")
     private static final String HEADLINE_MED_INFRA = "KostenstelleNummer;KostenstelleText;Schlüssel;Kostenvolumen";
 
     public void downloadMedInfraTemplate() {
@@ -735,16 +743,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     @Inject
     private Instance<IntensivDataImporter> _importIntensivProvider;
 
-    private transient Part _fileIntensivCare;
-
-    public Part getFileIntensivCare() {
-        return _fileIntensivCare;
-    }
-
-    public void setFileIntensivCare(Part file) {
-        _fileIntensivCare = file;
-    }
-
     private transient String _importMessageStrokeUnit = "";
 
     public String getImportMessageStrokeUnit() {
@@ -754,19 +752,9 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     @Inject
     private Instance<StrokeUnitDataImporter> _importStrokeUnitProvider;
 
-    private transient Part _fileStrokeUnit;
-
-    public Part getFileStrokeUnit() {
-        return _fileStrokeUnit;
-    }
-
-    public void setFileStrokeUnit(Part file) {
-        _fileStrokeUnit = file;
-    }
-
     public void uploadNoticesIntensiv() {
         try {
-            if (_fileIntensivCare != null) {
+            if (_file != null) {
                 //Scanner scanner = new Scanner(_file.getInputStream(), "UTF-8");
                 // We assume most of the documents coded with the Windows character set
                 // Thus, we read with the system default
@@ -776,7 +764,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                 // By intention it fails for other charcters
                 // Alternative: implement a library which guesses th correct character set and read properly
                 // Since we support German only, we started using the simple approach
-                Scanner scanner = new Scanner(_fileIntensivCare.getInputStream());
+                Scanner scanner = new Scanner(_file.getInputStream());
                 if (!scanner.hasNextLine()) {
                     return;
                 }
@@ -798,17 +786,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     public void uploadNoticesStrokeUnit() {
         try {
-            if (_fileStrokeUnit != null) {
-                //Scanner scanner = new Scanner(_file.getInputStream(), "UTF-8");
-                // We assume most of the documents coded with the Windows character set
-                // Thus, we read with the system default
-                // in case of an UTF-8 file, all German Umlauts will be corrupted.
-                // We simply replace them.
-                // Drawbacks: this only converts the German Umlauts, no other chars.
-                // By intention it fails for other charcters
-                // Alternative: implement a library which guesses th correct character set and read properly
-                // Since we support German only, we started using the simple approach
-                Scanner scanner = new Scanner(_fileStrokeUnit.getInputStream());
+            if (_file != null) {
+                Scanner scanner = new Scanner(_file.getInputStream());
                 if (!scanner.hasNextLine()) {
                     return;
                 }
@@ -1165,8 +1144,10 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     /**
-     * This function seals a statement od participance if possible. Sealing is possible, if all mandatory fields are fulfilled. After sealing, the
-     * statement od participance can not be edited anymore and is available for the InEK.
+     * This function seals a statement od participance if possible. Sealing is
+     * possible, if all mandatory fields are fulfilled. After sealing, the
+     * statement od participance can not be edited anymore and is available for
+     * the InEK.
      *
      * @return
      */
@@ -1396,7 +1377,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         Utils.downloadText(content, "Normalstation.csv");
     }
 
-    private String _importMessage = "";
+    private transient String _importMessage = "";
 
     public String getImportMessage() {
         return _importMessage;
@@ -1572,7 +1553,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                             alertText += "Fehler: Zeile " + lineNum + ", Spalte 18 (nicht med. Infra.): " + Utils.getMessage("msgNotAnInteger") + "\\n";
                             continue;
                         }
-                        if (checkCostCenterCostRedundantEntry(ccc)) {
+                        if (isExistingEntryCostCenterCost(ccc)) {
                             alertText += "Hinweis: Zeile " + lineNum + " wurde bereits hinzugefügt.";
                             continue;
                         }
@@ -1582,9 +1563,16 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                 if (alertText.length() > 0) {
                     _sessionController.alertClient(alertText);
                 }
+                _importMessageNormalWard = alertText;
             }
         } catch (IOException | NoSuchElementException e) {
         }
+    }
+
+    private transient String _importMessageNormalWard = "";
+
+    public String getImportMessageNormalWard() {
+        return _importMessageNormalWard;
     }
 
     public void uploadRadiology() {
@@ -1661,7 +1649,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                             alertText += "Fehler: Zeile " + lineNum + ", Spalte 8: " + Utils.getMessage("msgNotANumber") + "\\n";
                             continue;
                         }
-                        if (checkRadiologyRedundantEntry(radio)) {
+                        if (isExistingEntryRadLab(radio)) {
                             alertText += "Hinweis: Zeile " + lineNum + " wurde bereits hinzugefügt.";
                             continue;
                         }
@@ -1672,9 +1660,16 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                 if (alertText.length() > 0) {
                     _sessionController.alertClient(alertText);
                 }
+                _importMessageRadiology = alertText;
             }
         } catch (IOException | NoSuchElementException e) {
         }
+    }
+
+    private transient String _importMessageRadiology = "";
+
+    public String getImportMessageRadiology() {
+        return _importMessageRadiology;
     }
 
     public void uploadLaboratory() {
@@ -1744,7 +1739,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                             alertText += "Fehler: Zeile " + lineNum + ", Spalte 7: " + Utils.getMessage("msgNotANumber") + "\\n";
                             continue;
                         }
-                        if (checkLaboratoryRedundantEntry(radio)) {
+                        if (isExistingEntryRadLab(radio)) {
                             alertText += "Hinweis: Zeile " + lineNum + " wurde bereits hinzugefügt.";
                             continue;
                         }
@@ -1755,31 +1750,20 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                 if (alertText.length() > 0) {
                     _sessionController.alertClient(alertText);
                 }
+                _importMessageLaboraty = alertText;
             }
         } catch (IOException | NoSuchElementException e) {
         }
     }
 
-    private boolean checkRadiologyRedundantEntry(KGLListRadiologyLaboratory radio) {
-        for (KGLListRadiologyLaboratory rl : _calcBasics.getRadiologyLaboratories()) {
-            if (rl.getCostCenterId() == 9) {
-                if (rl.equals(radio)) {
-                    return true;
-                }
-            }
-        }
-        return false;
+    private transient String _importMessageLaboraty = "";
+
+    public String getImportMessageLaboraty() {
+        return _importMessageLaboraty;
     }
 
-    private boolean checkLaboratoryRedundantEntry(KGLListRadiologyLaboratory radio) {
-        for (KGLListRadiologyLaboratory rl : _calcBasics.getRadiologyLaboratories()) {
-            if (rl.getCostCenterId() == 10) {
-                if (rl.equals(radio)) {
-                    return true;
-                }
-            }
-        }
-        return false;
+    private boolean isExistingEntryRadLab(KGLListRadiologyLaboratory radio) {
+        return _calcBasics.getRadiologyLaboratories().stream().anyMatch(rl -> rl.equals(radio));
     }
 
     public void uploadMedInfra(int costType) {
@@ -1820,7 +1804,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                             alertText += "Fehler: Zeile " + lineNum + ", Spalte 4: " + Utils.getMessage("msgNotAnInteger") + "\\n";
                             continue;
                         }
-                        if (checkMedInfraRedundantEntry(medInfra)) {
+                        if (isExistingEntryMedInfra(medInfra)) {
                             alertText += "Hinweis: Zeile " + lineNum + " wurde bereits hinzugefügt.";
                             continue;
                         }
@@ -1830,29 +1814,34 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                 if (alertText.length() > 0) {
                     _sessionController.alertClient(alertText);
                 }
+                if (costType == 170) {
+                    _importMessageMedInfra = alertText;
+                } else {
+                    _importMessageNonMedInfra = alertText;
+                }
             }
         } catch (IOException | NoSuchElementException e) {
         }
     }
 
-    private boolean checkMedInfraRedundantEntry(KGLListMedInfra medInfra) {
-        for (KGLListMedInfra mi : _calcBasics.getMedInfras()) {
-            if (mi.getCostTypeId() == medInfra.getCostTypeId()) {
-                if (mi.equals(medInfra)) {
-                    return true;
-                }
-            }
-        }
-        return false;
+    private transient String _importMessageMedInfra = "";
+
+    public String getImportMessageMedInfra() {
+        return _importMessageMedInfra;
     }
 
-    private boolean checkCostCenterCostRedundantEntry(KGLListCostCenterCost ccc) {
-        for (KGLListCostCenterCost c : _calcBasics.getCostCenterCosts()) {
-            if (c.equals(ccc)) {
-                return true;
-            }
-        }
-        return false;
+    private transient String _importMessageNonMedInfra = "";
+
+    public String getImportMessageNonMedInfra() {
+        return _importMessageNonMedInfra;
+    }
+
+    private boolean isExistingEntryMedInfra(KGLListMedInfra medInfra) {
+        return _calcBasics.getMedInfras().stream().anyMatch(mi -> mi.equals(medInfra));
+    }
+
+    private boolean isExistingEntryCostCenterCost(KGLListCostCenterCost ccc) {
+        return _calcBasics.getCostCenterCosts().stream().anyMatch(c -> c.equals(ccc));
     }
 
     public void toggleJournal() {

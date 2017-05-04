@@ -65,7 +65,9 @@
     <!-- See http://checkstyle.sf.net/config_misc.html#Translation -->
     <module name="Translation"/>
 
-    <module name="FileLength"/>  <!--it's not a treewalker check therefore it's moved up-->
+    <module name="FileLength">  <!--it's not a treewalker check therefore it's moved up-->
+        <property name="max" value="800"/>   <!--todo: decrease to 500-->
+    </module>
     <module name="FileTabCharacter"/> <!-- moved up to checkers -->
 
     <!-- Filter out Checkstyle warnings that have been suppressed with the @SuppressWarnings annotation -->
@@ -80,7 +82,7 @@
         <module name="PackageDeclaration"/>
 
         <module name="MemberName">
-            <property name="format" value="^[_a-z]([a-zA-Z0-9]|[_0-9])*$"/>
+            <property name="format" value="^[_a-z]([_][0-9]|[0-9][_]|[a-zA-Z0-9])*$"/>
         </module>
         
         <module name="ConstantName">
@@ -106,15 +108,15 @@
             <property name="setterCanReturnItsClass" value="true"/>
         </module>
         <module name="ModifiedControlVariable"/>
-<!--        Erschreckend viele Duplikate
-        <module name="MultipleStringLiterals"/>-->
-<!--        Anfang Mai scharf schalten in der Hoffnung, das bis dahin viele 
-        Verletzungen behoben sind
+        <!--        Erschreckend viele Duplikate-->
+        <!--module name="MultipleStringLiterals"/-->
+        <!--        Anfang Mai scharf schalten in der Hoffnung, das bis dahin viele 
+        Verletzungen behoben sind-->
         <module name="AbbreviationAsWordInName">
-            <property name="allowedAbbreviationLength" value="1"/>
-        </module>-->
+            <property name="allowedAbbreviationLength" value="4"/> <!-- todo: reduce this value -->
+        </module>
             
-<!--        <module name="RequireThis">
+        <!--        <module name="RequireThis">
             <property name="checkMethods" value="false"/>
             <property name="validateOnlyOverlapping" value="true"/>
         </module>-->
@@ -134,10 +136,10 @@
         </module>  -->
 		
         <!-- temp. disable check for java doc
-		<module name="JavadocType">
+        <module name="JavadocType">
             <property name="scope" value="public"/>
         </module>
-		-->
+        -->
         <!--
         <module name="JavadocVariable">
             <property name="scope" value="public"/>
@@ -148,8 +150,7 @@
         <!-- See http://checkstyle.sf.net/config_sizes.html -->
         <!-- <module name="FileLength"/>  it's not a treewalker check therefore it's moved up-->
         <module name="LineLength">
-            <property name="max" value="150"/>
-            <property name="severity" value="warning"/>
+            <property name="max" value="200"/> <!-- todo: 150 -->
         </module>
 
         <module name="MethodLength"/>
