@@ -17,10 +17,12 @@ import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.utils.StringUtil;
 
 /**
+ * A utility class to read csv data and create elements for each row.
  *
  * @author kunkelan
+ * @param <T> Type to import will create elements of this type
  */
-public class DataImporter<T extends BaseIdValue> implements Serializable {
+public final class DataImporter<T extends BaseIdValue> implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger(DataImporter.class.getName());
 
@@ -123,7 +125,7 @@ public class DataImporter<T extends BaseIdValue> implements Serializable {
 //
 //            )
 
-    DataImporter(String headLine, FileHolder fileHolder, ErrorCounter errorCounter,
+    private DataImporter(String headLine, FileHolder fileHolder, ErrorCounter errorCounter,
             List<DataImportCheck<T, ?>> checker, BiConsumer<PeppCalcBasics, T> dataSink, Class<T> clazz) {
         this.headLine = headLine;
         this.fileHolder = fileHolder;
