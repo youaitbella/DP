@@ -622,27 +622,21 @@
 
     </div>
 
-    <h:commandLink id="addButton4" styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
-        <f:ajax event="click" render="@form sumBeds:text :logout:remaining" listener="#{editCalcBasicsDrg.addCostCenterCosts()}"/>
-    </h:commandLink>
-    <div class="uploadFile inlineBlock marginRight">
-        <h:inputFile style="width: 154px;" styleClass="hiddenFile" id="file" value="#{editCalcBasicsDrg.file}">
-            <f:ajax listener="#{editCalcBasicsDrg.uploadNormalWard()}" render="@all"/>
-        </h:inputFile>
-        <div class="fakeFile">
-            <h:outputLabel style="margin-top: 0px;" styleClass="button" value="Upload"/>
-        </div>
-    </div>
-    <div class="inlineBlock">
-        <h:commandLink styleClass="button" value="Download Musterdatei" action="#{editCalcBasicsDrg.downloadNormalStationTemplate}" immediate="true"/>
-    </div>
+    <inek:UploadButtons readOnly="#{editCalcBasicsDrg.readOnly}"
+                        addListener="#{editCalcBasicsDrg.addCostCenterCosts()}"
+                        uploadButtonText="Upload"
+                        uploadListener="#{editCalcBasicsDrg.uploadNormalWard()}"
+                        file="#{editCalcBasicsDrg.file}"
+                        actionTemplate="#{editCalcBasicsDrg.downloadNormalStationTemplate}"
+                        actionDeleteTable="#{editCalcBasicsDrg.deleteAllCostCenterCosts()}"
+                        importMessage="#{editCalcBasicsDrg.dummyImportMessage}"
+                        showJournal="#{editCalcBasicsDrg.showJournal}"
+                        toggleJournal="#{editCalcBasicsDrg.toggleJournal}"
+                        />
+
+    
     <div class="inlineBlock" jsf:rendered="#{sessionController.isInekUser('CALCULATION_HOSPITAL')}">
         <h:commandLink styleClass="button" value="Export" action="#{editCalcBasicsDrg.downloadNormalStation}" immediate="true"/>
-    </div>
-    <div class="inlineBlock">
-        <h:commandLink styleClass="button" value="Tabelle löschen" action="#{editCalcBasicsDrg.deleteAllCostCenterCosts}" immediate="true">
-            <cb:confirmDelete/>
-        </h:commandLink>
     </div>
 
 </ui:composition>

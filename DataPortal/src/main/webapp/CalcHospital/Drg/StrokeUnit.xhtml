@@ -36,32 +36,6 @@
 
         <calc:IntensivStroke id="intStroke" intensiveType="2"/>
         
-        <h:panelGroup rendered="#{!editCalcBasicsDrg.readOnly}" class="inputPart">
-
-            <div class="uploadFile inlineBlock marginRight">
-                <h:inputFile styleClass="hiddenFile" id="file" value="#{editCalcBasicsDrg.fileStrokeUnit}" >
-                    <f:ajax listener="#{editCalcBasicsDrg.uploadNoticesStrokeUnit()}" render="@all"/>
-                </h:inputFile>
-                <div class="fakeFile">
-                    <h:outputLabel style="margin-top: 1px;" styleClass="button element100" value="Upload Stroke Unit"/>
-                </div>
-            </div>
-
-            <h:commandLink styleClass="button" value="Download Musterdatei" action="#{editCalcBasicsDrg.downloadTemplateStrokeUnit()}" immediate="true"/>
-
-            <h:commandLink rendered="#{editCalcBasicsDrg.importMessageStrokeUnit.length() gt 0}" 
-                           styleClass="button"
-                           value="#{msg.btnJournal} &nbsp; #{editCalcBasicsDrg.showJournal ? '˄' : '˅'}" 
-                           actionListener="#{editCalcBasicsDrg.toggleJournal}">
-                <f:ajax render="@this :journal1 :logout:remaining"/>
-            </h:commandLink>
-
-            <h:inputTextarea id="journal" rendered="#{editCalcBasicsDrg.importMessageStrokeUnit.length() gt 0 and editCalcBasicsDrg.showJournal}" 
-                             value="#{editCalcBasicsDrg.importMessageStrokeUnit}"
-                             readonly="true"
-                             styleClass="element100 #{editCalcBasicsDrg.importMessageStrokeUnit.length() > 500 ? 'areaHugh' : 'areaWideHigh'}"/>
-        </h:panelGroup>
-        
     </div>
 
 </ui:composition>

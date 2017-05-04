@@ -200,7 +200,9 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             calcBasics.getNormalStationServiceDocumentations().add(add);
         }
         calcBasics.getCostCenterCosts().clear();
-        _priorCalcBasics.getCostCenterCosts().stream()
+        _priorCalcBasics
+                .getCostCenterCosts()
+                .stream()
                 .map((ccc) -> {
                     KGLListCostCenterCost c = new KGLListCostCenterCost();
                     c.setPrior(ccc);
@@ -543,7 +545,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         _calcBasics.deleteRadiologies();
     }
 
-    
     public void addNormalStationServiceDocMinutes() {
         KGLNormalStationServiceDocumentationMinutes min = new KGLNormalStationServiceDocumentationMinutes();
         min.setBaseInformationId(_calcBasics.getId());
@@ -653,15 +654,15 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         _calcBasics.getIntensivStrokes().add(item);
     }
 
+    public void deleteIntensivStrokeItems(int intensiveType) {
+        List<KGLListIntensivStroke> itemsToDelete = _calcBasics.getIntensivStrokes().stream().filter(i -> i.getIntensiveType() == intensiveType).collect(Collectors.toList());
+        _calcBasics.getIntensivStrokes().removeAll(itemsToDelete);
+    }
+
     public void deleteIntensivStroke(KGLListIntensivStroke item) {
         _calcBasics.getIntensivStrokes().remove(item);
     }
 
-//    public Optional<KGLListIntensivStroke> getPriorIntensivStroke(KGLListIntensivStroke item) {
-//        return _priorCalcBasics.getIntensivStrokes().stream()
-//                .filter(i -> i.getCostCenterID() == item.getCostCenterID())
-//                .findAny();
-//    }
     public int getSumIntensivStrokeWeighted() {
         List<KGLListIntensivStroke> intensivStrokes = _calcBasics.getIntensivStrokes();
         int result = 0;
@@ -735,16 +736,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     @Inject
     private Instance<IntensivDataImporter> _importIntensivProvider;
 
-    private transient Part _fileIntensivCare;
-
-    public Part getFileIntensivCare() {
-        return _fileIntensivCare;
-    }
-
-    public void setFileIntensivCare(Part file) {
-        _fileIntensivCare = file;
-    }
-
     private transient String _importMessageStrokeUnit = "";
 
     public String getImportMessageStrokeUnit() {
@@ -754,19 +745,9 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     @Inject
     private Instance<StrokeUnitDataImporter> _importStrokeUnitProvider;
 
-    private transient Part _fileStrokeUnit;
-
-    public Part getFileStrokeUnit() {
-        return _fileStrokeUnit;
-    }
-
-    public void setFileStrokeUnit(Part file) {
-        _fileStrokeUnit = file;
-    }
-
     public void uploadNoticesIntensiv() {
         try {
-            if (_fileIntensivCare != null) {
+            if (_file != null) {
                 //Scanner scanner = new Scanner(_file.getInputStream(), "UTF-8");
                 // We assume most of the documents coded with the Windows character set
                 // Thus, we read with the system default
@@ -776,7 +757,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                 // By intention it fails for other charcters
                 // Alternative: implement a library which guesses th correct character set and read properly
                 // Since we support German only, we started using the simple approach
-                Scanner scanner = new Scanner(_fileIntensivCare.getInputStream());
+                Scanner scanner = new Scanner(_file.getInputStream());
                 if (!scanner.hasNextLine()) {
                     return;
                 }
@@ -798,7 +779,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     public void uploadNoticesStrokeUnit() {
         try {
-            if (_fileStrokeUnit != null) {
+            if (_file != null) {
                 //Scanner scanner = new Scanner(_file.getInputStream(), "UTF-8");
                 // We assume most of the documents coded with the Windows character set
                 // Thus, we read with the system default
@@ -808,7 +789,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                 // By intention it fails for other charcters
                 // Alternative: implement a library which guesses th correct character set and read properly
                 // Since we support German only, we started using the simple approach
-                Scanner scanner = new Scanner(_fileStrokeUnit.getInputStream());
+                Scanner scanner = new Scanner(_file.getInputStream());
                 if (!scanner.hasNextLine()) {
                     return;
                 }

@@ -43,32 +43,6 @@
         <h2>Bitte benennen Sie die Intensivstation wie in der Datei Intensiv.csv</h2>
         <calc:IntensivStroke id="intStroke" intensiveType="1"/>
 
-        <h:panelGroup rendered="#{!editCalcBasicsDrg.readOnly}" class="inputPart">
-
-            <div class="uploadFile inlineBlock marginRight">
-                <h:inputFile styleClass="hiddenFile" id="file" value="#{editCalcBasicsDrg.fileIntensivCare}" >
-                    <f:ajax listener="#{editCalcBasicsDrg.uploadNoticesIntensiv()}" render="@all"/>
-                </h:inputFile>
-                <div class="fakeFile">
-                    <h:outputLabel style="margin-top: 1px;" styleClass="button element100" value="Upload Intensiv"/>
-                </div>
-            </div>
-
-            <h:commandLink styleClass="button" value="Download Musterdatei" action="#{editCalcBasicsDrg.downloadTemplateIntensiv()}" immediate="true"/>
-
-            <h:commandLink rendered="#{editCalcBasicsDrg.importMessageIntensiv.length() gt 0}" 
-                           styleClass="button"
-                           value="#{msg.btnJournal} &nbsp; #{editCalcBasicsDrg.showJournal ? '˄' : '˅'}" 
-                           actionListener="#{editCalcBasicsDrg.toggleJournal}">
-                <f:ajax render="journal :logout:remaining"/>
-            </h:commandLink>
-
-            <h:inputTextarea id="journal" rendered="#{editCalcBasicsDrg.importMessageIntensiv.length() gt 0 and editCalcBasicsDrg.showJournal}" 
-                             value="#{editCalcBasicsDrg.importMessageIntensiv}"
-                             readonly="true"
-                             styleClass="element100 #{editCalcBasicsDrg.importMessageIntensiv.length() > 500 ? 'areaHugh' : 'areaWideHigh'}"/>
-        </h:panelGroup>
-
     </div>
 
 
