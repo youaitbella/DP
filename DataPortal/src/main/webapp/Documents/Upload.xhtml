@@ -98,9 +98,12 @@
             <h:panelGroup id="IK" rendered="#{documentUpload.documentTarget eq 'IK'}" styleClass="marginTop">
                 <div>
                     <h:outputLabel value="#{msg.lblIkAbbr}" styleClass="label20"/>
-                    <h:inputText value="#{documentUpload.ik}">
+                    <h:inputText id="txtIk" value="#{documentUpload.ik}" validator="#{sessionTools.checkIk}">
                         <f:ajax render="@form :logout:remaining"/>
                     </h:inputText>
+                    <h:message for="txtIk"/>
+                    <h:outputLabel  value="#{sessionController.getIkName(documentUpload.ik)}"/>
+
                 </div>
                 <div>
                     <h:dataTable value="#{documentUpload.accounts}" var="account"

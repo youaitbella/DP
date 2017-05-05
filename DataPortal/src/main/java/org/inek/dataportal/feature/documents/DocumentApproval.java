@@ -201,17 +201,20 @@ public class DocumentApproval implements TreeNodeObserver, Serializable {
     public void approveSelected() {
         Map<String, Set<Account>> mailInfos = new HashMap<>();
 
-        _rootNode.getSelectedNodes().stream().map((node) -> approveAndReturnMailInfo(node.getId())).forEach((mailInfo) -> {
-            // collect mail info to reduce redundant mails
-            String key = mailInfo.getJsonMail();
-            Set<Account> accounts = mailInfos.get(key);
-            if (accounts == null) {
-                accounts = new HashSet<>();
-            }
-            accounts.addAll(mailInfo.getAccounts());
-            mailInfos.put(key, accounts);
-        });
-
+        try {
+            _rootNode.getSelectedNodes().stream().map((node) -> approveAndReturnMailInfo(node.getId())).forEach((mailInfo) -> {
+                // collect mail info to reduce redundant mails
+                String key = mailInfo.getJsonMail();
+                Set<Account> accounts = mailInfos.get(key);
+                if (accounts == null) {
+                    accounts = new HashSet<>();
+                }
+                accounts.addAll(mailInfo.getAccounts());
+                mailInfos.put(key, accounts);
+            });
+        } catch (IllegalArgumentException ex) {
+            LOGGER.log(Level.WARNING, ex.getMessage());
+        }
         for (Entry<String, Set<Account>> entry : mailInfos.entrySet()) {
             notify(entry.getKey(), entry.getValue());
         }

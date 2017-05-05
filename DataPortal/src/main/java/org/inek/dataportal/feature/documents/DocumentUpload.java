@@ -51,9 +51,6 @@ public class DocumentUpload implements Serializable {
     @Inject private Mailer _mailer;
     private final List<AccountDocument> _documents = new ArrayList<>();
 
-    public DocumentUpload() {
-        System.out.println("ctor DocumentUpload");
-    }
     // <editor-fold defaultstate="collapsed" desc="Property DocumentTarget">
     private DocumentTarget _documentTarget = DocumentTarget.Account;
 
@@ -93,14 +90,14 @@ public class DocumentUpload implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property IK">
-    private Integer _ik;
+    private int _ik;
     @Inject private CustomerFacade _customerFacade;
 
-    public Integer getIk() {
+    public int getIk() {
         return _ik;
     }
 
-    public void setIk(Integer ik) {
+    public void setIk(int ik) {
         _ik = ik;
         Customer customer = _customerFacade.getCustomerByIK(_ik);
         Set<String> emails = customer.getContacts().stream().filter(c -> c.isActive()).flatMap(c -> c.getContactDetails().stream().filter(d -> d.getContactDetailTypeId().equals("E")).map(d -> d.getDetails().toLowerCase())).collect(Collectors.toSet());
@@ -254,7 +251,7 @@ public class DocumentUpload implements Serializable {
                 }
                 break;
             case IK:
-                if (_ik == null || _ik < 0) {
+                if (_ik <= 0) {
                     return;
                 }
                 for (Account account : _accountRoles.keySet()) {
@@ -283,7 +280,7 @@ public class DocumentUpload implements Serializable {
                 && _mailTemplate != null
                 && (_documentTarget == DocumentTarget.Account && _account != null
                 || _documentTarget == DocumentTarget.Agency && _agencyId != null
-                || _documentTarget == DocumentTarget.IK && _ik != null);
+                || _documentTarget == DocumentTarget.IK && _ik > 0);
     }
 
     public String saveDocument() {

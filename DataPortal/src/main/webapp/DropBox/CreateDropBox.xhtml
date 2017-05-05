@@ -18,7 +18,12 @@
                     <h:outputLabel styleClass="label" for="description" value="#{msg.lblDescription}:"/>
                     <h:message id="msgDescription" for="description" styleClass="errorMessage"/>
                     <br/>
-                    <h:inputText id="description" value="#{dropBoxCreator.description}" required="true" requiredMessage="#{msg.msgValueNeeded}" styleClass="input">
+                    <h:inputText id="description" 
+                                 value="#{dropBoxCreator.description}" 
+                                 required="true" 
+                                 maxlength="250"
+                                 requiredMessage="#{msg.msgValueNeeded}" 
+                                 styleClass="input">
                         <f:ajax event="blur" render=":logout:remaining"/>
                     </h:inputText>
                 </p>
