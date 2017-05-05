@@ -10,7 +10,7 @@ package org.inek.begleitforschung.entities;
  * @author vohldo
  */
 public class Participation {
-    
+
     private String _state;
     private int _numHospitals;
     private int _numCases;
@@ -19,43 +19,43 @@ public class Participation {
     public Participation() {
     }
 
-    public Participation(String _state, int _numHospitals, int _numCases, String _stateCode) {
-        this._state = _state;
-        this._numHospitals = _numHospitals;
-        this._numCases = _numCases;
-        this._stateCode = _stateCode;
+    public Participation(String state, int numHospitals, int numCases, String stateCode) {
+        this._state = state;
+        this._numHospitals = numHospitals;
+        this._numCases = numCases;
+        this._stateCode = stateCode;
     }
 
     public String getState() {
         return _state;
     }
 
-    public void setState(String _state) {
-        this._state = _state;
+    public void setState(String state) {
+        this._state = state;
     }
 
     public int getNumHospitals() {
         return _numHospitals;
     }
 
-    public void setNumHospitals(int _numHospitals) {
-        this._numHospitals = _numHospitals;
+    public void setNumHospitals(int numHospitals) {
+        this._numHospitals = numHospitals;
     }
 
     public int getNumCases() {
         return _numCases;
     }
 
-    public void setNumCases(int _numCases) {
-        this._numCases = _numCases;
+    public void setNumCases(int numCases) {
+        this._numCases = numCases;
     }
 
     public String getStateCode() {
         return _stateCode;
     }
 
-    public void setStateCode(String _stateCode) {
-        this._stateCode = _stateCode;
+    public void setStateCode(String stateCode) {
+        this._stateCode = stateCode;
     }
-    
+
 }

@@ -10,7 +10,7 @@ package org.inek.begleitforschung.entities;
  * @author vohldo
  */
 public class C_112_212 {
-    
+
     private int _type;
     private String _level; //Stufe
     private int _sumA; // SummeA
@@ -25,98 +25,98 @@ public class C_112_212 {
     public C_112_212() {
     }
 
-    public C_112_212(int _type, String _level, int _sumA, int _sumAw, int _sumAm, int _sumAu, double _fractionW, double _fractionM, double _fractionU, String _sLevel) {
-        this._type = _type;
-        this._level = _level;
-        this._sumA = _sumA;
-        this._sumAw = _sumAw;
-        this._sumAm = _sumAm;
-        this._sumAu = _sumAu;
-        this._fractionW = _fractionW;
-        this._fractionM = _fractionM;
-        this._fractionU = _fractionU;
-        this._sLevel = _sLevel;
+    public C_112_212(int type, String level, int sumA, int sumAw, int sumAm, int sumAu, double fractionW, double fractionM, double fractionU, String sLevel) {
+        this._type = type;
+        this._level = level;
+        this._sumA = sumA;
+        this._sumAw = sumAw;
+        this._sumAm = sumAm;
+        this._sumAu = sumAu;
+        this._fractionW = fractionW;
+        this._fractionM = fractionM;
+        this._fractionU = fractionU;
+        this._sLevel = sLevel;
     }
 
     public int getType() {
         return _type;
     }
 
-    public void setType(int _type) {
-        this._type = _type;
+    public void setType(int type) {
+        this._type = type;
     }
 
     public String getLevel() {
         return _level;
     }
 
-    public void setLevel(String _level) {
-        this._level = _level;
+    public void setLevel(String level) {
+        this._level = level;
     }
 
     public int getSumA() {
         return _sumA;
     }
 
-    public void setSumA(int _sumA) {
-        this._sumA = _sumA;
+    public void setSumA(int sumA) {
+        this._sumA = sumA;
     }
 
     public int getSumAw() {
         return _sumAw;
     }
 
-    public void setSumAw(int _sumAw) {
-        this._sumAw = _sumAw;
+    public void setSumAw(int sumAw) {
+        this._sumAw = sumAw;
     }
 
     public int getSumAm() {
         return _sumAm;
     }
 
-    public void setSumAm(int _sumAm) {
-        this._sumAm = _sumAm;
+    public void setSumAm(int sumAm) {
+        this._sumAm = sumAm;
     }
 
     public int getSumAu() {
         return _sumAu;
     }
 
-    public void setSumAu(int _sumAu) {
-        this._sumAu = _sumAu;
+    public void setSumAu(int sumAu) {
+        this._sumAu = sumAu;
     }
 
     public double getFractionW() {
         return _fractionW;
     }
 
-    public void setFractionW(double _fractionW) {
-        this._fractionW = _fractionW;
+    public void setFractionW(double fractionW) {
+        this._fractionW = fractionW;
     }
 
     public double getFractionM() {
         return _fractionM;
     }
 
-    public void setFractionM(double _fractionM) {
-        this._fractionM = _fractionM;
+    public void setFractionM(double fractionM) {
+        this._fractionM = fractionM;
     }
 
     public double getFractionU() {
         return _fractionU;
     }
 
-    public void setFractionU(double _fractionU) {
-        this._fractionU = _fractionU;
+    public void setFractionU(double fractionU) {
+        this._fractionU = fractionU;
     }
 
     public String getsLevel() {
         return _sLevel;
     }
 
-    public void setsLevel(String _sLevel) {
-        this._sLevel = _sLevel;
+    public void setsLevel(String sLevel) {
+        this._sLevel = sLevel;
     }
-    
-    
+
+
 }

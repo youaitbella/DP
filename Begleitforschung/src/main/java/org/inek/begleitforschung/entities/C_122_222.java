@@ -10,19 +10,19 @@ package org.inek.begleitforschung.entities;
  * @author vohldo
  */
 public class C_122_222 {
-    
+
     private int _type;
     private char _type2;
     private String _name;
     private int _count;
     private int _sort;
 
-    public C_122_222(int _type, char _type2, String _name, int _count, int _sort) {
-        this._type = _type;
-        this._type2 = _type2;
-        this._name = _name;
-        this._count = _count;
-        this._sort = _sort;
+    public C_122_222(int type, char type2, String name, int count, int sort) {
+        this._type = type;
+        this._type2 = type2;
+        this._name = name;
+        this._count = count;
+        this._sort = sort;
     }
 
     public C_122_222() {
@@ -32,39 +32,39 @@ public class C_122_222 {
         return _type;
     }
 
-    public void setType(int _type) {
-        this._type = _type;
+    public void setType(int type) {
+        this._type = type;
     }
 
     public char getType2() {
         return _type2;
     }
 
-    public void setType2(char _type2) {
-        this._type2 = _type2;
+    public void setType2(char type2) {
+        this._type2 = type2;
     }
 
     public String getName() {
         return _name;
     }
 
-    public void setName(String _name) {
-        this._name = _name;
+    public void setName(String name) {
+        this._name = name;
     }
 
     public int getCount() {
         return _count;
     }
 
-    public void setCount(int _count) {
-        this._count = _count;
+    public void setCount(int count) {
+        this._count = count;
     }
 
     public int getSort() {
         return _sort;
     }
 
-    public void setSort(int _sort) {
-        this._sort = _sort;
+    public void setSort(int sort) {
+        this._sort = sort;
     }
 }

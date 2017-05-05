@@ -10,7 +10,7 @@ package org.inek.begleitforschung.entities;
  * @author vohldo
  */
 public class SystemRated {
-    
+
     private int _type;
     private String _drg;
     private String _name;
@@ -21,62 +21,62 @@ public class SystemRated {
     public SystemRated() {
     }
 
-    public SystemRated(int _type, String _drg, String _name, double _relativeWeight, int _numPrimaryDepartment, double _fractionOverall) {
-        this._type = _type;
-        this._drg = _drg;
-        this._name = _name;
-        this._relativeWeight = _relativeWeight;
-        this._numPrimaryDepartment = _numPrimaryDepartment;
-        this._fractionOverall = _fractionOverall;
+    public SystemRated(int type, String drg, String name, double relativeWeight, int numPrimaryDepartment, double fractionOverall) {
+        this._type = type;
+        this._drg = drg;
+        this._name = name;
+        this._relativeWeight = relativeWeight;
+        this._numPrimaryDepartment = numPrimaryDepartment;
+        this._fractionOverall = fractionOverall;
     }
 
     public int getType() {
         return _type;
     }
 
-    public void setType(int _type) {
-        this._type = _type;
+    public void setType(int type) {
+        this._type = type;
     }
 
     public String getDrg() {
         return _drg;
     }
 
-    public void setDrg(String _drg) {
-        this._drg = _drg;
+    public void setDrg(String drg) {
+        this._drg = drg;
     }
 
     public String getName() {
         return _name;
     }
 
-    public void setName(String _name) {
-        this._name = _name;
+    public void setName(String name) {
+        this._name = name;
     }
 
     public double getRelativeWeight() {
         return _relativeWeight;
     }
 
-    public void setRelativeWeight(double _relativeWeight) {
-        this._relativeWeight = _relativeWeight;
+    public void setRelativeWeight(double relativeWeight) {
+        this._relativeWeight = relativeWeight;
     }
 
     public int getNumPrimaryDepartment() {
         return _numPrimaryDepartment;
     }
 
-    public void setNumPrimaryDepartment(int _numPrimaryDepartment) {
-        this._numPrimaryDepartment = _numPrimaryDepartment;
+    public void setNumPrimaryDepartment(int numPrimaryDepartment) {
+        this._numPrimaryDepartment = numPrimaryDepartment;
     }
 
     public double getFractionOverall() {
         return _fractionOverall;
     }
 
-    public void setFractionOverall(double _fractionOverall) {
-        this._fractionOverall = _fractionOverall;
+    public void setFractionOverall(double fractionOverall) {
+        this._fractionOverall = fractionOverall;
     }
-    
+
     
 }

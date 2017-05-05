@@ -10,7 +10,7 @@ package org.inek.begleitforschung.entities;
  * @author vohldo
  */
 public class PartialInpatientCare {
-    
+
     private int _type;
     private String _area;
     private String _areaName;
@@ -20,11 +20,11 @@ public class PartialInpatientCare {
     public PartialInpatientCare() {
     }
 
-    public PartialInpatientCare(int _type, String _area, String _areaName, int _numKh, int numPartialInpatient) {
-        this._type = _type;
-        this._area = _area;
-        this._areaName = _areaName;
-        this._numKh = _numKh;
+    public PartialInpatientCare(int type, String area, String areaName, int numKh, int numPartialInpatient) {
+        this._type = type;
+        this._area = area;
+        this._areaName = areaName;
+        this._numKh = numKh;
         this.numPartialInpatient = numPartialInpatient;
     }
 
@@ -32,23 +32,23 @@ public class PartialInpatientCare {
         return _type;
     }
 
-    public void setType(int _type) {
-        this._type = _type;
+    public void setType(int type) {
+        this._type = type;
     }
 
     public String getArea() {
         return _area;
     }
 
-    public void setArea(String _area) {
-        this._area = _area;
+    public void setArea(String area) {
+        this._area = area;
     }
 
     public String getAreaName() {
         return _areaName;
     }
 
-    public void setAreaName(String _areaName) {
+    public void setAreaName(String areaName) {
         this._areaName = _areaName;
     }
 
@@ -56,7 +56,7 @@ public class PartialInpatientCare {
         return _numKh;
     }
 
-    public void setNumKh(int _numKh) {
+    public void setNumKh(int numKh) {
         this._numKh = _numKh;
     }
 
@@ -67,6 +67,6 @@ public class PartialInpatientCare {
     public void setNumPartialInpatient(int numPartialInpatient) {
         this.numPartialInpatient = numPartialInpatient;
     }
-    
+
     
 }

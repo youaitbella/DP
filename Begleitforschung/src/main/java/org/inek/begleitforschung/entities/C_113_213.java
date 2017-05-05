@@ -10,7 +10,7 @@ package org.inek.begleitforschung.entities;
  * @author vohldo
  */
 public class C_113_213 {
-    
+
     private int _type;
     private String _drg;
     private String _name;
@@ -25,10 +25,10 @@ public class C_113_213 {
     public C_113_213() {
     }
 
-    public C_113_213(int _type, String _drg, String _name, int sumA, double avgLos, double avgStdDeviation, int sumKla, double fractionKla, int sumLla, double fractionLla) {
-        this._type = _type;
-        this._drg = _drg;
-        this._name = _name;
+    public C_113_213(int type, String drg, String name, int sumA, double avgLos, double avgStdDeviation, int sumKla, double fractionKla, int sumLla, double fractionLla) {
+        this._type = type;
+        this._drg = drg;
+        this._name = name;
         this.sumA = sumA;
         this.avgLos = avgLos;
         this.avgStdDeviation = avgStdDeviation;
@@ -42,24 +42,24 @@ public class C_113_213 {
         return _type;
     }
 
-    public void setType(int _type) {
-        this._type = _type;
+    public void setType(int type) {
+        this._type = type;
     }
 
     public String getDrg() {
         return _drg;
     }
 
-    public void setDrg(String _drg) {
-        this._drg = _drg;
+    public void setDrg(String drg) {
+        this._drg = drg;
     }
 
     public String getName() {
         return _name;
     }
 
-    public void setName(String _name) {
-        this._name = _name;
+    public void setName(String name) {
+        this._name = name;
     }
 
     public int getSumA() {
@@ -117,5 +117,5 @@ public class C_113_213 {
     public void setFractionLla(double fractionLla) {
         this.fractionLla = fractionLla;
     }
-    
+
 }

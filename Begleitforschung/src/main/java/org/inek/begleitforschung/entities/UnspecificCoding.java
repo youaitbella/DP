@@ -10,7 +10,7 @@ package org.inek.begleitforschung.entities;
  * @author vohldo
  */
 public class UnspecificCoding {
-    
+
     private String _type;
     private int _numSd;
     private int _numSdU;
@@ -22,69 +22,69 @@ public class UnspecificCoding {
     public UnspecificCoding() {
     }
 
-    public UnspecificCoding(String _type, int _numSd, int _numSdU, double _fractionSdU, int _numProc, int _numProcU, double _fractionProcU) {
-        this._type = _type;
-        this._numSd = _numSd;
-        this._numSdU = _numSdU;
-        this._fractionSdU = _fractionSdU;
-        this._numProc = _numProc;
-        this._numProcU = _numProcU;
-        this._fractionProcU = _fractionProcU;
+    public UnspecificCoding(String type, int numSd, int numSdU, double fractionSdU, int numProc, int numProcU, double fractionProcU) {
+        this._type = type;
+        this._numSd = numSd;
+        this._numSdU = numSdU;
+        this._fractionSdU = fractionSdU;
+        this._numProc = numProc;
+        this._numProcU = numProcU;
+        this._fractionProcU = fractionProcU;
     }
 
     public String getType() {
         return _type;
     }
 
-    public void setType(String _type) {
-        this._type = _type;
+    public void setType(String type) {
+        this._type = type;
     }
 
     public int getNumSd() {
         return _numSd;
     }
 
-    public void setNumSd(int _numSd) {
-        this._numSd = _numSd;
+    public void setNumSd(int numSd) {
+        this._numSd = numSd;
     }
 
     public int getNumSdU() {
         return _numSdU;
     }
 
-    public void setNumSdU(int _numSdU) {
-        this._numSdU = _numSdU;
+    public void setNumSdU(int numSdU) {
+        this._numSdU = numSdU;
     }
 
     public double getFractionSdU() {
         return _fractionSdU;
     }
 
-    public void setFractionSdU(double _fractionSdU) {
-        this._fractionSdU = _fractionSdU;
+    public void setFractionSdU(double fractionSdU) {
+        this._fractionSdU = fractionSdU;
     }
 
     public int getNumProc() {
         return _numProc;
     }
 
-    public void setNumProc(int _numProc) {
-        this._numProc = _numProc;
+    public void setNumProc(int numProc) {
+        this._numProc = numProc;
     }
 
     public int getNumProcU() {
         return _numProcU;
     }
 
-    public void setNumProcU(int _numProcU) {
-        this._numProcU = _numProcU;
+    public void setNumProcU(int numProcU) {
+        this._numProcU = numProcU;
     }
 
     public double getFractionProcU() {
         return _fractionProcU;
     }
 
-    public void setFractionProcU(double _fractionProcU) {
-        this._fractionProcU = _fractionProcU;
+    public void setFractionProcU(double fractionProcU) {
+        this._fractionProcU = fractionProcU;
     }
 }
