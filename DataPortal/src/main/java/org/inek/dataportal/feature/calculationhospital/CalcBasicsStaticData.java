@@ -32,7 +32,7 @@ public class CalcBasicsStaticData {
         return staticGetNeonatFulfillmentItems();
     }
 
-    public List<SelectItem> staticGetNeonatFulfillmentItems() {
+    public static List<SelectItem> staticGetNeonatFulfillmentItems() {
         List<SelectItem> items = new ArrayList<>();
         items.add(new SelectItem(0, "nicht erfüllt"));
         items.add(new SelectItem(13, "ganzjährig"));
@@ -55,7 +55,7 @@ public class CalcBasicsStaticData {
         return staticGetNeonatLevelItems();
     }
 
-    public List<SelectItem> staticGetNeonatLevelItems() {
+    public static List<SelectItem> staticGetNeonatLevelItems() {
         List<SelectItem> items = new ArrayList<>();
         items.add(new SelectItem(0, Utils.getMessage("lblNotAvailable")));
         items.add(new SelectItem(1, "Level 1: Versorgungsstufe I: Perinatalzentrum"));
@@ -109,7 +109,7 @@ public class CalcBasicsStaticData {
         return staticGetExternalServiceProvisionItems();
     }
 
-    public List<SelectItem> staticGetExternalServiceProvisionItems() {
+    public static List<SelectItem> staticGetExternalServiceProvisionItems() {
         List<SelectItem> items = new ArrayList<>();
         items.add(new SelectItem(1, "wird nicht erbracht"));
         items.add(new SelectItem(2, "Keine Fremdvergabe"));
@@ -137,7 +137,7 @@ public class CalcBasicsStaticData {
         return staticGetTimeRecordingTypeItemsSNZ();
     }
 
-    public List<SelectItem> staticGetTimeRecordingTypeItemsSNZ() {
+    public static List<SelectItem> staticGetTimeRecordingTypeItemsSNZ() {
         List<SelectItem> items = new ArrayList<>();
         //items.add(new SelectItem(0, "nicht dokumentiert"));
         items.add(new SelectItem(1, "mit fallindividuellem Gleichzeitigkeitsfaktor"));
@@ -150,7 +150,7 @@ public class CalcBasicsStaticData {
         return staticGetTimeRecordingTypeItemsRZ();
     }
 
-    public List<SelectItem> staticGetTimeRecordingTypeItemsRZ() {
+    public static List<SelectItem> staticGetTimeRecordingTypeItemsRZ() {
         List<SelectItem> items = new ArrayList<>();
         //items.add(new SelectItem(0, "nicht dokumentiert"));
         items.add(new SelectItem(1, "als fallindividuell erfasster Wert je Mitarbeiter(in)"));
@@ -164,7 +164,7 @@ public class CalcBasicsStaticData {
         return staticGetCalculationTypeItems();
     }
 
-    public List<SelectItem> staticGetCalculationTypeItems() {
+    public static List<SelectItem> staticGetCalculationTypeItems() {
         List<SelectItem> items = new ArrayList<>();
         items.add(new SelectItem(1, "vereinfachte Kalkulation"));
         items.add(new SelectItem(2, "Probekalkulation"));
@@ -175,7 +175,7 @@ public class CalcBasicsStaticData {
         return staticGetIbvlTypeItem();
     }
 
-    public List<SelectItem> staticGetIbvlTypeItem() {
+    public static List<SelectItem> staticGetIbvlTypeItem() {
         List<SelectItem> items = new ArrayList<>();
         items.add(new SelectItem(1, "Gleichungsverfahren"));
         items.add(new SelectItem(2, "Stufenleiterverfahren"));

@@ -77,8 +77,10 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
                 if (targetPage.isEmpty()) {
                     targetPage = Pages.SessionTimeout.RedirectURL();
                 }
-            } else if (exception instanceof NonexistentConversationException || exception instanceof WeldException // todo: exception instanceof WeldException is fine in direct window, but does not work here.
-                    || exception.getClass().toString().equals("class org.jboss.weld.exceptions.WeldException") // check for exception's name as workarround
+            } else if (exception instanceof NonexistentConversationException || exception instanceof WeldException 
+                    // todo: exception instanceof WeldException is fine in direct window, but does not work here.
+                    // thus check for exception's name as workarround
+                    || exception.getClass().toString().equals("class org.jboss.weld.exceptions.WeldException")
                     || exception instanceof FacesException && exception.getMessage() != null && exception.getMessage().contains("WELD-000049:")) {
                 String head = "[PortalExceptionHandler NonexistentConversationException] ";
                 LOGGER.log(Level.SEVERE, head, exception);
@@ -106,7 +108,9 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
                 }
             } else {
                 String msg = exception.getMessage();
-                if (msg == null || !msg.contains("Conversation lock timed out") && !"getOutputStream() has already been called for this response".equals(msg)) {  // getOutput... happens on IE, but does not affect the user
+                if (msg == null || !msg.contains("Conversation lock timed out") 
+                        && !msg.contains("getOutputStream() has already been called for this response")) {  
+                    // getOutput... happens on IE, but does not affect the user
                     String head = "[PortalExceptionHandler OtherException] ";
                     LOGGER.log(Level.SEVERE, head, exception);
                     collectException(messageCollector, head, exception);

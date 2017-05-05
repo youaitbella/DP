@@ -14,7 +14,7 @@ import javax.validation.Validator;
 import javax.validation.groups.Default;
 import org.inek.dataportal.entities.calc.drg.DrgCalcBasics;
 import org.inek.dataportal.entities.calc.drg.KGLListKstTop;
-import org.inek.dataportal.entities.calc.drg.KGLOpAn;
+import org.inek.dataportal.entities.calc.drg.KglOpAn;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.groupinterface.Seal;
 import org.inek.dataportal.helper.structures.MessageContainer;
@@ -67,7 +67,7 @@ public class CalcBasicsDrgValidator {
 
     //<editor-fold defaultstate="collapsed" desc="checkOpAn">
     private static void checkOpAn(DrgCalcBasics calcBasics, MessageContainer message) {
-        KGLOpAn opAn = calcBasics.getOpAn();
+        KglOpAn opAn = calcBasics.getOpAn();
         if (!opAn.isCentralOP()) {
             return;
         }

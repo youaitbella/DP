@@ -30,7 +30,7 @@ import org.inek.dataportal.entities.calc.autopsy.AutopsyServiceText;
 import org.inek.dataportal.entities.calc.drg.KGLListContentTextOps;
 import org.inek.dataportal.entities.calc.drg.KGLListServiceProvision;
 import org.inek.dataportal.entities.calc.drg.KGLListServiceProvisionType;
-import org.inek.dataportal.entities.calc.drg.KGLOpAn;
+import org.inek.dataportal.entities.calc.drg.KglOpAn;
 import org.inek.dataportal.entities.calc.psy.KGPListContentText;
 import org.inek.dataportal.entities.calc.psy.KGPListServiceProvisionType;
 import org.inek.dataportal.entities.calc.sop.StatementOfParticipance;
@@ -594,7 +594,7 @@ public class CalcFacade extends AbstractDataAccess {
         prepareServiceProvisionTypes(calcBasics.getServiceProvisions());
 
         if (calcBasics.getId() == -1) {
-            KGLOpAn opAn = calcBasics.getOpAn();
+            KglOpAn opAn = calcBasics.getOpAn();
             calcBasics.setOpAn(null); // can not persist otherwise :(
             persist(calcBasics);
             opAn.setBaseInformationId(calcBasics.getId());
@@ -855,7 +855,7 @@ public class CalcFacade extends AbstractDataAccess {
     }
 
     public void delete(DrgCalcBasics calcBasics) {
-        KGLOpAn opAn = calcBasics.getOpAn();
+        KglOpAn opAn = calcBasics.getOpAn();
         if (opAn != null) {
             remove(opAn);
             calcBasics.setOpAn(null);

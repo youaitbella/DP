@@ -63,7 +63,7 @@ import org.inek.dataportal.entities.calc.drg.KGLNormalFeeContract;
 import org.inek.dataportal.entities.calc.drg.KGLNormalFreelancer;
 import org.inek.dataportal.entities.calc.drg.KGLNormalStationServiceDocumentation;
 import org.inek.dataportal.entities.calc.drg.KGLNormalStationServiceDocumentationMinutes;
-import org.inek.dataportal.entities.calc.drg.KGLOpAn;
+import org.inek.dataportal.entities.calc.drg.KglOpAn;
 import org.inek.dataportal.entities.calc.drg.KGLPersonalAccounting;
 import org.inek.dataportal.entities.calc.drg.KGLRadiologyService;
 import org.inek.dataportal.entities.calc.psy.KglPkmsAlternative;
@@ -154,7 +154,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     private void preloadData(DrgCalcBasics calcBasics) {
-        KGLOpAn opAn = new KGLOpAn(calcBasics.getId(), _priorCalcBasics.getOpAn());
+        KglOpAn opAn = new KglOpAn(calcBasics.getId(), _priorCalcBasics.getOpAn());
         calcBasics.setOpAn(opAn);
 
         preloadLocations(calcBasics);

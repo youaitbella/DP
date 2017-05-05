@@ -6,7 +6,7 @@
 package org.inek.dataportal.feature.calculationhospital;
 
 import org.inek.dataportal.entities.calc.drg.DrgCalcBasics;
-import org.inek.dataportal.entities.calc.drg.KGLOpAn;
+import org.inek.dataportal.entities.calc.drg.KglOpAn;
 
 /**
  *
@@ -58,10 +58,10 @@ public class CalcBasicsDrgValueCleaner {
 
     //<editor-fold defaultstate="collapsed" desc="cleanOpAn">
     private static void cleanOpAn(DrgCalcBasics calcBasics) {
-        KGLOpAn opAn = calcBasics.getOpAn();
+        KglOpAn opAn = calcBasics.getOpAn();
         if (!opAn.isCentralOP()) {
             // if there is no OperationRoom, remove any entry
-            KGLOpAn emptyOpAn = new KGLOpAn();
+            KglOpAn emptyOpAn = new KglOpAn();
             emptyOpAn.setBaseInformationId(calcBasics.getId());
             calcBasics.setOpAn(emptyOpAn);
             return;

@@ -917,16 +917,16 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     @PrimaryKeyJoinColumn(name = "biID", referencedColumnName = "oaBaseInformationId")
     @Documentation(include = true)
     @Valid
-    private KGLOpAn _opAn;
+    private KglOpAn _opAn;
 
-    public KGLOpAn getOpAn() {
+    public KglOpAn getOpAn() {
         if (_opAn == null) {
-            _opAn = new KGLOpAn(_id);
+            _opAn = new KglOpAn(_id);
         }
         return _opAn;
     }
 
-    public void setOpAn(KGLOpAn opAn) {
+    public void setOpAn(KglOpAn opAn) {
         this._opAn = opAn;
     }
     //</editor-fold>

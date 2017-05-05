@@ -5,13 +5,16 @@
  */
 package org.inek.dataportal.entities.calc.drg;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
+import javax.faces.model.SelectItem;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import org.inek.dataportal.feature.calculationhospital.CalcBasicsStaticData;
 import org.inek.dataportal.helper.groupinterface.TopicCalcOpAn;
 import org.inek.dataportal.helper.groupinterface.Seal;
 import org.inek.dataportal.utils.Documentation;
@@ -23,7 +26,7 @@ import org.inek.dataportal.utils.Documentation;
 @Entity
 @Table(name = "KGLOpAn", schema = "calc")
 @SuppressWarnings("Indentation")
-public class KGLOpAn implements Serializable {
+public class KglOpAn implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -124,7 +127,8 @@ public class KGLOpAn implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="functionalServiceSnzOP">    
     @Column(name = "oaFunctionalServiceSnzOP")
     
-    @Documentation(name = "Schnitt-Naht-Zeit OP FD/MTD", rank = 3010, omitOnOtherValues = "KGLOpAn._centralOPCnt=0", translateValue = "1=mit fallindividuellem Gleichzeitigkeitsfaktor;2=mit standardisiertem Gleichzeitigkeitsfaktor je OP-Art;4=Alternative (bitte beschreiben)")
+    @Documentation(name = "Schnitt-Naht-Zeit OP FD/MTD", rank = 3010, omitOnOtherValues = "KGLOpAn._centralOPCnt=0", 
+            translateValue = "1=mit fallindividuellem Gleichzeitigkeitsfaktor;2=mit standardisiertem Gleichzeitigkeitsfaktor je OP-Art;4=Alternative (bitte beschreiben)")
     private int _functionalServiceSnzOP;
 
     public int getFunctionalServiceSnzOP() {
@@ -152,8 +156,6 @@ public class KGLOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="medicalServiceRzOP">    
     @Column(name = "oaMedicalServiceRzOP")
-    
-    @Documentation(name = "Rüstzeit OP ÄD", rank = 3010, omitOnOtherValues = "KGLOpAn._centralOPCnt=0", translateValue = "1=als fallindividuell erfasster Wert je Mitarbeiter(in);2=als abgestufter Standardwert je OP-Art;3=als Einheitswert;4=Alternative (bitte beschreiben)")
     private int _medicalServiceRzOP;
 
     public int getMedicalServiceRzOP() {
@@ -163,12 +165,20 @@ public class KGLOpAn implements Serializable {
     public void setMedicalServiceRzOP(int medicalServiceRzOP) {
         this._medicalServiceRzOP = medicalServiceRzOP;
     }
+
+    @Documentation(name = "Rüstzeit OP ÄD", rank = 3010, omitOnOtherValues = "KGLOpAn._centralOPCnt=0")
+    @JsonIgnore
+    private String getMedicalServiceRzOPText() {
+        return CalcBasicsStaticData.staticGetTimeRecordingTypeItemsSNZ()
+                .stream()
+                .filter(i -> (int) i.getValue() == _medicalServiceRzOP)
+                .findAny().orElse(new SelectItem(-1, ""))
+                .getLabel();
+    }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="functionalServiceRzOP">    
     @Column(name = "oaFunctionalServiceRzOP")
-    
-    @Documentation(name = "Rüstzeit OP FD/MTD", rank = 3010, omitOnOtherValues = "KGLOpAn._centralOPCnt=0", translateValue = "1=als fallindividuell erfasster Wert je Mitarbeiter(in);2=als abgestufter Standardwert je OP-Art;3=als Einheitswert;4=Alternative (bitte beschreiben)")
     private int _functionalServiceRzOP;
 
     public int getFunctionalServiceRzOP() {
@@ -177,6 +187,16 @@ public class KGLOpAn implements Serializable {
 
     public void setFunctionalServiceRzOP(int functionalServiceRzOP) {
         this._functionalServiceRzOP = functionalServiceRzOP;
+    }
+
+    @Documentation(name = "Rüstzeit OP FD/MTD", rank = 3010, omitOnOtherValues = "KGLOpAn._centralOPCnt=0")
+    @JsonIgnore
+    private String getFunctionalServiceRzOPText() {
+        return CalcBasicsStaticData.staticGetTimeRecordingTypeItemsSNZ()
+                .stream()
+                .filter(i -> (int) i.getValue() == _functionalServiceRzOP)
+                .findAny().orElse(new SelectItem(-1, ""))
+                .getLabel();
     }
     //</editor-fold>
 
@@ -374,14 +394,14 @@ public class KGLOpAn implements Serializable {
     }
     //</editor-fold>
 
-    public KGLOpAn() {
+    public KglOpAn() {
     }
 
-    public KGLOpAn(Integer oaBaseInformationId) {
+    public KglOpAn(Integer oaBaseInformationId) {
         this._baseInformationId = oaBaseInformationId;
     }
 
-    public KGLOpAn(int baseInformationId, KGLOpAn template) {
+    public KglOpAn(int baseInformationId, KglOpAn template) {
         this._baseInformationId = baseInformationId;
         this._centralOPCnt = template._centralOPCnt;
         this._staffBindingMsOP = template._staffBindingMsOP;
@@ -414,10 +434,10 @@ public class KGLOpAn implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        if (!(object instanceof KGLOpAn)) {
+        if (!(object instanceof KglOpAn)) {
             return false;
         }
-        KGLOpAn other = (KGLOpAn) object;
+        KglOpAn other = (KglOpAn) object;
         return this._baseInformationId == other._baseInformationId;
     }
 
