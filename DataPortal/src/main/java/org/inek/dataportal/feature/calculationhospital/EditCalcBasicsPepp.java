@@ -39,7 +39,6 @@ import org.inek.dataportal.entities.calc.psy.KGPListContentText;
 import org.inek.dataportal.entities.calc.psy.KGPListCostCenter;
 import org.inek.dataportal.entities.calc.psy.KGPListDelimitationFact;
 import org.inek.dataportal.entities.calc.psy.KGPListLocation;
-import org.inek.dataportal.entities.calc.psy.KgpListMedInfra;
 import org.inek.dataportal.entities.calc.psy.KGPListRadiologyLaboratory;
 import org.inek.dataportal.entities.calc.psy.KGPListServiceProvision;
 import org.inek.dataportal.entities.calc.psy.KGPListServiceProvisionType;
@@ -47,6 +46,7 @@ import org.inek.dataportal.entities.calc.psy.KGPListStationAlternative;
 import org.inek.dataportal.entities.calc.psy.KGPListStationServiceCost;
 import org.inek.dataportal.entities.calc.psy.KGPListTherapy;
 import org.inek.dataportal.entities.calc.psy.KGPPersonalAccounting;
+import org.inek.dataportal.entities.calc.psy.KgpListMedInfra;
 import org.inek.dataportal.entities.calc.psy.PeppCalcBasics;
 import org.inek.dataportal.entities.iface.BaseIdValue;
 import org.inek.dataportal.enums.CalcHospitalFunction;
@@ -876,120 +876,18 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
 
     public void deleteKgpMedInfraList(int costTypeId){
         _calcBasics.deleteKgpMedInfraList(costTypeId);
-    }    
-    
+    }
+
     public void deleteMedInfra(KgpListMedInfra mif) {
         _calcBasics.getKgpMedInfraList().remove(mif);
     }
 
     @Inject private DataImporterPool importerPool;
 
-    public Part getMedInfraFile() {
-        return importerPool.getDataImporter("peppmedinfra").getFile();
+    public DataImporter<?> getImporter(String importerName) {
+        return importerPool.getDataImporter(importerName);
     }
 
-    public void setMedInfraFile(Part file) {
-        importerPool.getDataImporter("peppmedinfra").setFile(file);
-    }
-
-    public void downloadTemplateHeadlineMedInfra() {
-        importerPool.getDataImporter("peppmedinfra").downloadTemplate();
-    }
-
-    public String getImportMessageMedInfra() {
-        return importerPool.getDataImporter("peppmedinfra").getMessage();
-    }
-
-    public Part getNonMedInfraFile() {
-        return importerPool.getDataImporter("peppnonmedinfra").getFile();
-    }
-
-    public void setNonMedInfraFile(Part file) {
-        importerPool.getDataImporter("peppnonmedinfra").setFile(file);
-    }
-
-    public void downloadTemplateHeadlineNonMedInfra() {
-        importerPool.getDataImporter("peppnonmedinfra").downloadTemplate();
-    }
-
-    public String getImportMessageNonMedInfra() {
-        return importerPool.getDataImporter("peppnonmedinfra").getMessage();
-    }
-
-    public void uploadNoticesMedInfra(int costType) {
-        DataImporter<? extends BaseIdValue> dataImporter;
-        if (170 == costType) {
-            dataImporter = importerPool.getDataImporter("peppmedinfra");
-        } else {
-            dataImporter = importerPool.getDataImporter("peppnonmedinfra");
-        }
-        dataImporter.uploadNoticesPepp(_calcBasics);
-        _sessionController.alertClient(dataImporter.getMessage());
-        _showJournal = dataImporter.containsError();
-    }
-
-//    @Inject private Instance<MedInfraDataImporterPepp> _importMedInfraPepp;
-//
-//    private static final String HEADLINE_MED_INFRA
-//            = "Nummer der Kostenstelle;Name der Kostenstelle;Verwendeter Schlüssel;Kostenvolumen";
-//
-//    public void downloadTemplateHeadlineMedInfra() {
-//        Utils.downloadText(HEADLINE_MED_INFRA + "\n", "Med_Infra.csv");
-//    }
-//
-//    public void downloadTemplateHeadlineNonMedInfra() {
-//        Utils.downloadText(HEADLINE_MED_INFRA + "\n", "Nicht_Med_Infra.csv");
-//    }
-//
-//    private String _importMessageMedInfra = "";
-//
-//    public String getImportMessageMedInfra() {
-//        return _importMessageMedInfra;
-//    }
-//
-//    private String _importMessageNonMedInfra = "";
-//
-//    public String getImportMessageNonMedInfra() {
-//        return _importMessageNonMedInfra;
-//    }
-//
-//    public void uploadNoticesMedInfra(int costType) {
-//        try {
-//            if (_file != null) {
-//                //Scanner scanner = new Scanner(_file.getInputStream(), "UTF-8");
-//                // We assume most of the documents coded with the Windows character set
-//                // Thus, we read with the system default
-//                // in case of an UTF-8 file, all German Umlauts will be corrupted.
-//                // We simply replace them.
-//                // Drawbacks: this only converts the German Umlauts, no other chars.
-//                // By intention it fails for other charcters
-//                // Alternative: implement a library which guesses th correct character set and read properly
-//                // Since we support German only, we started using the simple approach
-//                Scanner scanner = new Scanner(_file.getInputStream());
-//                if (!scanner.hasNextLine()) {
-//                    return;
-//                }
-//                MedInfraDataImporterPepp itemImporter = _importMedInfraPepp.get();
-//                itemImporter.setCostTypeId(costType);
-//                itemImporter.setCalcBasics(_calcBasics);
-//                while (scanner.hasNextLine()) {
-//                    String line = Utils.convertFromUtf8(scanner.nextLine());
-//                    if (!line.equals(HEADLINE_MED_INFRA)) {
-//                        itemImporter.tryImportLine(line);
-//                    }
-//                }
-//                if (costType == 170) {
-//                    _importMessageMedInfra = itemImporter.getMessage();
-//                    _sessionController.alertClient(_importMessageMedInfra);
-//                } else {
-//                    _importMessageNonMedInfra = itemImporter.getMessage();
-//                    _sessionController.alertClient(_importMessageNonMedInfra);
-//                }
-//                _showJournal = itemImporter.containsError();
-//            }
-//        } catch (IOException | NoSuchElementException e) {
-//        }
-//    }
     public boolean renderPersonalAccountingDescription() {
         for (KGPPersonalAccounting pa : _calcBasics.getPersonalAccountings()) {
             if (pa.isExpertRating() || pa.isServiceStatistic() || pa.isOther()) {
@@ -1047,7 +945,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     public void clearStationServiceCosts(){
         _calcBasics.clearStationServiceCosts();
     }
-    
+
     public List<KGPListRadiologyLaboratory> getRadiologyLaboritories(int costCenter) {
         return _calcBasics.getRadiologyLaboratories().stream()
                 .filter(r -> r.getCostCenterId() == costCenter)

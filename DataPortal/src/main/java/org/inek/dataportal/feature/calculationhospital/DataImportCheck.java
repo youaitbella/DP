@@ -8,9 +8,12 @@ package org.inek.dataportal.feature.calculationhospital;
 import java.io.Serializable;
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 import java.util.function.BiConsumer;
 import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.utils.StringUtil;
 
 /**
  * Holds the Info where the data will be stored and which check to perform to validate the input.
@@ -90,13 +93,34 @@ public class DataImportCheck<T, I> implements Serializable {
         }
     }
 
-//    private void tryImportString(T item, String data, BiConsumer<T, String> bind, String errorMsg) {
-//        try {
-//            bind.accept(item, data);
-//        } catch (Exception ex) {
-//            throw new IllegalArgumentException(ex.getMessage() + "\n" + errorMsg + data);
-//        }
-//    }
+    public static <T> void tryImportCostCenterId(T item, String data, BiConsumer<T, String> assign, String errorMsg, ErrorCounter counter) {
+        List<String> allowedValues = Arrays.asList("11", "12", "13");
+        if (allowedValues.contains(data)){
+            tryImportString(item, data, assign, errorMsg, counter);
+        } else{
+            counter.addColumnErrorMsg(errorMsg + data);
+        }
+    }
+
+    public static <T> void tryImportDoubleAsInt(T item, String data, BiConsumer<T, Integer> assign, String errorMsg, ErrorCounter counter) {
+        try{
+            int val = StringUtil.parseLocalizedDoubleAsInt(data);
+            if (val < 0){
+                assign.accept(item, 0);
+                counter.addColumnErrorMsg(errorMsg + "Wert darf nicht kleiner 0 sein: " + Utils.getMessage("msgNotANumber") + ": " + data);
+            } else {
+                assign.accept(item, val);
+            }
+        } catch (NumberFormatException ex) {
+            assign.accept(item, 0);
+            if (data.trim().isEmpty()) {
+                counter.addColumnInfoMsg(errorMsg + "keinen Wert angegeben");
+            } else {
+                counter.addColumnErrorMsg(errorMsg + Utils.getMessage("msgNotANumber") + ": " + data);
+            }
+        }
+    }
+
 //    private void tryImportInteger(T item, String data, BiConsumer<T ,Integer> bind, String errorMsg) {
 //        try {
 //            NumberFormat nf = NumberFormat.getInstance(Locale.GERMAN);
@@ -117,17 +141,24 @@ public class DataImportCheck<T, I> implements Serializable {
 //            }
 //        }
 //    }
-    private void tryImportDouble(T item, String data, BiConsumer<T, Double> bind, String errorMessage) {
+    public static <T> void tryImportDouble(T item, String data, BiConsumer<T, Double> assign, String errorMsg, ErrorCounter counter) {
         try {
             NumberFormat nf = NumberFormat.getInstance(Locale.GERMAN);
             nf.setParseIntegerOnly(false);
             double val = nf.parse(data).doubleValue();
             if (val < 0) {
-                throw new IllegalArgumentException(errorMessage + "Wert darf nicht kleiner 0 sein: " + Utils.getMessage("msgNotANumber") + ": " + data);
+                assign.accept(item, 0.0);
+                counter.addColumnErrorMsg(errorMsg + "Wert darf nicht kleiner 0 sein: " + Utils.getMessage("msgNotANumber") + ": " + data);
+            } else {
+                assign.accept(item, val);
             }
-            bind.accept(item, val);
         } catch (ParseException ex) {
-            throw new IllegalArgumentException(errorMessage + Utils.getMessage("msgNotANumber") + ": " + data);
+            assign.accept(item, 0.0);
+            if (data.trim().isEmpty()) {
+                counter.addColumnInfoMsg(errorMsg + "keinen Wert angegeben");
+            } else {
+                counter.addColumnErrorMsg(errorMsg + Utils.getMessage("msgNotANumber") + ": " + data);
+            }
         }
     }
 

@@ -81,17 +81,24 @@
         </tr>
     </table>
     
-    <inek:UploadButtons readOnly="#{editCalcBasicsPepp.readOnly}"
+<!--    <inek:UploadButtons readOnly="# {editCalcBasicsPepp.readOnly}"
+                        addListener="# {editCalcBasicsPepp.addMedInfra(180)}"
+                        uploadButtonText="Upload"
+                        uploadListener="# {editCalcBasicsPepp.uploadNoticesMedInfra(180)}"
+                        file="# {editCalcBasicsPepp.nonMedInfraFile}"
+                        actionTemplate="# {editCalcBasicsPepp.downloadTemplateHeadlineMedInfra}"
+                        actionDeleteTable="# {editCalcBasicsPepp.deleteKgpMedInfraList(180)}"
+                        importMessage="# {editCalcBasicsPepp.importMessageNonMedInfra}"
+                        showJournal="# {editCalcBasicsPepp.showJournal}"
+                        toggleJournal="# {editCalcBasicsPepp.toggleJournal}"
+                        />-->
+    <inek:UploadButtons2 importer="#{editCalcBasicsPepp.getImporter('peppnonmedinfra')}"
+                         calcbase="#{editCalcBasicsPepp.calcBasics}" 
+                        readOnly="#{editCalcBasicsPepp.readOnly}"
                         addListener="#{editCalcBasicsPepp.addMedInfra(180)}"
                         uploadButtonText="Upload"
-                        uploadListener="#{editCalcBasicsPepp.uploadNoticesMedInfra(180)}"
-                        file="#{editCalcBasicsPepp.nonMedInfraFile}"
-                        actionTemplate="#{editCalcBasicsPepp.downloadTemplateHeadlineMedInfra}"
                         actionDeleteTable="#{editCalcBasicsPepp.deleteKgpMedInfraList(180)}"
-                        importMessage="#{editCalcBasicsPepp.importMessageNonMedInfra}"
-                        showJournal="#{editCalcBasicsPepp.showJournal}"
-                        toggleJournal="#{editCalcBasicsPepp.toggleJournal}"
                         />
-    
+
 </ui:composition>
 

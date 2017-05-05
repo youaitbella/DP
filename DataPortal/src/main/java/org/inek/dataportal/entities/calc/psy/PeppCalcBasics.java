@@ -587,7 +587,7 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
         List<KgpListMedInfra> itemsToDelete = _kgpMedInfraList.stream().filter(c -> c.getCostTypeId()== costTypeId).collect(Collectors.toList());
         _kgpMedInfraList.removeAll(itemsToDelete);
     }
-    
+
     public void setKgpMedInfraList(List<KgpListMedInfra> kgpMedInfraList) {
         this._kgpMedInfraList = kgpMedInfraList;
     }
@@ -684,6 +684,27 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
     public void setCostCenters(List<KGPListCostCenter> costCenters) {
         this._costCenters = costCenters;
     }
+
+    public void addCostCenter(KGPListCostCenter item) {
+        KGPListCostCenter foundItem = ListUtil.findItem(_costCenters, item, (a, b) ->
+                        a.getCostCenterId() == b.getCostCenterId() &&
+                        a.getCostCenterNumber().equals(b.getCostCenterNumber()) &&
+                        a.getServiceKey().equals(b.getServiceKey()));
+// check if the above is a key info for cost center the rest is for equality without saving information
+//        &&
+//                a.getAmount() == b.getAmount() &&
+//                        a.getCostCenterText().equals(b.getCostCenterText()) &&
+//                        a.getFullVigorCnt() == b.getFullVigorCnt() &&
+//                        a.getServiceKeyDescription().equals(b.getServiceKeyDescription()) &&
+//                        a.getServiceSum() == b.getServiceSum());
+
+        if (foundItem != null) {
+            foundItem.setAmount(item.getAmount());
+        } else {
+            _costCenters.add(item);
+        }
+    }
+
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property List _stationServiceCosts">
@@ -700,7 +721,7 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
     public void setStationServiceCosts(List<KGPListStationServiceCost> kgpStationServiceCostList) {
         this._stationServiceCosts = kgpStationServiceCostList;
     }
-    
+
     public void clearStationServiceCosts(){
         _stationServiceCosts.clear();
     }

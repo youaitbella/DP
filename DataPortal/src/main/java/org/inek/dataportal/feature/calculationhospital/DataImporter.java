@@ -9,6 +9,7 @@ import java.util.function.BiConsumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.Part;
+import org.inek.dataportal.entities.calc.psy.KGPListCostCenter;
 import org.inek.dataportal.entities.calc.psy.KgpListMedInfra;
 import org.inek.dataportal.entities.calc.psy.PeppCalcBasics;
 import org.inek.dataportal.entities.iface.BaseIdValue;
@@ -111,6 +112,64 @@ public final class DataImporter<T extends BaseIdValue> implements Serializable {
                         ),
                         (s, t) -> s.addMedInfraItem(t),
                         KgpListMedInfra.class
+                );
+            case "peppcostcenter":
+                return new DataImporter<KGPListCostCenter>(
+                        "Kostenstellengruppe;Kostenstellennummer;Kostenstellenname;Kostenvolumen;VollkräfteÄD;"
+                                + "Leistungsschlüssel;Beschreibung;SummeLeistungseinheiten",
+                        new FileHolder("Kostenstellengruppe_11_12_13.csv"),
+                        ErrorCounter.obtainErrorCounter("PEPP_COST_CENTER"),
+                        Arrays.asList(
+                                new DataImportCheck<KGPListCostCenter, String>(
+                                ErrorCounter.obtainErrorCounter("PEPP_COST_CENTER"),
+                                DataImportCheck::tryImportCostCenterId,
+                                (i, s) -> i.setCostCenterId(Integer.parseInt(s)),
+                                "Keine zulässige Kostenstellengruppe(11, 12, 13): "),
+
+                                new DataImportCheck<KGPListCostCenter, String>(
+                                ErrorCounter.obtainErrorCounter("PEPP_COST_CENTER"),
+                                DataImportCheck::tryImportString,
+                                (i, s) -> i.setCostCenterNumber(s),
+                                "ungültige Kostenstellennummer : "),
+
+                                new DataImportCheck<KGPListCostCenter, String>(
+                                ErrorCounter.obtainErrorCounter("PEPP_COST_CENTER"),
+                                DataImportCheck::tryImportString,
+                                (i, s) -> i.setCostCenterText(s),
+                                "ungültiger Kostenstellentext : "),
+
+                                new DataImportCheck<KGPListCostCenter, Integer>(
+                                ErrorCounter.obtainErrorCounter("PEPP_COST_CENTER"),
+                                DataImportCheck::tryImportDoubleAsInt,
+                                (i, s) -> i.setAmount(s),
+                                "Kostenvolumen ungültig : "),
+
+                                new DataImportCheck<KGPListCostCenter, Double>(
+                                ErrorCounter.obtainErrorCounter("PEPP_COST_CENTER"),
+                                DataImportCheck::tryImportDouble,
+                                (i, s) -> i.setFullVigorCnt(s),
+                                "[Anzahl VK ÄD] ungültig : "),
+
+                                new DataImportCheck<KGPListCostCenter, String>(
+                                ErrorCounter.obtainErrorCounter("PEPP_COST_CENTER"),
+                                DataImportCheck::tryImportString,
+                                (i, s) -> i.setServiceKey(s),
+                                "ungültiger service : "),
+
+                                new DataImportCheck<KGPListCostCenter, String>(
+                                ErrorCounter.obtainErrorCounter("PEPP_COST_CENTER"),
+                                DataImportCheck::tryImportString,
+                                (i, s) -> i.setServiceKeyDescription(s),
+                                "ungültige service Beschreibung : "),
+
+                                new DataImportCheck<KGPListCostCenter, Integer>(
+                                ErrorCounter.obtainErrorCounter("PEPP_COST_CENTER"),
+                                DataImportCheck::tryImportInteger,
+                                (i, s) -> i.setServiceSum(s),
+                                "Summer der Leistungseinheiten ungültig : ")),
+
+                        (s, t) -> s.addCostCenter(t),
+                        KGPListCostCenter.class
                 );
 
             default:
@@ -240,11 +299,24 @@ public final class DataImporter<T extends BaseIdValue> implements Serializable {
         fileHolder.setFile(file);
     }
 
+    public void toggleJournal() {
+        showJournal = !showJournal;
+    }
+
+    public boolean isShowJournal() {
+        return showJournal;
+    }
+
+    public void setShowJournal(boolean showJournal) {
+        this.showJournal = showJournal;
+    }
+
     private FileHolder fileHolder;
     private ErrorCounter errorCounter;
     private String headLine;
     private List<DataImportCheck<T, ?>> checkers;
     private final BiConsumer<PeppCalcBasics, T> dataSink;
+    private boolean showJournal = false;
 //    private Function<PeppCalcBasics, List<T>> listToFill;
     private Class<T> clazz;
 
