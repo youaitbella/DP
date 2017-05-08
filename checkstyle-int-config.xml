@@ -67,6 +67,7 @@
 
     <module name="FileLength">  <!--it's not a treewalker check therefore it's moved up-->
         <property name="max" value="800"/>   <!--todo: decrease to 500-->
+        <property name="fileExtensions" value="java"/>
     </module>
     <module name="FileTabCharacter"/> <!-- moved up to checkers -->
 

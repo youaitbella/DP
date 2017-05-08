@@ -37,6 +37,7 @@ import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.calc.CalcFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
+import org.inek.dataportal.facades.calc.IcmtUpdater;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
@@ -58,6 +59,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
     @Inject private CooperationTools _cooperationTools;
     @Inject private SessionController _sessionController;
     @Inject private CalcFacade _calcFacade;
+    @Inject private IcmtUpdater _icmtUpdater;
     @Inject private ApplicationTools _appTools;
     @Inject private AccountFacade _accFacade;
 
@@ -317,7 +319,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
 
         boolean testMode = _appTools.isEnabled(ConfigKey.TestMode);
         if (!testMode) {
-            _calcFacade.saveStatementOfParticipanceForIcmt(_statement);
+            _icmtUpdater.saveStatementOfParticipanceForIcmt(_statement);
         }
 
         if (!_appTools.isEnabled(ConfigKey.IsStatemenOfParticipanceResendEnabled)) {

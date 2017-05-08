@@ -178,21 +178,6 @@ public class KGLListObstetricsGynecology implements Serializable, BaseIdValue {
     public KGLListObstetricsGynecology() {
     }
 
-    public KGLListObstetricsGynecology(int ogID) {
-        this._id = ogID;
-    }
-
-    public KGLListObstetricsGynecology(int ogID, String ogCostCenterText, double ogMedicalServiceCnt, double ogAttendingDoctorCnt, double ogNursingServiceCnt, double ogFunctionalServiceCnt, double ogMidwifeCnt, double ogAttendingMidwifeCnt) {
-        this._id = ogID;
-        this._costCenterText = ogCostCenterText;
-        this._medicalServiceCnt = ogMedicalServiceCnt;
-        this._attendingDoctorCnt = ogAttendingDoctorCnt;
-        this._nursingServiceCnt = ogNursingServiceCnt;
-        this._functionalServiceCnt = ogFunctionalServiceCnt;
-        this._midwifeCnt = ogMidwifeCnt;
-        this._attendingMidwifeCnt = ogAttendingMidwifeCnt;
-    }
-
     //<editor-fold defaultstate="collapsed" desc="hash && equals && toString">
     @Override
     public int hashCode() {
