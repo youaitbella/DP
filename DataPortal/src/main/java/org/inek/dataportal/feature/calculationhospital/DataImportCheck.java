@@ -18,6 +18,9 @@ import org.inek.dataportal.utils.StringUtil;
 /**
  * Holds the Info where the data will be stored and which check to perform to validate the input.
  *
+ * @param <T> Type of Element which holds the info (row in a table)
+ * @param <I> Type of info to read (column in a Tablerow)
+ *
  * @author kunkelan
  */
 public class DataImportCheck<T, I> implements Serializable {
@@ -134,6 +137,39 @@ public class DataImportCheck<T, I> implements Serializable {
             counter.addColumnErrorMsg(errorMsg + "(x oder leer erwartet) : " + data + "/n" + ex.getMessage());
         }
     }
+
+    public static <T> void tryImportFremdvergabe(T item, String data, BiConsumer<T, Integer> assign, String errorMsg, ErrorCounter counter) {
+        String lowerData = data.trim().toLowerCase();
+        if (lowerData.startsWith("keine")) {
+            assign.accept(item, 0);
+        } else if (lowerData.startsWith("teilweise")) {
+            assign.accept(item, 1);
+        } else if (lowerData.startsWith("vollständig")) {
+            assign.accept(item, 2);
+        } else {
+            assign.accept(item, 0);
+            counter.addColumnErrorMsg(errorMsg + " " + data);
+        }
+    }
+
+    public static <T> void tryImportServiceDocType(T item, String data, BiConsumer<T, Integer> assign, String errorMsg, ErrorCounter counter) {
+        String lowerData = data.trim().toLowerCase();
+        int type = 0;
+        switch (lowerData) {
+            case "hauskatalog": type = 1; break;
+            case "dkg_nt": type = 2; break;
+            case "ebm": type = 3; break;
+            case "goä": type = 4; break;
+            case "sonstiges": type = 5; break;
+            default: type = 0;
+        }
+        if (type == 0) {
+            counter.addColumnErrorMsg(errorMsg + " " + data);
+        }
+        assign.accept(item, type);
+    }
+
+
 //    private void tryImportInteger(T item, String data, BiConsumer<T ,Integer> bind, String errorMsg) {
 //        try {
 //            NumberFormat nf = NumberFormat.getInstance(Locale.GERMAN);
@@ -172,20 +208,6 @@ public class DataImportCheck<T, I> implements Serializable {
             } else {
                 counter.addColumnErrorMsg(errorMsg + Utils.getMessage("msgNotANumber") + ": " + data);
             }
-        }
-    }
-
-    private void tryImportFremdvergabe(T item, String data, BiConsumer<T, Integer> bind, String errorMessage) {
-        String lowerData = data.trim().toLowerCase();
-        if (lowerData.startsWith("keine")) {
-            bind.accept(item, 0);
-        } else if (lowerData.startsWith("teilweise")) {
-            bind.accept(item, 1);
-        } else if (lowerData.startsWith("vollständig")) {
-            bind.accept(item, 2);
-        } else {
-            bind.accept(item, 0);
-            counter.addColumnErrorMsg(errorMessage + " " + data);
         }
     }
 

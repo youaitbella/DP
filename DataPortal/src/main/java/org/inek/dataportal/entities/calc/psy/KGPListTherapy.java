@@ -270,7 +270,7 @@ public class KGPListTherapy implements Serializable, BaseIdValue {
     }
 
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property _baseInformationId">
 //    @JoinColumn(name = "thBaseInformationId", referencedColumnName = "biID")
 //    @ManyToOne(optional = false)
@@ -392,5 +392,26 @@ public class KGPListTherapy implements Serializable, BaseIdValue {
         return "org.inek.dataportal.entities.calc.KGPListTherapy[ thID=" + _id + " ]";
     }
     //</editor-fold>
+
+    void copyTherapy(KGPListTherapy item) {
+        this._costCenterId = item._costCenterId;
+        this._costCenterText = item._costCenterText;
+        this._externalService = item._externalService;
+        this._keyUsed = item._keyUsed;
+        this._serviceUnitsCt1 = item._serviceUnitsCt1;
+        this._personalCostCt1 = item._personalCostCt1;
+        this._serviceUnitsCt2 = item._serviceUnitsCt2;
+        this._personalCostCt2 = item._personalCostCt2;
+        this._serviceUnitsCt3 = item._serviceUnitsCt3;
+        this._personalCostCt3 = item._personalCostCt3;
+        this._serviceUnitsCt3a = item._serviceUnitsCt3a;
+        this._personalCostCt3a = item._personalCostCt3a;
+        this._serviceUnitsCt3b = item._serviceUnitsCt3b;
+        this._personalCostCt3b = item._personalCostCt3b;
+        this._serviceUnitsCt3c = item._serviceUnitsCt3c;
+        this._personalCostCt3c = item._personalCostCt3c;
+        this._baseInformationId = item._baseInformationId;
+
+    }
 
 }

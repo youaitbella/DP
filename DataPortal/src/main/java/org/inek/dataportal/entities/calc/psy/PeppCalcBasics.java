@@ -13,6 +13,7 @@ import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Vector;
@@ -753,6 +754,19 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
     public void setTherapies(List<KGPListTherapy> kgpTherapyList) {
         this._therapies = kgpTherapyList;
     }
+
+    public void addTherapy(KGPListTherapy item) {
+        KGPListTherapy foundItem = ListUtil.findItem(_therapies, item, (a, b) ->
+                        a.getCostCenterId() == b.getCostCenterId()
+                                && a.getCostCenterText().equalsIgnoreCase(b.getCostCenterText())
+                                && a.getKeyUsed().equalsIgnoreCase(b.getKeyUsed()));
+
+        if (foundItem != null) {
+            foundItem.copyTherapy(item);
+        } else {
+            _therapies.add(item);
+        }
+    }
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property List _kgpStationDepartmentList">
@@ -797,6 +811,30 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
     public void setRadiologyLaboratories(List<KGPListRadiologyLaboratory> radiologyLaboratories) {
         this._radiologyLaboratories = radiologyLaboratories;
     }
+
+    public void addRadiologyLaboratory(KGPListRadiologyLaboratory item) {
+        KGPListRadiologyLaboratory foundItem = ListUtil.findItem(_radiologyLaboratories, item, (a, b) ->
+                a.getCostCenterId() == b.getCostCenterId()
+                        && a.getCostCenterNumber().equals(b.getCostCenterNumber())
+                        && a.getCostCenterText().equals(b.getCostCenterText()));
+        if (foundItem != null) {
+            foundItem.setDescription(item.getDescription());
+            foundItem.setServiceDocType(item.getServiceDocType());
+        } else {
+            _radiologyLaboratories.add(item);
+        }
+    }
+
+    public void clearRadiologyLaboratory(int costCenter) {
+        Iterator<KGPListRadiologyLaboratory> it = _radiologyLaboratories.iterator();
+        while (it.hasNext()) {
+            KGPListRadiologyLaboratory next = it.next();
+            if (next.getCostCenterId() == costCenter) {
+                it.remove();
+            }
+        }
+    }
+
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property List _kgpDelimitationFactList">

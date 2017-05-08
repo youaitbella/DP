@@ -204,10 +204,35 @@ public class KGPListRadiologyLaboratory implements Serializable, BaseIdValue {
             case 5:
                 _serviceDocDif = true;
                 break;
-            default: 
+            default:
         }
 
         this._serviceDocType = type;
+    }
+
+    public String getServiceDocTypeAsString() {
+        switch (getServiceDocType()) {
+            case 0: return "fehlerhafte Angabe";
+            case 1: return "Hauskatalog";
+            case 2: return "DKG-NT";
+            case 3: return "EBM";
+            case 4: return "GOÄ";
+            case 5: return "sonstiges";
+            default: throw new IllegalArgumentException("unknown or unhandled service doc type " + getServiceDocType());
+        }
+    }
+
+    public void setServiceDocTypeFromString(String value) {
+        int type = 0;
+        switch (value.trim().toLowerCase()) {
+            case "hauskatalog": type = 1; break;
+            case "dkg_nt": type = 2; break;
+            case "ebm": type = 3; break;
+            case "goä": type = 4; break;
+            case "sonstiges": type = 5; break;
+            default: type = 0;
+        }
+        setServiceDocType(type);
     }
     //</editor-fold>
 

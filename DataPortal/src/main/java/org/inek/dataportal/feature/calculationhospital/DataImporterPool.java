@@ -13,6 +13,9 @@ public class DataImporterPool implements Serializable {
     private final Map<String, DataImporter<?>> importers = new HashMap<>();
 
     public DataImporterPool() {
+        importers.put("peppradiology", DataImporter.obtainDataImporter("peppradiology"));
+        importers.put("pepplaboratory", DataImporter.obtainDataImporter("pepplaboratory"));
+        importers.put("pepptherapy", DataImporter.obtainDataImporter("pepptherapy"));
         importers.put("peppmedinfra", DataImporter.obtainDataImporter("peppmedinfra"));
         importers.put("peppnonmedinfra", DataImporter.obtainDataImporter("peppnonmedinfra"));
         importers.put("peppcostcenter", DataImporter.obtainDataImporter("peppcostcenter"));

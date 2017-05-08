@@ -685,7 +685,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
 
     @Inject private Instance<CostCenterDataImporterPepp> _importProvider;
     @Inject private Instance<TherapyDataImporterPepp> _importProviderTherapyPepp;
-    
+
     public void uploadNoticesTherapy() {
         try {
             if (_fileTherapyPepp != null) {
@@ -873,6 +873,10 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         _calcBasics.getTherapies().add(result);
     }
 
+    public void clearTherapyCosts() {
+        _calcBasics.getTherapies().clear();
+    }
+
     public void addStationAlternative() {
         KGPListStationAlternative sa = new KGPListStationAlternative();
         sa.setBaseInformationId(_calcBasics.getId());
@@ -911,5 +915,9 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         item.setCostCenterId(costCenter);
         item.setBaseInformationId(_calcBasics.getId());
         _calcBasics.getRadiologyLaboratories().add(item);
+    }
+
+    public void clearRadiologyLaboratory(int costCenter) {
+        _calcBasics.clearRadiologyLaboratory(costCenter);
     }
 }
