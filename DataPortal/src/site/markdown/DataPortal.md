@@ -15,7 +15,16 @@ Weitere Lieferfunktionen wie NUB, Vorschlagsverfahren und mehr werden sukzessive
 |---|---|
 | DRG | Diagnosis Related Group. Eine Krankheitsgruppe, welche durch Diagnosen, aber auch Prozeduren und sonstigen klinischen oder demographischen Merkmalen beschrieben wird. Die Zuordnung eines Falls zu einer DRG erfolgt durch einen Grouper |
 | DropBox | Benannter und zeitlich beschränkter privater Upload-Bereich, <br/> den <br> ein Anwender für sich reservieren und zur Datenübermittlung an das InEK nutzen kann |
+| Grouper | Software zur Eingruppierungen eines Krankenhausfalls in eine Krankheitsgruppe. |
+| Hauptleistungskosten | Das sind die Leistungen, die hauptsächlich die in der DRG entstehenden Kosten abbilden |
+| Kurzliegerabschlag | Betrag, der dem Krankenhaus von einem Fall abgezogen wird für die Tage, die der Patient kürzer als den Regelaufenthalt im Krankenhaus verbringt |
+| Pflegetool | Software des InEK, mit deren Hilfe der Algorithmus des DRG- bzw. PEPP-Systems modelliert und das Definitionshandbuch erzeugt werden kann. Der hiermit erzeugte Algorithmus ist die Basis für den Grouper. |
+| NUB | Neue Untersuchungs- und Behandlungsmethode. Der Katalog des DRG-System wird basierend auf den Vorjahresdaten für das jewils kommende Jahr berechnet (beispielsweise basiert der Katalog für 2018 auf den Daten von 2016). Neu eingeführte Untersuchungs- und Behandlungsmethoden können daher erst mit entsprechender Verzögerung und bei ausreichender Datenlage in das System integriert werden. Bis dahin können diese NUB mit den Krankenkassen gesondert verhandelt werden, sofern das InEK feststellt, dass diese noch nicht im DRG-System abgebildet sind. |
+| Relativgewicht | Relatives Verhältnis der Fallkosten. Der Durchschnitt wird mit 1 angegeben. Ein Relativgewicht von 2 steht somit für das Doppelte. |
 | Selbstverwaltungspartner im Gesundheitswesen | Deutsche Krankenhausgesellschaft, Spitzenverbände der Krankenkassen und der Verband der privaten Krankenversicherung |
+| Überliegerzuschlag | Vergütung, die ein Krankenhaus erhält, wenn der Patient über der Regelaufenthaltsdauer behandelt werden muss |
+| Verlegungsabschlag | Betrag der dem Krankenhaus für einen Fall abgezogen wird, da der Patient während des Abrechnungszeitraumes verlegt wurde |
+| ZE | Zusatzentgelt. Bestimmte, nicht im DRG-System abgebildete Leistungen werden getrennt als Zusatzentgelt vergütet. |
 
 ## 2 Einführung und Zielsetzung
 
