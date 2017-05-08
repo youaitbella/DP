@@ -487,7 +487,7 @@ public class CalcFacade extends AbstractDataAccess {
                 + "left join CallCenterDB.dbo.mapContactRole r2 on (r2.mcrContactId = coId) and r2.mcrRoleId = 14 " + (testMode ? " and acMail not like '%@inek-drg.de'" : "") + " \n"
                 + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
                 + "left join calc.StatementOfParticipance on cuIk = sopIk and sopDataYear = " + year + "\n"
-                + "where caHasAgreement = 1 and caIsInactive = 0 and caCalcTypeId in (1, 3, 6)\n"
+                + "where caHasAgreement = 1 and caIsInactive = 0 and caCalcTypeId in (1, 3, 4, 5, 5, 6, 7)\n"
                 + "    and cuIk in (\n"
                 + "        select acIk from dbo.Account where acIk > 0 and acId = " + accountId + "\n"
                 + "        union \n"
