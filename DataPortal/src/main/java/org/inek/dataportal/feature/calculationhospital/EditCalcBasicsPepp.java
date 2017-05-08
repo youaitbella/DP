@@ -685,57 +685,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
 
     @Inject private Instance<CostCenterDataImporterPepp> _importProvider;
     @Inject private Instance<TherapyDataImporterPepp> _importProviderTherapyPepp;
-    @Inject private Instance<StationDataImporterPepp> _stationProviderPepp;
-
-    private Part _fileStation;
-
-    public Part getFileStation() {
-        return _fileStation;
-    }
-
-    public void setFileStation(Part fileStation) {
-        this._fileStation = fileStation;
-    }
-
-    private String _importMessageStation;
-
-    public String getImportMessageStation() {
-        return _importMessageStation;
-    }
-
-    public void setImportMessageStation(String importMessageStation) {
-        this._importMessageStation = importMessageStation;
-    }
-
-    private boolean _showJournalStation;
-
-    public boolean isShowJournalStation() {
-        return _showJournalStation;
-    }
-
-    public void setShowJournalStation(boolean showJournalStation) {
-        this._showJournalStation = showJournalStation;
-    }
-
-    public void toggleJournalStation() {
-        this._showJournalStation = !this._showJournalStation;
-    }
-
-    public void getDownloadTemplateStation() {
-        StationDataImporterPepp stationProvider = _stationProviderPepp.get();
-        stationProvider.downloadTemplate();
-    }
-
-    public void uploadNoticesStation() {
-        StationDataImporterPepp stationProvider = _stationProviderPepp.get();
-        stationProvider.setFile(_fileStation);
-        stationProvider.setCalcBasics(_calcBasics);
-        stationProvider.uploadNotices();
-        _importMessageStation = stationProvider.getMessage();
-        _sessionController.alertClient(_importMessageStation);
-        _showJournalStation = _importMessageStation.contains("Fehler");
-    }
-
+    
     public void uploadNoticesTherapy() {
         try {
             if (_fileTherapyPepp != null) {

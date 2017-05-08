@@ -725,6 +725,18 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
     public void clearStationServiceCosts(){
         _stationServiceCosts.clear();
     }
+
+    public void addStationServiceCost(KGPListStationServiceCost item) {
+        KGPListStationServiceCost foundItem = ListUtil.findItem(_stationServiceCosts, item, (a, b) ->
+                        a.getCostCenterNumber().equalsIgnoreCase(b.getCostCenterNumber())
+                                && a.getStation().equalsIgnoreCase(b.getStation()));
+
+        if (foundItem != null) {
+            foundItem.copyStationServiceCost(item);
+        } else {
+            _stationServiceCosts.add(item);
+        }
+    }
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property List _therapies">

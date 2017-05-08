@@ -11,7 +11,9 @@
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
 
     <h2>Anwendung des Betreuungsintensitätsmodells (einheitliches Betreuungsintensitätsmodell, veröffentlicht am 28.11.2012)</h2><br/>
-    <inek:BooleanRadioButton id="bimAll" value="#{editCalcBasicsPepp.calcBasics.bimAll}" label="Leistungsdokumentation gem. einheitlichem BIM liegen in allen PSY-Fachabteilungen und Stationen vor:" labelStyle="label"/>
+    <inek:BooleanRadioButton id="bimAll" value="#{editCalcBasicsPepp.calcBasics.bimAll}" 
+                             label="Leistungsdokumentation gem. einheitlichem BIM liegen in allen PSY-Fachabteilungen und Stationen vor:"
+                             labelStyle="label"/>
 
     <div class="inputPart">
         <span class="label">Kommentar:<sup style="font-size: 9px;">1</sup></span><br/>
@@ -20,13 +22,20 @@
         </h:inputTextarea>
         <br/>
         
-        <span class="label"><sup style="font-size: 10px;">1: Bitte tragen Sie hier auch ein, falls eine Ausnahmegenehmigung für das Datenjahr vorliegt</sup></span>
+        <span class="label">
+            <sup style="font-size: 10px;">
+                1: Bitte tragen Sie hier auch ein, falls eine Ausnahmegenehmigung für das Datenjahr vorliegt
+            </sup>
+        </span>
     </div>
 
     <hr/>
 
     <div class="inputPart">
-        <span class="label">Leistungsdokumentation gem. einheitlichem BIM liegen in den folgenden Fachabteilungen nicht oder nur teilweise vor, als Alternativverfahren wird angewendet:</span><br/>
+        <span class="label">
+            Leistungsdokumentation gem. einheitlichem BIM liegen in den folgenden Fachabteilungen nicht oder nur 
+            teilweise vor, als Alternativverfahren wird angewendet:
+        </span><br/>
         <h:dataTable  headerClass="list-header"
                       value="#{editCalcBasicsPepp.calcBasics.kgpStationDepartmentList}" var="item" width="100%" rowClasses="row1, row2" 
                       columnClasses="colIcon, col20, col60"
@@ -38,7 +47,8 @@
                 </f:facet>
                 <h:commandLink styleClass="colIcon">
                     <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
-                    <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsPepp.deleteStationAlternative(item)}"/>
+                    <f:ajax event="click" render="@form :logout:remaining" 
+                            listener="#{editCalcBasicsPepp.deleteStationAlternative(item)}"/>
                 </h:commandLink>
             </h:column>
 
@@ -65,7 +75,8 @@
     <hr/>
 
     <br/>
-    <span class="label">Bitte füllen Sie die nachfolgenden Tabellen für alle Stationen aus, bei Bedarf können die Tabellen durch das Anfügen zusätzlicher Zeilen verlängert werden.</span> <br/><br/>
+    <span class="label">Bitte füllen Sie die nachfolgenden Tabellen für alle Stationen aus, bei Bedarf können die 
+        Tabellen durch das Anfügen zusätzlicher Zeilen verlängert werden.</span> <br/><br/>
 
     <style>
         .col-border-right {
@@ -84,7 +95,8 @@
     <table id="table1">
         <tr>
             <td></td>
-            <td class="centered col-border-right col-border-bottom" colspan="5">Leistungsdaten und Kosten in den Kostenstellengruppen 21 (Regelbehandlung) und 22 (Intensivbehandlung)</td>
+            <td class="centered col-border-right col-border-bottom" colspan="5">
+                Leistungsdaten und Kosten in den Kostenstellengruppen 21 (Regelbehandlung) und 22 (Intensivbehandlung)</td>
             <td class="centered col-border-right col-border-bottom" colspan="2">Regelbehandlung</td>
             <td class="centered col-border-right col-border-bottom" colspan="2">Intensivbehandlung</td>
             <td class="centered col-border-right col-border-bottom" rowspan="2">Auslastung (wird berechnet)</td>
@@ -97,9 +109,11 @@
             <td class="centered col-border-right col-border-bottom">Anzahl Betten</td>
             <td class="centered col-border-right col-border-bottom">bettenführende Aufnahmestation (bitte ankreuzen)</td>
             <td class="centered col-border-right col-border-bottom">Summe Pflegetage</td>
-            <td class="centered col-border-right col-border-bottom" title="Angabe von Minuten für Krankenhäuser, in denen die Methode LEP angewendet wird">Summe Gewichtungspunkte**</td>
+            <td class="centered col-border-right col-border-bottom" 
+                title="Angabe von Minuten für Krankenhäuser, in denen die Methode LEP angewendet wird">Summe Gewichtungspunkte**</td>
             <td class="centered col-border-right col-border-bottom">Summe Pflegetage</td>
-            <td class="centered col-border-right col-border-bottom" title="Angabe von Minuten für Krankenhäuser, in denen die Methode LEP angewendet wird">Summe Gewichtungspunkte**</td>
+            <td class="centered col-border-right col-border-bottom" 
+                title="Angabe von Minuten für Krankenhäuser, in denen die Methode LEP angewendet wird">Summe Gewichtungspunkte**</td>
             <td></td>
         </tr>
         <ui:repeat id="tblNormInt1" value="#{editCalcBasicsPepp.calcBasics.stationServiceCosts}" var="item" varStatus="loop">
@@ -111,37 +125,15 @@
             </h:commandLink>
             </td>
             <td>
-            <inek:InputTextWithMessage value="#{item.costCenterNumber}" id="cstnmb" renderElement="@this tblNormInt2:#{loop.index}:cstnmb:text tblNormInt3:#{loop.index}:cstnmb:text"/>
+            <inek:InputTextWithMessage value="#{item.costCenterNumber}" id="cstnmb" 
+                                       renderElement="@this tblNormInt2:#{loop.index}:cstnmb:text tblNormInt3:#{loop.index}:cstnmb:text"/>
             </td>
             <td>
-            <inek:InputTextWithMessage value="#{item.station}" id="station" renderElement="tblNormInt2:#{loop.index}:station:text tblNormInt3:#{loop.index}:station:text"/>
+            <inek:InputTextWithMessage value="#{item.station}" id="station" 
+                                       renderElement="tblNormInt2:#{loop.index}:station:text tblNormInt3:#{loop.index}:station:text"/>
             </td>
             <td>
             <inek:InputTextWithMessage value="#{item.psyPvMapping}" id="psyPvMapping" />
-<!--            <h:outputLabel value="A" for="psychPV_a" />&nbsp;
-            <h:selectBooleanCheckbox id="psychPV_a" value="# {item.generalMapping}">
-                <f:ajax event="change" render="@form :logout:remaining" />
-            </h:selectBooleanCheckbox> <br/>
-
-            <h:outputLabel value="S" for="psychPV_s" /> &nbsp;
-            <h:selectBooleanCheckbox id="psychPV_s" value="# {item.addictionMapping}">
-                <f:ajax event="change" render="@form :logout:remaining" />
-            </h:selectBooleanCheckbox> <br/>
-
-            <h:outputLabel value="G" for="psychPV_g" /> &nbsp;
-            <h:selectBooleanCheckbox id="psychPV_g" value="# {item.gerontoPsyMapping}">
-                <f:ajax event="change" render="@form :logout:remaining" />
-            </h:selectBooleanCheckbox><br/>
-
-            <h:outputLabel value="KJP" for="psychPV_kjp" /> &nbsp;
-            <h:selectBooleanCheckbox id="psychPV_kjp" value="# {item.childYouthMapping}">
-                <f:ajax event="change" render="@form :logout:remaining" />
-            </h:selectBooleanCheckbox><br/>
-
-            <h:outputLabel value="P" for="psychPV_p" /> &nbsp;
-            <h:selectBooleanCheckbox id="psychPV_p" value="# {item.psychosomaticMapping}">
-                <f:ajax event="change" render="@form :logout:remaining" />
-            </h:selectBooleanCheckbox>-->
 
             </td>
             <td>
@@ -207,10 +199,12 @@
             </h:commandLink>
             </td>
             <td>
-            <inek:InputTextWithMessage id="cstnmb" value="#{item.costCenterNumber}" renderElement="@this tblNormInt1:#{loop.index}:cstnmb:text tblNormInt3:#{loop.index}:cstnmb:text"/>
+            <inek:InputTextWithMessage id="cstnmb" value="#{item.costCenterNumber}" 
+                                       renderElement="@this tblNormInt1:#{loop.index}:cstnmb:text tblNormInt3:#{loop.index}:cstnmb:text"/>
             </td>
             <td>
-            <inek:InputTextWithMessage id="station" value="#{item.station}" renderElement="@this tblNormInt1:#{loop.index}:station:text tblNormInt3:#{loop.index}:station:text"/>
+            <inek:InputTextWithMessage id="station" value="#{item.station}" 
+                                       renderElement="@this tblNormInt1:#{loop.index}:station:text tblNormInt3:#{loop.index}:station:text"/>
             </td>
             <td>
             <inek:InputNumberWithMessage value="#{item.medicalServiceCnt}" renderElement="@this"/>
@@ -271,10 +265,12 @@
             </h:commandLink>
             </td>
             <td>
-            <inek:InputTextWithMessage id="cstnmb" value="#{item.costCenterNumber}" renderElement="@this tblNormInt1:#{loop.index}:cstnmb:text tblNormInt2:#{loop.index}:cstnmb:text"/>
+            <inek:InputTextWithMessage id="cstnmb" value="#{item.costCenterNumber}" 
+                                       renderElement="@this tblNormInt1:#{loop.index}:cstnmb:text tblNormInt2:#{loop.index}:cstnmb:text"/>
             </td>
             <td>
-            <inek:InputTextWithMessage id="station" value="#{item.station}" renderElement="@this tblNormInt1:#{loop.index}:station:text tblNormInt2:#{loop.index}:station:text"/>
+            <inek:InputTextWithMessage id="station" value="#{item.station}" 
+                                       renderElement="@this tblNormInt1:#{loop.index}:station:text tblNormInt2:#{loop.index}:station:text"/>
             </td>
             <td>
             <inek:InputNumberWithMessage value="#{item.medicalServiceAmount}" isInt="true" renderElement="@this"/>
@@ -304,17 +300,26 @@
         </ui:repeat>
     </table>
 
-    <inek:UploadButtons readOnly="#{editCalcBasicsPepp.readOnly}"
+<!--    <inek:UploadButtons readOnly="# {editCalcBasicsPepp.readOnly}"
+                        addListener="# {editCalcBasicsPepp.addStationServiceCost()}"
+                        uploadButtonText="Upload"
+                        uploadListener="# {editCalcBasicsPepp.uploadNoticesStation()}"
+                        file="# {editCalcBasicsPepp.fileStation}"
+                        actionTemplate="# {editCalcBasicsPepp.getDownloadTemplateStation}"
+                        actionDeleteTable="# {editCalcBasicsPepp.clearStationServiceCosts()}"
+                        importMessage="# {editCalcBasicsPepp.importMessageStation}"
+                        showJournal="# {editCalcBasicsPepp.showJournalStation}"
+                        toggleJournal="# {editCalcBasicsPepp.toggleJournalStation}"
+                        />-->
+
+    <inek:UploadButtons2 importer="#{editCalcBasicsPepp.getImporter('peppstationservicecost')}"
+                         calcbase="#{editCalcBasicsPepp.calcBasics}" 
+                        readOnly="#{editCalcBasicsPepp.readOnly}"
                         addListener="#{editCalcBasicsPepp.addStationServiceCost()}"
                         uploadButtonText="Upload"
-                        uploadListener="#{editCalcBasicsPepp.uploadNoticesStation()}"
-                        file="#{editCalcBasicsPepp.fileStation}"
-                        actionTemplate="#{editCalcBasicsPepp.getDownloadTemplateStation}"
                         actionDeleteTable="#{editCalcBasicsPepp.clearStationServiceCosts()}"
-                        importMessage="#{editCalcBasicsPepp.importMessageStation}"
-                        showJournal="#{editCalcBasicsPepp.showJournalStation}"
-                        toggleJournal="#{editCalcBasicsPepp.toggleJournalStation}"
                         />
+
 
 </ui:composition>
 

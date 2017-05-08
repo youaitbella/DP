@@ -671,4 +671,36 @@ public class KGPListStationServiceCost implements Serializable, BaseIdValue {
     }
     //</editor-fold>
 
+    public void copyStationServiceCost(KGPListStationServiceCost item) {
+        this._costCenterID = item._costCenterID;
+        this._costCenterNumber = item._costCenterNumber;
+        this._station = item._station;
+        this._bedCnt = item._bedCnt;
+        this._receivingStation = item._receivingStation;
+        this._regularCareDays = item._regularCareDays;
+        this._regularWeight = item._regularWeight;
+        this._intensiveCareDays = item._intensiveCareDays;
+        this._intensiveWeight = item._intensiveWeight;
+        this._medicalServiceCnt = item._medicalServiceCnt;
+        this._nursingServiceCnt = item._nursingServiceCnt;
+        this._psychologistCnt = item._psychologistCnt;
+        this._socialWorkerCnt = item._socialWorkerCnt;
+        this._specialTherapistCnt = item._specialTherapistCnt;
+        this._functionalServiceCnt = item._functionalServiceCnt;
+        this._medicalServiceAmount = item._medicalServiceAmount;
+        this._nursingServiceAmount = item._nursingServiceAmount;
+        this._psychologistAmount = item._psychologistAmount;
+        this._socialWorkerAmount = item._socialWorkerAmount;
+        this._specialTherapistAmount = item._specialTherapistAmount;
+        this._functionalServiceAmount = item._functionalServiceAmount;
+        this._medicalInfrastructureAmount = item._medicalInfrastructureAmount;
+        this._nonMedicalInfrastructureAmount = item._nonMedicalInfrastructureAmount;
+        this._baseInformationId = item._baseInformationId;
+        this._generalMapping = item._generalMapping;
+        this._addictionMapping = item._addictionMapping;
+        this._gerontoPsyMapping = item._gerontoPsyMapping;
+        this._childYouthMapping = item._childYouthMapping;
+        this._psychosomaticMapping = item._psychosomaticMapping;
+        this._psyPvMapping = item._psyPvMapping;
+    }
 }
