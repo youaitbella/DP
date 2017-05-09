@@ -10,7 +10,7 @@ import java.util.Map;
  */
 public class DataImporterPool implements Serializable {
 
-    private final Map<String, DataImporter<?>> importers = new HashMap<>();
+    private final Map<String, DataImporter<?,?>> importers = new HashMap<>();
 
     public DataImporterPool() {
         importers.put("peppradiology", DataImporter.obtainDataImporter("peppradiology"));
@@ -22,7 +22,7 @@ public class DataImporterPool implements Serializable {
         importers.put("peppstationservicecost", DataImporter.obtainDataImporter("peppstationservicecost"));
     }
 
-    public DataImporter<?> getDataImporter(String importerName) {
+    public DataImporter<?,?> getDataImporter(String importerName) {
         if (!importers.containsKey(importerName)) {
             throw new IllegalArgumentException("unknown importer " + importerName);
         }

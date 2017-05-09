@@ -834,7 +834,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
 
     @Inject private DataImporterPool importerPool;
 
-    public DataImporter<?> getImporter(String importerName) {
+    public DataImporter<?,?> getImporter(String importerName) {
         return importerPool.getDataImporter(importerName);
     }
 

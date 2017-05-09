@@ -16,24 +16,32 @@ import org.inek.dataportal.entities.calc.psy.KGPListTherapy;
 import org.inek.dataportal.entities.calc.psy.KgpListMedInfra;
 import org.inek.dataportal.entities.calc.psy.PeppCalcBasics;
 import org.inek.dataportal.entities.iface.BaseIdValue;
+import org.inek.dataportal.entities.iface.StatusEntity;
 import org.inek.dataportal.helper.BeanValidator;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.utils.StringUtil;
 
 /**
  * A utility class to read csv data and create elements for each row.
+ * These Elements will be bound to an owner via BaseIdValue.setBaseInformationId where the needed id is obtained
+ * by StatusEntity.getId. So the object of the second type will be the owner of the objects of the first type.
  *
  * @author kunkelan
  * @param <T> Type to import will create elements of this type
+ * @param <S> DrgCaclBasics or PeppCalcBasic dataholder to which the items generated belongs. StatusEntity gives
+ *            the possibility to get the id to store it in T items which can set the BaseInformationId of itself.
+ *            So these two types are bound to each other in a loosly way, up to now only the two Types mentioned.
+ *
  */
-public final class DataImporter<T extends BaseIdValue> implements Serializable {
+public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger(DataImporter.class.getName());
 
     public static DataImporter obtainDataImporter(String importer) {
         switch (importer.toLowerCase()) {
             case "peppradiology":
-                return new DataImporter<KGPListRadiologyLaboratory>(
+                //<editor-fold defaultstate="collapsed" desc="new DataImporter Radiology">
+                return new DataImporter<KGPListRadiologyLaboratory, PeppCalcBasics>(
                         "Nummer der Kostenstelle;Name der Kostenstelle;Leistungsdokumentation;Beschreibung",
                         new FileHolder("Radiology.csv"),
                         ErrorCounter.obtainErrorCounter("PEPP_RADIOLOGY"),
@@ -76,8 +84,10 @@ public final class DataImporter<T extends BaseIdValue> implements Serializable {
                         (s, t) -> s.addRadiologyLaboratory(t),
                         KGPListRadiologyLaboratory.class
                 );
+                //</editor-fold>
             case "pepplaboratory":
-                return new DataImporter<KGPListRadiologyLaboratory>(
+                //<editor-fold defaultstate="collapsed" desc="new DataImporter Laboratory">
+                return new DataImporter<KGPListRadiologyLaboratory, PeppCalcBasics>(
                         "Nummer der Kostenstelle;Name der Kostenstelle;Leistungsdokumentation;Beschreibung",
                         new FileHolder("Laboratory.csv"),
                         ErrorCounter.obtainErrorCounter("PEPP_LABORATORY"),
@@ -120,8 +130,10 @@ public final class DataImporter<T extends BaseIdValue> implements Serializable {
                         (s, t) -> s.addRadiologyLaboratory(t),
                         KGPListRadiologyLaboratory.class
                 );
+                //</editor-fold>
             case "peppmedinfra":
-                return new DataImporter<KgpListMedInfra>(
+                //<editor-fold defaultstate="collapsed" desc="new DataImporter medInfra">
+                return new DataImporter<KgpListMedInfra, PeppCalcBasics>(
                         "Nummer der Kostenstelle;Name der Kostenstelle;Verwendeter Schlüssel;Kostenvolumen",
                         new FileHolder("Med_Infra.csv"),
                         ErrorCounter.obtainErrorCounter("PEPP_MED_INFRA"),
@@ -163,8 +175,10 @@ public final class DataImporter<T extends BaseIdValue> implements Serializable {
                         (s, t) -> s.addMedInfraItem(t),
                         KgpListMedInfra.class
                 );
+                //</editor-fold>
             case "peppnonmedinfra":
-                return new DataImporter<KgpListMedInfra>(
+                //<editor-fold defaultstate="collapsed" desc="new DataImporter nonMedInfra">
+                return new DataImporter<KgpListMedInfra, PeppCalcBasics>(
                         "Nummer der Kostenstelle;Name der Kostenstelle;Verwendeter Schlüssel;Kostenvolumen",
                         new FileHolder("NON_Med_Infra.csv"),
                         ErrorCounter.obtainErrorCounter("PEPP_NON_MED_INFRA"),
@@ -204,8 +218,10 @@ public final class DataImporter<T extends BaseIdValue> implements Serializable {
                         (s, t) -> s.addMedInfraItem(t),
                         KgpListMedInfra.class
                 );
+                //</editor-fold>
             case "peppcostcenter":
-                return new DataImporter<KGPListCostCenter>(
+                //<editor-fold defaultstate="collapsed" desc="new DataImporter costCenter">
+                return new DataImporter<KGPListCostCenter, PeppCalcBasics>(
                         "Kostenstellengruppe;Kostenstellennummer;Kostenstellenname;Kostenvolumen;VollkräfteÄD;"
                                 + "Leistungsschlüssel;Beschreibung;SummeLeistungseinheiten",
                         new FileHolder("Kostenstellengruppe_11_12_13.csv"),
@@ -262,8 +278,10 @@ public final class DataImporter<T extends BaseIdValue> implements Serializable {
                         (s, t) -> s.addCostCenter(t),
                         KGPListCostCenter.class
                 );
+                //</editor-fold>
             case "peppstationservicecost":
-                return new DataImporter<KGPListStationServiceCost>(
+                //<editor-fold defaultstate="collapsed" desc="new DataImporter stationServiceCost">
+                return new DataImporter<KGPListStationServiceCost, PeppCalcBasics>(
                         "Nummer der Kostenstelle;Station;Eindeutige Zuordnung nach Psych-PV* (A, S, G, KJP, P);"
                                 + "Anzahl Betten;bettenführende Aufnahmestation (bitte ankreuzen);"
                                 + "Summe Pflegetage Regelbehandlung;Summe Gewichtungspunkte** Regelbehandlung;"
@@ -419,8 +437,10 @@ public final class DataImporter<T extends BaseIdValue> implements Serializable {
                         (s, t) -> s.addStationServiceCost(t),
                         KGPListStationServiceCost.class
                 );
+                //</editor-fold>
             case "pepptherapy":
-                return new DataImporter<KGPListTherapy>(
+                //<editor-fold defaultstate="collapsed" desc="new DataImporter therapy">
+                return new DataImporter<KGPListTherapy, PeppCalcBasics>(
                         "KST-Gruppe;Leistungsinhalt der Kostenstelle;Fremdvergabe (keine, teilweise, vollständig);"
                                 + "Leistungsschlüssel;KoArtG 1 Summe Leistungseinheiten;KoArtG 1 Personalkosten;"
                                 + "KoArtG 3a Summe Leistungseinheiten;KoArtG 3a Personalkosten;"
@@ -535,7 +555,7 @@ public final class DataImporter<T extends BaseIdValue> implements Serializable {
                         (s, t) -> s.addTherapy(t),
                         KGPListTherapy.class
                 );
-
+                //</editor-fold>
             default:
                 throw new IllegalArgumentException("unknown importer " + importer);
         }
@@ -549,7 +569,7 @@ public final class DataImporter<T extends BaseIdValue> implements Serializable {
 //            )
 
     private DataImporter(String headLine, FileHolder fileHolder, ErrorCounter errorCounter,
-            List<DataImportCheck<T, ?>> checker, BiConsumer<PeppCalcBasics, T> dataSink, Class<T> clazz) {
+            List<DataImportCheck<T, ?>> checker, BiConsumer<S, T> dataSink, Class<T> clazz) {
         this.headLine = headLine;
         this.fileHolder = fileHolder;
         this.errorCounter = errorCounter;
@@ -559,7 +579,7 @@ public final class DataImporter<T extends BaseIdValue> implements Serializable {
         this.clazz = clazz;
     }
 
-    public void uploadNoticesPepp(PeppCalcBasics calcBasics) {
+    public void uploadNoticesPepp(S calcBasics) {
         try {
             resetCounter();
 
@@ -590,7 +610,7 @@ public final class DataImporter<T extends BaseIdValue> implements Serializable {
         }
     }
 
-    private T readLine(String line, int cntColumns, PeppCalcBasics calcBasics) {
+    private T readLine(String line, int cntColumns, S calcBasics) {
 
         T item = null;
         try {
@@ -610,7 +630,7 @@ public final class DataImporter<T extends BaseIdValue> implements Serializable {
         return item;
     }
 
-    private T createNewItem(T item, PeppCalcBasics calcBasics) throws IllegalAccessException, InstantiationException {
+    private T createNewItem(T item, S calcBasics) throws IllegalAccessException, InstantiationException {
         item = clazz.newInstance();
         item.setBaseInformationId(calcBasics.getId());
         return item;
@@ -681,7 +701,7 @@ public final class DataImporter<T extends BaseIdValue> implements Serializable {
     private ErrorCounter errorCounter;
     private String headLine;
     private List<DataImportCheck<T, ?>> checkers;
-    private final BiConsumer<PeppCalcBasics, T> dataSink;
+    private final BiConsumer<S, T> dataSink;
     private boolean showJournal = false;
 //    private Function<PeppCalcBasics, List<T>> listToFill;
     private Class<T> clazz;
