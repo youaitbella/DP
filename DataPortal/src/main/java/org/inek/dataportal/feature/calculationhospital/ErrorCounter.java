@@ -54,7 +54,7 @@ public final class ErrorCounter implements Serializable {
     }
 
     public boolean containsError() {
-        return !_errorMsg.contains("Fehler");
+        return _errorMsg.contains("Fehler") || _errorMsg.contains("Hinweis");
     }
 
     public void incRowCounter() {

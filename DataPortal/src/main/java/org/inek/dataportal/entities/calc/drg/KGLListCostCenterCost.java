@@ -476,4 +476,26 @@ public class KGLListCostCenterCost implements Serializable, BaseIdValue {
     }
     //</editor-fold>
 
+    public void copyCostCenterCost(KGLListCostCenterCost item) {
+        this._costCenterId = item._costCenterId;
+        this._costCenterText = item._costCenterText;
+        this._departmentKey = item._departmentKey;
+        this._departmentAssignment = item._departmentAssignment;
+        this._bedCnt = item._bedCnt;
+        this._careDays = item._careDays;
+        this._pprMinutes = item._pprMinutes;
+        this._pprWeight = item._pprWeight;
+        this._medicalServiceCnt = item._medicalServiceCnt;
+        this._nursingServiceCnt = item._nursingServiceCnt;
+        this._functionalServiceCnt = item._functionalServiceCnt;
+        this._medicalServiceAmount = item._medicalServiceAmount;
+        this._nursingServiceAmount = item._nursingServiceAmount;
+        this._functionalServiceAmount = item._functionalServiceAmount;
+        this._overheadsMedicine = item._overheadsMedicine;
+        this._overheadsMedicalGoods = item._overheadsMedicalGoods;
+        this._medicalInfrastructureCost = item._medicalInfrastructureCost;
+        this._nonMedicalInfrastructureCost = item._nonMedicalInfrastructureCost;
+        this._baseInformationId = item._baseInformationId;
+        this._costCenterNumber = item._costCenterNumber;
+    }
 }

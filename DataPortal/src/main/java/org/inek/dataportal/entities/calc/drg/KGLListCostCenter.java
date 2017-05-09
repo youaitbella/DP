@@ -162,7 +162,7 @@ public class KGLListCostCenter implements Serializable, BaseIdValue {
     public void setServiceSum(double serviceSum) {
         this._serviceSum = serviceSum;
     }
-    // </editor-fold>    
+    // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="BaseInformation">
 //    @JoinColumn(name = "ccBaseInformationId", referencedColumnName = "biID")
@@ -267,5 +267,17 @@ public class KGLListCostCenter implements Serializable, BaseIdValue {
         return "org.inek.dataportal.entities.calc.KGLListCostCenter[ ccID=" + _id + " ]";
     }
     //</editor-fold>
+
+    void copyCostCenter(KGLListCostCenter item) {
+        this._costCenterId = item._costCenterId;
+        this._costCenterNumber = item._costCenterNumber;
+        this._costCenterText = item._costCenterText;
+        this._amount = item._amount;
+        this._fullVigorCnt = item._fullVigorCnt;
+        this._serviceKey = item._serviceKey;
+        this._serviceKeyDescription = item._serviceKeyDescription;
+        this._serviceSum = item._serviceSum;
+        this._baseInformationId = item._baseInformationId;
+    }
 
 }

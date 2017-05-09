@@ -622,16 +622,23 @@
 
     </div>
 
-    <inek:UploadButtons readOnly="#{editCalcBasicsDrg.readOnly}"
+<!--    <inek:UploadButtons readOnly="# {editCalcBasicsDrg.readOnly}"
+                        addListener="# {editCalcBasicsDrg.addCostCenterCosts()}"
+                        uploadButtonText="Upload"
+                        uploadListener="# {editCalcBasicsDrg.uploadNormalWard()}"
+                        file="# {editCalcBasicsDrg.file}"
+                        actionTemplate="# {editCalcBasicsDrg.downloadNormalStationTemplate}"
+                        actionDeleteTable="# {editCalcBasicsDrg.deleteAllCostCenterCosts()}"
+                        importMessage="# {editCalcBasicsDrg.importMessageNormalWard}"
+                        showJournal="# {editCalcBasicsDrg.showJournal}"
+                        toggleJournal="# {editCalcBasicsDrg.toggleJournal}"
+                        />-->
+    <inek:UploadButtons2 importer="#{editCalcBasicsDrg.getImporter('drgNormalWard')}"
+                         calcbase="#{editCalcBasicsDrg.calcBasics}" 
+                        readOnly="#{editCalcBasicsDrg.readOnly}"
                         addListener="#{editCalcBasicsDrg.addCostCenterCosts()}"
                         uploadButtonText="Upload"
-                        uploadListener="#{editCalcBasicsDrg.uploadNormalWard()}"
-                        file="#{editCalcBasicsDrg.file}"
-                        actionTemplate="#{editCalcBasicsDrg.downloadNormalStationTemplate}"
                         actionDeleteTable="#{editCalcBasicsDrg.deleteAllCostCenterCosts()}"
-                        importMessage="#{editCalcBasicsDrg.importMessageNormalWard}"
-                        showJournal="#{editCalcBasicsDrg.showJournal}"
-                        toggleJournal="#{editCalcBasicsDrg.toggleJournal}"
                         />
 
     

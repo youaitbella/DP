@@ -63,9 +63,9 @@ import org.inek.dataportal.entities.calc.drg.KGLNormalFeeContract;
 import org.inek.dataportal.entities.calc.drg.KGLNormalFreelancer;
 import org.inek.dataportal.entities.calc.drg.KGLNormalStationServiceDocumentation;
 import org.inek.dataportal.entities.calc.drg.KGLNormalStationServiceDocumentationMinutes;
-import org.inek.dataportal.entities.calc.drg.KglOpAn;
 import org.inek.dataportal.entities.calc.drg.KGLPersonalAccounting;
 import org.inek.dataportal.entities.calc.drg.KGLRadiologyService;
+import org.inek.dataportal.entities.calc.drg.KglOpAn;
 import org.inek.dataportal.entities.calc.psy.KglPkmsAlternative;
 import org.inek.dataportal.entities.iface.BaseIdValue;
 import org.inek.dataportal.enums.CalcHospitalFunction;
@@ -1337,11 +1337,11 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         _file = file;
     }
 
-    private static final String HEADLINE_11_12_13 = "Kostenstellengruppe;Kostenstellennummer;Kostenstellenname;Kostenvolumen;VollkräfteÄD;Leistungsschlüssel;Beschreibung;SummeLeistungseinheiten";
-
-    public void downloadTemplate() {
-        Utils.downloadText(HEADLINE_11_12_13 + "\n", "Kostenstellengruppe_11_12_13.csv");
-    }
+//    private static final String HEADLINE_11_12_13 = "Kostenstellengruppe;Kostenstellennummer;Kostenstellenname;Kostenvolumen;VollkräfteÄD;Leistungsschlüssel;Beschreibung;SummeLeistungseinheiten";
+//
+//    public void downloadTemplate() {
+//        Utils.downloadText(HEADLINE_11_12_13 + "\n", "Kostenstellengruppe_11_12_13.csv");
+//    }
 
     public void downloadNormalStationTemplate() {
         Utils.downloadText(HEADLINE_NORMAL_WARD + "\n", "Normalstation.csv");
@@ -1377,40 +1377,10 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         Utils.downloadText(content, "Normalstation.csv");
     }
 
-    private transient String _importMessage = "";
+    @Inject private DataImporterPool importerPool;
 
-    public String getImportMessage() {
-        return _importMessage;
-    }
-
-    public String getDummyImportMessage() {
-        return _importMessage;
-    }
-
-    @Inject
-    private Instance<CostCenterDataImporter> _importProvider;
-
-    public void uploadNotices() {
-        try {
-            if (_file != null) {
-                Scanner scanner = new Scanner(_file.getInputStream());
-                if (!scanner.hasNextLine()) {
-                    return;
-                }
-                CostCenterDataImporter itemImporter = _importProvider.get();
-                itemImporter.setCalcBasics(_calcBasics);
-                while (scanner.hasNextLine()) {
-                    String line = Utils.convertFromUtf8(scanner.nextLine());
-                    if (!line.equals(HEADLINE_11_12_13)) {
-                        itemImporter.tryImportLine(line);
-                    }
-                }
-                _importMessage = itemImporter.getMessage();
-                _sessionController.alertClient(_importMessage);
-                _showJournal = false;
-            }
-        } catch (IOException | NoSuchElementException e) {
-        }
+    public DataImporter<?,?> getImporter(String importerName) {
+        return importerPool.getDataImporter(importerName.toLowerCase());
     }
 
     private static final String HEADLINE_NORMAL_WARD = "NummerKostenstelle;NameKostenstelle;FABSchluessel;"

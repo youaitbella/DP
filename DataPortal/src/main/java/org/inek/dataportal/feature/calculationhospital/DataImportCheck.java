@@ -50,7 +50,7 @@ public class DataImportCheck<T, I> implements Serializable {
             //@SuppressWarnings("unchecked") I val = (I) data;
             assign.accept(item, data);
         } catch (Exception ex) {
-            throw new IllegalArgumentException(ex.getMessage() + "\n" + errorMsg + data);
+            counter.addColumnErrorMsg(errorMsg + ex.getMessage() + ": " + data);
         }
     }
 
