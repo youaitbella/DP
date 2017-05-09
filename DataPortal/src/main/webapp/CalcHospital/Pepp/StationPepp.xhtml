@@ -133,7 +133,9 @@
                                        renderElement="tblNormInt2:#{loop.index}:station:text tblNormInt3:#{loop.index}:station:text"/>
             </td>
             <td>
-            <inek:InputTextWithMessage value="#{item.psyPvMapping}" id="psyPvMapping" />
+            <inek:InputTextWithMessage value="#{item.psyPvMapping}" id="psyPvMapping" >
+                <f:validateRegex pattern="([aAsSgGpP]|[kK][jJ][pP])( *, *([aAsSgGpP]|[kK][jJ][pP]))*" for="psyPvMapping"/> 
+            </inek:InputTextWithMessage>
 
             </td>
             <td>
