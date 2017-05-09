@@ -10,6 +10,7 @@
     <!-- INTERFACE -->
     <cc:interface>
         <cc:attribute name="costCenterId"/>
+        <cc:attribute name="importerName"/>
         <cc:attribute name="backingBean"/> <!-- class="org.inek.dataportal.feature.calculationhospital.EditCalcBasicsDrg" might be Pepp, too -->
     </cc:interface>
 
@@ -86,7 +87,7 @@
                             showJournal="# {cc.attrs.backingBean.showJournal}"
                             toggleJournal="# {cc.attrs.backingBean.toggleJournal}"
                             />-->
-         <inek:UploadButtons2 importer="#{cc.attrs.backingBean.getImporter('peppcostcenter')}"
+<inek:UploadButtons2 importer="#{cc.attrs.backingBean.getImporter(cc.attrs.importerName)}"
                          calcbase="#{cc.attrs.backingBean.calcBasics}" 
                         readOnly="#{cc.attrs.backingBean.readOnly}"
                         addListener="#{cc.attrs.backingBean.addCostCenter(cc.attrs.costCenterId)}"

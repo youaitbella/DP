@@ -256,4 +256,16 @@ public class KGPListCostCenter implements Serializable, BaseIdValue {
     }
     //</editor-fold>
 
+    void copyCostCenter(KGPListCostCenter item) {
+        this._costCenterId = item._costCenterId;
+        this._costCenterNumber = item._costCenterNumber;
+        this._costCenterText = item._costCenterText;
+        this._amount = item._amount;
+        this._fullVigorCnt = item._fullVigorCnt;
+        this._serviceKey = item._serviceKey;
+        this._serviceKeyDescription = item._serviceKeyDescription;
+        this._serviceSum = item._serviceSum;
+        this._baseInformationId = item._baseInformationId;
+    }
+
 }

@@ -688,9 +688,9 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
 
     public void addCostCenter(KGPListCostCenter item) {
         KGPListCostCenter foundItem = ListUtil.findItem(_costCenters, item, (a, b) ->
-                        a.getCostCenterId() == b.getCostCenterId() &&
+                a.getCostCenterId() == b.getCostCenterId() &&
                         a.getCostCenterNumber().equals(b.getCostCenterNumber()) &&
-                        a.getServiceKey().equals(b.getServiceKey()));
+                        a.getCostCenterText().equalsIgnoreCase(b.getCostCenterText()));
 // check if the above is a key info for cost center the rest is for equality without saving information
 //        &&
 //                a.getAmount() == b.getAmount() &&
@@ -700,7 +700,7 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
 //                        a.getServiceSum() == b.getServiceSum());
 
         if (foundItem != null) {
-            foundItem.setAmount(item.getAmount());
+            foundItem.copyCostCenter(item);
         } else {
             _costCenters.add(item);
         }
