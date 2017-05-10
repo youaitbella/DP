@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 import java.util.function.BiConsumer;
 import java.util.logging.Level;
@@ -723,23 +724,19 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
     private T readLine(String line, int cntColumns, S calcBasics) {
 
         T item = null;
+        String[] data = splitLineInColumns(line, cntColumns);
+        errorCounter.incRowCounter();
+        if (data == null) {
+            errorCounter.addRowErrorMsg(Utils.getMessage("msgWrongElementCount"));
+            return null;
+        }
         try {
-            String[] data = splitLineInColumns(line, cntColumns);
-            errorCounter.incRowCounter();
-
             item = createNewItem(item, calcBasics);
-
             applyImport(item, data);
-
             validateImport(item);
-
         } catch (InstantiationException | IllegalAccessException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
             throw new IllegalArgumentException("can not instantiate type " + clazz.getSimpleName());
-        } catch (IllegalArgumentException ex) {
-            LOGGER.log(Level.WARNING, null, ex);
-            errorCounter.addRowErrorMsg(ex.getMessage());
-            return null;
         }
         return item;
     }
@@ -770,7 +767,10 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
         }
         String[] data = StringUtil.splitAtUnquotedSemicolon(line);
         if (data.length != cntColumns) {
-            throw new IllegalArgumentException(Utils.getMessage("msgWrongElementCount"));
+            // the following exception floods the log
+            //throw new IllegalArgumentException(Utils.getMessage("msgWrongElementCount"));
+            // instead, we return null
+            return null;
         }
         return data;
     }
