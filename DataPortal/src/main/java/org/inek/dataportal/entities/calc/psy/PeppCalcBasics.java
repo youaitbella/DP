@@ -951,4 +951,8 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
     public PeppCalcBasics() {
     }
 
+    @JsonIgnore
+    public boolean isSealed() {
+        return getStatus().getId() >= WorkflowStatus.Provided.getId();
+    }
 }

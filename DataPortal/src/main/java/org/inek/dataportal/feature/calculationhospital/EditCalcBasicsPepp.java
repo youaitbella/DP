@@ -6,6 +6,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -27,6 +28,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.Id;
+import javax.persistence.OptimisticLockException;
 import javax.servlet.http.Part;
 import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.CooperationTools;
@@ -56,8 +58,10 @@ import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.calc.CalcFacade;
 import org.inek.dataportal.feature.AbstractEditController;
+import org.inek.dataportal.helper.ObjectUtils;
 import org.inek.dataportal.helper.TransferFileCreator;
 import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.helper.structures.FieldValues;
 import org.inek.dataportal.helper.structures.MessageContainer;
 import org.inek.dataportal.utils.DocumentationUtil;
 import org.inek.dataportal.utils.ValueLists;
@@ -82,7 +86,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     @Inject private ApplicationTools _appTools;
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
-    private PeppCalcBasics _priorCalcBasics;
+    private PeppCalcBasics _calcBasics;
 
     public PeppCalcBasics getCalcBasics() {
         return _calcBasics;
@@ -92,7 +96,9 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         _calcBasics = calcBasics;
     }
 
-    private PeppCalcBasics _calcBasics;
+    private PeppCalcBasics _baseLine;
+
+    private PeppCalcBasics _priorCalcBasics;
 
     public PeppCalcBasics getPriorCalcBasics() {
         return _priorCalcBasics;
@@ -120,6 +126,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         String id = params.get("id");
         if ("new".equals(id)) {
             _calcBasics = newCalcBasicsPepp();
+            _baseLine = null;
         } else if (Utils.isInteger(id)) {
             PeppCalcBasics calcBasics = loadCalcBasicsPepp(id);
             if (calcBasics.getId() == -1) {
@@ -128,6 +135,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
                 return;
             }
             _calcBasics = calcBasics;
+            _baseLine = _calcFacade.findCalcBasicsPepp(_calcBasics.getId());
             retrievePriorData(_calcBasics);
             populateDelimitationFactsIfAbsent(_calcBasics);
         } else {
@@ -356,25 +364,116 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     @Override
     protected void topicChanged() {
         if (_sessionController.getAccount().isAutoSave() && !isReadOnly()) {
-            saveData();
+            saveData(false);
         }
     }
 
     public String save() {
-        saveData();
-
-        if (isValidId(_calcBasics.getId())) {
-            // CR+LF or LF only will be replaced by "\r\n"
-            String script = "alert ('" + Utils.getMessage("msgSave").replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
-            _sessionController.setScript(script);
-            return null;
-        }
-        return Pages.Error.URL();
+        return saveData(true);
     }
 
-    public void saveData() {
+    public String saveData(boolean showSaveMessage) {
+        if (_baseLine != null && ObjectUtils.getDifferences(_baseLine, _calcBasics, null).isEmpty()) {
+            // nothing is changed, but we will reload the data if changed by somebody else (as indicated by a new version)
+            if (_baseLine.getVersion() != _calcFacade.getCalcBasicsPsyVersion(_calcBasics.getId())) {
+                _baseLine = _calcFacade.findCalcBasicsPepp(_calcBasics.getId());
+                _calcBasics = _calcFacade.findCalcBasicsPepp(_calcBasics.getId());
+            }
+            return null;
+        }
+        
         setModifiedInfo();
-        _calcBasics = _calcFacade.saveCalcBasicsPepp(_calcBasics);
+        String msg = "";
+        try {
+            _calcBasics = _calcFacade.saveCalcBasicsPepp(_calcBasics);
+            if (!isValidId(_calcBasics.getId())) {
+                return Pages.Error.RedirectURL();
+            }
+            if (showSaveMessage) {
+                msg = Utils.getMessage("msgSave");
+            }
+        } catch (Exception ex) {
+            if (!(ex instanceof OptimisticLockException) && !(ex.getCause() instanceof OptimisticLockException)) {
+                throw ex;
+            }
+            msg = mergeAndReportChanges();
+        }
+        _baseLine = _calcFacade.findCalcBasicsPepp(_calcBasics.getId());
+        if (!msg.isEmpty()) {
+            // CR+LF or LF only will be replaced by "\r\n"
+            String script = "alert ('" + msg.replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
+            _sessionController.setScript(script);
+        }
+        return null;
+    }
+
+    private String mergeAndReportChanges() {
+        PeppCalcBasics modifiedCalcBasics = _calcBasics;
+        _calcBasics = _calcFacade.findCalcBasicsPepp(modifiedCalcBasics.getId());
+        if (_calcBasics == null) {
+            _sessionController.logMessage("ConcurrentUpdate [DatasetDeleted], CalcBasicsPsy: " + modifiedCalcBasics.getId());
+            Utils.navigate(Pages.CalculationHospitalSummary.URL());
+            return Utils.getMessage("msgDatasetDeleted");
+        }
+        if (_calcBasics.isSealed()) {
+            _sessionController.logMessage("ConcurrentUpdate [DatasetSealed], CalcBasicsPsy: " + modifiedCalcBasics.getId());
+            Utils.navigate(Pages.CalculationHospitalSummary.URL());
+            return Utils.getMessage("msgDatasetSealed");
+        }
+        Map<String, FieldValues> differencesPartner = getDifferencesPartner(getExcludedTypes());
+        Map<String, FieldValues> differencesUser = getDifferencesUser(modifiedCalcBasics, getExcludedTypes());
+
+        List<String> collisions = updateFields(differencesUser, differencesPartner, modifiedCalcBasics);
+
+        Map<String, String> documentationFields = DocumentationUtil.getFieldTranslationMap(_calcBasics);
+
+        String msgKey = collisions.isEmpty() ? "msgMergeOk" : "msgMergeCollision";
+        _sessionController.logMessage("ConcurrentUpdate [" + msgKey.substring(3) + "], CalcBasicsDrg: " + modifiedCalcBasics.getId());
+        String msg = Utils.getMessage(msgKey);
+        for (String fieldName : collisions) {
+            msg += "\r\n### " + documentationFields.get(fieldName) + " ###";
+        }
+        for (String fieldName : differencesPartner.keySet()) {
+            msg += "\r\n" + documentationFields.get(fieldName);
+        }
+        if (!_calcBasics.isSealed()) {
+            _calcBasics = _calcFacade.saveCalcBasicsPepp(_calcBasics);
+        }
+        return msg;
+    }
+
+    private List<Class> getExcludedTypes() {
+        List<Class> excludedTypes = new ArrayList<>();
+        excludedTypes.add(Date.class);
+        return excludedTypes;
+    }
+
+    private Map<String, FieldValues> getDifferencesUser(PeppCalcBasics modifiedCalcBasics, List<Class> excludedTypes) {
+        Map<String, FieldValues> differencesUser = ObjectUtils.getDifferences(_baseLine, modifiedCalcBasics, excludedTypes);
+        differencesUser.remove("_statusId");
+        return differencesUser;
+    }
+
+    private Map<String, FieldValues> getDifferencesPartner(List<Class> excludedTypes) {
+        Map<String, FieldValues> differencesPartner = ObjectUtils.getDifferences(_baseLine, _calcBasics, excludedTypes);
+        differencesPartner.remove("_statusId");
+        differencesPartner.remove("_version");
+        return differencesPartner;
+    }
+
+    private List<String> updateFields(Map<String, FieldValues> differencesUser, Map<String, FieldValues> differencesPartner, PeppCalcBasics modifiedCalcBasics) {
+        List<String> collisions = new ArrayList<>();
+        for (String fieldName : differencesUser.keySet()) {
+            if (differencesPartner.containsKey(fieldName) || _calcBasics.isSealed()) {
+                collisions.add(fieldName);
+                differencesPartner.remove(fieldName);
+                continue;
+            }
+            FieldValues fieldValues = differencesUser.get(fieldName);
+            Field field = fieldValues.getField();
+            ObjectUtils.copyFieldValue(field, modifiedCalcBasics, _calcBasics);
+        }
+        return collisions;
     }
 
     private void setModifiedInfo() {
@@ -513,7 +612,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
 
         _calcBasics.setStatus(WorkflowStatus.Provided);
         _calcBasics.setSealed(Calendar.getInstance().getTime());
-        saveData();
+        saveData(false);
 
         TransferFileCreator.createCalcBasicsTransferFile(_sessionController, _calcBasics);
 
@@ -547,7 +646,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
             return null;
         }
         _calcBasics.setStatus(WorkflowStatus.ApprovalRequested);
-        saveData();
+        saveData(false);
         return "";
     }
 
@@ -556,7 +655,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
             return Pages.Error.URL();
         }
         _calcBasics.setAccountId(_sessionController.getAccountId());
-        saveData();
+        saveData(false);
         return "";
     }
     // </editor-fold>
@@ -824,7 +923,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         _calcBasics.getKgpMedInfraList().add(mif);
     }
 
-    public void deleteKgpMedInfraList(int costTypeId){
+    public void deleteKgpMedInfraList(int costTypeId) {
         _calcBasics.deleteKgpMedInfraList(costTypeId);
     }
 
@@ -834,7 +933,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
 
     @Inject private DataImporterPool importerPool;
 
-    public DataImporter<?,?> getImporter(String importerName) {
+    public DataImporter<?, ?> getImporter(String importerName) {
         return importerPool.getDataImporter(importerName.toLowerCase());
     }
 
@@ -896,7 +995,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         _calcBasics.getStationServiceCosts().remove(item);
     }
 
-    public void clearStationServiceCosts(){
+    public void clearStationServiceCosts() {
         _calcBasics.clearStationServiceCosts();
     }
 
