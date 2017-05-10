@@ -5,6 +5,7 @@
  */
 package org.inek.dataportal.entities.calc.psy;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Column;
@@ -210,6 +211,7 @@ public class KGPListRadiologyLaboratory implements Serializable, BaseIdValue {
         this._serviceDocType = type;
     }
 
+    @JsonIgnore
     public String getServiceDocTypeAsString() {
         switch (getServiceDocType()) {
             case 0: return "fehlerhafte Angabe";
