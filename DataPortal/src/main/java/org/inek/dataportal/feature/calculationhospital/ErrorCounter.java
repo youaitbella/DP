@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.inek.dataportal.feature.calculationhospital;
 
 import java.io.Serializable;
@@ -17,7 +12,7 @@ import java.util.Map;
  */
 public final class ErrorCounter implements Serializable {
 
-    private static Map<String, ErrorCounter> counters = new HashMap<>();
+    private static final Map<String, ErrorCounter> counters = new HashMap<>();
 
     private String _errorMsg = "";
     private int _infoColumnCount = 0;
@@ -98,10 +93,14 @@ public final class ErrorCounter implements Serializable {
     }
 
     public String getMessage() {
-        return (_totalCount - _errorRowCount) + " von " + _totalCount + " Zeilen gelesen\r\n\r\n"
-                + _errorColumnCount + " fehlerhafte Spalte(n) eingelesen\n"
-                + _infoColumnCount + " nicht angegebene Werte\n\n"
-                + _errorMsg;
+        String msg = (_totalCount - _errorRowCount) + " von " + _totalCount + " Zeilen gelesen\r\n";
+        if (_errorColumnCount > 0){
+            msg += _errorColumnCount + " fehlerhafte Spalte(n) eingelesen (siehe unten). Bitte prüfen Sie die Daten.\r\n";
+        }
+        if (_infoColumnCount > 0){
+            msg += _infoColumnCount + " nicht angegebene Werte (siehe unten). Bitte prüfen Sie die Daten.\r\n";
+        }
+        return msg + _errorMsg;
     }
 
 }

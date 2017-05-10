@@ -25,15 +25,15 @@ import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.utils.StringUtil;
 
 /**
- * A utility class to read csv data and create elements for each row.
- * These Elements will be bound to an owner via BaseIdValue.setBaseInformationId where the needed id is obtained
- * by StatusEntity.getId. So the object of the second type will be the owner of the objects of the first type.
+ * A utility class to read csv data and create elements for each row. These Elements will be bound to an owner via
+ * BaseIdValue.setBaseInformationId where the needed id is obtained by StatusEntity.getId. So the object of the second
+ * type will be the owner of the objects of the first type.
  *
  * @author kunkelan
  * @param <T> Type to import will create elements of this type
- * @param <S> DrgCaclBasics or PeppCalcBasic dataholder to which the items generated belongs. StatusEntity gives
- *            the possibility to get the id to store it in T items which can set the BaseInformationId of itself.
- *            So these two types are bound to each other in a loosly way, up to now only the two Types mentioned.
+ * @param <S> DrgCaclBasics or PeppCalcBasic dataholder to which the items generated belongs. StatusEntity gives the
+ * possibility to get the id to store it in T items which can set the BaseInformationId of itself. So these two types
+ * are bound to each other in a loosly way, up to now only the two Types mentioned.
  *
  */
 public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> implements Serializable {
@@ -87,7 +87,7 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
                         (s, t) -> s.addRadiologyLaboratory(t),
                         KGPListRadiologyLaboratory.class
                 );
-                //</editor-fold>
+            //</editor-fold>
             case "pepplaboratory":
                 //<editor-fold defaultstate="collapsed" desc="new DataImporter Laboratory">
                 return new DataImporter<KGPListRadiologyLaboratory, PeppCalcBasics>(
@@ -133,7 +133,7 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
                         (s, t) -> s.addRadiologyLaboratory(t),
                         KGPListRadiologyLaboratory.class
                 );
-                //</editor-fold>
+            //</editor-fold>
             case "peppmedinfra":
                 //<editor-fold defaultstate="collapsed" desc="new DataImporter medInfra">
                 return new DataImporter<KgpListMedInfra, PeppCalcBasics>(
@@ -178,7 +178,7 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
                         (s, t) -> s.addMedInfraItem(t),
                         KgpListMedInfra.class
                 );
-                //</editor-fold>
+            //</editor-fold>
             case "peppnonmedinfra":
                 //<editor-fold defaultstate="collapsed" desc="new DataImporter nonMedInfra">
                 return new DataImporter<KgpListMedInfra, PeppCalcBasics>(
@@ -221,12 +221,12 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
                         (s, t) -> s.addMedInfraItem(t),
                         KgpListMedInfra.class
                 );
-                //</editor-fold>
+            //</editor-fold>
             case "peppcostcenter":
                 //<editor-fold defaultstate="collapsed" desc="new DataImporter costCenter">
                 return new DataImporter<KGPListCostCenter, PeppCalcBasics>(
                         "Kostenstellengruppe;Kostenstellennummer;Kostenstellenname;Kostenvolumen;VollkräfteÄD;"
-                                + "Leistungsschlüssel;Beschreibung;SummeLeistungseinheiten",
+                        + "Leistungsschlüssel;Beschreibung;SummeLeistungseinheiten",
                         new FileHolder("Kostenstellengruppe_11_12_13.csv"),
                         ErrorCounter.obtainErrorCounter("PEPP_COST_CENTER"),
                         Arrays.asList(
@@ -235,58 +235,50 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
                                         DataImportCheck::tryImportCostCenterId,
                                         (i, s) -> i.setCostCenterId(Integer.parseInt(s)),
                                         "Keine zulässige Kostenstellengruppe(11, 12, 13): "),
-
                                 new DataImportCheck<KGPListCostCenter, String>(
                                         ErrorCounter.obtainErrorCounter("PEPP_COST_CENTER"),
                                         DataImportCheck::tryImportString,
                                         (i, s) -> i.setCostCenterNumber(s),
                                         "ungültige Kostenstellennummer : "),
-
                                 new DataImportCheck<KGPListCostCenter, String>(
                                         ErrorCounter.obtainErrorCounter("PEPP_COST_CENTER"),
                                         DataImportCheck::tryImportString,
                                         (i, s) -> i.setCostCenterText(s),
                                         "ungültiger Kostenstellentext : "),
-
                                 new DataImportCheck<KGPListCostCenter, Integer>(
                                         ErrorCounter.obtainErrorCounter("PEPP_COST_CENTER"),
                                         DataImportCheck::tryImportDoubleAsInt,
                                         (i, s) -> i.setAmount(s),
                                         "Kostenvolumen ungültig : "),
-
                                 new DataImportCheck<KGPListCostCenter, Double>(
                                         ErrorCounter.obtainErrorCounter("PEPP_COST_CENTER"),
                                         DataImportCheck::tryImportDouble,
                                         (i, s) -> i.setFullVigorCnt(s),
                                         "[Anzahl VK ÄD] ungültig : "),
-
                                 new DataImportCheck<KGPListCostCenter, String>(
                                         ErrorCounter.obtainErrorCounter("PEPP_COST_CENTER"),
                                         DataImportCheck::tryImportString,
                                         (i, s) -> i.setServiceKey(s),
                                         "ungültiger service : "),
-
                                 new DataImportCheck<KGPListCostCenter, String>(
                                         ErrorCounter.obtainErrorCounter("PEPP_COST_CENTER"),
                                         DataImportCheck::tryImportString,
                                         (i, s) -> i.setServiceKeyDescription(s),
                                         "ungültige service Beschreibung : "),
-
                                 new DataImportCheck<KGPListCostCenter, Integer>(
                                         ErrorCounter.obtainErrorCounter("PEPP_COST_CENTER"),
                                         DataImportCheck::tryImportInteger,
                                         (i, s) -> i.setServiceSum(s),
                                         "Summer der Leistungseinheiten ungültig : ")),
-
                         (s, t) -> s.addCostCenter(t),
                         KGPListCostCenter.class
                 );
-                //</editor-fold>
+            //</editor-fold>
             case "drgcostcenter":
                 //<editor-fold defaultstate="collapsed" desc="new DataImporter costCenter">
                 return new DataImporter<KGLListCostCenter, DrgCalcBasics>(
                         "Kostenstellengruppe;Kostenstellennummer;Kostenstellenname;Kostenvolumen;VollkräfteÄD;"
-                                + "Leistungsschlüssel;Beschreibung;SummeLeistungseinheiten",
+                        + "Leistungsschlüssel;Beschreibung;SummeLeistungseinheiten",
                         new FileHolder("Kostenstellengruppe_11_12_13.csv"),
                         ErrorCounter.obtainErrorCounter("DRG_COST_CENTER"),
                         Arrays.asList(
@@ -295,67 +287,59 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
                                         DataImportCheck::tryImportCostCenterId,
                                         (i, s) -> i.setCostCenterId(Integer.parseInt(s)),
                                         "Keine zulässige Kostenstellengruppe(11, 12, 13): "),
-
                                 new DataImportCheck<KGLListCostCenter, String>(
                                         ErrorCounter.obtainErrorCounter("DRG_COST_CENTER"),
                                         DataImportCheck::tryImportString,
                                         (i, s) -> i.setCostCenterNumber(s),
                                         "ungültige Kostenstellennummer : "),
-
                                 new DataImportCheck<KGLListCostCenter, String>(
                                         ErrorCounter.obtainErrorCounter("DRG_COST_CENTER"),
                                         DataImportCheck::tryImportString,
                                         (i, s) -> i.setCostCenterText(s),
                                         "ungültiger Kostenstellentext : "),
-
                                 new DataImportCheck<KGLListCostCenter, Integer>(
                                         ErrorCounter.obtainErrorCounter("DRG_COST_CENTER"),
                                         DataImportCheck::tryImportDoubleAsInt,
                                         (i, s) -> i.setAmount(s),
                                         "Kostenvolumen ungültig : "),
-
                                 new DataImportCheck<KGLListCostCenter, Double>(
                                         ErrorCounter.obtainErrorCounter("DRG_COST_CENTER"),
                                         DataImportCheck::tryImportDouble,
                                         (i, s) -> i.setFullVigorCnt(s),
                                         "[Anzahl VK ÄD] ungültig : "),
-
                                 new DataImportCheck<KGLListCostCenter, String>(
                                         ErrorCounter.obtainErrorCounter("DRG_COST_CENTER"),
                                         DataImportCheck::tryImportString,
                                         (i, s) -> i.setServiceKey(s),
                                         "ungültiger service : "),
-
                                 new DataImportCheck<KGLListCostCenter, String>(
                                         ErrorCounter.obtainErrorCounter("DRG_COST_CENTER"),
                                         DataImportCheck::tryImportString,
                                         (i, s) -> i.setServiceKeyDescription(s),
                                         "ungültige service Beschreibung : "),
-
                                 new DataImportCheck<KGLListCostCenter, Integer>(
                                         ErrorCounter.obtainErrorCounter("DRG_COST_CENTER"),
                                         DataImportCheck::tryImportInteger,
                                         (i, s) -> i.setServiceSum(s),
                                         "Summer der Leistungseinheiten ungültig : ")),
-
                         (s, t) -> s.addCostCenter(t),
                         KGLListCostCenter.class
                 );
-                //</editor-fold>
+            //</editor-fold>
             case "peppstationservicecost":
                 //<editor-fold defaultstate="collapsed" desc="new DataImporter stationServiceCost">
                 return new DataImporter<KGPListStationServiceCost, PeppCalcBasics>(
                         "Nummer der Kostenstelle;Station;Eindeutige Zuordnung nach Psych-PV* (A, S, G, KJP, P);"
-                                + "Anzahl Betten;bettenführende Aufnahmestation (bitte ankreuzen);"
-                                + "Summe Pflegetage Regelbehandlung;Summe Gewichtungspunkte** Regelbehandlung;"
-                                + "Summe Pflegetage Intensivbehandlung;Summe Gewichtungspunkte** Intensivbehandlung;"
-                                + "VK Ärztlicher Dienst;VK Pflegedienst/Erziehungsdienst;VK Psychologen;"
-                                + "VK Sozialarbeiter/Sozial-/Heil-pädagogen;VK Spezialtherapeuten;"
-                                + "VK med.-techn. Dienst/Funktionsdienst;Kosten Ärztlicher Dienst;"
-                                + "Kosten Pflegedienst/Erziehungsdienst;Kosten Psychologen;"
-                                + "Kosten Sozialarbeiter/Sozial-/Heil-pädagogen;Kosten Spezialtherapeuten;"
-                                + "Kosten med.-techn. Dienst/Funktionsdienst;Kosten med. Infrastruktur;"
-                                + "Kosten nicht med. Infrastruktur",
+                        + "Anzahl Betten;bettenführende Aufnahmestation (bitte ankreuzen);"
+                        + "Summe Pflegetage Regelbehandlung;Summe Gewichtungspunkte** Regelbehandlung;"
+                        + "Summe Pflegetage Intensivbehandlung;Summe Gewichtungspunkte** Intensivbehandlung;"
+                        + "VK Ärztlicher Dienst;VK Pflegedienst/Erziehungsdienst;VK Psychologen;"
+                        + "VK Sozialarbeiter/Sozial-/Heil-pädagogen;VK Spezialtherapeuten;"
+                        + "VK med.-techn. Dienst/Funktionsdienst;Kosten Ärztlicher Dienst;"
+                        + "Kosten Pflegedienst/Erziehungsdienst;Kosten Psychologen;"
+                        + "Kosten Sozialarbeiter/Sozial-/Heil-pädagogen;Kosten Spezialtherapeuten;"
+                        + "Kosten med.-techn. Dienst/Funktionsdienst;Kosten med. Infrastruktur;"
+                        + "Kosten nicht med. Infrastruktur",
                         new FileHolder("Station_kstg_21_22.csv"),
                         ErrorCounter.obtainErrorCounter("PEPP_STATION_SERVICE_COST"),
                         Arrays.asList(
@@ -364,153 +348,130 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
                                         DataImportCheck::tryImportString,
                                         (i, s) -> i.setCostCenterNumber(s),
                                         "Nummer der Kostenstelle ungültig: "),
-
                                 new DataImportCheck<KGPListStationServiceCost, String>(
                                         ErrorCounter.obtainErrorCounter("PEPP_STATION_SERVICE_COST"),
                                         DataImportCheck::tryImportString,
                                         (i, s) -> i.setStation(s),
                                         "Name der Station ungültig: "),
-
                                 new DataImportCheck<KGPListStationServiceCost, String>(
                                         ErrorCounter.obtainErrorCounter("PEPP_STATION_SERVICE_COST"),
                                         DataImportCheck::tryImportString,
                                         (i, s) -> i.setPsyPvMapping(s),
                                         "Eindeutige Zuordnung nach Psych-PV* (A, S, G, KJP, P) ungültig: "),
-
                                 new DataImportCheck<KGPListStationServiceCost, Integer>(
                                         ErrorCounter.obtainErrorCounter("PEPP_STATION_SERVICE_COST"),
                                         DataImportCheck::tryImportInteger,
                                         (i, s) -> i.setBedCnt(s),
                                         "Summer der Leistungseinheiten ungültig : "),
-
                                 new DataImportCheck<KGPListStationServiceCost, Boolean>(
                                         ErrorCounter.obtainErrorCounter("PEPP_STATION_SERVICE_COST"),
                                         DataImportCheck::tryImportBoolean,
                                         (i, s) -> i.setReceivingStation(s),
                                         "bettenführende Aufnahmestation (bitte ankreuzen) ungültig: "),
-
                                 new DataImportCheck<KGPListStationServiceCost, Integer>(
                                         ErrorCounter.obtainErrorCounter("PEPP_STATION_SERVICE_COST"),
                                         DataImportCheck::tryImportInteger,
                                         (i, s) -> i.setRegularCareDays(s),
                                         "Summe Pflegetage Regelbehandlung ungültig: "),
-
                                 new DataImportCheck<KGPListStationServiceCost, Integer>(
                                         ErrorCounter.obtainErrorCounter("PEPP_STATION_SERVICE_COST"),
                                         DataImportCheck::tryImportInteger,
                                         (i, s) -> i.setRegularWeight(s),
                                         "Summe Gewichtungspunkte** Regelbehandlung ungültig: "),
-
                                 new DataImportCheck<KGPListStationServiceCost, Integer>(
                                         ErrorCounter.obtainErrorCounter("PEPP_STATION_SERVICE_COST"),
                                         DataImportCheck::tryImportInteger,
                                         (i, s) -> i.setIntensiveCareDays(s),
                                         "Summe Pflegetage Intensivbehandlung ungültig: "),
-
                                 new DataImportCheck<KGPListStationServiceCost, Integer>(
                                         ErrorCounter.obtainErrorCounter("PEPP_STATION_SERVICE_COST"),
                                         DataImportCheck::tryImportInteger,
                                         (i, s) -> i.setIntensiveWeight(s),
                                         "Summe Gewichtungspunkte** Intensivbehandlung ungültig: "),
-
                                 new DataImportCheck<KGPListStationServiceCost, Double>(
                                         ErrorCounter.obtainErrorCounter("PEPP_STATION_SERVICE_COST"),
                                         DataImportCheck::tryImportDouble,
                                         (i, s) -> i.setMedicalServiceCnt(s),
                                         "VK Ärztlicher Dienst ungültig: "),
-
                                 new DataImportCheck<KGPListStationServiceCost, Double>(
                                         ErrorCounter.obtainErrorCounter("PEPP_STATION_SERVICE_COST"),
                                         DataImportCheck::tryImportDouble,
                                         (i, s) -> i.setNursingServiceCnt(s),
                                         "VK Pflegedienst/Erziehungsdienst ungültig: "),
-
                                 new DataImportCheck<KGPListStationServiceCost, Double>(
                                         ErrorCounter.obtainErrorCounter("PEPP_STATION_SERVICE_COST"),
                                         DataImportCheck::tryImportDouble,
                                         (i, s) -> i.setPsychologistCnt(s),
                                         "VK Psychologen ungültig: "),
-
                                 new DataImportCheck<KGPListStationServiceCost, Double>(
                                         ErrorCounter.obtainErrorCounter("PEPP_STATION_SERVICE_COST"),
                                         DataImportCheck::tryImportDouble,
                                         (i, s) -> i.setSocialWorkerCnt(s),
                                         "VK Sozialarbeiter/Sozial-/Heil-pädagogen ungültig: "),
-
                                 new DataImportCheck<KGPListStationServiceCost, Double>(
                                         ErrorCounter.obtainErrorCounter("PEPP_STATION_SERVICE_COST"),
                                         DataImportCheck::tryImportDouble,
                                         (i, s) -> i.setSpecialTherapistCnt(s),
                                         "VK Spezialtherapeuten ungültig: "),
-
                                 new DataImportCheck<KGPListStationServiceCost, Double>(
                                         ErrorCounter.obtainErrorCounter("PEPP_STATION_SERVICE_COST"),
                                         DataImportCheck::tryImportDouble,
                                         (i, s) -> i.setFunctionalServiceCnt(s),
                                         "VK med.-techn. Dienst/Funktionsdienst ungültig: "),
-
                                 new DataImportCheck<KGPListStationServiceCost, Integer>(
                                         ErrorCounter.obtainErrorCounter("PEPP_STATION_SERVICE_COST"),
                                         DataImportCheck::tryImportInteger,
                                         (i, s) -> i.setMedicalServiceAmount(s),
                                         "Kosten Ärztlicher Dienst ungültig: "),
-
                                 new DataImportCheck<KGPListStationServiceCost, Integer>(
                                         ErrorCounter.obtainErrorCounter("PEPP_STATION_SERVICE_COST"),
                                         DataImportCheck::tryImportInteger,
                                         (i, s) -> i.setNursingServiceAmount(s),
                                         "Kosten Pflegedienst/Erziehungsdienst ungültig: "),
-
                                 new DataImportCheck<KGPListStationServiceCost, Integer>(
                                         ErrorCounter.obtainErrorCounter("PEPP_STATION_SERVICE_COST"),
                                         DataImportCheck::tryImportInteger,
                                         (i, s) -> i.setPsychologistAmount(s),
                                         "Kosten Psychologen ungültig: "),
-
                                 new DataImportCheck<KGPListStationServiceCost, Integer>(
                                         ErrorCounter.obtainErrorCounter("PEPP_STATION_SERVICE_COST"),
                                         DataImportCheck::tryImportInteger,
                                         (i, s) -> i.setSocialWorkerAmount(s),
                                         "Kosten Sozialarbeiter/Sozial-/Heil-pädagogen ungültig: "),
-
                                 new DataImportCheck<KGPListStationServiceCost, Integer>(
                                         ErrorCounter.obtainErrorCounter("PEPP_STATION_SERVICE_COST"),
                                         DataImportCheck::tryImportInteger,
                                         (i, s) -> i.setSpecialTherapistAmount(s),
                                         "Kosten Spezialtherapeuten ungültig: "),
-
                                 new DataImportCheck<KGPListStationServiceCost, Integer>(
                                         ErrorCounter.obtainErrorCounter("PEPP_STATION_SERVICE_COST"),
                                         DataImportCheck::tryImportInteger,
                                         (i, s) -> i.setFunctionalServiceAmount(s),
                                         "Kosten med.-techn. Dienst/Funktionsdienst ungültig: "),
-
                                 new DataImportCheck<KGPListStationServiceCost, Integer>(
                                         ErrorCounter.obtainErrorCounter("PEPP_STATION_SERVICE_COST"),
                                         DataImportCheck::tryImportInteger,
                                         (i, s) -> i.setMedicalInfrastructureAmount(s),
                                         "Kosten med. Infrastruktur ungültig: "),
-
                                 new DataImportCheck<KGPListStationServiceCost, Integer>(
                                         ErrorCounter.obtainErrorCounter("PEPP_STATION_SERVICE_COST"),
                                         DataImportCheck::tryImportInteger,
                                         (i, s) -> i.setNonMedicalInfrastructureAmount(s),
                                         "Kosten nicht med. Infrastruktur ungültig: ")),
-
                         (s, t) -> s.addStationServiceCost(t),
                         KGPListStationServiceCost.class
                 );
-                //</editor-fold>
+            //</editor-fold>
             case "pepptherapy":
                 //<editor-fold defaultstate="collapsed" desc="new DataImporter therapy">
                 return new DataImporter<KGPListTherapy, PeppCalcBasics>(
                         "KST-Gruppe;Leistungsinhalt der Kostenstelle;Fremdvergabe (keine, teilweise, vollständig);"
-                                + "Leistungsschlüssel;KoArtG 1 Summe Leistungseinheiten;KoArtG 1 Personalkosten;"
-                                + "KoArtG 3a Summe Leistungseinheiten;KoArtG 3a Personalkosten;"
-                                + "KoArtG 2 Summe Leistungseinheiten;KoArtG 2 Personalkosten;"
-                                + "KoArtG 3b Summe Leistungseinheiten;KoArtG 3b Personalkosten;"
-                                + "KoArtG 3c Summe Leistungseinheiten;KoArtG 3c Personalkosten;"
-                                + "KoArtG 3 Summe Leistungseinheiten;KoArtG 3 Personalkosten",
+                        + "Leistungsschlüssel;KoArtG 1 Summe Leistungseinheiten;KoArtG 1 Personalkosten;"
+                        + "KoArtG 3a Summe Leistungseinheiten;KoArtG 3a Personalkosten;"
+                        + "KoArtG 2 Summe Leistungseinheiten;KoArtG 2 Personalkosten;"
+                        + "KoArtG 3b Summe Leistungseinheiten;KoArtG 3b Personalkosten;"
+                        + "KoArtG 3c Summe Leistungseinheiten;KoArtG 3c Personalkosten;"
+                        + "KoArtG 3 Summe Leistungseinheiten;KoArtG 3 Personalkosten",
                         new FileHolder("Therapeutischer_Bereich_.csv"),
                         ErrorCounter.obtainErrorCounter("PEPP_THERAPY"),
                         Arrays.asList(
@@ -519,115 +480,94 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
                                         DataImportCheck::tryImportInteger,
                                         (i, s) -> i.setCostCenterId(s),
                                         "Keine zulässige KST-Gruppe (23-26) : "),
-
                                 new DataImportCheck<KGPListTherapy, String>(
                                         ErrorCounter.obtainErrorCounter("PEPP_THERAPY"),
                                         DataImportCheck::tryImportString,
                                         (i, s) -> i.setCostCenterText(s),
                                         "Ungültige Zeichenkette: "),
-
                                 new DataImportCheck<KGPListTherapy, Integer>(
                                         ErrorCounter.obtainErrorCounter("PEPP_THERAPY"),
                                         DataImportCheck::tryImportFremdvergabe,
                                         (i, s) -> i.setExternalService(s),
                                         "Keine zulässige Leistungserbringung 'Keine, Teilweise, Vollständige Fremdvergabe' : "),
-
                                 new DataImportCheck<KGPListTherapy, String>(
                                         ErrorCounter.obtainErrorCounter("PEPP_THERAPY"),
                                         DataImportCheck::tryImportString,
                                         (i, s) -> i.setKeyUsed(s),
                                         "Kein gültiger Leistungsschlüssel: "),
-
-
-
-
                                 new DataImportCheck<KGPListTherapy, Integer>(
                                         ErrorCounter.obtainErrorCounter("PEPP_THERAPY"),
                                         DataImportCheck::tryImportInteger,
                                         (i, s) -> i.setServiceUnitsCt1(s),
                                         "Ungültiger Wert für Summe Leistungseinheiten KoArtGr 1: "),
-
                                 new DataImportCheck<KGPListTherapy, Integer>(
                                         ErrorCounter.obtainErrorCounter("PEPP_THERAPY"),
                                         DataImportCheck::tryImportDoubleAsInt,
                                         (i, s) -> i.setPersonalCostCt1(s),
                                         "Ungültiger Wert für Personalkosten KoArtGr 1: "),
-
                                 new DataImportCheck<KGPListTherapy, Integer>(
                                         ErrorCounter.obtainErrorCounter("PEPP_THERAPY"),
                                         DataImportCheck::tryImportInteger,
                                         (i, s) -> i.setServiceUnitsCt3a(s),
                                         "Ungültiger Wert für Summe Leistungseinheiten KoArtGr 3a: "),
-
                                 new DataImportCheck<KGPListTherapy, Integer>(
                                         ErrorCounter.obtainErrorCounter("PEPP_THERAPY"),
                                         DataImportCheck::tryImportDoubleAsInt,
                                         (i, s) -> i.setPersonalCostCt3a(s),
                                         "Ungültiger Wert für Personalkosten KoArtGr 3a: "),
-
                                 new DataImportCheck<KGPListTherapy, Integer>(
                                         ErrorCounter.obtainErrorCounter("PEPP_THERAPY"),
                                         DataImportCheck::tryImportInteger,
                                         (i, s) -> i.setServiceUnitsCt2(s),
                                         "Ungültiger Wert für Summe Leistungseinheiten KoArtGr 2: "),
-
                                 new DataImportCheck<KGPListTherapy, Integer>(
                                         ErrorCounter.obtainErrorCounter("PEPP_THERAPY"),
                                         DataImportCheck::tryImportDoubleAsInt,
                                         (i, s) -> i.setPersonalCostCt2(s),
                                         "Ungültiger Wert für Personalkosten KoArtGr 2: "),
-
                                 new DataImportCheck<KGPListTherapy, Integer>(
                                         ErrorCounter.obtainErrorCounter("PEPP_THERAPY"),
                                         DataImportCheck::tryImportInteger,
                                         (i, s) -> i.setServiceUnitsCt3b(s),
                                         "Ungültiger Wert für Summe Leistungseinheiten KoArtGr 3b: "),
-
                                 new DataImportCheck<KGPListTherapy, Integer>(
                                         ErrorCounter.obtainErrorCounter("PEPP_THERAPY"),
                                         DataImportCheck::tryImportDoubleAsInt,
                                         (i, s) -> i.setPersonalCostCt3b(s),
                                         "Ungültiger Wert für Personalkosten KoArtGr 3b: "),
-
                                 new DataImportCheck<KGPListTherapy, Integer>(
                                         ErrorCounter.obtainErrorCounter("PEPP_THERAPY"),
                                         DataImportCheck::tryImportInteger,
                                         (i, s) -> i.setServiceUnitsCt3c(s),
                                         "Ungültiger Wert für Summe Leistungseinheiten KoArtGr 3c: "),
-
                                 new DataImportCheck<KGPListTherapy, Integer>(
                                         ErrorCounter.obtainErrorCounter("PEPP_THERAPY"),
                                         DataImportCheck::tryImportDoubleAsInt,
                                         (i, s) -> i.setPersonalCostCt3c(s),
                                         "Ungültiger Wert für Personalkosten KoArtGr 3c: "),
-
                                 new DataImportCheck<KGPListTherapy, Integer>(
                                         ErrorCounter.obtainErrorCounter("PEPP_THERAPY"),
                                         DataImportCheck::tryImportInteger,
                                         (i, s) -> i.setServiceUnitsCt3(s),
                                         "Ungültiger Wert für Summe Leistungseinheiten KoArtGr 3: "),
-
                                 new DataImportCheck<KGPListTherapy, Integer>(
                                         ErrorCounter.obtainErrorCounter("PEPP_THERAPY"),
                                         DataImportCheck::tryImportDoubleAsInt,
                                         (i, s) -> i.setPersonalCostCt3(s),
                                         "Ungültiger Wert für Personalkosten KoArtGr 3: ")),
-
-
-
                         (s, t) -> s.addTherapy(t),
                         KGPListTherapy.class
                 );
-                //</editor-fold>
+            //</editor-fold>
             case "drgnormalward":
-                //<editor-fold defaultstate="collapsed" desc="new DataImporter Radiology">
+                //<editor-fold defaultstate="collapsed" desc="new DataImporter Normal Ward">
                 return new DataImporter<KGLListCostCenterCost, DrgCalcBasics>(
                         "NummerKostenstelle;NameKostenstelle;FABSchluessel;"
-                                + "BelegungFAB;Bettenzahl;Pflegetage;PPRMinuten;zusaetlicheGewichtung;"
-                                + "AerztlicherDienstVK;PflegedienstVK;FunktionsdienstVK;"
-                                + "AerztlicherDienstKostenstelle;PflegedienstKostenstelle;"
-                                + "FunktionsdienstKostenstelle;ArzneimittelKostenstelle;"
-                                + "medSachbedarfKostenstelle;medInfraKostenstelle;nichtMedInfraKostenstelle",
+                        + "BelegungFAB;Bettenzahl;Pflegetage;PPRMinuten;zusaetlicheGewichtung;"
+                        + "AerztlicherDienstVK;PflegedienstVK;FunktionsdienstVK;"
+                        + "AerztlicherDienstKostenstelle;PflegedienstKostenstelle;"
+                        + "FunktionsdienstKostenstelle;ArzneimittelKostenstelle;"
+                        + "medSachbedarfKostenstelle;medInfraKostenstelle;nichtMedInfraKostenstelle",
                         new FileHolder("Normalstation.csv"),
                         ErrorCounter.obtainErrorCounter("DRG_NORMAL_WARD"),
                         Arrays.asList(
@@ -721,25 +661,22 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
                                         DataImportCheck::tryImportDoubleAsInt,
                                         (i, s) -> i.setNonMedicalInfrastructureCost(s),
                                         "nichtMedInfraKostenstelle ungültig: ")
-
                         ),
                         (s, t) -> s.addCostCenterCost(t),
                         KGLListCostCenterCost.class
                 );
-                //</editor-fold>
+            //</editor-fold>
 
             default:
                 throw new IllegalArgumentException("unknown importer " + importer);
         }
     }
 
-
 //    ),
 //
 //    PEPP_THERAPY(
 //
 //            )
-
     private DataImporter(String headLine, FileHolder fileHolder, ErrorCounter errorCounter,
             List<DataImportCheck<T, ?>> checker, BiConsumer<S, T> dataSink, Class<T> clazz) {
         this.headLine = headLine;
@@ -760,19 +697,18 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
             Scanner scanner = new Scanner(fileHolder.getFile().getInputStream());
 
             if (!scanner.hasNextLine()) {
-                // empty file will be skipped silently
+                errorCounter.addRowErrorMsg("Datei " + fileHolder.getFile().getName() + " enthält keine Daten");
                 return;
             }
 
-            String header = scanner.nextLine();
-            if (!headLine.equals(header)) {
-                errorCounter.addRowErrorMsg("Datei hat falsches Format, erwartete Kopfzeile " + headLine
-                        + " aber geliefert " + header);
-                return;
-            }
-
+            boolean isFirstLine = true;
             while (scanner.hasNextLine()) {
                 String line = Utils.convertFromUtf8(scanner.nextLine());
+                if (isFirstLine && headLine.equals(line)) {
+                    // ignore optional header
+                    continue;
+                }
+                isFirstLine = false;
                 T item = readLine(line, cntColumns, calcBasics);
                 if (item != null) {
                     dataSink.accept(calcBasics, item);
@@ -801,9 +737,9 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
             LOGGER.log(Level.SEVERE, null, ex);
             throw new IllegalArgumentException("can not instantiate type " + clazz.getSimpleName());
         } catch (IllegalArgumentException ex) {
-             LOGGER.log(Level.WARNING, null, ex);
-             errorCounter.addRowErrorMsg(ex.getMessage());
-             return null;
+            LOGGER.log(Level.WARNING, null, ex);
+            errorCounter.addRowErrorMsg(ex.getMessage());
+            return null;
         }
         return item;
     }
@@ -844,11 +780,15 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
     }
 
     public void downloadTemplate() {
-        Utils.downloadText(headLine + "\n", fileHolder.getFileName());
+        Utils.downloadText(headLine + "\r\n", fileHolder.getFileName());
     }
 
     public String getMessage() {
         return errorCounter.getMessage();
+    }
+
+    public String getHeader() {
+        return headLine;
     }
 
     public boolean containsError() {
@@ -875,13 +815,12 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
         this.showJournal = showJournal;
     }
 
-    private FileHolder fileHolder;
-    private ErrorCounter errorCounter;
-    private String headLine;
-    private List<DataImportCheck<T, ?>> checkers;
+    private final FileHolder fileHolder;
+    private final ErrorCounter errorCounter;
+    private final String headLine;
+    private final List<DataImportCheck<T, ?>> checkers;
     private final BiConsumer<S, T> dataSink;
     private boolean showJournal = false;
-//    private Function<PeppCalcBasics, List<T>> listToFill;
-    private Class<T> clazz;
+    private final Class<T> clazz;
 
 }

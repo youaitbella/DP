@@ -68,6 +68,7 @@ import org.inek.dataportal.entities.calc.drg.KGLRadiologyService;
 import org.inek.dataportal.entities.calc.drg.KglOpAn;
 import org.inek.dataportal.entities.calc.psy.KglPkmsAlternative;
 import org.inek.dataportal.entities.iface.BaseIdValue;
+import org.inek.dataportal.entities.iface.StatusEntity;
 import org.inek.dataportal.enums.CalcHospitalFunction;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
@@ -1337,22 +1338,12 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         _file = file;
     }
 
-//    private static final String HEADLINE_11_12_13 = "Kostenstellengruppe;Kostenstellennummer;Kostenstellenname;Kostenvolumen;VollkräfteÄD;Leistungsschlüssel;Beschreibung;SummeLeistungseinheiten";
-//
-//    public void downloadTemplate() {
-//        Utils.downloadText(HEADLINE_11_12_13 + "\n", "Kostenstellengruppe_11_12_13.csv");
-//    }
-
-    public void downloadNormalStationTemplate() {
-        Utils.downloadText(HEADLINE_NORMAL_WARD + "\n", "Normalstation.csv");
-    }
-
     public void downloadNormalStation() {
         NumberFormat formatter = NumberFormat.getInstance(Locale.getDefault());
         formatter.setMaximumFractionDigits(2);
         formatter.setMinimumFractionDigits(2);
 
-        String content = HEADLINE_NORMAL_WARD + "\n";
+        String content = getImporter("drgNormalWard").getHeader() + "\r\n";
         for (KGLListCostCenterCost costCenterCost : _calcBasics.getCostCenterCosts()) {
             String line = costCenterCost.getCostCenterNumber() + ";"
                     + costCenterCost.getCostCenterText() + ";"
@@ -1381,162 +1372,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     public DataImporter<?,?> getImporter(String importerName) {
         return importerPool.getDataImporter(importerName.toLowerCase());
-    }
-
-    private static final String HEADLINE_NORMAL_WARD = "NummerKostenstelle;NameKostenstelle;FABSchluessel;"
-            + "BelegungFAB;Bettenzahl;Pflegetage;PPRMinuten;zusaetlicheGewichtung;"
-            + "AerztlicherDienstVK;PflegedienstVK;FunktionsdienstVK;"
-            + "AerztlicherDienstKostenstelle;PflegedienstKostenstelle;"
-            + "FunktionsdienstKostenstelle;ArzneimittelKostenstelle;"
-            + "medSachbedarfKostenstelle;medInfraKostenstelle;nichtMedInfraKostenstelle";
-
-    public void uploadNormalWard() {
-        try {
-            int headlineLength = HEADLINE_NORMAL_WARD.split(";").length;
-            if (_file != null) {
-                //Scanner scanner = new Scanner(_file.getInputStream(), "UTF-8");
-                // We assume most of the documents coded with the Windows character set
-                // Thus, we read with the system default
-                // in case of an UTF-8 file, all German Umlauts will be corrupted.
-                // We simply replace them.
-                // Drawbacks: this only converts the German Umlauts, no other chars.
-                // By intention it fails for other charcters
-                // Alternative: implement a library which guesses th correct character set and read properly
-                // Since we support German only, we started using the simple approach
-                Scanner scanner = new Scanner(_file.getInputStream());
-                if (!scanner.hasNextLine()) {
-                    return;
-                }
-                String alertText = "";
-                int lineNum = 0;
-                while (scanner.hasNextLine()) {
-                    String line = Utils.convertFromUtf8(scanner.nextLine());
-                    lineNum++;
-                    if (!line.equals(HEADLINE_NORMAL_WARD)) {
-                        String[] values = StringUtil.splitAtUnquotedSemicolon(line);
-                        if (values.length != headlineLength) {
-                            alertText += "Zeile " + lineNum + ": Fehlerhafte Anzahl Spalten. (" + headlineLength + " erwartet, " + values.length + " gefunden) \\n";
-                            continue;
-                        }
-                        KGLListCostCenterCost ccc = new KGLListCostCenterCost();
-                        ccc.setBaseInformationId(_calcBasics.getId());
-                        ccc.setCostCenterNumber(values[0]);
-                        ccc.setCostCenterText(values[1]);
-                        ccc.setDepartmentKey(values[2]);
-                        ccc.setDepartmentAssignment(values[3]);
-
-                        String validateText = BeanValidator.validateData(ccc, lineNum);
-                        if (!validateText.isEmpty()) {
-                            alertText += validateText;
-                            continue;
-                        }
-
-                        try {
-                            ccc.setBedCnt(Integer.parseInt(values[4]));
-                        } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 5 (Bettenzahl): " + Utils.getMessage("msgNotAnInteger") + "\\n";
-                            continue;
-                        }
-                        try {
-
-                            ccc.setCareDays(Integer.parseInt(values[5]));
-                        } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 6 (Pflegetage): " + Utils.getMessage("msgNotAnInteger") + "\\n";
-                            continue;
-                        }
-                        try {
-                            ccc.setPprMinutes(Integer.parseInt(values[6]));
-                        } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 7 (PPR-Minuten): " + Utils.getMessage("msgNotAnInteger") + "\\n";
-                            continue;
-                        }
-                        try {
-                            ccc.setPprWeight(Integer.parseInt(values[7]));
-                        } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 8: (zus. Gewichtung außer PPR)" + Utils.getMessage("msgNotAnInteger") + "\\n";
-                            continue;
-                        }
-                        try {
-                            ccc.setMedicalServiceCnt(StringUtil.parseLocalizedDouble(values[8]));
-                        } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 9 (Ärztlicher Dienst): " + Utils.getMessage("msgNotANumber") + "\\n";
-                            continue;
-                        }
-                        try {
-                            ccc.setNursingServiceCnt(StringUtil.parseLocalizedDouble(values[9]));
-                        } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 10 (Pflegedienst): " + Utils.getMessage("msgNotANumber") + "\\n";
-                            continue;
-                        }
-                        try {
-                            ccc.setFunctionalServiceCnt(StringUtil.parseLocalizedDouble(values[10]));
-                        } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 11 (Funktionsdienst): " + Utils.getMessage("msgNotANumber") + "\\n";
-                            continue;
-                        }
-                        try {
-                            int amount = StringUtil.parseLocalizedDoubleAsInt(values[11]);
-                            ccc.setMedicalServiceAmount(amount);
-                        } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 12 (Ärztlicher Dienst): " + Utils.getMessage("msgNotAnInteger") + "\\n";
-                            continue;
-                        }
-                        try {
-                            int amount = StringUtil.parseLocalizedDoubleAsInt(values[12]);
-                            ccc.setNursingServiceAmount(amount);
-                        } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 13 (Pflegedienst): " + Utils.getMessage("msgNotAnInteger") + "\\n";
-                            continue;
-                        }
-                        try {
-                            int amount = StringUtil.parseLocalizedDoubleAsInt(values[13]);
-                            ccc.setFunctionalServiceAmount(amount);
-                        } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 14 (Funktionsdienst): " + Utils.getMessage("msgNotAnInteger") + "\\n";
-                            continue;
-                        }
-                        try {
-                            int amount = StringUtil.parseLocalizedDoubleAsInt(values[14]);
-                            ccc.setOverheadsMedicine(amount);
-                        } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 15 (Arzneimittel: " + Utils.getMessage("msgNotAnInteger") + "\\n";
-                            continue;
-                        }
-                        try {
-                            int amount = StringUtil.parseLocalizedDoubleAsInt(values[15]);
-                            ccc.setOverheadsMedicalGoods(amount);
-                        } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 16 (med. Sachbedarf): " + Utils.getMessage("msgNotAnInteger") + "\\n";
-                            continue;
-                        }
-                        try {
-                            int amount = StringUtil.parseLocalizedDoubleAsInt(values[16]);
-                            ccc.setMedicalInfrastructureCost(amount);
-                        } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 17 (med. Infrastruktur: " + Utils.getMessage("msgNotAnInteger") + "\\n";
-                            continue;
-                        }
-                        try {
-                            int amount = StringUtil.parseLocalizedDoubleAsInt(values[17]);
-                            ccc.setNonMedicalInfrastructureCost(amount);
-                        } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 18 (nicht med. Infra.): " + Utils.getMessage("msgNotAnInteger") + "\\n";
-                            continue;
-                        }
-                        if (isExistingEntryCostCenterCost(ccc)) {
-                            alertText += "Hinweis: Zeile " + lineNum + " wurde bereits hinzugefügt.";
-                            continue;
-                        }
-                        _calcBasics.getCostCenterCosts().add(ccc);
-                    }
-                }
-                if (alertText.length() > 0) {
-                    _sessionController.alertClient(alertText);
-                }
-                _importMessageNormalWard = alertText;
-            }
-        } catch (IOException | NoSuchElementException e) {
-        }
     }
 
     private transient String _importMessageNormalWard = "";

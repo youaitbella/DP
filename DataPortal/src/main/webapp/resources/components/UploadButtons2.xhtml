@@ -56,7 +56,7 @@
             <h:inputTextarea id="journal" rendered="#{cc.attrs.importer.containsError() and cc.attrs.importer.showJournal}" 
                              value="#{cc.attrs.importer.message}"
                              readonly="true"
-                             styleClass="element100 #{cc.attrs.importer.message.length() > 500 ? 'areaHugh' : 'areaWideHigh'}"/>
+                             styleClass="element100 #{cc.attrs.importer.message.length() > 1000 ? 'areaHuge' : 'areaWideHigh'}"/>
         </div>
 
     </cc:implementation>
