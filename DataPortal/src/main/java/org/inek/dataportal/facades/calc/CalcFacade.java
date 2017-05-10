@@ -909,6 +909,16 @@ public class CalcFacade extends AbstractDataAccess {
         return findFresh(PeppCalcBasics.class, id);
     }
 
+    public int getCalcBasicsPsyVersion(int id) {
+        String sql = "select biVersion from calc.KGPBaseInformation where biId = " + id;
+        Query query = getEntityManager().createNativeQuery(sql);
+        @SuppressWarnings("unchecked") List<Integer> result = query.getResultList();
+        if (result.isEmpty()) {
+            return -1;
+        }
+        return result.get(0);
+    }
+
     public PeppCalcBasics saveCalcBasicsPepp(PeppCalcBasics calcBasics) {
         if (calcBasics.getId() == -1) {
             persist(calcBasics);

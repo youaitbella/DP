@@ -68,7 +68,6 @@ import org.inek.dataportal.entities.calc.drg.KGLRadiologyService;
 import org.inek.dataportal.entities.calc.drg.KglOpAn;
 import org.inek.dataportal.entities.calc.psy.KglPkmsAlternative;
 import org.inek.dataportal.entities.iface.BaseIdValue;
-import org.inek.dataportal.entities.iface.StatusEntity;
 import org.inek.dataportal.enums.CalcHospitalFunction;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
@@ -924,7 +923,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     private String saveData(boolean showSaveMessage) {
         if (_baseLine != null && ObjectUtils.getDifferences(_baseLine, _calcBasics, null).isEmpty()) {
-            // nothing is changed, but we will reload the data if changed by somebody else
+            // nothing is changed, but we will reload the data if changed by somebody else (as indicated by a new version)
             if (_baseLine.getVersion() != _calcFacade.getCalcBasicsDrgVersion(_calcBasics.getId())) {
                 _baseLine = _calcFacade.findCalcBasicsDrg(_calcBasics.getId());
                 _calcBasics = _calcFacade.findCalcBasicsDrg(_calcBasics.getId());
@@ -1073,14 +1072,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     @SuppressWarnings("unchecked")
     public void copyForResend() {
-        if (false) {
-            // in a first approch, we do not copy the data
-            // just reset the status to "CorrectionRequested"
-            _calcBasics.setStatus(WorkflowStatus.CorrectionRequested);
-            _calcBasics = _calcFacade.saveCalcBasicsDrg(_calcBasics);
-            return;
-        }
-
         _calcBasics.setStatus(WorkflowStatus.Retired);
         _calcFacade.saveCalcBasicsDrg(_calcBasics);
 
@@ -1195,8 +1186,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             return null;
         }
         _calcBasics.setStatus(WorkflowStatus.ApprovalRequested);
-        setModifiedInfo();
-        _calcBasics = _calcFacade.saveCalcBasicsDrg(_calcBasics);
+        saveData(false);
         return "";
     }
 
@@ -1205,8 +1195,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             return Pages.Error.URL();
         }
         _calcBasics.setAccountId(_sessionController.getAccountId());
-        setModifiedInfo();
-        _calcBasics = _calcFacade.saveCalcBasicsDrg(_calcBasics);
+        saveData(false);
         return "";
     }
     // </editor-fold>
