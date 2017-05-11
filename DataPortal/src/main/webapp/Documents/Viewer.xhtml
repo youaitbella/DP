@@ -19,7 +19,7 @@
                 </h:inputText>
                 <h:outputLabel value="(Tage)" styleClass="label marginRight" for="maxAge"/>
                 <h:outputLabel value="Bearbeiter:" styleClass="label marginRight" for="agent"/>
-                <h:selectOneMenu value="#{documentViewer.agentId}">
+                <h:selectOneMenu id="agent" value="#{documentViewer.agentId}">
                     <f:selectItems value="#{documentViewer.supervisingAgents}"/>
                 </h:selectOneMenu>
                 <h:commandButton value="go" styleClass="smallButton" action="#{documentViewer.reload}" immediate="false"/>
