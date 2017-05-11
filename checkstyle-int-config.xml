@@ -50,6 +50,10 @@
 
 <module name="Checker">
 
+    <module name="SuppressionFilter">
+        <property name="file" value="checkstyle-suppressions.xml"/>
+    </module>
+    
     <!-- Checks that a package.html file exists for each package.     -->
     <!-- See http://checkstyle.sf.net/config_javadoc.html#PackageHtml -->
     <!--module name="PackageHtml"/-->

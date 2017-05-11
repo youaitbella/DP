@@ -107,8 +107,6 @@ public class KglOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="medicalServiceSnzOP">    
     @Column(name = "oaMedicalServiceSnzOP")
-    @Documentation(name = "Schnitt-Naht-Zeit OP ÄD", rank = 3010, omitOnOtherValues = "KGLOpAn._centralOPCnt=0",
-            translateValue = "1=mit fallindividuellem Gleichzeitigkeitsfaktor;2=mit standardisiertem Gleichzeitigkeitsfaktor je OP-Art;4=Alternative (bitte beschreiben)")
     private int _medicalServiceSnzOP;
 
     @Min.List({@Min(value = 0),
@@ -122,13 +120,16 @@ public class KglOpAn implements Serializable {
     public void setMedicalServiceSnzOP(int medicalServiceSnzOP) {
         this._medicalServiceSnzOP = medicalServiceSnzOP;
     }
+
+    @Documentation(name = "Schnitt-Naht-Zeit OP ÄD", rank = 3010, omitOnOtherValues = "KGLOpAn._centralOPCnt=0")
+    @JsonIgnore
+    private String getMedicalServiceSnzOpText() {
+        return obtainTimeRecordingTypeSnz(_medicalServiceSnzOP);
+    }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="functionalServiceSnzOP">    
     @Column(name = "oaFunctionalServiceSnzOP")
-    
-    @Documentation(name = "Schnitt-Naht-Zeit OP FD/MTD", rank = 3010, omitOnOtherValues = "KGLOpAn._centralOPCnt=0", 
-            translateValue = "1=mit fallindividuellem Gleichzeitigkeitsfaktor;2=mit standardisiertem Gleichzeitigkeitsfaktor je OP-Art;4=Alternative (bitte beschreiben)")
     private int _functionalServiceSnzOP;
 
     public int getFunctionalServiceSnzOP() {
@@ -137,6 +138,12 @@ public class KglOpAn implements Serializable {
 
     public void setFunctionalServiceSnzOP(int functionalServiceSnzOP) {
         this._functionalServiceSnzOP = functionalServiceSnzOP;
+    }
+
+    @Documentation(name = "Schnitt-Naht-Zeit OP FD/MTD", rank = 3010, omitOnOtherValues = "KGLOpAn._centralOPCnt=0")
+    @JsonIgnore
+    private String getFunctionalServiceSnzOpText() {
+        return obtainTimeRecordingTypeSnz(_functionalServiceSnzOP);
     }
     //</editor-fold>
 
@@ -168,12 +175,8 @@ public class KglOpAn implements Serializable {
 
     @Documentation(name = "Rüstzeit OP ÄD", rank = 3010, omitOnOtherValues = "KGLOpAn._centralOPCnt=0")
     @JsonIgnore
-    private String getMedicalServiceRzOPText() {
-        return CalcBasicsStaticData.staticGetTimeRecordingTypeItemsSNZ()
-                .stream()
-                .filter(i -> (int) i.getValue() == _medicalServiceRzOP)
-                .findAny().orElse(new SelectItem(-1, ""))
-                .getLabel();
+    private String getMedicalServiceRzOpText() {
+        return obtainTimeRecordingTypeRz(_medicalServiceRzOP);
     }
     //</editor-fold>
 
@@ -191,12 +194,8 @@ public class KglOpAn implements Serializable {
 
     @Documentation(name = "Rüstzeit OP FD/MTD", rank = 3010, omitOnOtherValues = "KGLOpAn._centralOPCnt=0")
     @JsonIgnore
-    private String getFunctionalServiceRzOPText() {
-        return CalcBasicsStaticData.staticGetTimeRecordingTypeItemsSNZ()
-                .stream()
-                .filter(i -> (int) i.getValue() == _functionalServiceRzOP)
-                .findAny().orElse(new SelectItem(-1, ""))
-                .getLabel();
+    private String getFunctionalServiceRzOpText() {
+        return obtainTimeRecordingTypeRz(_functionalServiceRzOP);
     }
     //</editor-fold>
 
@@ -276,8 +275,6 @@ public class KglOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="medicalServiceSnzAN">    
     @Column(name = "oaMedicalServiceSnzAN")
-    
-    @Documentation(name = "Schnitt-Naht-Zeit OP ÄD", rank = 3010, omitOnOtherValues = "KGLOpAn._centralOPCnt=0", translateValue = "1=mit fallindividuellem Gleichzeitigkeitsfaktor;2=mit standardisiertem Gleichzeitigkeitsfaktor je OP-Art;4=Alternative (bitte beschreiben)")
     private int _medicalServiceSnzAN;
 
     public int getMedicalServiceSnzAN() {
@@ -287,12 +284,16 @@ public class KglOpAn implements Serializable {
     public void setMedicalServiceSnzAN(int medicalServiceSnzAN) {
         this._medicalServiceSnzAN = medicalServiceSnzAN;
     }
+
+    @Documentation(name = "Schnitt-Naht-Zeit OP ÄD", rank = 3010, omitOnOtherValues = "KGLOpAn._centralOPCnt=0")
+    @JsonIgnore
+    private String getMedicalServiceSnzAnText() {
+        return obtainTimeRecordingTypeSnz(_medicalServiceSnzAN);
+    }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="functionalServiceSnzAN">    
     @Column(name = "oaFunctionalServiceSnzAN")
-    
-    @Documentation(name = "Schnitt-Naht-Zeit OP FD/MTD", rank = 3010, omitOnOtherValues = "KGLOpAn._centralOPCnt=0", translateValue = "1=mit fallindividuellem Gleichzeitigkeitsfaktor;2=mit standardisiertem Gleichzeitigkeitsfaktor je OP-Art;4=Alternative (bitte beschreiben)")
     private int _functionalServiceSnzAN;
 
     public int getFunctionalServiceSnzAN() {
@@ -301,6 +302,12 @@ public class KglOpAn implements Serializable {
 
     public void setFunctionalServiceSnzAN(int functionalServiceSnzAN) {
         this._functionalServiceSnzAN = functionalServiceSnzAN;
+    }
+
+    @Documentation(name = "Schnitt-Naht-Zeit OP FD/MTD", rank = 3010, omitOnOtherValues = "KGLOpAn._centralOPCnt=0")
+    @JsonIgnore
+    private String getFunctionalServiceSnzAnText() {
+        return obtainTimeRecordingTypeSnz(_functionalServiceSnzAN);
     }
     //</editor-fold>
 
@@ -320,8 +327,6 @@ public class KglOpAn implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="medicalServiceRzAN">    
     @Column(name = "oaMedicalServiceRzAN")
-    
-    @Documentation(name = "Rüstzeit AN ÄD", rank = 3010, omitOnOtherValues = "KGLOpAn._centralOPCnt=0", translateValue = "1=als fallindividuell erfasster Wert je Mitarbeiter(in);2=als abgestufter Standardwert je OP-Art;3=als Einheitswert;4=Alternative (bitte beschreiben)")
     private int _medicalServiceRzAN;
 
     public int getMedicalServiceRzAN() {
@@ -331,12 +336,17 @@ public class KglOpAn implements Serializable {
     public void setMedicalServiceRzAN(int medicalServiceRzAN) {
         this._medicalServiceRzAN = medicalServiceRzAN;
     }
+
+    @Documentation(name = "Rüstzeit AN ÄD", rank = 3010, omitOnOtherValues = "KGLOpAn._centralOPCnt=0")
+    @JsonIgnore
+    private String getMedicalServiceRzAnText() {
+        return obtainTimeRecordingTypeRz(_medicalServiceRzAN);
+    }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="functionalServiceRzAN">    
     @Column(name = "oaFunctionalServiceRzAN")
     
-    @Documentation(name = "Rüstzeit AN FD/MTD", rank = 3010, omitOnOtherValues = "KGLOpAn._centralOPCnt=0", translateValue = "1=als fallindividuell erfasster Wert je Mitarbeiter(in);2=als abgestufter Standardwert je OP-Art;3=als Einheitswert;4=Alternative (bitte beschreiben)")
     private int _functionalServiceRzAN;
 
     public int getFunctionalServiceRzAN() {
@@ -345,6 +355,12 @@ public class KglOpAn implements Serializable {
 
     public void setFunctionalServiceRzAN(int functionalServiceRzAN) {
         this._functionalServiceRzAN = functionalServiceRzAN;
+    }
+
+    @Documentation(name = "Rüstzeit AN FD/MTD", rank = 3010, omitOnOtherValues = "KGLOpAn._centralOPCnt=0")
+    @JsonIgnore
+    private String getFunctionalServiceRzAnText() {
+        return obtainTimeRecordingTypeRz(_functionalServiceRzAN);
     }
     //</editor-fold>
 
@@ -444,6 +460,24 @@ public class KglOpAn implements Serializable {
     @Override
     public String toString() {
         return "org.inek.dataportal.entities.calc.KGLOpAn[ oaBaseInformationId=" + _baseInformationId + " ]";
+    }
+
+    @JsonIgnore
+    private String obtainTimeRecordingTypeSnz(int id) {
+        return CalcBasicsStaticData.staticGetTimeRecordingTypeItemsSNZ()
+                .stream()
+                .filter(i -> (int) i.getValue() == id)
+                .findAny().orElse(new SelectItem(-1, ""))
+                .getLabel();
+    }
+
+    @JsonIgnore
+    private String obtainTimeRecordingTypeRz(int id) {
+        return CalcBasicsStaticData.staticGetTimeRecordingTypeItemsRZ()
+                .stream()
+                .filter(i -> (int) i.getValue() == id)
+                .findAny().orElse(new SelectItem(-1, ""))
+                .getLabel();
     }
 
 }

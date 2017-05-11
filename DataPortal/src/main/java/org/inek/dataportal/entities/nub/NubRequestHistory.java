@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-//../Licenses/license-default.txt
 package org.inek.dataportal.entities.nub;
 
 import java.io.Serializable;
@@ -40,8 +35,8 @@ public class NubRequestHistory implements Serializable {
     public void setId(int id) {
         _id = id;
     }
-
     // </editor-fold>
+
     // <editor-fold defaultstate="collapsed" desc="Property NubId">
     @Column(name = "nrhNubId")
     private int _nubId;

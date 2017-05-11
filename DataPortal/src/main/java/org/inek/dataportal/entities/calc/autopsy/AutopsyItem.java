@@ -5,6 +5,7 @@
  */
 package org.inek.dataportal.entities.calc.autopsy;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -81,6 +82,8 @@ public class AutopsyItem implements Serializable {
         _autopsyServiceText = autopsyServiceText;
         _autopsyServiceTextId = autopsyServiceText.getId();
     }
+    
+    @JsonIgnore
     @Documentation(name = "Bereich", rank = 10)
     public String getAutopsyServiceTextText() {
         return _autopsyServiceText.getText();

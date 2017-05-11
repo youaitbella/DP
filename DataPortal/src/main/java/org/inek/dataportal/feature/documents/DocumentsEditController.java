@@ -32,14 +32,18 @@ public class DocumentsEditController extends AbstractEditController {
             addTopic(DocumentsTabs.tabDocuments.name(), Pages.DocumentsList.URL());
             addTopic(DocumentsTabs.tabApproval.name(), Pages.DocumentsApproval.URL());
             if (_sessionController.isInternalClient()) {
-                addTopic(DocumentsTabs.tabUpload.name(), Pages.DocumentsUpload.URL());
+                addTopic(DocumentsTabs.tabUploadFromInek.name(), Pages.DocumentUploadFromInek.URL());
                 addTopic(DocumentsTabs.tabViewUploaded.name(), Pages.DocumentsViewer.URL());
+            }
+            if (_sessionController.isInekUser(Feature.ADMIN)){
+                addTopic(DocumentsTabs.tabUploadToInek.name(), Pages.DocumentUploadToInek.URL());
             }
         }
     }
 
     private enum DocumentsTabs {
-        tabUpload,
+        tabUploadToInek,
+        tabUploadFromInek,
         tabApproval,
         tabViewUploaded,
         tabDocuments;

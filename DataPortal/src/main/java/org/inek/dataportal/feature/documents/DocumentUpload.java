@@ -123,7 +123,6 @@ public class DocumentUpload implements Serializable {
         return _accountRoles.keySet().stream().sorted((a1, a2) -> Boolean.compare(a2.isReportViaPortal(), a1.isReportViaPortal())).collect(Collectors.toList());
     }
     // </editor-fold>
-
     
     // <editor-fold defaultstate="collapsed" desc="Property AvailableUntil">
     private int _availability = 60;

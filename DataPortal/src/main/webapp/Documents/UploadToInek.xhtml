@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="Manager.xhtml"
+                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+    <ui:define name="documentContent">
+        <h:form id="form">
+            <h:outputStylesheet name="css/fileuploader.css"/>
+            <h:outputScript name="script/fileuploader.js"/>
+            <script>
+                var fileCounter = 0;
+                function createUploader() {
+                    var uploader = new qq.FileUploader({
+                        element: document.getElementById('file-uploader'),
+                        action: '/DataPortal/upload/document',
+                        debug: true,
+                        allowedExtensions: [],
+                        onSubmit: function (id, fileName) {
+                            fileCounter++;
+                        },
+                        onCancel: function (id, fileName) {
+                            fileCounter--;
+                            if (fileCounter === 0) {
+                            }
+                        },
+                        onComplete: function (id, fileName, responseJSON) {
+                            fileCounter--;
+                            if (fileCounter === 0) {
+                                document.getElementById('form:refresh').click();
+                            }
+                        },
+                        template: '<div class="qq-uploader">' +
+                                '<div class="qq-upload-drop-area"><span>Dateien mittels Ziehen und Ablegen hochladen.</span></div>' +
+                                '<div class="qq-upload-button">Datei hochladen</div>' +
+                                '<ul class="qq-upload-list"></ul>' +
+                                '</div>'
+                    });
+                }
+            </script>
+
+
+            <h:panelGroup id="IK" rendered="#{documentUpload.documentTarget eq 'IK'}" styleClass="marginTop">
+                <div>
+                    <h:dataTable value="#{documentUpload.accounts}" var="account"
+                                 headerClass="list-header" id="tblAccounts"
+                                 width="100%" rowClasses="row1, row2" columnClasses="colIcon, colValue, colValuem, colValue, colValue, colValue">                        
+                        <h:column>
+                            <h:selectBooleanCheckbox value="#{account.reportViaPortal}">
+                                <f:ajax render=":logout:remaining"/>
+                            </h:selectBooleanCheckbox>
+                        </h:column>
+                        <h:column>
+                            #{account.firstName}
+                        </h:column>
+                        <h:column>
+                            #{account.lastName}
+                        </h:column>
+                        <h:column>
+                            #{account.email}
+                        </h:column>
+                        <h:column>
+                            #{account.company}
+                        </h:column>
+                        <h:column>
+                            #{documentUpload.getRoles(account)}
+                        </h:column>
+                    </h:dataTable>
+                </div>
+            </h:panelGroup>
+
+            <div class="inputPart">
+                <h:outputLabel value="#{msg.lblDomain}" styleClass="label20"/>
+                <h:selectOneMenu id="domainId" value="#{documentUpload.domainId}" styleClass="inputmedium" hideNoSelectionOption="true" required="true">
+                    <f:selectItem itemLabel="#{msg.lblChooseEntry}" itemValue="#{null}" noSelectionOption="true"/>
+                    <f:selectItems value="#{documentUpload.domains}" var="domain" itemLabel="#{domain.name}" itemValue="#{domain.id}"/>
+                    <f:ajax render="sendButton :logout:remaining"/>
+                </h:selectOneMenu>
+                <h:message for="domainId" styleClass="errorMessage"/>
+            </div>
+
+            <h:panelGroup id="lastDocs" rendered="#{documentUpload.lastDocuments.size() gt 0}" styleClass="marginTop">
+                <br/>
+                <h:outputLabel value="#{msg.lblLatestFiles}:" styleClass="label"/>
+                <ui:repeat value="#{documentUpload.lastDocuments}" var="name">
+                    <p>#{name}</p>
+                </ui:repeat>
+            </h:panelGroup>
+
+            <hr/>
+
+            <div class="inputPart">
+                <div id="file-uploader">
+                    <script>
+                        createUploader();
+                    </script>
+                </div>
+
+                <!-- next comes a hidden element to force a JSF conform refresh -->
+                <h:commandLink id="refresh" style="display: none" action="#{documentUpload.refresh}" value="refresh"/>
+            </div>
+
+            <div class="inputPart">
+                <h:panelGroup rendered="#{documentUpload.documents.size() > 0}">
+                    <div class="inputPart"><h:outputLabel styleClass="label" value="#{msg.lblUploadedFiles}:"/></div>
+                    <h:dataTable  headerClass="list-header" id="tblDropBoxes"
+                                  value="#{documentUpload.documents}" var="file" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colValue">
+
+                        <h:column id="colDeleteId">
+                            <h:commandLink action="#{documentUpload.deleteDocument(file)}" immediate="true" >
+                                <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
+                                <cb:confirmDelete/>
+                            </h:commandLink>
+                        </h:column>
+
+                        <h:column id="colName">
+                            <h:commandLink id="filename" value="#{file.name}" action="#{documentUpload.downloadDocument(file)}" immediate="true" />
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+
+            </div>
+
+            <div  class="marginTop">
+                <h:commandLink id="sendButton" styleClass="sendButton #{documentUpload.saveEnabled ? '' : 'buttonDisabled'}" 
+                               action="#{documentUpload.saveDocument}" 
+                               value="#{msg.btnStoreAndNotify}" immediate="true"
+                               disabled="#{!documentUpload.saveEnabled}"/>
+            </div>
+
+        </h:form>
+
+    </ui:define>
+</ui:composition>

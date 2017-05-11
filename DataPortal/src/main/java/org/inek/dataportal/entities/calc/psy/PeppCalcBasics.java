@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.inek.dataportal.entities.calc.psy;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -426,7 +421,7 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
 
     // <editor-fold defaultstate="collapsed" desc="Property _courtPlacement">
     @Column(name = "biCourtPlacement")
-    @Documentation(name = "Ergänzende Datenbereitstellung zum Status der gerichtlichen Unterbringung Wurden in Ihrer Einrichtung im aktuellen Datenjahr Patienten gerichtlich untergebracht?", rank = 1130)
+    @Documentation(name = "In der Einrichtung wurden im aktuellen Datenjahr Patienten gerichtlich untergebracht", rank = 1130)
     private boolean _courtPlacement;
 
     public boolean isCourtPlacement() {
@@ -510,7 +505,8 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
 
     //<editor-fold defaultstate="collapsed" desc="Property IBLVMethodMedInfra">
     @Column(name = "biIBLVMethodMedInfra")
-    @Documentation(name = "Gewähltes Verfahren bei Durchführung der IBLV", rank = 10010, translateValue = "0= ;1=Gleichungsverfahren;2=Stufenleiterverfahren;3=Anbauverfahren;4=Sonstige Vorgehensweise")
+    @Documentation(name = "Gewähltes Verfahren bei Durchführung der IBLV", rank = 10010,
+            translateValue = "0= ;1=Gleichungsverfahren;2=Stufenleiterverfahren;3=Anbauverfahren;4=Sonstige Vorgehensweise")
     private int _iblvMethodMedInfra;
 
     public int getIblvMethodMedInfra() {
@@ -524,7 +520,8 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
 
     // <editor-fold defaultstate="collapsed" desc="Property _otherMethodMedInfra">
     @Column(name = "biOtherMethodMedInfra")
-    @Documentation(name = "Gewähltes Verfahren bei Durchführung der IBLV", rank = 11010, translateValue = "0= ;1=Gleichungsverfahren;2=Stufenleiterverfahren;3=Anbauverfahren;4=Sonstige Vorgehensweise")
+    @Documentation(name = "Gewähltes Verfahren bei Durchführung der IBLV", rank = 11010, 
+            translateValue = "0= ;1=Gleichungsverfahren;2=Stufenleiterverfahren;3=Anbauverfahren;4=Sonstige Vorgehensweise")
     private String _otherMethodMedInfra = "";
 
     public String getOtherMethodMedInfra() {
@@ -572,13 +569,15 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
         return _kgpMedInfraList;
     }
 
-    @Documentation(name = "Verrechnungsschlüssel und Kostenvolumen der Kostenstellen der medizinischen Infrastruktur",headline = "Ergänzende Angaben zur innerbetrieblichen Leistungsverrechnung (medizinische Infrastruktur)", rank = 10020)
+    @Documentation(name = "Verrechnungsschlüssel und Kostenvolumen der Kostenstellen der medizinischen Infrastruktur",
+            headline = "Ergänzende Angaben zur innerbetrieblichen Leistungsverrechnung (medizinische Infrastruktur)", rank = 10020)
     @JsonIgnore
     public List<KgpListMedInfra> getCostCenter170() {
         return _kgpMedInfraList.stream().filter(c -> c.getCostTypeId()== 170).collect(Collectors.toList());
     }
 
-    @Documentation(name = "Verrechnungsschlüssel und Kostenvolumen der Kostenstellen der nicht medizinischen Infrastruktur",headline = "Ergänzende Angaben zur innerbetrieblichen Leistungsverrechnung (nicht medizinische Infrastruktur)", rank = 11020)
+    @Documentation(name = "Verrechnungsschlüssel und Kostenvolumen der Kostenstellen der nicht medizinischen Infrastruktur",
+            headline = "Ergänzende Angaben zur innerbetrieblichen Leistungsverrechnung (nicht medizinische Infrastruktur)", rank = 11020)
     @JsonIgnore
     public List<KgpListMedInfra> getCostCenter180() {
         return _kgpMedInfraList.stream().filter(c -> c.getCostTypeId()== 180).collect(Collectors.toList());

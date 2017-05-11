@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-//../Licenses/license-default.txt
 package org.inek.dataportal.entities.nub;
 
 import java.io.Serializable;

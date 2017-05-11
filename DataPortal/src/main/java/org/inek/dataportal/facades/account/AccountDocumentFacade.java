@@ -11,7 +11,6 @@ import javax.ejb.Stateless;
 import javax.faces.model.SelectItem;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountDocument;
 import org.inek.dataportal.facades.AbstractFacade;
 import org.inek.dataportal.helper.structures.DocInfo;
@@ -25,7 +24,9 @@ public class AccountDocumentFacade extends AbstractFacade<AccountDocument> {
     }
 
     public List<DocInfo> getDocInfos(int accountId) {
-        String sql = "SELECT d._id, d._name, dd._name, d._created, d._validUntil, d._read, d._accountId, d._agentAccountId FROM AccountDocument d join DocumentDomain dd WHERE d._domainId = dd._id and  d._accountId = :accountId ORDER BY d._id DESC";
+        String sql = "SELECT d._id, d._name, dd._name, d._created, d._validUntil, d._read, d._accountId, d._agentAccountId "
+                + "FROM AccountDocument d join DocumentDomain dd "
+                + "WHERE d._domainId = dd._id and  d._accountId = :accountId ORDER BY d._id DESC";
         // does not work properly :(
 //        TypedQuery<DocInfo> query = getEntityManager().createQuery(sql, DocInfo.class);
 //        query.setParameter("accountId", accountId);
@@ -41,7 +42,8 @@ public class AccountDocumentFacade extends AbstractFacade<AccountDocument> {
     }
 
     public List<DocInfo> getSupervisedDocInfos(int accountId, String filter, int maxAge) {
-        String jpql = "SELECT d._id, d._name, dd._name, d._created, null, d._read, d._accountId, d._agentAccountId, a._ik, concat (a._company, ' ', a._town, ' (', a._firstName, ' ', a._lastName, ')') "
+        String jpql = "SELECT d._id, d._name, dd._name, d._created, null, d._read, d._accountId, d._agentAccountId, "
+                + "    a._ik, concat (a._company, ' ', a._town, ' (', a._firstName, ' ', a._lastName, ')') "
                 + "FROM AccountDocument d "
                 + "join DocumentDomain dd "
                 + "join Account a "
