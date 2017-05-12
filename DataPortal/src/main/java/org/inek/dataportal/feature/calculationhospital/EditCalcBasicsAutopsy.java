@@ -149,11 +149,15 @@ public class EditCalcBasicsAutopsy extends AbstractEditController implements Ser
     }
 
     private boolean isInekEditable(CalcBasicsAutopsy calcBasics) {
-        return _sessionController.isInekUser(Feature.CALCULATION_HOSPITAL, true) && calcBasics != null && (calcBasics.getStatus() == WorkflowStatus.Provided || calcBasics.getStatus() == WorkflowStatus.ReProvided);
+        return _sessionController.isInekUser(Feature.CALCULATION_HOSPITAL, true) 
+                && calcBasics != null 
+                && (calcBasics.getStatus() == WorkflowStatus.Provided || calcBasics.getStatus() == WorkflowStatus.ReProvided);
     }
 
     private boolean isInekViewable(CalcBasicsAutopsy calcBasics) {
-        return _sessionController.isInekUser(Feature.CALCULATION_HOSPITAL, true) && calcBasics != null && calcBasics.getStatusId() >= WorkflowStatus.Provided.getId();
+        return _sessionController.isInekUser(Feature.CALCULATION_HOSPITAL, true) 
+                && calcBasics != null 
+                && calcBasics.getStatusId() >= WorkflowStatus.Provided.getId();
     }
 
     @Override
@@ -166,7 +170,10 @@ public class EditCalcBasicsAutopsy extends AbstractEditController implements Ser
     public List<SelectItem> getIks() {
         if (_ikItems == null) {
             boolean testMode = _appTools.isEnabled(ConfigKey.TestMode);
-            Set<Integer> iks = _calcFacade.obtainIks4NewBasics(CalcHospitalFunction.CalculationBasicsAutopsy, _sessionController.getAccountId(), Utils.getTargetYear(Feature.CALCULATION_HOSPITAL), testMode);
+            Set<Integer> iks = _calcFacade.obtainIks4NewBasics(
+                    CalcHospitalFunction.CalculationBasicsAutopsy, 
+                    _sessionController.getAccountId(), 
+                    Utils.getTargetYear(Feature.CALCULATION_HOSPITAL), testMode);
             if (_calcBasics != null && _calcBasics.getIk() > 0) {
                 iks.add(_calcBasics.getIk());
             }

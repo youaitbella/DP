@@ -88,8 +88,7 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
      * @return
      */
     public List<CooperationRight> getAchievedCooperationRights(int accountId, Feature feature) {
-//        String query = "SELECT cor FROM CooperationRight cor WHERE cor._ownerId > 0 and cor._partnerId = :accountId and cor._feature = :feature"; // and cor._cooperativeRight != CooperativeRight.None";
-        String query = "SELECT cor FROM CooperationRight cor WHERE cor._partnerId = :accountId and cor._feature = :feature"; // and cor._cooperativeRight != CooperativeRight.None";
+        String query = "SELECT cor FROM CooperationRight cor WHERE cor._partnerId = :accountId and cor._feature = :feature";
         return getEntityManager()
                 .createQuery(query, CooperationRight.class)
                 .setParameter("accountId", accountId)

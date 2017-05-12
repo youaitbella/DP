@@ -235,7 +235,10 @@ public class NubRequestFacade extends AbstractDataAccess {
     }
 
     public Map<Integer, Integer> countOpenPerIk(int targetYear) {
-        String jpql = "SELECT p._accountId, COUNT(p) FROM NubRequest p JOIN Account a WHERE p._accountId = a._id and a._customerTypeId = 5 and p._status < 10 and p._targetYear = :targetYear GROUP BY p._accountId";
+        String jpql = "SELECT p._accountId, COUNT(p) "
+                + "FROM NubRequest p JOIN Account a "
+                + "WHERE p._accountId = a._id and a._customerTypeId = 5 "
+                + "    and p._status < 10 and p._targetYear = :targetYear GROUP BY p._accountId";
         Query query = getEntityManager().createQuery(jpql);
         query.setParameter("targetYear", targetYear);
         List data = query.getResultList();

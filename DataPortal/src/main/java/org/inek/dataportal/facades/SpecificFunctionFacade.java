@@ -40,7 +40,8 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
     }
     
     public List<SpecificFunctionRequest> obtainSpecificFunctionRequests(int accountId, int year, WorkflowStatus statusLow, WorkflowStatus statusHigh) {
-        String jpql = "SELECT s FROM SpecificFunctionRequest s WHERE s._accountId = :accountId and s._dataYear = :year and s._statusId between :statusLow and :statusHigh ORDER BY s._id DESC";
+        String jpql = "SELECT s FROM SpecificFunctionRequest s "
+                + "WHERE s._accountId = :accountId and s._dataYear = :year and s._statusId between :statusLow and :statusHigh ORDER BY s._id DESC";
         TypedQuery<SpecificFunctionRequest> query = getEntityManager().createQuery(jpql, SpecificFunctionRequest.class);
         query.setParameter("accountId", accountId);
         query.setParameter("year", year);
@@ -58,7 +59,10 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
     }
     
     public List<Account> loadRequestAccountsForYear(Set<Integer> accountIds, int year, WorkflowStatus statusLow, WorkflowStatus statusHigh) {
-        String jpql = "select distinct a from Account a join SpecificFunctionRequest s where a._id = s._accountId and s._dataYear = :year and s._statusId between :statusLow and :statusHigh and s._accountId in :accountIds";
+        String jpql = "select distinct a "
+                + "from Account a join SpecificFunctionRequest s "
+                + "where a._id = s._accountId and s._dataYear = :year "
+                + "    and s._statusId between :statusLow and :statusHigh and s._accountId in :accountIds";
         TypedQuery<Account> query = getEntityManager().createQuery(jpql, Account.class);
         query.setParameter("year", year);
         query.setParameter("statusLow", statusLow.getId());
@@ -152,7 +156,8 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
     }
     
     public List<SpecificFunctionAgreement> obtainSpecificFunctionAgreements(int accountId, int year, WorkflowStatus statusLow, WorkflowStatus statusHigh) {
-        String jpql = "SELECT s FROM SpecificFunctionAgreement s WHERE s._accountId = :accountId and s._dataYear = :year and s._statusId between :statusLow and :statusHigh ORDER BY s._id DESC";
+        String jpql = "SELECT s FROM SpecificFunctionAgreement s "
+                + "WHERE s._accountId = :accountId and s._dataYear = :year and s._statusId between :statusLow and :statusHigh ORDER BY s._id DESC";
         TypedQuery<SpecificFunctionAgreement> query = getEntityManager().createQuery(jpql, SpecificFunctionAgreement.class);
         query.setParameter("accountId", accountId);
         query.setParameter("year", year);
@@ -162,7 +167,11 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
     }
     
     public List<Account> loadAgreementAccountsForYear(Set<Integer> accountIds, int year, WorkflowStatus statusLow, WorkflowStatus statusHigh) {
-        String jpql = "select distinct a from Account a join SpecificFunctionAgreement s where a._id = s._accountId and s._dataYear = :year and s._statusId between :statusLow and :statusHigh and s._accountId in :accountIds";
+        String jpql = "select distinct a "
+                + "from Account a "
+                + "join SpecificFunctionAgreement s "
+                + "where a._id = s._accountId and s._dataYear = :year "
+                + "    and s._statusId between :statusLow and :statusHigh and s._accountId in :accountIds";
         TypedQuery<Account> query = getEntityManager().createQuery(jpql, Account.class);
         query.setParameter("year", year);
         query.setParameter("statusLow", statusLow.getId());
