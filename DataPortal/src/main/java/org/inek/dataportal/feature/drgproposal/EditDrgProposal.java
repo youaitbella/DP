@@ -250,32 +250,12 @@ public class EditDrgProposal extends AbstractEditController {
         }
     }
 
-    public void changeChangeMethodDiag(ValueChangeEvent e) {
-//        if (!e.getNewValue().equals(e.getOldValue())) {
-//            setVisibleChangeMethod((DrgProposalChangeMethod) e.getNewValue());
-//        }
-    }
-
-    public void changeChangeMethodProc(ValueChangeEvent e) {
-//        if (!e.getNewValue().equals(e.getOldValue())) {
-//            setVisibleChangeMethod((DrgProposalChangeMethod) e.getNewValue());
-//        }
-    }
-
     private void setVisibleCategory(DrgProposalCategory cat) {
         if (cat == null) {
             return;
         }
 
         findTopic(DrgProposalTabs.tabPPCodes.name()).setVisible(cat.equals(DrgProposalCategory.CODES) || cat.equals(DrgProposalCategory.SYSTEM) || cat.equals(DrgProposalCategory.CCL));
-    }
-
-    private void setVisibleChangeMethod(DrgProposalChangeMethod pcm) {
-//        if (pcm == null) {
-//            return;
-//        }
-
-        //findTopic(DrgProposalTabs.tabPPCodes.name()).setVisible(pcm.equals(DrgProposalCategory.CODES) || pcm.equals(DrgProposalCategory.SYSTEM));
     }
 
     public boolean isSystem() {
@@ -289,7 +269,9 @@ public class EditDrgProposal extends AbstractEditController {
 
     public String getCcl2() {
         //return "display: inline-block; width: 49%;";
-        return _drgProposal.getCategory() == DrgProposalCategory.CCL ? "display: inline-block; width: 98%; padding-right: 1%; border-right: solid 1px;" : "display: inline-block; width: 49%; padding-right: 1%; border-right: solid 1px;";
+        return _drgProposal.getCategory() == DrgProposalCategory.CCL 
+                ? "display: inline-block; width: 98%; padding-right: 1%; border-right: solid 1px;" 
+                : "display: inline-block; width: 49%; padding-right: 1%; border-right: solid 1px;";
     }
 
     // </editor-fold>
@@ -563,7 +545,9 @@ public class EditDrgProposal extends AbstractEditController {
         String newTopic = "";
         DrgProposal drgProposal = _drgProposal;
         newTopic = checkField(newTopic, drgProposal.getName(), "lblAppellation", "form:name", DrgProposalTabs.tabPPAddress);
-        newTopic = checkField(newTopic, drgProposal.getCategory() == null || drgProposal.getCategory() == DrgProposalCategory.UNKNOWN ? null : drgProposal.getCategory().name(), "lblCategory", "form:category", DrgProposalTabs.tabPPAddress);
+        newTopic = checkField(newTopic, 
+                drgProposal.getCategory() == null || drgProposal.getCategory() == DrgProposalCategory.UNKNOWN ? null : drgProposal.getCategory().name(), 
+                "lblCategory", "form:category", DrgProposalTabs.tabPPAddress);
         newTopic = checkField(newTopic, drgProposal.getInstitute(), "lblDrgProposalingInstitute", "form:institute", DrgProposalTabs.tabPPAddress);
         newTopic = checkField(newTopic, drgProposal.getGender(), 1, 2, "lblSalutation", "form:cbxGender", DrgProposalTabs.tabPPAddress);
         newTopic = checkField(newTopic, drgProposal.getFirstName(), "lblFirstName", "form:firstname", DrgProposalTabs.tabPPAddress);

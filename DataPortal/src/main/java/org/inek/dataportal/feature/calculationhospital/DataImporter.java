@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.Scanner;
 import java.util.function.BiConsumer;
 import java.util.logging.Level;
@@ -41,6 +40,7 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
 
     private static final Logger LOGGER = Logger.getLogger(DataImporter.class.getName());
 
+    @SuppressWarnings("MethodLength")
     public static DataImporter obtainDataImporter(String importer) {
         switch (importer.toLowerCase()) {
             case "peppradiology":
@@ -733,7 +733,11 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
         try {
             item = createNewItem(item, calcBasics);
             applyImport(item, data);
-            validateImport(item);
+            String msg = BeanValidator.validateData(item);
+            if (msg != null && !msg.isEmpty()) {
+                errorCounter.addRowErrorMsg(msg);
+                return null;
+            }
         } catch (InstantiationException | IllegalAccessException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
             throw new IllegalArgumentException("can not instantiate type " + clazz.getSimpleName());
@@ -745,13 +749,6 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
         item = clazz.newInstance();
         item.setBaseInformationId(calcBasics.getId());
         return item;
-    }
-
-    private void validateImport(T item) throws IllegalArgumentException {
-        String validateText = BeanValidator.validateData(item);
-        if (!validateText.isEmpty()) {
-            throw new IllegalArgumentException(validateText);
-        }
     }
 
     private void applyImport(T item, String[] data) {

@@ -94,7 +94,8 @@ public class IcmtUpdater extends AbstractDataAccess {
                 + "insert into ccCustomerCalcTypeProperty (ctpCalcInformationId, ctpPropertyId, ctpValue) \n"
                 + "select ciId, 3 kvm, case when sopCdmDrg = 1 then 'True' else 'False' end \n"
                 + "from DataPortal.calc.StatementOfParticipance \n"
-                + "join CallCenterDB.dbo.ivMapCustomerID on caCalcTypeId = " + calcType + " and ciDataYear = (select max(ldyDataYear) from CallCenterDB.dbo.listDataYear) and cuIK = sopIk \n"
+                + "join CallCenterDB.dbo.ivMapCustomerID on caCalcTypeId = " + calcType 
+                + "    and ciDataYear = (select max(ldyDataYear) from CallCenterDB.dbo.listDataYear) and cuIK = sopIk \n"
                 + "left join CallCenterDB.dbo.ccCustomerCalcTypeProperty on ciId = ctpCalcInformationId and ctpPropertyId = 3 \n"
                 + "where 1=1 \n"
                 + "and sopIs" + column + " = 1 \n"
@@ -113,7 +114,8 @@ public class IcmtUpdater extends AbstractDataAccess {
                 + "                         else '3 - nicht enthalten' \n"
                 + "end \n"
                 + "from DataPortal.calc.StatementOfParticipance \n"
-                + "join CallCenterDB.dbo.ivMapCustomerID on caCalcTypeId = " + calcType + " and ciDataYear = (select max(ldyDataYear) from CallCenterDB.dbo.listDataYear) and cuIK = sopIk \n"
+                + "join CallCenterDB.dbo.ivMapCustomerID on caCalcTypeId = " + calcType 
+                + "    and ciDataYear = (select max(ldyDataYear) from CallCenterDB.dbo.listDataYear) and cuIK = sopIk \n"
                 + "left join CallCenterDB.dbo.ccCustomerCalcTypeProperty on ciId = ctpCalcInformationId and ctpPropertyId = 6 \n"
                 + "where 1=1 \n"
                 + "and sopIs" + column + " = 1 \n"
@@ -132,7 +134,8 @@ public class IcmtUpdater extends AbstractDataAccess {
                 + "                                                     else '3 - nicht enthalten' end \n"
                 + "               end \n"
                 + "from CallCenterDB.dbo.ccCustomerCalcTypeProperty a \n"
-                + "join CallCenterDB.dbo.ivMapCustomerID on caCalcTypeId = " + calcType + " and ctpCalcInformationId = ciId and ciDataYear = (select max(ldyDataYear) from CallCenterDB.dbo.listDataYear) \n"
+                + "join CallCenterDB.dbo.ivMapCustomerID on caCalcTypeId = " + calcType 
+                + "    and ctpCalcInformationId = ciId and ciDataYear = (select max(ldyDataYear) from CallCenterDB.dbo.listDataYear) \n"
                 + "join DataPortal.calc.StatementOfParticipance on cuik = sopIk and sopDataYear = ciDataYear \n"
                 + "where 1=1 \n"
                 + "and sopIs" + column + " = 1 \n"
@@ -154,7 +157,8 @@ public class IcmtUpdater extends AbstractDataAccess {
                 // todo: remove rw when removing prio
                 + "insert into tmp.dpContacts (cuid, coid, gender, title, firstName, lastName, mail, phone, consultantCompany, rw) \n"
                 + "select *, ROW_NUMBER() OVER (order by a.coid) rw from ("
-                + "select c.cuid, cr.coId, a.coGender gender, a.coTitle title, a.coFirstName firstName, a.coLastName lastName, a.coMail mail, a.coPhone phone, case when a.coIsConsultant = 1 then b.sopConsultantCompany else '' end consultantCompany \n"
+                + "select c.cuid, cr.coId, a.coGender gender, a.coTitle title, a.coFirstName firstName, a.coLastName lastName, "
+                + "    a.coMail mail, a.coPhone phone, case when a.coIsConsultant = 1 then b.sopConsultantCompany else '' end consultantCompany \n"
                 + "from DataPortal.calc.Contact a \n"
                 + "join DataPortal.calc.StatementOfParticipance b on sopId = coStatementOfParticipanceId \n"
                 + "join CallCenterDB.dbo.ccCustomer c on sopik = cuik \n"
@@ -179,7 +183,8 @@ public class IcmtUpdater extends AbstractDataAccess {
                 + "\n\n"
                 //neuen Kontakt aus DP in ICMT aufnehmen falls nicht vorhanden
                 + "insert into CallCenterDB.dbo.ccContact (coCustomerId, coSexId, coTitle, coFirstName, coLastName, coIsMain, coIsActive, coDPReceiver, coInfo) \n"
-                + "select cuid, case when gender = 1 then 'F' when gender = 2 then 'H' else 'U' end gender, isnull(title, ''), firstName, lastName, 0, 1, 1, isnull(consultantCompany, '') \n"
+                + "select cuid, case when gender = 1 then 'F' when gender = 2 then 'H' else 'U' end gender, "
+                + "    isnull(title, ''), firstName, lastName, 0, 1, 1, isnull(consultantCompany, '') \n"
                 + "from tmp.dpContacts \n"
                 + "where coid is null \n"
                 + "\n\n"

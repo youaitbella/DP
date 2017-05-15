@@ -162,16 +162,16 @@
                 </h:inputText>
                 </td>
                 <td>
-                 <h:selectOneMenu id="externalProvision"
-                             required="true"
-                             requiredMessage="#{msg.msgValueNeeded}"
-                             value="#{x.externalService}" 
-                             hideNoSelectionOption="true" >
-                <f:selectItem itemLabel="#{msg.itemNotExternalProvided}" itemValue="#{0}"/>
-                <f:selectItem itemLabel="#{msg.itemPartialExternalProvided}" itemValue="#{1}"/>
-                <f:selectItem itemLabel="#{msg.itemExternalProvided}" itemValue="#{2}"/>
-                <f:ajax event="change" render="@form :logout:remaining msgLevel"/>
-            </h:selectOneMenu>                
+                <h:selectOneMenu id="externalProvision"
+                                 required="true"
+                                 requiredMessage="#{msg.msgValueNeeded}"
+                                 value="#{x.externalService}" 
+                                 hideNoSelectionOption="true" >
+                    <f:selectItem itemLabel="#{msg.itemNotExternalProvided}" itemValue="#{0}"/>
+                    <f:selectItem itemLabel="#{msg.itemPartialExternalProvided}" itemValue="#{1}"/>
+                    <f:selectItem itemLabel="#{msg.itemExternalProvided}" itemValue="#{2}"/>
+                    <f:ajax event="change" render="@form :logout:remaining msgLevel"/>
+                </h:selectOneMenu>                
                 </td>
                 <td>
                 <inek:InputTextWithMessage value="#{x.keyUsed}"  />
@@ -214,9 +214,9 @@
                 </td>
                 <td>
                 <h:outputLabel id="calc-field-1"
-                                styleClass="prior diff" 
-                                value="#{editCalcBasicsPepp.calcRatio(x.personalCostCt1, x.serviceUnitsCt1)}" />
-                
+                               styleClass="prior diff" 
+                               value="#{editCalcBasicsPepp.calcRatio(x.personalCostCt1, x.serviceUnitsCt1)}" />
+
                 </td>
                 <td>
                 <h:outputLabel  id="calc-field-3a"
@@ -253,8 +253,8 @@
             </h:commandLink>
             </td>
             </tr>
-            
-            
+
+
             <ui:repeat id="tbl-cont2" value="#{editCalcBasicsPepp.getTherapies(24)}" var="x" varStatus="loop">
                 <tr>
                     <td>
@@ -272,16 +272,16 @@
                 </h:inputText>
                 </td>
                 <td>
-                 <h:selectOneMenu id="externalProvision"
-                             required="true"
-                             requiredMessage="#{msg.msgValueNeeded}"
-                             value="#{x.externalService}" 
-                             hideNoSelectionOption="true" >
-                <f:selectItem itemLabel="#{msg.itemNotExternalProvided}" itemValue="#{0}"/>
-                <f:selectItem itemLabel="#{msg.itemPartialExternalProvided}" itemValue="#{1}"/>
-                <f:selectItem itemLabel="#{msg.itemExternalProvided}" itemValue="#{2}"/>
-                <f:ajax event="change" render="@form :logout:remaining msgLevel"/>
-            </h:selectOneMenu>                
+                <h:selectOneMenu id="externalProvision"
+                                 required="true"
+                                 requiredMessage="#{msg.msgValueNeeded}"
+                                 value="#{x.externalService}" 
+                                 hideNoSelectionOption="true" >
+                    <f:selectItem itemLabel="#{msg.itemNotExternalProvided}" itemValue="#{0}"/>
+                    <f:selectItem itemLabel="#{msg.itemPartialExternalProvided}" itemValue="#{1}"/>
+                    <f:selectItem itemLabel="#{msg.itemExternalProvided}" itemValue="#{2}"/>
+                    <f:ajax event="change" render="@form :logout:remaining msgLevel"/>
+                </h:selectOneMenu>                
                 </td>
                 <td>
                 <inek:InputTextWithMessage value="#{x.keyUsed}"  />
@@ -357,13 +357,13 @@
             </ui:repeat>
             <tr>
                 <td colspan="23">
-                                    <h:commandLink id="addButtonTheapyPhysical" styleClass="addButton inputPart" value="#{msg.btnAddTherapyPhysical}">
+            <h:commandLink id="addButtonTheapyPhysical" styleClass="addButton inputPart" value="#{msg.btnAddTherapyPhysical}">
                 <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsPepp.addTherapyCost(24)}"/>
             </h:commandLink>
-                </td>
+            </td>
             </tr>
 
-            
+
             <ui:repeat id="tbl-cont3" value="#{editCalcBasicsPepp.getTherapies(25)}" var="x" varStatus="loop">
                 <tr>
                     <td>
@@ -381,16 +381,16 @@
                 </h:inputText>
                 </td>
                 <td>
-                 <h:selectOneMenu id="externalProvision"
-                             required="true"
-                             requiredMessage="#{msg.msgValueNeeded}"
-                             value="#{x.externalService}" 
-                             hideNoSelectionOption="true" >
-                <f:selectItem itemLabel="#{msg.itemNotExternalProvided}" itemValue="#{0}"/>
-                <f:selectItem itemLabel="#{msg.itemPartialExternalProvided}" itemValue="#{1}"/>
-                <f:selectItem itemLabel="#{msg.itemExternalProvided}" itemValue="#{2}"/>
-                <f:ajax event="change" render="@form :logout:remaining msgLevel"/>
-            </h:selectOneMenu>                
+                <h:selectOneMenu id="externalProvision"
+                                 required="true"
+                                 requiredMessage="#{msg.msgValueNeeded}"
+                                 value="#{x.externalService}" 
+                                 hideNoSelectionOption="true" >
+                    <f:selectItem itemLabel="#{msg.itemNotExternalProvided}" itemValue="#{0}"/>
+                    <f:selectItem itemLabel="#{msg.itemPartialExternalProvided}" itemValue="#{1}"/>
+                    <f:selectItem itemLabel="#{msg.itemExternalProvided}" itemValue="#{2}"/>
+                    <f:ajax event="change" render="@form :logout:remaining msgLevel"/>
+                </h:selectOneMenu>                
                 </td>
                 <td>
                 <inek:InputTextWithMessage value="#{x.keyUsed}"  />
@@ -466,13 +466,13 @@
             </ui:repeat>
             <tr>
                 <td colspan="23">
-                        <h:commandLink id="addButtonTherapyErgo" styleClass="addButton inputPart" value="#{msg.btnAddTherapyErgo}">
+            <h:commandLink id="addButtonTherapyErgo" styleClass="addButton inputPart" value="#{msg.btnAddTherapyErgo}">
                 <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsPepp.addTherapyCost(25)}"/>
             </h:commandLink>
-        </td>
-        </tr>
-        
-        
+            </td>
+            </tr>
+
+
             <ui:repeat id="tbl-cont4" value="#{editCalcBasicsPepp.getTherapies(26)}" var="x" varStatus="loop">
                 <tr>
                     <td>
@@ -490,16 +490,16 @@
                 </h:inputText>
                 </td>
                 <td>
-                 <h:selectOneMenu id="externalProvision"
-                             required="true"
-                             requiredMessage="#{msg.msgValueNeeded}"
-                             value="#{x.externalService}" 
-                             hideNoSelectionOption="true" >
-                <f:selectItem itemLabel="#{msg.itemNotExternalProvided}" itemValue="#{0}"/>
-                <f:selectItem itemLabel="#{msg.itemPartialExternalProvided}" itemValue="#{1}"/>
-                <f:selectItem itemLabel="#{msg.itemExternalProvided}" itemValue="#{2}"/>
-                <f:ajax event="change" render="@form :logout:remaining msgLevel"/>
-            </h:selectOneMenu>                
+                <h:selectOneMenu id="externalProvision"
+                                 required="true"
+                                 requiredMessage="#{msg.msgValueNeeded}"
+                                 value="#{x.externalService}" 
+                                 hideNoSelectionOption="true" >
+                    <f:selectItem itemLabel="#{msg.itemNotExternalProvided}" itemValue="#{0}"/>
+                    <f:selectItem itemLabel="#{msg.itemPartialExternalProvided}" itemValue="#{1}"/>
+                    <f:selectItem itemLabel="#{msg.itemExternalProvided}" itemValue="#{2}"/>
+                    <f:ajax event="change" render="@form :logout:remaining msgLevel"/>
+                </h:selectOneMenu>                
                 </td>
                 <td>
                 <inek:InputTextWithMessage value="#{x.keyUsed}"  />
@@ -584,39 +584,17 @@
         </table>
     </div>
 
-        <h:panelGroup id="pnlProtokoll" rendered="#{!editCalcBasicsPepp.readOnly}" class="inputPart">
+    <h:panelGroup id="pnlProtokoll" rendered="#{!editCalcBasicsPepp.readOnly}" class="inputPart">
 
-<!--            <div class="uploadFile inlineBlock marginRight">
-                <h:inputFile styleClass="hiddenFile" id="file" value="# {editCalcBasicsPepp.fileTherapyPepp}" >
-                    <f:ajax listener="# {editCalcBasicsPepp.uploadNoticesTherapy()}" render="@all"/>
-                </h:inputFile>
-                <div class="fakeFile">
-                    <h:outputLabel style="margin-top: 1px;" styleClass="button element100" value="Upload Therapeutischer Bereich"/>
-                </div>
-            </div>
-            
-            <h:commandLink styleClass="button" value="Download Musterdatei" action="# {editCalcBasicsPepp.downloadTemplateTherapy()}" immediate="true"/>
-
-            <h:commandLink rendered="# {editCalcBasicsPepp.importMessageTherapy.length() gt 0}" 
-                           styleClass="button"
-                           value="# {msg.btnJournal} &nbsp; # {editCalcBasicsPepp.showJournalTherapy ? '˄' : '˅'}" 
-                           actionListener="# {editCalcBasicsPepp.toggleJournalTherapy}">
-                <f:ajax render="@this :pnlProtokoll :logout:remaining"/>
-            </h:commandLink>
-
-            <h:inputTextarea id="journalTherapy" rendered="# {editCalcBasicsPepp.importMessageTherapy.length() gt 0 and editCalcBasicsPepp.showJournalTherapy}" 
-                             value="# {editCalcBasicsPepp.importMessageTherapy}"
-                             readonly="true"
-                             styleClass="element100 # {editCalcBasicsPepp.importMessageTherapy.length() > 500 ? 'areaHugh' : 'areaWideHigh'}"/>-->
-            <inek:UploadButtons2 importer="#{editCalcBasicsPepp.getImporter('pepptherapy')}"
-                                  calcbase="#{editCalcBasicsPepp.calcBasics}" 
-                                 readOnly="#{editCalcBasicsPepp.readOnly}"
-                                 showAdd="false"
-                                 addListener="#{editCalcBasicsPepp.addTherapyCost(23)}"
-                                 uploadButtonText="Upload"
-                                 actionDeleteTable="#{editCalcBasicsPepp.clearTherapyCosts()}"
-                                 />
-        </h:panelGroup>
+        <inek:UploadButtons2 importer="#{editCalcBasicsPepp.getImporter('pepptherapy')}"
+                             calcbase="#{editCalcBasicsPepp.calcBasics}" 
+                             readOnly="#{editCalcBasicsPepp.readOnly}"
+                             showAdd="false"
+                             addListener="#{editCalcBasicsPepp.addTherapyCost(23)}"
+                             uploadButtonText="Upload"
+                             actionDeleteTable="#{editCalcBasicsPepp.clearTherapyCosts()}"
+                             />
+    </h:panelGroup>
 
 
 </ui:composition>

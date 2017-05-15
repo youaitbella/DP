@@ -113,7 +113,6 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
     
     public List<Account> getInekAccounts() {
         String sql = "select distinct account.*\n"
-                //        String sql = "select distinct acId, acCreated, acLastModified, acIsDeactivated, acMail, acMailUnverified, acUser, acGender, acTitle, acFirstName, acLastName, acInitials, acPhone, acRoleId, acCompany, acCustomerTypeId, acIK, acStreet, acPostalCode, acTown, acCustomerPhone, acCustomerFax, acNubConfirmation, acMessageCopy, acNubInformationMail, acReportViaPortal, acDropBoxHoldTime\n"
                 + "from spf.RequestMaster\n"
                 + "join CallCenterDB.dbo.ccCustomer on rmIk = cuIK\n"
                 + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"

@@ -230,16 +230,20 @@ public class SpecificFunctionAgreementTreeHandler implements Serializable, TreeN
                 break;
             case "hospital":
                 if (treeNode.isDescending()) {
-                    sorted = stream.sorted((n1, n2) -> _appTools.retrieveHospitalInfo(n2.getSpecificFunctionAgreement().getIk()).compareTo(_appTools.retrieveHospitalInfo(n1.getSpecificFunctionAgreement().getIk())));
+                    sorted = stream.sorted((n1, n2) -> _appTools.retrieveHospitalInfo(n2.getSpecificFunctionAgreement().getIk())
+                            .compareTo(_appTools.retrieveHospitalInfo(n1.getSpecificFunctionAgreement().getIk())));
                 } else {
-                    sorted = stream.sorted((n1, n2) -> _appTools.retrieveHospitalInfo(n1.getSpecificFunctionAgreement().getIk()).compareTo(_appTools.retrieveHospitalInfo(n2.getSpecificFunctionAgreement().getIk())));
+                    sorted = stream.sorted((n1, n2) -> _appTools.retrieveHospitalInfo(n1.getSpecificFunctionAgreement().getIk())
+                            .compareTo(_appTools.retrieveHospitalInfo(n2.getSpecificFunctionAgreement().getIk())));
                 }
                 break;
             case "date":
                 if (treeNode.isDescending()) {
-                    sorted = stream.sorted((n1, n2) -> n2.getSpecificFunctionAgreement().getLastChanged().compareTo(n1.getSpecificFunctionAgreement().getLastChanged()));
+                    sorted = stream.sorted((n1, n2) -> n2.getSpecificFunctionAgreement().getLastChanged()
+                            .compareTo(n1.getSpecificFunctionAgreement().getLastChanged()));
                 } else {
-                    sorted = stream.sorted((n1, n2) -> n1.getSpecificFunctionAgreement().getLastChanged().compareTo(n2.getSpecificFunctionAgreement().getLastChanged()));
+                    sorted = stream.sorted((n1, n2) -> n1.getSpecificFunctionAgreement().getLastChanged()
+                            .compareTo(n2.getSpecificFunctionAgreement().getLastChanged()));
                 }
                 break;
             case "status":

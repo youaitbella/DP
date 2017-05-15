@@ -476,7 +476,8 @@ public class EditPeppProposal extends AbstractEditController {
         String newTopic = "";
         PeppProposal peppProposal = getPeppProposal();
         newTopic = checkField(newTopic, peppProposal.getName(), "lblAppellation", "form:name", PeppProposalTabs.tabPPAddress);
-        newTopic = checkField(newTopic, peppProposal.getCategory() == null || peppProposal.getCategory() == PeppProposalCategory.UNKNOWN ? null : peppProposal.getCategory().name(), "lblCategory", "form:category", PeppProposalTabs.tabPPAddress);
+        newTopic = checkField(newTopic, peppProposal.getCategory() == null || peppProposal.getCategory() == PeppProposalCategory.UNKNOWN ? null : peppProposal.getCategory().name(), 
+                "lblCategory", "form:category", PeppProposalTabs.tabPPAddress);
         newTopic = checkField(newTopic, peppProposal.getInstitute(), "lblPeppProposalingInstitute", "form:institute", PeppProposalTabs.tabPPAddress);
         newTopic = checkField(newTopic, peppProposal.getGender(), 1, 2, "lblSalutation", "form:cbxGender", PeppProposalTabs.tabPPAddress);
         newTopic = checkField(newTopic, peppProposal.getFirstName(), "lblFirstName", "form:firstname", PeppProposalTabs.tabPPAddress);

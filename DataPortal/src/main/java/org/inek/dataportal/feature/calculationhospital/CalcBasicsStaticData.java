@@ -71,10 +71,14 @@ public class CalcBasicsStaticData {
 
     public static List<SelectItem> staticGetMviFulfillmentItems() {
         List<SelectItem> items = new ArrayList<>();
-        items.add(new SelectItem(1, "Das Krankenhaus erfüllt in diesem Datenjahr uneingeschränkt die Anforderungen der Richtlinie für die Durchführung von minimalinvasiven Herzklappeninterventionen"));
-        items.add(new SelectItem(2, "Das Krankenhaus erfüllt in diesem Datenjahr die Anforderungen gemäß der Übergangsregelung nach §9 der Richtlinie sowie nach dem Stichtag (30.Juni 2016) uneingeschränkt"));
-        items.add(new SelectItem(3, "Das Krankenhaus erfüllt in diesem Datenjahr lediglich die Anforderungen gemäß der Übergangsregelung nach §9 der Richtlinie"));
-        items.add(new SelectItem(0, "Das Krankenhaus erfüllt in diesem Datenjahr die Anforderungen der Richtlinie für die Durchführung von minimalinvasiven Herzklappeninterventionen nicht"));
+        items.add(new SelectItem(1, "Das Krankenhaus erfüllt in diesem Datenjahr uneingeschränkt die Anforderungen "
+                + "der Richtlinie für die Durchführung von minimalinvasiven Herzklappeninterventionen"));
+        items.add(new SelectItem(2, "Das Krankenhaus erfüllt in diesem Datenjahr die Anforderungen gemäß der "
+                + "Übergangsregelung nach §9 der Richtlinie sowie nach dem Stichtag (30.Juni 2016) uneingeschränkt"));
+        items.add(new SelectItem(3, "Das Krankenhaus erfüllt in diesem Datenjahr lediglich die Anforderungen gemäß "
+                + "der Übergangsregelung nach §9 der Richtlinie"));
+        items.add(new SelectItem(0, "Das Krankenhaus erfüllt in diesem Datenjahr die Anforderungen der Richtlinie für "
+                + "die Durchführung von minimalinvasiven Herzklappeninterventionen nicht"));
         return items;
     }
     

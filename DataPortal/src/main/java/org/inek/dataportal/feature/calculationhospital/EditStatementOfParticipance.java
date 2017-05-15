@@ -287,7 +287,8 @@ public class EditStatementOfParticipance extends AbstractEditController {
                     continue;
                 }
                 if (!cc.isDrg() && !cc.isInv() && !cc.isObd() && !cc.isPsy() && !cc.isTpg()) {
-                    _sessionController.setScript("alert('Für die folgenden Felder ist noch eine Eingabe erforderlich:\\n\\nJedem Ansprechpartner ist mindestens ein Kalkulationsbereich (DRG, PSY, INV, TPG, OBD) zuzuordnen.')");
+                    _sessionController.setScript("alert('Für die folgenden Felder ist noch eine Eingabe erforderlich:\\n\\n"
+                            + "Jedem Ansprechpartner ist mindestens ein Kalkulationsbereich (DRG, PSY, INV, TPG, OBD) zuzuordnen.')");
                     return "";
                 }
             }
@@ -396,7 +397,6 @@ public class EditStatementOfParticipance extends AbstractEditController {
     }
 
     public boolean isCopyForResendAllowed() {
-        //if (_statement.getStatusId() < 10 || !_appTools.isEnabled(ConfigKey.IsStatemenOfParticipanceSendEnabled) || !_appTools.isEnabled(ConfigKey.IsStatemenOfParticipanceResendEnabled)) {
         if (_statement.getStatusId() < 10 || !_appTools.isEnabled(ConfigKey.IsStatemenOfParticipanceSendEnabled)) {
             return false;
         }
@@ -405,7 +405,8 @@ public class EditStatementOfParticipance extends AbstractEditController {
 
     public void copyForResend() {
         if (_statement.getStatusId() == 10 && !_appTools.isEnabled(ConfigKey.IsStatemenOfParticipanceResendEnabled)) {
-            _sessionController.setScript("alert('Eine Änderung der Teilnahmeerklärung im Datenportal ist leider nicht mehr möglich. Bitte teilen Sie Ihre Änderungswünsche Ihrem zuständigen Referenten mit.');");
+            _sessionController.setScript("alert('Eine Änderung der Teilnahmeerklärung im Datenportal ist leider nicht mehr möglich. "
+                    + "Bitte teilen Sie Ihre Änderungswünsche Ihrem zuständigen Referenten mit.');");
             return;
         }
         _statement.setId(-1);

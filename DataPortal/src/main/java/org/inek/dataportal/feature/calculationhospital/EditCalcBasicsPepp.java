@@ -1,6 +1,5 @@
 package org.inek.dataportal.feature.calculationhospital;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -11,15 +10,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.Scanner;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
-import javax.enterprise.inject.Instance;
 import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
@@ -34,9 +30,6 @@ import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
-import org.inek.dataportal.entities.calc.drg.DrgCalcBasics;
-import org.inek.dataportal.entities.calc.drg.DrgContentText;
-import org.inek.dataportal.entities.calc.drg.DrgNeonatData;
 import org.inek.dataportal.entities.calc.psy.KGPListContentText;
 import org.inek.dataportal.entities.calc.psy.KGPListCostCenter;
 import org.inek.dataportal.entities.calc.psy.KGPListDelimitationFact;
@@ -163,7 +156,6 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
 
         // MedicalInfrastructure
         calcBasics.setDescMedicalInfra(!_priorCalcBasics.getOtherMethodMedInfra().isEmpty());
-        //calcBasics.setDescMedicalInfra(_priorCalcBasics.getIblvMethodMedInfra() == 0);
         calcBasics.setOtherMethodMedInfra(_priorCalcBasics.getOtherMethodMedInfra());
         calcBasics.setIblvMethodMedInfra(_priorCalcBasics.getIblvMethodMedInfra());
 
@@ -221,8 +213,6 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         PeppCalcBasics calcBasics = new PeppCalcBasics();
         calcBasics.setAccountId(account.getId());
         calcBasics.setDataYear(Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
-        // calcBasics.getKgpMedInfraList().add(new KgpListMedInfra(-1, 170, "", "", "", 0, calcBasics.getId()));
-        // calcBasics.getKgpMedInfraList().add(new KgpListMedInfra(-1, 180, "", "", "", 0, calcBasics.getId()));
         setCachedIks(getIks());
         if (getCachedIks().size() == 1) {
             calcBasics.setIk((int) getCachedIks().get(0).getValue());
@@ -244,24 +234,6 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         calcBasics.getPersonalAccountings().add(new KGPPersonalAccounting(_valueLists.getCostType(131), 0));
         calcBasics.getPersonalAccountings().add(new KGPPersonalAccounting(_valueLists.getCostType(132), 0));
         calcBasics.getPersonalAccountings().add(new KGPPersonalAccounting(_valueLists.getCostType(133), 0));
-    }
-
-    private void ensureNeonateData(DrgCalcBasics calcBasics) {
-        if (!calcBasics.getNeonateData().isEmpty()) {
-            return;
-        }
-        List<Integer> headerIds = _calcFacade.retrieveHeaderTexts(calcBasics.getDataYear(), 20, -1)
-                .stream()
-                .map(ht -> ht.getId())
-                .collect(Collectors.toList());
-        List<DrgContentText> contentTexts = _calcFacade.retrieveContentTexts(headerIds, calcBasics.getDataYear());
-        for (DrgContentText contentText : contentTexts) {
-            DrgNeonatData data = new DrgNeonatData();
-            data.setContentTextId(contentText.getId());
-            data.setContentText(contentText);
-            data.setBaseInformationId(calcBasics.getId());
-            calcBasics.getNeonateData().add(data);
-        }
     }
 
     private void preloadServiceProvision(PeppCalcBasics calcBasics) {
@@ -530,14 +502,6 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
 
     @SuppressWarnings("unchecked")
     public void copyForResend() {
-        if (false) {
-            // in a first approch, we do not copy the data
-            // just reset the status to "CorrectionRequested"
-            _calcBasics.setStatus(WorkflowStatus.CorrectionRequested);
-            _calcBasics = _calcFacade.saveCalcBasicsPepp(_calcBasics);
-            return;
-        }
-
         _calcBasics.setStatus(WorkflowStatus.Retired);
         _calcFacade.saveCalcBasicsPepp(_calcBasics);
 
@@ -683,8 +647,8 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         }
         return _ikItems;
     }
-
     // </editor-fold>
+
     //<editor-fold defaultstate="collapsed" desc="Tab ServiceProvision">
     public int priorProvisionAmount(KGPListServiceProvision current) {
         Optional<KGPListServiceProvision> prior = _priorCalcBasics.getServiceProvisions().stream()
@@ -714,7 +678,6 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     public void checkOption(AjaxBehaviorEvent event) {
         HtmlSelectOneMenu component = (HtmlSelectOneMenu) event.getComponent();
         if (component.getValue().equals(3)) {
-            //_sessionController.setScript("alert('Bitte beachten Sie, dass die Erfassung der Rüstzeit als Einheitswert keine leistungsgerechte Verteilung der Kosten gewährleistet.')");
             Utils.showMessageInBrowser("Bitte beachten Sie, dass die Erfassung der Rüstzeit als Einheitswert keine leistungsgerechte Verteilung der Kosten gewährleistet.");
         }
     }
@@ -757,96 +720,6 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
 
     public void setFileTherapyPepp(Part file) {
         _fileTherapyPepp = file;
-    }
-
-    private static final String HEADLINE_THERAPY = "KST-Gruppe;Leistungsinhalt der Kostenstelle;Fremdvergabe (keine, teilweise, vollständig);Leistungsschlüssel;KoArtG 1 Summe Leistungseinheiten;KoArtG 1 Personalkosten;KoArtG 3a Summe Leistungseinheiten;KoArtG 3a Personalkosten;KoArtG 2 Summe Leistungseinheiten;KoArtG 2 Personalkosten;KoArtG 3b Summe Leistungseinheiten;KoArtG 3b Personalkosten;KoArtG 3c Summe Leistungseinheiten;KoArtG 3c Personalkosten;KoArtG 3 Summe Leistungseinheiten;KoArtG 3 Personalkosten";
-
-    public void downloadTemplateTherapy() {
-        Utils.downloadText(HEADLINE_THERAPY + "\n", "Therapeutischer_Bereich_.csv");
-    }
-    private static final String HEADLINE = "Kostenstellengruppe;Kostenstellennummer;Kostenstellenname;Kostenvolumen;VollkräfteÄD;Leistungsschlüssel;Beschreibung;SummeLeistungseinheiten";
-
-    public void downloadTemplate() {
-        Utils.downloadText(HEADLINE + "\n", "Kostenstellengruppe_11_12_13.csv");
-    }
-
-    private String _importMessage = "";
-
-    public String getImportMessage() {
-        return _importMessage;
-    }
-
-    private String _importMessageTherapy = "";
-
-    public String getImportMessageTherapy() {
-        return _importMessageTherapy;
-    }
-
-    @Inject private Instance<CostCenterDataImporterPepp> _importProvider;
-    @Inject private Instance<TherapyDataImporterPepp> _importProviderTherapyPepp;
-
-    public void uploadNoticesTherapy() {
-        try {
-            if (_fileTherapyPepp != null) {
-                //Scanner scanner = new Scanner(_file.getInputStream(), "UTF-8");
-                // We assume most of the documents coded with the Windows character set
-                // Thus, we read with the system default
-                // in case of an UTF-8 file, all German Umlauts will be corrupted.
-                // We simply replace them.
-                // Drawbacks: this only converts the German Umlauts, no other chars.
-                // By intention it fails for other charcters
-                // Alternative: implement a library which guesses th correct character set and read properly
-                // Since we support German only, we started using the simple approach
-                Scanner scanner = new Scanner(_fileTherapyPepp.getInputStream());
-                if (!scanner.hasNextLine()) {
-                    return;
-                }
-                TherapyDataImporterPepp itemImporter = _importProviderTherapyPepp.get();
-                itemImporter.setCalcBasics(_calcBasics);
-                while (scanner.hasNextLine()) {
-                    String line = Utils.convertFromUtf8(scanner.nextLine());
-                    if (!line.equals(HEADLINE_THERAPY)) {
-                        itemImporter.tryImportLine(line);
-                    }
-                }
-                _importMessageTherapy = itemImporter.getMessage();
-                _sessionController.alertClient(_importMessageTherapy);
-                _showJournalTherapy = _importMessageTherapy.contains("Fehler");
-            }
-        } catch (IOException | NoSuchElementException e) {
-        }
-    }
-
-    public void uploadNotices() {
-        try {
-            if (_file != null) {
-                //Scanner scanner = new Scanner(_file.getInputStream(), "UTF-8");
-                // We assume most of the documents coded with the Windows character set
-                // Thus, we read with the system default
-                // in case of an UTF-8 file, all German Umlauts will be corrupted.
-                // We simply replace them.
-                // Drawbacks: this only converts the German Umlauts, no other chars.
-                // By intention it fails for other charcters
-                // Alternative: implement a library which guesses th correct character set and read properly
-                // Since we support German only, we started using the simple approach
-                Scanner scanner = new Scanner(_file.getInputStream());
-                if (!scanner.hasNextLine()) {
-                    return;
-                }
-                CostCenterDataImporterPepp itemImporter = _importProvider.get();
-                itemImporter.setCalcBasics(_calcBasics);
-                while (scanner.hasNextLine()) {
-                    String line = Utils.convertFromUtf8(scanner.nextLine());
-                    if (!line.equals(HEADLINE)) {
-                        itemImporter.tryImportLine(line);
-                    }
-                }
-                _importMessage = itemImporter.getMessage();
-                _sessionController.alertClient(_importMessage);
-                _showJournal = false;
-            }
-        } catch (IOException | NoSuchElementException e) {
-        }
     }
 
     public void toggleJournal() {

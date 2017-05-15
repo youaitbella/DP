@@ -64,10 +64,6 @@
         </h:dataTable>
 
         <h:panelGroup rendered="#{!editCalcBasicsPepp.readOnly}" class="inputPart">
-<!--            <h:commandLink id="addButton" styleClass="addButton marginRight" value="# {msg.btnAddEntry}"
-                           rendered="# {!editCalcBasicsPepp.readOnly}">
-                <f:ajax event="click" render="@form :logout:remaining" listener="# {editCalcBasicsPepp.addRadiologyLaboratoy(9)}"/>
-            </h:commandLink>-->
             <inek:UploadButtons2 importer="#{editCalcBasicsPepp.getImporter('peppradiology')}"
                          calcbase="#{editCalcBasicsPepp.calcBasics}" 
                         readOnly="#{editCalcBasicsPepp.readOnly}"
@@ -75,28 +71,6 @@
                         uploadButtonText="Upload"
                         actionDeleteTable="#{editCalcBasicsPepp.clearRadiologyLaboratory(9)}"
                         />
-<!--            <div class="uploadFile inlineBlock marginRight">
-                <h:inputFile styleClass="hiddenFile" id="file" value="# {editCalcBasicsPepp.file}" >
-                    <f:ajax listener="# {editCalcBasicsPepp.uploadNotices()}" render="@all"/>
-                </h:inputFile>
-                <div class="fakeFile">
-                    <h:outputLabel style="margin-top: 1px;" styleClass="button element100" value="Upload Kostenstellengruppen 11-13"/>
-                </div>
-            </div>
-            
-            <h:commandLink styleClass="button" value="Download Musterdatei" action="# {editCalcBasicsPepp.downloadTemplate}" immediate="true"/>
-
-            <h:commandLink rendered="# {editCalcBasicsPepp.importMessage.length() gt 0}" 
-                           styleClass="button"
-                           value="# {msg.btnJournal} &nbsp; # {editCalcBasicsPepp.showJournal ? '˄' : '˅'}" 
-                           actionListener="# {editCalcBasicsPepp.toggleJournal}">
-                <f:ajax render="journal :logout:remaining"/>
-            </h:commandLink>
-
-            <h:inputTextarea id="journal" rendered="# {editCalcBasicsPepp.importMessage.length() gt 0 and editCalcBasicsPepp.showJournal}" 
-                             value="# {editCalcBasicsPepp.importMessage}"
-                             readonly="true"
-                             styleClass="element100 # {editCalcBasicsPepp.importMessage.length() > 500 ? 'areaHugh' : 'areaWideHigh'}"/>-->
         </h:panelGroup>
 
 </ui:composition>

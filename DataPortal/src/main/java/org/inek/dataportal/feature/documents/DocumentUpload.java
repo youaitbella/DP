@@ -100,7 +100,10 @@ public class DocumentUpload implements Serializable {
     public void setIk(int ik) {
         _ik = ik;
         Customer customer = _customerFacade.getCustomerByIK(_ik);
-        Set<String> emails = customer.getContacts().stream().filter(c -> c.isActive()).flatMap(c -> c.getContactDetails().stream().filter(d -> d.getContactDetailTypeId().equals("E")).map(d -> d.getDetails().toLowerCase())).collect(Collectors.toSet());
+        Set<String> emails = customer.getContacts()
+                .stream().filter(c -> c.isActive())
+                .flatMap(c -> c.getContactDetails().stream().filter(d -> d.getContactDetailTypeId().equals("E")).map(d -> d.getDetails().toLowerCase()))
+                .collect(Collectors.toSet());
         List<Account> accounts = _accountFacade.getAccounts4Ik(_ik, emails);
         _accountRoles = _accountFacade.obtainRoleInfo(_ik, accounts);
         loadLastDocuments();

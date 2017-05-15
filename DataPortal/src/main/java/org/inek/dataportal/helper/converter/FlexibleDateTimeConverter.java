@@ -49,7 +49,9 @@ public class FlexibleDateTimeConverter extends DateTimeConverter {
                 try {
                     d = dfMedium.parse(value.trim());
                 } catch (ParseException anon2) {
-                    Logger.getLogger(FlexibleDateTimeConverter.class.getName()).log(Level.INFO, "Caught 2nd ParseException during parsing of " + value + " in <MEDIUM> and Locale " + getLocale().getDisplayName() + ".");
+                    Logger.getLogger(FlexibleDateTimeConverter.class.getName()).log(Level.INFO, 
+                            "Caught 2nd ParseException during parsing of {0} in <MEDIUM> and Locale {1}.", 
+                            new Object[]{value, getLocale().getDisplayName()});
                 }
             } catch (Exception ex) {
                 Logger.getLogger(FlexibleDateTimeConverter.class.getName()).log(Level.WARNING, "Caught other exception during parsing of " + value, ex);
