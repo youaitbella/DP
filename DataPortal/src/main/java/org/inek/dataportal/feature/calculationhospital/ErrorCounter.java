@@ -12,6 +12,7 @@ import java.util.Map;
  */
 public final class ErrorCounter implements Serializable {
 
+    @SuppressWarnings("ConstantName")
     private static final Map<String, ErrorCounter> counters = new HashMap<>();
 
     private String _errorMsg = "";

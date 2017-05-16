@@ -30,6 +30,7 @@ import org.inek.dataportal.facades.calc.CalcAutopsyFacade;
 import org.inek.dataportal.facades.calc.CalcDrgFacade;
 import org.inek.dataportal.facades.calc.CalcFacade;
 import org.inek.dataportal.facades.calc.CalcPsyFacade;
+import org.inek.dataportal.facades.calc.CalcSopFacade;
 import org.inek.dataportal.facades.calc.DistributionModelFacade;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.utils.DocumentationUtil;
@@ -51,6 +52,7 @@ public class CalcHospitalList {
     @Inject private CalcAutopsyFacade _calcAutopsyFacade;
     @Inject private CalcDrgFacade _calcDrgFacade;
     @Inject private CalcPsyFacade _calcPsyFacade;
+    @Inject private CalcSopFacade _calcSopPsyFacade;
     @Inject private DistributionModelFacade _distModelFacade;
     @Inject private ApplicationTools _appTools;
     private final Map<CalcHospitalFunction, Boolean> _allowedButtons = new HashMap<>();
@@ -62,7 +64,7 @@ public class CalcHospitalList {
         }
         if (!_allowedButtons.containsKey(CalcHospitalFunction.StatementOfParticipance)) {
             boolean testMode = _appTools.isEnabled(ConfigKey.TestMode);
-            Set<Integer> iks = _calcFacade.obtainIks4NewStatementOfParticipance(_sessionController.getAccountId(), Utils.getTargetYear(Feature.CALCULATION_HOSPITAL), testMode);
+            Set<Integer> iks = _calcSopPsyFacade.obtainIks4NewStatementOfParticipance(_sessionController.getAccountId(), Utils.getTargetYear(Feature.CALCULATION_HOSPITAL), testMode);
             _allowedButtons.put(CalcHospitalFunction.StatementOfParticipance, iks.size() > 0);
         }
         return _allowedButtons.get(CalcHospitalFunction.StatementOfParticipance);
@@ -162,7 +164,7 @@ public class CalcHospitalList {
     public String printHospitalInfo(CalcHospitalInfo hospitalInfo) {
         switch (hospitalInfo.getType()) {
             case SOP:
-                return printData(_calcFacade::findStatementOfParticipance, hospitalInfo);
+                return printData(_calcSopPsyFacade::findStatementOfParticipance, hospitalInfo);
             case CBD:
                 return printData(_calcDrgFacade::findCalcBasicsDrg, hospitalInfo);
             case CBP:
@@ -188,7 +190,7 @@ public class CalcHospitalList {
     public String deleteHospitalInfo(CalcHospitalInfo hospitalInfo) {
         switch (hospitalInfo.getType()) {
             case SOP:
-                deleteData(_calcFacade::findStatementOfParticipance, _calcFacade::saveStatementOfParticipance, _calcFacade::delete, hospitalInfo);
+                deleteData(_calcSopPsyFacade::findStatementOfParticipance, _calcSopPsyFacade::saveStatementOfParticipance, _calcSopPsyFacade::delete, hospitalInfo);
                 break;
             case CBD:
                 deleteData(_calcDrgFacade::findCalcBasicsDrg, _calcDrgFacade::saveCalcBasicsDrg, _calcDrgFacade::delete, hospitalInfo);
