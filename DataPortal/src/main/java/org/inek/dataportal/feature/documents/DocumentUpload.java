@@ -127,6 +127,17 @@ public class DocumentUpload implements Serializable {
     }
     // </editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc="Property InekAccounts">
+    private List<Account> _inekAccounts = new ArrayList<>();
+
+    public List<Account> getInekAccounts() {
+        if (_inekAccounts.isEmpty()){
+            _inekAccounts = _accountFacade.getInekAccounts();
+        }
+        return _inekAccounts;
+    }
+    // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="Property AvailableUntil">
     private int _availability = 60;
 

@@ -260,10 +260,6 @@ public class AdminTask extends AbstractEditController {
         return _inekAgents;
     }
 
-    public void setInekAcounts(List<SelectItem> inekAagents) {
-        _inekAgents = inekAagents;
-    }
-
     private InekRole _inekRole;
 
     public InekRole getInekRole() {

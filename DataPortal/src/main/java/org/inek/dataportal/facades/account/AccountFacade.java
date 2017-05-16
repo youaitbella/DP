@@ -2,6 +2,7 @@ package org.inek.dataportal.facades.account;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -110,42 +111,6 @@ public class AccountFacade extends AbstractFacade<Account> {
         TypedQuery<Account> query = getEntityManager().createQuery(statement, Account.class);
         List<Account> accounts = query.setParameter("ids", ids).getResultList();
         return accounts;
-    }
-
-    public List<Account> getInekAcounts() {
-        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
-        CriteriaQuery<Account> cq = cb.createQuery(Account.class);
-        Root<Account> request = cq.from(Account.class);
-        cq.select(request).where(cb.like(request.get("_email"), "%@inek-drg.de"));
-        TypedQuery<Account> query = getEntityManager().createQuery(cq);
-        return query.getResultList();
-    }
-
-    public List<SelectItem> getInekAgents() {
-//        CriteriaBuilder cBuilder = getEntityManager().getCriteriaBuilder();
-//        CriteriaQuery<SelectItem> cQuery = cBuilder.createQuery(SelectItem.class);
-//        Root<Account> accountRoot = cQuery.from(Account.class);
-//        cQuery.select(cBuilder.construct(
-//                SelectItem.class,
-//                accountRoot.get(Account_._id),
-//                accountRoot.get(Account_._lastName)
-//        ));
-        CriteriaBuilder cBuilder = getEntityManager().getCriteriaBuilder();
-        CriteriaQuery<Object[]> cQuery = cBuilder.createQuery(Object[].class);
-        Root<Account> accountRoot = cQuery.from(Account.class);
-        Path<Integer> idPath = accountRoot.get("_id");
-        Path<String> lastNamePath = accountRoot.get("_lastName");
-        Path<String> firstNamePath = accountRoot.get("_firstName");
-        cQuery.select(cBuilder.array(idPath, lastNamePath, firstNamePath));
-        //cQuery.where(cBuilder.like(accountRoot.get(Account_._email), "%@inek-drg.de"));
-        cQuery.where(cBuilder.like(accountRoot.get("_email").as(String.class), "%@inek-drg.de"));
-        cQuery.orderBy(cBuilder.asc(accountRoot.get("_lastName")));
-        List<Object[]> valueArray = getEntityManager().createQuery(cQuery).getResultList();
-        List<SelectItem> agents = new ArrayList<>();
-        for (Object[] values : valueArray) {
-            agents.add(new SelectItem(values[0], values[1] + ", " + values[2]));
-        }
-        return agents;
     }
 
     public List<Account> getAccounts4Feature(Feature feature) {
@@ -409,5 +374,41 @@ public class AccountFacade extends AbstractFacade<Account> {
             accountRoles.put(account, roles);
         }
         return accountRoles;
+    }
+
+    public List<SelectItem> getInekAgents() {
+        List<SelectItem> agents = new ArrayList<>();
+        for (Account account : getInekAccounts()) {
+            agents.add(new SelectItem(account.getId(), account.getLastName() + ", " + account.getFirstName()));
+        }
+        return agents;
+    }
+
+    public List<Account> getInekAccounts() {
+        String sql = "select account.* \n"
+                + "from dbo.Account \n"
+                + "join CallCenterDB.dbo.ccAgent on agEMail = acMail\n"
+                + "where agActive = 1\n" //  and agDomainId in ('O', 'E', 'M')
+                + "order by acLastName    ";
+        Query query = getEntityManager().createNativeQuery(sql, Account.class);
+        @SuppressWarnings("unchecked") List<Account> result = query.getResultList();
+        return result;
+    }
+
+    public List<Account> getInekAccounts(List<Integer> iks) {
+        String sql = "select cuIk, account.* \n"
+                + "from dbo.Account \n"
+                + "join CallCenterDB.dbo.ccAgent on agEMail = acMail\n"
+                + "left join (\n"
+                + "    select distinct cuIk, mcraAgentId\n"
+                + "    from CallCenterDB.dbo.ccCustomer \n"
+                + "    join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
+                + "    join CallCenterDB.dbo.ccCalcInformation on caId = ciCalcAgreementId\n"
+                + "    join CallCenterDB.dbo.mapCustomerReportAgent on ciId = mcraCalcInformationId\n"
+                + "	where ciDataYear = 2016 and cuIK in (261101015)\n"
+                + ") d on agId = mcraAgentId\n"
+                + "where agActive = 1 and agDomainId in ('O', 'E', 'M')\n"
+                + "order by -sign(isnull(cuIk, 0)), acLastName    ";
+        return Collections.EMPTY_LIST;
     }
 }
