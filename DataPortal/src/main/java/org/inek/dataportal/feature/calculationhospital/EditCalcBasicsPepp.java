@@ -44,12 +44,11 @@ import org.inek.dataportal.entities.calc.psy.KGPPersonalAccounting;
 import org.inek.dataportal.entities.calc.psy.KgpListMedInfra;
 import org.inek.dataportal.entities.calc.psy.PeppCalcBasics;
 import org.inek.dataportal.entities.iface.BaseIdValue;
-import org.inek.dataportal.enums.CalcHospitalFunction;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
-import org.inek.dataportal.facades.calc.CalcFacade;
+import org.inek.dataportal.facades.calc.CalcPsyFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.ObjectUtils;
 import org.inek.dataportal.helper.TransferFileCreator;
@@ -75,7 +74,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
 
     @Inject private CooperationTools _cooperationTools;
     @Inject private SessionController _sessionController;
-    @Inject private CalcFacade _calcFacade;
+    @Inject private CalcPsyFacade _calcFacade;
     @Inject private ApplicationTools _appTools;
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
@@ -631,11 +630,8 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         if (_ikItems == null) {
             //Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.CALCULATION_HOSPITAL, canReadSealed());
             boolean testMode = _appTools.isEnabled(ConfigKey.TestMode);
-            Set<Integer> iks = _calcFacade
-                    .obtainIks4NewBasics(CalcHospitalFunction.CalculationBasicsPepp,
-                            _sessionController.getAccountId(),
-                            Utils.getTargetYear(Feature.CALCULATION_HOSPITAL),
-                            testMode);
+            int year = Utils.getTargetYear(Feature.CALCULATION_HOSPITAL);
+            Set<Integer> iks = _calcFacade.obtainIks4NewBasicsPepp(_sessionController.getAccountId(), year, testMode);
             if (_calcBasics != null && _calcBasics.getIk() > 0) {
                 iks.add(_calcBasics.getIk());
             }

@@ -26,7 +26,10 @@ import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
+import org.inek.dataportal.facades.calc.CalcAutopsyFacade;
+import org.inek.dataportal.facades.calc.CalcDrgFacade;
 import org.inek.dataportal.facades.calc.CalcFacade;
+import org.inek.dataportal.facades.calc.CalcPsyFacade;
 import org.inek.dataportal.facades.calc.DistributionModelFacade;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.utils.DocumentationUtil;
@@ -45,6 +48,9 @@ public class CalcHospitalList {
 
     @Inject private SessionController _sessionController;
     @Inject private CalcFacade _calcFacade;
+    @Inject private CalcAutopsyFacade _calcAutopsyFacade;
+    @Inject private CalcDrgFacade _calcDrgFacade;
+    @Inject private CalcPsyFacade _calcPsyFacade;
     @Inject private DistributionModelFacade _distModelFacade;
     @Inject private ApplicationTools _appTools;
     private final Map<CalcHospitalFunction, Boolean> _allowedButtons = new HashMap<>();
@@ -129,8 +135,22 @@ public class CalcHospitalList {
     private boolean determineButtonAllowed(CalcHospitalFunction calcFunct) {
         if (!_allowedButtons.containsKey(calcFunct)) {
             boolean testMode = _appTools.isEnabled(ConfigKey.TestMode);
-            Set<Integer> possibleIks = _calcFacade
-                    .obtainIks4NewBasics(calcFunct, _sessionController.getAccountId(), Utils.getTargetYear(Feature.CALCULATION_HOSPITAL), testMode);
+            Set<Integer> possibleIks;
+            int year = Utils.getTargetYear(Feature.CALCULATION_HOSPITAL);
+            int accountId = _sessionController.getAccountId();
+            switch (calcFunct){
+                case CalculationBasicsDrg:
+                    possibleIks = _calcDrgFacade.obtainIks4NewBasicsDrg(accountId, year, testMode);
+                    break;
+                case CalculationBasicsPepp:
+                    possibleIks = _calcPsyFacade.obtainIks4NewBasicsPepp(accountId, year, testMode);
+                    break;
+                case CalculationBasicsAutopsy:
+                    possibleIks = _calcAutopsyFacade.obtainIks4NewBasicsAutopsy(accountId, year, testMode);
+                    break;
+                default:
+                    throw new IllegalArgumentException("Unknown calc function: " + calcFunct);
+            }
             Account account = _sessionController.getAccount();
             boolean isAllowed = possibleIks.contains(account.getIK())
                     || account.getAdditionalIKs().stream().anyMatch(ai -> possibleIks.contains(ai.getIK()));
@@ -144,11 +164,11 @@ public class CalcHospitalList {
             case SOP:
                 return printData(_calcFacade::findStatementOfParticipance, hospitalInfo);
             case CBD:
-                return printData(_calcFacade::findCalcBasicsDrg, hospitalInfo);
+                return printData(_calcDrgFacade::findCalcBasicsDrg, hospitalInfo);
             case CBP:
-                return printData(_calcFacade::findCalcBasicsPepp, hospitalInfo);
+                return printData(_calcPsyFacade::findCalcBasicsPepp, hospitalInfo);
             case CBA:
-                return printData(_calcFacade::findCalcBasicsAutopsy, hospitalInfo);
+                return printData(_calcAutopsyFacade::findCalcBasicsAutopsy, hospitalInfo);
             case CDM:
                 return printData(_distModelFacade::findDistributionModel, hospitalInfo);
             default:
@@ -171,13 +191,13 @@ public class CalcHospitalList {
                 deleteData(_calcFacade::findStatementOfParticipance, _calcFacade::saveStatementOfParticipance, _calcFacade::delete, hospitalInfo);
                 break;
             case CBD:
-                deleteData(_calcFacade::findCalcBasicsDrg, _calcFacade::saveCalcBasicsDrg, _calcFacade::delete, hospitalInfo);
+                deleteData(_calcDrgFacade::findCalcBasicsDrg, _calcDrgFacade::saveCalcBasicsDrg, _calcDrgFacade::delete, hospitalInfo);
                 break;
             case CBP:
-                deleteData(_calcFacade::findCalcBasicsPepp, _calcFacade::saveCalcBasicsPepp, _calcFacade::delete, hospitalInfo);
+                deleteData(_calcPsyFacade::findCalcBasicsPepp, _calcPsyFacade::saveCalcBasicsPepp, _calcPsyFacade::delete, hospitalInfo);
                 break;
             case CBA:
-                deleteData(_calcFacade::findCalcBasicsAutopsy, _calcFacade::saveCalcBasicsAutopsy, _calcFacade::delete, hospitalInfo);
+                deleteData(_calcAutopsyFacade::findCalcBasicsAutopsy, _calcAutopsyFacade::saveCalcBasicsAutopsy, _calcAutopsyFacade::delete, hospitalInfo);
                 break;
             case CDM:
                 deleteData(_distModelFacade::findDistributionModel, _distModelFacade::saveDistributionModel, _distModelFacade::delete, hospitalInfo);

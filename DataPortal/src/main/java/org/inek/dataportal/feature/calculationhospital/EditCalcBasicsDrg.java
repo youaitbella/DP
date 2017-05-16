@@ -73,7 +73,7 @@ import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
-import org.inek.dataportal.facades.calc.CalcFacade;
+import org.inek.dataportal.facades.calc.CalcDrgFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.BeanValidator;
 import org.inek.dataportal.helper.ObjectUtils;
@@ -100,7 +100,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     @Inject
     private SessionController _sessionController;
     @Inject
-    private CalcFacade _calcFacade;
+    private CalcDrgFacade _calcDrgFacade;
     @Inject
     private ApplicationTools _appTools;
 
@@ -126,7 +126,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                 return;
             }
             _calcBasics = calcBasics;
-            _baseLine = _calcFacade.findCalcBasicsDrg(_calcBasics.getId());
+            _baseLine = _calcDrgFacade.findCalcBasicsDrg(_calcBasics.getId());
             retrievePriorData(_calcBasics);
             populateDelimitationFactsIfAbsent(_calcBasics);
         } else {
@@ -136,7 +136,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     public void retrievePriorData(DrgCalcBasics calcBasics) {
-        _priorCalcBasics = _calcFacade.retrievePriorCalcBasics(calcBasics);
+        _priorCalcBasics = _calcDrgFacade.retrievePriorCalcBasics(calcBasics);
 
         for (KGLListCostCenterCost ccc : _priorCalcBasics.getCostCenterCosts()) {
             calcBasics.getCostCenterCosts().stream()
@@ -212,8 +212,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                     c.setDepartmentKey(ccc.getDepartmentKey());
                     return c;
                 }).forEachOrdered((c) -> {
-            calcBasics.getCostCenterCosts().add(c);
-        });
+                    calcBasics.getCostCenterCosts().add(c);
+                });
     }
 
     private void preloadNormalWard(DrgCalcBasics calcBasics) {
@@ -336,7 +336,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             // This should not be. But sometimes we lost the delimitationFacts...
             LOGGER.log(Level.WARNING, "Populate DRG DelimitationFacts for existing data: Id = {0}", calcBasics.getId());
         }
-        for (DrgContentText ct : _calcFacade.retrieveContentTexts(1, calcBasics.getDataYear())) {
+        for (DrgContentText ct : _calcDrgFacade.retrieveContentTexts(1, calcBasics.getDataYear())) {
             DrgDelimitationFact df = new DrgDelimitationFact();
             df.setBaseInformationId(calcBasics.getId());
             df.setContentText(ct);
@@ -348,7 +348,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     private void preloadNeonat(DrgCalcBasics calcBasics) {
         calcBasics.setNeonatLvl(_priorCalcBasics.getNeonatLvl());
 
-        int headerIdQuality = _calcFacade.retrieveHeaderTexts(calcBasics.getDataYear(), 20, 0).get(0).getId();
+        int headerIdQuality = _calcDrgFacade.retrieveHeaderTexts(calcBasics.getDataYear(), 20, 0).get(0).getId();
         _priorCalcBasics.getNeonateData().stream().filter(old -> old.getContentText().getHeaderTextId() == headerIdQuality)
                 .forEach(old -> {
                     Optional<DrgNeonatData> optDat = calcBasics.getNeonateData().stream()
@@ -365,7 +365,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     private DrgCalcBasics loadCalcBasicsDrg(String idObject) {
         int id = Integer.parseInt(idObject);
-        DrgCalcBasics calcBasics = _calcFacade.findCalcBasicsDrg(id);
+        DrgCalcBasics calcBasics = _calcDrgFacade.findCalcBasicsDrg(id);
         if (hasSufficientRights(calcBasics)) {
             return calcBasics;
         }
@@ -427,12 +427,12 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     private void ensureRadiologyServiceData(DrgCalcBasics calcBasics) {
-        for (DrgContentText ct : _calcFacade.findAllCalcContentTexts()) {
+        for (DrgContentText ct : _calcDrgFacade.findAllCalcContentTexts()) {
             if (ct.getHeaderTextId() == 12) {
                 KGLRadiologyService rs = new KGLRadiologyService();
                 rs.setBaseInformationId(calcBasics.getId());
                 rs.setRsContentTextID(ct.getId());
-                KGLListContentTextOps ops = _calcFacade.findOpsCodeByContentTextId(ct.getId());
+                KGLListContentTextOps ops = _calcDrgFacade.findOpsCodeByContentTextId(ct.getId());
                 if (ops != null) {
                     rs.setOpsCode(ops.getOpsCode());
                 }
@@ -445,11 +445,11 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         if (!calcBasics.getNeonateData().isEmpty()) {
             return;
         }
-        List<Integer> headerIds = _calcFacade.retrieveHeaderTexts(calcBasics.getDataYear(), 20, -1)
+        List<Integer> headerIds = _calcDrgFacade.retrieveHeaderTexts(calcBasics.getDataYear(), 20, -1)
                 .stream()
                 .map(ht -> ht.getId())
                 .collect(Collectors.toList());
-        List<DrgContentText> contentTexts = _calcFacade.retrieveContentTexts(headerIds, calcBasics.getDataYear());
+        List<DrgContentText> contentTexts = _calcDrgFacade.retrieveContentTexts(headerIds, calcBasics.getDataYear());
         for (DrgContentText contentText : contentTexts) {
             DrgNeonatData data = new DrgNeonatData();
             data.setContentTextId(contentText.getId());
@@ -462,7 +462,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     private void initServiceProvision(DrgCalcBasics calcBasics) {
         calcBasics.getServiceProvisions().clear();
 
-        List<KGLListServiceProvisionType> provisionTypes = _calcFacade.retrieveServiceProvisionTypes(calcBasics.getDataYear(), true);
+        List<KGLListServiceProvisionType> provisionTypes = _calcDrgFacade.retrieveServiceProvisionTypes(calcBasics.getDataYear(), true);
 
         loadMandatoryServiceProvision(provisionTypes, calcBasics);
         addMissingPriorProvisionTypes(provisionTypes, calcBasics);
@@ -810,7 +810,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     public List<DrgContentText> getNormalWardServiceDocHeaders() {
-        return _calcFacade.retrieveContentTexts(13, Calendar.getInstance().get(Calendar.YEAR));
+        return _calcDrgFacade.retrieveContentTexts(13, Calendar.getInstance().get(Calendar.YEAR));
     }
 
     public List<Double> getCostCenterCostsSums() {
@@ -926,16 +926,16 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     private String saveData(boolean showSaveMessage) {
         if (_baseLine != null && ObjectUtils.getDifferences(_baseLine, _calcBasics, null).isEmpty()) {
             // nothing is changed, but we will reload the data if changed by somebody else (as indicated by a new version)
-            if (_baseLine.getVersion() != _calcFacade.getCalcBasicsDrgVersion(_calcBasics.getId())) {
-                _baseLine = _calcFacade.findCalcBasicsDrg(_calcBasics.getId());
-                _calcBasics = _calcFacade.findCalcBasicsDrg(_calcBasics.getId());
+            if (_baseLine.getVersion() != _calcDrgFacade.getCalcBasicsDrgVersion(_calcBasics.getId())) {
+                _baseLine = _calcDrgFacade.findCalcBasicsDrg(_calcBasics.getId());
+                _calcBasics = _calcDrgFacade.findCalcBasicsDrg(_calcBasics.getId());
             }
             return null;
         }
         setModifiedInfo();
         String msg = "";
         try {
-            _calcBasics = _calcFacade.saveCalcBasicsDrg(_calcBasics);
+            _calcBasics = _calcDrgFacade.saveCalcBasicsDrg(_calcBasics);
             if (!isValidId(_calcBasics.getId())) {
                 return Pages.Error.RedirectURL();
             }
@@ -948,7 +948,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             }
             msg = mergeAndReportChanges();
         }
-        _baseLine = _calcFacade.findCalcBasicsDrg(_calcBasics.getId());
+        _baseLine = _calcDrgFacade.findCalcBasicsDrg(_calcBasics.getId());
         if (!msg.isEmpty()) {
             // CR+LF or LF only will be replaced by "\r\n"
             String script = "alert ('" + msg.replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
@@ -959,7 +959,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     private String mergeAndReportChanges() {
         DrgCalcBasics modifiedCalcBasics = _calcBasics;
-        _calcBasics = _calcFacade.findCalcBasicsDrg(modifiedCalcBasics.getId());
+        _calcBasics = _calcDrgFacade.findCalcBasicsDrg(modifiedCalcBasics.getId());
         if (_calcBasics == null) {
             _sessionController.logMessage("ConcurrentUpdate [DatasetDeleted], CalcBasicsDrg: " + modifiedCalcBasics.getId());
             Utils.navigate(Pages.CalculationHospitalSummary.URL());
@@ -987,7 +987,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             msg += "\r\n" + documentationFields.get(fieldName);
         }
         if (!_calcBasics.isSealed()) {
-            _calcBasics = _calcFacade.saveCalcBasicsDrg(_calcBasics);
+            _calcBasics = _calcDrgFacade.saveCalcBasicsDrg(_calcBasics);
         }
         return msg;
     }
@@ -1069,19 +1069,19 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         if (_sessionController.isInekUser(Feature.CALCULATION_HOSPITAL) && !_appTools.isEnabled(ConfigKey.TestMode)) {
             return false;
         }
-        return !_calcFacade.existActiveCalcBasicsDrg(_calcBasics.getIk());
+        return !_calcDrgFacade.existActiveCalcBasicsDrg(_calcBasics.getIk());
     }
 
     @SuppressWarnings("unchecked")
     public void copyForResend() {
         _calcBasics.setStatus(WorkflowStatus.Retired);
-        _calcFacade.saveCalcBasicsDrg(_calcBasics);
+        _calcDrgFacade.saveCalcBasicsDrg(_calcBasics);
 
-        _calcFacade.detach(_calcBasics);
+        _calcDrgFacade.detach(_calcBasics);
         _calcBasics.setId(-1);
         _calcBasics.setStatus(WorkflowStatus.New);
 
-        _calcFacade.detach(_calcBasics.getOpAn());
+        _calcDrgFacade.detach(_calcBasics.getOpAn());
         _calcBasics.getOpAn().setBaseInformationId(-1);
 
         // this loop seems to be really complicated,
@@ -1109,7 +1109,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                 }
                 List<BaseIdValue> data = new ArrayList();
                 for (Object object : list) {
-                    _calcFacade.detach(object);
+                    _calcDrgFacade.detach(object);
                     BaseIdValue baseIdValue = (BaseIdValue) object;
                     data.add(baseIdValue);
                 }
@@ -1130,7 +1130,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
         _calcBasics.setStatus(WorkflowStatus.CorrectionRequested);
         try {
-            _calcBasics = _calcFacade.saveCalcBasicsDrg(_calcBasics);
+            _calcBasics = _calcDrgFacade.saveCalcBasicsDrg(_calcBasics);
         } catch (Exception ex) {
             LOGGER.log(Level.WARNING, "Exception during setDataToNew: {0}", ex.getMessage());
         }
@@ -1152,7 +1152,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         _calcBasics.setStatus(WorkflowStatus.Provided);
         setModifiedInfo();
         _calcBasics.setSealed(Calendar.getInstance().getTime());
-        _calcBasics = _calcFacade.saveCalcBasicsDrg(_calcBasics);
+        _calcBasics = _calcDrgFacade.saveCalcBasicsDrg(_calcBasics);
 
         TransferFileCreator.createCalcBasicsTransferFile(_sessionController, _calcBasics);
 
@@ -1206,8 +1206,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     public List<SelectItem> getIks() {
         if (_ikItems == null) {
             boolean testMode = _appTools.isEnabled(ConfigKey.TestMode);
-            Set<Integer> iks = _calcFacade.obtainIks4NewBasics(CalcHospitalFunction.CalculationBasicsDrg,
-                    _sessionController.getAccountId(), Utils.getTargetYear(Feature.CALCULATION_HOSPITAL), testMode);
+            int year = Utils.getTargetYear(Feature.CALCULATION_HOSPITAL);
+            Set<Integer> iks = _calcDrgFacade.obtainIks4NewBasicsDrg(_sessionController.getAccountId(), year, testMode);
             if (_calcBasics != null && _calcBasics.getIk() > 0) {
                 iks.add(_calcBasics.getIk());
             }
@@ -1674,15 +1674,15 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     // <editor-fold defaultstate="collapsed" desc="Tab Neonatology">
     public List<DrgHeaderText> getHeaders() {
-        return _calcFacade.retrieveHeaderTexts(_calcBasics.getDataYear(), 20, -1);
+        return _calcDrgFacade.retrieveHeaderTexts(_calcBasics.getDataYear(), 20, -1);
     }
 
     public List<DrgHeaderText> getHeaders(int type) {
-        return _calcFacade.retrieveHeaderTexts(Calendar.getInstance().get(Calendar.YEAR), 20, type);
+        return _calcDrgFacade.retrieveHeaderTexts(Calendar.getInstance().get(Calendar.YEAR), 20, type);
     }
 
     public List<DrgContentText> retrieveContentTexts(int headerId) {
-        return _calcFacade.retrieveContentTexts(headerId, _calcBasics.getDataYear());
+        return _calcDrgFacade.retrieveContentTexts(headerId, _calcBasics.getDataYear());
     }
 
     public List<DrgNeonatData> retrieveNeonatData(int headerId) {
@@ -1753,7 +1753,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     public String getContentText(int id) {
-        return _calcFacade.findCalcContentText(id).getText();
+        return _calcDrgFacade.findCalcContentText(id).getText();
     }
 
     public KGLRadiologyService getPriorRadiologyService(int contentTextId) {

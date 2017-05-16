@@ -33,6 +33,7 @@ import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.account.AccountFacade;
+import org.inek.dataportal.facades.calc.CalcAutopsyFacade;
 import org.inek.dataportal.facades.calc.CalcFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.TransferFileCreator;
@@ -55,6 +56,7 @@ public class EditCalcBasicsAutopsy extends AbstractEditController implements Ser
     @Inject private CooperationTools _cooperationTools;
     @Inject private SessionController _sessionController;
     @Inject private CalcFacade _calcFacade;
+    @Inject private CalcAutopsyFacade _calcAutopsyFacade;
     @Inject private ApplicationTools _appTools;
 
     private CalcBasicsAutopsy _calcBasics;
@@ -101,7 +103,7 @@ public class EditCalcBasicsAutopsy extends AbstractEditController implements Ser
 
     private CalcBasicsAutopsy loadCalcBasics(String idObject) {
         int id = Integer.parseInt(idObject);
-        CalcBasicsAutopsy calcBasics = _calcFacade.findCalcBasicsAutopsy(id);
+        CalcBasicsAutopsy calcBasics = _calcAutopsyFacade.findCalcBasicsAutopsy(id);
         if (hasSufficientRights(calcBasics)) {
             return calcBasics;
         }
@@ -132,7 +134,7 @@ public class EditCalcBasicsAutopsy extends AbstractEditController implements Ser
     }
 
     private void initAutopsyItems(CalcBasicsAutopsy calcBasics) {
-        List<AutopsyServiceText> serviceTexts = _calcFacade.findAllServiceTexts();
+        List<AutopsyServiceText> serviceTexts = _calcAutopsyFacade.findAllServiceTexts();
         for (AutopsyServiceText serviceText : serviceTexts) {
             calcBasics.addAutopsyItem(serviceText);
         }
@@ -170,10 +172,8 @@ public class EditCalcBasicsAutopsy extends AbstractEditController implements Ser
     public List<SelectItem> getIks() {
         if (_ikItems == null) {
             boolean testMode = _appTools.isEnabled(ConfigKey.TestMode);
-            Set<Integer> iks = _calcFacade.obtainIks4NewBasics(
-                    CalcHospitalFunction.CalculationBasicsAutopsy, 
-                    _sessionController.getAccountId(), 
-                    Utils.getTargetYear(Feature.CALCULATION_HOSPITAL), testMode);
+            int year = Utils.getTargetYear(Feature.CALCULATION_HOSPITAL);
+            Set<Integer> iks = _calcAutopsyFacade.obtainIks4NewBasicsAutopsy(_sessionController.getAccountId(), year, testMode);
             if (_calcBasics != null && _calcBasics.getIk() > 0) {
                 iks.add(_calcBasics.getIk());
             }
@@ -192,7 +192,7 @@ public class EditCalcBasicsAutopsy extends AbstractEditController implements Ser
 
     public String save() {
         setModifiedInfo();
-        _calcBasics = _calcFacade.saveCalcBasicsAutopsy(_calcBasics);
+        _calcBasics = _calcAutopsyFacade.saveCalcBasicsAutopsy(_calcBasics);
 
         if (isValidId(_calcBasics.getId())) {
             // CR+LF or LF only will be replaced by "\r\n"
@@ -245,12 +245,12 @@ public class EditCalcBasicsAutopsy extends AbstractEditController implements Ser
         setModifiedInfo();
         // set as retired
         _calcBasics.setStatus(WorkflowStatus.Retired);
-        _calcFacade.saveCalcBasicsAutopsy(_calcBasics);
+        _calcAutopsyFacade.saveCalcBasicsAutopsy(_calcBasics);
 
         // create copy to edit (persist detached object with default Ids)
         _calcBasics.setStatus(WorkflowStatus.New);
         _calcBasics.setId(-1);
-        _calcFacade.saveCalcBasicsAutopsy(_calcBasics);
+        _calcAutopsyFacade.saveCalcBasicsAutopsy(_calcBasics);
         sendMessage("KVM Konkretisierung");
 
         return Pages.CalculationHospitalSummary.URL();
@@ -268,7 +268,7 @@ public class EditCalcBasicsAutopsy extends AbstractEditController implements Ser
         }
         setModifiedInfo();
         _calcBasics.setStatus(WorkflowStatus.Taken);
-        _calcFacade.saveCalcBasicsAutopsy(_calcBasics);
+        _calcAutopsyFacade.saveCalcBasicsAutopsy(_calcBasics);
         sendMessage("KVM Genehmigung");
 
         return Pages.CalculationHospitalSummary.URL();
@@ -301,14 +301,14 @@ public class EditCalcBasicsAutopsy extends AbstractEditController implements Ser
         if (_sessionController.isInekUser(Feature.CALCULATION_HOSPITAL) && !_appTools.isEnabled(ConfigKey.TestMode)) {
             return false;
         }
-        return !_calcFacade.existActiveCalcBasicsAutopsy(_calcBasics.getIk());
+        return !_calcAutopsyFacade.existActiveCalcBasicsAutopsy(_calcBasics.getIk());
     }
 
     public void copyForResend() {
         _calcBasics.setStatus(WorkflowStatus.Retired);
-        _calcFacade.saveCalcBasicsAutopsy(_calcBasics);
+        _calcAutopsyFacade.saveCalcBasicsAutopsy(_calcBasics);
 
-        _calcFacade.detach(_calcBasics);
+        _calcAutopsyFacade.detach(_calcBasics);
         _calcBasics.setId(-1);
         _calcBasics.setStatus(WorkflowStatus.New);
         _calcBasics.setAccountId(_sessionController.getAccountId());
@@ -318,7 +318,7 @@ public class EditCalcBasicsAutopsy extends AbstractEditController implements Ser
         }
         _calcBasics.setStatus(WorkflowStatus.CorrectionRequested);
         try {
-            _calcBasics = _calcFacade.saveCalcBasicsAutopsy(_calcBasics);
+            _calcBasics = _calcAutopsyFacade.saveCalcBasicsAutopsy(_calcBasics);
         } catch (Exception ex) {
             LOGGER.log(Level.WARNING, "Exception during setDataToNew: {0}", ex.getMessage());
         }
@@ -337,7 +337,7 @@ public class EditCalcBasicsAutopsy extends AbstractEditController implements Ser
         _calcBasics.setStatus(WorkflowStatus.Provided);
         setModifiedInfo();
         _calcBasics.setSealed(Calendar.getInstance().getTime());
-        _calcBasics = _calcFacade.saveCalcBasicsAutopsy(_calcBasics);
+        _calcBasics = _calcAutopsyFacade.saveCalcBasicsAutopsy(_calcBasics);
 
         TransferFileCreator.createCalcBasicsTransferFile(_sessionController, _calcBasics);
         
@@ -400,7 +400,7 @@ public class EditCalcBasicsAutopsy extends AbstractEditController implements Ser
         }
         _calcBasics.setStatus(WorkflowStatus.ApprovalRequested);
         setModifiedInfo();
-        _calcBasics = _calcFacade.saveCalcBasicsAutopsy(_calcBasics);
+        _calcBasics = _calcAutopsyFacade.saveCalcBasicsAutopsy(_calcBasics);
         return "";
     }
 
@@ -410,7 +410,7 @@ public class EditCalcBasicsAutopsy extends AbstractEditController implements Ser
         }
         _calcBasics.setAccountId(_sessionController.getAccountId());
         setModifiedInfo();
-        _calcBasics = _calcFacade.saveCalcBasicsAutopsy(_calcBasics);
+        _calcBasics = _calcAutopsyFacade.saveCalcBasicsAutopsy(_calcBasics);
         return "";
     }
 
