@@ -212,8 +212,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                     c.setDepartmentKey(ccc.getDepartmentKey());
                     return c;
                 }).forEachOrdered((c) -> {
-                    calcBasics.getCostCenterCosts().add(c);
-                });
+            calcBasics.getCostCenterCosts().add(c);
+        });
     }
 
     private void preloadNormalWard(DrgCalcBasics calcBasics) {
@@ -347,18 +347,20 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     private void preloadNeonat(DrgCalcBasics calcBasics) {
         calcBasics.setNeonatLvl(_priorCalcBasics.getNeonatLvl());
-        int headerId = _calcFacade.retrieveHeaderTexts(calcBasics.getDataYear(), 20, 0).get(0).getId();
-        _priorCalcBasics.getNeonateData().stream().filter(old -> old.getContentText().getHeaderTextId() == headerId).forEach(old -> {
-            Optional<DrgNeonatData> optDat = calcBasics.getNeonateData().stream().filter(nd -> nd.getContentTextId() == old.getContentTextId()).findFirst();
-            if (optDat.isPresent()) {
-                if (optDat.get().getContentText().getHeaderTextId() == 2) {
-                    optDat.get().setData(new BigDecimal(old.getData().intValue()));
-                } else {
-                    optDat.get().setData(old.getData());
-                }
 
-            }
-        });
+        int headerIdQuality = _calcFacade.retrieveHeaderTexts(calcBasics.getDataYear(), 20, 0).get(0).getId();
+        _priorCalcBasics.getNeonateData().stream().filter(old -> old.getContentText().getHeaderTextId() == headerIdQuality)
+                .forEach(old -> {
+                    Optional<DrgNeonatData> optDat = calcBasics.getNeonateData().stream()
+                            .filter(nd -> nd.getContentTextId() == old.getContentTextId()).findFirst();
+                    if (optDat.isPresent()) {
+                        if (old.getData() == null) {
+                            optDat.get().setData(new BigDecimal(0));
+                        } else {
+                            optDat.get().setData(old.getData());
+                        }
+                    }
+                });
     }
 
     private DrgCalcBasics loadCalcBasicsDrg(String idObject) {
@@ -1136,10 +1138,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     /**
-     * This function seals a statement od participance if possible. Sealing is
-     * possible, if all mandatory fields are fulfilled. After sealing, the
-     * statement od participance can not be edited anymore and is available for
-     * the InEK.
+     * This function seals a statement od participance if possible. Sealing is possible, if all mandatory fields are
+     * fulfilled. After sealing, the statement od participance can not be edited anymore and is available for the InEK.
      *
      * @return
      */
@@ -1206,7 +1206,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     public List<SelectItem> getIks() {
         if (_ikItems == null) {
             boolean testMode = _appTools.isEnabled(ConfigKey.TestMode);
-            Set<Integer> iks = _calcFacade.obtainIks4NewBasics(CalcHospitalFunction.CalculationBasicsDrg, 
+            Set<Integer> iks = _calcFacade.obtainIks4NewBasics(CalcHospitalFunction.CalculationBasicsDrg,
                     _sessionController.getAccountId(), Utils.getTargetYear(Feature.CALCULATION_HOSPITAL), testMode);
             if (_calcBasics != null && _calcBasics.getIk() > 0) {
                 iks.add(_calcBasics.getIk());
@@ -1360,7 +1360,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     @Inject private DataImporterPool importerPool;
 
-    public DataImporter<?,?> getImporter(String importerName) {
+    public DataImporter<?, ?> getImporter(String importerName) {
         return importerPool.getDataImporter(importerName.toLowerCase());
     }
 

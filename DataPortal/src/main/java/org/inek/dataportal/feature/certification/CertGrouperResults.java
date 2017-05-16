@@ -163,7 +163,6 @@ public class CertGrouperResults implements Serializable {
                 addTemplatesToList(temp, mts, CertMailType.Certified);
                 break;
             default:
-                throw new IllegalArgumentException("Unknown CertStatus: + " + _grouper.getCertStatus());
         }
         return temp;
     }
@@ -190,7 +189,6 @@ public class CertGrouperResults implements Serializable {
                     errors = _grouper.getCertError1();
                     break;
                 default:
-                    throw new IllegalArgumentException("Unknown CertStatus: + " + _grouper.getCertStatus());
             }
         }
         return errors;
@@ -233,7 +231,6 @@ public class CertGrouperResults implements Serializable {
                 mailType = CertMailType.Certified;
                 break;
             default:
-                throw new IllegalArgumentException("Unknown CertStatus: + " + _grouper.getCertStatus());
         }
         if (mailType == null) {
             return false;
@@ -654,7 +651,6 @@ public class CertGrouperResults implements Serializable {
                 }
                 break;
             default:
-                throw new IllegalArgumentException("Unknown CertStatus: + " + _grouper.getCertStatus());
         }
         try {
             Grouper savedGrouper = _grouperFacade.merge(_grouper);
@@ -789,7 +785,6 @@ public class CertGrouperResults implements Serializable {
                 _grouper.setCertification(null);
                 break;
             default:
-                throw new IllegalArgumentException("Unknown CertStatus: + " + _grouper.getCertStatus());
         }
         _grouperFacade.merge(_grouper);
         _grouper = _grouperFacade.find(_grouper.getId()); // re-init grouper object to avoid exception
@@ -849,7 +844,6 @@ public class CertGrouperResults implements Serializable {
                 }
                 break;
             default:
-                throw new IllegalArgumentException("Unknown CertStatus: + " + _grouper.getCertStatus());
         }
         return "mail_inactive.png";
     }
@@ -893,7 +887,6 @@ public class CertGrouperResults implements Serializable {
                 }
                 break;
             default:
-                throw new IllegalArgumentException("Unknown CertStatus: + " + _grouper.getCertStatus());
         }
         return "";
     }
