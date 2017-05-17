@@ -123,7 +123,7 @@ public class DocumentUpload implements Serializable {
 
     public List<Account> getAccounts() {
         // need to return a list rather then a set to keep order
-        return _accountRoles.keySet().stream().sorted((a1, a2) -> Boolean.compare(a2.isReportViaPortal(), a1.isReportViaPortal())).collect(Collectors.toList());
+        return _accountRoles.keySet().stream().sorted((a1, a2) -> Boolean.compare(a2.isSelected(), a1.isSelected())).collect(Collectors.toList());
     }
     // </editor-fold>
     
@@ -318,7 +318,7 @@ public class DocumentUpload implements Serializable {
                     break;
                 case IK:
                     for (Account account : _accountRoles.keySet()) {
-                        if (account.isReportViaPortal()){
+                        if (account.isSelected()){
                             storeDocument(accountDocument, account.getId());
                             accounts.add(account);
                         }

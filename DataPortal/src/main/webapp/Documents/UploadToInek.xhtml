@@ -50,7 +50,7 @@
                                  headerClass="list-header" id="tblAccounts"
                                  width="100%" rowClasses="row1, row2" columnClasses="colIcon, colValue, colValuem, colValue, colValue, colValue">                        
                         <h:column>
-                            <h:selectBooleanCheckbox value="#{account.reportViaPortal}">
+                            <h:selectBooleanCheckbox value="#{account.selected}">
                                 <f:ajax render=":logout:remaining"/>
                             </h:selectBooleanCheckbox>
                         </h:column>

@@ -443,31 +443,17 @@ public class Account implements Serializable, Person {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Transient Property ReportViaPortal">
+    // <editor-fold defaultstate="collapsed" desc="Transient Property Selected">
     @Transient
-    private boolean _reportViaPortal = true;
+    private boolean _selected = true;
 
-    public boolean isReportViaPortal() {
-        return _reportViaPortal;
+    public boolean isSelected() {
+        return _selected;
     }
 
-    public void setReportViaPortal(boolean reportViaPortal) {
-        _reportViaPortal = reportViaPortal;
+    public void setSelected(boolean selected) {
+        _selected = selected;
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Transient Property Tag">
-    @Transient
-    private String _tag = "";
-
-    public String getReportViaPortal() {
-        return _tag;
-    }
-
-    public void setReportViaPortal(String tag) {
-        _tag = tag;
-    }
-    // </editor-fold>
-
-    
 }
