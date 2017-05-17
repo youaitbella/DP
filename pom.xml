@@ -60,7 +60,10 @@
                             <goal>check</goal>
                         </goals>
                         <configuration>
+                            <suppressionsLocation>checkstyle-suppressions.xml</suppressionsLocation>
+                            <suppressionsFileExpression>checkstyle.suppressions.file</suppressionsFileExpression>
                             <configLocation>checkstyle-int-config.xml</configLocation>
+
                             <failsOnError>false</failsOnError>
                             <failOnViolation>false</failOnViolation>
                             <!-- use project source directory to exclude generated sources on /target dir -->
