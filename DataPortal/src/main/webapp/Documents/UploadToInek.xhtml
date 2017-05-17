@@ -19,7 +19,7 @@
                         element: document.getElementById('file-uploader'),
                         action: '/DataPortal/upload/document',
                         debug: true,
-                        allowedExtensions: [],
+                        allowedExtensions: ['png', 'jpg', 'pdf', 'txt', 'odt', 'doc', 'docx', 'odc', 'xls', 'xlsx'],
                         onSubmit: function (id, fileName) {
                             fileCounter++;
                         },
@@ -43,53 +43,35 @@
                 }
             </script>
 
+            <h:outputLabel value="Ansprechpartner" styleClass="label15 alignTop"/>
 
-            <h:panelGroup id="IK" rendered="#{documentUpload.documentTarget eq 'IK'}" styleClass="marginTop">
-                <div>
-                    <h:dataTable value="#{documentUpload.accounts}" var="account"
-                                 headerClass="list-header" id="tblAccounts"
-                                 width="100%" rowClasses="row1, row2" columnClasses="colIcon, colValue, colValuem, colValue, colValue, colValue">                        
-                        <h:column>
-                            <h:selectBooleanCheckbox value="#{account.selected}">
-                                <f:ajax render=":logout:remaining"/>
-                            </h:selectBooleanCheckbox>
-                        </h:column>
-                        <h:column>
-                            #{account.firstName}
-                        </h:column>
-                        <h:column>
-                            #{account.lastName}
-                        </h:column>
-                        <h:column>
-                            #{account.email}
-                        </h:column>
-                        <h:column>
-                            #{account.company}
-                        </h:column>
-                        <h:column>
-                            #{documentUpload.getRoles(account)}
-                        </h:column>
-                    </h:dataTable>
-                </div>
-            </h:panelGroup>
+            <div class="container10em inlineBlock">
+                <h:dataTable value="#{documentUpload.inekAccounts}" var="account"
+                             headerClass="list-header" id="tblAccounts"
+                             width="100%" rowClasses="row1, row2" columnClasses="colIcon, colValue, colValuem">                        
+                    <h:column>
+                        <h:selectBooleanCheckbox value="#{account.selected}">
+                            <f:ajax render=":logout:remaining"/>
+                        </h:selectBooleanCheckbox>
+                    </h:column>
+                    <h:column>
+                        #{account.firstName}
+                    </h:column>
+                    <h:column>
+                        #{account.lastName}
+                    </h:column>
+                </h:dataTable>
+            </div>
 
             <div class="inputPart">
-                <h:outputLabel value="#{msg.lblDomain}" styleClass="label20"/>
+                <h:outputLabel value="#{msg.lblDomain}" styleClass="label15"/>
                 <h:selectOneMenu id="domainId" value="#{documentUpload.domainId}" styleClass="inputmedium" hideNoSelectionOption="true" required="true">
                     <f:selectItem itemLabel="#{msg.lblChooseEntry}" itemValue="#{null}" noSelectionOption="true"/>
-                    <f:selectItems value="#{documentUpload.domains}" var="domain" itemLabel="#{domain.name}" itemValue="#{domain.id}"/>
+                    <f:selectItems value="#{documentUpload.publicDomains}" var="domain" itemLabel="#{domain.name}" itemValue="#{domain.id}"/>
                     <f:ajax render="sendButton :logout:remaining"/>
                 </h:selectOneMenu>
                 <h:message for="domainId" styleClass="errorMessage"/>
             </div>
-
-            <h:panelGroup id="lastDocs" rendered="#{documentUpload.lastDocuments.size() gt 0}" styleClass="marginTop">
-                <br/>
-                <h:outputLabel value="#{msg.lblLatestFiles}:" styleClass="label"/>
-                <ui:repeat value="#{documentUpload.lastDocuments}" var="name">
-                    <p>#{name}</p>
-                </ui:repeat>
-            </h:panelGroup>
 
             <hr/>
 
@@ -126,9 +108,9 @@
             </div>
 
             <div  class="marginTop">
-                <h:commandLink id="sendButton" styleClass="sendButton #{documentUpload.saveEnabled ? '' : 'buttonDisabled'}" 
-                               action="#{documentUpload.saveDocument}" 
-                               value="#{msg.btnStoreAndNotify}" immediate="true"
+                <h:commandLink id="sendButton" styleClass="sendButton #{documentUpload.saveForInekEnabled ? '' : 'buttonDisabled'}" 
+                               action="#{documentUpload.saveDocumentForInek}" 
+                               value="#{msg.btnSaveAndClose}" immediate="true"
                                disabled="#{!documentUpload.saveEnabled}"/>
             </div>
 

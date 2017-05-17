@@ -295,7 +295,9 @@ public class EditCalcBasicsAutopsy extends AbstractEditController implements Ser
     }
 
     public boolean isCopyForResendAllowed() {
-        if (_calcBasics.getStatusId() < 10 || _calcBasics.getStatusId() > 20 || !_appTools.isEnabled(ConfigKey.IsCalculationBasicsObdSendEnabled)) {
+        if (_calcBasics.getStatusId() < 10 
+                || _calcBasics.getStatusId() > 20 
+                || !_appTools.isEnabled(ConfigKey.IsCalculationBasicsObdSendEnabled)) {
             return false;
         }
         if (_sessionController.isInekUser(Feature.CALCULATION_HOSPITAL) && !_appTools.isEnabled(ConfigKey.TestMode)) {
@@ -311,7 +313,7 @@ public class EditCalcBasicsAutopsy extends AbstractEditController implements Ser
         _calcAutopsyFacade.detach(_calcBasics);
         _calcBasics.setId(-1);
         _calcBasics.setStatus(WorkflowStatus.New);
-        _calcBasics.setAccountId(_sessionController.getAccountId());
+        // do not set current account: _calcBasics.setAccountId(_sessionController.getAccountId()); 
         for (AutopsyItem item : _calcBasics.getAutopsyItems()) {
             item.setId(-1);
             item.setCalcBasicsAutopsyId(-1);

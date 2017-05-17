@@ -126,18 +126,26 @@ public class DocumentUpload implements Serializable {
         return _accountRoles.keySet().stream().sorted((a1, a2) -> Boolean.compare(a2.isSelected(), a1.isSelected())).collect(Collectors.toList());
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property InekAccounts">
-    private List<Account> _inekAccounts = new ArrayList<>();
+    private final List<Account> _inekAccounts = new ArrayList<>();
 
     public List<Account> getInekAccounts() {
-        if (_inekAccounts.isEmpty()){
-            _inekAccounts = _accountFacade.getInekAccounts();
+        if (_inekAccounts.isEmpty()) {
+            for (Account account : _accountFacade.getInekContacts(_sessionController.getAccount())) {
+                account.setSelected(true);
+                _inekAccounts.add(account);
+            }
+            for (Account account : _accountFacade.getInekAccounts()) {
+                if (!_inekAccounts.contains(account)) {
+                    _inekAccounts.add(account);
+                }
+            }
         }
         return _inekAccounts;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property AvailableUntil">
     private int _availability = 60;
 
@@ -186,6 +194,10 @@ public class DocumentUpload implements Serializable {
 
     public List<DocumentDomain> getDomains() {
         return _domainFacade.findAll();
+    }
+
+    public List<DocumentDomain> getPublicDomains() {
+        return _domainFacade.findAll().stream().filter(d -> d.isPublicUsable()).collect(Collectors.toList());
     }
 
     public String getRoles(Account account) {
@@ -296,6 +308,11 @@ public class DocumentUpload implements Serializable {
                 || _documentTarget == DocumentTarget.IK && _ik > 0);
     }
 
+    public boolean isSaveForInekEnabled() {
+        return _documents.size() > 0
+                && _domain != null;
+    }
+
     public String saveDocument() {
         if (_documents.isEmpty()) {
             return "";
@@ -318,7 +335,7 @@ public class DocumentUpload implements Serializable {
                     break;
                 case IK:
                     for (Account account : _accountRoles.keySet()) {
-                        if (account.isSelected()){
+                        if (account.isSelected()) {
                             storeDocument(accountDocument, account.getId());
                             accounts.add(account);
                         }
@@ -326,6 +343,29 @@ public class DocumentUpload implements Serializable {
                     break;
                 default:
                     break;
+            }
+        }
+        for (Account account : accounts) {
+            sendNotification(account);
+        }
+        _documents.clear();
+        loadLastDocuments();
+        return "";
+    }
+
+    public String saveDocumentForInek() {
+        if (_documents.isEmpty()) {
+            return "";
+        }
+        Set<Account> accounts = new HashSet<>();
+        for (AccountDocument accountDocument : _documents) {
+            accountDocument.setValidity(_availability);
+
+            for (Account account : _inekAccounts) {
+                if (account.isSelected()) {
+                    storeDocument(accountDocument, account.getId());
+                    accounts.add(account);
+                }
             }
         }
         for (Account account : accounts) {

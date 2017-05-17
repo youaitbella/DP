@@ -18,7 +18,7 @@ body {
 
 .container10em,
 .container { 
-    border: 2px solid #7F9BAF; 
+    border: 1px solid #7F9BAF; 
     overflow: auto;
 }
 

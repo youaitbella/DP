@@ -445,7 +445,7 @@ public class Account implements Serializable, Person {
 
     // <editor-fold defaultstate="collapsed" desc="Transient Property Selected">
     @Transient
-    private boolean _selected = true;
+    private boolean _selected;
 
     public boolean isSelected() {
         return _selected;

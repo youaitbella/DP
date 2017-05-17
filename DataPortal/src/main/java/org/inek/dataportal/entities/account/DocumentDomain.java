@@ -40,6 +40,20 @@ public class DocumentDomain implements Serializable {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Property PublicUsable">
+    @Column(name = "ddIsPublic")
+    private boolean _publicUsable;
+    
+    public boolean isPublicUsable() {
+        return _publicUsable;
+    }
+
+    public void setPublicUsable(boolean publicUsable) {
+        _publicUsable = publicUsable;
+    }
+    // </editor-fold>
+    
+    
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public int hashCode() {
@@ -61,5 +75,5 @@ public class DocumentDomain implements Serializable {
         return "DocumentDomain[id=" + _id + "; name=" + _name + "]";
     }
     // </editor-fold>
-    
+
 }

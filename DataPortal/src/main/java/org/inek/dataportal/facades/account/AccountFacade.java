@@ -389,26 +389,33 @@ public class AccountFacade extends AbstractFacade<Account> {
                 + "from dbo.Account \n"
                 + "join CallCenterDB.dbo.ccAgent on agEMail = acMail\n"
                 + "where agActive = 1\n" //  and agDomainId in ('O', 'E', 'M')
-                + "order by acLastName    ";
+                + "order by acLastName";
         Query query = getEntityManager().createNativeQuery(sql, Account.class);
         @SuppressWarnings("unchecked") List<Account> result = query.getResultList();
         return result;
     }
 
-    public List<Account> getInekAccounts(List<Integer> iks) {
-        String sql = "select cuIk, account.* \n"
+    @SuppressWarnings("unchecked")
+    public List<Account> getInekContacts(Account account) {
+        Set<Integer> iks = account.getFullIkList();
+        if (iks.isEmpty()) {
+            return Collections.EMPTY_LIST;
+        }
+        String sql = "select account.* \n"
                 + "from dbo.Account \n"
                 + "join CallCenterDB.dbo.ccAgent on agEMail = acMail\n"
-                + "left join (\n"
+                + "join (\n"
                 + "    select distinct cuIk, mcraAgentId\n"
                 + "    from CallCenterDB.dbo.ccCustomer \n"
                 + "    join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
                 + "    join CallCenterDB.dbo.ccCalcInformation on caId = ciCalcAgreementId\n"
                 + "    join CallCenterDB.dbo.mapCustomerReportAgent on ciId = mcraCalcInformationId\n"
-                + "	where ciDataYear = 2016 and cuIK in (261101015)\n"
+                + "where ciDataYear = 2016 \n"
+                + "    and cuIK in (" + iks.stream().map(i -> "" + i).collect(Collectors.joining(", ")) + ")\n"
                 + ") d on agId = mcraAgentId\n"
-                + "where agActive = 1 and agDomainId in ('O', 'E', 'M')\n"
-                + "order by -sign(isnull(cuIk, 0)), acLastName    ";
-        return Collections.EMPTY_LIST;
+                + "where agActive = 1 \n"
+                + "order by acLastName";
+        Query query = getEntityManager().createNativeQuery(sql, Account.class);
+        return query.getResultList();
     }
 }

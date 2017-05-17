@@ -550,7 +550,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
             }
         }
 
-        _calcBasics.setAccountId(_sessionController.getAccountId());
+        // do not set current account: _calcBasics.setAccountId(_sessionController.getAccountId());
 
         _calcBasics.setStatus(WorkflowStatus.CorrectionRequested);
         try {
