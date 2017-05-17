@@ -189,11 +189,10 @@ public enum Pages {
     AdminTaskChangeNub("/Admin/AdminTaskChangeNub"),
     AdminTaskUploadDoc("/Admin/AdminTaskUploadDoc"),
     //
+    DocumentsSummary("/Documents/DocumentsSummary"),
     DocumentUploadFromInek("/Documents/UploadFromInek"),
     DocumentUploadToInek("/Documents/UploadToInek"),
     DocumentsApproval("/Documents/Approval"),
-    DocumentsList("/Documents/List"),
-    DocumentsSummary("/Documents/DocumentsSummary"),
     ListDocuments("/Documents/ListDocuments"),
     DocumentsViewer("/Documents/Viewer");
 

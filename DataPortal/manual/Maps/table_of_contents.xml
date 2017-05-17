@@ -67,6 +67,12 @@
     </topicref>
     <topicref type="topic" id="416693941611566" build="ALL" modified="2014-01-30T13:09:44.382Z" icon="0" href="documents">
       <caption translate="true">Dokumente</caption>
+      <topicref type="topic" id="428727410845465" build="ALL" modified="2017-05-17T14:11:16.877Z" icon="0" href="ReceivedDocuments">
+        <caption translate="true">Erhaltene Dokumente</caption>
+      </topicref>
+      <topicref type="topic" id="428726206709457" build="ALL" modified="2017-05-17T13:29:43.963Z" icon="0" href="UploadDocumentForInek">
+        <caption translate="true">Dokumente an das InEK senden</caption>
+      </topicref>
     </topicref>
     <topicref type="topic" id="424514152763834" build="USER2" modified="2016-03-22T12:01:49.408Z" icon="0" href="Dokumente---Managersicht">
       <caption translate="true">Dokumente - Managersicht</caption>

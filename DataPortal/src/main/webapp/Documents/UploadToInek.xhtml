@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                template="Manager.xhtml"
+                template="DocumentsSummary.xhtml"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
@@ -19,7 +19,7 @@
                         element: document.getElementById('file-uploader'),
                         action: '/DataPortal/upload/document',
                         debug: true,
-                        allowedExtensions: ['png', 'jpg', 'pdf', 'txt', 'odt', 'doc', 'docx', 'odc', 'xls', 'xlsx'],
+                        allowedExtensions: ['png', 'jpg', 'pdf', 'txt', 'odt', 'doc', 'docx', 'odc', 'xls', 'xlsx', 'csv', 'gpg', 'inek'],
                         onSubmit: function (id, fileName) {
                             fileCounter++;
                         },
@@ -43,9 +43,11 @@
                 }
             </script>
 
+            <h3>Bitte beachten Sie im Handbuch das Kapitel <em>Dokumente an das InEK senden</em>!</h3>
+            <hr/>
             <h:outputLabel value="Ansprechpartner" styleClass="label15 alignTop"/>
 
-            <div class="container10em inlineBlock">
+            <div class="container10em inlineBlock inputmedium">
                 <h:dataTable value="#{documentUpload.inekAccounts}" var="account"
                              headerClass="list-header" id="tblAccounts"
                              width="100%" rowClasses="row1, row2" columnClasses="colIcon, colValue, colValuem">                        
@@ -55,10 +57,10 @@
                         </h:selectBooleanCheckbox>
                     </h:column>
                     <h:column>
-                        #{account.firstName}
+                        #{account.lastName}
                     </h:column>
                     <h:column>
-                        #{account.lastName}
+                        #{account.firstName}
                     </h:column>
                 </h:dataTable>
             </div>
@@ -108,10 +110,12 @@
             </div>
 
             <div  class="marginTop">
-                <h:commandLink id="sendButton" styleClass="sendButton #{documentUpload.saveForInekEnabled ? '' : 'buttonDisabled'}" 
+                <h:commandLink id="sendButton" 
+                               styleClass="sendButton #{documentUpload.saveForInekEnabled ? '' : 'buttonDisabled'}" 
                                action="#{documentUpload.saveDocumentForInek}" 
-                               value="#{msg.btnSaveAndClose}" immediate="true"
-                               disabled="#{!documentUpload.saveEnabled}"/>
+                               value="#{msg.btnSaveAndClose}" 
+                               immediate="true"
+                               disabled="#{!documentUpload.saveForInekEnabled}"/>
             </div>
 
         </h:form>

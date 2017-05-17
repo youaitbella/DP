@@ -368,11 +368,11 @@ public class DocumentUpload implements Serializable {
                 }
             }
         }
+        _mailTemplate = "Neue Dokumente";  // fixed template
         for (Account account : accounts) {
             sendNotification(account);
         }
         _documents.clear();
-        loadLastDocuments();
         return "";
     }
 

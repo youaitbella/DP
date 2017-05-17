@@ -5,8 +5,8 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:ez="http://xmlns.jcp.org/jsf/composite/components"
-
-                xmlns:c="http://java.sun.com/jsp/jstl/core">
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf">
 
     <ui:define name="title">
         title
@@ -15,9 +15,23 @@
     <ui:define name="content">
         <h1>#{msg.lblDocuments}</h1>
 
-        <h:form id="form">
-            <ui:include src="#{sessionTools.pages.ListDocuments}"/>
+        <h:form id="tabs">
+            <h:panelGroup styleClass="tab" layout="block">
+                <ul class="tab">
+                    <c:forEach items="#{documentsEditController.visibleTopics}" var="topic">
+                        <li class="#{topic.active ? 'activetab' : 'tab'}">
+                            <h:commandLink value="#{topic.title}" action="#{documentsEditController.changeTabPage(topic.key)}"
+                                           immediate="true">
+                            </h:commandLink>
+                        </li>
+                    </c:forEach>
+                </ul>
+            </h:panelGroup>
         </h:form>
+        
+        <div class="edit" >
+            <ui:insert name="documentContent" >Content</ui:insert>
+        </div>
         
     </ui:define>
 

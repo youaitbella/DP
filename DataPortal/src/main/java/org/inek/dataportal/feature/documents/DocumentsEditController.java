@@ -29,15 +29,18 @@ public class DocumentsEditController extends AbstractEditController {
     @Override
     protected void addTopics() {
         if (_sessionController.isInekUser(Feature.DOCUMENTS)) {
-            addTopic(DocumentsTabs.tabDocuments.name(), Pages.DocumentsList.URL());
+            addTopic(DocumentsTabs.tabDocuments.name(), Pages.ListDocuments.URL());
             addTopic(DocumentsTabs.tabApproval.name(), Pages.DocumentsApproval.URL());
             if (_sessionController.isInternalClient()) {
                 addTopic(DocumentsTabs.tabUploadFromInek.name(), Pages.DocumentUploadFromInek.URL());
                 addTopic(DocumentsTabs.tabViewUploaded.name(), Pages.DocumentsViewer.URL());
             }
-            if (_sessionController.isInekUser(Feature.ADMIN)){
+            if (_sessionController.isInekUser(Feature.ADMIN)) {
                 addTopic(DocumentsTabs.tabUploadToInek.name(), Pages.DocumentUploadToInek.URL());
             }
+        } else {
+            addTopic(DocumentsTabs.tabDocuments.name(), Pages.ListDocuments.URL());
+            addTopic(DocumentsTabs.tabUploadToInek.name(), Pages.DocumentUploadToInek.URL());
         }
     }
 

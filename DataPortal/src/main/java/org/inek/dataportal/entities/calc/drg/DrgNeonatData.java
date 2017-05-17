@@ -94,24 +94,29 @@ public class DrgNeonatData implements Serializable, BaseIdValue {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Data">
-    @Column(name = "ndData", precision=10, scale=1)
+    @Column(name = "ndData", precision = 10, scale = 1)
     @Documentation(name = "Wert", rank = 200)
-    private BigDecimal _data = new BigDecimal(0);  
+    private BigDecimal _data = new BigDecimal(0);
+
     public BigDecimal getData() {
         return _data;
     }
 
     public void setData(BigDecimal data) {
-        _data = data;
+        if (data == null) {
+            _data = new BigDecimal(0);
+        } else {
+            _data = data;
+        }
     }
-    
+
     // conveniance method for int values
     @JsonIgnore
-    public int getIntValue(){
+    public int getIntValue() {
         return _data.intValueExact();
     }
-    
-    public void setIntValue(int val){
+
+    public void setIntValue(int val) {
         _data = new BigDecimal(val);
     }
     // </editor-fold>
@@ -121,7 +126,9 @@ public class DrgNeonatData implements Serializable, BaseIdValue {
     public int hashCode() {
         int hash = 7;
         hash = 53 * hash + this._id;
-        if (this._id != -1) return hash;
+        if (this._id != -1) {
+            return hash;
+        }
         hash = 53 * hash + this._baseInformationId;
         hash = 53 * hash + this._contentTextId;
         hash = 53 * hash + Objects.hashCode(this._contentText);
@@ -140,9 +147,11 @@ public class DrgNeonatData implements Serializable, BaseIdValue {
             return false;
         }
         final DrgNeonatData other = (DrgNeonatData) obj;
-        
-        if (this._id != -1 && other._id == this._id) return true;
-        
+
+        if (this._id != -1 && other._id == this._id) {
+            return true;
+        }
+
         if (this._id != other._id) {
             return false;
         }

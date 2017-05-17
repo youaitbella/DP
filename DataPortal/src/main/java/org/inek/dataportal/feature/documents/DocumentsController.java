@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.inek.dataportal.feature.documents;
 
 import org.inek.dataportal.controller.AbstractFeatureController;
@@ -18,18 +17,14 @@ import org.inek.dataportal.helper.Utils;
  * @author vohldo
  */
 public class DocumentsController extends AbstractFeatureController {
-    
+
     public DocumentsController(SessionController sessionController) {
         super(sessionController);
     }
-    
+
     @Override
     protected void addTopics(Topics topics) {
-        if (getSessionController().isInekUser(Feature.DOCUMENTS)) {
-            topics.addTopic(Utils.getMessage("lblDocuments"), Pages.DocumentsList.URL());
-        } else {
-            topics.addTopic(Utils.getMessage("lblDocuments"), Pages.DocumentsSummary.URL());
-        }
+        topics.addTopic(Utils.getMessage("lblDocuments"), Pages.ListDocuments.URL());
     }
 
     @Override
