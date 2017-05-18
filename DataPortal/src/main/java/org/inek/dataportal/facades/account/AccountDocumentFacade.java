@@ -36,26 +36,27 @@ public class AccountDocumentFacade extends AbstractFacade<AccountDocument> {
         @SuppressWarnings("unchecked") List<Object[]> objects = query.getResultList();
         List<DocInfo> docInfos = new ArrayList<>();
         for (Object[] obj : objects) {
-            docInfos.add(new DocInfo((int) obj[0], (String) obj[1], (String) obj[2], (Date) obj[3], (Date) obj[4], (boolean) obj[5], (int) obj[6], (int) obj[7], "", ""));
+            docInfos.add(new DocInfo((int) obj[0], (String) obj[1], (String) obj[2], (Date) obj[3], (Date) obj[4], 
+                    (boolean) obj[5], (int) obj[6], (int) obj[7], "", ""));
         }
         return docInfos;
     }
 
-    public List<DocInfo> getSupervisedDocInfos(int accountId, String filter, int maxAge) {
+    public List<DocInfo> getSupervisedDocInfos(List<Integer> accountIds, String filter, int maxAge) {
         String jpql = "SELECT d._id, d._name, dd._name, d._created, null, d._read, d._accountId, d._agentAccountId, "
                 + "    a._ik, concat (a._company, ' ', a._town, ' (', a._firstName, ' ', a._lastName, ')') "
                 + "FROM AccountDocument d "
                 + "join DocumentDomain dd "
                 + "join Account a "
                 + "WHERE d._domainId = dd._id and d._accountId = a._id "
-                + (accountId < 0 ? "" : "and d._agentAccountId = :accountId ")
-                + "and d._created > :refDate "
-                + (filter.isEmpty() ? "" : " and (d._name like :filter or a._ik = :numFilter or a._company like :filter or a._town like :filter or dd._name like :filter)")
+                + "  and d._agentAccountId in :accountIds "
+                + "  and d._created > :refDate "
+                + (filter.isEmpty() 
+                ? "" 
+                : " and (d._name like :filter or a._ik = :numFilter or a._company like :filter or a._town like :filter or dd._name like :filter)")
                 + "ORDER BY d._read, d._created DESC";
         Query query = getEntityManager().createQuery(jpql); //.setMaxResults(100);
-        if (accountId >= 0) {
-            query.setParameter("accountId", accountId);
-        }
+        query.setParameter("accountIds", accountIds);
         if (!filter.isEmpty()) {
             int numFilter;
             try {
@@ -71,7 +72,9 @@ public class AccountDocumentFacade extends AbstractFacade<AccountDocument> {
         @SuppressWarnings("unchecked") List<Object[]> objects = query.getResultList();
         List<DocInfo> docInfos = new ArrayList<>();
         for (Object[] obj : objects) {
-            docInfos.add(new DocInfo((int) obj[0], (String) obj[1], (String) obj[2], (Date) obj[3], (Date) obj[4], (boolean) obj[5], (int) obj[6], (int) obj[7], "", obj[8] + " " + obj[9]));
+            docInfos.add(new DocInfo((int) obj[0], (String) obj[1], (String) obj[2], (Date) obj[3], (Date) obj[4], 
+                    (boolean) obj[5], (int) obj[6], (int) obj[7], "", 
+                    ((int)obj[8] < 0 ? "" : obj[8] + " ") + obj[9]));
         }
         return docInfos;
     }
@@ -80,7 +83,8 @@ public class AccountDocumentFacade extends AbstractFacade<AccountDocument> {
     public List<SelectItem> getSupervisingAccounts(int maxAge) {
         String sql = "select acId, acLastName + ', ' + acFirstName as AgentName \n"
                 + "from account \n"
-                + "where acId in (\n"
+                + "where acMail like '%@inek-drg.de'\n"
+                + "  and acId in (\n"
                 + "    select adAgentAccountId \n"
                 + "    from AccountDocument \n"
                 + "    where adAgentAccountId > 0\n"
@@ -148,6 +152,16 @@ public class AccountDocumentFacade extends AbstractFacade<AccountDocument> {
         persist(accountDocument);
         clearCache();
         return findFresh(accountDocument.getId());
+    }
+
+    public List<Integer> getAgentIds() {
+        String sql = "select acId \n"
+                + "from dbo.Account \n"
+                + "join CallCenterDB.dbo.ccAgent on agEMail = acMail\n"
+                + "where agActive = 1\n";
+        Query query = getEntityManager().createNativeQuery(sql);
+        @SuppressWarnings("unchecked") List<Integer> result = query.getResultList();
+        return result;
     }
 
 }

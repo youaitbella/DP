@@ -202,7 +202,8 @@ public class SessionController implements Serializable {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         Map<String, Object> map = facesContext.getExternalContext().getSessionMap();
         @SuppressWarnings("unchecked")
-        Map<String, Conversation> conversations = (Map<String, Conversation>) map.get("org.jboss.weld.context.ConversationContext.conversations");
+        Map<String, Conversation> conversations = 
+                (Map<String, Conversation>) map.get("org.jboss.weld.context.ConversationContext.conversations");
         if (conversations == null) {
             return;
         }
@@ -276,7 +277,6 @@ public class SessionController implements Serializable {
      * @return
      */
     public boolean loginAndSetTopics(String mailOrUser, String password) {
-        String sessionId = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()).changeSessionId();
         //invalidateSession();
         login(mailOrUser, password);
         setTopics();
@@ -298,7 +298,8 @@ public class SessionController implements Serializable {
             return false;
         }
 
-        int sessionTimeout = (_account.getEmail().toLowerCase().endsWith("@inek-drg.de") && isInternalClient()) ? 36000 : 1800; // session timeout extended to 10 hour for internal user
+        int sessionTimeout = (_account.getEmail().toLowerCase().endsWith("@inek-drg.de") 
+                && isInternalClient()) ? 36000 : 1800; // session timeout extended to 10 hour for internal user
         FacesContext.getCurrentInstance().getExternalContext().setSessionMaxInactiveInterval(sessionTimeout);
         return true;
     }
@@ -345,7 +346,9 @@ public class SessionController implements Serializable {
         for (AccountFeature accFeature : _account.getFeatures()) {
             hasMaintenance |= accFeature.getFeature() == Feature.USER_MAINTENANCE;
             hasDocument |= accFeature.getFeature() == Feature.DOCUMENTS;
-            if (_appTools.isFeatureEnabled(accFeature.getFeature()) && (accFeature.getFeatureState() == FeatureState.SIMPLE || accFeature.getFeatureState() == FeatureState.APPROVED)) {
+            if (_appTools.isFeatureEnabled(accFeature.getFeature()) 
+                    && (accFeature.getFeatureState() == FeatureState.SIMPLE 
+                    || accFeature.getFeatureState() == FeatureState.APPROVED)) {
                 features.put(accFeature.getSequence(), accFeature.getFeature());
             }
         }
@@ -513,7 +516,8 @@ public class SessionController implements Serializable {
             return true;
         }
         if (log) {
-            LOGGER.log(Level.WARNING, "Account {0} tried to access object from account {1}", new Object[]{_account.getId(), accountId});
+            LOGGER.log(Level.WARNING, "Account {0} tried to access object from account {1}", 
+                    new Object[]{_account.getId(), accountId});
         }
         return false;
     }
@@ -664,7 +668,8 @@ public class SessionController implements Serializable {
     public void hideData(boolean enabled) {
         if (!enabled) {
             String msg = "Sie haben gerade einen Bereich, der möglicherweise Daten enthält, ausgeblendet. "
-                    + "Sofern dieser Daten enthält, bleiben diese vorerst erhalten, so dass diese zur Verfügung stehen, wenn Sie den Bereich wieder aktivieren. "
+                    + "Sofern dieser Daten enthält, bleiben diese vorerst erhalten, "
+                    + "so dass diese zur Verfügung stehen, wenn Sie den Bereich wieder aktivieren. "
                     + "Sobald Sie die Daten an das InEK senden, werden diese bereinigt.";
             //Utils.showMessageInBrowser(msg);
             setScript("alert('" + msg + "');");

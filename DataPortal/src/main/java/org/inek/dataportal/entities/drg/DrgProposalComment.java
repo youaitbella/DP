@@ -100,7 +100,8 @@ public class DrgProposalComment implements Serializable {
             return false;
         }
         DrgProposalComment other = (DrgProposalComment) object;
-        if ((_drgProposalCommentId == null && other.getDrgProposalCommentId()!= null) || (_drgProposalCommentId != null && !_drgProposalCommentId.equals(other.getDrgProposalCommentId()))) {
+        if ((_drgProposalCommentId == null && other.getDrgProposalCommentId()!= null) 
+                || _drgProposalCommentId != null && !_drgProposalCommentId.equals(other.getDrgProposalCommentId())) {
             return false;
         }
         return true;

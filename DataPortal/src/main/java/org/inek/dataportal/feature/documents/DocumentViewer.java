@@ -1,6 +1,7 @@
 package org.inek.dataportal.feature.documents;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -76,7 +77,7 @@ public class DocumentViewer implements Serializable {
             case "document":
                 return _documents.stream().sorted((n1, n2) -> direction * n1.getName().compareTo(n2.getName())).collect(Collectors.toList());
             case "date":
-                return _documents.stream().sorted((n1, n2) -> direction * n1.getLongCreatedString().compareTo(n2.getLongCreatedString())).collect(Collectors.toList());
+                return _documents.stream().sorted((n1, n2) -> direction * n1.getCreated().compareTo(n2.getCreated())).collect(Collectors.toList());
             case "read":
                 return _documents.stream().sorted((n1, n2) -> direction * Boolean.compare(n1.isRead(), n2.isRead())).collect(Collectors.toList());
             default:
@@ -92,12 +93,13 @@ public class DocumentViewer implements Serializable {
         if (!_documents.isEmpty()) {
             return;
         }
-//        if (_sessionController.isInekUser(Feature.ADMIN)) {
-//            _documents = _accountDocFacade.getSupervisedDocInfos(-1, _filter, _maxAge);
-//        } else {
-//            _documents = _accountDocFacade.getSupervisedDocInfos(_sessionController.getAccountId(), _filter, _maxAge);
-//        }
-        _documents = _accountDocFacade.getSupervisedDocInfos(_agentId, _filter, _maxAge);
+        List<Integer> agentIds = new ArrayList<>();
+        if (_agentId > 0) {
+            agentIds.add(_agentId);
+        } else {
+            agentIds = _accountDocFacade.getAgentIds();
+        }
+        _documents = _accountDocFacade.getSupervisedDocInfos(agentIds, _filter, _maxAge);
     }
 
     public boolean renderDocList() {

@@ -576,7 +576,8 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     //<editor-fold defaultstate="collapsed" desc="minimalValvularIntervention">
     @Column(name = "biMinimalValvularIntervention")
 
-    @Documentation(name = "KH führt minimalinvasiven Herzklappeninterventionen durch", rank = 17000, headline = "Ergänzende Angaben zur minimalinvasiven Herzklappeninterventionen")
+    @Documentation(name = "KH führt minimalinvasiven Herzklappeninterventionen durch", rank = 17000, 
+            headline = "Ergänzende Angaben zur minimalinvasiven Herzklappeninterventionen")
     private boolean _minimalValvularIntervention;
 
     public boolean isMinimalValvularIntervention() {
@@ -714,7 +715,8 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     //<editor-fold defaultstate="collapsed" desc="Property IBLVMethodMedInfra">
     @Column(name = "biIBLVMethodMedInfra")
 
-    @Documentation(name = "Gewähltes Verfahren bei Durchführung der IBLV", headline = "Ergänzende Angaben zur innerbetrieblichen Leistungsverrechnung (medizinische Infrastruktur)", rank = 14000)
+    @Documentation(name = "Gewähltes Verfahren bei Durchführung der IBLV", 
+            headline = "Ergänzende Angaben zur innerbetrieblichen Leistungsverrechnung (medizinische Infrastruktur)", rank = 14000)
     private int _iblvMethodMedInfra;
 
     public int getIblvMethodMedInfra() {
@@ -771,7 +773,8 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     //<editor-fold defaultstate="collapsed" desc="strokeBed">
     @Column(name = "biStrokeBed")
 
-    @Documentation(name = "Das Krankenhaus hat Intensivbetten zur Behandlung des akuten Schlaganfalls", rank = 14000, translateValue = "0=Nein;1=Ja", headline = "Ergänzende Angaben zur Stroke Unit")
+    @Documentation(name = "Das Krankenhaus hat Intensivbetten zur Behandlung des akuten Schlaganfalls", 
+            rank = 14000, translateValue = "0=Nein;1=Ja", headline = "Ergänzende Angaben zur Stroke Unit")
     private boolean _strokeBed;
 
     public boolean isStrokeBed() {
@@ -1102,7 +1105,9 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
         return _medInfras.stream().filter(c -> c.getCostTypeId() == 170).collect(Collectors.toList());
     }
 
-    @Documentation(name = "Kostenstellen", headline = "Ergänzende Angaben zur innerbetrieblichen Leistungsverrechnung (nicht medizinische Infrastruktur)", rank = 15000)
+    @Documentation(name = "Kostenstellen", 
+            headline = "Ergänzende Angaben zur innerbetrieblichen Leistungsverrechnung (nicht medizinische Infrastruktur)", 
+            rank = 15000)
     @JsonIgnore
     public List<KGLListMedInfra> getMedInfras180() {
         return _medInfras.stream().filter(c -> c.getCostTypeId() == 180).collect(Collectors.toList());
@@ -1126,7 +1131,8 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     @JoinColumn(name = "paBaseInformationId", referencedColumnName = "biID")
     @OrderBy(value = "_costTypeId")
 
-    @Documentation(name = "Verfahren Personalkostenverrechnung", rank = 17000, headline = "Ergänzende Angaben zur Personalkostenverrechnung")
+    @Documentation(name = "Verfahren Personalkostenverrechnung", rank = 17000, 
+            headline = "Ergänzende Angaben zur Personalkostenverrechnung")
     private List<KGLPersonalAccounting> _personalAccountings = new Vector<>();
 
     public List<KGLPersonalAccounting> getPersonalAccountings() {
@@ -1155,7 +1161,8 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     //<editor-fold defaultstate="collapsed" desc="neonatLvl">
     @Column(name = "biNeonatLvl")
 
-    @Documentation(name = "Versorgungsstufe des Perinatalzentrums", headline = "Ergänzende Angaben zur Neonatologischen Versorgung", rank = 19000)
+    @Documentation(name = "Versorgungsstufe des Perinatalzentrums", 
+            headline = "Ergänzende Angaben zur Neonatologischen Versorgung", rank = 19000)
     private int _neonatLvl;
 
     public int getNeonatLvl() {
@@ -1207,7 +1214,8 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
         return _normalStationServiceDocumentationMinutes;
     }
 
-    public void setNormalStationServiceDocumentationMinutes(List<KGLNormalStationServiceDocumentationMinutes> normalStationServiceDocumentationMinutes) {
+    public void setNormalStationServiceDocumentationMinutes(
+            List<KGLNormalStationServiceDocumentationMinutes> normalStationServiceDocumentationMinutes) {
         this._normalStationServiceDocumentationMinutes = normalStationServiceDocumentationMinutes;
     }
 
