@@ -72,7 +72,7 @@ public class IcmtUpdater extends AbstractDataAccess {
                 + "from calc.StatementOfParticipance \n"
                 + "join CallCenterDB.dbo.ccCustomer on sopIk = cuik \n"
                 + "join CallCenterDB.dbo.ccCalcAgreement on cuid = caCustomerId and caCalcTypeId = " + calcType + " \n"
-                + "left join CallCenterDB.dbo.ccCalcInformation on caID = ciCalcAgreementId \n"
+                + "left join CallCenterDB.dbo.ccCalcInformation on caID = ciCalcAgreementId and ciDataYear = (select max(ldyDataYear) from CallCenterDB.dbo.listDataYear) \n"
                 + "where 1=1 \n"
                 + "and sopIs" + column + " = 1 \n"
                 + "and caHasAgreement = 1 \n"
