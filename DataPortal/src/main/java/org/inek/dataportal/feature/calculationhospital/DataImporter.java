@@ -795,6 +795,134 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
                         KGLListIntensivStroke.class
                 );
             //</editor-fold>
+            case "drgstrokeunit":
+                //<editor-fold defaultstate="collapsed" desc="new DataImporter Intensive">
+                return new DataImporter<KGLListIntensivStroke, DrgCalcBasics>(
+                        "Intensivstation;FAB;Anzahl_Betten;Anzahl_Fälle;Mindestmerkmale_OPS_8-981_erfüllt;"
+                        + "Mindestmerkmale_OPS_8-98b_erfüllt;Mindestmerkmale_nur_erfüllt_im_Zeitabschnitt;"
+                        + "Summe_gewichtete_Intensivstunden;Summe_ungewichtete_Intensivstunden;"
+                        + "Minimum;Maximum;Erläuterung;Vollkraft_ÄD;Vollkraft_PD;Vollkraft_FD;"
+                        + "Kosten_ÄD;Kosten_PD;Kosten_FD;Kosten_GK_Arzneimittel;Kosten_GK_med_Sachbedarf;"
+                        + "Kosten_med_Infra;Kosten_nicht_med_Infra",
+                        new FileHolder("StrokeUnit.csv"),
+                        ErrorCounter.obtainErrorCounter("DRG_STROKE_UNIT"),
+                        Arrays.asList(
+                                new DataImportCheck<KGLListIntensivStroke, String>(
+                                        ErrorCounter.obtainErrorCounter("DRG_STROKE_UNIT"),
+                                        DataImportCheck::tryImportString,
+                                        (i, s) -> i.setCostCenterText(s),
+                                        "Kein zulässiger Intensivstationsname:  "),
+                                new DataImportCheck<KGLListIntensivStroke, String>(
+                                        ErrorCounter.obtainErrorCounter("DRG_STROKE_UNIT"),
+                                        DataImportCheck::tryImportString,
+                                        (i, s) -> i.setDepartmentAssignment(s),
+                                        "Kein zulässiger Abteilungsname: "),
+                                new DataImportCheck<KGLListIntensivStroke, Integer>(
+                                        ErrorCounter.obtainErrorCounter("DRG_STROKE_UNIT"),
+                                        DataImportCheck::tryImportInteger,
+                                        (i, s) -> i.setBedCnt(s),
+                                        "Bettenzahl ungültig: "),
+                                new DataImportCheck<KGLListIntensivStroke, Integer>(
+                                        ErrorCounter.obtainErrorCounter("DRG_STROKE_UNIT"),
+                                        DataImportCheck::tryImportInteger,
+                                        (i, s) -> i.setCaseCnt(s),
+                                        "Fallzahl ungültig: "),
+                                new DataImportCheck<KGLListIntensivStroke, Boolean>(
+                                        ErrorCounter.obtainErrorCounter("DRG_STROKE_UNIT"),
+                                        DataImportCheck::tryImportBoolean,
+                                        (i, s) -> i.setOps8981(s),
+                                        "Mindestmerkmale OPS 8-981 erfüllt: "),
+                                new DataImportCheck<KGLListIntensivStroke, Boolean>(
+                                        ErrorCounter.obtainErrorCounter("DRG_STROKE_UNIT"),
+                                        DataImportCheck::tryImportBoolean,
+                                        (i, s) -> i.setOps898b(s),
+                                        "Mindestmerkmale OPS 8-98b erfüllt: "),
+                                new DataImportCheck<KGLListIntensivStroke, String>(
+                                        ErrorCounter.obtainErrorCounter("DRG_STROKE_UNIT"),
+                                        DataImportCheck::tryImportString,
+                                        (i, s) -> i.setMinimumCriteriaPeriod(s),
+                                        "Mindestmerkmale nur erfüllt im Zeitabschnitt: "),
+                                new DataImportCheck<KGLListIntensivStroke, Integer>(
+                                        ErrorCounter.obtainErrorCounter("DRG_STROKE_UNIT"),
+                                        DataImportCheck::tryImportInteger,
+                                        (i, s) -> i.setIntensivHoursWeighted(s),
+                                        "Summe gewichtete Intensivstunden: "),
+                                new DataImportCheck<KGLListIntensivStroke, Integer>(
+                                        ErrorCounter.obtainErrorCounter("DRG_STROKE_UNIT"),
+                                        DataImportCheck::tryImportInteger,
+                                        (i, s) -> i.setIntensivHoursNotweighted(s),
+                                        "Summe ungewichtete Intensivstunden: "),
+                                new DataImportCheck<KGLListIntensivStroke, Double>(
+                                        ErrorCounter.obtainErrorCounter("DRG_STROKE_UNIT"),
+                                        DataImportCheck::tryImportDouble,
+                                        (i, s) -> i.setWeightMinimum(s),
+                                        "Minimum: "),
+                                new DataImportCheck<KGLListIntensivStroke, Double>(
+                                        ErrorCounter.obtainErrorCounter("DRG_STROKE_UNIT"),
+                                        DataImportCheck::tryImportDouble,
+                                        (i, s) -> i.setWeightMaximum(s),
+                                        "Maximum: "),
+                                new DataImportCheck<KGLListIntensivStroke, String>(
+                                        ErrorCounter.obtainErrorCounter("DRG_STROKE_UNIT"),
+                                        DataImportCheck::tryImportString,
+                                        (i, s) -> i.setWeightDescription(s),
+                                        "Mindestmerkmale nur erfüllt im Zeitabschnitt: "),
+                                new DataImportCheck<KGLListIntensivStroke, Double>(
+                                        ErrorCounter.obtainErrorCounter("DRG_STROKE_UNIT"),
+                                        DataImportCheck::tryImportDouble,
+                                        (i, s) -> i.setMedicalServiceCnt(s),
+                                        "VK Ärztlicher Dienst ungültig: "),
+                                new DataImportCheck<KGLListIntensivStroke, Double>(
+                                        ErrorCounter.obtainErrorCounter("DRG_STROKE_UNIT"),
+                                        DataImportCheck::tryImportDouble,
+                                        (i, s) -> i.setNursingServiceCnt(s),
+                                        "VK Pflegedienst ungültig: "),
+                                new DataImportCheck<KGLListIntensivStroke, Double>(
+                                        ErrorCounter.obtainErrorCounter("DRG_STROKE_UNIT"),
+                                        DataImportCheck::tryImportDouble,
+                                        (i, s) -> i.setFunctionalServiceCnt(s),
+                                        "VK Funktionsdienst ungültig: "),
+                                new DataImportCheck<KGLListIntensivStroke, Integer>(
+                                        ErrorCounter.obtainErrorCounter("DRG_STROKE_UNIT"),
+                                        DataImportCheck::tryImportDoubleAsInt,
+                                        (i, s) -> i.setMedicalServiceCost(s),
+                                        "Kosten Ärztlicher Dienst ungültig: "),
+                                new DataImportCheck<KGLListIntensivStroke, Integer>(
+                                        ErrorCounter.obtainErrorCounter("DRG_STROKE_UNIT"),
+                                        DataImportCheck::tryImportDoubleAsInt,
+                                        (i, s) -> i.setNursingServiceCost(s),
+                                        "Kosten Funktionsdienst ungültig: "),
+                                new DataImportCheck<KGLListIntensivStroke, Integer>(
+                                        ErrorCounter.obtainErrorCounter("DRG_STROKE_UNIT"),
+                                        DataImportCheck::tryImportDoubleAsInt,
+                                        (i, s) -> i.setFunctionalServiceCost(s),
+                                        "Kosten Funktionsdienst ungültig: "),
+                                new DataImportCheck<KGLListIntensivStroke, Integer>(
+                                        ErrorCounter.obtainErrorCounter("DRG_STROKE_UNIT"),
+                                        DataImportCheck::tryImportDoubleAsInt,
+                                        (i, s) -> i.setOverheadsMedicine(s),
+                                        "Kosten GK Arzneimittel ungültig: "),
+                                new DataImportCheck<KGLListIntensivStroke, Integer>(
+                                        ErrorCounter.obtainErrorCounter("DRG_STROKE_UNIT"),
+                                        DataImportCheck::tryImportDoubleAsInt,
+                                        (i, s) -> i.setOverheadMedicalGoods(s),
+                                        "Kosten GK med Sachbedarf ungültig: "),
+                                new DataImportCheck<KGLListIntensivStroke, Integer>(
+                                        ErrorCounter.obtainErrorCounter("DRG_STROKE_UNIT"),
+                                        DataImportCheck::tryImportDoubleAsInt,
+                                        (i, s) -> i.setMedicalInfrastructureCost(s),
+                                        "Kosten med. Infrastruktur ungültig: "),
+                                new DataImportCheck<KGLListIntensivStroke, Integer>(
+                                        ErrorCounter.obtainErrorCounter("DRG_STROKE_UNIT"),
+                                        DataImportCheck::tryImportDoubleAsInt,
+                                        (i, s) -> i.setNonMedicalInfrastructureCost(s),
+                                        "Kosten nicht med. Infrastuktur ungültig: ")
+                        ),
+                        (s,
+                                t) -> s.addStroke(t),
+                        KGLListIntensivStroke.class
+                );
+            //</editor-fold>
 
             default:
                 throw new IllegalArgumentException("unknown importer " + importer);

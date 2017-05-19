@@ -307,31 +307,15 @@
                                  uploadButtonText="Upload"
                                  actionDeleteTable="#{editCalcBasicsDrg.deleteIntensivStrokeItems(1)}"
                                  />
-            
-            <inek:UploadButtons readOnly="#{editCalcBasicsDrg.readOnly}"
-                                addListener="#{editCalcBasicsDrg.addIntensivStroke(cc.attrs.intensiveType)}"
-                                uploadButtonText="Upload"
-                                uploadListener="#{editCalcBasicsDrg.uploadNoticesIntensiv()}"
-                                file="#{editCalcBasicsDrg.file}"
-                                actionTemplate="#{editCalcBasicsDrg.downloadTemplateIntensiv}"
-                                actionDeleteTable="#{editCalcBasicsDrg.deleteIntensivStrokeItems(cc.attrs.intensiveType)}"
-                                importMessage="#{editCalcBasicsDrg.importMessageIntensiv}"
-                                showJournal="#{editCalcBasicsDrg.showJournal}"
-                                toggleJournal="#{editCalcBasicsDrg.toggleJournal}"
-                                />
         </c:if>
         <c:if test="#{cc.attrs.intensiveType != 1}">
-            <inek:UploadButtons readOnly="#{editCalcBasicsDrg.readOnly}"
-                                addListener="#{editCalcBasicsDrg.addIntensivStroke(cc.attrs.intensiveType)}"
-                                uploadButtonText="Upload"
-                                uploadListener="#{editCalcBasicsDrg.uploadNoticesStrokeUnit()}"
-                                file="#{editCalcBasicsDrg.file}"
-                                actionTemplate="#{editCalcBasicsDrg.downloadTemplateStrokeUnit}"
-                                actionDeleteTable="#{editCalcBasicsDrg.deleteIntensivStrokeItems(cc.attrs.intensiveType)}"
-                                importMessage="#{editCalcBasicsDrg.importMessageStrokeUnit}"
-                                showJournal="#{editCalcBasicsDrg.showJournal}"
-                                toggleJournal="#{editCalcBasicsDrg.toggleJournal}"
-                                />
+            <inek:UploadButtons2 importer="#{editCalcBasicsDrg.getImporter('drgStrokeUnit')}"
+                                 calcbase="#{editCalcBasicsDrg.calcBasics}" 
+                                 readOnly="#{editCalcBasicsDrg.readOnly}"
+                                 addListener="#{editCalcBasicsDrg.addIntensivStroke(2)}"
+                                 uploadButtonText="Upload"
+                                 actionDeleteTable="#{editCalcBasicsDrg.deleteIntensivStrokeItems(2)}"
+                                 />
         </c:if>
 
 
