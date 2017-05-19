@@ -105,7 +105,11 @@ public class SpecificFunctionRequestTreeHandler implements Serializable, TreeNod
 
     private void obtainEditNodeChildren(RootNode node, Collection<TreeNode> children) {
         Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.SPECIFIC_FUNCTION, canReadCompleted());
-        List<Account> accounts = _specificFunctionFacade.loadRequestAccountsForYear(accountIds, Utils.getTargetYear(Feature.SPECIFIC_FUNCTION), WorkflowStatus.New, WorkflowStatus.ApprovalRequested);
+        List<Account> accounts = _specificFunctionFacade.loadRequestAccountsForYear(
+                accountIds, 
+                Utils.getTargetYear(Feature.SPECIFIC_FUNCTION), 
+                WorkflowStatus.New, 
+                WorkflowStatus.ApprovalRequested);
         Account currentUser = _sessionController.getAccount();
         if (accounts.contains(currentUser)) {
             // ensure current user is first, if in list
@@ -143,7 +147,12 @@ public class SpecificFunctionRequestTreeHandler implements Serializable, TreeNod
 
     private void obtainYearNodeChildren(YearTreeNode node, Collection<TreeNode> children) {
         Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.SPECIFIC_FUNCTION, canReadSealed());
-        List<Account> accounts = _specificFunctionFacade.loadRequestAccountsForYear(accountIds, node.getId(), WorkflowStatus.Provided, WorkflowStatus.Retired);
+        List<Account> accounts = _specificFunctionFacade.loadRequestAccountsForYear(
+                accountIds, 
+                node.getId(), 
+                WorkflowStatus.Provided, 
+                WorkflowStatus.Retired
+        );
         Account currentUser = _sessionController.getAccount();
         if (accounts.contains(currentUser)) {
             // ensure current user is first, if in list
@@ -203,9 +212,14 @@ public class SpecificFunctionRequestTreeHandler implements Serializable, TreeNod
             CooperativeRight achievedRight = _cooperationTools.getAchievedRight(Feature.SPECIFIC_FUNCTION, partnerId);
             statusLow = achievedRight.canReadAlways() ? WorkflowStatus.New
                     : achievedRight.canReadCompleted() ? WorkflowStatus.ApprovalRequested :  WorkflowStatus.Unknown;
-            statusHigh = achievedRight.canReadAlways() || achievedRight.canReadCompleted() ? WorkflowStatus.ApprovalRequested : WorkflowStatus.Unknown;
+            statusHigh = achievedRight.canReadAlways() || 
+                    achievedRight.canReadCompleted() ? WorkflowStatus.ApprovalRequested : WorkflowStatus.Unknown;
         }
-        return _specificFunctionFacade.obtainSpecificFunctionRequests(partnerId, Utils.getTargetYear(Feature.SPECIFIC_FUNCTION), statusLow, statusHigh);
+        return _specificFunctionFacade.obtainSpecificFunctionRequests(
+                partnerId, 
+                Utils.getTargetYear(Feature.SPECIFIC_FUNCTION), 
+                statusLow, 
+                statusHigh);
     }
 
     @Override
@@ -222,9 +236,11 @@ public class SpecificFunctionRequestTreeHandler implements Serializable, TreeNod
         switch (treeNode.getSortCriteria().toLowerCase()) {
             case "id":
                 if (treeNode.isDescending()) {
-                    sorted = stream.sorted((n1, n2) -> Integer.compare(n2.getSpecificFunctionRequest().getId(), n1.getSpecificFunctionRequest().getId()));
+                    sorted = stream.sorted((n1, n2) -> Integer.compare(n2.getSpecificFunctionRequest().getId(), 
+                            n1.getSpecificFunctionRequest().getId()));
                 } else {
-                    sorted = stream.sorted((n1, n2) -> Integer.compare(n1.getSpecificFunctionRequest().getId(), n2.getSpecificFunctionRequest().getId()));
+                    sorted = stream.sorted((n1, n2) -> Integer.compare(n1.getSpecificFunctionRequest().getId(), 
+                            n2.getSpecificFunctionRequest().getId()));
                 }
                 break;
             case "hospital":
@@ -238,9 +254,11 @@ public class SpecificFunctionRequestTreeHandler implements Serializable, TreeNod
                 break;
             case "date":
                 if (treeNode.isDescending()) {
-                    sorted = stream.sorted((n1, n2) -> n2.getSpecificFunctionRequest().getLastChanged().compareTo(n1.getSpecificFunctionRequest().getLastChanged()));
+                    sorted = stream.sorted((n1, n2) -> n2.getSpecificFunctionRequest().getLastChanged()
+                            .compareTo(n1.getSpecificFunctionRequest().getLastChanged()));
                 } else {
-                    sorted = stream.sorted((n1, n2) -> n1.getSpecificFunctionRequest().getLastChanged().compareTo(n2.getSpecificFunctionRequest().getLastChanged()));
+                    sorted = stream.sorted((n1, n2) -> n1.getSpecificFunctionRequest().getLastChanged()
+                            .compareTo(n2.getSpecificFunctionRequest().getLastChanged()));
                 }
                 break;
             case "status":

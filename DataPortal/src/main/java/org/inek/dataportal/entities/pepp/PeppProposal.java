@@ -385,7 +385,8 @@ public class PeppProposal implements Serializable {
     }
 
     public String getProblem() {
-        return _problem.replace((char) 7, '*').replaceAll("[\\x00-\\x08\\x0b\\x0c\\x0e-\\x1f]", "");  // to replace false characters stored by former char conversion
+        // replace false characters stored by former char conversion
+        return _problem.replace((char) 7, '*').replaceAll("[\\x00-\\x08\\x0b\\x0c\\x0e-\\x1f]", "");  
     }
 
     public void setProblem(String problem) {

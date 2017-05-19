@@ -75,9 +75,11 @@ public class InekSpfTreeHandler implements Serializable, TreeNodeObserver {
         switch (treeNode.getSortCriteria().toLowerCase()) {
             case "ik":
                 if (treeNode.isDescending()) {
-                    sorted = stream.sorted((n1, n2) -> Integer.compare(n2.getSpecificFunctionRequest().getIk(), n1.getSpecificFunctionRequest().getIk()));
+                    sorted = stream.sorted((n1, n2) -> Integer.compare(n2.getSpecificFunctionRequest().getIk(), 
+                            n1.getSpecificFunctionRequest().getIk()));
                 } else {
-                    sorted = stream.sorted((n1, n2) -> Integer.compare(n1.getSpecificFunctionRequest().getIk(), n2.getSpecificFunctionRequest().getIk()));
+                    sorted = stream.sorted((n1, n2) -> Integer.compare(n1.getSpecificFunctionRequest().getIk(), 
+                            n2.getSpecificFunctionRequest().getIk()));
                 }
                 break;
             case "hospital":
@@ -91,9 +93,11 @@ public class InekSpfTreeHandler implements Serializable, TreeNodeObserver {
                 break;
             case "code":
                 if (treeNode.isDescending()) {
-                    sorted = stream.sorted((n1, n2) -> n2.getSpecificFunctionRequest().getCode().compareTo(n1.getSpecificFunctionRequest().getCode()));
+                    sorted = stream.sorted((n1, n2) -> n2.getSpecificFunctionRequest().getCode()
+                            .compareTo(n1.getSpecificFunctionRequest().getCode()));
                 } else {
-                    sorted = stream.sorted((n1, n2) -> n1.getSpecificFunctionRequest().getCode().compareTo(n2.getSpecificFunctionRequest().getCode()));
+                    sorted = stream.sorted((n1, n2) -> n1.getSpecificFunctionRequest().getCode()
+                            .compareTo(n2.getSpecificFunctionRequest().getCode()));
                 }
                 break;
             case "status":

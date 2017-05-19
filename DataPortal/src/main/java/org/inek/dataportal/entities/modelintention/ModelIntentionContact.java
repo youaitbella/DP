@@ -61,7 +61,9 @@ public class ModelIntentionContact implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="ContactTypeId">
     @Column(name = "csContactTypeId")
 
-    @Documentation(name = "Art", translateValue = "1=headerModelIntentionContract; 2=headerModelIntentionProvider; 3=headerModelIntentionCostInsurance", omitOnEmpty = true)
+    @Documentation(name = "Art", 
+            translateValue = "1=headerModelIntentionContract; 2=headerModelIntentionProvider; 3=headerModelIntentionCostInsurance", 
+            omitOnEmpty = true)
     private int _contactTypeId;
 
     public int getContactTypeId() {
@@ -119,7 +121,6 @@ public class ModelIntentionContact implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Zip">
     @Column(name = "csZip")
-    // @Pattern(regexp = "\\b((?:0[1-46-9]\\d{3})|(?:[1-357-9]\\d{4})|(?:[4][0-24-9]\\d{3})|(?:[6][013-9]\\d{3}))\\b", message = "Die Eingabe entspricht keiner Postleitzahl.")
     @Documentation(key = "lblPostalCode")
     private String _zip = "";
 

@@ -282,7 +282,8 @@ public class AccountRequest implements Serializable, Person {
             return false;
         }
         AccountRequest other = (AccountRequest) object;
-        if ((_accountRequestId == null && other.getAccountId() != null) || (_accountRequestId != null && !_accountRequestId.equals(other.getAccountId()))) {
+        if ((_accountRequestId == null && other.getAccountId() != null) 
+                || (_accountRequestId != null && !_accountRequestId.equals(other.getAccountId()))) {
             return false;
         }
         return true;

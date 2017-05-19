@@ -123,7 +123,8 @@ public class EditInsuranceNubNotice extends AbstractEditController {
         return _nubInfos
                 .stream()
                 .sorted((n, m) -> Integer.compare(n.getSequence(), m.getSequence()))
-                .map(i -> new SelectItem(i.getRequestId(), i.getSequence() + " - " + i.getMethodName() + " [N" + i.getRequestId() + "]", i.getRequestName()))
+                .map(i -> new SelectItem(i.getRequestId(), 
+                        i.getSequence() + " - " + i.getMethodName() + " [N" + i.getRequestId() + "]", i.getRequestName()))
                 .collect(Collectors.toList());
     }
 
@@ -198,14 +199,17 @@ public class EditInsuranceNubNotice extends AbstractEditController {
         try {
             tmp = Double.parseDouble(value + "");
         } catch (NumberFormatException ex) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Bitte einen gültigen Geldbetrag eingeben.", "Bitte einen gültigen Geldbetrag eingeben.");
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Bitte einen gültigen Geldbetrag eingeben.", 
+                    "Bitte einen gültigen Geldbetrag eingeben.");
             throw new ValidatorException(msg);
         }
         if (tmp == 0) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Der Betrag darf nicht 0 sein.", "Der Betrag darf nicht 0 sein.");
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Der Betrag darf nicht 0 sein.", 
+                    "Der Betrag darf nicht 0 sein.");
             throw new ValidatorException(msg);
         } else if (tmp < 0) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Der Betrag darf nicht kleiner als 0 sein.", "Der Betrag darf nicht kleiner als 0 sein.");
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Der Betrag darf nicht kleiner als 0 sein.", 
+                    "Der Betrag darf nicht kleiner als 0 sein.");
             throw new ValidatorException(msg);
         }
     }

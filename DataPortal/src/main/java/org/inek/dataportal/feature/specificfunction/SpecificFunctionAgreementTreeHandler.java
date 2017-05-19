@@ -206,9 +206,14 @@ public class SpecificFunctionAgreementTreeHandler implements Serializable, TreeN
             CooperativeRight achievedRight = _cooperationTools.getAchievedRight(Feature.SPECIFIC_FUNCTION, partnerId);
             statusLow = achievedRight.canReadAlways() ? WorkflowStatus.New
                     : achievedRight.canReadCompleted() ? WorkflowStatus.ApprovalRequested :  WorkflowStatus.Unknown;
-            statusHigh = achievedRight.canReadAlways() || achievedRight.canReadCompleted() ? WorkflowStatus.ApprovalRequested : WorkflowStatus.Unknown;
+            statusHigh = achievedRight.canReadAlways() 
+                    || achievedRight.canReadCompleted() ? WorkflowStatus.ApprovalRequested : WorkflowStatus.Unknown;
         }
-        return _specificFunctionFacade.obtainSpecificFunctionAgreements(partnerId, Utils.getTargetYear(Feature.SPECIFIC_FUNCTION), statusLow, statusHigh);
+        return _specificFunctionFacade.obtainSpecificFunctionAgreements(
+                partnerId, 
+                Utils.getTargetYear(Feature.SPECIFIC_FUNCTION), 
+                statusLow, 
+                statusHigh);
     }
 
     @Override

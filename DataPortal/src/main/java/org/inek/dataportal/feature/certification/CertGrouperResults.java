@@ -858,32 +858,38 @@ public class CertGrouperResults implements Serializable {
         switch (grouper.getCertStatus()) {
             case TestFailed1:
                 if (_elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(sysId, grId, CertMailType.ErrorTest.getId()).size() == 1) {
-                    return sdf.format(_elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(sysId, grId, CertMailType.ErrorTest.getId()).get(0).getSent());
+                    return sdf.format(_elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(sysId, grId, 
+                            CertMailType.ErrorTest.getId()).get(0).getSent());
                 }
                 break;
             case TestFailed2:
                 if (_elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(sysId, grId, CertMailType.ErrorTest.getId()).size() == 2) {
-                    return sdf.format(_elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(sysId, grId, CertMailType.ErrorTest.getId()).get(1).getSent());
+                    return sdf.format(_elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(sysId, grId, 
+                            CertMailType.ErrorTest.getId()).get(1).getSent());
                 }
                 break;
             case TestSucceed:
                 if (_elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(sysId, grId, CertMailType.PassedTest.getId()).size() == 1) {
-                    return sdf.format(_elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(sysId, grId, CertMailType.PassedTest.getId()).get(0).getSent());
+                    return sdf.format(_elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(sysId, grId, 
+                            CertMailType.PassedTest.getId()).get(0).getSent());
                 }
                 break;
             case CertFailed1:
                 if (_elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(sysId, grId, CertMailType.ErrorCert.getId()).size() == 1) {
-                    return sdf.format(_elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(sysId, grId, CertMailType.ErrorCert.getId()).get(0).getSent());
+                    return sdf.format(_elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(sysId, grId, 
+                            CertMailType.ErrorCert.getId()).get(0).getSent());
                 }
                 break;
             case CertSucceed:
                 if (_elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(sysId, grId, CertMailType.Certified.getId()).size() == 1) {
-                    return sdf.format(_elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(sysId, grId, CertMailType.Certified.getId()).get(0).getSent());
+                    return sdf.format(_elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(sysId, grId, 
+                            CertMailType.Certified.getId()).get(0).getSent());
                 }
                 break;
             case CertificationPassed:
                 if (_elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(sysId, grId, CertMailType.Certificate.getId()).size() == 1) {
-                    return sdf.format(_elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(sysId, grId, CertMailType.Certificate.getId()).get(0).getSent());
+                    return sdf.format(_elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(sysId, grId, 
+                            CertMailType.Certificate.getId()).get(0).getSent());
                 }
                 break;
             default:

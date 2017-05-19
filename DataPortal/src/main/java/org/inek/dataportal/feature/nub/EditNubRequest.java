@@ -471,7 +471,8 @@ public class EditNubRequest extends AbstractEditController {
         return differencesPartner;
     }
 
-    private List<String> updateFields(Map<String, FieldValues> differencesUser, Map<String, FieldValues> differencesPartner, NubRequest modifiedNubRequest) {
+    private List<String> updateFields(Map<String, FieldValues> differencesUser, 
+            Map<String, FieldValues> differencesPartner, NubRequest modifiedNubRequest) {
         List<String> collisions = new ArrayList<>();
         for (String fieldName : differencesUser.keySet()) {
             if (differencesPartner.containsKey(fieldName) || _nubRequest.isSealed()) {
@@ -500,7 +501,8 @@ public class EditNubRequest extends AbstractEditController {
     }
 
     public boolean isReadOnly() {
-        return _nubRequest != null && _cooperationTools.isReadOnly(Feature.NUB, _nubRequest.getStatus(), _nubRequest.getAccountId(), _nubRequest.getIk());
+        return _nubRequest != null 
+                && _cooperationTools.isReadOnly(Feature.NUB, _nubRequest.getStatus(), _nubRequest.getAccountId(), _nubRequest.getIk());
     }
 
     public boolean isRejectedNub() {
@@ -523,14 +525,22 @@ public class EditNubRequest extends AbstractEditController {
         if (!_appTools.isEnabled(ConfigKey.IsNubSendEnabled)) {
             return false;
         }
-        return _cooperationTools.isApprovalRequestEnabled(Feature.NUB, _nubRequest.getStatus(), _nubRequest.getAccountId(), _nubRequest.getIk(), true);
+        return _cooperationTools.isApprovalRequestEnabled(
+                Feature.NUB, 
+                _nubRequest.getStatus(), 
+                _nubRequest.getAccountId(),
+                _nubRequest.getIk(), true);
     }
 
     public boolean isRequestCorrectionEnabled() {
         if (!_appTools.isEnabled(ConfigKey.IsNubSendEnabled)) {
             return false;
         }
-        return _cooperationTools.isRequestCorrectionEnabled(Feature.NUB, _nubRequest.getStatus(), _nubRequest.getAccountId(), _nubRequest.getIk());
+        return _cooperationTools.isRequestCorrectionEnabled(
+                Feature.NUB, 
+                _nubRequest.getStatus(),
+                _nubRequest.getAccountId(), 
+                _nubRequest.getIk());
     }
 
     public boolean isTakeEnabled() {
@@ -702,7 +712,6 @@ public class EditNubRequest extends AbstractEditController {
     }
 
     // <editor-fold defaultstate="collapsed" desc="Request correction">
-    @Inject private PortalMessageFacade _messageFacade;
     @Inject private MessageService _messageService;
 
     public String requestCorrection() {

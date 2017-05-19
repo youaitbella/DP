@@ -8,18 +8,12 @@ package org.inek.dataportal.facades.calc;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.Vector;
-import java.util.logging.Level;
 import java.util.stream.Collectors;
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import org.inek.dataportal.entities.account.Account;
-import org.inek.dataportal.entities.calc.sop.CalcContact;
 import org.inek.dataportal.entities.calc.CalcHospitalInfo;
-import org.inek.dataportal.entities.calc.sop.StatementOfParticipance;
-import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.AbstractDataAccess;
@@ -64,7 +58,9 @@ public class CalcFacade extends AbstractDataAccess {
                 + "where cbaStatusId" + statusCond + " and cbaAccountId" + accountCond + " and cbaDataYear = " + year + "\n"
                 + "union\n"
                 + "select dmmId as Id, 'CDM' as [Type], dmmAccountId as AccountId, dmmDataYear as DataYear, dmmIk as IK, dmmStatusId as StatusId,\n"
-                + " '" + Utils.getMessage("lblClinicalDistributionModel") + " ' + case dmmType when 0 then 'DRG' when 1 then 'PEPP' else '???' end as Name, dmmLastChanged as LastChanged\n"
+                + " '" + Utils.getMessage("lblClinicalDistributionModel") + " ' "
+                + "+ case dmmType when 0 then 'DRG' when 1 then 'PEPP' else '???' end as Name, "
+                + "dmmLastChanged as LastChanged\n"
                 + "from calc.DistributionModelMaster\n"
                 + "where dmmStatusId" + statusCond + " and dmmAccountId" + accountCond + " and dmmDataYear = " + year + "\n"
                 + "order by 2, 4, 5, 8 desc";
@@ -146,8 +142,9 @@ public class CalcFacade extends AbstractDataAccess {
     }
 
     public List<CalcHospitalInfo> getCalcBasicsForAccount(Account account) {
-        String sql = "select distinct biId as Id, biType as [Type], biAccountId as AccountId, biDataYear as DataYear, biIk as IK, biStatusId as StatusId,\n"
-                + "Name, biLastChanged as LastChanged\n"
+        String sql = "select distinct biId as Id, biType as [Type], biAccountId as AccountId, "
+                + "    biDataYear as DataYear, biIk as IK, biStatusId as StatusId,\n"
+                + "    Name, biLastChanged as LastChanged\n"
                 + "from (select biId, biIk, 'CBD' as biType, biDataYear, biAccountID, biStatusId, biLastChanged, '" 
                 + Utils.getMessage("lblCalculationBasicsDrg") + "' as Name from calc.KGLBaseInformation where biStatusID between 3 and 10 "
                 + "union select biId, biIk, 'CBP' as biType, biDataYear, biAccountID, biStatusId, biLastChanged, '" 

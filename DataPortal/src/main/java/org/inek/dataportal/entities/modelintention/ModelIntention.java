@@ -309,7 +309,8 @@ public class ModelIntention implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property HospitalType">
-    @Documentation(key = "lblHospital", translateValue = "-1=lblNo;0=enmHospitalTypeAny;1=enmHospitalTypeModelProject;2=enmHospitalTypeSpecific;3=enmHospitalTypeOther")
+    @Documentation(key = "lblHospital", 
+            translateValue = "-1=lblNo;0=enmHospitalTypeAny;1=enmHospitalTypeModelProject;2=enmHospitalTypeSpecific;3=enmHospitalTypeOther")
     @Column(name = "miHospitalType")
     private int _hospitalType;
 
@@ -337,7 +338,8 @@ public class ModelIntention implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property SelfHospitalisationType">
-    @Documentation(key = "lblSelfHospitalisation", translateValue = "0=enmSelfHospitalisationTypePossible;1=enmSelfHospitalisationTypeEmergency;2=enmSelfHospitalisationTypeImpossible")
+    @Documentation(key = "lblSelfHospitalisation", 
+            translateValue = "0=enmSelfHospitalisationTypePossible;1=enmSelfHospitalisationTypeEmergency;2=enmSelfHospitalisationTypeImpossible")
     @Column(name = "miSelfHospitalisationType")
     private int _selfHospitalisationType = 0;
 
@@ -481,7 +483,8 @@ public class ModelIntention implements Serializable {
    // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property dayPatient">
-    @Documentation(key = "lblPartialStationaryTreatment", translateValue = "0=enmTreatmentTypeNo;1=enmTreatmentTypeGeneral;2=enmTreatmentTypeSpecial")
+    @Documentation(key = "lblPartialStationaryTreatment", 
+            translateValue = "0=enmTreatmentTypeNo;1=enmTreatmentTypeGeneral;2=enmTreatmentTypeSpecial")
     @Column(name = "miDayPatientType")
     private int _dayPatientTreatmentType;
     public int getDayPatientTreatmentType() {
@@ -507,7 +510,8 @@ public class ModelIntention implements Serializable {
    // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property inpatientCompensationTreatment">
-    @Documentation(key = "lblInpatientCompensationTreatment", translateValue = "0=enmTreatmentTypeNo;1=enmTreatmentTypeGeneral;2=enmTreatmentTypeSpecial")
+    @Documentation(key = "lblInpatientCompensationTreatment", 
+            translateValue = "0=enmTreatmentTypeNo;1=enmTreatmentTypeGeneral;2=enmTreatmentTypeSpecial")
     @Column(name = "miInpatientCompensationType")
     private int _inpatientCompensationTreatmentType = 0;
 
@@ -535,7 +539,8 @@ public class ModelIntention implements Serializable {
    // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property  inpatientCompensationHomeTreatment">
-    @Documentation(key = "lblInpatientCompensationHomeTreatment", translateValue = "0=enmTreatmentTypeNo;1=enmTreatmentTypeGeneral;2=enmTreatmentTypeSpecial")
+    @Documentation(key = "lblInpatientCompensationHomeTreatment", 
+            translateValue = "0=enmTreatmentTypeNo;1=enmTreatmentTypeGeneral;2=enmTreatmentTypeSpecial")
     @Column(name = "miInpatientCompensationHomeType")
     private int _inpatientCompensationHomeTreatmentType;
 

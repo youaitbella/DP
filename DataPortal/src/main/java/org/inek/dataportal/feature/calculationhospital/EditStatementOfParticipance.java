@@ -151,7 +151,8 @@ public class EditStatementOfParticipance extends AbstractEditController {
                 statement.setTpgCalc(domain.contains("TPG"));
                 statement.setObdCalc(domain.contains("OBD"));
             }
-            _sessionController.setScript("alert('Zu Ihrer Unterstützung wurden die aktuell im InEK vorliegenden Informationen bereits in den Dialog geladen. "
+            _sessionController.setScript("alert('Zu Ihrer Unterstützung wurden die aktuell im InEK "
+                    + "vorliegenden Informationen bereits in den Dialog geladen. "
                     + "Bevor Sie die Daten an das InEK senden, überprüfen Sie diese bitte auf eventuelle Änderungen.');");
         }
 
@@ -471,12 +472,14 @@ public class EditStatementOfParticipance extends AbstractEditController {
             applyMessageValues(message, "msgContactIncomplete", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress, "sop:contact");
         }
         if (statement.isWithConsultant()) {
-            checkField(message, statement.getConsultantCompany(), "lblNameConsultant", "sop:consultantCompany", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress);
+            checkField(message, statement.getConsultantCompany(), "lblNameConsultant", "sop:consultantCompany", 
+                    StatementOfParticipanceTabs.tabStatementOfParticipanceAddress);
         }
         if (statement.isConsultantSendMail()) {
             List<CalcContact> consultantContacts = _statement.getContacts().stream().filter(c -> c.isConsultant()).collect(Collectors.toList());
             if (consultantContacts.isEmpty() || consultantContacts.get(0).isEmpty()) {
-                applyMessageValues(message, "lblNeedContactConsultant", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress, "sop:contactConsultant");
+                applyMessageValues(message, "lblNeedContactConsultant", 
+                        StatementOfParticipanceTabs.tabStatementOfParticipanceAddress, "sop:contactConsultant");
             }
         }
 
@@ -488,7 +491,8 @@ public class EditStatementOfParticipance extends AbstractEditController {
                     "lblQuestionOverlayer", "sop:multiyearDrg",
                     StatementOfParticipanceTabs.tabStatementOfParticipanceStatements);
             if (statement.getMultiyearDrg() == 4 && statement.getMultiyearDrgText().isEmpty()) {
-                applyMessageValues(message, "lblDescriptionOfAlternative", StatementOfParticipanceTabs.tabStatementOfParticipanceStatements, "form");
+                applyMessageValues(message, "lblDescriptionOfAlternative", 
+                        StatementOfParticipanceTabs.tabStatementOfParticipanceStatements, "form");
             }
         }
 
@@ -500,7 +504,8 @@ public class EditStatementOfParticipance extends AbstractEditController {
                     "lblQuestionOverlayer", "sop:multiyearPsy",
                     StatementOfParticipanceTabs.tabStatementOfParticipanceStatements);
             if (statement.getMultiyearPsy() == 4 && statement.getMultiyearPsyText().isEmpty()) {
-                applyMessageValues(message, "lblDescriptionOfAlternative", StatementOfParticipanceTabs.tabStatementOfParticipanceStatements, "form");
+                applyMessageValues(message, "lblDescriptionOfAlternative", 
+                        StatementOfParticipanceTabs.tabStatementOfParticipanceStatements, "form");
             }
         }
         return message;
@@ -512,7 +517,8 @@ public class EditStatementOfParticipance extends AbstractEditController {
         }
     }
 
-    private void checkField(MessageContainer message, Integer value, Integer minValue, Integer maxValue, String msgKey, String elementId, StatementOfParticipanceTabs tab) {
+    private void checkField(MessageContainer message, Integer value, Integer minValue, Integer maxValue, String msgKey, 
+            String elementId, StatementOfParticipanceTabs tab) {
         if (value == null
                 || minValue != null && value < minValue
                 || maxValue != null && value > maxValue) {
@@ -549,7 +555,8 @@ public class EditStatementOfParticipance extends AbstractEditController {
     }
 
     private void createTransferFile(StatementOfParticipance statement) {
-        File dir = new File(_sessionController.getApplicationTools().readConfig(ConfigKey.FolderRoot), _sessionController.getApplicationTools().readConfig(ConfigKey.FolderUpload));
+        File dir = new File(_sessionController.getApplicationTools().readConfig(ConfigKey.FolderRoot),
+                _sessionController.getApplicationTools().readConfig(ConfigKey.FolderUpload));
         File file;
         Date ts;
         do {
@@ -581,7 +588,8 @@ public class EditStatementOfParticipance extends AbstractEditController {
     public List<SelectItem> getIks() {
         Account account = _sessionController.getAccount();
         boolean testMode = _appTools.isEnabled(ConfigKey.TestMode);
-        Set<Integer> iks = _calcFacade.obtainIks4NewStatementOfParticipance(account.getId(), Utils.getTargetYear(Feature.CALCULATION_HOSPITAL), testMode);
+        int year = Utils.getTargetYear(Feature.CALCULATION_HOSPITAL);
+        Set<Integer> iks = _calcFacade.obtainIks4NewStatementOfParticipance(account.getId(), year, testMode);
         if (_statement != null && _statement.getIk() > 0) {
             iks.add(_statement.getIk());
         }
@@ -610,6 +618,4 @@ public class EditStatementOfParticipance extends AbstractEditController {
     }
 // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Tab Statements">
-// </editor-fold>
 }

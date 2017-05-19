@@ -160,7 +160,8 @@ public class Mailer {
         }
         String salutation = getFormalSalutation(accountRequest);
         String codedUser = Utils.encodeUrl(accountRequest.getUser());
-        String link = _config.read(ConfigKey.ApplicationURL) + "/login/Activate.xhtml?key=" + accountRequest.getActivationKey() + "&user=" + codedUser;
+        String link = _config.read(ConfigKey.ApplicationURL) + "/login/Activate.xhtml?key=" 
+                + accountRequest.getActivationKey() + "&user=" + codedUser;
         String body = template.getBody()
                 .replace("{formalSalutation}", salutation)
                 .replace("{link}", link)
@@ -185,7 +186,8 @@ public class Mailer {
         if (template == null) {
             return false;
         }
-        String link = _config.read(ConfigKey.ApplicationURL) + "/login/ActivateMail.xhtml?key=" + changeMail.getActivationKey() + "&mail=" + changeMail.getMail();
+        String link = _config.read(ConfigKey.ApplicationURL) + "/login/ActivateMail.xhtml?key=" 
+                + changeMail.getActivationKey() + "&mail=" + changeMail.getMail();
         String body = template.getBody()
                 //.replace("{formalSalutation}", salutation)
                 .replace("{link}", link)
@@ -201,7 +203,8 @@ public class Mailer {
             return false;
         }
         String salutation = getFormalSalutation(account);
-        String link = _config.read(ConfigKey.ApplicationURL) + "/login/ActivatePassword.xhtml?key=" + pwdRequest.getActivationKey() + "&mail=" + account.getEmail();
+        String link = _config.read(ConfigKey.ApplicationURL) + "/login/ActivatePassword.xhtml?key=" 
+                + pwdRequest.getActivationKey() + "&mail=" + account.getEmail();
 
         String body = template.getBody()
                 .replace("{formalSalutation}", salutation)

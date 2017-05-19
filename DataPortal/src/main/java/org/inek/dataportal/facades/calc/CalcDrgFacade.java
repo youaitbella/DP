@@ -128,7 +128,7 @@ public class CalcDrgFacade extends AbstractDataAccess {
                 + "join CallCenterDB.dbo.ccContact on cuId = coCustomerId and coIsActive = 1 \n" // (2)
                 + "join CallCenterDB.dbo.ccContactDetails on coId = cdContactId and cdContactDetailTypeId = 'E'\n" // (2)
                 + "join dbo.Account on (cdDetails = acMail" 
-                + (testMode ? " or acMail like '%@inek-drg.de'" : "") + ") and acId = " + accountId + "\n" // (2) - but let InEK staff perform without this restriction
+                + (testMode ? " or acMail like '%@inek-drg.de'" : "") + ") and acId = " + accountId + "\n" 
                 + "join CallCenterDB.dbo.mapContactRole r1 on (r1.mcrContactId = coId) and (r1.mcrRoleId in (3, 12, 15, 16, 18, 19)" 
                 + (testMode ? " or acMail like '%@inek-drg.de'" : "") + ") \n"
                 + "left join CallCenterDB.dbo.mapContactRole r2 on (r2.mcrContactId = coId) and r2.mcrRoleId = 14 " 
@@ -141,7 +141,7 @@ public class CalcDrgFacade extends AbstractDataAccess {
                 + "             select aaiIK from dbo.AccountAdditionalIK where aaiAccountId = " + accountId + "\n"
                 + "     ) \n"
                 + "     and r2.mcrRoleId is null\n"
-                + "     and sopStatusId = " + WorkflowStatus.Provided.getId() + "\n" //+ " and " + (WorkflowStatus.Retired.getId() - 1) + "\n"
+                + "     and sopStatusId = " + WorkflowStatus.Provided.getId() + "\n" 
                 + "     and sopIsDrg = 1\n"
                 + "     and sopObligatoryCalcType != 1\n"
                 + "     and sopDataYear = " + year + "\n"
@@ -265,7 +265,8 @@ public class CalcDrgFacade extends AbstractDataAccess {
     }
 
     public List<DrgContentText> retrieveContentTexts(List<Integer> headerIds, int year) {
-        String jpql = "select ct from DrgContentText ct where ct._headerTextId in :headerIds and ct._firstYear <= :year and ct._lastYear >= :year order by ct._sequence";
+        String jpql = "select ct from DrgContentText ct "
+                + "where ct._headerTextId in :headerIds and ct._firstYear <= :year and ct._lastYear >= :year order by ct._sequence";
         TypedQuery<DrgContentText> query = getEntityManager().createQuery(jpql, DrgContentText.class);
         query.setParameter("year", year);
         query.setParameter("headerIds", headerIds);

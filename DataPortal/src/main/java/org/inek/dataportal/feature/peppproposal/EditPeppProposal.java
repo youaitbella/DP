@@ -476,9 +476,17 @@ public class EditPeppProposal extends AbstractEditController {
         String newTopic = "";
         PeppProposal peppProposal = getPeppProposal();
         newTopic = checkField(newTopic, peppProposal.getName(), "lblAppellation", "form:name", PeppProposalTabs.tabPPAddress);
-        newTopic = checkField(newTopic, peppProposal.getCategory() == null || peppProposal.getCategory() == PeppProposalCategory.UNKNOWN ? null : peppProposal.getCategory().name(), 
-                "lblCategory", "form:category", PeppProposalTabs.tabPPAddress);
-        newTopic = checkField(newTopic, peppProposal.getInstitute(), "lblPeppProposalingInstitute", "form:institute", PeppProposalTabs.tabPPAddress);
+        newTopic = checkField(
+                newTopic, 
+                peppProposal.getCategory() == null || peppProposal.getCategory() == PeppProposalCategory.UNKNOWN 
+                        ? null 
+                        : peppProposal.getCategory().name(), 
+                "lblCategory", 
+                "form:category", 
+                PeppProposalTabs.tabPPAddress
+        );
+        newTopic = checkField(newTopic, peppProposal.getInstitute(), "lblPeppProposalingInstitute",
+                "form:institute", PeppProposalTabs.tabPPAddress);
         newTopic = checkField(newTopic, peppProposal.getGender(), 1, 2, "lblSalutation", "form:cbxGender", PeppProposalTabs.tabPPAddress);
         newTopic = checkField(newTopic, peppProposal.getFirstName(), "lblFirstName", "form:firstname", PeppProposalTabs.tabPPAddress);
         newTopic = checkField(newTopic, peppProposal.getLastName(), "lblLastName", "form:lastname", PeppProposalTabs.tabPPAddress);
@@ -491,7 +499,8 @@ public class EditPeppProposal extends AbstractEditController {
         newTopic = checkField(newTopic, peppProposal.getSolution(), "lblSuggestedSolution", "form:solution", PeppProposalTabs.tabPPSolution);
         if (peppProposal.getDocuments() != null && peppProposal.getDocuments().size() > 0
                 || peppProposal.getDocumentsOffline() != null && peppProposal.getDocumentsOffline().length() > 0) {
-            newTopic = checkField(newTopic, peppProposal.isAnonymousData() ? "true" : "", "lblAnonymousData", "form:anonymousData", PeppProposalTabs.tabPPDocuments);
+            newTopic = checkField(newTopic, peppProposal.isAnonymousData() ? "true" : "", "lblAnonymousData", 
+                    "form:anonymousData", PeppProposalTabs.tabPPDocuments);
         }
 
         if (!_msg.isEmpty()) {
@@ -518,7 +527,8 @@ public class EditPeppProposal extends AbstractEditController {
         return newTopic;
     }
 
-    private String checkField(String newTopic, Integer value, Integer minValue, Integer maxValue, String msgKey, String elementId, PeppProposalTabs tab) {
+    private String checkField(String newTopic, Integer value, Integer minValue, Integer maxValue, String msgKey, 
+            String elementId, PeppProposalTabs tab) {
         if (value == null
                 || minValue != null && value.intValue() < minValue.intValue()
                 || maxValue != null && value.intValue() > maxValue.intValue()) {

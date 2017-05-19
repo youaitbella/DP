@@ -294,7 +294,8 @@ public class StatementOfParticipance implements Serializable, StatusEntity{
 
     // <editor-fold defaultstate="collapsed" desc="Property MultiyearDrg">
     @Column(name = "sopMultiyearDrg")
-    @Documentation(name = "Überlieger DRG", omitOnValues = "0", translateValue = "1=chooseOverlayerAll;2=chooseOverlayerPartial;3=chooseOverlayerNone;4=chooseOverlayerAlternative")
+    @Documentation(name = "Überlieger DRG", omitOnValues = "0", 
+            translateValue = "1=chooseOverlayerAll;2=chooseOverlayerPartial;3=chooseOverlayerNone;4=chooseOverlayerAlternative")
     private int _multiyearDrg;
 
     public int getMultiyearDrg() {
@@ -322,7 +323,8 @@ public class StatementOfParticipance implements Serializable, StatusEntity{
 
     // <editor-fold defaultstate="collapsed" desc="Property MultiyearPsy">
     @Column(name = "sopMultiyearPsy")
-    @Documentation(name = "Überlieger PSY", omitOnValues = "0", translateValue = "1=chooseOverlayerAll;2=chooseOverlayerPartial;3=chooseOverlayerNone;4=chooseOverlayerAlternative")
+    @Documentation(name = "Überlieger PSY", omitOnValues = "0", 
+            translateValue = "1=chooseOverlayerAll;2=chooseOverlayerPartial;3=chooseOverlayerNone;4=chooseOverlayerAlternative")
     private int _multiyearPsy;
 
     public int getMultiyearPsy() {

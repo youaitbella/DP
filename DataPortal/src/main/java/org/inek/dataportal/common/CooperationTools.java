@@ -61,7 +61,9 @@ public class CooperationTools implements Serializable {
     public void addReadRight(Feature feature, int ownerId){
         Account account = _sessionController.getAccount();
         List<CooperationRight> rights = getCooperationRights(feature, account);
-        Optional<CooperationRight> optionalRight = rights.stream().filter(r -> r.getOwnerId() == ownerId  && r.getPartnerId() == account.getId()).findFirst();
+        Optional<CooperationRight> optionalRight = rights.stream()
+                .filter(r -> r.getOwnerId() == ownerId  && r.getPartnerId() == account.getId())
+                .findFirst();
         if (optionalRight.isPresent()){
             CooperationRight right = optionalRight.get();
             right.setCooperativeRight(right.getCooperativeRight().mergeRightFromStrings("1000"));
@@ -363,7 +365,8 @@ public class CooperationTools implements Serializable {
             // get iks from cooperative rights
             Set<Integer> iks = getCooperationRights(feature, account)
                     .stream()
-                    .filter(r -> r.getOwnerId() == partnerId && r.getPartnerId() == account.getId() && r.getIk() > 0 && r.getCooperativeRight() != CooperativeRight.None)
+                    .filter(r -> r.getOwnerId() == partnerId && r.getPartnerId() == account.getId() 
+                            && r.getIk() > 0 && r.getCooperativeRight() != CooperativeRight.None)
                     .map(r -> r.getIk())
                     .collect(Collectors.toSet());
             // next check, whether the user is aupervisor for this feature and if an ik of the partner is supervised

@@ -50,7 +50,7 @@ public class DistributionModelFacade extends AbstractDataAccess {
                 + "join CallCenterDB.dbo.ccContact on cuId = coCustomerId and coIsActive = 1 \n" // (2)
                 + "join CallCenterDB.dbo.ccContactDetails on coId = cdContactId and cdContactDetailTypeId = 'E'\n" // (2)
                 + "join dbo.Account on (cdDetails = acMail" 
-                + (testMode ? " or acMail like '%@inek-drg.de'" : "") + ") and acId = " + accountId + "\n" // (2) - but let InEK staff perform without this restriction
+                + (testMode ? " or acMail like '%@inek-drg.de'" : "") + ") and acId = " + accountId + "\n" 
                 + "join CallCenterDB.dbo.mapContactRole r1 on (r1.mcrContactId = coId) and (r1.mcrRoleId in (3, 12, 15, 16, 18, 19)" 
                 + (testMode ? " or acMail like '%@inek-drg.de'" : "") + ") \n"
                 + "left join CallCenterDB.dbo.mapContactRole r2 on (r2.mcrContactId = coId) and r2.mcrRoleId = 14 " 
@@ -88,7 +88,7 @@ public class DistributionModelFacade extends AbstractDataAccess {
                 + "join CallCenterDB.dbo.ccContact on cuId = coCustomerId and coIsActive = 1 \n" // (2)
                 + "join CallCenterDB.dbo.ccContactDetails on coId = cdContactId and cdContactDetailTypeId = 'E'\n" // (2)
                 + "join dbo.Account on (cdDetails = acMail" 
-                + (testMode ? " or acMail like '%@inek-drg.de'" : "") + ") and acId = " + accountId + "\n" // (2) - but let InEK staff perform without this restriction
+                + (testMode ? " or acMail like '%@inek-drg.de'" : "") + ") and acId = " + accountId + "\n" 
                 + "join CallCenterDB.dbo.mapContactRole r1 on (r1.mcrContactId = coId) and (r1.mcrRoleId in (3, 12, 15, 16, 18, 19)" 
                 + (testMode ? " or acMail like '%@inek-drg.de'" : "") + ") \n"
                 + "left join CallCenterDB.dbo.mapContactRole r2 on (r2.mcrContactId = coId) and r2.mcrRoleId = 14 " 
@@ -101,7 +101,7 @@ public class DistributionModelFacade extends AbstractDataAccess {
                 + "             select aaiIK from dbo.AccountAdditionalIK where aaiAccountId = " + accountId + "\n"
                 + "     ) \n"
                 + "     and r2.mcrRoleId is null\n"
-                + "     and sopStatusId = " + WorkflowStatus.Provided.getId() + "\n" //+ " and " + (WorkflowStatus.Retired.getId() - 1) + "\n"
+                + "     and sopStatusId = " + WorkflowStatus.Provided.getId() + "\n" 
                 + "     and sopIsPsy = 1\n"
                 + "     and sopCdmPsy = 1\n"
                 + "     and sopObligatoryCalcType != 1\n"
@@ -162,8 +162,10 @@ public class DistributionModelFacade extends AbstractDataAccess {
     }
 
     public List<CalcHospitalInfo> getDistributionModelsForAccount(Account account) {
-        String sql = "select distinct dmmId as Id, 'CDM' as [Type], dmmAccountId as AccountId, dmmDataYear as DataYear, dmmIk as IK, dmmStatusId as StatusId,\n"
-                + " '" + Utils.getMessage("lblClinicalDistributionModel") + " ' + case dmmType when 0 then 'DRG' when 1 then 'PEPP' else '???' end as Name, dmmLastChanged as LastChanged\n"
+        String sql = "select distinct dmmId as Id, 'CDM' as [Type], dmmAccountId as AccountId, dmmDataYear as DataYear, "
+                + "    dmmIk as IK, dmmStatusId as StatusId,\n"
+                + " '" + Utils.getMessage("lblClinicalDistributionModel") + " ' "
+                + "    + case dmmType when 0 then 'DRG' when 1 then 'PEPP' else '???' end as Name, dmmLastChanged as LastChanged\n"
                 + "from calc.DistributionModelMaster \n"
                 + "join CallCenterDB.dbo.ccCustomer on dmmIk = cuIK\n"
                 + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
@@ -180,7 +182,8 @@ public class DistributionModelFacade extends AbstractDataAccess {
     }
 
     public DistributionModel findPriorDistributionModel(DistributionModel model) {
-        String jpql = "select d from DistributionModel d where d._dataYear = :dataYear and d._ik = :ik and d._statusId = :statusId order by d._id desc";
+        String jpql = "select d from DistributionModel d "
+                + "where d._dataYear = :dataYear and d._ik = :ik and d._statusId = :statusId order by d._id desc";
         TypedQuery<DistributionModel> query = getEntityManager().createQuery(jpql, DistributionModel.class);
         query.setParameter("dataYear", model.getDataYear());
         query.setParameter("ik", model.getIk());

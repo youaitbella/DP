@@ -435,7 +435,8 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
 
     // <editor-fold defaultstate="collapsed" desc="Property _additionalDataAllocation">
     @Column(name = "biAdditionalDataAllocation")
-    @Documentation(name = "Ist es Ihnen möglich, die Daten in der von der ergänzenden Datenbereitstellung vorgesehenen Form aufzubereiten und zu übermitteln?", rank = 1140)
+    @Documentation(name = "Ist es Ihnen möglich, die Daten in der von der ergänzenden Datenbereitstellung vorgesehenen "
+            + "Form aufzubereiten und zu übermitteln?", rank = 1140)
     private boolean _additionalDataAllocation;
 
     public boolean isAdditionalDataAllocation() {
@@ -623,7 +624,8 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
     //@OneToMany(cascade = CascadeType.ALL, mappedBy = "paBaseInformationId")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "paBaseInformationId", referencedColumnName = "biID")
-    @Documentation(name = "Gewähltes Verfahren für die Durchführung der Personalkostenverrechnung", rank = 12010, headline = "Ergänzende Angaben zur Personalkostenverrechnung")
+    @Documentation(name = "Gewähltes Verfahren für die Durchführung der Personalkostenverrechnung", rank = 12010, 
+            headline = "Ergänzende Angaben zur Personalkostenverrechnung")
     @OrderBy(value = "_costTypeId")
     private List<KGPPersonalAccounting> _personalAccountings = new ArrayList<>();
 

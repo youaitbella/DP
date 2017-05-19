@@ -114,11 +114,15 @@ public class AccountFacade extends AbstractFacade<Account> {
     }
 
     public List<Account> getAccounts4Feature(Feature feature) {
-        String statement = "SELECT a FROM Account a, IN (a._features) f WHERE f._feature = :feature and (f._featureState = :approved or f._featureState = :simple) ORDER BY a._company";
+        String statement = "SELECT a FROM Account a, IN (a._features) f "
+                + "WHERE f._feature = :feature and (f._featureState = :approved or f._featureState = :simple) ORDER BY a._company";
         TypedQuery<Account> query = getEntityManager().createQuery(statement, Account.class);
 //        String sql = query.unwrap(JpaQuery.class).getDatabaseQuery().getSQLString();
 //        System.out.println(sql);
-        return query.setParameter("feature", feature).setParameter("approved", FeatureState.APPROVED).setParameter("simple", FeatureState.SIMPLE).getResultList();
+        return query.setParameter("feature", feature)
+                .setParameter("approved", FeatureState.APPROVED)
+                .setParameter("simple", FeatureState.SIMPLE)
+                .getResultList();
     }
 
     public Account getAccount(final String mailOrUser, final String password) {
@@ -188,7 +192,8 @@ public class AccountFacade extends AbstractFacade<Account> {
             getLogger().log(Level.WARNING, "No account request found for {0}", mailOrUser);
             return false;
         }
-        if (!accountRequest.getPasswordHash().equals(Crypt.hashPassword(password, accountRequest.getSalt())) || !accountRequest.getActivationKey().equals(activationKey)) {
+        if (!accountRequest.getPasswordHash().equals(Crypt.hashPassword(password, accountRequest.getSalt())) 
+                || !accountRequest.getActivationKey().equals(activationKey)) {
             getLogger().log(Level.WARNING, "Password or activation key does not match {0}", mailOrUser);
             return false;
         }
@@ -250,7 +255,8 @@ public class AccountFacade extends AbstractFacade<Account> {
         if (request == null) {
             return false;
         }
-        if (!request.getPasswordHash().equals(Crypt.hashPassword(password, request.getSalt())) || !request.getActivationKey().equals(activationKey)) {
+        if (!request.getPasswordHash().equals(Crypt.hashPassword(password, request.getSalt())) 
+                || !request.getActivationKey().equals(activationKey)) {
             return false;
         }
         AccountPwd accountPwd = _accountPwdFacade.find(account.getId());
@@ -318,7 +324,8 @@ public class AccountFacade extends AbstractFacade<Account> {
     }
 
     public List<Account> getAccounts4Ik(Integer ik, Set<String> emails) {
-        String orEmailCond = emails.isEmpty() ? "" : " or a._email in (" + emails.stream().map(e -> "'" + e + "'").collect(Collectors.joining(", ")) + ") ";
+        String orEmailCond = emails.isEmpty() ? "" : " or a._email in (" + emails.stream().map(e -> "'" + e + "'")
+                .collect(Collectors.joining(", ")) + ") ";
         String jpql = "SELECT DISTINCT a FROM Account a left join AccountAdditionalIK i "
                 + "WHERE  a._ik = :ik  or a._id = i._accountId and i._ik = :ik " + orEmailCond
                 + "order by a._lastName";
