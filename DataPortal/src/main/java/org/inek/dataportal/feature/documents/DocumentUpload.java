@@ -133,7 +133,7 @@ public class DocumentUpload implements Serializable {
     public List<Account> getInekAccounts() {
         if (_inekAccounts.isEmpty()) {
             for (Account account : _accountFacade.getInekContacts(_sessionController.getAccount())) {
-                account.setSelected(true);
+                //account.setSelected(true);
                 _inekAccounts.add(account);
             }
             for (Account account : _accountFacade.getInekAccounts()) {
