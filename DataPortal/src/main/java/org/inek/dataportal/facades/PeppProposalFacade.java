@@ -88,7 +88,8 @@ public class PeppProposalFacade extends AbstractFacade<PeppProposal> {
         Level oldLevel = LOGGER.getLevel();
         LOGGER.setLevel(Level.INFO);
         for (KeyValueLevel kv : doc) {
-            LOGGER.log(Level.INFO, "{0} ^ Key: {1} ^ Length: {2} ^ Value: {3}", new Object[]{data.getClass().getSimpleName(), kv.getKey(), kv.getValue().toString().length(), kv.getValue()});
+            LOGGER.log(Level.INFO, "{0} ^ Key: {1} ^ Length: {2} ^ Value: {3}", 
+                    new Object[]{data.getClass().getSimpleName(), kv.getKey(), kv.getValue().toString().length(), kv.getValue()});
         }
         LOGGER.setLevel(oldLevel);
     }
@@ -100,7 +101,8 @@ public class PeppProposalFacade extends AbstractFacade<PeppProposal> {
         List<PeppProposal> peppProposals = findAll(accountId, year, dataSet);
         List<ProposalInfo> peppProposalInfos = new ArrayList<>();
         for (PeppProposal peppProposal : peppProposals) {
-            ProposalInfo ppInfo = new ProposalInfo(peppProposal.getId(), peppProposal.getName(), peppProposal.getTargetYear(), peppProposal.getStatus());
+            ProposalInfo ppInfo = new ProposalInfo(peppProposal.getId(), peppProposal.getName(), 
+                    peppProposal.getTargetYear(), peppProposal.getStatus());
             peppProposalInfos.add(ppInfo);
         }
         return peppProposalInfos;
@@ -122,7 +124,8 @@ public class PeppProposalFacade extends AbstractFacade<PeppProposal> {
     }
 
     public Set<Integer> checkAccountsForProposalOfYear(Set<Integer> accountIds, int year, WorkflowStatus statusLow, WorkflowStatus statusHigh) {
-        String jpql = "SELECT DISTINCT p._accountId FROM PeppProposal p WHERE p._accountId in :accountIds and (p._targetYear = :year or -1 = :year) and p._status between :statusLow and :statusHigh";
+        String jpql = "SELECT DISTINCT p._accountId FROM PeppProposal p "
+                + "WHERE p._accountId in :accountIds and (p._targetYear = :year or -1 = :year) and p._status between :statusLow and :statusHigh";
         TypedQuery<Integer> query = getEntityManager().createQuery(jpql, Integer.class);
         query.setParameter("accountIds", accountIds);
         query.setParameter("year", year);
@@ -132,7 +135,8 @@ public class PeppProposalFacade extends AbstractFacade<PeppProposal> {
     }
 
     public List<Integer> getProposalYears(Set<Integer> accountIds) {
-        String jpql = "SELECT DISTINCT p._targetYear FROM PeppProposal p WHERE p._accountId in :accountIds and p._status >= 10 ORDER BY p._targetYear DESC";
+        String jpql = "SELECT DISTINCT p._targetYear FROM PeppProposal p "
+                + "WHERE p._accountId in :accountIds and p._status >= 10 ORDER BY p._targetYear DESC";
         TypedQuery<Integer> query = getEntityManager().createQuery(jpql, Integer.class);
         query.setParameter("accountIds", accountIds);
         return query.getResultList();

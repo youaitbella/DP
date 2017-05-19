@@ -22,6 +22,7 @@ public class DataImporterPool implements Serializable {
         importers.put("drgcostcenter", DataImporter.obtainDataImporter("drgcostcenter"));
         importers.put("peppstationservicecost", DataImporter.obtainDataImporter("peppstationservicecost"));
         importers.put("drgnormalward", DataImporter.obtainDataImporter("drgnormalward"));
+        importers.put("drgintensive", DataImporter.obtainDataImporter("drgintensive"));
     }
 
     public DataImporter<?,?> getDataImporter(String importerName) {

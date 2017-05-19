@@ -144,7 +144,8 @@ public class CalcSopFacade extends AbstractDataAccess {
                 + "from calc.StatementOfParticipance \n"
                 + "join CallCenterDB.dbo.ccCustomer on sopik = cuIK \n"
                 + "join CallCenterDB.dbo.ccCalcAgreement x on caCustomerId = cuid and caCalcTypeId = 6 \n"
-                + "join CallCenterDB.dbo.ccCalcInformation on caid = ciCalcAgreementId and ciDataYear = (select max(ldyDataYear) from CallCenterDB.dbo.listDataYear) \n"
+                + "join CallCenterDB.dbo.ccCalcInformation on caid = ciCalcAgreementId "
+                + "    and ciDataYear = (select max(ldyDataYear) from CallCenterDB.dbo.listDataYear) \n"
                 + "where sopDataYear = (select max(ldyDataYear) from CallCenterDB.dbo.listDataYear) \n"
                 + "and sopStatusId = 10 \n"
                 + "and sopIsObligatory = 1 \n"
@@ -154,7 +155,8 @@ public class CalcSopFacade extends AbstractDataAccess {
                 + "from calc.StatementOfParticipance \n"
                 + "join CallCenterDB.dbo.ccCustomer on sopik = cuIK \n"
                 + "join CallCenterDB.dbo.ccCalcAgreement y on caCustomerId = cuid and caCalcTypeId = 6 \n"
-                + "join CallCenterDB.dbo.ccCalcInformation on caid = ciCalcAgreementId and ciDataYear = (select max(ldyDataYear) from CallCenterDB.dbo.listDataYear) \n"
+                + "join CallCenterDB.dbo.ccCalcInformation on caid = ciCalcAgreementId "
+                + "    and ciDataYear = (select max(ldyDataYear) from CallCenterDB.dbo.listDataYear) \n"
                 + "where sopDataYear = (select max(ldyDataYear) from CallCenterDB.dbo.listDataYear) \n"
                 + "and sopStatusId = 10 \n"
                 + "and sopIsObligatory = 1 \n"
@@ -179,7 +181,8 @@ public class CalcSopFacade extends AbstractDataAccess {
                 + "from calc.StatementOfParticipance \n"
                 + "join CallCenterDB.dbo.ccCustomer on sopIk = cuik \n"
                 + "join CallCenterDB.dbo.ccCalcAgreement on cuid = caCustomerId and caCalcTypeId = " + calcType + " \n"
-                + "join CallCenterDB.dbo.ccCalcInformation a on caId = ciCalcAgreementId and ciDataYear = (select max(ldyDataYear) from CallCenterDB.dbo.listDataYear) \n"
+                + "join CallCenterDB.dbo.ccCalcInformation a on caId = ciCalcAgreementId "
+                + "    and ciDataYear = (select max(ldyDataYear) from CallCenterDB.dbo.listDataYear) \n"
                 + "where 1=1 \n"
                 + "and sopStatusId = 10 \n" //send to InEK
                 + "and caHasAgreement = 1 \n"
@@ -208,7 +211,8 @@ public class CalcSopFacade extends AbstractDataAccess {
                 + "                         else '3 - nicht enthalten' \n"
                 + "end \n"
                 + "from DataPortal.calc.StatementOfParticipance \n"
-                + "join CallCenterDB.dbo.ivMapCustomerID on caCalcTypeId = " + calcType + " and ciDataYear = (select max(ldyDataYear) from CallCenterDB.dbo.listDataYear) and cuIK = sopIk \n"
+                + "join CallCenterDB.dbo.ivMapCustomerID on caCalcTypeId = " + calcType 
+                + " and ciDataYear = (select max(ldyDataYear) from CallCenterDB.dbo.listDataYear) and cuIK = sopIk \n"
                 + "left join CallCenterDB.dbo.ccCustomerCalcTypeProperty on ciId = ctpCalcInformationId and ctpPropertyId = 6 \n"
                 + "where 1=1 \n"
                 + "and sopIs" + column + " = 1 \n"
@@ -276,7 +280,8 @@ public class CalcSopFacade extends AbstractDataAccess {
                 + "where a.coid is null \n"
                 + "\n\n"
                 //neuen Kontakt aus DP in ICMT aufnehmen falls nicht vorhanden
-                + "insert into CallCenterDB.dbo.ccContact (coCustomerId, coSexId, coTitle, coFirstName, coLastName, coIsMain, coIsActive, coDPReceiver, coInfo) \n"
+                + "insert into CallCenterDB.dbo.ccContact (coCustomerId, coSexId, coTitle, coFirstName, coLastName, "
+                + "    coIsMain, coIsActive, coDPReceiver, coInfo) \n"
                 + "select cuid, case when gender = 1 then 'F' when gender = 2 then 'H' else 'U' end gender, "
                 + "    isnull(title, ''), firstName, lastName, 0, 1, 1, isnull(consultantCompany, '') \n"
                 + "from tmp.dpContacts \n"
@@ -332,7 +337,8 @@ public class CalcSopFacade extends AbstractDataAccess {
                 + "insert into CallCenterDB.dbo.mapCustomerCalcContact (mcccCalcInformationId, mcccContactId) \n"
                 + "select ciId, a.coid \n"
                 + "from tmp.dpContacts a \n"
-                + "join CallCenterDB.dbo.ivMapCustomerID b on a.cuId = b.cuId and caCalcTypeId in (" + calcTypes + ") and ciDataYear = (select max(ldyDataYear) from CallCenterDB.dbo.listDataYear) \n"
+                + "join CallCenterDB.dbo.ivMapCustomerID b on a.cuId = b.cuId and caCalcTypeId in (" + calcTypes + ")"
+                + "    and ciDataYear = (select max(ldyDataYear) from CallCenterDB.dbo.listDataYear) \n"
                 + "left join CallCenterDB.dbo.mapCustomerCalcContact on a.coId = mcccContactId and ciId = mcccCalcInformationId \n"
                 + "where mcccContactId is null and a.coid is not null\n"
                 + "\n\n"
@@ -365,19 +371,20 @@ public class CalcSopFacade extends AbstractDataAccess {
 
     /**
      * Check, whether the customers assigned to the account iks have an agreement and the account is a well known
-     * contact (2). An IK is only available, if no SoP exists for the given year.
+     * contact (2).An IK is only available, if no SoP exists for the given year.
      *
      * @param accountId
      * @param year
+     * @param testMode
      * @return
      */
     public Set<Integer> obtainIks4NewStatementOfParticipance(int accountId, int year, boolean testMode) {
         String sql = "select distinct cuIK\n"
                 + "from CallCenterDb.dbo.ccCustomer\n"
-                + "join CallCenterDB.dbo.ccContact on cuId = coCustomerId and coIsActive = 1 \n" // (2)
-                + "join CallCenterDB.dbo.ccContactDetails on coId = cdContactId and cdContactDetailTypeId = 'E'\n" // (2)
+                + "join CallCenterDB.dbo.ccContact on cuId = coCustomerId and coIsActive = 1 \n" 
+                + "join CallCenterDB.dbo.ccContactDetails on coId = cdContactId and cdContactDetailTypeId = 'E'\n" 
                 + "join dbo.Account on (cdDetails = acMail" 
-                + (testMode ? " or acMail like '%@inek-drg.de'" : "") + ") and acId = " + accountId + "\n" // (2) - but let InEK staff perform without this restriction
+                + (testMode ? " or acMail like '%@inek-drg.de'" : "") + ") and acId = " + accountId + "\n" 
                 + "join CallCenterDB.dbo.mapContactRole r1 on (r1.mcrContactId = coId) and (r1.mcrRoleId in (3, 12, 15, 16, 18, 19)" 
                 + (testMode ? " or acMail like '%@inek-drg.de'" : "") + ") \n"
                 + "left join CallCenterDB.dbo.mapContactRole r2 on (r2.mcrContactId = coId) and r2.mcrRoleId = 14 " 
@@ -414,12 +421,17 @@ public class CalcSopFacade extends AbstractDataAccess {
                 + "from CallCenterDB.dbo.ccCustomer\n"
                 + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
                 + "join CallCenterDB.dbo.ccCalcInformation on caId = ciCalcAgreementId\n"
-                + "left join CallCenterDB.dbo.ccCustomerCalcTypeProperty dk on ciId = dk.ctpCalcInformationId and dk.ctpPropertyId = 3 and caCalcTypeId = 1\n"
+                + "left join CallCenterDB.dbo.ccCustomerCalcTypeProperty dk on ciId = dk.ctpCalcInformationId "
+                + "    and dk.ctpPropertyId = 3 and caCalcTypeId = 1\n"
                 // ctpPropertyId 3|6 : KVM| Multiyear; caCalcTypeId 1|3 : DRG|Psy
-                + "left join CallCenterDB.dbo.ccCustomerCalcTypeProperty dm on ciId = dm.ctpCalcInformationId and dm.ctpPropertyId = 6 and caCalcTypeId = 1\n"
-                + "left join CallCenterDB.dbo.ccCustomerCalcTypeProperty pk on ciId = pk.ctpCalcInformationId and pk.ctpPropertyId = 3 and caCalcTypeId = 3\n"
-                + "left join CallCenterDB.dbo.ccCustomerCalcTypeProperty pm on ciId = pm.ctpCalcInformationId and pm.ctpPropertyId = 6 and caCalcTypeId = 3\n"
-                + "where caCalcTypeId in (1, 3, 4, 5, 6, 7) and caHasAgreement = 1 and caIsInactive = 0 and ciParticipation = 1 and ciParticipationRetreat = 0 and cuIk = " + ik + "\n"
+                + "left join CallCenterDB.dbo.ccCustomerCalcTypeProperty dm on ciId = dm.ctpCalcInformationId "
+                + "    and dm.ctpPropertyId = 6 and caCalcTypeId = 1\n"
+                + "left join CallCenterDB.dbo.ccCustomerCalcTypeProperty pk on ciId = pk.ctpCalcInformationId "
+                + "    and pk.ctpPropertyId = 3 and caCalcTypeId = 3\n"
+                + "left join CallCenterDB.dbo.ccCustomerCalcTypeProperty pm on ciId = pm.ctpCalcInformationId "
+                + "    and pm.ctpPropertyId = 6 and caCalcTypeId = 3\n"
+                + "where caCalcTypeId in (1, 3, 4, 5, 6, 7) and caHasAgreement = 1 and caIsInactive = 0 "
+                + "      and ciParticipation = 1 and ciParticipationRetreat = 0 and cuIk = " + ik + "\n"
                 + "      and ciDataYear = " + dataYear + "\n"
                 + "group by cuIk, cuDrgDelivery, cuPsyDelivery";
         Query query = getEntityManager().createNativeQuery(sql);

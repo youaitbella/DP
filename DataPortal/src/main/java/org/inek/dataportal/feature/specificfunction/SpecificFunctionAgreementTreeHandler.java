@@ -106,7 +106,8 @@ public class SpecificFunctionAgreementTreeHandler implements Serializable, TreeN
 
     private void obtainEditNodeChildren(RootNode node, Collection<TreeNode> children) {
         Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.SPECIFIC_FUNCTION, canReadCompleted());
-        List<Account> accounts = _specificFunctionFacade.loadAgreementAccountsForYear(accountIds, Utils.getTargetYear(Feature.SPECIFIC_FUNCTION), WorkflowStatus.New, WorkflowStatus.ApprovalRequested);
+        List<Account> accounts = _specificFunctionFacade.loadAgreementAccountsForYear(accountIds, 
+                Utils.getTargetYear(Feature.SPECIFIC_FUNCTION), WorkflowStatus.New, WorkflowStatus.ApprovalRequested);
         Account currentUser = _sessionController.getAccount();
         if (accounts.contains(currentUser)) {
             // ensure current user is first, if in list
@@ -144,7 +145,8 @@ public class SpecificFunctionAgreementTreeHandler implements Serializable, TreeN
 
     private void obtainYearNodeChildren(YearTreeNode node, Collection<TreeNode> children) {
         Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.SPECIFIC_FUNCTION, canReadSealed());
-        List<Account> accounts = _specificFunctionFacade.loadAgreementAccountsForYear(accountIds, node.getId(), WorkflowStatus.Provided, WorkflowStatus.Retired);
+        List<Account> accounts = _specificFunctionFacade.loadAgreementAccountsForYear(accountIds, node.getId(), 
+                WorkflowStatus.Provided, WorkflowStatus.Retired);
         Account currentUser = _sessionController.getAccount();
         if (accounts.contains(currentUser)) {
             // ensure current user is first, if in list
@@ -223,9 +225,11 @@ public class SpecificFunctionAgreementTreeHandler implements Serializable, TreeN
         switch (treeNode.getSortCriteria().toLowerCase()) {
             case "id":
                 if (treeNode.isDescending()) {
-                    sorted = stream.sorted((n1, n2) -> Integer.compare(n2.getSpecificFunctionAgreement().getId(), n1.getSpecificFunctionAgreement().getId()));
+                    sorted = stream.sorted((n1, n2) -> Integer.compare(n2.getSpecificFunctionAgreement().getId(), 
+                            n1.getSpecificFunctionAgreement().getId()));
                 } else {
-                    sorted = stream.sorted((n1, n2) -> Integer.compare(n1.getSpecificFunctionAgreement().getId(), n2.getSpecificFunctionAgreement().getId()));
+                    sorted = stream.sorted((n1, n2) -> Integer.compare(n1.getSpecificFunctionAgreement().getId(), 
+                            n2.getSpecificFunctionAgreement().getId()));
                 }
                 break;
             case "hospital":

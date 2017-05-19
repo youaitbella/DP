@@ -256,11 +256,13 @@
                         </td>
                         <td>
                             <inek:InputNumberWithMessage styleClassComponent="element100" styleClass="element100" 
-                                                         value="#{x.medicalServiceCost}" rendered="true" renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:overallCost #{cc.attrs.id}:tbl-cont:#{loop.index}:costPerMedical"/>
+                                                         value="#{x.medicalServiceCost}" rendered="true" 
+                                                         renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:overallCost #{cc.attrs.id}:tbl-cont:#{loop.index}:costPerMedical"/>
                         </td>
                         <td>
                             <inek:InputNumberWithMessage styleClassComponent="element100" styleClass="element100" 
-                                                         value="#{x.nursingServiceCost}" rendered="true" renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:overallCost #{cc.attrs.id}:tbl-cont:#{loop.index}:costPerNursing"/>
+                                                         value="#{x.nursingServiceCost}" rendered="true" 
+                                                         renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:overallCost #{cc.attrs.id}:tbl-cont:#{loop.index}:costPerNursing"/>
                         </td>
                         <td>
                             <inek:InputNumberWithMessage styleClassComponent="element100" styleClass="element100" 
@@ -298,6 +300,14 @@
         </div>
 
         <c:if test="#{cc.attrs.intensiveType == 1}">
+            <inek:UploadButtons2 importer="#{editCalcBasicsDrg.getImporter('drgIntensive')}"
+                                 calcbase="#{editCalcBasicsDrg.calcBasics}" 
+                                 readOnly="#{editCalcBasicsDrg.readOnly}"
+                                 addListener="#{editCalcBasicsDrg.addIntensivStroke(1)}"
+                                 uploadButtonText="Upload"
+                                 actionDeleteTable="#{editCalcBasicsDrg.deleteIntensivStrokeItems(1)}"
+                                 />
+            
             <inek:UploadButtons readOnly="#{editCalcBasicsDrg.readOnly}"
                                 addListener="#{editCalcBasicsDrg.addIntensivStroke(cc.attrs.intensiveType)}"
                                 uploadButtonText="Upload"

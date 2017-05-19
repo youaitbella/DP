@@ -105,7 +105,8 @@ public class CalcHospitalTreeHandler implements Serializable, TreeNodeObserver {
 
     private void obtainEditNodeChildren(RootNode node, Collection<TreeNode> children) {
         Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.CALCULATION_HOSPITAL, canReadCompleted());
-        accountIds = _calcFacade.checkAccountsForYear(accountIds, Utils.getTargetYear(Feature.CALCULATION_HOSPITAL), WorkflowStatus.New, WorkflowStatus.ApprovalRequested);
+        accountIds = _calcFacade.checkAccountsForYear(accountIds, Utils.getTargetYear(Feature.CALCULATION_HOSPITAL), 
+                WorkflowStatus.New, WorkflowStatus.ApprovalRequested);
         List<Account> accounts = _accountFacade.getAccountsForIds(accountIds);
         Account currentUser = _sessionController.getAccount();
         if (accounts.contains(currentUser)) {
@@ -205,7 +206,8 @@ public class CalcHospitalTreeHandler implements Serializable, TreeNodeObserver {
             CooperativeRight achievedRight = _cooperationTools.getAchievedRight(Feature.CALCULATION_HOSPITAL, partnerId);
             statusLow = achievedRight.canReadAlways() ? WorkflowStatus.New
                     : achievedRight.canReadCompleted() ? WorkflowStatus.ApprovalRequested :  WorkflowStatus.Unknown;
-            statusHigh = achievedRight.canReadAlways() || achievedRight.canReadCompleted() ? WorkflowStatus.ApprovalRequested : WorkflowStatus.Unknown;
+            statusHigh = achievedRight.canReadAlways() 
+                    || achievedRight.canReadCompleted() ? WorkflowStatus.ApprovalRequested : WorkflowStatus.Unknown;
         }
         return _calcFacade.getListCalcInfo(partnerId, Utils.getTargetYear(Feature.CALCULATION_HOSPITAL), statusLow, statusHigh);
     }
@@ -231,23 +233,29 @@ public class CalcHospitalTreeHandler implements Serializable, TreeNodeObserver {
                 break;
             case "hospital":
                 if (treeNode.isDescending()) {
-                    sorted = stream.sorted((n1, n2) -> _appTools.retrieveHospitalInfo(n2.getCalcHospitalInfo().getIk()).compareTo(_appTools.retrieveHospitalInfo(n1.getCalcHospitalInfo().getIk())));
+                    sorted = stream.sorted((n1, n2) -> _appTools.retrieveHospitalInfo(n2.getCalcHospitalInfo().getIk())
+                            .compareTo(_appTools.retrieveHospitalInfo(n1.getCalcHospitalInfo().getIk())));
                 } else {
-                    sorted = stream.sorted((n1, n2) -> _appTools.retrieveHospitalInfo(n1.getCalcHospitalInfo().getIk()).compareTo(_appTools.retrieveHospitalInfo(n2.getCalcHospitalInfo().getIk())));
+                    sorted = stream.sorted((n1, n2) -> _appTools.retrieveHospitalInfo(n1.getCalcHospitalInfo().getIk())
+                            .compareTo(_appTools.retrieveHospitalInfo(n2.getCalcHospitalInfo().getIk())));
                 }
                 break;
             case "name":
                 if (treeNode.isDescending()) {
-                    sorted = stream.sorted((n1, n2) -> n2.getCalcHospitalInfo().getName().compareTo(n1.getCalcHospitalInfo().getName()));
+                    sorted = stream.sorted((n1, n2) -> n2.getCalcHospitalInfo().getName()
+                            .compareTo(n1.getCalcHospitalInfo().getName()));
                 } else {
-                    sorted = stream.sorted((n1, n2) -> n1.getCalcHospitalInfo().getName().compareTo(n2.getCalcHospitalInfo().getName()));
+                    sorted = stream.sorted((n1, n2) -> n1.getCalcHospitalInfo().getName()
+                            .compareTo(n2.getCalcHospitalInfo().getName()));
                 }
                 break;
             case "date":
                 if (treeNode.isDescending()) {
-                    sorted = stream.sorted((n1, n2) -> n2.getCalcHospitalInfo().getLastChanged().compareTo(n1.getCalcHospitalInfo().getLastChanged()));
+                    sorted = stream.sorted((n1, n2) -> n2.getCalcHospitalInfo().getLastChanged()
+                            .compareTo(n1.getCalcHospitalInfo().getLastChanged()));
                 } else {
-                    sorted = stream.sorted((n1, n2) -> n1.getCalcHospitalInfo().getLastChanged().compareTo(n2.getCalcHospitalInfo().getLastChanged()));
+                    sorted = stream.sorted((n1, n2) -> n1.getCalcHospitalInfo().getLastChanged()
+                            .compareTo(n2.getCalcHospitalInfo().getLastChanged()));
                 }
                 break;
             case "status":

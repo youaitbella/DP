@@ -103,9 +103,8 @@ public class CalcBasicsDrgValidator {
                 //applyMessageValues(message, "Top 3 Leistung, Zeile " + line + ": Bitte angeben", "TopicCalcOpAn", "");
             } else {
                 checkField(message, top.getText(), "Top 3 Leistung, Zeile " + line + ": Bitte Bezeichnung angeben", "", "TopicCalcOpAn");
-                checkField(message, top.getCaseCount(), 1, 9999999, "Top 3 Leistung, Zeile " + line + ": Bitte Fallzahl angeben", "", "TopicCalcOpAn");
-                //checkField(message, top.getAmount(), 1, 9999999, "Top 3 Leistung, Zeile " + line + ": Bitte Erlösvolumen angeben", "", "TopicCalcOpAn");
-                //checkField(message, top.getDelimitationAmount(), 1, 9999999, "Top 3 Leistung, Zeile " + line + ": Bitte abgegr. Kostenvolumen angeben", "", "TopicCalcOpAn");
+                checkField(message, top.getCaseCount(), 1, 9999999, 
+                        "Top 3 Leistung, Zeile " + line + ": Bitte Fallzahl angeben", "", "TopicCalcOpAn");
             }
         }
     }
@@ -173,10 +172,12 @@ public class CalcBasicsDrgValidator {
     //<editor-fold defaultstate="collapsed" desc="checkMedicalInfrastructure">
     private static void checkInfrastructure(DrgCalcBasics calcBasics, MessageContainer message) {
         if (getMedInfraSum(calcBasics, 170) < 0) {
-            applyMessageValues(message, "Die Summe der Kostenvolumina der med. Infrastruktur darf nicht negativ sein.", "TopicCalcMedicalInfrastructure", "");
+            applyMessageValues(message, "Die Summe der Kostenvolumina der med. Infrastruktur darf nicht negativ sein.", 
+                    "TopicCalcMedicalInfrastructure", "");
         }
         if (getMedInfraSum(calcBasics, 180) < 0) {
-            applyMessageValues(message, "Die Summe der Kostenvolumina der nicht med. Infrastruktur darf nicht negativ sein.", "TopicCalcNonMedicalInfrastructure", "");
+            applyMessageValues(message, "Die Summe der Kostenvolumina der nicht med. Infrastruktur darf nicht negativ sein.", 
+                    "TopicCalcNonMedicalInfrastructure", "");
         }
     }
     
@@ -211,7 +212,8 @@ public class CalcBasicsDrgValidator {
         }
     }
 
-    private static void checkField(MessageContainer message, Integer value, Integer minValue, Integer maxValue, String msgKey, String elementId, String topicKey) {
+    private static void checkField(MessageContainer message, Integer value, Integer minValue, Integer maxValue, 
+            String msgKey, String elementId, String topicKey) {
         if (value == null
                 || minValue != null && value < minValue
                 || maxValue != null && value > maxValue) {

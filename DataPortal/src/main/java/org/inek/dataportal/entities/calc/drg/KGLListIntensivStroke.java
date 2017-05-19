@@ -503,81 +503,44 @@ public class KGLListIntensivStroke implements Serializable, BaseIdValue {
             return this._id == other._id;
         }
 
-        if (this._intensiveType != other._intensiveType) {
-            return false;
-        }
-//        if (this._costCenterID != other._costCenterID) {
-//            return false;
-//        }
-        if (this._bedCnt != other._bedCnt) {
-            return false;
-        }
-        if (this._caseCnt != other._caseCnt) {
-            return false;
-        }
-        if (this._ops8980 != other._ops8980) {
-            return false;
-        }
-        if (this._ops898f != other._ops898f) {
-            return false;
-        }
-        if (this._ops8981 != other._ops8981) {
-            return false;
-        }
-        if (this._ops898b != other._ops898b) {
-            return false;
-        }
-        if (this._intensivHoursWeighted != other._intensivHoursWeighted) {
-            return false;
-        }
-        if (this._intensivHoursNotweighted != other._intensivHoursNotweighted) {
-            return false;
-        }
-        if (Double.doubleToLongBits(this._weightMinimum) != Double.doubleToLongBits(other._weightMinimum)) {
-            return false;
-        }
-        if (Double.doubleToLongBits(this._weightMaximum) != Double.doubleToLongBits(other._weightMaximum)) {
-            return false;
-        }
-        if (this._medicalServiceCost != other._medicalServiceCost) {
-            return false;
-        }
-        if (this._nursingServiceCost != other._nursingServiceCost) {
-            return false;
-        }
-        if (this._functionalServiceCost != other._functionalServiceCost) {
-            return false;
-        }
-        if (this._overheadsMedicine != other._overheadsMedicine) {
-            return false;
-        }
-        if (this._overheadMedicalGoods != other._overheadMedicalGoods) {
-            return false;
-        }
-        if (this._medicalInfrastructureCost != other._medicalInfrastructureCost) {
-            return false;
-        }
-        if (this._nonMedicalInfrastructureCost != other._nonMedicalInfrastructureCost) {
-            return false;
-        }
-        if (!Objects.equals(this._costCenterText, other._costCenterText)) {
-            return false;
-        }
-        if (!Objects.equals(this._departmentAssignment, other._departmentAssignment)) {
-            return false;
-        }
-        if (!Objects.equals(this._minimumCriteriaPeriod, other._minimumCriteriaPeriod)) {
-            return false;
-        }
-        if (!Objects.equals(this._weightDescription, other._weightDescription)) {
-            return false;
-        }
-        if (!Objects.equals(this._baseInformationId, other._baseInformationId)) {
-            return false;
-        }
-        return true;
+        return equalsContent(other);
     }
 
+    /**
+     * checkes, whether two objects are equal by its content 
+     * this does not check the id
+     * @param other
+     * @return 
+     */
+    public boolean equalsContent(KGLListIntensivStroke other){
+        return _intensiveType == other._intensiveType
+                    && _costCenterText.equals(other._costCenterText)
+                    && _departmentAssignment.equals(other._departmentAssignment)
+                    && _intensiveType == other._intensiveType
+                    && _bedCnt == other._bedCnt
+                    && _caseCnt == other._caseCnt
+                    && _ops8980 == other._ops8980
+                    && _ops898f == other._ops898f
+                    && _ops8981 == other._ops8981
+                    && _ops898b == other._ops898b
+                    && _minimumCriteriaPeriod.equals(other._minimumCriteriaPeriod)
+                    && _weightDescription.equals(other._weightDescription)
+                    && _intensivHoursWeighted == other._intensivHoursWeighted
+                    && _intensivHoursNotweighted == other._intensivHoursNotweighted
+                    && _weightMinimum == other._weightMinimum
+                    && _weightMaximum == other._weightMaximum
+                    && _medicalServiceCnt == other._medicalServiceCnt
+                    && _nursingServiceCnt == other._nursingServiceCnt
+                    && _functionalServiceCnt == other._functionalServiceCnt
+                    && _medicalServiceCost == other._medicalServiceCost
+                    && _nursingServiceCost == other._nursingServiceCost
+                    && _functionalServiceCost == other._functionalServiceCost
+                    && _overheadsMedicine == other._overheadsMedicine
+                    && _overheadMedicalGoods == other._overheadMedicalGoods
+                    && _medicalInfrastructureCost == other._medicalInfrastructureCost
+                    && _nonMedicalInfrastructureCost == other._nonMedicalInfrastructureCost;
+    }
+    
     @Override
     public String toString() {
         return "org.inek.dataportal.entities.calc.KGLListIntensivStroke[ isID=" + _id + " ]";

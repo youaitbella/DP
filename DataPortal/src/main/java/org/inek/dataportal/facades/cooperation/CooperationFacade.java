@@ -38,7 +38,8 @@ public class CooperationFacade extends AbstractFacade<Cooperation> {
                 + "from dbo.account "
                 + "join usr.Cooperation on acId = coAccountId2 "
                 + "where coAccountId1 = ?1";
-        @SuppressWarnings("unchecked") List<Account> accounts = getEntityManager().createNativeQuery(query, Account.class).setParameter(1, accountId).getResultList();
+        @SuppressWarnings("unchecked")
+        List<Account> accounts = getEntityManager().createNativeQuery(query, Account.class).setParameter(1, accountId).getResultList();
         return accounts;
     }
 
@@ -81,20 +82,24 @@ public class CooperationFacade extends AbstractFacade<Cooperation> {
         if (cooperation == null) {
             return;
         }
-        remove(cooperation); 
-        String jql = "delete from CooperationRight c where c._ownerId = :partner1Id and c._partnerId = :partner2Id or c._ownerId = :partner2Id and c._partnerId = :partner1Id";
+        remove(cooperation);
+        String jql = "delete from CooperationRight c "
+                + "where c._ownerId = :partner1Id and c._partnerId = :partner2Id "
+                + "    or c._ownerId = :partner2Id and c._partnerId = :partner1Id";
         getEntityManager()
                 .createQuery(jql, CooperationRight.class)
                 .setParameter("partner1Id", partner1Id)
                 .setParameter("partner2Id", partner2Id)
                 .executeUpdate();
-        jql = "delete from CooperationRequest c where c._requestorId = :partner1Id and c._requestedId = :partner2Id or c._requestorId = :partner2Id and c._requestedId = :partner1Id";
+        jql = "delete from CooperationRequest c "
+                + "where c._requestorId = :partner1Id and c._requestedId = :partner2Id "
+                + "    or c._requestorId = :partner2Id and c._requestedId = :partner1Id";
         getEntityManager()
                 .createQuery(jql, CooperationRight.class)
                 .setParameter("partner1Id", partner1Id)
                 .setParameter("partner2Id", partner2Id)
                 .executeUpdate();
-        
+
     }
 
 }

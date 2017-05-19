@@ -157,11 +157,13 @@ public class EditDistributionModel extends AbstractEditController implements Ser
     }
 
     private boolean isInekEditable(DistributionModel model) {
-        return _sessionController.isInekUser(Feature.CALCULATION_HOSPITAL, true) && model != null && (model.getStatus() == WorkflowStatus.Provided || model.getStatus() == WorkflowStatus.ReProvided);
+        return _sessionController.isInekUser(Feature.CALCULATION_HOSPITAL, true) 
+                && model != null && (model.getStatus() == WorkflowStatus.Provided || model.getStatus() == WorkflowStatus.ReProvided);
     }
 
     private boolean isInekViewable(DistributionModel model) {
-        return _sessionController.isInekUser(Feature.CALCULATION_HOSPITAL, true) && model != null && model.getStatusId() >= WorkflowStatus.Provided.getId();
+        return _sessionController.isInekUser(Feature.CALCULATION_HOSPITAL, true) 
+                && model != null && model.getStatusId() >= WorkflowStatus.Provided.getId();
     }
 
     @Override
@@ -266,7 +268,9 @@ public class EditDistributionModel extends AbstractEditController implements Ser
     @Inject private Mailer _mailer;
 
     private void sendMessage(String name) {
-        Account receiver = _accountFacade.find(_appTools.isEnabled(ConfigKey.TestMode) ? _sessionController.getAccountId() : _model.getAccountId());
+        Account receiver = _accountFacade.find(_appTools.isEnabled(ConfigKey.TestMode) 
+                ? _sessionController.getAccountId() 
+                : _model.getAccountId());
         MailTemplate template = _mailer.getMailTemplate(name);
         String subject = template.getSubject()
                 .replace("{type}", _model.getType() == 0 ? "DRG" : "PSY")
@@ -334,21 +338,29 @@ public class EditDistributionModel extends AbstractEditController implements Ser
         for (DistributionModelDetail detail : model.getDetails()) {
             line++;
             checkField(message, detail.getArticle(), "Zeile " + line + ": Bitte Artikel angeben", "distributionModel:details");
-            checkField(message, detail.getCostCenterId(), 1, 999, "Zeile " + line + ": Bitte Kostenstellengruppe wählen", "distributionModel:details");
-            checkField(message, detail.getCostTypeId(), 1, 999, "Zeile " + line + ": Bitte Kostenartengruppe wählen", "distributionModel:details");
+            checkField(message, detail.getCostCenterId(), 1, 999, "Zeile " + line + ": Bitte Kostenstellengruppe wählen"
+                    , "distributionModel:details");
+            checkField(message, detail.getCostTypeId(), 1, 999, "Zeile " + line + ": Bitte Kostenartengruppe wählen"
+                    , "distributionModel:details");
             if (_model.getType() == 1) {
-                checkField(message, detail.getCountCaredays(), 1, 999999, "Zeile " + line + ": Bitte Anzahl Pflegetage angeben", "distributionModel:details");
+                checkField(message, detail.getCountCaredays(), 1, 999999, "Zeile " + line + ": Bitte Anzahl Pflegetage angeben"
+                        , "distributionModel:details");
                 if (detail.getCountCaredays() > 0 && detail.getCountCaredays() < detail.getCountCases()) {
-                    applyMessageValues(message, "Zeile " + line + ": Die Anzahl Pflegetage kann nicht kleiner als die Fallzahl sein.", "distributionModel:details");
+                    applyMessageValues(message, "Zeile " + line + ": Die Anzahl Pflegetage kann nicht kleiner als die Fallzahl sein.", 
+                            "distributionModel:details");
                 }
             }
-            checkField(message, detail.getCountCases(), 1, 999999, "Zeile " + line + ": Bitte Fallzahl angeben", "distributionModel:details");
-            checkField(message, detail.getCostVolume(), 1, 999999999, "Zeile " + line + ": Bitte Kostenvolumen angeben", "distributionModel:details");
+            checkField(message, detail.getCountCases(), 1, 999999, "Zeile " + line + ": Bitte Fallzahl angeben"
+                    , "distributionModel:details");
+            checkField(message, detail.getCostVolume(), 1, 999999999, "Zeile " + line + ": Bitte Kostenvolumen angeben"
+                    , "distributionModel:details");
             if (detail.isUseOtherCode()) {
-                checkField(message, detail.getNoteOtherCode(), "Zeile " + line + ": Verteilung über sonstigen Schlüssel bitte erläutern", "distributionModel:details");
+                checkField(message, detail.getNoteOtherCode(), "Zeile " + line + ": Verteilung über sonstigen Schlüssel bitte erläutern"
+                        , "distributionModel:details");
             }
             if (!detail.isUseProcCode() && !detail.isUseDiagCode() && !detail.isUseGroupResult() && !detail.isUseOtherCode()) {
-                applyMessageValues(message, "Zeile " + line + ": Bitte mindestens einen Schlüssel zur Verteilung angeben.", "distributionModel:details");
+                applyMessageValues(message, "Zeile " + line + ": Bitte mindestens einen Schlüssel zur Verteilung angeben."
+                        , "distributionModel:details");
             }
         }
 
@@ -411,9 +423,12 @@ public class EditDistributionModel extends AbstractEditController implements Ser
         // todo: get correct IK list, depending on type
         if (_ikItems == null && model != null) {
             Account account = _sessionController.getAccount();
-            CalcHospitalFunction calcFunct = model.getType() == 0 ? CalcHospitalFunction.ClinicalDistributionModelDrg : CalcHospitalFunction.ClinicalDistributionModelPepp;
+            CalcHospitalFunction calcFunct = model.getType() == 0 
+                    ? CalcHospitalFunction.ClinicalDistributionModelDrg 
+                    : CalcHospitalFunction.ClinicalDistributionModelPepp;
             boolean testMode = _appTools.isEnabled(ConfigKey.TestMode);
-            Set<Integer> possibleIks = _distModelFacade.obtainIks4NewDistributionModel(calcFunct, account.getId(), Utils.getTargetYear(Feature.CALCULATION_HOSPITAL), testMode);
+            Set<Integer> possibleIks = _distModelFacade.obtainIks4NewDistributionModel(calcFunct, account.getId()
+                    , Utils.getTargetYear(Feature.CALCULATION_HOSPITAL), testMode);
 
             _ikItems = new ArrayList<>();
             if (model.getIk() > 0) {

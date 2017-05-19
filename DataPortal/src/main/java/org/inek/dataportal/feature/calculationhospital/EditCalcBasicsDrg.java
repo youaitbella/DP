@@ -132,7 +132,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         } else {
             Utils.navigate(Pages.Error.RedirectURL());
         }
-        FacesContext.getCurrentInstance().getExternalContext().setSessionMaxInactiveInterval(3600); // session timeout extended to 1 hour (to provide enough time for an upload)
+        // extend session timeout to 1 hour (to provide enough time for an upload)
+        FacesContext.getCurrentInstance().getExternalContext().setSessionMaxInactiveInterval(3600); 
     }
 
     public void retrievePriorData(DrgCalcBasics calcBasics) {
@@ -481,7 +482,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     private void addMissingPriorProvisionTypes(List<KGLListServiceProvisionType> provisionTypes, DrgCalcBasics calcBasics) {
         // get prior values and additional entries
         for (KGLListServiceProvision prior : _priorCalcBasics.getServiceProvisions()) {
-            Optional<KGLListServiceProvision> currentOpt = calcBasics.getServiceProvisions().stream().filter(sp -> sp.getServiceProvisionTypeId() == prior.getServiceProvisionTypeId()).findAny();
+            Optional<KGLListServiceProvision> currentOpt = calcBasics.getServiceProvisions().stream()
+                    .filter(sp -> sp.getServiceProvisionTypeId() == prior.getServiceProvisionTypeId()).findAny();
             if (currentOpt.isPresent()) {
                 KGLListServiceProvision current = currentOpt.get();
                 current.setProvidedTypeId(prior.getProvidedTypeId());
@@ -659,7 +661,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     public void deleteIntensivStrokeItems(int intensiveType) {
-        List<KGLListIntensivStroke> itemsToDelete = _calcBasics.getIntensivStrokes().stream().filter(i -> i.getIntensiveType() == intensiveType).collect(Collectors.toList());
+        List<KGLListIntensivStroke> itemsToDelete = _calcBasics.getIntensivStrokes().stream()
+                .filter(i -> i.getIntensiveType() == intensiveType).collect(Collectors.toList());
         _calcBasics.getIntensivStrokes().removeAll(itemsToDelete);
     }
 
@@ -908,7 +911,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             return true;
         }
         // todo apply rights depending on ik?
-        //return _cooperationTools.isReadOnly(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId(), _calcBasics.getIk());
         return _cooperationTools.isReadOnly(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId());
     }
 
@@ -1011,7 +1013,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         return differencesPartner;
     }
 
-    private List<String> updateFields(Map<String, FieldValues> differencesUser, Map<String, FieldValues> differencesPartner, DrgCalcBasics modifiedCalcBasics) {
+    private List<String> updateFields(Map<String, FieldValues> differencesUser, Map<String, 
+            FieldValues> differencesPartner, DrgCalcBasics modifiedCalcBasics) {
         List<String> collisions = new ArrayList<>();
         for (String fieldName : differencesUser.keySet()) {
             if (differencesPartner.containsKey(fieldName) || _calcBasics.isSealed()) {
@@ -1274,7 +1277,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     //<editor-fold defaultstate="collapsed" desc="Tab ServiceProvision">
     public int priorProvisionAmount(KGLListServiceProvision current) {
-        Optional<KGLListServiceProvision> prior = _priorCalcBasics.getServiceProvisions().stream().filter(p -> p.getServiceProvisionTypeId() == current.getServiceProvisionTypeId()).findAny();
+        Optional<KGLListServiceProvision> prior = _priorCalcBasics.getServiceProvisions().stream()
+                .filter(p -> p.getServiceProvisionTypeId() == current.getServiceProvisionTypeId()).findAny();
         if (prior.isPresent()) {
             return prior.get().getAmount();
         }
@@ -1294,8 +1298,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     public void checkOption(AjaxBehaviorEvent event) {
         HtmlSelectOneMenu component = (HtmlSelectOneMenu) event.getComponent();
         if (component.getValue().equals(3)) {
-            //_sessionController.setScript("alert('Bitte beachten Sie, dass die Erfassung der Rüstzeit als Einheitswert keine leistungsgerechte Verteilung der Kosten gewährleistet.')");
-            Utils.showMessageInBrowser("Bitte beachten Sie, dass die Erfassung der Rüstzeit als Einheitswert keine leistungsgerechte Verteilung der Kosten gewährleistet.");
+            Utils.showMessageInBrowser("Bitte beachten Sie, dass die Erfassung der Rüstzeit als Einheitswert "
+                    + "keine leistungsgerechte Verteilung der Kosten gewährleistet.");
         }
     }
     // </editor-fold>
@@ -1395,7 +1399,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                     if (!line.equals(HEADLINE_RADIOLOGY)) {
                         String[] values = StringUtil.splitAtUnquotedSemicolon(line);
                         if (values.length != headlineLength) {
-                            alertText += "Zeile " + lineNum + ": Fehlerhafte Anzahl Spalten. (" + headlineLength + " erwartet, " + values.length + " gefunden) \\n";
+                            alertText += "Zeile " + lineNum + ": Fehlerhafte Anzahl Spalten. (" 
+                                    + headlineLength + " erwartet, " + values.length + " gefunden) \\n";
                             continue;
                         }
                         KGLListRadiologyLaboratory radio = new KGLListRadiologyLaboratory();
@@ -1492,7 +1497,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                     if (!line.equals(HEADLINE_LABORATY)) {
                         String[] values = StringUtil.splitAtUnquotedSemicolon(line);
                         if (values.length != headlineLength) {
-                            alertText += "Zeile " + lineNum + ": Fehlerhafte Anzahl Spalten. (" + headlineLength + " erwartet, " + values.length + " gefunden) \\n";
+                            alertText += "Zeile " + lineNum + ": Fehlerhafte Anzahl Spalten. (" 
+                                    + headlineLength + " erwartet, " + values.length + " gefunden) \\n";
                             continue;
                         }
                         KGLListRadiologyLaboratory radio = new KGLListRadiologyLaboratory();
@@ -1577,7 +1583,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                     if (!line.equals(HEADLINE_MED_INFRA)) {
                         String[] values = StringUtil.splitAtUnquotedSemicolon(line);
                         if (values.length != headlineLength) {
-                            alertText += "Zeile " + lineNum + ": Fehlerhafte Anzahl Spalten. (" + headlineLength + " erwartet, " + values.length + " gefunden) \\n";
+                            alertText += "Zeile " + lineNum + ": Fehlerhafte Anzahl Spalten. (" 
+                                    + headlineLength + " erwartet, " + values.length + " gefunden) \\n";
                             continue;
                         }
                         KGLListMedInfra medInfra = new KGLListMedInfra();
@@ -1656,7 +1663,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     //<editor-fold defaultstate="collapsed" desc="Tab MVI">
     public String downloadDocument(String name) {
-        Document document = _calcBasics.getDocuments().stream().filter(d -> d.getName().equalsIgnoreCase(name) && d.getSheetId() == 19).findAny().orElse(null);
+        Document document = _calcBasics.getDocuments().stream()
+                .filter(d -> d.getName().equalsIgnoreCase(name) && d.getSheetId() == 19).findAny().orElse(null);
         if (document != null) {
             return Utils.downloadDocument(document);
         }
@@ -1664,7 +1672,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     public String deleteDocument(String name) {
-        KGLDocument document = _calcBasics.getDocuments().stream().filter(d -> d.getName().equalsIgnoreCase(name) && d.getSheetId() == 19).findAny().orElse(null);
+        KGLDocument document = _calcBasics.getDocuments().stream()
+                .filter(d -> d.getName().equalsIgnoreCase(name) && d.getSheetId() == 19).findAny().orElse(null);
         if (document != null) {
             _calcBasics.getDocuments().remove(document);
         }
@@ -1694,13 +1703,15 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     public BigDecimal priorData(int textId) {
-        BigDecimal priorValue = _priorCalcBasics.getNeonateData().stream().filter(d -> d.getContentTextId() == textId).map(d -> d.getData()).findFirst().orElse(BigDecimal.ZERO);
+        BigDecimal priorValue = _priorCalcBasics.getNeonateData().stream()
+                .filter(d -> d.getContentTextId() == textId).map(d -> d.getData()).findFirst().orElse(BigDecimal.ZERO);
         return priorValue;
     }
 
     public String diffData(int textId) {
         DrgNeonatData data = _calcBasics.getNeonateData().stream().filter(d -> d.getContentTextId() == textId).findFirst().get();
-        BigDecimal priorValue = _priorCalcBasics.getNeonateData().stream().filter(d -> d.getContentTextId() == textId).map(d -> d.getData()).findFirst().orElse(BigDecimal.ZERO);
+        BigDecimal priorValue = _priorCalcBasics.getNeonateData().stream()
+                .filter(d -> d.getContentTextId() == textId).map(d -> d.getData()).findFirst().orElse(BigDecimal.ZERO);
         if (data.getContentText().isDiffAsPercent()) {
             return calcPercentualDiff(priorValue, data.getData());
         }

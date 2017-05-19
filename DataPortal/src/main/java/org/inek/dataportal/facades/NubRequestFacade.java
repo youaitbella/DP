@@ -187,14 +187,16 @@ public class NubRequestFacade extends AbstractDataAccess {
     }
 
     public List<Integer> getNubYears(Set<Integer> accountIds) {
-        String jpql = "SELECT DISTINCT p._targetYear FROM NubRequest p WHERE p._accountId in :accountIds and p._status >= 10 ORDER BY p._targetYear DESC";
+        String jpql = "SELECT DISTINCT p._targetYear FROM NubRequest p "
+                + "WHERE p._accountId in :accountIds and p._status >= 10 ORDER BY p._targetYear DESC";
         TypedQuery<Integer> query = getEntityManager().createQuery(jpql, Integer.class);
         query.setParameter("accountIds", accountIds);
         return query.getResultList();
     }
 
     public Set<Integer> checkAccountsForNubOfYear(Set<Integer> accountIds, int year, WorkflowStatus statusLow, WorkflowStatus statusHigh) {
-        String jpql = "SELECT DISTINCT p._accountId FROM NubRequest p WHERE p._accountId in :accountIds and (p._targetYear = :year or -1 = :year) and p._status between :statusLow and :statusHigh";
+        String jpql = "SELECT DISTINCT p._accountId FROM NubRequest p "
+                + "WHERE p._accountId in :accountIds and (p._targetYear = :year or -1 = :year) and p._status between :statusLow and :statusHigh";
         TypedQuery<Integer> query = getEntityManager().createQuery(jpql, Integer.class);
         query.setParameter("accountIds", accountIds);
         query.setParameter("year", year);
@@ -374,7 +376,9 @@ public class NubRequestFacade extends AbstractDataAccess {
 
     private TypedQuery<NubRequest> getQueryForNewNubIds(String id, int ik) {
         int targetYear = Calendar.getInstance().get(Calendar.YEAR);
-        String jpql = "SELECT p FROM NubRequest p WHERE p._id = :exId AND (p._ik = :ik or p._proxyIKs like :iks) AND p._status >= 20 AND p._status < 200 AND p._targetYear <= " + targetYear;
+        String jpql = "SELECT p FROM NubRequest p "
+                + "WHERE p._id = :exId AND (p._ik = :ik or p._proxyIKs like :iks) "
+                + "    AND p._status >= 20 AND p._status < 200 AND p._targetYear <= " + targetYear;
         TypedQuery<NubRequest> query = getEntityManager().createQuery(jpql, NubRequest.class);
         int nubId = 0;
         try {

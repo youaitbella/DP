@@ -85,7 +85,8 @@ public class DrgProposalFacade extends AbstractFacade<DrgProposal> {
         Level oldLevel = LOGGER.getLevel();
         LOGGER.setLevel(Level.INFO);
         for (KeyValueLevel kv : doc) {
-            LOGGER.log(Level.INFO, "{0} ^ Key: {1} ^ Length: {2} ^ Value: {3}", new Object[]{data.getClass().getSimpleName(), kv.getKey(), kv.getValue().toString().length(), kv.getValue()});
+            LOGGER.log(Level.INFO, "{0} ^ Key: {1} ^ Length: {2} ^ Value: {3}", 
+                    new Object[]{data.getClass().getSimpleName(), kv.getKey(), kv.getValue().toString().length(), kv.getValue()});
         }
         LOGGER.setLevel(oldLevel);
     }
@@ -98,7 +99,8 @@ public class DrgProposalFacade extends AbstractFacade<DrgProposal> {
         List<DrgProposal> drgProposals = findAll(accountId, year, dataSet);
         List<ProposalInfo> drgProposalInfos = new ArrayList<>();
         for (DrgProposal drgProposal : drgProposals) {
-            ProposalInfo ppInfo = new ProposalInfo(drgProposal.getId(), drgProposal.getName(), drgProposal.getTargetYear(), drgProposal.getStatus());
+            ProposalInfo ppInfo = new ProposalInfo(drgProposal.getId(), drgProposal.getName(), 
+                    drgProposal.getTargetYear(), drgProposal.getStatus());
             drgProposalInfos.add(ppInfo);
         }
         return drgProposalInfos;
@@ -119,7 +121,9 @@ public class DrgProposalFacade extends AbstractFacade<DrgProposal> {
     }
 
     public Set<Integer> checkAccountsForProposalOfYear(Set<Integer> accountIds, int year, WorkflowStatus statusLow, WorkflowStatus statusHigh) {
-        String jpql = "SELECT DISTINCT p._accountId FROM DrgProposal p WHERE p._accountId in :accountIds and (p._targetYear = :year or -1 = :year) and p._status between :statusLow and :statusHigh";
+        String jpql = "SELECT DISTINCT p._accountId FROM DrgProposal p "
+                + "WHERE p._accountId in :accountIds and (p._targetYear = :year or -1 = :year) "
+                + "    and p._status between :statusLow and :statusHigh";
         //TypedQuery<DrgProposal> query = getEntityManager().createQuery(jpql, DrgProposal.class);
         TypedQuery<Integer> query = getEntityManager().createQuery(jpql, Integer.class);
         query.setParameter("accountIds", accountIds);
@@ -130,7 +134,8 @@ public class DrgProposalFacade extends AbstractFacade<DrgProposal> {
     }
 
     public List<Integer> getProposalYears(Set<Integer> accountIds) {
-        String jpql = "SELECT DISTINCT p._targetYear FROM DrgProposal p WHERE p._accountId in :accountIds and p._status >= 10 ORDER BY p._targetYear DESC";
+        String jpql = "SELECT DISTINCT p._targetYear FROM DrgProposal p "
+                + "WHERE p._accountId in :accountIds and p._status >= 10 ORDER BY p._targetYear DESC";
         TypedQuery<Integer> query = getEntityManager().createQuery(jpql, Integer.class);
         query.setParameter("accountIds", accountIds);
         return query.getResultList();

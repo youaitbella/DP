@@ -1087,6 +1087,26 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     public void setIntensivStrokes(List<KGLListIntensivStroke> intensivStrokes) {
         this._intensivStrokes = intensivStrokes;
     }
+
+    @JsonIgnore
+    public boolean addIntensive(KGLListIntensivStroke intensivStroke) {
+        intensivStroke.setIntensiveType(1);
+        if (_intensivStrokes.stream().anyMatch(i -> i.equalsContent(intensivStroke))){
+            return false;
+        }
+        this._intensivStrokes.add(intensivStroke);
+        return true;
+    }
+
+    @JsonIgnore
+    public boolean addStroke(KGLListIntensivStroke intensivStroke) {
+        intensivStroke.setIntensiveType(2);
+        if (_intensivStrokes.stream().anyMatch(i -> i.equalsContent(intensivStroke))){
+            return false;
+        }
+        this._intensivStrokes.add(intensivStroke);
+        return true;
+    }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property List medInfras">
