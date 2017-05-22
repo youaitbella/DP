@@ -64,7 +64,10 @@ public class CalcHospitalList {
         }
         if (!_allowedButtons.containsKey(CalcHospitalFunction.StatementOfParticipance)) {
             boolean testMode = _appTools.isEnabled(ConfigKey.TestMode);
-            Set<Integer> iks = _calcSopPsyFacade.obtainIks4NewStatementOfParticipance(_sessionController.getAccountId(), Utils.getTargetYear(Feature.CALCULATION_HOSPITAL), testMode);
+            Set<Integer> iks = _calcSopPsyFacade.obtainIks4NewStatementOfParticipance(
+                    _sessionController.getAccountId(), 
+                    Utils.getTargetYear(Feature.CALCULATION_HOSPITAL), 
+                    testMode);
             _allowedButtons.put(CalcHospitalFunction.StatementOfParticipance, iks.size() > 0);
         }
         return _allowedButtons.get(CalcHospitalFunction.StatementOfParticipance);
@@ -190,19 +193,34 @@ public class CalcHospitalList {
     public String deleteHospitalInfo(CalcHospitalInfo hospitalInfo) {
         switch (hospitalInfo.getType()) {
             case SOP:
-                deleteData(_calcSopPsyFacade::findStatementOfParticipance, _calcSopPsyFacade::saveStatementOfParticipance, _calcSopPsyFacade::delete, hospitalInfo);
+                deleteData(_calcSopPsyFacade::findStatementOfParticipance, 
+                        _calcSopPsyFacade::saveStatementOfParticipance, 
+                        _calcSopPsyFacade::delete, 
+                        hospitalInfo);
                 break;
             case CBD:
-                deleteData(_calcDrgFacade::findCalcBasicsDrg, _calcDrgFacade::saveCalcBasicsDrg, _calcDrgFacade::delete, hospitalInfo);
+                deleteData(_calcDrgFacade::findCalcBasicsDrg, 
+                        _calcDrgFacade::saveCalcBasicsDrg, 
+                        _calcDrgFacade::delete, 
+                        hospitalInfo);
                 break;
             case CBP:
-                deleteData(_calcPsyFacade::findCalcBasicsPepp, _calcPsyFacade::saveCalcBasicsPepp, _calcPsyFacade::delete, hospitalInfo);
+                deleteData(_calcPsyFacade::findCalcBasicsPepp,
+                        _calcPsyFacade::saveCalcBasicsPepp, 
+                        _calcPsyFacade::delete, 
+                        hospitalInfo);
                 break;
             case CBA:
-                deleteData(_calcAutopsyFacade::findCalcBasicsAutopsy, _calcAutopsyFacade::saveCalcBasicsAutopsy, _calcAutopsyFacade::delete, hospitalInfo);
+                deleteData(_calcAutopsyFacade::findCalcBasicsAutopsy, 
+                        _calcAutopsyFacade::saveCalcBasicsAutopsy,
+                        _calcAutopsyFacade::delete, 
+                        hospitalInfo);
                 break;
             case CDM:
-                deleteData(_distModelFacade::findDistributionModel, _distModelFacade::saveDistributionModel, _distModelFacade::delete, hospitalInfo);
+                deleteData(_distModelFacade::findDistributionModel, 
+                        _distModelFacade::saveDistributionModel, 
+                        _distModelFacade::delete, 
+                        hospitalInfo);
                 break;
             default:
                 throw new IllegalArgumentException("Unknown calcInfoType: " + hospitalInfo.getType());
@@ -210,7 +228,11 @@ public class CalcHospitalList {
         return "";
     }
 
-    private <T> void deleteData(Function<Integer, T> findData, Function<T, T> saveData, Consumer<T> deleteData, CalcHospitalInfo hospitalInfo) {
+    private <T> void deleteData(
+            Function<Integer, T> findData, 
+            Function<T, T> saveData, 
+            Consumer<T> deleteData, 
+            CalcHospitalInfo hospitalInfo) {
         T data = findData.apply(hospitalInfo.getId());
         if (data == null) {
             // might be deleted by somebody else
@@ -223,7 +245,6 @@ public class CalcHospitalList {
         } else {
             deleteData.accept(data);
         }
-
     }
 
     public String editHospitalInfo(CalcInfoType type) {

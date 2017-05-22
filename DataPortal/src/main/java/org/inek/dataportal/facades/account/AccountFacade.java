@@ -35,6 +35,7 @@ import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.PasswordRequestFacade;
 import org.inek.dataportal.facades.admin.ConfigFacade;
 import org.inek.dataportal.helper.TransferFileCreator;
+import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.mail.Mailer;
 import org.inek.dataportal.requestmanager.FeatureRequestHandler;
 import org.inek.dataportal.utils.Crypt;
@@ -412,12 +413,12 @@ public class AccountFacade extends AbstractFacade<Account> {
                 + "from dbo.Account \n"
                 + "join CallCenterDB.dbo.ccAgent on agEMail = acMail\n"
                 + "join (\n"
-                + "    select distinct cuIk, mcraAgentId\n"
+                + "    select distinct mcraAgentId\n"
                 + "    from CallCenterDB.dbo.ccCustomer \n"
                 + "    join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
                 + "    join CallCenterDB.dbo.ccCalcInformation on caId = ciCalcAgreementId\n"
                 + "    join CallCenterDB.dbo.mapCustomerReportAgent on ciId = mcraCalcInformationId\n"
-                + "where ciDataYear = 2016 \n"
+                + "    where ciDataYear = " + Utils.getTargetYear(Feature.CALCULATION_HOSPITAL) +" \n"
                 + "    and cuIK in (" + iks.stream().map(i -> "" + i).collect(Collectors.joining(", ")) + ")\n"
                 + ") d on agId = mcraAgentId\n"
                 + "where agActive = 1 \n"

@@ -24,8 +24,9 @@ import javax.faces.convert.FacesConverter;
  */
 @FacesConverter(value="FlexibleDateTimeConverter")
 public class FlexibleDateTimeConverter extends DateTimeConverter {
+    private static final Logger LOGGER = Logger.getLogger("FlexibleDateTimeConverter");
 
-    private SimpleDateFormat dfShort;   // mm 2010-01-08 DateFormat replaced by SimpleDateFormat (medium had displayed name of month, is now allways number)
+    private SimpleDateFormat dfShort;  
     private SimpleDateFormat dfMedium;
 
     public FlexibleDateTimeConverter() {
@@ -49,12 +50,12 @@ public class FlexibleDateTimeConverter extends DateTimeConverter {
                 try {
                     d = dfMedium.parse(value.trim());
                 } catch (ParseException anon2) {
-                    Logger.getLogger(FlexibleDateTimeConverter.class.getName()).log(Level.INFO, 
+                   LOGGER.log(Level.INFO, 
                             "Caught 2nd ParseException during parsing of {0} in <MEDIUM> and Locale {1}.", 
                             new Object[]{value, getLocale().getDisplayName()});
                 }
             } catch (Exception ex) {
-                Logger.getLogger(FlexibleDateTimeConverter.class.getName()).log(Level.WARNING, "Caught other exception during parsing of " + value, ex);
+                LOGGER.log(Level.WARNING, "Caught other exception during parsing of " + value, ex);
             }
             Calendar c = Calendar.getInstance();
             if (d != null) {

@@ -133,7 +133,6 @@ public class DocumentUpload implements Serializable {
     public List<Account> getInekAccounts() {
         if (_inekAccounts.isEmpty()) {
             for (Account account : _accountFacade.getInekContacts(_sessionController.getAccount())) {
-                //account.setSelected(true);
                 _inekAccounts.add(account);
             }
             for (Account account : _accountFacade.getInekAccounts()) {
@@ -373,6 +372,7 @@ public class DocumentUpload implements Serializable {
             sendNotification(account);
         }
         _documents.clear();
+        _sessionController.setScript("alert('Dokumente ans InEK gesendet.');");
         return "";
     }
 

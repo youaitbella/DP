@@ -17,13 +17,11 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.SessionTools;
 import org.inek.dataportal.controller.SessionController;
-import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountRequest;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.account.AccountRequestFacade;
 import org.inek.dataportal.helper.Utils;
-import org.inek.dataportal.helper.faceletvalidators.EmailValidator;
 import org.inek.dataportal.helper.faceletvalidators.NameValidator;
 
 /**
@@ -40,7 +38,6 @@ public class Register implements Serializable {
     private String _repeatEmail;
     private AccountRequest _accountRequest;
     @Inject private SessionTools _sessionTools;
-    @Inject private SessionController _sessionController;
     @Inject private AccountFacade _accountFacade;
     @Inject private AccountRequestFacade _accountRequestFacade;
 
@@ -97,7 +94,9 @@ public class Register implements Serializable {
             String msg = Utils.getMessage("msgInvalidCharacters");
             throw new ValidatorException(new FacesMessage(msg));
         }
-        if (_accountFacade.existsMailOrUser(input) || _accountRequestFacade.findByMailOrUser(input) != null || input.toLowerCase().equals("supervisor")) {
+        if (_accountFacade.existsMailOrUser(input) 
+                || _accountRequestFacade.findByMailOrUser(input) != null 
+                || input.toLowerCase().equals("supervisor")) {
             String msg = Utils.getMessage("msgUserExists");
             throw new ValidatorException(new FacesMessage(msg));
         }
@@ -152,7 +151,8 @@ public class Register implements Serializable {
         if (_accountFacade.isReRegister(_accountRequest.getEmail())){
             return Pages.LoginFinishRegister.URL();
         }
-        if (!_accountFacade.existsMailOrUser(_accountRequest.getEmail()) && _accountRequestFacade.findByMailOrUser(_accountRequest.getEmail()) == null) {
+        if (!_accountFacade.existsMailOrUser(_accountRequest.getEmail()) 
+                && _accountRequestFacade.findByMailOrUser(_accountRequest.getEmail()) == null) {
             _accountRequest.setPassword(_password);
             if (!_accountRequestFacade.createAccountRequest(_accountRequest)) {
                 Utils.showMessageInBrowser(Utils.getMessage("errProcessing"));

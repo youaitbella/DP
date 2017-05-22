@@ -15,7 +15,6 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.http.HttpServletRequest;
 import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.SearchController;
 import org.inek.dataportal.entities.CustomerType;

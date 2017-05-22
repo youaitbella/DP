@@ -255,7 +255,10 @@ public class EditDrgProposal extends AbstractEditController {
             return;
         }
 
-        findTopic(DrgProposalTabs.tabPPCodes.name()).setVisible(cat.equals(DrgProposalCategory.CODES) || cat.equals(DrgProposalCategory.SYSTEM) || cat.equals(DrgProposalCategory.CCL));
+        findTopic(DrgProposalTabs.tabPPCodes.name())
+                .setVisible(cat.equals(DrgProposalCategory.CODES) 
+                        || cat.equals(DrgProposalCategory.SYSTEM) 
+                        || cat.equals(DrgProposalCategory.CCL));
     }
 
     public boolean isSystem() {
@@ -561,7 +564,12 @@ public class EditDrgProposal extends AbstractEditController {
         newTopic = checkField(newTopic, drgProposal.getSolution(), "lblSuggestedSolution", "form:solution", DrgProposalTabs.tabPPSolution);
         if (drgProposal.getDocuments() != null && drgProposal.getDocuments().size() > 0
                 || drgProposal.getDocumentsOffline() != null && drgProposal.getDocumentsOffline().length() > 0) {
-            newTopic = checkField(newTopic, drgProposal.isAnonymousData() ? "true" : "", "lblAnonymousData", "form:anonymousData", DrgProposalTabs.tabPPDocuments);
+            newTopic = checkField(
+                    newTopic, 
+                    drgProposal.isAnonymousData() ? "true" : "", 
+                    "lblAnonymousData", 
+                    "form:anonymousData", 
+                    DrgProposalTabs.tabPPDocuments);
         }
 
         if (!_msg.isEmpty()) {
@@ -587,7 +595,14 @@ public class EditDrgProposal extends AbstractEditController {
         return newTopic;
     }
 
-    private String checkField(String newTopic, Integer value, Integer minValue, Integer maxValue, String msgKey, String elementId, DrgProposalTabs tab) {
+    private String checkField(
+            String newTopic, 
+            Integer value, 
+            Integer minValue, 
+            Integer maxValue, 
+            String msgKey, 
+            String elementId, 
+            DrgProposalTabs tab) {
         if (value == null
                 || minValue != null && value.intValue() < minValue.intValue()
                 || maxValue != null && value.intValue() > maxValue.intValue()) {
@@ -641,5 +656,4 @@ public class EditDrgProposal extends AbstractEditController {
         return Pages.DrgProposalSummary.RedirectURL();
     }
     // </editor-fold>
-
 }
