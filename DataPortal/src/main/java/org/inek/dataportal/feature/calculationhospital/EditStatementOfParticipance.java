@@ -412,7 +412,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
         }
         _statement.setId(-1);
         _statement.setStatus(WorkflowStatus.New);
-        _statement.setAccountId(_sessionController.getAccountId());
+        // do not set: _statement.setAccountId(_sessionController.getAccountId());
         for (CalcContact contact : _statement.getContacts()) {
             contact.setId(-1);
             contact.setStatementOfParticipanceId(-1);
