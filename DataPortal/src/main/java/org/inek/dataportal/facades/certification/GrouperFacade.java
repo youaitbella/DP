@@ -3,8 +3,7 @@ package org.inek.dataportal.facades.certification;
 import java.util.List;
 import java.util.logging.Level;
 import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
+import javax.persistence.TypedQuery;
 import org.inek.dataportal.entities.certification.Grouper;
 import org.inek.dataportal.facades.AbstractFacade;
 
@@ -33,9 +32,11 @@ public class GrouperFacade extends AbstractFacade<Grouper> {
 
     
     public Grouper findByAccountAndSystemId(int accountId, int systemId) {
-        String query = "SELECT g FROM Grouper g WHERE g._accountId = :accId and g._systemId = :sysId";
+        String jpql = "SELECT g FROM Grouper g WHERE g._accountId = :accId and g._systemId = :sysId";
         try {
-            return getEntityManager().createQuery(query, Grouper.class).setParameter("accId", accountId).setParameter("sysId", systemId).getSingleResult();
+            TypedQuery<Grouper> query = getEntityManager().createQuery(jpql, Grouper.class);
+            query.setParameter("accId", accountId).setParameter("sysId", systemId);
+            return query.getSingleResult();
         } catch (Exception ex) {
             LOGGER.log(Level.WARNING, "No grouper found for account {0} and system {1}", new Object[]{accountId, systemId});
             return new Grouper();

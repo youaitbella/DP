@@ -37,7 +37,8 @@ public class CalcFacade extends AbstractDataAccess {
     public List<CalcHospitalInfo> getListCalcInfo(Set<Integer> accountIds, int year, WorkflowStatus statusLow, WorkflowStatus statusHigh) {
         String accountCond = " in (" + accountIds.stream().map(i -> i.toString()).collect(Collectors.joining(", ")) + ") ";
         String statusCond = " between " + statusLow.getId() + " and " + statusHigh.getId();
-        String sql = "select sopId as Id, 'SOP' as [Type], sopAccountId as AccountId, sopDataYear as DataYear, sopIk as IK, sopStatusId as StatusId,\n"
+        String sql = "select sopId as Id, 'SOP' as [Type], sopAccountId as AccountId, sopDataYear as DataYear, "
+                + "  sopIk as IK, sopStatusId as StatusId,\n"
                 + " '" + Utils.getMessage("lblStatementOfParticipance") + "' as Name, sopLastChanged as LastChanged\n"
                 + "from calc.StatementOfParticipance\n"
                 + "where sopStatusId" + statusCond + " and sopAccountId" + accountCond + " and sopDataYear = " + year + "\n"

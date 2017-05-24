@@ -2,8 +2,7 @@ package org.inek.dataportal.facades.certification;
 
 import java.util.List;
 import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
+import javax.persistence.TypedQuery;
 import org.inek.dataportal.entities.certification.MapEmailReceiverLabel;
 import org.inek.dataportal.facades.AbstractFacade;
 
@@ -28,8 +27,10 @@ public class EmailReceiverLabelFacade extends AbstractFacade<MapEmailReceiverLab
 
     
     public int findEmailReceiverListByLabel(String label) {
-        String query = "SELECT i FROM MapEmailReceiverLabel i WHERE i._label = :label";
-        List<MapEmailReceiverLabel> list = getEntityManager().createQuery(query, MapEmailReceiverLabel.class).setParameter("label", label).getResultList();
+        String jpql = "SELECT i FROM MapEmailReceiverLabel i WHERE i._label = :label";
+        TypedQuery<MapEmailReceiverLabel> query = getEntityManager().createQuery(jpql, MapEmailReceiverLabel.class);
+        query.setParameter("label", label);
+        List<MapEmailReceiverLabel> list = query.getResultList();
         if (list.size() > 0) {
             return list.get(0).getEmailReceiverLabelId();
         }

@@ -152,7 +152,8 @@ public class RequestProjectedCenter implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property TypeId">
     @Column(name = "rpcTypeId")
     
-    @Documentation(name = "Ausweisung und Festsetzung", translateValue = "1=im Krankenhausplan des Landes;2=durch gleichartige Festlegung der zuständigen Landesbehörde")
+    @Documentation(name = "Ausweisung und Festsetzung", 
+            translateValue = "1=im Krankenhausplan des Landes;2=durch gleichartige Festlegung der zuständigen Landesbehörde")
     private int _typeId;
 
     @Min(0)

@@ -35,7 +35,8 @@ public class InsuranceFacade extends AbstractDataAccess {
     }
 
     public List<InsuranceNubNotice> getAccountNotices(int accountId, DataSet dataSet) {
-        String sql = "SELECT n FROM InsuranceNubNotice n WHERE n._accountId = :accountId and n._workflowStatusId BETWEEN :minStatus AND :maxStatus ORDER BY n._year, n._id";
+        String sql = "SELECT n FROM InsuranceNubNotice n "
+                + "WHERE n._accountId = :accountId and n._workflowStatusId BETWEEN :minStatus AND :maxStatus ORDER BY n._year, n._id";
         TypedQuery<InsuranceNubNotice> query = getEntityManager().createQuery(sql, InsuranceNubNotice.class);
         int minStatus = dataSet == DataSet.AllOpen ? WorkflowStatus.New.getId() : WorkflowStatus.Provided.getId();
         int maxStatus = dataSet == DataSet.AllOpen ? WorkflowStatus.Provided.getId()-1 : WorkflowStatus.Retired.getId();
@@ -76,7 +77,9 @@ public class InsuranceFacade extends AbstractDataAccess {
         if (text.endsWith(".")){
             text = text.substring(0, text.length() - 1);
         }
-        String sql = "select distinct dfId from dbo.listDosageForm left join dbo.listDosageFormAbbreviation on dfId = dfaDosageFormId where dfText = ? or dfaShort = ?";
+        String sql = "select distinct dfId from dbo.listDosageForm "
+                + "left join dbo.listDosageFormAbbreviation on dfId = dfaDosageFormId "
+                + "where dfText = ? or dfaShort = ?";
         Query query = getEntityManager().createNativeQuery(sql);
         query.setParameter(1, text);
         query.setParameter(2, text);

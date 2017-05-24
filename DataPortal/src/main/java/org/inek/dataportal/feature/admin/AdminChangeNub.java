@@ -117,7 +117,8 @@ public class AdminChangeNub implements Serializable{
         for (NubRequest nubRequest : nubRequests){
             nubRequest.setAccountId(_account.getId());
             _nubFacade.saveNubRequest(nubRequest);
-            _sessionController.logMessage("NubOwner changed: nub=" + nubRequest.getId() + ", oldOwner=" + account.getId() + ", newOwner=" + _account.getId());
+            _sessionController.logMessage("NubOwner changed: nub=" + nubRequest.getId() 
+                    + ", oldOwner=" + account.getId() + ", newOwner=" + _account.getId());
         }
     }
 }

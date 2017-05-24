@@ -491,7 +491,11 @@ public class NubRequestFacade extends AbstractDataAccess {
         String jpql = "select i from NubMethodInfo i where i._methodId = :methodId and i._type = 'D'";
         TypedQuery<NubMethodInfo> query = getEntityManager().createQuery(jpql, NubMethodInfo.class);
         query.setParameter("methodId", methodId);
-        String description = query.getResultList().stream().map(i -> i.getText()).collect(Collectors.joining("\r\n\r\n---------------------------------\r\n\r\n"));
+        String description = query
+                .getResultList()
+                .stream()
+                .map(i -> i.getText())
+                .collect(Collectors.joining("\r\n\r\n---------------------------------\r\n\r\n"));
         _methodDescriptions.put(methodId, description);
     }
 

@@ -66,7 +66,7 @@ public class PeppProposalComment implements Serializable {
     public Date getCreationDate() {
         return _creationDate;
     }
- 
+
     public void setCreationDate(Date creationDate) {
         // method is only used to force creation of stub for WSDL
     }
@@ -83,7 +83,7 @@ public class PeppProposalComment implements Serializable {
     public void setInitials(String initials) {
         this._initials = initials;
     }
-    
+
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
@@ -100,7 +100,8 @@ public class PeppProposalComment implements Serializable {
             return false;
         }
         PeppProposalComment other = (PeppProposalComment) object;
-        if ((_peppProposalCommentId == null && other._peppProposalCommentId != null) || (_peppProposalCommentId != null && !_peppProposalCommentId.equals(other._peppProposalCommentId))) {
+        if (_peppProposalCommentId == null && other._peppProposalCommentId != null
+                || _peppProposalCommentId != null && !_peppProposalCommentId.equals(other._peppProposalCommentId)) {
             return false;
         }
         return true;

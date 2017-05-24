@@ -8,6 +8,7 @@ import javax.ejb.Asynchronous;
 import javax.ejb.Schedule;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -29,12 +30,14 @@ public class AccountRequestFacade extends AbstractFacade<AccountRequest> {
 
     
     public AccountRequest findByMailOrUser(String mailOrUser) {
-        String query = "SELECT a FROM AccountRequest a WHERE a._email = :mailOrUser or a._user = :mailOrUser";
-        List<AccountRequest> list = getEntityManager().createQuery(query, AccountRequest.class).setParameter("mailOrUser", mailOrUser).getResultList();
-        if (list.size() == 1) {
-            return list.get(0);
+        String jpql = "SELECT a FROM AccountRequest a WHERE a._email = :mailOrUser or a._user = :mailOrUser";
+        TypedQuery<AccountRequest> query = getEntityManager().createQuery(jpql, AccountRequest.class);
+        query.setParameter("mailOrUser", mailOrUser);
+        try{
+            return query.getSingleResult();
+        }catch (Exception ex){
+            return null;
         }
-        return null;
     }
 
     

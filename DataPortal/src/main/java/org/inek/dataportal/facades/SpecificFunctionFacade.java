@@ -39,7 +39,8 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
         return findFresh(SpecificFunctionRequest.class, id);
     }
     
-    public List<SpecificFunctionRequest> obtainSpecificFunctionRequests(int accountId, int year, WorkflowStatus statusLow, WorkflowStatus statusHigh) {
+    public List<SpecificFunctionRequest> obtainSpecificFunctionRequests(int accountId, int year, 
+            WorkflowStatus statusLow, WorkflowStatus statusHigh) {
         String jpql = "SELECT s FROM SpecificFunctionRequest s "
                 + "WHERE s._accountId = :accountId and s._dataYear = :year and s._statusId between :statusLow and :statusHigh ORDER BY s._id DESC";
         TypedQuery<SpecificFunctionRequest> query = getEntityManager().createQuery(jpql, SpecificFunctionRequest.class);
@@ -154,7 +155,8 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
         return findFresh(SpecificFunctionAgreement.class, id);
     }
     
-    public List<SpecificFunctionAgreement> obtainSpecificFunctionAgreements(int accountId, int year, WorkflowStatus statusLow, WorkflowStatus statusHigh) {
+    public List<SpecificFunctionAgreement> obtainSpecificFunctionAgreements(int accountId, int year, 
+            WorkflowStatus statusLow, WorkflowStatus statusHigh) {
         String jpql = "SELECT s FROM SpecificFunctionAgreement s "
                 + "WHERE s._accountId = :accountId and s._dataYear = :year and s._statusId between :statusLow and :statusHigh ORDER BY s._id DESC";
         TypedQuery<SpecificFunctionAgreement> query = getEntityManager().createQuery(jpql, SpecificFunctionAgreement.class);

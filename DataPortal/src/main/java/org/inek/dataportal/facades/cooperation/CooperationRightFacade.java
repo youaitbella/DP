@@ -70,7 +70,8 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
     }
 
     public List<CooperationRight> getGrantedCooperationRights(Integer accountId, int partnerId, Feature feature) {
-        String query = "SELECT cor FROM CooperationRight cor WHERE cor._ownerId = :accountId and cor._partnerId = :partnerId and cor._feature = :feature";
+        String query = "SELECT cor FROM CooperationRight cor "
+                + "WHERE cor._ownerId = :accountId and cor._partnerId = :partnerId and cor._feature = :feature";
         return getEntityManager()
                 .createQuery(query, CooperationRight.class)
                 .setParameter("accountId", accountId)
@@ -184,7 +185,8 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
     }
 
     public List<IkSupervisorInfo> getIkSupervisorInfos() {
-        String jpql = "SELECT r._feature, r._ik, a, r._cooperativeRight FROM CooperationRight r JOIN Account a WHERE r._partnerId = a._id and r._ownerId = -1 order by r._feature, r._ik, a._lastName";
+        String jpql = "SELECT r._feature, r._ik, a, r._cooperativeRight FROM CooperationRight r JOIN Account a "
+                + "WHERE r._partnerId = a._id and r._ownerId = -1 order by r._feature, r._ik, a._lastName";
         // sadly this is not a list of the expected type, but of object[]
         //List<IkSupervisorInfo> infos = getEntityManager().createQuery(jpql, IkSupervisorInfo.class).getResultList();
         //return infos;

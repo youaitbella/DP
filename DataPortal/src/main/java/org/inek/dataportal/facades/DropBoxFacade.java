@@ -52,7 +52,9 @@ public class DropBoxFacade extends AbstractFacade<DropBox> {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<DropBox> cq = cb.createQuery(DropBox.class);
         Root<DropBox> request = cq.from(DropBox.class);
-        cq.select(request).where(cb.and(cb.isFalse(request.get("_isComplete")), cb.lessThan(request.<Date>get("_validUntil"), Calendar.getInstance().getTime())));
+        cq.select(request)
+                .where(cb.and(cb.isFalse(request.get("_isComplete")), 
+                        cb.lessThan(request.<Date>get("_validUntil"), Calendar.getInstance().getTime())));
         return getEntityManager().createQuery(cq).getResultList();
     }
 

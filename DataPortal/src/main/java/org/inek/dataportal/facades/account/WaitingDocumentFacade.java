@@ -48,7 +48,19 @@ public class WaitingDocumentFacade extends AbstractFacade<WaitingDocument> {
                     receipientInfo = ikDoc + " " + _sessionController.getIkName(ikDoc);
                 }
             }
-            docInfos.add(new DocInfo((int) info.getId(), info.getName(), info.getDomain().getName(), info.getTimestamp(), null, false, accountId, info.getAgentAccountId(), "", receipientInfo));
+            DocInfo docInfo = new DocInfo(
+                    (int) info.getId(), 
+                    info.getName(), 
+                    info.getDomain().getName(), 
+                    info.getTimestamp(), 
+                    null, 
+                    false, 
+                    accountId, 
+                    info.getAgentAccountId(), 
+                    "", 
+                    receipientInfo
+            );
+            docInfos.add(docInfo);
         }
         return docInfos;
     }

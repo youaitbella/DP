@@ -9,22 +9,14 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.Vector;
-import java.util.logging.Level;
-import java.util.stream.Collectors;
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
-import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.calc.psy.PeppCalcBasics;
-import org.inek.dataportal.entities.calc.sop.CalcContact;
-import org.inek.dataportal.entities.calc.CalcHospitalInfo;
 import org.inek.dataportal.entities.calc.psy.KGPListContentText;
 import org.inek.dataportal.entities.calc.psy.KGPListServiceProvisionType;
 import org.inek.dataportal.entities.calc.sop.StatementOfParticipance;
-import org.inek.dataportal.entities.icmt.Customer;
-import org.inek.dataportal.enums.CalcHospitalFunction;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.AbstractDataAccess;
@@ -47,7 +39,7 @@ public class CalcPsyFacade extends AbstractDataAccess {
                 + "join CallCenterDB.dbo.ccContact on cuId = coCustomerId and coIsActive = 1 \n" // (2)
                 + "join CallCenterDB.dbo.ccContactDetails on coId = cdContactId and cdContactDetailTypeId = 'E'\n" // (2)
                 + "join dbo.Account on (cdDetails = acMail" 
-                + (testMode ? " or acMail like '%@inek-drg.de'" : "") + ") and acId = " + accountId + "\n" // (2) - but let InEK staff perform without this restriction
+                + (testMode ? " or acMail like '%@inek-drg.de'" : "") + ") and acId = " + accountId + "\n"
                 + "join CallCenterDB.dbo.mapContactRole r1 on (r1.mcrContactId = coId) and (r1.mcrRoleId in (3, 12, 15, 16, 18, 19)" 
                 + (testMode ? " or acMail like '%@inek-drg.de'" : "") + ") \n"
                 + "left join CallCenterDB.dbo.mapContactRole r2 on (r2.mcrContactId = coId) and r2.mcrRoleId = 14 " 
@@ -60,7 +52,7 @@ public class CalcPsyFacade extends AbstractDataAccess {
                 + "             select aaiIK from dbo.AccountAdditionalIK where aaiAccountId = " + accountId + "\n"
                 + "     ) \n"
                 + "     and r2.mcrRoleId is null\n"
-                + "     and sopStatusId = " + WorkflowStatus.Provided.getId() + "\n" //+ " and " + (WorkflowStatus.Retired.getId() - 1) + "\n"
+                + "     and sopStatusId = " + WorkflowStatus.Provided.getId() + "\n" 
                 + "     and sopIsPsy = 1\n"
                 + "     and sopObligatoryCalcType != 1\n"
                 + "     and sopDataYear = " + year + "\n"
@@ -157,7 +149,8 @@ public class CalcPsyFacade extends AbstractDataAccess {
     }
 
     public List<KGPListContentText> retrieveContentTextsPepp(List<Integer> headerIds, int year) {
-        String jpql = "select ct from KGPListContentText ct where ct._headerTextID in :headerIds and ct._firstYear <= :year and ct._lastYear >= :year order by ct._seq";
+        String jpql = "select ct from KGPListContentText ct "
+                + "where ct._headerTextID in :headerIds and ct._firstYear <= :year and ct._lastYear >= :year order by ct._seq";
         TypedQuery<KGPListContentText> query = getEntityManager().createQuery(jpql, KGPListContentText.class);
         query.setParameter("year", year);
         query.setParameter("headerIds", headerIds);
