@@ -13,6 +13,7 @@ import org.inek.dataportal.entities.calc.drg.DrgCalcBasics;
 import org.inek.dataportal.entities.calc.drg.KGLListCostCenter;
 import org.inek.dataportal.entities.calc.drg.KGLListCostCenterCost;
 import org.inek.dataportal.entities.calc.drg.KGLListIntensivStroke;
+import org.inek.dataportal.entities.calc.drg.KGLListMedInfra;
 import org.inek.dataportal.entities.calc.psy.KGPListCostCenter;
 import org.inek.dataportal.entities.calc.psy.KGPListRadiologyLaboratory;
 import org.inek.dataportal.entities.calc.psy.KGPListStationServiceCost;
@@ -796,7 +797,7 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
                 );
             //</editor-fold>
             case "drgstrokeunit":
-                //<editor-fold defaultstate="collapsed" desc="new DataImporter Intensive">
+                //<editor-fold defaultstate="collapsed" desc="new DataImporter Stroke Unit">
                 return new DataImporter<KGLListIntensivStroke, DrgCalcBasics>(
                         "Intensivstation;FAB;Anzahl_Betten;Anzahl_Fälle;Mindestmerkmale_OPS_8-981_erfüllt;"
                         + "Mindestmerkmale_OPS_8-98b_erfüllt;Mindestmerkmale_nur_erfüllt_im_Zeitabschnitt;"
@@ -918,9 +919,72 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
                                         (i, s) -> i.setNonMedicalInfrastructureCost(s),
                                         "Kosten nicht med. Infrastuktur ungültig: ")
                         ),
-                        (s,
-                                t) -> s.addStroke(t),
+                        (s, t) -> s.addStroke(t),
                         KGLListIntensivStroke.class
+                );
+            //</editor-fold>
+            case "drgmedinfra":
+                //<editor-fold defaultstate="collapsed" desc="new DataImporter Med Infra">
+                return new DataImporter<KGLListMedInfra, DrgCalcBasics>(
+                        "KostenstelleNummer;KostenstelleText;Schlüssel;Kostenvolumen",
+                        new FileHolder("MedInfra.csv"),
+                        ErrorCounter.obtainErrorCounter("DRG_MED_INFRA"),
+                        Arrays.asList(
+                                new DataImportCheck<KGLListMedInfra, String>(
+                                        ErrorCounter.obtainErrorCounter("DRG_MED_INFRA"),
+                                        DataImportCheck::tryImportString,
+                                        (i, s) -> i.setCostCenterNumber(s),
+                                        "Kostenstellennummer:  "),
+                                new DataImportCheck<KGLListMedInfra, String>(
+                                        ErrorCounter.obtainErrorCounter("DRG_MED_INFRA"),
+                                        DataImportCheck::tryImportString,
+                                        (i, s) -> i.setCostCenterText(s),
+                                        "Kostenstellenname: "),
+                                new DataImportCheck<KGLListMedInfra, String>(
+                                        ErrorCounter.obtainErrorCounter("DRG_MED_INFRA"),
+                                        DataImportCheck::tryImportString,
+                                        (i, s) -> i.setKeyUsed(s),
+                                        "Schlüssel: "),
+                                new DataImportCheck<KGLListMedInfra, Integer>(
+                                        ErrorCounter.obtainErrorCounter("DRG_STROKE_UNIT"),
+                                        DataImportCheck::tryImportDoubleAsInt,
+                                        (i, s) -> i.setAmount(s),
+                                        "Kostenvolumen: ")
+                        ),
+                        (s, t) -> s.addMedInfra(t),
+                        KGLListMedInfra.class
+                );
+            //</editor-fold>
+            case "drgnonmedinfra":
+                //<editor-fold defaultstate="collapsed" desc="new DataImporter Non-Med Infra">
+                return new DataImporter<KGLListMedInfra, DrgCalcBasics>(
+                        "KostenstelleNummer;KostenstelleText;Schlüssel;Kostenvolumen",
+                        new FileHolder("MedInfra.csv"),
+                        ErrorCounter.obtainErrorCounter("DRG_NON_MED_INFRA"),
+                        Arrays.asList(
+                                new DataImportCheck<KGLListMedInfra, String>(
+                                        ErrorCounter.obtainErrorCounter("DRG_NON_MED_INFRA"),
+                                        DataImportCheck::tryImportString,
+                                        (i, s) -> i.setCostCenterNumber(s),
+                                        "Kostenstellennummer:  "),
+                                new DataImportCheck<KGLListMedInfra, String>(
+                                        ErrorCounter.obtainErrorCounter("DRG_NON_MED_INFRA"),
+                                        DataImportCheck::tryImportString,
+                                        (i, s) -> i.setCostCenterText(s),
+                                        "Kostenstellenname: "),
+                                new DataImportCheck<KGLListMedInfra, String>(
+                                        ErrorCounter.obtainErrorCounter("DRG_NON_MED_INFRA"),
+                                        DataImportCheck::tryImportString,
+                                        (i, s) -> i.setKeyUsed(s),
+                                        "Schlüssel: "),
+                                new DataImportCheck<KGLListMedInfra, Integer>(
+                                        ErrorCounter.obtainErrorCounter("DRG_NON_MED_INFRA"),
+                                        DataImportCheck::tryImportDoubleAsInt,
+                                        (i, s) -> i.setAmount(s),
+                                        "Kostenvolumen: ")
+                        ),
+                        (s, t) -> s.addNonMedInfra(t),
+                        KGLListMedInfra.class
                 );
             //</editor-fold>
 

@@ -1144,6 +1144,32 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     public void setMedInfras(List<KGLListMedInfra> medInfras) {
         this._medInfras = medInfras;
     }
+    
+    @JsonIgnore
+    public void addMedInfra(int costTypeId) {
+        KGLListMedInfra medInfra = new KGLListMedInfra(_id, costTypeId);
+        _medInfras.add(medInfra);
+    }
+
+    @JsonIgnore
+    public boolean addMedInfra(KGLListMedInfra medInfra){
+        medInfra.setCostTypeId(170);
+        if (_medInfras.stream().anyMatch(mi -> mi.equals(medInfra))){
+            return false;
+        }
+        _medInfras.add(medInfra);
+        return true;
+    }
+    
+    @JsonIgnore
+    public boolean addNonMedInfra(KGLListMedInfra medInfra){
+        medInfra.setCostTypeId(180);
+        if (_medInfras.stream().anyMatch(mi -> mi.equals(medInfra))){
+            return false;
+        }
+        _medInfras.add(medInfra);
+        return true;
+    }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property List PersonalAccountings">

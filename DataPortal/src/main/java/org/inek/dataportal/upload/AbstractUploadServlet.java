@@ -58,7 +58,8 @@ public abstract class AbstractUploadServlet extends HttpServlet {
         for (int i = 0; i < parts.length; i++) {
             Part part = (Part) parts[i];
             Map<String, String> params = httpUtil.getParams(part);
-            String filename = new File(params.get("filename")).getName();  // get rid of absolute path (some IE versions will yield the absoltute path)
+            // get rid of absolute path (some IE versions will yield the absoltute path)
+            String filename = new File(params.get("filename")).getName();  
             try (InputStream is = part.getInputStream()) {
                 stream2Document(Utils.decodeUrl(filename), is, httpUtil);
             }

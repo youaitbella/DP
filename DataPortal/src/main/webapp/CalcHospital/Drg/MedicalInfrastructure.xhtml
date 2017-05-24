@@ -34,7 +34,10 @@
       
 <h:panelGroup id="medInfraMethodDescription" styleClass="inputPart" rendered="#{editCalcBasicsDrg.calcBasics.iblvMethodMedInfra == 0 or editCalcBasicsDrg.calcBasics.iblvMethodMedInfra == 1}">
     <h:outputLabel styleClass="label" for="description" value="Erläuterung:"/><br/>
-    <h:inputTextarea id="description" styleClass="areaWideHigh" value="#{editCalcBasicsDrg.calcBasics.otherMethodMedInfra}" required="#{editCalcBasicsDrg.calcBasics.iblvMethodMedInfra == 0 or editCalcBasicsDrg.calcBasics.iblvMethodMedInfra == 1}">
+    <h:inputTextarea id="description" 
+                     styleClass="areaWideHigh" 
+                     value="#{editCalcBasicsDrg.calcBasics.otherMethodMedInfra}" 
+                     required="#{editCalcBasicsDrg.calcBasics.iblvMethodMedInfra == 0 or editCalcBasicsDrg.calcBasics.iblvMethodMedInfra == 1}">
         <f:ajax event="blur" render="@this :logout:remaining" />
     </h:inputTextarea>
 </h:panelGroup>    
@@ -94,6 +97,13 @@
                         showJournal="#{editCalcBasicsDrg.showJournal}"
                         toggleJournal="#{editCalcBasicsDrg.toggleJournal}"
                         />
+            <inek:UploadButtons2 importer="#{editCalcBasicsDrg.getImporter('drgMedInfra')}"
+                                 calcbase="#{editCalcBasicsDrg.calcBasics}" 
+                                 readOnly="#{editCalcBasicsDrg.readOnly}"
+                                 addListener="#{editCalcBasicsDrg.addMedInfra(170)}"
+                                 uploadButtonText="Upload"
+                                 actionDeleteTable="#{editCalcBasicsDrg.deleteMedInfraItems(170)}"
+                                 />
 
 </ui:composition>
 

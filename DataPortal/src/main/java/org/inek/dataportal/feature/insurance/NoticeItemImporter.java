@@ -96,12 +96,14 @@ public class NoticeItemImporter {
         try {
             int number = Integer.parseInt(dataString);
             if (isRequestId && !_insuranceFacade.existsNubRequest(number, _notice.getHospitalIk(), _notice.getYear())) {
-                throw new IllegalArgumentException("Verfahrensnummer " + dataString + " existiert nicht für IK " + _notice.getHospitalIk() + " in Jahr " + _notice.getYear());
+                throw new IllegalArgumentException("Verfahrensnummer " + dataString + " existiert nicht für IK " 
+                        + _notice.getHospitalIk() + " in Jahr " + _notice.getYear());
             }
             if (!isRequestId) {
                 number = _insuranceFacade.retrieveRequestId(number, _notice.getHospitalIk(), _notice.getYear());
                 if (number < 0) {
-                    throw new IllegalArgumentException("Zur lfd. Nummmer " + dataString + " existiert keine Anfrage für IK " + _notice.getHospitalIk() + " in Jahr " + _notice.getYear());
+                    throw new IllegalArgumentException("Zur lfd. Nummmer " + dataString + " existiert keine Anfrage für IK " 
+                            + _notice.getHospitalIk() + " in Jahr " + _notice.getYear());
                 }
             }
             item.setNubRequestId(number);

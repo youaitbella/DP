@@ -20,7 +20,6 @@ import javax.inject.Named;
 import javax.persistence.OptimisticLockException;
 import javax.servlet.http.Part;
 import org.inek.dataportal.common.ApplicationTools;
-import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.certification.Grouper;
 import org.inek.dataportal.entities.certification.RemunerationSystem;
@@ -99,7 +98,8 @@ public class CertManager implements Serializable {
             } else {
                 _systemFacade.clearCache(Grouper.class);
                 _system = _systemFacade.findFresh(systemId);
-                Collections.sort(_system.getGrouperList(), (Grouper o1, Grouper o2) -> o1.getAccount().getCompany().compareToIgnoreCase(o2.getAccount().getCompany()));
+                Collections.sort(_system.getGrouperList(), 
+                        (o1, o2) -> o1.getAccount().getCompany().compareToIgnoreCase(o2.getAccount().getCompany()));
 
             }
             setSystemChanged(false);
@@ -258,7 +258,9 @@ public class CertManager implements Serializable {
             _certAccounts = new ArrayList<>();
             _certAccounts.add(new SelectItem(-1, ""));
             for (Account account : accounts) {
-                _certAccounts.add(new SelectItem(account.getId(), account.getCompany() + " - " + account.getFirstName() + " " + account.getLastName()));
+                _certAccounts.add(new SelectItem(
+                        account.getId(), 
+                        account.getCompany() + " - " + account.getFirstName() + " " + account.getLastName()));
             }
         }
     }

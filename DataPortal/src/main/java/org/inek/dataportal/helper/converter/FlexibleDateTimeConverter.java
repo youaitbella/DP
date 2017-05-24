@@ -17,16 +17,17 @@ import javax.faces.convert.DateTimeConverter;
 import javax.faces.convert.FacesConverter;
 
 /**
- * The {@code FlexibleDateTimeConverter} is used in JSPs to flexibly convert
- * date and time values.  The class should circumvent the deficit in flexiblity
- * accepting input of dates in short or medium formats.
+ * The {@code FlexibleDateTimeConverter} is used in JSPs to flexibly convert date and time values. The class should
+ * circumvent the deficit in flexiblity accepting input of dates in short or medium formats.
+ *
  * @author Stefan Wich, InEK GmbH
  */
-@FacesConverter(value="FlexibleDateTimeConverter")
+@FacesConverter(value = "FlexibleDateTimeConverter")
 public class FlexibleDateTimeConverter extends DateTimeConverter {
+
     private static final Logger LOGGER = Logger.getLogger("FlexibleDateTimeConverter");
 
-    private SimpleDateFormat dfShort;  
+    private SimpleDateFormat dfShort;
     private SimpleDateFormat dfMedium;
 
     public FlexibleDateTimeConverter() {
@@ -50,8 +51,8 @@ public class FlexibleDateTimeConverter extends DateTimeConverter {
                 try {
                     d = dfMedium.parse(value.trim());
                 } catch (ParseException anon2) {
-                   LOGGER.log(Level.INFO, 
-                            "Caught 2nd ParseException during parsing of {0} in <MEDIUM> and Locale {1}.", 
+                    LOGGER.log(Level.INFO,
+                            "Caught 2nd ParseException during parsing of {0} in <MEDIUM> and Locale {1}.",
                             new Object[]{value, getLocale().getDisplayName()});
                 }
             } catch (Exception ex) {

@@ -432,7 +432,8 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         return differencesPartner;
     }
 
-    private List<String> updateFields(Map<String, FieldValues> differencesUser, Map<String, FieldValues> differencesPartner, PeppCalcBasics modifiedCalcBasics) {
+    private List<String> updateFields(Map<String, FieldValues> differencesUser, Map<String, 
+            FieldValues> differencesPartner, PeppCalcBasics modifiedCalcBasics) {
         List<String> collisions = new ArrayList<>();
         for (String fieldName : differencesUser.keySet()) {
             if (differencesPartner.containsKey(fieldName) || _calcBasics.isSealed()) {
@@ -674,7 +675,8 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     public void checkOption(AjaxBehaviorEvent event) {
         HtmlSelectOneMenu component = (HtmlSelectOneMenu) event.getComponent();
         if (component.getValue().equals(3)) {
-            Utils.showMessageInBrowser("Bitte beachten Sie, dass die Erfassung der Rüstzeit als Einheitswert keine leistungsgerechte Verteilung der Kosten gewährleistet.");
+            Utils.showMessageInBrowser("Bitte beachten Sie, dass die Erfassung der Rüstzeit als "
+                    + "Einheitswert keine leistungsgerechte Verteilung der Kosten gewährleistet.");
         }
     }
     // </editor-fold>

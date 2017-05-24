@@ -52,7 +52,8 @@ public class TransferFileCreator {
         }else{
             throw new IllegalArgumentException("unknown object type: " + calcBasics);
         }
-        File workingDir = new File(sessionController.getApplicationTools().readConfig(ConfigKey.FolderRoot), sessionController.getApplicationTools().readConfig(ConfigKey.FolderUpload));
+        File workingDir = new File(sessionController.getApplicationTools().readConfig(ConfigKey.FolderRoot), 
+                sessionController.getApplicationTools().readConfig(ConfigKey.FolderUpload));
         File targetDir = new File(sessionController.getApplicationTools().readConfig(ConfigKey.FolderRoot), "added");
         File zipFile = new File(workingDir, UUID.randomUUID() + ".zip");
 

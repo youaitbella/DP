@@ -558,8 +558,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     public void addMedInfra(int costTypeId) {
-        KGLListMedInfra mif = new KGLListMedInfra(_calcBasics.getId(), costTypeId);
-        _calcBasics.getMedInfras().add(mif);
+        _calcBasics.addMedInfra(costTypeId);
     }
 
     public void deleteMedInfraItems(int costTypeId) {
@@ -702,13 +701,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     public void downloadLaboratoryTemplate() {
         Utils.downloadText(HEADLINE_LABORATY + "\n", "Laboratory.csv");
-    }
-
-    @SuppressWarnings("MultipleStringLiterals")
-    private static final String HEADLINE_MED_INFRA = "KostenstelleNummer;KostenstelleText;Schlüssel;Kostenvolumen";
-
-    public void downloadMedInfraTemplate() {
-        Utils.downloadText(HEADLINE_MED_INFRA + "\n", "MedInfra.csv");
     }
 
     public List<DrgContentText> getNormalWardServiceDocHeaders() {
@@ -1267,12 +1259,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         return importerPool.getDataImporter(importerName.toLowerCase());
     }
 
-    private transient String _importMessageNormalWard = "";
-
-    public String getImportMessageNormalWard() {
-        return _importMessageNormalWard;
-    }
-
     public void uploadRadiology() {
         try {
             int headlineLength = HEADLINE_RADIOLOGY.split(";").length;
@@ -1464,85 +1450,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     private boolean isExistingEntryRadLab(KGLListRadiologyLaboratory radio) {
         return _calcBasics.getRadiologyLaboratories().stream().anyMatch(rl -> rl.equals(radio));
-    }
-
-    public void uploadMedInfra(int costType) {
-        try {
-            int headlineLength = HEADLINE_MED_INFRA.split(";").length;
-            if (_file != null) {
-                Scanner scanner = new Scanner(_file.getInputStream());
-                if (!scanner.hasNextLine()) {
-                    return;
-                }
-                String alertText = "";
-                int lineNum = 0;
-                while (scanner.hasNextLine()) {
-                    String line = Utils.convertFromUtf8(scanner.nextLine());
-                    lineNum++;
-                    if (!line.equals(HEADLINE_MED_INFRA)) {
-                        String[] values = StringUtil.splitAtUnquotedSemicolon(line);
-                        if (values.length != headlineLength) {
-                            alertText += "Zeile " + lineNum + ": Fehlerhafte Anzahl Spalten. (" 
-                                    + headlineLength + " erwartet, " + values.length + " gefunden) \\n";
-                            continue;
-                        }
-                        KGLListMedInfra medInfra = new KGLListMedInfra();
-                        medInfra.setBaseInformationId(_calcBasics.getId());
-                        medInfra.setCostTypeId(costType);
-                        medInfra.setCostCenterNumber(values[0]);
-                        medInfra.setCostCenterText(values[1]);
-                        medInfra.setKeyUsed(values[2]);
-
-                        String validateText = BeanValidator.validateData(medInfra, lineNum);
-                        if (!validateText.isEmpty()) {
-                            alertText += validateText;
-                            continue;
-                        }
-                        try {
-                            int amount = StringUtil.parseLocalizedDoubleAsInt(values[3]);
-                            medInfra.setAmount(amount);
-                        } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 4: " + Utils.getMessage("msgNotAnInteger") + "\\n";
-                            continue;
-                        }
-                        if (isExistingEntryMedInfra(medInfra)) {
-                            alertText += "Hinweis: Zeile " + lineNum + " wurde bereits hinzugefügt.";
-                            continue;
-                        }
-                        _calcBasics.getMedInfras().add(medInfra);
-                    }
-                }
-                if (alertText.length() > 0) {
-                    _sessionController.alertClient(alertText);
-                }
-                if (costType == 170) {
-                    _importMessageMedInfra = alertText;
-                } else {
-                    _importMessageNonMedInfra = alertText;
-                }
-            }
-        } catch (IOException | NoSuchElementException e) {
-        }
-    }
-
-    private transient String _importMessageMedInfra = "";
-
-    public String getImportMessageMedInfra() {
-        return _importMessageMedInfra;
-    }
-
-    private transient String _importMessageNonMedInfra = "";
-
-    public String getImportMessageNonMedInfra() {
-        return _importMessageNonMedInfra;
-    }
-
-    private boolean isExistingEntryMedInfra(KGLListMedInfra medInfra) {
-        return _calcBasics.getMedInfras().stream().anyMatch(mi -> mi.equals(medInfra));
-    }
-
-    private boolean isExistingEntryCostCenterCost(KGLListCostCenterCost ccc) {
-        return _calcBasics.getCostCenterCosts().stream().anyMatch(c -> c.equals(ccc));
     }
 
     public void toggleJournal() {

@@ -111,9 +111,11 @@ public class DistributionModellTreeHandler implements Serializable, TreeNodeObse
                 break;
             case "hospital":
                 if (treeNode.isDescending()) {
-                    sorted = stream.sorted((n1, n2) -> _appTools.retrieveHospitalInfo(n2.getCalcHospitalInfo().getIk()).compareTo(_appTools.retrieveHospitalInfo(n1.getCalcHospitalInfo().getIk())));
+                    sorted = stream.sorted((n1, n2) -> _appTools.retrieveHospitalInfo(n2.getCalcHospitalInfo().getIk())
+                            .compareTo(_appTools.retrieveHospitalInfo(n1.getCalcHospitalInfo().getIk())));
                 } else {
-                    sorted = stream.sorted((n1, n2) -> _appTools.retrieveHospitalInfo(n1.getCalcHospitalInfo().getIk()).compareTo(_appTools.retrieveHospitalInfo(n2.getCalcHospitalInfo().getIk())));
+                    sorted = stream.sorted((n1, n2) -> _appTools.retrieveHospitalInfo(n1.getCalcHospitalInfo().getIk())
+                            .compareTo(_appTools.retrieveHospitalInfo(n2.getCalcHospitalInfo().getIk())));
                 }
                 break;
             case "name":

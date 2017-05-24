@@ -30,7 +30,10 @@ public class DataImportCheck<T, I> implements Serializable {
     private final BiConsumer<T, I> assign;
     private final String errorMsg;
 
-    public DataImportCheck(ErrorCounter counter, QuintConsumer<T, String, BiConsumer<T, I>, String, ErrorCounter> check, BiConsumer<T, I> assign, String errorMsg) {
+    public DataImportCheck(
+            ErrorCounter counter, 
+            QuintConsumer<T, String, BiConsumer<T, I>, String, ErrorCounter> check, BiConsumer<T, I> assign, 
+            String errorMsg) {
         this.counter = counter;
         this.check = check;
         this.assign = assign;
