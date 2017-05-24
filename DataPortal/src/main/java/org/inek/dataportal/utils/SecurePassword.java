@@ -71,7 +71,12 @@ public class SecurePassword {
             lastType = currentType;
         }
 
-        int differentTypes = (loCount ? 1 : 0) + (upCount ? 1 : 0) + (digit ? 1 : 0) + (whitespace ? 1 : 0) + (special ? 1 : 0) +  + (nonAscii ? 1 : 0);
+        int differentTypes = (loCount ? 1 : 0) 
+                + (upCount ? 1 : 0) 
+                + (digit ? 1 : 0) 
+                + (whitespace ? 1 : 0)
+                + (special ? 1 : 0) 
+                + (nonAscii ? 1 : 0);
         
         int score = (password.length() > 8 ? 8 * (password.length() - 7) : 4 * (password.length() - 5))
                 + 5 * (differentTypes - 1) 

@@ -103,7 +103,8 @@ public class NubReminder {
         }
         if (needsApproval) {
             sb.append("\r\n");
-            sb.append("Die mit (*) markierte(n) Anfrage(n) warten auf eine Freigabe durch Ihren Kooperationspartner oder Supervisor. Bitte informieren Sie diesen entsprechend.");
+            sb.append("Die mit (*) markierte(n) Anfrage(n) warten auf eine Freigabe durch Ihren Kooperationspartner oder Supervisor. ");
+            sb.append("Bitte informieren Sie diesen entsprechend.");
             sb.append("\r\n");
         }
         return sb.toString();

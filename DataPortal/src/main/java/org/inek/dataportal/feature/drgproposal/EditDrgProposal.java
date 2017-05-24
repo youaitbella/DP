@@ -549,7 +549,8 @@ public class EditDrgProposal extends AbstractEditController {
         DrgProposal drgProposal = _drgProposal;
         newTopic = checkField(newTopic, drgProposal.getName(), "lblAppellation", "form:name", DrgProposalTabs.tabPPAddress);
         newTopic = checkField(newTopic, 
-                drgProposal.getCategory() == null || drgProposal.getCategory() == DrgProposalCategory.UNKNOWN ? null : drgProposal.getCategory().name(), 
+                drgProposal.getCategory() == null 
+                        || drgProposal.getCategory() == DrgProposalCategory.UNKNOWN ? null : drgProposal.getCategory().name(), 
                 "lblCategory", "form:category", DrgProposalTabs.tabPPAddress);
         newTopic = checkField(newTopic, drgProposal.getInstitute(), "lblDrgProposalingInstitute", "form:institute", DrgProposalTabs.tabPPAddress);
         newTopic = checkField(newTopic, drgProposal.getGender(), 1, 2, "lblSalutation", "form:cbxGender", DrgProposalTabs.tabPPAddress);

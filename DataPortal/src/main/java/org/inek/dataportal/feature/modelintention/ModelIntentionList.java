@@ -63,7 +63,8 @@ public class ModelIntentionList {
         if (_partners != null) {
             return;
         }
-        List<CooperationRight> achievedRights = _cooperationRightFacade.getAchievedCooperationRights(_sessionController.getAccountId(), Feature.MODEL_INTENTION);
+        List<CooperationRight> achievedRights = _cooperationRightFacade
+                .getAchievedCooperationRights(_sessionController.getAccountId(), Feature.MODEL_INTENTION);
         Set<Integer> ids = new HashSet<>();
         for (CooperationRight right : achievedRights) {
             if (right.getCooperativeRight() != CooperativeRight.None) {

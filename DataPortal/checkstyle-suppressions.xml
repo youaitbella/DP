@@ -4,5 +4,6 @@
 "http://www.puppycrawl.com/dtds/suppressions_1_1.dtd">
 
 <suppressions>
-    <suppress checks="FileLength" files="org[\\/]inek[\\/]dataportal[\\/]entities[\\/].*.java"/>
+    <suppress checks="FileLength" files="org[\\/]inek[\\/]dataportal[\\/]entities[\\/].*[.]java"/>
+    <suppress checks="FileLength" files="org[\\/]inek[\\/]dataportal[\\/]feature[\\/]calculationhospital[\\/]DataImporter[.]java"/>
 </suppressions>

@@ -83,17 +83,6 @@
         </tr>
     </table>
     
-<!--    <inek:UploadButtons readOnly="# {editCalcBasicsPepp.readOnly}"
-                        addListener="# {editCalcBasicsPepp.addMedInfra(170)}"
-                        uploadButtonText="Upload"
-                        uploadListener="# {editCalcBasicsPepp.uploadNoticesMedInfra(170)}"
-                        file="# {editCalcBasicsPepp.medInfraFile}"
-                        actionTemplate="# {editCalcBasicsPepp.downloadTemplateHeadlineMedInfra}"
-                        actionDeleteTable="# {editCalcBasicsPepp.deleteKgpMedInfraList(170)}"
-                        importMessage="# {editCalcBasicsPepp.importMessageMedInfra}"
-                        showJournal="# {editCalcBasicsPepp.showJournal}"
-                        toggleJournal="# {editCalcBasicsPepp.toggleJournal}"
-                        />-->
     <inek:UploadButtons2 importer="#{editCalcBasicsPepp.getImporter('peppmedinfra')}"
                          calcbase="#{editCalcBasicsPepp.calcBasics}" 
                         readOnly="#{editCalcBasicsPepp.readOnly}"

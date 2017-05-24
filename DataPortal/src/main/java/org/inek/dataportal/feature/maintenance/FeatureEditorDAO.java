@@ -26,7 +26,9 @@ public class FeatureEditorDAO {
         _value = _accFeature.getFeature() == Feature.USER_MAINTENANCE
                 || accFeature.getFeatureState() != FeatureState.NEW && accFeature.getFeatureState() != FeatureState.REJECTED;
         _isEditable = (_accFeature.getFeature() != Feature.DOCUMENTS && _accFeature.getFeature() != Feature.USER_MAINTENANCE)
-                && (accFeature.getFeatureState() == FeatureState.NEW || accFeature.getFeatureState() == FeatureState.SIMPLE || accFeature.getFeatureState() == FeatureState.APPROVED);
+                && (accFeature.getFeatureState() == FeatureState.NEW 
+                || accFeature.getFeatureState() == FeatureState.SIMPLE 
+                || accFeature.getFeatureState() == FeatureState.APPROVED);
         if (accFeature.getFeature() == Feature.DOCUMENTS) {
             if (_value) {
                 _hidden = false;

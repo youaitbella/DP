@@ -81,7 +81,8 @@ public class NubController extends AbstractFeatureController {
         appendLine(sb, NubFieldKey.WhyNotRepresented, nubRequest.getWhyNotRepresented());
         appendLine(sb, NubFieldKey.RequestedEarlierOther, "" + nubRequest.getRequestedEarlierOther());
         String content = sb.toString();
-        appendLine(sb, NubFieldKey.CheckSum, Utils.getChecksum(content + "Length=" + content.length()));// add length as invisible "salt" before calculating checksum.
+        // add length as invisible "salt" before calculating checksum.
+        appendLine(sb, NubFieldKey.CheckSum, Utils.getChecksum(content + "Length=" + content.length()));
         return sb.toString();
     }
 

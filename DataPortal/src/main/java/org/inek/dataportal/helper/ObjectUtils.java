@@ -330,7 +330,8 @@ public class ObjectUtils {
 
     private static boolean isFieldToIgnore(Field field, List<Class> excludedTypes) {
         if (field.getName().startsWith("_persistence_")) {
-            // ignore fields of JPA proxy (hopefully no other start with this prefix...) alternative: remember and check for all objects in object graph
+            // ignore fields of JPA proxy (hopefully no other start with this prefix...) 
+            // alternative: remember and check for all objects in object graph
             return true;
         } 
         if (excludedTypes != null && excludedTypes.contains(field.getType())) {

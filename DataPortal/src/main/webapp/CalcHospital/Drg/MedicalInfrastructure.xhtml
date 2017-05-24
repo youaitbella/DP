@@ -10,40 +10,40 @@
                 xmlns:calc="http://xmlns.jcp.org/jsf/composite/components/calc"
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
 
-<!--
-    
-    <h2 title="#{msg.titleMedicalInfrastructure}">#{msg. TopicCalcMedicalInfrastructure}</h2>
--->
+    <!--
+        
+        <h2 title="#{msg.titleMedicalInfrastructure}">#{msg. TopicCalcMedicalInfrastructure}</h2>
+    -->
 
-  <h2>#{"Gewähltes Verfahren bei Durchführung der IBLV"}</h2>    
-  
-  <h:selectOneMenu id="iblvFulFillment"
-                         required="true"
-                         requiredMessage="#{msg.msgValueNeeded}"
-                         value="#{editCalcBasicsDrg.calcBasics.iblvMethodMedInfra}"
-                         hideNoSelectionOption="true" 
-                         style="width: 100%;">
-            <f:selectItems value="#{calcBasicsStaticData.ibvlTypeItem}"/>
-            <f:ajax event="change" render="@form :logout:remaining" /><!--render="@this :logout:remaining medInfraMethodDescription"/-->
+    <h2>#{"Gewähltes Verfahren bei Durchführung der IBLV"}</h2>    
+
+    <h:selectOneMenu id="iblvFulFillment"
+                     required="true"
+                     requiredMessage="#{msg.msgValueNeeded}"
+                     value="#{editCalcBasicsDrg.calcBasics.iblvMethodMedInfra}"
+                     hideNoSelectionOption="true" 
+                     style="width: 100%;">
+        <f:selectItems value="#{calcBasicsStaticData.ibvlTypeItem}"/>
+        <f:ajax event="change" render="@form :logout:remaining" /><!--render="@this :logout:remaining medInfraMethodDescription"/-->
     </h:selectOneMenu>      
 
-  <br/>
-  <h:outputLabel id="remark" styleClass="label" rendered="#{editCalcBasicsDrg.calcBasics.iblvMethodMedInfra == 3}"
+    <br/>
+    <h:outputLabel id="remark" styleClass="label" rendered="#{editCalcBasicsDrg.calcBasics.iblvMethodMedInfra == 3}"
                    value="Bitte beachten Sie, dass das Anbauverfahren lediglich bei einer erstmaligen Teilnahme als Verfahren zur Durchführung der IBLV gewählt werden darf." 
                    />
-      
-<h:panelGroup id="medInfraMethodDescription" styleClass="inputPart" rendered="#{editCalcBasicsDrg.calcBasics.iblvMethodMedInfra == 0 or editCalcBasicsDrg.calcBasics.iblvMethodMedInfra == 1}">
-    <h:outputLabel styleClass="label" for="description" value="Erläuterung:"/><br/>
-    <h:inputTextarea id="description" 
-                     styleClass="areaWideHigh" 
-                     value="#{editCalcBasicsDrg.calcBasics.otherMethodMedInfra}" 
-                     required="#{editCalcBasicsDrg.calcBasics.iblvMethodMedInfra == 0 or editCalcBasicsDrg.calcBasics.iblvMethodMedInfra == 1}">
-        <f:ajax event="blur" render="@this :logout:remaining" />
-    </h:inputTextarea>
-</h:panelGroup>    
-    
+
+    <h:panelGroup id="medInfraMethodDescription" styleClass="inputPart" rendered="#{editCalcBasicsDrg.calcBasics.iblvMethodMedInfra == 0 or editCalcBasicsDrg.calcBasics.iblvMethodMedInfra == 1}">
+        <h:outputLabel styleClass="label" for="description" value="Erläuterung:"/><br/>
+        <h:inputTextarea id="description" 
+                         styleClass="areaWideHigh" 
+                         value="#{editCalcBasicsDrg.calcBasics.otherMethodMedInfra}" 
+                         required="#{editCalcBasicsDrg.calcBasics.iblvMethodMedInfra == 0 or editCalcBasicsDrg.calcBasics.iblvMethodMedInfra == 1}">
+            <f:ajax event="blur" render="@this :logout:remaining" />
+        </h:inputTextarea>
+    </h:panelGroup>    
+
     <h2>#{"Verrechnungsschlüssel und Kostenvolumen der Kostenstellen der medizinischen Infrastruktur"}</h2>  
-    
+
     <!--170 = med. Infra-->
     <table>
         <tr>
@@ -56,54 +56,43 @@
         <ui:repeat value="#{editCalcBasicsDrg.getMedInfra(170)}" var="item" varStatus="loop">
             <tr>
                 <td>
-                    <h:commandLink styleClass="colIcon">
-                        <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
-                        <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.deleteMedInfra(item)}"/>
-                        <cb:confirmDelete/>
-                    </h:commandLink>
-                </td>
-                <td style="width: 15%;">
-                <inek:InputTextWithMessage value="#{item.costCenterNumber}" styleClass="inputwide" required="true"/>
-                </td>
-                <td style="width: 30%">
-                <inek:InputTextWithMessage value="#{item.costCenterText}" styleClass="inputwide" required="true"/>
-                </td>
-                <td style="width: 25%;">
-                <inek:InputTextWithMessage value="#{item.keyUsed}" styleClass="inputwide" required="true"/>
-                </td>
-                <td>
-                <inek:InputNumberWithMessage value="#{item.amount}" styleClass="inputwide" minimum="-999999999" required="true" renderElement="sumMed:text"/>
-                </td>
+            <h:commandLink styleClass="colIcon">
+                <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
+                <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.deleteMedInfra(item)}"/>
+                <cb:confirmDelete/>
+            </h:commandLink>
+            </td>
+            <td style="width: 15%;">
+            <inek:InputTextWithMessage value="#{item.costCenterNumber}" styleClass="inputwide" required="true"/>
+            </td>
+            <td style="width: 30%">
+            <inek:InputTextWithMessage value="#{item.costCenterText}" styleClass="inputwide" required="true"/>
+            </td>
+            <td style="width: 25%;">
+            <inek:InputTextWithMessage value="#{item.keyUsed}" styleClass="inputwide" required="true"/>
+            </td>
+            <td>
+            <inek:InputNumberWithMessage value="#{item.amount}" styleClass="inputwide" minimum="-999999999" required="true" renderElement="sumMed:text"/>
+            </td>
             </tr>
         </ui:repeat>
         <tr>
             <td colspan="4">
-                <h:outputLabel value="&nbsp; &nbsp; &nbsp; Summe Kostenvolumen:" styleClass="label60"/>
-            </td> 
-            <td>
-                <inek:InputNumberWithMessage disabled="true" id="sumMed" value="#{editCalcBasicsDrg.getMedInfraSum(170)}"/>
-            </td>
+        <h:outputLabel value="&nbsp; &nbsp; &nbsp; Summe Kostenvolumen:" styleClass="label60"/>
+        </td> 
+        <td>
+        <inek:InputNumberWithMessage disabled="true" id="sumMed" value="#{editCalcBasicsDrg.getMedInfraSum(170)}"/>
+        </td>
         </tr>
     </table>
-    
-    <inek:UploadButtons readOnly="#{editCalcBasicsDrg.readOnly}"
-                        addListener="#{editCalcBasicsDrg.addMedInfra(170)}"
-                        uploadButtonText="Upload"
-                        uploadListener="#{editCalcBasicsDrg.uploadMedInfra(170)}"
-                        file="#{editCalcBasicsDrg.file}"
-                        actionTemplate="#{editCalcBasicsDrg.downloadMedInfraTemplate}"
-                        actionDeleteTable="#{editCalcBasicsDrg.deleteMedInfraItems(170)}"
-                        importMessage="#{editCalcBasicsDrg.importMessageMedInfra}"
-                        showJournal="#{editCalcBasicsDrg.showJournal}"
-                        toggleJournal="#{editCalcBasicsDrg.toggleJournal}"
-                        />
-            <inek:UploadButtons2 importer="#{editCalcBasicsDrg.getImporter('drgMedInfra')}"
-                                 calcbase="#{editCalcBasicsDrg.calcBasics}" 
-                                 readOnly="#{editCalcBasicsDrg.readOnly}"
-                                 addListener="#{editCalcBasicsDrg.addMedInfra(170)}"
-                                 uploadButtonText="Upload"
-                                 actionDeleteTable="#{editCalcBasicsDrg.deleteMedInfraItems(170)}"
-                                 />
+
+    <inek:UploadButtons2 importer="#{editCalcBasicsDrg.getImporter('drgMedInfra')}"
+                         calcbase="#{editCalcBasicsDrg.calcBasics}" 
+                         readOnly="#{editCalcBasicsDrg.readOnly}"
+                         addListener="#{editCalcBasicsDrg.addMedInfra(170)}"
+                         uploadButtonText="Upload"
+                         actionDeleteTable="#{editCalcBasicsDrg.deleteMedInfraItems(170)}"
+                         />
 
 </ui:composition>
 

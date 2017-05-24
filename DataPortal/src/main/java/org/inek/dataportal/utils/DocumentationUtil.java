@@ -158,7 +158,9 @@ public final class DocumentationUtil {
 
     @SuppressWarnings("unchecked")
     private void addDocToSubList(Map<Long, KeyValueLevel> subList, Documentation doc, String elementName, Object rawValue, int position) {
-        boolean isEmpty = rawValue == null || rawValue instanceof Collection && ((Collection) rawValue).isEmpty() || rawValue.toString().length() == 0;
+        boolean isEmpty = rawValue == null 
+                || rawValue instanceof Collection && ((Collection) rawValue).isEmpty() 
+                || rawValue.toString().length() == 0;
         if (isEmpty && doc.omitOnEmpty() || doc.omitAlways()) {
             return;
         }

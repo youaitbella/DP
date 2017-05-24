@@ -23,7 +23,17 @@ public class DocInfo implements Serializable{
     private final String _tag;
 
     @SuppressWarnings("ParameterNumber")
-    public DocInfo(int id, String name, String domain, Date created, Date validUntil, boolean isRead, int accountId, int agentId, String agentName, String tag) {
+    public DocInfo(
+            int id, 
+            String name, 
+            String domain, 
+            Date created, 
+            Date validUntil, 
+            boolean isRead, 
+            int accountId, 
+            int agentId, 
+            String agentName, 
+            String tag) {
         _id = id;
         _name = name;
         _domain = domain;

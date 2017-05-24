@@ -271,7 +271,9 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
     }
 
     public boolean isTakeEnabled() {
-        return _cooperationTools != null && _request != null && _cooperationTools.isTakeEnabled(Feature.SPECIFIC_FUNCTION, _request.getStatus(), _request.getAccountId());
+        return _cooperationTools != null 
+                && _request != null 
+                && _cooperationTools.isTakeEnabled(Feature.SPECIFIC_FUNCTION, _request.getStatus(), _request.getAccountId());
     }
 
     /**

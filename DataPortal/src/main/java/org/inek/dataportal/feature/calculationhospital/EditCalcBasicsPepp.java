@@ -179,9 +179,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
                 pa.setStaffRecording(ppa.isStaffRecording());
             }
         }
-
         preloadServiceProvision(calcBasics);
-
     }
 
     private PeppCalcBasics loadCalcBasicsPepp(String idObject) {
@@ -269,20 +267,13 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
                 calcBasics.getServiceProvisions().add(data);
             }
         }
-
         calcBasics.getDelimitationFacts().clear();
         populateDelimitationFactsIfAbsent(calcBasics);
-
     }
 
     private void populateDelimitationFactsIfAbsent(PeppCalcBasics calcBasics) {
         if (!calcBasics.getDelimitationFacts().isEmpty()) {
             return;
-        }
-        if (calcBasics.getId() > 0) {
-            // This should not be. But sometimes we lost the delimitationFacts...
-            LOGGER.log(Level.WARNING,
-                    "Populate PSY DelimitationFacts for existing data: Id = {0}", calcBasics.getId());
         }
         for (KGPListContentText ct : _calcFacade.retrieveContentTextsPepp(1, calcBasics.getDataYear())) {
             KGPListDelimitationFact df = new KGPListDelimitationFact();
@@ -698,54 +689,6 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
                 itr.remove();
             }
         }
-    }
-
-    private Part _file;
-
-    public Part getFile() {
-        return _file;
-    }
-
-    public void setFile(Part file) {
-        _file = file;
-    }
-
-    private Part _fileTherapyPepp;
-
-    public Part getFileTherapyPepp() {
-        return _fileTherapyPepp;
-    }
-
-    public void setFileTherapyPepp(Part file) {
-        _fileTherapyPepp = file;
-    }
-
-    public void toggleJournal() {
-        _showJournal = !_showJournal;
-    }
-
-    private boolean _showJournal = false;
-
-    public boolean isShowJournal() {
-        return _showJournal;
-    }
-
-    public void setShowJournal(boolean showJournal) {
-        this._showJournal = showJournal;
-    }
-
-    public void toggleJournalTherapy() {
-        _showJournalTherapy = !_showJournalTherapy;
-    }
-
-    private boolean _showJournalTherapy = false;
-
-    public boolean isShowJournalTherapy() {
-        return _showJournalTherapy;
-    }
-
-    public void setShowJournalTherapy(boolean showJournal) {
-        this._showJournalTherapy = showJournal;
     }
     //</editor-fold>
 

@@ -302,18 +302,6 @@
         </ui:repeat>
     </table>
 
-<!--    <inek:UploadButtons readOnly="# {editCalcBasicsPepp.readOnly}"
-                        addListener="# {editCalcBasicsPepp.addStationServiceCost()}"
-                        uploadButtonText="Upload"
-                        uploadListener="# {editCalcBasicsPepp.uploadNoticesStation()}"
-                        file="# {editCalcBasicsPepp.fileStation}"
-                        actionTemplate="# {editCalcBasicsPepp.getDownloadTemplateStation}"
-                        actionDeleteTable="# {editCalcBasicsPepp.clearStationServiceCosts()}"
-                        importMessage="# {editCalcBasicsPepp.importMessageStation}"
-                        showJournal="# {editCalcBasicsPepp.showJournalStation}"
-                        toggleJournal="# {editCalcBasicsPepp.toggleJournalStation}"
-                        />-->
-
     <inek:UploadButtons2 importer="#{editCalcBasicsPepp.getImporter('peppstationservicecost')}"
                          calcbase="#{editCalcBasicsPepp.calcBasics}" 
                         readOnly="#{editCalcBasicsPepp.readOnly}"

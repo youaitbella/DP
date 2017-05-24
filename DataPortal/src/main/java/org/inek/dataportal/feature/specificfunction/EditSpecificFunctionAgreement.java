@@ -186,7 +186,10 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
 
     private void sendMessage(String name) {
         //todo: refactor for gloabal usage (move to mailer?) and remove all similar methods
-        Account receiver = _accountFacade.find(_appTools.isEnabled(ConfigKey.TestMode) ? _sessionController.getAccountId() : _agreement.getAccountId());
+        Account receiver = _accountFacade.find(
+                _appTools.isEnabled(ConfigKey.TestMode) 
+                ? _sessionController.getAccountId() 
+                : _agreement.getAccountId());
         MailTemplate template = _mailer.getMailTemplate(name);
         String subject = template.getSubject()
                 .replace("{ik}", "" + _agreement.getIk());
