@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -50,6 +51,13 @@ public class DocumentUpload implements Serializable {
     @Inject private AccountFacade _accountFacade;
     @Inject private Mailer _mailer;
     private final List<AccountDocument> _documents = new ArrayList<>();
+
+    @PostConstruct
+    private void init() {
+        _senderIk = getSenderIks().isEmpty() 
+                ? -1 
+                : getSenderIks().size() == 1 ? getSenderIks().stream().findFirst().get() : 0;
+    }
 
     // <editor-fold defaultstate="collapsed" desc="Property DocumentTarget">
     private DocumentTarget _documentTarget = DocumentTarget.Account;
@@ -103,9 +111,9 @@ public class DocumentUpload implements Serializable {
         Set<String> emails = customer.getContacts()
                 .stream().filter(c -> c.isActive())
                 .flatMap(c -> c.getContactDetails()
-                        .stream()
-                        .filter(d -> d.getContactDetailTypeId().equals("E"))
-                        .map(d -> d.getDetails().toLowerCase()))
+                .stream()
+                .filter(d -> d.getContactDetailTypeId().equals("E"))
+                .map(d -> d.getDetails().toLowerCase()))
                 .collect(Collectors.toSet());
         List<Account> accounts = _accountFacade.getAccounts4Ik(_ik, emails);
         _accountRoles = _accountFacade.obtainRoleInfo(_ik, accounts);
@@ -147,6 +155,31 @@ public class DocumentUpload implements Serializable {
         return _inekAccounts;
     }
     // </editor-fold>
+
+    public void ikChanged() {
+        // dummy method for composite componen
+    }
+
+    //<editor-fold defaultstate="collapsed" desc="Property SenderIk">
+    private int _senderIk;
+    
+    public int getSenderIk() {
+        return _senderIk;
+    }
+    
+    public void setSenderIk(int senderIk) {
+        this._senderIk = senderIk;
+    }
+    //</editor-fold>
+    
+    private Set<Integer> _senderIks;
+
+    public Set<Integer> getSenderIks() {
+        if (_senderIks == null) {
+            _senderIks = _sessionController.getAccount().getFullIkSet();
+        }
+        return _senderIks;
+    }
 
     // <editor-fold defaultstate="collapsed" desc="Property AvailableUntil">
     private int _availability = 60;
@@ -312,7 +345,8 @@ public class DocumentUpload implements Serializable {
 
     public boolean isSaveForInekEnabled() {
         return _documents.size() > 0
-                && _domain != null;
+                && _domain != null 
+                && (getSenderIks().size() <= 1 || _senderIk > 0);
     }
 
     public String saveDocument() {
@@ -385,6 +419,7 @@ public class DocumentUpload implements Serializable {
         accountDocument.setAccountId(accountId);
         accountDocument.setDomain(_domain);
         accountDocument.setAgentAccountId(_sessionController.getAccountId());
+        accountDocument.setSenderIk(_senderIk);
         _docFacade.save(accountDocument);
     }
 

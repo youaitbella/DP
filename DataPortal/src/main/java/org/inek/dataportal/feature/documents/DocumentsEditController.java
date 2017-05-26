@@ -29,7 +29,7 @@ public class DocumentsEditController extends AbstractEditController {
     @Override
     protected void addTopics() {
         if (_sessionController.isInekUser(Feature.DOCUMENTS)) {
-            addTopic(DocumentsTabs.tabDocuments.name(), Pages.ListDocuments.URL());
+            addTopic(DocumentsTabs.tabDocuments.name(), Pages.ListDocumentsInek.URL());
             addTopic(DocumentsTabs.tabApproval.name(), Pages.DocumentsApproval.URL());
             if (_sessionController.isInternalClient()) {
                 addTopic(DocumentsTabs.tabUploadFromInek.name(), Pages.DocumentUploadFromInek.URL());

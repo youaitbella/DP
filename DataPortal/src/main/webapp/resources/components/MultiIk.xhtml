@@ -14,6 +14,8 @@
         <cc:attribute name="listener" method-signature="void listener()"/>
         <cc:attribute name="readonly" default="false"/>
         <cc:attribute name="renderElement" default="@this"/>
+        <cc:attribute name="label" default="IK"/>
+        <cc:attribute name="styleClassLabel" default="label10"/>
         <cc:actionSource name="ikMulti"/>
     </cc:interface>
 
@@ -21,7 +23,7 @@
     <cc:implementation>
         <cc:editableValueHolder name="#{cc.id}" targets="ikMulti"/>
         <div class="inputPart">
-            <h:outputLabel styleClass="label10 #{cc.attrs.required and not cc.attrs.readonly and not cc.attrs.isFixed ? ' required ' : ''}" for="ikMulti" value="#{msg.lblIkShort}:"/>
+            <h:outputLabel styleClass="#{cc.attrs.styleClassLabel} #{cc.attrs.required and not cc.attrs.readonly and not cc.attrs.isFixed ? ' required ' : ''}" for="ikMulti" value="#{cc.attrs.label}:"/>
 
             <h:selectOneMenu styleClass="col08em #{cc.attrs.required ? ' required ' : ''}"
                              rendered="#{!cc.attrs.readonly and cc.attrs.ikList.size() gt 1 and not cc.attrs.isFixed}"
@@ -44,7 +46,7 @@
             <h:message for="ikMulti" id="msgMultiIk" styleClass="errorMessage"/>
 
             <br/>
-            <h:outputLabel styleClass="label10" value="" rendered="#{!cc.attrs.readonly and cc.attrs.ikList.size() gt 1 and not cc.attrs.isFixed}"/>
+            <h:outputLabel styleClass="#{cc.attrs.styleClassLabel}" value="" rendered="#{!cc.attrs.readonly and cc.attrs.ikList.size() gt 1 and not cc.attrs.isFixed}"/>
             <h:outputText value="#{msg.lblNubHintMoreIks}" rendered="#{!cc.attrs.readonly and cc.attrs.ikList.size() gt 1 and not cc.attrs.isFixed}"/>
         </div>
     </cc:implementation>

@@ -24,9 +24,13 @@ public class AccountDocumentFacade extends AbstractFacade<AccountDocument> {
     }
 
     public List<DocInfo> getDocInfos(int accountId) {
-        String sql = "SELECT d._id, d._name, dd._name, d._created, d._validUntil, d._read, d._accountId, d._agentAccountId "
-                + "FROM AccountDocument d join DocumentDomain dd "
-                + "WHERE d._domainId = dd._id and  d._accountId = :accountId ORDER BY d._id DESC";
+        String sql = "SELECT d._id, d._name, dd._name, d._created, d._validUntil, d._read, d._accountId, d._agentAccountId, d._senderIk, "
+                + "    concat (a._company, ' ', a._town, ' (', a._firstName, ' ', a._lastName, ')') "
+                + "FROM AccountDocument d "
+                + "join DocumentDomain dd "
+                + "join Account a "
+                + "WHERE d._domainId = dd._id and d._agentAccountId = a._id  and d._accountId = :accountId "
+                + "ORDER BY d._id DESC";
         // does not work properly :(
 //        TypedQuery<DocInfo> query = getEntityManager().createQuery(sql, DocInfo.class);
 //        query.setParameter("accountId", accountId);
@@ -37,13 +41,13 @@ public class AccountDocumentFacade extends AbstractFacade<AccountDocument> {
         List<DocInfo> docInfos = new ArrayList<>();
         for (Object[] obj : objects) {
             docInfos.add(new DocInfo((int) obj[0], (String) obj[1], (String) obj[2], (Date) obj[3], (Date) obj[4], 
-                    (boolean) obj[5], (int) obj[6], (int) obj[7], "", ""));
+                    (boolean) obj[5], (int) obj[6], (int) obj[7], (int) obj[8], "", (String) obj[9]));
         }
         return docInfos;
     }
 
     public List<DocInfo> getSupervisedDocInfos(List<Integer> accountIds, String filter, int maxAge) {
-        String jpql = "SELECT d._id, d._name, dd._name, d._created, null, d._read, d._accountId, d._agentAccountId, "
+        String jpql = "SELECT d._id, d._name, dd._name, d._created, null, d._read, d._accountId, d._agentAccountId, d._senderIk, "
                 + "    a._ik, concat (a._company, ' ', a._town, ' (', a._firstName, ' ', a._lastName, ')') "
                 + "FROM AccountDocument d "
                 + "join DocumentDomain dd "
@@ -73,8 +77,8 @@ public class AccountDocumentFacade extends AbstractFacade<AccountDocument> {
         List<DocInfo> docInfos = new ArrayList<>();
         for (Object[] obj : objects) {
             docInfos.add(new DocInfo((int) obj[0], (String) obj[1], (String) obj[2], (Date) obj[3], (Date) obj[4], 
-                    (boolean) obj[5], (int) obj[6], (int) obj[7], "", 
-                    ((int)obj[8] < 0 ? "" : obj[8] + " ") + obj[9]));
+                    (boolean) obj[5], (int) obj[6], (int) obj[7], (int) obj[8], "", 
+                    ((int)obj[9] < 0 ? "" : obj[9] + " ") + obj[10]));
         }
         return docInfos;
     }

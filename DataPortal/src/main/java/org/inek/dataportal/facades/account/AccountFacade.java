@@ -405,7 +405,7 @@ public class AccountFacade extends AbstractFacade<Account> {
 
     @SuppressWarnings("unchecked")
     public List<Account> getInekContacts(Account account) {
-        Set<Integer> iks = account.getFullIkList();
+        Set<Integer> iks = account.getFullIkSet();
         if (iks.isEmpty()) {
             return Collections.EMPTY_LIST;
         }

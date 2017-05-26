@@ -92,6 +92,19 @@ public class AccountDocument implements Serializable, Document {
     @Column(name = "adIsRead")
     private boolean _read;
     
+    //<editor-fold defaultstate="collapsed" desc="Property SenderIk">
+    @Column(name = "adSenderIk")
+    private int _senderIk;
+    
+    public int getSenderIk() {
+        return _senderIk;
+    }
+    
+    public void setSenderIk(int senderIk) {
+        this._senderIk = senderIk;
+    }
+    //</editor-fold>
+            
     public Integer getId() {
         return _id;
     }
@@ -187,5 +200,5 @@ public class AccountDocument implements Serializable, Document {
     private void tagChanged() {
         _lastChanged = Calendar.getInstance().getTime();
     }
-    
+
 }

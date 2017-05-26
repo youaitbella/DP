@@ -97,7 +97,7 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         }
         _sealOwnNub = new HashMap<>();
         Account account = _sessionController.getAccount();
-        for (int ik : account.getFullIkList()) {
+        for (int ik : account.getFullIkSet()) {
             // allowed for own NUB if supervisor herself or no supervisor exists
             _sealOwnNub.put(ik, _cooperationRightFacade.isIkSupervisor(Feature.NUB, ik, account.getId()) 
                     || !_cooperationRightFacade.hasSupervisor(Feature.NUB, ik));

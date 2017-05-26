@@ -62,6 +62,12 @@ public class DocumentList implements Serializable{
             case "document":
                 docInfoStream = docInfoStream.sorted((n1, n2) -> direction * n1.getName().compareTo(n2.getName()));
                 break;
+            case "sender":
+                docInfoStream = docInfoStream.sorted((n1, n2) -> direction * n1.getTag().compareTo(n2.getTag()));
+                break;
+            case "senderik":
+                docInfoStream = docInfoStream.sorted((n1, n2) -> direction * (n1.getSenderIk() - n2.getSenderIk()));
+                break;
             case "validuntil":
                 docInfoStream = docInfoStream.sorted((n1, n2) -> direction * n1.getValidUntil().compareTo(n2.getValidUntil()));
                 break;

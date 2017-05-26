@@ -241,7 +241,7 @@ public class EditCooperation extends AbstractEditController {
             return;
         }
 
-        Set<Integer> iks = _sessionController.getAccount().getFullIkList();
+        Set<Integer> iks = _sessionController.getAccount().getFullIkSet();
 
         for (CooperationRight right : _cooperationRights) {
             if (right.getFeature() == Feature.NUB) {

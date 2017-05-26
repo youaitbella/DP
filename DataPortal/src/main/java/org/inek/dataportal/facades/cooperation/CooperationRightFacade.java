@@ -31,7 +31,7 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
         if (account == null) {
             return new ArrayList<>();
         }
-        Set<Integer> iks = account.getFullIkList();
+        Set<Integer> iks = account.getFullIkSet();
         iks.add(-1);
         String query = "SELECT cor FROM CooperationRight cor WHERE cor._feature = :feature "
                 + "and (cor._ownerId = :accountId or cor._partnerId = :accountId or cor._ownerId = -1 and cor._ik in :iks)";
