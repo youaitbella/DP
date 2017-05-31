@@ -268,7 +268,7 @@ public class SpecificFunctionRequest implements Serializable, StatusEntity {
 
     // <editor-fold defaultstate="collapsed" desc="Property HasAgreement">
     @Column(name = "rmHasAgreement")
-    private boolean _hasAgreement;
+    private boolean _hasAgreement = true;
 
     public boolean isHasAgreement() {
         return _hasAgreement;

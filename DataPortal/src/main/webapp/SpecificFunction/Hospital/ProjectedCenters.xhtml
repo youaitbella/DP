@@ -15,6 +15,8 @@
                           value="#{editSpecificFunction.request.willNegotiate}"
                           readonly="#{editSpecificFunction.readOnly}"
                           renderElement="@form"/>
+    <h:outputLabel value = "Gem. §5 Abs. 3 KHEntgG wird jedem Krankenhaus unabhängig von der Anzahl der Zentren genau ein Vertragskennzeichen
+                   zur Vereinbarung von Zuschlägen zugewiesen. Tragen Sie bitte alle Zentren, über die Sie verhandeln möchten in der unten aufgeführten Übersicht ein."/>
 
     <ui:repeat value="#{editSpecificFunction.request.requestProjectedCenters}" var="center" 
                rendered="#{editSpecificFunction.request.willNegotiate}">
@@ -88,7 +90,7 @@
                         <f:ajax event="change" render="@form :logout:remaining msgSpecificFunction"/>
                     </h:selectManyCheckbox>
                 </div>
-                    <h:message for="specificFunction" id="msgSpecificFunction" styleClass="errorMessage elementRight70"/>
+                <h:message for="specificFunction" id="msgSpecificFunction" styleClass="errorMessage elementRight70"/>
             </div>
 
             <!--div class="inputPart">
@@ -144,7 +146,7 @@
     </ui:repeat>
 
 
-    <h:commandLink styleClass="addButton marginRight" value="#{msg.btnAddEntry}"
+    <h:commandLink styleClass="addButton marginRight bigButton" value="Weiteres Zentrum zufügen"
                    rendered="#{editSpecificFunction.request.willNegotiate and !editSpecificFunction.readOnly}">
         <f:ajax event="click" render="@form :logout:remaining" listener="#{editSpecificFunction.addProjectedCenter()}"/>
     </h:commandLink>

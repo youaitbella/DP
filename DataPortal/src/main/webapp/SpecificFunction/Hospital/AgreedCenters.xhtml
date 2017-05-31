@@ -14,6 +14,7 @@
                           styleClassComponent="marginTop01em"
                           value="#{editSpecificFunction.request.hasAgreement}"
                           readonly="#{editSpecificFunction.readOnly}"
+                          required="shfdy"
                           renderElement="@form"/>
 
     <h:dataTable id="agreedCenters" value="#{editSpecificFunction.request.requestAgreedCenters}" 
@@ -63,7 +64,7 @@
 
     </h:dataTable>
 
-    <h:commandLink styleClass="addButton marginRight" value="#{msg.btnAddEntry}"
+    <h:commandLink styleClass="addButton marginRight bigButton" value="Weitere Zeile zufügen"
                    rendered="#{editSpecificFunction.request.hasAgreement and !editSpecificFunction.readOnly}">
         <f:ajax event="click" render="@form :logout:remaining" listener="#{editSpecificFunction.addAgreedCenter()}"/>
     </h:commandLink>
