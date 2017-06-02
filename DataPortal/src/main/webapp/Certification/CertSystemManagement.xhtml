@@ -17,16 +17,24 @@
             <a href="http://vservices01:8080/CertificationService" target="_blank" class="bigButton">Prüfdienst</a><br/><br/>
             
             <h:outputLabel for="mnuSystem" value="#{msg.lblSystem}:" styleClass="label15"/>
-            <h:selectOneMenu id="mnuSystem" styleClass="input" value="#{certManager.systemId}" immediate="true" disabled="#{certManager.systemChanged}">
+            <h:selectOneMenu id="mnuSystem" styleClass="input"  value="#{certManager.systemId}" immediate="true" disabled="#{certManager.systemChanged}">
                 <f:selectItems value="#{certManager.systems}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
-                <f:ajax render="@form :logout:remaining" />
+                <f:ajax render="@form :logout:remaining"  />
             </h:selectOneMenu>
-
+            <inek:LabeledCheckbox value="#{certManager.active}" 
+                                  label=" Nur Aktive Systeme" 
+                                  styleClassComponent="inlineBlock"
+                                  renderElement="@form"/>
+            
             <h2>Systemeinstellungen</h2>
 
             <div class="inputPart">
                 <h:outputLabel for="mnuDomain" value="#{msg.lblDomain}:" styleClass="label15"/>
-                <h:selectOneMenu id="mnuDomain" styleClass="input" value="#{certManager.system.remunerationId}" immediate="true" disabled="#{certManager.systemChanged}">
+                <h:selectOneMenu id="mnuDomain" 
+                                 styleClass="input" 
+                                 value="#{certManager.system.remunerationId}" 
+                                 immediate="true" 
+                                 disabled="#{certManager.systemChanged}">
                     <f:selectItems value="#{valueLists.remunerationDomains}" var="domain" itemLabel="#{domain.label}" itemValue="#{domain.value}"/>
                     <f:ajax render="@form msgDomain certButtons:btnSystemSave :logout:remaining" />
                 </h:selectOneMenu>
@@ -73,7 +81,7 @@
             
             <div class="inputPart">
                 <h:outputLabel for="chkArchived" value="Archiviert:" styleClass="label15"/>
-                <h:selectBooleanCheckbox id="chkArchived" value="#{certManager.system.archived}">
+                <h:selectBooleanCheckbox id="chkArchived" value="#{certManager.system.active}">
                     <f:ajax render="@this mnuSystem chkApproval certButtons:btnSystemSave :logout:remaining" listener="#{certManager.systemChangeListener}"/>
                 </h:selectBooleanCheckbox>
             </div>

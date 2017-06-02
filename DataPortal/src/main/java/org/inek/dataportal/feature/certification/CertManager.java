@@ -44,9 +44,12 @@ public class CertManager implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger("CertManager");
 
-    @Inject private SystemFacade _systemFacade;
-    @Inject private GrouperFacade _grouperFacade;
-    @Inject private ApplicationTools _appTools;
+    @Inject
+    private SystemFacade _systemFacade;
+    @Inject
+    private GrouperFacade _grouperFacade;
+    @Inject
+    private ApplicationTools _appTools;
 
     @PreDestroy
     private void preDestroy() {
@@ -55,7 +58,7 @@ public class CertManager implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     public List<SelectItem> getSystems() {
-        List<SelectItem> list = _systemFacade.getRemunerationSystemInfosNotArchived();
+        List<SelectItem> list = _systemFacade.getRemunerationSystemInfosActive(isActive());
         SelectItem emptyItem = new SelectItem(-1, Utils.getMessage("itemNewEntry"));
         emptyItem.setNoSelectionOption(true);
         list.add(emptyItem);
@@ -98,12 +101,22 @@ public class CertManager implements Serializable {
             } else {
                 _systemFacade.clearCache(Grouper.class);
                 _system = _systemFacade.findFresh(systemId);
-                Collections.sort(_system.getGrouperList(), 
+                Collections.sort(_system.getGrouperList(),
                         (o1, o2) -> o1.getAccount().getCompany().compareToIgnoreCase(o2.getAccount().getCompany()));
 
             }
             setSystemChanged(false);
         }
+    }
+
+    private boolean _active = false;
+
+    public boolean isActive() {
+        return _active;
+    }
+
+    public void setActive(boolean active) {
+        this._active = active;
     }
 
     private boolean _systemChanged = false;
@@ -236,7 +249,12 @@ public class CertManager implements Serializable {
         setSystemChanged(true);
     }
 
-    @Inject private AccountFacade _accountFacade;
+    public void activeSystemChangeListener(AjaxBehaviorEvent event) {
+        setActive(true);
+    }
+
+    @Inject
+    private AccountFacade _accountFacade;
 
     private List<SelectItem> _certAccounts;
 
@@ -259,7 +277,7 @@ public class CertManager implements Serializable {
             _certAccounts.add(new SelectItem(-1, ""));
             for (Account account : accounts) {
                 _certAccounts.add(new SelectItem(
-                        account.getId(), 
+                        account.getId(),
                         account.getCompany() + " - " + account.getFirstName() + " " + account.getLastName()));
             }
         }

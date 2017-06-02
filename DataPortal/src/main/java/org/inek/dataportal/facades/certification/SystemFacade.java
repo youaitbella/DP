@@ -34,11 +34,12 @@ public class SystemFacade extends AbstractFacade<RemunerationSystem> {
         return result;
     }
     
-    public List<SelectItem> getRemunerationSystemInfosNotArchived() {
+    public List<SelectItem> getRemunerationSystemInfosActive(boolean isActive) {
         List<SelectItem> result = new ArrayList<>();
         for (RemunerationSystem system : findAllFresh()) {
-            if(system.isArchived())
+            if(isActive && !system.isActive()){
                 continue;
+            }
             result.add(new SelectItem(system.getId(), system.getDisplayName()));
         }
         return result;

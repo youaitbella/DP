@@ -157,15 +157,15 @@ public class RemunerationSystem implements Serializable {
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Property Archived">
-    @Column(name = "syArchived")
-    private boolean _archived = false;
+    @Column(name = "syIsActive")
+    private boolean _active = false;
 
-    public boolean isArchived() {
-        return _archived;
+    public boolean isActive() {
+        return _active;
     }
 
-    public void setArchived(boolean archived) {
-        this._archived = archived;
+    public void setActive(boolean active) {
+        this._active = active;
     }
     // </editor-fold>
 
