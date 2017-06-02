@@ -905,6 +905,12 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     public void setRadiologyLaboratories(List<KGLListRadiologyLaboratory> radiologyLaboratory) {
         this._radiologyLaboratories = radiologyLaboratory;
     }
+    
+    public void addRadiologyLaboratories(KGLListRadiologyLaboratory item, int ccId) {
+        item.setCostCenterId(ccId);
+        item.setBaseInformationId(_id);
+        _radiologyLaboratories.add(item);
+    }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property List ObstetricsGynecologies">

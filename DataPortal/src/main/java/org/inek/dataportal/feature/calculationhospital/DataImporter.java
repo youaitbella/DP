@@ -14,6 +14,7 @@ import org.inek.dataportal.entities.calc.drg.KGLListCostCenter;
 import org.inek.dataportal.entities.calc.drg.KGLListCostCenterCost;
 import org.inek.dataportal.entities.calc.drg.KGLListIntensivStroke;
 import org.inek.dataportal.entities.calc.drg.KGLListMedInfra;
+import org.inek.dataportal.entities.calc.drg.KGLListRadiologyLaboratory;
 import org.inek.dataportal.entities.calc.psy.KGPListCostCenter;
 import org.inek.dataportal.entities.calc.psy.KGPListRadiologyLaboratory;
 import org.inek.dataportal.entities.calc.psy.KGPListStationServiceCost;
@@ -987,7 +988,106 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
                         KGLListMedInfra.class
                 );
             //</editor-fold>
-
+            case "drglaboratory":
+                //<editor-fold defaultstate="collapsed" desc="new DataImporter Laboratory">
+                return new DataImporter<KGLListRadiologyLaboratory, DrgCalcBasics>(
+                        "KostenstelleNummer;KostenstelleName;Leistungsdokumentation;Beschreibung;LeistungsvolumenVor;KostenvolumenVor;KostenvolumenNach",
+                        new FileHolder("Laboratory.csv"),
+                        ErrorCounter.obtainErrorCounter("DRG_LABORATORY"),
+                        Arrays.asList(
+                                new DataImportCheck<KGLListRadiologyLaboratory, String>(
+                                        ErrorCounter.obtainErrorCounter("DRG_LABORATORY"),
+                                        DataImportCheck::tryImportString,
+                                        (i, s) -> i.setCostCenterNumber(s),
+                                        "KostenstelleNummer: "),
+                                new DataImportCheck<KGLListRadiologyLaboratory, String>(
+                                        ErrorCounter.obtainErrorCounter("DRG_LABORATORY"),
+                                        DataImportCheck::tryImportString,
+                                        (i, s) -> i.setCostCenterText(s),
+                                        "KostenstelleName: "),
+                                new DataImportCheck<KGLListRadiologyLaboratory, Integer>(
+                                        ErrorCounter.obtainErrorCounter("DRG_LABORATORY"),
+                                        DataImportCheck::tryImportServiceDocType,
+                                        (i, s) -> i.setService(s),
+                                        "Leistungsdokumentation: "),
+                                new DataImportCheck<KGLListRadiologyLaboratory, String>(
+                                        ErrorCounter.obtainErrorCounter("DRG_LABORATORY"),
+                                        DataImportCheck::tryImportString,
+                                        (i, s) -> i.setDescription(s),
+                                        "Beschreibung: "),
+                                new DataImportCheck<KGLListRadiologyLaboratory, Integer>(
+                                        ErrorCounter.obtainErrorCounter("DRG_LABORATORY"),
+                                        DataImportCheck::tryImportInteger,
+                                        (i, s) -> i.setServiceVolumePre(s),
+                                        "LeistungsvolumenVor: "),
+                                new DataImportCheck<KGLListRadiologyLaboratory, Integer>(
+                                        ErrorCounter.obtainErrorCounter("DRG_LABORATORY"),
+                                        DataImportCheck::tryImportInteger,
+                                        (i, s) -> i.setAmountPre(s),
+                                        "KostenvolumenVor: "),
+                                new DataImportCheck<KGLListRadiologyLaboratory, Integer>(
+                                        ErrorCounter.obtainErrorCounter("DRG_LABORATORY"),
+                                        DataImportCheck::tryImportInteger,
+                                        (i, s) -> i.setAmountPost(s),
+                                        "KostenvolumenNach: ")
+                        ),
+                        (s, t) -> s.addRadiologyLaboratories(t, 10),
+                        KGLListRadiologyLaboratory.class
+                );
+            //</editor-fold>
+            case "drgradiology":
+                //<editor-fold defaultstate="collapsed" desc="new DataImporter Radiology">
+                return new DataImporter<KGLListRadiologyLaboratory, DrgCalcBasics>(
+                        "KostenstelleNummer;KostenstelleName;Leistungsdokumentation;Beschreibung;LeistungsvolumenVor;KostenvolumenVor;LeistungsvolumenNach;KostenvolumenNach",
+                        new FileHolder("Radiology.csv"),
+                        ErrorCounter.obtainErrorCounter("DRG_LABORATORY"),
+                        Arrays.asList(
+                                new DataImportCheck<KGLListRadiologyLaboratory, String>(
+                                        ErrorCounter.obtainErrorCounter("DRG_LABORATORY"),
+                                        DataImportCheck::tryImportString,
+                                        (i, s) -> i.setCostCenterNumber(s),
+                                        "KostenstelleNummer: "),
+                                new DataImportCheck<KGLListRadiologyLaboratory, String>(
+                                        ErrorCounter.obtainErrorCounter("DRG_LABORATORY"),
+                                        DataImportCheck::tryImportString,
+                                        (i, s) -> i.setCostCenterText(s),
+                                        "KostenstelleName: "),
+                                new DataImportCheck<KGLListRadiologyLaboratory, Integer>(
+                                        ErrorCounter.obtainErrorCounter("DRG_LABORATORY"),
+                                        DataImportCheck::tryImportServiceDocType,
+                                        (i, s) -> i.setService(s),
+                                        "Leistungsdokumentation: "),
+                                new DataImportCheck<KGLListRadiologyLaboratory, String>(
+                                        ErrorCounter.obtainErrorCounter("DRG_LABORATORY"),
+                                        DataImportCheck::tryImportString,
+                                        (i, s) -> i.setDescription(s),
+                                        "Beschreibung: "),
+                                new DataImportCheck<KGLListRadiologyLaboratory, Integer>(
+                                        ErrorCounter.obtainErrorCounter("DRG_LABORATORY"),
+                                        DataImportCheck::tryImportInteger,
+                                        (i, s) -> i.setServiceVolumePre(s),
+                                        "LeistungsvolumenVor: "),
+                                new DataImportCheck<KGLListRadiologyLaboratory, Integer>(
+                                        ErrorCounter.obtainErrorCounter("DRG_LABORATORY"),
+                                        DataImportCheck::tryImportInteger,
+                                        (i, s) -> i.setAmountPre(s),
+                                        "KostenvolumenVor: "),
+                                new DataImportCheck<KGLListRadiologyLaboratory, Integer>(
+                                        ErrorCounter.obtainErrorCounter("DRG_LABORATORY"),
+                                        DataImportCheck::tryImportInteger,
+                                        (i, s) -> i.setServiceVolumePost(s),
+                                        "LeistungsvolumenNach: "),
+                                new DataImportCheck<KGLListRadiologyLaboratory, Integer>(
+                                        ErrorCounter.obtainErrorCounter("DRG_LABORATORY"),
+                                        DataImportCheck::tryImportInteger,
+                                        (i, s) -> i.setAmountPost(s),
+                                        "KostenvolumenNach: ")
+                        ),
+                        (s, t) -> s.addRadiologyLaboratories(t, 9),
+                        KGLListRadiologyLaboratory.class
+                );
+            //</editor-fold>    
+                
             default:
                 throw new IllegalArgumentException("unknown importer " + importer);
         }
@@ -1138,5 +1238,4 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
     private final BiConsumer<S, T> dataSink;
     private boolean showJournal = false;
     private final Class<T> clazz;
-
 }

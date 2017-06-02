@@ -176,7 +176,23 @@ public class KGLListRadiologyLaboratory implements Serializable, BaseIdValue {
         this._serviceDocDif = serviceDocDif;
     }
     // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="service">
+    
+    @Column(name = "rlService")
+    @Documentation (name = "Leistungsdokumentation", rank = 70)
+    private int _service;
 
+    public int getService() {
+        return _service;
+    }
+
+    public void setService(int service) {
+        this._service = service;
+    }
+    
+    // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="Description">
     @Column(name = "rlDescription")
     @Documentation (name = "Beschreibung", rank = 80)

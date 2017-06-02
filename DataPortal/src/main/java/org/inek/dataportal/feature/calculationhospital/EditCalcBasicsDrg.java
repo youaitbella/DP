@@ -1583,5 +1583,15 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }
         return new KGLRadiologyService();
     }
-
+    
+    public List<SelectItem> getRadLabServices() {
+        List<SelectItem> items = new ArrayList<SelectItem>();
+        items.add(new SelectItem(0, ""));
+        items.add(new SelectItem(1, "Hauskatalog"));
+        items.add(new SelectItem(2, "DKG-NT"));
+        items.add(new SelectItem(3, "EBM"));
+        items.add(new SelectItem(4, "GOÄ"));
+        items.add(new SelectItem(5, "Sonstige"));
+        return items;
+    }
 }
