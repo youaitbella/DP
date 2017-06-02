@@ -11,7 +11,7 @@
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
 
     <h2>#{msg.TopicCalcExternalServiceProvision}</h2>
-    
+
     #{msg.hintExternalServiceProvision}
 
     <h:dataTable id="table"
@@ -32,8 +32,11 @@
         <h:column>
             <f:facet name="header">Bereich</f:facet>
             <h:outputLabel styleClass="label" value="#{item.serviceProvisionType.text}" rendered="#{item.serviceProvisionTypeId ge 0}"/>
-            <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
-                                       value="#{item.domain}" rendered="#{item.serviceProvisionTypeId lt 0}"/>
+            <inek:InputTextWithMessage styleClassComponent="element100" 
+                                       styleClass="element100" 
+                                       value="#{item.domain}" 
+                                       required="true"
+                                       rendered="#{item.serviceProvisionTypeId lt 0}"/>
         </h:column>
 
         <h:column>
@@ -42,6 +45,7 @@
                              required="true"
                              requiredMessage="#{msg.msgValueNeeded}"
                              value="#{item.providedTypeId}" 
+                             disabled="#{item.serviceProvisionTypeId lt 0 and empty item.domain}"
                              hideNoSelectionOption="true" >
                 <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{-1}" noSelectionOption="true"/>
                 <f:selectItem itemLabel="#{msg.itemNotProvided}" itemValue="#{0}"/>
@@ -59,17 +63,24 @@
 
         <h:column>
             <f:facet name="header">Anmerkungen</f:facet>
-            <inek:InputTextWithMessage value="#{item.note}" styleClass="inputwide"/>
+            <inek:InputTextWithMessage value="#{item.note}" 
+                                       readonly="#{item.serviceProvisionTypeId lt 0 and empty item.domain}"
+                                       styleClass="inputwide"/>
         </h:column>
 
         <h:column>
             <f:facet name="header">Kosten- volumen #{editCalcBasicsPepp.calcBasics.dataYear}</f:facet>
-            <inek:InputNumberWithMessage value="#{item.amount}" styleClassComponent="col05em" renderElement="@form"/>
+            <inek:InputNumberWithMessage value="#{item.amount}" 
+                                         styleClassComponent="col05em" 
+                                         readonly="#{item.serviceProvisionTypeId lt 0 and empty item.domain}"
+                                         renderElement="@form"/>
         </h:column>
 
         <h:column>
             <f:facet name="header">Kosten- volumen #{editCalcBasicsPepp.calcBasics.dataYear - 1}</f:facet>
-            <inek:InputNumberWithMessage value="#{editCalcBasicsPepp.priorProvisionAmount(item)}" disabled="true" styleClassComponent="col05em"/>
+            <inek:InputNumberWithMessage value="#{editCalcBasicsPepp.priorProvisionAmount(item)}" 
+                                         disabled="true" 
+                                         styleClassComponent="col05em"/>
         </h:column>
 
         <h:column>

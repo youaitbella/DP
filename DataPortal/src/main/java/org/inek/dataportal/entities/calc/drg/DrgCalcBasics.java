@@ -970,6 +970,14 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     public void setServiceProvisions(List<KGLListServiceProvision> serviceProvision) {
         this._serviceProvisions = serviceProvision;
     }
+    
+    public void removeEmptyServiceProvisions(){
+        List<KGLListServiceProvision> emptyEntries = _serviceProvisions
+                .stream()
+                .filter(p -> p.getServiceProvisionTypeId() < 0  && p.getDomain().isEmpty())
+                .collect(Collectors.toList());
+        _serviceProvisions.removeAll(emptyEntries);
+    }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property List KstTop">

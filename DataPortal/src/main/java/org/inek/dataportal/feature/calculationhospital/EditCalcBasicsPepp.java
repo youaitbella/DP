@@ -335,6 +335,8 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     }
 
     public String saveData(boolean showSaveMessage) {
+        _calcBasics.removeEmptyServiceProvisions();
+        
         if (_baseLine != null && ObjectUtils.getDifferences(_baseLine, _calcBasics, null).isEmpty()) {
             // nothing is changed, but we will reload the data if changed by somebody else (as indicated by a new version)
             if (_baseLine.getVersion() != _calcFacade.getCalcBasicsPsyVersion(_calcBasics.getId())) {

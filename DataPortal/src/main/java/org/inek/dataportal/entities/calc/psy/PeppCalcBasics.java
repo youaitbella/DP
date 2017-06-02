@@ -653,6 +653,14 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
     public void setServiceProvisions(List<KGPListServiceProvision> serviceProvisions) {
         this._serviceProvisions = serviceProvisions;
     }
+    
+    public void removeEmptyServiceProvisions(){
+        List<KGPListServiceProvision> emptyEntries = _serviceProvisions
+                .stream()
+                .filter(p -> p.getServiceProvisionTypeId() < 0  && p.getDomain().isEmpty())
+                .collect(Collectors.toList());
+        _serviceProvisions.removeAll(emptyEntries);
+    }
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property List _costCenters">
