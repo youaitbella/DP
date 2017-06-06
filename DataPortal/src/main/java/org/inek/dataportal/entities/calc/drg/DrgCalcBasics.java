@@ -576,7 +576,7 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     //<editor-fold defaultstate="collapsed" desc="minimalValvularIntervention">
     @Column(name = "biMinimalValvularIntervention")
 
-    @Documentation(name = "KH führt minimalinvasiven Herzklappeninterventionen durch", rank = 17000, 
+    @Documentation(name = "KH führt minimalinvasiven Herzklappeninterventionen durch", rank = 17000,
             headline = "Ergänzende Angaben zur minimalinvasiven Herzklappeninterventionen")
     private boolean _minimalValvularIntervention;
 
@@ -715,7 +715,7 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     //<editor-fold defaultstate="collapsed" desc="Property IBLVMethodMedInfra">
     @Column(name = "biIBLVMethodMedInfra")
 
-    @Documentation(name = "Gewähltes Verfahren bei Durchführung der IBLV", 
+    @Documentation(name = "Gewähltes Verfahren bei Durchführung der IBLV",
             headline = "Ergänzende Angaben zur innerbetrieblichen Leistungsverrechnung (medizinische Infrastruktur)", rank = 14000)
     private int _iblvMethodMedInfra;
 
@@ -773,7 +773,7 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     //<editor-fold defaultstate="collapsed" desc="strokeBed">
     @Column(name = "biStrokeBed")
 
-    @Documentation(name = "Das Krankenhaus hat Intensivbetten zur Behandlung des akuten Schlaganfalls", 
+    @Documentation(name = "Das Krankenhaus hat Intensivbetten zur Behandlung des akuten Schlaganfalls",
             rank = 14000, translateValue = "0=Nein;1=Ja", headline = "Ergänzende Angaben zur Stroke Unit")
     private boolean _strokeBed;
 
@@ -852,10 +852,10 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     }
 
     public void addCostCenter(KGLListCostCenter item) {
-        KGLListCostCenter foundItem = ListUtil.findItem(_costCenters, item, (a, b) ->
-                a.getCostCenterId() == b.getCostCenterId() &&
-                        a.getCostCenterNumber().equals(b.getCostCenterNumber()) &&
-                        a.getCostCenterText().equalsIgnoreCase(b.getCostCenterText()));
+        KGLListCostCenter foundItem = ListUtil.findItem(_costCenters, item, (a, b)
+                -> a.getCostCenterId() == b.getCostCenterId()
+                && a.getCostCenterNumber().equals(b.getCostCenterNumber())
+                && a.getCostCenterText().equalsIgnoreCase(b.getCostCenterText()));
 // check if the above is a key info for cost center the rest is for equality without saving information
 //        &&
 //                a.getAmount() == b.getAmount() &&
@@ -872,7 +872,6 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     }
 
     //</editor-fold>
-
     //<editor-fold defaultstate="collapsed" desc="Property List RadiologyLaboratories">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "rlBaseInformationId", referencedColumnName = "biID")
@@ -905,11 +904,26 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     public void setRadiologyLaboratories(List<KGLListRadiologyLaboratory> radiologyLaboratory) {
         this._radiologyLaboratories = radiologyLaboratory;
     }
-    
+
     public void addRadiologyLaboratories(KGLListRadiologyLaboratory item, int ccId) {
-        item.setCostCenterId(ccId);
-        item.setBaseInformationId(_id);
-        _radiologyLaboratories.add(item);
+
+        KGLListRadiologyLaboratory foundItem = ListUtil.findItem(_radiologyLaboratories, item, (a, b)
+                -> a.getCostCenterId() == b.getCostCenterId()
+                && a.getCostCenterNumber().equals(b.getCostCenterNumber())
+                && a.getCostCenterText().equalsIgnoreCase(b.getCostCenterText())
+        );
+        if (foundItem != null) {
+            if (item.getCostCenterId() == ccId) {
+                item.setCostCenterId(ccId);
+                item.setBaseInformationId(_id);
+            }
+        } else {
+            _radiologyLaboratories.add(item);
+        }
+
+//        item.setCostCenterId(ccId);
+//        item.setBaseInformationId(_id);
+//        _radiologyLaboratories.add(item);
     }
     //</editor-fold>
 
@@ -976,11 +990,11 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     public void setServiceProvisions(List<KGLListServiceProvision> serviceProvision) {
         this._serviceProvisions = serviceProvision;
     }
-    
-    public void removeEmptyServiceProvisions(){
+
+    public void removeEmptyServiceProvisions() {
         List<KGLListServiceProvision> emptyEntries = _serviceProvisions
                 .stream()
-                .filter(p -> p.getServiceProvisionTypeId() < 0  && p.getDomain().isEmpty())
+                .filter(p -> p.getServiceProvisionTypeId() < 0 && p.getDomain().isEmpty())
                 .collect(Collectors.toList());
         _serviceProvisions.removeAll(emptyEntries);
     }
@@ -1105,7 +1119,7 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     @JsonIgnore
     public boolean addIntensive(KGLListIntensivStroke intensivStroke) {
         intensivStroke.setIntensiveType(1);
-        if (_intensivStrokes.stream().anyMatch(i -> i.equalsContent(intensivStroke))){
+        if (_intensivStrokes.stream().anyMatch(i -> i.equalsContent(intensivStroke))) {
             return false;
         }
         this._intensivStrokes.add(intensivStroke);
@@ -1115,7 +1129,7 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     @JsonIgnore
     public boolean addStroke(KGLListIntensivStroke intensivStroke) {
         intensivStroke.setIntensiveType(2);
-        if (_intensivStrokes.stream().anyMatch(i -> i.equalsContent(intensivStroke))){
+        if (_intensivStrokes.stream().anyMatch(i -> i.equalsContent(intensivStroke))) {
             return false;
         }
         this._intensivStrokes.add(intensivStroke);
@@ -1139,8 +1153,8 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
         return _medInfras.stream().filter(c -> c.getCostTypeId() == 170).collect(Collectors.toList());
     }
 
-    @Documentation(name = "Kostenstellen", 
-            headline = "Ergänzende Angaben zur innerbetrieblichen Leistungsverrechnung (nicht medizinische Infrastruktur)", 
+    @Documentation(name = "Kostenstellen",
+            headline = "Ergänzende Angaben zur innerbetrieblichen Leistungsverrechnung (nicht medizinische Infrastruktur)",
             rank = 15000)
     @JsonIgnore
     public List<KGLListMedInfra> getMedInfras180() {
@@ -1158,7 +1172,7 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     public void setMedInfras(List<KGLListMedInfra> medInfras) {
         this._medInfras = medInfras;
     }
-    
+
     @JsonIgnore
     public void addMedInfra(int costTypeId) {
         KGLListMedInfra medInfra = new KGLListMedInfra(_id, costTypeId);
@@ -1166,19 +1180,19 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     }
 
     @JsonIgnore
-    public boolean addMedInfra(KGLListMedInfra medInfra){
+    public boolean addMedInfra(KGLListMedInfra medInfra) {
         medInfra.setCostTypeId(170);
-        if (_medInfras.stream().anyMatch(mi -> mi.equals(medInfra))){
+        if (_medInfras.stream().anyMatch(mi -> mi.equals(medInfra))) {
             return false;
         }
         _medInfras.add(medInfra);
         return true;
     }
-    
+
     @JsonIgnore
-    public boolean addNonMedInfra(KGLListMedInfra medInfra){
+    public boolean addNonMedInfra(KGLListMedInfra medInfra) {
         medInfra.setCostTypeId(180);
-        if (_medInfras.stream().anyMatch(mi -> mi.equals(medInfra))){
+        if (_medInfras.stream().anyMatch(mi -> mi.equals(medInfra))) {
             return false;
         }
         _medInfras.add(medInfra);
@@ -1191,7 +1205,7 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     @JoinColumn(name = "paBaseInformationId", referencedColumnName = "biID")
     @OrderBy(value = "_costTypeId")
 
-    @Documentation(name = "Verfahren Personalkostenverrechnung", rank = 17000, 
+    @Documentation(name = "Verfahren Personalkostenverrechnung", rank = 17000,
             headline = "Ergänzende Angaben zur Personalkostenverrechnung")
     private List<KGLPersonalAccounting> _personalAccountings = new Vector<>();
 
@@ -1221,7 +1235,7 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     //<editor-fold defaultstate="collapsed" desc="neonatLvl">
     @Column(name = "biNeonatLvl")
 
-    @Documentation(name = "Versorgungsstufe des Perinatalzentrums", 
+    @Documentation(name = "Versorgungsstufe des Perinatalzentrums",
             headline = "Ergänzende Angaben zur Neonatologischen Versorgung", rank = 19000)
     private int _neonatLvl;
 
@@ -1294,11 +1308,11 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     }
 
     public void addCostCenterCost(KGLListCostCenterCost item) {
-        KGLListCostCenterCost foundItem = ListUtil.findItem(_costCenterCosts, item, (a, b) ->
-                a.getCostCenterNumber().equalsIgnoreCase(b.getCostCenterNumber()) &&
-                        a.getCostCenterText().equalsIgnoreCase(b.getCostCenterText()) &&
-                        a.getDepartmentKey().equalsIgnoreCase(b.getDepartmentKey()) &&
-                        a.getDepartmentAssignment().equalsIgnoreCase(b.getDepartmentAssignment()));
+        KGLListCostCenterCost foundItem = ListUtil.findItem(_costCenterCosts, item, (a, b)
+                -> a.getCostCenterNumber().equalsIgnoreCase(b.getCostCenterNumber())
+                && a.getCostCenterText().equalsIgnoreCase(b.getCostCenterText())
+                && a.getDepartmentKey().equalsIgnoreCase(b.getDepartmentKey())
+                && a.getDepartmentAssignment().equalsIgnoreCase(b.getDepartmentAssignment()));
         if (foundItem != null) {
             foundItem.copyCostCenterCost(item);
         } else {
@@ -1408,6 +1422,5 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     public boolean isSealed() {
         return getStatus().getId() >= WorkflowStatus.Provided.getId();
     }
-
 
 }
