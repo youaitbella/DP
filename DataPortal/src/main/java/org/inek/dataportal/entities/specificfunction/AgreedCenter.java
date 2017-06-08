@@ -220,7 +220,20 @@ public class AgreedCenter implements Serializable {
         _extraAmount = extraAmount;
     }
     // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Property Sequence">
+    @Column(name = "acSequence")
+    @Documentation(name = "laufende Nummers")
+    private int _sequence;
 
+    public int getSequence() {
+        return _sequence;
+    }
+
+    public void setSequence(int sequence) {
+        this._sequence = sequence;
+    }
+    // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
@@ -289,5 +302,4 @@ public class AgreedCenter implements Serializable {
                 && _costSum == 0d 
                 && _extraAmount == 0d;
     }
-
 }

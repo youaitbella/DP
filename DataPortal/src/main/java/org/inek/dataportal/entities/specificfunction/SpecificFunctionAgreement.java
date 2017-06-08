@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneOffset;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
@@ -353,6 +355,20 @@ public class SpecificFunctionAgreement implements Serializable, StatusEntity {
     }
     // </editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Property AgreedRemunerationkeys">
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "arkSpecificFunctionAgreementId", referencedColumnName = "amId")
+    private List<AgreedRemunerationKeys> _remunerationKeys = new ArrayList<>();
+
+    public List<AgreedRemunerationKeys> getRemunerationKeys() {
+        return _remunerationKeys;
+    }
+
+    public void setRemunerationKeys(List<AgreedRemunerationKeys> remunerationKeys) {
+        this._remunerationKeys = remunerationKeys;
+    }
+    //</editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc="Property AgreedCenter">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "acAgreedMasterId", referencedColumnName = "amId")
@@ -382,6 +398,37 @@ public class SpecificFunctionAgreement implements Serializable, StatusEntity {
     }
     // </editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc="Property BudgetYear">
+    @Column(name = "amBudgetYear")
+    @Documentation(name = "Budgetjahr", rank = 180, omitOnEmpty = true)
+    private int _budgetYear;
+
+    public int getBudgetYear() {
+        return _budgetYear;
+    }
+
+    public void setBudgetYear(int budgetYear) {
+        this._budgetYear = budgetYear;
+    }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Property BudgetYear">
+    @Column(name = "amBudgetDate")
+    @Documentation(name = "Genehmigung Budget", rank = 185, omitOnEmpty = true)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date _budgetDate = new Date(0);
+
+    public Date getBudgetDate() {
+        if(_budgetDate.getTime() == 0)
+            return null;
+        return _budgetDate;
+    }
+
+    public void setBudgetDate(Date budgetDate) {
+        this._budgetDate = budgetDate;
+    }
+    // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public int hashCode() {
@@ -403,5 +450,14 @@ public class SpecificFunctionAgreement implements Serializable, StatusEntity {
         return "AgreedMaster[id=" + _id + "]";
     }
     // </editor-fold>
-
+    
+    public void addAgreedCenterRemunerationKey() {
+        AgreedRemunerationKeys key = new AgreedRemunerationKeys();
+        key.setSpecificFunctionAgreementId(this.getId());
+        getRemunerationKeys().add(key);
+    }
+    
+    public void removeAgreedCenterRemunerationKey(AgreedRemunerationKeys key) {
+        getRemunerationKeys().remove(key);
+    }
 }

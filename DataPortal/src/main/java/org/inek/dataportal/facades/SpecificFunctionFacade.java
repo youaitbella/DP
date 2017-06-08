@@ -15,6 +15,7 @@ import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.specificfunction.AgreedCenter;
+import org.inek.dataportal.entities.specificfunction.AgreedRemunerationKeys;
 import org.inek.dataportal.entities.specificfunction.CenterName;
 import org.inek.dataportal.entities.specificfunction.RelatedName;
 import org.inek.dataportal.entities.specificfunction.RequestAgreedCenter;
@@ -206,6 +207,15 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
                 merge(item);
             }
         }
+        
+        for (AgreedRemunerationKeys item : agreement.getRemunerationKeys()) {
+            if (item.getId() == -1) {
+                persist(item);
+            } else {
+                merge(item);
+            }
+        }
+        
         return merge(agreement);
     }
 

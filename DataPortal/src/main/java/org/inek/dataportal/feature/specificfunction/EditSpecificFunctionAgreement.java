@@ -28,6 +28,7 @@ import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountAdditionalIK;
 import org.inek.dataportal.entities.admin.MailTemplate;
 import org.inek.dataportal.entities.specificfunction.AgreedCenter;
+import org.inek.dataportal.entities.specificfunction.AgreedRemunerationKeys;
 import org.inek.dataportal.entities.specificfunction.CenterName;
 import org.inek.dataportal.entities.specificfunction.RelatedName;
 import org.inek.dataportal.entities.specificfunction.SpecificFunction;
@@ -123,6 +124,7 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
         agreement.setPhone(account.getPhone());
         agreement.setMail(account.getEmail());
         agreement.setDataYear(Utils.getTargetYear(Feature.SPECIFIC_FUNCTION));
+        agreement.getRemunerationKeys().add(new AgreedRemunerationKeys());
         List<SelectItem> iks = getIks();
         if (iks.size() == 1) {
             agreement.setIk((int) iks.get(0).getValue());
@@ -423,6 +425,11 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
 
     public void addAgreedCenter() {
         AgreedCenter center = new AgreedCenter(_agreement.getId());
+        int lastSequence = 0;
+        for (AgreedCenter agreedCenter : _agreement.getAgreedCenters()) {
+            lastSequence = agreedCenter.getSequence();
+        }
+        center.setSequence(lastSequence+1);
         _agreement.getAgreedCenters().add(center);
     }
 
@@ -469,5 +476,15 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
         if (request.getIk() < 1){
             Utils.showMessageInBrowser("Das Vertragskennzeichen " + _agreement.getCode() + " ist unbekannt.");
         }
+    }
+    
+    public List<SelectItem> getSpecificFunctionRemunerationScopes() {
+        List<SelectItem> items = new ArrayList<>();
+        items.add(new SelectItem(-1, ""));
+        items.add(new SelectItem(0, "alle"));
+        for(AgreedCenter center : _agreement.getAgreedCenters()) {
+            items.add(new SelectItem(center.getSequence(), "laufende Nummer: "+center.getSequence()));
+        }
+        return items;
     }
 }

@@ -11,9 +11,44 @@
 
     <h2 style="margin-top: 1em;"></h2>
     Wir sind bzgl. der Vereinbarung  von Zuschlägen gem. § 5 Abs. 3 KHEntgG zu folgendem Verhandlungsergebnis gekommen:
+    <div class="inputPart">
+        <h:outputLabel for="budgetYear" 
+                               value="Budgetjahr:" 
+                               title="Budgetjahr"
+                               styleClass="label element20" />
+        <h:selectOneMenu id="budgetYear"
+                                 styleClass="element12em"
+                                 required="true"
+                                 requiredMessage="#{msg.msgValueNeeded}"
+                                 value="#{editSpecificFunctionAgreement.agreement.budgetYear}"
+                                 hideNoSelectionOption="true"  
+                                >
+                    <f:selectItem itemLabel="2017" itemValue="#{2017}"/>
+                    <f:selectItem itemLabel="2018" itemValue="#{2018}"/>
+                    <f:ajax event="change" render="@form :logout:remaining msgCenterName"/>
+                </h:selectOneMenu>
+    </div>
+    <div class="inputPart">
+        <h:outputLabel for="txtBudgetDate" 
+                               value="Budgetgenehmigung erteilt am:" 
+                               title="Budgetgenehmigung erteilt am"
+                               styleClass="label element20" />
+        <h:message for="txtBudgetDate" id="msgBudgetYear" styleClass="errorMessage"/>
+        <h:inputText id="txtBudgetDate"
+                                 title="Budgetgenehmigung erteilt am"
+                                 styleClass="element12em"
+                                 value="#{editSpecificFunctionAgreement.agreement.budgetDate}" 
+                                 required="true" 
+                                 requiredMessage="#{msg.msgValueNeeded}"
+                                 >
+            <f:convertDateTime pattern="dd.MM.yyyy" locale="de" timeZone="Europe/Berlin" type="date"/>
+            <f:ajax event="blur" rendered=":logout:remaining msgBudgetYear"/>
+        </h:inputText>
+    </div>
 
     <ui:repeat value="#{editSpecificFunctionAgreement.agreement.agreedCenters}" 
-               var="center" >
+               var="center"
+               >
         <div class="rectangle">
             <div class="inputPart">
                 <h:commandLink rendered="#{!editSpecificFunctionAgreement.readOnly}">
@@ -22,7 +57,23 @@
                     <f:ajax render="@form :logout:remaining" listener="#{editSpecificFunctionAgreement.deleteAgreedCenter(center)}"/>
                 </h:commandLink>
             </div>
-
+            
+            <div class="inputPart">
+                <h:outputLabel for="txtSequence" 
+                               value="laufende Nummer:" 
+                               title="laufende Nummer"
+                               styleClass="label element12em" />
+                        <h:inputText id="txtSequence"
+                                 title="laufende Nummer"
+                                 styleClass="element12em"
+                                 value="#{center.sequence}" 
+                                 required="true" 
+                                 requiredMessage="#{msg.msgValueNeeded}"
+                                 readonly="true"
+                                 >
+                            <f:ajax event="blur" rendered=":logout:remaining msgBudgetYear"/>
+                        </h:inputText>
+            </div>
             <div class="inputPart">
                 <h:outputLabel for="centerName" 
                                value="Zentrumszuschlag für" 
@@ -151,15 +202,57 @@
                               styleClassLabel="label element12em" 
                               styleClass="col04em number"                              
                               singleLine="true"/>
-
         </div>
     </ui:repeat>
-
-
+    
     <h:commandLink styleClass="addButton marginRight" value="#{msg.btnAddEntry}"
                    rendered="#{!editSpecificFunctionAgreement.readOnly}">
         <f:ajax event="click" render="@form :logout:remaining" listener="#{editSpecificFunctionAgreement.addAgreedCenter()}"/>
     </h:commandLink>
+    
+    <br/><br/>
+    <h:outputLabel class="label" value="Vereinbarte Entgeltschlüssel für Zentrumsvereinbarung"/>
+    
+    <h:dataTable style="width: 50%;" value="#{editSpecificFunctionAgreement.agreement.remunerationKeys}" var="key">
+        <h:column>
+            <h:commandLink rendered="#{!editSpecificFunctionAgreement.readOnly}">
+                <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value=""/>
+                <cb:confirmDelete/>
+                <f:ajax render="@form :logout:remaining" listener="#{editSpecificFunctionAgreement.agreement.removeAgreedCenterRemunerationKey(key)}"/>
+            </h:commandLink>
+        </h:column>
+        <h:column>
+            <f:facet name="header">Entgeltschlüssel (Nummer)</f:facet>
+            <h:inputText styleClass="inputwide" value="#{key.number}">
+                <f:ajax rendered="@this :logout:remaining" />
+            </h:inputText>
+        </h:column>
+        <h:column>
+            <f:facet name="header">Entgeltschlüssel (Text)</f:facet>
+            <h:inputText styleClass="inputwide" value="#{key.text}">
+                <f:ajax rendered="@this :logout:remaining" />
+            </h:inputText>
+        </h:column>
+        <h:column>
+            <f:facet name="header">Wert</f:facet>
+            <h:inputText styleClass="inputwide" style="text-align: right;" value="#{key.amount}">
+                <f:ajax rendered="@this :logout:remaining" />
+                <f:convertNumber maxFractionDigits="2" minFractionDigits="2" locale="de-DE" currencyCode="EUR" />
+            </h:inputText>
+        </h:column>
+        <h:column>
+            <f:facet name="header">Gültigkeit</f:facet>
+            <h:selectOneMenu value="#{key.scope}">
+                <f:selectItems value="#{editSpecificFunctionAgreement.getSpecificFunctionRemunerationScopes()}" />
+                <f:ajax rendered="@this :logout:remaining" />
+            </h:selectOneMenu>
+        </h:column>
+    </h:dataTable>
+    
+    <h:commandLink styleClass="addButton marginRight" value="#{msg.btnAddEntry}"
+                    rendered="#{!editSpecificFunctionAgreement.readOnly}">
+        <f:ajax event="click" render="@form :logout:remaining" listener="#{editSpecificFunctionAgreement.agreement.addAgreedCenterRemunerationKey()}"/>
+     </h:commandLink>
 
 </ui:composition>
 
