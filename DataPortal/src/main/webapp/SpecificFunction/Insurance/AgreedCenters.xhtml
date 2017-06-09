@@ -13,34 +13,34 @@
     Wir sind bzgl. der Vereinbarung  von Zuschlägen gem. § 5 Abs. 3 KHEntgG zu folgendem Verhandlungsergebnis gekommen:
     <div class="inputPart">
         <h:outputLabel for="budgetYear" 
-                               value="Budgetjahr:" 
-                               title="Budgetjahr"
-                               styleClass="label element20" />
+                       value="Budgetjahr:" 
+                       title="Budgetjahr"
+                       styleClass="label element20" />
         <h:selectOneMenu id="budgetYear"
-                                 styleClass="element12em"
-                                 required="true"
-                                 requiredMessage="#{msg.msgValueNeeded}"
-                                 value="#{editSpecificFunctionAgreement.agreement.budgetYear}"
-                                 hideNoSelectionOption="true"  
-                                >
-                    <f:selectItem itemLabel="2017" itemValue="#{2017}"/>
-                    <f:selectItem itemLabel="2018" itemValue="#{2018}"/>
-                    <f:ajax event="change" render="@form :logout:remaining msgCenterName"/>
-                </h:selectOneMenu>
+                         styleClass="element12em"
+                         required="true"
+                         requiredMessage="#{msg.msgValueNeeded}"
+                         value="#{editSpecificFunctionAgreement.agreement.budgetYear}"
+                         hideNoSelectionOption="true"  
+                         >
+            <f:selectItem itemLabel="2017" itemValue="#{2017}"/>
+            <f:selectItem itemLabel="2018" itemValue="#{2018}"/>
+            <f:ajax event="change" render="@form :logout:remaining msgCenterName"/>
+        </h:selectOneMenu>
     </div>
     <div class="inputPart">
         <h:outputLabel for="txtBudgetDate" 
-                               value="Budgetgenehmigung erteilt am:" 
-                               title="Budgetgenehmigung erteilt am"
-                               styleClass="label element20" />
+                       value="Budgetgenehmigung erteilt am:" 
+                       title="Budgetgenehmigung erteilt am"
+                       styleClass="label element20" />
         <h:message for="txtBudgetDate" id="msgBudgetYear" styleClass="errorMessage"/>
         <h:inputText id="txtBudgetDate"
-                                 title="Budgetgenehmigung erteilt am"
-                                 styleClass="element12em"
-                                 value="#{editSpecificFunctionAgreement.agreement.budgetDate}" 
-                                 required="true" 
-                                 requiredMessage="#{msg.msgValueNeeded}"
-                                 >
+                     title="Budgetgenehmigung erteilt am"
+                     styleClass="element12em"
+                     value="#{editSpecificFunctionAgreement.agreement.budgetDate}" 
+                     required="true" 
+                     requiredMessage="#{msg.msgValueNeeded}"
+                     >
             <f:convertDateTime pattern="dd.MM.yyyy" locale="de" timeZone="Europe/Berlin" type="date"/>
             <f:ajax event="blur" rendered=":logout:remaining msgBudgetYear"/>
         </h:inputText>
@@ -57,22 +57,22 @@
                     <f:ajax render="@form :logout:remaining" listener="#{editSpecificFunctionAgreement.deleteAgreedCenter(center)}"/>
                 </h:commandLink>
             </div>
-            
+
             <div class="inputPart">
                 <h:outputLabel for="txtSequence" 
                                value="laufende Nummer:" 
                                title="laufende Nummer"
                                styleClass="label element12em" />
-                        <h:inputText id="txtSequence"
-                                 title="laufende Nummer"
-                                 styleClass="element12em"
-                                 value="#{center.sequence}" 
-                                 required="true" 
-                                 requiredMessage="#{msg.msgValueNeeded}"
-                                 readonly="true"
-                                 >
-                            <f:ajax event="blur" rendered=":logout:remaining msgBudgetYear"/>
-                        </h:inputText>
+                <h:inputText id="txtSequence"
+                             title="laufende Nummer"
+                             styleClass="element12em"
+                             value="#{center.sequence}" 
+                             required="true" 
+                             requiredMessage="#{msg.msgValueNeeded}"
+                             readonly="true"
+                             >
+                    <f:ajax event="blur" rendered=":logout:remaining msgBudgetYear"/>
+                </h:inputText>
             </div>
             <div class="inputPart">
                 <h:outputLabel for="centerName" 
@@ -136,7 +136,7 @@
                         <f:ajax event="change" render="@form :logout:remaining msgSpecificFunction"/>
                     </h:selectManyCheckbox>
                 </div>
-                    <h:message for="specificFunction" id="msgSpecificFunction" styleClass="errorMessage elementRight70"/>
+                <h:message for="specificFunction" id="msgSpecificFunction" styleClass="errorMessage elementRight70"/>
             </div>
 
             <inek:LabeledText label="Sonstige Aufgaben"
@@ -193,7 +193,7 @@
                 </h:panelGroup>
             </div>
 
-            
+
             <inek:LabeledText label="Zuschlagshöhe"
                               title="Höhe des Zuschlags (in €)" 
                               value="#{center.extraAmount}" 
@@ -204,15 +204,38 @@
                               singleLine="true"/>
         </div>
     </ui:repeat>
-    
+
     <h:commandLink styleClass="addButton marginRight" value="#{msg.btnAddEntry}"
                    rendered="#{!editSpecificFunctionAgreement.readOnly}">
         <f:ajax event="click" render="@form :logout:remaining" listener="#{editSpecificFunctionAgreement.addAgreedCenter()}"/>
     </h:commandLink>
-    
+
     <br/><br/>
+    <!-- Art des Zustandekommens des Zuschlags -->
+
+    <div class="inputPart">
+        <h:outputLabel for="typeExtraCharge" 
+                       value="Art des Zustandekommens des Zuschlags" 
+                       title="" 
+                       styleClass="label element15 alignTop" />
+
+        <h:selectOneMenu id="typeExtraCharge"
+                         styleClass="element25em"
+                         required="true"
+                         requiredMessage="#{msg.msgValueNeeded}"
+                         value="#{center.centerId}"
+                         hideNoSelectionOption="true"  
+                         readonly="#{editSpecificFunctionAgreement.readOnly}">
+            <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
+            <f:selectItems value="#{editSpecificFunctionAgreement.typeExtraCharges}" var="item" itemValue="#{item.id}" itemLabel="#{item.name}"/>
+            <f:ajax event="change" render="@form :logout:remaining msgTypeExtraCharge"/>
+        </h:selectOneMenu>
+        <h:message for="typeExtraCharge" id="msgTypeExtraCharge" styleClass="errorMessage"/>
+    </div>
+
+    <br/>
     <h:outputLabel class="label" value="Vereinbarte Entgeltschlüssel für Zentrumsvereinbarung"/>
-    
+
     <h:dataTable style="width: 50%;" value="#{editSpecificFunctionAgreement.agreement.remunerationKeys}" var="key">
         <h:column>
             <h:commandLink rendered="#{!editSpecificFunctionAgreement.readOnly}">
@@ -248,11 +271,11 @@
             </h:selectOneMenu>
         </h:column>
     </h:dataTable>
-    
+
     <h:commandLink styleClass="addButton marginRight" value="#{msg.btnAddEntry}"
-                    rendered="#{!editSpecificFunctionAgreement.readOnly}">
+                   rendered="#{!editSpecificFunctionAgreement.readOnly}">
         <f:ajax event="click" render="@form :logout:remaining" listener="#{editSpecificFunctionAgreement.agreement.addAgreedCenterRemunerationKey()}"/>
-     </h:commandLink>
+    </h:commandLink>
 
 </ui:composition>
 

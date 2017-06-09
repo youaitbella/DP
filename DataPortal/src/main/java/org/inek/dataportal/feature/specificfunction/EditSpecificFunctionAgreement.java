@@ -34,6 +34,7 @@ import org.inek.dataportal.entities.specificfunction.RelatedName;
 import org.inek.dataportal.entities.specificfunction.SpecificFunction;
 import org.inek.dataportal.entities.specificfunction.SpecificFunctionAgreement;
 import org.inek.dataportal.entities.specificfunction.SpecificFunctionRequest;
+import org.inek.dataportal.entities.specificfunction.TypeExtraCharge;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
@@ -464,6 +465,10 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
 
     public List<RelatedName> getRelatedNames() {
         return _specificFunctionFacade.getRelatedNames();
+    }
+    
+    public List<TypeExtraCharge> getTypeExtraCharges(){
+        return _specificFunctionFacade.getTypeChargeExtra();
     }
 
     public List<SpecificFunction> getSpecificFunctions() {

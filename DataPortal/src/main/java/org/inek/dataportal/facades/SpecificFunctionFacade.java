@@ -23,6 +23,7 @@ import org.inek.dataportal.entities.specificfunction.RequestProjectedCenter;
 import org.inek.dataportal.entities.specificfunction.SpecificFunction;
 import org.inek.dataportal.entities.specificfunction.SpecificFunctionAgreement;
 import org.inek.dataportal.entities.specificfunction.SpecificFunctionRequest;
+import org.inek.dataportal.entities.specificfunction.TypeExtraCharge;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.helper.Utils;
@@ -244,6 +245,14 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
     public List<SpecificFunction> getSpecificFunctions() {
         return findAll(SpecificFunction.class)
                 .stream()
+                .sorted((f1, f2) -> (f1.getId() == -1 ? 999 : f1.getId()) - (f2.getId() == -1 ? 999 : f2.getId()))
+                .collect(Collectors.toList());
+    }
+    
+    public List<TypeExtraCharge> getTypeChargeExtra() {
+        return findAll(TypeExtraCharge.class)
+                .stream()
+                .filter(n -> n.getId() > 0)
                 .sorted((f1, f2) -> (f1.getId() == -1 ? 999 : f1.getId()) - (f2.getId() == -1 ? 999 : f2.getId()))
                 .collect(Collectors.toList());
     }
