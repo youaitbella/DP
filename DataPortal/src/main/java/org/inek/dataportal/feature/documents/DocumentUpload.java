@@ -182,7 +182,7 @@ public class DocumentUpload implements Serializable {
     }
 
     // <editor-fold defaultstate="collapsed" desc="Property AvailableUntil">
-    private int _availability = 60;
+    private int _availability = 400;
 
     public int getAvailability() {
         return _availability;
@@ -403,6 +403,10 @@ public class DocumentUpload implements Serializable {
                     accounts.add(account);
                 }
             }
+        }
+        if(accounts.isEmpty()) {
+            _sessionController.setScript("alert('Bitte wählen Sie mindestens einen Empfänger aus.');");
+            return "";
         }
         _mailTemplate = "Neue Dokumente";  // fixed template
         for (Account account : accounts) {
