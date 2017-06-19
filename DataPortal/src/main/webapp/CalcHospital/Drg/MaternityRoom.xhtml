@@ -39,9 +39,14 @@
         <h:outputLabel styleClass="label50" value="Summe der Aufenthaltszeit der Patientin im Kreißsaal in Stunden (ausschließlich für vollstationäre Patientinnen)"/>
         <h:inputText styleClass="element15" id="deliveryRoomHours" value="#{editCalcBasicsDrg.calcBasics.deliveryRoomHours}" required="true">
             <f:ajax event="blur" render="@this lblDiffDeliveryRoomHours :logout:remaining" />
-        </h:inputText>
-        <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.priorCalcBasics.deliveryRoomHours}"/>
-        <h:outputLabel styleClass="label15 number" id="lblDiffDeliveryRoomHours" value="#{editCalcBasicsDrg.calcBasics.deliveryRoomHours - editCalcBasicsDrg.priorCalcBasics.deliveryRoomHours}"/>
+            <f:convertNumber/>
+        </h:inputText>        
+        <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.priorCalcBasics.deliveryRoomHours}">
+            <f:convertNumber/>
+        </h:outputLabel>
+        <h:outputLabel styleClass="label15 number" id="lblDiffDeliveryRoomHours" value="#{editCalcBasicsDrg.calcBasics.deliveryRoomHours - editCalcBasicsDrg.priorCalcBasics.deliveryRoomHours}">
+            <f:convertNumber/>
+        </h:outputLabel>
 
         <br/>
         <h:outputLabel styleClass="label50"  value="davon für vorgeburtliche Kreißsaalaufenthalte"/>
