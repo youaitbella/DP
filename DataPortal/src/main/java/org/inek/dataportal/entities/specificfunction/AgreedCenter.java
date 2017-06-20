@@ -246,8 +246,8 @@ public class AgreedCenter implements Serializable {
         return _typeExtraCharge;
     }
 
-    public void setTypeExtraCharge(int _typeExtraCharge) {
-        this._typeExtraCharge = _typeExtraCharge;
+    public void setTypeExtraCharge(int typeExtraCharge) {
+        this._typeExtraCharge = typeExtraCharge;
     }
     
     

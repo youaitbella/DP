@@ -20,40 +20,40 @@ import org.inek.dataportal.utils.Documentation;
  * @author aitbellayo
  */
 @Entity
-@Table(name="listTypeExtraCharge", schema="spf")
-public class TypeExtraCharge implements Serializable{
-       private static final long serialVersionUID = 1L;
-    
+@Table(name = "listTypeExtraCharge", schema = "spf")
+public class TypeExtraCharge implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     //<editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "tecId")
     private int _id;
-    
+
     public int getId() {
         return _id;
     }
-    
+
     public void setId(int id) {
         this._id = id;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property Name">
     @Column(name = "tecName")
     @Documentation(key = "lblName")
     private String _name = "";
 
     //</editor-fold>
-
     public String getName() {
         return _name;
     }
 
-    public void setName(String _name) {
-        this._name = _name;
+    public void setName(String name) {
+        this._name = name;
     }
-    
+
     //<editor-fold defaultstate="collapsed" desc="hashCode, equals, toString">
     @Override
     public int hashCode() {
@@ -88,8 +88,6 @@ public class TypeExtraCharge implements Serializable{
     public String toString() {
         return "TypeExtraCharge{" + "_id=" + _id + ", _name=" + _name + '}';
     }
-    
+
     //</editor-fold>
-   
-    
 }
