@@ -906,7 +906,8 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     }
 
     public void addRadiologyLaboratories(KGLListRadiologyLaboratory item, int ccId) {
-
+        item.setCostCenterId(ccId);
+        item.setBaseInformationId(_id);
         KGLListRadiologyLaboratory foundItem = ListUtil.findItem(_radiologyLaboratories, item, (a, b)
                 -> a.getCostCenterId() == b.getCostCenterId()
                 && a.getCostCenterNumber().equals(b.getCostCenterNumber())
