@@ -167,6 +167,10 @@ public enum Pages {
     SpecificFunctionEditAgreement("/SpecificFunction/Insurance/EditAgreed"),
 
     //
+    PartAdditionalCost("/AdditionalCost/PartAdditionalCost"),
+    AdditionalCostSummary("/AdditionalCost/AdditionalCostSummary"),
+    
+    //
     NotAllowed("/common/NotAllowed"),
     PrintView("/common/PrintView"),
     PrintMultipleView("/common/PrintMultipleView"),

@@ -10,6 +10,7 @@ import static org.inek.dataportal.enums.Feature.DROPBOX;
 import static org.inek.dataportal.enums.Feature.NUB;
 import static org.inek.dataportal.enums.Feature.PEPP_PROPOSAL;
 import static org.inek.dataportal.enums.Feature.USER_MAINTENANCE;
+import org.inek.dataportal.feature.additionalcost.AdditionalCostController;
 import org.inek.dataportal.feature.admin.AdminController;
 import org.inek.dataportal.feature.agency.AgencyController;
 import org.inek.dataportal.feature.calculationhospital.CalcHospitalController;
@@ -62,6 +63,8 @@ public class FeatureFactory {
                 return new CalcHospitalController(sessionController);
             case SPECIFIC_FUNCTION:
                 return new SpecificFunctionController(sessionController);
+            case ADDITIONAL_COST:
+                return new AdditionalCostController(sessionController);
             default:
                 throw new IllegalArgumentException("no such controller");
         }
