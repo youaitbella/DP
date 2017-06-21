@@ -59,7 +59,8 @@ public class WaitingDocumentFacade extends AbstractFacade<WaitingDocument> {
                     info.getAgentAccountId(), 
                     0,
                     "", 
-                    receipientInfo
+                    receipientInfo,
+                    false
             );
             docInfos.add(docInfo);
         }

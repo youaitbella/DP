@@ -18,8 +18,11 @@ import org.inek.dataportal.entities.account.AccountDocument;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.account.AccountDocumentFacade;
+import org.inek.dataportal.facades.account.AccountFacade;
+import org.inek.dataportal.facades.admin.ConfigFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.StreamHelper;
+import org.inek.dataportal.helper.TransferFileCreator;
 import org.inek.dataportal.helper.Utils;
 import org.inek.portallib.util.Helper;
 
@@ -34,6 +37,8 @@ public class EditDocument extends AbstractEditController {
     private static final Logger LOGGER = Logger.getLogger("EditDocument");
 
     @Inject private AccountDocumentFacade _accDocFacade;
+    @Inject private AccountFacade _accFacade;
+    @Inject private ConfigFacade _configFacade;
     @Inject private SessionController _sessionController;
 
     public String downloadDocument(int docId) {
@@ -80,6 +85,27 @@ public class EditDocument extends AbstractEditController {
                 + Utils.getMessage("msgConfirmDelete");
         msg = msg.replace("\r\n", "\n").replace("\n", "\\r\\n").replace("'", "\\'").replace("\"", "\\'");
         return "return confirm ('" + msg + "');";
+    }
+    
+    public String getProcessMessage(String name) {
+        String msg = "Soll die Datei " + name + " zum Prozess gesendet werden?";
+        msg = msg.replace("\r\n", "\n").replace("\n", "\\r\\n").replace("'", "\\'").replace("\"", "\\'");
+        return "return confirm ('" + msg + "');";
+    }
+    
+    public String sendToProcess(int docId) {
+        AccountDocument doc = _accDocFacade.find(docId);
+        if(doc == null)
+            return "";
+        String email = _accFacade.find(doc.getAccountId()).getEmail();
+        try {
+            TransferFileCreator.createInekDocumentFile(_configFacade, doc, email);
+            doc.setSendToProcess(true);
+            _accDocFacade.merge(doc);
+        } catch(Exception ex) {
+            return "";
+        }
+        return "";
     }
 
     @Override

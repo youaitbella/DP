@@ -25,7 +25,7 @@ public class AccountDocumentFacade extends AbstractFacade<AccountDocument> {
 
     public List<DocInfo> getDocInfos(int accountId) {
         String sql = "SELECT d._id, d._name, dd._name, d._created, d._validUntil, d._read, d._accountId, d._agentAccountId, d._senderIk, "
-                + "    concat (a._company, ' ', a._town, ' (', a._firstName, ' ', a._lastName, ')') "
+                + "    concat (a._company, ' ', a._town, ' (', a._firstName, ' ', a._lastName, ')'), d._sendToProcess "
                 + "FROM AccountDocument d "
                 + "join DocumentDomain dd "
                 + "join Account a "
@@ -41,14 +41,14 @@ public class AccountDocumentFacade extends AbstractFacade<AccountDocument> {
         List<DocInfo> docInfos = new ArrayList<>();
         for (Object[] obj : objects) {
             docInfos.add(new DocInfo((int) obj[0], (String) obj[1], (String) obj[2], (Date) obj[3], (Date) obj[4], 
-                    (boolean) obj[5], (int) obj[6], (int) obj[7], (int) obj[8], "", (String) obj[9]));
+                    (boolean) obj[5], (int) obj[6], (int) obj[7], (int) obj[8], "", (String) obj[9], (boolean) obj[10]));
         }
         return docInfos;
     }
 
     public List<DocInfo> getSupervisedDocInfos(List<Integer> accountIds, String filter, int maxAge) {
         String jpql = "SELECT d._id, d._name, dd._name, d._created, null, d._read, d._accountId, d._agentAccountId, d._senderIk, "
-                + "    a._ik, concat (a._company, ' ', a._town, ' (', a._firstName, ' ', a._lastName, ')') "
+                + "    a._ik, concat (a._company, ' ', a._town, ' (', a._firstName, ' ', a._lastName, ')'), d._sendToProcess "
                 + "FROM AccountDocument d "
                 + "join DocumentDomain dd "
                 + "join Account a "
@@ -78,7 +78,7 @@ public class AccountDocumentFacade extends AbstractFacade<AccountDocument> {
         for (Object[] obj : objects) {
             docInfos.add(new DocInfo((int) obj[0], (String) obj[1], (String) obj[2], (Date) obj[3], (Date) obj[4], 
                     (boolean) obj[5], (int) obj[6], (int) obj[7], (int) obj[8], "", 
-                    ((int)obj[9] < 0 ? "" : obj[9] + " ") + obj[10]));
+                    ((int)obj[9] < 0 ? "" : obj[9] + " ") + obj[10], (boolean) obj[11]));
         }
         return docInfos;
     }

@@ -23,10 +23,12 @@ import java.util.zip.CheckedOutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import org.inek.dataportal.controller.SessionController;
+import org.inek.dataportal.entities.account.AccountDocument;
 import org.inek.dataportal.entities.calc.autopsy.CalcBasicsAutopsy;
 import org.inek.dataportal.entities.calc.drg.DrgCalcBasics;
 import org.inek.dataportal.entities.calc.psy.PeppCalcBasics;
 import org.inek.dataportal.enums.ConfigKey;
+import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.admin.ConfigFacade;
 
 /**
@@ -90,12 +92,16 @@ public class TransferFileCreator {
     }
 
     private static String obtainInfoText(SessionController sessionController, String type, int ik) {
+        return obtainInfoText(sessionController.getAccount().getEmail(), type + "_" + ik);
+    }
+    
+    private static String obtainInfoText(String email, String subject) {
         Date ts = Calendar.getInstance().getTime();
         String content = "";
         content += "Accept=Dataportal\r\n";
-        content += "From=" + sessionController.getAccount().getEmail() + "\r\n";
+        content += "From=" + email + "\r\n";
         content += "Received=" + new SimpleDateFormat("dd.MM.yyyy HH:mm").format(ts) + "\r\n";
-        content += "Subject=" + type + "_" + ik + "\r\n";
+        content += "Subject=" + subject + "\r\n";
         return content;
     }
 
@@ -143,5 +149,39 @@ public class TransferFileCreator {
             LOGGER.log(Level.WARNING, ex.getMessage());
         }
 
+    }
+    
+    public static void createInekDocumentFile(ConfigFacade configFacade, AccountDocument document, String email) {
+        File workingDir = new File(configFacade.read(ConfigKey.FolderRoot), 
+                configFacade.read(ConfigKey.FolderUpload));
+        File targetDir = new File(configFacade.read(ConfigKey.FolderRoot), "added");
+        File zipFile = new File(workingDir, UUID.randomUUID() + ".zip");
+
+        Date ts = Calendar.getInstance().getTime();
+        String emailInfo = "EMailInfo" + new SimpleDateFormat("ddMMyyyyHHmmss").format(ts) + ".txt";
+
+        try (FileOutputStream fileOut = new FileOutputStream(zipFile);
+                CheckedOutputStream checkedOut = new CheckedOutputStream(fileOut, new Adler32());
+                ZipOutputStream compressedOut = new ZipOutputStream(new BufferedOutputStream(checkedOut))) {
+
+            compressedOut.putNextEntry(new ZipEntry(emailInfo));
+            String content = obtainInfoText(email, "Dokument " + document.getName());
+            ByteArrayInputStream is = new ByteArrayInputStream(content.getBytes("UTF-8"));
+            StreamHelper.copyStream(is, compressedOut);
+            String extension = document.getName().substring(document.getName().lastIndexOf(".")+1);
+            String dataFileName = "doc_"+ document.getName() + "_" + new SimpleDateFormat("ddMMyyyyHHmmss").format(ts) + "."+extension;
+            compressedOut.putNextEntry(new ZipEntry(dataFileName));
+            ByteArrayInputStream data = new ByteArrayInputStream(document.getContent());
+            StreamHelper.copyStream(data, compressedOut);
+            compressedOut.flush();
+        } catch (IOException ex) {
+            throw new IllegalStateException(ex);
+        }
+        File file;
+        do {
+            ts = Calendar.getInstance().getTime();
+            file = new File(targetDir, "Box" + new SimpleDateFormat("yyyyMMddHHmmssSSS").format(ts) + ".zip");
+        } while (file.exists());
+        zipFile.renameTo(file);
     }
 }

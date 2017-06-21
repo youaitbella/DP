@@ -22,6 +22,7 @@ public class DocInfo implements Serializable{
     private final int _senderIk;
     private final String _agentName;
     private final String _tag;
+    private final boolean _sendToProcess;
 
     @SuppressWarnings("ParameterNumber")
     public DocInfo(
@@ -35,7 +36,8 @@ public class DocInfo implements Serializable{
             int agentId, 
             int senderIk, 
             String agentName, 
-            String tag) {
+            String tag,
+            boolean sendToProcess) {
         _id = id;
         _name = name;
         _domain = domain;
@@ -47,6 +49,7 @@ public class DocInfo implements Serializable{
         _senderIk = senderIk;
         _agentName = agentName;
         _tag = tag;
+        _sendToProcess = sendToProcess;
     }
 
     public int getId() {
@@ -104,4 +107,7 @@ public class DocInfo implements Serializable{
         return _senderIk;
     }
 
+    public boolean isSendToProcess() {
+        return _sendToProcess;
+    }
 }

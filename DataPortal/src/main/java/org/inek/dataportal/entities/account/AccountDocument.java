@@ -200,5 +200,15 @@ public class AccountDocument implements Serializable, Document {
     private void tagChanged() {
         _lastChanged = Calendar.getInstance().getTime();
     }
+    
+    @Column(name = "adSendToProcess")
+    private boolean _sendToProcess;
 
+    public boolean isSendToProcess() {
+        return _sendToProcess;
+    }
+
+    public void setSendToProcess(boolean sendToProcess) {
+        this._sendToProcess = sendToProcess;
+    }
 }

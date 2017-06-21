@@ -40,6 +40,17 @@
                         <f:ajax render="@all"/>
                     </h:commandLink>
                 </h:column>
+                
+                <h:column id="colProcess">
+                    <f:facet name="header">
+                        <h:outputText value=""/>
+                    </f:facet>
+                    <h:commandLink action="#{editDocument.sendToProcess(doc.id)}" onclick="#{editDocument.getProcessMessage(doc.name)}" rendered="#{!doc.sendToProcess}">
+                        <button style="width: 100%;" title="An Prozess senden">P</button>
+                        <f:ajax render="@all"/>
+                    </h:commandLink>
+                </h:column>
+                
 
                 <h:column id="colDomain">
                     <f:facet name="header">
