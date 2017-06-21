@@ -5,6 +5,7 @@
  */
 package org.inek.dataportal.entities.calc.drg;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Column;
@@ -178,7 +179,7 @@ public class KGLListRadiologyLaboratory implements Serializable, BaseIdValue {
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="service">
-    
+    @JsonIgnore
     @Column(name = "rlService")
     @Documentation (name = "Leistungsdokumentation", rank = 70)
     private int _service;
