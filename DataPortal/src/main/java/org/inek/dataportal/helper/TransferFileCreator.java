@@ -135,6 +135,7 @@ public class TransferFileCreator {
                 ByteArrayInputStream is = new ByteArrayInputStream(content.getBytes("UTF-8"));
                 StreamHelper.copyStream(is, compressedOut);
 
+                
                 compressedOut.flush();
             }
             File file;
@@ -168,8 +169,7 @@ public class TransferFileCreator {
             String content = obtainInfoText(email, "Dokument " + document.getName());
             ByteArrayInputStream is = new ByteArrayInputStream(content.getBytes("UTF-8"));
             StreamHelper.copyStream(is, compressedOut);
-            String extension = document.getName().substring(document.getName().lastIndexOf(".")+1);
-            String dataFileName = "doc_"+ document.getName() + "_" + new SimpleDateFormat("ddMMyyyyHHmmss").format(ts) + "."+extension;
+            String dataFileName = document.getName();
             compressedOut.putNextEntry(new ZipEntry(dataFileName));
             ByteArrayInputStream data = new ByteArrayInputStream(document.getContent());
             StreamHelper.copyStream(data, compressedOut);
