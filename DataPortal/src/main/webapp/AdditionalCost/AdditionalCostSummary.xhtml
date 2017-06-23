@@ -3,13 +3,38 @@
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 template="/Templates/PortalMenuTemplate.xhtml"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:h="http://xmlns.jcp.org/jsf/html">
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:jsf="http://xmlns.jcp.org/jsf">
 
     <ui:define name="content">
-        <h1>#{msg.nameADDITIONAL_COST}</h1>
 
         <h:form>
-                     <h1>Additional Cost Summary</h1>
+            <h1>#{msg.nameADDITIONAL_COST}</h1>
+
+            <h4><h:outputLabel value="#{msg.infoOpenADDITIONAL_COST}"/></h4> 
+                      
+            <!--Liste aller Mehrkosten-->
+            
+            <h1>Additional Cost Summary</h1>
+            <!--Button Neue Mehrkosten eintragen-->
+            <div class="toolBar marginLeft">
+                <h:commandLink styleClass="bigButton #{applicationTools.isEnabled('IsAdditionalCostCreateEnabled') ? '' : 'buttonDisabled'}"
+                               action="#{additionalCostList.newAdditionalCost}" value="#{msg.btnNewAdditionalCost}" immediate="true">
+                    <f:param name="id" value="new"/>
+                </h:commandLink>
+            </div>
+            
+            <!--Druckansicht/Alle auswählen/Auswahl aufheben-->
+            <div class="toolBar marginLeft">
+                <h:commandLink styleClass="bigButton" action="#{additionalCostTreeHandler.printSelected}"  immediate="true" value="#{msg.btnPrintSelected}"/>
+                <h:commandLink styleClass="bigButton" immediate="true" value="#{msg.btnSelectAll}">
+                    <f:ajax listener="#{additionalCostTreeHandler.selectAll}" render="@form :logout:remaining"/>
+                </h:commandLink>
+                <h:commandLink styleClass="bigButton" value="#{msg.btnDeselectAll}">
+                    <f:ajax listener="#{additionalCostTreeHandler.deselectAll}" render="@form :logout:remaining"/>
+                </h:commandLink>
+            </div>
+
         </h:form>
     </ui:define>
 

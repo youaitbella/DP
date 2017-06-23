@@ -169,6 +169,7 @@ public enum Pages {
     //
     PartAdditionalCost("/AdditionalCost/PartAdditionalCost"),
     AdditionalCostSummary("/AdditionalCost/AdditionalCostSummary"),
+    AdditionalCostEdit("/AdditionalCost/AdditionalCostEdit"),
     
     //
     NotAllowed("/common/NotAllowed"),

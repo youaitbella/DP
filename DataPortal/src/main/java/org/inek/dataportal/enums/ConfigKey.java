@@ -14,6 +14,8 @@ public enum ConfigKey {
     IsDrgProposalSendEnabled(false),
     IsPeppProposalCreateEnabled(false),
     IsPeppProposalSendEnabled(false),
+    IsAdditionalCostCreateEnabled(false),
+    IsAdditionalRequestSendEnabled(false),
     IsModelIntentionSendEnabled(false),
     IsStatemenOfParticipanceCreateEnabled(false),
     IsCalculationBasicsDrgCreateEnabled(false),

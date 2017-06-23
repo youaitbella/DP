@@ -1,0 +1,173 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/Templates/PortalMenuTemplate.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                >
+
+    <ui:define name="content">
+
+        <h1>
+            <h:commandLink value="Neue Mehrkosten" action="#{sessionController.navigate(sessionTools.pages.AdditionalCostSummary)}" immediate="true"/>
+        </h1>
+
+        <inek:MultiIk id="ikMulti" value="#{editAdditionalCost.additionalCost.ik}" 
+                      ikList="#{editAdditionalCost.iks}"
+                      listener="#{editAdditionalCost.ikChanged}" 
+                      renderElement="spfData"
+                      isFixed="#{editAdditionalCost.additionalCost.id gt 0}"/>
+
+
+        <h2>Krankenhaus</h2>
+
+        <inek:LabeledText id="hospital" label="Name des Krankenhauses" value="#{editAdditionalCost.additionalCost.hospital}" singleLine="true" styleClassLabel="label10" styleClass="element50" required="true" readonly="#{editAdditionalCost.readOnly}"/>
+        <inek:LabeledText id="street" label="#{msg.lblStreet}" value="#{editAdditionalCost.additionalCost.street}" singleLine="true" styleClassLabel="label10" styleClass="element50" required="true" readonly="#{editAdditionalCost.readOnly}"/>
+        <inek:LabeledText id="zip" label="#{msg.lblPostalCode}" value="#{editAdditionalCost.additionalCost.zip}" singleLine="true" styleClassLabel="label10" styleClass="element50" required="true" readonly="#{editAdditionalCost.readOnly}"/>
+        <inek:LabeledText id="city" label="#{msg.lblTown}" value="#{editAdditionalCost.additionalCost.city}" singleLine="true" styleClassLabel="label10" styleClass="element50" required="true" readonly="#{editAdditionalCost.readOnly}"/>
+
+        <h2>#{msg.lblContactPerson}</h2>
+
+        <h:panelGroup styleClass="element100 marginTop01em">
+            <h:outputLabel styleClass="label10" for="cbxGender" 
+                           value="#{msg.lblSalutation}"/>
+            <h:selectOneMenu styleClass="inputshort" id="cbxGender" value="#{editAdditionalCost.additionalCost.gender}"
+                             required="true" requiredMessage="#{msg.msgChooseEntryShort}">
+                <f:selectItems value="#{sessionTools.genderItems}"/>
+                <f:ajax event="blur" render="@this msgGender"/>
+            </h:selectOneMenu>
+            <h:message id="msgGender" for="cbxGender" styleClass="errorMessage"/>
+        </h:panelGroup>
+
+        <inek:LabeledText id="firstName" label="#{msg.lblFirstName}" 
+                          value="#{editAdditionalCost.additionalCost.contactFirstName}"
+                          singleLine="true" styleClassLabel="label10" 
+                          styleClass="element50" required="true" 
+                          readonly="#{editAdditionalCost.readOnly}"/>
+
+        <inek:LabeledText id="lastName" label="#{msg.lblLastName}" 
+                          value="#{editAdditionalCost.additionalCost.contactLastName}" 
+                          singleLine="true" styleClassLabel="label10" 
+                          styleClass="element50" required="true" 
+                          readonly="#{editAdditionalCost.readOnly}"/>
+
+        <inek:LabeledText id="phone" label="#{msg.lblPhone}" 
+                          value="#{editAdditionalCost.additionalCost.contactPhone}" 
+                          singleLine="true" styleClassLabel="label10" 
+                          styleClass="element50" required="true" 
+                          readonly="#{editAdditionalCost.readOnly}"/>
+
+        <inek:LabeledText id="mail" label="#{msg.lblMail}" 
+                          value="#{editAdditionalCost.additionalCost.contactEmail}" 
+                          singleLine="true" styleClassLabel="label10" 
+                          styleClass="element50" required="true" 
+                          readonly="#{editAdditionalCost.readOnly}"/>
+
+
+        <h2>Mehrkosten</h2>
+
+        <h:panelGroup styleClass="element100 marginTop01em">
+            <h:outputLabel for="cbxPerinatalcentre"
+                           value="Perinatalzentrum Level"
+                           title="Perinatalzentrum Level"
+                           styleClass="label40"
+                           /> 
+            <h:selectOneMenu id="cbxPerinatalcentre" 
+                             styleClass="element12em" 
+                             required="true" 
+                             requiredMessage="#{msg.msgChooseEntryShort}"
+                             value="#{editAdditionalCost.additionalCost.perinatalcentreLevel}"
+                             hideNoSelectionOption="true"
+                             >
+                <f:selectItems value="#{sessionTools.perinatalcentreItems}"/>
+                <f:ajax event="blur" render="@form msgPerinatalcentre"/>
+            </h:selectOneMenu>
+            <!--<h:message id="msgPerinatalcentre" for="cbxPerinatalcentre" styleClass="errorMessage"/>-->
+        </h:panelGroup>
+
+        <h:outputLabel for="budgetYear" 
+                       value="Die folgende Vereinbarungsdaten beziehen sich auf das Budgetjahr:" 
+                       title="Budgetjahr"
+                       styleClass="label40"/>
+        <h:selectOneMenu id="budgetYear"
+                         styleClass="element12em"
+                         required="true"
+                         requiredMessage="#{msg.msgValueNeeded}"
+                         value="#{editAdditionalCost.additionalCost.budgetYear}"
+                         hideNoSelectionOption="true"  
+                         >
+            <f:selectItems value="#{sessionTools.budgetyearItems}"/>
+            <f:ajax event="change" render="@form :logout:remaining budgetYear"/>
+        </h:selectOneMenu>
+
+        <inek:LabeledText id="effectivCaseMix" 
+                          label="vereinbarter effektiver Case-Mix für die DRGs gem. Anlage 1 zur G-BA-Mehrkostenzuschlagsvereinbarung von 23.03.2017 lfd. Nr. 3" 
+                          value="#{editAdditionalCost.additionalCost.effectivCaseMix}" singleLine="true" 
+                          styleClassLabel="label40" styleClass="element50" required="true" />
+
+        <inek:LabeledText id="extraChargeA" label="Zuschlagsanteil A (für 2015/2016)" 
+                          value="#{editAdditionalCost.additionalCost.extraChargeA}" singleLine="true" 
+                          styleClassLabel="label40" styleClass="element50" required="true"/>
+
+        <inek:LabeledText id="extraChargeB" label="Zuschlagsanteil B (Grundaufwand)" 
+                          value="#{editAdditionalCost.additionalCost.extraChargeB}" singleLine="true" 
+                          styleClassLabel="label40" styleClass="element50" required="true"/>
+
+        <inek:LabeledText id="extraChargeC" label="Zuschlagsanteil C (Intensivpflege)" 
+                          value="#{editAdditionalCost.additionalCost.extraChargeC}" singleLine="true" 
+                          styleClassLabel="label40" styleClass="element50" required="true"/>
+
+        <inek:LabeledText id="agreedAmountExtraCharge" 
+                          label="vereinbarte Zuschlagssumme(inkl. Mehr- und Mindererlösausgleiche)" 
+                          value="#{editAdditionalCost.additionalCost.agreedAmountExtraCharge}" singleLine="true" 
+                          styleClassLabel="label40" styleClass="element50" required="true" />
+
+        <inek:LabeledText id="hospitalIndividualExtraCharge" 
+                          label="Krankenhausindividueller Zuschlag(Prozentsatz gem. Anlage 1 zur 
+                          G-BA-Mehrkostenzuschlagsvereinbarung vom 23.03.2017 lfd. Nr. 6))" 
+                          value="#{editAdditionalCost.additionalCost.hospitalIndividualExtraCharge}" singleLine="true" 
+                          styleClassLabel="label40" styleClass="element50" required="true"/>
+
+        <div class="inputPart">
+            <h:outputLabel value="Haben Sie gem. Anlage zur G-BA-Mehrkostenzuschlagsvereinbarung vom 
+                           23.03.2017 lit. D einvernehmlich eine zu erwartende Erfüllungsquote vereinbart?"
+                           styleClass="label20"/>
+            <inek:Checkbox value="#{editAdditionalCost.additionalCost.isAdditionalCostAgreementAgreed}" styleClass="element20"/>
+        </div>
+
+        <inek:LabeledText id="complianceRateAmount" 
+                          label="Höhe der einvernehmlich vereinbarten Erfüllungsquote" 
+                          value="#{editAdditionalCost.additionalCost.complianceRateAmount}" singleLine="true" 
+                          styleClassLabel="label40" styleClass="element50" required="true"/>
+
+        <inek:LabeledText id="complianceRate" label="Erfüllungsquote" 
+                          value="#{editAdditionalCost.additionalCost.complianceRate}" singleLine="true" 
+                          styleClassLabel="label40" styleClass="element50" required="true"/>
+
+
+        <h:messages showDetail="true" globalOnly="true"/>
+
+
+        <div class="toolBar">
+            <h:commandLink styleClass="bigButton"
+                           action="#{editAdditionalCost.save}"
+                           value="#{msg.btnSave}"
+                           immediate="true"
+                           rendered="#{!editAdditionalCost.readOnly or sessionController.isInekUser('ADDITIONAL_COST')}">
+            </h:commandLink>
+            <h:commandLink styleClass="sendButton"
+                           action="#{editAdditionalCost.seal}"
+                           value="#{msg.btnSaveAndClose}"
+                           rendered="#{editAdditionalCost.sealEnabled}"
+                           immediate="false"
+                           title="#{msg.infoSaveAndClose}">
+                <cb:confirmSeal/>
+            </h:commandLink>
+        </div>
+    </ui:define>
+
+</ui:composition>

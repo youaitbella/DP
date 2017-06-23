@@ -168,6 +168,22 @@ public class SessionTools implements Serializable {
         items[2] = new SelectItem("2", Utils.getMessage("salutationMale"));
         return items;
     }
+    
+    public SelectItem[] getPerinatalcentreItems() {
+        SelectItem[] items = new SelectItem[3];
+        items[0] = new SelectItem("", "");
+        items[1] = new SelectItem("1", "1");
+        items[2] = new SelectItem("2", "2");
+        return items;
+    }
+    
+    public SelectItem[] getBudgetyearItems() {
+        SelectItem[] items = new SelectItem[3];
+        items[0] = new SelectItem("2017", "2017");
+        items[1] = new SelectItem("2016", "2016");
+        items[2] = new SelectItem("2015", "2015");
+        return items;
+    }
 
     public String formatDate(Date date, String format) {
         return new SimpleDateFormat(format).format(date);
