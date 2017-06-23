@@ -45,10 +45,9 @@
                     <f:facet name="header">
                         <h:outputText value=""/>
                     </f:facet>
-                    <h:commandLink action="#{editDocument.sendToProcess(doc.id)}" onclick="#{editDocument.getProcessMessage(doc.name)}" rendered="#{!doc.sendToProcess}">
-                        <button style="width: 100%;" title="An Prozess senden">P</button>
-                        <f:ajax render="@all"/>
-                    </h:commandLink>
+                    <h:selectBooleanCheckbox>
+                        <f:ajax event="blur" render=":logout:remaining :form:process-button" listener="#{editDocument.handleProcessDocumentList(doc.id)}"/>
+                    </h:selectBooleanCheckbox>
                 </h:column>
                 
 
@@ -118,6 +117,9 @@
                     </h:commandLink>
                 </h:column>
             </h:dataTable>
+            <h:commandButton value="An Prozess senden" rendered="#{editDocument.processButtonEnabled}" styleClass="button" id="process-button">
+                
+            </h:commandButton>
         </h:form>
 
     </ui:define>

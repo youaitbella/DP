@@ -6,9 +6,11 @@ package org.inek.dataportal.feature.documents;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -31,7 +33,7 @@ import org.inek.portallib.util.Helper;
  * @author muellermi
  */
 @Named
-@RequestScoped
+@SessionScoped
 public class EditDocument extends AbstractEditController {
 
     private static final Logger LOGGER = Logger.getLogger("EditDocument");
@@ -40,6 +42,8 @@ public class EditDocument extends AbstractEditController {
     @Inject private AccountFacade _accFacade;
     @Inject private ConfigFacade _configFacade;
     @Inject private SessionController _sessionController;
+    
+    private List<AccountDocument> _processDocuments = new ArrayList<>();
 
     public String downloadDocument(int docId) {
         FacesContext facesContext = FacesContext.getCurrentInstance();
@@ -112,5 +116,28 @@ public class EditDocument extends AbstractEditController {
     protected void addTopics() {
 
     }
-
+    
+    public String handleProcessDocumentList(int documentId) {
+        AccountDocument doc = _accDocFacade.find(documentId);
+        if(doc == null)
+            return "";
+        boolean deleted = false;
+        for(int i = 0; i < _processDocuments.size(); i++) {
+            AccountDocument tmp = _processDocuments.get(i);
+            if(tmp.getId() == documentId) {
+                _processDocuments.remove(tmp);
+                deleted = true;
+                break;
+            }
+        }
+        if(!deleted)
+            _processDocuments.add(doc);
+        return "";
+    }
+    
+    public boolean getProcessButtonEnabled() {
+        //return true;
+        int size = _processDocuments.size();
+        return size > 0;
+    }
 }
