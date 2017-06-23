@@ -152,6 +152,11 @@ public class DocumentUpload implements Serializable {
                 }
             }
         }
+        for(int i = 0; i < _inekAccounts.size(); i++) {
+            Account acc = _inekAccounts.get(i);
+            if(acc.isDeactivated())
+                _inekAccounts.remove(acc);
+        }
         return _inekAccounts;
     }
     // </editor-fold>
@@ -229,8 +234,7 @@ public class DocumentUpload implements Serializable {
 
     public List<DocumentDomain> getDomains() {
         return _domainFacade.findAll();
-    }
-
+    } 
     public List<DocumentDomain> getPublicDomains() {
         return _domainFacade.findAll().stream().filter(d -> d.isPublicUsable()).collect(Collectors.toList());
     }
