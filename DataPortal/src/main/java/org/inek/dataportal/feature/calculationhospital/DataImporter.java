@@ -991,7 +991,8 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
             case "drglaboratory":
                 //<editor-fold defaultstate="collapsed" desc="new DataImporter Laboratory">
                 return new DataImporter<KGLListRadiologyLaboratory, DrgCalcBasics>(
-                        "KostenstelleNummer;KostenstelleName;Leistungsdokumentation;Beschreibung;LeistungsvolumenVor;KostenvolumenVor;KostenvolumenNach",
+                        "KostenstelleNummer;KostenstelleName;Leistungsdokumentation;"
+                                + "Beschreibung;LeistungsvolumenVor;KostenvolumenVor;KostenvolumenNach",
                         new FileHolder("Laboratory.csv"),
                         ErrorCounter.obtainErrorCounter("DRG_LABORATORY"),
                         Arrays.asList(
@@ -1038,7 +1039,8 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
             case "drgradiology":
                 //<editor-fold defaultstate="collapsed" desc="new DataImporter Radiology">
                 return new DataImporter<KGLListRadiologyLaboratory, DrgCalcBasics>(
-                        "KostenstelleNummer;KostenstelleName;Leistungsdokumentation;Beschreibung;LeistungsvolumenVor;KostenvolumenVor;LeistungsvolumenNach;KostenvolumenNach",
+                        "KostenstelleNummer;KostenstelleName;Leistungsdokumentation;Beschreibung;"
+                                + "LeistungsvolumenVor;KostenvolumenVor;LeistungsvolumenNach;KostenvolumenNach",
                         new FileHolder("Radiology.csv"),
                         ErrorCounter.obtainErrorCounter("DRG_LABORATORY"),
                         Arrays.asList(

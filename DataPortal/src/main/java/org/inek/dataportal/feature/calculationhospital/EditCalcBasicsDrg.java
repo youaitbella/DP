@@ -1,6 +1,5 @@
 package org.inek.dataportal.feature.calculationhospital;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -15,9 +14,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.Scanner;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,7 +29,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.Id;
 import javax.persistence.OptimisticLockException;
-import javax.servlet.http.Part;
 import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
@@ -73,14 +69,12 @@ import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.calc.CalcDrgFacade;
 import org.inek.dataportal.feature.AbstractEditController;
-import org.inek.dataportal.helper.BeanValidator;
 import org.inek.dataportal.helper.ObjectUtils;
 import org.inek.dataportal.helper.TransferFileCreator;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.structures.FieldValues;
 import org.inek.dataportal.helper.structures.MessageContainer;
 import org.inek.dataportal.utils.DocumentationUtil;
-import org.inek.dataportal.utils.StringUtil;
 
 /**
  *
@@ -93,14 +87,10 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     // <editor-fold defaultstate="collapsed" desc="fields & enums">
     private static final Logger LOGGER = Logger.getLogger("EditCalcBasicsDrg");
 
-    @Inject
-    private CooperationTools _cooperationTools;
-    @Inject
-    private SessionController _sessionController;
-    @Inject
-    private CalcDrgFacade _calcDrgFacade;
-    @Inject
-    private ApplicationTools _appTools;
+    @Inject private CooperationTools _cooperationTools;
+    @Inject private SessionController _sessionController;
+    @Inject private CalcDrgFacade _calcDrgFacade;
+    @Inject private ApplicationTools _appTools;
 
     private DrgCalcBasics _calcBasics;
     private DrgCalcBasics _baseLine;
@@ -1215,16 +1205,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         _calcBasics.getCostCenters().removeAll(centersToDelete);
     }
 
-    private Part _file;
-
-    public Part getFile() {
-        return _file;
-    }
-
-    public void setFile(Part file) {
-        _file = file;
-    }
-
     public void downloadNormalStation() {
         NumberFormat formatter = NumberFormat.getInstance(Locale.getDefault());
         formatter.setMaximumFractionDigits(2);
@@ -1261,212 +1241,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         return importerPool.getDataImporter(importerName.toLowerCase());
     }
 
-    public void uploadRadiology() {
-        try {
-            int headlineLength = HEADLINE_RADIOLOGY.split(";").length;
-            if (_file != null) {
-                //Scanner scanner = new Scanner(_file.getInputStream(), "UTF-8");
-                // We assume most of the documents coded with the Windows character set
-                // Thus, we read with the system default
-                // in case of an UTF-8 file, all German Umlauts will be corrupted.
-                // We simply replace them.
-                // Drawbacks: this only converts the German Umlauts, no other chars.
-                // By intention it fails for other charcters
-                // Alternative: implement a library which guesses th correct character set and read properly
-                // Since we support German only, we started using the simple approach
-                Scanner scanner = new Scanner(_file.getInputStream());
-                if (!scanner.hasNextLine()) {
-                    return;
-                }
-                String alertText = "";
-                int lineNum = 0;
-                while (scanner.hasNextLine()) {
-                    String line = Utils.convertFromUtf8(scanner.nextLine());
-                    lineNum++;
-                    if (!line.equals(HEADLINE_RADIOLOGY)) {
-                        String[] values = StringUtil.splitAtUnquotedSemicolon(line);
-                        if (values.length != headlineLength) {
-                            alertText += "Zeile " + lineNum + ": Fehlerhafte Anzahl Spalten. (" 
-                                    + headlineLength + " erwartet, " + values.length + " gefunden) \\n";
-                            continue;
-                        }
-                        KGLListRadiologyLaboratory radio = new KGLListRadiologyLaboratory();
-                        radio.setBaseInformationId(_calcBasics.getId());
-                        radio.setCostCenterId(9);
-                        radio.setCostCenterNumber(values[0]);
-                        radio.setCostCenterText(values[1]);
-                        String service = values[2].toLowerCase();
-                        if ("hauskatalog".equals(service)) {
-                            radio.setServiceDocHome(true);
-                        } else if ("dkg-nt".equals(service)) {
-                            radio.setServiceDocDKG(true);
-                        } else if ("ebm".equals(service)) {
-                            radio.setServiceDocEBM(true);
-                        } else if ("goä".equals(service)) {
-                            radio.setServiceDocGOA(true);
-                        } else if ("sonstige".equals(service)) {
-                            radio.setServiceDocDif(true);
-                        }
-                        radio.setDescription(values[3]);
-                        try {
-                            int amount = StringUtil.parseLocalizedDoubleAsInt(values[4]);
-                            radio.setServiceVolumePre(amount);
-                        } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 5: " + Utils.getMessage("msgNotANumber") + "\\n";
-                            continue;
-                        }
-                        try {
-                            int amount = StringUtil.parseLocalizedDoubleAsInt(values[5]);
-                            radio.setAmountPre(amount);
-                        } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 6: " + Utils.getMessage("msgNotANumber") + "\\n";
-                            continue;
-                        }
-                        try {
-                            int amount = StringUtil.parseLocalizedDoubleAsInt(values[6]);
-                            radio.setServiceVolumePost(amount);
-                        } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 7: " + Utils.getMessage("msgNotANumber") + "\\n";
-                            continue;
-                        }
-                        try {
-                            int amount = StringUtil.parseLocalizedDoubleAsInt(values[7]);
-                            radio.setAmountPost(amount);
-                        } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 8: " + Utils.getMessage("msgNotANumber") + "\\n";
-                            continue;
-                        }
-                        if (isExistingEntryRadLab(radio)) {
-                            alertText += "Hinweis: Zeile " + lineNum + " wurde bereits hinzugefügt.";
-                            continue;
-                        }
-
-                        _calcBasics.getRadiologyLaboratories().add(radio);
-                    }
-                }
-                if (alertText.length() > 0) {
-                    _sessionController.alertClient(alertText);
-                }
-                _importMessageRadiology = alertText;
-            }
-        } catch (IOException | NoSuchElementException e) {
-        }
-    }
-
-    private transient String _importMessageRadiology = "";
-
-    public String getImportMessageRadiology() {
-        return _importMessageRadiology;
-    }
-
-    public void uploadLaboratory() {
-        try {
-            int headlineLength = HEADLINE_LABORATY.split(";").length;
-            if (_file != null) {
-                //Scanner scanner = new Scanner(_file.getInputStream(), "UTF-8");
-                // We assume most of the documents coded with the Windows character set
-                // Thus, we read with the system default
-                // in case of an UTF-8 file, all German Umlauts will be corrupted.
-                // We simply replace them.
-                // Drawbacks: this only converts the German Umlauts, no other chars.
-                // By intention it fails for other charcters
-                // Alternative: implement a library which guesses th correct character set and read properly
-                // Since we support German only, we started using the simple approach
-                Scanner scanner = new Scanner(_file.getInputStream());
-                if (!scanner.hasNextLine()) {
-                    return;
-                }
-                String alertText = "";
-                int lineNum = 0;
-                while (scanner.hasNextLine()) {
-                    String line = Utils.convertFromUtf8(scanner.nextLine());
-                    lineNum++;
-                    if (!line.equals(HEADLINE_LABORATY)) {
-                        String[] values = StringUtil.splitAtUnquotedSemicolon(line);
-                        if (values.length != headlineLength) {
-                            alertText += "Zeile " + lineNum + ": Fehlerhafte Anzahl Spalten. (" 
-                                    + headlineLength + " erwartet, " + values.length + " gefunden) \\n";
-                            continue;
-                        }
-                        KGLListRadiologyLaboratory radio = new KGLListRadiologyLaboratory();
-                        radio.setBaseInformationId(_calcBasics.getId());
-                        radio.setCostCenterId(10);
-                        radio.setCostCenterNumber(values[0]);
-                        radio.setCostCenterText(values[1]);
-                        String service = values[2].toLowerCase();
-                        if ("hauskatalog".equals(service)) {
-                            radio.setServiceDocHome(true);
-                        } else if ("dkg-nt".equals(service)) {
-                            radio.setServiceDocDKG(true);
-                        } else if ("ebm".equals(service)) {
-                            radio.setServiceDocEBM(true);
-                        } else if ("goä".equals(service)) {
-                            radio.setServiceDocGOA(true);
-                        } else if ("sonstige".equals(service)) {
-                            radio.setServiceDocDif(true);
-                        }
-                        radio.setDescription(values[3]);
-                        try {
-                            int amount = StringUtil.parseLocalizedDoubleAsInt(values[4]);
-                            radio.setServiceVolumePre(amount);
-                        } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 5: " + Utils.getMessage("msgNotANumber") + "\\n";
-                            continue;
-                        }
-                        try {
-                            int amount = StringUtil.parseLocalizedDoubleAsInt(values[5]);
-                            radio.setAmountPre(amount);
-                        } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 6: " + Utils.getMessage("msgNotANumber") + "\\n";
-                            continue;
-                        }
-                        try {
-                            int amount = StringUtil.parseLocalizedDoubleAsInt(values[6]);
-                            radio.setServiceVolumePost(amount);
-                        } catch (NumberFormatException ex) {
-                            alertText += "Fehler: Zeile " + lineNum + ", Spalte 7: " + Utils.getMessage("msgNotANumber") + "\\n";
-                            continue;
-                        }
-                        if (isExistingEntryRadLab(radio)) {
-                            alertText += "Hinweis: Zeile " + lineNum + " wurde bereits hinzugefügt.";
-                            continue;
-                        }
-
-                        _calcBasics.getRadiologyLaboratories().add(radio);
-                    }
-                }
-                if (alertText.length() > 0) {
-                    _sessionController.alertClient(alertText);
-                }
-                _importMessageLaboraty = alertText;
-            }
-        } catch (IOException | NoSuchElementException e) {
-        }
-    }
-
-    private transient String _importMessageLaboraty = "";
-
-    public String getImportMessageLaboraty() {
-        return _importMessageLaboraty;
-    }
-
-    private boolean isExistingEntryRadLab(KGLListRadiologyLaboratory radio) {
-        return _calcBasics.getRadiologyLaboratories().stream().anyMatch(rl -> rl.equals(radio));
-    }
-
-    public void toggleJournal() {
-        _showJournal = !_showJournal;
-    }
-
-    private boolean _showJournal = false;
-
-    public boolean isShowJournal() {
-        return _showJournal;
-    }
-
-    public void setShowJournal(boolean showJournal) {
-        this._showJournal = showJournal;
-    }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Tab MVI">
@@ -1585,7 +1359,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
     
     public List<SelectItem> getRadLabServices() {
-        List<SelectItem> items = new ArrayList<SelectItem>();
+        List<SelectItem> items = new ArrayList<>();
         items.add(new SelectItem(0, ""));
         items.add(new SelectItem(1, "Hauskatalog"));
         items.add(new SelectItem(2, "DKG-NT"));

@@ -19,17 +19,16 @@ import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
  *
  * @author aitbellayo
  */
-
 @Named
 @RequestScoped
 public class AdditionalCostList {
-    
+
     @Inject private AdditionalCostFacade _additionalCostFacade;
     @Inject private SessionController _sessionController;
     @Inject private CooperationTools _cooperationTools;
     @Inject private ApplicationTools _appTools;
-    
-        public String newAdditionalCost() {
+
+    public String newAdditionalCost() {
         FeatureScopedContextHolder.Instance.destroyBeansOfScope("EditAdditionalCost");
         return Pages.AdditionalCostEdit.URL();
     }

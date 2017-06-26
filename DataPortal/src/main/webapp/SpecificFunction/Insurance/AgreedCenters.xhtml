@@ -205,7 +205,7 @@
         </div>
     </ui:repeat>
 
-    <h:commandLink styleClass="addButton marginRight" value="#{msg.btnAddEntry}"
+    <h:commandLink styleClass="addButton marginRight bigButton" value="Weiteres Zentrum zufügen"
                    rendered="#{!editSpecificFunctionAgreement.readOnly}">
         <f:ajax event="click" render="@form :logout:remaining" listener="#{editSpecificFunctionAgreement.addAgreedCenter()}"/>
     </h:commandLink>
@@ -272,7 +272,7 @@
         </h:column>
     </h:dataTable>
 
-    <h:commandLink styleClass="addButton marginRight" value="#{msg.btnAddEntry}"
+    <h:commandLink styleClass="addButton marginRight bigButton" value="#{msg.btnAddEntry}"
                    rendered="#{!editSpecificFunctionAgreement.readOnly}">
         <f:ajax event="click" render="@form :logout:remaining" listener="#{editSpecificFunctionAgreement.agreement.addAgreedCenterRemunerationKey()}"/>
     </h:commandLink>
