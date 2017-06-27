@@ -6,11 +6,9 @@ package org.inek.dataportal.feature.documents;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -33,7 +31,7 @@ import org.inek.portallib.util.Helper;
  * @author muellermi
  */
 @Named
-@SessionScoped
+@RequestScoped
 public class EditDocument extends AbstractEditController {
 
     private static final Logger LOGGER = Logger.getLogger("EditDocument");
@@ -42,8 +40,6 @@ public class EditDocument extends AbstractEditController {
     @Inject private AccountFacade _accFacade;
     @Inject private ConfigFacade _configFacade;
     @Inject private SessionController _sessionController;
-    
-    private List<AccountDocument> _processDocuments = new ArrayList<>();
 
     public String downloadDocument(int docId) {
         FacesContext facesContext = FacesContext.getCurrentInstance();
@@ -90,54 +86,9 @@ public class EditDocument extends AbstractEditController {
         msg = msg.replace("\r\n", "\n").replace("\n", "\\r\\n").replace("'", "\\'").replace("\"", "\\'");
         return "return confirm ('" + msg + "');";
     }
-    
-    public String getProcessMessage(String name) {
-        String msg = "Soll die Datei " + name + " zum Prozess gesendet werden?";
-        msg = msg.replace("\r\n", "\n").replace("\n", "\\r\\n").replace("'", "\\'").replace("\"", "\\'");
-        return "return confirm ('" + msg + "');";
-    }
-    
-    public String sendToProcess(int docId) {
-        AccountDocument doc = _accDocFacade.find(docId);
-        if(doc == null)
-            return "";
-        String email = _accFacade.find(doc.getAccountId()).getEmail();
-        try {
-            TransferFileCreator.createInekDocumentFile(_configFacade, doc, email);
-            doc.setSendToProcess(true);
-            _accDocFacade.merge(doc);
-        } catch(Exception ex) {
-            return "";
-        }
-        return "";
-    }
 
     @Override
     protected void addTopics() {
 
-    }
-    
-    public String handleProcessDocumentList(int documentId) {
-        AccountDocument doc = _accDocFacade.find(documentId);
-        if(doc == null)
-            return "";
-        boolean deleted = false;
-        for(int i = 0; i < _processDocuments.size(); i++) {
-            AccountDocument tmp = _processDocuments.get(i);
-            if(tmp.getId() == documentId) {
-                _processDocuments.remove(tmp);
-                deleted = true;
-                break;
-            }
-        }
-        if(!deleted)
-            _processDocuments.add(doc);
-        return "";
-    }
-    
-    public boolean getProcessButtonEnabled() {
-        //return true;
-        int size = _processDocuments.size();
-        return size > 0;
     }
 }

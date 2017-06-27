@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -152,7 +153,7 @@ public class TransferFileCreator {
 
     }
     
-    public static void createInekDocumentFile(ConfigFacade configFacade, AccountDocument document, String email) {
+    public static void createInekDocumentFiles(ConfigFacade configFacade, List<AccountDocument> documents, String email, String subject) {
         File workingDir = new File(configFacade.read(ConfigKey.FolderRoot), 
                 configFacade.read(ConfigKey.FolderUpload));
         File targetDir = new File(configFacade.read(ConfigKey.FolderRoot), "added");
@@ -166,14 +167,16 @@ public class TransferFileCreator {
                 ZipOutputStream compressedOut = new ZipOutputStream(new BufferedOutputStream(checkedOut))) {
 
             compressedOut.putNextEntry(new ZipEntry(emailInfo));
-            String content = obtainInfoText(email, "Dokument " + document.getName());
+            String content = obtainInfoText(email, subject);
             ByteArrayInputStream is = new ByteArrayInputStream(content.getBytes("UTF-8"));
             StreamHelper.copyStream(is, compressedOut);
-            String dataFileName = document.getName();
-            compressedOut.putNextEntry(new ZipEntry(dataFileName));
-            ByteArrayInputStream data = new ByteArrayInputStream(document.getContent());
-            StreamHelper.copyStream(data, compressedOut);
-            compressedOut.flush();
+            for(AccountDocument document : documents) {
+                String dataFileName = document.getName();
+                compressedOut.putNextEntry(new ZipEntry(dataFileName));
+                ByteArrayInputStream data = new ByteArrayInputStream(document.getContent());
+                StreamHelper.copyStream(data, compressedOut);
+                compressedOut.flush();
+            }
         } catch (IOException ex) {
             throw new IllegalStateException(ex);
         }

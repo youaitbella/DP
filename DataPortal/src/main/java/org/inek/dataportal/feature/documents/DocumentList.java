@@ -10,20 +10,26 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
+import org.inek.dataportal.entities.account.AccountDocument;
 import org.inek.dataportal.facades.account.AccountDocumentFacade;
+import org.inek.dataportal.facades.account.AccountFacade;
+import org.inek.dataportal.facades.admin.ConfigFacade;
 import org.inek.dataportal.facades.cooperation.CooperationRequestFacade;
 import org.inek.dataportal.facades.cooperation.PortalMessageFacade;
+import org.inek.dataportal.helper.TransferFileCreator;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.structures.DocInfo;
 
 @Named
 @ViewScoped
 public class DocumentList implements Serializable{
-
+    
+    @Inject private AccountFacade _accFacade;
     @Inject private AccountDocumentFacade _accountDocFacade;
     @Inject private SessionController _sessionController;
     @Inject private PortalMessageFacade _messageFacade;
     @Inject private CooperationRequestFacade _cooperationRequestFacade;
+    @Inject private ConfigFacade _configFacade;
 
     private String _filter = "";
 
@@ -128,6 +134,94 @@ public class DocumentList implements Serializable{
                     + (int) _cooperationRequestFacade.getOpenCooperationRequestCount(_sessionController.getAccountId());
         }
         return "" + count;
+    }
+    
+    public boolean hasSelected() {
+        return _documents.stream().anyMatch((_doc) -> (_doc.isSelected()));
+    }
+    
+    public void sendDocumentsToProcess() {
+        List<AccountIk> senders = new ArrayList<>();
+        List<DocInfo> _processDocs = new ArrayList<>();
+        createSenderList(_processDocs, senders);
+        createTransferFiles(senders, _processDocs);
+        _documents = _accountDocFacade.getDocInfos(_sessionController.getAccountId());
+    }
+
+    private void createSenderList(List<DocInfo> _processDocs, List<AccountIk> senders) {
+        for(DocInfo info : _documents) {
+            if(!info.isSelected()) {
+                continue;
+            }
+            _processDocs.add(info);
+            AccountIk accIk = new AccountIk(info.getAgentId(), info.getSenderIk());
+            boolean contains = false;
+            for(AccountIk ai : senders) {
+                if(ai.getIk() == info.getSenderIk()&& info.getAgentId() == ai.getAccountId()) {
+                    contains = true;
+                    break;
+                }
+            }
+            if(contains)
+                continue;
+            senders.add(accIk);
+        }
+    }
+
+    private void createTransferFiles(List<AccountIk> senders, List<DocInfo> _processDocs) {
+        for(AccountIk accIk : senders) {
+            List<AccountDocument> docs = new ArrayList<>();
+            String email = _accFacade.find(accIk.getAccountId()).getEmail();
+            String subject = "InEK Datenportal - Dokument(e) für IK " + accIk.getIk() + " bearbeitet";
+            if(accIk.getIk() < 1) {
+                subject = "InEK Datenportal - Dokument(e) bearbeitet";
+            }
+            for(DocInfo info : _processDocs) {
+                if(info.getAgentId() != accIk.getAccountId() || info.getSenderIk() != accIk.getIk()) {
+                    continue;
+                }
+                AccountDocument doc = _accountDocFacade.find(info.getId());
+                docs.add(doc);
+            }
+            try {
+                TransferFileCreator.createInekDocumentFiles(_configFacade, docs, email, subject);
+                markDocsAsProcessed(docs);
+            }
+            catch(Exception ex) { }
+        }
+    }
+    
+    private void markDocsAsProcessed(List<AccountDocument> docs) {
+        for(AccountDocument doc : docs) {
+            doc.setSendToProcess(true);
+            _accountDocFacade.merge(doc);
+        }
+    }
+    
+    private class AccountIk {
+        private Integer _accountId;
+        private Integer _ik;
+        
+        public AccountIk(Integer accountId, Integer ik) {
+            _accountId = accountId;
+            _ik = ik;
+        }
+
+        public Integer getAccountId() {
+            return _accountId;
+        }
+
+        public void setAccountId(Integer accountId) {
+            this._accountId = accountId;
+        }
+
+        public Integer getIk() {
+            return _ik;
+        }
+
+        public void setIk(Integer ik) {
+            this._ik = ik;
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="Property SortCriteria + state">    

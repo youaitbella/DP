@@ -23,6 +23,7 @@ public class DocInfo implements Serializable{
     private final String _agentName;
     private final String _tag;
     private final boolean _sendToProcess;
+    private boolean _isSelected;
 
     @SuppressWarnings("ParameterNumber")
     public DocInfo(
@@ -37,7 +38,8 @@ public class DocInfo implements Serializable{
             int senderIk, 
             String agentName, 
             String tag,
-            boolean sendToProcess) {
+            boolean sendToProcess
+    ) {
         _id = id;
         _name = name;
         _domain = domain;
@@ -109,5 +111,13 @@ public class DocInfo implements Serializable{
 
     public boolean isSendToProcess() {
         return _sendToProcess;
+    }
+
+    public boolean isSelected() {
+        return _isSelected;
+    }
+
+    public void setSelected(boolean isSelected) {
+        this._isSelected = isSelected;
     }
 }
