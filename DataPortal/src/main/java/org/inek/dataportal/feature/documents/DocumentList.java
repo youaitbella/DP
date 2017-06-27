@@ -202,7 +202,7 @@ public class DocumentList implements Serializable{
         private Integer _accountId;
         private Integer _ik;
         
-        public AccountIk(Integer accountId, Integer ik) {
+        AccountIk(Integer accountId, Integer ik) {
             _accountId = accountId;
             _ik = ik;
         }
