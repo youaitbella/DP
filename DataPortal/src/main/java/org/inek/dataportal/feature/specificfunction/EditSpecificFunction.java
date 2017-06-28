@@ -6,8 +6,12 @@
 package org.inek.dataportal.feature.specificfunction;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -271,16 +275,14 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
     }
 
     public boolean isTakeEnabled() {
-        return _cooperationTools != null 
-                && _request != null 
+        return _cooperationTools != null
+                && _request != null
                 && _cooperationTools.isTakeEnabled(Feature.SPECIFIC_FUNCTION, _request.getStatus(), _request.getAccountId());
     }
 
     /**
-     * This function seals a statement od participance if possible. Sealing is
-     * possible, if all mandatory fields are fulfilled. After sealing, the
-     * statement od participance can not be edited anymore and is available for
-     * the InEK.
+     * This function seals a statement od participance if possible. Sealing is possible, if all mandatory fields are
+     * fulfilled. After sealing, the statement od participance can not be edited anymore and is available for the InEK.
      *
      * @return
      */
@@ -291,7 +293,10 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
         removeEmptyCenters();
         _request.setStatus(WorkflowStatus.Provided);
         setModifiedInfo();
-        _request.setSealed(Calendar.getInstance().getTime());
+        if (_request.getSealed().equals(Date.from(LocalDate.of(2000, Month.JANUARY, 1).atStartOfDay().toInstant(ZoneOffset.UTC)))) {
+            // seat seal date for the first time sealing only
+            _request.setSealed(Calendar.getInstance().getTime());
+        }
         _request = _specificFunctionFacade.saveSpecificFunctionRequest(_request);
 
         if (isValidId(_request.getId())) {
