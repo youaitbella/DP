@@ -86,7 +86,9 @@ public class DocumentViewer implements Serializable {
     }
 
     public List<SelectItem> getSupervisingAgents() {
-        return _accountDocFacade.getSupervisingAccounts(_maxAge);
+        List<SelectItem> agents = _accountDocFacade.getSupervisingAccounts(_maxAge);
+        agents.add(new SelectItem(0, "Prozess"));
+        return agents;
     }
 
     private void ensureDocuments() {
@@ -94,7 +96,7 @@ public class DocumentViewer implements Serializable {
             return;
         }
         List<Integer> agentIds = new ArrayList<>();
-        if (_agentId > 0) {
+        if (_agentId >= 0) {
             agentIds.add(_agentId);
         } else {
             agentIds = _accountDocFacade.getAgentIds();

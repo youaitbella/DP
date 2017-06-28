@@ -29,7 +29,7 @@ public class FeatureEditorDAO {
                 && (accFeature.getFeatureState() == FeatureState.NEW 
                 || accFeature.getFeatureState() == FeatureState.SIMPLE 
                 || accFeature.getFeatureState() == FeatureState.APPROVED);
-        if (accFeature.getFeature() == Feature.DOCUMENTS) {
+        if (accFeature.getFeature() == Feature.DOCUMENTS || accFeature.getFeature() == Feature.ADDITIONAL_COST) {
             if (_value) {
                 _hidden = false;
             } else {
