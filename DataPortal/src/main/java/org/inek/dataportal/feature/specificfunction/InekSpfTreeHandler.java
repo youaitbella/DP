@@ -53,7 +53,7 @@ public class InekSpfTreeHandler implements Serializable, TreeNodeObserver {
     }
 
     private void obtainRootNodeChildren(RootNode node, Collection<TreeNode> children) {
-        List<SpecificFunctionRequest> infos = _specificFunctionFacade.getCalcBasicsForInek(Utils.getTargetYear(Feature.SPECIFIC_FUNCTION));
+        List<SpecificFunctionRequest> infos = _specificFunctionFacade.getSpecificFunctionsForInek(Utils.getTargetYear(Feature.SPECIFIC_FUNCTION));
         node.getChildren().clear();
         for (SpecificFunctionRequest info : infos) {
             node.getChildren().add(SpecificFunctionRequestTreeNode.create(node, info, this));

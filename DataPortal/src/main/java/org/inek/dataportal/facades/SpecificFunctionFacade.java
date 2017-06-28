@@ -132,8 +132,8 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
         return result;
     }
     
-    public List<SpecificFunctionRequest> getCalcBasicsForInek(int dataYear) {
-        String jpql = "select spf from SpecificFunctionRequest spf where spf._statusId = 10 and spf._dataYear = :dataYear";
+    public List<SpecificFunctionRequest> getSpecificFunctionsForInek(int dataYear) {
+        String jpql = "select spf from SpecificFunctionRequest spf where spf._statusId in (3, 10) and spf._dataYear = :dataYear";
         TypedQuery<SpecificFunctionRequest> query = getEntityManager().createQuery(jpql, SpecificFunctionRequest.class);
         query.setParameter("dataYear", dataYear);
         List<SpecificFunctionRequest> result = query.getResultList();
