@@ -179,11 +179,11 @@ public class KGLListRadiologyLaboratory implements Serializable, BaseIdValue {
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="service">
-    @JsonIgnore
     @Column(name = "rlService")
     @Documentation (name = "Leistungsdokumentation", rank = 70)
     private int _service;
-
+    
+    @JsonIgnore
     public int getService() {
         return _service;
     }
