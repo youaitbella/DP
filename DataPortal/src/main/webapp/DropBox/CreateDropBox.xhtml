@@ -5,6 +5,9 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components"
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
 
     <ui:define name="content">
@@ -14,45 +17,60 @@
             </h1>
 
             <div class="edit">
-                <p>
-                    <h:outputLabel styleClass="label" for="description" value="#{msg.lblDescription}:"/>
-                    <h:message id="msgDescription" for="description" styleClass="errorMessage"/>
+                <ui:remove>
+                    <hr/>
+                    <inek:MultiIk value="#{dropBoxCreator.ik}" 
+                                  ikList="#{dropBoxCreator.senderIks}"
+                                  listener="#{dropBoxCreator.ikChanged}" 
+                                  label="Absender-IK"
+                                  styleClassLabel="label15"
+                                  readonly="false" 
+                                  isFixed="false">
+                    </inek:MultiIk>
                     <br/>
-                    <h:inputText id="description" 
-                                 value="#{dropBoxCreator.description}" 
-                                 required="true" 
-                                 maxlength="250"
-                                 requiredMessage="#{msg.msgValueNeeded}" 
-                                 styleClass="input">
-                        <f:ajax event="blur" render=":logout:remaining"/>
-                    </h:inputText>
+                </ui:remove>
+                
+                <p>
+                <h:outputLabel styleClass="label" for="description" value="#{msg.lblDescription}:"/>
+                <h:message id="msgDescription" for="description" styleClass="errorMessage"/>
+                <br/>
+                <h:inputText id="description" 
+                             value="#{dropBoxCreator.description}" 
+                             required="true" 
+                             maxlength="250"
+                             requiredMessage="#{msg.msgValueNeeded}" 
+                             styleClass="input">
+                    <f:ajax event="blur" render=":logout:remaining"/>
+                </h:inputText>
                 </p>
                 <p>
-                    <h:outputLabel styleClass="label" for="dropboxType" value="#{msg.lblType}:"/>
-                    <h:message id="msgDropboxType" for="dropboxType" styleClass="errorMessage"/>
-                    <br/>
-                    <h:selectOneMenu styleClass="input" id="dropboxType" value="#{dropBoxCreator.dropboxTypeId}" required="true" requiredMessage="#{msg.lblChooseEntry}">
-                        <f:selectItems value="#{sessionTools.dropBoxTypeItems}"/>
-                        <f:ajax event="change" render="@form :logout:remaining"/>
-                    </h:selectOneMenu>
+                <h:outputLabel styleClass="label" for="dropboxType" value="#{msg.lblType}:"/>
+                <h:message id="msgDropboxType" for="dropboxType" styleClass="errorMessage"/>
+                <br/>
+                <h:selectOneMenu styleClass="input" id="dropboxType" value="#{dropBoxCreator.dropboxTypeId}" required="true" requiredMessage="#{msg.lblChooseEntry}">
+                    <f:selectItems value="#{sessionTools.dropBoxTypeItems}"/>
+                    <f:ajax event="change" render="@form :logout:remaining"/>
+                </h:selectOneMenu>
                 </p>
 
                 <h:panelGroup rendered="#{dropBoxCreator.ikRequired}" styleClass="hintWide" id="DatenDienst">
                     Für die Krankenhaus Datenlieferung können Sie auch den <a href="http://g-drg.de/cms/Datenlieferung_gem._21_KHEntgG/InEK_DatenDienst" target="blank">InEK DatenDienst</a> zum Prüfen, Verschlüsseln und Senden nutzen.
+                    Zu einer Krankenhaus Datenlieferung gehören nicht nur die Daten gemäß $ 21 KHEntgG, sondern beispielsweise auch Erläuterungen zu Protokollen sowie Antworten auf Nachfragen, jeweils nebst allen zugehörigen Dateien.
+                    Es handelt sich um solche Dateien mit Krankenhausbezug, für welche das InEK Datenportal kein spezielles Formular zur Verfügung stellt.
                 </h:panelGroup>
-                
+
                 <h:panelGroup rendered="#{!dropBoxCreator.ikRequired}" styleClass="warningWide">
                     Die DropBox für Individuelle Datenlieferungen wird nicht automatisch verarbeitet. Bitte nutzen Sie diese nur nach Abpsrache mit dem InEK und vegeben Sie eine aussagekräftige Beschreibung, möglichst inkl. Namen Ihres Ansprechpartners im InEK.
                 </h:panelGroup>
-                
+
                 <p>
-                    <h:outputLabel styleClass="label" id="lblIk" for="ik" value="#{msg.lblIK}:"/>
-                    <h:message id="msgIk" for="ik" styleClass="errorMessage"/>
-                    <br/>
-                    <h:selectOneMenu styleClass="input" id="ik" value="#{dropBoxCreator.ik}" required="#{dropBoxCreator.ikRequired}" requiredMessage="#{msg.lblChooseEntry}" validator="#{sessionTools.checkIk}">
-                        <f:selectItems value="#{dropBoxCreator.ikItems}"/>
-                        <f:ajax event="change" render="@this :logout:remaining msgIk"/>
-                    </h:selectOneMenu>
+                <h:outputLabel styleClass="label" id="lblIk" for="ik" value="#{msg.lblIK}:"/>
+                <h:message id="msgIk" for="ik" styleClass="errorMessage"/>
+                <br/>
+                <h:selectOneMenu styleClass="input" id="ik" value="#{dropBoxCreator.ik}" required="#{dropBoxCreator.ikRequired}" requiredMessage="#{msg.lblChooseEntry}" validator="#{sessionTools.checkIk}">
+                    <f:selectItems value="#{dropBoxCreator.ikItems}"/>
+                    <f:ajax event="change" render="@this :logout:remaining msgIk"/>
+                </h:selectOneMenu>
                 </p>
                 <div class="toolBar">
                     <h:commandLink styleClass="bigButton" action="#{dropBoxCreator.create}" value="#{msg.btnCreate}" immediate="false"/>
