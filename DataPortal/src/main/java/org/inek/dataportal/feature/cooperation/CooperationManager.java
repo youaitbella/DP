@@ -17,6 +17,7 @@ import org.inek.dataportal.facades.cooperation.CooperationFacade;
 import org.inek.dataportal.facades.cooperation.CooperationRequestFacade;
 import org.inek.dataportal.facades.cooperation.PortalMessageFacade;
 import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.helper.faceletvalidators.EmailValidator;
 import org.inek.dataportal.mail.Mailer;
 
 /**
@@ -65,30 +66,42 @@ public class CooperationManager {
         Account requested = _accountFacade.findByMailOrUser(_userOrMail);
         Account AccountNotExists = null;
         if (requested != AccountNotExists) {
-            Account myAccount = _sessionController.getAccount();
-            if (!_cooperationFacade.existsCooperation(myAccount.getId(), requested.getId())) {
-                _cooperationRequestFacade.createCooperationRequest(myAccount.getId(), requested.getId());
-            }
-            AccountFeature coop = new AccountFeature(Feature.COOPERATION);
-            if (!requested.getFeatures().contains(coop)) {
-                // Check if requested user has coop enabled. If not send an e-mail to the user.
-                MailTemplate mail = _mtFacade.findByName("CooperationRequest");
-                String salutation = "Sehr ";
-                if (requested.getGender() == Genders.Male.id()) {
-                    salutation += "geehrter Herr ";
-                } else {
-                    salutation += "geehrte Frau ";
-                }
-                salutation += requested.getLastName();
-                mail.setBody(mail.getBody().replace("{salutation}", salutation));
+            sendInvite(requested);
+        } else {
+            if(EmailValidator.isValidEmail(_userOrMail)) {
+                Account myAccount = _sessionController.getAccount();
+                MailTemplate mail = _mtFacade.findByName("CooperationRequestRegister");
                 mail.setBody(mail.getBody().replace("{senderName}", myAccount.getFirstName() + " " + myAccount.getLastName()));
                 mail.setBody(mail.getBody().replace("{senderMail}", myAccount.getEmail()));
-                _mailer.sendMail(requested.getEmail(), mail.getSubject(), mail.getBody());
+                _mailer.sendMail(_userOrMail, mail.getSubject(), mail.getBody());
             }
         }
         _sessionController.alertClient(Utils.getMessage("msgInvitation"));
         _userOrMail = "";
         return "";
+    }
+
+    private void sendInvite(Account requested) {
+        Account myAccount = _sessionController.getAccount();
+        if (!_cooperationFacade.existsCooperation(myAccount.getId(), requested.getId())) {
+            _cooperationRequestFacade.createCooperationRequest(myAccount.getId(), requested.getId());
+        }
+        AccountFeature coop = new AccountFeature(Feature.COOPERATION);
+        if (!requested.getFeatures().contains(coop)) {
+            // Check if requested user has coop enabled. If not send an e-mail to the user.
+            MailTemplate mail = _mtFacade.findByName("CooperationRequest");
+            String salutation = "Sehr ";
+            if (requested.getGender() == Genders.Male.id()) {
+                salutation += "geehrter Herr ";
+            } else {
+                salutation += "geehrte Frau ";
+            }
+            salutation += requested.getLastName();
+            mail.setBody(mail.getBody().replace("{salutation}", salutation));
+            mail.setBody(mail.getBody().replace("{senderName}", myAccount.getFirstName() + " " + myAccount.getLastName()));
+            mail.setBody(mail.getBody().replace("{senderMail}", myAccount.getEmail()));
+            _mailer.sendMail(requested.getEmail(), mail.getSubject(), mail.getBody());
+        }
     }
 
     public String managePartner(int partnerId) {
