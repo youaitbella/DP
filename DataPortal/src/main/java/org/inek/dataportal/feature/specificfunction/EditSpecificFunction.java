@@ -258,7 +258,7 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
         _specificFunctionFacade.saveSpecificFunctionRequest(_request);
 
         // create copy to edit (persist detached object with default Ids)
-        _request.setStatus(WorkflowStatus.New);
+        _request.setStatus(WorkflowStatus.CorrectionRequested);
         _request.setId(-1);
         for (RequestProjectedCenter requestProjectedCenter : _request.getRequestProjectedCenters()) {
             requestProjectedCenter.setId(-1);
