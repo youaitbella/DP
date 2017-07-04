@@ -13,8 +13,10 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import org.inek.dataportal.controller.SessionController;
+import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.account.AccountFacade;
+import org.inek.dataportal.facades.cooperation.CooperationRequestEmailFacade;
 
 /**
  *
@@ -26,6 +28,7 @@ public class Activate implements Serializable {
 
     @Inject private SessionController _sessionController;
     @Inject private AccountFacade _accountFacade;
+    @Inject private CooperationRequestEmailFacade _coopRequestEmailFacade;
 
     protected static final Logger LOGGER = Logger.getLogger("Activate");
 
@@ -79,6 +82,8 @@ public class Activate implements Serializable {
             LOGGER.log(Level.WARNING, "Activation failed: {0}", _emailOrUser);
             return null;
         }
+        Account userAcc = _accountFacade.findByMailOrUser(_emailOrUser);
+        _coopRequestEmailFacade.createRealCooperationRequests(userAcc.getEmail());
         if (!_sessionController.loginAndSetTopics(_emailOrUser, _password)) {
             LOGGER.log(Level.WARNING, "Login and set topics failed: {0}", _emailOrUser);
             return null;

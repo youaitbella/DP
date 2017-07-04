@@ -12,6 +12,7 @@ import org.inek.dataportal.enums.Genders;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.cooperation.CooperationFacade;
+import org.inek.dataportal.facades.cooperation.CooperationRequestEmailFacade;
 import org.inek.dataportal.facades.cooperation.CooperationRequestFacade;
 import org.inek.dataportal.facades.cooperation.PortalMessageFacade;
 import org.inek.dataportal.feature.admin.entitiy.MailTemplate;
@@ -29,6 +30,7 @@ import org.inek.dataportal.mail.Mailer;
 public class CooperationManager {
 
     @Inject private CooperationRequestFacade _cooperationRequestFacade;
+    @Inject private CooperationRequestEmailFacade _cooperationRequestEmailFacade;
     @Inject private CooperationFacade _cooperationFacade;
     @Inject private AccountFacade _accountFacade;
     @Inject private SessionController _sessionController;
@@ -68,17 +70,22 @@ public class CooperationManager {
         if (requested != AccountNotExists) {
             sendInvite(requested);
         } else {
-            if(EmailValidator.isValidEmail(_userOrMail)) {
-                Account myAccount = _sessionController.getAccount();
-                MailTemplate mail = _mtFacade.findByName("CooperationRequestRegister");
-                mail.setBody(mail.getBody().replace("{senderName}", myAccount.getFirstName() + " " + myAccount.getLastName()));
-                mail.setBody(mail.getBody().replace("{senderMail}", myAccount.getEmail()));
-                _mailer.sendMail(_userOrMail, mail.getSubject(), mail.getBody());
-            }
+            sendInviteRegister();
         }
         _sessionController.alertClient(Utils.getMessage("msgInvitation"));
         _userOrMail = "";
         return "";
+    }
+
+    private void sendInviteRegister() {
+        if(EmailValidator.isValidEmail(_userOrMail)) {
+            Account myAccount = _sessionController.getAccount();
+            _cooperationRequestEmailFacade.createCooperation(myAccount.getId(), _userOrMail);
+            MailTemplate mail = _mtFacade.findByName("CooperationRequestRegister");
+            mail.setBody(mail.getBody().replace("{senderName}", myAccount.getFirstName() + " " + myAccount.getLastName()));
+            mail.setBody(mail.getBody().replace("{senderMail}", myAccount.getEmail()));
+            _mailer.sendMail(_userOrMail, mail.getSubject(), mail.getBody());
+        }
     }
 
     private void sendInvite(Account requested) {
