@@ -752,7 +752,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }
 
         // do not set current account: _calcBasics.setAccountId(_sessionController.getAccountId());
-
         _calcBasics.setStatus(WorkflowStatus.CorrectionRequested);
         try {
             _calcBasics = _calcDrgFacade.saveCalcBasicsDrg(_calcBasics);

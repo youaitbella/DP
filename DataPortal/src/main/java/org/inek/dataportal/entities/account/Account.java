@@ -143,6 +143,21 @@ public class Account implements Serializable, Person {
     @OrderBy("_ik")
     private List<AccountAdditionalIK> _additionalIKs;
 
+    // <editor-fold defaultstate="collapsed" desc="Property AdminIks">
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "aiaAccountId", referencedColumnName = "acId")
+    @OrderBy("_ik")
+    private List<AccountIkAdmin> _adminIks;
+
+    public List<AccountIkAdmin> getAdminIks() {
+        return _adminIks;
+    }
+
+    public void setAdminIks(List<AccountIkAdmin> adminIks) {
+        this._adminIks = adminIks;
+    }
+    // </editor-fold>
+
     // <editor-fold defaultstate="collapsed" desc="Property InekRoles">
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(

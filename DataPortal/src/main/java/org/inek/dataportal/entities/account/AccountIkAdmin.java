@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.feature.admin.entitiy;
+package org.inek.dataportal.entities.account;
 
 import java.io.Serializable;
 import javax.persistence.*;
@@ -33,7 +33,7 @@ public class AccountIkAdmin implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property InekRoleId">
+    // <editor-fold defaultstate="collapsed" desc="Property Ik">
     @Id
     @Column(name = "aiaIk")
     private int _ik = -1;
