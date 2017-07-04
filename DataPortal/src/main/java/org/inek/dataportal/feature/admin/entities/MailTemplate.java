@@ -1,5 +1,5 @@
 
-package org.inek.dataportal.entities.admin;
+package org.inek.dataportal.feature.admin.entities;
 
 import java.io.Serializable;
 import javax.persistence.Column;

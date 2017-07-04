@@ -33,8 +33,8 @@ import javax.persistence.Temporal;
 import javax.persistence.Transient;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import org.inek.dataportal.entities.admin.InekRole;
 import org.inek.dataportal.entities.certification.RemunerationSystem;
+import org.inek.dataportal.feature.admin.entities.InekRole;
 
 /**
  *

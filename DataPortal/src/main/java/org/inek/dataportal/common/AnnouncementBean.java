@@ -4,9 +4,9 @@ import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.inek.dataportal.entities.admin.Announcement;
 import org.inek.dataportal.enums.ConfigKey;
-import org.inek.dataportal.facades.admin.AnnouncementFacade;
+import org.inek.dataportal.feature.admin.entities.Announcement;
+import org.inek.dataportal.feature.admin.facades.AnnouncementFacade;
 
 /**
  *

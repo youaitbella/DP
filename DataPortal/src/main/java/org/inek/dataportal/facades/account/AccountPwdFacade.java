@@ -6,11 +6,11 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import org.inek.dataportal.entities.account.AccountPwd;
 import org.inek.dataportal.entities.account.WeakPassword;
-import org.inek.dataportal.entities.admin.Log;
+import org.inek.dataportal.feature.admin.entities.Log;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.facades.AbstractDataAccess;
-import org.inek.dataportal.facades.admin.ConfigFacade;
-import org.inek.dataportal.facades.admin.LogFacade;
+import org.inek.dataportal.feature.admin.facades.ConfigFacade;
+import org.inek.dataportal.feature.admin.facades.LogFacade;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.utils.Crypt;
 

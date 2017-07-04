@@ -1,11 +1,11 @@
-package org.inek.dataportal.facades.admin;
+package org.inek.dataportal.feature.admin.facades;
 
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import org.inek.dataportal.entities.admin.Announcement;
+import org.inek.dataportal.feature.admin.entities.Announcement;
 import org.inek.dataportal.facades.AbstractFacade;
 
 @Stateless

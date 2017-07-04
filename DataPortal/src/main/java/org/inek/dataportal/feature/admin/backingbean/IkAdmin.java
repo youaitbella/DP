@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.feature.admin;
+package org.inek.dataportal.feature.admin.backingbean;
 
 import java.io.Serializable;
 import java.util.List;
@@ -28,7 +28,7 @@ import org.inek.dataportal.helper.scope.FeatureScoped;
  */
 @Named
 @FeatureScoped(name = "AdminTask")
-public class AdminIkSupervisor implements Serializable{
+public class IkAdmin implements Serializable{
 
     @Inject private CooperationRightFacade _cooperationRightFacade;
     @Inject private SessionController _sessionController;

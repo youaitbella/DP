@@ -7,10 +7,10 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.inek.dataportal.entities.admin.MailTemplate;
+import org.inek.dataportal.feature.admin.entities.MailTemplate;
 import org.inek.dataportal.enums.CertMailType;
 import org.inek.dataportal.enums.Feature;
-import org.inek.dataportal.facades.admin.MailTemplateFacade;
+import org.inek.dataportal.feature.admin.facades.MailTemplateFacade;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
 

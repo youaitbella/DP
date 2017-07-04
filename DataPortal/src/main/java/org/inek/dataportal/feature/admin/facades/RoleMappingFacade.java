@@ -1,7 +1,7 @@
-package org.inek.dataportal.facades.admin;
+package org.inek.dataportal.feature.admin.facades;
 
 import javax.ejb.Stateless;
-import org.inek.dataportal.entities.admin.RoleMapping;
+import org.inek.dataportal.feature.admin.entities.RoleMapping;
 import org.inek.dataportal.facades.AbstractFacade;
 
 @Stateless

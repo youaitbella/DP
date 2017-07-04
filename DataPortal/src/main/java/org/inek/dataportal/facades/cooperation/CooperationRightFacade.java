@@ -10,7 +10,7 @@ import org.inek.dataportal.entities.cooperation.CooperationRight;
 import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.facades.AbstractFacade;
-import org.inek.dataportal.feature.admin.IkSupervisorInfo;
+import org.inek.dataportal.feature.admin.backingbean.IkSupervisorInfo;
 
 @Stateless
 public class CooperationRightFacade extends AbstractFacade<CooperationRight> {

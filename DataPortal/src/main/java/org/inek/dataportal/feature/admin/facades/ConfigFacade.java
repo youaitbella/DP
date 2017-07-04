@@ -1,8 +1,8 @@
-package org.inek.dataportal.facades.admin;
+package org.inek.dataportal.feature.admin.facades;
 
 import javax.ejb.Schedule;
 import javax.ejb.Stateless;
-import org.inek.dataportal.entities.admin.Config;
+import org.inek.dataportal.feature.admin.entities.Config;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.facades.AbstractFacade;

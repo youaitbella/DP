@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.feature.admin;
+package org.inek.dataportal.feature.admin.backingbean;
 
 import org.inek.dataportal.entities.account.Account;
 

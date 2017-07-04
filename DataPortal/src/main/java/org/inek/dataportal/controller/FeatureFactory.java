@@ -11,7 +11,7 @@ import static org.inek.dataportal.enums.Feature.NUB;
 import static org.inek.dataportal.enums.Feature.PEPP_PROPOSAL;
 import static org.inek.dataportal.enums.Feature.USER_MAINTENANCE;
 import org.inek.dataportal.feature.additionalcost.AdditionalCostController;
-import org.inek.dataportal.feature.admin.AdminController;
+import org.inek.dataportal.feature.admin.controller.AdminController;
 import org.inek.dataportal.feature.agency.AgencyController;
 import org.inek.dataportal.feature.calculationhospital.CalcHospitalController;
 import org.inek.dataportal.feature.cooperation.CooperationController;

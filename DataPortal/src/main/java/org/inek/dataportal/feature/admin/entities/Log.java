@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates and open the template in
  * the editor.
  */
-package org.inek.dataportal.entities.admin;
+package org.inek.dataportal.feature.admin.entities;
 
 import java.io.Serializable;
 import java.util.Calendar;

@@ -32,10 +32,10 @@ import org.inek.dataportal.entities.account.AccountChangeMail;
 import org.inek.dataportal.entities.account.AccountFeatureRequest;
 import org.inek.dataportal.entities.account.AccountRequest;
 import org.inek.dataportal.entities.account.Person;
-import org.inek.dataportal.entities.admin.MailTemplate;
 import org.inek.dataportal.enums.ConfigKey;
-import org.inek.dataportal.facades.admin.ConfigFacade;
-import org.inek.dataportal.facades.admin.MailTemplateFacade;
+import org.inek.dataportal.feature.admin.entities.MailTemplate;
+import org.inek.dataportal.feature.admin.facades.ConfigFacade;
+import org.inek.dataportal.feature.admin.facades.MailTemplateFacade;
 import org.inek.dataportal.helper.Utils;
 
 /**

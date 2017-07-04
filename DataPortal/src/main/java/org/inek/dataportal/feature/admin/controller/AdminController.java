@@ -1,4 +1,4 @@
-package org.inek.dataportal.feature.admin;
+package org.inek.dataportal.feature.admin.controller;
 
 import org.inek.dataportal.controller.AbstractFeatureController;
 import org.inek.dataportal.controller.SessionController;

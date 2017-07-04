@@ -11,13 +11,13 @@ import javax.ejb.Startup;
 import javax.inject.Inject;
 import org.inek.dataportal.entities.nub.NubRequest;
 import org.inek.dataportal.entities.account.Account;
-import org.inek.dataportal.entities.admin.MailTemplate;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.NubRequestFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
-import org.inek.dataportal.facades.admin.ConfigFacade;
+import org.inek.dataportal.feature.admin.entities.MailTemplate;
+import org.inek.dataportal.feature.admin.facades.ConfigFacade;
 import org.inek.dataportal.mail.Mailer;
 
 /**

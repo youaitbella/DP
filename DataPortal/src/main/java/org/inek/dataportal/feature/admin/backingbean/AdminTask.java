@@ -1,4 +1,4 @@
-package org.inek.dataportal.feature.admin;
+package org.inek.dataportal.feature.admin.backingbean;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -13,16 +13,16 @@ import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
-import org.inek.dataportal.entities.admin.InekRole;
-import org.inek.dataportal.entities.admin.MailTemplate;
-import org.inek.dataportal.entities.admin.RoleMapping;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.account.AccountFacade;
-import org.inek.dataportal.facades.admin.InekRoleFacade;
-import org.inek.dataportal.facades.admin.MailTemplateFacade;
-import org.inek.dataportal.facades.admin.RoleMappingFacade;
 import org.inek.dataportal.feature.AbstractEditController;
+import org.inek.dataportal.feature.admin.entities.InekRole;
+import org.inek.dataportal.feature.admin.entities.MailTemplate;
+import org.inek.dataportal.feature.admin.entities.RoleMapping;
+import org.inek.dataportal.feature.admin.facades.InekRoleFacade;
+import org.inek.dataportal.feature.admin.facades.MailTemplateFacade;
+import org.inek.dataportal.feature.admin.facades.RoleMappingFacade;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
 
