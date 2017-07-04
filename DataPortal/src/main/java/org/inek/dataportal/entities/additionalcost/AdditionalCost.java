@@ -12,6 +12,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import org.inek.dataportal.enums.WorkflowStatus;
 
 /**
@@ -59,7 +61,7 @@ public class AdditionalCost implements Serializable {
         this._ik = acIk;
     }
 
-    @Column(name = "acHoslital")
+    @Column(name = "acHospital")
     private String _hospital;
 
     public String getHospital() {
@@ -169,7 +171,7 @@ public class AdditionalCost implements Serializable {
         this._gender = gender;
     }
 
-    @Column(name = "acPerinatalcentreLevel")//
+    @Column(name = "acPerinatalcentreLevel")
     private int _perinatalcentreLevel;
 
     public int getPerinatalcentreLevel() {
@@ -179,18 +181,29 @@ public class AdditionalCost implements Serializable {
     public void setPerinatalcentreLevel(int perinatalcentreLevel) {
         this._perinatalcentreLevel = perinatalcentreLevel;
     }
+    
+    @Column(name = "acPeriodTo")
+    private int periodTo;
 
-    @Column(name = "acBudgetYear")//String od. int
-    private int _budgetYear;
-
-    public int getBudgetYear() {
-        return _budgetYear;
+    public int getPeriodTo() {
+        return periodTo;
     }
 
-    public void setBudgetYear(int budgetYear) {
-        this._budgetYear = budgetYear;
+    public void setPeriodTo(int periodTo) {
+        this.periodTo = periodTo;
+    }
+    
+    @Column(name = "acPeriodFrom")
+    private int periodFrom;
+
+    public int getPeriodFrom() {
+        return periodFrom;
     }
 
+    public void setPeriodFrom(int periodFrom) {
+        this.periodFrom = periodFrom;
+    }
+    
     @Column(name = "acEffectivCaseMix")
     private double _effectivCaseMix;
 
@@ -235,20 +248,66 @@ public class AdditionalCost implements Serializable {
         this._extraChargeC = extraChargeC;
     }
 
-    @Column(name = "acAgreedAmountExtraCharge")
-    private double _agreedAmountExtraCharge;
+    @Column(name = "acAgreedHospitalIndividualExtraCharge")
+    private double _agreedHospitalIndividualExtraCharge;
 
-    public double getAgreedAmountExtraCharge() {
-        return _agreedAmountExtraCharge;
+    public double getAgreedHospitalIndividualExtraCharge() {
+        return _agreedHospitalIndividualExtraCharge;
     }
 
-    public void setAgreedAmountExtraCharge(double agreedAmountExtraCharge) {
-        this._agreedAmountExtraCharge = agreedAmountExtraCharge;
+    public void setAgreedHospitalIndividualExtraCharge(double _agreedHospitalIndividualExtraCharge) {
+        this._agreedHospitalIndividualExtraCharge = _agreedHospitalIndividualExtraCharge;
     }
 
+    @Column(name="acAgreedRepaymentAdditionalCost")
+    private double agreedRepaymentAdditionalCost;
+
+    public double getAgreedRepaymentAdditionalCost() {
+        return agreedRepaymentAdditionalCost;
+    }
+
+    public void setAgreedRepaymentAdditionalCost(double agreedRepaymentAdditionalCost) {
+        this.agreedRepaymentAdditionalCost = agreedRepaymentAdditionalCost;
+    }
+    
+    @Column(name="acRepaymentPeriodFrom")
+    private int _repaymentPeriodFrom;
+
+    public int getRepaymentPeriodFrom() {
+        return _repaymentPeriodFrom;
+    }
+
+    public void setRepaymentPeriodFrom(int _repaymentPeriodFrom) {
+        this._repaymentPeriodFrom = _repaymentPeriodFrom;
+    }
+
+    @Column(name="acRepaymentPeriodTo")
+    private int _repaymentPeriodTo;
+
+    public int getRepaymentPeriodTo() {
+        return _repaymentPeriodTo;
+    }
+
+    public void setRepaymentPeriodTo(int _repaymentPeriodTo) {
+        this._repaymentPeriodTo = _repaymentPeriodTo;
+    }
+
+    @Column(name="acCalenderYear")
+    private int calenderYear;
+
+    public int getCalenderYear() {
+        return calenderYear;
+    }
+
+    public void setCalenderYear(int calenderYear) {
+        this.calenderYear = calenderYear;
+    }
+    
     @Column(name = "acHospitalIndividualExtraCharge")
     private double _hospitalIndividualExtraCharge;
 
+    @Min(0)
+    @Max(100)
     public double getHospitalIndividualExtraCharge() {
         return _hospitalIndividualExtraCharge;
     }
@@ -289,5 +348,4 @@ public class AdditionalCost implements Serializable {
     public void setComplianceRate(double complianceRate) {
         this._complianceRate = complianceRate;
     }
-
 }
