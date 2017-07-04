@@ -422,4 +422,12 @@ public class AccountFacade extends AbstractFacade<Account> {
         Query query = getEntityManager().createNativeQuery(sql, Account.class);
         return query.getResultList();
     }
+    
+    public List<Account> getIkAdminAccounts(){
+        String jpql = "select a from Account a where a._adminIks is not empty";
+        TypedQuery<Account> query = getEntityManager().createQuery(jpql, Account.class);
+        List<Account> accounts = query.getResultList();
+        return accounts;
+    }
+    
 }

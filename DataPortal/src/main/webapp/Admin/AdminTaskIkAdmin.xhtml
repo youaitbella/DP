@@ -9,12 +9,12 @@
 
     <ui:define name="editContent">
         <h:form>
-            <h:dataTable value="#{ikAdmin.ikSupervisorInfos}" var="info" width="100%" rowClasses="row1, row2">
+            <h:dataTable value="#{ikAdmin.accounts}" var="account" width="100%" rowClasses="row1, row2">
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value=""/>
                     </f:facet>
-                    <h:commandLink action="#{ikAdmin.deleteIkSupervisor(info)}" immediate="true" >
+                    <h:commandLink action="#{ikAdmin.deleteIkAdmin(account)}" immediate="true" >
                         <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value=""/>
                         <cb:confirmDelete/>
                     </h:commandLink>
@@ -22,45 +22,32 @@
 
                 <h:column>
                     <f:facet name="header">
-                        <h:outputText value="#{msg.lblFunction}"/>
-                    </f:facet>
-                    <h:outputText value="#{info.feature}"/>
-                </h:column>
-
-                <h:column>
-                    <f:facet name="header">
                         <h:outputText value="#{msg.lblIkShort}"/>
                     </f:facet>
-                    <h:outputText value="#{info.ik}"/>
+                    <h:outputText value="#{account.ik}"/>
                 </h:column>
 
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="#{msg.lblName}"/>
                     </f:facet>
-                    <h:outputText value="#{info.account.firstName} #{info.account.lastName}"/>
+                    <h:outputText value="#{account.firstName} #{account.lastName}"/>
                 </h:column>
 
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="#{msg.lblEMail}"/>
                     </f:facet>
-                    <h:outputText value="#{info.account.email}"/>
-                </h:column>
-
-                <h:column id="colCooperativeRight">
-                    <f:facet name="header">
-                        <h:outputText value="#{msg.lblCooperativeRight}"/>
-                    </f:facet>
-                    <h:outputText value="#{info.right}"/>
+                    <h:outputText value="#{account.email}"/>
                 </h:column>
 
             </h:dataTable>
 
             <br/>
 
-            <h4>#{msg.headNewIkSupervisor}</h4>
+            <h4>#{msg.headNewIkAdmin}</h4>
 
+            <ui:remove>
             <div class="inputPart">
                 <h:outputLabel value="#{msg.lblFunction}" styleClass="label20"/>
                 <h:selectOneMenu value="#{ikAdmin.feature}" styleClass="inputmedium">
@@ -115,6 +102,7 @@
             <br/>
             
             <h:commandLink styleClass="bigButton" action="#{ikAdmin.saveIkSupervisor}" value="#{msg.btnSave}" />
+            </ui:remove>
         </h:form>
 
 

@@ -12,7 +12,7 @@ import javax.persistence.*;
  * @author muellermi
  */
 @Entity
-@Table(name = "mapAccountIkAdmin", schema = "adm")
+@Table(name = "mapAccountIkAdmin", schema = "dbo")
 @IdClass(MapAccountIk.class)
 public class AccountIkAdmin implements Serializable {
 

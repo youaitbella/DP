@@ -49,6 +49,7 @@ public class AdminTask extends AbstractEditController {
         addTopic(AdminTaskTabs.tabAdminTaskRoleMapping.name(), Pages.AdminTaskRoleMapping.URL());
         addTopic(AdminTaskTabs.tabAdminTaskMailTemplate.name(), Pages.AdminTaskMailTemplate.URL());
         addTopic(AdminTaskTabs.tabAdminTaskIkSupervisor.name(), Pages.AdminTaskIkSupervisor.URL());
+        addTopic(AdminTaskTabs.tabAdminTaskIkAdmin.name(), Pages.AdminTaskIkAdmin.URL());
         addTopic(AdminTaskTabs.tabAdminTaskChangeNub.name(), Pages.AdminTaskChangeNub.URL());
 
     }
@@ -60,6 +61,7 @@ public class AdminTask extends AbstractEditController {
         tabAdminTaskRoleMapping,
         tabAdminTaskMailTemplate,
         tabAdminTaskIkSupervisor,
+        tabAdminTaskIkAdmin,
         tabAdminTaskChangeNub;
     }
 
