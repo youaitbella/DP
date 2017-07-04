@@ -52,15 +52,12 @@ import org.inek.dataportal.entities.calc.drg.KGLListMedInfra;
 import org.inek.dataportal.entities.calc.drg.KGLListObstetricsGynecology;
 import org.inek.dataportal.entities.calc.drg.KGLListRadiologyLaboratory;
 import org.inek.dataportal.entities.calc.drg.KGLListServiceProvision;
-import org.inek.dataportal.entities.calc.drg.KGLListServiceProvisionType;
 import org.inek.dataportal.entities.calc.drg.KGLListSpecialUnit;
 import org.inek.dataportal.entities.calc.drg.KGLNormalFeeContract;
 import org.inek.dataportal.entities.calc.drg.KGLNormalFreelancer;
-import org.inek.dataportal.entities.calc.drg.KGLNormalStationServiceDocumentation;
 import org.inek.dataportal.entities.calc.drg.KGLNormalStationServiceDocumentationMinutes;
 import org.inek.dataportal.entities.calc.drg.KGLPersonalAccounting;
 import org.inek.dataportal.entities.calc.drg.KGLRadiologyService;
-import org.inek.dataportal.entities.calc.drg.KglOpAn;
 import org.inek.dataportal.entities.calc.psy.KglPkmsAlternative;
 import org.inek.dataportal.entities.iface.BaseIdValue;
 import org.inek.dataportal.enums.ConfigKey;
@@ -116,7 +113,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             _calcBasics = calcBasics;
             _baseLine = _calcDrgFacade.findCalcBasicsDrg(_calcBasics.getId());
             retrievePriorData(_calcBasics);
-            populateDelimitationFactsIfAbsent(_calcBasics);
+            PreloadFunctionsCalcBasicsDrg.populateDelimitationFactsIfAbsent(_calcDrgFacade, _calcBasics, _priorCalcBasics);
         } else {
             Utils.navigate(Pages.Error.RedirectURL());
         }
@@ -139,217 +136,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     public void ikChanged() {
         retrievePriorData(_calcBasics);
-        preloadData(_calcBasics);
-    }
-
-    private void preloadData(DrgCalcBasics calcBasics) {
-        KglOpAn opAn = new KglOpAn(calcBasics.getId(), _priorCalcBasics.getOpAn());
-        calcBasics.setOpAn(opAn);
-
-        preloadLocations(calcBasics);
-        preloadCentralFocuses(calcBasics);
-        calcBasics.getDelimitationFacts().clear();
-        populateDelimitationFactsIfAbsent(calcBasics);
-        preloadPersonalAccounting(calcBasics);
-        preloadRadiologyAndLab(calcBasics);
-        preloadObstetricsGynecologies(calcBasics);
-        preloadNormalWard(calcBasics);
-        initServiceProvision(calcBasics);
-        // cardiology
-        calcBasics.setCardiology(_priorCalcBasics.isCardiology());
-        calcBasics.setCardiologyCaseCnt(_priorCalcBasics.getCardiologyCaseCnt());
-        calcBasics.setCardiologyRoomCnt(_priorCalcBasics.getCardiologyRoomCnt());
-        // endoscopy
-        calcBasics.setEndoscopy(_priorCalcBasics.isEndoscopy());
-        calcBasics.setEndoscopyCaseCnt(_priorCalcBasics.getEndoscopyCaseCnt());
-        calcBasics.setEndoscopyRoomCnt(_priorCalcBasics.getEndoscopyRoomCnt());
-        // maternity
-        calcBasics.setGynecology(_priorCalcBasics.isGynecology());
-        calcBasics.setObstetrical(_priorCalcBasics.isObstetrical());
-        preloadNeonat(calcBasics);
-        // MedicalInfrastructure
-        calcBasics.setDescMedicalInfra(_priorCalcBasics.getIblvMethodMedInfra() == 0);
-        calcBasics.setOtherMethodMedInfra(_priorCalcBasics.getOtherMethodMedInfra());
-        calcBasics.setIblvMethodMedInfra(_priorCalcBasics.getIblvMethodMedInfra());
-        preloadNormalWardServiceDocumentation(calcBasics);
-    }
-
-    private void preloadNormalWardServiceDocumentation(DrgCalcBasics calcBasics) {
-        calcBasics.getNormalStationServiceDocumentations().clear();
-        for (DrgContentText ct : getNormalWardServiceDocHeaders()) {
-            KGLNormalStationServiceDocumentation add = new KGLNormalStationServiceDocumentation();
-            add.setContentText(ct);
-            add.setBaseInformationId(calcBasics.getId());
-            for (KGLNormalStationServiceDocumentation addPrior : _priorCalcBasics.getNormalStationServiceDocumentations()) {
-                if (add.getContentTextId() == addPrior.getContentTextId()) {
-                    add.setUsed(addPrior.isUsed());
-                    break;
-                }
-            }
-            calcBasics.getNormalStationServiceDocumentations().add(add);
-        }
-        calcBasics.getCostCenterCosts().clear();
-        _priorCalcBasics
-                .getCostCenterCosts()
-                .stream()
-                .map((ccc) -> {
-                    KGLListCostCenterCost c = new KGLListCostCenterCost();
-                    c.setPrior(ccc);
-                    c.setCostCenterText(ccc.getCostCenterText());
-                    c.setCostCenter(ccc.getCostCenter());
-                    c.setPriorId(ccc.getPriorId());
-                    c.setDepartmentKey(ccc.getDepartmentKey());
-                    return c;
-                }).forEachOrdered((c) -> {
-                    calcBasics.getCostCenterCosts().add(c);
-                });
-    }
-
-    private void preloadNormalWard(DrgCalcBasics calcBasics) {
-        calcBasics.setNormalFreelancing(_priorCalcBasics.isNormalFreelancing());
-        calcBasics.getNormalFreelancers().clear();
-        for (KGLNormalFreelancer pnf : _priorCalcBasics.getNormalFreelancers()) {
-            KGLNormalFreelancer nf = new KGLNormalFreelancer(calcBasics.getId());
-            nf.setId(-1);
-            nf.setAmount(pnf.getAmount());
-            nf.setCostType1(pnf.isCostType1());
-            nf.setCostType6c(pnf.isCostType6c());
-            nf.setDivision(pnf.getDivision());
-            nf.setFullVigorCnt(pnf.getFullVigorCnt());
-            calcBasics.getNormalFreelancers().add(nf);
-        }
-        calcBasics.getNormalFeeContracts().clear();
-        for (KGLNormalFeeContract pfc : _priorCalcBasics.getNormalFeeContracts()) {
-            KGLNormalFeeContract fc = new KGLNormalFeeContract();
-            fc.setId(-1);
-            fc.setBaseInformationId(calcBasics.getId());
-            fc.setCaseCnt(pfc.getCaseCnt());
-            fc.setDivision(pfc.getDivision());
-            fc.setDepartmentKey(pfc.getDepartmentKey());
-            calcBasics.getNormalFeeContracts().add(fc);
-        }
-    }
-
-    private void preloadObstetricsGynecologies(DrgCalcBasics calcBasics) {
-        calcBasics.getObstetricsGynecologies().clear();
-        for (KGLListObstetricsGynecology pObst : _priorCalcBasics.getObstetricsGynecologies()) {
-            KGLListObstetricsGynecology obst = new KGLListObstetricsGynecology();
-            obst.setBaseInformationId(calcBasics.getId());
-            obst.setCostCenterText(pObst.getCostCenterText());
-            obst.setCostTypeId(pObst.getCostTypeId());
-            calcBasics.getObstetricsGynecologies().add(obst);
-        }
-    }
-
-    private void preloadRadiologyAndLab(DrgCalcBasics calcBasics) {
-        calcBasics.getRadiologyLaboratories().clear();
-        for (KGLListRadiologyLaboratory prl : _priorCalcBasics.getRadiologyLaboratories()) {
-            KGLListRadiologyLaboratory rl = new KGLListRadiologyLaboratory();
-            rl.setId(-1);
-            rl.setBaseInformationId(calcBasics.getId());
-            rl.setAmountPost(prl.getAmountPost());
-            rl.setAmountPre(prl.getAmountPre());
-            rl.setCostCenterId(prl.getCostCenterId());
-            rl.setCostCenterNumber(prl.getCostCenterNumber());
-            rl.setCostCenterText(prl.getCostCenterText());
-            rl.setDescription(prl.getDescription());
-            rl.setServiceDocDKG(prl.isServiceDocDKG());
-            rl.setServiceDocDif(prl.isServiceDocDif());
-            rl.setServiceDocEBM(prl.isServiceDocEBM());
-            rl.setServiceDocGOA(prl.isServiceDocGOA());
-            rl.setServiceDocHome(prl.isServiceDocHome());
-            rl.setServiceVolumePost(prl.getServiceVolumePost());
-            rl.setServiceVolumePre(prl.getServiceVolumePre());
-            calcBasics.getRadiologyLaboratories().add(rl);
-        }
-    }
-
-    private void preloadPersonalAccounting(DrgCalcBasics calcBasics) {
-        calcBasics.setPersonalAccountingDescription(_priorCalcBasics.getPersonalAccountingDescription());
-
-        ensurePersonalAccountingData(calcBasics);
-        for (KGLPersonalAccounting ppa : _priorCalcBasics.getPersonalAccountings()) {
-            for (KGLPersonalAccounting pa : calcBasics.getPersonalAccountings()) {
-                if (ppa.getCostTypeId() == pa.getCostTypeId()) {
-                    pa.setPriorCostAmount(ppa.getAmount());
-                    pa.setCostTypeId(ppa.getCostTypeId());
-                    pa.setExpertRating(ppa.isExpertRating());
-                    pa.setOther(ppa.isOther());
-                    pa.setServiceEvaluation(ppa.isServiceEvaluation());
-                    pa.setServiceStatistic(ppa.isServiceStatistic());
-                    pa.setStaffEvaluation(ppa.isStaffEvaluation());
-                    pa.setStaffRecording(ppa.isStaffRecording());
-                }
-            }
-        }
-    }
-
-    private void preloadCentralFocuses(DrgCalcBasics calcBasics) {
-        calcBasics.getCentralFocuses().clear();
-        calcBasics.setCentralFocus(_priorCalcBasics.isCentralFocus());
-        for (KGLListCentralFocus centralFocus : _priorCalcBasics.getCentralFocuses()) {
-            KGLListCentralFocus cf = new KGLListCentralFocus();
-            cf.setId(-1);
-            cf.setBaseInformationId(calcBasics.getId());
-            cf.setCaseCnt(0);
-            cf.setInfraCost(0);
-            cf.setMaterialcost(0);
-            cf.setRemunerationAmount(0);
-            cf.setRemunerationKey("");
-            cf.setPersonalCost(0);
-            cf.setText(centralFocus.getText());
-            calcBasics.getCentralFocuses().add(cf);
-        }
-    }
-
-    private void preloadLocations(DrgCalcBasics calcBasics) {
-        calcBasics.setLocationCnt(_priorCalcBasics.getLocationCnt());
-        calcBasics.setDifLocationSupply(_priorCalcBasics.isDifLocationSupply());
-        calcBasics.setSpecialUnit(_priorCalcBasics.isSpecialUnit());
-        calcBasics.getLocations().clear();
-        for (KGLListLocation location : _priorCalcBasics.getLocations()) {
-            KGLListLocation loc = new KGLListLocation();
-            loc.setId(-1);
-            loc.setBaseInformationId(calcBasics.getId());
-            loc.setLocation(location.getLocation());
-            loc.setLocationNo(location.getLocationNo());
-            calcBasics.getLocations().add(loc);
-        }
-    }
-
-    private void populateDelimitationFactsIfAbsent(DrgCalcBasics calcBasics) {
-        if (!calcBasics.getDelimitationFacts().isEmpty()) {
-            return;
-        }
-        if (calcBasics.getId() > 0) {
-            // This should not be. But sometimes we lost the delimitationFacts...
-            LOGGER.log(Level.WARNING, "Populate DRG DelimitationFacts for existing data: Id = {0}", calcBasics.getId());
-        }
-        for (DrgContentText ct : _calcDrgFacade.retrieveContentTexts(1, calcBasics.getDataYear())) {
-            DrgDelimitationFact df = new DrgDelimitationFact();
-            df.setBaseInformationId(calcBasics.getId());
-            df.setContentText(ct);
-            df.setUsed(getPriorDelimitationFact(ct.getId()).isUsed());
-            calcBasics.getDelimitationFacts().add(df);
-        }
-    }
-
-    private void preloadNeonat(DrgCalcBasics calcBasics) {
-        calcBasics.setNeonatLvl(_priorCalcBasics.getNeonatLvl());
-
-        int headerIdQuality = _calcDrgFacade.retrieveHeaderTexts(calcBasics.getDataYear(), 20, 0).get(0).getId();
-        _priorCalcBasics.getNeonateData().stream().filter(old -> old.getContentText().getHeaderTextId() == headerIdQuality)
-                .forEach(old -> {
-                    Optional<DrgNeonatData> optDat = calcBasics.getNeonateData().stream()
-                            .filter(nd -> nd.getContentTextId() == old.getContentTextId()).findFirst();
-                    if (optDat.isPresent()) {
-                        if (old.getData() == null) {
-                            optDat.get().setData(new BigDecimal(0));
-                        } else {
-                            optDat.get().setData(old.getData());
-                        }
-                    }
-                });
+        PreloadFunctionsCalcBasicsDrg.preloadData(_calcDrgFacade, _calcBasics, _priorCalcBasics);
     }
 
     private DrgCalcBasics loadCalcBasicsDrg(String idObject) {
@@ -401,18 +188,11 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         ensureNeonateData(calcBasics);
         ensureRadiologyServiceData(calcBasics);
         retrievePriorData(calcBasics);
-        preloadData(calcBasics);
+        PreloadFunctionsCalcBasicsDrg.preloadData(_calcDrgFacade, calcBasics, _priorCalcBasics);
         KGLNormalStationServiceDocumentationMinutes min = new KGLNormalStationServiceDocumentationMinutes();
         min.setBaseInformationId(calcBasics.getId());
         calcBasics.getNormalStationServiceDocumentationMinutes().add(min);
         return calcBasics;
-    }
-
-    private void ensurePersonalAccountingData(DrgCalcBasics calcBasics) {
-        calcBasics.getPersonalAccountings().clear();
-        calcBasics.getPersonalAccountings().add(new KGLPersonalAccounting(110, 0));
-        calcBasics.getPersonalAccountings().add(new KGLPersonalAccounting(120, 0));
-        calcBasics.getPersonalAccountings().add(new KGLPersonalAccounting(130, 0));
     }
 
     private void ensureRadiologyServiceData(DrgCalcBasics calcBasics) {
@@ -445,43 +225,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             data.setContentText(contentText);
             data.setBaseInformationId(calcBasics.getId());
             calcBasics.getNeonateData().add(data);
-        }
-    }
-
-    private void initServiceProvision(DrgCalcBasics calcBasics) {
-        calcBasics.getServiceProvisions().clear();
-
-        List<KGLListServiceProvisionType> provisionTypes = _calcDrgFacade.retrieveServiceProvisionTypes(calcBasics.getDataYear(), true);
-
-        loadMandatoryServiceProvision(provisionTypes, calcBasics);
-        addMissingPriorProvisionTypes(provisionTypes, calcBasics);
-
-    }
-
-    private void loadMandatoryServiceProvision(List<KGLListServiceProvisionType> provisionTypes, DrgCalcBasics calcBasics) {
-        // always populate mandatory entries
-        for (KGLListServiceProvisionType provisionType : provisionTypes) {
-            KGLListServiceProvision data = new KGLListServiceProvision(calcBasics.getId());
-            data.setServiceProvisionType(provisionType);
-            calcBasics.getServiceProvisions().add(data);
-        }
-    }
-
-    private void addMissingPriorProvisionTypes(List<KGLListServiceProvisionType> provisionTypes, DrgCalcBasics calcBasics) {
-        // get prior values and additional entries
-        for (KGLListServiceProvision prior : _priorCalcBasics.getServiceProvisions()) {
-            Optional<KGLListServiceProvision> currentOpt = calcBasics.getServiceProvisions().stream()
-                    .filter(sp -> sp.getServiceProvisionTypeId() == prior.getServiceProvisionTypeId()).findAny();
-            if (currentOpt.isPresent()) {
-                KGLListServiceProvision current = currentOpt.get();
-                current.setProvidedTypeId(prior.getProvidedTypeId());
-            } else if (!prior.isEmpty()) {
-                // take old entries only, if they contain values!
-                KGLListServiceProvision newSP = new KGLListServiceProvision(calcBasics.getId());
-                newSP.setServiceProvisionType(prior.getServiceProvisionType());
-                newSP.setProvidedTypeId(prior.getProvidedTypeId());
-                calcBasics.getServiceProvisions().add(newSP);
-            }
         }
     }
 
@@ -691,10 +434,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     public void downloadLaboratoryTemplate() {
         Utils.downloadText(HEADLINE_LABORATY + "\n", "Laboratory.csv");
-    }
-
-    public List<DrgContentText> getNormalWardServiceDocHeaders() {
-        return _calcDrgFacade.retrieveContentTexts(13, Calendar.getInstance().get(Calendar.YEAR));
     }
 
     public List<Double> getCostCenterCostsSums() {
@@ -1109,9 +848,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     // <editor-fold defaultstate="collapsed" desc="Tab BasicExplanation">
     public DrgDelimitationFact getPriorDelimitationFact(int contentTextId) {
-        return _priorCalcBasics.getDelimitationFacts().stream()
-                .filter(f -> f.getContentTextId() == contentTextId)
-                .findAny().orElse(new DrgDelimitationFact());
+        return PreloadFunctionsCalcBasicsDrg.getPriorDelimitationFact(_priorCalcBasics, contentTextId);
     }
 
     public List<String> getDelimitationFactsSubTitles() {
@@ -1306,9 +1043,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     public void addObstreticsGynecology() {
-        //int seq = (int) _calcBasics.getObstetricsGynecologies().stream().mapToInt(i -> i.getId()).max().orElse(0);
-        KGLListObstetricsGynecology item = new KGLListObstetricsGynecology();
-        item.setBaseInformationId(_calcBasics.getId());
+        KGLListObstetricsGynecology item = new KGLListObstetricsGynecology(_calcBasics.getId());
         _calcBasics.getObstetricsGynecologies().add(item);
     }
 

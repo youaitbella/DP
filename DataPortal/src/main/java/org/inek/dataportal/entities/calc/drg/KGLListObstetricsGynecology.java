@@ -178,6 +178,10 @@ public class KGLListObstetricsGynecology implements Serializable, BaseIdValue {
     public KGLListObstetricsGynecology() {
     }
 
+    public KGLListObstetricsGynecology(int baseInformationId) {
+        _baseInformationId = baseInformationId;
+    }
+
     //<editor-fold defaultstate="collapsed" desc="hash && equals && toString">
     @Override
     public int hashCode() {
