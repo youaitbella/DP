@@ -16,8 +16,8 @@ import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.NubRequestFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
-import org.inek.dataportal.feature.admin.entities.MailTemplate;
-import org.inek.dataportal.feature.admin.facades.ConfigFacade;
+import org.inek.dataportal.feature.admin.entitiy.MailTemplate;
+import org.inek.dataportal.feature.admin.facade.ConfigFacade;
 import org.inek.dataportal.mail.Mailer;
 
 /**

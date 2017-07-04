@@ -33,9 +33,9 @@ import org.inek.dataportal.entities.account.AccountFeatureRequest;
 import org.inek.dataportal.entities.account.AccountRequest;
 import org.inek.dataportal.entities.account.Person;
 import org.inek.dataportal.enums.ConfigKey;
-import org.inek.dataportal.feature.admin.entities.MailTemplate;
-import org.inek.dataportal.feature.admin.facades.ConfigFacade;
-import org.inek.dataportal.feature.admin.facades.MailTemplateFacade;
+import org.inek.dataportal.feature.admin.entitiy.MailTemplate;
+import org.inek.dataportal.feature.admin.facade.ConfigFacade;
+import org.inek.dataportal.feature.admin.facade.MailTemplateFacade;
 import org.inek.dataportal.helper.Utils;
 
 /**

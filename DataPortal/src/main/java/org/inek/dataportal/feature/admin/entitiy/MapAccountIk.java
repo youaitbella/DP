@@ -1,4 +1,4 @@
-package org.inek.dataportal.feature.admin.entities;
+package org.inek.dataportal.feature.admin.entitiy;
 
 import java.io.Serializable;
 
@@ -6,16 +6,16 @@ import java.io.Serializable;
  *
  * @author muellermi
  */
-public class MapAccountInekRoleId implements Serializable {
+public class MapAccountIk implements Serializable {
 
     private int _accountId;
-    private int _inekRoleId;
+    private int _ik;
 
     @Override
     public int hashCode() {
         int hash = 7;
         hash = 89 * hash + this._accountId;
-        hash = 89 * hash + this._inekRoleId;
+        hash = 89 * hash + this._ik;
         return hash;
     }
 
@@ -27,8 +27,8 @@ public class MapAccountInekRoleId implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final MapAccountInekRoleId other = (MapAccountInekRoleId) obj;
-        return _accountId == other._accountId && _inekRoleId == other._inekRoleId;
+        final MapAccountIk other = (MapAccountIk) obj;
+        return _accountId == other._accountId && _ik == other._ik;
     }
 
 }

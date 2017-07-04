@@ -29,7 +29,7 @@ import org.inek.dataportal.entities.calc.autopsy.CalcBasicsAutopsy;
 import org.inek.dataportal.entities.calc.drg.DrgCalcBasics;
 import org.inek.dataportal.entities.calc.psy.PeppCalcBasics;
 import org.inek.dataportal.enums.ConfigKey;
-import org.inek.dataportal.feature.admin.facades.ConfigFacade;
+import org.inek.dataportal.feature.admin.facade.ConfigFacade;
 
 /**
  *

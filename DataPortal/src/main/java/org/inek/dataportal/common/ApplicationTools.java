@@ -18,7 +18,7 @@ import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.facades.CustomerFacade;
-import org.inek.dataportal.feature.admin.facades.ConfigFacade;
+import org.inek.dataportal.feature.admin.facade.ConfigFacade;
 
 @Named @ApplicationScoped
 public class ApplicationTools {

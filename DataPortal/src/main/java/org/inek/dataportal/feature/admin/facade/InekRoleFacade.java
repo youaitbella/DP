@@ -1,4 +1,4 @@
-package org.inek.dataportal.feature.admin.facades;
+package org.inek.dataportal.feature.admin.facade;
 
 import java.util.List;
 import javax.ejb.Stateless;
@@ -6,7 +6,7 @@ import javax.persistence.Query;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.facades.AbstractFacade;
-import org.inek.dataportal.feature.admin.entities.InekRole;
+import org.inek.dataportal.feature.admin.entitiy.InekRole;
 
 @Stateless
 public class InekRoleFacade extends AbstractFacade<InekRole> {

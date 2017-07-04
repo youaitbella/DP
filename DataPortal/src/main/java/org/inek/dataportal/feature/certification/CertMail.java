@@ -27,8 +27,8 @@ import org.inek.dataportal.facades.certification.EmailLogFacade;
 import org.inek.dataportal.facades.certification.EmailReceiverFacade;
 import org.inek.dataportal.facades.certification.EmailReceiverLabelFacade;
 import org.inek.dataportal.facades.certification.SystemFacade;
-import org.inek.dataportal.feature.admin.entities.MailTemplate;
-import org.inek.dataportal.feature.admin.facades.MailTemplateFacade;
+import org.inek.dataportal.feature.admin.entitiy.MailTemplate;
+import org.inek.dataportal.feature.admin.facade.MailTemplateFacade;
 import org.inek.dataportal.helper.scope.FeatureScoped;
 import org.inek.dataportal.mail.Mailer;
 

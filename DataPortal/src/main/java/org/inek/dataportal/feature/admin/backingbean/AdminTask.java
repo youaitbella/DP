@@ -17,12 +17,12 @@ import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.feature.AbstractEditController;
-import org.inek.dataportal.feature.admin.entities.InekRole;
-import org.inek.dataportal.feature.admin.entities.MailTemplate;
-import org.inek.dataportal.feature.admin.entities.RoleMapping;
-import org.inek.dataportal.feature.admin.facades.InekRoleFacade;
-import org.inek.dataportal.feature.admin.facades.MailTemplateFacade;
-import org.inek.dataportal.feature.admin.facades.RoleMappingFacade;
+import org.inek.dataportal.feature.admin.entitiy.InekRole;
+import org.inek.dataportal.feature.admin.entitiy.MailTemplate;
+import org.inek.dataportal.feature.admin.entitiy.RoleMapping;
+import org.inek.dataportal.feature.admin.facade.InekRoleFacade;
+import org.inek.dataportal.feature.admin.facade.MailTemplateFacade;
+import org.inek.dataportal.feature.admin.facade.RoleMappingFacade;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
 

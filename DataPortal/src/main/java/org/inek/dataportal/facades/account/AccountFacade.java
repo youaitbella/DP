@@ -29,7 +29,7 @@ import org.inek.dataportal.enums.FeatureState;
 import org.inek.dataportal.facades.AbstractFacade;
 import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.PasswordRequestFacade;
-import org.inek.dataportal.feature.admin.facades.ConfigFacade;
+import org.inek.dataportal.feature.admin.facade.ConfigFacade;
 import org.inek.dataportal.helper.TransferFileCreator;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.mail.Mailer;
