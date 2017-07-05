@@ -14,14 +14,18 @@ Weitere Lieferfunktionen wie NUB, Vorschlagsverfahren und mehr werden sukzessive
 | Begriff | Erläuterung |
 |---|---|
 | DRG | Diagnosis Related Group. Eine Krankheitsgruppe, welche durch Diagnosen, aber auch Prozeduren und sonstigen klinischen oder demographischen Merkmalen beschrieben wird. Die Zuordnung eines Falls zu einer DRG erfolgt durch einen Grouper |
-| DropBox | Benannter und zeitlich beschränkter privater Upload-Bereich, <br/> den <br> ein Anwender für sich reservieren und zur Datenübermittlung an das InEK nutzen kann |
+| DropBox | Benannter und zeitlich beschränkter privater Upload-Bereich, den ein Anwender für sich reservieren und zur Datenübermittlung an das InEK nutzen kann |
 | Grouper | Software zur Eingruppierungen eines Krankenhausfalls in eine Krankheitsgruppe. |
 | Hauptleistungskosten | Das sind die Leistungen, die hauptsächlich die in der DRG entstehenden Kosten abbilden |
 | Kurzliegerabschlag | Betrag, der dem Krankenhaus von einem Fall abgezogen wird für die Tage, die der Patient kürzer als den Regelaufenthalt im Krankenhaus verbringt |
-| Paragraf 21 Daten|Kurzbezeichnung für Krankenhausdaten, die aufgrund gesetzlicher Bestimmungen gemäß [§ 21 KHEntG](https://www.gesetze-im-internet.de/khentgg/__21.html) an das InEK zu übermitteln sind|
+| Kooperation | Zusammenarbeit mehrerer Personen. Im Kontext des InEK Datenportals regeln die Teilnehmer mit Hilfe der Funktion Kooperation ihre Zusammenarbeit, in dem sie Kooperationspartnern eine abgestufte Sichtbarkeit auf ihre Daten gewähren. |
+| Paragraf 21 Daten | Kurzbezeichnung für Krankenhausdaten, die aufgrund gesetzlicher Bestimmungen gemäß [§ 21 KHEntG](https://www.gesetze-im-internet.de/khentgg/__21.html) an das InEK zu übermitteln sind |
+| PEPP | Pauschalierendes Entgeltsystem Psychiatrie und Psychosomatik |
 | Pflegetool | Software des InEK, mit deren Hilfe der Algorithmus des DRG- bzw. PEPP-Systems modelliert und das Definitionshandbuch erzeugt werden kann. Der hiermit erzeugte Algorithmus ist die Basis für den Grouper. |
-|Modellvorhaben|Im Kontext des InEK Datenportals handelt es sich bei Modellvorhaben um Vorhaben im Bereich der Psychatrie gemäß [§ 64b SGB V](https://www.gesetze-im-internet.de/sgb_5/__64b.html)|
+| Modellvorhaben | Im Kontext des InEK Datenportals handelt es sich um Modellvorhaben zur Weiternentwicklung der Versorgung psychisch kranker Menschen gemäß [§ 64b SGB V](https://www.gesetze-im-internet.de/sgb_5/__64b.html) |
 | NUB | Neue Untersuchungs- und Behandlungsmethode. Der Katalog des DRG-System wird basierend auf den Vorjahresdaten für das jewils kommende Jahr berechnet (beispielsweise basiert der Katalog für 2018 auf den Daten von 2016). Neu eingeführte Untersuchungs- und Behandlungsmethoden können daher erst mit entsprechender Verzögerung und bei ausreichender Datenlage in das System integriert werden. Bis dahin können diese NUB mit den Krankenkassen gesondert verhandelt werden, sofern das InEK feststellt, dass diese noch nicht im DRG-System abgebildet sind. |
+| NUB-Anfrage | Anfrage eines Krankenhauses, wie eine NUB (siehe dort) im Hinblick auf das G-DRG System zu bewerten ist. Das InEK vergibt zu jeder NUB-Anfrage einen entsprechenden Status |
+| NUB-Meldung | Bei positivem Ergebnis der Prüfung von NUB-Anfragen durch das InEK verhandeln die Vertragsparteien auf der örtlichen Ebene mit dem Krankenhaus die Entgelte für die Innovationen krankenhausspezifisch. Das Ergebnis diers Verhandlung teilt die Krankenkasse dem InEK in Form einer NUB-Meldung mit. |
 | Relativgewicht | Relatives Verhältnis der Fallkosten. Der Durchschnitt wird mit 1 angegeben. Ein Relativgewicht von 2 steht somit für das Doppelte. |
 | Selbstverwaltungspartner im Gesundheitswesen | Deutsche Krankenhausgesellschaft, Spitzenverbände der Krankenkassen und der Verband der privaten Krankenversicherung |
 | Überliegerzuschlag | Vergütung, die ein Krankenhaus erhält, wenn der Patient über der Regelaufenthaltsdauer behandelt werden muss |
