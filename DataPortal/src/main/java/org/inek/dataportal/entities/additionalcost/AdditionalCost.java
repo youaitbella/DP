@@ -255,8 +255,8 @@ public class AdditionalCost implements Serializable {
         return _agreedHospitalIndividualExtraCharge;
     }
 
-    public void setAgreedHospitalIndividualExtraCharge(double _agreedHospitalIndividualExtraCharge) {
-        this._agreedHospitalIndividualExtraCharge = _agreedHospitalIndividualExtraCharge;
+    public void setAgreedHospitalIndividualExtraCharge(double agreedHospitalIndividualExtraCharge) {
+        this._agreedHospitalIndividualExtraCharge = agreedHospitalIndividualExtraCharge;
     }
 
     @Column(name="acAgreedRepaymentAdditionalCost")
@@ -277,8 +277,8 @@ public class AdditionalCost implements Serializable {
         return _repaymentPeriodFrom;
     }
 
-    public void setRepaymentPeriodFrom(int _repaymentPeriodFrom) {
-        this._repaymentPeriodFrom = _repaymentPeriodFrom;
+    public void setRepaymentPeriodFrom(int repaymentPeriodFrom) {
+        this._repaymentPeriodFrom = repaymentPeriodFrom;
     }
 
     @Column(name="acRepaymentPeriodTo")
@@ -288,8 +288,8 @@ public class AdditionalCost implements Serializable {
         return _repaymentPeriodTo;
     }
 
-    public void setRepaymentPeriodTo(int _repaymentPeriodTo) {
-        this._repaymentPeriodTo = _repaymentPeriodTo;
+    public void setRepaymentPeriodTo(int repaymentPeriodTo) {
+        this._repaymentPeriodTo = repaymentPeriodTo;
     }
 
     @Column(name="acCalenderYear")

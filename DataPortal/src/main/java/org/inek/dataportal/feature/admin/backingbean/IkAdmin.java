@@ -33,7 +33,7 @@ public class IkAdmin implements Serializable {
     private int _ik;
     private Account _account;
 
-    public List<IkAccount> getAccounts() {
+    public List<IkAccount> getIkAccounts() {
         List<Account> accounts = _accountFacade.getIkAdminAccounts();
         return IkAccount.createFromAccounts(accounts);
     }

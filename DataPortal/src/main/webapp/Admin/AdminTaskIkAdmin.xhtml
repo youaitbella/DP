@@ -9,12 +9,12 @@
 
     <ui:define name="editContent">
         <h:form>
-            <h:dataTable value="#{ikAdmin.accounts}" var="account" width="100%" rowClasses="row1, row2">
+            <h:dataTable value="#{ikAdmin.ikAccounts}" var="info" width="100%" rowClasses="row1, row2">
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value=""/>
                     </f:facet>
-                    <h:commandLink action="#{ikAdmin.deleteIkAdmin(account)}" immediate="true" >
+                    <h:commandLink action="#{ikAdmin.deleteIkAdmin(info)}" immediate="true" >
                         <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value=""/>
                         <cb:confirmDelete/>
                     </h:commandLink>
@@ -24,21 +24,21 @@
                     <f:facet name="header">
                         <h:outputText value="#{msg.lblIkShort}"/>
                     </f:facet>
-                    <h:outputText value="#{account.ik}"/>
+                    <h:outputText value="#{info.ik}"/>
                 </h:column>
 
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="#{msg.lblName}"/>
                     </f:facet>
-                    <h:outputText value="#{account.firstName} #{account.lastName}"/>
+                    <h:outputText value="#{info.account.firstName} #{info.account.lastName}"/>
                 </h:column>
 
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="#{msg.lblEMail}"/>
                     </f:facet>
-                    <h:outputText value="#{account.email}"/>
+                    <h:outputText value="#{info.account.email}"/>
                 </h:column>
 
             </h:dataTable>
