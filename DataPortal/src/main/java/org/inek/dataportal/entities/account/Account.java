@@ -156,6 +156,23 @@ public class Account implements Serializable, Person {
     public void setAdminIks(List<AccountIkAdmin> adminIks) {
         this._adminIks = adminIks;
     }
+
+    public void removeIkAdmin(int ik) {
+        _adminIks.removeIf(ai -> ai.getIk() == ik);
+    }
+
+    /**
+     * Adds an ik and returns true, if ik could be added, false otherwise (ik existed)
+     * @param ik
+     * @return 
+     */
+    public boolean addIkAdmin(int ik) {
+        if (_adminIks.stream().anyMatch(ai -> ai.getIk() == ik)){
+            return false;
+        }
+        _adminIks.add(new AccountIkAdmin(_id, ik));
+        return true;
+    }
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property InekRoles">
@@ -470,5 +487,6 @@ public class Account implements Serializable, Person {
         _selected = selected;
     }
     // </editor-fold>
+
 
 }

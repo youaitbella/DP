@@ -6,7 +6,10 @@
 package org.inek.dataportal.feature.admin.backingbean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -32,10 +35,23 @@ public class IkAdmin implements Serializable {
     @Inject private AccountFacade _accountFacade;
     private int _ik;
     private Account _account;
+    private List<Account> _accounts = new ArrayList<>();
 
     public List<IkAccount> getIkAccounts() {
-        List<Account> accounts = _accountFacade.getIkAdminAccounts();
-        return IkAccount.createFromAccounts(accounts);
+        if (_accounts.isEmpty()) {
+            _accounts = _accountFacade.getIkAdminAccounts();
+        }
+        return IkAccount.createFromAccounts(_accounts);
+    }
+
+    public String deleteIkAdmin(IkAccount ikAccount) {
+        Account account = ikAccount.getAccount();
+        int ik = ikAccount.getIk();
+        _sessionController.logMessage("Delete IK Admin: account=" + account.getId() + ", ik=" + ik);
+        account.removeIkAdmin(ik);
+        _accountFacade.merge(account);
+        _accounts.clear();  // force reload
+        return "";
     }
 
     public String getEmail() {
@@ -70,10 +86,12 @@ public class IkAdmin implements Serializable {
         return _account == null ? 0 : _account.getId();
     }
 
-    public String saveIkSupervisor() {
-//        _sessionController.logMessage("Create IK supervisor: account=" + _account.getId()
-//                + ", feature=" + _feature + ", ik=" + _ik + ", right=" + _cooperativeRight.name());
-//        _cooperationRightFacade.createIkSupervisor(_feature, _ik, _account.getId(), _cooperativeRight);
+    public String saveIkAdmin() {
+        if (_account.addIkAdmin(_ik)) {
+            _sessionController.logMessage("Added IK Admin: account=" + _account.getId() + ", ik=" + _ik);
+            _accountFacade.merge(_account);
+        }
+        _accounts.clear();  // force reload
         return "";
     }
     // </editor-fold>
@@ -85,12 +103,6 @@ public class IkAdmin implements Serializable {
             String msg = Utils.getMessage("errUnknownEmail");
             throw new ValidatorException(new FacesMessage(msg));
         }
-    }
-
-    public String deleteIkAdmin(Account account, int ik) {
-        _sessionController.logMessage("Delete IK Admin: account=" + account.getId() + ", ik=" + ik);
-        //todo: _account.removeAdminIk(ik);
-        return "";
     }
 
     public void setIk(Integer ik) {

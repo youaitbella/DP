@@ -18,6 +18,11 @@ public class AccountIkAdmin implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    public AccountIkAdmin(){}
+    public AccountIkAdmin(int AccountId, int ik){
+        _accountId = AccountId;
+        _ik = ik;
+    }
     
     // <editor-fold defaultstate="collapsed" desc="Property AccountId">
     @Id

@@ -47,15 +47,6 @@
 
             <h4>#{msg.headNewIkAdmin}</h4>
 
-            <ui:remove>
-            <div class="inputPart">
-                <h:outputLabel value="#{msg.lblFunction}" styleClass="label20"/>
-                <h:selectOneMenu value="#{ikAdmin.feature}" styleClass="inputmedium">
-                    <f:selectItems value="#{ikAdmin.features}"/>
-                    <f:ajax render="@this ik :logout:remaining" />
-                </h:selectOneMenu>
-            </div>   
-
             <div class="inputPart">
                 <h:outputLabel for="ik" value="#{msg.lblIkShort}" styleClass="label20"/>
                 <h:inputText id="ik" value="#{ikAdmin.ik}" styleClass="inputmedium" required="true" validator="#{sessionTools.checkIk}">
@@ -91,21 +82,11 @@
                 <h:inputText id="UserInstitute" value="#{ikAdmin.account.firstName} #{ikAdmin.account.lastName}" disabled="true" styleClass="inputlong"/>
             </div>        
 
-            <div class="inputPart">
-                <h:outputLabel value="#{msg.lblCooperativeRight}" styleClass="label20"/>
-                <h:selectOneMenu value="#{ikAdmin.cooperativeRight}" styleClass="inputmedium" >
-                    <f:selectItems value="#{ikAdmin.cooperativeRights}"/>
-                    <f:ajax render="@this :logout:remaining"/>
-                </h:selectOneMenu>
-            </div>        
-            
             <br/>
-            
-            <h:commandLink styleClass="bigButton" action="#{ikAdmin.saveIkSupervisor}" value="#{msg.btnSave}" />
-            </ui:remove>
+
+            <h:commandLink styleClass="bigButton" action="#{ikAdmin.saveIkAdmin}" value="#{msg.btnSave}" />
+
         </h:form>
-
-
 
     </ui:define>
 </ui:composition>
