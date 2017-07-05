@@ -17,8 +17,12 @@ Weitere Lieferfunktionen wie NUB, Vorschlagsverfahren und mehr werden sukzessive
 | DropBox | Benannter und zeitlich beschränkter privater Upload-Bereich, den ein Anwender für sich reservieren und zur Datenübermittlung an das InEK nutzen kann |
 | Grouper | Software zur Eingruppierungen eines Krankenhausfalls in eine Krankheitsgruppe. |
 | Hauptleistungskosten | Das sind die Leistungen, die hauptsächlich die in der DRG entstehenden Kosten abbilden |
-| Kurzliegerabschlag | Betrag, der dem Krankenhaus von einem Fall abgezogen wird für die Tage, die der Patient kürzer als den Regelaufenthalt im Krankenhaus verbringt |
+| InEK | Institut für das Entgeltsystem im Krankenhaus |
+| Kalkhaus | Kurzbezeichnung für ein Kalkulationskrankenhaus |
+| Kalkulationskrankenhaus | Bezeichnung für ein Krankenhaus, welches seine Kostendaten zwecks Weiterentwicklung (Kalkulation) der Abrechnungssysteme an das InEK übermittelt |
 | Kooperation | Zusammenarbeit mehrerer Personen. Im Kontext des InEK Datenportals regeln die Teilnehmer mit Hilfe der Funktion Kooperation ihre Zusammenarbeit, in dem sie Kooperationspartnern eine abgestufte Sichtbarkeit auf ihre Daten gewähren. |
+| Kalkulationsstichprobe | Stichprobe von Kalkulationskrankenhäusern für die Ermittlung der Fallpauschalen |
+| Kurzliegerabschlag | Betrag, der dem Krankenhaus von einem Fall abgezogen wird für die Tage, die der Patient kürzer als den Regelaufenthalt im Krankenhaus verbringt |
 | Paragraf 21 Daten | Kurzbezeichnung für Krankenhausdaten, die aufgrund gesetzlicher Bestimmungen gemäß [§ 21 KHEntG](https://www.gesetze-im-internet.de/khentgg/__21.html) an das InEK zu übermitteln sind |
 | PEPP | Pauschalierendes Entgeltsystem Psychiatrie und Psychosomatik |
 | Pflegetool | Software des InEK, mit deren Hilfe der Algorithmus des DRG- bzw. PEPP-Systems modelliert und das Definitionshandbuch erzeugt werden kann. Der hiermit erzeugte Algorithmus ist die Basis für den Grouper. |
