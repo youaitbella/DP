@@ -4,20 +4,20 @@
 
 Das InEK Datenportal steht grundsätzlich allen Anwendern offen. 
 Insbesondere am Vorschlagsverfahren kann sich jederman beteiligen.
-Anwender bestimmen selbst, welche Funktionen sie nutzen möchten und hinterlegen selber für welches Krankenhaus sie im InEK Datenportal tätig sind.
+Anwender bestimmen selbst, welche Funktionen sie nutzen möchten und hinterlegen eigenständig für welches Krankenhaus sie im InEK Datenportal tätig sind.
 
 Mit Ausbau des InEK Datenportals ist zunehmend Funktionalität mit direktem Krankenhausbezug enthalten.
 Teilweise sind hier nur bestimmte Anwender zulässig, so dass solche Funktionen erst nach Prüfung durch das InEK freigeschaltet werden.
 Mit Einführung der Funktionen "Teilnahme Kostenkalkulation" (in 2017) wurde das Anlegen von Daten in diesem Funktionsbereich gar auf die beim InEK hinterlegtn Ansprechpartner eingeschränkt.
 
-Im InEK Datenportal angelegt Datensätze "gehören" dem Benutzer, der sie anlegt.
+Im InEK Datenportal angelegte Datensätze "gehören" dem Benutzer, der sie anlegt.
 Mittels Kooperation kann der Anwender bestimmen, wer diese Daten zusätzlich sehen, bearbeiten, an das InEK senden und / oder den "Besitz" übernehmen darf.
 Im Falle von Mitarbeiterwechsel müssen Daten mit Krankenhausbezug für das Krankenhaus weiterhin zugreifbar bleiben.
 Eine reibungslose Übergabe ist zwar mittels richtig eingestellter Kooperation möglich, wie auch durch Übertragung des kompletten Benutzerkontos, 
 jedoch kommt es in der Praxis immer wieder vor, dass es genau hier hapert und das InEK Daten mit Krankenhausbezug von einem Anwenderkonto auf einen anderes "umhängen" muss.
 Im Hinblick auf den Datenschutz geschieht dies nur nach schriftlichem Auftrag durch die Krankenhausleitung.
 
-Fragen wie "wer arbeitet im InEk Datenportal für ein Haus?" kann das InEK bei Bedarf durch eine entsprechende Datenbankabfrage beantworten, 
+Fragen wie "wer arbeitet im InEK Datenportal für ein Haus?" kann das InEK bei Bedarf durch eine entsprechende Datenbankabfrage beantworten, 
 jedoch nicht unbedingt die Frage "ist der betreffende Anwender berechtigt, Daten für dieses Haus zu bearbeiten?". 
 Zur Beantwortung dieser Frage ist eine Instanz erforderlich, welche die betreffenden Personen kennt.
 
@@ -25,7 +25,7 @@ Hier greift nun die Installation eines (oder mehrerer) "IK-Admins".
 Ein IK-Admin ist eine vom Krankenhaus bestimmte Person, regelt den Zugriff auf Krankenhausdaten und übernimmt die Verwaltungsaufgaben, 
 die das InEK derzeit nur nach schriftlichem Auftrag des Hauses ausführt, z.B. Umhängen von NUB-Anfragen.
 Ein entscheidender Teil der Benutzeradministration wird somit dahin verlagert, wo dass Wissen über Anwender und benötigte Funktionen vorhanden ist.
-Damit wird die Sicherheit erhöht und der Verwaltungsaufwand verteilt und reduziert.
+Damit wird die Sicherheit erhöht und der Verwaltungsaufwand verteilt und reduziert (schriftlicher Auftrag entfällt).
 
 ## Anforderungen
 
