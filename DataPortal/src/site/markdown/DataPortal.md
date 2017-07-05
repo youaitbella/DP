@@ -105,6 +105,7 @@ Aufgrund der recht umfassend dargestellten Use Cases, wird hier auf eine detaill
 Für Anforderungen einzelner Features wird auf die entsprechenden Dokumente verwiesen.
 
 [Kalkulationshaus](calc/CalculationHospital.md)
+
 [IK-Admin](IkAdmin.md)
 
 ### 3.3 Nicht funktionale Anforderungen

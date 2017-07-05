@@ -13,4 +13,4 @@ Zu klären: Initialer Umgang mit Vorjahreswerten. Z.B. Befüllung auch ohne Zugr
 Kalkulationsgrundlagen (KGL, KGP) stehen zur Verfügung, sofern in der Teilnahmeerklärung das entsprechende Feld markiert ist und die Daten an das InEK gesendet wurden.
 KGL und KGP werden - soweit vorhanden - mit Vorjahreswerten befüllt.
 
-[Zurück zum Hauptdokument](DataPortal.md#FunctionalRequirements)
+[Zurück zum Hauptdokument](../DataPortal.md#FunctionalRequirements)
