@@ -34,7 +34,7 @@ import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.calc.CalcAutopsyFacade;
 import org.inek.dataportal.facades.calc.CalcFacade;
 import org.inek.dataportal.feature.AbstractEditController;
-import org.inek.dataportal.feature.admin.entitiy.MailTemplate;
+import org.inek.dataportal.feature.admin.entity.MailTemplate;
 import org.inek.dataportal.helper.TransferFileCreator;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.structures.MessageContainer;

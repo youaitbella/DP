@@ -405,6 +405,18 @@ public class CalcBasicsAutopsy implements Serializable, StatusEntity {
         _costVolumeForensicAccural = costVolumeForensicAccural;
     }
     // </editor-fold>
+    
+    @Column(name = "cbaHasExternalForensic")
+    @Documentation(name = "Externe Rechtsmedizin")
+    private boolean _hasExternalForensic = false;
+
+    public boolean getHasExternalForensic() {
+        return _hasExternalForensic;
+    }
+
+    public void setHasExternalForensic(boolean hasExternalForensic) {
+        this._hasExternalForensic = hasExternalForensic;
+    }
 
     // <editor-fold defaultstate="collapsed" desc="Property TotalAutopsys">
     @Column(name = "cbaTotalAutopsys")

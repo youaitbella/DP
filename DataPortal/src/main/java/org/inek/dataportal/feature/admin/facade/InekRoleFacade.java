@@ -6,7 +6,7 @@ import javax.persistence.Query;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.facades.AbstractFacade;
-import org.inek.dataportal.feature.admin.entitiy.InekRole;
+import org.inek.dataportal.feature.admin.entity.InekRole;
 
 @Stateless
 public class InekRoleFacade extends AbstractFacade<InekRole> {

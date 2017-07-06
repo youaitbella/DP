@@ -15,7 +15,7 @@ import org.inek.dataportal.facades.cooperation.CooperationFacade;
 import org.inek.dataportal.facades.cooperation.CooperationRequestEmailFacade;
 import org.inek.dataportal.facades.cooperation.CooperationRequestFacade;
 import org.inek.dataportal.facades.cooperation.PortalMessageFacade;
-import org.inek.dataportal.feature.admin.entitiy.MailTemplate;
+import org.inek.dataportal.feature.admin.entity.MailTemplate;
 import org.inek.dataportal.feature.admin.facade.MailTemplateFacade;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.faceletvalidators.EmailValidator;

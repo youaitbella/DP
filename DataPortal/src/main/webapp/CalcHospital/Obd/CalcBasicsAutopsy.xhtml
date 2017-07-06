@@ -117,6 +117,7 @@
             <inek:LabeledCheckbox label="Es ist eine eigenständige Kostenstelle Rechtsmedizin vorhanden"
                                   styleClassLabel="label element37em"
                                   renderElement="@form"
+                                  readonly="#{editCalcBasicsAutopsy.calcBasics.hasExternalForensic}"
                                   value="#{editCalcBasicsAutopsy.calcBasics.hasCostCenterForensic}"/>
 
             <div class="inputPart" jsf:rendered="#{editCalcBasicsAutopsy.calcBasics.hasCostCenterForensic}">
@@ -131,7 +132,13 @@
                                              required="true"
                                              value="#{editCalcBasicsAutopsy.calcBasics.costVolumeForensicAccural}"/>
             </div>
-
+            
+            <inek:LabeledCheckbox label="Die Rechtsmedizin wird vollständig extern erbracht"
+                                  styleClassLabel="label element37em"
+                                  renderElement="@form"
+                                  readonly="#{editCalcBasicsAutopsy.calcBasics.hasCostCenterForensic}"
+                                  value="#{editCalcBasicsAutopsy.calcBasics.hasExternalForensic}"
+                                  />
 
             <h5 class="blockHeader">Pathologie: Leistungs- und Kosteninformationen</h5>
 

@@ -37,7 +37,7 @@ import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.NubRequestFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.cooperation.CooperationRightFacade;
-import org.inek.dataportal.feature.admin.entitiy.MailTemplate;
+import org.inek.dataportal.feature.admin.entity.MailTemplate;
 import org.inek.dataportal.helper.ObjectUtils;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.structures.MessageContainer;
