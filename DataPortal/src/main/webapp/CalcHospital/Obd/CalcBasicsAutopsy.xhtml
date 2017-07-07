@@ -132,7 +132,7 @@
                                              required="true"
                                              value="#{editCalcBasicsAutopsy.calcBasics.costVolumeForensicAccural}"/>
             </div>
-            
+
             <inek:LabeledCheckbox label="Die Rechtsmedizin wird vollständig extern erbracht"
                                   styleClassLabel="label element37em"
                                   renderElement="@form"
@@ -164,7 +164,9 @@
                 Bitte im Folgenden nur ausfüllen, wenn in diesen Bereichen Leistungen erbracht wurden
             </div>
 
-            <ui:repeat value="#{editCalcBasicsAutopsy.calcBasics.autopsyItems.stream().filter(i -> !editCalcBasicsAutopsy.calcBasics.hasCostCenterForensic || i.getAutopsyServiceText().getShowOnForensic()).toList()}"
+            <ui:repeat value="#{editCalcBasicsAutopsy.calcBasics.autopsyItems.stream()
+                                .filter(i -> !editCalcBasicsAutopsy.calcBasics.hasCostCenterForensic and !editCalcBasicsAutopsy.calcBasics.hasExternalForensic 
+                                or i.getAutopsyServiceText().getShowOnForensic()).toList()}"
                        var="item">
 
                 <br/>
@@ -199,8 +201,8 @@
                     <h:outputLabel styleClass="label element37em"
                                    value="Kurzbeschreibung des durchgeführten Abgrenzungsverfahrens"/>
                     <inek:InputTextWithMessage readonly="#{editCalcBasicsAutopsy.readOnly}"
-                                                 styleClassComponent="element100-37em"
-                                                 value="#{item.descriptionAccrual}"/>
+                                               styleClassComponent="element100-37em"
+                                               value="#{item.descriptionAccrual}"/>
                 </div>
 
             </ui:repeat>
