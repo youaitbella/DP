@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="list"/>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <div class="paddingElement">
+            <h:dataTable rendered="#{cc.attrs.list.size() > 0}"  headerClass="list-header" 
+                         value="#{cc.attrs.list}" var="i68" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colIcon, colIcon, colId, colValue">
+
+                <h:column  >
+                    <f:facet name="header">
+                        <h:outputText value=""/>
+                    </f:facet>
+                    <h:commandLink action="#{i68List.printI68(i68.id)}" immediate="true" >
+                        <h:graphicImage alt="drucken" name="Icon/small/print.png" title="Druckansicht" value=""/>
+                    </h:commandLink>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value=""/>
+                    </f:facet>
+                    <h:commandLink action="#{i68List.deleteI68(i68.id)}" immediate="true"
+                                   onclick="#{i68List.getConfirmMessage(i68.id)}">
+                        <h:graphicImage alt="löschen" name="Icon/small/#{i68.status.value le 9 ? 'delete.png' : 'cross.png'}"
+                                        title="#{i68.status.value le 9 ? 'Löschen' : 'Zurückziehen'}" value=""/>
+                    </h:commandLink>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value=""/>
+                    </f:facet>
+                    <h:commandLink action="#{i68List.editI68()}" immediate="true" >
+                        <h:graphicImage alt="Status" name="Icon/small/#{i68.workflowStatus.icon}" value="" title="#{i68.status.description}" rendered="#{i68.status.icon.length() gt 0}"/>
+                        <f:param name="id" value="#{i68.id}"/>
+                    </h:commandLink>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{msg.lblYear}"/>
+                    </f:facet>
+                    <h:commandLink action="#{i68List.editI68}" value="#{i68.dataYear}" immediate="true">
+                        <f:param name="id" value="#{i68.id}"/>
+                    </h:commandLink>
+                </h:column>
+                
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{msg.lblIK}"/>
+                    </f:facet>
+                    <h:commandLink action="#{i68List.editI68}" value="#{i68.ik}" immediate="true">
+                        <f:param name="id" value="#{i68.id}"/>
+                    </h:commandLink>
+                </h:column>
+                
+            </h:dataTable>
+        </div>
+    </cc:implementation>
+</html>
