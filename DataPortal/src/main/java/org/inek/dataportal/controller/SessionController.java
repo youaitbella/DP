@@ -24,6 +24,7 @@ import org.inek.dataportal.entities.account.AccountFeature;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.FeatureState;
 import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.enums.PortalType;
 import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.CustomerTypeFacade;
 import org.inek.dataportal.facades.DrgFacade;
@@ -275,7 +276,12 @@ public class SessionController implements Serializable {
      * @param password
      * @return
      */
+    @Deprecated
     public boolean loginAndSetTopics(String mailOrUser, String password) {
+        return loginAndSetTopics(mailOrUser, password, PortalType.DRG);
+    }
+    
+    public boolean loginAndSetTopics(String mailOrUser, String password, PortalType portalType) {
         //invalidateSession();
         login(mailOrUser, password);
         setTopics();
@@ -283,14 +289,6 @@ public class SessionController implements Serializable {
         return _account != null;
     }
 
-    /**
-     * General login function. Will be used from UploadServlet (DatenDienst)
-     * too. Thus, perform login and initFeatures only.
-     *
-     * @param mailOrUser
-     * @param password
-     * @return
-     */
     private boolean login(String mailOrUser, String password) {
         String loginInfo = Utils.getClientIP() + "; UserAgent=" + Utils.getUserAgent();
         if (!login(mailOrUser, password, loginInfo)) {
@@ -303,6 +301,15 @@ public class SessionController implements Serializable {
         return true;
     }
 
+    /**
+     * General login function. Will be used from UploadServlet (DatenDienst)
+     * too. Thus, perform login and initFeatures only.
+     *
+     * @param mailOrUser
+     * @param password
+     * @param loginInfo An infostring|message to be displayed
+     * @return
+     */
     public boolean login(String mailOrUser, String password, String loginInfo) {
         _account = _accountFacade.getAccount(mailOrUser, password);
         if (_account == null) {

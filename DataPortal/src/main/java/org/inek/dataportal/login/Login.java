@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.enums.PortalType;
 
 /**
  *
@@ -74,12 +75,12 @@ public class Login implements Serializable {
     }
     // </editor-fold>
 
-    public String login() {
+    public String login(PortalType portalType) {
         if (_sessionController.isInMaintenanceMode()) {
             _sessionController.alertClient("Aufgrund von Wartungsarbeiten ist derzeit kein Zugang möglich");
             return "";
         }
-        if (!_sessionController.loginAndSetTopics(_emailOrUser, _password)) {
+        if (!_sessionController.loginAndSetTopics(_emailOrUser, _password, portalType)) {
             _loginMessage = "Name bzw. Email und / oder Kennwort sind ungültig";
             return "";
         }
