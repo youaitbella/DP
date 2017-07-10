@@ -352,17 +352,17 @@ public class SessionController implements Serializable {
             }
         }
         if (isInekUser(Feature.ADMIN)) {
-            _features.add(FeatureFactory.createController(Feature.ADMIN, _account, this));
+            _features.add(FeatureFactory.createController(Feature.ADMIN, this));
         }
         if (!hasMaintenance) {
-            _features.add(FeatureFactory.createController(Feature.USER_MAINTENANCE, _account, this));
+            _features.add(FeatureFactory.createController(Feature.USER_MAINTENANCE, this));
         }
         if (!hasDocument) {
-            _features.add(FeatureFactory.createController(Feature.DOCUMENTS, _account, this));
+            _features.add(FeatureFactory.createController(Feature.DOCUMENTS, this));
             persistDocumentFeature();
         }
         for (Feature f : features.values()) {
-            _features.add(FeatureFactory.createController(f, _account, this));
+            _features.add(FeatureFactory.createController(f, this));
         }
     }
 

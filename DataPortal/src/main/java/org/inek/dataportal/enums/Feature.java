@@ -20,7 +20,8 @@ public enum Feature {
     INSURANCE(13, "Krankenkasse", true),
     CALCULATION_HOSPITAL(14, "Teilnahme Kostenkalkulation", true),
     SPECIFIC_FUNCTION(15, "Besondere Aufgaben", true), 
-    ADDITIONAL_COST(16, "Finanzierung von Mehrkosten", true);
+    ADDITIONAL_COST(16, "Finanzierung von Mehrkosten", true),
+    PSYCH_STAFF(17, "PsychPersonalverordnung", true);
 
     Feature(int id, String description, boolean needsApproval) {
         _id = id;

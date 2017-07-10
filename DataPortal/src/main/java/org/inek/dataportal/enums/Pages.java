@@ -175,6 +175,11 @@ public enum Pages {
     AdditionalCostEdit("/AdditionalCost/AdditionalCostEdit"),
     
     //
+    PartPsychStaff("/PsychStaff/PartPsychStaff"),
+    PsychStaffSummary("/PsychStaff/PsychStaffSummary"),
+    PsychStaffEdit("/PsychStaff/Edit"),
+    
+    //
     NotAllowed("/common/NotAllowed"),
     PrintView("/common/PrintView"),
     PrintMultipleView("/common/PrintMultipleView"),
