@@ -24,7 +24,7 @@ import org.inek.dataportal.feature.peppproposal.PeppProposalController;
 import org.inek.dataportal.feature.certification.CertController;
 import org.inek.dataportal.feature.drgproposal.DrgProposalController;
 import org.inek.dataportal.feature.insurance.InsuranceController;
-import org.inek.dataportal.feature.specificfunction.SpecificFunctionController;
+import org.inek.dataportal.feature.specificfunction.controller.SpecificFunctionController;
 
 /**
  *

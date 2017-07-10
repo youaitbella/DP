@@ -1,4 +1,4 @@
-package org.inek.dataportal.feature.specificfunction;
+package org.inek.dataportal.feature.specificfunction.backingbean;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -10,9 +10,9 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.ApplicationTools;
-import org.inek.dataportal.entities.specificfunction.SpecificFunctionRequest;
+import org.inek.dataportal.feature.specificfunction.entity.SpecificFunctionRequest;
 import org.inek.dataportal.enums.Feature;
-import org.inek.dataportal.facades.SpecificFunctionFacade;
+import org.inek.dataportal.feature.specificfunction.facade.SpecificFunctionFacade;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.tree.SpecificFunctionRequestTreeNode;
 import org.inek.portallib.tree.RootNode;

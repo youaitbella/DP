@@ -1,4 +1,4 @@
-package org.inek.dataportal.entities.specificfunction;
+package org.inek.dataportal.feature.specificfunction.entity;
 
 import java.io.Serializable;
 import java.util.Objects;

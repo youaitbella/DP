@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.entities.specificfunction;
+package org.inek.dataportal.feature.specificfunction.entity;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -21,15 +21,15 @@ import org.inek.dataportal.utils.Documentation;
  * @author muellermi
  */
 @Entity
-@Table(name = "listCenterName", schema = "spf")
-public class CenterName implements Serializable {
+@Table(name = "listRelatedName", schema = "spf")
+public class RelatedName implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
     //<editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "cnId")
+    @Column(name = "rnId")
     private int _id;
     
     public int getId() {
@@ -42,7 +42,7 @@ public class CenterName implements Serializable {
     //</editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Property Name">
-    @Column(name = "cnName")
+    @Column(name = "rnName")
     @Documentation(key = "lblName")
     private String _name = "";
 
@@ -76,7 +76,7 @@ public class CenterName implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final CenterName other = (CenterName) obj;
+        final RelatedName other = (RelatedName) obj;
         if (this._id != other._id) {
             return false;
         }

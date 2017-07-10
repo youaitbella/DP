@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.feature.specificfunction;
+package org.inek.dataportal.feature.specificfunction.backingbean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -26,23 +26,23 @@ import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountAdditionalIK;
-import org.inek.dataportal.entities.specificfunction.AgreedCenter;
-import org.inek.dataportal.entities.specificfunction.AgreedRemunerationKeys;
-import org.inek.dataportal.entities.specificfunction.CenterName;
-import org.inek.dataportal.entities.specificfunction.RelatedName;
-import org.inek.dataportal.entities.specificfunction.SpecificFunction;
-import org.inek.dataportal.entities.specificfunction.SpecificFunctionAgreement;
-import org.inek.dataportal.entities.specificfunction.SpecificFunctionRequest;
-import org.inek.dataportal.entities.specificfunction.TypeExtraCharge;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
-import org.inek.dataportal.facades.SpecificFunctionFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.feature.admin.entity.MailTemplate;
 import org.inek.dataportal.feature.admin.facade.InekRoleFacade;
+import org.inek.dataportal.feature.specificfunction.entity.AgreedCenter;
+import org.inek.dataportal.feature.specificfunction.entity.AgreedRemunerationKeys;
+import org.inek.dataportal.feature.specificfunction.entity.CenterName;
+import org.inek.dataportal.feature.specificfunction.entity.RelatedName;
+import org.inek.dataportal.feature.specificfunction.entity.SpecificFunction;
+import org.inek.dataportal.feature.specificfunction.entity.SpecificFunctionAgreement;
+import org.inek.dataportal.feature.specificfunction.entity.SpecificFunctionRequest;
+import org.inek.dataportal.feature.specificfunction.entity.TypeExtraCharge;
+import org.inek.dataportal.feature.specificfunction.facade.SpecificFunctionFacade;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.structures.MessageContainer;
 import org.inek.dataportal.mail.Mailer;

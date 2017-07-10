@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.entities.specificfunction;
+package org.inek.dataportal.feature.specificfunction.entity;
 
 import java.io.Serializable;
 import java.util.Objects;

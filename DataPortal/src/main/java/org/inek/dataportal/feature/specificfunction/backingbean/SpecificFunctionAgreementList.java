@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.feature.specificfunction;
+package org.inek.dataportal.feature.specificfunction.backingbean;
 
 import org.inek.dataportal.feature.calculationhospital.*;
 import java.util.logging.Logger;
@@ -11,11 +11,12 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.ApplicationTools;
-import org.inek.dataportal.entities.specificfunction.SpecificFunctionRequest;
+import org.inek.dataportal.feature.specificfunction.entity.SpecificFunctionAgreement;
+import org.inek.dataportal.feature.specificfunction.entity.SpecificFunctionRequest;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
-import org.inek.dataportal.facades.SpecificFunctionFacade;
+import org.inek.dataportal.feature.specificfunction.facade.SpecificFunctionFacade;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
 import org.inek.dataportal.utils.DocumentationUtil;
@@ -26,22 +27,22 @@ import org.inek.dataportal.utils.DocumentationUtil;
  */
 @Named
 @RequestScoped
-public class SpecificFunctionRequestList {
+public class SpecificFunctionAgreementList {
 
     // <editor-fold defaultstate="collapsed" desc="fields">
-    private static final Logger LOGGER = Logger.getLogger(SpecificFunctionRequestList.class.getName());
+    private static final Logger LOGGER = Logger.getLogger("SpecificFunctionAgreementList");
 
     @Inject private SpecificFunctionFacade _specificFunctionFacade;
     @Inject private ApplicationTools _appTools;
     // </editor-fold>
 
     public boolean isNewAllowed() {
-        return _appTools.isEnabled(ConfigKey.IsSpecificFunctionRequestCreateEnabled);
+        return _appTools.isEnabled(ConfigKey.IsSpecificFunctionAgreementCreateEnabled);
     }
 
     public String newRequest() {
         destroyFeatureBeans();
-        return Pages.SpecificFunctionEditRequest.URL();
+        return Pages.SpecificFunctionEditAgreement.URL();
     }
 
     private void destroyFeatureBeans() {
@@ -59,22 +60,22 @@ public class SpecificFunctionRequestList {
         return Pages.PrintView.URL();
     }
 
-    public void delete(SpecificFunctionRequest request) {
-        if (request == null) {
+    public void delete(SpecificFunctionAgreement agreement) {
+        if (agreement == null) {
             // might be deleted by somebody else
             return;
         }
-        if (request.getStatus().getId() >= WorkflowStatus.Provided.getId()) {
-            request.setStatus(WorkflowStatus.Retired);
-            _specificFunctionFacade.saveSpecificFunctionRequest(request);
+        if (agreement.getStatus().getId() >= WorkflowStatus.Provided.getId()) {
+            agreement.setStatus(WorkflowStatus.Retired);
+            _specificFunctionFacade.saveSpecificFunctionAgreement(agreement);
         } else {
-            _specificFunctionFacade.deleteSpecificFunctionRequest(request);
+            _specificFunctionFacade.deleteSpecificFunctionAgreement(agreement);
         }
     }
 
     public String edit() {
         destroyFeatureBeans();
-        return Pages.SpecificFunctionEditRequest.URL();
+        return Pages.SpecificFunctionEditAgreement.URL();
     }
 
 }

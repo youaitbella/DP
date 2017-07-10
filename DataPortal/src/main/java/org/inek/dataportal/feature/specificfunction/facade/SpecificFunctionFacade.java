@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.facades;
+package org.inek.dataportal.feature.specificfunction.facade;
 
 import java.util.HashSet;
 import java.util.List;
@@ -14,18 +14,19 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import org.inek.dataportal.entities.account.Account;
-import org.inek.dataportal.entities.specificfunction.AgreedCenter;
-import org.inek.dataportal.entities.specificfunction.AgreedRemunerationKeys;
-import org.inek.dataportal.entities.specificfunction.CenterName;
-import org.inek.dataportal.entities.specificfunction.RelatedName;
-import org.inek.dataportal.entities.specificfunction.RequestAgreedCenter;
-import org.inek.dataportal.entities.specificfunction.RequestProjectedCenter;
-import org.inek.dataportal.entities.specificfunction.SpecificFunction;
-import org.inek.dataportal.entities.specificfunction.SpecificFunctionAgreement;
-import org.inek.dataportal.entities.specificfunction.SpecificFunctionRequest;
-import org.inek.dataportal.entities.specificfunction.TypeExtraCharge;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.WorkflowStatus;
+import org.inek.dataportal.facades.AbstractDataAccess;
+import org.inek.dataportal.feature.specificfunction.entity.AgreedCenter;
+import org.inek.dataportal.feature.specificfunction.entity.AgreedRemunerationKeys;
+import org.inek.dataportal.feature.specificfunction.entity.CenterName;
+import org.inek.dataportal.feature.specificfunction.entity.RelatedName;
+import org.inek.dataportal.feature.specificfunction.entity.RequestAgreedCenter;
+import org.inek.dataportal.feature.specificfunction.entity.RequestProjectedCenter;
+import org.inek.dataportal.feature.specificfunction.entity.SpecificFunction;
+import org.inek.dataportal.feature.specificfunction.entity.SpecificFunctionAgreement;
+import org.inek.dataportal.feature.specificfunction.entity.SpecificFunctionRequest;
+import org.inek.dataportal.feature.specificfunction.entity.TypeExtraCharge;
 import org.inek.dataportal.helper.Utils;
 
 /**

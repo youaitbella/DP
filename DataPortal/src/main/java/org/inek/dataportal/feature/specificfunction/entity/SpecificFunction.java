@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.entities.specificfunction;
+package org.inek.dataportal.feature.specificfunction.entity;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -21,38 +21,46 @@ import org.inek.dataportal.utils.Documentation;
  * @author muellermi
  */
 @Entity
-@Table(name = "listRelatedName", schema = "spf")
-public class RelatedName implements Serializable {
+@Table(name = "listSpecificFunction", schema = "spf")
+public class SpecificFunction implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    public SpecificFunction() {
+    }
+    
+    public SpecificFunction(int id, String text) {
+        _id = id;
+        _text = text;
+    }
     
     //<editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "rnId")
+    @Column(name = "sfId")
     private int _id;
-    
+
     public int getId() {
         return _id;
     }
-    
+
     public void setId(int id) {
         this._id = id;
     }
     //</editor-fold>
-    
-    // <editor-fold defaultstate="collapsed" desc="Property Name">
-    @Column(name = "rnName")
-    @Documentation(key = "lblName")
-    private String _name = "";
+
+    // <editor-fold defaultstate="collapsed" desc="Property Text">
+    @Column(name = "sfText")
+    @Documentation(key = "lblNotation")
+    private String _text = "";
 
     @Size(max = 200)
-    public String getName() {
-        return _name;
+    public String getText() {
+        return _text;
     }
 
-    public void setName(String name) {
-        _name = name;
+    public void setText(String text) {
+        _text = text;
     }
     // </editor-fold>
 
@@ -61,10 +69,10 @@ public class RelatedName implements Serializable {
     public int hashCode() {
         int hash = 7;
         hash = 97 * hash + this._id;
-        hash = 97 * hash + Objects.hashCode(this._name);
+        hash = 97 * hash + Objects.hashCode(this._text);
         return hash;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -76,20 +84,20 @@ public class RelatedName implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final RelatedName other = (RelatedName) obj;
+        final SpecificFunction other = (SpecificFunction) obj;
         if (this._id != other._id) {
             return false;
         }
-        if (!Objects.equals(this._name, other._name)) {
+        if (!Objects.equals(this._text, other._text)) {
             return false;
         }
         return true;
     }
-    
+
     @Override
     public String toString() {
-        return _name;
+        return _text;
     }
     //</editor-fold>
-    
+
 }

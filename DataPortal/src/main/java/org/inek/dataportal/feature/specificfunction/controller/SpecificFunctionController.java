@@ -1,4 +1,4 @@
-package org.inek.dataportal.feature.specificfunction;
+package org.inek.dataportal.feature.specificfunction.controller;
 
 import org.inek.dataportal.controller.AbstractFeatureController;
 import org.inek.dataportal.controller.SessionController;

@@ -1,9 +1,10 @@
-package org.inek.dataportal.entities.specificfunction;
+package org.inek.dataportal.feature.specificfunction.entity;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneOffset;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
@@ -18,15 +19,15 @@ import org.inek.dataportal.utils.Documentation;
  * @author muellermi
  */
 @Entity
-@Table(name = "RequestMaster", schema = "spf")
-public class SpecificFunctionRequest implements Serializable, StatusEntity {
+@Table(name = "AgreementMaster", schema = "spf")
+public class SpecificFunctionAgreement implements Serializable, StatusEntity {
 
     private static final long serialVersionUID = 1L;
 
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "rmId")
+    @Column(name = "amId")
     private int _id = -1;
 
     @Override
@@ -41,7 +42,7 @@ public class SpecificFunctionRequest implements Serializable, StatusEntity {
     // </editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="dataYear">
-    @Column(name = "rmDataYear")
+    @Column(name = "amDataYear")
     @Documentation(key = "lblYearData")
     private int _dataYear;
 
@@ -55,7 +56,7 @@ public class SpecificFunctionRequest implements Serializable, StatusEntity {
     //</editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Code">
-    @Column(name = "rmCode")
+    @Column(name = "amCode")
     @Documentation(key = "lblContractKey")
     private String _code = "";
 
@@ -69,22 +70,82 @@ public class SpecificFunctionRequest implements Serializable, StatusEntity {
     }
     // </editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property Ik">
-    @Column(name = "rmIK")
-    @Documentation(key = "lblIK")
-    private int _ik;
+    //<editor-fold defaultstate="collapsed" desc="Property InsuranceIk">
+    @Column(name = "amInsuranceIK")
+    @Documentation(key = "lblInsuranceIk")
+    private int _insuranceIk;
 
-    public int getIk() {
-        return _ik;
+    public int getInsuranceIk() {
+        return _insuranceIk;
     }
 
-    public void setIk(int ik) {
-        this._ik = ik;
+    public void setInsuranceIk(int insuranceIk) {
+        this._insuranceIk = insuranceIk;
     }
     //</editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Property InsuranceName">
+    @Column(name = "amInsuranceName")
+    @Documentation(key = "lblInsuranceName")
+    private String _insuranceName = "";
 
+    @Size(max = 250)
+    public String getInsuranceName() {
+        return _insuranceName;
+    }
+
+    public void setInsuranceName(String insuranceName) {
+        _insuranceName = insuranceName;
+    }
+    // </editor-fold>
+   
+    // <editor-fold defaultstate="collapsed" desc="Property InsuranceStreet">
+    @Column(name = "amInsuranceStreet")
+    @Documentation(key = "lblStreet")
+    private String _insuranceStreet = "";
+
+    @Size(max = 100)
+    public String getInsuranceStreet() {
+        return _insuranceStreet;
+    }
+
+    public void setInsuranceStreet(String insuranceStreet) {
+        _insuranceStreet = insuranceStreet;
+    }
+    // </editor-fold>
+   
+    // <editor-fold defaultstate="collapsed" desc="Property InsurancePostCode">
+    @Column(name = "amInsurancePostCode")
+    @Documentation(key = "lblPostalCode")
+    private String _insurancePostCode = "";
+
+    @Size(max = 10)
+    public String getInsurancePostCode() {
+        return _insurancePostCode;
+    }
+
+    public void setInsurancePostCode(String insurancePostCode) {
+        _insurancePostCode = insurancePostCode;
+    }
+    // </editor-fold>
+   
+    // <editor-fold defaultstate="collapsed" desc="Property InsuranceTown">
+    @Column(name = "amInsuranceTown")
+    @Documentation(key = "lblTown")
+    private String _insuranceTown = "";
+
+    @Size(max = 100)
+    public String getInsuranceTown() {
+        return _insuranceTown;
+    }
+
+    public void setInsuranceTown(String insuranceTown) {
+        _insuranceTown = insuranceTown;
+    }
+    // </editor-fold>
+   
     //<editor-fold defaultstate="collapsed" desc="Property AccountId">
-    @Column(name = "rmAccountId")
+    @Column(name = "amAccountId")
     private int _accountId;
 
     public int getAccountId() {
@@ -97,7 +158,7 @@ public class SpecificFunctionRequest implements Serializable, StatusEntity {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property LastChanged">
-    @Column(name = "rmLastChanged")
+    @Column(name = "amLastChanged")
     @Documentation(name = "Stand")
     @Temporal(TemporalType.TIMESTAMP)
     private Date _lastChanged;
@@ -112,7 +173,7 @@ public class SpecificFunctionRequest implements Serializable, StatusEntity {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="accountIdLastChange">
-    @Column(name = "rmLastChangedBy")
+    @Column(name = "amLastChangedBy")
     private int _accountIdLastChange;
 
     public int getAccountIdLastChange() {
@@ -125,7 +186,7 @@ public class SpecificFunctionRequest implements Serializable, StatusEntity {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Sealed">
-    @Column(name = "rmSealed")
+    @Column(name = "amSealed")
     @Temporal(TemporalType.TIMESTAMP)
     private Date _sealed = Date.from(LocalDate.of(2000, Month.JANUARY, 1).atStartOfDay().toInstant(ZoneOffset.UTC));
 
@@ -139,7 +200,7 @@ public class SpecificFunctionRequest implements Serializable, StatusEntity {
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Property StatusId">
-    @Column(name = "rmStatusId")
+    @Column(name = "amStatusId")
     private int _statusId;
 
     public int getStatusId() {
@@ -163,7 +224,7 @@ public class SpecificFunctionRequest implements Serializable, StatusEntity {
     //</editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Gender">
-    @Column(name = "rmGender")
+    @Column(name = "amGender")
     
     @Documentation(key = "lblSalutation", omitOnValues = "0", translateValue = "1=salutationFemale;2=salutationMale")
     private int _gender = 0;
@@ -178,7 +239,7 @@ public class SpecificFunctionRequest implements Serializable, StatusEntity {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Title">
-    @Column(name = "rmTitle")
+    @Column(name = "amTitle")
     @Documentation(key = "lblTitle", omitOnEmpty = true)
     private String _title = "";
 
@@ -194,7 +255,7 @@ public class SpecificFunctionRequest implements Serializable, StatusEntity {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property FirstName">
-    @Column(name = "rmFirstName")
+    @Column(name = "amFirstName")
     @Documentation(key = "lblFirstName")
     private String _firstName = "";
 
@@ -209,7 +270,7 @@ public class SpecificFunctionRequest implements Serializable, StatusEntity {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property LastName">
-    @Column(name = "rmLastName")
+    @Column(name = "amLastName")
     @Documentation(key = "lblLastName")
     private String _lastName = "";
 
@@ -224,7 +285,7 @@ public class SpecificFunctionRequest implements Serializable, StatusEntity {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Phone">
-    @Column(name = "rmPhone")
+    @Column(name = "amPhone")
     @Documentation(key = "lblPhone")
     private String _phone = "";
 
@@ -239,7 +300,7 @@ public class SpecificFunctionRequest implements Serializable, StatusEntity {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Mail">
-    @Column(name = "rmMail")
+    @Column(name = "amMail")
     @Documentation(key = "lblMail")
     private String _mail = "";
 
@@ -253,64 +314,77 @@ public class SpecificFunctionRequest implements Serializable, StatusEntity {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property WillNegotiate">
-    @Column(name = "rmWillNegotiate")
-    private boolean _willNegotiate = true;
+    //<editor-fold defaultstate="collapsed" desc="Property Ik">
+    @Column(name = "amIK")
+    @Documentation(key = "lblIK")
+    private int _ik;
 
-    public boolean isWillNegotiate() {
-        return _willNegotiate;
+    public int getIk() {
+        return _ik;
     }
 
-    public void setWillNegotiate(boolean willNegotiate) {
-        _willNegotiate = willNegotiate;
-    }
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Property HasAgreement">
-    @Column(name = "rmHasAgreement")
-    private boolean _hasAgreement = true;
-
-    public boolean isHasAgreement() {
-        return _hasAgreement;
-    }
-
-    public void setHasAgreement(boolean hasAgreement) {
-        _hasAgreement = hasAgreement;
-    }
-    // </editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="Property RequestProjectedCenter">
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "rpcRequestMasterId", referencedColumnName = "rmId")
-    @Documentation(name = "geplante Vereinbarung", omitOnEmpty = true)
-    private List<RequestProjectedCenter> _requestProjectedCenters = new Vector<>();
-
-    public List<RequestProjectedCenter> getRequestProjectedCenters() {
-        return _requestProjectedCenters;
-    }
-
-    public void setRequestProjectedCenters(List<RequestProjectedCenter> requestProjectedCenters) {
-        this._requestProjectedCenters = requestProjectedCenters;
+    public void setIk(int ik) {
+        this._ik = ik;
     }
     //</editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Property SpecificInstitution">
+    @Column(name = "amSpecificInstitution")
+    private boolean _specificInstitution = true;
 
-    //<editor-fold defaultstate="collapsed" desc="Property RequestAgreedCenter">
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "racRequestMasterId", referencedColumnName = "rmId")
-    @Documentation(name = "vorliegende Vereinbarung", omitOnEmpty = true)
-    private List<RequestAgreedCenter> _requestAgreedCenters = new Vector<>();
-
-    public List<RequestAgreedCenter> getRequestAgreedCenters() {
-        return _requestAgreedCenters;
+    public boolean isSpecificInstitution() {
+        return _specificInstitution;
     }
 
-    public void setRequestAgreedCenters(List<RequestAgreedCenter> requestAgreedCenters) {
-        this._requestAgreedCenters = requestAgreedCenters;
+    public void setSpecificInstitution(boolean specificInstitution) {
+        _specificInstitution = specificInstitution;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property IsReported">
+    @Column(name = "amIsReported")
+    private boolean _reported;
+
+    public boolean isReported() {
+        return _reported;
+    }
+
+    public void setReported(boolean reported) {
+        _reported = reported;
+    }
+    // </editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property AgreedRemunerationkeys">
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "arkSpecificFunctionAgreementId", referencedColumnName = "amId")
+    private List<AgreedRemunerationKeys> _remunerationKeys = new ArrayList<>();
+
+    public List<AgreedRemunerationKeys> getRemunerationKeys() {
+        return _remunerationKeys;
+    }
+
+    public void setRemunerationKeys(List<AgreedRemunerationKeys> remunerationKeys) {
+        this._remunerationKeys = remunerationKeys;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property AgreedCenter">
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "acAgreedMasterId", referencedColumnName = "amId")
+    @Documentation(name = "vereinbarte Kostenstellen", omitOnEmpty = true)
+    private List<AgreedCenter> _agreedCenters = new Vector<>();
+
+    public List<AgreedCenter> getAgreedCenters() {
+        return _agreedCenters;
+    }
+
+    public void setAgreedCenters(List<AgreedCenter> agreedCenters) {
+        this._agreedCenters = agreedCenters;
     }
     //</editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property NoteInek">
-    @Column(name = "rmNoteInek")
+    @Column(name = "amNoteInek")
     @Documentation(name = "Bemerkung InEK", rank = 175, omitOnEmpty = true)
     private String _noteInek = "";
 
@@ -323,6 +397,37 @@ public class SpecificFunctionRequest implements Serializable, StatusEntity {
     }
     // </editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc="Property BudgetYear">
+    @Column(name = "amBudgetYear")
+    @Documentation(name = "Budgetjahr", rank = 180, omitOnEmpty = true)
+    private int _budgetYear;
+
+    public int getBudgetYear() {
+        return _budgetYear;
+    }
+
+    public void setBudgetYear(int budgetYear) {
+        this._budgetYear = budgetYear;
+    }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Property BudgetYear">
+    @Column(name = "amBudgetDate")
+    @Documentation(name = "Genehmigung Budget", rank = 185, omitOnEmpty = true)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date _budgetDate = new Date(0);
+
+    public Date getBudgetDate() {
+        if(_budgetDate.getTime() == 0)
+            return null;
+        return _budgetDate;
+    }
+
+    public void setBudgetDate(Date budgetDate) {
+        this._budgetDate = budgetDate;
+    }
+    // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public int hashCode() {
@@ -331,18 +436,27 @@ public class SpecificFunctionRequest implements Serializable, StatusEntity {
 
     @Override
     public boolean equals(Object object) {
-        if (!(object instanceof SpecificFunctionRequest)) {
+        if (!(object instanceof SpecificFunctionAgreement)) {
             return false;
         }
-        SpecificFunctionRequest other = (SpecificFunctionRequest) object;
+        SpecificFunctionAgreement other = (SpecificFunctionAgreement) object;
 
         return _id == other._id;
     }
 
     @Override
     public String toString() {
-        return "RequestMaster[id=" + _id + "]";
+        return "AgreedMaster[id=" + _id + "]";
     }
     // </editor-fold>
-
+    
+    public void addAgreedCenterRemunerationKey() {
+        AgreedRemunerationKeys key = new AgreedRemunerationKeys();
+        key.setSpecificFunctionAgreementId(this.getId());
+        getRemunerationKeys().add(key);
+    }
+    
+    public void removeAgreedCenterRemunerationKey(AgreedRemunerationKeys key) {
+        getRemunerationKeys().remove(key);
+    }
 }
