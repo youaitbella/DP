@@ -108,8 +108,8 @@ public class KGPListStationAlternative implements Serializable, BaseIdValue {
     public KGPListStationAlternative() {
     }
 
-    public KGPListStationAlternative(int sdID) {
-        this._id = sdID;
+    public KGPListStationAlternative(int baseInformationId) {
+        _baseInformationId = baseInformationId;
     }
 
     public KGPListStationAlternative(int sdID, String seDepartmentName, String seAlternative) {

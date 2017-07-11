@@ -64,6 +64,8 @@ public class SessionController implements Serializable {
     @Inject private Mailer _mailer;
     @Inject private CustomerTypeFacade _typeFacade;
 
+    private PortalType _portalType = PortalType.DRG;
+
     public Mailer getMailer() {
         return _mailer;
     }
@@ -125,8 +127,7 @@ public class SessionController implements Serializable {
     }
 
     /**
-     * returns the account id if logged in, otherwise it redirects to session.
-     * timeOut
+     * returns the account id if logged in, otherwise it redirects to session. timeOut
      *
      * @return
      */
@@ -202,8 +203,8 @@ public class SessionController implements Serializable {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         Map<String, Object> map = facesContext.getExternalContext().getSessionMap();
         @SuppressWarnings("unchecked")
-        Map<String, Conversation> conversations = 
-                (Map<String, Conversation>) map.get("org.jboss.weld.context.ConversationContext.conversations");
+        Map<String, Conversation> conversations
+                = (Map<String, Conversation>) map.get("org.jboss.weld.context.ConversationContext.conversations");
         if (conversations == null) {
             return;
         }
@@ -232,6 +233,7 @@ public class SessionController implements Serializable {
             _features.clear();
             _parts.clear();
             _account = null;
+            _portalType = PortalType.DRG;  // todo: use PortalType.COMMON once all existing logins use a specific type
         }
     }
 
@@ -278,10 +280,11 @@ public class SessionController implements Serializable {
      */
     @Deprecated
     public boolean loginAndSetTopics(String mailOrUser, String password) {
-        return loginAndSetTopics(mailOrUser, password, PortalType.DRG);
+        return loginAndSetTopics(mailOrUser, password, _portalType);
     }
-    
+
     public boolean loginAndSetTopics(String mailOrUser, String password, PortalType portalType) {
+        _portalType = portalType;
         //invalidateSession();
         login(mailOrUser, password);
         setTopics();
@@ -295,15 +298,15 @@ public class SessionController implements Serializable {
             return false;
         }
 
-        int sessionTimeout = (_account.getEmail().toLowerCase().endsWith("@inek-drg.de") 
+        int sessionTimeout = (_account.getEmail().toLowerCase().endsWith("@inek-drg.de")
                 && isInternalClient()) ? 36000 : 1800; // session timeout extended to 10 hour for internal user
         FacesContext.getCurrentInstance().getExternalContext().setSessionMaxInactiveInterval(sessionTimeout);
         return true;
     }
 
     /**
-     * General login function. Will be used from UploadServlet (DatenDienst)
-     * too. Thus, perform login and initFeatures only.
+     * General login function. Will be used from UploadServlet (DatenDienst) too. Thus, perform login and initFeatures
+     * only.
      *
      * @param mailOrUser
      * @param password
@@ -350,12 +353,16 @@ public class SessionController implements Serializable {
         boolean hasMaintenance = false;
         boolean hasDocument = false;
         for (AccountFeature accFeature : _account.getFeatures()) {
-            hasMaintenance |= accFeature.getFeature() == Feature.USER_MAINTENANCE;
-            hasDocument |= accFeature.getFeature() == Feature.DOCUMENTS;
-            if (_appTools.isFeatureEnabled(accFeature.getFeature()) 
-                    && (accFeature.getFeatureState() == FeatureState.SIMPLE 
+            Feature feature = accFeature.getFeature();
+            if (feature.getPortalType() != PortalType.COMMON && feature.getPortalType() != _portalType) {
+                continue;
+            }
+            hasMaintenance |= feature == Feature.USER_MAINTENANCE;
+            hasDocument |= feature == Feature.DOCUMENTS;
+            if (_appTools.isFeatureEnabled(feature)
+                    && (accFeature.getFeatureState() == FeatureState.SIMPLE
                     || accFeature.getFeatureState() == FeatureState.APPROVED)) {
-                features.put(accFeature.getSequence(), accFeature.getFeature());
+                features.put(accFeature.getSequence(), feature);
             }
         }
         if (isInekUser(Feature.ADMIN)) {
@@ -424,8 +431,7 @@ public class SessionController implements Serializable {
 
     /**
      * @param requestedFeature
-     * @return true, if the current user is within any InEK role for the
-     * requested feature
+     * @return true, if the current user is within any InEK role for the requested feature
      */
     public boolean isInekUser(Feature requestedFeature) {
         return isInekUser(requestedFeature, false);
@@ -440,9 +446,8 @@ public class SessionController implements Serializable {
      *
      * @param requestedFeature
      * @param needsWriteAccess
-     * @return true, if the current user is within any InEK role for the
-     * requested feature and either has write access enabled or no write access
-     * is requested
+     * @return true, if the current user is within any InEK role for the requested feature and either has write access
+     * enabled or no write access is requested
      */
     public boolean isInekUser(Feature requestedFeature, boolean needsWriteAccess) {
         if (requestedFeature != Feature.DOCUMENTS && !isInternalClient()) {
@@ -522,7 +527,7 @@ public class SessionController implements Serializable {
             return true;
         }
         if (log) {
-            LOGGER.log(Level.WARNING, "Account {0} tried to access object from account {1}", 
+            LOGGER.log(Level.WARNING, "Account {0} tried to access object from account {1}",
                     new Object[]{_account.getId(), accountId});
         }
         return false;
@@ -553,8 +558,7 @@ public class SessionController implements Serializable {
     }
 
     /**
-     * This methods is used in an onclick event of a facelets page to add a
-     * configurable confirmation behavior.
+     * This methods is used in an onclick event of a facelets page to add a configurable confirmation behavior.
      *
      * @param key
      * @return
@@ -682,4 +686,14 @@ public class SessionController implements Serializable {
         }
     }
 
+    public String getCss() {
+        switch (_portalType) {
+            case PSY:
+                return "psyportal.css";
+            case DRG:
+                return "dataportal.css";
+            default:
+                return "dataportal.css";
+        }
+    }
 }

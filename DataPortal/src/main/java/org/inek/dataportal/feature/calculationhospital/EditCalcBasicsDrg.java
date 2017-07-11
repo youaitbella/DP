@@ -185,47 +185,14 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         if (getIks().size() == 1) {
             calcBasics.setIk((int) getIks().get(0).getValue());
         }
-        ensureNeonateData(calcBasics);
-        ensureRadiologyServiceData(calcBasics);
+        PreloadFunctionsCalcBasicsDrg.ensureNeonateData(_calcDrgFacade, calcBasics);
+        PreloadFunctionsCalcBasicsDrg.ensureRadiologyServiceData(_calcDrgFacade, calcBasics);
         retrievePriorData(calcBasics);
         PreloadFunctionsCalcBasicsDrg.preloadData(_calcDrgFacade, calcBasics, _priorCalcBasics);
         KGLNormalStationServiceDocumentationMinutes min = new KGLNormalStationServiceDocumentationMinutes();
         min.setBaseInformationId(calcBasics.getId());
         calcBasics.getNormalStationServiceDocumentationMinutes().add(min);
         return calcBasics;
-    }
-
-    private void ensureRadiologyServiceData(DrgCalcBasics calcBasics) {
-        for (DrgContentText ct : _calcDrgFacade.findAllCalcContentTexts()) {
-            if (ct.getHeaderTextId() == 12) {
-                KGLRadiologyService rs = new KGLRadiologyService();
-                rs.setBaseInformationId(calcBasics.getId());
-                rs.setRsContentTextID(ct.getId());
-                KGLListContentTextOps ops = _calcDrgFacade.findOpsCodeByContentTextId(ct.getId());
-                if (ops != null) {
-                    rs.setOpsCode(ops.getOpsCode());
-                }
-                calcBasics.getRadiologyServices().add(rs);
-            }
-        }
-    }
-
-    private void ensureNeonateData(DrgCalcBasics calcBasics) {
-        if (!calcBasics.getNeonateData().isEmpty()) {
-            return;
-        }
-        List<Integer> headerIds = _calcDrgFacade.retrieveHeaderTexts(calcBasics.getDataYear(), 20, -1)
-                .stream()
-                .map(ht -> ht.getId())
-                .collect(Collectors.toList());
-        List<DrgContentText> contentTexts = _calcDrgFacade.retrieveContentTexts(headerIds, calcBasics.getDataYear());
-        for (DrgContentText contentText : contentTexts) {
-            DrgNeonatData data = new DrgNeonatData();
-            data.setContentTextId(contentText.getId());
-            data.setContentText(contentText);
-            data.setBaseInformationId(calcBasics.getId());
-            calcBasics.getNeonateData().add(data);
-        }
     }
 
     // used by page only
@@ -345,16 +312,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         return result;
     }
 
-    public List<SelectItem> getEndoscopyAmbulantTypes() {
-        List<SelectItem> items = new ArrayList<>();
-        items.add(new SelectItem(-1, "Bitte wählen..."));
-        items.add(new SelectItem(1, "DGVS"));
-        items.add(new SelectItem(2, "Leistungszeit"));
-        items.add(new SelectItem(3, "Punktesystem"));
-        items.add(new SelectItem(4, "Sonstige"));
-        return items;
-    }
-
     public List<KGLListEndoscopyDifferential> addEndoscopyDifferentials() {
         List<KGLListEndoscopyDifferential> result = _calcBasics.getEndoscopyDifferentials();
         KGLListEndoscopyDifferential item = new KGLListEndoscopyDifferential();
@@ -391,9 +348,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     public void deleteIntensivStrokeItems(int intensiveType) {
-        List<KGLListIntensivStroke> itemsToDelete = _calcBasics.getIntensivStrokes().stream()
-                .filter(i -> i.getIntensiveType() == intensiveType).collect(Collectors.toList());
-        _calcBasics.getIntensivStrokes().removeAll(itemsToDelete);
+        _calcBasics.getIntensivStrokes().removeIf(i -> i.getIntensiveType() == intensiveType);
     }
 
     public void deleteIntensivStroke(KGLListIntensivStroke item) {
@@ -416,24 +371,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             result += intensivStroke.getIntensivHoursNotweighted();
         }
         return result;
-    }
-
-    @SuppressWarnings("MultipleStringLiterals")
-    private static final String HEADLINE_RADIOLOGY = "KostenstelleNummer;KostenstelleName;"
-            + "Leistungsdokumentation;Beschreibung;LeistungsvolumenVor;"
-            + "KostenvolumenVor;LeistungsvolumenNach;KostenvolumenNach";
-
-    public void downloadRadiologyTemplate() {
-        Utils.downloadText(HEADLINE_RADIOLOGY + "\n", "Radiology.csv");
-    }
-
-    @SuppressWarnings("MultipleStringLiterals")
-    private static final String HEADLINE_LABORATY = "KostenstelleNummer;KostenstelleName;"
-            + "Leistungsdokumentation;Beschreibung;LeistungsvolumenVor;"
-            + "KostenvolumenVor;KostenvolumenNach";
-
-    public void downloadLaboratoryTemplate() {
-        Utils.downloadText(HEADLINE_LABORATY + "\n", "Laboratory.csv");
     }
 
     public List<Double> getCostCenterCostsSums() {
@@ -850,14 +787,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         return PreloadFunctionsCalcBasicsDrg.getPriorDelimitationFact(_priorCalcBasics, contentTextId);
     }
 
-    public List<String> getDelimitationFactsSubTitles() {
-        List<String> tmp = new ArrayList<>();
-        tmp.add("Personalkosten");
-        tmp.add("Sachkosten");
-        tmp.add("Infrastrukturkosten");
-        return tmp;
-    }
-
     public void changeLocationCount(AjaxBehaviorEvent event) {
         removeEmptyLocations();
         int diff = _calcBasics.getLocationCnt() - _calcBasics.getLocations().size();
@@ -878,13 +807,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     private void removeEmptyLocations() {
-        Iterator<KGLListLocation> iter = _calcBasics.getLocations().iterator();
-        while (iter.hasNext()) {
-            KGLListLocation location = iter.next();
-            if (location.getLocationNo() == 0 && location.getLocation().isEmpty()) {
-                iter.remove();
-            }
-        }
+        _calcBasics.getLocations().removeIf(location -> location.getLocationNo() == 0 && location.getLocation().isEmpty());
     }
 
     public void addSpecialUnit() {
@@ -934,11 +857,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     public void deleteCostCenters(int costCenterId) {
-        List<KGLListCostCenter> centersToDelete = _calcBasics.getCostCenters()
-                .stream()
-                .filter(c -> c.getCostCenterId() == costCenterId)
-                .collect(Collectors.toList());
-        _calcBasics.getCostCenters().removeAll(centersToDelete);
+        _calcBasics.getCostCenters().removeIf(center -> center.getCostCenterId() == costCenterId);
     }
 
     public void downloadNormalStation() {
@@ -990,11 +909,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     public String deleteDocument(String name) {
-        KGLDocument document = _calcBasics.getDocuments().stream()
-                .filter(d -> d.getName().equalsIgnoreCase(name) && d.getSheetId() == 19).findAny().orElse(null);
-        if (document != null) {
-            _calcBasics.getDocuments().remove(document);
-        }
+        _calcBasics.getDocuments().removeIf(d -> d.getName().equalsIgnoreCase(name) && d.getSheetId() == 19);
         return null;
     }
     //</editor-fold>
@@ -1092,14 +1007,4 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         return new KGLRadiologyService();
     }
     
-    public List<SelectItem> getRadLabServices() {
-        List<SelectItem> items = new ArrayList<>();
-        items.add(new SelectItem(0, ""));
-        items.add(new SelectItem(1, "Hauskatalog"));
-        items.add(new SelectItem(2, "DKG-NT"));
-        items.add(new SelectItem(3, "EBM"));
-        items.add(new SelectItem(4, "GOÄ"));
-        items.add(new SelectItem(5, "Sonstige"));
-        return items;
-    }
 }

@@ -79,7 +79,7 @@
             </f:facet>
             
             <h:selectOneMenu value="#{item.service}">
-                <f:selectItems value="#{editCalcBasicsDrg.radLabServices}" />
+                <f:selectItems value="#{calcBasicsStaticData.radLabServices}" />
                 <f:ajax event="change" render="@form :logout:remaining" />
             </h:selectOneMenu>
         </h:column>

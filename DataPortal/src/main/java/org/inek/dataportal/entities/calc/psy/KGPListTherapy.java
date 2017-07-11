@@ -289,8 +289,9 @@ public class KGPListTherapy implements Serializable, BaseIdValue {
     public KGPListTherapy() {
     }
 
-    public KGPListTherapy(int baseInformationId) {
+    public KGPListTherapy(int baseInformationId, int costCenterId) {
         _baseInformationId = baseInformationId;
+        _costCenterId = costCenterId;
     }
 
     //<editor-fold defaultstate="collapsed" desc="hash && equals && toString">

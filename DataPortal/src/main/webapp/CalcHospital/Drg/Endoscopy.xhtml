@@ -113,7 +113,7 @@
                 </td>
                 <td>
                 <h:selectOneMenu value="#{item.serviceKey}" styleClass="inputwide">
-                    <f:selectItems value="#{editCalcBasicsDrg.endoscopyAmbulantTypes}" />
+                    <f:selectItems value="#{calcBasicsStaticData.endoscopyAmbulantTypes}" />
                     <f:ajax event="change" render="@form :logout:remaining" />
                 </h:selectOneMenu>
                 <h:inputTextarea rendered="#{item.serviceKey == 4}" required="true" styleClass="inputwide" value="#{item.miscText}">

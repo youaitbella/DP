@@ -211,4 +211,34 @@ public class CalcBasicsStaticData {
         items.add(new SelectItem(15, "Sonstige"));
         return items;
     }
+    
+    public List<SelectItem> getEndoscopyAmbulantTypes() {
+        List<SelectItem> items = new ArrayList<>();
+        items.add(new SelectItem(-1, "Bitte wählen..."));
+        items.add(new SelectItem(1, "DGVS"));
+        items.add(new SelectItem(2, "Leistungszeit"));
+        items.add(new SelectItem(3, "Punktesystem"));
+        items.add(new SelectItem(4, "Sonstige"));
+        return items;
+    }
+
+    public List<String> getDelimitationFactsSubTitles() {
+        List<String> tmp = new ArrayList<>();
+        tmp.add("Personalkosten");
+        tmp.add("Sachkosten");
+        tmp.add("Infrastrukturkosten");
+        return tmp;
+    }
+
+    public List<SelectItem> getRadLabServices() {
+        List<SelectItem> items = new ArrayList<>();
+        items.add(new SelectItem(0, ""));
+        items.add(new SelectItem(1, "Hauskatalog"));
+        items.add(new SelectItem(2, "DKG-NT"));
+        items.add(new SelectItem(3, "EBM"));
+        items.add(new SelectItem(4, "GOÄ"));
+        items.add(new SelectItem(5, "Sonstige"));
+        return items;
+    }
+    
 }

@@ -272,8 +272,9 @@ public class KGPListRadiologyLaboratory implements Serializable, BaseIdValue {
     public KGPListRadiologyLaboratory() {
     }
 
-    public KGPListRadiologyLaboratory(int baseInformationId) {
+    public KGPListRadiologyLaboratory(int baseInformationId, int costCenterId) {
         _baseInformationId = baseInformationId;
+        _costCenterId = costCenterId;
     }
 
     //<editor-fold defaultstate="collapsed" desc="hash && equals && toString">

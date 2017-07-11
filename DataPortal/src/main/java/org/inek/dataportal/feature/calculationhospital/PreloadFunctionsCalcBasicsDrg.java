@@ -11,11 +11,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import org.inek.dataportal.entities.calc.drg.DrgCalcBasics;
 import org.inek.dataportal.entities.calc.drg.DrgContentText;
 import org.inek.dataportal.entities.calc.drg.DrgDelimitationFact;
 import org.inek.dataportal.entities.calc.drg.DrgNeonatData;
 import org.inek.dataportal.entities.calc.drg.KGLListCentralFocus;
+import org.inek.dataportal.entities.calc.drg.KGLListContentTextOps;
 import org.inek.dataportal.entities.calc.drg.KGLListCostCenterCost;
 import org.inek.dataportal.entities.calc.drg.KGLListLocation;
 import org.inek.dataportal.entities.calc.drg.KGLListObstetricsGynecology;
@@ -26,6 +28,7 @@ import org.inek.dataportal.entities.calc.drg.KGLNormalFeeContract;
 import org.inek.dataportal.entities.calc.drg.KGLNormalFreelancer;
 import org.inek.dataportal.entities.calc.drg.KGLNormalStationServiceDocumentation;
 import org.inek.dataportal.entities.calc.drg.KGLPersonalAccounting;
+import org.inek.dataportal.entities.calc.drg.KGLRadiologyService;
 import org.inek.dataportal.entities.calc.drg.KglOpAn;
 import org.inek.dataportal.facades.calc.CalcDrgFacade;
 
@@ -296,6 +299,39 @@ public class PreloadFunctionsCalcBasicsDrg {
                 }).forEachOrdered((c) -> {
                     calcBasics.getCostCenterCosts().add(c);
                 });
+    }
+
+    public static void ensureNeonateData(CalcDrgFacade calcDrgFacade, DrgCalcBasics calcBasics) {
+        if (!calcBasics.getNeonateData().isEmpty()) {
+            return;
+        }
+        List<Integer> headerIds = calcDrgFacade.retrieveHeaderTexts(calcBasics.getDataYear(), 20, -1)
+                .stream()
+                .map(ht -> ht.getId())
+                .collect(Collectors.toList());
+        List<DrgContentText> contentTexts = calcDrgFacade.retrieveContentTexts(headerIds, calcBasics.getDataYear());
+        for (DrgContentText contentText : contentTexts) {
+            DrgNeonatData data = new DrgNeonatData();
+            data.setContentTextId(contentText.getId());
+            data.setContentText(contentText);
+            data.setBaseInformationId(calcBasics.getId());
+            calcBasics.getNeonateData().add(data);
+        }
+    }
+
+    public static void ensureRadiologyServiceData(CalcDrgFacade calcDrgFacade, DrgCalcBasics calcBasics) {
+        for (DrgContentText ct : calcDrgFacade.findAllCalcContentTexts()) {
+            if (ct.getHeaderTextId() == 12) {
+                KGLRadiologyService rs = new KGLRadiologyService();
+                rs.setBaseInformationId(calcBasics.getId());
+                rs.setRsContentTextID(ct.getId());
+                KGLListContentTextOps ops = calcDrgFacade.findOpsCodeByContentTextId(ct.getId());
+                if (ops != null) {
+                    rs.setOpsCode(ops.getOpsCode());
+                }
+                calcBasics.getRadiologyServices().add(rs);
+            }
+        }
     }
 
 }

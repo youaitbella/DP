@@ -25,7 +25,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.Id;
 import javax.persistence.OptimisticLockException;
-import javax.servlet.http.Part;
 import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
@@ -76,6 +75,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     @Inject private SessionController _sessionController;
     @Inject private CalcPsyFacade _calcFacade;
     @Inject private ApplicationTools _appTools;
+    // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     private PeppCalcBasics _calcBasics;
@@ -113,7 +113,6 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
 
     @PostConstruct
     private void init() {
-        LOGGER.info("start init EditCalcBasicPepp");
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         String id = params.get("id");
         if ("new".equals(id)) {
@@ -123,7 +122,6 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
             PeppCalcBasics calcBasics = loadCalcBasicsPepp(id);
             if (calcBasics.getId() == -1) {
                 Utils.navigate(Pages.NotAllowed.RedirectURL());
-                LOGGER.info("end init EditCalcBasicPepp");
                 return;
             }
             _calcBasics = calcBasics;
@@ -135,7 +133,6 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         }
         // session timeout extended to 1 hour (to provide enough time for an upload)
         FacesContext.getCurrentInstance().getExternalContext().setSessionMaxInactiveInterval(ONE_HOUR);
-        LOGGER.info("end init EditCalcBasicPepp");
     }
 
     public void retrievePriorData(PeppCalcBasics calcBasics) {
@@ -205,7 +202,6 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     }
 
     private PeppCalcBasics newCalcBasicsPepp() {
-        LOGGER.info("start newCalcBasicsPepp");
         Account account = _sessionController.getAccount();
         PeppCalcBasics calcBasics = new PeppCalcBasics();
         calcBasics.setAccountId(account.getId());
@@ -217,7 +213,6 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
 
         retrievePriorData(calcBasics);
         preloadData(calcBasics);
-        LOGGER.info("end newCalcBasicsPepp");
         return calcBasics;
     }
 
@@ -282,14 +277,6 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
             df.setUsed(getPriorDelimitationFact(ct.getId()).isUsed());
             calcBasics.getDelimitationFacts().add(df);
         }
-    }
-
-    public List<String> getDelimitationFactsSubTitles() {
-        List<String> tmp = new ArrayList<>();
-        tmp.add("Personalkosten");
-        tmp.add("Sachkosten");
-        tmp.add("Infrastrukturkosten");
-        return tmp;
     }
 
     @Override
@@ -685,12 +672,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     }
 
     public void deleteCostCenters(int costCenterId) {
-        for (Iterator<KGPListCostCenter> itr = _calcBasics.getCostCenters().iterator(); itr.hasNext();) {
-            KGPListCostCenter center = itr.next();
-            if (center.getCostCenterId() == costCenterId) {
-                itr.remove();
-            }
-        }
+        _calcBasics.getCostCenters().removeIf(center -> center.getCostCenterId() == costCenterId);
     }
     //</editor-fold>
 
@@ -782,9 +764,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     }
 
     public void addTherapyCost(int costCenterId) {
-        KGPListTherapy result = new KGPListTherapy();
-        result.setCostCenterId(costCenterId);
-        result.setBaseInformationId(_calcBasics.getId());
+        KGPListTherapy result = new KGPListTherapy(_calcBasics.getId(), costCenterId);
         _calcBasics.getTherapies().add(result);
     }
 
@@ -793,8 +773,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     }
 
     public void addStationAlternative() {
-        KGPListStationAlternative sa = new KGPListStationAlternative();
-        sa.setBaseInformationId(_calcBasics.getId());
+        KGPListStationAlternative sa = new KGPListStationAlternative(_calcBasics.getId());
         _calcBasics.getKgpStationDepartmentList().add(sa);
     }
 
@@ -826,9 +805,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     }
 
     public void addRadiologyLaboratoy(int costCenter) {
-        KGPListRadiologyLaboratory item = new KGPListRadiologyLaboratory();
-        item.setCostCenterId(costCenter);
-        item.setBaseInformationId(_calcBasics.getId());
+        KGPListRadiologyLaboratory item = new KGPListRadiologyLaboratory(_calcBasics.getId(), costCenter);
         _calcBasics.getRadiologyLaboratories().add(item);
     }
 
