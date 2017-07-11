@@ -159,9 +159,9 @@ public enum Pages {
     InsuranceNubNoticeEditAddress("/Insurance/InsuranceNubNoticeEdit"),
     InsuranceNubNoticeEditList("/Insurance/InsuranceNubNoticeEdit"),
     //
-    PartI68("/I68/PartI68"),
-    I68Summary("/I68/I68Summary"),
-    I68Edit("/I68/I68Edit"),
+    PartI68("/i68/PartI68"),
+    I68Summary("/i68/I68Summary"),
+    I68Edit("/i68/I68Edit"),
     //
     PartSpecificFunction("/SpecificFunction/PartSpecificFunction"),
     SpecificFunctionSummary("/SpecificFunction/Hospital/SpecificFunctionSummary"),

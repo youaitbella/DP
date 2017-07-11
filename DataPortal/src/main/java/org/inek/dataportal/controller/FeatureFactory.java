@@ -23,6 +23,7 @@ import org.inek.dataportal.feature.nub.NubController;
 import org.inek.dataportal.feature.peppproposal.PeppProposalController;
 import org.inek.dataportal.feature.certification.CertController;
 import org.inek.dataportal.feature.drgproposal.DrgProposalController;
+import org.inek.dataportal.feature.i68.I68Controller;
 import org.inek.dataportal.feature.insurance.InsuranceController;
 import org.inek.dataportal.feature.psychstaff.controller.PsychStaffController;
 import org.inek.dataportal.feature.specificfunction.controller.SpecificFunctionController;
@@ -69,7 +70,7 @@ public class FeatureFactory {
             case PSYCH_STAFF:
                 return new PsychStaffController(sessionController);
             case I68:
-                
+                return new I68Controller(sessionController);
             default:
                 throw new IllegalArgumentException("no such controller");
         }
