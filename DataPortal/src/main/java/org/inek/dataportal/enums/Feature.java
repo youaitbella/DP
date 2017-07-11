@@ -6,27 +6,28 @@ package org.inek.dataportal.enums;
  */
 public enum Feature {
 
-    ADMIN(1, "Administration", false),
-    USER_MAINTENANCE(2, "Stammdaten", false),
-    NUB(3, "Neue Untersuchungs- und Behandlungsmethoden", false),
-    DROPBOX(5, "DropBox", true),
-    PEPP_PROPOSAL(6, "PEPP-Vorschlagsverfahren", false),
-    DRG_PROPOSAL(7, "DRG-Vorschlagsverfahren", false),
-    COOPERATION(8, "Kooperation", false),
-    MODEL_INTENTION(9, "Modellvorhaben Psy", false),
-    DOCUMENTS(10, "Dokumente", false),
-    CERT(11, "Zertifizierung", true), 
-    AGENCY(12, "Behörde", true),
-    INSURANCE(13, "Krankenkasse", true),
-    CALCULATION_HOSPITAL(14, "Teilnahme Kostenkalkulation", true),
-    SPECIFIC_FUNCTION(15, "Besondere Aufgaben", true), 
-    ADDITIONAL_COST(16, "Finanzierung von Mehrkosten", true),
-    I68(17, "I68 Absenkung Bewertungsrelation", false);
+    ADMIN(1, "Administration", false, PortalType.DRG),
+    USER_MAINTENANCE(2, "Stammdaten", false, PortalType.COMMON),
+    NUB(3, "Neue Untersuchungs- und Behandlungsmethoden", false, PortalType.DRG),
+    DROPBOX(5, "DropBox", true, PortalType.COMMON),
+    PEPP_PROPOSAL(6, "PEPP-Vorschlagsverfahren", false, PortalType.PSY),
+    DRG_PROPOSAL(7, "DRG-Vorschlagsverfahren", false, PortalType.DRG),
+    COOPERATION(8, "Kooperation", false, PortalType.COMMON),
+    MODEL_INTENTION(9, "Modellvorhaben Psy", false, PortalType.PSY),
+    DOCUMENTS(10, "Dokumente", false, PortalType.COMMON),
+    CERT(11, "Zertifizierung", true, PortalType.DRG), 
+    AGENCY(12, "Behörde", true, PortalType.DRG),
+    INSURANCE(13, "Krankenkasse", true, PortalType.DRG),
+    CALCULATION_HOSPITAL(14, "Teilnahme Kostenkalkulation", true, PortalType.DRG),
+    SPECIFIC_FUNCTION(15, "Besondere Aufgaben", true, PortalType.DRG), 
+    ADDITIONAL_COST(16, "Finanzierung von Mehrkosten", true, PortalType.DRG),
+    PSYCH_STAFF(17, "Psych-Personalnachweis-Vereinbarung", true, PortalType.PSY);
 
-    Feature(int id, String description, boolean needsApproval) {
+    Feature(int id, String description, boolean needsApproval, PortalType portalType) {
         _id = id;
         _description = description;
         _needsApproval = needsApproval;
+        _portalType = portalType;
     }
 
     private final int _id;
@@ -46,4 +47,9 @@ public enum Feature {
         return _needsApproval;
     }
 
+    private final PortalType _portalType;
+
+    public PortalType getPortalType() {
+        return _portalType;
+    }
 }
