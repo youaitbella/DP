@@ -68,6 +68,8 @@ public class FeatureFactory {
                 return new AdditionalCostController(sessionController);
             case PSYCH_STAFF:
                 return new PsychStaffController(sessionController);
+            case I68:
+                
             default:
                 throw new IllegalArgumentException("no such controller");
         }
