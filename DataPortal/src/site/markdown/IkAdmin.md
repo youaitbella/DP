@@ -48,7 +48,7 @@ Damit wird die Sicherheit erhöht und der Verwaltungsaufwand verteilt und reduzi
 ### Sichtbarkeit und Übertragung von Daten
 
 - Die Sichtbarkeit von Daten wird unverändert kooperativ geregelt
-- Zusätzlich kann der IK-Admin bestimmen, welche Krankenhausdaten unabhängig von einer Kooperation für wen mit welchen Rechten zugreifbar sind. Solange der IK-Admin Daten nicht mittels Verbot blockiert, gelten dabei die weiter gefassten Rechte (Zu klären: Dies für für IK-Admin sichbar machen?)
+- Zusätzlich kann der IK-Admin bestimmen, welche Krankenhausdaten unabhängig von einer Kooperation für wen mit welchen Rechten zugreifbar sind. Solange der IK-Admin Daten nicht mittels Verbot blockiert, gelten dabei die weiter gefassten Rechte (Zu klären: Dies für IK-Admin sichbar machen?)
 - Daten bestimmter Funktionen (derzeit NUB), die nicht krankenhausweit sichtbar sind, kann der IK-Admin von einem Anwenderkonto auf ein anderes übertragen
 
 ### weitere Funktionen
