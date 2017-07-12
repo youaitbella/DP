@@ -696,4 +696,41 @@ public class SessionController implements Serializable {
                 return "dataportal.css";
         }
     }
+
+    public PortalType getTargetType() {
+        // onece we have more than two types, we may return a list
+        switch (_portalType) {
+            case PSY:
+                return PortalType.DRG;
+            case DRG:
+                return PortalType.PSY;
+            default:
+                logout("unknown PortalType");
+                return PortalType.COMMON;
+        }
+    }
+
+    /**
+     * conveniance method to switch beetween two portal types
+     * @return 
+     */
+    public String switchPortalType(){
+        return navigateToPortal(getTargetType());
+    }
+    
+    public String navigateToPortal(PortalType portalType) {
+        _portalType = portalType;
+        initFeatures();
+        setTopics();
+        setParts();
+        return navigate(Pages.MainApp.URL());
+    }
+
+    public PortalType getPortalType() {
+        return _portalType;
+    }
+
+    public void setPortalType(PortalType portalType) {
+        this._portalType = portalType;
+    }
 }

@@ -18,7 +18,7 @@ public enum Feature {
     CERT(11, "Zertifizierung", true, PortalType.DRG), 
     AGENCY(12, "Behörde", true, PortalType.DRG),
     INSURANCE(13, "Krankenkasse", true, PortalType.DRG),
-    CALCULATION_HOSPITAL(14, "Teilnahme Kostenkalkulation", true, PortalType.DRG),
+    CALCULATION_HOSPITAL(14, "Teilnahme Kostenkalkulation", true, PortalType.COMMON),
     SPECIFIC_FUNCTION(15, "Besondere Aufgaben", true, PortalType.DRG), 
     ADDITIONAL_COST(16, "Finanzierung von Mehrkosten", true, PortalType.DRG),
     PSYCH_STAFF(17, "Psych-Personalnachweis-Vereinbarung", true, PortalType.PSY),

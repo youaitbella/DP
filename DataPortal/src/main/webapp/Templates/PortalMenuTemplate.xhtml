@@ -47,6 +47,11 @@
                 <h:commandLink value="#{msg.lblSummary}" action="#{sessionController.navigate(sessionTools.pages.MainApp)}"/>
             </li>
         </c:if>
+        <c:if test="#{sessionController.loggedIn}">
+            <li>
+                <h:commandLink value="Zum #{sessionController.targetType} Portal" action="#{sessionController.switchPortalType()}"/>
+            </li>
+        </c:if>
     </ui:define>
 
     <ui:define name="mainContent">
