@@ -1,4 +1,4 @@
-package org.inek.dataportal.entities.i68;
+package org.inek.dataportal.entities.valuationratio;
 
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -13,15 +13,15 @@ import org.inek.dataportal.utils.Documentation;
  * @author muellermi
  */
 @Entity
-@Table(name = "I68", schema = "i68")
-public class I68 implements Serializable {
+@Table(name = "ValuationRatio", schema = "vr")
+public class ValuationRatio implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "iId")
+    @Column(name = "vrId")
     private int _id = -1;
 
     public int getId() {
@@ -34,7 +34,7 @@ public class I68 implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property CreationDate">
-    @Column(name = "iCreated")
+    @Column(name = "vrCreated")
     @Temporal(TemporalType.TIMESTAMP)
     private Date _creationDate;
 
@@ -55,7 +55,7 @@ public class I68 implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property LastChange">
-    @Column(name = "iUpdated")
+    @Column(name = "vrUpdated")
     @Temporal(TemporalType.TIMESTAMP)
     private Date _lastChange;
 
@@ -69,7 +69,7 @@ public class I68 implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property AccountId">
-    @Column(name = "iAccountId")
+    @Column(name = "vrAccountId")
     private int _accountId = -1;
 
     public int getAccountId() {
@@ -82,7 +82,7 @@ public class I68 implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Data Year">
-    @Column(name = "iDataYear")
+    @Column(name = "vrDataYear")
     @Documentation(key = "lblYear")
     private int _dataYear = Calendar.getInstance().get(Calendar.YEAR);
 
@@ -95,7 +95,7 @@ public class I68 implements Serializable {
     }
     // </editor-fold>
 
-    @Column(name = "iIK")
+    @Column(name = "vrIK")
     private int _ik = -1;
 
     public int getIk() {
@@ -106,7 +106,7 @@ public class I68 implements Serializable {
         this._ik = ik;
     }
     
-    @Column(name = "iHospital")
+    @Column(name = "vrHospital")
     private String _hospital = "";
 
     public String getHospital() {
@@ -117,7 +117,7 @@ public class I68 implements Serializable {
         this._hospital = hospital;
     }
     
-    @Column(name = "iStreet")
+    @Column(name = "vrStreet")
     private String _street = "";
 
     public String getStreet() {
@@ -128,7 +128,7 @@ public class I68 implements Serializable {
         this._street = street;
     }
     
-    @Column(name = "iZip")
+    @Column(name = "vrZip")
     private String _zip = "";
 
     public String getZip() {
@@ -139,7 +139,7 @@ public class I68 implements Serializable {
         this._zip = zip;
     }
     
-    @Column(name = "iCity")
+    @Column(name = "vrCity")
     private String _city = "";
 
     public String getCity() {
@@ -150,7 +150,7 @@ public class I68 implements Serializable {
         this._city = city;
     }
     
-    @Column(name = "iContactFirstname")
+    @Column(name = "vrContactFirstname")
     private String _contactFirstName = "";
 
     public String getContactFirstName() {
@@ -161,7 +161,7 @@ public class I68 implements Serializable {
         this._contactFirstName = contactFirstName;
     }
     
-    @Column(name = "iContactLastname")
+    @Column(name = "vrContactLastname")
     private String _contactLastName = "";
 
     public String getContactLastName() {
@@ -172,7 +172,7 @@ public class I68 implements Serializable {
         this._contactLastName = contactLastName;
     }
     
-    @Column(name = "iContactGender")
+    @Column(name = "vrContactGender")
     private int _contactGender = -1;
 
     public int getContactGender() {
@@ -183,7 +183,7 @@ public class I68 implements Serializable {
         this._contactGender = contactGender;
     }
     
-    @Column(name = "iContactTitle")
+    @Column(name = "vrContactTitle")
     private int _contactTitle = -1;
 
     public int getContactTitle() {
@@ -194,7 +194,7 @@ public class I68 implements Serializable {
         this._contactTitle = contactTitle;
     }
     
-    @Column(name = "iContactPhone")
+    @Column(name = "vrContactPhone")
     private String _contactPhone = "";
 
     public String getContactPhone() {
@@ -205,7 +205,7 @@ public class I68 implements Serializable {
         this._contactPhone = contactPhone;
     }
     
-    @Column(name = "iContactEmail")
+    @Column(name = "vrContactEmail")
     private String _contactEmail = "";
 
     public String getContactEmail() {
@@ -216,7 +216,7 @@ public class I68 implements Serializable {
         this._contactEmail = contactEmail;
     }
     
-    @Column(name = "i68D")
+    @Column(name = "vr68D")
     private int _i68d = -1;
 
     public int getI68d() {
@@ -227,7 +227,7 @@ public class I68 implements Serializable {
         this._i68d = i68d;
     }
     
-    @Column(name = "i68E")
+    @Column(name = "vr68E")
     private int _i68e = -1;
 
     public int getI68e() {
@@ -238,7 +238,7 @@ public class I68 implements Serializable {
         this._i68e = i68e;
     }
     
-    @Column(name = "i68DList")
+    @Column(name = "vr68DList")
     private boolean _i68dList;
     
     public boolean getI68dList() {
@@ -249,7 +249,7 @@ public class I68 implements Serializable {
         this._i68dList = i68dList;
     }
     
-    @Column(name = "i68EList")
+    @Column(name = "vr68EList")
     private boolean _i68eList;
 
     public boolean getI68eList() {
@@ -260,7 +260,7 @@ public class I68 implements Serializable {
         this._i68eList = i68eList;
     }
     
-    @Column(name = "iDifferentIK")
+    @Column(name = "vrDifferentIK")
     private int _differentIK = -1;
 
     public int getDifferentIK() {
@@ -271,7 +271,7 @@ public class I68 implements Serializable {
         this._differentIK = differentIK;
     }
     
-    @Column(name = "iValidFrom")
+    @Column(name = "vrValidFrom")
     @Temporal(TemporalType.TIMESTAMP)
     private Date _validFrom = new Date(1970, 1, 1);
 
@@ -283,14 +283,14 @@ public class I68 implements Serializable {
         this._validFrom = validFrom;
     }
     
-    @Column(name = "iStatus")
-    private WorkflowStatus _status = WorkflowStatus.New;
+    @Column(name = "vrStatus")
+    private int _status = WorkflowStatus.New.getId();
 
-    public WorkflowStatus getStatus() {
+    public int getStatus() {
         return _status;
     }
 
-    public void setStatus(WorkflowStatus status) {
+    public void setStatus(int status) {
         this._status = status;
     }
     
@@ -324,7 +324,7 @@ public class I68 implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final I68 other = (I68) obj;
+        final ValuationRatio other = (ValuationRatio) obj;
         if (this._id != other._id) {
             return false;
         }

@@ -22,7 +22,7 @@ public enum Feature {
     SPECIFIC_FUNCTION(15, "Besondere Aufgaben", true, PortalType.DRG), 
     ADDITIONAL_COST(16, "Finanzierung von Mehrkosten", true, PortalType.DRG),
     PSYCH_STAFF(17, "Psych-Personalnachweis-Vereinbarung", true, PortalType.PSY),
-    I68(18, "I68 Absenkung Bewertungsrelation", false, PortalType.DRG);
+    VALUATION_RATIO(18, "Bewertungsrelation", false, PortalType.DRG);
 
     Feature(int id, String description, boolean needsApproval, PortalType portalType) {
         _id = id;

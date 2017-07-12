@@ -48,6 +48,7 @@ public enum Pages {
     CalculationHospitalSummary("/CalcHospital/CalculationHospitalSummary"),
     StatementOfParticipanceEditAddress("/CalcHospital/StatementOfParticipance/EditAddress"),
     StatementOfParticipanceEditStatements("/CalcHospital/StatementOfParticipance/EditStatements"),
+    
     // DRG calculation
     CalcDrgEdit("/CalcHospital/Drg/Edit"),
     CalcDrgBasics("/CalcHospital/Drg/Basics"),
@@ -159,9 +160,9 @@ public enum Pages {
     InsuranceNubNoticeEditAddress("/Insurance/InsuranceNubNoticeEdit"),
     InsuranceNubNoticeEditList("/Insurance/InsuranceNubNoticeEdit"),
     //
-    PartI68("/i68/PartI68"),
-    I68Summary("/i68/I68Summary"),
-    I68Edit("/i68/I68Edit"),
+    PartValuationRatio("/ValuationRatio/PartValuationRatio"),
+    ValuationRatioSummary("/ValuationRatio/ValuationRatioSummary"),
+    ValuationRatioEdit("/ValuationRatio/ValuationRatioEdit"),
     //
     PartSpecificFunction("/SpecificFunction/PartSpecificFunction"),
     SpecificFunctionSummary("/SpecificFunction/Hospital/SpecificFunctionSummary"),

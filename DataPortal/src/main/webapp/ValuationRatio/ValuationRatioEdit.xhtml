@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/Templates/PortalMenuTemplate.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <ui:define name="content">
+        <h:form>
+            <h1>
+                <h:commandLink value="#{msg.nameValuationRatio}" action="#{sessionController.navigate(sessionTools.pages.ValuationRatioSummary)}" immediate="true"/>
+            </h1>
+        </h:form>
+        <div class="edit">
+        
+        <h:form id="addressForm">
+
+            <div class="inputPart">
+                <h:outputLabel for="hospitalIk" styleClass="label" value="#{msg.lblHospitalIk}:" />
+                <h:message for="hospitalIk" id="msgHospitalIk" styleClass="errorMessage"/>
+                <br />
+                <h:selectOneMenu value="#{editValuationRatio.valuationRatio.ik}" required="true" readonly="#{editValuationRatio.readOnly}">
+                    <f:ajax event="blur" 
+                            render="@this :logout:remaining msgHospitalIk hospitalName messageForm"/>
+                    <f:selectItems value="#{editValuationRatio.iks}" />
+                </h:selectOneMenu>
+                <h:outputText id="hospitalName" styleClass="marginLeft" value="#{sessionController.getIkName(editValuationRatio.valuationRatio.ik)}"/>
+            </div>
+
+            <h:form id="buttons" rendered="#{!editValuationRatio.readOnly}">
+                <div class="toolBar floatContainer">
+                    <h:commandLink styleClass="bigButton" 
+                                   action="#{editValuationRatio.save}" 
+                                   value="#{msg.btnSave}" 
+                                   immediate="true">
+                    </h:commandLink>
+
+                    <h:commandLink styleClass="sendButton"
+                                   action="#{editValuationRatio.provide}"
+                                   value="#{msg.btnSaveAndClose}"
+                                   rendered="#{editValuationRatio.provideEnabled}"
+                                   title="#{msg.infoSaveAndClose}">
+                        <cb:confirmSeal/>
+                    </h:commandLink>
+                </div>
+            </h:form>
+        </h:form>
+        </div>
+
+    </ui:define>
+
+</ui:composition>

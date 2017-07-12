@@ -15,13 +15,13 @@
     <cc:implementation>
         <div class="paddingElement">
             <h:dataTable rendered="#{cc.attrs.list.size() > 0}"  headerClass="list-header" 
-                         value="#{cc.attrs.list}" var="i68" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colIcon, colIcon, colId, colValue">
+                         value="#{cc.attrs.list}" var="item" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colIcon, colIcon, colId, colValue">
 
                 <h:column  >
                     <f:facet name="header">
                         <h:outputText value=""/>
                     </f:facet>
-                    <h:commandLink action="#{i68List.printI68(i68.id)}" immediate="true" >
+                    <h:commandLink action="#{valuationRatioList.printValuationRatio(item.id)}" immediate="true" >
                         <h:graphicImage alt="drucken" name="Icon/small/print.png" title="Druckansicht" value=""/>
                     </h:commandLink>
                 </h:column>
@@ -30,10 +30,10 @@
                     <f:facet name="header">
                         <h:outputText value=""/>
                     </f:facet>
-                    <h:commandLink action="#{i68List.deleteI68(i68.id)}" immediate="true"
-                                   onclick="#{i68List.getConfirmMessage(i68.id)}">
-                        <h:graphicImage alt="löschen" name="Icon/small/#{i68.status.value le 9 ? 'delete.png' : 'cross.png'}"
-                                        title="#{i68.status.value le 9 ? 'Löschen' : 'Zurückziehen'}" value=""/>
+                    <h:commandLink action="#{valuationRatioList.deleteValuationRatio(item.id)}" immediate="true"
+                                   onclick="#{valuationRatioList.getConfirmMessage(item.id)}">
+                        <h:graphicImage alt="löschen" name="Icon/small/#{item.status.value le 9 ? 'delete.png' : 'cross.png'}"
+                                        title="#{item.status.value le 9 ? 'Löschen' : 'Zurückziehen'}" value=""/>
                     </h:commandLink>
                 </h:column>
 
@@ -41,9 +41,9 @@
                     <f:facet name="header">
                         <h:outputText value=""/>
                     </f:facet>
-                    <h:commandLink action="#{i68List.editI68()}" immediate="true" >
-                        <h:graphicImage alt="Status" name="Icon/small/#{i68.workflowStatus.icon}" value="" title="#{i68.status.description}" rendered="#{i68.status.icon.length() gt 0}"/>
-                        <f:param name="id" value="#{i68.id}"/>
+                    <h:commandLink action="#{valuationRatioList.editValuationRatio()}" immediate="true" >
+                        <h:graphicImage alt="Status" name="Icon/small/#{item.workflowStatus.icon}" value="" title="#{item.status.description}" rendered="#{item.status.icon.length() gt 0}"/>
+                        <f:param name="id" value="#{item.id}"/>
                     </h:commandLink>
                 </h:column>
 
@@ -51,8 +51,8 @@
                     <f:facet name="header">
                         <h:outputText value="#{msg.lblYear}"/>
                     </f:facet>
-                    <h:commandLink action="#{i68List.editI68}" value="#{i68.dataYear}" immediate="true">
-                        <f:param name="id" value="#{i68.id}"/>
+                    <h:commandLink action="#{valuationRatioList.editValuationRatio}" value="#{item.dataYear}" immediate="true">
+                        <f:param name="id" value="#{item.id}"/>
                     </h:commandLink>
                 </h:column>
                 
@@ -60,8 +60,8 @@
                     <f:facet name="header">
                         <h:outputText value="#{msg.lblIK}"/>
                     </f:facet>
-                    <h:commandLink action="#{i68List.editI68}" value="#{i68.ik}" immediate="true">
-                        <f:param name="id" value="#{i68.id}"/>
+                    <h:commandLink action="#{valuationRatioList.editValuationRatio}" value="#{item.ik}" immediate="true">
+                        <f:param name="id" value="#{item.id}"/>
                     </h:commandLink>
                 </h:column>
                 

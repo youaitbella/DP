@@ -17,20 +17,22 @@
     <ui:define name="content">
         <h:form id="form" prependId="false">
 
-            <h1>#{msg.lblI68}</h1>
+            <h1>#{msg.nameValuationRatio}</h1>
 
-            <h4><h:outputLabel value="#{msg.infoOpenNubReport}"/></h4>
-            <inek:InsuranceNubNoticeList list="#{insuranceNubNoticeList.openNotices}"/>
+            <h4><h:outputLabel value="Offene (noch nicht an das InEK gesendete) Bewertungsrelationen"/></h4>
+            <inek:InsuranceNubNoticeList list="#{valuationRatioList.openRelations}"/>
 
             <div class="toolBar marginLeft">
-                <h:commandLink styleClass="bigButton" action="#{insuranceNubNoticeList.editNotice}" 
-                               immediate="true" value="#{msg.btnInsuranceNubMessage}">
+                <h:commandLink styleClass="bigButton" action="#{valuationRatioList.editValuationRatio}" 
+                               immediate="true" value="Neue Bewertungsrelation">
                     <f:param name="id" value="new"/>
                 </h:commandLink>
             </div>
             
-            <h4><h:outputLabel value="#{msg.infoSealedNubReport}"/></h4>
-            <inek:InsuranceNubNoticeList list="#{insuranceNubNoticeList.providedNotices}"/>
+            <c:if test="">
+                <h4><h:outputLabel value="Bereits an das InEK gesendete Bewertungsrelationen"/></h4>
+                <inek:InsuranceNubNoticeList list="#{valuationRatioList.providedRelations}"/>
+            </c:if>
             
         </h:form>
     </ui:define>
