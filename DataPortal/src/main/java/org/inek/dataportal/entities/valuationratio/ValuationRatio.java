@@ -84,7 +84,7 @@ public class ValuationRatio implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property Data Year">
     @Column(name = "vrDataYear")
     @Documentation(key = "lblYear")
-    private int _dataYear = Calendar.getInstance().get(Calendar.YEAR);
+    private int _dataYear = Calendar.getInstance().get(Calendar.YEAR)-1;
 
     public int getDataYear() {
         return _dataYear;
@@ -184,13 +184,13 @@ public class ValuationRatio implements Serializable {
     }
     
     @Column(name = "vrContactTitle")
-    private int _contactTitle = -1;
+    private String _contactTitle = "";
 
-    public int getContactTitle() {
+    public String getContactTitle() {
         return _contactTitle;
     }
 
-    public void setContactTitle(int contactTitle) {
+    public void setContactTitle(String contactTitle) {
         this._contactTitle = contactTitle;
     }
     
@@ -217,7 +217,7 @@ public class ValuationRatio implements Serializable {
     }
     
     @Column(name = "vr68D")
-    private int _i68d = -1;
+    private int _i68d = 0;
 
     public int getI68d() {
         return _i68d;
@@ -228,7 +228,7 @@ public class ValuationRatio implements Serializable {
     }
     
     @Column(name = "vr68E")
-    private int _i68e = -1;
+    private int _i68e = 0;
 
     public int getI68e() {
         return _i68e;
@@ -261,7 +261,7 @@ public class ValuationRatio implements Serializable {
     }
     
     @Column(name = "vrDifferentIK")
-    private int _differentIK = -1;
+    private int _differentIK = 0;
 
     public int getDifferentIK() {
         return _differentIK;

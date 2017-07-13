@@ -5,6 +5,7 @@
 package org.inek.dataportal.feature.valuationratio;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -13,8 +14,10 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
+import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountAdditionalIK;
 import org.inek.dataportal.entities.valuationratio.ValuationRatio;
+import org.inek.dataportal.entities.valuationratio.ValuationRatioMedian;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.ValuationRatioFacade;
@@ -55,8 +58,18 @@ public class EditValuationRatio extends AbstractEditController {
     }
     
     private ValuationRatio newValuationRatio() {
+        Account acc = _sessionController.getAccount();
         ValuationRatio vr = new ValuationRatio();
         vr.setIk(getIks().get(0));
+        vr.setValidFrom(null);
+        vr.setCity(acc.getTown());
+        vr.setZip(acc.getPostalCode());
+        vr.setStreet(acc.getStreet());
+        vr.setContactGender(acc.getGender());
+        vr.setContactFirstName(acc.getFirstName());
+        vr.setContactLastName(acc.getLastName());
+        vr.setContactPhone(acc.getPhone());
+        vr.setContactEmail(acc.getEmail());
         return vr;
     }
 
@@ -68,6 +81,40 @@ public class EditValuationRatio extends AbstractEditController {
 
     public ValuationRatio getValuationRatio() {
         return _valuationRatio;
+    }
+    
+    public boolean isI68dBelowMedian() {
+        ValuationRatioMedian vrm = _valuationRatioFacade.findMedianByDrgAndDataYear("I68D", _valuationRatio.getDataYear());
+        if(vrm == null)
+            return false;
+        return _valuationRatio.getI68d() <= (vrm.getMedian() * vrm.getFactor());
+    }
+    
+    public boolean isI68eBelowMedian() {
+        ValuationRatioMedian vrm = _valuationRatioFacade.findMedianByDrgAndDataYear("I68E", _valuationRatio.getDataYear());
+        if(vrm == null)
+            return false;
+        return _valuationRatio.getI68e() <= (vrm.getMedian() * vrm.getFactor());
+    }
+    
+    public int getI68d() {
+        return _valuationRatio.getI68d();
+    }
+    
+    public void setI68d(int value) {
+        if(!isI68dBelowMedian())
+            _valuationRatio.setI68dList(false);
+        _valuationRatio.setI68d(value);
+    }
+    
+    public int getI68e() {
+        return _valuationRatio.getI68e();
+    }
+    
+    public void setI68e(int value) {
+        if(!isI68eBelowMedian())
+            _valuationRatio.setI68eList(false);
+        _valuationRatio.setI68e(value);
     }
 
     public boolean getProvideEnabled() {
@@ -92,6 +139,8 @@ public class EditValuationRatio extends AbstractEditController {
 
     public String save() {
         try {
+            if(_valuationRatio.getValidFrom() == null)
+                _valuationRatio.setValidFrom(new Date(1970, 1, 1));
             _valuationRatio = _valuationRatioFacade.saveValuationRatio(_valuationRatio);
             _sessionController.alertClient(Utils.getMessage("msgSave"));
         } catch (EJBException e) {

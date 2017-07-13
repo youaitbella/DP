@@ -5,12 +5,13 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
-                xmlns:c="http://java.sun.com/jsp/jstl/core">
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components">
 
     <ui:define name="content">
         <h:form>
             <h1>
-                <h:commandLink value="#{msg.nameValuationRatio}" action="#{sessionController.navigate(sessionTools.pages.ValuationRatioSummary)}" immediate="true"/>
+                <h:commandLink value="#{msg.nameVALUATION_RATIO}" action="#{sessionController.navigate(sessionTools.pages.ValuationRatioSummary)}" immediate="true"/>
             </h1>
         </h:form>
         <div class="edit">
@@ -28,8 +29,133 @@
                 </h:selectOneMenu>
                 <h:outputText id="hospitalName" styleClass="marginLeft" value="#{sessionController.getIkName(editValuationRatio.valuationRatio.ik)}"/>
             </div>
+            
+            <h2>Krankenhausdaten</h2>
+            <h:panelGroup id="hospital-data" styleClass="groupBox" layout="block" style="border-top: none;">
+                <inek:LabeledText readonly="#{editValuationRatio.readOnly}" 
+                                  value="#{editValuationRatio.valuationRatio.street}" 
+                                  required="true" label="#{msg.lblStreet}"
+                                  event="blur"
+                                  styleClassComponent="inputPart element30"/>
+                <br/>
+                <inek:LabeledText readonly="#{editValuationRatio.readOnly}" 
+                                  value="#{editValuationRatio.valuationRatio.zip}" 
+                                  required="true" label="#{msg.lblPostalCode}"
+                                  event="blur"
+                                  styleClassComponent="inputPart element20"/>
+                <br/>
+                <inek:LabeledText readonly="#{editValuationRatio.readOnly}" 
+                                  value="#{editValuationRatio.valuationRatio.city}" 
+                                  required="true" label="#{msg.lblTown}"
+                                  event="blur"
+                                  styleClassComponent="inputPart element30"/>
+            </h:panelGroup>
+            
+            <h2>Ansprechpartner</h2>
+            <h:panelGroup id="contact-data" styleClass="groupBox" layout="block" style="border-top: none;">
+                <inek:SalutationSelect 
+                    valueSalutation="#{editValuationRatio.valuationRatio.contactGender}"
+                    valueTitle="#{editValuationRatio.valuationRatio.contactTitle}"
+                    required="true"/>
+                <br/>
+                <inek:LabeledText readonly="#{editValuationRatio.readOnly}" 
+                                  value="#{editValuationRatio.valuationRatio.contactFirstName}" 
+                                  required="true" label="#{msg.lblFirstName}"
+                                  event="blur"
+                                  styleClassComponent="inputPart element30"/>
+                <br/>
+                <inek:LabeledText readonly="#{editValuationRatio.readOnly}" 
+                                  value="#{editValuationRatio.valuationRatio.contactLastName}" 
+                                  required="true" label="#{msg.lblLastName}"
+                                  event="blur"
+                                  styleClassComponent="inputPart element30"/>
+                <br/>
+                <inek:LabeledText readonly="#{editValuationRatio.readOnly}" 
+                                  value="#{editValuationRatio.valuationRatio.contactPhone}" 
+                                  required="true" label="#{msg.lblPhone}"
+                                  event="blur"
+                                  styleClassComponent="inputPart element30"/>
+                <br/>
+                <inek:LabeledText readonly="#{editValuationRatio.readOnly}" 
+                                  value="#{editValuationRatio.valuationRatio.contactEmail}" 
+                                  required="true" label="#{msg.lblMail}"
+                                  event="blur"
+                                  styleClassComponent="inputPart element30"/>
+            </h:panelGroup>
+            
+            <h2>DRGs zur gezielten Absenkung von Bewertungsrelationen - Datenjahr #{editValuationRatio.valuationRatio.dataYear}</h2>
+            <h:panelGroup id="valuation-data" styleClass="groupBox" layout="block" style="border-top: none;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>I68D</th>
+                            <th>I68E</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>Fallzahl</th>
+                            <td>
+                    <h:inputText value="#{editValuationRatio.i68d}">
+                        <f:ajax event="blur" render="@this i68d-panel :logout:remaining"/>
+                    </h:inputText>
+                            </td>
+                            <td>
+                    <h:inputText value="#{editValuationRatio.i68e}">
+                        <f:ajax event="blur" render="@this i68e-panel :logout:remaining"/>
+                    </h:inputText>            
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Auf die Liste setzen</th>
+                            <td style="text-align: center;">
+                            <h:panelGroup id="i68d-panel">
+                                <h:selectBooleanCheckbox rendered="#{editValuationRatio.isI68dBelowMedian() and editValuationRatio.i68d != 0}"
+                                                         value="#{editValuationRatio.valuationRatio.i68dList}">
+                                    <f:ajax event="change" render="@this :logout:remaining"/>
+                                </h:selectBooleanCheckbox>
+                                <h:outputLabel styleClass="errorMessage"
+                                               value="Die angegebene Fallzahl ist zu hoch."
+                                               rendered="#{!editValuationRatio.isI68dBelowMedian() and editValuationRatio.i68d != 0}">
+                                </h:outputLabel>
+                            </h:panelGroup>
+                            </td>
+                            <td style="text-align: center;">
+                                <h:panelGroup id="i68e-panel">
+                                    <h:selectBooleanCheckbox rendered="#{editValuationRatio.isI68eBelowMedian() and editValuationRatio.i68e != 0}"
+                                                             value="#{editValuationRatio.valuationRatio.i68eList}">
+                                        <f:ajax event="change" render="@this :logout:remaining"/>
+                                    </h:selectBooleanCheckbox>
+                                    <h:outputLabel styleClass="errorMessage"
+                                                   value="Die angegebene Fallzahl ist zu hoch."
+                                                   rendered="#{!editValuationRatio.isI68eBelowMedian() and editValuationRatio.i68e != 0}">
+                                    </h:outputLabel>
+                                </h:panelGroup>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </h:panelGroup>
+            
+            <h2>Abweichendes IK im Abrechnungsjahr</h2>
+            <h:panelGroup id="diff-ik-data" styleClass="groupBox" layout="block" style="border-top: none;">
+                <inek:LabeledText readonly="#{editValuationRatio.readOnly}" 
+                                  value="#{editValuationRatio.valuationRatio.differentIK}" 
+                                  label="Abweichendes IK"
+                                  event="blur"
+                                  styleClassComponent="inputPart element30"/>
+                <br/>
+                    <h:outputLabel style="display: inline-block; width: 100%" styleClass="label" value="gültig ab:"/>
+                    <h:inputText readonly="#{editValuationRatio.readOnly}" styleClass="title-placeholder"
+                                 title="DD.MM.YYYY"
+                                value="#{editValuationRatio.valuationRatio.validFrom}" 
+                                >
+                        <f:convertDateTime pattern="dd.MM.yyyy" timeZone="CET"/>
+                        <f:ajax event="blur" render="@this :logout:remaining"/>
+                    </h:inputText>
+            </h:panelGroup>
 
-            <h:form id="buttons" rendered="#{!editValuationRatio.readOnly}">
                 <div class="toolBar floatContainer">
                     <h:commandLink styleClass="bigButton" 
                                    action="#{editValuationRatio.save}" 
@@ -45,7 +171,6 @@
                         <cb:confirmSeal/>
                     </h:commandLink>
                 </div>
-            </h:form>
         </h:form>
         </div>
 

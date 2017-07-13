@@ -64,7 +64,7 @@ public class ValuationRatioList {
     }
     
     public String printValuationRatio(int valuationRatioId) {
-        Utils.getFlash().put("headLine", Utils.getMessage("nameValuationRatio"));
+        Utils.getFlash().put("headLine", Utils.getMessage("nameVALUATION_RATIO"));
         Utils.getFlash().put("targetPage", Pages.ValuationRatioSummary.URL());
         Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(_valuationRatioFacade.findValuationRatio(valuationRatioId)));
         return Pages.PrintView.URL();

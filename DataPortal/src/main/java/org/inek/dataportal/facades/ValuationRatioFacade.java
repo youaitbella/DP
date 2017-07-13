@@ -7,6 +7,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 import org.inek.dataportal.entities.valuationratio.ValuationRatio;
+import org.inek.dataportal.entities.valuationratio.ValuationRatioMedian;
 import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.enums.WorkflowStatus;
 
@@ -23,6 +24,23 @@ public class ValuationRatioFacade extends AbstractDataAccess {
 
     public ValuationRatio findFreshValuationRatio(int id) {
         return super.findFresh(ValuationRatio.class, id);
+    }
+    
+    public ValuationRatioMedian findValuationRatioMedian(int id) {
+        return super.find(ValuationRatioMedian.class, id);
+    }
+
+    public ValuationRatioMedian findFreshValuationRatioMedian(int id) {
+        return super.findFresh(ValuationRatioMedian.class, id);
+    }
+    
+    public ValuationRatioMedian findMedianByDrgAndDataYear(String drg, int dataYear) {
+        List<ValuationRatioMedian> list = findAll(ValuationRatioMedian.class);
+        for(ValuationRatioMedian vrm : list) {
+            if(vrm.getDrg().equals(drg) && vrm.getDataYear() == dataYear)
+                return vrm;
+        }
+        return null;
     }
     
     public List<ValuationRatio> getValuationRatios(int accountId, DataSet dataSet) {

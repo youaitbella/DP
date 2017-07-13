@@ -18,7 +18,7 @@ public class ValuationRatioController extends AbstractFeatureController {
 
     @Override
     protected void addTopics(Topics topics) {
-        topics.addTopic(Utils.getMessage("nameValuationRatio"), Pages.ValuationRatioSummary.URL());
+        topics.addTopic(Utils.getMessage("nameVALUATION_RATIO"), Pages.ValuationRatioSummary.URL());
     }
 
     @Override
