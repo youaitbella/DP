@@ -12,7 +12,68 @@
     <ui:define name="content">
 
         <h:form id="psychStaff">
-            <h1>PsychStaff - comming soon</h1>
+            <h1><h:commandLink value="#{msg.lblCalcBasic} OBD #{msg.lblYearData} #{editPsyStaff.calcBasics.dataYear}" 
+                               action="#{sessionController.navigate(sessionTools.pages.CalculationHospitalSummary)}" immediate="true"/></h1>
+
+
+            <div class="edit">
+
+                       <ui:include src="CalcBasicsAutopsy.xhtml"/>
+
+
+                <div class="toolBar">
+                    <h:commandLink styleClass="bigButton"
+                                   action="#{editPsyStaff.save}"
+                                   value="#{msg.btnSave}"
+                                   immediate="true"
+                                   rendered="#{!editPsyStaff.readOnly}">
+                    </h:commandLink>
+
+                    <h:commandLink styleClass="sendButton"
+                                   immediate="false"
+                                   action="#{editPsyStaff.requestApproval}"
+                                   value="#{msg.btnRequestApproval}"
+                                   rendered="#{editPsyStaff.approvalRequestEnabled}"
+                                   title="#{msg.infoSaveAndClose}">
+                        <cb:confirmRequestApproval/>
+                    </h:commandLink>
+
+                    <h:commandLink styleClass="sendButton"
+                                   immediate="false"
+                                   action="#{editPsyStaff.seal}"
+                                   value="#{msg.btnSaveAndClose}"
+                                   rendered="#{editPsyStaff.sealEnabled and (editPsyStaff.activeTopicKey ne 'tabStatementOfParticipanceAddress' or editPsyStaff.statement.obligatoryCalcType eq 1)}"
+                                   title="#{msg.infoSaveAndClose}">
+                        <cb:confirmSeal/>
+                    </h:commandLink>
+
+                    <h:commandLink styleClass="bigButton"
+                                   action="#{editPsyStaff.copyForResend}"
+                                   value="#{msg.btnChangeData}"
+                                   immediate="true"
+                                   rendered="#{editPsyStaff.copyForResendAllowed}">
+                        <cb:confirmChangeData/>
+                    </h:commandLink>
+
+                    <h:commandLink styleClass="bigButton"
+                                   action="#{editPsyStaff.take}"
+                                   value="#{msg.btnTake}"
+                                   immediate="true"
+                                   rendered="#{editPsyStaff.takeEnabled}"
+                                   onclick="#{sessionController.getConfirmMessage('msgConfirmTake')};">
+                    </h:commandLink>
+                    
+                    <h:commandLink styleClass="bigButton"
+                                   value="#{msg.btnNextPage}"
+                                   rendered="#{editPsyStaff.activeTopicKey eq 'tabStatementOfParticipanceAddress' and (not editPsyStaff.statement.obligatory or editPsyStaff.statement.obligatoryCalcType eq 2)}"
+                                   actionListener="#{editPsyStaff.activateNextTopic}"
+                                   action="/CalcHospital/StatementOfParticipance/EditStatements"
+                                   immediate="true"> <!--action="# {sessionController.navigate(sessionTools.pages.StatementOfParticipanceEditStatements)}"-->
+
+                    </h:commandLink>
+                    
+                </div>
+            </div>
         </h:form>
 
     </ui:define>

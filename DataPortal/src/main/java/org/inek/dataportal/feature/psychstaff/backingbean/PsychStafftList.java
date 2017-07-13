@@ -35,11 +35,6 @@ public class PsychStafftList {
         return _appTools.isEnabled(ConfigKey.IsPsychStaffCreateEnabled);
     }
 
-    public String newRequest() {
-        return Pages.PsychStaffEdit.URL();
-    }
-
-
     public String print(SpecificFunctionRequest request) {
         Utils.getFlash().put("headLine", Utils.getMessage("namePSYCH_STAFF"));
         Utils.getFlash().put("targetPage", Pages.PsychStaffSummary.URL());

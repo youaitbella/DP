@@ -3,20 +3,26 @@ colors
 #043358;
 #437A1E;
 #7F9BAF;
+
+
+e4ecde
 */
+@backgroundcolor: #dbebd1;
+@basecolor: #437A1E;
 
 root {
 }
 
 html {
     font-size: 12px;
-    background-color: #dbebd1;
+    background-color: @backgroundcolor;
 
 }
 
 body {
     text-align: left;
 }
+
 
 .container10em,
 .container { 
@@ -44,7 +50,7 @@ hr {
     margin: 20px 0;
     height: 1px;
     display: block;
-    background-color: #043358;
+    background-color: @basecolor;
 }
 
 hr.simpleLine {
@@ -411,7 +417,7 @@ div#wrapper {
 #content .navi a{
     font-size: 1.2em;
     display: block;
-    color: #043358;
+    color: @basecolor;
     text-decoration: none;
     font-weight: bold;
     padding: 1px 5px 1px 5px;
@@ -420,12 +426,12 @@ div#wrapper {
 
 #content .navi  a:hover,
 #content .navi  a:focus {
-    background: #043358;
+    background: @basecolor;
     color: #fff;
 }
 
 #content .activemenu a{
-    background: #043358;
+    background: @basecolor;
     color: #fff;
     background-image: url("/DataPortal/javax.faces.resource/Icon/small/menu_active.png.xhtml");
     background-position: right;
@@ -485,8 +491,8 @@ div#wrapper {
     #globalLinks a:active,
     #globalLinks a:hover,
     #globalLinks a:focus {
-        border-bottom: 1px solid #043358;
-        color: #043358;
+        border-bottom: 1px solid @basecolor;
+        color: @basecolor;
     }
 }
 
@@ -761,7 +767,7 @@ select:active, select:focus{
     display: inline-block;
     width: 97%;
     padding: 0.1em 1.5%;
-    background-color: #043358;
+    background-color: @basecolor;
     color: white;
     text-decoration: none;
     margin-top: 0.5em;
@@ -784,14 +790,14 @@ select:active, select:focus{
     display: inline-block;
     padding: 0.1em 0.25em;
     margin: 0 1px;
-    background-color: #043358;
+    background-color: @basecolor;
     color: white;
     text-decoration: none;
     font-weight: bold;
 }
 
 .blockElement {
-    background-color: #043358;
+    background-color: @basecolor;
     color: white;
 }
 
@@ -1166,7 +1172,7 @@ a.rightArrow {
 }
 
 .bigButton{
-    background-color: #043358;
+    background-color: @basecolor;
 }
 
 .bigButton:hover{
@@ -1192,7 +1198,7 @@ span.button {
 }
 
 a.button, .midButton, .smallButton, input.button, label.button{
-    background-color: #043358;
+    background-color: @basecolor;
     color: white;
     margin: 0.5em 1.5em 0.5em 0;
 
@@ -1254,7 +1260,7 @@ input.button:active, label.button:active, a.button:active, a.secondaryButton:act
 
 .addButton, .addIcon{
     color: white;
-    background-color: #043358;
+    background-color: @basecolor;
     background-image: url("/DataPortal/javax.faces.resource/Icon/small/add.png.xhtml");
     background-repeat: no-repeat;
     background-position: left center;

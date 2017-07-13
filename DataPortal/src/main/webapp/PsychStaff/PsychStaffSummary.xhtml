@@ -12,18 +12,18 @@
                 >
 
     <ui:define name="content">
+        <h:form>
+            <h1>#{msg.namePSYCH_STAFF}</h1>
 
-        <h1>#{msg.namePSYCH_STAFF}</h1>
-        
-            <h:commandLink styleClass="bigButton #{specificFunctionRequestList.newAllowed? '' : 'buttonDisabled'}"
-                           action="#{specificFunctionRequestList.newRequest()}"
+            <h:commandLink styleClass="bigButton #{psychStafftList.newAllowed? '' : 'buttonDisabled'}"
+                           action="#{psychStafftList.edit()}"
                            immediate="true"
                            value="#{msg.btnNewSpecificFunctionRequest}"
-                           disabled="#{!specificFunctionRequestList.newAllowed}"
+                           disabled="#{!psychStafftList.newAllowed}"
                            >
                 <f:param name="id" value="new"/>
             </h:commandLink>
-        
+        </h:form>
     </ui:define>
-    
+
 </ui:composition>
