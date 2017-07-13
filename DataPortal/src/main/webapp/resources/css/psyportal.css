@@ -10,7 +10,7 @@ root {
 
 html {
     font-size: 12px;
-    background-color: #f0ffe8;
+    background-color: #437A1E;
 
 }
 
@@ -1231,7 +1231,7 @@ input.button:active, label.button:active, a.button:active, a.secondaryButton:act
     border-color:  #fff #ddd #ddd #fff;
 }
 
-.inekGreen{
+.specialButtonColor{
     background-color: #4aa628;
 }
 

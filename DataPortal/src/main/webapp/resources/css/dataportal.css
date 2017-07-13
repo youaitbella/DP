@@ -1229,8 +1229,12 @@ input.button:active, label.button:active, a.button:active, a.secondaryButton:act
     border-color:  #fff #ddd #ddd #fff;
 }
 
-.inekGreen{
+.specialButtonColor{
     background-color: #4aa628;
+}
+
+.inekGreen{
+    background-color: #437A1E;
 }
 
 .sendButton{
