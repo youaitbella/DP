@@ -1,14 +1,13 @@
 /*
 colors
 #043358;
-#437A1E;
-#7F9BAF;
-#dbebd1;
-e4ecde
+@basecolor;#
+@basecolor;
+@linecolor;
 */
 @inek-blue: #043358;
 @inek-green: #437A1E;
-
+@linecolor: #7F9BAF;
 
 @basecolor: @inek-green;
 @backgroundcolor: lighten(@basecolor, 60%, relative);
@@ -27,7 +26,7 @@ body {
 
 .container10em,
 .container { 
-    border: 1px solid #7F9BAF; 
+    border: 1px solid @linecolor; 
     overflow: auto;
 }
 
@@ -59,12 +58,12 @@ hr.simpleLine {
     margin: 0.75em 0;
     height: 1px;
     display: block;
-    color: #7F9BAF;
+    color: @linecolor;
 }
 
 .borderBottom {
     border-bottom-width: 1px;
-    border-bottom-color: #7F9BAF;
+    border-bottom-color: @linecolor;
     border-bottom-style: solid;
 }
 
@@ -74,7 +73,7 @@ h1 {
     padding-top: 20px;
     padding-left: 5px;
     border-bottom-width: 5px;
-    border-bottom-color: #7F9BAF;
+    border-bottom-color: @linecolor;
     border-bottom-style: solid;
     padding-bottom: 5px;
     margin-bottom: 0px;
@@ -86,7 +85,7 @@ h2 {
     padding-top: 15px;
     padding-left: 5px;
     border-bottom-width: 2px;
-    border-bottom-color: #7F9BAF;
+    border-bottom-color: @linecolor;
     border-bottom-style: solid;
     padding-bottom: 2px;
     margin: 0;
@@ -104,7 +103,7 @@ h4 {
     font-weight: bold;
     padding: 0.5em;
     border-bottom-width: 1px;
-    border-bottom-color: #7F9BAF;
+    border-bottom-color: @linecolor;
     border-bottom-style: solid;
     margin-top: 1em;
     margin-bottom: 1em;
@@ -199,7 +198,7 @@ div#wrapper {
 
 @media screen {
     #top .left {
-        border-bottom: 10px solid #7F9BAF;
+        border-bottom: 10px solid @linecolor;
     }
 
     .left,
@@ -235,12 +234,12 @@ div#wrapper {
     }
 
     .hint{
-        border-color: #7F9BAF;
+        border-color: @linecolor;
         width: 270px;
     }
 
     .hintWide{
-        border-color: #7F9BAF;
+        border-color: @linecolor;
         margin: 0;
     }
 
@@ -256,7 +255,7 @@ div#wrapper {
     .highlight {
         font-size: 1.2em;
         font-weight: bold;
-        background-color: #7F9BAF;
+        background-color: @linecolor;
         color: white;
         list-style-type: none;
         display: block;
@@ -301,7 +300,7 @@ div#wrapper {
 .head {
     font-size: 3em;
     font-weight: bold;
-    color: #7F9BAF;
+    color: @linecolor;
     margin-top: 11px;
     margin-bottom: 10px;
     height: 50px;
@@ -346,7 +345,7 @@ div#wrapper {
     display: block;
     margin: 20px 0 0 0;
     width: 100%;
-    border-bottom: 3px solid #7F9BAF;
+    border-bottom: 3px solid @linecolor;
 }
 
 #content ul.tab {
@@ -374,8 +373,8 @@ div#wrapper {
 
 #content li.activetab select,
 #content li.activetab {
-    background-color: #7F9BAF;
-    border-color:  #C6D2DB #56748a #7F9BAF #C6D2DB;
+    background-color: @linecolor;
+    border-color:  #C6D2DB #56748a @linecolor #C6D2DB;
 }
 
 #content li.hiddentab {
@@ -411,7 +410,7 @@ div#wrapper {
     width: 270px;
     border-style: solid;
     border-width: 1px;
-    border-color:  #7F9BAF;
+    border-color:  @linecolor;
     padding: 0;
     margin: 5px 0 5px 0;
 }
@@ -419,7 +418,7 @@ div#wrapper {
 #content .navi a{
     font-size: 1.2em;
     display: block;
-    color: @basecolor;
+    color: darken(@basecolor, 20%);
     text-decoration: none;
     font-weight: bold;
     padding: 1px 5px 1px 5px;
@@ -435,14 +434,14 @@ div#wrapper {
 #content .activemenu a{
     background: @basecolor;
     color: #fff;
-    background-image: url("/DataPortal/javax.faces.resource/Icon/small/menu_active.png.xhtml");
+    background-image: url("/DataPortal/javax.faces.resource/Icon/small/menu_active-psy.png.xhtml");
     background-position: right;
     background-repeat: no-repeat;
 }
 
 #content .activemenu a:hover,
 #content .activemenu a:focus {
-    background-image: url("/DataPortal/javax.faces.resource/Icon/small/menu_active.png.xhtml");
+    background-image: url("/DataPortal/javax.faces.resource/Icon/small/menu_active_psy.png.xhtml");
     background-position: right;
     background-repeat: no-repeat;
 }
@@ -456,7 +455,7 @@ div#wrapper {
         margin-top: 3px;
         padding: 0;
         height: 18px;
-        border-bottom: #7F9BAF solid 1px;
+        border-bottom: @linecolor solid 1px;
         overflow: auto;
     }
     #globalLinks form {
@@ -481,8 +480,8 @@ div#wrapper {
     #globalLinks a{
         line-height: 1em;
         text-decoration: none;
-        border-bottom: 1px solid #437A1E;
-        color: #437A1E;
+        border-bottom: 1px solid @basecolor;
+        color: @basecolor;
     }
 
     #globalLinks ul a{
@@ -522,7 +521,7 @@ div#wrapper {
 #search-text {
     padding: 1px 2px;
     width: 63%;
-    border: 1px #7F9BAF solid;
+    border: 1px @linecolor solid;
 }
 
 .light {
@@ -750,7 +749,7 @@ select:active, select:focus{
     max-width: 50%;
     padding-left: 1.5%;
     padding-right: 1.5%;
-    background-color: #7F9BAF;
+    background-color: @linecolor;
     color: white;
     text-decoration: none;
 }
@@ -760,7 +759,7 @@ select:active, select:focus{
     width: 94.5%;
     padding-left: 1.5%;
     padding-right: 1.5%;
-    background-color: #437A1E;
+    background-color: @basecolor;
     color: white;
     text-decoration: none;
 }
@@ -780,7 +779,7 @@ select:active, select:focus{
     display: inline-block;
     width: calc(100% - 2px);
     margin: 0 1px;
-    background-color: #7F9BAF;
+    background-color: @linecolor;
     color: white;
     text-decoration: none;
     font-weight: bold;
@@ -804,7 +803,7 @@ select:active, select:focus{
 }
 
 .blockElementLight {
-    background-color: #7F9BAF;
+    background-color: @linecolor;
     color: white;
 }
 
@@ -1104,7 +1103,7 @@ tr.row2 > td.colIk > input {
 
 .warningMessage {
     margin-left: 5px;
-    color: #7F9BAF;
+    color: @linecolor;
 }
 
 .warningText {
@@ -1179,7 +1178,7 @@ a.rightArrow {
 
 .bigButton:hover{
     color: white;
-    box-shadow: 0px 0px 5px 1px #437A1E;
+    box-shadow: 0px 0px 5px 1px @basecolor;
     cursor: pointer;
 }
 
@@ -1207,7 +1206,7 @@ a.button, .midButton, .smallButton, input.button, label.button{
 }
 
 a.secondaryButton{
-    background-color: #7F9BAF;
+    background-color: @linecolor;
     color: white;
     min-width: 10em;
 }
@@ -1230,7 +1229,7 @@ a.midButton{
 
 input.button:hover, label.button:hover, a.button:hover, a.secondaryButton:hover, .smallButton:hover{
     color: white;
-    box-shadow: 0px 0px 5px 1px #437A1E;
+    box-shadow: 0px 0px 5px 1px @basecolor;
     cursor: pointer;
 }
 
@@ -1252,7 +1251,7 @@ input.button:active, label.button:active, a.button:active, a.secondaryButton:act
 
 .sendButton:hover{
     color: white;
-    box-shadow: 0px 0px 5px 1px #437A1E;
+    box-shadow: 0px 0px 5px 1px @basecolor;
     background-image: url("/DataPortal/javax.faces.resource/Icon/small/arrow_go_hover.png.xhtml");
 }
 
@@ -1270,7 +1269,7 @@ input.button:active, label.button:active, a.button:active, a.secondaryButton:act
 
 .addButton:hover, .addIcon:hover{
     color: white;
-    box-shadow: 0px 0px 5px 1px #437A1E;
+    box-shadow: 0px 0px 5px 1px @basecolor;
     background-image: url("/DataPortal/javax.faces.resource/Icon/small/add_hover.png.xhtml");
 }
 
@@ -1419,7 +1418,7 @@ div.modelIntYesNo {
 .rectangle {
     border-style: solid;
     border-width: 2px;
-    border-color: #7F9BAF;
+    border-color: @linecolor;
     margin: 1em;
     padding: 1em;
 }
