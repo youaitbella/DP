@@ -8,11 +8,13 @@ package org.inek.dataportal.feature.additionalcost;
 import org.inek.dataportal.entities.additionalcost.AdditionalCost;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
@@ -29,8 +31,13 @@ import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.AdditionalCostFacade;
+import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.feature.AbstractEditController;
+import org.inek.dataportal.feature.admin.facade.InekRoleFacade;
 import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.helper.structures.MessageContainer;
+import org.inek.dataportal.mail.Mailer;
+import org.inek.dataportal.utils.DocumentationUtil;
 
 /**
  *
@@ -47,6 +54,9 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
     @Inject private SessionController _sessionController;
     @Inject private AdditionalCostFacade _additionalCostFacade;
     @Inject private ApplicationTools _appTools;
+    
+    @Inject private AccountFacade _accountFacade;
+    @Inject private Mailer _mailer;
 
     private AdditionalCost _additionalCost;
 
@@ -79,7 +89,8 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
 
     private AdditionalCost loadAdditionalCost(String idObject) {
         int id = Integer.parseInt(idObject);
-        AdditionalCost additionalCost = _additionalCostFacade.find(id);
+//        AdditionalCost additionalCost = _additionalCostFacade.find(id);
+        AdditionalCost additionalCost = _additionalCostFacade.findAdditionalCost(id);
         if (hasSufficientRights(additionalCost)) {
             return additionalCost;
         }
@@ -104,17 +115,17 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
         return additionalCost;
     }
 
-    public List<SelectItem> getTypeItems() {
-        List<SelectItem> items = new ArrayList<>();
-        items.add(new SelectItem(1, "im Krankenhausplan des Landes"));
-        items.add(new SelectItem(2, "durch gleichartige Festlegung durch zuständige Landesbehörde"));
-        return items;
-    }
+//    public List<SelectItem> getTypeItems() {
+//        List<SelectItem> items = new ArrayList<>();
+//        items.add(new SelectItem(1, "im Krankenhausplan des Landes"));
+//        items.add(new SelectItem(2, "durch gleichartige Festlegung durch zuständige Landesbehörde"));
+//        return items;
+//    }
 
     // <editor-fold defaultstate="collapsed" desc="actions">
-    public boolean isOwnStatement() {
-        return _sessionController.isMyAccount(_additionalCost.getAccountId(), false);
-    }
+//    public boolean isOwnStatement() {
+//        return _sessionController.isMyAccount(_additionalCost.getAccountId(), false);
+//    }
 
     public boolean isReadOnly() {
         if (_additionalCost == null) {
@@ -135,8 +146,19 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
         addTopic("TopicFrontPage", Pages.CalcDrgBasics.URL());
     }
 
-    public String save() {//TODO
-        return "";
+    public String save() {
+//        removeEmptyCenters();
+//        setModifiedInfo();
+        _additionalCost = _additionalCostFacade.saveAdditionalCost(_additionalCost);
+//        addCentersIfMissing();
+
+        if (isValidId(_additionalCost.getId())) {
+            // CR+LF or LF only will be replaced by "\r\n"
+            String script = "alert ('" + Utils.getMessage("msgSave").replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
+            _sessionController.setScript(script);
+            return null;
+        }
+        return Pages.Error.URL();
     }
 
     private boolean isValidId(Integer id) {
@@ -186,7 +208,20 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
      *
      * @return
      */
-    public String seal() {//Todo
+    public String seal() {//Todo      
+        if (!requestIsComplete()) {
+            return null;
+        }
+        _additionalCost.setStatus(WorkflowStatus.Provided);
+        _additionalCost = _additionalCostFacade.saveAdditionalCost(_additionalCost);
+
+        if (isValidId(_additionalCost.getId())) {
+            sendNotification();
+            Utils.getFlash().put("headLine", Utils.getMessage("nameADDITIONAL_COST"));
+            Utils.getFlash().put("targetPage", Pages.AdditionalCostSummary.URL());
+            Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(_additionalCost));
+            return Pages.PrintView.URL();
+        }        
         return "";
     }
 
@@ -228,5 +263,63 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
         return items;
     }
     // </editor-fold>
+    
+    
+    @Inject private InekRoleFacade _inekRoleFacade;
+    
+    public void sendNotification() {
+        List<Account> inekAccounts = _inekRoleFacade.findForFeature(Feature.ADDITIONAL_COST);
+        String receipients = inekAccounts.stream().map(a -> a.getEmail()).collect(Collectors.joining(";"));
+        _mailer.sendMail(receipients, "Besondere Aufgaben / Zentrum", "Es wurde ein Datensatz an das InEK gesendet.");
+    }
 
+    private boolean requestIsComplete() {
+         MessageContainer message = composeMissingFieldsMessage(_additionalCost);
+        if (message.containsMessage()) {
+            message.setMessage(Utils.getMessage("infoMissingFields") + "\\r\\n" + message.getMessage());
+            //setActiveTopic(message.getTopic());
+            String script = "alert ('" + message.getMessage() + "');";
+            if (!message.getElementId().isEmpty()) {
+                script += "\r\n document.getElementById('" + message.getElementId() + "').focus();";
+            }
+            _sessionController.setScript(script);
+        }
+        return !message.containsMessage();
+    }
+    
+    
+    public MessageContainer composeMissingFieldsMessage(AdditionalCost additionalCost) {
+        MessageContainer message = new MessageContainer();
+
+        String ik = additionalCost.getIk() <= 0 ? "" : "" + additionalCost.getIk();
+        checkField(message, ik, "lblIK", "additionalFunction:ikMulti");
+        checkField(message, additionalCost.getContactFirstName(), "lblFirstName", "additionalFunction:firstName");
+        checkField(message, additionalCost.getContactLastName(), "lblFirstName", "additionalFunction:lastName");
+        checkField(message, additionalCost.getContactPhone(), "lblPhone", "additionalFunction:phone");
+        checkField(message, additionalCost.getContactEmail(), "lblMail", "additionalFunction:mail");
+
+        return message;
+    }
+    
+    private void checkField(MessageContainer message, String value, String msgKey, String elementId) {
+        if (Utils.isNullOrEmpty(value)) {
+            applyMessageValues(message, msgKey, elementId);
+        }
+    }
+
+    private void checkField(MessageContainer message, Integer value, Integer minValue, Integer maxValue, String msgKey, String elementId) {
+        if (value == null
+                || minValue != null && value < minValue
+                || maxValue != null && value > maxValue) {
+            applyMessageValues(message, msgKey, elementId);
+        }
+    }
+
+    private void applyMessageValues(MessageContainer message, String msgKey, String elementId) {
+        message.setMessage(message.getMessage() + "\\r\\n" + Utils.getMessageOrKey(msgKey));
+        if (message.getTopic().isEmpty()) {
+            message.setTopic("");
+            message.setElementId(elementId);
+        }
+    }
 }

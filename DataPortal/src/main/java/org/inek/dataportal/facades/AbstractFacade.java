@@ -18,6 +18,7 @@ import org.eclipse.persistence.jpa.JpaQuery;
  * @param <T>
  * @author muellermi
  */
+@Deprecated
 public abstract class AbstractFacade<T> {
 
     protected static final Logger LOGGER = Logger.getLogger("Facade");

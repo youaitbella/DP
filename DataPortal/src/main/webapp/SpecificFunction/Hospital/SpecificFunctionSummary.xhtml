@@ -16,9 +16,7 @@
         #{inekSpfTreeHandler.refreshNodes()}
 
         <h:form class="paddingElement">
-
             <h1>#{msg.lblSpecificFunction}</h1>
-
             <ui:repeat value="#{specificFunctionRequestTreeHandler.editNode.children}" var="accountNode" >
                 <div style="margin-left:16px;">
                     <h:commandLink action="#{accountNode.toggle}" immediate="true" >
@@ -88,12 +86,6 @@
                     </ui:repeat>
                 </div>
             </ui:repeat>
-
-
-
-
         </h:form>
-
     </ui:define>
-
 </ui:composition>

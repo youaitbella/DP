@@ -15,7 +15,8 @@
 
         <h:form id="specificFuntion" enctype="multipart/form-data">
             <h1><h:commandLink value="#{msg.lblSpecificFunction}" styleClass="marginTop01em"
-                               action="#{sessionController.navigate(sessionTools.pages.SpecificFunctionSummary)}" immediate="true"/></h1>
+                               action="#{sessionController.navigate(sessionTools.pages.SpecificFunctionSummary)}" 
+                               immediate="true"/></h1>
 
             <div class="edit">
                 <inek:LabeledText rendered="#{not sessionController.isInekUser('SPECIFIC_FUNCTION')}"
