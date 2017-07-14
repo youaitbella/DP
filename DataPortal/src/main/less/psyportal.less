@@ -3,12 +3,15 @@ colors
 #043358;
 #437A1E;
 #7F9BAF;
-
-
+#dbebd1;
 e4ecde
 */
-@backgroundcolor: #dbebd1;
-@basecolor: #437A1E;
+@inek-blue: #043358;
+@inek-green: #437A1E;
+
+
+@basecolor: @inek-green;
+@backgroundcolor: lighten(@basecolor, 60%);
 
 root {
 }
@@ -16,13 +19,11 @@ root {
 html {
     font-size: 12px;
     background-color: @backgroundcolor;
-
 }
 
 body {
     text-align: left;
 }
-
 
 .container10em,
 .container { 
@@ -41,6 +42,7 @@ body {
     margin: 0;
     padding: 0;
 }
+
 
 p {
     margin: 5px 0 5px 0;

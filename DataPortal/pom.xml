@@ -69,31 +69,34 @@
 
     <build>
         <finalName>${project.artifactId}</finalName>
-       <resources>
+        <resources>
             <resource>
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
             </resource>
         </resources>
-      <plugins>
-         <plugin>
-            <groupId>biz.gabrys.maven.plugins</groupId>
-            <artifactId>lesscss-maven-plugin</artifactId>
-            <version>1.2.1</version>
-            <executions>
-               <execution>
-                  <id>default-compile</id>
-                  <phase>process-sources</phase> <!-- When omitted defaults to 'generate-sources' -->
-                  <goals>
-                     <goal>compile</goal>
-                  </goals>
-                  <configuration>
-                     <!-- put your configurations here -->
-                  </configuration>
-               </execution>
-            </executions>
-         </plugin>
-      </plugins>
+        <plugins>
+            <plugin>
+                <groupId>biz.gabrys.maven.plugins</groupId>
+                <artifactId>lesscss-maven-plugin</artifactId>
+                <version>1.2.1</version>
+                <executions>
+                    <execution>
+                        <id>default-compile</id>
+                        <phase>process-sources</phase> <!-- When omitted defaults to 'generate-sources' -->
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                        <configuration>
+                            <sourceDirectory>${project.basedir}/src/main/less</sourceDirectory>
+                            <!--outputDirectory>${project.basedir}/src/main/webapp/resources/css</outputDirectory-->
+                            <outputDirectory>${project.build.directory}/${project.build.finalName}/resources/css</outputDirectory>
+                            <compress>true</compress>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
         
     </build>
 
