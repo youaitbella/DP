@@ -86,7 +86,7 @@ public class StaffProof implements Serializable, StatusEntity {
     //<editor-fold defaultstate="collapsed" desc="Property Created">
     @Column(name = "spmCreated")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date _created;
+    private Date _created = new Date();
 
     public Date getCreated() {
         return _created;
@@ -101,7 +101,7 @@ public class StaffProof implements Serializable, StatusEntity {
     @Column(name = "spmLastChanged")
     @Documentation(name = "Stand")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date _lastChanged;
+    private Date _lastChanged = new Date();
 
     public Date getLastChanged() {
         return _lastChanged;

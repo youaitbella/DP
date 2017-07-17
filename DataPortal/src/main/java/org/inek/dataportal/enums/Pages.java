@@ -55,7 +55,6 @@ public enum Pages {
     CalcDrgBasicExplanation("/CalcHospital/Drg/BasicExplanation"),
     CalcDrgExternalServiceProvision("/CalcHospital/Drg/ExternalServiceProvision"),
     CalcDrgOperation("/CalcHospital/Drg/Operation"),
-    CalcDrgAnaestesia("/CalcHospital/Drg/Anaestesia"),
     CalcDrgMaternityRoom("/CalcHospital/Drg/MaternityRoom"),
     CalcDrgCardiology("/CalcHospital/Drg/Cardiology"),
     CalcDrgEndoscopy("/CalcHospital/Drg/Endoscopy"),

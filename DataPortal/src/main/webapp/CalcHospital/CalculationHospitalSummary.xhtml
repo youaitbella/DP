@@ -33,6 +33,18 @@
 
             <div jsf:rendered="#{sessionController.isInekUser('CALCULATION_HOSPITAL')}">
                 <h2>An das InEK gesendete Kalkulationsgrundlagen</h2>
+                
+            <div class="inputPart">
+                <h:outputLabel for="txtFilter" styleClass="label marginRight" value="#{msg.lblFilter}"/>
+                <h:inputText id="txtFilter" styleClass="inputmedium marginRight" value="#{calcBasicsTreeHandler.filter}">
+                    <f:ajax/>
+                </h:inputText>
+                <h:commandLink styleClass="button" value="#{msg.btnRefreshList}">
+                    <f:ajax render="@form :logout:remaining"/>
+                </h:commandLink>
+            </div>
+
+                
                 <ui:repeat value="#{calcBasicsTreeHandler.rootNode.children}" var="accountNode" >
                     <calc:AccountNode accountNode="#{accountNode}" editPartner="false"/>
                 </ui:repeat>

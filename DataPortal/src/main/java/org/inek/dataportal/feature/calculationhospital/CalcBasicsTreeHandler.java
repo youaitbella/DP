@@ -49,6 +49,18 @@ public class CalcBasicsTreeHandler implements Serializable, TreeNodeObserver {
         _rootNode.refresh();
     }
 
+    private String _filter = "";
+
+    public String getFilter() {
+        return _filter;
+    }
+
+    public void setFilter(String filter) {
+        _filter = filter == null ? "" : filter;
+        refreshNodes();
+    }
+
+    
     @Override
     public void obtainChildren(TreeNode treeNode, Collection<TreeNode> children) {
         if (treeNode instanceof RootNode) {

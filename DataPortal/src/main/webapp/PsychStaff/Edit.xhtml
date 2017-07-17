@@ -6,6 +6,7 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 >
 
@@ -30,8 +31,7 @@
 
             <div class="edit">
 
-                <!--ui: include src="CalcBasicsAutopsy.xhtml"/-->
-
+                <ui:include src="#{editPsyStaff.activeTopic.outcome}"/>
 
                 <div class="toolBar">
                     <h:commandLink styleClass="bigButton"

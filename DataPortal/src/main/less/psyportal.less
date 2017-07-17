@@ -432,7 +432,7 @@ div#wrapper {
 #content .activemenu a{
     background: @basecolor;
     color: #fff;
-    background-image: url("/DataPortal/javax.faces.resource/Icon/small/menu_active-psy.png.xhtml");
+    background-image: url("/DataPortal/javax.faces.resource/Icon/small/menu_active_psy.png.xhtml");
     background-position: right;
     background-repeat: no-repeat;
 }
@@ -443,10 +443,6 @@ div#wrapper {
     background-position: right;
     background-repeat: no-repeat;
 }
-#content .activemenu a:before {
-    /* content: "       ";*/  /* non break spaces */
-}
-
 
 @media screen{
     #globalLinks{
@@ -1002,6 +998,7 @@ select:active, select:focus{
 }
 
 .colValue{
+    /* dummy */
 }
 
 .colShortCentered {
@@ -1254,7 +1251,7 @@ input.button:active, label.button:active, a.button:active, a.secondaryButton:act
 }
 
 .addIcon:before, .sendButton:after, .addButton:before{
-    content: "     ";  /* non break spaces */
+    content: "\00a0\00a0\00a0\00a0\00a0";  /* non break spaces */
 }
 
 .addButton, .addIcon{
