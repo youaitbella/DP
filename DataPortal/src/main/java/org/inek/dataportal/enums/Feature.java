@@ -9,6 +9,7 @@ public enum Feature {
     ADMIN(1, "Administration", false, PortalType.DRG),
     USER_MAINTENANCE(2, "Stammdaten", false, PortalType.COMMON),
     NUB(3, "Neue Untersuchungs- und Behandlungsmethoden", false, PortalType.DRG),
+    REQUEST_SYSTEM(4, "Anfrageverfahren", false, PortalType.DRG),
     DROPBOX(5, "DropBox", true, PortalType.COMMON),
     PEPP_PROPOSAL(6, "PEPP-Vorschlagsverfahren", false, PortalType.PSY),
     DRG_PROPOSAL(7, "DRG-Vorschlagsverfahren", false, PortalType.DRG),

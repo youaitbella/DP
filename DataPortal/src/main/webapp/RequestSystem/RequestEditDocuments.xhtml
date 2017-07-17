@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                >
+    <h:outputStylesheet name="fileuploader.css" library="css"/>
+    <h:outputScript name="fileuploader.js" library="script"/>
+    <script>
+        var fileCounter = 0;
+        function createUploader() {
+            var uploader = new qq.FileUploader({
+                element: document.getElementById('file-uploader'),
+                action: '/DataPortal/upload/attachment',
+                debug: true,
+                allowedExtensions: [], //['zip', '7z', 'rar', 'gpg', 'pgp'],
+                onSubmit: function (id, fileName) {
+                    fileCounter++;
+                },
+                onCancel: function (id, fileName) {
+                    fileCounter--;
+                    if (fileCounter == 0) {
+                    }
+                },
+                onComplete: function (id, fileName, responseJSON) {
+                    fileCounter--;
+                    if (fileCounter == 0) {
+                        document.getElementById("form:takeDocuments").click();
+                    }
+                },
+                template: '<div class="qq-uploader">' +
+                        '<div class="qq-upload-drop-area"><span>Dateien mittels Ziehen und Ablegen hochladen.</span></div>' +
+                        '<div class="qq-upload-button">Datei hochladen</div>' +
+                        '<ul class="qq-upload-list"></ul>' +
+                        '</div>'
+            });
+        }
+        window.onload = createUploader;
+    </script>
+    <div class="inputPart">
+        <h:panelGroup rendered="#{editRequest.request.documents.size() > 0}">
+            <div class="inputPart"><h:outputLabel styleClass="label" value="#{msg.lblUploadedFiles}:"/></div>
+            <h:dataTable  headerClass="list-header" id="tblDropBoxes"
+                          value="#{editRequest.request.documents}" var="file" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colValue">
+                <h:column id="colDeleteId" rendered="#{!editRequest.request.complete}">
+                    <f:facet name="header">
+                        <h:outputText value=""/>
+                    </f:facet>
+                    <h:commandLink action="#{editRequest.deleteDocument(file.name)}" immediate="true" >
+                        <h:graphicImage alt="#{msg.btnDelete}" name="delete.png" library="Icon/small" title="#{msg.btnDelete}" value=""/>
+                    </h:commandLink>
+                </h:column>
+                <h:column id="colName">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg.lblName}"/>
+                    </f:facet>
+                    <h:outputText id="filename" value="#{file.name}"/>
+                </h:column>
+            </h:dataTable>
+        </h:panelGroup>
+
+    </div>
+    <div class="inputPart">
+        <div id="file-uploader">
+            <noscript>
+                <div class="inputPart">Please enable JavaScript to use file uploader.</div>
+                <!-- or put a simple form for upload here -->
+            </noscript>
+        </div>
+
+        <!-- Invisible button to transfer uploaded documents into request. Will be "clicked" by code when upload is complete -->
+        <h:commandButton id="takeDocuments" value="takeDocuments"
+                         style="display: none"
+                         action="#{editRequest.takeDocuments}" immediate="true">
+        </h:commandButton>
+
+    </div>
+
+    <div class="inputPart">
+        <h:outputLabel styleClass="label" for="documentsOffline" value="#{msg.lblDocumentsOffline}"/>
+        <h:message for="documentsOffline" id="msgDocumentsOffline" styleClass="errorMessage"/>
+        <br/>
+        <h:inputTextarea  styleClass="areaWideHigh" id="documentsOffline" value="#{editRequest.request.documentsOffline}">
+            <f:ajax event="blur" render="@this :logout:remaining msgDocumentsOffline"/>
+        </h:inputTextarea>
+    </div>
+
+    <div class="inputPart">
+        <h:selectBooleanCheckbox id="anonymousData" value="#{editRequest.anonymousData}"
+                                 required="false" requiredMessage="#{msg.msgValueNeeded}">
+            <f:ajax render="@this :logout:remaining msgAnonymousData"/>
+        </h:selectBooleanCheckbox>
+        <h:outputLabel for="anonymousData" value="#{msg.lblAnonymousData}"/>
+        <h:message for="anonymousData" id="msgAnonymousData" styleClass="errorMessage"/>
+    </div>
+
+</ui:composition>
+

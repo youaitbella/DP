@@ -209,6 +209,16 @@ public enum Pages {
     AdminTaskChangeNub("/Admin/AdminTaskChangeNub"),
     AdminTaskUploadDoc("/Admin/AdminTaskUploadDoc"),
     //
+    RequestSummary("/RequestSystem/RequestSummary"),
+    PartRequest("/RequestSystem/PartRequest"),
+    RequestEdit("/RequestSystem/RequestEdit"),
+    RequestEditAddress("/RequestSystem/RequestEditAddress"),
+    RequestEditProblem("/RequestSystem/RequestEditProblem"),
+    RequestEditSolutions("/RequestSystem/RequestEditSolutions"),
+    RequestEditBackground("/RequestSystem/RequestEditBackground"),
+    RequestEditRelevance("/RequestSystem/RequestEditRelevance"),
+    RequestEditDocuments("/RequestSystem/RequestEditDocuments"),
+    //
     DocumentsSummary("/Documents/DocumentsSummary"),
     DocumentUploadFromInek("/Documents/UploadFromInek"),
     DocumentUploadToInek("/Documents/UploadToInek"),
