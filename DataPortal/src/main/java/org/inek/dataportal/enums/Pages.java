@@ -179,6 +179,11 @@ public enum Pages {
     PartPsychStaff("/PsychStaff/PartPsychStaff"),
     PsychStaffSummary("/PsychStaff/PsychStaffSummary"),
     PsychStaffEdit("/PsychStaff/Edit"),
+    PsychStaffBaseData("/PsychStaff/BaseData"),
+    PsychStaffAppendix1Adults("/PsychStaff/Appendix1Adults"),
+    PsychStaffAppendix1Kids("/PsychStaff/Appendix1Kids"),
+    PsychStaffAppendix2Adults("/PsychStaff/Appendix2Adults"),
+    PsychStaffAppendix2Kids("/PsychStaff/Appendix2Kids"),
     
     //
     NotAllowed("/common/NotAllowed"),

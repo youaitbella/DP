@@ -17,8 +17,8 @@ import org.inek.dataportal.helper.Utils;
  * @author muellermi
  */
 public abstract class AbstractEditController implements SearchConsumer, Serializable {
+    
     // <editor-fold defaultstate="collapsed" desc="fields">
-
     private static final long serialVersionUID = 1L;
     private final Topics _topics;
     // </editor-fold>

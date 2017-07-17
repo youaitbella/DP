@@ -7,6 +7,5 @@
     <suppress checks="FileLength" files="org[\\/]inek[\\/]dataportal[\\/]entities[\\/].*[.]java"/>
     <suppress checks="FileLength" files="org[\\/]inek[\\/]dataportal[\\/]feature[\\/]calculationhospital[\\/]DataImporter[.]java"/>
     <suppress checks="FileLength" files="org[\\/]inek[\\/]dataportal[\\/]feature[\\/]calculationhospital[\\/]EditCalcBasicsDrg[.]java"/>
-    <suppress checks="FileLength" files="org[\\/]inek[\\/]dataportal[\\/]feature[\\/]calculationhospital[\\/]EditCalcBasicsPepp[.]java"/>
     <suppress checks="FileLength" files="org[\\/]inek[\\/]dataportal[\\/]feature[\\/]certification[\\/]CertGrouperResults[.]java"/>
 </suppressions>

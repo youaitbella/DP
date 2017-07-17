@@ -10,7 +10,6 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -39,9 +38,7 @@ import org.inek.dataportal.entities.calc.drg.DrgContentText;
 import org.inek.dataportal.entities.calc.drg.DrgDelimitationFact;
 import org.inek.dataportal.entities.calc.drg.DrgHeaderText;
 import org.inek.dataportal.entities.calc.drg.DrgNeonatData;
-import org.inek.dataportal.entities.calc.drg.KGLDocument;
 import org.inek.dataportal.entities.calc.drg.KGLListCentralFocus;
-import org.inek.dataportal.entities.calc.drg.KGLListContentTextOps;
 import org.inek.dataportal.entities.calc.drg.KGLListCostCenter;
 import org.inek.dataportal.entities.calc.drg.KGLListCostCenterCost;
 import org.inek.dataportal.entities.calc.drg.KGLListEndoscopyAmbulant;
@@ -598,24 +595,22 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     public boolean isSealEnabled() {
-        if (!_appTools.isEnabled(ConfigKey.IsCalculationBasicsDrgSendEnabled)) {
-            return false;
-        }
-        return _cooperationTools.isSealedEnabled(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId());
+        return isSendEnabled()
+                && _cooperationTools.isSealedEnabled(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId());
     }
 
+    private boolean isSendEnabled(){
+        return _appTools.isEnabled(ConfigKey.IsCalculationBasicsDrgSendEnabled);
+    }
+    
     public boolean isApprovalRequestEnabled() {
-        if (!_appTools.isEnabled(ConfigKey.IsCalculationBasicsDrgSendEnabled)) {
-            return false;
-        }
-        return _cooperationTools.isApprovalRequestEnabled(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId());
+        return isSendEnabled()
+                && _cooperationTools.isApprovalRequestEnabled(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId());
     }
 
     public boolean isRequestCorrectionEnabled() {
-        if (!_appTools.isEnabled(ConfigKey.IsCalculationBasicsDrgSendEnabled)) {
-            return false;
-        }
-        return _cooperationTools.isRequestCorrectionEnabled(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId());
+        return isSendEnabled()
+                && _cooperationTools.isRequestCorrectionEnabled(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId());
     }
 
     public boolean isTakeEnabled() {
@@ -625,7 +620,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     public boolean isCopyForResendAllowed() {
-        if (_calcBasics.getStatusId() < 10 || _calcBasics.getStatusId() > 20 || !_appTools.isEnabled(ConfigKey.IsCalculationBasicsDrgSendEnabled)) {
+        if (_calcBasics.getStatusId() < 10 || _calcBasics.getStatusId() > 20 || !isSendEnabled()) {
             return false;
         }
         if (_sessionController.isInekUser(Feature.CALCULATION_HOSPITAL) && !_appTools.isEnabled(ConfigKey.TestMode)) {

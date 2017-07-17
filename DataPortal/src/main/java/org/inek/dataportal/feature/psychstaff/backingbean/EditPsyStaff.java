@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -34,16 +33,12 @@ import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
-import org.inek.dataportal.feature.specificfunction.facade.SpecificFunctionFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.feature.admin.entity.MailTemplate;
 import org.inek.dataportal.feature.admin.facade.InekRoleFacade;
-import org.inek.dataportal.feature.specificfunction.entity.CenterName;
-import org.inek.dataportal.feature.specificfunction.entity.RequestAgreedCenter;
-import org.inek.dataportal.feature.specificfunction.entity.RequestProjectedCenter;
-import org.inek.dataportal.feature.specificfunction.entity.SpecificFunction;
-import org.inek.dataportal.feature.specificfunction.entity.SpecificFunctionRequest;
+import org.inek.dataportal.feature.psychstaff.entity.StaffProof;
+import org.inek.dataportal.feature.psychstaff.facade.PsychStaffFacade;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.structures.MessageContainer;
 import org.inek.dataportal.mail.Mailer;
@@ -58,105 +53,97 @@ import org.inek.dataportal.utils.DocumentationUtil;
 public class EditPsyStaff extends AbstractEditController implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="fields & enums">
-    private static final Logger LOGGER = Logger.getLogger("EditSpecificFunctionRequest");
+    private static final Logger LOGGER = Logger.getLogger("EditPsyStaff");
 
     @Inject private CooperationTools _cooperationTools;
     @Inject private SessionController _sessionController;
-    @Inject private SpecificFunctionFacade _specificFunctionFacade;
+    @Inject private PsychStaffFacade _psychStaffFacade;
     @Inject private ApplicationTools _appTools;
 
-    private SpecificFunctionRequest _request;
+    private StaffProof _staffProof;
 
-    public SpecificFunctionRequest getRequest() {
-        return _request;
+    public StaffProof getStaffProof() {
+        return _staffProof;
     }
 
-    public void setRequest(SpecificFunctionRequest request) {
-        this._request = request;
+    public void setStaffProof(StaffProof staffProof) {
+        _staffProof = staffProof;
     }
     // </editor-fold>
+
+    @Override
+    protected void addTopics() {
+        addTopic("tabUMMaster", Pages.PsychStaffBaseData.URL());
+        addTopic("topicAppendix1Adults", Pages.PsychStaffAppendix1Adults.URL());
+        addTopic("topicAppendix1Kids", Pages.PsychStaffAppendix1Kids.URL());
+        addTopic("topicAppendix2Adults", Pages.PsychStaffAppendix2Adults.URL());
+        addTopic("topicAppendix2Kids", Pages.PsychStaffAppendix2Kids.URL());
+    }
 
     @PostConstruct
     private void init() {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         String id = "" + params.get("id");
         if ("new".equals(id)) {
-            _request = newSpecificFunctionRequest();
+            _staffProof = newStaffProof();
         } else if (Utils.isInteger(id)) {
-            SpecificFunctionRequest request = loadSpecificFunctionRequest(id);
-            if (request.getId() == -1) {
+            StaffProof staffProof = loadStaffProof(id);
+            if (staffProof.getId() == -1) {
                 Utils.navigate(Pages.NotAllowed.RedirectURL());
                 return;
             }
-            _request = request;
+            _staffProof = staffProof;
         } else {
             Utils.navigate(Pages.Error.RedirectURL());
         }
     }
 
-    private SpecificFunctionRequest loadSpecificFunctionRequest(String idObject) {
+    private StaffProof loadStaffProof(String idObject) {
         int id = Integer.parseInt(idObject);
-        SpecificFunctionRequest calcBasics = _specificFunctionFacade.findSpecificFunctionRequest(id);
-        if (hasSufficientRights(calcBasics)) {
-            return calcBasics;
+        StaffProof staffProof = _psychStaffFacade.findStaffProof(id);
+        if (hasSufficientRights(staffProof)) {
+            return staffProof;
         }
-        return new SpecificFunctionRequest();
+        return new StaffProof();
     }
 
-    private boolean hasSufficientRights(SpecificFunctionRequest calcBasics) {
-        if (_sessionController.isMyAccount(calcBasics.getAccountId(), false)) {
+    private boolean hasSufficientRights(StaffProof staffProof) {
+        if (_sessionController.isMyAccount(staffProof.getAccountId(), false)) {
             return true;
         }
-        if (_sessionController.isInekUser(Feature.SPECIFIC_FUNCTION)) {
+        if (_sessionController.isInekUser(Feature.PSYCH_STAFF)) {
             return true;
         }
-        return _cooperationTools.isAllowed(Feature.SPECIFIC_FUNCTION, calcBasics.getStatus(), calcBasics.getAccountId());
+        return _cooperationTools.isAllowed(Feature.PSYCH_STAFF, staffProof.getStatus(), staffProof.getAccountId());
     }
 
-    private SpecificFunctionRequest newSpecificFunctionRequest() {
+    private StaffProof newStaffProof() {
         Account account = _sessionController.getAccount();
-        SpecificFunctionRequest request = new SpecificFunctionRequest();
-        request.setAccountId(account.getId());
-        request.setDataYear(Utils.getTargetYear(Feature.SPECIFIC_FUNCTION));
+        StaffProof staffProof = new StaffProof();
+        staffProof.setAccountId(account.getId());
         List<SelectItem> iks = getIks();
         if (iks.size() == 1) {
-            request.setIk((int) iks.get(0).getValue());
+            staffProof.setIk((int) iks.get(0).getValue());
         }
-        return request;
-    }
-
-    public List<SelectItem> getTypeItems() {
-        List<SelectItem> items = new ArrayList<>();
-        items.add(new SelectItem(1, "im Krankenhausplan des Landes"));
-        items.add(new SelectItem(2, "durch gleichartige Festlegung durch zuständige Landesbehörde"));
-        return items;
+        return staffProof;
     }
 
     // <editor-fold defaultstate="collapsed" desc="actions">
-    public boolean isOwnStatement() {
-        return _sessionController.isMyAccount(_request.getAccountId(), false);
-    }
-
     public boolean isReadOnly() {
-        if (_request == null) {
+        if (_staffProof == null) {
             return true;
         }
-        if (_sessionController.isInekUser(Feature.CALCULATION_HOSPITAL) && !_appTools.isEnabled(ConfigKey.TestMode)) {
+        if (_sessionController.isInekUser(Feature.PSYCH_STAFF) && !_appTools.isEnabled(ConfigKey.TestMode)) {
             return true;
         }
-        return _cooperationTools.isReadOnly(Feature.SPECIFIC_FUNCTION, _request.getStatus(), _request.getAccountId(), _request.getIk());
-    }
-
-    @Override
-    protected void addTopics() {
-        addTopic("TopicFrontPage", Pages.CalcDrgBasics.URL());
+        return _cooperationTools.isReadOnly(Feature.PSYCH_STAFF, _staffProof.getStatus(), _staffProof.getAccountId());
     }
 
     public String save() {
         setModifiedInfo();
-        _request = _specificFunctionFacade.saveSpecificFunctionRequest(_request);
+        _staffProof = _psychStaffFacade.saveStaffProof(_staffProof);
 
-        if (isValidId(_request.getId())) {
+        if (isValidId(_staffProof.getId())) {
             // CR+LF or LF only will be replaced by "\r\n"
             String script = "alert ('" + Utils.getMessage("msgSave").replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
             _sessionController.setScript(script);
@@ -167,13 +154,13 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
 
     public String saveAndMail() {
         setModifiedInfo();
-        _request = _specificFunctionFacade.saveSpecificFunctionRequest(_request);
+        _staffProof = _psychStaffFacade.saveStaffProof(_staffProof);
 
-        if (isValidId(_request.getId())) {
+        if (isValidId(_staffProof.getId())) {
             // CR+LF or LF only will be replaced by "\r\n"
             String script = "alert ('" + Utils.getMessage("msgSave").replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
             _sessionController.setScript(script);
-            sendMessage("Besondere Aufgaben / Zentrum: Vertragskennzeichen");
+            sendMessage("Psych-Personalnachweis-Verordnung");
             return null;
         }
         return Pages.Error.URL();
@@ -184,20 +171,21 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
 
     private void sendMessage(String name) {
         //todo: refactor for gloabal usage (move to mailer?) and remove all similar methods
-        Account receiver = _accountFacade.find(_appTools.isEnabled(ConfigKey.TestMode) ? _sessionController.getAccountId() : _request.getAccountId());
+        Account receiver = _accountFacade.find(_appTools.isEnabled(ConfigKey.TestMode)
+                ? _sessionController.getAccountId()
+                : _staffProof.getAccountId());
         MailTemplate template = _mailer.getMailTemplate(name);
         String subject = template.getSubject()
-                .replace("{ik}", "" + _request.getIk());
+                .replace("{ik}", "" + _staffProof.getIk());
         String body = template.getBody()
-                .replace("{formalSalutation}", _mailer.getFormalSalutation(receiver))
-                .replace("{note}", _request.getNoteInek());
+                .replace("{formalSalutation}", _mailer.getFormalSalutation(receiver));
+//                .replace("{note}", _staffProof.getNoteInek());
         String bcc = template.getBcc().replace("{accountMail}", _sessionController.getAccount().getEmail());
         _mailer.sendMailFrom(template.getFrom(), receiver.getEmail(), "", bcc, subject, body);
     }
 
     private void setModifiedInfo() {
-        _request.setLastChanged(Calendar.getInstance().getTime());
-        _request.setAccountIdLastChange(_sessionController.getAccountId());
+        _staffProof.setLastChanged(Calendar.getInstance().getTime());
     }
 
     private boolean isValidId(Integer id) {
@@ -205,34 +193,29 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     }
 
     public boolean isSealEnabled() {
-        if (!_appTools.isEnabled(ConfigKey.IsSpecificFunctionRequestSendEnabled)) {
+        return isSendEnabled()
+                && _cooperationTools.isSealedEnabled(Feature.PSYCH_STAFF, _staffProof.getStatus(), _staffProof.getAccountId());
+    }
+
+    private boolean isSendEnabled() {
+        if (!_appTools.isEnabled(ConfigKey.IsPsychStaffSendEnabled)) {
             return false;
         }
-        if (_request == null) {
+        if (_staffProof == null) {
             return false;
         }
-        return _cooperationTools.isSealedEnabled(Feature.SPECIFIC_FUNCTION, _request.getStatus(), _request.getAccountId());
+        return true;
     }
 
     public boolean isApprovalRequestEnabled() {
-        if (!_appTools.isEnabled(ConfigKey.IsSpecificFunctionRequestSendEnabled)) {
-            return false;
-        }
-        if (_request == null) {
-            return false;
-        }
-        return _cooperationTools.isApprovalRequestEnabled(Feature.SPECIFIC_FUNCTION, _request.getStatus(), _request.getAccountId());
+        return isSendEnabled()
+                && _cooperationTools.isApprovalRequestEnabled(Feature.PSYCH_STAFF, _staffProof.getStatus(), _staffProof.getAccountId());
     }
 
     public boolean isRequestCorrectionEnabled() {
-        if (!_appTools.isEnabled(ConfigKey.IsSpecificFunctionRequestSendEnabled)) {
-            return false;
-        }
-        if (_request == null) {
-            return false;
-        }
-        return (_request.getStatus() == WorkflowStatus.Provided || _request.getStatus() == WorkflowStatus.ReProvided)
-                && _sessionController.isInekUser(Feature.SPECIFIC_FUNCTION, true);
+        return isSendEnabled()
+                && (_staffProof.getStatus() == WorkflowStatus.Provided || _staffProof.getStatus() == WorkflowStatus.ReProvided)
+                && _sessionController.isInekUser(Feature.PSYCH_STAFF, true);
     }
 
     public String requestCorrection() {
@@ -241,21 +224,18 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         }
         setModifiedInfo();
         // set as retired
-        _request.setStatus(WorkflowStatus.Retired);
-        _specificFunctionFacade.saveSpecificFunctionRequest(_request);
+        _staffProof.setStatus(WorkflowStatus.Retired);
+        _psychStaffFacade.saveStaffProof(_staffProof);
 
         // create copy to edit (persist detached object with default Ids)
-        _request.setStatus(WorkflowStatus.CorrectionRequested);
-        _request.setId(-1);
-        for (RequestProjectedCenter requestProjectedCenter : _request.getRequestProjectedCenters()) {
-            requestProjectedCenter.setId(-1);
-            requestProjectedCenter.setRequestMasterId(-1);
-        }
-        for (RequestAgreedCenter requestAgreedCenter : _request.getRequestAgreedCenters()) {
-            requestAgreedCenter.setId(-1);
-            requestAgreedCenter.setRequestMasterId(-1);
-        }
-        _specificFunctionFacade.saveSpecificFunctionRequest(_request);
+        _staffProof.setStatus(WorkflowStatus.CorrectionRequested);
+        _staffProof.setId(-1);
+        // todo: copy lists
+//        for (RequestProjectedCenter requestProjectedCenter : _staffProof.getRequestProjectedCenters()) {
+//            requestProjectedCenter.setId(-1);
+//            requestProjectedCenter.setRequestMasterId(-1);
+//        }
+        _psychStaffFacade.saveStaffProof(_staffProof);
         sendMessage("BA Konkretisierung");
 
         return Pages.SpecificFunctionSummary.URL();
@@ -263,8 +243,8 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
 
     public boolean isTakeEnabled() {
         return _cooperationTools != null
-                && _request != null
-                && _cooperationTools.isTakeEnabled(Feature.SPECIFIC_FUNCTION, _request.getStatus(), _request.getAccountId());
+                && _staffProof != null
+                && _cooperationTools.isTakeEnabled(Feature.PSYCH_STAFF, _staffProof.getStatus(), _staffProof.getAccountId());
     }
 
     /**
@@ -274,22 +254,22 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
      * @return
      */
     public String seal() {
-        if (!requestIsComplete()) {
+        if (!staffProofIsComplete()) {
             return null;
         }
-        _request.setStatus(WorkflowStatus.Provided);
+        _staffProof.setStatus(WorkflowStatus.Provided);
         setModifiedInfo();
-        if (_request.getSealed().equals(Date.from(LocalDate.of(2000, Month.JANUARY, 1).atStartOfDay().toInstant(ZoneOffset.UTC)))) {
-            // seat seal date for the first time sealing only
-            _request.setSealed(Calendar.getInstance().getTime());
+        if (_staffProof.getSealed().equals(Date.from(LocalDate.of(2000, Month.JANUARY, 1).atStartOfDay().toInstant(ZoneOffset.UTC)))) {
+            // set seal date for the first time sealing only
+            _staffProof.setSealed(Calendar.getInstance().getTime());
         }
-        _request = _specificFunctionFacade.saveSpecificFunctionRequest(_request);
+        _staffProof = _psychStaffFacade.saveStaffProof(_staffProof);
 
-        if (isValidId(_request.getId())) {
+        if (isValidId(_staffProof.getId())) {
             sendNotification();
-            Utils.getFlash().put("headLine", Utils.getMessage("nameSPECIFIC_FUNCTION"));
+            Utils.getFlash().put("headLine", Utils.getMessage("namePSYCH_STAFF"));
             Utils.getFlash().put("targetPage", Pages.SpecificFunctionSummary.URL());
-            Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(_request));
+            Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(_staffProof));
             return Pages.PrintView.URL();
         }
         return "";
@@ -298,16 +278,16 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     @Inject private InekRoleFacade _inekRoleFacade;
 
     public void sendNotification() {
-        List<Account> inekAccounts = _inekRoleFacade.findForFeature(Feature.SPECIFIC_FUNCTION);
+        List<Account> inekAccounts = _inekRoleFacade.findForFeature(Feature.PSYCH_STAFF);
         String receipients = inekAccounts.stream().map(a -> a.getEmail()).collect(Collectors.joining(";"));
-        _mailer.sendMail(receipients, "Besondere Aufgaben / Zentrum", "Es wurde ein Datensatz an das InEK gesendet.");
+        _mailer.sendMail(receipients, "Psych-Personalnachweis-Verorsnung", "Es wurde ein Datensatz an das InEK gesendet.");
     }
 
-    private boolean requestIsComplete() {
-        MessageContainer message = composeMissingFieldsMessage(_request);
+    private boolean staffProofIsComplete() {
+        MessageContainer message = composeMissingFieldsMessage(_staffProof);
         if (message.containsMessage()) {
             message.setMessage(Utils.getMessage("infoMissingFields") + "\\r\\n" + message.getMessage());
-            //setActiveTopic(message.getTopic());
+            setActiveTopic(message.getTopic());
             String script = "alert ('" + message.getMessage() + "');";
             if (!message.getElementId().isEmpty()) {
                 script += "\r\n document.getElementById('" + message.getElementId() + "').focus();";
@@ -317,59 +297,11 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         return !message.containsMessage();
     }
 
-    public MessageContainer composeMissingFieldsMessage(SpecificFunctionRequest request) {
+    public MessageContainer composeMissingFieldsMessage(StaffProof request) {
         MessageContainer message = new MessageContainer();
 
         String ik = request.getIk() <= 0 ? "" : "" + request.getIk();
         checkField(message, ik, "lblIK", "specificFuntion:ikMulti");
-        checkField(message, request.getFirstName(), "lblFirstName", "specificFuntion:firstName");
-        checkField(message, request.getLastName(), "lblFirstName", "specificFuntion:lastName");
-        checkField(message, request.getPhone(), "lblPhone", "specificFuntion:phone");
-        checkField(message, request.getMail(), "lblMail", "specificFuntion:mail");
-
-        if (!request.isWillNegotiate() && !request.isHasAgreement()) {
-            applyMessageValues(message, "Bitte mindestens eine zu verhandelnde oder vorhandene Vereinbarung angeben", "");
-        }
-        boolean hasCenters = false;
-        for (RequestProjectedCenter center : request.getRequestProjectedCenters()) {
-            if (center.isEmpty()) {
-                continue;
-            }
-            if (center.getCenterId() == -1) {
-                checkField(message, center.getOtherCenterName(), "Bitte Art des Zentrums angeben", "");
-            }
-            if (center.getSpecificFunctions().isEmpty()) {
-                applyMessageValues(message, "Bitte mindestens eine besondere Aufgabe auswählen oder angeben", "");
-            }
-            if (center.getSpecificFunctions().stream().anyMatch(f -> f.getId() == -1)) {
-                checkField(message, center.getOtherSpecificFunction(), "Bitte sonstige besondere Aufgaben angeben", "");
-            }
-            checkField(message, center.getTypeId(), 1, 2, "Bitte Ausweisung und Festsetzung angeben", "");
-            checkField(message, center.getEstimatedPatientCount(), 1, 99999999, "Anzahl der Patienten muss größer 0 sein.", "");
-            hasCenters = true;
-        }
-        if (request.isWillNegotiate() && !hasCenters) {
-            applyMessageValues(message, "Bitte mindestens eine Vereinbarung angeben", "");
-        }
-
-        hasCenters = false;
-        for (RequestAgreedCenter center : request.getRequestAgreedCenters()) {
-            if (center.isEmpty()) {
-                continue;
-            }
-            checkField(message, center.getCenter(), "Bitte Art des Zentrums angeben", "");
-            checkField(message, center.getRemunerationKey(), "Bitte Entgeltschlüssel angeben", "");
-            if (center.getPercent() <= 0.0) {
-                checkField(message, center.getAmount(), 1, 99999999, "Bitte Betrag oder Prozentsatz angeben", "");
-            }
-            if (center.getAmount() > 0 && center.getPercent() > 0.0) {
-                applyMessageValues(message, "Sie können entweder einen Betrag oder einen Prozentsatz angeben, nicht aber beides.", "");
-            }
-            hasCenters = true;
-        }
-        if (request.isHasAgreement() && !hasCenters) {
-            applyMessageValues(message, "Sie haben 'vorliegende Vereinbarung' markiert, jedoch keine Vereinbarung angegeben.", "");
-        }
 
         return message;
     }
@@ -397,12 +329,12 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     }
 
     public String requestApproval() {
-        if (!requestIsComplete()) {
+        if (!staffProofIsComplete()) {
             return null;
         }
-        _request.setStatus(WorkflowStatus.ApprovalRequested);
+        _staffProof.setStatus(WorkflowStatus.ApprovalRequested);
         setModifiedInfo();
-        _request = _specificFunctionFacade.saveSpecificFunctionRequest(_request);
+        _staffProof = _psychStaffFacade.saveStaffProof(_staffProof);
         return "";
     }
 
@@ -410,9 +342,9 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         if (!isTakeEnabled()) {
             return Pages.Error.URL();
         }
-        _request.setAccountId(_sessionController.getAccountId());
+        _staffProof.setAccountId(_sessionController.getAccountId());
         setModifiedInfo();
-        _request = _specificFunctionFacade.saveSpecificFunctionRequest(_request);
+        _staffProof = _psychStaffFacade.saveStaffProof(_staffProof);
         return "";
     }
 
@@ -422,8 +354,8 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
 
     public List<SelectItem> getIks() {
         Set<Integer> iks = new HashSet<>();
-        if (_request != null && _request.getIk() > 0) {
-            iks.add(_request.getIk());
+        if (_staffProof != null && _staffProof.getIk() > 0) {
+            iks.add(_staffProof.getIk());
         }
         Account account = _sessionController.getAccount();
         if (account.getIK() != null && account.getIK() > 0) {
@@ -439,23 +371,5 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         return items;
     }
 
-    public void addProjectedCenter() {
-        RequestProjectedCenter center = new RequestProjectedCenter(_request.getId());
-        _request.getRequestProjectedCenters().add(center);
-    }
-
-    public void deleteProjectedCenter(RequestProjectedCenter center) {
-        _request.getRequestProjectedCenters().remove(center);
-    }
-
-    public void addAgreedCenter() {
-        RequestAgreedCenter center = new RequestAgreedCenter(_request.getId());
-        _request.getRequestAgreedCenters().add(center);
-    }
-
-    public void deleteAgreedCenter(RequestAgreedCenter center) {
-        _request.getRequestAgreedCenters().remove(center);
-    }
     // </editor-fold>
-
 }

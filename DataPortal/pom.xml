@@ -91,7 +91,7 @@
                             <sourceDirectory>${project.basedir}/src/main/less</sourceDirectory>
                             <!--outputDirectory>${project.basedir}/src/main/webapp/resources/css</outputDirectory-->
                             <outputDirectory>${project.build.directory}/${project.build.finalName}/resources/css</outputDirectory>
-                            <compress>true</compress>
+                            <compress>false</compress>
                         </configuration>
                     </execution>
                 </executions>

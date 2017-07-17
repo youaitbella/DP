@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -57,13 +56,8 @@ import org.inek.dataportal.helper.structures.MessageContainer;
 import org.inek.dataportal.utils.DocumentationUtil;
 import org.inek.dataportal.utils.ValueLists;
 
-/**
- *
- * @author muellermi
- */
 @Named
 @ViewScoped
-//@SuppressWarnings("PMD.LawOfDemeter")
 @SuppressWarnings("PMD")
 public class EditCalcBasicsPepp extends AbstractEditController implements Serializable {
 
@@ -145,7 +139,6 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     }
 
     private void preloadData(PeppCalcBasics calcBasics) {
-
         // Locations
         calcBasics.setLocationCnt(_priorCalcBasics.getLocationCnt());
         calcBasics.setDifLocationSupply(_priorCalcBasics.isDifLocationSupply());
@@ -190,15 +183,11 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     }
 
     private boolean hasSufficientRights(PeppCalcBasics calcBasics) {
-        if (_sessionController.isMyAccount(calcBasics.getAccountId(), false)) {
-            return true;
-        }
-        if (_sessionController.isInekUser(Feature.CALCULATION_HOSPITAL)) {
-            return true;
-        }
-        return _cooperationTools.isAllowed(Feature.CALCULATION_HOSPITAL,
-                calcBasics.getStatus(),
-                calcBasics.getAccountId());
+        return _sessionController.isMyAccount(calcBasics.getAccountId(), false)
+                || _sessionController.isInekUser(Feature.CALCULATION_HOSPITAL)
+                || _cooperationTools.isAllowed(Feature.CALCULATION_HOSPITAL,
+                        calcBasics.getStatus(),
+                        calcBasics.getAccountId());
     }
 
     private PeppCalcBasics newCalcBasicsPepp() {
@@ -297,10 +286,6 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     }
 
     // <editor-fold defaultstate="collapsed" desc="actions">
-    public boolean isOwnStatement() {
-        return _sessionController.isMyAccount(_calcBasics.getAccountId(), false);
-    }
-
     public boolean isReadOnly() {
         if (_sessionController.isInekUser(Feature.CALCULATION_HOSPITAL) && !_appTools.isEnabled(ConfigKey.TestMode)) {
             return true;
@@ -323,7 +308,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
 
     public String saveData(boolean showSaveMessage) {
         _calcBasics.removeEmptyServiceProvisions();
-        
+
         if (_baseLine != null && ObjectUtils.getDifferences(_baseLine, _calcBasics, null).isEmpty()) {
             // nothing is changed, but we will reload the data if changed by somebody else (as indicated by a new version)
             if (_baseLine.getVersion() != _calcFacade.getCalcBasicsPsyVersion(_calcBasics.getId())) {
@@ -332,7 +317,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
             }
             return null;
         }
-        
+
         setModifiedInfo();
         String msg = "";
         try {
@@ -412,8 +397,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         return differencesPartner;
     }
 
-    private List<String> updateFields(Map<String, FieldValues> differencesUser, Map<String, 
-            FieldValues> differencesPartner, PeppCalcBasics modifiedCalcBasics) {
+    private List<String> updateFields(Map<String, FieldValues> differencesUser, Map<String, FieldValues> differencesPartner, PeppCalcBasics modifiedCalcBasics) {
         List<String> collisions = new ArrayList<>();
         for (String fieldName : differencesUser.keySet()) {
             if (differencesPartner.containsKey(fieldName) || _calcBasics.isSealed()) {
@@ -438,30 +422,28 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     }
 
     public boolean isSealEnabled() {
-        if (!_appTools.isEnabled(ConfigKey.IsCalculationBasicsPsySendEnabled)) {
-            return false;
-        }
-        return _cooperationTools.isSealedEnabled(Feature.CALCULATION_HOSPITAL,
-                _calcBasics.getStatus(),
-                _calcBasics.getAccountId());
+        return isSendEnabled()
+                && _cooperationTools.isSealedEnabled(Feature.CALCULATION_HOSPITAL,
+                        _calcBasics.getStatus(),
+                        _calcBasics.getAccountId());
+    }
+
+    private boolean isSendEnabled() {
+        return _appTools.isEnabled(ConfigKey.IsCalculationBasicsPsySendEnabled);
     }
 
     public boolean isApprovalRequestEnabled() {
-        if (!_appTools.isEnabled(ConfigKey.IsCalculationBasicsPsySendEnabled)) {
-            return false;
-        }
-        return _cooperationTools.isApprovalRequestEnabled(Feature.CALCULATION_HOSPITAL,
-                _calcBasics.getStatus(),
-                _calcBasics.getAccountId());
+        return isSendEnabled()
+                && _cooperationTools.isApprovalRequestEnabled(Feature.CALCULATION_HOSPITAL,
+                        _calcBasics.getStatus(),
+                        _calcBasics.getAccountId());
     }
 
     public boolean isRequestCorrectionEnabled() {
-        if (!_appTools.isEnabled(ConfigKey.IsCalculationBasicsPsySendEnabled)) {
-            return false;
-        }
-        return _cooperationTools.isRequestCorrectionEnabled(Feature.CALCULATION_HOSPITAL,
-                _calcBasics.getStatus(),
-                _calcBasics.getAccountId());
+        return isSendEnabled()
+                && _cooperationTools.isRequestCorrectionEnabled(Feature.CALCULATION_HOSPITAL,
+                        _calcBasics.getStatus(),
+                        _calcBasics.getAccountId());
     }
 
     public boolean isTakeEnabled() {
@@ -471,7 +453,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     }
 
     public boolean isCopyForResendAllowed() {
-        if (_calcBasics.getStatusId() < 10 || !_appTools.isEnabled(ConfigKey.IsCalculationBasicsPsySendEnabled)) {
+        if (_calcBasics.getStatusId() < 10 || !isSendEnabled()) {
             return false;
         }
         if (_sessionController.isInekUser(Feature.CALCULATION_HOSPITAL) && !_appTools.isEnabled(ConfigKey.TestMode)) {
@@ -532,7 +514,6 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         }
 
         // do not set current account: _calcBasics.setAccountId(_sessionController.getAccountId());
-
         _calcBasics.setStatus(WorkflowStatus.CorrectionRequested);
         try {
             _calcBasics = _calcFacade.saveCalcBasicsPepp(_calcBasics);
