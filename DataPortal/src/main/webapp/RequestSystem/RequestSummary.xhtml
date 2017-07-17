@@ -2,16 +2,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
-                template="/Templates/PortalTemplate.xhtml"
+                template="/Templates/PortalMenuTemplate.xhtml"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
                 >
-
-    <ui:define name="navItems">
-        <li>
-            <h:commandLink value="#{msg.lblSummary}" action="#{sessionController.navigate(sessionTools.pages.MainApp)}" immediate="true"/>
-        </li>
-    </ui:define>
 
     <ui:define name="content">
         <h:form>
@@ -20,7 +14,7 @@
 
                 <ui:include src="#{sessionTools.pages.ListRequest}"/>
                 <p>
-                    <h:commandLink styleClass="bigButton" action="#{requestFacade.newRequest}" value="#{msg.btnNewRequest}" immediate="true"/>
+                    <h:commandLink styleClass="bigButton" action="#{requestList.newRequest}" value="#{msg.btnNewRequest}" immediate="true"/>
                 </p>
 
                 <h:panelGroup rendered="#{requestList.sealedRequests.size() > 0}">

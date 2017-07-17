@@ -25,6 +25,7 @@ import org.inek.dataportal.feature.drgproposal.DrgProposalController;
 import org.inek.dataportal.feature.valuationratio.ValuationRatioController;
 import org.inek.dataportal.feature.insurance.InsuranceController;
 import org.inek.dataportal.feature.psychstaff.controller.PsychStaffController;
+import org.inek.dataportal.feature.requestsystem.controller.RequestSystemController;
 import org.inek.dataportal.feature.specificfunction.controller.SpecificFunctionController;
 
 /**
@@ -70,6 +71,8 @@ public class FeatureFactory {
                 return new PsychStaffController(sessionController);
             case VALUATION_RATIO:
                 return new ValuationRatioController(sessionController);
+            case REQUEST_SYSTEM:
+                return new RequestSystemController(sessionController);
             default:
                 throw new IllegalArgumentException("no such controller");
         }

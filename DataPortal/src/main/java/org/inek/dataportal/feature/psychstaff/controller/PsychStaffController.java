@@ -1,6 +1,5 @@
 package org.inek.dataportal.feature.psychstaff.controller;
 
-import org.inek.dataportal.feature.specificfunction.controller.*;
 import org.inek.dataportal.controller.AbstractFeatureController;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.enums.Feature;

@@ -11,12 +11,6 @@
         <f:viewParam name="reqId" id="reqId" value="#{flash.reqId}" />
     </f:metadata>
 
-    <ui:define name="navItems">
-        <li>
-            <h:commandLink value="#{msg.lblSummary}" action="#{sessionController.navigate(sessionTools.pages.MainApp)}" immediate="true"/>
-        </li>
-    </ui:define>
-
     <ui:define name="content">
         <h:form id="tabs">
             <h1><h:commandLink value="#{msg.nameREQUEST_SYSTEM}" action="#{sessionTools.pages.RequestSummary}" immediate="true"/></h1>

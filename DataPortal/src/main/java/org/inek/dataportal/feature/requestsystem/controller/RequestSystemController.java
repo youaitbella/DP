@@ -8,6 +8,7 @@ import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.feature.requestsystem.entity.RequestDocument;
 import org.inek.dataportal.helper.Topics;
+import org.inek.dataportal.helper.Utils;
 
 /**
  *
@@ -32,14 +33,11 @@ public class RequestSystemController extends AbstractFeatureController {
     public void setDocuments(List<RequestDocument> documents) {
         _documents = documents;
     }
-
     // </editor-fold>
-    // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
-    // place this methods here
-    // </editor-fold>
+    
     @Override
     protected void addTopics(Topics topics) {
-        topics.addTopic("lblRequest", Pages.RequestSummary.URL());
+        topics.addTopic(Utils.getMessage("nameREQUEST_SYSTEM"), Pages.RequestSummary.URL());
     }
 
     @Override
