@@ -60,7 +60,6 @@ public class CalcBasicsTreeHandler implements Serializable, TreeNodeObserver {
         refreshNodes();
     }
 
-    
     @Override
     public void obtainChildren(TreeNode treeNode, Collection<TreeNode> children) {
         if (treeNode instanceof RootNode) {
@@ -72,7 +71,7 @@ public class CalcBasicsTreeHandler implements Serializable, TreeNodeObserver {
     }
 
     private void obtainRootNodeChildren(RootNode node, Collection<TreeNode> children) {
-        List<Account> accounts = _calcFacade.getInekAccounts();
+        List<Account> accounts = _calcFacade.getInekAccounts(getFilter());
         Account currentUser = _sessionController.getAccount();
         if (accounts.contains(currentUser)) {
             // ensure current user is first, if in list
@@ -87,14 +86,14 @@ public class CalcBasicsTreeHandler implements Serializable, TreeNodeObserver {
             AccountTreeNode childNode = existing.isPresent() ? (AccountTreeNode) existing.get() : AccountTreeNode.create(node, account, this);
             children.add((TreeNode) childNode);
             oldChildren.remove(childNode);
-            if (currentUser.equals(account)) {
-                childNode.expand();  // auto-expand own node
+            if (currentUser.equals(account) || accounts.size() <= 3) {
+                childNode.expand();  // auto-expand if own node or if only few
             }
         }
     }
 
     private void obtainAccountNodeChildren(AccountTreeNode accountTreeNode, Collection<TreeNode> children) {
-        List<CalcHospitalInfo> infos = _calcFacade.getCalcBasicsForAccount(accountTreeNode.getAccount());
+        List<CalcHospitalInfo> infos = _calcFacade.getCalcBasicsForAccount(accountTreeNode.getAccount(), getFilter());
         accountTreeNode.getChildren().clear();
         for (CalcHospitalInfo info : infos) {
             accountTreeNode.getChildren().add(CalcHospitalTreeNode.create(accountTreeNode, info, this));

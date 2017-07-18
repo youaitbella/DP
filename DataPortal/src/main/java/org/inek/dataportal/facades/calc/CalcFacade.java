@@ -125,10 +125,14 @@ public class CalcFacade extends AbstractDataAccess {
     // </editor-fold>
 
     public List<Account> getInekAccounts() {
+        return getInekAccounts("");
+    }
+
+    public List<Account> getInekAccounts(String filter) {
         String sql = "select distinct account.*\n"
-                + "from (select biIk, biDataYear from calc.KGLBaseInformation where biStatusID between 3 and 10 \n"
-                + "union select biIk, biDataYear from calc.KGPBaseInformation where biStatusID between 3 and 10 \n"
-                + "union select cbaIk, cbaDataYear from calc.CalcBasicsAutopsy where cbaStatusID between 3 and 10 ) base\n"
+                + "from (select biIk, biDataYear from calc.KGLBaseInformation where biStatusID in (3, 10) \n"
+                + "union select biIk, biDataYear from calc.KGPBaseInformation where biStatusID in (3, 10) \n"
+                + "union select cbaIk, cbaDataYear from calc.CalcBasicsAutopsy where cbaStatusID in (3, 10) ) base\n"
                 + "join CallCenterDB.dbo.ccCustomer on biIk = cuIK\n"
                 + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
                 + "join CallCenterDB.dbo.ccCalcInformation on caId = ciCalcAgreementId and biDataYear = ciDataYear \n"
@@ -138,21 +142,43 @@ public class CalcFacade extends AbstractDataAccess {
                 + "where agActive = 1 and agDomainId in ('O', 'E')\n"
                 + "     and mcraReportTypeId in (1, 3, 10) \n"
                 + "     and biDataYear = " + Utils.getTargetYear(Feature.CALCULATION_HOSPITAL);
+        String sqlFfilter = getSqlFilter(filter);
+        if (sqlFfilter.length() > 0) {
+            sql = sql + "\n"
+                    + "    and (cast (cuIk as varchar) = " + sqlFfilter
+                    + "         or cuName like " + sqlFfilter
+                    + "         or cuCity like " + sqlFfilter + ")";
+        }
         Query query = getEntityManager().createNativeQuery(sql, Account.class);
         @SuppressWarnings("unchecked") List<Account> result = query.getResultList();
         return result;
     }
 
+    private String getSqlFilter(String filter) {
+        String sqlFfilter = filter.trim().replace("'", "");
+        if (sqlFfilter.isEmpty()) {
+            return "";
+        }
+        if (!sqlFfilter.matches("[\\d]{9}") && !sqlFfilter.contains("%")) {
+            sqlFfilter = "%" + sqlFfilter + "%";
+        }
+        return "'" + sqlFfilter + "'";
+    }
+
     public List<CalcHospitalInfo> getCalcBasicsForAccount(Account account) {
+        return getCalcBasicsForAccount(account, "");
+    }
+
+    public List<CalcHospitalInfo> getCalcBasicsForAccount(Account account, String filter) {
         String sql = "select distinct biId as Id, biType as [Type], biAccountId as AccountId, "
                 + "    biDataYear as DataYear, biIk as IK, biStatusId as StatusId,\n"
                 + "    Name, biLastChanged as LastChanged\n"
-                + "from (select biId, biIk, 'CBD' as biType, biDataYear, biAccountID, biStatusId, biLastChanged, '" 
-                + Utils.getMessage("lblCalculationBasicsDrg") + "' as Name from calc.KGLBaseInformation where biStatusID between 3 and 10 \n"
-                + "union select biId, biIk, 'CBP' as biType, biDataYear, biAccountID, biStatusId, biLastChanged, '" 
-                + Utils.getMessage("lblCalculationBasicsPsy") + "' as Name from calc.KGPBaseInformation where biStatusID between 3 and 10 \n"
-                + "union select cbaId, cbaIk, 'CBA' as biType, cbaDataYear, cbaAccountID, cbaStatusId, cbaLastChanged, '" 
-                + Utils.getMessage("lblCalculationBasicsObd") + "' as Name from calc.CalcBasicsAutopsy where cbaStatusID between 3 and 10) base \n"
+                + "from (select biId, biIk, 'CBD' as biType, biDataYear, biAccountID, biStatusId, biLastChanged, '"
+                + Utils.getMessage("lblCalculationBasicsDrg") + "' as Name from calc.KGLBaseInformation where biStatusID in (3, 10) \n"
+                + "union select biId, biIk, 'CBP' as biType, biDataYear, biAccountID, biStatusId, biLastChanged, '"
+                + Utils.getMessage("lblCalculationBasicsPsy") + "' as Name from calc.KGPBaseInformation where biStatusID in (3, 10) \n"
+                + "union select cbaId, cbaIk, 'CBA' as biType, cbaDataYear, cbaAccountID, cbaStatusId, cbaLastChanged, '"
+                + Utils.getMessage("lblCalculationBasicsObd") + "' as Name from calc.CalcBasicsAutopsy where cbaStatusID in (3, 10)) base \n"
                 + "join CallCenterDB.dbo.ccCustomer on biIk = cuIK\n"
                 + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
                 + "join CallCenterDB.dbo.ccCalcInformation on caId = ciCalcAgreementId and biDataYear = ciDataYear \n"
@@ -163,6 +189,13 @@ public class CalcFacade extends AbstractDataAccess {
                 + "          or biType = 'CBP' and mcraReportTypeId = 3 "
                 + "          or biType = 'CBA' and mcraReportTypeId = 10) \n"
                 + "     and biDataYear = " + Utils.getTargetYear(Feature.CALCULATION_HOSPITAL);
+        String sqlFfilter = getSqlFilter(filter);
+        if (sqlFfilter.length() > 0) {
+            sql = sql + "\n"
+                    + "    and (cast (cuIk as varchar) = " + sqlFfilter
+                    + "         or cuName like " + sqlFfilter
+                    + "         or cuCity like " + sqlFfilter + ")";
+        }
         Query query = getEntityManager().createNativeQuery(sql, CalcHospitalInfo.class);
         @SuppressWarnings("unchecked") List<CalcHospitalInfo> result = query.getResultList();
         return result;
