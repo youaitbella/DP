@@ -459,16 +459,18 @@ public class AdditionalCost implements Serializable, StatusEntity {
     }
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Code">
     @Column(name = "adcCode")
     @Documentation(key = "lblContractKey")
     private String _code = "";
-
+    
     @Size(max = 10)
     public String getCode() {
         return _code;
     }
-
+    
     public void setCode(String code) {
         _code = code == null ? "" : code;
     }
+    //</editor-fold>
 }
