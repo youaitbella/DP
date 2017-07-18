@@ -32,8 +32,8 @@
                     </f:facet>
                     <h:commandLink action="#{valuationRatioList.deleteValuationRatio(item.id)}" immediate="true"
                                    onclick="#{valuationRatioList.getConfirmMessage(item.id)}">
-                        <h:graphicImage alt="löschen" name="Icon/small/#{item.status.value le 9 ? 'delete.png' : 'cross.png'}"
-                                        title="#{item.status.value le 9 ? 'Löschen' : 'Zurückziehen'}" value=""/>
+                        <h:graphicImage alt="löschen" name="Icon/small/#{item.workflowStatus.value le 9 ? 'delete.png' : 'cross.png'}"
+                                        title="#{item.workflowStatus.value le 9 ? 'Löschen' : 'Zurückziehen'}" value=""/>
                     </h:commandLink>
                 </h:column>
 
@@ -42,7 +42,7 @@
                         <h:outputText value=""/>
                     </f:facet>
                     <h:commandLink action="#{valuationRatioList.editValuationRatio()}" immediate="true" >
-                        <h:graphicImage alt="Status" name="Icon/small/#{item.workflowStatus.icon}" value="" title="#{item.status.description}" rendered="#{item.status.icon.length() gt 0}"/>
+                        <h:graphicImage alt="Status" name="Icon/small/#{item.workflowStatus.icon}" value="" title="#{item.workflowStatus.description}" rendered="#{item.workflowStatus.icon.length() gt 0}"/>
                         <f:param name="id" value="#{item.id}"/>
                     </h:commandLink>
                 </h:column>

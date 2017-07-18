@@ -283,6 +283,10 @@ public class ValuationRatio implements Serializable {
         this._validFrom = validFrom;
     }
     
+    public WorkflowStatus getWorkflowStatus() {
+        return WorkflowStatus.fromValue(_status);
+    }
+    
     @Column(name = "vrStatus")
     private int _status = WorkflowStatus.New.getId();
 

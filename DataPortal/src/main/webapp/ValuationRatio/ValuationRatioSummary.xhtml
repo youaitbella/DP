@@ -20,7 +20,7 @@
             <h1>#{msg.nameVALUATION_RATIO}</h1>
 
             <h4><h:outputLabel value="Offene (noch nicht an das InEK gesendete) Bewertungsrelationen"/></h4>
-            <inek:InsuranceNubNoticeList list="#{valuationRatioList.openRelations}"/>
+            <inek:ValuationRatio list="#{valuationRatioList.openRelations}"/>
 
             <div class="toolBar marginLeft">
                 <h:commandLink styleClass="bigButton" action="#{valuationRatioList.editValuationRatio}" 
@@ -29,10 +29,8 @@
                 </h:commandLink>
             </div>
             
-            <c:if test="">
-                <h4><h:outputLabel value="Bereits an das InEK gesendete Bewertungsrelationen"/></h4>
-                <inek:InsuranceNubNoticeList list="#{valuationRatioList.providedRelations}"/>
-            </c:if>
+            <h4><h:outputLabel value="Bereits an das InEK gesendete Bewertungsrelationen"/></h4>
+            <inek:ValuationRatio list="#{valuationRatioList.providedRelations}"/>
             
         </h:form>
     </ui:define>

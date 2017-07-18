@@ -60,6 +60,7 @@ public class EditValuationRatio extends AbstractEditController {
     private ValuationRatio newValuationRatio() {
         Account acc = _sessionController.getAccount();
         ValuationRatio vr = new ValuationRatio();
+        vr.setAccountId(acc.getId());
         vr.setIk(getIks().get(0));
         vr.setValidFrom(null);
         vr.setCity(acc.getTown());
@@ -141,6 +142,7 @@ public class EditValuationRatio extends AbstractEditController {
         try {
             if(_valuationRatio.getValidFrom() == null)
                 _valuationRatio.setValidFrom(new Date(1970, 1, 1));
+            
             _valuationRatio = _valuationRatioFacade.saveValuationRatio(_valuationRatio);
             _sessionController.alertClient(Utils.getMessage("msgSave"));
         } catch (EJBException e) {
