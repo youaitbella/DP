@@ -50,6 +50,17 @@ public class DistributionModellTreeHandler implements Serializable, TreeNodeObse
         _rootNode.refresh();
     }
     
+    private String _filter = "";
+
+    public String getFilter() {
+        return _filter;
+    }
+
+    public void setFilter(String filter) {
+        _filter = filter == null ? "" : filter;
+        refreshNodes();
+    }
+
     @Override
     public void obtainChildren(TreeNode treeNode, Collection<TreeNode> children) {
         if (treeNode instanceof RootNode) {
@@ -61,7 +72,7 @@ public class DistributionModellTreeHandler implements Serializable, TreeNodeObse
     }
     
     private void obtainRootNodeChildren(RootNode node, Collection<TreeNode> children) {
-        List<Account> accounts = _distributionModelFacade.getInekAccounts();
+        List<Account> accounts = _distributionModelFacade.getInekAccounts(getFilter());
         Account currentUser = _sessionController.getAccount();
         if (accounts.contains(currentUser)) {
             // ensure current user is first, if in list
@@ -76,14 +87,14 @@ public class DistributionModellTreeHandler implements Serializable, TreeNodeObse
             AccountTreeNode childNode = existing.isPresent() ? (AccountTreeNode) existing.get() : AccountTreeNode.create(node, account, this);
             children.add((TreeNode) childNode);
             oldChildren.remove(childNode);
-            if (currentUser.equals(account)) {
+            if (currentUser.equals(account) || accounts.size() <= 3 ) {
                 childNode.expand();  // auto-expand own node
             }
         }
     }
     
     private void obtainAccountNodeChildren(AccountTreeNode accountTreeNode, Collection<TreeNode> children) {
-        List<CalcHospitalInfo> infos = _distributionModelFacade.getDistributionModelsForAccount(accountTreeNode.getAccount());
+        List<CalcHospitalInfo> infos = _distributionModelFacade.getDistributionModelsForAccount(accountTreeNode.getAccount(), getFilter());
         accountTreeNode.getChildren().clear();
         for (CalcHospitalInfo info : infos) {
             accountTreeNode.getChildren().add(CalcHospitalTreeNode.create(accountTreeNode, info, this));

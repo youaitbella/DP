@@ -73,4 +73,15 @@ public class StringUtil {
         }
     }
 
+    public static String getSqlFilter(String filter) {
+        String sqlFfilter = filter.trim().replace("'", "");
+        if (sqlFfilter.isEmpty()) {
+            return "";
+        }
+        if (!sqlFfilter.matches("[\\d]{9}") && !sqlFfilter.contains("%")) {
+            sqlFfilter = "%" + sqlFfilter + "%";
+        }
+        return "'" + sqlFfilter + "'";
+    }
+
 }

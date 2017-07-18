@@ -24,27 +24,37 @@
                 <calc:AccountNode accountNode="#{accountNode}"/>
             </ui:repeat>
 
-            <div jsf:rendered="#{sessionController.isInekUser('CALCULATION_HOSPITAL')}">
+            <div jsf:id="dist" jsf:rendered="#{sessionController.isInekUser('CALCULATION_HOSPITAL')}">
                 <h2>Klinische Verteilungsmodelle - Bearbeitung durch InEK</h2>
+
+                <div class="inputPart">
+                    <h:outputLabel for="txtFilterDist" styleClass="label marginRight" value="#{msg.lblFilter}"/>
+                    <h:inputText id="txtFilterDist" styleClass="inputmedium marginRight" value="#{distributionModellTreeHandler.filter}">
+                        <f:ajax/>
+                    </h:inputText>
+                    <h:commandLink styleClass="button" value="#{msg.btnRefreshList}">
+                        <f:ajax render="dist :logout:remaining"/>
+                    </h:commandLink>
+                </div>
+
                 <ui:repeat value="#{distributionModellTreeHandler.rootNode.children}" var="accountNode" >
                     <calc:AccountNode accountNode="#{accountNode}" editPartner="false"/>
                 </ui:repeat>
             </div>
 
-            <div jsf:rendered="#{sessionController.isInekUser('CALCULATION_HOSPITAL')}">
+            <div jsf:id="calcBasics" jsf:rendered="#{sessionController.isInekUser('CALCULATION_HOSPITAL')}">
                 <h2>An das InEK gesendete Kalkulationsgrundlagen</h2>
-                
-            <div class="inputPart">
-                <h:outputLabel for="txtFilter" styleClass="label marginRight" value="#{msg.lblFilter}"/>
-                <h:inputText id="txtFilter" styleClass="inputmedium marginRight" value="#{calcBasicsTreeHandler.filter}">
-                    <f:ajax/>
-                </h:inputText>
-                <h:commandLink styleClass="button" value="#{msg.btnRefreshList}">
-                    <f:ajax render="@form :logout:remaining"/>
-                </h:commandLink>
-            </div>
 
-                
+                <div class="inputPart">
+                    <h:outputLabel for="txtFilter" styleClass="label marginRight" value="#{msg.lblFilter}"/>
+                    <h:inputText id="txtFilter" styleClass="inputmedium marginRight" value="#{calcBasicsTreeHandler.filter}">
+                        <f:ajax/>
+                    </h:inputText>
+                    <h:commandLink styleClass="button" value="#{msg.btnRefreshList}">
+                        <f:ajax render="@form :logout:remaining"/>
+                    </h:commandLink>
+                </div>
+
                 <ui:repeat value="#{calcBasicsTreeHandler.rootNode.children}" var="accountNode" >
                     <calc:AccountNode accountNode="#{accountNode}" editPartner="false"/>
                 </ui:repeat>

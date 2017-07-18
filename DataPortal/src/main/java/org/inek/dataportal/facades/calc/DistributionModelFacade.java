@@ -20,6 +20,7 @@ import org.inek.dataportal.enums.CalcHospitalFunction;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.AbstractDataAccess;
 import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.utils.StringUtil;
 
 /**
  *
@@ -49,11 +50,11 @@ public class DistributionModelFacade extends AbstractDataAccess {
                 + "join CallCenterDb.dbo.ccCustomer on sopIk = cuIK\n"
                 + "join CallCenterDB.dbo.ccContact on cuId = coCustomerId and coIsActive = 1 \n" // (2)
                 + "join CallCenterDB.dbo.ccContactDetails on coId = cdContactId and cdContactDetailTypeId = 'E'\n" // (2)
-                + "join dbo.Account on (cdDetails = acMail" 
-                + (testMode ? " or acMail like '%@inek-drg.de'" : "") + ") and acId = " + accountId + "\n" 
-                + "join CallCenterDB.dbo.mapContactRole r1 on (r1.mcrContactId = coId) and (r1.mcrRoleId in (3, 12, 15, 16, 18, 19)" 
+                + "join dbo.Account on (cdDetails = acMail"
+                + (testMode ? " or acMail like '%@inek-drg.de'" : "") + ") and acId = " + accountId + "\n"
+                + "join CallCenterDB.dbo.mapContactRole r1 on (r1.mcrContactId = coId) and (r1.mcrRoleId in (3, 12, 15, 16, 18, 19)"
                 + (testMode ? " or acMail like '%@inek-drg.de'" : "") + ") \n"
-                + "left join CallCenterDB.dbo.mapContactRole r2 on (r2.mcrContactId = coId) and r2.mcrRoleId = 14 " 
+                + "left join CallCenterDB.dbo.mapContactRole r2 on (r2.mcrContactId = coId) and r2.mcrRoleId = 14 "
                 + (testMode ? " and acMail not like '%@inek-drg.de'" : "") + " \n"
                 + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
                 + "where caHasAgreement = 1 and caIsInactive = 0 and caCalcTypeId in (1, 3, 6)\n"
@@ -87,11 +88,11 @@ public class DistributionModelFacade extends AbstractDataAccess {
                 + "join CallCenterDb.dbo.ccCustomer on sopIk = cuIK\n"
                 + "join CallCenterDB.dbo.ccContact on cuId = coCustomerId and coIsActive = 1 \n" // (2)
                 + "join CallCenterDB.dbo.ccContactDetails on coId = cdContactId and cdContactDetailTypeId = 'E'\n" // (2)
-                + "join dbo.Account on (cdDetails = acMail" 
-                + (testMode ? " or acMail like '%@inek-drg.de'" : "") + ") and acId = " + accountId + "\n" 
-                + "join CallCenterDB.dbo.mapContactRole r1 on (r1.mcrContactId = coId) and (r1.mcrRoleId in (3, 12, 15, 16, 18, 19)" 
+                + "join dbo.Account on (cdDetails = acMail"
+                + (testMode ? " or acMail like '%@inek-drg.de'" : "") + ") and acId = " + accountId + "\n"
+                + "join CallCenterDB.dbo.mapContactRole r1 on (r1.mcrContactId = coId) and (r1.mcrRoleId in (3, 12, 15, 16, 18, 19)"
                 + (testMode ? " or acMail like '%@inek-drg.de'" : "") + ") \n"
-                + "left join CallCenterDB.dbo.mapContactRole r2 on (r2.mcrContactId = coId) and r2.mcrRoleId = 14 " 
+                + "left join CallCenterDB.dbo.mapContactRole r2 on (r2.mcrContactId = coId) and r2.mcrRoleId = 14 "
                 + (testMode ? " and acMail not like '%@inek-drg.de'" : "") + " \n"
                 + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
                 + "where caHasAgreement = 1 and caIsInactive = 0 and caCalcTypeId in (1, 3, 6)\n"
@@ -101,7 +102,7 @@ public class DistributionModelFacade extends AbstractDataAccess {
                 + "             select aaiIK from dbo.AccountAdditionalIK where aaiAccountId = " + accountId + "\n"
                 + "     ) \n"
                 + "     and r2.mcrRoleId is null\n"
-                + "     and sopStatusId = " + WorkflowStatus.Provided.getId() + "\n" 
+                + "     and sopStatusId = " + WorkflowStatus.Provided.getId() + "\n"
                 + "     and sopIsPsy = 1\n"
                 + "     and sopCdmPsy = 1\n"
                 + "     and sopObligatoryCalcType != 1\n"
@@ -144,7 +145,7 @@ public class DistributionModelFacade extends AbstractDataAccess {
         remove(model);
     }
 
-    public List<Account> getInekAccounts() {
+    public List<Account> getInekAccounts(String filter) {
         String sql = "select distinct account.*\n"
                 + "from calc.DistributionModelMaster \n"
                 + "join CallCenterDB.dbo.ccCustomer on dmmIk = cuIK\n"
@@ -156,12 +157,19 @@ public class DistributionModelFacade extends AbstractDataAccess {
                 + "where dmmStatusId >= 10 \n"
                 + "     and agActive = 1 and agDomainId in ('O', 'E')\n"
                 + "     and mcraReportTypeId in (1, 3)"; // 1=Drg, 3=Psy
+        String sqlFilter = StringUtil.getSqlFilter(filter);
+        if (sqlFilter.length() > 0) {
+            sql = sql + "\n"
+                    + "    and (cast (cuIk as varchar) = " + sqlFilter
+                    + "         or cuName like " + sqlFilter
+                    + "         or cuCity like " + sqlFilter + ")";
+        }
         Query query = getEntityManager().createNativeQuery(sql, Account.class);
         @SuppressWarnings("unchecked") List<Account> result = query.getResultList();
         return result;
     }
 
-    public List<CalcHospitalInfo> getDistributionModelsForAccount(Account account) {
+    public List<CalcHospitalInfo> getDistributionModelsForAccount(Account account, String filter) {
         String sql = "select distinct dmmId as Id, 'CDM' as [Type], dmmAccountId as AccountId, dmmDataYear as DataYear, "
                 + "    dmmIk as IK, dmmStatusId as StatusId,\n"
                 + " '" + Utils.getMessage("lblClinicalDistributionModel") + " ' "
@@ -174,8 +182,14 @@ public class DistributionModelFacade extends AbstractDataAccess {
                 + "join CallCenterDB.dbo.ccAgent on mcraAgentId = agId\n"
                 + "where dmmStatusId >= 10 \n"
                 + "     and agEMail = '" + account.getEmail() + "'\n"
-                + "     and mcraReportTypeId in (1, 3)\n"
-                + "order by dmmIk, dmmId desc";
+                + "     and mcraReportTypeId in (1, 3)\n";
+        String sqlFilter = StringUtil.getSqlFilter(filter);
+        if (sqlFilter.length() > 0) {
+            sql = sql + "    and (cast (cuIk as varchar) = " + sqlFilter
+                    + "         or cuName like " + sqlFilter
+                    + "         or cuCity like " + sqlFilter + ")";
+        }
+        sql = sql + "order by dmmIk, dmmId desc";
         Query query = getEntityManager().createNativeQuery(sql, CalcHospitalInfo.class);
         @SuppressWarnings("unchecked") List<CalcHospitalInfo> result = query.getResultList();
         return result;
@@ -189,7 +203,7 @@ public class DistributionModelFacade extends AbstractDataAccess {
         query.setParameter("ik", model.getIk());
         query.setParameter("statusId", 200);
         List<DistributionModel> resultList = query.getResultList();
-        if (resultList.isEmpty()){
+        if (resultList.isEmpty()) {
             return null;
         }
         return resultList.get(0);
