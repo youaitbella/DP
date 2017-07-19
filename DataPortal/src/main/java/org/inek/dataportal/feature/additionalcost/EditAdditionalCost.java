@@ -23,6 +23,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.CooperationTools;
+import org.inek.dataportal.common.SessionTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountAdditionalIK;
@@ -35,6 +36,7 @@ import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.feature.admin.facade.InekRoleFacade;
 import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.helper.scope.FeatureScoped;
 import org.inek.dataportal.helper.structures.MessageContainer;
 import org.inek.dataportal.mail.Mailer;
 import org.inek.dataportal.utils.DocumentationUtil;
@@ -44,26 +46,34 @@ import org.inek.dataportal.utils.DocumentationUtil;
  * @author muellermi
  */
 @Named
-@ViewScoped
+@FeatureScoped(name = "AdditionalCost")
 public class EditAdditionalCost extends AbstractEditController implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="fields & enums">
     private static final Logger LOGGER = Logger.getLogger("EditAdditionalCostRequest");
-
-    @Inject private CooperationTools _cooperationTools;
-    @Inject private SessionController _sessionController;
-    @Inject private AdditionalCostFacade _additionalCostFacade;
-    @Inject private ApplicationTools _appTools;
     
-    @Inject private AccountFacade _accountFacade;
-    @Inject private Mailer _mailer;
-
+    @Inject
+    private CooperationTools _cooperationTools;
+    @Inject
+    private SessionController _sessionController;
+    @Inject
+    private AdditionalCostFacade _additionalCostFacade;
+    @Inject
+    private ApplicationTools _appTools;
+    
+    @Inject
+    private AccountFacade _accountFacade;
+    @Inject
+    private Mailer _mailer;
+    @Inject
+    private SessionTools _sessionTools;
+    
     private AdditionalCost _additionalCost;
-
+    
     public AdditionalCost getAdditionalCost() {
         return _additionalCost;
     }
-
+    
     public void setAdditionalCost(AdditionalCost additionalCost) {
         _additionalCost = additionalCost;
     }
@@ -86,17 +96,16 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
             Utils.navigate(Pages.Error.RedirectURL());
         }
     }
-
+    
     private AdditionalCost loadAdditionalCost(String idObject) {
         int id = Integer.parseInt(idObject);
-//        AdditionalCost additionalCost = _additionalCostFacade.find(id);
         AdditionalCost additionalCost = _additionalCostFacade.findAdditionalCost(id);
         if (hasSufficientRights(additionalCost)) {
             return additionalCost;
         }
         return new AdditionalCost();
     }
-
+    
     private boolean hasSufficientRights(AdditionalCost additionalCost) {
         if (_sessionController.isMyAccount(additionalCost.getAccountId(), false)) {
             return true;
@@ -106,27 +115,27 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
         }
         return _cooperationTools.isAllowed(Feature.ADDITIONAL_COST, additionalCost.getStatus(), additionalCost.getAccountId());
     }
-
+    
     private AdditionalCost newAdditionalCost() {
         Account account = _sessionController.getAccount();
         AdditionalCost additionalCost = new AdditionalCost();
-        additionalCost.setHospital(account.getCompany());
+        additionalCost.setAccountId(account.getId());
         additionalCost.setStreet(account.getStreet());
+        additionalCost.setZip(account.getPostalCode());
+        additionalCost.setCity(account.getTown());
+//        additionalCost.setHospital(account.getCompany());
+        additionalCost.setContactFirstName(account.getFirstName());
+        additionalCost.setContactLastName(account.getLastName());
+        additionalCost.setContactPhone(account.getPhone());
+        additionalCost.setContactEmail(account.getEmail());
+        if(_sessionTools.getPeriodToItems().length > 0) {
+            SelectItem item =_sessionTools.getPeriodToItems()[0];
+            additionalCost.setPeriodTo((int)item.getValue());
+        }
+//        additionalCost.set
         return additionalCost;
     }
-
-//    public List<SelectItem> getTypeItems() {
-//        List<SelectItem> items = new ArrayList<>();
-//        items.add(new SelectItem(1, "im Krankenhausplan des Landes"));
-//        items.add(new SelectItem(2, "durch gleichartige Festlegung durch zuständige Landesbehörde"));
-//        return items;
-//    }
-
-    // <editor-fold defaultstate="collapsed" desc="actions">
-//    public boolean isOwnStatement() {
-//        return _sessionController.isMyAccount(_additionalCost.getAccountId(), false);
-//    }
-
+    
     public boolean isReadOnly() {
         if (_additionalCost == null) {
             return true;
@@ -140,31 +149,30 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
                 _additionalCost.getAccountId(),
                 _additionalCost.getIk());
     }
-
+    
     @Override
     protected void addTopics() {
         addTopic("TopicFrontPage", Pages.CalcDrgBasics.URL());
     }
-
+    
     public String save() {
 //        removeEmptyCenters();
-//        setModifiedInfo();
+        setModifiedInfo();
         _additionalCost = _additionalCostFacade.saveAdditionalCost(_additionalCost);
 //        addCentersIfMissing();
 
         if (isValidId(_additionalCost.getId())) {
-            // CR+LF or LF only will be replaced by "\r\n"
             String script = "alert ('" + Utils.getMessage("msgSave").replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
             _sessionController.setScript(script);
             return null;
         }
         return Pages.Error.URL();
     }
-
+    
     private boolean isValidId(Integer id) {
         return id != null && id >= 0;
     }
-
+    
     public boolean isSealEnabled() {
         if (!_appTools.isEnabled(ConfigKey.IsAdditionalRequestSendEnabled)) {
             return false;
@@ -174,7 +182,7 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
         }
         return _cooperationTools.isSealedEnabled(Feature.ADDITIONAL_COST, _additionalCost.getStatus(), _additionalCost.getAccountId());
     }
-
+    
     public boolean isApprovalRequestEnabled() {
         if (!_appTools.isEnabled(ConfigKey.IsAdditionalRequestSendEnabled)) {
             return false;
@@ -184,7 +192,7 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
         }
         return _cooperationTools.isApprovalRequestEnabled(Feature.ADDITIONAL_COST, _additionalCost.getStatus(), _additionalCost.getAccountId());
     }
-
+    
     public boolean isRequestCorrectionEnabled() {
         if (!_appTools.isEnabled(ConfigKey.IsAdditionalRequestSendEnabled)) {
             return false;
@@ -195,7 +203,7 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
         return (_additionalCost.getStatus() == WorkflowStatus.Provided || _additionalCost.getStatus() == WorkflowStatus.ReProvided)
                 && _sessionController.isInekUser(Feature.ADDITIONAL_COST, true);
     }
-
+    
     public boolean isTakeEnabled() {
         return _cooperationTools != null
                 && _additionalCost != null
@@ -203,18 +211,20 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
     }
 
     /**
-     * This function seals a statement od participance if possible. Sealing is possible, if all mandatory fields are
-     * fulfilled. After sealing, the statement od participance can not be edited anymore and is available for the InEK.
+     * This function seals a statement od participance if possible. Sealing is
+     * possible, if all mandatory fields are fulfilled. After sealing, the
+     * statement od participance can not be edited anymore and is available for
+     * the InEK.
      *
      * @return
      */
-    public String seal() {//Todo      
+    public String seal() {        
         if (!requestIsComplete()) {
             return null;
         }
         _additionalCost.setStatus(WorkflowStatus.Provided);
         _additionalCost = _additionalCostFacade.saveAdditionalCost(_additionalCost);
-
+        
         if (isValidId(_additionalCost.getId())) {
             sendNotification();
             Utils.getFlash().put("headLine", Utils.getMessage("nameADDITIONAL_COST"));
@@ -224,13 +234,13 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
         }        
         return "";
     }
-
+    
     public String requestApproval() {
         _additionalCost.setStatus(WorkflowStatus.ApprovalRequested);
         _additionalCost = _additionalCostFacade.merge(_additionalCost);
         return "";
     }
-
+    
     public String take() {
         if (!isTakeEnabled()) {
             return Pages.Error.URL();
@@ -239,11 +249,11 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
         _additionalCost = _additionalCostFacade.merge(_additionalCost);
         return "";
     }
-
+    
     public void ikChanged() {
         // dummy listener, used by component MultiIk - do not delete
     }
-
+    
     public List<SelectItem> getIks() {
         Set<Integer> iks = new HashSet<>();
         if (_additionalCost != null && _additionalCost.getIk() > 0) {
@@ -264,17 +274,17 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
     }
     // </editor-fold>
     
-    
-    @Inject private InekRoleFacade _inekRoleFacade;
+    @Inject
+    private InekRoleFacade _inekRoleFacade;
     
     public void sendNotification() {
         List<Account> inekAccounts = _inekRoleFacade.findForFeature(Feature.ADDITIONAL_COST);
         String receipients = inekAccounts.stream().map(a -> a.getEmail()).collect(Collectors.joining(";"));
         _mailer.sendMail(receipients, "Besondere Aufgaben / Zentrum", "Es wurde ein Datensatz an das InEK gesendet.");
     }
-
+    
     private boolean requestIsComplete() {
-         MessageContainer message = composeMissingFieldsMessage(_additionalCost);
+        MessageContainer message = composeMissingFieldsMessage(_additionalCost);
         if (message.containsMessage()) {
             message.setMessage(Utils.getMessage("infoMissingFields") + "\\r\\n" + message.getMessage());
             //setActiveTopic(message.getTopic());
@@ -287,17 +297,16 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
         return !message.containsMessage();
     }
     
-    
     public MessageContainer composeMissingFieldsMessage(AdditionalCost additionalCost) {
         MessageContainer message = new MessageContainer();
-
+        
         String ik = additionalCost.getIk() <= 0 ? "" : "" + additionalCost.getIk();
         checkField(message, ik, "lblIK", "additionalFunction:ikMulti");
         checkField(message, additionalCost.getContactFirstName(), "lblFirstName", "additionalFunction:firstName");
         checkField(message, additionalCost.getContactLastName(), "lblFirstName", "additionalFunction:lastName");
         checkField(message, additionalCost.getContactPhone(), "lblPhone", "additionalFunction:phone");
         checkField(message, additionalCost.getContactEmail(), "lblMail", "additionalFunction:mail");
-
+        
         return message;
     }
     
@@ -306,7 +315,7 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
             applyMessageValues(message, msgKey, elementId);
         }
     }
-
+    
     private void checkField(MessageContainer message, Integer value, Integer minValue, Integer maxValue, String msgKey, String elementId) {
         if (value == null
                 || minValue != null && value < minValue
@@ -314,12 +323,17 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
             applyMessageValues(message, msgKey, elementId);
         }
     }
-
+    
     private void applyMessageValues(MessageContainer message, String msgKey, String elementId) {
         message.setMessage(message.getMessage() + "\\r\\n" + Utils.getMessageOrKey(msgKey));
         if (message.getTopic().isEmpty()) {
             message.setTopic("");
             message.setElementId(elementId);
         }
+    }
+
+    private void setModifiedInfo() {
+        _additionalCost.setAdcLastChanged(Calendar.getInstance().getTime());
+//        _additionalCost.setAccountIdLastChange(_sessionController.getAccountId());
     }
 }

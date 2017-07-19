@@ -1,6 +1,5 @@
 package org.inek.dataportal.facades;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -9,6 +8,7 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.additionalcost.AdditionalCost;
+import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.enums.WorkflowStatus;
 
 /**
@@ -25,6 +25,18 @@ public class AdditionalCostFacade extends AbstractDataAccess {
     
     public List<AdditionalCost> obtainAdditionalCosts(){
         return findAll(AdditionalCost.class);
+    }
+    
+    public List<AdditionalCost> getAdditionalCosts(int accountId, DataSet dataSet) {
+        String sql = "SELECT n FROM AdditionalCost n "
+                + "WHERE n._accountId = :accountId and n._statusId BETWEEN :minStatus AND :maxStatus ORDER BY n._id";
+        TypedQuery<AdditionalCost> query = getEntityManager().createQuery(sql, AdditionalCost.class);
+        int minStatus = dataSet == DataSet.AllOpen ? WorkflowStatus.New.getId() : WorkflowStatus.Provided.getId();
+        int maxStatus = dataSet == DataSet.AllOpen ? WorkflowStatus.Provided.getId()-1 : WorkflowStatus.Retired.getId();
+        query.setParameter("accountId", accountId);
+        query.setParameter("minStatus", minStatus);
+        query.setParameter("maxStatus", maxStatus);
+        return query.getResultList();
     }
     
     public AdditionalCost saveAdditionalCost(AdditionalCost _additionalCost) {

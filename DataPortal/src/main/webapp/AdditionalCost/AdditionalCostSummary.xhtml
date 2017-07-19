@@ -5,90 +5,30 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:jsf="http://xmlns.jcp.org/jsf"
-                xmlns:ac="http://xmlns.jcp.org/jsf/composite/components/additionalcost">
+                xmlns:ac="http://xmlns.jcp.org/jsf/composite/components/additionalcost"
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components">
 
     <ui:define name="content">
         #{additionalCostTreeHandler.refreshNodes()}
         #{inekAcTreeHandler.refreshNodes()}
+        
         <h:form class="paddingElement">
-
             <h1>#{msg.nameADDITIONAL_COST}</h1>
-            <h4><h:outputLabel value="#{msg.infoOpenADDITIONAL_COST}"/></h4> 
-
-            <!--Liste aller Mehrkosten-->
-            <ui:repeat value="#{additionalCostTreeHandler.editNode.children}" var="accountNode" >
-                <div style="margin-left:16px;">
-                    <h:commandLink action="#{accountNode.toggle}" immediate="true" >
-                        <h:graphicImage alt="auf/zuklappen" name="Icon/small/#{accountNode.expanded ? 'ButtonMinus.png' : 'ButtonPlus.png'}" 
-                                        title="Details auf/zuklappen" value=""/>
-                        <f:ajax render="@this additionalEdit :logout:remaining"/>
-                    </h:commandLink>
-                    <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" 
-                                   value="#{accountNode.account.firstName} #{accountNode.account.lastName}" immediate="true"/>
-                    <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" 
-                                   value="#{accountNode.account.company}" immediate="true"/>
-                    <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" 
-                                   value="#{accountNode.account.town}" immediate="true"/>
-
-                    <div jsf:id="additionalEdit" style="margin-left:16px; padding-bottom: 1em;">
-                        <h:outputLabel value="Dieser Kooperationspartner hat noch keine Daten zur Freigabe an Sie gesendet" 
-                                       rendered="#{accountNode.expanded and accountNode.children.size() eq 0}"/>
-                        <ac:AdditionalCostNode parentNode="#{accountNode}"
-                                               showDelete="true" showSelectBox="false"
-                                               rendered="#{accountNode.children.size() gt 0}"/>
-                    </div>
-                </div>
-            </ui:repeat>
-
-            <div jsf:rendered="#{sessionController.isInekUser('ADDITIONAL_COST')}">
-                <h2>An das InEK gesendete Mehrkosten</h2>                
-                <div style="margin-left:16px; padding-bottom: 1em;">
-                    <ac:AdditionalCostNode parentNode="#{inekAcTreeHandler.rootNode}" showDelete="false" showSelectBox="false"
-                                           rendered="#{inekAcTreeHandler.rootNode.children.size() gt 0}"/>
-                </div>
-            </div>
             
-            <h:commandLink styleClass="bigButton #{additionalCostList.newAllowed? '' : 'buttonDisabled'}"
-                           action="#{additionalCostList.newAdditionalCost()}"
+            <h4><h:outputLabel value="#{msg.infoOpenADDITIONAL_COST}"/></h4> 
+            <inek:AdditionalCostList list="#{additionalCostList.openAdditionalCosts}"/>
+            
+            <h:commandLink styleClass="bigButton"
+                           action="#{additionalCostList.editAdditionalCost}"
                            immediate="true"
                            value="#{msg.btnNewAdditionalCost}"
-                           disabled="#{!additionalCostList.newAllowed}" 
                            >
                 <f:param name="id" value="new"/>
             </h:commandLink>
 
             <h4><h:outputLabel value="#{msg.infoProvidedData}"/></h4>
-            <ui:repeat value="#{additionalCostTreeHandler.viewNode.children}" var="year">
-                <p>
-                <h:commandLink action="#{year.toggle}" immediate="true" >
-                    <h:graphicImage alt="auf/zuklappen" name="Icon/small/#{year.expanded ? 'ButtonMinus.png' : 'ButtonPlus.png'}" 
-                                    title="Details auf/zuklappen" value=""/>
-                    <f:ajax render="@this Year :logout:remaining"/>
-                </h:commandLink>
-                <h:commandLink styleClass="block marginTop" action="#{year.toggle}" value="Mehrkosten für: #{year.id}" immediate="true" />
-                </p>
-                <div jsf:id="Year">
-                    <ui:repeat value="#{year.children}" var="accountNode" varStatus="status">
-                        <div style="margin-left:16px;">
-                            <h:commandLink action="#{accountNode.toggle}" immediate="true" >
-                                <h:graphicImage alt="auf/zuklappen" name="Icon/small/#{accountNode.expanded ? 'ButtonMinus.png' : 'ButtonPlus.png'}" 
-                                                title="Details auf/zuklappen" value=""/>
-                                <f:ajax render="@this additionalCostShow :logout:remaining"/>
-                            </h:commandLink>
-                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" 
-                                           value="#{accountNode.account.firstName} #{accountNode.account.lastName}" immediate="true"/>
-                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" 
-                                           value="#{accountNode.account.company}" immediate="true"/>
-                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" 
-                                           value="#{accountNode.account.town}" immediate="true"/>
-                            <div jsf:id="additionalCostShow" style="margin-left:16px; padding-bottom: 1em;">
-                                <ac:AdditionalCostNode parentNode="#{accountNode}" showDelete="true" showSelectBox="false"
-                                                       rendered="#{accountNode.children.size() gt 0}"/>
-                            </div>
-                        </div>
-                    </ui:repeat>
-                </div>
-            </ui:repeat>
+            <inek:AdditionalCostList list="#{additionalCostList.providedAdditionalCosts}"/>
+            
         </h:form>
     </ui:define>
 </ui:composition>

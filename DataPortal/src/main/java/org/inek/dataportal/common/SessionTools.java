@@ -179,47 +179,47 @@ public class SessionTools implements Serializable {
     
     public SelectItem[] getPeriodFromItems() {
         SelectItem[] items = new SelectItem[3];
-        items[0] = new SelectItem("2017", "2017");
-        items[1] = new SelectItem("2016", "2016");
-        items[2] = new SelectItem("2015", "2015");
+        items[0] = new SelectItem(2017, "2017");
+        items[1] = new SelectItem(2016, "2016");
+        items[2] = new SelectItem(2015, "2015");
         return items;
     }
     
     public SelectItem[] getPeriodToItems() {
         SelectItem[] items = new SelectItem[3];
-        items[0] = new SelectItem("2017", "2017");
-        items[1] = new SelectItem("2016", "2016");
-        items[2] = new SelectItem("2015", "2015");
+        items[0] = new SelectItem(2017, "2017");
+        items[1] = new SelectItem(2016, "2016");
+        items[2] = new SelectItem(2015, "2015");
         return items;
     }
 
     public SelectItem[] getRepaymentPeriodFromItems() {
         SelectItem[] items = new SelectItem[5];
-        items[0] = new SelectItem("2017", "2017");
-        items[1] = new SelectItem("2018", "2018");
-        items[2] = new SelectItem("2019", "2019");
-        items[3] = new SelectItem("2020", "2020");
-        items[4] = new SelectItem("2021", "2021");
+        items[0] = new SelectItem(2017, "2017");
+        items[1] = new SelectItem(2018, "2018");
+        items[2] = new SelectItem(2019, "2019");
+        items[3] = new SelectItem(2020, "2020");
+        items[4] = new SelectItem(2021, "2021");
         return items;
     }
 
     public SelectItem[] getRepaymentPeriodToItems() {
         SelectItem[] items = new SelectItem[5];
-        items[0] = new SelectItem("2017", "2017");
-        items[1] = new SelectItem("2018", "2018");
-        items[2] = new SelectItem("2019", "2019");
-        items[3] = new SelectItem("2020", "2020");
-        items[4] = new SelectItem("2021", "2021");
+        items[0] = new SelectItem(2017, "2017");
+        items[1] = new SelectItem(2018, "2018");
+        items[2] = new SelectItem(2019, "2019");
+        items[3] = new SelectItem(2020, "2020");
+        items[4] = new SelectItem(2021, "2021");
         return items;
     }
 
     public SelectItem[] getCalenderYearItems() {
         SelectItem[] items = new SelectItem[5];
-        items[0] = new SelectItem("2017", "2017");
-        items[1] = new SelectItem("2018", "2018");
-        items[2] = new SelectItem("2019", "2019");
-        items[3] = new SelectItem("2020", "2020");
-        items[4] = new SelectItem("2021", "2021");
+        items[0] = new SelectItem(2017, "2017");
+        items[1] = new SelectItem(2018, "2018");
+        items[2] = new SelectItem(2019, "2019");
+        items[3] = new SelectItem(2020, "2020");
+        items[4] = new SelectItem(2021, "2021");
         return items;
     }
 

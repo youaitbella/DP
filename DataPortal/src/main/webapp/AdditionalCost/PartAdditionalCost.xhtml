@@ -11,21 +11,15 @@
             <h:commandLink action="#{sessionController.navigate(sessionTools.pages.AdditionalCostSummary)}" value="#{msg.nameADDITIONAL_COST}" immediate="true"/>
         </h2>
         <div class="paddingElement">
-            #{additionalCostTreeHandler.accountNode.refresh()}
 
-            <ac:AdditionalCostNode parentNode="#{additionalCostTreeHandler.accountNode}" isSealed="false" 
-                                   showDelete="true" showSelectBox="false"
-                                   rendered="#{additionalCostTreeHandler.accountNode.children.size() gt 0}"/>
-
-            <h:commandLink styleClass="bigButton #{additionalCostList.newAllowed? '' : 'buttonDisabled'}"
-                           action="#{additionalCostList.newAdditionalCost()}"
+            <h:commandLink styleClass="bigButton"
+                           action="#{additionalCostList.editAdditionalCost}"
                            immediate="true"
                            value="#{msg.btnNewAdditionalCost}"
-                           disabled="#{!additionalCostList.newAllowed}"
                            >
                 <f:param name="id" value="new"/>
             </h:commandLink>
-
+            
         </div>
     </ui:composition>
 </html>

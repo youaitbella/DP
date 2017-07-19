@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="list"/>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <div class="paddingElement">
+            <h:dataTable rendered="#{cc.attrs.list.size() > 0}"  headerClass="list-header" 
+                         value="#{cc.attrs.list}" var="add" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colIcon, colIcon, colId, colValue">
+
+                <h:column  >
+                    <f:facet name="header">
+                        <h:outputText value=""/>
+                    </f:facet>
+                    <h:commandLink action="#{additionalCostList.printNotice(add.id)}" immediate="true" >
+                        <h:graphicImage alt="drucken" name="Icon/small/print.png" title="Druckansicht" value=""/>
+                    </h:commandLink>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value=""/>
+                    </f:facet>
+                    <h:commandLink action="#{additionalCostList.deleteAdditionalCost(add.id)}" immediate="true"
+                                   onclick="#{additionalCostList.getConfirmMessage(add.id)}">
+                        <h:graphicImage alt="löschen" name="Icon/small/#{add.status.value le 9 ? 'delete.png' : 'cross.png'}"
+                                        title="#{add.status.value le 9 ? 'Löschen' : 'Zurückziehen'}" value=""/>
+                    </h:commandLink>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value=""/>
+                    </f:facet>
+                    <h:commandLink action="#{additionalCostList.editAdditionalCost}" immediate="true" >
+                        <h:graphicImage alt="Status" name="Icon/small/#{add.status.icon}" value="" title="#{add.status.description}" rendered="#{add.status.icon.length() gt 0}"/>
+                        <f:param name="id" value="#{add.id}"/>
+                    </h:commandLink>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{msg.lblYear}"/>
+                    </f:facet>
+                    <h:commandLink action="#{additionalCostList.editAdditionalCost}" value="#{add.calenderYear}" immediate="true">
+                        <f:param name="id" value="#{add.id}"/>
+                    </h:commandLink>
+                </h:column>
+                
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{msg.lblHospitalIk}"/>
+                    </f:facet>
+                    <h:commandLink action="#{additionalCostList.editAdditionalCost}" value="#{add.ik}" immediate="true">
+                        <f:param name="id" value="#{add.id}"/>
+                    </h:commandLink>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{msg.lblHospital}"/>
+                    </f:facet>
+                    <h:commandLink action="#{additionalCostList.editAdditionalCost}" value="#{add.hospital}" immediate="true">
+                        <f:param name="id" value="#{add.hospital}"/>
+                    </h:commandLink>
+                </h:column>
+                
+                
+                
+            </h:dataTable>
+        </div>
+    </cc:implementation>
+</html>
