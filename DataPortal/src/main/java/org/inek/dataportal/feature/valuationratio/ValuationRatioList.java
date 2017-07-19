@@ -69,5 +69,8 @@ public class ValuationRatioList {
         Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(_valuationRatioFacade.findValuationRatio(valuationRatioId)));
         return Pages.PrintView.URL();
     }
-
+    
+    public boolean isNewEnabled() {
+        return _valuationRatioFacade.isNewValuationRationEnabled(_sessionController.getAccountId());
+    }
 }

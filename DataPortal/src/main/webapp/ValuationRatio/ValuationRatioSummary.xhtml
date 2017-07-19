@@ -24,7 +24,7 @@
 
             <div class="toolBar marginLeft">
                 <h:commandLink styleClass="bigButton" action="#{valuationRatioList.editValuationRatio}" 
-                               immediate="true" value="Neue Bewertungsrelation">
+                               immediate="true" value="Neue Bewertungsrelation" disabled="#{!valuationRatioList.newEnabled()}">
                     <f:param name="id" value="new"/>
                 </h:commandLink>
             </div>

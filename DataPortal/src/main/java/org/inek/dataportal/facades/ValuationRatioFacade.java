@@ -3,6 +3,10 @@
  * and open the template in the editor.
  */
 package org.inek.dataportal.facades;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
@@ -43,6 +47,18 @@ public class ValuationRatioFacade extends AbstractDataAccess {
         return null;
     }
     
+    private Integer getLatestDataYear() {
+        List<ValuationRatioMedian> vrms = super.findAll(ValuationRatioMedian.class);
+        List<Integer> dataYears = new ArrayList<>();
+        for(ValuationRatioMedian vrm : vrms) {
+            if(dataYears.contains(vrm.getDataYear()))
+                continue;
+            dataYears.add(vrm.getDataYear());
+        }
+        Collections.sort(dataYears);
+        return dataYears.get(dataYears.size()-1);
+    }
+    
     public List<ValuationRatio> getValuationRatios(int accountId, DataSet dataSet) {
         String sql = "SELECT n FROM ValuationRatio n "
                 + "WHERE n._accountId = :accountId and n._status BETWEEN :minStatus AND :maxStatus ORDER BY n._dataYear, n._id";
@@ -53,6 +69,21 @@ public class ValuationRatioFacade extends AbstractDataAccess {
         query.setParameter("minStatus", minStatus);
         query.setParameter("maxStatus", maxStatus);
         return query.getResultList();
+    }
+    
+    public boolean isNewValuationRationEnabled(int accountId) {
+        List<ValuationRatio> vrs = getValuationRatios(accountId, DataSet.AllOpen);
+        if(vrs.isEmpty())
+            return true;
+        
+        int latestYear = getLatestDataYear();
+        for(ValuationRatio vr : vrs) {
+            if(vr.getDataYear() < latestYear)
+                continue;
+            if(vr.getDataYear() == latestYear)
+                return false;
+        }
+        return true;
     }
     
     public ValuationRatio saveValuationRatio(ValuationRatio vr) {
