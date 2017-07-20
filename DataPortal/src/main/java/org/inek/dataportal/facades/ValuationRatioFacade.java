@@ -73,6 +73,7 @@ public class ValuationRatioFacade extends AbstractDataAccess {
     
     public boolean isNewValuationRationEnabled(int accountId) {
         List<ValuationRatio> vrs = getValuationRatios(accountId, DataSet.AllOpen);
+        vrs.addAll(getValuationRatios(accountId, DataSet.AllSealed));
         if(vrs.isEmpty())
             return true;
         

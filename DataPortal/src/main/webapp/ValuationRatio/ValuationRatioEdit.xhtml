@@ -157,16 +157,17 @@
             </h:panelGroup>
 
                 <div class="toolBar floatContainer">
-                    <h:commandLink styleClass="bigButton" 
+                    <h:commandLink styleClass="bigButton #{editValuationRatio.readOnly ? 'disabledButton' : ''}" 
                                    action="#{editValuationRatio.save}" 
                                    value="#{msg.btnSave}" 
+                                   rendered="#{editValuationRatio.readOnly}"
                                    immediate="true">
                     </h:commandLink>
 
-                    <h:commandLink styleClass="sendButton"
+                    <h:commandLink styleClass="sendButton #{editValuationRatio.readOnly ? 'disabledButton' : ''}"
                                    action="#{editValuationRatio.provide}"
                                    value="#{msg.btnSaveAndClose}"
-                                   rendered="#{editValuationRatio.provideEnabled}"
+                                   rendered="#{editValuationRatio.readOnly}"
                                    title="#{msg.infoSaveAndClose}">
                         <cb:confirmSeal/>
                     </h:commandLink>
