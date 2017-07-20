@@ -99,13 +99,13 @@
                                        title="Perinatalzentrum Level"
                                        styleClass="label40"
                                        /> 
-                        <h:selectOneMenu id="cbxPerinatalcentre" 
+                        <h:selectOneMenu id="cbxPerinatalcentre"
+                                         styleClass="element15" 
                                          required="true" 
                                          requiredMessage="#{msg.msgChooseEntryShort}"
                                          value="#{editAdditionalCost.additionalCost.perinatalcentreLevel}"
-                                         hideNoSelectionOption="true"
                                          title="Auswahlbox mit den Werten 1 und 2, nach erstmaliger Eingabe Bestandteil der Anmeldung"
-                                         style="width: 100px"
+                                         hideNoSelectionOption="true"
                                          >
                             <f:selectItems value="#{sessionTools.perinatalcentreItems}"/>
                             <f:ajax event="blur" render="@form msgPerinatalcentre"/>
@@ -152,14 +152,13 @@
                                       value="#{editAdditionalCost.additionalCost.effectivCaseMix}" singleLine="true" 
                                       styleClassLabel="label40" styleClass="element50" required="true" 
                                       />
-
-                    <inek:LabeledText id="extraChargeA" label="Zuschlagsanteil A (für 2015/2016) '&lt;br/&gt;' vereinbartes Zuschlagsvolumen (Höhe in €)" 
+                    <inek:LabeledText id="extraChargeA" label="Zuschlagsanteil A (für 2015/2016) vereinbartes Zuschlagsvolumen (Höhe in €)" 
                                       value="#{editAdditionalCost.additionalCost.extraChargeA}" singleLine="true" 
                                       title="Angabe des Zuschlagvolumens"
                                       styleClassLabel="label40" styleClass="element50" required="true"/>
 
-                    <inek:LabeledText id="extraChargeB" label="Zuschlagsanteil B (Grundaufwand) vereinbartes Zuschlagsvolumen (Höhe in €)" 
-                                      value="#{editAdditionalCost.additionalCost.extraChargeB}" singleLine="true" 
+                    <inek:LabeledText id="extraChargeB" label="Zuschlagsanteil B (Grundaufwand) &lt;br/&gt; vereinbartes Zuschlagsvolumen (Höhe in €)" 
+                                      value="#{editAdditionalCost.additionalCost.extraChargeB}" singleLine="true"
                                       title="Angabe des Zuschlagvolumens" 
                                       styleClassLabel="label40" styleClass="element50" required="true"/>
 
@@ -239,13 +238,13 @@
                         <h:outputLabel for="calenderYear" 
                                        value="für das Kalenderjahr" 
                                        title="Auswahlfenster füe die Jahre 2017, 2018,...,2020"
-                                       styleClass="label40" style="display: inline"/>
+                                       styleClass="label40" />
                         <h:selectOneMenu id="calenderYear"
                                          styleClass="element12em"
                                          required="true"
                                          requiredMessage="#{msg.msgValueNeeded}"
                                          value="#{editAdditionalCost.additionalCost.calenderYear}"
-                                         hideNoSelectionOption="true"  
+                                         hideNoSelectionOption="true"  style="display: inline"
                                          >
                             <f:selectItems value="#{sessionTools.calenderYearItems}"/>
                             <f:ajax event="change" render="@form :logout:remaining calenderYear"/>

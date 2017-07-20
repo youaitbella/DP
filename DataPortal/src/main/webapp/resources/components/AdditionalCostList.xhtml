@@ -69,12 +69,9 @@
                         <h:outputText value="#{msg.lblHospital}"/>
                     </f:facet>
                     <h:commandLink action="#{additionalCostList.editAdditionalCost}" value="#{add.hospital}" immediate="true">
-                        <f:param name="id" value="#{add.hospital}"/>
-                    </h:commandLink>
+                        <f:param name="id" value="#{add.id}"/>
+                    </h:commandLink>   
                 </h:column>
-                
-                
-                
             </h:dataTable>
         </div>
     </cc:implementation>
