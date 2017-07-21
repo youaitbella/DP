@@ -273,7 +273,7 @@ public class ValuationRatio implements Serializable {
     
     @Column(name = "vrValidFrom")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date _validFrom = new Date(1970, 1, 1);
+    private Date _validFrom;
 
     public Date getValidFrom() {
         return _validFrom;

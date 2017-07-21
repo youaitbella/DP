@@ -90,7 +90,9 @@ public class ValuationRatioFacade extends AbstractDataAccess {
     public ValuationRatio saveValuationRatio(ValuationRatio vr) {
         if (vr.getId() == -1) {
             persist(vr);
-        } 
+        } else {
+            merge(vr);
+        }
         return vr;
     }
     

@@ -24,6 +24,7 @@ import org.inek.dataportal.facades.ValuationRatioFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
+import org.inek.dataportal.utils.DateUtils;
 
 /**
  *
@@ -54,6 +55,8 @@ public class EditValuationRatio extends AbstractEditController {
         } else {
             int idInt = Integer.parseInt(id.toString());
             _valuationRatio = _valuationRatioFacade.findFreshValuationRatio(idInt);
+            if(DateUtils.isNullAlias(_valuationRatio.getValidFrom()))
+                _valuationRatio.setValidFrom(null);
         }
     }
     
@@ -140,8 +143,10 @@ public class EditValuationRatio extends AbstractEditController {
 
     public String save() {
         try {
-            if(_valuationRatio.getValidFrom() == null)
-                _valuationRatio.setValidFrom(new Date(1970, 1, 1));
+            if(_valuationRatio.getValidFrom() == null) {
+                Date test = DateUtils.getNullAlias();
+                _valuationRatio.setValidFrom(test);
+            }
             
             _valuationRatio = _valuationRatioFacade.saveValuationRatio(_valuationRatio);
             _sessionController.alertClient(Utils.getMessage("msgSave"));
