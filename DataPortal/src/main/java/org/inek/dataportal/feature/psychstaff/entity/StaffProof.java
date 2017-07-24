@@ -69,7 +69,7 @@ public class StaffProof implements Serializable, StatusEntity {
         this._ik = ik;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property AccountId">
     @Column(name = "spmAccountId")
     private int _accountId;
@@ -96,7 +96,7 @@ public class StaffProof implements Serializable, StatusEntity {
         this._created = created;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property LastChanged">
     @Column(name = "spmLastChanged")
     @Documentation(name = "Stand")
@@ -125,7 +125,7 @@ public class StaffProof implements Serializable, StatusEntity {
         this._sealed = sealed;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property StatusId">
     @Column(name = "spmStatusId")
     private int _statusId;
@@ -176,7 +176,7 @@ public class StaffProof implements Serializable, StatusEntity {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property BudgetYear">
+    // <editor-fold defaultstate="collapsed" desc="Property CalculationType">
     @Column(name = "spfCalculationType")
     private int _calculationType;
 
@@ -185,10 +185,88 @@ public class StaffProof implements Serializable, StatusEntity {
     }
 
     public void setCalculationType(int calculationType) {
-        this._calculationType = calculationType;
+        _calculationType = calculationType;
     }
     // </editor-fold>
-    
+
+    //<editor-fold defaultstate="collapsed" desc="Property AdultsAgreedDays">
+    @Column(name = "spfAdultsAgreedDays")
+    private int _adultsAgreedDays;
+
+    public int getAdultsAgreedDays() {
+        return _adultsAgreedDays;
+    }
+
+    public void setAdultsAgreedDays(int adultsAgreedDays) {
+        _adultsAgreedDays = adultsAgreedDays;
+    }
+    // </editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property AdultsActualDays">
+    @Column(name = "spfAdultsActualDays")
+    private int _adultsActualDays;
+
+    public int getAdultsActualDays() {
+        return _adultsActualDays;
+    }
+
+    public void setAdultsActualDays(int adultsActualDays) {
+        _adultsActualDays = adultsActualDays;
+    }
+    // </editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property AdultsActualCosts">
+    @Column(name = "spfAdultsActualCosts")
+    private double _adultsActualCosts;
+
+    public double getAdultsActualCosts() {
+        return _adultsActualCosts;
+    }
+
+    public void setAdultsActualCosts(double adultsActualCosts) {
+        _adultsActualCosts = adultsActualCosts;
+    }
+    // </editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property KidsAgreedDays">
+    @Column(name = "spfKidsAgreedDays")
+    private int _kidsAgreedDays;
+
+    public int getKidsAgreedDays() {
+        return _kidsAgreedDays;
+    }
+
+    public void setKidsAgreedDays(int kidsAgreedDays) {
+        _kidsAgreedDays = kidsAgreedDays;
+    }
+    // </editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property KidsActualDays">
+    @Column(name = "spfKidsActualDays")
+    private int _kidsActualDays;
+
+    public int getKidsActualDays() {
+        return _kidsActualDays;
+    }
+
+    public void setKidsActualDays(int kidsActualDays) {
+        _kidsActualDays = kidsActualDays;
+    }
+    // </editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property KidsActualCosts">
+    @Column(name = "spfKidsActualCosts")
+    private double _kidsActualCosts;
+
+    public double getKidsActualCosts() {
+        return _kidsActualCosts;
+    }
+
+    public void setKidsActualCosts(double kidsActualCosts) {
+        _kidsActualCosts = kidsActualCosts;
+    }
+    // </editor-fold>
+
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public int hashCode() {
@@ -210,5 +288,5 @@ public class StaffProof implements Serializable, StatusEntity {
         return "StaffProof [id=" + _id + "]";
     }
     // </editor-fold>
-    
+
 }

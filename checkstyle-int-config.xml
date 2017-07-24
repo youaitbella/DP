@@ -188,16 +188,16 @@
             <property name="format" value="\s+$"/>
             <property name="message" value="Line has trailing spaces."/>
         </module> seem's it not there -->
-        <module name="TodoComment">
+        <!--module name="TodoComment">
             <property name="severity" value="info"/>
-        </module>
+        </module-->
 
         <module name="UpperEll"/>
 
         <!-- Checks for class metrics                         -->
         <!-- See http://checkstyle.sourceforge.net/config_metrics.html -->
         <module name="CyclomaticComplexity">
-            <property name="max" value="10"/>
+            <property name="max" value="20"/> <!-- shall be 10 - slightly reduce to this level -->
             <property name="severity" value="warning"/>
         </module>
 

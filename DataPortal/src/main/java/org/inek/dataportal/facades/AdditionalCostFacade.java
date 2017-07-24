@@ -18,27 +18,26 @@ import org.inek.dataportal.enums.WorkflowStatus;
 @Stateless
 public class AdditionalCostFacade extends AbstractDataAccess {
 
-  
     public AdditionalCost findAdditionalCost(int id) {
         return find(AdditionalCost.class, id);
     }
-    
-    public List<AdditionalCost> obtainAdditionalCosts(){
+
+    public List<AdditionalCost> obtainAdditionalCosts() {
         return findAll(AdditionalCost.class);
     }
-    
+
     public List<AdditionalCost> getAdditionalCosts(int accountId, DataSet dataSet) {
         String sql = "SELECT n FROM AdditionalCost n "
                 + "WHERE n._accountId = :accountId and n._statusId BETWEEN :minStatus AND :maxStatus ORDER BY n._id";
         TypedQuery<AdditionalCost> query = getEntityManager().createQuery(sql, AdditionalCost.class);
         int minStatus = dataSet == DataSet.AllOpen ? WorkflowStatus.New.getId() : WorkflowStatus.Provided.getId();
-        int maxStatus = dataSet == DataSet.AllOpen ? WorkflowStatus.Provided.getId()-1 : WorkflowStatus.Retired.getId();
+        int maxStatus = dataSet == DataSet.AllOpen ? WorkflowStatus.Provided.getId() - 1 : WorkflowStatus.Retired.getId();
         query.setParameter("accountId", accountId);
         query.setParameter("minStatus", minStatus);
         query.setParameter("maxStatus", maxStatus);
         return query.getResultList();
     }
-    
+
     public AdditionalCost saveAdditionalCost(AdditionalCost _additionalCost) {
         if (_additionalCost.getStatus() == WorkflowStatus.Unknown) {
             _additionalCost.setStatus(WorkflowStatus.New);
@@ -49,13 +48,12 @@ public class AdditionalCostFacade extends AbstractDataAccess {
         }
         return merge(_additionalCost);
     }
-    
+
     public void deleteAdditionalCost(AdditionalCost _additionalCost) {
         remove(_additionalCost);
     }
 
-
- public List<Account> loadRequestAccountsForYear(Set<Integer> accountIds, int year, WorkflowStatus statusLow, WorkflowStatus statusHigh) {
+    public List<Account> loadRequestAccountsForYear(Set<Integer> accountIds, int year, WorkflowStatus statusLow, WorkflowStatus statusHigh) {
         String jpql = "select distinct a "
                 + "from Account a join AdditionalCost s "
                 + "where a._id = s._accountId and s._calenderYear = :year "
@@ -76,11 +74,14 @@ public class AdditionalCostFacade extends AbstractDataAccess {
         return result;
     }
 
-            
-        public List<AdditionalCost> obtainAdditionalCosts(int accountId, int year, 
+    public List<AdditionalCost> obtainAdditionalCosts(int accountId, int year,
             WorkflowStatus statusLow, WorkflowStatus statusHigh) {
         String jpql = "SELECT s FROM AdditionalCost s "
-                + "WHERE s._accountId = :accountId and s._calenderYear = :year and s._statusId between :statusLow and :statusHigh ORDER BY s._id DESC";
+                + "WHERE s._accountId = :accountId "
+                + "  and s._calenderYear = :year "
+                + "  and s._statusId between :statusLow "
+                + "  and :statusHigh "
+                + "ORDER BY s._id DESC";
         TypedQuery<AdditionalCost> query = getEntityManager().createQuery(jpql, AdditionalCost.class);
         query.setParameter("accountId", accountId);
         query.setParameter("year", year);

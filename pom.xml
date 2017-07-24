@@ -54,8 +54,8 @@
                 </dependencies>
                 <executions>
                     <execution>
-                        <id>checkstyle</id>
-                        <phase>verify</phase>
+                        <id>validate</id>
+                        <phase>validate</phase>
                         <goals>
                             <goal>check</goal>
                         </goals>
@@ -64,8 +64,9 @@
                             <suppressionsFileExpression>checkstyle.suppressions.file</suppressionsFileExpression>
                             <configLocation>checkstyle-int-config.xml</configLocation>
 
-                            <failsOnError>false</failsOnError>
-                            <failOnViolation>false</failOnViolation>
+                            <consoleOutput>true</consoleOutput>
+                            <failsOnError>true</failsOnError>
+                            <failOnViolation>true</failOnViolation>
                             <!-- use project source directory to exclude generated sources on /target dir -->
                             <sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
                             <!--<excludes>src/main/resources/*</excludes>-->
@@ -148,4 +149,22 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+    
+    <!--reporting>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-checkstyle-plugin</artifactId>
+          <version>2.17</version>
+          <reportSets>
+            <reportSet>
+              <reports>
+                <report>checkstyle</report>
+              </reports>
+            </reportSet>
+          </reportSets>
+        </plugin>
+      </plugins>
+    </reporting-->
+    
 </project>
