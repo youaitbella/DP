@@ -95,7 +95,7 @@
                     <h2>Mehrkosten</h2>
                     <h:panelGroup styleClass="element100 marginTop01em">
                         <h:outputLabel for="cbxPerinatalcentre"
-                                       value="Perinatalzentrum Level"
+                                       value="#{msg.perinatalzentrum_level}"
                                        title="Perinatalzentrum Level"
                                        styleClass="label40"
                                        /> 
@@ -110,11 +110,10 @@
                             <f:selectItems value="#{sessionTools.perinatalcentreItems}"/>
                             <f:ajax event="blur" render="@form msgPerinatalcentre"/>
                         </h:selectOneMenu>
-                        <!--<h:message id="msgPerinatalcentre" for="cbxPerinatalcentre" styleClass="errorMessage"/>-->
                     </h:panelGroup>
 
                     <h:outputLabel for="periodFrom" 
-                                   value="Die folgende Vereinbarungsdaten beziehen sich auf den Vereinbarungszeitraum" 
+                                   value="#{msg.period}" 
                                    title="Die folgende Vereinbarungsdaten beziehen sich auf den Vereinbarungszeitraum"
                                    styleClass="label40"
                                    />
@@ -143,48 +142,42 @@
                         <f:selectItems value="#{sessionTools.periodToItems}"/>
                         <f:ajax event="change" />
                     </h:selectOneMenu>
-                    <!--budgetJahr -> Zeitraum  ENDE-->
 
                     <inek:LabeledText id="effectivCaseMix" 
-                                      label="vereinbarter effektiver Case-Mix für die DRGs gem. Anlage 1 zur 
-                                      G-BA-Mehrkostenzuschlagsvereinbarung von 23.03.2017 lfd. Nr. 3"
+                                      label="#{msg.effectivCaseMix}"
                                       title="Abgabe der Summe ggf. gilt eine aktualisierte DRG-Aufstellung"
                                       value="#{editAdditionalCost.additionalCost.effectivCaseMix}" singleLine="true" 
                                       styleClassLabel="label40" styleClass="element50" required="true" 
                                       />
-                    <inek:LabeledText id="extraChargeA" label="Zuschlagsanteil A (für 2015/2016) vereinbartes Zuschlagsvolumen (Höhe in €)" 
-                                      value="#{editAdditionalCost.additionalCost.extraChargeA}" singleLine="true" 
+                    <inek:LabeledText id="extraChargeA" label="#{msg.extraChargeA}" 
+                                      value="#{editAdditionalCost.additionalCost.extraChargeA}" singleLine="true"
                                       title="Angabe des Zuschlagvolumens"
                                       styleClassLabel="label40" styleClass="element50" required="true"/>
 
-                    <inek:LabeledText id="extraChargeB" label="Zuschlagsanteil B (Grundaufwand) &lt;br/&gt; vereinbartes Zuschlagsvolumen (Höhe in €)" 
+                    <inek:LabeledText id="extraChargeB" label="#{msg.extraChargeB}" 
                                       value="#{editAdditionalCost.additionalCost.extraChargeB}" singleLine="true"
                                       title="Angabe des Zuschlagvolumens" 
                                       styleClassLabel="label40" styleClass="element50" required="true"/>
 
-                    <inek:LabeledText id="extraChargeC" label="Zuschlagsanteil C (Intensivpflege) vereinbartes Zuschlagsvolumen (Höhe in €)" 
+                    <inek:LabeledText id="extraChargeC" label="#{msg.extraChargeC}" 
                                       value="#{editAdditionalCost.additionalCost.extraChargeC}" singleLine="true" 
                                       title="Angabe des Zuschlagvolumens" 
                                       styleClassLabel="label40" styleClass="element50" required="true"/>
 
-                    <!--to change on the entitiy and DB--> 
                     <inek:LabeledText id="agreedHospitalIndividualExtraCharge" 
-                                      label="vereinbarte Krankenhausindividuelles Zuschlagsvolumen gem. Anlage 1
-                                      zur G-BA-Mehrkostenzuschlagsvereinbarung von 23.03.2017 lfd. Nr. 5 lit. D"
+                                      label="#{msg.agreedHospitalIndividualExtraCharge}"
                                       value="#{editAdditionalCost.additionalCost.agreedHospitalIndividualExtraCharge}" singleLine="true" 
                                       title="Angabe des vereinbarten Zuschlagsvolumens, das Grundlage für die Berechnung des Krankenhausindividuellen Prozentsatzes" 
                                       styleClassLabel="label40" styleClass="element50" required="true" />
 
                     <inek:LabeledText id="hospitalIndividualExtraCharge" 
-                                      label="Krankenhausindividueller Zuschlag(Prozentsatz gem. Anlage 1 zur 
-                                      G-BA-Mehrkostenzuschlagsvereinbarung vom 23.03.2017 lfd. Nr. 6)" 
+                                      label="#{msg.hospitalIndividualExtraCharge}" 
                                       value="#{editAdditionalCost.additionalCost.hospitalIndividualExtraCharge}" singleLine="true"  
                                       title="Angabe des vereinbarten Prozentsatzes(Zahlbetragsrelevant)"
                                       styleClassLabel="label40" styleClass="element50" required="true"/>
 
                     <div class="inputPart">
-                        <h:outputLabel value="Haben Sie gem. Anlage zur G-BA-Mehrkostenzuschlagsvereinbarung vom 
-                                       23.03.2017 lit. D einvernehmlich eine zu erwartende Erfüllungsquote vereinbart?"
+                        <h:outputLabel value="#{msg.isAdditionalCostAgreementAgreed}"
                                        title="Auswahlbos(ja/nein) Hinweis: Hier ist 'ja' anzugeben, wenn sich das vereinbartes
                                        Zuschlagsvolumen nicht als Summe der Zuschlagsanteile gemäß der grundlegenden 
                                        Berechnungsformel in Anlage 1 lfd. Nr. 5(CM*EURO-Betrag) ergibt"
@@ -192,19 +185,17 @@
                         <inek:Checkbox value="#{editAdditionalCost.additionalCost.isAdditionalCostAgreementAgreed}" styleClass="element10"/>
                     </div>
 
-                    <!--to add on the entitiy and DB--> 
                     <inek:LabeledText id="agreedRepaymentAdditionalCost" 
-                                      label="vereinbarte Rückzahlungsvolumen gem. Anlage 1 zur G-BA-Mehrkostenzuschlagsvereinbarung 
-                                      von 23.03.2017 lfd. Nr. 8"
+                                      label="#{msg.agreedRepaymentAdditionalCost}"
                                       value="#{editAdditionalCost.additionalCost.agreedRepaymentAdditionalCost}" singleLine="true"
                                       title="Angabe des vereinbarten Rückzahlungsvolumens gem. lfd. Nr.8, getrennt nach vereinbarungsjahren"
                                       styleClassLabel="label40" styleClass="element50" required="true" />  
 
                     <h:outputLabel for="repaymentPeriodFrom" 
-                                   value="Das angegebene Rückzahlungsvolumen (Rückzahlungsbetrag) bezieht sich auf den Vereinbarungszeitraum" 
+                                   value="#{msg.repaymentPeriodFrom}" 
                                    title="Angabe des Vereinbarungszeitraums für das angegebene Rückzahlungsvolumen vereinbart wurde."
                                    styleClass="label40"/>
-                    <h:selectOneMenu id="repaymentPeriod"
+                    <h:selectOneMenu id="repaymentPeriodFrom"
                                      styleClass="element15"
                                      required="true"
                                      requiredMessage="#{msg.msgValueNeeded}"
@@ -229,12 +220,11 @@
                         <f:selectItems value="#{sessionTools.repaymentPeriodToItems}"/>
                         <f:ajax event="change" render="@form :logout:remaining repaymentPeriodTo"/>
                     </h:selectOneMenu>
-
-                    <div id="" style="display: inline-block">
-                        <inek:LabeledText id="complianceRate" label="Erfüllungsquote gem. Anlage 1 zur 
-                                          G-BA-Mehrkostenzuschlagsvereinbarung vom 23.03.2017 lfd. Nr. 8" 
+                    
+                    <h:panelGroup style="display: inline">                        
+                        <inek:LabeledText id="complianceRate" label="#{msg.complianceRate}" 
                                           value="#{editAdditionalCost.additionalCost.complianceRate}" singleLine="true" 
-                                          styleClassLabel="label40" styleClass="element140" required="true"/>            
+                                          styleClassLabel="label40" styleClass="element140" required="true" />            
                         <h:outputLabel for="calenderYear" 
                                        value="für das Kalenderjahr" 
                                        title="Auswahlfenster füe die Jahre 2017, 2018,...,2020"
@@ -249,8 +239,8 @@
                             <f:selectItems value="#{sessionTools.calenderYearItems}"/>
                             <f:ajax event="change" render="@form :logout:remaining calenderYear"/>
                         </h:selectOneMenu>
-                    </div>
-
+                    </h:panelGroup>
+                        
                     <h:messages showDetail="true" globalOnly="true"/>
                 </div>
 

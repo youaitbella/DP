@@ -75,19 +75,6 @@ public class AdditionalCost implements Serializable, StatusEntity {
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="LastChange">
-//    @Column(name = "adcLastChange")
-//    private int _adcLastChange;
-//
-//    public int getAdcLastChange() {
-//        return _adcLastChange;
-//    }
-//
-//    public void setAdcLastChange(int adcLastChange) {
-//        this._adcLastChange = adcLastChange;
-//    }
-    //</editor-fold>
-    
     //<editor-fold defaultstate="collapsed" desc="Prperty Ik">
     @Column(name = "adcIk")
     private int _ik;
@@ -255,19 +242,6 @@ public class AdditionalCost implements Serializable, StatusEntity {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="PeriodTo">
-    @Column(name = "adcPeriodTo")
-    private int _periodTo;
-
-    public int getPeriodTo() {
-        return _periodTo;
-    }
-
-    public void setPeriodTo(int periodTo) {
-        this._periodTo = periodTo;
-    }
-    //</editor-fold>
-
     //<editor-fold defaultstate="collapsed" desc="PeriodFrom">
     @Column(name = "adcPeriodFrom")
     private int _periodFrom;
@@ -278,6 +252,19 @@ public class AdditionalCost implements Serializable, StatusEntity {
 
     public void setPeriodFrom(int periodFrom) {
         this._periodFrom = periodFrom;
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="PeriodTo">
+    @Column(name = "adcPeriodTo")
+    private int _periodTo;
+
+    public int getPeriodTo() {
+        return _periodTo;
+    }
+
+    public void setPeriodTo(int periodTo) {
+        this._periodTo = periodTo;
     }
     //</editor-fold>
 
@@ -344,7 +331,6 @@ public class AdditionalCost implements Serializable, StatusEntity {
     public void setAgreedHospitalIndividualExtraCharge(double agreedHospitalIndividualExtraCharge) {
         this._agreedHospitalIndividualExtraCharge = agreedHospitalIndividualExtraCharge;
     }
-
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="AgreedRepaymentAdditionalCost">
@@ -419,14 +405,15 @@ public class AdditionalCost implements Serializable, StatusEntity {
     //<editor-fold defaultstate="collapsed" desc="IsAdditionalCostAgreementAgreed">
     @Column(name = "adcIsAdditionalCostAgreementAgreed")
     private boolean _isAdditionalCostAgreementAgreed;
-
+    
     public boolean isIsAdditionalCostAgreementAgreed() {
         return _isAdditionalCostAgreementAgreed;
     }
-
+    
     public void setIsAdditionalCostAgreementAgreed(boolean isAdditionalCostAgreementAgreed) {
         this._isAdditionalCostAgreementAgreed = isAdditionalCostAgreementAgreed;
     }
+    //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="ComplianceRate">
     @Column(name = "adcComplianceRate")

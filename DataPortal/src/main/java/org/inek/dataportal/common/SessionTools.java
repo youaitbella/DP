@@ -170,10 +170,9 @@ public class SessionTools implements Serializable {
     }
     
     public SelectItem[] getPerinatalcentreItems() {
-        SelectItem[] items = new SelectItem[3];
-        items[0] = new SelectItem("", "");
-        items[1] = new SelectItem("1", "1");
-        items[2] = new SelectItem("2", "2");
+        SelectItem[] items = new SelectItem[2];
+        items[0] = new SelectItem("1", "1");
+        items[1] = new SelectItem("2", "2");
         return items;
     }
     

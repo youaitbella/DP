@@ -123,16 +123,20 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
         additionalCost.setStreet(account.getStreet());
         additionalCost.setZip(account.getPostalCode());
         additionalCost.setCity(account.getTown());
-//        additionalCost.setHospital(account.getCompany());
+        additionalCost.setHospital(account.getCompany());
         additionalCost.setContactFirstName(account.getFirstName());
         additionalCost.setContactLastName(account.getLastName());
         additionalCost.setContactPhone(account.getPhone());
         additionalCost.setContactEmail(account.getEmail());
+        additionalCost.setCalenderYear(Utils.getTargetYear(Feature.SPECIFIC_FUNCTION));
+        additionalCost.setPeriodFrom(Utils.getTargetYear(Feature.SPECIFIC_FUNCTION));
+        additionalCost.setPeriodTo(Utils.getTargetYear(Feature.SPECIFIC_FUNCTION));
+        additionalCost.setRepaymentPeriodFrom(Utils.getTargetYear(Feature.SPECIFIC_FUNCTION));
+        additionalCost.setRepaymentPeriodFrom(Utils.getTargetYear(Feature.SPECIFIC_FUNCTION));
         if(_sessionTools.getPeriodToItems().length > 0) {
             SelectItem item =_sessionTools.getPeriodToItems()[0];
             additionalCost.setPeriodTo((int)item.getValue());
         }
-//        additionalCost.set
         return additionalCost;
     }
     
@@ -156,10 +160,8 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
     }
     
     public String save() {
-//        removeEmptyCenters();
         setModifiedInfo();
         _additionalCost = _additionalCostFacade.saveAdditionalCost(_additionalCost);
-//        addCentersIfMissing();
 
         if (isValidId(_additionalCost.getId())) {
             String script = "alert ('" + Utils.getMessage("msgSave").replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
@@ -222,6 +224,7 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
         if (!requestIsComplete()) {
             return null;
         }
+        setModifiedInfo();
         _additionalCost.setStatus(WorkflowStatus.Provided);
         _additionalCost = _additionalCostFacade.saveAdditionalCost(_additionalCost);
         
