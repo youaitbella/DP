@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import org.inek.dataportal.utils.Documentation;
@@ -42,16 +44,16 @@ public class OccupationalCatagory implements Serializable {
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Property PersonnelGroupId">
-    // todo: insert personnel group
-    @Column(name = "ocPersonnelGroupId")
-    private int _personnelGroupId;
+    @OneToOne()
+    @PrimaryKeyJoinColumn(name = "ocPersonnelGroupId")
+    private PersonnelGroup _personnelGroup;
     
-    public int getPersonnelGroupId() {
-        return _personnelGroupId;
+    public PersonnelGroup getPersonnelGroup() {
+        return _personnelGroup;
     }
     
-    public void setPersonnelGroupId(int personnelGroupId) {
-        this._personnelGroupId = personnelGroupId;
+    public void setPersonnelGroup(PersonnelGroup personnelGroup) {
+        this._personnelGroup = personnelGroup;
     }
     //</editor-fold>
     
@@ -74,8 +76,8 @@ public class OccupationalCatagory implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 97 * hash + this._personnelGroupId;
-        hash = 97 * hash + Objects.hashCode(this._name);
+        hash = 97 * hash + _personnelGroup.hashCode();
+        hash = 97 * hash + Objects.hashCode(_name);
         return hash;
     }
     
@@ -91,7 +93,7 @@ public class OccupationalCatagory implements Serializable {
             return false;
         }
         final OccupationalCatagory other = (OccupationalCatagory) obj;
-        if (this._personnelGroupId != other._personnelGroupId) {
+        if (this._personnelGroup != other._personnelGroup) {
             return false;
         }
         if (!Objects.equals(this._name, other._name)) {

@@ -131,7 +131,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }
         calcBasics.setNoDeliveryRoomHabitation(_priorCalcBasics.isNoDeliveryRoomHabitation());
     }
-
+    
     public void ikChanged() {
         retrievePriorData(_calcBasics);
         PreloadFunctionsCalcBasicsDrg.preloadData(_calcDrgFacade, _calcBasics, _priorCalcBasics);

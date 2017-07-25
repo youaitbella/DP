@@ -1,16 +1,11 @@
 package org.inek.dataportal.feature.psychstaff.entity;
 
-import org.inek.dataportal.feature.specificfunction.entity.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneOffset;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.Vector;
 import javax.persistence.*;
-import javax.validation.constraints.Size;
 import org.inek.dataportal.entities.iface.StatusEntity;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.utils.Documentation;
