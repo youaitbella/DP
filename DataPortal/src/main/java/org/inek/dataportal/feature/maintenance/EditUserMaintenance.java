@@ -434,6 +434,7 @@ public class EditUserMaintenance extends AbstractEditController {
         return msg.isEmpty();
     }
 
+    @SuppressWarnings("CyclomaticComplexity")
     private boolean isMasterdataChanged() {
         Account original = _sessionController.getAccount();
         Account copy = getAccount();

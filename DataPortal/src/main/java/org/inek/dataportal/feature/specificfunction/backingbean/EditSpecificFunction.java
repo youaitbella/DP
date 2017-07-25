@@ -331,6 +331,7 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
         return !message.containsMessage();
     }
 
+    @SuppressWarnings("CyclomaticComplexity")
     public MessageContainer composeMissingFieldsMessage(SpecificFunctionRequest request) {
         MessageContainer message = new MessageContainer();
 

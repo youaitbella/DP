@@ -354,6 +354,7 @@ public class DistributionModelDetail implements Serializable {
     }
     // </editor-fold>
 
+    @SuppressWarnings("CyclomaticComplexity")
     public boolean isEmpty() {
         return _id <= 0
                 && _article.isEmpty()

@@ -274,25 +274,14 @@ public class EditStatementOfParticipance extends AbstractEditController {
     @Inject private Mailer _mailer;
 
     /**
-     * This function seals a statement of participance if possible. Sealing is
-     * possible, if all mandatory fields are fulfilled. After sealing, the
-     * statement od participance can not be edited anymore and is available for
-     * the InEK.
+     * This function seals a statement of participance if possible. Sealing is possible, if all mandatory fields are
+     * fulfilled. After sealing, the statement od participance can not be edited anymore and is available for the InEK.
      *
      * @return
      */
     public String seal() {
-        if (!_statement.isObligatory()) {
-            for (CalcContact cc : _statement.getContacts()) {
-                if (cc.isConsultant()) {
-                    continue;
-                }
-                if (!cc.isDrg() && !cc.isInv() && !cc.isObd() && !cc.isPsy() && !cc.isTpg()) {
-                    _sessionController.setScript("alert('Für die folgenden Felder ist noch eine Eingabe erforderlich:\\n\\n"
-                            + "Jedem Ansprechpartner ist mindestens ein Kalkulationsbereich (DRG, PSY, INV, TPG, OBD) zuzuordnen.')");
-                    return "";
-                }
-            }
+        if (missingContact()) {
+            return "";
         }
 
         if (!_statement.isDrgCalc()) {
@@ -311,7 +300,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
         _statement.setStatus(WorkflowStatus.Provided);
         setModifiedInfo();
         _statement.setSealed(Calendar.getInstance().getTime());
-        
+
         for (StatementOfParticipance sop : _calcFacade.listStatementOfParticipanceByIk(_statement.getIk())) {
             sop.setStatus(WorkflowStatus.Retired);
             _calcFacade.saveStatementOfParticipance(sop);
@@ -335,6 +324,22 @@ public class EditStatementOfParticipance extends AbstractEditController {
             return Pages.PrintView.URL();
         }
         return "";
+    }
+
+    private boolean missingContact() {
+        if (!_statement.isObligatory()) {
+            for (CalcContact cc : _statement.getContacts()) {
+                if (cc.isConsultant()) {
+                    continue;
+                }
+                if (!cc.isDrg() && !cc.isInv() && !cc.isObd() && !cc.isPsy() && !cc.isTpg()) {
+                    _sessionController.setScript("alert('Für die folgenden Felder ist noch eine Eingabe erforderlich:\\n\\n"
+                            + "Jedem Ansprechpartner ist mindestens ein Kalkulationsbereich (DRG, PSY, INV, TPG, OBD) zuzuordnen.')");
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private void updateObligatorySetting(StatementOfParticipance statement) {
@@ -433,6 +438,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
         return !message.containsMessage();
     }
 
+    @SuppressWarnings("CyclomaticComplexity")
     public MessageContainer composeMissingFieldsMessage(StatementOfParticipance statement) {
         MessageContainer message = new MessageContainer();
 
@@ -472,13 +478,13 @@ public class EditStatementOfParticipance extends AbstractEditController {
             applyMessageValues(message, "msgContactIncomplete", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress, "sop:contact");
         }
         if (statement.isWithConsultant()) {
-            checkField(message, statement.getConsultantCompany(), "lblNameConsultant", "sop:consultantCompany", 
+            checkField(message, statement.getConsultantCompany(), "lblNameConsultant", "sop:consultantCompany",
                     StatementOfParticipanceTabs.tabStatementOfParticipanceAddress);
         }
         if (statement.isConsultantSendMail()) {
             List<CalcContact> consultantContacts = _statement.getContacts().stream().filter(c -> c.isConsultant()).collect(Collectors.toList());
             if (consultantContacts.isEmpty() || consultantContacts.get(0).isEmpty()) {
-                applyMessageValues(message, "lblNeedContactConsultant", 
+                applyMessageValues(message, "lblNeedContactConsultant",
                         StatementOfParticipanceTabs.tabStatementOfParticipanceAddress, "sop:contactConsultant");
             }
         }
@@ -491,7 +497,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
                     "lblQuestionOverlayer", "sop:multiyearDrg",
                     StatementOfParticipanceTabs.tabStatementOfParticipanceStatements);
             if (statement.getMultiyearDrg() == 4 && statement.getMultiyearDrgText().isEmpty()) {
-                applyMessageValues(message, "lblDescriptionOfAlternative", 
+                applyMessageValues(message, "lblDescriptionOfAlternative",
                         StatementOfParticipanceTabs.tabStatementOfParticipanceStatements, "form");
             }
         }
@@ -504,7 +510,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
                     "lblQuestionOverlayer", "sop:multiyearPsy",
                     StatementOfParticipanceTabs.tabStatementOfParticipanceStatements);
             if (statement.getMultiyearPsy() == 4 && statement.getMultiyearPsyText().isEmpty()) {
-                applyMessageValues(message, "lblDescriptionOfAlternative", 
+                applyMessageValues(message, "lblDescriptionOfAlternative",
                         StatementOfParticipanceTabs.tabStatementOfParticipanceStatements, "form");
             }
         }
@@ -517,7 +523,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
         }
     }
 
-    private void checkField(MessageContainer message, Integer value, Integer minValue, Integer maxValue, String msgKey, 
+    private void checkField(MessageContainer message, Integer value, Integer minValue, Integer maxValue, String msgKey,
             String elementId, StatementOfParticipanceTabs tab) {
         if (value == null
                 || minValue != null && value < minValue

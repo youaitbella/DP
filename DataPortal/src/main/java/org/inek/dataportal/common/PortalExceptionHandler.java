@@ -65,56 +65,17 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
             ExceptionQueuedEventContext context = (ExceptionQueuedEventContext) event.getSource();
             Throwable exception = context.getException();
             if (exception instanceof ViewExpiredException) {
-                LOGGER.log(Level.SEVERE, "[View expired]", exception.getMessage());
-                ViewExpiredException viewExpiredExeption = (ViewExpiredException) exception;
-                Map<String, Object> requestMap = fc.getExternalContext().getRequestMap();
-                if (!viewExpiredExeption.getViewId().contains("Login.xhtml")) {
-                    targetPage = Pages.SessionTimeout.RedirectURL();
-                    requestMap.put("currentViewId", viewExpiredExeption.getViewId());
-                }
+                targetPage = handleViewExpired(exception, fc, targetPage);
             } else if (exception instanceof NotLoggedInException) {
-                LOGGER.log(Level.SEVERE, "[Not logged in]", exception.getMessage());
-                if (targetPage.isEmpty()) {
-                    targetPage = Pages.SessionTimeout.RedirectURL();
-                }
-            } else if (exception instanceof NonexistentConversationException || exception instanceof WeldException 
-                    // todo: exception instanceof WeldException is fine in direct window, but does not work here.
-                    // thus check for exception's name as workarround
-                    || exception.getClass().toString().equals("class org.jboss.weld.exceptions.WeldException")
-                    || exception instanceof FacesException && exception.getMessage() != null && exception.getMessage().contains("WELD-000049:")) {
-                String head = "[PortalExceptionHandler NonexistentConversationException] ";
-                LOGGER.log(Level.SEVERE, head, exception);
-                // we don't like to get this reported: collectException(messageCollector, head, exception);
-                if (targetPage.isEmpty()) {
-                    targetPage = Pages.InvalidConversation.RedirectURL();
-                }
+                targetPage = handleNotLoggedIn(exception, targetPage);
+            } else if (isWeldException(exception)) {
+                targetPage = handleWeldException(exception, targetPage);
             } else if (exception instanceof ELException && !exception.getMessage().toLowerCase().contains("not logged in")) {
-                String head = "[PortalExceptionHandler ELException] ";
-                LOGGER.log(Level.SEVERE, head, exception);
-                collectException(messageCollector, head, exception);
-                if (targetPage.isEmpty()) {
-                    targetPage = Pages.Error.RedirectURL();
-                }
+                targetPage = handleElException(exception, messageCollector, targetPage);
             } else if (exception instanceof FacesException) {
-                String head = "[PortalExceptionHandler FacesException] ";
-                LOGGER.log(Level.SEVERE, head, exception);
-                collectException(messageCollector, head, exception);
-                if (targetPage.isEmpty()) {
-                    if (exception.getMessage().contains("javax.ejb.EJBException")) {
-                        targetPage = Pages.DataError.RedirectURL();
-                    } else {
-                        targetPage = Pages.Error.RedirectURL();
-                    }
-                }
+                targetPage = handleFacesException(exception, messageCollector, targetPage);
             } else {
-                String msg = exception.getMessage();
-                if (msg == null || !msg.contains("Conversation lock timed out") 
-                        && !msg.contains("getOutputStream() has already been called for this response")) {  
-                    // getOutput... happens on IE, but does not affect the user
-                    String head = "[PortalExceptionHandler OtherException] ";
-                    LOGGER.log(Level.SEVERE, head, exception);
-                    collectException(messageCollector, head, exception);
-                }
+                handleOtherExeption(exception, messageCollector);
             }
             i.remove();
         }
@@ -124,6 +85,78 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
         SendExeptionMessage(messageCollector.toString());
         Utils.navigate(targetPage);
         getWrapped().handle();
+    }
+
+    private String handleViewExpired(Throwable exception, FacesContext fc, String targetPage) {
+        LOGGER.log(Level.SEVERE, "[View expired]", exception.getMessage());
+        ViewExpiredException viewExpiredExeption = (ViewExpiredException) exception;
+        Map<String, Object> requestMap = fc.getExternalContext().getRequestMap();
+        if (!viewExpiredExeption.getViewId().contains("Login.xhtml")) {
+            targetPage = Pages.SessionTimeout.RedirectURL();
+            requestMap.put("currentViewId", viewExpiredExeption.getViewId());
+        }
+        return targetPage;
+    }
+
+    private String handleNotLoggedIn(Throwable exception, String targetPage) {
+        LOGGER.log(Level.SEVERE, "[Not logged in]", exception.getMessage());
+        if (targetPage.isEmpty()) {
+            targetPage = Pages.SessionTimeout.RedirectURL();
+        }
+        return targetPage;
+    }
+
+    private static boolean isWeldException(Throwable exception) {
+        return exception instanceof NonexistentConversationException || exception instanceof WeldException 
+                // todo: exception instanceof WeldException is fine in direct window, but does not work here.
+                // thus check for exception's name as workarround
+                || exception.getClass().toString().equals("class org.jboss.weld.exceptions.WeldException")
+                || exception instanceof FacesException && exception.getMessage() != null && exception.getMessage().contains("WELD-000049:");
+    }
+
+    private String handleWeldException(Throwable exception, String targetPage) {
+        String head = "[PortalExceptionHandler NonexistentConversationException] ";
+        LOGGER.log(Level.SEVERE, head, exception);
+        // we don't like to get this reported: collectException(messageCollector, head, exception);
+        if (targetPage.isEmpty()) {
+            targetPage = Pages.InvalidConversation.RedirectURL();
+        }
+        return targetPage;
+    }
+
+    private String handleElException(Throwable exception, StringBuilder messageCollector, String targetPage) {
+        String head = "[PortalExceptionHandler ELException] ";
+        LOGGER.log(Level.SEVERE, head, exception);
+        collectException(messageCollector, head, exception);
+        if (targetPage.isEmpty()) {
+            targetPage = Pages.Error.RedirectURL();
+        }
+        return targetPage;
+    }
+
+    private String handleFacesException(Throwable exception, StringBuilder messageCollector, String targetPage) {
+        String head = "[PortalExceptionHandler FacesException] ";
+        LOGGER.log(Level.SEVERE, head, exception);
+        collectException(messageCollector, head, exception);
+        if (targetPage.isEmpty()) {
+            if (exception.getMessage().contains("javax.ejb.EJBException")) {
+                targetPage = Pages.DataError.RedirectURL();
+            } else {
+                targetPage = Pages.Error.RedirectURL();
+            }
+        }
+        return targetPage;
+    }
+
+    private void handleOtherExeption(Throwable exception, StringBuilder messageCollector) {
+        String msg = exception.getMessage();
+        if (msg == null || !msg.contains("Conversation lock timed out")
+                && !msg.contains("getOutputStream() has already been called for this response")) {
+            // getOutput... happens on IE, but does not affect the user
+            String head = "[PortalExceptionHandler OtherException] ";
+            LOGGER.log(Level.SEVERE, head, exception);
+            collectException(messageCollector, head, exception);
+        }
     }
 
     private void collectException(StringBuilder collector, String head, Throwable exception) {

@@ -197,9 +197,9 @@
         <!-- Checks for class metrics                         -->
         <!-- See http://checkstyle.sourceforge.net/config_metrics.html -->
         <module name="CyclomaticComplexity">
-            <property name="max" value="20"/> <!-- shall be 10 - slightly reduce to this level -->
+            <property name="max" value="12"/> <!-- shall be 10 or 12 - slightly reduce to this level -->
             <property name="switchBlockAsSingleDecisionPoint" value="true"/>
-            <property name="severity" value="warning"/>
+            <property name="severity" value="error"/>
         </module>
 
         <!-- Make the @SuppressWarnings annotation available to Checkstyle -->

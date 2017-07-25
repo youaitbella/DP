@@ -210,6 +210,7 @@ public class InsuranceNubNoticeItem implements Serializable {
     }
 
     @Override
+    @SuppressWarnings("CyclomaticComplexity")
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -238,7 +239,7 @@ public class InsuranceNubNoticeItem implements Serializable {
         if (_quantity != other._quantity) {
             return false;
         }
-        if (_remunerationTypeCharId != other._remunerationTypeCharId) {
+        if (!_remunerationTypeCharId.equals(other._remunerationTypeCharId)) {
             return false;
         }
         if (_nubRequestId != other._nubRequestId) {

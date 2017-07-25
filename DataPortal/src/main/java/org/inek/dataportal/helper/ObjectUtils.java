@@ -235,27 +235,15 @@ public class ObjectUtils {
         Class<?> type = obj1.getClass();
         if (type.isPrimitive()) {
             return obj1 == obj2;
-        } else if (type == String.class || type == Boolean.class || type == Date.class
-                || type.getSuperclass() == Number.class || type.getSuperclass() == Enum.class
-                || type.getSimpleName().startsWith("XMLGregorianCalendar")) {
+        }
+        if (isSimpleType(type)) {
             return obj1.equals(obj2);
         }
 
         if (type.isArray()) {
             Class dataType = type.getComponentType();
             if (dataType.isPrimitive()) {
-                int len1 = Array.getLength(obj1);
-                int len2 = Array.getLength(obj2);
-                if (len1 != len2) {
-                    return false;
-                }
-                for (int i = 0; i < len1; i++) {
-                    if (!areEqualObjects(Array.get(obj1, i), Array.get(obj2, i))) {
-                        return false;
-                    }
-
-                }
-                return true;
+                return areEqualArrays(obj1, obj2);
             }
         }
 
@@ -266,6 +254,30 @@ public class ObjectUtils {
             return areEqualMaps((Map) obj1, (Map) obj2);
         }
 
+        return haveEqualSuperclasses(obj1, obj2);
+    }
+
+    private static boolean isSimpleType(Class<?> type) {
+        return type == String.class || type == Boolean.class || type == Date.class
+                || type.getSuperclass() == Number.class || type.getSuperclass() == Enum.class
+                || type.getSimpleName().startsWith("XMLGregorianCalendar");
+    }
+
+    private static <T> boolean areEqualArrays(T obj1, T obj2) throws IllegalArgumentException, ArrayIndexOutOfBoundsException {
+        int len1 = Array.getLength(obj1);
+        int len2 = Array.getLength(obj2);
+        if (len1 != len2) {
+            return false;
+        }
+        for (int i = 0; i < len1; i++) {
+            if (!areEqualObjects(Array.get(obj1, i), Array.get(obj2, i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static <T> boolean haveEqualSuperclasses(T obj1, T obj2) throws SecurityException {
         for (Class clazz = obj1.getClass(); !clazz.equals(Object.class); clazz = clazz.getSuperclass()) {
             for (Field field : clazz.getDeclaredFields()) {
                 if (isFieldToIgnore(field, null)) {
@@ -309,6 +321,15 @@ public class ObjectUtils {
             throw new IllegalArgumentException();
         }
 
+        getDifferencesFromSuperClasses(obj1, obj2, excludedTypes, differences);
+        return differences;
+    }
+
+    private static <T> void getDifferencesFromSuperClasses(
+            T obj1,
+            T obj2,
+            List<Class> excludedTypes,
+            Map<String, FieldValues> differences) throws SecurityException {
         for (Class clazz = obj1.getClass(); !clazz.equals(Object.class); clazz = clazz.getSuperclass()) {
             for (Field field : clazz.getDeclaredFields()) {
                 if (isFieldToIgnore(field, excludedTypes)) {
@@ -325,7 +346,6 @@ public class ObjectUtils {
                 }
             }
         }
-        return differences;
     }
 
     private static boolean isFieldToIgnore(Field field, List<Class> excludedTypes) {
@@ -333,7 +353,7 @@ public class ObjectUtils {
             // ignore fields of JPA proxy (hopefully no other start with this prefix...) 
             // alternative: remember and check for all objects in object graph
             return true;
-        } 
+        }
         if (excludedTypes != null && excludedTypes.contains(field.getType())) {
             return true;
         }

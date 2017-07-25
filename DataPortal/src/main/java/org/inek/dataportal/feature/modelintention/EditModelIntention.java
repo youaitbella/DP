@@ -179,6 +179,7 @@ public class EditModelIntention extends AbstractEditController {
         return isValidId(_modelIntention.getId());
     }
 
+    @SuppressWarnings("CyclomaticComplexity")
     private void removeObsolteTexts() {
         // removes texts of corresponding to selectboxes, if text is not needed
         if (_modelIntention.getRegionType() < 2) {
@@ -318,6 +319,7 @@ public class EditModelIntention extends AbstractEditController {
         return _msg.isEmpty();
     }
 
+    @SuppressWarnings("CyclomaticComplexity")
     private void checkFields() {
         // tab patient
         checkField(_modelIntention.getDescription(), 

@@ -74,7 +74,7 @@ public class DocumentImportInfo {
                     BufferedReader reader = new BufferedReader(new InputStreamReader(zis, "UTF-8"));
                     _infoFile = reader.lines().collect(Collectors.toList());
                     String firstLine = _infoFile.get(0);
-                    if (firstLine.startsWith("\uFEFF")){
+                    if (firstLine.startsWith("\uFEFF")) {
                         // ignore BOM if present
                         _infoFile.set(0, firstLine.substring(1));
                     }
@@ -106,26 +106,13 @@ public class DocumentImportInfo {
 
             switch (key) {
                 case "ik":
-                    try {
-                        _ik = Integer.parseInt(value);
-                    } catch (NumberFormatException ex) {
-                        LOGGER.log(Level.WARNING, "Parse IK, not a number {0}", value);
-                    }
+                    extractIk(value);
                     break;
                 case "account.id":
-                    try {
-                        _accounts.add(accountFacade.find(Integer.parseInt(value)));
-                    } catch (Exception ex) {
-                        LOGGER.log(Level.WARNING, "Unknown account id");
-                    }
+                    extractAccountById(accountFacade, value);
                     break;
                 case "account.mail":
-                    Account account = accountFacade.findByMail(value);
-                    if (account == null) {
-                        LOGGER.log(Level.WARNING, "Unknown account mail {0}", value);
-                    } else {
-                        _accounts.add(account);
-                    }
+                    extractAccountByMail(accountFacade, value);
                     break;
                 case "version":
                     _version = value;
@@ -134,42 +121,19 @@ public class DocumentImportInfo {
                     _defaultDomain = value;
                     break;
                 case "approval.id":
-                    try {
-                        _approvalAccount = accountFacade.find(Integer.parseInt(value));
-                    } catch (Exception ex) {
-                        LOGGER.log(Level.WARNING, "Unknown account id");
-                        getDefaultApprovalAccount(accountFacade);
-                    }
+                    extractApprovalAccountById(accountFacade, value);
                     break;
                 case "approval.mail":
-                    Account approvalAccount = accountFacade.findByMail(value);
-                    if (approvalAccount == null) {
-                        LOGGER.log(Level.WARNING, "Unknown account mail {0}", value);
-                        getDefaultApprovalAccount(accountFacade);
-                    } else {
-                        _approvalAccount = approvalAccount;
-                    }
+                    extractApprovalAccountByMail(accountFacade, value);
                     break;
                 case "upload.id":
-                    try {
-                        _uploadAccount = accountFacade.find(Integer.parseInt(value));
-                    } catch (Exception ex) {
-                        LOGGER.log(Level.WARNING, "Unknown account id");
-                    }
+                    extractUploadAccountById(accountFacade, value);
                     break;
                 case "upload.mail":
-                    try {
-                        _uploadAccount = accountFacade.findByMail(value);
-                    } catch (Exception ex) {
-                        LOGGER.log(Level.WARNING, "Unknown account mail");
-                    }
+                    extractUploadAccountByMail(accountFacade, value);
                     break;
                 case "mail.sender":
-                    if (value.matches("(\\w[a-zA-Z_0-9+-.]*\\w|\\w+)@(\\w(\\w|-|\\.)*\\w|\\w+)\\.[a-zA-Z]+")) {
-                        _sender = value;
-                    } else {
-                        LOGGER.log(Level.WARNING, "Wrong format sender");
-                    }
+                    extractSender(value);
                     break;
                 case "mail.bcc":
                     _bcc = value;
@@ -193,6 +157,74 @@ public class DocumentImportInfo {
         }
         if (_approvalAccount == null) {
             _approvalAccount = accountFacade.find(0);
+        }
+    }
+
+    private void extractIk(String value) {
+        try {
+            _ik = Integer.parseInt(value);
+        } catch (NumberFormatException ex) {
+            LOGGER.log(Level.WARNING, "Parse IK, not a number {0}", value);
+        }
+    }
+
+    private void extractAccountById(AccountFacade accountFacade, String value) {
+        try {
+            _accounts.add(accountFacade.find(Integer.parseInt(value)));
+        } catch (Exception ex) {
+            LOGGER.log(Level.WARNING, "Unknown account id");
+        }
+    }
+
+    private void extractAccountByMail(AccountFacade accountFacade, String value) {
+        Account account = accountFacade.findByMail(value);
+        if (account == null) {
+            LOGGER.log(Level.WARNING, "Unknown account mail {0}", value);
+        } else {
+            _accounts.add(account);
+        }
+    }
+
+    private void extractApprovalAccountById(AccountFacade accountFacade, String value) {
+        try {
+            _approvalAccount = accountFacade.find(Integer.parseInt(value));
+        } catch (Exception ex) {
+            LOGGER.log(Level.WARNING, "Unknown account id");
+            getDefaultApprovalAccount(accountFacade);
+        }
+    }
+
+    private void extractApprovalAccountByMail(AccountFacade accountFacade, String value) {
+        Account approvalAccount = accountFacade.findByMail(value);
+        if (approvalAccount == null) {
+            LOGGER.log(Level.WARNING, "Unknown account mail {0}", value);
+            getDefaultApprovalAccount(accountFacade);
+        } else {
+            _approvalAccount = approvalAccount;
+        }
+    }
+
+    private void extractUploadAccountById(AccountFacade accountFacade, String value) {
+        try {
+            _uploadAccount = accountFacade.find(Integer.parseInt(value));
+        } catch (Exception ex) {
+            LOGGER.log(Level.WARNING, "Unknown account id");
+        }
+    }
+
+    private void extractUploadAccountByMail(AccountFacade accountFacade, String value) {
+        try {
+            _uploadAccount = accountFacade.findByMail(value);
+        } catch (Exception ex) {
+            LOGGER.log(Level.WARNING, "Unknown account mail");
+        }
+    }
+
+    private void extractSender(String value) {
+        if (value.matches("(\\w[a-zA-Z_0-9+-.]*\\w|\\w+)@(\\w(\\w|-|\\.)*\\w|\\w+)\\.[a-zA-Z]+")) {
+            _sender = value;
+        } else {
+            LOGGER.log(Level.WARNING, "Wrong format sender");
         }
     }
 
