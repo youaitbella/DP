@@ -51,7 +51,7 @@
                 </h:commandLink>
             </h:column>
             
-            <h:column>
+            <h:column id="colEditId">
                 <f:facet name="header">
                     <h:outputText value=""/>
                 </f:facet>
@@ -78,7 +78,7 @@
             <h:column id="colValue">
                 <f:facet name="header">
                     <h:commandLink value="#{msg.lblAppellation} #{cc.attrs.parentNode.sortCriteria.equals('Name') ? (cc.attrs.parentNode.descending ? '↓' : '↑') : ''}">
-                        <f:ajax listener="#{cc.attrs.parentNode.setSortCriteria('Name')}" render="peppProposals :logout:remaining"/>
+                        <f:ajax listener="#{cc.attrs.parentNode.setSortCriteria('Name')}" render="additionalCosts :logout:remaining"/>
                     </h:commandLink>
                 </f:facet>
                 <h:commandLink action="#{additionalCostList.editAdditionalCost(node.additionalCostInfo.id)}"
