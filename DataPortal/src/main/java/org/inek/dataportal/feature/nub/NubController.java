@@ -115,6 +115,7 @@ public class NubController extends AbstractFeatureController {
      * @param template
      * @return
      */
+    @SuppressWarnings("JavaNCSS")
     public NubRequest createNubRequest(String template) {
         NubRequest request = NubController.this.createNubRequest();
         String[] lines = template.split("[\\r\\n]+");

@@ -437,7 +437,7 @@ public class StatementOfParticipance implements Serializable, StatusEntity{
 
     // <editor-fold defaultstate="collapsed" desc="hashCode + equals + toString">
     @Override
-    @SuppressWarnings("CyclomaticComplexity")
+    @SuppressWarnings({"CyclomaticComplexity", "JavaNCSS"})
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;

@@ -76,6 +76,7 @@ import org.inek.dataportal.utils.DocumentationUtil;
  */
 @Named
 @ViewScoped
+@SuppressWarnings("JavaNCSS")
 public class EditCalcBasicsDrg extends AbstractEditController implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="fields & enums">

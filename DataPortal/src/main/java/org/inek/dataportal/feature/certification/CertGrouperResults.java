@@ -35,6 +35,7 @@ import org.inek.dataportal.mail.Mailer;
  */
 @Named
 @FeatureScoped(name = "Certification")
+@SuppressWarnings("JavaNCSS")
 public class CertGrouperResults implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger("CertGrouperResults");
@@ -422,7 +423,7 @@ public class CertGrouperResults implements Serializable {
 
     public boolean renderReceivedCertificationEmail() {
         return _elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(
-                        _grouper.getSystemId(), _grouper.getAccountId(), CertMailType.Certificate.getId()).isEmpty()
+                _grouper.getSystemId(), _grouper.getAccountId(), CertMailType.Certificate.getId()).isEmpty()
                 && _elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(
                         _grouper.getSystemId(), _grouper.getAccountId(), CertMailType.Certified.getId()).size() > 0
                 && _grouper.getCertStatus() == CertStatus.CertSucceed;
@@ -726,6 +727,7 @@ public class CertGrouperResults implements Serializable {
         }
     }
 
+    @SuppressWarnings("JavaNCSS")
     public String reset1Step() {
         switch (_grouper.getCertStatus()) {
             case PasswordRequested:
@@ -858,37 +860,37 @@ public class CertGrouperResults implements Serializable {
         switch (grouper.getCertStatus()) {
             case TestFailed1:
                 if (_elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(sysId, grId, CertMailType.ErrorTest.getId()).size() == 1) {
-                    return sdf.format(_elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(sysId, grId, 
+                    return sdf.format(_elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(sysId, grId,
                             CertMailType.ErrorTest.getId()).get(0).getSent());
                 }
                 break;
             case TestFailed2:
                 if (_elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(sysId, grId, CertMailType.ErrorTest.getId()).size() == 2) {
-                    return sdf.format(_elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(sysId, grId, 
+                    return sdf.format(_elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(sysId, grId,
                             CertMailType.ErrorTest.getId()).get(1).getSent());
                 }
                 break;
             case TestSucceed:
                 if (_elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(sysId, grId, CertMailType.PassedTest.getId()).size() == 1) {
-                    return sdf.format(_elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(sysId, grId, 
+                    return sdf.format(_elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(sysId, grId,
                             CertMailType.PassedTest.getId()).get(0).getSent());
                 }
                 break;
             case CertFailed1:
                 if (_elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(sysId, grId, CertMailType.ErrorCert.getId()).size() == 1) {
-                    return sdf.format(_elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(sysId, grId, 
+                    return sdf.format(_elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(sysId, grId,
                             CertMailType.ErrorCert.getId()).get(0).getSent());
                 }
                 break;
             case CertSucceed:
                 if (_elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(sysId, grId, CertMailType.Certified.getId()).size() == 1) {
-                    return sdf.format(_elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(sysId, grId, 
+                    return sdf.format(_elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(sysId, grId,
                             CertMailType.Certified.getId()).get(0).getSent());
                 }
                 break;
             case CertificationPassed:
                 if (_elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(sysId, grId, CertMailType.Certificate.getId()).size() == 1) {
-                    return sdf.format(_elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(sysId, grId, 
+                    return sdf.format(_elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(sysId, grId,
                             CertMailType.Certificate.getId()).get(0).getSent());
                 }
                 break;

@@ -88,6 +88,7 @@ public class DocumentImportInfo {
         }
     }
 
+    @SuppressWarnings("JavaNCSS")
     private void extractInfos(AccountFacade accountFacade) {
         StringBuilder body = new StringBuilder();
 

@@ -561,7 +561,7 @@ public class KGPListStationServiceCost implements Serializable, BaseIdValue {
     }
 
     @Override
-    @SuppressWarnings("CyclomaticComplexity")
+    @SuppressWarnings({"CyclomaticComplexity", "JavaNCSS"})
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
