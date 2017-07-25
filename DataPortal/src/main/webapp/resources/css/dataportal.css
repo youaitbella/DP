@@ -570,6 +570,12 @@ div#wrapper {
     width: 60%;
 }
 
+.label70 {
+    font-weight: bold;
+    display:inline-block;
+    width: 70%;
+}
+
 .element08em,
 .element12em,
 .element100-12em,

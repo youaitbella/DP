@@ -82,7 +82,7 @@
                     </h:commandLink>
                 </f:facet>
                 <h:commandLink action="#{additionalCostList.editAdditionalCost(node.additionalCostInfo.id)}"
-                               value="#{node.additionalCostInfo.name.equals('') ? msg.txtEmpty : node.additionalCostInfo.name}" immediate="true">
+                               value="#{applicationTools.retrieveHospitalInfo(cc.attrs.value)}" immediate="true">
                     <f:param name="id" value="#{node.additionalCostInfo.id}"/>
                 </h:commandLink>
             </h:column>

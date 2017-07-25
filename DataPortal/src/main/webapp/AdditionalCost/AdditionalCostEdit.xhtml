@@ -97,10 +97,10 @@
                         <h:outputLabel for="cbxPerinatalcentre"
                                        value="#{msg.lblPerinatalzentrum_level}"
                                        title="#{msg.titlePerinatalzentrum_level}"
-                                       styleClass="label40"
+                                       styleClass="label60"
                                        /> 
                         <h:selectOneMenu id="cbxPerinatalcentre"
-                                         styleClass="element15" 
+                                         styleClass="element08em" 
                                          required="true" 
                                          requiredMessage="#{msg.msgChooseEntryShort}"
                                          value="#{editAdditionalCost.additionalCost.perinatalcentreLevel}"
@@ -115,10 +115,10 @@
                     <h:outputLabel for="periodFrom" 
                                    value="#{msg.period}" 
                                    title="#{msg.titlePeriod}"
-                                   styleClass="label40"
+                                   styleClass="label60"
                                    />
                     <h:selectOneMenu id="periodFrom"
-                                     styleClass="element15"
+                                     styleClass="element08em"
                                      required="true"
                                      requiredMessage="#{msg.msgValueNeeded}"
                                      value="#{editAdditionalCost.additionalCost.periodFrom}"
@@ -133,7 +133,7 @@
                                    title="periodTo"
                                    styleClass="label40" style="width: 200px;padding-left: 10px; padding-right: 10px; display: inline"/>
                     <h:selectOneMenu id="periodTo"
-                                     styleClass="element15"
+                                     styleClass="element08em"
                                      required="true"
                                      requiredMessage="#{msg.msgValueNeeded}"
                                      value="#{editAdditionalCost.additionalCost.periodTo}"
@@ -145,59 +145,57 @@
 
                     <inek:LabeledText id="effectivCaseMix" 
                                       label="#{msg.effectivCaseMix}"
-                                      title="Abgabe der Summe ggf. gilt eine aktualisierte DRG-Aufstellung"
+                                      title="#{msg.titleEffectivCaseMix}"
                                       value="#{editAdditionalCost.additionalCost.effectivCaseMix}" singleLine="true" 
-                                      styleClassLabel="label40" styleClass="element50" required="true" 
+                                      styleClassLabel="label60" styleClass="element15" required="true" 
                                       />
                     <!--Pbme: Zeilenumbruch-->
                     <inek:LabeledText id="extraChargeA" label="#{msg.extraChargeA}" 
                                       value="#{editAdditionalCost.additionalCost.extraChargeA}" singleLine="true"
-                                      title="Angabe des Zuschlagvolumens"
+                                      title="#{msg.titleExtraCharge}"
                                       styleClassLabel="label60" styleClass="element40" required="true"/>
 
                     <inek:LabeledText id="extraChargeB" label="#{msg.extraChargeB}" 
                                       value="#{editAdditionalCost.additionalCost.extraChargeB}" singleLine="true"
-                                      title="Angabe des Zuschlagvolumens" 
-                                      styleClassLabel="label40" styleClass="element50" required="true"/>
+                                      title="#{msg.titleExtraCharge}" 
+                                      styleClassLabel="label60" styleClass="element40" required="true"/>
 
                     <inek:LabeledText id="extraChargeC" label="#{msg.extraChargeC}" 
                                       value="#{editAdditionalCost.additionalCost.extraChargeC}" singleLine="true" 
-                                      title="Angabe des Zuschlagvolumens" 
-                                      styleClassLabel="label40" styleClass="element50" required="true"/>
+                                      title="#{msg.titleExtraCharge}" 
+                                      styleClassLabel="label60" styleClass="element40" required="true"/>
 
                     <inek:LabeledText id="agreedHospitalIndividualExtraCharge" 
                                       label="#{msg.agreedHospitalIndividualExtraCharge}"
                                       value="#{editAdditionalCost.additionalCost.agreedHospitalIndividualExtraCharge}" singleLine="true" 
-                                      title="Angabe des vereinbarten Zuschlagsvolumens, das Grundlage für die Berechnung des Krankenhausindividuellen Prozentsatzes" 
-                                      styleClassLabel="label40" styleClass="element50" required="true" />
+                                      title="#{msg.titleAgreedHospitalIndividualExtraCharge}" 
+                                      styleClassLabel="label60" styleClass="element40" required="true" />
 
                     <inek:LabeledText id="hospitalIndividualExtraCharge" 
                                       label="#{msg.hospitalIndividualExtraCharge}" 
                                       value="#{editAdditionalCost.additionalCost.hospitalIndividualExtraCharge}" singleLine="true"  
-                                      title="Angabe des vereinbarten Prozentsatzes(Zahlbetragsrelevant)"
-                                      styleClassLabel="label40" styleClass="element50" required="true"/>
+                                      title="#{msg.titleHospitalIndividualExtraCharge}"
+                                      styleClassLabel="label60" styleClass="element40" required="true"/>
 
                     <div class="inputPart">
                         <h:outputLabel value="#{msg.isAdditionalCostAgreementAgreed}"
-                                       title="Auswahlbos(ja/nein) Hinweis: Hier ist 'ja' anzugeben, wenn sich das vereinbartes
-                                       Zuschlagsvolumen nicht als Summe der Zuschlagsanteile gemäß der grundlegenden 
-                                       Berechnungsformel in Anlage 1 lfd. Nr. 5(CM*EURO-Betrag) ergibt"
-                                       styleClass="label40"/>
+                                       title="#{msg.TitleIsAdditionalCostAgreementAgreed}"
+                                       styleClass="label60"/>
                         <inek:Checkbox value="#{editAdditionalCost.additionalCost.isAdditionalCostAgreementAgreed}" styleClass="element10"/>
                     </div>
 
                     <inek:LabeledText id="agreedRepaymentAdditionalCost" 
                                       label="#{msg.agreedRepaymentAdditionalCost}"
                                       value="#{editAdditionalCost.additionalCost.agreedRepaymentAdditionalCost}" singleLine="true"
-                                      title="Angabe des vereinbarten Rückzahlungsvolumens gem. lfd. Nr.8, getrennt nach vereinbarungsjahren"
-                                      styleClassLabel="label40" styleClass="element50" required="true" />  
+                                      title="#{msg.titleAgreedRepaymentAdditionalCost}"
+                                      styleClassLabel="label60" styleClass="element40" required="true" />  
 
                     <h:outputLabel for="repaymentPeriodFrom" 
                                    value="#{msg.repaymentPeriodFrom}" 
-                                   title="Angabe des Vereinbarungszeitraums für das angegebene Rückzahlungsvolumen vereinbart wurde."
-                                   styleClass="label40"/>
+                                   title="#{msg.titleRepaymentPeriodFrom}"
+                                   styleClass="label60"/>
                     <h:selectOneMenu id="repaymentPeriodFrom"
-                                     styleClass="element15"
+                                     styleClass="element08em"
                                      required="true"
                                      requiredMessage="#{msg.msgValueNeeded}"
                                      value="#{editAdditionalCost.additionalCost.repaymentPeriodFrom}"
@@ -212,7 +210,7 @@
                                    title="RepaymentPeriodTo"
                                    styleClass="label40" style="width: 200px; padding-left: 10px; padding-right: 10px;  display: inline"/>
                     <h:selectOneMenu id="repaymentPeriodTo"
-                                     styleClass="element12em"
+                                     styleClass="element08em"
                                      required="true"
                                      requiredMessage="#{msg.msgValueNeeded}"
                                      value="#{editAdditionalCost.additionalCost.repaymentPeriodTo}"
@@ -226,13 +224,13 @@
                     <h:panelGroup style="display: inline">                        
                         <inek:LabeledText id="complianceRate" label="#{msg.complianceRate}" 
                                           value="#{editAdditionalCost.additionalCost.complianceRate}" singleLine="true" 
-                                          styleClassLabel="label40" styleClass="element140" required="true" />            
+                                          styleClassLabel="label60" styleClass="element140" required="true" />            
                         <h:outputLabel for="calenderYear" 
                                        value="für das Kalenderjahr" 
                                        title="Auswahlfenster füe die Jahre 2017, 2018,...,2020"
-                                       styleClass="label40" />
+                                       styleClass="label60" />
                         <h:selectOneMenu id="calenderYear"
-                                         styleClass="element12em"
+                                         styleClass="element08em"
                                          required="true"
                                          requiredMessage="#{msg.msgValueNeeded}"
                                          value="#{editAdditionalCost.additionalCost.calenderYear}"
