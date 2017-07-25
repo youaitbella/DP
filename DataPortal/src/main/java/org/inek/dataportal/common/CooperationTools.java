@@ -362,13 +362,7 @@ public class CooperationTools implements Serializable {
         if (!_partnerIks.containsKey(partnerId)) {
             //System.out.println("getPartnerIks " + partnerId);
             Account account = _sessionController.getAccount();
-            // get iks from cooperative rights
-            Set<Integer> iks = getCooperationRights(feature, account)
-                    .stream()
-                    .filter(r -> r.getOwnerId() == partnerId && r.getPartnerId() == account.getId() 
-                            && r.getIk() > 0 && r.getCooperativeRight() != CooperativeRight.None)
-                    .map(r -> r.getIk())
-                    .collect(Collectors.toSet());
+            Set<Integer> iks = getIksFromCooperativeRights(feature, account, partnerId);
             // next check, whether the user is aupervisor for this feature and if an ik of the partner is supervised
             boolean isSupervisor = getCooperationRights(feature, account)
                     .stream()
@@ -389,6 +383,17 @@ public class CooperationTools implements Serializable {
         }
         return _partnerIks.get(partnerId);
 
+    }
+
+    private Set<Integer> getIksFromCooperativeRights(Feature feature, Account account, int partnerId) {
+        // get iks from cooperative rights
+        Set<Integer> iks = getCooperationRights(feature, account)
+                .stream()
+                .filter(r -> r.getOwnerId() == partnerId && r.getPartnerId() == account.getId()
+                        && r.getIk() > 0 && r.getCooperativeRight() != CooperativeRight.None)
+                .map(r -> r.getIk())
+                .collect(Collectors.toSet());
+        return iks;
     }
     private Map<Integer, Set<Integer>> _partnerIks = new ConcurrentHashMap<>();
 

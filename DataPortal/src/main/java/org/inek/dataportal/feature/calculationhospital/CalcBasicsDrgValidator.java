@@ -66,6 +66,7 @@ public class CalcBasicsDrgValidator {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="checkOpAn">
+    @SuppressWarnings("CyclomaticComplexity")
     private static void checkOpAn(DrgCalcBasics calcBasics, MessageContainer message) {
         KglOpAn opAn = calcBasics.getOpAn();
         if (!opAn.isCentralOP()) {

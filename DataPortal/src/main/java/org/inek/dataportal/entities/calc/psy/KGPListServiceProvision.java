@@ -234,6 +234,7 @@ public class KGPListServiceProvision implements Serializable, BaseIdValue {
     }
 
     @Override
+    @SuppressWarnings("CyclomaticComplexity")
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;

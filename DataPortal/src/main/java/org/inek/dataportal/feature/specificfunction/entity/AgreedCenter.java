@@ -269,6 +269,7 @@ public class AgreedCenter implements Serializable {
     }
 
     @Override
+    @SuppressWarnings("CyclomaticComplexity")
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;

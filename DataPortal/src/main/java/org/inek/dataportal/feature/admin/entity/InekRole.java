@@ -146,10 +146,10 @@ public class InekRole implements Serializable {
     public boolean fullyEquals(InekRole other) {
         return _id == other._id
                 && (_text == null && other._text == null
-                    || _text != null && other._text != null && _text.equals(other._text)
+                    || _text != null && _text.equals(other._text)
                 )
                 && (_feature == null && other._feature == null 
-                    || _feature != null && other._feature != null && _feature.equals(other._feature)
+                    || _feature != null && _feature.equals(other._feature)
                 )
                 && _isWriteEnabled == other._isWriteEnabled;
     }

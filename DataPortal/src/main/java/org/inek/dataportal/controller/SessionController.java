@@ -359,9 +359,7 @@ public class SessionController implements Serializable {
             }
             hasMaintenance |= feature == Feature.USER_MAINTENANCE;
             hasDocument |= feature == Feature.DOCUMENTS;
-            if (_appTools.isFeatureEnabled(feature)
-                    && (accFeature.getFeatureState() == FeatureState.SIMPLE
-                    || accFeature.getFeatureState() == FeatureState.APPROVED)) {
+            if (featureIsValid(feature, accFeature)) {
                 features.put(accFeature.getSequence(), feature);
             }
         }
@@ -378,6 +376,12 @@ public class SessionController implements Serializable {
         for (Feature f : features.values()) {
             _features.add(FeatureFactory.createController(f, this));
         }
+    }
+
+    private boolean featureIsValid(Feature feature, AccountFeature accFeature) {
+        return _appTools.isFeatureEnabled(feature)
+                && (accFeature.getFeatureState() == FeatureState.SIMPLE
+                || accFeature.getFeatureState() == FeatureState.APPROVED);
     }
 
     private boolean userHasDocuments() {
