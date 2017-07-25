@@ -95,8 +95,8 @@
                     <h2>Mehrkosten</h2>
                     <h:panelGroup styleClass="element100 marginTop01em">
                         <h:outputLabel for="cbxPerinatalcentre"
-                                       value="#{msg.perinatalzentrum_level}"
-                                       title="Perinatalzentrum Level"
+                                       value="#{msg.lblPerinatalzentrum_level}"
+                                       title="#{msg.titlePerinatalzentrum_level}"
                                        styleClass="label40"
                                        /> 
                         <h:selectOneMenu id="cbxPerinatalcentre"
@@ -104,7 +104,7 @@
                                          required="true" 
                                          requiredMessage="#{msg.msgChooseEntryShort}"
                                          value="#{editAdditionalCost.additionalCost.perinatalcentreLevel}"
-                                         title="Auswahlbox mit den Werten 1 und 2, nach erstmaliger Eingabe Bestandteil der Anmeldung"
+                                         title="#{msg.menuTitlePerinatalzentrum_level}"
                                          hideNoSelectionOption="true"
                                          >
                             <f:selectItems value="#{sessionTools.perinatalcentreItems}"/>
@@ -114,7 +114,7 @@
 
                     <h:outputLabel for="periodFrom" 
                                    value="#{msg.period}" 
-                                   title="Die folgende Vereinbarungsdaten beziehen sich auf den Vereinbarungszeitraum"
+                                   title="#{msg.titlePeriod}"
                                    styleClass="label40"
                                    />
                     <h:selectOneMenu id="periodFrom"
@@ -149,6 +149,7 @@
                                       value="#{editAdditionalCost.additionalCost.effectivCaseMix}" singleLine="true" 
                                       styleClassLabel="label40" styleClass="element50" required="true" 
                                       />
+                    <!--Pbme: Zeilenumbruch-->
                     <inek:LabeledText id="extraChargeA" label="#{msg.extraChargeA}" 
                                       value="#{editAdditionalCost.additionalCost.extraChargeA}" singleLine="true"
                                       title="Angabe des Zuschlagvolumens"
@@ -221,6 +222,7 @@
                         <f:ajax event="change" render="@form :logout:remaining repaymentPeriodTo"/>
                     </h:selectOneMenu>
                     
+                    <!--Pbme: einzeilig!!-->
                     <h:panelGroup style="display: inline">                        
                         <inek:LabeledText id="complianceRate" label="#{msg.complianceRate}" 
                                           value="#{editAdditionalCost.additionalCost.complianceRate}" singleLine="true" 
