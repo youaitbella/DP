@@ -390,6 +390,7 @@ public class KGLListCostCenterCost implements Serializable, BaseIdValue {
         return hash;
     }
 
+    @SuppressWarnings("CyclomaticComplexity")
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

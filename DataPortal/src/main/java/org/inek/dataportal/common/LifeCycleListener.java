@@ -62,6 +62,7 @@ public class LifeCycleListener implements PhaseListener {
         }
     }
 
+    @SuppressWarnings("CyclomaticComplexity")
     private void markRequired(UIComponent field, boolean required) {
         // This methods looks a bit ugly, doing the same for different components.
         // Sadly, these components do not have the styleClass property in a parent class. 

@@ -512,6 +512,7 @@ public class KGLListIntensivStroke implements Serializable, BaseIdValue {
      * @param other
      * @return 
      */
+    @SuppressWarnings("CyclomaticComplexity")
     public boolean equalsContent(KGLListIntensivStroke other){
         return _intensiveType == other._intensiveType
                     && _costCenterText.equals(other._costCenterText)

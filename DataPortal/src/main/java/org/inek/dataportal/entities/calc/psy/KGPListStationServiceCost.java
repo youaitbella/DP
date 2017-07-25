@@ -561,6 +561,7 @@ public class KGPListStationServiceCost implements Serializable, BaseIdValue {
     }
 
     @Override
+    @SuppressWarnings("CyclomaticComplexity")
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -578,7 +579,7 @@ public class KGPListStationServiceCost implements Serializable, BaseIdValue {
         if (this._costCenterID != other._costCenterID) {
             return false;
         }
-        if (this._costCenterNumber != other._costCenterNumber) {
+        if (!this._costCenterNumber.equals(other._costCenterNumber)) {
             return false;
         }
         if (this._bedCnt != other._bedCnt) {

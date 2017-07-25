@@ -21,6 +21,7 @@ import org.inek.dataportal.facades.account.AccountPwdFacade;
 @RequestScoped
 public class SecurePassword {
 
+    @SuppressWarnings("CyclomaticComplexity")
     public Quality determinePasswordQuality(String password) {
 
         boolean digit = false;
