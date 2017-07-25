@@ -198,6 +198,7 @@
         <!-- See http://checkstyle.sourceforge.net/config_metrics.html -->
         <module name="CyclomaticComplexity">
             <property name="max" value="20"/> <!-- shall be 10 - slightly reduce to this level -->
+            <property name="switchBlockAsSingleDecisionPoint" value="true"/>
             <property name="severity" value="warning"/>
         </module>
 
