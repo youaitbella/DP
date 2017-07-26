@@ -34,8 +34,10 @@ import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.feature.admin.facade.LogFacade;
 import org.inek.dataportal.facades.common.DiagnosisFacade;
 import org.inek.dataportal.facades.common.ProcedureFacade;
+import org.inek.dataportal.facades.cooperation.CooperationRequestFacade;
 import org.inek.dataportal.feature.admin.entity.InekRole;
 import org.inek.dataportal.feature.admin.entity.Log;
+import org.inek.dataportal.feature.admin.entity.Log_;
 import org.inek.dataportal.helper.NotLoggedInException;
 import org.inek.dataportal.helper.Topic;
 import org.inek.dataportal.helper.Topics;
@@ -63,6 +65,7 @@ public class SessionController implements Serializable {
     @Inject private AccountDocumentFacade _accDocFacade;
     @Inject private Mailer _mailer;
     @Inject private CustomerTypeFacade _typeFacade;
+    @Inject private CooperationRequestFacade _coopFacade;
 
     private PortalType _portalType = PortalType.DRG;
 
@@ -352,6 +355,7 @@ public class SessionController implements Serializable {
         Map<Integer, Feature> features = new TreeMap<>();
         boolean hasMaintenance = false;
         boolean hasDocument = false;
+        boolean hasCooperation = false;
         for (AccountFeature accFeature : _account.getFeatures()) {
             Feature feature = accFeature.getFeature();
             if (feature.getPortalType() != PortalType.COMMON && feature.getPortalType() != _portalType) {
@@ -359,6 +363,7 @@ public class SessionController implements Serializable {
             }
             hasMaintenance |= feature == Feature.USER_MAINTENANCE;
             hasDocument |= feature == Feature.DOCUMENTS;
+            hasCooperation |= feature == Feature.COOPERATION;
             if (featureIsValid(feature, accFeature)) {
                 features.put(accFeature.getSequence(), feature);
             }
@@ -371,7 +376,11 @@ public class SessionController implements Serializable {
         }
         if (!hasDocument) {
             _features.add(FeatureFactory.createController(Feature.DOCUMENTS, this));
-            persistDocumentFeature();
+            persistFeature(Feature.DOCUMENTS);
+        }
+        if(!hasCooperation && _coopFacade.getOpenCooperationRequestCount(_account.getId()) > 0) {
+            _features.add(FeatureFactory.createController(Feature.COOPERATION, this));
+            persistFeature(Feature.COOPERATION);
         }
         for (Feature f : features.values()) {
             _features.add(FeatureFactory.createController(f, this));
@@ -387,9 +396,9 @@ public class SessionController implements Serializable {
     private boolean userHasDocuments() {
         return _accDocFacade.count(_account.getId()) > 0;
     }
-
-    private void persistDocumentFeature() {
-        AccountFeature doc = createAccountFeature(Feature.DOCUMENTS);
+    
+    private void persistFeature(Feature feature) {
+        AccountFeature doc = createAccountFeature(feature);
         List<AccountFeature> afs = _account.getFeatures();
         afs.add(doc);
         _account.setFeatures(afs);
