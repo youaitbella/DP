@@ -197,29 +197,29 @@ public class StaffProof implements Serializable, StatusEntity {
     }
     // </editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property AdultsActualDays">
-    @Column(name = "spfAdultsActualDays")
-    private int _adultsActualDays;
+    //<editor-fold defaultstate="collapsed" desc="Property AdultsEffectiveDays">
+    @Column(name = "spfAdultsEffectiveDays")
+    private int _adultsEffectiveDays;
 
-    public int getAdultsActualDays() {
-        return _adultsActualDays;
+    public int getAdultsEffectiveDays() {
+        return _adultsEffectiveDays;
     }
 
-    public void setAdultsActualDays(int adultsActualDays) {
-        _adultsActualDays = adultsActualDays;
+    public void setAdultsEffectiveDays(int adultsEffectiveDays) {
+        _adultsEffectiveDays = adultsEffectiveDays;
     }
     // </editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property AdultsActualCosts">
-    @Column(name = "spfAdultsActualCosts")
-    private double _adultsActualCosts;
+    //<editor-fold defaultstate="collapsed" desc="Property AdultsEffectiveCosts">
+    @Column(name = "spfAdultsEffectiveCosts")
+    private double _adultsEffectiveCosts;
 
-    public double getAdultsActualCosts() {
-        return _adultsActualCosts;
+    public double getAdultsEffectiveCosts() {
+        return _adultsEffectiveCosts;
     }
 
-    public void setAdultsActualCosts(double adultsActualCosts) {
-        _adultsActualCosts = adultsActualCosts;
+    public void setAdultsEffectiveCosts(double adultsEffectiveCosts) {
+        _adultsEffectiveCosts = adultsEffectiveCosts;
     }
     // </editor-fold>
 
@@ -236,29 +236,29 @@ public class StaffProof implements Serializable, StatusEntity {
     }
     // </editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property KidsActualDays">
-    @Column(name = "spfKidsActualDays")
-    private int _kidsActualDays;
+    //<editor-fold defaultstate="collapsed" desc="Property KidsEffectiveDays">
+    @Column(name = "spfKidsEffectiveDays")
+    private int _kidsEffectiveDays;
 
-    public int getKidsActualDays() {
-        return _kidsActualDays;
+    public int getKidsEffectiveDays() {
+        return _kidsEffectiveDays;
     }
 
-    public void setKidsActualDays(int kidsActualDays) {
-        _kidsActualDays = kidsActualDays;
+    public void setKidsEffectiveDays(int kidsEffectiveDays) {
+        _kidsEffectiveDays = kidsEffectiveDays;
     }
     // </editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property KidsActualCosts">
-    @Column(name = "spfKidsActualCosts")
-    private double _kidsActualCosts;
+    //<editor-fold defaultstate="collapsed" desc="Property KidsEffectiveCosts">
+    @Column(name = "spfKidsEffectiveCosts")
+    private double _kidsEffectiveCosts;
 
-    public double getKidsActualCosts() {
-        return _kidsActualCosts;
+    public double getKidsEffectiveCosts() {
+        return _kidsEffectiveCosts;
     }
 
-    public void setKidsActualCosts(double kidsActualCosts) {
-        _kidsActualCosts = kidsActualCosts;
+    public void setKidsEffectiveCosts(double kidsEffectiveCosts) {
+        _kidsEffectiveCosts = kidsEffectiveCosts;
     }
     // </editor-fold>
 
@@ -269,11 +269,14 @@ public class StaffProof implements Serializable, StatusEntity {
     }
 
     @Override
-    public boolean equals(Object object) {
-        if (!(object instanceof StaffProof)) {
+    public boolean equals(Object obj) {
+        if (obj == null) {
             return false;
         }
-        StaffProof other = (StaffProof) object;
+        if (!(obj instanceof StaffProof)) {
+            return false;
+        }
+        StaffProof other = (StaffProof) obj;
 
         return _id == other._id;
     }
