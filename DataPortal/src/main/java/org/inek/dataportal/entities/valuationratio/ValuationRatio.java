@@ -106,7 +106,7 @@ public class ValuationRatio implements Serializable {
         this._ik = ik;
     }
     
-    @Column(name = "vrHospital")
+    @Transient
     private String _hospital = "";
 
     public String getHospital() {
@@ -117,7 +117,7 @@ public class ValuationRatio implements Serializable {
         this._hospital = hospital;
     }
     
-    @Column(name = "vrStreet")
+    @Transient
     private String _street = "";
 
     public String getStreet() {
@@ -128,7 +128,7 @@ public class ValuationRatio implements Serializable {
         this._street = street;
     }
     
-    @Column(name = "vrZip")
+    @Transient
     private String _zip = "";
 
     public String getZip() {
@@ -139,7 +139,7 @@ public class ValuationRatio implements Serializable {
         this._zip = zip;
     }
     
-    @Column(name = "vrCity")
+    @Transient
     private String _city = "";
 
     public String getCity() {

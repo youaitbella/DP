@@ -21,6 +21,7 @@ import org.inek.dataportal.entities.valuationratio.ValuationRatioMedian;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.ValuationRatioFacade;
+import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
@@ -44,6 +45,7 @@ public class EditValuationRatio extends AbstractEditController {
 
     @Inject private ValuationRatioFacade _valuationRatioFacade;
     @Inject private SessionController _sessionController;
+    @Inject private AccountFacade _accFacade;
 
     @PostConstruct
     private void init() {
@@ -55,6 +57,11 @@ public class EditValuationRatio extends AbstractEditController {
         } else {
             int idInt = Integer.parseInt(id.toString());
             _valuationRatio = _valuationRatioFacade.findFreshValuationRatio(idInt);
+            Account acc = _accFacade.find(_valuationRatio.getAccountId());
+            _valuationRatio.setHospital(acc.getCompany());
+            _valuationRatio.setCity(acc.getTown());
+            _valuationRatio.setStreet(acc.getStreet());
+            _valuationRatio.setZip(acc.getPostalCode());
             if(DateUtils.isNullAlias(_valuationRatio.getValidFrom()))
                 _valuationRatio.setValidFrom(null);
         }
@@ -66,6 +73,7 @@ public class EditValuationRatio extends AbstractEditController {
         vr.setAccountId(acc.getId());
         vr.setIk(getIks().get(0));
         vr.setValidFrom(null);
+        vr.setHospital(acc.getCompany());
         vr.setCity(acc.getTown());
         vr.setZip(acc.getPostalCode());
         vr.setStreet(acc.getStreet());
