@@ -83,62 +83,10 @@ public class AdditionalCost implements Serializable, StatusEntity {
         return _ik;
     }
 
-    public void setIk(int acIk) {
-        this._ik = acIk;
+    public void setIk(int ik) {
+        this._ik = ik;
     }
     //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="Property Hospital">
-    @Column(name = "adcHospital")
-    private String _hospital = "";
-
-    public String getHospital() {
-        return _hospital;
-    }
-
-    public void setHospital(String hospital) {
-        this._hospital = hospital;
-    }
-    //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="Street">
-    @Column(name = "adcStreet")
-    private String _street = "";
-
-    public String getStreet() {
-        return _street;
-    }
-
-    public void setStreet(String street) {
-        this._street = street;
-    }
-    //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="Zip">
-    @Column(name = "adcZip")
-    private String _zip = "";
-
-    public String getZip() {
-        return _zip;
-    }
-
-    public void setZip(String zip) {
-        this._zip = zip;
-    }
-    //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="City">
-    @Column(name = "adcCity")
-    private String _city = "";
-
-    public String getCity() {
-        return _city;
-    }
-
-    public void setCity(String city) {
-        this._city = city;
-    }
-//</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="ContactFirstName">
     @Column(name = "adcContactFirstName")

@@ -120,10 +120,6 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
         Account account = _sessionController.getAccount();
         AdditionalCost additionalCost = new AdditionalCost();
         additionalCost.setAccountId(account.getId());
-        additionalCost.setStreet(account.getStreet());
-        additionalCost.setZip(account.getPostalCode());
-        additionalCost.setCity(account.getTown());
-        additionalCost.setHospital(account.getCompany());
         additionalCost.setContactFirstName(account.getFirstName());
         additionalCost.setContactLastName(account.getLastName());
         additionalCost.setContactPhone(account.getPhone());

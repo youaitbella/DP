@@ -39,24 +39,6 @@
 
 
                 <div jsf:id="adcData" jsf:rendered="#{editAdditionalCost.additionalCost.ik gt 0}">
-
-                    <ui:remove>
-                        <!--Krankenhaus-->
-                        <h2 style="margin-bottom: 1em;">Krankenhaus</h2>
-                        <inek:LabeledText id="hospital" label="Name des Krankenhauses" value="#{editAdditionalCost.additionalCost.hospital}" 
-                                          singleLine="true" styleClassLabel="label10" 
-                                          styleClass="element50" required="true" readonly="#{editAdditionalCost.readOnly}"/>
-                        <inek:LabeledText id="street" label="#{msg.lblStreet}" value="#{editAdditionalCost.additionalCost.street}" 
-                                          singleLine="true" styleClassLabel="label10" styleClass="element50" required="true" 
-                                          readonly="#{editAdditionalCost.readOnly}"/>
-                        <inek:LabeledText id="zip" label="#{msg.lblPostalCode}" value="#{editAdditionalCost.additionalCost.zip}" 
-                                          singleLine="true" styleClassLabel="label10" styleClass="element50" required="true" 
-                                          readonly="#{editAdditionalCost.readOnly}"/>
-                        <inek:LabeledText id="city" label="#{msg.lblTown}" value="#{editAdditionalCost.additionalCost.city}" 
-                                          singleLine="true" styleClassLabel="label10" styleClass="element50" required="true" 
-                                          readonly="#{editAdditionalCost.readOnly}"/>
-
-                        <!--Ansprechpartner-->
                         <h2>#{msg.lblContactPerson}</h2>
                         <h:panelGroup styleClass="element100 marginTop01em">
                             <h:outputLabel styleClass="label10" for="cbxGender" 
@@ -88,8 +70,6 @@
                                           value="#{editAdditionalCost.additionalCost.contactEmail}" 
                                           singleLine="true" styleClassLabel="label10" 
                                           styleClass="element50" required="true"/>
-                    </ui:remove>
-
 
                     <!--Mehrkosten-->
                     <h2>Mehrkosten</h2>
@@ -97,7 +77,7 @@
                         <h:outputLabel for="cbxPerinatalcentre"
                                        value="#{msg.lblPerinatalzentrum_level}"
                                        title="#{msg.titlePerinatalzentrum_level}"
-                                       styleClass="label60"
+                                       styleClass="element100-13em"
                                        /> 
                         <h:selectOneMenu id="cbxPerinatalcentre"
                                          styleClass="element08em" 
@@ -115,7 +95,7 @@
                     <h:outputLabel for="periodFrom" 
                                    value="#{msg.period}" 
                                    title="#{msg.titlePeriod}"
-                                   styleClass="label60"
+                                   styleClass="label70"
                                    />
                     <h:selectOneMenu id="periodFrom"
                                      styleClass="element08em"
@@ -147,40 +127,40 @@
                                       label="#{msg.effectivCaseMix}"
                                       title="#{msg.titleEffectivCaseMix}"
                                       value="#{editAdditionalCost.additionalCost.effectivCaseMix}" singleLine="true" 
-                                      styleClassLabel="label60" styleClass="element15" required="true" 
+                                      styleClassLabel="label70" styleClass="element08em" required="true" 
                                       />
                     <!--Pbme: Zeilenumbruch-->
                     <inek:LabeledText id="extraChargeA" label="#{msg.extraChargeA}" 
                                       value="#{editAdditionalCost.additionalCost.extraChargeA}" singleLine="true"
                                       title="#{msg.titleExtraCharge}"
-                                      styleClassLabel="label60" styleClass="element40" required="true"/>
+                                      styleClassLabel="label70" styleClass="element08em" required="true"/>
 
                     <inek:LabeledText id="extraChargeB" label="#{msg.extraChargeB}" 
                                       value="#{editAdditionalCost.additionalCost.extraChargeB}" singleLine="true"
                                       title="#{msg.titleExtraCharge}" 
-                                      styleClassLabel="label60" styleClass="element40" required="true"/>
+                                      styleClassLabel="label70" styleClass="element08em" required="true"/>
 
                     <inek:LabeledText id="extraChargeC" label="#{msg.extraChargeC}" 
                                       value="#{editAdditionalCost.additionalCost.extraChargeC}" singleLine="true" 
                                       title="#{msg.titleExtraCharge}" 
-                                      styleClassLabel="label60" styleClass="element40" required="true"/>
+                                      styleClassLabel="label70" styleClass="element08em" required="true"/>
 
                     <inek:LabeledText id="agreedHospitalIndividualExtraCharge" 
                                       label="#{msg.agreedHospitalIndividualExtraCharge}"
                                       value="#{editAdditionalCost.additionalCost.agreedHospitalIndividualExtraCharge}" singleLine="true" 
                                       title="#{msg.titleAgreedHospitalIndividualExtraCharge}" 
-                                      styleClassLabel="label60" styleClass="element40" required="true" />
+                                      styleClassLabel="label70" styleClass="element08em" required="true" />
 
                     <inek:LabeledText id="hospitalIndividualExtraCharge" 
                                       label="#{msg.hospitalIndividualExtraCharge}" 
                                       value="#{editAdditionalCost.additionalCost.hospitalIndividualExtraCharge}" singleLine="true"  
                                       title="#{msg.titleHospitalIndividualExtraCharge}"
-                                      styleClassLabel="label60" styleClass="element40" required="true"/>
+                                      styleClassLabel="label70" styleClass="element08em" required="true"/>
 
                     <div class="inputPart">
                         <h:outputLabel value="#{msg.isAdditionalCostAgreementAgreed}"
                                        title="#{msg.TitleIsAdditionalCostAgreementAgreed}"
-                                       styleClass="label60"/>
+                                       styleClass="label70"/>
                         <inek:Checkbox value="#{editAdditionalCost.additionalCost.isAdditionalCostAgreementAgreed}" styleClass="element10"/>
                     </div>
 
@@ -188,12 +168,12 @@
                                       label="#{msg.agreedRepaymentAdditionalCost}"
                                       value="#{editAdditionalCost.additionalCost.agreedRepaymentAdditionalCost}" singleLine="true"
                                       title="#{msg.titleAgreedRepaymentAdditionalCost}"
-                                      styleClassLabel="label60" styleClass="element40" required="true" />  
+                                      styleClassLabel="label70" styleClass="element08em" required="true" />  
 
                     <h:outputLabel for="repaymentPeriodFrom" 
                                    value="#{msg.repaymentPeriodFrom}" 
                                    title="#{msg.titleRepaymentPeriodFrom}"
-                                   styleClass="label60"/>
+                                   styleClass="label70"/>
                     <h:selectOneMenu id="repaymentPeriodFrom"
                                      styleClass="element08em"
                                      required="true"
@@ -221,14 +201,17 @@
                     </h:selectOneMenu>
                     
                     <!--Pbme: einzeilig!!-->
-                    <h:panelGroup style="display: inline">                        
+                    <div class="inputPart">                        
                         <inek:LabeledText id="complianceRate" label="#{msg.complianceRate}" 
                                           value="#{editAdditionalCost.additionalCost.complianceRate}" singleLine="true" 
-                                          styleClassLabel="label60" styleClass="element140" required="true" />            
+                                          styleClassComponent="inlineBlock"
+                                          styleClassLabel="label70" 
+                                          styleClass="element08em" 
+                                          required="true" />            
                         <h:outputLabel for="calenderYear" 
-                                       value="für das Kalenderjahr" 
+                                       value="für das KJ" 
                                        title="Auswahlfenster füe die Jahre 2017, 2018,...,2020"
-                                       styleClass="label60" />
+                                       styleClass="label element08em" />
                         <h:selectOneMenu id="calenderYear"
                                          styleClass="element08em"
                                          required="true"
@@ -239,7 +222,7 @@
                             <f:selectItems value="#{sessionTools.calenderYearItems}"/>
                             <f:ajax event="change" render="@form :logout:remaining calenderYear"/>
                         </h:selectOneMenu>
-                    </h:panelGroup>
+                    </div>
                         
                     <h:messages showDetail="true" globalOnly="true"/>
                 </div>
