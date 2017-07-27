@@ -365,6 +365,7 @@ document.write('</frameset>');
       <file-mod href="GrouperCertification.xml" build="USER2"/>
       <file-mod href="CertifyGrouper.xml" build="USER1"/>
       <file-mod href="Dokumente---Managersicht.xml" build="USER2"/>
+      <file-mod href="UploadDocumentForInek.xml"/>
     </file>
     <file href="Baggage/*.*" build="ALL" filetype="baggage"/>
   </project-files>

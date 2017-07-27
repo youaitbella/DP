@@ -11,126 +11,141 @@
 
     <ui:define name="documentContent">
         <h:form id="form">
-            <h:outputStylesheet name="css/fileuploader.css"/>
-            <h:outputScript name="script/fileuploader.js"/>
-            <script>
-                var fileCounter = 0;
-                function createUploader() {
-                    var uploader = new qq.FileUploader({
-                        element: document.getElementById('file-uploader'),
-                        action: '/DataPortal/upload/document',
-                        debug: true,
-                        allowedExtensions: ['png', 'jpg', 'pdf', 'txt', 'odt', 'doc', 'docx', 'odc', 'xls', 'xlsx', 'csv', 'gpg', 'inek'],
-                        onSubmit: function (id, fileName) {
-                            fileCounter++;
-                        },
-                        onCancel: function (id, fileName) {
-                            fileCounter--;
-                            if (fileCounter === 0) {
-                            }
-                        },
-                        onComplete: function (id, fileName, responseJSON) {
-                            fileCounter--;
-                            if (fileCounter === 0) {
-                                document.getElementById('form:refresh').click();
-                            }
-                        },
-                        template: '<div class="qq-uploader">' +
-                                '<div class="qq-upload-drop-area"><span>Dateien mittels Ziehen und Ablegen hochladen.</span></div>' +
-                                '<div class="qq-upload-button">Datei hochladen</div>' +
-                                '<ul class="qq-upload-list"></ul>' +
-                                '</div>'
-                    });
-                }
-            </script>
-
-            <h3>Bitte beachten Sie im Handbuch das Kapitel <em>Dokumente an das InEK senden</em>!</h3>
-            <hr/>
-            <p class="hintWide">Neu: Die automatisierte Datenannahme leitet nun nicht automatisch verarbeitbare Dateien an den Betreuer Ihres Hauses weiter. Bitte übermitteln Sie künftig alle Dokumente als Datenlieferung (via DatenDienst oder DropBox). Dieser Dokumenten-Upload wird in Kürze abgeschaltet.</p>
-            <hr/>
-            
-            <inek:MultiIk value="#{documentUpload.senderIk}" 
-                          ikList="#{documentUpload.senderIks}"
-                          listener="#{documentUpload.ikChanged}" 
-                          label="Absender-IK"
-                          styleClassLabel="label15"
-                          readonly="false" 
-                          isFixed="false">
-            </inek:MultiIk>
+            <h1>Funktion abgeschaltet</h1>
             <br/>
-            
-            <h:outputLabel value="Ansprechpartner" styleClass="label15 alignTop"/>
+            <p>
+                Bisher hat der Datenannahmeprozess unbekannte Dokumente abgewiesen. Nicht automatisch verarbeitbare Dokumente mussten getrennt mittels <em>Senden ans InEK</em> übermittelt werden.
+                Das InEK hat den Annahmeprozess so überarbeitet, dass deratige Dokumente nun direkt an den betreuenden Referenten weitergeleitet werden. 
+            </p>
+            <p>
+                Es ist nicht mehr erforderlich, Dokumente getrennt zu übermitteln.
+            </p>
+            <p>
+                <h3>Bitte übermitteln Sie künftig alle Dokumente als Krankenhaus-Datenlieferung (via DatenDienst oder DropBox).</h3> 
+                Hiervon ausgenommen sind solche Daten, die via Formulare im InEK Datenportal erfasst werden.
+            </p>
 
-            <div class="container10em inlineBlock inputmedium">
-                <h:dataTable value="#{documentUpload.inekAccounts}" var="account"
-                             headerClass="list-header" id="tblAccounts"
-                             width="100%" rowClasses="row1, row2" columnClasses="colIcon, colValue, colValuem">                        
-                    <h:column>
-                        <h:selectBooleanCheckbox value="#{account.selected}">
-                            <f:ajax render=":logout:remaining"/>
-                        </h:selectBooleanCheckbox>
-                    </h:column>
-                    <h:column>
-                        #{account.lastName}
-                    </h:column>
-                    <h:column>
-                        #{account.firstName}
-                    </h:column>
-                </h:dataTable>
-            </div>
+            <ui:remove>
+                <h:outputStylesheet name="css/fileuploader.css"/>
+                <h:outputScript name="script/fileuploader.js"/>
+                <script>
+                    var fileCounter = 0;
+                    function createUploader() {
+                        var uploader = new qq.FileUploader({
+                            element: document.getElementById('file-uploader'),
+                            action: '/DataPortal/upload/document',
+                            debug: true,
+                            allowedExtensions: ['png', 'jpg', 'pdf', 'txt', 'odt', 'doc', 'docx', 'odc', 'xls', 'xlsx', 'csv', 'gpg', 'inek'],
+                            onSubmit: function (id, fileName) {
+                                fileCounter++;
+                            },
+                            onCancel: function (id, fileName) {
+                                fileCounter--;
+                                if (fileCounter === 0) {
+                                }
+                            },
+                            onComplete: function (id, fileName, responseJSON) {
+                                fileCounter--;
+                                if (fileCounter === 0) {
+                                    document.getElementById('form:refresh').click();
+                                }
+                            },
+                            template: '<div class="qq-uploader">' +
+                                    '<div class="qq-upload-drop-area"><span>Dateien mittels Ziehen und Ablegen hochladen.</span></div>' +
+                                    '<div class="qq-upload-button">Datei hochladen</div>' +
+                                    '<ul class="qq-upload-list"></ul>' +
+                                    '</div>'
+                        });
+                    }
+                </script>
 
-            <div class="inputPart">
-                <h:outputLabel value="#{msg.lblDomain}" styleClass="label15"/>
-                <h:selectOneMenu id="domainId" value="#{documentUpload.domainId}" styleClass="inputmedium" hideNoSelectionOption="true" required="true">
-                    <f:selectItem itemLabel="#{msg.lblChooseEntry}" itemValue="#{null}" noSelectionOption="true"/>
-                    <f:selectItems value="#{documentUpload.publicDomains}" var="domain" itemLabel="#{domain.name}" itemValue="#{domain.id}"/>
-                    <f:ajax render="sendButton :logout:remaining"/>
-                </h:selectOneMenu>
-                <h:message for="domainId" styleClass="errorMessage"/>
-            </div>
+                <h3>Bitte beachten Sie im Handbuch das Kapitel <em>Dokumente an das InEK senden</em>!</h3>
+                <hr/>
 
-            <hr/>
 
-            <div class="inputPart">
-                <div id="file-uploader">
-                    <script>
-                        createUploader();
-                    </script>
-                </div>
+                <inek:MultiIk value="#{documentUpload.senderIk}" 
+                              ikList="#{documentUpload.senderIks}"
+                              listener="#{documentUpload.ikChanged}" 
+                              label="Absender-IK"
+                              styleClassLabel="label15"
+                              readonly="false" 
+                              isFixed="false">
+                </inek:MultiIk>
+                <br/>
 
-                <!-- next comes a hidden element to force a JSF conform refresh -->
-                <h:commandLink id="refresh" style="display: none" action="#{documentUpload.refresh}" value="refresh"/>
-            </div>
+                <h:outputLabel value="Ansprechpartner" styleClass="label15 alignTop"/>
 
-            <div class="inputPart">
-                <h:panelGroup rendered="#{documentUpload.documents.size() > 0}">
-                    <div class="inputPart"><h:outputLabel styleClass="label" value="#{msg.lblUploadedFiles}:"/></div>
-                    <h:dataTable  headerClass="list-header" id="tblDropBoxes"
-                                  value="#{documentUpload.documents}" var="file" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colValue">
-
-                        <h:column id="colDeleteId">
-                            <h:commandLink action="#{documentUpload.deleteDocument(file)}" immediate="true" >
-                                <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
-                                <cb:confirmDelete/>
-                            </h:commandLink>
+                <div class="container10em inlineBlock inputmedium">
+                    <h:dataTable value="#{documentUpload.inekAccounts}" var="account"
+                                 headerClass="list-header" id="tblAccounts"
+                                 width="100%" rowClasses="row1, row2" columnClasses="colIcon, colValue, colValuem">                        
+                        <h:column>
+                            <h:selectBooleanCheckbox value="#{account.selected}">
+                                <f:ajax render=":logout:remaining"/>
+                            </h:selectBooleanCheckbox>
                         </h:column>
-
-                        <h:column id="colName">
-                            <h:commandLink id="filename" value="#{file.name}" action="#{documentUpload.downloadDocument(file)}" immediate="true" />
+                        <h:column>
+                            #{account.lastName}
+                        </h:column>
+                        <h:column>
+                            #{account.firstName}
                         </h:column>
                     </h:dataTable>
-                </h:panelGroup>
+                </div>
 
-            </div>
+                <div class="inputPart">
+                    <h:outputLabel value="#{msg.lblDomain}" styleClass="label15"/>
+                    <h:selectOneMenu id="domainId" value="#{documentUpload.domainId}" styleClass="inputmedium" hideNoSelectionOption="true" required="true">
+                        <f:selectItem itemLabel="#{msg.lblChooseEntry}" itemValue="#{null}" noSelectionOption="true"/>
+                        <f:selectItems value="#{documentUpload.publicDomains}" var="domain" itemLabel="#{domain.name}" itemValue="#{domain.id}"/>
+                        <f:ajax render="sendButton :logout:remaining"/>
+                    </h:selectOneMenu>
+                    <h:message for="domainId" styleClass="errorMessage"/>
+                </div>
 
-            <div  class="marginTop">
-                <h:commandLink id="sendButton" 
-                               styleClass="sendButton #{documentUpload.saveForInekEnabled ? '' : 'buttonDisabled'}" 
-                               action="#{documentUpload.saveDocumentForInek}" 
-                               value="#{msg.btnSaveAndClose}" 
-                               immediate="true"
-                               disabled="#{!documentUpload.saveForInekEnabled}"/>
-            </div>
+                <hr/>
+
+                <div class="inputPart">
+                    <div id="file-uploader">
+                        <script>
+                            createUploader();
+                        </script>
+                    </div>
+
+                    <!-- next comes a hidden element to force a JSF conform refresh -->
+                    <h:commandLink id="refresh" style="display: none" action="#{documentUpload.refresh}" value="refresh"/>
+                </div>
+
+                <div class="inputPart">
+                    <h:panelGroup rendered="#{documentUpload.documents.size() > 0}">
+                        <div class="inputPart"><h:outputLabel styleClass="label" value="#{msg.lblUploadedFiles}:"/></div>
+                        <h:dataTable  headerClass="list-header" id="tblDropBoxes"
+                                      value="#{documentUpload.documents}" var="file" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colValue">
+
+                            <h:column id="colDeleteId">
+                                <h:commandLink action="#{documentUpload.deleteDocument(file)}" immediate="true" >
+                                    <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
+                                    <cb:confirmDelete/>
+                                </h:commandLink>
+                            </h:column>
+
+                            <h:column id="colName">
+                                <h:commandLink id="filename" value="#{file.name}" action="#{documentUpload.downloadDocument(file)}" immediate="true" />
+                            </h:column>
+                        </h:dataTable>
+                    </h:panelGroup>
+
+                </div>
+
+                <div  class="marginTop">
+                    <h:commandLink id="sendButton" 
+                                   styleClass="sendButton #{documentUpload.saveForInekEnabled ? '' : 'buttonDisabled'}" 
+                                   action="#{documentUpload.saveDocumentForInek}" 
+                                   value="#{msg.btnSaveAndClose}" 
+                                   immediate="true"
+                                   disabled="#{!documentUpload.saveForInekEnabled}"/>
+                </div>
+            </ui:remove>
 
         </h:form>
 

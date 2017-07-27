@@ -70,7 +70,7 @@
       <topicref type="topic" id="428727410845465" build="ALL" modified="2017-05-17T14:11:16.877Z" icon="0" href="ReceivedDocuments">
         <caption translate="true">Erhaltene Dokumente</caption>
       </topicref>
-      <topicref type="topic" id="428726206709457" build="ALL" modified="2017-05-17T13:29:43.963Z" icon="0" href="UploadDocumentForInek">
+      <topicref type="topic" id="428726206709457" modified="2017-07-27T08:39:05.264Z" icon="0" href="UploadDocumentForInek">
         <caption translate="true">Dokumente an das InEK senden</caption>
       </topicref>
     </topicref>
