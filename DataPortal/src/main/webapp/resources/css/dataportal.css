@@ -626,6 +626,9 @@ div#wrapper {
 .element100-37em{
     width: calc(100% - 37em);
 }
+.element100-24em{
+    width: calc(100% - 24em);
+}
 
 .element15 {
     width: 15%;
