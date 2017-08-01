@@ -8,6 +8,47 @@
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
    
-
+            
+    <h2>Vereinbarte Stellenbesetzung in Vollkräften - Bereich Erwachsene</h2>
+    <span>(§ 3 Psych-Personalnachweis)</span>
+    
+    <table>
+        <tr>
+            <th>
+                Personalgruppen
+            </th>
+            <th>
+                Berufsgruppen der Psych-PV
+            </th>
+            <th>
+                Stellenbesetzung für eine vollständige Umsetzung der Psych-PV in VK
+            </th>
+            <th>
+                Stellenbesetzung als Budgetgrundlage in VK
+            </th>
+            <th>
+                Durchschnittskosten je VK in Euro
+            </th>
+        </tr>
+        <ui:repeat value="#{editPsyStaff.occupationalCategories}" var="item">
+            <tr>
+                <td rowspan="#{editPsyStaff.getAdultPsyOccupationRowSpan(item.personnelGroup.id)}">
+                    #{item.personnelGroup.name}
+                </td>
+                <td>
+                    #{item.name}
+                </td>
+                <td>
+                    
+                </td>
+                <td>
+                    
+                </td>
+                <td>
+                    
+                </td>
+            </tr>
+        </ui:repeat>
+    </table>
 </ui:composition>
 

@@ -37,6 +37,8 @@ import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.feature.admin.entity.MailTemplate;
 import org.inek.dataportal.feature.admin.facade.InekRoleFacade;
+import org.inek.dataportal.feature.psychstaff.entity.OccupationalCatagory;
+import org.inek.dataportal.feature.psychstaff.entity.PersonnelGroup;
 import org.inek.dataportal.feature.psychstaff.entity.StaffProof;
 import org.inek.dataportal.feature.psychstaff.facade.PsychStaffFacade;
 import org.inek.dataportal.helper.Utils;
@@ -126,6 +128,18 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
             staffProof.setIk((int) iks.get(0).getValue());
         }
         return staffProof;
+    }
+    
+    public int getAdultPsyOccupationRowSpan(int personnelId) {
+        return _psychStaffFacade.getSumSamePersonalGroup(personnelId);
+    }
+    
+    public List<PersonnelGroup> getPersonnelGroup() {
+        return _psychStaffFacade.getPersonnelGroups();
+    }
+    
+    public List<OccupationalCatagory> getOccupationalCategories() {
+        return _psychStaffFacade.getOccupationalCategories();
     }
 
     // <editor-fold defaultstate="collapsed" desc="actions">

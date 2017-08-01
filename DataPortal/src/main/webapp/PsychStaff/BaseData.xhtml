@@ -28,15 +28,15 @@
     </div>
     <div class="inputPart" style="float: left; width: 33%">
         <h2>Zählweise Berechnungstage</h2><br/>
-        <h:selectOneRadio>
-            <f:selectItem>PEPP</f:selectItem>
-            <f:selectItem>BPflV/LKA</f:selectItem>
+        <h:selectOneRadio styleClass="inputmedium" required="true">
+            <f:selectItem itemValue="1" itemLabel="PEPP"/>
+            <f:selectItem itemValue="2" itemLabel="BPflV/LKA"/>
         </h:selectOneRadio>
     </div>
     <div class="inputPart" style="float: left; width: 33%">
         <h2>Vereinbarungsjahr</h2><br/>
-        <h:outputLabel styleClass="label" value="Vereinbahrungsjahr" for="year"/>
-        <h:selectOneMenu styleClass="" id="year">
+        <h:outputLabel styleClass="label" value="Vereinbahrungsjahr" for="year"/><br/>
+        <h:selectOneMenu styleClass="" id="year" required="true">
             <f:selectItems value="#{sessionTools.calenderYearItems}" />
         </h:selectOneMenu>
     </div>
