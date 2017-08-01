@@ -16,7 +16,30 @@
                   readonly="#{editPsyStaff.readOnly}" 
                   isFixed="#{editPsyStaff.staffProof.id gt 0 and editPsyStaff.staffProof.ik gt 0}">
     </inek:MultiIk>
-
+  
+    <div class="inputPart" style="float: left; width: 33%">
+        <h2>Einrichtung für</h2><br/>
+        <inek:LabeledCheckbox label="Erwachsene" styleClassLabel="label">
+            
+        </inek:LabeledCheckbox>
+        <inek:LabeledCheckbox label="Kinder und Jugendliche" styleClassLabel="label">
+            
+        </inek:LabeledCheckbox>
+    </div>
+    <div class="inputPart" style="float: left; width: 33%">
+        <h2>Zählweise Berechnungstage</h2><br/>
+        <h:selectOneRadio>
+            <f:selectItem>PEPP</f:selectItem>
+            <f:selectItem>BPflV/LKA</f:selectItem>
+        </h:selectOneRadio>
+    </div>
+    <div class="inputPart" style="float: left; width: 33%">
+        <h2>Vereinbarungsjahr</h2><br/>
+        <h:outputLabel styleClass="label" value="Vereinbahrungsjahr" for="year"/>
+        <h:selectOneMenu styleClass="" id="year">
+            <f:selectItems value="#{sessionTools.calenderYearItems}" />
+        </h:selectOneMenu>
+    </div>
     
 </ui:composition>
 
