@@ -13,7 +13,7 @@
     <ui:define name="content">
 
         <h:form id="psychStaff">
-            <h1><h:commandLink value="#{msg.namePSYCH_STAFF}}" 
+            <h1><h:commandLink value="#{msg.namePSYCH_STAFF}" 
                                action="#{sessionController.navigate(sessionTools.pages.PsychStaffSummary)}" 
                                immediate="true"/></h1>
 
@@ -30,8 +30,8 @@
             </div>
 
             <div class="edit">
-
-                <ui:include src="#{editPsyStaff.activeTopic.outcome}"/>
+                
+                <ui:insert name="editContent">Content</ui:insert>
 
                 <div class="toolBar">
                     <h:commandLink styleClass="bigButton"

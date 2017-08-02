@@ -9,37 +9,38 @@
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components"
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
    
+    <ui:define name="editContent">
+        <inek:MultiIk value="#{editPsyStaff.staffProof.ik}" 
+                      ikList="#{editPsyStaff.iks}"
+                      listener="#{editPsyStaff.ikChanged}" 
+                      readonly="#{editPsyStaff.readOnly}" 
+                      isFixed="#{editPsyStaff.staffProof.id gt 0 and editPsyStaff.staffProof.ik gt 0}">
+        </inek:MultiIk>
 
-    <inek:MultiIk value="#{editPsyStaff.staffProof.ik}" 
-                  ikList="#{editPsyStaff.iks}"
-                  listener="#{editPsyStaff.ikChanged}" 
-                  readonly="#{editPsyStaff.readOnly}" 
-                  isFixed="#{editPsyStaff.staffProof.id gt 0 and editPsyStaff.staffProof.ik gt 0}">
-    </inek:MultiIk>
-  
-    <div class="inputPart" style="float: left; width: 33%">
-        <h2>Einrichtung für</h2><br/>
-        <inek:LabeledCheckbox label="Erwachsene" styleClassLabel="label">
-            
-        </inek:LabeledCheckbox>
-        <inek:LabeledCheckbox label="Kinder und Jugendliche" styleClassLabel="label">
-            
-        </inek:LabeledCheckbox>
-    </div>
-    <div class="inputPart" style="float: left; width: 33%">
-        <h2>Zählweise Berechnungstage</h2><br/>
-        <h:selectOneRadio styleClass="inputmedium" required="true">
-            <f:selectItem itemValue="1" itemLabel="PEPP"/>
-            <f:selectItem itemValue="2" itemLabel="BPflV/LKA"/>
-        </h:selectOneRadio>
-    </div>
-    <div class="inputPart" style="float: left; width: 33%">
-        <h2>Vereinbarungsjahr</h2><br/>
-        <h:outputLabel styleClass="label" value="Vereinbahrungsjahr" for="year"/><br/>
-        <h:selectOneMenu styleClass="" id="year" required="true">
-            <f:selectItems value="#{sessionTools.calenderYearItems}" />
-        </h:selectOneMenu>
-    </div>
+        <div class="inputPart" style="float: left; width: 33%">
+            <h2>Einrichtung für</h2><br/>
+            <inek:LabeledCheckbox label="Erwachsene" styleClassLabel="label">
+
+            </inek:LabeledCheckbox>
+            <inek:LabeledCheckbox label="Kinder und Jugendliche" styleClassLabel="label">
+
+            </inek:LabeledCheckbox>
+        </div>
+        <div class="inputPart" style="float: left; width: 33%">
+            <h2>Zählweise Berechnungstage</h2><br/>
+            <h:selectOneRadio styleClass="inputmedium" required="true">
+                <f:selectItem itemValue="1" itemLabel="PEPP"/>
+                <f:selectItem itemValue="2" itemLabel="BPflV/LKA"/>
+            </h:selectOneRadio>
+        </div>
+        <div class="inputPart" style="float: left; width: 33%">
+            <h2>Vereinbarungsjahr</h2><br/>
+            <h:outputLabel styleClass="label" value="Vereinbahrungsjahr" for="year"/><br/>
+            <h:selectOneMenu styleClass="" id="year" required="true">
+                <f:selectItems value="#{sessionTools.calenderYearItems}" />
+            </h:selectOneMenu>
+        </div>
+    </ui:define>
     
 </ui:composition>
 
