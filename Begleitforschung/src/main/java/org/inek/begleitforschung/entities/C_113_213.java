@@ -24,8 +24,10 @@ public class C_113_213 {
 
     public C_113_213() {
     }
-
-    public C_113_213(int type, String drg, String name, int sumA, double avgLos, double avgStdDeviation, int sumKla, double fractionKla, int sumLla, double fractionLla) {
+    
+    @SuppressWarnings("ParameterNumber")
+    public C_113_213(int type, String drg, String name, int sumA, double avgLos, double avgStdDeviation,
+            int sumKla, double fractionKla, int sumLla, double fractionLla) {
         this._type = type;
         this._drg = drg;
         this._name = name;

@@ -9,7 +9,6 @@
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components"
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
    
-    <ui:define name="editContent">
         <inek:MultiIk value="#{editPsyStaff.staffProof.ik}" 
                       ikList="#{editPsyStaff.iks}"
                       listener="#{editPsyStaff.ikChanged}" 
@@ -40,7 +39,6 @@
                 <f:selectItems value="#{sessionTools.calenderYearItems}" />
             </h:selectOneMenu>
         </div>
-    </ui:define>
     
 </ui:composition>
 

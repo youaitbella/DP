@@ -40,6 +40,8 @@ import org.inek.dataportal.feature.admin.facade.InekRoleFacade;
 import org.inek.dataportal.feature.psychstaff.entity.OccupationalCatagory;
 import org.inek.dataportal.feature.psychstaff.entity.PersonnelGroup;
 import org.inek.dataportal.feature.psychstaff.entity.StaffProof;
+import org.inek.dataportal.feature.psychstaff.entity.StaffProofAgreed;
+import org.inek.dataportal.feature.psychstaff.enums.PsychType;
 import org.inek.dataportal.feature.psychstaff.facade.PsychStaffFacade;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.structures.MessageContainer;
@@ -81,7 +83,12 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         addTopic("topicAppendix2Adults", Pages.PsychStaffAppendix2Adults.URL());
         addTopic("topicAppendix2Kids", Pages.PsychStaffAppendix2Kids.URL());
     }
-
+    
+    @Override
+    protected String getOutcome() {
+        return "";
+    }
+    
     @PostConstruct
     private void init() {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
@@ -127,6 +134,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         if (iks.size() == 1) {
             staffProof.setIk((int) iks.get(0).getValue());
         }
+        buildAdultAttachment1Matrix(staffProof);
         return staffProof;
     }
     
@@ -140,6 +148,17 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     
     public List<OccupationalCatagory> getOccupationalCategories() {
         return _psychStaffFacade.getOccupationalCategories();
+    }
+    
+    private void buildAdultAttachment1Matrix(StaffProof staffProof) {
+        for(OccupationalCatagory cat : getOccupationalCategories()) {
+            StaffProofAgreed agreed = new StaffProofAgreed();
+            agreed.setStaffProofMasterId(staffProof.getId());
+            agreed.setPsychType(PsychType.Adults);
+            agreed.setOccupationalCatagory(cat);
+            staffProof.getStaffProofsAgreed().add(agreed);
+        }
+        _psychStaffFacade.saveStaffProof(staffProof);
     }
 
     // <editor-fold defaultstate="collapsed" desc="actions">

@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 import javax.enterprise.context.RequestScoped;
-import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -26,6 +25,7 @@ import javax.inject.Named;
  */
 @Named
 @RequestScoped
+@SuppressWarnings("JavaNCSS")
 public class Entities implements Serializable {
 
     @Inject private ApplicationData _appData;
@@ -345,7 +345,8 @@ public class Entities implements Serializable {
     public List<PrimaryDiagsProcs> getPrimaryDiagsProcsInpatientPdChapter(int dataYear) {
         if(_primaryDiagsProcsInpatientPdChapter == null || (dataYear != 0 && _dataYear != dataYear)) {
             _dataYear = dataYear;
-            _primaryDiagsProcsInpatientPdChapter = getPrimaryDiagsProcs(dataYear).stream().filter(c -> (c.getType() == 1 && c.getType2() == 1)).collect(Collectors.toList());
+            _primaryDiagsProcsInpatientPdChapter = getPrimaryDiagsProcs(dataYear)
+                    .stream().filter(c -> (c.getType() == 1 && c.getType2() == 1)).collect(Collectors.toList());
         }
         return _primaryDiagsProcsInpatientPdChapter;
     }
@@ -353,7 +354,8 @@ public class Entities implements Serializable {
     public List<PrimaryDiagsProcs> getPrimaryDiagsProcsInpatientPdGroup(int dataYear) {
         if(_primaryDiagsProcsInpatientPdGroup == null || (dataYear != 0 && _dataYear != dataYear)) {
             _dataYear = dataYear;
-            _primaryDiagsProcsInpatientPdGroup = getPrimaryDiagsProcs(dataYear).stream().filter(c -> (c.getType() == 2 && c.getType2() == 1)).collect(Collectors.toList());
+            _primaryDiagsProcsInpatientPdGroup = getPrimaryDiagsProcs(dataYear)
+                    .stream().filter(c -> (c.getType() == 2 && c.getType2() == 1)).collect(Collectors.toList());
         }
         return _primaryDiagsProcsInpatientPdGroup;
     }
@@ -361,7 +363,8 @@ public class Entities implements Serializable {
     public List<PrimaryDiagsProcs> getPrimaryDiagsProcsInpatientPdCat(int dataYear) {
         if(_primaryDiagsProcsInpatientPdCat == null || (dataYear != 0 && _dataYear != dataYear)) {
             _dataYear = dataYear;
-            _primaryDiagsProcsInpatientPdCat = getPrimaryDiagsProcs(dataYear).stream().filter(c -> (c.getType() == 3 && c.getType2() == 1)).collect(Collectors.toList());
+            _primaryDiagsProcsInpatientPdCat = getPrimaryDiagsProcs(dataYear)
+                    .stream().filter(c -> (c.getType() == 3 && c.getType2() == 1)).collect(Collectors.toList());
         }
         return _primaryDiagsProcsInpatientPdCat;
     }
@@ -369,7 +372,8 @@ public class Entities implements Serializable {
     public List<PrimaryDiagsProcs> getPrimaryDiagsProcsInpatientProcChapter(int dataYear) {
         if(_primaryDiagsProcsInpatientProcChapter == null || (dataYear != 0 && _dataYear != dataYear)) {
             _dataYear = dataYear;
-            _primaryDiagsProcsInpatientProcChapter = getPrimaryDiagsProcs(dataYear).stream().filter(c -> (c.getType() == 1 && c.getType2() == 2)).collect(Collectors.toList());
+            _primaryDiagsProcsInpatientProcChapter = getPrimaryDiagsProcs(dataYear)
+                    .stream().filter(c -> (c.getType() == 1 && c.getType2() == 2)).collect(Collectors.toList());
         }
         return _primaryDiagsProcsInpatientProcChapter;
     }
@@ -393,14 +397,16 @@ public class Entities implements Serializable {
     public List<PrimaryDiagsProcs> getPrimaryDiagsProcsInpatientProcArea(int dataYear) {
         if(_primaryDiagsProcsInpatientProcArea == null || (dataYear != 0 && _dataYear != dataYear)) {
             _dataYear = dataYear;
-            _primaryDiagsProcsInpatientProcArea = getPrimaryDiagsProcs(dataYear).stream().filter(c -> (c.getType() == 2 && c.getType2() == 2)).collect(Collectors.toList());
+            _primaryDiagsProcsInpatientProcArea = getPrimaryDiagsProcs(dataYear)
+                    .stream().filter(c -> (c.getType() == 2 && c.getType2() == 2)).collect(Collectors.toList());
         }
         return _primaryDiagsProcsInpatientProcArea;
     }
     
     public List<PrimaryDiagsProcs> getPrimaryDiagsProcsInpatientProcCode(int dataYear) {
         if(_primaryDiagsProcsInpatientProcCode == null || (dataYear != 0 && _dataYear != dataYear)) {
-            _primaryDiagsProcsInpatientProcCode = getPrimaryDiagsProcs(dataYear).stream().filter(c -> (c.getType() == 3 && c.getType2() == 2)).collect(Collectors.toList());
+            _primaryDiagsProcsInpatientProcCode = getPrimaryDiagsProcs(dataYear)
+                    .stream().filter(c -> (c.getType() == 3 && c.getType2() == 2)).collect(Collectors.toList());
         }
         return _primaryDiagsProcsInpatientProcCode;
     }
@@ -408,7 +414,8 @@ public class Entities implements Serializable {
     public List<PrimaryDiagsProcs> getPrimaryDiagsProcsSlipMcPdChapter(int dataYear) {
         if(_primaryDiagsProcsSlipMcPdChapter == null || (dataYear != 0 && _dataYear != dataYear)) {
             _dataYear = dataYear;
-            _primaryDiagsProcsSlipMcPdChapter = getPrimaryDiagsProcs(dataYear).stream().filter(c -> (c.getType() == 1 && c.getType2() == 3)).collect(Collectors.toList());
+            _primaryDiagsProcsSlipMcPdChapter = getPrimaryDiagsProcs(dataYear)
+                    .stream().filter(c -> (c.getType() == 1 && c.getType2() == 3)).collect(Collectors.toList());
         }
         return _primaryDiagsProcsSlipMcPdChapter;
     }
@@ -416,7 +423,8 @@ public class Entities implements Serializable {
     public List<PrimaryDiagsProcs> getPrimaryDiagsProcsSlipMcPdGroup(int dataYear) {
         if(_primaryDiagsProcsSlipMcPdGroup == null || (dataYear != 0 && _dataYear != dataYear)) {
             _dataYear = dataYear;
-            _primaryDiagsProcsSlipMcPdGroup = getPrimaryDiagsProcs(dataYear).stream().filter(c -> (c.getType() == 2 && c.getType2() == 3)).collect(Collectors.toList());
+            _primaryDiagsProcsSlipMcPdGroup = getPrimaryDiagsProcs(dataYear)
+                    .stream().filter(c -> (c.getType() == 2 && c.getType2() == 3)).collect(Collectors.toList());
         }
         return _primaryDiagsProcsSlipMcPdGroup;
     }
@@ -424,7 +432,8 @@ public class Entities implements Serializable {
     public List<PrimaryDiagsProcs> getPrimaryDiagsProcsSlipMcPdCat(int dataYear) {
         if(_primaryDiagsProcsSlipMcPdCat == null || (dataYear != 0 && _dataYear != dataYear)) {
             _dataYear = dataYear;
-            _primaryDiagsProcsSlipMcPdCat = getPrimaryDiagsProcs(dataYear).stream().filter(c -> (c.getType() == 3 && c.getType2() == 3)).collect(Collectors.toList());
+            _primaryDiagsProcsSlipMcPdCat = getPrimaryDiagsProcs(dataYear)
+                    .stream().filter(c -> (c.getType() == 3 && c.getType2() == 3)).collect(Collectors.toList());
         }
         return _primaryDiagsProcsSlipMcPdCat;
     }
@@ -432,7 +441,8 @@ public class Entities implements Serializable {
     public List<PrimaryDiagsProcs> getPrimaryDiagsProcsSlipMcProcChapter(int dataYear) {
         if(_primaryDiagsProcsSlipMcProcChapter == null || (dataYear != 0 && _dataYear != dataYear)) {
             _dataYear = dataYear;
-            _primaryDiagsProcsSlipMcProcChapter = getPrimaryDiagsProcs(dataYear).stream().filter(c -> (c.getType() == 1 && c.getType2() == 4)).collect(Collectors.toList());
+            _primaryDiagsProcsSlipMcProcChapter = getPrimaryDiagsProcs(dataYear)
+                    .stream().filter(c -> (c.getType() == 1 && c.getType2() == 4)).collect(Collectors.toList());
         }
         return _primaryDiagsProcsSlipMcProcChapter;
     }
@@ -440,7 +450,8 @@ public class Entities implements Serializable {
     public List<PrimaryDiagsProcs> getPrimaryDiagsProcsSlipMcProcArea(int dataYear) {
         if(_primaryDiagsProcsSlipMcProcArea == null || (dataYear != 0 && _dataYear != dataYear)) {
             _dataYear = dataYear;
-            _primaryDiagsProcsSlipMcProcArea = getPrimaryDiagsProcs(dataYear).stream().filter(c -> (c.getType() == 2 && c.getType2() == 4)).collect(Collectors.toList());
+            _primaryDiagsProcsSlipMcProcArea = getPrimaryDiagsProcs(dataYear)
+                    .stream().filter(c -> (c.getType() == 2 && c.getType2() == 4)).collect(Collectors.toList());
         }
         return _primaryDiagsProcsSlipMcProcArea;
     }
@@ -448,7 +459,8 @@ public class Entities implements Serializable {
     public List<PrimaryDiagsProcs> getPrimaryDiagsProcsSlipMcProcCode(int dataYear) {
         if(_primaryDiagsProcsSlipMcProcCode == null || (dataYear != 0 && _dataYear != dataYear)) {
             _dataYear = dataYear;
-            _primaryDiagsProcsSlipMcProcCode = getPrimaryDiagsProcs(dataYear).stream().filter(c -> (c.getType() == 3 && c.getType2() == 4)).collect(Collectors.toList());
+            _primaryDiagsProcsSlipMcProcCode = getPrimaryDiagsProcs(dataYear)
+                    .stream().filter(c -> (c.getType() == 3 && c.getType2() == 4)).collect(Collectors.toList());
         }
         return _primaryDiagsProcsSlipMcProcCode;
     }
@@ -702,7 +714,8 @@ public class Entities implements Serializable {
         List<C_111_211> list = new ArrayList<>();
         for (String[] x : data) {
             C_111_211 y = new C_111_211(Integer.parseInt(x[0]), x[1], x[2], Integer.parseInt(x[3]),
-                    Integer.parseInt(x[4]), Integer.parseInt(x[5]), Integer.parseInt(x[6]), Double.parseDouble(x[7].replaceAll(",", ".")), Double.parseDouble(x[8].replaceAll(",", ".")),
+                    Integer.parseInt(x[4]), Integer.parseInt(x[5]), Integer.parseInt(x[6]),
+                    Double.parseDouble(x[7].replaceAll(",", ".")), Double.parseDouble(x[8].replaceAll(",", ".")),
                     Double.parseDouble(x[9].replaceAll(",", ".")));
             list.add(y);
         }
@@ -713,7 +726,8 @@ public class Entities implements Serializable {
         List<C_112_212> list = new ArrayList<>();
         for (String[] x : data) {
             C_112_212 y = new C_112_212(Integer.parseInt(x[0]), x[1], Integer.parseInt(x[2]), Integer.parseInt(x[3]),
-                    Integer.parseInt(x[4]), Integer.parseInt(x[5]), Double.parseDouble(x[6].replaceAll(",", ".")), Double.parseDouble(x[7].replaceAll(",", ".")),
+                    Integer.parseInt(x[4]), Integer.parseInt(x[5]),
+                    Double.parseDouble(x[6].replaceAll(",", ".")), Double.parseDouble(x[7].replaceAll(",", ".")),
                     Double.parseDouble(x[8].replaceAll(",", ".")), x[9]);
             list.add(y);
         }
@@ -724,7 +738,8 @@ public class Entities implements Serializable {
         List<C_113_213> list = new ArrayList<>();
         for (String[] x : data) {
             C_113_213 y = new C_113_213(Integer.parseInt(x[0]), x[1], x[2], Integer.parseInt(x[3]), Double.parseDouble(x[4].replaceAll(",", ".")),
-                    Double.parseDouble(x[5].replaceAll(",", ".")), Integer.parseInt(x[6]), Double.parseDouble(x[7].replaceAll(",", ".")), Integer.parseInt(x[8]),
+                    Double.parseDouble(x[5].replaceAll(",", ".")),
+                    Integer.parseInt(x[6]), Double.parseDouble(x[7].replaceAll(",", ".")), Integer.parseInt(x[8]),
                     Double.parseDouble(x[9].replaceAll(",", ".")));
             list.add(y);
         }
@@ -735,7 +750,8 @@ public class Entities implements Serializable {
         List<C_113_213> list = new ArrayList<>();
         for (String[] x : data) {
             C_113_213 y = new C_113_213(1, "", "", Integer.parseInt(x[0]), Double.parseDouble(x[1].replaceAll(",", ".")),
-                    Double.parseDouble(x[2].replaceAll(",", ".")), Integer.parseInt(x[3]), Double.parseDouble(x[4].replaceAll(",", ".")), Integer.parseInt(x[5]),
+                    Double.parseDouble(x[2].replaceAll(",", ".")), Integer.parseInt(x[3]),
+                    Double.parseDouble(x[4].replaceAll(",", ".")), Integer.parseInt(x[5]),
                     Double.parseDouble(x[6].replaceAll(",", ".")));
             list.add(y);
         }
@@ -745,8 +761,10 @@ public class Entities implements Serializable {
     private List<C_121_221_State_Size> mapC_121_221_State_Size(List<String[]> data) {
         List<C_121_221_State_Size> list = new ArrayList<>();
         for (String[] x : data) {
-            C_121_221_State_Size y = new C_121_221_State_Size(Integer.parseInt(x[0]), x[1], x[2], Integer.parseInt(x[3]), Double.parseDouble(x[4].replaceAll(",", ".")),
-                    Double.parseDouble(x[5].replaceAll(",", ".")), Double.parseDouble(x[6].replaceAll(",", ".")), Double.parseDouble(x[7].replaceAll(",", ".")), x[8], x[9]);
+            C_121_221_State_Size y = new C_121_221_State_Size(Integer.parseInt(x[0]),
+                    x[1], x[2], Integer.parseInt(x[3]), Double.parseDouble(x[4].replaceAll(",", ".")),
+                    Double.parseDouble(x[5].replaceAll(",", ".")),
+                    Double.parseDouble(x[6].replaceAll(",", ".")), Double.parseDouble(x[7].replaceAll(",", ".")), x[8], x[9]);
             list.add(y);
         }
         return list;
@@ -755,8 +773,10 @@ public class Entities implements Serializable {
     private List<C_121_221_State_Size> mapC_121_221_sum(List<String[]> data) {
         List<C_121_221_State_Size> list = new ArrayList<>();
         for (String[] x : data) {
-            C_121_221_State_Size y = new C_121_221_State_Size(Integer.parseInt(x[0]), x[1], "", Integer.parseInt(x[2]), Double.parseDouble(x[3].replaceAll(",", ".")),
-                    Double.parseDouble(x[4].replaceAll(",", ".")), Double.parseDouble(x[5].replaceAll(",", ".")), Double.parseDouble(x[6].replaceAll(",", ".")), x[7], "");
+            C_121_221_State_Size y = new C_121_221_State_Size(Integer.parseInt(x[0]), x[1], "",
+                    Integer.parseInt(x[2]), Double.parseDouble(x[3].replaceAll(",", ".")),
+                    Double.parseDouble(x[4].replaceAll(",", ".")),
+                    Double.parseDouble(x[5].replaceAll(",", ".")), Double.parseDouble(x[6].replaceAll(",", ".")), x[7], "");
             list.add(y);
         }
         return list;
@@ -774,8 +794,10 @@ public class Entities implements Serializable {
     private List<NumOperations> mapNumOperations(List<String[]> data) {
         List<NumOperations> list = new ArrayList<>();
         for (String[] x : data) {
-            NumOperations y = new NumOperations(Integer.parseInt(x[0]), x[1], x[2], Integer.parseInt(x[3]), Integer.parseInt(x[4]), Double.parseDouble(x[5].replaceAll(",", ".")),
-                    Double.parseDouble(x[6].replaceAll(",", ".")), Double.parseDouble(x[7].replaceAll(",", ".")), Double.parseDouble(x[8].replaceAll(",", ".")),
+            NumOperations y = new NumOperations(Integer.parseInt(x[0]), x[1], x[2], Integer.parseInt(x[3]), Integer.parseInt(x[4]),
+                    Double.parseDouble(x[5].replaceAll(",", ".")),
+                    Double.parseDouble(x[6].replaceAll(",", ".")), Double.parseDouble(x[7].replaceAll(",", ".")),
+                    Double.parseDouble(x[8].replaceAll(",", ".")),
                     Double.parseDouble(x[9].replaceAll(",", ".")), Double.parseDouble(x[10].replaceAll(",", ".")));
             list.add(y);
         }
@@ -837,7 +859,8 @@ public class Entities implements Serializable {
     private List<UnspecificCoding> mapUnspecificCoding(List<String[]> data) {
         List<UnspecificCoding> list = new ArrayList<>();
         for(String[] x : data) {
-            UnspecificCoding y = new UnspecificCoding(x[0], Integer.parseInt(x[1]), Integer.parseInt(x[2]), Double.parseDouble(x[3].replaceAll(",", ".")),
+            UnspecificCoding y = new UnspecificCoding(x[0], Integer.parseInt(x[1]), Integer.parseInt(x[2]),
+                    Double.parseDouble(x[3].replaceAll(",", ".")),
                     Integer.parseInt(x[4]), Integer.parseInt(x[5]), Double.parseDouble(x[6].replaceAll(",", ".")));
             list.add(y);
         }
@@ -865,7 +888,8 @@ public class Entities implements Serializable {
     private List<SystemRated> mapSystemRated(List<String[]> data) {
         List<SystemRated> list = new ArrayList<>();
         for(String[] x : data) {
-            SystemRated y = new SystemRated(Integer.parseInt(x[0]), x[1], x[2], Double.parseDouble(x[3].replaceAll(",", ".")), Integer.parseInt(x[4]), Double.parseDouble(x[5].replaceAll(",", ".")));
+            SystemRated y = new SystemRated(Integer.parseInt(x[0]), x[1], x[2], Double.parseDouble(x[3].replaceAll(",", ".")), Integer.parseInt(x[4]),
+                    Double.parseDouble(x[5].replaceAll(",", ".")));
             list.add(y);
         }
         return list;
@@ -884,7 +908,8 @@ public class Entities implements Serializable {
         List<C_111_211> list = new ArrayList<>();
         for(String[] x : data) {
             C_111_211 y = new C_111_211(1, "", "", Integer.parseInt(x[0]), Integer.parseInt(x[1]), Integer.parseInt(x[2]), Integer.parseInt(x[3]),
-                    Double.parseDouble(x[4].replaceAll(",", ".")), Double.parseDouble(x[5].replaceAll(",", ".")), Double.parseDouble(x[6].replaceAll(",", ".")));
+                    Double.parseDouble(x[4].replaceAll(",", ".")), Double.parseDouble(x[5].replaceAll(",", ".")),
+                    Double.parseDouble(x[6].replaceAll(",", ".")));
             list.add(y);
         }
         return list;
@@ -893,7 +918,8 @@ public class Entities implements Serializable {
     private List<C_112_212> map_C_112_212_sum(List<String[]> data) {
         List<C_112_212> list = new ArrayList<>();
         for(String[] x : data) {
-            C_112_212 y = new C_112_212(1, "", Integer.parseInt(x[0]), Integer.parseInt(x[1]), Integer.parseInt(x[2]), Integer.parseInt(x[3]), Double.parseDouble(x[4].replaceAll(",", ".")),
+            C_112_212 y = new C_112_212(1, "", Integer.parseInt(x[0]), Integer.parseInt(x[1]), Integer.parseInt(x[2]), Integer.parseInt(x[3]),
+                    Double.parseDouble(x[4].replaceAll(",", ".")),
                     Double.parseDouble(x[5].replaceAll(",", ".")), Double.parseDouble(x[6].replaceAll(",", ".")),"");
             list.add(y);
         }

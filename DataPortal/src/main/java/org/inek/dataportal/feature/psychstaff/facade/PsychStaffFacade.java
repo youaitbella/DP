@@ -12,6 +12,7 @@ import org.inek.dataportal.facades.AbstractDataAccess;
 import org.inek.dataportal.feature.psychstaff.entity.OccupationalCatagory;
 import org.inek.dataportal.feature.psychstaff.entity.PersonnelGroup;
 import org.inek.dataportal.feature.psychstaff.entity.StaffProof;
+import org.inek.dataportal.feature.psychstaff.entity.StaffProofAgreed;
 
 /**
  *
@@ -46,9 +47,13 @@ public class PsychStaffFacade extends AbstractDataAccess {
             persist(staffProof);
             return staffProof;
         }
-        
-        // todo: persist included lists
+        for(StaffProofAgreed proof : staffProof.getStaffProofsAgreed()) {
+            proof.setStaffProofMasterId(staffProof.getId());
+            merge(proof);
+        }
         return merge(staffProof);
     }
+    
+    
     
 }

@@ -17,6 +17,7 @@ public class MenuModel implements Serializable{
     private final MenuTreeNode _menuRoot;
     private final int _dataYear;
     
+    @SuppressWarnings("JavaNCSS")
     public MenuModel(int year) {
         _dataYear = year;
         _menuRoot = MenuTreeNode.createRoot("Datenjahr " + _dataYear, "");
@@ -46,7 +47,8 @@ public class MenuModel implements Serializable{
         node4.addChild("Bereich", baseUrl+"/views/PrimaryDiagsProcsInpatientProcArea.xhtml?dataYear="+_dataYear);
         node4.addChild("4-Steller", baseUrl+"/views/PrimaryDiagsProcsInpatientProcCode.xhtml?dataYear="+_dataYear);
         node3 = node2.addChild("Versorgung im Krankenhaus", "");
-        node3.addChild("Fallzahl, VWD, CMI nach Größe (Betten) / Bundesland", baseUrl+"/views/InfoByHospitalSize.xhtml?dataYear="+_dataYear + "&type=1");
+        node3.addChild("Fallzahl, VWD, CMI nach Größe (Betten) / Bundesland",
+                baseUrl+"/views/InfoByHospitalSize.xhtml?dataYear="+_dataYear + "&type=1");
         node3.addChild("Aufnahmeanlass und Entlassungs-/ Verlegungsgrund", baseUrl+"/views/CasesPrimaryDepartment.xhtml?dataYear="+_dataYear);
         node3.addChild("Häufigkeit von Operationen", baseUrl+"/views/NumOperationsPrimary.xhtml?dataYear="+_dataYear);
         
@@ -67,7 +69,8 @@ public class MenuModel implements Serializable{
         node4.addChild("4-Steller", baseUrl+"/views/PrimaryDiagsProcsSlipMcProcCode.xhtml?dataYear="+_dataYear);
         
         node3 = node2.addChild("Versorgung im Krankenhaus", "");
-        node3.addChild("Fallzahl, VWD, CMI nach Größe (Betten) / Bundesland", baseUrl+"/views/InfoByHospitalSize.xhtml?dataYear="+_dataYear + "&type=2");
+        node3.addChild("Fallzahl, VWD, CMI nach Größe (Betten) / Bundesland",
+                baseUrl+"/views/InfoByHospitalSize.xhtml?dataYear="+_dataYear + "&type=2");
         node3.addChild("Aufnahmeanlass und Entlassungs-/ Verlegungsgrund", baseUrl+"/views/CasesSlipMc.xhtml?dataYear="+_dataYear);
         node3.addChild("Häufigkeit von Operationen", baseUrl+"/views/NumOperationsSlipMc.xhtml?dataYear="+_dataYear);
         

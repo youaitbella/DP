@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneOffset;
 import java.util.Date;
+import java.util.List;
+import java.util.Vector;
 import javax.persistence.*;
 import org.inek.dataportal.entities.iface.StatusEntity;
 import org.inek.dataportal.enums.WorkflowStatus;
@@ -261,6 +263,18 @@ public class StaffProof implements Serializable, StatusEntity {
         _kidsEffectiveCosts = kidsEffectiveCosts;
     }
     // </editor-fold>
+    
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "spaStaffProofMasterId", referencedColumnName = "spmId")
+    private List<StaffProofAgreed> _staffProofAgreed = new Vector<>();
+
+    public List<StaffProofAgreed> getStaffProofsAgreed() {
+        return _staffProofAgreed;
+    }
+
+    public void setStaffProofsAgreed(List<StaffProofAgreed> staffProofsAgreed) {
+        _staffProofAgreed = staffProofsAgreed;
+    }
 
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override

@@ -15,14 +15,13 @@
         <h:form>
             <h1>#{msg.namePSYCH_STAFF}</h1>
 
-            <h:commandLink styleClass="bigButton #{psychStafftList.newAllowed? '' : 'buttonDisabled'}"
-                           action="#{psychStafftList.edit()}"
-                           immediate="true"
-                           value="#{msg.btnNewSpecificFunctionRequest}"
-                           disabled="#{!psychStafftList.newAllowed}"
+            <h:link styleClass="bigButton #{psychStafftList.newAllowed? '' : 'buttonDisabled'}"
+                    outcome="#{sessionTools.pages.PsychStaffEdit}"
+                    value="#{msg.btnNewSpecificFunctionRequest}"
+                    disabled="#{!psychStafftList.newAllowed}"
                            >
                 <f:param name="id" value="new"/>
-            </h:commandLink>
+            </h:link>
         </h:form>
     </ui:define>
 

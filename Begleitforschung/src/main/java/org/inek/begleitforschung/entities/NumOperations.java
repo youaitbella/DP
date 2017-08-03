@@ -26,7 +26,9 @@ public class NumOperations {
     public NumOperations() {
     }
     
-    public NumOperations(int type, String code, String codeName, int cases, int hospitals, double casesHospital, double percentage10, double percentage20, double percentage30, double percentage40, double percentage50) {
+    @SuppressWarnings("ParameterNumber")
+    public NumOperations(int type, String code, String codeName, int cases, int hospitals, double casesHospital, double percentage10,
+            double percentage20, double percentage30, double percentage40, double percentage50) {
         this._type = type;
         this._code = code;
         this._codeName = codeName;

@@ -24,8 +24,10 @@ public class C_111_211 {
 
     public C_111_211() {
     }
-    
-    public C_111_211(int type, String mdc, String name, int sumA, int sumAw, int sumAm, int sumAu, double fractionW, double fractionM, double fractionU) {
+
+    @SuppressWarnings("ParameterNumber")
+    public C_111_211(int type, String mdc, String name, int sumA, int sumAw, int sumAm,
+            int sumAu, double fractionW, double fractionM, double fractionU) {
         this._type = type;
         this._mdc = mdc;
         this._name = name;

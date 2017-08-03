@@ -25,7 +25,9 @@ public class C_121_221_State_Size {
     public C_121_221_State_Size() {
     }
     
-    public C_121_221_State_Size(int _type, String _state, String _level, int _numHospital, double _avgCases, double _avgLos, double _cmi, double amtStf, String _stateCode, String _bedSort) {
+    @SuppressWarnings("ParameterNumber")
+    public C_121_221_State_Size(int _type, String _state, String _level, int _numHospital,
+            double _avgCases, double _avgLos, double _cmi, double amtStf, String _stateCode, String _bedSort) {
         this._type = _type;
         this._state = _state.substring(3);
         this._level = _level;

@@ -61,7 +61,8 @@ public class PrimaryDiagsProcs {
 
     public PrimaryDiagsProcs() {
     }
-
+    
+    @SuppressWarnings("ParameterNumber")
     public PrimaryDiagsProcs(int type, int type2, String area, String areaName, int num, double losAvg,
             double losStd, int below1, int below5, int below10, int below15, int below20, int below25,
             int below30, int below35, int below40, int below45, int below50, int below55, int below60,

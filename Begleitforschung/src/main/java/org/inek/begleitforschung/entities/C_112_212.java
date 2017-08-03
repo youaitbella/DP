@@ -25,7 +25,9 @@ public class C_112_212 {
     public C_112_212() {
     }
 
-    public C_112_212(int type, String level, int sumA, int sumAw, int sumAm, int sumAu, double fractionW, double fractionM, double fractionU, String sLevel) {
+    @SuppressWarnings("ParameterNumber")
+    public C_112_212(int type, String level, int sumA, int sumAw, int sumAm, int sumAu,
+            double fractionW, double fractionM, double fractionU, String sLevel) {
         this._type = type;
         this._level = level;
         this._sumA = sumA;

@@ -119,9 +119,13 @@ public abstract class AbstractEditController implements SearchConsumer, Serializ
 
     public String changeTabPage(String newTopic) {
         changeTab(newTopic);
-        return _topics.getActiveTopic().getOutcome();
+        return getOutcome();
     }
 
+    protected String getOutcome() {
+        return _topics.getActiveTopic().getOutcome();
+    }
+    
     @Override
     public void addDiagnosis(String code) {
     }

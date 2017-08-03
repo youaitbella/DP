@@ -31,8 +31,8 @@
 
             <div class="edit">
                 
-                <ui:insert name="editContent">Content</ui:insert>
-
+                <ui:include src="#{editPsyStaff.activeTopic.outcome}" />
+                
                 <div class="toolBar">
                     <h:commandLink styleClass="bigButton"
                                    action="#{editPsyStaff.save}"
