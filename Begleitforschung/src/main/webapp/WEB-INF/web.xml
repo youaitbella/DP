@@ -27,7 +27,7 @@
         <url-pattern>*.xhtml</url-pattern>
     </servlet-mapping>
     <session-config>
-        <session-timeout>31</session-timeout>
+        <session-timeout>5</session-timeout>
         <tracking-mode>COOKIE</tracking-mode>
     </session-config>
     <welcome-file-list>

@@ -2,10 +2,12 @@ package org.inek.begleitforschung.controller;
 
 import java.io.IOException;
 import java.io.Serializable;
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -16,6 +18,13 @@ import javax.servlet.http.HttpServletRequest;
 public class Agreement implements Serializable {
 
     private boolean _agreementAccepted = false;
+    
+    @PostConstruct
+    private void postConstruct() {
+        FacesContext fCtx = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) fCtx.getExternalContext().getSession(false);
+        session.invalidate();
+    }
 
     public void acceptedAgreement() {
         _agreementAccepted = true;
