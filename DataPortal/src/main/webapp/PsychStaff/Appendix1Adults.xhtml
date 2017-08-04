@@ -10,43 +10,28 @@
     
         <h2>Vereinbarte Stellenbesetzung in Vollkräften - Bereich Erwachsene</h2>
         <span>(§ 3 Psych-Personalnachweis)</span>
-
-        <table>
-            <tr>
-                <th>
-                    Personalgruppen
-                </th>
-                <th>
-                    Berufsgruppen der Psych-PV
-                </th>
-                <th>
-                    Stellenbesetzung für eine vollständige Umsetzung der Psych-PV in VK
-                </th>
-                <th>
-                    Stellenbesetzung als Budgetgrundlage in VK
-                </th>
-                <th>
-                    Durchschnittskosten je VK in Euro
-                </th>
-            </tr>
-            <ui:repeat value="#{editPsyStaff.staffProof.staffProofsAgreed}" var="item">
-                <tr>
-                    <td>
-                        #{item.occupationalCatagory.personnelGroup.name}
-                    </td>
-                    <td>
-                        #{item.occupationalCatagory.name}
-                    </td>
-                    <td>
-                    </td>
-                    <td>
-                        
-                    </td>
-                    <td>
-                        
-                    </td>
-                </tr>
-            </ui:repeat>
-        </table>
+        
+        <h:dataTable value="#{editPsyStaff.staffProof.staffProofsAgreed}" var="item">
+            <h:column>
+                <f:facet name="Personalgruppen" />
+                #{item.occupationalCatagory.personnelGroup.name}
+            </h:column>
+            <h:column>
+                <f:facet name="Berufsgruppen der Psych-PV" />
+                #{item.occupationalCatagory.name}
+            </h:column>
+            <h:column>
+                <f:facet name="Stellenbesetzung für eine vollständige Umsetzung der Psych-PV in VK" />
+                <h:inputText value="#{item.staffingComplete}"></h:inputText>
+            </h:column>
+            <h:column>
+                <f:facet name="Stellenbesetzung als Budgetgrundlage in VK" />
+                <h:inputText value="#{item.staffingBudget}"></h:inputText>
+            </h:column>
+            <h:column>
+                <f:facet name="Durchschnittskosten je VK in Euro" />
+                <h:inputText value="#{item.avgCost}"></h:inputText>
+            </h:column>
+        </h:dataTable>
 </ui:composition>
 
