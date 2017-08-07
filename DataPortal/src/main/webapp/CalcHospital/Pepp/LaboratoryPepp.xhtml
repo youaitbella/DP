@@ -6,7 +6,7 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
-                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components"
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common"
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
 
     <h:dataTable value="#{editCalcBasicsPepp.getRadiologyLaboritories(10)}" var="item"
@@ -64,7 +64,7 @@
         </h:dataTable>
 
         <h:panelGroup rendered="#{!editCalcBasicsPepp.readOnly}" class="inputPart">
-            <inek:UploadButtons2 importer="#{editCalcBasicsPepp.getImporter('pepplaboratory')}"
+            <inek:UploadButtons importer="#{editCalcBasicsPepp.getImporter('pepplaboratory')}"
                          calcbase="#{editCalcBasicsPepp.calcBasics}" 
                         readOnly="#{editCalcBasicsPepp.readOnly}"
                         addListener="#{editCalcBasicsPepp.addRadiologyLaboratoy(10)}"

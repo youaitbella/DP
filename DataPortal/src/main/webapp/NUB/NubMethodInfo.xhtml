@@ -6,7 +6,8 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
-                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components">
+                xmlns:nub="http://xmlns.jcp.org/jsf/composite/components/feature/nub"
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common">
 
 
     <ui:define name="content">
@@ -110,8 +111,8 @@
             </div>
             <hr class="simpleLine"/>
 
-            <inek:NubMethodInfoNavigation/>
-            <inek:NubMethodInfo methodInfos="#{nubMethodInfoController.nubMethodInfosHead}" id="head"/>
+            <nub:NubMethodInfoNavigation/>
+            <nub:NubMethodInfo methodInfos="#{nubMethodInfoController.nubMethodInfosHead}" id="head"/>
 
             <h:panelGroup id="description" rendered="#{nubMethodInfoController.split gt 0}">
                 <h:outputLabel value="Beschreibung" styleClass="label paddingElement"/>
@@ -121,9 +122,9 @@
                 <hr class="simpleLine"/>
             </h:panelGroup>
 
-            <inek:NubMethodInfo methodInfos="#{nubMethodInfoController.nubMethodInfosTail}" 
+            <nub:NubMethodInfo methodInfos="#{nubMethodInfoController.nubMethodInfosTail}" 
                                 rendered="#{nubMethodInfoController.nubMethodInfosTail.size() > 0}"/>
-            <inek:NubMethodInfoNavigation/>
+            <nub:NubMethodInfoNavigation/>
 
 
         </h:form>

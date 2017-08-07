@@ -4,8 +4,8 @@
                 template="/Templates/PortalMenuTemplate.xhtml"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:ez="http://xmlns.jcp.org/jsf/composite/components"
-                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components"
+                xmlns:model="http://xmlns.jcp.org/jsf/composite/components/feature/psymodel"
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common"
                 xmlns:c="http://java.sun.com/jsp/jstl/core">
 
     <ui:define name="title">
@@ -33,7 +33,7 @@
                     <h:commandLink styleClass="third" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.company}" immediate="true"/>
                     <h:commandLink styleClass="third" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.town}" immediate="true"/>
                 </div>
-                <inek:ModelIntentionList list="#{modelIntentionList.getModelIntentions4Account(partner.id)}"/>
+                <model:ModelIntentionList list="#{modelIntentionList.getModelIntentions4Account(partner.id)}"/>
             </c:forEach>
 
 

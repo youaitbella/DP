@@ -4,23 +4,20 @@
       xmlns:cc="http://xmlns.jcp.org/jsf/composite"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:cb="http://inek.org/dataportal/clientbehaviour"
-      xmlns:inek="http://xmlns.jcp.org/jsf/composite/components"
+      xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:jsf="http://xmlns.jcp.org/jsf">
 
     <!-- INTERFACE -->
     <cc:interface>
+        <cc:attribute name="importer" type="org.inek.dataportal.feature.calculationhospital.DataImporter"/>
+        <cc:attribute name="calcbase" /> <!-- type="org.inek.dataportal.entities.calc.psy.PeppCalcBasics" -->
         <cc:attribute name="readOnly" default="false"/>
-        <cc:attribute name="addListener" method-signature="void listener()"/>
-        <cc:attribute name="uploadListener" method-signature="void listener()"/>
+        <cc:attribute name="showAdd" default="true"/>
+        <cc:attribute name="addListener" method-signature="void listener()"/>        
         <cc:attribute name="uploadButtonText"/>
         <cc:attribute name="uploadButtonWidth" default = "185px"/>
-        <cc:attribute name="file"/>
-        <cc:attribute name="actionTemplate" method-signature="void listener()"/>
         <cc:attribute name="actionDeleteTable" method-signature="void listener()"/>
-        <cc:attribute name="importMessage"/>
-        <cc:attribute name="showJournal"/>
-        <cc:attribute name="toggleJournal" method-signature="void listener()"/>
     </cc:interface>
 
     <!-- IMPLEMENTATION -->
@@ -29,36 +26,37 @@
                       class="inputPart inlineBlock">
             <h:commandLink id="addButton" 
                            styleClass="addButton button" 
-                           value="#{msg.btnAddEntry}">
+                           value="#{msg.btnAddEntry}"
+                           rendered="#{cc.attrs.showAdd}">
                 <f:ajax event="click" render="@form :logout:remaining" listener="#{cc.attrs.addListener}"/>
             </h:commandLink>
 
             <div class="uploadFile inlineBlock">
-                <h:inputFile style="width: #{cc.attrs.uploadButtonWidth};" styleClass="hiddenFile" id="file" value="#{cc.attrs.file}" >
-                    <f:ajax listener="#{cc.attrs.uploadListener}" render="@all"/>
+                <h:inputFile style="width: #{cc.attrs.uploadButtonWidth};" styleClass="hiddenFile" id="file" value="#{cc.attrs.importer.file}" >
+                    <f:ajax listener="#{cc.attrs.importer.uploadNotices(cc.attrs.calcbase)}" render="@all"/>
                 </h:inputFile>
                 <div class="fakeFile">
                     <h:outputLabel style="margin-top: 0px;" styleClass="button element100" value="#{cc.attrs.uploadButtonText}"/>
                 </div>
             </div>
 
-            <h:commandLink styleClass="button" value="Download Musterdatei" action="#{cc.attrs.actionTemplate}" immediate="true"/>
+            <h:commandLink styleClass="button" value="Download Musterdatei" action="#{cc.attrs.importer.downloadTemplate()}" immediate="true"/>
 
             <h:commandLink styleClass="button" value="Tabelle löschen" action="#{cc.attrs.actionDeleteTable}" immediate="true">
                 <cb:confirmDelete/>
             </h:commandLink>
 
-            <h:commandLink rendered="#{cc.attrs.importMessage.length() gt 0}" 
+            <h:commandLink rendered="#{cc.attrs.importer.containsError()}" 
                            styleClass="button"
-                           value="#{msg.btnJournal} &nbsp; #{cc.attrs.showJournal ? '˄' : '˅'}" 
-                           action="#{cc.attrs.toggleJournal}">
+                           value="#{msg.btnJournal} &nbsp; #{cc.attrs.importer.showJournal ? '˄' : '˅'}" 
+                           action="#{cc.attrs.importer.toggleJournal()}">
                 <f:ajax render="@form journal :logout:remaining"/>
             </h:commandLink>
 
-            <h:inputTextarea id="journal" rendered="#{cc.attrs.importMessage.length() gt 0 and cc.attrs.showJournal}" 
-                             value="#{cc.attrs.importMessage}"
+            <h:inputTextarea id="journal" rendered="#{cc.attrs.importer.containsError() and cc.attrs.importer.showJournal}" 
+                             value="#{cc.attrs.importer.message}"
                              readonly="true"
-                             styleClass="element100 #{cc.attrs.importMessage.length() > 500 ? 'areaHugh' : 'areaWideHigh'}"/>
+                             styleClass="element100 #{cc.attrs.importer.message.length() > 1000 ? 'areaHuge' : 'areaWideHigh'}"/>
         </div>
 
     </cc:implementation>

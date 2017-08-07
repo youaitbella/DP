@@ -5,7 +5,8 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:jsf="http://xmlns.jcp.org/jsf"
-                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components"
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common"
+                xmlns:feature="http://xmlns.jcp.org/jsf/composite/components/feature"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 >
@@ -20,7 +21,7 @@
             <h1>#{msg.lblInsuranceNub}</h1>
 
             <h4><h:outputLabel value="#{msg.infoOpenNubReport}"/></h4>
-            <inek:InsuranceNubNoticeList list="#{insuranceNubNoticeList.openNotices}"/>
+            <feature:InsuranceNubNoticeList list="#{insuranceNubNoticeList.openNotices}"/>
 
             <div class="toolBar marginLeft">
                 <h:commandLink styleClass="bigButton" action="#{insuranceNubNoticeList.editNotice}" 
@@ -30,7 +31,7 @@
             </div>
             
             <h4><h:outputLabel value="#{msg.infoSealedNubReport}"/></h4>
-            <inek:InsuranceNubNoticeList list="#{insuranceNubNoticeList.providedNotices}"/>
+            <feature:InsuranceNubNoticeList list="#{insuranceNubNoticeList.providedNotices}"/>
             
         </h:form>
     </ui:define>

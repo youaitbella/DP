@@ -6,8 +6,8 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
-                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components"
-                xmlns:calc="http://xmlns.jcp.org/jsf/composite/components/calc"
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common"
+                xmlns:calc="http://xmlns.jcp.org/jsf/composite/components/feature/calc"
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
 
     <!--
@@ -86,7 +86,7 @@
         </tr>
     </table>
 
-    <inek:UploadButtons2 importer="#{editCalcBasicsDrg.getImporter('drgMedInfra')}"
+    <inek:UploadButtons importer="#{editCalcBasicsDrg.getImporter('drgMedInfra')}"
                          calcbase="#{editCalcBasicsDrg.calcBasics}" 
                          readOnly="#{editCalcBasicsDrg.readOnly}"
                          addListener="#{editCalcBasicsDrg.addMedInfra(170)}"

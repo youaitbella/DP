@@ -5,8 +5,8 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:jsf="http://xmlns.jcp.org/jsf"
-                xmlns:ac="http://xmlns.jcp.org/jsf/composite/components/additionalcost"
-                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components">
+                xmlns:ac="http://xmlns.jcp.org/jsf/composite/components/feature/additionalcost"
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common">
 
     <ui:define name="content">
         #{additionalCostTreeHandler.refreshNodes()}
@@ -16,7 +16,7 @@
             <h1>#{msg.nameADDITIONAL_COST}</h1>
             
             <h4><h:outputLabel value="#{msg.infoOpenADDITIONAL_COST}"/></h4> 
-            <inek:AdditionalCostList list="#{additionalCostList.openAdditionalCosts}"/>
+            <ac:AdditionalCostList list="#{additionalCostList.openAdditionalCosts}"/>
             
             <h:commandLink styleClass="bigButton"
                            action="#{additionalCostList.editAdditionalCost}"
@@ -27,7 +27,7 @@
             </h:commandLink>
 
             <h4><h:outputLabel value="#{msg.infoProvidedData}"/></h4>
-            <inek:AdditionalCostList list="#{additionalCostList.providedAdditionalCosts}"/>
+            <ac:AdditionalCostList list="#{additionalCostList.providedAdditionalCosts}"/>
             
         </h:form>
     </ui:define>

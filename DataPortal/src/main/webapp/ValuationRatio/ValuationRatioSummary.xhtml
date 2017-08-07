@@ -5,7 +5,8 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:jsf="http://xmlns.jcp.org/jsf"
-                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components"
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common"
+                xmlns:feature="http://xmlns.jcp.org/jsf/composite/components/feature"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 >
@@ -20,7 +21,7 @@
             <h1>#{msg.nameVALUATION_RATIO}</h1>
 
             <h4><h:outputLabel value="Offene (noch nicht an das InEK gesendete) Bewertungsrelationen"/></h4>
-            <inek:ValuationRatio list="#{valuationRatioList.openRelations}"/>
+            <feature:ValuationRatio list="#{valuationRatioList.openRelations}"/>
 
             <div class="toolBar marginLeft">
                 <h:commandLink styleClass="bigButton #{!valuationRatioList.isNewEnabled() ? 'buttonDisabled' : ''}" action="#{valuationRatioList.editValuationRatio}" 
@@ -30,7 +31,7 @@
             </div>
             
             <h4><h:outputLabel value="Bereits an das InEK gesendete Bewertungsrelationen"/></h4>
-            <inek:ValuationRatio list="#{valuationRatioList.providedRelations}"/>
+            <feature:ValuationRatio list="#{valuationRatioList.providedRelations}"/>
             
         </h:form>
     </ui:define>
