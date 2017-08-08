@@ -71,7 +71,7 @@ public class DrgProposalFacade extends AbstractFacade<DrgProposal> {
     }
 
     public DrgProposal saveDrgProposal(DrgProposal drgProposal) {
-        logData(drgProposal);
+        // logData(drgProposal); // un-comment if loggin is needed again
         if (drgProposal.getId() == null) {
             persist(drgProposal);
             return drgProposal;

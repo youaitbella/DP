@@ -74,7 +74,7 @@ public class PeppProposalFacade extends AbstractFacade<PeppProposal> {
     }
 
     public PeppProposal savePeppProposal(PeppProposal peppProposal) {
-        logData(peppProposal);
+        // logData(peppProposal); // un-comment if loggin is needed again
         if (peppProposal.getId() == null) {
             persist(peppProposal);
             return peppProposal;

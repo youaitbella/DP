@@ -60,7 +60,7 @@ public class StaffProofEffective implements Serializable {
     
     //<editor-fold defaultstate="collapsed" desc="Property OccupationalCatagoryId">
     @OneToOne()
-    @PrimaryKeyJoinColumn(name = "speOccupationalCatagory")
+    @PrimaryKeyJoinColumn(name = "speOccupationalCatagoryId")
     private OccupationalCatagory _occupationalCatagory;
     
     public OccupationalCatagory getOccupationalCatagory() {

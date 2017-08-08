@@ -148,7 +148,7 @@ public class StaffProof implements Serializable, StatusEntity {
     //</editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property ForAdults">
-    @Column(name = "spfIsForAdults")
+    @Column(name = "spmIsForAdults")
     private boolean _forAdults;
 
     public boolean isForAdults() {
@@ -161,7 +161,7 @@ public class StaffProof implements Serializable, StatusEntity {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property ForKids">
-    @Column(name = "spfIsForKids")
+    @Column(name = "spmIsForKids")
     private boolean _forKids;
 
     public boolean isForKids() {
@@ -174,7 +174,7 @@ public class StaffProof implements Serializable, StatusEntity {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property CalculationType">
-    @Column(name = "spfCalculationType")
+    @Column(name = "spmCalculationType")
     private int _calculationType;
 
     public int getCalculationType() {
@@ -187,7 +187,7 @@ public class StaffProof implements Serializable, StatusEntity {
     // </editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property AdultsAgreedDays">
-    @Column(name = "spfAdultsAgreedDays")
+    @Column(name = "spmAdultsAgreedDays")
     private int _adultsAgreedDays;
 
     public int getAdultsAgreedDays() {
@@ -200,7 +200,7 @@ public class StaffProof implements Serializable, StatusEntity {
     // </editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property AdultsEffectiveDays">
-    @Column(name = "spfAdultsEffectiveDays")
+    @Column(name = "spmAdultsEffectiveDays")
     private int _adultsEffectiveDays;
 
     public int getAdultsEffectiveDays() {
@@ -213,7 +213,7 @@ public class StaffProof implements Serializable, StatusEntity {
     // </editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property AdultsEffectiveCosts">
-    @Column(name = "spfAdultsEffectiveCosts")
+    @Column(name = "spmAdultsEffectiveCosts")
     private double _adultsEffectiveCosts;
 
     public double getAdultsEffectiveCosts() {
@@ -226,7 +226,7 @@ public class StaffProof implements Serializable, StatusEntity {
     // </editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property KidsAgreedDays">
-    @Column(name = "spfKidsAgreedDays")
+    @Column(name = "spmKidsAgreedDays")
     private int _kidsAgreedDays;
 
     public int getKidsAgreedDays() {
@@ -239,7 +239,7 @@ public class StaffProof implements Serializable, StatusEntity {
     // </editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property KidsEffectiveDays">
-    @Column(name = "spfKidsEffectiveDays")
+    @Column(name = "spmKidsEffectiveDays")
     private int _kidsEffectiveDays;
 
     public int getKidsEffectiveDays() {
@@ -252,7 +252,7 @@ public class StaffProof implements Serializable, StatusEntity {
     // </editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property KidsEffectiveCosts">
-    @Column(name = "spfKidsEffectiveCosts")
+    @Column(name = "spmKidsEffectiveCosts")
     private double _kidsEffectiveCosts;
 
     public double getKidsEffectiveCosts() {

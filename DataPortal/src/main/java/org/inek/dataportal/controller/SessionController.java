@@ -37,7 +37,6 @@ import org.inek.dataportal.facades.common.ProcedureFacade;
 import org.inek.dataportal.facades.cooperation.CooperationRequestFacade;
 import org.inek.dataportal.feature.admin.entity.InekRole;
 import org.inek.dataportal.feature.admin.entity.Log;
-import org.inek.dataportal.feature.admin.entity.Log_;
 import org.inek.dataportal.helper.NotLoggedInException;
 import org.inek.dataportal.helper.Topic;
 import org.inek.dataportal.helper.Topics;
@@ -67,7 +66,7 @@ public class SessionController implements Serializable {
     @Inject private CustomerTypeFacade _typeFacade;
     @Inject private CooperationRequestFacade _coopFacade;
 
-    private PortalType _portalType = PortalType.DRG;
+    private PortalType _portalType = PortalType.COMMON;
 
     public Mailer getMailer() {
         return _mailer;
@@ -236,7 +235,7 @@ public class SessionController implements Serializable {
             _features.clear();
             _parts.clear();
             _account = null;
-            _portalType = PortalType.DRG;  // todo: use PortalType.COMMON once all existing logins use a specific type
+            _portalType = PortalType.COMMON; 
         }
     }
 
@@ -716,6 +715,8 @@ public class SessionController implements Serializable {
                 return PortalType.DRG;
             case DRG:
                 return PortalType.PSY;
+            case COMMON:
+                return PortalType.COMMON;
             default:
                 logout("unknown PortalType");
                 return PortalType.COMMON;

@@ -4,6 +4,10 @@
 @linecolor: #7F9BAF;
 
 @basecolor: @inek-blue;
-@backgroundcolor: lighten(@basecolor, 60%, relative);
+@backgroundcolor: lighten(@basecolor, 80%, relative);
 
-@import "commonstyles";
+@import "commonstyles.include";
+
+#content .activemenu a{
+    background-image: url("/DataPortal/javax.faces.resource/Icon/small/menu_active.png.xhtml");
+}
