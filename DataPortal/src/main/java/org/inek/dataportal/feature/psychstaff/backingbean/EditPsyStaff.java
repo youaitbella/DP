@@ -158,7 +158,6 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
             agreed.setOccupationalCatagory(cat);
             staffProof.getStaffProofsAgreed().add(agreed);
         }
-        _psychStaffFacade.saveStaffProof(staffProof);
     }
 
     // <editor-fold defaultstate="collapsed" desc="actions">

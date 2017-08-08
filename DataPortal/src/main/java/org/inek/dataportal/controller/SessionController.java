@@ -704,14 +704,13 @@ public class SessionController implements Serializable {
             case PSY:
                 return "psyportal.css";
             case DRG:
-                return "dataportal.css";
+                return "drgportal.css";
             default:
-                return "dataportal.css";
+                return "commonportal.css";
         }
     }
 
     public PortalType getTargetType() {
-        // onece we have more than two types, we may return a list
         switch (_portalType) {
             case PSY:
                 return PortalType.DRG;

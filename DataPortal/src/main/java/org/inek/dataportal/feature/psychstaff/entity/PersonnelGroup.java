@@ -28,7 +28,7 @@ public class PersonnelGroup implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "pgId")
     private int _id;
     

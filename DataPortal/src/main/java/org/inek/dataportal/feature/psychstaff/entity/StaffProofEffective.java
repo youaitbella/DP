@@ -28,7 +28,7 @@ public class StaffProofEffective implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "speId")
     private int _id;
 
