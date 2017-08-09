@@ -183,7 +183,6 @@ public class Contact implements Serializable {
     @PrePersist
     @PreUpdate
     private void preventUpdate(){
-        LOGGER.warning("Attempt to write Contact");
         throw new IllegalStateException("Attempt to write Contact");
     }
 }

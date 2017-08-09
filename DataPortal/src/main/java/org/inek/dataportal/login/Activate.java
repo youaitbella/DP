@@ -75,8 +75,8 @@ public class Activate implements Serializable {
     public void setKey(String key) {
         this._key = key;
     }
-
     // </editor-fold>
+    
     public String activateAndLogin() {
         if (!_accountFacade.activateAccount(_emailOrUser, _password, _key)) {
             LOGGER.log(Level.WARNING, "Activation failed: {0}", _emailOrUser);
@@ -84,6 +84,7 @@ public class Activate implements Serializable {
         }
         Account userAcc = _accountFacade.findByMailOrUser(_emailOrUser);
         _coopRequestEmailFacade.createRealCooperationRequests(userAcc.getEmail());
+        
         if (!_sessionController.loginAndSetTopics(_emailOrUser, _password)) {
             LOGGER.log(Level.WARNING, "Login and set topics failed: {0}", _emailOrUser);
             return null;

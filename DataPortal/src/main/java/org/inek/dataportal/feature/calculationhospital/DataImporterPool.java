@@ -12,6 +12,7 @@ public class DataImporterPool implements Serializable {
 
     private final Map<String, DataImporter<?,?>> importers = new HashMap<>();
 
+    @SuppressWarnings("MultipleStringLiterals")
     public DataImporterPool() {
         importers.put("peppradiology", DataImporter.obtainDataImporter("peppradiology"));
         importers.put("pepplaboratory", DataImporter.obtainDataImporter("pepplaboratory"));
@@ -31,7 +32,7 @@ public class DataImporterPool implements Serializable {
     }
 
     public DataImporter<?,?> getDataImporter(String importerName) {
-        if (!importers.containsKey(importerName)) {
+        if (!importers.containsKey(importerName.toLowerCase())) {
             throw new IllegalArgumentException("unknown importer " + importerName);
         }
         return importers.get(importerName);

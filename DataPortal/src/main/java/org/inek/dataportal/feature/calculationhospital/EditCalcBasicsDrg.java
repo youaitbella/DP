@@ -156,10 +156,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         return _cooperationTools.isAllowed(Feature.CALCULATION_HOSPITAL, calcBasics.getStatus(), calcBasics.getAccountId());
     }
 
-    public boolean disableRadiologyServiceCheckboxes(KGLListRadiologyLaboratory rl) {
-        return rl.isServiceDocDKG() || rl.isServiceDocDif() || rl.isServiceDocEBM() || rl.isServiceDocGOA() || rl.isServiceDocHome();
-    }
-
     public List<KGLListRadiologyLaboratory> getLaboratories() {
         return getRadLab(10);
     }

@@ -8,37 +8,56 @@
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common"
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
-   
-        <inek:MultiIk value="#{editPsyStaff.staffProof.ik}" 
-                      ikList="#{editPsyStaff.iks}"
-                      listener="#{editPsyStaff.ikChanged}" 
-                      readonly="#{editPsyStaff.readOnly}" 
-                      isFixed="#{editPsyStaff.staffProof.id gt 0 and editPsyStaff.staffProof.ik gt 0}">
-        </inek:MultiIk>
 
-        <div class="inputPart" style="float: left; width: 33%">
-            <h2>Einrichtung für</h2><br/>
-            <inek:LabeledCheckbox label="Erwachsene" styleClassLabel="label">
+    <inek:MultiIk value="#{editPsyStaff.staffProof.ik}" 
+                  ikList="#{editPsyStaff.iks}"
+                  listener="#{editPsyStaff.ikChanged}" 
+                  readonly="#{editPsyStaff.readOnly}" 
+                  isFixed="#{editPsyStaff.staffProof.id gt 0 and editPsyStaff.staffProof.ik gt 0}"
+                  renderElement="psyStaffMenu psyStaffData"
+                  >
+    </inek:MultiIk>
 
-            </inek:LabeledCheckbox>
-            <inek:LabeledCheckbox label="Kinder und Jugendliche" styleClassLabel="label">
+    <div jsf:id="psyStaffData" jsf:rendered="#{editPsyStaff.staffProof.ik gt 0}">
 
+        <div class="inputPart">
+            <h:outputLabel value="Einrichtung für" 
+                           styleClass="label20"/>
+            
+            <inek:LabeledCheckbox label="Erwachsene" 
+                                  styleClassLabel="label"
+                                  styleClassComponent="inlineBlock"
+                                  precedingBox="true"
+                                  renderElement="psyStaffMenu"/>
+
+            <inek:LabeledCheckbox label="Kinder und Jugendliche" 
+                                  styleClassLabel="label"
+                                  styleClassComponent="inlineBlock"
+                                  precedingBox="true">
+                <f:ajax event="clientChange" render="psyStaffMenu"/>
             </inek:LabeledCheckbox>
         </div>
-        <div class="inputPart" style="float: left; width: 33%">
-            <h2>Zählweise Berechnungstage</h2><br/>
-            <h:selectOneRadio styleClass="inputmedium" required="true">
+        
+        <div class="inputPart">
+            <h:outputLabel value="Zählweise Berechnungstage" 
+                           styleClass="label20"/>
+            
+            <h:selectOneRadio styleClass="inlineBlock" required="true">
                 <f:selectItem itemValue="1" itemLabel="PEPP"/>
                 <f:selectItem itemValue="2" itemLabel="BPflV/LKA"/>
             </h:selectOneRadio>
         </div>
-        <div class="inputPart" style="float: left; width: 33%">
-            <h2>Vereinbarungsjahr</h2><br/>
-            <h:outputLabel styleClass="label" value="Vereinbahrungsjahr" for="year"/><br/>
+        
+        <div class="inputPart">
+            <h:outputLabel styleClass="label20" 
+                           value="Vereinbahrungsjahr" 
+                           for="year"/>
+            
             <h:selectOneMenu styleClass="" id="year" required="true">
                 <f:selectItems value="#{sessionTools.calenderYearItems}" />
             </h:selectOneMenu>
         </div>
-    
+        
+    </div>
 </ui:composition>
 

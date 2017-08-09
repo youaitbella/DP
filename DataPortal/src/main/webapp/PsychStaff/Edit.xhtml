@@ -8,7 +8,7 @@
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
-                >
+                xmlns:jsf="http://xmlns.jcp.org/jsf">
 
     <ui:define name="content">
 
@@ -17,11 +17,13 @@
                                action="#{sessionController.navigate(sessionTools.pages.PsychStaffSummary)}" 
                                immediate="true"/></h1>
 
-            <div class="tab">
+            <div class="tab" jsf:id="psyStaffMenu">
                 <ul class="tab">
                     <ui:repeat value="#{editPsyStaff.visibleTopics}" var="topic" varStatus="status">
                         <li class="#{topic.active ? 'activetab' : 'tab'}">
-                        <h:commandLink value="#{topic.title}" action="#{editPsyStaff.changeTabPage(topic.key)}" styleClass="fullWithCentered"
+                        <h:commandLink value="#{topic.title}" 
+                                       action="#{editPsyStaff.changeTabPage(topic.key)}" 
+                                       styleClass="fullWithCentered"
                                        immediate="true">
                         </h:commandLink>
                         </li>
@@ -30,9 +32,9 @@
             </div>
 
             <div class="edit">
-                
+
                 <ui:include src="#{editPsyStaff.activeTopic.outcome}" />
-                
+
                 <div class="toolBar">
                     <h:commandLink styleClass="bigButton"
                                    action="#{editPsyStaff.save}"

@@ -41,6 +41,7 @@ import org.inek.dataportal.utils.ListUtil;
  */
 @Entity
 @Table(name = "KGPBaseInformation", schema = "calc")
+@SuppressWarnings("MethodCount")
 public class PeppCalcBasics implements Serializable, StatusEntity {
 
     private static final long serialVersionUID = 1L;

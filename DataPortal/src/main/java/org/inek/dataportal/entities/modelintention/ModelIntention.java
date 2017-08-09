@@ -29,6 +29,7 @@ import org.inek.dataportal.utils.Documentation;
  */
 @Entity
 @Table(name = "ModelIntention", schema = "mvh")
+@SuppressWarnings("MethodCount")
 public class ModelIntention implements Serializable {
 
     private static final long serialVersionUID = 1L;

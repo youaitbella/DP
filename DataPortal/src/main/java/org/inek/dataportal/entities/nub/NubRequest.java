@@ -29,6 +29,7 @@ import org.inek.dataportal.utils.Documentation;
  */
 @Entity
 @Table(name = "NubProposal")
+@SuppressWarnings("MethodCount")
 public class NubRequest implements Serializable {
 
     private static final long serialVersionUID = 1L;

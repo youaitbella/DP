@@ -88,6 +88,9 @@
                             <goal>compile</goal>
                         </goals>
                         <configuration>
+                            <excludes>
+                                <exclude>**/commonstyles.less</exclude> 
+                            </excludes>
                             <sourceDirectory>${project.basedir}/src/main/less</sourceDirectory>
                             <!--outputDirectory>${project.basedir}/src/main/webapp/resources/css</outputDirectory-->
                             <outputDirectory>${project.build.directory}/${project.build.finalName}/resources/css</outputDirectory>

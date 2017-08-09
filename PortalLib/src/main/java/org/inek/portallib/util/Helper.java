@@ -14,12 +14,15 @@ public class Helper {
     public static String collectException(Throwable exception, int level) {
         StringBuilder collector = new StringBuilder();
         if (collector.length() > 0) {
-            collector.append("\r\n\r\n--------------------------------\r\n");
+            collector.append(NEW_LINE)
+                    .append(NEW_LINE)
+                    .append("--------------------------------")
+                    .append(NEW_LINE);
         }
-        collector.append("Level: ").append(level).append("\r\n\r\n");
-        collector.append(exception.getMessage()).append("\r\n\r\n");
+        collector.append("Level: ").append(level).append(NEW_LINE).append(NEW_LINE);
+        collector.append(exception.getMessage()).append(NEW_LINE).append(NEW_LINE);
         for (StackTraceElement element : exception.getStackTrace()) {
-            collector.append(element.toString()).append("\r\n");
+            collector.append(element.toString()).append(NEW_LINE);
         }
         Throwable cause = exception.getCause();
         if (cause != null && level < 9) {
@@ -27,6 +30,7 @@ public class Helper {
         }
         return collector.toString();
     }
+    private static final String NEW_LINE = "\r\n";
 
     public static String getContentType(String name) {
         String ext = name.substring(1 + name.lastIndexOf(".")).toLowerCase();

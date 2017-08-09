@@ -43,7 +43,7 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
 
     private static final Logger LOGGER = Logger.getLogger(DataImporter.class.getName());
 
-    @SuppressWarnings({"MethodLength", "JavaNCSS"})
+    @SuppressWarnings({"MethodLength", "JavaNCSS", "MultipleStringLiterals"})
     public static DataImporter obtainDataImporter(String importer) {
         switch (importer.toLowerCase()) {
             case "peppradiology":

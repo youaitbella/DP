@@ -199,7 +199,7 @@
                                          value="#{editAdditionalCost.additionalCost.repaymentPeriodFrom}"
                                          hideNoSelectionOption="true"  
                                          >
-                            <f:selectItems value="#{sessionTools.repaymentPeriodFromItems}"/>
+                            <f:selectItems value="#{sessionTools.calenderYearItems}"/>
                             <f:ajax event="change" render="@form :logout:remaining repaymentPeriodFrom"/>
                         </h:selectOneMenu>
 
@@ -214,7 +214,7 @@
                                          value="#{editAdditionalCost.additionalCost.repaymentPeriodTo}"
                                          hideNoSelectionOption="true"  
                                          >
-                            <f:selectItems value="#{sessionTools.repaymentPeriodToItems}"/>
+                            <f:selectItems value="#{sessionTools.calenderYearItems}"/>
                             <f:ajax event="change" render="@form :logout:remaining repaymentPeriodTo"/>
                         </h:selectOneMenu>
                     </h:panelGroup>

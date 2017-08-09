@@ -50,6 +50,7 @@ import org.inek.dataportal.utils.ListUtil;
 @Entity
 @Table(name = "KGLBaseInformation", schema = "calc")
 @XmlRootElement
+@SuppressWarnings("MethodCount")
 public class DrgCalcBasics implements Serializable, StatusEntity {
 
     private static final long serialVersionUID = 1L;

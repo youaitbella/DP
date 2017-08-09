@@ -19,6 +19,7 @@ import org.inek.dataportal.enums.WorkflowStatus;
  */
 @Entity
 @Table(name = "NubRequestHistory")
+@SuppressWarnings("MethodCount")
 public class NubRequestHistory implements Serializable {
 
     private static final long serialVersionUID = 1L;

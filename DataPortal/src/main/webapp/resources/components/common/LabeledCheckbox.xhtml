@@ -11,8 +11,10 @@
         <cc:attribute name="value"/>
         <cc:attribute name="required" default="false"/>
         <cc:attribute name="readonly" default="false"/>
+        <cc:attribute name="precedingBox" default="false"/>
         <cc:attribute name="styleClassComponent" default="inputPart"/>
-        <cc:attribute name="styleClassLabel" default="label marginRight"/>
+        <cc:attribute name="styleClassLabel" default="label marginRight01"/>
+        <cc:attribute name="styleClassCheckBox" default="marginRight01"/>
         <cc:attribute name="renderElement" default="@this"/>
         <cc:editableValueHolder name="box"/>
         <cc:actionSource name="box"/>
@@ -24,12 +26,22 @@
         <cc:editableValueHolder name="#{cc.id}" targets="box"/>
 
         <div class="#{cc.attrs.styleClassComponent}">
-            <h:outputLabel styleClass="#{cc.attrs.styleClassLabel}" value="#{cc.attrs.label}:" for="box"/>
+            <h:outputLabel styleClass="#{cc.attrs.styleClassLabel}" 
+                           value="#{cc.attrs.label}:" 
+                           for="box"
+                           rendered="#{not cc.attrs.precedingBox}"/>
+
             <h:selectBooleanCheckbox id="box" 
                                      value="#{cc.attrs.value}" 
-                                     disabled="#{cc.attrs.readonly}">
+                                     disabled="#{cc.attrs.readonly}"
+                                     styleClass="#{cc.attrs.styleClassCheckBox}">
                 <f:ajax render="#{cc.attrs.renderElement} :logout:remaining"/>
             </h:selectBooleanCheckbox>
+
+            <h:outputLabel styleClass="#{cc.attrs.styleClassLabel}" 
+                           value="#{cc.attrs.label}" 
+                           for="box"
+                           rendered="#{cc.attrs.precedingBox}"/>
         </div>
     </cc:implementation>
 </html>

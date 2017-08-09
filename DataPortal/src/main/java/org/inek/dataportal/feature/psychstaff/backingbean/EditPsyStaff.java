@@ -43,6 +43,7 @@ import org.inek.dataportal.feature.psychstaff.entity.StaffProof;
 import org.inek.dataportal.feature.psychstaff.entity.StaffProofAgreed;
 import org.inek.dataportal.feature.psychstaff.enums.PsychType;
 import org.inek.dataportal.feature.psychstaff.facade.PsychStaffFacade;
+import org.inek.dataportal.helper.Topic;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.structures.MessageContainer;
 import org.inek.dataportal.mail.Mailer;
@@ -58,6 +59,11 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
 
     // <editor-fold defaultstate="collapsed" desc="fields & enums">
     private static final Logger LOGGER = Logger.getLogger("EditPsyStaff");
+    private static final String TOPIC_MASTER = "tabUMMaster";
+    private static final String TOPIC_KIDS2 = "topicAppendix2Kids";
+    private static final String TOPIC_ADULTS2 = "topicAppendix2Adults";
+    private static final String TOPIC_KIDS1 = "topicAppendix1Kids";
+    private static final String TOPIC_ADULTS1 = "topicAppendix1Adults";
 
     @Inject private CooperationTools _cooperationTools;
     @Inject private SessionController _sessionController;
@@ -77,18 +83,18 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
 
     @Override
     protected void addTopics() {
-        addTopic("tabUMMaster", Pages.PsychStaffBaseData.URL());
-        addTopic("topicAppendix1Adults", Pages.PsychStaffAppendix1Adults.URL());
-        addTopic("topicAppendix1Kids", Pages.PsychStaffAppendix1Kids.URL());
-        addTopic("topicAppendix2Adults", Pages.PsychStaffAppendix2Adults.URL());
-        addTopic("topicAppendix2Kids", Pages.PsychStaffAppendix2Kids.URL());
+        addTopic(TOPIC_MASTER, Pages.PsychStaffBaseData.URL());
+        addTopic(TOPIC_ADULTS1, Pages.PsychStaffAppendix1Adults.URL());
+        addTopic(TOPIC_KIDS1, Pages.PsychStaffAppendix1Kids.URL());
+        addTopic(TOPIC_ADULTS2, Pages.PsychStaffAppendix2Adults.URL());
+        addTopic(TOPIC_KIDS2, Pages.PsychStaffAppendix2Kids.URL());
     }
-    
+
     @Override
     protected String getOutcome() {
         return "";
     }
-    
+
     @PostConstruct
     private void init() {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
@@ -105,6 +111,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         } else {
             Utils.navigate(Pages.Error.RedirectURL());
         }
+        setTopicVisibility();
     }
 
     private StaffProof loadStaffProof(String idObject) {
@@ -137,21 +144,29 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         buildAdultAttachment1Matrix(staffProof);
         return staffProof;
     }
-    
+
+    private void setTopicVisibility() {
+        boolean hasIk = _staffProof.getIk() > 0;
+        findTopic(TOPIC_ADULTS1).setVisible(hasIk && _staffProof.isForAdults());
+        findTopic(TOPIC_ADULTS2).setVisible(hasIk && _staffProof.isForAdults());
+        findTopic(TOPIC_KIDS1).setVisible(hasIk && _staffProof.isForKids());
+        findTopic(TOPIC_KIDS2).setVisible(hasIk && _staffProof.isForKids());
+    }
+
     public int getAdultPsyOccupationRowSpan(int personnelId) {
         return _psychStaffFacade.getSumSamePersonalGroup(personnelId);
     }
-    
+
     public List<PersonnelGroup> getPersonnelGroup() {
         return _psychStaffFacade.getPersonnelGroups();
     }
-    
+
     public List<OccupationalCatagory> getOccupationalCategories() {
         return _psychStaffFacade.getOccupationalCategories();
     }
-    
+
     private void buildAdultAttachment1Matrix(StaffProof staffProof) {
-        for(OccupationalCatagory cat : getOccupationalCategories()) {
+        for (OccupationalCatagory cat : getOccupationalCategories()) {
             StaffProofAgreed agreed = new StaffProofAgreed();
             agreed.setStaffProofMasterId(staffProof.getId());
             agreed.setPsychType(PsychType.Adults);
@@ -381,7 +396,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     }
 
     public void ikChanged() {
-        // dummy listener, used by component MultiIk - do not delete
+        setTopicVisibility();
     }
 
     public List<SelectItem> getIks() {

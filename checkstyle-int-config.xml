@@ -174,8 +174,9 @@
         </module>
         
         <module name="ParameterNumber">
-            <property name="max" value="8"/>
+            <property name="max" value="7"/>
             <property name="ignoreOverriddenMethods" value="true"/>
+            <property name="tokens" value="METHOD_DEF"/>
         </module>
 
 
@@ -183,7 +184,7 @@
         <!-- See http://checkstyle.sf.net/config_modifiers.html -->
         <module name="ModifierOrder"/>
         <module name="RedundantModifier"/>
-
+        <module name="MissingOverride"/>
 
         <!-- Checks for class design                         -->
         <!-- See http://checkstyle.sf.net/config_design.html -->

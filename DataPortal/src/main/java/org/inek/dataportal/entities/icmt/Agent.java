@@ -185,7 +185,6 @@ public class Agent implements Serializable {
     @PrePersist
     @PreUpdate
     private void preventUpdate(){
-        LOGGER.warning("Attempt to write Agent");
         throw new IllegalStateException("Attempt to write Agent");
     }
 }
