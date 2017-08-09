@@ -11,7 +11,7 @@
         <h2>Vereinbarte Stellenbesetzung in Vollkräften - Bereich Erwachsene</h2>
         <span>(§ 3 Psych-Personalnachweis)</span>
         
-        <h:dataTable value="#{editPsyStaff.staffProof.staffProofsAgreed}" var="item">
+        <h:dataTable value="#{editPsyStaff.staffProof.getStaffProofsAgreed('Adults')}" var="item">
             <h:column>
                 <f:facet name="Personalgruppen" />
                 #{item.occupationalCatagory.personnelGroup.name}

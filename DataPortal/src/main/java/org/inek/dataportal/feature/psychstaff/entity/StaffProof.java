@@ -7,9 +7,13 @@ import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
+import java.util.stream.Collectors;
+import javax.inject.Inject;
 import javax.persistence.*;
 import org.inek.dataportal.entities.iface.StatusEntity;
 import org.inek.dataportal.enums.WorkflowStatus;
+import org.inek.dataportal.feature.psychstaff.enums.PsychType;
+import org.inek.dataportal.feature.psychstaff.facade.PsychStaffFacade;
 import org.inek.dataportal.utils.Documentation;
 
 /**
@@ -268,12 +272,26 @@ public class StaffProof implements Serializable, StatusEntity {
     @JoinColumn(name = "spaStaffProofMasterId", referencedColumnName = "spmId")
     private List<StaffProofAgreed> _staffProofAgreed = new Vector<>();
 
-    public List<StaffProofAgreed> getStaffProofsAgreed() {
-        return _staffProofAgreed;
+    public List<StaffProofAgreed> getStaffProofsAgreed(PsychType type) {
+        return _staffProofAgreed.stream().filter(a -> a.getPsychType() == type).collect(Collectors.toList());
     }
 
-    public void setStaffProofsAgreed(List<StaffProofAgreed> staffProofsAgreed) {
-        _staffProofAgreed = staffProofsAgreed;
+    /**
+     * Add a StaffProofAgreed to the list
+     * @param staffProofAgreed
+     * @return true, if the new element could be added; false if the element existed before
+     */
+    public boolean addStaffProofAgreed(StaffProofAgreed staffProofAgreed) {
+        if (staffProofAgreed.getPsychType() == PsychType.Unknown || staffProofAgreed.getOccupationalCatagory() == null){
+            throw new IllegalArgumentException("StaffProofAgreed needs a valid PsychType as well as a valid OccupationalCatagory");
+        }
+        if (_staffProofAgreed.stream()
+                .anyMatch(a -> a.getPsychType() == staffProofAgreed.getPsychType() 
+                        && a.getOccupationalCatagory() ==  staffProofAgreed.getOccupationalCatagory())){
+            return false;
+        }
+        _staffProofAgreed.add(staffProofAgreed);
+        return true;
     }
 
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">

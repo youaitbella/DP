@@ -59,6 +59,17 @@ public class StaffProofAgreed implements Serializable {
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Property OccupationalCatagoryId">
+    @Column(name = "spaOccupationalCatagoryId")
+    private int _occupationalCatagoryId;
+
+    public int getOccupationalCatagoryId() {
+        return _occupationalCatagoryId;
+    }
+
+    public void setOccupationalCatagoryId(int occupationalCatagoryId) {
+        _occupationalCatagoryId = occupationalCatagoryId;
+    }
+
     @OneToOne()
     @PrimaryKeyJoinColumn(name = "spaOccupationalCatagoryId")
     private OccupationalCatagory _occupationalCatagory;

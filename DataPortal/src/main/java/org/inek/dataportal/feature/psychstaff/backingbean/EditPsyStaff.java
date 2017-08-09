@@ -155,26 +155,39 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         findTopic(TOPIC_KIDS2).setVisible(hasIk && _staffProof.isForKids());
     }
 
+    public void ikChanged() {
+        setTopicVisibility();
+        ensureOccupationalCategories();
+    }
+
+    private void ensureOccupationalCategories() {
+        if (_staffProof.isForAdults()) {
+            ensureOccupationalCategories(PsychType.Adults);
+        }
+        if (_staffProof.isForKids()) {
+            ensureOccupationalCategories(PsychType.Kids);
+        }
+    }
+
+    public void ensureOccupationalCategories(PsychType type) {
+        if (_staffProof.getStaffProofsAgreed(type).size() > 0) {
+            return;
+        }
+        for (OccupationalCatagory cat : getOccupationalCategories()) {
+            StaffProofAgreed agreed = new StaffProofAgreed();
+            agreed.setStaffProofMasterId(_staffProof.getId());
+            agreed.setPsychType(type);
+            agreed.setOccupationalCatagory(cat);
+            _staffProof.addStaffProofAgreed(agreed);
+        }
+    }
+
     public int getAdultPsyOccupationRowSpan(int personnelId) {
         return _psychStaffFacade.getSumSamePersonalGroup(personnelId);
     }
 
-    public List<PersonnelGroup> getPersonnelGroup() {
-        return _psychStaffFacade.getPersonnelGroups();
-    }
-
     public List<OccupationalCatagory> getOccupationalCategories() {
         return _psychStaffFacade.getOccupationalCategories();
-    }
-
-    private void buildAdultAttachment1Matrix(StaffProof staffProof) {
-        for (OccupationalCatagory cat : getOccupationalCategories()) {
-            StaffProofAgreed agreed = new StaffProofAgreed();
-            agreed.setStaffProofMasterId(staffProof.getId());
-            agreed.setPsychType(PsychType.Adults);
-            agreed.setOccupationalCatagory(cat);
-            staffProof.getStaffProofsAgreed().add(agreed);
-        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="actions">
@@ -395,10 +408,6 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         setModifiedInfo();
         _staffProof = _psychStaffFacade.saveStaffProof(_staffProof);
         return "";
-    }
-
-    public void ikChanged() {
-        setTopicVisibility();
     }
 
     public List<SelectItem> getIks() {
