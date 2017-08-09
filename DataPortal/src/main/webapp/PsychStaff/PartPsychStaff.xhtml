@@ -9,12 +9,13 @@
                 xmlns:spf="http://xmlns.jcp.org/jsf/composite/components/feature/specificfunction"
                 xmlns:calc="http://xmlns.jcp.org/jsf/composite/components/feature/calc"
                 >
-    <h:commandLink action="#{sessionController.navigate(sessionTools.pages.PsychStaffSummary)}" 
-                   value="#{msg.namePSYCH_STAFF}" 
-                   immediate="true" 
-                   styleClass="h2"/>
-    
-    <h1>PsychStaff - comming soon</h1>
+    <h2>
+        <h:commandLink action="#{sessionController.navigate(sessionTools.pages.PsychStaffSummary)}" 
+                       value="#{msg.namePSYCH_STAFF}" 
+                       immediate="true"/> 
+    </h2>
+
+    <ui:include src="#{sessionTools.pages.PsychStaffListButtons}"/>
 
 </ui:composition>
 

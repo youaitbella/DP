@@ -12,7 +12,7 @@
 
     <model:ModelIntentionList list="#{modelIntentionList.modelIntentions}"/>
 
-    <div class="inputPart">
+    <div class="toolBar marginLeft">
         <h:commandLink styleClass="bigButton" action="#{modelIntentionList.newModelIntention}" 
                        immediate="true" value="#{msg.btnNewModelIntention}"
                        rendered="#{sessionController.isInekUser('MODEL_INTENTION')}">

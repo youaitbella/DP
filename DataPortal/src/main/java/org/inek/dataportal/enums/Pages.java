@@ -183,7 +183,7 @@ public enum Pages {
     PsychStaffAppendix1Kids("/PsychStaff/Appendix1Kids"),
     PsychStaffAppendix2Adults("/PsychStaff/Appendix2Adults"),
     PsychStaffAppendix2Kids("/PsychStaff/Appendix2Kids"),
-    
+    PsychStaffListButtons("/PsychStaff/fragment/ListButtons"),
     //
     NotAllowed("/common/NotAllowed"),
     PrintView("/common/PrintView"),

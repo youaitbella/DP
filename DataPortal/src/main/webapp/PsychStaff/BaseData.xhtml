@@ -14,27 +14,33 @@
                   listener="#{editPsyStaff.ikChanged}" 
                   readonly="#{editPsyStaff.readOnly}" 
                   isFixed="#{editPsyStaff.staffProof.id gt 0 and editPsyStaff.staffProof.ik gt 0}"
-                  renderElement="psyStaffMenu psyStaffData"
+                  renderElement="psyStaffData"
                   >
     </inek:MultiIk>
 
+    
     <div jsf:id="psyStaffData" jsf:rendered="#{editPsyStaff.staffProof.ik gt 0}">
 
+        <hr/>
+        
         <div class="inputPart">
             <h:outputLabel value="Einrichtung für" 
                            styleClass="label20"/>
             
             <inek:LabeledCheckbox label="Erwachsene" 
-                                  styleClassLabel="label"
+                                  value="#{editPsyStaff.staffProof.forAdults}"
                                   styleClassComponent="inlineBlock"
                                   precedingBox="true"
-                                  renderElement="psyStaffMenu"/>
+                                  renderElement="@form">
+                <f:ajax event="clientChange" listener="#{editPsyStaff.ikChanged()}"/>
+            </inek:LabeledCheckbox>
 
             <inek:LabeledCheckbox label="Kinder und Jugendliche" 
-                                  styleClassLabel="label"
+                                  value="#{editPsyStaff.staffProof.forKids}"
                                   styleClassComponent="inlineBlock"
-                                  precedingBox="true">
-                <f:ajax event="clientChange" render="psyStaffMenu"/>
+                                  precedingBox="true"
+                                  renderElement="@form">
+                <f:ajax event="clientChange" listener="#{editPsyStaff.ikChanged()}"/>
             </inek:LabeledCheckbox>
         </div>
         
@@ -43,7 +49,7 @@
                            styleClass="label20"/>
             
             <h:selectOneRadio styleClass="inlineBlock" required="true">
-                <f:selectItem itemValue="1" itemLabel="PEPP"/>
+                <f:selectItem itemValue="1" itemLabel="PEPP" class="xxxx"/>
                 <f:selectItem itemValue="2" itemLabel="BPflV/LKA"/>
             </h:selectOneRadio>
         </div>
@@ -53,7 +59,7 @@
                            value="Vereinbahrungsjahr" 
                            for="year"/>
             
-            <h:selectOneMenu styleClass="" id="year" required="true">
+            <h:selectOneMenu id="year" required="true">
                 <f:selectItems value="#{sessionTools.calenderYearItems}" />
             </h:selectOneMenu>
         </div>

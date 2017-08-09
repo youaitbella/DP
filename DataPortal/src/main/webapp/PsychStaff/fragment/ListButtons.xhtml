@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                >
+
+    <div class="toolBar marginLeft">
+        <h:link styleClass="bigButton #{psychStafftList.newAllowed? '' : 'buttonDisabled'}"
+                outcome="#{sessionTools.pages.PsychStaffEdit}"
+                value="#{msg.btnNewSpecificFunctionRequest}"
+                disabled="#{!psychStafftList.newAllowed}"
+                >
+            <f:param name="id" value="new"/>
+        </h:link>
+    </div>
+
+</ui:composition>

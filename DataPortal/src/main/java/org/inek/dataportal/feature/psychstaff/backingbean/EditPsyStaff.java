@@ -141,11 +141,13 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         if (iks.size() == 1) {
             staffProof.setIk((int) iks.get(0).getValue());
         }
-        buildAdultAttachment1Matrix(staffProof);
         return staffProof;
     }
 
     private void setTopicVisibility() {
+        if (_staffProof == null) {
+            return;
+        }
         boolean hasIk = _staffProof.getIk() > 0;
         findTopic(TOPIC_ADULTS1).setVisible(hasIk && _staffProof.isForAdults());
         findTopic(TOPIC_ADULTS2).setVisible(hasIk && _staffProof.isForAdults());

@@ -15,13 +15,8 @@
         <h:form>
             <h1>#{msg.namePSYCH_STAFF}</h1>
 
-            <h:link styleClass="bigButton #{psychStafftList.newAllowed? '' : 'buttonDisabled'}"
-                    outcome="#{sessionTools.pages.PsychStaffEdit}"
-                    value="#{msg.btnNewSpecificFunctionRequest}"
-                    disabled="#{!psychStafftList.newAllowed}"
-                           >
-                <f:param name="id" value="new"/>
-            </h:link>
+            <ui:include src="#{sessionTools.pages.PsychStaffListButtons}"/>
+            
         </h:form>
     </ui:define>
 
