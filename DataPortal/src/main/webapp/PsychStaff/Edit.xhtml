@@ -60,6 +60,14 @@
                                    title="#{msg.infoSaveAndClose}">
                         <cb:confirmSeal/>
                     </h:commandLink>
+                    <!--PDF-->
+                    <h:commandLink styleClass="bigButton"
+                                   immediate="false"
+                                   action="#{pdfBuilder.createDocument()}"
+                                   value="PDF erstellen 2"
+                                   rendered="#{editPsyStaff.sealEnabled}"
+                                   title="#{msg.infoSaveAndClose}">
+                    </h:commandLink>
 
                     <ui:remove>
                         <h:commandLink styleClass="bigButton"
