@@ -80,6 +80,7 @@ public class StaffProofAgreed implements Serializable {
     
     public void setOccupationalCatagory(OccupationalCatagory occupationalCatagory) {
         _occupationalCatagory = occupationalCatagory;
+        _occupationalCatagoryId = occupationalCatagory.getId();
     }
     //</editor-fold>
 
