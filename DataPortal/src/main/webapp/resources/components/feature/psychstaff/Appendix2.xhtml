@@ -21,7 +21,7 @@
         <span>(§ 4 Psych-Personalnachweis)</span>
 
         <h:dataTable value="#{editPsyStaff.staffProof.getStaffProofsEffective(cc.attrs.patType)}" 
-                     columnClasses="colValue, colValue, col04em, col04em, col04em, col04em, col04em"
+                     columnClasses="colValue, col10em, col08em, col08em, col08em, col08em, col08em"
                      var="item">
             
             <h:column>
@@ -42,7 +42,7 @@
                 <f:facet name="header">
                     Psych-PV-Personal in VK (jeweils in Summe)
                 </f:facet>
-                <h:inputText value="#{item.staffingComplete}">
+                <h:inputText value="#{item.staffingComplete}" styleClass="col08em">
                     <f:ajax render="factor"/>
                 </h:inputText>
             </h:column>
@@ -51,28 +51,28 @@
                 <f:facet name="header">
                     Anrechnung Fachkräfte anderer Berufsgruppen der Psych-PV in VK (§4 Abs. 4 Vereinb.)
                 </f:facet>
-                <h:inputText value="#{item.staffingDeductionPsych}"/>
+                <h:inputText value="#{item.staffingDeductionPsych}" styleClass="col08em"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">
                     Anrechnung Fachkräfte Nicht-Psych-PV Berufsgruppen in VK (§4 Abs. 5 Vereinb.)
                 </f:facet>
-                <h:inputText value="#{item.staffingDeductionNonPsych}"/>
+                <h:inputText value="#{item.staffingDeductionNonPsych}" styleClass="col08em"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">
                     Anrechnung Fachkräfte ohne direktes Beschäftigungsverh. in VK (§4 Abs. 6 Vereinb.)
                 </f:facet>
-                <h:inputText value="#{item.staffingDeductionOhter}"/>
+                <h:inputText value="#{item.staffingDeductionOhter}" styleClass="col08em"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">
                     Psych-PV-Personal in VK (jeweils in Summe)
                 </f:facet>
-                <h:outputText id="factor" value="#{item.staffingComplete / 3}"/>
+                <h:outputText id="factor" value="#{item.staffingComplete / 3}" styleClass="col08em"/>
             </h:column>
 
         </h:dataTable>
