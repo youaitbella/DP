@@ -38,13 +38,11 @@ import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.feature.admin.entity.MailTemplate;
 import org.inek.dataportal.feature.admin.facade.InekRoleFacade;
 import org.inek.dataportal.feature.psychstaff.entity.OccupationalCatagory;
-import org.inek.dataportal.feature.psychstaff.entity.PersonnelGroup;
 import org.inek.dataportal.feature.psychstaff.entity.StaffProof;
 import org.inek.dataportal.feature.psychstaff.entity.StaffProofAgreed;
 import org.inek.dataportal.feature.psychstaff.entity.StaffProofEffective;
 import org.inek.dataportal.feature.psychstaff.enums.PsychType;
 import org.inek.dataportal.feature.psychstaff.facade.PsychStaffFacade;
-import org.inek.dataportal.helper.Topic;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.structures.MessageContainer;
 import org.inek.dataportal.mail.Mailer;
@@ -119,6 +117,8 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         int id = Integer.parseInt(idObject);
         StaffProof staffProof = _psychStaffFacade.findStaffProof(id);
         if (hasSufficientRights(staffProof)) {
+            ensureStaffProofsAgreed(staffProof);
+            ensureStaffProofsEffective(staffProof);
             return staffProof;
         }
         return new StaffProof();
@@ -158,15 +158,15 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
 
     public void ikChanged() {
         setTopicVisibility();
-        ensureStaffProofsAgreed();
-        ensureStaffProofsEffective();
+        ensureStaffProofsAgreed(_staffProof);
+        ensureStaffProofsEffective(_staffProof);
     }
 
-    private void ensureStaffProofsAgreed() {
-        if (_staffProof.isForAdults()) {
+    private void ensureStaffProofsAgreed(StaffProof staffProof) {
+        if (staffProof.isForAdults()) {
             ensureStaffProofsAgreed(PsychType.Adults);
         }
-        if (_staffProof.isForKids()) {
+        if (staffProof.isForKids()) {
             ensureStaffProofsAgreed(PsychType.Kids);
         }
     }
@@ -184,11 +184,11 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         }
     }
 
-    private void ensureStaffProofsEffective() {
-        if (_staffProof.isForAdults()) {
+    private void ensureStaffProofsEffective(StaffProof staffProof) {
+        if (staffProof.isForAdults()) {
             ensureStaffProofsEffective(PsychType.Adults);
         }
-        if (_staffProof.isForKids()) {
+        if (staffProof.isForKids()) {
             ensureStaffProofsEffective(PsychType.Kids);
         }
     }

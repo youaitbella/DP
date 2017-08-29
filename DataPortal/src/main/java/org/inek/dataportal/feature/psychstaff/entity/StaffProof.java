@@ -296,7 +296,7 @@ public class StaffProof implements Serializable, StatusEntity {
     
     //<editor-fold defaultstate="collapsed" desc="Property StaffProofsEffective">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "spaStaffProofMasterId", referencedColumnName = "spmId")
+    @JoinColumn(name = "speStaffProofMasterId", referencedColumnName = "spmId")
     private List<StaffProofEffective> _staffProofEffective = new Vector<>();
 
     public List<StaffProofEffective> getStaffProofsEffective(PsychType type) {
