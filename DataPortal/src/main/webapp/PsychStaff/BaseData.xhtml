@@ -48,9 +48,12 @@
             <h:outputLabel value="Zählweise Berechnungstage" 
                            styleClass="label20"/>
             
-            <h:selectOneRadio styleClass="inlineBlock" required="true">
-                <f:selectItem itemValue="1" itemLabel="PEPP" class="xxxx"/>
+            <h:selectOneRadio styleClass="inlineBlock"
+                              value="#{editPsyStaff.staffProof.calculationType}"
+                              required="true">
+                <f:selectItem itemValue="1" itemLabel="PEPPV" />
                 <f:selectItem itemValue="2" itemLabel="BPflV/LKA"/>
+                <f:ajax/>
             </h:selectOneRadio>
         </div>
         
@@ -59,7 +62,9 @@
                            value="Vereinbahrungsjahr" 
                            for="year"/>
             
-            <h:selectOneMenu id="year" required="true">
+            <h:selectOneMenu id="year" 
+                             value="#{editPsyStaff.staffProof.year}"
+                             required="true">
                 <f:selectItems value="#{sessionTools.calenderYearItems}" />
             </h:selectOneMenu>
         </div>
