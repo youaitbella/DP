@@ -7,6 +7,9 @@ package org.inek.dataportal.feature.psychstaff.facade;
 
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.persistence.TypedQuery;
+import org.inek.dataportal.enums.DataSet;
+import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.AbstractDataAccess;
 import org.inek.dataportal.feature.psychstaff.entity.OccupationalCatagory;
 import org.inek.dataportal.feature.psychstaff.entity.PersonnelGroup;
@@ -26,6 +29,19 @@ public class PsychStaffFacade extends AbstractDataAccess {
 
     public StaffProof findStaffProof(int id) {
         return find(StaffProof.class, id);
+    }
+    
+    public List<StaffProof> getPersonals(int accountId, DataSet dataSet) {
+        String sql = "SELECT n FROM StaffProof n "
+                + "WHERE n._accountId = :accountId and n._statusId BETWEEN :minStatus AND :maxStatus ORDER BY n._year, n._id";
+        TypedQuery<StaffProof> query = getEntityManager().createQuery(sql, StaffProof.class);
+        int minStatus = dataSet == DataSet.AllOpen ? WorkflowStatus.New.getId() : WorkflowStatus.Provided.getId();
+        int maxStatus = dataSet == DataSet.AllOpen ? WorkflowStatus.Provided.getId()-1 : WorkflowStatus.Retired.getId();
+        query.setParameter("accountId", accountId);
+        query.setParameter("minStatus", minStatus);
+        query.setParameter("maxStatus", maxStatus);
+        return query.getResultList();
+
     }
 
     public int getSumSamePersonalGroup(int personalGroupId) {
@@ -57,5 +73,8 @@ public class PsychStaffFacade extends AbstractDataAccess {
         }
         return merge(staffProof);
     }
-
+    
+    public void delete(StaffProof staffProof) {
+        remove(staffProof);
+    }
 }

@@ -6,6 +6,7 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:jsf="http://xmlns.jcp.org/jsf"
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common"
+                xmlns:feature="http://xmlns.jcp.org/jsf/composite/components/feature/psychstaff"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 xmlns:spf="http://xmlns.jcp.org/jsf/composite/components/feature/specificfunction"
@@ -14,8 +15,14 @@
     <ui:define name="content">
         <h:form>
             <h1>#{msg.namePSYCH_STAFF}</h1>
-
+            
+            <h4><h:outputLabel value="#{msg.infoOpenPsychStaff}"/></h4>
+            <feature:PsychStaffList list="#{psychStafftList.openPersonals}"/>
+            
             <ui:include src="#{sessionTools.pages.PsychStaffListButtons}"/>
+            
+            <h4><h:outputLabel value="#{msg.infoSealedPsychStaff}"/></h4>
+            <feature:PsychStaffList list="#{psychStafftList.providedPersonals}"/>
             
         </h:form>
     </ui:define>
