@@ -41,6 +41,7 @@ import org.inek.dataportal.feature.psychstaff.entity.OccupationalCatagory;
 import org.inek.dataportal.feature.psychstaff.entity.PersonnelGroup;
 import org.inek.dataportal.feature.psychstaff.entity.StaffProof;
 import org.inek.dataportal.feature.psychstaff.entity.StaffProofAgreed;
+import org.inek.dataportal.feature.psychstaff.entity.StaffProofEffective;
 import org.inek.dataportal.feature.psychstaff.enums.PsychType;
 import org.inek.dataportal.feature.psychstaff.facade.PsychStaffFacade;
 import org.inek.dataportal.helper.Topic;
@@ -157,19 +158,20 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
 
     public void ikChanged() {
         setTopicVisibility();
-        ensureOccupationalCategories();
+        ensureStaffProofsAgreed();
+        ensureStaffProofsEffective();
     }
 
-    private void ensureOccupationalCategories() {
+    private void ensureStaffProofsAgreed() {
         if (_staffProof.isForAdults()) {
-            ensureOccupationalCategories(PsychType.Adults);
+            ensureStaffProofsAgreed(PsychType.Adults);
         }
         if (_staffProof.isForKids()) {
-            ensureOccupationalCategories(PsychType.Kids);
+            ensureStaffProofsAgreed(PsychType.Kids);
         }
     }
 
-    public void ensureOccupationalCategories(PsychType type) {
+    public void ensureStaffProofsAgreed(PsychType type) {
         if (_staffProof.getStaffProofsAgreed(type).size() > 0) {
             return;
         }
@@ -179,6 +181,28 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
             agreed.setPsychType(type);
             agreed.setOccupationalCatagory(cat);
             _staffProof.addStaffProofAgreed(agreed);
+        }
+    }
+
+    private void ensureStaffProofsEffective() {
+        if (_staffProof.isForAdults()) {
+            ensureStaffProofsEffective(PsychType.Adults);
+        }
+        if (_staffProof.isForKids()) {
+            ensureStaffProofsEffective(PsychType.Kids);
+        }
+    }
+
+    public void ensureStaffProofsEffective(PsychType type) {
+        if (_staffProof.getStaffProofsEffective(type).size() > 0) {
+            return;
+        }
+        for (OccupationalCatagory cat : getOccupationalCategories()) {
+            StaffProofEffective Effective = new StaffProofEffective();
+            Effective.setStaffProofMasterId(_staffProof.getId());
+            Effective.setPsychType(type);
+            Effective.setOccupationalCatagory(cat);
+            _staffProof.addStaffProofEffective(Effective);
         }
     }
 

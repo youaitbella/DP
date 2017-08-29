@@ -59,6 +59,17 @@ public class StaffProofEffective implements Serializable {
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Property OccupationalCatagoryId">
+    @Column(name = "speOccupationalCatagoryId")
+    private int _occupationalCatagoryId;
+
+    public int getOccupationalCatagoryId() {
+        return _occupationalCatagoryId;
+    }
+
+    public void setOccupationalCatagoryId(int occupationalCatagoryId) {
+        _occupationalCatagoryId = occupationalCatagoryId;
+    }
+
     @OneToOne()
     @PrimaryKeyJoinColumn(name = "speOccupationalCatagoryId")
     private OccupationalCatagory _occupationalCatagory;
@@ -69,9 +80,10 @@ public class StaffProofEffective implements Serializable {
     
     public void setOccupationalCatagory(OccupationalCatagory occupationalCatagory) {
         _occupationalCatagory = occupationalCatagory;
+        _occupationalCatagoryId = occupationalCatagory.getId();
     }
     //</editor-fold>
-
+    
     // <editor-fold defaultstate="collapsed" desc="Property PsychType">
     @Column(name = "spePsychType")
     private PsychType _psychType;

@@ -8,12 +8,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 import java.util.stream.Collectors;
-import javax.inject.Inject;
 import javax.persistence.*;
 import org.inek.dataportal.entities.iface.StatusEntity;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.feature.psychstaff.enums.PsychType;
-import org.inek.dataportal.feature.psychstaff.facade.PsychStaffFacade;
 import org.inek.dataportal.utils.Documentation;
 
 /**
@@ -179,7 +177,7 @@ public class StaffProof implements Serializable, StatusEntity {
 
     // <editor-fold defaultstate="collapsed" desc="Property CalculationType">
     @Column(name = "spmCalculationType")
-    private int _calculationType;
+    private int _calculationType = 1;
 
     public int getCalculationType() {
         return _calculationType;
@@ -268,6 +266,7 @@ public class StaffProof implements Serializable, StatusEntity {
     }
     // </editor-fold>
     
+    //<editor-fold defaultstate="collapsed" desc="Property StaffProofsAgreed">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "spaStaffProofMasterId", referencedColumnName = "spmId")
     private List<StaffProofAgreed> _staffProofAgreed = new Vector<>();
@@ -293,7 +292,36 @@ public class StaffProof implements Serializable, StatusEntity {
         _staffProofAgreed.add(staffProofAgreed);
         return true;
     }
+    // </editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property StaffProofsEffective">
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "spaStaffProofMasterId", referencedColumnName = "spmId")
+    private List<StaffProofEffective> _staffProofEffective = new Vector<>();
 
+    public List<StaffProofEffective> getStaffProofsEffective(PsychType type) {
+        return _staffProofEffective.stream().filter(a -> a.getPsychType() == type).collect(Collectors.toList());
+    }
+
+    /**
+     * Add a StaffProofEffective to the list
+     * @param staffProofEffective
+     * @return true, if the new element could be added; false if the element existed before
+     */
+    public boolean addStaffProofEffective(StaffProofEffective staffProofEffective) {
+        if (staffProofEffective.getPsychType() == PsychType.Unknown || staffProofEffective.getOccupationalCatagory() == null){
+            throw new IllegalArgumentException("StaffProofEffective needs a valid PsychType as well as a valid OccupationalCatagory");
+        }
+        if (_staffProofEffective.stream()
+                .anyMatch(a -> a.getPsychType() == staffProofEffective.getPsychType() 
+                        && a.getOccupationalCatagory() ==  staffProofEffective.getOccupationalCatagory())){
+            return false;
+        }
+        _staffProofEffective.add(staffProofEffective);
+        return true;
+    }
+    // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public int hashCode() {

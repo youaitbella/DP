@@ -17,33 +17,53 @@
 
     <!-- IMPLEMENTATION -->
     <cc:implementation>
-        <h2>Vereinbarte Stellenbesetzung in Vollkräften - Bereich #{cc.attrs.patType}</h2>
+        <h2>Vereinbarte Stellenbesetzung in Vollkräften - Bereich #{'Adults'.equals(cc.attrs.patType) ? 'Erwachsene' : 'Kinder und Jugendliche'}</h2>
         <span>(§ 3 Psych-Personalnachweis)</span>
 
-        <h:dataTable value="#{editPsyStaff.staffProof.getStaffProofsAgreed(cc.attrs.patType)}" var="item">
+        <h:dataTable value="#{editPsyStaff.staffProof.getStaffProofsAgreed(cc.attrs.patType)}" 
+                     columnClasses="colValue, colValue, col04em, col04em, col04em"
+                     var="item">
+
             <h:column>
-                <f:facet name="Personalgruppen" />
+                <f:facet name="header">
+                    Personalgruppen
+                </f:facet>
                 #{item.occupationalCatagory.personnelGroup.name}
             </h:column>
+
             <h:column>
+                <f:facet name="header">
+                    Berufsgruppen der Psych-PV
+                </f:facet>
                 <f:facet name="Berufsgruppen der Psych-PV" />
                 #{item.occupationalCatagory.name}
             </h:column>
+
             <h:column>
-                <f:facet name="Stellenbesetzung für eine vollständige Umsetzung der Psych-PV in VK" />
+                <f:facet name="header">
+                    Stellenbesetzung für eine vollständige Umsetzung der Psych-PV in VK
+                </f:facet>
                 <h:inputText value="#{item.staffingComplete}"></h:inputText>
             </h:column>
+
             <h:column>
-                <f:facet name="Stellenbesetzung als Budgetgrundlage in VK" />
+                <f:facet name="header">
+                    Stellenbesetzung als Budgetgrundlage in VK
+                </f:facet>
                 <h:inputText value="#{item.staffingBudget}"></h:inputText>
             </h:column>
+
             <h:column>
-                <f:facet name="Durchschnittskosten je VK in Euro" />
+                <f:facet name="header">
+                    Durchschnittskosten je VK in Euro
+                </f:facet>
                 <h:inputText value="#{item.avgCost}"></h:inputText>
             </h:column>
+
         </h:dataTable>
 
         <inek:LabeledText label="Vereinbarte Berechnungstage (#{editPsyStaff.staffProof.calculationType == '1' ? 'PEPPV' : 'BPflV/LKA'})"
-                          value="#{'Adults'.equals(cc.attrs.patType) ? editPsyStaff.staffProof.adultsAgreedDays : editPsyStaff.staffProof.kidsAgreedDays}"/>
+                          value="#{'Adults'.equals(cc.attrs.patType) ? editPsyStaff.staffProof.adultsAgreedDays : editPsyStaff.staffProof.kidsAgreedDays}"
+                          styleClass="inputSmall"/>
     </cc:implementation>
 </html>
