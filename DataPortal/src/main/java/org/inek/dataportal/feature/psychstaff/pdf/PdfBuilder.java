@@ -296,13 +296,13 @@ public class PdfBuilder implements Serializable {
     //</editor-fold>    
     
     //<editor-fold defaultstate="collapsed" desc="createTableInfoandChecksum">
-    private void createTableInfoandChecksum(Document document, String fout) throws NoSuchAlgorithmException, IOException, DocumentException {
+    private void createTableInfoandChecksum(Document document, String fileName) throws NoSuchAlgorithmException, IOException, DocumentException {
         //String checkSum = "Checksumme: " + toHex(Hash.MD5.checksum(file));
         PdfPTable tb1 = new PdfPTable(new float[]{1, 1});
         tb1.getDefaultCell().setBorder(Rectangle.NO_BORDER);
         addLayoutCell(tb1, "Anlage 1 zur Psych-Personalnachweisvereinbarung", SMALLBOLD, Element.ALIGN_LEFT);
         addLayoutCell(tb1, "Checksumme: " + getFileChecksum(MessageDigest.getInstance("MD5"), 
-                        new File(fout)), SMALLBOLD, Element.ALIGN_LEFT);//SHA-1, MD5,SHA-512
+                        new File(fileName)), SMALLBOLD, Element.ALIGN_LEFT);//SHA-1, MD5,SHA-512
         document.add(tb1);
     }
     //</editor-fold>

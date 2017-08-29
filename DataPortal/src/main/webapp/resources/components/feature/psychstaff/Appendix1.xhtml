@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+      >
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="patType" default="Adults"/>
+        <cc:attribute name="readonly" default="false"/>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <h2>Vereinbarte Stellenbesetzung in Vollkräften - Bereich #{cc.attrs.patType}</h2>
+        <span>(§ 3 Psych-Personalnachweis)</span>
+        
+        <h:dataTable value="#{editPsyStaff.staffProof.getStaffProofsAgreed(cc.attrs.patType)}" var="item">
+            <h:column>
+                <f:facet name="Personalgruppen" />
+                #{item.occupationalCatagory.personnelGroup.name}
+            </h:column>
+            <h:column>
+                <f:facet name="Berufsgruppen der Psych-PV" />
+                #{item.occupationalCatagory.name}
+            </h:column>
+            <h:column>
+                <f:facet name="Stellenbesetzung für eine vollständige Umsetzung der Psych-PV in VK" />
+                <h:inputText value="#{item.staffingComplete}"></h:inputText>
+            </h:column>
+            <h:column>
+                <f:facet name="Stellenbesetzung als Budgetgrundlage in VK" />
+                <h:inputText value="#{item.staffingBudget}"></h:inputText>
+            </h:column>
+            <h:column>
+                <f:facet name="Durchschnittskosten je VK in Euro" />
+                <h:inputText value="#{item.avgCost}"></h:inputText>
+            </h:column>
+        </h:dataTable>
+
+    </cc:implementation>
+</html>
+    
+
