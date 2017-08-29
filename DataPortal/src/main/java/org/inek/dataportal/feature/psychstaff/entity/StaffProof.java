@@ -44,7 +44,7 @@ public class StaffProof implements Serializable, StatusEntity {
     //<editor-fold defaultstate="collapsed" desc="dataYear">
     @Column(name = "spmYear")
     @Documentation(key = "lblYear")
-    private int _year;
+    private int _year = 2017;
 
     public int getYear() {
         return _year;

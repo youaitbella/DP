@@ -164,45 +164,45 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
 
     private void ensureStaffProofsAgreed(StaffProof staffProof) {
         if (staffProof.isForAdults()) {
-            ensureStaffProofsAgreed(PsychType.Adults);
+            ensureStaffProofsAgreed(staffProof, PsychType.Adults);
         }
         if (staffProof.isForKids()) {
-            ensureStaffProofsAgreed(PsychType.Kids);
+            ensureStaffProofsAgreed(staffProof, PsychType.Kids);
         }
     }
 
-    public void ensureStaffProofsAgreed(PsychType type) {
-        if (_staffProof.getStaffProofsAgreed(type).size() > 0) {
+    public void ensureStaffProofsAgreed(StaffProof staffProof, PsychType type) {
+        if (staffProof.getStaffProofsAgreed(type).size() > 0) {
             return;
         }
         for (OccupationalCatagory cat : getOccupationalCategories()) {
             StaffProofAgreed agreed = new StaffProofAgreed();
-            agreed.setStaffProofMasterId(_staffProof.getId());
+            agreed.setStaffProofMasterId(staffProof.getId());
             agreed.setPsychType(type);
             agreed.setOccupationalCatagory(cat);
-            _staffProof.addStaffProofAgreed(agreed);
+            staffProof.addStaffProofAgreed(agreed);
         }
     }
 
     private void ensureStaffProofsEffective(StaffProof staffProof) {
         if (staffProof.isForAdults()) {
-            ensureStaffProofsEffective(PsychType.Adults);
+            ensureStaffProofsEffective(staffProof, PsychType.Adults);
         }
         if (staffProof.isForKids()) {
-            ensureStaffProofsEffective(PsychType.Kids);
+            ensureStaffProofsEffective(staffProof, PsychType.Kids);
         }
     }
 
-    public void ensureStaffProofsEffective(PsychType type) {
-        if (_staffProof.getStaffProofsEffective(type).size() > 0) {
+    public void ensureStaffProofsEffective(StaffProof staffProof, PsychType type) {
+        if (staffProof.getStaffProofsEffective(type).size() > 0) {
             return;
         }
         for (OccupationalCatagory cat : getOccupationalCategories()) {
             StaffProofEffective Effective = new StaffProofEffective();
-            Effective.setStaffProofMasterId(_staffProof.getId());
+            Effective.setStaffProofMasterId(staffProof.getId());
             Effective.setPsychType(type);
             Effective.setOccupationalCatagory(cat);
-            _staffProof.addStaffProofEffective(Effective);
+            staffProof.addStaffProofEffective(Effective);
         }
     }
 
