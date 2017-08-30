@@ -126,10 +126,10 @@ public class PdfBuilder implements Serializable {
         //</editor-fold>
 
         addInfoText(document, "1. Die vereinbarten Berechnungstage in Anlage 1 und die tatsächlichen "
-                + "Berechnungstage in Anlage 2 sind in einer einheitlichen Zählweise entweder nach LKA oder nach PEPPV anzugeben.", 5);
-        addInfoText(document, "2. Bei Kinder- und Jugendpsychiatrie einschließlich Erziehungsdienst", 10);
+                + "Berechnungstage in Anlage 2 sind in einer einheitlichen Zählweise entweder nach LKA oder nach PEPPV anzugeben.", 0);
+        addInfoText(document, "2. Bei Kinder- und Jugendpsychiatrie einschließlich Erziehungsdienst", 20);
         addInfoText(document, "Diese Datei ist durch die Vertragspartner nach $11 BPflV zu unterschreiben "
-                + "und als elektronische Kopie an das InEK zu senden", 30);
+                + "und als elektronische Kopie an das InEK zu senden", 50);
         addSignatureArea(document);
         addFooter(document);
         document.close();
@@ -284,7 +284,7 @@ public class PdfBuilder implements Serializable {
     private void addFooter(Document document) throws DocumentException {
         PdfPTable tb;
         tb = new PdfPTable(4);
-        tb.setSpacingBefore(120);
+        tb.setSpacingBefore(100);
         addLayoutCell(tb, "InEK", FONT_TITLE_FOOTER, Element.ALIGN_LEFT);
         addLayoutCell(tb, "Telefon", FONT_TITLE_FOOTER, Element.ALIGN_LEFT);
         addLayoutCell(tb, "Bankverbindung", FONT_TITLE_FOOTER, Element.ALIGN_LEFT);
@@ -329,6 +329,7 @@ public class PdfBuilder implements Serializable {
         addLayoutCell(tb, "Anlage 1 zur Psych-Personalnachweisvereinbarung", SMALLBOLD, Element.ALIGN_LEFT);
         addLayoutCell(tb, "Checksumme: " + getFileChecksum(MessageDigest.getInstance("MD5"),
                 new File(fileName)), SMALLBOLD, Element.ALIGN_LEFT);//SHA-1, MD5,SHA-512
+        tb.setSpacingAfter(5);
         document.add(tb);
     }
     //</editor-fold>
