@@ -46,6 +46,7 @@ import org.inek.dataportal.feature.psychstaff.facade.PsychStaffFacade;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.structures.MessageContainer;
 import org.inek.dataportal.mail.Mailer;
+import org.inek.dataportal.utils.Crypt;
 import org.inek.dataportal.utils.DocumentationUtil;
 
 /**
@@ -454,4 +455,5 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     }
 
     // </editor-fold>
+
 }

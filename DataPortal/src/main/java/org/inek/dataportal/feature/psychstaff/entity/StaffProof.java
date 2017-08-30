@@ -12,6 +12,7 @@ import javax.persistence.*;
 import org.inek.dataportal.entities.iface.StatusEntity;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.feature.psychstaff.enums.PsychType;
+import org.inek.dataportal.utils.Crypt;
 import org.inek.dataportal.utils.Documentation;
 
 /**
@@ -347,4 +348,32 @@ public class StaffProof implements Serializable, StatusEntity {
     }
     // </editor-fold>
 
+    public String getChecksumAgreement() {
+        String data = ""
+                + getId()
+                + getAccountId()
+                + getCreated()
+                + isForAdults()
+                + isForKids()
+                + getCalculationType()
+                + getAdultsAgreedDays()
+                + getKidsAgreedDays()
+                + getProofsAgreedData(PsychType.Adults)
+                + getProofsAgreedData(PsychType.Kids);
+        return Crypt.getHash("SHA1", data);
+    }
+
+    private String getProofsAgreedData(PsychType psychType) {
+        String data = "" + psychType;
+        data =  getStaffProofsAgreed(psychType)
+                .stream()
+                .map((item) -> ""
+                + item.getOccupationalCatagoryId()
+                + item.getStaffingComplete()
+                + item.getStaffingBudget()
+                + item.getAvgCost())
+                .reduce(data, String::concat);
+        return data;
+    }
+    
 }
