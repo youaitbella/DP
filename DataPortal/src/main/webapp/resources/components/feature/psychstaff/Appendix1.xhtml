@@ -20,48 +20,50 @@
         <h2>Vereinbarte Stellenbesetzung in Vollkräften - Bereich #{'Adults'.equals(cc.attrs.patType) ? 'Erwachsene' : 'Kinder und Jugendliche'}</h2>
         <span>(§ 3 Psych-Personalnachweis)</span>
 
-        <h:dataTable value="#{editPsyStaff.staffProof.getStaffProofsAgreed(cc.attrs.patType)}" 
-                     columnClasses="colValue, col10em, col04em, col04em, col04em"
-                     var="item">
+        <f:ajax>
+            <h:dataTable value="#{editPsyStaff.staffProof.getStaffProofsAgreed(cc.attrs.patType)}" 
+                         columnClasses="colValue, col10em, col04em, col04em, col04em"
+                         var="item">
 
-            <h:column>
-                <f:facet name="header">
-                    Personalgruppen
-                </f:facet>
-                #{item.occupationalCatagory.personnelGroup.name}
-            </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        Personalgruppen
+                    </f:facet>
+                    #{item.occupationalCatagory.personnelGroup.name}
+                </h:column>
 
-            <h:column>
-                <f:facet name="header">
-                    Berufsgruppen der Psych-PV
-                </f:facet>
-                <f:facet name="Berufsgruppen der Psych-PV" />
-                #{item.occupationalCatagory.name}
-            </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        Berufsgruppen der Psych-PV
+                    </f:facet>
+                    <f:facet name="Berufsgruppen der Psych-PV" />
+                    #{item.occupationalCatagory.name}
+                </h:column>
 
-            <h:column>
-                <f:facet name="header">
-                    Stellenbesetzung für eine vollständige Umsetzung der Psych-PV in VK
-                </f:facet>
-                <h:inputText value="#{item.staffingComplete}"></h:inputText>
-            </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        Stellenbesetzung für eine vollständige Umsetzung der Psych-PV in VK
+                    </f:facet>
+                    <h:inputText value="#{item.staffingComplete}"></h:inputText>
+                </h:column>
 
-            <h:column>
-                <f:facet name="header">
-                    Stellenbesetzung als Budgetgrundlage in VK
-                </f:facet>
-                <h:inputText value="#{item.staffingBudget}"></h:inputText>
-            </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        Stellenbesetzung als Budgetgrundlage in VK
+                    </f:facet>
+                    <h:inputText value="#{item.staffingBudget}"></h:inputText>
+                </h:column>
 
-            <h:column>
-                <f:facet name="header">
-                    Durchschnittskosten je VK in Euro
-                </f:facet>
-                <h:inputText value="#{item.avgCost}"></h:inputText>
-            </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        Durchschnittskosten je VK in Euro
+                    </f:facet>
+                    <h:inputText value="#{item.avgCost}"></h:inputText>
+                </h:column>
 
-        </h:dataTable>
-
+            </h:dataTable>
+        </f:ajax>
+        
         <inek:LabeledText label="Vereinbarte Berechnungstage (#{editPsyStaff.staffProof.calculationType == '1' ? 'PEPPV' : 'BPflV/LKA'})"
                           value="#{'Adults'.equals(cc.attrs.patType) ? editPsyStaff.staffProof.adultsAgreedDays : editPsyStaff.staffProof.kidsAgreedDays}"
                           styleClass="inputSmall"/>

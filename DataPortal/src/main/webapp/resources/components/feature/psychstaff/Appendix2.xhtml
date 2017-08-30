@@ -20,63 +20,65 @@
         <h2>Tatsächliche Stellenbesetzung in Vollkräften - Bereich #{'Adults'.equals(cc.attrs.patType) ? 'Erwachsene' : 'Kinder und Jugendliche'}</h2>
         <span>(§ 4 Psych-Personalnachweis)</span>
 
-        <h:dataTable value="#{editPsyStaff.staffProof.getStaffProofsEffective(cc.attrs.patType)}" 
-                     columnClasses="colValue, col10em, col08em, col08em, col08em, col08em, col08em"
-                     var="item">
-            
-            <h:column>
-                <f:facet name="header">
-                    Personalgruppen
-                </f:facet>
-                #{item.occupationalCatagory.personnelGroup.name}
-            </h:column>
+        <f:ajax>
+            <h:dataTable value="#{editPsyStaff.staffProof.getStaffProofsEffective(cc.attrs.patType)}" 
+                         columnClasses="colValue, col10em, col08em, col08em, col08em, col08em, col08em"
+                         var="item">
 
-            <h:column>
-                <f:facet name="header">
-                    Berufsgruppen der Psych-PV
-                </f:facet>
-                #{item.occupationalCatagory.name}
-            </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        Personalgruppen
+                    </f:facet>
+                    #{item.occupationalCatagory.personnelGroup.name}
+                </h:column>
 
-            <h:column>
-                <f:facet name="header">
-                    Psych-PV-Personal in VK (jeweils in Summe)
-                </f:facet>
-                <h:inputText value="#{item.staffingComplete}" styleClass="col08em">
-                    <f:ajax render="factor"/>
-                </h:inputText>
-            </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        Berufsgruppen der Psych-PV
+                    </f:facet>
+                    #{item.occupationalCatagory.name}
+                </h:column>
 
-            <h:column>
-                <f:facet name="header">
-                    Anrechnung Fachkräfte anderer Berufsgruppen der Psych-PV in VK (§4 Abs. 4 Vereinb.)
-                </f:facet>
-                <h:inputText value="#{item.staffingDeductionPsych}" styleClass="col08em"/>
-            </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        Psych-PV-Personal in VK (jeweils in Summe)
+                    </f:facet>
+                    <h:inputText value="#{item.staffingComplete}" styleClass="col08em">
+                        <f:ajax render="factor"/>
+                    </h:inputText>
+                </h:column>
 
-            <h:column>
-                <f:facet name="header">
-                    Anrechnung Fachkräfte Nicht-Psych-PV Berufsgruppen in VK (§4 Abs. 5 Vereinb.)
-                </f:facet>
-                <h:inputText value="#{item.staffingDeductionNonPsych}" styleClass="col08em"/>
-            </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        Anrechnung Fachkräfte anderer Berufsgruppen der Psych-PV in VK (§4 Abs. 4 Vereinb.)
+                    </f:facet>
+                    <h:inputText value="#{item.staffingDeductionPsych}" styleClass="col08em"/>
+                </h:column>
 
-            <h:column>
-                <f:facet name="header">
-                    Anrechnung Fachkräfte ohne direktes Beschäftigungsverh. in VK (§4 Abs. 6 Vereinb.)
-                </f:facet>
-                <h:inputText value="#{item.staffingDeductionOhter}" styleClass="col08em"/>
-            </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        Anrechnung Fachkräfte Nicht-Psych-PV Berufsgruppen in VK (§4 Abs. 5 Vereinb.)
+                    </f:facet>
+                    <h:inputText value="#{item.staffingDeductionNonPsych}" styleClass="col08em"/>
+                </h:column>
 
-            <h:column>
-                <f:facet name="header">
-                    Psych-PV-Personal in VK (jeweils in Summe)
-                </f:facet>
-                <h:outputText id="factor" value="#{item.staffingComplete / 3}" styleClass="col08em"/>
-            </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        Anrechnung Fachkräfte ohne direktes Beschäftigungsverh. in VK (§4 Abs. 6 Vereinb.)
+                    </f:facet>
+                    <h:inputText value="#{item.staffingDeductionOhter}" styleClass="col08em"/>
+                </h:column>
 
-        </h:dataTable>
+                <h:column>
+                    <f:facet name="header">
+                        Psych-PV-Personal in VK (jeweils in Summe)
+                    </f:facet>
+                    <h:outputText id="factor" value="#{editPsyStaff.determineFactor(item)}" styleClass="col08em"/>
+                </h:column>
 
+            </h:dataTable>
+        </f:ajax>
+                        
         <inek:LabeledText label="Tatsächliche Berechnungstage (#{editPsyStaff.staffProof.calculationType == '1' ? 'PEPPV' : 'BPflV/LKA'})"
                           value="#{'Adults'.equals(cc.attrs.patType) ? editPsyStaff.staffProof.adultsEffectiveDays : editPsyStaff.staffProof.kidsEffectiveDays}"
                           styleClass="inputSmall"/>

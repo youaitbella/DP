@@ -66,6 +66,11 @@ public class PsychStaffFacade extends AbstractDataAccess {
             persist(staffProof);
             return staffProof;
         }
+
+        /*
+        usually we need to store lists separate - but here, everything is ok with a merge only
+        merging separate will double the entries!
+        
         for (PsychType type : PsychType.values()) {
             for (StaffProofAgreed proof : staffProof.getStaffProofsAgreed(type)) {
                 proof.setStaffProofMasterId(staffProof.getId());
@@ -76,6 +81,7 @@ public class PsychStaffFacade extends AbstractDataAccess {
                 merge(proof);
             }
         }
+        */
         return merge(staffProof);
     }
     

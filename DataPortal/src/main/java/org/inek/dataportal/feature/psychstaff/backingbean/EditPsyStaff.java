@@ -199,11 +199,11 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
             return;
         }
         for (OccupationalCatagory cat : getOccupationalCategories()) {
-            StaffProofEffective Effective = new StaffProofEffective();
-            Effective.setStaffProofMasterId(staffProof.getId());
-            Effective.setPsychType(type);
-            Effective.setOccupationalCatagory(cat);
-            staffProof.addStaffProofEffective(Effective);
+            StaffProofEffective effective = new StaffProofEffective();
+            effective.setStaffProofMasterId(staffProof.getId());
+            effective.setPsychType(type);
+            effective.setOccupationalCatagory(cat);
+            staffProof.addStaffProofEffective(effective);
         }
     }
 
@@ -455,5 +455,17 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     }
 
     // </editor-fold>
-
+    
+    public String determineFactor(StaffProofEffective effective) {
+        StaffProofAgreed agreed = _staffProof.getStaffProofsAgreed(effective.getPsychType())
+                .stream()
+                .filter(a -> a.getOccupationalCatagoryId() == effective.getOccupationalCatagoryId())
+                .findFirst().orElse(new StaffProofAgreed());
+        double denominator = agreed.getStaffingComplete();
+        if (denominator == 0) {
+            return "";
+        }
+        double factor = 100 * effective.getStaffingComplete() / denominator;
+        return Math.round(factor) + " %";
+    }
 }

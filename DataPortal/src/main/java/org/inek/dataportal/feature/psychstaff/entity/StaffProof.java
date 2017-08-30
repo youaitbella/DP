@@ -273,7 +273,11 @@ public class StaffProof implements Serializable, StatusEntity {
     private List<StaffProofAgreed> _staffProofAgreed = new Vector<>();
 
     public List<StaffProofAgreed> getStaffProofsAgreed(PsychType type) {
-        return _staffProofAgreed.stream().filter(a -> a.getPsychType() == type).collect(Collectors.toList());
+        return _staffProofAgreed
+                .stream()
+                .filter(a -> a.getPsychType() == type)
+                .sorted((a1, a2) -> a1.getOccupationalCatagoryId() - a2.getOccupationalCatagoryId())
+                .collect(Collectors.toList());
     }
 
     /**
@@ -301,7 +305,11 @@ public class StaffProof implements Serializable, StatusEntity {
     private List<StaffProofEffective> _staffProofEffective = new Vector<>();
 
     public List<StaffProofEffective> getStaffProofsEffective(PsychType type) {
-        return _staffProofEffective.stream().filter(a -> a.getPsychType() == type).collect(Collectors.toList());
+        return _staffProofEffective
+                .stream()
+                .filter(a -> a.getPsychType() == type)
+                .sorted((e1, e2) -> e1.getOccupationalCatagoryId() - e2.getOccupationalCatagoryId())
+                .collect(Collectors.toList());
     }
 
     /**
