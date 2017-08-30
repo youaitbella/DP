@@ -71,6 +71,7 @@ public class ValuationRatioList {
     }
     
     public boolean isNewEnabled() {
-        return _valuationRatioFacade.isNewValuationRationEnabled(_sessionController.getAccountId());
+        return _valuationRatioFacade.isNewValuationRationEnabled(_sessionController.getAccountId(),
+                _sessionController.getAccount().getIK(),_sessionController.getAccount().getAdditionalIKs());
     }
 }

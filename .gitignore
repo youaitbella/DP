@@ -3,3 +3,5 @@
 *.pdf
 *.htm
 /DataPortal/nbproject/
+DataPortal/nb-configuration.xml
+DataPortal/src/main/resources/META-INF/persistence.xml

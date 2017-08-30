@@ -43,9 +43,12 @@ public class EditValuationRatio extends AbstractEditController {
     }
     // </editor-fold>
 
-    @Inject private ValuationRatioFacade _valuationRatioFacade;
-    @Inject private SessionController _sessionController;
-    @Inject private AccountFacade _accFacade;
+    @Inject
+    private ValuationRatioFacade _valuationRatioFacade;
+    @Inject
+    private SessionController _sessionController;
+    @Inject
+    private AccountFacade _accFacade;
 
     @PostConstruct
     private void init() {
@@ -62,11 +65,12 @@ public class EditValuationRatio extends AbstractEditController {
             _valuationRatio.setCity(acc.getTown());
             _valuationRatio.setStreet(acc.getStreet());
             _valuationRatio.setZip(acc.getPostalCode());
-            if(DateUtils.isNullAlias(_valuationRatio.getValidFrom()))
+            if (DateUtils.isNullAlias(_valuationRatio.getValidFrom())) {
                 _valuationRatio.setValidFrom(null);
+            }
         }
     }
-    
+
     private ValuationRatio newValuationRatio() {
         Account acc = _sessionController.getAccount();
         ValuationRatio vr = new ValuationRatio();
@@ -86,7 +90,7 @@ public class EditValuationRatio extends AbstractEditController {
     }
 
     public void ikChanged() {
-        
+
     }
 
     private ValuationRatio _valuationRatio;
@@ -94,38 +98,42 @@ public class EditValuationRatio extends AbstractEditController {
     public ValuationRatio getValuationRatio() {
         return _valuationRatio;
     }
-    
+
     public boolean isI68dBelowMedian() {
         ValuationRatioMedian vrm = _valuationRatioFacade.findMedianByDrgAndDataYear("I68D", _valuationRatio.getDataYear());
-        if(vrm == null)
+        if (vrm == null) {
             return false;
+        }
         return _valuationRatio.getI68d() <= (vrm.getMedian() * vrm.getFactor());
     }
-    
+
     public boolean isI68eBelowMedian() {
         ValuationRatioMedian vrm = _valuationRatioFacade.findMedianByDrgAndDataYear("I68E", _valuationRatio.getDataYear());
-        if(vrm == null)
+        if (vrm == null) {
             return false;
+        }
         return _valuationRatio.getI68e() <= (vrm.getMedian() * vrm.getFactor());
     }
-    
+
     public int getI68d() {
         return _valuationRatio.getI68d();
     }
-    
+
     public void setI68d(int value) {
-        if(!isI68dBelowMedian())
+        if (!isI68dBelowMedian()) {
             _valuationRatio.setI68dList(false);
+        }
         _valuationRatio.setI68d(value);
     }
-    
+
     public int getI68e() {
         return _valuationRatio.getI68e();
     }
-    
+
     public void setI68e(int value) {
-        if(!isI68eBelowMedian())
+        if (!isI68eBelowMedian()) {
             _valuationRatio.setI68eList(false);
+        }
         _valuationRatio.setI68e(value);
     }
 
@@ -139,23 +147,38 @@ public class EditValuationRatio extends AbstractEditController {
         }
         return false;
     }
-    
+
     public List<Integer> getIks() {
         List<Integer> iks = new ArrayList<>();
-        iks.add(_sessionController.getAccount().getIK());
-        for(AccountAdditionalIK ik : _sessionController.getAccount().getAdditionalIKs()) {
-            iks.add(ik.getIK());
+        if (!_valuationRatioFacade.existsValuationRatio(
+                _sessionController.getAccount().getIK())) {
+            iks.add(_sessionController.getAccount().getIK());
+        }
+
+        for (AccountAdditionalIK ik : _sessionController
+                .getAccount().getAdditionalIKs()) {
+            if (!_valuationRatioFacade
+                    .existsValuationRatio(ik.getIK())) {
+                iks.add(ik.getIK());
+            }
+
         }
         return iks;
+    }
+    
+    public boolean getcheckIfEdit() {
+        if(_valuationRatio.getId() == -1)
+            return true;
+        return false;
     }
 
     public String save() {
         try {
-            if(_valuationRatio.getValidFrom() == null) {
+            if (_valuationRatio.getValidFrom() == null) {
                 Date test = DateUtils.getNullAlias();
                 _valuationRatio.setValidFrom(test);
             }
-            
+
             _valuationRatio = _valuationRatioFacade.saveValuationRatio(_valuationRatio);
             _sessionController.alertClient(Utils.getMessage("msgSave"));
         } catch (EJBException e) {

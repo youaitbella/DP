@@ -22,12 +22,22 @@
                 <h:outputLabel for="hospitalIk" styleClass="label" value="#{msg.lblHospitalIk}:" />
                 <h:message for="hospitalIk" id="msgHospitalIk" styleClass="errorMessage"/>
                 <br />
-                <h:selectOneMenu value="#{editValuationRatio.valuationRatio.ik}" required="true" readonly="#{editValuationRatio.readOnly}">
+                <h:selectOneMenu value="#{editValuationRatio.valuationRatio.ik}" 
+                                 rendered="#{editValuationRatio.checkIfEdit}"
+                                 required="true" 
+                                 readonly="#{editValuationRatio.readOnly}">
                     <f:ajax event="blur" 
                             render="@this :logout:remaining msgHospitalIk hospitalName messageForm"/>
                     <f:selectItems value="#{editValuationRatio.iks}" />
                 </h:selectOneMenu>
-                <h:outputText id="hospitalName" styleClass="marginLeft" value="#{sessionController.getIkName(editValuationRatio.valuationRatio.ik)}"/>
+                <h:outputText id="hospitalName1" 
+                              styleClass="marginLeft"
+                              rendered="#{editValuationRatio.checkIfEdit}"
+                              value="#{sessionController.getIkName(editValuationRatio.valuationRatio.ik)}"/>
+                <h:outputText id="hospitalName2"
+                              styleClass="marginLeft"
+                              rendered="#{!editValuationRatio.checkIfEdit}"
+                              value="#{editValuationRatio.valuationRatio.ik} - #{sessionController.getIkName(editValuationRatio.valuationRatio.ik)}"/>
             </div>
             
             <h2>Krankenhausdaten</h2>

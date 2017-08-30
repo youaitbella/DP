@@ -19,7 +19,6 @@
         <h:form id="form" prependId="false">
 
             <h1>#{msg.nameVALUATION_RATIO}</h1>
-
             <h4><h:outputLabel value="Offene (noch nicht an das InEK gesendete) Bewertungsrelationen"/></h4>
             <feature:ValuationRatio list="#{valuationRatioList.openRelations}"/>
 
@@ -29,7 +28,7 @@
                     <f:param name="id" value="new"/>
                 </h:commandLink>
             </div>
-            
+
             <h4><h:outputLabel value="Bereits an das InEK gesendete Bewertungsrelationen"/></h4>
             <feature:ValuationRatio list="#{valuationRatioList.providedRelations}"/>
             
