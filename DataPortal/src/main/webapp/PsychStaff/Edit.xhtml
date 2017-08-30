@@ -16,6 +16,7 @@
             <h1><h:commandLink value="#{msg.namePSYCH_STAFF}" 
                                action="#{sessionController.navigate(sessionTools.pages.PsychStaffSummary)}" 
                                immediate="true"/></h1>
+            
 
             <div class="tab" jsf:id="psyStaffMenu">
                 <ul class="tab">
@@ -32,6 +33,7 @@
             </div>
 
             <div class="edit">
+                <h:outputText id="checksum" value="Signatur: #{editPsyStaff.staffProof.checksumAgreement}"/>
 
                 <ui:include src="#{editPsyStaff.activeTopic.outcome}" />
 
