@@ -68,6 +68,13 @@
                                    rendered="#{editPsyStaff.sealEnabled}"
                                    title="#{msg.infoSaveAndClose}">
                     </h:commandLink>
+                    <h:commandLink styleClass="bigButton"
+                                   immediate="false"
+                                   action="#{PDFBuild.createDocument()}"
+                                   value="PDF WIP"
+                                   rendered="#{editPsyStaff.sealEnabled}"
+                                   title="#{msg.infoSaveAndClose}">
+                    </h:commandLink>
 
                     <ui:remove>
                         <h:commandLink styleClass="bigButton"
