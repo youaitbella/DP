@@ -370,7 +370,7 @@ public class StaffProof implements Serializable, StatusEntity {
                 + getKidsAgreedDays()
                 + getProofsAgreedData(PsychType.Adults)
                 + getProofsAgreedData(PsychType.Kids);
-        return Crypt.getHash("SHA1", data) + " ### " + Crypt.getHash64("SHA1", data);
+        return Crypt.getHash64("SHA1", data);
     }
 
     private String getProofsAgreedData(PsychType psychType) {

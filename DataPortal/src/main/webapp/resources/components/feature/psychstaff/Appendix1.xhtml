@@ -7,7 +7,9 @@
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
       xmlns:cb="http://inek.org/dataportal/clientbehaviour"
       xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common"
-      >
+
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
 
     <!-- INTERFACE -->
     <cc:interface>
@@ -16,57 +18,77 @@
     </cc:interface>
 
     <!-- IMPLEMENTATION -->
-    <cc:implementation>
+    <cc:implementation >
         <h2>Vereinbarte Stellenbesetzung in Vollkräften - Bereich #{'Adults'.equals(cc.attrs.patType) ? 'Erwachsene' : 'Kinder und Jugendliche'}</h2>
         <span>(§ 3 Psych-Personalnachweis)</span>
+        <br/>
+        <b>#{cc.id}</b>
+        <br/>
+        <b>#{cc.attrs.clientId}</b>
 
-        <f:ajax>
-            <h:dataTable value="#{editPsyStaff.staffProof.getStaffProofsAgreed(cc.attrs.patType)}" 
-                         columnClasses="colValue, col10em, col04em, col04em, col04em"
-                         var="item">
+        <table jsf:id="data" class="marginTop">
+            <thead>
+                <tr>
+                    <th class="col10em row1" scope="col"> Personalgruppen </th>
+                    <th class="col10em row1" scope="col"> Berufsgruppen der Psych-PV </th>
+                    <th class="col08em row1" scope="col"> Stellenbesetzung für eine voll-ständige Umsetzung der Psych-PV in VK </th>
+                    <th class="col08em row1" scope="col"> Stellenbesetzung als Budgetgrund-lage in VK </th>
+                    <th class="col08em row1" scope="col"> Durchschnitts-kosten je VK in Euro </th>
+                </tr>
+            </thead>
+            <tbody>
+                <ui:repeat value="#{editPsyStaff.staffProof.getStaffProofsAgreed(cc.attrs.patType)}" var="item">
+                    <tr>
+                        <td class="row1">
+                            <h:outputText value="#{item.occupationalCatagory.personnelGroup.name}" styleClass="element10em"/>
+                        </td>
+                        <td class="row1"> 
+                            <h:outputText value="#{item.occupationalCatagory.name}" styleClass="element10em"/>
+                        </td>
+                        <td>
+                            <inek:InputNumberWithMessage value="#{item.staffingComplete}" 
+                                                         styleClass="element08em number"
+                                                         renderElement=":psychStaff:checksum :#{cc.attrs.clientId}:sumStaffingComplete @this"
+                                                         pattern="#,##0.0"
+                                                         isInt="false"/>
+                        </td>
+                        <td>
+                            <inek:InputNumberWithMessage value="#{item.staffingBudget}" 
+                                                         styleClass="element08em number"
+                                                         renderElement=":psychStaff:checksum :#{cc.attrs.clientId}:sumStaffingBudget @this"
+                                                         pattern="#,##0.0"
+                                                         isInt="false"/>
+                        </td>
+                        <td >
+                            <inek:InputNumberWithMessage value="#{item.avgCost}" 
+                                                         styleClass="element08em number"
+                                                         pattern="#,##0.00"
+                                                         isInt="false"/>
+                        </td>
+                    </tr>
+                </ui:repeat>
+                <tfoot>
+                    <tr>
+                        <td class="col10em row1" scope="col"> </td>
+                        <td class="col10em row1" scope="col"> Gesamt </td>
+                        <th class="col08em row1" scope="col"> 
+                            <h:inputText id="sumStaffingComplete" 
+                                         value="#{editPsyStaff.sumStaffingComplete(cc.attrs.patType)}"
+                                         styleClass="col08em number"
+                                         disabled="true"/>
+                        </th>
+                        <td class="col08em row1" scope="col"> 
+                            <h:inputText id="sumStaffingBudget" 
+                                         value="#{editPsyStaff.sumStaffingBudget(cc.attrs.patType)}"
+                                         styleClass="col08em number"
+                                         disabled="true"/> 
+                        </td>
+                        <td class="col08em row1" scope="col">  </td>
+                    </tr>
 
-                <h:column>
-                    <f:facet name="header">
-                        Personalgruppen
-                    </f:facet>
-                    #{item.occupationalCatagory.personnelGroup.name}
-                </h:column>
+                </tfoot>
+            </tbody>
+        </table>
 
-                <h:column>
-                    <f:facet name="header">
-                        Berufsgruppen der Psych-PV
-                    </f:facet>
-                    <f:facet name="Berufsgruppen der Psych-PV" />
-                    #{item.occupationalCatagory.name}
-                </h:column>
-
-                <h:column>
-                    <f:facet name="header">
-                        Stellenbesetzung für eine vollständige Umsetzung der Psych-PV in VK
-                    </f:facet>
-                    <h:inputText value="#{item.staffingComplete}"></h:inputText>
-                </h:column>
-
-                <h:column>
-                    <f:facet name="header">
-                        Stellenbesetzung als Budgetgrundlage in VK
-                    </f:facet>
-                    <h:inputText value="#{item.staffingBudget}"></h:inputText>
-                </h:column>
-
-                <h:column>
-                    <f:facet name="header">
-                        Durchschnittskosten je VK in Euro
-                    </f:facet>
-                    <h:inputText value="#{item.avgCost}"></h:inputText>
-                </h:column>
-
-            </h:dataTable>
-        </f:ajax>
-        
-        <inek:LabeledText id="agreedDays"
-                          label="#{lblAgreedDays} (#{editPsyStaff.staffProof.calculationType == '1' ? 'PEPPV' : 'BPflV/LKA'})"
-                          value="#{'Adults'.equals(cc.attrs.patType) ? editPsyStaff.staffProof.adultsAgreedDays : editPsyStaff.staffProof.kidsAgreedDays}"
-                          styleClass="inputSmall"/>
     </cc:implementation>
 </html>

@@ -6,6 +6,7 @@
 package org.inek.dataportal.feature.psychstaff.backingbean;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneOffset;
@@ -500,8 +501,8 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         }
         return items;
     }
-
     // </editor-fold>
+
     public String determineFactor(StaffProofEffective effective) {
         StaffProofAgreed agreed = _staffProof.getStaffProofsAgreed(effective.getPsychType())
                 .stream()
@@ -512,7 +513,16 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
             return "";
         }
         double factor = 100 * effective.getStaffingComplete() / denominator;
-        return Math.round(factor) + " %";
+        return String.format("%.1f", factor) + " %";
     }
 
+    public String sumStaffingComplete(PsychType type) {
+        double sum = _staffProof.getStaffProofsAgreed(type).stream().mapToDouble(i -> i.getStaffingComplete()).sum();
+        return String.format("%.1f", sum);
+    }
+
+    public String sumStaffingBudget(PsychType type) {
+        double sum = _staffProof.getStaffProofsAgreed(type).stream().mapToDouble(i -> i.getStaffingBudget()).sum();
+        return String.format("%.1f", sum);
+    }
 }

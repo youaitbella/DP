@@ -33,8 +33,11 @@
             </div>
 
             <div class="edit">
-                <h:outputText id="checksum" value="Signatur: #{editPsyStaff.staffProof.checksumAgreement}"/>
-
+                <h:outputLabel id="checksum" 
+                               value="Signatur: #{editPsyStaff.staffProof.checksumAgreement}"
+                               styleClass="label"/>
+                <hr/>
+                
                 <ui:include src="#{editPsyStaff.activeTopic.outcome}" />
 
                 <div class="toolBar">

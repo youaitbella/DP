@@ -5,7 +5,6 @@
  */
 package org.inek.dataportal.helper;
 
-import java.util.List;
 import java.util.Map;
 import org.inek.dataportal.entities.nub.NubRequest;
 import org.inek.dataportal.helper.structures.FieldValues;
