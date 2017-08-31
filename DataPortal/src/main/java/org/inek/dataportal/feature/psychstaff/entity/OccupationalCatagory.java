@@ -45,8 +45,7 @@ public class OccupationalCatagory implements Serializable {
     
     //<editor-fold defaultstate="collapsed" desc="Property PersonnelGroupId">
     @OneToOne()
-    //@PrimaryKeyJoinColumn(name = "ocPersonnelGroupId")
-    @PrimaryKeyJoinColumn(name = "ocPersonnelGroupId", referencedColumnName = "pgId")
+    @PrimaryKeyJoinColumn(name = "ocPersonnelGroupId")
     private PersonnelGroup _personnelGroup;
     
     public PersonnelGroup getPersonnelGroup() {

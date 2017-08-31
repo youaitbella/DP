@@ -388,25 +388,39 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         MessageContainer message = new MessageContainer();
 
         String ik = request.getIk() <= 0 ? "" : "" + request.getIk();
-        checkField(message, ik, "lblIK", "psychStaff:ikMulti", Pages.PsychStaffBaseData);
-        checkField(message, _staffProof.getYear(), 2016, 2020, "lblAgreementYear", "psychStaff:year", Pages.PsychStaffBaseData);
+        checkField(message, ik, "lblIK", "psychStaff:ikMulti", TOPIC_MASTER);
+        checkField(message, _staffProof.getYear(), 2016, 2020, "lblAgreementYear", "psychStaff:year", TOPIC_MASTER);
         if (!_staffProof.isForAdults() && !_staffProof.isForKids()) {
             String msg = "Bitte angeben, ob die Einrichtung für Erwachsene und / oder Kinder und Jugendliche ist.";
-            applyMessageValues(message, msg, "psychStaff:adults", Pages.PsychStaffBaseData);
+            applyMessageValues(message, msg, "psychStaff:adults", TOPIC_MASTER);
         }
 
-        Pages page = Pages.PsychStaffAppendix1Adults;
         if (_staffProof.isForAdults()) {
-            checkField(message, _staffProof.getAdultsAgreedDays(), 1, Integer.MIN_VALUE, "lblAgreedDays", "psychStaff:agreedDays", page);
+            checkField(message, _staffProof.getAdultsAgreedDays(), 1, Integer.MIN_VALUE, "lblAgreedDays", "psychStaff:agreedDays", TOPIC_ADULTS1);
+            checkAgreedItems(message, PsychType.Adults, TOPIC_ADULTS1);
+        }
 
+        if (_staffProof.isForKids()) {
+            checkField(message, _staffProof.getKidsAgreedDays(), 1, Integer.MIN_VALUE, "lblAgreedDays", "psychStaff:agreedDays", TOPIC_KIDS1);
+            checkAgreedItems(message, PsychType.Kids, TOPIC_KIDS1);
         }
 
         return message;
     }
 
-    private void checkField(MessageContainer message, String value, String msgKey, String elementId, Pages page) {
+    private void checkAgreedItems(MessageContainer message, PsychType psychType, String topic) {
+        for (StaffProofAgreed item : _staffProof.getStaffProofsAgreed(psychType)) {
+            String msg = "Bitte Stellenbesetzung für " + item.getOccupationalCatagory().getName() + " angeben.";
+            checkField(message, item.getStaffingComplete(), 0.1, null, msg, "", topic);
+            checkField(message, item.getStaffingBudget(), 0.1, null, msg, "", topic);
+            msg = "Bitte Durchschnittskosten für " + item.getOccupationalCatagory().getName() + " angeben.";
+            checkField(message, item.getAvgCost(), 0.1, null, msg, "", topic);
+        }
+    }
+
+    private void checkField(MessageContainer message, String value, String msgKey, String elementId, String topic) {
         if (Utils.isNullOrEmpty(value)) {
-            applyMessageValues(message, msgKey, elementId, page);
+            applyMessageValues(message, msgKey, elementId, topic);
         }
     }
 
@@ -417,18 +431,33 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
             Integer maxValue,
             String msgKey,
             String elementId,
-            Pages page) {
+            String topic) {
         if (value == null
                 || minValue != null && value < minValue
                 || maxValue != null && value > maxValue) {
-            applyMessageValues(message, msgKey, elementId, page);
+            applyMessageValues(message, msgKey, elementId, topic);
         }
     }
 
-    private void applyMessageValues(MessageContainer message, String msgKey, String elementId, Pages page) {
+    private void checkField(
+            MessageContainer message,
+            Double value,
+            Double minValue,
+            Double maxValue,
+            String msgKey,
+            String elementId,
+            String topic) {
+        if (value == null
+                || minValue != null && value < minValue
+                || maxValue != null && value > maxValue) {
+            applyMessageValues(message, msgKey, elementId, topic);
+        }
+    }
+
+    private void applyMessageValues(MessageContainer message, String msgKey, String elementId, String topic) {
         message.setMessage(message.getMessage() + "\\r\\n" + Utils.getMessageOrKey(msgKey));
         if (message.getTopic().isEmpty()) {
-            message.setTopic(page.URL());
+            message.setTopic(topic);
             message.setElementId(elementId);
         }
     }
@@ -485,4 +514,5 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         double factor = 100 * effective.getStaffingComplete() / denominator;
         return Math.round(factor) + " %";
     }
+
 }

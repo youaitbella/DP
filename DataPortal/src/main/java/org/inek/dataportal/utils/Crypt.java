@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.Base64;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,10 +29,32 @@ public class Crypt {
         return getHash("SHA", saltedKey);
     }
 
+    /**
+     * Calculate Hash (Hex representation) of String.
+     * @param algorithm
+     * @param input
+     * @return hascode of the input according to the given algorithm
+     */
     public static String getHash(String algorithm, String input) {
         try {
             MessageDigest md = MessageDigest.getInstance(algorithm);
             return byte2hex(md.digest(input.getBytes("utf-8")));
+        } catch (UnsupportedEncodingException | NoSuchAlgorithmException ex) {
+            Logger.getLogger(Crypt.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "";
+    }
+
+    /**
+     * Calculate Hash (Base64 encoded) of String.
+     * @param algorithm
+     * @param input
+     * @return hascode of the input according to the given algorithm
+     */
+    public static String getHash64(String algorithm, String input) {
+        try {
+            MessageDigest md = MessageDigest.getInstance(algorithm);
+            return Base64.getEncoder().encodeToString(md.digest(input.getBytes("utf-8")));
         } catch (UnsupportedEncodingException | NoSuchAlgorithmException ex) {
             Logger.getLogger(Crypt.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -266,7 +266,7 @@ public class StaffProof implements Serializable, StatusEntity {
         _kidsEffectiveCosts = kidsEffectiveCosts;
     }
     // </editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property StaffProofsAgreed">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "spaStaffProofMasterId", referencedColumnName = "spmId")
@@ -282,23 +282,24 @@ public class StaffProof implements Serializable, StatusEntity {
 
     /**
      * Add a StaffProofAgreed to the list
+     *
      * @param staffProofAgreed
      * @return true, if the new element could be added; false if the element existed before
      */
     public boolean addStaffProofAgreed(StaffProofAgreed staffProofAgreed) {
-        if (staffProofAgreed.getPsychType() == PsychType.Unknown || staffProofAgreed.getOccupationalCatagory() == null){
+        if (staffProofAgreed.getPsychType() == PsychType.Unknown || staffProofAgreed.getOccupationalCatagory() == null) {
             throw new IllegalArgumentException("StaffProofAgreed needs a valid PsychType as well as a valid OccupationalCatagory");
         }
         if (_staffProofAgreed.stream()
-                .anyMatch(a -> a.getPsychType() == staffProofAgreed.getPsychType() 
-                        && a.getOccupationalCatagory() ==  staffProofAgreed.getOccupationalCatagory())){
+                .anyMatch(a -> a.getPsychType() == staffProofAgreed.getPsychType()
+                && a.getOccupationalCatagory() == staffProofAgreed.getOccupationalCatagory())) {
             return false;
         }
         _staffProofAgreed.add(staffProofAgreed);
         return true;
     }
     // </editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property StaffProofsEffective">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "speStaffProofMasterId", referencedColumnName = "spmId")
@@ -314,23 +315,24 @@ public class StaffProof implements Serializable, StatusEntity {
 
     /**
      * Add a StaffProofEffective to the list
+     *
      * @param staffProofEffective
      * @return true, if the new element could be added; false if the element existed before
      */
     public boolean addStaffProofEffective(StaffProofEffective staffProofEffective) {
-        if (staffProofEffective.getPsychType() == PsychType.Unknown || staffProofEffective.getOccupationalCatagory() == null){
+        if (staffProofEffective.getPsychType() == PsychType.Unknown || staffProofEffective.getOccupationalCatagory() == null) {
             throw new IllegalArgumentException("StaffProofEffective needs a valid PsychType as well as a valid OccupationalCatagory");
         }
         if (_staffProofEffective.stream()
-                .anyMatch(a -> a.getPsychType() == staffProofEffective.getPsychType() 
-                        && a.getOccupationalCatagory() ==  staffProofEffective.getOccupationalCatagory())){
+                .anyMatch(a -> a.getPsychType() == staffProofEffective.getPsychType()
+                && a.getOccupationalCatagory() == staffProofEffective.getOccupationalCatagory())) {
             return false;
         }
         _staffProofEffective.add(staffProofEffective);
         return true;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public int hashCode() {
@@ -368,12 +370,12 @@ public class StaffProof implements Serializable, StatusEntity {
                 + getKidsAgreedDays()
                 + getProofsAgreedData(PsychType.Adults)
                 + getProofsAgreedData(PsychType.Kids);
-        return Crypt.getHash("SHA1", data);
+        return Crypt.getHash("SHA1", data) + " ### " + Crypt.getHash64("SHA1", data);
     }
 
     private String getProofsAgreedData(PsychType psychType) {
         String data = "" + psychType;
-        data =  getStaffProofsAgreed(psychType)
+        data = getStaffProofsAgreed(psychType)
                 .stream()
                 .map((item) -> ""
                 + item.getOccupationalCatagoryId()
@@ -383,5 +385,5 @@ public class StaffProof implements Serializable, StatusEntity {
                 .reduce(data, String::concat);
         return data;
     }
-    
+
 }
