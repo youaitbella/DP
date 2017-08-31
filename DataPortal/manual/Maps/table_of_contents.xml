@@ -251,6 +251,15 @@
         <caption translate="true">Information durch das Krankenhaus</caption>
       </topicref>
     </topicref>
+    <topicref type="topic" id="429785394561296" build="ALL" modified="2017-08-31T13:28:59.099Z" icon="0" href="Bewertungsrelation">
+      <caption translate="true">Bewertungsrelation</caption>
+      <topicref type="topic" id="429783879290847" build="ALL" modified="2017-08-31T13:45:20.190Z" icon="0" href="Uebersicht">
+        <caption translate="true">Übersicht</caption>
+      </topicref>
+      <topicref type="topic" id="42978125959493" build="ALL" modified="2017-08-31T14:26:26.300Z" icon="0" href="Formular">
+        <caption translate="true">Formular</caption>
+      </topicref>
+    </topicref>
     <topicref type="topic" id="424515529806881" build="USER1" modified="2016-03-22T11:43:12.266Z" icon="0" href="CertifyGrouper">
       <caption translate="true">Grouper-Zertifizierung</caption>
     </topicref>

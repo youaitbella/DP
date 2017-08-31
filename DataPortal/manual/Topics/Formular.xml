@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="vohldo" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Formular</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Formular</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Über das Eingabeformular können Sie eine Bewertungsrelation für die relevanten DRGs (I68D, I68E) erstellen. Um eine oder beide relevanten DRGs zur gezielten Absenkung von Bewertungsrelationen zu markieren, müssen die betroffenen Fälle für das ausgewählte Krankenhaus niedriger als der Median des relevanten Datenjahrs sein. Sollte dies nicht der Fall sein, so können Sie die betroffene DRG nicht auf die Liste setzen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal" style="text-align:center;"><image src="bewertungsrelation_formular.PNG" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Eingabeformular Bewertungsrelation</text></para>
+    <para styleclass="Image Caption"></para>
+    <para styleclass="Image Caption"></para>
+    <para styleclass="Normal" style="text-align:center;"><image src="bewertungsrelation_ueber_median.PNG" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Fehlermeldung, wenn die eingegebene Fallzahl über dem Median liegt.</text></para>
+    <para styleclass="Image Caption"></para>
+    <para styleclass="Image Caption"></para>
+    <para styleclass="Image Caption"><image src="bewertungsrelation_unter_median.PNG" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Fallzahl ist unter dem Median und die DRG kann zur gezielten Absenkung der Bewertungsrelation hinzugefügt werden.</text></para>
+  </body>
+</topic>

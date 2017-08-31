@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
-<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+<topic template="Default" lasteditedby="vohldo" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
   <title translate="true">Funktionsüberblick</title>
   <body>
     <header>
@@ -27,6 +27,9 @@
       <li styleclass="Bullet Text"><link displaytype="text" defaultstyle="true" type="topiclink" href="SpecificFunction" styleclass="Bullet Text" translate="true">Besondere Aufgaben / Zentrum</link><br/><text styleclass="Bullet Text" translate="true">Erfassung von geplanten besonderen Aufgaben im Rahmen der Zentrumsvereinbarung.</text></li>
       <li styleclass="Bullet Text"><link displaytype="text" defaultstyle="true" type="topiclink" href="Cooperation" styleclass="Bullet Text" translate="true">Kooperation</link><br/><text styleclass="Bullet Text" translate="true">Ihre Daten sind für andere Nutzer des </text><var styleclass="Bullet Text">&lt;%TITLE%&gt;s</var><text styleclass="Bullet Text" translate="true"> erst einmal nicht sichtbar. Mittels der Funktion Kooperation bestimmen Sie für jede Funktion einzeln, mit welchen Personen Sie die Daten gemeinsam bearbeiten möchten. Bei Bedarf richten Sie sogar ein zweistufiges Freigabeverfahren für die Daten ein.</text></li>
       <li styleclass="Bullet Text"><link displaytype="text" defaultstyle="true" type="topiclink" href="IKSupervisor" styleclass="Bullet Text" translate="true">IK-Supervisor</link><br/><text styleclass="Bullet Text" translate="true">Mittels Kooperation kann ein zweistufiges Freigabeverfahren auf kooperativer Basis gelebt werden. Soweit in einem Krankenhaus der Wunsch besteht, dieses zweistufige Verfahren zu erzwingen, kann ein Supervisor eingerichtet werden, der alle Daten einer Funktion, z.B. NUB-Anfragen, vor Bereitstellung für das InEK freigeben muss. </text></li>
+    </list>
+    <list id="6" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="line-height:1.0; font-family:Wingdings; font-size:11pt; color:#000000;">
+      <li styleclass="Bullet Text" style="line-height:1.0;"><link displaytype="text" defaultstyle="true" type="topiclink" href="Bewertungsrelation" styleclass="Bullet Text" translate="true">Bewertungsrelation</link><br/><text styleclass="Bullet Text" translate="true">DRGs zur gezielten Absenkung von Bewertungsrelationen.</text></li>
     </list>
   </body>
 </topic>
