@@ -16,7 +16,7 @@
             <h1><h:commandLink value="#{msg.namePSYCH_STAFF}" 
                                action="#{sessionController.navigate(sessionTools.pages.PsychStaffSummary)}" 
                                immediate="true"/></h1>
-            
+
 
             <div class="tab" jsf:id="psyStaffMenu">
                 <ul class="tab">
@@ -37,61 +37,62 @@
                                value="Signatur: #{editPsyStaff.staffProof.checksumAgreement}"
                                styleClass="label"/>
                 <hr/>
-                
+
                 <ui:include src="#{editPsyStaff.activeTopic.outcome}" />
 
-                <div class="toolBar">
-                    <h:commandLink styleClass="bigButton"
-                                   action="#{editPsyStaff.save}"
-                                   value="#{msg.btnSave}"
-                                   immediate="true"
-                                   rendered="#{!editPsyStaff.readOnly}">
-                    </h:commandLink>
-
-                    <h:commandLink styleClass="sendButton"
-                                   immediate="false"
-                                   action="#{editPsyStaff.requestApproval}"
-                                   value="#{msg.btnRequestApproval}"
-                                   rendered="#{editPsyStaff.approvalRequestEnabled}"
-                                   title="#{msg.infoSaveAndClose}">
-                        <cb:confirmRequestApproval/>
-                    </h:commandLink>
-
-                    <h:commandLink styleClass="sendButton"
-                                   immediate="false"
-                                   action="#{editPsyStaff.seal}"
-                                   value="#{msg.btnSaveAndClose}"
-                                   rendered="#{editPsyStaff.sealEnabled}"
-                                   title="#{msg.infoSaveAndClose}">
-                        <cb:confirmSeal/>
-                    </h:commandLink>
-                    <!--PDF-->
-                    <h:commandLink styleClass="bigButton"
-                                   immediate="false"
-                                   action="#{pdfBuilder.createDocument()}"
-                                   value="PDF erstellen"
-                                   rendered="#{editPsyStaff.sealEnabled}"
-                                   title="#{msg.infoSaveAndClose}">
-                    </h:commandLink>
-                    <ui:remove>
+                <h:panelGroup rendered="#{editPsyStaff.staffProof.ik gt 0}">
+                    <div class="toolBar">
                         <h:commandLink styleClass="bigButton"
-                                       action="#{editPsyStaff.copyForResend}"
-                                       value="#{msg.btnChangeData}"
+                                       action="#{editPsyStaff.save}"
+                                       value="#{msg.btnSave}"
                                        immediate="true"
-                                       rendered="#{editPsyStaff.copyForResendAllowed}">
-                            <cb:confirmChangeData/>
+                                       rendered="#{!editPsyStaff.readOnly}">
                         </h:commandLink>
 
-                        <h:commandLink styleClass="bigButton"
-                                       action="#{editPsyStaff.take}"
-                                       value="#{msg.btnTake}"
-                                       immediate="true"
-                                       rendered="#{editPsyStaff.takeEnabled}"
-                                       onclick="#{sessionController.getConfirmMessage('msgConfirmTake')};">
+                        <h:commandLink styleClass="sendButton"
+                                       immediate="false"
+                                       action="#{editPsyStaff.requestApproval}"
+                                       value="#{msg.btnRequestApproval}"
+                                       rendered="#{editPsyStaff.approvalRequestEnabled}"
+                                       title="#{msg.infoSaveAndClose}">
+                            <cb:confirmRequestApproval/>
                         </h:commandLink>
-                    </ui:remove>
 
-                </div>
+                        <h:commandLink styleClass="sendButton"
+                                       immediate="false"
+                                       action="#{editPsyStaff.seal}"
+                                       value="#{msg.btnSaveAndClose}"
+                                       rendered="#{editPsyStaff.sealEnabled}"
+                                       title="#{msg.infoSaveAndClose}">
+                            <cb:confirmSeal/>
+                        </h:commandLink>
+                        <!--PDF-->
+                        <h:commandLink styleClass="bigButton"
+                                       immediate="false"
+                                       action="#{pdfBuilder.createDocument()}"
+                                       value="PDF erstellen"
+                                       rendered="#{editPsyStaff.sealEnabled}"
+                                       title="#{msg.infoSaveAndClose}">
+                        </h:commandLink>
+                        <ui:remove>
+                            <h:commandLink styleClass="bigButton"
+                                           action="#{editPsyStaff.copyForResend}"
+                                           value="#{msg.btnChangeData}"
+                                           immediate="true"
+                                           rendered="#{editPsyStaff.copyForResendAllowed}">
+                                <cb:confirmChangeData/>
+                            </h:commandLink>
+
+                            <h:commandLink styleClass="bigButton"
+                                           action="#{editPsyStaff.take}"
+                                           value="#{msg.btnTake}"
+                                           immediate="true"
+                                           rendered="#{editPsyStaff.takeEnabled}"
+                                           onclick="#{sessionController.getConfirmMessage('msgConfirmTake')};">
+                            </h:commandLink>
+                        </ui:remove>
+                    </div>
+                </h:panelGroup>
             </div>
         </h:form>
 

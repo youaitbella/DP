@@ -516,13 +516,18 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         return String.format("%.1f", factor) + " %";
     }
 
-    public String sumStaffingComplete(PsychType type) {
+    public String sumAgreedStaffingComplete(PsychType type) {
         double sum = _staffProof.getStaffProofsAgreed(type).stream().mapToDouble(i -> i.getStaffingComplete()).sum();
         return String.format("%.1f", sum);
     }
 
-    public String sumStaffingBudget(PsychType type) {
+    public String sumAgreedStaffingBudget(PsychType type) {
         double sum = _staffProof.getStaffProofsAgreed(type).stream().mapToDouble(i -> i.getStaffingBudget()).sum();
+        return String.format("%.1f", sum);
+    }
+
+    public String sumEffectiveStaffingComplete(PsychType type) {
+        double sum = _staffProof.getStaffProofsEffective(type).stream().mapToDouble(i -> i.getStaffingComplete()).sum();
         return String.format("%.1f", sum);
     }
 }

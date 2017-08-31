@@ -37,6 +37,9 @@
                         Berufsgruppen der Psych-PV
                     </f:facet>
                     #{item.occupationalCatagory.name}
+                    <f:facet name="footer">
+                        Summen
+                    </f:facet>
                 </h:column>
 
                 <h:column>
@@ -46,6 +49,12 @@
                     <h:inputText value="#{item.staffingComplete}" styleClass="col08em">
                         <f:ajax render="factor"/>
                     </h:inputText>
+                    <f:facet name="footer">
+                            <h:inputText id="sumStaffingComplete" 
+                                         value="#{editPsyStaff.sumEffectiveStaffingComplete(cc.attrs.patType)}"
+                                         styleClass="col08em number"
+                                         disabled="true"/>
+                    </f:facet>
                 </h:column>
 
                 <h:column>
