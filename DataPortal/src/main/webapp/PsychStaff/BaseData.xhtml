@@ -27,7 +27,8 @@
             <h:outputLabel value="Einrichtung für" 
                            styleClass="label20"/>
             
-            <inek:LabeledCheckbox label="Erwachsene" 
+            <inek:LabeledCheckbox id="adults" 
+                                  label="Erwachsene" 
                                   value="#{editPsyStaff.staffProof.forAdults}"
                                   styleClassComponent="inlineBlock"
                                   precedingBox="true"
@@ -59,7 +60,7 @@
         
         <div class="inputPart">
             <h:outputLabel styleClass="label20" 
-                           value="Vereinbahrungsjahr" 
+                           value="#{msg.lblAgreementYear}" 
                            for="year"/>
             
             <h:selectOneMenu id="year" 

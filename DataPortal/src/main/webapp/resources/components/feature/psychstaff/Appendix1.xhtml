@@ -64,7 +64,8 @@
             </h:dataTable>
         </f:ajax>
         
-        <inek:LabeledText label="Vereinbarte Berechnungstage (#{editPsyStaff.staffProof.calculationType == '1' ? 'PEPPV' : 'BPflV/LKA'})"
+        <inek:LabeledText id="agreedDays"
+                          label="#{lblAgreedDays} (#{editPsyStaff.staffProof.calculationType == '1' ? 'PEPPV' : 'BPflV/LKA'})"
                           value="#{'Adults'.equals(cc.attrs.patType) ? editPsyStaff.staffProof.adultsAgreedDays : editPsyStaff.staffProof.kidsAgreedDays}"
                           styleClass="inputSmall"/>
     </cc:implementation>

@@ -46,7 +46,6 @@ import org.inek.dataportal.feature.psychstaff.facade.PsychStaffFacade;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.structures.MessageContainer;
 import org.inek.dataportal.mail.Mailer;
-import org.inek.dataportal.utils.Crypt;
 import org.inek.dataportal.utils.DocumentationUtil;
 
 /**
@@ -372,6 +371,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
 
     private boolean staffProofIsComplete() {
         MessageContainer message = composeMissingFieldsMessage(_staffProof);
+
         if (message.containsMessage()) {
             message.setMessage(Utils.getMessage("infoMissingFields") + "\\r\\n" + message.getMessage());
             setActiveTopic(message.getTopic());
@@ -388,29 +388,47 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         MessageContainer message = new MessageContainer();
 
         String ik = request.getIk() <= 0 ? "" : "" + request.getIk();
-        checkField(message, ik, "lblIK", "specificFuntion:ikMulti");
+        checkField(message, ik, "lblIK", "psychStaff:ikMulti", Pages.PsychStaffBaseData);
+        checkField(message, _staffProof.getYear(), 2016, 2020, "lblAgreementYear", "psychStaff:year", Pages.PsychStaffBaseData);
+        if (!_staffProof.isForAdults() && !_staffProof.isForKids()) {
+            String msg = "Bitte angeben, ob die Einrichtung für Erwachsene und / oder Kinder und Jugendliche ist.";
+            applyMessageValues(message, msg, "psychStaff:adults", Pages.PsychStaffBaseData);
+        }
+
+        Pages page = Pages.PsychStaffAppendix1Adults;
+        if (_staffProof.isForAdults()) {
+            checkField(message, _staffProof.getAdultsAgreedDays(), 1, Integer.MIN_VALUE, "lblAgreedDays", "psychStaff:agreedDays", page);
+
+        }
 
         return message;
     }
 
-    private void checkField(MessageContainer message, String value, String msgKey, String elementId) {
+    private void checkField(MessageContainer message, String value, String msgKey, String elementId, Pages page) {
         if (Utils.isNullOrEmpty(value)) {
-            applyMessageValues(message, msgKey, elementId);
+            applyMessageValues(message, msgKey, elementId, page);
         }
     }
 
-    private void checkField(MessageContainer message, Integer value, Integer minValue, Integer maxValue, String msgKey, String elementId) {
+    private void checkField(
+            MessageContainer message,
+            Integer value,
+            Integer minValue,
+            Integer maxValue,
+            String msgKey,
+            String elementId,
+            Pages page) {
         if (value == null
                 || minValue != null && value < minValue
                 || maxValue != null && value > maxValue) {
-            applyMessageValues(message, msgKey, elementId);
+            applyMessageValues(message, msgKey, elementId, page);
         }
     }
 
-    private void applyMessageValues(MessageContainer message, String msgKey, String elementId) {
+    private void applyMessageValues(MessageContainer message, String msgKey, String elementId, Pages page) {
         message.setMessage(message.getMessage() + "\\r\\n" + Utils.getMessageOrKey(msgKey));
         if (message.getTopic().isEmpty()) {
-            message.setTopic("");
+            message.setTopic(page.URL());
             message.setElementId(elementId);
         }
     }
@@ -455,7 +473,6 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     }
 
     // </editor-fold>
-    
     public String determineFactor(StaffProofEffective effective) {
         StaffProofAgreed agreed = _staffProof.getStaffProofsAgreed(effective.getPsychType())
                 .stream()

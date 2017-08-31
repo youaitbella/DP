@@ -112,7 +112,7 @@ public class StaffProof implements Serializable, StatusEntity {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Sealed">
+    //<editor-fold defaultstate="collapsed" desc="Property Sealed">
     @Column(name = "spmSealed")
     @Temporal(TemporalType.TIMESTAMP)
     private Date _sealed = Date.from(LocalDate.of(2000, Month.JANUARY, 1).atStartOfDay().toInstant(ZoneOffset.UTC));
