@@ -90,5 +90,24 @@
             </tbody>
         </table>
 
+        <inek:LabeledText id="agreedDays"
+                          label="#{msg.lblAgreedDays} (#{editPsyStaff.staffProof.calculationType == '1' ? 'PEPPV' : 'BPflV/LKA'})"
+                          value="#{'Adults'.equals(cc.attrs.patType) ? editPsyStaff.staffProof.adultsAgreedDays : editPsyStaff.staffProof.kidsAgreedDays}"
+                          styleClass="inputSmall"
+                          renderElement="checksum"/>
+        </h:panelGroup>
+
+
+        <div class="uploadFile inlineBlock">
+            <h:inputFile style="width: 185px;" styleClass="hiddenFile" id="file" value="#{editPsyStaff.file}">
+                <f:ajax listener="#{editPsyStaff.uploadFile(cc.attrs.patType, 1)}" render="@all"/>
+            </h:inputFile>
+            <div class="fakeFile">
+                <h:outputLabel style="margin-top: 0px;" styleClass="button element100" value="Unterschriebene Vereinbarung hochladen"/>
+            </div>
+
+        </div>
+
+
     </cc:implementation>
 </html>

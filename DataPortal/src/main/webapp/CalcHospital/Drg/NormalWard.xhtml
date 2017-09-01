@@ -623,12 +623,12 @@
     </div>
 
     <inek:UploadButtons importer="#{editCalcBasicsDrg.getImporter('drgNormalWard')}"
-                         calcbase="#{editCalcBasicsDrg.calcBasics}" 
-                         readOnly="#{editCalcBasicsDrg.readOnly}"
-                         addListener="#{editCalcBasicsDrg.addCostCenterCosts()}"
-                         uploadButtonText="Upload"
-                         actionDeleteTable="#{editCalcBasicsDrg.deleteAllCostCenterCosts()}"
-                         />
+                        calcbase="#{editCalcBasicsDrg.calcBasics}" 
+                        readOnly="#{editCalcBasicsDrg.readOnly}"
+                        addListener="#{editCalcBasicsDrg.addCostCenterCosts()}"
+                        uploadButtonText="Upload"
+                        actionDeleteTable="#{editCalcBasicsDrg.deleteAllCostCenterCosts()}"
+                        />
 
 
     <div class="inlineBlock" jsf:rendered="#{sessionController.isInekUser('CALCULATION_HOSPITAL')}">

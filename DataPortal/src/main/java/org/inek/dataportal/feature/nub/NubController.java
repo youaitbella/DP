@@ -125,6 +125,9 @@ public class NubController extends AbstractFeatureController {
             NubFieldKey key = NubFieldKey.valueOf(var);
             String content = line.substring(pos + 1);
             switch (key) {
+                case Version:
+                    // might check version here
+                    break;
                 case ID:
                     request.setHelperId(decodeHelpId(content));
                     break;

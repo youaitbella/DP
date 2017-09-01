@@ -270,14 +270,19 @@ public class Utils {
 
     public static void downloadText(String text, String filename) {
         FacesContext facesContext = FacesContext.getCurrentInstance();
-        Utils.downloadText(facesContext, text, filename);
+        Utils.downloadText(facesContext, text, filename, "");
     }
 
-    public static void downloadText(FacesContext facesContext, String text, String filename) {
+    public static void downloadText(String text, String filename, String characterset) {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        Utils.downloadText(facesContext, text, filename, characterset);
+    }
+
+    public static void downloadText(FacesContext facesContext, String text, String filename, String characterset) {
         HttpServletResponse response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
 
         try {
-            byte[] buffer = text.getBytes();
+            byte[] buffer = characterset.length() == 0 ? text.getBytes() : text.getBytes(characterset);
             response.reset();
             response.setContentType(Helper.getContentType(filename));
             response.setHeader("Content-Length", "" + buffer.length);

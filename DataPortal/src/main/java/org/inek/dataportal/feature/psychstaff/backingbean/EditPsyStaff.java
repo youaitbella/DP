@@ -5,6 +5,8 @@
  */
 package org.inek.dataportal.feature.psychstaff.backingbean;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
@@ -16,6 +18,8 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Scanner;
 import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -25,6 +29,7 @@ import javax.faces.model.SelectItem;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.Part;
 import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
@@ -38,6 +43,7 @@ import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.feature.admin.entity.MailTemplate;
 import org.inek.dataportal.feature.admin.facade.InekRoleFacade;
+import org.inek.dataportal.feature.insurance.NoticeItemImporter;
 import org.inek.dataportal.feature.psychstaff.entity.OccupationalCatagory;
 import org.inek.dataportal.feature.psychstaff.entity.StaffProof;
 import org.inek.dataportal.feature.psychstaff.entity.StaffProofAgreed;
@@ -48,6 +54,7 @@ import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.structures.MessageContainer;
 import org.inek.dataportal.mail.Mailer;
 import org.inek.dataportal.utils.DocumentationUtil;
+import org.inek.dataportal.utils.StreamUtils;
 
 /**
  *
@@ -530,4 +537,26 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         double sum = _staffProof.getStaffProofsEffective(type).stream().mapToDouble(i -> i.getStaffingComplete()).sum();
         return String.format("%.1f", sum);
     }
+    
+    private Part _file;
+
+    public Part getFile() {
+        return _file;
+    }
+
+    public void setFile(Part file) {
+        _file = file;
+    }
+
+    public void uploadFile(PsychType type, int appendix) {
+        try {
+            if (_file != null) {
+                InputStream is = _file.getInputStream();
+                byte[] content = StreamUtils.stream2blob(is);
+                System.out.println("upload len " + content.length);
+            }
+        } catch (IOException | NoSuchElementException e) {
+        }
+    }
+    
 }

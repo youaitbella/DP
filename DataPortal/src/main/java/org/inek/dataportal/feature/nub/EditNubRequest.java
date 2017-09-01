@@ -697,7 +697,7 @@ public class EditNubRequest extends AbstractEditController {
 
     public String downloadTemplate() {
         String content = getNubController().createTemplate(_nubRequest);
-        Utils.downloadText(content, _nubRequest.getName() + ".nub\"");
+        Utils.downloadText(content, _nubRequest.getName() + ".nub\"", "UTF-8");
         return null;
     }
 
