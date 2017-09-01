@@ -21,10 +21,6 @@
     <cc:implementation >
         <h2>Vereinbarte Stellenbesetzung in Vollkräften - Bereich #{'Adults'.equals(cc.attrs.patType) ? 'Erwachsene' : 'Kinder und Jugendliche'}</h2>
         <span>(§ 3 Psych-Personalnachweis)</span>
-        <br/>
-        <b>#{cc.id}</b>
-        <br/>
-        <b>#{cc.attrs.clientId}</b>
 
         <table jsf:id="data" class="marginTop">
             <thead>
@@ -95,11 +91,9 @@
                           value="#{'Adults'.equals(cc.attrs.patType) ? editPsyStaff.staffProof.adultsAgreedDays : editPsyStaff.staffProof.kidsAgreedDays}"
                           styleClass="inputSmall"
                           renderElement="checksum"/>
-        </h:panelGroup>
-
 
         <div class="uploadFile inlineBlock">
-            <h:inputFile style="width: 185px;" styleClass="hiddenFile" id="file" value="#{editPsyStaff.file}">
+            <h:inputFile style="width: 250px;" styleClass="hiddenFile" id="file" value="#{editPsyStaff.file}">
                 <f:ajax listener="#{editPsyStaff.uploadFile(cc.attrs.patType, 1)}" render="@all"/>
             </h:inputFile>
             <div class="fakeFile">
