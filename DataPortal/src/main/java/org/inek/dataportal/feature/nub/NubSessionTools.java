@@ -99,7 +99,7 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         Account account = _sessionController.getAccount();
         for (int ik : account.getFullIkSet()) {
             // allowed for own NUB if supervisor herself or no supervisor exists
-            _sealOwnNub.put(ik, _cooperationRightFacade.isIkSupervisor(Feature.NUB, ik, account.getId()) 
+            _sealOwnNub.put(ik, _cooperationRightFacade.isIkSupervisor(Feature.NUB, ik, account.getId())
                     || !_cooperationRightFacade.hasSupervisor(Feature.NUB, ik));
         }
         List<CooperationRight> rights = _cooperationRightFacade
@@ -265,7 +265,7 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         }
         accountTreeNode.getChildren().clear();
         for (ProposalInfo info : infos) {
-            if (info == null){
+            if (info == null) {
                 // paranoid check: this should not happen
                 LOGGER.log(Level.WARNING, "info is null");
             }
@@ -500,48 +500,48 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         checkField(message, nubRequest.getPhone(), "lblPhone", "form:phone", EditNubRequest.NubRequestTabs.tabNubAddress);
         checkField(message, nubRequest.getEmail(), "lblMail", "form:email", EditNubRequest.NubRequestTabs.tabNubAddress);
         checkField(message, nubRequest.getName(), "lblAppellation", "form:nubName", EditNubRequest.NubRequestTabs.tabNubPage1);
-        checkField(message, (int) nubRequest.getFormerRequest(), 0, 1, "lblFormerRequestShort", "form:nubFormerRequest", 
+        checkField(message, (int) nubRequest.getFormerRequest(), 0, 1, "lblFormerRequestShort", "form:nubFormerRequest",
                 EditNubRequest.NubRequestTabs.tabNubPage1);
-        checkField(message, (int) nubRequest.getMedicalDevice(), 0, 1, "lblMedicalDevice", "form:nubMedicalDevice", 
+        checkField(message, (int) nubRequest.getMedicalDevice(), 0, 1, "lblMedicalDevice", "form:nubMedicalDevice",
                 EditNubRequest.NubRequestTabs.tabNubPage1);
         if (nubRequest.getMedicalDevice() == 1) {
-            checkField(message, (int) nubRequest.getRiscClass(), 0, 2, "lblRiscClass", "form:nubRiscClass", 
+            checkField(message, (int) nubRequest.getRiscClass(), 0, 2, "lblRiscClass", "form:nubRiscClass",
                     EditNubRequest.NubRequestTabs.tabNubPage1);
             if (nubRequest.getRiscClass() == 2) {
-                checkField(message, nubRequest.getTradeName(), "lblRiscClassComment", "form:nubTradeName", 
+                checkField(message, nubRequest.getTradeName(), "lblRiscClassComment", "form:nubTradeName",
                         EditNubRequest.NubRequestTabs.tabNubPage1);
             }
-            checkField(message, nubRequest.getTradeName(), "lblTradeName", "form:nubRiscClassComment", 
+            checkField(message, nubRequest.getTradeName(), "lblTradeName", "form:nubRiscClassComment",
                     EditNubRequest.NubRequestTabs.tabNubPage1);
         }
         if (nubRequest.getFormerRequest() == 1 && nubRequest.getMedicalDevice() == 1) {
-            checkField(message, nubRequest.getFormerExternalId(), "lblFormerExternalId", "form:nubFormerRequestValue", 
+            checkField(message, nubRequest.getFormerExternalId(), "lblFormerExternalId", "form:nubFormerRequestValue",
                     EditNubRequest.NubRequestTabs.tabNubPage1);
         }
-        checkField(message, nubRequest.getDescription(), "lblNubDescription", "form:nubDescription", 
+        checkField(message, nubRequest.getDescription(), "lblNubDescription", "form:nubDescription",
                 EditNubRequest.NubRequestTabs.tabNubPage1);
         if (!nubRequest.isHasNoProcs()) {
-            checkField(message, nubRequest.getProcs(), "lblNubProcRelated", "form:nubProcedures", 
+            checkField(message, nubRequest.getProcs(), "lblNubProcRelated", "form:nubProcedures",
                     EditNubRequest.NubRequestTabs.tabNubPage1);
         }
 
-        checkField(message, nubRequest.getIndication(), "lblIndication", "form:nubIndic", 
+        checkField(message, nubRequest.getIndication(), "lblIndication", "form:nubIndic",
                 EditNubRequest.NubRequestTabs.tabNubPage2);
-        checkField(message, nubRequest.getReplacement(), "lblNubReplacementPrint", "form:nubReplacement", 
+        checkField(message, nubRequest.getReplacement(), "lblNubReplacementPrint", "form:nubReplacement",
                 EditNubRequest.NubRequestTabs.tabNubPage2);
-        checkField(message, nubRequest.getWhatsNew(), "lblWhatsNew", "form:nubWhatsNew", 
+        checkField(message, nubRequest.getWhatsNew(), "lblWhatsNew", "form:nubWhatsNew",
                 EditNubRequest.NubRequestTabs.tabNubPage2);
-        checkField(message, nubRequest.getInHouseSince(), "lblMethodInHouse", "form:nubInHouse", 
+        checkField(message, nubRequest.getInHouseSince(), "lblMethodInHouse", "form:nubInHouse",
                 EditNubRequest.NubRequestTabs.tabNubPage3);
-        checkField(message, nubRequest.getPatientsLastYear(), "lblPatientsLastYear", "form:patientsLastYear", 
+        checkField(message, nubRequest.getPatientsLastYear(), "lblPatientsLastYear", "form:patientsLastYear",
                 EditNubRequest.NubRequestTabs.tabNubPage3);
-        checkField(message, nubRequest.getPatientsThisYear(), "lblPatientsThisYear", "form:patientsThisYear", 
+        checkField(message, nubRequest.getPatientsThisYear(), "lblPatientsThisYear", "form:patientsThisYear",
                 EditNubRequest.NubRequestTabs.tabNubPage3);
-        checkField(message, nubRequest.getPatientsFuture(), "lblPatientsFuture", "form:patientsFuture", 
+        checkField(message, nubRequest.getPatientsFuture(), "lblPatientsFuture", "form:patientsFuture",
                 EditNubRequest.NubRequestTabs.tabNubPage3);
-        checkField(message, nubRequest.getAddCosts(), "lblAddCosts", "form:nubAddCost", 
+        checkField(message, nubRequest.getAddCosts(), "lblAddCosts", "form:nubAddCost",
                 EditNubRequest.NubRequestTabs.tabNubPage4);
-        checkField(message, nubRequest.getWhyNotRepresented(), "lblWhyNotRepresented", "form:nubNotRepresented", 
+        checkField(message, nubRequest.getWhyNotRepresented(), "lblWhyNotRepresented", "form:nubNotRepresented",
                 EditNubRequest.NubRequestTabs.tabNubPage4);
         if (nubRequest.getRoleId() < 0) {
             message.setMessage(Utils.getMessage("lblContactRole"));
@@ -555,14 +555,14 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         return message;
     }
 
-    private void checkField(MessageContainer message, String value, String msgKey, String elementId, 
+    private void checkField(MessageContainer message, String value, String msgKey, String elementId,
             EditNubRequest.NubRequestTabs tab) {
         if (Utils.isNullOrEmpty(value)) {
             applyMessageValues(message, msgKey, tab, elementId);
         }
     }
 
-    private void checkField(MessageContainer message, Integer value, Integer minValue, Integer maxValue, String msgKey, String elementId, 
+    private void checkField(MessageContainer message, Integer value, Integer minValue, Integer maxValue, String msgKey, String elementId,
             EditNubRequest.NubRequestTabs tab) {
         if (value == null
                 || minValue != null && value < minValue
@@ -669,7 +669,9 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
     public List<SelectItem> getEditActions() {
         List<SelectItem> actions = new ArrayList<>();
         actions.add(new SelectItem("print", Utils.getMessage("actionPrint")));
-        actions.add(new SelectItem("send", Utils.getMessage("actionSend")));
+        if (_appTools.isEnabled(ConfigKey.IsNubSendEnabled)) {
+            actions.add(new SelectItem("send", Utils.getMessage("actionSend")));
+        }
         actions.add(new SelectItem("take", Utils.getMessage("actionTake")));
         return actions;
     }
@@ -677,7 +679,9 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
     public List<SelectItem> getViewActions() {
         List<SelectItem> actions = new ArrayList<>();
         actions.add(new SelectItem("print", Utils.getMessage("actionPrint")));
-        actions.add(new SelectItem("copy", Utils.getMessage("actionCopy")));
+        if (_appTools.isEnabled(ConfigKey.IsNubCreateEnabled)) {
+            actions.add(new SelectItem("copy", Utils.getMessage("actionCopy")));
+        }
         actions.add(new SelectItem("take", Utils.getMessage("actionTake")));
         return actions;
     }

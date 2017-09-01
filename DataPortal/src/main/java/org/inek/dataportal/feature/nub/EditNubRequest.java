@@ -185,7 +185,6 @@ public class EditNubRequest extends AbstractEditController {
             LOGGER.info(ex.getMessage());
             Utils.navigate(Pages.NotAllowed.RedirectURL());
         }
-        Utils.navigate(Pages.NotAllowed.RedirectURL());
         throw new IllegalAccessError("Try to load NUB with non-existent id");
     }
 
