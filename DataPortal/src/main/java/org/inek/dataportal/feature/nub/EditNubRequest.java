@@ -45,7 +45,6 @@ import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.NubRequestFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.common.ProcedureFacade;
-import org.inek.dataportal.facades.cooperation.PortalMessageFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.ObjectUtils;
 import org.inek.dataportal.helper.Utils;
@@ -137,7 +136,7 @@ public class EditNubRequest extends AbstractEditController {
         }
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="getter / setter maxYearOnly">
     private boolean _maxYearOnly = true;
 
@@ -184,9 +183,10 @@ public class EditNubRequest extends AbstractEditController {
             }
         } catch (NumberFormatException ex) {
             LOGGER.info(ex.getMessage());
+            Utils.navigate(Pages.NotAllowed.RedirectURL());
         }
-        _nubRequestBaseline = newNubRequest();
-        return newNubRequest();
+        Utils.navigate(Pages.NotAllowed.RedirectURL());
+        throw new IllegalAccessError("Try to load NUB with non-existent id");
     }
 
     private boolean hasSufficientRights(NubRequest nubRequest) {
@@ -471,7 +471,7 @@ public class EditNubRequest extends AbstractEditController {
         return differencesPartner;
     }
 
-    private List<String> updateFields(Map<String, FieldValues> differencesUser, 
+    private List<String> updateFields(Map<String, FieldValues> differencesUser,
             Map<String, FieldValues> differencesPartner, NubRequest modifiedNubRequest) {
         List<String> collisions = new ArrayList<>();
         for (String fieldName : differencesUser.keySet()) {
@@ -501,7 +501,7 @@ public class EditNubRequest extends AbstractEditController {
     }
 
     public boolean isReadOnly() {
-        return _nubRequest != null 
+        return _nubRequest != null
                 && _cooperationTools.isReadOnly(Feature.NUB, _nubRequest.getStatus(), _nubRequest.getAccountId(), _nubRequest.getIk());
     }
 
@@ -526,8 +526,8 @@ public class EditNubRequest extends AbstractEditController {
             return false;
         }
         return _cooperationTools.isApprovalRequestEnabled(
-                Feature.NUB, 
-                _nubRequest.getStatus(), 
+                Feature.NUB,
+                _nubRequest.getStatus(),
                 _nubRequest.getAccountId(),
                 _nubRequest.getIk(), true);
     }
@@ -537,9 +537,9 @@ public class EditNubRequest extends AbstractEditController {
             return false;
         }
         return _cooperationTools.isRequestCorrectionEnabled(
-                Feature.NUB, 
+                Feature.NUB,
                 _nubRequest.getStatus(),
-                _nubRequest.getAccountId(), 
+                _nubRequest.getAccountId(),
                 _nubRequest.getIk());
     }
 
@@ -556,8 +556,7 @@ public class EditNubRequest extends AbstractEditController {
     }
 
     /**
-     * This function seals a request. As a precaution, it performs some checks
-     * like completeness
+     * This function seals a request. As a precaution, it performs some checks like completeness
      *
      * @return targetPage
      */
