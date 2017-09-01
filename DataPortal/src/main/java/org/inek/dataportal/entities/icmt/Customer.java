@@ -89,6 +89,28 @@ public class Customer implements Serializable {
     }
     // </editor-fold>
     
+    @Column(name = "cuStreet")
+    private String _street;
+
+    public String getStreet() {
+        return _street;
+    }
+
+    public void setStreet(String street) {
+        this._street = street;
+    }
+    
+    @Column(name = "cuPostCode")
+    private String _postCode;
+
+    public String getPostCode() {
+        return _postCode;
+    }
+
+    public void setPostCode(String postCode) {
+        this._postCode = postCode;
+    }
+       
     //<editor-fold defaultstate="collapsed" desc="Property ObligateCalculationYear">
     @Column(name = "cuObligateCalculationYear")
     private int _obligateCalculationYear;

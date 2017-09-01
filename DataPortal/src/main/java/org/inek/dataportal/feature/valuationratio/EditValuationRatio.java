@@ -16,10 +16,12 @@ import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountAdditionalIK;
+import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.entities.valuationratio.ValuationRatio;
 import org.inek.dataportal.entities.valuationratio.ValuationRatioMedian;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
+import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.ValuationRatioFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.feature.AbstractEditController;
@@ -49,6 +51,8 @@ public class EditValuationRatio extends AbstractEditController {
     private SessionController _sessionController;
     @Inject
     private AccountFacade _accFacade;
+    @Inject
+    private CustomerFacade _customerFacade;
 
     @PostConstruct
     private void init() {
@@ -61,10 +65,7 @@ public class EditValuationRatio extends AbstractEditController {
             int idInt = Integer.parseInt(id.toString());
             _valuationRatio = _valuationRatioFacade.findFreshValuationRatio(idInt);
             Account acc = _accFacade.find(_valuationRatio.getAccountId());
-            _valuationRatio.setHospital(acc.getCompany());
-            _valuationRatio.setCity(acc.getTown());
-            _valuationRatio.setStreet(acc.getStreet());
-            _valuationRatio.setZip(acc.getPostalCode());
+            initCustomerFields(_valuationRatio);
             if (DateUtils.isNullAlias(_valuationRatio.getValidFrom())) {
                 _valuationRatio.setValidFrom(null);
             }
@@ -77,20 +78,25 @@ public class EditValuationRatio extends AbstractEditController {
         vr.setAccountId(acc.getId());
         vr.setIk(getIks().get(0));
         vr.setValidFrom(null);
-        vr.setHospital(acc.getCompany());
-        vr.setCity(acc.getTown());
-        vr.setZip(acc.getPostalCode());
-        vr.setStreet(acc.getStreet());
         vr.setContactGender(acc.getGender());
         vr.setContactFirstName(acc.getFirstName());
         vr.setContactLastName(acc.getLastName());
         vr.setContactPhone(acc.getPhone());
         vr.setContactEmail(acc.getEmail());
+        initCustomerFields(vr);
         return vr;
     }
 
     public void ikChanged() {
-
+        initCustomerFields(_valuationRatio);
+    }
+    
+    private void initCustomerFields(ValuationRatio vr) {
+        Customer cu = _customerFacade.getCustomerByIK(vr.getIk());
+        vr.setHospital(cu.getName());
+        vr.setCity(cu.getTown());
+        vr.setStreet(cu.getStreet());
+        vr.setZip(cu.getPostCode());
     }
 
     private ValuationRatio _valuationRatio;
