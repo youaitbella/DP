@@ -29,27 +29,6 @@
                               />
             </div>
             
-            <h2>Krankenhausdaten</h2>
-            <h:panelGroup id="hospital-data" styleClass="groupBox" layout="block" style="border-top: none;">
-                <inek:LabeledText readonly="true" 
-                                  value="#{editValuationRatio.valuationRatio.street}" 
-                                  required="true" label="#{msg.lblStreet}"
-                                  event="blur"
-                                  styleClassComponent="inputPart element30"/>
-                <br/>
-                <inek:LabeledText readonly="true" 
-                                  value="#{editValuationRatio.valuationRatio.zip}" 
-                                  required="true" label="#{msg.lblPostalCode}"
-                                  event="blur"
-                                  styleClassComponent="inputPart element20"/>
-                <br/>
-                <inek:LabeledText readonly="true" 
-                                  value="#{editValuationRatio.valuationRatio.city}" 
-                                  required="true" label="#{msg.lblTown}"
-                                  event="blur"
-                                  styleClassComponent="inputPart element30"/>
-            </h:panelGroup>
-            
             <h2>Ansprechpartner</h2>
             <h:panelGroup id="contact-data" styleClass="groupBox" layout="block" style="border-top: none;">
                 <inek:SalutationSelect 

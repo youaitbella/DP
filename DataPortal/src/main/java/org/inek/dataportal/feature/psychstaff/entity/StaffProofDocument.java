@@ -16,7 +16,7 @@ import org.inek.dataportal.entities.Document;
 import org.inek.dataportal.feature.psychstaff.enums.PsychType;
 
 @Entity
-@Table(name = "StaffProofDocument")
+@Table(name = "StaffProofDocument", schema = "psy")
 public class StaffProofDocument implements Serializable, Document {
     
     private static final long serialVersionUID = 1L;

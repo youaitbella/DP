@@ -92,9 +92,14 @@
                           styleClass="inputSmall"
                           renderElement="checksum"/>
 
+        <div jsf:id="fileName" class="inputPart" jsf:rendered="#{not empty editPsyStaff.staffProof.getStaffProofDocumentName(cc.attrs.patType, 1)}">
+            <h:outputLabel value="Anlage:" styleClass="label"/>
+            <h:outputText value="#{editPsyStaff.staffProof.getStaffProofDocumentName(cc.attrs.patType, 1)}"/>
+        </div>
+
         <div class="uploadFile inlineBlock">
-            <h:inputFile style="width: 250px;" styleClass="hiddenFile" id="file" value="#{editPsyStaff.file}">
-                <f:ajax listener="#{editPsyStaff.uploadFile(cc.attrs.patType, 1)}" render="@all"/>
+            <h:inputFile styleClass="hiddenFile" id="file" value="#{editPsyStaff.file}" >
+                <f:ajax listener="#{editPsyStaff.uploadFile(cc.attrs.patType, 1)}" render="fileName"/>
             </h:inputFile>
             <div class="fakeFile">
                 <h:outputLabel style="margin-top: 0px;" styleClass="button element100" value="Unterschriebene Vereinbarung hochladen"/>

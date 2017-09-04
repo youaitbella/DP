@@ -4,8 +4,10 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneOffset;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.Vector;
 import java.util.stream.Collectors;
 import javax.persistence.*;
@@ -329,6 +331,50 @@ public class StaffProof implements Serializable, StatusEntity {
             return false;
         }
         _staffProofEffective.add(staffProofEffective);
+        return true;
+    }
+    // </editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property StaffProofDocuments">
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "spdStaffProofMasterId", referencedColumnName = "spmId")
+    private List<StaffProofDocument> _staffProofDocument = new Vector<>();
+
+    public List<StaffProofDocument> getStaffProofDocuments() {
+        return Collections.unmodifiableList(_staffProofDocument);
+    }
+
+    public StaffProofDocument getStaffProofDocument(PsychType type, int appendix) {
+        return _staffProofDocument
+                .stream()
+                .filter(d -> d.getPsychType() == type && d.getAppendix() == appendix)
+                .findAny()
+                .orElse(new StaffProofDocument());
+    }
+
+    public String getStaffProofDocumentName(PsychType type, int appendix) {
+        return getStaffProofDocument(type, appendix).getName();
+    }
+
+    /**
+     * Add a StaffProofDocument to the list
+     *
+     * @param staffProofDocument
+     * @return true, if the new element could be added; false if the element existed before
+     */
+    public boolean addStaffProofDocument(StaffProofDocument staffProofDocument) {
+        Optional<StaffProofDocument> findAny = _staffProofDocument
+                .stream()
+                .filter(d -> d.getPsychType() == staffProofDocument.getPsychType() && d.getAppendix() == staffProofDocument.getAppendix())
+                .findAny();
+        if (findAny.isPresent()) {
+            StaffProofDocument existing = findAny.get();
+            existing.setName(staffProofDocument.getName());
+            existing.setContent(staffProofDocument.getContent());
+            return false;
+        }
+        staffProofDocument.setStaffProofMasterId(_id);
+        _staffProofDocument.add(staffProofDocument);
         return true;
     }
     // </editor-fold>

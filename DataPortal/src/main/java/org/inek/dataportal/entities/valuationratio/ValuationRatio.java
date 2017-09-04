@@ -106,50 +106,6 @@ public class ValuationRatio implements Serializable {
         this._ik = ik;
     }
     
-    @Transient
-    private String _hospital = "";
-
-    public String getHospital() {
-        return _hospital;
-    }
-
-    public void setHospital(String hospital) {
-        this._hospital = hospital;
-    }
-    
-    @Transient
-    private String _street = "";
-
-    public String getStreet() {
-        return _street;
-    }
-
-    public void setStreet(String street) {
-        this._street = street;
-    }
-    
-    @Transient
-    private String _zip = "";
-
-    public String getZip() {
-        return _zip;
-    }
-
-    public void setZip(String zip) {
-        this._zip = zip;
-    }
-    
-    @Transient
-    private String _city = "";
-
-    public String getCity() {
-        return _city;
-    }
-
-    public void setCity(String city) {
-        this._city = city;
-    }
-    
     @Column(name = "vrContactFirstname")
     private String _contactFirstName = "";
 

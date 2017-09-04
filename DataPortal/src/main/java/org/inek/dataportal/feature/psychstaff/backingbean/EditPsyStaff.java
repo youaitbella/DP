@@ -47,6 +47,7 @@ import org.inek.dataportal.feature.insurance.NoticeItemImporter;
 import org.inek.dataportal.feature.psychstaff.entity.OccupationalCatagory;
 import org.inek.dataportal.feature.psychstaff.entity.StaffProof;
 import org.inek.dataportal.feature.psychstaff.entity.StaffProofAgreed;
+import org.inek.dataportal.feature.psychstaff.entity.StaffProofDocument;
 import org.inek.dataportal.feature.psychstaff.entity.StaffProofEffective;
 import org.inek.dataportal.feature.psychstaff.enums.PsychType;
 import org.inek.dataportal.feature.psychstaff.facade.PsychStaffFacade;
@@ -553,7 +554,12 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
             if (_file != null) {
                 InputStream is = _file.getInputStream();
                 byte[] content = StreamUtils.stream2blob(is);
-                System.out.println("upload len " + content.length);
+                StaffProofDocument document = new StaffProofDocument(_file.getSubmittedFileName());
+                document.setContent(content);
+                document.setPsychType(type);
+                document.setAppendix(appendix);
+                _staffProof.addStaffProofDocument(document);
+                _file = null;
             }
         } catch (IOException | NoSuchElementException e) {
         }
