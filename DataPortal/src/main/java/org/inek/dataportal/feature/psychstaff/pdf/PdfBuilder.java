@@ -47,7 +47,7 @@ public class PdfBuilder implements Serializable {
     private static final Font SSMALL = new Font(Font.FontFamily.HELVETICA, 6);
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="Texte">
+    //<editor-fold defaultstate="collapsed" desc="Texts">
     private final String img = "D:\\projects\\DataPortal\\DataPortal\\InEK.gif";
     private final String infoText1 = "1. Die vereinbarten Berechnungstage in Anlage 1 und die tatsächlichen "
             + "Berechnungstage in Anlage 2 sind in einer einheitlichen Zählweise entweder nach LKA \noder nach PEPPV anzugeben.";
@@ -114,7 +114,8 @@ public class PdfBuilder implements Serializable {
         tb_JK.setSpacingAfter(10);
         document.add(tb_JK);
         
-        Paragraph  p = new Paragraph("Vereinbarte Berechnungstage: " + String.valueOf(_editPsyStaff.getStaffProof().getKidsEffectiveDays()), SMALLBOLD);
+        Paragraph  p = new Paragraph("Vereinbarte Berechnungstage: " 
+                                        + String.valueOf(_editPsyStaff.getStaffProof().getKidsEffectiveDays()), SMALLBOLD);
         p.setIndentationLeft(50);
         p.setSpacingAfter(30);
         document.add(p);
@@ -147,7 +148,8 @@ public class PdfBuilder implements Serializable {
         tb.setSpacingAfter(10);
         document.add(tb);
         
-        Paragraph  p = new Paragraph("Vereinbarte Berechnungstage: " + String.valueOf(_editPsyStaff.getStaffProof().getAdultsEffectiveDays()), SMALLBOLD);
+        Paragraph  p = new Paragraph("Vereinbarte Berechnungstage: " 
+                                        + String.valueOf(_editPsyStaff.getStaffProof().getAdultsEffectiveDays()), SMALLBOLD);
         p.setIndentationLeft(50);
         p.setSpacingAfter(30);
         document.add(p);
