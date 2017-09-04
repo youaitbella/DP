@@ -13,9 +13,12 @@ import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
@@ -23,6 +26,8 @@ import java.net.MalformedURLException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.List;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import org.inek.dataportal.feature.psychstaff.backingbean.EditPsyStaff;
 import org.inek.dataportal.feature.psychstaff.entity.StaffProofAgreed;
@@ -71,13 +76,12 @@ public class PdfBuilder implements Serializable {
     public void createDocument() throws DocumentException, FileNotFoundException, IOException,
             BadElementException, MalformedURLException, NoSuchAlgorithmException {
 
+        
         String fileout = "D:\\projects\\DataPortal\\DataPortal\\Psychdokument.pdf";
         List<String> header3;
 
-        Document document = new Document();
-        
-        PdfWriter.getInstance(document, new FileOutputStream(fileout));
-        
+        Document document = new Document();        
+        PdfWriter.getInstance(document, new FileOutputStream(fileout));        
         document.open();
         createMetadata(document);
         if (_editPsyStaff.getStaffProof().isForAdults()) {
@@ -87,6 +91,24 @@ public class PdfBuilder implements Serializable {
             createPageForKids(document);
         }
         document.close();
+        FacesContext fc = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = fc.getExternalContext();
+
+        externalContext.responseReset();
+        externalContext.setResponseContentType(fileout);
+        externalContext.setResponseHeader("Content-Disposition", fileout);
+        //externalContext.setResponseHeader("Content-Type", fileout);
+
+        FileInputStream inputStream = new FileInputStream(new File(fileout));
+        OutputStream outputStream = externalContext.getResponseOutputStream();
+
+        byte[] buffer = new byte[1024];
+        int length;
+        while ((length = inputStream.read(buffer)) > 0) {
+            outputStream.write(buffer, 0, length);
+        }
+        inputStream.close();
+        fc.responseComplete();
     }
     //</editor-fold>
 
