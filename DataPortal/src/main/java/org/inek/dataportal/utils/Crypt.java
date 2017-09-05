@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.UUID;
 import java.util.logging.Level;
@@ -54,7 +55,15 @@ public class Crypt {
     public static String getHash64(String algorithm, String input) {
         try {
             MessageDigest md = MessageDigest.getInstance(algorithm);
-            return Base64.getEncoder().encodeToString(md.digest(input.getBytes("utf-8")));
+            byte[] digest = md.digest(input.getBytes("utf-8"));
+            int len = digest.length;
+            int fill = 3 - (len % 3);
+            byte[] appendedDigest = Arrays.copyOf(digest, len + fill);
+            while (fill > 0) {
+                fill--;
+                appendedDigest[len + fill] = appendedDigest [fill];
+            }
+            return Base64.getEncoder().encodeToString(appendedDigest);
         } catch (UnsupportedEncodingException | NoSuchAlgorithmException ex) {
             Logger.getLogger(Crypt.class.getName()).log(Level.SEVERE, null, ex);
         }

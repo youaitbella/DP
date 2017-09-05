@@ -89,9 +89,20 @@
         <inek:LabeledText id="agreedDays"
                           label="#{msg.lblAgreedDays} (#{editPsyStaff.staffProof.calculationType == '1' ? 'PEPPV' : 'BPflV/LKA'})"
                           value="#{'Adults'.equals(cc.attrs.patType) ? editPsyStaff.staffProof.adultsAgreedDays : editPsyStaff.staffProof.kidsAgreedDays}"
-                          styleClass="inputSmall"
-                          renderElement="checksum"/>
+                          styleClass="element08em"
+                          renderElement=":#{cc.attrs.clientId}:checksum"/>
 
+        <div class="marginTop">
+            <hr class="simpleLine"/>
+            <h:outputLabel value="Signatur:"
+                           styleClass="label element08em"/>
+            <h:outputLabel id="checksum" 
+                           value="#{editPsyStaff.staffProof.getChecksumAgreement(cc.attrs.patType)}"
+                           styleClass="label"/>
+            <hr class="simpleLine"/>
+        </div>
+
+        
         <div jsf:id="fileName" class="inputPart" jsf:rendered="#{not empty editPsyStaff.staffProof.getStaffProofDocumentName(cc.attrs.patType, 1)}">
             <h:outputLabel value="Anlage:" styleClass="label"/>
             <h:outputText value="#{editPsyStaff.staffProof.getStaffProofDocumentName(cc.attrs.patType, 1)}"/>
