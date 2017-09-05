@@ -13,12 +13,9 @@ import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import java.io.File;
-import java.io.FileInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
@@ -29,6 +26,8 @@ import java.util.List;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import org.inek.dataportal.feature.psychstaff.backingbean.EditPsyStaff;
 import org.inek.dataportal.feature.psychstaff.entity.StaffProofAgreed;
 import org.inek.dataportal.feature.psychstaff.enums.PsychType;
@@ -51,7 +50,7 @@ public class PdfBuilder implements Serializable {
     private static final Font SMALL = new Font(Font.getFamily("TIMES_ROMAN"), 6, Font.NORMAL);
     private static final Font SSMALL = new Font(Font.FontFamily.HELVETICA, 6);
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Texts">
     private final String img = "D:\\projects\\DataPortal\\DataPortal\\InEK.gif";
     private final String infoText1 = "1. Die vereinbarten Berechnungstage in Anlage 1 und die tatsächlichen "
@@ -76,57 +75,57 @@ public class PdfBuilder implements Serializable {
     public void createDocument() throws DocumentException, FileNotFoundException, IOException,
             BadElementException, MalformedURLException, NoSuchAlgorithmException {
 
-        
-        String fileout = "D:\\projects\\DataPortal\\DataPortal\\Psychdokument.pdf";
-        List<String> header3;
+        //List<String> header3;
 
-        Document document = new Document();        
-        PdfWriter.getInstance(document, new FileOutputStream(fileout));        
+        Document document = new Document();
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
+        PdfWriter.getInstance(document, byteArrayOutputStream);
+
         document.open();
         createMetadata(document);
-        if (_editPsyStaff.getStaffProof().isForAdults()) {
+
+        if (("Erw").equalsIgnoreCase(_editPsyStaff.getActiveTopic().getTitle().substring(11))) {
             createPageForAdult(document);
-        }
-        if (_editPsyStaff.getStaffProof().isForKids()) {
+        } else if (("KJP").equalsIgnoreCase(_editPsyStaff.getActiveTopic().getTitle().substring(11))) {
             createPageForKids(document);
         }
         document.close();
+
         FacesContext fc = FacesContext.getCurrentInstance();
         ExternalContext externalContext = fc.getExternalContext();
 
         externalContext.responseReset();
-        externalContext.setResponseContentType(fileout);
-        externalContext.setResponseHeader("Content-Disposition", fileout);
-        //externalContext.setResponseHeader("Content-Type", fileout);
+        externalContext.setResponseContentType("psychdocument.pdf");
 
-        FileInputStream inputStream = new FileInputStream(new File(fileout));
-        OutputStream outputStream = externalContext.getResponseOutputStream();
+        HttpServletResponse response = (HttpServletResponse) externalContext.getResponse();
 
-        byte[] buffer = new byte[1024];
-        int length;
-        while ((length = inputStream.read(buffer)) > 0) {
-            outputStream.write(buffer, 0, length);
-        }
-        inputStream.close();
+        response.reset();
+        response.setHeader("Content-disposition", "attachment; filename=\"psychdocument.pdf\"");
+        response.setContentLength(byteArrayOutputStream.toByteArray().length);
+
+        ServletOutputStream servletOutputStream = response.getOutputStream();
+        servletOutputStream.write(byteArrayOutputStream.toByteArray());
+        servletOutputStream.close();
+
         fc.responseComplete();
     }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="createPageForKids">
     private void createPageForKids(Document document) throws DocumentException, NoSuchAlgorithmException, IOException {
-        List<String> header3;
-        
+
         if (_editPsyStaff.getStaffProof().isForAdults()) {
             document.newPage();
         }
-        addLogo(document, img, "Bereich Kinder und Jugendliche");
+        addLogo(document, img, "Bereich Kinder und Jugendliche", _editPsyStaff.getStaffProof().getChecksumAgreement());
         PdfPTable tb_JK = new PdfPTable(6);
         tb_JK.setWidths(new int[]{3, 1, 3, 3, 3, 3});
-        header3 = Arrays.asList("", "8", "Gesamt",
+        List<String> header3 = Arrays.asList("", "8", "Gesamt",
                 _editPsyStaff.sumAgreedStaffingComplete(PsychType.Kids),
                 _editPsyStaff.sumAgreedStaffingBudget(PsychType.Kids),
                 _editPsyStaff.sumEffectiveStaffingComplete(PsychType.Kids));
-        
+
         tb_JK.getDefaultCell().setBackgroundColor(BaseColor.LIGHT_GRAY);
         addHeader(tb_JK, header1);
         addHeader(tb_JK, header2);
@@ -135,13 +134,13 @@ public class PdfBuilder implements Serializable {
         tb_JK.setSpacingBefore(30);
         tb_JK.setSpacingAfter(10);
         document.add(tb_JK);
-        
-        Paragraph  p = new Paragraph("Vereinbarte Berechnungstage: " 
-                                        + String.valueOf(_editPsyStaff.getStaffProof().getKidsEffectiveDays()), SMALLBOLD);
+
+        Paragraph p = new Paragraph("Vereinbarte Berechnungstage: "
+                + String.valueOf(_editPsyStaff.getStaffProof().getKidsEffectiveDays()), SMALLBOLD);
         p.setIndentationLeft(50);
         p.setSpacingAfter(30);
         document.add(p);
-        
+
         addInfoText(document, infoText1, 0);
         addInfoText(document, infoText2, 20);
         addInfoText(document, infoText3, 50);
@@ -151,16 +150,15 @@ public class PdfBuilder implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="createPageForAdult">
     private void createPageForAdult(Document document) throws DocumentException, IOException, NoSuchAlgorithmException {
-        List<String> header3;
-        
-        addLogo(document, img, "Bereich Erwachsene");
+
+        addLogo(document, img, "Bereich Erwachsene", _editPsyStaff.getStaffProof().getChecksumAgreement());
         PdfPTable tb = new PdfPTable(6);
         tb.setWidths(new int[]{3, 1, 3, 3, 3, 3});
-        
-        header3 = Arrays.asList("", "8", "Gesamt",_editPsyStaff.sumAgreedStaffingComplete(PsychType.Adults),
+
+        List<String> header3 = Arrays.asList("", "8", "Gesamt", _editPsyStaff.sumAgreedStaffingComplete(PsychType.Adults),
                 _editPsyStaff.sumAgreedStaffingBudget(PsychType.Adults),
-                _editPsyStaff.sumEffectiveStaffingComplete(PsychType.Adults));        
-        
+                _editPsyStaff.sumEffectiveStaffingComplete(PsychType.Adults));
+
         tb.getDefaultCell().setBackgroundColor(BaseColor.LIGHT_GRAY);
         addHeader(tb, header1);
         addHeader(tb, header2);
@@ -169,13 +167,13 @@ public class PdfBuilder implements Serializable {
         tb.setSpacingBefore(30);
         tb.setSpacingAfter(10);
         document.add(tb);
-        
-        Paragraph  p = new Paragraph("Vereinbarte Berechnungstage: " 
-                                        + String.valueOf(_editPsyStaff.getStaffProof().getAdultsEffectiveDays()), SMALLBOLD);
+
+        Paragraph p = new Paragraph("Vereinbarte Berechnungstage: "
+                + String.valueOf(_editPsyStaff.getStaffProof().getAdultsEffectiveDays()), SMALLBOLD);
         p.setIndentationLeft(50);
         p.setSpacingAfter(30);
         document.add(p);
-        
+
         addInfoText(document, infoText1, 0);
         addInfoText(document, infoText2, 20);
         addInfoText(document, infoText3, 50);
@@ -194,7 +192,7 @@ public class PdfBuilder implements Serializable {
                     staffProofAgreed.getStaffingComplete(),
                     staffProofAgreed.getStaffingBudget(),
                     staffProofAgreed.getAvgCost());
-            index++;            
+            index++;
         }
     }
 //    </editor-fold>
@@ -210,7 +208,7 @@ public class PdfBuilder implements Serializable {
                     staffProofAgreed.getStaffingComplete(),
                     staffProofAgreed.getStaffingBudget(),
                     staffProofAgreed.getAvgCost());
-            index++;            
+            index++;
         }
     }
     //    </editor-fold>
@@ -229,7 +227,7 @@ public class PdfBuilder implements Serializable {
     //</editor-fold>    
 
     //<editor-fold defaultstate="collapsed" desc="addLogo">
-    private void addLogo(Document document, String IMG, String bereich) throws IOException, BadElementException, DocumentException {
+    private void addLogo(Document document, String IMG, String bereich, String checksumAgreement) throws IOException, BadElementException, DocumentException {
         Image inekLogo = Image.getInstance(IMG);
         PdfPTable tb;
         PdfPCell cell;
@@ -241,31 +239,31 @@ public class PdfBuilder implements Serializable {
         tb.addCell(cell);
 
         PdfPTable tb1 = new PdfPTable(1);
-        
+
         cell = new PdfPCell(new Paragraph(bereich, FONT_TITLE));
         cell.setLeft(50);
         cell.setHorizontalAlignment(Element.ALIGN_LEFT);
         //cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
         cell.setBorder(PdfPCell.NO_BORDER);
         tb1.addCell(cell);
-        
+
         cell = new PdfPCell(new Paragraph("Anlage 1 zur Psych-Personalnachweisvereinbarung", NORMALBOLD));
         cell.setLeft(50);
         cell.setHorizontalAlignment(Element.ALIGN_LEFT);
         cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
         cell.setBorder(PdfPCell.NO_BORDER);
         tb1.addCell(cell);
-        
-        cell = new PdfPCell(new Paragraph("Signatur: " + _editPsyStaff.getStaffProof().getChecksumAgreement(), SMALLBOLD));
+
+        cell = new PdfPCell(new Paragraph("Signatur: " + checksumAgreement, SMALLBOLD));
         cell.setLeft(50);
         cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
         cell.setBorder(PdfPCell.NO_BORDER);
         tb1.addCell(cell);
-        
+
         cell = new PdfPCell(tb1);
         cell.setBorder(PdfPCell.NO_BORDER);
-        
+
         tb.addCell(cell);
 
         document.add(tb);
