@@ -81,6 +81,19 @@ public class StaffProofDocument implements Serializable, Document {
     }
     // </editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc="Property Signature">
+    @Column(name = "spdSignature")
+    private String _signature;
+
+    public String getSignature() {
+        return _signature;
+    }
+
+    public void setSignature(String signature) {
+        _signature = signature;
+    }
+    // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="Property Created">
     @Column(name = "spdCreated")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)

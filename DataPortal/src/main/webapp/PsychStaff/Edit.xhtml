@@ -46,15 +46,6 @@
 
                         <h:commandLink styleClass="sendButton"
                                        immediate="false"
-                                       action="#{editPsyStaff.requestApproval}"
-                                       value="#{msg.btnRequestApproval}"
-                                       rendered="#{editPsyStaff.approvalRequestEnabled}"
-                                       title="#{msg.infoSaveAndClose}">
-                            <cb:confirmRequestApproval/>
-                        </h:commandLink>
-
-                        <h:commandLink styleClass="sendButton"
-                                       immediate="false"
                                        action="#{editPsyStaff.seal}"
                                        value="#{msg.btnSaveAndClose}"
                                        rendered="#{editPsyStaff.sealEnabled}"

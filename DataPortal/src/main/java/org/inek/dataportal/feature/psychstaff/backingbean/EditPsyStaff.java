@@ -299,11 +299,6 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         return true;
     }
 
-    public boolean isApprovalRequestEnabled() {
-        return isSendEnabled()
-                && _cooperationTools.isApprovalRequestEnabled(Feature.PSYCH_STAFF, _staffProof.getStatus(), _staffProof.getAccountId());
-    }
-
     public boolean isRequestCorrectionEnabled() {
         return isSendEnabled()
                 && (_staffProof.getStatus() == WorkflowStatus.Provided || _staffProof.getStatus() == WorkflowStatus.ReProvided)
@@ -466,16 +461,6 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
             message.setTopic(topic);
             message.setElementId(elementId);
         }
-    }
-
-    public String requestApproval() {
-        if (!staffProofIsComplete()) {
-            return null;
-        }
-        _staffProof.setStatus(WorkflowStatus.ApprovalRequested);
-        setModifiedInfo();
-        _staffProof = _psychStaffFacade.saveStaffProof(_staffProof);
-        return "";
     }
 
     public String take() {
