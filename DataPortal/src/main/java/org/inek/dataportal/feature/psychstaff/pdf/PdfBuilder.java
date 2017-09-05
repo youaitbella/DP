@@ -136,7 +136,7 @@ public class PdfBuilder implements Serializable {
         document.add(tb_JK);
 
         Paragraph p = new Paragraph("Vereinbarte Berechnungstage: "
-                + String.valueOf(_editPsyStaff.getStaffProof().getKidsEffectiveDays()), SMALLBOLD);
+                + String.valueOf(_editPsyStaff.getStaffProof().getKidsAgreedDays()), SMALLBOLD);
         p.setIndentationLeft(50);
         p.setSpacingAfter(30);
         document.add(p);
@@ -169,7 +169,7 @@ public class PdfBuilder implements Serializable {
         document.add(tb);
 
         Paragraph p = new Paragraph("Vereinbarte Berechnungstage: "
-                + String.valueOf(_editPsyStaff.getStaffProof().getAdultsEffectiveDays()), SMALLBOLD);
+                + String.valueOf(_editPsyStaff.getStaffProof().getAdultsAgreedDays()), SMALLBOLD);
         p.setIndentationLeft(50);
         p.setSpacingAfter(30);
         document.add(p);
