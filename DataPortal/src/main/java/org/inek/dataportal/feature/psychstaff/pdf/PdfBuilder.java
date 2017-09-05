@@ -118,7 +118,7 @@ public class PdfBuilder implements Serializable {
         if (_editPsyStaff.getStaffProof().isForAdults()) {
             document.newPage();
         }
-        addLogo(document, img, "Bereich Kinder und Jugendliche", _editPsyStaff.getStaffProof().getChecksumAgreement());
+        addLogo(document, img, "Bereich Kinder und Jugendliche", _editPsyStaff.getStaffProof().getChecksumAgreement(PsychType.Kids));
         PdfPTable tb_JK = new PdfPTable(6);
         tb_JK.setWidths(new int[]{3, 1, 3, 3, 3, 3});
         List<String> header3 = Arrays.asList("", "8", "Gesamt",
@@ -151,7 +151,7 @@ public class PdfBuilder implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="createPageForAdult">
     private void createPageForAdult(Document document) throws DocumentException, IOException, NoSuchAlgorithmException {
 
-        addLogo(document, img, "Bereich Erwachsene", _editPsyStaff.getStaffProof().getChecksumAgreement());
+        addLogo(document, img, "Bereich Erwachsene", _editPsyStaff.getStaffProof().getChecksumAgreement(PsychType.Adults));
         PdfPTable tb = new PdfPTable(6);
         tb.setWidths(new int[]{3, 1, 3, 3, 3, 3});
 
@@ -227,7 +227,8 @@ public class PdfBuilder implements Serializable {
     //</editor-fold>    
 
     //<editor-fold defaultstate="collapsed" desc="addLogo">
-    private void addLogo(Document document, String IMG, String bereich, String checksumAgreement) throws IOException, BadElementException, DocumentException {
+    private void addLogo(Document document, String IMG, String bereich, String checksumAgreement) 
+            throws IOException, BadElementException, DocumentException {
         Image inekLogo = Image.getInstance(IMG);
         PdfPTable tb;
         PdfPCell cell;
@@ -253,8 +254,8 @@ public class PdfBuilder implements Serializable {
         cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
         cell.setBorder(PdfPCell.NO_BORDER);
         tb1.addCell(cell);
-
-        cell = new PdfPCell(new Paragraph("Signatur: " + checksumAgreement, SMALLBOLD));
+        // todo: replace psychType by variable 
+        cell = new PdfPCell(new Paragraph("Signatur: " + _editPsyStaff.getStaffProof().getChecksumAgreement(PsychType.Adults), SMALLBOLD));
         cell.setLeft(50);
         cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         cell.setVerticalAlignment(Element.ALIGN_BOTTOM);

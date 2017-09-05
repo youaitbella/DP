@@ -230,6 +230,62 @@ public class StaffProof implements Serializable, StatusEntity {
     }
     // </editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Property StatusChangedAdults1">
+    @Column(name = "spmStatusChangedAdults1")
+    @Documentation(name = "Stand")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date _statusChangedAdults1 = new Date();
+
+    public Date getStatusChangedAdults1() {
+        return _statusChangedAdults1;
+    }
+
+    public void setStatusChangedAdults1(Date statusChangedAdults1) {
+        this._statusChangedAdults1 = statusChangedAdults1;
+    }
+    //</editor-fold>    
+
+    //<editor-fold defaultstate="collapsed" desc="Property StatusAdults1">
+    @Column(name = "spmStatusAdults1")
+    private int _statusAdults1;
+
+    public int getStatusAdults1() {
+        return _statusAdults1;
+    }
+
+    public void setStatusAdults1(int statusAdults1) {
+        this._statusAdults1 = statusAdults1;
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property StatusChangedAdults2">
+    @Column(name = "spmStatusChangedAdults2")
+    @Documentation(name = "Stand")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date _statusChangedAdults2 = new Date();
+
+    public Date getStatusChangedAdults2() {
+        return _statusChangedAdults2;
+    }
+
+    public void setStatusChangedAdults2(Date statusChangedAdults2) {
+        this._statusChangedAdults2 = statusChangedAdults2;
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property StatusAdults2">
+    @Column(name = "spmStatusAdults2")
+    private int _statusAdults2;
+
+    public int getStatusAdults2() {
+        return _statusAdults2;
+    }
+
+    public void setStatusAdults2(int statusAdults2) {
+        this._statusAdults2 = statusAdults2;
+    }
+    //</editor-fold>
+
     //<editor-fold defaultstate="collapsed" desc="Property KidsAgreedDays">
     @Column(name = "spmKidsAgreedDays")
     private int _kidsAgreedDays;
@@ -268,6 +324,62 @@ public class StaffProof implements Serializable, StatusEntity {
         _kidsEffectiveCosts = kidsEffectiveCosts;
     }
     // </editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property StatusChangedKids1">
+    @Column(name = "spmStatusChangedKids1")
+    @Documentation(name = "Stand")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date _statusChangedKids1 = new Date();
+
+    public Date getStatusChangedKids1() {
+        return _statusChangedKids1;
+    }
+
+    public void setStatusChangedKids1(Date statusChangedKids1) {
+        this._statusChangedKids1 = statusChangedKids1;
+    }
+    //</editor-fold>    
+
+    //<editor-fold defaultstate="collapsed" desc="Property StatusKids1">
+    @Column(name = "spmStatusKids1")
+    private int _statusKids1;
+
+    public int getStatusKids1() {
+        return _statusKids1;
+    }
+
+    public void setStatusKids1(int statusKids1) {
+        this._statusKids1 = statusKids1;
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property StatusChangedKids2">
+    @Column(name = "spmStatusChangedKids2")
+    @Documentation(name = "Stand")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date _statusChangedKids2 = new Date();
+
+    public Date getStatusChangedKids2() {
+        return _statusChangedKids2;
+    }
+
+    public void setStatusChangedKids2(Date statusChangedKids2) {
+        this._statusChangedKids2 = statusChangedKids2;
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property StatusKids2">
+    @Column(name = "spmStatusKids2")
+    private int _statusKids2;
+
+    public int getStatusKids2() {
+        return _statusKids2;
+    }
+
+    public void setStatusKids2(int statusKids2) {
+        this._statusKids2 = statusKids2;
+    }
+    //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property StaffProofsAgreed">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -404,30 +516,41 @@ public class StaffProof implements Serializable, StatusEntity {
     }
     // </editor-fold>
 
-    public String getChecksumAgreement() {
-        String data = ""
-                + getId()
-                + getAccountId()
-                + getCreated()
-                + isForAdults()
-                + isForKids()
-                + getCalculationType()
-                + getAdultsAgreedDays()
-                + getKidsAgreedDays()
-                + getProofsAgreedData(PsychType.Adults)
-                + getProofsAgreedData(PsychType.Kids);
+    /**
+     * 
+     * @param psychType
+     * @return Base64 encoded checksum
+     */
+    public String getChecksumAgreement(PsychType psychType) {
+        // we use a delimitter to distinguish the concatenation of "cummutative" values
+        // eg. id = 1; AccoutId = 11, without deli: "111", with deli: "1^11"
+        //     id = 11; AccoutId = 1, without deli: "111" (as before!), with deli: "11^1"
+        String data = "^"
+                + getId() + "^"
+                + getAccountId() + "^"
+                + getCreated() + "^"
+                + getYear() + "^"
+                + getCalculationType() + "^";
+        if (psychType == PsychType.Adults) {
+            data += getAdultsAgreedDays() + "^"
+                    + getStatusChangedAdults1() + "^";
+        } else {
+            data += getKidsAgreedDays() + "^"
+                    + getStatusChangedKids1() + "^";
+        }
+        data += getProofsAgreedData(psychType);
         return Crypt.getHash64("SHA1", data);
     }
 
     private String getProofsAgreedData(PsychType psychType) {
-        String data = "" + psychType;
+        String data = psychType + "^";
         data = getStaffProofsAgreed(psychType)
                 .stream()
                 .map((item) -> ""
-                + item.getOccupationalCatagoryId()
-                + item.getStaffingComplete()
-                + item.getStaffingBudget()
-                + item.getAvgCost())
+                + item.getOccupationalCatagoryId() + "^"
+                + item.getStaffingComplete() + "^"
+                + item.getStaffingBudget() + "^"
+                + item.getAvgCost() + "^")
                 .reduce(data, String::concat);
         return data;
     }

@@ -33,11 +33,6 @@
             </div>
 
             <div class="edit">
-                <h:outputLabel id="checksum" 
-                               value="Signatur: #{editPsyStaff.staffProof.checksumAgreement}"
-                               styleClass="label"/>
-                <hr/>
-
                 <ui:include src="#{editPsyStaff.activeTopic.outcome}" />
 
                 <h:panelGroup rendered="#{editPsyStaff.staffProof.ik gt 0}">

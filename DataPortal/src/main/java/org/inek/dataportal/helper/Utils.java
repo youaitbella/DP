@@ -256,7 +256,8 @@ public class Utils {
         ExternalContext externalContext = facesContext.getExternalContext();
         externalContext.setResponseHeader("Content-Type", "application/octet-stream");
         externalContext.setResponseHeader("Content-Length", "" + document.getContent().length);
-        externalContext.setResponseHeader("Content-Disposition", "attachment;filename=\"" + document.getName() + "\"");
+        String deli = getUserAgent().contains("Firefox") ? "\"" : "";
+        externalContext.setResponseHeader("Content-Disposition", "attachment;filename=" + deli + document.getName() + deli);
         ByteArrayInputStream is = new ByteArrayInputStream(document.getContent());
         try {
             new StreamHelper().copyStream(is, externalContext.getResponseOutputStream());
@@ -286,7 +287,7 @@ public class Utils {
             response.reset();
             response.setContentType(Helper.getContentType(filename));
             response.setHeader("Content-Length", "" + buffer.length);
-            response.setHeader("Content-Disposition", "attachment;filename=\"" + filename + "\"");
+            response.setHeader("Content-Disposition", "attachment;filename*=UTF-8''" + encodeUrl(filename).replace("+", "_"));
             response.getOutputStream().write(buffer);
             response.flushBuffer();
             facesContext.responseComplete();
@@ -347,6 +348,19 @@ public class Utils {
                 .replace("\u00c3\u00b6", "ö")
                 .replace("\u00c3\u00bc", "ü")
                 .replace("\u00c3\u0178", "ß");
+    }
+
+    public static String convertUmlauts(String line) {
+        return line
+                .replace("Ä", "AE")
+                .replace("Ö", "Oe")
+                .replace("Ü", "Ue")
+                .replace("ä", "ae")
+                .replace("ö", "oe")
+                .replace("ü", "ue")
+                .replace("ß", "ss")
+                .replace(":", " ")
+                .replace(",", " ");
     }
 
     public static boolean isInteger(String numString) {
