@@ -256,11 +256,10 @@ public class Utils {
         ExternalContext externalContext = facesContext.getExternalContext();
         externalContext.setResponseHeader("Content-Type", "application/octet-stream");
         externalContext.setResponseHeader("Content-Length", "" + document.getContent().length);
-        String deli = getUserAgent().contains("Firefox") ? "\"" : "";
-        externalContext.setResponseHeader("Content-Disposition", "attachment;filename=" + deli + document.getName() + deli);
+        externalContext.setResponseHeader("Content-Disposition", "attachment;filename*=UTF-8''" + encodeUrl(document.getName()).replace("+", "_")); 
         ByteArrayInputStream is = new ByteArrayInputStream(document.getContent());
         try {
-            new StreamHelper().copyStream(is, externalContext.getResponseOutputStream());
+            StreamHelper.copyStream(is, externalContext.getResponseOutputStream());
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
             return Pages.Error.URL();
