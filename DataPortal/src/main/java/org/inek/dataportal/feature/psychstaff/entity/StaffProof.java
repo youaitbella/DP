@@ -539,7 +539,7 @@ public class StaffProof implements Serializable, StatusEntity {
                     + getStatusChangedKids1() + "^";
         }
         data += getProofsAgreedData(psychType);
-        return Crypt.getHash64("SHA-1", data);  // sha-1 is sufficiant for this purpose
+        return Crypt.getHash64("SHA-1", data);  // sha-1 is sufficiant for this purpose and keeps the result small
     }
 
     private String getProofsAgreedData(PsychType psychType) {

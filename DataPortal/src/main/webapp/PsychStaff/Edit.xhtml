@@ -46,10 +46,10 @@
 
                         <h:commandLink styleClass="sendButton"
                                        immediate="false"
-                                       action="#{editPsyStaff.seal}"
-                                       value="#{msg.btnSaveAndClose}"
-                                       rendered="#{editPsyStaff.sealEnabled}"
-                                       title="#{msg.infoSaveAndClose}">
+                                       action="#{editPsyStaff.close}"
+                                       value="Eingabe abschließen"
+                                       rendered="#{editPsyStaff.closeEnabled}"
+                                       title="Schließt die Eingabe ab. Sie erhalten eine Signatur und können ein Dokument erzeugen. Eine Änderung der Daten ist nur bei Rückkehr in den Änderungsmudus möglich.">
                             <cb:confirmSeal/>
                         </h:commandLink>
                         <!--PDF-->
@@ -57,7 +57,7 @@
                                        immediate="false"
                                        action="#{pdfBuilder.createDocument()}"
                                        value="PDF Download"
-                                       rendered="#{editPsyStaff.sealEnabled}"
+                                       rendered="#{editPsyStaff.actionOnClosedEnabled}"
                                        title="#{msg.infoSaveAndClose}">
                         </h:commandLink>
                         <ui:remove>

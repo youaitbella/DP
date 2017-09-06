@@ -26,6 +26,7 @@ import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.OptimisticLockException;
+import javax.servlet.http.HttpServletRequest;
 import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
@@ -182,7 +183,7 @@ public class EditNubRequest extends AbstractEditController {
                 return nubRequest;
             }
         } catch (NumberFormatException ex) {
-            LOGGER.info(ex.getMessage());
+            LOGGER.warning(ex.getMessage());
             Utils.navigate(Pages.NotAllowed.RedirectURL());
         }
         throw new IllegalAccessError("Try to load NUB with non-existent id");
@@ -522,6 +523,14 @@ public class EditNubRequest extends AbstractEditController {
 
     public boolean isApprovalRequestEnabled() {
         if (!_appTools.isEnabled(ConfigKey.IsNubSendEnabled)) {
+            return false;
+        }
+        if (_nubRequest == null){
+            LOGGER.log(Level.WARNING, "NUB request is null"); // separate log, independent from FacesContext
+            String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
+            LOGGER.log(Level.WARNING, "NUB request is null, view id: {0}", viewId);
+            String uri = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()).getRequestURI();
+            LOGGER.log(Level.WARNING, "NUB request is null, uri: {0}", uri);
             return false;
         }
         return _cooperationTools.isApprovalRequestEnabled(

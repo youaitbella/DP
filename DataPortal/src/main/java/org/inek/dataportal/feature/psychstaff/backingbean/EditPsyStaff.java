@@ -289,6 +289,79 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
                 && _cooperationTools.isSealedEnabled(Feature.PSYCH_STAFF, _staffProof.getStatus(), _staffProof.getAccountId());
     }
 
+    public boolean isCloseEnabled() {
+        if (!isSendEnabled()) {
+            return false;
+        }
+        if (!_cooperationTools.isSealedEnabled(Feature.PSYCH_STAFF, _staffProof.getStatus(), _staffProof.getAccountId())) {
+            return false;
+        }
+        switch (getActiveTopicKey()) {
+            case TOPIC_MASTER:
+                return false;
+            case TOPIC_ADULTS1:
+                return _staffProof.getStatusAdults1() < WorkflowStatus.Provided.getId();
+            case TOPIC_KIDS1:
+                return _staffProof.getStatusKids1() < WorkflowStatus.Provided.getId();
+            case TOPIC_ADULTS2:
+                return _staffProof.getStatusAdults2() < WorkflowStatus.Provided.getId();
+            case TOPIC_KIDS2:
+                return _staffProof.getStatusKids2() < WorkflowStatus.Provided.getId();
+            default:
+                return false;
+        }
+    }
+
+    public boolean isActionOnClosedEnabled() {
+        if (!isSendEnabled()) {
+            return false;
+        }
+        if (!_cooperationTools.isSealedEnabled(Feature.PSYCH_STAFF, _staffProof.getStatus(), _staffProof.getAccountId())) {
+            return false;
+        }
+        switch (getActiveTopicKey()) {
+            case TOPIC_MASTER:
+                return false;
+            case TOPIC_ADULTS1:
+                return _staffProof.getStatusAdults1() >= WorkflowStatus.Provided.getId();
+            case TOPIC_KIDS1:
+                return _staffProof.getStatusKids1() >= WorkflowStatus.Provided.getId();
+            case TOPIC_ADULTS2:
+                return _staffProof.getStatusAdults2() >= WorkflowStatus.Provided.getId();
+            case TOPIC_KIDS2:
+                return _staffProof.getStatusKids2() >= WorkflowStatus.Provided.getId();
+            default:
+                return false;
+        }
+    }
+
+    public String close() {
+        switch (getActiveTopicKey()) {
+            case TOPIC_MASTER:
+                return null;
+            case TOPIC_ADULTS1:
+                _staffProof.setStatusAdults1(WorkflowStatus.Provided.getId());
+                _staffProof.setStatusChangedAdults1(new Date());
+                break;
+            case TOPIC_KIDS1:
+                _staffProof.setStatusKids1(WorkflowStatus.Provided.getId());
+                _staffProof.setStatusChangedKids1(new Date());
+                break;
+            case TOPIC_ADULTS2:
+                _staffProof.setStatusAdults2(WorkflowStatus.Provided.getId());
+                _staffProof.setStatusChangedAdults2(new Date());
+                break;
+            case TOPIC_KIDS2:
+                _staffProof.setStatusKids2(WorkflowStatus.Provided.getId());
+                _staffProof.setStatusChangedKids2(new Date());
+                break;
+            default:
+                return null;
+        }
+        save();
+        return null;
+    }
+
     private boolean isSendEnabled() {
         if (!_appTools.isEnabled(ConfigKey.IsPsychStaffSendEnabled)) {
             return false;
@@ -520,7 +593,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         double sum = _staffProof.getStaffProofsEffective(type).stream().mapToDouble(i -> i.getStaffingComplete()).sum();
         return String.format("%.1f", sum);
     }
-    
+
     private Part _file;
 
     public Part getFile() {
@@ -546,5 +619,5 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         } catch (IOException | NoSuchElementException e) {
         }
     }
-    
+
 }
