@@ -23,9 +23,8 @@
                     <ui:repeat value="#{editPsyStaff.visibleTopics}" var="topic" varStatus="status">
                         <li class="#{topic.active ? 'activetab' : 'tab'}">
                         <h:commandLink value="#{topic.title}" 
-                                       action="#{editPsyStaff.changeTabPage(topic.key)}" 
-                                       styleClass="fullWithCentered"
-                                       immediate="true">
+                                       styleClass="fullWithCentered">
+                            <f:ajax listener="#{editPsyStaff.changeTabPage(topic.key)}" render="@all"/>
                         </h:commandLink>
                         </li>
                     </ui:repeat>
@@ -52,7 +51,7 @@
                                        title="#{msg.msgCloseWithSignature}">
                             <cb:confirmSeal/>
                         </h:commandLink>
-                        
+
                         <!--PDF-->
                         <h:commandLink styleClass="bigButton"
                                        immediate="false"
@@ -61,15 +60,28 @@
                                        rendered="#{editPsyStaff.closedStateActionEnabled}"
                                        title="#{msg.infoSaveAndClose}">
                         </h:commandLink>
-                        <ui:remove>
-                            <h:commandLink styleClass="bigButton"
-                                           action="#{editPsyStaff.reopen}"
-                                           value="#{msg.btnChangeData}"
-                                           immediate="true"
-                                           rendered="#{editPsyStaff.reopenEnabled}">
-                                <cb:confirmChangeData/>
-                            </h:commandLink>
 
+                        <div class="uploadFile inlineBlock" jsf:rendered="#{editPsyStaff.closedStateActionEnabled}">
+                            <h:inputFile id="file" 
+                                         styleClass="hiddenFile bigButton" 
+                                         value="#{editPsyStaff.file}">
+                                <f:ajax listener="#{editPsyStaff.uploadFile}" render="@all"/>
+                            </h:inputFile>
+                            <div class="fakeFile">
+                                <h:outputLabel style="margin-top: 9px;" styleClass="bigButton element100" value="Unterschriebene Vereinbarung hochladen"/>
+                            </div>
+                        </div>
+
+
+                        <h:commandLink styleClass="bigButton"
+                                       action="#{editPsyStaff.reopen}"
+                                       value="#{msg.btnChangeData}"
+                                       immediate="true"
+                                       rendered="#{editPsyStaff.reopenEnabled}">
+                            <cb:confirmChangeData/>
+                        </h:commandLink>
+
+                        <ui:remove>
                             <h:commandLink styleClass="bigButton"
                                            action="#{editPsyStaff.take}"
                                            value="#{msg.btnTake}"

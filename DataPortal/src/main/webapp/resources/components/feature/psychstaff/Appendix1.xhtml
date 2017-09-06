@@ -26,6 +26,7 @@
             <thead>
                 <tr>
                     <th class="col10em row1" scope="col"> Personalgruppen </th>
+                    <th class="col02em row1" scope="col"> Nr. </th>
                     <th class="col10em row1" scope="col"> Berufsgruppen der Psych-PV </th>
                     <th class="col08em row1" scope="col"> Stellenbesetzung für eine voll-ständige Umsetzung der Psych-PV in VK </th>
                     <th class="col08em row1" scope="col"> Stellenbesetzung als Budgetgrund-lage in VK </th>
@@ -38,6 +39,9 @@
                         <td class="row1">
                             <h:outputText value="#{item.occupationalCatagory.personnelGroup.name}" styleClass="element10em"/>
                         </td>
+                        <td class="row1">
+                            <h:outputText value="#{item.occupationalCatagory.id}" styleClass="element02em"/>
+                        </td>
                         <td class="row1"> 
                             <h:outputText value="#{item.occupationalCatagory.name}" styleClass="element10em"/>
                         </td>
@@ -45,6 +49,8 @@
                             <inek:InputNumberWithMessage value="#{item.staffingComplete}" 
                                                          styleClass="element08em number"
                                                          renderElement=":psychStaff:checksum :#{cc.attrs.clientId}:sumStaffingComplete @this"
+                                                         readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
+                                                         disabled="#{item.occupationalCatagory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
                                                          pattern="#,##0.0"
                                                          isInt="false"/>
                         </td>
@@ -52,20 +58,26 @@
                             <inek:InputNumberWithMessage value="#{item.staffingBudget}" 
                                                          styleClass="element08em number"
                                                          renderElement=":psychStaff:checksum :#{cc.attrs.clientId}:sumStaffingBudget @this"
+                                                         readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
+                                                         disabled="#{item.occupationalCatagory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
                                                          pattern="#,##0.0"
                                                          isInt="false"/>
                         </td>
                         <td >
                             <inek:InputNumberWithMessage value="#{item.avgCost}" 
                                                          styleClass="element08em number"
+                                                         readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
+                                                         disabled="#{item.occupationalCatagory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
                                                          pattern="#,##0.00"
                                                          isInt="false"/>
                         </td>
                     </tr>
                 </ui:repeat>
+                
                 <tfoot>
                     <tr>
                         <td class="col10em row1" scope="col"> </td>
+                        <td class="col02em row1" scope="col"> </td>
                         <td class="col10em row1" scope="col"> Gesamt </td>
                         <th class="col08em row1" scope="col"> 
                             <h:inputText id="sumStaffingComplete" 
@@ -90,9 +102,10 @@
                           label="#{msg.lblAgreedDays} (#{editPsyStaff.staffProof.calculationType == '1' ? 'PEPPV' : 'BPflV/LKA'})"
                           value="#{'Adults'.equals(cc.attrs.patType) ? editPsyStaff.staffProof.adultsAgreedDays : editPsyStaff.staffProof.kidsAgreedDays}"
                           styleClass="element08em"
+                          readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
                           renderElement=":#{cc.attrs.clientId}:checksum"/>
 
-        <div class="marginTop">
+        <div class="marginTop" jsf:rendered="#{not empty editPsyStaff.staffProof.getChecksumAgreement(cc.attrs.patType)}">
             <hr class="simpleLine"/>
             <h:outputLabel value="Signatur:"
                            styleClass="label element08em"/>
@@ -102,22 +115,10 @@
             <hr class="simpleLine"/>
         </div>
 
-        
-        <div jsf:id="fileName" class="inputPart" jsf:rendered="#{not empty editPsyStaff.staffProof.getStaffProofDocumentName(cc.attrs.patType, 1)}">
-            <h:outputLabel value="Anlage:" styleClass="label"/>
-            <h:outputText value="#{editPsyStaff.staffProof.getStaffProofDocumentName(cc.attrs.patType, 1)}"/>
+        <div jsf:id="fileName" class="inputPart" jsf:rendered="#{not empty editPsyStaff.staffProof.getStaffProofDocumentName(editPsyStaff.staffProof.getChecksumAgreement(cc.attrs.patType))}">
+            <h:outputLabel value="Anlage:" styleClass="label element08em"/>
+            <h:outputText value="#{editPsyStaff.staffProof.getStaffProofDocumentName(editPsyStaff.staffProof.getChecksumAgreement(cc.attrs.patType))}"/>
         </div>
-
-        <div class="uploadFile inlineBlock">
-            <h:inputFile styleClass="hiddenFile" id="file" value="#{editPsyStaff.file}" >
-                <f:ajax listener="#{editPsyStaff.uploadFile(cc.attrs.patType, 1)}" render="fileName"/>
-            </h:inputFile>
-            <div class="fakeFile">
-                <h:outputLabel style="margin-top: 0px;" styleClass="button element100" value="Unterschriebene Vereinbarung hochladen"/>
-            </div>
-
-        </div>
-
 
     </cc:implementation>
 </html>

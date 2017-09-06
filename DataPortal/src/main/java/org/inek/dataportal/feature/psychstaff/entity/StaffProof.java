@@ -468,6 +468,18 @@ public class StaffProof implements Serializable, StatusEntity {
         return getStaffProofDocument(type, appendix).getName();
     }
 
+    public StaffProofDocument getStaffProofDocument(String signature) {
+        return _staffProofDocument
+                .stream()
+                .filter(d -> signature.equals(d.getSignature()))
+                .findAny()
+                .orElse(new StaffProofDocument());
+    }
+
+    public String getStaffProofDocumentName(String signature) {
+        return getStaffProofDocument(signature).getName();
+    }
+
     /**
      * Add a StaffProofDocument to the list
      *
@@ -477,7 +489,7 @@ public class StaffProof implements Serializable, StatusEntity {
     public boolean addStaffProofDocument(StaffProofDocument staffProofDocument) {
         Optional<StaffProofDocument> findAny = _staffProofDocument
                 .stream()
-                .filter(d -> d.getPsychType() == staffProofDocument.getPsychType() && d.getAppendix() == staffProofDocument.getAppendix())
+                .filter(d -> staffProofDocument.getSignature().equals(d.getSignature()))
                 .findAny();
         if (findAny.isPresent()) {
             StaffProofDocument existing = findAny.get();
@@ -524,11 +536,18 @@ public class StaffProof implements Serializable, StatusEntity {
     }
 
     /**
-     *
+     * Returns a checksum, if status is at least provided (closed):
+     * Otherwise the checksum is empty
      * @param psychType
      * @return Base64 encoded checksum
      */
     public String getChecksumAgreement(PsychType psychType) {
+        if (psychType == PsychType.Adults && _statusAdults1 < WorkflowStatus.Provided.getId()){
+            return "";
+        }
+        if (psychType == PsychType.Kids && _statusKids1 < WorkflowStatus.Provided.getId()){
+            return "";
+        }
         // we use a delimitter to distinguish the concatenation of "cummutative" values
         // eg. id = 1; AccoutId = 11, without deli: "111", with deli: "1^11"
         //     id = 11; AccoutId = 1, without deli: "111" (as before!), with deli: "11^1"
@@ -546,7 +565,7 @@ public class StaffProof implements Serializable, StatusEntity {
                     + getStatusChangedKids1() + "^";
         }
         data += getProofsAgreedData(psychType);
-        return Crypt.getHash64("SHA-1", data);  // sha-1 is sufficiant for this purpose and keeps the result small
+        return Crypt.getHash64("SHA-1", data);  // sha-1 is sufficiant for this purpose and keeps the result short
     }
 
     private String getProofsAgreedData(PsychType psychType) {
@@ -562,4 +581,10 @@ public class StaffProof implements Serializable, StatusEntity {
         return data;
     }
 
+    public String getChecksumEffective(PsychType psychType) {
+        // todo
+        return "";
+    }
+    
+    
 }

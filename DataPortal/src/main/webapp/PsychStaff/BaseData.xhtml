@@ -53,7 +53,7 @@
 
             <h:selectOneRadio styleClass="inlineBlock"
                               value="#{editPsyStaff.staffProof.calculationType}"
-                              readonly="#{editPsyStaff.readOnly or editPsyStaff.staffProof.anyClosed}"
+                              disabled="#{editPsyStaff.readOnly or editPsyStaff.staffProof.anyClosed}"
                               required="true">
                 <f:selectItem itemValue="1" itemLabel="PEPPV" />
                 <f:selectItem itemValue="2" itemLabel="BPflV/LKA"/>
@@ -68,7 +68,7 @@
 
             <h:selectOneMenu id="year" 
                              value="#{editPsyStaff.staffProof.year}"
-                             readonly="#{editPsyStaff.readOnly or editPsyStaff.staffProof.anyClosed}"
+                             disabled="#{editPsyStaff.readOnly or editPsyStaff.staffProof.anyClosed}"
                              required="true">
                 <f:selectItems value="#{sessionTools.calenderYearItems}" />
                 <f:ajax/>

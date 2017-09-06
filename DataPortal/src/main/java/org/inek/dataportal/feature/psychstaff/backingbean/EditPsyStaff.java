@@ -312,13 +312,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         }
     }
 
-    public boolean isClosedStateActionEnabled() {
-        if (!isSendEnabled()) {
-            return false;
-        }
-        if (!_cooperationTools.isSealedEnabled(Feature.PSYCH_STAFF, _staffProof.getStatus(), _staffProof.getAccountId())) {
-            return false;
-        }
+    public boolean isClosedState() {
         switch (getActiveTopicKey()) {
             case TOPIC_MASTER:
                 return false;
@@ -333,6 +327,16 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
             default:
                 return false;
         }
+    }
+
+    public boolean isClosedStateActionEnabled() {
+        if (!isSendEnabled()) {
+            return false;
+        }
+        if (!_cooperationTools.isSealedEnabled(Feature.PSYCH_STAFF, _staffProof.getStatus(), _staffProof.getAccountId())) {
+            return false;
+        }
+        return isClosedState();
     }
 
     public String close() {
@@ -627,7 +631,37 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         _file = file;
     }
 
-    public void uploadFile(PsychType type, int appendix) {
+    public void uploadFile() {
+        PsychType type;
+        int appendix;
+        String signature;
+
+        switch (getActiveTopicKey()) {
+            case TOPIC_MASTER:
+                return;
+            case TOPIC_ADULTS1:
+                type = PsychType.Adults;
+                appendix = 1;
+                signature = _staffProof.getChecksumAgreement(type);
+                break;
+            case TOPIC_KIDS1:
+                type = PsychType.Kids;
+                appendix = 1;
+                signature = _staffProof.getChecksumAgreement(type);
+                break;
+            case TOPIC_ADULTS2:
+                type = PsychType.Adults;
+                appendix = 2;
+                signature = _staffProof.getChecksumEffective(type);
+                break;
+            case TOPIC_KIDS2:
+                type = PsychType.Kids;
+                appendix = 2;
+                signature = _staffProof.getChecksumEffective(type);
+                break;
+            default:
+                return;
+        }
         try {
             if (_file != null) {
                 InputStream is = _file.getInputStream();
@@ -636,6 +670,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
                 document.setContent(content);
                 document.setPsychType(type);
                 document.setAppendix(appendix);
+                document.setSignature(signature);
                 _staffProof.addStaffProofDocument(document);
                 _file = null;
             }
