@@ -642,22 +642,22 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
             case TOPIC_ADULTS1:
                 type = PsychType.Adults;
                 appendix = 1;
-                signature = _staffProof.getChecksumAgreement(type);
+                signature = _staffProof.getSignatureAgreement(type);
                 break;
             case TOPIC_KIDS1:
                 type = PsychType.Kids;
                 appendix = 1;
-                signature = _staffProof.getChecksumAgreement(type);
+                signature = _staffProof.getSignatureAgreement(type);
                 break;
             case TOPIC_ADULTS2:
                 type = PsychType.Adults;
                 appendix = 2;
-                signature = _staffProof.getChecksumEffective(type);
+                signature = _staffProof.getSignatureEffective(type);
                 break;
             case TOPIC_KIDS2:
                 type = PsychType.Kids;
                 appendix = 2;
-                signature = _staffProof.getChecksumEffective(type);
+                signature = _staffProof.getSignatureEffective(type);
                 break;
             default:
                 return;

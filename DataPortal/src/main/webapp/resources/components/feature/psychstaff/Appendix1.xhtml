@@ -105,19 +105,19 @@
                           readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
                           renderElement=":#{cc.attrs.clientId}:checksum"/>
 
-        <div class="marginTop" jsf:rendered="#{not empty editPsyStaff.staffProof.getChecksumAgreement(cc.attrs.patType)}">
+        <div class="marginTop" jsf:rendered="#{not empty editPsyStaff.staffProof.getSignatureAgreement(cc.attrs.patType)}">
             <hr class="simpleLine"/>
             <h:outputLabel value="Signatur:"
                            styleClass="label element08em"/>
             <h:outputLabel id="checksum" 
-                           value="#{editPsyStaff.staffProof.getChecksumAgreement(cc.attrs.patType)}"
+                           value="#{editPsyStaff.staffProof.getSignatureAgreement(cc.attrs.patType)}"
                            styleClass="label"/>
             <hr class="simpleLine"/>
         </div>
 
-        <div jsf:id="fileName" class="inputPart" jsf:rendered="#{not empty editPsyStaff.staffProof.getStaffProofDocumentName(editPsyStaff.staffProof.getChecksumAgreement(cc.attrs.patType))}">
+        <div jsf:id="fileName" class="inputPart" jsf:rendered="#{not empty editPsyStaff.staffProof.getStaffProofDocumentName(editPsyStaff.staffProof.getSignatureAgreement(cc.attrs.patType))}">
             <h:outputLabel value="Anlage:" styleClass="label element08em"/>
-            <h:outputText value="#{editPsyStaff.staffProof.getStaffProofDocumentName(editPsyStaff.staffProof.getChecksumAgreement(cc.attrs.patType))}"/>
+            <h:outputText value="#{editPsyStaff.staffProof.getStaffProofDocumentName(editPsyStaff.staffProof.getSignatureAgreement(cc.attrs.patType))}"/>
         </div>
 
     </cc:implementation>

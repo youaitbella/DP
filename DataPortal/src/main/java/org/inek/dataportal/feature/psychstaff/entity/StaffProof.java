@@ -541,7 +541,7 @@ public class StaffProof implements Serializable, StatusEntity {
      * @param psychType
      * @return Base64 encoded checksum
      */
-    public String getChecksumAgreement(PsychType psychType) {
+    public String getSignatureAgreement(PsychType psychType) {
         if (psychType == PsychType.Adults && _statusAdults1 < WorkflowStatus.Provided.getId()){
             return "";
         }
@@ -581,7 +581,7 @@ public class StaffProof implements Serializable, StatusEntity {
         return data;
     }
 
-    public String getChecksumEffective(PsychType psychType) {
+    public String getSignatureEffective(PsychType psychType) {
         // todo
         return "";
     }
