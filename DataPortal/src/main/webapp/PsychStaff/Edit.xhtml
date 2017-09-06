@@ -47,25 +47,26 @@
                         <h:commandLink styleClass="sendButton"
                                        immediate="false"
                                        action="#{editPsyStaff.close}"
-                                       value="Eingabe abschließen"
+                                       value="#{msg.btnClose}"
                                        rendered="#{editPsyStaff.closeEnabled}"
-                                       title="Schließt die Eingabe ab. Sie erhalten eine Signatur und können ein Dokument erzeugen. Eine Änderung der Daten ist nur bei Rückkehr in den Änderungsmudus möglich.">
+                                       title="#{msg.msgCloseWithSignature}">
                             <cb:confirmSeal/>
                         </h:commandLink>
+                        
                         <!--PDF-->
                         <h:commandLink styleClass="bigButton"
                                        immediate="false"
                                        action="#{pdfBuilder.createDocument()}"
                                        value="PDF Download"
-                                       rendered="#{editPsyStaff.actionOnClosedEnabled}"
+                                       rendered="#{editPsyStaff.closedStateActionEnabled}"
                                        title="#{msg.infoSaveAndClose}">
                         </h:commandLink>
                         <ui:remove>
                             <h:commandLink styleClass="bigButton"
-                                           action="#{editPsyStaff.copyForResend}"
+                                           action="#{editPsyStaff.reopen}"
                                            value="#{msg.btnChangeData}"
                                            immediate="true"
-                                           rendered="#{editPsyStaff.copyForResendAllowed}">
+                                           rendered="#{editPsyStaff.reopenEnabled}">
                                 <cb:confirmChangeData/>
                             </h:commandLink>
 

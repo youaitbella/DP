@@ -312,7 +312,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         }
     }
 
-    public boolean isActionOnClosedEnabled() {
+    public boolean isClosedStateActionEnabled() {
         if (!isSendEnabled()) {
             return false;
         }
@@ -336,29 +336,52 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     }
 
     public String close() {
+        if (updateStatus(WorkflowStatus.Provided)) {
+            save();
+        }
+        return null;
+    }
+
+    private boolean updateStatus(WorkflowStatus newStatus) {
         switch (getActiveTopicKey()) {
             case TOPIC_MASTER:
-                return null;
+                return false;
             case TOPIC_ADULTS1:
-                _staffProof.setStatusAdults1(WorkflowStatus.Provided.getId());
+                _staffProof.setStatusAdults1(newStatus.getId());
                 _staffProof.setStatusChangedAdults1(new Date());
                 break;
             case TOPIC_KIDS1:
-                _staffProof.setStatusKids1(WorkflowStatus.Provided.getId());
+                _staffProof.setStatusKids1(newStatus.getId());
                 _staffProof.setStatusChangedKids1(new Date());
                 break;
             case TOPIC_ADULTS2:
-                _staffProof.setStatusAdults2(WorkflowStatus.Provided.getId());
+                _staffProof.setStatusAdults2(newStatus.getId());
                 _staffProof.setStatusChangedAdults2(new Date());
                 break;
             case TOPIC_KIDS2:
-                _staffProof.setStatusKids2(WorkflowStatus.Provided.getId());
+                _staffProof.setStatusKids2(newStatus.getId());
                 _staffProof.setStatusChangedKids2(new Date());
                 break;
             default:
-                return null;
+                return false;
         }
-        save();
+        return true;
+    }
+
+    public boolean isReopenEnabled() {
+        if (!isSendEnabled()) {
+            return false;
+        }
+        if (!_cooperationTools.isSealedEnabled(Feature.PSYCH_STAFF, _staffProof.getStatus(), _staffProof.getAccountId())) {
+            return false;
+        }
+        return isClosedStateActionEnabled();
+    }
+
+    public String reopen() {
+        if (updateStatus(WorkflowStatus.CorrectionRequested)) {
+            save();
+        }
         return null;
     }
 

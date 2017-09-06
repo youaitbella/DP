@@ -516,8 +516,15 @@ public class StaffProof implements Serializable, StatusEntity {
     }
     // </editor-fold>
 
+    public boolean isAnyClosed() {
+        return _statusAdults1 >= WorkflowStatus.Provided.getId()
+                || _statusKids1 >= WorkflowStatus.Provided.getId()
+                || _statusAdults2 >= WorkflowStatus.Provided.getId()
+                || _statusKids2 >= WorkflowStatus.Provided.getId();
+    }
+
     /**
-     * 
+     *
      * @param psychType
      * @return Base64 encoded checksum
      */
