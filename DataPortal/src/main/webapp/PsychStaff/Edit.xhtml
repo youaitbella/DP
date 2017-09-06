@@ -65,7 +65,7 @@
                             <h:inputFile id="file" 
                                          styleClass="hiddenFile bigButton" 
                                          value="#{editPsyStaff.file}">
-                                <f:ajax listener="#{editPsyStaff.uploadFile}" render="@all"/>
+                                <f:ajax listener="#{editPsyStaff.uploadFile}" render="@form"/>
                             </h:inputFile>
                             <div class="fakeFile">
                                 <h:outputLabel style="margin-top: 9px;" styleClass="bigButton element100" value="Unterschriebene Vereinbarung hochladen"/>
