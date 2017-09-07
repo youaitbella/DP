@@ -605,4 +605,9 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         return "";
     }
 
+    private int _counter = 0;
+    
+    public int getCounter(){
+        return ++_counter;
+    }
 }

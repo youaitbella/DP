@@ -65,10 +65,9 @@
 
                         <div class="uploadFile inlineBlock" jsf:rendered="#{editPsyStaff.closedStateActionEnabled}">
                             <h:inputFile id="file" 
+                                         p:accept="#{editPsyStaff.allowedFileExtensions}"
                                          styleClass="hiddenFile bigButton"  
-                                         immediate="true"
                                          value="#{editPsyStaff.file}">
-                                <f:passThroughAttribute name="accept" value="#{editPsyStaff.allowedFileExtensions}"/>
                                 <f:ajax listener="#{editPsyStaff.uploadFile}" render="@form"/>
                             </h:inputFile>
                             <div class="fakeFile">
@@ -96,6 +95,8 @@
                     </div>
                 </h:panelGroup>
             </div>
+            
+            ### #{editPsyStaff.counter} ###
         </h:form>
 
     </ui:define>
