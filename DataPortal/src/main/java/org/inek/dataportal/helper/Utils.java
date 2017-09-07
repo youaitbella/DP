@@ -352,7 +352,7 @@ public class Utils {
 
     public static String convertUmlauts(String line) {
         return line
-                .replace("Ä", "AE")
+                .replace("Ä", "Ae")
                 .replace("Ö", "Oe")
                 .replace("Ü", "Ue")
                 .replace("ä", "ae")
