@@ -5,14 +5,13 @@
 package org.inek.dataportal.facades;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 import org.inek.dataportal.entities.account.AccountAdditionalIK;
 import org.inek.dataportal.entities.valuationratio.ValuationRatio;
+import org.inek.dataportal.entities.valuationratio.ValuationRatioDrgCount;
 import org.inek.dataportal.entities.valuationratio.ValuationRatioMedian;
 import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.enums.WorkflowStatus;
@@ -48,6 +47,16 @@ public class ValuationRatioFacade extends AbstractDataAccess {
             }
         }
         return null;
+    }
+    
+    public ValuationRatioDrgCount findValuationRatioDrgCount(int ik, int dataYear, String drg) {
+        List<ValuationRatioDrgCount> counts = super.findAll(ValuationRatioDrgCount.class);     
+        return counts.stream()
+                .filter(vr -> vr.getIk() == ik)
+                .filter(vr -> vr.getDataYear() == dataYear)
+                .filter(vr -> vr.getDrg().equals(drg))
+                .findFirst()
+                .orElse(null);
     }
 
     public boolean existsValuationRatio(int ik) {

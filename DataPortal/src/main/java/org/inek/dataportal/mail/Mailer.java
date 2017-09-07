@@ -113,6 +113,10 @@ public class Mailer {
         }
         return false;
     }
+    
+    public boolean sendMailTemplate(MailTemplate template, String rec) {
+        return sendMailFrom(template.getFrom(), rec, template.getBcc(), template.getSubject(), template.getBody());
+    }
 
     private static void addAttachment(Multipart multipart, String filename) throws MessagingException {
         if (filename.isEmpty()) {

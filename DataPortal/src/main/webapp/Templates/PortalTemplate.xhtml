@@ -35,10 +35,11 @@
                 <h:outputStylesheet name="css/dataportal.css"/>
                 <h:outputScript name="script/clientutils.js"/>
             </ui:remove>
-
-            <link type="text/css" rel="stylesheet" href="#{request.contextPath}/javax.faces.resource/css/#{sessionController.css}.xhtml?version=#{applicationTools.version}" />
-            <script type="text/javascript" src="#{request.contextPath}/javax.faces.resource/script/clientutils.js.xhtml?version=#{applicationTools.version}"></script>
             <h:outputScript name="script/jquery-3.1.1.min.js"/>
+            <link type="text/css" rel="stylesheet" href="#{request.contextPath}/javax.faces.resource/css/bootstrap.css.xhtml?version=#{applicationTools.version}" />
+            <link type="text/css" rel="stylesheet" href="#{request.contextPath}/javax.faces.resource/css/#{sessionController.css}.xhtml?version=#{applicationTools.version}" />
+            <script type="text/javascript" src="#{request.contextPath}/javax.faces.resource/script/bootstrap.min.js.xhtml?version=#{applicationTools.version}"></script>
+            <script type="text/javascript" src="#{request.contextPath}/javax.faces.resource/script/clientutils.js.xhtml?version=#{applicationTools.version}"></script>
         </h:head>
 
         <h:body>

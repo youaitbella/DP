@@ -265,6 +265,14 @@ public class ValuationRatio implements Serializable {
         _lastChange = Calendar.getInstance().getTime();
     }
     
+    public int getDrgValue(String drg) {
+        if("I68D".equals(drg))
+            return getI68d();
+        if("I68E".equals(drg))
+            return getI68e();
+        return 0;
+    }
+    
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public int hashCode() {
