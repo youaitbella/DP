@@ -99,9 +99,9 @@
                                     <f:ajax event="change" render="@this :logout:remaining"/>
                                 </h:selectBooleanCheckbox>
                                 <h:outputLabel rendered="#{!editValuationRatio.isDrgBelowMedian('I68D', editValuationRatio.i68d) and editValuationRatio.i68d != 0}"
-                                               styleClass="errorMessage" style="margin-bottom: 5px;"
+                                               style="margin-bottom: 5px;"
                                                id="info-median-i68d"
-                                               value="Fallzahl zu hoch" />
+                                               value="[Fallzahl > Median]" />
                             </h:panelGroup>
                             </td>
                             <td style="text-align: center;">
@@ -111,8 +111,8 @@
                                     <f:ajax event="change" render="@this :logout:remaining"/>
                                 </h:selectBooleanCheckbox>
                                 <h:outputLabel rendered="#{!editValuationRatio.isDrgBelowMedian('I68E', editValuationRatio.i68e) and editValuationRatio.i68e != 0}"
-                                               styleClass="errorMessage" style="margin-bottom: 5px;"
-                                               value="Fallzahl zu hoch" />
+                                               style="margin-bottom: 5px;"
+                                               value="[Fallzahl > Median]" />
                             </h:panelGroup>
                             </td>
                             </tr>
