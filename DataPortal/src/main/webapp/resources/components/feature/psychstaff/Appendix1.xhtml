@@ -49,7 +49,7 @@
                             <td>
                                 <inek:InputNumberWithMessage value="#{item.staffingComplete}" 
                                                              styleClass="element10em number"
-                                                             renderElement=":psychStaff:checksum :#{cc.attrs.clientId}:sumStaffingComplete @this"
+                                                             renderElement=":psychStaff:closeButton :#{cc.attrs.clientId}:sumStaffingComplete "
                                                              readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
                                                              disabled="#{item.occupationalCatagory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
                                                              pattern="#,##0.0"
@@ -58,7 +58,7 @@
                             <td>
                                 <inek:InputNumberWithMessage value="#{item.staffingBudget}" 
                                                              styleClass="element10em number"
-                                                             renderElement=":psychStaff:checksum :#{cc.attrs.clientId}:sumStaffingBudget @this"
+                                                             renderElement=":psychStaff:closeButton :#{cc.attrs.clientId}:sumStaffingBudget "
                                                              readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
                                                              disabled="#{item.occupationalCatagory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
                                                              pattern="#,##0.0"
@@ -119,7 +119,12 @@
 
         <div jsf:id="fileName" class="inputPart" jsf:rendered="#{not empty editPsyStaff.staffProof.getStaffProofDocumentName(editPsyStaff.staffProof.getSignatureAgreement(cc.attrs.patType))}">
             <h:outputLabel value="Anlage:" styleClass="label element08em"/>
-            <h:outputText value="#{editPsyStaff.staffProof.getStaffProofDocumentName(editPsyStaff.staffProof.getSignatureAgreement(cc.attrs.patType))}"/>
+            <h:commandLink action="#{editPsyStaff.downloadDocument(editPsyStaff.staffProof.getSignatureAgreement(cc.attrs.patType))}" 
+                           value="#{editPsyStaff.staffProof.getStaffProofDocumentName(editPsyStaff.staffProof.getSignatureAgreement(cc.attrs.patType))}"
+                           immediate="true">
+                <f:ajax event="blur" render="@all"/>
+            </h:commandLink>
+
         </div>
 
     </cc:implementation>

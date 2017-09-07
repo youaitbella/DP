@@ -48,8 +48,9 @@
                                        action="#{editPsyStaff.close}"
                                        value="#{msg.btnClose}"
                                        rendered="#{editPsyStaff.closeEnabled}"
-                                       title="#{msg.msgCloseWithSignature}">
-                            <cb:confirmSeal/>
+                                       title="#{msg.msgCloseWithSignature}"
+                                       onclick="return confirm('#{msg.msgCloseWithSignature}');"
+                                       >
                         </h:commandLink>
 
                         <!--PDF-->
@@ -72,13 +73,12 @@
                             </div>
                         </div>
 
-
                         <h:commandLink styleClass="bigButton"
                                        action="#{editPsyStaff.reopen}"
                                        value="#{msg.btnChangeData}"
                                        immediate="true"
-                                       rendered="#{editPsyStaff.reopenEnabled}">
-                            <cb:confirmChangeData/>
+                                       rendered="#{editPsyStaff.reopenEnabled}"
+                                       onclick="return confirm('Dies versetzt Ihre Daten wieder in den Änderungsmodus. Damit verliert die bisherige Signatur ihre Gültigkeit. Fortfahren?');">
                         </h:commandLink>
 
                         <ui:remove>
