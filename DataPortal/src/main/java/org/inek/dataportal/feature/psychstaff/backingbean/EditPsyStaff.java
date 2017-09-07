@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
@@ -17,6 +18,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
@@ -221,7 +223,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     public String save() {
         return save(true);
     }
-    
+
     private String save(boolean showMessage) {
         setModifiedInfo();
         _staffProof = _psychStaffFacade.saveStaffProof(_staffProof);
@@ -537,6 +539,14 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         _file = file;
     }
 
+    public String getAllowedFileExtensions() {
+        return allowedFileExtensions().stream().collect(Collectors.joining(", "));
+    }
+
+    private List<String> allowedFileExtensions() {
+        return Arrays.asList(".pdf", ".jpg", ".jpeg", ".png", ".bmp", ".gif");
+    }
+
     public void uploadFile() {
         PsychType type;
         int appendix;
@@ -570,14 +580,19 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         }
         try {
             if (_file != null) {
-                InputStream is = _file.getInputStream();
-                byte[] content = StreamUtils.stream2blob(is);
-                StaffProofDocument document = new StaffProofDocument(_file.getSubmittedFileName());
-                document.setContent(content);
-                document.setPsychType(type);
-                document.setAppendix(appendix);
-                document.setSignature(signature);
-                _staffProof.addStaffProofDocument(document);
+                String fileName = _file.getSubmittedFileName();
+                int pos = fileName.lastIndexOf(".");
+                String extension = pos < 0 ? "" : fileName.toLowerCase().substring(pos);
+                if (allowedFileExtensions().contains(extension)) {
+                    InputStream is = _file.getInputStream();
+                    byte[] content = StreamUtils.stream2blob(is);
+                    StaffProofDocument document = new StaffProofDocument(fileName);
+                    document.setContent(content);
+                    document.setPsychType(type);
+                    document.setAppendix(appendix);
+                    document.setSignature(signature);
+                    _staffProof.addStaffProofDocument(document);
+                }
                 _file = null;
             }
         } catch (IOException | NoSuchElementException e) {
