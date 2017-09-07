@@ -4,16 +4,18 @@
  */
 package org.inek.dataportal.feature.valuationratio;
 
-import com.sun.prism.impl.BaseMesh;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJBException;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -81,7 +83,10 @@ public class EditValuationRatio extends AbstractEditController {
         Account acc = _sessionController.getAccount();
         ValuationRatio vr = new ValuationRatio();
         vr.setAccountId(acc.getId());
-        vr.setIk(getIks().get(0));
+        List<SelectItem> iks = getIks();
+        if (iks.size() == 1) {
+            vr.setIk((int) iks.get(0).getValue());
+        }
         vr.setValidFrom(null);
         vr.setContactGender(acc.getGender());
         vr.setContactFirstName(acc.getFirstName());
@@ -95,50 +100,50 @@ public class EditValuationRatio extends AbstractEditController {
         int ik = _valuationRatio.getIk();
         int year = _valuationRatio.getDataYear();
         ValuationRatioDrgCount count = _valuationRatioFacade.findValuationRatioDrgCount(ik, year, "I68D");
-        if(count == null) {
+        if (count == null) {
             return;
         }
         _valuationRatio.setI68d(count.getCount());
         count = _valuationRatioFacade.findValuationRatioDrgCount(ik, year, "I68E");
         _valuationRatio.setI68e(count.getCount());
     }
-    
+
     public void validateI68D(FacesContext context, UIComponent component, Object value) {
         try {
             validateRange("I68D", value);
-        } catch(ValidationException ex) {
+        } catch (ValidationException ex) {
             throw ex;
         }
     }
-    
+
     public void validateI68E(FacesContext context, UIComponent component, Object value) {
         try {
             validateRange("I68E", value);
-        } catch(ValidatorException ex) {
+        } catch (ValidatorException ex) {
             throw ex;
         }
     }
-    
+
     private void validateRange(String drg, Object value) {
-        if(value == null)
+        if (value == null) {
             return;
-        int val = (int)value;
-        ValuationRatioDrgCount caseCount = _valuationRatioFacade.findValuationRatioDrgCount(_valuationRatio.getIk(), _valuationRatio.getDataYear(), 
+        }
+        int val = (int) value;
+        ValuationRatioDrgCount caseCount = _valuationRatioFacade.findValuationRatioDrgCount(_valuationRatio.getIk(), _valuationRatio.getDataYear(),
                 drg);
-        if (caseCount == null) return;
-        int minCount = (int)(caseCount.getCount() * 0.95);
-        int maxCount = (int)(caseCount.getCount() * 1.05);
-        
-        if (val > maxCount) {
+        if (caseCount == null) {
+            return;
+        }
+        int minCount = (int) (caseCount.getCount() * 0.95);
+        int maxCount = (int) (caseCount.getCount() * 1.05);
+
+        if (val > maxCount || val < minCount) {
             throw new ValidatorException(
                     new FacesMessage(
-                            drg+": Die von Ihnen eingegebene Fallzahl ist im Vergleich zum letzten Jahr zu stark angestiegen."));
-        } else if (val < minCount) {
-            throw new ValidatorException(new FacesMessage(
-                    drg+": Die von Ihnen eingegebene Fallzahl ist im Vergleich zum letzten Jahr zu stark gesunken."));
+                            drg + ": Die Fallzahl weicht zu stark von den gemäß §21 KHEntG übermittelten Daten ab."));
         }
     }
-    
+
     private ValuationRatio _valuationRatio;
 
     public ValuationRatio getValuationRatio() {
@@ -146,11 +151,12 @@ public class EditValuationRatio extends AbstractEditController {
     }
 
     public boolean isDrgBelowMedian(String drg, Object value) {
-        if(value == null)
+        if (value == null) {
             return false;
+        }
         ValuationRatioMedian median = _valuationRatioFacade.findMedianByDrgAndDataYear(drg, _valuationRatio.getDataYear());
-        int maxCases = (int)(median.getFactor() * median.getMedian());
-        int drgValue = (int)value;
+        int maxCases = (int) (median.getFactor() * median.getMedian());
+        int drgValue = (int) value;
         return drgValue <= maxCases;
     }
 
@@ -187,8 +193,8 @@ public class EditValuationRatio extends AbstractEditController {
         return false;
     }
 
-    public List<Integer> getIks() {
-        List<Integer> iks = new ArrayList<>();
+    public List<SelectItem> getIks() {
+        Set<Integer> iks = new HashSet<>();
         if (!_valuationRatioFacade.existsValuationRatio(
                 _sessionController.getAccount().getIK())) {
             iks.add(_sessionController.getAccount().getIK());
@@ -202,9 +208,13 @@ public class EditValuationRatio extends AbstractEditController {
             }
 
         }
-        return iks;
+        List<SelectItem> items = new ArrayList<>();
+        for (int ik : iks) {
+            items.add(new SelectItem(ik));
+        }
+        return items;
     }
-    
+
     public boolean getCheckIfEdit() {
         return _valuationRatio.getId() == -1;
     }
@@ -234,8 +244,8 @@ public class EditValuationRatio extends AbstractEditController {
         try {
             _valuationRatioFacade.merge(_valuationRatio);
             _valuationRatioFacade.clearCache();
-            MailTemplate template =  _sessionController.getMailer().getMailTemplate("Teilnahme - Gezielte Absenkung");
-            template.setSubject(template.getSubject().replace("{year}", ""+_valuationRatio.getDataYear()));
+            MailTemplate template = _sessionController.getMailer().getMailTemplate("Teilnahme - Gezielte Absenkung");
+            template.setSubject(template.getSubject().replace("{year}", "" + _valuationRatio.getDataYear()));
             template.setSubject(template.getSubject().replace("{salutation}", _sessionController.getMailer().
                     getFormalSalutation(_sessionController.getAccount())));
             template.setSubject(template.getSubject().replace("{drgs}", buildDrgString()));
@@ -247,23 +257,22 @@ public class EditValuationRatio extends AbstractEditController {
             return "";
         }
     }
-    
+
     private String buildDrgString() {
         String drgs = "";
         if (_valuationRatio.getI68dList()) {
             drgs += "I68D";
         }
-        if(_valuationRatio.getI68eList()) {
-            if(_valuationRatio.getI68dList()) {
+        if (_valuationRatio.getI68eList()) {
+            if (_valuationRatio.getI68dList()) {
                 drgs += ", I68E";
-            }
-            else {
+            } else {
                 drgs += "I68E";
-            }            
-        }        
+            }
+        }
         return drgs;
     }
-    
+
     public enum DrgRangeState {
         Valid,
         Below,

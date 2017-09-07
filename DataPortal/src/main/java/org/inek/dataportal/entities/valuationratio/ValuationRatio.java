@@ -96,7 +96,7 @@ public class ValuationRatio implements Serializable {
     // </editor-fold>
 
     @Column(name = "vrIK")
-    private int _ik = -1;
+    private int _ik;
 
     public int getIk() {
         return _ik;
