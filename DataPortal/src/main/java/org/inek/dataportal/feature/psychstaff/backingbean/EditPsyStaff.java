@@ -289,6 +289,106 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
                 && _cooperationTools.isSealedEnabled(Feature.PSYCH_STAFF, _staffProof.getStatus(), _staffProof.getAccountId());
     }
 
+    public boolean isCloseEnabled() {
+        if (!isSendEnabled()) {
+            return false;
+        }
+        if (!_cooperationTools.isSealedEnabled(Feature.PSYCH_STAFF, _staffProof.getStatus(), _staffProof.getAccountId())) {
+            return false;
+        }
+        switch (getActiveTopicKey()) {
+            case TOPIC_MASTER:
+                return false;
+            case TOPIC_ADULTS1:
+                return _staffProof.getStatusAdults1() < WorkflowStatus.Provided.getId();
+            case TOPIC_KIDS1:
+                return _staffProof.getStatusKids1() < WorkflowStatus.Provided.getId();
+            case TOPIC_ADULTS2:
+                return _staffProof.getStatusAdults2() < WorkflowStatus.Provided.getId();
+            case TOPIC_KIDS2:
+                return _staffProof.getStatusKids2() < WorkflowStatus.Provided.getId();
+            default:
+                return false;
+        }
+    }
+
+    public boolean isClosedState() {
+        switch (getActiveTopicKey()) {
+            case TOPIC_MASTER:
+                return false;
+            case TOPIC_ADULTS1:
+                return _staffProof.getStatusAdults1() >= WorkflowStatus.Provided.getId();
+            case TOPIC_KIDS1:
+                return _staffProof.getStatusKids1() >= WorkflowStatus.Provided.getId();
+            case TOPIC_ADULTS2:
+                return _staffProof.getStatusAdults2() >= WorkflowStatus.Provided.getId();
+            case TOPIC_KIDS2:
+                return _staffProof.getStatusKids2() >= WorkflowStatus.Provided.getId();
+            default:
+                return false;
+        }
+    }
+
+    public boolean isClosedStateActionEnabled() {
+        if (!isSendEnabled()) {
+            return false;
+        }
+        if (!_cooperationTools.isSealedEnabled(Feature.PSYCH_STAFF, _staffProof.getStatus(), _staffProof.getAccountId())) {
+            return false;
+        }
+        return isClosedState();
+    }
+
+    public String close() {
+        if (updateStatus(WorkflowStatus.Provided)) {
+            save();
+        }
+        return null;
+    }
+
+    private boolean updateStatus(WorkflowStatus newStatus) {
+        switch (getActiveTopicKey()) {
+            case TOPIC_MASTER:
+                return false;
+            case TOPIC_ADULTS1:
+                _staffProof.setStatusAdults1(newStatus.getId());
+                _staffProof.setStatusChangedAdults1(new Date());
+                break;
+            case TOPIC_KIDS1:
+                _staffProof.setStatusKids1(newStatus.getId());
+                _staffProof.setStatusChangedKids1(new Date());
+                break;
+            case TOPIC_ADULTS2:
+                _staffProof.setStatusAdults2(newStatus.getId());
+                _staffProof.setStatusChangedAdults2(new Date());
+                break;
+            case TOPIC_KIDS2:
+                _staffProof.setStatusKids2(newStatus.getId());
+                _staffProof.setStatusChangedKids2(new Date());
+                break;
+            default:
+                return false;
+        }
+        return true;
+    }
+
+    public boolean isReopenEnabled() {
+        if (!isSendEnabled()) {
+            return false;
+        }
+        if (!_cooperationTools.isSealedEnabled(Feature.PSYCH_STAFF, _staffProof.getStatus(), _staffProof.getAccountId())) {
+            return false;
+        }
+        return isClosedStateActionEnabled();
+    }
+
+    public String reopen() {
+        if (updateStatus(WorkflowStatus.CorrectionRequested)) {
+            save();
+        }
+        return null;
+    }
+
     private boolean isSendEnabled() {
         if (!_appTools.isEnabled(ConfigKey.IsPsychStaffSendEnabled)) {
             return false;
@@ -297,11 +397,6 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
             return false;
         }
         return true;
-    }
-
-    public boolean isApprovalRequestEnabled() {
-        return isSendEnabled()
-                && _cooperationTools.isApprovalRequestEnabled(Feature.PSYCH_STAFF, _staffProof.getStatus(), _staffProof.getAccountId());
     }
 
     public boolean isRequestCorrectionEnabled() {
@@ -468,16 +563,6 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         }
     }
 
-    public String requestApproval() {
-        if (!staffProofIsComplete()) {
-            return null;
-        }
-        _staffProof.setStatus(WorkflowStatus.ApprovalRequested);
-        setModifiedInfo();
-        _staffProof = _psychStaffFacade.saveStaffProof(_staffProof);
-        return "";
-    }
-
     public String take() {
         if (!isTakeEnabled()) {
             return Pages.Error.URL();
@@ -535,7 +620,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         double sum = _staffProof.getStaffProofsEffective(type).stream().mapToDouble(i -> i.getStaffingComplete()).sum();
         return String.format("%.1f", sum);
     }
-    
+
     private Part _file;
 
     public Part getFile() {
@@ -546,7 +631,37 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         _file = file;
     }
 
-    public void uploadFile(PsychType type, int appendix) {
+    public void uploadFile() {
+        PsychType type;
+        int appendix;
+        String signature;
+
+        switch (getActiveTopicKey()) {
+            case TOPIC_MASTER:
+                return;
+            case TOPIC_ADULTS1:
+                type = PsychType.Adults;
+                appendix = 1;
+                signature = _staffProof.getSignatureAgreement(type);
+                break;
+            case TOPIC_KIDS1:
+                type = PsychType.Kids;
+                appendix = 1;
+                signature = _staffProof.getSignatureAgreement(type);
+                break;
+            case TOPIC_ADULTS2:
+                type = PsychType.Adults;
+                appendix = 2;
+                signature = _staffProof.getSignatureEffective(type);
+                break;
+            case TOPIC_KIDS2:
+                type = PsychType.Kids;
+                appendix = 2;
+                signature = _staffProof.getSignatureEffective(type);
+                break;
+            default:
+                return;
+        }
         try {
             if (_file != null) {
                 InputStream is = _file.getInputStream();
@@ -555,11 +670,12 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
                 document.setContent(content);
                 document.setPsychType(type);
                 document.setAppendix(appendix);
+                document.setSignature(signature);
                 _staffProof.addStaffProofDocument(document);
                 _file = null;
             }
         } catch (IOException | NoSuchElementException e) {
         }
     }
-    
+
 }

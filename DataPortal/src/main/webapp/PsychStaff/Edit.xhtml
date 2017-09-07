@@ -23,9 +23,8 @@
                     <ui:repeat value="#{editPsyStaff.visibleTopics}" var="topic" varStatus="status">
                         <li class="#{topic.active ? 'activetab' : 'tab'}">
                         <h:commandLink value="#{topic.title}" 
-                                       action="#{editPsyStaff.changeTabPage(topic.key)}" 
-                                       styleClass="fullWithCentered"
-                                       immediate="true">
+                                       styleClass="fullWithCentered">
+                            <f:ajax listener="#{editPsyStaff.changeTabPage(topic.key)}" render="@all"/>
                         </h:commandLink>
                         </li>
                     </ui:repeat>
@@ -46,38 +45,43 @@
 
                         <h:commandLink styleClass="sendButton"
                                        immediate="false"
-                                       action="#{editPsyStaff.requestApproval}"
-                                       value="#{msg.btnRequestApproval}"
-                                       rendered="#{editPsyStaff.approvalRequestEnabled}"
-                                       title="#{msg.infoSaveAndClose}">
-                            <cb:confirmRequestApproval/>
-                        </h:commandLink>
-
-                        <h:commandLink styleClass="sendButton"
-                                       immediate="false"
-                                       action="#{editPsyStaff.seal}"
-                                       value="#{msg.btnSaveAndClose}"
-                                       rendered="#{editPsyStaff.sealEnabled}"
-                                       title="#{msg.infoSaveAndClose}">
+                                       action="#{editPsyStaff.close}"
+                                       value="#{msg.btnClose}"
+                                       rendered="#{editPsyStaff.closeEnabled}"
+                                       title="#{msg.msgCloseWithSignature}">
                             <cb:confirmSeal/>
                         </h:commandLink>
+
                         <!--PDF-->
                         <h:commandLink styleClass="bigButton"
                                        immediate="false"
                                        action="#{pdfBuilder.createDocument()}"
                                        value="PDF Download"
-                                       rendered="#{editPsyStaff.sealEnabled}"
+                                       rendered="#{editPsyStaff.closedStateActionEnabled}"
                                        title="#{msg.infoSaveAndClose}">
                         </h:commandLink>
-                        <ui:remove>
-                            <h:commandLink styleClass="bigButton"
-                                           action="#{editPsyStaff.copyForResend}"
-                                           value="#{msg.btnChangeData}"
-                                           immediate="true"
-                                           rendered="#{editPsyStaff.copyForResendAllowed}">
-                                <cb:confirmChangeData/>
-                            </h:commandLink>
 
+                        <div class="uploadFile inlineBlock" jsf:rendered="#{editPsyStaff.closedStateActionEnabled}">
+                            <h:inputFile id="file" 
+                                         styleClass="hiddenFile bigButton" 
+                                         value="#{editPsyStaff.file}">
+                                <f:ajax listener="#{editPsyStaff.uploadFile}" render="@form"/>
+                            </h:inputFile>
+                            <div class="fakeFile">
+                                <h:outputLabel style="margin-top: 9px;" styleClass="bigButton element100" value="Unterschriebene Vereinbarung hochladen"/>
+                            </div>
+                        </div>
+
+
+                        <h:commandLink styleClass="bigButton"
+                                       action="#{editPsyStaff.reopen}"
+                                       value="#{msg.btnChangeData}"
+                                       immediate="true"
+                                       rendered="#{editPsyStaff.reopenEnabled}">
+                            <cb:confirmChangeData/>
+                        </h:commandLink>
+
+                        <ui:remove>
                             <h:commandLink styleClass="bigButton"
                                            action="#{editPsyStaff.take}"
                                            value="#{msg.btnTake}"

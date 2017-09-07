@@ -31,8 +31,8 @@ public class Adjustment implements Serializable {
     public void setId(Integer id) {
         _id = id;
     }
-
     // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="modelIntentionId">
     @Column(name = "adModelIntentionId")
     private Integer _modelIntentionId;

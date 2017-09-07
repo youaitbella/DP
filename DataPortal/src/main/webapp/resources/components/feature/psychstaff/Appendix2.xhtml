@@ -7,7 +7,9 @@
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
       xmlns:cb="http://inek.org/dataportal/clientbehaviour"
       xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common"
-      >
+
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
     <!-- INTERFACE -->
     <cc:interface>
@@ -20,80 +22,142 @@
         <h2>Tatsächliche Stellenbesetzung in Vollkräften - Bereich #{'Adults'.equals(cc.attrs.patType) ? 'Erwachsene' : 'Kinder und Jugendliche'}</h2>
         <span>(§ 4 Psych-Personalnachweis)</span>
 
-        <f:ajax>
-            <h:dataTable value="#{editPsyStaff.staffProof.getStaffProofsEffective(cc.attrs.patType)}" 
-                         columnClasses="col10em, col10em, col08em, col08em, col08em, col08em, col08em"
-                         var="item">
+        <div class="container marginTop">
+            <table jsf:id="data" class="marginTop">
+                <thead>
+                    <tr>
+                        <th class="col10em row1" scope="col" rowspan="2"> Personalgruppen </th>
+                        <th class="col02em row1" scope="col" rowspan="2"> Nr. </th>
+                        <th class="col10em row1" scope="col" rowspan="2"> Berufsgruppen der Psych-PV </th>
+                        <th class="col10em row1" scope="col" rowspan="2"> Psych-PV-Personal in VK (jeweils in Summe) </th>
+                        <th class="col10em row1 centered" scope="col" colspan="3"> davon </th>
+                        <th class="col10em row1" scope="col" rowspan="2"> Psych-PV-Personal in VK (jeweils in Summe) </th>
+                    </tr>
+                    <tr>
+                        <th class="col10em row1" scope="col"> Anrechnung Fachkräfte anderer Berufsgruppen der Psych-PV in VK (§4 Abs. 4 Vereinb.) </th>
+                        <th class="col10em row1" scope="col"> Anrechnung Fachkräfte Nicht-Psych-PV Berufsgruppen in VK (§4 Abs. 5 Vereinb.) </th>
+                        <th class="col10em row1" scope="col"> Anrechnung Fachkräfte ohne direktes Beschäftigungsverh. in VK (§4 Abs. 6 Vereinb.) </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ui:repeat value="#{editPsyStaff.staffProof.getStaffProofsEffective(cc.attrs.patType)}" var="item">
+                        <tr>
+                            <td class="row1">
+                                <h:outputText value="#{item.occupationalCatagory.personnelGroup.name}" styleClass="element10em"/>
+                            </td>
 
-                <h:column>
-                    <f:facet name="header">
-                        Personalgruppen
-                    </f:facet>
-                    #{item.occupationalCatagory.personnelGroup.name}
-                </h:column>
+                            <td class="row1">
+                                <h:outputText value="#{item.occupationalCatagory.id}" styleClass="element02em"/>
+                            </td>
 
-                <h:column>
-                    <f:facet name="header">
-                        Berufsgruppen der Psych-PV
-                    </f:facet>
-                    #{item.occupationalCatagory.name}
-                    <f:facet name="footer">
-                        Summen
-                    </f:facet>
-                </h:column>
+                            <td class="row1"> 
+                                <h:outputText value="#{item.occupationalCatagory.name}" styleClass="element10em"/>
+                            </td>
 
-                <h:column>
-                    <f:facet name="header">
-                        Psych-PV-Personal in VK (jeweils in Summe)
-                    </f:facet>
-                    <h:inputText value="#{item.staffingComplete}" styleClass="col08em">
-                        <f:ajax render="factor"/>
-                    </h:inputText>
-                    <f:facet name="footer">
-                            <h:inputText id="sumStaffingComplete" 
-                                         value="#{editPsyStaff.sumEffectiveStaffingComplete(cc.attrs.patType)}"
-                                         styleClass="col08em number"
-                                         disabled="true"/>
-                    </f:facet>
-                </h:column>
+                            <td>
+                                <inek:InputNumberWithMessage value="#{item.staffingComplete}" 
+                                                             styleClass="element10em number"
+                                                             renderElement=":psychStaff:checksum :#{cc.attrs.clientId}:sumStaffingComplete @this"
+                                                             readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
+                                                             disabled="#{item.occupationalCatagory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
+                                                             pattern="#,##0.0"
+                                                             isInt="false"/>
+                            </td>
 
-                <h:column>
-                    <f:facet name="header">
-                        Anrechnung Fachkräfte anderer Berufsgruppen der Psych-PV in VK (§4 Abs. 4 Vereinb.)
-                    </f:facet>
-                    <h:inputText value="#{item.staffingDeductionPsych}" styleClass="col08em"/>
-                </h:column>
 
-                <h:column>
-                    <f:facet name="header">
-                        Anrechnung Fachkräfte Nicht-Psych-PV Berufsgruppen in VK (§4 Abs. 5 Vereinb.)
-                    </f:facet>
-                    <h:inputText value="#{item.staffingDeductionNonPsych}" styleClass="col08em"/>
-                </h:column>
+                            <td>
+                                <inek:InputNumberWithMessage value="#{item.staffingDeductionPsych}" 
+                                                             styleClass="element10em number"
+                                                             renderElement=":psychStaff:checksum :#{cc.attrs.clientId}:sumStaffingBudget @this"
+                                                             readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
+                                                             disabled="#{item.occupationalCatagory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
+                                                             pattern="#,##0.0"
+                                                             isInt="false"/>
+                            </td>
 
-                <h:column>
-                    <f:facet name="header">
-                        Anrechnung Fachkräfte ohne direktes Beschäftigungsverh. in VK (§4 Abs. 6 Vereinb.)
-                    </f:facet>
-                    <h:inputText value="#{item.staffingDeductionOhter}" styleClass="col08em"/>
-                </h:column>
+                            <td >
+                                <inek:InputNumberWithMessage value="#{item.staffingDeductionNonPsych}" 
+                                                             styleClass="element10em number"
+                                                             readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
+                                                             disabled="#{item.occupationalCatagory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
+                                                             pattern="#,##0.0"
+                                                             isInt="false"/>
+                            </td>
 
-                <h:column>
-                    <f:facet name="header">
-                        Psych-PV-Personal in VK (jeweils in Summe)
-                    </f:facet>
-                    <h:outputText id="factor" value="#{editPsyStaff.determineFactor(item)}" styleClass="col08em"/>
-                </h:column>
+                            <td >
+                                <inek:InputNumberWithMessage value="#{item.staffingDeductionOhter}" 
+                                                             styleClass="element10em number"
+                                                             readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
+                                                             disabled="#{item.occupationalCatagory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
+                                                             pattern="#,##0.0"
+                                                             isInt="false"/>
+                            </td>
 
-            </h:dataTable>
-        </f:ajax>
-                        
+                            <td >
+                                <inek:InputNumberWithMessage value="#{editPsyStaff.determineFactor(item)}" 
+                                                             styleClass="element10em number"
+                                                             readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
+                                                             disabled="#{item.occupationalCatagory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
+                                                             pattern="#,##0.0"
+                                                             isInt="false"/>
+                            </td>
+
+                        </tr>
+                    </ui:repeat>
+
+                    <tfoot>
+                        <tr>
+                            <td class="col10em row1" scope="col"> </td>
+                            <td class="col02em row1" scope="col"> </td>
+                            <td class="col10em row1" scope="col"> Gesamt </td>
+                            <th class="col10em row1" scope="col"> 
+                                <h:inputText id="sumStaffingComplete" 
+                                             value="{editPsyStaff.sumAgreedStaffingComplete(cc.attrs.patType)}"
+                                             styleClass="element10em number"
+                                             disabled="true"/>
+                            </th>
+                            <td class="col10em row1" scope="col"> 
+                                <h:inputText id="sumStaffingBudget" 
+                                             value="{editPsyStaff.sumAgreedStaffingBudget(cc.attrs.patType)}"
+                                             styleClass="element10em number"
+                                             disabled="true"/> 
+                            </td>
+                            <td class="col10em row1" scope="col">  </td>
+                            <td class="col10em row1" scope="col">  </td>
+                            <td class="col10em row1" scope="col">  </td>
+                        </tr>
+
+                    </tfoot>
+                </tbody>
+            </table>
+        </div>
+
         <inek:LabeledText label="Tatsächliche Berechnungstage (#{editPsyStaff.staffProof.calculationType == '1' ? 'PEPPV' : 'BPflV/LKA'})"
                           value="#{'Adults'.equals(cc.attrs.patType) ? editPsyStaff.staffProof.adultsEffectiveDays : editPsyStaff.staffProof.kidsEffectiveDays}"
-                          styleClass="inputSmall"/>
+                          styleClass="element08em"
+                          readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
+                          renderElement=":#{cc.attrs.clientId}:checksum"/>
 
         <inek:LabeledText label="Tatsächliche Kosten für das Psych-PV-Personal in Summe nach § 5 in Euro"
                           value="#{'Adults'.equals(cc.attrs.patType) ? editPsyStaff.staffProof.adultsEffectiveCosts : editPsyStaff.staffProof.kidsEffectiveCosts}"
-                          styleClass="inputSmall"/>
+                          styleClass="element08em"
+                          readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
+                          renderElement=":#{cc.attrs.clientId}:checksum"/>
+
+        <div class="marginTop" jsf:rendered="#{not empty editPsyStaff.staffProof.getSignatureEffective(cc.attrs.patType)}">
+            <hr class="simpleLine"/>
+            <h:outputLabel value="Signatur:"
+                           styleClass="label element08em"/>
+            <h:outputLabel id="checksum" 
+                           value="#{editPsyStaff.staffProof.getSignatureEffective(cc.attrs.patType)}"
+                           styleClass="label"/>
+            <hr class="simpleLine"/>
+        </div>
+
+        <div jsf:id="fileName" class="inputPart" jsf:rendered="#{not empty editPsyStaff.staffProof.getStaffProofDocumentName(editPsyStaff.staffProof.getSignatureEffective(cc.attrs.patType))}">
+            <h:outputLabel value="Anlage:" styleClass="label element08em"/>
+            <h:outputText value="#{editPsyStaff.staffProof.getStaffProofDocumentName(editPsyStaff.staffProof.getSignatureEffective(cc.attrs.patType))}"/>
+        </div>
+
     </cc:implementation>
 </html>

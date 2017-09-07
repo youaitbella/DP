@@ -18,18 +18,19 @@
                   >
     </inek:MultiIk>
 
-    
+
     <div jsf:id="psyStaffData" jsf:rendered="#{editPsyStaff.staffProof.ik gt 0}">
 
         <hr/>
-        
+
         <div class="inputPart">
             <h:outputLabel value="Einrichtung für" 
                            styleClass="label20"/>
-            
+
             <inek:LabeledCheckbox id="adults" 
                                   label="Erwachsene" 
                                   value="#{editPsyStaff.staffProof.forAdults}"
+                                  readonly="#{editPsyStaff.readOnly}"
                                   styleClassComponent="inlineBlock"
                                   precedingBox="true"
                                   renderElement="@form">
@@ -38,39 +39,42 @@
 
             <inek:LabeledCheckbox label="Kinder und Jugendliche" 
                                   value="#{editPsyStaff.staffProof.forKids}"
+                                  readonly="#{editPsyStaff.readOnly}"
                                   styleClassComponent="inlineBlock"
                                   precedingBox="true"
                                   renderElement="@form">
                 <f:ajax event="clientChange" listener="#{editPsyStaff.ikChanged()}"/>
             </inek:LabeledCheckbox>
         </div>
-        
+
         <div class="inputPart">
             <h:outputLabel value="Zählweise Berechnungstage" 
                            styleClass="label20"/>
-            
+
             <h:selectOneRadio styleClass="inlineBlock"
                               value="#{editPsyStaff.staffProof.calculationType}"
+                              disabled="#{editPsyStaff.readOnly or editPsyStaff.staffProof.anyClosed}"
                               required="true">
                 <f:selectItem itemValue="1" itemLabel="PEPPV" />
                 <f:selectItem itemValue="2" itemLabel="BPflV/LKA"/>
                 <f:ajax render="checksum"/>
             </h:selectOneRadio>
         </div>
-        
+
         <div class="inputPart">
             <h:outputLabel styleClass="label20" 
                            value="#{msg.lblAgreementYear}" 
                            for="year"/>
-            
+
             <h:selectOneMenu id="year" 
                              value="#{editPsyStaff.staffProof.year}"
+                             disabled="#{editPsyStaff.readOnly or editPsyStaff.staffProof.anyClosed}"
                              required="true">
                 <f:selectItems value="#{sessionTools.calenderYearItems}" />
                 <f:ajax/>
             </h:selectOneMenu>
         </div>
-        
+
     </div>
 </ui:composition>
 

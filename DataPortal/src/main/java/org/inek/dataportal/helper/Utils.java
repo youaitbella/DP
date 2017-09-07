@@ -332,6 +332,7 @@ public class Utils {
                 // here the target year is the data year which might be in the past
                 return LocalDateTime.now().getYear() - 1;
             case SPECIFIC_FUNCTION:
+                return LocalDateTime.now().getYear();
             case NUB:
             default:
                 return LocalDateTime.now().getYear() + (LocalDateTime.now().getMonthValue() >= 9 ? 1 : 0);
@@ -351,7 +352,7 @@ public class Utils {
 
     public static String convertUmlauts(String line) {
         return line
-                .replace("Ä", "AE")
+                .replace("Ä", "Ae")
                 .replace("Ö", "Oe")
                 .replace("Ü", "Ue")
                 .replace("ä", "ae")

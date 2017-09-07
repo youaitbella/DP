@@ -51,20 +51,22 @@
                     <f:facet name="header">
                         <h:outputText value="#{msg.lblYear}"/>
                     </f:facet>
-                    <h:commandLink action="#{psychStafftList.edit()}" value="#{item.year}" immediate="true">
+                    <h:link outcome="#{psychStafftList.edit()}"
+                            value="#{item.year}" >
                         <f:param name="id" value="#{item.id}"/>
-                    </h:commandLink>
+                    </h:link>
                 </h:column>
-                
+
                 <h:column>
                     <f:facet name="header">
                         <h:outputText value="#{msg.lblHospitalIk}"/>
                     </f:facet>
-                    <h:commandLink action="#{psychStafftList.edit()}" value="#{item.ik}" immediate="true">
+                    <h:link outcome="#{psychStafftList.edit()}"
+                            value="#{item.ik}" >
                         <f:param name="id" value="#{item.id}"/>
-                    </h:commandLink>
+                    </h:link>
                 </h:column>
-                
+
             </h:dataTable>
         </div>
     </cc:implementation>
