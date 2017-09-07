@@ -22,86 +22,88 @@
         <h2>Vereinbarte Stellenbesetzung in Vollkräften - Bereich #{'Adults'.equals(cc.attrs.patType) ? 'Erwachsene' : 'Kinder und Jugendliche'}</h2>
         <span>(§ 3 Psych-Personalnachweis)</span>
 
-        <table jsf:id="data" class="marginTop">
-            <thead>
-                <tr>
-                    <th class="col10em row1" scope="col"> Personalgruppen </th>
-                    <th class="col02em row1" scope="col"> Nr. </th>
-                    <th class="col10em row1" scope="col"> Berufsgruppen der Psych-PV </th>
-                    <th class="col08em row1" scope="col"> Stellenbesetzung für eine voll-ständige Umsetzung der Psych-PV in VK </th>
-                    <th class="col08em row1" scope="col"> Stellenbesetzung als Budgetgrund-lage in VK </th>
-                    <th class="col08em row1" scope="col"> Durchschnitts-kosten je VK in Euro </th>
-                </tr>
-            </thead>
-            <tbody>
-                <ui:repeat value="#{editPsyStaff.staffProof.getStaffProofsAgreed(cc.attrs.patType)}" var="item">
+        <div class="container marginTop">
+            <table jsf:id="data" class="marginTop">
+                <thead>
                     <tr>
-                        <td class="row1">
-                            <h:outputText value="#{item.occupationalCatagory.personnelGroup.name}" styleClass="element10em"/>
-                        </td>
-                        <td class="row1">
-                            <h:outputText value="#{item.occupationalCatagory.id}" styleClass="element02em"/>
-                        </td>
-                        <td class="row1"> 
-                            <h:outputText value="#{item.occupationalCatagory.name}" styleClass="element10em"/>
-                        </td>
-                        <td>
-                            <inek:InputNumberWithMessage value="#{item.staffingComplete}" 
-                                                         styleClass="element08em number"
-                                                         renderElement=":psychStaff:checksum :#{cc.attrs.clientId}:sumStaffingComplete @this"
-                                                         readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
-                                                         disabled="#{item.occupationalCatagory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
-                                                         pattern="#,##0.0"
-                                                         isInt="false"/>
-                        </td>
-                        <td>
-                            <inek:InputNumberWithMessage value="#{item.staffingBudget}" 
-                                                         styleClass="element08em number"
-                                                         renderElement=":psychStaff:checksum :#{cc.attrs.clientId}:sumStaffingBudget @this"
-                                                         readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
-                                                         disabled="#{item.occupationalCatagory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
-                                                         pattern="#,##0.0"
-                                                         isInt="false"/>
-                        </td>
-                        <td >
-                            <inek:InputNumberWithMessage value="#{item.avgCost}" 
-                                                         styleClass="element08em number"
-                                                         readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
-                                                         disabled="#{item.occupationalCatagory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
-                                                         pattern="#,##0.00"
-                                                         isInt="false"/>
-                        </td>
+                        <th class="col10em row1" scope="col"> Personalgruppen </th>
+                        <th class="col02em row1" scope="col"> Nr. </th>
+                        <th class="col10em row1" scope="col"> Berufsgruppen der Psych-PV </th>
+                        <th class="col10em row1" scope="col"> Stellenbesetzung für eine voll-ständige Umsetzung der Psych-PV in VK </th>
+                        <th class="col10em row1" scope="col"> Stellenbesetzung als Budgetgrund-lage in VK </th>
+                        <th class="col10em row1" scope="col"> Durchschnitts-kosten je VK in Euro </th>
                     </tr>
-                </ui:repeat>
-                
-                <tfoot>
-                    <tr>
-                        <td class="col10em row1" scope="col"> </td>
-                        <td class="col02em row1" scope="col"> </td>
-                        <td class="col10em row1" scope="col"> Gesamt </td>
-                        <th class="col08em row1" scope="col"> 
-                            <h:inputText id="sumStaffingComplete" 
-                                         value="#{editPsyStaff.sumAgreedStaffingComplete(cc.attrs.patType)}"
-                                         styleClass="col08em number"
-                                         disabled="true"/>
-                        </th>
-                        <td class="col08em row1" scope="col"> 
-                            <h:inputText id="sumStaffingBudget" 
-                                         value="#{editPsyStaff.sumAgreedStaffingBudget(cc.attrs.patType)}"
-                                         styleClass="col08em number"
-                                         disabled="true"/> 
-                        </td>
-                        <td class="col08em row1" scope="col">  </td>
-                    </tr>
+                </thead>
+                <tbody>
+                    <ui:repeat value="#{editPsyStaff.staffProof.getStaffProofsAgreed(cc.attrs.patType)}" var="item">
+                        <tr>
+                            <td class="row1">
+                                <h:outputText value="#{item.occupationalCatagory.personnelGroup.name}" styleClass="element10em"/>
+                            </td>
+                            <td class="row1">
+                                <h:outputText value="#{item.occupationalCatagory.id}" styleClass="element02em"/>
+                            </td>
+                            <td class="row1"> 
+                                <h:outputText value="#{item.occupationalCatagory.name}" styleClass="element10em"/>
+                            </td>
+                            <td>
+                                <inek:InputNumberWithMessage value="#{item.staffingComplete}" 
+                                                             styleClass="element10em number"
+                                                             renderElement=":psychStaff:checksum :#{cc.attrs.clientId}:sumStaffingComplete @this"
+                                                             readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
+                                                             disabled="#{item.occupationalCatagory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
+                                                             pattern="#,##0.0"
+                                                             isInt="false"/>
+                            </td>
+                            <td>
+                                <inek:InputNumberWithMessage value="#{item.staffingBudget}" 
+                                                             styleClass="element10em number"
+                                                             renderElement=":psychStaff:checksum :#{cc.attrs.clientId}:sumStaffingBudget @this"
+                                                             readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
+                                                             disabled="#{item.occupationalCatagory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
+                                                             pattern="#,##0.0"
+                                                             isInt="false"/>
+                            </td>
+                            <td >
+                                <inek:InputNumberWithMessage value="#{item.avgCost}" 
+                                                             styleClass="element10em number"
+                                                             readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
+                                                             disabled="#{item.occupationalCatagory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
+                                                             pattern="#,##0.00"
+                                                             isInt="false"/>
+                            </td>
+                        </tr>
+                    </ui:repeat>
 
-                </tfoot>
-            </tbody>
-        </table>
+                    <tfoot>
+                        <tr>
+                            <td class="col10em row1" scope="col"> </td>
+                            <td class="col02em row1" scope="col"> </td>
+                            <td class="col10em row1" scope="col"> Gesamt </td>
+                            <th class="col10em row1" scope="col"> 
+                                <h:inputText id="sumStaffingComplete" 
+                                             value="#{editPsyStaff.sumAgreedStaffingComplete(cc.attrs.patType)}"
+                                             styleClass="element10em number"
+                                             disabled="true"/>
+                            </th>
+                            <td class="col10em row1 centered" scope="col"> 
+                                <h:inputText id="sumStaffingBudget" 
+                                             value="#{editPsyStaff.sumAgreedStaffingBudget(cc.attrs.patType)}"
+                                             styleClass="element10em number"
+                                             disabled="true"/> 
+                            </td>
+                            <td class="col10em row1" scope="col">  </td>
+                        </tr>
+
+                    </tfoot>
+                </tbody>
+            </table>
+        </div>
 
         <inek:LabeledText id="agreedDays"
                           label="#{msg.lblAgreedDays} (#{editPsyStaff.staffProof.calculationType == '1' ? 'PEPPV' : 'BPflV/LKA'})"
                           value="#{'Adults'.equals(cc.attrs.patType) ? editPsyStaff.staffProof.adultsAgreedDays : editPsyStaff.staffProof.kidsAgreedDays}"
-                          styleClass="element08em"
+                          styleClass="element10em"
                           readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
                           renderElement=":#{cc.attrs.clientId}:checksum"/>
 
