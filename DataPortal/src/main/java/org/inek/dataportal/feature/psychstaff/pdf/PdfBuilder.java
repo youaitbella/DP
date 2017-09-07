@@ -129,7 +129,10 @@ public class PdfBuilder implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="createPageForKidsAn1">
     private void createPageForKidsAn1(Document document) throws DocumentException, NoSuchAlgorithmException, IOException {
 
-        addLogo(document, img, "Vereinbarte Stellenbesetzung in Vollkräften - Bereich Kinder und Jugendliche", anlage1, _editPsyStaff.getStaffProof().getSignatureAgreement(PsychType.Kids));
+        addLogo(document, img,
+                "Vereinbarte Stellenbesetzung in Vollkräften - Bereich Kinder und Jugendliche",
+                anlage1,
+                _editPsyStaff.getStaffProof().getSignatureAgreement(PsychType.Kids));
         PdfPTable tb_JK = new PdfPTable(6);
         tb_JK.setWidths(new int[]{3, 1, 3, 3, 3, 3});
         tb_JK.getDefaultCell().setBackgroundColor(BaseColor.LIGHT_GRAY);
@@ -159,15 +162,17 @@ public class PdfBuilder implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="createPageForKidsAn2">
     private void createPageForKidsAn2(Document document) throws DocumentException, NoSuchAlgorithmException, IOException {
 
-        addLogo(document, img, "Vereinbarte Stellenbesetzung in Vollkräften - Bereich Kinder und Jugendliche", anlage2, _editPsyStaff.getStaffProof().getSignatureEffective(PsychType.Kids));
+        addLogo(document, img,
+                "Vereinbarte Stellenbesetzung in Vollkräften - Bereich Kinder und Jugendliche",
+                anlage2,
+                _editPsyStaff.getStaffProof().getSignatureEffective(PsychType.Kids));
         PdfPTable tb_JK = new PdfPTable(8);
         tb_JK.setWidths(new int[]{3, 1, 3, 3, 3, 3, 3, 3});
         tb_JK.getDefaultCell().setBackgroundColor(BaseColor.LIGHT_GRAY);
         addHeader(tb_JK, header1A2);
         addHeader(tb_JK, header2A2);
         loadDataForKidA2(tb_JK);
-        addAggregateRowAn2(tb_JK, "", "8", "Summen", _editPsyStaff.sumAgreedStaffingComplete(PsychType.Kids),
-                "", "", "", "");
+        addAggregateRowAn2(tb_JK, "", "8", "Summen", _editPsyStaff.sumAgreedStaffingComplete(PsychType.Kids));
         tb_JK.setSpacingBefore(30);
         tb_JK.setSpacingAfter(10);
         document.add(tb_JK);
@@ -175,7 +180,7 @@ public class PdfBuilder implements Serializable {
         Paragraph p = new Paragraph("Tatsächliche Berechnungstage: "
                 + String.valueOf(_editPsyStaff.getStaffProof().getKidsEffectiveDays()), SMALLBOLD);
         p.setIndentationLeft(50);
-        p.setSpacingAfter(30);
+        p.setSpacingAfter(5);
         document.add(p);
 
         Paragraph p1 = new Paragraph("Tatsächliche Kosten für das Psych-PV-Personal in Summe nach § 5 in Euro: "
@@ -183,7 +188,7 @@ public class PdfBuilder implements Serializable {
         p1.setIndentationLeft(50);
         p1.setSpacingAfter(30);
         document.add(p1);
-        
+
         addInfoText(document, infoText1, 0);
         addInfoText(document, infoText2, 20);
         addInfoText(document, infoText3, 50);
@@ -194,7 +199,10 @@ public class PdfBuilder implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="createPageForAdultAn1">
     private void createPageForAdultAn1(Document document) throws DocumentException, IOException, NoSuchAlgorithmException {
 
-        addLogo(document, img, "Vereinbarte Stellenbesetzung in Vollkräften - Bereich Erwachsene", anlage1, _editPsyStaff.getStaffProof().getSignatureAgreement(PsychType.Adults));
+        addLogo(document, img,
+                "Vereinbarte Stellenbesetzung in Vollkräften - Bereich Erwachsene",
+                anlage1,
+                _editPsyStaff.getStaffProof().getSignatureAgreement(PsychType.Adults));
         PdfPTable tb = new PdfPTable(6);
         tb.setWidths(new int[]{3, 1, 3, 3, 3, 3});
 
@@ -231,15 +239,17 @@ public class PdfBuilder implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="createPageForAdultAn2">
     private void createPageForAdultAn2(Document document) throws DocumentException, IOException, NoSuchAlgorithmException {
 
-        addLogo(document, img, "Vereinbarte Stellenbesetzung in Vollkräften - Bereich Erwachsene", anlage2, _editPsyStaff.getStaffProof().getSignatureEffective(PsychType.Adults));
+        addLogo(document, img,
+                "Vereinbarte Stellenbesetzung in Vollkräften - Bereich Erwachsene",
+                anlage2,
+                _editPsyStaff.getStaffProof().getSignatureEffective(PsychType.Adults));
         PdfPTable tb = new PdfPTable(8);
         tb.setWidths(new int[]{3, 1, 3, 3, 3, 3, 3, 3});
         tb.getDefaultCell().setBackgroundColor(BaseColor.LIGHT_GRAY);
         addHeader(tb, header1A2);
         addHeader(tb, header2A2);
         loadDataForAdultA2(tb);
-        addAggregateRowAn2(tb, "", "8", "Summen", _editPsyStaff.sumAgreedStaffingComplete(PsychType.Adults),
-                "","", "", "");
+        addAggregateRowAn2(tb, "", "8", "Summen", _editPsyStaff.sumAgreedStaffingComplete(PsychType.Adults));
         tb.setSpacingBefore(30);
         tb.setSpacingAfter(10);
         document.add(tb);
@@ -247,8 +257,14 @@ public class PdfBuilder implements Serializable {
         Paragraph p = new Paragraph("Tatsächliche Berechnungstage : "
                 + String.valueOf(_editPsyStaff.getStaffProof().getKidsEffectiveDays()), SMALLBOLD);
         p.setIndentationLeft(50);
-        p.setSpacingAfter(30);
+        p.setSpacingAfter(5);
         document.add(p);
+        
+        Paragraph p1 = new Paragraph("Tatsächliche Kosten für das Psych-PV-Personal in Summe nach § 5 in Euro: "
+                + String.valueOf(_editPsyStaff.getStaffProof().getKidsEffectiveCosts()), SMALLBOLD);
+        p1.setIndentationLeft(50);
+        p1.setSpacingAfter(30);
+        document.add(p1);
 
         addInfoText(document, infoText1, 0);
         addInfoText(document, infoText2, 20);
@@ -278,14 +294,7 @@ public class PdfBuilder implements Serializable {
 
         int index = 1;
         for (StaffProofEffective staffProofEffective : _editPsyStaff.getStaffProof().getStaffProofsEffective(PsychType.Adults)) {
-            addRow2(tb, staffProofEffective.getOccupationalCatagory().getPersonnelGroup().getName(),
-                    String.valueOf(index),
-                    staffProofEffective.getOccupationalCatagory().getName(),
-                    staffProofEffective.getStaffingComplete(),
-                    staffProofEffective.getStaffingDeductionPsych(),
-                    staffProofEffective.getStaffingDeductionNonPsych(),
-                    staffProofEffective.getStaffingDeductionOhter(),
-                    _editPsyStaff.determineFactor(staffProofEffective));
+            addRow2(tb, String.valueOf(index), staffProofEffective);
             index++;
         }
     }
@@ -312,14 +321,7 @@ public class PdfBuilder implements Serializable {
 
         int index = 1;
         for (StaffProofEffective staffProofEffective : _editPsyStaff.getStaffProof().getStaffProofsEffective(PsychType.Kids)) {
-            addRow2(tb, staffProofEffective.getOccupationalCatagory().getPersonnelGroup().getName(),
-                    String.valueOf(index),
-                    staffProofEffective.getOccupationalCatagory().getName(),
-                    staffProofEffective.getStaffingComplete(),
-                    staffProofEffective.getStaffingDeductionPsych(),
-                    staffProofEffective.getStaffingDeductionNonPsych(),
-                    staffProofEffective.getStaffingDeductionOhter(), 
-                    _editPsyStaff.determineFactor(staffProofEffective));
+            addRow2(tb, String.valueOf(index), staffProofEffective);
             index++;
         }
     }
@@ -401,15 +403,15 @@ public class PdfBuilder implements Serializable {
     //</editor-fold>    
     
     //<editor-fold defaultstate="collapsed" desc="addAggregateRowAn2">
-    private void addAggregateRowAn2(PdfPTable tb, String s1, String s2, String s3, String s4, String s5, String s6, String s7, String s8) {
+    private void addAggregateRowAn2(PdfPTable tb, String s1, String s2, String s3, String s4) {
         addCell(tb, s1.replace(",", "."), SMALLBOLD, Element.ALIGN_LEFT, BaseColor.LIGHT_GRAY);
         addCell(tb, s2.replace(",", "."), SMALLBOLD, Element.ALIGN_CENTER, BaseColor.LIGHT_GRAY);
         addCell(tb, s3.replace(",", "."), SMALLBOLD, Element.ALIGN_LEFT, BaseColor.LIGHT_GRAY);
         addCell(tb, s4.replace(",", "."), SMALLBOLD, Element.ALIGN_RIGHT, BaseColor.LIGHT_GRAY);
-        addCell(tb, s5.replace(",", "."), SMALLBOLD, Element.ALIGN_RIGHT, BaseColor.LIGHT_GRAY);
-        addCell(tb, s6.replace(",", "."), SMALLBOLD, Element.ALIGN_RIGHT, BaseColor.LIGHT_GRAY);
-        addCell(tb, s6.replace(",", "."), SMALLBOLD, Element.ALIGN_RIGHT, BaseColor.LIGHT_GRAY);
-        addCell(tb, s6.replace(",", "."), SMALLBOLD, Element.ALIGN_RIGHT, BaseColor.LIGHT_GRAY);
+        addCell(tb, "", SMALLBOLD, Element.ALIGN_RIGHT, BaseColor.LIGHT_GRAY);
+        addCell(tb, "", SMALLBOLD, Element.ALIGN_RIGHT, BaseColor.LIGHT_GRAY);
+        addCell(tb, "", SMALLBOLD, Element.ALIGN_RIGHT, BaseColor.LIGHT_GRAY);
+        addCell(tb, "", SMALLBOLD, Element.ALIGN_RIGHT, BaseColor.LIGHT_GRAY);
     }
     //</editor-fold>    
 
@@ -428,18 +430,19 @@ public class PdfBuilder implements Serializable {
     //</editor-fold>  
 
     //<editor-fold defaultstate="collapsed" desc="addRow">
-    private void addRow2(PdfPTable tb, String personnelGroupName, String lfdNr,
-            String occupationalCatagoryName, double staffingComplete,
-            double staffingBudget, double avgCost, double d1, String s) {
+    private void addRow2(PdfPTable tb, String lfdNr, StaffProofEffective staffProofEffective) {
+//    private void addRow2(PdfPTable tb, String personnelGroupName, String lfdNr,
+//            String occupationalCatagoryName, double staffingComplete,
+//            double staffingBudget, double avgCost, double d1, String s) {
 
-        addCell(tb, personnelGroupName, SMALL, Element.ALIGN_LEFT, BaseColor.LIGHT_GRAY);
+        addCell(tb, staffProofEffective.getOccupationalCatagory().getPersonnelGroup().getName(), SMALL, Element.ALIGN_LEFT, BaseColor.LIGHT_GRAY);
         addCell(tb, lfdNr, SMALL, Element.ALIGN_CENTER, BaseColor.LIGHT_GRAY);
-        addCell(tb, occupationalCatagoryName, SMALL, Element.ALIGN_LEFT, BaseColor.LIGHT_GRAY);
-        addCell(tb, String.valueOf(staffingComplete), SMALL, Element.ALIGN_RIGHT, BaseColor.WHITE);
-        addCell(tb, String.valueOf(staffingBudget), SMALL, Element.ALIGN_RIGHT, BaseColor.WHITE);
-        addCell(tb, String.valueOf(avgCost), SMALL, Element.ALIGN_RIGHT, BaseColor.WHITE);
-        addCell(tb, String.valueOf(d1), SMALL, Element.ALIGN_RIGHT, BaseColor.WHITE);
-        addCell(tb, s, SMALL, Element.ALIGN_RIGHT, BaseColor.WHITE);
+        addCell(tb, staffProofEffective.getOccupationalCatagory().getName(), SMALL, Element.ALIGN_LEFT, BaseColor.LIGHT_GRAY);
+        addCell(tb, String.valueOf(staffProofEffective.getStaffingComplete()), SMALL, Element.ALIGN_RIGHT, BaseColor.WHITE);
+        addCell(tb, String.valueOf(staffProofEffective.getStaffingDeductionPsych()), SMALL, Element.ALIGN_RIGHT, BaseColor.WHITE);
+        addCell(tb, String.valueOf(staffProofEffective.getStaffingDeductionNonPsych()), SMALL, Element.ALIGN_RIGHT, BaseColor.WHITE);
+        addCell(tb, String.valueOf(staffProofEffective.getStaffingDeductionOhter()), SMALL, Element.ALIGN_RIGHT, BaseColor.WHITE);
+        addCell(tb, _editPsyStaff.determineFactor(staffProofEffective), SMALL, Element.ALIGN_RIGHT, BaseColor.WHITE);
     }
     //</editor-fold>  
 
