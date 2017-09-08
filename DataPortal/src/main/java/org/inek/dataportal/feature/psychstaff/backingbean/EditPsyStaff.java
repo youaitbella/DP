@@ -60,7 +60,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
 
     // <editor-fold defaultstate="collapsed" desc="fields & enums">
     private static final Logger LOGGER = Logger.getLogger("EditPsyStaff");
-    private static final String TOPIC_MASTER = "tabUMMaster";
+    private static final String TOPIC_BASE = "topicBaseData";
     private static final String TOPIC_KIDS2 = "topicAppendix2Kids";
     private static final String TOPIC_ADULTS2 = "topicAppendix2Adults";
     private static final String TOPIC_KIDS1 = "topicAppendix1Kids";
@@ -84,7 +84,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
 
     @Override
     protected void addTopics() {
-        addTopic(TOPIC_MASTER, Pages.PsychStaffBaseData.URL());
+        addTopic(TOPIC_BASE, Pages.PsychStaffBaseData.URL());
         addTopic(TOPIC_ADULTS1, Pages.PsychStaffAppendix1Adults.URL());
         addTopic(TOPIC_KIDS1, Pages.PsychStaffAppendix1Kids.URL());
         addTopic(TOPIC_ADULTS2, Pages.PsychStaffAppendix2Adults.URL());
@@ -164,7 +164,6 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         ensureStaffProofsEffective(_staffProof);
     }
 
-    
     public List<SelectItem> getYears() {
         if (_staffProof == null) {
             return Collections.EMPTY_LIST;
@@ -283,7 +282,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
             return false;
         }
         switch (getActiveTopicKey()) {
-            case TOPIC_MASTER:
+            case TOPIC_BASE:
                 return false;
             case TOPIC_ADULTS1:
                 return _staffProof.getStatusAdults1() < WorkflowStatus.Provided.getId();
@@ -300,7 +299,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
 
     public boolean isClosedState() {
         switch (getActiveTopicKey()) {
-            case TOPIC_MASTER:
+            case TOPIC_BASE:
                 return false;
             case TOPIC_ADULTS1:
                 return _staffProof.getStatusAdults1() >= WorkflowStatus.Provided.getId();
@@ -334,7 +333,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
 
     private boolean updateStatus(WorkflowStatus newStatus) {
         switch (getActiveTopicKey()) {
-            case TOPIC_MASTER:
+            case TOPIC_BASE:
                 return false;
             case TOPIC_ADULTS1:
                 _staffProof.setStatusAdults1(newStatus.getId());
@@ -410,11 +409,11 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         MessageContainer message = new MessageContainer();
 
         String ik = request.getIk() <= 0 ? "" : "" + request.getIk();
-        checkField(message, ik, "lblIK", "psychStaff:ikMulti", TOPIC_MASTER);
-        checkField(message, _staffProof.getYear(), 2016, 2020, "lblAgreementYear", "psychStaff:year", TOPIC_MASTER);
+        checkField(message, ik, "lblIK", "psychStaff:ikMulti", TOPIC_BASE);
+        checkField(message, _staffProof.getYear(), 2016, 2020, "lblAgreementYear", "psychStaff:year", TOPIC_BASE);
         if (!_staffProof.isForAdults() && !_staffProof.isForKids()) {
             String msg = "Bitte angeben, ob die Einrichtung für Erwachsene und / oder Kinder und Jugendliche ist.";
-            applyMessageValues(message, msg, "psychStaff:adults", TOPIC_MASTER);
+            applyMessageValues(message, msg, "psychStaff:adults", TOPIC_BASE);
         }
 
         if (_staffProof.isForAdults()) {
@@ -576,12 +575,16 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     }
 
     public void uploadFile() {
+        if (_file == null) {
+            return;
+        }
+
         PsychType type;
         int appendix;
         String signature;
 
         switch (getActiveTopicKey()) {
-            case TOPIC_MASTER:
+            case TOPIC_BASE:
                 return;
             case TOPIC_ADULTS1:
                 type = PsychType.Adults;
@@ -607,30 +610,57 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
                 return;
         }
         try {
-            if (_file != null) {
-                String fileName = _file.getSubmittedFileName();
-                int pos = fileName.lastIndexOf(".");
-                String extension = pos < 0 ? "" : fileName.toLowerCase().substring(pos);
-                if (allowedFileExtensions().contains(extension)) {
-                    InputStream is = _file.getInputStream();
-                    byte[] content = StreamUtils.stream2blob(is);
-                    StaffProofDocument document = new StaffProofDocument(fileName);
-                    document.setContent(content);
-                    document.setPsychType(type);
-                    document.setAppendix(appendix);
-                    document.setSignature(signature);
-                    _staffProof.addStaffProofDocument(document);
-                }
-                _file = null;
+            String fileName = _file.getSubmittedFileName();
+            int pos = fileName.lastIndexOf(".");
+            String extension = pos < 0 ? "" : fileName.toLowerCase().substring(pos);
+            if (allowedFileExtensions().contains(extension)) {
+                InputStream is = _file.getInputStream();
+                byte[] content = StreamUtils.stream2blob(is);
+                StaffProofDocument document = new StaffProofDocument(fileName);
+                document.setContent(content);
+                document.setPsychType(type);
+                document.setAppendix(appendix);
+                document.setSignature(signature);
+                _staffProof.addStaffProofDocument(document);
             }
+            _file = null;
         } catch (IOException | NoSuchElementException e) {
         }
+        _file = null;
     }
 
     public String downloadDocument(String signature) {
         StaffProofDocument doc = _staffProof.getStaffProofDocument(signature);
         Utils.downloadDocument(doc);
         return "";
+    }
+
+    public void importData() {
+        if (_file == null) {
+            return;
+        }
+
+        switch (getActiveTopicKey()) {
+            case TOPIC_BASE:
+                return;
+            case TOPIC_ADULTS1:
+                PsychStaffImporter.importAgreed(_file, _staffProof, PsychType.Adults);
+                break;
+            case TOPIC_KIDS1:
+                PsychStaffImporter.importAgreed(_file, _staffProof, PsychType.Kids);
+                break;
+            case TOPIC_ADULTS2:
+                PsychStaffImporter.importEffective(_file, _staffProof, PsychType.Adults);
+                break;
+            case TOPIC_KIDS2:
+                PsychStaffImporter.importEffective(_file, _staffProof, PsychType.Kids);
+                break;
+            default:
+                return;
+        }
+
+        
+        Utils.showMessageInBrowser("Eine Upload-Funktion steht in Kürze zur Verfügung");
     }
 
 }
