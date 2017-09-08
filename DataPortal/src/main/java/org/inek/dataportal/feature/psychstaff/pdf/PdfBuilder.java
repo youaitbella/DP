@@ -138,7 +138,7 @@ public class PdfBuilder implements Serializable {
         PdfPTable tb_JK = new PdfPTable(6);
         tb_JK.setWidths(new int[]{3, 1, 3, 3, 3, 3});
         tb_JK.getDefaultCell().setBackgroundColor(BaseColor.LIGHT_GRAY);
-        loadDataForKidA1(tb_JK);
+        loadDataForAnlage1(tb_JK);
         tb_JK.setSpacingBefore(30);
         tb_JK.setSpacingAfter(10);
         document.add(tb_JK);
@@ -166,7 +166,7 @@ public class PdfBuilder implements Serializable {
         PdfPTable tb_JK = new PdfPTable(8);
         tb_JK.setWidths(new int[]{3, 1, 3, 3, 3, 3, 3, 3});
         tb_JK.getDefaultCell().setBackgroundColor(BaseColor.LIGHT_GRAY);
-        loadDataForKidA2(tb_JK);
+        loadDataForAnlage2(tb_JK);
         tb_JK.setSpacingBefore(30);
         tb_JK.setSpacingAfter(10);
         document.add(tb_JK);
@@ -201,7 +201,7 @@ public class PdfBuilder implements Serializable {
         tb.setWidths(new int[]{3, 1, 3, 3, 3, 3});
 
         tb.getDefaultCell().setBackgroundColor(BaseColor.LIGHT_GRAY);
-        loadDataForAdultA1(tb);
+        loadDataForAnlage1(tb);
         tb.setSpacingBefore(30);
         tb.setSpacingAfter(10);
         document.add(tb);
@@ -229,7 +229,8 @@ public class PdfBuilder implements Serializable {
         PdfPTable tb = new PdfPTable(8);
         tb.setWidths(new int[]{3, 1, 3, 3, 3, 3, 3, 3});
         tb.getDefaultCell().setBackgroundColor(BaseColor.LIGHT_GRAY);
-        loadDataForAdultA2(tb);
+        //loadDataForAdultA2(tb);
+        loadDataForAnlage2(tb);
         tb.setSpacingBefore(30);
         tb.setSpacingAfter(10);
         document.add(tb);
@@ -253,98 +254,54 @@ public class PdfBuilder implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="loadDataForAdultA1">
-    private void loadDataForAdultA1(PdfPTable tb) {
+    //<editor-fold defaultstate="collapsed" desc="loadDataForAnlage1">
+    private void loadDataForAnlage1(PdfPTable tb) {
 
+        PsychType psychType = ("Anlage 1 - Erw").equalsIgnoreCase(_editPsyStaff.getActiveTopic().getTitle()) ? PsychType.Adults : PsychType.Kids;
         int index = 1;
         addHeader(tb, header1A1);
         addHeader(tb, header2A1);
-        for (StaffProofAgreed staffProofAgreed : _editPsyStaff.getStaffProof().getStaffProofsAgreed(PsychType.Adults)) {
+        for (StaffProofAgreed staffProofAgreed : _editPsyStaff.getStaffProof().getStaffProofsAgreed(psychType)) {
             addRow(tb, String.valueOf(index), staffProofAgreed);
             index++;
         }
         addCell(tb, "", SMALLBOLD, Element.ALIGN_LEFT, BaseColor.LIGHT_GRAY);
         addCell(tb, "8", SMALLBOLD, Element.ALIGN_CENTER, BaseColor.LIGHT_GRAY);
         addCell(tb, "Gesamt", SMALLBOLD, Element.ALIGN_LEFT, BaseColor.LIGHT_GRAY);
-        addCell(tb, _editPsyStaff.sumAgreedStaffingComplete(PsychType.Adults).replace(",", "."),
+        addCell(tb, _editPsyStaff.sumAgreedStaffingComplete(psychType).replace(",", "."),
                 SMALLBOLD, Element.ALIGN_RIGHT, BaseColor.LIGHT_GRAY);
-        addCell(tb, _editPsyStaff.sumAgreedStaffingBudget(PsychType.Adults).replace(",", "."),
+        addCell(tb, _editPsyStaff.sumAgreedStaffingBudget(psychType).replace(",", "."),
                 SMALLBOLD, Element.ALIGN_RIGHT, BaseColor.LIGHT_GRAY);
         addCell(tb, "", SMALLBOLD, Element.ALIGN_RIGHT, BaseColor.LIGHT_GRAY);
     }
 //    </editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="loadDataForAdultA2">
-    private void loadDataForAdultA2(PdfPTable tb) {
+    //<editor-fold defaultstate="collapsed" desc="loadDataForAnlage2">
+    private void loadDataForAnlage2(PdfPTable tb) {
 
+        PsychType psychType = ("Anlage 2 - Erw").equalsIgnoreCase(_editPsyStaff.getActiveTopic().getTitle()) ? PsychType.Adults : PsychType.Kids;
         int index = 1;
         addHeader(tb, header1A2);
         addHeader(tb, header2A2);
-        for (StaffProofEffective staffProofEffective : _editPsyStaff.getStaffProof().getStaffProofsEffective(PsychType.Adults)) {
+        for (StaffProofEffective staffProofEffective : _editPsyStaff.getStaffProof().getStaffProofsEffective(psychType)) {
             addRow2(tb, String.valueOf(index), staffProofEffective);
             index++;
         }
         addCell(tb, "", SMALLBOLD, Element.ALIGN_LEFT, BaseColor.LIGHT_GRAY);
         addCell(tb, "8", SMALLBOLD, Element.ALIGN_CENTER, BaseColor.LIGHT_GRAY);
         addCell(tb, "Gesamt", SMALLBOLD, Element.ALIGN_LEFT, BaseColor.LIGHT_GRAY);
-        addCell(tb, _editPsyStaff.sumEffectiveStaffingComplete(PsychType.Adults).replace(",", "."), 
+        addCell(tb, _editPsyStaff.sumEffectiveStaffingComplete(psychType).replace(",", "."), 
                 SMALLBOLD, Element.ALIGN_RIGHT, BaseColor.LIGHT_GRAY);
-        addCell(tb, _editPsyStaff.sumEffectiveStaffingDeductionPsych(PsychType.Adults).replace(",", "."), 
+        addCell(tb, _editPsyStaff.sumEffectiveStaffingDeductionPsych(psychType).replace(",", "."), 
                 SMALLBOLD, Element.ALIGN_RIGHT, BaseColor.LIGHT_GRAY);
-        addCell(tb, _editPsyStaff.sumEffectiveStaffingDeductionNonPsych(PsychType.Adults).replace(",", "."), 
+        addCell(tb, _editPsyStaff.sumEffectiveStaffingDeductionNonPsych(psychType).replace(",", "."), 
                 SMALLBOLD, Element.ALIGN_RIGHT, BaseColor.LIGHT_GRAY);
-        addCell(tb, _editPsyStaff.sumEffectiveStaffingDeductionOther(PsychType.Adults).replace(",", "."), 
+        addCell(tb, _editPsyStaff.sumEffectiveStaffingDeductionOther(psychType).replace(",", "."), 
                 SMALLBOLD, Element.ALIGN_RIGHT, BaseColor.LIGHT_GRAY);
         addCell(tb, "", SMALLBOLD, Element.ALIGN_RIGHT, BaseColor.LIGHT_GRAY);
 
     }
 //    </editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="loadDataForKidA1">
-    private void loadDataForKidA1(PdfPTable tb) {
-
-        int index = 1;
-        addHeader(tb, header1A1);
-        addHeader(tb, header2A1);
-        for (StaffProofAgreed staffProofAgreed : _editPsyStaff.getStaffProof().getStaffProofsAgreed(PsychType.Kids)) {
-            addRow(tb, String.valueOf(index), staffProofAgreed);
-            index++;
-        }
-        addCell(tb, "", SMALLBOLD, Element.ALIGN_LEFT, BaseColor.LIGHT_GRAY);
-        addCell(tb, "8", SMALLBOLD, Element.ALIGN_CENTER, BaseColor.LIGHT_GRAY);
-        addCell(tb, "Gesamt", SMALLBOLD, Element.ALIGN_LEFT, BaseColor.LIGHT_GRAY);
-        addCell(tb, _editPsyStaff.sumAgreedStaffingComplete(PsychType.Kids).replace(",", "."), 
-                SMALLBOLD, Element.ALIGN_RIGHT, BaseColor.LIGHT_GRAY);
-        addCell(tb, _editPsyStaff.sumAgreedStaffingBudget(PsychType.Kids).replace(",", "."), 
-                SMALLBOLD, Element.ALIGN_RIGHT, BaseColor.LIGHT_GRAY);
-        addCell(tb, "", SMALLBOLD, Element.ALIGN_RIGHT, BaseColor.LIGHT_GRAY);
-    }
-    //    </editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="loadDataForKidA2">
-    private void loadDataForKidA2(PdfPTable tb) {
-
-        int index = 1;
-        addHeader(tb, header1A2);
-        addHeader(tb, header2A2);
-        for (StaffProofEffective staffProofEffective : _editPsyStaff.getStaffProof().getStaffProofsEffective(PsychType.Kids)) {
-            addRow2(tb, String.valueOf(index), staffProofEffective);
-            index++;
-        }
-        addCell(tb, "", SMALLBOLD, Element.ALIGN_LEFT, BaseColor.LIGHT_GRAY);
-        addCell(tb, "8", SMALLBOLD, Element.ALIGN_CENTER, BaseColor.LIGHT_GRAY);
-        addCell(tb, "Gesamt", SMALLBOLD, Element.ALIGN_LEFT, BaseColor.LIGHT_GRAY);
-        addCell(tb, _editPsyStaff.sumEffectiveStaffingComplete(PsychType.Kids).replace(",", "."), 
-                SMALLBOLD, Element.ALIGN_RIGHT, BaseColor.LIGHT_GRAY);
-        addCell(tb, _editPsyStaff.sumEffectiveStaffingDeductionPsych(PsychType.Kids).replace(",", "."), 
-                SMALLBOLD, Element.ALIGN_RIGHT, BaseColor.LIGHT_GRAY);
-        addCell(tb, _editPsyStaff.sumEffectiveStaffingDeductionNonPsych(PsychType.Kids).replace(",", "."), 
-                SMALLBOLD, Element.ALIGN_RIGHT, BaseColor.LIGHT_GRAY);
-        addCell(tb, _editPsyStaff.sumEffectiveStaffingDeductionOther(PsychType.Kids).replace(",", "."), 
-                SMALLBOLD, Element.ALIGN_RIGHT, BaseColor.LIGHT_GRAY);
-        addCell(tb, "", SMALLBOLD, Element.ALIGN_RIGHT, BaseColor.LIGHT_GRAY);
-    }
-    //    </editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="createMetadata">
     private void createMetadata(Document document) {
