@@ -2,6 +2,7 @@ package org.inek.dataportal.controller;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -235,7 +236,7 @@ public class SessionController implements Serializable {
             _features.clear();
             _parts.clear();
             _account = null;
-            _portalType = PortalType.COMMON; 
+            _portalType = PortalType.COMMON;
         }
     }
 
@@ -355,7 +356,8 @@ public class SessionController implements Serializable {
         boolean hasMaintenance = false;
         boolean hasDocument = false;
         boolean hasCooperation = false;
-        for (AccountFeature accFeature : _account.getFeatures()) {
+        List<AccountFeature> accountFatures = _account.getFeatures();
+        for (AccountFeature accFeature : accountFatures) {
             Feature feature = accFeature.getFeature();
             if (feature.getPortalType() != PortalType.COMMON && feature.getPortalType() != _portalType) {
                 continue;
@@ -363,7 +365,7 @@ public class SessionController implements Serializable {
             hasMaintenance |= feature == Feature.USER_MAINTENANCE;
             hasDocument |= feature == Feature.DOCUMENTS;
             hasCooperation |= feature == Feature.COOPERATION;
-            if (featureIsValid(feature, accFeature)) {
+            if (featureIsValid(accFeature)) {
                 features.put(accFeature.getSequence(), feature);
             }
         }
@@ -373,11 +375,12 @@ public class SessionController implements Serializable {
         if (!hasMaintenance) {
             _features.add(FeatureFactory.createController(Feature.USER_MAINTENANCE, this));
         }
+        //if (!hasDocument && userHasDocuments()) {
         if (!hasDocument) {
             _features.add(FeatureFactory.createController(Feature.DOCUMENTS, this));
             persistFeature(Feature.DOCUMENTS);
         }
-        if(!hasCooperation && _coopFacade.getOpenCooperationRequestCount(_account.getId()) > 0) {
+        if (!hasCooperation && _coopFacade.getOpenCooperationRequestCount(_account.getId()) > 0) {
             _features.add(FeatureFactory.createController(Feature.COOPERATION, this));
             persistFeature(Feature.COOPERATION);
         }
@@ -386,7 +389,21 @@ public class SessionController implements Serializable {
         }
     }
 
-    private boolean featureIsValid(Feature feature, AccountFeature accFeature) {
+    private boolean featureIsValid(AccountFeature accFeature) {
+        Feature feature = accFeature.getFeature();
+        
+        // special check before official start of this feature
+        if (feature == Feature.PSYCH_STAFF) {
+            List<String> allowedUsers = Arrays.asList(
+                    "olaf.neubert@gkv-spitzenverband.de",
+                    "u.roths@dkgev.de",
+                    "max.mustermann@mueller-bruehl.de");
+            if (allowedUsers.contains(_account.getEmail().toLowerCase())) {
+                return true;
+            }
+        }
+        // end special check - remove once public available
+        
         return _appTools.isFeatureEnabled(feature)
                 && (accFeature.getFeatureState() == FeatureState.SIMPLE
                 || accFeature.getFeatureState() == FeatureState.APPROVED);
@@ -395,7 +412,7 @@ public class SessionController implements Serializable {
     private boolean userHasDocuments() {
         return _accDocFacade.count(_account.getId()) > 0;
     }
-    
+
     private void persistFeature(Feature feature) {
         AccountFeature doc = createAccountFeature(feature);
         List<AccountFeature> afs = _account.getFeatures();
@@ -725,12 +742,13 @@ public class SessionController implements Serializable {
 
     /**
      * conveniance method to switch beetween two portal types
-     * @return 
+     *
+     * @return
      */
-    public String switchPortalType(){
+    public String switchPortalType() {
         return navigateToPortal(getTargetType());
     }
-    
+
     public String navigateToPortal(PortalType portalType) {
         _portalType = portalType;
         initFeatures();
