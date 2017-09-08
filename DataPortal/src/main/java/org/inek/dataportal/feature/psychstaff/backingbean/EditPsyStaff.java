@@ -8,9 +8,11 @@ package org.inek.dataportal.feature.psychstaff.backingbean;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -19,6 +21,7 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
@@ -159,6 +162,31 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         setTopicVisibility();
         ensureStaffProofsAgreed(_staffProof);
         ensureStaffProofsEffective(_staffProof);
+    }
+
+    
+    public List<SelectItem> getYears() {
+        if (_staffProof == null) {
+            return Collections.EMPTY_LIST;
+        }
+        List<Integer> existingYears = _psychStaffFacade.getExistingYears(_staffProof.getIk());
+
+        List<SelectItem> items = new ArrayList<>();
+        IntStream.rangeClosed(2016, Year.now().getValue() + 1)
+                .filter(y -> y == _staffProof.getYear() || !existingYears.contains(y))
+                .forEach(y -> items.add(new SelectItem(y, "" + y)));
+        if (_staffProof.getYear() == 0 && items.size() > 0) {
+            _staffProof.setYear((int) items.get(0).getValue());
+        }
+        return items;
+    }
+
+    public List<SelectItem> getCalenderYearItems() {
+        List<SelectItem> items = new ArrayList<>();
+        for (int year = 2016; year < 2022; year++) {
+            items.add(new SelectItem(year, "" + year));
+        }
+        return items;
     }
 
     private void ensureStaffProofsAgreed(StaffProof staffProof) {
@@ -606,8 +634,8 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     }
 
     private int _counter = 0;
-    
-    public int getCounter(){
+
+    public int getCounter() {
         return ++_counter;
     }
 }

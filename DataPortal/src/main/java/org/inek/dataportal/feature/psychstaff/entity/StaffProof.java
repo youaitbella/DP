@@ -47,7 +47,7 @@ public class StaffProof implements Serializable, StatusEntity {
     //<editor-fold defaultstate="collapsed" desc="dataYear">
     @Column(name = "spmYear")
     @Documentation(key = "lblYear")
-    private int _year = 2017;
+    private int _year;
 
     public int getYear() {
         return _year;
@@ -549,8 +549,8 @@ public class StaffProof implements Serializable, StatusEntity {
             return "";
         }
         // we use a delimitter to distinguish the concatenation of "cummutative" values
-        // eg. id = 1; AccoutId = 11, without deli: "111", with deli: "1^11"
-        //     id = 11; AccoutId = 1, without deli: "111" (as before!), with deli: "11^1"
+        // eg. id = 1; AccountId = 11, without deli: "111", with deli: "1^11"
+        //     id = 11; AccountId = 1, without deli: "111" (as before!), with deli: "11^1"
         String data = "^"
                 + getId() + "^"
                 + getAccountId() + "^"

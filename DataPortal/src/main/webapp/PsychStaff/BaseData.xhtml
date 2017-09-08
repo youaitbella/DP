@@ -70,7 +70,7 @@
                              value="#{editPsyStaff.staffProof.year}"
                              disabled="#{editPsyStaff.readOnly or editPsyStaff.staffProof.anyClosed}"
                              required="true">
-                <f:selectItems value="#{sessionTools.calenderYearItems}" />
+                <f:selectItems value="#{editPsyStaff.years}" />
                 <f:ajax/>
             </h:selectOneMenu>
         </div>

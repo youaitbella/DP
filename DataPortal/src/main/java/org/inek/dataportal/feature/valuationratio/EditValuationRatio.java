@@ -196,14 +196,14 @@ public class EditValuationRatio extends AbstractEditController {
     public List<SelectItem> getIks() {
         Set<Integer> iks = new HashSet<>();
         if (!_valuationRatioFacade.existsValuationRatio(
-                _sessionController.getAccount().getIK())) {
+                _sessionController.getAccount().getIK(), _valuationRatio.getDataYear())) {
             iks.add(_sessionController.getAccount().getIK());
         }
 
         for (AccountAdditionalIK ik : _sessionController
                 .getAccount().getAdditionalIKs()) {
             if (!_valuationRatioFacade
-                    .existsValuationRatio(ik.getIK())) {
+                    .existsValuationRatio(ik.getIK(), _valuationRatio.getDataYear())) {
                 iks.add(ik.getIK());
             }
 
