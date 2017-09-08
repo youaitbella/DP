@@ -5,6 +5,7 @@
                 template="/Templates/PortalMenuTemplate.xhtml"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
@@ -43,13 +44,26 @@
                                        rendered="#{!editPsyStaff.readOnly}">
                         </h:commandLink>
 
+                        <div class="uploadFile inlineBlock" jsf:rendered="#{editPsyStaff.closeEnabled}">
+                            <h:inputFile id="importFile" 
+                                         p:accept=".csv, .txt"
+                                         styleClass="hiddenFile bigButton"  
+                                         value="#{editPsyStaff.file}">
+                                <f:ajax listener="#{editPsyStaff.importData}" render="@form"/>
+                            </h:inputFile>
+                            <div class="fakeFile">
+                                <h:outputLabel style="margin-top: 9px;" styleClass="bigButton element100" value="Daten hochladen"/>
+                            </div>
+                        </div>
+
                         <h:commandLink styleClass="sendButton"
                                        immediate="false"
                                        action="#{editPsyStaff.close}"
                                        value="#{msg.btnClose}"
                                        rendered="#{editPsyStaff.closeEnabled}"
-                                       title="#{msg.msgCloseWithSignature}">
-                            <cb:confirmSeal/>
+                                       title="#{msg.msgCloseWithSignature}"
+                                       onclick="return confirm('#{msg.msgCloseWithSignature}');"
+                                       >
                         </h:commandLink>
 
                         <!--PDF-->
@@ -63,7 +77,8 @@
 
                         <div class="uploadFile inlineBlock" jsf:rendered="#{editPsyStaff.closedStateActionEnabled}">
                             <h:inputFile id="file" 
-                                         styleClass="hiddenFile bigButton" 
+                                         p:accept="#{editPsyStaff.allowedFileExtensions}"
+                                         styleClass="hiddenFile bigButton"  
                                          value="#{editPsyStaff.file}">
                                 <f:ajax listener="#{editPsyStaff.uploadFile}" render="@form"/>
                             </h:inputFile>
@@ -72,13 +87,12 @@
                             </div>
                         </div>
 
-
                         <h:commandLink styleClass="bigButton"
                                        action="#{editPsyStaff.reopen}"
                                        value="#{msg.btnChangeData}"
                                        immediate="true"
-                                       rendered="#{editPsyStaff.reopenEnabled}">
-                            <cb:confirmChangeData/>
+                                       rendered="#{editPsyStaff.reopenEnabled}"
+                                       onclick="return confirm('Dies versetzt Ihre Daten wieder in den Änderungsmodus. Damit verliert die bisherige Signatur ihre Gültigkeit. Fortfahren?');">
                         </h:commandLink>
 
                         <ui:remove>
@@ -93,6 +107,7 @@
                     </div>
                 </h:panelGroup>
             </div>
+
         </h:form>
 
     </ui:define>

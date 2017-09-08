@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Datenbasis</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Datenbasis</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Wenn Sie einen neuen Datensatz Psych-Personalnachweis anlegen möchten, werden wenige Basisdaten benötigt. Als erstes stellt sich die Frage, &quot;Für welches Haus?&quot;. Dies wird durch das Institutskennzeichen (IK) definiert. Zur Auswahl stehen dabei die IKs gemäß Ihren Stammdaten. Haben Sie dort lediglich ein IK hinterlegt, so wird dies automatisch in die Datenbasis eingetragen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Halten Sie in Ihren Stammdaten mehrere IKs vor, so bietet Ihnen der Dialog </text><text styleclass="Normal" style="font-style:italic;" translate="true">Datenbasis</text><text styleclass="Normal" translate="true"> eine Auswahlbox, aus der Sie das passende IK wählen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="PsychStaff01.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Auswahl des IKs, sofern der Anwender für mehrere Häuser zuständig ist</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Nach Auswahl des IKs (bzw. bei nur einem IK sofort) erscheint daneben die Bezeichnung des Krankenhauses. Weitere Daten können nun entsprechend der Eingabemaske erfasst werden.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="PsychStaff02.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Dialog Datenbasis nach Eingabe eines IK</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Es werden jeweils die Daten für ein </text><text styleclass="Normal" style="font-weight:bold;" translate="true">Vereinbahrungsjahr</text><text styleclass="Normal" translate="true"> erfasst. Das Jahr kann mittels Auswahlbox gewählt werden, wobei initial die Jahre 2016 bis aktuelles Kalenderjahr + 1 zur Verfügung stehen. Je IK und Vereinbahrungsjahr kann genau ein Datensatz angelegt werden. Insofern reduziert sich die zur Verfügung stehende Auswahl an Vereinbarungsjahren entsprechend.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Mittels </text><text styleclass="Normal" style="font-weight:bold;" translate="true">Einrichtung für</text><text styleclass="Normal" translate="true"> kreuzen Sie an, für welche Bereich Ihr Haus tätig ist. Abhängig von dieser Auswahl werden die entsprechenden Register zugeschaltet.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="PsychStaff03.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Die Register &quot;Anlage...&quot; werden von der Datenbasis abhängig dynamisch zugeschaltet</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die </text><text styleclass="Normal" style="font-weight:bold;" translate="true">Zählweise </text><text styleclass="Normal" translate="true">der</text><text styleclass="Normal" style="font-weight:bold;" translate="true"> Berechnungstage</text><text styleclass="Normal" translate="true"> ist einheitlich anzugeben. Insofern ist dies lediglich in der Datenbais für alle weiteren Register auszuwählen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

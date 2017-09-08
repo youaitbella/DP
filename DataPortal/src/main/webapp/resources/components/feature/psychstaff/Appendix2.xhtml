@@ -57,18 +57,20 @@
                             <td>
                                 <inek:InputNumberWithMessage value="#{item.staffingComplete}" 
                                                              styleClass="element10em number"
-                                                             renderElement=":psychStaff:checksum :#{cc.attrs.clientId}:sumStaffingComplete @this"
+                                                             renderElement=":#{cc.attrs.clientId}:sumStaffingComplete factor"
                                                              readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
                                                              disabled="#{item.occupationalCatagory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
                                                              pattern="#,##0.0"
-                                                             isInt="false"/>
+                                                             isInt="false">
+                                    <f:ajax event="clientChange" render="factor"/>
+                                </inek:InputNumberWithMessage>
                             </td>
 
 
                             <td>
                                 <inek:InputNumberWithMessage value="#{item.staffingDeductionPsych}" 
                                                              styleClass="element10em number"
-                                                             renderElement=":psychStaff:checksum :#{cc.attrs.clientId}:sumStaffingBudget @this"
+                                                             renderElement=":#{cc.attrs.clientId}:sumStaffingDeductionPsych @this"
                                                              readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
                                                              disabled="#{item.occupationalCatagory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
                                                              pattern="#,##0.0"
@@ -78,6 +80,7 @@
                             <td >
                                 <inek:InputNumberWithMessage value="#{item.staffingDeductionNonPsych}" 
                                                              styleClass="element10em number"
+                                                             renderElement=":#{cc.attrs.clientId}:sumStaffingDeductionNonPsych @this"
                                                              readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
                                                              disabled="#{item.occupationalCatagory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
                                                              pattern="#,##0.0"
@@ -87,6 +90,7 @@
                             <td >
                                 <inek:InputNumberWithMessage value="#{item.staffingDeductionOhter}" 
                                                              styleClass="element10em number"
+                                                             renderElement=":#{cc.attrs.clientId}::sumStaffingDeductionOther @this"
                                                              readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
                                                              disabled="#{item.occupationalCatagory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
                                                              pattern="#,##0.0"
@@ -94,12 +98,9 @@
                             </td>
 
                             <td >
-                                <inek:InputNumberWithMessage value="#{editPsyStaff.determineFactor(item)}" 
-                                                             styleClass="element10em number"
-                                                             readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
-                                                             disabled="#{item.occupationalCatagory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
-                                                             pattern="#,##0.0"
-                                                             isInt="false"/>
+                                <h:outputText id="factor"
+                                              value="#{editPsyStaff.determineFactor(item)}" 
+                                              styleClass="element10em number"/>
                             </td>
 
                         </tr>
@@ -112,18 +113,28 @@
                             <td class="col10em row1" scope="col"> Gesamt </td>
                             <th class="col10em row1" scope="col"> 
                                 <h:inputText id="sumStaffingComplete" 
-                                             value="{editPsyStaff.sumAgreedStaffingComplete(cc.attrs.patType)}"
+                                             value="#{editPsyStaff.sumEffectiveStaffingComplete(cc.attrs.patType)}"
                                              styleClass="element10em number"
                                              disabled="true"/>
                             </th>
                             <td class="col10em row1" scope="col"> 
-                                <h:inputText id="sumStaffingBudget" 
-                                             value="{editPsyStaff.sumAgreedStaffingBudget(cc.attrs.patType)}"
+                                <h:inputText id="sumStaffingDeductionPsych" 
+                                             value="#{editPsyStaff.sumEffectiveStaffingDeductionPsych(cc.attrs.patType)}"
                                              styleClass="element10em number"
                                              disabled="true"/> 
                             </td>
-                            <td class="col10em row1" scope="col">  </td>
-                            <td class="col10em row1" scope="col">  </td>
+                            <td class="col10em row1" scope="col"> 
+                                <h:inputText id="sumStaffingDeductionNonPsych" 
+                                             value="#{editPsyStaff.sumEffectiveStaffingDeductionNonPsych(cc.attrs.patType)}"
+                                             styleClass="element10em number"
+                                             disabled="true"/> 
+                            </td>
+                            <td class="col10em row1" scope="col"> 
+                                <h:inputText id="sumStaffingStaffingDeductionOther" 
+                                             value="#{editPsyStaff.sumEffectiveStaffingDeductionOther(cc.attrs.patType)}"
+                                             styleClass="element10em number"
+                                             disabled="true"/> 
+                            </td>
                             <td class="col10em row1" scope="col">  </td>
                         </tr>
 
@@ -154,10 +165,16 @@
             <hr class="simpleLine"/>
         </div>
 
-        <div jsf:id="fileName" class="inputPart" jsf:rendered="#{not empty editPsyStaff.staffProof.getStaffProofDocumentName(editPsyStaff.staffProof.getSignatureEffective(cc.attrs.patType))}">
+        <div jsf:id="fileName" class="inputPart" jsf:rendered="#{not empty editPsyStaff.staffProof.getStaffProofDocumentName(editPsyStaff.staffProof.getSignatureEffective(psychType))}">
             <h:outputLabel value="Anlage:" styleClass="label element08em"/>
-            <h:outputText value="#{editPsyStaff.staffProof.getStaffProofDocumentName(editPsyStaff.staffProof.getSignatureEffective(cc.attrs.patType))}"/>
+            <h:commandLink action="#{editPsyStaff.downloadDocument(editPsyStaff.staffProof.getSignatureEffective(cc.attrs.patType))}" 
+                           value="#{editPsyStaff.staffProof.getStaffProofDocumentName(editPsyStaff.staffProof.getSignatureEffective(cc.attrs.patType))}"
+                           immediate="true">
+                <f:ajax event="blur" render="@all"/>
+            </h:commandLink>
+
         </div>
+
 
     </cc:implementation>
 </html>

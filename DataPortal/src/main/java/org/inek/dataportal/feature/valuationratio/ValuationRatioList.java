@@ -1,5 +1,6 @@
 package org.inek.dataportal.feature.valuationratio;
 
+import java.time.Year;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
@@ -71,7 +72,10 @@ public class ValuationRatioList {
     }
     
     public boolean isNewEnabled() {
-        return _valuationRatioFacade.isNewValuationRationEnabled(_sessionController.getAccountId(),
-                _sessionController.getAccount().getIK(),_sessionController.getAccount().getAdditionalIKs());
+        return _valuationRatioFacade.isNewValuationRationEnabled(
+                _sessionController.getAccountId(),
+                _sessionController.getAccount().getIK(),
+                _sessionController.getAccount().getAdditionalIKs(),
+                Year.now().getValue() - 1);
     }
 }

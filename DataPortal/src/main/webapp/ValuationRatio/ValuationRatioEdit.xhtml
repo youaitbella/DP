@@ -6,7 +6,8 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
-                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common">
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common"
+                xmlns:jsf="http://xmlns.jcp.org/jsf">
 
     <ui:define name="content">
         <h:form>
@@ -15,144 +16,147 @@
             </h1>
         </h:form>
         <div class="edit">
-        
-        <h:form id="addressForm">
 
-            <div class="inputPart">
-                <h:message for="hospitalIk" id="msgHospitalIk" styleClass="errorMessage"/>
-                <inek:MultiIk ikList="#{editValuationRatio.iks}"
-                              listener="#{editValuationRatio.ikChanged()}"
-                              renderElement="@form"
-                              id="hospitalIk"
-                              required="true"
-                              value="#{editValuationRatio.valuationRatio.ik}"
-                              />
-            </div>
-            
-            <h2>Ansprechpartner</h2>
-            <h:panelGroup id="contact-data" styleClass="groupBox" layout="block" style="border-top: none;">
-                <inek:SalutationSelect 
-                    valueSalutation="#{editValuationRatio.valuationRatio.contactGender}"
-                    valueTitle="#{editValuationRatio.valuationRatio.contactTitle}"
-                    readonly="#{editValuationRatio.readOnly}"
-                    required="true"/>
-                <br/>
-                <inek:LabeledText readonly="#{editValuationRatio.readOnly}" 
-                                  value="#{editValuationRatio.valuationRatio.contactFirstName}" 
-                                  required="true" label="#{msg.lblFirstName}"
-                                  event="blur"
-                                  styleClassComponent="inputPart element30"/>
-                <br/>
-                <inek:LabeledText readonly="#{editValuationRatio.readOnly}"
-                                  value="#{editValuationRatio.valuationRatio.contactLastName}" 
-                                  required="true" label="#{msg.lblLastName}"
-                                  event="blur"
-                                  styleClassComponent="inputPart element30"/>
-                <br/>
-                <inek:LabeledText readonly="#{editValuationRatio.readOnly}"
-                                  value="#{editValuationRatio.valuationRatio.contactPhone}" 
-                                  required="true" label="#{msg.lblPhone}"
-                                  event="blur"
-                                  styleClassComponent="inputPart element30"/>
-                <br/>
-                <inek:LabeledText readonly="#{editValuationRatio.readOnly}"
-                                  value="#{editValuationRatio.valuationRatio.contactEmail}" 
-                                  required="true" label="#{msg.lblMail}"
-                                  event="blur"
-                                  styleClassComponent="inputPart element30"/>
-            </h:panelGroup>
-            
-            <h2>DRGs zur gezielten Absenkung von Bewertungsrelationen - Datenjahr #{editValuationRatio.valuationRatio.dataYear}</h2>
-            <h:panelGroup id="valuation-data" styleClass="groupBox" layout="block" style="border-top: none;">
-                <table>
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>I68D</th>
-                            <th>I68E</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th>Fallzahl</th>
-                            <td>
-                    <h:inputText value="#{editValuationRatio.i68d}">
-                        <f:ajax event="blur" render="@this i68d-panel :logout:remaining"/>
-                    </h:inputText>
+            <h:form id="addressForm">
+
+                <div class="inputPart">
+                    <inek:MultiIk ikList="#{editValuationRatio.iks}"
+                                  listener="#{editValuationRatio.ikChanged()}"
+                                  renderElement="valuationRatioData"
+                                  id="hospitalIk"
+                                  isFixed="#{editValuationRatio.valuationRatio.id gt 0 and editValuationRatio.valuationRatio.ik gt 0}"
+                                  required="true"
+                                  value="#{editValuationRatio.valuationRatio.ik}"
+                                  />
+                </div>
+                <div jsf:id="valuationRatioData" jsf:rendered="#{editValuationRatio.valuationRatio.ik gt 0}">
+
+                    <h2>Ansprechpartner</h2>
+                    <h:panelGroup id="contact-data" styleClass="groupBox" layout="block" style="border-top: none;">
+                        <inek:SalutationSelect 
+                            valueSalutation="#{editValuationRatio.valuationRatio.contactGender}"
+                            valueTitle="#{editValuationRatio.valuationRatio.contactTitle}"
+                            readonly="#{editValuationRatio.readOnly}"
+                            required="true"/>
+                        <br/>
+                        <inek:LabeledText readonly="#{editValuationRatio.readOnly}" 
+                                          value="#{editValuationRatio.valuationRatio.contactFirstName}" 
+                                          required="true" label="#{msg.lblFirstName}"
+                                          event="blur"
+                                          styleClassComponent="inputPart element30"/>
+                        <br/>
+                        <inek:LabeledText readonly="#{editValuationRatio.readOnly}"
+                                          value="#{editValuationRatio.valuationRatio.contactLastName}" 
+                                          required="true" label="#{msg.lblLastName}"
+                                          event="blur"
+                                          styleClassComponent="inputPart element30"/>
+                        <br/>
+                        <inek:LabeledText readonly="#{editValuationRatio.readOnly}"
+                                          value="#{editValuationRatio.valuationRatio.contactPhone}" 
+                                          required="true" label="#{msg.lblPhone}"
+                                          event="blur"
+                                          styleClassComponent="inputPart element30"/>
+                        <br/>
+                        <inek:LabeledText readonly="#{editValuationRatio.readOnly}"
+                                          value="#{editValuationRatio.valuationRatio.contactEmail}" 
+                                          required="true" label="#{msg.lblMail}"
+                                          event="blur"
+                                          styleClassComponent="inputPart element30"/>
+                    </h:panelGroup>
+
+                    <h2>DRGs zur gezielten Absenkung von Bewertungsrelationen - Datenjahr #{editValuationRatio.valuationRatio.dataYear}</h2>
+                    <h:panelGroup id="valuation-data" styleClass="groupBox" layout="block" style="border-top: none;">
+                        <h:message id="msgDError" for="I68D" styleClass="alert alert-danger show" style="margin-bottom: 5px;"/>
+                        <h:message id="msgEError" for="I68E" styleClass="alert alert-danger show" style="margin-bottom: 5px;"/>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>I68D</th>
+                                    <th>I68E</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th>Fallzahl</th>
+                                    <td>
+                            <h:inputText value="#{editValuationRatio.i68d}" id="I68D" validator="#{editValuationRatio.validateI68D}">
+                                <f:ajax event="blur" render="@this msgDError i68d-panel :logout:remaining"/>
+                            </h:inputText><br/>
                             </td>
                             <td>
-                    <h:inputText value="#{editValuationRatio.i68e}">
-                        <f:ajax event="blur" render="@this i68e-panel :logout:remaining"/>
-                    </h:inputText>            
+                            <h:inputText value="#{editValuationRatio.i68e}" id="I68E" validator="#{editValuationRatio.validateI68E}">
+                                <f:ajax event="blur" render="@this msgEError i68e-panel :logout:remaining"/>
+                            </h:inputText><br/>
                             </td>
-                        </tr>
-                        <tr>
-                            <th>Auf die Liste setzen</th>
-                            <td style="text-align: center;">
+                            </tr>
+                            <tr>
+                                <th>Auf die Liste setzen</th>
+                                <td style="text-align: center;">
                             <h:panelGroup id="i68d-panel">
-                                <h:selectBooleanCheckbox rendered="#{editValuationRatio.isI68dBelowMedian() and editValuationRatio.i68d != 0}"
+                                <h:selectBooleanCheckbox rendered="#{editValuationRatio.isDrgBelowMedian('I68D', editValuationRatio.i68d) and editValuationRatio.i68d != 0}"
                                                          value="#{editValuationRatio.valuationRatio.i68dList}">
                                     <f:ajax event="change" render="@this :logout:remaining"/>
                                 </h:selectBooleanCheckbox>
-                                <h:outputLabel styleClass="errorMessage"
-                                               value="Die angegebene Fallzahl ist zu hoch."
-                                               rendered="#{!editValuationRatio.isI68dBelowMedian() and editValuationRatio.i68d != 0}">
-                                </h:outputLabel>
+                                <h:outputLabel rendered="#{!editValuationRatio.isDrgBelowMedian('I68D', editValuationRatio.i68d) and editValuationRatio.i68d != 0}"
+                                               style="margin-bottom: 5px;"
+                                               id="info-median-i68d"
+                                               value="[Fallzahl > Median]" />
                             </h:panelGroup>
                             </td>
                             <td style="text-align: center;">
-                                <h:panelGroup id="i68e-panel">
-                                    <h:selectBooleanCheckbox rendered="#{editValuationRatio.isI68eBelowMedian() and editValuationRatio.i68e != 0}"
-                                                             value="#{editValuationRatio.valuationRatio.i68eList}">
-                                        <f:ajax event="change" render="@this :logout:remaining"/>
-                                    </h:selectBooleanCheckbox>
-                                    <h:outputLabel styleClass="errorMessage"
-                                                   value="Die angegebene Fallzahl ist zu hoch."
-                                                   rendered="#{!editValuationRatio.isI68eBelowMedian() and editValuationRatio.i68e != 0}">
-                                    </h:outputLabel>
-                                </h:panelGroup>
+                            <h:panelGroup id="i68e-panel">
+                                <h:selectBooleanCheckbox rendered="#{editValuationRatio.isDrgBelowMedian('I68E', editValuationRatio.i68e) and editValuationRatio.i68e != 0}"
+                                                         value="#{editValuationRatio.valuationRatio.i68eList}">
+                                    <f:ajax event="change" render="@this :logout:remaining"/>
+                                </h:selectBooleanCheckbox>
+                                <h:outputLabel rendered="#{!editValuationRatio.isDrgBelowMedian('I68E', editValuationRatio.i68e) and editValuationRatio.i68e != 0}"
+                                               style="margin-bottom: 5px;"
+                                               value="[Fallzahl > Median]" />
+                            </h:panelGroup>
                             </td>
-                        </tr>
-                    </tbody>
-                </table>
-                Anzugeben sind die Fallzahlen entsprechend der § 21 Datenlieferung, für HA und BA gesamt.
-            </h:panelGroup>
-            
-            <h2>Abweichendes IK im Abrechnungsjahr</h2>
-            <h:panelGroup id="diff-ik-data" styleClass="groupBox" layout="block" style="border-top: none;">
-                <inek:LabeledText readonly="#{editValuationRatio.readOnly}" 
-                                  value="#{editValuationRatio.valuationRatio.differentIK}" 
-                                  label="Abweichendes IK"
-                                  event="blur"
-                                  styleClassComponent="inputPart element30"/>
-                <br/>
-                    <h:outputLabel style="display: inline-block; width: 100%" styleClass="label" value="gültig ab:"/>
-                    <h:inputText readonly="#{editValuationRatio.readOnly}" styleClass="title-placeholder"
-                                 title="DD.MM.YYYY"
-                                value="#{editValuationRatio.valuationRatio.validFrom}" 
-                                >
-                        <f:convertDateTime pattern="dd.MM.yyyy" timeZone="CET"/>
-                        <f:ajax event="blur" render="@this :logout:remaining"/>
-                    </h:inputText>
-            </h:panelGroup>
+                            </tr>
+                            </tbody>
+                        </table>
+                        Anzugeben sind die Fallzahlen entsprechend der § 21 Datenlieferung, für HA und BA gesamt.
+                    </h:panelGroup>
 
-                <div class="toolBar floatContainer">
-                    <h:commandLink styleClass="bigButton #{editValuationRatio.readOnly ? 'disabledButton' : ''}" 
-                                   action="#{editValuationRatio.save}" 
-                                   value="#{msg.btnSave}" 
-                                   rendered="#{!editValuationRatio.readOnly}"
-                                   immediate="true">
-                    </h:commandLink>
+                    <h2>Abweichendes IK im Abrechnungsjahr</h2>
+                    <h:panelGroup id="diff-ik-data" styleClass="groupBox" layout="block" style="border-top: none;">
+                        <inek:LabeledText readonly="#{editValuationRatio.readOnly}" 
+                                          value="#{editValuationRatio.valuationRatio.differentIK}" 
+                                          label="Abweichendes IK"
+                                          event="blur"
+                                          styleClassComponent="inputPart element30"/>
+                        <br/>
+                        <h:outputLabel style="display: inline-block; width: 100%" styleClass="label" value="gültig ab:"/>
+                        <h:inputText readonly="#{editValuationRatio.readOnly}" styleClass="title-placeholder"
+                                     title="DD.MM.YYYY"
+                                     value="#{editValuationRatio.valuationRatio.validFrom}" 
+                                     >
+                            <f:convertDateTime pattern="dd.MM.yyyy" timeZone="CET"/>
+                            <f:ajax event="blur" render="@this :logout:remaining"/>
+                        </h:inputText>
+                    </h:panelGroup>
 
-                    <h:commandLink styleClass="sendButton #{editValuationRatio.readOnly ? 'disabledButton' : ''}"
-                                   action="#{editValuationRatio.provide}"
-                                   value="#{msg.btnSaveAndClose}"
-                                   rendered="#{!editValuationRatio.readOnly}"
-                                   title="#{msg.infoSaveAndClose}">
-                        <cb:confirmSeal/>
-                    </h:commandLink>
+                    <div class="toolBar floatContainer">
+                        <h:commandLink styleClass="bigButton #{editValuationRatio.readOnly ? 'disabledButton' : ''}" 
+                                       action="#{editValuationRatio.save}" 
+                                       value="#{msg.btnSave}" 
+                                       rendered="#{!editValuationRatio.readOnly}"
+                                       immediate="true">
+                        </h:commandLink>
+
+                        <h:commandLink styleClass="sendButton #{editValuationRatio.readOnly ? 'disabledButton' : ''}"
+                                       action="#{editValuationRatio.provide}"
+                                       value="#{msg.btnSaveAndClose}"
+                                       rendered="#{!editValuationRatio.readOnly}"
+                                       title="#{msg.infoSaveAndClose}">
+                            <cb:confirmSeal/>
+                        </h:commandLink>
+                    </div>
                 </div>
-        </h:form>
+            </h:form>
         </div>
 
     </ui:define>

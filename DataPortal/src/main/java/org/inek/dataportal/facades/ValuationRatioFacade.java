@@ -5,14 +5,13 @@
 package org.inek.dataportal.facades;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 import org.inek.dataportal.entities.account.AccountAdditionalIK;
 import org.inek.dataportal.entities.valuationratio.ValuationRatio;
+import org.inek.dataportal.entities.valuationratio.ValuationRatioDrgCount;
 import org.inek.dataportal.entities.valuationratio.ValuationRatioMedian;
 import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.enums.WorkflowStatus;
@@ -49,30 +48,27 @@ public class ValuationRatioFacade extends AbstractDataAccess {
         }
         return null;
     }
+    
+    public ValuationRatioDrgCount findValuationRatioDrgCount(int ik, int dataYear, String drg) {
+        List<ValuationRatioDrgCount> counts = super.findAll(ValuationRatioDrgCount.class);     
+        return counts.stream()
+                .filter(vr -> vr.getIk() == ik)
+                .filter(vr -> vr.getDataYear() == dataYear)
+                .filter(vr -> vr.getDrg().equals(drg))
+                .findFirst()
+                .orElse(null);
+    }
 
-    public boolean existsValuationRatio(int ik) {
+    public boolean existsValuationRatio(int ik, int year) {
         String sql = "SELECT n FROM ValuationRatio n "
                 + "WHERE n._dataYear = :dtYear and n._ik = :IK";
         TypedQuery<ValuationRatio> query = getEntityManager().createQuery(sql, ValuationRatio.class);
-        query.setParameter("dtYear", getLatestDataYear());
+        query.setParameter("dtYear", year);
         query.setParameter("IK", ik);
         if (query.getResultList().isEmpty()) {
             return false;
         }
         return true;
-    }
-
-    private Integer getLatestDataYear() {
-        List<ValuationRatioMedian> vrms = super.findAll(ValuationRatioMedian.class);
-        List<Integer> dataYears = new ArrayList<>();
-        for (ValuationRatioMedian vrm : vrms) {
-            if (dataYears.contains(vrm.getDataYear())) {
-                continue;
-            }
-            dataYears.add(vrm.getDataYear());
-        }
-        Collections.sort(dataYears);
-        return dataYears.get(dataYears.size() - 1);
     }
 
     public List<ValuationRatio> getValuationRatios(int accountId, DataSet dataSet) {
@@ -87,13 +83,13 @@ public class ValuationRatioFacade extends AbstractDataAccess {
         return query.getResultList();
     }
 
-    public boolean isNewValuationRationEnabled(int accountId, int ik, List<AccountAdditionalIK> aIk) {
+    public boolean isNewValuationRationEnabled(int accountId, int ik, List<AccountAdditionalIK> aIk, int year) {
 
-        if (!existsValuationRatio(ik)) {
+        if (!existsValuationRatio(ik, year)) {
             return true;
         }
         for (AccountAdditionalIK iks : aIk) {
-            if (!existsValuationRatio(iks.getIK())) {
+            if (!existsValuationRatio(iks.getIK(), year)) {
                 return true;
             }
         }

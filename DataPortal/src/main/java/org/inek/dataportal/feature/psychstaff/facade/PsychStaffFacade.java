@@ -42,7 +42,6 @@ public class PsychStaffFacade extends AbstractDataAccess {
         query.setParameter("minStatus", minStatus);
         query.setParameter("maxStatus", maxStatus);
         return query.getResultList();
-
     }
 
     public int getSumSamePersonalGroup(int personalGroupId) {
@@ -87,5 +86,12 @@ public class PsychStaffFacade extends AbstractDataAccess {
     
     public void delete(StaffProof staffProof) {
         remove(staffProof);
+    }
+
+    public List<Integer> getExistingYears(int ik) {
+        String sql = "SELECT sp._year FROM StaffProof sp WHERE sp._ik = :ik";
+        TypedQuery<Integer> query = getEntityManager().createQuery(sql, Integer.class);
+        query.setParameter("ik", ik);
+        return query.getResultList();
     }
 }

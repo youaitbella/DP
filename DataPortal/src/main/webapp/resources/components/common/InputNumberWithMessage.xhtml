@@ -20,6 +20,9 @@
         <cc:attribute name="maximum" default="999999999"/>
         <cc:attribute name="pattern" default="#,##0.##"/>
         <cc:attribute name="validatorMessage" default="ausserhalb des gültigen Bereichs"/>
+        <cc:editableValueHolder name="text"/>
+        <cc:actionSource name="text"/>
+        <cc:clientBehavior name="clientChange" targets="text" event="valueChange"/>
     </cc:interface>
     
     <!-- IMPLEMENTATION -->
@@ -36,7 +39,7 @@
                          requiredMessage="#{msg.msgValueNeeded}"
                          validatorMessage="#{cc.attrs.validatorMessage}"
                          >
-                <f:ajax event="blur" render="#{cc.attrs.renderElement} :logout:remaining message"/>
+                <f:ajax event="blur" render="#{cc.attrs.renderElement} :logout:remaining message :psychStaff:closeButton"/>
                 <f:convertNumber pattern="#{cc.attrs.pattern}"/>
                 <f:validateLongRange rendered="#{cc.attrs.isInt}" minimum="#{cc.attrs.minimum}" maximum="#{cc.attrs.maximum}"/>
                 <f:validateDoubleRange rendered="#{!cc.attrs.isInt}" minimum="#{cc.attrs.minimum}" maximum="#{cc.attrs.maximum}"/>

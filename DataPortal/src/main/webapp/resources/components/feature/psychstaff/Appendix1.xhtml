@@ -29,9 +29,9 @@
                         <th class="col10em row1" scope="col"> Personalgruppen </th>
                         <th class="col02em row1" scope="col"> Nr. </th>
                         <th class="col10em row1" scope="col"> Berufsgruppen der Psych-PV </th>
-                        <th class="col10em row1" scope="col"> Stellenbesetzung für eine voll-ständige Umsetzung der Psych-PV in VK </th>
-                        <th class="col10em row1" scope="col"> Stellenbesetzung als Budgetgrund-lage in VK </th>
-                        <th class="col10em row1" scope="col"> Durchschnitts-kosten je VK in Euro </th>
+                        <th class="col10em row1" scope="col"> Stellenbesetzung für eine vollständige Umsetzung der Psych-PV in VK </th>
+                        <th class="col10em row1" scope="col"> Stellenbesetzung als Budgetgrundlage in VK </th>
+                        <th class="col10em row1" scope="col"> Durchschnittskosten je VK in Euro </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -49,7 +49,7 @@
                             <td>
                                 <inek:InputNumberWithMessage value="#{item.staffingComplete}" 
                                                              styleClass="element10em number"
-                                                             renderElement=":psychStaff:checksum :#{cc.attrs.clientId}:sumStaffingComplete @this"
+                                                             renderElement=":psychStaff:closeButton :#{cc.attrs.clientId}:sumStaffingComplete "
                                                              readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
                                                              disabled="#{item.occupationalCatagory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
                                                              pattern="#,##0.0"
@@ -58,7 +58,7 @@
                             <td>
                                 <inek:InputNumberWithMessage value="#{item.staffingBudget}" 
                                                              styleClass="element10em number"
-                                                             renderElement=":psychStaff:checksum :#{cc.attrs.clientId}:sumStaffingBudget @this"
+                                                             renderElement=":psychStaff:closeButton :#{cc.attrs.clientId}:sumStaffingBudget "
                                                              readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
                                                              disabled="#{item.occupationalCatagory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
                                                              pattern="#,##0.0"
@@ -119,7 +119,11 @@
 
         <div jsf:id="fileName" class="inputPart" jsf:rendered="#{not empty editPsyStaff.staffProof.getStaffProofDocumentName(editPsyStaff.staffProof.getSignatureAgreement(cc.attrs.patType))}">
             <h:outputLabel value="Anlage:" styleClass="label element08em"/>
-            <h:outputText value="#{editPsyStaff.staffProof.getStaffProofDocumentName(editPsyStaff.staffProof.getSignatureAgreement(cc.attrs.patType))}"/>
+            <h:commandLink action="#{editPsyStaff.downloadDocument(editPsyStaff.staffProof.getSignatureAgreement(cc.attrs.patType))}" 
+                           value="#{editPsyStaff.staffProof.getStaffProofDocumentName(editPsyStaff.staffProof.getSignatureAgreement(cc.attrs.patType))}"
+                           immediate="true">
+            </h:commandLink>
+
         </div>
 
     </cc:implementation>

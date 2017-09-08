@@ -96,7 +96,7 @@ public class ValuationRatio implements Serializable {
     // </editor-fold>
 
     @Column(name = "vrIK")
-    private int _ik = -1;
+    private int _ik;
 
     public int getIk() {
         return _ik;
@@ -263,6 +263,14 @@ public class ValuationRatio implements Serializable {
     @PreUpdate
     private void tagLastChange() {
         _lastChange = Calendar.getInstance().getTime();
+    }
+    
+    public int getDrgValue(String drg) {
+        if("I68D".equals(drg))
+            return getI68d();
+        if("I68E".equals(drg))
+            return getI68e();
+        return 0;
     }
     
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">

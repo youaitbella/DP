@@ -4,7 +4,7 @@
  */
 package org.inek.dataportal.feature.insurance;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.inek.dataportal.controller.AbstractFeatureController;
 import org.inek.dataportal.controller.SessionController;
@@ -26,13 +26,13 @@ public class InsuranceController extends AbstractFeatureController {
     @Override
     protected void addTopics(Topics topics) {
         topics.addTopic(Utils.getMessage("lblInsuranceNub"), Pages.InsuranceSummary.URL());
-        //if (getSessionController().isInekUser(Feature.INSURANCE)) { // todo: remove when public available
-        List<String> allowedUsers = new ArrayList<>();
-        allowedUsers.add("kerstin.bockhorst@gkv-spitzenverband.de");
-        allowedUsers.add("j.vaillant@dkgev.de");
-        allowedUsers.add("max.mustermann@mueller-bruehl.de");
-        if (getSessionController().isInekUser(Feature.INSURANCE) 
-                || allowedUsers.contains(getSessionController().getAccount().getEmail())) { 
+
+        List<String> allowedUsers = Arrays.asList(
+                "kerstin.bockhorst@gkv-spitzenverband.de",
+                "j.vaillant@dkgev.de",
+                "max.mustermann@mueller-bruehl.de");
+        if (getSessionController().isInekUser(Feature.INSURANCE)
+                || allowedUsers.contains(getSessionController().getAccount().getEmail())) {
             // todo: remove restrictions above once public available
             topics.addTopic(Utils.getMessage("lblInsuranceSpecificFuntions"), Pages.InsuranceSpecificFunctionSummary.URL());
         }

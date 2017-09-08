@@ -8,11 +8,11 @@ package org.inek.dataportal.feature.psychstaff.backingbean;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.Month;
-import java.time.ZoneOffset;
+import java.time.Year;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -21,6 +21,7 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
@@ -37,10 +38,7 @@ import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
-import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.feature.AbstractEditController;
-import org.inek.dataportal.feature.admin.entity.MailTemplate;
-import org.inek.dataportal.feature.admin.facade.InekRoleFacade;
 import org.inek.dataportal.feature.psychstaff.entity.OccupationalCatagory;
 import org.inek.dataportal.feature.psychstaff.entity.StaffProof;
 import org.inek.dataportal.feature.psychstaff.entity.StaffProofAgreed;
@@ -50,8 +48,6 @@ import org.inek.dataportal.feature.psychstaff.enums.PsychType;
 import org.inek.dataportal.feature.psychstaff.facade.PsychStaffFacade;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.structures.MessageContainer;
-import org.inek.dataportal.mail.Mailer;
-import org.inek.dataportal.utils.DocumentationUtil;
 import org.inek.dataportal.utils.StreamUtils;
 
 /**
@@ -64,7 +60,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
 
     // <editor-fold defaultstate="collapsed" desc="fields & enums">
     private static final Logger LOGGER = Logger.getLogger("EditPsyStaff");
-    private static final String TOPIC_MASTER = "tabUMMaster";
+    private static final String TOPIC_BASE = "topicBaseData";
     private static final String TOPIC_KIDS2 = "topicAppendix2Kids";
     private static final String TOPIC_ADULTS2 = "topicAppendix2Adults";
     private static final String TOPIC_KIDS1 = "topicAppendix1Kids";
@@ -88,7 +84,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
 
     @Override
     protected void addTopics() {
-        addTopic(TOPIC_MASTER, Pages.PsychStaffBaseData.URL());
+        addTopic(TOPIC_BASE, Pages.PsychStaffBaseData.URL());
         addTopic(TOPIC_ADULTS1, Pages.PsychStaffAppendix1Adults.URL());
         addTopic(TOPIC_KIDS1, Pages.PsychStaffAppendix1Kids.URL());
         addTopic(TOPIC_ADULTS2, Pages.PsychStaffAppendix2Adults.URL());
@@ -168,6 +164,30 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         ensureStaffProofsEffective(_staffProof);
     }
 
+    public List<SelectItem> getYears() {
+        if (_staffProof == null) {
+            return Collections.EMPTY_LIST;
+        }
+        List<Integer> existingYears = _psychStaffFacade.getExistingYears(_staffProof.getIk());
+
+        List<SelectItem> items = new ArrayList<>();
+        IntStream.rangeClosed(2016, Year.now().getValue() + 1)
+                .filter(y -> y == _staffProof.getYear() || !existingYears.contains(y))
+                .forEach(y -> items.add(new SelectItem(y, "" + y)));
+        if (_staffProof.getYear() == 0 && items.size() > 0) {
+            _staffProof.setYear((int) items.get(0).getValue());
+        }
+        return items;
+    }
+
+    public List<SelectItem> getCalenderYearItems() {
+        List<SelectItem> items = new ArrayList<>();
+        for (int year = 2016; year < 2022; year++) {
+            items.add(new SelectItem(year, "" + year));
+        }
+        return items;
+    }
+
     private void ensureStaffProofsAgreed(StaffProof staffProof) {
         if (staffProof.isForAdults()) {
             ensureStaffProofsAgreed(staffProof, PsychType.Adults);
@@ -212,10 +232,6 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         }
     }
 
-    public int getAdultPsyOccupationRowSpan(int personnelId) {
-        return _psychStaffFacade.getSumSamePersonalGroup(personnelId);
-    }
-
     public List<OccupationalCatagory> getOccupationalCategories() {
         return _psychStaffFacade.getOccupationalCategories();
     }
@@ -232,48 +248,22 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     }
 
     public String save() {
+        return save(true);
+    }
+
+    private String save(boolean showMessage) {
         setModifiedInfo();
         _staffProof = _psychStaffFacade.saveStaffProof(_staffProof);
 
         if (isValidId(_staffProof.getId())) {
-            // CR+LF or LF only will be replaced by "\r\n"
-            String script = "alert ('" + Utils.getMessage("msgSave").replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
-            _sessionController.setScript(script);
+            if (showMessage) {
+                // CR+LF or LF only will be replaced by "\r\n"
+                String script = "alert ('" + Utils.getMessage("msgSave").replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
+                _sessionController.setScript(script);
+            }
             return null;
         }
         return Pages.Error.URL();
-    }
-
-    public String saveAndMail() {
-        setModifiedInfo();
-        _staffProof = _psychStaffFacade.saveStaffProof(_staffProof);
-
-        if (isValidId(_staffProof.getId())) {
-            // CR+LF or LF only will be replaced by "\r\n"
-            String script = "alert ('" + Utils.getMessage("msgSave").replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
-            _sessionController.setScript(script);
-            sendMessage("Psych-Personalnachweis-Verordnung");
-            return null;
-        }
-        return Pages.Error.URL();
-    }
-
-    @Inject private AccountFacade _accountFacade;
-    @Inject private Mailer _mailer;
-
-    private void sendMessage(String name) {
-        //todo: refactor for gloabal usage (move to mailer?) and remove all similar methods
-        Account receiver = _accountFacade.find(_appTools.isEnabled(ConfigKey.TestMode)
-                ? _sessionController.getAccountId()
-                : _staffProof.getAccountId());
-        MailTemplate template = _mailer.getMailTemplate(name);
-        String subject = template.getSubject()
-                .replace("{ik}", "" + _staffProof.getIk());
-        String body = template.getBody()
-                .replace("{formalSalutation}", _mailer.getFormalSalutation(receiver));
-//                .replace("{note}", _staffProof.getNoteInek());
-        String bcc = template.getBcc().replace("{accountMail}", _sessionController.getAccount().getEmail());
-        _mailer.sendMailFrom(template.getFrom(), receiver.getEmail(), "", bcc, subject, body);
     }
 
     private void setModifiedInfo() {
@@ -284,11 +274,6 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         return id != null && id >= 0;
     }
 
-    public boolean isSealEnabled() {
-        return isSendEnabled()
-                && _cooperationTools.isSealedEnabled(Feature.PSYCH_STAFF, _staffProof.getStatus(), _staffProof.getAccountId());
-    }
-
     public boolean isCloseEnabled() {
         if (!isSendEnabled()) {
             return false;
@@ -297,7 +282,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
             return false;
         }
         switch (getActiveTopicKey()) {
-            case TOPIC_MASTER:
+            case TOPIC_BASE:
                 return false;
             case TOPIC_ADULTS1:
                 return _staffProof.getStatusAdults1() < WorkflowStatus.Provided.getId();
@@ -314,7 +299,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
 
     public boolean isClosedState() {
         switch (getActiveTopicKey()) {
-            case TOPIC_MASTER:
+            case TOPIC_BASE:
                 return false;
             case TOPIC_ADULTS1:
                 return _staffProof.getStatusAdults1() >= WorkflowStatus.Provided.getId();
@@ -341,14 +326,14 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
 
     public String close() {
         if (updateStatus(WorkflowStatus.Provided)) {
-            save();
+            save(false);
         }
         return null;
     }
 
     private boolean updateStatus(WorkflowStatus newStatus) {
         switch (getActiveTopicKey()) {
-            case TOPIC_MASTER:
+            case TOPIC_BASE:
                 return false;
             case TOPIC_ADULTS1:
                 _staffProof.setStatusAdults1(newStatus.getId());
@@ -384,7 +369,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
 
     public String reopen() {
         if (updateStatus(WorkflowStatus.CorrectionRequested)) {
-            save();
+            save(false);
         }
         return null;
     }
@@ -399,75 +384,10 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         return true;
     }
 
-    public boolean isRequestCorrectionEnabled() {
-        return isSendEnabled()
-                && (_staffProof.getStatus() == WorkflowStatus.Provided || _staffProof.getStatus() == WorkflowStatus.ReProvided)
-                && _sessionController.isInekUser(Feature.PSYCH_STAFF, true);
-    }
-
-    public String requestCorrection() {
-        if (!isRequestCorrectionEnabled()) {
-            return "";
-        }
-        setModifiedInfo();
-        // set as retired
-        _staffProof.setStatus(WorkflowStatus.Retired);
-        _psychStaffFacade.saveStaffProof(_staffProof);
-
-        // create copy to edit (persist detached object with default Ids)
-        _staffProof.setStatus(WorkflowStatus.CorrectionRequested);
-        _staffProof.setId(-1);
-        // todo: copy lists
-//        for (RequestProjectedCenter requestProjectedCenter : _staffProof.getRequestProjectedCenters()) {
-//            requestProjectedCenter.setId(-1);
-//            requestProjectedCenter.setRequestMasterId(-1);
-//        }
-        _psychStaffFacade.saveStaffProof(_staffProof);
-        sendMessage("BA Konkretisierung");
-
-        return Pages.SpecificFunctionSummary.URL();
-    }
-
     public boolean isTakeEnabled() {
         return _cooperationTools != null
                 && _staffProof != null
                 && _cooperationTools.isTakeEnabled(Feature.PSYCH_STAFF, _staffProof.getStatus(), _staffProof.getAccountId());
-    }
-
-    /**
-     * This function seals a statement od participance if possible. Sealing is possible, if all mandatory fields are
-     * fulfilled. After sealing, the statement od participance can not be edited anymore and is available for the InEK.
-     *
-     * @return
-     */
-    public String seal() {
-        if (!staffProofIsComplete()) {
-            return null;
-        }
-        _staffProof.setStatus(WorkflowStatus.Provided);
-        setModifiedInfo();
-        if (_staffProof.getSealed().equals(Date.from(LocalDate.of(2000, Month.JANUARY, 1).atStartOfDay().toInstant(ZoneOffset.UTC)))) {
-            // set seal date for the first time sealing only
-            _staffProof.setSealed(Calendar.getInstance().getTime());
-        }
-        _staffProof = _psychStaffFacade.saveStaffProof(_staffProof);
-
-        if (isValidId(_staffProof.getId())) {
-            sendNotification();
-            Utils.getFlash().put("headLine", Utils.getMessage("namePSYCH_STAFF"));
-            Utils.getFlash().put("targetPage", Pages.SpecificFunctionSummary.URL());
-            Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(_staffProof));
-            return Pages.PrintView.URL();
-        }
-        return "";
-    }
-
-    @Inject private InekRoleFacade _inekRoleFacade;
-
-    public void sendNotification() {
-        List<Account> inekAccounts = _inekRoleFacade.findForFeature(Feature.PSYCH_STAFF);
-        String receipients = inekAccounts.stream().map(a -> a.getEmail()).collect(Collectors.joining(";"));
-        _mailer.sendMail(receipients, "Psych-Personalnachweis-Verorsnung", "Es wurde ein Datensatz an das InEK gesendet.");
     }
 
     private boolean staffProofIsComplete() {
@@ -489,11 +409,11 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         MessageContainer message = new MessageContainer();
 
         String ik = request.getIk() <= 0 ? "" : "" + request.getIk();
-        checkField(message, ik, "lblIK", "psychStaff:ikMulti", TOPIC_MASTER);
-        checkField(message, _staffProof.getYear(), 2016, 2020, "lblAgreementYear", "psychStaff:year", TOPIC_MASTER);
+        checkField(message, ik, "lblIK", "psychStaff:ikMulti", TOPIC_BASE);
+        checkField(message, _staffProof.getYear(), 2016, 2020, "lblAgreementYear", "psychStaff:year", TOPIC_BASE);
         if (!_staffProof.isForAdults() && !_staffProof.isForKids()) {
             String msg = "Bitte angeben, ob die Einrichtung für Erwachsene und / oder Kinder und Jugendliche ist.";
-            applyMessageValues(message, msg, "psychStaff:adults", TOPIC_MASTER);
+            applyMessageValues(message, msg, "psychStaff:adults", TOPIC_BASE);
         }
 
         if (_staffProof.isForAdults()) {
@@ -621,6 +541,21 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         return String.format("%.1f", sum);
     }
 
+    public String sumEffectiveStaffingDeductionPsych(PsychType type) {
+        double sum = _staffProof.getStaffProofsEffective(type).stream().mapToDouble(i -> i.getStaffingDeductionPsych()).sum();
+        return String.format("%.1f", sum);
+    }
+
+    public String sumEffectiveStaffingDeductionNonPsych(PsychType type) {
+        double sum = _staffProof.getStaffProofsEffective(type).stream().mapToDouble(i -> i.getStaffingDeductionNonPsych()).sum();
+        return String.format("%.1f", sum);
+    }
+
+    public String sumEffectiveStaffingDeductionOther(PsychType type) {
+        double sum = _staffProof.getStaffProofsEffective(type).stream().mapToDouble(i -> i.getStaffingDeductionOhter()).sum();
+        return String.format("%.1f", sum);
+    }
+
     private Part _file;
 
     public Part getFile() {
@@ -631,13 +566,25 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         _file = file;
     }
 
+    public String getAllowedFileExtensions() {
+        return allowedFileExtensions().stream().collect(Collectors.joining(", "));
+    }
+
+    private List<String> allowedFileExtensions() {
+        return Arrays.asList(".pdf", ".jpg", ".jpeg", ".png", ".bmp", ".gif");
+    }
+
     public void uploadFile() {
+        if (_file == null) {
+            return;
+        }
+
         PsychType type;
         int appendix;
         String signature;
 
         switch (getActiveTopicKey()) {
-            case TOPIC_MASTER:
+            case TOPIC_BASE:
                 return;
             case TOPIC_ADULTS1:
                 type = PsychType.Adults;
@@ -663,19 +610,57 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
                 return;
         }
         try {
-            if (_file != null) {
+            String fileName = _file.getSubmittedFileName();
+            int pos = fileName.lastIndexOf(".");
+            String extension = pos < 0 ? "" : fileName.toLowerCase().substring(pos);
+            if (allowedFileExtensions().contains(extension)) {
                 InputStream is = _file.getInputStream();
                 byte[] content = StreamUtils.stream2blob(is);
-                StaffProofDocument document = new StaffProofDocument(_file.getSubmittedFileName());
+                StaffProofDocument document = new StaffProofDocument(fileName);
                 document.setContent(content);
                 document.setPsychType(type);
                 document.setAppendix(appendix);
                 document.setSignature(signature);
                 _staffProof.addStaffProofDocument(document);
-                _file = null;
             }
+            _file = null;
         } catch (IOException | NoSuchElementException e) {
         }
+        _file = null;
+    }
+
+    public String downloadDocument(String signature) {
+        StaffProofDocument doc = _staffProof.getStaffProofDocument(signature);
+        Utils.downloadDocument(doc);
+        return "";
+    }
+
+    public void importData() {
+        if (_file == null) {
+            return;
+        }
+
+        switch (getActiveTopicKey()) {
+            case TOPIC_BASE:
+                return;
+            case TOPIC_ADULTS1:
+                PsychStaffImporter.importAgreed(_file, _staffProof, PsychType.Adults);
+                break;
+            case TOPIC_KIDS1:
+                PsychStaffImporter.importAgreed(_file, _staffProof, PsychType.Kids);
+                break;
+            case TOPIC_ADULTS2:
+                PsychStaffImporter.importEffective(_file, _staffProof, PsychType.Adults);
+                break;
+            case TOPIC_KIDS2:
+                PsychStaffImporter.importEffective(_file, _staffProof, PsychType.Kids);
+                break;
+            default:
+                return;
+        }
+
+        
+        Utils.showMessageInBrowser("Eine Upload-Funktion steht in Kürze zur Verfügung");
     }
 
 }
