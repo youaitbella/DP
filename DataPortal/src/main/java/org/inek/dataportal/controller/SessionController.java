@@ -397,6 +397,7 @@ public class SessionController implements Serializable {
             List<String> allowedUsers = Arrays.asList(
                     "olaf.neubert@gkv-spitzenverband.de",
                     "u.roths@dkgev.de",
+                    "michael.mueller@inek-drg.de",
                     "max.mustermann@mueller-bruehl.de");
             if (allowedUsers.contains(_account.getEmail().toLowerCase())) {
                 return true;

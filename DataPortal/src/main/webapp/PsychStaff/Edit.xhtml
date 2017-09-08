@@ -44,6 +44,18 @@
                                        rendered="#{!editPsyStaff.readOnly}">
                         </h:commandLink>
 
+                        <div class="uploadFile inlineBlock" jsf:rendered="#{editPsyStaff.closeEnabled}">
+                            <h:inputFile id="importFile" 
+                                         p:accept=".csv, .txt"
+                                         styleClass="hiddenFile bigButton"  
+                                         value="#{editPsyStaff.file}">
+                                <f:ajax listener="#{editPsyStaff.importData}" render="@form"/>
+                            </h:inputFile>
+                            <div class="fakeFile">
+                                <h:outputLabel style="margin-top: 9px;" styleClass="bigButton element100" value="Daten hochladen"/>
+                            </div>
+                        </div>
+
                         <h:commandLink styleClass="sendButton"
                                        immediate="false"
                                        action="#{editPsyStaff.close}"
