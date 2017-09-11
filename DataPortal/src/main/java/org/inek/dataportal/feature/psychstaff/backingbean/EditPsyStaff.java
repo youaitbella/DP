@@ -39,7 +39,7 @@ import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.feature.AbstractEditController;
-import org.inek.dataportal.feature.psychstaff.entity.OccupationalCatagory;
+import org.inek.dataportal.feature.psychstaff.entity.OccupationalCategory;
 import org.inek.dataportal.feature.psychstaff.entity.StaffProof;
 import org.inek.dataportal.feature.psychstaff.entity.StaffProofAgreed;
 import org.inek.dataportal.feature.psychstaff.entity.StaffProofDocument;
@@ -171,19 +171,11 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         List<Integer> existingYears = _psychStaffFacade.getExistingYears(_staffProof.getIk());
 
         List<SelectItem> items = new ArrayList<>();
-        IntStream.rangeClosed(2016, Year.now().getValue() + 1)
+        IntStream.rangeClosed(2016, 2019)  // as of the contract
                 .filter(y -> y == _staffProof.getYear() || !existingYears.contains(y))
                 .forEach(y -> items.add(new SelectItem(y, "" + y)));
         if (_staffProof.getYear() == 0 && items.size() > 0) {
             _staffProof.setYear((int) items.get(0).getValue());
-        }
-        return items;
-    }
-
-    public List<SelectItem> getCalenderYearItems() {
-        List<SelectItem> items = new ArrayList<>();
-        for (int year = 2016; year < 2022; year++) {
-            items.add(new SelectItem(year, "" + year));
         }
         return items;
     }
@@ -201,11 +193,11 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         if (staffProof.getStaffProofsAgreed(type).size() > 0) {
             return;
         }
-        for (OccupationalCatagory cat : getOccupationalCategories()) {
+        for (OccupationalCategory cat : getOccupationalCategories()) {
             StaffProofAgreed agreed = new StaffProofAgreed();
             agreed.setStaffProofMasterId(staffProof.getId());
             agreed.setPsychType(type);
-            agreed.setOccupationalCatagory(cat);
+            agreed.setOccupationalCategory(cat);
             staffProof.addStaffProofAgreed(agreed);
         }
     }
@@ -223,16 +215,16 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         if (staffProof.getStaffProofsEffective(type).size() > 0) {
             return;
         }
-        for (OccupationalCatagory cat : getOccupationalCategories()) {
+        for (OccupationalCategory cat : getOccupationalCategories()) {
             StaffProofEffective effective = new StaffProofEffective();
             effective.setStaffProofMasterId(staffProof.getId());
             effective.setPsychType(type);
-            effective.setOccupationalCatagory(cat);
+            effective.setOccupationalCategory(cat);
             staffProof.addStaffProofEffective(effective);
         }
     }
 
-    public List<OccupationalCatagory> getOccupationalCategories() {
+    public List<OccupationalCategory> getOccupationalCategories() {
         return _psychStaffFacade.getOccupationalCategories();
     }
 
@@ -431,10 +423,10 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
 
     private void checkAgreedItems(MessageContainer message, PsychType psychType, String topic) {
         for (StaffProofAgreed item : _staffProof.getStaffProofsAgreed(psychType)) {
-            String msg = "Bitte Stellenbesetzung für " + item.getOccupationalCatagory().getName() + " angeben.";
+            String msg = "Bitte Stellenbesetzung für " + item.getOccupationalCategory().getName() + " angeben.";
             checkField(message, item.getStaffingComplete(), 0.1, null, msg, "", topic);
             checkField(message, item.getStaffingBudget(), 0.1, null, msg, "", topic);
-            msg = "Bitte Durchschnittskosten für " + item.getOccupationalCatagory().getName() + " angeben.";
+            msg = "Bitte Durchschnittskosten für " + item.getOccupationalCategory().getName() + " angeben.";
             checkField(message, item.getAvgCost(), 0.1, null, msg, "", topic);
         }
     }
@@ -516,7 +508,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     public String determineFactor(StaffProofEffective effective) {
         StaffProofAgreed agreed = _staffProof.getStaffProofsAgreed(effective.getPsychType())
                 .stream()
-                .filter(a -> a.getOccupationalCatagoryId() == effective.getOccupationalCatagoryId())
+                .filter(a -> a.getOccupationalCategoryId() == effective.getOccupationalCategoryId())
                 .findFirst().orElse(new StaffProofAgreed());
         double denominator = agreed.getStaffingComplete();
         if (denominator == 0) {
@@ -640,27 +632,28 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
             return;
         }
 
+        String msg = "";
         switch (getActiveTopicKey()) {
             case TOPIC_BASE:
                 return;
             case TOPIC_ADULTS1:
-                PsychStaffImporter.importAgreed(_file, _staffProof, PsychType.Adults);
+                msg = PsychStaffImporter.importAgreed(_file, _staffProof, PsychType.Adults);
                 break;
             case TOPIC_KIDS1:
-                PsychStaffImporter.importAgreed(_file, _staffProof, PsychType.Kids);
+                msg = PsychStaffImporter.importAgreed(_file, _staffProof, PsychType.Kids);
                 break;
             case TOPIC_ADULTS2:
-                PsychStaffImporter.importEffective(_file, _staffProof, PsychType.Adults);
+                msg = PsychStaffImporter.importEffective(_file, _staffProof, PsychType.Adults);
                 break;
             case TOPIC_KIDS2:
-                PsychStaffImporter.importEffective(_file, _staffProof, PsychType.Kids);
+                msg = PsychStaffImporter.importEffective(_file, _staffProof, PsychType.Kids);
                 break;
             default:
                 return;
         }
 
         
-        Utils.showMessageInBrowser("Eine Upload-Funktion steht in Kürze zur Verfügung");
+        Utils.showMessageInBrowser(msg);
     }
 
 }

@@ -11,7 +11,6 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.Part;
-import org.inek.dataportal.feature.insurance.NoticeItemImporter;
 import org.inek.dataportal.feature.psychstaff.entity.StaffProof;
 import org.inek.dataportal.feature.psychstaff.entity.StaffProofAgreed;
 import org.inek.dataportal.feature.psychstaff.enums.PsychType;
@@ -24,35 +23,56 @@ import org.inek.dataportal.utils.StringUtil;
  */
 public class PsychStaffImporter {
 
-    public static void importAgreed(Part file, StaffProof staffProof, PsychType type) {
+    public static String importAgreed(Part file, StaffProof staffProof, PsychType type) {
+        String msg = "";
+        int count = 0;
         try {
             Scanner scanner = new Scanner(file.getInputStream());
             if (!scanner.hasNextLine()) {
-                return;
+                return "Nichts zu importieren";
             }
             List<StaffProofAgreed> staffProofsAgreed = staffProof.getStaffProofsAgreed(type);
             while (scanner.hasNextLine()) {
+                count++;
                 String line = Utils.convertFromUtf8(scanner.nextLine());
-                if (!line.contains(";Form;Menge;Einheit;Anzahl;Preis;Entgelt")) {
-                    tryImportLine(staffProofsAgreed, line);
+                if (!line.contains("Bereich;Nummer;StellenVollsaendig;StellenBudget;Kosten")) {
+                    try {
+                        importAgreedLine(staffProofsAgreed, type, line);
+                    } catch (Exception ex) {
+                        msg += "Fehler in Zeile " + count + ": " + ex.getMessage() + "\r\n";
+                    }
                 }
             }
         } catch (IOException ex) {
             Logger.getLogger(PsychStaffImporter.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        msg += "Ingesamt wurden " + count + " Zeilen gelesen";
+        return msg;
     }
 
-    private static void tryImportLine(List<StaffProofAgreed> staffProofsAgreed, String line) {
+    private static void importAgreedLine(List<StaffProofAgreed> staffProofsAgreed, PsychType type, String line) {
         String[] data = StringUtil.splitAtUnquotedSemicolon(line);
         if (data.length != 5) {
             throw new IllegalArgumentException(Utils.getMessage("msgWrongElementCount"));
         }
-        //stringif (data[0].trim() == type.)
+        if (PsychType.getTypeFromShortName(data[0]) != type) {
+            throw new IllegalArgumentException("Unzulässige Bereichskennung. Erwartet: " + type.getShortName());
+        }
+        int number = Integer.parseInt(data[1]);
+        if (number < 1 || number > 7) {
+            throw new IllegalArgumentException("Die laufende Nummer muss zwischen 1 und 7 liegen");
+        }
+        double staffingComplete = Double.parseDouble(data[2]);
+        double staffingBudget = Double.parseDouble(data[3]);
+        double avgCosts = Double.parseDouble(data[4]);
+        StaffProofAgreed staffProofAgreed = staffProofsAgreed.stream().filter(a -> a.getOccupationalCategoryId() == number).findFirst().get();
+        staffProofAgreed.setStaffingComplete(staffingComplete);
+        staffProofAgreed.setStaffingBudget(staffingBudget);
+        staffProofAgreed.setAvgCost(avgCosts);
     }
 
-    public static void importEffective(Part file, StaffProof staffProof, PsychType type) {
-
+    public static String importEffective(Part file, StaffProof staffProof, PsychType type) {
+        return "Der Upload steht in Kürze zur Verfügung";
     }
 
 }

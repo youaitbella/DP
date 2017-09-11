@@ -11,7 +11,7 @@ import javax.persistence.TypedQuery;
 import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.AbstractDataAccess;
-import org.inek.dataportal.feature.psychstaff.entity.OccupationalCatagory;
+import org.inek.dataportal.feature.psychstaff.entity.OccupationalCategory;
 import org.inek.dataportal.feature.psychstaff.entity.PersonnelGroup;
 import org.inek.dataportal.feature.psychstaff.entity.StaffProof;
 import org.inek.dataportal.feature.psychstaff.entity.StaffProofAgreed;
@@ -45,7 +45,7 @@ public class PsychStaffFacade extends AbstractDataAccess {
     }
 
     public int getSumSamePersonalGroup(int personalGroupId) {
-        List<OccupationalCatagory> categories = findAll(OccupationalCatagory.class);
+        List<OccupationalCategory> categories = findAll(OccupationalCategory.class);
         int result = 0;
         categories.stream().filter((category)
                 -> (category.getPersonnelGroup().getId() == personalGroupId)).map((_item) -> 1).reduce(result, Integer::sum);
@@ -56,8 +56,8 @@ public class PsychStaffFacade extends AbstractDataAccess {
         return findAll(PersonnelGroup.class);
     }
 
-    public List<OccupationalCatagory> getOccupationalCategories() {
-        return findAll(OccupationalCatagory.class);
+    public List<OccupationalCategory> getOccupationalCategories() {
+        return findAll(OccupationalCategory.class);
     }
 
     public StaffProof saveStaffProof(StaffProof staffProof) {

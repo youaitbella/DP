@@ -23,8 +23,8 @@ import org.inek.dataportal.utils.Documentation;
  * @author muellermi
  */
 @Entity
-@Table(name = "listOccupationalCatagory", schema = "psy")
-public class OccupationalCatagory implements Serializable {
+@Table(name = "listOccupationalCategory", schema = "psy")
+public class OccupationalCategory implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -92,7 +92,7 @@ public class OccupationalCatagory implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final OccupationalCatagory other = (OccupationalCatagory) obj;
+        final OccupationalCategory other = (OccupationalCategory) obj;
         if (this._personnelGroup != other._personnelGroup) {
             return false;
         }

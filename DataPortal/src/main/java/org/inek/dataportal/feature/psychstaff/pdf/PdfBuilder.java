@@ -370,10 +370,10 @@ public class PdfBuilder implements Serializable {
     private void addRow(PdfPTable tb, String lfdNr, StaffProofAgreed staffProofAgreed) {
         
         DecimalFormat formatter = new DecimalFormat( "###,##0.00" );
-        addCell(tb, staffProofAgreed.getOccupationalCatagory().getPersonnelGroup().getName(),
+        addCell(tb, staffProofAgreed.getOccupationalCategory().getPersonnelGroup().getName(),
                 SMALL, Element.ALIGN_LEFT, BaseColor.LIGHT_GRAY);
         addCell(tb, lfdNr, SMALL, Element.ALIGN_CENTER, BaseColor.LIGHT_GRAY);
-        addCell(tb, staffProofAgreed.getOccupationalCatagory().getName(), 
+        addCell(tb, staffProofAgreed.getOccupationalCategory().getName(), 
                 SMALL, Element.ALIGN_LEFT, BaseColor.LIGHT_GRAY);
         addCell(tb, String.valueOf(staffProofAgreed.getStaffingComplete()).replace(",", "."), 
                 SMALL, Element.ALIGN_RIGHT, BaseColor.WHITE);
@@ -387,10 +387,10 @@ public class PdfBuilder implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="addRow">
     private void addRow2(PdfPTable tb, String lfdNr, StaffProofEffective staffProofEffective) {
-        addCell(tb, staffProofEffective.getOccupationalCatagory().getPersonnelGroup().getName(), 
+        addCell(tb, staffProofEffective.getOccupationalCategory().getPersonnelGroup().getName(), 
                 SMALL, Element.ALIGN_LEFT, BaseColor.LIGHT_GRAY);
         addCell(tb, lfdNr, SMALL, Element.ALIGN_CENTER, BaseColor.LIGHT_GRAY);
-        addCell(tb, staffProofEffective.getOccupationalCatagory().getName(), 
+        addCell(tb, staffProofEffective.getOccupationalCategory().getName(), 
                 SMALL, Element.ALIGN_LEFT, BaseColor.LIGHT_GRAY);
         addCell(tb, String.valueOf(staffProofEffective.getStaffingComplete()).replace(",", "."), 
                 SMALL, Element.ALIGN_RIGHT, BaseColor.WHITE);

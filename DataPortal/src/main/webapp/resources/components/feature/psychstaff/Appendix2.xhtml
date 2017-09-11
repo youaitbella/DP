@@ -34,24 +34,24 @@
                         <th class="col10em row1" scope="col" rowspan="2"> Psych-PV-Personal in VK (jeweils in Summe) </th>
                     </tr>
                     <tr>
-                        <th class="col10em row1" scope="col"> Anrechnung Fachkräfte anderer Berufsgruppen der Psych-PV in VK (§4 Abs. 4 Vereinb.) </th>
-                        <th class="col10em row1" scope="col"> Anrechnung Fachkräfte Nicht-Psych-PV Berufsgruppen in VK (§4 Abs. 5 Vereinb.) </th>
-                        <th class="col10em row1" scope="col"> Anrechnung Fachkräfte ohne direktes Beschäftigungsverh. in VK (§4 Abs. 6 Vereinb.) </th>
+                        <th class="col10em row1" scope="col"> #{msg.lblDeductionPsych} in VK (§4 Abs. 4 Vereinb.) </th>
+                        <th class="col10em row1" scope="col"> #{msg.lblDeductionNonPsych} in VK (§4 Abs. 5 Vereinb.) </th>
+                        <th class="col10em row1" scope="col"> #{msg.lblDeductionOther} in VK (§4 Abs. 6 Vereinb.) </th>
                     </tr>
                 </thead>
                 <tbody>
                     <ui:repeat value="#{editPsyStaff.staffProof.getStaffProofsEffective(cc.attrs.patType)}" var="item">
                         <tr>
                             <td class="row1">
-                                <h:outputText value="#{item.occupationalCatagory.personnelGroup.name}" styleClass="element10em"/>
+                                <h:outputText value="#{item.occupationalCategory.personnelGroup.name}" styleClass="element10em"/>
                             </td>
 
                             <td class="row1">
-                                <h:outputText value="#{item.occupationalCatagory.id}" styleClass="element02em"/>
+                                <h:outputText value="#{item.occupationalCategory.id}" styleClass="element02em"/>
                             </td>
 
                             <td class="row1"> 
-                                <h:outputText value="#{item.occupationalCatagory.name}" styleClass="element10em"/>
+                                <h:outputText value="#{item.occupationalCategory.name}" styleClass="element10em"/>
                             </td>
 
                             <td>
@@ -59,7 +59,7 @@
                                                              styleClass="element10em number"
                                                              renderElement=":#{cc.attrs.clientId}:sumStaffingComplete factor"
                                                              readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
-                                                             disabled="#{item.occupationalCatagory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
+                                                             disabled="#{item.occupationalCategory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
                                                              pattern="#,##0.0"
                                                              isInt="false">
                                     <f:ajax event="clientChange" render="factor"/>
@@ -70,9 +70,9 @@
                             <td>
                                 <inek:InputNumberWithMessage value="#{item.staffingDeductionPsych}" 
                                                              styleClass="element10em number"
-                                                             renderElement=":#{cc.attrs.clientId}:sumStaffingDeductionPsych @this"
+                                                             renderElement=":#{cc.attrs.clientId}:sumStaffingDeductionPsych @this :psychStaff:explanation"
                                                              readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
-                                                             disabled="#{item.occupationalCatagory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
+                                                             disabled="#{item.occupationalCategory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
                                                              pattern="#,##0.0"
                                                              isInt="false"/>
                             </td>
@@ -80,9 +80,9 @@
                             <td >
                                 <inek:InputNumberWithMessage value="#{item.staffingDeductionNonPsych}" 
                                                              styleClass="element10em number"
-                                                             renderElement=":#{cc.attrs.clientId}:sumStaffingDeductionNonPsych @this"
+                                                             renderElement=":#{cc.attrs.clientId}:sumStaffingDeductionNonPsych @this :psychStaff:explanation"
                                                              readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
-                                                             disabled="#{item.occupationalCatagory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
+                                                             disabled="#{item.occupationalCategory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
                                                              pattern="#,##0.0"
                                                              isInt="false"/>
                             </td>
@@ -90,9 +90,9 @@
                             <td >
                                 <inek:InputNumberWithMessage value="#{item.staffingDeductionOhter}" 
                                                              styleClass="element10em number"
-                                                             renderElement=":#{cc.attrs.clientId}::sumStaffingDeductionOther @this"
+                                                             renderElement=":#{cc.attrs.clientId}::sumStaffingDeductionOther @this :psychStaff:explanation"
                                                              readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
-                                                             disabled="#{item.occupationalCatagory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
+                                                             disabled="#{item.occupationalCategory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
                                                              pattern="#,##0.0"
                                                              isInt="false"/>
                             </td>
@@ -141,6 +141,26 @@
                     </tfoot>
                 </tbody>
             </table>
+        </div>
+
+        <div jsf:id="explanation" jsf:rendered="#{editPsyStaff.staffProof.getStaffProofExplanations(cc.attrs.patType).size() gt 0}">
+            <h2>Erläuterung zur Anrechnung von Fachkräften</h2>
+            
+            <h:dataTable value="#{editPsyStaff.staffProof.getStaffProofExplanations(cc.attrs.patType)}" var="item">
+
+                <h:column>
+                    <f:facet name="header">Psych-PV-Berufsgruppe, bei der die Anrechnung erfolgt</f:facet>
+                    <h:outputText value="#{item.occupationalCategory.name}"
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">Anrechnungstatbestand</f:facet>
+                    <h:outputText value="#{item.deductedSpecialist == 3 
+                                           ? msg.lblDeductionPsych 
+                                           : item.deductedSpecialist == 3 ? msg.lblDeductionNonPsych : msg.lblDeductionOther}"
+                </h:column>
+
+            </h:dataTable>
         </div>
 
         <inek:LabeledText label="Tatsächliche Berechnungstage (#{editPsyStaff.staffProof.calculationType == '1' ? 'PEPPV' : 'BPflV/LKA'})"
