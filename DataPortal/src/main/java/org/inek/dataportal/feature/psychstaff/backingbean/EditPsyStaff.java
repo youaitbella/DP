@@ -8,11 +8,9 @@ package org.inek.dataportal.feature.psychstaff.backingbean;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
-import java.time.Year;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -92,6 +90,13 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     }
 
     @Override
+    protected void topicChanged() {
+        if (_sessionController.getAccount().isAutoSave() && !isReadOnly()) {
+            save(false);
+        }
+    }
+    
+    @Override
     protected String getOutcome() {
         return "";
     }
@@ -162,16 +167,37 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         setTopicVisibility();
         ensureStaffProofsAgreed(_staffProof);
         ensureStaffProofsEffective(_staffProof);
+        _staffProof.setYear(0);
     }
 
+    public List<Integer> getYears() {
+        if (_staffProof == null) {
+            return new ArrayList<>();
+        }
+        
+        List<Integer> existingYears = _psychStaffFacade.getExistingYears(_staffProof.getIk());
+
+        List<Integer> availableYears = new ArrayList<>();
+        IntStream.rangeClosed(2016, 2019) // as of the contract
+                .filter(y -> y == _staffProof.getYear() || !existingYears.contains(y))
+                .forEach(y -> availableYears.add(y));
+        
+        if (_staffProof.getYear() == 0 && availableYears.size() > 0) {
+            _staffProof.setYear((int) availableYears.get(0));
+        }
+        return availableYears;
+    }
+
+    /*
     public List<SelectItem> getYears() {
         if (_staffProof == null) {
-            return Collections.EMPTY_LIST;
+            return new ArrayList<>();
         }
+        
         List<Integer> existingYears = _psychStaffFacade.getExistingYears(_staffProof.getIk());
 
         List<SelectItem> items = new ArrayList<>();
-        IntStream.rangeClosed(2016, 2019)  // as of the contract
+        IntStream.rangeClosed(2016, 2019) // as of the contract
                 .filter(y -> y == _staffProof.getYear() || !existingYears.contains(y))
                 .forEach(y -> items.add(new SelectItem(y, "" + y)));
         if (_staffProof.getYear() == 0 && items.size() > 0) {
@@ -180,6 +206,8 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         return items;
     }
 
+    
+    */
     private void ensureStaffProofsAgreed(StaffProof staffProof) {
         if (staffProof.isForAdults()) {
             ensureStaffProofsAgreed(staffProof, PsychType.Adults);
@@ -544,7 +572,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     }
 
     public String sumEffectiveStaffingDeductionOther(PsychType type) {
-        double sum = _staffProof.getStaffProofsEffective(type).stream().mapToDouble(i -> i.getStaffingDeductionOhter()).sum();
+        double sum = _staffProof.getStaffProofsEffective(type).stream().mapToDouble(i -> i.getStaffingDeductionOther()).sum();
         return String.format("%.1f", sum);
     }
 
@@ -652,8 +680,29 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
                 return;
         }
 
-        
         Utils.showMessageInBrowser(msg);
     }
 
+    public void countChanged(StaffProofEffective item, int key) {
+        double count;
+        switch (key) {
+            case 4:
+                count = item.getStaffingDeductionPsych();
+                break;
+            case 5:
+                count = item.getStaffingDeductionNonPsych();
+                break;
+            case 6:
+                count = item.getStaffingDeductionOther();
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown deduction key: " + key);
+        }
+        if (count == 0) {
+            _staffProof.removeStaffProofExplanation(item.getPsychType(), item.getOccupationalCategory(), key);
+            return;
+        }
+        _staffProof.addMissingStaffProofExplanation(item.getPsychType(), item.getOccupationalCategory(), key);
+
+    }
 }

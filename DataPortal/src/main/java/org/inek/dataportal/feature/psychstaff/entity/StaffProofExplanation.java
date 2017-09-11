@@ -95,20 +95,20 @@ public class StaffProofExplanation implements Serializable {
     
     //<editor-fold defaultstate="collapsed" desc="Property DeductedSpecialist">
     @Column(name = "spxDeductedSpecialist")
-    private int _deductedSpecialist;
+    private int _deductedSpecialistId;
 
-    public int getDeductedSpecialist() {
-        return _deductedSpecialist;
+    public int getDeductedSpecialistId() {
+        return _deductedSpecialistId;
     }
 
-    public void setDeductedSpecialist(int deductedSpecialist) {
-        _deductedSpecialist = deductedSpecialist;
+    public void setDeductedSpecialistId(int deductedSpecialistId) {
+        _deductedSpecialistId = deductedSpecialistId;
     }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property EffectiveOccupationalCategory">
     @Column(name = "spxEffectiveOccupationalCategory")
-    private String _effectiveOccupationalCategory;
+    private String _effectiveOccupationalCategory = "";
     
     public String getEffectiveOccupationalCategory() {
         return _effectiveOccupationalCategory;
@@ -134,7 +134,7 @@ public class StaffProofExplanation implements Serializable {
     
     //<editor-fold defaultstate="collapsed" desc="Property Explanation">
     @Column(name = "spxExplanation")
-    private String _explanation;
+    private String _explanation = "";
     
     public String getExplanation() {
         return _explanation;
@@ -152,7 +152,7 @@ public class StaffProofExplanation implements Serializable {
         hash = 37 * hash + this._id;
         hash = 37 * hash + Objects.hashCode(this._psychType);
         hash = 37 * hash + this._occupationalCategoryId;
-        hash = 37 * hash + this._deductedSpecialist;
+        hash = 37 * hash + this._deductedSpecialistId;
         return hash;
     }
 
@@ -174,7 +174,7 @@ public class StaffProofExplanation implements Serializable {
         if (this._occupationalCategoryId != other._occupationalCategoryId) {
             return false;
         }
-        if (this._deductedSpecialist != other._deductedSpecialist) {
+        if (this._deductedSpecialistId != other._deductedSpecialistId) {
             return false;
         }
         if (this._psychType != other._psychType) {

@@ -136,16 +136,16 @@ public class StaffProofEffective implements Serializable {
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="Property StaffingDeductionOhter">
-    @Column(name = "speStaffingDeductionOhter")
-    private double _staffingDeductionOhter;
+    //<editor-fold defaultstate="collapsed" desc="Property StaffingDeductionOther">
+    @Column(name = "speStaffingDeductionOther")
+    private double _staffingDeductionOther;
     
-    public double getStaffingDeductionOhter() {
-        return _staffingDeductionOhter;
+    public double getStaffingDeductionOther() {
+        return _staffingDeductionOther;
     }
     
-    public void setStaffingDeductionOhter(double staffingDeductionOhter) {
-        _staffingDeductionOhter = staffingDeductionOhter;
+    public void setStaffingDeductionOther(double staffingDeductionOther) {
+        _staffingDeductionOther = staffingDeductionOther;
     }
     //</editor-fold>
     

@@ -466,23 +466,25 @@ public class StaffProof implements Serializable, StatusEntity {
      * @param staffProofExplanation
      * @return true, if the new element could be added; false if the element existed before
      */
-    public boolean addStaffProofExplanation(StaffProofExplanation staffProofExplanation) {
-        if (staffProofExplanation.getPsychType() == PsychType.Unknown || staffProofExplanation.getOccupationalCategory() == null) {
-            throw new IllegalArgumentException("StaffProofExplanation needs a valid PsychType as well as a valid OccupationalCatagory");
-        }
-        if (_staffProofExplanation.stream()
-                .anyMatch(a -> a.getPsychType() == staffProofExplanation.getPsychType()
-                && a.getOccupationalCategory() == staffProofExplanation.getOccupationalCategory()
-                && a.getDeductedSpecialist() == staffProofExplanation.getDeductedSpecialist())) {
+    public boolean addMissingStaffProofExplanation(PsychType type, OccupationalCategory occupationalCategory, int deductedSpecialistId) {
+        if (_staffProofExplanation.stream().anyMatch(a -> a.getPsychType() == type
+                && a.getOccupationalCategoryId() == occupationalCategory.getId()
+                && a.getDeductedSpecialistId() == deductedSpecialistId)){
             return false;
         }
-        _staffProofExplanation.add(staffProofExplanation);
+        StaffProofExplanation explanation = new StaffProofExplanation();
+        explanation.setStaffProofMasterId(_id);
+        explanation.setPsychType(type);
+        explanation.setOccupationalCategory(occupationalCategory);
+        explanation.setDeductedSpecialistId(deductedSpecialistId);
+        _staffProofExplanation.add(explanation);
         return true;
     }
-    // </editor-fold>
     
-    public void removeStaffProofExplanation(StaffProofExplanation staffProofExplanation) {
-        _staffProofExplanation.remove(staffProofExplanation);
+    public void removeStaffProofExplanation(PsychType type, OccupationalCategory occupationalCategory, int deductedSpecialistId) {
+        _staffProofExplanation.removeIf(a -> a.getPsychType() == type
+                && a.getOccupationalCategoryId() == occupationalCategory.getId()
+                && a.getDeductedSpecialistId() == deductedSpecialistId);
     }
     // </editor-fold>
     

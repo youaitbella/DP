@@ -62,9 +62,9 @@ public class PsychStaffImporter {
         if (number < 1 || number > 7) {
             throw new IllegalArgumentException("Die laufende Nummer muss zwischen 1 und 7 liegen");
         }
-        double staffingComplete = Double.parseDouble(data[2]);
-        double staffingBudget = Double.parseDouble(data[3]);
-        double avgCosts = Double.parseDouble(data[4]);
+        double staffingComplete = StringUtil.parseLocalizedDouble(data[2]);
+        double staffingBudget = StringUtil.parseLocalizedDouble(data[3]);
+        double avgCosts = StringUtil.parseLocalizedDouble(data[4]);
         StaffProofAgreed staffProofAgreed = staffProofsAgreed.stream().filter(a -> a.getOccupationalCategoryId() == number).findFirst().get();
         staffProofAgreed.setStaffingComplete(staffingComplete);
         staffProofAgreed.setStaffingBudget(staffingBudget);

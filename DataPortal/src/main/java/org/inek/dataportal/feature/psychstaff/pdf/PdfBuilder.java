@@ -398,7 +398,7 @@ public class PdfBuilder implements Serializable {
                 SMALL, Element.ALIGN_RIGHT, BaseColor.WHITE);
         addCell(tb, String.valueOf(staffProofEffective.getStaffingDeductionNonPsych()).replace(",", "."), 
                 SMALL, Element.ALIGN_RIGHT, BaseColor.WHITE);
-        addCell(tb, String.valueOf(staffProofEffective.getStaffingDeductionOhter()).replace(",", "."), 
+        addCell(tb, String.valueOf(staffProofEffective.getStaffingDeductionOther()).replace(",", "."), 
                 SMALL, Element.ALIGN_RIGHT, BaseColor.WHITE);
         addCell(tb, _editPsyStaff.determineFactor(staffProofEffective), 
                 SMALL, Element.ALIGN_RIGHT, BaseColor.WHITE);
