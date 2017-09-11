@@ -58,29 +58,29 @@ public class StaffProofAgreed implements Serializable {
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="Property OccupationalCatagoryId">
-    @Column(name = "spaOccupationalCatagoryId")
-    private int _occupationalCatagoryId;
+    //<editor-fold defaultstate="collapsed" desc="Property OccupationalCategoryId">
+    @Column(name = "spaOccupationalCategoryId")
+    private int _occupationalCategoryId;
 
-    public int getOccupationalCatagoryId() {
-        return _occupationalCatagoryId;
+    public int getOccupationalCategoryId() {
+        return _occupationalCategoryId;
     }
 
-    public void setOccupationalCatagoryId(int occupationalCatagoryId) {
-        _occupationalCatagoryId = occupationalCatagoryId;
+    public void setOccupationalCategoryId(int occupationalCategoryId) {
+        _occupationalCategoryId = occupationalCategoryId;
     }
 
     @OneToOne()
-    @PrimaryKeyJoinColumn(name = "spaOccupationalCatagoryId")
-    private OccupationalCatagory _occupationalCatagory;
+    @PrimaryKeyJoinColumn(name = "spaOccupationalCategoryId")
+    private OccupationalCategory _occupationalCategory;
     
-    public OccupationalCatagory getOccupationalCatagory() {
-        return _occupationalCatagory;
+    public OccupationalCategory getOccupationalCategory() {
+        return _occupationalCategory;
     }
     
-    public void setOccupationalCatagory(OccupationalCatagory occupationalCatagory) {
-        _occupationalCatagory = occupationalCatagory;
-        _occupationalCatagoryId = occupationalCatagory.getId();
+    public void setOccupationalCategory(OccupationalCategory occupationalCategory) {
+        _occupationalCategory = occupationalCategory;
+        _occupationalCategoryId = occupationalCategory.getId();
     }
     //</editor-fold>
 

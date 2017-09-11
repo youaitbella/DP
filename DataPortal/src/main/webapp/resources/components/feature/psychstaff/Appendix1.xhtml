@@ -38,20 +38,20 @@
                     <ui:repeat value="#{editPsyStaff.staffProof.getStaffProofsAgreed(cc.attrs.patType)}" var="item">
                         <tr>
                             <td class="row1">
-                                <h:outputText value="#{item.occupationalCatagory.personnelGroup.name}" styleClass="element10em"/>
+                                <h:outputText value="#{item.occupationalCategory.personnelGroup.name}" styleClass="element10em"/>
                             </td>
                             <td class="row1">
-                                <h:outputText value="#{item.occupationalCatagory.id}" styleClass="element02em"/>
+                                <h:outputText value="#{item.occupationalCategory.id}" styleClass="element02em"/>
                             </td>
                             <td class="row1"> 
-                                <h:outputText value="#{item.occupationalCatagory.name}" styleClass="element10em"/>
+                                <h:outputText value="#{item.occupationalCategory.name}" styleClass="element10em"/>
                             </td>
                             <td>
                                 <inek:InputNumberWithMessage value="#{item.staffingComplete}" 
                                                              styleClass="element10em number"
                                                              renderElement=":psychStaff:closeButton :#{cc.attrs.clientId}:sumStaffingComplete "
                                                              readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
-                                                             disabled="#{item.occupationalCatagory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
+                                                             disabled="#{item.occupationalCategory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
                                                              pattern="#,##0.0"
                                                              isInt="false"/>
                             </td>
@@ -60,7 +60,7 @@
                                                              styleClass="element10em number"
                                                              renderElement=":psychStaff:closeButton :#{cc.attrs.clientId}:sumStaffingBudget "
                                                              readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
-                                                             disabled="#{item.occupationalCatagory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
+                                                             disabled="#{item.occupationalCategory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
                                                              pattern="#,##0.0"
                                                              isInt="false"/>
                             </td>
@@ -68,7 +68,7 @@
                                 <inek:InputNumberWithMessage value="#{item.avgCost}" 
                                                              styleClass="element10em number"
                                                              readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
-                                                             disabled="#{item.occupationalCatagory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
+                                                             disabled="#{item.occupationalCategory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
                                                              pattern="#,##0.00"
                                                              isInt="false"/>
                             </td>

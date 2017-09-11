@@ -390,7 +390,7 @@ public class StaffProof implements Serializable, StatusEntity {
         return _staffProofAgreed
                 .stream()
                 .filter(a -> a.getPsychType() == type)
-                .sorted((a1, a2) -> a1.getOccupationalCatagoryId() - a2.getOccupationalCatagoryId())
+                .sorted((a1, a2) -> a1.getOccupationalCategoryId() - a2.getOccupationalCategoryId())
                 .collect(Collectors.toList());
     }
 
@@ -401,12 +401,12 @@ public class StaffProof implements Serializable, StatusEntity {
      * @return true, if the new element could be added; false if the element existed before
      */
     public boolean addStaffProofAgreed(StaffProofAgreed staffProofAgreed) {
-        if (staffProofAgreed.getPsychType() == PsychType.Unknown || staffProofAgreed.getOccupationalCatagory() == null) {
+        if (staffProofAgreed.getPsychType() == PsychType.Unknown || staffProofAgreed.getOccupationalCategory() == null) {
             throw new IllegalArgumentException("StaffProofAgreed needs a valid PsychType as well as a valid OccupationalCatagory");
         }
         if (_staffProofAgreed.stream()
                 .anyMatch(a -> a.getPsychType() == staffProofAgreed.getPsychType()
-                && a.getOccupationalCatagory() == staffProofAgreed.getOccupationalCatagory())) {
+                && a.getOccupationalCategory() == staffProofAgreed.getOccupationalCategory())) {
             return false;
         }
         _staffProofAgreed.add(staffProofAgreed);
@@ -423,7 +423,7 @@ public class StaffProof implements Serializable, StatusEntity {
         return _staffProofEffective
                 .stream()
                 .filter(a -> a.getPsychType() == type)
-                .sorted((e1, e2) -> e1.getOccupationalCatagoryId() - e2.getOccupationalCatagoryId())
+                .sorted((e1, e2) -> e1.getOccupationalCategoryId() - e2.getOccupationalCategoryId())
                 .collect(Collectors.toList());
     }
 
@@ -434,12 +434,12 @@ public class StaffProof implements Serializable, StatusEntity {
      * @return true, if the new element could be added; false if the element existed before
      */
     public boolean addStaffProofEffective(StaffProofEffective staffProofEffective) {
-        if (staffProofEffective.getPsychType() == PsychType.Unknown || staffProofEffective.getOccupationalCatagory() == null) {
+        if (staffProofEffective.getPsychType() == PsychType.Unknown || staffProofEffective.getOccupationalCategory() == null) {
             throw new IllegalArgumentException("StaffProofEffective needs a valid PsychType as well as a valid OccupationalCatagory");
         }
         if (_staffProofEffective.stream()
                 .anyMatch(a -> a.getPsychType() == staffProofEffective.getPsychType()
-                && a.getOccupationalCatagory() == staffProofEffective.getOccupationalCatagory())) {
+                && a.getOccupationalCategory() == staffProofEffective.getOccupationalCategory())) {
             return false;
         }
         _staffProofEffective.add(staffProofEffective);
@@ -447,6 +447,47 @@ public class StaffProof implements Serializable, StatusEntity {
     }
     // </editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Property StaffProofExplanations">
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "spxStaffProofMasterId", referencedColumnName = "spmId")
+    private List<StaffProofExplanation> _staffProofExplanation = new Vector<>();
+
+    public List<StaffProofExplanation> getStaffProofExplanations(PsychType type) {
+        return _staffProofExplanation
+                .stream()
+                .filter(a -> a.getPsychType() == type)
+                .sorted((e1, e2) -> e1.getOccupationalCategoryId() - e2.getOccupationalCategoryId())
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Add a StaffProofExplanation to the list
+     *
+     * @param staffProofExplanation
+     * @return true, if the new element could be added; false if the element existed before
+     */
+    public boolean addMissingStaffProofExplanation(PsychType type, OccupationalCategory occupationalCategory, int deductedSpecialistId) {
+        if (_staffProofExplanation.stream().anyMatch(a -> a.getPsychType() == type
+                && a.getOccupationalCategoryId() == occupationalCategory.getId()
+                && a.getDeductedSpecialistId() == deductedSpecialistId)){
+            return false;
+        }
+        StaffProofExplanation explanation = new StaffProofExplanation();
+        explanation.setStaffProofMasterId(_id);
+        explanation.setPsychType(type);
+        explanation.setOccupationalCategory(occupationalCategory);
+        explanation.setDeductedSpecialistId(deductedSpecialistId);
+        _staffProofExplanation.add(explanation);
+        return true;
+    }
+    
+    public void removeStaffProofExplanation(PsychType type, OccupationalCategory occupationalCategory, int deductedSpecialistId) {
+        _staffProofExplanation.removeIf(a -> a.getPsychType() == type
+                && a.getOccupationalCategoryId() == occupationalCategory.getId()
+                && a.getDeductedSpecialistId() == deductedSpecialistId);
+    }
+    // </editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc="Property StaffProofDocuments">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "spdStaffProofMasterId", referencedColumnName = "spmId")
@@ -573,7 +614,7 @@ public class StaffProof implements Serializable, StatusEntity {
         data = getStaffProofsAgreed(psychType)
                 .stream()
                 .map((item) -> ""
-                + item.getOccupationalCatagoryId() + "^"
+                + item.getOccupationalCategoryId() + "^"
                 + item.getStaffingComplete() + "^"
                 + item.getStaffingBudget() + "^"
                 + item.getAvgCost() + "^")

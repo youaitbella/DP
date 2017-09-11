@@ -58,29 +58,29 @@ public class StaffProofEffective implements Serializable {
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="Property OccupationalCatagoryId">
-    @Column(name = "speOccupationalCatagoryId")
-    private int _occupationalCatagoryId;
+    //<editor-fold defaultstate="collapsed" desc="Property OccupationalCategoryId">
+    @Column(name = "speOccupationalCategoryId")
+    private int _occupationalCategoryId;
 
-    public int getOccupationalCatagoryId() {
-        return _occupationalCatagoryId;
+    public int getOccupationalCategoryId() {
+        return _occupationalCategoryId;
     }
 
-    public void setOccupationalCatagoryId(int occupationalCatagoryId) {
-        _occupationalCatagoryId = occupationalCatagoryId;
+    public void setOccupationalCategoryId(int occupationalCategoryId) {
+        _occupationalCategoryId = occupationalCategoryId;
     }
 
     @OneToOne()
-    @PrimaryKeyJoinColumn(name = "speOccupationalCatagoryId")
-    private OccupationalCatagory _occupationalCatagory;
+    @PrimaryKeyJoinColumn(name = "speOccupationalCategoryId")
+    private OccupationalCategory _occupationalCategory;
     
-    public OccupationalCatagory getOccupationalCatagory() {
-        return _occupationalCatagory;
+    public OccupationalCategory getOccupationalCategory() {
+        return _occupationalCategory;
     }
     
-    public void setOccupationalCatagory(OccupationalCatagory occupationalCatagory) {
-        _occupationalCatagory = occupationalCatagory;
-        _occupationalCatagoryId = occupationalCatagory.getId();
+    public void setOccupationalCategory(OccupationalCategory occupationalCategory) {
+        _occupationalCategory = occupationalCategory;
+        _occupationalCategoryId = occupationalCategory.getId();
     }
     //</editor-fold>
     
@@ -136,16 +136,16 @@ public class StaffProofEffective implements Serializable {
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="Property StaffingDeductionOhter">
-    @Column(name = "speStaffingDeductionOhter")
-    private double _staffingDeductionOhter;
+    //<editor-fold defaultstate="collapsed" desc="Property StaffingDeductionOther">
+    @Column(name = "speStaffingDeductionOther")
+    private double _staffingDeductionOther;
     
-    public double getStaffingDeductionOhter() {
-        return _staffingDeductionOhter;
+    public double getStaffingDeductionOther() {
+        return _staffingDeductionOther;
     }
     
-    public void setStaffingDeductionOhter(double staffingDeductionOhter) {
-        _staffingDeductionOhter = staffingDeductionOhter;
+    public void setStaffingDeductionOther(double staffingDeductionOther) {
+        _staffingDeductionOther = staffingDeductionOther;
     }
     //</editor-fold>
     
