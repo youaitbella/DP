@@ -45,9 +45,7 @@ public class PdfBuilder implements Serializable {
 
     @Inject
     private EditPsyStaff _editPsyStaff;
-    @Inject
-    private StaffProofExplanation _staffProofExplanation; 
-
+    
     //<editor-fold defaultstate="collapsed" desc="Fonts">
     private static final Font FONT_TITLE = new Font(Font.getFamily("TIMES_ROMAN"), 16, Font.BOLD);
     private static final Font NORMALBOLD = new Font(Font.getFamily("TIMES_ROMAN"), 12, Font.BOLD);
@@ -65,6 +63,9 @@ public class PdfBuilder implements Serializable {
     private final String anlage2 = "Anlage 2 zur Psych-Personalnachweisvereinbarung";
     private final String infoText2 = "2. Bei Kinder- und Jugendpsychiatrie einschließlich Erziehungsdienst";
     private final String infoText3 = "Diese Datei ist durch die Vertragspartner nach $11 BPflV zu unterschreiben "
+                                        + "und als elektronische Kopie an das InEK zu senden";
+    private final String infoText3A2 = "Dieser Ausdruck ist durch den Jahresabschlussprüfer nach $7 der Psych_personalnachweis-Vereinbarung"
+                                            + " zu unterschreiben"
                                         + "und als elektronische Kopie an das InEK zu senden";
     private final List<String> header1A1 = Arrays.asList("\nPersonalgruppen", "\nLfd. Nr.",
                                                             "\nBerufsgruppen der Psych-PV",
@@ -165,7 +166,8 @@ public class PdfBuilder implements Serializable {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="createPageForKidsAn2">
-    private void createPageForKidsAn2(Document document) throws DocumentException, NoSuchAlgorithmException, IOException {
+    private void createPageForKidsAn2(Document document) throws DocumentException, 
+            NoSuchAlgorithmException, IOException {
 
         addLogo(document, img,
                 "Vereinbarte Stellenbesetzung in Vollkräften \nBereich Kinder und Jugendliche",
@@ -174,12 +176,23 @@ public class PdfBuilder implements Serializable {
         PdfPTable tb_JK = new PdfPTable(8);
         tb_JK.setWidths(new int[]{3, 1, 3, 3, 3, 3, 3, 3});
         tb_JK.getDefaultCell().setBackgroundColor(BaseColor.LIGHT_GRAY);
+        
+        PdfPTable tb_exp = new PdfPTable(5);
+        tb_exp.setWidths(new int[]{2, 3, 3, 3, 6});
+        tb_exp.getDefaultCell().setBackgroundColor(BaseColor.LIGHT_GRAY);
+        
         loadDataForAnlage2(tb_JK);
         tb_JK.setSpacingBefore(30);
         tb_JK.setSpacingAfter(10);
         document.add(tb_JK);
+        Paragraph p = new Paragraph("Erläuterung zur Anrechnung von Fachkräften", NORMALBOLD);
+        p.setIndentationLeft(50);
+        p.setSpacingAfter(10);
+        document.add(p);
+        addExplanationTable(tb_exp);
+        document.add(tb_exp);
 
-        Paragraph p = new Paragraph("Tatsächliche Berechnungstage: "
+        p = new Paragraph("Tatsächliche Berechnungstage: "
                 + String.valueOf(_editPsyStaff.getStaffProof().getKidsEffectiveDays()), SMALLBOLD);
         p.setIndentationLeft(50);
         p.setSpacingAfter(5);
@@ -193,7 +206,7 @@ public class PdfBuilder implements Serializable {
 
         addInfoText(document, infoText1, 0);
         addInfoText(document, infoText2, 20);
-        addInfoText(document, infoText3, 50);
+        addInfoText(document, infoText3A2, 50);
         addSignaturArea(document);
     }
     //</editor-fold>
@@ -241,15 +254,19 @@ public class PdfBuilder implements Serializable {
         PdfPTable tb_exp = new PdfPTable(5);
         tb_exp.setWidths(new int[]{2, 3, 3, 3, 6});
         tb_exp.getDefaultCell().setBackgroundColor(BaseColor.LIGHT_GRAY);
-        //loadDataForAdultA2(tb);
+        
         loadDataForAnlage2(tb);
         tb.setSpacingBefore(30);
         tb.setSpacingAfter(10);
-        addExplanationTable(tb_exp);
         document.add(tb);
+        Paragraph p = new Paragraph("Erläuterung zur Anrechnung von Fachkräften", NORMALBOLD);
+        p.setIndentationLeft(50);
+        p.setSpacingAfter(10);
+        document.add(p);
+        addExplanationTable(tb_exp);
         document.add(tb_exp);
 
-        Paragraph p = new Paragraph("Tatsächliche Berechnungstage : "
+        p = new Paragraph("Tatsächliche Berechnungstage : "
                 + String.valueOf(_editPsyStaff.getStaffProof().getAdultsEffectiveDays()), SMALLBOLD);
         p.setIndentationLeft(50);
         p.setSpacingAfter(5);
@@ -263,8 +280,8 @@ public class PdfBuilder implements Serializable {
 
         addInfoText(document, infoText1, 0);
         addInfoText(document, infoText2, 20);
-        addInfoText(document, infoText3, 50);
-        addSignaturArea(document);
+        addInfoText(document, infoText3A2, 50);
+        addSignaturAreaA2(document);
     }
     //</editor-fold>
 
@@ -323,15 +340,16 @@ public class PdfBuilder implements Serializable {
         addHeader(tb, headerExp);
         PsychType psychType = ("Anlage 2 - Erw").equalsIgnoreCase(_editPsyStaff.getActiveTopic().getTitle()) ? PsychType.Adults : PsychType.Kids;
         
-        for (StaffProofEffective staffProofEffective : _editPsyStaff.getStaffProof().getStaffProofsEffective(psychType)) {            
-            if(staffProofEffective.getStaffingDeductionPsych()>0 
-                    || staffProofEffective.getStaffingDeductionNonPsych()> 0 
-                    || staffProofEffective.getStaffingDeductionOther()>0  ){
-                addCell(tb, staffProofEffective.getOccupationalCategory().getName(), SMALL, Element.ALIGN_LEFT, BaseColor.GRAY);
-                addCell(tb, String.valueOf(_staffProofExplanation.getDeductedSpecialistId()), SMALL, Element.ALIGN_LEFT, BaseColor.GRAY);
-                addCell(tb, _staffProofExplanation.getEffectiveOccupationalCategory(), SMALL, Element.ALIGN_RIGHT, BaseColor.WHITE);
-                addCell(tb, String.valueOf(_staffProofExplanation.getDeductedFullVigor()), SMALL, Element.ALIGN_RIGHT, BaseColor.WHITE);
-                addCell(tb, _staffProofExplanation.getExplanation(), SMALL, Element.ALIGN_RIGHT, BaseColor.WHITE);
+        for (StaffProofExplanation staffProofExplanation : _editPsyStaff.getStaffProof().getStaffProofExplanations(psychType)) {            
+            {
+                addCell(tb, staffProofExplanation.getOccupationalCategory().getName(), SMALL, Element.ALIGN_LEFT, BaseColor.LIGHT_GRAY);
+                String t = staffProofExplanation.getDeductedSpecialistId() == 4 ?  "Anrechnung Fachkräfte anderer Berufsgruppen der Psych-PV" 
+                        :staffProofExplanation.getDeductedSpecialistId() == 5 ? "Anrechnung Fachkräfte Nicht-Psych-PV Berufsgruppen" 
+                        :  "\\ Anrechnung Fachkräfte ohne direktes Beschäftigungsverh.";
+                addCell(tb, t, SMALL, Element.ALIGN_LEFT, BaseColor.LIGHT_GRAY);
+                addCell(tb,staffProofExplanation.getEffectiveOccupationalCategory(), SMALL, Element.ALIGN_RIGHT, BaseColor.WHITE);
+                addCell(tb, String.valueOf(staffProofExplanation.getDeductedFullVigor()), SMALL, Element.ALIGN_RIGHT, BaseColor.WHITE);
+                addCell(tb, staffProofExplanation.getExplanation(), SMALL, Element.ALIGN_RIGHT, BaseColor.WHITE);
             }
         }
     }
@@ -502,6 +520,26 @@ public class PdfBuilder implements Serializable {
             addLayoutCell(signaturArea, "", SMALL, Element.ALIGN_LEFT);
             addLayoutCell(signaturArea, "", SMALL, Element.ALIGN_LEFT);
         }
+        document.add(signaturArea);
+    }
+    //</editor-fold>    
+    
+    //<editor-fold defaultstate="collapsed" desc="addSignaturArea">
+    private void addSignaturAreaA2(Document document) throws DocumentException {
+        PdfPTable signaturArea = new PdfPTable(2);
+        signaturArea.setWidths(new int[]{2, 2});
+        signaturArea.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+        addLayoutCell(signaturArea, "für das Krankenhaus", SMALL, Element.ALIGN_LEFT);
+        addLayoutCell(signaturArea, "für den Jahesabschlussprüfer", SMALL, Element.ALIGN_LEFT);
+        addLayoutCell(signaturArea, "", SMALL, Element.ALIGN_LEFT);
+        addLayoutCell(signaturArea, "", SMALL, Element.ALIGN_LEFT);
+        addLayoutCell(signaturArea, "", SMALL, Element.ALIGN_LEFT);
+        addLayoutCell(signaturArea, "", SMALL, Element.ALIGN_LEFT);
+        addLayoutCell(signaturArea, "", SMALL, Element.ALIGN_LEFT);
+        addLayoutCell(signaturArea, "", SMALL, Element.ALIGN_LEFT);
+        addLayoutCell(signaturArea, "________________________________________________", SMALL, Element.ALIGN_LEFT);
+        addLayoutCell(signaturArea, "________________________________________________", SMALL, Element.ALIGN_LEFT);
+        
         document.add(signaturArea);
     }
     //</editor-fold>    
