@@ -20,7 +20,7 @@
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Rechts: </text><text styleclass="Bullet Text" style="font-weight:bold;" translate="true">Inhaltsbereich</text><text styleclass="Bullet Text" translate="true">. In diesem größten Teil des Dialogs werden die Informationen dargestellt bzw. erfolgen Ihre Eingaben.</text></li>
     </list>
     <para styleclass="Normal"></para>
-    <para styleclass="Image Caption"><image src="" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><image src="GeneralHandling.png" scale="100.00%" styleclass="Image Caption"></image></para>
     <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Einteilung der Dialoge in Kopfbereich (rot markiert), Navigation (grün) und Info- bzw. Eingabeteil (blau)</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Der linke Navigationsbereich zeigt die Ihnen zur Verfügung stehenden Funktionen an. Im Wesentlichen bestimmen Sie selber (in der Stammdatenpflege) um welche Funktionen es sich dabei handelt. Nur bei bestimmten Funktionen (derzeit nur DropBox-Verfahren) behält sich das InEK eine separate Freischaltung vor. </text></para>
