@@ -64,7 +64,7 @@ public class PdfBuilder implements Serializable {
     private final String infoText2 = "2. Bei Kinder- und Jugendpsychiatrie einschließlich Erziehungsdienst";
     private final String infoText3 = "Diese Datei ist durch die Vertragspartner nach $11 BPflV zu unterschreiben "
                                         + "und als elektronische Kopie an das InEK zu senden";
-    private final String infoText3A2 = "Dieser Ausdruck ist durch den Jahresabschlussprüfer nach $7 der Psych_personalnachweis-Vereinbarung"
+    private final String infoText3A2 = "Dieser Ausdruck ist durch den Jahresabschlussprüfer nach $7 der Psych-Personalnachweis-Vereinbarung"
                                             + " zu unterschreiben"
                                         + "und als elektronische Kopie an das InEK zu senden";
     private final List<String> header1A1 = Arrays.asList("\nPersonalgruppen", "\nLfd. Nr.",
