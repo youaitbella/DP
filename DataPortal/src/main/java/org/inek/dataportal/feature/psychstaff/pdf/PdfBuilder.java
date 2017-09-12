@@ -32,6 +32,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.inek.dataportal.feature.psychstaff.backingbean.EditPsyStaff;
 import org.inek.dataportal.feature.psychstaff.entity.StaffProofAgreed;
 import org.inek.dataportal.feature.psychstaff.entity.StaffProofEffective;
+import org.inek.dataportal.feature.psychstaff.entity.StaffProofExplanation;
 import org.inek.dataportal.feature.psychstaff.enums.PsychType;
 
 /**
@@ -44,6 +45,8 @@ public class PdfBuilder implements Serializable {
 
     @Inject
     private EditPsyStaff _editPsyStaff;
+    @Inject
+    private StaffProofExplanation _staffProofExplanation; 
 
     //<editor-fold defaultstate="collapsed" desc="Fonts">
     private static final Font FONT_TITLE = new Font(Font.getFamily("TIMES_ROMAN"), 16, Font.BOLD);
@@ -77,6 +80,11 @@ public class PdfBuilder implements Serializable {
                                                             "Anrechnung Fachkräfte ohne direktes Beschäftigungsverh. in VK (§4 Abs. 6 Vereinb.)",
                                                             "\nPsych-PV-Personal in VK (jeweils in Summe) ");
     private final List<String> header2A2 = Arrays.asList("", "", "1", "2", "3", "4", "5", "6");
+    private final List<String> headerExp = Arrays.asList("Psych-PV-Berufsgruppe, bei der die Anrechnung erfolgt", 
+                                                            "Anrechnungstatbestand", 
+                                                            "Tatsächlich Berufsgruppe der angerechneten Fachkraft ", 
+                                                            "Angerechnete Stellenbesetzung in VK ", 
+                                                            "Erläuterung");
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="PdfBuilder">
@@ -229,11 +237,17 @@ public class PdfBuilder implements Serializable {
         PdfPTable tb = new PdfPTable(8);
         tb.setWidths(new int[]{3, 1, 3, 3, 3, 3, 3, 3});
         tb.getDefaultCell().setBackgroundColor(BaseColor.LIGHT_GRAY);
+        
+        PdfPTable tb_exp = new PdfPTable(5);
+        tb_exp.setWidths(new int[]{2, 3, 3, 3, 6});
+        tb_exp.getDefaultCell().setBackgroundColor(BaseColor.LIGHT_GRAY);
         //loadDataForAdultA2(tb);
         loadDataForAnlage2(tb);
         tb.setSpacingBefore(30);
         tb.setSpacingAfter(10);
+        addExplanationTable(tb_exp);
         document.add(tb);
+        document.add(tb_exp);
 
         Paragraph p = new Paragraph("Tatsächliche Berechnungstage : "
                 + String.valueOf(_editPsyStaff.getStaffProof().getAdultsEffectiveDays()), SMALLBOLD);
@@ -303,6 +317,26 @@ public class PdfBuilder implements Serializable {
     }
 //    </editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="createExplanationTable">
+    void addExplanationTable(PdfPTable tb){
+        
+        addHeader(tb, headerExp);
+        PsychType psychType = ("Anlage 2 - Erw").equalsIgnoreCase(_editPsyStaff.getActiveTopic().getTitle()) ? PsychType.Adults : PsychType.Kids;
+        
+        for (StaffProofEffective staffProofEffective : _editPsyStaff.getStaffProof().getStaffProofsEffective(psychType)) {            
+            if(staffProofEffective.getStaffingDeductionPsych()>0 
+                    || staffProofEffective.getStaffingDeductionNonPsych()> 0 
+                    || staffProofEffective.getStaffingDeductionOther()>0  ){
+                addCell(tb, staffProofEffective.getOccupationalCategory().getName(), SMALL, Element.ALIGN_LEFT, BaseColor.GRAY);
+                addCell(tb, String.valueOf(_staffProofExplanation.getDeductedSpecialistId()), SMALL, Element.ALIGN_LEFT, BaseColor.GRAY);
+                addCell(tb, _staffProofExplanation.getEffectiveOccupationalCategory(), SMALL, Element.ALIGN_RIGHT, BaseColor.WHITE);
+                addCell(tb, String.valueOf(_staffProofExplanation.getDeductedFullVigor()), SMALL, Element.ALIGN_RIGHT, BaseColor.WHITE);
+                addCell(tb, _staffProofExplanation.getExplanation(), SMALL, Element.ALIGN_RIGHT, BaseColor.WHITE);
+            }
+        }
+    }
+    //</editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc="createMetadata">
     private void createMetadata(Document document) {
         document.addTitle("");
