@@ -87,7 +87,7 @@ public class PsychStaffImporter {
             while (scanner.hasNextLine()) {
                 count++;
                 String line = Utils.convertFromUtf8(scanner.nextLine());
-                if (!line.contains("Bereich;Nummer;Absatz;Berufsgruppe;VK;Erlueterung")) {
+                if (!line.contains("Bereich;Nummer;Absatz;Berufsgruppe;VK;Erlaeuterung")) {
                     try {
                         importEffectiveLine(staffProofsEffective, type, line);
                     } catch (Exception ex) {
