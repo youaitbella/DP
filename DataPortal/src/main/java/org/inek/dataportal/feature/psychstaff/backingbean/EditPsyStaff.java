@@ -680,6 +680,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
                 return;
         }
 
+        _sessionController.setScript("alert('hallo');");
         Utils.showMessageInBrowser(msg);
     }
 

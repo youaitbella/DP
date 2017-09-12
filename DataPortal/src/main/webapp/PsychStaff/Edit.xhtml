@@ -41,7 +41,7 @@
                                        action="#{editPsyStaff.save}"
                                        value="#{msg.btnSave}"
                                        immediate="true"
-                                       rendered="#{!editPsyStaff.readOnly}">
+                                       rendered="#{!editPsyStaff.readOnly and not editPsyStaff.closedStateActionEnabled}">
                         </h:commandLink>
 
                         <div class="uploadFile inlineBlock" jsf:rendered="#{editPsyStaff.closeEnabled}">

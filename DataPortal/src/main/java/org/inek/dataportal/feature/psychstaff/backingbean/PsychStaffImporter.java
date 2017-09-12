@@ -36,7 +36,7 @@ public class PsychStaffImporter {
             while (scanner.hasNextLine()) {
                 count++;
                 String line = Utils.convertFromUtf8(scanner.nextLine());
-                if (!line.contains("Bereich;Nummer;StellenVollsaendig;StellenBudget;Kosten")) {
+                if (!line.contains("Bereich;Nummer;StellenVollstaendig;StellenBudget;Kosten")) {
                     try {
                         importAgreedLine(staffProofsAgreed, type, line);
                     } catch (Exception ex) {
