@@ -148,6 +148,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         List<SelectItem> iks = getIks();
         if (iks.size() == 1) {
             staffProof.setIk((int) iks.get(0).getValue());
+            setYearToFirstAvailable(staffProof);
         }
         return staffProof;
     }
@@ -164,6 +165,17 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     }
 
     public void ikChanged() {
+        setYearToFirstAvailable(_staffProof);
+    }
+
+    private void setYearToFirstAvailable(StaffProof staffProof) {
+        List<Integer> years = getYears(staffProof);
+        if (years.size() > 0){
+            staffProof.setYear(years.get(0));
+        }
+    }
+
+    public void domainChanged() {
         setTopicVisibility();
         ensureStaffProofsAgreed(_staffProof);
         ensureStaffProofsEffective(_staffProof);
@@ -171,43 +183,24 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     }
 
     public List<Integer> getYears() {
-        if (_staffProof == null) {
+        return getYears(_staffProof);
+    }
+    
+    public List<Integer> getYears(StaffProof staffProof) {
+        if (staffProof == null) {
             return new ArrayList<>();
         }
         
-        List<Integer> existingYears = _psychStaffFacade.getExistingYears(_staffProof.getIk());
+        List<Integer> existingYears = _psychStaffFacade.getExistingYears(staffProof.getIk());
 
         List<Integer> availableYears = new ArrayList<>();
         IntStream.rangeClosed(2016, 2019) // as of the contract
-                .filter(y -> y == _staffProof.getYear() || !existingYears.contains(y))
+                .filter(y -> y == staffProof.getYear() || !existingYears.contains(y))
                 .forEach(y -> availableYears.add(y));
         
-        if (_staffProof.getYear() == 0 && availableYears.size() > 0) {
-            _staffProof.setYear((int) availableYears.get(0));
-        }
         return availableYears;
     }
 
-    /*
-    public List<SelectItem> getYears() {
-        if (_staffProof == null) {
-            return new ArrayList<>();
-        }
-        
-        List<Integer> existingYears = _psychStaffFacade.getExistingYears(_staffProof.getIk());
-
-        List<SelectItem> items = new ArrayList<>();
-        IntStream.rangeClosed(2016, 2019) // as of the contract
-                .filter(y -> y == _staffProof.getYear() || !existingYears.contains(y))
-                .forEach(y -> items.add(new SelectItem(y, "" + y)));
-        if (_staffProof.getYear() == 0 && items.size() > 0) {
-            _staffProof.setYear((int) items.get(0).getValue());
-        }
-        return items;
-    }
-
-    
-    */
     private void ensureStaffProofsAgreed(StaffProof staffProof) {
         if (staffProof.isForAdults()) {
             ensureStaffProofsAgreed(staffProof, PsychType.Adults);
