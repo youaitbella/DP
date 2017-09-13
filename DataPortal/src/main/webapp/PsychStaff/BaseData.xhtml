@@ -63,12 +63,14 @@
 
         <div class="inputPart">
             <h:outputLabel value="Zählweise Berechnungstage" 
-                           styleClass="label element15em"/>
+                           styleClass="label element15em"
+                           title="#{msg.infoPsychStaffNoteCalcDays}"/>
 
             <h:selectOneRadio styleClass="inlineBlock"
                               value="#{editPsyStaff.staffProof.calculationType}"
                               disabled="#{editPsyStaff.readOnly or editPsyStaff.staffProof.anyClosed}"
-                              required="true">
+                              required="true"
+                              title="#{msg.infoPsychStaffNoteCalcDays}">
                 <f:selectItem itemValue="1" itemLabel="PEPPV" />
                 <f:selectItem itemValue="2" itemLabel="BPflV/LKA"/>
                 <f:ajax render="checksum"/>

@@ -29,10 +29,10 @@ import org.inek.dataportal.utils.DocumentationUtil;
  */
 @Named
 @RequestScoped
-public class PsychStafftList {
+public class PsychStaffList {
 
     // <editor-fold defaultstate="collapsed" desc="fields">
-    private static final Logger LOGGER = Logger.getLogger(PsychStafftList.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(PsychStaffList.class.getName());
 
 // todo    @Inject private Facade Facade;
     @Inject private ApplicationTools _appTools;

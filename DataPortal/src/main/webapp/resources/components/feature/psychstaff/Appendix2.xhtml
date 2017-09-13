@@ -26,7 +26,6 @@
             <table class="marginTop">
                 <thead>
                     <tr>
-                        <th class="col10em row1" scope="col" rowspan="2"> Personalgruppen </th>
                         <th class="col02em row1" scope="col" rowspan="2"> Nr. </th>
                         <th class="col10em row1" scope="col" rowspan="2"> Berufsgruppen der Psych-PV </th>
                         <th class="col10em row1" scope="col" rowspan="2"> Psych-PV-Personal in VK (jeweils in Summe) </th>
@@ -43,10 +42,6 @@
                     <ui:repeat value="#{editPsyStaff.staffProof.getStaffProofsEffective(cc.attrs.patType)}" var="item">
                         <tr>
                             <td class="row1">
-                                <h:outputText value="#{item.occupationalCategory.personnelGroup.name}" styleClass="element10em"/>
-                            </td>
-
-                            <td class="row1">
                                 <h:outputText value="#{item.occupationalCategory.id}" styleClass="element02em"/>
                             </td>
 
@@ -62,7 +57,8 @@
                                                              readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
                                                              disabled="#{item.occupationalCategory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
                                                              pattern="#,##0.0"
-                                                             isInt="false">
+                                                             isInt="false"
+                                                             title="#{item.occupationalCategory.id == 2 ? msg.InfoPsychStaffNoteEducation : ''}">
                                     <f:ajax event="clientChange" render="factor"/>
                                 </inek:InputNumberWithMessage>
                             </td>
@@ -75,7 +71,8 @@
                                                              readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
                                                              disabled="#{item.occupationalCategory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
                                                              pattern="#,##0.0"
-                                                             isInt="false">
+                                                             isInt="false"
+                                                             title="#{item.occupationalCategory.id == 2 ? msg.InfoPsychStaffNoteEducation : ''}">
                                     <f:ajax event="clientChange" listener="#{editPsyStaff.countChanged(item, 4)}"/>
                                 </inek:InputNumberWithMessage>
                             </td>
@@ -85,9 +82,10 @@
                                                              styleClass="element10em number"
                                                              renderElement=":#{cc.attrs.clientId}:sumStaffingDeductionNonPsych #{cc.attrs.clientId}:explanation"
                                                              readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
-                                                             disabled="#{item.occupationalCategory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
+                                                             disabled="#{item.occupationalCategory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType) or item.occupationalCategoryId == 1}"
                                                              pattern="#,##0.0"
-                                                             isInt="false">
+                                                             isInt="false"
+                                                             title="#{item.occupationalCategory.id == 2 ? msg.InfoPsychStaffNoteEducation : ''}">
                                     <f:ajax event="clientChange" listener="#{editPsyStaff.countChanged(item, 5)}"/>
                                 </inek:InputNumberWithMessage>
                             </td>
@@ -99,7 +97,8 @@
                                                              readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
                                                              disabled="#{item.occupationalCategory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
                                                              pattern="#,##0.0"
-                                                             isInt="false">
+                                                             isInt="false"
+                                                             title="#{item.occupationalCategory.id == 2 ? msg.InfoPsychStaffNoteEducation : ''}">
                                     <f:ajax event="clientChange" listener="#{editPsyStaff.countChanged(item, 6)}"/>
                                 </inek:InputNumberWithMessage>
                             </td>
@@ -115,7 +114,6 @@
 
                     <tfoot>
                         <tr>
-                            <td class="col10em row1" scope="col"> </td>
                             <td class="col02em row1" scope="col"> </td>
                             <td class="col10em row1" scope="col"> Gesamt </td>
                             <th class="col10em row1" scope="col"> 
@@ -216,7 +214,8 @@
                           value="#{'Adults'.equals(cc.attrs.patType) ? editPsyStaff.staffProof.adultsEffectiveDays : editPsyStaff.staffProof.kidsEffectiveDays}"
                           styleClass="element08em"
                           readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
-                          renderElement=":#{cc.attrs.clientId}:checksum"/>
+                          renderElement=":#{cc.attrs.clientId}:checksum"
+                          title="#{msg.infoPsychStaffNoteCalcDays}"/>
 
         <inek:LabeledText label="Tatsächliche Kosten für das Psych-PV-Personal in Summe nach § 5 in Euro"
                           value="#{'Adults'.equals(cc.attrs.patType) ? editPsyStaff.staffProof.adultsEffectiveCosts : editPsyStaff.staffProof.kidsEffectiveCosts}"

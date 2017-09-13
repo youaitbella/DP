@@ -17,12 +17,12 @@
             <h1>#{msg.namePSYCH_STAFF}</h1>
             
             <h4><h:outputLabel value="#{msg.infoOpenPsychStaff}"/></h4>
-            <psystaff:PsychStaffList list="#{psychStafftList.openPersonals}"/>
+            <psystaff:PsychStaffList list="#{psychStaffList.openPersonals}"/>
             
             <ui:include src="#{sessionTools.pages.PsychStaffListButtons}"/>
             
             <h4><h:outputLabel value="#{msg.infoSealedPsychStaff}"/></h4>
-            <psystaff:PsychStaffList list="#{psychStafftList.providedPersonals}"/>
+            <psystaff:PsychStaffList list="#{psychStaffList.providedPersonals}"/>
             
         </h:form>
     </ui:define>

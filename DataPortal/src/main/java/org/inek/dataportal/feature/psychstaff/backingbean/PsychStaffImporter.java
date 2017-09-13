@@ -119,7 +119,7 @@ public class PsychStaffImporter {
         }
         double staffingComplete = StringUtil.parseLocalizedDouble(data[2]);
         double deductionPsych = StringUtil.parseLocalizedDouble(data[3]);
-        double deductionNonPsych = StringUtil.parseLocalizedDouble(data[4]);
+        double deductionNonPsych = number == 1 ? 0d : StringUtil.parseLocalizedDouble(data[4]);
         double deductionOther = StringUtil.parseLocalizedDouble(data[5]);
         StaffProofEffective staffProofEffective = staffProofsEffective
                 .stream()
@@ -132,5 +132,4 @@ public class PsychStaffImporter {
         staffProofEffective.setStaffingDeductionOther(deductionOther);
     }
 
-    
 }
