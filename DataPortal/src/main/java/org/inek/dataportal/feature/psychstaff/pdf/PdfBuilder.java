@@ -50,11 +50,11 @@ public class PdfBuilder implements Serializable {
     private EditPsyStaff _editPsyStaff;
 
     //<editor-fold defaultstate="collapsed" desc="Fonts">
-    private static final Font FONT_TITLE = new Font(Font.getFamily("TIMES_ROMAN"), 16, Font.BOLD);
-    private static final Font NORMALBOLD = new Font(Font.getFamily("TIMES_ROMAN"), 12, Font.BOLD);
-    private static final Font SMALLBOLD = new Font(Font.getFamily("TIMES_ROMAN"), 7, Font.BOLD);
-    private static final Font SMALL = new Font(Font.getFamily("TIMES_ROMAN"), 6, Font.NORMAL);
-    private static final Font SSMALL = new Font(Font.FontFamily.HELVETICA, 6);
+    private static final Font FONT_TITLE = new Font(Font.FontFamily.HELVETICA, 16, Font.BOLD);
+    private static final Font NORMALBOLD = new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD);
+    private static final Font SMALLBOLD = new Font(Font.getFamily("TIMES_ROMAN"), 9, Font.BOLD);
+    private static final Font SMALL = new Font(Font.getFamily("TIMES_ROMAN"), 8, Font.NORMAL);
+    private static final Font SSMALL = new Font(Font.FontFamily.HELVETICA, 8);
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Texts">
@@ -154,6 +154,7 @@ public class PdfBuilder implements Serializable {
                 anlage1,
                 _editPsyStaff.getStaffProof().getSignatureAgreement(PsychType.Kids));
         PdfPTable tb_JK = new PdfPTable(6);
+        tb_JK.setWidthPercentage(100);
         tb_JK.setWidths(new int[]{3, 1, 3, 3, 3, 3});
         tb_JK.getDefaultCell().setBackgroundColor(BaseColor.LIGHT_GRAY);
         loadDataForAnlage1(tb_JK);
@@ -163,7 +164,7 @@ public class PdfBuilder implements Serializable {
 
         Paragraph p = new Paragraph("Vereinbarte Berechnungstage: "
                 + String.valueOf(_editPsyStaff.getStaffProof().getKidsAgreedDays()), SMALLBOLD);
-        p.setIndentationLeft(50);
+        //p.setIndentationLeft(20);
         p.setSpacingAfter(30);
         document.add(p);
 
@@ -183,11 +184,13 @@ public class PdfBuilder implements Serializable {
                 anlage2,
                 _editPsyStaff.getStaffProof().getSignatureEffective(PsychType.Kids));
         PdfPTable tb_JK = new PdfPTable(8);
+        tb_JK.setWidthPercentage(100);
         tb_JK.setWidths(new int[]{3, 1, 3, 3, 3, 3, 3, 3});
         tb_JK.getDefaultCell().setBackgroundColor(BaseColor.LIGHT_GRAY);
 
         PdfPTable tb_exp = new PdfPTable(5);
-        tb_exp.setWidths(new int[]{2, 3, 3, 3, 6});
+        tb_exp.setWidthPercentage(100);
+        tb_exp.setWidths(new int[]{3, 3, 3, 3, 6});
         tb_exp.getDefaultCell().setBackgroundColor(BaseColor.LIGHT_GRAY);
 
         loadDataForAnlage2(tb_JK);
@@ -195,7 +198,7 @@ public class PdfBuilder implements Serializable {
         tb_JK.setSpacingAfter(10);
         document.add(tb_JK);
         Paragraph p = new Paragraph("Erläuterung zur Anrechnung von Fachkräften", NORMALBOLD);
-        p.setIndentationLeft(50);
+        //p.setIndentationLeft(20);
         p.setSpacingAfter(10);
         document.add(p);
         addExplanationTable(tb_exp);
@@ -203,13 +206,13 @@ public class PdfBuilder implements Serializable {
 
         p = new Paragraph("Tatsächliche Berechnungstage: "
                 + String.valueOf(_editPsyStaff.getStaffProof().getKidsEffectiveDays()), SMALLBOLD);
-        p.setIndentationLeft(50);
+        //p.setIndentationLeft(20);
         p.setSpacingAfter(5);
         document.add(p);
 
         p = new Paragraph("Tatsächliche Kosten für das Psych-PV-Personal in Summe nach § 5 in Euro: "
                 + String.valueOf(_editPsyStaff.getStaffProof().getKidsEffectiveCosts()), SMALLBOLD);
-        p.setIndentationLeft(50);
+        //p.setIndentationLeft(20);
         p.setSpacingAfter(30);
         document.add(p);
 
@@ -228,6 +231,7 @@ public class PdfBuilder implements Serializable {
                 anlage1,
                 _editPsyStaff.getStaffProof().getSignatureAgreement(PsychType.Adults));
         PdfPTable tb = new PdfPTable(6);
+        tb.setWidthPercentage(100);
         tb.setWidths(new int[]{3, 1, 3, 3, 3, 3});
 
         tb.getDefaultCell().setBackgroundColor(BaseColor.LIGHT_GRAY);
@@ -238,7 +242,7 @@ public class PdfBuilder implements Serializable {
 
         Paragraph p = new Paragraph("Vereinbarte Berechnungstage: "
                 + String.valueOf(_editPsyStaff.getStaffProof().getAdultsAgreedDays()), SMALLBOLD);
-        p.setIndentationLeft(50);
+        //p.setIndentationLeft(20);
         p.setSpacingAfter(30);
         document.add(p);
 
@@ -257,11 +261,13 @@ public class PdfBuilder implements Serializable {
                 anlage2,
                 _editPsyStaff.getStaffProof().getSignatureEffective(PsychType.Adults));
         PdfPTable tb = new PdfPTable(8);
+        tb.setWidthPercentage(100);
         tb.setWidths(new int[]{3, 1, 3, 3, 3, 3, 3, 3});
         tb.getDefaultCell().setBackgroundColor(BaseColor.LIGHT_GRAY);
 
         PdfPTable tb_exp = new PdfPTable(5);
-        tb_exp.setWidths(new int[]{2, 3, 3, 3, 6});
+        tb_exp.setWidths(new int[]{3, 3, 3, 3, 6});
+        tb_exp.setWidthPercentage(100);
         tb_exp.getDefaultCell().setBackgroundColor(BaseColor.LIGHT_GRAY);
 
         loadDataForAnlage2(tb);
@@ -269,7 +275,7 @@ public class PdfBuilder implements Serializable {
         tb.setSpacingAfter(10);
         document.add(tb);
         Paragraph p = new Paragraph("Erläuterung zur Anrechnung von Fachkräften", NORMALBOLD);
-        p.setIndentationLeft(50);
+        //p.setIndentationLeft(20);
         p.setSpacingAfter(10);
         document.add(p);
         addExplanationTable(tb_exp);
@@ -277,13 +283,13 @@ public class PdfBuilder implements Serializable {
 
         p = new Paragraph("Tatsächliche Berechnungstage : "
                 + String.valueOf(_editPsyStaff.getStaffProof().getAdultsEffectiveDays()), SMALLBOLD);
-        p.setIndentationLeft(50);
+        //p.setIndentationLeft(20);
         p.setSpacingAfter(5);
         document.add(p);
 
         p = new Paragraph("Tatsächliche Kosten für das Psych-PV-Personal in Summe nach § 5 in Euro: "
                 + String.valueOf(_editPsyStaff.getStaffProof().getAdultsEffectiveCosts()), SMALLBOLD);
-        p.setIndentationLeft(50);
+        //p.setIndentationLeft(20);
         p.setSpacingAfter(30);
         document.add(p);
 
@@ -399,6 +405,7 @@ public class PdfBuilder implements Serializable {
         PdfPTable tb;
         PdfPCell cell;
         tb = new PdfPTable(2);
+        tb.setWidthPercentage(100);
         tb.setWidths(new int[]{1, 4});
         cell = new PdfPCell(new PdfPCell(inekLogo, false));
         cell.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -419,6 +426,29 @@ public class PdfBuilder implements Serializable {
         cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
         cell.setBorder(PdfPCell.NO_BORDER);
         tb1.addCell(cell);
+        
+        PdfPTable tb_Hosp = new PdfPTable(3);
+        tb_Hosp.setWidths(new int[]{1,2,1});
+        tb_Hosp.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+        cell = new PdfPCell(new Paragraph("IK: "+"123456", NORMALBOLD));
+        cell.setBorder(PdfPCell.NO_BORDER);
+        tb_Hosp.addCell(cell);
+        cell = new PdfPCell(new Paragraph("Name: "+"Krankenhaus", NORMALBOLD));
+        cell.setBorder(PdfPCell.NO_BORDER);
+        tb_Hosp.addCell(cell);
+        cell = new PdfPCell(new Paragraph("Ort: "+"Stadt", NORMALBOLD));
+        cell.setBorder(PdfPCell.NO_BORDER);
+        tb_Hosp.addCell(cell);
+        cell = new PdfPCell(new Paragraph("Vereinbarungsjahr: "+"1970", NORMALBOLD));
+        cell.setBorder(PdfPCell.NO_BORDER);
+        tb_Hosp.addCell(cell);
+        cell = new PdfPCell(new Paragraph("Zählweise: "+"PEPP/LKA", NORMALBOLD));
+        cell.setBorder(PdfPCell.NO_BORDER);
+        tb_Hosp.addCell(cell);
+        
+        tb1.addCell(tb_Hosp);
+        
+        
         // todo: replace psychType by variable 
         cell = new PdfPCell(new Paragraph("Signatur: " + sig, SMALLBOLD));
         cell.setLeft(50);
@@ -510,7 +540,7 @@ public class PdfBuilder implements Serializable {
     private void addInfoText(Document document, String text, int spacing) throws DocumentException {
         Paragraph p;
         p = new Paragraph(text, SMALL);
-        p.setIndentationLeft(50);
+        //p.setIndentationLeft(20);
         p.setSpacingAfter(spacing);
         document.add(p);
     }
@@ -519,6 +549,7 @@ public class PdfBuilder implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="addSignaturArea">
     private void addSignaturArea(Document document) throws DocumentException {
         PdfPTable signaturArea = new PdfPTable(2);
+        signaturArea.setWidthPercentage(100);
         signaturArea.setWidths(new int[]{2, 2});
         signaturArea.getDefaultCell().setBorder(Rectangle.NO_BORDER);
         addLayoutCell(signaturArea, "für das Krankenhaus", SMALL, Element.ALIGN_LEFT);
@@ -551,6 +582,7 @@ public class PdfBuilder implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="addSignaturAreaA2">
     private void addSignaturAreaA2(Document document) throws DocumentException {
         PdfPTable signaturArea = new PdfPTable(1);
+        signaturArea.setWidthPercentage(100);
         //signaturArea.setWidths(new int[]{2, 2});
         signaturArea.getDefaultCell().setBorder(Rectangle.NO_BORDER);
         addLayoutCell(signaturArea, "Bestätigung durch das Krankenhaus (Ort, Datum und Unterschrift)", SMALL, Element.ALIGN_LEFT);
