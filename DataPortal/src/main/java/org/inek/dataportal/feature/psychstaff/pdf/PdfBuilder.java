@@ -56,6 +56,7 @@ public class PdfBuilder implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Fonts">
     private static final Font FONT_TITLE = new Font(Font.FontFamily.HELVETICA, 16, Font.BOLD);
     private static final Font NORMALBOLD = new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD);
+    private static final Font MEDIUMBOLD = new Font(Font.FontFamily.HELVETICA, 10, Font.BOLD);
     private static final Font SMALLBOLD = new Font(Font.getFamily("TIMES_ROMAN"), 9, Font.BOLD);
     private static final Font SMALL = new Font(Font.getFamily("TIMES_ROMAN"), 8, Font.NORMAL);
     private static final Font SSMALL = new Font(Font.FontFamily.HELVETICA, 8);
@@ -454,23 +455,23 @@ public class PdfBuilder implements Serializable {
     private void printHospitalInfo(PdfPTable tb1) throws DocumentException {
         PdfPCell cell;
         StaffProof staffProof = _editPsyStaff.getStaffProof();
-        PdfPTable tb_Hosp = new PdfPTable(3);
-        tb_Hosp.setWidths(new int[]{2,2,1});
+        PdfPTable tb_Hosp = new PdfPTable(4);
+        tb_Hosp.setWidths(new int[]{2,2,2,2});
         tb_Hosp.getDefaultCell().setBorder(Rectangle.NO_BORDER);
-        cell = new PdfPCell(new Paragraph("IK: "+ staffProof.getIk(), NORMALBOLD));
+        cell = new PdfPCell(new Paragraph("IK: "+ staffProof.getIk(), MEDIUMBOLD));
         cell.setBorder(PdfPCell.NO_BORDER);
         tb_Hosp.addCell(cell);
         String hospital = _applicationsTools.retrieveHospitalInfo(staffProof.getIk());
-        cell = new PdfPCell(new Paragraph("Name: "+hospital, NORMALBOLD));
+        cell = new PdfPCell(new Paragraph("Name: "+hospital, MEDIUMBOLD));
         cell.setBorder(PdfPCell.NO_BORDER);
         tb_Hosp.addCell(cell);
-        cell = new PdfPCell(new Paragraph("Vereinbarungsjahr: "+ staffProof.getYear(), NORMALBOLD));
+        cell = new PdfPCell(new Paragraph("Vereinbarungsjahr: "+ staffProof.getYear(), MEDIUMBOLD));
         cell.setBorder(PdfPCell.NO_BORDER);
         tb_Hosp.addCell(cell);
-        cell = new PdfPCell(new Paragraph("Zählweise: "+ (staffProof.getCalculationType() == 1 ? "PEPPV" : "BPflV/LKA"), NORMALBOLD));
+        cell = new PdfPCell(new Paragraph("Zählweise: "+ (staffProof.getCalculationType() == 1 ? "PEPPV" : "BPflV/LKA"), MEDIUMBOLD));
         cell.setBorder(PdfPCell.NO_BORDER);
         tb_Hosp.addCell(cell);
-        cell = new PdfPCell(new Paragraph("", NORMALBOLD));
+        cell = new PdfPCell(new Paragraph("", MEDIUMBOLD));
         cell.setBorder(PdfPCell.NO_BORDER);
         tb_Hosp.addCell(cell);
         tb1.addCell(tb_Hosp);
