@@ -405,7 +405,6 @@ public class PdfBuilder implements Serializable {
     private void addLogo(Document document, String bereich, String anlage, String sig)
             throws IOException, BadElementException, DocumentException {
         
-        StaffProof staffProof = _editPsyStaff.getStaffProof();
         URL resource = FacesContext.getCurrentInstance().getExternalContext().getResource("/resources/img/InEK.gif");
         Image inekLogo = Image.getInstance(resource);
         PdfPTable tb;
@@ -433,27 +432,7 @@ public class PdfBuilder implements Serializable {
         cell.setBorder(PdfPCell.NO_BORDER);
         tb1.addCell(cell);
         
-        PdfPTable tb_Hosp = new PdfPTable(3);
-        tb_Hosp.setWidths(new int[]{2,2,1});
-        tb_Hosp.getDefaultCell().setBorder(Rectangle.NO_BORDER);
-        cell = new PdfPCell(new Paragraph("IK: "+ staffProof.getIk(), NORMALBOLD));
-        cell.setBorder(PdfPCell.NO_BORDER);
-        tb_Hosp.addCell(cell);
-        String hospital = _applicationsTools.retrieveHospitalInfo(staffProof.getIk());
-        cell = new PdfPCell(new Paragraph("Name: "+hospital, NORMALBOLD));
-        cell.setBorder(PdfPCell.NO_BORDER);
-        tb_Hosp.addCell(cell);
-        cell = new PdfPCell(new Paragraph("Vereinbarungsjahr: "+"1970", NORMALBOLD));
-        cell.setBorder(PdfPCell.NO_BORDER);
-        tb_Hosp.addCell(cell);
-        cell = new PdfPCell(new Paragraph("Zählweise: "+"PEPP/LKA", NORMALBOLD));
-        cell.setBorder(PdfPCell.NO_BORDER);
-        tb_Hosp.addCell(cell);
-        cell = new PdfPCell(new Paragraph("", NORMALBOLD));
-        cell.setBorder(PdfPCell.NO_BORDER);
-        tb_Hosp.addCell(cell);
-        
-        tb1.addCell(tb_Hosp);
+        printHospitalInfo(tb1);
         
         
         // todo: replace psychType by variable 
@@ -470,6 +449,31 @@ public class PdfBuilder implements Serializable {
         tb.addCell(cell);
 
         document.add(tb);
+    }
+    
+    private void printHospitalInfo(PdfPTable tb1) throws DocumentException {
+        PdfPCell cell;
+        StaffProof staffProof = _editPsyStaff.getStaffProof();
+        PdfPTable tb_Hosp = new PdfPTable(3);
+        tb_Hosp.setWidths(new int[]{2,2,1});
+        tb_Hosp.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+        cell = new PdfPCell(new Paragraph("IK: "+ staffProof.getIk(), NORMALBOLD));
+        cell.setBorder(PdfPCell.NO_BORDER);
+        tb_Hosp.addCell(cell);
+        String hospital = _applicationsTools.retrieveHospitalInfo(staffProof.getIk());
+        cell = new PdfPCell(new Paragraph("Name: "+hospital, NORMALBOLD));
+        cell.setBorder(PdfPCell.NO_BORDER);
+        tb_Hosp.addCell(cell);
+        cell = new PdfPCell(new Paragraph("Vereinbarungsjahr: "+ staffProof.getYear(), NORMALBOLD));
+        cell.setBorder(PdfPCell.NO_BORDER);
+        tb_Hosp.addCell(cell);
+        cell = new PdfPCell(new Paragraph("Zählweise: "+ (staffProof.getCalculationType() == 1 ? "PEPPV" : "BPflV/LKA"), NORMALBOLD));
+        cell.setBorder(PdfPCell.NO_BORDER);
+        tb_Hosp.addCell(cell);
+        cell = new PdfPCell(new Paragraph("", NORMALBOLD));
+        cell.setBorder(PdfPCell.NO_BORDER);
+        tb_Hosp.addCell(cell);
+        tb1.addCell(tb_Hosp);
     }
     //</editor-fold>    
 
