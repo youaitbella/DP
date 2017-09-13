@@ -39,7 +39,7 @@
                          requiredMessage="#{msg.msgValueNeeded}"
                          validatorMessage="#{cc.attrs.validatorMessage}"
                          >
-                <f:ajax event="blur" render="#{cc.attrs.renderElement} :logout:remaining message :psychStaff:closeButton"/>
+                <f:ajax event="blur" render="#{cc.attrs.renderElement} :logout:remaining message @this"/>
                 <f:convertNumber pattern="#{cc.attrs.pattern}"/>
                 <f:validateLongRange rendered="#{cc.attrs.isInt}" minimum="#{cc.attrs.minimum}" maximum="#{cc.attrs.maximum}"/>
                 <f:validateDoubleRange rendered="#{!cc.attrs.isInt}" minimum="#{cc.attrs.minimum}" maximum="#{cc.attrs.maximum}"/>

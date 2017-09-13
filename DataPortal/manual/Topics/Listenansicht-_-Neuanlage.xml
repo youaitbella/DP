@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Listenansicht / Neuanlage</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Listenansicht / Neuanlage</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Nachdem Sie sich im </text><var styleclass="Normal">&lt;%TITLE_PSY%&gt;</var><text styleclass="Normal" translate="true"> angemeldet haben, erhalten Sie im Arbeitsbereich (rechts) in der Rubrik &#160;</text><text styleclass="Normal" style="font-style:italic;" translate="true">Psych-Personalnachweis-Vereinbarung</text><text styleclass="Normal" translate="true"> neben einer Liste eventuell noch nicht abgeschlossener Vereinbarungen die Schaltfläche </text><text styleclass="ButtonPsy" translate="true">[ Neue Vereinbarung ]</text><text styleclass="Normal" translate="true">. Wählen Sie über die Navigationsleiste (links) den Menüpunkt </text><text styleclass="Normal" style="font-style:italic;" translate="true">Psych-Personalnachweis-Vereinbarung</text><text styleclass="Normal" translate="true"> an, so erhalten Sie die gleiche Information plus eine Liste der bereits in allen Anlagen abgeschlossenen Vereinbarungen (siehe Abb.).</text></para>
+    <para styleclass="Button"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="PsychStaff00.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Bereich Psych-Personalnachweis-Vereinbarung im </text><var styleclass="Image Caption">&lt;%TITLE_PSY%&gt;</var></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Einen bestehenden Datensatz rufen Sie mittels Klick in eine der Spalten Jahr, IK oder Krankenhaus der betreffenden Zeile auf. </text><text styleclass="ButtonPsy" translate="true">[ Neue Vereinbarung ]</text><text styleclass="Normal" translate="true"> nutzen Sie, um eine neue Vereinbarung (neuer Datensatz) anzulegen. In beiden Fällen gelangen Sie zum nachfolgend beschriebenen Eingabedialog.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Jeder Datensatz enthält die vereinbarte und tatsächliche Stellenbesetzung eines Vereinbarungsjahres. Möchten Sie Daten für ein anderes Vereinbarungsjahr erfassen, so legen Sie eine neue Vereinbarung an.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

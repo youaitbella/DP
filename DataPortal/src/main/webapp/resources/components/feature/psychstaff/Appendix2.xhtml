@@ -82,7 +82,7 @@
                                                              styleClass="element10em number"
                                                              renderElement=":#{cc.attrs.clientId}:sumStaffingDeductionNonPsych #{cc.attrs.clientId}:explanation"
                                                              readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
-                                                             disabled="#{item.occupationalCategory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType) or item.occupationalCategoryId == 1}"
+                                                             disabled="#{item.occupationalCategory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType) or item.occupationalCategory.id == 1}"
                                                              pattern="#,##0.0"
                                                              isInt="false"
                                                              title="#{item.occupationalCategory.id == 2 ? msg.InfoPsychStaffNoteEducation : ''}">
@@ -191,6 +191,7 @@
                                                                  readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
                                                                  pattern="#,##0.0"
                                                                  isInt="false">
+                                        <f:ajax event="clientChange" listener="#{editPsyStaff.adjustLines(item)}" render="#{cc.attrs.clientId}:explanation"/>
                                     </inek:InputNumberWithMessage>
                                 </td>
 
@@ -209,19 +210,25 @@
         </div>
 
         <hr/>
-        
-        <inek:LabeledText label="Tatsächliche Berechnungstage (#{editPsyStaff.staffProof.calculationType == '1' ? 'PEPPV' : 'BPflV/LKA'})"
-                          value="#{'Adults'.equals(cc.attrs.patType) ? editPsyStaff.staffProof.adultsEffectiveDays : editPsyStaff.staffProof.kidsEffectiveDays}"
-                          styleClass="element08em"
-                          readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
-                          renderElement=":#{cc.attrs.clientId}:checksum"
-                          title="#{msg.infoPsychStaffNoteCalcDays}"/>
 
-        <inek:LabeledText label="Tatsächliche Kosten für das Psych-PV-Personal in Summe nach § 5 in Euro"
-                          value="#{'Adults'.equals(cc.attrs.patType) ? editPsyStaff.staffProof.adultsEffectiveCosts : editPsyStaff.staffProof.kidsEffectiveCosts}"
-                          styleClass="element08em"
-                          readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
-                          renderElement=":#{cc.attrs.clientId}:checksum"/>
+        <inek:LabeledNumber label="Tatsächliche Berechnungstage (#{editPsyStaff.staffProof.calculationType == '1' ? 'PEPPV' : 'BPflV/LKA'})"
+                            value="#{'Adults'.equals(cc.attrs.patType) ? editPsyStaff.staffProof.adultsEffectiveDays : editPsyStaff.staffProof.kidsEffectiveDays}"
+                            styleClass="element08em"
+                            readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
+                            renderElement=":#{cc.attrs.clientId}:checksum"
+                            title="#{msg.infoPsychStaffNoteCalcDays}"
+                            minimum="1"
+                            required="true"/>
+
+        <inek:LabeledNumber label="Tatsächliche Kosten für das Psych-PV-Personal in Summe nach § 5 in Euro"
+                            value="#{'Adults'.equals(cc.attrs.patType) ? editPsyStaff.staffProof.adultsEffectiveCosts : editPsyStaff.staffProof.kidsEffectiveCosts}"
+                            styleClass="element08em"
+                            readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
+                            renderElement=":#{cc.attrs.clientId}:checksum"
+                            minimum="1"
+                            required="true"
+                            pattern="#,##0.00"
+                            isInt="false"/>
 
         <div class="marginTop" jsf:rendered="#{not empty editPsyStaff.staffProof.getSignatureEffective(cc.attrs.patType)}">
             <hr class="simpleLine"/>

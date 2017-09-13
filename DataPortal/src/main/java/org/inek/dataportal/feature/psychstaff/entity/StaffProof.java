@@ -481,6 +481,15 @@ public class StaffProof implements Serializable, StatusEntity {
         return true;
     }
 
+    public void addStaffProofExplanation(PsychType type, OccupationalCategory occupationalCategory, int deductedSpecialistId) {
+        StaffProofExplanation explanation = new StaffProofExplanation();
+        explanation.setStaffProofMasterId(_id);
+        explanation.setPsychType(type);
+        explanation.setOccupationalCategory(occupationalCategory);
+        explanation.setDeductedSpecialistId(deductedSpecialistId);
+        _staffProofExplanation.add(explanation);
+    }
+
     public void removeStaffProofExplanation(PsychType type, OccupationalCategory occupationalCategory, int deductedSpecialistId) {
         _staffProofExplanation.removeIf(a -> a.getPsychType() == type
                 && a.getOccupationalCategoryId() == occupationalCategory.getId()

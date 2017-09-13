@@ -42,6 +42,7 @@ import org.inek.dataportal.feature.psychstaff.entity.StaffProof;
 import org.inek.dataportal.feature.psychstaff.entity.StaffProofAgreed;
 import org.inek.dataportal.feature.psychstaff.entity.StaffProofDocument;
 import org.inek.dataportal.feature.psychstaff.entity.StaffProofEffective;
+import org.inek.dataportal.feature.psychstaff.entity.StaffProofExplanation;
 import org.inek.dataportal.feature.psychstaff.enums.PsychType;
 import org.inek.dataportal.feature.psychstaff.facade.PsychStaffFacade;
 import org.inek.dataportal.helper.Utils;
@@ -95,7 +96,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
             save(false);
         }
     }
-    
+
     @Override
     protected String getOutcome() {
         return "";
@@ -170,7 +171,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
 
     private void setYearToFirstAvailable(StaffProof staffProof) {
         List<Integer> years = getYears(staffProof);
-        if (years.size() > 0){
+        if (years.size() > 0) {
             staffProof.setYear(years.get(0));
         }
     }
@@ -179,25 +180,24 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         setTopicVisibility();
         ensureStaffProofsAgreed(_staffProof);
         ensureStaffProofsEffective(_staffProof);
-        _staffProof.setYear(0);
     }
 
     public List<Integer> getYears() {
         return getYears(_staffProof);
     }
-    
+
     public List<Integer> getYears(StaffProof staffProof) {
         if (staffProof == null) {
             return new ArrayList<>();
         }
-        
+
         List<Integer> existingYears = _psychStaffFacade.getExistingYears(staffProof.getIk());
 
         List<Integer> availableYears = new ArrayList<>();
         IntStream.rangeClosed(2016, 2019) // as of the contract
                 .filter(y -> y == staffProof.getYear() || !existingYears.contains(y))
                 .forEach(y -> availableYears.add(y));
-        
+
         return availableYears;
     }
 
@@ -673,8 +673,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
                 return;
         }
 
-        _sessionController.setScript("alert('hallo');");
-        Utils.showMessageInBrowser(msg);
+        _sessionController.alertClient(msg);
     }
 
     public void countChanged(StaffProofEffective item, int key) {
@@ -698,5 +697,43 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         }
         _staffProof.addMissingStaffProofExplanation(item.getPsychType(), item.getOccupationalCategory(), key);
 
+    }
+
+    public void adjustLines(StaffProofExplanation explanation) {
+        if (explanation.getDeductedFullVigor() == 0) {
+            return;
+        }
+        PsychType type = explanation.getPsychType();
+        OccupationalCategory occupationalCategory = explanation.getOccupationalCategory();
+        int key = explanation.getDeductedSpecialistId();
+        StaffProofEffective staffProofEffective = _staffProof
+                .getStaffProofsEffective(type)
+                .stream()
+                .filter(e -> e.getOccupationalCategory().getId() == occupationalCategory.getId())
+                .findAny()
+                .get();
+        double deductionCount;
+        switch (key) {
+            case 4:
+                deductionCount = staffProofEffective.getStaffingDeductionPsych();
+                break;
+            case 5:
+                deductionCount = staffProofEffective.getStaffingDeductionNonPsych();
+                break;
+            case 6:
+                deductionCount = staffProofEffective.getStaffingDeductionOther();
+                break;
+            default:
+                deductionCount = 0;
+        }
+        double sum = _staffProof
+                .getStaffProofExplanations(type)
+                .stream()
+                .filter(e -> e.getOccupationalCategory().getId() == occupationalCategory.getId() && e.getDeductedSpecialistId() == key)
+                .mapToDouble(e -> e.getDeductedFullVigor())
+                .sum();
+        if (deductionCount - sum > 0) {
+            _staffProof.addStaffProofExplanation(type, occupationalCategory, key);
+        }
     }
 }
