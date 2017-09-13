@@ -20,6 +20,7 @@ import javax.inject.Named;
 import javax.persistence.OptimisticLockException;
 import javax.servlet.http.Part;
 import org.inek.dataportal.common.ApplicationTools;
+import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.certification.Grouper;
 import org.inek.dataportal.entities.certification.RemunerationSystem;
@@ -50,6 +51,8 @@ public class CertManager implements Serializable {
     private GrouperFacade _grouperFacade;
     @Inject
     private ApplicationTools _appTools;
+    @Inject
+    private SessionController _sessionController;
 
     @PreDestroy
     private void preDestroy() {
@@ -163,14 +166,23 @@ public class CertManager implements Serializable {
             try {
                 savedGroupers.add(_grouperFacade.merge(grouper));
             } catch (Exception ex) {
-                if (!(ex.getCause() instanceof OptimisticLockException)) {
-                    throw ex;
+                if ((ex.getCause() instanceof OptimisticLockException)) {
+                    _sessionController.alertClient("Die Daten wurden bereits von einem anderen Benutzer geändert. Speichern nicht möglich.");
+                    return "";
                 }
                 savedGroupers.add(mergeGrouper(grouper));
             }
         }
         _system.setGrouperList(savedGroupers);
-        _systemFacade.save(_system);
+        try {
+            _systemFacade.save(_system);
+        } catch (Exception ex) {
+            if ((ex.getCause() instanceof OptimisticLockException)) {
+                _sessionController.alertClient("Die Daten wurden bereits von einem anderen Benutzer geändert. Speichern nicht möglich.");
+                return "";
+            }
+        }
+        
         _system = _systemFacade.findFresh(_system.getId());
         persistFiles(new File(_appTools.getSystemRoot(_system), "Spec"));
         persistFiles(new File(_appTools.getSystemRoot(_system), "Daten"));

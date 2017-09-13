@@ -242,7 +242,7 @@ public class CertCertification implements Serializable{
     }
 
     private Optional<File> getUploadFolder(EditCert editCert) {
-        RemunerationSystem system = _systemFacade.find(_grouper.getSystemId());
+        RemunerationSystem system = _systemFacade.findFresh(_grouper.getSystemId());
         if (system == null) {
             LOGGER.log(Level.WARNING, "upload, missing system with id {0}", _grouper.getSystemId());
             return Optional.empty();
@@ -274,7 +274,7 @@ public class CertCertification implements Serializable{
 
     public String saveFile() {
         setPersistUploadFile();
-        RemunerationSystem system = _systemFacade.find(_grouper.getSystemId());
+        RemunerationSystem system = _systemFacade.findFresh(_grouper.getSystemId());
         Account account = _sessionController.getAccount();
         String phone = account.getPhone();
         if (phone.trim().isEmpty()){

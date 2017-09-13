@@ -169,7 +169,7 @@
                         <h:commandLink  immediate="true" >
                             <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value=""/>
                             <cb:confirmDelete/>
-                            <f:ajax render="@form :logout:remaining" listener="#{certManager.deleteGrouper(grouper)}"/>
+                            <f:ajax render="@all :logout:remaining" listener="#{certManager.deleteGrouper(grouper)}"/>
                         </h:commandLink>
                     </h:column>
 
