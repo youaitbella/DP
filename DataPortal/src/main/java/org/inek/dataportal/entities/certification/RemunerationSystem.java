@@ -16,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.persistence.Version;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import org.inek.dataportal.enums.ConfigKey;
@@ -208,6 +209,22 @@ public class RemunerationSystem implements Serializable {
         File systemRoot = new File(root, getFileName());
         return systemRoot;
     }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Version">
+    @Column(name = "syVersion")
+    @Version
+    private int _version;
+
+    public int getVersion() {
+        return _version;
+    }
+
+    public void setVersion(int version) {
+        this._version = version;
+    }
+    
+
     // </editor-fold>
     // </editor-fold>
     
