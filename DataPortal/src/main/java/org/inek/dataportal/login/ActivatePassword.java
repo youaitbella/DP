@@ -8,6 +8,7 @@ import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.enums.PortalType;
 import org.inek.dataportal.facades.account.AccountFacade;
 
 /**
@@ -66,9 +67,11 @@ public class ActivatePassword implements Serializable{
 
     public String activateAndLogin(){
         if (!_accountFacade.activatePassword(_emailOrUser, _password, _key)){
+            _sessionController.alertClient("Die eingegeben Informationen konnten nicht verifizert werden. Bitte "
+                                           + "überprüfen Sie Ihre Eingaben und versuchen Sie es erneut. ");
             return null;
         }
-        if (!_sessionController.loginAndSetTopics(_emailOrUser, _password)){
+        if (!_sessionController.loginAndSetTopics(_emailOrUser, _password,PortalType.DRG)){
             return null;
         }
         return _sessionController.countInstalledFeatures() <= 1 ? Pages.UserMaintenanceFeatures.URL() :  Pages.MainApp.URL();
