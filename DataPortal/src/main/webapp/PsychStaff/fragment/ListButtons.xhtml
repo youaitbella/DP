@@ -6,10 +6,10 @@
                 >
 
     <div class="toolBar marginLeft">
-        <h:link styleClass="bigButton #{psychStafftList.newAllowed? '' : 'buttonDisabled'}"
+        <h:link styleClass="bigButton #{psychStaffList.newAllowed? '' : 'buttonDisabled'}"
                 outcome="#{sessionTools.pages.PsychStaffEdit}"
-                value="#{msg.btnNewSpecificFunctionRequest}"
-                disabled="#{!psychStafftList.newAllowed}"
+                value="#{msg.btnNewAgreement}"
+                disabled="#{!psychStaffList.newAllowed}"
                 >
             <f:param name="id" value="new"/>
         </h:link>

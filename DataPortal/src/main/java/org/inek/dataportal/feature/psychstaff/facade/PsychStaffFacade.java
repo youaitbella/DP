@@ -32,15 +32,11 @@ public class PsychStaffFacade extends AbstractDataAccess {
         return find(StaffProof.class, id);
     }
     
-    public List<StaffProof> getPersonals(int accountId, DataSet dataSet) {
+    public List<StaffProof> getPersonals(int accountId) {
         String sql = "SELECT n FROM StaffProof n "
-                + "WHERE n._accountId = :accountId and n._statusId BETWEEN :minStatus AND :maxStatus ORDER BY n._year, n._id";
+                + "WHERE n._accountId = :accountId ORDER BY n._year, n._id";
         TypedQuery<StaffProof> query = getEntityManager().createQuery(sql, StaffProof.class);
-        int minStatus = dataSet == DataSet.AllOpen ? WorkflowStatus.New.getId() : WorkflowStatus.Provided.getId();
-        int maxStatus = dataSet == DataSet.AllOpen ? WorkflowStatus.Provided.getId()-1 : WorkflowStatus.Retired.getId();
         query.setParameter("accountId", accountId);
-        query.setParameter("minStatus", minStatus);
-        query.setParameter("maxStatus", maxStatus);
         return query.getResultList();
     }
 

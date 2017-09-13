@@ -109,7 +109,7 @@ public class CertMail implements Serializable {
     public SelectItem[] getSystemReceiverLists() {
         List<SelectItem> receiverList = new ArrayList<>();
         receiverList.add(new SelectItem(""));
-        List<RemunerationSystem> systems = _systemFacade.findAll();
+        List<RemunerationSystem> systems = _systemFacade.findAllFresh();
         systems.stream().forEach((s) -> {
             receiverList.add(new SelectItem(s.getDisplayName()));
         });

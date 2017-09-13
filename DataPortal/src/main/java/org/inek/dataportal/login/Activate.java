@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.enums.PortalType;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.cooperation.CooperationRequestEmailFacade;
 
@@ -80,12 +81,14 @@ public class Activate implements Serializable {
     public String activateAndLogin() {
         if (!_accountFacade.activateAccount(_emailOrUser, _password, _key)) {
             LOGGER.log(Level.WARNING, "Activation failed: {0}", _emailOrUser);
+            _sessionController.alertClient("Die eingegeben Informationen konnten nicht verifizert werden. Bitte "
+                                           + "überprüfen Sie Ihre Eingaben und versuchen Sie es erneut. ");            
             return null;
         }
         Account userAcc = _accountFacade.findByMailOrUser(_emailOrUser);
         _coopRequestEmailFacade.createRealCooperationRequests(userAcc.getEmail());
         
-        if (!_sessionController.loginAndSetTopics(_emailOrUser, _password)) {
+        if (!_sessionController.loginAndSetTopics(_emailOrUser, _password, PortalType.DRG)) {
             LOGGER.log(Level.WARNING, "Login and set topics failed: {0}", _emailOrUser);
             return null;
         }

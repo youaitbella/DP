@@ -53,7 +53,8 @@
                                                              readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
                                                              disabled="#{item.occupationalCategory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
                                                              pattern="#,##0.0"
-                                                             isInt="false"/>
+                                                             isInt="false"
+                                                             title="#{item.occupationalCategory.id == 2 ? msg.InfoPsychStaffNoteEducation : ''}"/>
                             </td>
                             <td>
                                 <inek:InputNumberWithMessage value="#{item.staffingBudget}" 
@@ -62,7 +63,8 @@
                                                              readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
                                                              disabled="#{item.occupationalCategory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
                                                              pattern="#,##0.0"
-                                                             isInt="false"/>
+                                                             isInt="false"
+                                                             title="#{item.occupationalCategory.id == 2 ? msg.InfoPsychStaffNoteEducation : ''}"/>
                             </td>
                             <td >
                                 <inek:InputNumberWithMessage value="#{item.avgCost}" 
@@ -70,7 +72,8 @@
                                                              readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
                                                              disabled="#{item.occupationalCategory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
                                                              pattern="#,##0.00"
-                                                             isInt="false"/>
+                                                             isInt="false"
+                                                             title="#{item.occupationalCategory.id == 2 ? msg.InfoPsychStaffNoteEducation : ''}"/>
                             </td>
                         </tr>
                     </ui:repeat>
@@ -105,7 +108,8 @@
                           value="#{'Adults'.equals(cc.attrs.patType) ? editPsyStaff.staffProof.adultsAgreedDays : editPsyStaff.staffProof.kidsAgreedDays}"
                           styleClass="element10em"
                           readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
-                          renderElement=":#{cc.attrs.clientId}:checksum"/>
+                          renderElement=":#{cc.attrs.clientId}:checksum"
+                          title="#{msg.infoPsychStaffNoteCalcDays}"/>
 
         <div class="marginTop" jsf:rendered="#{not empty editPsyStaff.staffProof.getSignatureAgreement(cc.attrs.patType)}">
             <hr class="simpleLine"/>

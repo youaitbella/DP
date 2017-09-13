@@ -7,15 +7,13 @@ package org.inek.dataportal.feature.psychstaff.backingbean;
 
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.controller.SessionController;
-import org.inek.dataportal.entities.insurance.InsuranceNubNotice;
-import org.inek.dataportal.feature.specificfunction.entity.SpecificFunctionRequest;
 import org.inek.dataportal.enums.ConfigKey;
-import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.feature.psychstaff.entity.StaffProof;
@@ -29,10 +27,10 @@ import org.inek.dataportal.utils.DocumentationUtil;
  */
 @Named
 @RequestScoped
-public class PsychStafftList {
+public class PsychStaffList {
 
     // <editor-fold defaultstate="collapsed" desc="fields">
-    private static final Logger LOGGER = Logger.getLogger(PsychStafftList.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(PsychStaffList.class.getName());
 
 // todo    @Inject private Facade Facade;
     @Inject private ApplicationTools _appTools;
@@ -42,11 +40,19 @@ public class PsychStafftList {
     @Inject private SessionController _sessionController;
 
     public List<StaffProof> getOpenPersonals() {
-        return _psychFacade.getPersonals(_sessionController.getAccountId(), DataSet.AllOpen);
+        return _psychFacade
+                .getPersonals(_sessionController.getAccountId())
+                .stream()
+                .filter(p -> !p.isClosed())
+                .collect(Collectors.toList());
     }
 
     public List<StaffProof> getProvidedPersonals() {
-        return _psychFacade.getPersonals(_sessionController.getAccountId(), DataSet.AllSealed);
+        return _psychFacade
+                .getPersonals(_sessionController.getAccountId())
+                .stream()
+                .filter(p -> p.isClosed())
+                .collect(Collectors.toList());
     }
     
     public boolean isNewAllowed() {

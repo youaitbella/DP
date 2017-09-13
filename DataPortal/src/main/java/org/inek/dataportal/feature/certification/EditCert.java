@@ -114,7 +114,7 @@ public class EditCert extends AbstractEditController {
         if (systemId < 0) {
             return null;
         }
-        RemunerationSystem system = _systemFacade.find(systemId);
+        RemunerationSystem system = _systemFacade.findFresh(systemId);
         if (system == null) {
             LOGGER.log(Level.WARNING, "Certification, missing system with id {0}", systemId);
         }

@@ -984,7 +984,7 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     @OrderBy("_serviceProvisionTypeId")
     @Documentation(name = "Ext. Leistungen", headline = "(Externe) Leistungserbringung / Fremdvergabe", rank = 2010)
     private List<KGLListServiceProvision> _serviceProvisions = new Vector<>();
-
+    
     public List<KGLListServiceProvision> getServiceProvisions() {
         return _serviceProvisions;
     }

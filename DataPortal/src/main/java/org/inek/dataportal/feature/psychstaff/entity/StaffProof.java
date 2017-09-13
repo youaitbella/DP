@@ -469,7 +469,7 @@ public class StaffProof implements Serializable, StatusEntity {
     public boolean addMissingStaffProofExplanation(PsychType type, OccupationalCategory occupationalCategory, int deductedSpecialistId) {
         if (_staffProofExplanation.stream().anyMatch(a -> a.getPsychType() == type
                 && a.getOccupationalCategoryId() == occupationalCategory.getId()
-                && a.getDeductedSpecialistId() == deductedSpecialistId)){
+                && a.getDeductedSpecialistId() == deductedSpecialistId)) {
             return false;
         }
         StaffProofExplanation explanation = new StaffProofExplanation();
@@ -480,14 +480,23 @@ public class StaffProof implements Serializable, StatusEntity {
         _staffProofExplanation.add(explanation);
         return true;
     }
-    
+
+    public void addStaffProofExplanation(PsychType type, OccupationalCategory occupationalCategory, int deductedSpecialistId) {
+        StaffProofExplanation explanation = new StaffProofExplanation();
+        explanation.setStaffProofMasterId(_id);
+        explanation.setPsychType(type);
+        explanation.setOccupationalCategory(occupationalCategory);
+        explanation.setDeductedSpecialistId(deductedSpecialistId);
+        _staffProofExplanation.add(explanation);
+    }
+
     public void removeStaffProofExplanation(PsychType type, OccupationalCategory occupationalCategory, int deductedSpecialistId) {
         _staffProofExplanation.removeIf(a -> a.getPsychType() == type
                 && a.getOccupationalCategoryId() == occupationalCategory.getId()
                 && a.getDeductedSpecialistId() == deductedSpecialistId);
     }
     // </editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property StaffProofDocuments">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "spdStaffProofMasterId", referencedColumnName = "spmId")
@@ -576,17 +585,23 @@ public class StaffProof implements Serializable, StatusEntity {
                 || _statusKids2 >= WorkflowStatus.Provided.getId();
     }
 
+    public boolean isClosed() {
+        return (_forAdults || _forKids)
+                && (!_forAdults || _statusAdults1 >= WorkflowStatus.Provided.getId() && _statusAdults2 >= WorkflowStatus.Provided.getId())
+                && (!_forKids || _statusKids1 >= WorkflowStatus.Provided.getId() && _statusKids2 >= WorkflowStatus.Provided.getId());
+    }
+
     /**
-     * Returns a checksum, if status is at least provided (closed):
-     * Otherwise the checksum is empty
+     * Returns a checksum, if status is at least provided (closed): Otherwise the checksum is empty
+     *
      * @param psychType
      * @return Base64 encoded checksum
      */
     public String getSignatureAgreement(PsychType psychType) {
-        if (psychType == PsychType.Adults && _statusAdults1 < WorkflowStatus.Provided.getId()){
+        if (psychType == PsychType.Adults && _statusAdults1 < WorkflowStatus.Provided.getId()) {
             return "";
         }
-        if (psychType == PsychType.Kids && _statusKids1 < WorkflowStatus.Provided.getId()){
+        if (psychType == PsychType.Kids && _statusKids1 < WorkflowStatus.Provided.getId()) {
             return "";
         }
         // we use a delimitter to distinguish the concatenation of "cummutative" values
@@ -623,9 +638,61 @@ public class StaffProof implements Serializable, StatusEntity {
     }
 
     public String getSignatureEffective(PsychType psychType) {
-        // todo
-        return "";
+        if (psychType == PsychType.Adults && _statusAdults2 < WorkflowStatus.Provided.getId()) {
+            return "";
+        }
+        if (psychType == PsychType.Kids && _statusKids2 < WorkflowStatus.Provided.getId()) {
+            return "";
+        }
+        // we use a delimitter to distinguish the concatenation of "cummutative" values
+        // eg. id = 1; AccountId = 11, without deli: "111", with deli: "1^11"
+        //     id = 11; AccountId = 1, without deli: "111" (as before!), with deli: "11^1"
+        String data = "^"
+                + getId() + "^"
+                + getAccountId() + "^"
+                + getCreated() + "^"
+                + getYear() + "^"
+                + getCalculationType() + "^";
+        if (psychType == PsychType.Adults) {
+            data += getAdultsEffectiveDays() + "^"
+                    + getAdultsEffectiveCosts() + "^"
+                    + getStatusChangedAdults2() + "^";
+        } else {
+            data += getKidsEffectiveDays() + "^"
+                    + getKidsEffectiveCosts() + "^"
+                    + getStatusChangedKids2() + "^";
+        }
+        data += getProofsEffectiveData(psychType);
+        data += getExplanationData(psychType);
+        return Crypt.getHash64("SHA-1", data);  // sha-1 is sufficiant for this purpose and keeps the result short
     }
-    
-    
+
+    private String getProofsEffectiveData(PsychType psychType) {
+        String data = psychType + "^";
+        data = getStaffProofsEffective(psychType)
+                .stream()
+                .map((item) -> ""
+                + item.getOccupationalCategoryId() + "^"
+                + item.getStaffingComplete() + "^"
+                + item.getStaffingDeductionPsych() + "^"
+                + item.getStaffingDeductionNonPsych() + "^"
+                + item.getStaffingDeductionOther() + "^")
+                .reduce(data, String::concat);
+        return data;
+    }
+
+    private String getExplanationData(PsychType psychType) {
+        String data = psychType + "^";
+        data = getStaffProofExplanations(psychType)
+                .stream()
+                .map((item) -> ""
+                + item.getOccupationalCategoryId() + "^"
+                + item.getDeductedSpecialistId() + "^"
+                + item.getEffectiveOccupationalCategory() + "^"
+                + item.getDeductedFullVigor() + "^"
+                + item.getExplanation() + "^")
+                .reduce(data, String::concat);
+        return data;
+    }
+
 }

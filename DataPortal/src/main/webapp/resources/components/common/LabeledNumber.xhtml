@@ -24,32 +24,41 @@
         <cc:attribute name="isInt" default="true"/>
         <cc:attribute name="minimum" default="0"/>
         <cc:attribute name="maximum" default="999999999"/>
+        <cc:attribute name="pattern" default="#,##0.##"/>
+        <cc:attribute name="validatorMessage" default="ausserhalb des gültigen Bereichs"/>
+        <cc:editableValueHolder name="text"/>
+        <cc:actionSource name="text"/>
+        <cc:clientBehavior name="clientChange" targets="text" event="valueChange"/>
     </cc:interface>
 
     <!-- IMPLEMENTATION -->
     <cc:implementation>
-        <cc:editableValueHolder name="#{cc.id}" targets="idText"/>
+        <cc:editableValueHolder name="#{cc.id}" targets="text"/>
         <div class="#{cc.attrs.styleClassComponent}">
             <h:panelGroup style="display: inline-block; width: 100%;" rendered="#{!cc.attrs.singleLine}">
-                <h:outputLabel styleClass="#{cc.attrs.styleClassLabel}" value="#{cc.attrs.label}:" for="idText"/>
-                <h:message for="idText" id="msgText" styleClass="errorMessage"/>
+                <h:outputLabel styleClass="#{cc.attrs.styleClassLabel}" value="#{cc.attrs.label}:" for="text"/>
+                <h:message for="text" id="msgText" styleClass="errorMessage"/>
             </h:panelGroup>
-            <h:outputLabel styleClass="#{cc.attrs.styleClassLabel}" value="#{cc.attrs.label}:" for="idText" rendered="#{cc.attrs.singleLine}"/>
-            <h:inputText id="idText" rendered="#{not cc.attrs.displayAsLabel or not cc.attrs.readonly}"
+            <h:outputLabel styleClass="#{cc.attrs.styleClassLabel}" value="#{cc.attrs.label}:" for="text" rendered="#{cc.attrs.singleLine}"/>
+            <h:inputText id="text" 
+                         rendered="#{not cc.attrs.displayAsLabel or not cc.attrs.readonly}"
                          styleClass="number #{cc.attrs.styleClass} #{cc.attrs.required ? ' required ' : ''}" 
                          value="#{cc.attrs.value}" 
                          title="#{cc.attrs.title}" 
                          readonly="#{cc.attrs.readonly}"
-                         required="#{cc.attrs.required}">
+                         required="#{cc.attrs.required}"
+                         requiredMessage="#{msg.msgValueNeeded}"
+                         validatorMessage="#{cc.attrs.validatorMessage}"
+                         >
                 <f:ajax event="#{cc.attrs.event}" render="@this msgText msgText2 :logout:remaining #{cc.attrs.renderElement}" />
-                <f:convertNumber/>
+                <f:convertNumber pattern="#{cc.attrs.pattern}"/>
                 <f:validateLongRange rendered="#{cc.attrs.isInt}" minimum="#{cc.attrs.minimum}" maximum="#{cc.attrs.maximum}"/>
                 <f:validateDoubleRange rendered="#{!cc.attrs.isInt}" minimum="#{cc.attrs.minimum}" maximum="#{cc.attrs.maximum}"/>
             </h:inputText>
             <h:outputLabel rendered="#{cc.attrs.displayAsLabel and cc.attrs.readonly}"
                            styleClass="#{cc.attrs.styleClass}"
                            value="#{cc.attrs.value}"/>
-            <h:message for="idText" id="msgText2" styleClass="errorMessage" rendered="#{cc.attrs.singleLine}"/>
+            <h:message for="text" id="msgText2" styleClass="errorMessage" rendered="#{cc.attrs.singleLine}"/>
         </div>
     </cc:implementation>
 </html>

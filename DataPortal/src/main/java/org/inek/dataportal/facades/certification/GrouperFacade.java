@@ -5,6 +5,8 @@ import java.util.logging.Level;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 import org.inek.dataportal.entities.certification.Grouper;
+import org.inek.dataportal.entities.certification.RemunerationSystem;
+import org.inek.dataportal.facades.AbstractDataAccess;
 import org.inek.dataportal.facades.AbstractFacade;
 
 /**
@@ -12,13 +14,8 @@ import org.inek.dataportal.facades.AbstractFacade;
  * @author muellermi
  */
 @Stateless
-public class GrouperFacade extends AbstractFacade<Grouper> {
+public class GrouperFacade extends AbstractDataAccess {
 
-    public GrouperFacade() {
-        super(Grouper.class);
-    }
-
-    
     public List<Grouper> findBySystemId(int systemId) {
         String query = "SELECT g FROM Grouper g WHERE g._systemId = :id";
         return getEntityManager().createQuery(query, Grouper.class).setParameter("id", systemId).getResultList();
@@ -41,6 +38,10 @@ public class GrouperFacade extends AbstractFacade<Grouper> {
             LOGGER.log(Level.WARNING, "No grouper found for account {0} and system {1}", new Object[]{accountId, systemId});
             return new Grouper();
         }
+    }
+    
+    public Grouper findFresh(int id) {
+        return super.findFresh(Grouper.class, id);
     }
 
 }

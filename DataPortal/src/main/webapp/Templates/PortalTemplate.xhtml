@@ -56,7 +56,9 @@
             <div id="wrapper">
                 <div id="top">
                     <div class="left">
-                        <h:graphicImage alt="InEK GmbH" name="Image/InEK_transparent.png"/>
+                        <h:outputLink value="http://g-drg.de/">
+                            <h:graphicImage alt="Logo InEK GmbH" name="Image/InEK_transparent.png"/>
+                        </h:outputLink>
                     </div>
                     <div class="right">
                         <div id="globalLinks">
@@ -150,16 +152,16 @@
                     window.addEventListener('popstate', function () {
                         history.pushState(null, null, document.URL);
                     });
-</script>
+                </script>
             </h:form>
 
             <ui:remove>
-<script type="text/javascript">
-    $(function () {
-        $('.title-placeholder').each(function (k, v) {
-            $(v).attr('placeholder', $(v).attr('title'));
-        });
-    });
+                <script type="text/javascript">
+                    $(function () {
+                        $('.title-placeholder').each(function (k, v) {
+                            $(v).attr('placeholder', $(v).attr('title'));
+                        });
+                    });
                     </script>
                 </ui:remove>
                 <!-- Piwik ->
