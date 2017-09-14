@@ -170,13 +170,12 @@ public class PdfBuilder implements Serializable {
 
         Paragraph p = new Paragraph("Vereinbarte Berechnungstage: "
                 + String.valueOf(_editPsyStaff.getStaffProof().getKidsAgreedDays()), SMALLBOLD);
-        //p.setIndentationLeft(20);
         p.setSpacingAfter(30);
         document.add(p);
 
         addNote(document, infoText1, 0);
         addNote(document, infoText2, 20);
-        addInfoText(document, infoText3, 50);
+        addInfoText(document, infoText3, 30);
         addSignaturArea(document);
     }
     //</editor-fold>
@@ -207,12 +206,6 @@ public class PdfBuilder implements Serializable {
         document.add(p);
         addExplanationTable(tb_exp);
         document.add(tb_exp);
-        if (document.newPage()) {
-            addLogo(document,
-                    "Vereinbarte Stellenbesetzung in Vollkräften \nBereich Kinder und Jugendliche",
-                    anlage2,
-                    _editPsyStaff.getStaffProof().getSignatureEffective(PsychType.Kids));
-        }
         p = new Paragraph("Tatsächliche Berechnungstage: "
                 + String.valueOf(_editPsyStaff.getStaffProof().getKidsEffectiveDays()), SMALLBOLD);
         p.setSpacingAfter(5);
@@ -222,10 +215,16 @@ public class PdfBuilder implements Serializable {
                 + String.valueOf(_editPsyStaff.getStaffProof().getKidsEffectiveCosts()), SMALLBOLD);
         p.setSpacingAfter(30);
         document.add(p);
+        if (document.newPage()) {
+            addLogo(document,
+                    "Vereinbarte Stellenbesetzung in Vollkräften \nBereich Kinder und Jugendliche",
+                    anlage2,
+                    _editPsyStaff.getStaffProof().getSignatureEffective(PsychType.Kids));
+        }
 
         addNote(document, infoText1, 0);
         addNote(document, infoText2, 20);
-        addInfoText(document, infoText3A2, 50);
+        addInfoText(document, infoText3A2, 30);
         addSignaturAreaA2(document);
     }
     //</editor-fold>
@@ -249,13 +248,12 @@ public class PdfBuilder implements Serializable {
 
         Paragraph p = new Paragraph("Vereinbarte Berechnungstage: "
                 + String.valueOf(_editPsyStaff.getStaffProof().getAdultsAgreedDays()), SMALLBOLD);
-        //p.setIndentationLeft(20);
         p.setSpacingAfter(30);
         document.add(p);
 
         addNote(document, infoText1, 0);
         addNote(document, infoText2, 20);
-        addInfoText(document, infoText3, 50);
+        addInfoText(document, infoText3, 30);
         addSignaturArea(document);
     }
     //</editor-fold>
@@ -283,33 +281,33 @@ public class PdfBuilder implements Serializable {
         tb.setSpacingAfter(10);
         document.add(tb);
         Paragraph p = new Paragraph("Erläuterung zur Anrechnung von Fachkräften", NORMALBOLD);
-        //p.setIndentationLeft(20);
         p.setSpacingAfter(10);
         document.add(p);
         addExplanationTable(tb_exp);
         document.add(tb_exp);
+        
+
+        p = new Paragraph("Tatsächliche Berechnungstage : "
+                + String.valueOf(_editPsyStaff.getStaffProof().getAdultsEffectiveDays()), SMALLBOLD);
+        p.setSpacingAfter(5);
+        document.add(p);
+
+        p = new Paragraph("Tatsächliche Kosten für das Psych-PV-Personal in Summe nach § 5 in Euro: "
+                + String.valueOf(_editPsyStaff.getStaffProof().getAdultsEffectiveCosts()), SMALLBOLD);
+        p.setSpacingAfter(30);
+        document.add(p);
+        
         if (document.newPage()) {
             addLogo(document,
                     "Vereinbarte Stellenbesetzung in Vollkräften \nBereich Erwachsene",
                     anlage2,
                     _editPsyStaff.getStaffProof().getSignatureEffective(PsychType.Adults));
         }
-
-        p = new Paragraph("Tatsächliche Berechnungstage : "
-                + String.valueOf(_editPsyStaff.getStaffProof().getAdultsEffectiveDays()), SMALLBOLD);
-        //p.setIndentationLeft(20);
-        p.setSpacingAfter(5);
-        document.add(p);
-
-        p = new Paragraph("Tatsächliche Kosten für das Psych-PV-Personal in Summe nach § 5 in Euro: "
-                + String.valueOf(_editPsyStaff.getStaffProof().getAdultsEffectiveCosts()), SMALLBOLD);
-        //p.setIndentationLeft(20);
-        p.setSpacingAfter(30);
-        document.add(p);
+        
 
         addNote(document, infoText1, 0);
         addNote(document, infoText2, 20);
-        addInfoText(document, infoText3A2, 50);
+        addInfoText(document, infoText3A2, 30);
         addSignaturAreaA2(document);
     }
     //</editor-fold>
@@ -389,6 +387,8 @@ public class PdfBuilder implements Serializable {
                 addCell(tb, String.valueOf(staffProofExplanation.getDeductedFullVigor()), SMALL, Element.ALIGN_RIGHT, BaseColor.WHITE);
                 addCell(tb, staffProofExplanation.getExplanation(), SMALL, Element.ALIGN_RIGHT, BaseColor.WHITE);
             }
+            
+            
         }
     }
     //</editor-fold>
@@ -459,25 +459,6 @@ public class PdfBuilder implements Serializable {
     private void printHospitalInfo(PdfPTable tb1) throws DocumentException {
         PdfPCell cell;
         StaffProof staffProof = _editPsyStaff.getStaffProof();
-//<<<<<<< 268188ab8a67fba554048bcdc8d35052bfd2ee5c
-//        PdfPTable tb_Hosp = new PdfPTable(2);
-//        tb_Hosp.setWidths(new int[]{1,1});
-//        tb_Hosp.getDefaultCell().setBorder(Rectangle.NO_BORDER);
-//        cell = new PdfPCell(new Paragraph("IK: "+ staffProof.getIk(), MEDIUMBOLD));
-//        cell.setBorder(PdfPCell.NO_BORDER);
-//        tb_Hosp.addCell(cell);
-//        String hospital = _applicationsTools.retrieveHospitalInfo(staffProof.getIk());
-//        cell = new PdfPCell(new Paragraph("Name: "+hospital, MEDIUMBOLD));
-//        cell.setBorder(PdfPCell.NO_BORDER);
-//        tb_Hosp.addCell(cell);
-//        cell = new PdfPCell(new Paragraph("Vereinbarungsjahr: "+ staffProof.getYear(), MEDIUMBOLD));
-//        cell.setBorder(PdfPCell.NO_BORDER);
-//        tb_Hosp.addCell(cell);
-//        cell = new PdfPCell(new Paragraph("Zählweise: "+ (staffProof.getCalculationType() == 1 ? "PEPPV" : "BPflV/LKA"), MEDIUMBOLD));
-//        cell.setBorder(PdfPCell.NO_BORDER);
-//        tb_Hosp.addCell(cell);
-//        cell = new PdfPCell(new Paragraph("", MEDIUMBOLD));
-//=======
         PdfPTable tb_Hosp = new PdfPTable(2);
         tb_Hosp.setWidths(new int[]{1, 1});
         tb_Hosp.getDefaultCell().setBorder(Rectangle.NO_BORDER);
@@ -492,15 +473,8 @@ public class PdfBuilder implements Serializable {
         cell.setBorder(PdfPCell.NO_BORDER);
         tb_Hosp.addCell(cell);
         cell = new PdfPCell(new Paragraph("Zählweise: " + (staffProof.getCalculationType() == 1 ? "PEPPV" : "BPflV/LKA"), NORMALBOLD));
-//>>>>>>> PDFBuilder: Explanation table -> wip
         cell.setBorder(PdfPCell.NO_BORDER);
         tb_Hosp.addCell(cell);
-//        cell = new PdfPCell(new Paragraph("", NORMALBOLD));
-//        cell.setBorder(PdfPCell.NO_BORDER);
-//        tb_Hosp.addCell(cell);
-//        cell = new PdfPCell(new Paragraph("", NORMALBOLD));
-//        cell.setBorder(PdfPCell.NO_BORDER);
-//        tb_Hosp.addCell(cell);
         tb1.addCell(tb_Hosp);
     }
     //</editor-fold>    
@@ -571,6 +545,7 @@ public class PdfBuilder implements Serializable {
         PdfPCell cell = new PdfPCell(new Paragraph(text, f));
         cell.setHorizontalAlignment(align);
         cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setPaddingBottom(30);
         tb.addCell(cell);
     }
     //</editor-fold>
@@ -579,7 +554,6 @@ public class PdfBuilder implements Serializable {
     private void addInfoText(Document document, String text, int spacing) throws DocumentException {
         Paragraph p;
         p = new Paragraph(text, SMALL);
-        //p.setIndentationLeft(20);
         p.setSpacingAfter(spacing);
         document.add(p);
     }
@@ -603,25 +577,9 @@ public class PdfBuilder implements Serializable {
         signaturArea.getDefaultCell().setBorder(Rectangle.NO_BORDER);
         addLayoutCell(signaturArea, "für das Krankenhaus", SMALL, Element.ALIGN_LEFT);
         addLayoutCell(signaturArea, "für die Sozialleistungsträger", SMALL, Element.ALIGN_LEFT);
-        addLayoutCell(signaturArea, "", SMALL, Element.ALIGN_LEFT);
-        addLayoutCell(signaturArea, "", SMALL, Element.ALIGN_LEFT);
-        addLayoutCell(signaturArea, "", SMALL, Element.ALIGN_LEFT);
-        addLayoutCell(signaturArea, "", SMALL, Element.ALIGN_LEFT);
-        addLayoutCell(signaturArea, "", SMALL, Element.ALIGN_LEFT);
-        addLayoutCell(signaturArea, "", SMALL, Element.ALIGN_LEFT);
         addLayoutCell(signaturArea, "________________________________________________", SMALL, Element.ALIGN_LEFT);
         for (int i = 0; i < 6; i++) {
             addLayoutCell(signaturArea, "_____________________________________________________", SMALL, Element.ALIGN_LEFT);
-            addLayoutCell(signaturArea, "", SMALL, Element.ALIGN_LEFT);
-            addLayoutCell(signaturArea, "", SMALL, Element.ALIGN_LEFT);
-            addLayoutCell(signaturArea, "", SMALL, Element.ALIGN_LEFT);
-            addLayoutCell(signaturArea, "", SMALL, Element.ALIGN_LEFT);
-            addLayoutCell(signaturArea, "", SMALL, Element.ALIGN_LEFT);
-            addLayoutCell(signaturArea, "", SMALL, Element.ALIGN_LEFT);
-            addLayoutCell(signaturArea, "", SMALL, Element.ALIGN_LEFT);
-            addLayoutCell(signaturArea, "", SMALL, Element.ALIGN_LEFT);
-            addLayoutCell(signaturArea, "", SMALL, Element.ALIGN_LEFT);
-            addLayoutCell(signaturArea, "", SMALL, Element.ALIGN_LEFT);
             addLayoutCell(signaturArea, "", SMALL, Element.ALIGN_LEFT);
         }
         document.add(signaturArea);
@@ -632,14 +590,13 @@ public class PdfBuilder implements Serializable {
     private void addSignaturAreaA2(Document document) throws DocumentException {
         PdfPTable signaturArea = new PdfPTable(1);
         signaturArea.setWidthPercentage(100);
-        //signaturArea.setWidths(new int[]{2, 2});
+        //signaturArea.setWidths(new int[]{3, 2});
         signaturArea.getDefaultCell().setBorder(Rectangle.NO_BORDER);
         addLayoutCell(signaturArea, "Bestätigung durch das Krankenhaus (Ort, Datum und Unterschrift)", SMALL, Element.ALIGN_LEFT);
-        addLayoutCell(signaturArea, "", SMALL, Element.ALIGN_LEFT);
-        addLayoutCell(signaturArea, "________________________________________________", SMALL, Element.ALIGN_LEFT);
-        addLayoutCell(signaturArea, "Bestätigung durch den Jahesabschlussprüfer (Ort, Datum und Unterschrift)", SMALL, Element.ALIGN_LEFT);
-        addLayoutCell(signaturArea, "", SMALL, Element.ALIGN_LEFT);
-        addLayoutCell(signaturArea, "________________________________________________", SMALL, Element.ALIGN_LEFT);
+        addLayoutCell(signaturArea, "____________________________________________________________", SMALL, Element.ALIGN_LEFT);
+        
+        addLayoutCell(signaturArea, "Bestätigung durch den Jahresabschlussprüfer (Ort, Datum und Unterschrift)", SMALL, Element.ALIGN_LEFT);
+        addLayoutCell(signaturArea, "____________________________________________________________", SMALL, Element.ALIGN_LEFT);
 
         document.add(signaturArea);
     }
