@@ -14,6 +14,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
+import org.inek.dataportal.entities.certification.Grouper;
 import org.inek.dataportal.entities.certification.MapEmailReceiverLabel;
 import org.inek.dataportal.entities.certification.RemunerationSystem;
 import org.inek.dataportal.enums.CertMailType;
@@ -59,7 +60,7 @@ public class CertMail implements Serializable {
     private String _receiverListsName = "";
     private int _systemForEmail = -1;
     //private List<EmailReceiver> _emailReceivers;
-    private List<String> _receiverEmails;
+    private List<GrouperEmailReceiver> _receiverEmails;
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Injections">
@@ -82,15 +83,11 @@ public class CertMail implements Serializable {
     private SessionController _sessionController;
     
     @Inject
-    private GrouperFacade _grouperFacde;
+    private GrouperFacade _grouperFacade;
     //</editor-fold>
-
-    public CertMail() {
-        
-    }
     
     public void changedSystemReceiver() {
-        buildEmailReceiverList();
+        buildEmailReceiverListSystem();
     }
 
     //<editor-fold defaultstate="collapsed" desc="SelectItems">
@@ -167,7 +164,7 @@ public class CertMail implements Serializable {
         this._systemReceiverId = systemReceiverId;
     }
 
-    public List<String> getReceiverEmails() {
+    public List<GrouperEmailReceiver> getReceiverEmails() {
         return _receiverEmails;
     }
     
@@ -190,9 +187,9 @@ public class CertMail implements Serializable {
     public String showPreview() {
         _emailList.clear();
         if (_systemReceiverId != 0) {
-            buildEmailReceiverList();
-        } else if (_singleReceiver != null) {
-            _emailList.add(_singleReceiver.substring(_singleReceiver.indexOf('(') + 1, _singleReceiver.lastIndexOf(')')));
+            buildEmailReceiverListSystem();
+        //} else if (_singleReceiver != null) {
+            // TODO: _emailReceiverList
         }
         if (!checkForAvailableEmailReceivers()) {
             return "";
@@ -341,15 +338,19 @@ public class CertMail implements Serializable {
     
     //</editor-fold>
 
-    private void buildEmailReceiverList() {
+    private void buildEmailReceiverListSystem() {
         _receiverEmails.clear();
         if(_systemReceiverId == 0)
             return;
         RemunerationSystem system = _systemFacade.findFresh(_systemReceiverId);
         system.getGrouperList().stream()
-                .forEach(g -> _receiverEmails.addAll(_grouperFacde.findGrouperEmailReceivers(g.getAccount())));
+                .forEach(g -> _receiverEmails
+                        .add(new GrouperEmailReceiver(g, Mailer.buildCC(_grouperFacade.findGrouperEmailReceivers(g.getAccount())))));
     }
-     public String sendMails() {
+    
+    
+    
+    public String sendMails() {
         _emailSentInfoDataTable.clear();
         MailTemplate mt = _emailTemplateFacade.findByName(_selectedTemplate);
         for (String emailAddressInfo : _emailList) {
@@ -371,4 +372,31 @@ public class CertMail implements Serializable {
         return "";
     }
     
+    private class GrouperEmailReceiver {
+        private Grouper _grouper;
+        private String _ccEmails;
+        
+        
+        public GrouperEmailReceiver(Grouper grouper, String ccs) {
+            _grouper = grouper;
+            _ccEmails = ccs;
+        }
+        
+        public Grouper getGrouper() {
+            return _grouper;
+        }
+
+        public void setGrouper(Grouper grouper) {
+            this._grouper = grouper;
+        }
+
+        public String getCcEmails() {
+            return _ccEmails;
+        }
+
+        public void setCcEmails(String ccEmails) {
+            this._ccEmails = ccEmails;
+        }
+        
+    }
 }
