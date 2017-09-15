@@ -43,7 +43,7 @@ public class CertMail implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Email creation/preview fields.">
     private boolean _previewEnabled = false;
     private final List<String> _emailList = new ArrayList<>();
-    private String _selectedEmailAddressPreview = "";
+    private int _selectedEmailAddressPreview = 0;
     private String _previewSubject = "";
     private String _previewBody = "";
     private String _attachement = "";
@@ -60,7 +60,7 @@ public class CertMail implements Serializable {
     private String _receiverListsName = "";
     private int _systemForEmail = -1;
     //private List<EmailReceiver> _emailReceivers;
-    private List<GrouperEmailReceiver> _receiverEmails;
+    private List<GrouperEmailReceiver> _receiverEmails = new ArrayList<>();
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Injections">
@@ -133,11 +133,12 @@ public class CertMail implements Serializable {
     }
 
     public SelectItem[] getEmailAddressForPreview() {
-        List<SelectItem> list = new ArrayList<>();
-        _emailList.stream().forEach((s) -> {
-            list.add(new SelectItem(s));
-        });
-        return list.toArray(new SelectItem[list.size()]);
+        SelectItem[] tmp = (SelectItem[])_receiverEmails
+                .stream()
+                .filter(a -> a.isSend())
+                .map(a -> new SelectItem(a.getGrouper().getAccountId(), a.getGrouper().getAccount().getEmail()))
+                .toArray();
+        return tmp;
     }
     //</editor-fold>
 
@@ -185,7 +186,6 @@ public class CertMail implements Serializable {
     }
 
     public String showPreview() {
-        _emailList.clear();
         if (_systemReceiverId != 0) {
             buildEmailReceiverListSystem();
         //} else if (_singleReceiver != null) {
@@ -194,7 +194,6 @@ public class CertMail implements Serializable {
         if (!checkForAvailableEmailReceivers()) {
             return "";
         }
-        _selectedEmailAddressPreview = _emailList.get(0);
         _previewEnabled = true;
         _emailSentInfoDataTable.clear();
         buildPreviewEmail();
@@ -212,9 +211,9 @@ public class CertMail implements Serializable {
     }
 
     public void buildPreviewEmail() {
-        String receipient = getReceipient(_selectedEmailAddressPreview);
-        String salutation = buildEmailSalutation(receipient);
-        String company = _accFacade.findByMailOrUser(receipient).getCompany();
+        Account acc = _accFacade.findFresh(_selectedEmailAddressPreview);
+        String salutation = buildEmailSalutation(acc);
+        String company = acc.getCompany();
         MailTemplate mt = _emailTemplateFacade.findByName(_selectedTemplate);
         _previewSubject = mt.getSubject().replace("{company}", company);
         _previewBody = mt.getBody().replace("{salutation}", salutation)
@@ -222,21 +221,13 @@ public class CertMail implements Serializable {
                 .replace("{sender}", _sessionController.getAccount().getFirstName() + " " + _sessionController.getAccount().getLastName());
     }
 
-    private String getReceipient(String adressInfo) {
-        String[] receipients = adressInfo.split(";");
-        String receipient = receipients[0];
-        return receipient;
-    }
-
-    private String buildEmailSalutation(String receiverEmail) {
-        String receiver = receiverEmail;
-        Account receiverAccount = _accFacade.findByMailOrUser(receiver);
-        String title = "".equals(receiverAccount.getTitle()) ? "" : " " + receiverAccount.getTitle();
+    private String buildEmailSalutation(Account account) {
+        String title = "".equals(account.getTitle()) ? "" : " " + account.getTitle();
         boolean isFemale = true;
-        if (receiverAccount.getGender() == Genders.Male.id()) {
+        if (account.getGender() == Genders.Male.id()) {
             isFemale = false;
         }
-        String salutation = "Sehr " + (isFemale ? "geehrte Frau" : "geehrter Herr") + title + " " + receiverAccount.getLastName() + ",";
+        String salutation = "Sehr " + (isFemale ? "geehrte Frau" : "geehrter Herr") + title + " " + account.getLastName() + ",";
         return salutation;
     }
     
@@ -285,11 +276,11 @@ public class CertMail implements Serializable {
         this._receiverListsName = receiverListsName;
     }
 
-    public String getSelectedEmailAddressPreview() {
+    public int getSelectedEmailAddressPreview() {
         return _selectedEmailAddressPreview;
     }
 
-    public void setSelectedEmailAddressPreview(String selectedEmailAddressPreview) {
+    public void setSelectedEmailAddressPreview(int selectedEmailAddressPreview) {
         this._selectedEmailAddressPreview = selectedEmailAddressPreview;
     }
 
@@ -344,8 +335,8 @@ public class CertMail implements Serializable {
             return;
         RemunerationSystem system = _systemFacade.findFresh(_systemReceiverId);
         system.getGrouperList().stream()
-                .forEach(g -> _receiverEmails
-                        .add(new GrouperEmailReceiver(g, Mailer.buildCC(_grouperFacade.findGrouperEmailReceivers(g.getAccount())))));
+            .forEach(g -> _receiverEmails
+                .add(new GrouperEmailReceiver(g, Mailer.buildCC(_grouperFacade.findGrouperEmailReceivers(g.getAccount())))));
     }
     
     
@@ -353,29 +344,36 @@ public class CertMail implements Serializable {
     public String sendMails() {
         _emailSentInfoDataTable.clear();
         MailTemplate mt = _emailTemplateFacade.findByName(_selectedTemplate);
-        for (String emailAddressInfo : _emailList) {
-            String emailAddress = getReceipient(emailAddressInfo);
-            String salutation = buildEmailSalutation(emailAddress);
-            String company = _accFacade.findByMailOrUser(emailAddress).getCompany();
-            String subject = mt.getSubject().replace("{company}", company);
-            String body = mt.getBody().replace("{salutation}", salutation)
-                    .replace("{company}", company)
-                    .replace("{sender}", _sessionController.getAccount().getFirstName() + " " + _sessionController.getAccount().getLastName());
-            try {
-                if(!_sessionController.getMailer().sendMailFrom(mt.getFrom(), emailAddress, mt.getBcc(), subject, body, _attachement))
-                    throw new Exception("Fehler bei Mailversand!");
-                _emailSentInfoDataTable.add(new EmailSentInfo(emailAddressInfo, mt.getBcc(), "Erfolgreich"));
-            } catch (Exception ex) {
-                _emailSentInfoDataTable.add(new EmailSentInfo(emailAddressInfo, mt.getBcc(), "Fehler!\n" + ex.getMessage()));
-            }
-        }
+        
+        _receiverEmails.stream()
+                .filter(a -> a.isSend())
+                .forEach(a -> {
+                    String salutation = buildEmailSalutation(a._grouper.getAccount());
+                    String company = a.getGrouper().getAccount().getCompany();
+                    String subject = mt.getSubject().replace("{company}", company);
+                    String body = mt.getBody().replace("{salutation}", salutation)
+                            .replace("{company}", company)
+                            .replace("{sender}", _sessionController.getAccount().getFirstName() + " " 
+                                    + _sessionController.getAccount().getLastName());
+                    try {
+                        if (_sessionController.getMailer().sendMailFrom(mt.getFrom(), a.getGrouper().getAccount().getEmail(),
+                                    a.getCcEmails(), mt.getBcc(), subject, body, _attachement)) {
+                            throw new Exception("Fehler bei Mailversand!");
+                        }
+                        _emailSentInfoDataTable.add(new EmailSentInfo(a.getGrouper().getAccount().getEmail(), mt.getBcc(), "Erfolgreich"));
+                    }
+                    catch (Exception ex) {
+                        _emailSentInfoDataTable
+                            .add(new EmailSentInfo(a.getGrouper().getAccount().getEmail(), mt.getBcc(), "Fehler!\n" + ex.getMessage()));
+                    }
+                });
         return "";
     }
     
-    private class GrouperEmailReceiver {
+    public class GrouperEmailReceiver {
         private Grouper _grouper;
         private String _ccEmails;
-        
+        private boolean _send = true;
         
         public GrouperEmailReceiver(Grouper grouper, String ccs) {
             _grouper = grouper;
@@ -397,6 +395,13 @@ public class CertMail implements Serializable {
         public void setCcEmails(String ccEmails) {
             this._ccEmails = ccEmails;
         }
-        
+
+        public boolean isSend() {
+            return _send;
+        }
+
+        public void setSend(boolean send) {
+            this._send = send;
+        }
     }
 }

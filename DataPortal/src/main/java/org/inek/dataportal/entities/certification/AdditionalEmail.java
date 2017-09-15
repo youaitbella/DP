@@ -35,7 +35,7 @@ public class AdditionalEmail implements Serializable {
         this._id = id;
     }
     
-    @Column(name = "caeAccoundId")
+    @Column(name = "caeAccountId")
     private int _accountId = 0;
 
     public int getAccountId() {

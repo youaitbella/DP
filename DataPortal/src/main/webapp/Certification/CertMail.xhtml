@@ -38,6 +38,14 @@
             <h:dataTable rendered="#{certMail.renderEmailReceiverTable()}" value="#{certMail.receiverEmails}"
                          headerClass="list-header" id="tblEmailReceiversTemplate"
                          var="er" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colValue">
+                <h:column id="colSend">
+                    <f:facet name="header">
+                        <h:outputText value="Senden"/>
+                    </f:facet>
+                    <h:selectBooleanCheckbox value="#{er.send}">
+                        <f:ajax event="change" render="@form :logout:remaining"/>
+                    </h:selectBooleanCheckbox>
+                </h:column>
                 <h:column id="colName">
                     <f:facet name="header">
                         <h:outputText value="Firma"/>
