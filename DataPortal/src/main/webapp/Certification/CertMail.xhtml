@@ -19,7 +19,7 @@
                 </h:outputLabel>
                 <h:selectOneMenu id="selectedTemplate" styleClass="inputmedium" value="#{certMail.selectedTemplate}">
                     <f:selectItems value="#{certMail.emailTemplates}"/>
-                    <f:ajax event="change" render="@all :logout:remaining" listener="#{certMail.receiverChanged}"/>
+                    <f:ajax event="change" render="@all :logout:remaining"/>
                 </h:selectOneMenu> 
             </div>
             
@@ -29,92 +29,32 @@
                 <h:outputLabel styleClass="label30">
                     System-Empfängerliste:
                 </h:outputLabel>
-                <h:selectOneMenu id="selectedSystemReceiverList" styleClass="inputmedium" value="#{certMail.systemReceiverList}">
+                <h:selectOneMenu id="selectedSystemReceiverList" styleClass="inputmedium" value="#{certMail.systemReceiverId}">
                     <f:selectItems value="#{certMail.systemReceiverLists}"/>
-                    <f:ajax event="change" render="@all :logout:remaining" listener="#{certMail.receiverChanged}" />
+                    <f:ajax event="change" render="@all :logout:remaining" listener="#{certMail.changedSystemReceiver}" />
                 </h:selectOneMenu>
             </div>
             
-            <!--<div class="inputPart">
-                <h:outputLabel styleClass="label30">
-                    eigene Empfängerliste:
-                </h:outputLabel>
-                <h:selectOneMenu id="selectedReceiverList" styleClass="inputmedium" value="# {certMail.receiverList}">
-                    <f:selectItems value="# {certMail.emailReceiverLists}"/>
-                    <f:ajax event="cohange" render="@this selectedSystemReceiverList selectedReceiver :logout:remaining" listener="# {certMail.receiverChanged}"/>
-                </h:selectOneMenu>
-            </div>-->
-            <br />
-            <div class="inputPart">
-                <h:outputLabel styleClass="label30">
-                    eigene Empfängerliste:
-                </h:outputLabel>
-                <h:selectOneMenu id="availableLists" styleClass="inputmedium" value="#{certMail.selectedListEdit}">
-                    <f:selectItems value="#{certMail.emailReceiverLists}"/>
-                    <f:ajax event="change" render="@all :logout:remaining" listener="#{certMail.editReceiverListChanged}" />
-                </h:selectOneMenu> 
-            </div>
-            
-            <div class="inputPart">
-                <h:outputLabel styleClass="label30">
-                    Bezeichnung:
-                </h:outputLabel>
-                <h:inputText styleClass="inputmedium" id="receiverListText" value="#{certMail.receiverListsName}">
-                    <f:ajax event="blur" render="@this :logout:remaining" />
-                </h:inputText>
-            </div>
-            
-            <div class="inputPart">
-                <h:outputLabel styleClass="label30">
-                    Empfänger-Auswahl:
-                </h:outputLabel>
-                <h:selectOneMenu id="receiverNewList" styleClass="inputlong" value="#{certMail.selectedReceiverNewList}">
-                    <f:selectItems value="#{certMail.singleReceivers}"/>
-                    <f:ajax event="change" render="@this :logout:remaining" />
-                </h:selectOneMenu> 
-            </div>
-            
-            <h:dataTable rendered="#{certMail.renderEmailReceiverTable()}" value="#{certMail.emailReceivers}" headerClass="list-header" id="tblEmailReceiversTemplate"
+            <h:dataTable rendered="#{certMail.renderEmailReceiverTable()}" value="#{certMail.receiverEmails}"
+                         headerClass="list-header" id="tblEmailReceiversTemplate"
                          var="er" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colValue">
-                <h:column id="colDeleteId" >
-                    <f:facet name="header">
-                        <h:outputText value=""/>
-                    </f:facet>
-                    <h:commandLink action="#{certMail.deleteReceiverFromTemplate(er.emailReceiversId, er.accountId)}" immediate="true" >
-                        <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value=""/>
-                    </h:commandLink>
-                </h:column>
                 <h:column id="colName">
                     <f:facet name="header">
-                        <h:outputText value="Name"/>
+                        <h:outputText value="Empfänger"/>
                     </f:facet>
-                    <h:outputLabel value="#{certMail.getCompanyNameByAccId(er.accountId)} - #{certMail.getAccountName(er.accountId)}"/>
+                    <h:outputLabel value="#{er}"/>
                 </h:column>
             </h:dataTable>
             
-            <div class="inputPart" style="float: right;">
-                <h:commandLink styleClass="bigButton" value="Empfänger hinzufügen" action="#{certMail.addReceiverToList}"/>
-            </div>
-            
-            <br style="clear: right;"/>
-            
-            <div class="inputPart" style="float: right;">
-                <h:commandLink styleClass="bigButton" id="btnDeleteTemplate" value="Empfängerliste löschen" action="#{certMail.deleteReceiverList}"/>
-                <h:commandLink styleClass="bigButton" id="btnSaveTemplate" value="Empfängerliste speichern" action="#{certMail.saveReceiverList}"/>
-            </div>
-            
-            <br style="clear: right;"/>
-            <br/>
-            
-            <div class="inputPart">
+            <!--div class="inputPart">
                 <h:outputLabel styleClass="label30">
                     einzelner Empfänger:
                 </h:outputLabel>
-                <h:selectOneMenu id="selectedReceiver" styleClass="inputlong" value="#{certMail.singleReceiver}">
-                    <f:selectItems value="#{certMail.singleReceivers}"/>
-                    <f:ajax event="change" render="@all :logout:remaining" listener="#{certMail.receiverChanged}"/>
+                <h:selectOneMenu id="selectedReceiver" styleClass="inputlong" value="# {certMail.singleReceiver}">
+                    <f:selectItems value="# {certMail.singleReceivers}"/>
+                    <f:ajax event="change" render="@all :logout:remaining" listener="# {certMail.}"/>
                 </h:selectOneMenu>    
-            </div>
+            </div-->
             
             <br />
             
@@ -125,16 +65,6 @@
                 <h:inputText id="txtAttachment" value="#{certMail.attachement}" styleClass="inputlong">
                     <f:ajax event="blur" render="@this :logout:remaining" />
                 </h:inputText> 
-            </div>
-            
-            <div class="inputPart">
-                <h:outputLabel styleClass="label30">
-                    E-Mail für System:
-                </h:outputLabel>
-                <h:selectOneMenu id="systemForMail" styleClass="inputmedium" value="#{certMail.systemForEmail}">
-                    <f:selectItems value="#{certManager.systemsWithoutNew}"/>
-                    <f:ajax event="blur" render="@this :logout:remaining"/>
-                </h:selectOneMenu> 
             </div>
             
             <br />

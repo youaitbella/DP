@@ -10,7 +10,9 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneOffset;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
@@ -986,7 +988,17 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     private List<KGLListServiceProvision> _serviceProvisions = new Vector<>();
     
     public List<KGLListServiceProvision> getServiceProvisions() {
-        return _serviceProvisions;
+         return _serviceProvisions
+                 .stream()
+                 .sorted((x, y) -> compareServiceProvision(x, y)) // @orderBy doesnt work properly.
+                 .collect(Collectors.toList());
+    }
+    
+    private int compareServiceProvision(KGLListServiceProvision sp1, KGLListServiceProvision sp2) {
+        return sp1.getServiceProvisionTypeId() > sp2.getServiceProvisionTypeId() ? 
+                1 : sp1.getServiceProvisionTypeId() < sp2.getServiceProvisionTypeId() ? 
+                -1 : 0;
+                
     }
 
     public void setServiceProvisions(List<KGLListServiceProvision> serviceProvision) {
