@@ -472,7 +472,7 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
     }
 
     public List<SpecificFunction> getSpecificFunctions() {
-        return _specificFunctionFacade.getSpecificFunctions();
+        return _specificFunctionFacade.getSpecificFunctions(false);
     }
 
     public void changeCode(){

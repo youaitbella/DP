@@ -89,9 +89,7 @@
                                  readonly="#{editSpecificFunctionAgreement.readOnly}">
                     <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
                     <f:selectItems value="#{editSpecificFunctionAgreement.centerNames}" var="centerName" itemValue="#{centerName.id}" itemLabel="#{centerName.name}"/>
-                    <ui:remove>
                     <f:selectItem itemLabel="Sonstiges (bitte angeben)" itemValue="#{-1}"/>
-                    </ui:remove>
                     <f:ajax event="change" render="@form :logout:remaining msgCenterName"/>
                 </h:selectOneMenu>
                 <h:message for="centerName" id="msgCenterName" styleClass="errorMessage"/>
