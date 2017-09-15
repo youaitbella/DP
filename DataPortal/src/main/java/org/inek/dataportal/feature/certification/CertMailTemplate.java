@@ -21,16 +21,15 @@ import org.inek.dataportal.helper.scope.FeatureScoped;
 @Named
 @FeatureScoped(name = "Certification")
 public class CertMailTemplate implements Serializable {
-    
+
     private static final Logger LOGGER = Logger.getLogger("CertMail");
-    
+
     @Inject
     private MailTemplateFacade _mailTemplateFacade;
-    
+
     private int _emailType = -1;
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
-    
     public List<SelectItem> getMailTemplates() {
         List<SelectItem> l = _mailTemplateFacade.getMailTemplateInfosByFeature(Feature.CERT);
         SelectItem emptyItem = new SelectItem(-1, Utils.getMessage("itemNewEntry"));
@@ -38,13 +37,13 @@ public class CertMailTemplate implements Serializable {
         l.add(emptyItem);
         return l;
     }
-    
+
     public List<SelectItem> getEmailTypes() {
         return CertMailType.getSelectItems();
     }
 
     private MailTemplate _mailTemplate = new MailTemplate();
-    
+
     public MailTemplate getMailTemplate() {
         return _mailTemplate;
     }
@@ -80,7 +79,7 @@ public class CertMailTemplate implements Serializable {
     public void setTemplateChanged(boolean isChanged) {
         _templateChanged = isChanged;
     }
-    
+
     public String getEmailType() {
         return CertMailType.getTypeFromId(_emailType);
     }

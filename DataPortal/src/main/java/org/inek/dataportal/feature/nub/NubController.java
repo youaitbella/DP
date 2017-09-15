@@ -55,7 +55,10 @@ public class NubController extends AbstractFeatureController {
         Account account = getSessionController().getAccount();
         String helperId = encodeHelpId(account.getId());
         appendLine(sb, NubFieldKey.ID, helperId);
-        String helper = account.getCompany() + "\r\n" + account.getFirstName() + " " + account.getLastName();
+        String helperName = account.getTitle()+ " " + account.getFirstName() + " " + account.getLastName();
+        String helper = account.getCompany() 
+                + "\r\n" + helperName.trim()
+                + "\r\n" + nubRequest.getFormFillHelper();
         appendLine(sb, NubFieldKey.Helper, helper);
         appendLine(sb, NubFieldKey.DisplayName, nubRequest.getDisplayName());
         appendLine(sb, NubFieldKey.Name, nubRequest.getName());

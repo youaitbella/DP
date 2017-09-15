@@ -6,9 +6,11 @@
 package org.inek.dataportal.mail;
 
 import java.io.File;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
@@ -255,5 +257,8 @@ public class Mailer {
         String subject = "Exception reported by Server " + name;
         sendMail(_config.read(ConfigKey.ExceptionEmail), subject, msg.toString());
     }
-
+    
+    public static String buildCC(List<String> ccEmails) {
+        return ccEmails.stream().collect(Collectors.joining(";"));
+    }
 }

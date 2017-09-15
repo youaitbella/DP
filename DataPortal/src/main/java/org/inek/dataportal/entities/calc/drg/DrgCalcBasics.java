@@ -10,7 +10,9 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneOffset;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
@@ -384,7 +386,7 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
 
     //<editor-fold defaultstate="collapsed" desc="gynecology">
     @Column(name = "biGynecology")
-
+    
     @Documentation(name = "Leistungen im Bereich der Gynäkologie", headline = "Kostenstellengruppe 6 (Kreißsaal)", rank = 4000)
     private boolean _gynecology;
 
@@ -457,7 +459,7 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
 
     //<editor-fold defaultstate="collapsed" desc="noDeliveryRoomHabitation">
     @Column(name = "biNoDeliveryRoomHabitation")
-
+    
     @Documentation(name = "Bei vorgeburtlichen Fällen keine Aufenthaltszeiten der Patientin im Kreißsaal", omitOnEmpty = true, rank = 4000)
     private boolean _noDeliveryRoomHabitation;
 
@@ -486,7 +488,7 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
 
     //<editor-fold defaultstate="collapsed" desc="cardiology">
     @Column(name = "biCardiology")
-
+    
     @Documentation(name = "KH erbringt Leistungen in Kardiologie", rank = 5000, headline = "Kostenstellengruppe 7 (Kardiologie)")
     private boolean _cardiology;
 
@@ -531,7 +533,7 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
 
     //<editor-fold defaultstate="collapsed" desc="endoscopy">
     @Column(name = "biEndoscopy")
-
+    
     @Documentation(name = "Leistungen im Bereich der Endoskopie", rank = 6000, headline = "Kostenstellengruppe 8 (Endoskopie)")
     private boolean _endoscopy;
 
@@ -576,7 +578,6 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
 
     //<editor-fold defaultstate="collapsed" desc="minimalValvularIntervention">
     @Column(name = "biMinimalValvularIntervention")
-
     @Documentation(name = "KH führt minimalinvasiven Herzklappeninterventionen durch", rank = 17000,
             headline = "Ergänzende Angaben zur minimalinvasiven Herzklappeninterventionen")
     private boolean _minimalValvularIntervention;
@@ -715,7 +716,6 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
 
     //<editor-fold defaultstate="collapsed" desc="Property IBLVMethodMedInfra">
     @Column(name = "biIBLVMethodMedInfra")
-
     @Documentation(name = "Gewähltes Verfahren bei Durchführung der IBLV",
             headline = "Ergänzende Angaben zur innerbetrieblichen Leistungsverrechnung (medizinische Infrastruktur)", rank = 14000)
     private int _iblvMethodMedInfra;
@@ -758,7 +758,7 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
 
     //<editor-fold defaultstate="collapsed" desc="intensiveBed">
     @Column(name = "biIntensiveBed")
-
+    
     @Documentation(name = "Das Krankenhaus hat Intensivbetten", rank = 13010, headline = "Ergänzende Angaben zur Intensivbehandlung")
     private boolean _intensiveBed;
 
@@ -773,7 +773,6 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
 
     //<editor-fold defaultstate="collapsed" desc="strokeBed">
     @Column(name = "biStrokeBed")
-
     @Documentation(name = "Das Krankenhaus hat Intensivbetten zur Behandlung des akuten Schlaganfalls",
             rank = 14000, translateValue = "0=Nein;1=Ja", headline = "Ergänzende Angaben zur Stroke Unit")
     private boolean _strokeBed;
@@ -984,9 +983,19 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     @OrderBy("_serviceProvisionTypeId")
     @Documentation(name = "Ext. Leistungen", headline = "(Externe) Leistungserbringung / Fremdvergabe", rank = 2010)
     private List<KGLListServiceProvision> _serviceProvisions = new Vector<>();
-    
+
     public List<KGLListServiceProvision> getServiceProvisions() {
-        return _serviceProvisions;
+        return _serviceProvisions
+                .stream()
+                .sorted((x, y) -> compareServiceProvision(x, y)) // @orderBy doesnt work properly.
+                .collect(Collectors.toList());
+    }
+
+    private int compareServiceProvision(KGLListServiceProvision sp1, KGLListServiceProvision sp2) {
+        return sp1.getServiceProvisionTypeId() > sp2.getServiceProvisionTypeId()
+                ? 1 : sp1.getServiceProvisionTypeId() < sp2.getServiceProvisionTypeId()
+                ? -1 : 0;
+
     }
 
     public void setServiceProvisions(List<KGLListServiceProvision> serviceProvision) {
@@ -1206,7 +1215,6 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "paBaseInformationId", referencedColumnName = "biID")
     @OrderBy(value = "_costTypeId")
-
     @Documentation(name = "Verfahren Personalkostenverrechnung", rank = 17000,
             headline = "Ergänzende Angaben zur Personalkostenverrechnung")
     private List<KGLPersonalAccounting> _personalAccountings = new Vector<>();
@@ -1236,7 +1244,6 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
 
     //<editor-fold defaultstate="collapsed" desc="neonatLvl">
     @Column(name = "biNeonatLvl")
-
     @Documentation(name = "Versorgungsstufe des Perinatalzentrums",
             headline = "Ergänzende Angaben zur Neonatologischen Versorgung", rank = 19000)
     private int _neonatLvl;

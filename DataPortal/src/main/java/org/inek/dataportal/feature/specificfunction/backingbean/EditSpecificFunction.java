@@ -514,7 +514,7 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
     }
 
     public List<SpecificFunction> getSpecificFunctions() {
-        return _specificFunctionFacade.getSpecificFunctions();
+        return _specificFunctionFacade.getSpecificFunctions(true);
     }
 
 }
