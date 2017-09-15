@@ -81,11 +81,11 @@ public class CertMail implements Serializable {
 
     @Inject
     private SessionController _sessionController;
-    
+
     @Inject
     private GrouperFacade _grouperFacade;
     //</editor-fold>
-    
+
     public void changedSystemReceiver() {
         buildEmailReceiverListSystem();
     }
@@ -96,8 +96,9 @@ public class CertMail implements Serializable {
         emailTemplates.add(new SelectItem(""));
         List<MailTemplate> mts = _emailTemplateFacade.findTemplatesByFeature(Feature.CERT);
         mts.stream().forEach((t) -> {
-            if(t.getType() == CertMailType.Information.getId() || t.getType() == CertMailType.Opening.getId())
+            if (t.getType() == CertMailType.Information.getId() || t.getType() == CertMailType.Opening.getId()) {
                 emailTemplates.add(new SelectItem(t.getName()));
+            }
         });
         return emailTemplates.toArray(new SelectItem[emailTemplates.size()]);
     }
@@ -133,7 +134,7 @@ public class CertMail implements Serializable {
     }
 
     public SelectItem[] getEmailAddressForPreview() {
-        SelectItem[] tmp = (SelectItem[])_receiverEmails
+        SelectItem[] tmp = (SelectItem[]) _receiverEmails
                 .stream()
                 .filter(a -> a.isSend())
                 .map(a -> new SelectItem(a.getGrouper().getAccountId(), a.getGrouper().getAccount().getEmail()))
@@ -143,7 +144,6 @@ public class CertMail implements Serializable {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="AjaxBehavior events">
-
     public void editReceiverListChanged(AjaxBehaviorEvent event) {
         setReceiverListsName(_selectedListEditName);
     }
@@ -168,7 +168,7 @@ public class CertMail implements Serializable {
     public List<GrouperEmailReceiver> getReceiverEmails() {
         return _receiverEmails;
     }
-    
+
     public boolean renderEmailReceiverTable() {
         return getReceiverEmails().size() > 0;
     }
@@ -176,7 +176,7 @@ public class CertMail implements Serializable {
     public boolean renderEmailSentSuccessTable() {
         return _emailSentInfoDataTable.size() > 0;
     }
-    
+
     public boolean renderAttachementText() {
         return !_attachement.isEmpty();
     }
@@ -188,7 +188,7 @@ public class CertMail implements Serializable {
     public String showPreview() {
         if (_systemReceiverId != 0) {
             buildEmailReceiverListSystem();
-        //} else if (_singleReceiver != null) {
+            //} else if (_singleReceiver != null) {
             // TODO: _emailReceiverList
         }
         if (!checkForAvailableEmailReceivers()) {
@@ -230,7 +230,7 @@ public class CertMail implements Serializable {
         String salutation = "Sehr " + (isFemale ? "geehrte Frau" : "geehrter Herr") + title + " " + account.getLastName() + ",";
         return salutation;
     }
-    
+
     public String getAccountName(int accId) {
         return _accFacade.find(accId).getFirstName() + " " + _accFacade.find(accId).getLastName();
     }
@@ -311,7 +311,7 @@ public class CertMail implements Serializable {
     public List<EmailSentInfo> getEmailSentSuccess() {
         return _emailSentInfoDataTable;
     }
-    
+
     public String getAttachement() {
         return _attachement;
     }
@@ -319,32 +319,31 @@ public class CertMail implements Serializable {
     public void setAttachement(String attachement) {
         this._attachement = attachement;
     }
+
     public int getSystemForEmail() {
         return _systemForEmail;
     }
-     
+
     public void setSystemForEmail(int selectedSystem) {
         _systemForEmail = selectedSystem;
     }
-    
-    //</editor-fold>
 
+    //</editor-fold>
     private void buildEmailReceiverListSystem() {
         _receiverEmails.clear();
-        if(_systemReceiverId == 0)
+        if (_systemReceiverId == 0) {
             return;
+        }
         RemunerationSystem system = _systemFacade.findFresh(_systemReceiverId);
         system.getGrouperList().stream()
-            .forEach(g -> _receiverEmails
+                .forEach(g -> _receiverEmails
                 .add(new GrouperEmailReceiver(g, Mailer.buildCC(_grouperFacade.findGrouperEmailReceivers(g.getAccount())))));
     }
-    
-    
-    
+
     public String sendMails() {
         _emailSentInfoDataTable.clear();
         MailTemplate mt = _emailTemplateFacade.findByName(_selectedTemplate);
-        
+
         _receiverEmails.stream()
                 .filter(a -> a.isSend())
                 .forEach(a -> {
@@ -353,33 +352,33 @@ public class CertMail implements Serializable {
                     String subject = mt.getSubject().replace("{company}", company);
                     String body = mt.getBody().replace("{salutation}", salutation)
                             .replace("{company}", company)
-                            .replace("{sender}", _sessionController.getAccount().getFirstName() + " " 
+                            .replace("{sender}", _sessionController.getAccount().getFirstName() + " "
                                     + _sessionController.getAccount().getLastName());
                     try {
                         if (_sessionController.getMailer().sendMailFrom(mt.getFrom(), a.getGrouper().getAccount().getEmail(),
-                                    a.getCcEmails(), mt.getBcc(), subject, body, _attachement)) {
+                                a.getCcEmails(), mt.getBcc(), subject, body, _attachement)) {
                             throw new Exception("Fehler bei Mailversand!");
                         }
                         _emailSentInfoDataTable.add(new EmailSentInfo(a.getGrouper().getAccount().getEmail(), mt.getBcc(), "Erfolgreich"));
-                    }
-                    catch (Exception ex) {
+                    } catch (Exception ex) {
                         _emailSentInfoDataTable
-                            .add(new EmailSentInfo(a.getGrouper().getAccount().getEmail(), mt.getBcc(), "Fehler!\n" + ex.getMessage()));
+                                .add(new EmailSentInfo(a.getGrouper().getAccount().getEmail(), mt.getBcc(), "Fehler!\n" + ex.getMessage()));
                     }
                 });
         return "";
     }
-    
+
     public class GrouperEmailReceiver {
+
         private Grouper _grouper;
         private String _ccEmails;
         private boolean _send = true;
-        
+
         public GrouperEmailReceiver(Grouper grouper, String ccs) {
             _grouper = grouper;
             _ccEmails = ccs;
         }
-        
+
         public Grouper getGrouper() {
             return _grouper;
         }
