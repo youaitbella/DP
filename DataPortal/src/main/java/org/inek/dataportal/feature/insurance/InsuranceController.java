@@ -26,16 +26,7 @@ public class InsuranceController extends AbstractFeatureController {
     @Override
     protected void addTopics(Topics topics) {
         topics.addTopic(Utils.getMessage("lblInsuranceNub"), Pages.InsuranceSummary.URL());
-
-        List<String> allowedUsers = Arrays.asList(
-                "kerstin.bockhorst@gkv-spitzenverband.de",
-                "j.vaillant@dkgev.de",
-                "max.mustermann@mueller-bruehl.de");
-        if (getSessionController().isInekUser(Feature.INSURANCE)
-                || allowedUsers.contains(getSessionController().getAccount().getEmail())) {
-            // todo: remove restrictions above once public available
-            topics.addTopic(Utils.getMessage("lblInsuranceSpecificFuntions"), Pages.InsuranceSpecificFunctionSummary.URL());
-        }
+        topics.addTopic(Utils.getMessage("lblInsuranceSpecificFuntions"), Pages.InsuranceSpecificFunctionSummary.URL());
     }
 
     @Override
