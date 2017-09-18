@@ -5,7 +5,6 @@
  */
 package org.inek.dataportal.feature.specificfunction.backingbean;
 
-import org.inek.dataportal.feature.calculationhospital.*;
 import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -18,7 +17,6 @@ import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.feature.specificfunction.facade.SpecificFunctionFacade;
 import org.inek.dataportal.helper.Utils;
-import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
 import org.inek.dataportal.utils.DocumentationUtil;
 
 /**
@@ -41,17 +39,8 @@ public class SpecificFunctionAgreementList {
     }
 
     public String newRequest() {
-        destroyFeatureBeans();
         return Pages.SpecificFunctionEditAgreement.URL();
     }
-
-    private void destroyFeatureBeans() {
-        // if the user hit the browser's back-button, a request might be still active.
-        // To prevent invoking the wrong, we destroy all Feature scoped beans first
-        FeatureScopedContextHolder.Instance.destroyBeansOfScope(EditStatementOfParticipance.class.getSimpleName());
-        // todo: add other classes
-    }
-
 
     public String print(SpecificFunctionRequest request) {
         Utils.getFlash().put("headLine", Utils.getMessage("nameSPECIFIC_FUNCTION"));
@@ -74,7 +63,6 @@ public class SpecificFunctionAgreementList {
     }
 
     public String edit() {
-        destroyFeatureBeans();
         return Pages.SpecificFunctionEditAgreement.URL();
     }
 

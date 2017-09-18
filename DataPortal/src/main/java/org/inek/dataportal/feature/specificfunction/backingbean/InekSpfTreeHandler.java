@@ -60,7 +60,6 @@ public class InekSpfTreeHandler implements Serializable, TreeNodeObserver {
         }
     }
 
-
     @Override
     public Collection<TreeNode> obtainSortedChildren(TreeNode treeNode, Collection<TreeNode> children) {
         if (treeNode instanceof RootNode) {
