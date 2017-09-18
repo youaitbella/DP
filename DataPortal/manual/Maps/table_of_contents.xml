@@ -244,6 +244,9 @@
       <topicref type="topic" id="427818003477152" build="ALL" modified="2017-02-15T15:50:47.431Z" icon="0" href="SpecificFunctionRequest">
         <caption translate="true">Information durch das Krankenhaus</caption>
       </topicref>
+      <topicref type="topic" id="429967974475023" build="ALL" modified="2017-09-18T14:01:45.039Z" icon="0" href="Information-durch-die-Krankenk">
+        <caption translate="true">Information durch die Krankenkasse</caption>
+      </topicref>
     </topicref>
     <topicref type="topic" id="429785394561296" build="ALL" modified="2017-08-31T13:28:59.099Z" icon="0" href="Bewertungsrelation">
       <caption translate="true">Bewertungsrelation</caption>

@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Information durch die Krankenkasse</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Information durch die Krankenkasse</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Der aktuelle Ablauf der Zentrumsvereinbarung sieht vor, dass die Krankenhäuser geplante Zentren an das InEK melden. Das InEK vergibt ein Vertragskennzeichen, mit dem dann die Vertragspartner die Verhandlungen durchführen. Das Verhandlungsergebnis wird von der Krankenkasse über das </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> an das InEK übermittelt. Eine solche Meldung wird über das genannte Vertragskennzeichen identifiziert.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Der Bereich </text><text styleclass="Normal" style="font-style:italic;" translate="true">Krankenkasse: Besondere Aufgaben / Zentrum</text><text styleclass="Normal" translate="true"> bietet Ihnen die Möglichkeit, neue Daten anzulegen und listet darüber hinaus die bisher erfassten Daten, unterteilt nach Status &quot;in Erfassung&quot; und &quot;an das InEK gesendet&quot;.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="InsuranceSpecificFunction01.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Bereich Besondere Aufgaben / Zentrum ohne früher angelegte Daten</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true"> Mittels </text><text styleclass="Button" translate="true">[ Neue Information ]</text><text styleclass="Normal" translate="true"> legen Sie einen neuen Datensatz, wie im nächsten Abschnitt beschrieben an. Haben Sie bereits einen oder mehrere Datensätze angelegt, so werden diese wie erwähnt gelistet:</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="InsuranceSpecificFunction02.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Bereich Besondere Aufgaben / Zentrum mit früher angelegten Daten</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Bedienung der Listen ist im Wesentlichen immer gleichartig gestaltet und im Kapitel </text><link displaytype="text" defaultstyle="true" type="topiclink" href="ListData" styleclass="Normal" translate="true">Auflistung von Datensätzen</link><text styleclass="Normal" translate="true"> beschrieben.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Haben Sie einen neuen Datensatz angelegt oder aber einen bestehenden aufgerufen, gelangen Sie in den Eingabedialog.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="InsuranceSpecificFunction11.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Leerer Erfassungsdialog Besondere Aufgaben / Zentrum (Krankenkasse)</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Startpunkt für die Eingabe neuer Informationen ist die Angabe des Vertragskennzeichens, dass Ihnen seitens des Krankenhauses im Rahmen der Verhandlung mitgeteilt wurde, bzw. das Sie beim Krankenhaus erfragen können. Geben Sie dieses Kennzeichen an und klicken anschließend auf </text><text styleclass="Button" translate="true">[ Daten erfassen ].</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="InsuranceSpecificFunction12.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Erfassungsdialog Besondere Aufgaben / Zentrum (Krankenkasse) nach Eingabe eines gültigen Vertragskennzeichens</text></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>
