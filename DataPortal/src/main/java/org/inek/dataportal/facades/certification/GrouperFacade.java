@@ -47,6 +47,7 @@ public class GrouperFacade extends AbstractDataAccess {
     
     public List<String> findGrouperEmailReceivers(Account grouperAccount) {
         List<String> tmpList = new ArrayList<>();
+        if(grouperAccount == null) return tmpList;
         String query = "SELECT g FROM AdditionalEmail g WHERE g._accountId = :id";
         List<AdditionalEmail> additionalEmails = getEntityManager()
                 .createQuery(query, AdditionalEmail.class)

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -88,6 +89,7 @@ public class CertMail implements Serializable {
 
     public void changedSystemReceiver() {
         buildEmailReceiverListSystem();
+        _previewEnabled = false;
     }
 
     //<editor-fold defaultstate="collapsed" desc="SelectItems">
@@ -133,13 +135,13 @@ public class CertMail implements Serializable {
         return emailReceivers.toArray(new SelectItem[emailReceivers.size()]);
     }
 
-    public SelectItem[] getEmailAddressForPreview() {
-        SelectItem[] tmp = (SelectItem[]) _receiverEmails
+    public List<SelectItem> getEmailAddressForPreview() {
+        List<SelectItem> items = _receiverEmails
                 .stream()
                 .filter(a -> a.isSend())
                 .map(a -> new SelectItem(a.getGrouper().getAccountId(), a.getGrouper().getAccount().getEmail()))
-                .toArray();
-        return tmp;
+                .collect(Collectors.toList());
+        return items;
     }
     //</editor-fold>
 
@@ -187,7 +189,7 @@ public class CertMail implements Serializable {
 
     public String showPreview() {
         if (_systemReceiverId != 0) {
-            buildEmailReceiverListSystem();
+            //buildEmailReceiverListSystem();
             //} else if (_singleReceiver != null) {
             // TODO: _emailReceiverList
         }
@@ -196,12 +198,19 @@ public class CertMail implements Serializable {
         }
         _previewEnabled = true;
         _emailSentInfoDataTable.clear();
+        _selectedEmailAddressPreview = _receiverEmails.stream()
+                .filter(e -> e.isSend())
+                .findFirst()
+                .get()
+                .getGrouper()
+                .getAccount()
+                .getId();
         buildPreviewEmail();
         return "";
     }
 
     private boolean checkForAvailableEmailReceivers() throws ValidatorException {
-        if (_emailList.size() <= 0) {
+        if (_receiverEmails.size() <= 0) {
             FacesContext ctx = FacesContext.getCurrentInstance();
             ctx.addMessage(_previewButton.getClientId(ctx), new FacesMessage("Es gibt keine Emailempfänger für die ausgewählte Liste!"));
             _previewEnabled = false;
@@ -355,7 +364,7 @@ public class CertMail implements Serializable {
                             .replace("{sender}", _sessionController.getAccount().getFirstName() + " "
                                     + _sessionController.getAccount().getLastName());
                     try {
-                        if (_sessionController.getMailer().sendMailFrom(mt.getFrom(), a.getGrouper().getAccount().getEmail(),
+                        if (!_sessionController.getMailer().sendMailFrom(mt.getFrom(), a.getGrouper().getAccount().getEmail(),
                                 a.getCcEmails(), mt.getBcc(), subject, body, _attachement)) {
                             throw new Exception("Fehler bei Mailversand!");
                         }
