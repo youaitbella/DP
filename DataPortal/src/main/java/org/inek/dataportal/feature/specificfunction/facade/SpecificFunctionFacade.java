@@ -158,6 +158,22 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
         return findFresh(SpecificFunctionAgreement.class, id);
     }
     
+    public SpecificFunctionAgreement findSpecificFunctionAgreementByCode(String code) {
+        String jpql = "SELECT s FROM SpecificFunctionAgreement s WHERE s._code = :code";
+        TypedQuery<SpecificFunctionAgreement> query = getEntityManager().createQuery(jpql, SpecificFunctionAgreement.class);
+        query.setParameter("code", code);
+        try {
+            return query.getSingleResult();
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+    public boolean SpecificFunctionAgreementExists(String code){
+        SpecificFunctionAgreement agreement = findSpecificFunctionAgreementByCode(code);
+        return agreement != null;
+    }
+    
     public List<SpecificFunctionAgreement> obtainSpecificFunctionAgreements(int accountId, int year, 
             WorkflowStatus statusLow, WorkflowStatus statusHigh) {
         String jpql = "SELECT s FROM SpecificFunctionAgreement s "

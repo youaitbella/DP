@@ -25,10 +25,18 @@
     <para styleclass="Image Caption"><image src="InsuranceSpecificFunction11.png" scale="100.00%" styleclass="Image Caption"></image></para>
     <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Leerer Erfassungsdialog Besondere Aufgaben / Zentrum (Krankenkasse)</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Startpunkt für die Eingabe neuer Informationen ist die Angabe des Vertragskennzeichens, dass Ihnen seitens des Krankenhauses im Rahmen der Verhandlung mitgeteilt wurde, bzw. das Sie beim Krankenhaus erfragen können. Geben Sie dieses Kennzeichen an und klicken anschließend auf </text><text styleclass="Button" translate="true">[ Daten erfassen ].</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Startpunkt für die Eingabe neuer Informationen ist die Angabe des Vertragskennzeichens, dass Ihnen seitens des Krankenhauses im Rahmen der Verhandlung mitgeteilt wurde, bzw. das Sie beim Krankenhaus erfragen können. Geben Sie dieses Kennzeichen an und klicken anschließend auf </text><text styleclass="Button" translate="true">[ Daten erfassen ]</text><text styleclass="Normal" translate="true">. Ist das Vertragskennzeichen gültig und wurden dazu seitens der Krankenkasse noch keine Daten erfasst, so werden die Eingabefelder eingeblendet. Andernfalls gibt das </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> einen Hinweis auf falsches Kennzeichen oder bereits vorliegende Daten aus.</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Image Caption"><image src="InsuranceSpecificFunction12.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><image src="SpecificFunction12.png" scale="100.00%" styleclass="Image Caption"></image></para>
     <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Erfassungsdialog Besondere Aufgaben / Zentrum (Krankenkasse) nach Eingabe eines gültigen Vertragskennzeichens</text></para>
     <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Nun können Sie mit der Datenerfassung entsprechend den Feldbeschriftungen starten. Dabei sind der Ansprechpartner mit den Daten aus Ihren Stammdaten vorbelegt. Falls Sie die Daten im Auftrag erfassen, können Sie den Ansprechpartner überschreiben.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="InsuranceSpecificFunction13.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Erfassungsdialog Besondere Aufgaben / Zentrum (Krankenkasse), unterer Teil</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">In diesem Dialog können Sie mehrere Zentren erfassen. Klicken Sie auch </text><text styleclass="Button" translate="true">[ Weiteres Zentrum zufügen ]</text><text styleclass="Normal" translate="true">, um den Eingabedialog um ein weiteres Zentrum zu erweitern. Die Zentren erhalten eine laufende Nummer.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Bei den vereinbarten Entgeltschlüsseln geben Sie an, ob sich diese Information auf alle Zentren oder eine bestimmte laufende Nummern beziehen. Auch hier fügen Sie bei Bedarf weitere Zeilen ein.</text></para>
   </body>
 </topic>

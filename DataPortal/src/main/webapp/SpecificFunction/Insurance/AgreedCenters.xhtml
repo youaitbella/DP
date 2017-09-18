@@ -15,7 +15,7 @@
         <h:outputLabel for="budgetYear" 
                        value="Budgetjahr:" 
                        title="Budgetjahr"
-                       styleClass="label element20" />
+                       styleClass="label element16em" />
         <h:selectOneMenu id="budgetYear"
                          styleClass="element12em"
                          required="true"
@@ -32,7 +32,7 @@
         <h:outputLabel for="txtBudgetDate" 
                        value="Budgetgenehmigung erteilt am:" 
                        title="Budgetgenehmigung erteilt am"
-                       styleClass="label element20" />
+                       styleClass="label element16em" />
         <h:message for="txtBudgetDate" id="msgBudgetYear" styleClass="errorMessage"/>
         <h:inputText id="txtBudgetDate"
                      title="Budgetgenehmigung erteilt am"
@@ -95,7 +95,7 @@
                 <h:message for="centerName" id="msgCenterName" styleClass="errorMessage"/>
 
                 <h:panelGroup id="otherName" 
-                              styleClass="element100-37em"
+                              styleClass="element100"
                               rendered="#{center.centerId eq -1}">
                     <h:inputText id="txtCenterOtherName"
                                  title="Bezeichung eines sonstigen Zentrums"
@@ -123,7 +123,7 @@
                                title="In Verhandlung gewährte besondere Aufgaben (Stichpunktartige Auflistung der zentralen Aufgaben)" 
                                styleClass="label element12em alignTop" />
 
-                <div class="container10em element100-13em">
+                <div class="container10em element100-12em">
 
                     <h:selectManyCheckbox id="specificFunction"
                                           layout="pageDirection"
@@ -173,7 +173,9 @@
                                  readonly="#{editSpecificFunctionAgreement.readOnly}">
                     <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
                     <f:selectItems value="#{editSpecificFunctionAgreement.relatedNames}" var="item" itemValue="#{item.id}" itemLabel="#{item.name}"/>
-                    <f:selectItem itemLabel="Sonstiges (bitte angeben)" itemValue="#{-1}"/>
+                    <ui:remove>
+                        <f:selectItem itemLabel="Sonstiges (bitte angeben)" itemValue="#{-1}"/>
+                    </ui:remove>
                     <f:ajax event="change" render="@form :logout:remaining msgRelatedName"/>
                 </h:selectOneMenu>
                 <h:message for="relatedName" id="msgRelatedName" styleClass="errorMessage"/>
@@ -217,7 +219,7 @@
         <h:outputLabel for="typeExtraCharge" 
                        value="Art des Zustandekommens des Zuschlags" 
                        title="" 
-                       styleClass="label element15 alignTop" />
+                       styleClass="label element16em alignTop" />
 
         <h:selectOneMenu id="typeExtraCharge"
                          styleClass="element25em"
@@ -236,7 +238,7 @@
     <br/>
     <h:outputLabel class="label" value="Vereinbarte Entgeltschlüssel für Zentrumsvereinbarung"/>
 
-    <h:dataTable style="width: 50%;" value="#{editSpecificFunctionAgreement.agreement.remunerationKeys}" var="key">
+    <h:dataTable style="width: 75%;" value="#{editSpecificFunctionAgreement.agreement.remunerationKeys}" var="key">
         <h:column>
             <h:commandLink rendered="#{!editSpecificFunctionAgreement.readOnly}">
                 <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value=""/>

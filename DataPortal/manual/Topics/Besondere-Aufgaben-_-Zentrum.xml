@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Besondere Aufgaben / Zentrum</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Besondere Aufgaben / Zentrum</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Diese Funktion finden Sie im Kapitel Besondere Aufgaben / Zentrum,</text><link displaytype="text" defaultstyle="true" type="topiclink" href="Information-durch-die-Krankenk" styleclass="Normal" translate="true"> Information durch die Krankenkasse</link><text styleclass="Normal" translate="true"> beschrieben.</text></para>
+  </body>
+</topic>

@@ -12,7 +12,7 @@
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
 
     <ui:define name="content">
-        
+
         <h:form id="specificFuntion" enctype="multipart/form-data">
             <h1><h:commandLink value="#{msg.lblSpecificFunction}" styleClass="marginTop01em"
                                action="#{sessionController.navigate(sessionTools.pages.InsuranceSpecificFunctionSummary)}" immediate="true"/></h1>
@@ -25,6 +25,7 @@
                                   styleClassComponent="inlineBlock inputPart"
                                   styleClassLabel="label element08em" 
                                   styleClass="element08em" 
+                                  readonly="#{editSpecificFunctionAgreement.readOnly or editSpecificFunctionAgreement.agreement.ik > 0}"
                                   renderElement="@form">
                 </inek:LabeledText>
                 <h:outputLabel value="Daten erfassen" styleClass="button marginLeft"/>
@@ -42,7 +43,7 @@
                     <h:outputLabel id="hospitalName" styleClass="label marginLeft" value="#{applicationTools.retrieveHospitalInfo(editSpecificFunctionAgreement.agreement.ik)}"/>
 
                     <h2>#{msg.lblInsurance} (Verhandlungsführer der Kostenträger vor Ort)</h2>
-                    
+
                     <inek:LabeledText id="insuranceIk" 
                                       label="#{msg.lblIkAbbr}" 
                                       value="#{editSpecificFunctionAgreement.agreement.insuranceIk}" 
@@ -154,7 +155,8 @@
                                    action="#{editSpecificFunctionAgreement.save}"
                                    value="#{msg.btnSave}"
                                    immediate="true"
-                                   rendered="#{!editSpecificFunctionAgreement.readOnly or sessionController.isInekUser('SPECIFIC_FUNCTION')}">
+                                   rendered="#{!editSpecificFunctionAgreement.readOnly and editSpecificFunctionAgreement.agreement.ik > 0 
+                                               or sessionController.isInekUser('SPECIFIC_FUNCTION')}">
                     </h:commandLink>
 
                     <h:commandLink styleClass="bigButton"
@@ -167,7 +169,7 @@
                     <h:commandLink styleClass="sendButton"
                                    action="#{editSpecificFunctionAgreement.requestApproval}"
                                    value="#{msg.btnRequestApproval}"
-                                   rendered="#{editSpecificFunctionAgreement.approvalRequestEnabled}"
+                                   rendered="#{editSpecificFunctionAgreement.approvalRequestEnabled and editSpecificFunctionAgreement.agreement.ik > 0 }"
                                    title="#{msg.infoSaveAndClose}">
                         <cb:confirmRequestApproval/>
                     </h:commandLink>
@@ -175,7 +177,7 @@
                     <h:commandLink styleClass="sendButton"
                                    action="#{editSpecificFunctionAgreement.seal}"
                                    value="#{msg.btnSaveAndClose}"
-                                   rendered="#{editSpecificFunctionAgreement.sealEnabled}"
+                                   rendered="#{editSpecificFunctionAgreement.sealEnabled and editSpecificFunctionAgreement.agreement.ik > 0 }"
                                    immediate="false"
                                    title="#{msg.infoSaveAndClose}">
                         <cb:confirmSeal/>

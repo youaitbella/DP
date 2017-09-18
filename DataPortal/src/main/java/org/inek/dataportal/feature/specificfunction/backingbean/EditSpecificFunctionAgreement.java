@@ -190,8 +190,8 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
     private void sendMessage(String name) {
         //todo: refactor for gloabal usage (move to mailer?) and remove all similar methods
         Account receiver = _accountFacade.find(
-                _appTools.isEnabled(ConfigKey.TestMode) 
-                ? _sessionController.getAccountId() 
+                _appTools.isEnabled(ConfigKey.TestMode)
+                ? _sessionController.getAccountId()
                 : _agreement.getAccountId());
         MailTemplate template = _mailer.getMailTemplate(name);
         String subject = template.getSubject()
@@ -271,10 +271,8 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
     }
 
     /**
-     * This function seals a statement od participance if possible. Sealing is
-     * possible, if all mandatory fields are fulfilled. After sealing, the
-     * statement od participance can not be edited anymore and is available for
-     * the InEK.
+     * This function seals a statement od participance if possible. Sealing is possible, if all mandatory fields are
+     * fulfilled. After sealing, the statement od participance can not be edited anymore and is available for the InEK.
      *
      * @return
      */
@@ -355,7 +353,6 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
 //            applyMessageValues(message, "Bitte mindestens eine Vereinbarung angeben", "");
 //        }
 
-
         return message;
     }
 
@@ -430,7 +427,7 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
         for (AgreedCenter agreedCenter : _agreement.getAgreedCenters()) {
             lastSequence = agreedCenter.getSequence();
         }
-        center.setSequence(lastSequence+1);
+        center.setSequence(lastSequence + 1);
         _agreement.getAgreedCenters().add(center);
     }
 
@@ -442,7 +439,7 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
     private void removeEmptyCenters() {
         removeEmptyAgreedCenters();
     }
-    
+
     private void removeEmptyAgreedCenters() {
         Iterator<AgreedCenter> iter = _agreement.getAgreedCenters().iterator();
         while (iter.hasNext()) {
@@ -466,8 +463,8 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
     public List<RelatedName> getRelatedNames() {
         return _specificFunctionFacade.getRelatedNames();
     }
-    
-    public List<TypeExtraCharge> getTypeExtraCharges(){
+
+    public List<TypeExtraCharge> getTypeExtraCharges() {
         return _specificFunctionFacade.getTypeChargeExtra();
     }
 
@@ -475,20 +472,25 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
         return _specificFunctionFacade.getSpecificFunctions(false);
     }
 
-    public void changeCode(){
+    public void changeCode() {
         SpecificFunctionRequest request = _specificFunctionFacade.findSpecificFunctionRequestByCode(_agreement.getCode());
-        _agreement.setIk(request.getIk());
-        if (request.getIk() < 1){
+        if (request.getIk() < 1) {
             Utils.showMessageInBrowser("Das Vertragskennzeichen " + _agreement.getCode() + " ist unbekannt.");
+            return;
         }
+        if (_specificFunctionFacade.SpecificFunctionAgreementExists(_agreement.getCode())) {
+            Utils.showMessageInBrowser("Zum Vertragskennzeichen " + _agreement.getCode() + " wurden bereits Daten erfasst.");
+            return;
+        }
+        _agreement.setIk(request.getIk());
     }
-    
+
     public List<SelectItem> getSpecificFunctionRemunerationScopes() {
         List<SelectItem> items = new ArrayList<>();
         items.add(new SelectItem(-1, ""));
         items.add(new SelectItem(0, "alle"));
-        for(AgreedCenter center : _agreement.getAgreedCenters()) {
-            items.add(new SelectItem(center.getSequence(), "laufende Nummer: "+center.getSequence()));
+        for (AgreedCenter center : _agreement.getAgreedCenters()) {
+            items.add(new SelectItem(center.getSequence(), "laufende Nummer: " + center.getSequence()));
         }
         return items;
     }
