@@ -158,7 +158,7 @@ public class PdfBuilder implements Serializable {
         addLogo(document,
                 "Vereinbarte Stellenbesetzung in Vollkräften \nBereich Kinder und Jugendliche",
                 anlage1,
-                _editPsyStaff.getStaffProof().getSignatureAgreement(PsychType.Kids));
+                _editPsyStaff.getStaffProof().getSignatureAgreement());
         PdfPTable tb_JK = new PdfPTable(6);
         tb_JK.setWidthPercentage(100);
         tb_JK.setWidths(new int[]{3, 1, 3, 3, 3, 3});
@@ -187,7 +187,7 @@ public class PdfBuilder implements Serializable {
         addLogo(document,
                 "Vereinbarte Stellenbesetzung in Vollkräften \nBereich Kinder und Jugendliche",
                 anlage2,
-                _editPsyStaff.getStaffProof().getSignatureEffective(PsychType.Kids));
+                _editPsyStaff.getStaffProof().getSignatureEffective());
         PdfPTable tb_JK = new PdfPTable(7);
         tb_JK.setWidthPercentage(100);
         tb_JK.setWidths(new int[]{1, 4, 3, 3, 3, 3, 3});
@@ -219,7 +219,7 @@ public class PdfBuilder implements Serializable {
             addLogo(document,
                     "Vereinbarte Stellenbesetzung in Vollkräften \nBereich Kinder und Jugendliche",
                     anlage2,
-                    _editPsyStaff.getStaffProof().getSignatureEffective(PsychType.Kids));
+                    _editPsyStaff.getStaffProof().getSignatureEffective());
         }
 
         addNote(document, infoText1, 0);
@@ -235,7 +235,7 @@ public class PdfBuilder implements Serializable {
         addLogo(document,
                 "Vereinbarte Stellenbesetzung in Vollkräften \nBereich Erwachsene",
                 anlage1,
-                _editPsyStaff.getStaffProof().getSignatureAgreement(PsychType.Adults));
+                _editPsyStaff.getStaffProof().getSignatureAgreement());
         PdfPTable tb = new PdfPTable(6);
         tb.setWidthPercentage(100);
         tb.setWidths(new int[]{3, 1, 3, 3, 3, 3});
@@ -264,7 +264,7 @@ public class PdfBuilder implements Serializable {
         addLogo(document,
                 "Vereinbarte Stellenbesetzung in Vollkräften \nBereich Erwachsene",
                 anlage2,
-                _editPsyStaff.getStaffProof().getSignatureEffective(PsychType.Adults));
+                _editPsyStaff.getStaffProof().getSignatureEffective());
         PdfPTable tb = new PdfPTable(7);
         tb.setWidthPercentage(100);
         tb.setWidths(new int[]{1, 4, 3, 3, 3, 3, 3});
@@ -301,7 +301,7 @@ public class PdfBuilder implements Serializable {
             addLogo(document,
                     "Vereinbarte Stellenbesetzung in Vollkräften \nBereich Erwachsene",
                     anlage2,
-                    _editPsyStaff.getStaffProof().getSignatureEffective(PsychType.Adults));
+                    _editPsyStaff.getStaffProof().getSignatureEffective());
         }
         
 
