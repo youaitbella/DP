@@ -298,13 +298,11 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
             case TOPIC_BASE:
                 return false;
             case TOPIC_ADULTS1:
-                return _staffProof.getStatusAdults1() < WorkflowStatus.Provided.getId();
             case TOPIC_KIDS1:
-                return _staffProof.getStatusKids1() < WorkflowStatus.Provided.getId();
+                return _staffProof.getStatusApx1() < WorkflowStatus.Provided.getId();
             case TOPIC_ADULTS2:
-                return _staffProof.getStatusAdults2() < WorkflowStatus.Provided.getId();
             case TOPIC_KIDS2:
-                return _staffProof.getStatusKids2() < WorkflowStatus.Provided.getId();
+                return _staffProof.getStatusApx2() < WorkflowStatus.Provided.getId();
             default:
                 return false;
         }
@@ -315,13 +313,11 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
             case TOPIC_BASE:
                 return false;
             case TOPIC_ADULTS1:
-                return _staffProof.getStatusAdults1() >= WorkflowStatus.Provided.getId();
             case TOPIC_KIDS1:
-                return _staffProof.getStatusKids1() >= WorkflowStatus.Provided.getId();
+                return _staffProof.getStatusApx1() >= WorkflowStatus.Provided.getId();
             case TOPIC_ADULTS2:
-                return _staffProof.getStatusAdults2() >= WorkflowStatus.Provided.getId();
             case TOPIC_KIDS2:
-                return _staffProof.getStatusKids2() >= WorkflowStatus.Provided.getId();
+                return _staffProof.getStatusApx2() >= WorkflowStatus.Provided.getId();
             default:
                 return false;
         }
@@ -349,20 +345,14 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
             case TOPIC_BASE:
                 return false;
             case TOPIC_ADULTS1:
-                _staffProof.setStatusAdults1(newStatus.getId());
-                _staffProof.setStatusChangedAdults1(new Date());
-                break;
             case TOPIC_KIDS1:
-                _staffProof.setStatusKids1(newStatus.getId());
-                _staffProof.setStatusChangedKids1(new Date());
+                _staffProof.setStatusApx1(newStatus.getId());
+                _staffProof.setStatusApx1Changed(new Date());
                 break;
             case TOPIC_ADULTS2:
-                _staffProof.setStatusAdults2(newStatus.getId());
-                _staffProof.setStatusChangedAdults2(new Date());
-                break;
             case TOPIC_KIDS2:
-                _staffProof.setStatusKids2(newStatus.getId());
-                _staffProof.setStatusChangedKids2(new Date());
+                _staffProof.setStatusApx2(newStatus.getId());
+                _staffProof.setStatusApx2Changed(new Date());
                 break;
             default:
                 return false;
@@ -592,7 +582,6 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
             return;
         }
 
-        PsychType type;
         int appendix;
         String signature;
 
@@ -600,24 +589,14 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
             case TOPIC_BASE:
                 return;
             case TOPIC_ADULTS1:
-                type = PsychType.Adults;
-                appendix = 1;
-                signature = _staffProof.getSignatureAgreement(type);
-                break;
             case TOPIC_KIDS1:
-                type = PsychType.Kids;
                 appendix = 1;
-                signature = _staffProof.getSignatureAgreement(type);
+                signature = _staffProof.getSignatureAgreement();
                 break;
             case TOPIC_ADULTS2:
-                type = PsychType.Adults;
-                appendix = 2;
-                signature = _staffProof.getSignatureEffective(type);
-                break;
             case TOPIC_KIDS2:
-                type = PsychType.Kids;
                 appendix = 2;
-                signature = _staffProof.getSignatureEffective(type);
+                signature = _staffProof.getSignatureEffective();
                 break;
             default:
                 return;
@@ -631,7 +610,6 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
                 byte[] content = StreamUtils.stream2blob(is);
                 StaffProofDocument document = new StaffProofDocument(fileName);
                 document.setContent(content);
-                document.setPsychType(type);
                 document.setAppendix(appendix);
                 document.setSignature(signature);
                 _staffProof.addStaffProofDocument(document);

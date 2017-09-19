@@ -230,62 +230,6 @@ public class StaffProof implements Serializable, StatusEntity {
     }
     // </editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property StatusChangedAdults1">
-    @Column(name = "spmStatusChangedAdults1")
-    @Documentation(name = "Stand")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date _statusChangedAdults1 = new Date();
-
-    public Date getStatusChangedAdults1() {
-        return _statusChangedAdults1;
-    }
-
-    public void setStatusChangedAdults1(Date statusChangedAdults1) {
-        this._statusChangedAdults1 = statusChangedAdults1;
-    }
-    //</editor-fold>    
-
-    //<editor-fold defaultstate="collapsed" desc="Property StatusAdults1">
-    @Column(name = "spmStatusAdults1")
-    private int _statusAdults1;
-
-    public int getStatusAdults1() {
-        return _statusAdults1;
-    }
-
-    public void setStatusAdults1(int statusAdults1) {
-        this._statusAdults1 = statusAdults1;
-    }
-    //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="Property StatusChangedAdults2">
-    @Column(name = "spmStatusChangedAdults2")
-    @Documentation(name = "Stand")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date _statusChangedAdults2 = new Date();
-
-    public Date getStatusChangedAdults2() {
-        return _statusChangedAdults2;
-    }
-
-    public void setStatusChangedAdults2(Date statusChangedAdults2) {
-        this._statusChangedAdults2 = statusChangedAdults2;
-    }
-    //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="Property StatusAdults2">
-    @Column(name = "spmStatusAdults2")
-    private int _statusAdults2;
-
-    public int getStatusAdults2() {
-        return _statusAdults2;
-    }
-
-    public void setStatusAdults2(int statusAdults2) {
-        this._statusAdults2 = statusAdults2;
-    }
-    //</editor-fold>
-
     //<editor-fold defaultstate="collapsed" desc="Property KidsAgreedDays">
     @Column(name = "spmKidsAgreedDays")
     private int _kidsAgreedDays;
@@ -325,59 +269,59 @@ public class StaffProof implements Serializable, StatusEntity {
     }
     // </editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property StatusChangedKids1">
-    @Column(name = "spmStatusChangedKids1")
+    //<editor-fold defaultstate="collapsed" desc="Property StatusApx1Changed">
+    @Column(name = "spmStatusApx1Changed")
     @Documentation(name = "Stand")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date _statusChangedKids1 = new Date();
+    private Date _statusApx1Changed = new Date();
 
-    public Date getStatusChangedKids1() {
-        return _statusChangedKids1;
+    public Date getStatusApx1Changed() {
+        return _statusApx1Changed;
     }
 
-    public void setStatusChangedKids1(Date statusChangedKids1) {
-        this._statusChangedKids1 = statusChangedKids1;
+    public void setStatusApx1Changed(Date statusApx1Changed) {
+        this._statusApx1Changed = statusApx1Changed;
     }
     //</editor-fold>    
 
-    //<editor-fold defaultstate="collapsed" desc="Property StatusKids1">
-    @Column(name = "spmStatusKids1")
-    private int _statusKids1;
+    //<editor-fold defaultstate="collapsed" desc="Property StatusApx1">
+    @Column(name = "spmStatusApx1")
+    private int _statusApx1;
 
-    public int getStatusKids1() {
-        return _statusKids1;
+    public int getStatusApx1() {
+        return _statusApx1;
     }
 
-    public void setStatusKids1(int statusKids1) {
-        this._statusKids1 = statusKids1;
+    public void setStatusApx1(int statusApx1) {
+        this._statusApx1 = statusApx1;
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property StatusChangedKids2">
-    @Column(name = "spmStatusChangedKids2")
+    //<editor-fold defaultstate="collapsed" desc="Property StatusApx2Changed">
+    @Column(name = "spmStatusApx2Changed")
     @Documentation(name = "Stand")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date _statusChangedKids2 = new Date();
+    private Date _statusApx2Changed = new Date();
 
-    public Date getStatusChangedKids2() {
-        return _statusChangedKids2;
+    public Date getStatusApx2Changed() {
+        return _statusApx2Changed;
     }
 
-    public void setStatusChangedKids2(Date statusChangedKids2) {
-        this._statusChangedKids2 = statusChangedKids2;
+    public void setStatusApx2Changed(Date statusApx2Changed) {
+        this._statusApx2Changed = statusApx2Changed;
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property StatusKids2">
-    @Column(name = "spmStatusKids2")
-    private int _statusKids2;
+    //<editor-fold defaultstate="collapsed" desc="Property StatusApx2">
+    @Column(name = "spmStatusApx2")
+    private int _statusApx2;
 
-    public int getStatusKids2() {
-        return _statusKids2;
+    public int getStatusApx2() {
+        return _statusApx2;
     }
 
-    public void setStatusKids2(int statusKids2) {
-        this._statusKids2 = statusKids2;
+    public void setStatusApx2(int statusApx2) {
+        this._statusApx2 = statusApx2;
     }
     //</editor-fold>
 
@@ -506,16 +450,16 @@ public class StaffProof implements Serializable, StatusEntity {
         return Collections.unmodifiableList(_staffProofDocument);
     }
 
-    public StaffProofDocument getStaffProofDocument(PsychType type, int appendix) {
+    public StaffProofDocument getStaffProofDocument(int appendix) {
         return _staffProofDocument
                 .stream()
-                .filter(d -> d.getPsychType() == type && d.getAppendix() == appendix)
+                .filter(d -> d.getAppendix() == appendix)
                 .findAny()
                 .orElse(new StaffProofDocument());
     }
 
-    public String getStaffProofDocumentName(PsychType type, int appendix) {
-        return getStaffProofDocument(type, appendix).getName();
+    public String getStaffProofDocumentName(int appendix) {
+        return getStaffProofDocument(appendix).getName();
     }
 
     public StaffProofDocument getStaffProofDocument(String signature) {
@@ -579,29 +523,21 @@ public class StaffProof implements Serializable, StatusEntity {
     // </editor-fold>
 
     public boolean isAnyClosed() {
-        return _statusAdults1 >= WorkflowStatus.Provided.getId()
-                || _statusKids1 >= WorkflowStatus.Provided.getId()
-                || _statusAdults2 >= WorkflowStatus.Provided.getId()
-                || _statusKids2 >= WorkflowStatus.Provided.getId();
+        return _statusApx1 >= WorkflowStatus.Provided.getId()
+                || _statusApx2 >= WorkflowStatus.Provided.getId();
     }
 
     public boolean isClosed() {
-        return (_forAdults || _forKids)
-                && (!_forAdults || _statusAdults1 >= WorkflowStatus.Provided.getId() && _statusAdults2 >= WorkflowStatus.Provided.getId())
-                && (!_forKids || _statusKids1 >= WorkflowStatus.Provided.getId() && _statusKids2 >= WorkflowStatus.Provided.getId());
+        return _statusApx1 >= WorkflowStatus.Provided.getId() && _statusApx2 >= WorkflowStatus.Provided.getId();
     }
 
     /**
      * Returns a checksum, if status is at least provided (closed): Otherwise the checksum is empty
      *
-     * @param psychType
      * @return Base64 encoded checksum
      */
-    public String getSignatureAgreement(PsychType psychType) {
-        if (psychType == PsychType.Adults && _statusAdults1 < WorkflowStatus.Provided.getId()) {
-            return "";
-        }
-        if (psychType == PsychType.Kids && _statusKids1 < WorkflowStatus.Provided.getId()) {
+    public String getSignatureAgreement() {
+        if (_statusApx1 < WorkflowStatus.Provided.getId()) {
             return "";
         }
         // we use a delimitter to distinguish the concatenation of "cummutative" values
@@ -612,15 +548,12 @@ public class StaffProof implements Serializable, StatusEntity {
                 + getAccountId() + "^"
                 + getCreated() + "^"
                 + getYear() + "^"
-                + getCalculationType() + "^";
-        if (psychType == PsychType.Adults) {
-            data += getAdultsAgreedDays() + "^"
-                    + getStatusChangedAdults1() + "^";
-        } else {
-            data += getKidsAgreedDays() + "^"
-                    + getStatusChangedKids1() + "^";
-        }
-        data += getProofsAgreedData(psychType);
+                + getCalculationType() + "^"
+                + getAdultsAgreedDays() + "^"
+                + getKidsAgreedDays() + "^"
+                + getStatusApx1Changed() + "^"
+                + getProofsAgreedData(PsychType.Adults)
+                + getProofsAgreedData(PsychType.Kids);
         return Crypt.getHash64("SHA-1", data);  // sha-1 is sufficiant for this purpose and keeps the result short
     }
 
@@ -637,11 +570,8 @@ public class StaffProof implements Serializable, StatusEntity {
         return data;
     }
 
-    public String getSignatureEffective(PsychType psychType) {
-        if (psychType == PsychType.Adults && _statusAdults2 < WorkflowStatus.Provided.getId()) {
-            return "";
-        }
-        if (psychType == PsychType.Kids && _statusKids2 < WorkflowStatus.Provided.getId()) {
+    public String getSignatureEffective() {
+        if (_statusApx2 < WorkflowStatus.Provided.getId()) {
             return "";
         }
         // we use a delimitter to distinguish the concatenation of "cummutative" values
@@ -652,18 +582,16 @@ public class StaffProof implements Serializable, StatusEntity {
                 + getAccountId() + "^"
                 + getCreated() + "^"
                 + getYear() + "^"
-                + getCalculationType() + "^";
-        if (psychType == PsychType.Adults) {
-            data += getAdultsEffectiveDays() + "^"
-                    + getAdultsEffectiveCosts() + "^"
-                    + getStatusChangedAdults2() + "^";
-        } else {
-            data += getKidsEffectiveDays() + "^"
-                    + getKidsEffectiveCosts() + "^"
-                    + getStatusChangedKids2() + "^";
-        }
-        data += getProofsEffectiveData(psychType);
-        data += getExplanationData(psychType);
+                + getCalculationType() + "^"
+                + getAdultsEffectiveDays() + "^"
+                + getAdultsEffectiveCosts() + "^"
+                + getKidsEffectiveDays() + "^"
+                + getKidsEffectiveCosts() + "^"
+                + getStatusApx2Changed() + "^"
+                + getProofsEffectiveData(PsychType.Adults)
+                + getExplanationData(PsychType.Adults)
+                + getProofsEffectiveData(PsychType.Kids)
+                + getExplanationData(PsychType.Kids);
         return Crypt.getHash64("SHA-1", data);  // sha-1 is sufficiant for this purpose and keeps the result short
     }
 

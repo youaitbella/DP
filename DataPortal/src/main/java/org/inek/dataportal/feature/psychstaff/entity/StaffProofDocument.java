@@ -54,19 +54,6 @@ public class StaffProofDocument implements Serializable, Document {
         _staffProofMasterId = staffProofMasterId;
     }
     // </editor-fold>
-    
-    // <editor-fold defaultstate="collapsed" desc="Property PsychType">
-    @Column(name = "spdPsychType")
-    private PsychType _psychType;
-
-    public PsychType getPsychType() {
-        return _psychType;
-    }
-
-    public void setPsychType(PsychType psychType) {
-        _psychType = psychType;
-    }
-    // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Appendix">
     @Column(name = "spdAppendix")
@@ -144,7 +131,6 @@ public class StaffProofDocument implements Serializable, Document {
     public int hashCode() {
         int hash = 3;
         hash = 31 * hash + this._id;
-        hash = 31 * hash + Objects.hashCode(this._psychType);
         hash = 31 * hash + this._appendix;
         return hash;
     }
@@ -165,9 +151,6 @@ public class StaffProofDocument implements Serializable, Document {
             return false;
         }
         if (this._appendix != other._appendix) {
-            return false;
-        }
-        if (this._psychType != other._psychType) {
             return false;
         }
         return true;
