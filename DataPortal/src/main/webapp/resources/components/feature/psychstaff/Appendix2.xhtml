@@ -230,20 +230,20 @@
                             pattern="#,##0.00"
                             isInt="false"/>
 
-        <div class="marginTop" jsf:rendered="#{not empty editPsyStaff.staffProof.getSignatureEffective(cc.attrs.patType)}">
+        <div class="marginTop" jsf:rendered="#{not empty editPsyStaff.staffProof.signatureEffective}">
             <hr class="simpleLine"/>
             <h:outputLabel value="Signatur:"
                            styleClass="label element08em"/>
             <h:outputLabel id="checksum" 
-                           value="#{editPsyStaff.staffProof.getSignatureEffective(cc.attrs.patType)}"
+                           value="#{editPsyStaff.staffProof.signatureEffective}"
                            styleClass="label"/>
             <hr class="simpleLine"/>
         </div>
 
         <div jsf:id="fileName" class="inputPart" jsf:rendered="#{not empty editPsyStaff.staffProof.getStaffProofDocumentName(editPsyStaff.staffProof.getSignatureEffective(psychType))}">
             <h:outputLabel value="Anlage:" styleClass="label element08em"/>
-            <h:commandLink action="#{editPsyStaff.downloadDocument(editPsyStaff.staffProof.getSignatureEffective(cc.attrs.patType))}" 
-                           value="#{editPsyStaff.staffProof.getStaffProofDocumentName(editPsyStaff.staffProof.getSignatureEffective(cc.attrs.patType))}"
+            <h:commandLink action="#{editPsyStaff.downloadDocument(editPsyStaff.staffProof.signatureEffective)}" 
+                           value="#{editPsyStaff.staffProof.getStaffProofDocumentName(editPsyStaff.staffProof.signatureEffective)}"
                            immediate="true">
                 <f:ajax event="blur" render="@all"/>
             </h:commandLink>

@@ -333,7 +333,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         return isClosedState();
     }
 
-    public String btnClose() {
+    public String getBtnClose() {
         String type = "("
                 + (_staffProof.isForAdults() ? PsychType.Adults.getShortName() : "")
                 + (_staffProof.isForAdults() && _staffProof.isForKids() ? " + " : "")
