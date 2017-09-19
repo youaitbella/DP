@@ -1,6 +1,7 @@
 package org.inek.dataportal.feature.psychstaff.entity;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneOffset;
@@ -54,7 +55,7 @@ public class StaffProof implements Serializable, StatusEntity {
     }
 
     public void setYear(int year) {
-        this._year = year;
+        _year = year;
     }
     //</editor-fold>
 
@@ -68,7 +69,7 @@ public class StaffProof implements Serializable, StatusEntity {
     }
 
     public void setIk(int ik) {
-        this._ik = ik;
+        _ik = ik;
     }
     //</editor-fold>
 
@@ -81,7 +82,7 @@ public class StaffProof implements Serializable, StatusEntity {
     }
 
     public void setAccountId(int accountId) {
-        this._accountId = accountId;
+        _accountId = accountId;
     }
     //</editor-fold>
 
@@ -95,7 +96,7 @@ public class StaffProof implements Serializable, StatusEntity {
     }
 
     public void setCreated(Date created) {
-        this._created = created;
+        _created = created;
     }
     //</editor-fold>
 
@@ -110,7 +111,7 @@ public class StaffProof implements Serializable, StatusEntity {
     }
 
     public void setLastChanged(Date lastChanged) {
-        this._lastChanged = lastChanged;
+        _lastChanged = lastChanged;
     }
     //</editor-fold>
 
@@ -124,7 +125,7 @@ public class StaffProof implements Serializable, StatusEntity {
     }
 
     public void setSealed(Date sealed) {
-        this._sealed = sealed;
+        _sealed = sealed;
     }
     //</editor-fold>
 
@@ -137,7 +138,7 @@ public class StaffProof implements Serializable, StatusEntity {
     }
 
     public void setStatusId(int statusId) {
-        this._statusId = statusId;
+        _statusId = statusId;
     }
 
     @Documentation(key = "lblWorkstate", rank = 10)
@@ -203,7 +204,7 @@ public class StaffProof implements Serializable, StatusEntity {
         _exclusionFactId = exclusionFactId;
     }
     // </editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property AdultsAgreedDays">
     @Column(name = "spmAdultsAgreedDays")
     private int _adultsAgreedDays;
@@ -293,7 +294,7 @@ public class StaffProof implements Serializable, StatusEntity {
     }
 
     public void setStatusApx1Changed(Date statusApx1Changed) {
-        this._statusApx1Changed = statusApx1Changed;
+        _statusApx1Changed = statusApx1Changed;
     }
     //</editor-fold>    
 
@@ -306,7 +307,10 @@ public class StaffProof implements Serializable, StatusEntity {
     }
 
     public void setStatusApx1(int statusApx1) {
-        this._statusApx1 = statusApx1;
+        if (_statusApx1 != statusApx1) {
+            _statusApx1 = statusApx1;
+            setSignatureAgreement(calcSignatureAgreement());
+        }
     }
     //</editor-fold>
 
@@ -321,7 +325,7 @@ public class StaffProof implements Serializable, StatusEntity {
     }
 
     public void setStatusApx2Changed(Date statusApx2Changed) {
-        this._statusApx2Changed = statusApx2Changed;
+        _statusApx2Changed = statusApx2Changed;
     }
     //</editor-fold>
 
@@ -334,7 +338,36 @@ public class StaffProof implements Serializable, StatusEntity {
     }
 
     public void setStatusApx2(int statusApx2) {
-        this._statusApx2 = statusApx2;
+        if (_statusApx2 != statusApx2) {
+            _statusApx2 = statusApx2;
+            setSignatureEffective(calcSignatureEffective());
+        }
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property SignatureAgreement">
+    @Column(name = "spmSignatureAgreement")
+    private String _signatureAgreement = "";
+
+    public String getSignatureAgreement() {
+        return _signatureAgreement;
+    }
+
+    private void setSignatureAgreement(String signatureAgreement) {
+        _signatureAgreement = signatureAgreement;
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property SignatureEffective">
+    @Column(name = "spmSignatureEffective")
+    private String _signatureEffective = "";
+
+    public String getSignatureEffective() {
+        return _signatureEffective;
+    }
+
+    private void setSignatureEffective(String signatureEffective) {
+        _signatureEffective = signatureEffective;
     }
     //</editor-fold>
 
@@ -545,13 +578,14 @@ public class StaffProof implements Serializable, StatusEntity {
      *
      * @return Base64 encoded checksum
      */
-    public String getSignatureAgreement() {
+    public String calcSignatureAgreement() {
         if (_statusApx1 < WorkflowStatus.Provided.getId()) {
             return "";
         }
         // we use a delimitter to distinguish the concatenation of "cummutative" values
         // eg. id = 1; AccountId = 11, without deli: "111", with deli: "1^11"
         //     id = 11; AccountId = 1, without deli: "111" (as before!), with deli: "11^1"
+        SimpleDateFormat df = new SimpleDateFormat(DATE_FORMAT);
         String data = "^"
                 + getId() + "^"
                 + getAccountId() + "^"
@@ -560,11 +594,12 @@ public class StaffProof implements Serializable, StatusEntity {
                 + getCalculationType() + "^"
                 + getAdultsAgreedDays() + "^"
                 + getKidsAgreedDays() + "^"
-                + getStatusApx1Changed() + "^"
+                + df.format(getStatusApx1Changed()) + "^"
                 + getProofsAgreedData(PsychType.Adults)
                 + getProofsAgreedData(PsychType.Kids);
         return Crypt.getHash64("SHA-1", data);  // sha-1 is sufficiant for this purpose and keeps the result short
     }
+    private static final String DATE_FORMAT = "yyyyMMddHHmmssSSS";
 
     private String getProofsAgreedData(PsychType psychType) {
         String data = psychType + "^";
@@ -579,13 +614,14 @@ public class StaffProof implements Serializable, StatusEntity {
         return data;
     }
 
-    public String getSignatureEffective() {
+    public String calcSignatureEffective() {
         if (_statusApx2 < WorkflowStatus.Provided.getId()) {
             return "";
         }
         // we use a delimitter to distinguish the concatenation of "cummutative" values
         // eg. id = 1; AccountId = 11, without deli: "111", with deli: "1^11"
         //     id = 11; AccountId = 1, without deli: "111" (as before!), with deli: "11^1"
+        SimpleDateFormat df = new SimpleDateFormat(DATE_FORMAT);
         String data = "^"
                 + getId() + "^"
                 + getAccountId() + "^"
@@ -596,7 +632,7 @@ public class StaffProof implements Serializable, StatusEntity {
                 + getAdultsEffectiveCosts() + "^"
                 + getKidsEffectiveDays() + "^"
                 + getKidsEffectiveCosts() + "^"
-                + getStatusApx2Changed() + "^"
+                + df.format(getStatusApx2Changed()) + "^"
                 + getProofsEffectiveData(PsychType.Adults)
                 + getExplanationData(PsychType.Adults)
                 + getProofsEffectiveData(PsychType.Kids)

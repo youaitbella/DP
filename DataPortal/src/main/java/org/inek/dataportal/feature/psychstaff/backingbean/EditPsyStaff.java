@@ -613,7 +613,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
             case TOPIC_ADULTS1:
             case TOPIC_KIDS1:
                 appendix = 1;
-                signature = _staffProof.getSignatureAgreement();
+                signature = _staffProof.getSignatureEffective();
                 break;
             case TOPIC_ADULTS2:
             case TOPIC_KIDS2:
