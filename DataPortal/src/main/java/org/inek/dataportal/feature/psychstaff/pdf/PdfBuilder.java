@@ -66,9 +66,6 @@ public class PdfBuilder implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Texts">
     private final String fs = System.getProperty("file.separator");
     private final String pu = ".." + fs;
-    //private final String path = pu + "resources" + fs + "img" + fs + "InEK.gif";
-
-    private final String path = "D:\\projects\\DataPortal\\DataPortal\\InEK.gif";
 
     private final String infoText1 = "1. Die vereinbarten Berechnungstage in Anlage 1 und die tatsächlichen "
             + "Berechnungstage in Anlage 2 sind in einer einheitlichen Zählweise entweder nach LKA "
@@ -78,14 +75,15 @@ public class PdfBuilder implements Serializable {
     private final String infoText2 = "2. Bei Kinder- und Jugendpsychiatrie einschließlich Erziehungsdienst";
     private final String infoText3 = "Diese Datei ist durch die Vertragspartner nach $11 BPflV zu unterschreiben "
             + "und als elektronische Kopie an das InEK zu senden";
-    private final String infoText3A2 = "Dieser Ausdruck ist durch den Jahresabschlussprüfer nach $7 der Psych-Personalnachweis-Vereinbarung"
-            + " zu unterschreiben"
-            + "und als elektronische Kopie an das InEK zu senden";
+    private final String infoText3A2 = "Dieser Ausdruck ist durch das Krankenhaus und den Jahresabschlussprüfer "
+            + "nach $7 der Psych-Personalnachweis-Vereinbarung zu unterschreiben und als elektronische Kopie an das InEK zu senden";
     private final List<String> header1A1 = Arrays.asList("\nPersonalgruppen", "\nLfd. Nr.",
             "\nBerufsgruppen der Psych-PV",
             "Stellenbesetzung für \neine vollständige Umsetzung der Psych-\nPV in VK",
             "Stellenbesetzung \nals \nBudgetgrundlage in VK",
             "\nDurschnittskosten \nin EURO");
+
+    private final List<String> header0A2 = Arrays.asList("", "", "", "Davon", "");
     private final List<String> header2A1 = Arrays.asList("", "", "1", "2", "3", "4");
     private final List<String> header1A2 = Arrays.asList("\nLfd. Nr.",
             "\nBerufsgruppen der Psych-PV",
@@ -99,7 +97,7 @@ public class PdfBuilder implements Serializable {
             "Anrechnungs-\ntatbestand",
             "Tatsächlich Berufsgruppe der angerechneten Fachkraft ",
             "Angerechnete Stellenbesetzung in VK ",
-            "Erläuterung");
+            "\nErläuterung");
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="PdfBuilder">
@@ -115,20 +113,17 @@ public class PdfBuilder implements Serializable {
         Document document = new Document();
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 
-        PdfWriter.getInstance(document, byteArrayOutputStream);
+        PdfWriter writer = PdfWriter.getInstance(document, byteArrayOutputStream);
 
         document.open();
         createMetadata(document);
 
-        if (("Anlage 1 - Erw").equalsIgnoreCase(_editPsyStaff.getActiveTopic().getTitle())) {
-            createPageForAdultAn1(document);
-        } else if (("Anlage 1 - KJP").equalsIgnoreCase(_editPsyStaff.getActiveTopic().getTitle())) {
-            createPageForKidsAn1(document);
-        } else if (("Anlage 2 - Erw").equalsIgnoreCase(_editPsyStaff.getActiveTopic().getTitle())) {
-            createPageForAdultAn2(document);
-        } else if (("Anlage 2 - KJP").equalsIgnoreCase(_editPsyStaff.getActiveTopic().getTitle())) {
-            createPageForKidsAn2(document);
+        if ("Anlage 1".equalsIgnoreCase(_editPsyStaff.getActiveTopic().getTitle().substring(0,8))) {
+            createPageForAnlage1(document, writer);
+        } else {
+            createPageForAnlage2(document, writer);
         }
+
         document.close();
 
         FacesContext fc = FacesContext.getCurrentInstance();
@@ -152,9 +147,55 @@ public class PdfBuilder implements Serializable {
     }
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="createPageForAnlage1">
+    public void createPageForAnlage1(Document document, PdfWriter writer) throws DocumentException, IOException, NoSuchAlgorithmException {
+        if (_editPsyStaff.getStaffProof().isForAdults()) {
+            createPageForAdultAn1(document);
+            System.out.println("writer.getPageNumber():----" + document.getPageNumber());
+//            System.out.println("writer.getCurrentPageNumber(): ----" + document.getCurrentPageNumber());
+//            System.out.println("writer.getCurrentPageNumber(): ----" + document.getCurrentPageNumber());
+            System.out.println("--------------------------------------------------------------------");
+        }
+        if (_editPsyStaff.getStaffProof().isForKids()) {
+            createPageForKidsAn1(document);
+//            System.out.println("writer.getPageNumber():----" + writer.getPageNumber());
+//            System.out.println("writer.getCurrentPageNumber(): ----" + writer.getCurrentPageNumber());
+//            System.out.println("--------------------------------------------------------------------");
+        }
+        addNote(document, infoText1, 50, 0);
+        addNote(document, infoText2, 0, 20);
+        addInfoText(document, infoText3, 30);
+        addSignaturArea(document);
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="createPageForAnlage2">
+    public void createPageForAnlage2(Document document, PdfWriter writer) throws DocumentException, IOException, NoSuchAlgorithmException {
+        if (_editPsyStaff.getStaffProof().isForAdults()) {
+            createPageForAdultAn2(document, writer);
+//            System.out.println("writer.getPageNumber():----" + writer.getPageNumber());
+//            System.out.println("writer.getCurrentPageNumber(): ----" + writer.getCurrentPageNumber());
+//            System.out.println("--------------------------------------------------------------------");
+        }
+        if (_editPsyStaff.getStaffProof().isForKids()) {
+            createPageForKidsAn2(document, writer);
+//            System.out.println("writer.getPageNumber():----" + writer.getPageNumber());
+//            System.out.println("writer.getCurrentPageNumber(): ----" + writer.getCurrentPageNumber());
+//            System.out.println("--------------------------------------------------------------------");
+        }
+        addNote(document, infoText1, 50, 0);
+        addNote(document, infoText2, 0, 20);
+        addInfoText(document, infoText3A2, 30);
+        addSignaturAreaA2(document);
+    }
+    //</editor-fold>
+
     //<editor-fold defaultstate="collapsed" desc="createPageForKidsAn1">
     private void createPageForKidsAn1(Document document) throws DocumentException, NoSuchAlgorithmException, IOException {
 
+        if (_editPsyStaff.getStaffProof().isForAdults()) {
+            document.newPage();
+        }
         addLogo(document,
                 "Vereinbarte Stellenbesetzung in Vollkräften \nBereich Kinder und Jugendliche",
                 anlage1,
@@ -172,16 +213,11 @@ public class PdfBuilder implements Serializable {
                 + String.valueOf(_editPsyStaff.getStaffProof().getKidsAgreedDays()), SMALLBOLD);
         p.setSpacingAfter(30);
         document.add(p);
-
-        addNote(document, infoText1, 0);
-        addNote(document, infoText2, 20);
-        addInfoText(document, infoText3, 30);
-        addSignaturArea(document);
     }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="createPageForKidsAn2">
-    private void createPageForKidsAn2(Document document) throws DocumentException,
+    private void createPageForKidsAn2(Document document, PdfWriter writer) throws DocumentException,
             NoSuchAlgorithmException, IOException {
 
         addLogo(document,
@@ -221,11 +257,6 @@ public class PdfBuilder implements Serializable {
                     anlage2,
                     _editPsyStaff.getStaffProof().getSignatureEffective());
         }
-
-        addNote(document, infoText1, 0);
-        addNote(document, infoText2, 20);
-        addInfoText(document, infoText3A2, 30);
-        addSignaturAreaA2(document);
     }
     //</editor-fold>
 
@@ -251,15 +282,15 @@ public class PdfBuilder implements Serializable {
         p.setSpacingAfter(30);
         document.add(p);
 
-        addNote(document, infoText1, 0);
-        addNote(document, infoText2, 20);
-        addInfoText(document, infoText3, 30);
-        addSignaturArea(document);
+//        addNote(document, infoText1, 0);
+//        addNote(document, infoText2, 20);
+//        addInfoText(document, infoText3, 30);
+//        addSignaturArea(document);
     }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="createPageForAdultAn2">
-    private void createPageForAdultAn2(Document document) throws DocumentException, IOException, NoSuchAlgorithmException {
+    private void createPageForAdultAn2(Document document, PdfWriter writer) throws DocumentException, IOException, NoSuchAlgorithmException {
 
         addLogo(document,
                 "Vereinbarte Stellenbesetzung in Vollkräften \nBereich Erwachsene",
@@ -270,7 +301,6 @@ public class PdfBuilder implements Serializable {
         tb.setWidths(new int[]{1, 4, 3, 3, 3, 3, 3});
         tb.getDefaultCell().setBackgroundColor(BaseColor.LIGHT_GRAY);
 
-        
         PdfPTable tb_exp = new PdfPTable(5);
         tb_exp.setWidths(new int[]{4, 3, 3, 3, 6});
         tb_exp.setWidthPercentage(100);
@@ -285,7 +315,6 @@ public class PdfBuilder implements Serializable {
         document.add(p);
         addExplanationTable(tb_exp);
         document.add(tb_exp);
-        
 
         p = new Paragraph("Tatsächliche Berechnungstage : "
                 + String.valueOf(_editPsyStaff.getStaffProof().getAdultsEffectiveDays()), SMALLBOLD);
@@ -296,19 +325,6 @@ public class PdfBuilder implements Serializable {
                 + String.valueOf(_editPsyStaff.getStaffProof().getAdultsEffectiveCosts()), SMALLBOLD);
         p.setSpacingAfter(30);
         document.add(p);
-        
-        if (document.newPage()) {
-            addLogo(document,
-                    "Vereinbarte Stellenbesetzung in Vollkräften \nBereich Erwachsene",
-                    anlage2,
-                    _editPsyStaff.getStaffProof().getSignatureEffective());
-        }
-        
-
-        addNote(document, infoText1, 0);
-        addNote(document, infoText2, 20);
-        addInfoText(document, infoText3A2, 30);
-        addSignaturAreaA2(document);
     }
     //</editor-fold>
 
@@ -339,6 +355,7 @@ public class PdfBuilder implements Serializable {
 
         PsychType psychType = ("Anlage 2 - Erw").equalsIgnoreCase(_editPsyStaff.getActiveTopic().getTitle()) ? PsychType.Adults : PsychType.Kids;
         int index = 1;
+        addHeader0(tb, header0A2);
         addHeader(tb, header1A2);
         addHeader(tb, header2A2);
         for (StaffProofEffective staffProofEffective : _editPsyStaff.getStaffProof().getStaffProofsEffective(psychType)) {
@@ -387,8 +404,7 @@ public class PdfBuilder implements Serializable {
                 addCell(tb, String.valueOf(staffProofExplanation.getDeductedFullVigor()), SMALL, Element.ALIGN_RIGHT, BaseColor.WHITE);
                 addCell(tb, staffProofExplanation.getExplanation(), SMALL, Element.ALIGN_RIGHT, BaseColor.WHITE);
             }
-            
-            
+
         }
     }
     //</editor-fold>
@@ -479,6 +495,12 @@ public class PdfBuilder implements Serializable {
     }
     //</editor-fold>    
 
+    //<editor-fold defaultstate="collapsed" desc="addHeader0">
+    private void addHeader0(PdfPTable tb, List<String> l) {
+        l.stream().forEach(e -> addCell(tb, e, SMALLBOLD, Element.ALIGN_CENTER, BaseColor.LIGHT_GRAY));
+    }
+    //</editor-fold> 
+
     //<editor-fold defaultstate="collapsed" desc="addHeader">
     private void addHeader(PdfPTable tb, List<String> l) {
         l.stream().forEach(e -> addCell(tb, e, SMALLBOLD, Element.ALIGN_CENTER, BaseColor.LIGHT_GRAY));
@@ -504,10 +526,9 @@ public class PdfBuilder implements Serializable {
     }
     //</editor-fold>  
 
-    //<editor-fold defaultstate="collapsed" desc="addRow">
+    //<editor-fold defaultstate="collapsed" desc="addRow2">
     private void addRow2(PdfPTable tb, String lfdNr, StaffProofEffective staffProofEffective) {
-        //addCell(tb, staffProofEffective.getOccupationalCategory().getPersonnelGroup().getName(),
-        //        SMALL, Element.ALIGN_LEFT, BaseColor.LIGHT_GRAY);
+
         addCell(tb, lfdNr, SMALL, Element.ALIGN_CENTER, BaseColor.LIGHT_GRAY);
         addCell(tb, staffProofEffective.getOccupationalCategory().getName(),
                 SMALL, Element.ALIGN_LEFT, BaseColor.LIGHT_GRAY);
@@ -531,6 +552,12 @@ public class PdfBuilder implements Serializable {
             Chunk c = new Chunk("2", SSMALL).setTextRise(2);
             p.add(c);
             tb.addCell(p);
+        } else if (("Davon").equalsIgnoreCase(text)) {
+            PdfPCell cell = new PdfPCell(new Paragraph(text, f));
+            cell.setColspan(3);
+            cell.setBackgroundColor(bg);
+            cell.setHorizontalAlignment(align);
+            tb.addCell(cell);
         } else {
             PdfPCell cell = new PdfPCell(new Paragraph(text, f));
             cell.setBackgroundColor(bg);
@@ -560,11 +587,12 @@ public class PdfBuilder implements Serializable {
     //</editor-fold>     
 
     //<editor-fold defaultstate="collapsed" desc="addNote">
-    private void addNote(Document document, String text, int spacing) throws DocumentException {
+    private void addNote(Document document, String text, int spacingBefore, int spacingAfter) throws DocumentException {
         Paragraph p;
         p = new Paragraph(text, FONT_NOTE);
         //p.setIndentationLeft(20);
-        p.setSpacingAfter(spacing);
+        p.setSpacingBefore(spacingBefore);
+        p.setSpacingAfter(spacingAfter);
         document.add(p);
     }
     //</editor-fold> 
@@ -594,7 +622,7 @@ public class PdfBuilder implements Serializable {
         signaturArea.getDefaultCell().setBorder(Rectangle.NO_BORDER);
         addLayoutCell(signaturArea, "Bestätigung durch das Krankenhaus (Ort, Datum und Unterschrift)", SMALL, Element.ALIGN_LEFT);
         addLayoutCell(signaturArea, "____________________________________________________________", SMALL, Element.ALIGN_LEFT);
-        
+
         addLayoutCell(signaturArea, "Bestätigung durch den Jahresabschlussprüfer (Ort, Datum und Unterschrift)", SMALL, Element.ALIGN_LEFT);
         addLayoutCell(signaturArea, "____________________________________________________________", SMALL, Element.ALIGN_LEFT);
 
