@@ -333,6 +333,27 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         return isClosedState();
     }
 
+    public String btnClose() {
+        String type = "("
+                + (_staffProof.isForAdults() ? PsychType.Adults.getShortName() : "")
+                + (_staffProof.isForAdults() && _staffProof.isForKids() ? " + " : "")
+                + (_staffProof.isForKids() ? PsychType.Kids.getShortName() : "") 
+                + ")";
+        switch (getActiveTopicKey()) {
+            case TOPIC_BASE:
+                return "";
+            case TOPIC_ADULTS1:
+            case TOPIC_KIDS1:
+                return "Eingabe Anhang 1 " + type + " abschließen";
+            case TOPIC_ADULTS2:
+            case TOPIC_KIDS2:
+                return "Eingabe Anhang 2 " + type + " abschließen";
+            default:
+                return "";
+        }
+
+    }
+
     public String close() {
         if (updateStatus(WorkflowStatus.Provided)) {
             save(false);
