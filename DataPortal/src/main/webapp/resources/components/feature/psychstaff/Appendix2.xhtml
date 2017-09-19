@@ -30,7 +30,7 @@
                         <th class="col10em row1" scope="col" rowspan="2"> Berufsgruppen der Psych-PV </th>
                         <th class="col10em row1" scope="col" rowspan="2"> Psych-PV-Personal in VK (jeweils in Summe) </th>
                         <th class="col10em row1 centered" scope="col" colspan="3"> davon </th>
-                        <th class="col10em row1" scope="col" rowspan="2"> Psych-PV-Personal in VK (jeweils in Summe) </th>
+                        <th class="col10em row1" scope="col" rowspan="2"> Umsetzungsgrad der Psych-PV in % </th>
                     </tr>
                     <tr>
                         <th class="col10em row1" scope="col"> #{msg.lblDeductionPsych} in VK (§4 Abs. 4 Vereinb.) </th>
@@ -240,7 +240,7 @@
             <hr class="simpleLine"/>
         </div>
 
-        <div jsf:id="fileName" class="inputPart" jsf:rendered="#{not empty editPsyStaff.staffProof.getStaffProofDocumentName(editPsyStaff.staffProof.getSignatureEffective(psychType))}">
+        <div jsf:id="fileName" class="inputPart" jsf:rendered="#{not empty editPsyStaff.staffProof.getStaffProofDocumentName(editPsyStaff.staffProof.signatureEffective)}">
             <h:outputLabel value="Anlage:" styleClass="label element08em"/>
             <h:commandLink action="#{editPsyStaff.downloadDocument(editPsyStaff.staffProof.signatureEffective)}" 
                            value="#{editPsyStaff.staffProof.getStaffProofDocumentName(editPsyStaff.staffProof.signatureEffective)}"

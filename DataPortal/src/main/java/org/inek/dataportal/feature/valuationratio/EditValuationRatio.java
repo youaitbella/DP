@@ -227,7 +227,7 @@ public class EditValuationRatio extends AbstractEditController {
             }
 
             _valuationRatio = _valuationRatioFacade.saveValuationRatio(_valuationRatio);
-            _sessionController.alertClient(Utils.getMessage("msgSave"));
+            _sessionController.alertClient(Utils.getMessage("msgSaveAndMentionSend"));
         } catch (EJBException e) {
             _sessionController.alertClient(Utils.getMessage("msgSaveError"));
         }

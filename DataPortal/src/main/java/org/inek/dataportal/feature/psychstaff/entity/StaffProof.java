@@ -458,10 +458,6 @@ public class StaffProof implements Serializable, StatusEntity {
                 .orElse(new StaffProofDocument());
     }
 
-    public String getStaffProofDocumentName(int appendix) {
-        return getStaffProofDocument(appendix).getName();
-    }
-
     public StaffProofDocument getStaffProofDocument(String signature) {
         return _staffProofDocument
                 .stream()

@@ -160,7 +160,7 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
         _additionalCost = _additionalCostFacade.saveAdditionalCost(_additionalCost);
 
         if (isValidId(_additionalCost.getId())) {
-            String script = "alert ('" + Utils.getMessage("msgSave").replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
+            String script = "alert ('" + Utils.getMessage("msgSaveAndMentionSend").replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
             _sessionController.setScript(script);
             return null;
         }

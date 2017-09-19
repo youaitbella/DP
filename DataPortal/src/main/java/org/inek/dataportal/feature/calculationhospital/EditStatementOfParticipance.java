@@ -228,7 +228,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
 
         if (isValidId(_statement.getId())) {
             // CR+LF or LF only will be replaced by "\r\n"
-            String script = "alert ('" + Utils.getMessage("msgSave").replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
+            String script = "alert ('" + Utils.getMessage("msgSaveAndMentionSend").replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
             _sessionController.setScript(script);
             return null;
         }

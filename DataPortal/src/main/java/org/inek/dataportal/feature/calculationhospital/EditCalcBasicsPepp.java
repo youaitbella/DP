@@ -326,7 +326,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
                 return Pages.Error.RedirectURL();
             }
             if (showSaveMessage) {
-                msg = Utils.getMessage("msgSave");
+                msg = Utils.getMessage("msgSaveAndMentionSend");
             }
         } catch (Exception ex) {
             if (!(ex instanceof OptimisticLockException) && !(ex.getCause() instanceof OptimisticLockException)) {

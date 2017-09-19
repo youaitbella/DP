@@ -397,7 +397,7 @@ public class EditNubRequest extends AbstractEditController {
                 return Pages.Error.RedirectURL();
             }
             if (showSaveMessage) {
-                msg = Utils.getMessage("msgSave");
+                msg = Utils.getMessage("msgSaveAndMentionSend");
             }
         } catch (Exception ex) {
             if (isNewRequest || !(ex.getCause() instanceof OptimisticLockException)) {

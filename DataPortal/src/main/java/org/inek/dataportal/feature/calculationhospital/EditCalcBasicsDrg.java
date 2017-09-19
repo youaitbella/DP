@@ -495,7 +495,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                 return Pages.Error.RedirectURL();
             }
             if (showSaveMessage) {
-                msg = Utils.getMessage("msgSave");
+                msg = Utils.getMessage("msgSaveAndMentionSend");
             }
         } catch (Exception ex) {
             if (!(ex instanceof OptimisticLockException) && !(ex.getCause() instanceof OptimisticLockException)) {
