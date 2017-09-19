@@ -57,7 +57,6 @@ public class ExclusionFact implements Serializable {
     // </editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property YearFrom">
-    @Id
     @Column(name = "efYearFrom")
     private int _yearFrom;
     
@@ -71,7 +70,6 @@ public class ExclusionFact implements Serializable {
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Property YearTo">
-    @Id
     @Column(name = "efYearTo")
     private int _yearTo;
     
@@ -84,6 +82,33 @@ public class ExclusionFact implements Serializable {
     }
     //</editor-fold>
     
+    //<editor-fold defaultstate="collapsed" desc="Property ExcludeApx1">
+    @Column(name = "efExcludeApx1")
+    private boolean _excludeApx1;
+    
+    public boolean getExcludeApx1() {
+        return _excludeApx1;
+    }
+    
+    public void setExcludeApx1(boolean excludeApx1) {
+        _excludeApx1 = excludeApx1;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property ExcludeApx2">
+    @Column(name = "efExcludeApx2")
+    private boolean _excludeApx2;
+    
+    public boolean getExcludeApx2() {
+        return _excludeApx2;
+    }
+    
+    public void setExcludeApx2(boolean excludeApx2) {
+        _excludeApx2 = excludeApx2;
+    }
+    //</editor-fold>
+   
+            
     //<editor-fold defaultstate="collapsed" desc="hashCode, equals, toString">
     @Override
     public int hashCode() {

@@ -8,15 +8,11 @@ package org.inek.dataportal.feature.psychstaff.facade;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
-import org.inek.dataportal.enums.DataSet;
-import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.AbstractDataAccess;
+import org.inek.dataportal.feature.psychstaff.entity.ExclusionFact;
 import org.inek.dataportal.feature.psychstaff.entity.OccupationalCategory;
 import org.inek.dataportal.feature.psychstaff.entity.PersonnelGroup;
 import org.inek.dataportal.feature.psychstaff.entity.StaffProof;
-import org.inek.dataportal.feature.psychstaff.entity.StaffProofAgreed;
-import org.inek.dataportal.feature.psychstaff.entity.StaffProofEffective;
-import org.inek.dataportal.feature.psychstaff.enums.PsychType;
 
 /**
  *
@@ -32,7 +28,7 @@ public class PsychStaffFacade extends AbstractDataAccess {
         return find(StaffProof.class, id);
     }
     
-    public List<StaffProof> getPersonals(int accountId) {
+    public List<StaffProof> getStaffProofs(int accountId) {
         String sql = "SELECT n FROM StaffProof n "
                 + "WHERE n._accountId = :accountId ORDER BY n._year, n._id";
         TypedQuery<StaffProof> query = getEntityManager().createQuery(sql, StaffProof.class);
@@ -46,6 +42,10 @@ public class PsychStaffFacade extends AbstractDataAccess {
         categories.stream().filter((category)
                 -> (category.getPersonnelGroup().getId() == personalGroupId)).map((_item) -> 1).reduce(result, Integer::sum);
         return result;
+    }
+
+    public List<ExclusionFact> getExclusionFacts() {
+        return findAll(ExclusionFact.class);
     }
 
     public List<PersonnelGroup> getPersonnelGroups() {

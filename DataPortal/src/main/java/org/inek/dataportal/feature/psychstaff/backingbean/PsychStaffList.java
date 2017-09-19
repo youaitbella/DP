@@ -41,7 +41,7 @@ public class PsychStaffList {
 
     public List<StaffProof> getOpenPersonals() {
         return _psychFacade
-                .getPersonals(_sessionController.getAccountId())
+                .getStaffProofs(_sessionController.getAccountId())
                 .stream()
                 .filter(p -> !p.isClosed())
                 .collect(Collectors.toList());
@@ -49,7 +49,7 @@ public class PsychStaffList {
 
     public List<StaffProof> getProvidedPersonals() {
         return _psychFacade
-                .getPersonals(_sessionController.getAccountId())
+                .getStaffProofs(_sessionController.getAccountId())
                 .stream()
                 .filter(p -> p.isClosed())
                 .collect(Collectors.toList());

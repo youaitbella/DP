@@ -33,7 +33,7 @@
                              disabled="#{editPsyStaff.readOnly or editPsyStaff.staffProof.anyClosed}"
                              required="true">
                 <f:selectItems value="#{editPsyStaff.years}" />
-                <f:ajax/>
+                <f:ajax render="exclusion"/>
             </h:selectOneMenu>
         </div>
 
@@ -45,7 +45,7 @@
                                   label="Erwachsene" 
                                   value="#{editPsyStaff.staffProof.forAdults}"
                                   readonly="#{editPsyStaff.readOnly or editPsyStaff.staffProof.anyClosed}"
-                                  styleClassComponent="inlineBlock"
+                                  styleClassComponent="inlineBlock element10em"
                                   precedingBox="true"
                                   renderElement="@form">
                 <f:ajax event="clientChange" listener="#{editPsyStaff.domainChanged()}"/>
@@ -71,10 +71,26 @@
                               disabled="#{editPsyStaff.readOnly or editPsyStaff.staffProof.anyClosed}"
                               required="true"
                               title="#{msg.infoPsychStaffNoteCalcDays}">
-                <f:selectItem itemValue="1" itemLabel="PEPPV" />
+                <f:selectItem itemValue="1" itemLabel="PEPPV" class="element10em"/>
                 <f:selectItem itemValue="2" itemLabel="BPflV/LKA"/>
                 <f:ajax render="checksum"/>
             </h:selectOneRadio>
+        </div>
+
+        <div class="inputPart">
+            <h:outputLabel value="Ausnahmetatbestand" 
+                           styleClass="label element15em"
+                           title="Sofern Sie von der Nachweispflicht befreit sind, geben Sie bitte den Grund dafür an."/>
+
+            <h:selectOneMenu id="exclusion"
+                             styleClass="inlineBlock"
+                             value="#{editPsyStaff.staffProof.exclusionFactId}"
+                             disabled="#{editPsyStaff.readOnly or editPsyStaff.staffProof.anyClosed}"
+                             required="true"
+                             title="Sofern Sie von der Nachweispflicht befreit sind, geben Sie bitte den Grund dafür an.">
+                <f:selectItems  value="#{editPsyStaff.exclusionFacts}" var="f" itemValue="#{f.id}" itemLabel="#{f.name}" />
+                <f:ajax/>
+            </h:selectOneMenu>
         </div>
 
     </div>

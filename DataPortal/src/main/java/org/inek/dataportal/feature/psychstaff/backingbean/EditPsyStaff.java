@@ -37,6 +37,7 @@ import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.feature.AbstractEditController;
+import org.inek.dataportal.feature.psychstaff.entity.ExclusionFact;
 import org.inek.dataportal.feature.psychstaff.entity.OccupationalCategory;
 import org.inek.dataportal.feature.psychstaff.entity.StaffProof;
 import org.inek.dataportal.feature.psychstaff.entity.StaffProofAgreed;
@@ -734,5 +735,16 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         if (deductionCount - sum > 0) {
             _staffProof.addStaffProofExplanation(type, occupationalCategory, key);
         }
+    }
+    
+    private List<ExclusionFact> _exclusionFacts;
+    public List<ExclusionFact> getExclusionFacts (){
+        if (_exclusionFacts == null){
+            _exclusionFacts = _psychStaffFacade.getExclusionFacts();
+        }
+        return _exclusionFacts
+                .stream()
+                .filter(f -> f.getYearFrom() <= _staffProof.getYear() && f.getYearTo() >= _staffProof.getYear())
+                .collect(Collectors.toList());
     }
 }

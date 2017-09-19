@@ -191,6 +191,19 @@ public class StaffProof implements Serializable, StatusEntity {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Property ExclusionFact">
+    @Column(name = "spmExclusionFactId")
+    private int _exclusionFactId = 0;
+
+    public int getExclusionFactId() {
+        return _exclusionFactId;
+    }
+
+    public void setExclusionFactId(int exclusionFactId) {
+        _exclusionFactId = exclusionFactId;
+    }
+    // </editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc="Property AdultsAgreedDays">
     @Column(name = "spmAdultsAgreedDays")
     private int _adultsAgreedDays;
