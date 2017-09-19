@@ -56,4 +56,17 @@ public class GrouperFacade extends AbstractDataAccess {
         additionalEmails.stream().forEach(ae -> tmpList.add(ae.getEmail()));
         return tmpList;
     }
+    
+    public List<AdditionalEmail> findGrouperEmailReceivers(int accountId) {
+        String query = "SELECT g FROM AdditionalEmail g WHERE g._accountId = :id";
+        return getEntityManager()
+                .createQuery(query, AdditionalEmail.class)
+                .setParameter("id", accountId)
+                .getResultList();
+    }
+
+    public void deleteAdditionalEmailCc(int id) {
+        AdditionalEmail ae = super.find(AdditionalEmail.class, id);
+        super.remove(ae);
+    }
 }

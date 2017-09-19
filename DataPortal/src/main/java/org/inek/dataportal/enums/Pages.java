@@ -151,6 +151,7 @@ public enum Pages {
     CertMailTemplate("/Certification/CertMailTemplate"),
     CertCertification("/Certification/CertCertification"),
     CertGrouperResults("/Certification/CertGrouperResults"),
+    CertGrouperCc("/Certification/CertGrouperCc"),
     //
     PartAgency("/Agency/PartAgency"),
     //

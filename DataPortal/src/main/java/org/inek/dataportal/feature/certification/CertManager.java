@@ -281,6 +281,10 @@ public class CertManager implements Serializable {
         _system.getGrouperList().stream().filter(g -> g.getAccountId() > 0).mapToInt(g -> g.getAccountId()).forEach(i -> grouperAccountIds.add(i));
         return _certAccounts.stream().filter(i -> !grouperAccountIds.contains((int) i.getValue())).collect(Collectors.toList());
     }
+    
+    public List<Account> getAllGrouperAccounts() {
+        return _accountFacade.getAccounts4Feature(Feature.CERT);
+    }
 
     private void ensureCertAccounts() {
         if (_certAccounts == null) {
