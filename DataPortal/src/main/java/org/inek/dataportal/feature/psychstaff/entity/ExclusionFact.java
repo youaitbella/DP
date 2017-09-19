@@ -59,6 +59,20 @@ public class ExclusionFact implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property YearFrom">
     @Id
     @Column(name = "efYearFrom")
+    private int _yearFrom;
+    
+    public int getYearFrom() {
+        return _yearFrom;
+    }
+    
+    public void setYearFrom(int yearFrom) {
+        this._yearFrom = yearFrom;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property YearTo">
+    @Id
+    @Column(name = "efYearTo")
     private int _yearTo;
     
     public int getYearTo() {
