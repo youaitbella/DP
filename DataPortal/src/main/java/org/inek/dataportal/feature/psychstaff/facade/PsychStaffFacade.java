@@ -44,10 +44,6 @@ public class PsychStaffFacade extends AbstractDataAccess {
         return result;
     }
 
-    public List<ExclusionFact> getExclusionFacts() {
-        return findAll(ExclusionFact.class);
-    }
-
     public List<PersonnelGroup> getPersonnelGroups() {
         return findAll(PersonnelGroup.class);
     }

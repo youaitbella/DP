@@ -131,7 +131,7 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
                 structure.writeSelectedRows(0, -1, document.leftMargin(), document.bottomMargin(), writer.getDirectContent());
             }
         }
-        */
+         */
         document.open();
         createMetadata(document);
 
@@ -651,48 +651,45 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
     @Override
     public void onEndPage(PdfWriter writer, Document document) {
         super.onEndPage(writer, document); //To change body of generated methods, choose Tools | Templates.
-          PdfPTable table = new PdfPTable(3);
-            try {
-                table.setWidths(new int[]{24, 24, 2});
-                table.setTotalWidth(770);
-                table.getDefaultCell().setFixedHeight(20);
-                table.getDefaultCell().setBorder(Rectangle.BOTTOM);
-                table.addCell(new Phrase("Test", FONT_NOTE));
-                table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_RIGHT);
-                table.addCell(new Phrase(String.format("Page %d of", writer.getPageNumber()), FONT_NOTE));
-                PdfPCell cell = new PdfPCell();
-                cell.setBorder(Rectangle.BOTTOM);
-                table.addCell(cell);
+        PdfPTable table = new PdfPTable(3);
+        try {
+            table.setWidths(new int[]{24, 24, 2});
+            table.setTotalWidth(770);
+            table.getDefaultCell().setFixedHeight(20);
+            table.getDefaultCell().setBorder(Rectangle.BOTTOM);
+            table.addCell(new Phrase("Test", FONT_NOTE));
+            table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_RIGHT);
+            table.addCell(new Phrase(String.format("Page %d of", writer.getPageNumber()), FONT_NOTE));
+            PdfPCell cell = new PdfPCell();
+            cell.setBorder(Rectangle.BOTTOM);
+            table.addCell(cell);
 //                PdfContentByte canvas = writer.getDirectContent();
 //                canvas.beginMarkedContentSequence(PdfName.ARTIFACT);
 //                table.writeSelectedRows(0, -1, 36, 30, canvas);
 //                canvas.endMarkedContentSequence();
-            } catch (DocumentException de) {
-                throw new ExceptionConverter(de);
-            }
+        } catch (DocumentException de) {
+            throw new ExceptionConverter(de);
+        }
     }
 
-    
-    
     public static PdfPTable getHeaderTable(int x, int y) {
         //Police (Facultatif)
-//    	FontFactory.registerDirectories();
-//	Font fontArial = FontFactory.getFont("Arial",BaseFont.IDENTITY_H,12);
-//	Font fontBGrisSmall = new Font(fontArial);
-//	fontBGrisSmall.setSize(7);
-//	fontBGrisSmall.setColor(150, 150, 150);
-		
-    	
-    	PdfPTable table = new PdfPTable(1);
+// FontFactory.registerDirectories();
+// Font fontArial = FontFactory.getFont("Arial",BaseFont.IDENTITY_H,12);
+// Font fontBGrisSmall = new Font(fontArial);
+// fontBGrisSmall.setSize(7);
+// fontBGrisSmall.setColor(150, 150, 150);
+
+        PdfPTable table = new PdfPTable(1);
         table.setTotalWidth(100);
         table.setLockedWidth(true);
         table.getDefaultCell().setFixedHeight(20);
         table.getDefaultCell().setBorder(0);
         table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_LEFT);
 //        Paragraph paragraphPage = new Paragraph(new Chunk(String.format("Page %d / %d", x, y),fontBGrisSmall));
-        Paragraph paragraphPage = new Paragraph(new Chunk(String.format("Page %d / %d", x, y),FONT_NOTE));
+        Paragraph paragraphPage = new Paragraph(new Chunk(String.format("Page %d / %d", x, y), FONT_NOTE));
         table.addCell(paragraphPage);
         return table;
     }
-    
+
 }

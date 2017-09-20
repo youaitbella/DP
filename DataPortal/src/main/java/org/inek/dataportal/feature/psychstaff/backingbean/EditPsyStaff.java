@@ -152,8 +152,8 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
             staffProof.setIk((int) iks.get(0).getValue());
             setYearToFirstAvailable(staffProof);
         }
-        ensureExclusionFacts();
-        ExclusionFact noneFact = _exclusionFacts
+        ExclusionFact noneFact = _appTools
+                .getExclusionFacts()
                 .stream()
                 .filter(f -> f.getId() == 0)
                 .findFirst()
@@ -185,6 +185,15 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     }
 
     public void reasonChanged(){
+        // since a exclusionFactConverter would create a new object (can be solved with JSF 2.3), 
+        // we only use the id and retrieve the appropriate ExclusionFact
+        ExclusionFact ef = _appTools
+                .getExclusionFacts()
+                .stream()
+                .filter(f -> f.getId() == _staffProof.getExclusionFactId())
+                .findFirst()
+                .get();
+        _staffProof.setExclusionFact(ef);
         setTopicVisibility();
     }
     
@@ -748,18 +757,12 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         }
     }
     
-    private List<ExclusionFact> _exclusionFacts;
     public List<ExclusionFact> getExclusionFacts (){
-        ensureExclusionFacts();
-        return _exclusionFacts
+        return _appTools
+                .getExclusionFacts()
                 .stream()
                 .filter(f -> f.getYearFrom() <= _staffProof.getYear() && f.getYearTo() >= _staffProof.getYear())
                 .collect(Collectors.toList());
     }
 
-    private void ensureExclusionFacts() {
-        if (_exclusionFacts == null){
-            _exclusionFacts = _psychStaffFacade.getExclusionFacts();
-        }
-    }
 }

@@ -198,7 +198,9 @@
                                 <td class="col25em" scope="col">
                                     <h:inputTextarea value="#{item.explanation}"
                                                      styleClass="element25em"
-                                                     readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"/>
+                                                     readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}">
+                                        <f:ajax/>
+                                    </h:inputTextarea>
                                 </td>
 
                             </tr>

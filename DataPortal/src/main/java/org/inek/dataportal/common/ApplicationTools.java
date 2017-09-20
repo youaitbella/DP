@@ -3,11 +3,13 @@ package org.inek.dataportal.common;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.enterprise.context.ApplicationScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -17,11 +19,13 @@ import org.inek.dataportal.entities.certification.RemunerationSystem;
 import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
+import org.inek.dataportal.facades.AbstractDataAccess;
 import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.feature.admin.facade.ConfigFacade;
+import org.inek.dataportal.feature.psychstaff.entity.ExclusionFact;
 
 @Named @ApplicationScoped
-public class ApplicationTools {
+public class ApplicationTools extends AbstractDataAccess{
 
     private Properties _properties;
 
@@ -108,6 +112,18 @@ public class ApplicationTools {
         String info =  c.getName() + ", " + c.getTown();
         _hospitalInfo.put(ik, info);
         return  info;
+    }
+
+    private List<ExclusionFact> _exclusionFacts;
+    public List<ExclusionFact> getExclusionFacts (){
+        ensureExclusionFacts();
+        return _exclusionFacts;
+    }
+
+    private void ensureExclusionFacts() {
+        if (_exclusionFacts == null){
+            _exclusionFacts = findAll(ExclusionFact.class);
+        }
     }
     
 }

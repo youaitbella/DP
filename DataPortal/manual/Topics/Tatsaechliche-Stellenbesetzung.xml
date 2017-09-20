@@ -20,7 +20,7 @@
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Abhängig von Ihrer Eingabe, nämlich immer dann, wenn Sie eine Anrechnung eintragen, ist diese zu erläutern. Dazu wird automatisch eine weitere Tabelle eingeblendet, mit einer Zeile je Eingabefeld, in dem Sie eine Anrechnung vermerkt haben.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Image Caption"><image src="PsychStaff22.png" scale="100.00%" styleclass="Image Caption"></image></para>
-    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Zusätzliche Tabelle zur Erläuterung der Anrechnung von Fachkräften</text></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Zusätzliche Tabelle zur Erläuterung der Anrechnung von Fachkräften (mit Erläuterungen zum Dialog)</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Geben Sie zur Erläuterung der Anrechnung weniger VK an, als im entsprechenden Feld der Tabelle Stellenbesetzung, so wird automatisch eine weitere Zeile eingefügt. Dies erlaubt Ihnen für jede Berufsgruppe die Anrechnung von Fachkräften unterschiedlicher Berufsgruppen.</text></para>

@@ -20,12 +20,25 @@
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Es werden jeweils die Daten für ein </text><text styleclass="Normal" style="font-weight:bold;" translate="true">Vereinbarungsjahr</text><text styleclass="Normal" translate="true"> erfasst. Das Jahr kann mittels Auswahlbox gewählt werden, wobei initial die Jahre 2016 bis 2019 zur Verfügung stehen. Für jedes Vereinbarungsjahr ist ein eigener Datensatz anzulegen. Je IK und Vereinbahrungsjahr kann genau ein Datensatz angelegt werden. Insofern reduziert sich die zur Verfügung stehende Auswahl an Vereinbarungsjahren entsprechend: Es können nur solche Jahre gewählt werden, für die noch keine Psych-Personalnachweis-Daten gespeichert wurden.</text></para>
     <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Beispiel: Sie haben für Ihr Krankenhaus bereits eine Vereinbarung für 2016 erfasst. Wenn Sie nun für das selbe Krankenhaus eine neue Vereinbarung anlegen möchten, stehen nur noch die Jahre 2017 bis 2019 zur Auswahl.</text></para>
+    <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Mittels </text><text styleclass="Normal" style="font-weight:bold;" translate="true">Einrichtung für</text><text styleclass="Normal" translate="true"> kreuzen Sie an, für welche Bereich Ihr Haus tätig ist. Abhängig von dieser Auswahl werden die entsprechenden Register zugeschaltet.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Image Caption"><image src="PsychStaff03.png" scale="100.00%" styleclass="Image Caption"></image></para>
     <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Die Register &quot;Anlage...&quot; werden von der Datenbasis abhängig dynamisch zugeschaltet</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die vereinbarten Berechnungstage in Anlage 1 und die tatsächlichen Berechnungstage in Anlage 2 sind in einer einheitlichen Zählweise entweder nach LKA oder nach PEPPV anzugeben. Dies wird in den der Datenbasis übergreifend für alle Bereiche und Anlagen in der Auswahl </text><text styleclass="Normal" style="font-weight:bold;" translate="true">Zählweise Berechnungstage</text><text styleclass="Normal" translate="true"> festgelegt. </text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die vereinbarten Berechnungstage in Anlage 1 und die tatsächlichen Berechnungstage in Anlage 2 sind in einer einheitlichen Zählweise entweder nach BPflV/LKA oder nach PEPPV anzugeben. Dies wird in den der Datenbasis übergreifend für alle Bereiche und Anlagen in der Auswahl </text><text styleclass="Normal" style="font-weight:bold;" translate="true">Zählweise Berechnungstage</text><text styleclass="Normal" translate="true"> festgelegt. </text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sollten Sie die Daten nicht liefern müssen oder nicht fristgerecht liefern können, so wählen Sie bitte den entsprechenden </text><text styleclass="Normal" style="font-weight:bold;" translate="true">Ausnahmetatbestand</text><text styleclass="Normal" translate="true">. Je nach Auswahl ist die zusätzliche Eingabe einer Begründung erforderlich. Des Weiteren werden nicht benötige Registerseiten ausgeblendet.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="PsychStaff04.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Beispiel: Ausnahmetatbestand gilt nur für Anlage 1 - Anlage 2 ist erfassbar</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="PsychStaff05.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Beispiel: Ausnahmetatbestand erfordert Begründung</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Der Ausnahmetatbestand </text><text styleclass="Normal" style="font-style:italic;" translate="true">Lieferung erfolgt nicht fristgerecht</text><text styleclass="Normal" translate="true"> ist rechtzeitig vor Erreichen der Meldetermine (31.03., 31.05., 31.08. und 31.12. gemäß § 8 Abs. 9 der Vereinbarung) zu setzen. Andernfalls wird dies an die Vertragsparteien wie eine unbegründet fehlende Lieferung übermittelt.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"></para>

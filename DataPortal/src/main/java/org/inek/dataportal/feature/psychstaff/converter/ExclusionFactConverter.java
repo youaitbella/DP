@@ -32,7 +32,8 @@ public class ExclusionFactConverter implements Converter {
             ObjectMapper mapper = new ObjectMapper();
             mapper.enable(SerializationFeature.INDENT_OUTPUT);
             ExclusionFact exclusionFact = mapper.readValue(value, ExclusionFact.class);
-            return exclusionFact;
+            return exclusionFact;  // sadly this object is new and without any JPA context - will be stored as additional entry
+            
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
