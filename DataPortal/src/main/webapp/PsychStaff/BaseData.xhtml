@@ -86,18 +86,19 @@
                              styleClass="inlineBlock"
                              value="#{editPsyStaff.staffProof.exclusionFact}"
                              disabled="#{editPsyStaff.readOnly or editPsyStaff.staffProof.anyClosed}"
-                             required="true"
                              title="Sofern Sie von der Nachweispflicht befreit sind, geben Sie bitte den Grund dafür an.">
                 <f:selectItems  value="#{editPsyStaff.exclusionFacts}" var="f" itemValue="#{f}" itemLabel="#{f.name}" />
-                <f:ajax render="exclusionReason"/>
+                <f:ajax render="@form"/>
+                <f:converter converterId="ExclusionFactConverter"/>
             </h:selectOneMenu>
         </div>
         
         <div class="inputPart" jsf:id="exclusionReason">
-            <inek:LabeledText id="x"
-                              rendered="#{editPsyStaff.staffProof.exclusionFact.needReason}"
-                              label="Grund"
+            <inek:LabeledText rendered="#{editPsyStaff.staffProof.exclusionFact.needReason}"
+                              required="true"
+                              label="Begründung:"
                               value="#{editPsyStaff.staffProof.exclusionReason}"
+                              title="Bitte begründen Sie, warum eine firstgerechte Lieferung nicht erfolgt(e)."
                               styleClassLabel="label element15em"
                               styleClass="element25em"
                               singleLine="true"/>

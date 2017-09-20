@@ -12,6 +12,7 @@ import java.util.Optional;
 import java.util.Vector;
 import java.util.stream.Collectors;
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import org.inek.dataportal.entities.iface.StatusEntity;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.feature.psychstaff.enums.PsychType;
@@ -222,6 +223,7 @@ public class StaffProof implements Serializable, StatusEntity {
     @Column(name = "spmExclusionReason")
     private String _exclusionReason = "";
     
+    @Size(max = 250)
     public String getExclusionReason() {
         return _exclusionReason;
     }

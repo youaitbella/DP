@@ -152,6 +152,13 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
             staffProof.setIk((int) iks.get(0).getValue());
             setYearToFirstAvailable(staffProof);
         }
+        ensureExclusionFacts();
+        ExclusionFact noneFact = _exclusionFacts
+                .stream()
+                .filter(f -> f.getId() == 0)
+                .findFirst()
+                .get();
+        staffProof.setExclusionFact(noneFact);
         return staffProof;
     }
 
@@ -160,10 +167,10 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
             return;
         }
         boolean hasIk = _staffProof.getIk() > 0;
-        findTopic(TOPIC_ADULTS1).setVisible(hasIk && _staffProof.isForAdults());
-        findTopic(TOPIC_ADULTS2).setVisible(hasIk && _staffProof.isForAdults());
-        findTopic(TOPIC_KIDS1).setVisible(hasIk && _staffProof.isForKids());
-        findTopic(TOPIC_KIDS2).setVisible(hasIk && _staffProof.isForKids());
+        findTopic(TOPIC_ADULTS1).setVisible(hasIk && _staffProof.isForAdults() && !_staffProof.getExclusionFact().isExcludeApx1());
+        findTopic(TOPIC_ADULTS2).setVisible(hasIk && _staffProof.isForAdults() && !_staffProof.getExclusionFact().isExcludeApx2());
+        findTopic(TOPIC_KIDS1).setVisible(hasIk && _staffProof.isForKids() && !_staffProof.getExclusionFact().isExcludeApx1());
+        findTopic(TOPIC_KIDS2).setVisible(hasIk && _staffProof.isForKids() && !_staffProof.getExclusionFact().isExcludeApx2());
     }
 
     public void ikChanged() {
@@ -177,6 +184,10 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         }
     }
 
+    public void reasonChanged(){
+        setTopicVisibility();
+    }
+    
     public void domainChanged() {
         setTopicVisibility();
         ensureStaffProofsAgreed(_staffProof);
@@ -739,12 +750,16 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     
     private List<ExclusionFact> _exclusionFacts;
     public List<ExclusionFact> getExclusionFacts (){
-        if (_exclusionFacts == null){
-            _exclusionFacts = _psychStaffFacade.getExclusionFacts();
-        }
+        ensureExclusionFacts();
         return _exclusionFacts
                 .stream()
                 .filter(f -> f.getYearFrom() <= _staffProof.getYear() && f.getYearTo() >= _staffProof.getYear())
                 .collect(Collectors.toList());
+    }
+
+    private void ensureExclusionFacts() {
+        if (_exclusionFacts == null){
+            _exclusionFacts = _psychStaffFacade.getExclusionFacts();
+        }
     }
 }
