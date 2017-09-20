@@ -6,12 +6,15 @@ import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
+import com.itextpdf.text.ExceptionConverter;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfPageEventHelper;
 import com.itextpdf.text.pdf.PdfWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -46,7 +49,7 @@ import org.inek.dataportal.feature.psychstaff.enums.PsychType;
  */
 @Named(value = "pdfBuilder")
 @SessionScoped
-public class PdfBuilder implements Serializable {
+public class PdfBuilder extends PdfPageEventHelper implements Serializable {
 
     @Inject
     private EditPsyStaff _editPsyStaff;
@@ -114,17 +117,32 @@ public class PdfBuilder implements Serializable {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 
         PdfWriter writer = PdfWriter.getInstance(document, byteArrayOutputStream);
+        writer.setPageEvent(this);
 
+        /*
+        writer.setPageEvent(new PdfPageEventHelper() {
+            public void onEndPage(PdfWriter writer, Document document) {
+                int pageNumber = writer.getPageNumber();
+                String text = "Page " + pageNumber;
+                Rectangle page = document.getPageSize();
+                PdfPTable structure = new PdfPTable();
+                structure.addCell(new Paragraph(text));
+                structure.setTotalWidth(page.getWidth() - document.leftMargin() - document.rightMargin());
+                structure.writeSelectedRows(0, -1, document.leftMargin(), document.bottomMargin(), writer.getDirectContent());
+            }
+        }
+        */
         document.open();
         createMetadata(document);
 
-        if ("Anlage 1".equalsIgnoreCase(_editPsyStaff.getActiveTopic().getTitle().substring(0,8))) {
+        if ("Anlage 1".equalsIgnoreCase(_editPsyStaff.getActiveTopic().getTitle().substring(0, 8))) {
             createPageForAnlage1(document, writer);
         } else {
             createPageForAnlage2(document, writer);
         }
 
         document.close();
+        onEndPage(writer, document);
 
         FacesContext fc = FacesContext.getCurrentInstance();
         ExternalContext externalContext = fc.getExternalContext();
@@ -630,4 +648,51 @@ public class PdfBuilder implements Serializable {
     }
     //</editor-fold>    
 
+    @Override
+    public void onEndPage(PdfWriter writer, Document document) {
+        super.onEndPage(writer, document); //To change body of generated methods, choose Tools | Templates.
+          PdfPTable table = new PdfPTable(3);
+            try {
+                table.setWidths(new int[]{24, 24, 2});
+                table.setTotalWidth(770);
+                table.getDefaultCell().setFixedHeight(20);
+                table.getDefaultCell().setBorder(Rectangle.BOTTOM);
+                table.addCell(new Phrase("Test", FONT_NOTE));
+                table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_RIGHT);
+                table.addCell(new Phrase(String.format("Page %d of", writer.getPageNumber()), FONT_NOTE));
+                PdfPCell cell = new PdfPCell();
+                cell.setBorder(Rectangle.BOTTOM);
+                table.addCell(cell);
+//                PdfContentByte canvas = writer.getDirectContent();
+//                canvas.beginMarkedContentSequence(PdfName.ARTIFACT);
+//                table.writeSelectedRows(0, -1, 36, 30, canvas);
+//                canvas.endMarkedContentSequence();
+            } catch (DocumentException de) {
+                throw new ExceptionConverter(de);
+            }
+    }
+
+    
+    
+    public static PdfPTable getHeaderTable(int x, int y) {
+        //Police (Facultatif)
+//    	FontFactory.registerDirectories();
+//	Font fontArial = FontFactory.getFont("Arial",BaseFont.IDENTITY_H,12);
+//	Font fontBGrisSmall = new Font(fontArial);
+//	fontBGrisSmall.setSize(7);
+//	fontBGrisSmall.setColor(150, 150, 150);
+		
+    	
+    	PdfPTable table = new PdfPTable(1);
+        table.setTotalWidth(100);
+        table.setLockedWidth(true);
+        table.getDefaultCell().setFixedHeight(20);
+        table.getDefaultCell().setBorder(0);
+        table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_LEFT);
+//        Paragraph paragraphPage = new Paragraph(new Chunk(String.format("Page %d / %d", x, y),fontBGrisSmall));
+        Paragraph paragraphPage = new Paragraph(new Chunk(String.format("Page %d / %d", x, y),FONT_NOTE));
+        table.addCell(paragraphPage);
+        return table;
+    }
+    
 }
