@@ -84,14 +84,25 @@
 
             <h:selectOneMenu id="exclusion"
                              styleClass="inlineBlock"
-                             value="#{editPsyStaff.staffProof.exclusionFactId}"
+                             value="#{editPsyStaff.staffProof.exclusionFact}"
                              disabled="#{editPsyStaff.readOnly or editPsyStaff.staffProof.anyClosed}"
                              required="true"
                              title="Sofern Sie von der Nachweispflicht befreit sind, geben Sie bitte den Grund dafür an.">
-                <f:selectItems  value="#{editPsyStaff.exclusionFacts}" var="f" itemValue="#{f.id}" itemLabel="#{f.name}" />
-                <f:ajax/>
+                <f:selectItems  value="#{editPsyStaff.exclusionFacts}" var="f" itemValue="#{f}" itemLabel="#{f.name}" />
+                <f:ajax render="exclusionReason"/>
             </h:selectOneMenu>
         </div>
+        
+        <div class="inputPart" jsf:id="exclusionReason">
+            <inek:LabeledText id="x"
+                              rendered="#{editPsyStaff.staffProof.exclusionFact.needReason}"
+                              label="Grund"
+                              value="#{editPsyStaff.staffProof.exclusionReason}"
+                              styleClassLabel="label element15em"
+                              styleClass="element25em"
+                              singleLine="true"/>
+        </div>
+            
 
     </div>
 </ui:composition>
