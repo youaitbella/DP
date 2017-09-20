@@ -86,7 +86,7 @@ public class ExclusionFact implements Serializable {
     @Column(name = "efExcludeApx1")
     private boolean _excludeApx1;
     
-    public boolean getExcludeApx1() {
+    public boolean isExcludeApx1() {
         return _excludeApx1;
     }
     
@@ -94,12 +94,12 @@ public class ExclusionFact implements Serializable {
         _excludeApx1 = excludeApx1;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property ExcludeApx2">
     @Column(name = "efExcludeApx2")
     private boolean _excludeApx2;
     
-    public boolean getExcludeApx2() {
+    public boolean isExcludeApx2() {
         return _excludeApx2;
     }
     
@@ -107,7 +107,19 @@ public class ExclusionFact implements Serializable {
         _excludeApx2 = excludeApx2;
     }
     //</editor-fold>
-   
+    
+    //<editor-fold defaultstate="collapsed" desc="Property NeedReason">
+    @Column(name = "efNeedReason")
+    private boolean _needReason;
+    
+    public boolean isNeedReason() {
+        return _needReason;
+    }
+    
+    public void setNeedReason(boolean needReason) {
+        _needReason = needReason;
+    }
+    //</editor-fold>
             
     //<editor-fold defaultstate="collapsed" desc="hashCode, equals, toString">
     @Override

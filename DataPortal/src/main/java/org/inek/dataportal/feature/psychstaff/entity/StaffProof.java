@@ -192,7 +192,7 @@ public class StaffProof implements Serializable, StatusEntity {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property ExclusionFact">
+    // <editor-fold defaultstate="collapsed" desc="Property ExclusionFactId">
     @Column(name = "spmExclusionFactId")
     private int _exclusionFactId = 0;
 
@@ -203,8 +203,34 @@ public class StaffProof implements Serializable, StatusEntity {
     public void setExclusionFactId(int exclusionFactId) {
         _exclusionFactId = exclusionFactId;
     }
+
+    @OneToOne()
+    @PrimaryKeyJoinColumn(name = "spmExclusionFactId")
+    private ExclusionFact _exclusionFact;
+    
+    public ExclusionFact getExclusionFact() {
+        return _exclusionFact;
+    }
+    
+    public void setExclusionFact(ExclusionFact exclusionFact) {
+        _exclusionFact = exclusionFact;
+        _exclusionFactId = exclusionFact.getId();
+    }
     // </editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Property ExclusionReason">
+    @Column(name = "spmExclusionReason")
+    private String _exclusionReason = "";
+    
+    public String getExclusionReason() {
+        return _exclusionReason;
+    }
+    
+    public void setExclusionReason(String exclusionReason) {
+        _exclusionReason = exclusionReason;
+    }
+    //</editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc="Property AdultsAgreedDays">
     @Column(name = "spmAdultsAgreedDays")
     private int _adultsAgreedDays;
