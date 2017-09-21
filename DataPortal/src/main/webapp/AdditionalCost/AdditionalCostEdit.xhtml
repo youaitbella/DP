@@ -81,10 +81,10 @@
                         <h:outputLabel for="cbxPerinatalcentre"
                                        value="#{msg.lblPerinatalzentrum_level}"
                                        title="#{msg.titlePerinatalzentrum_level}"
-                                       styleClass="label70"
+                                       styleClass="label element100-30em"
                                        /> 
                         <h:selectOneMenu id="cbxPerinatalcentre"
-                                         styleClass="element08em" 
+                                         styleClass="element06em" 
                                          required="true" 
                                          requiredMessage="#{msg.msgChooseEntryShort}"
                                          value="#{editAdditionalCost.additionalCost.perinatalcentreLevel}"
@@ -100,10 +100,10 @@
                         <h:outputLabel for="periodFrom" 
                                        value="#{msg.period}" 
                                        title="#{msg.titlePeriod}"
-                                       styleClass="label70"
+                                       styleClass="label element100-30em"
                                        />
                         <h:selectOneMenu id="periodFrom"
-                                         styleClass="element08em"
+                                         styleClass="element06em"
                                          required="true"
                                          requiredMessage="#{msg.msgValueNeeded}"
                                          value="#{editAdditionalCost.additionalCost.periodFrom}"
@@ -116,9 +116,9 @@
                         <h:outputLabel for="periodTo" 
                                        value="bis " 
                                        title="bis"
-                                       styleClass="label40" style="width: 200px;padding-left: 10px; padding-right: 10px; display: inline"/>
+                                       styleClass="label element05em marginLeft01"/>
                         <h:selectOneMenu id="periodTo"
-                                         styleClass="element08em"
+                                         styleClass="element06em"
                                          required="true"
                                          requiredMessage="#{msg.msgValueNeeded}"
                                          value="#{editAdditionalCost.additionalCost.periodTo}"
@@ -134,28 +134,28 @@
                                           label="#{msg.effectivCaseMix}"
                                           title="#{msg.titleEffectivCaseMix}"
                                           value="#{editAdditionalCost.additionalCost.effectivCaseMix}" singleLine="true" 
-                                          styleClassLabel="label70" styleClass="element08em" required="true" 
+                                          styleClassLabel="label element100-30em" styleClass="element06em" required="true" 
                                           />
                     </h:panelGroup>
                     <h:panelGroup styleClass="element100 marginTop01em">
                         <inek:LabeledText id="extraChargeA" label="#{msg.extraChargeA}" 
                                           value="#{editAdditionalCost.additionalCost.extraChargeA}" singleLine="true"
                                           title="#{msg.titleExtraCharge}"
-                                          styleClassLabel="label70" styleClass="element08em" required="true"/>
+                                          styleClassLabel="label element100-30em" styleClass="element06em" required="true"/>
                     </h:panelGroup>
 
                     <h:panelGroup styleClass="element100 marginTop01em">
                         <inek:LabeledText id="extraChargeB" label="#{msg.extraChargeB}" 
                                           value="#{editAdditionalCost.additionalCost.extraChargeB}" singleLine="true"
                                           title="#{msg.titleExtraCharge}" 
-                                          styleClassLabel="label70" styleClass="element08em" required="true"/>
+                                          styleClassLabel="label element100-30em" styleClass="element06em" required="true"/>
                     </h:panelGroup>
 
                     <h:panelGroup styleClass="element100 marginTop01em">
                         <inek:LabeledText id="extraChargeC" label="#{msg.extraChargeC}" 
                                           value="#{editAdditionalCost.additionalCost.extraChargeC}" singleLine="true" 
                                           title="#{msg.titleExtraCharge}" 
-                                          styleClassLabel="label70" styleClass="element08em" required="true"/>
+                                          styleClassLabel="label element100-30em" styleClass="element06em" required="true"/>
                     </h:panelGroup>
 
                     <h:panelGroup styleClass="element100 marginTop01em">
@@ -163,7 +163,7 @@
                                           label="#{msg.agreedHospitalIndividualExtraCharge}"
                                           value="#{editAdditionalCost.additionalCost.agreedHospitalIndividualExtraCharge}" singleLine="true" 
                                           title="#{msg.titleAgreedHospitalIndividualExtraCharge}" 
-                                          styleClassLabel="label70" styleClass="element08em" required="true" />
+                                          styleClassLabel="label element100-30em" styleClass="element06em" required="true" />
                     </h:panelGroup>
 
                     <h:panelGroup styleClass="element100 marginTop01em">
@@ -171,14 +171,14 @@
                                           label="#{msg.hospitalIndividualExtraCharge}" 
                                           value="#{editAdditionalCost.additionalCost.hospitalIndividualExtraCharge}" singleLine="true"  
                                           title="#{msg.titleHospitalIndividualExtraCharge}"
-                                          styleClassLabel="label70" styleClass="element08em" required="true"/>
+                                          styleClassLabel="label element100-30em" styleClass="element06em" required="true"/>
                     </h:panelGroup>
 
                     <h:panelGroup styleClass="element100 marginTop01em">
                         <div class="inputPart">
                             <h:outputLabel value="#{msg.isAdditionalCostAgreementAgreed}"
                                            title="#{msg.TitleIsAdditionalCostAgreementAgreed}"
-                                           styleClass="label70"/>
+                                           styleClass="label element100-30em"/>
                             <inek:Checkbox value="#{editAdditionalCost.additionalCost.isAdditionalCostAgreementAgreed}" styleClass="element10"/>
                         </div>
                     </h:panelGroup>
@@ -188,16 +188,16 @@
                                           label="#{msg.agreedRepaymentAdditionalCost}"
                                           value="#{editAdditionalCost.additionalCost.agreedRepaymentAdditionalCost}" singleLine="true"
                                           title="#{msg.titleAgreedRepaymentAdditionalCost}"
-                                          styleClassLabel="label70" styleClass="element08em" required="true" />  
+                                          styleClassLabel="label element100-30em" styleClass="element06em" required="true" />  
                     </h:panelGroup>
 
                     <h:panelGroup styleClass="element100 marginTop01em">                        
                         <h:outputLabel for="repaymentPeriodFrom" 
                                        value="#{msg.repaymentPeriodFrom}" 
                                        title="#{msg.titleRepaymentPeriodFrom}"
-                                       styleClass="label70"/>
+                                       styleClass="label element100-30em"/>
                         <h:selectOneMenu id="repaymentPeriodFrom"
-                                         styleClass="element08em"
+                                         styleClass="element06em"
                                          required="true"
                                          requiredMessage="#{msg.msgValueNeeded}"
                                          value="#{editAdditionalCost.additionalCost.repaymentPeriodFrom}"
@@ -210,9 +210,9 @@
                         <h:outputLabel for="repaymentPeriodTo" 
                                        value="bis" 
                                        title="RepaymentPeriodTo"
-                                       styleClass="label40" style="width: 200px; padding-left: 10px; padding-right: 10px;  display: inline"/>
+                                       styleClass="label element05em marginLeft01" />
                         <h:selectOneMenu id="repaymentPeriodTo"
-                                         styleClass="element08em"
+                                         styleClass="element06em"
                                          required="true"
                                          requiredMessage="#{msg.msgValueNeeded}"
                                          value="#{editAdditionalCost.additionalCost.repaymentPeriodTo}"
@@ -228,15 +228,15 @@
                         <div class="inputPart">                        
                             <inek:LabeledText id="complianceRate" label="#{msg.complianceRate}" 
                                               value="#{editAdditionalCost.additionalCost.complianceRate}" singleLine="true" 
-                                              styleClassComponent="inlineBlock element100-24em" 
-                                              styleClass="element08em"
+                                              styleClassComponent="inlineBlock element100-30em" 
+                                              styleClass="element06em"
                                               required="true"/>            
                             <h:outputLabel for="calenderYear" 
-                                           value="für das KJ" 
+                                           value="für KJ" 
                                            title="Auswahlfenster füe die Jahre 2017, 2018,...,2020"
-                                           styleClass="label element08em" />
+                                           styleClass="label element05em marginLeft01 inlineBlock" />
                             <h:selectOneMenu id="calenderYear"
-                                             styleClass="element08em"
+                                             styleClass="element06em"
                                              required="true"
                                              requiredMessage="#{msg.msgValueNeeded}"
                                              value="#{editAdditionalCost.additionalCost.calenderYear}"

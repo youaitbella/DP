@@ -987,15 +987,8 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     public List<KGLListServiceProvision> getServiceProvisions() {
         return _serviceProvisions
                 .stream()
-                .sorted((x, y) -> compareServiceProvision(x, y)) // @orderBy doesnt work properly.
+                .sorted((x, y) -> x.getServiceProvisionTypeId() - y.getServiceProvisionTypeId()) // @orderBy doesnt work properly.
                 .collect(Collectors.toList());
-    }
-
-    private int compareServiceProvision(KGLListServiceProvision sp1, KGLListServiceProvision sp2) {
-        return sp1.getServiceProvisionTypeId() > sp2.getServiceProvisionTypeId()
-                ? 1 : sp1.getServiceProvisionTypeId() < sp2.getServiceProvisionTypeId()
-                ? -1 : 0;
-
     }
 
     public void setServiceProvisions(List<KGLListServiceProvision> serviceProvision) {
