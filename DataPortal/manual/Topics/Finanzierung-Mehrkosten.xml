@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Finanzierung Mehrkosten</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Finanzierung Mehrkosten</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Umsetzung von Richtlinien des Gemeinsamen Bundesausschusses (G-BA) zur Qualitätssicherung kann zu Mehrkosten führen, die nicht oder noch nicht in den Fallpauschalen respektive Zusatzentgelten berücksichtigt sind. Zur Finanzierung dieser Mehrkosten haben die Vertragsparteien (GKV-Spitzenverband, Verband der Privaten Krankenversicherungen sowie die Deutsche Krankenhausgesellschaft) eine entsprechend Vereinbarung geschlossen (G-BA-Mehrkostenzuschlagsvereinbarung). Deren Präambel lautet:</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Indend"><text styleclass="Indend" style="font-style:italic;" translate="true">Gemäß § 9 Abs. 1a Nr. 1 KHEntgG vereinbaren die Vertragsparteien auf Bundesebene auf der Grundlage von § 9 Abs. 1 Nr. 3 KHEntgG Vorgaben, insbesondere zur Dauer, für befristete Zuschläge für die Finanzierung von Mehrkosten auf Grund von Richtlinien des Gemeinsamen Bundesausschusses (G-BA).</text></para>
+    <para styleclass="Indend"></para>
+    <para styleclass="Indend"><text styleclass="Indend" style="font-style:italic;" translate="true">Unter Berücksichtigung dieser Vorgaben vereinbaren die Vertragsparteien nach § 11 KHEntgG gemäß § 5 Abs. 3c KHEntgG bis zu einer Berücksichtigung bei der Kalkulation der Fallpauschalen befristete Zuschläge für die Finanzierung von Mehrkosten, die durch Mindestanforderungen an die Struktur- oder Prozessqualität in Richtlinien des G-BA zur Qualitätssicherung nach § 92 Abs. 1 Satz 2 Nr. 13 in Verbindung mit § 136 Abs. 1 Satz 1 Nr. 2 SGB V entstehen.</text></para>
+    <para styleclass="Indend"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Den vollständigen Text der Vereinbarung finden Sie beispielsweise im Internet unter </text><link displaytype="text" defaultstyle="true" type="weblink" href="&lt;%LINK_CAPTION%&gt;" target="_blank" styleclass="Normal" translate="true">http://www.dkgev.de/media/file/48521.Anlage_1_G-BA-Mehrkostenzuschlagsvereinbarung.pdf</link></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Des Weiteren ist in der Vereinbarung eine Datenerfassung durch das InEK festgelegt. Auf Grundlage der Vereinbarung haben die Vertragsparteien die </text><text styleclass="Normal" translate="true">Zuschlagsfinanzierung der Qualitätssicherungs-Richtlinie Früh- und Reifgeborene (QFR-RL) vereinbart (</text><link displaytype="text" defaultstyle="true" type="weblink" href="&lt;%LINK_CAPTION%&gt;" target="_blank" styleclass="Normal" translate="true">http://www.dkgev.de/media/file/45971.Anlage_2_G-BA-MKZV_-_Anlage_1_QFR-RL.pdf</link><text styleclass="Normal" translate="true">). Zur Datenerfassung stellt das </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> entsprechende Formulare bereit, die einfach online befüllt werden können.</text></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>
