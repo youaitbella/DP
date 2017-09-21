@@ -176,30 +176,6 @@ public class SessionTools implements Serializable {
         return items;
     }
     
-    public SelectItem[] getPeriodFromItems() {
-        SelectItem[] items = new SelectItem[3];
-        items[0] = new SelectItem(2017, "2017");
-        items[1] = new SelectItem(2016, "2016");
-        items[2] = new SelectItem(2015, "2015");
-        return items;
-    }
-    
-    public SelectItem[] getPeriodToItems() {
-        SelectItem[] items = new SelectItem[3];
-        items[0] = new SelectItem(2017, "2017");
-        items[1] = new SelectItem(2016, "2016");
-        items[2] = new SelectItem(2015, "2015");
-        return items;
-    }
-
-    public List<SelectItem> getCalenderYearItems() {
-        List<SelectItem> items = new ArrayList<>();
-        for (int year = 2016; year < 2022; year++){
-            items.add(new SelectItem(year, "" + year));
-        }
-        return items;
-    }
-
     public String formatDate(Date date, String format) {
         return new SimpleDateFormat(format).format(date);
     }

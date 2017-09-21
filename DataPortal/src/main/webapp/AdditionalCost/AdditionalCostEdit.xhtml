@@ -12,30 +12,33 @@
 
     <ui:define name="content">
         <h:form id="addtionalCost" enctype="multipart/form-data" >       
-            <h1><h:commandLink value="Neue Mehrkosten" 
+            <h1><h:commandLink value="Mehrkosten / Zuschlagfinanzierung Früh- und Reifgeborene" 
                                action="#{sessionController.navigate(sessionTools.pages.AdditionalCostSummary)}" 
                                immediate="true"/></h1>
 
             <div class="edit">
-                <inek:LabeledText rendered="#{not sessionController.isInekUser('ADDITIONAL_COST')}"
-                                  readonly="true"
-                                  singleLine="true"
-                                  displayAsLabel="true"
-                                  label="#{msg.lblContractKey}" 
-                                  styleClassLabel="marginRight01"
-                                  value="#{sessionController.isInekUser('ADDITIONAL_COST') or editAdditionalCost.additionalCost.code.length() gt 0
-                                           ? editAdditionalCost.additionalCost.code 
-                                           : msg.lblNotGrantedYet}" />
+                <ui:remove>
+                    ##### contract key not needed yet
+                    ##### keep here, if needed some day
+                    <inek:LabeledText rendered="#{not sessionController.isInekUser('ADDITIONAL_COST')}"
+                                      readonly="true"
+                                      singleLine="true"
+                                      displayAsLabel="true"
+                                      label="#{msg.lblContractKey}" 
+                                      styleClassLabel="marginRight01"
+                                      value="#{sessionController.isInekUser('ADDITIONAL_COST') or editAdditionalCost.additionalCost.code.length() gt 0
+                                               ? editAdditionalCost.additionalCost.code 
+                                               : msg.lblNotGrantedYet}" />
 
-                <inek:LabeledText rendered="#{sessionController.isInekUser('ADDITIONAL_COST')}" 
-                                  singleLine="true"
-                                  displayAsLabel="true"
-                                  label="#{msg.lblContractKey}" 
-                                  styleClassLabel="marginRight01"
-                                  value="#{editAdditionalCost.additionalCost.code}" />
+                    <inek:LabeledText rendered="#{sessionController.isInekUser('ADDITIONAL_COST')}" 
+                                      singleLine="true"
+                                      displayAsLabel="true"
+                                      label="#{msg.lblContractKey}" 
+                                      styleClassLabel="marginRight01"
+                                      value="#{editAdditionalCost.additionalCost.code}" />
 
-                <h2 style="margin-bottom: 1em;"></h2>
-
+                    <h2 style="margin-bottom: 1em;"></h2>
+                </ui:remove>
 
 
                 <inek:MultiIk id="ikMulti" value="#{editAdditionalCost.additionalCost.ik}" 
@@ -112,7 +115,7 @@
                                          value="#{editAdditionalCost.additionalCost.periodFrom}"
                                          hideNoSelectionOption="true"  
                                          >
-                            <f:selectItems value="#{sessionTools.periodFromItems}"/>
+                            <f:selectItems value="#{editAdditionalCost.availableYears}"/>
                             <f:ajax event="change" render="@form :logout:remaining periodFrom"/>
                         </h:selectOneMenu>
 
@@ -127,7 +130,7 @@
                                          value="#{editAdditionalCost.additionalCost.periodTo}"
                                          hideNoSelectionOption="true"  
                                          >
-                            <f:selectItems value="#{sessionTools.periodToItems}"/>
+                            <f:selectItems value="#{editAdditionalCost.availableYears}"/>
                             <f:ajax event="change" />
                         </h:selectOneMenu>
                     </h:panelGroup>
@@ -220,7 +223,7 @@
                                          value="#{editAdditionalCost.additionalCost.repaymentPeriodFrom}"
                                          hideNoSelectionOption="true"  
                                          >
-                            <f:selectItems value="#{sessionTools.calenderYearItems}"/>
+                            <f:selectItems value="#{editAdditionalCost.years}"/>
                             <f:ajax event="change" render="@form :logout:remaining repaymentPeriodFrom"/>
                         </h:selectOneMenu>
 
@@ -235,7 +238,7 @@
                                          value="#{editAdditionalCost.additionalCost.repaymentPeriodTo}"
                                          hideNoSelectionOption="true"  
                                          >
-                            <f:selectItems value="#{sessionTools.calenderYearItems}"/>
+                            <f:selectItems value="#{editAdditionalCost.years}"/>
                             <f:ajax event="change" render="@form :logout:remaining repaymentPeriodTo"/>
                         </h:selectOneMenu>
                     </h:panelGroup>
@@ -268,7 +271,7 @@
                                          value="#{editAdditionalCost.additionalCost.calenderYear}"
                                          hideNoSelectionOption="true"  style="display: inline"
                                          >
-                            <f:selectItems value="#{sessionTools.calenderYearItems}"/>
+                            <f:selectItems value="#{editAdditionalCost.years}"/>
                             <f:ajax event="change" render="@form :logout:remaining calenderYear"/>
                         </h:selectOneMenu>
                     </h:panelGroup>
