@@ -6,11 +6,9 @@ import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
-import com.itextpdf.text.ExceptionConverter;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
@@ -19,7 +17,6 @@ import com.itextpdf.text.pdf.PdfWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
@@ -31,7 +28,6 @@ import java.util.Arrays;
 import java.util.List;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.imageio.ImageIO;
 import javax.inject.Inject;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -195,7 +191,7 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
         if (_editPsyStaff.getStaffProof().isForKids()) {
             createPageForKidsAn2(document, writer);
         }
-        addNote(document, infoText1, 50, 0);
+        addNote(document, infoText1, 0, 0);
         addNote(document, infoText2, 0, 0);
         
         document.newPage();
@@ -232,7 +228,9 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="createPageForKidsAn2">
     private void createPageForKidsAn2(Document document, PdfWriter writer) throws DocumentException,
             NoSuchAlgorithmException, IOException {
-
+        if(_editPsyStaff.getStaffProof().isForAdults()){
+            document.newPage();
+        }
         addLogo(document,
                 "Vereinbarte Stellenbesetzung in Vollkräften \nBereich Kinder und Jugendliche",
                 anlage2,
@@ -336,7 +334,6 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
                 + String.valueOf(_editPsyStaff.getStaffProof().getAdultsEffectiveCosts()), SMALLBOLD);
         p.setSpacingAfter(30);
         document.add(p);
-        
     }
     //</editor-fold>
 
