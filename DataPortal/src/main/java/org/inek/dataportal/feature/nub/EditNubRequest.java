@@ -511,7 +511,17 @@ public class EditNubRequest extends AbstractEditController {
     }
 
     public boolean isSealEnabled() {
-        return _nubSessionTools.isSealEnabled(_nubRequest);
+        try {
+            return _nubSessionTools.isSealEnabled(_nubRequest);
+        } catch (Exception ex) {
+            if (_nubSessionTools == null) {
+                LOGGER.log(Level.SEVERE, "No SessionTools injected");
+            }
+            if (_nubRequest == null && _sessionController != null) {
+                LOGGER.log(Level.SEVERE, "NUB edit called without request. User: {0}", _sessionController.getUser());
+            }
+            throw ex;
+        }
     }
 
     public boolean isUpdateEnabled() {
@@ -525,7 +535,7 @@ public class EditNubRequest extends AbstractEditController {
         if (!_appTools.isEnabled(ConfigKey.IsNubSendEnabled)) {
             return false;
         }
-        if (_nubRequest == null){
+        if (_nubRequest == null) {
             LOGGER.log(Level.WARNING, "NUB request is null"); // separate log, independent from FacesContext
             String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
             LOGGER.log(Level.WARNING, "NUB request is null, view id: {0}", viewId);
@@ -789,6 +799,9 @@ public class EditNubRequest extends AbstractEditController {
     private List<NubFormerRequestMerged> _formerRequests = new Vector<>();
 
     public List<NubFormerRequestMerged> getAllNubIds() {
+        if (_nubRequest == null) {
+            throw new IllegalArgumentException("Missing NUB request");
+        }
         if (_formerRequests.isEmpty() && _nubRequest.getIk() != null) {
             _formerRequests = _nubRequestFacade.getExistingNubIds(_nubRequest.getIk(), _formerNubIdFilterText.replaceAll(" ", "%"), _maxYearOnly);
         }

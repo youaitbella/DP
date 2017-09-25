@@ -12,7 +12,9 @@
     <para styleclass="Image Caption"><image src="AdditionalCost01.png" scale="100.00%" styleclass="Image Caption"></image></para>
     <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Bereich Finanzierung von Mehrkosten im </text><var styleclass="Image Caption">&lt;%TITLE_DRG%&gt;</var></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Einen bestehenden Datensatz rufen Sie mittels Klick in eine der Spalten Jahr, IK oder Krankenhaus der betreffenden Zeile auf. </text><text styleclass="Button" translate="true">[ Neu: Früh- und Reifgeborene ]</text><text styleclass="Normal" translate="true">. &#160;nutzen Sie, um eine neue Information zur Zuschlagsfinanzierung von Früh- und Reifgeborenen anzulegen. In beiden Fällen gelangen Sie zum nachfolgend beschriebenen Eingabedialog.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Einen bestehenden Datensatz rufen Sie mittels Klick in eine der Spalten Jahr, IK oder Krankenhaus der betreffenden Zeile auf. </text><text styleclass="Button" translate="true">[ Neu: Früh- und Reifgeborene ]</text><text styleclass="Normal" translate="true"> &#160;nutzen Sie, um eine neue Information zur Zuschlagsfinanzierung von Früh- und Reifgeborenen anzulegen. In beiden Fällen gelangen Sie zum nachfolgend beschriebenen Eingabedialog. </text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sollten die Vertragspartner weitere Regelungen zur Zuschlagsfinanzierung beschließen, so werden an dieser Stelle weitere Neu-Schaltflächen für das jeweilige Thema verfügbar gemacht.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"></para>

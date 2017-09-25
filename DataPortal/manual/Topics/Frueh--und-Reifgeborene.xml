@@ -1,9 +1,23 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
-<topic template="Default" status="" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
-  <title>Früh- und Reifgeborene</title>
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Früh- und Reifgeborene</title>
   <body>
-    <header><para styleclass="Heading1">Früh- und Reifgeborene</para></header>
-    <para styleclass="Normal">Geben Sie hier den Text ein.</para>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Früh- und Reifgeborene</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sofern Sie einen neuen Datensatz zur Zuschlagsfinanzierung Früh- und Reifgeborener anlegen möchten, wird als erstes die Angabe des Krankenhauses anhand seines IKs benötigt. Zur Auswahl stehen dabei die IKs gemäß Ihren Stammdaten. Haben Sie dort lediglich ein IK hinterlegt, so wird dies automatisch eingetragen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Halten Sie in Ihren Stammdaten dagegen mehrere IKs vor, so erhalten Sie einen relativ leeren Eingabedialog, in dem Sie das passende IK wählen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="AdditionalCost11.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> IK-Auswahl vor Erfassung der Zuschlagsfinanzierung</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Nach Auswahl eines IK steht Ihnen der komplette Eingabedialog zur Verfügung. Gleiches gilt, wenn Sie in der Listenansicht eine bestehende Meldung angeklickt haben, um diese weiter zu bearbeiten.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
   </body>
 </topic>
