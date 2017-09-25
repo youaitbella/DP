@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                >
+
+            <h1>IK-Admin</h1>
+
+            <h:dataTable value="#{sessionController.account.adminIks}" var="item"
+                         rowClasses="row1, row2">
+
+                <h:column>
+                    <f:facet name="header">#{msg.lblIkShort}</f:facet>
+                    <h:link outcome="#{sessionTools.pages.IkAdmin.URL()}"
+                            value="#{item.ik}" >
+                        <f:param name="ik" value="#{item.ik}"/>
+                    </h:link>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">#{msg.lblHospital}</f:facet>
+                    <h:link outcome="#{sessionTools.pages.IkAdmin}"
+                            value="#{applicationTools.retrieveHospitalInfo(item.ik)}" >
+                        <f:param name="ik" value="#{item.ik}"/>
+                    </h:link>
+                </h:column>
+
+            </h:dataTable>
+
+</ui:composition>

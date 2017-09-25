@@ -76,8 +76,9 @@ public class AdminTask extends AbstractEditController {
     }
 
     // <editor-fold defaultstate="collapsed" desc="tab Status">
-    public void clearCache(ActionEvent e) {
+    public void clearCache() {
         _accountFacade.clearCache();
+        Utils.showMessageInBrowser("Cache cleared.");
     }
 
     public String getProcessorInfo() {

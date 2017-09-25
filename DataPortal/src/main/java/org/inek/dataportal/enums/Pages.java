@@ -209,6 +209,12 @@ public enum Pages {
     AdminTaskChangeNub("/Admin/AdminTaskChangeNub"),
     AdminTaskUploadDoc("/Admin/AdminTaskUploadDoc"),
     //
+    IkAdminSummary("/IkAdmin/IkAdminSummary"),
+    PartIkAdmin("/IkAdmin/PartIkAdmin"),
+    IkAdminList("/IkAdmin/fragment/IkList"),
+    IkAdminTasks("/IkAdmin/IkAdminTasks"),
+    IkAdminUser("/IkAdmin/IkAdminUser"),
+    //
     RequestSummary("/RequestSystem/RequestSummary"),
     PartRequest("/RequestSystem/PartRequest"),
     RequestEdit("/RequestSystem/RequestEdit"),

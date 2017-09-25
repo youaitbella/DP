@@ -22,6 +22,7 @@ import org.inek.dataportal.feature.nub.NubController;
 import org.inek.dataportal.feature.peppproposal.PeppProposalController;
 import org.inek.dataportal.feature.certification.CertController;
 import org.inek.dataportal.feature.drgproposal.DrgProposalController;
+import org.inek.dataportal.feature.ikadmin.controller.IkAdminController;
 import org.inek.dataportal.feature.valuationratio.ValuationRatioController;
 import org.inek.dataportal.feature.insurance.InsuranceController;
 import org.inek.dataportal.feature.psychstaff.controller.PsychStaffController;
@@ -37,6 +38,10 @@ public class FeatureFactory {
     public static IFeatureController createController(Feature feature, SessionController sessionController) {
 
         switch (feature) {
+            case ADMIN:
+                return new AdminController(sessionController);
+            case IK_ADMIN:
+                return new IkAdminController(sessionController);
             case USER_MAINTENANCE:
                 return new UserMaintenanceController(sessionController);
             case NUB:
@@ -53,8 +58,6 @@ public class FeatureFactory {
                 return new ModelIntentionController(sessionController);
             case DOCUMENTS:
                 return new DocumentsController(sessionController);
-            case ADMIN:
-                return new AdminController(sessionController);
             case CERT:
                 return new CertController(sessionController);
             case AGENCY:

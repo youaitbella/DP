@@ -356,6 +356,7 @@ public class SessionController implements Serializable {
         boolean hasMaintenance = false;
         boolean hasDocument = false;
         boolean hasCooperation = false;
+        
         List<AccountFeature> accountFatures = _account.getFeatures();
         for (AccountFeature accFeature : accountFatures) {
             Feature feature = accFeature.getFeature();
@@ -369,13 +370,10 @@ public class SessionController implements Serializable {
                 features.put(accFeature.getSequence(), feature);
             }
         }
-        if (isInekUser(Feature.ADMIN)) {
-            _features.add(FeatureFactory.createController(Feature.ADMIN, this));
-        }
+        addAdminIfNeeded();
         if (!hasMaintenance) {
             _features.add(FeatureFactory.createController(Feature.USER_MAINTENANCE, this));
         }
-        //if (!hasDocument && userHasDocuments()) {
         if (!hasDocument) {
             _features.add(FeatureFactory.createController(Feature.DOCUMENTS, this));
             persistFeature(Feature.DOCUMENTS);
@@ -386,6 +384,15 @@ public class SessionController implements Serializable {
         }
         for (Feature f : features.values()) {
             _features.add(FeatureFactory.createController(f, this));
+        }
+    }
+
+    private void addAdminIfNeeded() {
+        if (isInekUser(Feature.ADMIN)) {
+            _features.add(FeatureFactory.createController(Feature.ADMIN, this));
+        }
+        if (_account.getAdminIks().size() > 0) {
+            _features.add(FeatureFactory.createController(Feature.IK_ADMIN, this));
         }
     }
 
@@ -408,10 +415,6 @@ public class SessionController implements Serializable {
         return _appTools.isFeatureEnabled(feature)
                 && (accFeature.getFeatureState() == FeatureState.SIMPLE
                 || accFeature.getFeatureState() == FeatureState.APPROVED);
-    }
-
-    private boolean userHasDocuments() {
-        return _accDocFacade.count(_account.getId()) > 0;
     }
 
     private void persistFeature(Feature feature) {
