@@ -117,12 +117,6 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 
         PdfWriter writer = PdfWriter.getInstance(document, byteArrayOutputStream);
-        //writer.setPageEvent(this);
-        
-        //MyFooter event = new MyFooter();
-        //writer.setPageEvent(this);
-
-        
         writer.setPageEvent(new PdfPageEventHelper() {
             @Override
             public void onEndPage(PdfWriter writer, Document document) {
@@ -130,16 +124,11 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
                 String text = "Seite " + pageNumber;
                 Rectangle page = document.getPageSize();
                 PdfPTable structure = new PdfPTable(1);
+                structure.getDefaultCell().setBorder(Rectangle.NO_BORDER);
                 structure.getDefaultCell().setHorizontalAlignment(Element.ALIGN_RIGHT);
                 structure.addCell(new Paragraph(text));
                 structure.setTotalWidth(page.getWidth() - document.leftMargin() - document.rightMargin());
                 structure.writeSelectedRows(0, -1, document.leftMargin(), document.bottomMargin(), writer.getDirectContent());
-                
-                
-                
-                
-                
-                
             }
         });
          
@@ -255,7 +244,7 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
         tb_JK.getDefaultCell().setBackgroundColor(BaseColor.LIGHT_GRAY);
         PdfPTable tb_exp = new PdfPTable(5);
         tb_exp.setWidthPercentage(100);
-        tb_exp.setWidths(new int[]{4, 3, 3, 3, 6});
+        tb_exp.setWidths(new int[]{4, 4, 3, 3, 6});
         tb_exp.getDefaultCell().setBackgroundColor(BaseColor.LIGHT_GRAY);
 
         loadDataForAnlage2(tb_JK);
@@ -324,7 +313,7 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
         tb.getDefaultCell().setBackgroundColor(BaseColor.LIGHT_GRAY);
 
         PdfPTable tb_exp = new PdfPTable(5);
-        tb_exp.setWidths(new int[]{4, 3, 3, 3, 6});
+        tb_exp.setWidths(new int[]{4, 4, 3, 3, 6});
         tb_exp.setWidthPercentage(100);
         tb_exp.getDefaultCell().setBackgroundColor(BaseColor.LIGHT_GRAY);
 
@@ -692,5 +681,5 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
 
         document.add(signaturArea);
     }
-    //</editor-fold>    
+    //</editor-fold>
 }
