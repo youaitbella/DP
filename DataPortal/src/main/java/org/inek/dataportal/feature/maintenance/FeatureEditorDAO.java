@@ -18,7 +18,6 @@ public class FeatureEditorDAO {
 
     private final AccountFeature _accFeature;
     private boolean _value;
-    private boolean _hidden;
     private final boolean _isEditable;
 
     FeatureEditorDAO(AccountFeature accFeature, Account acc) {
@@ -29,13 +28,6 @@ public class FeatureEditorDAO {
                 && (accFeature.getFeatureState() == FeatureState.NEW 
                 || accFeature.getFeatureState() == FeatureState.SIMPLE 
                 || accFeature.getFeatureState() == FeatureState.APPROVED);
-        if (accFeature.getFeature() == Feature.DOCUMENTS || accFeature.getFeature() == Feature.ADDITIONAL_COST) {
-            if (_value) {
-                _hidden = false;
-            } else {
-                _hidden = true;
-            }
-        }
     }
 
     public String getName() {
@@ -62,10 +54,6 @@ public class FeatureEditorDAO {
 
     public boolean isEditable() {
         return _isEditable;
-    }
-
-    public boolean isHidden() {
-        return _hidden;
     }
 
     public AccountFeature getAccFeature() {

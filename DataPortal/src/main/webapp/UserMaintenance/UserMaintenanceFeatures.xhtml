@@ -8,12 +8,12 @@
     <ui:define name="maintenanceContent">
         <c:forEach items="#{editUserMaintenance.features}" var="feature">
             <div class="feature">
-                <h:selectBooleanCheckbox rendered="#{!feature.hidden}" value="#{feature.value}" disabled="#{!feature.editable}" styleClass="marginRight"/>
-                <h:outputLabel rendered="#{!feature.hidden}"  value="#{feature.shortText}"/>
-                <h:commandLink rendered="#{!feature.hidden}" styleClass="smallButton" value="#{msg.btnUp}" action="#{editUserMaintenance.up(feature.name)}"/>
-                <h:commandLink rendered="#{!feature.hidden}" styleClass="smallButton" value="#{msg.btnDown}" action="#{editUserMaintenance.down(feature.name)}"/>
+                <h:selectBooleanCheckbox value="#{feature.value}" disabled="#{!feature.editable}" styleClass="marginRight"/>
+                <h:outputLabel  value="#{feature.shortText}"/>
+                <h:commandLink styleClass="smallButton" value="#{msg.btnUp}" action="#{editUserMaintenance.up(feature.name)}"/>
+                <h:commandLink styleClass="smallButton" value="#{msg.btnDown}" action="#{editUserMaintenance.down(feature.name)}"/>
                 <br/>
-                <h:outputLabel rendered="#{!feature.hidden}" value="#{feature.description}"/>
+                <h:outputLabel value="#{feature.description}"/>
             </div>
         </c:forEach>
 

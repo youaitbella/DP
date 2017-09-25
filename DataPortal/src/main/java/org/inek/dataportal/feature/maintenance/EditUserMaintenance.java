@@ -216,8 +216,8 @@ public class EditUserMaintenance extends AbstractEditController {
     public String getIkRequired() {
         return _sessionTools.isHospital(getAccount().getCustomerTypeId()) ? "true" : "false";
     }
-
     // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="Part Additional IKs">
     public List<Integer> getAdditionalIKs() {
         if (_additionalIKs == null) {
@@ -236,9 +236,8 @@ public class EditUserMaintenance extends AbstractEditController {
     public void removeAdditionalIK(Integer ik) {
         _additionalIKs.remove(ik);
     }
-
-    
     // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="Part Features">
     public List<FeatureEditorDAO> getFeatures() {
         ensureFeatures();

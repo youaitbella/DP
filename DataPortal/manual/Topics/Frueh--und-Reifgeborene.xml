@@ -15,8 +15,14 @@
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Nach Auswahl eines IK steht Ihnen der komplette Eingabedialog zur Verfügung. Gleiches gilt, wenn Sie in der Listenansicht eine bestehende Meldung angeklickt haben, um diese weiter zu bearbeiten.</text></para>
     <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="AdditionalCost12.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Eingabedialog Zuschlagsfinanzierung Früh- und Reifgeborene</text></para>
     <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Der Bereich </text><text styleclass="Normal" style="font-weight:bold;" translate="true">Ansprechpartner</text><text styleclass="Normal" translate="true"> ist mit den Informationen aus Ihren Stammdaten vorbelegt. Bei Bedarf überschreiben oder ergänzen Sie diese Angaben.</text></para>
     <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Den Bereich </text><text styleclass="Normal" style="font-weight:bold;" translate="true">Mehrkosten</text><text styleclass="Normal" translate="true"> füllen Sie entsprechend den Feldbezeichnungen aus. Bitte beachten Sie, dass eine eventuelle Zuschlagsfinanzierung 2015 und 2016 im Vereinbarungszeitraum 2017 bzw. dem nächstmöglichen Zeitraum erfolgt. Entsprechend stehen diese beiden Jahre in den Auswahlboxen nicht zur Verfügung.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Bei Bedarf </text><text styleclass="Button" translate="true">[ Speichern ]</text><text styleclass="Normal" translate="true"> Sie Ihre Daten jederzeit. Die Datenerfassung können Sie so jederzeit unterbrechen und zu einem späteren Zeitpunkt fortsetzen. Haben Sie die Daten komplett, so müssen Sie diese </text><text styleclass="Button" translate="true">[ ans InEK senden ]</text><text styleclass="Normal" translate="true">. Dies speichert die Daten, beendet den Eingabemodus und ermöglichte dem InEK die weitere Auswertung.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"></para>
   </body>
