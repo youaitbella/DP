@@ -109,7 +109,7 @@
                 </h:panelGroup>
             </div>
 
-            <h:panelGroup rendered="#{sessionController.isInekUser(Feature.ADMIN)}">
+            <h:panelGroup rendered="#{sessionController.isInekUser('ADMIN')}">
                 <h:commandLink styleClass="bigButton"
                                immediate="false"
                                action="#{editPsyStaff.createDocument()}"

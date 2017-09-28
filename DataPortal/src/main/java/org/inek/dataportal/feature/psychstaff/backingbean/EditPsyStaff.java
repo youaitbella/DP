@@ -5,10 +5,15 @@
  */
 package org.inek.dataportal.feature.psychstaff.backingbean;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -18,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -767,8 +773,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
                 .collect(Collectors.toList());
     }
 
-    public void createDocument() {
-        /*
+    public String createDocument() {
         String templateId = "23B3AF3B-0F6C-42A2-81C6-8CCB6EEF546C";
 //            ClientConfig config = new ClientConfig();
 //            
@@ -784,8 +789,9 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
 //                    .get(Response.class)
 //                    .toString();
 
+        String targetPage = "";
         try {
-            URL url = new URL(getBaseURI() + "/" + templateId + "/export?$StaffProofId=" + _staffProof.getId());
+            URL url = new URL(getBaseURI() + "/" + templateId + "/export?$PsychStaffProofId=" + _staffProof.getId());
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("X-ReportServer-ClientId", "stephan");
@@ -796,23 +802,16 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
                         + conn.getResponseCode());
             }
 
-            BufferedReader br = new BufferedReader(new InputStreamReader(
-                    (conn.getInputStream())));
-
-            String output;
-            System.out.println("Output from Server .... \n");
-            while ((output = br.readLine()) != null) {
-                System.out.println(output);
+            if (!Utils.downLoadDocument(conn.getInputStream(), "PsychPersonalNachweis_Anlage1.pdf", 0)) {
+                targetPage = Pages.Error.URL();
             }
-
             conn.disconnect();
         } catch (MalformedURLException ex) {
             Logger.getLogger(EditPsyStaff.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(EditPsyStaff.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-*/
+        return targetPage;
     }
 
     private static URI getBaseURI() {

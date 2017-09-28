@@ -6,6 +6,7 @@ package org.inek.dataportal.helper;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -252,20 +253,31 @@ public class Utils {
     }
 
     public static String downloadDocument(Document document) {
+        ByteArrayInputStream is = new ByteArrayInputStream(document.getContent());
+        String fileName = document.getName();
+        int contentLength = document.getContent().length;
+        if (!downLoadDocument(is, fileName, contentLength)) {
+            return Pages.Error.URL();
+        }
+        return "";
+    }
+
+    public static boolean downLoadDocument(InputStream is, String fileName, int contentLength) {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         ExternalContext externalContext = facesContext.getExternalContext();
         externalContext.setResponseHeader("Content-Type", "application/octet-stream");
-        externalContext.setResponseHeader("Content-Length", "" + document.getContent().length);
-        externalContext.setResponseHeader("Content-Disposition", "attachment;filename*=UTF-8''" + encodeUrl(document.getName()).replace("+", "_")); 
-        ByteArrayInputStream is = new ByteArrayInputStream(document.getContent());
+        if (contentLength > 0) {
+            externalContext.setResponseHeader("Content-Length", "" + contentLength);
+        }
+        externalContext.setResponseHeader("Content-Disposition", "attachment;filename*=UTF-8''" + encodeUrl(fileName).replace("+", "_"));
         try {
             StreamHelper.copyStream(is, externalContext.getResponseOutputStream());
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
-            return Pages.Error.URL();
+            return false;
         }
         facesContext.responseComplete();
-        return "";
+        return true;
     }
 
     public static void downloadText(String text, String filename) {
