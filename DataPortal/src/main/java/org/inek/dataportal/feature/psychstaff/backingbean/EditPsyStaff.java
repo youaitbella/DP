@@ -8,6 +8,7 @@ package org.inek.dataportal.feature.psychstaff.backingbean;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -27,6 +28,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.Part;
+import javax.ws.rs.core.UriBuilder;
 import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
@@ -184,7 +186,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         }
     }
 
-    public void reasonChanged(){
+    public void reasonChanged() {
         // since a exclusionFactConverter would create a new object (can be solved with JSF 2.3), 
         // we only use the id and retrieve the appropriate ExclusionFact
         ExclusionFact ef = _appTools
@@ -196,7 +198,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         _staffProof.setExclusionFact(ef);
         setTopicVisibility();
     }
-    
+
     public void domainChanged() {
         setTopicVisibility();
         ensureStaffProofsAgreed(_staffProof);
@@ -358,7 +360,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         String type = "("
                 + (_staffProof.isForAdults() ? PsychType.Adults.getShortName() : "")
                 + (_staffProof.isForAdults() && _staffProof.isForKids() ? " + " : "")
-                + (_staffProof.isForKids() ? PsychType.Kids.getShortName() : "") 
+                + (_staffProof.isForKids() ? PsychType.Kids.getShortName() : "")
                 + ")";
         switch (getActiveTopicKey()) {
             case TOPIC_BASE:
@@ -756,13 +758,65 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
             _staffProof.addStaffProofExplanation(type, occupationalCategory, key);
         }
     }
-    
-    public List<ExclusionFact> getExclusionFacts (){
+
+    public List<ExclusionFact> getExclusionFacts() {
         return _appTools
                 .getExclusionFacts()
                 .stream()
                 .filter(f -> f.getYearFrom() <= _staffProof.getYear() && f.getYearTo() >= _staffProof.getYear())
                 .collect(Collectors.toList());
+    }
+
+    public void createDocument() {
+        /*
+        String templateId = "23B3AF3B-0F6C-42A2-81C6-8CCB6EEF546C";
+//            ClientConfig config = new ClientConfig();
+//            
+//            Client client = ClientBuilder.newClient(config);
+//            WebTarget target = client.target(getBaseURI());
+//            
+//            String response = target
+//                    .path(templateId)
+//                    .path("export")
+//                    .queryParam("$PsychStaffProofId", _staffProof.getId())
+//                    .request()
+//                    .accept(MediaType.TEXT_PLAIN)
+//                    .get(Response.class)
+//                    .toString();
+
+        try {
+            URL url = new URL(getBaseURI() + "/" + templateId + "/export?$StaffProofId=" + _staffProof.getId());
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("X-ReportServer-ClientId", "stephan");
+            conn.setRequestProperty("X-ReportServer-ClientToken", "ce+51lOJYiAN/49SsKk9cVrKRoDPwJ5o");
+
+            if (conn.getResponseCode() != 200) {
+                throw new RuntimeException("Failed : HTTP error code : "
+                        + conn.getResponseCode());
+            }
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(
+                    (conn.getInputStream())));
+
+            String output;
+            System.out.println("Output from Server .... \n");
+            while ((output = br.readLine()) != null) {
+                System.out.println(output);
+            }
+
+            conn.disconnect();
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(EditPsyStaff.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(EditPsyStaff.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+*/
+    }
+
+    private static URI getBaseURI() {
+        return UriBuilder.fromUri("http://vreportserver01/combitreportserver/api/v1/report").build();
     }
 
 }
