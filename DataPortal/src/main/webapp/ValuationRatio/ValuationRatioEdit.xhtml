@@ -80,12 +80,16 @@
                                 <tr>
                                     <th>Fallzahl</th>
                                     <td>
-                            <h:inputText value="#{editValuationRatio.i68d}" id="I68D" validator="#{editValuationRatio.validateI68D}">
+                            <h:inputText value="#{editValuationRatio.i68d}" id="I68D" 
+                                         readonly="#{editValuationRatio.readOnly}"
+                                         validator="#{editValuationRatio.validateI68D}">
                                 <f:ajax event="blur" render="@this msgDError i68d-panel :logout:remaining"/>
                             </h:inputText><br/>
                             </td>
                             <td>
-                            <h:inputText value="#{editValuationRatio.i68e}" id="I68E" validator="#{editValuationRatio.validateI68E}">
+                            <h:inputText value="#{editValuationRatio.i68e}" id="I68E" 
+                                         readonly="#{editValuationRatio.readOnly}"
+                                         validator="#{editValuationRatio.validateI68E}">
                                 <f:ajax event="blur" render="@this msgEError i68e-panel :logout:remaining"/>
                             </h:inputText><br/>
                             </td>
@@ -95,7 +99,8 @@
                                 <td style="text-align: center;">
                             <h:panelGroup id="i68d-panel">
                                 <h:selectBooleanCheckbox rendered="#{editValuationRatio.isDrgBelowMedian('I68D', editValuationRatio.i68d) and editValuationRatio.i68d != 0}"
-                                                         value="#{editValuationRatio.valuationRatio.i68dList}">
+                                                         value="#{editValuationRatio.valuationRatio.i68dList}"
+                                                         readonly="#{editValuationRatio.readOnly}">
                                     <f:ajax event="change" render="@this :logout:remaining"/>
                                 </h:selectBooleanCheckbox>
                                 <h:outputLabel rendered="#{!editValuationRatio.isDrgBelowMedian('I68D', editValuationRatio.i68d) and editValuationRatio.i68d != 0}"
@@ -107,7 +112,8 @@
                             <td style="text-align: center;">
                             <h:panelGroup id="i68e-panel">
                                 <h:selectBooleanCheckbox rendered="#{editValuationRatio.isDrgBelowMedian('I68E', editValuationRatio.i68e) and editValuationRatio.i68e != 0}"
-                                                         value="#{editValuationRatio.valuationRatio.i68eList}">
+                                                         value="#{editValuationRatio.valuationRatio.i68eList}"
+                                                         readonly="#{editValuationRatio.readOnly}">
                                     <f:ajax event="change" render="@this :logout:remaining"/>
                                 </h:selectBooleanCheckbox>
                                 <h:outputLabel rendered="#{!editValuationRatio.isDrgBelowMedian('I68E', editValuationRatio.i68e) and editValuationRatio.i68e != 0}"
@@ -127,7 +133,8 @@
                                           value="#{editValuationRatio.valuationRatio.differentIK}" 
                                           label="Abweichendes IK"
                                           event="blur"
-                                          styleClassComponent="inputPart element30"/>
+                                          styleClassComponent="inputPart element30"
+                                          />
                         <br/>
                         <h:outputLabel style="display: inline-block; width: 100%" styleClass="label" value="gültig ab:"/>
                         <h:inputText readonly="#{editValuationRatio.readOnly}" styleClass="title-placeholder"

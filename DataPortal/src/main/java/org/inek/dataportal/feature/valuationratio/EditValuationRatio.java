@@ -36,6 +36,7 @@ import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.feature.admin.entity.MailTemplate;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
+import org.inek.dataportal.mail.Mailer;
 import org.inek.dataportal.utils.DateUtils;
 
 /**
@@ -239,11 +240,17 @@ public class EditValuationRatio extends AbstractEditController {
         try {
             _valuationRatioFacade.merge(_valuationRatio);
             _valuationRatioFacade.clearCache();
-            MailTemplate template = _sessionController.getMailer().getMailTemplate("Teilnahme - Gezielte Absenkung");
-            template.setSubject(template.getSubject().replace("{year}", "" + _valuationRatio.getDataYear()));
-            template.setSubject(template.getSubject().replace("{salutation}", _sessionController.getMailer().
-                    getFormalSalutation(_sessionController.getAccount())));
-            template.setSubject(template.getSubject().replace("{drgs}", buildDrgString()));
+            Mailer mailer = _sessionController.getMailer();
+            MailTemplate template = mailer.getMailTemplate("Teilnahme - Gezielte Absenkung");
+            String body = template.getBody()
+                    .replace("{formalSalutation}", getFormalSalutation())
+                    .replace("{year}", "" + _valuationRatio.getDataYear())
+                    .replace("{drgs}", buildDrgString());
+            template.setBody(body);
+            String subject = template.getSubject()
+                    .replace("{year}", "" + _valuationRatio.getDataYear())
+                    .replace("{drgs}", buildDrgString());
+            template.setSubject(subject);
             _sessionController.getMailer().sendMailTemplate(template, _sessionController.getAccount().getEmail());
             _sessionController.alertClient("Gezielte Absenkung wurde erfolgreich eingereicht.");
             return Pages.InsuranceSummary.RedirectURL();
@@ -251,6 +258,17 @@ public class EditValuationRatio extends AbstractEditController {
             _sessionController.alertClient(Utils.getMessage("msgSaveError"));
             return "";
         }
+    }
+
+    public String getFormalSalutation() {
+        String salutation = _valuationRatio.getContactGender() == 1 
+                ? Utils.getMessage("formalSalutationFemale") 
+                : Utils.getMessage("formalSalutationMale");
+        salutation = salutation
+                .replace("{title}", _valuationRatio.getContactTitle())
+                .replace("{lastname}", _valuationRatio.getContactLastName())
+                .replace("  ", " ");
+        return salutation;
     }
 
     private String buildDrgString() {
@@ -264,6 +282,9 @@ public class EditValuationRatio extends AbstractEditController {
             } else {
                 drgs += "I68E";
             }
+        }
+        if (drgs.length() == 0) {
+            drgs = "<keine>";
         }
         return drgs;
     }
