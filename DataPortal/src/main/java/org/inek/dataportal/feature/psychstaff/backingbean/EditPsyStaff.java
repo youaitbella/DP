@@ -782,10 +782,10 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
             URL url = new URL(baseAddress + templateId + "/export?$PsychStaffProofId=" + _staffProof.getId());
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
-            //conn.setRequestProperty("X-ReportServer-ClientId", "stephan");
-            //conn.setRequestProperty("X-ReportServer-ClientToken", "ce+51lOJYiAN/49SsKk9cVrKRoDPwJ5o");
-            conn.setRequestProperty("X-ReportServer-ClientId", "portal");
-            conn.setRequestProperty("X-ReportServer-ClientToken", "FG+RYOLDRuAEh0bO6OBddzcrF45aOI9C");
+            conn.setRequestProperty("X-ReportServer-ClientId", "stephan");
+            conn.setRequestProperty("X-ReportServer-ClientToken", "ce+51lOJYiAN/49SsKk9cVrKRoDPwJ5o");
+            //conn.setRequestProperty("X-ReportServer-ClientId", "portal");
+            //conn.setRequestProperty("X-ReportServer-ClientToken", "FG+RYOLDRuAEh0bO6OBddzcrF45aOI9C");
 
             if (conn.getResponseCode() != 200) {
                 LOGGER.log(Level.WARNING, "Failed : HTTP error code : {0}", conn.getResponseCode());
