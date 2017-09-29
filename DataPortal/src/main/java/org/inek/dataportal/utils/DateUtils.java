@@ -38,16 +38,4 @@ public class DateUtils {
         return new SimpleDateFormat(format).format(new Date());
     }
     
-    public static Date getNullAlias() {
-        Calendar c = Calendar.getInstance();
-        c.set(1900, 0, 1, 0, 0, 0);
-        return c.getTime();
-    }
-    
-    public static boolean isNullAlias(Date toCompare) {
-        if(getNullAlias().getYear() == toCompare.getYear()) {
-            return true;
-        }
-        return false;
-    }
 }

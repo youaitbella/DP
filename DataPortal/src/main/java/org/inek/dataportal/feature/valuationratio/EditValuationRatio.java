@@ -75,9 +75,6 @@ public class EditValuationRatio extends AbstractEditController {
             int idInt = Integer.parseInt(id.toString());
             _valuationRatio = _valuationRatioFacade.findFreshValuationRatio(idInt);
             Account acc = _accFacade.find(_valuationRatio.getAccountId());
-            if (DateUtils.isNullAlias(_valuationRatio.getValidFrom())) {
-                _valuationRatio.setValidFrom(null);
-            }
         }
     }
 
@@ -196,6 +193,7 @@ public class EditValuationRatio extends AbstractEditController {
     }
 
     public List<SelectItem> getIks() {
+        int dataYear = _valuationRatio == null ? Calendar.getInstance().get(Calendar.YEAR) - 1 : _valuationRatio.getDataYear();
         Set<Integer> iks = new HashSet<>();
         int dataYear = Calendar.getInstance().get(Calendar.YEAR)-1;
         if(_valuationRatio != null)
@@ -226,11 +224,6 @@ public class EditValuationRatio extends AbstractEditController {
 
     public String save() {
         try {
-            if (_valuationRatio.getValidFrom() == null) {
-                Date test = DateUtils.getNullAlias();
-                _valuationRatio.setValidFrom(test);
-            }
-
             _valuationRatio = _valuationRatioFacade.saveValuationRatio(_valuationRatio);
             _sessionController.alertClient(Utils.getMessage("msgSaveAndMentionSend"));
         } catch (EJBException e) {

@@ -774,35 +774,23 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     }
 
     public String createDocument() {
-        String templateId = "23B3AF3B-0F6C-42A2-81C6-8CCB6EEF546C";
-//            ClientConfig config = new ClientConfig();
-//            
-//            Client client = ClientBuilder.newClient(config);
-//            WebTarget target = client.target(getBaseURI());
-//            
-//            String response = target
-//                    .path(templateId)
-//                    .path("export")
-//                    .queryParam("$PsychStaffProofId", _staffProof.getId())
-//                    .request()
-//                    .accept(MediaType.TEXT_PLAIN)
-//                    .get(Response.class)
-//                    .toString();
+        String baseAddress = "http://vreportserver01/combitreportserver/api/v1/report/";
+        String templateId = "EC407F57-4995-4E51-89E4-DBBF9BDBA8B5";
 
         String targetPage = "";
         try {
-            URL url = new URL(getBaseURI() + "/" + templateId + "/export?$PsychStaffProofId=" + _staffProof.getId());
+            URL url = new URL(baseAddress + templateId + "/export?$PsychStaffProofId=" + _staffProof.getId());
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
-            conn.setRequestProperty("X-ReportServer-ClientId", "stephan");
-            conn.setRequestProperty("X-ReportServer-ClientToken", "ce+51lOJYiAN/49SsKk9cVrKRoDPwJ5o");
+            //conn.setRequestProperty("X-ReportServer-ClientId", "stephan");
+            //conn.setRequestProperty("X-ReportServer-ClientToken", "ce+51lOJYiAN/49SsKk9cVrKRoDPwJ5o");
+            conn.setRequestProperty("X-ReportServer-ClientId", "portal");
+            conn.setRequestProperty("X-ReportServer-ClientToken", "FG+RYOLDRuAEh0bO6OBddzcrF45aOI9C");
 
             if (conn.getResponseCode() != 200) {
-                throw new RuntimeException("Failed : HTTP error code : "
-                        + conn.getResponseCode());
-            }
-
-            if (!Utils.downLoadDocument(conn.getInputStream(), "PsychPersonalNachweis_Anlage1.pdf", 0)) {
+                LOGGER.log(Level.WARNING, "Failed : HTTP error code : {0}", conn.getResponseCode());
+                _sessionController.alertClient("Fehler bei der Reporterstellung " + conn.getResponseCode());
+            } else if (!Utils.downLoadDocument(conn.getInputStream(), "PsychPersonalNachweis_Anlage1.pdf", 0)) {
                 targetPage = Pages.Error.URL();
             }
             conn.disconnect();
@@ -812,10 +800,6 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
             Logger.getLogger(EditPsyStaff.class.getName()).log(Level.SEVERE, null, ex);
         }
         return targetPage;
-    }
-
-    private static URI getBaseURI() {
-        return UriBuilder.fromUri("http://vreportserver01/combitreportserver/api/v1/report").build();
     }
 
 }
