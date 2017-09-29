@@ -5,6 +5,7 @@
 package org.inek.dataportal.feature.valuationratio;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -69,6 +70,7 @@ public class EditValuationRatio extends AbstractEditController {
             Utils.navigate(Pages.NotAllowed.RedirectURL());
         } else if (id.toString().equals("new")) {
             _valuationRatio = newValuationRatio();
+            ikChanged();
         } else {
             int idInt = Integer.parseInt(id.toString());
             _valuationRatio = _valuationRatioFacade.findFreshValuationRatio(idInt);
@@ -195,15 +197,18 @@ public class EditValuationRatio extends AbstractEditController {
 
     public List<SelectItem> getIks() {
         Set<Integer> iks = new HashSet<>();
+        int dataYear = Calendar.getInstance().get(Calendar.YEAR)-1;
+        if(_valuationRatio != null)
+            dataYear = _valuationRatio.getDataYear();
         if (!_valuationRatioFacade.existsValuationRatio(
-                _sessionController.getAccount().getIK(), _valuationRatio.getDataYear())) {
+                _sessionController.getAccount().getIK(), dataYear)) {
             iks.add(_sessionController.getAccount().getIK());
         }
 
         for (AccountAdditionalIK ik : _sessionController
                 .getAccount().getAdditionalIKs()) {
             if (!_valuationRatioFacade
-                    .existsValuationRatio(ik.getIK(), _valuationRatio.getDataYear())) {
+                    .existsValuationRatio(ik.getIK(), dataYear)) {
                 iks.add(ik.getIK());
             }
 

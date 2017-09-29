@@ -192,5 +192,4 @@ public class NoticeItemImporter {
         }
         item.setProcedures(dataString);
     }
-
 }
