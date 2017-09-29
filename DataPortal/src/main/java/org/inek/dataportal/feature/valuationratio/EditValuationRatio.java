@@ -195,9 +195,6 @@ public class EditValuationRatio extends AbstractEditController {
     public List<SelectItem> getIks() {
         int dataYear = _valuationRatio == null ? Calendar.getInstance().get(Calendar.YEAR) - 1 : _valuationRatio.getDataYear();
         Set<Integer> iks = new HashSet<>();
-        int dataYear = Calendar.getInstance().get(Calendar.YEAR)-1;
-        if(_valuationRatio != null)
-            dataYear = _valuationRatio.getDataYear();
         if (!_valuationRatioFacade.existsValuationRatio(
                 _sessionController.getAccount().getIK(), dataYear)) {
             iks.add(_sessionController.getAccount().getIK());
