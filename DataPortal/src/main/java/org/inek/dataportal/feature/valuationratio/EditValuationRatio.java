@@ -150,11 +150,14 @@ public class EditValuationRatio extends AbstractEditController {
         return _valuationRatio;
     }
 
+    public ValuationRatioMedian obtainMedian(String drg){
+        return _valuationRatioFacade.findMedianByDrgAndDataYear(drg, _valuationRatio.getDataYear());
+    }
     public boolean isDrgBelowMedian(String drg, Object value) {
         if (value == null) {
             return false;
         }
-        ValuationRatioMedian median = _valuationRatioFacade.findMedianByDrgAndDataYear(drg, _valuationRatio.getDataYear());
+        ValuationRatioMedian median = obtainMedian(drg);
         int maxCases = (int) (median.getFactor() * median.getMedian());
         int drgValue = (int) value;
         return drgValue <= maxCases;

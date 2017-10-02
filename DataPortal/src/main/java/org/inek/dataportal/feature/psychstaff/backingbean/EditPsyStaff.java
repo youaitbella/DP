@@ -5,15 +5,9 @@
  */
 package org.inek.dataportal.feature.psychstaff.backingbean;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.Serializable;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -23,7 +17,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -34,7 +27,6 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.Part;
-import javax.ws.rs.core.UriBuilder;
 import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
@@ -773,33 +765,8 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
                 .collect(Collectors.toList());
     }
 
-    public String createDocument() {
-        String baseAddress = "http://vreportserver01/combitreportserver/api/v1/report/";
-        String templateId = "EC407F57-4995-4E51-89E4-DBBF9BDBA8B5";
-
-        String targetPage = "";
-        try {
-            URL url = new URL(baseAddress + templateId + "/export?$PsychStaffProofId=" + _staffProof.getId());
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-            conn.setRequestProperty("X-ReportServer-ClientId", "stephan");
-            conn.setRequestProperty("X-ReportServer-ClientToken", "ce+51lOJYiAN/49SsKk9cVrKRoDPwJ5o");
-            //conn.setRequestProperty("X-ReportServer-ClientId", "portal");
-            //conn.setRequestProperty("X-ReportServer-ClientToken", "FG+RYOLDRuAEh0bO6OBddzcrF45aOI9C");
-
-            if (conn.getResponseCode() != 200) {
-                LOGGER.log(Level.WARNING, "Failed : HTTP error code : {0}", conn.getResponseCode());
-                _sessionController.alertClient("Fehler bei der Reporterstellung " + conn.getResponseCode());
-            } else if (!Utils.downLoadDocument(conn.getInputStream(), "PsychPersonalNachweis_Anlage1.pdf", 0)) {
-                targetPage = Pages.Error.URL();
-            }
-            conn.disconnect();
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(EditPsyStaff.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(EditPsyStaff.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return targetPage;
+    public void createDocument() {
+        _sessionController.createSingleDocument("PsychPersonalNachweis_Anlage1.pdf", _staffProof.getId());
     }
 
 }

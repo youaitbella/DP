@@ -1,6 +1,9 @@
 package org.inek.dataportal.controller;
 
+import java.io.IOException;
 import java.io.Serializable;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -38,6 +41,8 @@ import org.inek.dataportal.facades.common.ProcedureFacade;
 import org.inek.dataportal.facades.cooperation.CooperationRequestFacade;
 import org.inek.dataportal.feature.admin.entity.InekRole;
 import org.inek.dataportal.feature.admin.entity.Log;
+import org.inek.dataportal.feature.admin.entity.ReportTemplate;
+import org.inek.dataportal.feature.admin.facade.AdminFacade;
 import org.inek.dataportal.helper.NotLoggedInException;
 import org.inek.dataportal.helper.Topic;
 import org.inek.dataportal.helper.Topics;
@@ -768,4 +773,35 @@ public class SessionController implements Serializable {
     public void setPortalType(PortalType portalType) {
         this._portalType = portalType;
     }
+    
+    @Inject private AdminFacade _adminFacade;
+
+    public void createSingleDocument(String name, int id) {
+        _adminFacade
+                .findReportTemplateByName(name)
+                .ifPresent(t -> SessionController.this.createSingleDocument(t, "" + id));
+    }
+    
+    public void createSingleDocument(ReportTemplate template, String id) {
+        String address = template.getAddress().replace("{0}", id);
+        try {
+            URL url = new URL(address);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("X-ReportServer-ClientId", "portal");
+            conn.setRequestProperty("X-ReportServer-ClientToken", "FG+RYOLDRuAEh0bO6OBddzcrF45aOI9C");
+
+            if (conn.getResponseCode() != 200) {
+                throw new IOException("Report failed: HTTP error code : " + conn.getResponseCode());
+            } else if (!Utils.downLoadDocument(conn.getInputStream(), template.getName(), 0)) {
+                throw new IOException("Report failed: Error during download");
+            }
+            conn.disconnect();
+        } catch (IOException ex) {
+            LOGGER.log(Level.SEVERE, null, ex);
+            alertClient("Bei der Reporterstellung trat ein Fehler auf");
+        }
+    }
+    
+    
 }
