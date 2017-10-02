@@ -90,7 +90,7 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
             "Anrechnung Fachkräfte anderer Berufsgruppen der Psych-PV in VK (§4 Abs. 4 Vereinb.) ",
             "Anrechnung Fachkräfte Nicht-Psych-PV Berufsgruppen in VK (§4 Abs. 5 Vereinb.) ",
             "Anrechnung Fachkräfte ohne direktes Beschäftigungsverh. in VK (§4 Abs. 6 Vereinb.)",
-            "\nPsych-PV-Personal in VK (jeweils in Summe) ");
+            "\nUmsetzungsgrad der Psych-PV in %");
     private final List<String> header2A2 = Arrays.asList("", "1", "2", "3", "4", "5", "6");
     private final List<String> headerExp = Arrays.asList("Psych-PV-Berufsgruppe, bei der die Anrechnung erfolgt",
             "Anrechnungs-\ntatbestand",
@@ -132,7 +132,7 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
         createMetadata(document);
 
         if ("Anlage 1".equalsIgnoreCase(_editPsyStaff.getActiveTopic().getTitle().substring(0, 8))) {
-            createPageForAnlage1(document, writer);
+            createPageForApx1(document, writer);
         } else {
             createPageForAnlage2(document, writer);
         }
@@ -161,14 +161,18 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="createPageForAnlage1">
-    public void createPageForAnlage1(Document document, PdfWriter writer) throws DocumentException, IOException, NoSuchAlgorithmException {
+    //<editor-fold defaultstate="collapsed" desc="createPageForApx1">
+    public void createPageForApx1(Document document, PdfWriter writer) throws DocumentException, IOException, NoSuchAlgorithmException {
+        addLogo(document,
+                "Vereinbarte Stellenbesetzung in Vollkräften \nBereich Erwachsene",
+                anlage1,
+                _editPsyStaff.getStaffProof().getSignatureAgreement());
+        
         if (_editPsyStaff.getStaffProof().isForAdults()) {
-            createPageForAdultAn1(document);
-            System.out.println("writer.getPageNumber():----" + document.getPageNumber());
+            createPageForApx1(document, PsychType.Adults);
         }
         if (_editPsyStaff.getStaffProof().isForKids()) {
-            createPageForKidsAn1(document);
+            createPageForApx1(document, PsychType.Kids);
         }
         addNote(document, infoText1, 50, 0);
         addNote(document, infoText2, 0, 20);
@@ -206,20 +210,24 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="createPageForKidsAn1">
-    private void createPageForKidsAn1(Document document) throws DocumentException, NoSuchAlgorithmException, IOException {
+    private void createPageForApx1(Document document, PsychType psychType) throws DocumentException, NoSuchAlgorithmException, IOException {
+        String header = psychType == PsychType.Adults 
+                ? "Bereich Erwachsene"
+                : "Bereich Kinder und Jugendliche";
+        int agreedDays = psychType == PsychType.Adults 
+                ? _editPsyStaff.getStaffProof().getAdultsAgreedDays()
+                : _editPsyStaff.getStaffProof().getKidsAgreedDays();
+        document.add(new Paragraph(header, FONT_TITLE));
+        PdfPTable pdfTable = new PdfPTable(6);
+        pdfTable.setWidthPercentage(100);
+        pdfTable.setWidths(new int[]{3, 1, 3, 3, 3, 3});
+        pdfTable.getDefaultCell().setBackgroundColor(BaseColor.LIGHT_GRAY);
+        loadDataForApx1(pdfTable, psychType);
+        pdfTable.setSpacingBefore(10);
+        pdfTable.setSpacingAfter(10);
+        document.add(pdfTable);
 
-        document.add(new Paragraph("Bereich Kinder und Jugendliche", FONT_TITLE));
-        PdfPTable tb_JK = new PdfPTable(6);
-        tb_JK.setWidthPercentage(100);
-        tb_JK.setWidths(new int[]{3, 1, 3, 3, 3, 3});
-        tb_JK.getDefaultCell().setBackgroundColor(BaseColor.LIGHT_GRAY);
-        loadDataForAnlage1JK(tb_JK);
-        tb_JK.setSpacingBefore(10);
-        tb_JK.setSpacingAfter(10);
-        document.add(tb_JK);
-
-        Paragraph p = new Paragraph("Vereinbarte Berechnungstage: "
-                + String.valueOf(_editPsyStaff.getStaffProof().getKidsAgreedDays()), SMALLBOLD);
+        Paragraph p = new Paragraph("Vereinbarte Berechnungstage: " + agreedDays, SMALLBOLD);
         p.setSpacingAfter(30);
         document.add(p);
     }
@@ -245,7 +253,7 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
         tb_exp.setWidths(new int[]{4, 4, 3, 3, 6});
         tb_exp.getDefaultCell().setBackgroundColor(BaseColor.LIGHT_GRAY);
 
-        loadDataForAnlage2(tb_JK);
+        loadDataForAnlage2(tb_JK, PsychType.Kids);
         tb_JK.setSpacingBefore(10);
         tb_JK.setSpacingAfter(10);
         document.add(tb_JK);
@@ -263,37 +271,6 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
                 + String.valueOf(_editPsyStaff.getStaffProof().getKidsEffectiveCosts()), SMALLBOLD);
         p.setSpacingAfter(10);
         document.add(p);
-    }
-    //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="createPageForAdultAn1">
-    private void createPageForAdultAn1(Document document) throws DocumentException, IOException, NoSuchAlgorithmException {
-
-        addLogo(document,
-                "Vereinbarte Stellenbesetzung in Vollkräften \nBereich Erwachsene",
-                anlage1,
-                _editPsyStaff.getStaffProof().getSignatureAgreement());
-        
-        document.add(new Paragraph("Bereich Erwachsene", FONT_TITLE));
-        PdfPTable tb = new PdfPTable(6);
-        tb.setWidthPercentage(100);
-        tb.setWidths(new int[]{3, 1, 3, 3, 3, 3});
-
-        tb.getDefaultCell().setBackgroundColor(BaseColor.LIGHT_GRAY);
-        loadDataForAnlage1Ad(tb);
-        tb.setSpacingBefore(10);
-        tb.setSpacingAfter(10);
-        document.add(tb);
-
-        Paragraph p = new Paragraph("Vereinbarte Berechnungstage: "
-                + String.valueOf(_editPsyStaff.getStaffProof().getAdultsAgreedDays()), SMALLBOLD);
-        p.setSpacingAfter(30);
-        document.add(p);
-
-//        addNote(document, infoText1, 0);
-//        addNote(document, infoText2, 20);
-//        addInfoText(document, infoText3, 30);
-//        addSignaturArea(document);
     }
     //</editor-fold>
 
@@ -315,7 +292,7 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
         tb_exp.setWidthPercentage(100);
         tb_exp.getDefaultCell().setBackgroundColor(BaseColor.LIGHT_GRAY);
 
-        loadDataForAnlage2(tb);
+        loadDataForAnlage2(tb, PsychType.Adults);
         tb.setSpacingBefore(10);
         tb.setSpacingAfter(10);
         document.add(tb);
@@ -337,14 +314,13 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="loadDataForAnlage1Ad">
-    private void loadDataForAnlage1Ad(PdfPTable tb) {
+    //<editor-fold defaultstate="collapsed" desc="loadDataForApx1">
+    private void loadDataForApx1(PdfPTable tb, PsychType psychType) {
 
-        //PsychType psychType = ("Anlage 1 - Erw").equalsIgnoreCase(_editPsyStaff.getActiveTopic().getTitle()) ? PsychType.Adults : PsychType.Kids;
         int index = 1;
         addHeader(tb, header1A1);
         addHeader(tb, header2A1);
-        for (StaffProofAgreed staffProofAgreed : _editPsyStaff.getStaffProof().getStaffProofsAgreed(PsychType.Adults)) {
+        for (StaffProofAgreed staffProofAgreed : _editPsyStaff.getStaffProof().getStaffProofsAgreed(psychType)) {
             addRow(tb, String.valueOf(index), staffProofAgreed);
             index++;
         }
@@ -357,34 +333,11 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
                 SMALLBOLD, Element.ALIGN_RIGHT, BaseColor.LIGHT_GRAY);
         addCell(tb, "", SMALLBOLD, Element.ALIGN_RIGHT, BaseColor.LIGHT_GRAY);
     }
-//    </editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="loadDataForAnlage1Ad">
-    private void loadDataForAnlage1JK(PdfPTable tb) {
-
-        //PsychType psychType = ("Anlage 1 - Erw").equalsIgnoreCase(_editPsyStaff.getActiveTopic().getTitle()) ? PsychType.Adults : PsychType.Kids;
-        int index = 1;
-        addHeader(tb, header1A1);
-        addHeader(tb, header2A1);
-        for (StaffProofAgreed staffProofAgreed : _editPsyStaff.getStaffProof().getStaffProofsAgreed(PsychType.Adults)) {
-            addRow(tb, String.valueOf(index), staffProofAgreed);
-            index++;
-        }
-        addCell(tb, "", SMALLBOLD, Element.ALIGN_LEFT, BaseColor.LIGHT_GRAY);
-        addCell(tb, "8", SMALLBOLD, Element.ALIGN_CENTER, BaseColor.LIGHT_GRAY);
-        addCell(tb, "Gesamt", SMALLBOLD, Element.ALIGN_LEFT, BaseColor.LIGHT_GRAY);
-        addCell(tb, _editPsyStaff.sumAgreedStaffingComplete(PsychType.Kids).replace(",", "."),
-                SMALLBOLD, Element.ALIGN_RIGHT, BaseColor.LIGHT_GRAY);
-        addCell(tb, _editPsyStaff.sumAgreedStaffingBudget(PsychType.Kids).replace(",", "."),
-                SMALLBOLD, Element.ALIGN_RIGHT, BaseColor.LIGHT_GRAY);
-        addCell(tb, "", SMALLBOLD, Element.ALIGN_RIGHT, BaseColor.LIGHT_GRAY);
-    }
-//    </editor-fold>
+    // </editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="loadDataForAnlage2">
-    private void loadDataForAnlage2(PdfPTable tb) {
+    private void loadDataForAnlage2(PdfPTable tb, PsychType psychType) {
 
-        PsychType psychType = ("Anlage 2 - Erw").equalsIgnoreCase(_editPsyStaff.getActiveTopic().getTitle()) ? PsychType.Adults : PsychType.Kids;
         int index = 1;
         addHeader0(tb, header0A2);
         addHeader(tb, header1A2);
@@ -510,7 +463,7 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
         PdfPCell cell;
         StaffProof staffProof = _editPsyStaff.getStaffProof();
         PdfPTable tb_Hosp = new PdfPTable(2);
-        tb_Hosp.setWidths(new int[]{1, 1});
+        tb_Hosp.setWidths(new int[]{2, 3});
         tb_Hosp.getDefaultCell().setBorder(Rectangle.NO_BORDER);
         cell = new PdfPCell(new Paragraph("IK: " + staffProof.getIk(), NORMALBOLD));
         cell.setBorder(PdfPCell.NO_BORDER);
