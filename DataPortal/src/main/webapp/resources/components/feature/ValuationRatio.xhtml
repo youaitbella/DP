@@ -31,7 +31,8 @@
                         <h:outputText value=""/>
                     </f:facet>
                     <h:commandLink action="#{valuationRatioList.deleteValuationRatio(item.id)}" immediate="true"
-                                   onclick="#{valuationRatioList.getConfirmMessage(item.id)}">
+                                   onclick="#{valuationRatioList.getConfirmMessage(item.id)}"
+                                   rendered="#{item.workflowStatus.value le 20}">
                         <h:graphicImage alt="löschen" name="Icon/small/#{item.workflowStatus.value le 9 ? 'delete.png' : 'cross.png'}"
                                         title="#{item.workflowStatus.value le 9 ? 'Löschen' : 'Zurückziehen'}" value=""/>
                     </h:commandLink>

@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Set;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
-import org.inek.dataportal.entities.account.AccountAdditionalIK;
 import org.inek.dataportal.entities.valuationratio.ValuationRatio;
 import org.inek.dataportal.entities.valuationratio.ValuationRatioDrgCount;
 import org.inek.dataportal.entities.valuationratio.ValuationRatioMedian;
@@ -60,7 +59,7 @@ public class ValuationRatioFacade extends AbstractDataAccess {
 
     public boolean existsValuationRatio(int ik, int year) {
         String sql = "SELECT n FROM ValuationRatio n "
-                + "WHERE n._dataYear = :dtYear and n._ik = :IK";
+                + "WHERE n._dataYear = :dtYear and n._ik = :IK and n._status <= 20";
         TypedQuery<ValuationRatio> query = getEntityManager().createQuery(sql, ValuationRatio.class);
         query.setParameter("dtYear", year);
         query.setParameter("IK", ik);
