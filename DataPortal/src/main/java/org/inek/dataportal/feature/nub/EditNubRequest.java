@@ -13,9 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
-import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -26,7 +24,6 @@ import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.OptimisticLockException;
-import javax.servlet.http.HttpServletRequest;
 import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
@@ -153,15 +150,9 @@ public class EditNubRequest extends AbstractEditController {
 
     @PostConstruct
     private void init() {
-        Object id = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id");
+        String id = "" + FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id");
 
-        if (id == null) {
-            Utils.navigate(Pages.NotAllowed.RedirectURL());
-        } else if (id.toString().equals("new")) {
-            if (!_appTools.isEnabled(ConfigKey.IsNubCreateEnabled)) {
-                Utils.navigate(Pages.NotAllowed.RedirectURL());
-                return;
-            }
+        if ("new".equals(id) && _appTools.isEnabled(ConfigKey.IsNubCreateEnabled)) {
             _nubRequest = newNubRequest();
             _nubRequest.setCreatedBy(_sessionController.getAccountId());
             _nubRequestBaseline = newNubRequest();
@@ -170,23 +161,27 @@ public class EditNubRequest extends AbstractEditController {
             ensureSupervisorRight(_nubRequest);
         } else {
             _nubRequest = loadNubRequest(id);
+            if (_nubRequest == null) {
+                // we need to set the field to a new nub request, because some methods of this bean will be accessed
+                // before navigating to the error page. Without request, this would raise a null access
+                _nubRequest = newNubRequest();
+                Utils.navigate(Pages.NotAllowed.RedirectURL());
+            }
         }
-
     }
 
-    private NubRequest loadNubRequest(Object ppId) {
+    private NubRequest loadNubRequest(String ppId) {
         try {
-            int id = Integer.parseInt("" + ppId);
+            int id = Integer.parseInt(ppId);
             NubRequest nubRequest = _nubRequestFacade.findFresh(id);
-            if (hasSufficientRights(nubRequest)) {
+            if (nubRequest != null && hasSufficientRights(nubRequest)) {
                 _nubRequestBaseline = _nubRequestFacade.find(id);
                 return nubRequest;
             }
         } catch (NumberFormatException ex) {
-            LOGGER.warning(ex.getMessage());
-            Utils.navigate(Pages.NotAllowed.RedirectURL());
+            return null;
         }
-        throw new IllegalAccessError("Try to load NUB with non-existent id");
+        return null;
     }
 
     private boolean hasSufficientRights(NubRequest nubRequest) {
@@ -199,7 +194,7 @@ public class EditNubRequest extends AbstractEditController {
     }
 
     private boolean isOwnNub(NubRequest nubRequest) {
-        return nubRequest != null && _sessionController.isMyAccount(nubRequest.getAccountId(), false);
+        return _sessionController.isMyAccount(nubRequest.getAccountId(), false);
     }
 
     private void ensureCooperativeRight(NubRequest nubRequest) {
@@ -219,10 +214,6 @@ public class EditNubRequest extends AbstractEditController {
         return proposal;
     }
 
-    public String fromTemplate() {
-        return null;
-    }
-
     private NubController getNubController() {
         return (NubController) _sessionController.getFeatureController(Feature.NUB);
     }
@@ -236,12 +227,8 @@ public class EditNubRequest extends AbstractEditController {
     }
 
     public List<SelectItem> getIks() {
-        Account account = _sessionController.getAccount();
-        Set<Integer> iks = _sessionController.getAccount().getAdditionalIKs().stream().map(i -> i.getIK()).collect(Collectors.toSet());
+        Set<Integer> iks = _sessionController.getAccount().getFullIkSet();
         List<SelectItem> items = new ArrayList<>();
-        if (account.getIK() != null) {
-            iks.add(account.getIK());
-        }
         if (_nubRequest.getIk() != null) {
             iks.add(_nubRequest.getIk());
         }
@@ -280,7 +267,7 @@ public class EditNubRequest extends AbstractEditController {
     }
 
     public boolean isExternalStateVisible() {
-        return _nubRequest != null && !_nubRequest.getExternalState().isEmpty();
+        return !_nubRequest.getExternalState().isEmpty();
     }
 
     // <editor-fold defaultstate="collapsed" desc="Codes">
@@ -407,6 +394,8 @@ public class EditNubRequest extends AbstractEditController {
         }
         if (_nubRequest != null) {
             _nubRequestBaseline = _nubRequestFacade.findFresh(_nubRequest.getId());  // update base line
+        } else {
+            _nubRequest = new NubRequest();
         }
         if (!msg.isEmpty()) {
             String script = "alert ('" + msg.replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
@@ -501,27 +490,15 @@ public class EditNubRequest extends AbstractEditController {
     }
 
     public boolean isReadOnly() {
-        return _nubRequest != null
-                && _cooperationTools.isReadOnly(Feature.NUB, _nubRequest.getStatus(), _nubRequest.getAccountId(), _nubRequest.getIk());
+        return _cooperationTools.isReadOnly(Feature.NUB, _nubRequest.getStatus(), _nubRequest.getAccountId(), _nubRequest.getIk());
     }
 
     public boolean isRejectedNub() {
-        // if the user has bookmarked a page, than he might try to open a non-existant request
-        return _nubRequest != null && WorkflowStatus.Rejected.getId() == _nubRequest.getStatus().getId();
+        return WorkflowStatus.Rejected.getId() == _nubRequest.getStatus().getId();
     }
 
     public boolean isSealEnabled() {
-        try {
-            return _nubSessionTools.isSealEnabled(_nubRequest);
-        } catch (Exception ex) {
-            if (_nubSessionTools == null) {
-                LOGGER.log(Level.SEVERE, "No SessionTools injected");
-            }
-            if (_nubRequest == null && _sessionController != null) {
-                LOGGER.log(Level.SEVERE, "NUB edit called without request. User: {0}", _sessionController.getUser());
-            }
-            throw ex;
-        }
+        return _nubSessionTools.isSealEnabled(_nubRequest);
     }
 
     public boolean isUpdateEnabled() {
@@ -533,14 +510,6 @@ public class EditNubRequest extends AbstractEditController {
 
     public boolean isApprovalRequestEnabled() {
         if (!_appTools.isEnabled(ConfigKey.IsNubSendEnabled)) {
-            return false;
-        }
-        if (_nubRequest == null) {
-            LOGGER.log(Level.WARNING, "NUB request is null"); // separate log, independent from FacesContext
-            String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
-            LOGGER.log(Level.WARNING, "NUB request is null, view id: {0}", viewId);
-            String uri = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()).getRequestURI();
-            LOGGER.log(Level.WARNING, "NUB request is null, uri: {0}", uri);
             return false;
         }
         return _cooperationTools.isApprovalRequestEnabled(
@@ -562,14 +531,6 @@ public class EditNubRequest extends AbstractEditController {
     }
 
     public boolean isTakeEnabled() {
-        if (_cooperationTools == null) {
-            LOGGER.log(Level.WARNING, "Unxepected null value: _cooperationTools");
-            return false;
-        }
-        if (_nubRequest == null) {
-            LOGGER.log(Level.WARNING, "Unxepected null value: _nubRequest");
-            return false;
-        }
         return _cooperationTools.isTakeEnabled(Feature.NUB, _nubRequest.getStatus(), _nubRequest.getAccountId(), _nubRequest.getIk());
     }
 
@@ -608,9 +569,10 @@ public class EditNubRequest extends AbstractEditController {
         }
         if (_nubRequest != null) {
             _nubRequestBaseline = _nubRequestFacade.findFresh(_nubRequest.getId());  // update base line
+        } else {
+            _nubRequest = new NubRequest();
         }
-        String script = "alert ('" + msg.replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
-        _sessionController.setScript(script);
+        _sessionController.alertClient(msg);
         return "";
     }
 
@@ -663,8 +625,7 @@ public class EditNubRequest extends AbstractEditController {
         if (_nubRequest != null) {
             _nubRequestBaseline = _nubRequestFacade.findFresh(_nubRequest.getId());  // update base line
         }
-        String script = "alert ('" + msg.replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
-        _sessionController.setScript(script);
+        _sessionController.alertClient(msg);
         return "";
 
     }
@@ -714,10 +675,9 @@ public class EditNubRequest extends AbstractEditController {
     }
     // </editor-fold>
 
-    public String downloadTemplate() {
+    public void downloadTemplate() {
         String content = getNubController().createTemplate(_nubRequest);
         Utils.downloadText(content, _nubRequest.getName() + ".nub", "UTF-8");
-        return null;
     }
 
     @Inject private AccountFacade _accountFacade;
@@ -799,9 +759,6 @@ public class EditNubRequest extends AbstractEditController {
     private List<NubFormerRequestMerged> _formerRequests = new Vector<>();
 
     public List<NubFormerRequestMerged> getAllNubIds() {
-        if (_nubRequest == null) {
-            throw new IllegalArgumentException("Missing NUB request");
-        }
         if (_formerRequests.isEmpty() && _nubRequest.getIk() != null) {
             _formerRequests = _nubRequestFacade.getExistingNubIds(_nubRequest.getIk(), _formerNubIdFilterText.replaceAll(" ", "%"), _maxYearOnly);
         }
