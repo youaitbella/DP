@@ -4,9 +4,8 @@
  */
 package org.inek.dataportal.facades;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 import org.inek.dataportal.entities.account.AccountAdditionalIK;
@@ -83,31 +82,15 @@ public class ValuationRatioFacade extends AbstractDataAccess {
         return query.getResultList();
     }
 
-    public boolean isNewValuationRationEnabled(int accountId, int ik, List<AccountAdditionalIK> aIk, int year) {
+    /**
+     * A new valuation ration entry is allowed, if there is no entry for any of the iks in the given year
+     * @param iks
+     * @param year
+     * @return 
+     */
+    public boolean isNewValuationRationEnabled(Set<Integer> iks, int year) {
+        return iks.stream().anyMatch(ik -> !existsValuationRatio(ik, year));
 
-        if (!existsValuationRatio(ik, year)) {
-            return true;
-        }
-        for (AccountAdditionalIK iks : aIk) {
-            if (!existsValuationRatio(iks.getIK(), year)) {
-                return true;
-            }
-        }
-        return false;
-
-//        List<ValuationRatio> vrs = getValuationRatios(accountId, DataSet.AllOpen);
-//        vrs.addAll(getValuationRatios(accountId, DataSet.AllSealed));
-//        if(vrs.isEmpty())
-//            return true;
-//        
-//        int latestYear = getLatestDataYear();
-//        for(ValuationRatio vr : vrs) {
-//            if(vr.getDataYear() < latestYear)
-//                continue;
-//            if(vr.getDataYear() == latestYear)
-//                return false;
-//        }
-//        return true;
     }
 
     public ValuationRatio saveValuationRatio(ValuationRatio vr) {

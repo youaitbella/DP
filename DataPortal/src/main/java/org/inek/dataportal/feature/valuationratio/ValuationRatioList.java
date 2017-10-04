@@ -7,6 +7,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
+import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.valuationratio.ValuationRatio;
 import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.enums.Pages;
@@ -47,7 +48,7 @@ public class ValuationRatioList {
         msg = msg.replace("\r\n", "\n").replace("\n", "\\r\\n").replace("'", "\\'").replace("\"", "\\'");
         return "return confirm ('" + msg + "');";
     }
-    
+
     public String deleteValuationRatio(int vrId) {
         ValuationRatio valuationratio = _valuationRatioFacade.findFreshValuationRatio(vrId);
         if (valuationratio == null) {
@@ -63,19 +64,16 @@ public class ValuationRatioList {
         }
         return "";
     }
-    
+
     public String printValuationRatio(int valuationRatioId) {
         Utils.getFlash().put("headLine", Utils.getMessage("nameVALUATION_RATIO"));
         Utils.getFlash().put("targetPage", Pages.ValuationRatioSummary.URL());
         Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(_valuationRatioFacade.findValuationRatio(valuationRatioId)));
         return Pages.PrintView.URL();
     }
-    
+
     public boolean isNewEnabled() {
-        return _valuationRatioFacade.isNewValuationRationEnabled(
-                _sessionController.getAccountId(),
-                _sessionController.getAccount().getIK(),
-                _sessionController.getAccount().getAdditionalIKs(),
-                Year.now().getValue() - 1);
+        Account account = _sessionController.getAccount();
+        return _valuationRatioFacade.isNewValuationRationEnabled(account.getFullIkSet(), Year.now().getValue() - 1);
     }
 }
