@@ -17,6 +17,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.validation.ValidationException;
@@ -28,13 +29,10 @@ import org.inek.dataportal.entities.valuationratio.ValuationRatioDrgCount;
 import org.inek.dataportal.entities.valuationratio.ValuationRatioMedian;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
-import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.ValuationRatioFacade;
-import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.feature.admin.entity.MailTemplate;
 import org.inek.dataportal.helper.Utils;
-import org.inek.dataportal.helper.scope.FeatureScoped;
 import org.inek.dataportal.mail.Mailer;
 
 /**
@@ -42,7 +40,7 @@ import org.inek.dataportal.mail.Mailer;
  * @author muellermi
  */
 @Named
-@FeatureScoped(name = "ValuationRatio")
+@ViewScoped
 public class EditValuationRatio extends AbstractEditController {
 
     private static final Logger LOGGER = Logger.getLogger("EditValuationRatio");
@@ -57,10 +55,6 @@ public class EditValuationRatio extends AbstractEditController {
     private ValuationRatioFacade _valuationRatioFacade;
     @Inject
     private SessionController _sessionController;
-    @Inject
-    private AccountFacade _accFacade;
-    @Inject
-    private CustomerFacade _customerFacade;
 
     @PostConstruct
     private void init() {
@@ -73,7 +67,6 @@ public class EditValuationRatio extends AbstractEditController {
         } else {
             int idInt = Integer.parseInt(id.toString());
             _valuationRatio = _valuationRatioFacade.findFreshValuationRatio(idInt);
-            Account acc = _accFacade.find(_valuationRatio.getAccountId());
         }
     }
 
@@ -148,9 +141,10 @@ public class EditValuationRatio extends AbstractEditController {
         return _valuationRatio;
     }
 
-    public ValuationRatioMedian obtainMedian(String drg){
+    public ValuationRatioMedian obtainMedian(String drg) {
         return _valuationRatioFacade.findMedianByDrgAndDataYear(drg, _valuationRatio.getDataYear());
     }
+
     public boolean isDrgBelowMedian(String drg, Object value) {
         if (value == null) {
             return false;
@@ -196,23 +190,12 @@ public class EditValuationRatio extends AbstractEditController {
 
     public List<SelectItem> getIks() {
         int dataYear = _valuationRatio == null ? Calendar.getInstance().get(Calendar.YEAR) - 1 : _valuationRatio.getDataYear();
-        Set<Integer> iks = new HashSet<>();
-        if (!_valuationRatioFacade.existsValuationRatio(
-                _sessionController.getAccount().getIK(), dataYear)) {
-            iks.add(_sessionController.getAccount().getIK());
-        }
 
-        for (AccountAdditionalIK ik : _sessionController
-                .getAccount().getAdditionalIKs()) {
-            if (!_valuationRatioFacade
-                    .existsValuationRatio(ik.getIK(), dataYear)) {
-                iks.add(ik.getIK());
-            }
-
-        }
         List<SelectItem> items = new ArrayList<>();
-        for (int ik : iks) {
-            items.add(new SelectItem(ik));
+        for (int ik : _sessionController.getAccount().getFullIkSet()) {
+            if (!_valuationRatioFacade.existsValuationRatio(ik, dataYear)) {
+                items.add(new SelectItem(ik));
+            }
         }
         return items;
     }
@@ -264,8 +247,8 @@ public class EditValuationRatio extends AbstractEditController {
     }
 
     public String getFormalSalutation() {
-        String salutation = _valuationRatio.getContactGender() == 1 
-                ? Utils.getMessage("formalSalutationFemale") 
+        String salutation = _valuationRatio.getContactGender() == 1
+                ? Utils.getMessage("formalSalutationFemale")
                 : Utils.getMessage("formalSalutationMale");
         salutation = salutation
                 .replace("{title}", _valuationRatio.getContactTitle())

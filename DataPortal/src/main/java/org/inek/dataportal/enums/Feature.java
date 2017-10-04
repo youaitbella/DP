@@ -23,7 +23,7 @@ public enum Feature {
     SPECIFIC_FUNCTION(15, "Besondere Aufgaben", true, PortalType.DRG), 
     ADDITIONAL_COST(16, "Finanzierung von Mehrkosten", true, PortalType.DRG),
     PSYCH_STAFF(17, "Psych-Personalnachweis-Vereinbarung", true, PortalType.PSY),
-    VALUATION_RATIO(18, "Bewertungsrelation", false, PortalType.DRG),
+    VALUATION_RATIO(18, "Bewertungsrelation", true, PortalType.DRG),
     IK_ADMIN(19, "IK-Administration", false, PortalType.COMMON);
 
     Feature(int id, String description, boolean needsApproval, PortalType portalType) {

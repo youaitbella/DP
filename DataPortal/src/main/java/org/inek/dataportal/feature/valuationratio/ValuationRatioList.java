@@ -14,7 +14,6 @@ import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.ValuationRatioFacade;
 import org.inek.dataportal.helper.Utils;
-import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
 import org.inek.dataportal.utils.DocumentationUtil;
 
 @Named
@@ -35,9 +34,6 @@ public class ValuationRatioList {
     }
 
     public String editValuationRatio() {
-        // if the user hit the browser's back-button, a request might be still active. 
-        // To prevent invoking the wrong, we destroy all Feature scoped beans first
-        FeatureScopedContextHolder.Instance.destroyBeansOfScope("ValuationRatio");
         return Pages.ValuationRatioEdit.URL();
     }
 
