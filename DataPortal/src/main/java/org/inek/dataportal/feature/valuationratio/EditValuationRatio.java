@@ -6,7 +6,6 @@ package org.inek.dataportal.feature.valuationratio;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -37,7 +36,6 @@ import org.inek.dataportal.feature.admin.entity.MailTemplate;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
 import org.inek.dataportal.mail.Mailer;
-import org.inek.dataportal.utils.DateUtils;
 
 /**
  *
@@ -248,10 +246,12 @@ public class EditValuationRatio extends AbstractEditController {
             String body = template.getBody()
                     .replace("{formalSalutation}", getFormalSalutation())
                     .replace("{year}", "" + _valuationRatio.getDataYear())
+                    .replace("{ik}", "" + _valuationRatio.getIk())
                     .replace("{drgs}", buildDrgString());
             template.setBody(body);
             String subject = template.getSubject()
                     .replace("{year}", "" + _valuationRatio.getDataYear())
+                    .replace("{ik}", "" + _valuationRatio.getIk())
                     .replace("{drgs}", buildDrgString());
             template.setSubject(subject);
             _sessionController.getMailer().sendMailTemplate(template, _sessionController.getAccount().getEmail());
