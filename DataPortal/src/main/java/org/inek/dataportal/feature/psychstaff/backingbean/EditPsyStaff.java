@@ -158,7 +158,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
                 .filter(f -> f.getId() == 0)
                 .findFirst()
                 .get();
-        staffProof.setExclusionFact(noneFact);
+        staffProof.setExclusionFact1(noneFact);
         return staffProof;
     }
 
@@ -167,10 +167,10 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
             return;
         }
         boolean hasIk = _staffProof.getIk() > 0;
-        findTopic(TOPIC_ADULTS1).setVisible(hasIk && _staffProof.isForAdults() && !_staffProof.getExclusionFact().isExcludeApx1());
-        findTopic(TOPIC_ADULTS2).setVisible(hasIk && _staffProof.isForAdults() && !_staffProof.getExclusionFact().isExcludeApx2());
-        findTopic(TOPIC_KIDS1).setVisible(hasIk && _staffProof.isForKids() && !_staffProof.getExclusionFact().isExcludeApx1());
-        findTopic(TOPIC_KIDS2).setVisible(hasIk && _staffProof.isForKids() && !_staffProof.getExclusionFact().isExcludeApx2());
+        findTopic(TOPIC_ADULTS1).setVisible(hasIk && _staffProof.isForAdults());
+        findTopic(TOPIC_ADULTS2).setVisible(hasIk && _staffProof.isForAdults());
+        findTopic(TOPIC_KIDS1).setVisible(hasIk && _staffProof.isForKids());
+        findTopic(TOPIC_KIDS2).setVisible(hasIk && _staffProof.isForKids());
     }
 
     public void ikChanged() {
@@ -190,10 +190,10 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         ExclusionFact ef = _appTools
                 .getExclusionFacts()
                 .stream()
-                .filter(f -> f.getId() == _staffProof.getExclusionFactId())
+                .filter(f -> f.getId() == _staffProof.getExclusionFactId1())
                 .findFirst()
                 .get();
-        _staffProof.setExclusionFact(ef);
+        _staffProof.setExclusionFact1(ef);
         setTopicVisibility();
     }
 
@@ -365,10 +365,10 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
                 return "";
             case TOPIC_ADULTS1:
             case TOPIC_KIDS1:
-                return "Eingabe Anhang 1 " + type + " abschließen";
+                return "Eingabe Anlage 1 " + type + " abschließen";
             case TOPIC_ADULTS2:
             case TOPIC_KIDS2:
-                return "Eingabe Anhang 2 " + type + " abschließen";
+                return "Eingabe Anlage 2 " + type + " abschließen";
             default:
                 return "";
         }
@@ -762,6 +762,22 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
                 .getExclusionFacts()
                 .stream()
                 .filter(f -> f.getYearFrom() <= _staffProof.getYear() && f.getYearTo() >= _staffProof.getYear())
+                .collect(Collectors.toList());
+    }
+
+    public List<ExclusionFact> getExclusionFacts1() {
+        return _appTools
+                .getExclusionFacts()
+                .stream()
+                .filter(f -> f.getYearFrom() <= _staffProof.getYear() && f.getYearTo() >= _staffProof.getYear() && f.isAffectsApx1())
+                .collect(Collectors.toList());
+    }
+
+    public List<ExclusionFact> getExclusionFacts2() {
+        return _appTools
+                .getExclusionFacts()
+                .stream()
+                .filter(f -> f.getYearFrom() <= _staffProof.getYear() && f.getYearTo() >= _staffProof.getYear() && f.isAffectsApx2())
                 .collect(Collectors.toList());
     }
 

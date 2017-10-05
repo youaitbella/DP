@@ -193,43 +193,83 @@ public class StaffProof implements Serializable, StatusEntity {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property ExclusionFactId">
-    @Column(name = "spmExclusionFactId")
-    private int _exclusionFactId = 0;
+    // <editor-fold defaultstate="collapsed" desc="Property ExclusionFactId1">
+    @Column(name = "spmExclusionFactId1")
+    private int _exclusionFactId1 = 0;
 
-    public int getExclusionFactId() {
-        return _exclusionFactId;
+    public int getExclusionFactId1() {
+        return _exclusionFactId1;
     }
 
-    public void setExclusionFactId(int exclusionFactId) {
-        _exclusionFactId = exclusionFactId;
+    public void setExclusionFactId1(int exclusionFactId1) {
+        _exclusionFactId1 = exclusionFactId1;
     }
 
     @OneToOne()
-    @PrimaryKeyJoinColumn(name = "spmExclusionFactId")
-    private ExclusionFact _exclusionFact;
+    @PrimaryKeyJoinColumn(name = "spmExclusionFactId1")
+    private ExclusionFact _exclusionFact1;
     
-    public ExclusionFact getExclusionFact() {
-        return _exclusionFact;
+    public ExclusionFact getExclusionFact1() {
+        return _exclusionFact1;
     }
     
-    public void setExclusionFact(ExclusionFact exclusionFact) {
-        _exclusionFact = exclusionFact;
-        _exclusionFactId = exclusionFact.getId();
+    public void setExclusionFact1(ExclusionFact exclusionFact1) {
+        _exclusionFact1 = exclusionFact1;
+        _exclusionFactId1 = exclusionFact1.getId();
     }
     // </editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property ExclusionReason">
-    @Column(name = "spmExclusionReason")
-    private String _exclusionReason = "";
+    //<editor-fold defaultstate="collapsed" desc="Property ExclusionReason1">
+    @Column(name = "spmExclusionReason1")
+    private String _exclusionReason1 = "";
     
     @Size(max = 250)
-    public String getExclusionReason() {
-        return _exclusionReason;
+    public String getExclusionReason1() {
+        return _exclusionReason1;
     }
     
-    public void setExclusionReason(String exclusionReason) {
-        _exclusionReason = exclusionReason;
+    public void setExclusionReason1(String exclusionReason1) {
+        _exclusionReason1 = exclusionReason1;
+    }
+    //</editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Property ExclusionFactId2">
+    @Column(name = "spmExclusionFactId2")
+    private int _exclusionFactId2 = 0;
+
+    public int getExclusionFactId2() {
+        return _exclusionFactId2;
+    }
+
+    public void setExclusionFactId2(int exclusionFactId2) {
+        _exclusionFactId2 = exclusionFactId2;
+    }
+
+    @OneToOne()
+    @PrimaryKeyJoinColumn(name = "spmExclusionFactId2")
+    private ExclusionFact _exclusionFact2;
+    
+    public ExclusionFact getExclusionFact2() {
+        return _exclusionFact2;
+    }
+    
+    public void setExclusionFact2(ExclusionFact exclusionFact2) {
+        _exclusionFact2 = exclusionFact2;
+        _exclusionFactId2 = exclusionFact2.getId();
+    }
+    // </editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property ExclusionReason2">
+    @Column(name = "spmExclusionReason2")
+    private String _exclusionReason2 = "";
+    
+    @Size(max = 250)
+    public String getExclusionReason2() {
+        return _exclusionReason2;
+    }
+    
+    public void setExclusionReason2(String exclusionReason2) {
+        _exclusionReason2 = exclusionReason2;
     }
     //</editor-fold>
     

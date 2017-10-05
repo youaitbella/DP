@@ -77,33 +77,6 @@
             </h:selectOneRadio>
         </div>
 
-        <div class="inputPart">
-            <h:outputLabel value="Ausnahmetatbestand" 
-                           styleClass="label element15em"
-                           title="Sofern Sie von der Nachweispflicht befreit sind, geben Sie bitte den Grund dafür an."/>
-
-            <h:selectOneMenu id="exclusion"
-                             styleClass="inlineBlock element100-25em"
-                             value="#{editPsyStaff.staffProof.exclusionFactId}"
-                             disabled="#{editPsyStaff.readOnly or editPsyStaff.staffProof.anyClosed}"
-                             title="Sofern Sie von der Nachweispflicht befreit sind, geben Sie bitte den Grund dafür an.">
-                <f:selectItems  value="#{editPsyStaff.exclusionFacts}" var="f" itemValue="#{f.id}" itemLabel="#{f.name}" />
-                <f:ajax event="change" listener="#{editPsyStaff.reasonChanged()}" render="@form"/>
-                <!--f:converter converterId="ExclusionFactConverter"/-->
-            </h:selectOneMenu>
-        </div>
-        
-        <div class="inputPart" jsf:id="exclusionReason">
-            <inek:LabeledText rendered="#{editPsyStaff.staffProof.exclusionFact.needReason}"
-                              required="true"
-                              label="Begründung"
-                              value="#{editPsyStaff.staffProof.exclusionReason}"
-                              title="Bitte begründen Sie, warum eine firstgerechte Lieferung nicht erfolgt(e)."
-                              styleClassLabel="label element15em"
-                              styleClass="element100-25em"
-                              singleLine="true"/>
-        </div>
-            
 
     </div>
 </ui:composition>

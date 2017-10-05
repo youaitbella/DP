@@ -82,29 +82,29 @@ public class ExclusionFact implements Serializable {
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="Property ExcludeApx1">
-    @Column(name = "efExcludeApx1")
-    private boolean _excludeApx1;
+    //<editor-fold defaultstate="collapsed" desc="Property AffectsApx1">
+    @Column(name = "efAffectsApx1")
+    private boolean _affectsApx1;
     
-    public boolean isExcludeApx1() {
-        return _excludeApx1;
+    public boolean isAffectsApx1() {
+        return _affectsApx1;
     }
     
-    public void setExcludeApx1(boolean excludeApx1) {
-        _excludeApx1 = excludeApx1;
+    public void setAffectsApx1(boolean affectsApx1) {
+        _affectsApx1 = affectsApx1;
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property ExcludeApx2">
-    @Column(name = "efExcludeApx2")
-    private boolean _excludeApx2;
+    //<editor-fold defaultstate="collapsed" desc="Property AffectsApx2">
+    @Column(name = "efAffectsApx2")
+    private boolean _affectsApx2;
     
-    public boolean isExcludeApx2() {
-        return _excludeApx2;
+    public boolean isAffectsApx2() {
+        return _affectsApx2;
     }
     
-    public void setExcludeApx2(boolean excludeApx2) {
-        _excludeApx2 = excludeApx2;
+    public void setAffectsApx2(boolean affectsApx2) {
+        _affectsApx2 = affectsApx2;
     }
     //</editor-fold>
     
