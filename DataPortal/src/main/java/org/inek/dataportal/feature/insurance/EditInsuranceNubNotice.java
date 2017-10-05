@@ -4,14 +4,12 @@
  */
 package org.inek.dataportal.feature.insurance;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Scanner;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
@@ -19,13 +17,11 @@ import javax.ejb.EJBException;
 import javax.enterprise.inject.Instance;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
@@ -40,7 +36,6 @@ import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.InsuranceFacade;
 import org.inek.dataportal.facades.common.ProcedureFacade;
 import org.inek.dataportal.feature.AbstractEditController;
-import org.inek.dataportal.helper.StreamHelper;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
 
@@ -73,16 +68,29 @@ public class EditInsuranceNubNotice extends AbstractEditController {
 
     @PostConstruct
     private void init() {
-        Object id = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id");
+        String id = "" + FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id");
 
-        if (id == null) {
-            Utils.navigate(Pages.NotAllowed.RedirectURL());
-        } else if (id.toString().equals("new")) {
+        if ("new".equals(id)) {
             _notice = newNotice();
         } else {
-            int idInt = Integer.parseInt(id.toString());
-            _notice = _insuranceFacade.findFreshNubNotice(idInt);
+            _notice = loadNubNotice(id);
+            if (_notice.getId() <= 0) {
+                Utils.navigate(Pages.NotAllowed.RedirectURL());
+            }
         }
+    }
+
+    private InsuranceNubNotice loadNubNotice(String id) {
+        try {
+            int idInt = Integer.parseInt(id);
+            InsuranceNubNotice notice = _insuranceFacade.findFreshNubNotice(idInt);
+            if (notice != null) {
+                return notice;
+            }
+        } catch (NumberFormatException ex) {
+            // ignore
+        }
+        return new InsuranceNubNotice();
     }
 
     private InsuranceNubNotice newNotice() {
@@ -123,8 +131,8 @@ public class EditInsuranceNubNotice extends AbstractEditController {
         return _nubInfos
                 .stream()
                 .sorted((n, m) -> Integer.compare(n.getSequence(), m.getSequence()))
-                .map(i -> new SelectItem(i.getRequestId(), 
-                        i.getSequence() + " - " + i.getMethodName() + " [N" + i.getRequestId() + "]", i.getRequestName()))
+                .map(i -> new SelectItem(i.getRequestId(),
+                i.getSequence() + " - " + i.getMethodName() + " [N" + i.getRequestId() + "]", i.getRequestName()))
                 .collect(Collectors.toList());
     }
 
@@ -199,16 +207,16 @@ public class EditInsuranceNubNotice extends AbstractEditController {
         try {
             tmp = Double.parseDouble(value + "");
         } catch (NumberFormatException ex) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Bitte einen gültigen Geldbetrag eingeben.", 
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Bitte einen gültigen Geldbetrag eingeben.",
                     "Bitte einen gültigen Geldbetrag eingeben.");
             throw new ValidatorException(msg);
         }
         if (tmp == 0) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Der Betrag darf nicht 0 sein.", 
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Der Betrag darf nicht 0 sein.",
                     "Der Betrag darf nicht 0 sein.");
             throw new ValidatorException(msg);
         } else if (tmp < 0) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Der Betrag darf nicht kleiner als 0 sein.", 
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Der Betrag darf nicht kleiner als 0 sein.",
                     "Der Betrag darf nicht kleiner als 0 sein.");
             throw new ValidatorException(msg);
         }
@@ -345,7 +353,7 @@ public class EditInsuranceNubNotice extends AbstractEditController {
         _showJournal = !_showJournal;
         return "";
     }
-    
+
     private boolean _showJournal = false;
 
     public boolean isShowJournal() {
