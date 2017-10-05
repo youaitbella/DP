@@ -72,10 +72,10 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
     private final String anlage1 = "Anlage 1 zur Psych-Personalnachweisvereinbarung";
     private final String anlage2 = "Anlage 2 zur Psych-Personalnachweisvereinbarung";
     private final String infoText2 = "2. Bei Kinder- und Jugendpsychiatrie einschließlich Erziehungsdienst";
-    private final String infoText3 = "Diese Datei ist durch die Vertragspartner nach $11 BPflV zu unterschreiben "
+    private final String infoText3 = "Diese Datei ist durch die Vertragspartner nach §11 BPflV zu unterschreiben "
             + "und als elektronische Kopie an das InEK zu senden";
     private final String infoText3A2 = "Dieser Ausdruck ist durch das Krankenhaus und den Jahresabschlussprüfer "
-            + "nach $7 der Psych-Personalnachweis-Vereinbarung zu unterschreiben und als elektronische Kopie an das InEK zu senden";
+            + "nach §7 der Psych-Personalnachweis-Vereinbarung zu unterschreiben und als elektronische Kopie an das InEK zu senden";
     private final List<String> header1A1 = Arrays.asList("\nPersonalgruppen", "\nLfd. Nr.",
             "\nBerufsgruppen der Psych-PV",
             "Stellenbesetzung für \neine vollständige Umsetzung der Psych-\nPV in VK",
@@ -97,6 +97,10 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
             "Tatsächlich Berufsgruppe der angerechneten Fachkraft ",
             "Angerechnete Stellenbesetzung in VK ",
             "\nErläuterung");
+    
+    private final String footer2 = "Die verwendeten Verfahren zur Ermittlung der tatsächlichen Stellenbesetzung und der "
+            + "tatsächliche Kosten für das Psych-PV-Personal in Summe stellen eine sachgerechte Abgrenzung des für den "
+            + "Nachweis zu berücksichtigenden Personals vom Gesamtpersonal des Krankenhauses nach den §§ 4 und 5 sicher."; 
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="PdfBuilder">
