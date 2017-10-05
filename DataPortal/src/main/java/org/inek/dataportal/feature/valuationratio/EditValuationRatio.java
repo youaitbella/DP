@@ -91,12 +91,13 @@ public class EditValuationRatio extends AbstractEditController {
         int ik = _valuationRatio.getIk();
         int year = _valuationRatio.getDataYear();
         ValuationRatioDrgCount count = _valuationRatioFacade.findValuationRatioDrgCount(ik, year, "I68D");
-        if (count == null) {
-            return;
+        if (count != null) {
+            _valuationRatio.setI68d(count.getCount());
         }
-        _valuationRatio.setI68d(count.getCount());
         count = _valuationRatioFacade.findValuationRatioDrgCount(ik, year, "I68E");
-        _valuationRatio.setI68e(count.getCount());
+        if (count != null) {
+            _valuationRatio.setI68e(count.getCount());
+        }
     }
 
     public void validateI68D(FacesContext context, UIComponent component, Object value) {

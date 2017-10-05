@@ -83,7 +83,7 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
         if ("new".equals(id)) {
             _request = newSpecificFunctionRequest();
             addCentersIfMissing();
-        } else if (Utils.isInteger(id)) {
+        } else {
             SpecificFunctionRequest request = loadSpecificFunctionRequest(id);
             if (request.getId() == -1) {
                 Utils.navigate(Pages.NotAllowed.RedirectURL());
@@ -91,16 +91,18 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
             }
             _request = request;
             addCentersIfMissing();
-        } else {
-            Utils.navigate(Pages.Error.RedirectURL());
         }
     }
 
     private SpecificFunctionRequest loadSpecificFunctionRequest(String idObject) {
-        int id = Integer.parseInt(idObject);
-        SpecificFunctionRequest calcBasics = _specificFunctionFacade.findSpecificFunctionRequest(id);
-        if (hasSufficientRights(calcBasics)) {
-            return calcBasics;
+        try {
+            int id = Integer.parseInt(idObject);
+            SpecificFunctionRequest request = _specificFunctionFacade.findSpecificFunctionRequest(id);
+            if (request != null && hasSufficientRights(request)) {
+                return request;
+            }
+        } catch (NumberFormatException ex) {
+            return newSpecificFunctionRequest();
         }
         return new SpecificFunctionRequest();
     }
@@ -146,9 +148,6 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
     }
 
     public boolean isReadOnly() {
-        if (_request == null) {
-            return true;
-        }
         if (_sessionController.isInekUser(Feature.CALCULATION_HOSPITAL) && !_appTools.isEnabled(ConfigKey.TestMode)) {
             return true;
         }
@@ -220,9 +219,6 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
         if (!_appTools.isEnabled(ConfigKey.IsSpecificFunctionRequestSendEnabled)) {
             return false;
         }
-        if (_request == null) {
-            return false;
-        }
         return _cooperationTools.isSealedEnabled(Feature.SPECIFIC_FUNCTION, _request.getStatus(), _request.getAccountId());
     }
 
@@ -230,17 +226,11 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
         if (!_appTools.isEnabled(ConfigKey.IsSpecificFunctionRequestSendEnabled)) {
             return false;
         }
-        if (_request == null) {
-            return false;
-        }
         return _cooperationTools.isApprovalRequestEnabled(Feature.SPECIFIC_FUNCTION, _request.getStatus(), _request.getAccountId());
     }
 
     public boolean isRequestCorrectionEnabled() {
         if (!_appTools.isEnabled(ConfigKey.IsSpecificFunctionRequestSendEnabled)) {
-            return false;
-        }
-        if (_request == null) {
             return false;
         }
         return (_request.getStatus() == WorkflowStatus.Provided || _request.getStatus() == WorkflowStatus.ReProvided)
@@ -275,9 +265,7 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
     }
 
     public boolean isTakeEnabled() {
-        return _cooperationTools != null
-                && _request != null
-                && _cooperationTools.isTakeEnabled(Feature.SPECIFIC_FUNCTION, _request.getStatus(), _request.getAccountId());
+        return _cooperationTools.isTakeEnabled(Feature.SPECIFIC_FUNCTION, _request.getStatus(), _request.getAccountId());
     }
 
     /**
@@ -436,16 +424,10 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
     }
 
     public List<SelectItem> getIks() {
-        Set<Integer> iks = new HashSet<>();
+        Account account = _sessionController.getAccount();
+        Set<Integer> iks = account.getFullIkSet();
         if (_request != null && _request.getIk() > 0) {
             iks.add(_request.getIk());
-        }
-        Account account = _sessionController.getAccount();
-        if (account.getIK() != null && account.getIK() > 0) {
-            iks.add(account.getIK());
-        }
-        for (AccountAdditionalIK additionalIK : account.getAdditionalIKs()) {
-            iks.add(additionalIK.getIK());
         }
         List<SelectItem> items = new ArrayList<>();
         for (int ik : iks) {
