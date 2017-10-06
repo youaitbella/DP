@@ -6,6 +6,8 @@
     <header>
       <para styleclass="Heading1"><text styleclass="Heading1" translate="true">PSY Portal</text></para>
     </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Das </text><var styleclass="Normal">&lt;%TITLE_PSY%&gt;</var><text styleclass="Normal" translate="true"> stellt Ihnen Funktionen für den strukturierten Dialog sowie Datentransfer für den Bereich PSY bereit. Dies umfasst sowohl die speziellen Funktionen, als auch solche, welche Sie übergreifend nutzen können. Einen allgemeinen Funktionsüberblick finden Sie gleich zu Beginn dieses Handbuchs im Kapitel </text><link displaytype="text" defaultstyle="true" type="topiclink" href="OverviewFeatures" styleclass="Normal" translate="true">Funktionsüberblick</link><text styleclass="Normal" translate="true">.</text></para>
     <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Zur optischen Abgrenzung vom </text><var styleclass="Normal">&lt;%TITLE_DRG%&gt;</var><text styleclass="Normal" translate="true"> ist das </text><var styleclass="Normal">&lt;%TITLE_PSY%&gt;</var><text styleclass="Normal" translate="true"> mit einem pastel-grünen Hintergrund versehen. Soweit erforderlich, ist ein direkter Wechsel zum </text><var styleclass="Normal">&lt;%TITLE_DRG%&gt;</var><text styleclass="Normal" translate="true"> möglich.</text></para>
   </body>
 </topic>

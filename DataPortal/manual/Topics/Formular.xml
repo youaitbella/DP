@@ -10,13 +10,20 @@
     <para styleclass="Normal"></para>
     <para styleclass="Normal" style="text-align:center;"><image src="bewertungsrelation_formular.PNG" scale="100.00%" styleclass="Image Caption"></image></para>
     <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Eingabeformular Bewertungsrelation</text></para>
-    <para styleclass="Image Caption"></para>
-    <para styleclass="Image Caption"></para>
-    <para styleclass="Normal" style="text-align:center;"><image src="bewertungsrelation_ueber_median.PNG" scale="100.00%" styleclass="Image Caption"></image></para>
-    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Fehlermeldung, wenn die eingegebene Fallzahl über dem Median liegt.</text></para>
-    <para styleclass="Image Caption"></para>
-    <para styleclass="Image Caption"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Fallzahl wird anhand Ihrer Datenlieferung ermittelt und automatisch eingetragen. Sie haben die Möglichkeit, diese Angaben in geringem Rahmen (+/- 5) zu korrigieren. Sollten Sie &#160;Fallzahlen haben, die stark von denen Ihrer Datenlieferung abweichen, ist eine Klärung erforderlich.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sofern Ihre Fallzahl kleiner oder gleich dem jeweiligen Median ist, können Sie über die betreffenden Ankreuzfelder die DRG(s) in die Liste aufnehmen. </text></para>
+    <para styleclass="Normal"></para>
     <para styleclass="Image Caption"><image src="bewertungsrelation_unter_median.PNG" scale="100.00%" styleclass="Image Caption"></image></para>
     <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Fallzahl ist unter dem Median und die DRG kann zur gezielten Absenkung der Bewertungsrelation hinzugefügt werden.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Liegt Ihre Fallzahl jedoch über dem Median, so ist dies nicht möglich. Stattdessen wird die Meldung &quot;Fallzahl &gt; Median&quot; ausgegeben.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal" style="text-align:center;"><image src="bewertungsrelation_ueber_median.PNG" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Fehlermeldung, wenn die eingegebene Fallzahl über dem Median liegt.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Prüfung, ob Sie die DRG auf die Liste setzen können, erfolgt für beide DRGs unabhängig voneinander.</text></para>
+    <para styleclass="Normal"></para>
   </body>
 </topic>
