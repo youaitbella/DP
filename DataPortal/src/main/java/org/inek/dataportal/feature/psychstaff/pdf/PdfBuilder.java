@@ -126,6 +126,14 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
                 PdfPTable structure = new PdfPTable(1);
                 structure.getDefaultCell().setBorder(Rectangle.NO_BORDER);
                 structure.getDefaultCell().setHorizontalAlignment(Element.ALIGN_RIGHT);
+//                PdfPCell cell = new PdfPCell(new Paragraph(infoText1,FONT_NOTE));
+//                cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+//                cell.setBorder(Rectangle.NO_BORDER);
+//                structure.addCell(cell);
+//                cell = new PdfPCell(new Paragraph(infoText2,FONT_NOTE));
+//                cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+//                cell.setBorder(Rectangle.NO_BORDER);
+//                structure.addCell(cell);
                 structure.addCell(new Paragraph(text));
                 structure.setTotalWidth(page.getWidth() - document.leftMargin() - document.rightMargin());
                 structure.writeSelectedRows(0, -1, document.leftMargin(), document.bottomMargin(), writer.getDirectContent());
@@ -199,6 +207,8 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
         if (_editPsyStaff.getStaffProof().isForKids()) {
             createPageForKidsAn2(document, writer);
         }
+        addInfoText(document, footer2, 10);
+        
         addNote(document, infoText1, 0, 0);
         addNote(document, infoText2, 0, 0);
         
