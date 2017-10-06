@@ -404,19 +404,6 @@ public class SessionController implements Serializable {
     private boolean featureIsValid(AccountFeature accFeature) {
         Feature feature = accFeature.getFeature();
         
-        // special check before official start of this feature
-        if (feature == Feature.PSYCH_STAFF) {
-            List<String> allowedUsers = Arrays.asList(
-                    "olaf.neubert@gkv-spitzenverband.de",
-                    "u.roths@dkgev.de",
-                    "michael.mueller@inek-drg.de",
-                    "max.mustermann@mueller-bruehl.de");
-            if (allowedUsers.contains(_account.getEmail().toLowerCase())) {
-                return true;
-            }
-        }
-        // end special check - remove once public available
-        
         return _appTools.isFeatureEnabled(feature)
                 && (accFeature.getFeatureState() == FeatureState.SIMPLE
                 || accFeature.getFeatureState() == FeatureState.APPROVED);
