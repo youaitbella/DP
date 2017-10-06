@@ -66,6 +66,15 @@
                     </h:commandLink>
                 </h:column>
                 
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{msg.lblHospital}"/>
+                    </f:facet>
+                    <h:commandLink action="#{valuationRatioList.editValuationRatio}" value="#{applicationTools.retrieveHospitalInfo(item.ik)}" immediate="true">
+                        <f:param name="id" value="#{item.id}"/>
+                    </h:commandLink>
+                </h:column>
+                
             </h:dataTable>
         </div>
     </cc:implementation>

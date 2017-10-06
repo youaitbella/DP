@@ -159,6 +159,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
                 .findFirst()
                 .get();
         staffProof.setExclusionFact1(noneFact);
+        staffProof.setExclusionFact2(noneFact);
         return staffProof;
     }
 
@@ -184,7 +185,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         }
     }
 
-    public void reasonChanged() {
+    public void exclusionFactChanged1() {
         // since a exclusionFactConverter would create a new object (can be solved with JSF 2.3), 
         // we only use the id and retrieve the appropriate ExclusionFact
         ExclusionFact ef = _appTools
@@ -194,7 +195,18 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
                 .findFirst()
                 .get();
         _staffProof.setExclusionFact1(ef);
-        setTopicVisibility();
+    }
+
+    public void exclusionFactChanged2() {
+        // since a exclusionFactConverter would create a new object (can be solved with JSF 2.3), 
+        // we only use the id and retrieve the appropriate ExclusionFact
+        ExclusionFact ef = _appTools
+                .getExclusionFacts()
+                .stream()
+                .filter(f -> f.getId() == _staffProof.getExclusionFactId2())
+                .findFirst()
+                .get();
+        _staffProof.setExclusionFact2(ef);
     }
 
     public void domainChanged() {
@@ -320,10 +332,12 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
                 return false;
             case TOPIC_ADULTS1:
             case TOPIC_KIDS1:
-                return _staffProof.getStatusApx1() < WorkflowStatus.Provided.getId();
+                return _staffProof.getStatusApx1() < WorkflowStatus.Provided.getId() 
+                        && _staffProof.getExclusionFact1().isCanSeal();
             case TOPIC_ADULTS2:
             case TOPIC_KIDS2:
-                return _staffProof.getStatusApx2() < WorkflowStatus.Provided.getId();
+                return _staffProof.getStatusApx2() < WorkflowStatus.Provided.getId() 
+                        && _staffProof.getExclusionFact2().isCanSeal();
             default:
                 return false;
         }
@@ -633,7 +647,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
             case TOPIC_ADULTS1:
             case TOPIC_KIDS1:
                 appendix = 1;
-                signature = _staffProof.getSignatureEffective();
+                signature = _staffProof.getSignatureAgreement();
                 break;
             case TOPIC_ADULTS2:
             case TOPIC_KIDS2:
@@ -655,6 +669,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
                 document.setAppendix(appendix);
                 document.setSignature(signature);
                 _staffProof.addStaffProofDocument(document);
+                save(false);
             }
             _file = null;
         } catch (IOException | NoSuchElementException e) {

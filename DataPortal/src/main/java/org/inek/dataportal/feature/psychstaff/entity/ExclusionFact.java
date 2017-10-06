@@ -121,6 +121,20 @@ public class ExclusionFact implements Serializable {
     }
     //</editor-fold>
             
+    //<editor-fold defaultstate="collapsed" desc="Property CanSeal">
+    @Column(name = "efCanSeal")
+    private boolean _canSeal;
+    
+    public boolean isCanSeal() {
+        return _canSeal;
+    }
+    
+    public void setCanSeal(boolean canSeal) {
+        _canSeal = canSeal;
+    }
+    //</editor-fold>
+           
+    
     //<editor-fold defaultstate="collapsed" desc="hashCode, equals, toString">
     @Override
     public int hashCode() {

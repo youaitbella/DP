@@ -33,7 +33,7 @@
                              disabled="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
                              title="Sofern Sie von der Nachweispflicht befreit sind, geben Sie bitte den Grund dafür an.">
                 <f:selectItems  value="#{editPsyStaff.exclusionFacts1}" var="f" itemValue="#{f.id}" itemLabel="#{f.name}" />
-                <f:ajax event="change" listener="#{editPsyStaff.reasonChanged()}" render="@form"/>
+                <f:ajax event="change" listener="#{editPsyStaff.exclusionFactChanged1()}" render="@form"/>
                 <!--f:converter converterId="ExclusionFactConverter"/-->
             </h:selectOneMenu>
         </div>
@@ -49,10 +49,10 @@
                               styleClass="element100-25em"
                               singleLine="true"/>
         </div>
-
+        <br/>
 
         <div jsf:rendered="#{editPsyStaff.staffProof.exclusionFact1.id le 0}">
-            <div class="container marginTop01">
+            <div class="container marginTop">
                 <table jsf:id="data" class="marginTop">
                     <thead>
                         <tr>

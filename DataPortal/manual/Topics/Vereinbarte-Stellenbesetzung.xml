@@ -11,7 +11,9 @@
     <para styleclass="Image Caption"><image src="PsychStaff11.png" scale="100.00%" styleclass="Image Caption"></image></para>
     <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Erfassungsdialog für die vereinbarte Stellenbesetzung</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Tragen Sie hier die Stellenbesetzung und Kosten entsprechend der Tabellenbeschriftung ein. Bei Kinder- und Jugendpsychiatrie wird das Pflegepersonal einschließlich Erziehungsdienst angegeben. Darüber hinaus sind lediglich die </text><text styleclass="Normal" style="font-weight:bold;" translate="true">vereinbarten Berechnungstage</text><text styleclass="Normal" translate="true"> zu erfassen. Die Zählweise für die Berechnungstage wird in der Datenbasis festgelegt.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sofern Sie von der Nachweispflicht befreit sein oder nicht fristgerecht liefern können, so wählen Sie den betreffenden </text><text styleclass="Normal" style="font-weight:bold;" translate="true">Ausnahmetatbestand</text><text styleclass="Normal" translate="true">. Je nach Auswahl ist die zusätzliche Eingabe einer Begründung erforderlich. Bei Angabe eines Ausnahmetatbestands werden die weiteren Eingabefelder ausgeblendet. Bitte beachten Sie, dass der Ausnahmetatbestand &quot;Lieferung Anlage x nicht fristgerecht&quot; temporären Charakter hat: Mit diesem Ausnahmetatbestand können Sie die Eingabe der Anlage nicht abschließen. Vielmehr ist nach erfolgter Lieferung dieser Ausnahmetatbestand durch die Stellenbesetzung zu ersetzen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Soweit kein Ausnahmetatbestand besteht, tragen Sie die Stellenbesetzung und Kosten entsprechend der Tabellenbeschriftung ein. Bei Kinder- und Jugendpsychiatrie wird das Pflegepersonal einschließlich Erziehungsdienst angegeben. Darüber hinaus sind lediglich die </text><text styleclass="Normal" style="font-weight:bold;" translate="true">vereinbarten Berechnungstage</text><text styleclass="Normal" translate="true"> zu erfassen. Die Zählweise für die Berechnungstage wird in der Datenbasis übergreifend für das gesamte Vereinbahrungsjahr festgelegt.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="ButtonPsy" translate="true">[ Speichern ]</text><text styleclass="Normal" translate="true"> sichert den aktuellen Stand der Eingabe. Sofern Sie dies in der Stammdatenpflege konfiguriert haben, werden die Daten bei Registerwechsel (nicht Verlassen der Eingabe!) automatisch gespeichert.</text></para>
     <para styleclass="Normal"></para>
@@ -23,21 +25,36 @@
     <para styleclass="Normal"><text styleclass="Normal" translate="true">ERW;1;4,5;4;80000</text></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">ERW;2;8;4;55000</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Mittels </text><text styleclass="ButtonPsy" translate="true">[ Eingabe Anhang ... abschließen ]</text><text styleclass="Normal" translate="true"> beenden Sie die Datenerfassung für die vereinbarte Stellenbesetzung. Das System versieht den bzw. die Eingabedialog(e) mit einem Schreibschutz und berechnet eine Signatur. Diese wird sowohl im Dialog angezeigt als auch später beim Erzeugen des PDF-Dokuments mit ausgegeben. Somit lässt sich jederzeit erkennen, ob das PDF-Dokument bzw. dessen Ausdruck und der aktuelle Datenstand übereinstimmen.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Mittels </text><text styleclass="ButtonPsy" translate="true">[ Eingabe Anlage ... abschließen ]</text><text styleclass="Normal" translate="true"> beenden Sie die Datenerfassung für die vereinbarte Stellenbesetzung. Soweit noch ein temporärer Ausnahmetatbestand vorliegt, ist der Abschluss nicht möglich und diese Schaltfläche nicht sichtbar. Das System versieht den bzw. die Eingabedialog(e) mit einem Schreibschutz und berechnet eine Signatur. Diese wird sowohl im Dialog angezeigt als auch später beim Erzeugen des PDF-Dokuments mit ausgegeben. Somit lässt sich jederzeit erkennen, ob das PDF-Dokument bzw. dessen Ausdruck und der aktuelle Datenstand übereinstimmen.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Die folgende Abbildung (mit frei erfundenen Einträgen) zeigt die verfügbaren Optionen nach Abschluss der Eingabe:</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Image Caption"><image src="PsychStaff12.png" scale="100.00%" styleclass="Image Caption"></image></para>
     <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Abgeschlossene Eingabe</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="ButtonPsy" translate="true">[ PDF-Download ]</text><text styleclass="Normal" translate="true"> erzeugt ein PDF-Dokument, dass Sie auf Ihrem Computer speichern können. Dieses kann ausgedruckt und von den Partnern unterschrieben werden. Ist dies geschehen, so muss das unterschriebene Dokument eingescannt werden. Anschließend nutzen Sie </text><text styleclass="ButtonPsy" translate="true">[ Unterschriebene Vereinbarung hochladen ]</text><text styleclass="Normal" translate="true">, um die gescannte Datei im Datenportal zu hinterlegen. Diese kann jederzeit wieder abgerufen werden.</text></para>
+    <para styleclass="Normal"><text styleclass="ButtonPsy" translate="true">[ PDF-Download ]</text><text styleclass="Normal" translate="true"> erzeugt ein PDF-Dokument, dass Sie auf Ihrem Computer speichern können. Dieses kann ausgedruckt und von den Partnern unterschrieben werden. Ist dies geschehen, so muss das unterschriebene Dokument eingescannt werden. Anschließend nutzen Sie </text><text styleclass="ButtonPsy" translate="true">[ Unterschriebene Vereinbarung hochladen ]</text><text styleclass="Normal" translate="true">, um die gescannte Datei im Datenportal zu hinterlegen. Diese kann jederzeit durch Klick auf den Dokumentennamen wieder abgerufen werden.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Image Caption"><image src="PsychStaff13.png" scale="100.00%" styleclass="Image Caption"></image></para>
     <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Dialog mit hoch-geladenem Dokument (Ausschnitt)</text></para>
     <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Bitte beachten Sie, dass zu einer termingerechten Lieferung der Daten der Upload dieses Dokuments erforderlich ist.</text></para>
+    <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Sollten die erfassten Daten fehlerhaft sein oder andere Gründe für eine notwendige Änderung vorliegen, so können Sie die Daten mittels </text><text styleclass="ButtonPsy" translate="true">[ Datensatz ändern ]</text><text styleclass="Normal" translate="true"> wieder in den Editiermodus versetzen. Dabei verliert die Signatur ihre Gültigkeit. Wenn Sie dann später die Eingabe erneut abschließen, erhält der Datensatz eine neue Signatur. </text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Hinweis"><text styleclass="Hinweis" translate="true">In Kürze wird neben dem Download als PDF-Dokument auch der Download in einem maschinenlesbarem Format angeboten.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Heading2"><text styleclass="Heading2" translate="true">Ausnahmetatbestände</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Da Ausnahmetatbestände nicht den Standardablauf darstellen, wurden sie weiter oben im Sinne der Darstellung des Standardablaufs nicht abgebildet. Wie erwähnt, ist teilweise die Eingabe einer Begründung erforderlich, teilweise ist ein Abschluss durch den vorübergehenden Charakter eines Ausnahmetatbestands nicht möglich. Beispiele hierfür finden Sie in den folgenden Abbildungen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="PsychStaff15.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Beispiel eines Ausnahmetatbestands &quot;keine Nachweispflicht): Die Eingabe ist abschließbar.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="PsychStaff16.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Beispiels eines temporären Ausnahmetatbestandes: Die Eingabe ist nicht abschließbar</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
     <para styleclass="Normal"></para>
   </body>
 </topic>

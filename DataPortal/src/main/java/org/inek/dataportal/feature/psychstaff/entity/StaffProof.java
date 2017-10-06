@@ -575,7 +575,7 @@ public class StaffProof implements Serializable, StatusEntity {
     public StaffProofDocument getStaffProofDocument(String signature) {
         return _staffProofDocument
                 .stream()
-                .filter(d -> signature.equals(d.getSignature()))
+                .filter(d -> signature.length() > 0 && signature.equals(d.getSignature()))
                 .findAny()
                 .orElse(new StaffProofDocument());
     }

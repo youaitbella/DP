@@ -40,10 +40,11 @@ public class PsychStaffList {
     @Inject private SessionController _sessionController;
 
     public List<StaffProof> getOpenPersonals() {
+        // todo
         return _psychFacade
                 .getStaffProofs(_sessionController.getAccountId())
                 .stream()
-                .filter(p -> !p.isClosed())
+                //.filter(p -> !p.isClosed())
                 .collect(Collectors.toList());
     }
 
@@ -51,7 +52,7 @@ public class PsychStaffList {
         return _psychFacade
                 .getStaffProofs(_sessionController.getAccountId())
                 .stream()
-                .filter(p -> p.isClosed())
+                .filter(p -> p.isClosed() && false)
                 .collect(Collectors.toList());
     }
     
