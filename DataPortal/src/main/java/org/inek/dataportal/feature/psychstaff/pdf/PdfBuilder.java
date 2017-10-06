@@ -271,14 +271,14 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
         tb_JK.setSpacingBefore(10);
         tb_JK.setSpacingAfter(10);
         document.add(tb_JK);
-        Paragraph p = new Paragraph("Erläuterung zur Anrechnung von Fachkräften", NORMALBOLD);
-        p.setSpacingAfter(10);
-        document.add(p);
         if (IsToexplain(PsychType.Kids)) {
-            addExplanationTable(tb_exp);
+            Paragraph p = new Paragraph("Erläuterung zur Anrechnung von Fachkräften", NORMALBOLD);
+            p.setSpacingAfter(10);
+            document.add(p);
+            addExplanationTable(tb_exp, PsychType.Kids);
         }
         document.add(tb_exp);
-        p = new Paragraph("Tatsächliche Berechnungstage: "
+        Paragraph p = new Paragraph("Tatsächliche Berechnungstage: "
                 + String.valueOf(_editPsyStaff.getStaffProof().getKidsEffectiveDays()), SMALLBOLD);
         p.setSpacingAfter(5);
         document.add(p);
@@ -312,15 +312,15 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
         tb.setSpacingBefore(10);
         tb.setSpacingAfter(10);
         document.add(tb);
-        Paragraph p = new Paragraph("Erläuterung zur Anrechnung von Fachkräften", NORMALBOLD);
-        p.setSpacingAfter(10);
-        document.add(p);
         if (IsToexplain(PsychType.Adults)) {
-            addExplanationTable(tb_exp);
+            Paragraph p = new Paragraph("Erläuterung zur Anrechnung von Fachkräften", NORMALBOLD);
+            p.setSpacingAfter(10);
+            document.add(p);
+            addExplanationTable(tb_exp, PsychType.Adults);
         }
         document.add(tb_exp);
 
-        p = new Paragraph("Tatsächliche Berechnungstage : "
+        Paragraph p = new Paragraph("Tatsächliche Berechnungstage : "
                 + String.valueOf(_editPsyStaff.getStaffProof().getAdultsEffectiveDays()), SMALLBOLD);
         p.setSpacingAfter(5);
         document.add(p);
@@ -381,10 +381,41 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
 //    </editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="createExplanationTable">
-    void addExplanationTable(PdfPTable tb) {
+    void addExplanationTableKid(PdfPTable tb) {
 
         addHeader(tb, headerExp);
-        PsychType psychType = ("Anlage 2 - Erw").equalsIgnoreCase(_editPsyStaff.getActiveTopic().getTitle()) ? PsychType.Adults : PsychType.Kids;
+        //PsychType psychType = ("Anlage 2 - Erw").equalsIgnoreCase(_editPsyStaff.getActiveTopic().getTitle()) ? PsychType.Adults : PsychType.Kids;
+
+        for (StaffProofExplanation staffProofExplanation : _editPsyStaff.getStaffProof().getStaffProofExplanations(PsychType.Kids)) {
+            {
+                addCell(tb, staffProofExplanation.getOccupationalCategory().getName(), SMALL, Element.ALIGN_LEFT, BaseColor.LIGHT_GRAY);
+                String t = "";
+                switch (staffProofExplanation.getDeductedSpecialistId()) {
+                    case 4:
+                        t = "Anrechnung Fachkräfte anderer Berufsgruppen der Psych-PV";
+                        break;
+                    case 5:
+                        t = "Anrechnung Fachkräfte Nicht-Psych-PV Berufsgruppen";
+                        break;
+                    default:
+                        t = "Anrechnung Fachkräfte ohne direktes Beschäftigungsverh.";
+                        break;
+                }
+                addCell(tb, t, SMALL, Element.ALIGN_LEFT, BaseColor.LIGHT_GRAY);
+                addCell(tb, staffProofExplanation.getEffectiveOccupationalCategory(), SMALL, Element.ALIGN_RIGHT, BaseColor.WHITE);
+                addCell(tb, String.valueOf(staffProofExplanation.getDeductedFullVigor()), SMALL, Element.ALIGN_RIGHT, BaseColor.WHITE);
+                addCell(tb, staffProofExplanation.getExplanation(), SMALL, Element.ALIGN_RIGHT, BaseColor.WHITE);
+            }
+
+        }
+    }
+
+    //</editor-fold>
+    //<editor-fold defaultstate="collapsed" desc="createExplanationTable">
+    void addExplanationTable(PdfPTable tb, PsychType psychType) {
+
+        addHeader(tb, headerExp);
+        //PsychType psychType = ("Anlage 2 - Erw").equalsIgnoreCase(_editPsyStaff.getActiveTopic().getTitle()) ? PsychType.Adults : PsychType.Kids;
 
         for (StaffProofExplanation staffProofExplanation : _editPsyStaff.getStaffProof().getStaffProofExplanations(psychType)) {
             {
