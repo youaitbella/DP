@@ -6,6 +6,8 @@
     <header>
       <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Bewertungsrelation / gezielte Absenkung</text></para>
     </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Vertragsparteien auf Bundesebene haben eine Ergänzungsvereinbarung zur Vereinbarung gem. § 17b Abs. 1 S. 5 KHG i.V.m. § 9 Abs. 1c KHEntgG zur gezielten Absenkung von Bewertungsrelationen mit Grundsätzen für die Abrechnung und Budgetvereinbarung konsentiert. Krankenhäuser mit Leistungserbringung und einer Fallzahl bis einschließlich der Median-Fallzahl für die DRGs I68D und/oder I68E, die nach den Bestimmungen der Ergänzungsvereinbarung die nicht abgesenkten Bewertungsrelationen für die genannten DRGs abrechnen, müssen bis spätestens zum 01.11.2017 im InEK Datenportal ihre entsprechenden Fallzahlen melden.</text></para>
     <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Für diese Meldung bietet das </text><var styleclass="Normal">&lt;%TITLE_DRG%&gt;</var><text styleclass="Normal" translate="true"> die Funktion </text><text styleclass="Normal" style="font-style:italic;" translate="true">Gezielte Absenkung</text><text styleclass="Normal" translate="true">. Sofern Sie diese Funktion nutzen möchten, geben Sie dies im Rahmen der </text><link displaytype="text" defaultstyle="true" type="topiclink" href="MaintenanceFeatures" styleclass="Normal" translate="true">Stammdatenpflege, Funktionen</link><text styleclass="Normal" translate="true"> an. Nach Prüfung und Freischaltung durch das InEK wird diese Funktion in der linken Navigationsleiste aufgeführt.</text></para>
   </body>
 </topic>
