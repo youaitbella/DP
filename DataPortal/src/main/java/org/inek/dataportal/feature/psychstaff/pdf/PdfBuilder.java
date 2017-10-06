@@ -97,10 +97,10 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
             "Tatsächlich Berufsgruppe der angerechneten Fachkraft ",
             "Angerechnete Stellenbesetzung in VK ",
             "\nErläuterung");
-    
+
     private final String footer2 = "Die verwendeten Verfahren zur Ermittlung der tatsächlichen Stellenbesetzung und der "
             + "tatsächliche Kosten für das Psych-PV-Personal in Summe stellen eine sachgerechte Abgrenzung des für den "
-            + "Nachweis zu berücksichtigenden Personals vom Gesamtpersonal des Krankenhauses nach den §§ 4 und 5 sicher."; 
+            + "Nachweis zu berücksichtigenden Personals vom Gesamtpersonal des Krankenhauses nach den §§ 4 und 5 sicher.";
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="PdfBuilder">
@@ -139,7 +139,7 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
                 structure.writeSelectedRows(0, -1, document.leftMargin(), document.bottomMargin(), writer.getDirectContent());
             }
         });
-         
+
         document.open();
         createMetadata(document);
 
@@ -179,7 +179,7 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
                 "Vereinbarte Stellenbesetzung in Vollkräften \nBereich Erwachsene",
                 anlage1,
                 _editPsyStaff.getStaffProof().getSignatureAgreement());
-        
+
         if (_editPsyStaff.getStaffProof().isForAdults()) {
             createPageForApx1(document, PsychType.Adults);
         }
@@ -193,7 +193,7 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
                 "Vereinbarte Stellenbesetzung in Vollkräften \nBereich Kinder und Jugendliche",
                 anlage1,
                 _editPsyStaff.getStaffProof().getSignatureAgreement());
-        
+
         addInfoText(document, infoText3, 30);
         addSignaturArea(document);
     }
@@ -207,17 +207,17 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
         if (_editPsyStaff.getStaffProof().isForKids()) {
             createPageForKidsAn2(document, writer);
         }
-        addInfoText(document, footer2, 10);
-        
+
         addNote(document, infoText1, 0, 0);
         addNote(document, infoText2, 0, 0);
-        
+
         document.newPage();
         addLogo(document,
                 "Vereinbarte Stellenbesetzung in Vollkräften \nBereich Kinder und Jugendliche",
                 anlage2,
                 _editPsyStaff.getStaffProof().getSignatureEffective());
-        
+
+        addInfoText(document, footer2, 10);
         addInfoText(document, infoText3A2, 30);
         addSignaturAreaA2(document);
     }
@@ -225,10 +225,10 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="createPageForKidsAn1">
     private void createPageForApx1(Document document, PsychType psychType) throws DocumentException, NoSuchAlgorithmException, IOException {
-        String header = psychType == PsychType.Adults 
+        String header = psychType == PsychType.Adults
                 ? "Bereich Erwachsene"
                 : "Bereich Kinder und Jugendliche";
-        int agreedDays = psychType == PsychType.Adults 
+        int agreedDays = psychType == PsychType.Adults
                 ? _editPsyStaff.getStaffProof().getAdultsAgreedDays()
                 : _editPsyStaff.getStaffProof().getKidsAgreedDays();
         document.add(new Paragraph(header, FONT_TITLE));
@@ -250,7 +250,7 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="createPageForKidsAn2">
     private void createPageForKidsAn2(Document document, PdfWriter writer) throws DocumentException,
             NoSuchAlgorithmException, IOException {
-        if(_editPsyStaff.getStaffProof().isForAdults()){
+        if (_editPsyStaff.getStaffProof().isForAdults()) {
             document.newPage();
         }
         addLogo(document,
@@ -274,7 +274,9 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
         Paragraph p = new Paragraph("Erläuterung zur Anrechnung von Fachkräften", NORMALBOLD);
         p.setSpacingAfter(10);
         document.add(p);
-        addExplanationTable(tb_exp);
+        if (IsToexplain(PsychType.Kids)) {
+            addExplanationTable(tb_exp);
+        }
         document.add(tb_exp);
         p = new Paragraph("Tatsächliche Berechnungstage: "
                 + String.valueOf(_editPsyStaff.getStaffProof().getKidsEffectiveDays()), SMALLBOLD);
@@ -313,7 +315,9 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
         Paragraph p = new Paragraph("Erläuterung zur Anrechnung von Fachkräften", NORMALBOLD);
         p.setSpacingAfter(10);
         document.add(p);
-        addExplanationTable(tb_exp);
+        if (IsToexplain(PsychType.Adults)) {
+            addExplanationTable(tb_exp);
+        }
         document.add(tb_exp);
 
         p = new Paragraph("Tatsächliche Berechnungstage : "
@@ -469,10 +473,10 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
 
         tb.addCell(cell);
         tb.setSpacingAfter(20);
-        
+
         document.add(tb);
     }
-    
+
     private void printHospitalInfo(PdfPTable tb1, String sig) throws DocumentException {
         PdfPCell cell;
         StaffProof staffProof = _editPsyStaff.getStaffProof();
@@ -492,7 +496,7 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
         cell = new PdfPCell(new Paragraph("Zählweise: " + (staffProof.getCalculationType() == 1 ? "PEPPV" : "BPflV/LKA"), NORMALBOLD));
         cell.setBorder(PdfPCell.NO_BORDER);
         tb_Hosp.addCell(cell);
-        
+
         cell = new PdfPCell(new Paragraph("", NORMALBOLD));
         cell.setBorder(PdfPCell.NO_BORDER);
         tb_Hosp.addCell(cell);
@@ -506,7 +510,7 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
         cell.setBorder(PdfPCell.NO_BORDER);
         tb_Hosp.addCell(cell);
         tb1.addCell(tb_Hosp);
-        
+
     }
     //</editor-fold>    
 
@@ -646,4 +650,18 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
         document.add(signaturArea);
     }
     //</editor-fold>
+
+    private boolean IsToexplain(PsychType psychType) {
+
+        boolean t = false;
+        for (StaffProofExplanation staffProofExplanation : _editPsyStaff.getStaffProof().getStaffProofExplanations(psychType)) {
+            if (!("0".equalsIgnoreCase(staffProofExplanation.getEffectiveOccupationalCategory()))
+                    || !("0".equalsIgnoreCase(String.valueOf(staffProofExplanation.getDeductedFullVigor())))
+                    || !("0".equalsIgnoreCase(staffProofExplanation.getExplanation()))) {
+                t = true;
+            }
+        }
+        return t;
+    }
+
 }
