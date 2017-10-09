@@ -1,5 +1,6 @@
 package org.inek.dataportal.facades.account;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -155,7 +156,10 @@ public class AccountDocumentFacade extends AbstractFacade<AccountDocument> {
     public AccountDocument save(AccountDocument accountDocument) {
         persist(accountDocument);
         clearCache();
-        return findFresh(accountDocument.getId());
+        AccountDocument savedDoc = findFresh(accountDocument.getId());
+        String delDate = new SimpleDateFormat("yyyy-MM-dd").format(savedDoc.getValidUntil());
+        LOGGER.log(Level.INFO, "Document saved: {0}, valid until: {1}", new Object[]{savedDoc.getName(), delDate});
+        return savedDoc;
     }
 
     public List<Integer> getAgentIds() {
