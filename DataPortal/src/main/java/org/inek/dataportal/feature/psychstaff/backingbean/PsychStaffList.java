@@ -35,7 +35,7 @@ public class PsychStaffList {
 // todo    @Inject private Facade Facade;
     @Inject private ApplicationTools _appTools;
     // </editor-fold>
-    
+
     @Inject private PsychStaffFacade _psychFacade;
     @Inject private SessionController _sessionController;
 
@@ -55,7 +55,21 @@ public class PsychStaffList {
                 .filter(p -> p.isClosed() && false)
                 .collect(Collectors.toList());
     }
-    
+
+    public List<StaffProof> getInekListPersonals() {
+        return _psychFacade.getStaffProofs(_filter);
+    }
+
+    private String _filter = "";
+
+    public String getFilter() {
+        return _filter;
+    }
+
+    public void setFilter(String filter) {
+        _filter = filter == null ? "" : filter;
+    }
+
     public boolean isNewAllowed() {
         return _appTools.isEnabled(ConfigKey.IsPsychStaffCreateEnabled);
     }
@@ -66,7 +80,7 @@ public class PsychStaffList {
         Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(request));
         return Pages.PrintView.URL();
     }
-    
+
     public String getConfirmMessage(int id) {
         StaffProof proof = _psychFacade.findStaffProof(id);
         String msg = "Meldung für " + proof.getIk() + "\n"

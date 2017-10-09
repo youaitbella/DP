@@ -7,9 +7,9 @@ package org.inek.dataportal.feature.psychstaff.facade;
 
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import org.inek.dataportal.facades.AbstractDataAccess;
-import org.inek.dataportal.feature.psychstaff.entity.ExclusionFact;
 import org.inek.dataportal.feature.psychstaff.entity.OccupationalCategory;
 import org.inek.dataportal.feature.psychstaff.entity.PersonnelGroup;
 import org.inek.dataportal.feature.psychstaff.entity.StaffProof;
@@ -33,6 +33,18 @@ public class PsychStaffFacade extends AbstractDataAccess {
                 + "WHERE n._accountId = :accountId ORDER BY n._year, n._id";
         TypedQuery<StaffProof> query = getEntityManager().createQuery(sql, StaffProof.class);
         query.setParameter("accountId", accountId);
+        return query.getResultList();
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<StaffProof> getStaffProofs(String filter) {
+//        String sql = "SELECT n FROM StaffProof n "
+//                + "ORDER BY n._year, n._ik";
+//        TypedQuery<StaffProof> query = getEntityManager().createQuery(sql, StaffProof.class);
+        String sql = "SELECT * FROM psy.StaffProofMaster "
+                + "where cast(spmIk as varchar) like '%" + filter + "%'"
+                + "ORDER BY spmYear, spmIk";
+        Query query = getEntityManager().createNativeQuery(sql, StaffProof.class);
         return query.getResultList();
     }
 

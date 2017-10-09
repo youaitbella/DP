@@ -15,15 +15,31 @@
     <ui:define name="content">
         <h:form>
             <h1>#{msg.namePSYCH_STAFF}</h1>
-            
+
             <h4><h:outputLabel value="#{msg.infoOpenPsychStaff}"/></h4>
             <psystaff:PsychStaffList list="#{psychStaffList.openPersonals}"/>
-            
+
             <ui:include src="#{sessionTools.pages.PsychStaffListButtons}"/>
-            
+
             <h4><h:outputLabel value="#{msg.infoSealedPsychStaff}"/></h4>
             <psystaff:PsychStaffList list="#{psychStaffList.providedPersonals}"/>
-            
+
+            <div jsf:rendered="#{sessionController.isInekUser('PSYCH_STAFF')}">
+                <h2>Gesamtübersicht (für InEK)</h2>
+
+                <div class="inputPart">
+                    <h:outputLabel for="txtFilter" styleClass="label marginRight" value="#{msg.lblFilter}"/>
+                    <h:inputText id="txtFilter" styleClass="inputmedium marginRight" value="#{calcBasicsTreeHandler.filter}">
+                        <f:ajax/>
+                    </h:inputText>
+                    <h:commandLink styleClass="button" value="#{msg.btnRefreshList}">
+                        <f:ajax render="@form :logout:remaining"/>
+                    </h:commandLink>
+                </div>
+
+                <psystaff:PsychStaffList list="#{psychStaffList.inekListPersonals}"/>
+            </div>
+
         </h:form>
     </ui:define>
 
