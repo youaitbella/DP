@@ -6,9 +6,7 @@ package org.inek.dataportal.feature.valuationratio;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJBException;
@@ -23,7 +21,6 @@ import javax.inject.Named;
 import javax.validation.ValidationException;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
-import org.inek.dataportal.entities.account.AccountAdditionalIK;
 import org.inek.dataportal.entities.valuationratio.ValuationRatio;
 import org.inek.dataportal.entities.valuationratio.ValuationRatioDrgCount;
 import org.inek.dataportal.entities.valuationratio.ValuationRatioMedian;
@@ -240,7 +237,7 @@ public class EditValuationRatio extends AbstractEditController {
             template.setSubject(subject);
             _sessionController.getMailer().sendMailTemplate(template, _sessionController.getAccount().getEmail());
             _sessionController.alertClient("Gezielte Absenkung wurde erfolgreich eingereicht.");
-            return Pages.InsuranceSummary.RedirectURL();
+            return Pages.ValuationRatioSummary.RedirectURL();
         } catch (EJBException ex) {
             _sessionController.alertClient(Utils.getMessage("msgSaveError"));
             return "";

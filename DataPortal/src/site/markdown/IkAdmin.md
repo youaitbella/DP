@@ -42,14 +42,14 @@ Damit wird die Sicherheit erhöht und der Verwaltungsaufwand verteilt und reduzi
 
 ### Zuweisung von IK und Funktionen
 
-- Der IK-Admin kann Anwendern ein IK nebst Funktionen zuweisen; in einem solchen Falle ist eine Freischaltung durch das InEK nicht erforderlich
-- Trägt ein Anwender für sich ein IK ein, für das ein IK-Admin existiert, so ist dieser Eintrag nicht möglich. Stattdessen wird der IK-Admin informiert und kann die Eintragung vornehmen.
+- Der IK-Admin kann Anwendern die Berechtigung für ein IK nebst Funktionen zuweisen; in einem solchen Falle ist eine Freischaltung durch das InEK nicht erforderlich
+- Trägt ein Anwender für sich ein IK ein, für das ein IK-Admin existiert, so ist dieser Eintrag nur  ohne Zugriffsrechte möglich. Der IK-Admin wird informiert und kann Berechtigungen zuweisen.
 
 ### Sichtbarkeit und Übertragung von Daten
 
-- Die Sichtbarkeit von Daten wird unverändert kooperativ geregelt
-- Zusätzlich kann der IK-Admin bestimmen, welche Krankenhausdaten unabhängig von einer Kooperation für wen mit welchen Rechten zugreifbar sind. Solange der IK-Admin Daten nicht mittels Verbot blockiert, gelten dabei die weiter gefassten Rechte (Zu klären: Dies für IK-Admin sichbar machen?)
-- Daten bestimmter Funktionen (derzeit NUB), die nicht krankenhausweit sichtbar sind, kann der IK-Admin von einem Anwenderkonto auf ein anderes übertragen
+- Die Sichtbarkeit von Daten ohne IK-Bezug respektive ohne IK-Admin für ein IK wird unverändert kooperativ geregelt
+- Der Zugriff auf Daten mit IK-Bezug wird durch den IK-Admin festgelegt.
+- Daten mit IK-Bezug, kann der IK-Admin von einem Anwenderkonto auf ein anderes übertragen, sofern dieser Anwender über die entsprechenden Rechte verfügt
 
 ### weitere Funktionen
 
@@ -63,7 +63,28 @@ Der Besitzer bestimmt im Rahmen der Kooperation, wer seine Daten alles sehen dar
 Beispielsweise ist es für bestimmte Dokumente unerwünscht, dass ein Berater, der mit vielen Häusern kooperiert diese "besitzt" und somit versehentlich auch für andere sichtbar macht.
 Alternativ ist dies via IK abhängiger Kooperation zu regeln.
 
+## Datenstrukturen
 
+Die Daten der IK-Amin-Funktionen werden im Schema "ikadm" gespeichert.
 
+### Definition IK-Admin
+
+Die Definition eins IK-Admins erfolgt durch Zuordnung der zu administrierenden IKs zum Anwenderkonto
+
+(mapAccountIkAdmin)
+- AccountId
+- IK
+- MailDomäne (ggf. Semikolon-getrennte Mehrfachangabe)
+
+### Berechtigungen
+
+Ein Anwender, der potenziell für ein Haus arbeitet, kann dies derzeit in der Stammdatenpflege eintragen.
+Diese Info ist in die Berechtigung zu übernehmen. Hier kann der IK-Admin jedoch Rechte für einezelne Funktionalitäten verweigern (Recht: None).
+
+- id (technischer Schlüssel)
+- AccountId
+- IK
+- Feature
+- Recht (None Read Write Seal)
 
 [Zurück zum Hauptdokument](DataPortal.md#FunctionalRequirements)

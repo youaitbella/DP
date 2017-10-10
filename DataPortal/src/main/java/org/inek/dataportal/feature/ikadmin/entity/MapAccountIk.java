@@ -1,4 +1,4 @@
-package org.inek.dataportal.entities.account;
+package org.inek.dataportal.feature.ikadmin.entity;
 
 import java.io.Serializable;
 

@@ -41,8 +41,11 @@ public class PsychStaffFacade extends AbstractDataAccess {
 //        String sql = "SELECT n FROM StaffProof n "
 //                + "ORDER BY n._year, n._ik";
 //        TypedQuery<StaffProof> query = getEntityManager().createQuery(sql, StaffProof.class);
-        String sql = "SELECT * FROM psy.StaffProofMaster "
-                + "where cast(spmIk as varchar) like '%" + filter + "%'"
+        String sql = "SELECT * FROM psy.StaffProofMaster\r\n"
+                + "join CallCenterDb.dbo.ccCustomer on spmIk = cuIk\r\n"
+                + "where cast(spmIk as varchar) like '%" + filter + "%'\r\n"
+                + (filter.length() > 0 ? "or cuName like '%" + filter + "%'\r\n" : "")
+                + (filter.length() > 0 ? "or cuCity like '%" + filter + "%'\r\n" : "")
                 + "ORDER BY spmYear, spmIk";
         Query query = getEntityManager().createNativeQuery(sql, StaffProof.class);
         return query.getResultList();

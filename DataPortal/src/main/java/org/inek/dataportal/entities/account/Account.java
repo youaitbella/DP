@@ -4,6 +4,7 @@
  */
 package org.inek.dataportal.entities.account;
 
+import org.inek.dataportal.feature.ikadmin.entity.AccountIkAdmin;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;

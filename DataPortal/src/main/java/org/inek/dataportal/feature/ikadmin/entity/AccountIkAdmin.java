@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.entities.account;
+package org.inek.dataportal.feature.ikadmin.entity;
 
 import java.io.Serializable;
 import javax.persistence.*;
@@ -12,7 +12,7 @@ import javax.persistence.*;
  * @author muellermi
  */
 @Entity
-@Table(name = "mapAccountIkAdmin", schema = "dbo")
+@Table(name = "mapAccountIkAdmin", schema = "ikadm")
 @IdClass(MapAccountIk.class)
 public class AccountIkAdmin implements Serializable {
 
@@ -52,11 +52,23 @@ public class AccountIkAdmin implements Serializable {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Property MailDomain">
+    @Column(name = "aiaMailDomain")
+    private String _mailDomain;
+    public String getMailDomain() {
+        return _mailDomain;
+    }
+
+    public void setMailDomain(String mailDomain) {
+        _mailDomain = mailDomain;
+    }
+    // </editor-fold>
+    
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 89 * hash + this._accountId;
-        hash = 89 * hash + this._ik;
+        hash = 89 * hash + _accountId;
+        hash = 89 * hash + _ik;
         return hash;
     }
 
@@ -71,5 +83,5 @@ public class AccountIkAdmin implements Serializable {
         final AccountIkAdmin other = (AccountIkAdmin) obj;
         return _accountId == other._accountId && _ik == other._ik;
     }
-    
+
 }
