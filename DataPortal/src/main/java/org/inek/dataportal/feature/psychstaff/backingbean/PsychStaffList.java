@@ -5,10 +5,11 @@
  */
 package org.inek.dataportal.feature.psychstaff.backingbean;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
-import javax.enterprise.context.RequestScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.ApplicationTools;
@@ -26,8 +27,8 @@ import org.inek.dataportal.utils.DocumentationUtil;
  * @author muellermi
  */
 @Named
-@RequestScoped
-public class PsychStaffList {
+@ViewScoped
+public class PsychStaffList implements Serializable{
 
     // <editor-fold defaultstate="collapsed" desc="fields">
     private static final Logger LOGGER = Logger.getLogger(PsychStaffList.class.getName());
@@ -56,8 +57,13 @@ public class PsychStaffList {
                 .collect(Collectors.toList());
     }
 
+    private List<StaffProof> _inekStaffProofs;
+
     public List<StaffProof> getInekListPersonals() {
-        return _psychFacade.getStaffProofs(_filter);
+        if (_inekStaffProofs == null) {
+            _inekStaffProofs = _psychFacade.getStaffProofs(_filter);
+        }
+        return _inekStaffProofs;
     }
 
     private String _filter = "";
@@ -67,6 +73,7 @@ public class PsychStaffList {
     }
 
     public void setFilter(String filter) {
+        _inekStaffProofs = null;
         _filter = filter == null ? "" : filter;
     }
 

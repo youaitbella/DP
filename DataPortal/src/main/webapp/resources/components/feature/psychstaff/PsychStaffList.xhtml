@@ -9,6 +9,7 @@
     <!-- INTERFACE -->
     <cc:interface>
         <cc:attribute name="list"/>
+        <cc:attribute name="allowDelete" default="true"/>
     </cc:interface>
 
     <!-- IMPLEMENTATION -->
@@ -31,7 +32,8 @@
                         <h:outputText value=""/>
                     </f:facet>
                     <h:commandLink action="#{psychStaffList.delete(item.id)}" immediate="true"
-                                   onclick="#{psychStaffList.getConfirmMessage(item.id)}">
+                                   onclick="#{psychStaffList.getConfirmMessage(item.id)}"
+                                   rendered="#{cc.attrs.allowDelete}">
                         <h:graphicImage alt="löschen" name="Icon/small/#{item.status.value le 9 ? 'delete.png' : 'cross.png'}"
                                         title="#{item.status.value le 9 ? 'Löschen' : 'Zurückziehen'}" value=""/>
                     </h:commandLink>

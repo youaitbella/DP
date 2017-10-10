@@ -29,7 +29,7 @@
 
                 <div class="inputPart">
                     <h:outputLabel for="txtFilter" styleClass="label marginRight" value="#{msg.lblFilter}"/>
-                    <h:inputText id="txtFilter" styleClass="inputmedium marginRight" value="#{calcBasicsTreeHandler.filter}">
+                    <h:inputText id="txtFilter" styleClass="inputmedium marginRight" value="#{psychStaffList.filter}">
                         <f:ajax/>
                     </h:inputText>
                     <h:commandLink styleClass="button" value="#{msg.btnRefreshList}">
@@ -37,7 +37,7 @@
                     </h:commandLink>
                 </div>
 
-                <psystaff:PsychStaffList list="#{psychStaffList.inekListPersonals}"/>
+                <psystaff:PsychStaffList list="#{psychStaffList.inekListPersonals}" allowDelete="false"/>
             </div>
 
         </h:form>
