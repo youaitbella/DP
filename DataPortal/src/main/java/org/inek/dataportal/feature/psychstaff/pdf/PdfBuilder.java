@@ -345,9 +345,9 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
         addCell(tb, "", SMALLBOLD, Element.ALIGN_LEFT, BaseColor.LIGHT_GRAY);
         addCell(tb, "8", SMALLBOLD, Element.ALIGN_CENTER, BaseColor.LIGHT_GRAY);
         addCell(tb, "Gesamt", SMALLBOLD, Element.ALIGN_LEFT, BaseColor.LIGHT_GRAY);
-        addCell(tb, _editPsyStaff.sumAgreedStaffingComplete(PsychType.Adults).replace(",", "."),
+        addCell(tb, _editPsyStaff.sumAgreedStaffingComplete(PsychType.Adults),//.replace(",", "."),
                 SMALLBOLD, Element.ALIGN_RIGHT, BaseColor.LIGHT_GRAY);
-        addCell(tb, _editPsyStaff.sumAgreedStaffingBudget(PsychType.Adults).replace(",", "."),
+        addCell(tb, _editPsyStaff.sumAgreedStaffingBudget(PsychType.Adults),//.replace(",", "."),
                 SMALLBOLD, Element.ALIGN_RIGHT, BaseColor.LIGHT_GRAY);
         addCell(tb, "", SMALLBOLD, Element.ALIGN_RIGHT, BaseColor.LIGHT_GRAY);
     }
@@ -380,7 +380,7 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
     }
 //    </editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="createExplanationTable">
+    //<editor-fold defaultstate="collapsed" desc="addExplanationTableKid">
     void addExplanationTableKid(PdfPTable tb) {
 
         addHeader(tb, headerExp);
@@ -411,7 +411,8 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
     }
 
     //</editor-fold>
-    //<editor-fold defaultstate="collapsed" desc="createExplanationTable">
+    
+    //<editor-fold defaultstate="collapsed" desc="addExplanationTable">
     void addExplanationTable(PdfPTable tb, PsychType psychType) {
 
         addHeader(tb, headerExp);
@@ -566,9 +567,9 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
         addCell(tb, lfdNr, SMALL, Element.ALIGN_CENTER, BaseColor.LIGHT_GRAY);
         addCell(tb, staffProofAgreed.getOccupationalCategory().getName(),
                 SMALL, Element.ALIGN_LEFT, BaseColor.LIGHT_GRAY);
-        addCell(tb, String.valueOf(staffProofAgreed.getStaffingComplete()).replace(",", "."),
+        addCell(tb, String.valueOf(staffProofAgreed.getStaffingComplete()),//.replace(",", "."),
                 SMALL, Element.ALIGN_RIGHT, BaseColor.WHITE);
-        addCell(tb, String.valueOf(staffProofAgreed.getStaffingBudget()).replace(",", "."),
+        addCell(tb, String.valueOf(staffProofAgreed.getStaffingBudget()),//.replace(",", "."),
                 SMALL, Element.ALIGN_RIGHT, BaseColor.WHITE);
         //addCell(tb, String.valueOf(staffProofAgreed.getAvgCost()).replace(",", "."), 
         addCell(tb, String.valueOf(formatter.format(staffProofAgreed.getAvgCost())),
@@ -682,8 +683,9 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
     }
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="IsToexplain">
     private boolean IsToexplain(PsychType psychType) {
-
+        
         boolean t = false;
         for (StaffProofExplanation staffProofExplanation : _editPsyStaff.getStaffProof().getStaffProofExplanations(psychType)) {
             if (!("0".equalsIgnoreCase(staffProofExplanation.getEffectiveOccupationalCategory()))
@@ -694,5 +696,6 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
         }
         return t;
     }
+    //</editor-fold>
 
 }
