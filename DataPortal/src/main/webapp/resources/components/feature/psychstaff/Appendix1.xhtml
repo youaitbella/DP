@@ -114,16 +114,18 @@
                                 <td class="col02em row1" scope="col"> </td>
                                 <td class="col10em row1" scope="col"> Gesamt </td>
                                 <th class="col10em row1" scope="col"> 
-                                    <h:inputText id="sumStaffingComplete" 
-                                                 value="#{editPsyStaff.sumAgreedStaffingComplete(cc.attrs.patType)}"
-                                                 styleClass="element10em number"
-                                                 disabled="true"/>
+                                    <inek:InputNumberWithMessage id="sumStaffingComplete" 
+                                                                 value="#{editPsyStaff.sumAgreedStaffingComplete(cc.attrs.patType)}"
+                                                                 styleClass="element10em number"
+                                                                 pattern="#,##0.0"
+                                                                 disabled="true"/>
                                 </th>
                                 <td class="col10em row1 centered" scope="col"> 
-                                    <h:inputText id="sumStaffingBudget" 
-                                                 value="#{editPsyStaff.sumAgreedStaffingBudget(cc.attrs.patType)}"
-                                                 styleClass="element10em number"
-                                                 disabled="true"/> 
+                                    <inek:InputNumberWithMessage id="sumStaffingBudget" 
+                                                                 value="#{editPsyStaff.sumAgreedStaffingBudget(cc.attrs.patType)}"
+                                                                 styleClass="element10em number"
+                                                                 pattern="#,##0.0"
+                                                                 disabled="true"/> 
                                 </td>
                                 <td class="col10em row1" scope="col">  </td>
                             </tr>

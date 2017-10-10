@@ -147,28 +147,32 @@
                                 <td class="col02em row1" scope="col"> </td>
                                 <td class="col10em row1" scope="col"> Gesamt </td>
                                 <th class="col10em row1" scope="col"> 
-                                    <h:inputText id="sumStaffingComplete" 
-                                                 value="#{editPsyStaff.sumEffectiveStaffingComplete(cc.attrs.patType)}"
-                                                 styleClass="element10em number"
-                                                 disabled="true"/>
+                                    <inek:InputNumberWithMessage id="sumStaffingComplete" 
+                                                                 value="#{editPsyStaff.sumEffectiveStaffingComplete(cc.attrs.patType)}"
+                                                                 styleClass="element10em number"
+                                                                 pattern="#,##0.0"
+                                                                 disabled="true"/>
                                 </th>
                                 <td class="col10em row1" scope="col"> 
-                                    <h:inputText id="sumStaffingDeductionPsych" 
-                                                 value="#{editPsyStaff.sumEffectiveStaffingDeductionPsych(cc.attrs.patType)}"
-                                                 styleClass="element10em number"
-                                                 disabled="true"/> 
+                                    <inek:InputNumberWithMessage id="sumStaffingDeductionPsych" 
+                                                                 value="#{editPsyStaff.sumEffectiveStaffingDeductionPsych(cc.attrs.patType)}"
+                                                                 styleClass="element10em number"
+                                                                 pattern="#,##0.0"
+                                                                 disabled="true"/> 
                                 </td>
                                 <td class="col10em row1" scope="col"> 
-                                    <h:inputText id="sumStaffingDeductionNonPsych" 
-                                                 value="#{editPsyStaff.sumEffectiveStaffingDeductionNonPsych(cc.attrs.patType)}"
-                                                 styleClass="element10em number"
-                                                 disabled="true"/> 
+                                    <inek:InputNumberWithMessage id="sumStaffingDeductionNonPsych" 
+                                                                 value="#{editPsyStaff.sumEffectiveStaffingDeductionNonPsych(cc.attrs.patType)}"
+                                                                 styleClass="element10em number"
+                                                                 pattern="#,##0.0"
+                                                                 disabled="true"/> 
                                 </td>
                                 <td class="col10em row1" scope="col"> 
-                                    <h:inputText id="sumStaffingDeductionOther" 
-                                                 value="#{editPsyStaff.sumEffectiveStaffingDeductionOther(cc.attrs.patType)}"
-                                                 styleClass="element10em number"
-                                                 disabled="true"/> 
+                                    <inek:InputNumberWithMessage id="sumStaffingDeductionOther" 
+                                                                 value="#{editPsyStaff.sumEffectiveStaffingDeductionOther(cc.attrs.patType)}"
+                                                                 styleClass="element10em number"
+                                                                 pattern="#,##0.0"
+                                                                 disabled="true"/> 
                                 </td>
                                 <td class="col10em row1" scope="col">  </td>
                             </tr>
@@ -251,6 +255,7 @@
                                 renderElement=":#{cc.attrs.clientId}:checksum"
                                 title="#{msg.infoPsychStaffNoteCalcDays}"
                                 minimum="1"
+                                pattern="#,##0"
                                 required="true"/>
 
             <inek:LabeledNumber label="Tatsächliche Kosten für das Psych-PV-Personal in Summe nach § 5 in Euro"

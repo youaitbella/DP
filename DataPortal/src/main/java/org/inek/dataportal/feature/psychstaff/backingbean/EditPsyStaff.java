@@ -585,34 +585,28 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         return String.format("%.1f", factor) + " %";
     }
 
-    public String sumAgreedStaffingComplete(PsychType type) {
-        double sum = _staffProof.getStaffProofsAgreed(type).stream().mapToDouble(i -> i.getStaffingComplete()).sum();
-        return String.format("%.1f", sum);
+    public double sumAgreedStaffingComplete(PsychType type) {
+        return _staffProof.getStaffProofsAgreed(type).stream().mapToDouble(i -> i.getStaffingComplete()).sum();
     }
 
-    public String sumAgreedStaffingBudget(PsychType type) {
-        double sum = _staffProof.getStaffProofsAgreed(type).stream().mapToDouble(i -> i.getStaffingBudget()).sum();
-        return String.format("%.1f", sum);
+    public double sumAgreedStaffingBudget(PsychType type) {
+        return _staffProof.getStaffProofsAgreed(type).stream().mapToDouble(i -> i.getStaffingBudget()).sum();
     }
 
-    public String sumEffectiveStaffingComplete(PsychType type) {
-        double sum = _staffProof.getStaffProofsEffective(type).stream().mapToDouble(i -> i.getStaffingComplete()).sum();
-        return String.format("%.1f", sum);
+    public double sumEffectiveStaffingComplete(PsychType type) {
+        return _staffProof.getStaffProofsEffective(type).stream().mapToDouble(i -> i.getStaffingComplete()).sum();
     }
 
-    public String sumEffectiveStaffingDeductionPsych(PsychType type) {
-        double sum = _staffProof.getStaffProofsEffective(type).stream().mapToDouble(i -> i.getStaffingDeductionPsych()).sum();
-        return String.format("%.1f", sum);
+    public double sumEffectiveStaffingDeductionPsych(PsychType type) {
+        return _staffProof.getStaffProofsEffective(type).stream().mapToDouble(i -> i.getStaffingDeductionPsych()).sum();
     }
 
-    public String sumEffectiveStaffingDeductionNonPsych(PsychType type) {
-        double sum = _staffProof.getStaffProofsEffective(type).stream().mapToDouble(i -> i.getStaffingDeductionNonPsych()).sum();
-        return String.format("%.1f", sum);
+    public double sumEffectiveStaffingDeductionNonPsych(PsychType type) {
+        return _staffProof.getStaffProofsEffective(type).stream().mapToDouble(i -> i.getStaffingDeductionNonPsych()).sum();
     }
 
-    public String sumEffectiveStaffingDeductionOther(PsychType type) {
-        double sum = _staffProof.getStaffProofsEffective(type).stream().mapToDouble(i -> i.getStaffingDeductionOther()).sum();
-        return String.format("%.1f", sum);
+    public double sumEffectiveStaffingDeductionOther(PsychType type) {
+        return _staffProof.getStaffProofsEffective(type).stream().mapToDouble(i -> i.getStaffingDeductionOther()).sum();
     }
 
     private Part _file;
