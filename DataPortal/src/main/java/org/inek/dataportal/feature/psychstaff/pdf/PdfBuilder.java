@@ -108,6 +108,8 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
     }
     //</editor-fold>
 
+    private final DecimalFormat formatter = new DecimalFormat("###,##0.00");
+
     //<editor-fold defaultstate="collapsed" desc="createDocument">
     public void createDocument() throws DocumentException, FileNotFoundException, IOException,
             BadElementException, MalformedURLException, NoSuchAlgorithmException {
@@ -279,12 +281,12 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
         }
         document.add(tb_exp);
         Paragraph p = new Paragraph("Tatsächliche Berechnungstage: "
-                + String.valueOf(_editPsyStaff.getStaffProof().getKidsEffectiveDays()), SMALLBOLD);
+                + String.valueOf(formatter.format(_editPsyStaff.getStaffProof().getKidsEffectiveDays())), SMALLBOLD);
         p.setSpacingAfter(5);
         document.add(p);
 
         p = new Paragraph("Tatsächliche Kosten für das Psych-PV-Personal in Summe nach § 5 in Euro: "
-                + String.valueOf(_editPsyStaff.getStaffProof().getKidsEffectiveCosts()), SMALLBOLD);
+                + String.valueOf(formatter.format(_editPsyStaff.getStaffProof().getKidsEffectiveCosts())), SMALLBOLD);
         p.setSpacingAfter(10);
         document.add(p);
     }
@@ -321,12 +323,12 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
         document.add(tb_exp);
 
         Paragraph p = new Paragraph("Tatsächliche Berechnungstage : "
-                + String.valueOf(_editPsyStaff.getStaffProof().getAdultsEffectiveDays()), SMALLBOLD);
+                + String.valueOf(formatter.format(_editPsyStaff.getStaffProof().getAdultsEffectiveDays())), SMALLBOLD);
         p.setSpacingAfter(5);
         document.add(p);
 
         p = new Paragraph("Tatsächliche Kosten für das Psych-PV-Personal in Summe nach § 5 in Euro: "
-                + String.valueOf(_editPsyStaff.getStaffProof().getAdultsEffectiveCosts()), SMALLBOLD);
+                + String.valueOf(formatter.format(_editPsyStaff.getStaffProof().getAdultsEffectiveCosts())), SMALLBOLD);
         p.setSpacingAfter(30);
         document.add(p);
     }
@@ -367,13 +369,13 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
         //addCell(tb, "", SMALLBOLD, Element.ALIGN_LEFT, BaseColor.LIGHT_GRAY);
         addCell(tb, "8", SMALLBOLD, Element.ALIGN_CENTER, BaseColor.LIGHT_GRAY);
         addCell(tb, "Gesamt", SMALLBOLD, Element.ALIGN_LEFT, BaseColor.LIGHT_GRAY);
-        addCell(tb, _editPsyStaff.sumEffectiveStaffingComplete(psychType).replace(",", "."),
+        addCell(tb, _editPsyStaff.sumEffectiveStaffingComplete(psychType),//.replace(",", "."),
                 SMALLBOLD, Element.ALIGN_RIGHT, BaseColor.LIGHT_GRAY);
-        addCell(tb, _editPsyStaff.sumEffectiveStaffingDeductionPsych(psychType).replace(",", "."),
+        addCell(tb, _editPsyStaff.sumEffectiveStaffingDeductionPsych(psychType),//.replace(",", "."),
                 SMALLBOLD, Element.ALIGN_RIGHT, BaseColor.LIGHT_GRAY);
-        addCell(tb, _editPsyStaff.sumEffectiveStaffingDeductionNonPsych(psychType).replace(",", "."),
+        addCell(tb, _editPsyStaff.sumEffectiveStaffingDeductionNonPsych(psychType),//.replace(",", "."),
                 SMALLBOLD, Element.ALIGN_RIGHT, BaseColor.LIGHT_GRAY);
-        addCell(tb, _editPsyStaff.sumEffectiveStaffingDeductionOther(psychType).replace(",", "."),
+        addCell(tb, _editPsyStaff.sumEffectiveStaffingDeductionOther(psychType),//.replace(",", "."),
                 SMALLBOLD, Element.ALIGN_RIGHT, BaseColor.LIGHT_GRAY);
         addCell(tb, "", SMALLBOLD, Element.ALIGN_RIGHT, BaseColor.LIGHT_GRAY);
 
@@ -411,7 +413,6 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
     }
 
     //</editor-fold>
-    
     //<editor-fold defaultstate="collapsed" desc="addExplanationTable">
     void addExplanationTable(PdfPTable tb, PsychType psychType) {
 
@@ -436,7 +437,7 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
                 addCell(tb, t, SMALL, Element.ALIGN_LEFT, BaseColor.LIGHT_GRAY);
                 addCell(tb, staffProofExplanation.getEffectiveOccupationalCategory(), SMALL, Element.ALIGN_RIGHT, BaseColor.WHITE);
                 addCell(tb, String.valueOf(staffProofExplanation.getDeductedFullVigor()), SMALL, Element.ALIGN_RIGHT, BaseColor.WHITE);
-                addCell(tb, staffProofExplanation.getExplanation(), SMALL, Element.ALIGN_RIGHT, BaseColor.WHITE);
+                addCell(tb, staffProofExplanation.getExplanation(), SMALL, Element.ALIGN_LEFT, BaseColor.WHITE);
             }
 
         }
@@ -561,15 +562,15 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="addRow">
     private void addRow(PdfPTable tb, String lfdNr, StaffProofAgreed staffProofAgreed) {
 
-        DecimalFormat formatter = new DecimalFormat("###,##0.00");
+//        DecimalFormat formatter = new DecimalFormat("###,##0.00");
         addCell(tb, staffProofAgreed.getOccupationalCategory().getPersonnelGroup().getName(),
                 SMALL, Element.ALIGN_LEFT, BaseColor.LIGHT_GRAY);
         addCell(tb, lfdNr, SMALL, Element.ALIGN_CENTER, BaseColor.LIGHT_GRAY);
         addCell(tb, staffProofAgreed.getOccupationalCategory().getName(),
                 SMALL, Element.ALIGN_LEFT, BaseColor.LIGHT_GRAY);
-        addCell(tb, String.valueOf(staffProofAgreed.getStaffingComplete()),//.replace(",", "."),
+        addCell(tb, String.valueOf(formatter.format(staffProofAgreed.getStaffingComplete())),//.replace(",", "."),
                 SMALL, Element.ALIGN_RIGHT, BaseColor.WHITE);
-        addCell(tb, String.valueOf(staffProofAgreed.getStaffingBudget()),//.replace(",", "."),
+        addCell(tb, String.valueOf(formatter.format(staffProofAgreed.getStaffingBudget())),//.replace(",", "."),
                 SMALL, Element.ALIGN_RIGHT, BaseColor.WHITE);
         //addCell(tb, String.valueOf(staffProofAgreed.getAvgCost()).replace(",", "."), 
         addCell(tb, String.valueOf(formatter.format(staffProofAgreed.getAvgCost())),
@@ -580,16 +581,17 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="addRow2">
     private void addRow2(PdfPTable tb, String lfdNr, StaffProofEffective staffProofEffective) {
 
+//        DecimalFormat formatter = new DecimalFormat("###,##0.00");
         addCell(tb, lfdNr, SMALL, Element.ALIGN_CENTER, BaseColor.LIGHT_GRAY);
         addCell(tb, staffProofEffective.getOccupationalCategory().getName(),
                 SMALL, Element.ALIGN_LEFT, BaseColor.LIGHT_GRAY);
-        addCell(tb, String.valueOf(staffProofEffective.getStaffingComplete()).replace(",", "."),
+        addCell(tb, String.valueOf(formatter.format(staffProofEffective.getStaffingComplete())),//.replace(",", "."),
                 SMALL, Element.ALIGN_RIGHT, BaseColor.WHITE);
-        addCell(tb, String.valueOf(staffProofEffective.getStaffingDeductionPsych()).replace(",", "."),
+        addCell(tb, String.valueOf(formatter.format(staffProofEffective.getStaffingDeductionPsych())),//.replace(",", "."),
                 SMALL, Element.ALIGN_RIGHT, BaseColor.WHITE);
-        addCell(tb, String.valueOf(staffProofEffective.getStaffingDeductionNonPsych()).replace(",", "."),
+        addCell(tb, String.valueOf(formatter.format(staffProofEffective.getStaffingDeductionNonPsych())),//.replace(",", "."),
                 SMALL, Element.ALIGN_RIGHT, BaseColor.WHITE);
-        addCell(tb, String.valueOf(staffProofEffective.getStaffingDeductionOther()).replace(",", "."),
+        addCell(tb, String.valueOf(formatter.format(staffProofEffective.getStaffingDeductionOther())),//.replace(",", "."),
                 SMALL, Element.ALIGN_RIGHT, BaseColor.WHITE);
         addCell(tb, _editPsyStaff.determineFactor(staffProofEffective),
                 SMALL, Element.ALIGN_RIGHT, BaseColor.WHITE);
@@ -685,7 +687,7 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="IsToexplain">
     private boolean IsToexplain(PsychType psychType) {
-        
+
         boolean t = false;
         for (StaffProofExplanation staffProofExplanation : _editPsyStaff.getStaffProof().getStaffProofExplanations(psychType)) {
             if (!("0".equalsIgnoreCase(staffProofExplanation.getEffectiveOccupationalCategory()))
