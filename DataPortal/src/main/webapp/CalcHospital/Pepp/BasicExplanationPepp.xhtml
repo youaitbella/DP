@@ -26,7 +26,7 @@
                 <span class="label">Summe kalkulationsrelevanter Kosten (EUR)</span>
             </td>
             <td>
-        <inek:InputNumberWithMessage styleClass="inputwide"
+        <inek:InputIntegerWithMessage styleClass="inputwide"
                                      value="#{editCalcBasicsPepp.calcBasics.sumCalcCost}" 
                                      required="true" 
                                      id="sumCalcCosts"
@@ -34,21 +34,21 @@
                                      />
         </td>
         <td>
-        <inek:InputNumberWithMessage styleClass="inputwide"
+        <inek:InputIntegerWithMessage styleClass="inputwide"
                                      value="" 
                                      required="false"
                                      disabled="true"
                                      />
         </td>
         <td>
-        <inek:InputNumberWithMessage styleClass="inputwide"
+        <inek:InputIntegerWithMessage styleClass="inputwide"
                                      value="#{editCalcBasicsPepp.priorCalcBasics.sumCalcCost}" 
                                      disabled="true"
                                      id="pSumCalcCost"
                                      />
         </td>
         <td>
-        <inek:InputNumberWithMessage styleClass="inputwide"
+        <inek:InputIntegerWithMessage styleClass="inputwide"
                                      value="" 
                                      required="false"
                                      disabled="true"
@@ -56,7 +56,7 @@
         </td>
         <td>
         <h:panelGroup id="pDiffSumCalcCost">
-            <inek:InputNumberWithMessage styleClass="inputwide"
+            <inek:InputIntegerWithMessage styleClass="inputwide"
                                          value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.priorCalcBasics.sumCalcCost, editCalcBasicsPepp.calcBasics.sumCalcCost)}" 
                                          disabled="true"
                                          />
@@ -64,7 +64,7 @@
         </td>
         <td>
         <h:panelGroup id="pDiffSumCalcCostPsy">
-            <inek:InputNumberWithMessage styleClass="inputwide"
+            <inek:InputIntegerWithMessage styleClass="inputwide"
                                          value="" 
                                          disabled="true"
                                          />
@@ -93,7 +93,7 @@
                 <span class="label">Fälle vollstationär</span>
             </td>
             <td>
-        <inek:InputNumberWithMessage styleClass="inputwide"
+        <inek:InputIntegerWithMessage styleClass="inputwide"
                                      value="#{editCalcBasicsPepp.calcBasics.caseInStationCnt}" 
                                      required="true" 
                                      id="fullCases"
@@ -101,7 +101,7 @@
                                      />
         </td>
         <td>
-        <inek:InputNumberWithMessage styleClass="inputwide"
+        <inek:InputIntegerWithMessage styleClass="inputwide"
                                      value="#{editCalcBasicsPepp.calcBasics.caseInStationCntPsy}" 
                                      required="true" 
                                      id="fullCasesPsy"
@@ -109,14 +109,14 @@
                                      />
         </td>
         <td>
-        <inek:InputNumberWithMessage styleClass="inputwide"
+        <inek:InputIntegerWithMessage styleClass="inputwide"
                                      value="#{editCalcBasicsPepp.priorCalcBasics.caseInStationCnt}" 
                                      id="pCaseInstationCount"
                                      disabled="true"
                                      />
         </td>
         <td>
-        <inek:InputNumberWithMessage styleClass="inputwide"
+        <inek:InputIntegerWithMessage styleClass="inputwide"
                                      value="#{editCalcBasicsPepp.priorCalcBasics.caseInStationCntPsy}" 
                                      id="pCaseInstationCountPsy"
                                      disabled="true"
@@ -144,7 +144,7 @@
                 <span class="label">Pflegetage vollstationär</span>
             </td>
             <td>
-        <inek:InputNumberWithMessage styleClass="inputwide"
+        <inek:InputIntegerWithMessage styleClass="inputwide"
                                      value="#{editCalcBasicsPepp.calcBasics.careDaysInStationCnt}" 
                                      required="true" 
                                      id="careDaysFullCases"
@@ -152,7 +152,7 @@
                                      />
         </td>
         <td>
-        <inek:InputNumberWithMessage styleClass="inputwide"
+        <inek:InputIntegerWithMessage styleClass="inputwide"
                                      value="#{editCalcBasicsPepp.calcBasics.careDaysInStationCntPsy}" 
                                      required="true" 
                                      id="careDaysFullCasesPsy"
@@ -160,13 +160,13 @@
                                      />
         </td>
         <td>
-        <inek:InputNumberWithMessage styleClass="inputwide"
+        <inek:InputIntegerWithMessage styleClass="inputwide"
                                      value="#{editCalcBasicsPepp.priorCalcBasics.careDaysInStationCnt}"
                                      disabled="true"
                                      />
         </td>
         <td>
-        <inek:InputNumberWithMessage styleClass="inputwide"
+        <inek:InputIntegerWithMessage styleClass="inputwide"
                                      value="#{editCalcBasicsPepp.priorCalcBasics.careDaysInStationCntPsy}"
                                      disabled="true"
                                      />
@@ -193,7 +193,7 @@
                 <span class="label">Fälle teilstationär</span>
             </td>
             <td>
-        <inek:InputNumberWithMessage styleClass="inputwide"
+        <inek:InputIntegerWithMessage styleClass="inputwide"
                                      value="#{editCalcBasicsPepp.calcBasics.casePartialStationCnt}" 
                                      required="true" 
                                      id="halfCases"
@@ -201,7 +201,7 @@
                                      />
         </td>
         <td>
-        <inek:InputNumberWithMessage styleClass="inputwide"
+        <inek:InputIntegerWithMessage styleClass="inputwide"
                                      value="#{editCalcBasicsPepp.calcBasics.casePartialStationCntPsy}" 
                                      required="true" 
                                      id="halfCasesPsy"
@@ -209,13 +209,13 @@
                                      />
         </td>
         <td>
-        <inek:InputNumberWithMessage styleClass="inputwide"
+        <inek:InputIntegerWithMessage styleClass="inputwide"
                                      value="#{editCalcBasicsPepp.priorCalcBasics.casePartialStationCnt}"
                                      disabled="true"
                                      />
         </td>
         <td>
-        <inek:InputNumberWithMessage styleClass="inputwide"
+        <inek:InputIntegerWithMessage styleClass="inputwide"
                                      value="#{editCalcBasicsPepp.priorCalcBasics.casePartialStationCntPsy}"
                                      disabled="true"
                                      />
@@ -242,7 +242,7 @@
                 <span class="label">Berechnungstage teilstationär</span>
             </td>
             <td>
-        <inek:InputNumberWithMessage styleClass="inputwide"
+        <inek:InputIntegerWithMessage styleClass="inputwide"
                                      value="#{editCalcBasicsPepp.calcBasics.daysPartialStation}"
                                      required="true" 
                                      id="halfCalcDays"
@@ -250,7 +250,7 @@
                                      />
         </td>
         <td>
-        <inek:InputNumberWithMessage styleClass="inputwide"
+        <inek:InputIntegerWithMessage styleClass="inputwide"
                                      value="#{editCalcBasicsPepp.calcBasics.daysPartialStationPsy}"
                                      required="true" 
                                      id="halfCalcDaysPsy"
@@ -258,14 +258,14 @@
                                      />
         </td>
         <td>
-        <inek:InputNumberWithMessage styleClass="inputwide"
+        <inek:InputIntegerWithMessage styleClass="inputwide"
                                      value="#{editCalcBasicsPepp.priorCalcBasics.daysPartialStation}"
                                      id="pHalfCalcDays"
                                      disabled="true"
                                      />
         </td>
         <td>
-        <inek:InputNumberWithMessage styleClass="inputwide"
+        <inek:InputIntegerWithMessage styleClass="inputwide"
                                      value="#{editCalcBasicsPepp.priorCalcBasics.daysPartialStationPsy}"
                                      id="pHalfCalcDaysPsy"
                                      disabled="true"
@@ -293,7 +293,7 @@
                 <span class="label">Begleitpersonen</span>
             </td>
             <td>
-        <inek:InputNumberWithMessage styleClass="inputwide"
+        <inek:InputIntegerWithMessage styleClass="inputwide"
                                      value="#{editCalcBasicsPepp.calcBasics.patientEscort}"
                                      required="true" 
                                      id="companions"
@@ -301,21 +301,21 @@
                                      />
         </td>
         <td>
-        <inek:InputNumberWithMessage styleClass="inputwide"
+        <inek:InputIntegerWithMessage styleClass="inputwide"
                                      value=""
                                      required="false" 
                                      disabled="true"
                                      />
         </td>
         <td>
-        <inek:InputNumberWithMessage styleClass="inputwide"
+        <inek:InputIntegerWithMessage styleClass="inputwide"
                                      value="#{editCalcBasicsPepp.priorCalcBasics.patientEscort}"
                                      disabled="true"
                                      id="pPatientEscort"
                                      />
         </td>
         <td>
-        <inek:InputNumberWithMessage styleClass="inputwide"
+        <inek:InputIntegerWithMessage styleClass="inputwide"
                                      value=""
                                      required="false" 
                                      disabled="true"
@@ -330,7 +330,7 @@
         </h:panelGroup>
         </td>
         <td>
-        <inek:InputNumberWithMessage styleClass="inputwide"
+        <inek:InputIntegerWithMessage styleClass="inputwide"
                                      value=""
                                      required="false" 
                                      disabled="true"
@@ -342,7 +342,7 @@
                 <span class="label">rein vorstationär</span>
             </td>
             <td>
-        <inek:InputNumberWithMessage styleClass="inputwide"
+        <inek:InputIntegerWithMessage styleClass="inputwide"
                                      value="#{editCalcBasicsPepp.calcBasics.preStation}"
                                      required="true" 
                                      id="onlyStationary"
@@ -350,20 +350,20 @@
                                      />
         </td>
         <td>
-        <inek:InputNumberWithMessage styleClass="inputwide"
+        <inek:InputIntegerWithMessage styleClass="inputwide"
                                      value=""
                                      required="false" 
                                      disabled="true"
                                      />
         </td>
         <td>
-        <inek:InputNumberWithMessage styleClass="inputwide"
+        <inek:InputIntegerWithMessage styleClass="inputwide"
                                      value="#{editCalcBasicsPepp.priorCalcBasics.preStation}"
                                      disabled="true"
                                      />
         </td>
         <td>
-        <inek:InputNumberWithMessage styleClass="inputwide"
+        <inek:InputIntegerWithMessage styleClass="inputwide"
                                      value=""
                                      required="false" 
                                      disabled="true"
@@ -378,7 +378,7 @@
         </h:panelGroup>
         </td>
         <td>
-        <inek:InputNumberWithMessage styleClass="inputwide"
+        <inek:InputIntegerWithMessage styleClass="inputwide"
                                      value=""
                                      required="false" 
                                      disabled="true"
@@ -390,27 +390,27 @@
                 <span class="label">Betten (PSY-Bereich)</span>
             </td>
             <td>
-        <inek:InputNumberWithMessage styleClass="inputwide"
+        <inek:InputIntegerWithMessage styleClass="inputwide"
                                      value="#{editCalcBasicsPepp.calcBasics.beds}"
                                      required="true" 
                                      renderElement="@this pDiffBeds :logout:remaining"
                                      />
         </td>
         <td>
-        <inek:InputNumberWithMessage styleClass="inputwide"
+        <inek:InputIntegerWithMessage styleClass="inputwide"
                                      value=""
                                      required="false" 
                                      disabled="true"
                                      />
         </td>
         <td>
-        <inek:InputNumberWithMessage styleClass="inputwide"
+        <inek:InputIntegerWithMessage styleClass="inputwide"
                                      value="#{editCalcBasicsPepp.priorCalcBasics.beds}"
                                      disabled="true"
                                      />
         </td>
         <td>
-        <inek:InputNumberWithMessage styleClass="inputwide"
+        <inek:InputIntegerWithMessage styleClass="inputwide"
                                      value=""
                                      required="false" 
                                      disabled="true"
@@ -425,7 +425,7 @@
         </h:panelGroup>
         </td>
         <td>
-        <inek:InputNumberWithMessage styleClass="inputwide"
+        <inek:InputIntegerWithMessage styleClass="inputwide"
                                      value=""
                                      required="false" 
                                      disabled="true"
@@ -437,27 +437,27 @@
                 <span class="label">Anzahl teilstationäre Plätze (PSY-Bereich)</span>
             </td>
             <td>
-        <inek:InputNumberWithMessage styleClass="inputwide"
+        <inek:InputIntegerWithMessage styleClass="inputwide"
                                      value="#{editCalcBasicsPepp.calcBasics.partialCnt}"
                                      required="true" 
                                      renderElement="@this pDiffPartialCnt :logout:remaining"
                                      />
         </td>
         <td>
-        <inek:InputNumberWithMessage styleClass="inputwide"
+        <inek:InputIntegerWithMessage styleClass="inputwide"
                                      value=""
                                      required="false" 
                                      disabled="true"
                                      />
         </td>
         <td>
-        <inek:InputNumberWithMessage styleClass="inputwide"
+        <inek:InputIntegerWithMessage styleClass="inputwide"
                                      value="#{editCalcBasicsPepp.priorCalcBasics.partialCnt}"
                                      disabled="true"
                                      />
         </td>
         <td>
-        <inek:InputNumberWithMessage styleClass="inputwide"
+        <inek:InputIntegerWithMessage styleClass="inputwide"
                                      value=""
                                      required="false" 
                                      disabled="true"
@@ -470,7 +470,7 @@
                                      />
         </td>
         <td>
-        <inek:InputNumberWithMessage styleClass="inputwide"
+        <inek:InputIntegerWithMessage styleClass="inputwide"
                                      value=""
                                      required="false" 
                                      disabled="true"
@@ -585,35 +585,35 @@
             </h:column>
 
             <h:column rendered="#{x.used and x.requireInputs}">
-                <inek:InputNumberWithMessage id="data-personal" rendered="#{data eq 'Personalkosten' and x.contentText.text != 'Investitionskosten'}" value="#{x.personalCost}"
+                <inek:InputIntegerWithMessage id="data-personal" rendered="#{data eq 'Personalkosten' and x.contentText.text != 'Investitionskosten'}" value="#{x.personalCost}"
                                              styleClass="col06em" required="true" renderElement="@this uival:#{status.index}:tblsubval:0:diff-personal:text :logout:remaining"
                                              disabled="#{x.contentText.text eq 'Investitionskosten'}"/>
-                <inek:InputNumberWithMessage id="data-material" rendered="#{data eq 'Sachkosten'}" value="#{x.materialCost}"
+                <inek:InputIntegerWithMessage id="data-material" rendered="#{data eq 'Sachkosten'}" value="#{x.materialCost}"
                                              styleClass="col06em" required="true" renderElement="@this uival:#{status.index}:tblsubval:1:diff-material:text :logout:remaining"
                                              />
-                <inek:InputNumberWithMessage id="data-infra" rendered="#{data eq 'Infrastrukturkosten' and x.contentText.text != 'Investitionskosten'}" value="#{x.infraCost}"
+                <inek:InputIntegerWithMessage id="data-infra" rendered="#{data eq 'Infrastrukturkosten' and x.contentText.text != 'Investitionskosten'}" value="#{x.infraCost}"
                                              styleClass="col06em" required="true" renderElement="@this uival:#{status.index}:tblsubval:2:diff-infra:text :logout:remaining"
                                              disabled="#{x.contentText.text eq 'Investitionskosten'}"/>
             </h:column>
 
             <h:column rendered="#{x.used and x.requireInputs}">
-                <inek:InputNumberWithMessage rendered="#{data eq 'Personalkosten' and x.contentText.text != 'Investitionskosten'}" value="#{editCalcBasicsPepp.getPriorDelimitationFact(x.contentTextId).personalCost}" styleClass="col06em" disabled="true" required="true"/>
-                <inek:InputNumberWithMessage rendered="#{data eq 'Sachkosten'}" value="#{editCalcBasicsPepp.getPriorDelimitationFact(x.contentTextId).materialCost}" styleClass="col06em" disabled="true" required="true"/>
-                <inek:InputNumberWithMessage rendered="#{data eq 'Infrastrukturkosten' and x.contentText.text != 'Investitionskosten'}" value="#{editCalcBasicsPepp.getPriorDelimitationFact(x.contentTextId).infraCost}" styleClass="col06em" disabled="true" required="true"/>
+                <inek:InputIntegerWithMessage rendered="#{data eq 'Personalkosten' and x.contentText.text != 'Investitionskosten'}" value="#{editCalcBasicsPepp.getPriorDelimitationFact(x.contentTextId).personalCost}" styleClass="col06em" disabled="true" required="true"/>
+                <inek:InputIntegerWithMessage rendered="#{data eq 'Sachkosten'}" value="#{editCalcBasicsPepp.getPriorDelimitationFact(x.contentTextId).materialCost}" styleClass="col06em" disabled="true" required="true"/>
+                <inek:InputIntegerWithMessage rendered="#{data eq 'Infrastrukturkosten' and x.contentText.text != 'Investitionskosten'}" value="#{editCalcBasicsPepp.getPriorDelimitationFact(x.contentTextId).infraCost}" styleClass="col06em" disabled="true" required="true"/>
             </h:column>
 
             <h:column rendered="#{x.used and x.requireInputs}">
-                <inek:InputNumberWithMessage id="diff-personal"
+                <inek:InputIntegerWithMessage id="diff-personal"
                                              rendered="#{data eq 'Personalkosten' and x.contentText.text != 'Investitionskosten'}" 
                                              value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.getPriorDelimitationFact(x.contentTextId).personalCost, x.personalCost)}"
                                              styleClass="col06em"
                                              disabled="true"/>
-                <inek:InputNumberWithMessage id="diff-material"
+                <inek:InputIntegerWithMessage id="diff-material"
                                              rendered="#{data eq 'Sachkosten'}" 
                                              value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.getPriorDelimitationFact(x.contentTextId).materialCost, x.materialCost)}"
                                              styleClass="col06em"
                                              disabled="true"/>
-                <inek:InputNumberWithMessage id="diff-infra"
+                <inek:InputIntegerWithMessage id="diff-infra"
                                              rendered="#{data eq 'Infrastrukturkosten' and x.contentText.text != 'Investitionskosten'}" 
                                              value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.getPriorDelimitationFact(x.contentTextId).infraCost, x.infraCost)}"
                                              styleClass="col06em"

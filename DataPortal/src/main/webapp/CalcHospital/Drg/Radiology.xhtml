@@ -100,7 +100,7 @@
                 <h:outputLabel value="Leistungsvolumen"/><br/>
                 <h:outputLabel value="vor Abgrenzung"/><br/>
             </f:facet>
-            <inek:InputNumberWithMessage renderElement="point-value:text" value="#{item.serviceVolumePre}" />
+            <inek:InputIntegerWithMessage renderElement="point-value:text" value="#{item.serviceVolumePre}" />
         </h:column>
 
         <h:column>
@@ -108,7 +108,7 @@
                 <h:outputLabel value="Kostenvolumen"/><br/>
                 <h:outputLabel value="vor Abgrenzung"/><br/>
             </f:facet>
-            <inek:InputNumberWithMessage value="#{item.amountPre}" renderElement="point-value:text"/>
+            <inek:InputIntegerWithMessage value="#{item.amountPre}" renderElement="point-value:text"/>
         </h:column>
 
         <h:column>
@@ -116,7 +116,7 @@
                 <h:outputLabel value="Leistungsvolumen"/><br/>
                 <h:outputLabel value="nach Abgrenzung"/><br/>
             </f:facet>
-            <inek:InputNumberWithMessage value="#{item.serviceVolumePost}" renderElement="point-value2:text"/>
+            <inek:InputIntegerWithMessage value="#{item.serviceVolumePost}" renderElement="point-value2:text"/>
         </h:column>
 
         <h:column>
@@ -124,21 +124,21 @@
                 <h:outputLabel value="Kostenvolumen"/><br/>
                 <h:outputLabel value="nach Abgrenzung"/><br/>
             </f:facet>
-            <inek:InputNumberWithMessage value="#{item.amountPost}" renderElement="point-value2:text"/>
+            <inek:InputIntegerWithMessage value="#{item.amountPost}" renderElement="point-value2:text"/>
         </h:column>
 
         <h:column>
             <f:facet name="header">
                 <h:outputLabel value="Punktwert (Vor)"/><br/>
             </f:facet>
-            <inek:InputNumberWithMessage id="point-value" value="#{(item.amountPre != 0 and item.serviceVolumePre != 0) ? item.amountPre / item.serviceVolumePre : 0}" readonly="true" pattern="0.0"/>
+            <inek:InputIntegerWithMessage id="point-value" value="#{(item.amountPre != 0 and item.serviceVolumePre != 0) ? item.amountPre / item.serviceVolumePre : 0}" readonly="true" pattern="0.0"/>
         </h:column>
 
         <h:column>
             <f:facet name="header">
                 <h:outputLabel value="Punktwert (Nach)"/><br/>
             </f:facet>
-            <inek:InputNumberWithMessage id="point-value2" value="#{(item.amountPost != 0 and item.serviceVolumePost != 0) ? item.amountPost / item.serviceVolumePost : 0}" readonly="true" pattern="0.0"/>
+            <inek:InputIntegerWithMessage id="point-value2" value="#{(item.amountPost != 0 and item.serviceVolumePost != 0) ? item.amountPost / item.serviceVolumePost : 0}" readonly="true" pattern="0.0"/>
         </h:column>
     </h:dataTable>
     
@@ -190,37 +190,17 @@
                 <td class="underlined-col">#{editCalcBasicsDrg.getContentText(item.rsContentTextID)}</td>
                 <td class="underlined-col">#{item.opsCode}</td>
                 <td>
-            <inek:InputNumberWithMessage value="#{item.serviceCost}" />
+            <inek:InputIntegerWithMessage value="#{item.serviceCost}" />
             </td>
             <td>
-            <inek:InputNumberWithMessage value="#{item.caseCntStationary}" />
+            <inek:InputIntegerWithMessage value="#{item.caseCntStationary}" />
             </td>
             <td>
-            <inek:InputNumberWithMessage value="#{item.caseCntAmbulant}" />
+            <inek:InputIntegerWithMessage value="#{item.caseCntAmbulant}" />
             </td>
             <td>
-            <inek:InputNumberWithMessage value="#{item.ambulantAmount}" />
+            <inek:InputIntegerWithMessage value="#{item.ambulantAmount}" />
             </td>
-            <!--td>
-            <inek:InputNumberWithMessage 
-                disabled="true"
-                value="# {editCalcBasicsDrg.getPriorRadiologyService(item.rsContentTextID).serviceCost}" />
-            </td>
-            <td>
-            <inek:InputNumberWithMessage 
-                disabled="true"
-                value="# {editCalcBasicsDrg.getPriorRadiologyService(item.rsContentTextID).caseCntStationary}" />
-            </td>
-            <td>
-            <inek:InputNumberWithMessage 
-                disabled="true"
-                value="# {editCalcBasicsDrg.getPriorRadiologyService(item.rsContentTextID).caseCntAmbulant}" />
-            </td>
-            <td>
-            <inek:InputNumberWithMessage 
-                disabled="true"
-                value="# {editCalcBasicsDrg.getPriorRadiologyService(item.rsContentTextID).ambulantAmount}" />
-            </td-->
             </tr>
         </ui:repeat>
     </table>

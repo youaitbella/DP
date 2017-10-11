@@ -17,7 +17,7 @@
         <cc:attribute name="renderElement" default="@this"/>
         <cc:attribute name="minimum" default="0"/>
         <cc:attribute name="maximum" default="999999999"/>
-        <cc:attribute name="pattern" default="#,##0.00"/>
+        <cc:attribute name="pattern" default="#,##0"/>
         <cc:attribute name="validatorMessage" default="ausserhalb des gültigen Bereichs"/>
         <cc:editableValueHolder name="text"/>
         <cc:actionSource name="text"/>
@@ -40,7 +40,7 @@
                          >
                 <f:ajax event="blur" render="#{cc.attrs.renderElement} :logout:remaining message @this"/>
                 <f:convertNumber pattern="#{cc.attrs.pattern}"/>
-                <f:validateDoubleRange minimum="#{cc.attrs.minimum}" maximum="#{cc.attrs.maximum}"/>
+                <f:validateLongRange minimum="#{cc.attrs.minimum}" maximum="#{cc.attrs.maximum}"/>
             </h:inputText>
             <h:message for="text" id="message" errorClass="errorMessage"/>
         </h:panelGroup>

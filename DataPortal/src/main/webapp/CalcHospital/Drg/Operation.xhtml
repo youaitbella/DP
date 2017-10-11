@@ -185,29 +185,29 @@
 
             <div class="inputPart">
                 <h:outputLabel value="#{editCalcBasicsDrg.calcBasics.dataYear}" styleClass="label20"/>
-                <inek:InputNumberWithMessage value="#{editCalcBasicsDrg.calcBasics.opAn.medicalServiceAmountOP}" styleClassComponent="element20 centered" styleClass="element50" title="#{msg.titleCalcOpAnSum}" renderElement="diff" required="true"/>
-                <inek:InputNumberWithMessage value="#{editCalcBasicsDrg.calcBasics.opAn.functionalServiceAmountOP}" styleClassComponent="element20 centered" styleClass="element50" title="#{msg.titleCalcOpAnSum}" renderElement="diff" required="true"/>
-                <inek:InputNumberWithMessage value="#{editCalcBasicsDrg.calcBasics.opAn.medicalServiceAmountAN}" styleClassComponent="element20 centered" styleClass="element50" title="#{msg.titleCalcOpAnSum}" renderElement="diff" required="true"/>
-                <inek:InputNumberWithMessage value="#{editCalcBasicsDrg.calcBasics.opAn.functionalServiceAmountAN}" styleClassComponent="element20 centered" styleClass="element50" title="#{msg.titleCalcOpAnSum}" renderElement="diff" required="true"/>
+                <inek:InputIntegerWithMessage value="#{editCalcBasicsDrg.calcBasics.opAn.medicalServiceAmountOP}" styleClassComponent="element20 centered" styleClass="element50" title="#{msg.titleCalcOpAnSum}" renderElement="diff" required="true"/>
+                <inek:InputIntegerWithMessage value="#{editCalcBasicsDrg.calcBasics.opAn.functionalServiceAmountOP}" styleClassComponent="element20 centered" styleClass="element50" title="#{msg.titleCalcOpAnSum}" renderElement="diff" required="true"/>
+                <inek:InputIntegerWithMessage value="#{editCalcBasicsDrg.calcBasics.opAn.medicalServiceAmountAN}" styleClassComponent="element20 centered" styleClass="element50" title="#{msg.titleCalcOpAnSum}" renderElement="diff" required="true"/>
+                <inek:InputIntegerWithMessage value="#{editCalcBasicsDrg.calcBasics.opAn.functionalServiceAmountAN}" styleClassComponent="element20 centered" styleClass="element50" title="#{msg.titleCalcOpAnSum}" renderElement="diff" required="true"/>
             </div>
 
             <div class="inputPart">
                 <h:outputLabel value="#{editCalcBasicsDrg.calcBasics.dataYear - 1}" styleClass="label20"/>
-                <inek:InputNumberWithMessage value="#{editCalcBasicsDrg.priorCalcBasics.opAn.medicalServiceAmountOP}" styleClassComponent="element20 centered" styleClass="element50" disabled="true"/>
-                <inek:InputNumberWithMessage value="#{editCalcBasicsDrg.priorCalcBasics.opAn.functionalServiceAmountOP}" styleClassComponent="element20 centered" styleClass="element50" disabled="true"/>
-                <inek:InputNumberWithMessage value="#{editCalcBasicsDrg.priorCalcBasics.opAn.medicalServiceAmountAN}" styleClassComponent="element20 centered" styleClass="element50" disabled="true"/>
-                <inek:InputNumberWithMessage value="#{editCalcBasicsDrg.priorCalcBasics.opAn.functionalServiceAmountAN}" styleClassComponent="element20 centered" styleClass="element50" disabled="true"/>
+                <inek:InputIntegerWithMessage value="#{editCalcBasicsDrg.priorCalcBasics.opAn.medicalServiceAmountOP}" styleClassComponent="element20 centered" styleClass="element50" disabled="true"/>
+                <inek:InputIntegerWithMessage value="#{editCalcBasicsDrg.priorCalcBasics.opAn.functionalServiceAmountOP}" styleClassComponent="element20 centered" styleClass="element50" disabled="true"/>
+                <inek:InputIntegerWithMessage value="#{editCalcBasicsDrg.priorCalcBasics.opAn.medicalServiceAmountAN}" styleClassComponent="element20 centered" styleClass="element50" disabled="true"/>
+                <inek:InputIntegerWithMessage value="#{editCalcBasicsDrg.priorCalcBasics.opAn.functionalServiceAmountAN}" styleClassComponent="element20 centered" styleClass="element50" disabled="true"/>
             </div>
 
             <div class="inputPart" jsf:id="diff">
                 <h:outputLabel value="Abweichung" styleClass="label20"/>
-                <inek:InputNumberWithMessage value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorCalcBasics.opAn.medicalServiceAmountOP, editCalcBasicsDrg.calcBasics.opAn.medicalServiceAmountOP)}" 
+                <inek:InputIntegerWithMessage value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorCalcBasics.opAn.medicalServiceAmountOP, editCalcBasicsDrg.calcBasics.opAn.medicalServiceAmountOP)}" 
                                              styleClassComponent="element20 centered" styleClass="element50" disabled="true"/>
-                <inek:InputNumberWithMessage value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorCalcBasics.opAn.functionalServiceAmountOP, editCalcBasicsDrg.calcBasics.opAn.functionalServiceAmountOP)}"
+                <inek:InputIntegerWithMessage value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorCalcBasics.opAn.functionalServiceAmountOP, editCalcBasicsDrg.calcBasics.opAn.functionalServiceAmountOP)}"
                                              styleClassComponent="element20 centered" styleClass="element50" disabled="true"/>
-                <inek:InputNumberWithMessage value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorCalcBasics.opAn.medicalServiceAmountAN, editCalcBasicsDrg.calcBasics.opAn.medicalServiceAmountAN)}"
+                <inek:InputIntegerWithMessage value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorCalcBasics.opAn.medicalServiceAmountAN, editCalcBasicsDrg.calcBasics.opAn.medicalServiceAmountAN)}"
                                              styleClassComponent="element20 centered" styleClass="element50" disabled="true"/>
-                <inek:InputNumberWithMessage value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorCalcBasics.opAn.functionalServiceAmountAN, editCalcBasicsDrg.calcBasics.opAn.functionalServiceAmountAN)}"
+                <inek:InputIntegerWithMessage value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorCalcBasics.opAn.functionalServiceAmountAN, editCalcBasicsDrg.calcBasics.opAn.functionalServiceAmountAN)}"
                                              styleClassComponent="element20 centered" styleClass="element50" disabled="true"/>
             </div>
 
@@ -223,15 +223,15 @@
                 </h:column>
                 <h:column>
                     <f:facet name="header">#{msg.lblCaseCount}</f:facet>
-                    <inek:InputNumberWithMessage value="#{item.caseCount}" required="#{!item.isEmpty()}"/>
+                    <inek:InputIntegerWithMessage value="#{item.caseCount}" required="#{!item.isEmpty()}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">#{msg.lblRevenueVolume}</f:facet>
-                    <inek:InputNumberWithMessage value="#{item.delimitationAmount}" required="#{!item.isEmpty()}"/>
+                    <inek:InputIntegerWithMessage value="#{item.delimitationAmount}" required="#{!item.isEmpty()}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">#{msg.lblMarkedOfCostVolume}</f:facet>
-                    <inek:InputNumberWithMessage value="#{item.amount}" required="#{!item.isEmpty()}"/>
+                    <inek:InputIntegerWithMessage value="#{item.amount}" required="#{!item.isEmpty()}"/>
                 </h:column>
             </h:dataTable>
 

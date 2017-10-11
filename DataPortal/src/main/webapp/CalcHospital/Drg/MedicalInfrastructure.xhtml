@@ -72,7 +72,7 @@
             <inek:InputTextWithMessage value="#{item.keyUsed}" styleClass="inputwide" required="true"/>
             </td>
             <td>
-            <inek:InputNumberWithMessage value="#{item.amount}" styleClass="inputwide" minimum="-999999999" required="true" renderElement="sumMed:text"/>
+            <inek:InputIntegerWithMessage value="#{item.amount}" styleClass="inputwide" minimum="-999999999" required="true" renderElement="sumMed:text"/>
             </td>
             </tr>
         </ui:repeat>
@@ -81,7 +81,7 @@
         <h:outputLabel value="&nbsp; &nbsp; &nbsp; Summe Kostenvolumen:" styleClass="label60"/>
         </td> 
         <td>
-        <inek:InputNumberWithMessage disabled="true" id="sumMed" value="#{editCalcBasicsDrg.getMedInfraSum(170)}"/>
+        <inek:InputIntegerWithMessage disabled="true" id="sumMed" value="#{editCalcBasicsDrg.getMedInfraSum(170)}"/>
         </td>
         </tr>
     </table>

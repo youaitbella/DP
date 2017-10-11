@@ -98,7 +98,7 @@
                 <h:outputLabel value="Leistungsvolumen"/><br/>
                 <h:outputLabel value="vor Abgrenzung"/><br/>
             </f:facet>
-            <inek:InputNumberWithMessage renderElement="point-value:text" value="#{item.serviceVolumePre}" />
+            <inek:InputIntegerWithMessage renderElement="point-value:text" value="#{item.serviceVolumePre}" />
         </h:column>
 
         <h:column>
@@ -106,7 +106,7 @@
                 <h:outputLabel value="Kostenvolumen"/><br/>
                 <h:outputLabel value="vor Abgrenzung"/><br/>
             </f:facet>
-            <inek:InputNumberWithMessage value="#{item.amountPre}" renderElement="point-value:text"/>
+            <inek:InputIntegerWithMessage value="#{item.amountPre}" renderElement="point-value:text"/>
         </h:column>
 
         <h:column>
@@ -114,14 +114,14 @@
                 <h:outputLabel value="Kostenvolumen"/><br/>
                 <h:outputLabel value="nach Abgrenzung"/><br/>
             </f:facet>
-            <inek:InputNumberWithMessage value="#{item.amountPost}" />
+            <inek:InputIntegerWithMessage value="#{item.amountPost}" />
         </h:column>
 
         <h:column>
             <f:facet name="header">
                 <h:outputLabel value="Punktwert"/><br/>
             </f:facet>
-            <inek:InputNumberWithMessage id="point-value" value="#{(item.amountPre != 0 and item.serviceVolumePre != 0) ? item.amountPre / item.serviceVolumePre : 0}" readonly="true" pattern="0.0"/>
+            <inek:InputIntegerWithMessage id="point-value" value="#{(item.amountPre != 0 and item.serviceVolumePre != 0) ? item.amountPre / item.serviceVolumePre : 0}" readonly="true" pattern="0.0"/>
         </h:column>
     </h:dataTable>
     

@@ -79,12 +79,13 @@ Die Definition eins IK-Admins erfolgt durch Zuordnung der zu administrierenden I
 ### Berechtigungen
 
 Ein Anwender, der potenziell für ein Haus arbeitet, kann dies derzeit in der Stammdatenpflege eintragen.
-Diese Info ist in die Berechtigung zu übernehmen. Hier kann der IK-Admin jedoch Rechte für einezelne Funktionalitäten verweigern (Recht: None).
+Diese Info ist in die Berechtigung zu übernehmen. Hier kann der IK-Admin jedoch Rechte für einezelne Funktionalitäten verweigern (Recht: Deny).
 
 - id (technischer Schlüssel)
 - AccountId
 - IK
 - Feature
-- Recht (None Read Write Seal)
+- Recht (Deny Read Write Seal)
+
 
 [Zurück zum Hauptdokument](DataPortal.md#FunctionalRequirements)

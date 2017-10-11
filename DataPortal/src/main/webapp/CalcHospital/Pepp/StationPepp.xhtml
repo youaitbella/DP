@@ -139,7 +139,7 @@
 
             </td>
             <td>
-            <inek:InputNumberWithMessage value="#{item.bedCnt}" isInt="true" renderElement="@this tblNormInt1:#{loop.index}:utilization"/>
+            <inek:InputIntegerWithMessage value="#{item.bedCnt}" renderElement="@this tblNormInt1:#{loop.index}:utilization"/>
             </td>
             <td style="text-align: center;">
             <h:selectBooleanCheckbox value="#{item.receivingStation}">
@@ -147,16 +147,16 @@
             </h:selectBooleanCheckbox>            
             </td>
             <td>
-            <inek:InputNumberWithMessage value="#{item.regularCareDays}" renderElement="@this tblNormInt1:#{loop.index}:utilization"/>
+            <inek:InputIntegerWithMessage value="#{item.regularCareDays}" renderElement="@this tblNormInt1:#{loop.index}:utilization"/>
             </td>
             <td>
-            <inek:InputNumberWithMessage value="#{item.regularWeight}" />
+            <inek:InputIntegerWithMessage value="#{item.regularWeight}" />
             </td>
             <td>
-            <inek:InputNumberWithMessage value="#{item.intensiveCareDays}" renderElement="@this tblNormInt1:#{loop.index}:utilization"/>
+            <inek:InputIntegerWithMessage value="#{item.intensiveCareDays}" renderElement="@this tblNormInt1:#{loop.index}:utilization"/>
             </td>
             <td>
-            <inek:InputNumberWithMessage value="#{item.intensiveWeight}" renderElement="@this"/>                
+            <inek:InputIntegerWithMessage value="#{item.intensiveWeight}" renderElement="@this"/>                
             </td>
             <td style="text-align: right;">
             <h:outputLabel id="utilization" value="#{item.getUtilization()}" />                
@@ -209,22 +209,22 @@
                                        renderElement="@this tblNormInt1:#{loop.index}:station:text tblNormInt3:#{loop.index}:station:text"/>
             </td>
             <td>
-            <inek:InputNumberWithMessage value="#{item.medicalServiceCnt}" renderElement="@this"/>
+            <inek:InputIntegerWithMessage value="#{item.medicalServiceCnt}" renderElement="@this"/>
             </td>
             <td>
-            <inek:InputNumberWithMessage value="#{item.nursingServiceCnt}" renderElement="@this"/>
+            <inek:InputIntegerWithMessage value="#{item.nursingServiceCnt}" renderElement="@this"/>
             </td>
             <td>
-            <inek:InputNumberWithMessage value="#{item.psychologistCnt}" renderElement="@this"/>
+            <inek:InputIntegerWithMessage value="#{item.psychologistCnt}" renderElement="@this"/>
             </td>
             <td>
-            <inek:InputNumberWithMessage value="#{item.socialWorkerCnt}" renderElement="@this"/>
+            <inek:InputIntegerWithMessage value="#{item.socialWorkerCnt}" renderElement="@this"/>
             </td>
             <td>
-            <inek:InputNumberWithMessage value="#{item.specialTherapistCnt}" renderElement="@this"/>
+            <inek:InputIntegerWithMessage value="#{item.specialTherapistCnt}" renderElement="@this"/>
             </td>
             <td>
-            <inek:InputNumberWithMessage value="#{item.functionalServiceCnt}" renderElement="@this"/>
+            <inek:InputIntegerWithMessage value="#{item.functionalServiceCnt}" renderElement="@this"/>
             </td>
             </tr>
         </ui:repeat>
@@ -275,28 +275,28 @@
                                        renderElement="@this tblNormInt1:#{loop.index}:station:text tblNormInt2:#{loop.index}:station:text"/>
             </td>
             <td>
-            <inek:InputNumberWithMessage value="#{item.medicalServiceAmount}" isInt="true" renderElement="@this"/>
+            <inek:InputIntegerWithMessage value="#{item.medicalServiceAmount}" renderElement="@this"/>
             </td>
             <td>
-            <inek:InputNumberWithMessage value="#{item.nursingServiceAmount}" isInt="true" renderElement="@this"/>
+            <inek:InputIntegerWithMessage value="#{item.nursingServiceAmount}" renderElement="@this"/>
             </td>
             <td>
-            <inek:InputNumberWithMessage value="#{item.psychologistAmount}" isInt="true" renderElement="@this"/>
+            <inek:InputIntegerWithMessage value="#{item.psychologistAmount}" renderElement="@this"/>
             </td>
             <td>
-            <inek:InputNumberWithMessage value="#{item.socialWorkerAmount}" isInt="true" renderElement="@this"/>
+            <inek:InputIntegerWithMessage value="#{item.socialWorkerAmount}" renderElement="@this"/>
             </td>
             <td>
-            <inek:InputNumberWithMessage value="#{item.specialTherapistAmount}" isInt="true" renderElement="@this"/>
+            <inek:InputIntegerWithMessage value="#{item.specialTherapistAmount}" renderElement="@this"/>
             </td>
             <td>
-            <inek:InputNumberWithMessage value="#{item.functionalServiceAmount}" isInt="true" renderElement="@this"/>
+            <inek:InputIntegerWithMessage value="#{item.functionalServiceAmount}" renderElement="@this"/>
             </td>
             <td>
-            <inek:InputNumberWithMessage value="#{item.medicalInfrastructureAmount}" isInt="true" renderElement="@this"/>
+            <inek:InputIntegerWithMessage value="#{item.medicalInfrastructureAmount}" renderElement="@this"/>
             </td>
             <td>
-            <inek:InputNumberWithMessage value="#{item.nonMedicalInfrastructureAmount}" isInt="true" renderElement="@this"/>
+            <inek:InputIntegerWithMessage value="#{item.nonMedicalInfrastructureAmount}" renderElement="@this"/>
             </td>
             </tr>
         </ui:repeat>

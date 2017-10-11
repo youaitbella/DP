@@ -41,7 +41,7 @@
 
             <h:column>
                 <f:facet name="header"><h:outputLabel value="Kostenvolumen" title="Kostenvolumen"/></f:facet>
-                <inek:InputNumberWithMessage styleClass="element100" value="#{item.amount}" renderElement="result" readonly="#{cc.attrs.backingBean.readOnly}"/>
+                <inek:InputIntegerWithMessage styleClass="element100" value="#{item.amount}" renderElement="result" readonly="#{cc.attrs.backingBean.readOnly}"/>
             </h:column>
 
             <h:column class="col05em">
@@ -63,13 +63,13 @@
 
             <h:column>
                 <f:facet name="header"><h:outputLabel value="Sum. LE" title="Summe der Leistungseinheiten"/></f:facet>
-                <inek:InputNumberWithMessage styleClass="element100" value="#{item.serviceSum}" renderElement="@form" readonly="#{cc.attrs.backingBean.readOnly}"/>
+                <inek:InputIntegerWithMessage styleClass="element100" value="#{item.serviceSum}" renderElement="@form" readonly="#{cc.attrs.backingBean.readOnly}"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header"><h:outputLabel value="Kost/LE" title="Kostensatz je Leistungseinheiten"/></f:facet>
                 <h:panelGroup id="result">
-                    <inek:InputNumberWithMessage value="#{item.amount / item.serviceSum}" disabled="true" pattern="#,##0.00"/>
+                    <inek:InputNumberWithMessage value="#{item.amount / item.serviceSum}" disabled="true"/>
                 </h:panelGroup>
             </h:column>
 

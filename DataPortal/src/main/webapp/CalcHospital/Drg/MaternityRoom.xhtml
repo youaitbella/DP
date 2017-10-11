@@ -124,32 +124,32 @@
 
             <h:column>
                 <f:facet name="header">Ärztlicher Dienst</f:facet>
-                <inek:InputNumberWithMessage id="partition" value="#{obstretic.medicalServiceCnt}" styleClass="col05em number" />
+                <inek:InputIntegerWithMessage id="partition" value="#{obstretic.medicalServiceCnt}" styleClass="col05em number" />
             </h:column>
 
             <h:column>
                 <f:facet name="header">davon Belegärzte</f:facet>
-                <inek:InputNumberWithMessage value="#{obstretic.attendingDoctorCnt}" styleClass="col05em number"/>
+                <inek:InputIntegerWithMessage value="#{obstretic.attendingDoctorCnt}" styleClass="col05em number"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">Pflegedienst</f:facet>
-                <inek:InputNumberWithMessage value="#{obstretic.nursingServiceCnt}" styleClass="col05em number" />
+                <inek:InputIntegerWithMessage value="#{obstretic.nursingServiceCnt}" styleClass="col05em number" />
             </h:column>
 
             <h:column>
                 <f:facet name="header">Funktionsdienst (ohne Hebammen)</f:facet>
-                <inek:InputNumberWithMessage value="#{obstretic.functionalServiceCnt}" styleClass="col05em number"/>
+                <inek:InputIntegerWithMessage value="#{obstretic.functionalServiceCnt}" styleClass="col05em number"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">Hebammen</f:facet>
-                <inek:InputNumberWithMessage value="#{obstretic.midwifeCnt}" styleClass="col05em number"/>
+                <inek:InputIntegerWithMessage value="#{obstretic.midwifeCnt}" styleClass="col05em number"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">davon Beleg-Hebammen</f:facet>
-                <inek:InputNumberWithMessage value="#{obstretic.attendingMidwifeCnt}" styleClass="col05em number"/>
+                <inek:InputIntegerWithMessage value="#{obstretic.attendingMidwifeCnt}" styleClass="col05em number"/>
             </h:column>
 
         </h:dataTable>
@@ -197,32 +197,32 @@
 
             <h:column>
                 <f:facet name="header">Ärztlicher Dienst</f:facet>
-                <inek:InputNumberWithMessage id="partition" value="#{prevObstretic.medicalServiceCnt}" styleClass="col05em number" disabled="true"/>
+                <inek:InputIntegerWithMessage id="partition" value="#{prevObstretic.medicalServiceCnt}" styleClass="col05em number" disabled="true"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">davon Belegärzte</f:facet>
-                <inek:InputNumberWithMessage value="#{prevObstretic.attendingDoctorCnt}" styleClass="col05em number" disabled="true"/>
+                <inek:InputIntegerWithMessage value="#{prevObstretic.attendingDoctorCnt}" styleClass="col05em number" disabled="true"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">Pflegedienst</f:facet>
-                <inek:InputNumberWithMessage value="#{prevObstretic.nursingServiceCnt}" styleClass="col05em number" disabled="true"/>
+                <inek:InputIntegerWithMessage value="#{prevObstretic.nursingServiceCnt}" styleClass="col05em number" disabled="true"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">Funktionsdienst (ohne Hebammen)</f:facet>
-                <inek:InputNumberWithMessage value="#{prevObstretic.functionalServiceCnt}" styleClass="col05em number" disabled="true"/>
+                <inek:InputIntegerWithMessage value="#{prevObstretic.functionalServiceCnt}" styleClass="col05em number" disabled="true"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">Hebammen</f:facet>
-                <inek:InputNumberWithMessage value="#{prevObstretic.midwifeCnt}" styleClass="col05em number" disabled="true"/>
+                <inek:InputIntegerWithMessage value="#{prevObstretic.midwifeCnt}" styleClass="col05em number" disabled="true"/>
             </h:column>
 
             <h:column>
                 <f:facet name="header">davon Beleg-Hebammen</f:facet>
-                <inek:InputNumberWithMessage value="#{prevObstretic.attendingMidwifeCnt}" styleClass="col05em number" disabled="true"/>
+                <inek:InputIntegerWithMessage value="#{prevObstretic.attendingMidwifeCnt}" styleClass="col05em number" disabled="true"/>
             </h:column>
 
         </h:dataTable>
@@ -286,15 +286,15 @@
             </h:column>
             <h:column>
                 <f:facet name="header">#{msg.lblCaseCount}</f:facet>
-                <inek:InputNumberWithMessage value="#{item.caseCount}" required="#{!item.isEmpty()}"/>
+                <inek:InputIntegerWithMessage value="#{item.caseCount}" required="#{!item.isEmpty()}"/>
             </h:column>
             <h:column>
                 <f:facet name="header">#{msg.lblRevenueVolume}</f:facet>
-                <inek:InputNumberWithMessage value="#{item.delimitationAmount}" required="#{!item.isEmpty()}"/>
+                <inek:InputIntegerWithMessage value="#{item.delimitationAmount}" required="#{!item.isEmpty()}"/>
             </h:column>
             <h:column>
                 <f:facet name="header">#{msg.lblMarkedOfCostVolume}</f:facet>
-                <inek:InputNumberWithMessage value="#{item.amount}" required="#{!item.isEmpty()}"/>
+                <inek:InputIntegerWithMessage value="#{item.amount}" required="#{!item.isEmpty()}"/>
             </h:column>
         </h:dataTable>
 

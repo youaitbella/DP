@@ -124,21 +124,21 @@
            <f:facet name="header">
                 <h:outputText value="Kostenvolumen"/>
             </f:facet>
-            <inek:InputNumberWithMessage value="#{item.amount}" renderElement="@this :personalAccountings:#{editCalcBasicsPepp.calcBasics.personalAccountings.indexOf(item)}:diff:text" />
+            <inek:InputIntegerWithMessage value="#{item.amount}" renderElement="@this :personalAccountings:#{editCalcBasicsPepp.calcBasics.personalAccountings.indexOf(item)}:diff:text" />
         </h:column>
        
         <h:column>
            <f:facet name="header">
                 <h:outputText value="Kostenvolumen Vorjahr"/>
             </f:facet>
-            <inek:InputNumberWithMessage readonly="true" value="#{item.priorCostAmount}" disabled="true"/>
+            <inek:InputIntegerWithMessage readonly="true" value="#{item.priorCostAmount}" disabled="true"/>
         </h:column>
       
         <h:column>
            <f:facet name="header">
                 <h:outputText value="Absolute Abweichung"/>
             </f:facet>
-            <inek:InputNumberWithMessage readonly="true" value="#{item.amount - item.priorCostAmount}" id="diff"/>
+            <inek:InputIntegerWithMessage readonly="true" value="#{item.amount - item.priorCostAmount}" id="diff"/>
         </h:column>
        
     </h:dataTable>

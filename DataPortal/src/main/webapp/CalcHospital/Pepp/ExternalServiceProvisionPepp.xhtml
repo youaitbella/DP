@@ -70,7 +70,7 @@
 
         <h:column>
             <f:facet name="header">Kosten- volumen #{editCalcBasicsPepp.calcBasics.dataYear}</f:facet>
-            <inek:InputNumberWithMessage value="#{item.amount}" 
+            <inek:InputIntegerWithMessage value="#{item.amount}" 
                                          styleClassComponent="col05em" 
                                          readonly="#{item.serviceProvisionTypeId lt 0 and empty item.domain}"
                                          renderElement="@form"/>
@@ -78,14 +78,14 @@
 
         <h:column>
             <f:facet name="header">Kosten- volumen #{editCalcBasicsPepp.calcBasics.dataYear - 1}</f:facet>
-            <inek:InputNumberWithMessage value="#{editCalcBasicsPepp.priorProvisionAmount(item)}" 
+            <inek:InputIntegerWithMessage value="#{editCalcBasicsPepp.priorProvisionAmount(item)}" 
                                          disabled="true" 
                                          styleClassComponent="col05em"/>
         </h:column>
 
         <h:column>
             <f:facet name="header">Abw.</f:facet>
-            <inek:InputNumberWithMessage value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.priorProvisionAmount(item), item.amount)}" disabled="true" styleClassComponent="col05em"/>
+            <inek:InputIntegerWithMessage value="#{editCalcBasicsPepp.calcPercentualDiff(editCalcBasicsPepp.priorProvisionAmount(item), item.amount)}" disabled="true" styleClassComponent="col05em"/>
         </h:column>
 
     </h:dataTable>

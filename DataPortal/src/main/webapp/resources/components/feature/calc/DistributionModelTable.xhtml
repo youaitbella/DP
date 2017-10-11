@@ -72,12 +72,12 @@
 
                 <h:column class="col4em">
                     <f:facet name="header"><h:outputLabel value="Fallzahl" title="Anzahl Fälle"/></f:facet>
-                    <inek:InputNumberWithMessage value="#{item.countCases}" readonly="#{editDistributionModel.readOnly}" required="true"/>
+                    <inek:InputIntegerWithMessage value="#{item.countCases}" readonly="#{editDistributionModel.readOnly}" required="true"/>
                 </h:column>
 
                 <h:column class="col4em">
                     <f:facet name="header"><h:outputLabel value="Kostenvolumen" title="Kostenvolumen (€)"/></f:facet>
-                    <inek:InputNumberWithMessage value="#{item.costVolume}" 
+                    <inek:InputIntegerWithMessage value="#{item.costVolume}" 
                                                  readonly="#{editDistributionModel.readOnly}" 
                                                  required="true"
                                                  renderElement="@form"/>

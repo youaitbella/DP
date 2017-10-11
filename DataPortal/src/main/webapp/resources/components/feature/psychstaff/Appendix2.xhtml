@@ -52,135 +52,121 @@
         <br/>
 
         <div jsf:rendered="#{editPsyStaff.staffProof.exclusionFact2.id le 0}">
-            <div class="container marginTop">
-                <table class="marginTop">
-                    <thead>
+            <table class="marginTop">
+                <thead>
+                    <tr>
+                        <th class="col02em row1" scope="col" rowspan="2"> Nr. </th>
+                        <th class="col10em row1" scope="col" rowspan="2"> Berufsgruppen der Psych-PV </th>
+                        <th class="col10em row1" scope="col" rowspan="2"> Psych-PV-Personal in VK (jeweils in Summe) </th>
+                        <th class="col10em row1 centered" scope="col" colspan="3"> davon </th>
+                        <th class="col10em row1" scope="col" rowspan="2"> Umsetzungsgrad der Psych-PV in % </th>
+                    </tr>
+                    <tr>
+                        <th class="col10em row1" scope="col"> #{msg.lblDeductionPsych} in VK (§4 Abs. 4 Vereinb.) </th>
+                        <th class="col10em row1" scope="col"> #{msg.lblDeductionNonPsych} in VK (§4 Abs. 5 Vereinb.) </th>
+                        <th class="col10em row1" scope="col"> #{msg.lblDeductionOther} in VK (§4 Abs. 6 Vereinb.) </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ui:repeat value="#{editPsyStaff.staffProof.getStaffProofsEffective(cc.attrs.patType)}" var="item">
                         <tr>
-                            <th class="col02em row1" scope="col" rowspan="2"> Nr. </th>
-                            <th class="col10em row1" scope="col" rowspan="2"> Berufsgruppen der Psych-PV </th>
-                            <th class="col10em row1" scope="col" rowspan="2"> Psych-PV-Personal in VK (jeweils in Summe) </th>
-                            <th class="col10em row1 centered" scope="col" colspan="3"> davon </th>
-                            <th class="col10em row1" scope="col" rowspan="2"> Umsetzungsgrad der Psych-PV in % </th>
+                            <td class="row1">
+                                <h:outputText value="#{item.occupationalCategory.id}" styleClass="element02em"/>
+                            </td>
+
+                            <td class="row1"> 
+                                <h:outputText value="#{item.occupationalCategory.name}" styleClass="element10em"/>
+                            </td>
+
+                            <td>
+                                <inek:InputNumberWithMessage id="myInput"
+                                                             value="#{item.staffingComplete}" 
+                                                             styleClass="element10em number"
+                                                             renderElement=":#{cc.attrs.clientId}:sumStaffingComplete factor"
+                                                             readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
+                                                             disabled="#{item.occupationalCategory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
+                                                             title="#{item.occupationalCategory.id == 2 ? msg.InfoPsychStaffNoteEducation : ''}">
+                                    <f:ajax event="clientChange" render="factor"/>
+                                </inek:InputNumberWithMessage>
+                            </td>
+
+
+                            <td>
+                                <inek:InputNumberWithMessage value="#{item.staffingDeductionPsych}" 
+                                                             styleClass="element10em number"
+                                                             renderElement="#{cc.attrs.clientId}:sumStaffingDeductionPsych #{cc.attrs.clientId}:explanation"
+                                                             readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
+                                                             disabled="#{item.occupationalCategory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
+                                                             title="#{item.occupationalCategory.id == 2 ? msg.InfoPsychStaffNoteEducation : ''}">
+                                    <f:ajax event="clientChange" listener="#{editPsyStaff.countChanged(item, 4)}"/>
+                                </inek:InputNumberWithMessage>
+                            </td>
+
+                            <td >
+                                <inek:InputNumberWithMessage value="#{item.staffingDeductionNonPsych}" 
+                                                             styleClass="element10em number"
+                                                             renderElement="#{cc.attrs.clientId}:sumStaffingDeductionNonPsych #{cc.attrs.clientId}:explanation"
+                                                             readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
+                                                             disabled="#{item.occupationalCategory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType) or item.occupationalCategory.id == 1}"
+                                                             title="#{item.occupationalCategory.id == 2 ? msg.InfoPsychStaffNoteEducation : ''}">
+                                    <f:ajax event="clientChange" listener="#{editPsyStaff.countChanged(item, 5)}"/>
+                                </inek:InputNumberWithMessage>
+                            </td>
+
+                            <td >
+                                <inek:InputNumberWithMessage value="#{item.staffingDeductionOther}" 
+                                                             styleClass="element10em number"
+                                                             renderElement="#{cc.attrs.clientId}:sumStaffingDeductionOther #{cc.attrs.clientId}:explanation"
+                                                             readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
+                                                             disabled="#{item.occupationalCategory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
+                                                             title="#{item.occupationalCategory.id == 2 ? msg.InfoPsychStaffNoteEducation : ''}">
+                                    <f:ajax event="clientChange" listener="#{editPsyStaff.countChanged(item, 6)}"/>
+                                </inek:InputNumberWithMessage>
+                            </td>
+
+                            <td >
+                                <h:outputText id="factor"
+                                              value="#{editPsyStaff.determineFactor(item)}" 
+                                              styleClass="element10em number"/>
+                            </td>
+
                         </tr>
+                    </ui:repeat>
+
+                    <tfoot>
                         <tr>
-                            <th class="col10em row1" scope="col"> #{msg.lblDeductionPsych} in VK (§4 Abs. 4 Vereinb.) </th>
-                            <th class="col10em row1" scope="col"> #{msg.lblDeductionNonPsych} in VK (§4 Abs. 5 Vereinb.) </th>
-                            <th class="col10em row1" scope="col"> #{msg.lblDeductionOther} in VK (§4 Abs. 6 Vereinb.) </th>
+                            <td class="col02em row1" scope="col"> </td>
+                            <td class="col10em row1" scope="col"> Gesamt </td>
+                            <th class="col10em row1" scope="col"> 
+                                <inek:InputNumberWithMessage id="sumStaffingComplete" 
+                                                             value="#{editPsyStaff.sumEffectiveStaffingComplete(cc.attrs.patType)}"
+                                                             styleClass="element10em number"
+                                                             disabled="true"/>
+                            </th>
+                            <td class="col10em row1" scope="col"> 
+                                <inek:InputNumberWithMessage id="sumStaffingDeductionPsych" 
+                                                             value="#{editPsyStaff.sumEffectiveStaffingDeductionPsych(cc.attrs.patType)}"
+                                                             styleClass="element10em number"
+                                                             disabled="true"/> 
+                            </td>
+                            <td class="col10em row1" scope="col"> 
+                                <inek:InputNumberWithMessage id="sumStaffingDeductionNonPsych" 
+                                                             value="#{editPsyStaff.sumEffectiveStaffingDeductionNonPsych(cc.attrs.patType)}"
+                                                             styleClass="element10em number"
+                                                             disabled="true"/> 
+                            </td>
+                            <td class="col10em row1" scope="col"> 
+                                <inek:InputNumberWithMessage id="sumStaffingDeductionOther" 
+                                                             value="#{editPsyStaff.sumEffectiveStaffingDeductionOther(cc.attrs.patType)}"
+                                                             styleClass="element10em number"
+                                                             disabled="true"/> 
+                            </td>
+                            <td class="col10em row1" scope="col">  </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        <ui:repeat value="#{editPsyStaff.staffProof.getStaffProofsEffective(cc.attrs.patType)}" var="item">
-                            <tr>
-                                <td class="row1">
-                                    <h:outputText value="#{item.occupationalCategory.id}" styleClass="element02em"/>
-                                </td>
 
-                                <td class="row1"> 
-                                    <h:outputText value="#{item.occupationalCategory.name}" styleClass="element10em"/>
-                                </td>
-
-                                <td>
-                                    <inek:InputNumberWithMessage id="myInput"
-                                                                 value="#{item.staffingComplete}" 
-                                                                 styleClass="element10em number"
-                                                                 renderElement=":#{cc.attrs.clientId}:sumStaffingComplete factor"
-                                                                 readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
-                                                                 disabled="#{item.occupationalCategory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
-                                                                 pattern="#,##0.0"
-                                                                 isInt="false"
-                                                                 title="#{item.occupationalCategory.id == 2 ? msg.InfoPsychStaffNoteEducation : ''}">
-                                        <f:ajax event="clientChange" render="factor"/>
-                                    </inek:InputNumberWithMessage>
-                                </td>
-
-
-                                <td>
-                                    <inek:InputNumberWithMessage value="#{item.staffingDeductionPsych}" 
-                                                                 styleClass="element10em number"
-                                                                 renderElement="#{cc.attrs.clientId}:sumStaffingDeductionPsych #{cc.attrs.clientId}:explanation"
-                                                                 readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
-                                                                 disabled="#{item.occupationalCategory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
-                                                                 pattern="#,##0.0"
-                                                                 isInt="false"
-                                                                 title="#{item.occupationalCategory.id == 2 ? msg.InfoPsychStaffNoteEducation : ''}">
-                                        <f:ajax event="clientChange" listener="#{editPsyStaff.countChanged(item, 4)}"/>
-                                    </inek:InputNumberWithMessage>
-                                </td>
-
-                                <td >
-                                    <inek:InputNumberWithMessage value="#{item.staffingDeductionNonPsych}" 
-                                                                 styleClass="element10em number"
-                                                                 renderElement=":#{cc.attrs.clientId}:sumStaffingDeductionNonPsych #{cc.attrs.clientId}:explanation"
-                                                                 readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
-                                                                 disabled="#{item.occupationalCategory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType) or item.occupationalCategory.id == 1}"
-                                                                 pattern="#,##0.0"
-                                                                 isInt="false"
-                                                                 title="#{item.occupationalCategory.id == 2 ? msg.InfoPsychStaffNoteEducation : ''}">
-                                        <f:ajax event="clientChange" listener="#{editPsyStaff.countChanged(item, 5)}"/>
-                                    </inek:InputNumberWithMessage>
-                                </td>
-
-                                <td >
-                                    <inek:InputNumberWithMessage value="#{item.staffingDeductionOther}" 
-                                                                 styleClass="element10em number"
-                                                                 renderElement="#{cc.attrs.clientId}:sumStaffingDeductionOther #{cc.attrs.clientId}:explanation"
-                                                                 readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
-                                                                 disabled="#{item.occupationalCategory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
-                                                                 pattern="#,##0.0"
-                                                                 isInt="false"
-                                                                 title="#{item.occupationalCategory.id == 2 ? msg.InfoPsychStaffNoteEducation : ''}">
-                                        <f:ajax event="clientChange" listener="#{editPsyStaff.countChanged(item, 6)}"/>
-                                    </inek:InputNumberWithMessage>
-                                </td>
-
-                                <td >
-                                    <h:outputText id="factor"
-                                                  value="#{editPsyStaff.determineFactor(item)}" 
-                                                  styleClass="element10em number"/>
-                                </td>
-
-                            </tr>
-                        </ui:repeat>
-
-                        <tfoot>
-                            <tr>
-                                <td class="col02em row1" scope="col"> </td>
-                                <td class="col10em row1" scope="col"> Gesamt </td>
-                                <th class="col10em row1" scope="col"> 
-                                    <inek:InputNumberWithMessage id="sumStaffingComplete" 
-                                                                 value="#{editPsyStaff.sumEffectiveStaffingComplete(cc.attrs.patType)}"
-                                                                 styleClass="element10em number"
-                                                                 pattern="#,##0.0"
-                                                                 disabled="true"/>
-                                </th>
-                                <td class="col10em row1" scope="col"> 
-                                    <inek:InputNumberWithMessage id="sumStaffingDeductionPsych" 
-                                                                 value="#{editPsyStaff.sumEffectiveStaffingDeductionPsych(cc.attrs.patType)}"
-                                                                 styleClass="element10em number"
-                                                                 pattern="#,##0.0"
-                                                                 disabled="true"/> 
-                                </td>
-                                <td class="col10em row1" scope="col"> 
-                                    <inek:InputNumberWithMessage id="sumStaffingDeductionNonPsych" 
-                                                                 value="#{editPsyStaff.sumEffectiveStaffingDeductionNonPsych(cc.attrs.patType)}"
-                                                                 styleClass="element10em number"
-                                                                 pattern="#,##0.0"
-                                                                 disabled="true"/> 
-                                </td>
-                                <td class="col10em row1" scope="col"> 
-                                    <inek:InputNumberWithMessage id="sumStaffingDeductionOther" 
-                                                                 value="#{editPsyStaff.sumEffectiveStaffingDeductionOther(cc.attrs.patType)}"
-                                                                 styleClass="element10em number"
-                                                                 pattern="#,##0.0"
-                                                                 disabled="true"/> 
-                                </td>
-                                <td class="col10em row1" scope="col">  </td>
-                            </tr>
-
-                        </tfoot>
-                    </tbody>
-                </table>
-            </div>
+                    </tfoot>
+                </tbody>
+            </table>
 
             <div jsf:id="explanation">
                 <div jsf:rendered="#{editPsyStaff.staffProof.getStaffProofExplanations(cc.attrs.patType).size() gt 0}">
@@ -222,9 +208,7 @@
                                     <td class="col10em" scope="col">
                                         <inek:InputNumberWithMessage value="#{item.deductedFullVigor}"
                                                                      styleClass="element10em number"
-                                                                     readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
-                                                                     pattern="#,##0.0"
-                                                                     isInt="false">
+                                                                     readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}">
                                             <f:ajax event="clientChange" listener="#{editPsyStaff.adjustLines(item)}" render="#{cc.attrs.clientId}:explanation"/>
                                         </inek:InputNumberWithMessage>
                                     </td>
