@@ -98,7 +98,7 @@
                                                              readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
                                                              disabled="#{item.occupationalCategory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
                                                              title="#{item.occupationalCategory.id == 2 ? msg.InfoPsychStaffNoteEducation : ''}">
-                                    <f:ajax event="clientChange" listener="#{editPsyStaff.countChanged(item, 4)}"/>
+                                    <f:ajax event="clientChange" listener="#{editPsyStaff.countChanged(item, 4)}" render="@form"/>
                                 </inek:InputNumberWithMessage>
                             </td>
 
@@ -109,7 +109,7 @@
                                                              readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
                                                              disabled="#{item.occupationalCategory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType) or item.occupationalCategory.id == 1}"
                                                              title="#{item.occupationalCategory.id == 2 ? msg.InfoPsychStaffNoteEducation : ''}">
-                                    <f:ajax event="clientChange" listener="#{editPsyStaff.countChanged(item, 5)}"/>
+                                    <f:ajax event="clientChange" listener="#{editPsyStaff.countChanged(item, 5)}" render="@form"/>
                                 </inek:InputNumberWithMessage>
                             </td>
 
@@ -120,7 +120,7 @@
                                                              readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
                                                              disabled="#{item.occupationalCategory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
                                                              title="#{item.occupationalCategory.id == 2 ? msg.InfoPsychStaffNoteEducation : ''}">
-                                    <f:ajax event="clientChange" listener="#{editPsyStaff.countChanged(item, 6)}"/>
+                                    <f:ajax event="clientChange" listener="#{editPsyStaff.countChanged(item, 6)}" render="@form"/>
                                 </inek:InputNumberWithMessage>
                             </td>
 

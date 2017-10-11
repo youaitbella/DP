@@ -72,8 +72,8 @@
                             <thead>
                                 <tr>
                                     <th></th>
-                                    <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I68D</th>
-                                    <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I68E</th>
+                                    <th class="centered">I68D</th>
+                                    <th class="centered">I68E</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -81,6 +81,7 @@
                                     <th>Fallzahl</th>
                                     <td>
                             <h:inputText value="#{editValuationRatio.i68d}" id="I68D" 
+                                         styleClass="centered"
                                          readonly="#{editValuationRatio.readOnly}"
                                          validator="#{editValuationRatio.validateI68D}">
                                 <f:ajax event="blur" render="@this msgDError i68d-panel :logout:remaining"/>
@@ -88,6 +89,7 @@
                             </td>
                             <td>
                             <h:inputText value="#{editValuationRatio.i68e}" id="I68E" 
+                                         styleClass="centered"
                                          readonly="#{editValuationRatio.readOnly}"
                                          validator="#{editValuationRatio.validateI68E}">
                                 <f:ajax event="blur" render="@this msgEError i68e-panel :logout:remaining"/>
@@ -97,40 +99,40 @@
 
                             <tr>
                                 <th>Median</th>
-                                <td>
+                                <td class="centered">
                                     #{editValuationRatio.obtainMedian('I68D').median}
                                 </td>
-                                <td>
+                                <td class="centered">
                                     #{editValuationRatio.obtainMedian('I68E').median}
                                 </td>
                             </tr>
 
                             <tr>
                                 <th>Auf die Liste setzen</th>
-                                <td style="text-align: center;">
+                                <td class="centered">
                             <h:panelGroup id="i68d-panel">
-                                <h:selectBooleanCheckbox rendered="#{editValuationRatio.isDrgBelowMedian('I68D', editValuationRatio.i68d) and editValuationRatio.i68d != 0}"
+                                <h:selectBooleanCheckbox rendered="#{editValuationRatio.isDrgBelowMedian('I68D', editValuationRatio.i68d)}"
                                                          value="#{editValuationRatio.valuationRatio.i68dList}"
                                                          readonly="#{editValuationRatio.readOnly}"
                                                          title="Die angegebene Fallzahl ist kleiner oder gleich dem Median. Kreuzen Sie dieses Feld an, um die DRG auf die Liste zu setzen.">
                                     <f:ajax event="change" render="@this :logout:remaining"/>
                                 </h:selectBooleanCheckbox>
-                                <h:outputLabel rendered="#{!editValuationRatio.isDrgBelowMedian('I68D', editValuationRatio.i68d) and editValuationRatio.i68d != 0}"
+                                <h:outputLabel rendered="#{!editValuationRatio.isDrgBelowMedian('I68D', editValuationRatio.i68d)}"
                                                style="margin-bottom: 5px;"
                                                id="info-median-i68d"
                                                value="[Fallzahl > Median]" 
                                                title="Die angegebene Fallzahl ist größer als der Median. Somit können Sie diese DRG nicht auf die Liste setzen"/>
                             </h:panelGroup>
                             </td>
-                            <td style="text-align: center;">
+                            <td class="centered">
                             <h:panelGroup id="i68e-panel">
-                                <h:selectBooleanCheckbox rendered="#{editValuationRatio.isDrgBelowMedian('I68E', editValuationRatio.i68e) and editValuationRatio.i68e != 0}"
+                                <h:selectBooleanCheckbox rendered="#{editValuationRatio.isDrgBelowMedian('I68E', editValuationRatio.i68e)}"
                                                          value="#{editValuationRatio.valuationRatio.i68eList}"
                                                          readonly="#{editValuationRatio.readOnly}"
                                                          title="Die angegebene Fallzahl ist kleiner oder gleich dem Median. Kreuzen Sie dieses Feld an, um die DRG auf die Liste zu setzen.">
-                                <f:ajax event="change" render="@this :logout:remaining"/>
+                                    <f:ajax event="change" render="@this :logout:remaining"/>
                                 </h:selectBooleanCheckbox>
-                                <h:outputLabel rendered="#{!editValuationRatio.isDrgBelowMedian('I68E', editValuationRatio.i68e) and editValuationRatio.i68e != 0}"
+                                <h:outputLabel rendered="#{!editValuationRatio.isDrgBelowMedian('I68E', editValuationRatio.i68e)}"
                                                style="margin-bottom: 5px;"
                                                value="[Fallzahl > Median]" 
                                                title="Die angegebene Fallzahl ist größer als der Median. Somit können Sie diese DRG nicht auf die Liste setzen"/>
