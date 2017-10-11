@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 import org.inek.dataportal.feature.psychstaff.enums.PsychType;
 
 /**
@@ -110,6 +111,7 @@ public class StaffProofExplanation implements Serializable {
     @Column(name = "spxEffectiveOccupationalCategory")
     private String _effectiveOccupationalCategory = "";
     
+    @Size(max = 250)
     public String getEffectiveOccupationalCategory() {
         return _effectiveOccupationalCategory;
     }
@@ -136,6 +138,7 @@ public class StaffProofExplanation implements Serializable {
     @Column(name = "spxExplanation")
     private String _explanation = "";
     
+    @Size(max = 2000)
     public String getExplanation() {
         return _explanation;
     }

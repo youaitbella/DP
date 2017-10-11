@@ -214,12 +214,17 @@
                                     </td>
 
                                     <td class="col25em" scope="col">
-                                        <h:inputTextarea value="#{item.explanation}"
-                                                         styleClass="element25em"
-                                                         readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
-                                                         title="In den Erläuterungen sind die betroffenen Regelaufgaben nach Psych-PV aufzuführen. Bei Anrechnung von Fachkräften ohne direktes Beschäftigungsverhältnis mit dem Krankenhaus nach § 4 Absatz 6 sind die in VK umgerechneten Sachkosten auszuweisen.">
-                                            <f:ajax/>
-                                        </h:inputTextarea>
+                                        <h:panelGroup>
+                                            <h:inputTextarea id="txtExplanation"
+                                                             value="#{item.explanation}"
+                                                             styleClass="element25em"
+                                                             readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
+                                                             title="In den Erläuterungen sind die betroffenen Regelaufgaben nach Psych-PV aufzuführen. Bei Anrechnung von Fachkräften ohne direktes Beschäftigungsverhältnis mit dem Krankenhaus nach § 4 Absatz 6 sind die in VK umgerechneten Sachkosten auszuweisen.">
+                                                <f:ajax event="change" render="msgExplanation :logout:remaining message"/>
+                                            </h:inputTextarea>
+                                            <h:message for="txtExplanation" id="msgExplanation" errorClass="errorMessage"/>
+                                        </h:panelGroup>
+
                                     </td>
 
                                 </tr>
@@ -233,14 +238,14 @@
             <hr/>
 
             <inek:LabeledInteger label="Tatsächliche Berechnungstage (#{editPsyStaff.staffProof.calculationType == '1' ? 'PEPPV' : 'BPflV/LKA'})"
-                                value="#{'Adults'.equals(cc.attrs.patType) ? editPsyStaff.staffProof.adultsEffectiveDays : editPsyStaff.staffProof.kidsEffectiveDays}"
-                                styleClass="element08em"
-                                readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
-                                renderElement=":#{cc.attrs.clientId}:checksum"
-                                title="#{msg.infoPsychStaffNoteCalcDays}"
-                                minimum="1"
-                                pattern="#,##0"
-                                required="true"/>
+                                 value="#{'Adults'.equals(cc.attrs.patType) ? editPsyStaff.staffProof.adultsEffectiveDays : editPsyStaff.staffProof.kidsEffectiveDays}"
+                                 styleClass="element08em"
+                                 readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
+                                 renderElement=":#{cc.attrs.clientId}:checksum"
+                                 title="#{msg.infoPsychStaffNoteCalcDays}"
+                                 minimum="1"
+                                 pattern="#,##0"
+                                 required="true"/>
 
             <inek:LabeledNumber label="Tatsächliche Kosten für das Psych-PV-Personal in Summe nach § 5 in Euro"
                                 value="#{'Adults'.equals(cc.attrs.patType) ? editPsyStaff.staffProof.adultsEffectiveCosts : editPsyStaff.staffProof.kidsEffectiveCosts}"
