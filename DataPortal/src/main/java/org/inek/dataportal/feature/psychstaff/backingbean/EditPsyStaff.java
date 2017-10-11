@@ -105,7 +105,10 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
 
     @PostConstruct
     private void init() {
-        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+        FacesContext context = FacesContext.getCurrentInstance();
+        String viewId = context.getViewRoot().getViewId();
+        Map<String, String> params = context.getExternalContext().getRequestParameterMap();
+
         String id = "" + params.get("id");
         if ("new".equals(id)) {
             _staffProof = newStaffProof();
@@ -117,7 +120,9 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
             }
             _staffProof = staffProof;
         } else {
+            System.out.println("View: " + viewId);
             Utils.navigate(Pages.Error.RedirectURL());
+            return;
         }
         setTopicVisibility();
     }
@@ -332,11 +337,11 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
                 return false;
             case TOPIC_ADULTS1:
             case TOPIC_KIDS1:
-                return _staffProof.getStatusApx1() < WorkflowStatus.Provided.getId() 
+                return _staffProof.getStatusApx1() < WorkflowStatus.Provided.getId()
                         && _staffProof.getExclusionFact1().isCanSeal();
             case TOPIC_ADULTS2:
             case TOPIC_KIDS2:
-                return _staffProof.getStatusApx2() < WorkflowStatus.Provided.getId() 
+                return _staffProof.getStatusApx2() < WorkflowStatus.Provided.getId()
                         && _staffProof.getExclusionFact2().isCanSeal();
             default:
                 return false;

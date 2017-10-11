@@ -37,7 +37,7 @@
                         </h:commandLink>
                     </f:facet>
                     <h:commandLink action="#{editDocument.downloadDocument(doc.id)}" value="#{doc.tag}" immediate="true">
-                        <f:ajax event="blur" render="@all"/>
+                        <f:ajax event="blur" render="@form"/>
                     </h:commandLink>
                 </h:column>
 
@@ -48,7 +48,7 @@
                         </h:commandLink>
                     </f:facet>
                     <h:commandLink action="#{editDocument.downloadDocument(doc.id)}" value="#{doc.domain}" immediate="true">
-                        <f:ajax event="blur" render="@all"/>
+                        <f:ajax event="blur" render="@form"/>
                     </h:commandLink>
                 </h:column>
 
@@ -59,7 +59,7 @@
                         </h:commandLink>
                     </f:facet>
                     <h:commandLink action="#{editDocument.downloadDocument(doc.id)}" value="#{doc.name}" immediate="true">
-                        <f:ajax event="blur" render="@all"/>
+                        <f:ajax event="blur" render="@form"/>
                     </h:commandLink>
                 </h:column>
 
@@ -70,7 +70,7 @@
                         </h:commandLink>
                     </f:facet>
                     <h:commandLink action="#{editDocument.downloadDocument(doc.id)}" value="#{doc.longCreatedString}" immediate="true">
-                        <f:ajax event="blur" render="@all"/>
+                        <f:ajax event="blur" render="@form"/>
                     </h:commandLink>
                 </h:column>
 

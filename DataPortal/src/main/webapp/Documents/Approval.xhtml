@@ -48,7 +48,7 @@
                             <h:column>
                                 <h:commandLink action="#{documentApproval.delete(docNode.docInfo.id)}" immediate="true" onclick="return confirm('Achtung!\\r\\nDokument #{docNode.docInfo.name} wirklich löschen?')">
                                     <h:graphicImage alt="Löschen" name="Icon/small/delete.png" title="Löschen" value=""/>
-                                    <f:ajax render="@all"/>
+                                    <f:ajax render="@form"/>
                                 </h:commandLink>
                             </h:column>
 
@@ -59,7 +59,7 @@
                                     </h:commandLink>
                                 </f:facet>
                                 <h:commandLink action="#{documentApproval.downloadDocument(docNode.docInfo.id)}" value="#{docNode.docInfo.tag}" immediate="true">
-                                    <f:ajax event="blur" render="@all"/>
+                                    <f:ajax event="blur" render="@form"/>
                                 </h:commandLink>
                             </h:column>
 
@@ -70,7 +70,7 @@
                                     </h:commandLink>
                                 </f:facet>
                                 <h:commandLink action="#{documentApproval.downloadDocument(docNode.docInfo.id)}" value="#{docNode.docInfo.domain}" immediate="true">
-                                    <f:ajax event="blur" render="@all"/>
+                                    <f:ajax event="blur" render="@form"/>
                                 </h:commandLink>
                             </h:column>
 
@@ -81,7 +81,7 @@
                                     </h:commandLink>
                                 </f:facet>
                                 <h:commandLink action="#{documentApproval.downloadDocument(docNode.docInfo.id)}" value="#{docNode.docInfo.name}" immediate="true">
-                                    <f:ajax event="blur" render="@all"/>
+                                    <f:ajax event="blur" render="@form"/>
                                 </h:commandLink>
                             </h:column>
 
@@ -92,7 +92,7 @@
                                     </h:commandLink>
                                 </f:facet>
                                 <h:commandLink action="#{documentApproval.downloadDocument(docNode.docInfo.id)}" value="#{docNode.docInfo.longCreatedString}" immediate="true">
-                                    <f:ajax event="blur" render="@all"/>
+                                    <f:ajax event="blur" render="@form"/>
                                 </h:commandLink>
                             </h:column>
 
