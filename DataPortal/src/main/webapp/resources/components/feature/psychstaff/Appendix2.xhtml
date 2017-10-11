@@ -232,7 +232,7 @@
 
             <hr/>
 
-            <inek:LabeledNumber label="Tatsächliche Berechnungstage (#{editPsyStaff.staffProof.calculationType == '1' ? 'PEPPV' : 'BPflV/LKA'})"
+            <inek:LabeledInteger label="Tatsächliche Berechnungstage (#{editPsyStaff.staffProof.calculationType == '1' ? 'PEPPV' : 'BPflV/LKA'})"
                                 value="#{'Adults'.equals(cc.attrs.patType) ? editPsyStaff.staffProof.adultsEffectiveDays : editPsyStaff.staffProof.kidsEffectiveDays}"
                                 styleClass="element08em"
                                 readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
@@ -248,9 +248,7 @@
                                 readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
                                 renderElement=":#{cc.attrs.clientId}:checksum"
                                 minimum="1"
-                                required="true"
-                                pattern="#,##0.00"
-                                isInt="false"/>
+                                required="true"/>
 
             <div class="marginTop" jsf:rendered="#{not empty editPsyStaff.staffProof.signatureEffective}">
                 <hr class="simpleLine"/>
