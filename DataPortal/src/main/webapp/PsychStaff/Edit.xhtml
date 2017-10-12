@@ -85,11 +85,11 @@
                                        immediate="false"
                                        action="#{pdfBuilder.createDocument()}"
                                        value="PDF Download"
-                                       rendered="#{editPsyStaff.closedStateActionEnabled}"
+                                       rendered="#{editPsyStaff.exportEnabled}"
                                        title="#{msg.infoSaveAndClose}">
                         </h:commandLink>
 
-                        <div class="uploadFile inlineBlock" jsf:rendered="#{editPsyStaff.closedStateActionEnabled}">
+                        <div class="uploadFile inlineBlock" jsf:rendered="#{editPsyStaff.exportEnabled}">
                             <h:inputFile id="file" 
                                          p:accept="#{editPsyStaff.allowedFileExtensions}"
                                          styleClass="hiddenFile bigButton"  
@@ -127,7 +127,7 @@
                                immediate="false"
                                action="#{editPsyStaff.createDocument()}"
                                value="PDF Download"
-                               rendered="#{editPsyStaff.closedStateActionEnabled}"
+                               rendered="#{editPsyStaff.exportEnabled}"
                                >
                 </h:commandLink>
             </h:panelGroup>

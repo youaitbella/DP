@@ -373,6 +373,21 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         return isClosedState();
     }
 
+    public boolean isExportEnabled() {
+        switch (getActiveTopicKey()) {
+            case TOPIC_BASE:
+                return false;
+            case TOPIC_ADULTS1:
+            case TOPIC_KIDS1:
+                return _staffProof.getStatusApx1() >= WorkflowStatus.Provided.getId() && _staffProof.getExclusionFactId1() == 0;
+            case TOPIC_ADULTS2:
+            case TOPIC_KIDS2:
+                return _staffProof.getStatusApx2() >= WorkflowStatus.Provided.getId() && _staffProof.getExclusionFactId2() == 0;
+            default:
+                return false;
+        }
+    }
+
     public String getBtnClose() {
         String type = "("
                 + (_staffProof.isForAdults() ? PsychType.Adults.getShortName() : "")
@@ -793,7 +808,15 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
                 .mapToDouble(e -> e.getDeductedFullVigor())
                 .sum();
         if (deductionCount - sum > 0) {
-            _staffProof.addStaffProofExplanation(type, occupationalCategory, key);
+            boolean existsEmpty = _staffProof
+                    .getStaffProofExplanations(type)
+                    .stream()
+                    .anyMatch(e -> e.getOccupationalCategory().getId() == occupationalCategory.getId() 
+                            && e.getDeductedSpecialistId() == key 
+                            && e.getDeductedFullVigor() == 0);
+            if (!existsEmpty) {
+                _staffProof.addStaffProofExplanation(type, occupationalCategory, key);
+            }
         }
     }
 

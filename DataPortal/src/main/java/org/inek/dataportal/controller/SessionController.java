@@ -126,6 +126,20 @@ public class SessionController implements Serializable {
     }
 
     public boolean isHospital() {
+        // we had unexpecte null access here.
+        // let's do some logging and redirect the user to an error view
+        if (_typeFacade == null){
+            LOGGER.log(Level.WARNING, "Access withount typeFacade");
+            logMessage("Access withount typeFacade");
+            Utils.navigate(Pages.Error.RedirectURL());
+            return false;
+        }
+        if (_account == null){
+            LOGGER.log(Level.WARNING, "Access withount account");
+            logMessage("Access withount account");
+            Utils.navigate(Pages.Error.RedirectURL());
+            return false;
+        }
         CustomerType type = _typeFacade.find(_account.getCustomerTypeId());
         return type.isHospital() || isInekUser(Feature.ADMIN);
     }

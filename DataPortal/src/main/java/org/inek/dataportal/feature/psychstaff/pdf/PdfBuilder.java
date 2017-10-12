@@ -348,9 +348,9 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
         addCell(tb, "", SMALLBOLD, Element.ALIGN_LEFT, BaseColor.LIGHT_GRAY);
         addCell(tb, "8", SMALLBOLD, Element.ALIGN_CENTER, BaseColor.LIGHT_GRAY);
         addCell(tb, "Gesamt", SMALLBOLD, Element.ALIGN_LEFT, BaseColor.LIGHT_GRAY);
-        addCell(tb, formatter2.format(_editPsyStaff.sumAgreedStaffingComplete(PsychType.Adults)),
+        addCell(tb, formatter2.format(_editPsyStaff.sumAgreedStaffingComplete(psychType)),
                 SMALLBOLD, Element.ALIGN_RIGHT, BaseColor.LIGHT_GRAY);
-        addCell(tb, formatter2.format(_editPsyStaff.sumAgreedStaffingBudget(PsychType.Adults)),
+        addCell(tb, formatter2.format(_editPsyStaff.sumAgreedStaffingBudget(psychType)),
                 SMALLBOLD, Element.ALIGN_RIGHT, BaseColor.LIGHT_GRAY);
         addCell(tb, "", SMALLBOLD, Element.ALIGN_RIGHT, BaseColor.LIGHT_GRAY);
     }
