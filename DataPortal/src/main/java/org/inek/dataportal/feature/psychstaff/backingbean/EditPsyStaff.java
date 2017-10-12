@@ -61,10 +61,10 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     // <editor-fold defaultstate="collapsed" desc="fields & enums">
     private static final Logger LOGGER = Logger.getLogger("EditPsyStaff");
     private static final String TOPIC_BASE = "topicBaseData";
-    private static final String TOPIC_KIDS2 = "topicAppendix2Kids";
-    private static final String TOPIC_ADULTS2 = "topicAppendix2Adults";
-    private static final String TOPIC_KIDS1 = "topicAppendix1Kids";
     private static final String TOPIC_ADULTS1 = "topicAppendix1Adults";
+    private static final String TOPIC_KIDS1 = "topicAppendix1Kids";
+    private static final String TOPIC_ADULTS2 = "topicAppendix2Adults";
+    private static final String TOPIC_KIDS2 = "topicAppendix2Kids";
 
     @Inject private CooperationTools _cooperationTools;
     @Inject private SessionController _sessionController;
@@ -702,6 +702,32 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
                 break;
             case TOPIC_KIDS2:
                 msg = PsychStaffImporter.importEffective(_file, _staffProof, PsychType.Kids);
+                break;
+            default:
+                return;
+        }
+
+        _sessionController.alertClient(msg);
+    }
+
+    public void importExplanation() {
+        if (_file == null) {
+            return;
+        }
+
+        String msg = "";
+        switch (getActiveTopicKey()) {
+            case TOPIC_BASE:
+                return;
+            case TOPIC_ADULTS1:
+                return;
+            case TOPIC_KIDS1:
+                return;
+            case TOPIC_ADULTS2:
+                msg = PsychStaffImporter.importExplanation(_file, _staffProof, PsychType.Adults);
+                break;
+            case TOPIC_KIDS2:
+                msg = PsychStaffImporter.importExplanation(_file, _staffProof, PsychType.Kids);
                 break;
             default:
                 return;

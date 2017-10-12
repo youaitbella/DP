@@ -50,10 +50,23 @@
                                          p:accept=".csv, .txt"
                                          styleClass="hiddenFile bigButton"  
                                          value="#{editPsyStaff.file}">
-                                <f:ajax listener="#{editPsyStaff.importData}" render="@form"/>
+                                <f:ajax listener="#{editPsyStaff.importData}" render="@all"/>
                             </h:inputFile>
                             <div class="fakeFile">
                                 <h:outputLabel style="margin-top: 9px;" styleClass="bigButton element100" value="Daten hochladen"/>
+                            </div>
+                        </div>
+
+                        <div class="uploadFile inlineBlock" jsf:rendered="#{editPsyStaff.closeEnabled and editPsyStaff.activeTopicKey.startsWith('topicAppendix2')}">
+                            <h:inputFile id="importExplanation" 
+                                         style="width: 160px;"
+                                         p:accept=".csv, .txt"
+                                         styleClass="hiddenFile bigButton"  
+                                         value="#{editPsyStaff.file}">
+                                <f:ajax listener="#{editPsyStaff.importExplanation}" render="@all"/>
+                            </h:inputFile>
+                            <div class="fakeFile">
+                                <h:outputLabel style="margin-top: 9px;" styleClass="bigButton element100" value="Erläuterung hochladen"/>
                             </div>
                         </div>
 

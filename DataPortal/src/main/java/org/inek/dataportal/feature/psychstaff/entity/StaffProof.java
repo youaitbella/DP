@@ -521,7 +521,9 @@ public class StaffProof implements Serializable, StatusEntity {
     /**
      * Add a StaffProofExplanation to the list
      *
-     * @param staffProofExplanation
+     * @param type
+     * @param occupationalCategory
+     * @param deductedSpecialistId
      * @return true, if the new element could be added; false if the element existed before
      */
     public boolean addMissingStaffProofExplanation(PsychType type, OccupationalCategory occupationalCategory, int deductedSpecialistId) {
@@ -530,12 +532,7 @@ public class StaffProof implements Serializable, StatusEntity {
                 && a.getDeductedSpecialistId() == deductedSpecialistId)) {
             return false;
         }
-        StaffProofExplanation explanation = new StaffProofExplanation();
-        explanation.setStaffProofMasterId(_id);
-        explanation.setPsychType(type);
-        explanation.setOccupationalCategory(occupationalCategory);
-        explanation.setDeductedSpecialistId(deductedSpecialistId);
-        _staffProofExplanation.add(explanation);
+        addStaffProofExplanation(type, occupationalCategory, deductedSpecialistId);
         return true;
     }
 
@@ -545,6 +542,11 @@ public class StaffProof implements Serializable, StatusEntity {
         explanation.setPsychType(type);
         explanation.setOccupationalCategory(occupationalCategory);
         explanation.setDeductedSpecialistId(deductedSpecialistId);
+        _staffProofExplanation.add(explanation);
+    }
+
+    public void addStaffProofExplanation(StaffProofExplanation explanation) {
+        explanation.setStaffProofMasterId(_id);
         _staffProofExplanation.add(explanation);
     }
 
