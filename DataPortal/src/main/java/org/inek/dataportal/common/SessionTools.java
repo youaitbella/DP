@@ -26,7 +26,7 @@ import org.inek.dataportal.facades.ContactRoleFacade;
 import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.CustomerTypeFacade;
 import org.inek.dataportal.facades.DropBoxTypeFacade;
-import org.inek.dataportal.facades.TrashMailFacade;
+import org.inek.dataportal.facades.InfoDataFacade;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.faceletvalidators.EmailValidator;
 
@@ -46,7 +46,7 @@ public class SessionTools implements Serializable {
     @Inject private transient ContactRoleFacade _contactRoleFacade;
     @Inject private transient CustomerTypeFacade _typeFacade;
     @Inject private transient DropBoxTypeFacade _dropBoxTypeFacade;
-    @Inject private transient TrashMailFacade _trashMailfacade;
+    @Inject private transient InfoDataFacade _trashMailfacade;
     @Inject private transient CustomerFacade _customerFacade;
 
     public int getCurrentYear() {
@@ -185,7 +185,7 @@ public class SessionTools implements Serializable {
             return false;
         }
         String domain = address.substring(address.indexOf("@") + 1);
-        return !_trashMailfacade.exists(domain);
+        return !_trashMailfacade.isTrashMailDomain(domain);
     }
 
     public void checkIk(FacesContext context, UIComponent component, Object value) {

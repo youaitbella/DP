@@ -85,7 +85,12 @@ Diese Info ist in die Berechtigung zu übernehmen. Hier kann der IK-Admin jedoch
 - AccountId
 - IK
 - Feature
-- Recht (Deny Read Write Seal)
+- Recht (Deny Read Write Seal All)
 
+Deny    - Verbot
+Read    - Lesen
+Write   - Schreiben. Enthält Lesen
+Seal    - Abschließen. Enthält Lesen, aber nicht Schreiben (reine Supervisorfunktion).
+All     - Alle (Lesen, Schreiben, Abschließen)
 
 [Zurück zum Hauptdokument](DataPortal.md#FunctionalRequirements)

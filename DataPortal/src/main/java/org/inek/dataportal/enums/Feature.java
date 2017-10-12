@@ -55,4 +55,13 @@ public enum Feature {
     public PortalType getPortalType() {
         return _portalType;
     }
+    
+    public static Feature getFeatureFromId(int id) {
+        for(Feature feature : Feature.values()) {
+            if(feature.getId() == id)
+                return feature;
+        }
+        throw new IllegalArgumentException("Failed to obtain feature. Unknown id " + id);
+    }
+        
 }

@@ -9,17 +9,20 @@ import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
+import org.inek.dataportal.entities.ListFeature;
 import org.inek.dataportal.entities.certification.RemunerationSystem;
 import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.facades.AbstractDataAccess;
 import org.inek.dataportal.facades.CustomerFacade;
+import org.inek.dataportal.facades.InfoDataFacade;
 import org.inek.dataportal.feature.admin.facade.ConfigFacade;
 import org.inek.dataportal.feature.psychstaff.entity.ExclusionFact;
 
@@ -29,8 +32,26 @@ public class ApplicationTools extends AbstractDataAccess{
     private Properties _properties;
 
     private static final Logger LOGGER = Logger.getLogger("ApplicationTools");
-    @Inject
-    private ConfigFacade _config;
+    @Inject private ConfigFacade _config;
+    @Inject private InfoDataFacade _info;
+
+    @PostConstruct
+    private void init(){
+        initListFeature();
+    }
+    
+    private void initListFeature(){
+        List<ListFeature> listFeatures = _info.findAllListFeature();
+        for (Feature feature : Feature.values()) {
+            if (listFeatures.stream().noneMatch(f -> f.getId() == feature.getId())){
+                ListFeature listFeature = new ListFeature();
+                listFeature.setId(feature.getId());
+                listFeature.setName(feature.name());
+                listFeature.setDescription(feature.getDescription());
+                _info.saveListFeature(listFeature);
+            }
+        }
+    }
 
     /**
      *

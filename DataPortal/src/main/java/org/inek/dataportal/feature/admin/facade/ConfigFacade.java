@@ -5,18 +5,14 @@ import javax.ejb.Stateless;
 import org.inek.dataportal.feature.admin.entity.Config;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
-import org.inek.dataportal.facades.AbstractFacade;
+import org.inek.dataportal.facades.AbstractDataAccess;
 
 /**
  *
  * @author muellermi
  */
 @Stateless
-public class ConfigFacade extends AbstractFacade<Config> {
-
-    public ConfigFacade() {
-        super(Config.class);
-    }
+public class ConfigFacade extends AbstractDataAccess {
 
     public void save(ConfigKey key, String value) {
         save (key.name(), value);
@@ -34,7 +30,7 @@ public class ConfigFacade extends AbstractFacade<Config> {
     }
 
     public String read(ConfigKey key) {
-        Config config = findFresh(key.name());
+        Config config = findFresh(Config.class, key.name());
         
         if (config == null) {
             save(key, key.getDefault());
@@ -45,7 +41,7 @@ public class ConfigFacade extends AbstractFacade<Config> {
 
     public String read(ConfigKey key, String appendix) {
         String fullKey = key.name() + ":" + appendix;
-        Config config = findFresh(fullKey);
+        Config config = findFresh(Config.class, fullKey);
         
         if (config == null) {
             save(fullKey, key.getDefault());
@@ -67,7 +63,7 @@ public class ConfigFacade extends AbstractFacade<Config> {
     }
 
     public boolean readBool(Feature feature) {
-        Config config = findFresh(ConfigKey.Feature + ":" + feature.name());
+        Config config = findFresh(Config.class, ConfigKey.Feature + ":" + feature.name());
         if (config == null) {
             save(feature, true);
             return true;
@@ -80,7 +76,7 @@ public class ConfigFacade extends AbstractFacade<Config> {
     }
 
     public int readInt(ConfigKey key) {
-        Config config = findFresh(key.name());
+        Config config = findFresh(Config.class, key.name());
         if (config == null) {
             save(key, key.getIntDefault());
             return key.getIntDefault();
