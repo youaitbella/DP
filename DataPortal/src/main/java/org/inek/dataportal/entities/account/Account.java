@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -165,13 +166,16 @@ public class Account implements Serializable, Person {
     /**
      * Adds an ik and returns true, if ik could be added, false otherwise (ik existed)
      * @param ik
+     * @param mailDomain
      * @return 
      */
-    public boolean addIkAdmin(int ik) {
-        if (_adminIks.stream().anyMatch(ai -> ai.getIk() == ik)){
+    public boolean addIkAdmin(int ik, String mailDomain) {
+        Optional<AccountIkAdmin> admin = _adminIks.stream().filter(ai -> ai.getIk() == ik).findAny();
+        if (admin.isPresent()){
+            admin.get().setMailDomain(mailDomain);
             return false;
         }
-        _adminIks.add(new AccountIkAdmin(_id, ik));
+        _adminIks.add(new AccountIkAdmin(_id, ik, mailDomain));
         return true;
     }
     // </editor-fold>

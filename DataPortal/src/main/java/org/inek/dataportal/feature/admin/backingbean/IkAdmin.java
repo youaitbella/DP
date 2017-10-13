@@ -33,6 +33,8 @@ public class IkAdmin implements Serializable {
     @Inject private AccountFacade _accountFacade;
     private int _ik;
     private Account _account;
+    private String _mailDomain;
+
     private List<Account> _accounts = new ArrayList<>();
 
     public List<IkAccount> getIkAccounts() {
@@ -50,6 +52,12 @@ public class IkAdmin implements Serializable {
         _accountFacade.merge(account);
         _accounts.clear();  // force reload
         return "";
+    }
+
+    public void setInput(IkAccount ikAccount) {
+        _account = ikAccount.getAccount();
+        _ik = ikAccount.getIk();
+        _mailDomain = ikAccount.getMailDomain();
     }
 
     public String getEmail() {
@@ -84,11 +92,19 @@ public class IkAdmin implements Serializable {
         return _account == null ? 0 : _account.getId();
     }
 
+    public String getMailDomain() {
+        return _mailDomain;
+    }
+
+    public void setMailDomain(String mailDomain) {
+        _mailDomain = mailDomain;
+    }
+
     public String saveIkAdmin() {
-        if (_account.addIkAdmin(_ik)) {
+        if (_account.addIkAdmin(_ik, _mailDomain)) {
             _sessionController.logMessage("Added IK Admin: account=" + _account.getId() + ", ik=" + _ik);
-            _accountFacade.merge(_account);
         }
+        _accountFacade.merge(_account);
         _accounts.clear();  // force reload
         return "";
     }

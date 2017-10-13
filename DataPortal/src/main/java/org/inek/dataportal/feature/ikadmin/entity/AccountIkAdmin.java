@@ -19,9 +19,10 @@ public class AccountIkAdmin implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public AccountIkAdmin(){}
-    public AccountIkAdmin(int AccountId, int ik){
+    public AccountIkAdmin(int AccountId, int ik, String mailDomain){
         _accountId = AccountId;
         _ik = ik;
+        _mailDomain = mailDomain;
     }
     
     // <editor-fold defaultstate="collapsed" desc="Property AccountId">

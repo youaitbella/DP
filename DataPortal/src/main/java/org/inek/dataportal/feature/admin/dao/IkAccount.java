@@ -19,15 +19,16 @@ public class IkAccount {
         List<IkAccount> ikAccounts = new ArrayList<>();
         accounts.forEach(account -> {
             account.getAdminIks().forEach(ai -> {
-                ikAccounts.add(new IkAccount(account, ai.getIk()));
+                ikAccounts.add(new IkAccount(account, ai.getIk(), ai.getMailDomain()));
             });
         });
         return ikAccounts;
     }
 
-    public IkAccount(Account account, int ik) {
+    public IkAccount(Account account, int ik, String mailDomain) {
         _account = account;
         _ik = ik;
+        _mailDomain = mailDomain;
     }
     private final Account _account;
 
@@ -41,4 +42,9 @@ public class IkAccount {
         return _ik;
     }
 
+    private final String _mailDomain;
+    
+    public String getMailDomain(){
+        return _mailDomain;
+    }
 }
