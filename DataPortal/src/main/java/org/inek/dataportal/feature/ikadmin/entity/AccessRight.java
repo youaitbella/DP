@@ -19,7 +19,6 @@ import org.inek.dataportal.helper.converter.FeatureConverter;
 public class AccessRight implements Serializable {
 
     private static final long serialVersionUID = 1L;
-//arId, arAccountId, arIk, arFeatureId, arRight
     
     //<editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
@@ -88,4 +87,32 @@ public class AccessRight implements Serializable {
         _right = right;
     }
     // </editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="hashCode, equals ">
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 97 * hash + this._id;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final AccessRight other = (AccessRight) obj;
+        if (this._id != other._id) {
+            return false;
+        }
+        return true;
+    }
+    // </editor-fold>
+   
 }
