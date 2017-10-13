@@ -122,13 +122,15 @@
                 <h:inputText rendered="#{editNubRequest.nubRequest.formerRequest == 1}" value="#{editNubRequest.formerNubIdFilterText}" id="formerNubNameFilter">
                     <f:ajax event="blur" render="@form formerNubsEmpty nubFormerRequestValue :logout:remaining" />
                 </h:inputText>
-                
+
                 <h:selectBooleanCheckbox value="#{editNubRequest.maxYearOnly}"
                                          styleClass="marginLeft"
                                          id="maxYearOnly">
                     <f:ajax render="@this nubFormerRequestValue :logout:remaining"/>
                 </h:selectBooleanCheckbox>
-                <h:outputLabel value="#{msg.lblOnlyRequestsFromPreviousYear}" for="maxYearOnly"/>                        
+                <h:outputLabel value="#{msg.lblOnlyRequestsFromPreviousYear}" 
+                               styleClass="marginLeft"
+                               for="maxYearOnly"/>                        
                 <br/>
                 <h:selectOneMenu rendered="#{editNubRequest.allNubIds.size() > 0}"
                                  style="width: 100%; max-width: 100%;" 

@@ -393,6 +393,7 @@ public class NubRequestFacade extends AbstractDataAccess {
     }
 
     private TypedQuery<NubFormerRequest> getQueryForOldNubIds(int ik, String filter) {
+        // gets information about nub requests of the pre-portal area
         String jpql = "SELECT p FROM NubFormerRequest p WHERE p._ik = :ik AND p._name LIKE :filter";
         TypedQuery<NubFormerRequest> query = getEntityManager().createQuery(jpql, NubFormerRequest.class);
         query.setParameter("ik", ik);
@@ -413,44 +414,74 @@ public class NubRequestFacade extends AbstractDataAccess {
         return query;
     }
 
-    public List<NubFormerRequestMerged> getExistingNubIds(int ik, String filter, boolean maxYearOnly) {
-        if (ik < 100000000) {
+    public List<NubFormerRequestMerged> getExistingNubIds(int currentIk, String filter, boolean maxYearOnly) {
+        if (currentIk < 100000000) {
             return Collections.emptyList();
         }
 
         List<NubFormerRequestMerged> list = new ArrayList<>();
+        List<Integer> iks = determineIks(currentIk);
 
-        TypedQuery<NubRequest> newIdsQuery = getQueryForNewNubIds(ik, filter, maxYearOnly);
-        newIdsQuery.getResultList().stream()
-                .sorted((n1, n2) -> Integer.compare(n2.getId(), n1.getId()))
-                .map((nr) -> {
-                    NubFormerRequestMerged m = new NubFormerRequestMerged();
-                    m.setId(nr.getExternalId());
-                    m.setIk(nr.getIk());
-                    m.setName(nr.getName());
-                    return m;
-                }).forEachOrdered((m) -> {
-                    list.add(m);
-                });
-
-        if (!maxYearOnly) {
-            TypedQuery<NubFormerRequest> oldIdsQuery = getQueryForOldNubIds(ik, filter);
-            oldIdsQuery.getResultList().stream()
-                    .sorted((n1, n2) -> ((n2.getExternalId().startsWith("1") ? "" : "0") + n2.getExternalId())
-                    .compareTo((n1.getExternalId().startsWith("1") ? "" : "0") + n1.getExternalId()))
-                    .map((nfr) -> {
+        for (Integer ik : iks) {
+            TypedQuery<NubRequest> newIdsQuery = getQueryForNewNubIds(ik, filter, maxYearOnly);
+            newIdsQuery.getResultList().stream()
+                    .sorted((n1, n2) -> Integer.compare(n2.getId(), n1.getId()))
+                    .map((nr) -> {
                         NubFormerRequestMerged m = new NubFormerRequestMerged();
-                        m.setId(nfr.getExternalId());
-                        m.setIk(nfr.getIk());
-                        m.setName(nfr.getName());
+                        m.setId(nr.getExternalId());
+                        m.setIk(nr.getIk());
+                        m.setName(nr.getName());
                         return m;
                     }).forEachOrdered((m) -> {
                         list.add(m);
                     });
         }
+
+        if (!maxYearOnly) {
+            // get information about pre-portal data
+            for (Integer ik : iks) {
+
+                TypedQuery<NubFormerRequest> oldIdsQuery = getQueryForOldNubIds(ik, filter);
+                oldIdsQuery.getResultList().stream()
+                        .sorted((n1, n2) -> ((n2.getExternalId().startsWith("1") ? "" : "0") + n2.getExternalId())
+                        .compareTo((n1.getExternalId().startsWith("1") ? "" : "0") + n1.getExternalId()))
+                        .map((nfr) -> {
+                            NubFormerRequestMerged m = new NubFormerRequestMerged();
+                            m.setId(nfr.getExternalId());
+                            m.setIk(nfr.getIk());
+                            m.setName(nfr.getName());
+                            return m;
+                        }).forEachOrdered((m) -> {
+                            list.add(m);
+                        });
+            }
+        }
         return list;
     }
 
+    /**
+     * 
+     * @param ik
+     * @return a list of iks, containing the current one as well as previous iks
+     */
+    @SuppressWarnings("unchecked")
+    private List<Integer> determineIks(int ik) {
+        List<Integer> iks = new ArrayList<>();
+        iks.add(ik);
+        String sql = "select p.cuIk\n"
+                + "from CallCenterDB.dbo.ccCustomer c\n"
+                + "join CallCenterDB.dbo.CustomerHistory on c.cuId = chCustomerId\n"
+                + "join CallCenterDB.dbo.ccCustomer p on chPreviousCustomerId = p.cuId\n"
+                + "where c.cuIK = " + ik;
+        Query query = getEntityManager().createNativeQuery(sql);
+        List formerIks = query.getResultList();
+        for (Object formerIk : formerIks) {
+            iks.add((int)formerIk);
+        }
+        return iks;
+    }
+
+    
     // <editor-fold defaultstate="collapsed" desc="NubMethodInfo + Description">    
     private List<NubMethodInfo> _nubMethodInfos = Collections.emptyList();
     private final Map<Integer, String> _methodDescriptions = new ConcurrentHashMap<>();

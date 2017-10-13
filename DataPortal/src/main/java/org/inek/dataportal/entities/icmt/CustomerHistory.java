@@ -6,6 +6,7 @@
 package org.inek.dataportal.entities.icmt;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -68,13 +69,13 @@ public class CustomerHistory implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property ChangeDate">
     @Column(name = "chChangeDate")
     @Temporal(TemporalType.TIMESTAMP)
-    private DateTime _changeDate;
+    private Date _changeDate;
 
-    public DateTime getChangeDate() {
+    public Date getChangeDate() {
         return _changeDate;
     }
 
-    public void setChangeDate(DateTime changeDate) {
+    public void setChangeDate(Date changeDate) {
         _changeDate = changeDate;
     }
     //</editor-fold>
@@ -92,6 +93,19 @@ public class CustomerHistory implements Serializable {
     }
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Property AgentId">
+    @Column(name = "chAgentId")
+    private int _agentId;
+
+    public int getAgentId() {
+        return _agentId;
+    }
+
+    public void setAgentId(int agentId) {
+        _agentId = agentId;
+    }
+    //</editor-fold>   
+    
     //<editor-fold defaultstate="collapsed" desc="hashCode + equals">
     @Override
     public int hashCode() {
