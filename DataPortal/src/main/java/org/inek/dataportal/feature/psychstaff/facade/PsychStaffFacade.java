@@ -9,6 +9,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.facades.AbstractDataAccess;
 import org.inek.dataportal.feature.psychstaff.entity.OccupationalCategory;
 import org.inek.dataportal.feature.psychstaff.entity.PersonnelGroup;
@@ -27,11 +28,43 @@ public class PsychStaffFacade extends AbstractDataAccess {
     public StaffProof findStaffProof(int id) {
         return find(StaffProof.class, id);
     }
-    
-    public List<StaffProof> getStaffProofs(int accountId) {
-        String sql = "SELECT n FROM StaffProof n "
-                + "WHERE n._accountId = :accountId ORDER BY n._year, n._id";
+
+    public List<StaffProof> getStaffProofsOld(int accountId, DataSet dataSet) {
+        String sql = "SELECT n FROM StaffProof n \r\n"
+                + "WHERE n._accountId = :accountId \r\n";
+        if (dataSet == DataSet.AllOpen) {
+        } else {
+        }
+        sql += "ORDER BY n._year, n._id";
         TypedQuery<StaffProof> query = getEntityManager().createQuery(sql, StaffProof.class);
+        query.setParameter("accountId", accountId);
+        return query.getResultList();
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<StaffProof> getStaffProofs(int accountId, DataSet dataSet) {
+        String sql = "SELECT m.* \n"
+                + "FROM psy.StaffProofMaster m \n"
+                + "WHERE spmAccountId = " + accountId + "\n";
+        if (dataSet == DataSet.AllSealed) {
+            sql += " and spmStatusApx1 = 10 \n"
+                    + " and (spmExclusionFactId1 > 0 \n"
+                    + "     or exists (select 1 from psy.StaffProofDocument where spdSignature = spmSignatureAgreement))\n"
+                    + " and spmStatusApx2 = 10 \n"
+                    + " and (spmExclusionFactId2 > 0 \n"
+                    + "     or exists (select 1 from psy.StaffProofDocument where spdSignature = spmSignatureEffective))\n";
+        } else {
+            sql += " and (\n"
+                    + "     spmStatusApx1 < 10 \n"
+                    + "  or spmExclusionFactId1 = 0 and not exists "
+                    + "        (select 1 from psy.StaffProofDocument where spdSignature = spmSignatureAgreement)\n"
+                    + "  or spmStatusApx2 < 10 \n"
+                    + "  or spmExclusionFactId2 = 0 and not exists "
+                    + "        (select 1 from psy.StaffProofDocument where spdSignature = spmSignatureEffective)\n"
+                    + "  )";
+        }
+        sql += "ORDER BY spmYear, spmIk";
+        Query query = getEntityManager().createNativeQuery(sql, StaffProof.class);
         query.setParameter("accountId", accountId);
         return query.getResultList();
     }
@@ -87,10 +120,10 @@ public class PsychStaffFacade extends AbstractDataAccess {
                 merge(proof);
             }
         }
-        */
+         */
         return merge(staffProof);
     }
-    
+
     public void delete(StaffProof staffProof) {
         remove(staffProof);
     }
@@ -101,4 +134,5 @@ public class PsychStaffFacade extends AbstractDataAccess {
         query.setParameter("ik", ik);
         return query.getResultList();
     }
+
 }

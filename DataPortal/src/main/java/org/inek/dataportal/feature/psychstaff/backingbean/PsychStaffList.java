@@ -15,6 +15,7 @@ import javax.inject.Named;
 import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.enums.ConfigKey;
+import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.feature.psychstaff.entity.StaffProof;
@@ -28,7 +29,7 @@ import org.inek.dataportal.utils.DocumentationUtil;
  */
 @Named
 @ViewScoped
-public class PsychStaffList implements Serializable{
+public class PsychStaffList implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="fields">
     private static final Logger LOGGER = Logger.getLogger(PsychStaffList.class.getName());
@@ -42,19 +43,11 @@ public class PsychStaffList implements Serializable{
 
     public List<StaffProof> getOpenPersonals() {
         // todo
-        return _psychFacade
-                .getStaffProofs(_sessionController.getAccountId())
-                .stream()
-                //.filter(p -> !p.isClosed())
-                .collect(Collectors.toList());
+        return _psychFacade.getStaffProofs(_sessionController.getAccountId(), DataSet.AllOpen);
     }
 
     public List<StaffProof> getProvidedPersonals() {
-        return _psychFacade
-                .getStaffProofs(_sessionController.getAccountId())
-                .stream()
-                .filter(p -> p.isClosed() && false)
-                .collect(Collectors.toList());
+        return _psychFacade.getStaffProofs(_sessionController.getAccountId(), DataSet.AllSealed);
     }
 
     private List<StaffProof> _inekStaffProofs;
