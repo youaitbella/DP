@@ -5,51 +5,19 @@
  */
 package org.inek.dataportal.feature.ikadmin.backingbean;
 
-import org.inek.dataportal.feature.psychstaff.backingbean.*;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Set;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
-import javax.faces.model.SelectItem;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.http.Part;
 import org.inek.dataportal.common.ApplicationTools;
-import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
-import org.inek.dataportal.entities.account.Account;
-import org.inek.dataportal.entities.account.AccountAdditionalIK;
-import org.inek.dataportal.enums.ConfigKey;
-import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
-import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.feature.AbstractEditController;
-import org.inek.dataportal.feature.psychstaff.entity.ExclusionFact;
-import org.inek.dataportal.feature.psychstaff.entity.OccupationalCategory;
-import org.inek.dataportal.feature.psychstaff.entity.StaffProof;
-import org.inek.dataportal.feature.psychstaff.entity.StaffProofAgreed;
-import org.inek.dataportal.feature.psychstaff.entity.StaffProofDocument;
-import org.inek.dataportal.feature.psychstaff.entity.StaffProofEffective;
-import org.inek.dataportal.feature.psychstaff.entity.StaffProofExplanation;
-import org.inek.dataportal.feature.psychstaff.enums.PsychType;
-import org.inek.dataportal.feature.psychstaff.facade.PsychStaffFacade;
 import org.inek.dataportal.helper.Utils;
-import org.inek.dataportal.helper.structures.MessageContainer;
-import org.inek.dataportal.utils.StreamUtils;
 
 /**
  *
@@ -61,11 +29,12 @@ public class IkAdminTasks extends AbstractEditController implements Serializable
 
     // <editor-fold defaultstate="collapsed" desc="fields & enums">
     private static final Logger LOGGER = Logger.getLogger("IkAdminTasks");
-    private static final String TOPIC_USER = "topicBaseData";
+    private static final String TOPIC_USER = "topicUserManagement";
 
-    @Inject private CooperationTools _cooperationTools;
     @Inject private SessionController _sessionController;
     @Inject private ApplicationTools _appTools;
+
+    private int _ik;
     // </editor-fold>
 
     @Override
@@ -87,7 +56,21 @@ public class IkAdminTasks extends AbstractEditController implements Serializable
 
     @PostConstruct
     private void init() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        Map<String, String> params = context.getExternalContext().getRequestParameterMap();
+        String ikParam = "" + params.get("ik");
+        try {
+            int ik = Integer.parseInt(ikParam);
+            if (_sessionController.getAccount().getAdminIks().stream().anyMatch(a -> a.getIk() == ik)) {
+                _ik = ik;
+                return;
+            }
+        } catch (NumberFormatException ex) {
+            // ignore here and handle after catch
+        }
+        Utils.navigate(Pages.NotAllowed.RedirectURL());
     }
 
-
+    
 }
+

@@ -14,8 +14,11 @@
     <ui:define name="content">
 
         <h:form id="psychStaff" enctype="multipart/form-data">
-            <h1>IK-Admin</h1>
-
+            <h1>
+                <h:commandLink action="#{sessionController.navigate(sessionTools.pages.IKAdminSummary)}" 
+                               value="#{msg.nameIK_ADMIN}" 
+                               immediate="true"/> 
+            </h1>
 
             <div class="tab" jsf:id="ikAdminMenu">
                 <ul class="tab">

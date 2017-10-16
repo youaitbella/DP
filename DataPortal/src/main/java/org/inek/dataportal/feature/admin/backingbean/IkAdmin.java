@@ -103,8 +103,10 @@ public class IkAdmin implements Serializable {
     public String saveIkAdmin() {
         if (_account.addIkAdmin(_ik, _mailDomain)) {
             _sessionController.logMessage("Added IK Admin: account=" + _account.getId() + ", ik=" + _ik);
+            collectExistingAccess();
         }
         _accountFacade.merge(_account);
+        
         _accounts.clear();  // force reload
         return "";
     }
@@ -128,6 +130,9 @@ public class IkAdmin implements Serializable {
 
     public Integer getIk() {
         return _ik > 0 ? _ik : null;
+    }
+
+    private void collectExistingAccess() {
     }
 
 }

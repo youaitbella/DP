@@ -38,12 +38,12 @@ Damit wird die Sicherheit erhöht und der Verwaltungsaufwand verteilt und reduzi
 
 - Ein IK-Admin kann für dieses IK für andere Personen die IK-Admin-Rechte entziehen
 - Ein Anwender löscht sein Benutzerkonto - das Löschen ist nicht möglich, sofern es sich um den einzigen IK-Admin handelt
-- Das InEK löscht IK-Admins im schriftlichen Auftrag der Krankenhausleitung
+- Das InEK löscht IK-Admins im schriftlichen Auftrag der Krankenhausleitung. Mit Löschung des letzen IK-Admins wird die Berechtigungstabelle für das betreffende Haus entfernt. Damit ist dies wieder "offen". Das InEK sollte vor Löschung des letzen IK-Admins dies mit dem Krankenhaus erläutern und bestätigen lassen.
 
 ### Zuweisung von IK und Funktionen
 
 - Der IK-Admin kann Anwendern die Berechtigung für ein IK nebst Funktionen zuweisen; in einem solchen Falle ist eine Freischaltung durch das InEK nicht erforderlich
-- Trägt ein Anwender für sich ein IK ein, für das ein IK-Admin existiert, so ist dieser Eintrag nur  ohne Zugriffsrechte möglich. Der IK-Admin wird informiert und kann Berechtigungen zuweisen.
+- Trägt ein Anwender für sich ein IK ein, für das ein IK-Admin existiert, so ist dieser Eintrag nur ohne Zugriffsrechte möglich. Der IK-Admin wird informiert und kann Berechtigungen zuweisen.
 
 ### Sichtbarkeit und Übertragung von Daten
 
@@ -55,7 +55,7 @@ Damit wird die Sicherheit erhöht und der Verwaltungsaufwand verteilt und reduzi
 
 - Der IK-Admin verwaltet die IK-Supervisoren
 - Der IK-Admin erhält eine Übersicht mit allen der IK zugeordneten Anwenderkonten
-- Der IK-Admin kann eineoder mehrere zulässige Mail-Domains (wie "@musterhospital.de") festlegen. Die Mail-Domain schränkt den "Besitzer" von Daten ein (*). Möchte ein Anwender seine Mailadresse auf eine nicht-zulässige Domain umstellen, so wird (nach Hinweis) das betreffende IK aus seiner Zuständigkeit entfernt. Die o.a. Zuweisung von IK und Funktionen erfolgt dagegen unabhängig von der Mail-Domain.
+- Der IK-Admin kann eine oder mehrere zulässige Mail-Domains (wie "@musterhospital.de") festlegen. Die Mail-Domain schränkt den "Besitzer" von Daten ein (*). Möchte ein Anwender seine Mailadresse auf eine nicht-zulässige Domain umstellen, so wird (nach Hinweis) das betreffende IK aus seiner Zuständigkeit entfernt. Die o.a. Zuweisung von IK und Funktionen erfolgt dagegen unabhängig von der Mail-Domain.
 - Der Anwender erhält zu seinen IKs eine Übersicht, welche IK-Admins für die einzelnen IKs zuständig sind
 
 (*) Hintergrund:
@@ -88,9 +88,42 @@ Diese Info ist in die Berechtigung zu übernehmen. Hier kann der IK-Admin jedoch
 - Recht (Deny Read Write Seal All)
 
 Deny    - Verbot
+Create  - Anlegen. Enthält Lesen und Schreiben
 Read    - Lesen
-Write   - Schreiben. Enthält Lesen
+Write   - Schreiben. Enthält Lesen, Kann keine neuen Datensätze anlegen!
 Seal    - Abschließen. Enthält Lesen, aber nicht Schreiben (reine Supervisorfunktion).
-All     - Alle (Lesen, Schreiben, Abschließen)
+All     - Alle (Anlegen, Lesen, Schreiben, Abschließen)
+
+### Ablauf
+
+#### Anwender wird zum IK-Admin
+
+Soweit für dieses IK bisher noch kein IK-Admin existierte:
+
+Für alle Anwender, welche das betreffende IK eingetragen haben wird für deren genutzte Featueres geprüft,
+ob eine Berechtigung eingetragen ist. Falls nein, so wird eine Berechtigung "All" erzeugt.
+Dies stellt sicher, dass Personen, die bisher für ein Krankenhaus gearbeitet haben, dies initial auch weiterhin
+können.
+
+#### IK-Admin startet User Management
+
+Der IK-Admin erhält eine editierbare Tabelle mit existierenden Berechtigungen.
+Der IK-Admin kann den dort aufgeführten Personen, sowie allen Personen der hinterlegten Mail-Domaine Berchtigungen für weitere Features zufügen. 
+Sofern noch nicht vorhanden, wird damit bei diesen Personen das betreffende Feature aktiviert sowie bei Bedarf das IK in den Stammdaten zugefügt.
+
+Entzieht der IK-Admin einem Anwender, der "Besitzer" von Datensätzen ist, die Berechtigung zum Zugriff auf dieselben, so wird der "Besitz" auf den IK-Admin übertragen. Der allgemeine Zugriff auf diese Daten ist von den Rechten, nicht vom Besitzer abhängig, jedoch kann einAnwender ohne Rechte kein Besitzer sein.
+
+#### Anwender fügt IK oder Feature hinzu
+
+Sofern ein IK-Admin vorhanden ist, erzeugt dies Einträge in der Berechtigungstabelle mit Recht "Deny".
+Somit wird sichergestellt, dass sich Anwender nicht mehr unmittelbar zur Bearbeitung der Daten eines Hauses eintragen können.
+Der IK-Admin erhält eine Nachricht und kann die Rechte anpassen.
+
+Soweit ein Anwender ein Feature zufügt und für alle IKs ein IK-Admin vorhanden ist, benötigt das InEK keine Nachricht zur Freischaltung.
+
+#### Anwender nutzt Feature
+
+Die Liste der möglichen IKs wird wie bisher aus den Anwenderstammdaten gelesen. 
+Für jedes IK wird geprüft, ob ein IK-Admin vorhanden ist. Sofern ja, gelten die Berechtigungen entsprechend der Berechtigungstabellen, andernfalls kann der Anwender das IK im Feature wie bisher nutzen.
 
 [Zurück zum Hauptdokument](DataPortal.md#FunctionalRequirements)

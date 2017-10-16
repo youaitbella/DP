@@ -8,15 +8,6 @@
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common"
                 xmlns:psystaff="http://xmlns.jcp.org/jsf/composite/components/feature/psychstaff"
                 >
-    <h2>
-        <h:commandLink action="#{sessionController.navigate(sessionTools.pages.IKAdminSummary)}" 
-                       value="#{msg.nameIK_ADMIN}" 
-                       immediate="true"/> 
-    </h2>
-    <h1><h:commandLink value="IK-Admin" 
-                       action="#{sessionController.navigate(sessionTools.pages.IKAdminSummary)}" 
-                       immediate="true"/></h1>
-
     <ui:include src="#{sessionTools.pages.IkAdminList}"/>
 
 </ui:composition>
