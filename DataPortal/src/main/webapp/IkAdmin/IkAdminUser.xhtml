@@ -9,7 +9,21 @@
                 xmlns:psystaff="http://xmlns.jcp.org/jsf/composite/components/feature/psychstaff"
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
    
-    <h1>comming soon: Userlist</h1>
 
+    <h:form id="userManager">
+        <h:dataTable value="#{ikAdminTasks.accessRights}" var="item">
+            
+            <h:column>
+                <f:facet name="header">Anwender</f:facet>
+                <h:outputText value="#{item.accountId}"/>
+            </h:column>
+            
+            <h:column>
+                <f:facet name="header">Funktion</f:facet>
+                <h:outputText value="#{item.feature.description}"/>
+            </h:column>
+            
+        </h:dataTable>
+    </h:form>
 </ui:composition>
 

@@ -6,6 +6,7 @@
 package org.inek.dataportal.feature.ikadmin.backingbean;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -17,6 +18,8 @@ import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.feature.AbstractEditController;
+import org.inek.dataportal.feature.ikadmin.entity.AccessRight;
+import org.inek.dataportal.feature.ikadmin.facade.IkAdminFacade;
 import org.inek.dataportal.helper.Utils;
 
 /**
@@ -32,9 +35,23 @@ public class IkAdminTasks extends AbstractEditController implements Serializable
     private static final String TOPIC_USER = "topicUserManagement";
 
     @Inject private SessionController _sessionController;
+    @Inject private IkAdminFacade _ikAdminFacade;
     @Inject private ApplicationTools _appTools;
 
     private int _ik;
+
+    public int getIk() {
+        return _ik;
+    }
+
+    private List<AccessRight> _accessRights;
+
+    public List<AccessRight> getAccessRights() {
+        if (_accessRights == null) {
+            _accessRights = _ikAdminFacade.findAccessRights(_ik);
+        }
+        return _accessRights;
+    }
     // </editor-fold>
 
     @Override
@@ -71,6 +88,4 @@ public class IkAdminTasks extends AbstractEditController implements Serializable
         Utils.navigate(Pages.NotAllowed.RedirectURL());
     }
 
-    
 }
-
