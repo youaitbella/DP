@@ -13,6 +13,9 @@
                        value="#{msg.nameIK_ADMIN}" 
                        immediate="true"/> 
     </h2>
+    <h1><h:commandLink value="IK-Admin" 
+                       action="#{sessionController.navigate(sessionTools.pages.IKAdminSummary)}" 
+                       immediate="true"/></h1>
 
     <ui:include src="#{sessionTools.pages.IkAdminList}"/>
 

@@ -137,7 +137,6 @@
                                  id="nubFormerRequestValue" 
                                  required="#{editNubRequest.nubRequest.medicalDevice == 1}"
                                  value="#{editNubRequest.nubRequest.formerExternalId}" 
-                                 validator="#{editNubRequest.checkExistingNubProposalId}"
                                  hideNoSelectionOption="false"> 
                     <f:ajax event="change" render="@this :logout:remaining nubFormerRequestValue formerNubName msgNubRequestValue"/>
                     <f:selectItem itemLabel="#{msg.lblChooseEntry}" itemValue="" noSelectionOption="true"/>
