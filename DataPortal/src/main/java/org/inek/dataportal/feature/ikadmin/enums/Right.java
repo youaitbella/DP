@@ -13,7 +13,9 @@ public enum Right {
     Deny,
     Read,
     Write,
-    Seal;
+    Create,
+    Seal,
+    All;
 
     Right() {
     }

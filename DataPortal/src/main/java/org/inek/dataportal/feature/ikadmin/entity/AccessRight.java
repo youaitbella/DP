@@ -20,6 +20,15 @@ public class AccessRight implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
+    public AccessRight(){}
+
+    public AccessRight(int accountId, int ik, Feature feature, Right right){
+        _accountId = accountId;
+        _ik = ik;
+        _feature = feature;
+        _right = right;
+    }
+    
     //<editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

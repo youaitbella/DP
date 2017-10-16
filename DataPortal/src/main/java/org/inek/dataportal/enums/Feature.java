@@ -6,31 +6,32 @@ package org.inek.dataportal.enums;
  */
 public enum Feature {
 
-    ADMIN(1, "Administration", false, PortalType.DRG),
-    USER_MAINTENANCE(2, "Stammdaten", false, PortalType.COMMON),
-    NUB(3, "Neue Untersuchungs- und Behandlungsmethoden", false, PortalType.DRG),
-    REQUEST_SYSTEM(4, "Anfrageverfahren", false, PortalType.DRG),
-    DROPBOX(5, "DropBox", true, PortalType.COMMON),
-    PEPP_PROPOSAL(6, "PEPP-Vorschlagsverfahren", false, PortalType.PSY),
-    DRG_PROPOSAL(7, "DRG-Vorschlagsverfahren", false, PortalType.DRG),
-    COOPERATION(8, "Kooperation", false, PortalType.COMMON),
-    MODEL_INTENTION(9, "Modellvorhaben Psy", false, PortalType.PSY),
-    DOCUMENTS(10, "Dokumente", false, PortalType.COMMON),
-    CERT(11, "Zertifizierung", true, PortalType.DRG), 
-    AGENCY(12, "Behörde", true, PortalType.DRG),
-    INSURANCE(13, "Krankenkasse", true, PortalType.DRG),
-    CALCULATION_HOSPITAL(14, "Teilnahme Kostenkalkulation", true, PortalType.COMMON),
-    SPECIFIC_FUNCTION(15, "Besondere Aufgaben", true, PortalType.DRG), 
-    ADDITIONAL_COST(16, "Finanzierung von Mehrkosten", true, PortalType.DRG),
-    PSYCH_STAFF(17, "Psych-Personalnachweis-Vereinbarung", true, PortalType.PSY),
-    VALUATION_RATIO(18, "Bewertungsrelation", true, PortalType.DRG),
-    IK_ADMIN(19, "IK-Administration", false, PortalType.COMMON);
+    ADMIN(1, "Administration", NeedApproval.No, PortalType.DRG, IkReference.None),
+    USER_MAINTENANCE(2, "Stammdaten", NeedApproval.No, PortalType.COMMON, IkReference.None),
+    NUB(3, "Neue Untersuchungs- und Behandlungsmethoden", NeedApproval.No, PortalType.DRG, IkReference.Hospital),
+    REQUEST_SYSTEM(4, "Anfrageverfahren", NeedApproval.No, PortalType.DRG, IkReference.None),
+    DROPBOX(5, "DropBox", NeedApproval.Yes, PortalType.COMMON, IkReference.Hospital),
+    PEPP_PROPOSAL(6, "PEPP-Vorschlagsverfahren", NeedApproval.No, PortalType.PSY, IkReference.None),
+    DRG_PROPOSAL(7, "DRG-Vorschlagsverfahren", NeedApproval.No, PortalType.DRG, IkReference.None),
+    COOPERATION(8, "Kooperation", NeedApproval.No, PortalType.COMMON, IkReference.None),
+    MODEL_INTENTION(9, "Modellvorhaben Psy", NeedApproval.No, PortalType.PSY, IkReference.Hospital),
+    DOCUMENTS(10, "Dokumente", NeedApproval.No, PortalType.COMMON, IkReference.None),
+    CERT(11, "Zertifizierung", NeedApproval.Yes, PortalType.DRG, IkReference.None),
+    AGENCY(12, "Behörde", NeedApproval.Yes, PortalType.DRG, IkReference.None),
+    INSURANCE(13, "Krankenkasse", NeedApproval.Yes, PortalType.DRG, IkReference.None),
+    CALCULATION_HOSPITAL(14, "Teilnahme Kostenkalkulation", NeedApproval.Yes, PortalType.COMMON, IkReference.Hospital),
+    SPECIFIC_FUNCTION(15, "Besondere Aufgaben", NeedApproval.Yes, PortalType.DRG, IkReference.Hospital),
+    ADDITIONAL_COST(16, "Finanzierung von Mehrkosten", NeedApproval.Yes, PortalType.DRG, IkReference.Hospital),
+    PSYCH_STAFF(17, "Psych-Personalnachweis-Vereinbarung", NeedApproval.Yes, PortalType.PSY, IkReference.Hospital),
+    VALUATION_RATIO(18, "Bewertungsrelation", NeedApproval.Yes, PortalType.DRG, IkReference.Hospital),
+    IK_ADMIN(19, "IK-Administration", NeedApproval.No, PortalType.COMMON, IkReference.None);
 
-    Feature(int id, String description, boolean needsApproval, PortalType portalType) {
+    Feature(int id, String description, NeedApproval needApproval, PortalType portalType, IkReference ikReference) {
         _id = id;
         _description = description;
-        _needsApproval = needsApproval;
+        _needApproval = needApproval;
         _portalType = portalType;
+        _ikReference = ikReference;
     }
 
     private final int _id;
@@ -45,9 +46,10 @@ public enum Feature {
         return _description;
     }
 
-    private final boolean _needsApproval;
+    private final NeedApproval _needApproval;
+
     public boolean needsApproval() {
-        return _needsApproval;
+        return _needApproval == NeedApproval.Yes;
     }
 
     private final PortalType _portalType;
@@ -55,13 +57,20 @@ public enum Feature {
     public PortalType getPortalType() {
         return _portalType;
     }
-    
+
+    private final IkReference _ikReference;
+
+    public IkReference getIkReference() {
+        return _ikReference;
+    }
+
     public static Feature getFeatureFromId(int id) {
-        for(Feature feature : Feature.values()) {
-            if(feature.getId() == id)
+        for (Feature feature : Feature.values()) {
+            if (feature.getId() == id) {
                 return feature;
+            }
         }
         throw new IllegalArgumentException("Failed to obtain feature. Unknown id " + id);
     }
-        
+
 }
