@@ -10,7 +10,7 @@
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
 
 
-    <h:dataTable value="#{ikAdminTasks.accessRights}" 
+    <h:dataTable id="accessRights" value="#{ikAdminTasks.accessRights}" 
                  var="item"
                  rowClasses="row1, row2"
                  >
@@ -41,10 +41,30 @@
 
     </h:dataTable>
 
-    <h:selectOneMenu value="#{ikAdminTasks.userId}">
-        <f:selectItems value="#{ikAdminTasks.users}" var="u" itemValue="#{u.id}" itemLabel="#{u.firstName} #{u.lastName} [#{u.company}]"/>
-        <f:ajax render=":login:remaining"/>
-    </h:selectOneMenu>
+    <div style="rectangle">
+        <h:outputLabel styleClass="label element10em" value="Benutzer"/>
+        <h:selectOneMenu value="#{ikAdminTasks.userId}" hideNoSelectionOption="true">
+            <f:selectItem itemLabel="#{msg.itemChoose}" itemValue="#{0}" noSelectionOption="true"/>
+            <f:selectItems value="#{ikAdminTasks.users}" var="u" itemValue="#{u.id}" itemLabel="#{u.firstName} #{u.lastName} [#{u.company}]"/>
+            <f:ajax render=":login:remaining missingFeatures"/>
+        </h:selectOneMenu>
+
+        <br/>
+
+        <h:outputLabel styleClass="label element10em" value="Funktion"/>
+        <h:selectOneMenu id="missingFeatures" value="#{ikAdminTasks.featureId}" hideNoSelectionOption="true">
+            <f:selectItem itemLabel="#{msg.itemChoose}" itemValue="#{0}" noSelectionOption="true"/>
+            <f:selectItems value="#{ikAdminTasks.missingFeatures}" var="f" itemValue="#{f.id}" itemLabel="#{f.description}"/>
+            <f:ajax render=":login:remaining"/>
+        </h:selectOneMenu>
+
+        <br/>
+
+        <h:commandLink value="zufügen" styleClass="button">
+            <f:ajax render="accessRights" listener="#{ikAdminTasks.addAccessRight}"/>
+        </h:commandLink>
+
+    </div>
 
     <h:commandLink value="#{msg.btnSave}" 
                    action="#{ikAdminTasks.saveAccessRights}" 

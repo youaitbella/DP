@@ -9,6 +9,7 @@ import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
+import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.facades.AbstractDataAccess;
 import org.inek.dataportal.feature.ikadmin.entity.AccessRight;
 import org.inek.dataportal.feature.ikadmin.entity.User;
@@ -42,6 +43,10 @@ public class IkAdminFacade extends AbstractDataAccess{
         TypedQuery<User> query = getEntityManager().createQuery(jpql, User.class);
         query.setParameter("mailDomain", "%" + mailDomain);
         return query.getResultList();
+    }
+
+    public Account findAccount(int userId) {
+        return getEntityManager().find(Account.class, userId);
     }
     
     
