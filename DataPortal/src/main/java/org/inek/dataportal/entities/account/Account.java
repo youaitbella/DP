@@ -47,10 +47,105 @@ import org.inek.dataportal.feature.admin.entity.InekRole;
 public class Account implements Serializable, Person {
 
     private static final long serialVersionUID = 1L;
+    
+
+    // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "acId")
-    private Integer _id;
+    private int _id;
+    public int getId() {
+        return _id;
+    }
+
+    public void setId(int id) {
+        _id = id;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property Gender">
+    @Column(name = "acGender")
+    private int _gender = 0;
+    @Override
+    public int getGender() {
+        return _gender;
+    }
+
+    @Override
+    public void setGender(int isFemale) {
+        _gender = isFemale;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property Title">
+    @Column(name = "acTitle")
+    private String _title = "";
+    @Override
+    public String getTitle() {
+        return _title;
+    }
+
+    @Override
+    public void setTitle(String title) {
+        _title = title;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property FirstName">
+    @Column(name = "acFirstName")
+    private String _firstName = "";
+    @Override
+    public String getFirstName() {
+        return _firstName;
+    }
+
+    @Override
+    public void setFirstName(String firstName) {
+        _firstName = firstName;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property LastName">
+    @Column(name = "acLastName")
+    private String _lastName = "";
+    @Override
+    public String getLastName() {
+        return _lastName;
+    }
+
+    @Override
+    public void setLastName(String lastName) {
+        _lastName = lastName;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property Mail">
+    @Column(name = "acMail")
+    private String _email;
+    @Override
+    public String getEmail() {
+        return _email;
+    }
+
+    @Override
+    public void setEmail(String email) {
+        _email = email;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property Company">
+    @Column(name = "acCompany")
+    private String _company = "";
+
+    public String getCompany() {
+        return _company;
+    }
+
+    public void setCompany(String company) {
+        _company = company;
+    }
+    // </editor-fold>
+    
     @Column(name = "acLastModified")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date _lastModified = null;
@@ -58,24 +153,12 @@ public class Account implements Serializable, Person {
     private boolean _isDeactivated = false;
     @Column(name = "acUser")
     private String _user;
-    @Column(name = "acMail")
-    private String _email;
-    @Column(name = "acGender")
-    private int _gender = 0;
-    @Column(name = "acTitle")
-    private String _title = "";
-    @Column(name = "acFirstName")
-    private String _firstName = "";
-    @Column(name = "acLastName")
-    private String _lastName = "";
     @Column(name = "acInitials")
     private String _initials = "";
     @Column(name = "acPhone")
     private String _phone = "";
     @Column(name = "acRoleId")
     private int _roleId = -1;
-    @Column(name = "acCompany")
-    private String _company = "";
     @Column(name = "acCustomerTypeId")
     private int _customerTypeId = -1;
     @Column(name = "acIK")
@@ -215,14 +298,6 @@ public class Account implements Serializable, Person {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter">
-    public Integer getId() {
-        return _id;
-    }
-
-    public void setId(Integer id) {
-        _id = id;
-    }
-
     public Date getLastModified() {
         return _lastModified;
     }
@@ -241,36 +316,6 @@ public class Account implements Serializable, Person {
 
     public void setUser(String user) {
         _user = user;
-    }
-
-    @Override
-    public String getEmail() {
-        return _email;
-    }
-
-    @Override
-    public void setEmail(String email) {
-        _email = email;
-    }
-
-    @Override
-    public int getGender() {
-        return _gender;
-    }
-
-    @Override
-    public void setGender(int isFemale) {
-        _gender = isFemale;
-    }
-
-    @Override
-    public String getTitle() {
-        return _title;
-    }
-
-    @Override
-    public void setTitle(String title) {
-        _title = title;
     }
 
     public String getPhone() {
@@ -321,40 +366,12 @@ public class Account implements Serializable, Person {
         _customerFax = customerFax;
     }
 
-    @Override
-    public String getFirstName() {
-        return _firstName;
-    }
-
-    @Override
-    public void setFirstName(String firstName) {
-        _firstName = firstName;
-    }
-
-    @Override
-    public String getLastName() {
-        return _lastName;
-    }
-
-    @Override
-    public void setLastName(String lastName) {
-        _lastName = lastName;
-    }
-
     public String getInitials() {
         return _initials;
     }
 
     public void setInitials(String initials) {
         _initials = initials;
-    }
-
-    public String getCompany() {
-        return _company;
-    }
-
-    public void setCompany(String company) {
-        _company = company;
     }
 
     public String getStreet() {

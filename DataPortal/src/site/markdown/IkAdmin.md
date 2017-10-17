@@ -88,9 +88,9 @@ Diese Info ist in die Berechtigung zu übernehmen. Hier kann der IK-Admin jedoch
 - Recht (Deny Read Write Seal All)
 
 Deny    - Verbot
-Create  - Anlegen. Enthält Lesen und Schreiben
 Read    - Lesen
 Write   - Schreiben. Enthält Lesen, Kann keine neuen Datensätze anlegen!
+Create  - Anlegen. Enthält Lesen und Schreiben
 Seal    - Abschließen. Enthält Lesen, aber nicht Schreiben (reine Supervisorfunktion).
 All     - Alle (Anlegen, Lesen, Schreiben, Abschließen)
 

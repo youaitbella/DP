@@ -248,7 +248,7 @@ public class NubRequest implements Serializable {
     }
 
     public void setFormerExternalId(String formerExternalId) {
-        _formerExternalId = formerExternalId;
+        _formerExternalId = formerExternalId == null ? "" : formerExternalId;
     }
     // </editor-fold>
     

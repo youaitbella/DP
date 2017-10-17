@@ -8,22 +8,49 @@
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 xmlns:psystaff="http://xmlns.jcp.org/jsf/composite/components/feature/psychstaff"
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
-   
 
-    <h:form id="userManager">
-        <h:dataTable value="#{ikAdminTasks.accessRights}" var="item">
-            
-            <h:column>
-                <f:facet name="header">Anwender</f:facet>
-                <h:outputText value="#{item.accountId}"/>
-            </h:column>
-            
-            <h:column>
-                <f:facet name="header">Funktion</f:facet>
-                <h:outputText value="#{item.feature.description}"/>
-            </h:column>
-            
-        </h:dataTable>
-    </h:form>
+
+    <h:dataTable value="#{ikAdminTasks.accessRights}" 
+                 var="item"
+                 rowClasses="row1, row2"
+                 >
+
+        <h:column>
+            <f:facet name="header">Anwender</f:facet>
+            <h:outputText value="#{item.user.firstName} #{item.user.lastName}"/>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">E-Mail</f:facet>
+            <h:outputText value="#{item.user.email}"/>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Funktion</f:facet>
+            <h:outputText value="#{item.feature.description}"/>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Recht</f:facet>
+            <h:selectOneMenu value="#{item.right}">
+                <f:converter converterId="JsfRightConverter"/>
+                <f:selectItems value="#{ikAdminTasks.rights}" var="r" itemValue="#{r.key}" itemLabel="#{r.description}"/>
+                <f:ajax render=":login:remaining"/>
+            </h:selectOneMenu>
+        </h:column>
+
+    </h:dataTable>
+
+    <h:selectOneMenu value="#{ikAdminTasks.userId}">
+        <f:selectItems value="#{ikAdminTasks.users}" var="u" itemValue="#{u.id}" itemLabel="#{u.firstName} #{u.lastName} [#{u.company}]"/>
+        <f:ajax render=":login:remaining"/>
+    </h:selectOneMenu>
+
+    <h:commandLink value="#{msg.btnSave}" 
+                   action="#{ikAdminTasks.saveAccessRights}" 
+                   styleClass="bigButton"
+                   />
+
+    <h:messages globalOnly="true"/>
 </ui:composition>
 

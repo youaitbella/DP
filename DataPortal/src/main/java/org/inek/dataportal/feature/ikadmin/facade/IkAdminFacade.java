@@ -11,6 +11,7 @@ import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import org.inek.dataportal.facades.AbstractDataAccess;
 import org.inek.dataportal.feature.ikadmin.entity.AccessRight;
+import org.inek.dataportal.feature.ikadmin.entity.User;
 
 /**
  *
@@ -34,6 +35,13 @@ public class IkAdminFacade extends AbstractDataAccess{
             persist(accessRight);
             return accessRight;
         }
+    }
+
+    public List<User> findUsersByMailDomain(String mailDomain) {
+        String jpql = "Select u from User u where u._email like :mailDomain";
+        TypedQuery<User> query = getEntityManager().createQuery(jpql, User.class);
+        query.setParameter("mailDomain", "%" + mailDomain);
+        return query.getResultList();
     }
     
     

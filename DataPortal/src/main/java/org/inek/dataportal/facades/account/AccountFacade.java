@@ -146,7 +146,7 @@ public class AccountFacade extends AbstractFacade<Account> {
     }
 
     public Account updateAccount(Account account) {
-        if (account.getId() == null) {
+        if (account.getId() > 0) {
             getLogger().log(Level.SEVERE, "attempt to update a non-existing account");
             return null;  // let the client crash
         }
@@ -169,7 +169,7 @@ public class AccountFacade extends AbstractFacade<Account> {
     }
 
     public void deleteAccount(Account account) {
-        if (account.getId() != null) {
+        if (account.getId() > 0) {
             Account emptyAccount = new Account();
             emptyAccount.setEmail("deleted"); // write non-emailaddress to indicate this is an deleted account
             emptyAccount.setUser("");

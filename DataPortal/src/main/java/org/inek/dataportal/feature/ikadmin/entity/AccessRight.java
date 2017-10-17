@@ -57,6 +57,20 @@ public class AccessRight implements Serializable {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Property User">
+    @OneToOne(cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "arAccountId", insertable = false, updatable = false)
+    private User _user;
+
+    public User getUser() {
+        return _user;
+    }
+
+    public void setUser(User user) {
+        _user = user;
+    }
+    // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="Property Ik">
     @Column(name = "arIk")
     private int _ik = -1;
@@ -94,6 +108,10 @@ public class AccessRight implements Serializable {
 
     public void setRight(Right right) {
         _right = right;
+    }
+
+    public void setRight(String key) {
+        _right = Right.getRightFromKey(key);
     }
     // </editor-fold>
 

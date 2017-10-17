@@ -24,6 +24,6 @@ public class RightConverter implements AttributeConverter<Right, String> {
 
     @Override
     public Right convertToEntityAttribute(String key) {
-        return Right.getRightFromId(key);
+        return Right.getRightFromKey(key);
     }
 }
