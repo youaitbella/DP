@@ -45,7 +45,7 @@
         <h:outputLabel styleClass="label element10em" value="Benutzer"/>
         <h:selectOneMenu value="#{ikAdminTasks.userId}" hideNoSelectionOption="true">
             <f:selectItem itemLabel="#{msg.itemChoose}" itemValue="#{0}" noSelectionOption="true"/>
-            <f:selectItems value="#{ikAdminTasks.users}" var="u" itemValue="#{u.id}" itemLabel="#{u.firstName} #{u.lastName} [#{u.company}]"/>
+            <f:selectItems value="#{ikAdminTasks.accounts}" var="u" itemValue="#{u.id}" itemLabel="#{u.firstName} #{u.lastName} [#{u.company}]"/>
             <f:ajax render=":login:remaining missingFeatures"/>
         </h:selectOneMenu>
 

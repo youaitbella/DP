@@ -67,9 +67,9 @@ public class AccessRight implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property User">
     @OneToOne(cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "arAccountId", insertable = false, updatable = false)
+    @JoinColumn(name = "arAccountId", referencedColumnName = "acId", insertable = false, updatable = false)
     private User _user;
-
+   
     public User getUser() {
         return _user;
     }

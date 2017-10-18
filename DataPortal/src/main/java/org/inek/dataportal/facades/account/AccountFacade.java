@@ -331,6 +331,13 @@ public class AccountFacade extends AbstractFacade<Account> {
         return query.getResultList();
     }
 
+    public List<Account> findAccountsByMailDomain(String mailDomain) {
+        String jpql = "Select a from Account a where a._email like :mailDomain";
+        TypedQuery<Account> query = getEntityManager().createQuery(jpql, Account.class);
+        query.setParameter("mailDomain", "%" + mailDomain);
+        return query.getResultList();
+    }
+    
     public Set<Integer> obtainIks4Accounts(Set<Integer> accountIds) {
         String accountIdList = accountIds.stream().map(i -> i.toString()).collect(Collectors.joining(", "));
         String sql = "select acIk"

@@ -48,6 +48,10 @@ public class IkAdminFacade extends AbstractDataAccess{
     public Account findAccount(int userId) {
         return getEntityManager().find(Account.class, userId);
     }
+
+    public Account saveAccount(Account account) {
+        return getEntityManager().merge(account);
+    }
     
     
 }

@@ -36,6 +36,8 @@ import javax.persistence.Transient;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import org.inek.dataportal.entities.certification.RemunerationSystem;
+import org.inek.dataportal.enums.Feature;
+import org.inek.dataportal.enums.FeatureState;
 import org.inek.dataportal.feature.admin.entity.InekRole;
 
 /**
@@ -414,6 +416,13 @@ public class Account implements Serializable, Person {
         _messageCopy = messageCopy;
     }
 
+    public void addFeature(Feature feature, boolean isApproved) {
+        FeatureState state = feature.needsApproval() 
+                ? (isApproved ? FeatureState.APPROVED : FeatureState.NEW) 
+                : FeatureState.SIMPLE;
+        _features.add(new AccountFeature(_features.size(), state, feature));
+    }
+
     public void setFeatures(List<AccountFeature> features) {
         _features = features;
     }
@@ -512,6 +521,7 @@ public class Account implements Serializable, Person {
         _selected = selected;
     }
     // </editor-fold>
+
 
 
 }

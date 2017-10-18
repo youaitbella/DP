@@ -7,6 +7,7 @@ package org.inek.dataportal.feature.ikadmin.backingbean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -19,12 +20,12 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.IkReference;
 import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.feature.ikadmin.entity.AccessRight;
 import org.inek.dataportal.feature.ikadmin.entity.User;
@@ -45,7 +46,7 @@ public class IkAdminTasks extends AbstractEditController implements Serializable
 
     @Inject private SessionController _sessionController;
     @Inject private IkAdminFacade _ikAdminFacade;
-    @Inject private ApplicationTools _appTools;
+    @Inject private AccountFacade _accountFacade;
 
     private int _ik;
 
@@ -139,7 +140,7 @@ public class IkAdminTasks extends AbstractEditController implements Serializable
         _featureId = featureId;
     }
 
-    private Map<Integer, Account> _accounts = new HashMap<>();
+    private final Map<Integer, Account> _accounts = new HashMap<>();
 
     public Set<Feature> getMissingFeatures() {
         Set<Feature> features = new HashSet<>();
@@ -162,7 +163,7 @@ public class IkAdminTasks extends AbstractEditController implements Serializable
         if (_accounts.containsKey(userId)) {
             return true;
         }
-        Account account = _ikAdminFacade.findAccount(userId);
+        Account account = _accountFacade.find(userId);
         if (account == null) {
             return false;
         }
@@ -170,17 +171,17 @@ public class IkAdminTasks extends AbstractEditController implements Serializable
         return true;
     }
 
-    private final Set<User> _users = new HashSet<>();
-
-    public Set<User> getUsers() {
-        ensureUsers();
-        return _users;
+    public Collection<Account> getAccounts() {
+        ensureAccounts();
+        return _accounts.values();
     }
 
-    private void ensureUsers() {
-        if (_users.isEmpty()) {
-            for (AccessRight accessRight : _accessRights) {
-                _users.add(accessRight.getUser());
+    private void ensureAccounts() {
+        if (_accounts.isEmpty()) {
+            Set<String> emails = new HashSet<>();
+            List<Account> accounts = _accountFacade.getAccounts4Ik(_ik, emails);
+            for (Account account : accounts) {
+                _accounts.put(account.getId(), account);
             }
             String[] mailDomains = _sessionController
                     .getAccount()
@@ -192,9 +193,9 @@ public class IkAdminTasks extends AbstractEditController implements Serializable
                     .orElse("")
                     .split(";");
             for (String mailDomain : mailDomains) {
-                List<User> mailUsers = _ikAdminFacade.findUsersByMailDomain((mailDomain.startsWith("@") ? "" : "@") + mailDomain);
-                for (User mailUser : mailUsers) {
-                    _users.add(mailUser);
+                List<Account> mailAccounts = _accountFacade.findAccountsByMailDomain((mailDomain.startsWith("@") ? "" : "@") + mailDomain);
+                for (Account account : mailAccounts) {
+                    _accounts.put(account.getId(), account);
                 }
             }
         }
@@ -204,25 +205,33 @@ public class IkAdminTasks extends AbstractEditController implements Serializable
         if (_userId == 0 || _featureId == 0) {
             return;
         }
-        for (User user : getUsers()) {
-            if (user.getId() == _userId) {
+        for (Account account : getAccounts()) {
+            if (account.getId() == _userId) {
                 Feature feature = Feature.getFeatureFromId(_featureId);
+                User user = createUserFromAccount(account);
                 AccessRight accessRight = new AccessRight(user, _ik, feature, Right.Deny);
                 _ikAdminFacade.saveAccessRight(accessRight);
                 _accessRights.add(accessRight);
-                if (!ensureAccount(_userId)) {
-                    LOGGER.log(Level.WARNING, "Account {0} not found", _userId);
-                    continue;
-                }
-                Account account = _accounts.get(_userId);
                 if (!account.getFullIkSet().contains(_ik)) {
                     account.addIk(_ik);
                 }
-                //if (account.getFeatures().stream().noneMatch(f -> f.getFeature()))
-                //todo: get users from cache, add feature and or ik to account
+                if (account.getFeatures().stream().noneMatch(f -> f.getFeature() == feature)) {
+                    account.addFeature(feature, true);
+                }
+                _accountFacade.updateAccount(account);
             }
         }
     }
     // </editor-fold>
+
+    private User createUserFromAccount(Account account) {
+        User user = new User();
+        user.setId(account.getId());
+        user.setFirstName(account.getFirstName());
+        user.setLastName(account.getLastName());
+        user.setEmail(account.getEmail());
+        user.setCompany(account.getCompany());
+        return user;
+    }
 
 }

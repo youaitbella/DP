@@ -5,6 +5,7 @@
 package org.inek.dataportal.entities.account;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -25,20 +26,6 @@ import org.inek.dataportal.enums.FeatureState;
 public class AccountFeature implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "afId")
-    private Integer _id;
-    @Column(name = "afSequence")
-    private Integer _sequence = 0;
-
-    @Column(name = "afFeature")
-    @Enumerated(EnumType.STRING)
-    private Feature _feature;
-
-    @Column(name = "afFeatureState")
-    @Enumerated(EnumType.STRING)
-    private FeatureState _featureState;
 
     public AccountFeature() {
     }
@@ -47,23 +34,43 @@ public class AccountFeature implements Serializable {
         _feature = feature;
     }
 
-    // <editor-fold defaultstate="collapsed" desc="getter / setter">
-    public Integer getId() {
+    public AccountFeature(int sequence, FeatureState featureState, final Feature feature) {
+        _sequence = sequence;
+        _featureState = featureState;
+        _feature = feature;
+    }
+
+    // <editor-fold defaultstate="collapsed" desc="Property Id">
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "afId")
+    private int _id;
+    public int getId() {
         return _id;
     }
 
-    public void setId(Integer Id) {
-        this._id = Id;
+    public void setId(int Id) {
+        _id = Id;
     }
+    // </editor-fold>
 
-    public Integer getSequence() {
+    // <editor-fold defaultstate="collapsed" desc="Property Sequence">
+    @Column(name = "afSequence")
+    private int _sequence = 0;
+
+    public int getSequence() {
         return _sequence;
     }
 
-    public void setSequence(Integer sequence) {
+    public void setSequence(int sequence) {
         _sequence = sequence;
     }
+    // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Property FeatureState">
+    @Column(name = "afFeature")
+    @Enumerated(EnumType.STRING)
+    private Feature _feature;
     public FeatureState getFeatureState() {
         return _featureState;
     }
@@ -71,6 +78,12 @@ public class AccountFeature implements Serializable {
     public void setFeatureState(FeatureState featureState) {
         _featureState = featureState;
     }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property Feature">
+    @Column(name = "afFeatureState")
+    @Enumerated(EnumType.STRING)
+    private FeatureState _featureState;
 
     public Feature getFeature() {
         return _feature;
@@ -79,23 +92,33 @@ public class AccountFeature implements Serializable {
     public void setFeature(Feature feature) {
         _feature = feature;
     }
-
     // </editor-fold>
+
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (_id != null ? _id.hashCode() : 0);
+        int hash = 5;
+        hash = 79 * hash + this._id;
+        hash = 79 * hash + Objects.hashCode(this._feature);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        if (!(object instanceof AccountFeature)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        AccountFeature other = (AccountFeature) object;
-        if ((_id == null && other.getId() != null) || (_id != null && !_id.equals(other.getId()))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final AccountFeature other = (AccountFeature) obj;
+        if (this._id != other._id) {
+            return false;
+        }
+        if (this._feature != other._feature) {
             return false;
         }
         return true;
