@@ -146,7 +146,7 @@ public class AccountFacade extends AbstractFacade<Account> {
     }
 
     public Account updateAccount(Account account) {
-        if (account.getId() > 0) {
+        if (account.getId() <= 0) {
             getLogger().log(Level.SEVERE, "attempt to update a non-existing account");
             return null;  // let the client crash
         }

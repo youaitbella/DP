@@ -138,7 +138,7 @@ public class IkAdminTasks extends AbstractEditController implements Serializable
     public void setFeatureId(int featureId) {
         _featureId = featureId;
     }
-    
+
     private Map<Integer, Account> _accounts = new HashMap<>();
 
     public Set<Feature> getMissingFeatures() {
@@ -146,15 +146,11 @@ public class IkAdminTasks extends AbstractEditController implements Serializable
         if (_userId <= 0) {
             return features;
         }
-//        if (!ensureAccount(_userId)) {
-//            return features;
-//        }
-//        Account account = _accounts.get(_userId);
         for (Feature feature : Feature.values()) {
             if (feature.getIkReference() != IkReference.Hospital) {
                 continue;
             }
-            if (_accessRights.stream().anyMatch(r -> r.getAccountId() == _userId && r.getFeature() == feature)){
+            if (_accessRights.stream().anyMatch(r -> r.getAccountId() == _userId && r.getFeature() == feature)) {
                 continue;
             }
             features.add(feature);
@@ -174,34 +170,58 @@ public class IkAdminTasks extends AbstractEditController implements Serializable
         return true;
     }
 
+    private final Set<User> _users = new HashSet<>();
+
     public Set<User> getUsers() {
-        Set<User> users = new HashSet<>();
-        for (AccessRight accessRight : _accessRights) {
-            users.add(accessRight.getUser());
-        }
-        String[] mailDomains = _sessionController
-                .getAccount()
-                .getAdminIks()
-                .stream()
-                .filter(a -> a.getIk() == _ik)
-                .map(a -> a.getMailDomain())
-                .findAny()
-                .orElse("")
-                .split(";");
-        for (String mailDomain : mailDomains) {
-            List<User> mailUsers = _ikAdminFacade.findUsersByMailDomain((mailDomain.startsWith("@") ? "" : "@") + mailDomain);
-            for (User mailUser : mailUsers) {
-                users.add(mailUser);
+        ensureUsers();
+        return _users;
+    }
+
+    private void ensureUsers() {
+        if (_users.isEmpty()) {
+            for (AccessRight accessRight : _accessRights) {
+                _users.add(accessRight.getUser());
+            }
+            String[] mailDomains = _sessionController
+                    .getAccount()
+                    .getAdminIks()
+                    .stream()
+                    .filter(a -> a.getIk() == _ik)
+                    .map(a -> a.getMailDomain())
+                    .findAny()
+                    .orElse("")
+                    .split(";");
+            for (String mailDomain : mailDomains) {
+                List<User> mailUsers = _ikAdminFacade.findUsersByMailDomain((mailDomain.startsWith("@") ? "" : "@") + mailDomain);
+                for (User mailUser : mailUsers) {
+                    _users.add(mailUser);
+                }
             }
         }
-        return users;
     }
-    
-    public void addAccessRight(){
-        if (_userId == 0 || _featureId == 0){
+
+    public void addAccessRight() {
+        if (_userId == 0 || _featureId == 0) {
             return;
         }
-        _accessRights.add(new AccessRight(_userId, _ik, Feature.getFeatureFromId(_featureId), Right.Deny));
+        for (User user : getUsers()) {
+            if (user.getId() == _userId) {
+                Feature feature = Feature.getFeatureFromId(_featureId);
+                AccessRight accessRight = new AccessRight(user, _ik, feature, Right.Deny);
+                _ikAdminFacade.saveAccessRight(accessRight);
+                _accessRights.add(accessRight);
+                if (!ensureAccount(_userId)) {
+                    LOGGER.log(Level.WARNING, "Account {0} not found", _userId);
+                    continue;
+                }
+                Account account = _accounts.get(_userId);
+                if (!account.getFullIkSet().contains(_ik)) {
+                    account.addIk(_ik);
+                }
+                //if (account.getFeatures().stream().noneMatch(f -> f.getFeature()))
+                //todo: get users from cache, add feature and or ik to account
+            }
+        }
     }
     // </editor-fold>
 

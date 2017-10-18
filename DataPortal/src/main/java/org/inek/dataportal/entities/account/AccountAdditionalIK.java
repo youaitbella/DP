@@ -37,6 +37,11 @@ public class AccountAdditionalIK implements Serializable {
         _ik = ik;
     }
 
+    public AccountAdditionalIK(int accountId, int ik) {
+        _accountId = accountId;
+        _ik = ik;
+    }
+
     // <editor-fold defaultstate="collapsed" desc="getter / setter">
     public Integer getId() {
         return _id;

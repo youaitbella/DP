@@ -53,7 +53,7 @@ public class Account implements Serializable, Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "acId")
-    private int _id;
+    private int _id = -1;
     public int getId() {
         return _id;
     }
@@ -436,6 +436,9 @@ public class Account implements Serializable, Person {
         return _additionalIKs;
     }
 
+    public void addIk(int ik){
+        _additionalIKs.add(new AccountAdditionalIK(_id, ik));
+    }
     // </editor-fold>
     
     public Set<Integer> getFullIkSet() {

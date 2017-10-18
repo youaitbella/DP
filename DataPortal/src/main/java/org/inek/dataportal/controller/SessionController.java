@@ -5,7 +5,6 @@ import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -33,7 +32,6 @@ import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.CustomerTypeFacade;
 import org.inek.dataportal.facades.DrgFacade;
 import org.inek.dataportal.facades.PeppFacade;
-import org.inek.dataportal.facades.account.AccountDocumentFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.feature.admin.facade.LogFacade;
 import org.inek.dataportal.facades.common.DiagnosisFacade;
@@ -67,7 +65,6 @@ public class SessionController implements Serializable {
     @Inject private PeppFacade _peppFacade;
     @Inject private DrgFacade _drgFacade;
     @Inject private LogFacade _logFacade;
-    @Inject private AccountDocumentFacade _accDocFacade;
     @Inject private Mailer _mailer;
     @Inject private CustomerTypeFacade _typeFacade;
     @Inject private CooperationRequestFacade _coopFacade;
@@ -128,13 +125,13 @@ public class SessionController implements Serializable {
     public boolean isHospital() {
         // we had unexpecte null access here.
         // let's do some logging and redirect the user to an error view
-        if (_typeFacade == null){
+        if (_typeFacade == null) {
             LOGGER.log(Level.WARNING, "Access withount typeFacade");
             logMessage("Access withount typeFacade");
             Utils.navigate(Pages.Error.RedirectURL());
             return false;
         }
-        if (_account == null){
+        if (_account == null) {
             LOGGER.log(Level.WARNING, "Access withount account");
             logMessage("Access withount account");
             Utils.navigate(Pages.Error.RedirectURL());
@@ -375,7 +372,7 @@ public class SessionController implements Serializable {
         boolean hasMaintenance = false;
         boolean hasDocument = false;
         boolean hasCooperation = false;
-        
+
         List<AccountFeature> accountFatures = _account.getFeatures();
         for (AccountFeature accFeature : accountFatures) {
             Feature feature = accFeature.getFeature();
@@ -417,7 +414,7 @@ public class SessionController implements Serializable {
 
     private boolean featureIsValid(AccountFeature accFeature) {
         Feature feature = accFeature.getFeature();
-        
+
         return _appTools.isFeatureEnabled(feature)
                 && (accFeature.getFeatureState() == FeatureState.SIMPLE
                 || accFeature.getFeatureState() == FeatureState.APPROVED);
@@ -774,7 +771,7 @@ public class SessionController implements Serializable {
     public void setPortalType(PortalType portalType) {
         this._portalType = portalType;
     }
-    
+
     @Inject private AdminFacade _adminFacade;
 
     public void createSingleDocument(String name, int id) {
@@ -782,7 +779,7 @@ public class SessionController implements Serializable {
                 .findReportTemplateByName(name)
                 .ifPresent(t -> SessionController.this.createSingleDocument(t, "" + id));
     }
-    
+
     public void createSingleDocument(ReportTemplate template, String id) {
         String address = template.getAddress().replace("{0}", id);
         try {
@@ -803,6 +800,5 @@ public class SessionController implements Serializable {
             alertClient("Bei der Reporterstellung trat ein Fehler auf");
         }
     }
-    
-    
+
 }
