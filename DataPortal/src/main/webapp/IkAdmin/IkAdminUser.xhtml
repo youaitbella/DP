@@ -9,66 +9,73 @@
                 xmlns:psystaff="http://xmlns.jcp.org/jsf/composite/components/feature/psychstaff"
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
 
+    <div class="rectangle inputPart">
+        <h2>Benutzer und / oder Funktion hinzufügen</h2>
 
-    <h:dataTable id="accessRights" value="#{ikAdminTasks.accessRights}" 
-                 var="item"
-                 rowClasses="row1, row2"
-                 >
+        <div class="inputPart">
+            <h:outputLabel styleClass="label element10em" value="Benutzer"/>
+            <h:selectOneMenu value="#{ikAdminTasks.accountId}" hideNoSelectionOption="true">
+                <f:selectItem itemLabel="#{msg.itemChoose}" itemValue="#{0}" noSelectionOption="true"/>
+                <f:selectItems value="#{ikAdminTasks.accounts}" var="u" itemValue="#{u.id}" itemLabel="#{u.lastName}, #{u.firstName} [#{u.company}]"/>
+                <f:ajax render=":login:remaining missingFeatures"/>
+            </h:selectOneMenu>
+        </div>
 
-        <h:column>
-            <f:facet name="header">Anwender</f:facet>
-            <h:outputText value="#{item.user.firstName} #{item.user.lastName}"/>
-        </h:column>
-
-        <h:column>
-            <f:facet name="header">E-Mail</f:facet>
-            <h:outputText value="#{item.user.email}"/>
-        </h:column>
-
-        <h:column>
-            <f:facet name="header">Funktion</f:facet>
-            <h:outputText value="#{item.feature.description}"/>
-        </h:column>
-
-        <h:column>
-            <f:facet name="header">Recht</f:facet>
-            <h:selectOneMenu value="#{item.right}">
-                <f:converter converterId="JsfRightConverter"/>
-                <f:selectItems value="#{ikAdminTasks.rights}" var="r" itemValue="#{r.key}" itemLabel="#{r.description}"/>
+        <div class="inputPart">
+            <h:outputLabel styleClass="label element10em" value="Funktion"/>
+            <h:selectOneMenu id="missingFeatures" value="#{ikAdminTasks.featureId}" hideNoSelectionOption="true">
+                <f:selectItem itemLabel="#{msg.itemChoose}" itemValue="#{0}" noSelectionOption="true"/>
+                <f:selectItems value="#{ikAdminTasks.missingFeatures}" var="f" itemValue="#{f.id}" itemLabel="#{f.description}"/>
                 <f:ajax render=":login:remaining"/>
             </h:selectOneMenu>
-        </h:column>
-
-    </h:dataTable>
-
-    <div style="rectangle">
-        <h:outputLabel styleClass="label element10em" value="Benutzer"/>
-        <h:selectOneMenu value="#{ikAdminTasks.userId}" hideNoSelectionOption="true">
-            <f:selectItem itemLabel="#{msg.itemChoose}" itemValue="#{0}" noSelectionOption="true"/>
-            <f:selectItems value="#{ikAdminTasks.accounts}" var="u" itemValue="#{u.id}" itemLabel="#{u.firstName} #{u.lastName} [#{u.company}]"/>
-            <f:ajax render=":login:remaining missingFeatures"/>
-        </h:selectOneMenu>
-
-        <br/>
-
-        <h:outputLabel styleClass="label element10em" value="Funktion"/>
-        <h:selectOneMenu id="missingFeatures" value="#{ikAdminTasks.featureId}" hideNoSelectionOption="true">
-            <f:selectItem itemLabel="#{msg.itemChoose}" itemValue="#{0}" noSelectionOption="true"/>
-            <f:selectItems value="#{ikAdminTasks.missingFeatures}" var="f" itemValue="#{f.id}" itemLabel="#{f.description}"/>
-            <f:ajax render=":login:remaining"/>
-        </h:selectOneMenu>
-
-        <br/>
+        </div>
 
         <h:commandLink value="zufügen" styleClass="button">
-            <f:ajax render="accessRights" listener="#{ikAdminTasks.addAccessRight}"/>
+            <f:ajax render="accessRights missingFeatures" listener="#{ikAdminTasks.addAccessRight}"/>
         </h:commandLink>
 
+    </div>
+
+    <div class="rectangle inputPart">
+        <h2>Berechtigungen</h2>
+        <div class ="container" style="max-height: 20em;">
+            <h:dataTable id="accessRights" value="#{ikAdminTasks.accessRights}" 
+                         var="item"
+                         rowClasses="row1, row2"
+                         width="100%">
+
+                <h:column>
+                    <f:facet name="header">Anwender</f:facet>
+                    <h:outputText value="#{item.user.lastName}, #{item.user.firstName}"/>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">E-Mail</f:facet>
+                    <h:outputText value="#{item.user.email}"/>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">Funktion</f:facet>
+                    <h:outputText value="#{item.feature.description}"/>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">Recht</f:facet>
+                    <h:selectOneMenu value="#{item.right}">
+                        <f:converter converterId="JsfRightConverter"/>
+                        <f:selectItems value="#{ikAdminTasks.rights}" var="r" itemValue="#{r.key}" itemLabel="#{r.description}"/>
+                        <f:ajax render=":login:remaining"/>
+                    </h:selectOneMenu>
+                </h:column>
+
+            </h:dataTable>
+        </div>
     </div>
 
     <h:commandLink value="#{msg.btnSave}" 
                    action="#{ikAdminTasks.saveAccessRights}" 
                    styleClass="bigButton"
+                   immediate="true"
                    />
 
     <h:messages globalOnly="true"/>

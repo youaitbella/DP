@@ -277,7 +277,7 @@ public class EditCalcBasicsAutopsy extends AbstractEditController implements Ser
     @Inject private Mailer _mailer;
 
     private void sendMessage(String name) {
-        Account receiver = _accountFacade.find(_appTools.isEnabled(ConfigKey.TestMode) 
+        Account receiver = _accountFacade.findAccount(_appTools.isEnabled(ConfigKey.TestMode) 
                 ? _sessionController.getAccountId() 
                 : _calcBasics.getAccountId());
         MailTemplate template = _mailer.getMailTemplate(name);

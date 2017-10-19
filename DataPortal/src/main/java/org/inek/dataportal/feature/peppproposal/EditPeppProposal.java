@@ -580,7 +580,7 @@ public class EditPeppProposal extends AbstractEditController {
     public String sendMessage() {
         String subject = "Korrektur Pepp-Vorschlag \"" + _peppProposal.getName() + "\" erforderlich";
         Account sender = _sessionController.getAccount();
-        Account receiver = _accountFacade.find(_peppProposal.getAccountId());
+        Account receiver = _accountFacade.findAccount(_peppProposal.getAccountId());
         _peppProposal.setStatus(WorkflowStatus.New.getId());
         if (!isReadOnly()) {
             // there might have been changes by that user

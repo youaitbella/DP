@@ -156,7 +156,7 @@ public class CertMail implements Serializable {
     //</editor-fold>
 
     public String getCompanyNameByAccId(int id) {
-        return _accFacade.find(id).getCompany();
+        return _accFacade.findAccount(id).getCompany();
     }
 
     public int getSystemReceiverId() {
@@ -220,7 +220,7 @@ public class CertMail implements Serializable {
     }
 
     public void buildPreviewEmail() {
-        Account acc = _accFacade.findFresh(_selectedEmailAddressPreview);
+        Account acc = _accFacade.findFreshAccount(_selectedEmailAddressPreview);
         String salutation = buildEmailSalutation(acc);
         String company = acc.getCompany();
         MailTemplate mt = _emailTemplateFacade.findByName(_selectedTemplate);
@@ -241,7 +241,7 @@ public class CertMail implements Serializable {
     }
 
     public String getAccountName(int accId) {
-        return _accFacade.find(accId).getFirstName() + " " + _accFacade.find(accId).getLastName();
+        return _accFacade.findAccount(accId).getFirstName() + " " + _accFacade.findAccount(accId).getLastName();
     }
 
     //<editor-fold defaultstate="collapsed" desc="Getter/Setter">

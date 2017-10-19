@@ -61,7 +61,7 @@ public class NubReminder {
         LOGGER.log(Level.INFO, "Start remindSeal");
         Map<Integer, Integer> accounts = _nubFacade.countOpenPerIk();
         for (int accountId : accounts.keySet()) {
-            Account account = _accountFacade.find(accountId);
+            Account account = _accountFacade.findAccount(accountId);
             if (account.isNubInformationMail()) {
                 sendReminderMail(account);
             }

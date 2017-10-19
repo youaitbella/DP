@@ -6,6 +6,8 @@ package org.inek.dataportal.entities.account;
  */
 public interface Person {
 
+    int getId();
+
     int getGender();
 
     void setGender(int gender);
@@ -25,8 +27,12 @@ public interface Person {
     String getEmail();
 
     void setEmail(String mail);
-    
-    default String getDisplayName(){
+
+    String getCompany();
+
+    void setCompany(String company);
+
+    default String getDisplayName() {
         String dispName = getTitle() + " " + getFirstName() + " " + getLastName();
         return dispName.replace("  ", " ").trim();
     }

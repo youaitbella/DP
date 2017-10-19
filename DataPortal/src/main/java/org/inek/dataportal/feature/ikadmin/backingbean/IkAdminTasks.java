@@ -119,14 +119,14 @@ public class IkAdminTasks extends AbstractEditController implements Serializable
         }
     }
 
-    private int _userId;
+    private int _accountId;
 
-    public int getUserId() {
-        return _userId;
+    public int getAccountId() {
+        return _accountId;
     }
 
-    public void setUserId(int userId) {
-        _userId = userId;
+    public void setAccountId(int accountId) {
+        _accountId = accountId;
         _featureId = 0;
     }
 
@@ -144,14 +144,14 @@ public class IkAdminTasks extends AbstractEditController implements Serializable
 
     public Set<Feature> getMissingFeatures() {
         Set<Feature> features = new HashSet<>();
-        if (_userId <= 0) {
+        if (_accountId <= 0) {
             return features;
         }
         for (Feature feature : Feature.values()) {
             if (feature.getIkReference() != IkReference.Hospital) {
                 continue;
             }
-            if (_accessRights.stream().anyMatch(r -> r.getAccountId() == _userId && r.getFeature() == feature)) {
+            if (_accessRights.stream().anyMatch(r -> r.getAccountId() == _accountId && r.getFeature() == feature)) {
                 continue;
             }
             features.add(feature);
@@ -163,7 +163,7 @@ public class IkAdminTasks extends AbstractEditController implements Serializable
         if (_accounts.containsKey(userId)) {
             return true;
         }
-        Account account = _accountFacade.find(userId);
+        Account account = _accountFacade.findAccount(userId);
         if (account == null) {
             return false;
         }
@@ -202,25 +202,24 @@ public class IkAdminTasks extends AbstractEditController implements Serializable
     }
 
     public void addAccessRight() {
-        if (_userId == 0 || _featureId == 0) {
+        if (_accountId == 0 || _featureId == 0) {
             return;
         }
-        for (Account account : getAccounts()) {
-            if (account.getId() == _userId) {
-                Feature feature = Feature.getFeatureFromId(_featureId);
-                User user = createUserFromAccount(account);
-                AccessRight accessRight = new AccessRight(user, _ik, feature, Right.Deny);
-                _ikAdminFacade.saveAccessRight(accessRight);
-                _accessRights.add(accessRight);
-                if (!account.getFullIkSet().contains(_ik)) {
-                    account.addIk(_ik);
-                }
-                if (account.getFeatures().stream().noneMatch(f -> f.getFeature() == feature)) {
-                    account.addFeature(feature, true);
-                }
-                _accountFacade.updateAccount(account);
-            }
+        ensureAccount(_accountId);
+        Account account = _accounts.get(_accountId);
+        Feature feature = Feature.getFeatureFromId(_featureId);
+        User user = createUserFromAccount(account);
+        AccessRight accessRight = new AccessRight(user, _ik, feature, Right.Deny);
+        _ikAdminFacade.saveAccessRight(accessRight);
+        _accessRights.add(accessRight);
+        if (!account.getFullIkSet().contains(_ik)) {
+            account.addIk(_ik);
         }
+        if (account.getFeatures().stream().noneMatch(f -> f.getFeature() == feature)) {
+            account.addFeature(feature, true);
+        }
+        _accountFacade.updateAccount(account);
+        _featureId=0;
     }
     // </editor-fold>
 

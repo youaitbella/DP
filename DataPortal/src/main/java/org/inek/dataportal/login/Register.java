@@ -150,8 +150,7 @@ public class Register implements Serializable {
         if (_accountFacade.isReRegister(_accountRequest.getEmail())){
             return Pages.LoginFinishRegister.URL();
         }
-        if (!_accountFacade.existsMailOrUser(_accountRequest.getEmail()) 
-                && _accountRequestFacade.findByMailOrUser(_accountRequest.getEmail()) == null) {
+        if (!_accountFacade.existsMailOrUser(_accountRequest.getEmail())) {
             _accountRequest.setPassword(_password);
             if (!_accountRequestFacade.createAccountRequest(_accountRequest)) {
                 Utils.showMessageInBrowser(Utils.getMessage("errProcessing"));

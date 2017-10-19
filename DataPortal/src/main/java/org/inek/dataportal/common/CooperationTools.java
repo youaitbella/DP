@@ -368,7 +368,7 @@ public class CooperationTools implements Serializable {
                     .stream()
                     .anyMatch(r -> r.getOwnerId() == -1 && r.getIk() > 0 && r.getPartnerId() == account.getId());
             if (isSupervisor) {
-                Account partnerAccount = _accountFacade.find(partnerId);
+                Account partnerAccount = _accountFacade.findAccount(partnerId);
                 Set<Integer> partnerIks = partnerAccount.getFullIkSet();
                 for (int ik : partnerIks) {
                     boolean isSupervised = getCooperationRights(feature, account)

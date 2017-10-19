@@ -132,7 +132,7 @@ public class EditUserMaintenance extends AbstractEditController {
         _features = null;
         int accountId = _sessionController.getAccountId();
         if (accountId < 0){return;}
-        _accountWorkingCopy = _accountFacade.find(accountId);
+        _accountWorkingCopy = _accountFacade.findAccount(accountId);
         _user = _accountWorkingCopy.getUser();
         _oldPassword = "";
         _newPassword = "";
@@ -305,8 +305,8 @@ public class EditUserMaintenance extends AbstractEditController {
         }
         return -1;
     }
-
     // </editor-fold>
+
     // <editor-fold defaultstate="collapsed" desc="Part password">
     public void checkPassword(FacesContext context, UIComponent component, Object value) {
         Utils.checkPassword(context, component, value);

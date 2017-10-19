@@ -7,7 +7,6 @@ package org.inek.dataportal.entities.account;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -30,7 +29,7 @@ public class AccountRequest implements Serializable, Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "arId")
-    private Integer _accountRequestId;
+    private int _id;
     @Column(name = "arCreated")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date _creationDate;
@@ -90,8 +89,8 @@ public class AccountRequest implements Serializable, Person {
     }
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter">
-    public Integer getAccountId() {
-        return _accountRequestId;
+    public int getId() {
+        return _id;
     }
 
     public Date getCreationDate() {
@@ -180,8 +179,8 @@ public class AccountRequest implements Serializable, Person {
         _customerFax = customerFax;
     }
 
-    public void setAccountId(Integer id) {
-        _accountRequestId = id;
+    public void setAccountId(int id) {
+        _id = id;
     }
 
     public String getUser() {
@@ -266,24 +265,29 @@ public class AccountRequest implements Serializable, Person {
     public void setTown(String town) {
         _town = town;
     }
-
     // </editor-fold>
+
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (_accountRequestId != null ? _accountRequestId.hashCode() : 0);
+        int hash = 7;
+        hash = 89 * hash + this._id;
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        if (!(object instanceof AccountRequest)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        AccountRequest other = (AccountRequest) object;
-        if ((_accountRequestId == null && other.getAccountId() != null) 
-                || (_accountRequestId != null && !_accountRequestId.equals(other.getAccountId()))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final AccountRequest other = (AccountRequest) obj;
+        if (this._id != other._id) {
             return false;
         }
         return true;
@@ -291,7 +295,7 @@ public class AccountRequest implements Serializable, Person {
 
     @Override
     public String toString() {
-        return "org.inek.entities.Account[id=" + _accountRequestId + "]";
+        return "org.inek.entities.Account[id=" + _id + "]";
     }
     // </editor-fold>
 }

@@ -275,7 +275,7 @@ public class DocumentUpload implements Serializable {
         if (value == null) {
             _account = null;
         } else {
-            _account = _accountFacade.find((int) value);
+            _account = _accountFacade.findAccount((int) value);
         }
         if (_account != null && _account.getId() <= 0) {
             _account = null;

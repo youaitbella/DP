@@ -609,7 +609,7 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
 
     public boolean sendNubConfirmationMail(NubRequest nubRequest) {
         Account current = _sessionController.getAccount();
-        Account owner = _accountFacade.find(nubRequest.getAccountId());
+        Account owner = _accountFacade.findAccount(nubRequest.getAccountId());
         if (!current.isNubConfirmation() && !owner.isNubConfirmation()) {
             return true;
         }
@@ -743,7 +743,7 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
             copy.setPatientsThisYear("");
             copy.setPatientsFuture("");
             copy.setHelperId(copy.getAccountId());
-            Account partner = _accountFacade.find(copy.getAccountId());
+            Account partner = _accountFacade.findAccount(copy.getAccountId());
             copy.setFormFillHelper("Kooperationspartner: " + partner.getCompany());
             copy.setAccountId(_sessionController.getAccountId());
             getNubController().populateMasterData(copy, _sessionController.getAccount());

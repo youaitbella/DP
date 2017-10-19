@@ -69,7 +69,7 @@ public class FeatureService {
     private void check4orphantRequests() {
         List<AccountFeatureRequest> requests = _requestFacade.findAll();
         for (AccountFeatureRequest request : requests) {
-            Account account = _accountFacade.find(request.getAccountId());
+            Account account = _accountFacade.findAccount(request.getAccountId());
             if (account == null) {
                 _requestFacade.remove(request);
                 continue;

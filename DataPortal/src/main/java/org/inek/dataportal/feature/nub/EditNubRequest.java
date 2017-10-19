@@ -712,7 +712,7 @@ public class EditNubRequest extends AbstractEditController {
     public String sendMessage() {
         String subject = "Korrektur NUB-Anfrage \"" + _nubRequest.getName() + "\" erforderlich";
         Account sender = _sessionController.getAccount();
-        Account receiver = _accountFacade.find(_nubRequest.getAccountId());
+        Account receiver = _accountFacade.findAccount(_nubRequest.getAccountId());
         _nubRequest.setStatus(WorkflowStatus.New.getId());
         if (!isReadOnly()) {
             // there might have been changes by that user

@@ -189,7 +189,7 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
 
     private void sendMessage(String name) {
         //todo: refactor for gloabal usage (move to mailer?) and remove all similar methods
-        Account receiver = _accountFacade.find(
+        Account receiver = _accountFacade.findAccount(
                 _appTools.isEnabled(ConfigKey.TestMode)
                 ? _sessionController.getAccountId()
                 : _agreement.getAccountId());

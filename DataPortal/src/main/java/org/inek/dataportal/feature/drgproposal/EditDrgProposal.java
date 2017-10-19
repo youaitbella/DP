@@ -642,7 +642,7 @@ public class EditDrgProposal extends AbstractEditController {
     public String sendMessage() {
         String subject = "Korrektur DRG-Vorschlag \"" + _drgProposal.getName() + "\" erforderlich";
         Account sender = _sessionController.getAccount();
-        Account receiver = _accountFacade.find(_drgProposal.getAccountId());
+        Account receiver = _accountFacade.findAccount(_drgProposal.getAccountId());
         _drgProposal.setStatus(WorkflowStatus.New.getId());
         if (!isReadOnly()) {
             // there might have been changes by that user

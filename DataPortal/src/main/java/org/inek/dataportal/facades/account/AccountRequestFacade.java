@@ -51,13 +51,10 @@ public class AccountRequestFacade extends AbstractFacade<AccountRequest> {
 
     @Inject private Mailer _mailer;
     public boolean createAccountRequest(AccountRequest accountRequest) {
-        if (accountRequest.getAccountId() != null) {
-            return false;
-        }
         getLogger().info("Try to create a new account request");
         accountRequest.setActivationKey(UUID.randomUUID().toString());
         persist(accountRequest);
-        if (accountRequest.getAccountId() <= 0) {
+        if (accountRequest.getId() <= 0) {
             getLogger().warning("Failed to store accout request.");
             return false;
         }
@@ -79,7 +76,7 @@ public class AccountRequestFacade extends AbstractFacade<AccountRequest> {
     private void cleanAccountRequests() {
         List<AccountRequest> requests = findRequestsOlderThan(DateUtils.getDateWithDayOffset(-3));
         for (AccountRequest request : requests) {
-            LOGGER.log(Level.INFO, "Clean request {0}, {1}", new Object[]{request.getAccountId(), request.getUser()});
+            LOGGER.log(Level.INFO, "Clean request {0}, {1}", new Object[]{request.getId(), request.getUser()});
             remove(request);
         }
     }

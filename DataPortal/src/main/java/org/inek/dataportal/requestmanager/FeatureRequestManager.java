@@ -46,7 +46,7 @@ public class FeatureRequestManager implements Serializable {
         if (_request == null) {
             _account = null;
         } else {
-            _account = _accountFacade.find(_request.getAccountId());
+            _account = _accountFacade.findAccount(_request.getAccountId());
             if (_account.getUser().isEmpty()) {
                 _account = null;
             }

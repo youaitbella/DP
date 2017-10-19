@@ -63,7 +63,7 @@ public class AdminChangeNub implements Serializable{
     }
 
     public void setAccountId(int accountId) {
-        _account = _accountFacade.find(accountId);
+        _account = _accountFacade.findAccount(accountId);
     }
 
 
@@ -81,7 +81,7 @@ public class AdminChangeNub implements Serializable{
     }
 
     public void checkAccountId(FacesContext context, UIComponent component, Object value) {
-        Account account = _accountFacade.find((int) value);
+        Account account = _accountFacade.findAccount((int) value);
         if (account == null) {
             String msg = Utils.getMessage("errUnknownAccount");
             throw new ValidatorException(new FacesMessage(msg));

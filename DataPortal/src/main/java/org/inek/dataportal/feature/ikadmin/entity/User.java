@@ -6,7 +6,6 @@ package org.inek.dataportal.feature.ikadmin.entity;
 
 import org.inek.dataportal.entities.account.*;
 import java.io.Serializable;
-import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -27,6 +26,7 @@ public class User implements Serializable, Person {
     @Id
     @Column(name = "acId")
     private int _id;
+    @Override
     public int getId() {
         return _id;
     }
@@ -110,6 +110,7 @@ public class User implements Serializable, Person {
     @Column(name = "acCompany")
     private String _company = "";
 
+    @Override
     public String getCompany() {
         return _company;
     }

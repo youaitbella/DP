@@ -149,7 +149,7 @@ public class EditCooperation extends AbstractEditController {
     private Account loadAccount(Object partnerId) {
         try {
             int id = Integer.parseInt("" + partnerId);
-            return _accountFacade.find(id);
+            return _accountFacade.findAccount(id);
         } catch (NumberFormatException ex) {
             LOGGER.info(ex.getMessage());
         }

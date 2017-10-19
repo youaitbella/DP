@@ -26,7 +26,7 @@ import org.inek.dataportal.entities.account.AccountPwd;
 import org.inek.dataportal.entities.account.AccountRequest;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.FeatureState;
-import org.inek.dataportal.facades.AbstractFacade;
+import org.inek.dataportal.facades.AbstractDataAccess;
 import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.PasswordRequestFacade;
 import org.inek.dataportal.feature.admin.facade.ConfigFacade;
@@ -43,7 +43,7 @@ import org.inek.dataportal.utils.StringUtil;
  * @author vohldo
  */
 @Stateless
-public class AccountFacade extends AbstractFacade<Account> {
+public class AccountFacade extends AbstractDataAccess {
 
     @Inject private AccountPwdFacade _accountPwdFacade;
     @Inject private CustomerFacade _customerFacade;
@@ -53,17 +53,6 @@ public class AccountFacade extends AbstractFacade<Account> {
     @Inject private PasswordRequestFacade _pwdRequestFacade;
     @Inject private ConfigFacade _configFacade;
 
-    public AccountFacade() {
-        super(Account.class);
-    }
-
-//    public String getDatabaseName() {
-//        String ret = "Properties: ";
-//        for(Object key : getEntityManager().getEntityManagerFactory().) {
-//            ret += key + " ";
-//        }
-//        return ret;
-//    }
     public Account findByMailOrUser(String mailOrUser) {
         String query = "SELECT a FROM Account a WHERE a._email = :mailOrUser or a._user = :mailOrUser";
         List<Account> list = getEntityManager().createQuery(query, Account.class).setParameter("mailOrUser", mailOrUser).getResultList();
@@ -220,7 +209,7 @@ public class AccountFacade extends AbstractFacade<Account> {
         AccountChangeMail changeMail = changeMails.get(0);
 
         // is there an account
-        Account account = find(changeMail.getAccountId());
+        Account account = find(Account.class, changeMail.getAccountId());
         if (account == null || account.isDeactivated()) {
             return false;
         }
@@ -435,6 +424,14 @@ public class AccountFacade extends AbstractFacade<Account> {
         TypedQuery<Account> query = getEntityManager().createQuery(jpql, Account.class);
         List<Account> accounts = query.getResultList();
         return accounts;
+    }
+
+    public Account findFreshAccount(int id) {
+        return findFresh(Account.class, id);
+    }
+    
+    public Account findAccount(int id) {
+        return find(Account.class, id);
     }
     
 }

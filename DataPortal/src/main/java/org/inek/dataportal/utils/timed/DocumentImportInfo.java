@@ -154,10 +154,10 @@ public class DocumentImportInfo {
         }
         _body = body.toString();
         if (_uploadAccount == null) {
-            _uploadAccount = accountFacade.find(0);
+            _uploadAccount = accountFacade.findAccount(0);
         }
         if (_approvalAccount == null) {
-            _approvalAccount = accountFacade.find(0);
+            _approvalAccount = accountFacade.findAccount(0);
         }
     }
 
@@ -171,7 +171,7 @@ public class DocumentImportInfo {
 
     private void extractAccountById(AccountFacade accountFacade, String value) {
         try {
-            _accounts.add(accountFacade.find(Integer.parseInt(value)));
+            _accounts.add(accountFacade.findAccount(Integer.parseInt(value)));
         } catch (Exception ex) {
             LOGGER.log(Level.WARNING, "Unknown account id");
         }
@@ -188,7 +188,7 @@ public class DocumentImportInfo {
 
     private void extractApprovalAccountById(AccountFacade accountFacade, String value) {
         try {
-            _approvalAccount = accountFacade.find(Integer.parseInt(value));
+            _approvalAccount = accountFacade.findAccount(Integer.parseInt(value));
         } catch (Exception ex) {
             LOGGER.log(Level.WARNING, "Unknown account id");
             getDefaultApprovalAccount(accountFacade);
@@ -207,7 +207,7 @@ public class DocumentImportInfo {
 
     private void extractUploadAccountById(AccountFacade accountFacade, String value) {
         try {
-            _uploadAccount = accountFacade.find(Integer.parseInt(value));
+            _uploadAccount = accountFacade.findAccount(Integer.parseInt(value));
         } catch (Exception ex) {
             LOGGER.log(Level.WARNING, "Unknown account id");
         }

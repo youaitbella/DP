@@ -88,15 +88,15 @@ public class CertGrouperResults implements Serializable {
     }
 
     public String getCompanyName() {
-        return _accFacade.find(_grouper.getAccountId()).getCompany();
+        return _accFacade.findAccount(_grouper.getAccountId()).getCompany();
     }
 
     public String getEmailReceivers() {
-        return _accFacade.find(_grouper.getAccountId()).getEmail() + ";" + _grouper.getEmailCopy();
+        return _accFacade.findAccount(_grouper.getAccountId()).getEmail() + ";" + _grouper.getEmailCopy();
     }
 
     public String getEmailReceiver() {
-        return _accFacade.find(_grouper.getAccountId()).getEmail();
+        return _accFacade.findAccount(_grouper.getAccountId()).getEmail();
     }
 
     public String getReceiverEmailCertificate() {
@@ -242,7 +242,7 @@ public class CertGrouperResults implements Serializable {
     }
 
     public String getReiceiver() {
-        return _accFacade.find(_grouper.getAccountId()).getEmail();
+        return _accFacade.findAccount(_grouper.getAccountId()).getEmail();
     }
 
     public String getCC() {
@@ -458,7 +458,7 @@ public class CertGrouperResults implements Serializable {
             return "";
         }
         String subject = _mtFacade.findByName(_templateEmailCertificate).getSubject();
-        subject = subject.replace("{company}", _accFacade.find(_grouper.getAccountId()).getCompany());
+        subject = subject.replace("{company}", _accFacade.findAccount(_grouper.getAccountId()).getCompany());
         subject = subject.replace("{system}", _sysFacade.findFresh(_grouper.getSystemId()).getDisplayName());
         return subject;
     }
@@ -469,7 +469,7 @@ public class CertGrouperResults implements Serializable {
         }
         String body = _mtFacade.findByName(_templateEmailCertificate).getBody();
         body = body.replace("{salutation}", buildEmailSalutation(_receiverEmailCertificate));
-        body = body.replace("{company}", _accFacade.find(_grouper.getAccountId()).getCompany());
+        body = body.replace("{company}", _accFacade.findAccount(_grouper.getAccountId()).getCompany());
         body = body.replace("{product}", _grouper.getName());
         body = body.replace("{system}", _sysFacade.findFresh(_grouper.getSystemId()).getDisplayName());
         body = body.replace("{certdate}", new SimpleDateFormat("dd.MM.yyyy").format(getCertDate()));
@@ -561,7 +561,7 @@ public class CertGrouperResults implements Serializable {
         }
         String errors = getNumberOfErrors() == 1 ? "1 Fall" : getNumberOfErrors() + " Fällen";
         String body = _mtFacade.findByName(_selectedTemplate).getBody();
-        body = body.replace("{salutation}", buildEmailSalutation(_accFacade.find(_grouper.getAccountId()).getEmail()));
+        body = body.replace("{salutation}", buildEmailSalutation(_accFacade.findAccount(_grouper.getAccountId()).getEmail()));
         body = body.replace("{sender}", _sessionController.getAccount().getFirstName() + " " + _sessionController.getAccount().getLastName());
         body = body.replace("{system}", _sysFacade.findFresh(_grouper.getSystemId()).getDisplayName());
         body = body.replace("{errors}", errors);

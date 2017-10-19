@@ -171,7 +171,7 @@ public class DocumentList implements Serializable{
     private void createTransferFiles(List<AccountIk> senders, List<DocInfo> _processDocs) {
         for(AccountIk accIk : senders) {
             List<AccountDocument> docs = new ArrayList<>();
-            String email = _accFacade.find(accIk.getAccountId()).getEmail();
+            String email = _accFacade.findAccount(accIk.getAccountId()).getEmail();
             String subject = "InEK Datenportal - Dokument(e) für IK " + accIk.getIk() + " bearbeitet";
             if(accIk.getIk() < 1) {
                 subject = "InEK Datenportal - Dokument(e) bearbeitet";
