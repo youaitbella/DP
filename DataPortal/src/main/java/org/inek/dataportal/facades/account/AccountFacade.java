@@ -26,10 +26,14 @@ import org.inek.dataportal.entities.account.AccountPwd;
 import org.inek.dataportal.entities.account.AccountRequest;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.FeatureState;
+import org.inek.dataportal.enums.IkReference;
 import org.inek.dataportal.facades.AbstractDataAccess;
 import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.PasswordRequestFacade;
 import org.inek.dataportal.feature.admin.facade.ConfigFacade;
+import org.inek.dataportal.feature.ikadmin.entity.AccessRight;
+import org.inek.dataportal.feature.ikadmin.enums.Right;
+import org.inek.dataportal.feature.ikadmin.facade.IkAdminFacade;
 import org.inek.dataportal.helper.TransferFileCreator;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.mail.Mailer;
@@ -134,6 +138,8 @@ public class AccountFacade extends AbstractDataAccess {
         }
     }
 
+    @Inject private IkAdminFacade _ikAdminFacade;
+
     public Account updateAccount(Account account) {
         if (account.getId() <= 0) {
             getLogger().log(Level.SEVERE, "attempt to update a non-existing account");
@@ -143,18 +149,39 @@ public class AccountFacade extends AbstractDataAccess {
         for (AccountFeature accFeature : account.getFeatures()) {
             if (accFeature.getFeatureState() == FeatureState.NEW) {
                 Feature feature = accFeature.getFeature();
-                if (feature.needsApproval()) {
-                    if (_requestHandler.handleFeatureRequest(account, feature)) {
-                        accFeature.setFeatureState(FeatureState.REQUESTED);
+                boolean hasRemainingIks = false;
+                if (accFeature.getFeature().getIkReference() == IkReference.Hospital) {
+                    // this feature might be affected by an ik admin
+                    for (int ik : account.getFullIkSet()) {
+                        if (hasIkAdmin(ik)) {
+                            AccessRight accessRight = new AccessRight(account.getId(), ik, feature, Right.Deny);
+                            _ikAdminFacade.saveAccessRight(accessRight);
+                        } else {
+                            hasRemainingIks = true;
+                        }
                     }
-                } else {
-                    accFeature.setFeatureState(FeatureState.SIMPLE);
+                }
+                if (hasRemainingIks) {
+                    if (feature.needsApproval()) {
+                        if (_requestHandler.handleFeatureRequest(account, feature)) {
+                            accFeature.setFeatureState(FeatureState.REQUESTED);
+                        }
+                    } else {
+                        accFeature.setFeatureState(FeatureState.SIMPLE);
+                    }
                 }
             }
         }
         Account managedAccount = merge(account);
         setIKNames(managedAccount);
         return managedAccount;
+    }
+
+    public boolean hasIkAdmin(int ik) {
+        String sql = "select cast(sign(count(0)) as bit) as hasAdmin from ikadm.mapAccountIkAdmin where aiaIk = " + ik;
+        Query query = getEntityManager().createNativeQuery(sql);
+        boolean hasIkAdmin = (boolean) query.getSingleResult();
+        return hasIkAdmin;
     }
 
     public void deleteAccount(Account account) {
@@ -178,7 +205,7 @@ public class AccountFacade extends AbstractDataAccess {
             getLogger().log(Level.WARNING, "No account request found for {0}", mailOrUser);
             return false;
         }
-        if (!accountRequest.getPasswordHash().equals(Crypt.hashPassword(password, accountRequest.getSalt())) 
+        if (!accountRequest.getPasswordHash().equals(Crypt.hashPassword(password, accountRequest.getSalt()))
                 || !accountRequest.getActivationKey().equals(activationKey)) {
             getLogger().log(Level.WARNING, "Password or activation key does not match {0}", mailOrUser);
             return false;
@@ -241,7 +268,7 @@ public class AccountFacade extends AbstractDataAccess {
         if (request == null) {
             return false;
         }
-        if (!request.getPasswordHash().equals(Crypt.hashPassword(password, request.getSalt())) 
+        if (!request.getPasswordHash().equals(Crypt.hashPassword(password, request.getSalt()))
                 || !request.getActivationKey().equals(activationKey)) {
             return false;
         }
@@ -326,7 +353,7 @@ public class AccountFacade extends AbstractDataAccess {
         query.setParameter("mailDomain", "%" + mailDomain);
         return query.getResultList();
     }
-    
+
     public Set<Integer> obtainIks4Accounts(Set<Integer> accountIds) {
         String accountIdList = accountIds.stream().map(i -> i.toString()).collect(Collectors.joining(", "));
         String sql = "select acIk"
@@ -410,7 +437,7 @@ public class AccountFacade extends AbstractDataAccess {
                 + "    join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
                 + "    join CallCenterDB.dbo.ccCalcInformation on caId = ciCalcAgreementId\n"
                 + "    join CallCenterDB.dbo.mapCustomerReportAgent on ciId = mcraCalcInformationId\n"
-                + "    where ciDataYear = " + Utils.getTargetYear(Feature.CALCULATION_HOSPITAL) +" \n"
+                + "    where ciDataYear = " + Utils.getTargetYear(Feature.CALCULATION_HOSPITAL) + " \n"
                 + "    and cuIK in (" + iks.stream().map(i -> "" + i).collect(Collectors.joining(", ")) + ")\n"
                 + ") d on agId = mcraAgentId\n"
                 + "where agActive = 1 \n"
@@ -418,8 +445,8 @@ public class AccountFacade extends AbstractDataAccess {
         Query query = getEntityManager().createNativeQuery(sql, Account.class);
         return query.getResultList();
     }
-    
-    public List<Account> getIkAdminAccounts(){
+
+    public List<Account> getIkAdminAccounts() {
         String jpql = "select a from Account a where a._adminIks is not empty";
         TypedQuery<Account> query = getEntityManager().createQuery(jpql, Account.class);
         List<Account> accounts = query.getResultList();
@@ -429,9 +456,9 @@ public class AccountFacade extends AbstractDataAccess {
     public Account findFreshAccount(int id) {
         return findFresh(Account.class, id);
     }
-    
+
     public Account findAccount(int id) {
         return find(Account.class, id);
     }
-    
+
 }
