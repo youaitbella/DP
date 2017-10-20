@@ -65,6 +65,9 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     private static final String TOPIC_KIDS1 = "topicAppendix1Kids";
     private static final String TOPIC_ADULTS2 = "topicAppendix2Adults";
     private static final String TOPIC_KIDS2 = "topicAppendix2Kids";
+    private static final String PDF_DOCUMENT_APX1 = "PsychPersonalNachweis_Anlage1.pdf";
+    private static final String PDF_DOCUMENT_APX2 = "PsychPersonalNachweis_Anlage2.pdf";
+    private static final String EXCEL_DOCUMENT = "PsychPersonalNachweis.xlsx";
 
     @Inject private CooperationTools _cooperationTools;
     @Inject private SessionController _sessionController;
@@ -373,7 +376,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         return isClosedState();
     }
 
-    public boolean isExportEnabled() {
+    public boolean isPdfExportEnabled() {
         switch (getActiveTopicKey()) {
             case TOPIC_BASE:
                 return false;
@@ -386,6 +389,15 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
             default:
                 return false;
         }
+    }
+
+    public boolean isDataExportEnabled() {
+        // ready, if provided and (exclusion fact or document exists)
+        boolean apx1Ready = _staffProof.getStatusApx1() == WorkflowStatus.Provided.getId() 
+                && (_staffProof.getExclusionFactId1() > 0 || _staffProof.hasStaffProofDocument(1));
+        boolean apx2Ready = _staffProof.getStatusApx2() == WorkflowStatus.Provided.getId() 
+                && (_staffProof.getExclusionFactId2() > 0 || _staffProof.hasStaffProofDocument(2));
+        return apx1Ready && apx2Ready && _sessionController.reportTemplateExists(EXCEL_DOCUMENT);
     }
 
     public String getBtnClose() {
@@ -811,9 +823,9 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
             boolean existsEmpty = _staffProof
                     .getStaffProofExplanations(type)
                     .stream()
-                    .anyMatch(e -> e.getOccupationalCategory().getId() == occupationalCategory.getId() 
-                            && e.getDeductedSpecialistId() == key 
-                            && e.getDeductedFullVigor() == 0);
+                    .anyMatch(e -> e.getOccupationalCategory().getId() == occupationalCategory.getId()
+                    && e.getDeductedSpecialistId() == key
+                    && e.getDeductedFullVigor() == 0);
             if (!existsEmpty) {
                 _staffProof.addStaffProofExplanation(type, occupationalCategory, key);
             }
@@ -845,7 +857,12 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     }
 
     public void createDocument() {
-        _sessionController.createSingleDocument("PsychPersonalNachweis_Anlage1.pdf", _staffProof.getId());
+        // just for testing. Need to determin current apx
+        _sessionController.createSingleDocument(PDF_DOCUMENT_APX1, _staffProof.getId());
+    }
+
+    public void exportData() {
+        _sessionController.createSingleDocument(EXCEL_DOCUMENT, _staffProof.getId());
     }
 
 }

@@ -27,7 +27,7 @@ public class AdminFacade extends AbstractDataAccess {
     }
 
     public Optional<ReportTemplate> findReportTemplateByName(String name) {
-        String jpql = "select rt from ReportTemplate rt where rt._name = :name";
+        String jpql = "select rt from ReportTemplate rt where rt._name = :name and rt._address != ''";
         TypedQuery<ReportTemplate> query = getEntityManager().createQuery(jpql, ReportTemplate.class);
         query.setParameter("name", name);
         try {

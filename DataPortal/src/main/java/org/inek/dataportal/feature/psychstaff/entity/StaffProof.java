@@ -566,12 +566,17 @@ public class StaffProof implements Serializable, StatusEntity {
         return Collections.unmodifiableList(_staffProofDocument);
     }
 
-    public StaffProofDocument getStaffProofDocument(int appendix) {
+    public boolean hasStaffProofDocument(int appendix) {
+        String signature = appendix == 1 ? _signatureAgreement : _signatureEffective;
         return _staffProofDocument
                 .stream()
-                .filter(d -> d.getAppendix() == appendix)
-                .findAny()
-                .orElse(new StaffProofDocument());
+                .anyMatch(d -> signature.length() > 0 && signature.equals(d.getSignature()));
+    }
+
+    public StaffProofDocument getStaffProofDocument(int appendix) {
+        if (appendix == 1) {return getStaffProofDocument(_signatureAgreement);}
+        if (appendix == 2) {return getStaffProofDocument(_signatureEffective);}
+        return new StaffProofDocument();
     }
 
     public StaffProofDocument getStaffProofDocument(String signature) {

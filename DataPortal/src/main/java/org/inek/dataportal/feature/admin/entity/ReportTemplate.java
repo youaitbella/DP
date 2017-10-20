@@ -5,7 +5,6 @@
  */
 package org.inek.dataportal.feature.admin.entity;
 
-import org.inek.dataportal.feature.psychstaff.entity.*;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Column;
@@ -15,7 +14,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
-import org.inek.dataportal.utils.Documentation;
 
 /**
  *

@@ -774,6 +774,10 @@ public class SessionController implements Serializable {
 
     @Inject private AdminFacade _adminFacade;
 
+    public boolean reportTemplateExists(String name) {
+        return _adminFacade.findReportTemplateByName(name).isPresent();
+    }
+
     public void createSingleDocument(String name, int id) {
         _adminFacade
                 .findReportTemplateByName(name)
