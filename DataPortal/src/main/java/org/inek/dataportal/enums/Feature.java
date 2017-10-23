@@ -23,7 +23,7 @@ public enum Feature {
     SPECIFIC_FUNCTION(15, "Besondere Aufgaben", NeedApproval.Yes, PortalType.DRG, IkReference.Hospital),
     ADDITIONAL_COST(16, "Finanzierung von Mehrkosten", NeedApproval.Yes, PortalType.DRG, IkReference.Hospital),
     PSYCH_STAFF(17, "Psych-Personalnachweis-Vereinbarung", NeedApproval.Yes, PortalType.PSY, IkReference.Hospital),
-    VALUATION_RATIO(18, "Bewertungsrelation", NeedApproval.Yes, PortalType.DRG, IkReference.Hospital),
+    VALUATION_RATIO(18, "Gezielte Absenkung", NeedApproval.Yes, PortalType.DRG, IkReference.Hospital),
     IK_ADMIN(19, "IK-Administration", NeedApproval.No, PortalType.COMMON, IkReference.None);
 
     Feature(int id, String description, NeedApproval needApproval, PortalType portalType, IkReference ikReference) {
