@@ -149,27 +149,29 @@ public class AccountFacade extends AbstractDataAccess {
         for (AccountFeature accFeature : account.getFeatures()) {
             if (accFeature.getFeatureState() == FeatureState.NEW) {
                 Feature feature = accFeature.getFeature();
-////                boolean hasRemainingIks = false;
-////                if (accFeature.getFeature().getIkReference() == IkReference.Hospital) {
-////                    // this feature might be affected by an ik admin
-////                    for (int ik : account.getFullIkSet()) {
-////                        if (hasIkAdmin(ik)) {
-////                            AccessRight accessRight = new AccessRight(account.getId(), ik, feature, Right.Deny);
-////                            _ikAdminFacade.saveAccessRight(accessRight);
-////                        } else {
-////                            hasRemainingIks = true;
-////                        }
-////                    }
-////                }
-//                if (hasRemainingIks) {
-                if (feature.needsApproval()) {
-                    if (_requestHandler.handleFeatureRequest(account, feature)) {
-                        accFeature.setFeatureState(FeatureState.REQUESTED);
+                boolean hasNoneOrRemainingIks = false;
+                if (accFeature.getFeature().getIkReference() == IkReference.Hospital) {
+                    // this feature might be affected by an ik admin
+                    Set<Integer> fullIkSet = account.getFullIkSet();
+                    hasNoneOrRemainingIks = fullIkSet.isEmpty();
+                    for (int ik : fullIkSet) {
+                        if (hasIkAdmin(ik)) {
+                            AccessRight accessRight = new AccessRight(account.getId(), ik, feature, Right.Deny);
+                            _ikAdminFacade.saveAccessRight(accessRight);
+                        } else {
+                            hasNoneOrRemainingIks = true;
+                        }
                     }
-                } else {
-                    accFeature.setFeatureState(FeatureState.SIMPLE);
                 }
-//                }
+                if (hasNoneOrRemainingIks) {
+                    if (feature.needsApproval()) {
+                        if (_requestHandler.handleFeatureRequest(account, feature)) {
+                            accFeature.setFeatureState(FeatureState.REQUESTED);
+                        }
+                    } else {
+                        accFeature.setFeatureState(FeatureState.SIMPLE);
+                    }
+                }
             }
         }
         Account managedAccount = merge(account);
