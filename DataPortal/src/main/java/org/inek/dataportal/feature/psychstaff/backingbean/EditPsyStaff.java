@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -26,6 +27,7 @@ import javax.faces.model.SelectItem;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.OptimisticLockException;
 import javax.servlet.http.Part;
 import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.CooperationTools;
@@ -307,16 +309,23 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
 
     private String save(boolean showMessage) {
         setModifiedInfo();
-        _staffProof = _psychStaffFacade.saveStaffProof(_staffProof);
-
-        if (isValidId(_staffProof.getId())) {
-            if (showMessage) {
-                // CR+LF or LF only will be replaced by "\r\n"
-                String script = "alert ('" + Utils.getMessage("msgSave").replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
-                _sessionController.setScript(script);
+        try {
+            _staffProof = _psychStaffFacade.saveStaffProof(_staffProof);
+            if (isValidId(_staffProof.getId())) {
+                if (showMessage) {
+                    // CR+LF or LF only will be replaced by "\r\n"
+                    String script = "alert ('" + Utils.getMessage("msgSave").replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
+                    _sessionController.setScript(script);
+                }
+                return null;
             }
-            return null;
+        } catch (Exception ex) {
+            if (ex.getCause() instanceof OptimisticLockException) {
+                LOGGER.log(Level.WARNING, "Optimistic Lock Exception during save PsaychStaff");
+                return null;
+            }
         }
+
         return Pages.Error.URL();
     }
 
@@ -392,10 +401,15 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     }
 
     public boolean isDataExportEnabled() {
+        if (_staffProof == null) {
+            // shall not be null!
+            LOGGER.log(Level.SEVERE, "isDataExportEnabled: _staffProof is null");
+            return false;
+        }
         // ready, if provided and (exclusion fact or document exists)
-        boolean apx1Ready = _staffProof.getStatusApx1() == WorkflowStatus.Provided.getId() 
+        boolean apx1Ready = _staffProof.getStatusApx1() == WorkflowStatus.Provided.getId()
                 && (_staffProof.getExclusionFactId1() > 0 || _staffProof.hasStaffProofDocument(1));
-        boolean apx2Ready = _staffProof.getStatusApx2() == WorkflowStatus.Provided.getId() 
+        boolean apx2Ready = _staffProof.getStatusApx2() == WorkflowStatus.Provided.getId()
                 && (_staffProof.getExclusionFactId2() > 0 || _staffProof.hasStaffProofDocument(2));
         return apx1Ready && apx2Ready && _sessionController.reportTemplateExists(EXCEL_DOCUMENT);
     }
