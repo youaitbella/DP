@@ -135,7 +135,7 @@ public class CalcFacade extends AbstractDataAccess {
                 + "join CallCenterDB.dbo.ccCalcInformation on caId = ciCalcAgreementId and biDataYear = ciDataYear \n"
                 + "join CallCenterDB.dbo.mapCustomerReportAgent on ciId = mcraCalcInformationId\n"
                 + "join CallCenterDB.dbo.ccAgent on mcraAgentId = agId\n"
-                + "left join dbo.Account on agEMail = acMail\n"
+                + "join dbo.Account on agEMail = acMail\n"
                 + "where agActive = 1 and agDomainId in ('O', 'E')\n"
                 + "     and mcraReportTypeId in (1, 3, 10) \n"
                 + "     and biDataYear = " + Utils.getTargetYear(Feature.CALCULATION_HOSPITAL);
