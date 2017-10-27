@@ -320,8 +320,9 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
                 return null;
             }
         } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, "Exception during save Psych PV", ex);
             if (ex.getCause() instanceof OptimisticLockException) {
-                LOGGER.log(Level.WARNING, "Optimistic Lock Exception during save PsaychStaff");
+                LOGGER.log(Level.WARNING, "Optimistic Lock Exception during save PsychStaff");
                 return null;
             }
         }
