@@ -5,8 +5,6 @@
  */
 package org.inek.dataportal.feature.psychstaff.backingbean;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,7 +13,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -50,7 +47,6 @@ import org.inek.dataportal.feature.psychstaff.enums.PsychType;
 import org.inek.dataportal.feature.psychstaff.facade.PsychStaffFacade;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.structures.MessageContainer;
-import org.inek.dataportal.utils.StreamUtils;
 
 /**
  *
@@ -320,7 +316,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
                 return null;
             }
         } catch (Exception ex) {
-            LOGGER.log(Level.SEVERE, "Exception during save Psych PV", ex);
+            LOGGER.log(Level.SEVERE, "Exception during save PsychStaff", ex);
             if (ex.getCause() instanceof OptimisticLockException) {
                 LOGGER.log(Level.WARNING, "Optimistic Lock Exception during save PsychStaff");
                 return null;
@@ -674,11 +670,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         return Arrays.asList(".pdf", ".jpg", ".jpeg", ".png", ".bmp", ".gif");
     }
 
-    public void uploadFile() {
-        if (_file == null) {
-            return;
-        }
-
+    public void putDocument(String fileName, byte[] content) {
         int appendix;
         String signature;
 
@@ -698,26 +690,23 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
             default:
                 return;
         }
-        try {
-            String fileName = _file.getSubmittedFileName();
-            int pos = fileName.lastIndexOf(".");
-            String extension = pos < 0 ? "" : fileName.toLowerCase().substring(pos);
-            if (allowedFileExtensions().contains(extension)) {
-                InputStream is = _file.getInputStream();
-                byte[] content = StreamUtils.stream2blob(is);
-                StaffProofDocument document = new StaffProofDocument(fileName);
-                document.setContent(content);
-                document.setAppendix(appendix);
-                document.setSignature(signature);
-                _staffProof.addStaffProofDocument(document);
-                save(false);
-            }
-            _file = null;
-        } catch (IOException | NoSuchElementException e) {
+
+        int pos = fileName.lastIndexOf(".");
+        String extension = pos < 0 ? "" : fileName.toLowerCase().substring(pos);
+        if (allowedFileExtensions().contains(extension)) {
+            StaffProofDocument document = new StaffProofDocument(fileName);
+            document.setContent(content);
+            document.setAppendix(appendix);
+            document.setSignature(signature);
+            _staffProof.addStaffProofDocument(document);
+            save(true);
         }
-        _file = null;
     }
 
+    public String refresh() {
+        return "";
+    }
+    
     public String downloadDocument(String signature) {
         StaffProofDocument doc = _staffProof.getStaffProofDocument(signature);
         Utils.downloadDocument(doc);

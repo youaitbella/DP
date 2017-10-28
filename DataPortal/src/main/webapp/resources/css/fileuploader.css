@@ -9,11 +9,12 @@
     background-color: #043358;
     border: solid 2px;
     border-color:  #eeeeee darkgrey darkgrey #eeeeee;
-    border-radius: 4px;
+    border-radius: 0.5em;
     text-decoration: none;
     text-align: center;
     color: white;
 }
+
 .qq-upload-button-hover {    
     color: white;
     box-shadow: 0px 0px 5px 1px #437A1E;
