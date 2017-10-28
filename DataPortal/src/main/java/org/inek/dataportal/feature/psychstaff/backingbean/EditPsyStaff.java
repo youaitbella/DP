@@ -121,7 +121,6 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
             }
             _staffProof = staffProof;
         } else {
-            System.out.println("View: " + viewId);
             Utils.navigate(Pages.Error.RedirectURL());
             return;
         }

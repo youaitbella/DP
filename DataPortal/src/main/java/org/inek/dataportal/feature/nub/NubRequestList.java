@@ -87,6 +87,9 @@ public class NubRequestList {
 
     public String getConfirmMessage(int requestId) {
         NubRequest proposal = _nubRequestFacade.find(requestId);
+        if (proposal == null){
+            return "alert('NUB wurde bereits an anderer Stelle gelöscht oder kann derzeit nicht gelöscht werden.'); return false;";
+        }
         String msg = proposal.getName() + "\n"
                 + (proposal.getStatus().getId() <= 9 ? Utils.getMessage("msgConfirmDelete") : Utils.getMessage("msgConfirmRetire"));
         msg = msg.replace("\r\n", "\n").replace("\n", "\\r\\n").replace("'", "\\'").replace("\"", "\\'");
