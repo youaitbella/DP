@@ -68,6 +68,34 @@
                 <ui:include src="#{editPsyStaff.activeTopic.outcome}" />
 
                 <h:panelGroup rendered="#{editPsyStaff.staffProof.ik gt 0}">
+                        <div class="toolBar" jsf:rendered="#{editPsyStaff.pdfExportEnabled}" style="margin-right: 1em;">
+                            <style>
+                                .qq-upload-button {
+                                    display: inline-block;
+                                    min-width: 150px;
+                                    font-weight: bold;
+                                    padding: 0.5em 0.2em;
+                                    background-color: #437A1E;
+                                    border: solid 2px;
+                                    border-color:  #eeeeee darkgrey darkgrey #eeeeee;
+                                    border-radius: 0.5em;
+                                    text-decoration: none;
+                                    text-align: center;
+                                    color: white;
+                                }                                
+                            </style>
+                            <div id="file-uploader">
+                                <script>
+                                    createUploader();
+                                </script>
+                            </div>
+
+                            <!-- next comes a hidden element to force a JSF conform refresh -->
+                            <h:commandLink id="refresh" style="display: none" action="#{editPsyStaff.refresh}" value="refresh"/>
+                        </div>
+
+                    
+                    
                     <div class="toolBar">
                         <h:commandLink styleClass="bigButton"
                                        action="#{editPsyStaff.save}"
@@ -128,34 +156,6 @@
                                        rendered="#{editPsyStaff.dataExportEnabled}"
                                        title="Dies erzeugt eine elektronisch lesbare Datei zum Versand an die Krankenkassen">
                         </h:commandLink>
-
-                        <!--    background-color: #437A1E; -->
-
-                        <div class="inlineBlock" jsf:rendered="#{editPsyStaff.pdfExportEnabled}" style="margin-right: 1em;">
-                            <style>
-                                .qq-upload-button {
-                                    display: inline-block;
-                                    min-width: 150px;
-                                    font-weight: bold;
-                                    padding: 0.5em 0.2em;
-                                    background-color: #437A1E;
-                                    border: solid 2px;
-                                    border-color:  #eeeeee darkgrey darkgrey #eeeeee;
-                                    border-radius: 0.5em;
-                                    text-decoration: none;
-                                    text-align: center;
-                                    color: white;
-                                }                                
-                            </style>
-                            <div id="file-uploader">
-                                <script>
-                                    createUploader();
-                                </script>
-                            </div>
-
-                            <!-- next comes a hidden element to force a JSF conform refresh -->
-                            <h:commandLink id="refresh" style="display: none" action="#{editPsyStaff.refresh}" value="refresh"/>
-                        </div>
 
                         <h:commandLink styleClass="bigButton"
                                        action="#{editPsyStaff.reopen}"
