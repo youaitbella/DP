@@ -149,21 +149,23 @@ public class AccountFacade extends AbstractDataAccess {
         for (AccountFeature accFeature : account.getFeatures()) {
             if (accFeature.getFeatureState() == FeatureState.NEW) {
                 Feature feature = accFeature.getFeature();
-                boolean hasNoneOrRemainingIks = false;
+                boolean handleClassicalWay = false;
                 if (accFeature.getFeature().getIkReference() == IkReference.Hospital) {
                     // this feature might be affected by an ik admin
                     Set<Integer> fullIkSet = account.getFullIkSet();
-                    hasNoneOrRemainingIks = fullIkSet.isEmpty();
+                    handleClassicalWay = fullIkSet.isEmpty();
                     for (int ik : fullIkSet) {
                         if (hasIkAdmin(ik)) {
                             AccessRight accessRight = new AccessRight(account.getId(), ik, feature, Right.Deny);
                             _ikAdminFacade.saveAccessRight(accessRight);
                         } else {
-                            hasNoneOrRemainingIks = true;
+                            handleClassicalWay = true;
                         }
                     }
+                }else{
+                    handleClassicalWay = true;
                 }
-                if (hasNoneOrRemainingIks) {
+                if (handleClassicalWay) {
                     if (feature.needsApproval()) {
                         if (_requestHandler.handleFeatureRequest(account, feature)) {
                             accFeature.setFeatureState(FeatureState.REQUESTED);
