@@ -46,6 +46,12 @@ public class StaffProof implements Serializable, StatusEntity {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Property Version">
+    @Column(name = "spmVersion")
+    @Version
+    private int _version;
+    // </editor-fold>
+
     //<editor-fold defaultstate="collapsed" desc="dataYear">
     @Column(name = "spmYear")
     @Documentation(key = "lblYear")
