@@ -5,6 +5,7 @@
  */
 package org.inek.dataportal.feature.certification;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
@@ -20,7 +21,7 @@ import org.inek.dataportal.helper.scope.FeatureScoped;
  */
 @Named
 @FeatureScoped(name = "Certification")
-public class CertGrouperCc {
+public class CertGrouperCc implements Serializable{
     
     @Inject 
     private GrouperFacade _grouperFacade;

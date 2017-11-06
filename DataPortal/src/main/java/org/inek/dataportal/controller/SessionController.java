@@ -184,7 +184,6 @@ public class SessionController implements Serializable {
     public String navigate(String url) {
         logMessage("Navigate: URL=" + url);
         setCurrentTopicByUrl(url);
-        endAllConversations();
         FeatureScopedContextHolder.Instance.destroyAllBeans();
         return url + "?faces-redirect=true";
     }
@@ -195,40 +194,6 @@ public class SessionController implements Serializable {
             clearCurrentTopic();
         } else {
             setCurrentTopic(topic.getKey());
-        }
-    }
-
-    public String beginConversation(Conversation conversation) {
-        if (conversation.isTransient()) {
-            int minutes = 30;
-            conversation.setTimeout(minutes * 60000);
-            conversation.begin(UUID.randomUUID().toString());
-            LOGGER.log(Level.INFO, "Conversation started: {0}", conversation.getId());
-            return conversation.getId();
-        } else {
-            LOGGER.log(Level.INFO, "Conversation still running: {0}", conversation.getId());
-            return conversation.getId();
-        }
-    }
-
-    public void endConversation(Conversation conversation) {
-        if (!conversation.isTransient()) {
-            LOGGER.log(Level.INFO, "Conversation stopping: {0}", conversation.getId());
-            conversation.end();
-        }
-    }
-
-    public void endAllConversations() {
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        Map<String, Object> map = facesContext.getExternalContext().getSessionMap();
-        @SuppressWarnings("unchecked")
-        Map<String, Conversation> conversations
-                = (Map<String, Conversation>) map.get("org.jboss.weld.context.ConversationContext.conversations");
-        if (conversations == null) {
-            return;
-        }
-        for (Conversation conversation : conversations.values()) {
-            endConversation(conversation);
         }
     }
 
@@ -245,7 +210,6 @@ public class SessionController implements Serializable {
 
     private void performLogout(String message) {
         if (_account != null) {
-            endAllConversations();
             FeatureScopedContextHolder.Instance.destroyAllBeans();
             logMessage(message);
             _topics.clear();

@@ -37,6 +37,7 @@ public enum ConfigKey {
     IsDistributionModelPeppCreateEnabled(false),
     IsPsychStaffCreateEnabled(false),
     IsPsychStaffSendEnabled(false),
+    IsPsychStaffParanoiacheckEnabled(true),
     DataServiceClientVersion("20160101.3"),
     ApplicationURL("https://daten.inek.org"),
     FolderRoot("//vFileserver01/company$/EDV/Datenportal/"),

@@ -5,17 +5,29 @@
  */
 package org.inek.dataportal.feature.psychstaff.facade;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import java.io.ByteArrayInputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.facades.AbstractDataAccess;
+import org.inek.dataportal.feature.admin.facade.ConfigFacade;
 import org.inek.dataportal.feature.psychstaff.entity.OccupationalCategory;
 import org.inek.dataportal.feature.psychstaff.entity.PersonnelGroup;
 import org.inek.dataportal.feature.psychstaff.entity.StaffProof;
+import org.inek.dataportal.feature.psychstaff.entity.StaffProofAgreed;
+import org.inek.dataportal.feature.psychstaff.entity.StaffProofEffective;
+import org.inek.dataportal.feature.psychstaff.enums.PsychType;
 
 /**
  *
@@ -28,6 +40,7 @@ import org.inek.dataportal.feature.psychstaff.entity.StaffProof;
 public class PsychStaffFacade extends AbstractDataAccess {
 
     private static final Logger LOGGER = Logger.getLogger("PsychStaffFacade");
+    @Inject private ConfigFacade _configFacade;
 
     public StaffProof findStaffProof(int id) {
         return find(StaffProof.class, id);
@@ -126,13 +139,74 @@ public class PsychStaffFacade extends AbstractDataAccess {
         }
          */
         try {
-            return merge(staffProof);
+            StaffProof mergedStaffProof = merge(staffProof);
+            if (_configFacade.readBool(ConfigKey.IsPsychStaffParanoiacheckEnabled)){
+                if (!hasDifferentData(staffProof, mergedStaffProof)){
+                    StaffProof findFresh = findFresh(StaffProof.class, mergedStaffProof.getId());
+                    hasDifferentData(findFresh, mergedStaffProof);
+                }
+            }
+            return merge(mergedStaffProof);
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage());
             return staffProof;
         }
     }
 
+    private boolean hasDifferentData(StaffProof staffProof, StaffProof mergedStaffProof) {
+        boolean foundDiff = false;
+        for (PsychType type : PsychType.values()) {
+            List<StaffProofAgreed> staffProofsAgreed = mergedStaffProof.getStaffProofsAgreed(type);
+            for (StaffProofAgreed agreedItem : staffProof.getStaffProofsAgreed(type)) {
+                Optional<StaffProofAgreed> mergedEntry = staffProofsAgreed
+                        .stream()
+                        .filter(a -> a.getOccupationalCategory().getId() == agreedItem.getOccupationalCategory().getId())
+                        .findFirst();
+                if (!mergedEntry.isPresent()){
+                    LOGGER.log(Level.SEVERE, "Entry missing in saved StaffProofAgreed: {0}", getJson(agreedItem));
+                    foundDiff = true;
+                    continue;
+                }
+                StaffProofAgreed savedAgreed = mergedEntry.get();
+                if (agreedItem.getStaffingComplete() != savedAgreed.getStaffingComplete()){
+                    LOGGER.log(Level.SEVERE, "Entry differs in saved StaffProofAgreed: {0}", getJson(agreedItem));
+                    foundDiff = true;
+                }
+            }
+            
+            List<StaffProofEffective> staffProofsEffective = mergedStaffProof.getStaffProofsEffective(type);
+            for (StaffProofEffective effectiveItem : staffProof.getStaffProofsEffective(type)) {
+                Optional<StaffProofEffective> mergedEntry = staffProofsEffective
+                        .stream()
+                        .filter(a -> a.getOccupationalCategory().getId() == effectiveItem.getOccupationalCategory().getId())
+                        .findFirst();
+                if (!mergedEntry.isPresent()){
+                    LOGGER.log(Level.SEVERE, "Entry missing in saved StaffProofEffective: {0}", getJson(effectiveItem));
+                    foundDiff = true;
+                    continue;
+                }
+                StaffProofEffective savedEffective = mergedEntry.get();
+                if (effectiveItem.getStaffingComplete() != savedEffective.getStaffingComplete()){
+                    LOGGER.log(Level.SEVERE, "Entry differs in saved StaffProofEffective: {0}", getJson(effectiveItem));
+                    foundDiff = true;
+                }
+            }
+        }
+        return foundDiff;
+    }
+
+    private String getJson(Object proof)  {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.enable(SerializationFeature.INDENT_OUTPUT);
+            String json = mapper.writeValueAsString(proof);
+            return new String(json.getBytes("UTF-8"));
+        } catch (JsonProcessingException | UnsupportedEncodingException ex) {
+            LOGGER.log(Level.SEVERE, null, ex);
+            return "Error during json conversion. For details see log.";
+        }
+    }
+    
     public void delete(StaffProof staffProof) {
         remove(staffProof);
     }
@@ -143,5 +217,6 @@ public class PsychStaffFacade extends AbstractDataAccess {
         query.setParameter("ik", ik);
         return query.getResultList();
     }
+
 
 }

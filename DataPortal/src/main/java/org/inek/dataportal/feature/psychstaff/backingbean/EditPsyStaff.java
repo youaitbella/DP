@@ -121,6 +121,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
             }
             _staffProof = staffProof;
         } else {
+            LOGGER.log(Level.WARNING, "EditPsyStaff called with unknown id: {0}", id);
             Utils.navigate(Pages.Error.RedirectURL());
             return;
         }
@@ -306,13 +307,15 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         setModifiedInfo();
         try {
             _staffProof = _psychStaffFacade.saveStaffProof(_staffProof);
-            if (isValidId(_staffProof.getId())) {
+            if (_staffProof.getId() >= 0) {
                 if (showMessage) {
                     // CR+LF or LF only will be replaced by "\r\n"
                     String script = "alert ('" + Utils.getMessage("msgSave").replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
                     _sessionController.setScript(script);
                 }
                 return null;
+            } else {
+                LOGGER.log(Level.WARNING, "EditPsyStaff with invalid id after save. IK = {0}", _staffProof.getIk());
             }
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "Exception during save PsychStaff", ex);
@@ -327,10 +330,6 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
 
     private void setModifiedInfo() {
         _staffProof.setLastChanged(Calendar.getInstance().getTime());
-    }
-
-    private boolean isValidId(Integer id) {
-        return id != null && id >= 0;
     }
 
     public boolean isCloseEnabled() {
@@ -705,7 +704,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     public String refresh() {
         return "";
     }
-    
+
     public String downloadDocument(String signature) {
         StaffProofDocument doc = _staffProof.getStaffProofDocument(signature);
         Utils.downloadDocument(doc);
