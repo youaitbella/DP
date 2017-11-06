@@ -46,7 +46,7 @@
 
     <error-page>
         <error-code>500</error-code>
-        <location>/common/Error.xhtml</location>
+        <location>/common/Error500.xhtml</location>
     </error-page>
 
     <!--listener>

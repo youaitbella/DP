@@ -60,7 +60,7 @@
                 <h:message for="email" id="msgEmail" styleClass="errorMessage"/>
                 <br/>
                 <h:inputText styleClass="input" id="email" value="#{editUserMaintenance.email}"
-                             validator="#{editUserMaintenance.checkEmail}" maxlength="50"
+                             validator="#{editUserMaintenance.checkEmail}" maxlength="100"
                              title="#{msg.tipEmail}">
                     <f:ajax event="blur" render="@this :logout:remaining msgEmail"/>
                 </h:inputText>

@@ -38,12 +38,10 @@ import org.inek.dataportal.facades.PeppProposalFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.common.DiagnosisFacade;
 import org.inek.dataportal.facades.common.ProcedureFacade;
-import org.inek.dataportal.facades.cooperation.PortalMessageFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.StreamHelper;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
-import org.inek.dataportal.mail.Mailer;
 import org.inek.dataportal.services.MessageService;
 import org.inek.dataportal.utils.DocumentationUtil;
 

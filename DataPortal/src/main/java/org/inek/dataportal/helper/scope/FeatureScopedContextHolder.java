@@ -1,6 +1,7 @@
 package org.inek.dataportal.helper.scope;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -91,7 +92,7 @@ public enum FeatureScopedContextHolder {
         if (map.containsKey(FEATURE_KEY)) {
             featureBeans = (Map<String, FeatureScopedInstance>) map.get(FEATURE_KEY);
         } else {
-            featureBeans = new HashMap<>();
+            featureBeans = Collections.synchronizedMap(new HashMap<>());
             map.put(FEATURE_KEY, featureBeans);
         }
         return featureBeans;
