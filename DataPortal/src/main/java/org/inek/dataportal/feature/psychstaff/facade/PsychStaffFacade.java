@@ -6,6 +6,8 @@
 package org.inek.dataportal.feature.psychstaff.facade;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
@@ -24,6 +26,8 @@ import org.inek.dataportal.feature.psychstaff.entity.StaffProof;
 // can't use CDI, need EJB to enable inject into entity
 @Stateless
 public class PsychStaffFacade extends AbstractDataAccess {
+
+    private static final Logger LOGGER = Logger.getLogger("PsychStaffFacade");
 
     public StaffProof findStaffProof(int id) {
         return find(StaffProof.class, id);
@@ -121,7 +125,12 @@ public class PsychStaffFacade extends AbstractDataAccess {
             }
         }
          */
-        return merge(staffProof);
+        try {
+            return merge(staffProof);
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage());
+            return staffProof;
+        }
     }
 
     public void delete(StaffProof staffProof) {
