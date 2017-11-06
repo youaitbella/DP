@@ -112,7 +112,7 @@ public class CertManager implements Serializable {
         }
     }
 
-    private boolean _active = false;
+    private boolean _active = true;
 
     public boolean isActive() {
         return _active;

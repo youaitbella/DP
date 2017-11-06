@@ -1,6 +1,11 @@
 package org.inek.dataportal.facades.certification;
 
+import java.text.SimpleDateFormat;
+import java.time.Clock;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.faces.model.SelectItem;
@@ -32,11 +37,17 @@ public class SystemFacade extends AbstractDataAccess {
     
     public List<SelectItem> getRemunerationSystemInfosActive(boolean isActive) {
         List<SelectItem> result = new ArrayList<>();
+        int sysYear = new GregorianCalendar().get(Calendar.YEAR) + 1;
+        
         for (RemunerationSystem system : findAllFresh(RemunerationSystem.class)) {
-            if(isActive && !system.isActive()){
-                continue;
+            if(isActive) {
+                if(system.getYearSystem() ==  sysYear) {
+                    result.add(new SelectItem(system.getId(), system.getDisplayName()));
+                }
             }
-            result.add(new SelectItem(system.getId(), system.getDisplayName()));
+            else {
+                result.add(new SelectItem(system.getId(), system.getDisplayName()));
+            }
         }
         return result;
     }
