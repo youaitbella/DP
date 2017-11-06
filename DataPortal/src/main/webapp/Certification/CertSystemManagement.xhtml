@@ -244,6 +244,8 @@
         </h:form>
         
         <h:form id="certButtons">
+            <h:commandLink styleClass="bigButton" value="Übersicht" action="#{certManager.ExportCertGrouper}" immediate="true">
+            </h:commandLink>
             <h:commandLink styleClass="bigButton" value="System #{msg.btnDelete}" action="#{certManager.deleteSystem}" immediate="true">
                 <cb:confirmDelete/>
             </h:commandLink>

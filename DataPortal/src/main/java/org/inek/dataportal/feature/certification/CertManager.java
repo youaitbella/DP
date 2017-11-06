@@ -416,4 +416,8 @@ public class CertManager implements Serializable {
         }
         return false;
     }
+    
+    public void ExportCertGrouper() {
+        _sessionController.createSingleDocument("CertGrouperAkt.xlsx", _system.getId());
+    }
 }
