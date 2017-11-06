@@ -25,6 +25,7 @@ import org.inek.dataportal.utils.Documentation;
  */
 @Entity
 @Table(name = "StaffProofMaster", schema = "psy")
+@Cacheable(false)
 public class StaffProof implements Serializable, StatusEntity {
 
     private static final long serialVersionUID = 1L;

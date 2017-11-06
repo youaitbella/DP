@@ -209,7 +209,7 @@ public class Account implements Serializable, Person {
 
     // <editor-fold defaultstate="collapsed" desc="Property AutoSave">
     @Column(name = "acAutoSave")
-    private boolean _autoSave;
+    private boolean _autoSave = true;  // default new accounts to autosave
 
     public boolean isAutoSave() {
         return _autoSave;
