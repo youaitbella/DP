@@ -81,8 +81,8 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
         }
         if (messageCollector.length() > 0) {
             collectUrlInformation(messageCollector);
+            SendExeptionMessage(messageCollector.toString());
         }
-        SendExeptionMessage(messageCollector.toString());
         Utils.navigate(targetPage);
         getWrapped().handle();
     }
@@ -107,7 +107,7 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
     }
 
     private static boolean isWeldException(Throwable exception) {
-        return exception instanceof NonexistentConversationException || exception instanceof WeldException 
+        return exception instanceof NonexistentConversationException || exception instanceof WeldException
                 // todo: exception instanceof WeldException is fine in direct window, but does not work here.
                 // thus check for exception's name as workarround
                 || exception.getClass().toString().equals("class org.jboss.weld.exceptions.WeldException")
@@ -207,9 +207,6 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
     }
 
     private void SendExeptionMessage(String msg) {
-        if (msg.isEmpty()) {
-            return;
-        }
         if (_mailer == null) {
             SessionController sc = Utils.getBean(SessionController.class);
             if (sc != null) {

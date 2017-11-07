@@ -27,7 +27,7 @@
                     <h:message for="email" id="msgEmail" styleClass="errorMessage"/>
                     <br/>
                     <h:inputText styleClass="input" id="email" value="#{register.accountRequest.email}" required="true" requiredMessage="#{msg.msgValueNeeded}"
-                                 validator="#{register.checkEmail}" maxlength="50"
+                                 validator="#{register.checkEmail}" maxlength="100"
                                  title="#{msg.tipEmail}">
                         <f:ajax event="blur" render="@this msgEmail"/>
                     </h:inputText>
@@ -37,7 +37,7 @@
                     <h:message for="repeatEmail" id="msgRepeatEmail" styleClass="errorMessage"/>
                     <br/>
                     <h:inputText styleClass="input" id="repeatEmail" value="#{register.repeatEmail}" required="true" requiredMessage="#{msg.msgValueNeeded}"
-                                 validator="#{register.checkRepeatEmail}" maxlength="50">
+                                 validator="#{register.checkRepeatEmail}" maxlength="100">
                         <f:ajax event="blur" render="@this msgRepeatEmail"/>
                     </h:inputText>
                     </p>

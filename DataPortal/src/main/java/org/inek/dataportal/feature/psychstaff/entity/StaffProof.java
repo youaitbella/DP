@@ -471,7 +471,7 @@ public class StaffProof implements Serializable, StatusEntity {
         }
         if (_staffProofAgreed.stream()
                 .anyMatch(a -> a.getPsychType() == staffProofAgreed.getPsychType()
-                && a.getOccupationalCategory() == staffProofAgreed.getOccupationalCategory())) {
+                && a.getOccupationalCategory().getId() == staffProofAgreed.getOccupationalCategory().getId())) {
             return false;
         }
         _staffProofAgreed.add(staffProofAgreed);
@@ -504,7 +504,7 @@ public class StaffProof implements Serializable, StatusEntity {
         }
         if (_staffProofEffective.stream()
                 .anyMatch(a -> a.getPsychType() == staffProofEffective.getPsychType()
-                && a.getOccupationalCategory() == staffProofEffective.getOccupationalCategory())) {
+                && a.getOccupationalCategory().getId() == staffProofEffective.getOccupationalCategory().getId())) {
             return false;
         }
         _staffProofEffective.add(staffProofEffective);

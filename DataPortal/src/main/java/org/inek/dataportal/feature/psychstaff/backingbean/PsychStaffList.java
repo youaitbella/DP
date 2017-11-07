@@ -8,7 +8,6 @@ package org.inek.dataportal.feature.psychstaff.backingbean;
 import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;

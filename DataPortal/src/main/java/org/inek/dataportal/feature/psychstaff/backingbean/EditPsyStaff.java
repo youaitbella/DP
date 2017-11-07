@@ -108,42 +108,41 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     @PostConstruct
     private void init() {
         FacesContext context = FacesContext.getCurrentInstance();
-        String viewId = context.getViewRoot().getViewId();
         Map<String, String> params = context.getExternalContext().getRequestParameterMap();
 
         String id = "" + params.get("id");
         if ("new".equals(id)) {
             _staffProof = newStaffProof();
-        } else if (Utils.isInteger(id)) {
-            StaffProof staffProof = loadStaffProof(id);
-            if (staffProof.getId() == -1) {
-                Utils.navigate(Pages.NotAllowed.RedirectURL());
-                return;
-            }
-            _staffProof = staffProof;
-        } else {
-            LOGGER.log(Level.WARNING, "EditPsyStaff called with unknown id: {0}", id);
-            Utils.navigate(Pages.Error.RedirectURL());
+            setTopicVisibility();
+            return;
+        }
+        if (!loadStaffProof(id)){
+            Utils.navigate(Pages.MainApp.RedirectURL());
             return;
         }
         setTopicVisibility();
     }
 
-    private StaffProof loadStaffProof(String idObject) {
-        int id = Integer.parseInt(idObject);
-        StaffProof staffProof = _psychStaffFacade.findStaffProof(id);
-        if (hasSufficientRights(staffProof)) {
-            ensureStaffProofsAgreed(staffProof);
-            ensureStaffProofsEffective(staffProof);
-            return staffProof;
+    private boolean loadStaffProof(String idString) {
+        try {
+            int id = Integer.parseInt(idString);
+            StaffProof staffProof = _psychStaffFacade.findStaffProof(id);
+            if (staffProof != null && hasSufficientRights(staffProof)) {
+                ensureStaffProofsAgreed(staffProof);
+                ensureStaffProofsEffective(staffProof);
+                _staffProof = staffProof;
+                return true;
+            }
+        } catch (NumberFormatException ex) {
+            LOGGER.log(Level.WARNING, "EditPsyStaff called with non-numeric id: {0}", idString);
         }
-        return new StaffProof();
+        // assgin _staffproof to prevent from null exceptions, 
+        // coz some methodes like isReadOnly are queried before navigation to error page took place
+        _staffProof = new StaffProof();  
+        return false;
     }
 
     private boolean hasSufficientRights(StaffProof staffProof) {
-        if (_sessionController.isMyAccount(staffProof.getAccountId(), false)) {
-            return true;
-        }
         if (_sessionController.isInekUser(Feature.PSYCH_STAFF)) {
             return true;
         }
@@ -254,6 +253,10 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         if (staffProof.getStaffProofsAgreed(type).size() > 0) {
             return;
         }
+        if (staffProof.getId() > 0){
+            LOGGER.log(Level.INFO, "Load StaffProofAgreed for existing data. Id: {0} Type: {1}", 
+                    new Object[]{staffProof.getId(), type.getShortName()});
+        }
         for (OccupationalCategory cat : getOccupationalCategories()) {
             StaffProofAgreed agreed = new StaffProofAgreed();
             agreed.setStaffProofMasterId(staffProof.getId());
@@ -276,6 +279,10 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         if (staffProof.getStaffProofsEffective(type).size() > 0) {
             return;
         }
+        if (staffProof.getId() > 0){
+            LOGGER.log(Level.INFO, "Load StaffProofEffective for existing data. Id: {0} Type: {1}", 
+                    new Object[]{staffProof.getId(), type.getShortName()});
+        }
         for (OccupationalCategory cat : getOccupationalCategories()) {
             StaffProofEffective effective = new StaffProofEffective();
             effective.setStaffProofMasterId(staffProof.getId());
@@ -297,7 +304,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         if (_sessionController.isInekUser(Feature.PSYCH_STAFF) && _staffProof.getAccountId() != _sessionController.getAccountId()) {
             return true;
         }
-        if (isCompleteSinceMoreThan3Days()){
+        if (isCompleteSinceMoreThan3Days()) {
             return true;
         }
         return _cooperationTools.isReadOnly(Feature.PSYCH_STAFF, _staffProof.getStatus(), _staffProof.getAccountId());

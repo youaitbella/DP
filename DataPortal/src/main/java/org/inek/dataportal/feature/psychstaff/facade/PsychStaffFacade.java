@@ -9,13 +9,17 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.persistence.EntityGraph;
 import javax.persistence.Query;
+import javax.persistence.Subgraph;
 import javax.persistence.TypedQuery;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.DataSet;
@@ -43,7 +47,16 @@ public class PsychStaffFacade extends AbstractDataAccess {
     @Inject private ConfigFacade _configFacade;
 
     public StaffProof findStaffProof(int id) {
-        return find(StaffProof.class, id);
+        EntityGraph graph = getEntityManager().createEntityGraph(StaffProof.class);
+        graph.addSubgraph("_staffProofAgreed");
+        graph.addSubgraph("_staffProofEffective");
+        graph.addSubgraph("_staffProofExplanation");
+
+        Map<String, Object> props = new HashMap<>();
+        props.put("javax.persistence.loadgraph", graph);
+
+        return getEntityManager().find(StaffProof.class, id, props);
+        //  return find(StaffProof.class, id);
     }
 
     public List<StaffProof> getStaffProofsOld(int accountId, DataSet dataSet) {
