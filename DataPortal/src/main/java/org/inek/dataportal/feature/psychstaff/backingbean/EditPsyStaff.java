@@ -47,6 +47,7 @@ import org.inek.dataportal.feature.psychstaff.enums.PsychType;
 import org.inek.dataportal.feature.psychstaff.facade.PsychStaffFacade;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.structures.MessageContainer;
+import org.inek.dataportal.utils.DateUtils;
 
 /**
  *
@@ -296,6 +297,9 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         if (_sessionController.isInekUser(Feature.PSYCH_STAFF) && _staffProof.getAccountId() != _sessionController.getAccountId()) {
             return true;
         }
+        if (isCompleteSinceMoreThan3Days()){
+            return true;
+        }
         return _cooperationTools.isReadOnly(Feature.PSYCH_STAFF, _staffProof.getStatus(), _staffProof.getAccountId());
     }
 
@@ -395,6 +399,22 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         }
     }
 
+    public boolean isPdfImportEnabled() {
+        return isPdfExportEnabled() && !isCompleteSinceMoreThan3Days();
+    }
+
+    public boolean isCompleteSinceMoreThan3Days() {
+        return isComplete() && (_staffProof.getLastChanged().getTime() < DateUtils.getDateWithDayOffset(-3).getTime());
+    }
+
+    public boolean isComplete() {
+        boolean apx1Ready = _staffProof.getStatusApx1() == WorkflowStatus.Provided.getId()
+                && (_staffProof.getExclusionFactId1() > 0 || _staffProof.hasStaffProofDocument(1));
+        boolean apx2Ready = _staffProof.getStatusApx2() == WorkflowStatus.Provided.getId()
+                && (_staffProof.getExclusionFactId2() > 0 || _staffProof.hasStaffProofDocument(2));
+        return apx1Ready && apx2Ready;
+    }
+
     public boolean isDataExportEnabled() {
         if (_staffProof == null) {
             // shall not be null!
@@ -402,11 +422,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
             return false;
         }
         // ready, if provided and (exclusion fact or document exists)
-        boolean apx1Ready = _staffProof.getStatusApx1() == WorkflowStatus.Provided.getId()
-                && (_staffProof.getExclusionFactId1() > 0 || _staffProof.hasStaffProofDocument(1));
-        boolean apx2Ready = _staffProof.getStatusApx2() == WorkflowStatus.Provided.getId()
-                && (_staffProof.getExclusionFactId2() > 0 || _staffProof.hasStaffProofDocument(2));
-        return apx1Ready && apx2Ready && _sessionController.reportTemplateExists(EXCEL_DOCUMENT);
+        return isComplete() && _sessionController.reportTemplateExists(EXCEL_DOCUMENT);
     }
 
     public String getBtnClose() {
@@ -488,99 +504,6 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         return _cooperationTools != null
                 && _staffProof != null
                 && _cooperationTools.isTakeEnabled(Feature.PSYCH_STAFF, _staffProof.getStatus(), _staffProof.getAccountId());
-    }
-
-    private boolean staffProofIsComplete() {
-        MessageContainer message = composeMissingFieldsMessage(_staffProof);
-
-        if (message.containsMessage()) {
-            message.setMessage(Utils.getMessage("infoMissingFields") + "\\r\\n" + message.getMessage());
-            setActiveTopic(message.getTopic());
-            String script = "alert ('" + message.getMessage() + "');";
-            if (!message.getElementId().isEmpty()) {
-                script += "\r\n document.getElementById('" + message.getElementId() + "').focus();";
-            }
-            _sessionController.setScript(script);
-        }
-        return !message.containsMessage();
-    }
-
-    public MessageContainer composeMissingFieldsMessage(StaffProof request) {
-        MessageContainer message = new MessageContainer();
-
-        String ik = request.getIk() <= 0 ? "" : "" + request.getIk();
-        checkField(message, ik, "lblIK", "psychStaff:ikMulti", TOPIC_BASE);
-        checkField(message, _staffProof.getYear(), 2016, 2020, "lblAgreementYear", "psychStaff:year", TOPIC_BASE);
-        if (!_staffProof.isForAdults() && !_staffProof.isForKids()) {
-            String msg = "Bitte angeben, ob die Einrichtung für Erwachsene und / oder Kinder und Jugendliche ist.";
-            applyMessageValues(message, msg, "psychStaff:adults", TOPIC_BASE);
-        }
-
-        if (_staffProof.isForAdults()) {
-            checkField(message, _staffProof.getAdultsAgreedDays(), 1, Integer.MIN_VALUE, "lblAgreedDays", "psychStaff:agreedDays", TOPIC_ADULTS1);
-            checkAgreedItems(message, PsychType.Adults, TOPIC_ADULTS1);
-        }
-
-        if (_staffProof.isForKids()) {
-            checkField(message, _staffProof.getKidsAgreedDays(), 1, Integer.MIN_VALUE, "lblAgreedDays", "psychStaff:agreedDays", TOPIC_KIDS1);
-            checkAgreedItems(message, PsychType.Kids, TOPIC_KIDS1);
-        }
-
-        return message;
-    }
-
-    private void checkAgreedItems(MessageContainer message, PsychType psychType, String topic) {
-        for (StaffProofAgreed item : _staffProof.getStaffProofsAgreed(psychType)) {
-            String msg = "Bitte Stellenbesetzung für " + item.getOccupationalCategory().getName() + " angeben.";
-            checkField(message, item.getStaffingComplete(), 0.1, null, msg, "", topic);
-            checkField(message, item.getStaffingBudget(), 0.1, null, msg, "", topic);
-            msg = "Bitte Durchschnittskosten für " + item.getOccupationalCategory().getName() + " angeben.";
-            checkField(message, item.getAvgCost(), 0.1, null, msg, "", topic);
-        }
-    }
-
-    private void checkField(MessageContainer message, String value, String msgKey, String elementId, String topic) {
-        if (Utils.isNullOrEmpty(value)) {
-            applyMessageValues(message, msgKey, elementId, topic);
-        }
-    }
-
-    private void checkField(
-            MessageContainer message,
-            Integer value,
-            Integer minValue,
-            Integer maxValue,
-            String msgKey,
-            String elementId,
-            String topic) {
-        if (value == null
-                || minValue != null && value < minValue
-                || maxValue != null && value > maxValue) {
-            applyMessageValues(message, msgKey, elementId, topic);
-        }
-    }
-
-    private void checkField(
-            MessageContainer message,
-            Double value,
-            Double minValue,
-            Double maxValue,
-            String msgKey,
-            String elementId,
-            String topic) {
-        if (value == null
-                || minValue != null && value < minValue
-                || maxValue != null && value > maxValue) {
-            applyMessageValues(message, msgKey, elementId, topic);
-        }
-    }
-
-    private void applyMessageValues(MessageContainer message, String msgKey, String elementId, String topic) {
-        message.setMessage(message.getMessage() + "\\r\\n" + Utils.getMessageOrKey(msgKey));
-        if (message.getTopic().isEmpty()) {
-            message.setTopic(topic);
-            message.setElementId(elementId);
-        }
     }
 
     public String take() {
