@@ -68,7 +68,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <ui:repeat value="#{editPsyStaff.staffProof.getStaffProofsEffective(cc.attrs.patType)}" var="item">
+                    <ui:repeat value="#{editPsyStaff.staffProof.getStaffProofsEffective(cc.attrs.patType)}" var="item" id="repeat" varStatus="status">
                         <tr>
                             <td class="row1">
                                 <h:outputText value="#{item.occupationalCategory.id}" styleClass="element02em"/>
@@ -82,11 +82,11 @@
                                 <inek:InputNumberWithMessage id="myInput"
                                                              value="#{item.staffingComplete}" 
                                                              styleClass="element10em number"
-                                                             renderElement=":#{cc.attrs.clientId}:sumStaffingComplete factor"
                                                              readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
                                                              disabled="#{item.occupationalCategory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
                                                              title="#{item.occupationalCategory.id == 2 ? msg.InfoPsychStaffNoteEducation : ''}">
-                                    <f:ajax event="clientChange" render="factor"/>
+                                    <f:ajax event="clientChange" 
+                                            render="#{cc.attrs.clientId}:sumStaffingComplete:text #{cc.attrs.clientId}:repeat:#{status.index}:factor"/>
                                 </inek:InputNumberWithMessage>
                             </td>
 
@@ -94,33 +94,33 @@
                             <td>
                                 <inek:InputNumberWithMessage value="#{item.staffingDeductionPsych}" 
                                                              styleClass="element10em number"
-                                                             renderElement="#{cc.attrs.clientId}:sumStaffingDeductionPsych #{cc.attrs.clientId}:explanation"
                                                              readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
                                                              disabled="#{item.occupationalCategory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
                                                              title="#{item.occupationalCategory.id == 2 ? msg.InfoPsychStaffNoteEducation : ''}">
-                                    <f:ajax event="clientChange" listener="#{editPsyStaff.countChanged(item, 4)}" render="@form"/>
+                                    <f:ajax event="clientChange" listener="#{editPsyStaff.countChanged(item, 4)}" 
+                                            render="#{cc.attrs.clientId}:sumStaffingDeductionPsych:text #{cc.attrs.clientId}:explanation"/>
                                 </inek:InputNumberWithMessage>
                             </td>
 
                             <td >
                                 <inek:InputNumberWithMessage value="#{item.staffingDeductionNonPsych}" 
                                                              styleClass="element10em number"
-                                                             renderElement="#{cc.attrs.clientId}:sumStaffingDeductionNonPsych #{cc.attrs.clientId}:explanation"
                                                              readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
                                                              disabled="#{item.occupationalCategory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType) or item.occupationalCategory.id == 1}"
                                                              title="#{item.occupationalCategory.id == 2 ? msg.InfoPsychStaffNoteEducation : ''}">
-                                    <f:ajax event="clientChange" listener="#{editPsyStaff.countChanged(item, 5)}" render="@form"/>
+                                    <f:ajax event="clientChange" listener="#{editPsyStaff.countChanged(item, 5)}" 
+                                            render="#{cc.attrs.clientId}:sumStaffingDeductionNonPsych:text #{cc.attrs.clientId}:explanation"/>
                                 </inek:InputNumberWithMessage>
                             </td>
 
                             <td >
                                 <inek:InputNumberWithMessage value="#{item.staffingDeductionOther}" 
                                                              styleClass="element10em number"
-                                                             renderElement="#{cc.attrs.clientId}:sumStaffingDeductionOther #{cc.attrs.clientId}:explanation"
                                                              readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
                                                              disabled="#{item.occupationalCategory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
                                                              title="#{item.occupationalCategory.id == 2 ? msg.InfoPsychStaffNoteEducation : ''}">
-                                    <f:ajax event="clientChange" listener="#{editPsyStaff.countChanged(item, 6)}" render="@form"/>
+                                    <f:ajax event="clientChange" listener="#{editPsyStaff.countChanged(item, 6)}" 
+                                            render="#{cc.attrs.clientId}:sumStaffingDeductionOther:text #{cc.attrs.clientId}:explanation"/>
                                 </inek:InputNumberWithMessage>
                             </td>
 
@@ -209,7 +209,9 @@
                                         <inek:InputNumberWithMessage value="#{item.deductedFullVigor}"
                                                                      styleClass="element10em number"
                                                                      readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}">
-                                            <f:ajax event="clientChange" listener="#{editPsyStaff.adjustLines(item)}" render="#{cc.attrs.clientId}:explanation"/>
+                                            <ui:remove>
+                                                <f:ajax event="clientChange" listener="#{editPsyStaff.adjustLines(item)}" render="#{cc.attrs.clientId}:explanation"/>
+                                            </ui:remove>
                                         </inek:InputNumberWithMessage>
                                     </td>
 
@@ -233,6 +235,13 @@
                     </table>
 
                 </div>
+
+                <h:commandLink value="Zeilen zufügen" 
+                               styleClass="addButton"
+                               rendered="#{editPsyStaff.staffProof.getStaffProofExplanations(cc.attrs.patType).size() gt 0}">
+                    <f:ajax listener="#{editPsyStaff.adjustAllLines(cc.attrs.patType)}" 
+                            render=" #{cc.attrs.clientId}:explanation"/>
+                </h:commandLink>
             </div>
 
             <hr/>

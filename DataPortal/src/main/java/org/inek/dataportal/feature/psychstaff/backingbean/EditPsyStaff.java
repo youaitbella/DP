@@ -731,6 +731,20 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
                 .filter(e -> e.getOccupationalCategory().getId() == occupationalCategory.getId())
                 .findAny()
                 .get();
+        adjustLine(staffProofEffective, key);
+    }
+
+    public void adjustAllLines(String typeString){
+        PsychType type = PsychType.valueOf(typeString);
+        for (StaffProofEffective staffProofEffective : _staffProof.getStaffProofsEffective(type)) {
+            for (int key = 4; key <=6; key++){
+                adjustLine(staffProofEffective, key);
+            }
+        }
+    }
+    private void adjustLine(StaffProofEffective staffProofEffective, int key) {
+        OccupationalCategory occupationalCategory = staffProofEffective.getOccupationalCategory();
+        PsychType type = staffProofEffective.getPsychType();
         double deductionCount;
         switch (key) {
             case 4:
@@ -756,8 +770,8 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
                     .getStaffProofExplanations(type)
                     .stream()
                     .anyMatch(e -> e.getOccupationalCategory().getId() == occupationalCategory.getId()
-                    && e.getDeductedSpecialistId() == key
-                    && e.getDeductedFullVigor() == 0);
+                            && e.getDeductedSpecialistId() == key
+                            && e.getDeductedFullVigor() == 0);
             if (!existsEmpty) {
                 _staffProof.addStaffProofExplanation(type, occupationalCategory, key);
             }
