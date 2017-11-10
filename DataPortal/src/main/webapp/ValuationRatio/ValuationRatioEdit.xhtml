@@ -174,7 +174,7 @@
                         <h:commandLink styleClass="sendButton #{editValuationRatio.readOnly ? 'disabledButton' : ''}"
                                        action="#{editValuationRatio.provide}"
                                        value="#{msg.btnSaveAndClose}"
-                                       rendered="#{!editValuationRatio.readOnly}"
+                                       rendered="#{!editValuationRatio.readOnly and editValuationRatio.sealEnabled}"
                                        title="#{msg.infoSaveAndClose}">
                             <cb:confirmSeal/>
                         </h:commandLink>

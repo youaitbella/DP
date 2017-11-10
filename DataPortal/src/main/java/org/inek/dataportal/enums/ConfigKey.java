@@ -37,6 +37,8 @@ public enum ConfigKey {
     IsDistributionModelPeppCreateEnabled(false),
     IsPsychStaffCreateEnabled(false),
     IsPsychStaffSendEnabled(false),
+    IsValuationRatioCreateEnabled(false),
+    IsValuationRatioSendEnabled(false),
     IsPsychStaffParanoiacheckEnabled(true),
     DataServiceClientVersion("20160101.3"),
     ApplicationURL("https://daten.inek.org"),

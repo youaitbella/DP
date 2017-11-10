@@ -19,11 +19,13 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.validation.ValidationException;
+import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.valuationratio.ValuationRatio;
 import org.inek.dataportal.entities.valuationratio.ValuationRatioDrgCount;
 import org.inek.dataportal.entities.valuationratio.ValuationRatioMedian;
+import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.ValuationRatioFacade;
@@ -52,6 +54,7 @@ public class EditValuationRatio extends AbstractEditController {
     private ValuationRatioFacade _valuationRatioFacade;
     @Inject
     private SessionController _sessionController;
+    @Inject private ApplicationTools _appTools;
 
     @PostConstruct
     private void init() {
@@ -186,6 +189,11 @@ public class EditValuationRatio extends AbstractEditController {
         return false;
     }
 
+    public boolean isSealEnabled() {
+        return _appTools.isEnabled(ConfigKey.IsValuationRatioSendEnabled);
+    }
+
+    
     public List<SelectItem> getIks() {
         int dataYear = _valuationRatio == null ? Calendar.getInstance().get(Calendar.YEAR) - 1 : _valuationRatio.getDataYear();
 

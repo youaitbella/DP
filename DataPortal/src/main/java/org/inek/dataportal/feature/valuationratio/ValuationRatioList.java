@@ -6,9 +6,11 @@ import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.valuationratio.ValuationRatio;
+import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
@@ -24,6 +26,7 @@ public class ValuationRatioList {
 
     @Inject private ValuationRatioFacade _valuationRatioFacade;
     @Inject private SessionController _sessionController;
+    @Inject private ApplicationTools _appTools;
 
     public List<ValuationRatio> getOpenRelations() {
         return _valuationRatioFacade.getValuationRatios(_sessionController.getAccountId(), DataSet.AllOpen);
@@ -70,6 +73,7 @@ public class ValuationRatioList {
 
     public boolean isNewEnabled() {
         Account account = _sessionController.getAccount();
-        return _valuationRatioFacade.isNewValuationRationEnabled(account.getFullIkSet(), Year.now().getValue() - 1);
+        return _appTools.isEnabled(ConfigKey.IsValuationRatioCreateEnabled) 
+                && _valuationRatioFacade.isNewValuationRationEnabled(account.getFullIkSet(), Year.now().getValue() - 1);
     }
 }
