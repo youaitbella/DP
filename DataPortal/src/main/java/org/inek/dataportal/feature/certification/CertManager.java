@@ -389,8 +389,7 @@ public class CertManager implements Serializable {
         deleteFiles(uploadFolder.get(), fileNamePattern);
         String outFile = fileNameBase + "_" + system.getFileName() + "_(" + DateUtils.todayAnsi() + ")." + extension + ".upload";
         editCert.uploadFile(_file, new File(uploadFolder.get(), outFile));
-        CertManager certManager = (CertManager) FeatureScopedContextHolder.Instance.getBean(CertManager.class);
-        certManager.setSystemChanged(true);
+        setSystemChanged(true);
     }
 
     private void copyEmail(Grouper newGrouper) {

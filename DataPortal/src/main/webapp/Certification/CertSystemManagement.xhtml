@@ -79,12 +79,6 @@
                 </h:selectBooleanCheckbox>
             </div>
             
-            <div class="inputPart">
-                <h:outputLabel for="chkArchived" value="Archiviert:" styleClass="label15"/>
-                <h:selectBooleanCheckbox id="chkArchived" value="#{certManager.system.active}">
-                    <f:ajax render="@this mnuSystem chkApproval certButtons:btnSystemSave :logout:remaining" listener="#{certManager.systemChangeListener}"/>
-                </h:selectBooleanCheckbox>
-            </div>
             
             <div class="inputPart">
                 <h:outputLabel for="chkApproval" value="#{msg.lblApproval}:" styleClass="label15"/>
@@ -93,6 +87,12 @@
                 </h:selectBooleanCheckbox>
             </div>
 
+            <div class="inputPart">
+                <h:outputLabel for="chkArchived" value="Archiviert:" styleClass="label15"/>
+                <h:selectBooleanCheckbox id="chkArchived" value="#{certManager.system.active}">
+                    <f:ajax render="@this mnuSystem chkApproval certButtons:btnSystemSave :logout:remaining" listener="#{certManager.systemChangeListener}"/>
+                </h:selectBooleanCheckbox>
+            </div>
             <div class="inputPart">
                 <h:outputLabel for="txtPassword" value="#{msg.lblPassword}:" styleClass="label15"/>
                 <h:inputText id="txtPassword"
@@ -110,9 +110,9 @@
 
                 <div class="inputPart">
                     <h:inputFile styleClass="hide" id="specFile" value="#{certManager.file}" title="#{msg.btnUploadSpec}"
-                                 p:contentType="application/x-sdlc" p:fileNamePattern="Grouper-Spezifikation.*\.exe" p:maxFileSize="10000000">
+                                 p:fileNamePattern=".*\.exe" p:maxFileSize="10000000">
                         <f:ajax listener="#{certManager.uploadSpec(systemId)}"
-                                render="@form :logout:remaining"/>
+                                render="@form :logout:remaining certButtons:btnSystemSave"/>
                         <f:validator validatorId="FileUploadValidator"/>
                     </h:inputFile>
                     <h:outputLabel styleClass="bigButton" value="#{msg.btnUploadSpec}" onclick="clickElementById('form:specFile')"/>
@@ -123,9 +123,9 @@
                 <div class="inputPart">
                     <h:inputFile styleClass="hide" id="testFile" value="#{certManager.file}" title="#{msg.btnUploadTest}"
                                  p:contentType="application/binary;application/x-zip-compressed;application/octet-stream;application/zip"
-                                 p:fileNamePattern="Testdaten.*\.zip" p:maxFileSize="1000000000">
+                                 p:fileNamePattern=".*\.zip" p:maxFileSize="1000000000">
                         <f:ajax listener="#{certManager.uploadTestData(systemId)}"
-                                render="@form :logout:remaining"/>
+                                render="@form :logout:remaining certButtons:btnSystemSave"/>
                         <f:validator validatorId="FileUploadValidator"/>
                     </h:inputFile>
                     <h:outputLabel styleClass="bigButton" value="#{msg.btnUploadTest}" onclick="clickElementById('form:testFile');"/>
@@ -136,9 +136,9 @@
                 <div class="inputPart">
                     <h:inputFile styleClass="hide" id="certFile" value="#{certManager.file}" title="#{msg.btnUploadCert}"
                                  p:contentType="application/binary;application/x-zip-compressed;application/octet-stream;application/zip"
-                                 p:fileNamePattern="Zertdaten.*\.zip" p:maxFileSize="1000000000">
+                                 p:fileNamePattern=".*\.zip" p:maxFileSize="1000000000">
                         <f:ajax listener="#{certManager.uploadCertData(systemId)}"
-                                render="@form :logout:remaining"/>
+                                render="@form :logout:remaining certButtons:btnSystemSave"/>
                         <f:validator validatorId="FileUploadValidator"/>
                     </h:inputFile>
                     <h:outputLabel styleClass="bigButton" value="#{msg.btnUploadCert}" onclick="clickElementById('form:certFile');"/>

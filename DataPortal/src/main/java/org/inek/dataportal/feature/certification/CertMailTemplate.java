@@ -27,7 +27,7 @@ public class CertMailTemplate implements Serializable {
     @Inject
     private MailTemplateFacade _mailTemplateFacade;
 
-    private int _emailType = -1;
+    private int _emailType = 1;
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     public List<SelectItem> getMailTemplates() {
