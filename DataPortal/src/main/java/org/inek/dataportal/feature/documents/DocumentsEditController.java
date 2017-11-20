@@ -40,7 +40,7 @@ public class DocumentsEditController extends AbstractEditController {
             }
         } else {
             addTopic(DocumentsTabs.tabDocuments.name(), Pages.ListDocuments.URL());
-            addTopic(DocumentsTabs.tabUploadToInek.name(), Pages.DocumentUploadToInek.URL());
+            //addTopic(DocumentsTabs.tabUploadToInek.name(), Pages.DocumentUploadToInek.URL());
         }
     }
 
