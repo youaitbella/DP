@@ -743,12 +743,15 @@ public class SessionController implements Serializable {
     }
 
     public void createSingleDocument(String name, int id) {
+        createSingleDocument(name, id, name);
+    }
+    public void createSingleDocument(String name, int id, String fileName) {
         _adminFacade
                 .findReportTemplateByName(name)
-                .ifPresent(t -> SessionController.this.createSingleDocument(t, "" + id));
+                .ifPresent(t -> SessionController.this.createSingleDocument(t, "" + id, fileName));
     }
 
-    public void createSingleDocument(ReportTemplate template, String id) {
+    public void createSingleDocument(ReportTemplate template, String id, String fileName) {
         String address = template.getAddress().replace("{0}", id);
         try {
             URL url = new URL(address);
@@ -759,7 +762,7 @@ public class SessionController implements Serializable {
 
             if (conn.getResponseCode() != 200) {
                 throw new IOException("Report failed: HTTP error code : " + conn.getResponseCode());
-            } else if (!Utils.downLoadDocument(conn.getInputStream(), template.getName(), 0)) {
+            } else if (!Utils.downLoadDocument(conn.getInputStream(), fileName, 0)) {
                 throw new IOException("Report failed: Error during download");
             }
             conn.disconnect();

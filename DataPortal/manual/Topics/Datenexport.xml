@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Datenexport</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Datenexport</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sofern alle Daten vorliegen, sollen diese in einem Format exportiert werden, dass von anderen EDV-System verarbeitet werden kann, gleichzeitig aber auch durch den Anwender nutzbar ist. Die Vereinbarungspartner haben sich auf eine Excel-Datei als Mittel der Wahl verständigt. Im Folgenden finden Sie einige Hinweise für den Umgang mit dieser Datei, sofern Sie diese elektronisch weiterverarbeiten möchten.</text></para>
+  </body>
+</topic>

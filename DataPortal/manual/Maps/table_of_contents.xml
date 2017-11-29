@@ -331,6 +331,9 @@
       <topicref type="topic" id="429866735769020" build="ALL" modified="2017-10-05T12:01:32.790Z" icon="0" href="Tatsaechliche-Stellenbesetzung">
         <caption translate="true">Tatsächliche Stellenbesetzung</caption>
       </topicref>
+      <topicref type="topic" id="430683815687028" build="ALL" modified="2017-11-29T09:54:59.775Z" icon="0" href="Datenexport">
+        <caption translate="true">Datenexport</caption>
+      </topicref>
     </topicref>
   </topicref>
   <topicref type="topic" id="418795822620952" build="ALL" modified="2014-08-28T11:15:02.765Z" icon="0" href="SpecialTasks">

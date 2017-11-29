@@ -46,7 +46,6 @@ import org.inek.dataportal.feature.psychstaff.entity.StaffProofExplanation;
 import org.inek.dataportal.feature.psychstaff.enums.PsychType;
 import org.inek.dataportal.feature.psychstaff.facade.PsychStaffFacade;
 import org.inek.dataportal.helper.Utils;
-import org.inek.dataportal.helper.structures.MessageContainer;
 import org.inek.dataportal.utils.DateUtils;
 
 /**
@@ -68,10 +67,23 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     private static final String PDF_DOCUMENT_APX2 = "PsychPersonalNachweis_Anlage2.pdf";
     private static final String EXCEL_DOCUMENT = "PsychPersonalNachweis.xlsx";
 
-    @Inject private CooperationTools _cooperationTools;
-    @Inject private SessionController _sessionController;
-    @Inject private PsychStaffFacade _psychStaffFacade;
-    @Inject private ApplicationTools _appTools;
+    private  CooperationTools _cooperationTools;
+    private  SessionController _sessionController;
+    private  PsychStaffFacade _psychStaffFacade;
+    private  ApplicationTools _appTools;
+
+    public EditPsyStaff(){}
+    
+    @Inject
+    public EditPsyStaff(CooperationTools cooperationTools,
+            SessionController sessionController,
+            PsychStaffFacade psychStaffFacade,
+            ApplicationTools appTools) {
+        _cooperationTools = cooperationTools;
+        _sessionController = sessionController;
+        _psychStaffFacade = psychStaffFacade;
+        _appTools = appTools;
+    }
 
     private StaffProof _staffProof;
 
@@ -116,7 +128,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
             setTopicVisibility();
             return;
         }
-        if (!loadStaffProof(id)){
+        if (!loadStaffProof(id)) {
             Utils.navigate(Pages.MainApp.RedirectURL());
             return;
         }
@@ -138,7 +150,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         }
         // assgin _staffproof to prevent from null exceptions, 
         // coz some methodes like isReadOnly are queried before navigation to error page took place
-        _staffProof = new StaffProof();  
+        _staffProof = new StaffProof();
         return false;
     }
 
@@ -253,8 +265,8 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         if (staffProof.getStaffProofsAgreed(type).size() > 0) {
             return;
         }
-        if (staffProof.getId() > 0){
-            LOGGER.log(Level.INFO, "Load StaffProofAgreed for existing data. Id: {0} Type: {1}", 
+        if (staffProof.getId() > 0) {
+            LOGGER.log(Level.INFO, "Load StaffProofAgreed for existing data. Id: {0} Type: {1}",
                     new Object[]{staffProof.getId(), type.getShortName()});
         }
         for (OccupationalCategory cat : getOccupationalCategories()) {
@@ -279,8 +291,8 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         if (staffProof.getStaffProofsEffective(type).size() > 0) {
             return;
         }
-        if (staffProof.getId() > 0){
-            LOGGER.log(Level.INFO, "Load StaffProofEffective for existing data. Id: {0} Type: {1}", 
+        if (staffProof.getId() > 0) {
+            LOGGER.log(Level.INFO, "Load StaffProofEffective for existing data. Id: {0} Type: {1}",
                     new Object[]{staffProof.getId(), type.getShortName()});
         }
         for (OccupationalCategory cat : getOccupationalCategories()) {
@@ -734,14 +746,15 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         adjustLine(staffProofEffective, key);
     }
 
-    public void adjustAllLines(String typeString){
+    public void adjustAllLines(String typeString) {
         PsychType type = PsychType.valueOf(typeString);
         for (StaffProofEffective staffProofEffective : _staffProof.getStaffProofsEffective(type)) {
-            for (int key = 4; key <=6; key++){
+            for (int key = 4; key <= 6; key++) {
                 adjustLine(staffProofEffective, key);
             }
         }
     }
+
     private void adjustLine(StaffProofEffective staffProofEffective, int key) {
         OccupationalCategory occupationalCategory = staffProofEffective.getOccupationalCategory();
         PsychType type = staffProofEffective.getPsychType();
@@ -770,8 +783,8 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
                     .getStaffProofExplanations(type)
                     .stream()
                     .anyMatch(e -> e.getOccupationalCategory().getId() == occupationalCategory.getId()
-                            && e.getDeductedSpecialistId() == key
-                            && e.getDeductedFullVigor() == 0);
+                    && e.getDeductedSpecialistId() == key
+                    && e.getDeductedFullVigor() == 0);
             if (!existsEmpty) {
                 _staffProof.addStaffProofExplanation(type, occupationalCategory, key);
             }
@@ -808,7 +821,8 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     }
 
     public void exportData() {
-        _sessionController.createSingleDocument(EXCEL_DOCUMENT, _staffProof.getId());
+        String fileName = EXCEL_DOCUMENT.substring(0, EXCEL_DOCUMENT.lastIndexOf(".")) + "_" + _staffProof.getIk() + ".xlsx";
+        _sessionController.createSingleDocument(EXCEL_DOCUMENT, _staffProof.getId(), fileName);
     }
 
 }
