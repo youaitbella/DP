@@ -126,19 +126,33 @@ public class CalcFacade extends AbstractDataAccess {
     // </editor-fold>
 
     public List<Account> getInekAccounts(String filter) {
-        String sql = "select distinct account.*\n"
-                + "from (select biIk, biDataYear from calc.KGLBaseInformation where biStatusID in (3, 10) \n"
-                + "union select biIk, biDataYear from calc.KGPBaseInformation where biStatusID in (3, 10) \n"
-                + "union select cbaIk, cbaDataYear from calc.CalcBasicsAutopsy where cbaStatusID in (3, 10) ) base\n"
-                + "join CallCenterDB.dbo.ccCustomer on biIk = cuIK\n"
-                + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
-                + "join CallCenterDB.dbo.ccCalcInformation on caId = ciCalcAgreementId and biDataYear = ciDataYear \n"
-                + "join CallCenterDB.dbo.mapCustomerReportAgent on ciId = mcraCalcInformationId\n"
-                + "join CallCenterDB.dbo.ccAgent on mcraAgentId = agId\n"
-                + "join dbo.Account on agEMail = acMail\n"
-                + "where agActive = 1 and agDomainId in ('O', 'E')\n"
-                + "     and mcraReportTypeId in (1, 3, 10) \n"
-                + "     and biDataYear = " + Utils.getTargetYear(Feature.CALCULATION_HOSPITAL);
+//        String sql = "select distinct account.*\n"
+//                + "from (select biIk, biDataYear from calc.KGLBaseInformation where biStatusID in (3, 10) \n"
+//                + "union select biIk, biDataYear from calc.KGPBaseInformation where biStatusID in (3, 10) \n"
+//                + "union select cbaIk, cbaDataYear from calc.CalcBasicsAutopsy where cbaStatusID in (3, 10) ) base\n"
+//                + "join CallCenterDB.dbo.ccCustomer on biIk = cuIK\n"
+//                + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
+//                + "join CallCenterDB.dbo.ccCalcInformation on caId = ciCalcAgreementId and biDataYear = ciDataYear \n"
+//                + "join CallCenterDB.dbo.mapCustomerReportAgent on ciId = mcraCalcInformationId\n"
+//                + "join CallCenterDB.dbo.ccAgent on mcraAgentId = agId\n"
+//                + "join dbo.Account on agEMail = acMail\n"
+//                + "where agActive = 1 and agDomainId in ('O', 'E')\n"
+//                + "     and mcraReportTypeId in (1, 3, 10) \n"
+//                + "     and biDataYear = " + Utils.getTargetYear(Feature.CALCULATION_HOSPITAL);
+        String sql = "select distinct account.*\n" +
+                "from (select biIk, biDataYear from calc.KGLBaseInformation where biStatusID in (3, 10)\n" +
+                "union select biIk, biDataYear from calc.KGPBaseInformation where biStatusID in (3, 10)\n" +
+                "union select cbaIk, cbaDataYear from calc.CalcBasicsAutopsy where cbaStatusID in (3, 10) ) base\n" +
+                "join CallCenterDB.dbo.ccCustomer on biIk = cuIK\n" +
+                "join CallCenterDB.dbo.CustomerCalcInfo on cuId = cciCustomerId "
+                + "and biDataYear between year(cciValidFrom) and year(cciValidTo)\n" +
+                "join CallCenterDB.dbo.mapCustomerCalcInfoAgent on cciId = cciaCustomerCalcInfoId\n" +
+                "join CallCenterDB.dbo.ccAgent on cciaAgentId = agId\n" +
+                "join dbo.Account on agEMail = acMail\n" +
+                "where agActive = 1 and agDomainId in ('O', 'E')\n" +
+                "and cciaReportTypeid in (1, 3, 10)\n" +
+                "and biDataYear = " + Utils.getTargetYear(Feature.CALCULATION_HOSPITAL);
+        
         String sqlFilter = StringUtil.getSqlFilter(filter);
         if (sqlFilter.length() > 0) {
             sql = sql + "\n"
@@ -152,25 +166,52 @@ public class CalcFacade extends AbstractDataAccess {
     }
 
     public List<CalcHospitalInfo> getCalcBasicsForAccount(Account account, String filter) {
-        String sql = "select distinct biId as Id, biType as [Type], biAccountId as AccountId, "
-                + "    biDataYear as DataYear, biIk as IK, biStatusId as StatusId,\n"
-                + "    Name, biLastChanged as LastChanged\n"
-                + "from (select biId, biIk, 'CBD' as biType, biDataYear, biAccountID, biStatusId, biLastChanged, '"
-                + Utils.getMessage("lblCalculationBasicsDrg") + "' as Name from calc.KGLBaseInformation where biStatusID in (3, 5, 10) \n"
-                + "union select biId, biIk, 'CBP' as biType, biDataYear, biAccountID, biStatusId, biLastChanged, '"
-                + Utils.getMessage("lblCalculationBasicsPsy") + "' as Name from calc.KGPBaseInformation where biStatusID in (3, 5, 10) \n"
-                + "union select cbaId, cbaIk, 'CBA' as biType, cbaDataYear, cbaAccountID, cbaStatusId, cbaLastChanged, '"
-                + Utils.getMessage("lblCalculationBasicsObd") + "' as Name from calc.CalcBasicsAutopsy where cbaStatusID in (3, 5, 10)) base \n"
-                + "join CallCenterDB.dbo.ccCustomer on biIk = cuIK\n"
-                + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
-                + "join CallCenterDB.dbo.ccCalcInformation on caId = ciCalcAgreementId and biDataYear = ciDataYear \n"
-                + "join CallCenterDB.dbo.mapCustomerReportAgent on ciId = mcraCalcInformationId\n"
-                + "join CallCenterDB.dbo.ccAgent on mcraAgentId = agId\n"
-                + "where agEMail = '" + account.getEmail() + "'\n"
-                + "     and (biType = 'CBD' and mcraReportTypeId = 1 "
-                + "          or biType = 'CBP' and mcraReportTypeId = 3 "
-                + "          or biType = 'CBA' and mcraReportTypeId = 10) \n"
-                + "     and biDataYear = " + Utils.getTargetYear(Feature.CALCULATION_HOSPITAL);
+//        String sql = "select distinct biId as Id, biType as [Type], biAccountId as AccountId, "
+//                + "    biDataYear as DataYear, biIk as IK, biStatusId as StatusId,\n"
+//                + "    Name, biLastChanged as LastChanged\n"
+//                + "from (select biId, biIk, 'CBD' as biType, biDataYear, biAccountID, biStatusId, biLastChanged, '"
+//                + Utils.getMessage("lblCalculationBasicsDrg") + "' as Name from calc.KGLBaseInformation where biStatusID in (3, 5, 10) \n"
+//                + "union select biId, biIk, 'CBP' as biType, biDataYear, biAccountID, biStatusId, biLastChanged, '"
+//                + Utils.getMessage("lblCalculationBasicsPsy") + "' as Name from calc.KGPBaseInformation where biStatusID in (3, 5, 10) \n"
+//                + "union select cbaId, cbaIk, 'CBA' as biType, cbaDataYear, cbaAccountID, cbaStatusId, cbaLastChanged, '"
+//                + Utils.getMessage("lblCalculationBasicsObd") + "' as Name from calc.CalcBasicsAutopsy where cbaStatusID in (3, 5, 10)) base \n"
+//                + "join CallCenterDB.dbo.ccCustomer on biIk = cuIK\n"
+//                + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
+//                + "join CallCenterDB.dbo.ccCalcInformation on caId = ciCalcAgreementId and biDataYear = ciDataYear \n"
+//                + "join CallCenterDB.dbo.mapCustomerReportAgent on ciId = mcraCalcInformationId\n"
+//                + "join CallCenterDB.dbo.ccAgent on mcraAgentId = agId\n"
+//                + "where agEMail = '" + account.getEmail() + "'\n"
+//                + "     and (biType = 'CBD' and mcraReportTypeId = 1 "
+//                + "          or biType = 'CBP' and mcraReportTypeId = 3 "
+//                + "          or biType = 'CBA' and mcraReportTypeId = 10) \n"
+//                + "     and biDataYear = " + Utils.getTargetYear(Feature.CALCULATION_HOSPITAL);
+
+        String sql = "select distinct biId as Id, biType as [Type], biAccountId as AccountId, biDataYear as DataYear, biIk as IK, "
+                + "biStatusId as StatusId, Name, biLastChanged as LastChanged\n" +
+                        "from (select biId, biIk, 'CBD' as biType, biDataYear, biAccountID, biStatusId, biLastChanged,"
+                + " '"+ Utils.getMessage("lblCalculationBasicsDrg") + "' as Name \n" +
+                        "from calc.KGLBaseInformation where biStatusID in (3, 5, 10) \n" +
+                        "union \n" +
+                        "select biId, biIk, 'CBP' as biType, biDataYear, biAccountID, biStatusId, biLastChanged,"
+                + " '"+ Utils.getMessage("lblCalculationBasicsPsy") + "' as Name \n" +
+                        "from calc.KGPBaseInformation where biStatusID in (3, 5, 10)\n" +
+                        "union \n" +
+                        "select cbaId, cbaIk, 'CBA' as biType, cbaDataYear, cbaAccountID, cbaStatusId,"
+                + " cbaLastChanged, ' "+ Utils.getMessage("lblCalculationBasicsObd") + "' as Name \n" +
+                        "from calc.CalcBasicsAutopsy \n" +
+                        "where cbaStatusID in (3, 5, 10)\n" +
+                        ") base\n" +
+                        "join CallCenterDB.dbo.ccCustomer on biIk = cuIK\n" +
+                        "join CallCenterDB.dbo.CustomerCalcInfo on cuId = cciCustomerId"
+                + " and biDataYear between year(cciValidFrom) and year(cciValidTo) and cciInfoTypeId = 14\n" +
+                        "join CallCenterDB.dbo.mapCustomerCalcInfoAgent on cciId = cciaCustomerCalcInfoId"
+                + " and biDataYear between year(cciaValidFrom) and year(cciaValidTo)\n" +
+                        "join CallCenterDB.dbo.ccAgent on cciaAgentId = agId\n" +
+                        "where agEMail = '" + account.getEmail() + "'\n" +
+                        "and (biType = 'CBD' and cciaReportTypeid = 1\n" +
+                        "or biType = 'CBP' and cciaReportTypeId = 3\n" +
+                        "or biType = 'CBA' and cciaReportTypeId = 10)\n" +
+                        "and biDataYear = 2016";
         String sqlFilter = StringUtil.getSqlFilter(filter);
         if (sqlFilter.length() > 0) {
             sql = sql + "\n"

@@ -432,20 +432,19 @@ public class AccountFacade extends AbstractDataAccess {
         if (iks.isEmpty()) {
             return Collections.EMPTY_LIST;
         }
-        String sql = "select account.* \n"
-                + "from dbo.Account \n"
-                + "join CallCenterDB.dbo.ccAgent on agEMail = acMail\n"
-                + "join (\n"
-                + "    select distinct mcraAgentId\n"
-                + "    from CallCenterDB.dbo.ccCustomer \n"
-                + "    join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
-                + "    join CallCenterDB.dbo.ccCalcInformation on caId = ciCalcAgreementId\n"
-                + "    join CallCenterDB.dbo.mapCustomerReportAgent on ciId = mcraCalcInformationId\n"
-                + "    where ciDataYear = " + Utils.getTargetYear(Feature.CALCULATION_HOSPITAL) + " \n"
-                + "    and cuIK in (" + iks.stream().map(i -> "" + i).collect(Collectors.joining(", ")) + ")\n"
-                + ") d on agId = mcraAgentId\n"
-                + "where agActive = 1 \n"
-                + "order by acLastName";
+        String sql = "select account.* \n" +
+                    "from dbo.Account \n" +
+                    "join CallCenterDB.dbo.ccAgent on agEMail = acMail \n" +
+                    "join (\n" +
+                    "select distinct cciaAgentId \n" +
+                    "from CallCenterDB.dbo.ccCustomer \n" +
+                    "join CallCenterDB.dbo.CustomerCalcInfo on cuId = cciCustomerId \n" +
+                    "join CallCenterDB.dbo.mapCustomerCalcInfoAgent on cciaCustomerCalcInfoId = cciId \n" +
+                    "and Year(cciaValidTo) = " + Utils.getTargetYear(Feature.CALCULATION_HOSPITAL) + " \n" +
+                    "and cuIK in (" + iks.stream().map(i -> "" + i).collect(Collectors.joining(", ")) + ") \n" +
+                    ") d on agId = cciaAgentId \n" +
+                    "where agActive = 1 \n" +
+                    "order by acLastName";
         Query query = getEntityManager().createNativeQuery(sql, Account.class);
         return query.getResultList();
     }

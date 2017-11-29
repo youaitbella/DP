@@ -56,8 +56,8 @@ public class DistributionModelFacade extends AbstractDataAccess {
                 + (testMode ? " or acMail like '%@inek-drg.de'" : "") + ") \n"
                 + "left join CallCenterDB.dbo.mapContactRole r2 on (r2.mcrContactId = coId) and r2.mcrRoleId = 14 "
                 + (testMode ? " and acMail not like '%@inek-drg.de'" : "") + " \n"
-                + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
-                + "where caHasAgreement = 1 and caIsInactive = 0 and caCalcTypeId in (1, 3, 6)\n"
+                + "join CallCenterDB.dbo.CustomerCalcInfo on cuId = cciCustomerId "
+                + "where cciInfoTypeId = 2 and cciValidTo > " + year + " and cciCalcTypeId in (1, 3, 6)"
                 + "     and cuIk in (\n"
                 + "             select acIk from dbo.Account where acIk > 0 and acId = " + accountId + "\n"
                 + "             union \n"
@@ -94,8 +94,8 @@ public class DistributionModelFacade extends AbstractDataAccess {
                 + (testMode ? " or acMail like '%@inek-drg.de'" : "") + ") \n"
                 + "left join CallCenterDB.dbo.mapContactRole r2 on (r2.mcrContactId = coId) and r2.mcrRoleId = 14 "
                 + (testMode ? " and acMail not like '%@inek-drg.de'" : "") + " \n"
-                + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
-                + "where caHasAgreement = 1 and caIsInactive = 0 and caCalcTypeId in (1, 3, 6)\n"
+                + "join CallCenterDB.dbo.CustomerCalcInfo on cuId = cciCustomerId "
+                + "where cciInfoTypeId = 2 and cciValidTo > " + year + " and cciCalcTypeId in (1, 3, 6)"
                 + "     and cuIk in (\n"
                 + "             select acIk from dbo.Account where acIk > 0 and acId = " + accountId + "\n"
                 + "             union \n"
@@ -146,17 +146,17 @@ public class DistributionModelFacade extends AbstractDataAccess {
     }
 
     public List<Account> getInekAccounts(String filter) {
-        String sql = "select distinct account.*\n"
-                + "from calc.DistributionModelMaster \n"
-                + "join CallCenterDB.dbo.ccCustomer on dmmIk = cuIK\n"
-                + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
-                + "join CallCenterDB.dbo.ccCalcInformation on caId = ciCalcAgreementId and dmmDataYear = ciDataYear \n"
-                + "join CallCenterDB.dbo.mapCustomerReportAgent on ciId = mcraCalcInformationId\n"
-                + "join CallCenterDB.dbo.ccAgent on mcraAgentId = agId\n"
-                + "join dbo.Account on agEMail = acMail\n"
-                + "where dmmStatusId >= 10 \n"
-                + "     and agActive = 1 and agDomainId in ('O', 'E')\n"
-                + "     and mcraReportTypeId in (1, 3)"; // 1=Drg, 3=Psy
+        String sql = "select distinct account.*\n" +
+                    "from calc.DistributionModelMaster\n" +
+                    "join CallCenterDB.dbo.ccCustomer on dmmIk = cuIK\n" +
+                    "join CallCenterDB.dbo.CustomerCalcInfo on cuId = cciCustomerId "
+                    + "and dmmDataYear between year(cciValidFrom) and year(cciValidTo)\n" +
+                    "join CallCenterDB.dbo.mapCustomerCalcInfoAgent on cciId = cciaCustomerCalcInfoId\n" +
+                    "join CallCenterDB.dbo.ccAgent on cciaAgentId = agId\n" +
+                    "join dbo.Account on agEMail = acMail\n" +
+                    "where dmmStatusId >= 10 \n" +
+                    "and agActive = 1 and agDomainId in ('O', 'E')\n" +
+                    "and cciaReportTypeid in (1, 3)"; // 1=Drg, 3=Psy
         String sqlFilter = StringUtil.getSqlFilter(filter);
         if (sqlFilter.length() > 0) {
             sql = sql + "\n"
@@ -170,19 +170,21 @@ public class DistributionModelFacade extends AbstractDataAccess {
     }
 
     public List<CalcHospitalInfo> getDistributionModelsForAccount(Account account, String filter) {
-        String sql = "select distinct dmmId as Id, 'CDM' as [Type], dmmAccountId as AccountId, dmmDataYear as DataYear, "
-                + "    dmmIk as IK, dmmStatusId as StatusId,\n"
-                + " '" + Utils.getMessage("lblClinicalDistributionModel") + " ' "
-                + "    + case dmmType when 0 then 'DRG' when 1 then 'PEPP' else '???' end as Name, dmmLastChanged as LastChanged\n"
-                + "from calc.DistributionModelMaster \n"
-                + "join CallCenterDB.dbo.ccCustomer on dmmIk = cuIK\n"
-                + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
-                + "join CallCenterDB.dbo.ccCalcInformation on caId = ciCalcAgreementId and dmmDataYear = ciDataYear \n"
-                + "join CallCenterDB.dbo.mapCustomerReportAgent on ciId = mcraCalcInformationId\n"
-                + "join CallCenterDB.dbo.ccAgent on mcraAgentId = agId\n"
-                + "where dmmStatusId >= 10 \n"
-                + "     and agEMail = '" + account.getEmail() + "'\n"
-                + "     and mcraReportTypeId in (1, 3)\n";
+      
+        String sql = "select distinct dmmId as Id, 'CDM' as [Type], dmmAccountId as AccountId, dmmDataYear as DataYear, dmmIk as IK, "
+                + "dmmStatusId as StatusId,\n" +
+                    " '" + Utils.getMessage("lblClinicalDistributionModel") + " '\n" +
+                    "    + case dmmType when 0 then 'DRG' when 1 then 'PEPP' else '???' end as Name, dmmLastChanged as LastChanged\n" +
+                    "from calc.DistributionModelMaster\n" +
+                    "join CallCenterDB.dbo.ccCustomer on dmmIk = cuIK\n" +
+                    "join CallCenterDB.dbo.CustomerCalcInfo on cuId = cciCustomerId "
+                + "and dmmDataYear between year(cciValidFrom) and year(cciValidTo)\n" +
+                    "join CallCenterDB.dbo.mapCustomerCalcInfoAgent on cciId = cciaCustomerCalcInfoId\n" +
+                    "join CallCenterDB.dbo.ccAgent on cciaAgentId = agId\n" +
+                    "join dbo.Account on agEMail = acMail\n" +
+                    "where dmmStatusId >= 10\n" +
+                    "and agEMail = '" + account.getEmail() + "'\n" +
+                    "and cciaReportTypeId in (1, 3)";
         String sqlFilter = StringUtil.getSqlFilter(filter);
         if (sqlFilter.length() > 0) {
             sql = sql + "    and (cast (cuIk as varchar) = " + sqlFilter

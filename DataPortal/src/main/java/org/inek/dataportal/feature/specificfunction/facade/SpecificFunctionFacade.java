@@ -119,14 +119,13 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
         String sql = "select distinct account.*\n"
                 + "from spf.RequestMaster\n"
                 + "join CallCenterDB.dbo.ccCustomer on rmIk = cuIK\n"
-                + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
-                + "join CallCenterDB.dbo.ccCalcInformation on caId = ciCalcAgreementId and rmDataYear-1 = ciDataYear \n"
-                + "join CallCenterDB.dbo.mapCustomerReportAgent on ciId = mcraCalcInformationId\n"
-                + "join CallCenterDB.dbo.ccAgent on mcraAgentId = agId\n"
+                + "join CallCenterDB.dbo.CustomerCalcInfo on cuId = cciCustomerId and YEAR(cciValidTo) = (rmDataYear-1) \n"
+                + "join CallCenterDB.dbo.mapCustomerCalcInfoAgent on cciId = cciaCustomerCalcInfoId"
+                + "join CallCenterDB.dbo.ccAgent on cciaAgentId = agId\n"
                 + "join dbo.Account on agEMail = acMail\n"
                 + "where agActive = 1 and agDomainId in ('O', 'E')\n"
                 + "     and rmStatusId = 10 \n"
-                + "     and mcraReportTypeId in (1, 3) \n"
+                + "     and cciaReportTypeId in (1, 3) \n"
                 + "     and rmDataYear = " + Utils.getTargetYear(Feature.SPECIFIC_FUNCTION);
         Query query = getEntityManager().createNativeQuery(sql, Account.class);
         @SuppressWarnings("unchecked") List<Account> result = query.getResultList();

@@ -110,7 +110,7 @@
 
                 <div class="inputPart">
                     <h:inputFile styleClass="hide" id="specFile" value="#{certManager.file}" title="#{msg.btnUploadSpec}"
-                                 p:fileNamePattern=".*\.exe" p:maxFileSize="10000000">
+                                 p:fileNamePattern=".*\.exe" p:maxFileSize="1000000000">
                         <f:ajax listener="#{certManager.uploadSpec(systemId)}"
                                 render="@form :logout:remaining certButtons:btnSystemSave"/>
                         <f:validator validatorId="FileUploadValidator"/>

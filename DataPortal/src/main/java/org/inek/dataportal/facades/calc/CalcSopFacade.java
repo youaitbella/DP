@@ -113,132 +113,79 @@ public class CalcSopFacade extends AbstractDataAccess {
     }
     
     public void saveStatementOfParticipanceForIcmt(StatementOfParticipance participance) {
+        
+        //Obsolet --> Klasse --> IcmtUpdater
         //Hospitals
-        performInsertStatementOfParticipance(participance.getIk(), 1, "Drg");
-        performInsertStatementOfParticipance(participance.getIk(), 3, "Psy");
-        performInsertStatementOfParticipance(participance.getIk(), 4, "Inv");
-        performInsertStatementOfParticipance(participance.getIk(), 5, "Tpg");
-        performInsertStatementOfParticipance(participance.getIk(), 6, "Obligatory");
-        performInsertStatementOfParticipance(participance.getIk(), 7, "Obd");
+        //performInsertStatementOfParticipance(participance.getIk(), 1, "Drg");
+        //performInsertStatementOfParticipance(participance.getIk(), 3, "Psy");
+        //performInsertStatementOfParticipance(participance.getIk(), 4, "Inv");
+        //performInsertStatementOfParticipance(participance.getIk(), 5, "Tpg");
+        //performInsertStatementOfParticipance(participance.getIk(), 6, "Obligatory");
+        //performInsertStatementOfParticipance(participance.getIk(), 7, "Obd");
         //Contacts
-        performInsertUpdateContactRoleICMT(participance.getIk(), "Drg", "1", 3);
-        performInsertUpdateContactRoleICMT(participance.getIk(), "Psy", "3", 12);
-        performInsertUpdateContactRoleICMT(participance.getIk(), "Consultant", "1, 3, 14", 14);
+        //performInsertUpdateContactRoleICMT(participance.getIk(), "Drg", "1", 3);
+        //performInsertUpdateContactRoleICMT(participance.getIk(), "Psy", "3", 12);
     }
 
     private void performInsertStatementOfParticipance(int ik, int calcType, String column) {
-        //insert CalcAgreement - Vereinbarung
-        String sql = "insert into CallCenterDB.dbo.ccCalcAgreement (caCustomerId, caHasAgreement, caIsInactive, caCalcTypeId) \n"
-                + "select distinct cuid, 1 agr, 0 inactive, 1 calctype \n"
-                + "from calc.StatementOfParticipance \n"
-                + "join CallCenterDB.dbo.ccCustomer on sopIk = cuik \n"
-                + "left join CallCenterDB.dbo.ccCalcAgreement on cuid = caCustomerId and caCalcTypeId = " + calcType + " \n"
-                + "where 1=1 \n"
-                + "and sopIs" + column + " = 1 \n"
-                + "and sopStatusId = 10 \n" //send to InEK
-                + "and caHasAgreement is null \n"
-                + "and sopIk = " + ik + "\n\n"
-                //Pflicht KalkTyp setzen
-                + "update x \n"
-                + "set caTestCalculation = case when sopObligatoryCalcType = 2 then 1 else 0 end \n"
-                + "from calc.StatementOfParticipance \n"
-                + "join CallCenterDB.dbo.ccCustomer on sopik = cuIK \n"
-                + "join CallCenterDB.dbo.ccCalcAgreement x on caCustomerId = cuid and caCalcTypeId = 6 \n"
-                + "join CallCenterDB.dbo.ccCalcInformation on caid = ciCalcAgreementId "
-                + "    and ciDataYear = (select max(ldyDataYear) from CallCenterDB.dbo.listDataYear) \n"
-                + "where sopDataYear = (select max(ldyDataYear) from CallCenterDB.dbo.listDataYear) \n"
-                + "and sopStatusId = 10 \n"
-                + "and sopIsObligatory = 1 \n"
-                + "and sopIk = " + ik + "\n\n"
-                + "update y \n"
-                + "set caSimpleCalculation = case when sopObligatoryCalcType = 1 then 1 else 0 end \n"
-                + "from calc.StatementOfParticipance \n"
-                + "join CallCenterDB.dbo.ccCustomer on sopik = cuIK \n"
-                + "join CallCenterDB.dbo.ccCalcAgreement y on caCustomerId = cuid and caCalcTypeId = 6 \n"
-                + "join CallCenterDB.dbo.ccCalcInformation on caid = ciCalcAgreementId "
-                + "    and ciDataYear = (select max(ldyDataYear) from CallCenterDB.dbo.listDataYear) \n"
-                + "where sopDataYear = (select max(ldyDataYear) from CallCenterDB.dbo.listDataYear) \n"
-                + "and sopStatusId = 10 \n"
-                + "and sopIsObligatory = 1 \n"
-                + "and sopIk = " + ik + "\n\n"
-                //insert CalcInformation - Teilnahme
-                + "insert into CallCenterDB.dbo.ccCalcInformation (ciCalcAgreementId, ciDataYear, ciParticipation) \n"
-                + "select caID, (select max(ldyDataYear) from CallCenterDB.dbo.listDataYear) datayear, 1 parti \n"
-                + "from calc.StatementOfParticipance \n"
-                + "join CallCenterDB.dbo.ccCustomer on sopIk = cuik \n"
-                + "join CallCenterDB.dbo.ccCalcAgreement on cuid = caCustomerId and caCalcTypeId = " + calcType + " \n"
-                + "left join CallCenterDB.dbo.ccCalcInformation on caID = ciCalcAgreementId "
-                + "    and CallCenterDB.dbo.ccCalcInformation.ciDataYear = (select max(ldyDataYear) from CallCenterDB.dbo.listDataYear) \n"
-                + "where 1=1 \n"
-                + "and sopIs" + column + " = 1 \n"
-                + "and caHasAgreement = 1 \n"
-                + "and sopStatusId = 10 \n" //send to InEK
-                + "and sopIk = " + ik + "\n"
-                + "and ciCalcAgreementId is null \n\n"
-                //update if participation is already set
-                + "update a \n"
-                + "set ciParticipation = sopIs" + column + " \n"
-                + "from calc.StatementOfParticipance \n"
-                + "join CallCenterDB.dbo.ccCustomer on sopIk = cuik \n"
-                + "join CallCenterDB.dbo.ccCalcAgreement on cuid = caCustomerId and caCalcTypeId = " + calcType + " \n"
-                + "join CallCenterDB.dbo.ccCalcInformation a on caId = ciCalcAgreementId "
-                + "    and ciDataYear = (select max(ldyDataYear) from CallCenterDB.dbo.listDataYear) \n"
-                + "where 1=1 \n"
-                + "and sopStatusId = 10 \n" //send to InEK
-                + "and caHasAgreement = 1 \n"
-                + "and sopIk = " + ik + "\n\n"
-                //insert KVM
-                + "insert into ccCustomerCalcTypeProperty (ctpCalcInformationId, ctpPropertyId, ctpValue) \n"
-                + "select ciId, 3 kvm, case when sopCdmDrg = 1 then 'True' else 'False' end \n"
-                + "from DataPortal.calc.StatementOfParticipance \n"
-                + "join CallCenterDB.dbo.ivMapCustomerID on caCalcTypeId = " + calcType + " "
-                + "    and ciDataYear = (select max(ldyDataYear) from CallCenterDB.dbo.listDataYear) and cuIK = sopIk \n"
-                + "left join CallCenterDB.dbo.ccCustomerCalcTypeProperty on ciId = ctpCalcInformationId and ctpPropertyId = 3 \n"
-                + "where 1=1 \n"
-                + "and sopIs" + column + " = 1 \n"
-                + "and sopStatusId = 10 \n" //send to InEK
-                + "and sopIk = " + ik + "\n"
-                + "and ctpCalcInformationId is null \n"
-                + "and caCalcTypeId in (1, 3, 6) \n"
-                + "\n \n"
-                //insert Überlieger
-                + "insert into ccCustomerCalcTypeProperty (ctpCalcInformationId, ctpPropertyId, ctpValue) \n"
-                + "select ciId, 6 ueb, case when caCalcTypeId = 6    then '3 - nicht enthalten' \\n\""
-                + "                         when sopMultiyearDrg = 1 then '1 - gesamter Zeitraum' \n"
-                + "                         when sopMultiyearDrg = 2 then '2 - Zeitausschnitt' \n"
-                + "                         when sopMultiyearDrg = 3 then '3 - nicht enthalten' \n"
-                + "                         when sopMultiyearDrg = 4 then '4 - Alternatives Vorgehen' \n"
-                + "                         else '3 - nicht enthalten' \n"
-                + "end \n"
-                + "from DataPortal.calc.StatementOfParticipance \n"
-                + "join CallCenterDB.dbo.ivMapCustomerID on caCalcTypeId = " + calcType 
-                + " and ciDataYear = (select max(ldyDataYear) from CallCenterDB.dbo.listDataYear) and cuIK = sopIk \n"
-                + "left join CallCenterDB.dbo.ccCustomerCalcTypeProperty on ciId = ctpCalcInformationId and ctpPropertyId = 6 \n"
-                + "where 1=1 \n"
-                + "and sopIs" + column + " = 1 \n"
-                + "and sopStatusId = 10 \n" //send to InEK
-                + "and sopIk = " + ik + "\n"
-                + "and ctpCalcInformationId is null \n"
-                + "and caCalcTypeId in (1, 3, 6) \n"
-                + "\n \n"
-                //update kvm/überlieger
-                + "update a \n"
-                + "set ctpValue = case when ctpPropertyId = 3 then case when sopCdmDrg = 1 then 'True' else 'False' end \n"
-                + "                    when ctpPropertyId = 6 then case when sopMultiyearDrg = 1 then '1 - gesamter Zeitraum' \n"
-                + "                                                     when sopMultiyearDrg = 2 then '2 - Zeitausschnitt' \n"
-                + "                                                     when sopMultiyearDrg = 3 then '3 - nicht enthalten' \n"
-                + "                                                     when sopMultiyearDrg = 4 then '4 - Alternatives Vorgehen' \n"
-                + "                                                     else '3 - nicht enthalten' end \n"
-                + "               end \n"
-                + "from CallCenterDB.dbo.ccCustomerCalcTypeProperty a \n"
-                + "join CallCenterDB.dbo.ivMapCustomerID on caCalcTypeId = " + calcType + " "
-                + "    and ctpCalcInformationId = ciId and ciDataYear = (select max(ldyDataYear) from CallCenterDB.dbo.listDataYear) \n"
-                + "join DataPortal.calc.StatementOfParticipance on cuik = sopIk and sopDataYear = ciDataYear \n"
-                + "where 1=1 \n"
-                + "and sopIs" + column + " = 1 \n"
-                + "and sopStatusId = 10 \n" //send zo InEK
-                + "and sopIk = " + ik + "\n"
-                + "and caCalcTypeId in (1, 3, 6) \n";
+        String sql = "--Pflicht KalkTyp setzen\n" +
+                "insert into CallCenterDB.dbo.CustomerCalcInfo "
+                + "(cciCustomerId, cciValidFrom, cciValidTo, cciCalcTypeId, cciSubCalcTypeId, cciInfoTypeId, cciDate) \n" +
+                "select cuId, cast((select max(ldyDataYear) from CallCenterDB.dbo.listDataYear) as varchar) + '-01-01', "
+                + "cast((select max(ldyDataYear) from CallCenterDB.dbo.listDataYear) as varchar) + '-12-31', " + calcType + ", "
+                + "null, case when sopObligatoryCalcType = 2 then 8 else 7 end, null \n" +
+                "from calc.StatementOfParticipance \n" +
+                "join CallCenterDB.dbo.ccCustomer on sopik = cuIK \n" +
+                "where sopDataYear = (select max(ldyDataYear) from CallCenterDB.dbo.listDataYear) \n" +
+                "and sopStatusId = 10 \n" +
+                "and sopIsObligatory = 1 \n" +
+                "and sopIk = " + ik + "\n" +
+                "\n" +
+                "--Insert CalcInformation - Teilnahme\n" +
+                "insert into CallCenterDB.dbo.CustomerCalcInfo "
+                + "(cciCustomerId, cciValidFrom, cciValidTo, cciCalcTypeId, cciSubCalcTypeId, cciInfoTypeId, cciDate) \n" +
+                "select cuId, cast((select max(ldyDataYear) from CallCenterDB.dbo.listDataYear) as varchar) + '-01-01', "
+                + "cast((select max(ldyDataYear) from CallCenterDB.dbo.listDataYear) as varchar) + '-12-31', " + calcType + ", "
+                + "null, 3, null \n" +
+                "from calc.StatementOfParticipance \n" +
+                "join CallCenterDB.dbo.ccCustomer on sopIk = cuik \n" +
+                "left join CallCenterDB.dbo.CustomerCalcInfo on cuId = cciCustomerId and cciCalcTypeId = " + calcType + " "
+                + "and cciInfoTypeId = 3 and Year(cciValidTo) = (select max(ldyDataYear) from CallCenterDB.dbo.listDataYear) \n" +
+                "where 1=1 \n" +
+                "and sopIs" + column + " = 1 \n" +
+                "and sopStatusId = 10 \n" +
+                "and sopIk = " + ik + "\n" +
+                "and cciId is null \n" +
+                "\n" +
+                "--insert Überlieger \n" +
+                "delete a from CallCenterDB.dbo.CustomerCalcInfo a \n" +
+                "join CallCenterDB.dbo.ccCustomer on cuId = cciCustomerId \n" +
+                "where cciInfoTypeId in (4,5,6,15) and cuIK = " + ik + "\n" +
+                "and cciCalcTypeId = " + calcType + " \n" +
+                "and Year(cciValidTo) = (select max(ldyDataYear) from CallCenterDB.dbo.listDataYear) \n" +
+                "\n" +
+                "insert into CallCenterDB.dbo.CustomerCalcInfo "
+                + "(cciCustomerId, cciValidFrom, cciValidTo, cciCalcTypeId, cciSubCalcTypeId, cciInfoTypeId, cciDate) \n" +
+                        "select cuId, cast((select max(ldyDataYear) from CallCenterDB.dbo.listDataYear) as varchar) + '-01-01', "
+                + "cast((select max(ldyDataYear) from CallCenterDB.dbo.listDataYear) as varchar) + '-12-31', " + calcType + ", null, \n" +
+                "case when sopMultiyearDrg = 1 then 4 \n" +
+                "when sopMultiyearDrg = 2 then 5 \n" +
+                "when sopMultiyearDrg = 4 then 15 \n" +
+                "else 6 end , null \n" +
+                "from DataPortal.calc.StatementOfParticipance \n" +
+                "join CallCenterDB.dbo.ccCustomer on sopIk = cuik  \n" +
+                "left join CallCenterDB.dbo.CustomerCalcInfo on cuId = cciCustomerId and cciCalcTypeId = " + calcType + " \n" +
+                "and cciInfoTypeId = case when sopMultiyearDrg = 1 then 4 \n" +
+                "                         when sopMultiyearDrg = 2 then 5 \n" +
+                "                         when sopMultiyearDrg = 4 then 15 \n" +
+                "                         else 6 end \n" +
+                "and Year(cciValidTo) = (select max(ldyDataYear) from CallCenterDB.dbo.listDataYear) \n" +
+                "where 1=1 \n" +
+                "and sopIs" + column + " = 1 \n" +
+                "and sopStatusId = 10 \n" +
+                "and sopIk = " + ik + "\n" +
+                "and cciId is null \n" +
+                "and " + calcType + " in (1, 3, 6) ";
 
         Query query = getEntityManager().createNativeQuery(sql);
         //query.executeUpdate();
@@ -332,16 +279,23 @@ public class CalcSopFacade extends AbstractDataAccess {
                 + "select distinct coid, " + roleID + " \n"
                 + "from tmp.dpContacts \n"
                 + "--where coid is not null \n"
-                + "\n\n"
+                + "\n\n" +
                 //Calc Report AP zuordnen
-                + "insert into CallCenterDB.dbo.mapCustomerCalcContact (mcccCalcInformationId, mcccContactId) \n"
-                + "select ciId, a.coid \n"
-                + "from tmp.dpContacts a \n"
-                + "join CallCenterDB.dbo.ivMapCustomerID b on a.cuId = b.cuId and caCalcTypeId in (" + calcTypes + ")"
-                + "    and ciDataYear = (select max(ldyDataYear) from CallCenterDB.dbo.listDataYear) \n"
-                + "left join CallCenterDB.dbo.mapCustomerCalcContact on a.coId = mcccContactId and ciId = mcccCalcInformationId \n"
-                + "where mcccContactId is null and a.coid is not null\n"
-                + "\n\n"
+                    "declare @y int \n" +
+                    "set @y = (select max(ldyDataYear) from CallCenterDB.dbo.listDataYear) \n" +
+                    "declare @c varchar \n" +
+                    "set @c = '" + column + "'                \n" +
+                    "insert into CallCenterDB.dbo.mapCustomerCalcInfoContact (ccicCustomerCalcInfoId,ccicContactId,ccicValidFrom,ccicValidTo) \n" +
+                    "select cciId, a.coid , cast((select max(ldyDataYear) from CallCenterDB.dbo.listDataYear) as varchar) + '-01-01',"
+                    + " cast((select max(ldyDataYear) from CallCenterDB.dbo.listDataYear) as varchar) + '-12-31' \n" +
+                    "--select * \n" +
+                    "from tmp.dpContacts a \n" +
+                    "join CallCenterDB.dbo.CustomerCalcInfo  on a.cuId = cciCustomerId and "
+                    + " cciCalcTypeId = case when @c = 'DRG' then 1 when @c = 'PSY' then 3 "
+                    + "when @c = 'INV' then 4 when @c = 'TPG' then 5 else 7 end  and cciInfoTypeId = 13 "
+                    + "and Year(cciValidTo) = (select max(ldyDataYear) from CallCenterDB.dbo.listDataYear) \n" +
+                    "left join CallCenterDB.dbo.mapCustomerCalcInfoContact on a.coId = ccicContactId and Year(ccicValidTo) = @y \n" +
+                    "where ccicContactId is null and a.coid is not null "
                 //Prio setzen
                 // todo: remove prio
                 + "update a \n"
@@ -351,17 +305,17 @@ public class CalcSopFacade extends AbstractDataAccess {
                 + "where a.coCustomerId = (select distinct cuid from tmp.dpContacts) \n"
                 + "and coIsMain = 0 \n"
                 + "\n\n"
-                //Kontakte deaktivieren die keine Rollen besitzen
-                + "update a \n"
-                + "set coIsActive = 0 \n"
-                + "from CallCenterDB.dbo.ccContact a \n"
-                + "join CallCenterDB.dbo.ccCustomer b on a.coCustomerId = b.cuid \n"
-                + "left join CallCenterDB.dbo.mapContactRole on coId = mcrContactId \n"
-                + "where 1=1 \n"
-                + "and cuik = " + ik + "\n"
-                + "and mcrContactId is null \n"
-                + "and coIsMain = 0"
-                + "\n\n"
+//                //Kontakte deaktivieren die keine Rollen besitzen
+//                + "update a \n"
+//                + "set coIsActive = 0 \n"
+//                + "from CallCenterDB.dbo.ccContact a \n"
+//                + "join CallCenterDB.dbo.ccCustomer b on a.coCustomerId = b.cuid \n"
+//                + "left join CallCenterDB.dbo.mapContactRole on coId = mcrContactId \n"
+//                + "where 1=1 \n"
+//                + "and cuik = " + ik + "\n"
+//                + "and mcrContactId is null \n"
+//                + "and coIsMain = 0"
+//                + "\n\n"
                 //Temp Tabelle löschen
                 + "delete from tmp.dpContacts \n";
 
@@ -389,9 +343,9 @@ public class CalcSopFacade extends AbstractDataAccess {
                 + (testMode ? " or acMail like '%@inek-drg.de'" : "") + ") \n"
                 + "left join CallCenterDB.dbo.mapContactRole r2 on (r2.mcrContactId = coId) and r2.mcrRoleId = 14 " 
                 + (testMode ? " and acMail not like '%@inek-drg.de'" : "") + " \n"
-                + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
+                + "join CallCenterDB.dbo.CustomerCalcInfo on cuId = cciCustomerId "
                 + "left join calc.StatementOfParticipance on cuIk = sopIk and sopDataYear = " + year + "\n"
-                + "where caHasAgreement = 1 and caIsInactive = 0 and caCalcTypeId in (1, 3, 4, 5, 5, 6, 7)\n"
+                + "where cciInfoTypeId in (1,2) and Year(cciValidTo) >= " + year + " and cciCalcTypeId in (1, 3, 4, 5, 5, 6, 7)"
                 + "    and cuIk in (\n"
                 + "        select acIk from dbo.Account where acIk > 0 and acId = " + accountId + "\n"
                 + "        union \n"
@@ -405,62 +359,89 @@ public class CalcSopFacade extends AbstractDataAccess {
     }
 
     public List<Object[]> retrieveCurrentStatementOfParticipanceData(int ik, int dataYear) {
-        String sql = "select dbo.concatenate(case caCalcTypeId "
-                + "        when 1 then 'DRG' "
-                + "        when 3 then 'PSY' "
-                + "        when 4 then 'INV' "
-                + "        when 5 then 'TPG' "
-                + "        when 6 then 'obligatory' "
-                + "        when 7 then 'OBD' "
-                + "        end) as domain, \n"
-                + "    max(isnull(left(dk.ctpValue, 1), 'F')) as DrgKvm,\n"
-                + "    max(isnull(left(dm.ctpValue, 1), '0')) as DrgMultiyear,\n"
-                + "    max(isnull(left(pk.ctpValue, 1), 'F')) as PsyKvm,\n"
-                + "    max(isnull(left(pm.ctpValue, 1), '0')) as PsyMultiyear, "
-                + "cuDrgDelivery, cuPsyDelivery\n"
-                + "from CallCenterDB.dbo.ccCustomer\n"
-                + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
-                + "join CallCenterDB.dbo.ccCalcInformation on caId = ciCalcAgreementId\n"
-                + "left join CallCenterDB.dbo.ccCustomerCalcTypeProperty dk on ciId = dk.ctpCalcInformationId "
-                + "    and dk.ctpPropertyId = 3 and caCalcTypeId = 1\n"
-                // ctpPropertyId 3|6 : KVM| Multiyear; caCalcTypeId 1|3 : DRG|Psy
-                + "left join CallCenterDB.dbo.ccCustomerCalcTypeProperty dm on ciId = dm.ctpCalcInformationId "
-                + "    and dm.ctpPropertyId = 6 and caCalcTypeId = 1\n"
-                + "left join CallCenterDB.dbo.ccCustomerCalcTypeProperty pk on ciId = pk.ctpCalcInformationId "
-                + "    and pk.ctpPropertyId = 3 and caCalcTypeId = 3\n"
-                + "left join CallCenterDB.dbo.ccCustomerCalcTypeProperty pm on ciId = pm.ctpCalcInformationId "
-                + "    and pm.ctpPropertyId = 6 and caCalcTypeId = 3\n"
-                + "where caCalcTypeId in (1, 3, 4, 5, 6, 7) and caHasAgreement = 1 and caIsInactive = 0 "
-                + "      and ciParticipation = 1 and ciParticipationRetreat = 0 and cuIk = " + ik + "\n"
-                + "      and ciDataYear = " + dataYear + "\n"
-                + "group by cuIk, cuDrgDelivery, cuPsyDelivery";
+        String sql1 = "select dbo.concatenate(case cciInfoTypeId \n" +
+                        "        when 1 then 'obligatory' \n" +
+                        "        end) as domain, \n" +
+                        "    'F' as DrgKvm, \n" +
+                        "    '0' as DrgMultiyear, \n" +
+                        "    'F' as PsyKvm, \n" +
+                        "    '0' as PsyMultiyear, \n" +
+                        "cuDrgDelivery, cuPsyDelivery \n" +
+                        "from CallCenterDB.dbo.ccCustomer \n" +
+                        "join CallCenterDB.dbo.CustomerCalcInfo cci on cuId = cci.cciCustomerId \n" +
+                        "and Year(cci.cciValidTo) >= " + dataYear + " and cci.cciInfoTypeId = 1 \n" +
+                        "where cci.cciCalcTypeId in (1, 3, 4, 5, 6, 7) \n" +
+                        "and cuIK = " + ik + " \n" +
+                        "group by cuIk, cuDrgDelivery, cuPsyDelivery";        
+        
+        Query query1 = getEntityManager().createNativeQuery(sql1);
+        @SuppressWarnings("unchecked") List<Object[]> result1 = query1.getResultList();
+        if(result1.size() > 0) {
+            return result1;
+        }
+        
+        
+        String sql = "select dbo.concatenate(case cci.cciCalcTypeId \n" +
+                    "        when 1 then 'DRG' \n" +
+                    "        when 3 then 'PSY' \n" +
+                    "        when 4 then 'INV' \n" +
+                    "        when 5 then 'TPG' \n" +
+                    "        when 6 then 'obligatory' \n" +
+                    "        when 7 then 'OBD' \n" +
+                    "        end) as domain, \n" +
+                    "    isnull((select distinct 'T'from calc.DistributionModelMaster \n" +
+                    "where dmmIk = " + ik + " \n" +
+                    "and dmmDataYear = " + dataYear + " \n" +
+                    "and dmmType = 0), 'F') as DrgKvm,\n" +
+                    "    isnull(dm.cciInfoTypeId, '0') as DrgMultiyear,\n" +
+                    "    isnull((select distinct 'T'from calc.DistributionModelMaster \n" +
+                    "where dmmIk = " + ik + " \n" +
+                    "and dmmDataYear = " + dataYear + " \n" +
+                    "and dmmType = 1), 'F') as PsyKvm,\n" +
+                    "    isnull(pm.cciInfoTypeId, '0') as PsyMultiyear, \n" +
+                    "cuDrgDelivery, cuPsyDelivery \n" +
+                    "from CallCenterDB.dbo.ccCustomer \n" +
+                    "join CallCenterDB.dbo.CustomerCalcInfo cci on cuId = cci.cciCustomerId "
+                + "and Year(cci.cciValidTo) = " + dataYear + " and cci.cciInfoTypeId = 3 \n" +
+                    "left join CallCenterDB.dbo.CustomerCalcInfo dm on cuId = dm.cciCustomerId "
+                + "and Year(dm.cciValidTo) = " + dataYear + " and dm.cciInfoTypeId in (4,5,6,15) and dm.cciCalcTypeId = 1 \n" +
+                    "left join CallCenterDB.dbo.CustomerCalcInfo pm on cuId = pm.cciCustomerId "
+                + "and Year(pm.cciValidTo) = " + dataYear + " and pm.cciInfoTypeId in (4,5,6,15) and pm.cciCalcTypeId = 3 \n" +
+                    "where cci.cciCalcTypeId in (1, 3, 4, 5, 6, 7) \n" +
+                    "and exists (select 1 from CallCenterDB.dbo.CustomerCalcInfo ci "
+                + "where ci.cciCustomerId = cuId and Year(ci.cciValidTo) = " + dataYear + " and ci.cciInfoTypeId = 3) \n" +
+                    "and cuIk = " + ik + " \n" +
+                    "group by cuIk, cuDrgDelivery, cuPsyDelivery, dm.cciInfoTypeId, pm.cciInfoTypeId";
         Query query = getEntityManager().createNativeQuery(sql);
         @SuppressWarnings("unchecked") List<Object[]> result = query.getResultList();
         return result;
     }
 
     public List<CalcContact> retrieveCurrentContacts(int ik, int dataYear) {
-        String sql = "select case coSexId when 'F' then 1 when 'H' then 2 else 0 end as gender, "
-                + "    coTitle, coFirstName, coLastName, p.cdDetails as phone, e.cdDetails as email, "
-                + "    dbo.concatenate(case caCalcTypeId "
-                + "        when 1 then 'DRG' "
-                + "        when 3 then 'PSY' "
-                + "        when 4 then 'INV' "
-                + "        when 5 then 'TPG' "
-                + "        when 6 then 'obligatory' "
-                + "        when 7 then 'OBD' end) as domain\n"
-                + "from CallCenterDB.dbo.ccCustomer\n"
-                + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
-                + "join CallCenterDB.dbo.ccCalcInformation on caId = ciCalcAgreementId\n"
-                + "join CallCenterDB.dbo.mapCustomerCalcContact on ciId = mcccCalcInformationId\n"
-                + "join CallCenterDB.dbo.ccContact on mcccContactId = coId\n"
-                + "left join CallCenterDB.dbo.ccContactDetails e on coId=e.cdContactId and e.cdContactDetailTypeId = 'E'\n"
-                + "left join CallCenterDB.dbo.ccContactDetails p on coId=p.cdContactId and p.cdContactDetailTypeId = 'T'\n"
-                + "where caCalcTypeId in (1, 3, 4, 5, 6, 7) and caHasAgreement = 1 and caIsInactive = 0 "
-                + "    and ciParticipation = 1 and ciParticipationRetreat = 0 and coIsActive = 1 and cuIk = " + ik + "\n"
-                + "    and not exists (select 1 from CallCenterDB.dbo.mapContactRole where mcrRoleId = 14 and mcrContactId = coId)\n"
-                + "    and ciDataYear = " + dataYear + "\n"
-                + "group by cuIk, coSexId, coTitle, coFirstName, coLastName, p.cdDetails, e.cdDetails";
+        String sql = "select case coSexId when 'F' then 1 when 'H' then 2 else 0 end as gender, \n" +
+                        "    coTitle, coFirstName, coLastName, p.cdDetails as phone, e.cdDetails as email, \n" +
+                        "    dbo.concatenate(case cciCalcTypeId\n" +
+                        "        when 1 then 'DRG' \n" +
+                        "        when 3 then 'PSY' \n" +
+                        "        when 4 then 'INV' \n" +
+                        "        when 5 then 'TPG'\n" +
+                        "        when 7 then 'OBD' end) as domain\n" +
+                        "--select *\n" +
+                        "from CallCenterDB.dbo.ccCustomer\n" +
+                        "join CallCenterDB.dbo.CustomerCalcInfo on cuId = cciCustomerId and Year(cciValidTo) = " + dataYear + "\n" +
+                        "join CallCenterDB.dbo.mapCustomerCalcInfoContact on ccicCustomerCalcInfoId = cciId "
+                + "and Year(ccicValidTo) = " + dataYear +"\n" +
+                        "join CallCenterDB.dbo.ccContact on ccicContactId = coId\n" +
+                        "left join CallCenterDB.dbo.ccContactDetails e on coId=e.cdContactId and e.cdContactDetailTypeId = 'E'\n" +
+                        "left join CallCenterDB.dbo.ccContactDetails p on coId=p.cdContactId and p.cdContactDetailTypeId = 'T'\n" +
+                        "where cciCalcTypeId in (1, 3, 4, 5, 7) \n" +
+                        "and exists (select 1 from CallCenterDB.dbo.CustomerCalcInfo zv where cuId = zv.cciCustomerId "
+                + "and zv.cciInfoTypeId in (1, 2) and Year(zv.cciValidTo) >= " + dataYear +") \n" +
+                        "and not exists (select 1 from CallCenterDB.dbo.CustomerCalcInfo zv where cuId = zv.cciCustomerId "
+                + "and zv.cciInfoTypeId in (12) and Year(zv.cciValidTo) = " + dataYear +") \n" +
+                        "and coIsActive = 1 \n" +
+                        "and cuIk = " + ik + "\n" +
+                        "group by cuIk, coSexId, coTitle, coFirstName, coLastName, p.cdDetails, e.cdDetails";
         Query query = getEntityManager().createNativeQuery(sql);
         List<CalcContact> contacts = new Vector<>();
         @SuppressWarnings("unchecked") List<Object[]> objects = query.getResultList();

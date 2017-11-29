@@ -394,10 +394,10 @@ public class EditStatementOfParticipance extends AbstractEditController {
             _statement.setMultiyearPsy(0);
             _statement.setClinicalDistributionModelPsy(-1);
         }
-        if (_statement.getMultiyearDrg() < 4) {
+        if (_statement.getMultiyearDrg() != 15) {
             _statement.setMultiyearDrgText("");
         }
-        if (_statement.getMultiyearPsy() < 4) {
+        if (_statement.getMultiyearPsy() != 15) {
             _statement.setMultiyearPsyText("");
         }
     }
@@ -493,10 +493,10 @@ public class EditStatementOfParticipance extends AbstractEditController {
             checkField(message, statement.getClinicalDistributionModelDrg(), 0, 1,
                     "lblStatementSingleCostAttributionDrg", "sop:clinicalDistributionModelDrg",
                     StatementOfParticipanceTabs.tabStatementOfParticipanceStatements);
-            checkField(message, statement.getMultiyearDrg(), 1, 4,
+            checkField(message, statement.getMultiyearDrg(), 1, 15,
                     "lblQuestionOverlayer", "sop:multiyearDrg",
                     StatementOfParticipanceTabs.tabStatementOfParticipanceStatements);
-            if (statement.getMultiyearDrg() == 4 && statement.getMultiyearDrgText().isEmpty()) {
+            if (statement.getMultiyearDrg() == 15 && statement.getMultiyearDrgText().isEmpty()) {
                 applyMessageValues(message, "lblDescriptionOfAlternative",
                         StatementOfParticipanceTabs.tabStatementOfParticipanceStatements, "form");
             }
@@ -506,10 +506,10 @@ public class EditStatementOfParticipance extends AbstractEditController {
             checkField(message, statement.getClinicalDistributionModelPsy(), 0, 1,
                     "lblStatementSingleCostAttributionPsy", "sop:clinicalDistributionModelPsy",
                     StatementOfParticipanceTabs.tabStatementOfParticipanceStatements);
-            checkField(message, statement.getMultiyearPsy(), 1, 4,
+            checkField(message, statement.getMultiyearPsy(), 1, 15,
                     "lblQuestionOverlayer", "sop:multiyearPsy",
                     StatementOfParticipanceTabs.tabStatementOfParticipanceStatements);
-            if (statement.getMultiyearPsy() == 4 && statement.getMultiyearPsyText().isEmpty()) {
+            if (statement.getMultiyearPsy() == 15 && statement.getMultiyearPsyText().isEmpty()) {
                 applyMessageValues(message, "lblDescriptionOfAlternative",
                         StatementOfParticipanceTabs.tabStatementOfParticipanceStatements, "form");
             }
