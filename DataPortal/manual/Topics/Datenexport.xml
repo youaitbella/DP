@@ -7,5 +7,32 @@
       <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Datenexport</text></para>
     </header>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Sofern alle Daten vorliegen, sollen diese in einem Format exportiert werden, dass von anderen EDV-System verarbeitet werden kann, gleichzeitig aber auch durch den Anwender nutzbar ist. Die Vereinbarungspartner haben sich auf eine Excel-Datei als Mittel der Wahl verständigt. Im Folgenden finden Sie einige Hinweise für den Umgang mit dieser Datei, sofern Sie diese elektronisch weiterverarbeiten möchten.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Heading3"><text styleclass="Heading3" translate="true">Dateiname</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Der Dateiname lautet &quot;PsychPersonalNachweis_123456789.xlsx&quot;, wobei anstelle von &quot;123456789&quot; das IK des betreffenden Krankenhauses steht. Dieser Name ist insbesondere für Anwender, welche Daten mehrerer Häuser ausleiten zur Unterscheidung gedacht.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Heading3"><text styleclass="Heading3" translate="true">Arbeitsblätter (Sheets)</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Je Arbeitsblatt wird neben der Information im Kopfbereich und den Fußnoten eine Datentabelle ausgegeben. Abhängig davon, ob ein Krankenhaus nur im Bereich Erwachsene, nur im Bereich Kinder- und Jugendpsychiatrie (KJP) oder in beiden Bereichen tätig ist, ob es Daten liefert oder einen Ausnahmetatbestand angibt, ergeben sich unterschiedliche Datenmengen und damit eine unterschiedliche Anzahl von Arbeitsblättern.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Bei der programmatischen Verarbeitung der Datei sollten Sie daher nicht mit einer Indexnummer auf ein Arbeitsblatt zugreifen, sondern mit dessen Namen. Im folgenden wird dies beispielhaft anhand der Open-Source-Bibliothek &quot;POI&quot; dargestellt:</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Zugriff via Index vermeiden:</text><tab /><tab /><tab /><text styleclass="Normal" translate="true">workbook.getSheetAt(0);</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Zugriff via Name ist besser:</text><tab /><tab /><tab /><text styleclass="Normal" translate="true">workbook.getSheet(&quot;Anlage_1_ERW&quot;);</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Es stehen folgende Arbeitsblätter zur Verfügung</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Anlage 1, Ausnahmetatbestand:</text><tab /><tab /><text styleclass="Normal" translate="true">Anlage_1_Ausnahme</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Anlage 1, Daten Erwachsene:</text><tab /><tab /><text styleclass="Normal" translate="true">Anlage_1_ERW</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Anlage 1, Daten KJP:</text><tab /><tab /><tab /><tab /><text styleclass="Normal" translate="true">Anlage_1_KJP</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Anlage 2, Ausnahmetatbestand:</text><tab /><tab /><text styleclass="Normal" translate="true">Anlage_2_Ausnahme</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Anlage 2, Daten Erwachsene:</text><tab /><tab /><text styleclass="Normal" translate="true">Anlage_2_ERW</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Anlage 2, Daten KJP:</text><tab /><tab /><tab /><tab /><text styleclass="Normal" translate="true">Anlage_2_KJP</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Anlage 2, Erläuterung Erwachsene:</text><tab /><tab /><text styleclass="Normal" translate="true">Anlage_2_ERW_Erläuterung</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Anlage 2, Erläuterung KJP:</text><tab /><tab /><tab /><text styleclass="Normal" translate="true">Anlage_2_KJP_Erläuterung</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Ausnahmetatbestand einerseits sowie Daten und Erläuterungen andererseits schließen sich dabei je Anlage wechselseitig aus.</text></para>
   </body>
 </topic>
