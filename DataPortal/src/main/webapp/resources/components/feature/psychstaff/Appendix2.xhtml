@@ -190,7 +190,9 @@
                             <ui:repeat value="#{editPsyStaff.staffProof.getStaffProofExplanations(cc.attrs.patType)}" var="item">
                                 <tr>
                                     <td  class="colIcon row1" scope="col" >
-                                        <h:commandLink action="#{editPsyStaff.deleteExplanation(item)}" immediate="true">
+                                        <h:commandLink action="#{editPsyStaff.deleteExplanation(item)}" 
+                                                       rendered="#{not editPsyStaff.readOnly}"
+                                                       immediate="true">
                                             <h:graphicImage alt="löschen" name="Icon/small/delete.png"
                                                             title="'Löschen'" value=""/>
                                             <cb:confirmDelete/>
