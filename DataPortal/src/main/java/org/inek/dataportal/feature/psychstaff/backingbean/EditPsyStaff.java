@@ -67,13 +67,14 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     private static final String PDF_DOCUMENT_APX2 = "PsychPersonalNachweis_Anlage2.pdf";
     private static final String EXCEL_DOCUMENT = "PsychPersonalNachweis.xlsx";
 
-    private  CooperationTools _cooperationTools;
-    private  SessionController _sessionController;
-    private  PsychStaffFacade _psychStaffFacade;
-    private  ApplicationTools _appTools;
+    private CooperationTools _cooperationTools;
+    private SessionController _sessionController;
+    private PsychStaffFacade _psychStaffFacade;
+    private ApplicationTools _appTools;
 
-    public EditPsyStaff(){}
-    
+    public EditPsyStaff() {
+    }
+
     @Inject
     public EditPsyStaff(CooperationTools cooperationTools,
             SessionController sessionController,
@@ -327,6 +328,18 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     }
 
     private String save(boolean showMessage) {
+        if (IsReasonMissing()) {
+            String script = "alert ('Bitte geben Sie zum Ausnahmetatbestand eine Begründung an.');";
+            _sessionController.setScript(script);
+            return null;
+        }
+        if (_staffProof.getYear() < 2016){
+            String script = "alert ('Ohne Angabe eines Datenjahrs können Sie nicht speichern.\\r\\n"
+                    + "Je IK kann jedes Datenjahr nur einmal gewählt werden.');";
+            _sessionController.setScript(script);
+            return null;
+        }
+        cleanUneededReason();  
         setModifiedInfo();
         try {
             _staffProof = _psychStaffFacade.saveStaffProof(_staffProof);
@@ -349,6 +362,20 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         }
 
         return Pages.Error.URL();
+    }
+
+    private boolean IsReasonMissing() {
+        return _staffProof.getExclusionFact1().isNeedReason() && _staffProof.getExclusionReason1().isEmpty()
+                || _staffProof.getExclusionFact2().isNeedReason() && _staffProof.getExclusionReason2().isEmpty();
+    }
+
+    private void cleanUneededReason() {
+        if (!_staffProof.getExclusionFact1().isNeedReason()){
+            _staffProof.setExclusionReason1("");
+        }
+        if (!_staffProof.getExclusionFact2().isNeedReason()){
+            _staffProof.setExclusionReason2("");
+        }
     }
 
     private void setModifiedInfo() {
@@ -823,6 +850,10 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     public void exportData() {
         String fileName = EXCEL_DOCUMENT.substring(0, EXCEL_DOCUMENT.lastIndexOf(".")) + "_" + _staffProof.getIk() + ".xlsx";
         _sessionController.createSingleDocument(EXCEL_DOCUMENT, _staffProof.getId(), fileName);
+    }
+
+    public void deleteExplanation(StaffProofExplanation item) {
+        _staffProof.removeStaffProofExplanation(item);
     }
 
 }

@@ -562,6 +562,10 @@ public class StaffProof implements Serializable, StatusEntity {
                 && a.getOccupationalCategoryId() == occupationalCategory.getId()
                 && a.getDeductedSpecialistId() == deductedSpecialistId);
     }
+
+    public void removeStaffProofExplanation(StaffProofExplanation explanation) {
+        _staffProofExplanation.remove(explanation);
+    }
     // </editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property StaffProofDocuments">

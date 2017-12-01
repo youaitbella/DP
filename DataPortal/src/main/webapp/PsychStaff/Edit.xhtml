@@ -57,7 +57,7 @@
                         <li class="#{topic.active ? 'activetab' : 'tab'}">
                         <h:commandLink value="#{topic.title}" 
                                        styleClass="fullWithCentered">
-                            <f:ajax listener="#{editPsyStaff.changeTabPage(topic.key)}" render="@form"/>
+                            <f:ajax listener="#{editPsyStaff.changeTabPage(topic.key)}" render="@all"/>
                         </h:commandLink>
                         </li>
                     </ui:repeat>

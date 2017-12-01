@@ -178,6 +178,7 @@
                            jsf:rendered="#{editPsyStaff.staffProof.getStaffProofExplanations(cc.attrs.patType).size() gt 0}">
                         <thead>
                             <tr>
+                                <th class="colIcon row1" scope="col"> </th>
                                 <th class="col10em row1" scope="col"> Psych-PV-Berufsgruppe, bei der die Anrechnung erfolgt </th>
                                 <th class="col16em row1" scope="col"> Anrechnungstatbestand </th>
                                 <th class="col10em row1" scope="col"> Tatsächlich Berufsgruppe der angerechneten Fachkraft </th>
@@ -188,6 +189,13 @@
                         <tbody>
                             <ui:repeat value="#{editPsyStaff.staffProof.getStaffProofExplanations(cc.attrs.patType)}" var="item">
                                 <tr>
+                                    <td  class="colIcon row1" scope="col" >
+                                        <h:commandLink action="#{editPsyStaff.deleteExplanation(item)}" immediate="true">
+                                            <h:graphicImage alt="löschen" name="Icon/small/delete.png"
+                                                            title="'Löschen'" value=""/>
+                                            <cb:confirmDelete/>
+                                        </h:commandLink>
+                                    </td>
                                     <td  class="col10em row1" scope="col" >
                                         <h:outputText styleClass="element10em"
                                                       value="#{item.occupationalCategory.name}"/>

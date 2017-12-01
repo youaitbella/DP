@@ -43,7 +43,7 @@
                               readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
                               label="Begründung"
                               value="#{editPsyStaff.staffProof.exclusionReason1}"
-                              title="Bitte begründen Sie, warum eine firstgerechte Lieferung nicht erfolgt(e)."
+                              title="Bitte geben Sie eine stichwortartige Begründung an."
                               styleClassLabel="label element15em"
                               styleClass="element100-25em"
                               singleLine="true"/>
@@ -126,13 +126,17 @@
                 </table>
             </div>
 
-            <inek:LabeledText id="agreedDays"
-                              label="#{msg.lblAgreedDays} (#{editPsyStaff.staffProof.calculationType == '1' ? 'PEPPV' : 'BPflV/LKA'})"
-                              value="#{'Adults'.equals(cc.attrs.patType) ? editPsyStaff.staffProof.adultsAgreedDays : editPsyStaff.staffProof.kidsAgreedDays}"
-                              styleClass="element10em"
-                              readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
-                              renderElement=":#{cc.attrs.clientId}:checksum"
-                              title="#{msg.infoPsychStaffNoteCalcDays}"/>
+            <inek:LabeledInteger id="agreedDays"
+                                 label="#{msg.lblAgreedDays} (#{editPsyStaff.staffProof.calculationType == '1' ? 'PEPPV' : 'BPflV/LKA'})"
+                                 value="#{'Adults'.equals(cc.attrs.patType) ? editPsyStaff.staffProof.adultsAgreedDays : editPsyStaff.staffProof.kidsAgreedDays}"
+                                 styleClass="element08em"
+                                 readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
+                                 renderElement=":#{cc.attrs.clientId}:checksum"
+                                 title="#{msg.infoPsychStaffNoteCalcDays}"
+                                 minimum="1"
+                                 pattern="#,##0"
+                                 required="true"/>
+
 
             <div class="marginTop" jsf:rendered="#{not empty editPsyStaff.staffProof.signatureAgreement}">
                 <hr class="simpleLine"/>
