@@ -5,6 +5,13 @@
  */
 package org.inek.dataportal.feature.psychstaff.backingbean;
 
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,6 +25,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.zip.Adler32;
+import java.util.zip.CheckedOutputStream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
@@ -29,6 +40,7 @@ import javax.servlet.http.Part;
 import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
+import org.inek.dataportal.entities.Document;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountAdditionalIK;
 import org.inek.dataportal.enums.ConfigKey;
@@ -45,6 +57,7 @@ import org.inek.dataportal.feature.psychstaff.entity.StaffProofEffective;
 import org.inek.dataportal.feature.psychstaff.entity.StaffProofExplanation;
 import org.inek.dataportal.feature.psychstaff.enums.PsychType;
 import org.inek.dataportal.feature.psychstaff.facade.PsychStaffFacade;
+import org.inek.dataportal.helper.StreamHelper;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.utils.DateUtils;
 
@@ -855,5 +868,9 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     public void deleteExplanation(StaffProofExplanation item) {
         _staffProof.removeStaffProofExplanation(item);
     }
-
+    
+    public void exportAllData() {
+        PsyStaffExport exporter = new PsyStaffExport(_sessionController);
+        exporter.exportAllData(EXCEL_DOCUMENT, _staffProof);
+    }
 }

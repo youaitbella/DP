@@ -1,5 +1,6 @@
 package org.inek.dataportal.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.HttpURLConnection;
@@ -18,6 +19,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.apache.poi.util.IOUtils;
 import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.SearchController;
 import org.inek.dataportal.entities.CustomerType;
@@ -750,6 +752,11 @@ public class SessionController implements Serializable {
                 .findReportTemplateByName(name)
                 .ifPresent(t -> SessionController.this.createSingleDocument(t, "" + id, fileName));
     }
+    
+    public byte[] getSingleDocument(String name, int id, String fileName) {
+        ReportTemplate template = _adminFacade.findReportTemplateById(3);
+        return SessionController.this.getSingleDocument(template,"" + id, fileName);
+    }
 
     public void createSingleDocument(ReportTemplate template, String id, String fileName) {
         String address = template.getAddress().replace("{0}", id);
@@ -759,7 +766,6 @@ public class SessionController implements Serializable {
             conn.setRequestMethod("GET");
             conn.setRequestProperty("X-ReportServer-ClientId", "portal");
             conn.setRequestProperty("X-ReportServer-ClientToken", "FG+RYOLDRuAEh0bO6OBddzcrF45aOI9C");
-
             if (conn.getResponseCode() != 200) {
                 throw new IOException("Report failed: HTTP error code : " + conn.getResponseCode());
             } else if (!Utils.downLoadDocument(conn.getInputStream(), fileName, 0)) {
@@ -770,6 +776,27 @@ public class SessionController implements Serializable {
             LOGGER.log(Level.SEVERE, null, ex);
             alertClient("Bei der Reporterstellung trat ein Fehler auf");
         }
+    }
+    
+    public byte[] getSingleDocument(ReportTemplate template, String id, String fileName) {
+        String address = template.getAddress().replace("{0}", id);
+        try {
+            URL url = new URL(address);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("X-ReportServer-ClientId", "portal");
+            conn.setRequestProperty("X-ReportServer-ClientToken", "FG+RYOLDRuAEh0bO6OBddzcrF45aOI9C");
+            if (conn.getResponseCode() != 200) {
+                throw new IOException("Report failed: HTTP error code : " + conn.getResponseCode());
+            }
+            byte[] file = IOUtils.toByteArray(conn.getInputStream());
+            conn.disconnect();
+            return file;
+        } catch (IOException ex) {
+            LOGGER.log(Level.SEVERE, null, ex);
+            alertClient("Bei der Reporterstellung trat ein Fehler auf");
+        }
+        return new byte[0];
     }
 
 }

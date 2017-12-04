@@ -156,6 +156,13 @@
                                        rendered="#{editPsyStaff.dataExportEnabled}"
                                        title="Dies erzeugt eine elektronisch lesbare Datei zum Versand an die Krankenkassen">
                         </h:commandLink>
+                        
+                        <h:commandLink styleClass="bigButton"
+                                       immediate="true"
+                                       action="#{editPsyStaff.exportAllData()}"
+                                       value="Gesamt-Export"
+                                       rendered="#{editPsyStaff.dataExportEnabled}">
+                        </h:commandLink>
 
                         <h:commandLink styleClass="bigButton"
                                        action="#{editPsyStaff.reopen}"
