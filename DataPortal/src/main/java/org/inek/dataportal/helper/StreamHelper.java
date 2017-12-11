@@ -6,6 +6,7 @@ package org.inek.dataportal.helper;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -81,4 +82,11 @@ public class StreamHelper {
         }
     }
 
+    public static  byte[] toByteArray(InputStream is) throws IOException {
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+        copyStream(is, buffer);
+        buffer.flush();
+        return buffer.toByteArray();
+    }
+    
 }

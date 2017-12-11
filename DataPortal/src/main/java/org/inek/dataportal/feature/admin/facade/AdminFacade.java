@@ -37,11 +37,5 @@ public class AdminFacade extends AbstractDataAccess {
             return Optional.empty();
         }
     }
-    
-    public ReportTemplate findReportTemplateById(int id) {
-        String jpql = "select rt from ReportTemplate rt where rt._id = :id and rt._address != ''";
-        TypedQuery<ReportTemplate> query = getEntityManager().createQuery(jpql, ReportTemplate.class);
-        query.setParameter("id", id);
-        return query.getSingleResult();
-    }
+   
 }

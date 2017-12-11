@@ -1,6 +1,5 @@
 package org.inek.dataportal.controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.HttpURLConnection;
@@ -9,17 +8,16 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.enterprise.context.Conversation;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.apache.poi.util.IOUtils;
 import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.SearchController;
 import org.inek.dataportal.entities.CustomerType;
@@ -44,6 +42,7 @@ import org.inek.dataportal.feature.admin.entity.Log;
 import org.inek.dataportal.feature.admin.entity.ReportTemplate;
 import org.inek.dataportal.feature.admin.facade.AdminFacade;
 import org.inek.dataportal.helper.NotLoggedInException;
+import org.inek.dataportal.helper.StreamHelper;
 import org.inek.dataportal.helper.Topic;
 import org.inek.dataportal.helper.Topics;
 import org.inek.dataportal.helper.Utils;
@@ -747,15 +746,21 @@ public class SessionController implements Serializable {
     public void createSingleDocument(String name, int id) {
         createSingleDocument(name, id, name);
     }
+
     public void createSingleDocument(String name, int id, String fileName) {
         _adminFacade
                 .findReportTemplateByName(name)
                 .ifPresent(t -> SessionController.this.createSingleDocument(t, "" + id, fileName));
     }
-    
+
     public byte[] getSingleDocument(String name, int id, String fileName) {
-        ReportTemplate template = _adminFacade.findReportTemplateById(3);
-        return SessionController.this.getSingleDocument(template,"" + id, fileName);
+        Optional<ReportTemplate> optionalTemplate = _adminFacade.findReportTemplateByName(name);
+        if (optionalTemplate.isPresent()) {
+            ReportTemplate template = _adminFacade.findReportTemplateByName(name).get();
+            return SessionController.this.getSingleDocument(template, "" + id, fileName);
+        } else {
+            return new byte[0];
+        }
     }
 
     public void createSingleDocument(ReportTemplate template, String id, String fileName) {
@@ -768,7 +773,8 @@ public class SessionController implements Serializable {
             conn.setRequestProperty("X-ReportServer-ClientToken", "FG+RYOLDRuAEh0bO6OBddzcrF45aOI9C");
             if (conn.getResponseCode() != 200) {
                 throw new IOException("Report failed: HTTP error code : " + conn.getResponseCode());
-            } else if (!Utils.downLoadDocument(conn.getInputStream(), fileName, 0)) {
+            } 
+            if (!Utils.downLoadDocument(conn.getInputStream(), fileName, 0)) {
                 throw new IOException("Report failed: Error during download");
             }
             conn.disconnect();
@@ -777,7 +783,7 @@ public class SessionController implements Serializable {
             alertClient("Bei der Reporterstellung trat ein Fehler auf");
         }
     }
-    
+
     public byte[] getSingleDocument(ReportTemplate template, String id, String fileName) {
         String address = template.getAddress().replace("{0}", id);
         try {
@@ -789,7 +795,7 @@ public class SessionController implements Serializable {
             if (conn.getResponseCode() != 200) {
                 throw new IOException("Report failed: HTTP error code : " + conn.getResponseCode());
             }
-            byte[] file = IOUtils.toByteArray(conn.getInputStream());
+            byte[] file = StreamHelper.toByteArray(conn.getInputStream());
             conn.disconnect();
             return file;
         } catch (IOException ex) {
