@@ -182,6 +182,11 @@ public class SessionController implements Serializable {
     }
     // </editor-fold>
 
+    public void logTarget(String url) {
+        logMessage("Navigate: URL=" + url);
+        FeatureScopedContextHolder.Instance.destroyAllBeans();
+    }
+    
     public String navigate(String url) {
         logMessage("Navigate: URL=" + url);
         setCurrentTopicByUrl(url);
