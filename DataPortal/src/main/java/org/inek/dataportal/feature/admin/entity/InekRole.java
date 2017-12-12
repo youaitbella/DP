@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.inek.dataportal.enums.Feature;
+import org.inek.dataportal.helper.converter.FeatureConverter;
 
 /**
  *
@@ -49,8 +50,8 @@ public class InekRole implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Feature">
-    @Column(name = "irFeature")
-    @Enumerated(EnumType.STRING)
+    @Column(name = "irFeatureId")
+    @Convert(converter = FeatureConverter.class)
     private Feature _feature;
 
     @NotNull

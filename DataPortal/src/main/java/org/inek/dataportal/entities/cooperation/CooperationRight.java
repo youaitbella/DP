@@ -7,6 +7,7 @@ package org.inek.dataportal.entities.cooperation;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -16,6 +17,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.enums.Feature;
+import org.inek.dataportal.helper.converter.FeatureConverter;
 
 /**
  *
@@ -24,14 +26,6 @@ import org.inek.dataportal.enums.Feature;
 @Entity
 @Table(name = "CooperationRight", schema = "usr")
 public class CooperationRight implements Serializable {
-/*
-        [corId] [int] IDENTITY(1,1) NOT NULL,
-        [corOwnerId] [int] NOT NULL,
-        [corPartnerId] [int] NOT NULL,
-        [corFeature] [varchar](50) NOT NULL,
-        [corIk] [int] NOT NULL,
-        [corRight] [varchar](50) NOT NULL,
-*/
     
     private static final long serialVersionUID = 1L;
     
@@ -49,8 +43,8 @@ public class CooperationRight implements Serializable {
     @Column(name = "corIk")
     private int _ik;
     
-    @Column(name = "corFeature")
-    @Enumerated(EnumType.STRING)
+    @Column(name = "corFeatureId")
+    @Convert(converter = FeatureConverter.class)
     private Feature _feature;
 
     @Column(name = "corCooperativeRight")

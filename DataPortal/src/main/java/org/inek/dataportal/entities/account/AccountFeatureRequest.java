@@ -4,15 +4,15 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import org.inek.dataportal.enums.Feature;
+import org.inek.dataportal.helper.converter.FeatureConverter;
 
 /**
  *
@@ -50,15 +50,15 @@ public class AccountFeatureRequest implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Feature">
-    @Column(name = "afrFeature")
-    @Enumerated(EnumType.STRING)
+    @Column(name = "afrFeatureId")
+    @Convert(converter = FeatureConverter.class)
     private Feature _feature;
     public Feature getFeature() {
         return _feature;
     }
 
     public void setFeature(Feature feature) {
-        this._feature = feature;
+        _feature = feature;
     }
     // </editor-fold>
 

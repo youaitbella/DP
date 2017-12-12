@@ -1,25 +1,24 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.inek.dataportal.helper.converter;
+
+import javax.persistence.AttributeConverter;
+import javax.persistence.Converter;
+import org.inek.dataportal.enums.Feature;
 
 /**
  *
  * @author muellermi
  */
-//@Converter(autoApply = false)
-public class FeatureConverter { //implements AttributeConverter<Feature, Integer> {
+@Converter(autoApply = false)
+public class FeatureConverter implements AttributeConverter<Feature, Integer> {
 
 
-//    @Override
-//    public Integer convertToDatabaseColumn(Feature feature) {
-//        return feature.getId();
-//    }
-//
-//    @Override
-//    public Feature convertToEntityAttribute(Integer id) {
-//        return Feature.getFeatureFromId(id);
-//    }
+    @Override
+    public Integer convertToDatabaseColumn(Feature feature) {
+        return feature.getId();
+    }
+
+    @Override
+    public Feature convertToEntityAttribute(Integer id) {
+        return Feature.getFeatureFromId(id);
+    }
 }
