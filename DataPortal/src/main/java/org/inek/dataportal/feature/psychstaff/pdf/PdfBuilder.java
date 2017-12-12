@@ -43,6 +43,8 @@ public class PdfBuilder extends PdfPageEventHelper {
 
     private EditPsyStaff _editPsyStaff;
 
+    // todo: pass PsychStaff object instead of editor
+    // refactor class according to DRY
     public PdfBuilder(EditPsyStaff editPsyStaff) {
         _editPsyStaff = editPsyStaff;
     }
