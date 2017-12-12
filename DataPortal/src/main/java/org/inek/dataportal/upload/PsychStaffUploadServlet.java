@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpSession;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.feature.psychstaff.backingbean.EditPsyStaff;
+import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
 
 @WebServlet(urlPatterns = {"/upload/psychstaff"}, name = "PsychStaffUploadServlet")
 @MultipartConfig(fileSizeThreshold = 10 * 1024 * 1024)
@@ -19,6 +20,15 @@ public class PsychStaffUploadServlet extends AbstractUploadServlet {
     @Override
     protected void stream2Document(String filename, InputStream is, HttpUtil httpUtil) throws IOException {
         HttpSession session = httpUtil.getRequest().getSession();
+
+        // FeatureScoped variant
+        @SuppressWarnings("unchecked") Map<String, FeatureScopedContextHolder.FeatureScopedInstance> map
+                = (Map<String, FeatureScopedContextHolder.FeatureScopedInstance>) session.getAttribute("FeatureScoped");
+        EditPsyStaff editPsychStaff = FeatureScopedContextHolder.Instance.getBean(EditPsyStaff.class, map);
+        editPsychStaff.putDocument(filename, stream2blob(is));
+
+        /*
+        // view scoped variant
         Map map = (Map) session.getAttribute("com.sun.faces.application.view.activeViewMaps");
         EditPsyStaff editPsychStaff = null;
         for (Object entry : map.values()) {
@@ -31,6 +41,7 @@ public class PsychStaffUploadServlet extends AbstractUploadServlet {
                 }
             }
         }
+         */
     }
 
 }
