@@ -17,21 +17,17 @@ import com.itextpdf.text.pdf.PdfWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import javax.inject.Named;
-import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.List;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
-import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.feature.psychstaff.backingbean.EditPsyStaff;
 import org.inek.dataportal.feature.psychstaff.entity.StaffProof;
 import org.inek.dataportal.feature.psychstaff.entity.StaffProofAgreed;
@@ -43,14 +39,13 @@ import org.inek.dataportal.feature.psychstaff.enums.PsychType;
  *
  * @author aitbellayo
  */
-@Named(value = "pdfBuilder")
-@SessionScoped
-public class PdfBuilder extends PdfPageEventHelper implements Serializable {
+public class PdfBuilder extends PdfPageEventHelper {
 
-    @Inject
     private EditPsyStaff _editPsyStaff;
-    @Inject
-    private ApplicationTools _applicationsTools;
+
+    public PdfBuilder(EditPsyStaff editPsyStaff) {
+        _editPsyStaff = editPsyStaff;
+    }
 
     //<editor-fold defaultstate="collapsed" desc="Fonts">
     private static final Font FONT_TITLE = new Font(Font.FontFamily.HELVETICA, 16, Font.BOLD);
@@ -115,7 +110,6 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
     public void createDocument() throws DocumentException, FileNotFoundException, IOException,
             BadElementException, MalformedURLException, NoSuchAlgorithmException {
 
-        //List<String> header3;
         Document document = new Document();
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 
@@ -129,14 +123,6 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
                 PdfPTable structure = new PdfPTable(1);
                 structure.getDefaultCell().setBorder(Rectangle.NO_BORDER);
                 structure.getDefaultCell().setHorizontalAlignment(Element.ALIGN_RIGHT);
-//                PdfPCell cell = new PdfPCell(new Paragraph(infoText1,FONT_NOTE));
-//                cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-//                cell.setBorder(Rectangle.NO_BORDER);
-//                structure.addCell(cell);
-//                cell = new PdfPCell(new Paragraph(infoText2,FONT_NOTE));
-//                cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-//                cell.setBorder(Rectangle.NO_BORDER);
-//                structure.addCell(cell);
                 structure.addCell(new Paragraph(text));
                 structure.setTotalWidth(page.getWidth() - document.leftMargin() - document.rightMargin());
                 structure.writeSelectedRows(0, -1, document.leftMargin(), document.bottomMargin(), writer.getDirectContent());
@@ -367,7 +353,6 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
             addRow2(tb, String.valueOf(index), staffProofEffective);
             index++;
         }
-        //addCell(tb, "", SMALLBOLD, Element.ALIGN_LEFT, BaseColor.LIGHT_GRAY);
         addCell(tb, "8", SMALLBOLD, Element.ALIGN_CENTER, BaseColor.LIGHT_GRAY);
         addCell(tb, "Gesamt", SMALLBOLD, Element.ALIGN_LEFT, BaseColor.LIGHT_GRAY);
         addCell(tb, formatter2.format(_editPsyStaff.sumEffectiveStaffingComplete(psychType)),
@@ -383,42 +368,10 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
     }
 //    </editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="addExplanationTableKid">
-    void addExplanationTableKid(PdfPTable tb) {
-
-        addHeader(tb, headerExp);
-        //PsychType psychType = ("Anlage 2 - Erw").equalsIgnoreCase(_editPsyStaff.getActiveTopic().getTitle()) ? PsychType.Adults : PsychType.Kids;
-
-        for (StaffProofExplanation staffProofExplanation : _editPsyStaff.getStaffProof().getStaffProofExplanations(PsychType.Kids)) {
-            {
-                addCell(tb, staffProofExplanation.getOccupationalCategory().getName(), SMALL, Element.ALIGN_LEFT, BaseColor.LIGHT_GRAY);
-                String t = "";
-                switch (staffProofExplanation.getDeductedSpecialistId()) {
-                    case 4:
-                        t = "Anrechnung Fachkräfte anderer Berufsgruppen der Psych-PV";
-                        break;
-                    case 5:
-                        t = "Anrechnung Fachkräfte Nicht-Psych-PV Berufsgruppen";
-                        break;
-                    default:
-                        t = "Anrechnung Fachkräfte ohne direktes Beschäftigungsverh.";
-                        break;
-                }
-                addCell(tb, t, SMALL, Element.ALIGN_LEFT, BaseColor.LIGHT_GRAY);
-                addCell(tb, staffProofExplanation.getEffectiveOccupationalCategory(), SMALL, Element.ALIGN_RIGHT, BaseColor.WHITE);
-                addCell(tb, String.valueOf(staffProofExplanation.getDeductedFullVigor()), SMALL, Element.ALIGN_RIGHT, BaseColor.WHITE);
-                addCell(tb, staffProofExplanation.getExplanation(), SMALL, Element.ALIGN_RIGHT, BaseColor.WHITE);
-            }
-
-        }
-    }
-    //</editor-fold>
-    
     //<editor-fold defaultstate="collapsed" desc="addExplanationTable">
     void addExplanationTable(PdfPTable tb, PsychType psychType) {
 
         addHeader(tb, headerExp);
-        //PsychType psychType = ("Anlage 2 - Erw").equalsIgnoreCase(_editPsyStaff.getActiveTopic().getTitle()) ? PsychType.Adults : PsychType.Kids;
 
         for (StaffProofExplanation staffProofExplanation : _editPsyStaff.getStaffProof().getStaffProofExplanations(psychType)) {
             {
@@ -483,7 +436,6 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
         cell.setBorder(PdfPCell.NO_BORDER);
         tb1.addCell(cell);
 
-        //cell = new PdfPCell(new Paragraph(bereich, FONT_TITLE));
         cell = new PdfPCell(new Paragraph("", FONT_TITLE));
         cell.setLeft(50);
         cell.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -493,10 +445,7 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
 
         printHospitalInfo(tb1, sig);
 
-        // todo: replace psychType by variable 
         cell = new PdfPCell(new Paragraph("", SMALLBOLD));
-        //cell.setLeft(50);
-        //cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
         cell.setBorder(PdfPCell.NO_BORDER);
@@ -520,7 +469,7 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
         cell = new PdfPCell(new Paragraph("IK: " + staffProof.getIk(), NORMALBOLD));
         cell.setBorder(PdfPCell.NO_BORDER);
         tb_Hosp.addCell(cell);
-        String hospital = _applicationsTools.retrieveHospitalInfo(staffProof.getIk());
+        String hospital = _editPsyStaff.retrieveHospitalInfo();
         cell = new PdfPCell(new Paragraph("Name: " + hospital, NORMALBOLD));
         cell.setBorder(PdfPCell.NO_BORDER);
         tb_Hosp.addCell(cell);
@@ -563,7 +512,6 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="addRow">
     private void addRow(PdfPTable tb, String lfdNr, StaffProofAgreed staffProofAgreed) {
 
-//        DecimalFormat formatter = new DecimalFormat("###,##0.00");
         addCell(tb, staffProofAgreed.getOccupationalCategory().getPersonnelGroup().getName(),
                 SMALL, Element.ALIGN_LEFT, BaseColor.LIGHT_GRAY);
         addCell(tb, lfdNr, SMALL, Element.ALIGN_CENTER, BaseColor.LIGHT_GRAY);
@@ -573,7 +521,6 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
                 SMALL, Element.ALIGN_RIGHT, BaseColor.WHITE);
         addCell(tb, String.valueOf(formatter2.format(staffProofAgreed.getStaffingBudget())),//.replace(",", "."),
                 SMALL, Element.ALIGN_RIGHT, BaseColor.WHITE);
-        //addCell(tb, String.valueOf(staffProofAgreed.getAvgCost()).replace(",", "."), 
         addCell(tb, String.valueOf(formatter2.format(staffProofAgreed.getAvgCost())),
                 SMALL, Element.ALIGN_RIGHT, BaseColor.WHITE);
     }
@@ -645,7 +592,6 @@ public class PdfBuilder extends PdfPageEventHelper implements Serializable {
     private void addNote(Document document, String text, int spacingBefore, int spacingAfter) throws DocumentException {
         Paragraph p;
         p = new Paragraph(text, FONT_NOTE);
-        //p.setIndentationLeft(20);
         p.setSpacingBefore(spacingBefore);
         p.setSpacingAfter(spacingAfter);
         document.add(p);

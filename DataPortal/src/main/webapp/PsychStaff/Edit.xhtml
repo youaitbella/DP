@@ -143,10 +143,10 @@
                         <!--PDF-->
                         <h:commandLink styleClass="bigButton"
                                        immediate="true"
-                                       action="#{pdfBuilder.createDocument()}"
+                                       action="#{editPsyStaff.createDocument()}"
                                        value="PDF Download"
                                        rendered="#{editPsyStaff.pdfExportEnabled}"
-                                       title="#{msg.infoSaveAndClose}">
+                                       title="Dokument mit Daten der Anlage erzeugen">
                         </h:commandLink>
 
                         <h:commandLink styleClass="bigButton"
@@ -185,17 +185,6 @@
                 </h:panelGroup>
             </div>
 
-            <!-- test for pdf from report server start -->
-            <h:panelGroup rendered="#{sessionController.isInekUser('ADMIN')}">
-                <h:commandLink styleClass="bigButton"
-                               immediate="true"
-                               action="#{editPsyStaff.createDocument()}"
-                               value="PDF Download"
-                               rendered="#{editPsyStaff.pdfExportEnabled}"
-                               >
-                </h:commandLink>
-            </h:panelGroup>
-            <!-- test for pdf from report server end -->
         </h:form>
 
     </ui:define>

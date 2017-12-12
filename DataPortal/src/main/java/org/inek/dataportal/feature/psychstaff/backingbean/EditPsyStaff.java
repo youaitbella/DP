@@ -5,14 +5,10 @@
  */
 package org.inek.dataportal.feature.psychstaff.backingbean;
 
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import com.itextpdf.text.DocumentException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -25,14 +21,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.zip.Adler32;
-import java.util.zip.CheckedOutputStream;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
-import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.OptimisticLockException;
@@ -40,7 +31,6 @@ import javax.servlet.http.Part;
 import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.CooperationTools;
 import org.inek.dataportal.controller.SessionController;
-import org.inek.dataportal.entities.Document;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountAdditionalIK;
 import org.inek.dataportal.enums.ConfigKey;
@@ -57,8 +47,9 @@ import org.inek.dataportal.feature.psychstaff.entity.StaffProofEffective;
 import org.inek.dataportal.feature.psychstaff.entity.StaffProofExplanation;
 import org.inek.dataportal.feature.psychstaff.enums.PsychType;
 import org.inek.dataportal.feature.psychstaff.facade.PsychStaffFacade;
-import org.inek.dataportal.helper.StreamHelper;
+import org.inek.dataportal.feature.psychstaff.pdf.PdfBuilder;
 import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.helper.scope.FeatureScoped;
 import org.inek.dataportal.utils.DateUtils;
 
 /**
@@ -66,7 +57,7 @@ import org.inek.dataportal.utils.DateUtils;
  * @author muellermi
  */
 @Named
-@ViewScoped
+@FeatureScoped
 public class EditPsyStaff extends AbstractEditController implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="fields & enums">
@@ -79,15 +70,15 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     private static final String PDF_DOCUMENT_APX1 = "PsychPersonalNachweis_Anlage1.pdf";
     private static final String PDF_DOCUMENT_APX2 = "PsychPersonalNachweis_Anlage2.pdf";
     private static final String EXCEL_DOCUMENT = "PsychPersonalNachweis.xlsx";
-
+    
     private CooperationTools _cooperationTools;
     private SessionController _sessionController;
     private PsychStaffFacade _psychStaffFacade;
     private ApplicationTools _appTools;
-
+    
     public EditPsyStaff() {
     }
-
+    
     @Inject
     public EditPsyStaff(CooperationTools cooperationTools,
             SessionController sessionController,
@@ -98,13 +89,13 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         _psychStaffFacade = psychStaffFacade;
         _appTools = appTools;
     }
-
+    
     private StaffProof _staffProof;
-
+    
     public StaffProof getStaffProof() {
         return _staffProof;
     }
-
+    
     public void setStaffProof(StaffProof staffProof) {
         _staffProof = staffProof;
     }
@@ -118,24 +109,24 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         addTopic(TOPIC_ADULTS2, Pages.PsychStaffAppendix2Adults.URL());
         addTopic(TOPIC_KIDS2, Pages.PsychStaffAppendix2Kids.URL());
     }
-
+    
     @Override
     protected void topicChanged() {
         if (_sessionController.getAccount().isAutoSave() && !isReadOnly()) {
             save(false);
         }
     }
-
+    
     @Override
     protected String getOutcome() {
         return "";
     }
-
+    
     @PostConstruct
     private void init() {
         FacesContext context = FacesContext.getCurrentInstance();
         Map<String, String> params = context.getExternalContext().getRequestParameterMap();
-
+        
         String id = "" + params.get("id");
         if ("new".equals(id)) {
             _staffProof = newStaffProof();
@@ -148,7 +139,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         }
         setTopicVisibility();
     }
-
+    
     private boolean loadStaffProof(String idString) {
         try {
             int id = Integer.parseInt(idString);
@@ -167,14 +158,14 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         _staffProof = new StaffProof();
         return false;
     }
-
+    
     private boolean hasSufficientRights(StaffProof staffProof) {
         if (_sessionController.isInekUser(Feature.PSYCH_STAFF)) {
             return true;
         }
         return _cooperationTools.isAllowed(Feature.PSYCH_STAFF, staffProof.getStatus(), staffProof.getAccountId());
     }
-
+    
     private StaffProof newStaffProof() {
         Account account = _sessionController.getAccount();
         StaffProof staffProof = new StaffProof();
@@ -194,7 +185,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         staffProof.setExclusionFact2(noneFact);
         return staffProof;
     }
-
+    
     private void setTopicVisibility() {
         if (_staffProof == null) {
             return;
@@ -205,18 +196,18 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         findTopic(TOPIC_KIDS1).setVisible(hasIk && _staffProof.isForKids());
         findTopic(TOPIC_KIDS2).setVisible(hasIk && _staffProof.isForKids());
     }
-
+    
     public void ikChanged() {
         setYearToFirstAvailable(_staffProof);
     }
-
+    
     private void setYearToFirstAvailable(StaffProof staffProof) {
         List<Integer> years = getYears(staffProof);
         if (years.size() > 0) {
             staffProof.setYear(years.get(0));
         }
     }
-
+    
     public void exclusionFactChanged1() {
         // since a exclusionFactConverter would create a new object (can be solved with JSF 2.3), 
         // we only use the id and retrieve the appropriate ExclusionFact
@@ -228,7 +219,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
                 .get();
         _staffProof.setExclusionFact1(ef);
     }
-
+    
     public void exclusionFactChanged2() {
         // since a exclusionFactConverter would create a new object (can be solved with JSF 2.3), 
         // we only use the id and retrieve the appropriate ExclusionFact
@@ -240,32 +231,32 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
                 .get();
         _staffProof.setExclusionFact2(ef);
     }
-
+    
     public void domainChanged() {
         setTopicVisibility();
         ensureStaffProofsAgreed(_staffProof);
         ensureStaffProofsEffective(_staffProof);
     }
-
+    
     public List<Integer> getYears() {
         return getYears(_staffProof);
     }
-
+    
     public List<Integer> getYears(StaffProof staffProof) {
         if (staffProof == null) {
             return new ArrayList<>();
         }
-
+        
         List<Integer> existingYears = _psychStaffFacade.getExistingYears(staffProof.getIk());
-
+        
         List<Integer> availableYears = new ArrayList<>();
         IntStream.rangeClosed(2016, 2019) // as of the contract
                 .filter(y -> y == staffProof.getYear() || !existingYears.contains(y))
                 .forEach(y -> availableYears.add(y));
-
+        
         return availableYears;
     }
-
+    
     private void ensureStaffProofsAgreed(StaffProof staffProof) {
         if (staffProof.isForAdults()) {
             ensureStaffProofsAgreed(staffProof, PsychType.Adults);
@@ -274,7 +265,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
             ensureStaffProofsAgreed(staffProof, PsychType.Kids);
         }
     }
-
+    
     public void ensureStaffProofsAgreed(StaffProof staffProof, PsychType type) {
         if (staffProof.getStaffProofsAgreed(type).size() > 0) {
             return;
@@ -291,7 +282,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
             staffProof.addStaffProofAgreed(agreed);
         }
     }
-
+    
     private void ensureStaffProofsEffective(StaffProof staffProof) {
         if (staffProof.isForAdults()) {
             ensureStaffProofsEffective(staffProof, PsychType.Adults);
@@ -300,7 +291,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
             ensureStaffProofsEffective(staffProof, PsychType.Kids);
         }
     }
-
+    
     public void ensureStaffProofsEffective(StaffProof staffProof, PsychType type) {
         if (staffProof.getStaffProofsEffective(type).size() > 0) {
             return;
@@ -317,7 +308,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
             staffProof.addStaffProofEffective(effective);
         }
     }
-
+    
     public List<OccupationalCategory> getOccupationalCategories() {
         return _psychStaffFacade.getOccupationalCategories();
     }
@@ -335,24 +326,24 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         }
         return _cooperationTools.isReadOnly(Feature.PSYCH_STAFF, _staffProof.getStatus(), _staffProof.getAccountId());
     }
-
+    
     public String save() {
         return save(true);
     }
-
+    
     private String save(boolean showMessage) {
         if (IsReasonMissing()) {
             String script = "alert ('Bitte geben Sie zum Ausnahmetatbestand eine Begründung an.');";
             _sessionController.setScript(script);
             return null;
         }
-        if (_staffProof.getYear() < 2016){
+        if (_staffProof.getYear() < 2016) {
             String script = "alert ('Ohne Angabe eines Datenjahrs können Sie nicht speichern.\\r\\n"
                     + "Je IK kann jedes Datenjahr nur einmal gewählt werden.');";
             _sessionController.setScript(script);
             return null;
         }
-        cleanUneededReason();  
+        cleanUneededReason();        
         setModifiedInfo();
         try {
             _staffProof = _psychStaffFacade.saveStaffProof(_staffProof);
@@ -373,28 +364,28 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
                 return null;
             }
         }
-
+        
         return Pages.Error.URL();
     }
-
+    
     private boolean IsReasonMissing() {
         return _staffProof.getExclusionFact1().isNeedReason() && _staffProof.getExclusionReason1().isEmpty()
                 || _staffProof.getExclusionFact2().isNeedReason() && _staffProof.getExclusionReason2().isEmpty();
     }
-
+    
     private void cleanUneededReason() {
-        if (!_staffProof.getExclusionFact1().isNeedReason()){
+        if (!_staffProof.getExclusionFact1().isNeedReason()) {
             _staffProof.setExclusionReason1("");
         }
-        if (!_staffProof.getExclusionFact2().isNeedReason()){
+        if (!_staffProof.getExclusionFact2().isNeedReason()) {
             _staffProof.setExclusionReason2("");
         }
     }
-
+    
     private void setModifiedInfo() {
         _staffProof.setLastChanged(Calendar.getInstance().getTime());
     }
-
+    
     public boolean isCloseEnabled() {
         if (!isSendEnabled()) {
             return false;
@@ -417,7 +408,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
                 return false;
         }
     }
-
+    
     public boolean isClosedState() {
         switch (getActiveTopicKey()) {
             case TOPIC_BASE:
@@ -432,7 +423,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
                 return false;
         }
     }
-
+    
     public boolean isClosedStateActionEnabled() {
         if (!isSendEnabled()) {
             return false;
@@ -442,7 +433,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         }
         return isClosedState();
     }
-
+    
     public boolean isPdfExportEnabled() {
         switch (getActiveTopicKey()) {
             case TOPIC_BASE:
@@ -457,15 +448,15 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
                 return false;
         }
     }
-
+    
     public boolean isPdfImportEnabled() {
         return isPdfExportEnabled() && !isCompleteSinceMoreThan3Days();
     }
-
+    
     public boolean isCompleteSinceMoreThan3Days() {
         return isComplete() && (_staffProof.getLastChanged().getTime() < DateUtils.getDateWithDayOffset(-3).getTime());
     }
-
+    
     public boolean isComplete() {
         boolean apx1Ready = _staffProof.getStatusApx1() == WorkflowStatus.Provided.getId()
                 && (_staffProof.getExclusionFactId1() > 0 || _staffProof.hasStaffProofDocument(1));
@@ -473,7 +464,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
                 && (_staffProof.getExclusionFactId2() > 0 || _staffProof.hasStaffProofDocument(2));
         return apx1Ready && apx2Ready;
     }
-
+    
     public boolean isDataExportEnabled() {
         if (_staffProof == null) {
             // shall not be null!
@@ -483,7 +474,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         // ready, if provided and (exclusion fact or document exists)
         return isComplete() && _sessionController.reportTemplateExists(EXCEL_DOCUMENT);
     }
-
+    
     public String getBtnClose() {
         String type = "("
                 + (_staffProof.isForAdults() ? PsychType.Adults.getShortName() : "")
@@ -502,16 +493,16 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
             default:
                 return "";
         }
-
+        
     }
-
+    
     public String close() {
         if (updateStatus(WorkflowStatus.Provided)) {
             save(false);
         }
         return null;
     }
-
+    
     private boolean updateStatus(WorkflowStatus newStatus) {
         switch (getActiveTopicKey()) {
             case TOPIC_BASE:
@@ -531,7 +522,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         }
         return true;
     }
-
+    
     public boolean isReopenEnabled() {
         if (!isSendEnabled()) {
             return false;
@@ -541,14 +532,14 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         }
         return isClosedStateActionEnabled();
     }
-
+    
     public String reopen() {
         if (updateStatus(WorkflowStatus.CorrectionRequested)) {
             save(false);
         }
         return null;
     }
-
+    
     private boolean isSendEnabled() {
         if (!_appTools.isEnabled(ConfigKey.IsPsychStaffSendEnabled)) {
             return false;
@@ -558,13 +549,13 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         }
         return true;
     }
-
+    
     public boolean isTakeEnabled() {
         return _cooperationTools != null
                 && _staffProof != null
                 && _cooperationTools.isTakeEnabled(Feature.PSYCH_STAFF, _staffProof.getStatus(), _staffProof.getAccountId());
     }
-
+    
     public String take() {
         if (!isTakeEnabled()) {
             return Pages.Error.URL();
@@ -574,7 +565,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         _staffProof = _psychStaffFacade.saveStaffProof(_staffProof);
         return "";
     }
-
+    
     public List<SelectItem> getIks() {
         Set<Integer> iks = new HashSet<>();
         if (_staffProof != null && _staffProof.getIk() > 0) {
@@ -607,53 +598,53 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         double factor = 100 * effective.getStaffingComplete() / denominator;
         return String.format("%.1f", factor) + " %";
     }
-
+    
     public double sumAgreedStaffingComplete(PsychType type) {
         return _staffProof.getStaffProofsAgreed(type).stream().mapToDouble(i -> i.getStaffingComplete()).sum();
     }
-
+    
     public double sumAgreedStaffingBudget(PsychType type) {
         return _staffProof.getStaffProofsAgreed(type).stream().mapToDouble(i -> i.getStaffingBudget()).sum();
     }
-
+    
     public double sumEffectiveStaffingComplete(PsychType type) {
         return _staffProof.getStaffProofsEffective(type).stream().mapToDouble(i -> i.getStaffingComplete()).sum();
     }
-
+    
     public double sumEffectiveStaffingDeductionPsych(PsychType type) {
         return _staffProof.getStaffProofsEffective(type).stream().mapToDouble(i -> i.getStaffingDeductionPsych()).sum();
     }
-
+    
     public double sumEffectiveStaffingDeductionNonPsych(PsychType type) {
         return _staffProof.getStaffProofsEffective(type).stream().mapToDouble(i -> i.getStaffingDeductionNonPsych()).sum();
     }
-
+    
     public double sumEffectiveStaffingDeductionOther(PsychType type) {
         return _staffProof.getStaffProofsEffective(type).stream().mapToDouble(i -> i.getStaffingDeductionOther()).sum();
     }
-
+    
     private Part _file;
-
+    
     public Part getFile() {
         return _file;
     }
-
+    
     public void setFile(Part file) {
         _file = file;
     }
-
+    
     public String getAllowedFileExtensions() {
         return allowedFileExtensions().stream().collect(Collectors.joining(", "));
     }
-
+    
     private List<String> allowedFileExtensions() {
         return Arrays.asList(".pdf", ".jpg", ".jpeg", ".png", ".bmp", ".gif");
     }
-
+    
     public void putDocument(String fileName, byte[] content) {
         int appendix;
         String signature;
-
+        
         switch (getActiveTopicKey()) {
             case TOPIC_BASE:
                 return;
@@ -670,7 +661,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
             default:
                 return;
         }
-
+        
         int pos = fileName.lastIndexOf(".");
         String extension = pos < 0 ? "" : fileName.toLowerCase().substring(pos);
         if (allowedFileExtensions().contains(extension)) {
@@ -682,22 +673,22 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
             save(true);
         }
     }
-
+    
     public String refresh() {
         return "";
     }
-
+    
     public String downloadDocument(String signature) {
         StaffProofDocument doc = _staffProof.getStaffProofDocument(signature);
         Utils.downloadDocument(doc);
         return "";
     }
-
+    
     public void importData() {
         if (_file == null) {
             return;
         }
-
+        
         String msg = "";
         switch (getActiveTopicKey()) {
             case TOPIC_BASE:
@@ -717,15 +708,15 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
             default:
                 return;
         }
-
+        
         _sessionController.alertClient(msg);
     }
-
+    
     public void importExplanation() {
         if (_file == null) {
             return;
         }
-
+        
         String msg = "";
         switch (getActiveTopicKey()) {
             case TOPIC_BASE:
@@ -743,10 +734,10 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
             default:
                 return;
         }
-
+        
         _sessionController.alertClient(msg);
     }
-
+    
     public void countChanged(StaffProofEffective item, int key) {
         double count;
         switch (key) {
@@ -767,9 +758,9 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
             return;
         }
         _staffProof.addMissingStaffProofExplanation(item.getPsychType(), item.getOccupationalCategory(), key);
-
+        
     }
-
+    
     public void adjustLines(StaffProofExplanation explanation) {
         if (explanation.getDeductedFullVigor() == 0) {
             return;
@@ -785,7 +776,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
                 .get();
         adjustLine(staffProofEffective, key);
     }
-
+    
     public void adjustAllLines(String typeString) {
         PsychType type = PsychType.valueOf(typeString);
         for (StaffProofEffective staffProofEffective : _staffProof.getStaffProofsEffective(type)) {
@@ -794,7 +785,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
             }
         }
     }
-
+    
     private void adjustLine(StaffProofEffective staffProofEffective, int key) {
         OccupationalCategory occupationalCategory = staffProofEffective.getOccupationalCategory();
         PsychType type = staffProofEffective.getPsychType();
@@ -830,7 +821,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
             }
         }
     }
-
+    
     public List<ExclusionFact> getExclusionFacts() {
         return _appTools
                 .getExclusionFacts()
@@ -838,7 +829,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
                 .filter(f -> f.getYearFrom() <= _staffProof.getYear() && f.getYearTo() >= _staffProof.getYear())
                 .collect(Collectors.toList());
     }
-
+    
     public List<ExclusionFact> getExclusionFacts1() {
         return _appTools
                 .getExclusionFacts()
@@ -846,7 +837,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
                 .filter(f -> f.getYearFrom() <= _staffProof.getYear() && f.getYearTo() >= _staffProof.getYear() && f.isAffectsApx1())
                 .collect(Collectors.toList());
     }
-
+    
     public List<ExclusionFact> getExclusionFacts2() {
         return _appTools
                 .getExclusionFacts()
@@ -854,17 +845,22 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
                 .filter(f -> f.getYearFrom() <= _staffProof.getYear() && f.getYearTo() >= _staffProof.getYear() && f.isAffectsApx2())
                 .collect(Collectors.toList());
     }
-
+    
     public void createDocument() {
         // just for testing. Need to determin current apx
-        _sessionController.createSingleDocument(PDF_DOCUMENT_APX1, _staffProof.getId());
+        //_sessionController.createSingleDocument(PDF_DOCUMENT_APX1, _staffProof.getId());
+        try {
+            new PdfBuilder(this).createDocument();
+        } catch (DocumentException | IOException | NoSuchAlgorithmException ex) {
+            LOGGER.log(Level.WARNING, "Error during PDF creation: {0}", ex.getMessage());
+        }
     }
-
+    
     public void exportData() {
         String fileName = EXCEL_DOCUMENT.substring(0, EXCEL_DOCUMENT.lastIndexOf(".")) + "_" + _staffProof.getIk() + ".xlsx";
         _sessionController.createSingleDocument(EXCEL_DOCUMENT, _staffProof.getId(), fileName);
     }
-
+    
     public void deleteExplanation(StaffProofExplanation item) {
         _staffProof.removeStaffProofExplanation(item);
     }
@@ -872,5 +868,9 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     public void exportAllData() {
         PsyStaffExport exporter = new PsyStaffExport(_sessionController);
         exporter.exportAllData(EXCEL_DOCUMENT, _staffProof);
+    }
+    
+    public String retrieveHospitalInfo() {
+        return _appTools.retrieveHospitalInfo(_staffProof.getIk());
     }
 }
