@@ -21,27 +21,27 @@ public class PsychStaffUploadServlet extends AbstractUploadServlet {
     protected void stream2Document(String filename, InputStream is, HttpUtil httpUtil) throws IOException {
         HttpSession session = httpUtil.getRequest().getSession();
 
-        // FeatureScoped variant
-        @SuppressWarnings("unchecked") Map<String, FeatureScopedContextHolder.FeatureScopedInstance> map
-                = (Map<String, FeatureScopedContextHolder.FeatureScopedInstance>) session.getAttribute("FeatureScoped");
-        EditPsyStaff editPsychStaff = FeatureScopedContextHolder.Instance.getBean(EditPsyStaff.class, map);
-        editPsychStaff.putDocument(filename, stream2blob(is));
-
-        /*
-        // view scoped variant
-        Map map = (Map) session.getAttribute("com.sun.faces.application.view.activeViewMaps");
-        EditPsyStaff editPsychStaff = null;
-        for (Object entry : map.values()) {
-            if (entry instanceof Map) {
-                Map viewScopes = (Map) entry;
-                if (viewScopes.containsKey("editPsyStaff")) {
-                    editPsychStaff = (EditPsyStaff) viewScopes.get("editPsyStaff");
-                    editPsychStaff.putDocument(filename, stream2blob(is));
-                    break;
+        try {
+            // FeatureScoped variant
+            @SuppressWarnings("unchecked") Map<String, FeatureScopedContextHolder.FeatureScopedInstance> map
+                    = (Map<String, FeatureScopedContextHolder.FeatureScopedInstance>) session.getAttribute("FeatureScoped");
+            EditPsyStaff editPsychStaff = FeatureScopedContextHolder.Instance.getBean(EditPsyStaff.class, map);
+            editPsychStaff.putDocument(filename, stream2blob(is));
+        } catch (Exception ex) {
+            // view scoped variant
+            Map map = (Map) session.getAttribute("com.sun.faces.application.view.activeViewMaps");
+            EditPsyStaff editPsychStaff = null;
+            for (Object entry : map.values()) {
+                if (entry instanceof Map) {
+                    Map viewScopes = (Map) entry;
+                    if (viewScopes.containsKey("editPsyStaff")) {
+                        editPsychStaff = (EditPsyStaff) viewScopes.get("editPsyStaff");
+                        editPsychStaff.putDocument(filename, stream2blob(is));
+                        break;
+                    }
                 }
             }
         }
-         */
     }
 
 }
