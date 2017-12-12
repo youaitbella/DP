@@ -3,9 +3,8 @@ package org.inek.dataportal.feature.admin.entity;
 
 import java.io.Serializable;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,6 +12,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.inek.dataportal.enums.Feature;
+import org.inek.dataportal.helper.converter.FeatureConverter;
 
 @Entity
 @Table(name = "MailTemplate", schema = "adm")
@@ -48,8 +48,8 @@ public class MailTemplate implements Serializable {
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Property Feature">
-    @Column (name = "mtFeature")
-    @Enumerated(EnumType.STRING)
+    @Column (name = "mtFeatureId")
+    @Convert(converter = FeatureConverter.class)
     private Feature _feature;
     
     @NotNull

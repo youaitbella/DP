@@ -8,6 +8,7 @@ import java.io.Serializable;
 import javax.persistence.*;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.feature.ikadmin.enums.Right;
+import org.inek.dataportal.helper.converter.FeatureConverter;
 
 /**
  *
@@ -93,8 +94,7 @@ public class AccessRight implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property Feature">
     @Column(name = "arFeatureId")
-    @Enumerated(EnumType.ORDINAL)
-    //@Convert(converter = FeatureConverter.class)
+    @Convert(converter = FeatureConverter.class)
     private Feature _feature;
 
     public Feature getFeature() {

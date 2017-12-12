@@ -7,6 +7,7 @@ package org.inek.dataportal.entities.account;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -16,6 +17,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.FeatureState;
+import org.inek.dataportal.helper.converter.FeatureConverter;
 
 /**
  *
@@ -45,6 +47,7 @@ public class AccountFeature implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "afId")
     private int _id;
+
     public int getId() {
         return _id;
     }
@@ -68,15 +71,16 @@ public class AccountFeature implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property FeatureState">
-    @Column(name = "afFeature")
-    @Enumerated(EnumType.STRING)
+    @Column(name = "afFeatureId")
+    @Convert(converter = FeatureConverter.class)
     private Feature _feature;
-    public FeatureState getFeatureState() {
-        return _featureState;
+
+    public Feature getFeature() {
+        return _feature;
     }
 
-    public void setFeatureState(FeatureState featureState) {
-        _featureState = featureState;
+    public void setFeature(Feature feature) {
+        _feature = feature;
     }
     // </editor-fold>
 
@@ -85,12 +89,12 @@ public class AccountFeature implements Serializable {
     @Enumerated(EnumType.STRING)
     private FeatureState _featureState;
 
-    public Feature getFeature() {
-        return _feature;
+    public FeatureState getFeatureState() {
+        return _featureState;
     }
 
-    public void setFeature(Feature feature) {
-        _feature = feature;
+    public void setFeatureState(FeatureState featureState) {
+        _featureState = featureState;
     }
     // </editor-fold>
 

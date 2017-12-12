@@ -9,9 +9,8 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,6 +18,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
 import org.inek.dataportal.enums.Feature;
+import org.inek.dataportal.helper.converter.FeatureConverter;
 
 /**
  *
@@ -99,8 +99,8 @@ public class PortalMessage implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Feature">
-    @Column(name = "mFeature")
-    @Enumerated(EnumType.STRING)
+    @Column(name = "mFeatureId")
+    @Convert(converter = FeatureConverter.class)
     private Feature _feature;
 
     public Feature getFeature() {
