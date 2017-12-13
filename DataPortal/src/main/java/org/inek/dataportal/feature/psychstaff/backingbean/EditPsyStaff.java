@@ -117,10 +117,10 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         }
     }
     
-    @Override
-    protected String getOutcome() {
-        return "";
-    }
+//    @Override
+//    protected String getOutcome() {
+//        return "";
+//    }
     
     @PostConstruct
     private void init() {

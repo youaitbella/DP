@@ -102,7 +102,7 @@ public class PsychStaffList implements Serializable {
     }
 
     public String edit() {
-        return Pages.PsychStaffEdit.URL();
+        return Pages.PsychStaffBaseData.URL();
     }
 
 }

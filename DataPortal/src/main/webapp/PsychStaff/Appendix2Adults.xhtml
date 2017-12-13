@@ -7,9 +7,12 @@
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 xmlns:psystaff="http://xmlns.jcp.org/jsf/composite/components/feature/psychstaff"
-                xmlns:jsf="http://xmlns.jcp.org/jsf">
-    
-    <psystaff:Appendix2 patType="Adults" id="appendix2Adults"/>
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                template="Edit.xhtml"
+                >
 
+    <ui:define name="editContent">
+        <psystaff:Appendix2 patType="Adults" id="appendix2Adults"/>
+    </ui:define>
 </ui:composition>
 

@@ -68,16 +68,17 @@
                     <ui:repeat value="#{editPsyStaff.visibleTopics}" var="topic" varStatus="status">
                         <li class="#{topic.active ? 'activetab' : 'tab'}">
                         <h:commandLink value="#{topic.title}" 
-                                       styleClass="fullWithCentered">
-                            <f:ajax listener="#{editPsyStaff.changeTabPage(topic.key)}" render="@all"/>
-                        </h:commandLink>
+                                       styleClass="fullWithCentered" 
+                                       action="#{editPsyStaff.changeTabPage(topic.key)}" 
+                                       immediate="true"/>
                         </li>
                     </ui:repeat>
                 </ul>
             </div>
 
             <div class="edit">
-                <ui:include src="#{editPsyStaff.activeTopic.outcome}" />
+                <!--ui:include src="#{editPsyStaff.activeTopic.outcome}" /-->
+                <ui:insert name="editContent">Content</ui:insert>
 
                 <h:panelGroup rendered="#{editPsyStaff.staffProof.ik gt 0}">
                     <div class="toolBar" jsf:rendered="#{editPsyStaff.pdfImportEnabled}" style="margin-right: 1em;">

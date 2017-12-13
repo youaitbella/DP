@@ -7,77 +7,81 @@
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common"
-                xmlns:jsf="http://xmlns.jcp.org/jsf">
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                template="Edit.xhtml"
+                >
 
-    <inek:MultiIk value="#{editPsyStaff.staffProof.ik}" 
-                  ikList="#{editPsyStaff.iks}"
-                  listener="#{editPsyStaff.ikChanged}" 
-                  readonly="#{editPsyStaff.readOnly}" 
-                  isFixed="#{editPsyStaff.staffProof.id gt 0 and editPsyStaff.staffProof.ik gt 0}"
-                  renderElement="psyStaffData"
-                  >
-    </inek:MultiIk>
+    <ui:define name="editContent">
+
+        <inek:MultiIk value="#{editPsyStaff.staffProof.ik}" 
+                      ikList="#{editPsyStaff.iks}"
+                      listener="#{editPsyStaff.ikChanged}" 
+                      readonly="#{editPsyStaff.readOnly}" 
+                      isFixed="#{editPsyStaff.staffProof.id gt 0 and editPsyStaff.staffProof.ik gt 0}"
+                      renderElement="psyStaffData"
+                      >
+        </inek:MultiIk>
 
 
-    <div jsf:id="psyStaffData" jsf:rendered="#{editPsyStaff.staffProof.ik gt 0}">
+        <div jsf:id="psyStaffData" jsf:rendered="#{editPsyStaff.staffProof.ik gt 0}">
 
-        <hr/>
+            <hr/>
 
-        <div class="inputPart">
-            <h:outputLabel styleClass="label element15em" 
-                           value="#{msg.lblAgreementYear}" 
-                           for="year"/>
+            <div class="inputPart">
+                <h:outputLabel styleClass="label element15em" 
+                               value="#{msg.lblAgreementYear}" 
+                               for="year"/>
 
-            <h:selectOneMenu id="year" 
-                             value="#{editPsyStaff.staffProof.year}"
-                             disabled="#{editPsyStaff.readOnly or editPsyStaff.staffProof.anyClosed}"
-                             required="true">
-                <f:selectItems value="#{editPsyStaff.years}" />
-                <f:ajax render="exclusion"/>
-            </h:selectOneMenu>
+                <h:selectOneMenu id="year" 
+                                 value="#{editPsyStaff.staffProof.year}"
+                                 disabled="#{editPsyStaff.readOnly or editPsyStaff.staffProof.anyClosed}"
+                                 required="true">
+                    <f:selectItems value="#{editPsyStaff.years}" />
+                    <f:ajax render="exclusion"/>
+                </h:selectOneMenu>
+            </div>
+
+            <div class="inputPart">
+                <h:outputLabel value="Einrichtung für" 
+                               styleClass="label element15em"/>
+
+                <inek:LabeledCheckbox id="adults" 
+                                      label="Erwachsene" 
+                                      value="#{editPsyStaff.staffProof.forAdults}"
+                                      readonly="#{editPsyStaff.readOnly or editPsyStaff.staffProof.anyClosed}"
+                                      styleClassComponent="inlineBlock element10em"
+                                      precedingBox="true"
+                                      renderElement="@form">
+                    <f:ajax event="clientChange" listener="#{editPsyStaff.domainChanged()}"/>
+                </inek:LabeledCheckbox>
+
+                <inek:LabeledCheckbox label="Kinder und Jugendliche" 
+                                      value="#{editPsyStaff.staffProof.forKids}"
+                                      readonly="#{editPsyStaff.readOnly or editPsyStaff.staffProof.anyClosed}"
+                                      styleClassComponent="inlineBlock"
+                                      precedingBox="true"
+                                      renderElement="@form">
+                    <f:ajax event="clientChange" listener="#{editPsyStaff.domainChanged()}"/>
+                </inek:LabeledCheckbox>
+            </div>
+
+            <div class="inputPart">
+                <h:outputLabel value="Zählweise Berechnungstage" 
+                               styleClass="label element15em"
+                               title="#{msg.infoPsychStaffNoteCalcDays}"/>
+
+                <h:selectOneRadio styleClass="inlineBlock"
+                                  value="#{editPsyStaff.staffProof.calculationType}"
+                                  disabled="#{editPsyStaff.readOnly or editPsyStaff.staffProof.anyClosed}"
+                                  required="true"
+                                  title="#{msg.infoPsychStaffNoteCalcDays}">
+                    <f:selectItem itemValue="1" itemLabel="PEPPV" class="element10em"/>
+                    <f:selectItem itemValue="2" itemLabel="BPflV/LKA"/>
+                    <f:ajax render="checksum"/>
+                </h:selectOneRadio>
+            </div>
+
         </div>
-
-        <div class="inputPart">
-            <h:outputLabel value="Einrichtung für" 
-                           styleClass="label element15em"/>
-
-            <inek:LabeledCheckbox id="adults" 
-                                  label="Erwachsene" 
-                                  value="#{editPsyStaff.staffProof.forAdults}"
-                                  readonly="#{editPsyStaff.readOnly or editPsyStaff.staffProof.anyClosed}"
-                                  styleClassComponent="inlineBlock element10em"
-                                  precedingBox="true"
-                                  renderElement="@form">
-                <f:ajax event="clientChange" listener="#{editPsyStaff.domainChanged()}"/>
-            </inek:LabeledCheckbox>
-
-            <inek:LabeledCheckbox label="Kinder und Jugendliche" 
-                                  value="#{editPsyStaff.staffProof.forKids}"
-                                  readonly="#{editPsyStaff.readOnly or editPsyStaff.staffProof.anyClosed}"
-                                  styleClassComponent="inlineBlock"
-                                  precedingBox="true"
-                                  renderElement="@form">
-                <f:ajax event="clientChange" listener="#{editPsyStaff.domainChanged()}"/>
-            </inek:LabeledCheckbox>
-        </div>
-
-        <div class="inputPart">
-            <h:outputLabel value="Zählweise Berechnungstage" 
-                           styleClass="label element15em"
-                           title="#{msg.infoPsychStaffNoteCalcDays}"/>
-
-            <h:selectOneRadio styleClass="inlineBlock"
-                              value="#{editPsyStaff.staffProof.calculationType}"
-                              disabled="#{editPsyStaff.readOnly or editPsyStaff.staffProof.anyClosed}"
-                              required="true"
-                              title="#{msg.infoPsychStaffNoteCalcDays}">
-                <f:selectItem itemValue="1" itemLabel="PEPPV" class="element10em"/>
-                <f:selectItem itemValue="2" itemLabel="BPflV/LKA"/>
-                <f:ajax render="checksum"/>
-            </h:selectOneRadio>
-        </div>
-
-
-    </div>
+    </ui:define>
 </ui:composition>
 
