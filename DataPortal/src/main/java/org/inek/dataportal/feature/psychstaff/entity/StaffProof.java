@@ -149,7 +149,6 @@ public class StaffProof implements Serializable, StatusEntity {
         _statusId = statusId;
     }
 
-    @Documentation(key = "lblWorkstate", rank = 10)
     @Override
     public WorkflowStatus getStatus() {
         return WorkflowStatus.fromValue(_statusId);
@@ -163,6 +162,7 @@ public class StaffProof implements Serializable, StatusEntity {
 
     // <editor-fold defaultstate="collapsed" desc="Property ForAdults">
     @Column(name = "spmIsForAdults")
+    @Documentation(name = "Einrichtung für Erwachsene")
     private boolean _forAdults;
 
     public boolean isForAdults() {
@@ -176,6 +176,7 @@ public class StaffProof implements Serializable, StatusEntity {
 
     // <editor-fold defaultstate="collapsed" desc="Property ForKids">
     @Column(name = "spmIsForKids")
+    @Documentation(name = "Einrichtung für Kinder- und Jugendpsychiatrie")
     private boolean _forKids;
 
     public boolean isForKids() {
@@ -215,11 +216,11 @@ public class StaffProof implements Serializable, StatusEntity {
     @OneToOne()
     @PrimaryKeyJoinColumn(name = "spmExclusionFactId1")
     private ExclusionFact _exclusionFact1;
-    
+
     public ExclusionFact getExclusionFact1() {
         return _exclusionFact1;
     }
-    
+
     public void setExclusionFact1(ExclusionFact exclusionFact1) {
         _exclusionFact1 = exclusionFact1;
         _exclusionFactId1 = exclusionFact1.getId();
@@ -229,17 +230,17 @@ public class StaffProof implements Serializable, StatusEntity {
     //<editor-fold defaultstate="collapsed" desc="Property ExclusionReason1">
     @Column(name = "spmExclusionReason1")
     private String _exclusionReason1 = "";
-    
+
     @Size(max = 250)
     public String getExclusionReason1() {
         return _exclusionReason1;
     }
-    
+
     public void setExclusionReason1(String exclusionReason1) {
         _exclusionReason1 = exclusionReason1;
     }
     //</editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property ExclusionFactId2">
     @Column(name = "spmExclusionFactId2")
     private int _exclusionFactId2 = 0;
@@ -255,11 +256,11 @@ public class StaffProof implements Serializable, StatusEntity {
     @OneToOne()
     @PrimaryKeyJoinColumn(name = "spmExclusionFactId2")
     private ExclusionFact _exclusionFact2;
-    
+
     public ExclusionFact getExclusionFact2() {
         return _exclusionFact2;
     }
-    
+
     public void setExclusionFact2(ExclusionFact exclusionFact2) {
         _exclusionFact2 = exclusionFact2;
         _exclusionFactId2 = exclusionFact2.getId();
@@ -269,17 +270,17 @@ public class StaffProof implements Serializable, StatusEntity {
     //<editor-fold defaultstate="collapsed" desc="Property ExclusionReason2">
     @Column(name = "spmExclusionReason2")
     private String _exclusionReason2 = "";
-    
+
     @Size(max = 250)
     public String getExclusionReason2() {
         return _exclusionReason2;
     }
-    
+
     public void setExclusionReason2(String exclusionReason2) {
         _exclusionReason2 = exclusionReason2;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property AdultsAgreedDays">
     @Column(name = "spmAdultsAgreedDays")
     private int _adultsAgreedDays;
@@ -360,7 +361,6 @@ public class StaffProof implements Serializable, StatusEntity {
 
     //<editor-fold defaultstate="collapsed" desc="Property StatusApx1Changed">
     @Column(name = "spmStatusApx1Changed")
-    @Documentation(name = "Stand")
     @Temporal(TemporalType.TIMESTAMP)
     private Date _statusApx1Changed = new Date();
 
@@ -391,7 +391,6 @@ public class StaffProof implements Serializable, StatusEntity {
 
     //<editor-fold defaultstate="collapsed" desc="Property StatusApx2Changed">
     @Column(name = "spmStatusApx2Changed")
-    @Documentation(name = "Stand")
     @Temporal(TemporalType.TIMESTAMP)
     private Date _statusApx2Changed = new Date();
 
@@ -422,6 +421,7 @@ public class StaffProof implements Serializable, StatusEntity {
 
     //<editor-fold defaultstate="collapsed" desc="Property SignatureAgreement">
     @Column(name = "spmSignatureAgreement")
+    @Documentation(name = "Signatur Anlage 1", omitOnEmpty = true)
     private String _signatureAgreement = "";
 
     public String getSignatureAgreement() {
@@ -435,6 +435,7 @@ public class StaffProof implements Serializable, StatusEntity {
 
     //<editor-fold defaultstate="collapsed" desc="Property SignatureEffective">
     @Column(name = "spmSignatureEffective")
+    @Documentation(name = "Signatur Anlage 2", omitOnEmpty = true)
     private String _signatureEffective = "";
 
     public String getSignatureEffective() {
@@ -585,8 +586,12 @@ public class StaffProof implements Serializable, StatusEntity {
     }
 
     public StaffProofDocument getStaffProofDocument(int appendix) {
-        if (appendix == 1) {return getStaffProofDocument(_signatureAgreement);}
-        if (appendix == 2) {return getStaffProofDocument(_signatureEffective);}
+        if (appendix == 1) {
+            return getStaffProofDocument(_signatureAgreement);
+        }
+        if (appendix == 2) {
+            return getStaffProofDocument(_signatureEffective);
+        }
         return new StaffProofDocument();
     }
 

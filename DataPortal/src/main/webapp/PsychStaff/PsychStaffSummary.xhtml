@@ -22,7 +22,7 @@
             <ui:include src="#{sessionTools.pages.PsychStaffListButtons}"/>
 
             <h4><h:outputLabel value="#{msg.infoSealedPsychStaff}"/></h4>
-            <psystaff:PsychStaffList list="#{psychStaffList.providedPersonals}"/>
+            <psystaff:PsychStaffList list="#{psychStaffList.providedPersonals}" allowDelete="false"/>
 
             <div jsf:rendered="#{sessionController.isInekUser('PSYCH_STAFF')}">
                 <h2>Gesamtübersicht (für InEK)</h2>
