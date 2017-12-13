@@ -1,6 +1,5 @@
 package org.inek.dataportal.feature.drgproposal;
 
-//import org.inek.dataportal.feature.drg.*;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;

@@ -75,8 +75,8 @@ public class CooperationTools implements Serializable {
     }
     
     /**
-     * In normal workflow, only data to which the user has access to, is
-     * displaed in the lists. But if some user tries to open data by its id,
+     * In normal workflow, only data the user has access to, will be
+     * displayed in the lists. But if some user tries to open data by its id,
      * this might be an non-authorized access. Within the editing function, it
      * should be tested, wheater the acces is allowed or not.
      *
