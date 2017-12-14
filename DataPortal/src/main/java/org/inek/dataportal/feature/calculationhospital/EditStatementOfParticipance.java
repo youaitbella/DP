@@ -105,7 +105,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
         try {
             int id = Integer.parseInt("" + idObject);
             StatementOfParticipance statement = _calcFacade.findStatementOfParticipance(id);
-            if (_cooperationTools.isAllowed(Feature.CALCULATION_HOSPITAL, statement.getStatus(), statement.getAccountId())) {
+            if (_cooperationTools.isAccessAllowed(Feature.CALCULATION_HOSPITAL, statement.getStatus(), statement.getAccountId())) {
                 updateObligatorySetting(statement);
                 return statement;
             }

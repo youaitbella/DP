@@ -124,7 +124,7 @@ public class EditDrgProposal extends AbstractEditController {
         try {
             int id = Integer.parseInt("" + drgId);
             DrgProposal drgProposal = _drgProposalFacade.findFresh(id);
-            if (_cooperationTools.isAllowed(Feature.DRG_PROPOSAL, drgProposal.getStatus(), drgProposal.getAccountId())) {
+            if (_cooperationTools.isAccessAllowed(Feature.DRG_PROPOSAL, drgProposal.getStatus(), drgProposal.getAccountId())) {
                 return drgProposal;
             }
         } catch (NumberFormatException ex) {

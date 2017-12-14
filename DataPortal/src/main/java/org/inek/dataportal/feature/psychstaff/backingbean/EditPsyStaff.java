@@ -160,10 +160,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     }
     
     private boolean hasSufficientRights(StaffProof staffProof) {
-        if (_sessionController.isInekUser(Feature.PSYCH_STAFF)) {
-            return true;
-        }
-        return _cooperationTools.isAllowed(Feature.PSYCH_STAFF, staffProof.getStatus(), staffProof.getAccountId());
+        return _cooperationTools.isAccessAllowed(Feature.PSYCH_STAFF, staffProof.getStatus(), staffProof.getAccountId());
     }
     
     private StaffProof newStaffProof() {

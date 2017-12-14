@@ -110,13 +110,10 @@ public class EditCalcBasicsAutopsy extends AbstractEditController implements Ser
     }
 
     private boolean hasSufficientRights(CalcBasicsAutopsy model) {
-        if (_sessionController.isMyAccount(model.getAccountId(), false)) {
-            return true;
-        }
         if (isInekViewable(model)) {
             return true;
         }
-        return _cooperationTools.isAllowed(Feature.CALCULATION_HOSPITAL, model.getStatus(), model.getAccountId());
+        return _cooperationTools.isAccessAllowed(Feature.CALCULATION_HOSPITAL, model.getStatus(), model.getAccountId());
     }
 
     private CalcBasicsAutopsy newCalcBasics() {

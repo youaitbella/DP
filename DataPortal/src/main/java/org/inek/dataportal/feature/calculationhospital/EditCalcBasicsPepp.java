@@ -183,9 +183,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     }
 
     private boolean hasSufficientRights(PeppCalcBasics calcBasics) {
-        return _sessionController.isMyAccount(calcBasics.getAccountId(), false)
-                || _sessionController.isInekUser(Feature.CALCULATION_HOSPITAL)
-                || _cooperationTools.isAllowed(Feature.CALCULATION_HOSPITAL,
+        return _cooperationTools.isAccessAllowed(Feature.CALCULATION_HOSPITAL,
                         calcBasics.getStatus(),
                         calcBasics.getAccountId());
     }

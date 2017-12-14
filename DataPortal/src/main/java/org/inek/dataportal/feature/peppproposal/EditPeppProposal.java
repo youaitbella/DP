@@ -125,7 +125,7 @@ public class EditPeppProposal extends AbstractEditController {
         try {
             int id = Integer.parseInt("" + ppId);
             PeppProposal peppProposal = _peppProposalFacade.findFresh(id);
-            if (_cooperationTools.isAllowed(Feature.PEPP_PROPOSAL, peppProposal.getStatus(), peppProposal.getAccountId())) {
+            if (_cooperationTools.isAccessAllowed(Feature.PEPP_PROPOSAL, peppProposal.getStatus(), peppProposal.getAccountId())) {
                 return peppProposal;
             }
         } catch (NumberFormatException ex) {
