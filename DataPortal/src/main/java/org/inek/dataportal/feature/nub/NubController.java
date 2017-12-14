@@ -238,7 +238,11 @@ public class NubController extends AbstractFeatureController {
 
     public void populateMasterData(NubRequest proposal, Account account) {
         Integer ik = account.getIK();
-        if (ik == null && !account.getAdditionalIKs().isEmpty()) {
+        if (ik == null){
+            // todo: remove, once AccountIK is from type int
+            ik = -1;
+        }
+        if (ik == -1 && !account.getAdditionalIKs().isEmpty()) {
             ik = account.getAdditionalIKs().get(0).getIK();
         }
         proposal.setIk(ik);

@@ -80,7 +80,7 @@ public class NubRequest implements Serializable {
 
     @Documentation(key = "lblIK")
     @Column(name = "nubIk")
-    private Integer _ik = -1;
+    private int _ik = -1;
 
     // <editor-fold defaultstate="collapsed" desc="Property IkName">
     @Column(name = "nubIkName")
@@ -591,12 +591,12 @@ public class NubRequest implements Serializable {
         _lastModified = lastModified;
     }
 
-    public Integer getIk() {
-        return _ik == null || _ik < 0 ? null : _ik;
+    public int getIk() {
+        return _ik;
     }
 
-    public void setIk(Integer ik) {
-        _ik = ik == null ? -1 : ik;
+    public void setIk(int ik) {
+        _ik = ik;
     }
 
     public int getGender() {

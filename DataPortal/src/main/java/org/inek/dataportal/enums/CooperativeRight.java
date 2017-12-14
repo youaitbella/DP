@@ -24,6 +24,7 @@ public enum CooperativeRight {
     ReadWriteSealSupervisor("3302", true), // partner may read, write incompleted. To be sealed by partner only.
     ReadWriteTakeSealSupervisor("3312", true); // partner may read, write incompleted. To be sealed by partner only.
 
+    
     /**
      * rights are defined as a three letter string read: 0 = none; 1 = when
      * sealed; 2 = when at least completed; 3 = always write: 0 = none; 1 = when
@@ -76,6 +77,10 @@ public enum CooperativeRight {
         return _rights.matches("...[2]");
     }
 
+    public CooperativeRight withoutSupervision(){
+        return fromRightsAsString(_rights.substring(0, 3) + "0");
+    }
+    
     public CooperativeRight fromRightsAsString(String rights) {
         for (CooperativeRight right : CooperativeRight.values()) {
             if (rights.equalsIgnoreCase(right._rights)) {

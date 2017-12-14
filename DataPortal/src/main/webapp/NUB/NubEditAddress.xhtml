@@ -44,7 +44,7 @@
                 requiredMessage="#{msg.msgValueNeeded}"
                 value="#{editNubRequest.nubRequest.ik}"
                 readonly="#{editNubRequest.readOnly or !editNubRequest.ownNub}">
-                <f:selectItems value="#{editNubRequest.iks}"/>
+                <f:selectItems value="#{editNubRequest.iks}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
                 <f:ajax event="blur" render="@this :logout:remaining msgMultiIk"/>
                 <f:ajax event="change" listener="#{editNubRequest.changedIk}" render="@form :logout:remaining msgMultiIk"/>
             </h:selectOneMenu>

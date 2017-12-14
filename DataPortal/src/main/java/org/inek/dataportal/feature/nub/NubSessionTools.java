@@ -284,8 +284,8 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         } else {
             Set<Integer> iks = _cooperationTools.getPartnerIks(Feature.NUB, partnerId);
             for (int ik : iks) {
-                CooperativeRight achievedRight = _cooperationTools.getAchievedRight(Feature.NUB, partnerId, ik);
-                DataSet dataSet = achievedRight.canReadSealed() ? DataSet.AllSealed : DataSet.None;
+                boolean canReadSealed = _cooperationTools.canReadSealed(Feature.NUB, partnerId, ik);
+                DataSet dataSet = canReadSealed ? DataSet.AllSealed : DataSet.None;
                 List<ProposalInfo> infosForIk = _nubRequestFacade.getNubRequestInfos(partnerId, ik, year, dataSet, getFilter());
                 infos.addAll(infosForIk);
             }
@@ -300,9 +300,10 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         } else {
             Set<Integer> iks = _cooperationTools.getPartnerIks(Feature.NUB, partnerId);
             for (int ik : iks) {
-                CooperativeRight achievedRight = _cooperationTools.getAchievedRight(Feature.NUB, partnerId, ik);
-                DataSet dataSet = achievedRight.canReadAlways() ? DataSet.AllOpen
-                        : achievedRight.canReadCompleted() ? DataSet.ApprovalRequested : DataSet.None;
+                boolean canReadAlways = _cooperationTools.canReadAlways(Feature.NUB, partnerId, ik);
+                boolean canReadCompleted = _cooperationTools.canReadCompleted(Feature.NUB, partnerId, ik);
+                DataSet dataSet = canReadAlways ? DataSet.AllOpen
+                        : canReadCompleted ? DataSet.ApprovalRequested : DataSet.None;
                 List<ProposalInfo> infosForIk = _nubRequestFacade.getNubRequestInfos(partnerId, ik, -1, dataSet, getFilter());
                 infos.addAll(infosForIk);
             }
@@ -487,8 +488,8 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
     public MessageContainer composeMissingFieldsMessage(NubRequest nubRequest) {
         MessageContainer message = new MessageContainer();
         String ik = "";
-        if (nubRequest.getIk() != null) {
-            ik = nubRequest.getIk().toString();
+        if (nubRequest.getIk() >= 0) {
+            ik = "" + nubRequest.getIk();
         }
         checkField(message, ik, "lblIK", "form:ikMulti", EditNubRequest.NubRequestTabs.tabNubAddress);
         checkField(message, nubRequest.getGender(), 1, 2, "lblSalutation", "form:cbxGender", EditNubRequest.NubRequestTabs.tabNubAddress);

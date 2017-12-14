@@ -127,7 +127,7 @@ public class EditNubRequest extends AbstractEditController {
                 }
             } else {
                 _nubRequest.setIkName(c.getName());
-                if (_sessionController.getAccount().getIK() != null && _nubRequest.getIk().intValue() == _sessionController.getAccount().getIK()) {
+                if (_sessionController.getAccount().getIK() != null && _nubRequest.getIk() == _sessionController.getAccount().getIK()) {
                     _nubRequest.setIkName(_sessionController.getAccount().getCompany());
                 }
             }
@@ -229,14 +229,14 @@ public class EditNubRequest extends AbstractEditController {
     public List<SelectItem> getIks() {
         Set<Integer> iks = _sessionController.getAccount().getFullIkSet();
         List<SelectItem> items = new ArrayList<>();
-        if (_nubRequest.getIk() != null) {
+        if (_nubRequest.getIk() > 0) {
             iks.add(_nubRequest.getIk());
         }
         for (int ik : iks) {
             items.add(new SelectItem(ik));
         }
-        if (_nubRequest.getIk() == null) {
-            items.add(0, new SelectItem(""));
+        if (_nubRequest.getIk() == -1) {
+            items.add(0, new SelectItem(-1, ""));
         }
         return items;
     }
@@ -748,7 +748,7 @@ public class EditNubRequest extends AbstractEditController {
     private List<NubFormerRequestMerged> _formerRequests = new Vector<>();
 
     public List<NubFormerRequestMerged> getAllNubIds() {
-        if (_formerRequests.isEmpty() && _nubRequest.getIk() != null) {
+        if (_formerRequests.isEmpty() && _nubRequest.getIk() > 0) {
             _formerRequests = _nubRequestFacade.getExistingNubIds(_nubRequest.getIk(), _formerNubIdFilterText.replaceAll(" ", "%"), _maxYearOnly);
         }
         return _formerRequests;
