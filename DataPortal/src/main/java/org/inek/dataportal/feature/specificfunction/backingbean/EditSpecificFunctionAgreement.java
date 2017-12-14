@@ -111,7 +111,7 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
         if (_sessionController.isInekUser(Feature.SPECIFIC_FUNCTION)) {
             return true;
         }
-        return _cooperationTools.isAllowed(Feature.INSURANCE, calcBasics.getStatus(), calcBasics.getAccountId());
+        return _cooperationTools.isAccessAllowed(Feature.INSURANCE, calcBasics.getStatus(), calcBasics.getAccountId());
     }
 
     private SpecificFunctionAgreement newSpecificFunctionAgreement() {

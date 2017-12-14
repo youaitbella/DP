@@ -153,7 +153,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         if (_sessionController.isInekUser(Feature.CALCULATION_HOSPITAL)) {
             return true;
         }
-        return _cooperationTools.isAllowed(Feature.CALCULATION_HOSPITAL, calcBasics.getStatus(), calcBasics.getAccountId());
+        return _cooperationTools.isAccessAllowed(Feature.CALCULATION_HOSPITAL, calcBasics.getStatus(), calcBasics.getAccountId());
     }
 
     public List<KGLListRadiologyLaboratory> getLaboratories() {

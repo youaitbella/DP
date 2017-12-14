@@ -130,7 +130,7 @@ public class EditDistributionModel extends AbstractEditController implements Ser
         if (isInekViewable(model)) {
             return true;
         }
-        return _cooperationTools.isAllowed(Feature.CALCULATION_HOSPITAL, model.getStatus(), model.getAccountId());
+        return _cooperationTools.isAccessAllowed(Feature.CALCULATION_HOSPITAL, model.getStatus(), model.getAccountId());
     }
 
     private DistributionModel newDistributionModel(String type) {

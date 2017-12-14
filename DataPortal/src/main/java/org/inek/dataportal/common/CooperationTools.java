@@ -96,28 +96,32 @@ public class CooperationTools implements Serializable {
 
     /**
      * In normal workflow, only data the user has access to, will be displayed in the lists. But if some user tries to
-     * open data by its id, this might be an non-authorized access. Within the editing function, it should be tested,
-     * wheater the acces is allowed or not.
+     * open data by its id (via URL), this might be an non-authorized access. 
+     * Within ta dialog, it should be tested, wheater at access is allowed or not.
      *
      * @param feature
      * @param state
      * @param ownerId
      * @return
      */
-    public boolean isAllowed(Feature feature, WorkflowStatus state, int ownerId) {
-        return isAllowed(feature, state, ownerId, -1);
+    public boolean isAccessAllowed(Feature feature, WorkflowStatus state, int ownerId) {
+        return CooperationTools.this.isAccessAllowed(feature, state, ownerId, -1);
     }
 
-    public boolean isAllowed(Feature feature, WorkflowStatus state, int ownerId, int ik) {
+    public boolean isAccessAllowed(Feature feature, WorkflowStatus state, int ownerId, int ik) {
         if (ownerId == _sessionController.getAccountId()) {
             return true;
         }
+        if (_sessionController.isInekUser(feature)) {
+            return true;
+        }
+        
         CooperativeRight right = getAchievedRight(feature, ownerId, ik);
         return right != CooperativeRight.None;
     }
 
     /**
-     * Data is readonly when - provided to InEK - is foreign data and no edit right is granted to current user.
+     * Data is readonly when provided to InEK or is owned by someone else and no edit right is granted to current user.
      *
      * @param feature
      * @param state

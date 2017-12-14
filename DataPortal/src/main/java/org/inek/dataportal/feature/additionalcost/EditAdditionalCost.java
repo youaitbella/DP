@@ -113,7 +113,7 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
         if (_sessionController.isInekUser(Feature.ADDITIONAL_COST)) {
             return true;
         }
-        return _cooperationTools.isAllowed(Feature.ADDITIONAL_COST, additionalCost.getStatus(), additionalCost.getAccountId());
+        return _cooperationTools.isAccessAllowed(Feature.ADDITIONAL_COST, additionalCost.getStatus(), additionalCost.getAccountId());
     }
 
     private AdditionalCost newAdditionalCost() {

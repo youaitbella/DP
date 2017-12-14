@@ -112,7 +112,7 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
         if (_sessionController.isInekUser(Feature.SPECIFIC_FUNCTION)) {
             return true;
         }
-        return _cooperationTools.isAllowed(Feature.SPECIFIC_FUNCTION, calcBasics.getStatus(), calcBasics.getAccountId());
+        return _cooperationTools.isAccessAllowed(Feature.SPECIFIC_FUNCTION, calcBasics.getStatus(), calcBasics.getAccountId());
     }
 
     private SpecificFunctionRequest newSpecificFunctionRequest() {
