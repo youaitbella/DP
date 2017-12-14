@@ -187,8 +187,8 @@ public class SpecificFunctionAgreementTreeHandler implements Serializable, TreeN
         WorkflowStatus statusLow = WorkflowStatus.Provided;
         WorkflowStatus statusHigh = WorkflowStatus.Retired;
         if (partnerId != _sessionController.getAccountId()) {
-            CooperativeRight achievedRight = _accessManager.getAchievedRight(Feature.SPECIFIC_FUNCTION, partnerId);
-            if (!achievedRight.canReadSealed()){
+            boolean canReadSealed = _accessManager.canReadSealed(Feature.SPECIFIC_FUNCTION, partnerId);
+            if (!canReadSealed){
                 statusLow = WorkflowStatus.Unknown;
                 statusHigh = WorkflowStatus.Unknown;
             }
@@ -203,11 +203,12 @@ public class SpecificFunctionAgreementTreeHandler implements Serializable, TreeN
             statusLow = WorkflowStatus.New;
             statusHigh = WorkflowStatus.ApprovalRequested;
         } else {
-            CooperativeRight achievedRight = _accessManager.getAchievedRight(Feature.SPECIFIC_FUNCTION, partnerId);
-            statusLow = achievedRight.canReadAlways() ? WorkflowStatus.New
-                    : achievedRight.canReadCompleted() ? WorkflowStatus.ApprovalRequested :  WorkflowStatus.Unknown;
-            statusHigh = achievedRight.canReadAlways() 
-                    || achievedRight.canReadCompleted() ? WorkflowStatus.ApprovalRequested : WorkflowStatus.Unknown;
+            boolean canReadAlways = _accessManager.canReadAlways(Feature.SPECIFIC_FUNCTION, partnerId);
+            boolean canReadCompleted = _accessManager.canReadCompleted(Feature.SPECIFIC_FUNCTION, partnerId);
+            statusLow = canReadAlways ? WorkflowStatus.New
+                    : canReadCompleted ? WorkflowStatus.ApprovalRequested :  WorkflowStatus.Unknown;
+            statusHigh = canReadAlways 
+                    || canReadCompleted ? WorkflowStatus.ApprovalRequested : WorkflowStatus.Unknown;
         }
         return _specificFunctionFacade.obtainSpecificFunctionAgreements(
                 partnerId, 

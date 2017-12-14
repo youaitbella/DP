@@ -331,10 +331,6 @@ public class AccessManager implements Serializable {
         return getAchievedRight(feature, ownerId, ik).canTake();
     }
 
-    public CooperativeRight getAchievedRight(Feature feature, int partnerId) {
-        return getAchievedRight(feature, partnerId, -1);
-    }
-
     private final Map<Integer, Set<Integer>> _partnerIks = new ConcurrentHashMap<>();
 
     /**
@@ -414,16 +410,27 @@ public class AccessManager implements Serializable {
         return ids;
     }
 
+    public boolean canReadSealed(Feature feature, int partnerId) {
+        return canReadSealed(feature, partnerId, -1);
+    }
+    
     public boolean canReadSealed(Feature feature, int partnerId, int ik) {
         CooperativeRight achievedRight = getAchievedRight(feature, partnerId, ik);
         return achievedRight.canReadSealed();
     }
 
+    public boolean canReadCompleted(Feature feature, int partnerId) {
+        return canReadCompleted(feature, partnerId, -1);
+    }
+    
     public boolean canReadCompleted(Feature feature, int partnerId, int ik) {
         CooperativeRight achievedRight = getAchievedRight(feature, partnerId, ik);
         return achievedRight.canReadCompleted();
     }
 
+    public boolean canReadAlways(Feature feature, int partnerId) {
+        return canReadAlways(feature, partnerId, -1);
+    }
     public boolean canReadAlways(Feature feature, int partnerId, int ik) {
         CooperativeRight achievedRight = getAchievedRight(feature, partnerId, ik);
         return achievedRight.canReadAlways();
