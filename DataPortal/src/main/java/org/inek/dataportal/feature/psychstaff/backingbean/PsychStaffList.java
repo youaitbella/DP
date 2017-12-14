@@ -19,6 +19,8 @@ import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
+import org.inek.dataportal.feature.ikadmin.entity.AccessRight;
+import org.inek.dataportal.feature.ikadmin.facade.IkAdminFacade;
 import org.inek.dataportal.feature.psychstaff.entity.StaffProof;
 import org.inek.dataportal.feature.psychstaff.facade.PsychStaffFacade;
 import org.inek.dataportal.helper.Utils;
@@ -42,8 +44,11 @@ public class PsychStaffList implements Serializable {
     @Inject private PsychStaffFacade _psychFacade;
     @Inject private SessionController _sessionController;
     @Inject private AccessManager _accessManager;
+    @Inject private IkAdminFacade _ikAdminFacade;
 
     public List<StaffProof> getOpenPersonals() {
+        List<AccessRight> accessRights = _ikAdminFacade.findAccessRightsByAccountAndFeature(_sessionController.getAccount(), Feature.PSYCH_STAFF);
+        System.out.println(accessRights.size());
         return _psychFacade.getStaffProofs(_sessionController.getAccountId(), DataSet.AllOpen);
     }
 

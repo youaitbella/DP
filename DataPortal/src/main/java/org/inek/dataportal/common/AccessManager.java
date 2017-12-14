@@ -19,6 +19,7 @@ import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.cooperation.CooperationRightFacade;
+import org.inek.dataportal.feature.ikadmin.facade.IkAdminFacade;
 
 /**
  * This class provides access to cooperations rights for one request. 
@@ -46,6 +47,7 @@ public class AccessManager implements Serializable {
     @Inject private CooperationRightFacade _cooperationRightFacade;
     @Inject private SessionController _sessionController;
     @Inject private AccountFacade _accountFacade;
+    @Inject private IkAdminFacade _ikAdminFacade;
 
     /**
      * gets the cooperation rights by delegating the first request to the service and retrieving them from a local cache
@@ -436,4 +438,6 @@ public class AccessManager implements Serializable {
         return achievedRight.canReadAlways();
     }
 
+    
+    
 }

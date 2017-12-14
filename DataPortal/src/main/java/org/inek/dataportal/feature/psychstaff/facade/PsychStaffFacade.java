@@ -19,7 +19,6 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityGraph;
 import javax.persistence.Query;
-import javax.persistence.Subgraph;
 import javax.persistence.TypedQuery;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.DataSet;
