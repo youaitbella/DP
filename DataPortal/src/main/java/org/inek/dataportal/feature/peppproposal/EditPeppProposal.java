@@ -125,10 +125,6 @@ public class EditPeppProposal extends AbstractEditController {
         try {
             int id = Integer.parseInt("" + ppId);
             PeppProposal peppProposal = _peppProposalFacade.findFresh(id);
-            if (peppProposal.getAccountId() != _sessionController.getAccountId() && _sessionController.isInekUser(Feature.PEPP_PROPOSAL)) {
-                // it's  not mine, but I'm an authorized InEK user: add right to read
-                _cooperationTools.addReadRight(Feature.PEPP_PROPOSAL, peppProposal.getAccountId());
-            }
             if (_cooperationTools.isAllowed(Feature.PEPP_PROPOSAL, peppProposal.getStatus(), peppProposal.getAccountId())) {
                 return peppProposal;
             }
