@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
@@ -58,6 +57,40 @@ public class CooperationTools implements Serializable {
 
     private List<CooperationRight> _cooperationRights;
 
+    /**
+     * Determines and returns the achieved rights. A user might get rights from
+     * two sources: ik supervision or individual. If an ik supervisor is needed,
+     * than and individiual supervising right is canceled. If both rights are
+     * provided, than determine the higher rights.
+     *
+     * @param feature
+     * @param partnerId
+     * @param ik
+     * @return
+     */
+    private CooperativeRight getAchievedRight(Feature feature, int partnerId, int ik) {
+        Account account = _sessionController.getAccount();
+        CooperativeRight right = getCooperationRights(feature, account)
+                .stream()
+                .filter(r -> r.getOwnerId() == -1 && r.getIk() == ik && r.getPartnerId() == account.getId())
+                .findAny()
+                .orElse(new CooperationRight())
+                .getCooperativeRight();
+        String coopRights = getCooperationRights(feature, account)
+                .stream()
+                .filter(r -> r.getOwnerId() == partnerId && r.getIk() == ik && r.getPartnerId() == account.getId())
+                .findAny()
+                .orElse(new CooperationRight())
+                .getCooperativeRight()
+                .getRightsAsString();
+        if (needIkSupervisor(feature, account, ik)) {
+            // remove cooperative supervising right
+            coopRights = coopRights.substring(0, 3) + "0";
+        }
+        return right.mergeRightFromStrings(coopRights);
+    }
+
+    
     /**
      * In normal workflow, only data the user has access to, will be
      * displayed in the lists. But if some user tries to open data by its id,
@@ -301,39 +334,9 @@ public class CooperationTools implements Serializable {
         return getAchievedRight(feature, partnerId, -1);
     }
 
-    /**
-     * Determines and returns the achieved rights A user might get rights from
-     * two sources: ik supervision or individual If an ik supervisor is needed,
-     * than and individiual supervising right is canceled. If both rights are
-     * provided, than determine the higher rights.
-     *
-     * @param feature
-     * @param partnerId
-     * @param ik
-     * @return
-     */
-    public CooperativeRight getAchievedRight(Feature feature, int partnerId, int ik) {
-        Account account = _sessionController.getAccount();
-        CooperativeRight right = getCooperationRights(feature, account)
-                .stream()
-                .filter(r -> r.getOwnerId() == -1 && r.getIk() == ik && r.getPartnerId() == account.getId())
-                .findAny()
-                .orElse(new CooperationRight())
-                .getCooperativeRight();
-        String coopRights = getCooperationRights(feature, account)
-                .stream()
-                .filter(r -> r.getOwnerId() == partnerId && r.getIk() == ik && r.getPartnerId() == account.getId())
-                .findAny()
-                .orElse(new CooperationRight())
-                .getCooperativeRight()
-                .getRightsAsString();
-        if (needIkSupervisor(feature, account, ik)) {
-            // remove cooperative supervising right
-            coopRights = coopRights.substring(0, 3) + "0";
-        }
-        return right.mergeRightFromStrings(coopRights);
-    }
-
+    
+    private final Map<Integer, Set<Integer>> _partnerIks = new ConcurrentHashMap<>();
+    
     /**
      * Collects all iks for given feature and partner where the current account
      * achieved rights.
@@ -379,17 +382,6 @@ public class CooperationTools implements Serializable {
                 .collect(Collectors.toSet());
         return iks;
     }
-    private Map<Integer, Set<Integer>> _partnerIks = new ConcurrentHashMap<>();
-
-    private List<Account> _partners4Edit;
-
-    public List<Account> getPartnersForEdit(Feature feature) {
-        if (_partners4Edit == null) {
-            Set<Integer> ids = determineAccountIds(feature, canReadCompleted());
-            _partners4Edit = _accountFacade.getAccountsForIds(ids);
-        }
-        return _partners4Edit;
-    }
 
     public static Predicate<CooperationRight> canReadCompleted() {
         return r -> r.getCooperativeRight().canReadCompleted();
@@ -423,15 +415,19 @@ public class CooperationTools implements Serializable {
         return ids;
     }
 
-    private List<Account> _partners4Display;
+    public boolean canReadSealed(Feature feature, int partnerId, int ik) {
+        CooperativeRight achievedRight = getAchievedRight(feature, partnerId, ik);
+        return achievedRight.canReadSealed();
+    }
 
-    public List<Account> getPartnersForDisplay(Feature feature) {
-        if (_partners4Display == null) {
-            Set<Integer> ids = determineAccountIds(feature, canReadSealed());
-            _partners4Display = _accountFacade.getAccountsForIds(ids);
+    public boolean canReadCompleted(Feature feature, int partnerId, int ik) {
+        CooperativeRight achievedRight = getAchievedRight(feature, partnerId, ik);
+        return achievedRight.canReadCompleted();
+    }
 
-        }
-        return _partners4Display;
+    public boolean canReadAlways(Feature feature, int partnerId, int ik) {
+        CooperativeRight achievedRight = getAchievedRight(feature, partnerId, ik);
+        return achievedRight.canReadAlways();
     }
 
 }
