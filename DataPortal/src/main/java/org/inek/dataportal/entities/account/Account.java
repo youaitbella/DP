@@ -164,7 +164,7 @@ public class Account implements Serializable, Person {
     @Column(name = "acCustomerTypeId")
     private int _customerTypeId = -1;
     @Column(name = "acIK")
-    private Integer _ik = -1;
+    private Integer _ik = -1;   // todo: change type to int
     @Column(name = "acStreet")
     private String _street = "";
     @Column(name = "acPostalCode")

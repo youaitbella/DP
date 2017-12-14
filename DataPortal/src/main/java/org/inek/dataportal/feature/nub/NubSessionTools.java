@@ -488,8 +488,8 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
     public MessageContainer composeMissingFieldsMessage(NubRequest nubRequest) {
         MessageContainer message = new MessageContainer();
         String ik = "";
-        if (nubRequest.getIk() != null) {
-            ik = nubRequest.getIk().toString();
+        if (nubRequest.getIk() >= 0) {
+            ik = "" + nubRequest.getIk();
         }
         checkField(message, ik, "lblIK", "form:ikMulti", EditNubRequest.NubRequestTabs.tabNubAddress);
         checkField(message, nubRequest.getGender(), 1, 2, "lblSalutation", "form:cbxGender", EditNubRequest.NubRequestTabs.tabNubAddress);
