@@ -20,9 +20,9 @@ public enum CooperativeRight {
     ReadCompletedSealSupervisor("2002", true), // partner may read completed. To be sealed by partner only.
     ReadWriteCompletedSealSupervisor("2202", true), // partner may read, write completed. To be sealed by partner only.
     ReadSealSupervisor("3002", false), // partner may read always. To be sealed by partner only.
-    ReadAllWriteCompletedSealSupervisor("3202", false), // partner may read always, but write ohnly completed. To be sealed by partner only.
+    ReadAllWriteCompletedSealSupervisor("3202", false), // partner may read always, but write only completed. To be sealed by partner only.
     ReadWriteSealSupervisor("3302", true), // partner may read, write incompleted. To be sealed by partner only.
-    ReadWriteTakeSealSupervisor("3312", true);    // partner may read, write incompleted. To be sealed by partner only.
+    ReadWriteTakeSealSupervisor("3312", true); // partner may read, write incompleted. To be sealed by partner only.
 
     /**
      * rights are defined as a three letter string read: 0 = none; 1 = when

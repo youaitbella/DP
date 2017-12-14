@@ -124,10 +124,6 @@ public class EditDrgProposal extends AbstractEditController {
         try {
             int id = Integer.parseInt("" + drgId);
             DrgProposal drgProposal = _drgProposalFacade.findFresh(id);
-            if (drgProposal.getAccountId() != _sessionController.getAccountId() && _sessionController.isInekUser(Feature.DRG_PROPOSAL)) {
-                // it's  not mine, but I'm an authorized InEK user: add right to read
-                _cooperationTools.addReadRight(Feature.DRG_PROPOSAL, drgProposal.getAccountId());
-            }
             if (_cooperationTools.isAllowed(Feature.DRG_PROPOSAL, drgProposal.getStatus(), drgProposal.getAccountId())) {
                 return drgProposal;
             }

@@ -58,25 +58,9 @@ public class CooperationTools implements Serializable {
 
     private List<CooperationRight> _cooperationRights;
 
-    public void addReadRight(Feature feature, int ownerId){
-        Account account = _sessionController.getAccount();
-        List<CooperationRight> rights = getCooperationRights(feature, account);
-        Optional<CooperationRight> optionalRight = rights.stream()
-                .filter(r -> r.getOwnerId() == ownerId  && r.getPartnerId() == account.getId())
-                .findFirst();
-        if (optionalRight.isPresent()){
-            CooperationRight right = optionalRight.get();
-            right.setCooperativeRight(right.getCooperativeRight().mergeRightFromStrings("1000"));
-            return;
-        }
-        CooperationRight right = new CooperationRight(ownerId, account.getId(), -1, feature);
-        right.setCooperativeRight(CooperativeRight.ReadSealed);
-        rights.add(right);
-    }
-    
     /**
-     * In normal workflow, only data to which the user has access to, is
-     * displaed in the lists. But if some user tries to open data by its id,
+     * In normal workflow, only data the user has access to, will be
+     * displayed in the lists. But if some user tries to open data by its id,
      * this might be an non-authorized access. Within the editing function, it
      * should be tested, wheater the acces is allowed or not.
      *
