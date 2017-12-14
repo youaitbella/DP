@@ -16,6 +16,7 @@ import org.inek.dataportal.common.AccessManager;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.DataSet;
+import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.feature.psychstaff.entity.StaffProof;
@@ -43,7 +44,6 @@ public class PsychStaffList implements Serializable {
     @Inject private AccessManager _accessManager;
 
     public List<StaffProof> getOpenPersonals() {
-        // todo
         return _psychFacade.getStaffProofs(_sessionController.getAccountId(), DataSet.AllOpen);
     }
 

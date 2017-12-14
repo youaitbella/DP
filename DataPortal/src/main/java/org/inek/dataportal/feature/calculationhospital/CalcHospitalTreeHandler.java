@@ -187,8 +187,8 @@ public class CalcHospitalTreeHandler implements Serializable, TreeNodeObserver {
         WorkflowStatus statusLow = WorkflowStatus.Provided;
         WorkflowStatus statusHigh = WorkflowStatus.Retired;
         if (partnerId != _sessionController.getAccountId()) {
-            CooperativeRight achievedRight = _accessManager.getAchievedRight(Feature.CALCULATION_HOSPITAL, partnerId);
-            if (!achievedRight.canReadSealed()){
+            boolean canReadSealed = _accessManager.canReadSealed(Feature.CALCULATION_HOSPITAL, partnerId);
+            if (!canReadSealed){
                 statusLow = WorkflowStatus.Unknown;
                 statusHigh = WorkflowStatus.Unknown;
             }
@@ -203,11 +203,12 @@ public class CalcHospitalTreeHandler implements Serializable, TreeNodeObserver {
             statusLow = WorkflowStatus.New;
             statusHigh = WorkflowStatus.ApprovalRequested;
         } else {
-            CooperativeRight achievedRight = _accessManager.getAchievedRight(Feature.CALCULATION_HOSPITAL, partnerId);
-            statusLow = achievedRight.canReadAlways() ? WorkflowStatus.New
-                    : achievedRight.canReadCompleted() ? WorkflowStatus.ApprovalRequested :  WorkflowStatus.Unknown;
-            statusHigh = achievedRight.canReadAlways() 
-                    || achievedRight.canReadCompleted() ? WorkflowStatus.ApprovalRequested : WorkflowStatus.Unknown;
+            boolean canReadAlways = _accessManager.canReadAlways(Feature.CALCULATION_HOSPITAL, partnerId);
+            boolean canReadCompleted = _accessManager.canReadCompleted(Feature.CALCULATION_HOSPITAL, partnerId);
+            statusLow = canReadAlways ? WorkflowStatus.New
+                    : canReadCompleted ? WorkflowStatus.ApprovalRequested :  WorkflowStatus.Unknown;
+            statusHigh = canReadAlways 
+                    || canReadCompleted ? WorkflowStatus.ApprovalRequested : WorkflowStatus.Unknown;
         }
         return _calcFacade.getListCalcInfo(partnerId, Utils.getTargetYear(Feature.CALCULATION_HOSPITAL), statusLow, statusHigh);
     }

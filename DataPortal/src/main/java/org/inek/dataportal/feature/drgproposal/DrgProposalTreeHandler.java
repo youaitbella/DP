@@ -190,8 +190,8 @@ public class DrgProposalTreeHandler implements Serializable, TreeNodeObserver {
         if (partnerId == _sessionController.getAccountId()) {
             dataSet = DataSet.AllSealed;
         } else {
-            CooperativeRight achievedRight = _accessManager.getAchievedRight(Feature.DRG_PROPOSAL, partnerId);
-            dataSet = achievedRight.canReadSealed() ? DataSet.AllSealed : DataSet.None;
+            boolean canReadSealed = _accessManager.canReadSealed(Feature.DRG_PROPOSAL, partnerId);
+            dataSet = canReadSealed ? DataSet.AllSealed : DataSet.None;
         }
         return _drgProposalFacade.getDrgProposalInfos(partnerId, year, dataSet);
     }
@@ -201,9 +201,10 @@ public class DrgProposalTreeHandler implements Serializable, TreeNodeObserver {
         if (partnerId == _sessionController.getAccountId()) {
             dataSet = DataSet.AllOpen;
         } else {
-            CooperativeRight achievedRight = _accessManager.getAchievedRight(Feature.DRG_PROPOSAL, partnerId);
-            dataSet = achievedRight.canReadAlways() ? DataSet.AllOpen
-                    : achievedRight.canReadCompleted() ? DataSet.ApprovalRequested : DataSet.None;
+            boolean canReadAlways = _accessManager.canReadAlways(Feature.DRG_PROPOSAL, partnerId);
+            boolean canReadCompleted = _accessManager.canReadCompleted(Feature.DRG_PROPOSAL, partnerId);
+            dataSet = canReadAlways ? DataSet.AllOpen
+                    : canReadCompleted ? DataSet.ApprovalRequested : DataSet.None;
         }
         return _drgProposalFacade.getDrgProposalInfos(partnerId, -1, dataSet);
     }
