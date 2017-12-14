@@ -107,12 +107,6 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
     }
 
     private boolean hasSufficientRights(AdditionalCost additionalCost) {
-        if (_sessionController.isMyAccount(additionalCost.getAccountId(), false)) {
-            return true;
-        }
-        if (_sessionController.isInekUser(Feature.ADDITIONAL_COST)) {
-            return true;
-        }
         return _cooperationTools.isAccessAllowed(Feature.ADDITIONAL_COST, additionalCost.getStatus(), additionalCost.getAccountId());
     }
 

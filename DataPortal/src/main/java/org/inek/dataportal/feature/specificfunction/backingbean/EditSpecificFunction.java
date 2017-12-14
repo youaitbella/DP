@@ -106,12 +106,6 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
     }
 
     private boolean hasSufficientRights(SpecificFunctionRequest calcBasics) {
-        if (_sessionController.isMyAccount(calcBasics.getAccountId(), false)) {
-            return true;
-        }
-        if (_sessionController.isInekUser(Feature.SPECIFIC_FUNCTION)) {
-            return true;
-        }
         return _cooperationTools.isAccessAllowed(Feature.SPECIFIC_FUNCTION, calcBasics.getStatus(), calcBasics.getAccountId());
     }
 

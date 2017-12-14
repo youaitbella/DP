@@ -124,9 +124,6 @@ public class EditDistributionModel extends AbstractEditController implements Ser
     }
 
     private boolean hasSufficientRights(DistributionModel model) {
-        if (_sessionController.isMyAccount(model.getAccountId(), false)) {
-            return true;
-        }
         if (isInekViewable(model)) {
             return true;
         }

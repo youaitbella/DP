@@ -105,12 +105,6 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
     }
 
     private boolean hasSufficientRights(SpecificFunctionAgreement calcBasics) {
-        if (_sessionController.isMyAccount(calcBasics.getAccountId(), false)) {
-            return true;
-        }
-        if (_sessionController.isInekUser(Feature.SPECIFIC_FUNCTION)) {
-            return true;
-        }
         return _cooperationTools.isAccessAllowed(Feature.INSURANCE, calcBasics.getStatus(), calcBasics.getAccountId());
     }
 

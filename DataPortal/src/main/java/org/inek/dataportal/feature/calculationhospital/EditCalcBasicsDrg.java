@@ -147,12 +147,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     private boolean hasSufficientRights(DrgCalcBasics calcBasics) {
-        if (_sessionController.isMyAccount(calcBasics.getAccountId(), false)) {
-            return true;
-        }
-        if (_sessionController.isInekUser(Feature.CALCULATION_HOSPITAL)) {
-            return true;
-        }
         return _cooperationTools.isAccessAllowed(Feature.CALCULATION_HOSPITAL, calcBasics.getStatus(), calcBasics.getAccountId());
     }
 
