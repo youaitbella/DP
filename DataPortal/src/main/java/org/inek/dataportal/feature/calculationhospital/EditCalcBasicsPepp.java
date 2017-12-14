@@ -25,7 +25,7 @@ import javax.inject.Named;
 import javax.persistence.Id;
 import javax.persistence.OptimisticLockException;
 import org.inek.dataportal.common.ApplicationTools;
-import org.inek.dataportal.common.CooperationTools;
+import org.inek.dataportal.common.AccessManager;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.calc.psy.KGPListContentText;
@@ -65,7 +65,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     private static final Logger LOGGER = Logger.getLogger("EditCalcBasicsPepp");
     private static final int ONE_HOUR = 3600;
 
-    @Inject private CooperationTools _cooperationTools;
+    @Inject private AccessManager _accessManager;
     @Inject private SessionController _sessionController;
     @Inject private CalcPsyFacade _calcFacade;
     @Inject private ApplicationTools _appTools;
@@ -183,7 +183,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     }
 
     private boolean hasSufficientRights(PeppCalcBasics calcBasics) {
-        return _cooperationTools.isAccessAllowed(Feature.CALCULATION_HOSPITAL,
+        return _accessManager.isAccessAllowed(Feature.CALCULATION_HOSPITAL,
                         calcBasics.getStatus(),
                         calcBasics.getAccountId());
     }
@@ -288,7 +288,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         if (_sessionController.isInekUser(Feature.CALCULATION_HOSPITAL) && !_appTools.isEnabled(ConfigKey.TestMode)) {
             return true;
         }
-        return _cooperationTools.isReadOnly(Feature.CALCULATION_HOSPITAL,
+        return _accessManager.isReadOnly(Feature.CALCULATION_HOSPITAL,
                 _calcBasics.getStatus(),
                 _calcBasics.getAccountId());
     }
@@ -422,7 +422,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
 
     public boolean isSealEnabled() {
         return isSendEnabled()
-                && _cooperationTools.isSealedEnabled(Feature.CALCULATION_HOSPITAL,
+                && _accessManager.isSealedEnabled(Feature.CALCULATION_HOSPITAL,
                         _calcBasics.getStatus(),
                         _calcBasics.getAccountId());
     }
@@ -433,14 +433,14 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
 
     public boolean isApprovalRequestEnabled() {
         return isSendEnabled()
-                && _cooperationTools.isApprovalRequestEnabled(Feature.CALCULATION_HOSPITAL,
+                && _accessManager.isApprovalRequestEnabled(Feature.CALCULATION_HOSPITAL,
                         _calcBasics.getStatus(),
                         _calcBasics.getAccountId());
     }
 
     public boolean isRequestCorrectionEnabled() {
         return isSendEnabled()
-                && _cooperationTools.isRequestCorrectionEnabled(Feature.CALCULATION_HOSPITAL,
+                && _accessManager.isRequestCorrectionEnabled(Feature.CALCULATION_HOSPITAL,
                         _calcBasics.getStatus(),
                         _calcBasics.getAccountId());
     }
@@ -448,7 +448,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     public boolean isTakeEnabled() {
         return false;
         // todo: do not allow consultant
-        //return _cooperationTools.isTakeEnabled(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId());
+        //return _accessManager.isTakeEnabled(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId());
     }
 
     public boolean isCopyForResendAllowed() {
@@ -589,7 +589,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
 
     public List<SelectItem> getIks() {
         if (_ikItems == null) {
-            //Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.CALCULATION_HOSPITAL, canReadSealed());
+            //Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.CALCULATION_HOSPITAL, canReadSealed());
             boolean testMode = _appTools.isEnabled(ConfigKey.TestMode);
             int year = Utils.getTargetYear(Feature.CALCULATION_HOSPITAL);
             Set<Integer> iks = _calcFacade.obtainIks4NewBasicsPepp(_sessionController.getAccountId(), year, testMode);

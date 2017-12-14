@@ -15,9 +15,9 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.ApplicationTools;
-import org.inek.dataportal.common.CooperationTools;
-import static org.inek.dataportal.common.CooperationTools.canReadCompleted;
-import static org.inek.dataportal.common.CooperationTools.canReadSealed;
+import org.inek.dataportal.common.AccessManager;
+import static org.inek.dataportal.common.AccessManager.canReadCompleted;
+import static org.inek.dataportal.common.AccessManager.canReadSealed;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.enums.CooperativeRight;
@@ -49,7 +49,7 @@ public class SpecificFunctionAgreementTreeHandler implements Serializable, TreeN
 
     @Inject private SpecificFunctionFacade _specificFunctionFacade;
     @Inject private SessionController _sessionController;
-    @Inject private CooperationTools _cooperationTools;
+    @Inject private AccessManager _accessManager;
     @Inject private AccountFacade _accountFacade;
     @Inject private ApplicationTools _appTools;
 
@@ -105,7 +105,7 @@ public class SpecificFunctionAgreementTreeHandler implements Serializable, TreeN
     }
 
     private void obtainEditNodeChildren(RootNode node, Collection<TreeNode> children) {
-        Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.SPECIFIC_FUNCTION, canReadCompleted());
+        Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.SPECIFIC_FUNCTION, canReadCompleted());
         List<Account> accounts = _specificFunctionFacade.loadAgreementAccountsForYear(accountIds, 
                 Utils.getTargetYear(Feature.SPECIFIC_FUNCTION), WorkflowStatus.New, WorkflowStatus.ApprovalRequested);
         Account currentUser = _sessionController.getAccount();
@@ -127,7 +127,7 @@ public class SpecificFunctionAgreementTreeHandler implements Serializable, TreeN
     }
 
     private void obtainViewNodeChildren(RootNode node, Collection<TreeNode> children) {
-        Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.SPECIFIC_FUNCTION, canReadSealed());
+        Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.SPECIFIC_FUNCTION, canReadSealed());
         Set<Integer> years = _specificFunctionFacade.getAgreementCalcYears(accountIds);
         List<? extends TreeNode> oldChildren = new ArrayList<>(children);
         int targetYear = Utils.getTargetYear(Feature.SPECIFIC_FUNCTION);
@@ -144,7 +144,7 @@ public class SpecificFunctionAgreementTreeHandler implements Serializable, TreeN
     }
 
     private void obtainYearNodeChildren(YearTreeNode node, Collection<TreeNode> children) {
-        Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.SPECIFIC_FUNCTION, canReadSealed());
+        Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.SPECIFIC_FUNCTION, canReadSealed());
         List<Account> accounts = _specificFunctionFacade.loadAgreementAccountsForYear(accountIds, node.getId(), 
                 WorkflowStatus.Provided, WorkflowStatus.Retired);
         Account currentUser = _sessionController.getAccount();
@@ -187,7 +187,7 @@ public class SpecificFunctionAgreementTreeHandler implements Serializable, TreeN
         WorkflowStatus statusLow = WorkflowStatus.Provided;
         WorkflowStatus statusHigh = WorkflowStatus.Retired;
         if (partnerId != _sessionController.getAccountId()) {
-            CooperativeRight achievedRight = _cooperationTools.getAchievedRight(Feature.SPECIFIC_FUNCTION, partnerId);
+            CooperativeRight achievedRight = _accessManager.getAchievedRight(Feature.SPECIFIC_FUNCTION, partnerId);
             if (!achievedRight.canReadSealed()){
                 statusLow = WorkflowStatus.Unknown;
                 statusHigh = WorkflowStatus.Unknown;
@@ -203,7 +203,7 @@ public class SpecificFunctionAgreementTreeHandler implements Serializable, TreeN
             statusLow = WorkflowStatus.New;
             statusHigh = WorkflowStatus.ApprovalRequested;
         } else {
-            CooperativeRight achievedRight = _cooperationTools.getAchievedRight(Feature.SPECIFIC_FUNCTION, partnerId);
+            CooperativeRight achievedRight = _accessManager.getAchievedRight(Feature.SPECIFIC_FUNCTION, partnerId);
             statusLow = achievedRight.canReadAlways() ? WorkflowStatus.New
                     : achievedRight.canReadCompleted() ? WorkflowStatus.ApprovalRequested :  WorkflowStatus.Unknown;
             statusHigh = achievedRight.canReadAlways() 

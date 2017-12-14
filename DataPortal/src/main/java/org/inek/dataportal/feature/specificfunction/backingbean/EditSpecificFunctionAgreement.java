@@ -22,7 +22,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.ApplicationTools;
-import org.inek.dataportal.common.CooperationTools;
+import org.inek.dataportal.common.AccessManager;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountAdditionalIK;
@@ -59,7 +59,7 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
     // <editor-fold defaultstate="collapsed" desc="fields & enums">
     private static final Logger LOGGER = Logger.getLogger("EditSpecificFunctionAgreement");
 
-    @Inject private CooperationTools _cooperationTools;
+    @Inject private AccessManager _accessManager;
     @Inject private SessionController _sessionController;
     @Inject private SpecificFunctionFacade _specificFunctionFacade;
     @Inject private ApplicationTools _appTools;
@@ -105,7 +105,7 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
     }
 
     private boolean hasSufficientRights(SpecificFunctionAgreement calcBasics) {
-        return _cooperationTools.isAccessAllowed(Feature.INSURANCE, calcBasics.getStatus(), calcBasics.getAccountId());
+        return _accessManager.isAccessAllowed(Feature.INSURANCE, calcBasics.getStatus(), calcBasics.getAccountId());
     }
 
     private SpecificFunctionAgreement newSpecificFunctionAgreement() {
@@ -139,7 +139,7 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
         if (_sessionController.isInekUser(Feature.SPECIFIC_FUNCTION) && !_appTools.isEnabled(ConfigKey.TestMode)) {
             return true;
         }
-        return _cooperationTools.isReadOnly(Feature.INSURANCE, _agreement.getStatus(), _agreement.getAccountId(), _agreement.getIk());
+        return _accessManager.isReadOnly(Feature.INSURANCE, _agreement.getStatus(), _agreement.getAccountId(), _agreement.getIk());
     }
 
     @Override
@@ -213,7 +213,7 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
         if (_agreement == null) {
             return false;
         }
-        return _cooperationTools.isSealedEnabled(Feature.SPECIFIC_FUNCTION, _agreement.getStatus(), _agreement.getAccountId());
+        return _accessManager.isSealedEnabled(Feature.SPECIFIC_FUNCTION, _agreement.getStatus(), _agreement.getAccountId());
     }
 
     public boolean isApprovalRequestEnabled() {
@@ -223,7 +223,7 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
         if (_agreement == null) {
             return false;
         }
-        return _cooperationTools.isApprovalRequestEnabled(Feature.SPECIFIC_FUNCTION, _agreement.getStatus(), _agreement.getAccountId());
+        return _accessManager.isApprovalRequestEnabled(Feature.SPECIFIC_FUNCTION, _agreement.getStatus(), _agreement.getAccountId());
     }
 
     public boolean isRequestCorrectionEnabled() {
@@ -261,7 +261,7 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
     }
 
     public boolean isTakeEnabled() {
-        return _cooperationTools.isTakeEnabled(Feature.SPECIFIC_FUNCTION, _agreement.getStatus(), _agreement.getAccountId());
+        return _accessManager.isTakeEnabled(Feature.SPECIFIC_FUNCTION, _agreement.getStatus(), _agreement.getAccountId());
     }
 
     /**

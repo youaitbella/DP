@@ -25,7 +25,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.OptimisticLockException;
 import org.inek.dataportal.common.ApplicationTools;
-import org.inek.dataportal.common.CooperationTools;
+import org.inek.dataportal.common.AccessManager;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.entities.Document;
@@ -62,7 +62,7 @@ public class EditNubRequest extends AbstractEditController {
 
     private static final Logger LOGGER = Logger.getLogger("EditNubRequest");
 
-    @Inject private CooperationTools _cooperationTools;
+    @Inject private AccessManager _accessManager;
     @Inject private ProcedureFacade _procedureFacade;
     @Inject private SessionController _sessionController;
     @Inject private NubRequestFacade _nubRequestFacade;
@@ -490,7 +490,7 @@ public class EditNubRequest extends AbstractEditController {
     }
 
     public boolean isReadOnly() {
-        return _cooperationTools.isReadOnly(Feature.NUB, _nubRequest.getStatus(), _nubRequest.getAccountId(), _nubRequest.getIk());
+        return _accessManager.isReadOnly(Feature.NUB, _nubRequest.getStatus(), _nubRequest.getAccountId(), _nubRequest.getIk());
     }
 
     public boolean isRejectedNub() {
@@ -505,14 +505,14 @@ public class EditNubRequest extends AbstractEditController {
         if (!_appTools.isEnabled(ConfigKey.IsNubSendEnabled)) {
             return false;
         }
-        return _cooperationTools.isUpdateEnabled(Feature.NUB, _nubRequest.getStatus(), _nubRequest.getAccountId(), _nubRequest.getIk());
+        return _accessManager.isUpdateEnabled(Feature.NUB, _nubRequest.getStatus(), _nubRequest.getAccountId(), _nubRequest.getIk());
     }
 
     public boolean isApprovalRequestEnabled() {
         if (!_appTools.isEnabled(ConfigKey.IsNubSendEnabled)) {
             return false;
         }
-        return _cooperationTools.isApprovalRequestEnabled(
+        return _accessManager.isApprovalRequestEnabled(
                 Feature.NUB,
                 _nubRequest.getStatus(),
                 _nubRequest.getAccountId(),
@@ -523,7 +523,7 @@ public class EditNubRequest extends AbstractEditController {
         if (!_appTools.isEnabled(ConfigKey.IsNubSendEnabled)) {
             return false;
         }
-        return _cooperationTools.isRequestCorrectionEnabled(
+        return _accessManager.isRequestCorrectionEnabled(
                 Feature.NUB,
                 _nubRequest.getStatus(),
                 _nubRequest.getAccountId(),
@@ -531,7 +531,7 @@ public class EditNubRequest extends AbstractEditController {
     }
 
     public boolean isTakeEnabled() {
-        return _cooperationTools.isTakeEnabled(Feature.NUB, _nubRequest.getStatus(), _nubRequest.getAccountId(), _nubRequest.getIk());
+        return _accessManager.isTakeEnabled(Feature.NUB, _nubRequest.getStatus(), _nubRequest.getAccountId(), _nubRequest.getIk());
     }
 
     /**

@@ -20,9 +20,9 @@ import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.ApplicationTools;
-import org.inek.dataportal.common.CooperationTools;
-import static org.inek.dataportal.common.CooperationTools.canReadCompleted;
-import static org.inek.dataportal.common.CooperationTools.canReadSealed;
+import org.inek.dataportal.common.AccessManager;
+import static org.inek.dataportal.common.AccessManager.canReadCompleted;
+import static org.inek.dataportal.common.AccessManager.canReadSealed;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.cooperation.CooperationRight;
@@ -127,7 +127,7 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
 
     private final RootNode _rootNode = RootNode.create(0, this);
     private AccountTreeNode _accountNode;
-    @Inject private CooperationTools _cooperationTools;
+    @Inject private AccessManager _accessManager;
 
     @PostConstruct
     private void init() {
@@ -182,7 +182,7 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
     }
 
     private void obtainNubEditNodeChildren(RootNode node, Collection<TreeNode> children) {
-        Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.NUB, canReadCompleted());
+        Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.NUB, canReadCompleted());
         accountIds = _nubRequestFacade.checkAccountsForNubOfYear(accountIds, -1, WorkflowStatus.New, WorkflowStatus.ApprovalRequested);
         List<Account> accounts = _accountFacade.getAccountsForIds(accountIds);
         Account currentUser = _sessionController.getAccount();
@@ -204,7 +204,7 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
     }
 
     private void obtainNubViewNodeChildren(RootNode node, Collection<TreeNode> children) {
-        Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.NUB, canReadSealed());
+        Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.NUB, canReadSealed());
         List<Integer> years = _nubRequestFacade.getNubYears(accountIds);
         List<? extends TreeNode> oldChildren = new ArrayList<>(children);
         int targetYear = Utils.getTargetYear(Feature.NUB);
@@ -224,7 +224,7 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
     private AccountFacade _accountFacade;
 
     private void obtainYearNodeChildren(YearTreeNode node, Collection<TreeNode> children) {
-        Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.NUB, canReadSealed());
+        Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.NUB, canReadSealed());
         accountIds = _nubRequestFacade.checkAccountsForNubOfYear(accountIds, node.getId(), WorkflowStatus.Provided, WorkflowStatus.Retired);
         List<Account> accounts = _accountFacade.getAccountsForIds(accountIds);
         Account currentUser = _sessionController.getAccount();
@@ -282,9 +282,9 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         if (partnerId == _sessionController.getAccountId()) {
             infos = _nubRequestFacade.getNubRequestInfos(_sessionController.getAccountId(), -1, year, DataSet.AllSealed, getFilter());
         } else {
-            Set<Integer> iks = _cooperationTools.getPartnerIks(Feature.NUB, partnerId);
+            Set<Integer> iks = _accessManager.getPartnerIks(Feature.NUB, partnerId);
             for (int ik : iks) {
-                boolean canReadSealed = _cooperationTools.canReadSealed(Feature.NUB, partnerId, ik);
+                boolean canReadSealed = _accessManager.canReadSealed(Feature.NUB, partnerId, ik);
                 DataSet dataSet = canReadSealed ? DataSet.AllSealed : DataSet.None;
                 List<ProposalInfo> infosForIk = _nubRequestFacade.getNubRequestInfos(partnerId, ik, year, dataSet, getFilter());
                 infos.addAll(infosForIk);
@@ -298,10 +298,10 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         if (partnerId == _sessionController.getAccountId()) {
             infos = _nubRequestFacade.getNubRequestInfos(_sessionController.getAccountId(), -1, -1, DataSet.AllOpen, getFilter());
         } else {
-            Set<Integer> iks = _cooperationTools.getPartnerIks(Feature.NUB, partnerId);
+            Set<Integer> iks = _accessManager.getPartnerIks(Feature.NUB, partnerId);
             for (int ik : iks) {
-                boolean canReadAlways = _cooperationTools.canReadAlways(Feature.NUB, partnerId, ik);
-                boolean canReadCompleted = _cooperationTools.canReadCompleted(Feature.NUB, partnerId, ik);
+                boolean canReadAlways = _accessManager.canReadAlways(Feature.NUB, partnerId, ik);
+                boolean canReadCompleted = _accessManager.canReadCompleted(Feature.NUB, partnerId, ik);
                 DataSet dataSet = canReadAlways ? DataSet.AllOpen
                         : canReadCompleted ? DataSet.ApprovalRequested : DataSet.None;
                 List<ProposalInfo> infosForIk = _nubRequestFacade.getNubRequestInfos(partnerId, ik, -1, dataSet, getFilter());
@@ -482,7 +482,7 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         if (!_appTools.isEnabled(ConfigKey.IsNubSendEnabled)) {
             return false;
         }
-        return _cooperationTools.isSealedEnabled(Feature.NUB, nubRequest.getStatus(), nubRequest.getAccountId(), nubRequest.getIk(), true);
+        return _accessManager.isSealedEnabled(Feature.NUB, nubRequest.getStatus(), nubRequest.getAccountId(), nubRequest.getIk(), true);
     }
 
     public MessageContainer composeMissingFieldsMessage(NubRequest nubRequest) {
@@ -771,7 +771,7 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
     private String takeSelected(List<NubRequest> nubRequests) {
         int count = 0;
         for (NubRequest nubRequest : nubRequests) {
-            if (_cooperationTools.isTakeEnabled(Feature.NUB, nubRequest.getStatus(), nubRequest.getAccountId(), nubRequest.getIk())) {
+            if (_accessManager.isTakeEnabled(Feature.NUB, nubRequest.getStatus(), nubRequest.getAccountId(), nubRequest.getIk())) {
                 nubRequest.setAccountId(_sessionController.getAccountId());
                 _nubRequestFacade.saveNubRequest(nubRequest);
                 count++;

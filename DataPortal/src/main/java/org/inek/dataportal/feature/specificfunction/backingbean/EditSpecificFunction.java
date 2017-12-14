@@ -25,7 +25,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.ApplicationTools;
-import org.inek.dataportal.common.CooperationTools;
+import org.inek.dataportal.common.AccessManager;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.enums.ConfigKey;
@@ -58,7 +58,7 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
     // <editor-fold defaultstate="collapsed" desc="fields & enums">
     private static final Logger LOGGER = Logger.getLogger("EditSpecificFunctionRequest");
 
-    @Inject private CooperationTools _cooperationTools;
+    @Inject private AccessManager _accessManager;
     @Inject private SessionController _sessionController;
     @Inject private SpecificFunctionFacade _specificFunctionFacade;
     @Inject private ApplicationTools _appTools;
@@ -106,7 +106,7 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
     }
 
     private boolean hasSufficientRights(SpecificFunctionRequest calcBasics) {
-        return _cooperationTools.isAccessAllowed(Feature.SPECIFIC_FUNCTION, calcBasics.getStatus(), calcBasics.getAccountId());
+        return _accessManager.isAccessAllowed(Feature.SPECIFIC_FUNCTION, calcBasics.getStatus(), calcBasics.getAccountId());
     }
 
     private SpecificFunctionRequest newSpecificFunctionRequest() {
@@ -143,7 +143,7 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
         if (_sessionController.isInekUser(Feature.CALCULATION_HOSPITAL) && !_appTools.isEnabled(ConfigKey.TestMode)) {
             return true;
         }
-        return _cooperationTools.isReadOnly(Feature.SPECIFIC_FUNCTION, _request.getStatus(), _request.getAccountId(), _request.getIk());
+        return _accessManager.isReadOnly(Feature.SPECIFIC_FUNCTION, _request.getStatus(), _request.getAccountId(), _request.getIk());
     }
 
     @Override
@@ -213,14 +213,14 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
         if (!_appTools.isEnabled(ConfigKey.IsSpecificFunctionRequestSendEnabled)) {
             return false;
         }
-        return _cooperationTools.isSealedEnabled(Feature.SPECIFIC_FUNCTION, _request.getStatus(), _request.getAccountId());
+        return _accessManager.isSealedEnabled(Feature.SPECIFIC_FUNCTION, _request.getStatus(), _request.getAccountId());
     }
 
     public boolean isApprovalRequestEnabled() {
         if (!_appTools.isEnabled(ConfigKey.IsSpecificFunctionRequestSendEnabled)) {
             return false;
         }
-        return _cooperationTools.isApprovalRequestEnabled(Feature.SPECIFIC_FUNCTION, _request.getStatus(), _request.getAccountId());
+        return _accessManager.isApprovalRequestEnabled(Feature.SPECIFIC_FUNCTION, _request.getStatus(), _request.getAccountId());
     }
 
     public boolean isRequestCorrectionEnabled() {
@@ -259,7 +259,7 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
     }
 
     public boolean isTakeEnabled() {
-        return _cooperationTools.isTakeEnabled(Feature.SPECIFIC_FUNCTION, _request.getStatus(), _request.getAccountId());
+        return _accessManager.isTakeEnabled(Feature.SPECIFIC_FUNCTION, _request.getStatus(), _request.getAccountId());
     }
 
     /**

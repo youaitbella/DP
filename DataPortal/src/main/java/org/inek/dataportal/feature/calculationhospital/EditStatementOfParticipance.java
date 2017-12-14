@@ -26,7 +26,7 @@ import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.ApplicationTools;
-import org.inek.dataportal.common.CooperationTools;
+import org.inek.dataportal.common.AccessManager;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.calc.sop.CalcContact;
@@ -56,7 +56,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
     // <editor-fold defaultstate="collapsed" desc="fields & enums">
     private static final Logger LOGGER = Logger.getLogger("EditStatementOfParticipance");
 
-    @Inject private CooperationTools _cooperationTools;
+    @Inject private AccessManager _accessManager;
     @Inject private SessionController _sessionController;
     @Inject private CalcSopFacade _calcFacade;
     @Inject private IcmtUpdater _icmtUpdater;
@@ -105,7 +105,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
         try {
             int id = Integer.parseInt("" + idObject);
             StatementOfParticipance statement = _calcFacade.findStatementOfParticipance(id);
-            if (_cooperationTools.isAccessAllowed(Feature.CALCULATION_HOSPITAL, statement.getStatus(), statement.getAccountId())) {
+            if (_accessManager.isAccessAllowed(Feature.CALCULATION_HOSPITAL, statement.getStatus(), statement.getAccountId())) {
                 updateObligatorySetting(statement);
                 return statement;
             }
@@ -216,10 +216,10 @@ public class EditStatementOfParticipance extends AbstractEditController {
 
     // <editor-fold defaultstate="collapsed" desc="actions">
     public boolean isReadOnly() {
-        if (_cooperationTools == null || _statement == null) {
+        if (_accessManager == null || _statement == null) {
             return true;
         }
-        return _cooperationTools.isReadOnly(Feature.CALCULATION_HOSPITAL, _statement.getStatus(), _statement.getAccountId(), _statement.getIk());
+        return _accessManager.isReadOnly(Feature.CALCULATION_HOSPITAL, _statement.getStatus(), _statement.getAccountId(), _statement.getIk());
     }
 
     public String save() {
@@ -248,27 +248,27 @@ public class EditStatementOfParticipance extends AbstractEditController {
         if (!_appTools.isEnabled(ConfigKey.IsStatemenOfParticipanceSendEnabled)) {
             return false;
         }
-        return _cooperationTools.isSealedEnabled(Feature.CALCULATION_HOSPITAL, _statement.getStatus(), _statement.getAccountId());
+        return _accessManager.isSealedEnabled(Feature.CALCULATION_HOSPITAL, _statement.getStatus(), _statement.getAccountId());
     }
 
     public boolean isApprovalRequestEnabled() {
         if (!_appTools.isEnabled(ConfigKey.IsStatemenOfParticipanceSendEnabled)) {
             return false;
         }
-        return _cooperationTools.isApprovalRequestEnabled(Feature.CALCULATION_HOSPITAL, _statement.getStatus(), _statement.getAccountId());
+        return _accessManager.isApprovalRequestEnabled(Feature.CALCULATION_HOSPITAL, _statement.getStatus(), _statement.getAccountId());
     }
 
     public boolean isRequestCorrectionEnabled() {
         if (!_appTools.isEnabled(ConfigKey.IsStatemenOfParticipanceSendEnabled)) {
             return false;
         }
-        return _cooperationTools.isRequestCorrectionEnabled(Feature.CALCULATION_HOSPITAL, _statement.getStatus(), _statement.getAccountId());
+        return _accessManager.isRequestCorrectionEnabled(Feature.CALCULATION_HOSPITAL, _statement.getStatus(), _statement.getAccountId());
     }
 
     public boolean isTakeEnabled() {
         return false;
         // todo: do not allow consultant
-        //return _cooperationTools.isTakeEnabled(Feature.CALCULATION_HOSPITAL, _statement.getStatus(), _statement.getAccountId());
+        //return _accessManager.isTakeEnabled(Feature.CALCULATION_HOSPITAL, _statement.getStatus(), _statement.getAccountId());
     }
 
     @Inject private Mailer _mailer;

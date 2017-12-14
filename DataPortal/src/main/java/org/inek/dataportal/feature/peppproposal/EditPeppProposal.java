@@ -22,7 +22,7 @@ import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.ApplicationTools;
-import org.inek.dataportal.common.CooperationTools;
+import org.inek.dataportal.common.AccessManager;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.common.ProcedureInfo;
@@ -54,7 +54,7 @@ import org.inek.dataportal.utils.DocumentationUtil;
 public class EditPeppProposal extends AbstractEditController {
 
     private static final Logger LOGGER = Logger.getLogger("EditPeppProposal");
-    @Inject private CooperationTools _cooperationTools;
+    @Inject private AccessManager _accessManager;
 
     // <editor-fold defaultstate="collapsed" desc="fields">
     @Inject private SessionController _sessionController;
@@ -125,7 +125,7 @@ public class EditPeppProposal extends AbstractEditController {
         try {
             int id = Integer.parseInt("" + ppId);
             PeppProposal peppProposal = _peppProposalFacade.findFresh(id);
-            if (_cooperationTools.isAccessAllowed(Feature.PEPP_PROPOSAL, peppProposal.getStatus(), peppProposal.getAccountId())) {
+            if (_accessManager.isAccessAllowed(Feature.PEPP_PROPOSAL, peppProposal.getStatus(), peppProposal.getAccountId())) {
                 return peppProposal;
             }
         } catch (NumberFormatException ex) {
@@ -305,7 +305,7 @@ public class EditPeppProposal extends AbstractEditController {
     // </editor-fold>
 
     public boolean isReadOnly() {
-        return _cooperationTools.isReadOnly(Feature.PEPP_PROPOSAL, getPeppProposal().getStatus(), getPeppProposal().getAccountId());
+        return _accessManager.isReadOnly(Feature.PEPP_PROPOSAL, getPeppProposal().getStatus(), getPeppProposal().getAccountId());
     }
 
     @Override
@@ -340,25 +340,25 @@ public class EditPeppProposal extends AbstractEditController {
         if (!_appTools.isEnabled(ConfigKey.IsPeppProposalSendEnabled)) {
             return false;
         }
-        return _cooperationTools.isSealedEnabled(Feature.PEPP_PROPOSAL, _peppProposal.getStatus(), _peppProposal.getAccountId());
+        return _accessManager.isSealedEnabled(Feature.PEPP_PROPOSAL, _peppProposal.getStatus(), _peppProposal.getAccountId());
     }
 
     public boolean isApprovalRequestEnabled() {
         if (!_appTools.isEnabled(ConfigKey.IsPeppProposalSendEnabled)) {
             return false;
         }
-        return _cooperationTools.isApprovalRequestEnabled(Feature.PEPP_PROPOSAL, _peppProposal.getStatus(), _peppProposal.getAccountId());
+        return _accessManager.isApprovalRequestEnabled(Feature.PEPP_PROPOSAL, _peppProposal.getStatus(), _peppProposal.getAccountId());
     }
 
     public boolean isRequestCorrectionEnabled() {
         if (!_appTools.isEnabled(ConfigKey.IsPeppProposalSendEnabled)) {
             return false;
         }
-        return _cooperationTools.isRequestCorrectionEnabled(Feature.PEPP_PROPOSAL, _peppProposal.getStatus(), _peppProposal.getAccountId());
+        return _accessManager.isRequestCorrectionEnabled(Feature.PEPP_PROPOSAL, _peppProposal.getStatus(), _peppProposal.getAccountId());
     }
 
     public boolean isTakeEnabled() {
-        return _cooperationTools.isTakeEnabled(Feature.PEPP_PROPOSAL, _peppProposal.getStatus(), _peppProposal.getAccountId());
+        return _accessManager.isTakeEnabled(Feature.PEPP_PROPOSAL, _peppProposal.getStatus(), _peppProposal.getAccountId());
     }
 
     /**

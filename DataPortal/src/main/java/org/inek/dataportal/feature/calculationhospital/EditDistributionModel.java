@@ -20,7 +20,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.ApplicationTools;
-import org.inek.dataportal.common.CooperationTools;
+import org.inek.dataportal.common.AccessManager;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountAdditionalIK;
@@ -51,7 +51,7 @@ public class EditDistributionModel extends AbstractEditController implements Ser
     // <editor-fold defaultstate="collapsed" desc="fields & enums">
     private static final Logger LOGGER = Logger.getLogger("EditDistributionModel");
 
-    @Inject private CooperationTools _cooperationTools;
+    @Inject private AccessManager _accessManager;
     @Inject private SessionController _sessionController;
     @Inject private DistributionModelFacade _distModelFacade;
     @Inject private ApplicationTools _appTools;
@@ -127,7 +127,7 @@ public class EditDistributionModel extends AbstractEditController implements Ser
         if (isInekViewable(model)) {
             return true;
         }
-        return _cooperationTools.isAccessAllowed(Feature.CALCULATION_HOSPITAL, model.getStatus(), model.getAccountId());
+        return _accessManager.isAccessAllowed(Feature.CALCULATION_HOSPITAL, model.getStatus(), model.getAccountId());
     }
 
     private DistributionModel newDistributionModel(String type) {
@@ -149,7 +149,7 @@ public class EditDistributionModel extends AbstractEditController implements Ser
     }
 
     public boolean isReadOnly() {
-        return _cooperationTools.isReadOnly(Feature.CALCULATION_HOSPITAL, _model.getStatus(), _model.getAccountId())
+        return _accessManager.isReadOnly(Feature.CALCULATION_HOSPITAL, _model.getStatus(), _model.getAccountId())
                 || _sessionController.isInekUser(Feature.CALCULATION_HOSPITAL) && !isOwnModel();
     }
 
@@ -199,14 +199,14 @@ public class EditDistributionModel extends AbstractEditController implements Ser
         if (!_appTools.isEnabled(ConfigKey.IsDistributionModelSendEnabled)) {
             return false;
         }
-        return _cooperationTools.isSealedEnabled(Feature.CALCULATION_HOSPITAL, _model.getStatus(), _model.getAccountId());
+        return _accessManager.isSealedEnabled(Feature.CALCULATION_HOSPITAL, _model.getStatus(), _model.getAccountId());
     }
 
     public boolean isApprovalRequestEnabled() {
         if (!_appTools.isEnabled(ConfigKey.IsDistributionModelSendEnabled)) {
             return false;
         }
-        return _cooperationTools.isApprovalRequestEnabled(Feature.CALCULATION_HOSPITAL, _model.getStatus(), _model.getAccountId());
+        return _accessManager.isApprovalRequestEnabled(Feature.CALCULATION_HOSPITAL, _model.getStatus(), _model.getAccountId());
     }
 
     public boolean isRequestCorrectionEnabled() {
@@ -282,7 +282,7 @@ public class EditDistributionModel extends AbstractEditController implements Ser
     public boolean isTakeEnabled() {
         return false;
         // todo: do not allow consultant
-        //return _cooperationTools.isTakeEnabled(Feature.CALCULATION_HOSPITAL, _model.getStatus(), _model.getAccountId());
+        //return _accessManager.isTakeEnabled(Feature.CALCULATION_HOSPITAL, _model.getStatus(), _model.getAccountId());
     }
 
     /**

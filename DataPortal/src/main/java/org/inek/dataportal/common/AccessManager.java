@@ -23,25 +23,25 @@ import org.inek.dataportal.facades.cooperation.CooperationRightFacade;
 /**
  * This class provides access to cooperations rights for one request. 
  * Depending on the current data, a couple of accesses  * might be necessary. 
- * To mimimize the db accesses, all cooperation data of one kind (achieved or granted) 
- * will be read together and buffered (cached) for the current HTTP request. 
- * During one request, either all lists for the user or a single dataset is used. 
- * During one request, the same feature is used. Thus, caching ignores the feature.
- *
- * This class has be placed into request scope.
- * 
- * Starting in Dec 2017, tha concept of an IK admin has been introduced.
- * Such an admin may grant or revoke rights for a given ik.
- * These rights will override cooperative rights.
- * Because this class is a facade to the access rights, the administered
- * rights will be respected here, regardless of the name "CooperationTools".
- * Todo: rename? (just now this is not possible due to other (local) development branches)
+ To mimimize the db accesses, all cooperation data of one kind (achieved or granted) 
+ will be read together and buffered (cached) for the current HTTP request. 
+ During one request, either all lists for the user or a single dataset is used. 
+ During one request, the same feature is used. Thus, caching ignores the feature.
+
+ This class has be placed into request scope.
+ 
+ Starting in Dec 2017, tha concept of an IK admin has been introduced.
+ Such an admin may grant or revoke rights for a given ik.
+ These rights will override cooperative rights.
+ Because this class is a facade to the access rights, the administered
+ rights will be respected here, regardless of the name "AccessManager".
+ Todo: rename? (just now this is not possible due to other (local) development branches)
  *
  * @author muellermi
  */
 @Named
 @RequestScoped
-public class CooperationTools implements Serializable {
+public class AccessManager implements Serializable {
 
     @Inject private CooperationRightFacade _cooperationRightFacade;
     @Inject private SessionController _sessionController;
@@ -105,7 +105,7 @@ public class CooperationTools implements Serializable {
      * @return
      */
     public boolean isAccessAllowed(Feature feature, WorkflowStatus state, int ownerId) {
-        return CooperationTools.this.isAccessAllowed(feature, state, ownerId, -1);
+        return AccessManager.this.isAccessAllowed(feature, state, ownerId, -1);
     }
 
     public boolean isAccessAllowed(Feature feature, WorkflowStatus state, int ownerId, int ik) {

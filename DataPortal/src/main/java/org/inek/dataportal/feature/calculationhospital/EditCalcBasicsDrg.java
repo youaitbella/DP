@@ -29,7 +29,7 @@ import javax.inject.Named;
 import javax.persistence.Id;
 import javax.persistence.OptimisticLockException;
 import org.inek.dataportal.common.ApplicationTools;
-import org.inek.dataportal.common.CooperationTools;
+import org.inek.dataportal.common.AccessManager;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.Document;
 import org.inek.dataportal.entities.account.Account;
@@ -82,7 +82,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     // <editor-fold defaultstate="collapsed" desc="fields & enums">
     private static final Logger LOGGER = Logger.getLogger("EditCalcBasicsDrg");
 
-    @Inject private CooperationTools _cooperationTools;
+    @Inject private AccessManager _accessManager;
     @Inject private SessionController _sessionController;
     @Inject private CalcDrgFacade _calcDrgFacade;
     @Inject private ApplicationTools _appTools;
@@ -147,7 +147,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     private boolean hasSufficientRights(DrgCalcBasics calcBasics) {
-        return _cooperationTools.isAccessAllowed(Feature.CALCULATION_HOSPITAL, calcBasics.getStatus(), calcBasics.getAccountId());
+        return _accessManager.isAccessAllowed(Feature.CALCULATION_HOSPITAL, calcBasics.getStatus(), calcBasics.getAccountId());
     }
 
     public List<KGLListRadiologyLaboratory> getLaboratories() {
@@ -456,7 +456,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             return true;
         }
         // todo apply rights depending on ik?
-        return _cooperationTools.isReadOnly(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId());
+        return _accessManager.isReadOnly(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId());
     }
 
     @Override
@@ -587,7 +587,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     public boolean isSealEnabled() {
         return isSendEnabled()
-                && _cooperationTools.isSealedEnabled(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId());
+                && _accessManager.isSealedEnabled(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId());
     }
 
     private boolean isSendEnabled(){
@@ -596,18 +596,18 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     
     public boolean isApprovalRequestEnabled() {
         return isSendEnabled()
-                && _cooperationTools.isApprovalRequestEnabled(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId());
+                && _accessManager.isApprovalRequestEnabled(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId());
     }
 
     public boolean isRequestCorrectionEnabled() {
         return isSendEnabled()
-                && _cooperationTools.isRequestCorrectionEnabled(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId());
+                && _accessManager.isRequestCorrectionEnabled(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId());
     }
 
     public boolean isTakeEnabled() {
         return false;
         // todo: do not allow consultant
-        //return _cooperationTools.isTakeEnabled(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId());
+        //return _accessManager.isTakeEnabled(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId());
     }
 
     public boolean isCopyForResendAllowed() {
