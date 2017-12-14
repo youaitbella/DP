@@ -14,9 +14,9 @@ import java.util.stream.Stream;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.inek.dataportal.common.CooperationTools;
-import static org.inek.dataportal.common.CooperationTools.canReadCompleted;
-import static org.inek.dataportal.common.CooperationTools.canReadSealed;
+import org.inek.dataportal.common.AccessManager;
+import static org.inek.dataportal.common.AccessManager.canReadCompleted;
+import static org.inek.dataportal.common.AccessManager.canReadSealed;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.drg.DrgProposal;
@@ -52,7 +52,7 @@ public class DrgProposalTreeHandler implements Serializable, TreeNodeObserver {
     @Inject private CooperationRightFacade _cooperationRightFacade;
     @Inject private DrgProposalFacade _drgProposalFacade;
     @Inject private SessionController _sessionController;
-    @Inject private CooperationTools _cooperationTools;
+    @Inject private AccessManager _accessManager;
     @Inject private AccountFacade _accountFacade;
 
     private final RootNode _rootNode = RootNode.create(0, this);
@@ -107,7 +107,7 @@ public class DrgProposalTreeHandler implements Serializable, TreeNodeObserver {
     }
 
     private void obtainEditNodeChildren(RootNode node, Collection<TreeNode> children) {
-        Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.DRG_PROPOSAL, canReadCompleted());
+        Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.DRG_PROPOSAL, canReadCompleted());
         accountIds = _drgProposalFacade.checkAccountsForProposalOfYear(accountIds, -1, WorkflowStatus.New, WorkflowStatus.ApprovalRequested);
         List<Account> accounts = _accountFacade.getAccountsForIds(accountIds);
         Account currentUser = _sessionController.getAccount();
@@ -129,7 +129,7 @@ public class DrgProposalTreeHandler implements Serializable, TreeNodeObserver {
     }
 
     private void obtainViewNodeChildren(RootNode node, Collection<TreeNode> children) {
-        Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.DRG_PROPOSAL, canReadSealed());
+        Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.DRG_PROPOSAL, canReadSealed());
         List<Integer> years = _drgProposalFacade.getProposalYears(accountIds);
         List<? extends TreeNode> oldChildren = new ArrayList<>(children);
         int targetYear = Utils.getTargetYear(Feature.DRG_PROPOSAL);
@@ -146,7 +146,7 @@ public class DrgProposalTreeHandler implements Serializable, TreeNodeObserver {
     }
 
     private void obtainYearNodeChildren(YearTreeNode node, Collection<TreeNode> children) {
-        Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.DRG_PROPOSAL, canReadSealed());
+        Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.DRG_PROPOSAL, canReadSealed());
         accountIds = _drgProposalFacade.checkAccountsForProposalOfYear(accountIds, node.getId(), WorkflowStatus.Provided, WorkflowStatus.Retired);
         List<Account> accounts = _accountFacade.getAccountsForIds(accountIds);
         Account currentUser = _sessionController.getAccount();
@@ -190,7 +190,7 @@ public class DrgProposalTreeHandler implements Serializable, TreeNodeObserver {
         if (partnerId == _sessionController.getAccountId()) {
             dataSet = DataSet.AllSealed;
         } else {
-            CooperativeRight achievedRight = _cooperationTools.getAchievedRight(Feature.DRG_PROPOSAL, partnerId);
+            CooperativeRight achievedRight = _accessManager.getAchievedRight(Feature.DRG_PROPOSAL, partnerId);
             dataSet = achievedRight.canReadSealed() ? DataSet.AllSealed : DataSet.None;
         }
         return _drgProposalFacade.getDrgProposalInfos(partnerId, year, dataSet);
@@ -201,7 +201,7 @@ public class DrgProposalTreeHandler implements Serializable, TreeNodeObserver {
         if (partnerId == _sessionController.getAccountId()) {
             dataSet = DataSet.AllOpen;
         } else {
-            CooperativeRight achievedRight = _cooperationTools.getAchievedRight(Feature.DRG_PROPOSAL, partnerId);
+            CooperativeRight achievedRight = _accessManager.getAchievedRight(Feature.DRG_PROPOSAL, partnerId);
             dataSet = achievedRight.canReadAlways() ? DataSet.AllOpen
                     : achievedRight.canReadCompleted() ? DataSet.ApprovalRequested : DataSet.None;
         }

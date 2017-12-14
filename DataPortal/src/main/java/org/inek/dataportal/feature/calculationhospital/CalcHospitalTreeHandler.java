@@ -15,9 +15,9 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.ApplicationTools;
-import org.inek.dataportal.common.CooperationTools;
-import static org.inek.dataportal.common.CooperationTools.canReadCompleted;
-import static org.inek.dataportal.common.CooperationTools.canReadSealed;
+import org.inek.dataportal.common.AccessManager;
+import static org.inek.dataportal.common.AccessManager.canReadCompleted;
+import static org.inek.dataportal.common.AccessManager.canReadSealed;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.calc.CalcHospitalInfo;
@@ -48,7 +48,7 @@ public class CalcHospitalTreeHandler implements Serializable, TreeNodeObserver {
 
     @Inject private CalcFacade _calcFacade;
     @Inject private SessionController _sessionController;
-    @Inject private CooperationTools _cooperationTools;
+    @Inject private AccessManager _accessManager;
     @Inject private AccountFacade _accountFacade;
     @Inject private ApplicationTools _appTools;
 
@@ -104,7 +104,7 @@ public class CalcHospitalTreeHandler implements Serializable, TreeNodeObserver {
     }
 
     private void obtainEditNodeChildren(RootNode node, Collection<TreeNode> children) {
-        Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.CALCULATION_HOSPITAL, canReadCompleted());
+        Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.CALCULATION_HOSPITAL, canReadCompleted());
         accountIds = _calcFacade.checkAccountsForYear(accountIds, Utils.getTargetYear(Feature.CALCULATION_HOSPITAL), 
                 WorkflowStatus.New, WorkflowStatus.ApprovalRequested);
         List<Account> accounts = _accountFacade.getAccountsForIds(accountIds);
@@ -127,7 +127,7 @@ public class CalcHospitalTreeHandler implements Serializable, TreeNodeObserver {
     }
 
     private void obtainViewNodeChildren(RootNode node, Collection<TreeNode> children) {
-        Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.CALCULATION_HOSPITAL, canReadSealed());
+        Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.CALCULATION_HOSPITAL, canReadSealed());
         Set<Integer> years = _calcFacade.getCalcYears(accountIds);
         List<? extends TreeNode> oldChildren = new ArrayList<>(children);
         int targetYear = Utils.getTargetYear(Feature.CALCULATION_HOSPITAL);
@@ -144,7 +144,7 @@ public class CalcHospitalTreeHandler implements Serializable, TreeNodeObserver {
     }
 
     private void obtainYearNodeChildren(YearTreeNode node, Collection<TreeNode> children) {
-        Set<Integer> accountIds = _cooperationTools.determineAccountIds(Feature.CALCULATION_HOSPITAL, canReadSealed());
+        Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.CALCULATION_HOSPITAL, canReadSealed());
         accountIds = _calcFacade.checkAccountsForYear(accountIds, node.getId(), WorkflowStatus.Provided, WorkflowStatus.Retired);
         List<Account> accounts = _accountFacade.getAccountsForIds(accountIds);
         Account currentUser = _sessionController.getAccount();
@@ -187,7 +187,7 @@ public class CalcHospitalTreeHandler implements Serializable, TreeNodeObserver {
         WorkflowStatus statusLow = WorkflowStatus.Provided;
         WorkflowStatus statusHigh = WorkflowStatus.Retired;
         if (partnerId != _sessionController.getAccountId()) {
-            CooperativeRight achievedRight = _cooperationTools.getAchievedRight(Feature.CALCULATION_HOSPITAL, partnerId);
+            CooperativeRight achievedRight = _accessManager.getAchievedRight(Feature.CALCULATION_HOSPITAL, partnerId);
             if (!achievedRight.canReadSealed()){
                 statusLow = WorkflowStatus.Unknown;
                 statusHigh = WorkflowStatus.Unknown;
@@ -203,7 +203,7 @@ public class CalcHospitalTreeHandler implements Serializable, TreeNodeObserver {
             statusLow = WorkflowStatus.New;
             statusHigh = WorkflowStatus.ApprovalRequested;
         } else {
-            CooperativeRight achievedRight = _cooperationTools.getAchievedRight(Feature.CALCULATION_HOSPITAL, partnerId);
+            CooperativeRight achievedRight = _accessManager.getAchievedRight(Feature.CALCULATION_HOSPITAL, partnerId);
             statusLow = achievedRight.canReadAlways() ? WorkflowStatus.New
                     : achievedRight.canReadCompleted() ? WorkflowStatus.ApprovalRequested :  WorkflowStatus.Unknown;
             statusHigh = achievedRight.canReadAlways() 

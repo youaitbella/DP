@@ -5,7 +5,7 @@ import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.inek.dataportal.common.CooperationTools;
+import org.inek.dataportal.common.AccessManager;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.nub.NubRequest;
 import org.inek.dataportal.enums.DataSet;
@@ -24,7 +24,7 @@ public class NubRequestList {
     private static final Logger LOGGER = Logger.getLogger("NubRequestList");
     @Inject private NubRequestFacade _nubRequestFacade;
     @Inject private SessionController _sessionController;
-    @Inject private CooperationTools _cooperationTools;
+    @Inject private AccessManager _accessManager;
     @Inject private NubSessionTools _nubSessionTools;
 
     private List<ProposalInfo> _openNubs;

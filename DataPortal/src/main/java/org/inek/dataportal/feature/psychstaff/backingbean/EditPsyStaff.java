@@ -29,7 +29,7 @@ import javax.inject.Named;
 import javax.persistence.OptimisticLockException;
 import javax.servlet.http.Part;
 import org.inek.dataportal.common.ApplicationTools;
-import org.inek.dataportal.common.CooperationTools;
+import org.inek.dataportal.common.AccessManager;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountAdditionalIK;
@@ -71,7 +71,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     private static final String PDF_DOCUMENT_APX2 = "PsychPersonalNachweis_Anlage2.pdf";
     private static final String EXCEL_DOCUMENT = "PsychPersonalNachweis.xlsx";
     
-    private CooperationTools _cooperationTools;
+    private AccessManager _accessManager;
     private SessionController _sessionController;
     private PsychStaffFacade _psychStaffFacade;
     private ApplicationTools _appTools;
@@ -80,11 +80,11 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     }
     
     @Inject
-    public EditPsyStaff(CooperationTools cooperationTools,
+    public EditPsyStaff(AccessManager accessManager,
             SessionController sessionController,
             PsychStaffFacade psychStaffFacade,
             ApplicationTools appTools) {
-        _cooperationTools = cooperationTools;
+        _accessManager = accessManager;
         _sessionController = sessionController;
         _psychStaffFacade = psychStaffFacade;
         _appTools = appTools;
@@ -160,7 +160,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     }
     
     private boolean hasSufficientRights(StaffProof staffProof) {
-        return _cooperationTools.isAccessAllowed(Feature.PSYCH_STAFF, staffProof.getStatus(), staffProof.getAccountId());
+        return _accessManager.isAccessAllowed(Feature.PSYCH_STAFF, staffProof.getStatus(), staffProof.getAccountId());
     }
     
     private StaffProof newStaffProof() {
@@ -321,7 +321,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         if (isCompleteSinceMoreThan3Days()) {
             return true;
         }
-        return _cooperationTools.isReadOnly(Feature.PSYCH_STAFF, _staffProof.getStatus(), _staffProof.getAccountId());
+        return _accessManager.isReadOnly(Feature.PSYCH_STAFF, _staffProof.getStatus(), _staffProof.getAccountId());
     }
     
     public String save() {
@@ -387,7 +387,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         if (!isSendEnabled()) {
             return false;
         }
-        if (!_cooperationTools.isSealedEnabled(Feature.PSYCH_STAFF, _staffProof.getStatus(), _staffProof.getAccountId())) {
+        if (!_accessManager.isSealedEnabled(Feature.PSYCH_STAFF, _staffProof.getStatus(), _staffProof.getAccountId())) {
             return false;
         }
         switch (getActiveTopicKey()) {
@@ -425,7 +425,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         if (!isSendEnabled()) {
             return false;
         }
-        if (!_cooperationTools.isSealedEnabled(Feature.PSYCH_STAFF, _staffProof.getStatus(), _staffProof.getAccountId())) {
+        if (!_accessManager.isSealedEnabled(Feature.PSYCH_STAFF, _staffProof.getStatus(), _staffProof.getAccountId())) {
             return false;
         }
         return isClosedState();
@@ -527,7 +527,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         if (isCompleteSinceMoreThan3Days()) {
             return false;
         }
-        if (!_cooperationTools.isSealedEnabled(Feature.PSYCH_STAFF, _staffProof.getStatus(), _staffProof.getAccountId())) {
+        if (!_accessManager.isSealedEnabled(Feature.PSYCH_STAFF, _staffProof.getStatus(), _staffProof.getAccountId())) {
             return false;
         }
         return isClosedStateActionEnabled();
@@ -551,9 +551,9 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     }
     
     public boolean isTakeEnabled() {
-        return _cooperationTools != null
+        return _accessManager != null
                 && _staffProof != null
-                && _cooperationTools.isTakeEnabled(Feature.PSYCH_STAFF, _staffProof.getStatus(), _staffProof.getAccountId());
+                && _accessManager.isTakeEnabled(Feature.PSYCH_STAFF, _staffProof.getStatus(), _staffProof.getAccountId());
     }
     
     public String take() {

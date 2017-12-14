@@ -12,6 +12,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.ApplicationTools;
+import org.inek.dataportal.common.AccessManager;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.DataSet;
@@ -39,6 +40,7 @@ public class PsychStaffList implements Serializable {
 
     @Inject private PsychStaffFacade _psychFacade;
     @Inject private SessionController _sessionController;
+    @Inject private AccessManager _accessManager;
 
     public List<StaffProof> getOpenPersonals() {
         // todo

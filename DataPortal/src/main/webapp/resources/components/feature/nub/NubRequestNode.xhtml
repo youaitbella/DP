@@ -89,7 +89,7 @@
                         <f:ajax listener="#{cc.attrs.parentNode.setSortCriteria('Ik')}" render="NubRequests :logout:remaining"/>
                     </h:commandLink>
                 </f:facet>
-                <h:commandLink action="#{nubRequestList.editNubRequest(node.proposalInfo.id)}" value="#{node.proposalInfo.ik}" immediate="true">
+                <h:commandLink action="#{nubRequestList.editNubRequest(node.proposalInfo.id)}" value="#{node.proposalInfo.ik lt 0 ? '[ohne]' : node.proposalInfo.ik}" immediate="true">
                     <f:param name="id" value="#{node.proposalInfo.id}"/>
                 </h:commandLink>
             </h:column>

@@ -22,7 +22,7 @@ import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.ApplicationTools;
-import org.inek.dataportal.common.CooperationTools;
+import org.inek.dataportal.common.AccessManager;
 import org.inek.dataportal.common.SessionTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
@@ -53,7 +53,7 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
     private static final Logger LOGGER = Logger.getLogger("EditAdditionalCostRequest");
 
     @Inject
-    private CooperationTools _cooperationTools;
+    private AccessManager _accessManager;
     @Inject
     private SessionController _sessionController;
     @Inject
@@ -107,7 +107,7 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
     }
 
     private boolean hasSufficientRights(AdditionalCost additionalCost) {
-        return _cooperationTools.isAccessAllowed(Feature.ADDITIONAL_COST, additionalCost.getStatus(), additionalCost.getAccountId());
+        return _accessManager.isAccessAllowed(Feature.ADDITIONAL_COST, additionalCost.getStatus(), additionalCost.getAccountId());
     }
 
     private AdditionalCost newAdditionalCost() {
@@ -148,7 +148,7 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
         if (_sessionController.isInekUser(Feature.ADDITIONAL_COST) && !_appTools.isEnabled(ConfigKey.TestMode)) {
             return true;
         }
-        return _cooperationTools.isReadOnly(
+        return _accessManager.isReadOnly(
                 Feature.ADDITIONAL_COST,
                 _additionalCost.getStatus(),
                 _additionalCost.getAccountId(),
@@ -183,7 +183,7 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
         if (_additionalCost == null) {
             return false;
         }
-        return _cooperationTools.isSealedEnabled(Feature.ADDITIONAL_COST, _additionalCost.getStatus(), _additionalCost.getAccountId());
+        return _accessManager.isSealedEnabled(Feature.ADDITIONAL_COST, _additionalCost.getStatus(), _additionalCost.getAccountId());
     }
 
     public boolean isApprovalRequestEnabled() {
@@ -193,7 +193,7 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
         if (_additionalCost == null) {
             return false;
         }
-        return _cooperationTools.isApprovalRequestEnabled(Feature.ADDITIONAL_COST, _additionalCost.getStatus(), _additionalCost.getAccountId());
+        return _accessManager.isApprovalRequestEnabled(Feature.ADDITIONAL_COST, _additionalCost.getStatus(), _additionalCost.getAccountId());
     }
 
     public boolean isRequestCorrectionEnabled() {
@@ -208,9 +208,9 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
     }
 
     public boolean isTakeEnabled() {
-        return _cooperationTools != null
+        return _accessManager != null
                 && _additionalCost != null
-                && _cooperationTools.isTakeEnabled(Feature.ADDITIONAL_COST, _additionalCost.getStatus(), _additionalCost.getAccountId());
+                && _accessManager.isTakeEnabled(Feature.ADDITIONAL_COST, _additionalCost.getStatus(), _additionalCost.getAccountId());
     }
 
     /**
