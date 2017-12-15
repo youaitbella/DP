@@ -64,12 +64,68 @@ public class EditStatementOfParticipance extends AbstractEditController {
     @Inject private AccountFacade _accFacade;
 
     private StatementOfParticipance _statement;
+    private boolean _enableDrgCalc;
+    private boolean _enablePsyCalc;
+    private boolean _enableInvCalc;
+    private boolean _obligatorDrg;
+    private boolean _obligatorPsy;
 
     enum StatementOfParticipanceTabs {
         tabStatementOfParticipanceAddress,
         tabStatementOfParticipanceStatements
     }
     // </editor-fold>
+
+    public boolean isEnableDrgCalc() {
+        return _enableDrgCalc;
+    }
+
+    public void setEnableDrgCalc(boolean enableDrgCalc) {
+        this._enableDrgCalc = enableDrgCalc;
+    }
+
+    public boolean isEnablePsyCalc() {
+        return _enablePsyCalc;
+    }
+
+    public void setEnablePsyCalc(boolean enablePsyCalc) {
+        this._enablePsyCalc = enablePsyCalc;
+    }
+
+    public boolean isEnableInvCalc() {
+        return _enableInvCalc;
+    }
+
+    public void setEnableInvCalc(boolean enableInvCalc) {
+        this._enableInvCalc = enableInvCalc;
+    }
+        /**
+     * @return the _obligatorDrg
+     */
+    public boolean isObligatorDrg() {
+        return _obligatorDrg;
+    }
+
+    /**
+     * @param obligatorDrg the _obligatorDrg to set
+     */
+    public void setObligatorDrg(boolean obligatorDrg) {
+        this._obligatorDrg = obligatorDrg;
+    }
+
+    /**
+     * @return the _obligatorPsy
+     */
+    public boolean isObligatorPsy() {
+        return _obligatorPsy;
+    }
+
+    /**
+     * @param obligatorPsy the _obligatorPsy to set
+     */
+    public void setObligatorPsy(boolean obligatorPsy) {
+        this._obligatorPsy = obligatorPsy;
+    }
 
     @PostConstruct
     private void init() {
@@ -87,7 +143,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
         } else {
             _statement = loadStatementOfParticipance(id);
         }
-        enableDisableStatementPage();
+        enableDisablePageElements();
     }
 
     private void ensureContacts(StatementOfParticipance statement) {
@@ -131,15 +187,20 @@ public class EditStatementOfParticipance extends AbstractEditController {
             Object[] obj = currentData.get(0);
             String domain = (String) obj[0];
             String drgKvm = (String) obj[1];
-            String drgMultiyear = (String) obj[2];
+            String drgMultiyear = obj[2].toString();
             String psyKvm = (String) obj[3];
-            String psyMultiyear = (String) obj[4];
+            String psyMultiyear = obj[4].toString();
             boolean isDrg = (boolean) obj[5];
             boolean isPsy = (boolean) obj[6];
             statement.setObligatory(domain.contains("obligatory"));
             if (statement.isObligatory()) {
                 statement.setDrgCalc(isDrg);
                 statement.setPsyCalc(isPsy);
+                statement.setObligatoryFollowingYears(_calcFacade.isObligatoryFollowingYear(ik,year));
+                statement.setInvCalc(_calcFacade.isObligateInCalcType(ik, year,4));
+                statement.setObligatoryCalcType(2);
+                setObligatorDrg(_calcFacade.isObligateInCalcType(ik,year,1));
+                setObligatorPsy(_calcFacade.isObligateInCalcType(ik,year,3));
             } else {
                 statement.setDrgCalc(domain.contains("DRG"));
                 statement.setClinicalDistributionModelDrg("T".equals(drgKvm) ? 1 : 0);
@@ -151,12 +212,16 @@ public class EditStatementOfParticipance extends AbstractEditController {
                 statement.setTpgCalc(domain.contains("TPG"));
                 statement.setObdCalc(domain.contains("OBD"));
             }
-            _sessionController.setScript("alert('Zu Ihrer Unterstützung wurden die aktuell im InEK "
-                    + "vorliegenden Informationen bereits in den Dialog geladen. "
-                    + "Bevor Sie die Daten an das InEK senden, überprüfen Sie diese bitte auf eventuelle Änderungen.');");
+//            _sessionController.setScript("alert('Zu Ihrer Unterstützung wurden die aktuell im InEK "
+//                    + "vorliegenden Informationen bereits in den Dialog geladen. "
+//                    + "Bevor Sie die Daten an das InEK senden, überprüfen Sie diese bitte auf eventuelle Änderungen.');");
         }
 
         statement.setContacts(_calcFacade.retrieveCurrentContacts(ik, year - 1));
+        
+        if(statement.getContacts().isEmpty()) {
+            statement.setContacts(_calcFacade.getContactByIk(ik));
+        }
         return statement;
     }
 
@@ -169,14 +234,17 @@ public class EditStatementOfParticipance extends AbstractEditController {
         _statement = statement;
     }
 
-    public List<CalcContact> getContacts() {
+    public List<CalcContact> getContacts(boolean isConsultant) {
         ensureContacts(_statement);
-        return _statement.getContacts().stream().filter(c -> !c.isConsultant()).collect(Collectors.toList());
+        return _statement.getContacts().stream().filter(c -> c.isConsultant() == isConsultant).collect(Collectors.toList());
+    }
+
+    public List<CalcContact> getHospitalContacts() {
+        return getContacts(false);
     }
 
     public List<CalcContact> getConsultants() {
-        ensureContacts(_statement);
-        return _statement.getContacts().stream().filter(c -> c.isConsultant()).collect(Collectors.toList());
+        return getContacts(true);
     }
     // </editor-fold>
 
@@ -186,7 +254,19 @@ public class EditStatementOfParticipance extends AbstractEditController {
         addTopic(StatementOfParticipanceTabs.tabStatementOfParticipanceStatements.name(), Pages.StatementOfParticipanceEditStatements.URL());
     }
 
-    public void enableDisableStatementPage() {
+    public void enableDisablePageElements() {
+        setEnableDrgCalc(false);
+        setEnableInvCalc(false);
+        setEnablePsyCalc(false);
+        if(_statement.isObligatory()) {
+            setEnableDrgCalc(_statement.isDrgCalc());
+            setEnableInvCalc(_statement.isInvCalc());
+            setEnablePsyCalc(_statement.isPsyCalc());
+        }
+        enableDisableStatementPage();
+    }
+    
+    private void enableDisableStatementPage() {        
         boolean enable = !_statement.isObligatory() || _statement.getObligatoryCalcType() > 1;
         findTopic(StatementOfParticipanceTabs.tabStatementOfParticipanceStatements.name()).setVisible(enable);
     }
@@ -268,7 +348,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
     public boolean isTakeEnabled() {
         return false;
         // todo: do not allow consultant
-        //return _accessManager.isTakeEnabled(Feature.CALCULATION_HOSPITAL, _statement.getStatus(), _statement.getAccountId());
+        //return _cooperationTools.isTakeEnabled(Feature.CALCULATION_HOSPITAL, _statement.getStatus(), _statement.getAccountId());
     }
 
     @Inject private Mailer _mailer;
@@ -299,7 +379,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
         }
         _statement.setStatus(WorkflowStatus.Provided);
         setModifiedInfo();
-        _statement.setSealed(Calendar.getInstance().getTime());
+        _statement.setSealed(new Date());
 
         for (StatementOfParticipance sop : _calcFacade.listStatementOfParticipanceByIk(_statement.getIk())) {
             sop.setStatus(WorkflowStatus.Retired);
@@ -309,6 +389,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
         _statement = _calcFacade.saveStatementOfParticipance(_statement);
 
         boolean testMode = _appTools.isEnabled(ConfigKey.TestMode);
+        testMode = false;
         if (!testMode) {
             _icmtUpdater.saveStatementOfParticipanceForIcmt(_statement);
         }
@@ -453,19 +534,19 @@ public class EditStatementOfParticipance extends AbstractEditController {
                 applyMessageValues(message, "lblObligatoryCalcType", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress, "sop:calcType");
             }
         } else {
-            if (statement.isDrgCalc() && !statement.getContacts().stream().anyMatch(c -> c.isDrg())) {
+            if (statement.isDrgCalc() && !statement.getContacts().stream().anyMatch(c -> c.isDrg() && !c.isConsultant())) {
                 applyMessageValues(message, "lblNeedContactDrg", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress, "sop:contact");
             }
-            if (statement.isPsyCalc() && !statement.getContacts().stream().anyMatch(c -> c.isPsy())) {
+            if (statement.isPsyCalc() && !statement.getContacts().stream().anyMatch(c -> c.isPsy() && !c.isConsultant())) {
                 applyMessageValues(message, "lblNeedContactPsy", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress, "sop:contact");
             }
-            if (statement.isInvCalc() && !statement.getContacts().stream().anyMatch(c -> c.isInv())) {
+            if (statement.isInvCalc() && !statement.getContacts().stream().anyMatch(c -> c.isInv() && !c.isConsultant())) {
                 applyMessageValues(message, "lblNeedContactInv", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress, "sop:contact");
             }
-            if (statement.isTpgCalc() && !statement.getContacts().stream().anyMatch(c -> c.isTpg())) {
+            if (statement.isTpgCalc() && !statement.getContacts().stream().anyMatch(c -> c.isTpg() && !c.isConsultant())) {
                 applyMessageValues(message, "lblNeedContactTpg", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress, "sop:contact");
             }
-            if (statement.isObdCalc() && !statement.getContacts().stream().anyMatch(c -> c.isObd())) {
+            if (statement.isObdCalc() && !statement.getContacts().stream().anyMatch(c -> c.isObd() && !c.isConsultant())) {
                 applyMessageValues(message, "lblNeedContactObd", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress, "sop:contact");
             }
         }
@@ -474,7 +555,8 @@ public class EditStatementOfParticipance extends AbstractEditController {
                 .anyMatch(c -> c.getFirstName() == null || c.getFirstName().isEmpty()
                 || c.getLastName() == null || c.getLastName().isEmpty()
                 || c.getMail() == null || c.getMail().isEmpty()
-                || c.getPhone() == null || c.getPhone().isEmpty())) {
+                || c.getPhone() == null || c.getPhone().isEmpty()
+                || !hasContactAnyRole(c))) {
             applyMessageValues(message, "msgContactIncomplete", StatementOfParticipanceTabs.tabStatementOfParticipanceAddress, "sop:contact");
         }
         if (statement.isWithConsultant()) {
@@ -515,6 +597,24 @@ public class EditStatementOfParticipance extends AbstractEditController {
             }
         }
         return message;
+    }
+    private boolean hasContactAnyRole(CalcContact c) {
+        if(c.isDrg()) {
+            return true;
+        }
+        if(c.isPsy()) {
+            return true;
+        }
+        if(c.isTpg()) {
+            return true;
+        }
+        if(c.isInv()) {
+            return true;
+        }
+        if(c.isObd()) {
+            return true;
+        }
+        return false;
     }
 
     private void checkField(MessageContainer message, String value, String msgKey, String elementId, StatementOfParticipanceTabs tab) {
@@ -594,6 +694,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
     public List<SelectItem> getIks() {
         Account account = _sessionController.getAccount();
         boolean testMode = _appTools.isEnabled(ConfigKey.TestMode);
+        testMode = false;
         int year = Utils.getTargetYear(Feature.CALCULATION_HOSPITAL);
         Set<Integer> iks = _calcFacade.obtainIks4NewStatementOfParticipance(account.getId(), year, testMode);
         if (_statement != null && _statement.getIk() > 0) {
@@ -610,8 +711,10 @@ public class EditStatementOfParticipance extends AbstractEditController {
     public void ikChanged() {
         if (_statement.getId() == -1) {
             // paranoid check. usually the ik cannot be changed, once the statement is stored
+            setObligatorDrg(false);
+            setObligatorPsy(false);
             _statement = retrievePriorData(_statement.getIk(), _statement.getDataYear());
-            enableDisableStatementPage();
+            enableDisablePageElements();
         }
     }
 
@@ -619,9 +722,18 @@ public class EditStatementOfParticipance extends AbstractEditController {
         _statement.getContacts().add(new CalcContact());
     }
 
+    public void addConsultant() {
+        CalcContact consultant = new CalcContact();
+        consultant.setConsultant(true);
+        _statement.getContacts().add(consultant);
+    }
+    
     public void deleteContact(CalcContact contact) {
         _statement.getContacts().remove(contact);
     }
+        
 // </editor-fold>
+
+
 
 }
