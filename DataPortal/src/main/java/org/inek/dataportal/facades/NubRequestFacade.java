@@ -35,6 +35,8 @@ import org.inek.dataportal.entities.nub.NubRequestHistory;
 import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.feature.admin.backingbean.AccountInfo;
+import org.inek.dataportal.feature.ikadmin.entity.AccessRight;
+import org.inek.dataportal.feature.ikadmin.enums.Right;
 import org.inek.dataportal.helper.structures.ProposalInfo;
 import org.inek.dataportal.utils.DateUtils;
 
@@ -58,10 +60,6 @@ public class NubRequestFacade extends AbstractDataAccess {
     }
 
     public List<NubRequest> findAll(int accountId, int ik, int year, DataSet dataSet, String filter) {
-        return findAll(accountId, ik, false, year, dataSet, filter);
-    }
-
-    private List<NubRequest> findAll(int accountId, int ik, boolean includeProxyIks, int year, DataSet dataSet, String filter) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<NubRequest> cq = cb.createQuery(NubRequest.class);
         Root<NubRequest> request = cq.from(NubRequest.class);
@@ -96,11 +94,61 @@ public class NubRequestFacade extends AbstractDataAccess {
         }
         if (ik > 0) {
             Predicate ikCondition = cb.equal(request.get("_ik"), ik);
-            if (includeProxyIks) {
-                ikCondition = cb.or(ikCondition, cb.like(request.get("_proxyIKs"), "" + ik));
-            }
             condition = cb.and(condition, ikCondition);
         }
+        if (year > 0) {
+            condition = cb.and(condition, cb.equal(request.get("_targetYear"), year));
+        }
+        cq.select(request).where(condition).orderBy(order);
+        return getEntityManager().createQuery(cq).getResultList();
+    }
+
+    private List<NubRequest> findAll(int accountId, int year, DataSet dataSet, List<AccessRight> accessRights) {
+        String allowedIks = accessRights
+                .stream()
+                .filter(r -> r.getRight() != Right.Deny)
+                .map(r -> "" + r.getIk())
+                .collect(Collectors.joining(", "));
+        String denyedIks = accessRights
+                .stream()
+                .filter(r -> r.getRight() == Right.Deny)
+                .map(r -> "" + r.getIk())
+                .collect(Collectors.joining(", "));
+        
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<NubRequest> cq = cb.createQuery(NubRequest.class);
+        Root<NubRequest> request = cq.from(NubRequest.class);
+        Predicate condition = null;
+        Order order = null;
+        if (null != dataSet) {
+            switch (dataSet) {
+                case All:
+                    condition = cb.ge(request.get("_status"), WorkflowStatus.New.getId());
+                    order = cb.asc(request.get("_id"));
+                    break;
+                case AllOpen:
+                    condition = cb.lessThan(request.get("_status"), WorkflowStatus.Provided.getId());
+                    order = cb.asc(request.get("_id"));
+                    break;
+                case ApprovalRequested:
+                    condition = cb.or(cb.equal(request.get("_status"), WorkflowStatus.ApprovalRequested.getId()),
+                            cb.equal(request.get("_status"), WorkflowStatus.CorrectionRequested.getId()));
+                    order = cb.asc(request.get("_id"));
+                    break;
+                default:
+                    // provided (sealed)
+                    condition = cb.greaterThanOrEqualTo(request.get("_status"), WorkflowStatus.Provided.getId());
+                    order = cb.desc(request.get("_id"));
+                    break;
+            }
+        }
+        
+        //todo chaek iks according to rights
+        condition = cb.and(condition, cb.equal(request.get("_accountId"), accountId));
+//        if (ik > 0) {
+//            Predicate ikCondition = cb.equal(request.get("_ik"), ik);
+//            condition = cb.and(condition, ikCondition);
+//        }
         if (year > 0) {
             condition = cb.and(condition, cb.equal(request.get("_targetYear"), year));
         }
