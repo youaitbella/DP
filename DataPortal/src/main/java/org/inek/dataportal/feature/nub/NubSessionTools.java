@@ -38,6 +38,7 @@ import org.inek.dataportal.facades.NubRequestFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.cooperation.CooperationRightFacade;
 import org.inek.dataportal.feature.admin.entity.MailTemplate;
+import org.inek.dataportal.feature.ikadmin.entity.AccessRight;
 import org.inek.dataportal.helper.ObjectUtils;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.structures.MessageContainer;
@@ -190,6 +191,12 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
             // ensure current user is first, if in list
             accounts.remove(currentUser);
             accounts.add(0, currentUser);
+        } else {
+            List<AccessRight> accessRights = _accessManager.obtainAccessRights(Feature.NUB);
+            if (accessRights.stream().anyMatch(r -> r.canWrite() || r.canSeal())) {
+                // the current user is not in, but might because of IK Admin
+                accounts.add(0, currentUser);
+            }
         }
         List<? extends TreeNode> oldChildren = new ArrayList<>(children);
         children.clear();
@@ -232,6 +239,12 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
             // ensure current user is first, if in list
             accounts.remove(currentUser);
             accounts.add(0, currentUser);
+        } else {
+            List<AccessRight> accessRights = _accessManager.obtainAccessRights(Feature.NUB);
+            if (accessRights.stream().anyMatch(r -> r.canRead())) {
+                // the current user is not in, but might because of IK Admin
+                accounts.add(0, currentUser);
+            }
         }
         List<? extends TreeNode> oldChildren = new ArrayList<>(children);
         children.clear();
@@ -279,6 +292,7 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
 
     private List<ProposalInfo> obtainNubInfosForRead(int partnerId, int year) {
         List<ProposalInfo> infos = new ArrayList<>();
+        List<AccessRight> accessRights = _accessManager.obtainAccessRights(Feature.NUB);
         if (partnerId == _sessionController.getAccountId()) {
             infos = _nubRequestFacade.getNubRequestInfos(_sessionController.getAccountId(), -1, year, DataSet.AllSealed, getFilter());
         } else {

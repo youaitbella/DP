@@ -45,10 +45,6 @@ import org.inek.dataportal.utils.DateUtils;
 @Singleton
 public class NubRequestFacade extends AbstractDataAccess {
 
-    public List<NubRequest> findAll(int accountId, DataSet dataSet, String filter) {
-        return findAll(accountId, -1, -1, dataSet, filter);
-    }
-
     public NubRequest find(int id) {
         return super.find(NubRequest.class, id);
     }
@@ -57,11 +53,15 @@ public class NubRequestFacade extends AbstractDataAccess {
         return super.findFresh(NubRequest.class, id);
     }
 
+    public List<NubRequest> findAll(int accountId, DataSet dataSet, String filter) {
+        return findAll(accountId, -1, -1, dataSet, filter);
+    }
+
     public List<NubRequest> findAll(int accountId, int ik, int year, DataSet dataSet, String filter) {
         return findAll(accountId, ik, false, year, dataSet, filter);
     }
 
-    public List<NubRequest> findAll(int accountId, int ik, boolean includeProxyIks, int year, DataSet dataSet, String filter) {
+    private List<NubRequest> findAll(int accountId, int ik, boolean includeProxyIks, int year, DataSet dataSet, String filter) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<NubRequest> cq = cb.createQuery(NubRequest.class);
         Root<NubRequest> request = cq.from(NubRequest.class);
@@ -136,11 +136,7 @@ public class NubRequestFacade extends AbstractDataAccess {
      * @return
      */
     public List<ProposalInfo> getNubRequestInfos(int accountId, DataSet dataSet, String filter) {
-        return getNubRequestInfos(accountId, -1, dataSet, filter);
-    }
-
-    public List<ProposalInfo> getNubRequestInfos(int accountId, int ik, DataSet dataSet, String filter) {
-        return getNubRequestInfos(accountId, ik, -1, dataSet, filter);
+        return getNubRequestInfos(accountId, -1, -1, dataSet, filter);
     }
 
     public List<ProposalInfo> getNubRequestInfos(int accountId, int ik, int year, DataSet dataSet, String filter) {
