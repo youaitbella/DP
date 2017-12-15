@@ -13,8 +13,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityGraph;
@@ -24,6 +26,8 @@ import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.facades.AbstractDataAccess;
 import org.inek.dataportal.feature.admin.facade.ConfigFacade;
+import org.inek.dataportal.feature.ikadmin.entity.AccessRight;
+import org.inek.dataportal.feature.ikadmin.enums.Right;
 import org.inek.dataportal.feature.psychstaff.entity.OccupationalCategory;
 import org.inek.dataportal.feature.psychstaff.entity.PersonnelGroup;
 import org.inek.dataportal.feature.psychstaff.entity.StaffProof;
@@ -71,10 +75,27 @@ public class PsychStaffFacade extends AbstractDataAccess {
     }
 
     @SuppressWarnings("unchecked")
-    public List<StaffProof> getStaffProofs(int accountId, DataSet dataSet) {
+    public List<StaffProof> getStaffProofs(int accountId, List<AccessRight> accessRights, DataSet dataSet) {
+        String allowedIks = accessRights
+                .stream()
+                .filter(r -> r.getRight() != Right.Deny)
+                .map(r -> "" + r.getIk())
+                .collect(Collectors.joining(", "));
+        String denyedIks = accessRights
+                .stream()
+                .filter(r -> r.getRight() == Right.Deny)
+                .map(r -> "" + r.getIk())
+                .collect(Collectors.joining(", "));
         String sql = "SELECT m.* \n"
-                + "FROM psy.StaffProofMaster m \n"
-                + "WHERE spmAccountId = " + accountId + "\n";
+                + "FROM psy.StaffProofMaster m \n";
+        if (denyedIks.isEmpty()) {
+            sql += "WHERE spmAccountId = " + accountId + "\n";
+        } else {
+            sql += "WHERE (spmAccountId = " + accountId + " and spmIk not in (" + denyedIks + "))\n";
+        }
+        if (!allowedIks.isEmpty()) {
+            sql += " or spmIk in (" + allowedIks + ")\n";
+        }
         if (dataSet == DataSet.AllSealed) {
             sql += " and spmStatusApx1 = 10 \n"
                     + " and (spmExclusionFactId1 > 0 \n"
@@ -94,7 +115,6 @@ public class PsychStaffFacade extends AbstractDataAccess {
         }
         sql += "ORDER BY spmYear, spmIk";
         Query query = getEntityManager().createNativeQuery(sql, StaffProof.class);
-        query.setParameter("accountId", accountId);
         return query.getResultList();
     }
 

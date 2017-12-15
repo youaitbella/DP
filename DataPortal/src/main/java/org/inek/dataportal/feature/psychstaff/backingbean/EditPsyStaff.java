@@ -160,7 +160,8 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     }
     
     private boolean hasSufficientRights(StaffProof staffProof) {
-        return _accessManager.isAccessAllowed(Feature.PSYCH_STAFF, staffProof.getStatus(), staffProof.getAccountId());
+        return _accessManager.isAccessAllowed(Feature.PSYCH_STAFF, staffProof.getStatus(), 
+                staffProof.getAccountId(), staffProof.getIk());
     }
     
     private StaffProof newStaffProof() {
@@ -321,7 +322,8 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         if (isCompleteSinceMoreThan3Days()) {
             return true;
         }
-        return _accessManager.isReadOnly(Feature.PSYCH_STAFF, _staffProof.getStatus(), _staffProof.getAccountId());
+        return _accessManager.isReadOnly(Feature.PSYCH_STAFF, _staffProof.getStatus(), 
+                _staffProof.getAccountId(), _staffProof.getIk());
     }
     
     public String save() {
@@ -387,7 +389,8 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         if (!isSendEnabled()) {
             return false;
         }
-        if (!_accessManager.isSealedEnabled(Feature.PSYCH_STAFF, _staffProof.getStatus(), _staffProof.getAccountId())) {
+        if (!_accessManager.isSealedEnabled(Feature.PSYCH_STAFF, _staffProof.getStatus(), 
+                _staffProof.getAccountId(), _staffProof.getIk())) {
             return false;
         }
         switch (getActiveTopicKey()) {
@@ -425,7 +428,8 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         if (!isSendEnabled()) {
             return false;
         }
-        if (!_accessManager.isSealedEnabled(Feature.PSYCH_STAFF, _staffProof.getStatus(), _staffProof.getAccountId())) {
+        if (!_accessManager.isSealedEnabled(Feature.PSYCH_STAFF, _staffProof.getStatus(), 
+                _staffProof.getAccountId(), _staffProof.getIk())) {
             return false;
         }
         return isClosedState();
@@ -527,7 +531,8 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         if (isCompleteSinceMoreThan3Days()) {
             return false;
         }
-        if (!_accessManager.isSealedEnabled(Feature.PSYCH_STAFF, _staffProof.getStatus(), _staffProof.getAccountId())) {
+        if (!_accessManager.isSealedEnabled(Feature.PSYCH_STAFF, _staffProof.getStatus(), 
+                _staffProof.getAccountId(), _staffProof.getIk())) {
             return false;
         }
         return isClosedStateActionEnabled();
@@ -553,7 +558,8 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     public boolean isTakeEnabled() {
         return _accessManager != null
                 && _staffProof != null
-                && _accessManager.isTakeEnabled(Feature.PSYCH_STAFF, _staffProof.getStatus(), _staffProof.getAccountId());
+                && _accessManager.isTakeEnabled(Feature.PSYCH_STAFF, _staffProof.getStatus(), 
+                        _staffProof.getAccountId(), _staffProof.getIk());
     }
     
     public String take() {

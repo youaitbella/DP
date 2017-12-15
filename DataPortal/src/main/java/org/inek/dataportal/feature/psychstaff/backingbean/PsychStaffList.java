@@ -7,7 +7,9 @@ package org.inek.dataportal.feature.psychstaff.backingbean;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -20,6 +22,7 @@ import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.feature.ikadmin.entity.AccessRight;
+import org.inek.dataportal.feature.ikadmin.enums.Right;
 import org.inek.dataportal.feature.ikadmin.facade.IkAdminFacade;
 import org.inek.dataportal.feature.psychstaff.entity.StaffProof;
 import org.inek.dataportal.feature.psychstaff.facade.PsychStaffFacade;
@@ -48,12 +51,12 @@ public class PsychStaffList implements Serializable {
 
     public List<StaffProof> getOpenPersonals() {
         List<AccessRight> accessRights = _ikAdminFacade.findAccessRightsByAccountAndFeature(_sessionController.getAccount(), Feature.PSYCH_STAFF);
-        System.out.println(accessRights.size());
-        return _psychFacade.getStaffProofs(_sessionController.getAccountId(), DataSet.AllOpen);
+        return _psychFacade.getStaffProofs(_sessionController.getAccountId(), accessRights, DataSet.AllOpen);
     }
 
     public List<StaffProof> getProvidedPersonals() {
-        return _psychFacade.getStaffProofs(_sessionController.getAccountId(), DataSet.AllSealed);
+        List<AccessRight> accessRights = _ikAdminFacade.findAccessRightsByAccountAndFeature(_sessionController.getAccount(), Feature.PSYCH_STAFF);
+        return _psychFacade.getStaffProofs(_sessionController.getAccountId(), accessRights, DataSet.AllSealed);
     }
 
     private List<StaffProof> _inekStaffProofs;

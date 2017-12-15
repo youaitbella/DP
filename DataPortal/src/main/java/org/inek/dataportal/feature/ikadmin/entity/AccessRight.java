@@ -150,4 +150,22 @@ public class AccessRight implements Serializable {
     }
     // </editor-fold>
    
+    // <editor-fold defaultstate="collapsed" desc="Delegates to Right">
+    public boolean canRead(){
+        return _right.canRead();
+    }
+
+    public boolean canWrite(){
+        return _right.canWrite();
+    }
+
+    public boolean canCreate(){
+        return _right.canCreate();
+    }
+
+    public boolean canSeal(){
+        return _right.canSeal();
+    }
+    // </editor-fold>
+    
 }

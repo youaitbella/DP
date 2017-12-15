@@ -10,17 +10,21 @@ package org.inek.dataportal.feature.ikadmin.enums;
  * @author muellermi
  */
 public enum Right {
-    Deny("Zugriff verboten"),
-    Read("Daten nur anzeigen"),
-    Write("Daten anzeigen und ändern"),
-    Create("Daten anlegen, anzeigen, ändern"),
-    Seal("Daten anzeigen und senden"),
-    All("Daten anlegen, anzeigen, ändern, senden");
+    Deny("Zugriff verboten", false, false, false, false),
+    Read("Daten nur anzeigen", true, false, false, false),
+    Write("Daten anzeigen und ändern", true, true, false, false),
+    Create("Daten anlegen, anzeigen, ändern", true, true, true, false),
+    Seal("Daten anzeigen und senden", true, false, false, true),
+    All("Daten anlegen, anzeigen, ändern, senden", true, true, true, true);
 
     private final String _description;
     
-    Right(String description) {
+    Right(String description, boolean canRead, boolean canWrite, boolean canCreate, boolean canSeal){
         _description = description;
+        _canRead = canRead;
+        _canWrite = canWrite;
+        _canCreate = canCreate;
+        _canSeal = canSeal;
     }
 
     public String getKey() {
@@ -41,5 +45,24 @@ public enum Right {
         }
         throw new IllegalArgumentException("Failed to obtain right. Unknown key " + key);
     }
-    
+
+    private final boolean _canRead;
+    public boolean canRead(){
+        return _canRead;
+    }
+
+    private final boolean _canWrite;
+    public boolean canWrite(){
+        return _canWrite;
+    }
+
+    private final boolean _canCreate;
+    public boolean canCreate(){
+        return _canCreate;
+    }
+
+    private final boolean _canSeal;
+    public boolean canSeal(){
+        return _canSeal;
+    }
 }
