@@ -6,8 +6,7 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
-                xmlns:ace="http://www.icefaces.org/icefaces/components"
-                xmlns:icecore="http://www.icefaces.org/icefaces/core"
+                xmlns:pf="http://primefaces.org/ui"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 >
 
@@ -15,42 +14,41 @@
         #{agreement.checkAgreement()}
         <h1>E-2b: "Komplexe Leistungen": 20 höchst bewertete Fallgruppen (belegärztliche Versorgung), G-DRG-System #{param['dataYear']}</h1>
         <h:form id="table">
-            <ace:dataTable  id="data-table"
+            <pf:dataTable  id="data-table"
                             value="#{entities.getSystemRatedSlipMcComplex(param['dataYear'])}"
                             var="x"
                             resizableColumns="true"
                             scrollHeight="450" scrollable="true"
-                            columnPinningControlsInHeader="true"
                             styleClass="fixedHeaderTable"
                           >
-            <ace:column styleClass="data-table-left" id="drg" headerText="DRG" sortBy="#{x.drg}"
+            <pf:column styleClass="data-table-left" id="drg" headerText="DRG" sortBy="#{x.drg}"
                             filterBy="#{x.drg}" filterMatchMode="contains">
                 <h:outputText id="drgCell" value="#{x.drg}"/>
-            </ace:column>
-            <ace:column styleClass="data-table-left" id="name" headerText="DRG-Name" sortBy="#{x.name}"
+            </pf:column>
+            <pf:column styleClass="data-table-left" id="name" headerText="DRG-Name" sortBy="#{x.name}"
                         filterBy="#{x.name}" filterMatchMode="contains">
             <h:outputText id="nameCell" value="#{x.name}">
             </h:outputText>
-            </ace:column>
-            <ace:column styleClass="data-table-right" id="relativeWeight" headerText="Relativgewicht" sortBy="#{x.relativeWeight}"
+            </pf:column>
+            <pf:column styleClass="data-table-right" id="relativeWeight" headerText="Relativgewicht" sortBy="#{x.relativeWeight}"
                             filterBy="#{x.relativeWeight}" filterMatchMode="contains">
                 <h:outputText id="relativeWeightCell" value="#{x.relativeWeight}">
                     <f:convertNumber minFractionDigits="3" maxFractionDigits="3"/>
                 </h:outputText>
-            </ace:column>
-            <ace:column styleClass="data-table-right" id="numPrimaryDepartment" headerText="Fallzahl" sortBy="#{x.numPrimaryDepartment}"
+            </pf:column>
+            <pf:column styleClass="data-table-right" id="numPrimaryDepartment" headerText="Fallzahl" sortBy="#{x.numPrimaryDepartment}"
                             filterBy="#{x.numPrimaryDepartment}" filterMatchMode="contains">
                 <h:outputText id="numPrimaryDepartmentCell" value="#{x.numPrimaryDepartment}">
                     <f:convertNumber pattern="###,###,###" />
                 </h:outputText>
-            </ace:column>
-            <ace:column styleClass="data-table-right" id="fractionOverall" headerText="Anteil" sortBy="#{x.fractionOverall}"
+            </pf:column>
+            <pf:column styleClass="data-table-right" id="fractionOverall" headerText="Anteil" sortBy="#{x.fractionOverall}"
                             filterBy="#{x.fractionOverall}" filterMatchMode="contains">
                 <h:outputText id="fractionOverallCell" value="#{x.fractionOverall}">
                     <f:convertNumber type="percent" minFractionDigits="2"/>
                 </h:outputText>
-            </ace:column>
-        </ace:dataTable>
+            </pf:column>
+        </pf:dataTable>
         </h:form>
         <script type="text/javascript">
             $(document).ready(function() {
@@ -60,25 +58,25 @@
         </script>
         <h3 class="text-right" style="margin-right: 17px;">Summentabelle</h3>
         <h:form id="data-table-sum">
-            <ace:dataTable  id="c113-table-sum"
+            <pf:dataTable  id="c113-table-sum"
                             value="#{entities.getSystemRatedSlipMcComplexSum(param['dataYear'])}"
                                 var="x"
                                 resizableColumns="true"
                                 style="width: auto; float: right; margin-right: 17px;"
                               >
-                <ace:column styleClass="data-table-right" id="sumCasesSum" headerText="Fallzahl" sortBy="#{x.numPrimaryDepartment}"
+                <pf:column styleClass="data-table-right" id="sumCasesSum" headerText="Fallzahl" sortBy="#{x.numPrimaryDepartment}"
                             >
                     <h:outputText id="sumCasesSumCell" value="#{x.numPrimaryDepartment}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="avgLosSum" headerText="Anteil" sortBy="#{x.fractionOverall}"
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="avgLosSum" headerText="Anteil" sortBy="#{x.fractionOverall}"
                             >
                     <h:outputText id="avgLosSumCell" value="#{x.fractionOverall}">
                         <f:convertNumber type="percent" minFractionDigits="2"/>
                     </h:outputText>
-                </ace:column>
-            </ace:dataTable>
+                </pf:column>
+            </pf:dataTable>
         </h:form>
         
         <p class="info-text" style="clear: both;">

@@ -6,66 +6,61 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
-                xmlns:ace="http://www.icefaces.org/icefaces/components"
-                xmlns:icecore="http://www.icefaces.org/icefaces/core"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+                xmlns:pf="http://primefaces.org/ui"
                 >
 
     <ui:define name="mainContent">
         #{agreement.checkAgreement()}
         <h1>A-1: Beteiligung der Krankenhäuser (KH) an der Datenübermittlung, Datenjahr #{param['dataYear']}</h1>
-        <h:form id="table" styleClass="smallTable">
-            <ace:dataTable  id="a1_kh_table"
-                            value="#{entities.getParticipation(param['dataYear'])}"
-                            var="x"
-                            resizableColumns="true"
-                            staticHeaders="false"
-                            style="width: 600px;"
-                          >
-                <ace:column styleClass="data-table-left" id="bundesland" headerText="Bundesland" sortBy="#{x.state}"
-                            filterBy="#{x.state}" filterMatchMode="contains">
-                <h:outputText id="bundeslandCell" value="#{x.state}"/>
-            </ace:column>
-                <ace:column styleClass="data-table-right" id="numKh" headerText="Anzahl Krankenhäuser" sortBy="#{x.numHospitals}"
-                            filterBy="#{x.numHospitals}" filterMatchMode="contains">
-                <h:outputText id="numKhCell" value="#{x.numHospitals}">
-                    <f:convertNumber pattern="###,###,###" />
+        <h:form id="table">
+            <pf:dataTable var="x" 
+                         value="#{entities.getParticipation(param['dataYear'])}"
+                         widgetVar="a1_kh_table"
+                         style="width: 600px;"
+                         >
+                <pf:column filterBy="#{x.state}" headerText="Bundesland" filterMatchMode="contains" sortBy="#{x.state}" styleClass="data-table-left" >
+                    <h:outputText value="#{x.state}" />
+                </pf:column>
+                <pf:column filterBy="#{x.numHospitals}" headerText="Anzahl Krankenhäuser" filterMatchMode="contains" sortBy="#{x.numHospitals}" styleClass="data-table-left" >
+                    <h:outputText value="#{x.numHospitals}" >
+                        <f:convertNumber pattern="###,###,###" />
                 </h:outputText>
-            </ace:column>
-                <ace:column styleClass="data-table-right" id="numCases" headerText="Anzahl Fälle" sortBy="#{x.numCases}"
-                            filterBy="#{x.numCases}" filterMatchMode="contains">
-                <h:outputText id="numCasesCell" value="#{x.numCases}">
-                    <f:convertNumber pattern="###,###,###" />
-                </h:outputText>
-            </ace:column>
-        </ace:dataTable>
+                </pf:column>
+                <pf:column filterBy="#{x.numCases}" headerText="Anzahl Fälle" filterMatchMode="contains" sortBy="#{x.numCases}" styleClass="data-table-left" >
+                    <h:outputText value="#{x.numCases}" > 
+                        <f:convertNumber pattern="###,###,###" />
+                    </h:outputText>
+                </pf:column>           
+            </pf:dataTable>
+
         </h:form>
         <h3 class="text-center" style="width: 600px;">Summentabelle</h3>
         <h:form id="tableSum">
-            <ace:dataTable  styleClass="smallTable"
+            <pf:dataTable  styleClass="smallTable"
                             id="a1_kh_table"
                             value="#{entities.getParticipationSum(param['dataYear'])}"
                             var="x"
                             resizableColumns="true"
                             style="width: 600px;"
                           >
-                <ace:column styleClass="data-table-left" id="bundesland" headerText="Bundesland" sortBy="#{x.state}"
+                <pf:column styleClass="data-table-left" id="bundesland" headerText="Bundesland" sortBy="#{x.state}"
                             filterBy="#{x.state}" filterMatchMode="contains">
                 <h:outputText id="bundeslandCell" value="#{x.state}"/>
-            </ace:column>
-                <ace:column styleClass="data-table-right" id="numKh" headerText="Anzahl Krankenhäuser" sortBy="#{x.numHospitals}"
+            </pf:column>
+                <pf:column styleClass="data-table-right" id="numKh" headerText="Anzahl Krankenhäuser" sortBy="#{x.numHospitals}"
                             filterBy="#{x.numHospitals}" filterMatchMode="contains">
                 <h:outputText id="numKhCell" value="#{x.numHospitals}">
                     <f:convertNumber pattern="###,###,###" />
                 </h:outputText>
-            </ace:column>
-            <ace:column styleClass="data-table-right" id="numCases" headerText="Anzahl Fälle" sortBy="#{x.numCases}"
+            </pf:column>
+            <pf:column styleClass="data-table-right" id="numCases" headerText="Anzahl Fälle" sortBy="#{x.numCases}"
                             filterBy="#{x.numCases}" filterMatchMode="contains">
                 <h:outputText id="numCasesCell" value="#{x.numCases}">
                     <f:convertNumber pattern="###,###,###" />
                 </h:outputText>
-            </ace:column>
-        </ace:dataTable>
+            </pf:column>
+        </pf:dataTable>
         </h:form>
         <p class="info-text">
             Berücksichtigt wurden Krankenhäuser mit Datenübermittlung (mind. 1 Fall übermittelt)

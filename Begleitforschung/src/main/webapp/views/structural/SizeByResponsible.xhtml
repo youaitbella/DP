@@ -5,8 +5,7 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
-                xmlns:ace="http://www.icefaces.org/icefaces/components"
-                xmlns:icecore="http://www.icefaces.org/icefaces/core"
+                xmlns:pf="http://primefaces.org/ui"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 >
 
@@ -22,29 +21,28 @@
         </h:form>
         
         <h:form id="dataTable">
-            <ace:dataTable  value="#{sizeByResponsibleController.data}"
+            <pf:dataTable  value="#{sizeByResponsibleController.data}"
                             var="data"
                             resizableColumns="true"
-                            staticHeaders="false"
-                            style="width: 450px;"
+                            style="width: 650px;"
                           >
-                <ace:column styleClass="data-table-left" id="size" headerText="Bettenstufe" sortBy="#{data.levelSort}"
+                <pf:column styleClass="data-table-left" id="size" headerText="Bettenstufe" sortBy="#{data.levelSort}"
                                 filterBy="#{data.level}" filterMatchMode="contains">
                     <h:outputText id="sizegCell" value="#{data.level}"/>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="hospitalCount" headerText="Anzahl KH" sortBy="#{data.hospitalCount}"
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="hospitalCount" headerText="Anzahl KH" sortBy="#{data.hospitalCount}"
                             filterBy="#{data.hospitalCount}" filterMatchMode="contains">
                     <h:outputText id="hospitalCountCell" value="#{data.hospitalCount}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="fractionCases" headerText="Anteil KH" sortBy="#{data.hospitalFraction}"
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="fractionCases" headerText="Anteil KH" sortBy="#{data.hospitalFraction}"
                             filterBy="#{data.hospitalFraction}" filterMatchMode="contains">
                     <h:outputText id="fractionCasesCell" value="#{data.hospitalFraction}">
                         <f:convertNumber type="percent" minFractionDigits="2"/>
                     </h:outputText>
-                </ace:column>
-            </ace:dataTable>
+                </pf:column>
+            </pf:dataTable>
         </h:form>
         <h3 class="text-center" style="width: 450px;">Anzahl KH gesamt: #{sizeByResponsibleController.total}</h3>
     </ui:define>

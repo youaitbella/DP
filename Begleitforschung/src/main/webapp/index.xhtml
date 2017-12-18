@@ -8,7 +8,9 @@ and open the template in the editor.
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 template="/template.xhtml"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
-                >
+                xmlns:pf="http://primefaces.org/ui"
+                    
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:define name="mainContent">
         <h:form>
             <h:panelGroup rendered="#{!agreement.hasAgreement()}" style="display: inline-block; border: dotted black 1px; padding: 10px; margin: 14px;">
@@ -17,7 +19,7 @@ and open the template in the editor.
                 <br/>
                 Mit einem Klick auf die untere Schaltfläche stimmen Sie den Nutzungsbedingungen zu.
                 <br/>
-                <h:commandLink class="button" immediate="true" style="padding: 5px;" actionListener="#{agreement.startBrowser()}" value="Nutzungsbedingungen akzeptieren">
+                <h:commandLink class="button" immediate="true" style="padding: 5px;" actionListener="#{agreement.startBrowser()}" value="Nutzungsbedingungen akzeptieren" >                    
                 </h:commandLink>
             </h:panelGroup>
             <h:panelGroup rendered="#{agreement.hasAgreement()}">
