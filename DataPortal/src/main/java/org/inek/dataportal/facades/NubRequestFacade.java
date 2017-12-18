@@ -116,7 +116,7 @@ public class NubRequestFacade extends AbstractDataAccess {
                 .map(r -> "" + r.getIk())
                 .collect(Collectors.joining(", "));
         String sql = "SELECT nub.* \n"
-                + " FROM NubRequest nub \n";
+                + " FROM NubProposal nub \n";
         if (denyedIks.isEmpty()) {
             sql += " WHERE nubAccountId = " + accountId + "\n";
         } else {
@@ -158,8 +158,8 @@ public class NubRequestFacade extends AbstractDataAccess {
     }
 
     public List<NubRequest> findAll(int accountId) {
-        String sql = "SELECT p FROM NubRequest p WHERE p._accountId = :accountId ORDER BY p._id DESC";
-        TypedQuery<NubRequest> query = getEntityManager().createQuery(sql, NubRequest.class);
+        String jpql = "SELECT p FROM NubRequest p WHERE p._accountId = :accountId ORDER BY p._id DESC";
+        TypedQuery<NubRequest> query = getEntityManager().createQuery(jpql, NubRequest.class);
         query.setParameter("accountId", accountId);
         return query.getResultList();
     }
