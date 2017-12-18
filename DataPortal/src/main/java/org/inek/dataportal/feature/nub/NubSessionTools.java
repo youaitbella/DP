@@ -294,10 +294,13 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         List<ProposalInfo> infos = new ArrayList<>();
         List<AccessRight> accessRights = _accessManager.obtainAccessRights(Feature.NUB);
         if (partnerId == _sessionController.getAccountId()) {
-            infos = _nubRequestFacade.getNubRequestInfos(_sessionController.getAccountId(), -1, year, DataSet.AllSealed, getFilter());
+            infos = _nubRequestFacade.getNubRequestInfos(_sessionController.getAccountId(), year, DataSet.AllSealed, accessRights, getFilter());
         } else {
             Set<Integer> iks = _accessManager.getPartnerIks(Feature.NUB, partnerId);
             for (int ik : iks) {
+                if (accessRights.stream().anyMatch(r -> r.getIk() == ik)){
+                    continue;
+                }
                 boolean canReadSealed = _accessManager.canReadSealed(Feature.NUB, partnerId, ik);
                 DataSet dataSet = canReadSealed ? DataSet.AllSealed : DataSet.None;
                 List<ProposalInfo> infosForIk = _nubRequestFacade.getNubRequestInfos(partnerId, ik, year, dataSet, getFilter());
@@ -309,11 +312,15 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
 
     private List<ProposalInfo> obtainNubInfosForEdit(int partnerId) {
         List<ProposalInfo> infos = new ArrayList<>();
+        List<AccessRight> accessRights = _accessManager.obtainAccessRights(Feature.NUB);
         if (partnerId == _sessionController.getAccountId()) {
-            infos = _nubRequestFacade.getNubRequestInfos(_sessionController.getAccountId(), -1, -1, DataSet.AllOpen, getFilter());
+            infos = _nubRequestFacade.getNubRequestInfos(_sessionController.getAccountId(), -1, DataSet.AllOpen, accessRights, getFilter());
         } else {
             Set<Integer> iks = _accessManager.getPartnerIks(Feature.NUB, partnerId);
             for (int ik : iks) {
+                if (accessRights.stream().anyMatch(r -> r.getIk() == ik)){
+                    continue;
+                }
                 boolean canReadAlways = _accessManager.canReadAlways(Feature.NUB, partnerId, ik);
                 boolean canReadCompleted = _accessManager.canReadCompleted(Feature.NUB, partnerId, ik);
                 DataSet dataSet = canReadAlways ? DataSet.AllOpen

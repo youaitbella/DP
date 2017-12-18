@@ -103,7 +103,8 @@ public class NubRequestFacade extends AbstractDataAccess {
         return getEntityManager().createQuery(cq).getResultList();
     }
 
-    private List<NubRequest> findAll(int accountId, int year, DataSet dataSet, List<AccessRight> accessRights) {
+    @SuppressWarnings("unchecked")
+    public List<NubRequest> findAll(int accountId, int year, DataSet dataSet, List<AccessRight> accessRights, String filter) {
         String allowedIks = accessRights
                 .stream()
                 .filter(r -> r.getRight() != Right.Deny)
@@ -114,46 +115,46 @@ public class NubRequestFacade extends AbstractDataAccess {
                 .filter(r -> r.getRight() == Right.Deny)
                 .map(r -> "" + r.getIk())
                 .collect(Collectors.joining(", "));
-        
-        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
-        CriteriaQuery<NubRequest> cq = cb.createQuery(NubRequest.class);
-        Root<NubRequest> request = cq.from(NubRequest.class);
-        Predicate condition = null;
-        Order order = null;
-        if (null != dataSet) {
-            switch (dataSet) {
-                case All:
-                    condition = cb.ge(request.get("_status"), WorkflowStatus.New.getId());
-                    order = cb.asc(request.get("_id"));
-                    break;
-                case AllOpen:
-                    condition = cb.lessThan(request.get("_status"), WorkflowStatus.Provided.getId());
-                    order = cb.asc(request.get("_id"));
-                    break;
-                case ApprovalRequested:
-                    condition = cb.or(cb.equal(request.get("_status"), WorkflowStatus.ApprovalRequested.getId()),
-                            cb.equal(request.get("_status"), WorkflowStatus.CorrectionRequested.getId()));
-                    order = cb.asc(request.get("_id"));
-                    break;
-                default:
-                    // provided (sealed)
-                    condition = cb.greaterThanOrEqualTo(request.get("_status"), WorkflowStatus.Provided.getId());
-                    order = cb.desc(request.get("_id"));
-                    break;
-            }
+        String sql = "SELECT nub.* \n"
+                + " FROM NubRequest nub \n";
+        if (denyedIks.isEmpty()) {
+            sql += " WHERE nubAccountId = " + accountId + "\n";
+        } else {
+            sql += " WHERE (nubAccountId = " + accountId + " and nubIk not in (" + denyedIks + "))\n";
         }
-        
-        //todo chaek iks according to rights
-        condition = cb.and(condition, cb.equal(request.get("_accountId"), accountId));
-//        if (ik > 0) {
-//            Predicate ikCondition = cb.equal(request.get("_ik"), ik);
-//            condition = cb.and(condition, ikCondition);
-//        }
+        if (!allowedIks.isEmpty()) {
+            sql += " or nubIk in (" + allowedIks + ")\n";
+        }
+        if (!filter.isEmpty()){
+            sql += "and (nubName like '%" + filter + "%' or nubDisplayName like '%" + filter + "%')\r\n";
+        }
         if (year > 0) {
-            condition = cb.and(condition, cb.equal(request.get("_targetYear"), year));
+            sql += "and nubTargetYear = " + year + "\r\n";
         }
-        cq.select(request).where(condition).orderBy(order);
-        return getEntityManager().createQuery(cq).getResultList();
+        switch (dataSet) {
+            case All:
+                sql += "and nubStatus >= " + WorkflowStatus.New.getId() + "\r\n";
+                sql += " order by nubId";
+                break;
+            case AllOpen:
+                sql += " and nubStatus < " + WorkflowStatus.Provided.getId() + "\r\n";
+                sql += " order by nubId";
+                break;
+            case ApprovalRequested:
+                sql += " and (nubStatus = " + WorkflowStatus.ApprovalRequested.getId() + "\r\n";
+                sql += " or nubStatus = " + WorkflowStatus.CorrectionRequested.getId() + ")\r\n";
+                sql +=  "order by nubId";
+                break;
+            default:
+                // provided (sealed)
+                sql += " and nubStatus >= " + WorkflowStatus.Provided.getId() + "\r\n";
+                sql += " order by nubId desc";
+                break;
+        }
+
+        Query query = getEntityManager().createNativeQuery(sql, NubRequest.class);
+        return query.getResultList();
+
     }
 
     public List<NubRequest> findAll(int accountId) {
@@ -184,7 +185,20 @@ public class NubRequestFacade extends AbstractDataAccess {
      * @return
      */
     public List<ProposalInfo> getNubRequestInfos(int accountId, DataSet dataSet, String filter) {
-        return getNubRequestInfos(accountId, -1, -1, dataSet, filter);
+        List<AccessRight> accessRights = new ArrayList<>();
+        return getNubRequestInfos(accountId, -1, dataSet, accessRights, filter);
+    }
+
+    public List<ProposalInfo> getNubRequestInfos(int accountId, int year, DataSet dataSet, List<AccessRight> accessRights, String filter) {
+        List<NubRequest> requests = findAll(accountId, year, dataSet, accessRights, filter);
+        List<ProposalInfo> proposalInfos = new ArrayList<>();
+        for (NubRequest request : requests) {
+            String displayName = request.getDisplayName().trim().length() == 0
+                    ? request.getName()
+                    : request.getDisplayName();
+            proposalInfos.add(new ProposalInfo(request.getId(), displayName, request.getTargetYear(), request.getStatus(), request.getIk()));
+        }
+        return proposalInfos;
     }
 
     public List<ProposalInfo> getNubRequestInfos(int accountId, int ik, int year, DataSet dataSet, String filter) {
@@ -453,7 +467,7 @@ public class NubRequestFacade extends AbstractDataAccess {
     }
 
     /**
-     * 
+     *
      * @param ik
      * @return a list of iks, containing the current one as well as previous iks
      */
@@ -469,12 +483,11 @@ public class NubRequestFacade extends AbstractDataAccess {
         Query query = getEntityManager().createNativeQuery(sql);
         List formerIks = query.getResultList();
         for (Object formerIk : formerIks) {
-            iks.add((int)formerIk);
+            iks.add((int) formerIk);
         }
         return iks;
     }
 
-    
     // <editor-fold defaultstate="collapsed" desc="NubMethodInfo + Description">    
     private List<NubMethodInfo> _nubMethodInfos = Collections.emptyList();
     private final Map<Integer, String> _methodDescriptions = new ConcurrentHashMap<>();
