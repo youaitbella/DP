@@ -117,14 +117,14 @@ public class NubRequestFacade extends AbstractDataAccess {
                 .collect(Collectors.joining(", "));
         String sql = "SELECT nub.* \n"
                 + " FROM NubProposal nub \n";
-        if (denyedIks.isEmpty()) {
-            sql += " WHERE nubAccountId = " + accountId + "\n";
-        } else {
-            sql += " WHERE (nubAccountId = " + accountId + " and nubIk not in (" + denyedIks + "))\n";
+        sql += " WHERE (nubAccountId = " + accountId;
+        if (!denyedIks.isEmpty()) {
+            sql += " and nubIk not in (" + denyedIks + ") ";
         }
         if (!allowedIks.isEmpty()) {
-            sql += " or nubIk in (" + allowedIks + ")\n";
+            sql += " or nubIk in (" + allowedIks + ")";
         }
+        sql += ")\n";
         if (!filter.isEmpty()){
             sql += "and (nubName like '%" + filter + "%' or nubDisplayName like '%" + filter + "%')\r\n";
         }

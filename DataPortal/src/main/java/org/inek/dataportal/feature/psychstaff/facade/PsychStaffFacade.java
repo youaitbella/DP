@@ -88,14 +88,14 @@ public class PsychStaffFacade extends AbstractDataAccess {
                 .collect(Collectors.joining(", "));
         String sql = "SELECT m.* \n"
                 + "FROM psy.StaffProofMaster m \n";
-        if (denyedIks.isEmpty()) {
-            sql += "WHERE spmAccountId = " + accountId + "\n";
-        } else {
-            sql += "WHERE (spmAccountId = " + accountId + " and spmIk not in (" + denyedIks + "))\n";
+        sql += "WHERE (spmAccountId = " + accountId;
+        if (!denyedIks.isEmpty()) {
+            sql += " and spmIk not in (" + denyedIks + ")";
         }
         if (!allowedIks.isEmpty()) {
-            sql += " or spmIk in (" + allowedIks + ")\n";
+            sql += " or spmIk in (" + allowedIks + ")";
         }
+        sql +=")\r\n";
         if (dataSet == DataSet.AllSealed) {
             sql += " and spmStatusApx1 = 10 \n"
                     + " and (spmExclusionFactId1 > 0 \n"
