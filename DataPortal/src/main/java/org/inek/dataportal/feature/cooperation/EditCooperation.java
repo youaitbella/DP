@@ -60,7 +60,7 @@ public class EditCooperation extends AbstractEditController {
     protected void addTopics() {
         addTopic(CooperationTabs.tabCooperationPartner.name(), Pages.CooperationEditPartner.URL());
         addTopic(CooperationTabs.tabCooperationMessage.name(), Pages.CooperationEditMessage.URL());
-        addTopic(CooperationTabs.tabCooperationIk.name(), Pages.CooperationEditNub.URL(), false);
+        addTopic(CooperationTabs.tabCooperationIk.name(), Pages.CooperationEditIk.URL(), false);
         addTopic(CooperationTabs.tabCooperationOther.name(), Pages.CooperationEditOther.URL(), false);
     }
 
