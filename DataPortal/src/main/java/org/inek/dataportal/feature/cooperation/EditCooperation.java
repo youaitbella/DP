@@ -14,7 +14,6 @@ import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
@@ -27,6 +26,7 @@ import org.inek.dataportal.entities.cooperation.PortalMessage;
 import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.FeatureState;
+import org.inek.dataportal.enums.IkReference;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.cooperation.CooperationFacade;
@@ -60,7 +60,7 @@ public class EditCooperation extends AbstractEditController {
     protected void addTopics() {
         addTopic(CooperationTabs.tabCooperationPartner.name(), Pages.CooperationEditPartner.URL());
         addTopic(CooperationTabs.tabCooperationMessage.name(), Pages.CooperationEditMessage.URL());
-        addTopic(CooperationTabs.tabCooperationNub.name(), Pages.CooperationEditNub.URL(), false);
+        addTopic(CooperationTabs.tabCooperationIk.name(), Pages.CooperationEditNub.URL(), false);
         addTopic(CooperationTabs.tabCooperationOther.name(), Pages.CooperationEditOther.URL(), false);
     }
 
@@ -68,11 +68,47 @@ public class EditCooperation extends AbstractEditController {
 
         tabCooperationPartner,
         tabCooperationMessage,
-        tabCooperationNub,
+        tabCooperationIk,
         tabCooperationOther;
     }
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
+    private String _feature;
+
+    public String getFeature() {
+        if (_feature == null) {
+            List<Feature> features = getFeaturesWithIkContext();
+            if (features.size() > 0) {
+                _feature = features.get(0).name();
+            }
+        }
+        return _feature;
+    }
+
+    public void setFeature(String feature) {
+        _feature = feature;
+    }
+
+    public List<Feature> getFeaturesWithIkContext() {
+        return getFeatures(true);
+    }
+
+    public List<Feature> getFeaturesWithoutIkContext() {
+        return getFeatures(false);
+    }
+
+    private List<Feature> getFeatures(boolean withIkContext) {
+        List<Feature> features = new ArrayList<>();
+        List<AccountFeature> accountfeatures = _sessionController.getAccount().getFeatures();
+        for (AccountFeature accountfeature : accountfeatures) {
+            Feature feature = accountfeature.getFeature();
+            if (feature.isShareable() && withIkContext == (feature.getIkReference() != IkReference.None)) {
+                features.add(feature);
+            }
+        }
+        return features;
+    }
+
     public Account getPartnerAccount() {
         return _partnerAccount;
     }
@@ -94,10 +130,9 @@ public class EditCooperation extends AbstractEditController {
     public List<CooperationInfo> getCooperationInfos() {
         if (_cooperationInfos == null) {
             _cooperationInfos = new ArrayList<>();
-            tryAddFeature(Feature.MODEL_INTENTION, this::getCooperativeReadRights);
-            tryAddFeature(Feature.DRG_PROPOSAL, this::getCooperativeRights);
-            tryAddFeature(Feature.PEPP_PROPOSAL, this::getCooperativeRights);
-            tryAddFeature(Feature.CALCULATION_HOSPITAL, this::getCooperativeRights);
+            for (Feature feature : getFeaturesWithoutIkContext()) {
+                tryAddFeature(feature, this::getCooperativeRights);
+            }
         }
         return _cooperationInfos;
     }
@@ -105,14 +140,8 @@ public class EditCooperation extends AbstractEditController {
     private void tryAddFeature(Feature feature, Supplier<List<SelectItem>> cooperativeRights) {
         if (userHasSubscribedFeature(feature)) {
             EnsureCooperationRights();
-
             Optional<CooperationRight> optionalRight = _cooperationRights.stream().filter(r -> r.getFeature() == feature).findFirst();
-            CooperationRight right;
-            if (optionalRight.isPresent()) {
-                right = optionalRight.get();
-            } else {
-                right = addAndReturnMissingCooperationRight(feature);
-            }
+            CooperationRight right = optionalRight.orElseGet(() -> addAndReturnMissingCooperationRight(feature));
             _cooperationInfos.add(new CooperationInfo(feature, cooperativeRights.get(), right));
         }
     }
@@ -141,11 +170,6 @@ public class EditCooperation extends AbstractEditController {
         setTopicsVisibility();
     }
 
-    @PreDestroy
-    private void destroy() {
-        //LOGGER.log(Level.WARNING, "Destroy EditCooperation");
-    }
-
     private Account loadAccount(Object partnerId) {
         try {
             int id = Integer.parseInt("" + partnerId);
@@ -161,10 +185,10 @@ public class EditCooperation extends AbstractEditController {
     }
 
     private void setTopicsVisibility() {
-        setTopicVisibility(CooperationTabs.tabCooperationNub.name(), Arrays.asList(Feature.NUB));
+        setTopicVisibility(CooperationTabs.tabCooperationIk.name(), getFeaturesWithIkContext());
         setTopicVisibility(
-                CooperationTabs.tabCooperationOther.name(), 
-                Arrays.asList(Feature.MODEL_INTENTION, Feature.DRG_PROPOSAL, Feature.PEPP_PROPOSAL, Feature.CALCULATION_HOSPITAL));
+                CooperationTabs.tabCooperationOther.name(),
+                Arrays.asList(Feature.DRG_PROPOSAL, Feature.PEPP_PROPOSAL));
     }
 
     private void setTopicVisibility(String topicName, List<Feature> features) {
@@ -232,33 +256,31 @@ public class EditCooperation extends AbstractEditController {
         if (_cooperationRights == null) {
             _cooperationRights = _cooperationRightFacade.getGrantedCooperationRights(_sessionController.getAccountId(), _partnerAccount.getId());
         }
-        addMissingNubCooperationRights();
+        addMissingRights();
     }
 
-    private void addMissingNubCooperationRights() {
-        Topic topic = findTopic(CooperationTabs.tabCooperationNub.name());
-        if (!topic.isVisible()) {
-            return;
-        }
-
+    private void addMissingRights() {
         Set<Integer> iks = _sessionController.getAccount().getFullIkSet();
-
-        for (CooperationRight right : _cooperationRights) {
-            if (right.getFeature() == Feature.NUB) {
-                // remove those iks from list, which still have rights, to determine the missing
-                iks.remove((Integer) right.getIk());
-            }
+        List<Feature> features = getFeaturesWithIkContext();
+        for (Feature feature : features) {
+            addMissingRightsForFeature(iks, feature);
         }
+    }
+
+    private void addMissingRightsForFeature(Set<Integer> iks, Feature feature) {
         for (int ik : iks) {
-            // for the memaining Iks add new rights to create a full list
+            if (_cooperationRights.stream().anyMatch(r -> r.getFeature() == feature && r.getIk() == ik)) {
+                continue;
+            }
             CooperationRight right = new CooperationRight(
                     _sessionController.getAccountId(),
                     getPartnerAccount().getId(),
                     ik,
-                    Feature.NUB
+                    feature
             );
             _cooperationRights.add(right);
         }
+
     }
 
     public List<SelectItem> getCooperativeRights() {

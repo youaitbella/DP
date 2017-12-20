@@ -8,21 +8,27 @@
 
     <ui:define name="editContent">
 
-        <h2>#{msg.lblCooperation} #{msg.nameNUB}</h2>
-
-        <h:dataTable value="#{ editCooperation.cooperationRights.stream().filter(r -> r.feature.name().equals('NUB')).toList()}" var="cor">
-            styleClass="fullWidth" headerClass="list-header" rowClasses="row1, row2" columnClasses="">
+        <h2>
+        <h:outputLabel styleClass="label marginRight01" value="#{msg.lblFunction}"/>
+        <h:selectOneMenu value="#{editCooperation.feature}">
+            <f:selectItems value="#{editCooperation.featuresWithIkContext}" var="f" itemLabel="#{f.description}" itemValue="#{f.name()}"/>
+            <f:ajax render="rights"/>
+        </h:selectOneMenu>
+        </h2>
+        <br/>
+        
+        <h:dataTable id="rights" value="#{ editCooperation.cooperationRights.stream().filter(r -> r.feature.name().equals(editCooperation.feature)).toList()}" var="cor">
             <h:column id="colIk">
                 <f:facet name="header">
-                    <h:outputText value="#{msg.lblIK}"/>
+                    <h:outputText value="#{msg.lblIkShort}"/>
                 </f:facet>
-                <h:outputText value="#{cor.ik}"/>
+                <h:outputText value="#{cor.ik}" styleClass="element08em"/>
             </h:column>
             <h:column id="colCooperativeRight">
                 <f:facet name="header">
                     <h:outputText value="#{msg.lblCooperativeRight}"/>
                 </f:facet>
-                <h:selectOneMenu value="#{cor.cooperativeRight}" >
+                <h:selectOneMenu value="#{cor.cooperativeRight}">
                     <f:selectItems value="#{editCooperation.cooperativeRights}"/>
                     <f:ajax event="blur" render="@this :logout:remaining"/>
                 </h:selectOneMenu>
