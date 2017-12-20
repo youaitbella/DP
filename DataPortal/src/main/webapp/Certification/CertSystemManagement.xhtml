@@ -89,6 +89,7 @@
 
             <div class="inputPart">
                 <h:outputLabel for="chkArchived" value="Archiviert:" styleClass="label15"/>
+                <h:outputLabel for="chkArchived" value="Aktiv:" styleClass="label15"/>
                 <h:selectBooleanCheckbox id="chkArchived" value="#{certManager.system.active}">
                     <f:ajax render="@this mnuSystem chkApproval certButtons:btnSystemSave :logout:remaining" listener="#{certManager.systemChangeListener}"/>
                 </h:selectBooleanCheckbox>
