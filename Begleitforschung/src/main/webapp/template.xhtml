@@ -36,10 +36,12 @@
         <link type="text/css" rel="stylesheet" href="#{request.contextPath}/javax.faces.resource/css/dataportal.css.xhtml?version=#{applicationTools.version}" />
         <link type="text/css" rel="stylesheet" href="#{request.contextPath}/javax.faces.resource/css/begleit.css.xhtml?version=#{applicationTools.version}" />
         <script type="text/javascript" src="#{request.contextPath}/javax.faces.resource/script/clientutils.js.xhtml?version=#{applicationTools.version}">
-        </script><h:outputScript library="primefaces" name="jquery/jquery.js" target="head"/>        
+        </script>
+        <h:outputScript library="primefaces" name="jquery/jquery.js" target="head"/>        
     </h:head>
 
     <h:body>
+        #{downloadController.downloadFile(param["dataYear"], param["download"])}
         <h:inputText value="" styleClass="hide"><f:ajax/></h:inputText> <!-- dummy to ensure jsf.js -->
         <div class="noPrint warningWide" jsf:rendered="#{sessionController.elderInternetExplorer}">
             <h5>
@@ -143,7 +145,7 @@
         </script>
         <noscript><p><img src="http://services.g-drg.de/piwik/piwik.php?idsite=5" style="border:0;" alt="" /></p></noscript>
         <!-- End Piwik Code -->
-        #{downloadController.downloadFile(param["dataYear"], param["download"])}
+        
     </h:body>
 
 </html>

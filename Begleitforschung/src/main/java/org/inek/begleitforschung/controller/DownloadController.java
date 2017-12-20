@@ -22,7 +22,7 @@ import javax.inject.Named;
  */
 @Named
 @ApplicationScoped
-public class DownloadController {
+public class DownloadController{
     
     
     public void downloadFile(int dataYear, int download) throws IOException {

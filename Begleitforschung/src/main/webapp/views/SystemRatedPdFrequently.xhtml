@@ -18,8 +18,7 @@
                             value="#{entities.getSystemRatedPdFrequently(param['dataYear'])}"
                             var="x"
                             resizableColumns="true"
-                            scrollHeight="450" scrollable="true"
-                            styleClass="fixedHeaderTable"
+                            tableStyle="table-layout: auto;"
                           >
             <pf:column styleClass="data-table-left" id="drg" headerText="DRG" sortBy="#{x.drg}"
                             filterBy="#{x.drg}" filterMatchMode="contains">
@@ -62,7 +61,8 @@
                             value="#{entities.getSystemRatedPdFrequentlySum(param['dataYear'])}"
                                 var="x"
                                 resizableColumns="true"
-                                style="width: auto; margin-right: 17px; float: right;"
+                                tableStyle="table-layout: auto;"
+
                               >
                 <pf:column styleClass="data-table-right" id="sumCasesSum" headerText="Fallzahl" sortBy="#{x.numPrimaryDepartment}"
                             >

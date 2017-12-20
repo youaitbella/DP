@@ -17,9 +17,8 @@
             <pf:dataTable  id="data-table"
                             value="#{entities.getSystemRatedPdLessComplex(param['dataYear'])}"
                             var="x"
-                            scrollHeight="450" scrollable="true"
                             resizableColumns="true"
-                            styleClass="fixedHeaderTable"
+                            tableStyle="table-layout: auto;"
                           >
             <pf:column styleClass="data-table-left" id="drg" headerText="DRG" sortBy="#{x.drg}"
                             filterBy="#{x.drg}" filterMatchMode="contains">
@@ -61,7 +60,7 @@
                             value="#{entities.getSystemRatedPdLessComplexSum(param['dataYear'])}"
                                 var="x"
                                 resizableColumns="true"
-                                style="width: auto; float: right; margin-right: 17px;"
+                                tableStyle="table-layout: auto;"
                               >
                 <pf:column styleClass="data-table-right" id="sumCasesSum" headerText="Fallzahl" sortBy="#{x.numPrimaryDepartment}"
                             >

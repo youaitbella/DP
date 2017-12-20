@@ -17,21 +17,21 @@
             <pf:dataTable var="x" 
                          value="#{entities.getParticipation(param['dataYear'])}"
                          widgetVar="a1_kh_table"
-                         style="width: 600px;"
+                         tableStyle="width: auto;"
                          >
-                <pf:column filterBy="#{x.state}" headerText="Bundesland" filterMatchMode="contains" sortBy="#{x.state}" styleClass="data-table-left" >
+                <pf:column filterBy="#{x.state}" headerText="Bundesland" filterMatchMode="contains" sortBy="#{x.state}">
                     <h:outputText value="#{x.state}" />
                 </pf:column>
-                <pf:column filterBy="#{x.numHospitals}" headerText="Anzahl Krankenhäuser" filterMatchMode="contains" sortBy="#{x.numHospitals}" styleClass="data-table-left" >
+                <pf:column filterBy="#{x.numHospitals}" headerText="Anzahl Krankenhäuser" filterMatchMode="contains" sortBy="#{x.numHospitals}">
                     <h:outputText value="#{x.numHospitals}" >
                         <f:convertNumber pattern="###,###,###" />
                 </h:outputText>
                 </pf:column>
-                <pf:column filterBy="#{x.numCases}" headerText="Anzahl Fälle" filterMatchMode="contains" sortBy="#{x.numCases}" styleClass="data-table-left" >
+                <pf:column filterBy="#{x.numCases}" headerText="Anzahl Fälle" filterMatchMode="contains" sortBy="#{x.numCases}" >
                     <h:outputText value="#{x.numCases}" > 
                         <f:convertNumber pattern="###,###,###" />
                     </h:outputText>
-                </pf:column>           
+                </pf:column>
             </pf:dataTable>
 
         </h:form>

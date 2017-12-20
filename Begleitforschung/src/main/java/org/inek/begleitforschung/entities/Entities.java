@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.bean.SessionScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -24,7 +26,7 @@ import javax.inject.Named;
  * @author vohldo
  */
 @Named
-@RequestScoped
+@ViewScoped
 @SuppressWarnings("JavaNCSS")
 public class Entities implements Serializable {
 

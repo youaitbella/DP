@@ -21,8 +21,7 @@ and open the template in the editor.
                             value="#{entities.getC_112(param['dataYear'])}"
                             var="x"
                             resizableColumns="true"
-                            scrollHeight="450" scrollable="true"
-                            styleClass="fixedHeaderTable"
+                            tableStyle="table-layout: auto;"
                           >
                 <pf:column styleClass="data-table-left" id="level" headerText="Altersstufe" sortBy="#{x.level}"
                                 filterBy="#{x.level}" filterMatchMode="contains">
@@ -78,7 +77,7 @@ and open the template in the editor.
                             value="#{entities.getC_112_sum(param['dataYear'])}"
                                 var="x"
                                 resizableColumns="true"
-                                style="width: auto; float: right; margin-right: 17px;"
+                                tableStyle="table-layout: auto;"
                               >
                 <pf:column styleClass="data-table-right" id="sumCasesSum" headerText="Fälle" sortBy="#{x.sumA}"
                             >
