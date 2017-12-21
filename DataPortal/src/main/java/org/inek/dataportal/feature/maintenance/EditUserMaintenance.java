@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates and open the template in
- * the editor.
- */
 package org.inek.dataportal.feature.maintenance;
 
 import java.util.ArrayList;
@@ -16,6 +12,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.transaction.Transactional;
 import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.SessionTools;
 import org.inek.dataportal.controller.SessionController;
@@ -24,15 +21,21 @@ import org.inek.dataportal.entities.account.AccountAdditionalIK;
 import org.inek.dataportal.entities.account.AccountFeature;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.FeatureState;
+import org.inek.dataportal.enums.IkReference;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.account.AccountChangeMailFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.account.AccountPwdFacade;
 import org.inek.dataportal.feature.AbstractEditController;
+import org.inek.dataportal.feature.admin.entity.MailTemplate;
+import org.inek.dataportal.feature.ikadmin.entity.AccessRight;
+import org.inek.dataportal.feature.ikadmin.enums.Right;
+import org.inek.dataportal.feature.ikadmin.facade.IkAdminFacade;
 import org.inek.dataportal.feature.nub.NubSessionTools;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.faceletvalidators.NameValidator;
 import org.inek.dataportal.helper.scope.FeatureScoped;
+import org.inek.dataportal.mail.Mailer;
 
 /**
  *
@@ -41,7 +44,10 @@ import org.inek.dataportal.helper.scope.FeatureScoped;
 @Named
 @FeatureScoped(name = "UserMaintenance")
 public class EditUserMaintenance extends AbstractEditController {
-    // todo: Do not copy and merge parts. Simply get a fresh copy from database to edit. After save, replace the account object in sessionConctoller.
+
+    // todo: Do not copy and merge parts. Simply get a fresh copy from database to edit. 
+    // After save, replace the account object in sessionConctoller.
+    // Refactor this class according to the common edit handling
 
     // <editor-fold defaultstate="collapsed" desc="fields">
     enum UserMaintenaceTabs {
@@ -54,6 +60,7 @@ public class EditUserMaintenance extends AbstractEditController {
     }
     private static final Logger LOGGER = Logger.getLogger("EditUserMaintenance");
 
+    // todo: reduce injection by combining facades. Next replace field injection by constructor injection
     @Inject private ApplicationTools _appTools;
     @Inject private SessionTools _sessionTools;
     @Inject private NubSessionTools _nubSessionTools;
@@ -61,6 +68,8 @@ public class EditUserMaintenance extends AbstractEditController {
     @Inject private AccountFacade _accountFacade;
     @Inject private AccountPwdFacade _accountPwdFacade;
     @Inject private AccountChangeMailFacade _accountChangeMailFacade;
+    @Inject private IkAdminFacade _ikAdminFacade;
+
     private String _user;
     private String _email;
     private Account _accountWorkingCopy;
@@ -125,13 +134,11 @@ public class EditUserMaintenance extends AbstractEditController {
     }
 
     private void initOrResetData() {
-//        String activeTopic = (String) Utils.getFlash().get("activeTopic");
-//        if (activeTopic != null) {
-//            changeTab(activeTopic);
-//        }
         _features = null;
         int accountId = _sessionController.getAccountId();
-        if (accountId < 0){return;}
+        if (accountId < 0) {
+            return;
+        }
         _accountWorkingCopy = _accountFacade.findAccount(accountId);
         _user = _accountWorkingCopy.getUser();
         _oldPassword = "";
@@ -149,13 +156,8 @@ public class EditUserMaintenance extends AbstractEditController {
         addTopic(UserMaintenaceTabs.tabUMConfig.name(), Pages.UserMaintenanceConfig.URL());
     }
 
-    private UserMaintenanceController getUserMaintenanceController() {
-        return (UserMaintenanceController) _sessionController.getFeatureController(Feature.USER_MAINTENANCE);
-    }
-
     /**
-     * This action will change the tab. It may prevent changing if the data has
-     * changed.
+     * This action will change the tab. It may prevent changing if the data has changed.
      *
      * @param newTopic
      */
@@ -176,7 +178,6 @@ public class EditUserMaintenance extends AbstractEditController {
         }
         if (!_isMofified) {
             setActiveTopic(newTopic);
-//            Utils.getFlash().put("activeTopic", newTopic);
         }
     }
 
@@ -217,7 +218,7 @@ public class EditUserMaintenance extends AbstractEditController {
         return _sessionTools.isHospital(getAccount().getCustomerTypeId()) ? "true" : "false";
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Part Additional IKs">
     public List<Integer> getAdditionalIKs() {
         if (_additionalIKs == null) {
@@ -237,7 +238,7 @@ public class EditUserMaintenance extends AbstractEditController {
         _additionalIKs.remove(ik);
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Part Features">
     public List<FeatureEditorDAO> getFeatures() {
         ensureFeatures();
@@ -312,11 +313,11 @@ public class EditUserMaintenance extends AbstractEditController {
         Utils.checkPassword(context, component, value);
     }
     // </editor-fold>
-    // <editor-fold defaultstate="collapsed" desc="Part other">
 
+    // <editor-fold defaultstate="collapsed" desc="Part other">
     /**
-     * requests deleting of the account this function displays a confirmation
-     * dialog confirming with "ok" performs a call to delete
+     * requests deleting of the account this function displays a confirmation dialog confirming with "ok" performs a
+     * call to delete
      *
      * @return
      */
@@ -328,9 +329,8 @@ public class EditUserMaintenance extends AbstractEditController {
     }
 
     /**
-     * This function usually can only be called if the request to delete is
-     * confirmed. As a precaution, it performs some checks which have been done
-     * in requestSeal.
+     * This function usually can only be called if the request to delete is confirmed. As a precaution, it performs some
+     * checks which have been done in requestSeal.
      *
      * @return
      */
@@ -349,12 +349,12 @@ public class EditUserMaintenance extends AbstractEditController {
         return "";
     }
 
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
     public String saveIks() {
         if (mergeIKListIfModified()) {
             _sessionController.saveAccount();
             _nubSessionTools.clearCache();
         }
-        Utils.getFlash().put("activeTopic", UserMaintenaceTabs.tabUMAdditionalIKs.name());
         return "";
     }
 
@@ -457,7 +457,7 @@ public class EditUserMaintenance extends AbstractEditController {
                 && original.getCustomerFax().equals(copy.getCustomerFax())
                 && original.isNubConfirmation() == copy.isNubConfirmation()
                 && original.isMessageCopy() == copy.isMessageCopy()
-                && original.isAutoSave()== copy.isAutoSave()
+                && original.isAutoSave() == copy.isAutoSave()
                 && original.getDropBoxHoldTime() == copy.getDropBoxHoldTime();
         return !isEqual;
     }
@@ -527,41 +527,83 @@ public class EditUserMaintenance extends AbstractEditController {
     }
 
     private boolean mergeIKListIfModified() {
-        List<AccountAdditionalIK> additionalIKs = _sessionController.getAccount().getAdditionalIKs();
+        Account account = _sessionController.getAccount();
+        List<AccountAdditionalIK> additionalIKs = account.getAdditionalIKs();
         Set<Integer> oldSet = additionalIKs.stream().map(ai -> ai.getIK()).collect(Collectors.toSet());
-        Set<Integer> newSet =_additionalIKs.stream().filter(ai -> ai != null).collect(Collectors.toSet());
+        Set<Integer> newSet = _additionalIKs.stream().filter(ai -> ai != null).collect(Collectors.toSet());
         if (equalSets(newSet, oldSet)) {
             return false;
         }
-        
+
+        removeOldIksAndUpdateNewSet(additionalIKs, newSet, account);
+        addNewIks(newSet, account, additionalIKs);
+        return true;
+    }
+
+    private void removeOldIksAndUpdateNewSet(List<AccountAdditionalIK> additionalIKs, Set<Integer> newSet, Account account) {
         for (int i = additionalIKs.size() - 1; i >= 0; i--) {
             AccountAdditionalIK addIK = additionalIKs.get(i);
             if (newSet.contains(addIK.getIK())) {
                 newSet.remove(addIK.getIK());
             } else {
+                int ik = additionalIKs.get(i).getIK();
+                if (_ikAdminFacade.hasIkAdmin(ik)) {
+                    _ikAdminFacade.removeRights(account.getId(), ik);
+                }
                 additionalIKs.remove(i);
             }
         }
+    }
+
+    private void addNewIks(Set<Integer> newSet, Account account, List<AccountAdditionalIK> additionalIKs) {
         for (Integer ik : newSet) {
+            if (_ikAdminFacade.hasIkAdmin(ik)) {
+                boolean hasNewEntry = false;
+                for (AccountFeature feature : account.getFeatures()) {
+                    if (feature.getFeature().getIkReference() == IkReference.Hospital) {
+                        AccessRight accessRight = new AccessRight(account.getId(), ik, feature.getFeature(), Right.Deny);
+                        _ikAdminFacade.saveAccessRight(accessRight);
+                        hasNewEntry = true;
+                    }
+                }
+                if (hasNewEntry) {notifyIkAdmin(ik, account);}
+            }
             AccountAdditionalIK addIK = new AccountAdditionalIK();
             addIK.setIK(ik);
             additionalIKs.add(addIK);
         }
-        return true;
     }
 
-    private boolean isIKListMofified() {
-        List<AccountAdditionalIK> additionalIKs = _sessionController.getAccount().getAdditionalIKs();
-        Set<Integer> oldSet = additionalIKs.stream().map(ai -> ai.getIK()).collect(Collectors.toSet());
-        Set<Integer> newSet =_additionalIKs.stream().filter(ai -> ai != null).collect(Collectors.toSet());
-        return !equalSets(newSet, oldSet);
+    private void notifyIkAdmin(Integer ik, Account account) {
+        String user = account.getFirstName() + " " + account.getLastName() + " (" + account.getCompany() + ", " + account.getTown() + ")";
+        List<Account> admins =_ikAdminFacade.findIkAdmins(ik);
+        
+        for (Account admin : admins) {
+            Mailer mailer = _sessionController.getMailer();
+            MailTemplate template = mailer.getMailTemplate("IK-Admin: new user");
+            String body = template.getBody()
+                    .replace("{formalSalutation}", mailer.getFormalSalutation(admin))
+                    .replace("{user}", "" + user)
+                    .replace("{ik}", "" + ik);
+            template.setBody(body);
+            String subject = template.getSubject()
+                    .replace("{ik}", "" + ik);
+            template.setSubject(subject);
+            mailer.sendMailTemplate(template, admin.getEmail());
+        }
     }
 
     
+    private boolean isIKListMofified() {
+        List<AccountAdditionalIK> additionalIKs = _sessionController.getAccount().getAdditionalIKs();
+        Set<Integer> oldSet = additionalIKs.stream().map(ai -> ai.getIK()).collect(Collectors.toSet());
+        Set<Integer> newSet = _additionalIKs.stream().filter(ai -> ai != null).collect(Collectors.toSet());
+        return !equalSets(newSet, oldSet);
+    }
+
     private boolean equalSets(Set<Integer> set1, Set<Integer> set2) {
         return set1.size() == set2.size() && set1.stream().allMatch((i) -> set2.contains(i));
     }
-
 
     public String discardChanges() {
         initOrResetData();

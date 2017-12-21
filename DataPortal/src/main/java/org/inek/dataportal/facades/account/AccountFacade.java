@@ -155,7 +155,7 @@ public class AccountFacade extends AbstractDataAccess {
                     Set<Integer> fullIkSet = account.getFullIkSet();
                     handleClassicalWay = fullIkSet.isEmpty();
                     for (int ik : fullIkSet) {
-                        if (hasIkAdmin(ik)) {
+                        if (_ikAdminFacade.hasIkAdmin(ik)) {
                             AccessRight accessRight = new AccessRight(account.getId(), ik, feature, Right.Deny);
                             _ikAdminFacade.saveAccessRight(accessRight);
                         } else {
@@ -181,12 +181,6 @@ public class AccountFacade extends AbstractDataAccess {
         return managedAccount;
     }
 
-    public boolean hasIkAdmin(int ik) {
-        String sql = "select cast(sign(count(0)) as bit) as hasAdmin from ikadm.mapAccountIkAdmin where aiaIk = " + ik;
-        Query query = getEntityManager().createNativeQuery(sql);
-        boolean hasIkAdmin = (boolean) query.getSingleResult();
-        return hasIkAdmin;
-    }
 
     public void deleteAccount(Account account) {
         if (account.getId() > 0) {
