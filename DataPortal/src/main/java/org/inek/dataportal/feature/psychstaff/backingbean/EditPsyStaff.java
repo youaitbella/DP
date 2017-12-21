@@ -573,16 +573,10 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     }
     
     public List<SelectItem> getIks() {
-        Set<Integer> iks = new HashSet<>();
+        Account account = _sessionController.getAccount();
+        Set<Integer> iks = account.getFullIkSet();
         if (_staffProof != null && _staffProof.getIk() > 0) {
             iks.add(_staffProof.getIk());
-        }
-        Account account = _sessionController.getAccount();
-        if (account.getIK() != null && account.getIK() > 0) {
-            iks.add(account.getIK());
-        }
-        for (AccountAdditionalIK additionalIK : account.getAdditionalIKs()) {
-            iks.add(additionalIK.getIK());
         }
         List<SelectItem> items = new ArrayList<>();
         for (int ik : iks) {
