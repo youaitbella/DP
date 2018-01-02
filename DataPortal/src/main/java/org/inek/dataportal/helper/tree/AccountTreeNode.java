@@ -13,22 +13,21 @@ import org.inek.dataportal.entities.account.Account;
  *
  * @author muellermi
  */
-public final class AccountTreeNode extends TreeNode{
+public final class AccountTreeNode extends EntityTreeNode{
 
     private final Account _account;
 
-    public Account getAccount() {
-        return _account;
-    }
-
+    @Override
     public String getDisplayName(){
         return _account.getFirstName() + " " + _account.getLastName();
     }
     
+    @Override
     public String getCompany(){
         return _account.getCompany();
     }
 
+    @Override
     public String getTown(){
         return _account.getTown();
     }

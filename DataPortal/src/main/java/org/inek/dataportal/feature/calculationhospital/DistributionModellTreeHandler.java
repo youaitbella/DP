@@ -94,7 +94,7 @@ public class DistributionModellTreeHandler implements Serializable, TreeNodeObse
     }
     
     private void obtainAccountNodeChildren(AccountTreeNode accountTreeNode, Collection<TreeNode> children) {
-        List<CalcHospitalInfo> infos = _distributionModelFacade.getDistributionModelsByEmail(accountTreeNode.getAccount().getEmail(), getFilter());
+        List<CalcHospitalInfo> infos = _distributionModelFacade.getDistributionModelsByEmail(accountTreeNode.getEmail(), getFilter());
         accountTreeNode.getChildren().clear();
         for (CalcHospitalInfo info : infos) {
             accountTreeNode.getChildren().add(CalcHospitalTreeNode.create(accountTreeNode, info, this));

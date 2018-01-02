@@ -93,7 +93,7 @@ public class CalcBasicsTreeHandler implements Serializable, TreeNodeObserver {
     }
 
     private void obtainAccountNodeChildren(AccountTreeNode accountTreeNode, Collection<TreeNode> children) {
-        List<CalcHospitalInfo> infos = _calcFacade.getCalcBasicsByEmail(accountTreeNode.getAccount().getEmail(), getFilter());
+        List<CalcHospitalInfo> infos = _calcFacade.getCalcBasicsByEmail(accountTreeNode.getEmail(), getFilter());
         accountTreeNode.getChildren().clear();
         for (CalcHospitalInfo info : infos) {
             accountTreeNode.getChildren().add(CalcHospitalTreeNode.create(accountTreeNode, info, this));
