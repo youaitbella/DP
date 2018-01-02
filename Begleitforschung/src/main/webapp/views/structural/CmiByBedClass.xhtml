@@ -28,18 +28,15 @@
                             resizableColumns="true"
                             style="width: 650px;"
                           >
-                <pf:column styleClass="data-table-left" id="size" headerText="Bettenstufe" sortBy="#{data.levelSort}"
-                                filterBy="#{data.level}" filterMatchMode="contains">
+                <pf:column styleClass="data-table-left" id="size" headerText="Bettenstufe" sortBy="#{data.levelSort}">
                     <h:outputText id="sizegCell" value="#{data.level}"/>
                 </pf:column>
-                <pf:column styleClass="data-table-right" id="hospitalCount" headerText="Anzahl KH" sortBy="#{data.hospitalCount}"
-                            filterBy="#{data.hospitalCount}" filterMatchMode="contains">
+                <pf:column styleClass="data-table-right" id="hospitalCount" headerText="Anzahl KH" sortBy="#{data.hospitalCount}">
                     <h:outputText id="hospitalCountCell" value="#{data.hospitalCount}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
                 </pf:column>
-                <pf:column styleClass="data-table-right" id="fractionCases" headerText="Anteil KH" sortBy="#{data.hospitalFraction}"
-                            filterBy="#{data.hospitalFraction}" filterMatchMode="contains">
+                <pf:column styleClass="data-table-right" id="fractionCases" headerText="Anteil KH" sortBy="#{data.hospitalFraction}">
                     <h:outputText id="fractionCasesCell" value="#{data.hospitalFraction}">
                         <f:convertNumber type="percent" minFractionDigits="2"/>
                     </h:outputText>

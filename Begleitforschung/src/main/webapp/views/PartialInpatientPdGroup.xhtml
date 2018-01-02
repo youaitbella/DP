@@ -24,7 +24,7 @@ and open the template in the editor.
                             var="x"
                             resizableColumns="true"
                             paginator="true" rowsPerPageTemplate="5,10,15" rows="15"
-                            tableStyle="table-layout: auto;"
+                            tableStyle="width: auto;"
                           >
                 <pf:column styleClass="data-table-left" id="area" headerText="Gruppe" sortBy="#{x.area}"
                                 filterBy="#{x.area}" filterMatchMode="contains">
@@ -49,13 +49,13 @@ and open the template in the editor.
                 </pf:column>
             </pf:dataTable>
         </h:form>
-        <h3 class="text-right" style="margin-right: 17px">Summentabelle</h3>
+        <h3 class="text-left">Summentabelle</h3>
         <h:form id="data-table-sum">
             <pf:dataTable  id="c113-table-sum"
                             value="#{entities.getPartialInpatientCaresPdSum(param['dataYear'])}"
                                 var="x"
                                 resizableColumns="true"
-                                tableStyle="table-layout: auto;"
+                                tableStyle="width: auto;"
                               >
                 <pf:column styleClass="data-table-right" id="sumCasesSum" headerText="Anzahl KH" sortBy="#{x.numKh}"
                             >

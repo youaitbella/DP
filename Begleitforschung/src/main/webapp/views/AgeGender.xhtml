@@ -21,7 +21,7 @@ and open the template in the editor.
                             value="#{entities.getC_112(param['dataYear'])}"
                             var="x"
                             resizableColumns="true"
-                            tableStyle="table-layout: auto;"
+                            tableStyle="width: auto;"
                           >
                 <pf:column styleClass="data-table-left" id="level" headerText="Altersstufe" sortBy="#{x.level}"
                                 filterBy="#{x.level}" filterMatchMode="contains">
@@ -71,13 +71,13 @@ and open the template in the editor.
                 </pf:column>
             </pf:dataTable>
         </h:form>
-        <h3 class="text-right" style="margin-right: 17px;">Summentabelle</h3>
+        <h3 class="text-left" style="margin-right: 17px;">Summentabelle</h3>
         <h:form id="data-table-sum">
             <pf:dataTable  id="table-sum"
                             value="#{entities.getC_112_sum(param['dataYear'])}"
                                 var="x"
                                 resizableColumns="true"
-                                tableStyle="table-layout: auto;"
+                                tableStyle="width: auto;"
                               >
                 <pf:column styleClass="data-table-right" id="sumCasesSum" headerText="Fälle" sortBy="#{x.sumA}"
                             >

@@ -24,12 +24,10 @@ and open the template in the editor.
                             resizableColumns="true"
                             tableStyle="width: auto;"
                           >
-                <pf:column styleClass="data-table-left" id="nameA" headerText="Aufnahmeanlass" sortBy="#{x.name}"
-                                filterBy="#{x.name}" filterMatchMode="contains">
+                <pf:column styleClass="data-table-left" id="nameA" headerText="Aufnahmeanlass" sortBy="#{x.name}">
                     <h:outputText id="nameACell" value="#{x.name}"/>
                 </pf:column>
-                <pf:column styleClass="data-table-right" id="countA" headerText="Fallzahl" sortBy="#{x.count}"
-                            filterBy="#{x.count}" filterMatchMode="contains">
+                <pf:column styleClass="data-table-right" id="countA" headerText="Fallzahl" sortBy="#{x.count}">
                     <h:outputText id="countACell" value="#{x.count}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
@@ -41,12 +39,10 @@ and open the template in the editor.
                             resizableColumns="true"
                             tableStyle="width: auto;"
                           >
-                <pf:column styleClass="data-table-left" id="name" headerText="Entlassungsgrund" sortBy="#{x.name}"
-                                filterBy="#{x.name}" filterMatchMode="contains">
+                <pf:column styleClass="data-table-left" id="name" headerText="Entlassungsgrund" sortBy="#{x.name}">
                     <h:outputText id="nameCell" value="#{x.name}"/>
                 </pf:column>
-                <pf:column styleClass="data-table-right" id="sumA" headerText="Fallzahl" sortBy="#{x.count}"
-                            filterBy="#{x.count}" filterMatchMode="contains">
+                <pf:column styleClass="data-table-right" id="sumA" headerText="Fallzahl" sortBy="#{x.count}">
                     <h:outputText id="sumACell" value="#{x.count}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>

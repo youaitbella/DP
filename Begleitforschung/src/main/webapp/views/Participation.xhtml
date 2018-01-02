@@ -35,27 +35,24 @@
             </pf:dataTable>
 
         </h:form>
-        <h3 class="text-center" style="width: 600px;">Summentabelle</h3>
+        <h3 class="text-left">Summentabelle</h3>
         <h:form id="tableSum">
             <pf:dataTable  styleClass="smallTable"
                             id="a1_kh_table"
                             value="#{entities.getParticipationSum(param['dataYear'])}"
                             var="x"
                             resizableColumns="true"
-                            style="width: 600px;"
+                            tableStyle="width: auto;"
                           >
-                <pf:column styleClass="data-table-left" id="bundesland" headerText="Bundesland" sortBy="#{x.state}"
-                            filterBy="#{x.state}" filterMatchMode="contains">
+                <pf:column styleClass="data-table-left" id="bundesland" headerText="Bundesland" sortBy="#{x.state}">
                 <h:outputText id="bundeslandCell" value="#{x.state}"/>
             </pf:column>
-                <pf:column styleClass="data-table-right" id="numKh" headerText="Anzahl Krankenhäuser" sortBy="#{x.numHospitals}"
-                            filterBy="#{x.numHospitals}" filterMatchMode="contains">
+                <pf:column styleClass="data-table-right" id="numKh" headerText="Anzahl Krankenhäuser" sortBy="#{x.numHospitals}">
                 <h:outputText id="numKhCell" value="#{x.numHospitals}">
                     <f:convertNumber pattern="###,###,###" />
                 </h:outputText>
             </pf:column>
-            <pf:column styleClass="data-table-right" id="numCases" headerText="Anzahl Fälle" sortBy="#{x.numCases}"
-                            filterBy="#{x.numCases}" filterMatchMode="contains">
+            <pf:column styleClass="data-table-right" id="numCases" headerText="Anzahl Fälle" sortBy="#{x.numCases}">
                 <h:outputText id="numCasesCell" value="#{x.numCases}">
                     <f:convertNumber pattern="###,###,###" />
                 </h:outputText>

@@ -18,7 +18,7 @@
                             value="#{entities.getSystemRatedSlipMcFrequently(param['dataYear'])}"
                             var="x"
                             resizableColumns="true"
-                            tableStyle="table-layout: auto;"
+                            tableStyle="width: auto;"
                           >
             <pf:column styleClass="data-table-left" id="drg" headerText="DRG" sortBy="#{x.drg}"
                             filterBy="#{x.drg}" filterMatchMode="contains">
@@ -49,19 +49,13 @@
             </pf:column>
         </pf:dataTable>
         </h:form>
-        <script type="text/javascript">
-            $(document).ready(function() {
-                document.getElementById('table:data-table:numPrimaryDepartment').click();
-                document.getElementById('table:data-table:numPrimaryDepartment').click();
-            });
-        </script>
-        <h3 class="text-right" style="margin-right: 17px;">Summentabelle</h3>
+        <h3 class="text-left">Summentabelle</h3>
         <h:form id="data-table-sum">
             <pf:dataTable  id="c113-table-sum"
                             value="#{entities.getSystemRatedSlipMcFrequentlySum(param['dataYear'])}"
                                 var="x"
                                 resizableColumns="true"
-                                tableStyle="table-layout: auto;"
+                                tableStyle="width: auto;"
                               >
                 <pf:column styleClass="data-table-right" id="sumCasesSum" headerText="Fallzahl" sortBy="#{x.numPrimaryDepartment}"
                             >
