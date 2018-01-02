@@ -7,9 +7,11 @@ package org.inek.dataportal.feature.ikadmin.facade;
 
 import java.util.List;
 import javax.enterprise.context.RequestScoped;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import org.inek.dataportal.entities.account.Account;
+import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.facades.AbstractDataAccess;
 import org.inek.dataportal.feature.ikadmin.entity.AccessRight;
 import org.inek.dataportal.feature.ikadmin.entity.User;
@@ -20,7 +22,7 @@ import org.inek.dataportal.feature.ikadmin.entity.User;
  */
 @RequestScoped
 @Transactional
-public class IkAdminFacade extends AbstractDataAccess{
+public class IkAdminFacade extends AbstractDataAccess {
 
     public List<AccessRight> findAccessRights(int ik) {
         String jpql = "select ar from AccessRight ar where ar._ik = :ik";
@@ -30,9 +32,9 @@ public class IkAdminFacade extends AbstractDataAccess{
     }
 
     public AccessRight saveAccessRight(AccessRight accessRight) {
-        if (accessRight.getId() > 0){
+        if (accessRight.getId() > 0) {
             return merge(accessRight);
-        }else{
+        } else {
             persist(accessRight);
             return accessRight;
         }
@@ -52,6 +54,36 @@ public class IkAdminFacade extends AbstractDataAccess{
     public Account saveAccount(Account account) {
         return getEntityManager().merge(account);
     }
-    
-    
+
+    public List<AccessRight> findAccessRightsByAccountAndFeature(Account account, Feature feature) {
+        String jpql = "select ar from AccessRight ar where ar._accountId = :accountId and ar._feature = :feature";
+        TypedQuery<AccessRight> query = getEntityManager().createQuery(jpql, AccessRight.class);
+        query.setParameter("accountId", account.getId());
+        query.setParameter("feature", feature);
+        return query.getResultList();
+
+    }
+
+    public void removeRights(int accountId, int ik) {
+        String jpql = "DELETE FROM AccessRight ar where ar._accountId = :accountId and ar._ik = :ik";
+        Query query = getEntityManager().createQuery(jpql, AccessRight.class);
+        query.setParameter("accountId", accountId);
+        query.setParameter("ik", ik);
+        query.executeUpdate();
+    }
+
+    public boolean hasIkAdmin(int ik) {
+        String sql = "select cast(sign(count(0)) as bit) as hasAdmin from ikadm.mapAccountIkAdmin where aiaIk = " + ik;
+        Query query = getEntityManager().createNativeQuery(sql);
+        boolean hasIkAdmin = (boolean) query.getSingleResult();
+        return hasIkAdmin;
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<Account> findIkAdmins(Integer ik) {
+        String sql = "select Account.* from ikadm.mapAccountIkAdmin join Account on aiaAccountId = acId where aiaIk = " + ik;
+        Query query = getEntityManager().createNativeQuery(sql, Account.class);
+        return query.getResultList();
+    }
+
 }

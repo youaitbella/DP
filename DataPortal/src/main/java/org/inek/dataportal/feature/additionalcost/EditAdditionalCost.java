@@ -257,16 +257,10 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
     }
 
     public List<SelectItem> getIks() {
-        Set<Integer> iks = new HashSet<>();
+        Account account = _sessionController.getAccount();
+        Set<Integer> iks = account.getFullIkSet();
         if (_additionalCost != null && _additionalCost.getIk() > 0) {
             iks.add(_additionalCost.getIk());
-        }
-        Account account = _sessionController.getAccount();
-        if (account.getIK() != null && account.getIK() > 0) {
-            iks.add(account.getIK());
-        }
-        for (AccountAdditionalIK additionalIK : account.getAdditionalIKs()) {
-            iks.add(additionalIK.getIK());
         }
         List<SelectItem> items = new ArrayList<>();
         for (int ik : iks) {

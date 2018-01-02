@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="CooperationEdit.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <ui:define name="editContent">
+
+        <h2>
+        <h:outputLabel styleClass="label marginRight01" value="#{msg.lblFunction}"/>
+        <h:selectOneMenu value="#{editCooperation.feature}">
+            <f:selectItems value="#{editCooperation.featuresWithIkContext}" var="f" itemLabel="#{f.description}" itemValue="#{f.name()}"/>
+            <f:ajax render="rights"/>
+        </h:selectOneMenu>
+        </h2>
+        <br/>
+        
+        <h:dataTable id="rights" value="#{ editCooperation.cooperationRights.stream().filter(r -> r.feature.name().equals(editCooperation.feature)).toList()}" var="cor">
+            <h:column id="colIk">
+                <f:facet name="header">
+                    <h:outputText value="#{msg.lblIkShort}"/>
+                </f:facet>
+                <h:outputText value="#{cor.ik}" styleClass="element08em"/>
+            </h:column>
+            <h:column id="colCooperativeRight">
+                <f:facet name="header">
+                    <h:outputText value="#{msg.lblCooperativeRight}"/>
+                </f:facet>
+                <h:selectOneMenu value="#{cor.cooperativeRight}">
+                    <f:selectItems value="#{editCooperation.cooperativeRights}"/>
+                    <f:ajax event="blur" render="@this :logout:remaining"/>
+                </h:selectOneMenu>
+            </h:column>
+        </h:dataTable>
+
+        <div class="toolBar">
+            <h:commandLink styleClass="bigButton" action="#{editCooperation.save}" value="#{msg.btnSave}" immediate="false" />
+        </div>
+
+    </ui:define>
+</ui:composition>

@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -173,7 +174,11 @@ public class IkAdminTasks extends AbstractEditController implements Serializable
 
     public Collection<Account> getAccounts() {
         ensureAccounts();
-        return _accounts.values();
+        return _accounts
+                .values()
+                .stream()
+                .sorted((a1, a2) -> a1.getLastName().compareTo(a2.getLastName()))
+                .collect(Collectors.toList());
     }
 
     private void ensureAccounts() {
@@ -193,7 +198,8 @@ public class IkAdminTasks extends AbstractEditController implements Serializable
                     .orElse("")
                     .split(";");
             for (String mailDomain : mailDomains) {
-                List<Account> mailAccounts = _accountFacade.findAccountsByMailDomain((mailDomain.startsWith("@") ? "" : "@") + mailDomain);
+                String domain = mailDomain.trim();
+                List<Account> mailAccounts = _accountFacade.findAccountsByMailDomain((domain.startsWith("@") ? "" : "@") + domain);
                 for (Account account : mailAccounts) {
                     _accounts.put(account.getId(), account);
                 }

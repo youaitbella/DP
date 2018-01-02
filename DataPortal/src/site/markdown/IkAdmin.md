@@ -32,13 +32,11 @@ Damit wird die Sicherheit erhöht und der Verwaltungsaufwand verteilt und reduzi
 ### Anlegen eines IK-Admins
 
 - Das InEK legt IK-Admins im schriftlichen Auftrag der Krankenhausleitung an
-- Ein IK-Admin kann für dieses IK weitere IK-Admins anlegen
 
 ### Löschen eines IK-Admins
 
-- Ein IK-Admin kann für dieses IK für andere Personen die IK-Admin-Rechte entziehen
-- Ein Anwender löscht sein Benutzerkonto - das Löschen ist nicht möglich, sofern es sich um den einzigen IK-Admin handelt
 - Das InEK löscht IK-Admins im schriftlichen Auftrag der Krankenhausleitung. Mit Löschung des letzen IK-Admins wird die Berechtigungstabelle für das betreffende Haus entfernt. Damit ist dies wieder "offen". Das InEK sollte vor Löschung des letzen IK-Admins dies mit dem Krankenhaus erläutern und bestätigen lassen.
+- Ein Anwender löscht sein Benutzerkonto - das Löschen ist nicht möglich, sofern es sich um den einzigen IK-Admin handelt
 
 ### Zuweisung von IK und Funktionen
 

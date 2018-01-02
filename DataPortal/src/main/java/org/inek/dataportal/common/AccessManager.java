@@ -1,6 +1,7 @@
 package org.inek.dataportal.common;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -19,23 +20,20 @@ import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.cooperation.CooperationRightFacade;
+import org.inek.dataportal.feature.ikadmin.entity.AccessRight;
+import org.inek.dataportal.feature.ikadmin.facade.IkAdminFacade;
 
 /**
  * This class provides access to cooperations rights for one request. 
  * Depending on the current data, a couple of accesses  * might be necessary. 
  To mimimize the db accesses, all cooperation data of one kind (achieved or granted) 
  will be read together and buffered (cached) for the current HTTP request. 
- During one request, either all lists for the user or a single dataset is used. 
- During one request, the same feature is used. Thus, caching ignores the feature.
 
- This class has be placed into request scope.
+ This class has to be placed into request scope.
  
  Starting in Dec 2017, tha concept of an IK admin has been introduced.
  Such an admin may grant or revoke rights for a given ik.
- These rights will override cooperative rights.
- Because this class is a facade to the access rights, the administered
- rights will be respected here, regardless of the name "AccessManager".
- Todo: rename? (just now this is not possible due to other (local) development branches)
+ If available, these rights will override cooperative rights.
  *
  * @author muellermi
  */
@@ -46,6 +44,7 @@ public class AccessManager implements Serializable {
     @Inject private CooperationRightFacade _cooperationRightFacade;
     @Inject private SessionController _sessionController;
     @Inject private AccountFacade _accountFacade;
+    @Inject private IkAdminFacade _ikAdminFacade;
 
     /**
      * gets the cooperation rights by delegating the first request to the service and retrieving them from a local cache
@@ -56,13 +55,13 @@ public class AccessManager implements Serializable {
      * @return
      */
     private List<CooperationRight> getCooperationRights(Feature feature, Account account) {
-        if (_cooperationRights == null) {
-            _cooperationRights = _cooperationRightFacade.getCooperationRights(feature, account);
+        if (!_cooperationRights.containsKey(feature)) {
+            _cooperationRights.put(feature, _cooperationRightFacade.getCooperationRights(feature, account));
         }
-        return _cooperationRights;
+        return _cooperationRights.get(feature);
     }
 
-    private List<CooperationRight> _cooperationRights;
+    private Map<Feature, List<CooperationRight>> _cooperationRights = new HashMap<>();
 
     /**
      * Determines and returns the achieved rights. A user might get rights from two sources: ik supervision or
@@ -93,11 +92,25 @@ public class AccessManager implements Serializable {
         }
         return supervisorRight.mergeRights(cooperativeRight);
     }
+    
+    private final Map<Feature, List<AccessRight>> _featureAccessRights = new HashMap<>();
+    
+    public List<AccessRight> obtainAccessRights(Feature feature){
+        if (!_featureAccessRights.containsKey(feature)){
+            _featureAccessRights.put(feature, 
+                    _ikAdminFacade.findAccessRightsByAccountAndFeature(_sessionController.getAccount(), feature));
+        }
+        return _featureAccessRights.get(feature);
+    }
+
+    
 
     /**
      * In normal workflow, only data the user has access to, will be displayed in the lists. But if some user tries to
      * open data by its id (via URL), this might be an non-authorized access. 
      * Within ta dialog, it should be tested, wheater at access is allowed or not.
+     * For a uniform interface, we pass in ths state although it is ignored yet.
+     * It migt be respected in the future.
      *
      * @param feature
      * @param state
@@ -109,6 +122,14 @@ public class AccessManager implements Serializable {
     }
 
     public boolean isAccessAllowed(Feature feature, WorkflowStatus state, int ownerId, int ik) {
+        if (ik > 0){
+            for (AccessRight accessRight : obtainAccessRights(feature)) {
+                if (accessRight.getIk() == ik){
+                    return accessRight.canRead();
+                }
+            }
+        }
+        
         if (ownerId == _sessionController.getAccountId()) {
             return true;
         }
@@ -135,6 +156,13 @@ public class AccessManager implements Serializable {
     public boolean isReadOnly(Feature feature, WorkflowStatus state, int ownerId, int ik) {
         if (state.getId() >= WorkflowStatus.Provided.getId()) {
             return true;
+        }
+        if (ik > 0){
+            for (AccessRight accessRight : obtainAccessRights(feature)) {
+                if (accessRight.getIk() == ik){
+                    return !accessRight.canWrite();
+                }
+            }
         }
         if (ownerId == _sessionController.getAccountId()) {
             return false;
@@ -255,6 +283,14 @@ public class AccessManager implements Serializable {
         if (state.getId() >= WorkflowStatus.Provided.getId()) {
             return false;
         }
+        if (ik > 0){
+            for (AccessRight accessRight : obtainAccessRights(feature)) {
+                if (accessRight.getIk() == ik){
+                    return accessRight.canSeal();
+                }
+            }
+        }
+        
         Account account = _sessionController.getAccount();
         if (ownerId != account.getId()) {
             return getAchievedRight(feature, ownerId, ik).canSeal();
@@ -286,7 +322,7 @@ public class AccessManager implements Serializable {
 
     /**
      * update is enabled when correction is requested by inek and it's the user's data or the user is allowed to seal or
-     * o write.
+     * to write.
      *
      * @param feature
      * @param state
@@ -300,6 +336,13 @@ public class AccessManager implements Serializable {
     public boolean isUpdateEnabled(Feature feature, WorkflowStatus state, int ownerId, int ik) {
         if (state != WorkflowStatus.CorrectionRequested) {
             return false;
+        }
+        if (ik > 0){
+            for (AccessRight accessRight : obtainAccessRights(feature)) {
+                if (accessRight.getIk() == ik){
+                    return accessRight.canWrite() || accessRight.canSeal();
+                }
+            }
         }
         Account account = _sessionController.getAccount();
         if (ownerId != account.getId()) {
@@ -436,4 +479,5 @@ public class AccessManager implements Serializable {
         return achievedRight.canReadAlways();
     }
 
+    
 }
