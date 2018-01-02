@@ -185,7 +185,8 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     private boolean hasSufficientRights(PeppCalcBasics calcBasics) {
         return _accessManager.isAccessAllowed(Feature.CALCULATION_HOSPITAL,
                         calcBasics.getStatus(),
-                        calcBasics.getAccountId());
+                        calcBasics.getAccountId(),
+                        calcBasics.getIk());
     }
 
     private PeppCalcBasics newCalcBasicsPepp() {
@@ -290,7 +291,8 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         }
         return _accessManager.isReadOnly(Feature.CALCULATION_HOSPITAL,
                 _calcBasics.getStatus(),
-                _calcBasics.getAccountId());
+                _calcBasics.getAccountId(),
+                _calcBasics.getIk());
     }
 
     @Override
@@ -424,7 +426,8 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         return isSendEnabled()
                 && _accessManager.isSealedEnabled(Feature.CALCULATION_HOSPITAL,
                         _calcBasics.getStatus(),
-                        _calcBasics.getAccountId());
+                        _calcBasics.getAccountId(),
+                        _calcBasics.getIk());
     }
 
     private boolean isSendEnabled() {
@@ -435,14 +438,16 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         return isSendEnabled()
                 && _accessManager.isApprovalRequestEnabled(Feature.CALCULATION_HOSPITAL,
                         _calcBasics.getStatus(),
-                        _calcBasics.getAccountId());
+                        _calcBasics.getAccountId(),
+                        _calcBasics.getIk());
     }
 
     public boolean isRequestCorrectionEnabled() {
         return isSendEnabled()
                 && _accessManager.isRequestCorrectionEnabled(Feature.CALCULATION_HOSPITAL,
                         _calcBasics.getStatus(),
-                        _calcBasics.getAccountId());
+                        _calcBasics.getAccountId(),
+                        _calcBasics.getIk());
     }
 
     public boolean isTakeEnabled() {

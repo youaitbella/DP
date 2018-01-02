@@ -147,7 +147,10 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     private boolean hasSufficientRights(DrgCalcBasics calcBasics) {
-        return _accessManager.isAccessAllowed(Feature.CALCULATION_HOSPITAL, calcBasics.getStatus(), calcBasics.getAccountId());
+        return _accessManager.isAccessAllowed(Feature.CALCULATION_HOSPITAL, 
+                calcBasics.getStatus(), 
+                calcBasics.getAccountId(),
+                calcBasics.getIk());
     }
 
     public List<KGLListRadiologyLaboratory> getLaboratories() {
@@ -456,7 +459,10 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             return true;
         }
         // todo apply rights depending on ik?
-        return _accessManager.isReadOnly(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId());
+        return _accessManager.isReadOnly(Feature.CALCULATION_HOSPITAL, 
+                _calcBasics.getStatus(), 
+                _calcBasics.getAccountId(),
+                _calcBasics.getIk());
     }
 
     @Override
@@ -587,7 +593,10 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     public boolean isSealEnabled() {
         return isSendEnabled()
-                && _accessManager.isSealedEnabled(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId());
+                && _accessManager.isSealedEnabled(Feature.CALCULATION_HOSPITAL, 
+                        _calcBasics.getStatus(), 
+                        _calcBasics.getAccountId(),
+                        _calcBasics.getIk());
     }
 
     private boolean isSendEnabled(){
@@ -596,12 +605,18 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     
     public boolean isApprovalRequestEnabled() {
         return isSendEnabled()
-                && _accessManager.isApprovalRequestEnabled(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId());
+                && _accessManager.isApprovalRequestEnabled(Feature.CALCULATION_HOSPITAL, 
+                        _calcBasics.getStatus(), 
+                        _calcBasics.getAccountId(),
+                        _calcBasics.getIk());
     }
 
     public boolean isRequestCorrectionEnabled() {
         return isSendEnabled()
-                && _accessManager.isRequestCorrectionEnabled(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId());
+                && _accessManager.isRequestCorrectionEnabled(Feature.CALCULATION_HOSPITAL, 
+                        _calcBasics.getStatus(), 
+                        _calcBasics.getAccountId(),
+                        _calcBasics.getIk());
     }
 
     public boolean isTakeEnabled() {
