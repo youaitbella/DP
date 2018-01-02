@@ -10,7 +10,8 @@
                 >
 
     <h2 style="margin-top: 1em;"></h2>
-    <inek:LabeledCheckbox label="Für unser Haus liegt für das Budgetjahr 2016 bereits eine Vereinbarung gem. § 5 Abs. 3 KHEntgG vor" 
+    <inek:LabeledCheckbox id="chkAgreement" 
+                          label="Für unser Haus liegt für das Budgetjahr #{editSpecificFunction.request.dataYear - 1} bereits eine Vereinbarung gem. § 5 Abs. 3 KHEntgG vor" 
                           styleClassComponent="marginTop01em"
                           value="#{editSpecificFunction.request.hasAgreement}"
                           readonly="#{editSpecificFunction.readOnly}"

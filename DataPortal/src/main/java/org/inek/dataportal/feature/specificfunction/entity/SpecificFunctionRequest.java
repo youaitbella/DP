@@ -50,7 +50,7 @@ public class SpecificFunctionRequest implements Serializable, StatusEntity {
     }
 
     public void setDataYear(int dataYear) {
-        this._dataYear = dataYear;
+        _dataYear = dataYear;
     }
     //</editor-fold>
 

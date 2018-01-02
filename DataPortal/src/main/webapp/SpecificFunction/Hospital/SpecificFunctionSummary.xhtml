@@ -36,16 +36,6 @@
                 </div>
             </ui:repeat>
 
-            <div jsf:rendered="#{sessionController.isInekUser('SPECIFIC_FUNCTION')}">
-                <h2>An das InEK gesendete Besondere Aufgaben / Zentrum</h2>
-
-                <div style="margin-left:16px; padding-bottom: 1em;">
-                    <spf:RequestNode parentNode="#{inekSpfTreeHandler.rootNode}"
-                                     showDelete="false" showSelectBox="false"
-                                     rendered="#{inekSpfTreeHandler.rootNode.children.size() gt 0}"/>
-                </div>
-            </div>
-
 
             <h:commandLink styleClass="bigButton #{specificFunctionRequestList.newAllowed? '' : 'buttonDisabled'}"
                            action="#{specificFunctionRequestList.newRequest()}"
@@ -86,6 +76,18 @@
                     </ui:repeat>
                 </div>
             </ui:repeat>
+            
+            <div jsf:rendered="#{sessionController.isInekUser('SPECIFIC_FUNCTION')}">
+                <h2>An das InEK gesendete Besondere Aufgaben / Zentrum</h2>
+
+                <div style="margin-left:16px; padding-bottom: 1em;">
+                    <spf:RequestNode parentNode="#{inekSpfTreeHandler.rootNode}"
+                                     showDelete="false" showSelectBox="false"
+                                     rendered="#{inekSpfTreeHandler.rootNode.children.size() gt 0}"/>
+                </div>
+            </div>
+
+            
         </h:form>
     </ui:define>
 </ui:composition>

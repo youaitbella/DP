@@ -54,8 +54,10 @@ import org.inek.portallib.tree.YearTreeNode;
 import org.inek.dataportal.mail.Mailer;
 import org.inek.dataportal.utils.DocumentationUtil;
 import org.inek.dataportal.utils.KeyValueLevel;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+
+// todo: devide into several classes, use a specialized TreeNodeObserver on every level
+// todo: use customer node for iks managed by ikAdmin
 @Named @SessionScoped
 public class NubSessionTools implements Serializable, TreeNodeObserver {
 
@@ -293,7 +295,7 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
     }
 
     private void obtainCustomerNodeChildren(CustomerTreeNode customerTreeNode, Collection<TreeNode> children) {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException("Not supported yet."); 
     }
 
     private List<ProposalInfo> obtainNubInfosForRead(int partnerId, int year) {

@@ -18,6 +18,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
@@ -106,7 +107,8 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
     }
 
     private boolean hasSufficientRights(SpecificFunctionRequest calcBasics) {
-        return _accessManager.isAccessAllowed(Feature.SPECIFIC_FUNCTION, calcBasics.getStatus(), calcBasics.getAccountId());
+        return _accessManager.isAccessAllowed(Feature.SPECIFIC_FUNCTION, calcBasics.getStatus(), calcBasics.
+                getAccountId());
     }
 
     private SpecificFunctionRequest newSpecificFunctionRequest() {
@@ -119,7 +121,7 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
         request.setLastName(account.getLastName());
         request.setPhone(account.getPhone());
         request.setMail(account.getEmail());
-        request.setDataYear(Utils.getTargetYear(Feature.SPECIFIC_FUNCTION));
+        //request.setDataYear(Utils.getTargetYear(Feature.SPECIFIC_FUNCTION));
         List<SelectItem> iks = getIks();
         if (iks.size() == 1) {
             request.setIk((int) iks.get(0).getValue());
@@ -134,6 +136,27 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
         return items;
     }
 
+    private List<Integer> _availableYears;
+
+    public List<Integer> getYears() {
+        if (_request == null) {
+            return new ArrayList<>();
+        }
+        if (_availableYears == null) {
+            obtainAvailableYears();
+        }
+        return _availableYears;
+    }
+
+    private void obtainAvailableYears() {
+        List<Integer> existingYears = _specificFunctionFacade.getExistingYears(_request.getIk());
+        
+        _availableYears = new ArrayList<>();
+        IntStream.rangeClosed(2015, 2019)
+                .filter(y -> y == _request.getDataYear() || !existingYears.contains(y))
+                .forEach(y -> _availableYears.add(y));
+    }
+
     // <editor-fold defaultstate="collapsed" desc="actions">
     public boolean isOwnStatement() {
         return _sessionController.isMyAccount(_request.getAccountId(), false);
@@ -143,7 +166,8 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
         if (_sessionController.isInekUser(Feature.CALCULATION_HOSPITAL) && !_appTools.isEnabled(ConfigKey.TestMode)) {
             return true;
         }
-        return _accessManager.isReadOnly(Feature.SPECIFIC_FUNCTION, _request.getStatus(), _request.getAccountId(), _request.getIk());
+        return _accessManager.
+                isReadOnly(Feature.SPECIFIC_FUNCTION, _request.getStatus(), _request.getAccountId(), _request.getIk());
     }
 
     @Override
@@ -159,7 +183,8 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
 
         if (isValidId(_request.getId())) {
             // CR+LF or LF only will be replaced by "\r\n"
-            String script = "alert ('" + Utils.getMessage("msgSaveAndMentionSend").replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
+            String script = "alert ('" + Utils.getMessage("msgSaveAndMentionSend").replace("\r\n", "\n").
+                    replace("\n", "\\r\\n") + "');";
             _sessionController.setScript(script);
             return null;
         }
@@ -174,7 +199,8 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
 
         if (isValidId(_request.getId())) {
             // CR+LF or LF only will be replaced by "\r\n"
-            String script = "alert ('" + Utils.getMessage("msgSaveAndMentionSend").replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
+            String script = "alert ('" + Utils.getMessage("msgSaveAndMentionSend").replace("\r\n", "\n").
+                    replace("\n", "\\r\\n") + "');";
             _sessionController.setScript(script);
             sendMessage("Besondere Aufgaben / Zentrum: Vertragskennzeichen");
             return null;
@@ -187,8 +213,8 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
 
     private void sendMessage(String name) {
         //todo: refactor for gloabal usage (move to mailer?) and remove all similar methods
-        Account receiver = _accountFacade.findAccount(_appTools.isEnabled(ConfigKey.TestMode) 
-                ? _sessionController.getAccountId() 
+        Account receiver = _accountFacade.findAccount(_appTools.isEnabled(ConfigKey.TestMode)
+                ? _sessionController.getAccountId()
                 : _request.getAccountId());
         MailTemplate template = _mailer.getMailTemplate(name);
         String subject = template.getSubject()
@@ -220,7 +246,8 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
         if (!_appTools.isEnabled(ConfigKey.IsSpecificFunctionRequestSendEnabled)) {
             return false;
         }
-        return _accessManager.isApprovalRequestEnabled(Feature.SPECIFIC_FUNCTION, _request.getStatus(), _request.getAccountId());
+        return _accessManager.isApprovalRequestEnabled(Feature.SPECIFIC_FUNCTION, _request.getStatus(), _request.
+                getAccountId());
     }
 
     public boolean isRequestCorrectionEnabled() {
@@ -275,7 +302,8 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
         removeEmptyCenters();
         _request.setStatus(WorkflowStatus.Provided);
         setModifiedInfo();
-        if (_request.getSealed().equals(Date.from(LocalDate.of(2000, Month.JANUARY, 1).atStartOfDay().toInstant(ZoneOffset.UTC)))) {
+        if (_request.getSealed().equals(Date.from(LocalDate.of(2000, Month.JANUARY, 1).atStartOfDay().
+                toInstant(ZoneOffset.UTC)))) {
             // seat seal date for the first time sealing only
             _request.setSealed(Calendar.getInstance().getTime());
         }
@@ -377,7 +405,8 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
         }
     }
 
-    private void checkField(MessageContainer message, Integer value, Integer minValue, Integer maxValue, String msgKey, String elementId) {
+    private void checkField(MessageContainer message, Integer value, Integer minValue, Integer maxValue, String msgKey,
+            String elementId) {
         if (value == null
                 || minValue != null && value < minValue
                 || maxValue != null && value > maxValue) {
@@ -414,7 +443,7 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
     }
 
     public void ikChanged() {
-        // dummy listener, used by component MultiIk - do not delete
+        _availableYears = null;
     }
 
     public List<SelectItem> getIks() {

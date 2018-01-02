@@ -77,6 +77,18 @@
 
             <h:column>
                 <f:facet name="header">
+                    <h:commandLink value="#{msg.lblYear} #{cc.attrs.parentNode.sortCriteria.equals('Year') ? (cc.attrs.parentNode.descending ? '↓' : '↑') : ''}">
+                        <f:ajax listener="#{cc.attrs.parentNode.setSortCriteria('Year')}" render="specificFunctionRequests :logout:remaining"/>
+                    </h:commandLink>
+                </f:facet>
+                <h:link outcome="#{specificFunctionRequestList.edit()}"
+                               value="#{node.specificFunctionRequest.dataYear}" >
+                    <f:param name="id" value="#{node.specificFunctionRequest.id}"/>
+                </h:link>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
                     <h:commandLink value="#{msg.lblHospital} #{cc.attrs.parentNode.sortCriteria.equals('Hospital') ? (cc.attrs.parentNode.descending ? '↓' : '↑') : ''}">
                         <f:ajax listener="#{cc.attrs.parentNode.setSortCriteria('Hospital')}" render="specificFunctionRequests :logout:remaining"/>
                     </h:commandLink>

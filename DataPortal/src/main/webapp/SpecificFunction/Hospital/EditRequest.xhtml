@@ -43,6 +43,22 @@
                               isFixed="#{editSpecificFunction.request.id gt 0}"/>
 
                 <div jsf:id="spfData" jsf:rendered="#{editSpecificFunction.request.ik gt 0}">
+                    <div class="inputPart">
+                        <h:outputLabel styleClass="label10" 
+                                       value="#{msg.lblYearBudget}" 
+                                       for="year"/>
+
+                        <h:selectOneMenu id="year" 
+                                         value="#{editSpecificFunction.request.dataYear}"
+                                         disabled="#{editSpecificFunction.readOnly}"
+                                         required="true"
+                                         hideNoSelectionOption="true">
+                            <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
+                            <f:selectItems value="#{editSpecificFunction.years}" />
+                            <f:ajax render="specificFuntion:chkAgreement:label"/>
+                        </h:selectOneMenu>
+                    </div>
+
                     <h2>#{msg.lblContactPerson}</h2>
 
                     <h:panelGroup styleClass="element100 marginTop01em">

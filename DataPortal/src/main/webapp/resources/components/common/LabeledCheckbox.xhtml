@@ -26,7 +26,8 @@
         <cc:editableValueHolder name="#{cc.id}" targets="box"/>
 
         <div class="#{cc.attrs.styleClassComponent}">
-            <h:outputLabel styleClass="#{cc.attrs.styleClassLabel}" 
+            <h:outputLabel id="label"
+                           styleClass="#{cc.attrs.styleClassLabel}" 
                            value="#{cc.attrs.label}:" 
                            for="box"
                            rendered="#{not cc.attrs.precedingBox}"/>

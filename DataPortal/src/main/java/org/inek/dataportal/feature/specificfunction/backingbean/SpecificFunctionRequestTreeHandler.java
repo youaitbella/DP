@@ -105,9 +105,8 @@ public class SpecificFunctionRequestTreeHandler implements Serializable, TreeNod
 
     private void obtainEditNodeChildren(RootNode node, Collection<TreeNode> children) {
         Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.SPECIFIC_FUNCTION, canReadCompleted());
-        List<Account> accounts = _specificFunctionFacade.loadRequestAccountsForYear(
+        List<Account> accounts = _specificFunctionFacade.loadRequestAccounts(
                 accountIds, 
-                Utils.getTargetYear(Feature.SPECIFIC_FUNCTION), 
                 WorkflowStatus.New, 
                 WorkflowStatus.ApprovalRequested);
         Account currentUser = _sessionController.getAccount();
@@ -218,7 +217,6 @@ public class SpecificFunctionRequestTreeHandler implements Serializable, TreeNod
         }
         return _specificFunctionFacade.obtainSpecificFunctionRequests(
                 partnerId, 
-                Utils.getTargetYear(Feature.SPECIFIC_FUNCTION), 
                 statusLow, 
                 statusHigh);
     }
