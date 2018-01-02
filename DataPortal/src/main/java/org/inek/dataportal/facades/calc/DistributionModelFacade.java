@@ -169,7 +169,7 @@ public class DistributionModelFacade extends AbstractDataAccess {
         return result;
     }
 
-    public List<CalcHospitalInfo> getDistributionModelsForAccount(Account account, String filter) {
+    public List<CalcHospitalInfo> getDistributionModelsByEmail(String email, String filter) {
       
         String sql = "select distinct dmmId as Id, 'CDM' as [Type], dmmAccountId as AccountId, dmmDataYear as DataYear, dmmIk as IK, "
                 + "dmmStatusId as StatusId,\n" +
@@ -183,7 +183,7 @@ public class DistributionModelFacade extends AbstractDataAccess {
                     "join CallCenterDB.dbo.ccAgent on cciaAgentId = agId\n" +
                     "join dbo.Account on agEMail = acMail\n" +
                     "where dmmStatusId >= 10\n" +
-                    "and agEMail = '" + account.getEmail() + "'\n" +
+                    "and agEMail = '" + email + "'\n" +
                     "and cciaReportTypeId in (1, 3)";
         String sqlFilter = StringUtil.getSqlFilter(filter);
         if (sqlFilter.length() > 0) {

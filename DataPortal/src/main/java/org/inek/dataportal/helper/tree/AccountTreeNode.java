@@ -21,6 +21,26 @@ public final class AccountTreeNode extends TreeNode{
         return _account;
     }
 
+    public String getDisplayName(){
+        return _account.getFirstName() + " " + _account.getLastName();
+    }
+    
+    public String getCompany(){
+        return _account.getCompany();
+    }
+
+    public String getTown(){
+        return _account.getTown();
+    }
+
+    public String getEmail(){
+        return _account.getEmail();
+    }
+
+    public int getAccountId(){
+        return _account.getId();
+    }
+    
     private AccountTreeNode(TreeNode parent, Account account) {
         super(parent);
         _account = account;
