@@ -201,6 +201,15 @@ public class EditStatementOfParticipance extends AbstractEditController {
                 statement.setObligatoryCalcType(2);
                 setObligatorDrg(_calcFacade.isObligateInCalcType(ik,year,1));
                 setObligatorPsy(_calcFacade.isObligateInCalcType(ik,year,3));
+                statement.setTpgCalc(_calcFacade.isParticipationInCalcType(ik,year - 1,5));
+                statement.setObdCalc(_calcFacade.isParticipationInCalcType(ik,year - 1,7));
+                if(!statement.isInvCalc()) {
+                    statement.setInvCalc(_calcFacade.isParticipationInCalcType(ik,year - 1,4));
+                }
+                if(isObligatorDrg() && isObligatorPsy()) {
+                    statement.setDrgCalc(_calcFacade.isParticipationInCalcType(ik,year - 1,1));
+                    statement.setPsyCalc(_calcFacade.isParticipationInCalcType(ik,year - 1,3));
+                }
             } else {
                 statement.setDrgCalc(domain.contains("DRG"));
                 statement.setClinicalDistributionModelDrg("T".equals(drgKvm) ? 1 : 0);
@@ -260,7 +269,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
         setEnablePsyCalc(false);
         if(_statement.isObligatory()) {
             setEnableDrgCalc(_statement.isDrgCalc());
-            setEnableInvCalc(_statement.isInvCalc());
+            setEnableInvCalc(_statement.isInvCalc() && !isObligatorDrg() && !isObligatorPsy());
             setEnablePsyCalc(_statement.isPsyCalc());
         }
         enableDisableStatementPage();
@@ -392,6 +401,9 @@ public class EditStatementOfParticipance extends AbstractEditController {
         testMode = false;
         if (!testMode) {
             _icmtUpdater.saveStatementOfParticipanceForIcmt(_statement);
+            if(_calcFacade.isObligateInCalcType(_statement.getIk(), _statement.getDataYear(),4)) {
+                _icmtUpdater.saveObligateInvCalc(_statement);
+            }
         }
 
         if (!_appTools.isEnabled(ConfigKey.IsStatemenOfParticipanceResendEnabled)) {
@@ -696,7 +708,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
         boolean testMode = _appTools.isEnabled(ConfigKey.TestMode);
         testMode = false;
         int year = Utils.getTargetYear(Feature.CALCULATION_HOSPITAL);
-        Set<Integer> iks = _calcFacade.obtainIks4NewStatementOfParticipance(account.getId(), year, testMode);
+        Set<Integer> iks = _calcFacade.obtainIks4NewStatementOfParticipance(account.getId(), year);
         if (_statement != null && _statement.getIk() > 0) {
             iks.add(_statement.getIk());
         }

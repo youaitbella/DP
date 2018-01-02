@@ -27,24 +27,24 @@ public class IcmtUpdater extends AbstractDataAccess {
         performInsertStatementOfParticipance(participance, 5, "Tpg");
         performInsertStatementOfParticipance(participance, 7, "Obd");
         //Contacts
-        if(participance.isDrgCalc()) {
+        if (participance.isDrgCalc()) {
             performInsertUpdateContactRoleICMT(participance, "Drg", 1, 3);
         }
-        if(participance.isPsyCalc()) {
+        if (participance.isPsyCalc()) {
             performInsertUpdateContactRoleICMT(participance, "Psy", 3, 12);
         }
-        if(participance.isInvCalc()) {
+        if (participance.isInvCalc()) {
             performInsertUpdateContactRoleICMT(participance, "Inv", 4, 15);
         }
-        if(participance.isTpgCalc()) {
+        if (participance.isTpgCalc()) {
             performInsertUpdateContactRoleICMT(participance, "Tpg", 5, 16);
         }
-        if(participance.isObdCalc()) {
+        if (participance.isObdCalc()) {
             performInsertUpdateContactRoleICMT(participance, "Obd", 7, 19);
         }
-        if(participance.isConsultantSendMail()) {
+        if (participance.isConsultantSendMail()) {
             performInsertUpdateContactRoleICMTConsultant(participance, 14);
-        }        
+        }
     }
 
     private void performInsertStatementOfParticipance(StatementOfParticipance statement, int calcType, String column) {
@@ -224,33 +224,33 @@ public class IcmtUpdater extends AbstractDataAccess {
                 + "select distinct coid, " + roleID + " \n"
                 + "from tmp.dpContacts \n"
                 + "--where coid is not null \n"
-                + "\n\n" +
-                //Calc Report AP zuordnen
-                "--Calc Report AP zuordnen\n" +
-                "--Eintrag in der CustomerCalcInfo für Ansprechpartner vornehmen \n" +
-                "insert into CallCenterDB.dbo.CustomerCalcInfo(cciCustomerId,cciCalcTypeId,cciValidFrom,cciValidTo,cciInfoTypeId) \n" +
-                "select cuId, " + calcType + " , '" + dataYear + "-01-01', \n" +
-                "'" + dataYear + "-12-31',13 \n" +
-                "from CallCenterDB.dbo.ccCustomer \n" +
-                "left join CallCenterDB.dbo.CustomerCalcInfo on cuId = cciCustomerId and cciInfoTypeId = 13 "
-                +"and Year(cciValidTo) = " + dataYear + " "
-                +"and cciCalcTypeId = " + calcType + " \n" +
-                "where cuIK = " + ik + " \n" +
-                "and cciId is null \n" +
-                "\n" +
-                "declare @y int \n" +
-                "set @y = " + dataYear + " \n" +
-                "\n" +
-                "insert into CallCenterDB.dbo.mapCustomerCalcInfoContact (ccicCustomerCalcInfoId,ccicContactId,ccicValidFrom,ccicValidTo) \n" +
-                "select cciId, a.coid , '" + dataYear + "-01-01', \n" +
-                "'" + dataYear + "-12-31' \n" +
-                "--select * \n" +
-                "from tmp.dpContacts a \n" +
-                "join CallCenterDB.dbo.CustomerCalcInfo  on a.cuId = cciCustomerId and \n" +
-                " cciCalcTypeId = " + calcType + "  and cciInfoTypeId = 13 \n" +
-                "and Year(cciValidTo) = @y \n" +
-                "left join CallCenterDB.dbo.mapCustomerCalcInfoContact on cciId = ccicCustomerCalcInfoId and Year(ccicValidTo) = @y \n" +
-                "where (ccicContactId is null or ccicCustomerCalcInfoId != cciId) and a.coid is not null \n \n"
+                + "\n\n"
+                + //Calc Report AP zuordnen
+                "--Calc Report AP zuordnen\n"
+                + "--Eintrag in der CustomerCalcInfo für Ansprechpartner vornehmen \n"
+                + "insert into CallCenterDB.dbo.CustomerCalcInfo(cciCustomerId,cciCalcTypeId,cciValidFrom,cciValidTo,cciInfoTypeId) \n"
+                + "select cuId, " + calcType + " , '" + dataYear + "-01-01', \n"
+                + "'" + dataYear + "-12-31',13 \n"
+                + "from CallCenterDB.dbo.ccCustomer \n"
+                + "left join CallCenterDB.dbo.CustomerCalcInfo on cuId = cciCustomerId and cciInfoTypeId = 13 "
+                + "and Year(cciValidTo) = " + dataYear + " "
+                + "and cciCalcTypeId = " + calcType + " \n"
+                + "where cuIK = " + ik + " \n"
+                + "and cciId is null \n"
+                + "\n"
+                + "declare @y int \n"
+                + "set @y = " + dataYear + " \n"
+                + "\n"
+                + "insert into CallCenterDB.dbo.mapCustomerCalcInfoContact (ccicCustomerCalcInfoId,ccicContactId,ccicValidFrom,ccicValidTo) \n"
+                + "select cciId, a.coid , '" + dataYear + "-01-01', \n"
+                + "'" + dataYear + "-12-31' \n"
+                + "--select * \n"
+                + "from tmp.dpContacts a \n"
+                + "join CallCenterDB.dbo.CustomerCalcInfo  on a.cuId = cciCustomerId and \n"
+                + " cciCalcTypeId = " + calcType + "  and cciInfoTypeId = 13 \n"
+                + "and Year(cciValidTo) = @y \n"
+                + "left join CallCenterDB.dbo.mapCustomerCalcInfoContact on cciId = ccicCustomerCalcInfoId and Year(ccicValidTo) = @y \n"
+                + "where (ccicContactId is null or ccicCustomerCalcInfoId != cciId) and a.coid is not null \n \n"
                 //Prio setzen
                 // todo: remove prio
                 + "update a \n"
@@ -266,7 +266,7 @@ public class IcmtUpdater extends AbstractDataAccess {
         Query query = getEntityManager().createNativeQuery(sql);
         query.executeUpdate();
     }
-    
+
     private void performInsertUpdateContactRoleICMTConsultant(StatementOfParticipance statement, int roleID) {
         int ik = statement.getIk();
         int dataYear = statement.getDataYear();
@@ -331,6 +331,21 @@ public class IcmtUpdater extends AbstractDataAccess {
                 + "\n\n"
                 //Temp Tabelle löschen
                 + "delete from tmp.dpContacts \n";
+
+        Query query = getEntityManager().createNativeQuery(sql);
+        query.executeUpdate();
+    }
+
+    public void saveObligateInvCalc(StatementOfParticipance _statement) {
+        String sql = "insert into CallCenterDB.dbo.CustomerCalcInfo "
+                + "(cciCustomerId, cciValidFrom, cciValidTo, cciCalcTypeId, cciSubCalcTypeId, cciInfoTypeId, cciDate) \n"
+                + "select cuId, '" + _statement.getDataYear() + "-01-01', "
+                + "'" + _statement.getDataYear() + "-12-31', 4,"
+                + "null, 3, null \n"
+                + "from calc.StatementOfParticipance \n"
+                + "join CallCenterDB.dbo.ccCustomer on sopIk = cuik \n"
+                + "left join CallCenterDB.dbo.CustomerCalcInfo on cuId = cciCustomerId and cciCalcTypeId = 4 \n"
+                + "and cciInfoTypeId = 3 and Year(cciValidTo) = " + _statement.getDataYear() + " \n";
 
         Query query = getEntityManager().createNativeQuery(sql);
         query.executeUpdate();

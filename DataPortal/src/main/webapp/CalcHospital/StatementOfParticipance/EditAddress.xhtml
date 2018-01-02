@@ -26,7 +26,7 @@
                     <h:panelGrid columns="2">
                     <inek:BooleanRadioButton label="#{msg.lblStatementDrg}" 
                                              value="#{editStatementOfParticipance.statement.drgCalc}" 
-                                             renderElement=":sop:contact"
+                                             renderElement="@form"
                                              readonly="#{editStatementOfParticipance.readOnly or editStatementOfParticipance.enableDrgCalc}"/>
                     
                     <div jsf:rendered="#{!editStatementOfParticipance.statement.obligatoryFollowingYears and editStatementOfParticipance.obligatorDrg}">
@@ -49,7 +49,7 @@
                       <h:panelGrid columns="2">
                         <inek:BooleanRadioButton label="#{msg.lblStatementPepp}" 
                                                  value="#{editStatementOfParticipance.statement.psyCalc}" 
-                                                 renderElement=":sop:contact"
+                                                 renderElement="@form"
                                                  readonly="#{editStatementOfParticipance.readOnly or editStatementOfParticipance.enablePsyCalc}"/>
                         <div jsf:rendered="#{!editStatementOfParticipance.statement.obligatoryFollowingYears and editStatementOfParticipance.obligatorPsy}">
                         <h:outputLabel value="Das Krankenhaus wird eine "/>
@@ -70,21 +70,21 @@
                 <div class="inputPart">
                     <inek:BooleanRadioButton label="#{msg.lblStatementInv}" 
                                              value="#{editStatementOfParticipance.statement.invCalc}" 
-                                             renderElement=":sop:contact"
+                                             renderElement="@form"
                                              readonly="#{editStatementOfParticipance.readOnly or editStatementOfParticipance.enableInvCalc}"/>
                 </div>
 
                 <div class="inputPart">
                     <inek:BooleanRadioButton label="#{msg.lblStatementTpg}" 
                                              value="#{editStatementOfParticipance.statement.tpgCalc}" 
-                                             renderElement=":sop:contact"
+                                             renderElement="@form"
                                              readonly="#{editStatementOfParticipance.readOnly}"/>
                 </div>
 
                 <div class="inputPart">
                     <inek:BooleanRadioButton label="#{msg.lblStatementObd}" 
                                              value="#{editStatementOfParticipance.statement.obdCalc}" 
-                                             renderElement=":sop:contact"
+                                             renderElement="@form"
                                              readonly="#{editStatementOfParticipance.readOnly}"/>
                 </div>
 
@@ -134,7 +134,8 @@
                                                  renderElement="@form"/>
                     </div>
 
-                    <calc:CalcContactTable value="#{editStatementOfParticipance.consultants}" 
+                    <calc:CalcContactTable id="consultant"
+                                           value="#{editStatementOfParticipance.consultants}" 
                                            readonly="#{editStatementOfParticipance.readOnly or !editStatementOfParticipance.statement.consultantSendMail}"
                                            allowDrg="#{editStatementOfParticipance.statement.drgCalc}"
                                            allowPsy="#{editStatementOfParticipance.statement.psyCalc}"
