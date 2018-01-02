@@ -16,7 +16,7 @@ import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.calc.CalcHospitalInfo;
 import org.inek.dataportal.facades.calc.CalcFacade;
-import org.inek.dataportal.helper.tree.AccountTreeNode;
+import org.inek.dataportal.helper.tree.entityTree.AccountTreeNode;
 import org.inek.dataportal.helper.tree.CalcHospitalTreeNode;
 import org.inek.portallib.tree.RootNode;
 import org.inek.portallib.tree.TreeNode;

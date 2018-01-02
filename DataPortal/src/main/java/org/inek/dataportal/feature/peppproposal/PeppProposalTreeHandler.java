@@ -30,7 +30,7 @@ import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.cooperation.CooperationRightFacade;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.structures.ProposalInfo;
-import org.inek.dataportal.helper.tree.AccountTreeNode;
+import org.inek.dataportal.helper.tree.entityTree.AccountTreeNode;
 import org.inek.dataportal.helper.tree.ProposalInfoTreeNode;
 import org.inek.portallib.tree.RootNode;
 import org.inek.portallib.tree.TreeNode;

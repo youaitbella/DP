@@ -43,7 +43,9 @@ import org.inek.dataportal.helper.ObjectUtils;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.structures.MessageContainer;
 import org.inek.dataportal.helper.structures.ProposalInfo;
-import org.inek.dataportal.helper.tree.AccountTreeNode;
+import org.inek.dataportal.helper.tree.entityTree.AccountTreeNode;
+import org.inek.dataportal.helper.tree.entityTree.CustomerTreeNode;
+import org.inek.dataportal.helper.tree.entityTree.EntityTreeNode;
 import org.inek.dataportal.helper.tree.ProposalInfoTreeNode;
 import org.inek.portallib.tree.RootNode;
 import org.inek.portallib.tree.TreeNode;
@@ -52,6 +54,7 @@ import org.inek.portallib.tree.YearTreeNode;
 import org.inek.dataportal.mail.Mailer;
 import org.inek.dataportal.utils.DocumentationUtil;
 import org.inek.dataportal.utils.KeyValueLevel;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 @Named @SessionScoped
 public class NubSessionTools implements Serializable, TreeNodeObserver {
@@ -180,6 +183,9 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         if (treeNode instanceof AccountTreeNode) {
             obtainAccountNodeChildren((AccountTreeNode) treeNode, children);
         }
+        if (treeNode instanceof CustomerTreeNode) {
+            obtainCustomerNodeChildren((CustomerTreeNode) treeNode, children);
+        }
     }
 
     private void obtainNubEditNodeChildren(RootNode node, Collection<TreeNode> children) {
@@ -203,7 +209,7 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         for (Account account : accounts) {
             Integer id = account.getId();
             Optional<? extends TreeNode> existing = oldChildren.stream().filter(n -> n.getId() == id).findFirst();
-            AccountTreeNode childNode = existing.isPresent() ? (AccountTreeNode) existing.get() : AccountTreeNode.create(node, account, this);
+            EntityTreeNode childNode = existing.isPresent() ? (EntityTreeNode) existing.get() : AccountTreeNode.create(node, account, this);
             children.add((TreeNode) childNode);
             oldChildren.remove(childNode);
             childNode.expand();  // auto-expand all edit nodes by default
@@ -251,7 +257,7 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         for (Account account : accounts) {
             Integer id = account.getId();
             Optional<? extends TreeNode> existing = oldChildren.stream().filter(n -> n.getId() == id).findFirst();
-            AccountTreeNode childNode = existing.isPresent() ? (AccountTreeNode) existing.get() : AccountTreeNode.create(node, account, this);
+            EntityTreeNode childNode = existing.isPresent() ? (EntityTreeNode) existing.get() : AccountTreeNode.create(node, account, this);
             children.add((TreeNode) childNode);
             oldChildren.remove(childNode);
             if (account == currentUser) {
@@ -262,7 +268,7 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
     }
 
     private void obtainAccountNodeChildren(AccountTreeNode accountTreeNode, Collection<TreeNode> children) {
-        int partnerId = accountTreeNode.getId();
+        int partnerId = accountTreeNode.getAccountId();
         List<ProposalInfo> infos;
         if (accountTreeNode.getParent() instanceof YearTreeNode) {
             int year = accountTreeNode.getParent().getId();
@@ -278,16 +284,16 @@ public class NubSessionTools implements Serializable, TreeNodeObserver {
         }
         accountTreeNode.getChildren().clear();
         for (ProposalInfo info : infos) {
-            if (info == null) {
-                // paranoid check: this should not happen
-                LOGGER.log(Level.WARNING, "info is null");
-            }
             ProposalInfoTreeNode node = ProposalInfoTreeNode.create(accountTreeNode, info, this);
             if (checked.contains(node.getId())) {
                 node.setChecked(true);
             }
             accountTreeNode.getChildren().add(node);
         }
+    }
+
+    private void obtainCustomerNodeChildren(CustomerTreeNode customerTreeNode, Collection<TreeNode> children) {
+        throw new NotImplementedException();
     }
 
     private List<ProposalInfo> obtainNubInfosForRead(int partnerId, int year) {

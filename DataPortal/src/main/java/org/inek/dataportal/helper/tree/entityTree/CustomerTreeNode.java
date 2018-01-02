@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.helper.tree;
+package org.inek.dataportal.helper.tree.entityTree;
 
 import org.inek.portallib.tree.TreeNode;
 import org.inek.portallib.tree.TreeNodeObserver;
@@ -15,31 +15,31 @@ import org.inek.dataportal.entities.icmt.Customer;
  */
 public final class CustomerTreeNode extends EntityTreeNode{
 
+    private final Customer _customer;
 
-    private final String _displayName;
     @Override
     public String getDisplayName(){
-        return _displayName;
+        return "" + _customer.getIK();
     }
     
-    private final String _company;
     @Override
     public String getCompany(){
-        return _company;
+        return _customer.getName();
     }
 
-    private final String _town;
     @Override
     public String getTown(){
-        return _town;
+        return _customer.getTown();
     }
 
+    public int getIk(){
+        return _customer.getIK();
+    }
+    
     private CustomerTreeNode(TreeNode parent, Customer customer) {
         super(parent);
         setId(-customer.getIK());
-        _displayName = "" + customer.getIK();
-        _company = customer.getName();
-        _town = customer.getTown();
+        _customer = customer;
     }
 
     public static CustomerTreeNode create(TreeNode parent, Customer customer, TreeNodeObserver observer) {
