@@ -52,11 +52,8 @@ public class Agreement implements Serializable {
         this._checkboxAgreement = checkboxAgreement;
     }
 
-    public void startBrowser() throws IOException {
+    public void startBrowser(){
         acceptedAgreement();
-        FacesContext fc = FacesContext.getCurrentInstance();
-        fc.getExternalContext()
-                .redirect(((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()).getContextPath());
     }
 
     public String start() {
