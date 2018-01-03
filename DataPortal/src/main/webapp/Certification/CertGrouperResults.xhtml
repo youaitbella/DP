@@ -124,7 +124,7 @@
             </div>
         </h:panelGroup>
         
-        <h:panelGroup rendered="#{not certGrouperResults.hasNotDeliveredData() and not certGrouperResults.hasReceivedEmailToCurrentState()
+        <h:panelGroup rendered="#{not certGrouperResults.hasNotDeliveredData() and not certGrouperResults.renderCertificationFinished()
                                   and not certGrouperResults.renderEnterErrorAndCheckDateFields()}">
             <h2>Grouper-Emails</h2>
             <h:form id="frmMail">
