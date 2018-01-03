@@ -51,10 +51,6 @@ public class Agreement implements Serializable {
 
     public void startBrowser() throws IOException {
         acceptedAgreement();
-        FacesContext fc = FacesContext.getCurrentInstance();
-        fc.getExternalContext()
-                .redirect(((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()).getContextPath());
-
     }
 
     public String start() {
