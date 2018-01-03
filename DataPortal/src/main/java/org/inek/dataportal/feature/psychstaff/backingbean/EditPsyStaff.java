@@ -587,6 +587,9 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     // </editor-fold>
 
     public String determineFactor(StaffProofEffective effective) {
+        if (_staffProof.getExclusionFactId1() > 0){
+            return "";
+        }
         StaffProofAgreed agreed = _staffProof.getStaffProofsAgreed(effective.getPsychType())
                 .stream()
                 .filter(a -> a.getOccupationalCategoryId() == effective.getOccupationalCategoryId())
