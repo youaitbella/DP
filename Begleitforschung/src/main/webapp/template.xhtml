@@ -13,7 +13,6 @@
         <link rel="shortcut icon" type="image/x-icon" href="#{request.contextPath}/javax.faces.resource/Icon/small/InEK.ico.xhtml"/>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="msapplication-config" content="none"/>
-
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
         <ui:remove>
@@ -33,16 +32,16 @@
             <h:outputStylesheet name="css/dataportal.css"/>
             <h:outputScript name="script/clientutils.js"/>
         </ui:remove>
-        <script
-            src="https://code.jquery.com/jquery-3.1.1.min.js"
-            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-            crossorigin="anonymous"></script>
+        
         <link type="text/css" rel="stylesheet" href="#{request.contextPath}/javax.faces.resource/css/dataportal.css.xhtml?version=#{applicationTools.version}" />
         <link type="text/css" rel="stylesheet" href="#{request.contextPath}/javax.faces.resource/css/begleit.css.xhtml?version=#{applicationTools.version}" />
-        <script type="text/javascript" src="#{request.contextPath}/javax.faces.resource/script/clientutils.js.xhtml?version=#{applicationTools.version}"></script>
+        <script type="text/javascript" src="#{request.contextPath}/javax.faces.resource/script/clientutils.js.xhtml?version=#{applicationTools.version}">
+        </script>
+        <h:outputScript library="primefaces" name="jquery/jquery.js" target="head"/>        
     </h:head>
 
     <h:body>
+        #{downloadController.downloadFile(param["dataYear"], param["download"])}
         <h:inputText value="" styleClass="hide"><f:ajax/></h:inputText> <!-- dummy to ensure jsf.js -->
         <div class="noPrint warningWide" jsf:rendered="#{sessionController.elderInternetExplorer}">
             <h5>
@@ -97,7 +96,7 @@
                 <div class="defloat"></div>
             </div>
             <div id="footer">
-                © InEK GmbH - Institut für das Entgeltsystem im Krankenhaus 2010 - 2017 - G-DRG-Begleitforschungsbrowser. <h:panelGroup rendered="#{agreement.hasAgreement()}"> | <a style="background-color: white; color: #23527c !important;" href="/Begleitforschung/agreement.xhtml">Nutzungsbedingungen</a></h:panelGroup>
+                © InEK GmbH - Institut für das Entgeltsystem im Krankenhaus 2010 - 2018 - G-DRG-Begleitforschungsbrowser. <h:panelGroup rendered="#{agreement.hasAgreement()}"> | <a style="background-color: white; color: #23527c !important;" href="/Begleitforschung/agreement.xhtml">Nutzungsbedingungen</a></h:panelGroup>
             </div>
         </div>
         <a href="#top"><div id="to-top"></div></a>
@@ -146,7 +145,7 @@
         </script>
         <noscript><p><img src="http://services.g-drg.de/piwik/piwik.php?idsite=5" style="border:0;" alt="" /></p></noscript>
         <!-- End Piwik Code -->
-        #{downloadController.downloadFile(param["dataYear"], param["download"])}
+        
     </h:body>
 
 </html>

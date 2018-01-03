@@ -112,3 +112,26 @@ td.pinned span {
     font-size: 0.8em !important;
     display: block !important;
 }
+
+.ui-datatable .ui-column-filter {
+    display: block;
+    width: 100%!important;
+    margin: auto;
+}
+
+.ui-datatable .ui-sortable-column-icon {
+    display: inline-block;
+    margin: 0 0 -0 0!important;
+}
+.ui-selectonemenu .ui-selectonemenu-trigger {
+    border-right: 0;
+    border-top: 0;
+    border-bottom: 0;
+    cursor: pointer;
+    width: 30px!important;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 0 3px;
+}

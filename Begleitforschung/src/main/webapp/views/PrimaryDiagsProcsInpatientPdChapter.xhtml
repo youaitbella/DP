@@ -10,8 +10,7 @@ and open the template in the editor.
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
-                xmlns:ace="http://www.icefaces.org/icefaces/components"
-                xmlns:icecore="http://www.icefaces.org/icefaces/core"
+                xmlns:pf="http://primefaces.org/ui"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 >
 
@@ -20,552 +19,507 @@ and open the template in the editor.
         <h1>C-1-1-4a: Vollstationäre Fälle in Hauptabteilungen, nach Hauptdiagnose (Kapitel) ICD-10-GM Version #{param['dataYear']} und Alter, Datenjahr #{param['dataYear']}</h1>
         
         <h:form id="dataTable" styleClass="verticalSpace">
-            <ace:dataTable  id="table"
+            <pf:dataTable  id="table"
                             value="#{entities.getPrimaryDiagsProcsInpatientPdChapter(param['dataYear'])}"
                             var="x"
-                            resizableColumns="true"
-                            scrollHeight="450" scrollable="true"
-                            columnPinningControlsInHeader="true"
-                            styleClass="fixedHeaderTable"
+                            paginator="true" rowsPerPageTemplate="5,10,15" rows="15"
+                            tableStyle="width: auto;"
                           >
-                <ace:column styleClass="data-table-left" id="area" headerText="Kapitel" sortBy="#{x.area}"
-                            filterBy="#{x.area}" filterMatchMode="contains" pinningOrder="#{entities.pinOrder[0]}">
+                <pf:column id="area" headerText="Kapitel" sortBy="#{x.area}"
+                           filterBy="#{x.area}" filterMatchMode="contains" priority="#{entities.pinOrder[0]}">
                     <h:outputText id="areaCell" value="#{x.area}"/>
-                </ace:column>
-                <ace:column styleClass="data-table-left" id="areaName" headerText="Kapitelname" sortBy="#{x.areaName}"
-                            filterBy="#{x.areaName}" filterMatchMode="contains" pinningOrder="#{entities.pinOrder[1]}">
+                </pf:column>
+                <pf:column styleClass="data-table-left" id="areaName" headerText="Kapitelname" sortBy="#{x.areaName}"
+                            filterBy="#{x.areaName}" filterMatchMode="contains" priority="#{entities.pinOrder[1]}">
                     <h:outputText id="areaNameCell" value="#{x.areaName}">
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="numKh" headerText="Fallzahl" sortBy="#{x.num}"
-                            filterBy="#{x.num}" filterMatchMode="contains" pinningOrder="#{entities.pinOrder[2]}">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="numKh" headerText="Fallzahl" sortBy="#{x.num}"
+                            filterBy="#{x.num}" filterMatchMode="contains" priority="#{entities.pinOrder[2]}">
                     <h:outputText id="numKhCell" value="#{x.num}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="losAvg" headerText="mittlere Vwd." sortBy="#{x.losAvg}"
-                            filterBy="#{x.losAvg}" filterMatchMode="contains" pinningOrder="#{entities.pinOrder[3]}">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="losAvg" headerText="mittlere Vwd." sortBy="#{x.losAvg}"
+                            filterBy="#{x.losAvg}" filterMatchMode="contains" priority="#{entities.pinOrder[3]}">
                     <h:outputText id="losAvgCell" value="#{x.losAvg}">
                         <f:convertNumber pattern="###,###,###" minFractionDigits="2"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="losStd" headerText="Stdabw. Vwd." sortBy="#{x.losStd}"
-                            filterBy="#{x.losStd}" filterMatchMode="contains" pinningOrder="#{entities.pinOrder[4]}">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="losStd" headerText="Stdabw. Vwd." sortBy="#{x.losStd}"
+                            filterBy="#{x.losStd}" filterMatchMode="contains" priority="#{entities.pinOrder[4]}">
                     <h:outputText id="losStdCell" value="#{x.losStd}">
                         <f:convertNumber pattern="###,###,###" minFractionDigits="2"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="below1" headerText="unter 1J." sortBy="#{x.below1}"
-                            filterBy="#{x.below1}" filterMatchMode="contains" pinningOrder="#{entities.pinOrder[5]}">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="below1" headerText="unter 1J." sortBy="#{x.below1}"
+                            filterBy="#{x.below1}" filterMatchMode="contains" priority="#{entities.pinOrder[5]}">
                     <h:outputText id="below1Cell" value="#{x.below1}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="below5" headerText="1 bis u. 5J." sortBy="#{x.below5}"
-                            filterBy="#{x.below5}" filterMatchMode="contains" pinningOrder="#{entities.pinOrder[6]}">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="below5" headerText="1 bis u. 5J." sortBy="#{x.below5}"
+                            filterBy="#{x.below5}" filterMatchMode="contains" priority="#{entities.pinOrder[6]}">
                     <h:outputText id="below5Cell" value="#{x.below5}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="below10" headerText="5 bis u. 10J." sortBy="#{x.below10}"
-                            filterBy="#{x.below10}" filterMatchMode="contains" pinningOrder="#{entities.pinOrder[7]}">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="below10" headerText="5 bis u. 10J." sortBy="#{x.below10}"
+                            filterBy="#{x.below10}" filterMatchMode="contains" priority="#{entities.pinOrder[7]}">
                     <h:outputText id="below10Cell" value="#{x.below10}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="below15" headerText="10 bis u. 15J." sortBy="#{x.below15}"
-                            filterBy="#{x.below15}" filterMatchMode="contains" pinningOrder="#{entities.pinOrder[8]}">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="below15" headerText="10 bis u. 15J." sortBy="#{x.below15}"
+                            filterBy="#{x.below15}" filterMatchMode="contains" priority="#{entities.pinOrder[8]}">
                     <h:outputText id="below15Cell" value="#{x.below15}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="below20" headerText="15 bis u. 20J." sortBy="#{x.below20}"
-                            filterBy="#{x.below20}" filterMatchMode="contains" pinningOrder="#{entities.pinOrder[9]}">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="below20" headerText="15 bis u. 20J." sortBy="#{x.below20}"
+                            filterBy="#{x.below20}" filterMatchMode="contains" priority="#{entities.pinOrder[9]}">
                     <h:outputText id="below20Cell" value="#{x.below20}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="below25" headerText="20 bis u. 25J." sortBy="#{x.below25}"
-                            filterBy="#{x.below25}" filterMatchMode="contains" pinningOrder="#{entities.pinOrder[10]}">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="below25" headerText="20 bis u. 25J." sortBy="#{x.below25}"
+                            filterBy="#{x.below25}" filterMatchMode="contains" priority="#{entities.pinOrder[10]}">
                     <h:outputText id="below25Cell" value="#{x.below25}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="below30" headerText="25 bis u. 30J." sortBy="#{x.below30}"
-                            filterBy="#{x.below30}" filterMatchMode="contains" pinningOrder="#{entities.pinOrder[11]}">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="below30" headerText="25 bis u. 30J." sortBy="#{x.below30}"
+                            filterBy="#{x.below30}" filterMatchMode="contains" priority="#{entities.pinOrder[11]}">
                     <h:outputText id="below30Cell" value="#{x.below30}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="below35" headerText="30 bis u. 35J." sortBy="#{x.below35}"
-                            filterBy="#{x.below35}" filterMatchMode="contains" pinningOrder="#{entities.pinOrder[12]}">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="below35" headerText="30 bis u. 35J." sortBy="#{x.below35}"
+                            filterBy="#{x.below35}" filterMatchMode="contains" priority="#{entities.pinOrder[12]}">
                     <h:outputText id="below35Cell" value="#{x.below35}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="below40" headerText="35 bis u. 40J." sortBy="#{x.below40}"
-                            filterBy="#{x.below40}" filterMatchMode="contains" pinningOrder="#{entities.pinOrder[13]}">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="below40" headerText="35 bis u. 40J." sortBy="#{x.below40}"
+                            filterBy="#{x.below40}" filterMatchMode="contains" priority="#{entities.pinOrder[13]}">
                     <h:outputText id="below40Cell" value="#{x.below40}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="below45" headerText="40 bis u. 45J." sortBy="#{x.below45}"
-                            filterBy="#{x.below45}" filterMatchMode="contains" pinningOrder="#{entities.pinOrder[14]}">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="below45" headerText="40 bis u. 45J." sortBy="#{x.below45}"
+                            filterBy="#{x.below45}" filterMatchMode="contains" priority="#{entities.pinOrder[14]}">
                     <h:outputText id="below45Cell" value="#{x.below45}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="below50" headerText="45 bis u. 50J." sortBy="#{x.below50}"
-                            filterBy="#{x.below50}" filterMatchMode="contains" pinningOrder="#{entities.pinOrder[15]}">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="below50" headerText="45 bis u. 50J." sortBy="#{x.below50}"
+                            filterBy="#{x.below50}" filterMatchMode="contains" priority="#{entities.pinOrder[15]}">
                     <h:outputText id="below50Cell" value="#{x.below50}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="below55" headerText="50 bis u. 55J." sortBy="#{x.below55}"
-                            filterBy="#{x.below55}" filterMatchMode="contains" pinningOrder="#{entities.pinOrder[16]}">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="below55" headerText="50 bis u. 55J." sortBy="#{x.below55}"
+                            filterBy="#{x.below55}" filterMatchMode="contains" priority="#{entities.pinOrder[16]}">
                     <h:outputText id="below55Cell" value="#{x.below55}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="below60" headerText="55 bis u. 60J." sortBy="#{x.below60}"
-                            filterBy="#{x.below60}" filterMatchMode="contains" pinningOrder="#{entities.pinOrder[17]}">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="below60" headerText="55 bis u. 60J." sortBy="#{x.below60}"
+                            filterBy="#{x.below60}" filterMatchMode="contains" priority="#{entities.pinOrder[17]}">
                     <h:outputText id="below60Cell" value="#{x.below60}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="below65" headerText="60 bis u. 65J." sortBy="#{x.below65}"
-                            filterBy="#{x.below65}" filterMatchMode="contains" pinningOrder="#{entities.pinOrder[18]}">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="below65" headerText="60 bis u. 65J." sortBy="#{x.below65}"
+                            filterBy="#{x.below65}" filterMatchMode="contains" priority="#{entities.pinOrder[18]}">
                     <h:outputText id="below65Cell" value="#{x.below65}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="below70" headerText="65 bis u. 70J." sortBy="#{x.below70}"
-                            filterBy="#{x.below70}" filterMatchMode="contains" pinningOrder="#{entities.pinOrder[19]}">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="below70" headerText="65 bis u. 70J." sortBy="#{x.below70}"
+                            filterBy="#{x.below70}" filterMatchMode="contains" priority="#{entities.pinOrder[19]}">
                     <h:outputText id="below70Cell" value="#{x.below70}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="below75" headerText="70 bis u. 75J." sortBy="#{x.below75}"
-                            filterBy="#{x.below75}" filterMatchMode="contains" pinningOrder="#{entities.pinOrder[20]}">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="below75" headerText="70 bis u. 75J." sortBy="#{x.below75}"
+                            filterBy="#{x.below75}" filterMatchMode="contains" priority="#{entities.pinOrder[20]}">
                     <h:outputText id="below75Cell" value="#{x.below75}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="below80" headerText="75 bis u. 80J." sortBy="#{x.below80}"
-                            filterBy="#{x.below80}" filterMatchMode="contains" pinningOrder="#{entities.pinOrder[21]}">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="below80" headerText="75 bis u. 80J." sortBy="#{x.below80}"
+                            filterBy="#{x.below80}" filterMatchMode="contains" priority="#{entities.pinOrder[21]}">
                     <h:outputText id="below80Cell" value="#{x.below80}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="below85" headerText="80 bis u. 85J." sortBy="#{x.below85}"
-                            filterBy="#{x.below85}" filterMatchMode="contains" pinningOrder="#{entities.pinOrder[22]}">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="below85" headerText="80 bis u. 85J." sortBy="#{x.below85}"
+                            filterBy="#{x.below85}" filterMatchMode="contains" priority="#{entities.pinOrder[22]}">
                     <h:outputText id="below85Cell" value="#{x.below85}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="below90" headerText="85 bis u. 90J." sortBy="#{x.below90}"
-                            filterBy="#{x.below90}" filterMatchMode="contains" pinningOrder="#{entities.pinOrder[23]}">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="below90" headerText="85 bis u. 90J." sortBy="#{x.below90}"
+                            filterBy="#{x.below90}" filterMatchMode="contains" priority="#{entities.pinOrder[23]}">
                     <h:outputText id="below90Cell" value="#{x.below90}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="above90" headerText="90J. u. älter" sortBy="#{x.above90}"
-                            filterBy="#{x.above90}" filterMatchMode="contains" pinningOrder="#{entities.pinOrder[24]}">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="above90" headerText="90J. u. älter" sortBy="#{x.above90}"
+                            filterBy="#{x.above90}" filterMatchMode="contains" priority="#{entities.pinOrder[24]}">
                     <h:outputText id="above90Cell" value="#{x.above90}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="fractionBelow1" headerText="Ant. unt. 1J." sortBy="#{x.fractionBelow1}"
-                            filterBy="#{x.fractionBelow1}" filterMatchMode="contains" pinningOrder="#{entities.pinOrder[25]}">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="fractionBelow1" headerText="Ant. unt. 1J." sortBy="#{x.fractionBelow1}"
+                            filterBy="#{x.fractionBelow1}" filterMatchMode="contains" priority="#{entities.pinOrder[25]}">
                     <h:outputText id="fractionBelow1Cell" value="#{x.fractionBelow1}">
                         <f:convertNumber type="percent" minFractionDigits="2"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="fractionBelow5" headerText="Ant. 1-5J." sortBy="#{x.fractionBelow5}"
-                            filterBy="#{x.fractionBelow5}" filterMatchMode="contains" pinningOrder="#{entities.pinOrder[26]}">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="fractionBelow5" headerText="Ant. 1-5J." sortBy="#{x.fractionBelow5}"
+                            filterBy="#{x.fractionBelow5}" filterMatchMode="contains" priority="#{entities.pinOrder[26]}">
                     <h:outputText id="fractionBelow5Cell" value="#{x.fractionBelow5}">
                         <f:convertNumber type="percent" minFractionDigits="2"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="fractionBelow10" headerText="Ant. 5-10J." sortBy="#{x.fractionBelow10}"
-                            filterBy="#{x.fractionBelow10}" filterMatchMode="contains" pinningOrder="#{entities.pinOrder[27]}">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="fractionBelow10" headerText="Ant. 5-10J." sortBy="#{x.fractionBelow10}"
+                            filterBy="#{x.fractionBelow10}" filterMatchMode="contains" priority="#{entities.pinOrder[27]}">
                     <h:outputText id="fractionBelow10Cell" value="#{x.fractionBelow10}">
                         <f:convertNumber type="percent" minFractionDigits="2"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="fractionBelow15" headerText="Ant. 10-15J." sortBy="#{x.fractionBelow15}"
-                            filterBy="#{x.fractionBelow15}" filterMatchMode="contains" pinningOrder="#{entities.pinOrder[28]}">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="fractionBelow15" headerText="Ant. 10-15J." sortBy="#{x.fractionBelow15}"
+                            filterBy="#{x.fractionBelow15}" filterMatchMode="contains" priority="#{entities.pinOrder[28]}">
                     <h:outputText id="fractionBelow15Cell" value="#{x.fractionBelow15}">
                         <f:convertNumber type="percent" minFractionDigits="2"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="fractionBelow20" headerText="Ant. 15-20J." sortBy="#{x.fractionBelow20}"
-                            filterBy="#{x.fractionBelow20}" filterMatchMode="contains" pinningOrder="#{entities.pinOrder[29]}">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="fractionBelow20" headerText="Ant. 15-20J." sortBy="#{x.fractionBelow20}"
+                            filterBy="#{x.fractionBelow20}" filterMatchMode="contains" priority="#{entities.pinOrder[29]}">
                     <h:outputText id="fractionBelow20Cell" value="#{x.fractionBelow20}">
                         <f:convertNumber type="percent" minFractionDigits="2"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="fractionBelow25" headerText="Ant. 20-25J." sortBy="#{x.fractionBelow25}"
-                            filterBy="#{x.fractionBelow25}" filterMatchMode="contains" pinningOrder="#{entities.pinOrder[30]}">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="fractionBelow25" headerText="Ant. 20-25J." sortBy="#{x.fractionBelow25}"
+                            filterBy="#{x.fractionBelow25}" filterMatchMode="contains" priority="#{entities.pinOrder[30]}">
                     <h:outputText id="fractionBelow25Cell" value="#{x.fractionBelow25}">
                         <f:convertNumber type="percent" minFractionDigits="2"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="fractionBelow30" headerText="Ant. 25-30J." sortBy="#{x.fractionBelow30}"
-                            filterBy="#{x.fractionBelow30}" filterMatchMode="contains" pinningOrder="#{entities.pinOrder[31]}">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="fractionBelow30" headerText="Ant. 25-30J." sortBy="#{x.fractionBelow30}"
+                            filterBy="#{x.fractionBelow30}" filterMatchMode="contains" priority="#{entities.pinOrder[31]}">
                     <h:outputText id="fractionBelow30Cell" value="#{x.fractionBelow30}">
                         <f:convertNumber type="percent" minFractionDigits="2"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="fractionBelow35" headerText="Ant. 30-35J." sortBy="#{x.fractionBelow35}"
-                            filterBy="#{x.fractionBelow5}" filterMatchMode="contains" pinningOrder="#{entities.pinOrder[32]}">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="fractionBelow35" headerText="Ant. 30-35J." sortBy="#{x.fractionBelow35}"
+                            filterBy="#{x.fractionBelow5}" filterMatchMode="contains" priority="#{entities.pinOrder[32]}">
                     <h:outputText id="fractionBelow35Cell" value="#{x.fractionBelow35}">
                         <f:convertNumber type="percent" minFractionDigits="2"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="fractionBelow40" headerText="Ant. 35-40J." sortBy="#{x.fractionBelow40}"
-                            filterBy="#{x.fractionBelow40}" filterMatchMode="contains" pinningOrder="#{entities.pinOrder[33]}">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="fractionBelow40" headerText="Ant. 35-40J." sortBy="#{x.fractionBelow40}"
+                            filterBy="#{x.fractionBelow40}" filterMatchMode="contains" priority="#{entities.pinOrder[33]}">
                     <h:outputText id="fractionBelow40Cell" value="#{x.fractionBelow40}">
                         <f:convertNumber type="percent" minFractionDigits="2"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="fractionBelow45" headerText="Ant. 40-45J." sortBy="#{x.fractionBelow45}"
-                            filterBy="#{x.fractionBelow45}" filterMatchMode="contains" pinningOrder="#{entities.pinOrder[34]}">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="fractionBelow45" headerText="Ant. 40-45J." sortBy="#{x.fractionBelow45}"
+                            filterBy="#{x.fractionBelow45}" filterMatchMode="contains" priority="#{entities.pinOrder[34]}">
                     <h:outputText id="fractionBelow45Cell" value="#{x.fractionBelow45}">
                         <f:convertNumber type="percent" minFractionDigits="2"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="fractionBelow50" headerText="Ant. 45-50J." sortBy="#{x.fractionBelow50}"
-                            filterBy="#{x.fractionBelow50}" filterMatchMode="contains" pinningOrder="#{entities.pinOrder[35]}">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="fractionBelow50" headerText="Ant. 45-50J." sortBy="#{x.fractionBelow50}"
+                            filterBy="#{x.fractionBelow50}" filterMatchMode="contains" priority="#{entities.pinOrder[35]}">
                     <h:outputText id="fractionBelow50Cell" value="#{x.fractionBelow50}">
                         <f:convertNumber type="percent" minFractionDigits="2"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="fractionBelow55" headerText="Ant. 50-55J." sortBy="#{x.fractionBelow55}"
-                            filterBy="#{x.fractionBelow55}" filterMatchMode="contains" pinningOrder="#{entities.pinOrder[36]}">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="fractionBelow55" headerText="Ant. 50-55J." sortBy="#{x.fractionBelow55}"
+                            filterBy="#{x.fractionBelow55}" filterMatchMode="contains" priority="#{entities.pinOrder[36]}">
                     <h:outputText id="fractionBelow55Cell" value="#{x.fractionBelow55}">
                         <f:convertNumber type="percent" minFractionDigits="2"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="fractionBelow60" headerText="Ant. 55-60J." sortBy="#{x.fractionBelow60}"
-                            filterBy="#{x.fractionBelow60}" filterMatchMode="contains" pinningOrder="#{entities.pinOrder[37]}">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="fractionBelow60" headerText="Ant. 55-60J." sortBy="#{x.fractionBelow60}"
+                            filterBy="#{x.fractionBelow60}" filterMatchMode="contains" priority="#{entities.pinOrder[37]}">
                     <h:outputText id="fractionBelow60Cell" value="#{x.fractionBelow60}">
                         <f:convertNumber type="percent" minFractionDigits="2"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="fractionBelow65" headerText="Ant. 60-65J." sortBy="#{x.fractionBelow65}"
-                            filterBy="#{x.fractionBelow65}" filterMatchMode="contains" pinningOrder="#{entities.pinOrder[38]}">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="fractionBelow65" headerText="Ant. 60-65J." sortBy="#{x.fractionBelow65}"
+                            filterBy="#{x.fractionBelow65}" filterMatchMode="contains" priority="#{entities.pinOrder[38]}">
                     <h:outputText id="fractionBelow65Cell" value="#{x.fractionBelow65}">
                         <f:convertNumber type="percent" minFractionDigits="2"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="fractionBelow70" headerText="Ant. 60-65J." sortBy="#{x.fractionBelow70}"
-                            filterBy="#{x.fractionBelow70}" filterMatchMode="contains" pinningOrder="#{entities.pinOrder[39]}">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="fractionBelow70" headerText="Ant. 60-65J." sortBy="#{x.fractionBelow70}"
+                            filterBy="#{x.fractionBelow70}" filterMatchMode="contains" priority="#{entities.pinOrder[39]}">
                     <h:outputText id="fractionBelow70Cell" value="#{x.fractionBelow70}">
                         <f:convertNumber type="percent" minFractionDigits="2"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="fractionBelow75" headerText="Ant. 70-75J." sortBy="#{x.fractionBelow75}"
-                            filterBy="#{x.fractionBelow75}" filterMatchMode="contains" pinningOrder="#{entities.pinOrder[40]}">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="fractionBelow75" headerText="Ant. 70-75J." sortBy="#{x.fractionBelow75}"
+                            filterBy="#{x.fractionBelow75}" filterMatchMode="contains" priority="#{entities.pinOrder[40]}">
                     <h:outputText id="fractionBelow75Cell" value="#{x.fractionBelow75}">
                         <f:convertNumber type="percent" minFractionDigits="2"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="fractionBelow80" headerText="Ant. 75-80J." sortBy="#{x.fractionBelow80}"
-                            filterBy="#{x.fractionBelow80}" filterMatchMode="contains" pinningOrder="#{entities.pinOrder[41]}">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="fractionBelow80" headerText="Ant. 75-80J." sortBy="#{x.fractionBelow80}"
+                            filterBy="#{x.fractionBelow80}" filterMatchMode="contains" priority="#{entities.pinOrder[41]}">
                     <h:outputText id="fractionBelow80Cell" value="#{x.fractionBelow80}">
                         <f:convertNumber type="percent" minFractionDigits="2"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="fractionBelow85" headerText="Ant. 80-85J." sortBy="#{x.fractionBelow85}"
-                            filterBy="#{x.fractionBelow85}" filterMatchMode="contains" pinningOrder="#{entities.pinOrder[42]}">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="fractionBelow85" headerText="Ant. 80-85J." sortBy="#{x.fractionBelow85}"
+                            filterBy="#{x.fractionBelow85}" filterMatchMode="contains" priority="#{entities.pinOrder[42]}">
                     <h:outputText id="fractionBelow85Cell" value="#{x.fractionBelow85}">
                         <f:convertNumber type="percent" minFractionDigits="2"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="fractionBelow90" headerText="Ant. 85-90J." sortBy="#{x.fractionBelow90}"
-                            filterBy="#{x.fractionBelow90}" filterMatchMode="contains" pinningOrder="#{entities.pinOrder[43]}">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="fractionBelow90" headerText="Ant. 85-90J." sortBy="#{x.fractionBelow90}"
+                            filterBy="#{x.fractionBelow90}" filterMatchMode="contains" priority="#{entities.pinOrder[43]}">
                     <h:outputText id="fractionBelow90Cell" value="#{x.fractionBelow90}">
                         <f:convertNumber type="percent" minFractionDigits="2"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="fractionAbove90" headerText="Ant. 90J.+" sortBy="#{x.fractionAbove90}"
-                            filterBy="#{x.fractionAbove90}" filterMatchMode="contains" pinningOrder="#{entities.pinOrder[44]}">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="fractionAbove90" headerText="Ant. 90J.+" sortBy="#{x.fractionAbove90}"
+                            filterBy="#{x.fractionAbove90}" filterMatchMode="contains" priority="#{entities.pinOrder[44]}">
                     <h:outputText id="fractionAbove90Cell" value="#{x.fractionAbove90}">
                         <f:convertNumber type="percent" minFractionDigits="2"/>
                     </h:outputText>
-                </ace:column>
-            </ace:dataTable>
+                </pf:column>
+            </pf:dataTable>
         </h:form>
-        <h3 class="text-center">Summentabelle</h3>
+        <h3 class="text-left">Summentabelle</h3>
         <h:form id="data-table-sum">
-            <ace:dataTable  id="c113-table-sum"
+            <pf:dataTable  id="c113-table-sum"
                             value="#{entities.getPrimaryDiagsProcsInpatientPdSum(param['dataYear'])}"
                                 var="x"
                                 resizableColumns="true"
                                 scrollable="true"
                                 scrollHeight="42"
-                                style="padding-left: 268px;"
+                                tableStyle="width: auto;"
                               >
-                <ace:column styleClass="data-table-right" id="numKh" headerText="Fallzahl" sortBy="#{x.num}"
-                            filterBy="#{x.num}" filterMatchMode="contains">
+                <pf:column styleClass="data-table-right" id="numKh" headerText="Fallzahl" sortBy="#{x.num}">
                     <h:outputText id="numKhCell" value="#{x.num}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="losAvg" headerText="mittlere Vwd." sortBy="#{x.losAvg}"
-                            filterBy="#{x.losAvg}" filterMatchMode="contains">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="losAvg" headerText="mittlere Vwd." sortBy="#{x.losAvg}">
                     <h:outputText id="losAvgCell" value="#{x.losAvg}">
                         <f:convertNumber pattern="###,###,###" minFractionDigits="2"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="losStd" headerText="Stdabw. Vwd." sortBy="#{x.losStd}"
-                            filterBy="#{x.losStd}" filterMatchMode="contains">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="losStd" headerText="Stdabw. Vwd." sortBy="#{x.losStd}">
                     <h:outputText id="losStdCell" value="#{x.losStd}">
                         <f:convertNumber pattern="###,###,###" minFractionDigits="2"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="below1" headerText="unter 1J." sortBy="#{x.below1}"
-                            filterBy="#{x.below1}" filterMatchMode="contains">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="below1" headerText="unter 1J." sortBy="#{x.below1}">
                     <h:outputText id="below1Cell" value="#{x.below1}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="below5" headerText="1 bis u. 5J." sortBy="#{x.below5}"
-                            filterBy="#{x.below5}" filterMatchMode="contains">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="below5" headerText="1 bis u. 5J." sortBy="#{x.below5}">
                     <h:outputText id="below5Cell" value="#{x.below5}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="below10" headerText="5 bis u. 10J." sortBy="#{x.below10}"
-                            filterBy="#{x.below10}" filterMatchMode="contains">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="below10" headerText="5 bis u. 10J." sortBy="#{x.below10}">
                     <h:outputText id="below10Cell" value="#{x.below10}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="below15" headerText="10 bis u. 15J." sortBy="#{x.below15}"
-                            filterBy="#{x.below15}" filterMatchMode="contains">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="below15" headerText="10 bis u. 15J." sortBy="#{x.below15}">
                     <h:outputText id="below15Cell" value="#{x.below15}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="below20" headerText="15 bis u. 20J." sortBy="#{x.below20}"
-                            filterBy="#{x.below20}" filterMatchMode="contains">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="below20" headerText="15 bis u. 20J." sortBy="#{x.below20}">
                     <h:outputText id="below20Cell" value="#{x.below20}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="below25" headerText="20 bis u. 25J." sortBy="#{x.below25}"
-                            filterBy="#{x.below25}" filterMatchMode="contains">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="below25" headerText="20 bis u. 25J." sortBy="#{x.below25}">
                     <h:outputText id="below25Cell" value="#{x.below25}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="below30" headerText="25 bis u. 30J." sortBy="#{x.below30}"
-                            filterBy="#{x.below30}" filterMatchMode="contains">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="below30" headerText="25 bis u. 30J." sortBy="#{x.below30}">
                     <h:outputText id="below30Cell" value="#{x.below30}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="below35" headerText="30 bis u. 35J." sortBy="#{x.below35}"
-                            filterBy="#{x.below35}" filterMatchMode="contains">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="below35" headerText="30 bis u. 35J." sortBy="#{x.below35}">
                     <h:outputText id="below35Cell" value="#{x.below35}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="below40" headerText="35 bis u. 40J." sortBy="#{x.below40}"
-                            filterBy="#{x.below40}" filterMatchMode="contains">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="below40" headerText="35 bis u. 40J." sortBy="#{x.below40}">
                     <h:outputText id="below40Cell" value="#{x.below40}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="below45" headerText="40 bis u. 45J." sortBy="#{x.below45}"
-                            filterBy="#{x.below45}" filterMatchMode="contains">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="below45" headerText="40 bis u. 45J." sortBy="#{x.below45}">
                     <h:outputText id="below45Cell" value="#{x.below45}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="below50" headerText="45 bis u. 50J." sortBy="#{x.below50}"
-                            filterBy="#{x.below50}" filterMatchMode="contains">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="below50" headerText="45 bis u. 50J." sortBy="#{x.below50}">
                     <h:outputText id="below50Cell" value="#{x.below50}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="below55" headerText="50 bis u. 55J." sortBy="#{x.below55}"
-                            filterBy="#{x.below55}" filterMatchMode="contains">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="below55" headerText="50 bis u. 55J." sortBy="#{x.below55}">
                     <h:outputText id="below55Cell" value="#{x.below55}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="below60" headerText="55 bis u. 60J." sortBy="#{x.below60}"
-                            filterBy="#{x.below60}" filterMatchMode="contains">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="below60" headerText="55 bis u. 60J." sortBy="#{x.below60}">
                     <h:outputText id="below60Cell" value="#{x.below60}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="below65" headerText="60 bis u. 65J." sortBy="#{x.below65}"
-                            filterBy="#{x.below65}" filterMatchMode="contains">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="below65" headerText="60 bis u. 65J." sortBy="#{x.below65}">
                     <h:outputText id="below65Cell" value="#{x.below65}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="below70" headerText="65 bis u. 70J." sortBy="#{x.below70}"
-                            filterBy="#{x.below70}" filterMatchMode="contains">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="below70" headerText="65 bis u. 70J." sortBy="#{x.below70}">
                     <h:outputText id="below70Cell" value="#{x.below70}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="below75" headerText="70 bis u. 75J." sortBy="#{x.below75}"
-                            filterBy="#{x.below75}" filterMatchMode="contains">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="below75" headerText="70 bis u. 75J." sortBy="#{x.below75}">
                     <h:outputText id="below75Cell" value="#{x.below75}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="below80" headerText="75 bis u. 80J." sortBy="#{x.below80}"
-                            filterBy="#{x.below80}" filterMatchMode="contains">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="below80" headerText="75 bis u. 80J." sortBy="#{x.below80}">
                     <h:outputText id="below80Cell" value="#{x.below80}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="below85" headerText="80 bis u. 85J." sortBy="#{x.below85}"
-                            filterBy="#{x.below85}" filterMatchMode="contains">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="below85" headerText="80 bis u. 85J." sortBy="#{x.below85}">
                     <h:outputText id="below85Cell" value="#{x.below85}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="below90" headerText="85 bis u. 90J." sortBy="#{x.below90}"
-                            filterBy="#{x.below90}" filterMatchMode="contains">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="below90" headerText="85 bis u. 90J." sortBy="#{x.below90}">
                     <h:outputText id="below90Cell" value="#{x.below90}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="above90" headerText="90J. u. älter" sortBy="#{x.above90}"
-                            filterBy="#{x.above90}" filterMatchMode="contains">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="above90" headerText="90J. u. älter" sortBy="#{x.above90}">
                     <h:outputText id="above90Cell" value="#{x.above90}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="fractionBelow1" headerText="Ant. unt. 1J." sortBy="#{x.fractionBelow1}"
-                            filterBy="#{x.fractionBelow1}" filterMatchMode="contains">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="fractionBelow1" headerText="Ant. unt. 1J." sortBy="#{x.fractionBelow1}">
                     <h:outputText id="fractionBelow1Cell" value="#{x.fractionBelow1}">
                         <f:convertNumber type="percent" minFractionDigits="2"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="fractionBelow5" headerText="Ant. 1-5J." sortBy="#{x.fractionBelow5}"
-                            filterBy="#{x.fractionBelow5}" filterMatchMode="contains">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="fractionBelow5" headerText="Ant. 1-5J." sortBy="#{x.fractionBelow5}">
                     <h:outputText id="fractionBelow5Cell" value="#{x.fractionBelow5}">
                         <f:convertNumber type="percent" minFractionDigits="2"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="fractionBelow10" headerText="Ant. 5-10J." sortBy="#{x.fractionBelow10}"
-                            filterBy="#{x.fractionBelow10}" filterMatchMode="contains">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="fractionBelow10" headerText="Ant. 5-10J." sortBy="#{x.fractionBelow10}">
                     <h:outputText id="fractionBelow10Cell" value="#{x.fractionBelow10}">
                         <f:convertNumber type="percent" minFractionDigits="2"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="fractionBelow15" headerText="Ant. 10-15J." sortBy="#{x.fractionBelow15}"
-                            filterBy="#{x.fractionBelow15}" filterMatchMode="contains">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="fractionBelow15" headerText="Ant. 10-15J." sortBy="#{x.fractionBelow15}">
                     <h:outputText id="fractionBelow15Cell" value="#{x.fractionBelow15}">
                         <f:convertNumber type="percent" minFractionDigits="2"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="fractionBelow20" headerText="Ant. 15-20J." sortBy="#{x.fractionBelow20}"
-                            filterBy="#{x.fractionBelow20}" filterMatchMode="contains">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="fractionBelow20" headerText="Ant. 15-20J." sortBy="#{x.fractionBelow20}">
                     <h:outputText id="fractionBelow20Cell" value="#{x.fractionBelow20}">
                         <f:convertNumber type="percent" minFractionDigits="2"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="fractionBelow25" headerText="Ant. 20-25J." sortBy="#{x.fractionBelow25}"
-                            filterBy="#{x.fractionBelow25}" filterMatchMode="contains">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="fractionBelow25" headerText="Ant. 20-25J." sortBy="#{x.fractionBelow25}">
                     <h:outputText id="fractionBelow25Cell" value="#{x.fractionBelow25}">
                         <f:convertNumber type="percent" minFractionDigits="2"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="fractionBelow30" headerText="Ant. 25-30J." sortBy="#{x.fractionBelow30}"
-                            filterBy="#{x.fractionBelow30}" filterMatchMode="contains">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="fractionBelow30" headerText="Ant. 25-30J." sortBy="#{x.fractionBelow30}">
                     <h:outputText id="fractionBelow30Cell" value="#{x.fractionBelow30}">
                         <f:convertNumber type="percent" minFractionDigits="2"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="fractionBelow35" headerText="Ant. 30-35J." sortBy="#{x.fractionBelow35}"
-                            filterBy="#{x.fractionBelow5}" filterMatchMode="contains">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="fractionBelow35" headerText="Ant. 30-35J." sortBy="#{x.fractionBelow35}">
                     <h:outputText id="fractionBelow35Cell" value="#{x.fractionBelow35}">
                         <f:convertNumber type="percent" minFractionDigits="2"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="fractionBelow40" headerText="Ant. 35-40J." sortBy="#{x.fractionBelow40}"
-                            filterBy="#{x.fractionBelow40}" filterMatchMode="contains">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="fractionBelow40" headerText="Ant. 35-40J." sortBy="#{x.fractionBelow40}">
                     <h:outputText id="fractionBelow40Cell" value="#{x.fractionBelow40}">
                         <f:convertNumber type="percent" minFractionDigits="2"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="fractionBelow45" headerText="Ant. 40-45J." sortBy="#{x.fractionBelow45}"
-                            filterBy="#{x.fractionBelow45}" filterMatchMode="contains">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="fractionBelow45" headerText="Ant. 40-45J." sortBy="#{x.fractionBelow45}">
                     <h:outputText id="fractionBelow45Cell" value="#{x.fractionBelow45}">
                         <f:convertNumber type="percent" minFractionDigits="2"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="fractionBelow50" headerText="Ant. 45-50J." sortBy="#{x.fractionBelow50}"
-                            filterBy="#{x.fractionBelow50}" filterMatchMode="contains">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="fractionBelow50" headerText="Ant. 45-50J." sortBy="#{x.fractionBelow50}">
                     <h:outputText id="fractionBelow50Cell" value="#{x.fractionBelow50}">
                         <f:convertNumber type="percent" minFractionDigits="2"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="fractionBelow55" headerText="Ant. 50-55J." sortBy="#{x.fractionBelow55}"
-                            filterBy="#{x.fractionBelow55}" filterMatchMode="contains">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="fractionBelow55" headerText="Ant. 50-55J." sortBy="#{x.fractionBelow55}">
                     <h:outputText id="fractionBelow55Cell" value="#{x.fractionBelow55}">
                         <f:convertNumber type="percent" minFractionDigits="2"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="fractionBelow60" headerText="Ant. 55-60J." sortBy="#{x.fractionBelow60}"
-                            filterBy="#{x.fractionBelow60}" filterMatchMode="contains">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="fractionBelow60" headerText="Ant. 55-60J." sortBy="#{x.fractionBelow60}">
                     <h:outputText id="fractionBelow60Cell" value="#{x.fractionBelow60}">
                         <f:convertNumber type="percent" minFractionDigits="2"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="fractionBelow65" headerText="Ant. 60-65J." sortBy="#{x.fractionBelow65}"
-                            filterBy="#{x.fractionBelow65}" filterMatchMode="contains">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="fractionBelow65" headerText="Ant. 60-65J." sortBy="#{x.fractionBelow65}">
                     <h:outputText id="fractionBelow65Cell" value="#{x.fractionBelow65}">
                         <f:convertNumber type="percent" minFractionDigits="2"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="fractionBelow70" headerText="Ant. 60-65J." sortBy="#{x.fractionBelow70}"
-                            filterBy="#{x.fractionBelow70}" filterMatchMode="contains">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="fractionBelow70" headerText="Ant. 60-65J." sortBy="#{x.fractionBelow70}">
                     <h:outputText id="fractionBelow70Cell" value="#{x.fractionBelow70}">
                         <f:convertNumber type="percent" minFractionDigits="2"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="fractionBelow75" headerText="Ant. 70-75J." sortBy="#{x.fractionBelow75}"
-                            filterBy="#{x.fractionBelow75}" filterMatchMode="contains">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="fractionBelow75" headerText="Ant. 70-75J." sortBy="#{x.fractionBelow75}">
                     <h:outputText id="fractionBelow75Cell" value="#{x.fractionBelow75}">
                         <f:convertNumber type="percent" minFractionDigits="2"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="fractionBelow80" headerText="Ant. 75-80J." sortBy="#{x.fractionBelow80}"
-                            filterBy="#{x.fractionBelow80}" filterMatchMode="contains">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="fractionBelow80" headerText="Ant. 75-80J." sortBy="#{x.fractionBelow80}">
                     <h:outputText id="fractionBelow80Cell" value="#{x.fractionBelow80}">
                         <f:convertNumber type="percent" minFractionDigits="2"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="fractionBelow85" headerText="Ant. 80-85J." sortBy="#{x.fractionBelow85}"
-                            filterBy="#{x.fractionBelow85}" filterMatchMode="contains">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="fractionBelow85" headerText="Ant. 80-85J." sortBy="#{x.fractionBelow85}">
                     <h:outputText id="fractionBelow85Cell" value="#{x.fractionBelow85}">
                         <f:convertNumber type="percent" minFractionDigits="2"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="fractionBelow90" headerText="Ant. 85-90J." sortBy="#{x.fractionBelow90}"
-                            filterBy="#{x.fractionBelow90}" filterMatchMode="contains">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="fractionBelow90" headerText="Ant. 85-90J." sortBy="#{x.fractionBelow90}">
                     <h:outputText id="fractionBelow90Cell" value="#{x.fractionBelow90}">
                         <f:convertNumber type="percent" minFractionDigits="2"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="fractionAbove90" headerText="Ant. 90J.+" sortBy="#{x.fractionAbove90}"
-                            filterBy="#{x.fractionAbove90}" filterMatchMode="contains">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="fractionAbove90" headerText="Ant. 90J.+" sortBy="#{x.fractionAbove90}">
                     <h:outputText id="fractionAbove90Cell" value="#{x.fractionAbove90}">
                         <f:convertNumber type="percent" minFractionDigits="2"/>
                     </h:outputText>
-                </ace:column>
-            </ace:dataTable>
+                </pf:column>
+            </pf:dataTable>
         </h:form>
         
         <p class="info-text">

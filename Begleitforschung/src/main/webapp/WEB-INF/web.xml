@@ -33,17 +33,9 @@
     <welcome-file-list>
         <welcome-file>index.xhtml</welcome-file>
     </welcome-file-list>
-    <context-param>
-        <param-name>com.icesoft.faces.connectionTimeout</param-name>
-        <param-value>86400000</param-value>
-    </context-param>
-    <!--context-param>  todo: test this
-        <param-name>com.icesoft.faces.synchronousUpdate</param-name>
-        <param-value>true</param-value>
- </context-param-->
-    <context-param>
-        <param-name>org.icesoft.faces.sessionTimeoutRedirectURI</param-name>
-        <param-value>expired.xhtml</param-value>
-    </context-param>
+    <!--<error-page>
+        <exception-type>javax.faces.application.ViewExpiredException</exception-type>
+        <location>/templates/test.xhtml</location>
+    </error-page>-->
  
 </web-app>

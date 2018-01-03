@@ -27,7 +27,7 @@ import org.inek.portallib.structures.KeyValue;
 @ApplicationScoped
 public class ApplicationData {
 
-    public static final String BASE_PATH = "//vfileserver01/company$/EDV/Projekte/InEK-Browsers/BegleitforschungTest/";
+    public static final String BASE_PATH = "//vfileserver01/company$/EDV/Projekte/InEK-Browsers/Begleitforschung/";
     private int _lastDataYear = 0;
 
     // <editor-fold defaultstate="collapsed" desc="States">

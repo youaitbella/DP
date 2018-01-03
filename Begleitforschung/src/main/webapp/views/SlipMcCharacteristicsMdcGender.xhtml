@@ -10,8 +10,7 @@ and open the template in the editor.
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
-                xmlns:ace="http://www.icefaces.org/icefaces/components"
-                xmlns:icecore="http://www.icefaces.org/icefaces/core"
+                xmlns:pf="http://primefaces.org/ui"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 >
 
@@ -19,117 +18,115 @@ and open the template in the editor.
         #{agreement.checkAgreement()}
         <h1>C-2-1-1: Vollstationäre Fälle in belegärztl. Versorgung, nach MDC und Geschlecht, G-DRG-Version #{param['dataYear']}, Datenjahr #{param['dataYear']}</h1>
         <h:form id="dataTable">
-            <ace:dataTable  id="c211-table"
+            <pf:dataTable  id="c211-table"
                             value="#{entities.getC_211(param['dataYear'])}"
                             var="x"
                             resizableColumns="true"
-                            scrollHeight="450" scrollable="true"
-                            columnPinningControlsInHeader="true"
-                            styleClass="fixedHeaderTable"
+                            tableStyle="width: auto;"
                           >
-                <ace:column styleClass="data-table-left" id="mdc" headerText="MDC" sortBy="#{x.mdc}"
+                <pf:column styleClass="data-table-left" id="mdc" headerText="MDC" sortBy="#{x.mdc}"
                                 filterBy="#{x.mdc}" filterMatchMode="contains">
                     <h:outputText id="mdcCell" value="#{x.mdc}"/>
-                </ace:column>
-                <ace:column styleClass="data-table-left" id="name" headerText="Name" sortBy="#{x.name}"
+                </pf:column>
+                <pf:column styleClass="data-table-left" id="name" headerText="Name" sortBy="#{x.name}"
                             filterBy="#{x.name}" filterMatchMode="contains">
                     <h:outputText id="nameCell" value="#{x.name}"/>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="sumCases" headerText="Anz. Fälle ges." sortBy="#{x.sumA}"
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="sumCases" headerText="Anz. Fälle ges." sortBy="#{x.sumA}"
                             filterBy="#{x.sumA}" filterMatchMode="contains">
                     <h:outputText id="sumCasesCell" value="#{x.sumA}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="sumAw" headerText="Anz. Fälle W." sortBy="#{x.sumAw}"
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="sumAw" headerText="Anz. Fälle W." sortBy="#{x.sumAw}"
                             filterBy="#{x.sumAw}" filterMatchMode="contains">
                     <h:outputText id="sumAwCell" value="#{x.sumAw}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="sumAm" headerText="Anz. Fälle M." sortBy="#{x.sumAm}"
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="sumAm" headerText="Anz. Fälle M." sortBy="#{x.sumAm}"
                             filterBy="#{x.sumAm}" filterMatchMode="contains">
                     <h:outputText id="sumAmCell" value="#{x.sumAm}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="sumAu" headerText="Anz. Fälle U." sortBy="#{x.sumAu}"
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="sumAu" headerText="Anz. Fälle U." sortBy="#{x.sumAu}"
                             filterBy="#{x.sumAu}" filterMatchMode="contains">
                     <h:outputText id="sumAuCell" value="#{x.sumAu}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="fractionW" headerText="Ant. Fälle W." sortBy="#{x.fractionW}"
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="fractionW" headerText="Ant. Fälle W." sortBy="#{x.fractionW}"
                             filterBy="#{x.fractionW}" filterMatchMode="contains">
                     <h:outputText id="fractionWCell" value="#{x.fractionW}">
                         <f:convertNumber type="percent" minFractionDigits="2"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="fractionM" headerText="Ant. Fälle M." sortBy="#{x.fractionM}"
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="fractionM" headerText="Ant. Fälle M." sortBy="#{x.fractionM}"
                             filterBy="#{x.fractionM}" filterMatchMode="contains">
                     <h:outputText id="fractionMCell" value="#{x.fractionM}">
                         <f:convertNumber type="percent" minFractionDigits="2"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="fractionU" headerText="Ant. Fälle U." sortBy="#{x.fractionU}"
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="fractionU" headerText="Ant. Fälle U." sortBy="#{x.fractionU}"
                             filterBy="#{x.fractionU}" filterMatchMode="contains">
                     <h:outputText id="fractionUCell" value="#{x.fractionU}">
                         <f:convertNumber type="percent" minFractionDigits="2"/>
                     </h:outputText>
-                </ace:column>
-            </ace:dataTable>
+                </pf:column>
+            </pf:dataTable>
         </h:form>
-        <h3 class="text-right" style="margin-right: 17px;">Summentabelle</h3>
+        <h3 class="text-left">Summentabelle</h3>
         <h:form id="data-table-sum">
-            <ace:dataTable  id="c211-table-sum"
+            <pf:dataTable  id="c211-table-sum"
                             value="#{entities.getC_211_sum(param['dataYear'])}"
                                 var="x"
                                 resizableColumns="true"
-                                style="float: right; width: auto; margin-right: 17px;"
+                                tableStyle="width: auto;"
                               >
-                <ace:column styleClass="data-table-right" id="sumCasesSum" headerText="Fälle" sortBy="#{x.sumA}"
+                <pf:column styleClass="data-table-right" id="sumCasesSum" headerText="Fälle" sortBy="#{x.sumA}"
                             >
                     <h:outputText id="sumCasesSumCell" value="#{x.sumA}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="sumAwSum" headerText="Fälle W." sortBy="#{x.sumAw}"
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="sumAwSum" headerText="Fälle W." sortBy="#{x.sumAw}"
                             >
                     <h:outputText id="sumAwSumCell" value="#{x.sumAw}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="sumAmSum" headerText="Fälle M." sortBy="#{x.sumAm}"
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="sumAmSum" headerText="Fälle M." sortBy="#{x.sumAm}"
                             >
                     <h:outputText id="sumAmSumCell" value="#{x.sumAm}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="sumAuSum" headerText="Fälle U." sortBy="#{x.sumAu}"
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="sumAuSum" headerText="Fälle U." sortBy="#{x.sumAu}"
                             >
                     <h:outputText id="sumAuSumCell" value="#{x.sumAu}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="fractionWSum" headerText="Ant. W." sortBy="#{x.fractionW}"
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="fractionWSum" headerText="Ant. W." sortBy="#{x.fractionW}"
                             >
                     <h:outputText id="fractionWSumCell" value="#{x.fractionW}">
                         <f:convertNumber type="percent" minFractionDigits="2"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="fractionMSum" headerText="Ant. M." sortBy="#{x.fractionM}"
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="fractionMSum" headerText="Ant. M." sortBy="#{x.fractionM}"
                             >
                     <h:outputText id="fractionMSumCell" value="#{x.fractionM}">
                         <f:convertNumber type="percent" minFractionDigits="2"/>
                     </h:outputText>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="fractionUSum" headerText="Ant. U." sortBy="#{x.fractionU}"
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="fractionUSum" headerText="Ant. U." sortBy="#{x.fractionU}"
                             >
                     <h:outputText id="fractionUSumCell" value="#{x.fractionU}">
                         <f:convertNumber type="percent" minFractionDigits="2"/>
                     </h:outputText>
-                </ace:column>
-            </ace:dataTable>
+                </pf:column>
+            </pf:dataTable>
         </h:form>
         
         <p class="info-text" style="clear: both;">

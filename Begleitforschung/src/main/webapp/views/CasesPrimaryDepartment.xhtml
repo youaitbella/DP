@@ -10,8 +10,7 @@ and open the template in the editor.
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
-                xmlns:ace="http://www.icefaces.org/icefaces/components"
-                xmlns:icecore="http://www.icefaces.org/icefaces/core"
+                xmlns:pf="http://primefaces.org/ui"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 >
 
@@ -19,40 +18,36 @@ and open the template in the editor.
         #{agreement.checkAgreement()}
         <h1>C-1-2-2: Fallzahl (vollstat.) in Hauptabteilungen nach Anlass/Grund der Aufnahme, Entlassung, Verlegung, Datenjahr #{param['dataYear']}</h1>
         <h:form id="dataTable">
-            <ace:dataTable  id="c122-table-a"
+            <pf:dataTable  id="c122-table-a"
                             value="#{entities.getC_122_A(param['dataYear'])}"
                             var="x"
                             resizableColumns="true"
-                            staticHeaders="false"
+                            tableStyle="width: auto;"
                           >
-                <ace:column styleClass="data-table-left" id="nameA" headerText="Aufnahmeanlass" sortBy="#{x.name}"
-                                filterBy="#{x.name}" filterMatchMode="contains">
+                <pf:column styleClass="data-table-left" id="nameA" headerText="Aufnahmeanlass" sortBy="#{x.name}">
                     <h:outputText id="nameACell" value="#{x.name}"/>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="countA" headerText="Fallzahl" sortBy="#{x.count}"
-                            filterBy="#{x.count}" filterMatchMode="contains">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="countA" headerText="Fallzahl" sortBy="#{x.count}">
                     <h:outputText id="countACell" value="#{x.count}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
-                </ace:column>
-            </ace:dataTable>
-            <ace:dataTable  id="c122-table-e"
+                </pf:column>
+            </pf:dataTable>
+            <pf:dataTable  id="c122-table-e"
                             value="#{entities.getC_122_E(param['dataYear'])}"
                             var="x"
                             resizableColumns="true"
-                            style="margin-top: 16px;"
+                            tableStyle="width: auto;"
                           >
-                <ace:column styleClass="data-table-left" id="name" headerText="Entlassungsgrund" sortBy="#{x.name}"
-                                filterBy="#{x.name}" filterMatchMode="contains">
+                <pf:column styleClass="data-table-left" id="name" headerText="Entlassungsgrund" sortBy="#{x.name}">
                     <h:outputText id="nameCell" value="#{x.name}"/>
-                </ace:column>
-                <ace:column styleClass="data-table-right" id="sumA" headerText="Fallzahl" sortBy="#{x.count}"
-                            filterBy="#{x.count}" filterMatchMode="contains">
+                </pf:column>
+                <pf:column styleClass="data-table-right" id="sumA" headerText="Fallzahl" sortBy="#{x.count}">
                     <h:outputText id="sumACell" value="#{x.count}">
                         <f:convertNumber pattern="###,###,###"/>
                     </h:outputText>
-                </ace:column>
-            </ace:dataTable>
+                </pf:column>
+            </pf:dataTable>
         </h:form>
         
         <p class="info-text">

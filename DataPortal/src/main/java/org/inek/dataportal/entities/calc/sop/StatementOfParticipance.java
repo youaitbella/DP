@@ -178,6 +178,19 @@ public class StatementOfParticipance implements Serializable, StatusEntity{
         _obligatory = obligatory;
     }
     // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Property Obligatory Following Year">
+    @Column(name = "sopIsObligatoryFollowYears")
+    private boolean _obligatoryFollowingYears;
+
+    public boolean isObligatoryFollowingYears() {
+        return _obligatoryFollowingYears;
+    }
+
+    public void setObligatoryFollowingYears(boolean obligatory) {
+        _obligatoryFollowingYears = obligatory;
+    }
+    // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property ObligatoryCalcType">
     @Column(name = "sopObligatoryCalcType")

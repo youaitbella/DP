@@ -223,7 +223,7 @@ div#wrapper {
     }
 
     .right {
-        margin-left: 300px;
+        margin-left: 285px;
     }
 
     #content .right {
@@ -232,7 +232,6 @@ div#wrapper {
     }
 
     .highlight {
-        font-size: 1.2em;
         font-weight: bold;
         background-color: #7F9BAF;
         color: white;
@@ -268,7 +267,7 @@ div#wrapper {
 
 #top .left {
     text-align: center;
-    height: 100px;
+    height: 109px;
 }
 
 #top .right ul {

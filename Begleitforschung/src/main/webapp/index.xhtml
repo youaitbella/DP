@@ -8,7 +8,8 @@ and open the template in the editor.
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 template="/template.xhtml"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
-                >
+                xmlns:pf="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:define name="mainContent">
         <h:form>
             <h:panelGroup rendered="#{!agreement.hasAgreement()}" style="display: inline-block; border: dotted black 1px; padding: 10px; margin: 14px;">

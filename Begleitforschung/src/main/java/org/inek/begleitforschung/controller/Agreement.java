@@ -7,7 +7,6 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -21,9 +20,7 @@ public class Agreement implements Serializable {
     
     @PostConstruct
     private void postConstruct() {
-        FacesContext fCtx = FacesContext.getCurrentInstance();
-        HttpSession session = (HttpSession) fCtx.getExternalContext().getSession(false);
-        session.invalidate();
+//        acceptedAgreement();
     }
 
     public void acceptedAgreement() {
