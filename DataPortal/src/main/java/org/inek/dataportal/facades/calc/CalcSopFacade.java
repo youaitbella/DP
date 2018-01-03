@@ -9,17 +9,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.Vector;
-import java.util.logging.Level;
-import java.util.stream.Collectors;
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
-import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.calc.sop.CalcContact;
-import org.inek.dataportal.entities.calc.CalcHospitalInfo;
 import org.inek.dataportal.entities.calc.sop.StatementOfParticipance;
-import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.AbstractDataAccess;
@@ -121,6 +116,7 @@ public class CalcSopFacade extends AbstractDataAccess {
      * @return
      */
     public Set<Integer> obtainIks4NewStatementOfParticipance(int accountId, int year) {
+        String maxValidDate = year + "-12-31";
         String sql = "select distinct cuIK\n"
                 + "from CallCenterDb.dbo.ccCustomer\n"
                 + "join CallCenterDB.dbo.ccContact on cuId = coCustomerId and coIsActive = 1 \n"
@@ -130,7 +126,7 @@ public class CalcSopFacade extends AbstractDataAccess {
                 + "left join CallCenterDB.dbo.mapContactRole r2 on (r2.mcrContactId = coId) and r2.mcrRoleId = 14 \n"
                 + "join CallCenterDB.dbo.CustomerCalcInfo on cuId = cciCustomerId "
                 + "left join calc.StatementOfParticipance on cuIk = sopIk and sopDataYear = " + year + "\n"
-                + "where cciInfoTypeId in (1,2) and Year(cciValidTo) >= " + year + " and cciCalcTypeId in (1, 3, 4, 5, 5, 6, 7)\n"
+                + "where cciInfoTypeId in (1,2) and cciValidTo >= '" + maxValidDate + "' and cciCalcTypeId in (1, 3, 4, 5, 5, 6, 7)\n"
                 + "    and cuIk in (\n"
                 + "        select acIk from dbo.Account where acIk > 0 and acId = " + accountId + "\n"
                 + "        union \n"
@@ -145,6 +141,7 @@ public class CalcSopFacade extends AbstractDataAccess {
     }
 
     public List<Object[]> retrieveCurrentStatementOfParticipanceData(int ik, int dataYear) {
+        String maxValidDate = dataYear + "-12-31";
         String sql1 = "select dbo.concatenate(case cciInfoTypeId \n"
                 + "        when 1 then 'obligatory' \n"
                 + "        end) as domain, \n"
@@ -155,7 +152,7 @@ public class CalcSopFacade extends AbstractDataAccess {
                 + "cuDrgDelivery, cuPsyDelivery \n"
                 + "from CallCenterDB.dbo.ccCustomer \n"
                 + "join CallCenterDB.dbo.CustomerCalcInfo cci on cuId = cci.cciCustomerId \n"
-                + "and Year(cci.cciValidTo) >= " + dataYear + " and cci.cciInfoTypeId = 1 \n"
+                + "and cci.cciValidTo >= '" + maxValidDate + "' and cci.cciInfoTypeId = 1 \n"
                 + "where cci.cciCalcTypeId in (1, 3, 4, 5, 6, 7) \n"
                 + "and cuIK = " + ik + " \n"
                 + "group by cuIk, cuDrgDelivery, cuPsyDelivery";
@@ -205,6 +202,7 @@ public class CalcSopFacade extends AbstractDataAccess {
     }
 
     public List<CalcContact> retrieveCurrentContacts(int ik, int dataYear) {
+        String maxValidDate = dataYear + "-12-31";
         String sql = "select case coSexId when 'F' then 1 when 'H' then 2 else 0 end as gender, \n"
                 + "    coTitle, coFirstName, coLastName, p.cdDetails as phone, e.cdDetails as email, \n"
                 + "    dbo.concatenate(case cciCalcTypeId\n"
@@ -217,7 +215,7 @@ public class CalcSopFacade extends AbstractDataAccess {
                 + "from CallCenterDB.dbo.ccCustomer\n"
                 + "join CallCenterDB.dbo.CustomerCalcInfo on cuId = cciCustomerId and Year(cciValidTo) = " + dataYear + "\n"
                 + "join CallCenterDB.dbo.mapCustomerCalcInfoContact on ccicCustomerCalcInfoId = cciId "
-                + "and Year(ccicValidTo) = " + dataYear + "\n"
+                + "and ccicValidTo >= '" + maxValidDate + "' \n"
                 + "join CallCenterDB.dbo.ccContact on ccicContactId = coId\n"
                 + "left join CallCenterDB.dbo.ccContactDetails e on coId=e.cdContactId and e.cdContactDetailTypeId = 'E'\n"
                 + "left join CallCenterDB.dbo.ccContactDetails p on coId=p.cdContactId and p.cdContactDetailTypeId = 'T'\n"
@@ -256,19 +254,6 @@ public class CalcSopFacade extends AbstractDataAccess {
             contacts.add(contact);
         }
         return contacts;
-    }
-
-    public boolean isObligateCalculation(int ik, int year) {
-        String jpql = "select c from Customer c where c._ik = :ik";
-        TypedQuery<Customer> query = getEntityManager().createQuery(jpql, Customer.class);
-        query.setParameter("ik", ik);
-        try {
-            Customer customer = query.getSingleResult();
-            return customer.getObligateCalculationYear() > year - 5;
-        } catch (Exception ex) {
-            LOGGER.log(Level.WARNING, "isObligateCalculation - non unique ik {0}", ik);
-            return false;
-        }
     }
 
     public boolean isObligatoryFollowingYear(int ik, int dataYear) {
@@ -350,10 +335,11 @@ public class CalcSopFacade extends AbstractDataAccess {
     }
 
     public boolean isParticipationInCalcType(int ik, int dataYear, int calcType) {
+        String maxValidDate = dataYear + "-12-31";
         String sql = "select 1 \n"
                 + "from CallCenterDB.dbo.ccCustomer \n"
                 + "join CallCenterDB.dbo.CustomerCalcInfo cci on cuId = cci.cciCustomerId \n"
-                + "and Year(cci.cciValidTo) = " + dataYear + " and cci.cciInfoTypeId = 3 \n"
+                + "and cci.cciValidTo = '" + maxValidDate + "' and cci.cciInfoTypeId = 3 \n"
                 + "where cci.cciCalcTypeId = " + calcType + " \n"
                 + "and cuIK = " + ik + " \n";
 

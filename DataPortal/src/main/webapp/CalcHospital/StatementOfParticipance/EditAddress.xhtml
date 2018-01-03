@@ -66,8 +66,9 @@
                         </div>
                     </h:panelGrid>
                 </div>
-
+                <h:panelGrid columns="1">
                 <div class="inputPart">
+                    
                     <inek:BooleanRadioButton label="#{msg.lblStatementInv}" 
                                              value="#{editStatementOfParticipance.statement.invCalc}" 
                                              renderElement="@form"
@@ -87,7 +88,7 @@
                                              renderElement="@form"
                                              readonly="#{editStatementOfParticipance.readOnly}"/>
                 </div>
-
+                </h:panelGrid>
             <h2>#{msg.lblContactPerson}</h2>
             <h:panelGroup id="contact">
                 <calc:CalcContactTable value="#{editStatementOfParticipance.hospitalContacts}" 

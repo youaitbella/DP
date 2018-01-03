@@ -49,6 +49,7 @@ public class IcmtUpdater extends AbstractDataAccess {
 
     private void performInsertStatementOfParticipance(StatementOfParticipance statement, int calcType, String column) {
         int dataYear = statement.getDataYear();
+        String maxValidDate = dataYear + "-12-31";
         int ik = statement.getIk();
         String sql = "--Pflichthauser nachfolgende Jahre\n"
                 + "insert into CallCenterDB.dbo.CustomerCalcInfo "
@@ -89,7 +90,7 @@ public class IcmtUpdater extends AbstractDataAccess {
                 + "from calc.StatementOfParticipance \n"
                 + "join CallCenterDB.dbo.ccCustomer on sopIk = cuik \n"
                 + "left join CallCenterDB.dbo.CustomerCalcInfo on cuId = cciCustomerId and cciCalcTypeId = " + calcType + " "
-                + "and cciInfoTypeId = 3 and Year(cciValidTo) = " + dataYear + " \n"
+                + "and cciInfoTypeId = 3 and cciValidTo = '" + maxValidDate + "' \n"
                 + "where 1=1 \n"
                 + "and sopIs" + column + " = 1 \n"
                 + "and sopStatusId = 10 \n"
@@ -103,7 +104,7 @@ public class IcmtUpdater extends AbstractDataAccess {
                     + "join CallCenterDB.dbo.ccCustomer on cuId = cciCustomerId \n"
                     + "where cciInfoTypeId in (4,5,6,15,20) and cuIK = " + ik + "\n"
                     + "and cciCalcTypeId = " + calcType + " \n"
-                    + "and Year(cciValidTo) = " + dataYear + " \n"
+                    + "and cciValidTo = '" + maxValidDate + "' \n"
                     + "\n"
                     + "insert into CallCenterDB.dbo.CustomerCalcInfo "
                     + "(cciCustomerId, cciValidFrom, cciValidTo, cciCalcTypeId, cciSubCalcTypeId, cciInfoTypeId, cciDate, cciComment) \n"
@@ -115,7 +116,7 @@ public class IcmtUpdater extends AbstractDataAccess {
                     + "join CallCenterDB.dbo.ccCustomer on sopIk = cuik  \n"
                     + "left join CallCenterDB.dbo.CustomerCalcInfo on cuId = cciCustomerId and cciCalcTypeId = " + calcType + " \n"
                     + "and cciInfoTypeId = sopMultiyear" + column + " \n"
-                    + "and Year(cciValidTo) = " + dataYear + " \n"
+                    + "and cciValidTo = '" + maxValidDate + "' \n"
                     + "where 1=1 \n"
                     + "and sopIs" + column + " = 1 \n"
                     + "and sopMultiyear" + column + " != 0 \n"
@@ -133,6 +134,7 @@ public class IcmtUpdater extends AbstractDataAccess {
         String columnCons = column;
         int ik = statement.getIk();
         int dataYear = statement.getDataYear();
+        String maxValidDate = dataYear + "-12-31";
         String sql = ""
                 //temp Tabelle mit Kontaktinfos anlegen
                 // todo: remove rw when removing prio
@@ -233,7 +235,7 @@ public class IcmtUpdater extends AbstractDataAccess {
                 + "'" + dataYear + "-12-31',13 \n"
                 + "from CallCenterDB.dbo.ccCustomer \n"
                 + "left join CallCenterDB.dbo.CustomerCalcInfo on cuId = cciCustomerId and cciInfoTypeId = 13 "
-                + "and Year(cciValidTo) = " + dataYear + " "
+                + "and cciValidTo = '" + maxValidDate + "' "
                 + "and cciCalcTypeId = " + calcType + " \n"
                 + "where cuIK = " + ik + " \n"
                 + "and cciId is null \n"
@@ -248,8 +250,9 @@ public class IcmtUpdater extends AbstractDataAccess {
                 + "from tmp.dpContacts a \n"
                 + "join CallCenterDB.dbo.CustomerCalcInfo  on a.cuId = cciCustomerId and \n"
                 + " cciCalcTypeId = " + calcType + "  and cciInfoTypeId = 13 \n"
-                + "and Year(cciValidTo) = @y \n"
-                + "left join CallCenterDB.dbo.mapCustomerCalcInfoContact on cciId = ccicCustomerCalcInfoId and Year(ccicValidTo) = @y \n"
+                + "and cciValidTo = '" + maxValidDate + "' \n"
+                + "left join CallCenterDB.dbo.mapCustomerCalcInfoContact on "
+                + "cciId = ccicCustomerCalcInfoId and ccicValidTo = '" + maxValidDate + "' \n"
                 + "where (ccicContactId is null or ccicCustomerCalcInfoId != cciId) and a.coid is not null \n \n"
                 //Prio setzen
                 // todo: remove prio
