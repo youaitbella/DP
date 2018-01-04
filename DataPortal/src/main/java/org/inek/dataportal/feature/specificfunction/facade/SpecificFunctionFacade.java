@@ -28,6 +28,7 @@ import org.inek.dataportal.feature.specificfunction.entity.SpecificFunctionAgree
 import org.inek.dataportal.feature.specificfunction.entity.SpecificFunctionRequest;
 import org.inek.dataportal.feature.specificfunction.entity.TypeExtraCharge;
 import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.utils.StringUtil;
 
 /**
  *
@@ -150,9 +151,20 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
         return result;
     }
 
-    public List<SpecificFunctionRequest> getSpecificFunctionsForInek() {
-        String jpql = "select spf from SpecificFunctionRequest spf where spf._statusId in (3, 10)";
-        TypedQuery<SpecificFunctionRequest> query = getEntityManager().createQuery(jpql, SpecificFunctionRequest.class);
+    @SuppressWarnings("unchecked")
+    public List<SpecificFunctionRequest> getSpecificFunctionsForInek(String filter) {
+        String sqlFilter = StringUtil.getSqlFilter(filter);
+        String sql = "select RequestMaster.* from spf.RequestMaster " 
+                + (sqlFilter.length() > 0 ? " join CallCenterDB.dbo.ccCustomer on rmik=cuIK " : "")
+                + "where rmStatusId in (3, 10)";
+        if (sqlFilter.length() > 0) {
+            sql = sql + "\n"
+                    + "    and (cast (rmIk as varchar) = " + sqlFilter
+                    + "         or cast (rmDataYear as varchar) = " + sqlFilter
+                    + "         or cuName like " + sqlFilter
+                    + "         or cuCity like " + sqlFilter + ")";
+        }
+        Query query = getEntityManager().createNativeQuery(sql, SpecificFunctionRequest.class);
         List<SpecificFunctionRequest> result = query.getResultList();
         return result;
     }

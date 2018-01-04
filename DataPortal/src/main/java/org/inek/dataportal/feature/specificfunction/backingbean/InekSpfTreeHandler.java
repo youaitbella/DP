@@ -33,7 +33,7 @@ public class InekSpfTreeHandler implements Serializable, TreeNodeObserver {
     private final RootNode _rootNode = RootNode.create(0, this);
 
     public RootNode getRootNode() {
-        if (!_rootNode.isExpanded()){
+        if (!_rootNode.isExpanded()) {
             _rootNode.expand();
         }
         return _rootNode;
@@ -51,7 +51,7 @@ public class InekSpfTreeHandler implements Serializable, TreeNodeObserver {
     }
 
     private void obtainRootNodeChildren(RootNode node, Collection<TreeNode> children) {
-        List<SpecificFunctionRequest> infos = _specificFunctionFacade.getSpecificFunctionsForInek();
+        List<SpecificFunctionRequest> infos = _specificFunctionFacade.getSpecificFunctionsForInek(getFilter());
         node.getChildren().clear();
         for (SpecificFunctionRequest info : infos) {
             node.getChildren().add(SpecificFunctionRequestTreeNode.create(node, info, this));
@@ -66,36 +66,40 @@ public class InekSpfTreeHandler implements Serializable, TreeNodeObserver {
         return children;
     }
 
+    private String _filter = "";
+
+    public String getFilter() {
+        return _filter;
+    }
+
+    public void setFilter(String filter) {
+        _filter = filter == null ? "" : filter;
+        refreshNodes();
+    }
+
+    
     public Collection<TreeNode> sortChildren(RootNode treeNode, Collection<TreeNode> children) {
         Stream<SpecificFunctionRequestTreeNode> stream = children.stream().map(n -> (SpecificFunctionRequestTreeNode) n);
         Stream<SpecificFunctionRequestTreeNode> sorted;
+        int direction = treeNode.isDescending() ? -1 : 1;
         switch (treeNode.getSortCriteria().toLowerCase()) {
             case "ik":
-                if (treeNode.isDescending()) {
-                    sorted = stream.sorted((n1, n2) -> Integer.compare(n2.getSpecificFunctionRequest().getIk(), 
-                            n1.getSpecificFunctionRequest().getIk()));
-                } else {
-                    sorted = stream.sorted((n1, n2) -> Integer.compare(n1.getSpecificFunctionRequest().getIk(), 
-                            n2.getSpecificFunctionRequest().getIk()));
-                }
+                sorted = stream.sorted((n1, n2) -> direction * Integer.compare(n1.getSpecificFunctionRequest().getIk(),
+                        n2.getSpecificFunctionRequest().getIk()));
+                break;
+            case "year":
+                sorted = stream.sorted((n1, n2) -> direction * Integer.compare(n1.getSpecificFunctionRequest().
+                        getDataYear(),
+                        n2.getSpecificFunctionRequest().getDataYear()));
                 break;
             case "hospital":
-                if (treeNode.isDescending()) {
-                    sorted = stream.sorted((n1, n2) -> _appTools.retrieveHospitalInfo(n2.getSpecificFunctionRequest().getIk())
-                            .compareTo(_appTools.retrieveHospitalInfo(n1.getSpecificFunctionRequest().getIk())));
-                } else {
-                    sorted = stream.sorted((n1, n2) -> _appTools.retrieveHospitalInfo(n1.getSpecificFunctionRequest().getIk())
-                            .compareTo(_appTools.retrieveHospitalInfo(n2.getSpecificFunctionRequest().getIk())));
-                }
+                sorted = stream.sorted((n1, n2) -> direction * _appTools.retrieveHospitalInfo(
+                        n1.getSpecificFunctionRequest().getIk())
+                        .compareTo(_appTools.retrieveHospitalInfo(n2.getSpecificFunctionRequest().getIk())));
                 break;
             case "code":
-                if (treeNode.isDescending()) {
-                    sorted = stream.sorted((n1, n2) -> n2.getSpecificFunctionRequest().getCode()
-                            .compareTo(n1.getSpecificFunctionRequest().getCode()));
-                } else {
-                    sorted = stream.sorted((n1, n2) -> n1.getSpecificFunctionRequest().getCode()
-                            .compareTo(n2.getSpecificFunctionRequest().getCode()));
-                }
+                sorted = stream.sorted((n1, n2) -> direction * n1.getSpecificFunctionRequest().getCode()
+                        .compareTo(n2.getSpecificFunctionRequest().getCode()));
                 break;
             case "status":
             default:

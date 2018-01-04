@@ -80,6 +80,16 @@
             <div jsf:rendered="#{sessionController.isInekUser('SPECIFIC_FUNCTION')}">
                 <h2>An das InEK gesendete Besondere Aufgaben / Zentrum</h2>
 
+                <div class="inputPart">
+                    <h:outputLabel for="txtFilter" styleClass="label marginRight" value="#{msg.lblFilter}"/>
+                    <h:inputText id="txtFilter" styleClass="inputmedium marginRight" value="#{inekSpfTreeHandler.filter}">
+                        <f:ajax/>
+                    </h:inputText>
+                    <h:commandLink styleClass="button" value="#{msg.btnRefreshList}">
+                        <f:ajax render="@form :logout:remaining"/>
+                    </h:commandLink>
+                </div>
+
                 <div style="margin-left:16px; padding-bottom: 1em;">
                     <spf:RequestNode parentNode="#{inekSpfTreeHandler.rootNode}"
                                      showDelete="false" showSelectBox="false"
