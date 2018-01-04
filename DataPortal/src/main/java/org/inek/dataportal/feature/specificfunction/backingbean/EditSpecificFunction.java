@@ -324,7 +324,7 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
     public void sendNotification() {
         List<Account> inekAccounts = _inekRoleFacade.findForFeature(Feature.SPECIFIC_FUNCTION);
         String receipients = inekAccounts.stream().map(a -> a.getEmail()).collect(Collectors.joining(";"));
-        _mailer.sendMail(receipients, "Besondere Aufgaben / Zentrum", "Es wurde ein Datensatz an das InEK gesendet.");
+        _mailer.sendMail(receipients, "Besondere Aufgaben / Zentrum, IK: " + _request.getIk(), "Es wurde ein Datensatz an das InEK gesendet.");
     }
 
     private boolean requestIsComplete() {
