@@ -10,8 +10,10 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.ApplicationTools;
+import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.feature.specificfunction.entity.SpecificFunctionRequest;
 import org.inek.dataportal.feature.specificfunction.facade.SpecificFunctionFacade;
+import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.tree.SpecificFunctionRequestTreeNode;
 import org.inek.portallib.tree.RootNode;
 import org.inek.portallib.tree.TreeNode;
@@ -51,7 +53,7 @@ public class InekSpfTreeHandler implements Serializable, TreeNodeObserver {
     }
 
     private void obtainRootNodeChildren(RootNode node, Collection<TreeNode> children) {
-        List<SpecificFunctionRequest> infos = _specificFunctionFacade.getSpecificFunctionsForInek(getFilter());
+        List<SpecificFunctionRequest> infos = _specificFunctionFacade.getSpecificFunctionsForInek(getYear(), getFilter());
         node.getChildren().clear();
         for (SpecificFunctionRequest info : infos) {
             node.getChildren().add(SpecificFunctionRequestTreeNode.create(node, info, this));
@@ -77,6 +79,17 @@ public class InekSpfTreeHandler implements Serializable, TreeNodeObserver {
         refreshNodes();
     }
 
+    private int _year = Utils.getTargetYear(Feature.SPECIFIC_FUNCTION);
+    
+    public int getYear(){
+        return _year;
+    }
+    
+    public void setYear(int year){
+        _year = year;
+        refreshNodes();
+    }
+    
     
     public Collection<TreeNode> sortChildren(RootNode treeNode, Collection<TreeNode> children) {
         Stream<SpecificFunctionRequestTreeNode> stream = children.stream().map(n -> (SpecificFunctionRequestTreeNode) n);

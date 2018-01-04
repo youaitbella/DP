@@ -152,15 +152,15 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
     }
 
     @SuppressWarnings("unchecked")
-    public List<SpecificFunctionRequest> getSpecificFunctionsForInek(String filter) {
+    public List<SpecificFunctionRequest> getSpecificFunctionsForInek(int year, String filter) {
         String sqlFilter = StringUtil.getSqlFilter(filter);
         String sql = "select RequestMaster.* from spf.RequestMaster " 
                 + (sqlFilter.length() > 0 ? " join CallCenterDB.dbo.ccCustomer on rmik=cuIK " : "")
-                + "where rmStatusId in (3, 10)";
+                + "where rmStatusId in (3, 10) and rmDataYear = " + year;
         if (sqlFilter.length() > 0) {
             sql = sql + "\n"
                     + "    and (cast (rmIk as varchar) = " + sqlFilter
-                    + "         or cast (rmDataYear as varchar) = " + sqlFilter
+                    + "         or rmCode like " + sqlFilter
                     + "         or cuName like " + sqlFilter
                     + "         or cuCity like " + sqlFilter + ")";
         }

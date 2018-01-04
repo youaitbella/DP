@@ -125,20 +125,7 @@ public class CalcFacade extends AbstractDataAccess {
     }
     // </editor-fold>
 
-    public List<Account> getInekAccounts(String filter) {
-//        String sql = "select distinct account.*\n"
-//                + "from (select biIk, biDataYear from calc.KGLBaseInformation where biStatusID in (3, 10) \n"
-//                + "union select biIk, biDataYear from calc.KGPBaseInformation where biStatusID in (3, 10) \n"
-//                + "union select cbaIk, cbaDataYear from calc.CalcBasicsAutopsy where cbaStatusID in (3, 10) ) base\n"
-//                + "join CallCenterDB.dbo.ccCustomer on biIk = cuIK\n"
-//                + "join CallCenterDB.dbo.ccCalcAgreement on cuId = caCustomerId\n"
-//                + "join CallCenterDB.dbo.ccCalcInformation on caId = ciCalcAgreementId and biDataYear = ciDataYear \n"
-//                + "join CallCenterDB.dbo.mapCustomerReportAgent on ciId = mcraCalcInformationId\n"
-//                + "join CallCenterDB.dbo.ccAgent on mcraAgentId = agId\n"
-//                + "join dbo.Account on agEMail = acMail\n"
-//                + "where agActive = 1 and agDomainId in ('O', 'E')\n"
-//                + "     and mcraReportTypeId in (1, 3, 10) \n"
-//                + "     and biDataYear = " + Utils.getTargetYear(Feature.CALCULATION_HOSPITAL);
+    public List<Account> getInekAccounts(int year, String filter) {
         String sql = "select distinct account.*\n" +
                 "from (select biIk, biDataYear from calc.KGLBaseInformation where biStatusID in (3, 10)\n" +
                 "union select biIk, biDataYear from calc.KGPBaseInformation where biStatusID in (3, 10)\n" +
@@ -151,7 +138,7 @@ public class CalcFacade extends AbstractDataAccess {
                 "join dbo.Account on agEMail = acMail\n" +
                 "where agActive = 1 and agDomainId in ('O', 'E')\n" +
                 "and cciaReportTypeid in (1, 3, 10)\n" +
-                "and biDataYear = " + Utils.getTargetYear(Feature.CALCULATION_HOSPITAL);
+                "and biDataYear = " + year;
         
         String sqlFilter = StringUtil.getSqlFilter(filter);
         if (sqlFilter.length() > 0) {
@@ -165,7 +152,7 @@ public class CalcFacade extends AbstractDataAccess {
         return result;
     }
 
-    public List<CalcHospitalInfo> getCalcBasicsByEmail(String email, String filter) {
+    public List<CalcHospitalInfo> getCalcBasicsByEmail(String email, int year, String filter) {
 
         String sql = "select distinct biId as Id, biType as [Type], biAccountId as AccountId, biDataYear as DataYear, biIk as IK, "
                 + "biStatusId as StatusId, Name, biLastChanged as LastChanged\n" +
@@ -192,7 +179,7 @@ public class CalcFacade extends AbstractDataAccess {
                         "and (biType = 'CBD' and cciaReportTypeid = 1\n" +
                         "or biType = 'CBP' and cciaReportTypeId = 3\n" +
                         "or biType = 'CBA' and cciaReportTypeId = 10)\n" +
-                        "and biDataYear = 2016";
+                        "and biDataYear = " + year;
         String sqlFilter = StringUtil.getSqlFilter(filter);
         if (sqlFilter.length() > 0) {
             sql = sql + "\n"

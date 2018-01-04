@@ -15,7 +15,9 @@ import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.calc.CalcHospitalInfo;
+import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.facades.calc.CalcFacade;
+import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.tree.entityTree.AccountTreeNode;
 import org.inek.dataportal.helper.tree.CalcHospitalTreeNode;
 import org.inek.portallib.tree.RootNode;
@@ -60,6 +62,17 @@ public class CalcBasicsTreeHandler implements Serializable, TreeNodeObserver {
         refreshNodes();
     }
 
+    private int _year = Utils.getTargetYear(Feature.CALCULATION_HOSPITAL);
+    
+    public int getYear(){
+        return _year;
+    }
+    
+    public void setYear(int year){
+        _year = year;
+        refreshNodes();
+    }
+    
     @Override
     public void obtainChildren(TreeNode treeNode, Collection<TreeNode> children) {
         if (treeNode instanceof RootNode) {
@@ -71,7 +84,7 @@ public class CalcBasicsTreeHandler implements Serializable, TreeNodeObserver {
     }
 
     private void obtainRootNodeChildren(RootNode node, Collection<TreeNode> children) {
-        List<Account> accounts = _calcFacade.getInekAccounts(getFilter());
+        List<Account> accounts = _calcFacade.getInekAccounts(getYear(), getFilter());
         Account currentUser = _sessionController.getAccount();
         if (accounts.contains(currentUser)) {
             // ensure current user is first, if in list
@@ -93,7 +106,7 @@ public class CalcBasicsTreeHandler implements Serializable, TreeNodeObserver {
     }
 
     private void obtainAccountNodeChildren(AccountTreeNode accountTreeNode, Collection<TreeNode> children) {
-        List<CalcHospitalInfo> infos = _calcFacade.getCalcBasicsByEmail(accountTreeNode.getEmail(), getFilter());
+        List<CalcHospitalInfo> infos = _calcFacade.getCalcBasicsByEmail(accountTreeNode.getEmail(), getYear(), getFilter());
         accountTreeNode.getChildren().clear();
         for (CalcHospitalInfo info : infos) {
             accountTreeNode.getChildren().add(CalcHospitalTreeNode.create(accountTreeNode, info, this));

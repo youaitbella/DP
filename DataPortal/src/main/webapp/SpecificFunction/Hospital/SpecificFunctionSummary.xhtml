@@ -81,6 +81,10 @@
                 <h2>An das InEK gesendete Besondere Aufgaben / Zentrum</h2>
 
                 <div class="inputPart">
+                    <h:outputLabel for="txtYear" styleClass="label marginRight" value="#{msg.lblYearBudget}"/>
+                    <h:inputText id="txtYear" styleClass="inputshort marginRight" value="#{inekSpfTreeHandler.year}">
+                        <f:ajax/>
+                    </h:inputText>
                     <h:outputLabel for="txtFilter" styleClass="label marginRight" value="#{msg.lblFilter}"/>
                     <h:inputText id="txtFilter" styleClass="inputmedium marginRight" value="#{inekSpfTreeHandler.filter}">
                         <f:ajax/>

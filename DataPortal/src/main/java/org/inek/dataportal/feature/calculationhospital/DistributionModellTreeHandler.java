@@ -15,7 +15,9 @@ import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.calc.CalcHospitalInfo;
+import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.facades.calc.DistributionModelFacade;
+import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.tree.entityTree.AccountTreeNode;
 import org.inek.dataportal.helper.tree.CalcHospitalTreeNode;
 import org.inek.portallib.tree.RootNode;
@@ -28,28 +30,28 @@ import org.inek.portallib.tree.TreeNodeObserver;
  */
 @Named @SessionScoped
 public class DistributionModellTreeHandler implements Serializable, TreeNodeObserver {
-    
+
     private static final Logger LOGGER = Logger.getLogger("DistributionModellTreeHandler");
     private static final long serialVersionUID = 1L;
-    
+
     @Inject private DistributionModelFacade _distributionModelFacade;
     @Inject private SessionController _sessionController;
     @Inject private ApplicationTools _appTools;
-    
+
     private final RootNode _rootNode = RootNode.create(0, this);
     private AccountTreeNode _accountNode;
-    
+
     public RootNode getRootNode() {
         if (!_rootNode.isExpanded()) {
             _rootNode.expand();
         }
         return _rootNode;
     }
-    
+
     public void refreshNodes() {
         _rootNode.refresh();
     }
-    
+
     private String _filter = "";
 
     public String getFilter() {
@@ -58,6 +60,17 @@ public class DistributionModellTreeHandler implements Serializable, TreeNodeObse
 
     public void setFilter(String filter) {
         _filter = filter == null ? "" : filter;
+        refreshNodes();
+    }
+
+    private int _year = Utils.getTargetYear(Feature.CALCULATION_HOSPITAL);
+
+    public int getYear() {
+        return _year;
+    }
+
+    public void setYear(int year) {
+        _year = year;
         refreshNodes();
     }
 
@@ -70,9 +83,9 @@ public class DistributionModellTreeHandler implements Serializable, TreeNodeObse
             obtainAccountNodeChildren((AccountTreeNode) treeNode, children);
         }
     }
-    
+
     private void obtainRootNodeChildren(RootNode node, Collection<TreeNode> children) {
-        List<Account> accounts = _distributionModelFacade.getInekAccounts(getFilter());
+        List<Account> accounts = _distributionModelFacade.getInekAccounts(getYear(), getFilter());
         Account currentUser = _sessionController.getAccount();
         if (accounts.contains(currentUser)) {
             // ensure current user is first, if in list
@@ -84,23 +97,25 @@ public class DistributionModellTreeHandler implements Serializable, TreeNodeObse
         for (Account account : accounts) {
             Integer id = account.getId();
             Optional<? extends TreeNode> existing = oldChildren.stream().filter(n -> n.getId() == id).findFirst();
-            AccountTreeNode childNode = existing.isPresent() ? (AccountTreeNode) existing.get() : AccountTreeNode.create(node, account, this);
+            AccountTreeNode childNode = existing.isPresent() ? (AccountTreeNode) existing.get() : AccountTreeNode.
+                    create(node, account, this);
             children.add((TreeNode) childNode);
             oldChildren.remove(childNode);
-            if (currentUser.equals(account) || accounts.size() <= 3 ) {
+            if (currentUser.equals(account) || accounts.size() <= 3) {
                 childNode.expand();  // auto-expand own node
             }
         }
     }
-    
+
     private void obtainAccountNodeChildren(AccountTreeNode accountTreeNode, Collection<TreeNode> children) {
-        List<CalcHospitalInfo> infos = _distributionModelFacade.getDistributionModelsByEmail(accountTreeNode.getEmail(), getFilter());
+        List<CalcHospitalInfo> infos = _distributionModelFacade.
+                getDistributionModelsByEmail(accountTreeNode.getEmail(), getYear(), getFilter());
         accountTreeNode.getChildren().clear();
         for (CalcHospitalInfo info : infos) {
             accountTreeNode.getChildren().add(CalcHospitalTreeNode.create(accountTreeNode, info, this));
         }
     }
-    
+
     @Override
     public Collection<TreeNode> obtainSortedChildren(TreeNode treeNode, Collection<TreeNode> children) {
         if (treeNode instanceof AccountTreeNode) {
@@ -108,33 +123,24 @@ public class DistributionModellTreeHandler implements Serializable, TreeNodeObse
         }
         return children;
     }
-    
+
     public Collection<TreeNode> sortAccountNodeChildren(AccountTreeNode treeNode, Collection<TreeNode> children) {
         Stream<CalcHospitalTreeNode> stream = children.stream().map(n -> (CalcHospitalTreeNode) n);
         Stream<CalcHospitalTreeNode> sorted;
+        int direction = treeNode.isDescending() ? -1 : 1;
         switch (treeNode.getSortCriteria().toLowerCase()) {
             case "ik":
-                if (treeNode.isDescending()) {
-                    sorted = stream.sorted((n1, n2) -> Integer.compare(n2.getCalcHospitalInfo().getIk(), n1.getCalcHospitalInfo().getIk()));
-                } else {
-                    sorted = stream.sorted((n1, n2) -> Integer.compare(n1.getCalcHospitalInfo().getIk(), n2.getCalcHospitalInfo().getIk()));
-                }
+                sorted = stream.sorted((n1, n2) -> direction * Integer.compare(n1.getCalcHospitalInfo().getIk(), n2.
+                        getCalcHospitalInfo().getIk()));
                 break;
             case "hospital":
-                if (treeNode.isDescending()) {
-                    sorted = stream.sorted((n1, n2) -> _appTools.retrieveHospitalInfo(n2.getCalcHospitalInfo().getIk())
-                            .compareTo(_appTools.retrieveHospitalInfo(n1.getCalcHospitalInfo().getIk())));
-                } else {
-                    sorted = stream.sorted((n1, n2) -> _appTools.retrieveHospitalInfo(n1.getCalcHospitalInfo().getIk())
-                            .compareTo(_appTools.retrieveHospitalInfo(n2.getCalcHospitalInfo().getIk())));
-                }
+                sorted = stream.sorted((n1, n2) -> direction * _appTools.retrieveHospitalInfo(n1.getCalcHospitalInfo().
+                        getIk())
+                        .compareTo(_appTools.retrieveHospitalInfo(n2.getCalcHospitalInfo().getIk())));
                 break;
             case "name":
-                if (treeNode.isDescending()) {
-                    sorted = stream.sorted((n1, n2) -> n2.getCalcHospitalInfo().getName().compareTo(n1.getCalcHospitalInfo().getName()));
-                } else {
-                    sorted = stream.sorted((n1, n2) -> n1.getCalcHospitalInfo().getName().compareTo(n2.getCalcHospitalInfo().getName()));
-                }
+                sorted = stream.sorted((n1, n2) -> direction * n1.getCalcHospitalInfo().getName().compareTo(n2.
+                        getCalcHospitalInfo().getName()));
                 break;
             case "status":
             default:
