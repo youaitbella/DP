@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
-import javax.inject.Named;
 import org.inek.dataportal.common.AccessManager;
 import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.controller.SessionController;
@@ -24,9 +23,8 @@ import org.inek.portallib.tree.YearTreeNode;
  *
  * @author muellermi
  */
-@Named
 @Dependent
-public class AccountTreeNodeHandler implements TreeNodeObserver {
+public class AccountTreeNodeObserver implements TreeNodeObserver {
 
     @Inject private SpecificFunctionFacade _specificFunctionFacade;
     @Inject private SessionController _sessionController;

@@ -10,5 +10,8 @@ public interface TreeNodeObserver {
 
     void obtainChildren(TreeNode treeNode, Collection<TreeNode> children);
 
-    Collection<TreeNode> obtainSortedChildren(TreeNode treeNode, Collection<TreeNode> children);
+    default Collection<TreeNode> obtainSortedChildren(TreeNode treeNode, Collection<TreeNode> children){
+        return children;
+    }
+   
 }

@@ -8,10 +8,8 @@ import java.util.Set;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
-import javax.inject.Named;
 import org.inek.dataportal.common.AccessManager;
 import static org.inek.dataportal.common.AccessManager.canReadSealed;
-import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.enums.Feature;
@@ -25,14 +23,13 @@ import org.inek.portallib.tree.TreeNodeObserver;
  *
  * @author muellermi
  */
-@Named
 @Dependent
-public class YearTreeNodeHandler implements TreeNodeObserver {
+public class YearTreeNodeObserver implements TreeNodeObserver {
 
     @Inject private SpecificFunctionFacade _specificFunctionFacade;
     @Inject private SessionController _sessionController;
     @Inject private AccessManager _accessManager;
-    @Inject private Instance<AccountTreeNodeHandler> _accountTreeNodeHandlerProvider;
+    @Inject private Instance<AccountTreeNodeObserver> _accountTreeNodeObserverProvider;
 
     @Override
     public void obtainChildren(TreeNode treeNode, Collection<TreeNode> children) {
@@ -56,7 +53,7 @@ public class YearTreeNodeHandler implements TreeNodeObserver {
             Optional<? extends TreeNode> existing = oldChildren.stream().filter(n -> n.getId() == id).findFirst();
             AccountTreeNode childNode = existing.isPresent() 
                     ? (AccountTreeNode) existing.get() 
-                    : AccountTreeNode.create(treeNode, account, _accountTreeNodeHandlerProvider.get());
+                    : AccountTreeNode.create(treeNode, account, _accountTreeNodeObserverProvider.get());
             children.add((TreeNode) childNode);
             oldChildren.remove(childNode);
             if (account == currentUser) {
@@ -65,11 +62,5 @@ public class YearTreeNodeHandler implements TreeNodeObserver {
             }
         }
     }
-
-    @Override
-    public Collection<TreeNode> obtainSortedChildren(TreeNode treeNode, Collection<TreeNode> children) {
-        return children;
-    }
-
     
 }
