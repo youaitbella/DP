@@ -428,6 +428,21 @@ public class SpecificFunctionAgreement implements Serializable, StatusEntity {
     }
     // </editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc="Property TypeExtraCharge">
+    @Column(name = "amTypeExtraChargeId")
+    @Documentation(name = "Art des Zustandekommens des Zuschlags")
+    private int _typeExtraCharge;
+
+    public int getTypeExtraCharge() {
+        return _typeExtraCharge;
+    }
+
+    public void setTypeExtraCharge(int typeExtraCharge) {
+        this._typeExtraCharge = typeExtraCharge;
+    }
+    // </editor-fold>
+    
+    
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public int hashCode() {

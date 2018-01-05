@@ -235,21 +235,6 @@ public class AgreedCenter implements Serializable {
     }
     // </editor-fold>
     
-    // <editor-fold defaultstate="collapsed" desc="Property TypeExtraCharge">
-    @Column(name = "acTypeExtraChargeId")
-    @Documentation(name = "Art des Zustandekommens des Zuschlags")
-    private int _typeExtraCharge;
-
-    // </editor-fold>
-
-    public int getTypeExtraCharge() {
-        return _typeExtraCharge;
-    }
-
-    public void setTypeExtraCharge(int typeExtraCharge) {
-        this._typeExtraCharge = typeExtraCharge;
-    }
-    
     
     
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
@@ -319,7 +304,6 @@ public class AgreedCenter implements Serializable {
                 && _specificFunctions.isEmpty()
                 && _otherSpecificFunction.isEmpty() 
                 && _costSum == 0d 
-                && _extraAmount == 0d
-                && _typeExtraCharge == 0;
+                && _extraAmount == 0d;
     }
 }

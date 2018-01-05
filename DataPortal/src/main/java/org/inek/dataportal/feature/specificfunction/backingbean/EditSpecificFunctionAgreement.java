@@ -321,7 +321,8 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
         checkField(message, request.getLastName(), "lblFirstName", "specificFuntion:lastName");
         checkField(message, request.getPhone(), "lblPhone", "specificFuntion:phone");
         checkField(message, request.getMail(), "lblMail", "specificFuntion:mail");
-
+        checkField(message, request.getTypeExtraCharge(), 0, 9, "lblTypeExtraCharge", "specificFuntion:typeExtraCharge");
+        
 // todo        
 //        if (!request.isWillNegotiate() && !request.isHasAgreement()) {
 //            applyMessageValues(message, "Bitte mindestens eine zu verhandelnde oder vorhandene Vereinbarung angeben", "");
