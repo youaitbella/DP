@@ -35,11 +35,17 @@ public class RootTreeNodeObserver implements TreeNodeObserver {
     @Override
     public void obtainChildren(TreeNode treeNode, Collection<TreeNode> children) {
         assert (treeNode instanceof RootNode);
-        if (treeNode.getId() == 1) {
-            obtainEditNodeChildren((RootNode) treeNode, children);
-        }
-        if (treeNode.getId() == 2) {
-            obtainViewNodeChildren((RootNode) treeNode, children);
+        switch (treeNode.getId()) {
+            case 0:
+                break;
+            case 1:
+                obtainEditNodeChildren((RootNode) treeNode, children);
+                break;
+            case 2:
+                obtainViewNodeChildren((RootNode) treeNode, children);
+                break;
+            default:
+                throw new IllegalArgumentException();
         }
     }
 
@@ -76,8 +82,8 @@ public class RootTreeNodeObserver implements TreeNodeObserver {
         children.clear();
         for (Integer year : years) {
             Optional<? extends TreeNode> existing = oldChildren.stream().filter(n -> n.getId() == year).findFirst();
-            YearTreeNode childNode = existing.isPresent() 
-                    ? (YearTreeNode) existing.get() 
+            YearTreeNode childNode = existing.isPresent()
+                    ? (YearTreeNode) existing.get()
                     : YearTreeNode.create(node, year, _yearTreeNodeObserverProvider.get());
             children.add((TreeNode) childNode);
             oldChildren.remove(childNode);
@@ -87,5 +93,4 @@ public class RootTreeNodeObserver implements TreeNodeObserver {
         }
     }
 
-   
 }
