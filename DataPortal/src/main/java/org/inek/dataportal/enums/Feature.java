@@ -20,7 +20,7 @@ public enum Feature {
     AGENCY(12, "Behörde", NeedApproval.Yes, PortalType.DRG, IkReference.None, Shareable.No),
     INSURANCE(13, "Krankenkasse", NeedApproval.Yes, PortalType.DRG, IkReference.None, Shareable.No),
     CALCULATION_HOSPITAL(14, "Teilnahme Kostenkalkulation", NeedApproval.Yes, PortalType.COMMON, IkReference.Hospital, Shareable.Yes),
-    SPECIFIC_FUNCTION(15, "Besondere Aufgaben", NeedApproval.Yes, PortalType.DRG, IkReference.Hospital, Shareable.No), // todo: make shareable
+    SPECIFIC_FUNCTION(15, "Besondere Aufgaben", NeedApproval.Yes, PortalType.DRG, IkReference.Hospital, Shareable.Yes),
     ADDITIONAL_COST(16, "Finanzierung von Mehrkosten", NeedApproval.Yes, PortalType.DRG, IkReference.Hospital, Shareable.No), // todo: make shareable
     PSYCH_STAFF(17, "Psych-Personalnachweis-Vereinbarung", NeedApproval.Yes, PortalType.PSY, IkReference.Hospital, Shareable.No), // todo: shareable
     VALUATION_RATIO(18, "Gezielte Absenkung", NeedApproval.Yes, PortalType.DRG, IkReference.Hospital, Shareable.No), // todo: make shareable

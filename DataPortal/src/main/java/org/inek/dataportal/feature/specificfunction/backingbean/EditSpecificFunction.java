@@ -12,7 +12,6 @@ import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -485,25 +484,16 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
     }
 
     private void removeEmptyProjectedCenters() {
-        Iterator<RequestProjectedCenter> iter = _request.getRequestProjectedCenters().iterator();
-        while (iter.hasNext()) {
-            RequestProjectedCenter center = iter.next();
-            if (center.isEmpty()) {
-                iter.remove();
-            } else if (!center.getSpecificFunctions().stream().anyMatch(f -> f.getId() == -1)) {
+        _request.getRequestProjectedCenters().removeIf(c -> c.isEmpty());
+        for (RequestProjectedCenter center : _request.getRequestProjectedCenters()) {
+            if (!center.getSpecificFunctions().stream().anyMatch(f -> f.getId() == -1)) {
                 center.setOtherSpecificFunction("");
             }
         }
     }
 
     private void removeEmptyAgreedCenters() {
-        Iterator<RequestAgreedCenter> iter = _request.getRequestAgreedCenters().iterator();
-        while (iter.hasNext()) {
-            RequestAgreedCenter center = iter.next();
-            if (center.isEmpty()) {
-                iter.remove();
-            }
-        }
+        _request.getRequestAgreedCenters().removeIf(c -> c.isEmpty());
     }
 
     private void addCentersIfMissing() {
