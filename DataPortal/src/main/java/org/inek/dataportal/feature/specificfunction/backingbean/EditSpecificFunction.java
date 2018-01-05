@@ -83,12 +83,11 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
             _request = newSpecificFunctionRequest();
             addCentersIfMissing();
         } else {
-            SpecificFunctionRequest request = loadSpecificFunctionRequest(id);
-            if (request.getId() == -1) {
+            _request = loadSpecificFunctionRequest(id);
+            if (_request.getId() == -1) {
                 Utils.navigate(Pages.NotAllowed.RedirectURL());
                 return;
             }
-            _request = request;
             addCentersIfMissing();
         }
     }
@@ -107,8 +106,8 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
     }
 
     private boolean hasSufficientRights(SpecificFunctionRequest calcBasics) {
-        return _accessManager.isAccessAllowed(Feature.SPECIFIC_FUNCTION, calcBasics.getStatus(), calcBasics.
-                getAccountId());
+        return _accessManager.isAccessAllowed(Feature.SPECIFIC_FUNCTION, calcBasics.getStatus(), 
+                calcBasics.getAccountId(), calcBasics.getIk());
     }
 
     private SpecificFunctionRequest newSpecificFunctionRequest() {
@@ -239,15 +238,16 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
         if (!_appTools.isEnabled(ConfigKey.IsSpecificFunctionRequestSendEnabled)) {
             return false;
         }
-        return _accessManager.isSealedEnabled(Feature.SPECIFIC_FUNCTION, _request.getStatus(), _request.getAccountId());
+        return _accessManager.isSealedEnabled(Feature.SPECIFIC_FUNCTION, _request.getStatus(), 
+                _request.getAccountId(), _request.getIk());
     }
 
     public boolean isApprovalRequestEnabled() {
         if (!_appTools.isEnabled(ConfigKey.IsSpecificFunctionRequestSendEnabled)) {
             return false;
         }
-        return _accessManager.isApprovalRequestEnabled(Feature.SPECIFIC_FUNCTION, _request.getStatus(), _request.
-                getAccountId());
+        return _accessManager.isApprovalRequestEnabled(Feature.SPECIFIC_FUNCTION, _request.getStatus(), 
+                _request.getAccountId(), _request.getIk());
     }
 
     public boolean isRequestCorrectionEnabled() {
@@ -286,7 +286,8 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
     }
 
     public boolean isTakeEnabled() {
-        return _accessManager.isTakeEnabled(Feature.SPECIFIC_FUNCTION, _request.getStatus(), _request.getAccountId());
+        return _accessManager.isTakeEnabled(Feature.SPECIFIC_FUNCTION, _request.getStatus(), 
+                _request.getAccountId(), _request.getIk());
     }
 
     /**

@@ -41,8 +41,8 @@
                      required="true" 
                      requiredMessage="#{msg.msgValueNeeded}"
                      >
-            <f:convertDateTime pattern="dd.MM.yyyy" locale="de" timeZone="Europe/Berlin" type="date"/>
-            <f:ajax event="blur" rendered=":logout:remaining msgBudgetYear"/>
+            <f:converter converterId="FlexibleDateTimeConverter"/>
+            <f:ajax event="blur" rendered=":logout:remaining msgBudgetYear @this"/>
         </h:inputText>
     </div>
 

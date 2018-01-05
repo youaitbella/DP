@@ -411,7 +411,7 @@ public class SpecificFunctionAgreement implements Serializable, StatusEntity {
     }
     // </editor-fold>
     
-    // <editor-fold defaultstate="collapsed" desc="Property BudgetYear">
+    // <editor-fold defaultstate="collapsed" desc="Property BudgetDate">
     @Column(name = "amBudgetDate")
     @Documentation(name = "Genehmigung Budget", rank = 185, omitOnEmpty = true)
     @Temporal(TemporalType.TIMESTAMP)

@@ -14,7 +14,7 @@ public enum Feature {
     PEPP_PROPOSAL(6, "PEPP-Vorschlagsverfahren", NeedApproval.No, PortalType.PSY, IkReference.None, Shareable.Yes),
     DRG_PROPOSAL(7, "DRG-Vorschlagsverfahren", NeedApproval.No, PortalType.DRG, IkReference.None, Shareable.Yes),
     COOPERATION(8, "Kooperation", NeedApproval.No, PortalType.COMMON, IkReference.None, Shareable.No),
-    MODEL_INTENTION(9, "Modellvorhaben Psy", NeedApproval.No, PortalType.PSY, IkReference.Hospital, Shareable.Yes),
+    MODEL_INTENTION(9, "Modellvorhaben Psy", NeedApproval.No, PortalType.PSY, IkReference.None, Shareable.Yes),
     DOCUMENTS(10, "Dokumente", NeedApproval.No, PortalType.COMMON, IkReference.None, Shareable.No), // todo: make shareable
     CERT(11, "Zertifizierung", NeedApproval.Yes, PortalType.DRG, IkReference.None, Shareable.No),
     AGENCY(12, "Behörde", NeedApproval.Yes, PortalType.DRG, IkReference.None, Shareable.No),
