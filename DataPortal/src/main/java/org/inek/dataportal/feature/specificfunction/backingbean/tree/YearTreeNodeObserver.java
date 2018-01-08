@@ -1,4 +1,4 @@
-package org.inek.dataportal.feature.specificfunction.backingbean;
+package org.inek.dataportal.feature.specificfunction.backingbean.tree;
 
 import java.util.ArrayList;
 import java.util.Collection;
