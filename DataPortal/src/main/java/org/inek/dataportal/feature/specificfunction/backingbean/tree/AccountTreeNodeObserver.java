@@ -33,7 +33,6 @@ public class AccountTreeNodeObserver implements TreeNodeObserver {
     
     @Override
     public void obtainChildren(TreeNode treeNode, Collection<TreeNode> children) {
-        assert(treeNode instanceof AccountTreeNode);
         int partnerId = treeNode.getId();
         List<SpecificFunctionRequest> infos;
         if (treeNode.getParent() instanceof YearTreeNode) {
