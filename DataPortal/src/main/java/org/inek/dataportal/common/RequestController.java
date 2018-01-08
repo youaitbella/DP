@@ -15,6 +15,7 @@ import javax.inject.Named;
 import javax.servlet.RequestDispatcher;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.enums.PortalType;
 import org.inek.dataportal.helper.Utils;
 
 /**
@@ -39,6 +40,11 @@ public class RequestController implements Serializable {
             return;
         }
         FacesContext facesContext = FacesContext.getCurrentInstance();
+        String token = facesContext.getExternalContext().getRequestParameterMap().get("token");
+        String type = facesContext.getExternalContext().getRequestParameterMap().get("type");
+        if (_sessionController.loginByToken(token, PortalType.valueOf(type))) {
+            return;
+        }
         String viewId = facesContext.getViewRoot().getViewId();
         _sessionController.logMessage("Force to login: IP=" + Utils.getClientIP() + "; FromView=" + viewId);
         facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, Pages.Login.URL());
@@ -57,7 +63,8 @@ public class RequestController implements Serializable {
             if (!viewId.equals(Pages.NotAllowed.URL())) {
                 return;
             }
-            String url = (String) facesContext.getExternalContext().getRequestMap().get(RequestDispatcher.ERROR_REQUEST_URI);
+            String url = (String) facesContext.getExternalContext().getRequestMap().
+                    get(RequestDispatcher.ERROR_REQUEST_URI);
             if (url == null) {
                 url = "";
             }

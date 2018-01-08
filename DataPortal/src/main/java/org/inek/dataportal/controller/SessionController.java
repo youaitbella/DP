@@ -118,7 +118,8 @@ public class SessionController implements Serializable {
     private void checkAccount() throws NotLoggedInException {
         if (_account == null) {
             FacesContext facesContext = FacesContext.getCurrentInstance();
-            facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, Pages.SessionTimeout.URL());
+            facesContext.getApplication().getNavigationHandler().
+                    handleNavigation(facesContext, null, Pages.SessionTimeout.URL());
             throw new NotLoggedInException();
         }
     }
@@ -186,7 +187,7 @@ public class SessionController implements Serializable {
         logMessage("Navigate: URL=" + url);
         FeatureScopedContextHolder.Instance.destroyAllBeans();
     }
-    
+
     public String navigate(String url) {
         logMessage("Navigate: URL=" + url);
         setCurrentTopicByUrl(url);
@@ -265,11 +266,34 @@ public class SessionController implements Serializable {
      *
      * @param mailOrUser
      * @param password
+     *
      * @return
      */
     @Deprecated
     public boolean loginAndSetTopics(String mailOrUser, String password) {
         return loginAndSetTopics(mailOrUser, password, _portalType);
+    }
+
+    public boolean loginByToken(String token, PortalType portalType) {
+        _portalType = portalType;
+        String loginInfo = Utils.getClientIP() + "; UserAgent=" + Utils.getUserAgent();
+        
+        // todo: perform translation from token to id by a service
+        // this service remembers each token for few seconds only.
+        // e.g. a REST version of "id = service.getAccount(token)"
+        int id = "jkjklu9341308axj98aj8jkka93jaj03jaskl9jawl8eujwlal88294kass2793721".equals(token) ? 13 : -123;
+        
+        _account = _accountFacade.findAccount(id);
+        if (_account == null) {
+            logMessage("Login by token failed: " + loginInfo);
+        } else {
+            logMessage("Login by token successful: " + loginInfo);
+            initFeatures();
+        }
+
+        setTopics();
+        setParts();
+        return _account != null;
     }
 
     public boolean loginAndSetTopics(String mailOrUser, String password, PortalType portalType) {
@@ -299,7 +323,8 @@ public class SessionController implements Serializable {
      *
      * @param mailOrUser
      * @param password
-     * @param loginInfo An infostring|message to be displayed
+     * @param loginInfo  An infostring|message to be displayed
+     *
      * @return
      */
     public boolean login(String mailOrUser, String password, String loginInfo) {
@@ -437,6 +462,7 @@ public class SessionController implements Serializable {
 
     /**
      * @param requestedFeature
+     *
      * @return true, if the current user is within any InEK role for the requested feature
      */
     public boolean isInekUser(Feature requestedFeature) {
@@ -452,8 +478,9 @@ public class SessionController implements Serializable {
      *
      * @param requestedFeature
      * @param needsWriteAccess
+     *
      * @return true, if the current user is within any InEK role for the requested feature and either has write access
-     * enabled or no write access is requested
+     *         enabled or no write access is requested
      */
     public boolean isInekUser(Feature requestedFeature, boolean needsWriteAccess) {
         if (requestedFeature != Feature.DOCUMENTS && !isInternalClient()) {
@@ -567,6 +594,7 @@ public class SessionController implements Serializable {
      * This methods is used in an onclick event of a facelets page to add a configurable confirmation behavior.
      *
      * @param key
+     *
      * @return
      */
     public String getConfirmMessage(String key) {
@@ -677,7 +705,8 @@ public class SessionController implements Serializable {
     //@SuppressWarnings("unchecked")
     public <T> T findBean(String beanName, Class<T> clazz) {
         FacesContext facesContext = FacesContext.getCurrentInstance();
-        return clazz.cast(facesContext.getApplication().evaluateExpressionGet(facesContext, "#{" + beanName + "}", Object.class));
+        return clazz.cast(facesContext.getApplication().
+                evaluateExpressionGet(facesContext, "#{" + beanName + "}", Object.class));
         //return (T) facesContext.getApplication().evaluateExpressionGet(facesContext, "#{" + beanName + "}", Object.class);
     }
 
@@ -778,7 +807,7 @@ public class SessionController implements Serializable {
             conn.setRequestProperty("X-ReportServer-ClientToken", "FG+RYOLDRuAEh0bO6OBddzcrF45aOI9C");
             if (conn.getResponseCode() != 200) {
                 throw new IOException("Report failed: HTTP error code : " + conn.getResponseCode());
-            } 
+            }
             if (!Utils.downLoadDocument(conn.getInputStream(), fileName, 0)) {
                 throw new IOException("Report failed: Error during download");
             }

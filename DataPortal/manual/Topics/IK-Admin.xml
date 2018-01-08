@@ -24,5 +24,7 @@
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Damit der IK-Admin den berechtigten Personen die erforderlichen Rechte zuweisen kann, erhält der IK-Admin eine Liste der potenziellen Anwender mit Name, Vorname, Krankenhaus- bzw. Firmennamen sowie E-Mail-Adresse. Als potenzielle Anwender werden solche gelistet, die entweder in Ihren Stammdaten bereits das betreffende IK eingetragen haben, oder über eine E-Mail-Adresse der entsprechenden Domäne verfügen.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Beispiel: Wurde für den IK-Admin die Domaine &quot;musterhospital.de&quot; hinterlegt, so werden alle im </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> registrierten Personen gelistet, deren E-Mail-Adresse auf &quot;</text><link displaytype="text" defaultstyle="true" type="weblink" href="mailto:&lt;%LINK_CAPTION%&gt;" styleclass="Normal" translate="true">@musterhospital.de</link><text styleclass="Normal" translate="true">&quot; endet. Allgemeine Domainnamen wie &quot;email.de&quot; können nicht hinterlegt werden.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
   </body>
 </topic>
