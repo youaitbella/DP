@@ -21,54 +21,27 @@
         </inek:MultiIk>
 
         <div jsf:rendered="#{editStatementOfParticipance.statement.ik > 0}" class="marginTop01em">
-                <h:outputLabel styleClass="blockHeader" value="#{msg.lblStatementProvisionOfData}"/>
-                <div class="inputPart">
-                    <h:panelGrid columns="2">
+            <h:outputLabel styleClass="blockHeader" value="#{msg.lblStatementProvisionOfData}"/>
+            <div class="inputPart">
+                <h:panelGrid columns="2">
                     <inek:BooleanRadioButton label="#{msg.lblStatementDrg}" 
                                              value="#{editStatementOfParticipance.statement.drgCalc}" 
                                              renderElement="@form"
                                              readonly="#{editStatementOfParticipance.readOnly or editStatementOfParticipance.enableDrgCalc}"/>
-                    
-                    <div jsf:rendered="#{!editStatementOfParticipance.statement.obligatoryFollowingYears and editStatementOfParticipance.obligatorDrg}">
-                        <h:outputLabel value="Das Krankenhaus wird eine "/>
-                            <h:selectOneMenu id="calcTypeDrg"
-                                             readonly="#{editStatementOfParticipance.readOnly}"
-                                             requiredMessage="#{msg.msgValueNeeded}"
-                                             value="#{editStatementOfParticipance.statement.obligatoryCalcType}"
-                                             hideNoSelectionOption="true">
-                                <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
-                                <f:selectItems value="#{calcBasicsStaticData.calculationTypeItems}" var="item" itemLabel="#{item.value}" itemValue="#{item.key}"/>
-                                <f:ajax event="change" render="@form :logout:remaining " listener="#{editStatementOfParticipance.enableDisablePageElements()}"/>
-                            </h:selectOneMenu>
-                            <h:outputLabel value=" durchführen."/>
-                        </div>
-                    </h:panelGrid>
-                </div>
+                </h:panelGrid>
+            </div>
 
+            <div class="inputPart">
+                <h:panelGrid columns="2">
+                    <inek:BooleanRadioButton label="#{msg.lblStatementPepp}" 
+                                             value="#{editStatementOfParticipance.statement.psyCalc}" 
+                                             renderElement="@form"
+                                             readonly="#{editStatementOfParticipance.readOnly or editStatementOfParticipance.enablePsyCalc}"/>
+                </h:panelGrid>
+            </div>
+            <h:panelGrid columns="1">
                 <div class="inputPart">
-                      <h:panelGrid columns="2">
-                        <inek:BooleanRadioButton label="#{msg.lblStatementPepp}" 
-                                                 value="#{editStatementOfParticipance.statement.psyCalc}" 
-                                                 renderElement="@form"
-                                                 readonly="#{editStatementOfParticipance.readOnly or editStatementOfParticipance.enablePsyCalc}"/>
-                        <div jsf:rendered="#{!editStatementOfParticipance.statement.obligatoryFollowingYears and editStatementOfParticipance.obligatorPsy}">
-                        <h:outputLabel value="Das Krankenhaus wird eine "/>
-                            <h:selectOneMenu id="calcTypePsy"
-                                             readonly="#{editStatementOfParticipance.readOnly}"
-                                             requiredMessage="#{msg.msgValueNeeded}"
-                                             value="#{editStatementOfParticipance.statement.obligatoryCalcType}"
-                                             hideNoSelectionOption="true">
-                                <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
-                                <f:selectItems value="#{calcBasicsStaticData.calculationTypeItems}" var="item" itemLabel="#{item.value}" itemValue="#{item.key}"/>
-                                <f:ajax event="change" render="@form :logout:remaining " listener="#{editStatementOfParticipance.enableDisablePageElements()}"/>
-                            </h:selectOneMenu>
-                            <h:outputLabel value=" durchführen."/>
-                        </div>
-                    </h:panelGrid>
-                </div>
-                <h:panelGrid columns="1">
-                <div class="inputPart">
-                    
+
                     <inek:BooleanRadioButton label="#{msg.lblStatementInv}" 
                                              value="#{editStatementOfParticipance.statement.invCalc}" 
                                              renderElement="@form"
@@ -88,7 +61,21 @@
                                              renderElement="@form"
                                              readonly="#{editStatementOfParticipance.readOnly}"/>
                 </div>
-                </h:panelGrid>
+            </h:panelGrid>
+            <br />
+            <div jsf:rendered="#{!editStatementOfParticipance.statement.obligatoryFollowingYears and editStatementOfParticipance.statement.obligatory}">
+                <h:outputText value="#{editStatementOfParticipance.getObligatoryMessage()}"/>
+                <h:selectOneMenu id="calcTypeDrg"
+                                 readonly="#{editStatementOfParticipance.readOnly}"
+                                 requiredMessage="#{msg.msgValueNeeded}"
+                                 value="#{editStatementOfParticipance.statement.obligatoryCalcType}"
+                                 hideNoSelectionOption="true">
+                    <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
+                    <f:selectItems value="#{calcBasicsStaticData.calculationTypeItems}" var="item" itemLabel="#{item.value}" itemValue="#{item.key}"/>
+                    <f:ajax event="change" render="@form :logout:remaining " listener="#{editStatementOfParticipance.enableDisablePageElements()}"/>
+                </h:selectOneMenu>
+                <h:outputText value=" durchführen."/>
+            </div>
             <h2>#{msg.lblContactPerson}</h2>
             <h:panelGroup id="contact">
                 <calc:CalcContactTable value="#{editStatementOfParticipance.hospitalContacts}" 
@@ -121,8 +108,7 @@
 
                 <div jsf:rendered="#{editStatementOfParticipance.statement.withConsultant}">
                     <inek:LabeledText id="consultantCompany" 
-                                      label="#{msg.lblNameConsultant}" 
-                                      required="true" 
+                                      label="#{msg.lblNameConsultant}"
                                       readonly="#{editStatementOfParticipance.readOnly}"
                                       value="#{editStatementOfParticipance.statement.consultantCompany}" 
                                       styleClass="col50em"/> 
@@ -144,9 +130,9 @@
                                            allowTpg="#{editStatementOfParticipance.statement.tpgCalc}"
                                            allowObd="#{editStatementOfParticipance.statement.obdCalc}"
                                            queryDomain="true"/>
-                <h:commandLink id="addButtonConsultant" styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
-                    <f:ajax event="click" render="@form :logout:remaining" listener="#{editStatementOfParticipance.addConsultant}"/>
-                </h:commandLink>
+                    <h:commandLink id="addButtonConsultant" styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
+                        <f:ajax event="click" render="@form :logout:remaining" listener="#{editStatementOfParticipance.addConsultant}"/>
+                    </h:commandLink>
                 </div>
             </h:panelGroup>
         </div>

@@ -303,6 +303,22 @@ public class EditStatementOfParticipance extends AbstractEditController {
         }
         return info;
     }
+    @SuppressWarnings("CyclomaticComplexity")
+    public String getObligatoryMessage() {
+        if(_statement.isDrgCalc() && _statement.isPsyCalc() && isObligatorDrg()) {
+            return "Das Krankenhaus wird für die Entgeltbereiche DRG und PSY im Datenjahr " + _statement.getDataYear() + " eine ";
+        }
+        else if(_statement.isDrgCalc() && _statement.isPsyCalc() && isObligatorPsy()) {
+            return "Das Krankenhaus wird für die Entgeltbereiche PSY und DRG im Datenjahr " + _statement.getDataYear() + " eine ";
+        }
+        else if(_statement.isDrgCalc() && !_statement.isPsyCalc() && isObligatorDrg()) {
+            return "Das Krankenhaus wird für den Entgeltbereich DRG im Datenjahr " + _statement.getDataYear() + " eine ";
+        }
+        else if(!_statement.isDrgCalc() && _statement.isPsyCalc() && isObligatorDrg()) {
+            return "Das Krankenhaus wird für den Entgeltbereich PSY im Datenjahr " + _statement.getDataYear() + " eine ";
+        }
+        return "Das Krankenhaus wird eine ";
+    }
 
     // <editor-fold defaultstate="collapsed" desc="actions">
     public boolean isReadOnly() {
@@ -399,7 +415,6 @@ public class EditStatementOfParticipance extends AbstractEditController {
         _statement = _calcFacade.saveStatementOfParticipance(_statement);
 
         boolean testMode = _appTools.isEnabled(ConfigKey.TestMode);
-        testMode = false;
         if (!testMode) {
             _icmtUpdater.saveStatementOfParticipanceForIcmt(_statement);
             if(_calcFacade.isObligateInCalcType(_statement.getIk(), _statement.getDataYear(),4)) {
@@ -746,7 +761,5 @@ public class EditStatementOfParticipance extends AbstractEditController {
     }
         
 // </editor-fold>
-
-
 
 }
