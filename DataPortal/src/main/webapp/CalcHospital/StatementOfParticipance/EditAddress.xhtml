@@ -63,7 +63,9 @@
                 </div>
             </h:panelGrid>
             <br />
-            <div jsf:rendered="#{!editStatementOfParticipance.statement.obligatoryFollowingYears and editStatementOfParticipance.statement.obligatory}">
+            <div jsf:rendered="#{!editStatementOfParticipance.statement.obligatoryFollowingYears
+                                 and editStatementOfParticipance.statement.obligatory 
+                                 and (editStatementOfParticipance.obligatorDrg or editStatementOfParticipance.obligatorPsy)}">
                 <h:outputText value="#{editStatementOfParticipance.getObligatoryMessage()}"/>
                 <h:selectOneMenu id="calcTypeDrg"
                                  readonly="#{editStatementOfParticipance.readOnly}"

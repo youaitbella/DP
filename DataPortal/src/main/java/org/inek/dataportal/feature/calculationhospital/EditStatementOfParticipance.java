@@ -69,6 +69,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
     private boolean _enableInvCalc;
     private boolean _obligatorDrg;
     private boolean _obligatorPsy;
+    private boolean _obligatorInv;
 
     enum StatementOfParticipanceTabs {
         tabStatementOfParticipanceAddress,
@@ -76,6 +77,20 @@ public class EditStatementOfParticipance extends AbstractEditController {
     }
     // </editor-fold>
 
+        /**
+     * @return the _obligatorInv
+     */
+    public boolean isObligatorInv() {
+        return _obligatorInv;
+    }
+
+    /**
+     * @param obligatorInv the _obligatorInv to set
+     */
+    public void setObligatorInv(boolean obligatorInv) {
+        this._obligatorInv = obligatorInv;
+    }
+    
     public boolean isEnableDrgCalc() {
         return _enableDrgCalc;
     }
@@ -176,7 +191,8 @@ public class EditStatementOfParticipance extends AbstractEditController {
         int year = Utils.getTargetYear(Feature.CALCULATION_HOSPITAL);
         return retrievePriorData(ik, year);
     }
-
+    
+    @SuppressWarnings("CyclomaticComplexity")
     private StatementOfParticipance retrievePriorData(int ik, int year) {
         StatementOfParticipance statement = new StatementOfParticipance();
         statement.setIk(ik);
@@ -194,13 +210,14 @@ public class EditStatementOfParticipance extends AbstractEditController {
             boolean isPsy = (boolean) obj[6];
             statement.setObligatory(domain.contains("obligatory"));
             if (statement.isObligatory()) {
-                statement.setDrgCalc(isDrg);
-                statement.setPsyCalc(isPsy);
                 statement.setObligatoryFollowingYears(_calcFacade.isObligatoryFollowingYear(ik,year));
                 statement.setInvCalc(_calcFacade.isObligateInCalcType(ik, year,4));
                 statement.setObligatoryCalcType(2);
                 setObligatorDrg(_calcFacade.isObligateInCalcType(ik,year,1));
                 setObligatorPsy(_calcFacade.isObligateInCalcType(ik,year,3));
+                setObligatorInv(_calcFacade.isObligateInCalcType(ik,year,4));
+                statement.setDrgCalc(isDrg && (isObligatorDrg() || isObligatorPsy()));
+                statement.setPsyCalc(isPsy && (isObligatorDrg() || isObligatorPsy()));                
                 statement.setTpgCalc(_calcFacade.isParticipationInCalcType(ik,year - 1,5));
                 statement.setObdCalc(_calcFacade.isParticipationInCalcType(ik,year - 1,7));
                 if(!statement.isInvCalc()) {
@@ -270,7 +287,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
         setEnablePsyCalc(false);
         if(_statement.isObligatory()) {
             setEnableDrgCalc(_statement.isDrgCalc());
-            setEnableInvCalc(_statement.isInvCalc() && !isObligatorDrg() && !isObligatorPsy());
+            setEnableInvCalc(_statement.isInvCalc() && isObligatorInv());
             setEnablePsyCalc(_statement.isPsyCalc());
         }
         enableDisableStatementPage();
@@ -314,7 +331,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
         else if(_statement.isDrgCalc() && !_statement.isPsyCalc() && isObligatorDrg()) {
             return "Das Krankenhaus wird für den Entgeltbereich DRG im Datenjahr " + _statement.getDataYear() + " eine ";
         }
-        else if(!_statement.isDrgCalc() && _statement.isPsyCalc() && isObligatorDrg()) {
+        else if(!_statement.isDrgCalc() && _statement.isPsyCalc() && isObligatorPsy()) {
             return "Das Krankenhaus wird für den Entgeltbereich PSY im Datenjahr " + _statement.getDataYear() + " eine ";
         }
         return "Das Krankenhaus wird eine ";
@@ -761,5 +778,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
     }
         
 // </editor-fold>
+
+
 
 }
