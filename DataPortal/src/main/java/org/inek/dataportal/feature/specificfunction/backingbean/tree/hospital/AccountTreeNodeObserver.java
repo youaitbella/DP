@@ -1,4 +1,4 @@
-package org.inek.dataportal.feature.specificfunction.backingbean.tree;
+package org.inek.dataportal.feature.specificfunction.backingbean.tree.hospital;
 
 import java.util.Collection;
 import java.util.List;
@@ -14,7 +14,6 @@ import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.feature.specificfunction.entity.SpecificFunctionRequest;
 import org.inek.dataportal.feature.specificfunction.facade.SpecificFunctionFacade;
 import org.inek.dataportal.helper.tree.SpecificFunctionRequestTreeNode;
-import org.inek.dataportal.helper.tree.entityTree.AccountTreeNode;
 import org.inek.portallib.tree.TreeNode;
 import org.inek.portallib.tree.TreeNodeObserver;
 import org.inek.portallib.tree.YearTreeNode;
@@ -43,7 +42,7 @@ public class AccountTreeNodeObserver implements TreeNodeObserver {
         }
         treeNode.getChildren().clear();
         for (SpecificFunctionRequest info : infos) {
-            treeNode.getChildren().add(SpecificFunctionRequestTreeNode.create(treeNode, info, this));
+            treeNode.getChildren().add(SpecificFunctionRequestTreeNode.create(treeNode, info, null));
         }
     }
 

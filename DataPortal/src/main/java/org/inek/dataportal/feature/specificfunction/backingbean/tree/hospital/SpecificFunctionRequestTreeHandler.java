@@ -1,7 +1,7 @@
-package org.inek.dataportal.feature.specificfunction.backingbean;
+package org.inek.dataportal.feature.specificfunction.backingbean.tree.hospital;
 
-import org.inek.dataportal.feature.specificfunction.backingbean.tree.RootTreeNodeObserver;
-import org.inek.dataportal.feature.specificfunction.backingbean.tree.AccountTreeNodeObserver;
+import org.inek.dataportal.feature.specificfunction.backingbean.tree.hospital.ViewRootTreeNodeObserver;
+import org.inek.dataportal.feature.specificfunction.backingbean.tree.hospital.AccountTreeNodeObserver;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
@@ -14,12 +14,14 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.feature.specificfunction.backingbean.tree.hospital.EditRootTreeNodeObserver;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.tree.entityTree.AccountTreeNode;
 import org.inek.dataportal.helper.tree.SpecificFunctionRequestTreeNode;
 import org.inek.portallib.tree.RootNode;
 import org.inek.portallib.tree.TreeNode;
 import org.inek.dataportal.utils.KeyValueLevel;
+import org.inek.portallib.tree.TreeNodeObserver;
 
 /**
  *
@@ -32,34 +34,36 @@ public class SpecificFunctionRequestTreeHandler implements Serializable {
 
     @Inject private SessionController _sessionController;
     @Inject private Instance<AccountTreeNodeObserver> _accountTreeNodeObserverProvider;
-    @Inject private Instance<RootTreeNodeObserver> _rootTreeNodeObserverProvider;
+    @Inject private Instance<EditRootTreeNodeObserver> _editRootTreeNodeObserverProvider;
+    @Inject private Instance<ViewRootTreeNodeObserver> _viewRootTreeNodeObserverProvider;
 
     private RootNode _rootNode;
     private AccountTreeNode _accountNode;
 
     @PostConstruct
-    private void init(){
-        _rootNode = RootNode.create(0, _rootTreeNodeObserverProvider.get());
+    private void init() {
+        _rootNode = RootNode.create(0, null);
+        _rootNode.setExpanded(true);
     }
-    
-    private RootNode getRootNode(int id) {
+
+    public RootNode getEditNode() {
+        return getRootNode(1, _editRootTreeNodeObserverProvider);
+    }
+
+    public RootNode getViewNode() {
+        return getRootNode(2, _viewRootTreeNodeObserverProvider);
+    }
+
+    private RootNode getRootNode(int id,
+            Instance<? extends TreeNodeObserver> treeNodeObserverProvider) {
         Optional<TreeNode> optionalRoot = _rootNode.getChildren().stream().filter(n -> n.getId() == id).findAny();
         if (optionalRoot.isPresent()) {
             return (RootNode) optionalRoot.get();
         }
-        RootNode node = RootNode.create(id, _rootTreeNodeObserverProvider.get());
+        RootNode node = RootNode.create(id, treeNodeObserverProvider.get());
         node.expand();
-        _rootNode.setExpanded(true);
         _rootNode.getChildren().add(node);
         return node;
-    }
-
-    public RootNode getEditNode() {
-        return getRootNode(1);
-    }
-
-    public RootNode getViewNode() {
-        return getRootNode(2);
     }
 
     public void refreshNodes() {
@@ -68,7 +72,8 @@ public class SpecificFunctionRequestTreeHandler implements Serializable {
 
     public AccountTreeNode getAccountNode() {
         if (_accountNode == null) {
-            _accountNode = AccountTreeNode.create(null, _sessionController.getAccount(), _accountTreeNodeObserverProvider.get());
+            _accountNode = AccountTreeNode.
+                    create(null, _sessionController.getAccount(), _accountTreeNodeObserverProvider.get());
             _accountNode.expand();
         }
         return _accountNode;

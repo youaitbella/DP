@@ -1,4 +1,4 @@
-package org.inek.dataportal.feature.specificfunction.backingbean;
+package org.inek.dataportal.feature.specificfunction.backingbean.tree.inek;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -47,25 +47,16 @@ public class InekSpfTreeHandler implements Serializable, TreeNodeObserver {
 
     @Override
     public void obtainChildren(TreeNode treeNode, Collection<TreeNode> children) {
-        if (treeNode instanceof RootNode) {
-            obtainRootNodeChildren((RootNode) treeNode, children);
-        }
+        obtainRootNodeChildren((RootNode) treeNode, children);
     }
 
     private void obtainRootNodeChildren(RootNode node, Collection<TreeNode> children) {
-        List<SpecificFunctionRequest> infos = _specificFunctionFacade.getSpecificFunctionsForInek(getYear(), getFilter());
+        List<SpecificFunctionRequest> infos = _specificFunctionFacade.
+                getSpecificFunctionsForInek(getYear(), getFilter());
         node.getChildren().clear();
         for (SpecificFunctionRequest info : infos) {
-            node.getChildren().add(SpecificFunctionRequestTreeNode.create(node, info, this));
+            node.getChildren().add(SpecificFunctionRequestTreeNode.create(node, info, null));
         }
-    }
-
-    @Override
-    public Collection<TreeNode> obtainSortedChildren(TreeNode treeNode, Collection<TreeNode> children) {
-        if (treeNode instanceof RootNode) {
-            return sortChildren((RootNode) treeNode, children);
-        }
-        return children;
     }
 
     private String _filter = "";
@@ -80,18 +71,18 @@ public class InekSpfTreeHandler implements Serializable, TreeNodeObserver {
     }
 
     private int _year = Utils.getTargetYear(Feature.SPECIFIC_FUNCTION);
-    
-    public int getYear(){
+
+    public int getYear() {
         return _year;
     }
-    
-    public void setYear(int year){
+
+    public void setYear(int year) {
         _year = year;
         refreshNodes();
     }
-    
-    
-    public Collection<TreeNode> sortChildren(RootNode treeNode, Collection<TreeNode> children) {
+
+    @Override
+    public Collection<TreeNode> obtainSortedChildren(TreeNode treeNode, Collection<TreeNode> children) {
         Stream<SpecificFunctionRequestTreeNode> stream = children.stream().map(n -> (SpecificFunctionRequestTreeNode) n);
         Stream<SpecificFunctionRequestTreeNode> sorted;
         int direction = treeNode.isDescending() ? -1 : 1;
@@ -120,4 +111,5 @@ public class InekSpfTreeHandler implements Serializable, TreeNodeObserver {
         }
         return sorted.collect(Collectors.toList());
     }
+
 }

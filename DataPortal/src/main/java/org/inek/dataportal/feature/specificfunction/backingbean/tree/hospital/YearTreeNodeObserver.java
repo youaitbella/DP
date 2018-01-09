@@ -1,4 +1,4 @@
-package org.inek.dataportal.feature.specificfunction.backingbean.tree;
+package org.inek.dataportal.feature.specificfunction.backingbean.tree.hospital;
 
 import java.util.ArrayList;
 import java.util.Collection;

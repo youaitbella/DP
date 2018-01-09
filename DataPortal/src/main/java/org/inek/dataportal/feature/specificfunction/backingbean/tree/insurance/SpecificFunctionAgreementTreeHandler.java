@@ -1,4 +1,4 @@
-package org.inek.dataportal.feature.specificfunction.backingbean;
+package org.inek.dataportal.feature.specificfunction.backingbean.tree.insurance;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -20,12 +20,10 @@ import static org.inek.dataportal.common.AccessManager.canReadCompleted;
 import static org.inek.dataportal.common.AccessManager.canReadSealed;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
-import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.feature.specificfunction.facade.SpecificFunctionFacade;
-import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.feature.specificfunction.entity.SpecificFunctionAgreement;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.tree.entityTree.AccountTreeNode;
@@ -50,12 +48,11 @@ public class SpecificFunctionAgreementTreeHandler implements Serializable, TreeN
     @Inject private SpecificFunctionFacade _specificFunctionFacade;
     @Inject private SessionController _sessionController;
     @Inject private AccessManager _accessManager;
-    @Inject private AccountFacade _accountFacade;
     @Inject private ApplicationTools _appTools;
 
     private final RootNode _rootNode = RootNode.create(0, this);
     private AccountTreeNode _accountNode;
-    
+
     private RootNode getRootNode(int id) {
         Optional<TreeNode> optionalRoot = _rootNode.getChildren().stream().filter(n -> n.getId() == id).findAny();
         if (optionalRoot.isPresent()) {
@@ -106,7 +103,7 @@ public class SpecificFunctionAgreementTreeHandler implements Serializable, TreeN
 
     private void obtainEditNodeChildren(RootNode node, Collection<TreeNode> children) {
         Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.SPECIFIC_FUNCTION, canReadCompleted());
-        List<Account> accounts = _specificFunctionFacade.loadAgreementAccountsForYear(accountIds, 
+        List<Account> accounts = _specificFunctionFacade.loadAgreementAccountsForYear(accountIds,
                 Utils.getTargetYear(Feature.SPECIFIC_FUNCTION), WorkflowStatus.New, WorkflowStatus.ApprovalRequested);
         Account currentUser = _sessionController.getAccount();
         if (accounts.contains(currentUser)) {
@@ -119,7 +116,8 @@ public class SpecificFunctionAgreementTreeHandler implements Serializable, TreeN
         for (Account account : accounts) {
             Integer id = account.getId();
             Optional<? extends TreeNode> existing = oldChildren.stream().filter(n -> n.getId() == id).findFirst();
-            AccountTreeNode childNode = existing.isPresent() ? (AccountTreeNode) existing.get() : AccountTreeNode.create(node, account, this);
+            AccountTreeNode childNode = existing.isPresent() ? (AccountTreeNode) existing.get() : AccountTreeNode.
+                    create(node, account, this);
             children.add((TreeNode) childNode);
             oldChildren.remove(childNode);
             childNode.expand();  // auto-expand all edit nodes by default
@@ -134,7 +132,8 @@ public class SpecificFunctionAgreementTreeHandler implements Serializable, TreeN
         children.clear();
         for (Integer year : years) {
             Optional<? extends TreeNode> existing = oldChildren.stream().filter(n -> n.getId() == year).findFirst();
-            YearTreeNode childNode = existing.isPresent() ? (YearTreeNode) existing.get() : YearTreeNode.create(node, year, this);
+            YearTreeNode childNode = existing.isPresent() ? (YearTreeNode) existing.get() : YearTreeNode.
+                    create(node, year, this);
             children.add((TreeNode) childNode);
             oldChildren.remove(childNode);
             if (year == targetYear) {
@@ -145,7 +144,7 @@ public class SpecificFunctionAgreementTreeHandler implements Serializable, TreeN
 
     private void obtainYearNodeChildren(YearTreeNode node, Collection<TreeNode> children) {
         Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.SPECIFIC_FUNCTION, canReadSealed());
-        List<Account> accounts = _specificFunctionFacade.loadAgreementAccountsForYear(accountIds, node.getId(), 
+        List<Account> accounts = _specificFunctionFacade.loadAgreementAccountsForYear(accountIds, node.getId(),
                 WorkflowStatus.Provided, WorkflowStatus.Retired);
         Account currentUser = _sessionController.getAccount();
         if (accounts.contains(currentUser)) {
@@ -158,7 +157,8 @@ public class SpecificFunctionAgreementTreeHandler implements Serializable, TreeN
         for (Account account : accounts) {
             Integer id = account.getId();
             Optional<? extends TreeNode> existing = oldChildren.stream().filter(n -> n.getId() == id).findFirst();
-            AccountTreeNode childNode = existing.isPresent() ? (AccountTreeNode) existing.get() : AccountTreeNode.create(node, account, this);
+            AccountTreeNode childNode = existing.isPresent() ? (AccountTreeNode) existing.get() : AccountTreeNode.
+                    create(node, account, this);
             children.add((TreeNode) childNode);
             oldChildren.remove(childNode);
             if (account == currentUser) {
@@ -188,7 +188,7 @@ public class SpecificFunctionAgreementTreeHandler implements Serializable, TreeN
         WorkflowStatus statusHigh = WorkflowStatus.Retired;
         if (partnerId != _sessionController.getAccountId()) {
             boolean canReadSealed = _accessManager.canReadSealed(Feature.SPECIFIC_FUNCTION, partnerId);
-            if (!canReadSealed){
+            if (!canReadSealed) {
                 statusLow = WorkflowStatus.Unknown;
                 statusHigh = WorkflowStatus.Unknown;
             }
@@ -206,55 +206,45 @@ public class SpecificFunctionAgreementTreeHandler implements Serializable, TreeN
             boolean canReadAlways = _accessManager.canReadAlways(Feature.SPECIFIC_FUNCTION, partnerId);
             boolean canReadCompleted = _accessManager.canReadCompleted(Feature.SPECIFIC_FUNCTION, partnerId);
             statusLow = canReadAlways ? WorkflowStatus.New
-                    : canReadCompleted ? WorkflowStatus.ApprovalRequested :  WorkflowStatus.Unknown;
-            statusHigh = canReadAlways 
+                    : canReadCompleted ? WorkflowStatus.ApprovalRequested : WorkflowStatus.Unknown;
+            statusHigh = canReadAlways
                     || canReadCompleted ? WorkflowStatus.ApprovalRequested : WorkflowStatus.Unknown;
         }
         return _specificFunctionFacade.obtainSpecificFunctionAgreements(
-                partnerId, 
-                Utils.getTargetYear(Feature.SPECIFIC_FUNCTION), 
-                statusLow, 
+                partnerId,
+                Utils.getTargetYear(Feature.SPECIFIC_FUNCTION),
+                statusLow,
                 statusHigh);
     }
 
     @Override
     public Collection<TreeNode> obtainSortedChildren(TreeNode treeNode, Collection<TreeNode> children) {
         if (treeNode instanceof AccountTreeNode) {
-            return sortAccountNodeChildren((AccountTreeNode) treeNode, children);
+            return sortAccountNodeChildren((AccountTreeNode) treeNode);
         }
         return children;
     }
 
-    public Collection<TreeNode> sortAccountNodeChildren(AccountTreeNode treeNode, Collection<TreeNode> children) {
-        Stream<SpecificFunctionAgreementTreeNode> stream = children.stream().map(n -> (SpecificFunctionAgreementTreeNode) n);
+    public Collection<TreeNode> sortAccountNodeChildren(AccountTreeNode treeNode) {
+        Stream<SpecificFunctionAgreementTreeNode> stream = treeNode.getChildren().stream().
+                map(n -> (SpecificFunctionAgreementTreeNode) n);
         Stream<SpecificFunctionAgreementTreeNode> sorted;
+        int direction = treeNode.isDescending() ? -1 : 1;
         switch (treeNode.getSortCriteria().toLowerCase()) {
             case "id":
-                if (treeNode.isDescending()) {
-                    sorted = stream.sorted((n1, n2) -> Integer.compare(n2.getSpecificFunctionAgreement().getId(), 
-                            n1.getSpecificFunctionAgreement().getId()));
-                } else {
-                    sorted = stream.sorted((n1, n2) -> Integer.compare(n1.getSpecificFunctionAgreement().getId(), 
-                            n2.getSpecificFunctionAgreement().getId()));
-                }
+                sorted = stream.sorted((n1, n2)
+                        -> direction * Integer.compare(n1.getSpecificFunctionAgreement().getId(),
+                                n2.getSpecificFunctionAgreement().getId()));
                 break;
             case "hospital":
-                if (treeNode.isDescending()) {
-                    sorted = stream.sorted((n1, n2) -> _appTools.retrieveHospitalInfo(n2.getSpecificFunctionAgreement().getIk())
-                            .compareTo(_appTools.retrieveHospitalInfo(n1.getSpecificFunctionAgreement().getIk())));
-                } else {
-                    sorted = stream.sorted((n1, n2) -> _appTools.retrieveHospitalInfo(n1.getSpecificFunctionAgreement().getIk())
-                            .compareTo(_appTools.retrieveHospitalInfo(n2.getSpecificFunctionAgreement().getIk())));
-                }
+                sorted = stream.sorted((n1, n2)
+                        -> direction * _appTools.retrieveHospitalInfo(n1.getSpecificFunctionAgreement().getIk())
+                                .compareTo(_appTools.retrieveHospitalInfo(n2.getSpecificFunctionAgreement().getIk())));
                 break;
             case "date":
-                if (treeNode.isDescending()) {
-                    sorted = stream.sorted((n1, n2) -> n2.getSpecificFunctionAgreement().getLastChanged()
-                            .compareTo(n1.getSpecificFunctionAgreement().getLastChanged()));
-                } else {
-                    sorted = stream.sorted((n1, n2) -> n1.getSpecificFunctionAgreement().getLastChanged()
-                            .compareTo(n2.getSpecificFunctionAgreement().getLastChanged()));
-                }
+                sorted = stream.sorted((n1, n2)
+                        -> direction * n1.getSpecificFunctionAgreement().getLastChanged()
+                                .compareTo(n2.getSpecificFunctionAgreement().getLastChanged()));
                 break;
             case "status":
             default:
@@ -283,5 +273,4 @@ public class SpecificFunctionAgreementTreeHandler implements Serializable, TreeN
         return Pages.PrintMultipleView.URL();
     }
 
-    
 }
