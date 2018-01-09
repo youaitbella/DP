@@ -218,11 +218,11 @@ public class SpecificFunctionAgreementTreeHandler implements Serializable, TreeN
     }
 
     @Override
-    public Collection<TreeNode> obtainSortedChildren(TreeNode treeNode, Collection<TreeNode> children) {
+    public Collection<TreeNode> obtainSortedChildren(TreeNode treeNode) {
         if (treeNode instanceof AccountTreeNode) {
             return sortAccountNodeChildren((AccountTreeNode) treeNode);
         }
-        return children;
+        return treeNode.getChildren();
     }
 
     public Collection<TreeNode> sortAccountNodeChildren(AccountTreeNode treeNode) {

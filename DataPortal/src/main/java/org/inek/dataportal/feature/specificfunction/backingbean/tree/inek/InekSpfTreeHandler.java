@@ -82,8 +82,8 @@ public class InekSpfTreeHandler implements Serializable, TreeNodeObserver {
     }
 
     @Override
-    public Collection<TreeNode> obtainSortedChildren(TreeNode treeNode, Collection<TreeNode> children) {
-        Stream<SpecificFunctionRequestTreeNode> stream = children.stream().map(n -> (SpecificFunctionRequestTreeNode) n);
+    public Collection<TreeNode> obtainSortedChildren(TreeNode treeNode) {
+        Stream<SpecificFunctionRequestTreeNode> stream = treeNode.getChildren().stream().map(n -> (SpecificFunctionRequestTreeNode) n);
         Stream<SpecificFunctionRequestTreeNode> sorted;
         int direction = treeNode.isDescending() ? -1 : 1;
         switch (treeNode.getSortCriteria().toLowerCase()) {

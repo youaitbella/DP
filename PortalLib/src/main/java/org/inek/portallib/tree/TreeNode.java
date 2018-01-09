@@ -42,7 +42,7 @@ public abstract class TreeNode implements Serializable{
     
     public Collection<TreeNode> getSortedChildren() {
         if (_observer != null) {
-            return _observer.obtainSortedChildren(this, getChildren());
+            return _observer.obtainSortedChildren(this);
         }
         return _children;
     }

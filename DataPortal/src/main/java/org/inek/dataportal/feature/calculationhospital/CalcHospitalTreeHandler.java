@@ -218,15 +218,15 @@ public class CalcHospitalTreeHandler implements Serializable, TreeNodeObserver {
     }
 
     @Override
-    public Collection<TreeNode> obtainSortedChildren(TreeNode treeNode, Collection<TreeNode> children) {
+    public Collection<TreeNode> obtainSortedChildren(TreeNode treeNode) {
         if (treeNode instanceof AccountTreeNode) {
-            return sortAccountNodeChildren((AccountTreeNode) treeNode, children);
+            return sortAccountNodeChildren((AccountTreeNode) treeNode);
         }
-        return children;
+        return treeNode.getChildren();
     }
 
-    public Collection<TreeNode> sortAccountNodeChildren(AccountTreeNode treeNode, Collection<TreeNode> children) {
-        Stream<CalcHospitalTreeNode> stream = children.stream().map(n -> (CalcHospitalTreeNode) n);
+    public Collection<TreeNode> sortAccountNodeChildren(AccountTreeNode treeNode) {
+        Stream<CalcHospitalTreeNode> stream = treeNode.getChildren().stream().map(n -> (CalcHospitalTreeNode) n);
         Stream<CalcHospitalTreeNode> sorted;
         int direction = treeNode.isDescending() ? -1 : 1;
         switch (treeNode.getSortCriteria().toLowerCase()) {
