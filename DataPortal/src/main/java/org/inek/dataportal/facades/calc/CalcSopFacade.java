@@ -311,7 +311,7 @@ public class CalcSopFacade extends AbstractDataAccess {
             contact.setPsy(domains.contains("PSY"));
             contact.setInv(domains.contains("INV"));
             contact.setTpg(domains.contains("TPG"));
-            contact.setObd(domains.contains("OBD"));
+            contact.setObd(domains.contains("Kl. Sektionen"));
 
             contacts.add(contact);
         }
@@ -367,7 +367,9 @@ public class CalcSopFacade extends AbstractDataAccess {
                 + "where coIsActive = 1 \n"
                 + "and cuIk = " + ik + " \n"
                 + "and roCalcTypeId is not null "
-                + "and roCalcTypeId = " + calcTyp + " \n"
+                + "and coId in (select coId from CallCenterDB.dbo.ccContact join CallCenterDB.dbo.mapContactRole on coId = mcrContactId \n" 
+                + "join CallCenterDB.dbo.listRole on mcrRoleId = roId \n" 
+                + "where roCalcTypeId = " + calcTyp + ")\n"
                 + "and coId not in \n"
                 + "(select coId from CallCenterDB.dbo.ccContact join CallCenterDB.dbo.mapContactRole on coId = mcrContactId \n"
                 + "join CallCenterDB.dbo.listRole on mcrRoleId = roId \n"
@@ -391,7 +393,7 @@ public class CalcSopFacade extends AbstractDataAccess {
             contact.setPsy(domains.contains("PSY"));
             contact.setInv(domains.contains("INV"));
             contact.setTpg(domains.contains("TPG"));
-            contact.setObd(domains.contains("OBD"));
+            contact.setObd(domains.contains("Kl. Sektionen"));
 
             contacts.add(contact);
         }
