@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
-<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+<topic template="Default" lasteditedby="lautenti" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
   <title translate="true">Teilnahmeerklärung</title>
   <body>
     <header>
@@ -30,9 +30,9 @@
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Mittels </text><text styleclass="Button" translate="true">[ Zeile zufügen ]</text><text styleclass="Normal" translate="true"> können Sie weitere Zeilen zur Angabe von Ansprechpartnern zufügen. </text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Soweit Sie auf externe Unterstützung, z.B. einer Unternehmensberatung, zurückgreifen, geben Sie bei Externe Unterstützung </text><text styleclass="Normal" style="font-style:italic;" translate="true">Ja</text><text styleclass="Normal" translate="true"> an. Damit werden automatisch weitere Eingabefelder eingeblendet, die Sie entsprechend der Maske füllen.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Soweit Sie auf externe Unterstützung, z.B. einer Unternehmensberatung, zurückgreifen, geben Sie bei Externe Unterstützung </text><text styleclass="Normal" style="font-style:italic;" translate="true">Ja</text><text styleclass="Normal" translate="true"> an. Damit werden automatisch weitere Eingabefelder eingeblendet, die Sie entsprechend der Maske füllen. Ein Berater kann für mehrere Bereich als Berater markiert werden. Je Bereich können maximal drei Berater angegeben werden.</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Image Caption"><image src="SoP03.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><image src="FireShot Capture 5 - InEK Datenportal (loca_ - http___localhost_8080_DataPortal_common_MainApp.xhtml.png" scale="100.00%" styleclass="Image Caption"></image></para>
     <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Abfrage zur externen Unterstützung</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Auf der Seite </text><text styleclass="Normal" style="font-style:italic;" translate="true">Erklärungen</text><text styleclass="Normal" translate="true"> sind weitere Erklärungen(KVM sowie Überlieger) &#160;zur DRG- bzw. PSY-Kalkulation erforderlich. Die entsprechenden Bereiche sind in der Maske nur sichtbar, wenn Sie an der betreffenden Kalkulation teilnehmen. Bitte füllen Sie die Daten entsprechend den Maskenfeldern aus.</text></para>
@@ -59,9 +59,7 @@
     <para styleclass="Normal"></para>
     <para styleclass="Heading3"><text styleclass="Heading3" translate="true">Abweichende Erfassung für Häuser, die im Rahmen der</text><text styleclass="Heading3" style="font-style:italic;" translate="true"> Vereinbarung zur Erhöhung der Repräsentativität der Kalkulation</text><text styleclass="Heading3" translate="true"> ausgewählt wurden</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Für Häuser die zur Erhöhung der Repräsentativität ausgelost wurden, ist die Teilnahme verpflichtend. Insofern entfallen in der Eingabemaske die Möglichkeiten, für die einzelnen Bereiche die Teilnahme auszuwählen.</text></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Hinweis"><text styleclass="Hinweis" translate="true">Sollten Sie über die Verpflichtung hinaus an anderen Kalkulationsbereichen freiwillig teilnehmen wollen, so setzen Sie sich bitte mit dem InEK in Verbindung.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Für Häuser die zur Erhöhung der Repräsentativität ausgelost wurden, ist die Teilnahme in den jeweils gezogenen Bereich verpflichtend. Es können jedoch freiwillig auch anderen Teilnahmen über das Formular angemeldet werden.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Für die ausgelosten Häuser stehen im ersten Jahr zwei Kalkulationsvarianten zur Auswahl, namentlich die</text></para>
     <list id="1" type="ul" listtype="bullet" formatstring="&#183;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Symbol; font-size:11pt; color:#000000;">
@@ -71,7 +69,7 @@
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Kalkulationsart bestimmt, welche weitere Funktionalität zur Verfügung steht.</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Image Caption"><image src="SoP07.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><image src="FireShot Capture 6 - InEK Datenportal (local)_ - http___localhost_8080_DataPortal_Ca.png" scale="100.00%" styleclass="Image Caption"></image></para>
     <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Auswahl Kalkulationsart</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Im Falle der vereinfachten Kalkulation sind lediglich die Daten der Seite Krankenhaus (Ansprechpartner, Externe Unterstützung) zu füllen. Erfassungsmasken für Kalkulationsgrundlagen etc. stehen im Datenportal nicht zur Verfügung. Stattdessen sind die sogenannten </text><text styleclass="Normal" style="font-style:italic;" translate="true">Strukturinformationen</text><text styleclass="Normal" translate="true"> an das InEK zu übermitteln. Hierzu werden die entsprechenden Häuser vom InEK gesondert informiert.</text></para>

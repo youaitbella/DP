@@ -243,13 +243,28 @@ public class EditStatementOfParticipance extends AbstractEditController {
 //                    + "vorliegenden Informationen bereits in den Dialog geladen. "
 //                    + "Bevor Sie die Daten an das InEK senden, überprüfen Sie diese bitte auf eventuelle Änderungen.');");
         }
+        setStatementContacts(statement, ik, year);
+        return statement;
+    }
 
+    private void setStatementContacts(StatementOfParticipance statement, int ik, int year) {
         statement.setContacts(_calcFacade.retrieveCurrentContacts(ik, year - 1));
         
-        if(statement.getContacts().isEmpty()) {
-            statement.setContacts(_calcFacade.getContactByIk(ik));
+        if(statement.isDrgCalc() && statement.getContacts().stream().filter(c -> c.isDrg()).count() == 0) {
+            statement.getContacts().addAll(_calcFacade.getContactsByCalcType(ik,1));
         }
-        return statement;
+        if(statement.isPsyCalc() && statement.getContacts().stream().filter(c -> c.isPsy()).count() == 0) {
+            statement.getContacts().addAll(_calcFacade.getContactsByCalcType(ik,3));
+        }
+        if(statement.isTpgCalc() && statement.getContacts().stream().filter(c -> c.isTpg()).count() == 0) {
+            statement.getContacts().addAll(_calcFacade.getContactsByCalcType(ik,5));
+        }
+        if(statement.isInvCalc() && statement.getContacts().stream().filter(c -> c.isInv()).count() == 0) {
+            statement.getContacts().addAll(_calcFacade.getContactsByCalcType(ik,4));
+        }
+        if(statement.isObdCalc() && statement.getContacts().stream().filter(c -> c.isObd()).count() == 0) {
+            statement.getContacts().addAll(_calcFacade.getContactsByCalcType(ik,7));
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">

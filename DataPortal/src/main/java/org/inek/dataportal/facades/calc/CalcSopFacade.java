@@ -5,6 +5,7 @@
  */
 package org.inek.dataportal.facades.calc;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -350,5 +351,50 @@ public class CalcSopFacade extends AbstractDataAccess {
             return true;
         }
         return false;
+    }
+
+    public List<CalcContact> getContactsByCalcType(int ik, int calcTyp) {
+        String sql = "select case coSexId when 'F' then 1 when 'H' then 2 else 0 end as gender, \n"
+                + "    coTitle, coFirstName, coLastName, p.cdDetails as phone, e.cdDetails as email, \n"
+                + "    dbo.concatenate(roText) as domain\n"
+                + "--select * \n"
+                + "from CallCenterDB.dbo.ccCustomer \n"
+                + "join CallCenterDB.dbo.ccContact on cuId = coCustomerId \n"
+                + "left join CallCenterDB.dbo.ccContactDetails e on coId=e.cdContactId and e.cdContactDetailTypeId = 'E' \n"
+                + "left join CallCenterDB.dbo.ccContactDetails p on coId=p.cdContactId and p.cdContactDetailTypeId = 'T' \n"
+                + "join CallCenterDB.dbo.mapContactRole on coId = mcrContactId \n"
+                + "join CallCenterDB.dbo.listRole on mcrRoleId = roId \n"
+                + "where coIsActive = 1 \n"
+                + "and cuIk = " + ik + " \n"
+                + "and roCalcTypeId is not null "
+                + "and roCalcTypeId = " + calcTyp + " \n"
+                + "and coId not in \n"
+                + "(select coId from CallCenterDB.dbo.ccContact join CallCenterDB.dbo.mapContactRole on coId = mcrContactId \n"
+                + "join CallCenterDB.dbo.listRole on mcrRoleId = roId \n"
+                + "where roText = 'Berater' or roCalcTypeId not in (1,3,4,5,7)) \n"
+                + "group by cuIk, coSexId, coTitle, coFirstName, coLastName, p.cdDetails, e.cdDetails";
+        Query query = getEntityManager().createNativeQuery(sql);
+        List<CalcContact> contacts = new Vector<>();
+        @SuppressWarnings("unchecked")
+        List<Object[]> objects = query.getResultList();
+        for (Object[] obj : objects) {
+            CalcContact contact = new CalcContact();
+            contact.setGender((int) obj[0]);
+            contact.setTitle((String) obj[1]);
+            contact.setFirstName((String) obj[2]);
+            contact.setLastName((String) obj[3]);
+            contact.setPhone((String) obj[4]);
+            contact.setMail((String) obj[5]);
+            String domains = (String) obj[6];
+
+            contact.setDrg(domains.contains("DRG"));
+            contact.setPsy(domains.contains("PSY"));
+            contact.setInv(domains.contains("INV"));
+            contact.setTpg(domains.contains("TPG"));
+            contact.setObd(domains.contains("OBD"));
+
+            contacts.add(contact);
+        }
+        return contacts;
     }
 }
