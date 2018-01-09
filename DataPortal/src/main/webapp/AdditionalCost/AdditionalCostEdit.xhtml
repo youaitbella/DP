@@ -141,6 +141,7 @@
                                             title="#{msg.titleEffectivCaseMix}"
                                             value="#{editAdditionalCost.additionalCost.effectivCaseMix}" singleLine="true" 
                                             styleClassLabel="label element100-32em" styleClass="element06em" 
+                                            minimum="0.01"
                                             required="true" 
                                             />
                     </h:panelGroup>
@@ -149,6 +150,7 @@
                                             value="#{editAdditionalCost.additionalCost.extraChargeA}" singleLine="true"
                                             title="#{msg.titleExtraCharge}"
                                             styleClassLabel="label element100-32em" styleClass="element06em" 
+                                            minimum="0.01"
                                             required="true"/>
                     </h:panelGroup>
 
@@ -157,6 +159,7 @@
                                             value="#{editAdditionalCost.additionalCost.extraChargeB}" singleLine="true"
                                             title="#{msg.titleExtraCharge}" 
                                             styleClassLabel="label element100-32em" styleClass="element06em" 
+                                            minimum="0.01"
                                             required="true"/>
                     </h:panelGroup>
 
@@ -165,6 +168,7 @@
                                             value="#{editAdditionalCost.additionalCost.extraChargeC}" singleLine="true" 
                                             title="#{msg.titleExtraCharge}" 
                                             styleClassLabel="label element100-32em" styleClass="element06em" 
+                                            minimum="0.01"
                                             required="true"/>
                     </h:panelGroup>
 
@@ -174,6 +178,7 @@
                                             value="#{editAdditionalCost.additionalCost.agreedHospitalIndividualExtraCharge}" singleLine="true" 
                                             title="#{msg.titleAgreedHospitalIndividualExtraCharge}" 
                                             styleClassLabel="label element100-32em" styleClass="element06em" 
+                                            minimum="0.01"
                                             required="true" />
                     </h:panelGroup>
 
@@ -183,6 +188,7 @@
                                             value="#{editAdditionalCost.additionalCost.hospitalIndividualExtraCharge}" singleLine="true"  
                                             title="#{msg.titleHospitalIndividualExtraCharge}"
                                             styleClassLabel="label element100-32em" styleClass="element06em" 
+                                            minimum="0.01"
                                             required="true"/>
                     </h:panelGroup>
 
@@ -247,9 +253,10 @@
                                      styleClass="element05em number"
                                      required="true">
                             <f:convertNumber pattern="#,##0.0"/>
+                            <f:validateDoubleRange minimum="0.01" maximum="100"/>
                             <f:ajax render="msgComplianceRate @this :logout:remaining"/>
                         </h:inputText>
-                        <h:message for="complianceRate :logout:remaining" id="msgComplianceRate" styleClass="errorMessage"/>
+                        <h:message for="complianceRate" id="msgComplianceRate" styleClass="errorMessage"/>
 
                         <h:outputLabel value="%" 
                                        styleClass="label"/>

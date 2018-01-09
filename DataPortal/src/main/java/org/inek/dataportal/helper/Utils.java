@@ -344,6 +344,7 @@ public class Utils {
                 // here the target year is the data year which might be in the past
                 return LocalDateTime.now().getYear() - 1;
             case SPECIFIC_FUNCTION:
+            case ADDITIONAL_COST:
                 return LocalDateTime.now().getYear();
             case NUB:
             default:

@@ -19,7 +19,7 @@
     <!-- IMPLEMENTATION -->
     <cc:implementation>
         <div class="inputPart">
-            <h:outputLabel styleClass="#{cc.attrs.styleClassLabel}" value="#{cc.attrs.label}:" />
+            <h:outputLabel styleClass="#{cc.attrs.styleClassLabel}#{cc.attrs.required ? ' required ' : ''}" value="#{cc.attrs.label}:" />
             <h:inputTextarea id="idText" 
                              styleClass="#{cc.attrs.styleClassText} #{cc.attrs.required ? ' required ' : ''}" 
                              readonly="#{cc.attrs.readonly}"
