@@ -34,7 +34,8 @@ import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.cooperation.CooperationRightFacade;
 import org.inek.dataportal.feature.admin.entity.MailTemplate;
 import org.inek.dataportal.feature.nub.tree.AccountTreeNodeObserver;
-import org.inek.dataportal.feature.nub.tree.RootTreeNodeObserver;
+import org.inek.dataportal.feature.nub.tree.EditRootTreeNodeObserver;
+import org.inek.dataportal.feature.nub.tree.ViewRootTreeNodeObserver;
 import org.inek.dataportal.helper.ObjectUtils;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.structures.MessageContainer;
@@ -47,11 +48,10 @@ import org.inek.dataportal.mail.Mailer;
 import org.inek.dataportal.utils.DocumentationUtil;
 import org.inek.dataportal.utils.KeyValueLevel;
 
-
 // todo: devide into several classes, use a specialized TreeNodeObserver on every level
 // todo: use customer node for iks managed by ikAdmin
 @Named @SessionScoped
-public class NubSessionTools implements Serializable{
+public class NubSessionTools implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger("NubSessionTools");
     private static final long serialVersionUID = 1L;
@@ -61,21 +61,21 @@ public class NubSessionTools implements Serializable{
     @Inject private SessionController _sessionController;
     @Inject private ApplicationTools _appTools;
     @Inject private Instance<AccountTreeNodeObserver> _accountTreeNodeObserverProvider;
-    @Inject private Instance<RootTreeNodeObserver> _rootTreeNodeObserver;
+    @Inject private Instance<EditRootTreeNodeObserver> _editRootTreeNodeObserver;
+    @Inject private Instance<ViewRootTreeNodeObserver> _viewRootTreeNodeObserver;
     @Inject private AccountFacade _accountFacade;
     @Inject private AccessManager _accessManager;
     @Inject private Mailer _mailer;
     @Inject private CustomerFacade _customerFacade;
 
-    private  RootNode _rootNode;
+    private RootNode _rootNode;
     private AccountTreeNode _accountNode;
 
     @PostConstruct
     private void init() {
-        _rootNode = RootNode.create(0, _rootTreeNodeObserver.get());
+        _rootNode = RootNode.create(0, null);
         _rootNode.setExpanded(true);
     }
-
 
     private String _nubFilter = "";
 
@@ -140,27 +140,31 @@ public class NubSessionTools implements Serializable{
     }
 
     public RootNode getEditNode() {
-        return getRootNode(1);
-    }
-
-    private RootNode getRootNode(int id) {
-        Optional<TreeNode> optionalRoot = _rootNode.getChildren().stream().filter(n -> n.getId() == id).findAny();
+        Optional<TreeNode> optionalRoot = _rootNode.getChildren().stream().filter(n -> n.getId() == 1).findAny();
         if (optionalRoot.isPresent()) {
             return (RootNode) optionalRoot.get();
         }
-        RootNode node = RootNode.create(id, _rootTreeNodeObserver.get());
+        RootNode node = RootNode.create(1, _editRootTreeNodeObserver.get());
         node.expand();
         _rootNode.getChildren().add(node);
         return node;
     }
 
     public RootNode getViewNode() {
-        return getRootNode(2);
+        Optional<TreeNode> optionalRoot = _rootNode.getChildren().stream().filter(n -> n.getId() == 2).findAny();
+        if (optionalRoot.isPresent()) {
+            return (RootNode) optionalRoot.get();
+        }
+        RootNode node = RootNode.create(2, _viewRootTreeNodeObserver.get());
+        node.expand();
+        _rootNode.getChildren().add(node);
+        return node;
     }
 
     public AccountTreeNode getAccountNode() {
         if (_accountNode == null) {
-            _accountNode = AccountTreeNode.create(null, _sessionController.getAccount(), _accountTreeNodeObserverProvider.get());
+            _accountNode = AccountTreeNode.
+                    create(null, _sessionController.getAccount(), _accountTreeNodeObserverProvider.get());
             _accountNode.expand();
         }
         return _accountNode;
@@ -170,9 +174,9 @@ public class NubSessionTools implements Serializable{
         _rootNode.refresh();
     }
 
-
     public List<ProposalInfo> getNubRequests(AccountTreeNode accountNode) {
-        return accountNode.getChildren().stream().map(a -> ((ProposalInfoTreeNode) a).getProposalInfo()).collect(Collectors.toList());
+        return accountNode.getChildren().stream().map(a -> ((ProposalInfoTreeNode) a).getProposalInfo()).
+                collect(Collectors.toList());
     }
 
     public String refreshAndGotoNubSummary() {
@@ -279,7 +283,8 @@ public class NubSessionTools implements Serializable{
         if (!_appTools.isEnabled(ConfigKey.IsNubSendEnabled)) {
             return false;
         }
-        return _accessManager.isSealedEnabled(Feature.NUB, nubRequest.getStatus(), nubRequest.getAccountId(), nubRequest.getIk(), true);
+        return _accessManager.
+                isSealedEnabled(Feature.NUB, nubRequest.getStatus(), nubRequest.getAccountId(), nubRequest.getIk(), true);
     }
 
     public MessageContainer composeMissingFieldsMessage(NubRequest nubRequest) {
@@ -360,7 +365,8 @@ public class NubSessionTools implements Serializable{
         }
     }
 
-    private void checkField(MessageContainer message, Integer value, Integer minValue, Integer maxValue, String msgKey, String elementId,
+    private void checkField(MessageContainer message, Integer value, Integer minValue, Integer maxValue, String msgKey,
+            String elementId,
             EditNubRequest.NubRequestTabs tab) {
         if (value == null
                 || minValue != null && value < minValue
@@ -369,14 +375,14 @@ public class NubSessionTools implements Serializable{
         }
     }
 
-    private void applyMessageValues(MessageContainer message, String msgKey, EditNubRequest.NubRequestTabs tab, String elementId) {
+    private void applyMessageValues(MessageContainer message, String msgKey, EditNubRequest.NubRequestTabs tab,
+            String elementId) {
         message.setMessage(message.getMessage() + "\\r\\n" + Utils.getMessage(msgKey));
         if (message.getTopic().isEmpty()) {
             message.setTopic(tab.name());
             message.setElementId(elementId);
         }
     }
-
 
     public String checkProxyIKs(String value) {
         String[] iks = value.split("\\s|,|\r|\n");
@@ -438,7 +444,9 @@ public class NubSessionTools implements Serializable{
                 .replace("{id}", "N" + nubRequest.getId())
                 .replace("{ik}", "" + nubRequest.getIk());
 
-        return _mailer.sendMailFrom("NUB Datenannahme <nub@inek-drg.de>", current.getEmail(), owner.getEmail(), template.getBcc(), subject, body);
+        return _mailer.
+                sendMailFrom("NUB Datenannahme <nub@inek-drg.de>", current.getEmail(), owner.getEmail(), template.
+                        getBcc(), subject, body);
     }
 
     private String _editAction = "print";
@@ -565,7 +573,8 @@ public class NubSessionTools implements Serializable{
     private String takeSelected(List<NubRequest> nubRequests) {
         int count = 0;
         for (NubRequest nubRequest : nubRequests) {
-            if (_accessManager.isTakeEnabled(Feature.NUB, nubRequest.getStatus(), nubRequest.getAccountId(), nubRequest.getIk())) {
+            if (_accessManager.isTakeEnabled(Feature.NUB, nubRequest.getStatus(), nubRequest.getAccountId(), nubRequest.
+                    getIk())) {
                 nubRequest.setAccountId(_sessionController.getAccountId());
                 _nubRequestFacade.saveNubRequest(nubRequest);
                 count++;
