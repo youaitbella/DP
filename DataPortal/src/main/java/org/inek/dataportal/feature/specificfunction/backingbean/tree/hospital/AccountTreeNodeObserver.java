@@ -31,7 +31,7 @@ public class AccountTreeNodeObserver implements TreeNodeObserver {
     @Inject private ApplicationTools _appTools;
     
     @Override
-    public void obtainChildren(TreeNode treeNode, Collection<TreeNode> children) {
+    public void obtainChildren(TreeNode treeNode) {
         int partnerId = treeNode.getId();
         List<SpecificFunctionRequest> infos;
         if (treeNode.getParent() instanceof YearTreeNode) {

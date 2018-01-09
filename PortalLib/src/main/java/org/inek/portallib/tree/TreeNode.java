@@ -131,7 +131,7 @@ public abstract class TreeNode implements Serializable{
 
     protected void expandNode() {
         if (_observer != null) {
-            _observer.obtainChildren(this, getChildren());
+            _observer.obtainChildren(this);
         }
     }
 
@@ -152,7 +152,7 @@ public abstract class TreeNode implements Serializable{
             return;
         }
         if (_observer != null) {
-            _observer.obtainChildren(this, getChildren());
+            _observer.obtainChildren(this);
         }
         for (TreeNode child : copyChildren()) {
             child.refresh();

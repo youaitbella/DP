@@ -19,7 +19,7 @@
 
     <modules>
         <module>DataPortal</module>
-        <module>PsyPortal</module>
+        <!--module>PsyPortal</module-->
         <module>PortalResources</module>
         <module>PortalLib</module>
     </modules>

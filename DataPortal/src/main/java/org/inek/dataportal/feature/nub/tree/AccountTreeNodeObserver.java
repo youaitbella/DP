@@ -32,11 +32,11 @@ public class AccountTreeNodeObserver implements TreeNodeObserver {
     @Inject private NubSessionTools _nubSessionTools;
 
     @Override
-    public void obtainChildren(TreeNode treeNode, Collection<TreeNode> children) {
-        obtainAccountNodeChildren((AccountTreeNode) treeNode, children);
+    public void obtainChildren(TreeNode treeNode) {
+        obtainAccountNodeChildren((AccountTreeNode) treeNode);
     }
 
-    private void obtainAccountNodeChildren(AccountTreeNode accountTreeNode, Collection<TreeNode> children) {
+    private void obtainAccountNodeChildren(AccountTreeNode accountTreeNode) {
         int partnerId = accountTreeNode.getAccountId();
         List<ProposalInfo> infos;
         if (accountTreeNode.getParent() instanceof YearTreeNode) {

@@ -40,11 +40,7 @@ public class EditRootTreeNodeObserver implements TreeNodeObserver {
     @Inject private AccountFacade _accountFacade;
 
     @Override
-    public void obtainChildren(TreeNode treeNode, Collection<TreeNode> children) {
-        obtainNubEditNodeChildren((RootNode) treeNode, children);
-    }
-
-    private void obtainNubEditNodeChildren(RootNode node, Collection<TreeNode> children) {
+    public void obtainChildren(TreeNode treeNode) {
         Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.NUB, canReadCompleted());
         accountIds = _nubRequestFacade.
                 checkAccountsForNubOfYear(accountIds, -1, WorkflowStatus.New, WorkflowStatus.ApprovalRequested);
@@ -61,6 +57,7 @@ public class EditRootTreeNodeObserver implements TreeNodeObserver {
                 accounts.add(0, currentUser);
             }
         }
+        Collection<TreeNode> children = treeNode.getChildren();
         List<? extends TreeNode> oldChildren = new ArrayList<>(children);
         children.clear();
         for (Account account : accounts) {
@@ -68,7 +65,7 @@ public class EditRootTreeNodeObserver implements TreeNodeObserver {
             Optional<? extends TreeNode> existing = oldChildren.stream().filter(n -> n.getId() == id).findFirst();
             EntityTreeNode childNode = existing.isPresent()
                     ? (EntityTreeNode) existing.get()
-                    : AccountTreeNode.create(node, account, _accountTreeNodeObserverProvider.get());
+                    : AccountTreeNode.create(treeNode, account, _accountTreeNodeObserverProvider.get());
             children.add((TreeNode) childNode);
             oldChildren.remove(childNode);
             childNode.expand();  // auto-expand all edit nodes by default

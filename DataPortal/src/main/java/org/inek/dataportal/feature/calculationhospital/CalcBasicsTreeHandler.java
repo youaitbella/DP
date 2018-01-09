@@ -74,16 +74,16 @@ public class CalcBasicsTreeHandler implements Serializable, TreeNodeObserver {
     }
     
     @Override
-    public void obtainChildren(TreeNode treeNode, Collection<TreeNode> children) {
+    public void obtainChildren(TreeNode treeNode) {
         if (treeNode instanceof RootNode) {
-            obtainRootNodeChildren((RootNode) treeNode, children);
+            obtainRootNodeChildren((RootNode) treeNode);
         }
         if (treeNode instanceof AccountTreeNode) {
-            obtainAccountNodeChildren((AccountTreeNode) treeNode, children);
+            obtainAccountNodeChildren((AccountTreeNode) treeNode);
         }
     }
 
-    private void obtainRootNodeChildren(RootNode node, Collection<TreeNode> children) {
+    private void obtainRootNodeChildren(RootNode node) {
         List<Account> accounts = _calcFacade.getInekAccounts(getYear(), getFilter());
         Account currentUser = _sessionController.getAccount();
         if (accounts.contains(currentUser)) {
@@ -91,6 +91,7 @@ public class CalcBasicsTreeHandler implements Serializable, TreeNodeObserver {
             accounts.remove(currentUser);
             accounts.add(0, currentUser);
         }
+        Collection<TreeNode> children = node.getChildren();
         List<? extends TreeNode> oldChildren = new ArrayList<>(children);
         children.clear();
         for (Account account : accounts) {
@@ -105,7 +106,7 @@ public class CalcBasicsTreeHandler implements Serializable, TreeNodeObserver {
         }
     }
 
-    private void obtainAccountNodeChildren(AccountTreeNode accountTreeNode, Collection<TreeNode> children) {
+    private void obtainAccountNodeChildren(AccountTreeNode accountTreeNode) {
         List<CalcHospitalInfo> infos = _calcFacade.getCalcBasicsByEmail(accountTreeNode.getEmail(), getYear(), getFilter());
         accountTreeNode.getChildren().clear();
         for (CalcHospitalInfo info : infos) {

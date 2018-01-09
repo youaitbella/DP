@@ -32,7 +32,7 @@ public class YearTreeNodeObserver implements TreeNodeObserver {
     @Inject private Instance<AccountTreeNodeObserver> _accountTreeNodeObserverProvider;
 
     @Override
-    public void obtainChildren(TreeNode treeNode, Collection<TreeNode> children) {
+    public void obtainChildren(TreeNode treeNode) {
         Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.SPECIFIC_FUNCTION, canReadSealed());
         List<Account> accounts = _specificFunctionFacade.loadRequestAccountsForYear(
                 accountIds,
@@ -46,6 +46,7 @@ public class YearTreeNodeObserver implements TreeNodeObserver {
             accounts.remove(currentUser);
             accounts.add(0, currentUser);
         }
+        Collection<TreeNode> children = treeNode.getChildren();
         List<? extends TreeNode> oldChildren = new ArrayList<>(children);
         children.clear();
         for (Account account : accounts) {

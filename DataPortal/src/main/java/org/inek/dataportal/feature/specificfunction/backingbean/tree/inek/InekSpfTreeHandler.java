@@ -46,16 +46,12 @@ public class InekSpfTreeHandler implements Serializable, TreeNodeObserver {
     }
 
     @Override
-    public void obtainChildren(TreeNode treeNode, Collection<TreeNode> children) {
-        obtainRootNodeChildren((RootNode) treeNode, children);
-    }
-
-    private void obtainRootNodeChildren(RootNode node, Collection<TreeNode> children) {
+    public void obtainChildren(TreeNode treeNode) {
         List<SpecificFunctionRequest> infos = _specificFunctionFacade.
                 getSpecificFunctionsForInek(getYear(), getFilter());
-        node.getChildren().clear();
+        treeNode.getChildren().clear();
         for (SpecificFunctionRequest info : infos) {
-            node.getChildren().add(SpecificFunctionRequestTreeNode.create(node, info, null));
+            treeNode.getChildren().add(SpecificFunctionRequestTreeNode.create(treeNode, info, null));
         }
     }
 

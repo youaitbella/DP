@@ -44,14 +44,10 @@ public class YearTreeNodeObserver implements TreeNodeObserver {
     @Inject private AccountFacade _accountFacade;
 
     @Override
-    public void obtainChildren(TreeNode treeNode, Collection<TreeNode> children) {
-        obtainYearNodeChildren((YearTreeNode) treeNode, children);
-    }
-
-    private void obtainYearNodeChildren(YearTreeNode node, Collection<TreeNode> children) {
+    public void obtainChildren(TreeNode treeNode) {
         Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.NUB, canReadSealed());
         accountIds = _nubRequestFacade.
-                checkAccountsForNubOfYear(accountIds, node.getId(), WorkflowStatus.Provided, WorkflowStatus.Retired);
+                checkAccountsForNubOfYear(accountIds, treeNode.getId(), WorkflowStatus.Provided, WorkflowStatus.Retired);
         List<Account> accounts = _accountFacade.getAccountsForIds(accountIds);
         Account currentUser = _sessionController.getAccount();
         if (accounts.contains(currentUser)) {
@@ -65,6 +61,7 @@ public class YearTreeNodeObserver implements TreeNodeObserver {
                 accounts.add(0, currentUser);
             }
         }
+        Collection<TreeNode> children = treeNode.getChildren();
         List<? extends TreeNode> oldChildren = new ArrayList<>(children);
         children.clear();
         for (Account account : accounts) {
@@ -72,7 +69,7 @@ public class YearTreeNodeObserver implements TreeNodeObserver {
             Optional<? extends TreeNode> existing = oldChildren.stream().filter(n -> n.getId() == id).findFirst();
             EntityTreeNode childNode = existing.isPresent()
                     ? (EntityTreeNode) existing.get()
-                    : AccountTreeNode.create(node, account, _accountTreeNodeObserverProvider.get());
+                    : AccountTreeNode.create(treeNode, account, _accountTreeNodeObserverProvider.get());
             children.add((TreeNode) childNode);
             oldChildren.remove(childNode);
             if (account == currentUser) {

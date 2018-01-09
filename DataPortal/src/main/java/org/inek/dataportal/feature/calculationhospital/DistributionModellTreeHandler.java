@@ -75,16 +75,16 @@ public class DistributionModellTreeHandler implements Serializable, TreeNodeObse
     }
 
     @Override
-    public void obtainChildren(TreeNode treeNode, Collection<TreeNode> children) {
+    public void obtainChildren(TreeNode treeNode) {
         if (treeNode instanceof RootNode) {
-            obtainRootNodeChildren((RootNode) treeNode, children);
+            obtainRootNodeChildren((RootNode) treeNode);
         }
         if (treeNode instanceof AccountTreeNode) {
-            obtainAccountNodeChildren((AccountTreeNode) treeNode, children);
+            obtainAccountNodeChildren((AccountTreeNode) treeNode);
         }
     }
 
-    private void obtainRootNodeChildren(RootNode node, Collection<TreeNode> children) {
+    private void obtainRootNodeChildren(RootNode treeNode) {
         List<Account> accounts = _distributionModelFacade.getInekAccounts(getYear(), getFilter());
         Account currentUser = _sessionController.getAccount();
         if (accounts.contains(currentUser)) {
@@ -92,13 +92,14 @@ public class DistributionModellTreeHandler implements Serializable, TreeNodeObse
             accounts.remove(currentUser);
             accounts.add(0, currentUser);
         }
+        Collection<TreeNode> children = treeNode.getChildren();
         List<? extends TreeNode> oldChildren = new ArrayList<>(children);
         children.clear();
         for (Account account : accounts) {
             Integer id = account.getId();
             Optional<? extends TreeNode> existing = oldChildren.stream().filter(n -> n.getId() == id).findFirst();
             AccountTreeNode childNode = existing.isPresent() ? (AccountTreeNode) existing.get() : AccountTreeNode.
-                    create(node, account, this);
+                    create(treeNode, account, this);
             children.add((TreeNode) childNode);
             oldChildren.remove(childNode);
             if (currentUser.equals(account) || accounts.size() <= 3) {
@@ -107,12 +108,12 @@ public class DistributionModellTreeHandler implements Serializable, TreeNodeObse
         }
     }
 
-    private void obtainAccountNodeChildren(AccountTreeNode accountTreeNode, Collection<TreeNode> children) {
+    private void obtainAccountNodeChildren(AccountTreeNode treeNode) {
         List<CalcHospitalInfo> infos = _distributionModelFacade.
-                getDistributionModelsByEmail(accountTreeNode.getEmail(), getYear(), getFilter());
-        accountTreeNode.getChildren().clear();
+                getDistributionModelsByEmail(treeNode.getEmail(), getYear(), getFilter());
+        treeNode.getChildren().clear();
         for (CalcHospitalInfo info : infos) {
-            accountTreeNode.getChildren().add(CalcHospitalTreeNode.create(accountTreeNode, info, this));
+            treeNode.getChildren().add(CalcHospitalTreeNode.create(treeNode, info, this));
         }
     }
 

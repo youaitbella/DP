@@ -33,13 +33,10 @@ public class ViewRootTreeNodeObserver implements TreeNodeObserver {
     @Inject private Instance<YearTreeNodeObserver> _yearTreeNodeObserverProvider;
 
     @Override
-    public void obtainChildren(TreeNode treeNode, Collection<TreeNode> children) {
-        obtainNubViewNodeChildren((RootNode) treeNode, children);
-    }
-
-    private void obtainNubViewNodeChildren(RootNode node, Collection<TreeNode> children) {
+    public void obtainChildren(TreeNode treeNode) {
         Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.NUB, canReadSealed());
         List<Integer> years = _nubRequestFacade.getNubYears(accountIds);
+        Collection<TreeNode> children = treeNode.getChildren();
         List<? extends TreeNode> oldChildren = new ArrayList<>(children);
         int targetYear = Utils.getTargetYear(Feature.NUB);
         children.clear();
@@ -47,7 +44,7 @@ public class ViewRootTreeNodeObserver implements TreeNodeObserver {
             Optional<? extends TreeNode> existing = oldChildren.stream().filter(n -> n.getId() == year).findFirst();
             YearTreeNode childNode = existing.isPresent()
                     ? (YearTreeNode) existing.get()
-                    : YearTreeNode.create(node, year, _yearTreeNodeObserverProvider.get());
+                    : YearTreeNode.create(treeNode, year, _yearTreeNodeObserverProvider.get());
             children.add((TreeNode) childNode);
             oldChildren.remove(childNode);
             if (year == targetYear) {

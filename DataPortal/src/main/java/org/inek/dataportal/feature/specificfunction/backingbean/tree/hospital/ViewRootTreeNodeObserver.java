@@ -26,13 +26,10 @@ public class ViewRootTreeNodeObserver implements TreeNodeObserver {
     @Inject private Instance<YearTreeNodeObserver> _yearTreeNodeObserverProvider;
 
     @Override
-    public void obtainChildren(TreeNode treeNode, Collection<TreeNode> children) {
-        obtainViewNodeChildren((RootNode) treeNode, children);
-    }
-
-    private void obtainViewNodeChildren(RootNode node, Collection<TreeNode> children) {
+    public void obtainChildren(TreeNode treeNode) {
         Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.SPECIFIC_FUNCTION, canReadSealed());
         Set<Integer> years = _specificFunctionFacade.getRequestCalcYears(accountIds);
+        Collection<TreeNode> children = treeNode.getChildren();
         List<? extends TreeNode> oldChildren = new ArrayList<>(children);
         int targetYear = Utils.getTargetYear(Feature.SPECIFIC_FUNCTION);
         children.clear();
@@ -40,7 +37,7 @@ public class ViewRootTreeNodeObserver implements TreeNodeObserver {
             Optional<? extends TreeNode> existing = oldChildren.stream().filter(n -> n.getId() == year).findFirst();
             YearTreeNode childNode = existing.isPresent()
                     ? (YearTreeNode) existing.get()
-                    : YearTreeNode.create(node, year, _yearTreeNodeObserverProvider.get());
+                    : YearTreeNode.create(treeNode, year, _yearTreeNodeObserverProvider.get());
             children.add((TreeNode) childNode);
             oldChildren.remove(childNode);
             if (year == targetYear) {
