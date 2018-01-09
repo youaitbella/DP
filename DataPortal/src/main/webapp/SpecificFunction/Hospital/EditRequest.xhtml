@@ -49,6 +49,7 @@
                                        for="year"/>
 
                         <h:selectOneMenu id="year" 
+                                         rendered="#{editSpecificFunction.request.id le 0}"
                                          value="#{editSpecificFunction.request.dataYear}"
                                          disabled="#{editSpecificFunction.readOnly}"
                                          required="true"
@@ -57,6 +58,9 @@
                             <f:selectItems value="#{editSpecificFunction.years}" />
                             <f:ajax render="specificFuntion:chkAgreement:label"/>
                         </h:selectOneMenu>
+                        <h:inputText readonly="true"
+                                     rendered="#{editSpecificFunction.request.id gt 0}"
+                                     value="#{editSpecificFunction.request.dataYear}"/>                                     
                     </div>
 
                     <h2>#{msg.lblContactPerson}</h2>
