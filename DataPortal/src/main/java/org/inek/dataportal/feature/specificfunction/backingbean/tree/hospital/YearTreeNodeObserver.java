@@ -34,11 +34,13 @@ public class YearTreeNodeObserver implements TreeNodeObserver {
     @Override
     public void obtainChildren(TreeNode treeNode) {
         Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.SPECIFIC_FUNCTION, canReadSealed());
+        Set<Integer> managedIks = _accessManager.retrieveAllManagedIks(Feature.SPECIFIC_FUNCTION);
         List<Account> accounts = _specificFunctionFacade.loadRequestAccountsForYear(
                 accountIds,
                 treeNode.getId(),
                 WorkflowStatus.Provided,
-                WorkflowStatus.Retired
+                WorkflowStatus.Retired,
+                managedIks
         );
         Account currentUser = _sessionController.getAccount();
         if (accounts.contains(currentUser)) {

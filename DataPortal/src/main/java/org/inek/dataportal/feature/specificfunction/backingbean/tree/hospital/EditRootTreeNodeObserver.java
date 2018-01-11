@@ -53,14 +53,14 @@ public class EditRootTreeNodeObserver implements TreeNodeObserver {
                     .findFirst();
             CustomerTreeNode childNode = existing.isPresent()
                     ? (CustomerTreeNode) existing.get()
-                    : createCusromerNode(treeNode, ik);
+                    : createCustomerNode(treeNode, ik);
             children.add((TreeNode) childNode);
             oldChildren.remove(childNode);
             childNode.expand();  // auto-expand all edit nodes by default
         }
     }
 
-    private CustomerTreeNode createCusromerNode(TreeNode parent, int ik) {
+    private CustomerTreeNode createCustomerNode(TreeNode parent, int ik) {
         Customer customer = _customerFacade.getCustomerByIK(ik);
         return CustomerTreeNode.create(parent, customer, _customerTreeNodeObserverProvider.get());
     }
@@ -74,7 +74,8 @@ public class EditRootTreeNodeObserver implements TreeNodeObserver {
         List<Account> accounts = _specificFunctionFacade.loadRequestAccounts(
                 accountIds,
                 WorkflowStatus.New,
-                WorkflowStatus.ApprovalRequested);
+                WorkflowStatus.ApprovalRequested,
+                managedIks);
         Account currentUser = _sessionController.getAccount();
         if (accounts.contains(currentUser)) {
             // ensure current user is first, if in list

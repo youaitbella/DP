@@ -72,18 +72,26 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
         return query.getResultList().size() == 1;
     }
 
-    public List<Account> loadRequestAccounts(Set<Integer> accountIds, WorkflowStatus statusLow,
-            WorkflowStatus statusHigh) {
-        return loadRequestAccountsForYear(accountIds, 0, statusLow, statusHigh);
+    public List<Account> loadRequestAccounts(
+            Set<Integer> accountIds, 
+            WorkflowStatus statusLow,
+            WorkflowStatus statusHigh,
+            Set<Integer> managedIks) {
+        return loadRequestAccountsForYear(accountIds, 0, statusLow, statusHigh, managedIks);
     }
 
-    public List<Account> loadRequestAccountsForYear(Set<Integer> accountIds, int year, WorkflowStatus statusLow,
-            WorkflowStatus statusHigh) {
+    public List<Account> loadRequestAccountsForYear(
+            Set<Integer> accountIds, 
+            int year, 
+            WorkflowStatus statusLow,
+            WorkflowStatus statusHigh,
+            Set<Integer> managedIks) {
         String jpql = "select distinct a "
                 + "from Account a join SpecificFunctionRequest s "
                 + "where a._id = s._accountId"
                 + (year > 0 ? " and s._dataYear = :year " : "")
-                + "    and s._statusId between :statusLow and :statusHigh and s._accountId in :accountIds";
+                + "    and s._statusId between :statusLow and :statusHigh and s._accountId in :accountIds"
+                + "    and s._ik not in :managedIks";
         TypedQuery<Account> query = getEntityManager().createQuery(jpql, Account.class);
         if (year > 0) {
             query.setParameter("year", year);
@@ -91,6 +99,7 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
         query.setParameter("statusLow", statusLow.getId());
         query.setParameter("statusHigh", statusHigh.getId());
         query.setParameter("accountIds", accountIds);
+        query.setParameter("managedIks", managedIks);
         return query.getResultList();
     }
 
