@@ -40,6 +40,10 @@ public final class AccountTreeNode extends EntityTreeNode{
         return _account.getId();
     }
     
+    public Account getAccount(){
+        return _account;
+    }
+    
     private AccountTreeNode(TreeNode parent, Account account) {
         super(parent);
         _account = account;

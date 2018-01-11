@@ -1,7 +1,9 @@
 package org.inek.dataportal.feature.specificfunction.backingbean.tree.hospital;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.enterprise.context.Dependent;
@@ -9,11 +11,13 @@ import javax.inject.Inject;
 import org.inek.dataportal.common.AccessManager;
 import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.controller.SessionController;
+import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.feature.specificfunction.entity.SpecificFunctionRequest;
 import org.inek.dataportal.feature.specificfunction.facade.SpecificFunctionFacade;
 import org.inek.dataportal.helper.tree.SpecificFunctionRequestTreeNode;
+import org.inek.dataportal.helper.tree.entityTree.AccountTreeNode;
 import org.inek.portallib.tree.TreeNode;
 import org.inek.portallib.tree.TreeNodeObserver;
 import org.inek.portallib.tree.YearTreeNode;
@@ -29,16 +33,16 @@ public class AccountTreeNodeObserver implements TreeNodeObserver {
     @Inject private SessionController _sessionController;
     @Inject private AccessManager _accessManager;
     @Inject private ApplicationTools _appTools;
-    
+
     @Override
     public void obtainChildren(TreeNode treeNode) {
-        int partnerId = treeNode.getId();
+        Account partner = ((AccountTreeNode) treeNode).getAccount();
         List<SpecificFunctionRequest> infos;
         if (treeNode.getParent() instanceof YearTreeNode) {
             int year = treeNode.getParent().getId();
-            infos = obtainRequestsForRead(partnerId, year);
+            infos = obtainRequestsForRead(partner, year);
         } else {
-            infos = obtainRequestsForEdit(partnerId);
+            infos = obtainRequestsForEdit(partner);
         }
         treeNode.getChildren().clear();
         for (SpecificFunctionRequest info : infos) {
@@ -46,42 +50,55 @@ public class AccountTreeNodeObserver implements TreeNodeObserver {
         }
     }
 
-    private List<SpecificFunctionRequest> obtainRequestsForRead(int partnerId, int year) {
+    private List<SpecificFunctionRequest> obtainRequestsForRead(Account partner, int year) {
         WorkflowStatus statusLow = WorkflowStatus.Provided;
         WorkflowStatus statusHigh = WorkflowStatus.Retired;
-        if (partnerId != _sessionController.getAccountId()) {
-            boolean canReadSealed = _accessManager.canReadSealed(Feature.SPECIFIC_FUNCTION, partnerId);
+        if (partner != _sessionController.getAccount()) {
+            boolean canReadSealed = _accessManager.canReadSealed(Feature.SPECIFIC_FUNCTION, partner.getId());
             if (!canReadSealed) {
                 statusLow = WorkflowStatus.Unknown;
                 statusHigh = WorkflowStatus.Unknown;
             }
         }
-        return _specificFunctionFacade.obtainSpecificFunctionRequests(partnerId, year, statusLow, statusHigh);
+        return _specificFunctionFacade.obtainSpecificFunctionRequests(partner.getId(), 0, year, statusLow, statusHigh);
     }
 
-    private List<SpecificFunctionRequest> obtainRequestsForEdit(int partnerId) {
+    private List<SpecificFunctionRequest> obtainRequestsForEdit(Account partner) {
         WorkflowStatus statusLow;
         WorkflowStatus statusHigh;
-        if (partnerId == _sessionController.getAccountId()) {
-            statusLow = WorkflowStatus.New;
-            statusHigh = WorkflowStatus.ApprovalRequested;
-        } else {
-            boolean canReadAlways = _accessManager.canReadAlways(Feature.SPECIFIC_FUNCTION, partnerId);
-            boolean canReadCompleted = _accessManager.canReadCompleted(Feature.SPECIFIC_FUNCTION, partnerId);
-            statusLow = canReadAlways ? WorkflowStatus.New
-                    : canReadCompleted ? WorkflowStatus.ApprovalRequested : WorkflowStatus.Unknown;
-            statusHigh = canReadAlways
-                    || canReadCompleted ? WorkflowStatus.ApprovalRequested : WorkflowStatus.Unknown;
+        List<SpecificFunctionRequest> requests = new ArrayList<>();
+        Set<Integer> managedIks = _accessManager.retrieveAllManagedIks(Feature.SPECIFIC_FUNCTION);
+        for (int ik : partner.getFullIkSet()) {
+            if (managedIks.contains(ik)) {
+                continue;
+            }
+            if (partner == _sessionController.getAccount()) {
+                statusLow = WorkflowStatus.New;
+                statusHigh = WorkflowStatus.ApprovalRequested;
+            } else {
+                boolean canReadAlways = _accessManager.canReadAlways(Feature.SPECIFIC_FUNCTION, partner.getId(), ik);
+                boolean canReadCompleted = _accessManager.
+                        canReadCompleted(Feature.SPECIFIC_FUNCTION, partner.getId(), ik);
+                statusLow = canReadAlways ? WorkflowStatus.New
+                        : canReadCompleted ? WorkflowStatus.ApprovalRequested : WorkflowStatus.Unknown;
+                statusHigh = canReadAlways
+                        || canReadCompleted ? WorkflowStatus.ApprovalRequested : WorkflowStatus.Unknown;
+            }
+            List<SpecificFunctionRequest> ikRequests = _specificFunctionFacade.obtainSpecificFunctionRequests(
+                    partner.getId(),
+                    ik,
+                    statusLow,
+                    statusHigh);
+            requests.addAll(ikRequests);
         }
-        return _specificFunctionFacade.obtainSpecificFunctionRequests(
-                partnerId,
-                statusLow,
-                statusHigh);
+
+        return requests;
     }
-    
+
     @Override
     public Collection<TreeNode> obtainSortedChildren(TreeNode treeNode) {
-        Stream<SpecificFunctionRequestTreeNode> stream = treeNode.getChildren().stream().map(n -> (SpecificFunctionRequestTreeNode) n);
+        Stream<SpecificFunctionRequestTreeNode> stream = treeNode.getChildren().stream().
+                map(n -> (SpecificFunctionRequestTreeNode) n);
         Stream<SpecificFunctionRequestTreeNode> sorted;
         int direction = treeNode.isDescending() ? -1 : 1;
         switch (treeNode.getSortCriteria().toLowerCase()) {
@@ -105,5 +122,4 @@ public class AccountTreeNodeObserver implements TreeNodeObserver {
         return sorted.collect(Collectors.toList());
     }
 
-    
 }
