@@ -103,7 +103,7 @@ public class AccessManager implements Serializable {
         return _featureAccessRights.get(feature);
     }
 
-    public Set<Integer> retrieveAllowedIks(Feature feature) {
+    public Set<Integer> retrieveAllowedManagedIks(Feature feature) {
         return obtainAccessRights(feature)
                 .stream()
                 .filter(r -> r.getRight() != Right.Deny)
@@ -111,7 +111,7 @@ public class AccessManager implements Serializable {
                 .collect(Collectors.toSet());
     }
 
-    public Set<Integer> retrieveDenyedIks(Feature feature) {
+    public Set<Integer> retrieveDenyedManagedIks(Feature feature) {
         return obtainAccessRights(feature)
                 .stream()
                 .filter(r -> r.getRight() == Right.Deny)
@@ -119,7 +119,7 @@ public class AccessManager implements Serializable {
                 .collect(Collectors.toSet());
     }
 
-    public Set<Integer> retrieveManagedIks(Feature feature) {
+    public Set<Integer> retrieveAllManagedIks(Feature feature) {
         return obtainAccessRights(feature)
                 .stream()
                 .map(r -> r.getIk())
@@ -466,6 +466,7 @@ public class AccessManager implements Serializable {
         return r -> r.getCooperativeRight().canWriteAlways();
     }
 
+    //todo: rename to determinePartnerAccountIds
     public Set<Integer> determineAccountIds(Feature feature, Predicate<CooperationRight> canRead) {
         Account account = _sessionController.getAccount();
         Set<Integer> ids = new LinkedHashSet<>();
