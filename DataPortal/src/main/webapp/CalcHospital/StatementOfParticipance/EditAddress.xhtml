@@ -12,7 +12,7 @@
     <ui:define name="editContent">
 
         <h2>#{msg.lblHospital}</h2>
-
+        
         <inek:MultiIk value="#{editStatementOfParticipance.statement.ik}" 
                       ikList="#{editStatementOfParticipance.iks}"
                       listener="#{editStatementOfParticipance.ikChanged}" 
@@ -63,6 +63,7 @@
                 </div>
             </h:panelGrid>
             <br />
+            #{editStatementOfParticipance.enableDisableStatementPage()}            
             <div jsf:rendered="#{!editStatementOfParticipance.statement.obligatoryFollowingYears
                                  and editStatementOfParticipance.statement.obligatory 
                                  and (editStatementOfParticipance.obligatorDrg or editStatementOfParticipance.obligatorPsy)}">
@@ -74,7 +75,7 @@
                                  hideNoSelectionOption="true">
                     <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
                     <f:selectItems value="#{calcBasicsStaticData.calculationTypeItems}" var="item" itemLabel="#{item.value}" itemValue="#{item.key}"/>
-                    <f:ajax event="change" render="@form :logout:remaining " listener="#{editStatementOfParticipance.enableDisablePageElements()}"/>
+                    <f:ajax event="change" render="@form :logout:remaining " listener="#{editStatementOfParticipance.enableDisableStatementPage()}"/>
                 </h:selectOneMenu>
                 <h:outputText value=" durchführen."/>
             </div>
@@ -132,12 +133,11 @@
                                            allowTpg="#{editStatementOfParticipance.statement.tpgCalc}"
                                            allowObd="#{editStatementOfParticipance.statement.obdCalc}"
                                            queryDomain="true"/>
-                    <h:commandLink id="addButtonConsultant" styleClass="addButton inputPart" value="#{msg.btnAddEntry}">
+                    <h:commandLink id="addButtonConsultant" styleClass="addButton inputPart" value="#{msg.btnAddEntry}" rendered="#{!editStatementOfParticipance.readOnly}">
                         <f:ajax event="click" render="@form :logout:remaining" listener="#{editStatementOfParticipance.addConsultant}"/>
                     </h:commandLink>
                 </div>
             </h:panelGroup>
         </div>
-
     </ui:define>
 </ui:composition>

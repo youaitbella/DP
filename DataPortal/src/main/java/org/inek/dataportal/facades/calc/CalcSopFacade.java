@@ -211,7 +211,7 @@ public class CalcSopFacade extends AbstractDataAccess {
                 + "        when 3 then 'PSY' \n"
                 + "        when 4 then 'INV' \n"
                 + "        when 5 then 'TPG'\n"
-                + "        when 7 then 'OBD' end) as domain\n"
+                + "        when 7 then 'Kl. Sektionen' end) as domain\n"
                 + "--select *\n"
                 + "from CallCenterDB.dbo.ccCustomer\n"
                 + "join CallCenterDB.dbo.CustomerCalcInfo on cuId = cciCustomerId and Year(cciValidTo) = " + dataYear + "\n"
@@ -250,7 +250,7 @@ public class CalcSopFacade extends AbstractDataAccess {
             contact.setPsy(domains.contains("PSY"));
             contact.setInv(domains.contains("INV"));
             contact.setTpg(domains.contains("TPG"));
-            contact.setObd(domains.contains("OBD"));
+            contact.setObd(domains.contains("Kl. Sektionen"));
 
             contacts.add(contact);
         }
