@@ -69,6 +69,7 @@ public class AccountTreeNodeObserver implements TreeNodeObserver {
             List<SpecificFunctionRequest> ikRequests = _specificFunctionFacade.obtainSpecificFunctionRequests(
                     partner.getId(),
                     ik,
+                    year,
                     statusLow,
                     statusHigh);
             requests.addAll(ikRequests);
@@ -98,6 +99,7 @@ public class AccountTreeNodeObserver implements TreeNodeObserver {
             List<SpecificFunctionRequest> ikRequests = _specificFunctionFacade.obtainSpecificFunctionRequests(
                     partner.getId(),
                     ik,
+                    0,
                     statusLow,
                     statusHigh);
             requests.addAll(ikRequests);
