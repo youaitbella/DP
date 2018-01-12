@@ -556,7 +556,7 @@ public class EditUserMaintenance extends AbstractEditController {
     }
 
     private void addNewIks(Set<Integer> newSet, Account account, List<AccountAdditionalIK> additionalIKs) {
-        for (Integer ik : newSet) {
+        for (int ik : newSet) {
             if (_ikAdminFacade.hasIkAdmin(ik)) {
                 boolean hasNewEntry = false;
                 for (AccountFeature feature : account.getFeatures()) {
@@ -574,7 +574,7 @@ public class EditUserMaintenance extends AbstractEditController {
         }
     }
 
-    private void notifyIkAdmin(Integer ik, Account account) {
+    private void notifyIkAdmin(int ik, Account account) {
         String user = account.getFirstName() + " " + account.getLastName() + " (" + account.getCompany() + ", " + account.getTown() + ")";
         List<Account> admins =_ikAdminFacade.findIkAdmins(ik);
         

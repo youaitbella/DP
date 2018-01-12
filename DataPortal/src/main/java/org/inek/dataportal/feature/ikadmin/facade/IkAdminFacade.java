@@ -61,7 +61,18 @@ public class IkAdminFacade extends AbstractDataAccess {
         query.setParameter("accountId", account.getId());
         query.setParameter("feature", feature);
         return query.getResultList();
+    }
 
+    /**
+     * Checks for a list of iks, which of them are managed by an ik admin
+     * @param iks
+     * @return managedIks 
+     */
+    public List<Integer> dertermineManagegIks(List<Integer> iks) {
+        String jpql = "select distinct a._ik from AccountIkAdmin a where a._ik in :iks";
+        TypedQuery<Integer> query = getEntityManager().createQuery(jpql, Integer.class);
+        query.setParameter("iks", iks);
+        return query.getResultList();
     }
 
     public void removeRights(int accountId, int ik) {
@@ -80,7 +91,7 @@ public class IkAdminFacade extends AbstractDataAccess {
     }
 
     @SuppressWarnings("unchecked")
-    public List<Account> findIkAdmins(Integer ik) {
+    public List<Account> findIkAdmins(int ik) {
         String sql = "select Account.* from ikadm.mapAccountIkAdmin join Account on aiaAccountId = acId where aiaIk = " + ik;
         Query query = getEntityManager().createNativeQuery(sql, Account.class);
         return query.getResultList();

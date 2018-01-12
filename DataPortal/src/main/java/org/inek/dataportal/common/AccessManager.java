@@ -21,19 +21,17 @@ import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.cooperation.CooperationRightFacade;
 import org.inek.dataportal.feature.ikadmin.entity.AccessRight;
+import org.inek.dataportal.feature.ikadmin.enums.Right;
 import org.inek.dataportal.feature.ikadmin.facade.IkAdminFacade;
 
 /**
- * This class provides access to cooperations rights for one request. 
- * Depending on the current data, a couple of accesses  * might be necessary. 
- To mimimize the db accesses, all cooperation data of one kind (achieved or granted) 
- will be read together and buffered (cached) for the current HTTP request. 
-
- This class has to be placed into request scope.
- 
- Starting in Dec 2017, tha concept of an IK admin has been introduced.
- Such an admin may grant or revoke rights for a given ik.
- If available, these rights will override cooperative rights.
+ * This class provides access to cooperations rights for one request. Depending on the current data, a couple of
+ * accesses * might be necessary. To mimimize the db accesses, all cooperation data of one kind (achieved or granted)
+ * will be read together and buffered (cached) for the current HTTP request. * This class has to be placed into request
+ * scope.
+ *
+ * Starting in Dec 2017, tha concept of an IK admin has been introduced. Such an admin may grant or revoke rights for a
+ * given ik. If available, these rights will override cooperative rights.
  *
  * @author muellermi
  */
@@ -52,6 +50,7 @@ public class AccessManager implements Serializable {
      *
      * @param feature
      * @param account
+     *
      * @return
      */
     private List<CooperationRight> getCooperationRights(Feature feature, Account account) {
@@ -71,6 +70,7 @@ public class AccessManager implements Serializable {
      * @param feature
      * @param partnerId
      * @param ik
+     *
      * @return
      */
     private CooperativeRight getAchievedRight(Feature feature, int partnerId, int ik) {
@@ -92,29 +92,50 @@ public class AccessManager implements Serializable {
         }
         return supervisorRight.mergeRights(cooperativeRight);
     }
-    
+
     private final Map<Feature, List<AccessRight>> _featureAccessRights = new HashMap<>();
-    
-    public List<AccessRight> obtainAccessRights(Feature feature){
-        if (!_featureAccessRights.containsKey(feature)){
-            _featureAccessRights.put(feature, 
+
+    public List<AccessRight> obtainAccessRights(Feature feature) {
+        if (!_featureAccessRights.containsKey(feature)) {
+            _featureAccessRights.put(feature,
                     _ikAdminFacade.findAccessRightsByAccountAndFeature(_sessionController.getAccount(), feature));
         }
         return _featureAccessRights.get(feature);
     }
 
-    
+    public Set<Integer> retrieveAllowedManagedIks(Feature feature) {
+        return obtainAccessRights(feature)
+                .stream()
+                .filter(r -> r.getRight() != Right.Deny)
+                .map(r -> r.getIk())
+                .collect(Collectors.toSet());
+    }
+
+    public Set<Integer> retrieveDenyedManagedIks(Feature feature) {
+        return obtainAccessRights(feature)
+                .stream()
+                .filter(r -> r.getRight() == Right.Deny)
+                .map(r -> r.getIk())
+                .collect(Collectors.toSet());
+    }
+
+    public Set<Integer> retrieveAllManagedIks(Feature feature) {
+        return obtainAccessRights(feature)
+                .stream()
+                .map(r -> r.getIk())
+                .collect(Collectors.toSet());
+    }
 
     /**
      * In normal workflow, only data the user has access to, will be displayed in the lists. But if some user tries to
-     * open data by its id (via URL), this might be an non-authorized access. 
-     * Within ta dialog, it should be tested, wheater at access is allowed or not.
-     * For a uniform interface, we pass in ths state although it is ignored yet.
-     * It migt be respected in the future.
+     * open data by its id (via URL), this might be an non-authorized access. Within ta dialog, it should be tested,
+     * wheater at access is allowed or not. For a uniform interface, we pass in ths state although it is ignored yet. It
+     * migt be respected in the future.
      *
      * @param feature
      * @param state
      * @param ownerId
+     *
      * @return
      */
     public boolean isAccessAllowed(Feature feature, WorkflowStatus state, int ownerId) {
@@ -122,21 +143,21 @@ public class AccessManager implements Serializable {
     }
 
     public boolean isAccessAllowed(Feature feature, WorkflowStatus state, int ownerId, int ik) {
-        if (ik > 0){
+        if (ik > 0) {
             for (AccessRight accessRight : obtainAccessRights(feature)) {
-                if (accessRight.getIk() == ik){
+                if (accessRight.getIk() == ik) {
                     return accessRight.canRead();
                 }
             }
         }
-        
+
         if (ownerId == _sessionController.getAccountId()) {
             return true;
         }
         if (_sessionController.isInekUser(feature)) {
             return true;
         }
-        
+
         CooperativeRight right = getAchievedRight(feature, ownerId, ik);
         return right != CooperativeRight.None;
     }
@@ -147,6 +168,7 @@ public class AccessManager implements Serializable {
      * @param feature
      * @param state
      * @param ownerId
+     *
      * @return
      */
     public boolean isReadOnly(Feature feature, WorkflowStatus state, int ownerId) {
@@ -157,9 +179,9 @@ public class AccessManager implements Serializable {
         if (state.getId() >= WorkflowStatus.Provided.getId()) {
             return true;
         }
-        if (ik > 0){
+        if (ik > 0) {
             for (AccessRight accessRight : obtainAccessRights(feature)) {
-                if (accessRight.getIk() == ik){
+                if (accessRight.getIk() == ik) {
                     return !accessRight.canWrite();
                 }
             }
@@ -168,7 +190,8 @@ public class AccessManager implements Serializable {
             return false;
         }
         CooperativeRight right = getAchievedRight(feature, ownerId, ik);
-        return !right.canWriteAlways() && !(state.getId() >= WorkflowStatus.ApprovalRequested.getId() && right.canWriteCompleted());
+        return !right.canWriteAlways() && !(state.getId() >= WorkflowStatus.ApprovalRequested.getId() && right.
+                canWriteCompleted());
     }
 
     /**
@@ -179,6 +202,7 @@ public class AccessManager implements Serializable {
      * @param feature
      * @param state
      * @param ownerId
+     *
      * @return
      */
     public boolean isApprovalRequestEnabled(Feature feature, WorkflowStatus state, int ownerId) {
@@ -189,7 +213,8 @@ public class AccessManager implements Serializable {
         return isApprovalRequestEnabled(feature, state, ownerId, ik, false);
     }
 
-    public boolean isApprovalRequestEnabled(Feature feature, WorkflowStatus state, int ownerId, int ik, boolean hasUpdateButton) {
+    public boolean isApprovalRequestEnabled(Feature feature, WorkflowStatus state, int ownerId, int ik,
+            boolean hasUpdateButton) {
         if (state.getId() >= WorkflowStatus.ApprovalRequested.getId()) {
             return false;
         }
@@ -216,7 +241,8 @@ public class AccessManager implements Serializable {
 
         List<CooperationRight> coopSupervisors = getCooperationRights(feature, account)
                 .stream()
-                .filter(r -> r.getOwnerId() == account.getId() && r.getIk() == ik && r.getCooperativeRight().isSupervisor())
+                .filter(r -> r.getOwnerId() == account.getId() && r.getIk() == ik && r.getCooperativeRight().
+                isSupervisor())
                 .collect(Collectors.toList());
 
         if (!needIkSupervisor(feature, account, ik)) {
@@ -250,6 +276,7 @@ public class AccessManager implements Serializable {
      * @param feature
      * @param account
      * @param ik
+     *
      * @return
      */
     public boolean needIkSupervisor(Feature feature, Account account, int ik) {
@@ -266,6 +293,7 @@ public class AccessManager implements Serializable {
      * @param feature
      * @param state
      * @param ownerId
+     *
      * @return
      */
     public boolean isSealedEnabled(Feature feature, WorkflowStatus state, int ownerId) {
@@ -283,14 +311,14 @@ public class AccessManager implements Serializable {
         if (state.getId() >= WorkflowStatus.Provided.getId()) {
             return false;
         }
-        if (ik > 0){
+        if (ik > 0) {
             for (AccessRight accessRight : obtainAccessRights(feature)) {
-                if (accessRight.getIk() == ik){
+                if (accessRight.getIk() == ik) {
                     return accessRight.canSeal();
                 }
             }
         }
-        
+
         Account account = _sessionController.getAccount();
         if (ownerId != account.getId()) {
             return getAchievedRight(feature, ownerId, ik).canSeal();
@@ -306,6 +334,7 @@ public class AccessManager implements Serializable {
      * @param feature
      * @param state
      * @param ownerId
+     *
      * @return
      */
     public boolean isRequestCorrectionEnabled(Feature feature, WorkflowStatus state, int ownerId) {
@@ -327,6 +356,7 @@ public class AccessManager implements Serializable {
      * @param feature
      * @param state
      * @param ownerId
+     *
      * @return
      */
     public boolean isUpdateEnabled(Feature feature, WorkflowStatus state, int ownerId) {
@@ -337,9 +367,9 @@ public class AccessManager implements Serializable {
         if (state != WorkflowStatus.CorrectionRequested) {
             return false;
         }
-        if (ik > 0){
+        if (ik > 0) {
             for (AccessRight accessRight : obtainAccessRights(feature)) {
-                if (accessRight.getIk() == ik){
+                if (accessRight.getIk() == ik) {
                     return accessRight.canWrite() || accessRight.canSeal();
                 }
             }
@@ -364,6 +394,7 @@ public class AccessManager implements Serializable {
      * @param state
      * @param ownerId
      * @param ik
+     *
      * @return
      */
     public boolean isTakeEnabled(Feature feature, WorkflowStatus state, int ownerId, int ik) {
@@ -381,6 +412,7 @@ public class AccessManager implements Serializable {
      *
      * @param feature
      * @param partnerId
+     *
      * @return
      */
     public Set<Integer> getPartnerIks(Feature feature, int partnerId) {
@@ -398,7 +430,8 @@ public class AccessManager implements Serializable {
                 for (int ik : partnerIks) {
                     boolean isSupervised = getCooperationRights(feature, account)
                             .stream()
-                            .anyMatch(r -> r.getOwnerId() == -1 && r.getIk() == ik && r.getPartnerId() == account.getId());
+                            .anyMatch(r -> r.getOwnerId() == -1 && r.getIk() == ik && r.getPartnerId() == account.
+                            getId());
                     if (isSupervised) {
                         iks.add(ik);
                     }
@@ -433,6 +466,7 @@ public class AccessManager implements Serializable {
         return r -> r.getCooperativeRight().canWriteAlways();
     }
 
+    //todo: rename to determinePartnerAccountIds
     public Set<Integer> determineAccountIds(Feature feature, Predicate<CooperationRight> canRead) {
         Account account = _sessionController.getAccount();
         Set<Integer> ids = new LinkedHashSet<>();
@@ -456,7 +490,7 @@ public class AccessManager implements Serializable {
     public boolean canReadSealed(Feature feature, int partnerId) {
         return canReadSealed(feature, partnerId, -1);
     }
-    
+
     public boolean canReadSealed(Feature feature, int partnerId, int ik) {
         CooperativeRight achievedRight = getAchievedRight(feature, partnerId, ik);
         return achievedRight.canReadSealed();
@@ -465,7 +499,7 @@ public class AccessManager implements Serializable {
     public boolean canReadCompleted(Feature feature, int partnerId) {
         return canReadCompleted(feature, partnerId, -1);
     }
-    
+
     public boolean canReadCompleted(Feature feature, int partnerId, int ik) {
         CooperativeRight achievedRight = getAchievedRight(feature, partnerId, ik);
         return achievedRight.canReadCompleted();
@@ -474,10 +508,10 @@ public class AccessManager implements Serializable {
     public boolean canReadAlways(Feature feature, int partnerId) {
         return canReadAlways(feature, partnerId, -1);
     }
+
     public boolean canReadAlways(Feature feature, int partnerId, int ik) {
         CooperativeRight achievedRight = getAchievedRight(feature, partnerId, ik);
         return achievedRight.canReadAlways();
     }
 
-    
 }

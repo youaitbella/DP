@@ -32,11 +32,11 @@ public class CustomerFacade extends AbstractFacade<Customer> {
             return q.getSingleResult();
         } catch (NoResultException e) {
             Customer customer = new Customer();
+            customer.setIK(ik);
             String ikString = "" + ik;
-            if (ikString.length() == 9 && (ikString.startsWith("222222") || ikString.startsWith("70"))) {
-                customer.setName("Test-IK");
-                customer.setTown("Musterort");
-            }
+            boolean testIk = ikString.length() == 9 && (ikString.startsWith("222222") || ikString.startsWith("70"));
+            customer.setName(testIk ? "Test-IK" : "unbekannt");
+            customer.setTown(testIk ? "Musterort" : "unbekannt");
             return customer;
         }
     }
