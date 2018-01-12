@@ -51,31 +51,42 @@ public class AccountTreeNodeObserver implements TreeNodeObserver {
     }
 
     private List<SpecificFunctionRequest> obtainRequestsForRead(Account partner, int year) {
-        WorkflowStatus statusLow = WorkflowStatus.Provided;
-        WorkflowStatus statusHigh = WorkflowStatus.Retired;
-        if (partner != _sessionController.getAccount()) {
-            boolean canReadSealed = _accessManager.canReadSealed(Feature.SPECIFIC_FUNCTION, partner.getId());
-            if (!canReadSealed) {
-                statusLow = WorkflowStatus.Unknown;
-                statusHigh = WorkflowStatus.Unknown;
-            }
-        }
-        return _specificFunctionFacade.obtainSpecificFunctionRequests(partner.getId(), 0, year, statusLow, statusHigh);
-    }
-
-    private List<SpecificFunctionRequest> obtainRequestsForEdit(Account partner) {
-        WorkflowStatus statusLow;
-        WorkflowStatus statusHigh;
         List<SpecificFunctionRequest> requests = new ArrayList<>();
         Set<Integer> managedIks = _accessManager.retrieveAllManagedIks(Feature.SPECIFIC_FUNCTION);
         for (int ik : partner.getFullIkSet()) {
             if (managedIks.contains(ik)) {
                 continue;
             }
-            if (partner == _sessionController.getAccount()) {
-                statusLow = WorkflowStatus.New;
-                statusHigh = WorkflowStatus.ApprovalRequested;
-            } else {
+            WorkflowStatus statusLow = WorkflowStatus.Provided;
+            WorkflowStatus statusHigh = WorkflowStatus.Retired;
+            if (partner != _sessionController.getAccount()) {
+                boolean canReadSealed = _accessManager.canReadSealed(Feature.SPECIFIC_FUNCTION, partner.getId(), ik);
+                if (!canReadSealed) {
+                    statusLow = WorkflowStatus.Unknown;
+                    statusHigh = WorkflowStatus.Unknown;
+                }
+            }
+            List<SpecificFunctionRequest> ikRequests = _specificFunctionFacade.obtainSpecificFunctionRequests(
+                    partner.getId(),
+                    ik,
+                    statusLow,
+                    statusHigh);
+            requests.addAll(ikRequests);
+        }
+
+        return requests;
+    }
+
+    private List<SpecificFunctionRequest> obtainRequestsForEdit(Account partner) {
+        List<SpecificFunctionRequest> requests = new ArrayList<>();
+        Set<Integer> managedIks = _accessManager.retrieveAllManagedIks(Feature.SPECIFIC_FUNCTION);
+        for (int ik : partner.getFullIkSet()) {
+            if (managedIks.contains(ik)) {
+                continue;
+            }
+            WorkflowStatus statusLow = WorkflowStatus.New;
+            WorkflowStatus statusHigh = WorkflowStatus.ApprovalRequested;
+            if (partner != _sessionController.getAccount()) {
                 boolean canReadAlways = _accessManager.canReadAlways(Feature.SPECIFIC_FUNCTION, partner.getId(), ik);
                 boolean canReadCompleted = _accessManager.
                         canReadCompleted(Feature.SPECIFIC_FUNCTION, partner.getId(), ik);

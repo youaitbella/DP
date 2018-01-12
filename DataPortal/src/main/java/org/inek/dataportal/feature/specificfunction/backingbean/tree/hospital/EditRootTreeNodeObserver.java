@@ -55,7 +55,6 @@ public class EditRootTreeNodeObserver implements TreeNodeObserver {
                     ? (CustomerTreeNode) existing.get()
                     : createCustomerNode(treeNode, ik);
             children.add((TreeNode) childNode);
-            oldChildren.remove(childNode);
             childNode.expand();  // auto-expand all edit nodes by default
         }
     }
@@ -84,12 +83,14 @@ public class EditRootTreeNodeObserver implements TreeNodeObserver {
         }
         for (Account account : accounts) {
             Integer id = account.getId();
-            Optional<? extends TreeNode> existing = oldChildren.stream().filter(n -> n.getId() == id).findFirst();
+            Optional<? extends TreeNode> existing = oldChildren
+                    .stream()
+                    .filter(n -> n instanceof AccountTreeNode && n.getId() == id)
+                    .findFirst();
             AccountTreeNode childNode = existing.isPresent()
                     ? (AccountTreeNode) existing.get()
                     : AccountTreeNode.create(treeNode, account, _accountTreeNodeObserverProvider.get());
             children.add((TreeNode) childNode);
-            oldChildren.remove(childNode);
             childNode.expand();  // auto-expand all edit nodes by default
         }
     }
