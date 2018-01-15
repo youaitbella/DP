@@ -32,11 +32,11 @@ public class AccountTreeNodeObserver implements TreeNodeObserver {
     @Inject private NubSessionTools _nubSessionTools;
 
     @Override
-    public void obtainChildren(TreeNode treeNode) {
-        obtainAccountNodeChildren((AccountTreeNode) treeNode);
+    public Collection<TreeNode> obtainChildren(TreeNode treeNode) {
+        return obtainAccountNodeChildren((AccountTreeNode) treeNode);
     }
 
-    private void obtainAccountNodeChildren(AccountTreeNode accountTreeNode) {
+    private Collection<TreeNode> obtainAccountNodeChildren(AccountTreeNode accountTreeNode) {
         int partnerId = accountTreeNode.getAccountId();
         List<ProposalInfo> infos;
         if (accountTreeNode.getParent() instanceof YearTreeNode) {
@@ -46,19 +46,20 @@ public class AccountTreeNodeObserver implements TreeNodeObserver {
             infos = obtainNubInfosForEdit(partnerId);
         }
         List<Integer> checked = new ArrayList<>();
-        for (TreeNode child : accountTreeNode.copyChildren()) {
+        for (TreeNode child : accountTreeNode.getChildren()) {
             if (child.isChecked()) {
                 checked.add(child.getId());
             }
         }
-        accountTreeNode.getChildren().clear();
+        Collection<TreeNode> children = new ArrayList<>();
         for (ProposalInfo info : infos) {
             ProposalInfoTreeNode node = ProposalInfoTreeNode.create(accountTreeNode, info, null);
             if (checked.contains(node.getId())) {
                 node.setChecked(true);
             }
-            accountTreeNode.getChildren().add(node);
+            children.add(node);
         }
+        return children;
     }
 
     private List<ProposalInfo> obtainNubInfosForRead(int partnerId, int year) {

@@ -30,14 +30,10 @@ public abstract class TreeNode implements Serializable{
     }
 
     // <editor-fold defaultstate="collapsed" desc="Property Children">    
-    private final Collection<TreeNode> _children = new ArrayList<>();
+    private Collection<TreeNode> _children = new ArrayList<>();
 
     public Collection<TreeNode> getChildren() {
-        return _children;
-    }
-    
-    public Collection<TreeNode> copyChildren() {
-        return new CopyOnWriteArrayList<>(getChildren());
+        return new CopyOnWriteArrayList<>(_children);
     }
     
     public Collection<TreeNode> getSortedChildren() {
@@ -135,7 +131,7 @@ public abstract class TreeNode implements Serializable{
 
     private void invokeObtainChildren() {
         if (_observer != null) {
-            _observer.obtainChildren(this);
+            _children = _observer.obtainChildren(this);
         }
     }
 
@@ -156,7 +152,7 @@ public abstract class TreeNode implements Serializable{
             return;
         }
         invokeObtainChildren();
-        for (TreeNode child : copyChildren()) {
+        for (TreeNode child : getChildren()) {
             child.refresh();
         }
     }

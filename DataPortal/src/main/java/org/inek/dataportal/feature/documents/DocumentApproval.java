@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -112,13 +113,14 @@ public class DocumentApproval implements TreeNodeObserver, Serializable {
     }
 
     @Override
-    public void obtainChildren(TreeNode treeNode) {
+    public Collection<TreeNode> obtainChildren(TreeNode treeNode) {
         if (treeNode instanceof RootNode) {
-            obtainRootNodeChildren((RootNode) treeNode);
+            return obtainRootNodeChildren((RootNode) treeNode);
         }
         if (treeNode instanceof AccountTreeNode) {
-            obtainAccountNodeChildren((AccountTreeNode) treeNode);
+            return obtainAccountNodeChildren((AccountTreeNode) treeNode);
         }
+        return Collections.EMPTY_LIST;
     }
 
     @Override
@@ -156,7 +158,7 @@ public class DocumentApproval implements TreeNodeObserver, Serializable {
         return docInfoStream.collect(Collectors.toList());
     }
 
-    private void obtainRootNodeChildren(RootNode treeNode) {
+    private Collection<TreeNode> obtainRootNodeChildren(RootNode treeNode) {
         List<Account> accounts = _waitingDocFacade.getAgents();
         Account currentUser = _sessionController.getAccount();
         if (accounts.contains(currentUser)) {
@@ -164,9 +166,8 @@ public class DocumentApproval implements TreeNodeObserver, Serializable {
             accounts.remove(currentUser);
             accounts.add(0, currentUser);
         }
-        Collection<TreeNode> children = treeNode.getChildren();
-        List<? extends TreeNode> oldChildren = new ArrayList<>(children);
-        children.clear();
+        List<? extends TreeNode> oldChildren = new ArrayList<>(treeNode.getChildren());
+        Collection<TreeNode> children = new ArrayList<>();
         for (Account account : accounts) {
             Integer id = account.getId();
             Optional<? extends TreeNode> existing = oldChildren.stream().filter(n -> n.getId() == id).findFirst();
@@ -178,25 +179,27 @@ public class DocumentApproval implements TreeNodeObserver, Serializable {
                 childNode.expand();
             }
         }
+        return children;
     }
 
-    private void obtainAccountNodeChildren(AccountTreeNode treeNode) {
+    private Collection<TreeNode> obtainAccountNodeChildren(AccountTreeNode treeNode) {
         int agentId = treeNode.getId();
         List<DocInfo> infos = _waitingDocFacade.getDocInfos(agentId);
         List<Integer> checked = new ArrayList<>();
-        for (TreeNode child : treeNode.copyChildren()) {
+        for (TreeNode child : treeNode.getChildren()) {
             if (child.isChecked()) {
                 checked.add(child.getId());
             }
         }
-        treeNode.getChildren().clear();
+        Collection<TreeNode> children = new ArrayList<>();
         for (DocInfo info : infos) {
             DocumentInfoTreeNode node = DocumentInfoTreeNode.create(treeNode, info, this);
             if (checked.contains(node.getId())) {
                 node.setChecked(true);
             }
-            treeNode.getChildren().add(node);
+            children.add(node);
         }
+        return children;
     }
 
     public void approveSelected() {

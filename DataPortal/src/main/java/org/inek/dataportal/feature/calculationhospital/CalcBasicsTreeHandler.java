@@ -3,6 +3,7 @@ package org.inek.dataportal.feature.calculationhospital;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -74,16 +75,17 @@ public class CalcBasicsTreeHandler implements Serializable, TreeNodeObserver {
     }
     
     @Override
-    public void obtainChildren(TreeNode treeNode) {
+    public Collection<TreeNode> obtainChildren(TreeNode treeNode) {
         if (treeNode instanceof RootNode) {
-            obtainRootNodeChildren((RootNode) treeNode);
+            return obtainRootNodeChildren((RootNode) treeNode);
         }
         if (treeNode instanceof AccountTreeNode) {
-            obtainAccountNodeChildren((AccountTreeNode) treeNode);
+            return obtainAccountNodeChildren((AccountTreeNode) treeNode);
         }
+        return Collections.EMPTY_LIST;
     }
 
-    private void obtainRootNodeChildren(RootNode node) {
+    private Collection<TreeNode> obtainRootNodeChildren(RootNode node) {
         List<Account> accounts = _calcFacade.getInekAccounts(getYear(), getFilter());
         Account currentUser = _sessionController.getAccount();
         if (accounts.contains(currentUser)) {
@@ -91,9 +93,8 @@ public class CalcBasicsTreeHandler implements Serializable, TreeNodeObserver {
             accounts.remove(currentUser);
             accounts.add(0, currentUser);
         }
-        Collection<TreeNode> children = node.getChildren();
-        List<? extends TreeNode> oldChildren = new ArrayList<>(children);
-        children.clear();
+        List<? extends TreeNode> oldChildren = new ArrayList<>(node.getChildren());
+        Collection<TreeNode> children = new ArrayList<>();
         for (Account account : accounts) {
             Integer id = account.getId();
             Optional<? extends TreeNode> existing = oldChildren.stream().filter(n -> n.getId() == id).findFirst();
@@ -104,14 +105,16 @@ public class CalcBasicsTreeHandler implements Serializable, TreeNodeObserver {
                 childNode.expand();  // auto-expand if own node or if only few
             }
         }
+        return children;
     }
 
-    private void obtainAccountNodeChildren(AccountTreeNode accountTreeNode) {
+    private Collection<TreeNode> obtainAccountNodeChildren(AccountTreeNode accountTreeNode) {
         List<CalcHospitalInfo> infos = _calcFacade.getCalcBasicsByEmail(accountTreeNode.getEmail(), getYear(), getFilter());
-        accountTreeNode.getChildren().clear();
+        Collection<TreeNode> children = new ArrayList<>();
         for (CalcHospitalInfo info : infos) {
-            accountTreeNode.getChildren().add(CalcHospitalTreeNode.create(accountTreeNode, info, this));
+            children.add(CalcHospitalTreeNode.create(accountTreeNode, info, this));
         }
+        return children;
     }
 
     @Override

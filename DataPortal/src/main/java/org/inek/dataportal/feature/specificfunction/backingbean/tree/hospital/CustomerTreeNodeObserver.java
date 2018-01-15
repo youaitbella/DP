@@ -29,7 +29,7 @@ public class CustomerTreeNodeObserver implements TreeNodeObserver {
     @Inject private ApplicationTools _appTools;
 
     @Override
-    public void obtainChildren(TreeNode treeNode) {
+    public Collection<TreeNode> obtainChildren(TreeNode treeNode) {
         int ik = ((CustomerTreeNode) treeNode).getIk();
         List<SpecificFunctionRequest> infos;
         if (treeNode.getParent() instanceof YearTreeNode) {
@@ -38,10 +38,11 @@ public class CustomerTreeNodeObserver implements TreeNodeObserver {
         } else {
             infos = obtainRequestsForEdit(ik);
         }
-        treeNode.getChildren().clear();
+        Collection<TreeNode> children = new ArrayList<>();
         for (SpecificFunctionRequest info : infos) {
-            treeNode.getChildren().add(SpecificFunctionRequestTreeNode.create(treeNode, info, null));
+            children.add(SpecificFunctionRequestTreeNode.create(treeNode, info, null));
         }
+        return children;
     }
 
     private List<SpecificFunctionRequest> obtainRequestsForRead(int ik, int year) {

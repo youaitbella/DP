@@ -3,6 +3,7 @@ package org.inek.dataportal.feature.calculationhospital;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -87,22 +88,23 @@ public class CalcHospitalTreeHandler implements Serializable, TreeNodeObserver {
     }
 
     @Override
-    public void obtainChildren(TreeNode treeNode) {
+    public Collection<TreeNode> obtainChildren(TreeNode treeNode) {
         if (treeNode instanceof RootNode && treeNode.getId() == 1) {
-            obtainEditNodeChildren((RootNode) treeNode);
+            return obtainEditNodeChildren((RootNode) treeNode);
         }
         if (treeNode instanceof RootNode && treeNode.getId() == 2) {
-            obtainViewNodeChildren((RootNode) treeNode);
+            return obtainViewNodeChildren((RootNode) treeNode);
         }
         if (treeNode instanceof YearTreeNode) {
-            obtainYearNodeChildren((YearTreeNode) treeNode);
+            return obtainYearNodeChildren((YearTreeNode) treeNode);
         }
         if (treeNode instanceof AccountTreeNode) {
-            obtainAccountNodeChildren((AccountTreeNode) treeNode);
+            return obtainAccountNodeChildren((AccountTreeNode) treeNode);
         }
+        return Collections.EMPTY_LIST;
     }
 
-    private void obtainEditNodeChildren(RootNode treeNode) {
+    private Collection<TreeNode> obtainEditNodeChildren(RootNode treeNode) {
         Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.CALCULATION_HOSPITAL, canReadCompleted());
         accountIds = _calcFacade.checkAccountsForYear(accountIds, Utils.getTargetYear(Feature.CALCULATION_HOSPITAL),
                 WorkflowStatus.New, WorkflowStatus.ApprovalRequested);
@@ -113,9 +115,8 @@ public class CalcHospitalTreeHandler implements Serializable, TreeNodeObserver {
             accounts.remove(currentUser);
             accounts.add(0, currentUser);
         }
-        Collection<TreeNode> children = treeNode.getChildren();
-        List<? extends TreeNode> oldChildren = new ArrayList<>(children);
-        children.clear();
+        List<? extends TreeNode> oldChildren = new ArrayList<>(treeNode.getChildren());
+        Collection<TreeNode> children = new ArrayList<>();
         for (Account account : accounts) {
             Integer id = account.getId();
             Optional<? extends TreeNode> existing = oldChildren.stream().filter(n -> n.getId() == id).findFirst();
@@ -125,15 +126,15 @@ public class CalcHospitalTreeHandler implements Serializable, TreeNodeObserver {
             oldChildren.remove(childNode);
             childNode.expand();  // auto-expand all edit nodes by default
         }
+        return children;
     }
 
-    private void obtainViewNodeChildren(RootNode treeNode) {
+    private Collection<TreeNode> obtainViewNodeChildren(RootNode treeNode) {
         Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.CALCULATION_HOSPITAL, canReadSealed());
         Set<Integer> years = _calcFacade.getCalcYears(accountIds);
-        Collection<TreeNode> children = treeNode.getChildren();
-        List<? extends TreeNode> oldChildren = new ArrayList<>(children);
         int targetYear = Utils.getTargetYear(Feature.CALCULATION_HOSPITAL);
-        children.clear();
+        List<? extends TreeNode> oldChildren = new ArrayList<>(treeNode.getChildren());
+        Collection<TreeNode> children = new ArrayList<>();
         for (Integer year : years) {
             Optional<? extends TreeNode> existing = oldChildren.stream().filter(n -> n.getId() == year).findFirst();
             YearTreeNode childNode = existing.isPresent() ? (YearTreeNode) existing.get() : YearTreeNode.
@@ -144,9 +145,10 @@ public class CalcHospitalTreeHandler implements Serializable, TreeNodeObserver {
                 childNode.expand();
             }
         }
+        return children;
     }
 
-    private void obtainYearNodeChildren(YearTreeNode treeNode) {
+    private Collection<TreeNode> obtainYearNodeChildren(YearTreeNode treeNode) {
         Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.CALCULATION_HOSPITAL, canReadSealed());
         accountIds = _calcFacade.
                 checkAccountsForYear(accountIds, treeNode.getId(), WorkflowStatus.Provided, WorkflowStatus.Retired);
@@ -157,9 +159,8 @@ public class CalcHospitalTreeHandler implements Serializable, TreeNodeObserver {
             accounts.remove(currentUser);
             accounts.add(0, currentUser);
         }
-        Collection<TreeNode> children = treeNode.getChildren();
-        List<? extends TreeNode> oldChildren = new ArrayList<>(children);
-        children.clear();
+        List<? extends TreeNode> oldChildren = new ArrayList<>(treeNode.getChildren());
+        Collection<TreeNode> children = new ArrayList<>();
         for (Account account : accounts) {
             Integer id = account.getId();
             Optional<? extends TreeNode> existing = oldChildren.stream().filter(n -> n.getId() == id).findFirst();
@@ -172,9 +173,10 @@ public class CalcHospitalTreeHandler implements Serializable, TreeNodeObserver {
                 childNode.expand();
             }
         }
+        return children;
     }
 
-    private void obtainAccountNodeChildren(AccountTreeNode treeNode) {
+    private Collection<TreeNode> obtainAccountNodeChildren(AccountTreeNode treeNode) {
         int partnerId = treeNode.getId();
         List<CalcHospitalInfo> infos;
         if (treeNode.getParent() instanceof YearTreeNode) {
@@ -183,10 +185,11 @@ public class CalcHospitalTreeHandler implements Serializable, TreeNodeObserver {
         } else {
             infos = obtainCalculationHospitalInfosForEdit(partnerId);
         }
-        treeNode.getChildren().clear();
+        Collection<TreeNode> children = new ArrayList<>();
         for (CalcHospitalInfo info : infos) {
-            treeNode.getChildren().add(CalcHospitalTreeNode.create(treeNode, info, this));
+            children.add(CalcHospitalTreeNode.create(treeNode, info, this));
         }
+        return children;
     }
 
     private List<CalcHospitalInfo> obtainCalculationHospitalInfosForRead(int partnerId, int year) {
@@ -234,7 +237,7 @@ public class CalcHospitalTreeHandler implements Serializable, TreeNodeObserver {
         int direction = treeNode.isDescending() ? -1 : 1;
         switch (treeNode.getSortCriteria().toLowerCase()) {
             case "ik":
-                sorted = stream.sorted((n1, n2) -> direction * Integer.compare(n1.getCalcHospitalInfo().getIk(), 
+                sorted = stream.sorted((n1, n2) -> direction * Integer.compare(n1.getCalcHospitalInfo().getIk(),
                         n2.getCalcHospitalInfo().getIk()));
                 break;
             case "hospital":

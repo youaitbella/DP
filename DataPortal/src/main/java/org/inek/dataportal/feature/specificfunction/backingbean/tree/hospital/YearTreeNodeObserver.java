@@ -38,13 +38,13 @@ public class YearTreeNodeObserver implements TreeNodeObserver {
 
     
     @Override
-    public void obtainChildren(TreeNode treeNode) {
-        Collection<TreeNode> children = treeNode.getChildren();
-        List<? extends TreeNode> oldChildren = new ArrayList<>(children);
-        children.clear();
+    public Collection<TreeNode> obtainChildren(TreeNode treeNode) {
+        List<? extends TreeNode> oldChildren = new ArrayList<>(treeNode.getChildren());
+        Collection<TreeNode> children = new ArrayList<>();
         
         obtainCustomerNodes(oldChildren, treeNode, children);
         obtainAccountNodes(oldChildren, treeNode, children);
+        return children;
     }
 
     private void obtainCustomerNodes(

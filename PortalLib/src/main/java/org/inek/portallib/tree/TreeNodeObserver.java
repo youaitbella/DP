@@ -8,7 +8,7 @@ import java.util.Collection;
  */
 public interface TreeNodeObserver {
 
-    void obtainChildren(TreeNode treeNode);
+    Collection<TreeNode> obtainChildren(TreeNode treeNode);
 
     default Collection<TreeNode> obtainSortedChildren(TreeNode treeNode){
         return treeNode.getChildren();
