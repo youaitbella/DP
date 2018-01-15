@@ -40,14 +40,26 @@ public class RequestController implements Serializable {
             return;
         }
         FacesContext facesContext = FacesContext.getCurrentInstance();
-        String token = facesContext.getExternalContext().getRequestParameterMap().get("token");
-        String type = facesContext.getExternalContext().getRequestParameterMap().get("type");
-        if (_sessionController.loginByToken(token, PortalType.valueOf(type))) {
+        if (loginByToken(facesContext)) {
             return;
         }
         String viewId = facesContext.getViewRoot().getViewId();
         _sessionController.logMessage("Force to login: IP=" + Utils.getClientIP() + "; FromView=" + viewId);
         facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, Pages.Login.URL());
+    }
+
+    private boolean loginByToken(FacesContext facesContext) {
+        String token = facesContext.getExternalContext().getRequestParameterMap().get("token");
+        String type = facesContext.getExternalContext().getRequestParameterMap().get("type");
+        if (token == null || type == null) {
+            return false;
+        }
+        try {
+            PortalType portalType = PortalType.valueOf(type);
+            return _sessionController.loginByToken(token, portalType);
+        } catch (Exception ex) {
+            return false;
+        }
     }
 
     public String getForceLogoutIfLoggedIn() {
