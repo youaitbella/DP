@@ -56,18 +56,12 @@ public class EditStatementOfParticipance extends AbstractEditController {
     // <editor-fold defaultstate="collapsed" desc="fields & enums">
     private static final Logger LOGGER = Logger.getLogger("EditStatementOfParticipance");
 
-    @Inject
-    private AccessManager _accessManager;
-    @Inject
-    private SessionController _sessionController;
-    @Inject
-    private CalcSopFacade _calcFacade;
-    @Inject
-    private IcmtUpdater _icmtUpdater;
-    @Inject
-    private ApplicationTools _appTools;
-    @Inject
-    private AccountFacade _accFacade;
+    @Inject private AccessManager _accessManager;
+    @Inject private SessionController _sessionController;
+    @Inject private CalcSopFacade _calcFacade;
+    @Inject private IcmtUpdater _icmtUpdater;
+    @Inject private ApplicationTools _appTools;
+    @Inject private AccountFacade _accFacade;
 
     private StatementOfParticipance _statement;
     private boolean _enableDrgCalc;
