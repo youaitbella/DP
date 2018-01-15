@@ -225,14 +225,14 @@ public class EditStatementOfParticipance extends AbstractEditController {
                     statement.setObligatoryCalcType(2);
                 }
 
-                statement.setDrgCalc(isDrg && (isObligatorDrg() || isObligatorPsy()));
-                statement.setPsyCalc(isPsy && (isObligatorDrg() || isObligatorPsy()));
+                statement.setDrgCalc(isDrg && (isObligatorDrg() || isObligatorPsy() || _calcFacade.isParticipationInCalcType(ik, year - 1, 1)));
+                statement.setPsyCalc(isPsy && (isObligatorDrg() || isObligatorPsy() || _calcFacade.isParticipationInCalcType(ik, year - 1, 3)));
                 statement.setTpgCalc(_calcFacade.isParticipationInCalcType(ik, year - 1, 5));
                 statement.setObdCalc(_calcFacade.isParticipationInCalcType(ik, year - 1, 7));
-//                if (isObligatorDrg() && isObligatorPsy()) {
-//                    statement.setDrgCalc(_calcFacade.isParticipationInCalcType(ik, year - 1, 1));
-//                    statement.setPsyCalc(_calcFacade.isParticipationInCalcType(ik, year - 1, 3));
-//                }
+                if (isObligatorDrg() && isObligatorPsy()) {
+                    statement.setDrgCalc(_calcFacade.isParticipationInCalcType(ik, year - 1, 1));
+                    statement.setPsyCalc(_calcFacade.isParticipationInCalcType(ik, year - 1, 3));
+                }
             } else {
                 statement.setDrgCalc(domain.contains("DRG"));
                 statement.setMultiyearDrg(Integer.parseInt(drgMultiyear));
