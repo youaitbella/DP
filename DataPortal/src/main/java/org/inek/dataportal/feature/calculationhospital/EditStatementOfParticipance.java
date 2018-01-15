@@ -312,9 +312,14 @@ public class EditStatementOfParticipance extends AbstractEditController {
     }
 
     public void enableDisableStatementPage() {
-        boolean enable = !_statement.isObligatory() || _statement.getObligatoryCalcType() > 1
-                || (_statement.isObligatoryFollowingYears() && (_statement.isDrgCalc() || _statement.isPsyCalc()));
+        boolean enable = isExplanationPageEnabled();
         findTopic(StatementOfParticipanceTabs.tabStatementOfParticipanceStatements.name()).setVisible(enable);
+    }
+
+    public boolean isExplanationPageEnabled() {
+        boolean enable = (!_statement.isObligatory() || _statement.getObligatoryCalcType() > 1 || _statement.isObligatoryFollowingYears())
+                && (_statement.isDrgCalc() || _statement.isPsyCalc());
+        return enable;
     }
 
     public String getEmailInfo() {

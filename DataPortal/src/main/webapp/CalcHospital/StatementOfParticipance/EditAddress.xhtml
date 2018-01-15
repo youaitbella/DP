@@ -12,7 +12,7 @@
     <ui:define name="editContent">
 
         <h2>#{msg.lblHospital}</h2>
-        
+
         <inek:MultiIk value="#{editStatementOfParticipance.statement.ik}" 
                       ikList="#{editStatementOfParticipance.iks}"
                       listener="#{editStatementOfParticipance.ikChanged}" 
@@ -27,8 +27,11 @@
                     <inek:BooleanRadioButton label="#{msg.lblStatementDrg}" 
                                              value="#{editStatementOfParticipance.statement.drgCalc}" 
                                              renderElement="@form"
-                                             readonly="#{editStatementOfParticipance.readOnly or editStatementOfParticipance.enableDrgCalc}"/>
+                                             readonly="#{editStatementOfParticipance.readOnly or editStatementOfParticipance.enableDrgCalc}">
+                        <f:ajax event="clientChange" listener="#{editStatementOfParticipance.enableDisableStatementPage()}"/>
+                    </inek:BooleanRadioButton>
                 </h:panelGrid>
+
             </div>
 
             <div class="inputPart">
@@ -36,7 +39,9 @@
                     <inek:BooleanRadioButton label="#{msg.lblStatementPepp}" 
                                              value="#{editStatementOfParticipance.statement.psyCalc}" 
                                              renderElement="@form"
-                                             readonly="#{editStatementOfParticipance.readOnly or editStatementOfParticipance.enablePsyCalc}"/>
+                                             readonly="#{editStatementOfParticipance.readOnly or editStatementOfParticipance.enablePsyCalc}">
+                        <f:ajax event="clientChange" listener="#{editStatementOfParticipance.enableDisableStatementPage()}"/>
+                    </inek:BooleanRadioButton>
                 </h:panelGrid>
             </div>
             <h:panelGrid columns="1">

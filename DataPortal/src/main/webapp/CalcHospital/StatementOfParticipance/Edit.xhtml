@@ -17,13 +17,13 @@
 
             <div class="tab">
                 <ul class="tab">
-                    <c:forEach items="#{editStatementOfParticipance.visibleTopics}" var="topic">
+                    <ui:repeat value="#{editStatementOfParticipance.visibleTopics}" var="topic">
                         <li class="#{topic.active ? 'activetab' : 'tab'}">
                         <h:commandLink value="#{topic.title}" action="#{editStatementOfParticipance.changeTabPage(topic.key)}"
                                        immediate="true">
                         </h:commandLink>
                         </li>
-                    </c:forEach>
+                    </ui:repeat>
                 </ul>
             </div>
 
@@ -51,7 +51,7 @@
                                    immediate="true"
                                    action="#{editStatementOfParticipance.seal}"
                                    value="#{msg.btnSaveAndClose}"
-                                   rendered="#{editStatementOfParticipance.sealEnabled and (editStatementOfParticipance.activeTopicKey ne 'tabStatementOfParticipanceAddress' or editStatementOfParticipance.statement.obligatoryCalcType eq 1)}"
+                                   rendered="#{editStatementOfParticipance.sealEnabled and (editStatementOfParticipance.activeTopicKey ne 'tabStatementOfParticipanceAddress' or not editStatementOfParticipance.explanationPageEnabled)}"
                                    title="#{msg.infoSaveAndClose}">
                         <cb:confirmSeal/>
                     </h:commandLink>
@@ -74,7 +74,7 @@
                     
                     <h:commandLink styleClass="bigButton"
                                    value="#{msg.btnNextPage}"
-                                   rendered="#{editStatementOfParticipance.activeTopicKey eq 'tabStatementOfParticipanceAddress' and (not editStatementOfParticipance.statement.obligatory or editStatementOfParticipance.statement.obligatoryCalcType eq 2)}"
+                                   rendered="#{editStatementOfParticipance.activeTopicKey eq 'tabStatementOfParticipanceAddress' and editStatementOfParticipance.explanationPageEnabled}"
                                    actionListener="#{editStatementOfParticipance.activateNextTopic}"
                                    action="/CalcHospital/StatementOfParticipance/EditStatements"
                                    immediate="true"> <!--action="# {sessionController.navigate(sessionTools.pages.StatementOfParticipanceEditStatements)}"-->
