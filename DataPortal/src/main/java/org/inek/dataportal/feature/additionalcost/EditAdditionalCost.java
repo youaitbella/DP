@@ -9,7 +9,6 @@ import org.inek.dataportal.entities.additionalcost.AdditionalCost;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -23,16 +22,13 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.AccessManager;
-import org.inek.dataportal.common.SessionTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
-import org.inek.dataportal.entities.account.AccountAdditionalIK;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.AdditionalCostFacade;
-import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.feature.admin.facade.InekRoleFacade;
 import org.inek.dataportal.helper.Utils;
@@ -52,21 +48,11 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
     // <editor-fold defaultstate="collapsed" desc="fields & enums">
     private static final Logger LOGGER = Logger.getLogger("EditAdditionalCostRequest");
 
-    @Inject
-    private AccessManager _accessManager;
-    @Inject
-    private SessionController _sessionController;
-    @Inject
-    private AdditionalCostFacade _additionalCostFacade;
-    @Inject
-    private ApplicationTools _appTools;
-
-    @Inject
-    private AccountFacade _accountFacade;
-    @Inject
-    private Mailer _mailer;
-    @Inject
-    private SessionTools _sessionTools;
+    @Inject private AccessManager _accessManager;
+    @Inject private SessionController _sessionController;
+    @Inject private AdditionalCostFacade _additionalCostFacade;
+    @Inject private ApplicationTools _appTools;
+    @Inject private Mailer _mailer;
 
     private AdditionalCost _additionalCost;
 
@@ -107,7 +93,8 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
     }
 
     private boolean hasSufficientRights(AdditionalCost additionalCost) {
-        return _accessManager.isAccessAllowed(Feature.ADDITIONAL_COST, additionalCost.getStatus(), additionalCost.getAccountId());
+        return _accessManager.isAccessAllowed(Feature.ADDITIONAL_COST, additionalCost.getStatus(), additionalCost.
+                getAccountId());
     }
 
     private AdditionalCost newAdditionalCost() {
@@ -118,14 +105,18 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
         additionalCost.setContactLastName(account.getLastName());
         additionalCost.setContactPhone(account.getPhone());
         additionalCost.setContactEmail(account.getEmail());
-        additionalCost.setCalenderYear(Utils.getTargetYear(Feature.SPECIFIC_FUNCTION));
-        additionalCost.setPeriodFrom(Utils.getTargetYear(Feature.SPECIFIC_FUNCTION));
-        additionalCost.setPeriodTo(Utils.getTargetYear(Feature.SPECIFIC_FUNCTION));
-        additionalCost.setRepaymentPeriodFrom(Utils.getTargetYear(Feature.SPECIFIC_FUNCTION));
-        additionalCost.setRepaymentPeriodFrom(Utils.getTargetYear(Feature.SPECIFIC_FUNCTION));
-        if (getAvailableYears().size() > 0) {
-            additionalCost.setPeriodTo(getAvailableYears().get(0));
+        int defaultYear = Utils.getTargetYear(Feature.ADDITIONAL_COST);
+        additionalCost.setCalenderYear(defaultYear);
+        additionalCost.setPeriodFrom(defaultYear);
+        additionalCost.setPeriodTo(defaultYear);
+        additionalCost.setPeriodTo(defaultYear);
+        additionalCost.setRepaymentPeriodFrom(defaultYear);
+        additionalCost.setRepaymentPeriodTo(defaultYear);
+        Set<Integer> iks = account.getFullIkSet();
+        if (iks.size() == 1) {
+            _additionalCost.setIk(iks.iterator().next());
         }
+
         return additionalCost;
     }
 
@@ -133,6 +124,7 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
         // might be a restricted list
         return getYears();
     }
+
     public List<Integer> getYears() {
         List<Integer> availableYears = new ArrayList<>();
         IntStream.rangeClosed(2017, 2021) // as of the contract
@@ -165,7 +157,8 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
         _additionalCost = _additionalCostFacade.saveAdditionalCost(_additionalCost);
 
         if (isValidId(_additionalCost.getId())) {
-            String script = "alert ('" + Utils.getMessage("msgSaveAndMentionSend").replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
+            String script = "alert ('" + Utils.getMessage("msgSaveAndMentionSend").replace("\r\n", "\n").
+                    replace("\n", "\\r\\n") + "');";
             _sessionController.setScript(script);
             return null;
         }
@@ -183,7 +176,8 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
         if (_additionalCost == null) {
             return false;
         }
-        return _accessManager.isSealedEnabled(Feature.ADDITIONAL_COST, _additionalCost.getStatus(), _additionalCost.getAccountId());
+        return _accessManager.isSealedEnabled(Feature.ADDITIONAL_COST, _additionalCost.getStatus(), _additionalCost.
+                getAccountId());
     }
 
     public boolean isApprovalRequestEnabled() {
@@ -193,7 +187,9 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
         if (_additionalCost == null) {
             return false;
         }
-        return _accessManager.isApprovalRequestEnabled(Feature.ADDITIONAL_COST, _additionalCost.getStatus(), _additionalCost.getAccountId());
+        return _accessManager.
+                isApprovalRequestEnabled(Feature.ADDITIONAL_COST, _additionalCost.getStatus(), _additionalCost.
+                        getAccountId());
     }
 
     public boolean isRequestCorrectionEnabled() {
@@ -210,7 +206,8 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
     public boolean isTakeEnabled() {
         return _accessManager != null
                 && _additionalCost != null
-                && _accessManager.isTakeEnabled(Feature.ADDITIONAL_COST, _additionalCost.getStatus(), _additionalCost.getAccountId());
+                && _accessManager.isTakeEnabled(Feature.ADDITIONAL_COST, _additionalCost.getStatus(), _additionalCost.
+                        getAccountId());
     }
 
     /**
@@ -257,16 +254,10 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
     }
 
     public List<SelectItem> getIks() {
-        Set<Integer> iks = new HashSet<>();
+        Account account = _sessionController.getAccount();
+        Set<Integer> iks = account.getFullIkSet();
         if (_additionalCost != null && _additionalCost.getIk() > 0) {
             iks.add(_additionalCost.getIk());
-        }
-        Account account = _sessionController.getAccount();
-        if (account.getIK() != null && account.getIK() > 0) {
-            iks.add(account.getIK());
-        }
-        for (AccountAdditionalIK additionalIK : account.getAdditionalIKs()) {
-            iks.add(additionalIK.getIK());
         }
         List<SelectItem> items = new ArrayList<>();
         for (int ik : iks) {
@@ -318,7 +309,8 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
         }
     }
 
-    private void checkField(MessageContainer message, Integer value, Integer minValue, Integer maxValue, String msgKey, String elementId) {
+    private void checkField(MessageContainer message, Integer value, Integer minValue, Integer maxValue, String msgKey,
+            String elementId) {
         if (value == null
                 || minValue != null && value < minValue
                 || maxValue != null && value > maxValue) {

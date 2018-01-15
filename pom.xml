@@ -19,8 +19,8 @@
 
     <modules>
         <module>DataPortal</module>
+        <!--module>PsyPortal</module-->
         <module>PortalResources</module>
-        <module>Begleitforschung</module>
         <module>PortalLib</module>
     </modules>
 
@@ -29,7 +29,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.6.1</version>   <!-- 3.2 and 3.3 whith Java 8 (u60)run into compiler error when build without clean -->
+                <version>3.7.0</version>   <!-- 3.2 and 3.3 whith Java 8 (u60)run into compiler error when build without clean -->
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>

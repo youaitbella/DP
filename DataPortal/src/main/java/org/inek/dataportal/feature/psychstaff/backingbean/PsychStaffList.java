@@ -12,13 +12,14 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.ApplicationTools;
-import org.inek.dataportal.common.AccessManager;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
+import org.inek.dataportal.feature.ikadmin.entity.AccessRight;
+import org.inek.dataportal.feature.ikadmin.facade.IkAdminFacade;
 import org.inek.dataportal.feature.psychstaff.entity.StaffProof;
 import org.inek.dataportal.feature.psychstaff.facade.PsychStaffFacade;
 import org.inek.dataportal.helper.Utils;
@@ -41,14 +42,30 @@ public class PsychStaffList implements Serializable {
 
     @Inject private PsychStaffFacade _psychFacade;
     @Inject private SessionController _sessionController;
-    @Inject private AccessManager _accessManager;
+    @Inject private IkAdminFacade _ikAdminFacade;
+
+    private List<StaffProof> _openPersonals;
 
     public List<StaffProof> getOpenPersonals() {
-        return _psychFacade.getStaffProofs(_sessionController.getAccountId(), DataSet.AllOpen);
+        if (_openPersonals == null) {
+            List<AccessRight> accessRights = _ikAdminFacade.findAccessRightsByAccountAndFeature(_sessionController.
+                    getAccount(), Feature.PSYCH_STAFF);
+            _openPersonals = _psychFacade.
+                    getStaffProofs(_sessionController.getAccountId(), accessRights, DataSet.AllOpen);
+        }
+        return _openPersonals;
     }
 
+    private List<StaffProof> _providedPersonals;
+
     public List<StaffProof> getProvidedPersonals() {
-        return _psychFacade.getStaffProofs(_sessionController.getAccountId(), DataSet.AllSealed);
+        if (_providedPersonals == null) {
+            List<AccessRight> accessRights = _ikAdminFacade.findAccessRightsByAccountAndFeature(_sessionController.
+                    getAccount(), Feature.PSYCH_STAFF);
+            _providedPersonals = _psychFacade.
+                    getStaffProofs(_sessionController.getAccountId(), accessRights, DataSet.AllSealed);
+        }
+        return _providedPersonals;
     }
 
     private List<StaffProof> _inekStaffProofs;
@@ -85,7 +102,8 @@ public class PsychStaffList implements Serializable {
     public String getConfirmMessage(int id) {
         StaffProof proof = _psychFacade.findStaffProof(id);
         String msg = "Meldung für " + proof.getIk() + "\n"
-                + (proof.getStatus().getId() <= 9 ? Utils.getMessage("msgConfirmDelete") : Utils.getMessage("msgConfirmRetire"));
+                + (proof.getStatus().getId() <= 9 ? Utils.getMessage("msgConfirmDelete") : Utils.
+                getMessage("msgConfirmRetire"));
         msg = msg.replace("\r\n", "\n").replace("\n", "\\r\\n").replace("'", "\\'").replace("\"", "\\'");
         return "return confirm ('" + msg + "');";
     }

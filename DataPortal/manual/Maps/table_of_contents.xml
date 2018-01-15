@@ -122,6 +122,12 @@
         <caption translate="true">Kooperation konfigurieren</caption>
       </topicref>
     </topicref>
+    <topicref type="topic" id="430898314084626" build="ALL" modified="2017-12-20T15:54:18.813Z" icon="0" href="IK-Admin">
+      <caption translate="true">IK-Admin</caption>
+      <topicref type="topic" id="430897895498095" build="ALL" modified="2017-12-20T16:48:24.040Z" icon="0" href="Berechtigungen-zuweisen">
+        <caption translate="true">Berechtigungen zuweisen</caption>
+      </topicref>
+    </topicref>
     <topicref type="topic" id="427595867392904" build="ALL" modified="2017-01-24T11:31:18.782Z" icon="0" href="ParticipanceCostCalculation">
       <caption translate="true">Teilnahme Kostenkalkulation</caption>
       <topicref type="topic" id="427596594566388" build="ALL" modified="2017-01-24T11:30:39.444Z" icon="0" href="StatementOfParticipance">

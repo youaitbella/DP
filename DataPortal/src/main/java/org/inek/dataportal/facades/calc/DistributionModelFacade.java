@@ -145,7 +145,7 @@ public class DistributionModelFacade extends AbstractDataAccess {
         remove(model);
     }
 
-    public List<Account> getInekAccounts(String filter) {
+    public List<Account> getInekAccounts(int year, String filter) {
         String sql = "select distinct account.*\n" +
                     "from calc.DistributionModelMaster\n" +
                     "join CallCenterDB.dbo.ccCustomer on dmmIk = cuIK\n" +
@@ -156,7 +156,8 @@ public class DistributionModelFacade extends AbstractDataAccess {
                     "join dbo.Account on agEMail = acMail\n" +
                     "where dmmStatusId >= 10 \n" +
                     "and agActive = 1 and agDomainId in ('O', 'E')\n" +
-                    "and cciaReportTypeid in (1, 3)"; // 1=Drg, 3=Psy
+                    "and cciaReportTypeid in (1, 3)\n" + // 1=Drg, 3=Psy
+                    "and dmmDataYear = " + year;
         String sqlFilter = StringUtil.getSqlFilter(filter);
         if (sqlFilter.length() > 0) {
             sql = sql + "\n"
@@ -169,7 +170,7 @@ public class DistributionModelFacade extends AbstractDataAccess {
         return result;
     }
 
-    public List<CalcHospitalInfo> getDistributionModelsForAccount(Account account, String filter) {
+    public List<CalcHospitalInfo> getDistributionModelsByEmail(String email, int year, String filter) {
       
         String sql = "select distinct dmmId as Id, 'CDM' as [Type], dmmAccountId as AccountId, dmmDataYear as DataYear, dmmIk as IK, "
                 + "dmmStatusId as StatusId,\n" +
@@ -183,8 +184,9 @@ public class DistributionModelFacade extends AbstractDataAccess {
                     "join CallCenterDB.dbo.ccAgent on cciaAgentId = agId\n" +
                     "join dbo.Account on agEMail = acMail\n" +
                     "where dmmStatusId >= 10\n" +
-                    "and agEMail = '" + account.getEmail() + "'\n" +
-                    "and cciaReportTypeId in (1, 3)";
+                    "and agEMail = '" + email + "'\n" +
+                    "and cciaReportTypeId in (1, 3)\n"+
+                    "and dmmDataYear = " + year;
         String sqlFilter = StringUtil.getSqlFilter(filter);
         if (sqlFilter.length() > 0) {
             sql = sql + "    and (cast (cuIk as varchar) = " + sqlFilter

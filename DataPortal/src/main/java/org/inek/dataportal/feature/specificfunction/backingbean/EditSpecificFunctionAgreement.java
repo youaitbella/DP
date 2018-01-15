@@ -321,7 +321,8 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
         checkField(message, request.getLastName(), "lblFirstName", "specificFuntion:lastName");
         checkField(message, request.getPhone(), "lblPhone", "specificFuntion:phone");
         checkField(message, request.getMail(), "lblMail", "specificFuntion:mail");
-
+        checkField(message, request.getTypeExtraCharge(), 0, 9, "lblTypeExtraCharge", "specificFuntion:typeExtraCharge");
+        
 // todo        
 //        if (!request.isWillNegotiate() && !request.isHasAgreement()) {
 //            applyMessageValues(message, "Bitte mindestens eine zu verhandelnde oder vorhandene Vereinbarung angeben", "");
@@ -397,16 +398,10 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
     }
 
     public List<SelectItem> getIks() {
-        Set<Integer> iks = new HashSet<>();
+        Account account = _sessionController.getAccount();
+        Set<Integer> iks = account.getFullIkSet();
         if (_agreement != null && _agreement.getIk() > 0) {
             iks.add(_agreement.getIk());
-        }
-        Account account = _sessionController.getAccount();
-        if (account.getIK() != null && account.getIK() > 0) {
-            iks.add(account.getIK());
-        }
-        for (AccountAdditionalIK additionalIK : account.getAdditionalIKs()) {
-            iks.add(additionalIK.getIK());
         }
         List<SelectItem> items = new ArrayList<>();
         for (int ik : iks) {

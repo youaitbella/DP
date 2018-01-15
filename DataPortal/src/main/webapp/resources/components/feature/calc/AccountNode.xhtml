@@ -27,14 +27,14 @@
                 <f:ajax render="@this proposalEdit :logout:remaining"/>
             </h:commandLink>
             <h:panelGroup rendered="#{cc.attrs.editPartner}">
-                <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(cc.attrs.accountNode.account.id)}" value="#{cc.attrs.accountNode.account.firstName} #{cc.attrs.accountNode.account.lastName}" immediate="true"/>
-                <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(cc.attrs.accountNode.account.id)}" value="#{cc.attrs.accountNode.account.company}" immediate="true"/>
-                <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(cc.attrs.accountNode.account.id)}" value="#{cc.attrs.accountNode.account.town}" immediate="true"/>
+                <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(cc.attrs.accountNode.accountId)}" value="#{cc.attrs.accountNode.displayName}" immediate="true"/>
+                <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(cc.attrs.accountNode.accountId)}" value="#{cc.attrs.accountNode.company}" immediate="true"/>
+                <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(cc.attrs.accountNode.accountId)}" value="#{cc.attrs.accountNode.town}" immediate="true"/>
             </h:panelGroup>
             <h:panelGroup rendered="#{not cc.attrs.editPartner}">
-                <h:outputLabel styleClass="third marginTop" value="#{cc.attrs.accountNode.account.firstName} #{cc.attrs.accountNode.account.lastName}"/>
-                <h:outputLabel styleClass="third marginTop" value="#{cc.attrs.accountNode.account.company}"/>
-                <h:outputLabel styleClass="third marginTop" value="#{cc.attrs.accountNode.account.town}"/>
+                <h:outputLabel styleClass="third marginTop" value="#{cc.attrs.accountNode.displayName}"/>
+                <h:outputLabel styleClass="third marginTop" value="#{cc.attrs.accountNode.company}"/>
+                <h:outputLabel styleClass="third marginTop" value="#{cc.attrs.accountNode.town}"/>
             </h:panelGroup>
             <div jsf:id="proposalEdit" style="margin-left:16px; padding-bottom: 1em;">
                 <h:outputLabel value="Dieser Kooperationspartner hat noch keine Kalkulationsdaten zur Freigabe an Sie gesendet" rendered="#{cc.attrs.accountNode.expanded and cc.attrs.accountNode.children.size() eq 0}"/>

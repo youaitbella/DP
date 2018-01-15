@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Berechtigungen zuweisen</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Berechtigungen zuweisen</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sind Sie als IK-Admin hinterlegt, so enthält Ihr Navigationsmenü im </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> den Eintag </text><text styleclass="Normal" style="font-style:italic;" translate="true">IK-Admin</text><text styleclass="Normal" translate="true">.In diesem Funktionsbereich sind all IKs mit Krankenhaus gelistet, welche Sie administrieren können.</text></para>
+    <para styleclass="Image Caption"></para>
+    <para styleclass="Image Caption"><image src="IkAdmin01.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> IK-Liste des IK-Admins</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Wählen Sie aus dieser Liste das IK aus, für welches Sie die Berechtigungen bearbeiten möchten. Das </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> öffnet den Dialog zur Benutzerverwaltung.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="IkAdmin02.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Benutzer und Berechtigungen verwalten</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Dieser Dialog ist zweigeteilt: Im oberen Bereich können Sie einen Benutzer nebst der gewünschten Funktion auswählen und dem unteren Bereich zufügen. In der Auswahlbox </text><text styleclass="Normal" style="font-weight:bold;" translate="true">Benutzer</text><text styleclass="Normal" translate="true"> werden alle Anwender aufgeführt, die in ihren Stammdaten das entsprechende IK eingetragen haben sowie solche, deren Mailadresse zu der für das Krankenhaus hinterlegten Domäne gehört. Die Auswahlbox </text><text styleclass="Normal" style="font-weight:bold;" translate="true">Funktion</text><text styleclass="Normal" translate="true"> zeigt alle Funktionen, für die Sie Rechte vergeben können.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Mit Stand 02. Januar 2018 werden bereits alle Funktionen gelistet, für die eine entsprechende Rechtevergabe vorgesehen ist, so dass Sie dies bereits eintragen können. Die Funktion des IK-Admin ist derzeit noch nicht vollständig implementiert. Zwar werden innerhalb der meisten Erfassungsdialog bereits die Rechte beachtet; die jeweilige Auflistung der Datensätze berücksichtigt dies jedoch bisher nur in den Funktionen NUB (</text><var styleclass="Normal">&lt;%TITLE_DRG%&gt;)</var><text styleclass="Normal" translate="true"> sowie Psych-Personalvereinbarung (</text><var styleclass="Normal">&lt;%TITLE_PSY%&gt;)</var><text styleclass="Normal" translate="true">. Weitere Funktionen folgen kurzfristig. </text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Der untere Bereich listet alle hinterlegten Berechtigungen und erlaubt Ihnen, diese zu bearbeiten. Die Rechte können Sie dabei aus einer Lister möglicher Berechtigungen auswählen. Diese sind selbsterklärend. Eine besondere Stellung nimmt &quot;Zugriff verboten&quot; ein, da dies kein Recht einräumt, sondern Rechte entzieht. Wird der Zugriff verboten, kann der Anwender auch auf solche Daten (entsprechend IK und Funktion) nicht mehr zugreifen, die er früher einmal selber erfasst hat.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

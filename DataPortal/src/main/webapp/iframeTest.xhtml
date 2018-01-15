@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/Templates/PortalMenuTemplate.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common"
+                xmlns:psystaff="http://xmlns.jcp.org/jsf/composite/components/feature/psychstaff"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+                xmlns:spf="http://xmlns.jcp.org/jsf/composite/components/feature/specificfunction"
+                >
+
+    <ui:define name="content">
+        <div>
+            <iframe src="http://localhost:8080/Begleitforschung" 
+                    style="margin:0; width:100%; border:none; overflow:hidden;" 
+                    scrolling="no" 
+                    onload="resizeIframe(this)"/>
+
+            <script type="text/javascript">
+                function resizeIframe(obj) {
+                    obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
+                }</script>
+
+        </div>
+    </ui:define>
+
+</ui:composition>

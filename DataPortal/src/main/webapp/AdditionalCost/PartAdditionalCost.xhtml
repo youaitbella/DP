@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:ac="http://xmlns.jcp.org/jsf/composite/components/feature/additionalcost"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:composition>
         <h2>
@@ -10,6 +11,7 @@
         </h2>
         <div class="paddingElement">
 
+            <ac:AdditionalCostList list="#{additionalCostList.openAdditionalCosts}"/>
             <h:commandLink styleClass="bigButton"
                            action="#{additionalCostList.editAdditionalCost}"
                            immediate="true"
@@ -17,7 +19,7 @@
                            >
                 <f:param name="id" value="new"/>
             </h:commandLink>
-            
+
         </div>
     </ui:composition>
 </html>

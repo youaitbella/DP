@@ -23,9 +23,9 @@
                         <h:graphicImage alt="auf/zuklappen" name="Icon/small/#{accountNode.expanded ? 'ButtonMinus.png' : 'ButtonPlus.png'}" title="Details auf/zuklappen" value=""/>
                         <f:ajax render="@this proposalEdit :logout:remaining"/>
                     </h:commandLink>
-                    <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" value="#{accountNode.account.firstName} #{accountNode.account.lastName}" immediate="true"/>
-                    <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" value="#{accountNode.account.company}" immediate="true"/>
-                    <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" value="#{accountNode.account.town}" immediate="true"/>
+                    <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.accountId)}" value="#{accountNode.displayName}" immediate="true"/>
+                    <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.accountId)}" value="#{accountNode.company}" immediate="true"/>
+                    <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.accountId)}" value="#{accountNode.town}" immediate="true"/>
 
                     <div jsf:id="proposalEdit" style="margin-left:16px; padding-bottom: 1em;">
                         <h:outputLabel value="Dieser Kooperationspartner hat noch keine Daten zur Freigabe an Sie gesendet" rendered="#{accountNode.expanded and accountNode.children.size() eq 0}"/>
@@ -35,16 +35,6 @@
                     </div>
                 </div>
             </ui:repeat>
-
-            <div jsf:rendered="#{sessionController.isInekUser('SPECIFIC_FUNCTION')}">
-                <h2>An das InEK gesendete Besondere Aufgaben / Zentrum</h2>
-
-                <div style="margin-left:16px; padding-bottom: 1em;">
-                    <spf:RequestNode parentNode="#{inekSpfTreeHandler.rootNode}"
-                                     showDelete="false" showSelectBox="false"
-                                     rendered="#{inekSpfTreeHandler.rootNode.children.size() gt 0}"/>
-                </div>
-            </div>
 
 
             <h:commandLink styleClass="bigButton #{specificFunctionRequestList.newAllowed? '' : 'buttonDisabled'}"
@@ -74,9 +64,9 @@
                                 <h:graphicImage alt="auf/zuklappen" name="Icon/small/#{accountNode.expanded ? 'ButtonMinus.png' : 'ButtonPlus.png'}" title="Details auf/zuklappen" value=""/>
                                 <f:ajax render="@this proposalShow :logout:remaining"/>
                             </h:commandLink>
-                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" value="#{accountNode.account.firstName} #{accountNode.account.lastName}" immediate="true"/>
-                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" value="#{accountNode.account.company}" immediate="true"/>
-                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.account.id)}" value="#{accountNode.account.town}" immediate="true"/>
+                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.accountId)}" value="#{accountNode.displayName}" immediate="true"/>
+                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.accountId)}" value="#{accountNode.company}" immediate="true"/>
+                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.accountId)}" value="#{accountNode.town}" immediate="true"/>
                             <div jsf:id="proposalShow" style="margin-left:16px; padding-bottom: 1em;">
                                 <spf:RequestNode parentNode="#{accountNode}"
                                                  showDelete="true" showSelectBox="false"
@@ -86,6 +76,32 @@
                     </ui:repeat>
                 </div>
             </ui:repeat>
+            
+            <div jsf:rendered="#{sessionController.isInekUser('SPECIFIC_FUNCTION')}">
+                <h2>An das InEK gesendete Besondere Aufgaben / Zentrum</h2>
+
+                <div class="inputPart">
+                    <h:outputLabel for="txtYear" styleClass="label marginRight" value="#{msg.lblYearBudget}"/>
+                    <h:inputText id="txtYear" styleClass="inputshort marginRight" value="#{inekSpfTreeHandler.year}">
+                        <f:ajax/>
+                    </h:inputText>
+                    <h:outputLabel for="txtFilter" styleClass="label marginRight" value="#{msg.lblFilter}"/>
+                    <h:inputText id="txtFilter" styleClass="inputmedium marginRight" value="#{inekSpfTreeHandler.filter}">
+                        <f:ajax/>
+                    </h:inputText>
+                    <h:commandLink styleClass="button" value="#{msg.btnRefreshList}">
+                        <f:ajax render="@form :logout:remaining"/>
+                    </h:commandLink>
+                </div>
+
+                <div style="margin-left:16px; padding-bottom: 1em;">
+                    <spf:RequestNode parentNode="#{inekSpfTreeHandler.rootNode}"
+                                     showDelete="false" showSelectBox="false"
+                                     rendered="#{inekSpfTreeHandler.rootNode.children.size() gt 0}"/>
+                </div>
+            </div>
+
+            
         </h:form>
     </ui:define>
 </ui:composition>

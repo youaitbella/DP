@@ -21,7 +21,7 @@ public class InekRoleFacade extends AbstractFacade<InekRole> {
                 + "from adm.listInekRole \n"
                 + "join adm.mapAccountInekRole on irId = aiInekRoleId\n"
                 + "join Account on aiAccountId = acId\n"
-                + "where irFeature = ?1";
+                + "where irFeatureId = ?1";
         //String jpql = "select r from InekRole r where r._feature = :feature";
         Query query = getEntityManager().createNativeQuery(sql, Account.class);
         query.setParameter(1, Feature.SPECIFIC_FUNCTION.getId());

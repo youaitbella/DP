@@ -158,7 +158,7 @@
                                      title="DD.MM.YYYY"
                                      value="#{editValuationRatio.valuationRatio.validFrom}" 
                                      >
-                            <f:convertDateTime pattern="dd.MM.yyyy" timeZone="CET"/>
+                            <f:converter converterId="FlexibleDateTimeConverter"/>
                             <f:ajax event="blur" render="@this :logout:remaining"/>
                         </h:inputText>
                     </h:panelGroup>

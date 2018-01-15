@@ -15,6 +15,7 @@ import javax.inject.Named;
 import javax.servlet.RequestDispatcher;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.enums.PortalType;
 import org.inek.dataportal.helper.Utils;
 
 /**
@@ -39,9 +40,26 @@ public class RequestController implements Serializable {
             return;
         }
         FacesContext facesContext = FacesContext.getCurrentInstance();
+        if (loginByToken(facesContext)) {
+            return;
+        }
         String viewId = facesContext.getViewRoot().getViewId();
         _sessionController.logMessage("Force to login: IP=" + Utils.getClientIP() + "; FromView=" + viewId);
         facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, Pages.Login.URL());
+    }
+
+    private boolean loginByToken(FacesContext facesContext) {
+        String token = facesContext.getExternalContext().getRequestParameterMap().get("token");
+        String type = facesContext.getExternalContext().getRequestParameterMap().get("type");
+        if (token == null || type == null) {
+            return false;
+        }
+        try {
+            PortalType portalType = PortalType.valueOf(type);
+            return _sessionController.loginByToken(token, portalType);
+        } catch (Exception ex) {
+            return false;
+        }
     }
 
     public String getForceLogoutIfLoggedIn() {
@@ -57,7 +75,8 @@ public class RequestController implements Serializable {
             if (!viewId.equals(Pages.NotAllowed.URL())) {
                 return;
             }
-            String url = (String) facesContext.getExternalContext().getRequestMap().get(RequestDispatcher.ERROR_REQUEST_URI);
+            String url = (String) facesContext.getExternalContext().getRequestMap().
+                    get(RequestDispatcher.ERROR_REQUEST_URI);
             if (url == null) {
                 url = "";
             }

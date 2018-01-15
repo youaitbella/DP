@@ -102,7 +102,7 @@ public class StringUtil {
         if (sqlFfilter.isEmpty()) {
             return "";
         }
-        if (!sqlFfilter.matches("[\\d]{9}") && !sqlFfilter.contains("%")) {
+        if (!sqlFfilter.matches("[\\d]{9}") && !sqlFfilter.matches("[\\d]{4}") && !sqlFfilter.contains("%")) {
             sqlFfilter = "%" + sqlFfilter + "%";
         }
         return "'" + sqlFfilter + "'";

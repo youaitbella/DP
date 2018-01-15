@@ -41,8 +41,8 @@
                      required="true" 
                      requiredMessage="#{msg.msgValueNeeded}"
                      >
-            <f:convertDateTime pattern="dd.MM.yyyy" locale="de" timeZone="Europe/Berlin" type="date"/>
-            <f:ajax event="blur" rendered=":logout:remaining msgBudgetYear"/>
+            <f:converter converterId="FlexibleDateTimeConverter"/>
+            <f:ajax event="blur" rendered=":logout:remaining msgBudgetYear @this"/>
         </h:inputText>
     </div>
 
@@ -122,6 +122,7 @@
                                value="Besondere Aufgaben" 
                                title="In Verhandlung gewährte besondere Aufgaben (Stichpunktartige Auflistung der zentralen Aufgaben)" 
                                styleClass="label element12em alignTop" />
+                <h:message for="specificFunction" id="msgSpecificFunction" styleClass="errorMessage elementRight70"/>
 
                 <div class="container10em element100-12em">
 
@@ -136,7 +137,6 @@
                         <f:ajax event="change" render="@form :logout:remaining msgSpecificFunction"/>
                     </h:selectManyCheckbox>
                 </div>
-                <h:message for="specificFunction" id="msgSpecificFunction" styleClass="errorMessage elementRight70"/>
             </div>
 
             <inek:LabeledText label="Sonstige Aufgaben"
@@ -217,7 +217,7 @@
 
     <div class="inputPart">
         <h:outputLabel for="typeExtraCharge" 
-                       value="Art des Zustandekommens des Zuschlags" 
+                       value="#{msg.lblTypeExtraCharge}" 
                        title="" 
                        styleClass="label element16em alignTop" />
 
@@ -225,7 +225,7 @@
                          styleClass="element25em"
                          required="true"
                          requiredMessage="#{msg.msgValueNeeded}"
-                         value="#{center.centerId}"
+                         value="#{editSpecificFunctionAgreement.agreement.typeExtraCharge}"
                          hideNoSelectionOption="true"  
                          readonly="#{editSpecificFunctionAgreement.readOnly}">
             <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>

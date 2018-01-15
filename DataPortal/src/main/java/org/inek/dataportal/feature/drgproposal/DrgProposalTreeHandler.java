@@ -20,7 +20,6 @@ import static org.inek.dataportal.common.AccessManager.canReadSealed;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.drg.DrgProposal;
-import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
@@ -30,7 +29,7 @@ import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.cooperation.CooperationRightFacade;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.structures.ProposalInfo;
-import org.inek.dataportal.helper.tree.AccountTreeNode;
+import org.inek.dataportal.helper.tree.entityTree.AccountTreeNode;
 import org.inek.dataportal.helper.tree.ProposalInfoTreeNode;
 import org.inek.portallib.tree.RootNode;
 import org.inek.portallib.tree.TreeNode;
@@ -57,7 +56,7 @@ public class DrgProposalTreeHandler implements Serializable, TreeNodeObserver {
 
     private final RootNode _rootNode = RootNode.create(0, this);
     private AccountTreeNode _accountNode;
-    
+
     private RootNode getRootNode(int id) {
         Optional<TreeNode> optionalRoot = _rootNode.getChildren().stream().filter(n -> n.getId() == id).findAny();
         if (optionalRoot.isPresent()) {
@@ -91,24 +90,25 @@ public class DrgProposalTreeHandler implements Serializable, TreeNodeObserver {
     }
 
     @Override
-    public void obtainChildren(TreeNode treeNode, Collection<TreeNode> children) {
+    public void obtainChildren(TreeNode treeNode) {
         if (treeNode instanceof RootNode && treeNode.getId() == 1) {
-            obtainEditNodeChildren((RootNode) treeNode, children);
+            obtainEditNodeChildren((RootNode) treeNode);
         }
         if (treeNode instanceof RootNode && treeNode.getId() == 2) {
-            obtainViewNodeChildren((RootNode) treeNode, children);
+            obtainViewNodeChildren((RootNode) treeNode);
         }
         if (treeNode instanceof YearTreeNode) {
-            obtainYearNodeChildren((YearTreeNode) treeNode, children);
+            obtainYearNodeChildren((YearTreeNode) treeNode);
         }
         if (treeNode instanceof AccountTreeNode) {
-            obtainAccountNodeChildren((AccountTreeNode) treeNode, children);
+            obtainAccountNodeChildren((AccountTreeNode) treeNode);
         }
     }
 
-    private void obtainEditNodeChildren(RootNode node, Collection<TreeNode> children) {
+    private void obtainEditNodeChildren(RootNode treeNode) {
         Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.DRG_PROPOSAL, canReadCompleted());
-        accountIds = _drgProposalFacade.checkAccountsForProposalOfYear(accountIds, -1, WorkflowStatus.New, WorkflowStatus.ApprovalRequested);
+        accountIds = _drgProposalFacade.
+                checkAccountsForProposalOfYear(accountIds, -1, WorkflowStatus.New, WorkflowStatus.ApprovalRequested);
         List<Account> accounts = _accountFacade.getAccountsForIds(accountIds);
         Account currentUser = _sessionController.getAccount();
         if (accounts.contains(currentUser)) {
@@ -116,27 +116,31 @@ public class DrgProposalTreeHandler implements Serializable, TreeNodeObserver {
             accounts.remove(currentUser);
             accounts.add(0, currentUser);
         }
+        Collection<TreeNode> children = treeNode.getChildren();
         List<? extends TreeNode> oldChildren = new ArrayList<>(children);
         children.clear();
         for (Account account : accounts) {
             Integer id = account.getId();
             Optional<? extends TreeNode> existing = oldChildren.stream().filter(n -> n.getId() == id).findFirst();
-            AccountTreeNode childNode = existing.isPresent() ? (AccountTreeNode) existing.get() : AccountTreeNode.create(node, account, this);
+            AccountTreeNode childNode = existing.isPresent() ? (AccountTreeNode) existing.get() : AccountTreeNode.
+                    create(treeNode, account, this);
             children.add((TreeNode) childNode);
             oldChildren.remove(childNode);
             childNode.expand();  // auto-expand all edit nodes by default
         }
     }
 
-    private void obtainViewNodeChildren(RootNode node, Collection<TreeNode> children) {
+    private void obtainViewNodeChildren(RootNode treeNode) {
         Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.DRG_PROPOSAL, canReadSealed());
         List<Integer> years = _drgProposalFacade.getProposalYears(accountIds);
+        Collection<TreeNode> children = treeNode.getChildren();
         List<? extends TreeNode> oldChildren = new ArrayList<>(children);
         int targetYear = Utils.getTargetYear(Feature.DRG_PROPOSAL);
         children.clear();
         for (Integer year : years) {
             Optional<? extends TreeNode> existing = oldChildren.stream().filter(n -> n.getId() == year).findFirst();
-            YearTreeNode childNode = existing.isPresent() ? (YearTreeNode) existing.get() : YearTreeNode.create(node, year, this);
+            YearTreeNode childNode = existing.isPresent() ? (YearTreeNode) existing.get() : YearTreeNode.
+                    create(treeNode, year, this);
             children.add((TreeNode) childNode);
             oldChildren.remove(childNode);
             if (year == targetYear) {
@@ -145,9 +149,10 @@ public class DrgProposalTreeHandler implements Serializable, TreeNodeObserver {
         }
     }
 
-    private void obtainYearNodeChildren(YearTreeNode node, Collection<TreeNode> children) {
+    private void obtainYearNodeChildren(YearTreeNode treeNode) {
         Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.DRG_PROPOSAL, canReadSealed());
-        accountIds = _drgProposalFacade.checkAccountsForProposalOfYear(accountIds, node.getId(), WorkflowStatus.Provided, WorkflowStatus.Retired);
+        accountIds = _drgProposalFacade.
+                checkAccountsForProposalOfYear(accountIds, treeNode.getId(), WorkflowStatus.Provided, WorkflowStatus.Retired);
         List<Account> accounts = _accountFacade.getAccountsForIds(accountIds);
         Account currentUser = _sessionController.getAccount();
         if (accounts.contains(currentUser)) {
@@ -155,12 +160,14 @@ public class DrgProposalTreeHandler implements Serializable, TreeNodeObserver {
             accounts.remove(currentUser);
             accounts.add(0, currentUser);
         }
+        Collection<TreeNode> children = treeNode.getChildren();
         List<? extends TreeNode> oldChildren = new ArrayList<>(children);
         children.clear();
         for (Account account : accounts) {
             Integer id = account.getId();
             Optional<? extends TreeNode> existing = oldChildren.stream().filter(n -> n.getId() == id).findFirst();
-            AccountTreeNode childNode = existing.isPresent() ? (AccountTreeNode) existing.get() : AccountTreeNode.create(node, account, this);
+            AccountTreeNode childNode = existing.isPresent() ? (AccountTreeNode) existing.get() : AccountTreeNode.
+                    create(treeNode, account, this);
             children.add((TreeNode) childNode);
             oldChildren.remove(childNode);
             if (account == currentUser) {
@@ -170,18 +177,18 @@ public class DrgProposalTreeHandler implements Serializable, TreeNodeObserver {
         }
     }
 
-    private void obtainAccountNodeChildren(AccountTreeNode accountTreeNode, Collection<TreeNode> children) {
-        int partnerId = accountTreeNode.getId();
+    private void obtainAccountNodeChildren(AccountTreeNode treeNode) {
+        int partnerId = treeNode.getId();
         List<ProposalInfo> infos;
-        if (accountTreeNode.getParent() instanceof YearTreeNode) {
-            int year = accountTreeNode.getParent().getId();
+        if (treeNode.getParent() instanceof YearTreeNode) {
+            int year = treeNode.getParent().getId();
             infos = obtainProposalInfosForRead(partnerId, year);
         } else {
             infos = obtainProposalInfosForEdit(partnerId);
         }
-        accountTreeNode.getChildren().clear();
+        treeNode.getChildren().clear();
         for (ProposalInfo info : infos) {
-            accountTreeNode.getChildren().add(ProposalInfoTreeNode.create(accountTreeNode, info, this));
+            treeNode.getChildren().add(ProposalInfoTreeNode.create(treeNode, info, this));
         }
     }
 
@@ -210,30 +217,25 @@ public class DrgProposalTreeHandler implements Serializable, TreeNodeObserver {
     }
 
     @Override
-    public Collection<TreeNode> obtainSortedChildren(TreeNode treeNode, Collection<TreeNode> children) {
+    public Collection<TreeNode> obtainSortedChildren(TreeNode treeNode) {
         if (treeNode instanceof AccountTreeNode) {
-            return sortAccountNodeChildren((AccountTreeNode) treeNode, children);
+            return sortAccountNodeChildren((AccountTreeNode) treeNode);
         }
-        return children;
+        return treeNode.getChildren();
     }
 
-    public Collection<TreeNode> sortAccountNodeChildren(AccountTreeNode treeNode, Collection<TreeNode> children) {
-        Stream<ProposalInfoTreeNode> stream = children.stream().map(n -> (ProposalInfoTreeNode) n);
+    public Collection<TreeNode> sortAccountNodeChildren(AccountTreeNode treeNode) {
+        Stream<ProposalInfoTreeNode> stream = treeNode.getChildren().stream().map(n -> (ProposalInfoTreeNode) n);
         Stream<ProposalInfoTreeNode> sorted;
+        int direction = treeNode.isDescending() ? -1 : 1;
         switch (treeNode.getSortCriteria().toLowerCase()) {
             case "id":
-                if (treeNode.isDescending()) {
-                    sorted = stream.sorted((n1, n2) -> Integer.compare(n2.getProposalInfo().getId(), n1.getProposalInfo().getId()));
-                } else {
-                    sorted = stream.sorted((n1, n2) -> Integer.compare(n1.getProposalInfo().getId(), n2.getProposalInfo().getId()));
-                }
+                sorted = stream.sorted((n1, n2) -> direction * Integer.compare(n1.getProposalInfo().getId(), n2.
+                        getProposalInfo().getId()));
                 break;
             case "name":
-                if (treeNode.isDescending()) {
-                    sorted = stream.sorted((n1, n2) -> n2.getProposalInfo().getName().compareTo(n1.getProposalInfo().getName()));
-                } else {
-                    sorted = stream.sorted((n1, n2) -> n1.getProposalInfo().getName().compareTo(n2.getProposalInfo().getName()));
-                }
+                sorted = stream.sorted((n1, n2) -> direction * n1.getProposalInfo().getName().compareTo(n2.
+                        getProposalInfo().getName()));
                 break;
             case "status":
             default:
@@ -274,5 +276,4 @@ public class DrgProposalTreeHandler implements Serializable, TreeNodeObserver {
         return Pages.PrintMultipleView.URL();
     }
 
-    
 }

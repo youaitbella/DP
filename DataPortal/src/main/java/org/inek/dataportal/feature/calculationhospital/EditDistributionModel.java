@@ -431,13 +431,11 @@ public class EditDistributionModel extends AbstractEditController implements Ser
             if (model.getIk() > 0) {
                 _ikItems.add(new SelectItem(model.getIk()));
             }
-            if (account.getIK() != null && account.getIK() > 0 && possibleIks.contains(account.getIK())) {
-                _ikItems.add(new SelectItem(account.getIK()));
-            }
-            for (AccountAdditionalIK additionalIK : account.getAdditionalIKs()) {
-                if (possibleIks.contains(additionalIK.getIK())) {
-                    _ikItems.add(new SelectItem(additionalIK.getIK()));
+            for (int ik : account.getFullIkSet()) {
+                if (possibleIks.contains(ik)) {
+                    _ikItems.add(new SelectItem(ik));
                 }
+                
             }
         }
         return _ikItems;

@@ -54,6 +54,13 @@
             </li>
         </c:if>
         
+        <c:if test="#{sessionController.isInekUser('ADMIN')}">
+            <li>
+                <!-- todo: retrieve token from service, e.g. a REST version of "token = service.saveAccount(id)" -->
+                <h:outputLink value="http://localhost:8080/PsyPortal/common/MainApp.xhtml?token=jkjklu9341308axj98aj8jkka93jaj03jaskl9jawl8eujwlal88294kass2793721&amp;type=PSY">Zum Test Portal</h:outputLink>
+            </li>
+        </c:if>
+        
     </ui:define>
 
     <ui:define name="mainContent">

@@ -23,7 +23,7 @@
                         <h:graphicImage alt="auf/zuklappen" name="Icon/small/#{accountNode.expanded ? 'ButtonMinus.png' : 'ButtonPlus.png'}" title="Details auf/zuklappen" value=""/>
                         <f:ajax render="@this docList :logout:remaining"/>
                     </h:commandLink>
-                    <h:outputText styleClass="third marginTop" value="#{accountNode.account.firstName} #{accountNode.account.lastName}"/>
+                    <h:outputText styleClass="third marginTop" value="#{accountNode.displayName}"/>
                     <div  jsf:id="docList" style="margin-left:16px; padding-bottom: 1em;">
 
                         <h:dataTable value="#{accountNode.sortedChildren}" var ="docNode" rendered="#{accountNode.expanded}"

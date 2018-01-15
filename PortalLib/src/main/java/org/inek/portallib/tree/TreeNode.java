@@ -42,7 +42,7 @@ public abstract class TreeNode implements Serializable{
     
     public Collection<TreeNode> getSortedChildren() {
         if (_observer != null) {
-            return _observer.obtainSortedChildren(this, getChildren());
+            return _observer.obtainSortedChildren(this);
         }
         return _children;
     }
@@ -130,8 +130,12 @@ public abstract class TreeNode implements Serializable{
     }
 
     protected void expandNode() {
+        invokeObtainChildren();
+    }
+
+    private void invokeObtainChildren() {
         if (_observer != null) {
-            _observer.obtainChildren(this, getChildren());
+            _observer.obtainChildren(this);
         }
     }
 
@@ -151,9 +155,7 @@ public abstract class TreeNode implements Serializable{
         if (!_isExpanded) {
             return;
         }
-        if (_observer != null) {
-            _observer.obtainChildren(this, getChildren());
-        }
+        invokeObtainChildren();
         for (TreeNode child : copyChildren()) {
             child.refresh();
         }

@@ -15,8 +15,10 @@ import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.calc.CalcHospitalInfo;
+import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.facades.calc.CalcFacade;
-import org.inek.dataportal.helper.tree.AccountTreeNode;
+import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.helper.tree.entityTree.AccountTreeNode;
 import org.inek.dataportal.helper.tree.CalcHospitalTreeNode;
 import org.inek.portallib.tree.RootNode;
 import org.inek.portallib.tree.TreeNode;
@@ -60,24 +62,36 @@ public class CalcBasicsTreeHandler implements Serializable, TreeNodeObserver {
         refreshNodes();
     }
 
+    private int _year = Utils.getTargetYear(Feature.CALCULATION_HOSPITAL);
+    
+    public int getYear(){
+        return _year;
+    }
+    
+    public void setYear(int year){
+        _year = year;
+        refreshNodes();
+    }
+    
     @Override
-    public void obtainChildren(TreeNode treeNode, Collection<TreeNode> children) {
+    public void obtainChildren(TreeNode treeNode) {
         if (treeNode instanceof RootNode) {
-            obtainRootNodeChildren((RootNode) treeNode, children);
+            obtainRootNodeChildren((RootNode) treeNode);
         }
         if (treeNode instanceof AccountTreeNode) {
-            obtainAccountNodeChildren((AccountTreeNode) treeNode, children);
+            obtainAccountNodeChildren((AccountTreeNode) treeNode);
         }
     }
 
-    private void obtainRootNodeChildren(RootNode node, Collection<TreeNode> children) {
-        List<Account> accounts = _calcFacade.getInekAccounts(getFilter());
+    private void obtainRootNodeChildren(RootNode node) {
+        List<Account> accounts = _calcFacade.getInekAccounts(getYear(), getFilter());
         Account currentUser = _sessionController.getAccount();
         if (accounts.contains(currentUser)) {
             // ensure current user is first, if in list
             accounts.remove(currentUser);
             accounts.add(0, currentUser);
         }
+        Collection<TreeNode> children = node.getChildren();
         List<? extends TreeNode> oldChildren = new ArrayList<>(children);
         children.clear();
         for (Account account : accounts) {
@@ -92,8 +106,8 @@ public class CalcBasicsTreeHandler implements Serializable, TreeNodeObserver {
         }
     }
 
-    private void obtainAccountNodeChildren(AccountTreeNode accountTreeNode, Collection<TreeNode> children) {
-        List<CalcHospitalInfo> infos = _calcFacade.getCalcBasicsForAccount(accountTreeNode.getAccount(), getFilter());
+    private void obtainAccountNodeChildren(AccountTreeNode accountTreeNode) {
+        List<CalcHospitalInfo> infos = _calcFacade.getCalcBasicsByEmail(accountTreeNode.getEmail(), getYear(), getFilter());
         accountTreeNode.getChildren().clear();
         for (CalcHospitalInfo info : infos) {
             accountTreeNode.getChildren().add(CalcHospitalTreeNode.create(accountTreeNode, info, this));
@@ -101,16 +115,16 @@ public class CalcBasicsTreeHandler implements Serializable, TreeNodeObserver {
     }
 
     @Override
-    public Collection<TreeNode> obtainSortedChildren(TreeNode treeNode, Collection<TreeNode> children) {
+    public Collection<TreeNode> obtainSortedChildren(TreeNode treeNode) {
         if (treeNode instanceof AccountTreeNode) {
-            return sortAccountNodeChildren((AccountTreeNode) treeNode, children);
+            return sortAccountNodeChildren((AccountTreeNode) treeNode);
         }
-        return children;
+        return treeNode.getChildren();
     }
 
-    public Collection<TreeNode> sortAccountNodeChildren(AccountTreeNode treeNode, Collection<TreeNode> children) {
+    public Collection<TreeNode> sortAccountNodeChildren(AccountTreeNode treeNode) {
         int direction = treeNode.isDescending() ? -1 : 1;
-        Stream<CalcHospitalTreeNode> stream = children.stream().map(n -> (CalcHospitalTreeNode) n);
+        Stream<CalcHospitalTreeNode> stream = treeNode.getChildren().stream().map(n -> (CalcHospitalTreeNode) n);
         switch (treeNode.getSortCriteria().toLowerCase()) {
             case "ik":
                 stream = stream.sorted((n1, n2) -> direction * Integer.compare(n1.getCalcHospitalInfo().getIk(), n2.getCalcHospitalInfo().getIk()));

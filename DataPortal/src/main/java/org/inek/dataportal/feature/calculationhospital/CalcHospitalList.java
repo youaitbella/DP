@@ -96,8 +96,7 @@ public class CalcHospitalList {
             int year = Utils.getTargetYear(Feature.CALCULATION_HOSPITAL);
             Set<Integer> possibleIks = _distModelFacade.obtainIks4NewDistributionModel(calcFunct, _sessionController.getAccountId(), year, testMode);
             Account account = _sessionController.getAccount();
-            boolean isAllowed = possibleIks.contains(account.getIK())
-                    || account.getAdditionalIKs().stream().anyMatch(ai -> possibleIks.contains(ai.getIK()));
+            boolean isAllowed = account.getFullIkSet().stream().anyMatch(ik -> possibleIks.contains(ik));
             _allowedButtons.put(calcFunct, isAllowed);
         }
         return _allowedButtons.get(calcFunct);
@@ -156,8 +155,7 @@ public class CalcHospitalList {
                     throw new IllegalArgumentException("Unknown calc function: " + calcFunct);
             }
             Account account = _sessionController.getAccount();
-            boolean isAllowed = possibleIks.contains(account.getIK())
-                    || account.getAdditionalIKs().stream().anyMatch(ai -> possibleIks.contains(ai.getIK()));
+            boolean isAllowed = account.getFullIkSet().stream().anyMatch(ik -> possibleIks.contains(ik));
             _allowedButtons.put(calcFunct, isAllowed);
         }
         return _allowedButtons.get(calcFunct);

@@ -4,3 +4,6 @@
 *.htm
 /DataPortal/nbproject/
 DataPortal/nb-configuration.xml
+/TestPortal/nbproject/
+/PsyPortal/nbproject/
+**/PsyPortal

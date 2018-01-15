@@ -36,12 +36,10 @@ public class SystemFacade extends AbstractDataAccess {
     }
     
     public List<SelectItem> getRemunerationSystemInfosActive(boolean isActive) {
-        List<SelectItem> result = new ArrayList<>();
-        int sysYear = new GregorianCalendar().get(Calendar.YEAR) + 1;
-        
+        List<SelectItem> result = new ArrayList<>();        
         for (RemunerationSystem system : findAllFresh(RemunerationSystem.class)) {
-            if(isActive) {
-                if(system.getYearSystem() ==  sysYear) {
+            if (isActive) {
+                if (system.isActive() == isActive) {
                     result.add(new SelectItem(system.getId(), system.getDisplayName()));
                 }
             }

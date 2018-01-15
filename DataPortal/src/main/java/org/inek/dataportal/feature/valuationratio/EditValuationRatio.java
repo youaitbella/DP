@@ -243,7 +243,7 @@ public class EditValuationRatio extends AbstractEditController {
                     .replace("{ik}", "" + _valuationRatio.getIk())
                     .replace("{drgs}", buildDrgString());
             template.setSubject(subject);
-            _sessionController.getMailer().sendMailTemplate(template, _sessionController.getAccount().getEmail());
+            mailer.sendMailTemplate(template, _sessionController.getAccount().getEmail());
             _sessionController.alertClient("Gezielte Absenkung wurde erfolgreich eingereicht.");
             return Pages.ValuationRatioSummary.RedirectURL();
         } catch (EJBException ex) {

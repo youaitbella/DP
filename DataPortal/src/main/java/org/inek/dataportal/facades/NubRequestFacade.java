@@ -35,6 +35,8 @@ import org.inek.dataportal.entities.nub.NubRequestHistory;
 import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.feature.admin.backingbean.AccountInfo;
+import org.inek.dataportal.feature.ikadmin.entity.AccessRight;
+import org.inek.dataportal.feature.ikadmin.enums.Right;
 import org.inek.dataportal.helper.structures.ProposalInfo;
 import org.inek.dataportal.utils.DateUtils;
 
@@ -45,10 +47,6 @@ import org.inek.dataportal.utils.DateUtils;
 @Singleton
 public class NubRequestFacade extends AbstractDataAccess {
 
-    public List<NubRequest> findAll(int accountId, DataSet dataSet, String filter) {
-        return findAll(accountId, -1, -1, dataSet, filter);
-    }
-
     public NubRequest find(int id) {
         return super.find(NubRequest.class, id);
     }
@@ -57,11 +55,11 @@ public class NubRequestFacade extends AbstractDataAccess {
         return super.findFresh(NubRequest.class, id);
     }
 
-    public List<NubRequest> findAll(int accountId, int ik, int year, DataSet dataSet, String filter) {
-        return findAll(accountId, ik, false, year, dataSet, filter);
+    public List<NubRequest> findAll(int accountId, DataSet dataSet, String filter) {
+        return findAll(accountId, -1, -1, dataSet, filter);
     }
 
-    public List<NubRequest> findAll(int accountId, int ik, boolean includeProxyIks, int year, DataSet dataSet, String filter) {
+    public List<NubRequest> findAll(int accountId, int ik, int year, DataSet dataSet, String filter) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<NubRequest> cq = cb.createQuery(NubRequest.class);
         Root<NubRequest> request = cq.from(NubRequest.class);
@@ -96,9 +94,6 @@ public class NubRequestFacade extends AbstractDataAccess {
         }
         if (ik > 0) {
             Predicate ikCondition = cb.equal(request.get("_ik"), ik);
-            if (includeProxyIks) {
-                ikCondition = cb.or(ikCondition, cb.like(request.get("_proxyIKs"), "" + ik));
-            }
             condition = cb.and(condition, ikCondition);
         }
         if (year > 0) {
@@ -108,9 +103,63 @@ public class NubRequestFacade extends AbstractDataAccess {
         return getEntityManager().createQuery(cq).getResultList();
     }
 
+    @SuppressWarnings("unchecked")
+    public List<NubRequest> findAll(int accountId, int year, DataSet dataSet, List<AccessRight> accessRights, String filter) {
+        String allowedIks = accessRights
+                .stream()
+                .filter(r -> r.getRight() != Right.Deny)
+                .map(r -> "" + r.getIk())
+                .collect(Collectors.joining(", "));
+        String denyedIks = accessRights
+                .stream()
+                .filter(r -> r.getRight() == Right.Deny)
+                .map(r -> "" + r.getIk())
+                .collect(Collectors.joining(", "));
+        String sql = "SELECT nub.* \n"
+                + " FROM NubProposal nub \n";
+        sql += " WHERE (nubAccountId = " + accountId;
+        if (!denyedIks.isEmpty()) {
+            sql += " and nubIk not in (" + denyedIks + ") ";
+        }
+        if (!allowedIks.isEmpty()) {
+            sql += " or nubIk in (" + allowedIks + ")";
+        }
+        sql += ")\n";
+        if (!filter.isEmpty()){
+            sql += "and (nubName like '%" + filter + "%' or nubDisplayName like '%" + filter + "%')\r\n";
+        }
+        if (year > 0) {
+            sql += "and nubTargetYear = " + year + "\r\n";
+        }
+        switch (dataSet) {
+            case All:
+                sql += "and nubStatus >= " + WorkflowStatus.New.getId() + "\r\n";
+                sql += " order by nubId";
+                break;
+            case AllOpen:
+                sql += " and nubStatus < " + WorkflowStatus.Provided.getId() + "\r\n";
+                sql += " order by nubId";
+                break;
+            case ApprovalRequested:
+                sql += " and (nubStatus = " + WorkflowStatus.ApprovalRequested.getId() + "\r\n";
+                sql += " or nubStatus = " + WorkflowStatus.CorrectionRequested.getId() + ")\r\n";
+                sql +=  "order by nubId";
+                break;
+            default:
+                // provided (sealed)
+                sql += " and nubStatus >= " + WorkflowStatus.Provided.getId() + "\r\n";
+                sql += " order by nubId desc";
+                break;
+        }
+
+        Query query = getEntityManager().createNativeQuery(sql, NubRequest.class);
+        return query.getResultList();
+
+    }
+
     public List<NubRequest> findAll(int accountId) {
-        String sql = "SELECT p FROM NubRequest p WHERE p._accountId = :accountId ORDER BY p._id DESC";
-        TypedQuery<NubRequest> query = getEntityManager().createQuery(sql, NubRequest.class);
+        String jpql = "SELECT p FROM NubRequest p WHERE p._accountId = :accountId ORDER BY p._id DESC";
+        TypedQuery<NubRequest> query = getEntityManager().createQuery(jpql, NubRequest.class);
         query.setParameter("accountId", accountId);
         return query.getResultList();
     }
@@ -136,11 +185,20 @@ public class NubRequestFacade extends AbstractDataAccess {
      * @return
      */
     public List<ProposalInfo> getNubRequestInfos(int accountId, DataSet dataSet, String filter) {
-        return getNubRequestInfos(accountId, -1, dataSet, filter);
+        List<AccessRight> accessRights = new ArrayList<>();
+        return getNubRequestInfos(accountId, -1, dataSet, accessRights, filter);
     }
 
-    public List<ProposalInfo> getNubRequestInfos(int accountId, int ik, DataSet dataSet, String filter) {
-        return getNubRequestInfos(accountId, ik, -1, dataSet, filter);
+    public List<ProposalInfo> getNubRequestInfos(int accountId, int year, DataSet dataSet, List<AccessRight> accessRights, String filter) {
+        List<NubRequest> requests = findAll(accountId, year, dataSet, accessRights, filter);
+        List<ProposalInfo> proposalInfos = new ArrayList<>();
+        for (NubRequest request : requests) {
+            String displayName = request.getDisplayName().trim().length() == 0
+                    ? request.getName()
+                    : request.getDisplayName();
+            proposalInfos.add(new ProposalInfo(request.getId(), displayName, request.getTargetYear(), request.getStatus(), request.getIk()));
+        }
+        return proposalInfos;
     }
 
     public List<ProposalInfo> getNubRequestInfos(int accountId, int ik, int year, DataSet dataSet, String filter) {
@@ -409,7 +467,7 @@ public class NubRequestFacade extends AbstractDataAccess {
     }
 
     /**
-     * 
+     *
      * @param ik
      * @return a list of iks, containing the current one as well as previous iks
      */
@@ -425,12 +483,11 @@ public class NubRequestFacade extends AbstractDataAccess {
         Query query = getEntityManager().createNativeQuery(sql);
         List formerIks = query.getResultList();
         for (Object formerIk : formerIks) {
-            iks.add((int)formerIk);
+            iks.add((int) formerIk);
         }
         return iks;
     }
 
-    
     // <editor-fold defaultstate="collapsed" desc="NubMethodInfo + Description">    
     private List<NubMethodInfo> _nubMethodInfos = Collections.emptyList();
     private final Map<Integer, String> _methodDescriptions = new ConcurrentHashMap<>();

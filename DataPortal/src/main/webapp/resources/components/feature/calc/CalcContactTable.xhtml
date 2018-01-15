@@ -83,31 +83,31 @@
             <h:column rendered="#{cc.attrs.queryDomain}">
                 <f:facet name="header">#{msg.lblDrg}</f:facet>
                 <inek:Checkbox value="#{contact.drg}" renderElement="@form"
-                               readonly="#{cc.attrs.readonly or !cc.attrs.allowDrg or !contact.drg and cc.attrs.value.stream().filter(c -> c.drg).count() ge 3}"/>
+                               readonly="#{cc.attrs.readonly or !cc.attrs.allowDrg or !contact.drg and editStatementOfParticipance.contacts.stream().filter(c -> c.drg).count() ge 3}"/>
             </h:column>
 
             <h:column rendered="#{cc.attrs.queryDomain}">
                 <f:facet name="header">#{msg.lblPsy}</f:facet>
                 <inek:Checkbox value="#{contact.psy}" renderElement="@form"
-                               readonly="#{cc.attrs.readonly or !cc.attrs.allowPsy or !contact.psy and cc.attrs.value.stream().filter(c -> c.psy).count() ge 3}"/>
+                               readonly="#{cc.attrs.readonly or !cc.attrs.allowPsy or !contact.psy and editStatementOfParticipance.contacts.stream().filter(c -> c.psy).count() ge 3}"/>
             </h:column>
 
             <h:column rendered="#{cc.attrs.queryDomain}">
                 <f:facet name="header">#{msg.lblInv}</f:facet>
                 <inek:Checkbox value="#{contact.inv}" renderElement="@form"
-                               readonly="#{cc.attrs.readonly or !cc.attrs.allowInv or !contact.inv and cc.attrs.value.stream().filter(c -> c.inv).count() ge 3}"/>
+                               readonly="#{cc.attrs.readonly or !cc.attrs.allowInv or !contact.inv and editStatementOfParticipance.contacts.stream().filter(c -> c.inv).count() ge 3}"/>
             </h:column>
 
             <h:column rendered="#{cc.attrs.queryDomain}">
                 <f:facet name="header">#{msg.lblTpg}</f:facet>
                 <inek:Checkbox value="#{contact.tpg}" renderElement="@form"
-                               readonly="#{cc.attrs.readonly or !cc.attrs.allowTpg or !contact.tpg and cc.attrs.value.stream().filter(c -> c.tpg).count() ge 3}"/>
+                               readonly="#{cc.attrs.readonly or !cc.attrs.allowTpg or !contact.tpg and editStatementOfParticipance.contacts.stream().filter(c -> c.tpg).count() ge 3}"/>
             </h:column>
 
             <h:column rendered="#{cc.attrs.queryDomain}">
                 <f:facet name="header">#{msg.lblObd}</f:facet>
                 <inek:Checkbox value="#{contact.obd}" renderElement="@form"
-                               readonly="#{cc.attrs.readonly or !cc.attrs.allowObd or !contact.obd and cc.attrs.value.stream().filter(c -> c.obd).count() ge 3}"/>
+                               readonly="#{cc.attrs.readonly or !cc.attrs.allowObd or !contact.obd and editStatementOfParticipance.contacts.stream().filter(c -> c.obd).count() ge 3}"/>
             </h:column>
 
         </h:dataTable>
