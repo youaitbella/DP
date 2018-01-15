@@ -47,7 +47,7 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
             int accountId,
             int ik,
             int year,
-            WorkflowStatus statusLow, 
+            WorkflowStatus statusLow,
             WorkflowStatus statusHigh) {
         String jpql = "SELECT s FROM SpecificFunctionRequest s "
                 + "WHERE s._accountId = :accountId"
@@ -68,7 +68,7 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
     public List<SpecificFunctionRequest> obtainSpecificFunctionRequests(
             int ik,
             int year,
-            WorkflowStatus statusLow, 
+            WorkflowStatus statusLow,
             WorkflowStatus statusHigh) {
         String jpql = "SELECT s FROM SpecificFunctionRequest s "
                 + "WHERE s._ik = :ik"
@@ -93,7 +93,7 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
     }
 
     public List<Account> loadRequestAccounts(
-            Set<Integer> accountIds, 
+            Set<Integer> accountIds,
             WorkflowStatus statusLow,
             WorkflowStatus statusHigh,
             Set<Integer> managedIks) {
@@ -101,8 +101,8 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
     }
 
     public List<Account> loadRequestAccountsForYear(
-            Set<Integer> accountIds, 
-            int year, 
+            Set<Integer> accountIds,
+            int year,
             WorkflowStatus statusLow,
             WorkflowStatus statusHigh,
             Set<Integer> managedIks) {
@@ -111,7 +111,7 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
                 + "where a._id = s._accountId"
                 + (year > 0 ? " and s._dataYear = :year " : "")
                 + "    and s._statusId between :statusLow and :statusHigh and s._accountId in :accountIds"
-                + "    and s._ik not in :managedIks";
+                + (managedIks.size() > 0 ? "    and s._ik not in :managedIks" : "");
         TypedQuery<Account> query = getEntityManager().createQuery(jpql, Account.class);
         if (year > 0) {
             query.setParameter("year", year);
@@ -119,7 +119,9 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
         query.setParameter("statusLow", statusLow.getId());
         query.setParameter("statusHigh", statusHigh.getId());
         query.setParameter("accountIds", accountIds);
-        query.setParameter("managedIks", managedIks);
+        if (managedIks.size() > 0) {
+            query.setParameter("managedIks", managedIks);
+        }
         return query.getResultList();
     }
 
@@ -183,7 +185,7 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
     @SuppressWarnings("unchecked")
     public List<SpecificFunctionRequest> getSpecificFunctionsForInek(int year, String filter) {
         String sqlFilter = StringUtil.getSqlFilter(filter);
-        String sql = "select RequestMaster.* from spf.RequestMaster " 
+        String sql = "select RequestMaster.* from spf.RequestMaster "
                 + (sqlFilter.length() > 0 ? " join CallCenterDB.dbo.ccCustomer on rmik=cuIK " : "")
                 + "where rmStatusId in (3, 10) and rmDataYear = " + year;
         if (sqlFilter.length() > 0) {
@@ -197,6 +199,7 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
         List<SpecificFunctionRequest> result = query.getResultList();
         return result;
     }
+
     public List<SpecificFunctionRequest> getSpecificFunctionsForInekAndYear(int dataYear) {
         String jpql = "select spf from SpecificFunctionRequest spf where spf._statusId in (3, 10) and spf._dataYear = :dataYear";
         TypedQuery<SpecificFunctionRequest> query = getEntityManager().createQuery(jpql, SpecificFunctionRequest.class);
