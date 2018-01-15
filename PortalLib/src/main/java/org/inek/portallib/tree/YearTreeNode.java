@@ -11,9 +11,15 @@ package org.inek.portallib.tree;
  */
 public final class YearTreeNode extends TreeNode{
 
+    private final int _year;
+
+    public int getYear() {
+        return _year;
+    }
 
     private YearTreeNode(TreeNode parent, int year) {
         super(parent);
+        _year = year;
         setId(year);
     }
 

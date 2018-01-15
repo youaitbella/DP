@@ -82,7 +82,7 @@ public class CalcBasicsTreeHandler implements Serializable, TreeNodeObserver {
         if (treeNode instanceof AccountTreeNode) {
             return obtainAccountNodeChildren((AccountTreeNode) treeNode);
         }
-        return Collections.EMPTY_LIST;
+        return new ArrayList<>();
     }
 
     private Collection<TreeNode> obtainRootNodeChildren(RootNode node) {

@@ -40,7 +40,7 @@ public class EditRootTreeNodeObserver implements TreeNodeObserver {
     @Inject private AccountFacade _accountFacade;
 
     @Override
-    public void obtainChildren(TreeNode treeNode) {
+    public Collection<TreeNode> obtainChildren(TreeNode treeNode) {
         Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.NUB, canReadCompleted());
         accountIds = _nubRequestFacade.
                 checkAccountsForNubOfYear(accountIds, -1, WorkflowStatus.New, WorkflowStatus.ApprovalRequested);
@@ -57,9 +57,8 @@ public class EditRootTreeNodeObserver implements TreeNodeObserver {
                 accounts.add(0, currentUser);
             }
         }
-        Collection<TreeNode> children = treeNode.getChildren();
-        List<? extends TreeNode> oldChildren = new ArrayList<>(children);
-        children.clear();
+        List<? extends TreeNode> oldChildren = new ArrayList<>(treeNode.getChildren());
+        Collection<TreeNode> children = new ArrayList<>();
         for (Account account : accounts) {
             Integer id = account.getId();
             Optional<? extends TreeNode> existing = oldChildren.stream().filter(n -> n.getId() == id).findFirst();
@@ -70,6 +69,7 @@ public class EditRootTreeNodeObserver implements TreeNodeObserver {
             oldChildren.remove(childNode);
             childNode.expand();  // auto-expand all edit nodes by default
         }
+        return children;
     }
 
 }

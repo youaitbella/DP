@@ -120,7 +120,7 @@ public class DocumentApproval implements TreeNodeObserver, Serializable {
         if (treeNode instanceof AccountTreeNode) {
             return obtainAccountNodeChildren((AccountTreeNode) treeNode);
         }
-        return Collections.EMPTY_LIST;
+        return new ArrayList<>();
     }
 
     @Override

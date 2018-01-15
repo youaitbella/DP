@@ -3,6 +3,7 @@ package org.inek.dataportal.feature.specificfunction.backingbean.tree.insurance;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -86,22 +87,23 @@ public class SpecificFunctionAgreementTreeHandler implements Serializable, TreeN
     }
 
     @Override
-    public void obtainChildren(TreeNode treeNode) {
+    public Collection<TreeNode> obtainChildren(TreeNode treeNode) {
         if (treeNode instanceof RootNode && treeNode.getId() == 1) {
-            obtainEditNodeChildren((RootNode) treeNode);
+            return obtainEditNodeChildren((RootNode) treeNode);
         }
         if (treeNode instanceof RootNode && treeNode.getId() == 2) {
-            obtainViewNodeChildren((RootNode) treeNode);
+            return obtainViewNodeChildren((RootNode) treeNode);
         }
         if (treeNode instanceof YearTreeNode) {
-            obtainYearNodeChildren((YearTreeNode) treeNode);
+            return obtainYearNodeChildren((YearTreeNode) treeNode);
         }
         if (treeNode instanceof AccountTreeNode) {
-            obtainAccountNodeChildren((AccountTreeNode) treeNode);
+            return obtainAccountNodeChildren((AccountTreeNode) treeNode);
         }
+        return new ArrayList<>();
     }
 
-    private void obtainEditNodeChildren(RootNode treeNode) {
+    private Collection<TreeNode> obtainEditNodeChildren(RootNode treeNode) {
         Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.SPECIFIC_FUNCTION, canReadCompleted());
         List<Account> accounts = _specificFunctionFacade.loadAgreementAccountsForYear(accountIds,
                 Utils.getTargetYear(Feature.SPECIFIC_FUNCTION), WorkflowStatus.New, WorkflowStatus.ApprovalRequested);
@@ -111,9 +113,8 @@ public class SpecificFunctionAgreementTreeHandler implements Serializable, TreeN
             accounts.remove(currentUser);
             accounts.add(0, currentUser);
         }
-        Collection<TreeNode> children = treeNode.getChildren();
-        List<? extends TreeNode> oldChildren = new ArrayList<>(children);
-        children.clear();
+        List<? extends TreeNode> oldChildren = new ArrayList<>(treeNode.getChildren());
+        Collection<TreeNode> children = new ArrayList<>();
         for (Account account : accounts) {
             Integer id = account.getId();
             Optional<? extends TreeNode> existing = oldChildren.stream().filter(n -> n.getId() == id).findFirst();
@@ -123,15 +124,15 @@ public class SpecificFunctionAgreementTreeHandler implements Serializable, TreeN
             oldChildren.remove(childNode);
             childNode.expand();  // auto-expand all edit nodes by default
         }
+        return children;
     }
 
-    private void obtainViewNodeChildren(RootNode treeNode) {
+    private Collection<TreeNode> obtainViewNodeChildren(RootNode treeNode) {
         Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.SPECIFIC_FUNCTION, canReadSealed());
         Set<Integer> years = _specificFunctionFacade.getAgreementCalcYears(accountIds);
-        Collection<TreeNode> children = treeNode.getChildren();
-        List<? extends TreeNode> oldChildren = new ArrayList<>(children);
         int targetYear = Utils.getTargetYear(Feature.SPECIFIC_FUNCTION);
-        children.clear();
+        List<? extends TreeNode> oldChildren = new ArrayList<>(treeNode.getChildren());
+        Collection<TreeNode> children = new ArrayList<>();
         for (Integer year : years) {
             Optional<? extends TreeNode> existing = oldChildren.stream().filter(n -> n.getId() == year).findFirst();
             YearTreeNode childNode = existing.isPresent() ? (YearTreeNode) existing.get() : YearTreeNode.
@@ -142,9 +143,10 @@ public class SpecificFunctionAgreementTreeHandler implements Serializable, TreeN
                 childNode.expand();
             }
         }
+        return children;
     }
 
-    private void obtainYearNodeChildren(YearTreeNode treeNode) {
+    private Collection<TreeNode> obtainYearNodeChildren(YearTreeNode treeNode) {
         Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.SPECIFIC_FUNCTION, canReadSealed());
         List<Account> accounts = _specificFunctionFacade.loadAgreementAccountsForYear(accountIds, treeNode.getId(),
                 WorkflowStatus.Provided, WorkflowStatus.Retired);
@@ -154,9 +156,8 @@ public class SpecificFunctionAgreementTreeHandler implements Serializable, TreeN
             accounts.remove(currentUser);
             accounts.add(0, currentUser);
         }
-        Collection<TreeNode> children = treeNode.getChildren();
-        List<? extends TreeNode> oldChildren = new ArrayList<>(children);
-        children.clear();
+        List<? extends TreeNode> oldChildren = new ArrayList<>(treeNode.getChildren());
+        Collection<TreeNode> children = new ArrayList<>();
         for (Account account : accounts) {
             Integer id = account.getId();
             Optional<? extends TreeNode> existing = oldChildren.stream().filter(n -> n.getId() == id).findFirst();
@@ -169,9 +170,10 @@ public class SpecificFunctionAgreementTreeHandler implements Serializable, TreeN
                 childNode.expand();
             }
         }
+        return children;
     }
 
-    private void obtainAccountNodeChildren(AccountTreeNode treeNode) {
+    private Collection<TreeNode> obtainAccountNodeChildren(AccountTreeNode treeNode) {
         int partnerId = treeNode.getId();
         List<SpecificFunctionAgreement> infos;
         if (treeNode.getParent() instanceof YearTreeNode) {
@@ -180,10 +182,11 @@ public class SpecificFunctionAgreementTreeHandler implements Serializable, TreeN
         } else {
             infos = obtainAgreementsForEdit(partnerId);
         }
-        treeNode.getChildren().clear();
+        Collection<TreeNode> children = new ArrayList<>();
         for (SpecificFunctionAgreement info : infos) {
-            treeNode.getChildren().add(SpecificFunctionAgreementTreeNode.create(treeNode, info, this));
+            children.add(SpecificFunctionAgreementTreeNode.create(treeNode, info, this));
         }
+        return children;
     }
 
     private List<SpecificFunctionAgreement> obtainAgreementsForRead(int partnerId, int year) {

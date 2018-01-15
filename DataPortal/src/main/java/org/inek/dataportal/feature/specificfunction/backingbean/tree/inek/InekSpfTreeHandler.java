@@ -1,6 +1,7 @@
 package org.inek.dataportal.feature.specificfunction.backingbean.tree.inek;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
@@ -46,13 +47,14 @@ public class InekSpfTreeHandler implements Serializable, TreeNodeObserver {
     }
 
     @Override
-    public void obtainChildren(TreeNode treeNode) {
+    public Collection<TreeNode> obtainChildren(TreeNode treeNode) {
         List<SpecificFunctionRequest> infos = _specificFunctionFacade.
                 getSpecificFunctionsForInek(getYear(), getFilter());
-        treeNode.getChildren().clear();
+        Collection<TreeNode> children = new ArrayList<>();
         for (SpecificFunctionRequest info : infos) {
-            treeNode.getChildren().add(SpecificFunctionRequestTreeNode.create(treeNode, info, null));
+            children.add(SpecificFunctionRequestTreeNode.create(treeNode, info, null));
         }
+        return children;
     }
 
     private String _filter = "";

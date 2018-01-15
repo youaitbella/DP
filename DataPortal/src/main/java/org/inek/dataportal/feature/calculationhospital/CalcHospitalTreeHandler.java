@@ -101,7 +101,7 @@ public class CalcHospitalTreeHandler implements Serializable, TreeNodeObserver {
         if (treeNode instanceof AccountTreeNode) {
             return obtainAccountNodeChildren((AccountTreeNode) treeNode);
         }
-        return Collections.EMPTY_LIST;
+        return new ArrayList<>();
     }
 
     private Collection<TreeNode> obtainEditNodeChildren(RootNode treeNode) {
@@ -151,7 +151,7 @@ public class CalcHospitalTreeHandler implements Serializable, TreeNodeObserver {
     private Collection<TreeNode> obtainYearNodeChildren(YearTreeNode treeNode) {
         Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.CALCULATION_HOSPITAL, canReadSealed());
         accountIds = _calcFacade.
-                checkAccountsForYear(accountIds, treeNode.getId(), WorkflowStatus.Provided, WorkflowStatus.Retired);
+                checkAccountsForYear(accountIds, treeNode.getYear(), WorkflowStatus.Provided, WorkflowStatus.Retired);
         List<Account> accounts = _accountFacade.getAccountsForIds(accountIds);
         Account currentUser = _sessionController.getAccount();
         if (accounts.contains(currentUser)) {

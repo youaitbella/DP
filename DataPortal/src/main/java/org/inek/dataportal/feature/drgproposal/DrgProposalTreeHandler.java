@@ -3,6 +3,7 @@ package org.inek.dataportal.feature.drgproposal;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -90,22 +91,23 @@ public class DrgProposalTreeHandler implements Serializable, TreeNodeObserver {
     }
 
     @Override
-    public void obtainChildren(TreeNode treeNode) {
+    public Collection<TreeNode> obtainChildren(TreeNode treeNode) {
         if (treeNode instanceof RootNode && treeNode.getId() == 1) {
-            obtainEditNodeChildren((RootNode) treeNode);
+            return obtainEditNodeChildren((RootNode) treeNode);
         }
         if (treeNode instanceof RootNode && treeNode.getId() == 2) {
-            obtainViewNodeChildren((RootNode) treeNode);
+            return obtainViewNodeChildren((RootNode) treeNode);
         }
         if (treeNode instanceof YearTreeNode) {
-            obtainYearNodeChildren((YearTreeNode) treeNode);
+            return obtainYearNodeChildren((YearTreeNode) treeNode);
         }
         if (treeNode instanceof AccountTreeNode) {
-            obtainAccountNodeChildren((AccountTreeNode) treeNode);
+            return obtainAccountNodeChildren((AccountTreeNode) treeNode);
         }
+        return new ArrayList<>();
     }
 
-    private void obtainEditNodeChildren(RootNode treeNode) {
+    private Collection<TreeNode> obtainEditNodeChildren(RootNode treeNode) {
         Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.DRG_PROPOSAL, canReadCompleted());
         accountIds = _drgProposalFacade.
                 checkAccountsForProposalOfYear(accountIds, -1, WorkflowStatus.New, WorkflowStatus.ApprovalRequested);
@@ -116,9 +118,8 @@ public class DrgProposalTreeHandler implements Serializable, TreeNodeObserver {
             accounts.remove(currentUser);
             accounts.add(0, currentUser);
         }
-        Collection<TreeNode> children = treeNode.getChildren();
-        List<? extends TreeNode> oldChildren = new ArrayList<>(children);
-        children.clear();
+        List<? extends TreeNode> oldChildren = new ArrayList<>(treeNode.getChildren());
+        Collection<TreeNode> children = new ArrayList<>();
         for (Account account : accounts) {
             Integer id = account.getId();
             Optional<? extends TreeNode> existing = oldChildren.stream().filter(n -> n.getId() == id).findFirst();
@@ -128,15 +129,15 @@ public class DrgProposalTreeHandler implements Serializable, TreeNodeObserver {
             oldChildren.remove(childNode);
             childNode.expand();  // auto-expand all edit nodes by default
         }
+        return children;
     }
 
-    private void obtainViewNodeChildren(RootNode treeNode) {
+    private Collection<TreeNode> obtainViewNodeChildren(RootNode treeNode) {
         Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.DRG_PROPOSAL, canReadSealed());
         List<Integer> years = _drgProposalFacade.getProposalYears(accountIds);
-        Collection<TreeNode> children = treeNode.getChildren();
-        List<? extends TreeNode> oldChildren = new ArrayList<>(children);
         int targetYear = Utils.getTargetYear(Feature.DRG_PROPOSAL);
-        children.clear();
+        List<? extends TreeNode> oldChildren = new ArrayList<>(treeNode.getChildren());
+        Collection<TreeNode> children = new ArrayList<>();
         for (Integer year : years) {
             Optional<? extends TreeNode> existing = oldChildren.stream().filter(n -> n.getId() == year).findFirst();
             YearTreeNode childNode = existing.isPresent() ? (YearTreeNode) existing.get() : YearTreeNode.
@@ -147,9 +148,10 @@ public class DrgProposalTreeHandler implements Serializable, TreeNodeObserver {
                 childNode.expand();
             }
         }
+        return children;
     }
 
-    private void obtainYearNodeChildren(YearTreeNode treeNode) {
+    private Collection<TreeNode> obtainYearNodeChildren(YearTreeNode treeNode) {
         Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.DRG_PROPOSAL, canReadSealed());
         accountIds = _drgProposalFacade.
                 checkAccountsForProposalOfYear(accountIds, treeNode.getId(), WorkflowStatus.Provided, WorkflowStatus.Retired);
@@ -160,9 +162,8 @@ public class DrgProposalTreeHandler implements Serializable, TreeNodeObserver {
             accounts.remove(currentUser);
             accounts.add(0, currentUser);
         }
-        Collection<TreeNode> children = treeNode.getChildren();
-        List<? extends TreeNode> oldChildren = new ArrayList<>(children);
-        children.clear();
+        List<? extends TreeNode> oldChildren = new ArrayList<>(treeNode.getChildren());
+        Collection<TreeNode> children = new ArrayList<>();
         for (Account account : accounts) {
             Integer id = account.getId();
             Optional<? extends TreeNode> existing = oldChildren.stream().filter(n -> n.getId() == id).findFirst();
@@ -175,9 +176,10 @@ public class DrgProposalTreeHandler implements Serializable, TreeNodeObserver {
                 childNode.expand();
             }
         }
+        return children;
     }
 
-    private void obtainAccountNodeChildren(AccountTreeNode treeNode) {
+    private Collection<TreeNode> obtainAccountNodeChildren(AccountTreeNode treeNode) {
         int partnerId = treeNode.getId();
         List<ProposalInfo> infos;
         if (treeNode.getParent() instanceof YearTreeNode) {
@@ -186,10 +188,11 @@ public class DrgProposalTreeHandler implements Serializable, TreeNodeObserver {
         } else {
             infos = obtainProposalInfosForEdit(partnerId);
         }
-        treeNode.getChildren().clear();
+        Collection<TreeNode> children = new ArrayList<>();
         for (ProposalInfo info : infos) {
-            treeNode.getChildren().add(ProposalInfoTreeNode.create(treeNode, info, this));
+            children.add(ProposalInfoTreeNode.create(treeNode, info, this));
         }
+        return children;
     }
 
     private List<ProposalInfo> obtainProposalInfosForRead(int partnerId, int year) {

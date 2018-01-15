@@ -91,7 +91,8 @@ public class CalcFacade extends AbstractDataAccess {
                 + "union\n"
                 + "select dmmDataYear as DataYear\n"
                 + "from calc.DistributionModelMaster\n"
-                + "where dmmAccountId" + accountCond;
+                + "where dmmAccountId" + accountCond + "\n"
+                + "order by 1";
         Query query = getEntityManager().createNativeQuery(sql);
         @SuppressWarnings("unchecked") HashSet<Integer> result = new HashSet<>(query.getResultList());
         return result;
