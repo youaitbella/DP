@@ -146,7 +146,7 @@ public class NubSessionTools implements Serializable {
         }
         RootNode node = RootNode.create(1, _editRootTreeNodeObserver.get());
         node.expand();
-        _rootNode.getChildren().add(node);
+        _rootNode.addChild(node);
         return node;
     }
 
@@ -157,7 +157,7 @@ public class NubSessionTools implements Serializable {
         }
         RootNode node = RootNode.create(2, _viewRootTreeNodeObserver.get());
         node.expand();
-        _rootNode.getChildren().add(node);
+        _rootNode.addChild(node);
         return node;
     }
 

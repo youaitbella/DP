@@ -62,7 +62,7 @@ public class SpecificFunctionRequestTreeHandler implements Serializable {
         }
         RootNode node = RootNode.create(id, treeNodeObserverProvider.get());
         node.expand();
-        _rootNode.getChildren().add(node);
+        _rootNode.addChild(node);
         return node;
     }
 

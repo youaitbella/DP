@@ -63,7 +63,7 @@ public class CalcHospitalTreeHandler implements Serializable, TreeNodeObserver {
         RootNode node = RootNode.create(id, this);
         node.expand();
         _rootNode.setExpanded(true);
-        _rootNode.getChildren().add(node);
+        _rootNode.addChild(node);
         return node;
     }
 
@@ -131,7 +131,7 @@ public class CalcHospitalTreeHandler implements Serializable, TreeNodeObserver {
 
     private Collection<TreeNode> obtainViewNodeChildren(RootNode treeNode) {
         Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.CALCULATION_HOSPITAL, canReadSealed());
-        Set<Integer> years = _calcFacade.getCalcYears(accountIds);
+        List<Integer> years = _calcFacade.getCalcYears(accountIds);
         int targetYear = Utils.getTargetYear(Feature.CALCULATION_HOSPITAL);
         List<? extends TreeNode> oldChildren = new ArrayList<>(treeNode.getChildren());
         Collection<TreeNode> children = new ArrayList<>();
@@ -164,8 +164,9 @@ public class CalcHospitalTreeHandler implements Serializable, TreeNodeObserver {
         for (Account account : accounts) {
             Integer id = account.getId();
             Optional<? extends TreeNode> existing = oldChildren.stream().filter(n -> n.getId() == id).findFirst();
-            AccountTreeNode childNode = existing.isPresent() ? (AccountTreeNode) existing.get() : AccountTreeNode.
-                    create(treeNode, account, this);
+            AccountTreeNode childNode = existing.isPresent()
+                    ? (AccountTreeNode) existing.get()
+                    : AccountTreeNode.create(treeNode, account, this);
             children.add((TreeNode) childNode);
             oldChildren.remove(childNode);
             if (account == currentUser) {
@@ -187,7 +188,7 @@ public class CalcHospitalTreeHandler implements Serializable, TreeNodeObserver {
         }
         Collection<TreeNode> children = new ArrayList<>();
         for (CalcHospitalInfo info : infos) {
-            children.add(CalcHospitalTreeNode.create(treeNode, info, this));
+            children.add(CalcHospitalTreeNode.create(treeNode, info, null));
         }
         return children;
     }

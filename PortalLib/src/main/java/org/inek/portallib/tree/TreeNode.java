@@ -42,6 +42,10 @@ public abstract class TreeNode implements Serializable{
         }
         return _children;
     }
+    
+    public void addChild(TreeNode child){
+        _children.add(child);
+    }
     // </editor-fold>    
     
     // <editor-fold defaultstate="collapsed" desc="Property Id">    

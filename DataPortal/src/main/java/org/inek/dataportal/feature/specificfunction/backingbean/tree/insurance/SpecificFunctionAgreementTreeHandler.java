@@ -62,7 +62,7 @@ public class SpecificFunctionAgreementTreeHandler implements Serializable, TreeN
         RootNode node = RootNode.create(id, this);
         node.expand();
         _rootNode.setExpanded(true);
-        _rootNode.getChildren().add(node);
+        _rootNode.addChild(node);
         return node;
     }
 
