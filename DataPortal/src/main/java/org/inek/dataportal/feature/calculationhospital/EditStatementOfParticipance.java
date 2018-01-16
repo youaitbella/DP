@@ -421,14 +421,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
      */
     public String seal() {
 
-        if (!_statement.isDrgCalc()) {
-            _statement.setClinicalDistributionModelDrg(-1);
-            _statement.setMultiyearDrg(0);
-        }
-        if (!_statement.isPsyCalc()) {
-            _statement.setClinicalDistributionModelPsy(-1);
-            _statement.setMultiyearPsy(0);
-        }
+        setDistibutionModelAndMuliyear();
 
         populateDefaultsForUnreachableFields();
         if (!statementIsComplete()) {
@@ -448,8 +441,11 @@ public class EditStatementOfParticipance extends AbstractEditController {
         boolean testMode = _appTools.isEnabled(ConfigKey.TestMode);
         if (!testMode) {
             _icmtUpdater.saveStatementOfParticipanceForIcmt(_statement);
-            if (_calcFacade.isObligateInCalcType(_statement.getIk(), _statement.getDataYear(), 4)) {
+            if (isObligatorInv()) {
                 _icmtUpdater.saveObligateInvCalc(_statement);
+            }
+            if(_statement.isObligatory() && !isObligatorInv() && _statement.isInvCalc()) {
+                _icmtUpdater.saveParticipanceInCalcType(_statement,4);
             }
         }
 
@@ -464,6 +460,17 @@ public class EditStatementOfParticipance extends AbstractEditController {
             return Pages.PrintView.URL();
         }
         return "";
+    }
+
+    public void setDistibutionModelAndMuliyear() {
+        if (!_statement.isDrgCalc()) {
+            _statement.setClinicalDistributionModelDrg(-1);
+            _statement.setMultiyearDrg(0);
+        }
+        if (_statement.isPsyCalc()) {
+            _statement.setClinicalDistributionModelPsy(-1);
+            _statement.setMultiyearPsy(0);
+        }
     }
 
     private boolean missingContact() {
@@ -626,7 +633,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
         if (statement.isDrgCalc() && (statement.getObligatoryCalcType() == 2 || 
                 statement.isObligatoryFollowingYears() || !statement.isObligatory())) {
             checkField(message, statement.getClinicalDistributionModelDrg(), 0, 1,
-                    "lblStatementSingleCostAttributionDrg", "sop:clinicalDistributionModelDrg",
+                    "lblNeedSingleCostAttribution", "sop:clinicalDistributionModelDrg",
                     StatementOfParticipanceTabs.tabStatementOfParticipanceStatements);
             checkField(message, statement.getMultiyearDrg(), 1, 15,
                     "lblQuestionOverlayer", "sop:multiyearDrg",
@@ -640,7 +647,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
         if (statement.isPsyCalc() && (statement.isObligatoryFollowingYears() || 
                 statement.getObligatoryCalcType() == 2 || !statement.isObligatory())) {
             checkField(message, statement.getClinicalDistributionModelPsy(), 0, 1,
-                    "lblStatementSingleCostAttributionPsy", "sop:clinicalDistributionModelPsy",
+                    "lblNeedSingleCostAttribution", "sop:clinicalDistributionModelPsy",
                     StatementOfParticipanceTabs.tabStatementOfParticipanceStatements);
             checkField(message, statement.getMultiyearPsy(), 1, 15,
                     "lblQuestionOverlayer", "sop:multiyearPsy",

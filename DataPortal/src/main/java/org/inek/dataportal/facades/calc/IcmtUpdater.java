@@ -59,12 +59,16 @@ public class IcmtUpdater extends AbstractDataAccess {
                 + "null, 16, null \n"
                 + "from calc.StatementOfParticipance \n"
                 + "join CallCenterDB.dbo.ccCustomer on sopik = cuIK \n"
+                + "left join CallCenterDB.dbo.CustomerCalcInfo on cuId = cciCustomerId and cciCalcTypeId = " + calcType + " "
+                + "and cciInfoTypeId = 16 and cciValidTo = '" + maxValidDate + "' \n"
                 + "where sopDataYear = " + dataYear + " \n"
                 + "and sopStatusId = 10 \n"
                 + "and sopIsObligatory = 1 "
                 + "and sopIsObligatoryFollowYears = 1 \n"
                 + "and sopIk = " + ik + " \n"
-                + "and sopIs" + column + " = 1\n "
+                + "and sopIs" + column + " = 1 \n"
+                + "and " + calcType + " in (1,3)\n "
+                + "and cciid is null"
                 + "\n"
                 + "--Pflichthauser erstes Jahr\n"
                 + "insert into CallCenterDB.dbo.CustomerCalcInfo "
@@ -74,12 +78,15 @@ public class IcmtUpdater extends AbstractDataAccess {
                 + "null, case when sopObligatoryCalcType = 2 then 8 else 7 end, null \n"
                 + "from calc.StatementOfParticipance \n"
                 + "join CallCenterDB.dbo.ccCustomer on sopik = cuIK \n"
+                + "left join CallCenterDB.dbo.CustomerCalcInfo on cuId = cciCustomerId and cciCalcTypeId = " + calcType + " "
+                + "and cciInfoTypeId in (8,7) and cciValidTo = '" + maxValidDate + "' \n"
                 + "where sopDataYear = " + dataYear + " \n"
                 + "and sopStatusId = 10 \n"
                 + "and sopIsObligatory = 1 "
                 + "and sopIsObligatoryFollowYears = 0\n"
                 + "and sopIk = " + ik + " \n"
-                + "and sopIs" + column + " = 1\n"
+                + "and sopIs" + column + " = 1\n "
+                + "and cciid is null"
                 + "\n"
                 + "--Insert CalcInformation - Teilnahme\n"
                 + "insert into CallCenterDB.dbo.CustomerCalcInfo "
@@ -96,7 +103,8 @@ public class IcmtUpdater extends AbstractDataAccess {
                 + "and sopStatusId = 10 \n"
                 + "and sopIk = " + ik + "\n"
                 + "and cciId is null \n"
-                + "and sopIsObligatory = 0 \n"
+                + "and sopIsObligatory = 0 "
+                + "and cciid is null\n"
                 + "\n";
         if (calcType == 1 || calcType == 3) {
             sql += "--insert Überlieger \n"
@@ -339,16 +347,39 @@ public class IcmtUpdater extends AbstractDataAccess {
         query.executeUpdate();
     }
 
-    public void saveObligateInvCalc(StatementOfParticipance _statement) {
+    public void saveObligateInvCalc(StatementOfParticipance statement) {
         String sql = "insert into CallCenterDB.dbo.CustomerCalcInfo "
                 + "(cciCustomerId, cciValidFrom, cciValidTo, cciCalcTypeId, cciSubCalcTypeId, cciInfoTypeId, cciDate) \n"
-                + "select cuId, '" + _statement.getDataYear() + "-01-01', "
-                + "'" + _statement.getDataYear() + "-12-31', 4,"
+                + "select cuId, '" + statement.getDataYear() + "-01-01', "
+                + "'" + statement.getDataYear() + "-12-31', 4,"
                 + "null, 3, null \n"
                 + "from calc.StatementOfParticipance \n"
                 + "join CallCenterDB.dbo.ccCustomer on sopIk = cuik \n"
                 + "left join CallCenterDB.dbo.CustomerCalcInfo on cuId = cciCustomerId and cciCalcTypeId = 4 \n"
-                + "and cciInfoTypeId = 3 and Year(cciValidTo) = " + _statement.getDataYear() + " \n";
+                + "where cciInfoTypeId = 3 and Year(cciValidTo) = " + statement.getDataYear() + " \n"
+                + "and sopDataYear = " + statement.getDataYear() + " \n"
+                + "and sopIk = " + statement.getIk() + " \n"
+                + "and sopStatusId = 10 \n"
+                + "and cciId is null";
+
+        Query query = getEntityManager().createNativeQuery(sql);
+        query.executeUpdate();
+    }
+
+    public void saveParticipanceInCalcType(StatementOfParticipance statement, int calcType) {
+        String sql = "insert into CallCenterDB.dbo.CustomerCalcInfo "
+                + "(cciCustomerId, cciValidFrom, cciValidTo, cciCalcTypeId, cciSubCalcTypeId, cciInfoTypeId, cciDate) \n"
+                + "select cuId, '" + statement.getDataYear() + "-01-01', "
+                + "'" + statement.getDataYear() + "-12-31', " + calcType + ","
+                + "null, 3, null \n"
+                + "from calc.StatementOfParticipance \n"
+                + "join CallCenterDB.dbo.ccCustomer on sopIk = cuik \n"
+                + "left join CallCenterDB.dbo.CustomerCalcInfo on cuId = cciCustomerId and cciCalcTypeId = " + calcType + " \n"
+                + "and cciInfoTypeId = 3 and Year(cciValidTo) = " + statement.getDataYear() + " \n "
+                + "where sopDataYear = " + statement.getDataYear() + " \n"
+                + "and sopIk = " + statement.getIk() + " \n"
+                + "and sopStatusId = 10 \n"
+                + "and cciId is null";
 
         Query query = getEntityManager().createNativeQuery(sql);
         query.executeUpdate();

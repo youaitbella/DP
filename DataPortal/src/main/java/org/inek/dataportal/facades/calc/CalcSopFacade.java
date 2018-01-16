@@ -28,7 +28,7 @@ import org.inek.dataportal.helper.Utils;
 @RequestScoped
 @Transactional
 public class CalcSopFacade extends AbstractDataAccess {
-
+    
     public StatementOfParticipance findStatementOfParticipance(int id) {
         return findFresh(StatementOfParticipance.class, id);
     }

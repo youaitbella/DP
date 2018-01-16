@@ -18,7 +18,7 @@ import org.junit.Test;
  * @author schwarzst
  */
 public class StatementofParticipanceTest {
-       
+        
     @Test
     public void testisStatementComplete1() {
         StatementOfParticipance statement = new StatementOfParticipance();
@@ -536,5 +536,5 @@ public class StatementofParticipanceTest {
         MessageContainer message = edit.composeMissingFieldsMessage(statement);
         System.out.println(message.getMessage());
         assertTrue(message.containsMessage());
-    }    
+    }
 }
