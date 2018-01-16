@@ -17,21 +17,32 @@
 
         <h:form class="paddingElement">
             <h1>#{msg.lblSpecificFunction}</h1>
-            <ui:repeat value="#{specificFunctionRequestTreeHandler.editNode.children}" var="accountNode" >
-                <div style="margin-left:16px;">
-                    <h:commandLink action="#{accountNode.toggle}" immediate="true" >
-                        <h:graphicImage alt="auf/zuklappen" name="Icon/small/#{accountNode.expanded ? 'ButtonMinus.png' : 'ButtonPlus.png'}" title="Details auf/zuklappen" value=""/>
-                        <f:ajax render="@this proposalEdit :logout:remaining"/>
-                    </h:commandLink>
-                    <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.accountId)}" value="#{accountNode.displayName}" immediate="true"/>
-                    <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.accountId)}" value="#{accountNode.company}" immediate="true"/>
-                    <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.accountId)}" value="#{accountNode.town}" immediate="true"/>
 
-                    <div jsf:id="proposalEdit" style="margin-left:16px; padding-bottom: 1em;">
-                        <h:outputLabel value="Dieser Kooperationspartner hat noch keine Daten zur Freigabe an Sie gesendet" rendered="#{accountNode.expanded and accountNode.children.size() eq 0}"/>
-                        <spf:RequestNode parentNode="#{accountNode}"
+            <ui:repeat value="#{specificFunctionRequestTreeHandler.editNode.children}" var="treeNode" >
+                <div style="margin-left:16px;">
+                    <h:commandLink action="#{treeNode.toggle}" immediate="true" >
+                        <h:graphicImage alt="auf/zuklappen" name="Icon/small/#{treeNode.expanded ? 'ButtonMinus.png' : 'ButtonPlus.png'}" title="Details auf/zuklappen" value=""/>
+                        <f:ajax render="@this accountDataEdit :logout:remaining"/>
+                    </h:commandLink>
+                            <h:panelGroup  rendered="#{treeNode['class'].simpleName eq 'CustomerTreeNode'}">
+                                <h:outputText styleClass="third marginTop" value="#{treeNode.displayName}"/>
+                                <h:outputText styleClass="third marginTop" value="#{treeNode.company}"/>
+                                <h:outputText styleClass="third marginTop" value="#{treeNode.town}"/>
+                            </h:panelGroup>
+                            <h:panelGroup  rendered="#{treeNode['class'].simpleName eq 'AccountTreeNode'}">
+                                <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(treeNode.accountId)}" value="#{treeNode.displayName}" immediate="true"/>
+                                <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(treeNode.accountId)}" value="#{treeNode.company}" immediate="true"/>
+                                <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(treeNode.accountId)}" value="#{treeNode.town}" immediate="true"/>
+                            </h:panelGroup>
+
+                    <div jsf:id="accountDataEdit" style="margin-left:16px; padding-bottom: 1em;">
+                        <h:outputLabel value="Zu diesem IK sind derzeit keine Daten vorhanden"
+                                       rendered="#{treeNode['class'].simpleName eq 'CustomerTreeNode'and treeNode.expanded and treeNode.children.size() eq 0}"/>
+                        <h:outputLabel value="Dieser Kooperationspartner hat noch keine Daten zur Freigabe an Sie gesendet"
+                                       rendered="#{treeNode['class'].simpleName eq 'AccountTreeNode'and treeNode.expanded and treeNode.children.size() eq 0}"/>
+                        <spf:RequestNode parentNode="#{treeNode}"
                                          showDelete="true" showSelectBox="false"
-                                         rendered="#{accountNode.children.size() gt 0}"/>
+                                         rendered="#{treeNode.children.size() gt 0}"/>
                     </div>
                 </div>
             </ui:repeat>
@@ -58,25 +69,33 @@
                 <h:commandLink styleClass="block marginTop" action="#{year.toggle}" value="Besondere Aufgaben für #{year.id}" immediate="true" />
                 </p>
                 <div jsf:id="Year">
-                    <ui:repeat value="#{year.children}" var="accountNode" varStatus="status">
+                    <ui:repeat value="#{year.children}" var="treeNode" varStatus="status">
                         <div style="margin-left:16px;">
-                            <h:commandLink action="#{accountNode.toggle}" immediate="true" >
-                                <h:graphicImage alt="auf/zuklappen" name="Icon/small/#{accountNode.expanded ? 'ButtonMinus.png' : 'ButtonPlus.png'}" title="Details auf/zuklappen" value=""/>
+                            <h:commandLink action="#{treeNode.toggle}" immediate="true" >
+                                <h:graphicImage alt="auf/zuklappen" name="Icon/small/#{treeNode.expanded ? 'ButtonMinus.png' : 'ButtonPlus.png'}" title="Details auf/zuklappen" value=""/>
                                 <f:ajax render="@this proposalShow :logout:remaining"/>
                             </h:commandLink>
-                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.accountId)}" value="#{accountNode.displayName}" immediate="true"/>
-                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.accountId)}" value="#{accountNode.company}" immediate="true"/>
-                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.accountId)}" value="#{accountNode.town}" immediate="true"/>
+                            <h:panelGroup  rendered="#{treeNode['class'].simpleName eq 'CustomerTreeNode'}">
+                                <h:outputText styleClass="third marginTop" value="#{treeNode.displayName}"/>
+                                <h:outputText styleClass="third marginTop" value="#{treeNode.company}"/>
+                                <h:outputText styleClass="third marginTop" value="#{treeNode.town}"/>
+                            </h:panelGroup>
+                            <h:panelGroup  rendered="#{treeNode['class'].simpleName eq 'AccountTreeNode'}">
+                                <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(treeNode.accountId)}" value="#{treeNode.displayName}" immediate="true"/>
+                                <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(treeNode.accountId)}" value="#{treeNode.company}" immediate="true"/>
+                                <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(treeNode.accountId)}" value="#{treeNode.town}" immediate="true"/>
+                            </h:panelGroup>
                             <div jsf:id="proposalShow" style="margin-left:16px; padding-bottom: 1em;">
-                                <spf:RequestNode parentNode="#{accountNode}"
+                                <h:outputLabel value="Zu diesem IK sind derzeit keine Daten vorhanden" rendered="#{treeNode.expanded and treeNode.children.size() eq 0}"/>
+                                <spf:RequestNode parentNode="#{treeNode}"
                                                  showDelete="true" showSelectBox="false"
-                                                 rendered="#{accountNode.children.size() gt 0}"/>
+                                                 rendered="#{treeNode.children.size() gt 0}"/>
                             </div>
                         </div>
                     </ui:repeat>
                 </div>
             </ui:repeat>
-            
+
             <div jsf:rendered="#{sessionController.isInekUser('SPECIFIC_FUNCTION')}">
                 <h2>An das InEK gesendete Besondere Aufgaben / Zentrum</h2>
 
@@ -101,7 +120,7 @@
                 </div>
             </div>
 
-            
+
         </h:form>
     </ui:define>
 </ui:composition>

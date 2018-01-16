@@ -14,7 +14,7 @@
 
     <groupId>org.inek</groupId>
     <artifactId>DataPortalParent</artifactId>
-    <version>2016.1.0-SNAPSHOT</version>
+    <version>2018.1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -95,7 +95,47 @@
                     </execution>
                 </executions>-->
             </plugin>
+            
+            <!-- OWASP Dependency Plugin
+            This plugin conumes a lot of time - do not use local, but enable for Jenkins
+            <plugin>
+                <groupId>org.owasp</groupId>
+                <artifactId>dependency-check-maven</artifactId>
+                <version>3.0.2</version>
+                <configuration>
+                    <cveValidForHours>12</cveValidForHours>
+                    <failBuildOnCVSS>4</failBuildOnCVSS>
+                    <reportPlugins>
+                        <plugin>
+                            <groupId>org.owasp</groupId>
+                            <artifactId>dependency-check-maven</artifactId>
+                            <version>3.0.2</version>
+                            <configuration>
+                                <name>Dependency Check</name>
+                            </configuration>
+                            <reportSets>
+                                <reportSet>
+                                    <reports>
+                                        <report>aggregate</report>
+                                    </reports>
+                                </reportSet>
+                            </reportSets>
+                        </plugin>
+                    </reportPlugins>
+                </configuration>    
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            -->
+            
         </plugins>
+        
+        
     </build>
 
     <dependencyManagement>
@@ -103,13 +143,13 @@
             <dependency>
                 <groupId>org.eclipse.persistence</groupId>
                 <artifactId>eclipselink</artifactId>
-                <version>2.6.4</version>
+                <version>2.6.5</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.eclipse.persistence</groupId>
                 <artifactId>org.eclipse.persistence.jpa.modelgen.processor</artifactId>
-                <version>2.6.4</version>
+                <version>2.6.5</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
@@ -144,9 +184,15 @@
             <dependency>
                 <groupId>org.jboss.weld</groupId>
                 <artifactId>weld-osgi-bundle</artifactId>
-                <version>2.2.15.Final</version>
+                <version>3.0.1.Final</version>
                 <type>jar</type>
             </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>2.13.0</version>
+                <scope>test</scope>
+            </dependency>            
         </dependencies>
     </dependencyManagement>
     
