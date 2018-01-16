@@ -1,7 +1,5 @@
 package org.inek.dataportal.feature.specificfunction.backingbean.tree.hospital;
 
-import org.inek.dataportal.feature.specificfunction.backingbean.tree.hospital.ViewRootTreeNodeObserver;
-import org.inek.dataportal.feature.specificfunction.backingbean.tree.hospital.AccountTreeNodeObserver;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +12,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.enums.Pages;
-import org.inek.dataportal.feature.specificfunction.backingbean.tree.hospital.EditRootTreeNodeObserver;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.tree.entityTree.AccountTreeNode;
 import org.inek.dataportal.helper.tree.SpecificFunctionRequestTreeNode;
