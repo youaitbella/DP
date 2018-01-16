@@ -69,4 +69,10 @@ public class GrouperFacade extends AbstractDataAccess {
         AdditionalEmail ae = super.find(AdditionalEmail.class, id);
         super.remove(ae);
     }
+
+    public List<Grouper> getGrouperWithoutWebsideRealease() {
+        String query = "SELECT g FROM Grouper g JOIN RemunerationSystem s WHERE "
+                + "g._certStatus = 90 AND g._websiteRelease IS null AND s._active = 1";
+        return getEntityManager().createQuery(query, Grouper.class).getResultList();
+    }
 }
