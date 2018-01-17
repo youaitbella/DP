@@ -506,6 +506,9 @@ public class EditStatementOfParticipance extends AbstractEditController {
                     statement.setDrgCalc(isDrg);
                     statement.setPsyCalc(isPsy);
                 }
+                setObligatorDrg(_calcFacade.isObligateInCalcType(statement.getIk(), statement.getDataYear(), 1));
+                setObligatorPsy(_calcFacade.isObligateInCalcType(statement.getIk(), statement.getDataYear(), 3));
+                setObligatorInv(_calcFacade.isObligateInCalcType(statement.getIk(), statement.getDataYear(), 4));                
             }
         }
     }
