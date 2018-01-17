@@ -467,7 +467,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
             _statement.setClinicalDistributionModelDrg(-1);
             _statement.setMultiyearDrg(0);
         }
-        if (_statement.isPsyCalc()) {
+        if (!_statement.isPsyCalc()) {
             _statement.setClinicalDistributionModelPsy(-1);
             _statement.setMultiyearPsy(0);
         }
