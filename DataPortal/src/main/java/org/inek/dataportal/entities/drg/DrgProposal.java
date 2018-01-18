@@ -423,8 +423,7 @@ public class DrgProposal implements Serializable {
     }
 
     public String getProblem() {
-        // replace false characters stored by former char conversion
-        return _problem.replace((char) 7, '*').replaceAll("[\\x00-\\x08\\x0b\\x0c\\x0e-\\x1f]", "");  
+        return stripUnusableChars(_problem);
     }
 
     public void setProblem(String problem) {
@@ -432,7 +431,7 @@ public class DrgProposal implements Serializable {
     }
 
     public String getSolution() {
-        return _solution.replace((char) 7, '*').replaceAll("[\\x00-\\x08\\x0b\\x0c\\x0e-\\x1f]", "");
+        return stripUnusableChars(_solution);
     }
 
     public void setSolution(String solution) {
@@ -448,7 +447,7 @@ public class DrgProposal implements Serializable {
     }
 
     public String getDiags() {
-        return _diags.replace((char) 7, '*').replaceAll("[\\x00-\\x08\\x0b\\x0c\\x0e-\\x1f]", "");
+        return stripUnusableChars(_diags);
     }
 
     public void setDiags(String diags) {
@@ -471,7 +470,7 @@ public class DrgProposal implements Serializable {
 //        _opsText = opsText;
 //    }
     public String getProcs() {
-        return _procs.replace((char) 7, '*').replaceAll("[\\x00-\\x08\\x0b\\x0c\\x0e-\\x1f]", "");
+        return stripUnusableChars(_procs);
     }
 
     public void setProcs(String procs) {
@@ -495,7 +494,7 @@ public class DrgProposal implements Serializable {
     }
 
     public String getDocumentsOffline() {
-        return _documentsOffline.replace((char) 7, '*').replaceAll("[\\x00-\\x08\\x0b\\x0c\\x0e-\\x1f]", "");
+        return stripUnusableChars(_documentsOffline);
     }
 
     public void setDocumentsOffline(String documentsOffline) {
@@ -565,8 +564,13 @@ public class DrgProposal implements Serializable {
     public void setPublication(boolean publication) {
         this._publication = publication;
     }
-
     // </editor-fold>
+
+    private String stripUnusableChars(String data) {
+        // replace false characters stored by former char conversion
+        return data.replace((char) 7, '*').replaceAll("[\\x00-\\x08\\x0b\\x0c\\x0e-\\x1f]", "");
+    }
+
     
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override

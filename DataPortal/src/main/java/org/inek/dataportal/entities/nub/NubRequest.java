@@ -33,6 +33,8 @@ import org.inek.dataportal.utils.Documentation;
 public class NubRequest implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    private static final byte MISSING_VALUE = (byte) 255;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "nubId")
@@ -226,7 +228,7 @@ public class NubRequest implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property FormerRequest">
     @Documentation(key = "lblFormerRequestShort", translateValue = "255=lblMissingData; 0=lblNo; 1=lblYes")
     @Column(name = "nubFormerRequest")
-    private byte _formerRequest = (byte) 255;
+    private byte _formerRequest = MISSING_VALUE;
 
     public byte getFormerRequest() {
         return _formerRequest;
@@ -255,7 +257,7 @@ public class NubRequest implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property MedicalDevice">
     @Documentation(key = "lblMedicalDeviceShort", translateValue = "255=lblMissingData; 0=lblNo; 1=lblYes")
     @Column(name = "nubMedicalDevice")
-    private byte _medicalDevice = (byte) 255;
+    private byte _medicalDevice = MISSING_VALUE;
 
     public byte getMedicalDevice() {
         return _medicalDevice;
@@ -269,7 +271,7 @@ public class NubRequest implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property RiscClass">
     @Documentation(key = "lblRiscClass", translateValue = "255=lblMissingData; 0=lblNo; 1=lblYes; 2=lblOther")
     @Column(name = "nubRiscClass")
-    private byte _riscClass = (byte) 255;
+    private byte _riscClass = MISSING_VALUE;
 
     public byte getRiscClass() {
         return _riscClass;

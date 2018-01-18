@@ -121,7 +121,7 @@ public class AgreedCenter implements Serializable {
                 @JoinColumn(name = "acsfAgreedCenterId", referencedColumnName = "acId")},
             inverseJoinColumns = {
                 @JoinColumn(name = "acsfSpecificFunctionId", referencedColumnName = "sfId", unique = true)}
-    )
+            )
     @Documentation(name = "Besondere Aufgaben")
     private List<SpecificFunction> _specificFunctions = new Vector<>();
 
@@ -220,7 +220,7 @@ public class AgreedCenter implements Serializable {
         _extraAmount = extraAmount;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property Sequence">
     @Column(name = "acSequence")
     @Documentation(name = "laufende Nummers")
@@ -234,9 +234,7 @@ public class AgreedCenter implements Serializable {
         this._sequence = sequence;
     }
     // </editor-fold>
-    
-    
-    
+
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public int hashCode() {
@@ -249,7 +247,7 @@ public class AgreedCenter implements Serializable {
         hash = 97 * hash + Objects.hashCode(this._otherCenterName);
         hash = 97 * hash + Objects.hashCode(this._location);
         hash = 97 * hash + Objects.hashCode(this._otherSpecificFunction);
-        
+
         return hash;
     }
 
@@ -297,13 +295,13 @@ public class AgreedCenter implements Serializable {
     // </editor-fold>
 
     public boolean isEmpty() {
-        return _id <= 0 
+        return _id <= 0
                 && _centerId == 0
-                && _otherCenterName.isEmpty() 
-                && _location.isEmpty() 
+                && _otherCenterName.isEmpty()
+                && _location.isEmpty()
                 && _specificFunctions.isEmpty()
-                && _otherSpecificFunction.isEmpty() 
-                && _costSum == 0d 
+                && _otherSpecificFunction.isEmpty()
+                && _costSum == 0d
                 && _extraAmount == 0d;
     }
 }

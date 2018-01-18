@@ -25,6 +25,10 @@ import org.inek.dataportal.utils.StringUtil;
  * @author muellermi
  */
 public class PsychStaffImporter {
+    private static final String NOTHING_TO_IMPORT = "Nichts zu importieren";
+    private static final String LIMIT_SEQ_OCCUPASIONAL_GROUP = "Die laufende Nummer der Berufsgruppe muss zwischen 1 und 7 liegen";
+    private static final String NUMBER_6_VALID_FOR_KIDS_ONLY = "Die laufende Nummer 6 (Logopädie) ist nur bei KJP zulässig";
+    private static final String ERROR_IN_LINE = "Fehler in Zeile ";
 
     public static String importAgreed(Part file, StaffProof staffProof, PsychType type) {
         String msg = "";
@@ -32,7 +36,7 @@ public class PsychStaffImporter {
         try {
             Scanner scanner = new Scanner(file.getInputStream());
             if (!scanner.hasNextLine()) {
-                return "Nichts zu importieren";
+                return NOTHING_TO_IMPORT;
             }
             List<StaffProofAgreed> staffProofsAgreed = staffProof.getStaffProofsAgreed(type);
             while (scanner.hasNextLine()) {
@@ -42,7 +46,7 @@ public class PsychStaffImporter {
                     try {
                         importAgreedLine(staffProofsAgreed, type, line);
                     } catch (Exception ex) {
-                        msg += "Fehler in Zeile " + count + ": " + ex.getMessage() + "\r\n";
+                        msg += ERROR_IN_LINE + count + ": " + ex.getMessage() + "\r\n";
                     }
                 }
             }
@@ -63,10 +67,10 @@ public class PsychStaffImporter {
         }
         int occupationalCategoryId = Integer.parseInt(data[1]);
         if (occupationalCategoryId < 1 || occupationalCategoryId > 7) {
-            throw new IllegalArgumentException("Die laufende Nummer der Berufsgruppe muss zwischen 1 und 7 liegen");
+            throw new IllegalArgumentException(LIMIT_SEQ_OCCUPASIONAL_GROUP);
         }
         if (occupationalCategoryId == 6 && type == PsychType.Adults){
-            throw new IllegalArgumentException("Die laufende Nummer 6 (Logopädie) ist nur bei KJP zulässig");
+            throw new IllegalArgumentException(NUMBER_6_VALID_FOR_KIDS_ONLY);
         }
         double staffingComplete = StringUtil.parseLocalizedDouble(data[2]);
         double staffingBudget = StringUtil.parseLocalizedDouble(data[3]);
@@ -87,7 +91,7 @@ public class PsychStaffImporter {
         try {
             Scanner scanner = new Scanner(file.getInputStream());
             if (!scanner.hasNextLine()) {
-                return "Nichts zu importieren";
+                return NOTHING_TO_IMPORT;
             }
             List<StaffProofEffective> staffProofsEffective = staffProof.getStaffProofsEffective(type);
             while (scanner.hasNextLine()) {
@@ -97,7 +101,7 @@ public class PsychStaffImporter {
                     try {
                         importEffectiveLine(staffProofsEffective, type, line);
                     } catch (Exception ex) {
-                        msg += "Fehler in Zeile " + count + ": " + ex.getMessage() + "\r\n";
+                        msg += ERROR_IN_LINE + count + ": " + ex.getMessage() + "\r\n";
                     }
                 }
             }
@@ -118,10 +122,10 @@ public class PsychStaffImporter {
         }
         int occupationalCategoryId = Integer.parseInt(data[1]);
         if (occupationalCategoryId < 1 || occupationalCategoryId > 7) {
-            throw new IllegalArgumentException("Die laufende Nummer der Berufsgruppe muss zwischen 1 und 7 liegen");
+            throw new IllegalArgumentException(LIMIT_SEQ_OCCUPASIONAL_GROUP);
         }
         if (occupationalCategoryId == 6 && type == PsychType.Adults){
-            throw new IllegalArgumentException("Die laufende Nummer 6 (Logopädie) ist nur bei KJP zulässig");
+            throw new IllegalArgumentException(NUMBER_6_VALID_FOR_KIDS_ONLY);
         }
         double staffingComplete = StringUtil.parseLocalizedDouble(data[2]);
         double deductionPsych = StringUtil.parseLocalizedDouble(data[3]);
@@ -144,7 +148,7 @@ public class PsychStaffImporter {
         try {
             Scanner scanner = new Scanner(file.getInputStream());
             if (!scanner.hasNextLine()) {
-                return "Nichts zu importieren";
+                return NOTHING_TO_IMPORT;
             }
             while (scanner.hasNextLine()) {
                 count++;
@@ -153,7 +157,7 @@ public class PsychStaffImporter {
                     try {
                         importExplanationLine(staffProof, type, line);
                     } catch (Exception ex) {
-                        msg += "Fehler in Zeile " + count + ": " + ex.getMessage() + "\r\n";
+                        msg += ERROR_IN_LINE + count + ": " + ex.getMessage() + "\r\n";
                     }
                 }
             }
@@ -174,10 +178,10 @@ public class PsychStaffImporter {
         }
         int occupationalCategoryId = Integer.parseInt(data[1]);
         if (occupationalCategoryId < 1 || occupationalCategoryId > 7) {
-            throw new IllegalArgumentException("Die laufende Nummer der Berufsgruppe muss zwischen 1 und 7 liegen");
+            throw new IllegalArgumentException(LIMIT_SEQ_OCCUPASIONAL_GROUP);
         }
         if (occupationalCategoryId == 6 && type == PsychType.Adults){
-            throw new IllegalArgumentException("Die laufende Nummer 6 (Logopädie) ist nur bei KJP zulässig");
+            throw new IllegalArgumentException(NUMBER_6_VALID_FOR_KIDS_ONLY);
         }
         OccupationalCategory occupationalCategory = obtainOccupationalCategory(staffProof, type, occupationalCategoryId);
         int paragraph = Integer.parseInt(data[2]);

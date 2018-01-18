@@ -121,7 +121,7 @@ public class RequestProjectedCenter implements Serializable {
                 @JoinColumn(name = "pcsfProjectedCenterId", referencedColumnName = "rpcId")},
             inverseJoinColumns = {
                 @JoinColumn(name = "pcsfSpecificFunctionId", referencedColumnName = "sfId", unique = true)}
-    )
+            )
     @Documentation(name = "Besondere Aufgaben")
     private List<SpecificFunction> _specificFunctions = new Vector<>();
 
@@ -151,8 +151,7 @@ public class RequestProjectedCenter implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property TypeId">
     @Column(name = "rpcTypeId")
-    
-    @Documentation(name = "Ausweisung und Festsetzung", 
+    @Documentation(name = "Ausweisung und Festsetzung",
             translateValue = "1=im Krankenhausplan des Landes;2=durch gleichartige Festlegung der zuständigen Landesbehörde")
     private int _typeId;
 
@@ -242,13 +241,13 @@ public class RequestProjectedCenter implements Serializable {
     // </editor-fold>
 
     public boolean isEmpty() {
-        return _id <= 0 
+        return _id <= 0
                 && _centerId == 0
-                && _otherCenterName.isEmpty() 
-                && _location.isEmpty() 
+                && _otherCenterName.isEmpty()
+                && _location.isEmpty()
                 && _specificFunctions.isEmpty()
-                && _otherSpecificFunction.isEmpty() 
-                && _typeId == 0 
+                && _otherSpecificFunction.isEmpty()
+                && _typeId == 0
                 && _estimatedPatientCount == 0;
     }
 

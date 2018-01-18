@@ -129,14 +129,16 @@ public class SessionController implements Serializable {
         // we had unexpecte null access here.
         // let's do some logging and redirect the user to an error view
         if (_typeFacade == null) {
-            LOGGER.log(Level.WARNING, "Access withount typeFacade");
-            logMessage("Access withount typeFacade");
+            String msg = "Access without typeFacade";
+            LOGGER.log(Level.WARNING, msg);
+            logMessage(msg);
             Utils.navigate(Pages.Error.RedirectURL());
             return false;
         }
         if (_account == null) {
-            LOGGER.log(Level.WARNING, "Access withount account");
-            logMessage("Access withount account");
+            String msg = "Access without account";
+            LOGGER.log(Level.WARNING, msg);
+            logMessage(msg);
             Utils.navigate(Pages.Error.RedirectURL());
             return false;
         }

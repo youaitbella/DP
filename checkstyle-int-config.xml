@@ -1,52 +1,8 @@
 <?xml version="1.0"?>
-<!--
-  Copyright 2005,2006 Sven Reimers, Florian Vogler
-
-  This file is part of the Software Quality Environment Project.
-
-  The Software Quality Environment Project is free software:
-  you can redistribute it and/or modify it under the terms of the
-  GNU General Public License as published by the Free Software Foundation,
-  either version 2 of the License, or (at your option) any later version.
-
-  The Software Quality Environment Project is distributed in the hope that
-  it will be useful, but WITHOUT ANY WARRANTY; without even the implied
-  warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-  See the GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
--->
 <!DOCTYPE module PUBLIC
     "-//Puppy Crawl//DTD Check Configuration 1.2//EN"
     "http://www.puppycrawl.com/dtds/configuration_1_2.dtd">
 
-<!--
-
-  Checkstyle configuration that checks the sun coding conventions from:
-
-    - the Java Language Specification at
-      http://java.sun.com/docs/books/jls/second_edition/html/index.html
-
-    - the Sun Code Conventions at http://java.sun.com/docs/codeconv/
-
-    - the Javadoc guidelines at
-      http://java.sun.com/j2se/javadoc/writingdoccomments/index.html
-
-    - the JDK Api documentation http://java.sun.com/j2se/docs/api/index.html
-
-    - some best practices
-
-  Checkstyle is very configurable. Be sure to read the documentation at
-  http://checkstyle.sf.net (or in your downloaded distribution).
-
-  Most Checks are configurable, be sure to consult the documentation.
-
-  To completely disable a check, just comment it out or delete it from the file.
-
-  Finally, it is worth reading the documentation.
-
--->
 
 <module name="Checker">
 
@@ -64,18 +20,6 @@
     <!-- Checks that property files contain the same keys.         -->
     <!-- See http://checkstyle.sf.net/config_misc.html#Translation -->
     <module name="Translation"/>
-
-    <!-- FileLength ceck disabled in favor to JavaNCSS
-    <module name="SuppressionFilter">
-        <property name="file" value="${checkstyle.suppressions.file}"/>
-        <property name="optional" value="false"/>
-    </module>
-    
-    <module name="FileLength">  
-        <property name="max" value="800"/>  
-        <property name="fileExtensions" value="java"/>
-    </module>
-    -->
     
     <module name="FileTabCharacter"/> <!-- moved up to checkers -->
 
@@ -122,10 +66,13 @@
             <property name="setterCanReturnItsClass" value="true"/>
         </module>
         <module name="ModifiedControlVariable"/>
-        <!--        Erschreckend viele Duplikate-->
-        <!--module name="MultipleStringLiterals"/-->
-        <!--        Anfang Mai scharf schalten in der Hoffnung, das bis dahin viele 
-        Verletzungen behoben sind-->
+
+		<module name="MultipleStringLiterals">
+			<property name="allowedDuplicates" value="2"/>
+			<property name="ignoreStringsRegexp" value='(^(("")|(", ")|("\\\\r\\\\n")|("\\r\\n")|("\\n")|("UTF-8")|(".?")|("\s?.?\s?"))$)|(.*select .*)|(.*from .*)|(.*union .*)|(.*join .*)|(.*insert .*)|(.*update .*)|(.*and .*)|(.*or .*)|(.*where .*)|(.*\.png)'/>
+			<property name="severity" value="warning"/>
+		</module>
+
         <module name="AbbreviationAsWordInName">
             <property name="allowedAbbreviationLength" value="4"/> <!-- todo: reduce this value -->
         </module>
@@ -134,15 +81,15 @@
             <property name="checkMethods" value="false"/>
             <property name="validateOnlyOverlapping" value="true"/>
         </module>-->
-        <!-- need to configure magic number before using it, e.g do not check within annotation -->
-        <!-- um die 500 Fehler immer noch, später einführen
+
         <module name="MagicNumber">
             <property name="ignoreNumbers" value="-1, 0, 1, 2, 3, 4, 5"/>
             <property name="ignoreAnnotation" value="true"/>
             <property name="ignoreHashCodeMethod" value="true"/>
             <property name="constantWaiverParentToken" value="ASSIGN, ARRAY_INIT, EXPR, UNARY_PLUS, UNARY_MINUS, TYPECAST, ELIST, LITERAL_NEW, METHOD_CALL, STAR, DIV, PLUS, MINUS"/>
+			<property name="severity" value="warning"/>
         </module>
-        -->
+
         <!-- Checks for Javadoc comments.                     -->
         <!-- See http://checkstyle.sf.net/config_javadoc.html -->
         <!-- <module name="JavadocMethod">
