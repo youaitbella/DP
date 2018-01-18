@@ -49,6 +49,7 @@ import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
 import org.inek.dataportal.mail.Mailer;
 import org.inek.dataportal.system.SessionCounter;
+import org.inek.dataportal.utils.StreamUtils;
 
 /**
  *
@@ -274,14 +275,57 @@ public class SessionController implements Serializable {
         return loginAndSetTopics(mailOrUser, password, _portalType);
     }
 
+    public String getToken() {
+        String address = "http://localhost:8080/AccountService/api/account/id/{0}".replace("{0}", "" + getAccountId());
+        try {
+            URL url = new URL(address);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("X-ReportServer-ClientId", "portal");
+            conn.setRequestProperty("X-ReportServer-ClientToken", "FG+RYOLDRuAEh0bO6OBddzcrF45aOI9C");
+            if (conn.getResponseCode() != 200) {
+                throw new IOException("Report failed: HTTP error code : " + conn.getResponseCode());
+            }
+            String token = StreamHelper.toString(conn.getInputStream());
+            conn.disconnect();
+            logout("change portal");
+            return token;
+        } catch (IOException ex) {
+            LOGGER.log(Level.SEVERE, null, ex);
+            alertClient("Beim AccountService trat ein Fehler auf");
+            return "";
+        }
+    }
+    
+    private int getId(String token) {
+        String address = "http://localhost:8080/AccountService/api/account/token/{0}".replace("{0}", token);
+        try {
+            URL url = new URL(address);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("X-ReportServer-ClientId", "portal");
+            conn.setRequestProperty("X-ReportServer-ClientToken", "FG+RYOLDRuAEh0bO6OBddzcrF45aOI9C");
+            if (conn.getResponseCode() != 200) {
+                throw new IOException("Report failed: HTTP error code : " + conn.getResponseCode());
+            }
+            String idString = StreamHelper.toString(conn.getInputStream());
+            conn.disconnect();
+            return Integer.parseInt(idString);
+        } catch (IOException ex) {
+            LOGGER.log(Level.SEVERE, null, ex);
+            alertClient("Beim AccountService trat ein Fehler auf");
+            return -123;
+        }
+    }
+    
+    public String testNavigation(){
+        return "localhost://test";
+    }
+    
     public boolean loginByToken(String token, PortalType portalType) {
         _portalType = portalType;
         String loginInfo = Utils.getClientIP() + "; UserAgent=" + Utils.getUserAgent();
-        
-        // todo: perform translation from token to id by a service
-        // this service remembers each token for few seconds only.
-        // e.g. a REST version of "id = service.getAccount(token)"
-        int id = "jkjklu9341308axj98aj8jkka93jaj03jaskl9jawl8eujwlal88294kass2793721".equals(token) ? 13 : -123;
+        int id = getId(token);
         
         _account = _accountFacade.findAccount(id);
         if (_account == null) {

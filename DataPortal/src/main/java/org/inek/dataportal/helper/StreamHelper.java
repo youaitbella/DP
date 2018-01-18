@@ -89,4 +89,11 @@ public class StreamHelper {
         return buffer.toByteArray();
     }
     
+    public static  String toString(InputStream is) throws IOException {
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+        copyStream(is, buffer);
+        buffer.flush();
+        return buffer.toString("UTF-8");
+    }
+    
 }
