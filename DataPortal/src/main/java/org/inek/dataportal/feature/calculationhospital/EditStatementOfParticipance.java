@@ -311,7 +311,8 @@ public class EditStatementOfParticipance extends AbstractEditController {
     }
 
     public boolean isExplanationPageEnabled() {
-        boolean enable = (!_statement.isObligatory() || _statement.getObligatoryCalcType() > 1 || _statement.isObligatoryFollowingYears())
+        boolean enable = (!_statement.isObligatory() || _statement.getObligatoryCalcType() > 1 || _statement.isObligatoryFollowingYears() 
+                || (isObligatorInv() && !isObligatorDrg() && !isObligatorPsy()))
                 && (_statement.isDrgCalc() || _statement.isPsyCalc());
         return enable;
     }
