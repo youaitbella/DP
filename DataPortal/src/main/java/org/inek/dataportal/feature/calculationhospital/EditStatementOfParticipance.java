@@ -342,15 +342,12 @@ public class EditStatementOfParticipance extends AbstractEditController {
 
     @SuppressWarnings("CyclomaticComplexity")
     public String getObligatoryMessage() {
-        if (_statement.isDrgCalc() && _statement.isPsyCalc() && isObligatorDrg()) {
-            return "Das Krankenhaus wird für die Entgeltbereiche DRG und PSY im Datenjahr " + _statement.getDataYear() + " eine ";
-        } else if (_statement.isDrgCalc() && _statement.isPsyCalc() && isObligatorPsy()) {
-            return "Das Krankenhaus wird für die Entgeltbereiche PSY und DRG im Datenjahr " + _statement.getDataYear() + " eine ";
-        } else if (_statement.isDrgCalc() && !_statement.isPsyCalc() && isObligatorDrg()) {
+        if (_statement.isDrgCalc() && isObligatorDrg()) {
             return "Das Krankenhaus wird für den Entgeltbereich DRG im Datenjahr " + _statement.getDataYear() + " eine ";
-        } else if (!_statement.isDrgCalc() && _statement.isPsyCalc() && isObligatorPsy()) {
+        } else if (_statement.isPsyCalc() && isObligatorPsy()) {
             return "Das Krankenhaus wird für den Entgeltbereich PSY im Datenjahr " + _statement.getDataYear() + " eine ";
         }
+        
         return "Das Krankenhaus wird eine ";
     }
 
