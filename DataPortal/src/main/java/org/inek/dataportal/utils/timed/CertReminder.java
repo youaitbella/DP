@@ -22,8 +22,8 @@ public class CertReminder {
     @Inject
     private GrouperFacade _grouperFacade;
 
-    //@Schedule(hour = "0")
-    @Schedule(hour = "*/12", minute = "*")
+    //@Schedule(minute = "*/1")
+    @Schedule(hour = "*/12")
     public void remind() {
         remindNotReleasedGrouper();
     }
