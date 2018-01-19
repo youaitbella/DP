@@ -130,6 +130,9 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                     });
         }
         calcBasics.setNoDeliveryRoomHabitation(_priorCalcBasics.isNoDeliveryRoomHabitation());
+        if(calcBasics.getDeliveryRoomOrganizationalStructure().equals("") && !_priorCalcBasics.getDeliveryRoomOrganizationalStructure().equals("")) {
+            calcBasics.setDeliveryRoomOrganizationalStructure(_priorCalcBasics.getDeliveryRoomOrganizationalStructure());
+        }
     }
     
     public void ikChanged() {
