@@ -127,7 +127,7 @@
                 <inek:InputIntegerWithMessage id="partition" value="#{obstretic.medicalServiceCnt}" styleClass="col05em number" />
             </h:column>
 
-            <h:column>
+            <h:column rendered="#{editCalcBasicsDrg.calcBasics.dataYear lt 2017}">
                 <f:facet name="header">davon Belegärzte</f:facet>
                 <inek:InputIntegerWithMessage value="#{obstretic.attendingDoctorCnt}" styleClass="col05em number"/>
             </h:column>
@@ -147,7 +147,7 @@
                 <inek:InputIntegerWithMessage value="#{obstretic.midwifeCnt}" styleClass="col05em number"/>
             </h:column>
 
-            <h:column>
+            <h:column rendered="#{editCalcBasicsDrg.calcBasics.dataYear lt 2017}">
                 <f:facet name="header">davon Beleg-Hebammen</f:facet>
                 <inek:InputIntegerWithMessage value="#{obstretic.attendingMidwifeCnt}" styleClass="col05em number"/>
             </h:column>
@@ -200,7 +200,7 @@
                 <inek:InputIntegerWithMessage id="partition" value="#{prevObstretic.medicalServiceCnt}" styleClass="col05em number" disabled="true"/>
             </h:column>
 
-            <h:column>
+            <h:column rendered="#{editCalcBasicsDrg.priorCalcBasics.dataYear lt 2017}">
                 <f:facet name="header">davon Belegärzte</f:facet>
                 <inek:InputIntegerWithMessage value="#{prevObstretic.attendingDoctorCnt}" styleClass="col05em number" disabled="true"/>
             </h:column>
@@ -220,7 +220,7 @@
                 <inek:InputIntegerWithMessage value="#{prevObstretic.midwifeCnt}" styleClass="col05em number" disabled="true"/>
             </h:column>
 
-            <h:column>
+            <h:column rendered="#{editCalcBasicsDrg.priorCalcBasics.dataYear lt 2017}">
                 <f:facet name="header">davon Beleg-Hebammen</f:facet>
                 <inek:InputIntegerWithMessage value="#{prevObstretic.attendingMidwifeCnt}" styleClass="col05em number" disabled="true"/>
             </h:column>
