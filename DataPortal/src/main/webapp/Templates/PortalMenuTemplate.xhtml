@@ -56,20 +56,7 @@
         
         <c:if test="#{sessionController.isInekUser('ADMIN')}">
             <li>
-                <!-- todo: retrieve token from service, e.g. a REST version of "token = service.saveAccount(id)" -->
-                <h:outputLink value="http://localhost:8080/PsyPortal/common/MainApp.xhtml?token=#{sessionController.token}&amp;type=PSY" >Zum Test Portal</h:outputLink>
-            </li>
-            <li>
-                <h:form>
-                <!-- todo: retrieve token from service, e.g. a REST version of "token = service.saveAccount(id)" -->
-                <h:commandLink value="blog" action="https://blog.mueller-bruehl.de"/>
-                </h:form>
-            </li>
-            <li>
-                <h:form>
-                <!-- todo: retrieve token from service, e.g. a REST version of "token = service.saveAccount(id)" -->
                 <h:link outcome="/common/redirect.xhtml" value="TestLink"/>
-                </h:form>
             </li>
         </c:if>
         
