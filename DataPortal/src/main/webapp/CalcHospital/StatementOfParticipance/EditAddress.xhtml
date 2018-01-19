@@ -21,74 +21,78 @@
         </inek:MultiIk>
 
         <div jsf:rendered="#{editStatementOfParticipance.statement.ik > 0}" class="marginTop01em">
-            <div jsf:rendered="#{!editStatementOfParticipance.statement.obligatory}">
-                <h:outputLabel styleClass="blockHeader" value="#{msg.lblStatementProvisionOfData}"/>
-                <div class="inputPart">
+            <h:outputLabel styleClass="blockHeader" value="#{msg.lblStatementProvisionOfData}"/>
+            <div class="inputPart">
+                <h:panelGrid columns="2">
                     <inek:BooleanRadioButton label="#{msg.lblStatementDrg}" 
                                              value="#{editStatementOfParticipance.statement.drgCalc}" 
-                                             renderElement=":sop:contact"
-                                             readonly="#{editStatementOfParticipance.readOnly}"/>
-                </div>
+                                             renderElement="@form"
+                                             readonly="#{editStatementOfParticipance.readOnly or editStatementOfParticipance.enableDrgCalc}">
+                        <f:ajax event="clientChange" listener="#{editStatementOfParticipance.enableDisableStatementPage()}"/>
+                    </inek:BooleanRadioButton>
+                </h:panelGrid>
 
-                <div class="inputPart">
+            </div>
+
+            <div class="inputPart">
+                <h:panelGrid columns="2">
                     <inek:BooleanRadioButton label="#{msg.lblStatementPepp}" 
                                              value="#{editStatementOfParticipance.statement.psyCalc}" 
-                                             renderElement=":sop:contact"
-                                             readonly="#{editStatementOfParticipance.readOnly}"/>
-                </div>
-
+                                             renderElement="@form"
+                                             readonly="#{editStatementOfParticipance.readOnly or editStatementOfParticipance.enablePsyCalc}">
+                        <f:ajax event="clientChange" listener="#{editStatementOfParticipance.enableDisableStatementPage()}"/>
+                    </inek:BooleanRadioButton>
+                </h:panelGrid>
+            </div>
+            <h:panelGrid columns="1">
                 <div class="inputPart">
+
                     <inek:BooleanRadioButton label="#{msg.lblStatementInv}" 
                                              value="#{editStatementOfParticipance.statement.invCalc}" 
-                                             renderElement=":sop:contact"
-                                             readonly="#{editStatementOfParticipance.readOnly}"/>
+                                             renderElement="@form"
+                                             readonly="#{editStatementOfParticipance.readOnly or editStatementOfParticipance.enableInvCalc}"/>
                 </div>
 
                 <div class="inputPart">
                     <inek:BooleanRadioButton label="#{msg.lblStatementTpg}" 
                                              value="#{editStatementOfParticipance.statement.tpgCalc}" 
-                                             renderElement=":sop:contact"
+                                             renderElement="@form"
                                              readonly="#{editStatementOfParticipance.readOnly}"/>
                 </div>
 
                 <div class="inputPart">
                     <inek:BooleanRadioButton label="#{msg.lblStatementObd}" 
                                              value="#{editStatementOfParticipance.statement.obdCalc}" 
-                                             renderElement=":sop:contact"
+                                             renderElement="@form"
                                              readonly="#{editStatementOfParticipance.readOnly}"/>
                 </div>
+            </h:panelGrid>
+            <br />
+            #{editStatementOfParticipance.enableDisableStatementPage()}            
+            <div jsf:rendered="#{!editStatementOfParticipance.statement.obligatoryFollowingYears
+                                 and editStatementOfParticipance.statement.obligatory 
+                                 and (editStatementOfParticipance.obligatorDrg or editStatementOfParticipance.obligatorPsy or editStatementOfParticipance.readOnly)}">
+                <h:outputText value="#{editStatementOfParticipance.getObligatoryMessage()}"/>
+                <h:selectOneMenu id="calcTypeDrg"
+                                 readonly="#{editStatementOfParticipance.readOnly}"
+                                 requiredMessage="#{msg.msgValueNeeded}"
+                                 value="#{editStatementOfParticipance.statement.obligatoryCalcType}"
+                                 hideNoSelectionOption="true">
+                    <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
+                    <f:selectItems value="#{calcBasicsStaticData.calculationTypeItems}" var="item" itemLabel="#{item.value}" itemValue="#{item.key}"/>
+                    <f:ajax event="change" render="@form :logout:remaining " listener="#{editStatementOfParticipance.enableDisableStatementPage()}"/>
+                </h:selectOneMenu>
+                <h:outputText value=" durchführen."/>
             </div>
-
-            <div jsf:rendered="#{editStatementOfParticipance.statement.obligatory}">
-                <h:outputLabel styleClass="blockHeader" value="Art der Kalkulation"/>
-
-                <div class="inputPart">
-                    <h:outputLabel value="Das Krankenhaus wird für das Datenjahr #{editStatementOfParticipance.statement.dataYear} eine "/>
-                    <h:selectOneMenu id="calcType"
-                                     required="true"
-                                     readonly="#{editStatementOfParticipance.readOnly}"
-                                     requiredMessage="#{msg.msgValueNeeded}"
-                                     value="#{editStatementOfParticipance.statement.obligatoryCalcType}"
-                                     hideNoSelectionOption="true">
-                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
-                        <f:selectItems value="#{calcBasicsStaticData.calculationTypeItems}" var="item" itemLabel="#{item.value}" itemValue="#{item.key}"/>
-                        <f:ajax event="change" render="@form :logout:remaining msgCalcType" listener="#{editStatementOfParticipance.enableDisableStatementPage}"/>
-                    </h:selectOneMenu>
-                    <h:outputLabel value="durchführen."/>
-                    <h:message for="calcType" id="msgCalcType" styleClass="errorMessage"/>
-                </div>
-            </div>
-
-
             <h2>#{msg.lblContactPerson}</h2>
             <h:panelGroup id="contact">
-                <calc:CalcContactTable value="#{editStatementOfParticipance.contacts}" 
+                <calc:CalcContactTable value="#{editStatementOfParticipance.hospitalContacts}" 
                                        allowDrg="#{editStatementOfParticipance.statement.drgCalc}"
                                        allowPsy="#{editStatementOfParticipance.statement.psyCalc}"
                                        allowInv="#{editStatementOfParticipance.statement.invCalc}"
                                        allowTpg="#{editStatementOfParticipance.statement.tpgCalc}"
                                        allowObd="#{editStatementOfParticipance.statement.obdCalc}"
-                                       queryDomain="#{!editStatementOfParticipance.statement.obligatory}"
+                                       queryDomain="true"
                                        readonly="#{editStatementOfParticipance.readOnly}"/>
             </h:panelGroup>
             <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}"
@@ -112,8 +116,7 @@
 
                 <div jsf:rendered="#{editStatementOfParticipance.statement.withConsultant}">
                     <inek:LabeledText id="consultantCompany" 
-                                      label="#{msg.lblNameConsultant}" 
-                                      required="true" 
+                                      label="#{msg.lblNameConsultant}"
                                       readonly="#{editStatementOfParticipance.readOnly}"
                                       value="#{editStatementOfParticipance.statement.consultantCompany}" 
                                       styleClass="col50em"/> 
@@ -126,15 +129,20 @@
                                                  renderElement="@form"/>
                     </div>
 
-                    <calc:CalcContactTable id="contactConsultant"
+                    <calc:CalcContactTable id="consultant"
                                            value="#{editStatementOfParticipance.consultants}" 
                                            readonly="#{editStatementOfParticipance.readOnly or !editStatementOfParticipance.statement.consultantSendMail}"
-                                           queryDomain="false"
-                                           enableDelete="false"/>
+                                           allowDrg="#{editStatementOfParticipance.statement.drgCalc}"
+                                           allowPsy="#{editStatementOfParticipance.statement.psyCalc}"
+                                           allowInv="#{editStatementOfParticipance.statement.invCalc}"
+                                           allowTpg="#{editStatementOfParticipance.statement.tpgCalc}"
+                                           allowObd="#{editStatementOfParticipance.statement.obdCalc}"
+                                           queryDomain="true"/>
+                    <h:commandLink id="addButtonConsultant" styleClass="addButton inputPart" value="#{msg.btnAddEntry}" rendered="#{!editStatementOfParticipance.readOnly}">
+                        <f:ajax event="click" render="@form :logout:remaining" listener="#{editStatementOfParticipance.addConsultant}"/>
+                    </h:commandLink>
                 </div>
-
             </h:panelGroup>
         </div>
-
     </ui:define>
 </ui:composition>
