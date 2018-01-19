@@ -32,10 +32,17 @@
                           singleLine="true" 
                           styleClass="inputSmall"/>
     </div>
-
+    
+    <style>
+        #endoAmbu td {
+            vertical-align: top;
+        }
+        
+    </style>
+    
     <h4><h:outputLabel value="Bitte geben Sie an für welche endoskopischen Bereiche Sie nicht den Leistungsschlüssel Eingriffszeit verwenden"/></h4>
     <h:dataTable value="#{editCalcBasicsDrg.endoscopyDifferentials}" 
-                 var="data" 
+                 var="data"
                  width="100%" rowClasses="row1, row2" 
                  columnClasses="colIcon, volValue, col04em, col04em, volValue">
 
@@ -50,16 +57,33 @@
 
         <h:column>
             <f:facet name="header">Endoskopischer Bereich</f:facet>
-            <inek:InputTextWithMessage id="endoscopyDivision" required="true" value="#{data.division}" readonly="false" styleClass="fullWidth">
+                <inek:InputTextWithMessage id="endoscopyDivision" required="true" value="#{data.division}" readonly="false" styleClass="fullWidth">
+                    <!--<f:validator validatorId="EmailValidator" for="contactMail"/>-->
+                </inek:InputTextWithMessage>
+                <h:outputLabel value="Bitte beachten Sie die Änderungen des Kalkulationshandbuches V 4.0 im Bereich der Kostenstellengruppe 8 (Endoskopie). Spätestens ab dem Datenjahr 2017 sind die Gemeinkosten der Endoskopie über den Verechnungsschlüssel 'Eingriffszeit' zu verteilen" 
+                               style="color: red;"
+                               rendered="#{data.activityKey eq 'Sonstiges'}" /> 
+        </h:column>
+
+        <h:column rendered="#{editCalcBasicsDrg.calcBasics.dataYear le 2016}">
+            <f:facet name="header">Leistungsschlüssel</f:facet>
+            <inek:InputTextWithMessage id="endoscopyKey" required="#{editCalcBasicsDrg.calcBasics.dataYear le 2016}" value="#{data.activityKey}" readonly="false" styleClass="fullWidth">
                 <!--<f:validator validatorId="EmailValidator" for="contactMail"/>-->
             </inek:InputTextWithMessage>
         </h:column>
-
-        <h:column>
+        
+        <h:column rendered="#{editCalcBasicsDrg.calcBasics.dataYear ge 2017}">
             <f:facet name="header">Leistungsschlüssel</f:facet>
-            <inek:InputTextWithMessage id="endoscopyKey" required="true" value="#{data.activityKey}" readonly="false" styleClass="fullWidth">
-                <!--<f:validator validatorId="EmailValidator" for="contactMail"/>-->
-            </inek:InputTextWithMessage>
+            <h:selectOneMenu required="#{editCalcBasicsDrg.calcBasics.dataYear ge 2017}" readonly="false" value="#{data.activityKey}" styleClass="fullWidth">
+                <f:selectItems value="#{calcBasicsStaticData.endoscopyKeys}" />
+                <f:ajax event="change" render="@form :activityKeyComment :logout:remaining" />
+            </h:selectOneMenu>
+            <h:inputTextarea id="activityKeyComment" 
+                             styleClass="areaWideHigh" 
+                             value="#{data.activityKeyComment}"
+                             rendered="#{data.activityKey eq 'Sonstiges'}">
+                <f:ajax event="blur" render="@this :logout:remaining" />
+            </h:inputTextarea>
         </h:column>
     </h:dataTable>
     
@@ -67,12 +91,7 @@
         <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.addEndoscopyDifferentials()}"/>
     </h:commandLink>
     
-    <style>
-        #endoAmbu td {
-            vertical-align: top;
-        }
-    </style>
-    
+       
     <table id="endoAmbu" class="marginTop">
         <tr>
             <th></th>

@@ -221,6 +221,13 @@ public class CalcBasicsStaticData {
         items.add(new SelectItem(4, "Sonstige"));
         return items;
     }
+    
+    public List<String> getEndoscopyKeys() {
+        List<String> items = new ArrayList<>();
+        items.add("Eingriffszeit");
+        items.add("Sonstiges");
+        return items;
+    }
 
     public List<String> getDelimitationFactsSubTitles() {
         List<String> tmp = new ArrayList<>();
