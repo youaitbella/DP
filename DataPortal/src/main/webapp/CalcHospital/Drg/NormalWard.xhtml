@@ -56,7 +56,7 @@
             <f:facet name="header">
                 KoArtGr 1
             </f:facet>
-            <h:selectBooleanCheckbox style="text-align: center;" value="#{item.costType1}" required="true">
+            <h:selectBooleanCheckbox style="text-align: center;" value="#{item.costType1}" required="true" readonly="#{item.costType6c}">
                 <f:ajax render="@this :logout:remaining"/>
             </h:selectBooleanCheckbox>
         </h:column>
@@ -65,7 +65,7 @@
             <f:facet name="header">
                 KoArtGr 6c
             </f:facet>
-            <h:selectBooleanCheckbox value="#{item.costType6c}" required="true">
+            <h:selectBooleanCheckbox value="#{item.costType6c}" required="true" readonly="#{item.costType1}">
                 <f:ajax render="@this :logout:remaining"/>
             </h:selectBooleanCheckbox>
         </h:column>
@@ -210,7 +210,6 @@
                 <f:selectItem itemValue="1" itemLabel="Ja" />
                 <f:selectItem itemValue="2" itemLabel="KIS-integriert" />
                 <f:selectItem itemValue="3" itemLabel="Manuell" />
-                <f:selectItem itemValue="4" itemLabel="Sonstiges" />
                 <f:ajax event="change" render="@form :logout:remaining" />
             </h:selectOneMenu>
         </div>
