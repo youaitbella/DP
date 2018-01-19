@@ -86,7 +86,7 @@ public class Mailer {
                 throw new MessagingException("missing rereipient");
             }
             Properties properties = System.getProperties();
-            properties.put("mail.smtp.host", "vMailSvr01.d1inek.local");
+            properties.put("mail.smtp.host", "vMailSvr01");
             properties.put("mail.smtp.connectiontimeout", 1000);
             properties.put("mail.smtp.ssl.trust", "*");
             Session session = Session.getDefaultInstance(properties);
