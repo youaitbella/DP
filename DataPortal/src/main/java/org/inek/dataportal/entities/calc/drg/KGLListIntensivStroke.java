@@ -289,7 +289,7 @@ public class KGLListIntensivStroke implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Property functionalServiceCnt">
     @Column(name = "isFunctionalServiceCnt")
-    @Documentation (name = "FK FD:", rank = 170)
+    @Documentation (name = "VK FD:", rank = 170)
     private double _functionalServiceCnt;
 
     public double getFunctionalServiceCnt() {

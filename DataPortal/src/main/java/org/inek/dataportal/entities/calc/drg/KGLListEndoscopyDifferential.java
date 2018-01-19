@@ -88,6 +88,21 @@ public class KGLListEndoscopyDifferential implements Serializable, BaseIdValue {
         this._baseInformationId = baseInformationId;
     }
     // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="ActivityKey">
+    @Column(name = "edActivityKeyComment")
+    @Documentation(name = "Leistungsschlüssel Kommentar", rank = 30)
+    private String _activityKeyComment = "";
+
+    @Size(max = 20)
+    public String getActivityKeyComment() {
+        return _activityKeyComment;
+    }
+
+    public void setActivityKeyComment(String activityKeyComment) {
+        this._activityKeyComment = activityKeyComment;
+    }
+    // </editor-fold>
 
     public KGLListEndoscopyDifferential() {
     }
