@@ -27,7 +27,7 @@ public class AccountREST {
 
     @GET
     @Path("id/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.TEXT_PLAIN)
     public String getToken(@PathParam("id") String id) {
         String uuid = UUID.randomUUID().toString().replace("-", "");
         ACCOUNT_INFOS.put(uuid, new AccountInfo(id));
@@ -36,7 +36,7 @@ public class AccountREST {
 
     @GET
     @Path("token/{token}")
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.TEXT_PLAIN)
     public String getAccountId(@PathParam("token") String token) {
         String id = "";
         AccountInfo accountInfo = ACCOUNT_INFOS.remove(token);
