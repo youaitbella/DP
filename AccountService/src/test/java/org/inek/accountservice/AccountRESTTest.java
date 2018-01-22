@@ -10,11 +10,13 @@ import static org.assertj.core.api.Assertions.*;
 public class AccountRESTTest {
 
     // tests won't execute parallel!
+    private static final String ID = "12345";
+    private static final int HALF_DELAY = 1001;
     
     @Test
     public void storeIdAnRetrieveItByToken() {
         AccountREST.clear();
-        String id = "12345";
+        String id = ID;
         AccountREST service = new AccountREST();
         String token = service.getToken(id);
         assertThat(service.getSize()).isEqualTo(1);
@@ -25,7 +27,7 @@ public class AccountRESTTest {
     @Test
     public void storeIdAnRetrieveItByTokenUsingDifferentInstance() {
         AccountREST.clear();
-        String id = "12345";
+        String id = ID;
         AccountREST service = new AccountREST();
         String token = service.getToken(id);
         assertThat(service.getSize()).isEqualTo(1);
@@ -37,10 +39,10 @@ public class AccountRESTTest {
     @Test
     public void storeIdAndReceiveNothingBackAfterDelay() throws InterruptedException {
         AccountREST.clear();
-        String id = "12345";
+        String id = ID;
         AccountREST service = new AccountREST();
         String token = service.getToken(id);
-        Thread.sleep(2001);
+        Thread.sleep(2 * HALF_DELAY);
         assertThat(service.getAccountId(token)).isEqualTo("");
     }
 
@@ -63,12 +65,12 @@ public class AccountRESTTest {
         service.getToken("1");
         service.getToken("2");
         service.getToken("3");
-        Thread.sleep(1001);
+        Thread.sleep(HALF_DELAY);
         service.getToken("4");
         service.getToken("5");
         service.getToken("6");
         assertThat(service.getSize()).isEqualTo(6);
-        Thread.sleep(1001);
+        Thread.sleep(HALF_DELAY);
         service.sweepOld();
         assertThat(service.getSize()).isEqualTo(3);
     }

@@ -64,7 +64,7 @@
                 </div>
 
                 <ui:repeat value="#{calcBasicsTreeHandler.rootNode.children}" var="accountNode" >
-                    <calc:AccountNode accountNode="#{accountNode}" editPartner="false"/>
+                    <calc:AccountNode accountNode="#{accountNode}" editPartner="false" isSealed="true"/>
                 </ui:repeat>
             </div>
 
@@ -83,7 +83,7 @@
                 </p>
                 <div jsf:id="NubYear">
                     <ui:repeat value="#{year.children}" var="accountNode" varStatus="status">
-                        <calc:AccountNode accountNode="#{accountNode}" isSealed="true"/>
+                        <calc:AccountNode accountNode="#{accountNode}"/>
                     </ui:repeat>
                 </div>
             </ui:repeat>
