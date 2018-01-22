@@ -55,8 +55,6 @@ public class PreloadFunctionsCalcBasicsDrg {
         initServiceProvision(calcDrgFacade, calcBasics, priorCalcBasics);
         // cardiology
         calcBasics.setCardiology(priorCalcBasics.isCardiology());
-        calcBasics.setCardiologyCaseCnt(priorCalcBasics.getCardiologyCaseCnt());
-        calcBasics.setCardiologyRoomCnt(priorCalcBasics.getCardiologyRoomCnt());
         // endoscopy
         calcBasics.setEndoscopy(priorCalcBasics.isEndoscopy());
         calcBasics.setEndoscopyCaseCnt(priorCalcBasics.getEndoscopyCaseCnt());
@@ -69,7 +67,7 @@ public class PreloadFunctionsCalcBasicsDrg {
         calcBasics.setDescMedicalInfra(priorCalcBasics.getIblvMethodMedInfra() == 0);
         calcBasics.setOtherMethodMedInfra(priorCalcBasics.getOtherMethodMedInfra());
         calcBasics.setIblvMethodMedInfra(priorCalcBasics.getIblvMethodMedInfra());
-        preloadNormalWardServiceDocumentation(calcDrgFacade, calcBasics, priorCalcBasics);
+        preloadNormalWardServiceDocumentation(calcDrgFacade, calcBasics, priorCalcBasics);   
     }
 
     private static void preloadLocations(DrgCalcBasics calcBasics, DrgCalcBasics priorCalcBasics) {
@@ -211,7 +209,11 @@ public class PreloadFunctionsCalcBasicsDrg {
             fc.setDivision(pfc.getDivision());
             fc.setDepartmentKey(pfc.getDepartmentKey());
             calcBasics.getNormalFeeContracts().add(fc);
-        }
+        }                
+        calcBasics.setDeliveryRoomOrganizationalStructure(priorCalcBasics.getDeliveryRoomOrganizationalStructure());
+        calcBasics.setPkmsComplex(priorCalcBasics.isPkmsComplex());
+        calcBasics.setPkmsCaseCnt(priorCalcBasics.getPkmsCaseCnt());
+        calcBasics.setPkmsRecording(priorCalcBasics.getPkmsRecording());     
     }
 
     private static void initServiceProvision(CalcDrgFacade calcDrgFacade, DrgCalcBasics calcBasics, DrgCalcBasics priorCalcBasics) {
