@@ -13,11 +13,12 @@
     <h2>Anwendung des Betreuungsintensitätsmodells (einheitliches Betreuungsintensitätsmodell, veröffentlicht am 28.11.2012)</h2><br/>
     <inek:BooleanRadioButton id="bimAll" value="#{editCalcBasicsPepp.calcBasics.bimAll}" 
                              label="Leistungsdokumentation gem. einheitlichem BIM liegen in allen PSY-Fachabteilungen und Stationen vor:"
-                             labelStyle="label"/>
+                             labelStyle="label"
+                             renderElement="@form"/>
 
     <div class="inputPart">
         <span class="label">Kommentar:<sup style="font-size: 9px;">1</sup></span><br/>
-        <h:inputTextarea value="#{editCalcBasicsPepp.calcBasics.intensiveExceptionalPermission}" styleClass="areaMiddleLow" >
+        <h:inputTextarea value="#{editCalcBasicsPepp.calcBasics.intensiveExceptionalPermission}" styleClass="areaMiddleLow" required="#{!editCalcBasicsPepp.calcBasics.bimAll}">
         <f:ajax event="blur" render="@this :logout:remaining"/>
         </h:inputTextarea>
         <br/>
@@ -106,7 +107,7 @@
             <td class="centered col-border-right col-border-bottom col-fixed">Nummer der Kostenstelle</td>
             <td class="centered col-border-right col-border-bottom col-fixed">Station<br/>(aussagekräftiger Name, Behandlungsschwerpunkt)</td>
             <td class="centered col-border-right col-border-bottom">Eindeutige Zuordnung nach Psych-PV* (A, S, G, KJP, P)</td>
-            <td class="centered col-border-right col-border-bottom">Anzahl Betten</td>
+            <td class="centered col-border-right col-border-bottom" title="Falls eine Unterjährige Änderung der Bettenanzahl vorgenommen wird, geben Sie hier bitte den gewichteten Mittelwert kaufmännisch gerundet ganzzahlig an.">Anzahl Betten</td>
             <td class="centered col-border-right col-border-bottom">bettenführende Aufnahmestation (bitte ankreuzen)</td>
             <td class="centered col-border-right col-border-bottom">Summe Pflegetage</td>
             <td class="centered col-border-right col-border-bottom" 
