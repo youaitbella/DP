@@ -5,7 +5,9 @@ import javax.ejb.Schedule;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Inject;
+import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.entities.certification.Grouper;
+import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.facades.certification.GrouperFacade;
 import org.inek.dataportal.mail.Mailer;
 
@@ -21,11 +23,15 @@ public class CertReminder {
     private Mailer _mailer;
     @Inject
     private GrouperFacade _grouperFacade;
+    @Inject private ApplicationTools _appTools;
 
     //@Schedule(minute = "*/1")
-    @Schedule(hour = "*/12")
+    @Schedule(hour = "*/16")
     public void remind() {
-        remindNotReleasedGrouper();
+        if(!_appTools.isEnabled(ConfigKey.TestMode)) {
+            remindNotReleasedGrouper();
+        }
+        
     }
 
     public void remindNotReleasedGrouper() {
@@ -38,7 +44,7 @@ public class CertReminder {
     private void sendReminderMail(List<Grouper> grouper) {
         String grouperList = buildGrouperList(grouper);
 
-        _mailer.sendMail("tim.lautenschlaeger@inek-drg.de", "Unveröffetnlichte Grouperhersteller", grouperList);
+        _mailer.sendMail("tim.lautenschlaeger@inek-drg.de", "Unveröffentlichte Grouperhersteller", grouperList);
     }
 
     private String buildGrouperList(List<Grouper> grouper) {
