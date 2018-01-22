@@ -39,7 +39,7 @@ public class RequestController implements Serializable {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         String viewId = facesContext.getViewRoot().getViewId();
         if (loginByToken(facesContext)) {
-            facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, viewId);
+            //facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, viewId);
             return;
         }
         if (_sessionController.isLoggedIn()) {
