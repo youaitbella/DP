@@ -233,6 +233,14 @@
                     <f:facet name="header">#{msg.lblMarkedOfCostVolume}</f:facet>
                     <inek:InputIntegerWithMessage value="#{item.amount}" required="#{!item.isEmpty()}"/>
                 </h:column>
+                <h:column rendered="#{editCalcBasicsDrg.calcBasics.dataYear ge 2017}">
+                    <f:facet name="header">#{msg.lblMarkedOfCostVolume}</f:facet>
+                    <inek:InputIntegerWithMessage value="#{item.amount}" required="#{!item.isEmpty()}"/>
+                </h:column>
+                                <h:column rendered="#{editCalcBasicsDrg.calcBasics.dataYear ge 2017}">
+                    <f:facet name="header">#{msg.lblMarkedOfCostVolume}</f:facet>
+                    <inek:InputIntegerWithMessage value="#{item.amount}" required="#{!item.isEmpty()}"/>
+                </h:column>
             </h:dataTable>
 
             <h:panelGroup rendered="#{editCalcBasicsDrg.priorCalcBasics.kstTop.stream().filter(i -> i.ktCostCenterId == 4).filter(i -> !i.text.isEmpty()).count() > 0}">
