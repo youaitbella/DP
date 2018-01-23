@@ -202,13 +202,13 @@
             <div class="inputPart" jsf:id="diff">
                 <h:outputLabel value="Abweichung" styleClass="label20"/>
                 <inek:InputIntegerWithMessage value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorCalcBasics.opAn.medicalServiceAmountOP, editCalcBasicsDrg.calcBasics.opAn.medicalServiceAmountOP)}" 
-                                             styleClassComponent="element20 centered" styleClass="element50" disabled="true"/>
+                                              styleClassComponent="element20 centered" styleClass="element50" disabled="true"/>
                 <inek:InputIntegerWithMessage value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorCalcBasics.opAn.functionalServiceAmountOP, editCalcBasicsDrg.calcBasics.opAn.functionalServiceAmountOP)}"
-                                             styleClassComponent="element20 centered" styleClass="element50" disabled="true"/>
+                                              styleClassComponent="element20 centered" styleClass="element50" disabled="true"/>
                 <inek:InputIntegerWithMessage value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorCalcBasics.opAn.medicalServiceAmountAN, editCalcBasicsDrg.calcBasics.opAn.medicalServiceAmountAN)}"
-                                             styleClassComponent="element20 centered" styleClass="element50" disabled="true"/>
+                                              styleClassComponent="element20 centered" styleClass="element50" disabled="true"/>
                 <inek:InputIntegerWithMessage value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.priorCalcBasics.opAn.functionalServiceAmountAN, editCalcBasicsDrg.calcBasics.opAn.functionalServiceAmountAN)}"
-                                             styleClassComponent="element20 centered" styleClass="element50" disabled="true"/>
+                                              styleClassComponent="element20 centered" styleClass="element50" disabled="true"/>
             </div>
 
             <h2>#{msg.lblTopAmbulantService}</h2>
@@ -234,12 +234,12 @@
                     <inek:InputIntegerWithMessage value="#{item.amount}" required="#{!item.isEmpty()}"/>
                 </h:column>
                 <h:column rendered="#{editCalcBasicsDrg.calcBasics.dataYear ge 2017}">
-                    <f:facet name="header">#{msg.lblMarkedOfCostVolume}</f:facet>
-                    <inek:InputIntegerWithMessage value="#{item.amount}" required="#{!item.isEmpty()}"/>
+                    <f:facet name="header">Kostenvolumen ÄD</f:facet>
+                    <inek:InputIntegerWithMessage value="#{item.medicalService}" required="#{!item.isEmpty()}" />
                 </h:column>
-                                <h:column rendered="#{editCalcBasicsDrg.calcBasics.dataYear ge 2017}">
-                    <f:facet name="header">#{msg.lblMarkedOfCostVolume}</f:facet>
-                    <inek:InputIntegerWithMessage value="#{item.amount}" required="#{!item.isEmpty()}"/>
+                <h:column rendered="#{editCalcBasicsDrg.calcBasics.dataYear ge 2017}">
+                    <f:facet name="header">Kostenvolumen FD</f:facet>
+                    <inek:InputIntegerWithMessage value="#{item.functionalService}" required="#{!item.isEmpty()}" />
                 </h:column>
             </h:dataTable>
 
@@ -266,6 +266,14 @@
                     <h:column>
                         <f:facet name="header">#{msg.lblMarkedOfCostVolume}</f:facet>
                         <h:outputLabel value="#{item.amount}"><f:convertNumber/></h:outputLabel>
+                    </h:column>
+                    <h:column rendered="#{editCalcBasicsDrg.priorCalcBasics.dataYear ge 2017}">
+                        <f:facet name="header">Kostenvolumen ÄD</f:facet>
+                        <h:outputLabel value="#{item.medicalService}"><f:convertNumber/></h:outputLabel>
+                    </h:column>
+                    <h:column rendered="#{editCalcBasicsDrg.priorCalcBasics.dataYear ge 2017}">
+                        <f:facet name="header">Kostenvolumen FD</f:facet>
+                        <h:outputLabel value="#{item.functionalService}"><f:convertNumber/></h:outputLabel>
                     </h:column>
                 </h:dataTable>
             </h:panelGroup>

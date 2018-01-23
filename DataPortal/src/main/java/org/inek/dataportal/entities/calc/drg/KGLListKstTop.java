@@ -255,6 +255,6 @@ public class KGLListKstTop implements Serializable, BaseIdValue {
 
     @JsonIgnore
     public boolean isEmpty(){
-        return _text.isEmpty() && _caseCount <= 0 && _amount <= 0 && _delimitationAmount <= 0;
+        return _text.isEmpty() && _caseCount <= 0 && _amount <= 0 && _delimitationAmount <= 0 && _medicalService <= 0 && _functionalService <= 0;
     }
 }

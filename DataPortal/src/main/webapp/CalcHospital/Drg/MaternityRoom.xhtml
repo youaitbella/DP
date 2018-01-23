@@ -14,16 +14,16 @@
     <inek:LabeledCheckbox label="#{msg.lblHasGynecology}" 
                           styleClassLabel="label60"
                           value="#{editCalcBasicsDrg.calcBasics.gynecology}">
-            <f:ajax event="clientChange"  
-                    render="@form :script"
-                    listener="#{sessionController.hideData(editCalcBasicsDrg.calcBasics.gynecology or editCalcBasicsDrg.calcBasics.obstetrical)}"/>
+        <f:ajax event="clientChange"  
+                render="@form :script"
+                listener="#{sessionController.hideData(editCalcBasicsDrg.calcBasics.gynecology or editCalcBasicsDrg.calcBasics.obstetrical)}"/>
     </inek:LabeledCheckbox>
     <inek:LabeledCheckbox label="#{msg.lblHasObstetrical}" 
                           styleClassLabel="label60"
                           value="#{editCalcBasicsDrg.calcBasics.obstetrical}">
-            <f:ajax event="clientChange"  
-                    render="@form :script"
-                    listener="#{sessionController.hideData(editCalcBasicsDrg.calcBasics.gynecology or editCalcBasicsDrg.calcBasics.obstetrical)}"/>
+        <f:ajax event="clientChange"  
+                render="@form :script"
+                listener="#{sessionController.hideData(editCalcBasicsDrg.calcBasics.gynecology or editCalcBasicsDrg.calcBasics.obstetrical)}"/>
     </inek:LabeledCheckbox>
 
     <div jsf:id="maternity" jsf:rendered="#{editCalcBasicsDrg.calcBasics.gynecology 
@@ -34,7 +34,7 @@
         <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.calcBasics.dataYear}"/>
         <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.calcBasics.dataYear - 1}"/>
         <h:outputLabel styleClass="label15 number" value="Abweichung"/>
-        
+
         <br/>
         <h:outputLabel styleClass="label50" value="Summe der Aufenthaltszeit der Patientin im Kreißsaal in Stunden (ausschließlich für vollstationäre Patientinnen)"/>
         <h:inputText styleClass="element15" id="deliveryRoomHours" value="#{editCalcBasicsDrg.calcBasics.deliveryRoomHours}" required="true">
@@ -64,13 +64,13 @@
         </h:inputText>
         <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.priorCalcBasics.deliveryRoomInstationBirthCnt}"/>
         <h:outputLabel styleClass="label15 number" id="lblDiffInstationBirthCnt" value="#{editCalcBasicsDrg.calcBasics.deliveryRoomInstationBirthCnt - editCalcBasicsDrg.priorCalcBasics.deliveryRoomInstationBirthCnt}"/>
-        
+
         <br/>
         <h:outputLabel styleClass="label50" value="Bei vorgeburtlichen Fällen fielen im Datenjahr 2017 keine 'Aufenthaltszeiten der Patientin im Kreißsaal' an:"/>
         <h:selectBooleanCheckbox value="#{editCalcBasicsDrg.calcBasics.noDeliveryRoomHabitation}">
             <f:ajax event="change" render="@this :logout:remaining" />
         </h:selectBooleanCheckbox>
-        
+
         <br/>
         <h:outputLabel styleClass="label" value="Bitte erläutern Sie (kurz) die Organisationsstrukturen in diesem Bereich:"></h:outputLabel>
         <h:inputTextarea id="txtStructure" styleClass="areaWideHigh" value="#{editCalcBasicsDrg.calcBasics.deliveryRoomOrganizationalStructure}" 
@@ -226,7 +226,7 @@
             </h:column>
 
         </h:dataTable>
-        
+
         <h:panelGroup rendered="#{editCalcBasicsDrg.calcBasics.dataYear > 2016 and editCalcBasicsDrg.calcBasics.obstetrical}">
             <h2>#{msg.lblTopMaternityService} #{editCalcBasicsDrg.calcBasics.dataYear}</h2>
 
@@ -272,8 +272,8 @@
                 </h:dataTable>
             </h:panelGroup>
         </h:panelGroup>
-        
-        
+
+
         <h2>TOP 5 ambulante geburtshilfliche/gynäkologische Leistungen</h2>
 
         <h3>#{editCalcBasicsDrg.calcBasics.dataYear}</h3>
@@ -296,6 +296,15 @@
                 <f:facet name="header">#{msg.lblMarkedOfCostVolume}</f:facet>
                 <inek:InputIntegerWithMessage value="#{item.amount}" required="#{!item.isEmpty()}"/>
             </h:column>
+            <h:column rendered="#{editCalcBasicsDrg.calcBasics.dataYear ge 2017}">
+                <f:facet name="header">Kostenvolumen ÄD</f:facet>
+                <inek:InputIntegerWithMessage value="#{item.medicalService}" required="#{!item.isEmpty()}" />
+            </h:column>
+            <h:column rendered="#{editCalcBasicsDrg.calcBasics.dataYear ge 2017}">
+                <f:facet name="header">Kostenvolumen FD</f:facet>
+                <inek:InputIntegerWithMessage value="#{item.functionalService}" required="#{!item.isEmpty()}" />
+            </h:column>
+
         </h:dataTable>
 
         <h:panelGroup rendered="#{editCalcBasicsDrg.priorCalcBasics.kstTop.stream().filter(i -> i.ktCostCenterId == 6).filter(i -> !i.text.isEmpty()).count() > 0}">
@@ -322,9 +331,18 @@
                     <f:facet name="header">#{msg.lblMarkedOfCostVolume}</f:facet>
                     <h:outputLabel value="#{item.amount}"><f:convertNumber/></h:outputLabel>
                 </h:column>
+                <h:column rendered="#{editCalcBasicsDrg.priorCalcBasics.dataYear ge 2017}">
+                    <f:facet name="header">Kostenvolumen ÄD</f:facet>
+                    <h:outputLabel value="#{item.medicalService}"><f:convertNumber/></h:outputLabel>
+                </h:column>
+                <h:column rendered="#{editCalcBasicsDrg.priorCalcBasics.dataYear ge 2017}">
+                    <f:facet name="header">Kostenvolumen FD</f:facet>
+                    <h:outputLabel value="#{item.functionalService}"><f:convertNumber/></h:outputLabel>
+                </h:column>
+
             </h:dataTable>
         </h:panelGroup>
-        
+
     </div>
 
 </ui:composition>
