@@ -54,8 +54,10 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
     @Inject private ApplicationTools _appTools;
     @Inject private Mailer _mailer;
 
+    private static final int LAST_YEAR = 2021;
+    private static final int FIRST_YEAR = 2017;
     private AdditionalCost _additionalCost;
-
+    
     public AdditionalCost getAdditionalCost() {
         return _additionalCost;
     }
@@ -114,7 +116,7 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
         additionalCost.setRepaymentPeriodTo(defaultYear);
         Set<Integer> iks = account.getFullIkSet();
         if (iks.size() == 1) {
-            _additionalCost.setIk(iks.iterator().next());
+            additionalCost.setIk(iks.iterator().next());
         }
 
         return additionalCost;
@@ -127,7 +129,7 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
 
     public List<Integer> getYears() {
         List<Integer> availableYears = new ArrayList<>();
-        IntStream.rangeClosed(2017, 2021) // as of the contract
+        IntStream.rangeClosed(FIRST_YEAR, LAST_YEAR) // as of the contract
                 .forEach(y -> availableYears.add(y));
 
         return availableYears;

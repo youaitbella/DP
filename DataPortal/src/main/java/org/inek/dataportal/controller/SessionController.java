@@ -49,7 +49,6 @@ import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
 import org.inek.dataportal.mail.Mailer;
 import org.inek.dataportal.system.SessionCounter;
-import org.inek.dataportal.utils.StreamUtils;
 
 /**
  *
@@ -237,8 +236,6 @@ public class SessionController implements Serializable {
                 //LOGGER.log(Level.INFO, "invalidateSession: old session {0}", sessionId);
                 FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
                 FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-                sessionId = retrieveSessionId();
-                //LOGGER.log(Level.INFO, "invalidateSession: new session {0}", sessionId);
             } catch (Exception ex) {
                 LOGGER.log(Level.WARNING, "Exception during invalidatesesion");
             }
@@ -277,8 +274,24 @@ public class SessionController implements Serializable {
         return loginAndSetTopics(mailOrUser, password, _portalType);
     }
 
+    public void logoutListener() {
+        System.out.println("logoutListener");
+        FeatureScopedContextHolder.Instance.destroyAllBeans();
+        logMessage("change portal");
+        _topics.clear();
+        _features.clear();
+        _parts.clear();
+        //_account = null;
+    }
+
+    public String getTokenAndLogout() {
+        String token = getToken();
+        logout("change portal");
+        return token;
+    }
+
     public String getToken() {
-        String address = "http://localhost:8080/AccountService/api/account/id/{0}".replace("{0}", "" + getAccountId());
+        String address = "http://vubuntu01:9999/AccountService/api/account/id/{0}".replace("{0}", "" + getAccountId());
         try {
             URL url = new URL(address);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -289,8 +302,8 @@ public class SessionController implements Serializable {
                 throw new IOException("Report failed: HTTP error code : " + conn.getResponseCode());
             }
             String token = StreamHelper.toString(conn.getInputStream());
+            System.out.println("getToken from id " + getAccountId() + " ==> " + token);
             conn.disconnect();
-            logout("change portal");
             return token;
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
@@ -298,9 +311,9 @@ public class SessionController implements Serializable {
             return "";
         }
     }
-    
+
     private int getId(String token) {
-        String address = "http://localhost:8080/AccountService/api/account/token/{0}".replace("{0}", token);
+        String address = "http://vubuntu01:9999/AccountService/api/account/token/{0}".replace("{0}", token);
         try {
             URL url = new URL(address);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -311,28 +324,29 @@ public class SessionController implements Serializable {
                 throw new IOException("Report failed: HTTP error code : " + conn.getResponseCode());
             }
             String idString = StreamHelper.toString(conn.getInputStream());
+            System.out.println("getId from token " + token + " ==> " + idString);
             conn.disconnect();
             return Integer.parseInt(idString);
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, null, ex);
             alertClient("Beim AccountService trat ein Fehler auf");
             return -123;
         }
     }
-    
-    public String testNavigation(){
+
+    public String testNavigation() {
         return "localhost://test";
     }
-    
+
     public boolean loginByToken(String token, PortalType portalType) {
         _portalType = portalType;
         String loginInfo = Utils.getClientIP() + "; UserAgent=" + Utils.getUserAgent();
         int id = getId(token);
-        
         _account = _accountFacade.findAccount(id);
         if (_account == null) {
             logMessage("Login by token failed: " + loginInfo);
         } else {
+            System.out.println("loginByToken " + token + " --> " + id);
             logMessage("Login by token successful: " + loginInfo);
             initFeatures();
         }
@@ -398,7 +412,7 @@ public class SessionController implements Serializable {
         String versionString = userAgent.substring(pos + search.length(), posAfter).trim();
         try {
             Float version = Float.parseFloat(versionString);
-            return version < 9.0;
+            return version < 9;
         } catch (NumberFormatException ex) {
             return true;
         }

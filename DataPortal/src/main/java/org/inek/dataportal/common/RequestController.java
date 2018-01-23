@@ -36,14 +36,15 @@ public class RequestController implements Serializable {
      * @param e
      */
     public void forceLoginIfNotLoggedIn(ComponentSystemEvent e) {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        String viewId = facesContext.getViewRoot().getViewId();
+        if (loginByToken(facesContext)) {
+            facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, Pages.MainApp.RedirectURL());
+            return;
+        }
         if (_sessionController.isLoggedIn()) {
             return;
         }
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        if (loginByToken(facesContext)) {
-            return;
-        }
-        String viewId = facesContext.getViewRoot().getViewId();
         _sessionController.logMessage("Force to login: IP=" + Utils.getClientIP() + "; FromView=" + viewId);
         facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, Pages.Login.URL());
     }
