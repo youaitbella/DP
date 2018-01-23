@@ -49,11 +49,6 @@
                 <version>3.0.0</version>
                 <executions>
                     <execution>
-                        <id>validate</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
                         <configuration>
                             <suppressionsLocation>checkstyle-suppressions.xml</suppressionsLocation>
                             <suppressionsFileExpression>checkstyle.suppressions.file</suppressionsFileExpression>
@@ -89,47 +84,67 @@
                 </executions>-->
             </plugin>
             
-            <!-- OWASP Dependency Plugin
-            This plugin conumes a lot of time - do not use local, but enable for Jenkins
-            <plugin>
-                <groupId>org.owasp</groupId>
-                <artifactId>dependency-check-maven</artifactId>
-                <version>3.0.2</version>
-                <configuration>
-                    <cveValidForHours>12</cveValidForHours>
-                    <failBuildOnCVSS>4</failBuildOnCVSS>
-                    <reportPlugins>
-                        <plugin>
-                            <groupId>org.owasp</groupId>
-                            <artifactId>dependency-check-maven</artifactId>
-                            <version>3.0.2</version>
-                            <configuration>
-                                <name>Dependency Check</name>
-                            </configuration>
-                            <reportSets>
-                                <reportSet>
-                                    <reports>
-                                        <report>aggregate</report>
-                                    </reports>
-                                </reportSet>
-                            </reportSets>
-                        </plugin>
-                    </reportPlugins>
-                </configuration>    
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            -->
-            
         </plugins>
         
-        
     </build>
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    
+                </plugins>
+            </build>
+                
+        </profile>
+
+        <profile>
+            <id>ci</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.owasp</groupId>
+                        <artifactId>dependency-check-maven</artifactId>
+                        <version>3.0.2</version>
+                        <configuration>
+                            <cveValidForHours>12</cveValidForHours>
+                            <failBuildOnCVSS>4</failBuildOnCVSS>
+                            <reportPlugins>
+                                <plugin>
+                                    <groupId>org.owasp</groupId>
+                                    <artifactId>dependency-check-maven</artifactId>
+                                    <version>3.0.2</version>
+                                    <configuration>
+                                        <name>Dependency Check</name>
+                                    </configuration>
+                                    <reportSets>
+                                        <reportSet>
+                                            <reports>
+                                                <report>aggregate</report>
+                                            </reports>
+                                        </reportSet>
+                                    </reportSets>
+                                </plugin>
+                            </reportPlugins>
+                        </configuration>    
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>check</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    
+                </plugins>
+            </build>
+                
+        </profile>
+    </profiles>
 
     <dependencyManagement>
         <dependencies>
