@@ -1,38 +1,32 @@
 package org.inek.dataportal.feature.calculationhospital.tree.inek.calcbasics;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.inek.dataportal.controller.SessionController;
-import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.enums.Feature;
-import org.inek.dataportal.facades.calc.CalcFacade;
 import org.inek.dataportal.helper.Utils;
-import org.inek.dataportal.helper.tree.entityTree.AccountTreeNode;
 import org.inek.portallib.tree.RootNode;
-import org.inek.portallib.tree.TreeNode;
-import org.inek.portallib.tree.TreeNodeObserver;
 
 /**
  *
  * @author muellermi
  */
 @Named @SessionScoped
-public class CalcBasicsTreeHandler implements Serializable, TreeNodeObserver {
+public class CalcBasicsTreeHandler implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Inject private CalcFacade _calcFacade;
-    @Inject private SessionController _sessionController;
-    @Inject private Instance<AccountTreeNodeObserver> _accountTreeNodeObserverProvider;
+    @Inject private Instance<RootTreeNodeObserver> _rootTreeNodeObserverProvider;
 
-    private final RootNode _rootNode = RootNode.create(0, this);
+    private RootNode _rootNode;
+
+    @PostConstruct
+    private void init() {
+        _rootNode = RootNode.create(0, _rootTreeNodeObserverProvider.get());
+    }
 
     public RootNode getRootNode() {
         if (!_rootNode.isExpanded()) {
@@ -45,6 +39,7 @@ public class CalcBasicsTreeHandler implements Serializable, TreeNodeObserver {
         _rootNode.refresh();
     }
 
+    //<editor-fold defaultstate="collapsed" desc="Property Filter">
     private String _filter = "";
 
     public String getFilter() {
@@ -55,7 +50,9 @@ public class CalcBasicsTreeHandler implements Serializable, TreeNodeObserver {
         _filter = filter == null ? "" : filter;
         refreshNodes();
     }
+    //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Property Year">
     private int _year = Utils.getTargetYear(Feature.CALCULATION_HOSPITAL);
 
     public int getYear() {
@@ -66,38 +63,5 @@ public class CalcBasicsTreeHandler implements Serializable, TreeNodeObserver {
         _year = year;
         refreshNodes();
     }
-
-    @Override
-    public Collection<TreeNode> obtainChildren(TreeNode treeNode) {
-        if (treeNode instanceof RootNode) {
-            return obtainRootNodeChildren((RootNode) treeNode);
-        }
-        return new ArrayList<>();
-    }
-
-    private Collection<TreeNode> obtainRootNodeChildren(RootNode node) {
-        List<Account> accounts = _calcFacade.getInekAccounts(getYear(), getFilter());
-        Account currentUser = _sessionController.getAccount();
-        if (accounts.contains(currentUser)) {
-            // ensure current user is first, if in list
-            accounts.remove(currentUser);
-            accounts.add(0, currentUser);
-        }
-        List<? extends TreeNode> oldChildren = new ArrayList<>(node.getChildren());
-        Collection<TreeNode> children = new ArrayList<>();
-        for (Account account : accounts) {
-            Integer id = account.getId();
-            Optional<? extends TreeNode> existing = oldChildren.stream().filter(n -> n.getId() == id).findFirst();
-            AccountTreeNode childNode = existing.isPresent()
-                    ? (AccountTreeNode) existing.get()
-                    : AccountTreeNode.create(node, account, _accountTreeNodeObserverProvider.get());
-            children.add((TreeNode) childNode);
-            oldChildren.remove(childNode);
-            if (currentUser.equals(account) || accounts.size() <= 3) {
-                childNode.expand();  // auto-expand if own node or if only few
-            }
-        }
-        return children;
-    }
-
+    //</editor-fold>
 }
