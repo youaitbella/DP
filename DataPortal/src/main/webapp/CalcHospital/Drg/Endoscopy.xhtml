@@ -110,10 +110,10 @@
             <th>
                 abgegr. Kostenvolumen FD
             </th>
-            <th>
+            <th hidden="#{editCalcBasicsDrg.calcBasics.dataYear lt 2017}">
                 abgegr. Kostenvolumen med. Infrastruktur
             </th>
-            <th>
+            <th hidden="#{editCalcBasicsDrg.calcBasics.dataYear lt 2017}">
                 abgegr. Kostenvolumen nicht med.Infrastruktur
             </th>
         </tr>
@@ -148,10 +148,10 @@
                 <td>
                 <inek:InputIntegerWithMessage value="#{item.costVolumeFunction}" />
                 </td>
-                <td>
+                <td hidden="#{editCalcBasicsDrg.calcBasics.dataYear lt 2017}">
                 <inek:InputIntegerWithMessage value="#{item.costVolumeMedInfra}" />
                 </td>
-                <td>
+                <td hidden="#{editCalcBasicsDrg.calcBasics.dataYear lt 2017}">
                 <inek:InputIntegerWithMessage value="#{item.costVolumeNonMedInfra}" />
                 </td>
             </tr>
