@@ -45,7 +45,7 @@ public class CalcPsyFacade extends AbstractDataAccess {
                 + "left join CallCenterDB.dbo.mapContactRole r2 on (r2.mcrContactId = coId) and r2.mcrRoleId = 14 " 
                 + (testMode ? " and acMail not like '%@inek-drg.de'" : "") + " \n"
                 + "join CallCenterDB.dbo.CustomerCalcInfo on cuId = cciCustomerId "
-                + "where cciInfoTypeId = 2 and cciValidTo > " + year + " and cciCalcTypeId in (1, 3, 6)"
+                + "where cciInfoTypeId in (1, 2) and cciValidTo > " + year + " and cciCalcTypeId in (1, 3, 4, 6)"
                 + "     and cuIk in (\n"
                 + "             select acIk from dbo.Account where acIk > 0 and acId = " + accountId + "\n"
                 + "             union \n"
