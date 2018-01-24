@@ -36,21 +36,20 @@ public class YearTreeNodeObserver implements TreeNodeObserver {
     @Inject private Instance<CustomerTreeNodeObserver> _customerTreeNodeObserverProvider;
     @Inject private CustomerFacade _customerFacade;
 
-    
     @Override
     public Collection<TreeNode> obtainChildren(TreeNode treeNode) {
         List<? extends TreeNode> oldChildren = new ArrayList<>(treeNode.getChildren());
-        Collection<TreeNode> children = new ArrayList<>();
-        
-        obtainCustomerNodes(oldChildren, treeNode, children);
-        obtainAccountNodes(oldChildren, treeNode, children);
+
+        Collection<TreeNode> children = obtainCustomerNodes(oldChildren, treeNode);
+        children.addAll(obtainAccountNodes(oldChildren, treeNode));
+
         return children;
     }
 
-    private void obtainCustomerNodes(
-            List<? extends TreeNode> oldChildren, 
-            TreeNode treeNode, 
-            Collection<TreeNode> children) {
+    private Collection<TreeNode> obtainCustomerNodes(
+            List<? extends TreeNode> oldChildren,
+            TreeNode treeNode) {
+        Collection<TreeNode> children = new ArrayList<>();
         for (int ik : _accessManager.retrieveAllowedManagedIks(Feature.SPECIFIC_FUNCTION)) {
             Optional<? extends TreeNode> existing = oldChildren
                     .stream()
@@ -61,6 +60,7 @@ public class YearTreeNodeObserver implements TreeNodeObserver {
                     : createCustomerNode(treeNode, ik);
             children.add((TreeNode) childNode);
         }
+        return children;
     }
 
     private CustomerTreeNode createCustomerNode(TreeNode parent, int ik) {
@@ -68,12 +68,12 @@ public class YearTreeNodeObserver implements TreeNodeObserver {
         return CustomerTreeNode.create(parent, customer, _customerTreeNodeObserverProvider.get());
     }
 
-    private void obtainAccountNodes(
-            List<? extends TreeNode> oldChildren, 
-            TreeNode treeNode, 
-            Collection<TreeNode> children) {
-    
-        
+    private Collection<TreeNode> obtainAccountNodes(
+            List<? extends TreeNode> oldChildren,
+            TreeNode treeNode) {
+
+        Collection<TreeNode> children = new ArrayList<>();
+
         Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.SPECIFIC_FUNCTION, canReadSealed());
         Set<Integer> managedIks = _accessManager.retrieveAllManagedIks(Feature.SPECIFIC_FUNCTION);
         List<Account> accounts = _specificFunctionFacade.loadRequestAccountsForYear(
@@ -103,8 +103,8 @@ public class YearTreeNodeObserver implements TreeNodeObserver {
                 childNode.expand();
             }
         }
-        
+
+        return children;
     }
-    
-    
+
 }

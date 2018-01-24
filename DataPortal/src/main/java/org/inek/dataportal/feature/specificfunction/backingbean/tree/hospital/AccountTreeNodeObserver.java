@@ -53,11 +53,9 @@ public class AccountTreeNodeObserver implements TreeNodeObserver {
 
     private List<SpecificFunctionRequest> obtainRequestsForRead(Account partner, int year) {
         List<SpecificFunctionRequest> requests = new ArrayList<>();
-        Set<Integer> managedIks = _accessManager.retrieveAllManagedIks(Feature.SPECIFIC_FUNCTION);
-        for (int ik : partner.getFullIkSet()) {
-            if (managedIks.contains(ik)) {
-                continue;
-            }
+        Set<Integer> ikSet = partner.getFullIkSet();
+        ikSet.removeAll(_accessManager.retrieveAllManagedIks(Feature.SPECIFIC_FUNCTION));
+        for (int ik : ikSet) {
             WorkflowStatus statusLow = WorkflowStatus.Provided;
             WorkflowStatus statusHigh = WorkflowStatus.Retired;
             if (partner != _sessionController.getAccount()) {
@@ -81,11 +79,9 @@ public class AccountTreeNodeObserver implements TreeNodeObserver {
 
     private List<SpecificFunctionRequest> obtainRequestsForEdit(Account partner) {
         List<SpecificFunctionRequest> requests = new ArrayList<>();
-        Set<Integer> managedIks = _accessManager.retrieveAllManagedIks(Feature.SPECIFIC_FUNCTION);
-        for (int ik : partner.getFullIkSet()) {
-            if (managedIks.contains(ik)) {
-                continue;
-            }
+        Set<Integer> ikSet = partner.getFullIkSet();
+        ikSet.removeAll(_accessManager.retrieveAllManagedIks(Feature.SPECIFIC_FUNCTION));
+        for (int ik : ikSet) {
             WorkflowStatus statusLow = WorkflowStatus.New;
             WorkflowStatus statusHigh = WorkflowStatus.ApprovalRequested;
             if (partner != _sessionController.getAccount()) {
