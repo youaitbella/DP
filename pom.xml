@@ -112,7 +112,7 @@
                         <version>3.0.2</version>
                         <configuration>
                             <cveValidForHours>12</cveValidForHours>
-                            <failBuildOnCVSS>4</failBuildOnCVSS>
+                            <failBuildOnCVSS>10</failBuildOnCVSS>
                             <reportPlugins>
                                 <plugin>
                                     <groupId>org.owasp</groupId>
