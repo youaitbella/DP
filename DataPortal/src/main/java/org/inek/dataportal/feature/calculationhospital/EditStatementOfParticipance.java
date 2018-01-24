@@ -304,9 +304,9 @@ public class EditStatementOfParticipance extends AbstractEditController {
         setEnableInvCalc(false);
         setEnablePsyCalc(false);
         if (_statement.isObligatory()) {
-            setEnableDrgCalc(_statement.isDrgCalc());
+            setEnableDrgCalc(_statement.isDrgCalc() && (isObligatorDrg() || isObligatorPsy()));
             setEnableInvCalc(_statement.isInvCalc() && isObligatorInv());
-            setEnablePsyCalc(_statement.isPsyCalc());
+            setEnablePsyCalc(_statement.isPsyCalc() && (isObligatorDrg() || isObligatorPsy()));
         }
         enableDisableStatementPage();
     }
