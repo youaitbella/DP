@@ -1,4 +1,4 @@
-package org.inek.dataportal.feature.specificfunction.backingbean.tree.insurance;
+package org.inek.dataportal.feature.peppproposal.tree;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -16,42 +16,51 @@ import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.AccessManager;
 import static org.inek.dataportal.common.AccessManager.canReadCompleted;
 import static org.inek.dataportal.common.AccessManager.canReadSealed;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
+import org.inek.dataportal.entities.pepp.PeppProposal;
+import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
-import org.inek.dataportal.feature.specificfunction.backingbean.tree.hospital.AccountTreeNodeObserver;
-import org.inek.dataportal.feature.specificfunction.facade.SpecificFunctionFacade;
-import org.inek.dataportal.feature.specificfunction.entity.SpecificFunctionAgreement;
+import org.inek.dataportal.facades.PeppProposalFacade;
+import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.helper.structures.ProposalInfo;
 import org.inek.dataportal.helper.tree.entityTree.AccountTreeNode;
-import org.inek.dataportal.helper.tree.SpecificFunctionAgreementTreeNode;
-import org.inek.dataportal.helper.tree.SpecificFunctionRequestTreeNode;
+import org.inek.dataportal.helper.tree.ProposalInfoTreeNode;
 import org.inek.portallib.tree.RootNode;
 import org.inek.portallib.tree.TreeNode;
 import org.inek.portallib.tree.TreeNodeObserver;
 import org.inek.portallib.tree.YearTreeNode;
+import org.inek.dataportal.utils.DocumentationUtil;
 import org.inek.dataportal.utils.KeyValueLevel;
 
 /**
  *
  * @author muellermi
  */
-@Named @SessionScoped
-public class SpecificFunctionAgreementTreeHandler implements Serializable {
+@Named
+@SessionScoped
+public class PeppProposalTreeHandler implements Serializable {
 
-    private static final Logger LOGGER = Logger.getLogger("SpecificFunctionAgreementTreeHandler");
+    private static final Logger LOGGER = Logger.getLogger("PeppProposalTreeHandler");
     private static final long serialVersionUID = 1L;
 
-    @Inject private SessionController _sessionController;
-    @Inject private ApplicationTools _appTools;
-    
-    @Inject private Instance<AccountTreeNodeObserver> _accountTreeNodeObserverProvider;
+    @Inject
+    private PeppProposalFacade _peppProposalFacade;
+    @Inject
+    private SessionController _sessionController;
+    @Inject
+    private AccessManager _accessManager;
+    @Inject
+    private AccountFacade _accountFacade;
+
+    @Inject
+    private Instance<AccountTreeNodeObserver> _accountTreeNodeObserverProvider;
 
     private final RootNode _rootNode = RootNode.create(0, null);
     private AccountTreeNode _accountNode;
@@ -92,7 +101,6 @@ public class SpecificFunctionAgreementTreeHandler implements Serializable {
 //    public Collection<TreeNode> obtainChildren(TreeNode treeNode) {
 //        return new ArrayList<>();
 //    }
-
 //    @Override
 //    public Collection<TreeNode> obtainSortedChildren(TreeNode treeNode) {
 //        if (treeNode instanceof AccountTreeNode) {
@@ -100,27 +108,27 @@ public class SpecificFunctionAgreementTreeHandler implements Serializable {
 //        }
 //        return treeNode.getChildren();
 //    }
-
     public Collection<TreeNode> sortAccountNodeChildren(AccountTreeNode treeNode) {
-        Stream<SpecificFunctionAgreementTreeNode> stream = treeNode.getChildren().stream().
-                map(n -> (SpecificFunctionAgreementTreeNode) n);
-        Stream<SpecificFunctionAgreementTreeNode> sorted;
-        int direction = treeNode.isDescending() ? -1 : 1;
+        Stream<ProposalInfoTreeNode> stream = treeNode.getChildren().stream().map(n -> (ProposalInfoTreeNode) n);
+        Stream<ProposalInfoTreeNode> sorted;
         switch (treeNode.getSortCriteria().toLowerCase()) {
             case "id":
-                sorted = stream.sorted((n1, n2)
-                        -> direction * Integer.compare(n1.getSpecificFunctionAgreement().getId(),
-                                n2.getSpecificFunctionAgreement().getId()));
+                if (treeNode.isDescending()) {
+                    sorted = stream.sorted((n1, n2) -> Integer.compare(n2.getProposalInfo().getId(), n1.
+                            getProposalInfo().getId()));
+                } else {
+                    sorted = stream.sorted((n1, n2) -> Integer.compare(n1.getProposalInfo().getId(), n2.
+                            getProposalInfo().getId()));
+                }
                 break;
-            case "hospital":
-                sorted = stream.sorted((n1, n2)
-                        -> direction * _appTools.retrieveHospitalInfo(n1.getSpecificFunctionAgreement().getIk())
-                                .compareTo(_appTools.retrieveHospitalInfo(n2.getSpecificFunctionAgreement().getIk())));
-                break;
-            case "date":
-                sorted = stream.sorted((n1, n2)
-                        -> direction * n1.getSpecificFunctionAgreement().getLastChanged()
-                                .compareTo(n2.getSpecificFunctionAgreement().getLastChanged()));
+            case "name":
+                if (treeNode.isDescending()) {
+                    sorted = stream.sorted((n1, n2) -> n2.getProposalInfo().getName().compareTo(n1.getProposalInfo().
+                            getName()));
+                } else {
+                    sorted = stream.sorted((n1, n2) -> n1.getProposalInfo().getName().compareTo(n2.getProposalInfo().
+                            getName()));
+                }
                 break;
             case "status":
             default:
@@ -130,20 +138,32 @@ public class SpecificFunctionAgreementTreeHandler implements Serializable {
     }
 
     public void selectAll() {
-        _rootNode.selectAll(SpecificFunctionRequestTreeNode.class, true);
+        _rootNode.selectAll(ProposalInfoTreeNode.class, true);
     }
 
     public String deselectAll() {
-        _rootNode.selectAll(SpecificFunctionRequestTreeNode.class, false);
+        _rootNode.selectAll(ProposalInfoTreeNode.class, false);
         return "";
     }
 
     public String printSelected() {
-        // todo
+        List<Integer> selectedProposals = _rootNode.getSelectedIds(ProposalInfoTreeNode.class);
+        if (selectedProposals.isEmpty()) {
+            return "";
+        }
+        List<PeppProposal> proposals = _peppProposalFacade.find(selectedProposals);
         Map<String, List<KeyValueLevel>> documents = new TreeMap<>();
-        List<String> keys = null;
-        Utils.getFlash().put("headLine", Utils.getMessage("nameSPECIFIC_FUNCTION"));
-        Utils.getFlash().put("targetPage", Pages.SpecificFunctionSummary.URL());
+        int count = 1;
+        for (PeppProposal proposal : proposals) {
+            String key = proposal.getExternalId();
+            if (key.isEmpty()) {
+                key = "<nicht gesendet> " + count++;
+            }
+            documents.put(key, DocumentationUtil.getDocumentation(proposal));
+        }
+        List<String> keys = new ArrayList<>(documents.keySet());
+        Utils.getFlash().put("headLine", Utils.getMessage("namePEPP_PROPOSAL"));
+        Utils.getFlash().put("targetPage", Pages.PeppProposalSummary.URL());
         Utils.getFlash().put("printContentKeys", keys);
         Utils.getFlash().put("printContent", documents);
         return Pages.PrintMultipleView.URL();
