@@ -985,16 +985,17 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     private List<KGLListServiceProvision> _serviceProvisions = new Vector<>();
 
     public List<KGLListServiceProvision> getServiceProvisions() {
-        return _serviceProvisions
-                .stream()
-                .sorted((x, y) -> x.getServiceProvisionTypeId() - y.getServiceProvisionTypeId()) // @orderBy doesnt work properly.
-                .collect(Collectors.toList());
+        return _serviceProvisions;
     }
 
     public void setServiceProvisions(List<KGLListServiceProvision> serviceProvision) {
         this._serviceProvisions = serviceProvision;
     }
 
+    public void addServiceProvision(KGLListServiceProvision serviceProvision) {
+        this._serviceProvisions.add(serviceProvision);
+    }
+    
     public void removeEmptyServiceProvisions() {
         List<KGLListServiceProvision> emptyEntries = _serviceProvisions
                 .stream()

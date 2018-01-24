@@ -127,11 +127,6 @@
                 <inek:InputIntegerWithMessage id="partition" value="#{obstretic.medicalServiceCnt}" styleClass="col05em number" />
             </h:column>
 
-            <h:column rendered="#{editCalcBasicsDrg.calcBasics.dataYear lt 2017}">
-                <f:facet name="header">davon Belegärzte</f:facet>
-                <inek:InputIntegerWithMessage value="#{obstretic.attendingDoctorCnt}" styleClass="col05em number"/>
-            </h:column>
-
             <h:column>
                 <f:facet name="header">Pflegedienst</f:facet>
                 <inek:InputIntegerWithMessage value="#{obstretic.nursingServiceCnt}" styleClass="col05em number" />
@@ -145,11 +140,6 @@
             <h:column>
                 <f:facet name="header">Hebammen</f:facet>
                 <inek:InputIntegerWithMessage value="#{obstretic.midwifeCnt}" styleClass="col05em number"/>
-            </h:column>
-
-            <h:column rendered="#{editCalcBasicsDrg.calcBasics.dataYear lt 2017}">
-                <f:facet name="header">davon Beleg-Hebammen</f:facet>
-                <inek:InputIntegerWithMessage value="#{obstretic.attendingMidwifeCnt}" styleClass="col05em number"/>
             </h:column>
 
         </h:dataTable>
@@ -200,11 +190,6 @@
                 <inek:InputIntegerWithMessage id="partition" value="#{prevObstretic.medicalServiceCnt}" styleClass="col05em number" disabled="true"/>
             </h:column>
 
-            <h:column rendered="#{editCalcBasicsDrg.priorCalcBasics.dataYear lt 2017}">
-                <f:facet name="header">davon Belegärzte</f:facet>
-                <inek:InputIntegerWithMessage value="#{prevObstretic.attendingDoctorCnt}" styleClass="col05em number" disabled="true"/>
-            </h:column>
-
             <h:column>
                 <f:facet name="header">Pflegedienst</f:facet>
                 <inek:InputIntegerWithMessage value="#{prevObstretic.nursingServiceCnt}" styleClass="col05em number" disabled="true"/>
@@ -218,11 +203,6 @@
             <h:column>
                 <f:facet name="header">Hebammen</f:facet>
                 <inek:InputIntegerWithMessage value="#{prevObstretic.midwifeCnt}" styleClass="col05em number" disabled="true"/>
-            </h:column>
-
-            <h:column rendered="#{editCalcBasicsDrg.priorCalcBasics.dataYear lt 2017}">
-                <f:facet name="header">davon Beleg-Hebammen</f:facet>
-                <inek:InputIntegerWithMessage value="#{prevObstretic.attendingMidwifeCnt}" styleClass="col05em number" disabled="true"/>
             </h:column>
 
         </h:dataTable>
@@ -274,9 +254,7 @@
         </h:panelGroup>
 
 
-        <h2>TOP 5 ambulante geburtshilfliche/gynäkologische Leistungen</h2>
-
-        <h3>#{editCalcBasicsDrg.calcBasics.dataYear}</h3>
+        <h2>TOP 5 ambulante geburtshilfliche/gynäkologische Leistungen #{editCalcBasicsDrg.calcBasics.dataYear}</h2>
 
         <h:dataTable value="#{editCalcBasicsDrg.calcBasics.kstTop.stream().filter(i -> i.ktCostCenterId == 6).toList()}" var="item"
                      columnClasses="colValue, col14, col14, col14" rowClasses="row1, row2">
