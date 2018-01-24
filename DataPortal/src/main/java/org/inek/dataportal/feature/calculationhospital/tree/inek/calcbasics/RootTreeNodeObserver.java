@@ -1,59 +1,46 @@
-package org.inek.dataportal.feature.calculationhospital.tree.user;
+package org.inek.dataportal.feature.calculationhospital.tree.inek.calcbasics;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
-import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
-import org.inek.dataportal.common.AccessManager;
-import static org.inek.dataportal.common.AccessManager.canReadSealed;
+import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
-import org.inek.dataportal.enums.Feature;
-import org.inek.dataportal.enums.WorkflowStatus;
-import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.calc.CalcFacade;
 import org.inek.dataportal.helper.tree.entityTree.AccountTreeNode;
 import org.inek.portallib.tree.TreeNode;
 import org.inek.portallib.tree.TreeNodeObserver;
-import org.inek.portallib.tree.YearTreeNode;
 
-@Dependent
-public class YearTreeNodeObserver implements TreeNodeObserver {
+/**
+ *
+ * @author muellermi
+ */
+public class RootTreeNodeObserver implements TreeNodeObserver{
 
     private final CalcFacade _calcFacade;
     private final SessionController _sessionController;
-    private final AccessManager _accessManager;
-    private final AccountFacade _accountFacade;
+    private final CalcBasicsTreeHandler _treeHandler;
     private final Instance<AccountTreeNodeObserver> _accountTreeNodeObserverProvider;
 
+
     @Inject
-    public YearTreeNodeObserver(
+    public RootTreeNodeObserver(
             CalcFacade calcFacade,
             SessionController sessionController,
-            AccessManager accessManager,
-            AccountFacade accountFacade,
+            CalcBasicsTreeHandler treeHandler,
             Instance<AccountTreeNodeObserver> accountTreeNodeObserverProvider) {
         _calcFacade = calcFacade;
         _sessionController = sessionController;
-        _accessManager = accessManager;
-        _accountFacade = accountFacade;
+        _treeHandler = treeHandler;
         _accountTreeNodeObserverProvider = accountTreeNodeObserverProvider;
     }
-
+    
     @Override
     public Collection<TreeNode> obtainChildren(TreeNode treeNode) {
-        return obtainYearNodeChildren((YearTreeNode) treeNode);
-    }
-
-    private Collection<TreeNode> obtainYearNodeChildren(YearTreeNode treeNode) {
-        Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.CALCULATION_HOSPITAL, canReadSealed());
-        accountIds = _calcFacade.
-                checkAccountsForYear(accountIds, treeNode.getYear(), WorkflowStatus.Provided, WorkflowStatus.Retired);
-        List<Account> accounts = _accountFacade.getAccountsForIds(accountIds);
+        List<Account> accounts = _calcFacade.getInekAccounts(_treeHandler.getYear(), _treeHandler.getFilter());
         Account currentUser = _sessionController.getAccount();
         if (accounts.contains(currentUser)) {
             // ensure current user is first, if in list
@@ -69,12 +56,12 @@ public class YearTreeNodeObserver implements TreeNodeObserver {
                     ? (AccountTreeNode) existing.get()
                     : AccountTreeNode.create(treeNode, account, _accountTreeNodeObserverProvider.get());
             children.add((TreeNode) childNode);
-            if (account == currentUser) {
-                // auto expand user's own data
-                childNode.expand();
+            oldChildren.remove(childNode);
+            if (currentUser.equals(account) || accounts.size() <= 3) {
+                childNode.expand();  // auto-expand if own node or if only few
             }
         }
         return children;
     }
-
+    
 }
