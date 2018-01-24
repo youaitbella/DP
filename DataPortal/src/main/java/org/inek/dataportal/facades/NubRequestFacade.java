@@ -47,6 +47,9 @@ import org.inek.dataportal.utils.DateUtils;
 @Singleton
 public class NubRequestFacade extends AbstractDataAccess {
 
+    private static final String FIELD_ID = "_id";
+    private static final String FIELD_STATUS = "_status";
+    
     public NubRequest find(int id) {
         return super.find(NubRequest.class, id);
     }
@@ -68,22 +71,22 @@ public class NubRequestFacade extends AbstractDataAccess {
         if (null != dataSet) {
             switch (dataSet) {
                 case All:
-                    condition = cb.ge(request.get("_status"), WorkflowStatus.New.getId());
-                    order = cb.asc(request.get("_id"));
+                    condition = cb.ge(request.get(FIELD_STATUS), WorkflowStatus.New.getId());
+                    order = cb.asc(request.get(FIELD_ID));
                     break;
                 case AllOpen:
-                    condition = cb.lessThan(request.get("_status"), WorkflowStatus.Provided.getId());
-                    order = cb.asc(request.get("_id"));
+                    condition = cb.lessThan(request.get(FIELD_STATUS), WorkflowStatus.Provided.getId());
+                    order = cb.asc(request.get(FIELD_ID));
                     break;
                 case ApprovalRequested:
-                    condition = cb.or(cb.equal(request.get("_status"), WorkflowStatus.ApprovalRequested.getId()),
-                            cb.equal(request.get("_status"), WorkflowStatus.CorrectionRequested.getId()));
-                    order = cb.asc(request.get("_id"));
+                    condition = cb.or(cb.equal(request.get(FIELD_STATUS), WorkflowStatus.ApprovalRequested.getId()),
+                            cb.equal(request.get(FIELD_STATUS), WorkflowStatus.CorrectionRequested.getId()));
+                    order = cb.asc(request.get(FIELD_ID));
                     break;
                 default:
                     // provided (sealed)
-                    condition = cb.greaterThanOrEqualTo(request.get("_status"), WorkflowStatus.Provided.getId());
-                    order = cb.desc(request.get("_id"));
+                    condition = cb.greaterThanOrEqualTo(request.get(FIELD_STATUS), WorkflowStatus.Provided.getId());
+                    order = cb.desc(request.get(FIELD_ID));
                     break;
             }
         }
