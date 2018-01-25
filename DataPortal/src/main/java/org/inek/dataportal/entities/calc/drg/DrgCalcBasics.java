@@ -1334,6 +1334,10 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     public List<KglPkmsAlternative> getPkmsAlternatives() {
         return Collections.unmodifiableList(_pkmsAlternatives);
     }
+    
+    public void setPkmsAlternatives(List<KglPkmsAlternative> pkmsAlternatives) {
+        _pkmsAlternatives = pkmsAlternatives;
+    }
 
     public void addPkmsAlternative() {
         _pkmsAlternatives.add(new KglPkmsAlternative(_id));

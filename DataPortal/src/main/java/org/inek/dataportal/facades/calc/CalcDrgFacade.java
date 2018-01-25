@@ -158,14 +158,15 @@ public class CalcDrgFacade extends AbstractDataAccess {
     }
 
     public DrgCalcBasics retrievePriorCalcBasics(DrgCalcBasics calcBasics) {
-        String jpql = "select c from DrgCalcBasics c where c._ik = :ik and c._dataYear = :year";
+        String jpql = "select c from DrgCalcBasics c where c._ik = :ik and (c._statusId = 10 or c._statusId = 3)  and c._dataYear = :year";
         TypedQuery<DrgCalcBasics> query = getEntityManager().createQuery(jpql, DrgCalcBasics.class);
         query.setParameter("ik", calcBasics.getIk());
         query.setParameter("year", calcBasics.getDataYear() - 1);
         try {
-            DrgCalcBasics priorCalcBasics = query.getSingleResult();
-            getEntityManager().detach(priorCalcBasics);
-            return priorCalcBasics;
+            
+            List<DrgCalcBasics> priorCalcBasics = query.getResultList();
+            getEntityManager().detach(priorCalcBasics.get(0));
+            return priorCalcBasics.get(0);
         } catch (Exception ex) {
             return new DrgCalcBasics();
         }

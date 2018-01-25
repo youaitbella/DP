@@ -73,9 +73,11 @@
             <f:facet name="header">Erläuterung</f:facet>
             <h:inputTextarea id="activityKeyComment"
                              value="#{data.activityKeyComment}"
-                             required="#{data.division ne ''}">
+                             required="#{data.division.length() != 0}"
+                             requiredMessage="#{msg.msgValueNeeded}" >
                 <f:ajax event="blur" render="@this :logout:remaining" />
             </h:inputTextarea>
+            <h:message for="activityKeyComment" id="activityKeyCommentmessage" errorClass="errorMessage"/>
         </h:column>
     </h:dataTable>
     
@@ -120,31 +122,32 @@
                     </h:commandLink>
                 </td>
                 <td>
-                <inek:InputTextWithMessage value="#{item.ambulantService}" required="true"/>
+                <inek:InputTextWithMessage value="#{item.ambulantService}" />
                 </td>
                 <td>
                 <h:selectOneMenu value="#{item.serviceKey}" styleClass="inputwide" required="true">
                     <f:selectItems value="#{calcBasicsStaticData.endoscopyAmbulantTypes}" />
                     <f:ajax event="change" render="@form :logout:remaining" />
                 </h:selectOneMenu>
-                <h:inputTextarea rendered="#{item.serviceKey == 4 or item.serviceKey == 3}" required="true" styleClass="inputwide" value="#{item.miscText}">
+                <h:inputTextarea id="serviceKeyExplanation" rendered="#{item.serviceKey == 4 or item.serviceKey == 3}" required="true" styleClass="inputwide" value="#{item.miscText}">
                     <f:ajax event="blur" render="@this :logout:remaining" />
                 </h:inputTextarea>
+                <h:message for="serviceKeyExplanation" id="activityKeyCommentmessage" errorClass="errorMessage"/>
                 </td>
                 <td>
-                <inek:InputIntegerWithMessage value="#{item.numServices}" required="true"/>
+                <inek:InputIntegerWithMessage value="#{item.numServices}" />
                 </td>
                 <td>
-                <inek:InputIntegerWithMessage value="#{item.costVolumeMedical}" required="true"/>
+                <inek:InputIntegerWithMessage value="#{item.costVolumeMedical}" />
                 </td>
                 <td>
-                <inek:InputIntegerWithMessage value="#{item.costVolumeFunction}" required="true"/>
+                <inek:InputIntegerWithMessage value="#{item.costVolumeFunction}" />
                 </td>
                 <td hidden="#{editCalcBasicsDrg.calcBasics.dataYear lt 2017}">
-                <inek:InputIntegerWithMessage value="#{item.costVolumeMedInfra}" required="true"/>
+                <inek:InputIntegerWithMessage value="#{item.costVolumeMedInfra}" />
                 </td>
                 <td hidden="#{editCalcBasicsDrg.calcBasics.dataYear lt 2017}">
-                <inek:InputIntegerWithMessage value="#{item.costVolumeNonMedInfra}" required="true"/>
+                <inek:InputIntegerWithMessage value="#{item.costVolumeNonMedInfra}" />
                 </td>
             </tr>
         </ui:repeat>
