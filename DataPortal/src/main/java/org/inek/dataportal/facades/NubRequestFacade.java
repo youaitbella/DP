@@ -222,19 +222,22 @@ public class NubRequestFacade extends AbstractDataAccess {
         return proposalInfos;
     }
 
-    public List<ProposalInfo> findForAccountAndIk(int accountId, int ik, int minStatus, int maxStatus, String filter) {
+    public List<ProposalInfo> getNubRequestInfos(int ik, int year, int minStatus, int maxStatus, String filter) {
         String jql = "SELECT p FROM NubRequest p "
-                + "WHERE p._accountId = :accountId and p._ik = :ik and p._status >= :minStatus and p._status <= :maxStatus "
+                + "WHERE p._ik = :ik and p._status >= :minStatus and p._status <= :maxStatus "
                 + (filter.isEmpty() ? "" : "and (p._displayName like :filter1 or p._name like :filter2) ")
+                + (year > 0 ? " and p._targetYear = :year " : "")
                 + "ORDER BY p._id DESC";
         TypedQuery<NubRequest> query = getEntityManager().createQuery(jql, NubRequest.class);
-        query.setParameter("accountId", accountId);
         query.setParameter("ik", ik);
         query.setParameter("minStatus", minStatus);
         query.setParameter("maxStatus", maxStatus);
         if (!filter.isEmpty()) {
             query.setParameter("filter1", filter);
             query.setParameter("filter2", filter);
+        }
+        if (year > 0){
+            query.setParameter("year", year);
         }
         List<NubRequest> requests = query.getResultList();
         List<ProposalInfo> proposalInfos = new ArrayList<>();

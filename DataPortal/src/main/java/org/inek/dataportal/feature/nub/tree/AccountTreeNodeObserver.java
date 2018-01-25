@@ -106,13 +106,6 @@ public class AccountTreeNodeObserver implements TreeNodeObserver {
 
     @Override
     public Collection<TreeNode> obtainSortedChildren(TreeNode treeNode) {
-        if (treeNode instanceof AccountTreeNode) {
-            return sortAccountNodeChildren((AccountTreeNode) treeNode);
-        }
-        return treeNode.getChildren();
-    }
-
-    private Collection<TreeNode> sortAccountNodeChildren(AccountTreeNode treeNode) {
         Stream<ProposalInfoTreeNode> stream = treeNode.getChildren().stream().map(n -> (ProposalInfoTreeNode) n);
         Stream<ProposalInfoTreeNode> sorted;
         int direction = treeNode.isDescending() ? -1 : 1;
