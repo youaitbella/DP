@@ -2,35 +2,69 @@ package org.inek.dataportal.feature.nub.tree;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.inject.Inject;
-import org.inek.dataportal.common.AccessManager;
-import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.nub.NubRequest;
+import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.NubRequestFacade;
 import org.inek.dataportal.feature.nub.NubSessionTools;
+import org.inek.dataportal.helper.structures.ProposalInfo;
 import org.inek.dataportal.helper.tree.ProposalInfoTreeNode;
-import org.inek.dataportal.helper.tree.entityTree.AccountTreeNode;
 import org.inek.dataportal.helper.tree.entityTree.CustomerTreeNode;
 import org.inek.portallib.tree.TreeNode;
 import org.inek.portallib.tree.TreeNodeObserver;
+import org.inek.portallib.tree.YearTreeNode;
 
 public class CustomerTreeNodeObserver implements TreeNodeObserver {
 
     @Inject private NubRequestFacade _nubRequestFacade;
-    @Inject private SessionController _sessionController;
-    @Inject private AccessManager _accessManager;
     @Inject private NubSessionTools _nubSessionTools;
 
     @Override
     public Collection<TreeNode> obtainChildren(TreeNode treeNode) {
-        return obtainCustomerNodeChildren((CustomerTreeNode) treeNode);
+        int ik = ((CustomerTreeNode) treeNode).getIk();
+        List<ProposalInfo> infos;
+        if (treeNode.getParent() instanceof YearTreeNode) {
+            int year = treeNode.getParent().getId();
+            infos = obtainRequestsForRead(ik, year);
+        } else {
+            infos = obtainRequestsForEdit(ik);
+        }
+        Collection<? extends TreeNode> oldChildren =treeNode.getChildren();
+        Collection<TreeNode> children = new ArrayList<>();
+        for (ProposalInfo info : infos) {
+            ProposalInfoTreeNode node = oldChildren
+                    .stream()
+                    .filter(c -> c.getId() == info.getId())
+                    .findFirst()
+                    .orElseGet(() -> ProposalInfoTreeNode.create(treeNode, info, null));
+            children.add(node);
+        }
+        return children;
     }
 
-    private Collection<TreeNode> obtainCustomerNodeChildren(CustomerTreeNode treeNode) {
-        Collection<TreeNode> children = new ArrayList<>();
-        return children;
+    private List<ProposalInfo> obtainRequestsForRead(int ik, int year) {
+        WorkflowStatus statusLow = WorkflowStatus.Provided;
+        WorkflowStatus statusHigh = WorkflowStatus.Retired;
+        return _nubRequestFacade.getNubRequestInfos(
+                ik,
+                year,
+                statusLow.getId(),
+                statusHigh.getId(),
+                getFilter());
+    }
+
+    private List<ProposalInfo> obtainRequestsForEdit(int ik ) {
+        WorkflowStatus statusLow = WorkflowStatus.New;
+        WorkflowStatus statusHigh = WorkflowStatus.ApprovalRequested;
+        return _nubRequestFacade.getNubRequestInfos(
+                ik,
+                0,
+                statusLow.getId(),
+                statusHigh.getId(),
+                getFilter());
     }
 
 
@@ -44,13 +78,6 @@ public class CustomerTreeNodeObserver implements TreeNodeObserver {
 
     @Override
     public Collection<TreeNode> obtainSortedChildren(TreeNode treeNode) {
-        if (treeNode instanceof AccountTreeNode) {
-            return sortAccountNodeChildren((AccountTreeNode) treeNode);
-        }
-        return treeNode.getChildren();
-    }
-
-    private Collection<TreeNode> sortAccountNodeChildren(AccountTreeNode treeNode) {
         Stream<ProposalInfoTreeNode> stream = treeNode.getChildren().stream().map(n -> (ProposalInfoTreeNode) n);
         Stream<ProposalInfoTreeNode> sorted;
         int direction = treeNode.isDescending() ? -1 : 1;
