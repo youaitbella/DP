@@ -83,7 +83,7 @@ public class AccountTreeNodeObserver implements TreeNodeObserver {
         Set<Integer> ikSet = account.getFullIkSet();
         ikSet.removeAll(_accessManager.retrieveAllManagedIks(Feature.NUB));
         for (int ik : ikSet) {
-            boolean itsMe = account.getId() != _sessionController.getAccountId();
+            boolean itsMe = account == _sessionController.getAccount();
             if (!itsMe && !_accessManager.canReadCompleted(Feature.NUB, account.getId(), ik)) {
                 continue;
             }

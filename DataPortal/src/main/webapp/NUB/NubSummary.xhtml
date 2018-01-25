@@ -33,21 +33,28 @@
 
             <h4><h:outputLabel value="#{msg.infoOpenNub}"/></h4>
 
-            <ui:repeat value="#{nubSessionTools.editNode.children}" var="accountNode" >
+            <ui:repeat value="#{nubSessionTools.editNode.children}" var="treeNode" >
                 <div style="margin-left:16px;">
-                    <h:commandLink action="#{accountNode.toggle}" immediate="true" >
-                        <h:graphicImage alt="auf/zuklappen" name="Icon/small/#{accountNode.expanded ? 'ButtonMinus.png' : 'ButtonPlus.png'}" title="Details auf/zuklappen" value=""/>
+                    <h:commandLink action="#{treeNode.toggle}" immediate="true" >
+                        <h:graphicImage alt="auf/zuklappen" name="Icon/small/#{treeNode.expanded ? 'ButtonMinus.png' : 'ButtonPlus.png'}" title="Details auf/zuklappen" value=""/>
                         <f:ajax render="@this NubEdit :logout:remaining"/>
                     </h:commandLink>
-                    <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.accountId)}" value="#{accountNode.displayName}" immediate="true"/>
-                    <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.accountId)}" value="#{accountNode.company}" immediate="true"/>
-                    <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.accountId)}" value="#{accountNode.town}" immediate="true"/>
+                    <h:panelGroup  rendered="#{treeNode['class'].simpleName eq 'CustomerTreeNode'}">
+                        <h:outputText styleClass="third marginTop" value="#{treeNode.displayName}"/>
+                        <h:outputText styleClass="third marginTop" value="#{treeNode.company}"/>
+                        <h:outputText styleClass="third marginTop" value="#{treeNode.town}"/>
+                    </h:panelGroup>
+                    <h:panelGroup  rendered="#{treeNode['class'].simpleName eq 'AccountTreeNode'}">
+                        <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(treeNode.accountId)}" value="#{treeNode.displayName}" immediate="true"/>
+                        <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(treeNode.accountId)}" value="#{treeNode.company}" immediate="true"/>
+                        <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(treeNode.accountId)}" value="#{treeNode.town}" immediate="true"/>
+                    </h:panelGroup>
 
                     <div jsf:id="NubEdit" style="margin-left:16px; padding-bottom: 1em;">
-                        <h:outputLabel value="Dieser Kooperationspartner hat noch keine NUB-Anfrage zur Freigabe an Sie gesendet" rendered="#{accountNode.expanded and accountNode.children.size() eq 0}"/>
-                        <nub:NubRequestNode parentNode="#{accountNode}" isSealed="false" 
-                                             showDelete="#{accountNode.id == sessionController.accountId ? 'true' : 'false'}" 
-                                             rendered="#{accountNode.expanded and accountNode.children.size() gt 0}"/>
+                        <h:outputLabel value="Dieser Kooperationspartner hat noch keine NUB-Anfrage zur Freigabe an Sie gesendet" rendered="#{treeNode.expanded and treeNode.children.size() eq 0}"/>
+                        <nub:NubRequestNode parentNode="#{treeNode}" isSealed="false" 
+                                            showDelete="#{treeNode.id == sessionController.accountId ? 'true' : 'false'}" 
+                                            rendered="#{treeNode.expanded and treeNode.children.size() gt 0}"/>
                     </div>
                 </div>
             </ui:repeat>
@@ -98,20 +105,27 @@
                 <h:commandLink styleClass="block marginTop" action="#{year.toggle}" value="NUB Anfragen für #{year.id}" immediate="true" />
                 </p>
                 <div jsf:id="NubYear">
-                    <ui:repeat value="#{year.children}" var="accountNode" varStatus="status">
+                    <ui:repeat value="#{year.children}" var="treeNode" varStatus="status">
                         <div style="margin-left:16px;">
-                            <h:commandLink action="#{accountNode.toggle}" immediate="true" >
-                                <h:graphicImage alt="auf/zuklappen" name="Icon/small/#{accountNode.expanded ? 'ButtonMinus.png' : 'ButtonPlus.png'}" title="Details auf/zuklappen" value=""/>
+                            <h:commandLink action="#{treeNode.toggle}" immediate="true" >
+                                <h:graphicImage alt="auf/zuklappen" name="Icon/small/#{treeNode.expanded ? 'ButtonMinus.png' : 'ButtonPlus.png'}" title="Details auf/zuklappen" value=""/>
                                 <f:ajax render="@this NubShow :logout:remaining"/>
                             </h:commandLink>
-                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.accountId)}" value="#{accountNode.displayName}" immediate="true"/>
-                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.accountId)}" value="#{accountNode.company}" immediate="true"/>
-                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.accountId)}" value="#{accountNode.town}" immediate="true"/>
+                            <h:panelGroup  rendered="#{treeNode['class'].simpleName eq 'CustomerTreeNode'}">
+                                <h:outputText styleClass="third marginTop" value="#{treeNode.displayName}"/>
+                                <h:outputText styleClass="third marginTop" value="#{treeNode.company}"/>
+                                <h:outputText styleClass="third marginTop" value="#{treeNode.town}"/>
+                            </h:panelGroup>
+                            <h:panelGroup  rendered="#{treeNode['class'].simpleName eq 'AccountTreeNode'}">
+                                <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(treeNode.accountId)}" value="#{treeNode.displayName}" immediate="true"/>
+                                <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(treeNode.accountId)}" value="#{treeNode.company}" immediate="true"/>
+                                <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(treeNode.accountId)}" value="#{treeNode.town}" immediate="true"/>
+                            </h:panelGroup>
                             <div jsf:id="NubShow" style="margin-left:16px; padding-bottom: 1em;">
-                                <nub:NubRequestNode parentNode="#{accountNode}" 
-                                                     isSealed="true" 
-                                                     showDelete="#{accountNode.id == sessionController.accountId ? 'true' : 'false'}" 
-                                                     rendered="#{accountNode.expanded}"/>
+                                <nub:NubRequestNode parentNode="#{treeNode}" 
+                                                    isSealed="true" 
+                                                    showDelete="#{treeNode.id == sessionController.accountId ? 'true' : 'false'}" 
+                                                    rendered="#{treeNode.expanded}"/>
                             </div>
                         </div>
                     </ui:repeat>
