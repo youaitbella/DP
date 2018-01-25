@@ -32,10 +32,10 @@ public class CustomerTreeNodeObserver implements TreeNodeObserver {
         } else {
             infos = obtainRequestsForEdit(ik);
         }
-        Collection<? extends TreeNode> oldChildren =treeNode.getChildren();
+        Collection<TreeNode> oldChildren = treeNode.getChildren();
         Collection<TreeNode> children = new ArrayList<>();
         for (ProposalInfo info : infos) {
-            ProposalInfoTreeNode node = oldChildren
+            TreeNode node = oldChildren
                     .stream()
                     .filter(c -> c.getId() == info.getId())
                     .findFirst()
@@ -51,8 +51,8 @@ public class CustomerTreeNodeObserver implements TreeNodeObserver {
         return _nubRequestFacade.getNubRequestInfos(
                 ik,
                 year,
-                statusLow.getId(),
-                statusHigh.getId(),
+                statusLow,
+                statusHigh,
                 getFilter());
     }
 
@@ -62,8 +62,8 @@ public class CustomerTreeNodeObserver implements TreeNodeObserver {
         return _nubRequestFacade.getNubRequestInfos(
                 ik,
                 0,
-                statusLow.getId(),
-                statusHigh.getId(),
+                statusLow,
+                statusHigh,
                 getFilter());
     }
 
