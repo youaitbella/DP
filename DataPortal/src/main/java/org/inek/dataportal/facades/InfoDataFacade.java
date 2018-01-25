@@ -10,7 +10,9 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import org.inek.dataportal.entities.ListFeature;
+import org.inek.dataportal.entities.ListWorkflowStatus;
 import org.inek.dataportal.entities.TrashMail;
+import org.inek.dataportal.enums.WorkflowStatus;
 
 /**
  * This is a facade to various informative data
@@ -33,5 +35,13 @@ public class InfoDataFacade extends AbstractDataAccess {
 
     public void saveListFeature(ListFeature listFeature) {
         persist(listFeature);
+    }
+
+    public List<ListWorkflowStatus> findAllListWorkflowStatus(){
+        return findAllFresh(ListWorkflowStatus.class);
+    }
+
+    public void saveListWorkflowStatus(ListWorkflowStatus listWorkflowStatus) {
+        persist(listWorkflowStatus);
     }
 }
