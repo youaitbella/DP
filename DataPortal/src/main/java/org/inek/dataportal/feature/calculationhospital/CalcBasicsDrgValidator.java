@@ -137,6 +137,7 @@ public class CalcBasicsDrgValidator {
 
     //<editor-fold defaultstate="collapsed" desc="checkEndosoppy">
     private static void checkEndosoppy(DrgCalcBasics calcBasics, MessageContainer message) {
+        
     }
     //</editor-fold>
 

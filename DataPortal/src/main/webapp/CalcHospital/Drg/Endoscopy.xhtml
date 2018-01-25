@@ -120,10 +120,10 @@
                     </h:commandLink>
                 </td>
                 <td>
-            <inek:InputTextWithMessage value="#{item.ambulantService}" />
+                <inek:InputTextWithMessage value="#{item.ambulantService}" required="true"/>
                 </td>
                 <td>
-                <h:selectOneMenu value="#{item.serviceKey}" styleClass="inputwide">
+                <h:selectOneMenu value="#{item.serviceKey}" styleClass="inputwide" required="true">
                     <f:selectItems value="#{calcBasicsStaticData.endoscopyAmbulantTypes}" />
                     <f:ajax event="change" render="@form :logout:remaining" />
                 </h:selectOneMenu>
@@ -132,19 +132,19 @@
                 </h:inputTextarea>
                 </td>
                 <td>
-                <inek:InputIntegerWithMessage value="#{item.numServices}" />
+                <inek:InputIntegerWithMessage value="#{item.numServices}" required="true"/>
                 </td>
                 <td>
-                <inek:InputIntegerWithMessage value="#{item.costVolumeMedical}" />
+                <inek:InputIntegerWithMessage value="#{item.costVolumeMedical}" required="true"/>
                 </td>
                 <td>
-                <inek:InputIntegerWithMessage value="#{item.costVolumeFunction}" />
+                <inek:InputIntegerWithMessage value="#{item.costVolumeFunction}" required="true"/>
                 </td>
                 <td hidden="#{editCalcBasicsDrg.calcBasics.dataYear lt 2017}">
-                <inek:InputIntegerWithMessage value="#{item.costVolumeMedInfra}" />
+                <inek:InputIntegerWithMessage value="#{item.costVolumeMedInfra}" required="true"/>
                 </td>
                 <td hidden="#{editCalcBasicsDrg.calcBasics.dataYear lt 2017}">
-                <inek:InputIntegerWithMessage value="#{item.costVolumeNonMedInfra}" />
+                <inek:InputIntegerWithMessage value="#{item.costVolumeNonMedInfra}" required="true"/>
                 </td>
             </tr>
         </ui:repeat>

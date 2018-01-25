@@ -111,6 +111,10 @@ public final class CalcBasicsPsyValidator {
                     serviceCost.getFunctionalServiceAmount(), serviceCost.getFunctionalServiceCnt(),
                     "Funktionsdienst", station, elementId, pageName);
         }
+        
+        if (!calcBasics.isBimAll()) {
+            checkField(message, calcBasics.getIntensiveExceptionalPermission(), "Leistungsdokumentation Kommentar", elementId, pageName);
+        }
     }
     //</editor-fold>
     
