@@ -198,16 +198,16 @@
 
     <h:panelGroup rendered="#{editCalcBasicsDrg.calcBasics.pkmsComplex}">
         <div>
-        <h:outputLabel styleClass="label50" value=" "/>
-        <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.calcBasics.dataYear}"/>
-        <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.calcBasics.dataYear - 1}"/>
+            <h:outputLabel styleClass="label50" value=""/>
+            <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.calcBasics.dataYear}"/>
+            <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.calcBasics.dataYear - 1}"/>
 
-        <br/>
-            <h:outputLabel value="Anzahl der kalkulierten Fälle mit Pflegekomplexmaßnahmen-Score (PKMS):" styleClass="label element37em"/>
+            <br/>
+            <h:outputLabel value="Anzahl der kalkulierten Fälle mit Pflegekomplexmaßnahmen-Score (PKMS):" styleClass="label50"/>
             <inek:InputIntegerWithMessage value="#{editCalcBasicsDrg.calcBasics.pkmsCaseCnt}" styleClass="inputMedium"/>
-        <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.priorCalcBasics.pkmsCaseCnt}">
-            <f:convertNumber/>
-        </h:outputLabel>
+            <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.priorCalcBasics.pkmsCaseCnt}">
+                <f:convertNumber/>
+            </h:outputLabel>
         </div>
         <div class="inputPart">
             <h:outputLabel value="Die Erfassung des PKMS liegt in allen relevanten Normalstationen vor:" styleClass="label element37em"/>
