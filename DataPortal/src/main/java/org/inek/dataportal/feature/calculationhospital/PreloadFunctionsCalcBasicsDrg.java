@@ -211,10 +211,6 @@ public class PreloadFunctionsCalcBasicsDrg {
             calcBasics.getNormalFeeContracts().add(fc);
         }                
         calcBasics.setDeliveryRoomOrganizationalStructure(priorCalcBasics.getDeliveryRoomOrganizationalStructure());
-        calcBasics.setPkmsComplex(priorCalcBasics.isPkmsComplex());
-        calcBasics.setPkmsCaseCnt(priorCalcBasics.getPkmsCaseCnt());
-        calcBasics.setPkmsRecording(priorCalcBasics.getPkmsRecording());   
-        calcBasics.setPkmsAlternatives(priorCalcBasics.getPkmsAlternatives());
     }
 
     private static void initServiceProvision(CalcDrgFacade calcDrgFacade, DrgCalcBasics calcBasics, DrgCalcBasics priorCalcBasics) {

@@ -237,43 +237,6 @@
             </h:column>
 
         </h:dataTable>
-
-        <h:panelGroup rendered="#{editCalcBasicsDrg.priorCalcBasics.kstTop.stream().filter(i -> i.ktCostCenterId == 6).filter(i -> !i.text.isEmpty()).count() > 0}">
-            <h3>#{editCalcBasicsDrg.calcBasics.dataYear - 1}</h3>
-
-            <h:dataTable value="#{editCalcBasicsDrg.priorCalcBasics.kstTop.stream().filter(i -> i.ktCostCenterId == 6).toList()}" var="item"
-                         columnClasses="colValue, col14 number, col14 number, col14 number" rowClasses="row1, row2">
-                <h:column>
-                    <f:facet name="header">#{msg.lblNotation}</f:facet>
-                    <h:outputLabel value="#{item.text}"/>
-                </h:column>
-
-                <h:column>
-                    <f:facet name="header">#{msg.lblCaseCount}</f:facet>
-                    <h:outputLabel value="#{item.caseCount}"><f:convertNumber/></h:outputLabel>
-                </h:column>
-
-                <h:column>
-                    <f:facet name="header">#{msg.lblRevenueVolume}</f:facet>
-                    <h:outputLabel value="#{item.delimitationAmount}"><f:convertNumber/></h:outputLabel>
-                </h:column>
-
-                <h:column>
-                    <f:facet name="header">#{msg.lblMarkedOfCostVolume}</f:facet>
-                    <h:outputLabel value="#{item.amount}"><f:convertNumber/></h:outputLabel>
-                </h:column>
-                <h:column rendered="#{editCalcBasicsDrg.priorCalcBasics.dataYear ge 2017}">
-                    <f:facet name="header">Kostenvolumen ÄD</f:facet>
-                    <h:outputLabel value="#{item.medicalService}"><f:convertNumber/></h:outputLabel>
-                </h:column>
-                <h:column rendered="#{editCalcBasicsDrg.priorCalcBasics.dataYear ge 2017}">
-                    <f:facet name="header">Kostenvolumen FD</f:facet>
-                    <h:outputLabel value="#{item.functionalService}"><f:convertNumber/></h:outputLabel>
-                </h:column>
-
-            </h:dataTable>
-        </h:panelGroup>
-
     </div>
 
 </ui:composition>
