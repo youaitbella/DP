@@ -18,9 +18,9 @@ import org.inek.dataportal.feature.specificfunction.entity.SpecificFunctionReque
 import org.inek.dataportal.feature.specificfunction.facade.SpecificFunctionFacade;
 import org.inek.dataportal.helper.tree.SpecificFunctionRequestTreeNode;
 import org.inek.dataportal.helper.tree.entityTree.AccountTreeNode;
-import org.inek.portallib.tree.TreeNode;
-import org.inek.portallib.tree.TreeNodeObserver;
-import org.inek.portallib.tree.YearTreeNode;
+import org.inek.dataportal.helper.tree.TreeNode;
+import org.inek.dataportal.helper.tree.TreeNodeObserver;
+import org.inek.dataportal.helper.tree.YearTreeNode;
 
 /**
  *
@@ -51,24 +51,19 @@ public class AccountTreeNodeObserver implements TreeNodeObserver {
         return children;
     }
 
-    private List<SpecificFunctionRequest> obtainRequestsForRead(Account partner, int year) {
+    private List<SpecificFunctionRequest> obtainRequestsForRead(Account account, int year) {
         List<SpecificFunctionRequest> requests = new ArrayList<>();
-        Set<Integer> managedIks = _accessManager.retrieveAllManagedIks(Feature.SPECIFIC_FUNCTION);
-        for (int ik : partner.getFullIkSet()) {
-            if (managedIks.contains(ik)) {
+        Set<Integer> ikSet = account.getFullIkSet();
+        ikSet.removeAll(_accessManager.retrieveAllManagedIks(Feature.SPECIFIC_FUNCTION));
+        for (int ik : ikSet) {
+            if (account != _sessionController.getAccount()
+                    && !_accessManager.canReadSealed(Feature.SPECIFIC_FUNCTION, account.getId(), ik)) {
                 continue;
             }
             WorkflowStatus statusLow = WorkflowStatus.Provided;
             WorkflowStatus statusHigh = WorkflowStatus.Retired;
-            if (partner != _sessionController.getAccount()) {
-                boolean canReadSealed = _accessManager.canReadSealed(Feature.SPECIFIC_FUNCTION, partner.getId(), ik);
-                if (!canReadSealed) {
-                    statusLow = WorkflowStatus.Unknown;
-                    statusHigh = WorkflowStatus.Unknown;
-                }
-            }
             List<SpecificFunctionRequest> ikRequests = _specificFunctionFacade.obtainSpecificFunctionRequests(
-                    partner.getId(),
+                    account.getId(),
                     ik,
                     year,
                     statusLow,
@@ -79,26 +74,21 @@ public class AccountTreeNodeObserver implements TreeNodeObserver {
         return requests;
     }
 
-    private List<SpecificFunctionRequest> obtainRequestsForEdit(Account partner) {
+    private List<SpecificFunctionRequest> obtainRequestsForEdit(Account account) {
         List<SpecificFunctionRequest> requests = new ArrayList<>();
-        Set<Integer> managedIks = _accessManager.retrieveAllManagedIks(Feature.SPECIFIC_FUNCTION);
-        for (int ik : partner.getFullIkSet()) {
-            if (managedIks.contains(ik)) {
+        Set<Integer> ikSet = account.getFullIkSet();
+        ikSet.removeAll(_accessManager.retrieveAllManagedIks(Feature.SPECIFIC_FUNCTION));
+        for (int ik : ikSet) {
+            boolean itsMe = account == _sessionController.getAccount();
+            if (!itsMe && !_accessManager.canReadCompleted(Feature.SPECIFIC_FUNCTION, account.getId(), ik)) {
                 continue;
             }
-            WorkflowStatus statusLow = WorkflowStatus.New;
+            boolean canReadAlways = itsMe || _accessManager.
+                    canReadAlways(Feature.SPECIFIC_FUNCTION, account.getId(), ik);
+            WorkflowStatus statusLow = canReadAlways ? WorkflowStatus.New : WorkflowStatus.ApprovalRequested;
             WorkflowStatus statusHigh = WorkflowStatus.ApprovalRequested;
-            if (partner != _sessionController.getAccount()) {
-                boolean canReadAlways = _accessManager.canReadAlways(Feature.SPECIFIC_FUNCTION, partner.getId(), ik);
-                boolean canReadCompleted = _accessManager.
-                        canReadCompleted(Feature.SPECIFIC_FUNCTION, partner.getId(), ik);
-                statusLow = canReadAlways ? WorkflowStatus.New
-                        : canReadCompleted ? WorkflowStatus.ApprovalRequested : WorkflowStatus.Unknown;
-                statusHigh = canReadAlways
-                        || canReadCompleted ? WorkflowStatus.ApprovalRequested : WorkflowStatus.Unknown;
-            }
             List<SpecificFunctionRequest> ikRequests = _specificFunctionFacade.obtainSpecificFunctionRequests(
-                    partner.getId(),
+                    account.getId(),
                     ik,
                     0,
                     statusLow,

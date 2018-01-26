@@ -14,16 +14,16 @@
     <inek:LabeledCheckbox label="#{msg.lblHasGynecology}" 
                           styleClassLabel="label60"
                           value="#{editCalcBasicsDrg.calcBasics.gynecology}">
-            <f:ajax event="clientChange"  
-                    render="@form :script"
-                    listener="#{sessionController.hideData(editCalcBasicsDrg.calcBasics.gynecology or editCalcBasicsDrg.calcBasics.obstetrical)}"/>
+        <f:ajax event="clientChange"  
+                render="@form :script"
+                listener="#{sessionController.hideData(editCalcBasicsDrg.calcBasics.gynecology or editCalcBasicsDrg.calcBasics.obstetrical)}"/>
     </inek:LabeledCheckbox>
     <inek:LabeledCheckbox label="#{msg.lblHasObstetrical}" 
                           styleClassLabel="label60"
                           value="#{editCalcBasicsDrg.calcBasics.obstetrical}">
-            <f:ajax event="clientChange"  
-                    render="@form :script"
-                    listener="#{sessionController.hideData(editCalcBasicsDrg.calcBasics.gynecology or editCalcBasicsDrg.calcBasics.obstetrical)}"/>
+        <f:ajax event="clientChange"  
+                render="@form :script"
+                listener="#{sessionController.hideData(editCalcBasicsDrg.calcBasics.gynecology or editCalcBasicsDrg.calcBasics.obstetrical)}"/>
     </inek:LabeledCheckbox>
 
     <div jsf:id="maternity" jsf:rendered="#{editCalcBasicsDrg.calcBasics.gynecology 
@@ -34,7 +34,7 @@
         <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.calcBasics.dataYear}"/>
         <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.calcBasics.dataYear - 1}"/>
         <h:outputLabel styleClass="label15 number" value="Abweichung"/>
-        
+
         <br/>
         <h:outputLabel styleClass="label50" value="Summe der Aufenthaltszeit der Patientin im Kreißsaal in Stunden (ausschließlich für vollstationäre Patientinnen)"/>
         <h:inputText styleClass="element15" id="deliveryRoomHours" value="#{editCalcBasicsDrg.calcBasics.deliveryRoomHours}" required="true">
@@ -64,13 +64,13 @@
         </h:inputText>
         <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.priorCalcBasics.deliveryRoomInstationBirthCnt}"/>
         <h:outputLabel styleClass="label15 number" id="lblDiffInstationBirthCnt" value="#{editCalcBasicsDrg.calcBasics.deliveryRoomInstationBirthCnt - editCalcBasicsDrg.priorCalcBasics.deliveryRoomInstationBirthCnt}"/>
-        
+
         <br/>
         <h:outputLabel styleClass="label50" value="Bei vorgeburtlichen Fällen fielen im Datenjahr 2017 keine 'Aufenthaltszeiten der Patientin im Kreißsaal' an:"/>
         <h:selectBooleanCheckbox value="#{editCalcBasicsDrg.calcBasics.noDeliveryRoomHabitation}">
             <f:ajax event="change" render="@this :logout:remaining" />
         </h:selectBooleanCheckbox>
-        
+
         <br/>
         <h:outputLabel styleClass="label" value="Bitte erläutern Sie (kurz) die Organisationsstrukturen in diesem Bereich:"></h:outputLabel>
         <h:inputTextarea id="txtStructure" styleClass="areaWideHigh" value="#{editCalcBasicsDrg.calcBasics.deliveryRoomOrganizationalStructure}" 
@@ -127,11 +127,6 @@
                 <inek:InputIntegerWithMessage id="partition" value="#{obstretic.medicalServiceCnt}" styleClass="col05em number" />
             </h:column>
 
-            <h:column rendered="#{editCalcBasicsDrg.calcBasics.dataYear lt 2017}">
-                <f:facet name="header">davon Belegärzte</f:facet>
-                <inek:InputIntegerWithMessage value="#{obstretic.attendingDoctorCnt}" styleClass="col05em number"/>
-            </h:column>
-
             <h:column>
                 <f:facet name="header">Pflegedienst</f:facet>
                 <inek:InputIntegerWithMessage value="#{obstretic.nursingServiceCnt}" styleClass="col05em number" />
@@ -145,11 +140,6 @@
             <h:column>
                 <f:facet name="header">Hebammen</f:facet>
                 <inek:InputIntegerWithMessage value="#{obstretic.midwifeCnt}" styleClass="col05em number"/>
-            </h:column>
-
-            <h:column rendered="#{editCalcBasicsDrg.calcBasics.dataYear lt 2017}">
-                <f:facet name="header">davon Beleg-Hebammen</f:facet>
-                <inek:InputIntegerWithMessage value="#{obstretic.attendingMidwifeCnt}" styleClass="col05em number"/>
             </h:column>
 
         </h:dataTable>
@@ -200,11 +190,6 @@
                 <inek:InputIntegerWithMessage id="partition" value="#{prevObstretic.medicalServiceCnt}" styleClass="col05em number" disabled="true"/>
             </h:column>
 
-            <h:column rendered="#{editCalcBasicsDrg.priorCalcBasics.dataYear lt 2017}">
-                <f:facet name="header">davon Belegärzte</f:facet>
-                <inek:InputIntegerWithMessage value="#{prevObstretic.attendingDoctorCnt}" styleClass="col05em number" disabled="true"/>
-            </h:column>
-
             <h:column>
                 <f:facet name="header">Pflegedienst</f:facet>
                 <inek:InputIntegerWithMessage value="#{prevObstretic.nursingServiceCnt}" styleClass="col05em number" disabled="true"/>
@@ -220,63 +205,9 @@
                 <inek:InputIntegerWithMessage value="#{prevObstretic.midwifeCnt}" styleClass="col05em number" disabled="true"/>
             </h:column>
 
-            <h:column rendered="#{editCalcBasicsDrg.priorCalcBasics.dataYear lt 2017}">
-                <f:facet name="header">davon Beleg-Hebammen</f:facet>
-                <inek:InputIntegerWithMessage value="#{prevObstretic.attendingMidwifeCnt}" styleClass="col05em number" disabled="true"/>
-            </h:column>
-
         </h:dataTable>
-        
-        <h:panelGroup rendered="#{editCalcBasicsDrg.calcBasics.dataYear > 2016 and editCalcBasicsDrg.calcBasics.obstetrical}">
-            <h2>#{msg.lblTopMaternityService} #{editCalcBasicsDrg.calcBasics.dataYear}</h2>
 
-            <h:dataTable value="#{editCalcBasicsDrg.calcBasics.kstTop.stream().filter(i -> i.ktCostCenterId == 6).toList()}" var="item">
-                <h:column>
-                    <f:facet name="header">#{msg.lblNotation}</f:facet>
-                    <inek:InputTextWithMessage value="#{item.text}"/>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">#{msg.lblCaseCount}</f:facet>
-                    <inek:InputTextWithMessage value="#{item.caseCount}"/>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">#{msg.lblRevenueVolume}</f:facet>
-                    <inek:InputTextWithMessage value="#{item.delimitationAmount}"/>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">#{msg.lblMarkedOfCostVolume}</f:facet>
-                    <inek:InputTextWithMessage value="#{item.amount}"/>
-                </h:column>
-            </h:dataTable>
-
-            <h:panelGroup rendered="#{editCalcBasicsDrg.priorCalcBasics.kstTop.stream().filter(i -> i.ktCostCenterId == 6).count() > 0}">
-                <h2>#{msg.lblTopMaternityService} #{editCalcBasicsDrg.calcBasics.dataYear - 1}</h2>
-
-                <h:dataTable value="#{editCalcBasicsDrg.priorCalcBasics.kstTop.stream().filter(i -> i.ktCostCenterId == 6).toList()}" var="item">
-                    <h:column>
-                        <f:facet name="header">#{msg.lblNotation}</f:facet>
-                        <h:inputText value="#{item.text}" disabled="true"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">#{msg.lblCaseCount}</f:facet>
-                        <h:inputText value="#{item.caseCount}" disabled="true"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">#{msg.lblRevenueVolume}</f:facet>
-                        <h:inputText value="#{item.delimitationAmount}" disabled="true"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">#{msg.lblMarkedOfCostVolume}</f:facet>
-                        <h:inputText value="#{item.amount}" disabled="true"/>
-                    </h:column>
-                </h:dataTable>
-            </h:panelGroup>
-        </h:panelGroup>
-        
-        
-        <h2>TOP 5 ambulante geburtshilfliche/gynäkologische Leistungen</h2>
-
-        <h3>#{editCalcBasicsDrg.calcBasics.dataYear}</h3>
+        <h2>TOP 5 ambulante geburtshilfliche/gynäkologische Leistungen #{editCalcBasicsDrg.calcBasics.dataYear}</h2>
 
         <h:dataTable value="#{editCalcBasicsDrg.calcBasics.kstTop.stream().filter(i -> i.ktCostCenterId == 6).toList()}" var="item"
                      columnClasses="colValue, col14, col14, col14" rowClasses="row1, row2">
@@ -296,35 +227,16 @@
                 <f:facet name="header">#{msg.lblMarkedOfCostVolume}</f:facet>
                 <inek:InputIntegerWithMessage value="#{item.amount}" required="#{!item.isEmpty()}"/>
             </h:column>
+            <h:column rendered="#{editCalcBasicsDrg.calcBasics.dataYear ge 2017}">
+                <f:facet name="header">Kostenvolumen ÄD</f:facet>
+                <inek:InputIntegerWithMessage value="#{item.medicalService}" required="#{!item.isEmpty()}" />
+            </h:column>
+            <h:column rendered="#{editCalcBasicsDrg.calcBasics.dataYear ge 2017}">
+                <f:facet name="header">Kostenvolumen FD</f:facet>
+                <inek:InputIntegerWithMessage value="#{item.functionalService}" required="#{!item.isEmpty()}" />
+            </h:column>
+
         </h:dataTable>
-
-        <h:panelGroup rendered="#{editCalcBasicsDrg.priorCalcBasics.kstTop.stream().filter(i -> i.ktCostCenterId == 6).filter(i -> !i.text.isEmpty()).count() > 0}">
-            <h3>#{editCalcBasicsDrg.calcBasics.dataYear - 1}</h3>
-
-            <h:dataTable value="#{editCalcBasicsDrg.priorCalcBasics.kstTop.stream().filter(i -> i.ktCostCenterId == 6).toList()}" var="item"
-                         columnClasses="colValue, col14 number, col14 number, col14 number" rowClasses="row1, row2">
-                <h:column>
-                    <f:facet name="header">#{msg.lblNotation}</f:facet>
-                    <h:outputLabel value="#{item.text}"/>
-                </h:column>
-
-                <h:column>
-                    <f:facet name="header">#{msg.lblCaseCount}</f:facet>
-                    <h:outputLabel value="#{item.caseCount}"><f:convertNumber/></h:outputLabel>
-                </h:column>
-
-                <h:column>
-                    <f:facet name="header">#{msg.lblRevenueVolume}</f:facet>
-                    <h:outputLabel value="#{item.delimitationAmount}"><f:convertNumber/></h:outputLabel>
-                </h:column>
-
-                <h:column>
-                    <f:facet name="header">#{msg.lblMarkedOfCostVolume}</f:facet>
-                    <h:outputLabel value="#{item.amount}"><f:convertNumber/></h:outputLabel>
-                </h:column>
-            </h:dataTable>
-        </h:panelGroup>
-        
     </div>
 
 </ui:composition>

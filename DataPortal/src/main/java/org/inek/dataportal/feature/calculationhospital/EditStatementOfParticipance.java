@@ -56,12 +56,18 @@ public class EditStatementOfParticipance extends AbstractEditController {
     // <editor-fold defaultstate="collapsed" desc="fields & enums">
     private static final Logger LOGGER = Logger.getLogger("EditStatementOfParticipance");
 
-    @Inject private AccessManager _accessManager;
-    @Inject private SessionController _sessionController;
-    @Inject private CalcSopFacade _calcFacade;
-    @Inject private IcmtUpdater _icmtUpdater;
-    @Inject private ApplicationTools _appTools;
-    @Inject private AccountFacade _accFacade;
+    @Inject
+    private AccessManager _accessManager;
+    @Inject
+    private SessionController _sessionController;
+    @Inject
+    private CalcSopFacade _calcFacade;
+    @Inject
+    private IcmtUpdater _icmtUpdater;
+    @Inject
+    private ApplicationTools _appTools;
+    @Inject
+    private AccountFacade _accFacade;
 
     private StatementOfParticipance _statement;
     private boolean _enableDrgCalc;
@@ -298,9 +304,9 @@ public class EditStatementOfParticipance extends AbstractEditController {
         setEnableInvCalc(false);
         setEnablePsyCalc(false);
         if (_statement.isObligatory()) {
-            setEnableDrgCalc(_statement.isDrgCalc());
+            setEnableDrgCalc(_statement.isDrgCalc() && (isObligatorDrg() || isObligatorPsy()));
             setEnableInvCalc(_statement.isInvCalc() && isObligatorInv());
-            setEnablePsyCalc(_statement.isPsyCalc());
+            setEnablePsyCalc(_statement.isPsyCalc() && (isObligatorDrg() || isObligatorPsy()));
         }
         enableDisableStatementPage();
     }
@@ -311,7 +317,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
     }
 
     public boolean isExplanationPageEnabled() {
-        boolean enable = (!_statement.isObligatory() || _statement.getObligatoryCalcType() > 1 || _statement.isObligatoryFollowingYears() 
+        boolean enable = (!_statement.isObligatory() || _statement.getObligatoryCalcType() > 1 || _statement.isObligatoryFollowingYears()
                 || (isObligatorInv() && !isObligatorDrg() && !isObligatorPsy()))
                 && (_statement.isDrgCalc() || _statement.isPsyCalc());
         return enable;
@@ -347,7 +353,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
         } else if (_statement.isPsyCalc() && isObligatorPsy()) {
             return "Das Krankenhaus wird für den Entgeltbereich PSY im Datenjahr " + _statement.getDataYear() + " eine ";
         }
-        
+
         return "Das Krankenhaus wird eine ";
     }
 
@@ -442,8 +448,8 @@ public class EditStatementOfParticipance extends AbstractEditController {
             if (isObligatorInv()) {
                 _icmtUpdater.saveObligateInvCalc(_statement);
             }
-            if(_statement.isObligatory() && !isObligatorInv() && _statement.isInvCalc()) {
-                _icmtUpdater.saveParticipanceInCalcType(_statement,4);
+            if (_statement.isObligatory() && !isObligatorInv() && _statement.isInvCalc()) {
+                _icmtUpdater.saveParticipanceInCalcType(_statement, 4);
             }
         }
 
@@ -480,7 +486,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
                 return true;
             }
         }
-        if(_statement.isConsultantSendMail()) {
+        if (_statement.isConsultantSendMail()) {
             for (CalcContact cc : _statement.getContacts().stream().filter(c -> c.isConsultant()).collect(Collectors.toList())) {
                 if (!cc.isDrg() && !cc.isInv() && !cc.isObd() && !cc.isPsy() && !cc.isTpg()) {
                     _sessionController.setScript("alert('Für die folgenden Felder ist noch eine Eingabe erforderlich:\\n\\n"
@@ -494,22 +500,13 @@ public class EditStatementOfParticipance extends AbstractEditController {
 
     private void updateObligatorySetting(StatementOfParticipance statement) {
         if (statement.isObligatory()) {
-            List<Object[]> currentData = _calcFacade.retrieveCurrentStatementOfParticipanceData(statement.getIk(), statement.getDataYear());
-            if (currentData.size() == 1) {
-                Object[] obj = currentData.get(0);
-                String domain = (String) obj[0];
-                boolean isDrg = (boolean) obj[5];
-                boolean isPsy = (boolean) obj[6];
-                if (domain.contains("obligatory")) {
-                    statement.setDrgCalc(isDrg);
-                    statement.setPsyCalc(isPsy);
-                }
-                setObligatorDrg(_calcFacade.isObligateInCalcType(statement.getIk(), statement.getDataYear(), 1));
-                setObligatorPsy(_calcFacade.isObligateInCalcType(statement.getIk(), statement.getDataYear(), 3));
-                setObligatorInv(_calcFacade.isObligateInCalcType(statement.getIk(), statement.getDataYear(), 4));                
-            }
+            setObligatorDrg(_calcFacade.isObligateInCalcType(statement.getIk(), statement.getDataYear(), 1));
+            setObligatorPsy(_calcFacade.isObligateInCalcType(statement.getIk(), statement.getDataYear(), 3));
+            setObligatorInv(_calcFacade.isObligateInCalcType(statement.getIk(), statement.getDataYear(), 4));
+
         }
     }
+
     @SuppressWarnings("CyclomaticComplexity")
     private void populateDefaultsForUnreachableFields() {
         // Some input fields can't be reached depending on other fields.
@@ -540,12 +537,6 @@ public class EditStatementOfParticipance extends AbstractEditController {
             if (!_statement.isObdCalc()) {
                 contact.setObd(false);
             }
-        }
-        if (_statement.isObligatory() && _statement.getObligatoryCalcType() < 2 && !_statement.isObligatoryFollowingYears()) {
-            _statement.setMultiyearDrg(0);
-            _statement.setClinicalDistributionModelDrg(-1);
-            _statement.setMultiyearPsy(0);
-            _statement.setClinicalDistributionModelPsy(-1);
         }
         if (_statement.getMultiyearDrg() != 15) {
             _statement.setMultiyearDrgText("");
@@ -641,8 +632,9 @@ public class EditStatementOfParticipance extends AbstractEditController {
             }
         }
 
-        if (statement.isDrgCalc() && (statement.getObligatoryCalcType() == 2 || 
-                statement.isObligatoryFollowingYears() || !statement.isObligatory())) {
+        if (statement.isDrgCalc() && (statement.getObligatoryCalcType() == 2
+                || statement.isObligatoryFollowingYears() || !statement.isObligatory()
+                || (isObligatorInv() && !isObligatorDrg() && !isObligatorPsy()))) {
             checkField(message, statement.getClinicalDistributionModelDrg(), 0, 1,
                     "lblNeedSingleCostAttributionDrg", "sop:clinicalDistributionModelDrg",
                     StatementOfParticipanceTabs.tabStatementOfParticipanceStatements);
@@ -655,8 +647,9 @@ public class EditStatementOfParticipance extends AbstractEditController {
             }
         }
 
-        if (statement.isPsyCalc() && (statement.isObligatoryFollowingYears() || 
-                statement.getObligatoryCalcType() == 2 || !statement.isObligatory())) {
+        if (statement.isPsyCalc() && (statement.isObligatoryFollowingYears()
+                || statement.getObligatoryCalcType() == 2 || !statement.isObligatory()
+                || (isObligatorInv() && !isObligatorDrg() && !isObligatorPsy()))) {
             checkField(message, statement.getClinicalDistributionModelPsy(), 0, 1,
                     "lblNeedSingleCostAttributionPsy", "sop:clinicalDistributionModelPsy",
                     StatementOfParticipanceTabs.tabStatementOfParticipanceStatements);

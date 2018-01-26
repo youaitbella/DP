@@ -23,7 +23,7 @@ import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.feature.admin.facade.ConfigFacade;
 import org.inek.dataportal.helper.StreamHelper;
 import org.inek.dataportal.helper.Utils;
-import org.inek.portallib.util.Helper;
+import org.inek.dataportal.utils.Helper;
 
 /**
  *

@@ -16,10 +16,12 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import org.inek.dataportal.entities.ListFeature;
+import org.inek.dataportal.entities.ListWorkflowStatus;
 import org.inek.dataportal.entities.certification.RemunerationSystem;
 import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
+import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.AbstractDataAccess;
 import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.InfoDataFacade;
@@ -38,6 +40,7 @@ public class ApplicationTools extends AbstractDataAccess{
     @PostConstruct
     private void init(){
         initListFeature();
+        initListWorkflowStatus();
     }
     
     private void initListFeature(){
@@ -49,6 +52,19 @@ public class ApplicationTools extends AbstractDataAccess{
                 listFeature.setName(feature.name());
                 listFeature.setDescription(feature.getDescription());
                 _info.saveListFeature(listFeature);
+            }
+        }
+    }
+
+    private void initListWorkflowStatus(){
+        List<ListWorkflowStatus> listWorkflowStatus = _info.findAllListWorkflowStatus();
+        for (WorkflowStatus workflowStatus : WorkflowStatus.values()) {
+            if (listWorkflowStatus.stream().noneMatch(f -> f.getId() == workflowStatus.getId())){
+                ListWorkflowStatus item = new ListWorkflowStatus();
+                item.setId(workflowStatus.getId());
+                item.setName(workflowStatus.name());
+                item.setDescription(workflowStatus.getDescription());
+                _info.saveListWorkflowStatus(item);
             }
         }
     }

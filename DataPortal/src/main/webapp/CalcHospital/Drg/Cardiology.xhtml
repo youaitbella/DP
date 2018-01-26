@@ -14,23 +14,41 @@
     <inek:LabeledCheckbox label="#{msg.lblHasCardiology}" 
                           styleClassLabel="label40"
                           value="#{editCalcBasicsDrg.calcBasics.cardiology}">
-            <f:ajax event="clientChange"  
-                    render="@form :script"
-                    listener="#{sessionController.hideData(editCalcBasicsDrg.calcBasics.cardiology)}"/>
+        <f:ajax event="clientChange"  
+                render="@form :script"
+                listener="#{sessionController.hideData(editCalcBasicsDrg.calcBasics.cardiology)}"/>
     </inek:LabeledCheckbox>
-
     <div jsf:id="cardiology" jsf:rendered="#{editCalcBasicsDrg.calcBasics.cardiology}">
-        <inek:LabeledText label="#{msg.lblCardiologyRoomCount}" 
-                          styleClassLabel="label40"
-                          value="#{editCalcBasicsDrg.calcBasics.cardiologyRoomCnt}" 
-                          singleLine="true" 
-                          styleClass="inputSmall"/>
+        <h:outputLabel styleClass="label50" value=" "/>
+        <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.calcBasics.dataYear}"/>
+        <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.calcBasics.dataYear - 1}"/>
+        <h:outputLabel styleClass="label15 number" value="Abweichung"/>
 
-        <inek:LabeledText label="#{msg.lblCardiologyCaseCount}" 
-                          styleClassLabel="label40"
-                          value="#{editCalcBasicsDrg.calcBasics.cardiologyCaseCnt}" 
-                          singleLine="true" 
-                          styleClass="inputSmall"/>
+        <br/>
+        <h:outputLabel styleClass="label50" value="#{msg.lblCardiologyRoomCount}"/>
+        <h:inputText styleClass="element15" id="cardiologyRoomCnt" value="#{editCalcBasicsDrg.calcBasics.cardiologyRoomCnt}">
+            <f:ajax event="blur" render="@this lblDiffcardiologyRoomCnt :logout:remaining" />
+            <f:convertNumber/>
+        </h:inputText>        
+        <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.priorCalcBasics.cardiologyRoomCnt}">
+            <f:convertNumber/>
+        </h:outputLabel>
+        <h:outputLabel styleClass="label15 number" id="lblDiffcardiologyRoomCnt" value="#{editCalcBasicsDrg.calcBasics.cardiologyRoomCnt - editCalcBasicsDrg.priorCalcBasics.cardiologyRoomCnt}">
+            <f:convertNumber/>
+        </h:outputLabel>
+        
+        <br/>
+        <h:outputLabel styleClass="label50" value="#{msg.lblCardiologyCaseCount}"/>
+        <h:inputText styleClass="element15" id="cardiologyCaseCnt" value="#{editCalcBasicsDrg.calcBasics.cardiologyCaseCnt}">
+            <f:ajax event="blur" render="@this lblDiffcardiologyCaseCnt :logout:remaining" />
+            <f:convertNumber/>
+        </h:inputText>        
+        <h:outputLabel styleClass="label15 number" value="#{editCalcBasicsDrg.priorCalcBasics.cardiologyCaseCnt}">
+            <f:convertNumber/>
+        </h:outputLabel>
+        <h:outputLabel styleClass="label15 number" id="lblDiffcardiologyCaseCnt" value="#{editCalcBasicsDrg.calcBasics.cardiologyCaseCnt - editCalcBasicsDrg.priorCalcBasics.cardiologyCaseCnt}">
+            <f:convertNumber/>
+        </h:outputLabel>        
     </div>
 
 </ui:composition>

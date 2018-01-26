@@ -13,6 +13,8 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.groups.Default;
 import org.inek.dataportal.entities.calc.drg.DrgCalcBasics;
+import org.inek.dataportal.entities.calc.drg.KGLListEndoscopyAmbulant;
+import org.inek.dataportal.entities.calc.drg.KGLListEndoscopyDifferential;
 import org.inek.dataportal.entities.calc.drg.KGLListKstTop;
 import org.inek.dataportal.entities.calc.drg.KglOpAn;
 import org.inek.dataportal.helper.Utils;
@@ -137,6 +139,17 @@ public class CalcBasicsDrgValidator {
 
     //<editor-fold defaultstate="collapsed" desc="checkEndosoppy">
     private static void checkEndosoppy(DrgCalcBasics calcBasics, MessageContainer message) {
+        for (KGLListEndoscopyDifferential ediff : calcBasics.getEndoscopyDifferentials()) {
+            if(!ediff.getDivision().equals("") && ediff.getActivityKeyComment().equals("")) {
+                applyMessageValues(message, "Bitte geben Sie für jeden Endoskopischen Bereich eine Erläuterung an", "TopicCalcEndoscopy", "");
+            }
+        }
+        
+        for (KGLListEndoscopyAmbulant ea : calcBasics.getEndoscopyAmbulant()) {
+            if((ea.getServiceKey() == 3 || ea.getServiceKey() == 4) && ea.getMiscText().equals("")) {
+                applyMessageValues(message, "Bitte geben Sie für den Leistungsschlüssel eine Erläuterung an", "TopicCalcEndoscopy", "");
+            }
+        }
     }
     //</editor-fold>
 

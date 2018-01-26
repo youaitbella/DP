@@ -71,7 +71,7 @@
             #{editStatementOfParticipance.enableDisableStatementPage()}            
             <div jsf:rendered="#{!editStatementOfParticipance.statement.obligatoryFollowingYears
                                  and editStatementOfParticipance.statement.obligatory 
-                                 and (editStatementOfParticipance.obligatorDrg or editStatementOfParticipance.obligatorPsy or editStatementOfParticipance.readOnly)}">
+                                 and (editStatementOfParticipance.obligatorDrg or editStatementOfParticipance.obligatorPsy)}">
                 <h:outputText value="#{editStatementOfParticipance.getObligatoryMessage()}"/>
                 <h:selectOneMenu id="calcTypeDrg"
                                  readonly="#{editStatementOfParticipance.readOnly}"

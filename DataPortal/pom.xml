@@ -15,16 +15,11 @@
     <packaging>war</packaging>
 
     <dependencies>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>PortalResources</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
+        <!--dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>PortalLib</artifactId>
             <version>${project.version}</version>
-        </dependency>
+        </dependency-->
         
         <dependency>
             <groupId>org.eclipse.persistence</groupId>

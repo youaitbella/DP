@@ -215,7 +215,7 @@ public class CalcBasicsStaticData {
     public List<SelectItem> getEndoscopyAmbulantTypes() {
         List<SelectItem> items = new ArrayList<>();
         items.add(new SelectItem(-1, "Bitte wählen..."));
-        items.add(new SelectItem(1, "DGVS"));
+        //items.add(new SelectItem(1, "DGVS"));
         items.add(new SelectItem(2, "Leistungszeit"));
         items.add(new SelectItem(3, "Punktesystem"));
         items.add(new SelectItem(4, "Sonstige"));
