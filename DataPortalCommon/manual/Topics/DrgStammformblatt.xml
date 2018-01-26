@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Stammformblatt</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Stammformblatt</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Damit das InEK Sie über den Status Ihres Vorschlags informieren kann, ist die Angabe Ihrer Adresse erforderlich; daneben aber auch eine Benennung, unter der Sie Ihren Vorschlag später in der Liste Ihrer Vorschläge wieder finden, sowie die Angabe der Vorschlagskategorie. Diese Eingaben erfolgen in der Registerkarte </text><text styleclass="Normal" style="font-style:italic;" translate="true">Stammformblatt</text><text styleclass="Normal" translate="true">.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal" style="text-align:center;"><image src="DRGVVStammformblatt.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Stammformblatt des DRG-Vorschlagsverfahrens</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Im Feld Benennung geben Sie einen wahlfreien Namen ein. Dieser Name dient der Organisation Ihrer Vorschläge. Dies ist der Name, der in der Liste Ihrer Vorschläge auftaucht.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Im Feld Kategorie können Sie unter den im Folgenden erläuterten Einträgen wählen:</text></para>
+    <para styleclass="Normal"></para>
+    <list id="1" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Weiterentwicklung Leistungsbezeichner</text><br/><text styleclass="Bullet Text" translate="true">Es handelt sich um einen Vorschlag zur Weiterentwicklung der Leistungsbezeichner (insbesondere zu den ICD- und OPS-Systematiken).</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Vorschlag zur Kalkulation DRG</text><br/><text styleclass="Bullet Text" translate="true">Der Vorschlag betrifft die Kalkulation</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Vorschlag zu den Kodierrichtlinien Psychiatrie und Psychosomatik</text><br/><text styleclass="Bullet Text" translate="true">Ein solcher Vorschlag dient der Weiterentwicklung der DKR-Psych.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Vorschlag zur Systementwicklung DRG</text><br/><text styleclass="Bullet Text" translate="true">Der Vorschlag betrifft die Systementwicklung DRG, beispielsweise Kodeverschiebungen oder andere Kriterien zur Differenzierung der DRGs.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Vorschlag zum Zusatzentgelt</text><br/><text styleclass="Bullet Text" translate="true">Dieser Vorschlag dient der Weiterentwicklung der Zusatzentgelte.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Sonstiger Vorschlag</text><br/><text styleclass="Bullet Text" translate="true">In diese Kategorie fallen Vorschläge, die von keiner der oben genannten Kategorien abgebildet werden.</text></li>
+    </list>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die detaillierte Beschreibung befindet sich in der Verfahrensbeschreibung des DRG-Vorschlagsverfahrens.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Abhängig von der Kategorie stehen Ihnen zusätzlich die Registerkarte </text><text styleclass="Normal" style="font-style:italic;" translate="true">Kodes</text><text styleclass="Normal" translate="true"> zur Verfügung, Dies ist der Fall bei einem Vorschlag zur Weiterentwicklung Leistungsbezeichner sowie einem Vorschlag zur Systementwicklung DRG.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Abgesehen von </text><text styleclass="Normal" style="font-style:italic;" translate="true">Publizieren</text><text styleclass="Normal" translate="true">, entsprechen die übrigen Felder des Stammformblatts denen der Stammdaten. Sie werden initial anhand der Stammdaten befüllt, können jedoch an dieser Stelle abgeändert werden. Dies ist dann angebracht, wenn der Übermittler des Vorschlags von der vorschlagenden Organisation bzw. Person abweichend ist.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Mittels </text><text styleclass="Button" translate="true">[ Reinitialisieren ]</text><text styleclass="Normal" translate="true"> können Sie jederzeit - nach separater Bestätigung - die Daten aus dem Stammformblatt mit denen aus Ihren Stammdaten überschreiben. Dies ist insbesondere im Rahmen einer Kooperation interessant. So können beispielsweise Daten dezentral erfasst und zentral die Stammdaten aktualisiert werden.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Das G-DRG-Vorschlagsverfahren ist ein transparentes Verfahren über welches das InEK regelmäßig berichtet. Soll Ihr Vorschlag im Rahmen dieser Veröffentlichung nicht publiziert werden, entfernen Sie bitte die entsprechende Markierung auf dem Stammformblatt.</text></para>
+    <para styleclass="Hinweis"><text styleclass="Hinweis" translate="true">In diesem Stammformblatt ist die Telefonnummer eine Pflichtangabe. Da die Telefonnummer innerhalb des </text><var styleclass="Hinweis">&lt;%TITLE%&gt;s</var><text styleclass="Hinweis" translate="true"> nicht in allen Funktionen benötigt wird, ist sie in den Anwender-Stammdaten nicht als Pflichtfeld definiert. Um sie nicht jedes mal erfassen zu müssen, wird empfohlen, diese in den Anwender-Stammdaten zu hinterlegen.</text></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

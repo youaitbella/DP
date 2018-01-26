@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Allgemeine Bedienung</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">DRG-Vorschlagsverfahren</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Das DRG-Vorschlagsverfahren dient dazu, externen Sachverstand in die Weiterentwicklung des DRG Systems einzubinden. Über dieses Formular können alle interessierten Personen Vorschläge in einen strukturierten Dialog zur Weiterentwicklung einbringen. Sie können Ihre Vorschläge weitgehend in Form von Freitexten einbringen. Dort, wo Kodes zur genaueren Beschreibung sinnvoll sind, steht Ihnen eine Suchfunktion zur Verfügung. Alternativ können Sie Kodes aber auch in Form von Freitext umschreiben.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Das DRG-Vorschlagsverfahren steht Ihnen zur Verfügung, wenn Sie die entsprechende Funktion in den Stammdaten gewählt haben.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Nach Ihrer Anmeldung zeigt Ihnen das </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> die Übersicht, in der alle gewählten Funktionen dargestellt werden. Startpunkt, einen DRG-Vorschlag zu erfassen ist die Schaltfläche (Button) </text><text styleclass="Button" translate="true">[ Neuer DRG-Vorschlag ]</text><text styleclass="Normal" translate="true">. Damit gelangen Sie sofort in die Erfassung, wie sie in den folgenden Abschnitten beschrieben ist. Auch wenn Sie Ihre Erfassung nach einer Unterbrechung fortsetzen, gelangen Sie in den gleichen Dialog.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Haben Sie von der Übersicht in den Bereich des DRG-Vorschlagsverfahrens gewechselt, erhalten Sie nicht nur eine Liste der noch nicht vollständig erfassten, sondern auch die der bereits dem InEK bereitgestellten Vorschläge. Auch von hier aus gelangen Sie mittels </text><text styleclass="Button" translate="true">[ neuer DRG-Vorschlag ]</text><text styleclass="Normal" translate="true"> in die Erfassung eines Vorschlags.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal" style="text-align:center;"><image src="UserData.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Stammformblatt DRG-Vorschlagsverfahren</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die allgemeine Bedienung des Stammformblatts sowie der Schaltflächen zum Speichern, senden etc.. finden Sie in </text><link displaytype="text" defaultstyle="true" type="topiclink" href="Userdata" styleclass="Normal" translate="true">Stammformblatt</link><text styleclass="Normal" translate="true"> beschrieben.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Benennung ist der Name, unter dem der Vorschlag in Ihrer Liste und später beim InEK geführt wird.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">In Kategorie wählen Sie die Art Ihres Vorschlags aus, z.B. Vorschlag zur Systementwicklung DRG, Vorschlag Zusatzentgelt etc. aus. Die möglichen Kategorien entnehmen Sie bitte der Auswahlbox.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">In Bemerkungen können Sie wahlfreie zusätzliche Informationen erfassen. Bei Bearbeitung durch mehrere Personen können Sie dieses Feld beispielsweise für die Abstimmung untereinander nutzen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Heading2"><text styleclass="Heading2" translate="true">Kooperation</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sofern Sie die Funktion Kooperation nutzen und Ihrem Kooperationspartner entsprechende Rechte eingeräumt oder von diesem erhalten haben, können zusätzliche oder geäderte Schaltflächen(Buttons) sichtbar sein:</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Existiert ein Supervisor, der für Sie Ihre Daten an das InEK sendet, so wird die Schaltfläche </text><text styleclass="Button" translate="true">[ ans InEK senden ]</text><text styleclass="Normal" translate="true"> ersetzt durch </text><text styleclass="Button" translate="true">[ zur Freigabe an Partner ]</text><text styleclass="Normal" translate="true">. Sobald Sie Ihre Daten erfasst haben, können Sie diese damit zu Freigabe durch Ihrem Partner markieren. Der Status des Vorschlags ändert sich von &quot;Neu / in Erfassung&quot; (</text><image src="edit.png" scale="100.00%" styleclass="Image Caption"></image><text styleclass="Normal" translate="true">) auf &quot;Freigabe erforderlich&quot; (</text><image src="timed.png" scale="100.00%" styleclass="Image Caption"></image><text styleclass="Normal" translate="true">). Bei Ihrem Partner ist der Vorschlag nun mit diesem Status sichtbar.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sind Sie umgekehrt für Ihren Kooperationspartner als Supervisor tätig, so sehen Sie neben </text><text styleclass="Button" translate="true">[ ans InEK senden ]</text><text styleclass="Normal" translate="true"> eine weitere Schaltfläche </text><text styleclass="Button" translate="true">[ Korrektur anfordern ]</text><text styleclass="Normal" translate="true">. Damit können Sie einen Vorschlag an der Ersteller zurück verweisen. Da dies entgegen dem normalen Arbeitsfluss erfolgt, erhält Ihr Partner eine Nachricht. Diese können Sie um eigene Informationen ergänzen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="DrgProposalMessage.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Korrektur mit optionaler Nachricht anfordern.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Ihr Partner kann diese Nachricht in der Funktion &quot;</text><link displaytype="text" defaultstyle="true" type="topiclink" href="Cooperation" styleclass="Normal" translate="true">Kooperation</link><text styleclass="Normal" translate="true">&quot; lesen. Außerdem erhält er einen im Menü sowie in der Liste Kooperationsparter Hinweise auf ungelesene Nachrichten. Über die Kooperation können Sie auch unabhängig von solch einem Rückverweis beliebige Nachrichten senden.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Im </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> legt der Ersteller (Besitzer) der Daten fest, wer sonst auf die Daten sehen darf. Des Weiteren darf nur der Besitzer Daten löschen. Es ist jedoch möglich, den Besitz der Daten zu übernehmen. Dazu muss der aktuelle Besitzer seinem Kooperationspartner das Recht zur Besitzübernahme (siehe </text><link displaytype="text" defaultstyle="true" type="topiclink" href="Cooperation" styleclass="Normal" translate="true">Kooperation</link><text styleclass="Normal" translate="true">) eingeräumt haben. Hat Ihr Partner Ihnen dieses Recht eingeräumt und Sie öffnen einen Vorschlag dieses Partners, so wird die Schaltfläche </text><text styleclass="Button" translate="true">[ Besitz übernehmen ]</text><text styleclass="Normal" translate="true"> sichtbar. Hiermit können Sie den Besitz an den Daten übernehmen. Dies wird jedoch erst nach dem Speichern der Daten wirksam!</text></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

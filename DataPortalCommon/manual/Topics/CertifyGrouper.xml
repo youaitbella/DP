@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Grouper-Zertifizierung</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Grouper-Zertifizierung</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Dieser Funktionsbereich dient der Grouper-Zertifizierung, deren Ablauf im Zertifizierungsvertrag skizziert ist. Dieser Bereich ist nur für Grouperhersteller zugänglich.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Grouper-Zertifizierung setzt einen entsprechenden Zertifizierungsvertrag voraus. In Abhängigkeit davon, schaltet das InEK Ihnen als Hersteller die betreffenden Systeme frei. Über den Beginn Ihrer Zertifizierung werden Sie per E-Mail informiert.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Heading2"><text styleclass="Heading2" translate="true">Download</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Im ersten Schrit wählen Sie über die Kombobox </text><text styleclass="Normal" style="font-style:italic;" translate="true">System</text><text styleclass="Normal" translate="true"> dasjenige aus, welches Sie aktuell bearbeiten.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="cert-manufactorer-view.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Zertifizierung mit ausgewähtem System</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Unter Download können Sie zum einen die elektronische Spezifikation (Spec-Handbuch), zum anderen abhängig vom aktuellen Prüfstand die Test- oder Zertidaten herunterladen. Was Test- und Zertidaten sind sowie weitere Begriffe bedeuten finden Sie in Vertrag oder Spec-Handbuch beschrieben.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Aus Sicherheitsgründen ist das Spec-Handbuch verschlüsselt. Ihren Schlüssel erfragen Sie bitte wie in der genannten E-Mail beschrieben telefonisch beim InEK. </text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Heading2"><text styleclass="Heading2" translate="true">Upload</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Nach Abfrage des Kennworts steht Ihnen ein Button zum Upload Ihrer Ergebnisse zur Verfügung.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="cert-manufactorer-view-upload.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Zertifizierung mit Upload für Testdaten Versuch 1</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Der Upload-Button zeigt Ihnen in welcher Phase der Zertifizierung (Testdaten, Zertidaten sowie Versuch Nr.) Sie sich gerade befinden. Nach Prüfung Ihrer Daten werden Sie vom InEK über das jeweilige Ergebnis informiert.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Heading2"><text styleclass="Heading2" translate="true">Sonstiges</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><table styleclass="Default" rowcount="2" colcount="2">
+      <tr style="vertical-align:top">
+        <td style="width:160px;">
+          <list id="166" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+            <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Groupername</text></li>
+          </list>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Tragen Sie hier den Namen Ihres Groupers entsprechend der vertraglichen Regeln ein. Ohne diese Angabe ist eine Veröffentlichung auf der Homepage des InEKs nicht möglich.</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:160px;">
+          <list id="166" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+            <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Kopie-Empfänger</text></li>
+          </list>
+        </td>
+        <td>
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Soll neben Ihnen eine oder mehrere weitere Personen informiert werden, tragen Sie an dieser Stelle die E-Mail-Adresse ein. Mehrere Adressen trennen Sie mittels Semikolon.</text></para>
+        </td>
+      </tr>
+    </table></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="schlappajo" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Art/Anzahl Patienten</title>
+  <keywords>
+    <keyword translate="true">Einbeziehungsmerkmal</keyword>
+  </keywords>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Art/Anzahl Patienten</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Unter dem Reiter Art/Anzahl Patienten haben Sie die Möglichkeit, Angaben zu den besonderen Merkmalen zur Einbeziehung von Patienten, zur Zuweisungsberechtigung der Patienten zu einem Modellvorhaben und zur vereinbarten Anzahl der Patienten zu machen. Nicht relevante Merkmale werden leer übermittelt. Pflichtfelder werden auf allen Reitern gelb hinterlegt und mit einer Hinweismeldung gekennzeichnet, falls diese nicht befüllt sind.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal" style="text-align:center;"><image src="MvhArtAnzPat.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Normal" style="text-align:center;"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Art der Patienten</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Heading2"><text styleclass="Heading2" translate="true">Administrative Daten</text></para>
+    <list id="5" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Das Feld Vertragskennzeichen wird durch das InEK nach abgeschlossener Bearbeitung des Modellvorhabens befüllt. Solange das InEK noch kein Vertragskennzeichen erteilt hat, erhalten Sie einen entsprechenden Hinweis.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Im Feld Benennung können Sie einen Namen oder eine Kurzbeschreibung für das aktuelle Modellvorhaben eintragen. Diese Benennung dient ausschließlich der Anzeige und Identifikation in der Übersichtsliste. Auch wenn Sie vielleicht nur ein Modellvorhaben bearbeiten, sollten sie dennoch eine aussagekräftige Benennung nutzen. Möglicherweise ist Ihr Modellvorhaben nur eines von vielen Modellvorhaben, die Ihr Kooperationspartner in seiner Liste sieht.</text></li>
+    </list>
+    <para styleclass="Normal"></para>
+    <para styleclass="Heading2"><text styleclass="Heading2" translate="true">Art der Patienten</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">In der Rubrik Art der Patienten werden Merkmale abgefragt, die für die Einbeziehung von Patienten in Modellvorhaben von Bedeutung sein können.</text></para>
+    <para styleclass="Normal"></para>
+    <list id="6" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Im Feld Alter in Jahren (von - bis) wird ein entsprechender Ganzjahreswert (keine Dezimalwerte, nur eine Zahl pro Feld) erwartet.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Sofern das vorliegende Modellvorhaben für ein bestimmtes Geschlecht relevant ist, so wird dies in der Auswahl entsprechend gewählt. Andernfalls wird dieses Feld auf dem Standardwert </text><text styleclass="Bullet Text" style="font-style:italic;" translate="true">Kein Einbeziehungsmerkmal</text><text styleclass="Bullet Text" translate="true"> belassen.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Falls sonstige persönliche Merkmale zur Einbeziehung von Patienten von Relevanz sind, erläutern Sie diese bitte kurz im Feld Sonstige persönliche Merkmale.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Im Feld Regionale Merkmale wählen Sie bitte aus, ob das Modellvorhaben bundesweit gilt oder ob es auf eine bestimmte Region bzw. auf ein oder mehrere Bundesländer beschränkt ist. Sofern die Auswahl Sonstige gewählt wird, ist diese in dem darunterliegenden Textfeld zu spezifizieren. Bei der Auswahl Bundesland gilt das vorliegende Modellvorhaben für das Bundesland der Vertragspartner. Die Auswahl Deutschland gilt übergreifend für ganz Deutschland und ist somit nicht näher spezifiziert.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Sofern medizinische Merkmale zur Einbeziehung von Patienten entscheidend sind, ist eine entsprechende Auswahl zu treffen und im darunterliegenden Textfeld konkret zu spezifizieren. Andernfalls wird dieses Feld leer übermittelt.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Bei der Auswahl der Zugehörigkeit zu einer Krankenversicherung können Sie festlegen, ob das vorliegende Modellvorhaben nur für bestimmte oder alle Krankenkassen gilt. Liegt eine Eingrenzung vor, so können Sie hier den Punkt </text><text styleclass="Bullet Text" style="font-style:italic;" translate="true">auf Seite Struktur benannten Kostenträger</text><text styleclass="Bullet Text" translate="true"> wählen. Dadurch werden die von Ihnen auf der Seite Struktur eingepflegten Kostenträger gewählt.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Unter sonstige Merkmale können Sie bislang nicht aufgeführte patientenbezogene Merkmale benennen, die für das Modellvorhaben berücksichtigt werden sollen.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Ist die Zustimmung des Versicherten zur Behandlung im Rahmen des Modellvorhabens erforderlich, so kennzeichnen Sie dies mit der Auswahl des entsprechenden Ankreuzfeldes. Andernfalls lassen Sie dieses leer.</text></li>
+    </list>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal" style="text-align:center;"><image src="MvhZuwBerechtigung.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Normal" style="text-align:center;"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Zuweisungsberechtigung Modellvorhaben</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Heading2"><text styleclass="Heading2" translate="true">Zuweisungsberechtigung zum Modellvorhaben</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Bitte geben Sie in der Rubrik Zuweisungsberechtigung zum Modellvorhaben an, ob die Zuweisungsberechtigung von Patienten zum Modellvorhaben bestimmten behandelnden Institutionen vorbehalten ist.</text></para>
+    <para styleclass="Normal"></para>
+    <list id="7" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Die Kombobox der niedergelassenen Ärzte bietet Ihnen vier verschiedene Auswahlmöglichkeiten. Dabei sind die Punkte </text><text styleclass="Bullet Text" style="font-style:italic;" translate="true">nur Fachärzte</text><text styleclass="Bullet Text" translate="true"> sowie </text><text styleclass="Bullet Text" style="font-style:italic;" translate="true">sonstige bestimmte Ärzte</text><text styleclass="Bullet Text" translate="true"> Pflichtfelder und müssen im darunterliegenden Textfeld konkret spezifiziert werden.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Die Kombobox psychiatrische Institutsambulanz bietet Ihnen fünf Auswahlmöglichkeiten. Die Auswahl nur bestimmte PIA ist ein Pflichtfeld und muss im darunterliegenden Textfeld konkret spezifiziert werden.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Mit der Kombobox Krankenhaus können Sie das für dieses Modellvorhaben relevante Krankenhaus auswählen. Sofern Sie die Auswahl nur Fachkrankenhäuser oder sonstige bestimmte Krankenhäuser treffen, so ist diese Auswahl konkret zu spezifizieren.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Unter Selbsteinweisung können Sie wählen, ob dies grundsätzlich, nur in Notfällen oder in keinem Fall im vorliegenden Modellvorhaben möglich ist. Alle weiteren Einweiser können Sie im darunterliegenden Textfeld konkret spezifizieren.</text></li>
+    </list>
+    <para styleclass="Bullet Text"></para>
+    <para styleclass="Bullet Text" style="text-align:center;"><image src="MvhVerAnzPat.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Vereinbarte Anzahl Patienten</text></para>
+    <para styleclass="Image Caption"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Bitte geben Sie in der Rubrik Vereinbarte Anzahl der Patienten an, ob vertraglich eine Patientenanzahl festgelegt wurde.</text></para>
+    <para styleclass="Normal"></para>
+    <list id="8" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Fügen Sie zunächst über die Schaltfläche </text><text styleclass="Button" translate="true">[Vereinbarung zufügen]</text><text styleclass="Bullet Text" translate="true"> einen leeren Datensatz hinzu um diesen anschließend zu befüllen. Bei Bedarf können Sie über die gleiche Schaltfläche weitere Datensätze hinzufügen.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">In den Feldern von und bis wird jeweils der Gültigkeitszeitraum für eine bestimmte Anzahl von Patienten eingetragen. Das Datum kann in Kurzform (z.B. 1.1.14) angegeben werden. </text><text styleclass="Normal" translate="true">Dieses wird automatisch umgesetzt (01.01.2014).</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Das Feld Anzahl Patienten erwartet einen Ganzzahlwert und beschreibt die Anzahl der Patienten für den gewählten Gültigkeitszeitraum. Dezimalwerte dürfen an dieser Stelle nicht eingetragen werden.</text></li>
+    </list>
+    <list id="9" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Um Datensätze zu löschen, betätigen Sie das Papierkorbsymbol vor dem jeweiligen Eintrag.</text></li>
+    </list>
+    <para styleclass="Normal"></para>
+    <para styleclass="Heading2"><text styleclass="Heading2" translate="true">Allgemeine Schaltflächen</text></para>
+    <list id="8" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Über die Schaltfläche </text><text styleclass="Button" translate="true">[Speichern]</text><text styleclass="Bullet Text" translate="true"> können Sie Ihre Eingabe zwischenspeichern und zu einem späteren Zeitpunkt fortführen.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Die Schaltfläche </text><text styleclass="Button" translate="true">[ans InEK senden]</text><text styleclass="Bullet Text" translate="true"> schließt die Eingabe Ihres Modellvorhabens ab und übermittelt die Angaben ans InEK. Eine Bearbeitung ist nachträglich nur nach Rücksprache mit dem InEK möglich.</text></li>
+    </list>
+  </body>
+</topic>

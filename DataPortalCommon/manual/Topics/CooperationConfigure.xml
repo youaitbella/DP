@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Kooperation konfigurieren</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Kooperation konfigurieren</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Haben Sie eine Kooperation bestätigt, so sind die Berechtigungen des Partners zu konfigurieren. Die Funktionen des </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> stehen jedem offen. Entsprechend gibt es keine hierarchische Benutzerverwaltung &quot;von oben&quot;. Vielmehr legen Sie selber fest, welcher Anwender mit Ihnen zusammenarbeiten und welche Daten dieser sehen oder ändern darf. Dies können Sie für jeden Kooperationspartner, Funktionsbereich und - im Falle von NUB - je IK individuell festlegen. </text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Da die Kooperation im Zusammenhang mit </text><text styleclass="Normal" style="font-style:italic;" translate="true">Neuen Untersuchungs- und Behandlungsmethoden</text><text styleclass="Normal" translate="true"> je IK festgelegt wird, ist hierfür ein eigener Funktionsbereich (Registerkarte) vorgesehen. Die Registerkarte </text><text styleclass="Normal" style="font-style:italic;" translate="true">NUB</text><text styleclass="Normal" translate="true"> ist nur vorhanden, sofern Sie in den Stammdaten die Funktion </text><text styleclass="Normal" style="font-style:italic;" translate="true">NUB</text><text styleclass="Normal" translate="true"> freigeschaltet haben.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="CooperationConfigureNub.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Konfiguration Zugriffsrechte für Kooperation am Beispiel &quot;Neue Untersuchungs- und Behandlungsmethoden&quot; (NUB)</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Es werden alle Institutskennzeichen (IK) gelistet, für die Sie sich registriert haben. Dahinter befindet sich eine Auswahlbox mit den möglichen Optionen. </text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Kooperation für die übrigen Funktionen hat keinen IK-Bezug. Von daher kann für den gewählten Kooperationspartner je Funktion nur eine Rechtekombination gewählt werden. Dies ist platzsparend gemeinsam auf der Registerkarte </text><text styleclass="Normal" style="font-style:italic;" translate="true">Sonstige Funktionen</text><text styleclass="Normal" translate="true"> untergebracht.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="CooperationConfigure.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Konfiguration Zugriffsrechte für Sonstige Funktionen</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">In diesem Dialog werden die möglichen Funktionen (entsprechend Ihren Stammdaten) gelistet. Dahinter befindet sich jeweils eine Auswahlbox mit den möglichen Rechtekombinationen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Beispiel: </text><text styleclass="Normal" style="font-style:italic;" translate="true">Partner darf Daten sehen, ändern, Besitz übernehmen, als Supervisor ans InEK senden</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">In diesem Beispiel weisen Sie Ihren Partner die maximal möglichen Rechte zu. Die einzelnen Rechte sind wie folgt</text></para>
+    <para styleclass="Normal"></para>
+    <list id="1" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Kein Zugriff</text><br/><text styleclass="Bullet Text" translate="true">Ihr Partner hat keinen Zugriff auf Ihre Daten.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Partner darf Daten ...</text><br/><text styleclass="Bullet Text" translate="true">Sobald Sie Daten gespeichert haben, kann der Partner entsprechend seiner Recht auf diese zugreifen.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Partner darf fertig erfasste Daten...</text><br/><text styleclass="Bullet Text" translate="true">Erst wenn Sie die Daten komplett erfasst haben und dies durch &quot;zur Freigabe durch Partner&quot; oder &quot;ans InEK senden&quot; manifestieren, kann der Partner entsprechend seiner Rechte auf die Daten zugreifen.</text><br/><text styleclass="Bullet Text" translate="true">Dies kann beispielsweise in Kombination mit dem Recht </text><text styleclass="Bullet Text" style="font-style:italic;" translate="true">Supervisor</text><text styleclass="Bullet Text" translate="true"> genutzt werden: Sie erfassen die Daten ohne Zuschauer und leiten diese erst nach Fertigstellung an den Partner.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Partner darf ans InEK gesendete Daten...</text><br/><text styleclass="Bullet Text" translate="true">Ihre Daten sind für den Partner erst sichtbar, wenn diese ans InEK gesendet wurden.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">sehen</text><br/><text styleclass="Bullet Text" translate="true">Leserecht. Der Partner darf die Daten gemäß obigen Einschränkungen sehen.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">ändern</text><br/><text styleclass="Bullet Text" translate="true">Schreibrecht. Der Partner darf die Daten gemäß obigen Einschränkungen ändern. Zum Ändern muss der Partner die Daten selbstverständlich sehen können. Insofern ist dies nur in Kombination mit dem Leserecht möglich. Entsprechendes gilt auch für die weitere Rechte.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Besitz übernehmen</text><br/><text styleclass="Bullet Text" translate="true">Eigentumsrecht. Der Partner kann die Daten in seinen Besitz übernehmen. Nur der Besitzer kann Daten löschen und die kooperativen Rechte vergeben. Dies können Sie beispielsweise nutzen, um Daten dezentral zu erfassen, dann aber bei einem Anwender zu bündeln.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">als Supervisor an das InEK senden</text><br/><text styleclass="Bullet Text" translate="true">Prüfrecht. Der Partner darf Ihre Daten an das InEK senden. Damit verzichten Sie selbst auf die Möglichkeit, die Daten an das InEK senden zu können. Insofern ist es für den Partner auch Verpflichtung, die Daten an das InEK zu senden. Auf diese Art und Weise können Sie nicht nur eine Prüfinstanz einbauen, sondern auch eine dezentrale Erfassung mit zentraler Weiterleitung an das InEK einrichten. Im Rahmen von NUB kann ein solches Verhalten mittels </text><link displaytype="text" defaultstyle="true" type="topiclink" href="IKSupervisor" styleclass="Bullet Text" translate="true">IK-Supervisor</link><text styleclass="Bullet Text" translate="true"> erzwungen werden.</text></li>
+    </list>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">In der genannten Auswahlbox finden Sie die zulässigen Rechtekombinationen gelistet.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

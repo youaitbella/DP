@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Formularbasierte Datenerfassung</title>
+  <keywords>
+    <keyword translate="true">Formularbasierte Datenerfassung</keyword>
+  </keywords>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Formularbasierte Datenerfassung</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Neben Stammdaten, Datenübermittlung nach §21 KHEntgG via DropBox und weiteren Funktionen, dient das </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> auch der Erfassung diverser Daten mittels Formular (Erfassungsmaske). Hierzu gehören</text></para>
+    <para styleclass="Normal"></para>
+    <list id="3" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">NUB-Anfragen</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">DRG-Vorschlagsverfahren</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">PEPP-Vorschlagsverfahren</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Modellvorhaben</text></li>
+    </list>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Der Verarbeitungsprozess dieser Funktionen innerhalb des </text><var styleclass="Normal">&lt;%TITLE%&gt;s</var><text styleclass="Normal" translate="true"> &#160;ist vergleichbar.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Betrachtet man nur die Kernaufgaben, so ist dieser Prozess recht kurz:</text></para>
+    <para styleclass="Normal"></para>
+    <list id="4" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Anlegen eines neuen Datensatzes, Ausfüllen der Felder und Senden an das InEK</text></li>
+    </list>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Manchmal muss die Arbeit &#160;unterbrochen werden, z.B. um Inhalte abzustimmen. So könnten mehrere Datensätze auf weitere Bearbeitung warten. Daraus ergibt sich ein erweiterter Ablauf, der auch Sprünge (vor und zurück) umfassen kann. Die einzelnen Schritte lassen sich so darstellen:</text></para>
+    <para styleclass="Normal"></para>
+    <list id="5" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Anlegen eines neuen Datensatzes</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Jederzeit Speichern bei Bedarf</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Bei Bedarf Unterbrechung der Arbeit</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Bei Bedarf Löschung eines Datensatzes</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Auswahl eines vorhandenen Datensatzes zu weiteren Bearbeitung</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Senden eines Datensatzes an das InEK</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Sichtung bereits gesendeter Datensätze</text></li>
+    </list>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Soweit Sie mit einer anderen Person bei der Bearbeitung von Daten kooperieren, können weitere Schritte hinzukommen, z. B. Anforderung der Freigabe (Senden ans InEK durch Partner).</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Da diese Aufgaben bei den angeführten Funktionsbereichen direkt vergleichbar sind, werden diese in den folgenden Abschnitten gemeinsam beschrieben.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

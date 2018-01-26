@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="CooperationEdit.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <ui:define name="editContent">
+
+        <h2>#{msg.lblCooperation} #{msg.tabCooperationOther}</h2>
+        <div class="marginTop">
+            <h:outputLabel value="#{msg.lblFunction}" styleClass="label25"/>
+            <h:outputLabel value="#{msg.lblCooperativeRight}" styleClass="label"/>
+        </div>
+
+        <c:forEach items="#{editCooperation.cooperationInfos}" var="cooperationInfo">
+            <div class="marginTop">
+                <h:outputLabel value="#{cooperationInfo.feature.description}" styleClass="label25"/>
+                <h:selectOneMenu value="#{cooperationInfo.right.cooperativeRight}" >
+                    <f:selectItems value="#{cooperationInfo.selectItems}"/>
+                    <f:ajax event="blur" render="@this :logout:remaining"/>
+                </h:selectOneMenu>
+
+            </div>
+        </c:forEach>
+
+        <div class="toolBar">
+            <h:commandLink styleClass="bigButton" action="#{editCooperation.save}" value="#{msg.btnSave}" immediate="false" />
+        </div>
+
+    </ui:define>
+</ui:composition>

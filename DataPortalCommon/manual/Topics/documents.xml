@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Dokumente</title>
+  <keywords>
+    <keyword translate="true">Dokumente</keyword>
+  </keywords>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Dokumente</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Neben Datenlieferungen sowie dem strukturierten Dialog mittels Formulare, kann es immer wieder erforderlich sein, andere Dokumente zu übermitteln. Technisch gesehen ist eine Übermittlung per E-Mail eine gute Wahl. Jedoch besteht hier das Problem vom massivem &quot;Spam&quot; (unerwünschte Mails), die zudem immer häufiger Schadsoftware im Anhang enthalten. Zum Schutz des eigenen Rechners sollte daher auf die Nutzung von E-Mail-Anhängen verzichtet werden. Konsequenterweise sperren immer mehr Krankenhäuser und andere Institutionen den Empfang von E-Mail-Anhängen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Funktion </text><text styleclass="Normal" style="font-style:italic;" translate="true">Dokumente</text><text styleclass="Normal" translate="true"> des </text><var styleclass="Normal">&lt;%TITLE%&gt;s</var><text styleclass="Normal" translate="true"> bietet Ihnen ein alternatives Verfahren zur Dokumentenübermittlung. Ursprünglich wurde dies als optionales Verfahren der Dokumentenbereitstellung entwickelt. In Anbetracht der aktuellen Bedrohungen durch Vieren oder Ransomware (Software, welche die Daten Ihrer Festplatte verschlüsselt), liefert das InEK Dokumente seit 2017 im Regelfall ausschließlich über das </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> aus. Darüber hinaus ist es nun der umgekehrte Weg möglich, nämlich die Lieferung von einzelnen Dokumenten an das InEK.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="Documents.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Funktion Dokumente</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Wenn das InEK für Sie Dokumente im </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> bereitstellt, so erhalten Sie eine kurze Benachrichtigung per E-Mail. Wenn Sie sich im </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> anmelden - oder bereits angemeldet sind - weist ein rot gefüllter Kreis in der linken Navigationsleiste auf neue (ungelesene) Dokumente hin. Im Kreis aufgeführt finden Sie die Anzahl der ungelesenen Dokumente. Diese Anzeige funktioniert unabhängig davon, welche Funktion Sie derzeit im </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> nutzen. Sie müssen also nicht, wie in der Abbildung gezeigt, die Funktion </text><text styleclass="Normal" style="font-style:italic;" translate="true">Dokumente</text><text styleclass="Normal" translate="true"> gewählt haben.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">In den Stammdaten, Bereich Funktionen, können Sie die Platzierung innerhalb des Navigationsmenü verändern. Ähnlich wie Stammdaten, ist der Menüpunkt jedoch nicht komplett abwählbar. Dies soll eine sofortige Information sicherstellen.</text></para>
+  </body>
+</topic>

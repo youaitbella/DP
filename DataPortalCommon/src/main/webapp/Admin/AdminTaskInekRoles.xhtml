@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="AdminTask.xhtml"
+                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <ui:define name="editContent">
+
+        <h:form id="inekRole">
+
+            <table>
+                <thead>
+                    <tr>
+                        <th class="list-header" scope="col"></th>
+                        <th class="list-header" scope="col">#{msg.lblName}</th>
+                        <th class="list-header" scope="col">#{msg.lblFeature}</th>
+                        <th class="list-header" scope="col">#{msg.lblWriteAccess}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <c:forEach items="#{adminTask.inekRoles}" var="inekRole" varStatus="status">
+                    <tr>
+                        <td class="colIcon">
+                    <h:commandLink>
+                        <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value=""/>
+                        <cb:confirmDelete/>
+                        <f:ajax render="@form :logout:remaining" listener="#{adminTask.deleteInekRole(inekRole)}"/>
+                    </h:commandLink>
+                    </td>
+
+                    <td class="alignBottom">
+                    <h:panelGrid columns="1">
+                        <h:message id="msgInekRoleText#{status.index}" for="inekRoleText#{status.index}" styleClass="errorMessage"/>
+                        <h:inputText id="inekRoleText#{status.index}" value="#{inekRole.text}"
+                                     required="true">
+                            <f:ajax render="@this btnSaveRole :logout:remaining msgInekRoleText#{status.index}" listener="#{adminTask.roleChangeListener}"/>
+                        </h:inputText>
+                    </h:panelGrid>
+                    </td>
+
+                    <td class="alignBottom">
+                    <h:panelGrid columns="1">
+                        <h:message id="msgInekRoleFeature#{status.index}" for="inekRoleFeature#{status.index}" styleClass="errorMessage"/>
+
+                        <h:selectOneMenu id="inekRoleFeature#{status.index}"
+                                         styleClass="inputwide"
+                                         value="#{inekRole.feature}"
+                                         required="true">
+                            <f:selectItems value="#{valueLists.features}" var="feature" itemLabel="#{feature.label}" itemValue="#{feature}"/>
+                            <f:ajax render="@this btnSaveRole :logout:remaining msgInekRoleFeature#{status.index}" listener="#{adminTask.roleChangeListener}"/>
+                        </h:selectOneMenu>
+                    </h:panelGrid>
+                    </td>
+
+                    <td class="alignBottom">
+                    <h:panelGrid columns="1">
+                        <h:selectBooleanCheckbox id="inekRoleWrite#{status.index}" value="#{inekRole.writeEnabled}"
+                                                 styleClass="fullWidth">
+                            <f:ajax event="change" render="@this btnSaveRole :logout:remaining" listener="#{adminTask.roleChangeListener}"/>
+                        </h:selectBooleanCheckbox>
+                    </h:panelGrid>
+                    </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+
+            <div>
+                <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}" >
+                    <f:ajax event="click" render="@form :logout:remaining" listener="#{adminTask.addNewInekRole}"/>
+                </h:commandLink>
+            </div>
+            <div class="toolBar">
+                <h:commandLink styleClass="bigButton" value="#{msg.btnSave}"
+                               id="btnSaveRole" immediate="false"
+                               action="#{adminTask.saveInekRoles}"
+                               disabled="#{!adminTask.roleChanged}"/>
+            </div>
+
+
+        </h:form>
+
+    </ui:define>
+</ui:composition>

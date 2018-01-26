@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="schwarzst" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Problemstellung, Lösungsvorschlag</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Problemstellung, Lösungsvorschlag</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Zu Ihrem Vorschlag sind sowohl die Problemstellung als auch ein Lösungsvorschlag zu beschreiben. Damit Ihnen ausreichend Platz zur Verfügung steht, bietet Ihnen das </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> jeweils eine eigene Registerseite mit einem entsprechend großen Eingabefeld.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal" style="text-align:center;"><image src="DRGVVProblem.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Eingabe Problembeschreibung</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sofern Sie einen modernen Browser nutzen, erscheint in mehrzeiligen Textfeldern unten rechts ein gepunktetes Dreieck. Fahren Sie mit der Maus darüber, verändert sich der Mauszeiger zum &quot;Größenänderungszeiger&quot;. Abhängig von Ihrem Betriebssystem wird der Mauszeiger beispielsweise als diagonaler Doppelpfeil dargestellt. Nun können Sie bei gedrückter Maustaste die Größe des Eingabefeldes innerhalb vorgegebener Grenzen ändern.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal" style="text-align:center;"><image src="DRGVVLösungsvorschlag.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Eingabe Lösungsvorschlag</text></para>
+  </body>
+</topic>

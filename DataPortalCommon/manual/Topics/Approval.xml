@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Freigabe</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Freigabe</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Im Rahmen der Datenannahme werden diverse Protokolle erzeugt und dem Einsender zugestellt. Während dies früher ausschließlich per E-Mail erfolgte, kann der Anwender heutzutage über das &#160;</text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> wählen, ob die Protokolle per E-Mail zugestellt oder aber im </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> hinterlegt werden.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Diverse Protokolle werden vom Prozess automatisiert verschickt, während andere erst an den jeweiligen Referent im InEK gehen, um vor Versand noch geprüft zu werden. Hierfür wird die Funktion Freigabe genutzt. Die Protokolle - oder allgemein Dokumente - werden einem Bearbeiter zugewiesen, unter dessen Namen sie im Freigabedialog erscheinen. </text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Rufen Sie den Freigabekatalog auf, so werden alle Bearbeiter, denen freizugebenden Dokumente zugeordnet sind gelistet. Durch Klick auf das [+] vor dem Namen können Sie die Liste expandieren und die einzelnen Dokumente sichtbar machen. Sind Ihnen selber Dokumente zur Freigabe zugeordnet, so erscheint Ihr Name als erstes in der Liste und zeigt bereits alle Ihnen zugeordnete Dokumente.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="DocumentApproval.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Freigabe</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Ein Klick auf ein Feld der Spalten Empfänger, Bereich, Dokument sowie Datum startet je nach Dokumententyp den Download oder eine Anzeigefunktion, so dass Sie den Inhalt der Dokumente prüfen können.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Mittels Klick auf das Schlüsselsymbol (und anschließender Bestätigung) geben Sie ein einzelnes Dokument frei. Alternativ können Sie eine beliebige Anzahl von Dokumenten mittels </text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Ankreuzfeld markieren und anschließend gemeinsam über </text><text styleclass="Button" translate="true">[ Markierte freigeben &#160;]</text><text styleclass="Normal" translate="true"> plus kurzer Bestätigung freigeben.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/Templates/PortalMenuTemplate.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+                >
+
+    <ui:define name="content">
+
+        <h:form id="sop">
+            <h1><h:commandLink value="#{msg.nameCALCULATION_HOSPITAL} #{msg.lblYearData} #{editStatementOfParticipance.statement.dataYear}" 
+                               action="#{sessionController.navigate(sessionTools.pages.CalculationHospitalSummary)}" immediate="true"/></h1>
+
+            <div class="tab">
+                <ul class="tab">
+                    <ui:repeat value="#{editStatementOfParticipance.visibleTopics}" var="topic">
+                        <li class="#{topic.active ? 'activetab' : 'tab'}">
+                        <h:commandLink value="#{topic.title}" action="#{editStatementOfParticipance.changeTabPage(topic.key)}"
+                                       immediate="true">
+                        </h:commandLink>
+                        </li>
+                    </ui:repeat>
+                </ul>
+            </div>
+
+            <div class="edit">
+                <!--<ui:include src="# {editDrgProposal.part}"/>-->
+                <ui:insert name="editContent">Content</ui:insert>
+
+                <div class="toolBar">
+                    <h:commandLink styleClass="bigButton"
+                                   action="#{editStatementOfParticipance.save}"
+                                   value="#{msg.btnSave}"
+                                   immediate="true"
+                                   rendered="#{editStatementOfParticipance.statement.ik ne 0 and !editStatementOfParticipance.readOnly}">
+                    </h:commandLink>
+
+                    <h:commandLink styleClass="sendButton"
+                                   action="#{editStatementOfParticipance.requestApproval}"
+                                   value="#{msg.btnRequestApproval}"
+                                   rendered="#{editStatementOfParticipance.approvalRequestEnabled}"
+                                   title="#{msg.infoSaveAndClose}">
+                        <cb:confirmRequestApproval/>
+                    </h:commandLink>
+
+                    <h:commandLink styleClass="sendButton"
+                                   immediate="true"
+                                   action="#{editStatementOfParticipance.seal}"
+                                   value="#{msg.btnSaveAndClose}"
+                                   rendered="#{editStatementOfParticipance.statement.ik ne 0 and editStatementOfParticipance.sealEnabled and (editStatementOfParticipance.activeTopicKey ne 'tabStatementOfParticipanceAddress' or not editStatementOfParticipance.explanationPageEnabled)}"
+                                   title="#{msg.infoSaveAndClose}">
+                        <cb:confirmSeal/>
+                    </h:commandLink>
+
+                    <h:commandLink styleClass="bigButton"
+                                   action="#{editStatementOfParticipance.copyForResend}"
+                                   value="#{msg.btnChangeData}"
+                                   immediate="true"
+                                   rendered="#{editStatementOfParticipance.copyForResendAllowed}">
+                        <cb:confirmChangeData/>
+                    </h:commandLink>
+
+                    <h:commandLink styleClass="bigButton"
+                                   action="#{editStatementOfParticipance.take}"
+                                   value="#{msg.btnTake}"
+                                   immediate="true"
+                                   rendered="#{editStatementOfParticipance.takeEnabled}"
+                                   onclick="#{sessionController.getConfirmMessage('msgConfirmTake')};">
+                    </h:commandLink>
+                    
+                    <h:commandLink styleClass="bigButton"
+                                   value="#{msg.btnNextPage}"
+                                   rendered="#{editStatementOfParticipance.activeTopicKey eq 'tabStatementOfParticipanceAddress' and editStatementOfParticipance.explanationPageEnabled}"
+                                   actionListener="#{editStatementOfParticipance.activateNextTopic}"
+                                   action="/CalcHospital/StatementOfParticipance/EditStatements"
+                                   immediate="true"> <!--action="# {sessionController.navigate(sessionTools.pages.StatementOfParticipanceEditStatements)}"-->
+
+                    </h:commandLink>
+                    
+                </div>
+            </div>
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>
+

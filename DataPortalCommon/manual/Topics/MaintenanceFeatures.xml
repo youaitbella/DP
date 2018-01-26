@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Funktionen</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Funktionen</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Das </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> ist dafür ausgelegt, Ihnen künftig eine Vielzahl an Funktionen zu bieten. Nicht jeder braucht jedoch alle Funktionen. Sie haben hier die Möglichkeit, die benötigten Funktionen zu aktivieren und deren Reihenfolge (in der Übersicht) festzulegen. Gewählte Funktionen stehen Ihnen sofort zur Verfügung, mit Ausnahme des DropBox-Verfahrens: Hierfür ist eine zusätzliche Freischaltung durch das InEK erforderlich.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="ChooseFunctions.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Funktionswahl</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Das </text><var styleclass="Normal">&lt;%TITLE%&gt;s</var><text styleclass="Normal" translate="true"> bietet Ihnen neben der Stammdatenpflege eine Reihe weiterer Funktion.Wählen Sie die benötigten Funktionen, indem Sie diese anhaken. Die Schaltflächen </text><text styleclass="Button" translate="true">[ ab ]</text><text styleclass="Normal" translate="true"> und </text><text styleclass="Button" translate="true">[ auf ]</text><text styleclass="Normal" translate="true"> ermöglichen es, die jeweilige Funktionalität in Übersicht und Navigation nach unten oder oben zu verschieben.</text></para>
+    <para styleclass="Normal"></para>
+    <list id="34" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+      <li styleclass="Bullet Text"><text styleclass="Button" translate="true">[ Speichern ]</text><text styleclass="Bullet Text" translate="true"> speichert die aktuellen Daten in der Datenbank.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Button" translate="true">[ Änderungen verwerfen ]</text><text styleclass="Bullet Text" translate="true"> stellt den ursprünglichen Zustand wieder her.</text></li>
+    </list>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Das </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> wird stetig weiterentwickelt. Es ist daher möglich, dass mehr oder andere Funktionen angeboten werden, als in obiger Abbildung dargestellt. Eine Übersicht finden Sie im Abschnitt </text><link displaytype="text" defaultstyle="true" type="topiclink" href="OverviewFeatures" styleclass="Normal" translate="true">Funktionsüberblick</link><text styleclass="Normal" translate="true">.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Hinweis"><text styleclass="Hinweis" translate="true">Einige Funktionen stehen Ihnen erst nach Prüfung und Freischaltung durch das InEK zur Verfügung. Sofern Sie Funktionen mit eindeutigem Bezug zu Krankenhaus, Krankenkasse etc. nutzen möchten, verwenden Sie vorzugsweise eine E-Mailadresse der entsprechenden Institution, da &quot;privat&quot; erscheinende E-Mailadressen regelmäßig zur Ablehnung führen. Diese können nur in Ausnahmefällen und nach gesonderter Begründung freigeschaltet werden.</text></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

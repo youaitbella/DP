@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
-    <system systemId="http://vservices01:8080/CertificationService/ComparingService?wsdl" uri="wsdl/vservices01_8080/CertificationService/ComparingService.wsdl"/>
-    <system systemId="http://vservices01:8080/CertificationService/ComparingService?xsd=1" uri="wsdl/vservices01_8080/CertificationService/ComparingService.xsd_1.xsd"/>
-</catalog>

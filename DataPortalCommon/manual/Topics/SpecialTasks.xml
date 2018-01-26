@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Spezielle Aufgaben</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Spezielle Aufgaben</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">In diesem Abschnitt werden Aufgaben außerhalb des üblichen Bearbeitungsprozesses erläutert, wie beispielsweise die Übertragung des Benutzerkontos auf eine andere Person.</text></para>
+  </body>
+</topic>

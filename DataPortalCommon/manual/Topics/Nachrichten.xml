@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Nachrichten</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Nachrichten</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Das </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> verfügt über ein internes Nachrichtensystem. Zum einen werden bei bestimmten Abläufen, z.B Rückverweis eines Vorschlags, automatisch Nachrichten generiert. Zum anderen können Sie jederzeit eine Nachricht an einen Kooperationspartner schreiben. Interne Nachrichten werden zusätzlich per E-Mail an den Empfänger gesendet. Den zusätzlichen Versand interner Nachrichten per E-Mail an Sie, können Sie über Ihre Stammdaten (Stammdatenpflege, Konfiguration) abschalten.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Neue Nachrichten werden deutlich angezeigt, angefangen bei der Übersicht</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="CooperationNewMessageReceived1.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Anzeige ungelesener (neuer) Nachrichten</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Im Navigationsbereich wird die Gesamtzahl der neuen Nachrichten gezeigt*. In der Liste der Kooperationspartner wird je Partner die Anzahl der neuen Nachrichten gelistet.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">*Neben den &quot;eigentlichen&quot; Nachrichten werden in der Anzeige im Navigationsmenü auch unbearbeitete Kooperationsanfragen (&quot;Benachrichtigungen&quot;) gezählt.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Auch in der Registerkarte &quot;Nachrichten&quot; werden neue Nachrichten entsprechend symbolisiert. Dies geschieht durch ein oranges &quot;NEW&quot; Symbol.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="CooperationNewMessageReceived2.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Registerkarte Nachrichten</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Aufgelistet werden alle Nachrichten mit Datum, Senderichtung und Betreff. Dabei zeigt ein Pfeil nach links empfangene Nachrichten, ein Pfeil nach rechts gesendete Nachrichten. Durch Klick auf den Betreff oder das Plus-Symbol (</text><image src="bullet_toggle_plus.png" scale="100.00%" styleclass="Image Caption"></image><text styleclass="Normal" translate="true">) vorne, öffnen Sie die Nachricht. Das erstmalige Öffnen blendet die Neu-Markierung aus.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="CooperationNewMessageReceived3.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Geöffnete Nachricht</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Mittels erneutem Klick auf den Betreff oder das Minus-Symbol (</text><image src="bullet_toggle_minus.png" scale="100.00%" styleclass="Image Caption"></image><text styleclass="Normal" translate="true">) vorne, können Sie die Nachricht bei Bedarf wieder schließen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Heading2"><text styleclass="Heading2" translate="true">Nachrichten senden</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">In einigen Programmfunktionen, an denen Sie entgegen dem normalen Arbeitsfluss agieren (z.B. Anforderung einer Korrektur) werden vom </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> automatisch Nachrichten generiert. Unabhängig davon können Sie im Register Nachrichten, dem ausgewählten Kooperationspartner jederzeit eine Nachricht senden. Eine Nachricht erstellen Sie mittels [ Neue Nachricht ].</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

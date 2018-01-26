@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">DropBox anlegen</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">DropBox anlegen</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Nach Klick auf </text><text styleclass="Button" translate="true">[ DropBox anlegen ]</text><text styleclass="Normal" translate="true"> erhalten Sie diesen Dialog:</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="CreateDropBox.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> DropBox anlegen</text></para>
+    <para styleclass="Normal"></para>
+    <list id="134" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Beschreibung</text><br/><text styleclass="Bullet Text" translate="true">Hier geben Sie einen wahlfreien Text ein. Dieser dient zu Ihrer eigenen Information, worum es sich bei dieser DropBox handelt. Dieser Name erscheint später so in der Liste der DropBoxen.</text></li>
+    </list>
+    <para styleclass="Bullet Text"></para>
+    <list id="134" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Typ</text><br/><text styleclass="Bullet Text" translate="true">Als Standard ist &quot;Krankenhaus Datenlieferung&quot; voreingestellt. Hierbei handelt es sich um Datenlieferungen gem. § 21 KHEntgG nebst aller zusätzlich abgefragten Daten. Diese werden nach Abschluss der DropBox automatisch verarbeitet. Die alternative Auswahl, &quot;Individuelle Datenlieferung für das InEK&quot;, dient der Übermittlung sonstiger Daten ans InEK. Nutzen Sie diese Funktion ausschließlich nach vorheriger Rücksprache, um sonstige Dateien an das InEK zu übermitteln. Diese Daten werden nicht vom Datenannahmeprozess gem. § 21 KHEntgG verarbeitet.</text></li>
+    </list>
+    <para styleclass="Normal"></para>
+    <list id="134" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Institutskennzeichen</text><br/><text styleclass="Bullet Text" translate="true">Sofern Sie in Ihren Stammdaten mehrere IKs hinterlegt haben, können Sie hier eine davon wählen. Haben Sie nur eine IK hinterlegt, so wird diese automatisch angewählt.</text></li>
+    </list>
+    <para styleclass="Bullet Text"></para>
+    <list id="135" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+      <li styleclass="Bullet Text"><text styleclass="Button" translate="true">[ Erzeugen ]</text><text styleclass="Bullet Text" translate="true">&#32;</text><br/><text styleclass="Bullet Text" translate="true">Legt die DropBox an. Sie kann sofort benutzt werden.</text></li>
+    </list>
+    <para styleclass="Bullet Text"></para>
+    <list id="135" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+      <li styleclass="Bullet Text"><text styleclass="Button" translate="true">[ Abbrechen ]</text><br/><text styleclass="Bullet Text" translate="true">Verlässt den Dialog ohne weitere Aktion</text></li>
+    </list>
+    <para styleclass="Bullet Text"></para>
+  </body>
+</topic>

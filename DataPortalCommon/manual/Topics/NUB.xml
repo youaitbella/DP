@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Neue Untersuchungs- und Behandlungsmethoden (NUB)</title>
+  <keywords>
+    <keyword translate="true">Neue Untersuchungs- und Behandlungsmethoden</keyword>
+  </keywords>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Neue Untersuchungs- und Behandlungsmethoden (NUB)</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Gemäß § 6 Abs. 2 KHEntgG sollen die örtlichen Vertragsparteien erstmals für 2005 zeitlich befristete, fallbezogene Entgelte oder Zusatzentgelte für neue Untersuchungs- und Behandlungsmethoden (NUB) vereinbaren. Die Entgelte sind sachgerecht zu kalkulieren. Vor der Vereinbarung einer gesonderten Vergütung hat das Krankenhaus bis zum 31. Oktober von den Vertragsparteien auf Bundesebene eine Information einzuholen, ob die neue Methode mit den bereits vereinbarten Fallpauschalen und Zusatzentgelten sachgerecht abgerechnet werden kann. Die Vertragsparteien auf Bundesebene haben das InEK stellvertretend mit der Abwicklung der Anfragen nach § 6 Abs. 2 KHEntgG beauftragt.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Zur Übermittlung der Anfragen dient die Funktion Neue Untersuchungs- und Behandlungsmethoden (NUB) im </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true">. Soweit Sie diese nutzen möchten, schalten Sie die Funktion NUB in den Stammdaten aktiv (siehe </text><link displaytype="text" defaultstyle="true" type="topiclink" href="MaintenanceFeatures" styleclass="Normal" translate="true">Stammdaten, Funktionen</link><text styleclass="Normal" translate="true">).</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Das </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> bietet Ihnen im Bereich NUB diese Funktionen:</text></para>
+    <para styleclass="Normal"></para>
+    <list id="40" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Erstellen einer neuen NUB-Anfrage</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Erstellen einer NUB-Anfrage anhand einer Vorlage</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Erstellen einer Vorlage, die Sie im Rahmen einer Hilfestellung an andere weitergeben können</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Korrektur Ihrer NUB-Anfrage, sofern erforderlich</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Information zum öffentlichen Verarbeitungsstatus (z.B. Neu, Fehlerhaft, Angenommen) Ihrer NUB-Anfrage</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Dokumentation Ihrer NUB-Anfrage</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Löschen oder Zurückziehen Ihrer NUB-Anfrage</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Korrektur bzw. Konkretisierung einer NUB-Anfrage</text></li>
+    </list>
+    <para styleclass="Bullet Text"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Neue NUB-Anfragen sind nur während des Anfrageverfahrens von ca. Anfang September bis ca. 31. Oktober des jeweiligen Jahres möglich. Die genauen Daten hängen von der Lage der Wochentage ab. Nähere Informationen entnehmen Sie bitte der Verfahrensbeschreibung.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die von Ihnen erstellten Anfragen können Sie unabhängig vom Anfrageverfahren jederzeit einsehen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Hinweis"><text styleclass="Hinweis" translate="true">Bei ansonsten inhaltlich unveränderten Verfahren werden im Hinblick auf Umsetzung des § 137h SGBV ab September 2016 ergänzend Informationen zu Medizinprodukten abgefragt. Des Weiteren ist vom anfragenden Krankenhaus verpflichtend anzugeben, ob es selbst zu der eingereichten Neuen Untersuchungs- und Behandlungsmethode in der Vergangenheit bereits eine Anfrage im Rahmen des Anfrageverfahrens nach §6 Ab. 2 KHEntgG an das InEK übermittelt hat. Die beim Ausfüllen der Pflichtfelder zu beachtenden Grundsätze sind unverändert den exemplarischen Beispielen zu entnehmen. </text></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

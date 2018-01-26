@@ -1,0 +1,162 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common"
+                xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+    <h2>#{msg.TopicCalcEndoscopy}</h2>
+
+    <inek:LabeledCheckbox label="#{msg.lblHasEndoscopy}" 
+                          styleClassLabel="label40"
+                          value="#{editCalcBasicsDrg.calcBasics.endoscopy}">
+            <f:ajax event="clientChange"  
+                    render="@form :script"
+                    listener="#{sessionController.hideData(editCalcBasicsDrg.calcBasics.endoscopy)}"/>
+    </inek:LabeledCheckbox>
+    
+    <div jsf:id="cardiology" jsf:rendered="#{editCalcBasicsDrg.calcBasics.endoscopy}">
+        <inek:LabeledText label="#{msg.lblEndoscopyRoomCount}" 
+                          styleClassLabel="label40"
+                          value="#{editCalcBasicsDrg.calcBasics.endoscopyRoomCnt}" 
+                          singleLine="true" 
+                          styleClass="inputSmall"/>
+
+        <inek:LabeledText label="#{msg.lblEndoscopyCaseCount}" 
+                          styleClassLabel="label40"
+                          value="#{editCalcBasicsDrg.calcBasics.endoscopyCaseCnt}" 
+                          singleLine="true" 
+                          styleClass="inputSmall"/>
+    
+    
+    <style>
+        #endoAmbu td {
+            vertical-align: top;
+        }
+        
+    </style>
+    
+    <h4><h:outputLabel value="Bitte geben Sie an für welche endoskopischen Bereiche Sie nicht den Leistungsschlüssel Eingriffszeit verwenden"/></h4>
+    <h:dataTable value="#{editCalcBasicsDrg.endoscopyDifferentials}" 
+                 var="data"
+                 width="100%" rowClasses="row1, row2" 
+                 columnClasses="colIcon, colValue, col04em, col04em, colValue">
+
+        <h:column>
+            <h:commandLink action="#{editCalcBasicsDrg.deleteEndoscopyDifferential(data)}" 
+                           rendered="true"
+                           immediate="true" styleClass="colIcon">
+                <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
+                <cb:confirmDelete/>
+            </h:commandLink>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Endoskopischer Bereich</f:facet>
+                <inek:InputTextWithMessage id="endoscopyDivision" required="true" value="#{data.division}" readonly="false" styleClass="fullWidth">
+                    <!--<f:validator validatorId="EmailValidator" for="contactMail"/>-->
+                </inek:InputTextWithMessage>
+        </h:column>
+
+        <h:column rendered="#{editCalcBasicsDrg.calcBasics.dataYear le 2016}">
+            <f:facet name="header">Leistungsschlüssel</f:facet>
+            <inek:InputTextWithMessage id="endoscopyKey" required="#{editCalcBasicsDrg.calcBasics.dataYear le 2016}" value="#{data.activityKey}" readonly="false" styleClass="fullWidth">
+                <!--<f:validator validatorId="EmailValidator" for="contactMail"/>-->
+            </inek:InputTextWithMessage>
+        </h:column>
+        
+        <h:column rendered="#{editCalcBasicsDrg.calcBasics.dataYear ge 2017}">
+            <f:facet name="header">Erläuterung</f:facet>
+            <h:inputTextarea id="activityKeyComment"
+                             value="#{data.activityKeyComment}"
+                             required="#{data.division.length() != 0}"
+                             requiredMessage="#{msg.msgValueNeeded}" >
+                <f:ajax event="blur" render="@this :logout:remaining" />
+            </h:inputTextarea>
+            <h:message for="activityKeyComment" id="activityKeyCommentmessage" errorClass="errorMessage"/>
+        </h:column>
+    </h:dataTable>
+    
+    <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}" rendered="true">
+        <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.addEndoscopyDifferentials()}"/>
+    </h:commandLink>
+    
+       
+    <table id="endoAmbu" class="marginTop">
+        <tr>
+            <th></th>
+            <th>
+                Ambulante Leistungen im endoskopischen Bereich
+            </th>
+            <th>
+                Leistungsschlüssel
+            </th>
+            <th>
+                Anzahl erbrachter amb. Leistungen
+            </th>
+            <th>
+                abgegr. Kostenvolumen ÄD
+            </th>
+            <th>
+                abgegr. Kostenvolumen FD
+            </th>
+            <th hidden="#{editCalcBasicsDrg.calcBasics.dataYear lt 2017}">
+                abgegr. Kostenvolumen med. Infrastruktur
+            </th>
+            <th hidden="#{editCalcBasicsDrg.calcBasics.dataYear lt 2017}">
+                abgegr. Kostenvolumen nicht med.Infrastruktur
+            </th>
+        </tr>
+        <ui:repeat value="#{editCalcBasicsDrg.calcBasics.endoscopyAmbulant}" var="item">
+            <tr>
+                <td>
+                    <h:commandLink action="#{editCalcBasicsDrg.deleteEndoscopyAmbulant(item)}" 
+                           rendered="true"
+                           immediate="true" styleClass="colIcon">
+                        <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
+                        <cb:confirmDelete/>
+                    </h:commandLink>
+                </td>
+                <td>
+                <inek:InputTextWithMessage value="#{item.ambulantService}" />
+                </td>
+                <td>
+                <h:selectOneMenu value="#{item.serviceKey}" styleClass="inputwide" required="true">
+                    <f:selectItems value="#{calcBasicsStaticData.endoscopyAmbulantTypes}" />
+                    <f:ajax event="change" render="@form :logout:remaining" />
+                </h:selectOneMenu>
+                <h:inputTextarea id="serviceKeyExplanation" rendered="#{item.serviceKey == 4 or item.serviceKey == 3}" required="true" styleClass="inputwide" value="#{item.miscText}">
+                    <f:ajax event="blur" render="@this :logout:remaining" />
+                </h:inputTextarea>
+                <h:message for="serviceKeyExplanation" id="activityKeyCommentmessage" errorClass="errorMessage"/>
+                </td>
+                <td>
+                <inek:InputIntegerWithMessage value="#{item.numServices}" />
+                </td>
+                <td>
+                <inek:InputIntegerWithMessage value="#{item.costVolumeMedical}" />
+                </td>
+                <td>
+                <inek:InputIntegerWithMessage value="#{item.costVolumeFunction}" />
+                </td>
+                <td hidden="#{editCalcBasicsDrg.calcBasics.dataYear lt 2017}">
+                <inek:InputIntegerWithMessage value="#{item.costVolumeMedInfra}" />
+                </td>
+                <td hidden="#{editCalcBasicsDrg.calcBasics.dataYear lt 2017}">
+                <inek:InputIntegerWithMessage value="#{item.costVolumeNonMedInfra}" />
+                </td>
+            </tr>
+        </ui:repeat>
+    </table>
+    
+    <h:commandLink id="addButton2" styleClass="addButton inputPart" value="#{msg.btnAddEntry}" rendered="true">
+        <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.addEndoscopyAmbulant()}"/>
+    </h:commandLink>
+    </div>
+    
+</ui:composition>
+

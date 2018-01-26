@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="CooperationEdit.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <ui:define name="editContent">
+
+        <div class="inputPart">
+            <h:outputLabel id="nubKhName" for="khName" styleClass="label" value="#{msg.lblHospitalName}:" />
+            <br />
+            <h:inputText styleClass="input" readonly="true" id="khName" value="#{editCooperation.partnerAccount.company}"/>
+        </div>
+
+        <div class="inputPart">
+            <h:outputLabel styleClass="label" value="#{msg.lblContact}"/>
+            <br/>
+            <h:panelGrid columns="2" width="90%">
+                <h:panelGroup styleClass="inputmedium">
+                    <h:outputLabel styleClass="label" for="cbxGender" value="#{msg.lblSalutation}"/>
+                    <br/>
+                    <h:selectOneMenu styleClass="inputshort" id="cbxGender" value="#{editCooperation.partnerAccount.gender}"
+                                     readonly="true"/>
+                </h:panelGroup>
+                <h:panelGroup>
+                    <h:outputLabel styleClass="label" for="title" value="#{msg.lblTitle}"/>
+                    <br/>
+                    <h:inputText styleClass="inputmedium" id="title" value="#{editCooperation.partnerAccount.title}" 
+                                 readonly="true"/>
+                </h:panelGroup>
+            </h:panelGrid>
+        </div>
+
+        <div class="inputPart">
+            <h:outputLabel styleClass="label" for="firstname" value="#{msg.lblFirstName}:"/>
+            <br/>
+            <h:inputText styleClass="input" id="firstname" value="#{editCooperation.partnerAccount.firstName}"
+                         readonly="true"/>
+        </div>
+
+        <div class="inputPart">
+            <h:outputLabel styleClass="label" for="lastname" value="#{msg.lblLastName}:"/>
+            <br/>
+            <h:inputText styleClass="input" id="lastname" value="#{editCooperation.partnerAccount.lastName}" 
+                         readonly="true"/>
+        </div>
+
+        <div class="inputPart">
+            <h:outputLabel styleClass="label" for="street" value="#{msg.lblStreet}:"/>
+            <br/>
+            <h:inputText styleClass="input" id="street" value="#{editCooperation.partnerAccount.street}" 
+                         readonly="true"/>
+        </div>
+
+        <div class="inputPart">
+            <h:outputLabel styleClass="label" for="zip" value="#{msg.lblPostalCode}:"/>
+            <br/>
+            <h:inputText styleClass="inputshort" id="zip" value="#{editCooperation.partnerAccount.postalCode}" 
+                         readonly="true"/>
+        </div>
+
+        <div class="inputPart">
+            <h:outputLabel styleClass="label" for="town" value="#{msg.lblTown}:"/>
+            <br/>
+            <h:inputText styleClass="input" id="town" value="#{editCooperation.partnerAccount.town}" 
+                         readonly="true"/>
+        </div>
+
+        <div class="inputPart">
+            <h:outputLabel styleClass="label" for="phone" value="#{msg.lblPhone}:"/>
+            <br/>
+            <h:inputText styleClass="input" id="phone" value="#{editCooperation.partnerAccount.phone}" 
+                         readonly="true"/>
+        </div>
+
+        <div class="inputPart">
+            <h:outputLabel styleClass="label" for="email" value="#{msg.lblMail}:"/>
+            <br/>
+            <h:inputText styleClass="input" id="email" value="#{editCooperation.partnerAccount.email}"
+                         readonly="true"/>
+        </div>
+
+        <div class="toolBar">
+            <h:commandLink styleClass="bigButton" action="#{editCooperation.accept}" value="#{msg.btnCooperationConfirm}" immediate="true"
+                           rendered="#{editCooperation.outstandingCooperationRequest}"/>
+            <h:commandLink styleClass="bigButton" action="#{editCooperation.refuse}" value="#{msg.btnCooperationRefuse}" immediate="true"
+                           rendered="#{editCooperation.outstandingCooperationRequest}"/>
+            <h:commandLink styleClass="bigButton" action="#{editCooperation.finish}" value="#{msg.btnCooperationEnd}" immediate="true"
+                           rendered="#{!editCooperation.outstandingCooperationRequest}">
+                <cb:confirmDelete/>
+            </h:commandLink>
+        </div>
+
+
+    </ui:define>
+</ui:composition>

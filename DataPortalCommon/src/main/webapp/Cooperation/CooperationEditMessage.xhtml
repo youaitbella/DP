@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="CooperationEdit.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <ui:define name="editContent">
+
+        <h:panelGrid id="sendArea" width="100%">
+            <div class="marginTop">
+                <h:commandLink styleClass="bigButton" actionListener="#{editCooperation.newMessage}" value="#{msg.btnNewMessage}" rendered="#{!editCooperation.createMessage}">
+                    <f:ajax  render="sendArea"/>
+                </h:commandLink>
+            </div>
+            <h:panelGroup rendered="#{editCooperation.createMessage}">
+                <div class="inputPart">
+                    <h:outputLabel for="txtSubject" value="#{msg.lblMailSubject}" styleClass="label"/>
+                    <br/>
+                    <h:inputText id="txtSubject" value="#{editCooperation.subject}" styleClass="inputwide">
+                        <f:ajax/>
+                    </h:inputText>
+                </div>
+                <div class="inputPart">
+                    <h:outputLabel for="txtMessage" value="#{msg.lblMessage}" styleClass="label"/>
+                    <br/>
+                    <h:inputTextarea id="txtMessage" value="#{editCooperation.message}" styleClass="areaWideHigh">
+                        <f:ajax/>
+                    </h:inputTextarea>
+                </div>
+                <div class="marginTop">
+                    <h:commandLink styleClass="bigButton"
+                                   actionListener="#{editCooperation.cancelMessage}"
+                                   value="#{msg.btnCancel}">
+                        <f:ajax render="sendArea"/>
+                    </h:commandLink>
+                    <h:commandLink styleClass="bigButton"
+                                   actionListener="#{editCooperation.sendMessage}"
+                                   value="#{msg.btnSendMessage}">
+                        <f:ajax render="sendArea tblMessages"/>
+                    </h:commandLink>
+                </div>
+            </h:panelGroup>
+        </h:panelGrid>
+        <hr class="simpleLine"/>
+
+        <h:dataTable id="tblMessages"  headerClass="list-header" value="#{editCooperation.messages}"
+                     var="message" width="100%" rowClasses="row2, row1" columnClasses="colIcon, colIcon, col14, colIcon, colValue">
+            <h:column >
+                <h:graphicImage alt="neu" name="Icon/small/new.png" title="neue (ungeöffnete) Nachricht" value=""
+                                rendered="#{message.status eq 0 and message.toAccountId eq sessionController.accountId}"/>
+            </h:column>
+            <h:column >
+                <h:commandLink rendered="#{!message.visible}">
+                    <h:graphicImage alt="+" name="Icon/small/bullet_toggle_plus.png"  title="anzeigen" value=""/>
+                    <f:ajax render="form:tblMessages" listener="#{editCooperation.expand(message.id)}"/>
+                </h:commandLink>
+                <h:commandLink rendered="#{message.visible}">
+                    <h:graphicImage alt="+" name="Icon/small/bullet_toggle_minus.png" title="ausblenden" value=""/>
+                    <f:ajax render="form:tblMessages" listener="#{editCooperation.collapse(message.id)}"/>
+                </h:commandLink>
+            </h:column>
+            <h:column >
+                <h:outputText value="#{message.created}">
+                    <f:convertDateTime pattern="dd.MM.yy - HH:mm" timeZone="CET"/>
+                </h:outputText>
+            </h:column>
+            <h:column >
+                <h:graphicImage alt="gesendet" name="Icon/small/arrow_right.png"  title="gesendet" value="" rendered="#{message.fromAccountId eq sessionController.accountId}"/>
+                <h:graphicImage alt="empfangen" name="Icon/small/arrow_left.png" title="empfangen" value="" rendered="#{message.fromAccountId ne sessionController.accountId}"/>
+            </h:column>
+            <h:column>
+                <h:commandLink value="#{message.subject}" rendered="#{!message.visible}">
+                    <f:ajax render="form:tblMessages" listener="#{editCooperation.expand(message.id)}"/>
+                </h:commandLink>
+                <h:panelGroup rendered="#{message.visible}">
+                    <h:commandLink value="#{message.subject}">
+                        <f:ajax render="form:tblMessages" listener="#{editCooperation.collapse(message.id)}"/>
+                    </h:commandLink>
+                    <h:inputTextarea value="#{message.message}" readonly="true"
+                                     style="width: 100%;" onfocus="autoGrow(this)"/>
+                </h:panelGroup>
+            </h:column>
+
+        </h:dataTable>
+
+    </ui:define>
+</ui:composition>
