@@ -184,8 +184,15 @@ public class EditNubRequest extends AbstractEditController {
         return null;
     }
 
+    // todo: manage read access for managed ik in accessmanager and the refactor this method
     private boolean hasSufficientRights(NubRequest nubRequest) {
         if (isOwnNub(nubRequest)) {
+            return true;
+        }
+        if (_accessManager.retrieveDenyedManagedIks(Feature.NUB).contains(nubRequest.getIk())){
+            return false;
+        }
+        if (_accessManager.retrieveAllowedManagedIks(Feature.NUB).contains(nubRequest.getIk())){
             return true;
         }
         ensureCooperativeRight(nubRequest);

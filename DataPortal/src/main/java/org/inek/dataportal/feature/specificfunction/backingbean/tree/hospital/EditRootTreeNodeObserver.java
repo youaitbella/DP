@@ -19,8 +19,8 @@ import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.feature.specificfunction.facade.SpecificFunctionFacade;
 import org.inek.dataportal.helper.tree.entityTree.AccountTreeNode;
 import org.inek.dataportal.helper.tree.entityTree.CustomerTreeNode;
-import org.inek.portallib.tree.TreeNode;
-import org.inek.portallib.tree.TreeNodeObserver;
+import org.inek.dataportal.helper.tree.TreeNode;
+import org.inek.dataportal.helper.tree.TreeNodeObserver;
 
 @Dependent
 public class EditRootTreeNodeObserver implements TreeNodeObserver {
@@ -35,17 +35,16 @@ public class EditRootTreeNodeObserver implements TreeNodeObserver {
     @Override
     public Collection<TreeNode> obtainChildren(TreeNode treeNode) {
         List<? extends TreeNode> oldChildren = new ArrayList<>(treeNode.getChildren());
-        Collection<TreeNode> children = new ArrayList<>();
         
-        obtainCustomerNodes(oldChildren, treeNode, children);
-        obtainAccountNodes(oldChildren, treeNode, children);
+        Collection<TreeNode> children = obtainCustomerNodes(oldChildren, treeNode);
+        children.addAll(obtainAccountNodes(oldChildren, treeNode));
         return children;
     }
 
-    private void obtainCustomerNodes(
+    private Collection<TreeNode> obtainCustomerNodes(
             List<? extends TreeNode> oldChildren, 
-            TreeNode treeNode, 
-            Collection<TreeNode> children) {
+            TreeNode treeNode) {
+        Collection<TreeNode> children = new ArrayList<>();
         for (int ik : _accessManager.retrieveAllowedManagedIks(Feature.SPECIFIC_FUNCTION)) {
             Optional<? extends TreeNode> existing = oldChildren
                     .stream()
@@ -57,6 +56,7 @@ public class EditRootTreeNodeObserver implements TreeNodeObserver {
             children.add((TreeNode) childNode);
             childNode.expand();  // auto-expand all edit nodes by default
         }
+        return children;
     }
 
     private CustomerTreeNode createCustomerNode(TreeNode parent, int ik) {
@@ -64,10 +64,10 @@ public class EditRootTreeNodeObserver implements TreeNodeObserver {
         return CustomerTreeNode.create(parent, customer, _customerTreeNodeObserverProvider.get());
     }
 
-    private void obtainAccountNodes(
+    private Collection<TreeNode> obtainAccountNodes(
             List<? extends TreeNode> oldChildren, 
-            TreeNode treeNode, 
-            Collection<TreeNode> children) {
+            TreeNode treeNode) {
+        Collection<TreeNode> children = new ArrayList<>();
         Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.SPECIFIC_FUNCTION, canReadCompleted());
         Set<Integer> managedIks = _accessManager.retrieveAllManagedIks(Feature.SPECIFIC_FUNCTION);
         List<Account> accounts = _specificFunctionFacade.loadRequestAccounts(
@@ -93,6 +93,7 @@ public class EditRootTreeNodeObserver implements TreeNodeObserver {
             children.add((TreeNode) childNode);
             childNode.expand();  // auto-expand all edit nodes by default
         }
+        return children;
     }
 
     

@@ -1,4 +1,4 @@
-package org.inek.portallib.structures;
+package org.inek.dataportal.utils;
 
 import java.util.Objects;
 

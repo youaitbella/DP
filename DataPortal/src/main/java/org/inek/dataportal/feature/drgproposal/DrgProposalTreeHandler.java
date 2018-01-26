@@ -32,10 +32,10 @@ import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.structures.ProposalInfo;
 import org.inek.dataportal.helper.tree.entityTree.AccountTreeNode;
 import org.inek.dataportal.helper.tree.ProposalInfoTreeNode;
-import org.inek.portallib.tree.RootNode;
-import org.inek.portallib.tree.TreeNode;
-import org.inek.portallib.tree.TreeNodeObserver;
-import org.inek.portallib.tree.YearTreeNode;
+import org.inek.dataportal.helper.tree.RootNode;
+import org.inek.dataportal.helper.tree.TreeNode;
+import org.inek.dataportal.helper.tree.TreeNodeObserver;
+import org.inek.dataportal.helper.tree.YearTreeNode;
 import org.inek.dataportal.utils.DocumentationUtil;
 import org.inek.dataportal.utils.KeyValueLevel;
 

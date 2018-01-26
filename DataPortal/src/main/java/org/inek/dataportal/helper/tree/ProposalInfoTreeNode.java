@@ -5,8 +5,6 @@
  */
 package org.inek.dataportal.helper.tree;
 
-import org.inek.portallib.tree.TreeNode;
-import org.inek.portallib.tree.TreeNodeObserver;
 import org.inek.dataportal.helper.structures.ProposalInfo;
 
 /**

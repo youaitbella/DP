@@ -8,7 +8,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.helper.Utils;
-import org.inek.portallib.tree.RootNode;
+import org.inek.dataportal.helper.tree.RootNode;
 
 /**
  *

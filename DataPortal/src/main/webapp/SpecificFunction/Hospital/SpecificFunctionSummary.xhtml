@@ -24,16 +24,16 @@
                         <h:graphicImage alt="auf/zuklappen" name="Icon/small/#{treeNode.expanded ? 'ButtonMinus.png' : 'ButtonPlus.png'}" title="Details auf/zuklappen" value=""/>
                         <f:ajax render="@this accountDataEdit :logout:remaining"/>
                     </h:commandLink>
-                            <h:panelGroup  rendered="#{treeNode['class'].simpleName eq 'CustomerTreeNode'}">
-                                <h:outputText styleClass="third marginTop" value="#{treeNode.displayName}"/>
-                                <h:outputText styleClass="third marginTop" value="#{treeNode.company}"/>
-                                <h:outputText styleClass="third marginTop" value="#{treeNode.town}"/>
-                            </h:panelGroup>
-                            <h:panelGroup  rendered="#{treeNode['class'].simpleName eq 'AccountTreeNode'}">
-                                <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(treeNode.accountId)}" value="#{treeNode.displayName}" immediate="true"/>
-                                <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(treeNode.accountId)}" value="#{treeNode.company}" immediate="true"/>
-                                <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(treeNode.accountId)}" value="#{treeNode.town}" immediate="true"/>
-                            </h:panelGroup>
+                    <h:panelGroup  rendered="#{treeNode['class'].simpleName eq 'CustomerTreeNode'}">
+                        <h:outputText styleClass="third marginTop" value="#{treeNode.displayName}"/>
+                        <h:outputText styleClass="third marginTop" value="#{treeNode.company}"/>
+                        <h:outputText styleClass="third marginTop" value="#{treeNode.town}"/>
+                    </h:panelGroup>
+                    <h:panelGroup  rendered="#{treeNode['class'].simpleName eq 'AccountTreeNode'}">
+                        <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(treeNode.accountId)}" value="#{treeNode.displayName}" immediate="true"/>
+                        <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(treeNode.accountId)}" value="#{treeNode.company}" immediate="true"/>
+                        <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(treeNode.accountId)}" value="#{treeNode.town}" immediate="true"/>
+                    </h:panelGroup>
 
                     <div jsf:id="accountDataEdit" style="margin-left:16px; padding-bottom: 1em;">
                         <h:outputLabel value="Zu diesem IK sind derzeit keine Daten vorhanden"

@@ -10,6 +10,7 @@ import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import org.inek.dataportal.common.AccessManager;
 import org.inek.dataportal.controller.SessionController;
+import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.nub.NubRequest;
 import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.enums.Feature;
@@ -19,11 +20,10 @@ import org.inek.dataportal.feature.nub.NubSessionTools;
 import org.inek.dataportal.helper.structures.ProposalInfo;
 import org.inek.dataportal.helper.tree.ProposalInfoTreeNode;
 import org.inek.dataportal.helper.tree.entityTree.AccountTreeNode;
-import org.inek.portallib.tree.TreeNode;
-import org.inek.portallib.tree.TreeNodeObserver;
-import org.inek.portallib.tree.YearTreeNode;
+import org.inek.dataportal.helper.tree.TreeNode;
+import org.inek.dataportal.helper.tree.TreeNodeObserver;
+import org.inek.dataportal.helper.tree.YearTreeNode;
 
-@Dependent
 public class AccountTreeNodeObserver implements TreeNodeObserver {
 
     @Inject private NubRequestFacade _nubRequestFacade;
@@ -37,13 +37,13 @@ public class AccountTreeNodeObserver implements TreeNodeObserver {
     }
 
     private Collection<TreeNode> obtainAccountNodeChildren(AccountTreeNode accountTreeNode) {
-        int partnerId = accountTreeNode.getAccountId();
+        Account partner = accountTreeNode.getAccount();
         List<ProposalInfo> infos;
         if (accountTreeNode.getParent() instanceof YearTreeNode) {
             int year = accountTreeNode.getParent().getId();
-            infos = obtainNubInfosForRead(partnerId, year);
+            infos = obtainNubInfosForRead(partner, year);
         } else {
-            infos = obtainNubInfosForEdit(partnerId);
+            infos = obtainNubInfosForEdit(partner);
         }
         List<Integer> checked = new ArrayList<>();
         for (TreeNode child : accountTreeNode.getChildren()) {
@@ -62,48 +62,36 @@ public class AccountTreeNodeObserver implements TreeNodeObserver {
         return children;
     }
 
-    private List<ProposalInfo> obtainNubInfosForRead(int partnerId, int year) {
+    private List<ProposalInfo> obtainNubInfosForRead(Account account, int year) {
         List<ProposalInfo> infos = new ArrayList<>();
-        List<AccessRight> accessRights = _accessManager.obtainAccessRights(Feature.NUB);
-        if (partnerId == _sessionController.getAccountId()) {
-            infos = _nubRequestFacade.
-                    getNubRequestInfos(_sessionController.getAccountId(), year, DataSet.AllSealed, accessRights, getFilter());
-        } else {
-            Set<Integer> iks = _accessManager.getPartnerIks(Feature.NUB, partnerId);
-            for (int ik : iks) {
-                if (accessRights.stream().anyMatch(r -> r.getIk() == ik)) {
-                    continue;
-                }
-                boolean canReadSealed = _accessManager.canReadSealed(Feature.NUB, partnerId, ik);
-                DataSet dataSet = canReadSealed ? DataSet.AllSealed : DataSet.None;
-                List<ProposalInfo> infosForIk = _nubRequestFacade.
-                        getNubRequestInfos(partnerId, ik, year, dataSet, getFilter());
-                infos.addAll(infosForIk);
+        Set<Integer> ikSet = account.getFullIkSet();
+        ikSet.removeAll(_accessManager.retrieveAllManagedIks(Feature.NUB));
+        for (int ik : ikSet) {
+            if (account.getId() != _sessionController.getAccountId()
+                    && !_accessManager.canReadSealed(Feature.NUB, account.getId(), ik)) {
+                continue;
             }
+            List<ProposalInfo> infosForIk = _nubRequestFacade.
+                    getNubRequestInfos(account.getId(), ik, year, DataSet.AllSealed, getFilter());
+            infos.addAll(infosForIk);
         }
         return infos;
     }
 
-    private List<ProposalInfo> obtainNubInfosForEdit(int partnerId) {
+    private List<ProposalInfo> obtainNubInfosForEdit(Account account) {
         List<ProposalInfo> infos = new ArrayList<>();
-        List<AccessRight> accessRights = _accessManager.obtainAccessRights(Feature.NUB);
-        if (partnerId == _sessionController.getAccountId()) {
-            infos = _nubRequestFacade.
-                    getNubRequestInfos(_sessionController.getAccountId(), -1, DataSet.AllOpen, accessRights, getFilter());
-        } else {
-            Set<Integer> iks = _accessManager.getPartnerIks(Feature.NUB, partnerId);
-            for (int ik : iks) {
-                if (accessRights.stream().anyMatch(r -> r.getIk() == ik)) {
-                    continue;
-                }
-                boolean canReadAlways = _accessManager.canReadAlways(Feature.NUB, partnerId, ik);
-                boolean canReadCompleted = _accessManager.canReadCompleted(Feature.NUB, partnerId, ik);
-                DataSet dataSet = canReadAlways ? DataSet.AllOpen
-                        : canReadCompleted ? DataSet.ApprovalRequested : DataSet.None;
-                List<ProposalInfo> infosForIk = _nubRequestFacade.
-                        getNubRequestInfos(partnerId, ik, -1, dataSet, getFilter());
-                infos.addAll(infosForIk);
+        Set<Integer> ikSet = account.getFullIkSet();
+        ikSet.removeAll(_accessManager.retrieveAllManagedIks(Feature.NUB));
+        for (int ik : ikSet) {
+            boolean itsMe = account == _sessionController.getAccount();
+            if (!itsMe && !_accessManager.canReadCompleted(Feature.NUB, account.getId(), ik)) {
+                continue;
             }
+            boolean canReadAlways = itsMe || _accessManager.canReadAlways(Feature.NUB, account.getId(), ik);
+            DataSet dataSet = canReadAlways ? DataSet.AllOpen : DataSet.ApprovalRequested;
+            List<ProposalInfo> infosForIk = _nubRequestFacade.
+                    getNubRequestInfos(account.getId(), ik, -1, dataSet, getFilter());
+            infos.addAll(infosForIk);
         }
         return infos;
     }
@@ -118,13 +106,6 @@ public class AccountTreeNodeObserver implements TreeNodeObserver {
 
     @Override
     public Collection<TreeNode> obtainSortedChildren(TreeNode treeNode) {
-        if (treeNode instanceof AccountTreeNode) {
-            return sortAccountNodeChildren((AccountTreeNode) treeNode);
-        }
-        return treeNode.getChildren();
-    }
-
-    private Collection<TreeNode> sortAccountNodeChildren(AccountTreeNode treeNode) {
         Stream<ProposalInfoTreeNode> stream = treeNode.getChildren().stream().map(n -> (ProposalInfoTreeNode) n);
         Stream<ProposalInfoTreeNode> sorted;
         int direction = treeNode.isDescending() ? -1 : 1;
