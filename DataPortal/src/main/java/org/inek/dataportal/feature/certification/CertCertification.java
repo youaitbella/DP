@@ -35,7 +35,7 @@ import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
 import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
 import org.inek.dataportal.mail.Mailer;
-import org.inek.portallib.util.Helper;
+import org.inek.dataportal.utils.Helper;
 
 /**
  *

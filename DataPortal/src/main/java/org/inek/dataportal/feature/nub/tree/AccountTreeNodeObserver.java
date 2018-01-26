@@ -20,9 +20,9 @@ import org.inek.dataportal.feature.nub.NubSessionTools;
 import org.inek.dataportal.helper.structures.ProposalInfo;
 import org.inek.dataportal.helper.tree.ProposalInfoTreeNode;
 import org.inek.dataportal.helper.tree.entityTree.AccountTreeNode;
-import org.inek.portallib.tree.TreeNode;
-import org.inek.portallib.tree.TreeNodeObserver;
-import org.inek.portallib.tree.YearTreeNode;
+import org.inek.dataportal.helper.tree.TreeNode;
+import org.inek.dataportal.helper.tree.TreeNodeObserver;
+import org.inek.dataportal.helper.tree.YearTreeNode;
 
 public class AccountTreeNodeObserver implements TreeNodeObserver {
 

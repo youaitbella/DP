@@ -38,7 +38,7 @@ import org.inek.dataportal.entities.Document;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.feature.nub.EditNubRequest;
-import org.inek.portallib.util.Helper;
+import org.inek.dataportal.utils.Helper;
 
 /**
  *

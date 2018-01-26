@@ -20,8 +20,6 @@
     <modules>
         <module>DataPortal</module>
         <!--module>PsyPortal</module-->
-        <module>PortalResources</module>
-        <module>PortalLib</module>
         <module>AccountService</module>
     </modules>
 
