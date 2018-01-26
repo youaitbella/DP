@@ -116,34 +116,6 @@ public class KGLListKstTop implements Serializable, BaseIdValue {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property medicalService">
-    @Column(name = "ktMedicalService")
-    @Documentation(name = "Ärtzlicher Dienst")
-    private int _medicalService;
-
-    public int getMedicalService() {
-        return _medicalService;
-    }
-
-    public void setMedicalService(int medicalService) {
-        this._medicalService = medicalService;
-    }
-    //</editor-fold>
-    
-    //<editor-fold defaultstate="collapsed" desc="Property functionalService">
-    @Column(name = "ktFunctionalService")
-    @Documentation(name = "Funktinaler Dienst")
-    private int _functionalService;
-
-    public int getFunctionalService() {
-        return _functionalService;
-    }
-
-    public void setFunctionalService(int functionalService) {
-        this._functionalService = functionalService;
-    }
-    //</editor-fold>
-    
     //<editor-fold defaultstate="collapsed" desc="Property delimitationAmount">
     @Column(name = "ktDelimitationAmount")
     @Documentation(name = "abgegr. Kostenvolumen")
@@ -255,6 +227,6 @@ public class KGLListKstTop implements Serializable, BaseIdValue {
 
     @JsonIgnore
     public boolean isEmpty(){
-        return _text.isEmpty() && _caseCount <= 0 && _amount <= 0 && _delimitationAmount <= 0 && _medicalService <= 0 && _functionalService <= 0;
+        return _text.isEmpty() && _caseCount <= 0 && _amount <= 0 && _delimitationAmount <= 0;
     }
 }
