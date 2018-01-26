@@ -8,6 +8,8 @@ package org.inek.dataportal.feature.peppproposal.tree;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import org.inek.dataportal.common.AccessManager;
@@ -48,7 +50,7 @@ public class AccountTreeNodeObserver implements TreeNodeObserver{
         }
         Collection<TreeNode> children = new ArrayList<>();
         for (ProposalInfo info : infos) {
-            children.add(ProposalInfoTreeNode.create(treeNode, info, this));
+            children.add(ProposalInfoTreeNode.create(treeNode, info, null));
         }
         return children;
     }
@@ -76,4 +78,35 @@ public class AccountTreeNodeObserver implements TreeNodeObserver{
         }
         return _peppProposalFacade.getPeppProposalInfos(partnerId, -1, dataSet);
     }
+    
+    @Override
+    public Collection<TreeNode> obtainSortedChildren(TreeNode treeNode) {
+        Stream<ProposalInfoTreeNode> stream = treeNode.getChildren().stream().map(n -> (ProposalInfoTreeNode) n);
+        Stream<ProposalInfoTreeNode> sorted;
+        switch (treeNode.getSortCriteria().toLowerCase()) {
+            case "id":
+                if (treeNode.isDescending()) {
+                    sorted = stream.sorted((n1, n2) -> Integer.compare(n2.getProposalInfo().getId(), n1.
+                            getProposalInfo().getId()));
+                } else {
+                    sorted = stream.sorted((n1, n2) -> Integer.compare(n1.getProposalInfo().getId(), n2.
+                            getProposalInfo().getId()));
+                }
+                break;
+            case "name":
+                if (treeNode.isDescending()) {
+                    sorted = stream.sorted((n1, n2) -> n2.getProposalInfo().getName().compareTo(n1.getProposalInfo().
+                            getName()));
+                } else {
+                    sorted = stream.sorted((n1, n2) -> n1.getProposalInfo().getName().compareTo(n2.getProposalInfo().
+                            getName()));
+                }
+                break;
+            case "status":
+            default:
+                sorted = stream;
+        }
+        return sorted.collect(Collectors.toList());
+    }
+    
 }

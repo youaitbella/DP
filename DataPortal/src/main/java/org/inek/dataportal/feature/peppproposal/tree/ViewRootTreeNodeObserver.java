@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.feature.specificfunction.backingbean.tree.insurance;
+package org.inek.dataportal.feature.peppproposal.tree;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,7 +15,7 @@ import javax.inject.Inject;
 import org.inek.dataportal.common.AccessManager;
 import static org.inek.dataportal.common.AccessManager.canReadSealed;
 import org.inek.dataportal.enums.Feature;
-import org.inek.dataportal.feature.specificfunction.facade.SpecificFunctionFacade;
+import org.inek.dataportal.facades.PeppProposalFacade;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.tree.RootNode;
 import org.inek.dataportal.helper.tree.TreeNode;
@@ -27,22 +27,19 @@ import org.inek.dataportal.helper.tree.YearTreeNode;
  * @author aitbellayo
  */
 @Dependent
-public class ViewNodeChildrenObserver implements TreeNodeObserver {
+public class ViewRootTreeNodeObserver implements TreeNodeObserver{
 
-    @Inject
-    private AccessManager _accessManager;
-    @Inject
-    private SpecificFunctionFacade _specificFunctionFacade;
+    @Inject private PeppProposalFacade _peppProposalFacade;
+    @Inject private AccessManager _accessManager;
 
     @Override
     public Collection<TreeNode> obtainChildren(TreeNode treeNode) {
-        return obtainViewNodeChildren((RootNode) treeNode); //To change body of generated methods, choose Tools | Templates.
+        return obtainViewNodeChildren((RootNode) treeNode);
     }
-
     private Collection<TreeNode> obtainViewNodeChildren(RootNode treeNode) {
-        Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.SPECIFIC_FUNCTION, canReadSealed());
-        Set<Integer> years = _specificFunctionFacade.getAgreementCalcYears(accountIds);
-        int targetYear = Utils.getTargetYear(Feature.SPECIFIC_FUNCTION);
+        Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.PEPP_PROPOSAL, canReadSealed());
+        List<Integer> years = _peppProposalFacade.getProposalYears(accountIds);
+        int targetYear = Utils.getTargetYear(Feature.PEPP_PROPOSAL);
         List<? extends TreeNode> oldChildren = new ArrayList<>(treeNode.getChildren());
         Collection<TreeNode> children = new ArrayList<>();
         for (Integer year : years) {
@@ -57,5 +54,4 @@ public class ViewNodeChildrenObserver implements TreeNodeObserver {
         }
         return children;
     }
-
 }

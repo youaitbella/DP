@@ -8,9 +8,12 @@ package org.inek.dataportal.feature.specificfunction.backingbean.tree.insurance;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import org.inek.dataportal.common.AccessManager;
+import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.WorkflowStatus;
@@ -28,10 +31,11 @@ import org.inek.dataportal.helper.tree.YearTreeNode;
  * @author aitbellayo
  */
 @Dependent
-public class AccountNodeChildrenObserver implements TreeNodeObserver{
+public class AccountTreeNodeObserver implements TreeNodeObserver{
     @Inject private AccessManager _accessManager;
     @Inject private SpecificFunctionFacade _specificFunctionFacade;
     @Inject private SessionController _sessionController;
+    @Inject private ApplicationTools _appTools;
 
     @Override
     public Collection<TreeNode> obtainChildren(TreeNode treeNode) {
@@ -49,7 +53,7 @@ public class AccountNodeChildrenObserver implements TreeNodeObserver{
         }
         Collection<TreeNode> children = new ArrayList<>();
         for (SpecificFunctionAgreement info : infos) {
-            children.add(SpecificFunctionAgreementTreeNode.create(treeNode, info, this));
+            children.add(SpecificFunctionAgreementTreeNode.create(treeNode, info, null));
         }
         return children;
     }
@@ -88,4 +92,33 @@ public class AccountNodeChildrenObserver implements TreeNodeObserver{
                 statusHigh);
     }
     
+    @Override
+    public Collection<TreeNode> obtainSortedChildren(TreeNode treeNode) {
+        Stream<SpecificFunctionAgreementTreeNode> stream = treeNode.getChildren().stream().
+                map(n -> (SpecificFunctionAgreementTreeNode) n);
+        Stream<SpecificFunctionAgreementTreeNode> sorted;
+        int direction = treeNode.isDescending() ? -1 : 1;
+        switch (treeNode.getSortCriteria().toLowerCase()) {
+            case "id":
+                sorted = stream.sorted((n1, n2)
+                        -> direction * Integer.compare(n1.getSpecificFunctionAgreement().getId(),
+                                n2.getSpecificFunctionAgreement().getId()));
+                break;
+            case "hospital":
+                sorted = stream.sorted((n1, n2)
+                        -> direction * _appTools.retrieveHospitalInfo(n1.getSpecificFunctionAgreement().getIk())
+                                .compareTo(_appTools.retrieveHospitalInfo(n2.getSpecificFunctionAgreement().getIk())));
+                break;
+            case "date":
+                sorted = stream.sorted((n1, n2)
+                        -> direction * n1.getSpecificFunctionAgreement().getLastChanged()
+                                .compareTo(n2.getSpecificFunctionAgreement().getLastChanged()));
+                break;
+            case "status":
+            default:
+                sorted = stream;
+        }
+        return sorted.collect(Collectors.toList());
+    }
+
 }

@@ -39,9 +39,6 @@ public class EditRootTreeNodeObserver implements TreeNodeObserver{
 
     @Override
     public Collection<TreeNode> obtainChildren(TreeNode treeNode) {
-        return obtainEditNodeChildren((RootNode) treeNode);
-    }
-    private Collection<TreeNode> obtainEditNodeChildren(RootNode treeNode) {
         Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.DRG_PROPOSAL, canReadCompleted());
         accountIds = _drgProposalFacade.
                 checkAccountsForProposalOfYear(accountIds, -1, WorkflowStatus.New, WorkflowStatus.ApprovalRequested);

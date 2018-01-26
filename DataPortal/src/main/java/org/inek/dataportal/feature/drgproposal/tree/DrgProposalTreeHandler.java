@@ -69,6 +69,7 @@ public class DrgProposalTreeHandler implements Serializable {
         _rootNode.addChild(node);
         return node;
     }
+
     public void refreshNodes() {
         _rootNode.refresh();
     }

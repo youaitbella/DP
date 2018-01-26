@@ -30,7 +30,7 @@ import org.inek.dataportal.helper.tree.TreeNodeObserver;
  * @author aitbellayo
  */
 @Dependent
-public class EditNodeChildrenObserver implements TreeNodeObserver{
+public class EditRootTreeNodeObserver implements TreeNodeObserver{
     @Inject private AccessManager _accessManager;
     @Inject private SpecificFunctionFacade _specificFunctionFacade;
     @Inject private SessionController _sessionController;

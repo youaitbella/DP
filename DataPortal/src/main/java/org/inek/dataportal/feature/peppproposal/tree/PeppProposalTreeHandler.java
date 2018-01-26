@@ -10,6 +10,7 @@ import java.util.TreeMap;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
@@ -25,6 +26,7 @@ import org.inek.dataportal.helper.tree.entityTree.AccountTreeNode;
 import org.inek.dataportal.helper.tree.ProposalInfoTreeNode;
 import org.inek.dataportal.helper.tree.RootNode;
 import org.inek.dataportal.helper.tree.TreeNode;
+import org.inek.dataportal.helper.tree.TreeNodeObserver;
 import org.inek.dataportal.utils.DocumentationUtil;
 import org.inek.dataportal.utils.KeyValueLevel;
 
@@ -39,39 +41,40 @@ public class PeppProposalTreeHandler implements Serializable {
     private static final Logger LOGGER = Logger.getLogger("PeppProposalTreeHandler");
     private static final long serialVersionUID = 1L;
 
-    @Inject
-    private PeppProposalFacade _peppProposalFacade;
-    @Inject
-    private SessionController _sessionController;
-    @Inject
-    private AccessManager _accessManager;
-    @Inject
-    private AccountFacade _accountFacade;
+    @Inject private PeppProposalFacade _peppProposalFacade;
+    @Inject private SessionController _sessionController;
 
-    @Inject
-    private Instance<AccountTreeNodeObserver> _accountTreeNodeObserverProvider;
+    @Inject private Instance<AccountTreeNodeObserver> _accountTreeNodeObserverProvider;
+    @Inject private Instance<EditRootTreeNodeObserver> _editRootTreeNodeObserverProvider;
+    @Inject private Instance<ViewRootTreeNodeObserver> _viewRootTreeNodeObserverProvider;
 
-    private final RootNode _rootNode = RootNode.create(0, null);
+    private RootNode _rootNode;
     private AccountTreeNode _accountNode;
 
-    private RootNode getRootNode(int id) {
+    @PostConstruct
+    private void init() {
+        _rootNode = RootNode.create(0, null);
+        _rootNode.setExpanded(true);
+    }
+
+    public RootNode getEditNode() {
+        return getRootNode(1, _editRootTreeNodeObserverProvider);
+    }
+
+    public RootNode getViewNode() {
+        return getRootNode(2, _viewRootTreeNodeObserverProvider);
+    }
+
+    private RootNode getRootNode(int id,
+            Instance<? extends TreeNodeObserver> treeNodeObserverProvider) {
         Optional<TreeNode> optionalRoot = _rootNode.getChildren().stream().filter(n -> n.getId() == id).findAny();
         if (optionalRoot.isPresent()) {
             return (RootNode) optionalRoot.get();
         }
-        RootNode node = RootNode.create(id, null);
+        RootNode node = RootNode.create(id, treeNodeObserverProvider.get());
         node.expand();
-        _rootNode.setExpanded(true);
         _rootNode.addChild(node);
         return node;
-    }
-
-    public RootNode getEditNode() {
-        return getRootNode(1);
-    }
-
-    public RootNode getViewNode() {
-        return getRootNode(2);
     }
 
     public void refreshNodes() {
@@ -80,50 +83,11 @@ public class PeppProposalTreeHandler implements Serializable {
 
     public AccountTreeNode getAccountNode() {
         if (_accountNode == null) {
-            _accountNode = AccountTreeNode.create(null, _sessionController.getAccount(), _accountTreeNodeObserverProvider.get());
+            _accountNode = AccountTreeNode.
+                    create(null, _sessionController.getAccount(), _accountTreeNodeObserverProvider.get());
             _accountNode.expand();
         }
         return _accountNode;
-    }
-
-//    @Override
-//    public Collection<TreeNode> obtainChildren(TreeNode treeNode) {
-//        return new ArrayList<>();
-//    }
-//    @Override
-//    public Collection<TreeNode> obtainSortedChildren(TreeNode treeNode) {
-//        if (treeNode instanceof AccountTreeNode) {
-//            return sortAccountNodeChildren((AccountTreeNode) treeNode);
-//        }
-//        return treeNode.getChildren();
-//    }
-    public Collection<TreeNode> sortAccountNodeChildren(AccountTreeNode treeNode) {
-        Stream<ProposalInfoTreeNode> stream = treeNode.getChildren().stream().map(n -> (ProposalInfoTreeNode) n);
-        Stream<ProposalInfoTreeNode> sorted;
-        switch (treeNode.getSortCriteria().toLowerCase()) {
-            case "id":
-                if (treeNode.isDescending()) {
-                    sorted = stream.sorted((n1, n2) -> Integer.compare(n2.getProposalInfo().getId(), n1.
-                            getProposalInfo().getId()));
-                } else {
-                    sorted = stream.sorted((n1, n2) -> Integer.compare(n1.getProposalInfo().getId(), n2.
-                            getProposalInfo().getId()));
-                }
-                break;
-            case "name":
-                if (treeNode.isDescending()) {
-                    sorted = stream.sorted((n1, n2) -> n2.getProposalInfo().getName().compareTo(n1.getProposalInfo().
-                            getName()));
-                } else {
-                    sorted = stream.sorted((n1, n2) -> n1.getProposalInfo().getName().compareTo(n2.getProposalInfo().
-                            getName()));
-                }
-                break;
-            case "status":
-            default:
-                sorted = stream;
-        }
-        return sorted.collect(Collectors.toList());
     }
 
     public void selectAll() {
