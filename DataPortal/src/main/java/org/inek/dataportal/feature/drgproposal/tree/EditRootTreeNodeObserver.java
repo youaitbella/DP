@@ -20,18 +20,17 @@ import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.DrgProposalFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
-import org.inek.dataportal.facades.cooperation.CooperationRightFacade;
+import org.inek.dataportal.helper.tree.RootNode;
 import org.inek.dataportal.helper.tree.entityTree.AccountTreeNode;
-import org.inek.portallib.tree.RootNode;
-import org.inek.portallib.tree.TreeNode;
-import org.inek.portallib.tree.TreeNodeObserver;
+import org.inek.dataportal.helper.tree.TreeNode;
+import org.inek.dataportal.helper.tree.TreeNodeObserver;
 
 /**
  *
  * @author aitbellayo
  */
 @Dependent
-public class EditNodeChildrenObserver implements TreeNodeObserver{
+public class EditRootTreeNodeObserver implements TreeNodeObserver{
     
     @Inject private DrgProposalFacade _drgProposalFacade;
     @Inject private SessionController _sessionController;

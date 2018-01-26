@@ -14,15 +14,13 @@ import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import org.inek.dataportal.common.AccessManager;
 import static org.inek.dataportal.common.AccessManager.canReadSealed;
-import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.facades.PeppProposalFacade;
-import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.helper.Utils;
-import org.inek.portallib.tree.RootNode;
-import org.inek.portallib.tree.TreeNode;
-import org.inek.portallib.tree.TreeNodeObserver;
-import org.inek.portallib.tree.YearTreeNode;
+import org.inek.dataportal.helper.tree.RootNode;
+import org.inek.dataportal.helper.tree.TreeNode;
+import org.inek.dataportal.helper.tree.TreeNodeObserver;
+import org.inek.dataportal.helper.tree.YearTreeNode;
 
 /**
  *

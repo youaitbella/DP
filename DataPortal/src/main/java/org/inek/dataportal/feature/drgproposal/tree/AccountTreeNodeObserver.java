@@ -8,6 +8,8 @@ package org.inek.dataportal.feature.drgproposal.tree;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import org.inek.dataportal.common.AccessManager;
@@ -15,22 +17,20 @@ import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.facades.DrgProposalFacade;
-import org.inek.dataportal.facades.account.AccountFacade;
-import org.inek.dataportal.facades.cooperation.CooperationRightFacade;
 import org.inek.dataportal.helper.structures.ProposalInfo;
 import org.inek.dataportal.helper.tree.ProposalInfoTreeNode;
+import org.inek.dataportal.helper.tree.TreeNode;
+import org.inek.dataportal.helper.tree.TreeNodeObserver;
+import org.inek.dataportal.helper.tree.YearTreeNode;
 import org.inek.dataportal.helper.tree.entityTree.AccountTreeNode;
-import org.inek.portallib.tree.TreeNode;
-import org.inek.portallib.tree.TreeNodeObserver;
-import org.inek.portallib.tree.YearTreeNode;
 
 /**
  *
  * @author aitbellayo
  */
 @Dependent
-public class AccountTreeNodeObserver implements TreeNodeObserver{
-    
+public class AccountTreeNodeObserver implements TreeNodeObserver {
+
     @Inject private DrgProposalFacade _drgProposalFacade;
     @Inject private SessionController _sessionController;
     @Inject private AccessManager _accessManager;
@@ -39,6 +39,7 @@ public class AccountTreeNodeObserver implements TreeNodeObserver{
     public Collection<TreeNode> obtainChildren(TreeNode treeNode) {
         return obtainAccountNodeChildren((AccountTreeNode) treeNode);
     }
+
     private Collection<TreeNode> obtainAccountNodeChildren(AccountTreeNode treeNode) {
         int partnerId = treeNode.getId();
         List<ProposalInfo> infos;
@@ -50,10 +51,11 @@ public class AccountTreeNodeObserver implements TreeNodeObserver{
         }
         Collection<TreeNode> children = new ArrayList<>();
         for (ProposalInfo info : infos) {
-            children.add(ProposalInfoTreeNode.create(treeNode, info, this));
+            children.add(ProposalInfoTreeNode.create(treeNode, info, null));
         }
         return children;
     }
+
     private List<ProposalInfo> obtainProposalInfosForRead(int partnerId, int year) {
         DataSet dataSet;
         if (partnerId == _sessionController.getAccountId()) {
@@ -77,4 +79,26 @@ public class AccountTreeNodeObserver implements TreeNodeObserver{
         }
         return _drgProposalFacade.getDrgProposalInfos(partnerId, -1, dataSet);
     }
+
+    @Override
+    public Collection<TreeNode> obtainSortedChildren(TreeNode treeNode) {
+        Stream<ProposalInfoTreeNode> stream = treeNode.getChildren().stream().map(n -> (ProposalInfoTreeNode) n);
+        Stream<ProposalInfoTreeNode> sorted;
+        int direction = treeNode.isDescending() ? -1 : 1;
+        switch (treeNode.getSortCriteria().toLowerCase()) {
+            case "id":
+                sorted = stream.sorted((n1, n2) -> direction * Integer.compare(n1.getProposalInfo().getId(), n2.
+                        getProposalInfo().getId()));
+                break;
+            case "name":
+                sorted = stream.sorted((n1, n2) -> direction * n1.getProposalInfo().getName().compareTo(n2.
+                        getProposalInfo().getName()));
+                break;
+            case "status":
+            default:
+                sorted = stream;
+        }
+        return sorted.collect(Collectors.toList());
+    }
+
 }

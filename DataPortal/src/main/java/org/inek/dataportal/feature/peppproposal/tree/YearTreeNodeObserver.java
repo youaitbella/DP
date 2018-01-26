@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import javax.enterprise.context.Dependent;
+import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import org.inek.dataportal.common.AccessManager;
 import static org.inek.dataportal.common.AccessManager.canReadSealed;
@@ -21,9 +22,9 @@ import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.PeppProposalFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.helper.tree.entityTree.AccountTreeNode;
-import org.inek.portallib.tree.TreeNode;
-import org.inek.portallib.tree.TreeNodeObserver;
-import org.inek.portallib.tree.YearTreeNode;
+import org.inek.dataportal.helper.tree.TreeNode;
+import org.inek.dataportal.helper.tree.TreeNodeObserver;
+import org.inek.dataportal.helper.tree.YearTreeNode;
 
 /**
  *
@@ -35,6 +36,7 @@ public class YearTreeNodeObserver implements TreeNodeObserver{
     @Inject private SessionController _sessionController;
     @Inject private AccessManager _accessManager;
     @Inject private AccountFacade _accountFacade;
+    @Inject private Instance<AccountTreeNodeObserver> _accountTreeNodeObserverProvider;
 
     @Override
     public Collection<TreeNode> obtainChildren(TreeNode treeNode) {
@@ -57,8 +59,9 @@ public class YearTreeNodeObserver implements TreeNodeObserver{
         for (Account account : accounts) {
             Integer id = account.getId();
             Optional<? extends TreeNode> existing = oldChildren.stream().filter(n -> n.getId() == id).findFirst();
-            AccountTreeNode childNode = existing.isPresent() ? (AccountTreeNode) existing.get() : AccountTreeNode.
-                    create(treeNode, account, this);
+            AccountTreeNode childNode = existing.isPresent() 
+                    ? (AccountTreeNode) existing.get() 
+                    : AccountTreeNode.create(treeNode, account, _accountTreeNodeObserverProvider.get());
             children.add((TreeNode) childNode);
             oldChildren.remove(childNode);
             if (account == currentUser) {
