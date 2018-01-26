@@ -67,7 +67,6 @@ public class YearTreeNodeObserver implements TreeNodeObserver {
                     .findFirst()
                     .orElseGet(() -> createCustomerNode(treeNode, ik));
             children.add((TreeNode) childNode);
-            childNode.expand();  // auto-expand all edit nodes by default
         }
         return children;
     }
@@ -99,9 +98,11 @@ public class YearTreeNodeObserver implements TreeNodeObserver {
                     .findFirst()
                     .orElseGet(() -> AccountTreeNode.create(treeNode, account, _accountTreeNodeObserverProvider.get()));
             children.add((TreeNode) childNode);
-            childNode.expand();  // auto-expand all edit nodes by default
+            if (account == currentUser) {
+                childNode.expand();
+            }
         }
         return children;
     }
-   
+
 }
