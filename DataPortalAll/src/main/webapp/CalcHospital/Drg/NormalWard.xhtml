@@ -453,11 +453,13 @@
                 <inek:InputIntegerWithMessage value="#{x.pprWeight}"  renderElement="sumAddPpr:text"/>
                 </td>
                 <td class="colInput">
-                <inek:InputNumberWithMessage title="#{(x.careDays != 0 and x.bedCnt != 0 and (x.careDays / (x.bedCnt * 365)) lt 0.6) ? 'Der Wert ist unter 60%!' : ''}" 
+                <h:inputText title="#{(x.careDays != 0 and x.bedCnt != 0 and (x.careDays / (x.bedCnt * 365)) lt 0.6) ? 'Der Wert ist unter 60%!' : ''}" 
                                              styleClass="#{(x.careDays != 0 and x.bedCnt != 0 and (x.careDays / (x.bedCnt * 365)) lt 0.6) ? 'red' : ''}"
-                                             id="calc-field-#{loop.index}" disabled="true" 
+                                             id="calc-field-#{loop.index}"
                                              value="#{(x.careDays != 0 and x.bedCnt != 0) ? (x.careDays / (x.bedCnt * 365)) : ''}" 
-                                             renderElement="@this :logout:remaining"/> 
+                                             >
+                    <f:convertNumber pattern="##,00%"/>
+                </h:inputText>
                 </td>
                 <td class="colInput">
                 <h:outputLabel styleClass="prior" 

@@ -91,10 +91,10 @@
                         Auslastung
                     </td>
                     <td>
-                        Minimum
+                        Gewichtungsfaktoren Minimum
                     </td>
                     <td>
-                        Maximum
+                        Gewichtungsfaktoren Maximum
                     </td>
                     <td>
                         Spreizung
@@ -242,58 +242,64 @@
 
                         <td>
                             <inek:InputIntegerWithMessage id='medServCnt' styleClassComponent="element100"  
-                                                         value="#{x.medicalServiceCnt}" rendered="true"
-                                                         title='#{(x.ops8980 or x.ops898f) and x.medicalServiceCnt lt 5 ? "Intensivkode 8-980 oder 8-98f verlangen mindestens 5 VK" : ""}'
-                                                         styleClass='#{(x.ops8980 or x.ops898f) and x.medicalServiceCnt lt 5 ? "red" : ""}'
-                                                         renderElement="#{cc.attrs.id}:tbl-cont:#{loop.index}:costPerMedical"
-                                                         />
+                                                          value="#{x.medicalServiceCnt}" rendered="true"
+                                                          title='#{(x.ops8980 or x.ops898f) and x.medicalServiceCnt lt 5 ? "Intensivkode 8-980 oder 8-98f verlangen mindestens 5 VK" : ""}'
+                                                          styleClass='#{(x.ops8980 or x.ops898f) and x.medicalServiceCnt lt 5 ? "red" : ""}'
+                                                          renderElement="#{cc.attrs.id}:tbl-cont:#{loop.index}:costPerMedical"
+                                                          />
                         </td>
                         <td>
                             <inek:InputIntegerWithMessage styleClassComponent="element100" styleClass="element100" 
-                                                         value="#{x.nursingServiceCnt}" rendered="true" renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:costPerNursing"/>
+                                                          value="#{x.nursingServiceCnt}" rendered="true" renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:costPerNursing"/>
                         </td>
                         <td>
                             <inek:InputIntegerWithMessage styleClassComponent="element100" styleClass="element100" 
-                                                         value="#{x.functionalServiceCnt}" rendered="true"/>
+                                                          value="#{x.functionalServiceCnt}" rendered="true"/>
                         </td>
                         <td>
                             <inek:InputIntegerWithMessage styleClassComponent="element100" styleClass="element100" 
-                                                         value="#{x.medicalServiceCost}" rendered="true" 
-                                                         renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:overallCost #{cc.attrs.id}:tbl-cont:#{loop.index}:costPerMedical"/>
+                                                          value="#{x.medicalServiceCost}" rendered="true" 
+                                                          renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:overallCost #{cc.attrs.id}:tbl-cont:#{loop.index}:costPerMedical"/>
                         </td>
                         <td>
                             <inek:InputIntegerWithMessage styleClassComponent="element100" styleClass="element100" 
-                                                         value="#{x.nursingServiceCost}" rendered="true" 
-                                                         renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:overallCost #{cc.attrs.id}:tbl-cont:#{loop.index}:costPerNursing"/>
+                                                          value="#{x.nursingServiceCost}" rendered="true" 
+                                                          renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:overallCost #{cc.attrs.id}:tbl-cont:#{loop.index}:costPerNursing"/>
                         </td>
                         <td>
                             <inek:InputIntegerWithMessage styleClassComponent="element100" styleClass="element100" 
-                                                         value="#{x.functionalServiceCost}" rendered="true" renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:overallCost"/>
+                                                          value="#{x.functionalServiceCost}" rendered="true" renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:overallCost"/>
                         </td>
                         <td>
                             <inek:InputIntegerWithMessage styleClassComponent="element100" styleClass="element100" 
-                                                         value="#{x.overheadsMedicine}" rendered="true" renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:overallCost"/>
+                                                          value="#{x.overheadsMedicine}" rendered="true" renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:overallCost"/>
                         </td>
                         <td>
                             <inek:InputIntegerWithMessage styleClassComponent="element100" styleClass="element100" 
-                                                         value="#{x.overheadMedicalGoods}" rendered="true" renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:overallCost"/>
+                                                          value="#{x.overheadMedicalGoods}" rendered="true" renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:overallCost"/>
                         </td>
                         <td>
                             <inek:InputIntegerWithMessage styleClassComponent="element100" styleClass="element100" 
-                                                         value="#{x.medicalInfrastructureCost}" rendered="true" renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:overallCost"/>
+                                                          value="#{x.medicalInfrastructureCost}" rendered="true" renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:overallCost"/>
                         </td>
                         <td>
                             <inek:InputIntegerWithMessage styleClassComponent="element100" styleClass="element100" 
-                                                         value="#{x.nonMedicalInfrastructureCost}" rendered="true" renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:overallCost"/>
+                                                          value="#{x.nonMedicalInfrastructureCost}" rendered="true" renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:overallCost"/>
                         </td>
                         <td>
-                            <h:outputLabel id="overallCost" styleClass="element100 number" value="#{x.overallCost}" rendered="true"/>
+                            <h:outputLabel id="overallCost" styleClass="element100 number" value="#{x.overallCost}" rendered="true">
+                                <f:convertNumber />
+                            </h:outputLabel>
                         </td>
                         <td>
-                            <h:outputLabel id="costPerMedical" styleClass="element100 number" value="#{x.costPerMedicalVK}" rendered="true"/>
+                            <h:outputLabel id="costPerMedical" styleClass="element100 number" value="#{x.costPerMedicalVK}" rendered="true">
+                                <f:convertNumber />
+                            </h:outputLabel>
                         </td>
                         <td>
-                            <h:outputLabel id="costPerNursing" styleClass="element100 number" value="#{x.costPerNursingVK}" rendered="true"/>
+                            <h:outputLabel id="costPerNursing" styleClass="element100 number" value="#{x.costPerNursingVK}" rendered="true">
+                                <f:convertNumber />
+                            </h:outputLabel>
                         </td>
 
                     </tr>
@@ -303,21 +309,21 @@
 
         <c:if test="#{cc.attrs.intensiveType == 1}">
             <inek:UploadButtons importer="#{editCalcBasicsDrg.getImporter('drgIntensive')}"
-                                 calcbase="#{editCalcBasicsDrg.calcBasics}" 
-                                 readOnly="#{editCalcBasicsDrg.readOnly}"
-                                 addListener="#{editCalcBasicsDrg.addIntensivStroke(1)}"
-                                 uploadButtonText="Upload"
-                                 actionDeleteTable="#{editCalcBasicsDrg.deleteIntensivStrokeItems(1)}"
-                                 />
+                                calcbase="#{editCalcBasicsDrg.calcBasics}" 
+                                readOnly="#{editCalcBasicsDrg.readOnly}"
+                                addListener="#{editCalcBasicsDrg.addIntensivStroke(1)}"
+                                uploadButtonText="Upload"
+                                actionDeleteTable="#{editCalcBasicsDrg.deleteIntensivStrokeItems(1)}"
+                                />
         </c:if>
         <c:if test="#{cc.attrs.intensiveType != 1}">
             <inek:UploadButtons importer="#{editCalcBasicsDrg.getImporter('drgStrokeUnit')}"
-                                 calcbase="#{editCalcBasicsDrg.calcBasics}" 
-                                 readOnly="#{editCalcBasicsDrg.readOnly}"
-                                 addListener="#{editCalcBasicsDrg.addIntensivStroke(2)}"
-                                 uploadButtonText="Upload"
-                                 actionDeleteTable="#{editCalcBasicsDrg.deleteIntensivStrokeItems(2)}"
-                                 />
+                                calcbase="#{editCalcBasicsDrg.calcBasics}" 
+                                readOnly="#{editCalcBasicsDrg.readOnly}"
+                                addListener="#{editCalcBasicsDrg.addIntensivStroke(2)}"
+                                uploadButtonText="Upload"
+                                actionDeleteTable="#{editCalcBasicsDrg.deleteIntensivStrokeItems(2)}"
+                                />
         </c:if>
 
 
