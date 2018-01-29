@@ -5,7 +5,7 @@
  */
 package org.inek.dataportal.helper.tree.entityTree;
 
-import org.inek.dataportal.helper.tree.TreeNode;
+import org.inek.portallib.tree.TreeNode;
 
 /**
  *

@@ -19,8 +19,8 @@ import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.feature.specificfunction.facade.SpecificFunctionFacade;
 import org.inek.dataportal.helper.tree.entityTree.AccountTreeNode;
 import org.inek.dataportal.helper.tree.entityTree.CustomerTreeNode;
-import org.inek.dataportal.helper.tree.TreeNode;
-import org.inek.dataportal.helper.tree.TreeNodeObserver;
+import org.inek.portallib.tree.TreeNode;
+import org.inek.portallib.tree.TreeNodeObserver;
 
 /**
  *

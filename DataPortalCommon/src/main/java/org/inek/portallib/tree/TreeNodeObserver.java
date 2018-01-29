@@ -1,4 +1,4 @@
-package org.inek.dataportal.helper.tree;
+package org.inek.portallib.tree;
 
 import java.util.Collection;
 

@@ -16,9 +16,9 @@ import org.inek.dataportal.feature.specificfunction.entity.SpecificFunctionReque
 import org.inek.dataportal.feature.specificfunction.facade.SpecificFunctionFacade;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.tree.SpecificFunctionRequestTreeNode;
-import org.inek.dataportal.helper.tree.RootNode;
-import org.inek.dataportal.helper.tree.TreeNode;
-import org.inek.dataportal.helper.tree.TreeNodeObserver;
+import org.inek.portallib.tree.RootNode;
+import org.inek.portallib.tree.TreeNode;
+import org.inek.portallib.tree.TreeNodeObserver;
 
 /**
  *
