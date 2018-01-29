@@ -18,8 +18,13 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>DataPortalCalc</module>
+        <module>DataPortalCert</module>
         <module>DataPortalCommon</module>
-        <!--module>PsyPortal</module-->
+        <module>DataPortalDrg</module>
+        <module>DataPortalInek</module>
+        <module>DataPortalInsurance</module>
+        <module>DataPortalPsy</module>
         <module>AccountService</module>
     </modules>
 
