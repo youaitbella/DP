@@ -7,3 +7,4 @@ DataPortal/nb-configuration.xml
 /TestPortal/nbproject/
 /PsyPortal/nbproject/
 **/PsyPortal
+/DataPortalCommon/nbproject/
