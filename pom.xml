@@ -18,9 +18,11 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>DataPortalCalc</module>
-        <module>DataPortalCert</module>
         <module>DataPortalCommon</module>
+        <module>DataPortalAll</module>
+
+        <module>DataPortalCert</module>
+        <module>DataPortalCalc</module>
         <module>DataPortalDrg</module>
         <module>DataPortalInek</module>
         <module>DataPortalInsurance</module>
