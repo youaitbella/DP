@@ -156,7 +156,9 @@
                                            value="#{x.weightMinimum != 0 ? x.weightMaximum / x.weightMinimum : ''}"
                                            title="#{x.weightMinimum != 0 and x.weightMaximum / x.weightMinimum ge 6 ? 'Bitte beachten Sie, dass eine Spreizung von über 6 nicht Handbuchkonform ist (Vgl. Kapitel 6.3.3, Kalkulationshandbuch, V4.0).' : ''}" 
                                            styleClass="#{x.weightMinimum != 0 and x.weightMaximum / x.weightMinimum ge 6 ? 'red' : ''}"
-                                           />
+                                           >
+                                <f:convertNumber pattern="#0.00" />
+                            </h:outputLabel>
                         </td>
                         <td>
                             <inek:InputTextWithMessage value="#{x.weightDescription}"  renderElement="diff-oa-#{loop.index} sumShareMedicine:text"/>
