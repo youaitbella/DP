@@ -108,7 +108,7 @@
             <td class="centered col-border-right col-border-bottom col-fixed">Station<br/>(aussagekräftiger Name, Behandlungsschwerpunkt)</td>
             <td class="centered col-border-right col-border-bottom">Eindeutige Zuordnung nach Psych-PV* (A, S, G, KJP, P)</td>
             <td class="centered col-border-right col-border-bottom" title="Falls eine Unterjährige Änderung der Bettenanzahl vorgenommen wird, geben Sie hier bitte den gewichteten Mittelwert kaufmännisch gerundet ganzzahlig an.">Anzahl Betten</td>
-            <td class="centered col-border-right col-border-bottom">bettenführende Aufnahmestation (bitte ankreuzen)</td>
+            <td class="centered col-border-right col-border-bottom" >Belegung</td>
             <td class="centered col-border-right col-border-bottom">Summe Pflegetage</td>
             <td class="centered col-border-right col-border-bottom" 
                 title="Angabe von Minuten für Krankenhäuser, in denen die Methode LEP angewendet wird">Summe Gewichtungspunkte**</td>
@@ -143,9 +143,10 @@
             <inek:InputIntegerWithMessage value="#{item.bedCnt}" renderElement="@this tblNormInt1:#{loop.index}:utilization"/>
             </td>
             <td style="text-align: center;">
-            <h:selectBooleanCheckbox value="#{item.receivingStation}">
+            <h:selectOneMenu value="#{item.occupancy}">
+                <f:selectItems value="#{editCalcBasicsPepp.occupancyItems}" />
                 <f:ajax event="change" render="@form :logout:remaining" />
-            </h:selectBooleanCheckbox>            
+            </h:selectOneMenu>     
             </td>
             <td>
             <inek:InputIntegerWithMessage value="#{item.regularCareDays}" renderElement="@this tblNormInt1:#{loop.index}:utilization"/>
@@ -210,22 +211,22 @@
                                        renderElement="@this tblNormInt1:#{loop.index}:station:text tblNormInt3:#{loop.index}:station:text"/>
             </td>
             <td>
-            <inek:InputIntegerWithMessage value="#{item.medicalServiceCnt}" renderElement="@this"/>
+            <inek:InputNumberWithMessage value="#{item.medicalServiceCnt}" renderElement="@this"/>
             </td>
             <td>
-            <inek:InputIntegerWithMessage value="#{item.nursingServiceCnt}" renderElement="@this"/>
+            <inek:InputNumberWithMessage value="#{item.nursingServiceCnt}" renderElement="@this"/>
             </td>
             <td>
-            <inek:InputIntegerWithMessage value="#{item.psychologistCnt}" renderElement="@this"/>
+            <inek:InputNumberWithMessage value="#{item.psychologistCnt}" renderElement="@this"/>
             </td>
             <td>
-            <inek:InputIntegerWithMessage value="#{item.socialWorkerCnt}" renderElement="@this"/>
+            <inek:InputNumberWithMessage value="#{item.socialWorkerCnt}" renderElement="@this"/>
             </td>
             <td>
-            <inek:InputIntegerWithMessage value="#{item.specialTherapistCnt}" renderElement="@this"/>
+            <inek:InputNumberWithMessage value="#{item.specialTherapistCnt}" renderElement="@this"/>
             </td>
             <td>
-            <inek:InputIntegerWithMessage value="#{item.functionalServiceCnt}" renderElement="@this"/>
+            <inek:InputNumberWithMessage value="#{item.functionalServiceCnt}" renderElement="@this"/>
             </td>
             </tr>
         </ui:repeat>
