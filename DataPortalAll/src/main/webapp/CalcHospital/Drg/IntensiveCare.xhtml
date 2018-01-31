@@ -24,6 +24,11 @@
     <br/>
 
     <div jsf:id="intensivCareDetail" jsf:rendered="#{editCalcBasicsDrg.calcBasics.intensiveBed}">
+        <h:panelGrid columns="3">
+        <h:outputLabel value="" styleClass="label element25em" />
+        <h:outputLabel value="#{editCalcBasicsDrg.calcBasics.dataYear}" styleClass="label element08em number" />
+        <h:outputLabel value="#{editCalcBasicsDrg.calcBasics.dataYear - 1}" styleClass="label element08em number" />
+        
         <h:outputLabel styleClass="label element25em" 
                        value="#{msg.lblIntensivStrokeSumNotWeighted}"/>
         <h:outputLabel id="sumIntNotWeighted" 
@@ -31,7 +36,12 @@
                        value="#{editCalcBasicsDrg.sumIntensivStrokeNotWeighted}">
             <f:convertNumber pattern="#,##0" locale="de" />
         </h:outputLabel>
-        <br/>
+                <h:outputLabel id="sumPriorIntNotWeighted" 
+                       styleClass="label element08em number" 
+                       value="#{editCalcBasicsDrg.priorSumIntensivStrokeNotWeighted}">
+            <f:convertNumber pattern="#,##0" locale="de" />
+        </h:outputLabel>
+        
         <h:outputLabel styleClass="label element25em" 
                        value="#{msg.lblIntensivStrokeSumWeighted}"/>
         <h:outputLabel id="sumIntWeighted" 
@@ -39,6 +49,12 @@
                        value="#{editCalcBasicsDrg.sumIntensivStrokeWeighted}">
             <f:convertNumber pattern="#,##0" locale="de" />
         </h:outputLabel>
+        <h:outputLabel id="sumPriorIntWeighted" 
+                       styleClass="label element08em number" 
+                       value="#{editCalcBasicsDrg.priorSumIntensivStrokeWeighted}">
+            <f:convertNumber pattern="#,##0" locale="de" />
+        </h:outputLabel>
+        </h:panelGrid> 
 
         <h2 style="color: red; font-weight: bold">Bitte benennen Sie die Intensivstation wie in der Datei Intensiv.csv</h2>
         <calc:IntensivStroke id="intStroke" intensiveType="1"/>

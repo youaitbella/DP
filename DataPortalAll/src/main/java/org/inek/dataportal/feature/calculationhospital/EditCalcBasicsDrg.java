@@ -354,9 +354,27 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }
         return result;
     }
+    
+    public int getPriorSumIntensivStrokeWeighted() {
+        List<KGLListIntensivStroke> intensivStrokes = _priorCalcBasics.getIntensivStrokes();
+        int result = 0;
+        for (KGLListIntensivStroke intensivStroke : intensivStrokes) {
+            result += intensivStroke.getIntensivHoursWeighted();
+        }
+        return result;
+    }
 
     public int getSumIntensivStrokeNotWeighted() {
         List<KGLListIntensivStroke> intensivStrokes = _calcBasics.getIntensivStrokes();
+        int result = 0;
+        for (KGLListIntensivStroke intensivStroke : intensivStrokes) {
+            result += intensivStroke.getIntensivHoursNotweighted();
+        }
+        return result;
+    }
+    
+    public int getPriorSumIntensivStrokeNotWeighted() {
+        List<KGLListIntensivStroke> intensivStrokes = _priorCalcBasics.getIntensivStrokes();
         int result = 0;
         for (KGLListIntensivStroke intensivStroke : intensivStrokes) {
             result += intensivStroke.getIntensivHoursNotweighted();
