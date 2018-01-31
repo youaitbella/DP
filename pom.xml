@@ -21,6 +21,7 @@
         <module>DataPortalCommon</module>
         <module>DataPortalAll</module>
 
+        <module>DataPortalAdmin</module>
         <module>DataPortalCert</module>
         <module>DataPortalCalc</module>
         <module>DataPortalDrg</module>
