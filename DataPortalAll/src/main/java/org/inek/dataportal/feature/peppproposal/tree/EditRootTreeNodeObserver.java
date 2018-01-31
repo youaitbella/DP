@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import javax.enterprise.context.Dependent;
+import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import org.inek.dataportal.common.AccessManager;
 import static org.inek.dataportal.common.AccessManager.canReadCompleted;
@@ -36,13 +37,10 @@ public class EditRootTreeNodeObserver implements TreeNodeObserver{
     @Inject private SessionController _sessionController;
     @Inject private AccessManager _accessManager;
     @Inject private AccountFacade _accountFacade;
+    @Inject private Instance<AccountTreeNodeObserver> _accountTreeNodeObserverProvider;
 
     @Override
     public Collection<TreeNode> obtainChildren(TreeNode treeNode) {
-        return obtainEditNodeChildren((RootNode) treeNode);
-    }
-    
-    private Collection<TreeNode> obtainEditNodeChildren(RootNode treeNode) {
         Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.PEPP_PROPOSAL, canReadCompleted());
         accountIds = _peppProposalFacade.
                 checkAccountsForProposalOfYear(accountIds, -1, WorkflowStatus.New, WorkflowStatus.ApprovalRequested);
@@ -58,8 +56,10 @@ public class EditRootTreeNodeObserver implements TreeNodeObserver{
         for (Account account : accounts) {
             Integer id = account.getId();
             Optional<? extends TreeNode> existing = oldChildren.stream().filter(n -> n.getId() == id).findFirst();
-            AccountTreeNode childNode = existing.isPresent() ? (AccountTreeNode) existing.get() : AccountTreeNode.
-                    create(treeNode, account, this);
+            AccountTreeNode childNode = existing.isPresent() 
+                    ? (AccountTreeNode) existing.get() 
+                    : AccountTreeNode
+                    .create(treeNode, account, _accountTreeNodeObserverProvider.get());
             children.add((TreeNode) childNode);
             oldChildren.remove(childNode);
             childNode.expand();  // auto-expand all edit nodes by default
