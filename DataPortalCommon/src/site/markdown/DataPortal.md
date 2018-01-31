@@ -1,6 +1,6 @@
 # InEK Datenportal
 
-DataPortalAll ein das Modul von [DataPortal](../../../../Readme.md). 
+DataPortal ein das Modul von [DataPortal](../../../../Readme.md). 
 Es handelt sich um die Hauptanwendung zur strukturierten Kommunikation mit Krankenhäusern und sonstigen externen Instituten oder Personen.
 
 Zum Zeitpunkt des Projektstart (2011) erhält das InEK zahlreiche Datenlieferungen in unterschiedlichen Formaten per Mail. 
