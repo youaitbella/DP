@@ -40,18 +40,16 @@ public enum ConfigKey {
     IsValuationRatioCreateEnabled(false),
     IsValuationRatioSendEnabled(false),
     IsPsychStaffParanoiacheckEnabled(true),
-    DataServiceClientVersion("20160101.3"),
-    ApplicationURL("https://daten.inek.org"),
+    DataServiceClientVersion("20180101.0"),
     FolderRoot("//vFileserver01/company$/EDV/Datenportal/"),
     CertiFolderRoot("//vFileserver01/company$/EDV/Projekte/Zertifizierung/Pruefung/"),
     DocumentScanDir(false),
-    Feature(true),
     DropBoxTypeId(1),
     FolderUpload("upload"),
     FolderDocumentScanBase("documents"),
     ExceptionEmail("PortalAdmin@inek-drg.de"),
     ManagerEmail("dsportalanmeldungen@inek-drg.de"), 
-    ReportValidity(60);
+    ReportValidity(120);
 
     //
     private final Object _defaultValue;

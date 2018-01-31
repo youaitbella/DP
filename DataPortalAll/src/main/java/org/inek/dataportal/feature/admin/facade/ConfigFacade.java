@@ -13,13 +13,14 @@ import org.inek.dataportal.facades.AbstractDataAccess;
  */
 @Stateless
 public class ConfigFacade extends AbstractDataAccess {
+    private static final String FEATURE = "Feature:";
 
     public void save(ConfigKey key, String value) {
         save (key.name(), value);
     }
 
     public void save(Feature feature, boolean value) {
-        save (ConfigKey.Feature + ":" + feature.name(), "" + value);
+        save (FEATURE + feature.name(), "" + value);
     }
 
     private void save(String key, String value) {
@@ -63,7 +64,7 @@ public class ConfigFacade extends AbstractDataAccess {
     }
 
     public boolean readBool(Feature feature) {
-        Config config = findFresh(Config.class, ConfigKey.Feature + ":" + feature.name());
+        Config config = findFresh(Config.class, FEATURE + feature.name());
         if (config == null) {
             save(feature, true);
             return true;

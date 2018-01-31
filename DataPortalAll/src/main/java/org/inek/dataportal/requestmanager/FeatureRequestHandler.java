@@ -24,6 +24,7 @@ import org.inek.dataportal.feature.admin.entity.MailTemplate;
 import org.inek.dataportal.feature.admin.facade.ConfigFacade;
 import org.inek.dataportal.mail.Mailer;
 import org.inek.dataportal.utils.DateUtils;
+import static org.inek.portallib.util.Const.*;
 
 /**
  *
@@ -31,8 +32,6 @@ import org.inek.dataportal.utils.DateUtils;
  */
 @Stateless
 public class FeatureRequestHandler {
-    private static final int HTTPS_PORT = 443;
-    private static final int HTTP_PORT = 80;
 
     private static final Logger LOGGER = Logger.getLogger("FeatureRequestHandler");
     @Inject private AccountFeatureRequestFacade _facade;
@@ -72,17 +71,17 @@ public class FeatureRequestHandler {
             return false;
         }
         String link = buildLink(featureRequest.getApprovalKey());
-        String subject = template.getSubject().replace("{feature}", featureRequest.getFeature().getDescription());
+        String subject = template.getSubject().replace(PLACEHOLDER_FEATURE, featureRequest.getFeature().getDescription());
         Customer cust = _customerFacade.getCustomerByIK(account.getIK());
         String body = template.getBody()
-                .replace("{link}", link)
-                .replace("{feature}", featureRequest.getFeature().getDescription())
-                .replace("{name}", account.getFirstName() + " " + account.getLastName())
-                .replace("{email}", account.getEmail())
-                .replace("{role}", _roleFacade.find(account.getRoleId()).getText())
-                .replace("{phone}", account.getPhone())
-                .replace("{company}", account.getCompany())
-                .replace("{ik}", account.getIK() + (Objects.equals(cust.getIK(), account.getIK()) ? " (im ICMT bekannt)" : ""));
+                .replace(PLACEHOLDER_LINK, link)
+                .replace(PLACEHOLDER_FEATURE, featureRequest.getFeature().getDescription())
+                .replace(PLACEHOLDER_NAME, account.getFirstName() + " " + account.getLastName())
+                .replace(PLACEHOLDER_EMAIL, account.getEmail())
+                .replace(PLACEHOLDER_ROLE, _roleFacade.find(account.getRoleId()).getText())
+                .replace(PLACEHOLDER_PHONE, account.getPhone())
+                .replace(PLACEHOLDER_COMPANY, account.getCompany())
+                .replace(PLACEHOLDER_IK, account.getIK() + (Objects.equals(cust.getIK(), account.getIK()) ? " (im ICMT bekannt)" : ""));
         String mailAddress = _config.read(ConfigKey.ManagerEmail);
         return _mailer.sendMail(mailAddress, template.getBcc(), subject, body);
 
@@ -93,10 +92,10 @@ public class FeatureRequestHandler {
         String protocol = externalContext.getRequestScheme() + "://";
         int port = externalContext.getRequestServerPort();
         String server = externalContext.getRequestServerName();
-        String contextPah = externalContext.getRequestContextPath();
+        String contextPath = externalContext.getRequestContextPath();
         String link = protocol
                 + server + (port == HTTP_PORT || port == HTTPS_PORT ? "" : ":" + port)
-                + contextPah
+                + contextPath
                 + Pages.AdminApproval.URL()
                 + "?key=" + key;
         return link;

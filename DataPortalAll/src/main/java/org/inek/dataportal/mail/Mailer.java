@@ -16,6 +16,7 @@ import javax.activation.DataSource;
 import javax.activation.FileDataSource;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.mail.Message;
@@ -39,6 +40,7 @@ import org.inek.dataportal.feature.admin.entity.MailTemplate;
 import org.inek.dataportal.feature.admin.facade.ConfigFacade;
 import org.inek.dataportal.feature.admin.facade.MailTemplateFacade;
 import org.inek.dataportal.helper.Utils;
+import static org.inek.portallib.util.Const.*;
 
 /**
  *
@@ -155,7 +157,7 @@ public class Mailer {
 
     public String getFormalSalutation(Person person) {
         String salutation = person.getGender() == 1 ? Utils.getMessage("formalSalutationFemale") : Utils.getMessage("formalSalutationMale");
-        salutation = salutation.replace("{title}", person.getTitle()).replace("{lastname}", person.getLastName()).replace("  ", " ");
+        salutation = salutation.replace(PLACEHOLDER_TITLE, person.getTitle()).replace(PLACEHOLDER_LASTNAME, person.getLastName()).replace("  ", " ");
         return salutation;
     }
 
@@ -166,16 +168,26 @@ public class Mailer {
         }
         String salutation = getFormalSalutation(accountRequest);
         String codedUser = Utils.encodeUrl(accountRequest.getUser());
-        String link = _config.read(ConfigKey.ApplicationURL) + "/Login/Activate.xhtml?key=" 
+        String link = buildAppUrl() + "/Login/Activate.xhtml?key=" 
                 + accountRequest.getActivationKey() + "&user=" + codedUser;
         String body = template.getBody()
-                .replace("{formalSalutation}", salutation)
-                .replace("{link}", link)
-                .replace("{username}", accountRequest.getUser())
-                .replace("{activationkey}", accountRequest.getActivationKey());
+                .replace(PLACEHOLDER_FORMAL_SALUTATION, salutation)
+                .replace(PLACEHOLDER_LINK, link)
+                .replace(PLACEHOLDER_USERNAME, accountRequest.getUser())
+                .replace(PLACEHOLDER_ACTIVATIONKEY, accountRequest.getActivationKey());
         return sendMail(accountRequest.getEmail(), template.getBcc(), template.getSubject(), body);
     }
 
+    
+    private String buildAppUrl() {
+        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+        String protocol = externalContext.getRequestScheme() + "://";
+        int port = externalContext.getRequestServerPort();
+        String server = externalContext.getRequestServerName();
+        String contextPath = externalContext.getRequestContextPath();
+        return protocol + server + (port == HTTP_PORT || port == HTTPS_PORT ? "" : ":" + port) + contextPath;
+    }
+    
     public boolean sendReRegisterMail(Account account) {
         MailTemplate template = getMailTemplate("AccountReRegistrationMail");
         if (template == null) {
@@ -183,7 +195,7 @@ public class Mailer {
         }
         String salutation = getFormalSalutation(account);
         String body = template.getBody()
-                .replace("{formalSalutation}", salutation);
+                .replace(PLACEHOLDER_FORMAL_SALUTATION, salutation);
         return sendMail(account.getEmail(), template.getBcc(), template.getSubject(), body);
     }
 
@@ -192,13 +204,13 @@ public class Mailer {
         if (template == null) {
             return false;
         }
-        String link = _config.read(ConfigKey.ApplicationURL) + "/Login/ActivateMail.xhtml?key=" 
+        String link = buildAppUrl() + "/Login/ActivateMail.xhtml?key=" 
                 + changeMail.getActivationKey() + "&mail=" + changeMail.getMail();
         String body = template.getBody()
                 //.replace("{formalSalutation}", salutation)
-                .replace("{link}", link)
-                .replace("{email}", changeMail.getMail())
-                .replace("{activationkey}", changeMail.getActivationKey());
+                .replace(PLACEHOLDER_LINK, link)
+                .replace(PLACEHOLDER_EMAIL, changeMail.getMail())
+                .replace(PLACEHOLDER_ACTIVATIONKEY, changeMail.getActivationKey());
         return sendMail(changeMail.getMail(), template.getBcc(), template.getSubject(), body);
     }
 
@@ -209,14 +221,14 @@ public class Mailer {
             return false;
         }
         String salutation = getFormalSalutation(account);
-        String link = _config.read(ConfigKey.ApplicationURL) + "/Login/ActivatePassword.xhtml?key=" 
+        String link = buildAppUrl() + "/Login/ActivatePassword.xhtml?key=" 
                 + pwdRequest.getActivationKey() + "&mail=" + account.getEmail();
 
         String body = template.getBody()
-                .replace("{formalSalutation}", salutation)
-                .replace("{link}", link)
-                .replace("{email}", account.getEmail())
-                .replace("{activationkey}", pwdRequest.getActivationKey());
+                .replace(PLACEHOLDER_FORMAL_SALUTATION, salutation)
+                .replace(PLACEHOLDER_LINK, link)
+                .replace(PLACEHOLDER_EMAIL, account.getEmail())
+                .replace(PLACEHOLDER_ACTIVATIONKEY, pwdRequest.getActivationKey());
         return sendMail(account.getEmail(), template.getBcc(), template.getSubject(), body);
 
     }
@@ -230,8 +242,8 @@ public class Mailer {
         String salutation = getFormalSalutation(account);
         String subject = template.getSubject().replace("{feature}", featureRequest.getFeature().getDescription());
         String body = template.getBody()
-                .replace("{formalSalutation}", salutation)
-                .replace("{feature}", featureRequest.getFeature().getDescription());
+                .replace(PLACEHOLDER_FORMAL_SALUTATION, salutation)
+                .replace(PLACEHOLDER_FEATURE, featureRequest.getFeature().getDescription());
         return sendMail(account.getEmail(), template.getBcc(), subject, body);
     }
 
