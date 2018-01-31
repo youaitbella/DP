@@ -11,7 +11,7 @@
 
     <artifactId>DataPortalAll</artifactId>
     <packaging>war</packaging>
-    <name>${project.artifactId}</name>
+    <name>DataPortal</name>
     <version>2018.1.0-SNAPSHOT</version>
 
     <dependencies>

@@ -16,7 +16,7 @@ import javax.enterprise.context.spi.CreationalContext;
  */
 public class FeatureScopedContext implements Context, Serializable {
 
-    private FeatureScopedContextHolder _contextHolder = FeatureScopedContextHolder.Instance;
+    private final FeatureScopedContextHolder _contextHolder = FeatureScopedContextHolder.Instance;
 
     @Override
     public Class<? extends Annotation> getScope() {
