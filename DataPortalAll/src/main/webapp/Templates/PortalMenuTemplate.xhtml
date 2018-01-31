@@ -57,7 +57,7 @@
         <ui:remove>
             <c:if test="#{sessionController.isInekUser('ADMIN')}">
                 <li>
-                    <h:link outcome="/common/redirect.xhtml" value="TestLink"/>
+                    <h:link outcome="/Common/redirect.xhtml" value="TestLink"/>
                 </li>
                 <li>
                     <h:commandLink value="Test Command" actionListener="#{sessionController.logoutListener()}">
@@ -87,7 +87,7 @@
                                 tail = data.responseText.substring(data.responseText.indexOf('span id="nav:token">') + 20);
                                 token = tail.substring(0, tail.indexOf('&lt;/'));
                             }
-                            url = "http://localhost:8080/DataPortal/common/MainApp.xhtml?token=" + token + "&amp;type=PSY";
+                            url = "http://localhost:8080/DataPortal/Common/MainApp.xhtml?token=" + token + "&amp;type=PSY";
                             //url = "https://blog.mueller-bruehl.de";
                             //alert(url);
                             window.location.href = url;

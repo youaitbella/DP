@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/Templates/PortalMenuTemplate.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+    <ui:define name="content">
+        <h:form id="tabForm">
+            <h1><h:commandLink value="#{msg.nameADMIN}" /></h1>
+            <div class="tab">
+                <ul class="tab">
+                    <ui:repeat value="#{adminTask.visibleTopics}" var="topic" varStatus="status" rendered="#{sessionController.isInekUser('ADMIN')}">
+                        <!--li class="# {topic.active ? 'activetab' : 'tab'} # {status.index lt 3 ? 'element33' : 'element25'}"-->
+                        <li class="#{topic.active ? 'activetab' : 'tab'}">
+                        <h:commandLink value="#{topic.title}" action="#{adminTask.changeTabPage(topic.key)}" styleClass="fullWithCentered"
+                                       immediate="true">
+                        </h:commandLink>
+                        </li>
+                    </ui:repeat>
+                </ul>
+            </div>
+
+        </h:form>
+
+        <div class="edit" jsf:rendered="#{sessionController.isInekUser('ADMIN')}">
+            <ui:insert name="editContent" >Content</ui:insert>
+        </div>
+
+    </ui:define>
+
+</ui:composition>

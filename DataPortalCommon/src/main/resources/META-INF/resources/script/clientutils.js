@@ -22,7 +22,7 @@ function updateSessionTimer() {
     secondsLeft = parseInt(time[0]) * 60 + parseInt(time[1], 10) - 1;
     if (secondsLeft <= 0) {
         clearInterval(interval);
-        document.location = "/DataPortal/common/TimeOut.xhtml";
+        document.location = "/DataPortal/Common/TimeOut.xhtml";
     }
     minutes = Math.floor(secondsLeft / 60);
     seconds = secondsLeft % 60;

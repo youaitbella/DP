@@ -231,7 +231,7 @@ public class EditPeppProposal extends AbstractEditController {
                 .bindTargetPage(Pages.PeppProposalEdit.URL())
                 .enableCodeType(CodeType.Diag).enableCodeType(CodeType.Proc).enableCodeType(CodeType.Pepp)
                 .bindCodeType(codeType).setCodeSystem(CodeType.Pepp);
-        return "/common/SearchCode";
+        return Pages.SearchCode.URL();
     }
 
     @Override

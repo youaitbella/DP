@@ -13,7 +13,6 @@
     <ui:define name="bottom"/>
 
     <ui:define name="mainContent">
-        #{sessionController.portalType = 'PSY'}
         <h:form id="Login">
             <p>
                 <h:outputLabel styleClass="label" for="email" value="#{msg.lblEmailOrUser}:"/>
@@ -30,13 +29,14 @@
                 <h:message for="password" errorClass="errorMessage"/>
             </p>
             #{msg.lblRequestPassword1}
-            <a href="#{request.contextPath}/login/RequestPassword.xhtml" title="#{msg.hintRequestPassword}" class="label">
+            <a href="#{request.contextPath}/Login/RequestPassword.xhtml" title="#{msg.hintRequestPassword}" class="label">
                 #{msg.lblRequestPassword2}
             </a>.
             <br/>
             <h:outputText styleClass="errorMessage" value="#{login.loginMessage}"/>
             <p>
-            <h:commandButton styleClass="bigButton inekGreen" action="#{login.login('PSY')}" immediate="false" value="#{msg.btnLogin} PSY" title="#{msg.titleLogin}"/>
+            <h:commandButton styleClass="bigButton inekBlue" action="#{login.login('DRG')}" immediate="false" value="#{msg.btnLogin} DRG" title="#{msg.titleLogin}"/>
+            <h:commandLink styleClass="bigButton inekGreen" action="#{login.login('PSY')}" immediate="false" value="#{msg.btnLogin} PSY" title="#{msg.titleLogin}"/>
             </p>
             <br/>
             <br/>
