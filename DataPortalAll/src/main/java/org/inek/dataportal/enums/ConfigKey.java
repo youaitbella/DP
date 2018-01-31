@@ -49,8 +49,6 @@ public enum ConfigKey {
     DropBoxTypeId(1),
     FolderUpload("upload"),
     FolderDocumentScanBase("documents"),
-    ManagerURL("https://daten.inek.org/DataPortal"),
-    LocalManagerURL("http://vdataportal01:8080/DataPortal"),
     ExceptionEmail("PortalAdmin@inek-drg.de"),
     ManagerEmail("dsportalanmeldungen@inek-drg.de"), 
     ReportValidity(60);

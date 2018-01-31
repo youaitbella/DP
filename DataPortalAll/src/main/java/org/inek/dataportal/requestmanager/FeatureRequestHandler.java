@@ -8,6 +8,8 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.entities.account.Account;
@@ -29,6 +31,8 @@ import org.inek.dataportal.utils.DateUtils;
  */
 @Stateless
 public class FeatureRequestHandler {
+    private static final int HTTPS_PORT = 443;
+    private static final int HTTP_PORT = 80;
 
     private static final Logger LOGGER = Logger.getLogger("FeatureRequestHandler");
     @Inject private AccountFeatureRequestFacade _facade;
@@ -67,7 +71,7 @@ public class FeatureRequestHandler {
         if (template == null) {
             return false;
         }
-        String link = _config.read(ConfigKey.LocalManagerURL) + Pages.AdminApproval.URL() + "?key=" + featureRequest.getApprovalKey();
+        String link = buildLink(featureRequest.getApprovalKey());
         String subject = template.getSubject().replace("{feature}", featureRequest.getFeature().getDescription());
         Customer cust = _customerFacade.getCustomerByIK(account.getIK());
         String body = template.getBody()
@@ -82,6 +86,20 @@ public class FeatureRequestHandler {
         String mailAddress = _config.read(ConfigKey.ManagerEmail);
         return _mailer.sendMail(mailAddress, template.getBcc(), subject, body);
 
+    }
+
+    private String buildLink(String key) {
+        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+        String protocol = externalContext.getRequestScheme() + "://";
+        int port = externalContext.getRequestServerPort();
+        String server = externalContext.getRequestServerName();
+        String contextPah = externalContext.getRequestContextPath();
+        String link = protocol
+                + server + (port == HTTP_PORT || port == HTTPS_PORT ? "" : ":" + port)
+                + contextPah
+                + Pages.AdminApproval.URL()
+                + "?key=" + key;
+        return link;
     }
 
 }
