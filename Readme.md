@@ -4,7 +4,7 @@
 Die InEK Datenportale sind thematisch gegliederte Webanwendungen, die jeweils eine Vielzahl von Funktionen für den jeweiligen Bereich bieten.
 Sie nutzen jedoch gemeinsame Ressourcen und Bibliotheken.
 
-[Projektdokumentation](DataPortalCommon/src/site/markdown/DataPortal.md)
+[Projektdokumentation](src/site/markdown/DataPortal.md)
 
 **DataPortal** umfasst diese Module:
 
