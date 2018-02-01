@@ -184,8 +184,8 @@ public class CertManager implements Serializable {
         }
         
         _system = _systemFacade.findFresh(_system.getId());
-        persistFiles(new File(_appTools.getSystemRoot(_system), "Spec"));
-        persistFiles(new File(_appTools.getSystemRoot(_system), "Daten"));
+        persistFiles(new File(_system.getSystemRoot(), "Spec"));
+        persistFiles(new File(_system.getSystemRoot(), "Daten"));
         setSystemChanged(false);
         return "";
     }
@@ -231,8 +231,8 @@ public class CertManager implements Serializable {
     }
 
     private void cleanupUploadFiles() {
-        deleteFiles(new File(_appTools.getSystemRoot(_system), "Spec"), ".*\\.upload");
-        deleteFiles(new File(_appTools.getSystemRoot(_system), "Daten"), ".*\\.upload");
+        deleteFiles(new File(_system.getSystemRoot(), "Spec"), ".*\\.upload");
+        deleteFiles(new File(_system.getSystemRoot(), "Daten"), ".*\\.upload");
     }
 
     public void deleteFiles(File dir, final String fileNamePattern) {

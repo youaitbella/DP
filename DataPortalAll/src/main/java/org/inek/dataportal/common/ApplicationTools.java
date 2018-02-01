@@ -127,14 +127,6 @@ public class ApplicationTools extends AbstractDataAccess{
         return _config.readBool(key);
     }
 
-    // <editor-fold defaultstate="collapsed" desc="SystemRoot">
-    public File getSystemRoot(RemunerationSystem system) {
-        File root = new File(_config.read(ConfigKey.CertiFolderRoot), "System " + system.getYearSystem());
-        File systemRoot = new File(root, system.getFileName());
-        return systemRoot;
-    }
-    // </editor-fold>
-
     @Inject private CustomerFacade _customerFacade;
     private final Map<Integer, String> _hospitalInfo = new ConcurrentHashMap<>();
     public String retrieveHospitalInfo(int ik) {
