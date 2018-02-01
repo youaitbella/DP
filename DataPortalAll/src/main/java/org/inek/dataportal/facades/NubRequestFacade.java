@@ -167,13 +167,6 @@ public class NubRequestFacade extends AbstractDataAccess {
 
     }
 
-    public List<NubRequest> findAll(int accountId) {
-        String jpql = "SELECT p FROM NubRequest p WHERE p._accountId = :accountId ORDER BY p._id DESC";
-        TypedQuery<NubRequest> query = getEntityManager().createQuery(jpql, NubRequest.class);
-        query.setParameter(ACCOUNT_ID, accountId);
-        return query.getResultList();
-    }
-
     public NubRequest saveNubRequest(NubRequest nubRequest) {
         if (nubRequest.getStatus() == WorkflowStatus.Unknown) {
             nubRequest.setStatus(WorkflowStatus.New);
@@ -184,34 +177,6 @@ public class NubRequestFacade extends AbstractDataAccess {
             return nubRequest;
         }
         return merge(nubRequest);
-    }
-
-    /**
-     * A list of NUB infos for display usage, e.g. lists
-     *
-     * @param accountId
-     * @param dataSet
-     * @param filter
-     *
-     * @return
-     */
-    public List<ProposalInfo> getNubRequestInfos(int accountId, DataSet dataSet, String filter) {
-        List<AccessRight> accessRights = new ArrayList<>();
-        return getNubRequestInfos(accountId, -1, dataSet, accessRights, filter);
-    }
-
-    public List<ProposalInfo> getNubRequestInfos(int accountId, int year, DataSet dataSet,
-            List<AccessRight> accessRights, String filter) {
-        List<NubRequest> requests = findAll(accountId, year, dataSet, accessRights, filter);
-        List<ProposalInfo> proposalInfos = new ArrayList<>();
-        for (NubRequest request : requests) {
-            String displayName = request.getDisplayName().trim().length() == 0
-                    ? request.getName()
-                    : request.getDisplayName();
-            proposalInfos.add(new ProposalInfo(request.getId(), displayName, request.getTargetYear(), request.
-                    getStatus(), request.getIk()));
-        }
-        return proposalInfos;
     }
 
     public List<ProposalInfo> getNubRequestInfos(int accountId, int ik, int year, DataSet dataSet, String filter) {
