@@ -23,7 +23,6 @@ import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.facades.DropBoxFacade;
 import org.inek.dataportal.feature.dropbox.DropBoxController;
-import org.inek.dataportal.helper.ProcessingException;
 import org.inek.dataportal.helper.StreamHelper;
 import org.inek.dataportal.helper.Utils;
 
@@ -66,7 +65,7 @@ public class ToolUploadServlet extends HttpServlet {
                         break;
                 }
             }
-        } catch (IOException | ServletException | IllegalArgumentException | ProcessingException e) {
+        } catch (IOException | ServletException | IllegalArgumentException e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
@@ -101,7 +100,7 @@ public class ToolUploadServlet extends HttpServlet {
         return true;
     }
 
-    private void doMultipart(HttpUtil httpUtil) throws IOException, ServletException, ProcessingException {
+    private void doMultipart(HttpUtil httpUtil) throws IOException, ServletException {
         Object[] parts = httpUtil.getRequest().getParts().toArray();
 
         if (parts.length != 1) {
@@ -120,7 +119,7 @@ public class ToolUploadServlet extends HttpServlet {
         dir.mkdirs();
         try (InputStream is = part.getInputStream();
                 FileOutputStream fos = new FileOutputStream(new File(dir, filename))) {
-            new StreamHelper().copyStream(is, fos);
+            StreamHelper.copyStream(is, fos);
             fos.flush();
         }
         ((DropBoxController) _sessionController.getFeatureController(Feature.DROPBOX)).sealDropBox(_dropBoxFacade, dropBox);

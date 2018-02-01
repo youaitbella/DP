@@ -1,6 +1,5 @@
 package org.inek.dataportal.common;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
@@ -17,7 +16,6 @@ import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import org.inek.dataportal.entities.ListFeature;
 import org.inek.dataportal.entities.ListWorkflowStatus;
-import org.inek.dataportal.entities.certification.RemunerationSystem;
 import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
@@ -89,19 +87,6 @@ public class ApplicationTools extends AbstractDataAccess{
         }
     }
     
-    public String getServer() {
-        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        String url = request.getRequestURL().toString();
-        url = url.toLowerCase();
-        if(url.contains("localhost"))
-            return " (local)";
-        else if(url.contains("vdataportal01"))
-            return " (vdata01)";
-        else if(url.contains("vdataportal02"))
-            return " (vdata02)";
-        return "";
-    }
-
     public boolean isEnabled(ConfigKey key) {
         return _config.readBool(key);
     }

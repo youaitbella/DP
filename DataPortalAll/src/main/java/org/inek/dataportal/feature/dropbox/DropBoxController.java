@@ -3,6 +3,7 @@ package org.inek.dataportal.feature.dropbox;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -97,7 +98,7 @@ public class DropBoxController extends AbstractFeatureController {
         return dropBox.getItems();
     }
 
-    public File sealDropBox(DropBoxFacade _dropBoxFacade, DropBox dropBox) throws ProcessingException {
+    public File sealDropBox(DropBoxFacade _dropBoxFacade, DropBox dropBox) throws IOException {
         files2items(dropBox);
         dropBox.setComplete(true);
         addEmailInfo(dropBox);
@@ -108,7 +109,7 @@ public class DropBoxController extends AbstractFeatureController {
         return target;
     }
 
-    private File moveFiles2Target(DropBox dropBox) throws ProcessingException {
+    private File moveFiles2Target(DropBox dropBox) throws IOException {
         File sourceDir = getUploadDir(dropBox);
         File workingFile = new File(sourceDir.getAbsolutePath() + ".zip");
         new StreamHelper().compressFiles(sourceDir.listFiles(), workingFile);
@@ -121,7 +122,7 @@ public class DropBoxController extends AbstractFeatureController {
         } while (target.exists());
         workingFile.renameTo(target);
         if (!deleteDir(sourceDir)) {
-            throw new ProcessingException("Could not delete " + sourceDir.getAbsolutePath());
+            throw new IOException("Could not delete " + sourceDir.getAbsolutePath());
         }
         return target;
     }

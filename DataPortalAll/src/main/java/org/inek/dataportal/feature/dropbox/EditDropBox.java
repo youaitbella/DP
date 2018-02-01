@@ -6,6 +6,7 @@
 package org.inek.dataportal.feature.dropbox;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
@@ -20,7 +21,6 @@ import org.inek.dataportal.entities.dropbox.DropBoxItem;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.DropBoxFacade;
-import org.inek.dataportal.helper.ProcessingException;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
 import org.inek.dataportal.mail.Mailer;
@@ -115,7 +115,7 @@ public class EditDropBox implements Serializable {
                 notifyInek(target);
             }
             return Pages.DropBoxUpload.URL();
-        } catch (ProcessingException e) {
+        } catch (IOException e) {
             LOGGER.log(Level.SEVERE, null, e);
             return Pages.Error.URL();
         }
