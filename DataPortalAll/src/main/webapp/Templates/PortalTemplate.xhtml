@@ -14,7 +14,7 @@
         </f:metadata>
 
         <h:head>
-            <title>#{msg.lblApplicationName} #{request.serverName.contains("daten.inek.org") ? "" : "(" + request.serverName + ")"}</title>
+            <title>#{msg.lblApplicationName} #{request.serverName.contains('daten.inek.org') ? '' : request.serverName}</title>
             <link rel="shortcut icon" type="image/x-icon" href="#{request.contextPath}/javax.faces.resource/Icon/small/InEK.ico.xhtml"/>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
             <meta name="msapplication-config" content="none"/>        

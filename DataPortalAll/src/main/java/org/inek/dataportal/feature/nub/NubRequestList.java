@@ -1,60 +1,23 @@
 package org.inek.dataportal.feature.nub;
 
-import java.util.List;
-import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.inek.dataportal.common.AccessManager;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.nub.NubRequest;
-import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.WorkflowStatus;
 import org.inek.dataportal.facades.NubRequestFacade;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
-import org.inek.dataportal.helper.structures.ProposalInfo;
 import org.inek.dataportal.utils.DocumentationUtil;
 
 @Named
 @RequestScoped
 public class NubRequestList {
 
-    private static final Logger LOGGER = Logger.getLogger("NubRequestList");
     @Inject private NubRequestFacade _nubRequestFacade;
     @Inject private SessionController _sessionController;
-    @Inject private AccessManager _accessManager;
-    @Inject private NubSessionTools _nubSessionTools;
-
-    private List<ProposalInfo> _openNubs;
-    private List<ProposalInfo> _sealedNubs;
-
-    public List<ProposalInfo> getNubRequests() {
-        if (_openNubs == null) {
-            _openNubs = _nubRequestFacade.getNubRequestInfos(_sessionController.getAccountId(), DataSet.AllOpen, getFilter());
-        }
-        return _openNubs;
-    }
-
-    public List<ProposalInfo> getSealedNubRequests() {
-        if (_sealedNubs == null) {
-            _sealedNubs = _nubRequestFacade.getNubRequestInfos(_sessionController.getAccountId(), DataSet.AllSealed, getFilter());
-        }
-        return _sealedNubs;
-    }
-
-    private String getFilter() {
-        String filter = _nubSessionTools.getNubFilter();
-        if (!filter.isEmpty() && !filter.contains("%")) {
-            filter = "%" + filter + "%";
-        }
-        return filter;
-    }
-
-    public boolean getOpenListEnabled() {
-        return getNubRequests().size() > 0;
-    }
 
     public String getRejectReason(int requestId) {
         String reason = WorkflowStatus.Rejected.getDescription();
@@ -87,11 +50,12 @@ public class NubRequestList {
 
     public String getConfirmMessage(int requestId) {
         NubRequest proposal = _nubRequestFacade.find(requestId);
-        if (proposal == null){
+        if (proposal == null) {
             return "alert('NUB wurde bereits an anderer Stelle gelöscht oder kann derzeit nicht gelöscht werden.'); return false;";
         }
         String msg = proposal.getName() + "\n"
-                + (proposal.getStatus().getId() <= 9 ? Utils.getMessage("msgConfirmDelete") : Utils.getMessage("msgConfirmRetire"));
+                + (proposal.getStatus().getId() <= 9 ? Utils.getMessage("msgConfirmDelete") : Utils.
+                getMessage("msgConfirmRetire"));
         msg = msg.replace("\r\n", "\n").replace("\n", "\\r\\n").replace("'", "\\'").replace("\"", "\\'");
         return "return confirm ('" + msg + "');";
     }
