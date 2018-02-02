@@ -113,28 +113,22 @@ public class NubRequestFacade extends AbstractDataAccess {
     }
 
     @SuppressWarnings("unchecked")
-    public List<NubRequest> findAll(int accountId, int year, DataSet dataSet, List<AccessRight> accessRights,
+    public List<NubRequest> findForAccount(
+            int accountId, 
+            int year, 
+            DataSet dataSet, 
+            Set<Integer> managedIks,
             String filter) {
-        String allowedIks = accessRights
-                .stream()
-                .filter(r -> r.getRight() != Right.Deny)
-                .map(r -> "" + r.getIk())
-                .collect(Collectors.joining(", "));
-        String denyedIks = accessRights
-                .stream()
-                .filter(r -> r.getRight() == Right.Deny)
-                .map(r -> "" + r.getIk())
-                .collect(Collectors.joining(", "));
         String sql = "SELECT nub.* \n"
                 + " FROM NubProposal nub \n";
-        sql += " WHERE (nubAccountId = " + accountId;
-        if (!denyedIks.isEmpty()) {
-            sql += " and nubIk not in (" + denyedIks + ") ";
+        sql += " WHERE nubAccountId = " + accountId + "\n";
+        if (!managedIks.isEmpty()) {
+            String denyedIks = managedIks
+                    .stream()
+                    .map(r -> "" + r)
+                    .collect(Collectors.joining(", "));
+            sql += " and nubIk not in " + denyedIks + " \n";
         }
-        if (!allowedIks.isEmpty()) {
-            sql += " or nubIk in (" + allowedIks + ")";
-        }
-        sql += ")\n";
         if (!filter.isEmpty()) {
             sql += "and (nubName like '%" + filter + "%' or nubDisplayName like '%" + filter + "%')\r\n";
         }
@@ -192,7 +186,8 @@ public class NubRequestFacade extends AbstractDataAccess {
         return proposalInfos;
     }
 
-    public List<ProposalInfo> getNubRequestInfos(int ik, int year, WorkflowStatus statusLow, WorkflowStatus statusHigh, String filter) {
+    public List<ProposalInfo> getNubRequestInfos(int ik, int year, WorkflowStatus statusLow, WorkflowStatus statusHigh,
+            String filter) {
         String jql = "SELECT p FROM NubRequest p "
                 + "WHERE p._ik = :ik and p._status >= :statusLow and p._status <= :statusHigh "
                 + (filter.isEmpty() ? "" : "and (p._displayName like :filter1 or p._name like :filter2) ")
@@ -206,7 +201,7 @@ public class NubRequestFacade extends AbstractDataAccess {
             query.setParameter("filter1", filter);
             query.setParameter("filter2", filter);
         }
-        if (year > 0){
+        if (year > 0) {
             query.setParameter(YEAR, year);
         }
         List<NubRequest> requests = query.getResultList();
