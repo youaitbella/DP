@@ -4,8 +4,6 @@
  */
 package org.inek.dataportal.feature.insurance;
 
-import java.util.Arrays;
-import java.util.List;
 import org.inek.dataportal.controller.AbstractFeatureController;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.enums.Feature;
