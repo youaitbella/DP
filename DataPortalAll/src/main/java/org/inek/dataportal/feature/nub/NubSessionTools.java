@@ -412,16 +412,15 @@ public class NubSessionTools implements Serializable {
         boolean isRetired = nubRequest.getStatus() ==  WorkflowStatus.Retired;
 
         Account current = _sessionController.getAccount();
-        Account owner = _accountFacade.findAccount(nubRequest.getAccountId());
-        Account sender = _accountFacade.findAccount(nubRequest.getSealedBy());
-        if (!current.isNubConfirmation() && !owner.isNubConfirmation()) {
+        Account other = isRetired ? _accountFacade.findAccount(nubRequest.getSealedBy()) : _accountFacade.findAccount(nubRequest.getAccountId());
+        if (!current.isNubConfirmation() && !other.isNubConfirmation() && !isRetired) {
             return true;
         }
         if (!current.isNubConfirmation()) {
-            current = owner;
+            current = other;
         }
-        if (!owner.isNubConfirmation()) {
-            owner = current;
+        if (!isRetired && !other.isNubConfirmation()) {
+            other = current;
         }
         String templateName = isRetired
                 ? "NUB retire confirmation" 
@@ -450,7 +449,7 @@ public class NubSessionTools implements Serializable {
                 .replace("{ik}", "" + nubRequest.getIk());
 
         return _mailer.
-                sendMailFrom("NUB Datenannahme <nub@inek-drg.de>", current.getEmail(), owner.getEmail(), template.
+                sendMailFrom("NUB Datenannahme <nub@inek-drg.de>", current.getEmail(), other.getEmail(), template.
                         getBcc(), subject, body);
     }
 
