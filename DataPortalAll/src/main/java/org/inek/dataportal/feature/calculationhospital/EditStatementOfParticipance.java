@@ -77,6 +77,10 @@ public class EditStatementOfParticipance extends AbstractEditController {
     private boolean _obligatorPsy;
     private boolean _obligatorInv;
 
+    private boolean statementIsNoParticipation() {
+        return !_statement.isDrgCalc() && !_statement.isPsyCalc() && !_statement.isInvCalc() && !_statement.isTpgCalc() && !_statement.isObdCalc();
+    }
+
     enum StatementOfParticipanceTabs {
         tabStatementOfParticipanceAddress,
         tabStatementOfParticipanceStatements
@@ -428,13 +432,15 @@ public class EditStatementOfParticipance extends AbstractEditController {
         setDistibutionModelAndMuliyear();
 
         populateDefaultsForUnreachableFields();
-        if (!statementIsComplete()) {
-            return getActiveTopic().getOutcome();
+        if(!statementIsNoParticipation()) {
+            if (!statementIsComplete()) {
+                return getActiveTopic().getOutcome();
+            }
         }
         _statement.setStatus(WorkflowStatus.Provided);
         setModifiedInfo();
         _statement.setSealed(new Date());
-
+        
         for (StatementOfParticipance sop : _calcFacade.listStatementOfParticipanceByIk(_statement.getIk())) {
             sop.setStatus(WorkflowStatus.Retired);
             _calcFacade.saveStatementOfParticipance(sop);
