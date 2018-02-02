@@ -409,8 +409,11 @@ public class NubSessionTools implements Serializable {
     }
 
     public boolean sendNubConfirmationMail(NubRequest nubRequest) {
+        boolean isRetired = nubRequest.getStatus() ==  WorkflowStatus.Retired;
+
         Account current = _sessionController.getAccount();
         Account owner = _accountFacade.findAccount(nubRequest.getAccountId());
+        Account sender = _accountFacade.findAccount(nubRequest.getSealedBy());
         if (!current.isNubConfirmation() && !owner.isNubConfirmation()) {
             return true;
         }
@@ -420,8 +423,10 @@ public class NubSessionTools implements Serializable {
         if (!owner.isNubConfirmation()) {
             owner = current;
         }
-
-        MailTemplate template = _mailer.getMailTemplate("NUB confirmation");
+        String templateName = isRetired
+                ? "NUB retire confirmation" 
+                : "NUB confirmation";
+        MailTemplate template = _mailer.getMailTemplate(templateName);
         if (template == null) {
             return false;
         }

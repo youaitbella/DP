@@ -16,6 +16,7 @@ import org.inek.dataportal.utils.DocumentationUtil;
 @RequestScoped
 public class NubRequestList {
 
+    @Inject private NubSessionTools _nubSessionTools;
     @Inject private NubRequestFacade _nubRequestFacade;
     @Inject private SessionController _sessionController;
 
@@ -72,6 +73,8 @@ public class NubRequestList {
                 nubRequest.setStatus(WorkflowStatus.Retired);
                 nubRequest.setLastChangedBy(_sessionController.getAccountId());
                 _nubRequestFacade.saveNubRequest(nubRequest);
+                _nubSessionTools.sendNubConfirmationMail(nubRequest);
+
             }
         }
         return "";
