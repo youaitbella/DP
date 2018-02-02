@@ -29,44 +29,43 @@ import org.inek.dataportal.utils.StringUtil;
 public class CalcFacade extends AbstractDataAccess {
 
     // <editor-fold defaultstate="collapsed" desc="CalcHospital commons">
-    public List<CalcHospitalInfo> getListCalcInfo(int accountId, int year, WorkflowStatus statusLow,
-            WorkflowStatus statusHigh) {
-        Set<Integer> accountIds = new HashSet<>();
-        accountIds.add(accountId);
-        return getListCalcInfo(accountIds, year, statusLow, statusHigh);
-    }
-
-    public List<CalcHospitalInfo> getListCalcInfo(Set<Integer> accountIds, int year, WorkflowStatus statusLow,
-            WorkflowStatus statusHigh) {
-        String accountCond = " in (" + accountIds.stream().map(i -> i.toString()).collect(Collectors.joining(", ")) + ") ";
+    public List<CalcHospitalInfo> getListCalcInfo(int accountId, int year, 
+            WorkflowStatus statusLow,
+            WorkflowStatus statusHigh,
+            int ik) {
         String statusCond = " between " + statusLow.getId() + " and " + statusHigh.getId();
         String sql = "select sopId as Id, 'SOP' as [Type], sopAccountId as AccountId, sopDataYear as DataYear, "
                 + "  sopIk as IK, sopStatusId as StatusId,\n"
                 + " '" + Utils.getMessage("lblStatementOfParticipance") + "' as Name, sopLastChanged as LastChanged\n"
                 + "from calc.StatementOfParticipance\n"
-                + "where sopStatusId" + statusCond + " and sopAccountId" + accountCond + " and sopDataYear = " + year + "\n"
+                + "where sopStatusId" + statusCond + " and sopAccountId = " + accountId + " and sopDataYear = " + year + "\n"
+                + (ik > 0 ? " and sopIk = " + ik + "\n" : "")
                 + "union\n"
                 + "select biId as Id, 'CBD' as [Type], biAccountId as AccountId, biDataYear as DataYear, biIk as IK, biStatusId as StatusId,\n"
                 + " '" + Utils.getMessage("lblCalculationBasicsDrg") + "' as Name, biLastChanged as LastChanged\n"
                 + "from calc.KGLBaseInformation\n"
-                + "where biStatusId" + statusCond + " and biAccountId" + accountCond + " and biDataYear = " + year + "\n"
+                + "where biStatusId" + statusCond + " and biAccountId = " + accountId + " and biDataYear = " + year + "\n"
+                + (ik > 0 ? " and biIk = " + ik + "\n" : "")
                 + "union\n"
                 + "select biId as Id, 'CBP' as [Type], biAccountId as AccountId, biDataYear as DataYear, biIk as IK, biStatusId as StatusId,\n"
                 + " '" + Utils.getMessage("lblCalculationBasicsPsy") + "' as Name, biLastChanged as LastChanged\n"
                 + "from calc.KGPBaseInformation\n"
-                + "where biStatusId" + statusCond + " and biAccountId" + accountCond + " and biDataYear = " + year + "\n"
+                + "where biStatusId" + statusCond + " and biAccountId = " + accountId + " and biDataYear = " + year + "\n"
+                + (ik > 0 ? " and biIk = " + ik + "\n" : "")
                 + "union\n"
                 + "select cbaId as Id, 'CBA' as [Type], cbaAccountId as AccountId, cbaDataYear as DataYear, cbaIk as IK, cbaStatusId as StatusId,\n"
                 + " '" + Utils.getMessage("lblCalculationBasicsObd") + "' as Name, cbaLastChanged as LastChanged\n"
                 + "from calc.CalcBasicsAutopsy\n"
-                + "where cbaStatusId" + statusCond + " and cbaAccountId" + accountCond + " and cbaDataYear = " + year + "\n"
+                + "where cbaStatusId" + statusCond + " and cbaAccountId = " + accountId + " and cbaDataYear = " + year + "\n"
+                + (ik > 0 ? " and cbaIk = " + ik + "\n" : "")
                 + "union\n"
                 + "select dmmId as Id, 'CDM' as [Type], dmmAccountId as AccountId, dmmDataYear as DataYear, dmmIk as IK, dmmStatusId as StatusId,\n"
                 + " '" + Utils.getMessage("lblClinicalDistributionModel") + " ' "
                 + "+ case dmmType when 0 then 'DRG' when 1 then 'PEPP' else '???' end as Name, "
                 + "dmmLastChanged as LastChanged\n"
                 + "from calc.DistributionModelMaster\n"
-                + "where dmmStatusId" + statusCond + " and dmmAccountId" + accountCond + " and dmmDataYear = " + year + "\n"
+                + "where dmmStatusId" + statusCond + " and dmmAccountId = " + accountId + " and dmmDataYear = " + year + "\n"
+                + (ik > 0 ? " and dmmIk = " + ik + "\n" : "")
                 + "order by 2, 4, 5, 8 desc";
         Query query = getEntityManager().createNativeQuery(sql, CalcHospitalInfo.class);
         @SuppressWarnings("unchecked") List<CalcHospitalInfo> infos = query.getResultList();

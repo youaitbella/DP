@@ -3,6 +3,7 @@ package org.inek.dataportal.feature.calculationhospital.tree.user;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.enterprise.context.Dependent;
@@ -10,6 +11,7 @@ import javax.inject.Inject;
 import org.inek.dataportal.common.AccessManager;
 import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.controller.SessionController;
+import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.calc.CalcHospitalInfo;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.WorkflowStatus;
@@ -47,13 +49,13 @@ public class AccountTreeNodeObserver implements TreeNodeObserver {
     }
 
     private Collection<TreeNode> obtainAccountNodeChildren(AccountTreeNode treeNode) {
-        int partnerId = treeNode.getId();
+        Account account = treeNode.getAccount();
         List<CalcHospitalInfo> infos;
         if (treeNode.getParent() instanceof YearTreeNode) {
             int year = treeNode.getParent().getId();
-            infos = obtainCalculationHospitalInfosForRead(partnerId, year);
+            infos = obtainCalculationHospitalInfosForRead(account, year);
         } else {
-            infos = obtainCalculationHospitalInfosForEdit(partnerId);
+            infos = obtainCalculationHospitalInfosForEdit(account);
         }
         Collection<TreeNode> children = new ArrayList<>();
         for (CalcHospitalInfo info : infos) {
@@ -62,35 +64,73 @@ public class AccountTreeNodeObserver implements TreeNodeObserver {
         return children;
     }
 
-    private List<CalcHospitalInfo> obtainCalculationHospitalInfosForRead(int partnerId, int year) {
-        WorkflowStatus statusLow = WorkflowStatus.Provided;
-        WorkflowStatus statusHigh = WorkflowStatus.Retired;
-        if (partnerId != _sessionController.getAccountId()) {
-            boolean canReadSealed = _accessManager.canReadSealed(Feature.CALCULATION_HOSPITAL, partnerId);
-            if (!canReadSealed) {
-                statusLow = WorkflowStatus.Unknown;
-                statusHigh = WorkflowStatus.Unknown;
-            }
+    private List<CalcHospitalInfo> obtainCalculationHospitalInfosForRead(Account account, int year) {
+        if (account == _sessionController.getAccount()) {
+            return obtainOwnCalculationHospitalInfos(account, year, WorkflowStatus.Provided, WorkflowStatus.Retired);
+        } else {
+            return obtainPartnersCalculationHospitalInfosForRead(account, year);
         }
-        return _calcFacade.getListCalcInfo(partnerId, year, statusLow, statusHigh);
     }
 
-    private List<CalcHospitalInfo> obtainCalculationHospitalInfosForEdit(int partnerId) {
-        WorkflowStatus statusLow;
-        WorkflowStatus statusHigh;
-        if (partnerId == _sessionController.getAccountId()) {
-            statusLow = WorkflowStatus.New;
-            statusHigh = WorkflowStatus.ApprovalRequested;
+    private List<CalcHospitalInfo> obtainCalculationHospitalInfosForEdit(Account account) {
+        if (account == _sessionController.getAccount()) {
+            return obtainOwnCalculationHospitalInfos(account, Utils.getTargetYear(Feature.CALCULATION_HOSPITAL),
+                    WorkflowStatus.New, WorkflowStatus.ApprovalRequested);
         } else {
-            boolean canReadAlways = _accessManager.canReadAlways(Feature.CALCULATION_HOSPITAL, partnerId);
-            boolean canReadCompleted = _accessManager.canReadCompleted(Feature.CALCULATION_HOSPITAL, partnerId);
-            statusLow = canReadAlways ? WorkflowStatus.New
-                    : canReadCompleted ? WorkflowStatus.ApprovalRequested : WorkflowStatus.Unknown;
-            statusHigh = canReadAlways
-                    || canReadCompleted ? WorkflowStatus.ApprovalRequested : WorkflowStatus.Unknown;
+            return obtainPartnersCalculationHospitalInfosForEdit(account);
         }
-        return _calcFacade.
-                getListCalcInfo(partnerId, Utils.getTargetYear(Feature.CALCULATION_HOSPITAL), statusLow, statusHigh);
+    }
+
+    public List<CalcHospitalInfo> obtainOwnCalculationHospitalInfos(
+            Account account,
+            int year,
+            WorkflowStatus statusLow,
+            WorkflowStatus statusHigh) {
+        // todo: exclude managed Iks
+        return _calcFacade
+                .getListCalcInfo(account.getId(),
+                        year,
+                        statusLow,
+                        statusHigh,
+                        0);
+    }
+
+    public List<CalcHospitalInfo> obtainPartnersCalculationHospitalInfosForRead(Account account, int year) {
+        List<CalcHospitalInfo> infos = new ArrayList<>();
+        Set<Integer> managedIks = _accessManager.retrieveAllManagedIks(Feature.NUB);
+        Set<Integer> ikSet = account.getFullIkSet();
+        ikSet.removeAll(managedIks);
+        for (int ik : ikSet) {
+            if (!_accessManager.canReadSealed(Feature.CALCULATION_HOSPITAL, account.getId(), ik)) {
+                continue;
+            }
+            WorkflowStatus statusLow = WorkflowStatus.Provided;
+            WorkflowStatus statusHigh = WorkflowStatus.Retired;
+            List<CalcHospitalInfo> infosForIk = _calcFacade.
+                    getListCalcInfo(account.getId(), year, statusLow, statusHigh, ik);
+            infos.addAll(infosForIk);
+        }
+        return infos;
+    }
+
+    public List<CalcHospitalInfo> obtainPartnersCalculationHospitalInfosForEdit(Account account) {
+        List<CalcHospitalInfo> infos = new ArrayList<>();
+        Set<Integer> managedIks = _accessManager.retrieveAllManagedIks(Feature.NUB);
+        Set<Integer> ikSet = account.getFullIkSet();
+        ikSet.removeAll(managedIks);
+        for (int ik : ikSet) {
+            if (!_accessManager.canReadCompleted(Feature.CALCULATION_HOSPITAL, account.getId(), ik)) {
+                continue;
+            }
+            boolean canReadAlways = _accessManager.canReadAlways(Feature.CALCULATION_HOSPITAL, account.getId(), ik);
+            WorkflowStatus statusLow = canReadAlways ? WorkflowStatus.New
+                    : WorkflowStatus.ApprovalRequested;
+            WorkflowStatus statusHigh = WorkflowStatus.ApprovalRequested;
+            List<CalcHospitalInfo> infosForIk = _calcFacade.
+                    getListCalcInfo(account.getId(), Utils.getTargetYear(Feature.CALCULATION_HOSPITAL), statusLow, statusHigh, ik);
+            infos.addAll(infosForIk);
+        }
+        return infos;
     }
 
     @Override
