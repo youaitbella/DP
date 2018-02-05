@@ -346,7 +346,7 @@ public class IcmtUpdater extends AbstractDataAccess {
                 + "and coIsMain = 0 \n"
                 + "\n\n"
                 //Temp Tabelle löschen
-                + "drop table" + table + " \n";
+                + "drop table " + table + " \n";
 
         Query query = getEntityManager().createNativeQuery(sql);
         query.executeUpdate();
