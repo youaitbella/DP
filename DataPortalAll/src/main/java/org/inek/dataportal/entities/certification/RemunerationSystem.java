@@ -30,8 +30,6 @@ import org.inek.dataportal.feature.admin.facade.ConfigFacade;
 @Entity
 @Table(name = "System", schema = "crt")
 public class RemunerationSystem implements Serializable {
-    @Transient
-    @Inject private ConfigFacade _config;
 
     // <editor-fold defaultstate="collapsed" desc="Properties">
     // <editor-fold defaultstate="collapsed" desc="id">
@@ -200,14 +198,6 @@ public class RemunerationSystem implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="FileName">
     public String getFileName() {
         return getDisplayName().replace("/", "_");
-    }
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="SystemRoot">
-    public File getSystemRoot() {
-        File root = new File(_config.read(ConfigKey.CertiFolderRoot), "System " + getYearSystem());
-        File systemRoot = new File(root, getFileName());
-        return systemRoot;
     }
     // </editor-fold>
     

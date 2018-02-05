@@ -19,17 +19,18 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.OptimisticLockException;
 import javax.servlet.http.Part;
-import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.certification.Grouper;
 import org.inek.dataportal.entities.certification.RemunerationSystem;
 import org.inek.dataportal.enums.CertStatus;
+import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.certification.GrouperFacade;
 import org.inek.dataportal.facades.certification.SystemFacade;
+import org.inek.dataportal.feature.admin.facade.ConfigFacade;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
 import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
@@ -45,12 +46,11 @@ public class CertManager implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger("CertManager");
 
+    @Inject private ConfigFacade _config;
     @Inject
     private SystemFacade _systemFacade;
     @Inject
     private GrouperFacade _grouperFacade;
-    @Inject
-    private ApplicationTools _appTools;
     @Inject
     private SessionController _sessionController;
 
@@ -184,8 +184,8 @@ public class CertManager implements Serializable {
         }
         
         _system = _systemFacade.findFresh(_system.getId());
-        persistFiles(new File(_system.getSystemRoot(), "Spec"));
-        persistFiles(new File(_system.getSystemRoot(), "Daten"));
+        persistFiles(new File(getSystemRoot(_system), "Spec"));
+        persistFiles(new File(getSystemRoot(_system), "Daten"));
         setSystemChanged(false);
         return "";
     }
@@ -231,8 +231,8 @@ public class CertManager implements Serializable {
     }
 
     private void cleanupUploadFiles() {
-        deleteFiles(new File(_system.getSystemRoot(), "Spec"), ".*\\.upload");
-        deleteFiles(new File(_system.getSystemRoot(), "Daten"), ".*\\.upload");
+        deleteFiles(new File(getSystemRoot(_system), "Spec"), ".*\\.upload");
+        deleteFiles(new File(getSystemRoot(_system), "Daten"), ".*\\.upload");
     }
 
     public void deleteFiles(File dir, final String fileNamePattern) {
@@ -419,4 +419,13 @@ public class CertManager implements Serializable {
     public void ExportCertGrouper() {
         _sessionController.createSingleDocument("CertGrouperAkt.xlsx", _system.getId());
     }
+    
+   // <editor-fold defaultstate="collapsed" desc="SystemRoot">
+    public File getSystemRoot(RemunerationSystem system) {
+        File root = new File(_config.read(ConfigKey.CertiFolderRoot), "System " + system.getYearSystem());
+        File systemRoot = new File(root, system.getFileName());
+        return systemRoot;
+    }
+    // </editor-fold>
+    
 }
