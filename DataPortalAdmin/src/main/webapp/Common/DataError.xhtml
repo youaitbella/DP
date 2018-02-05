@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/Templates/PortalErrorTemplate.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <ui:define name="content">
+        <h1>Daten-Fehler</h1>
+        <br/>
+        <br/>
+        <br/>
+        <p>
+            Bei der Verarbeitung ist leider ein Daten-Fehler aufgetreten.
+            Möglicherweise haben Sie versucht, einen Datensatz zu speichern, der zwischenzeitlich von jemand anderem, z.B. Ihrem Kooperationspartner geändert wurde.
+        </p>
+        <p>
+            Zur Vermeidung von Dateninkonsistenzen wurden Sie vorsorglich abgemeldet. Bitte melden Sie sich erneut an.
+        </p>
+        <br/>
+        <p>
+            Sollten Sie Ihre Daten nicht für einen Kooperationspartner freigegeben haben und dennoch diese Fehlermeldung erhalten,
+            so senden Sie bitte eine Mail mit einer kurzen Beschreibung, wie es zu diesem Fehler kommt, an das InEK. Herzlichen Dank!
+        </p>
+    </ui:define>
+
+</ui:composition>

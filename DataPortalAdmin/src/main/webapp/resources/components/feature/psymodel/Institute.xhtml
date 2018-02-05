@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+      >
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="contact" type="org.inek.dataportal.entities.modelintention.ModelIntentionContact"/>
+        <cc:attribute name="readonly" default="false"/>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <div class="inputPart">
+            <h:commandLink rendered="#{!editModelIntention.readOnly}">
+                <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value=""/>
+                <cb:confirmDelete/>
+                <f:ajax render="@form :logout:remaining" listener="#{editModelIntention.deleteContact(contact)}"/>
+            </h:commandLink>
+        </div>
+
+        <div class="inputPart">
+            <h:outputLabel styleClass="label30" id="ContractIkNo" value="#{msg.lblIKNo}: " />
+            <h:inputText styleClass="inputlong" id="txtContractIKNo" value="#{cc.attrs.contact.ik}"
+                         readonly="#{cc.attrs.readonly}">
+                <f:ajax event="blur" render="@this :logout:remaining"  />
+            </h:inputText>
+        </div>
+
+        <div class="inputPart">
+            <h:message id="msgName" for="txtContractName" styleClass="errorMessage elementRight70"/>
+            <h:outputLabel styleClass="label30 fakeRequired" id="ContractName" value="#{msg.lblName}: " />
+            <h:inputText styleClass="inputlong fakeRequired" id="txtContractName" value="#{cc.attrs.contact.name}"
+                         readonly="#{cc.attrs.readonly}" required="true">
+                <f:ajax event="blur" render="@this msgName :logout:remaining" />
+            </h:inputText>
+        </div>
+
+        <div class="inputPart">
+            <h:message id="msgStreet" for="txtContractStreet" styleClass="errorMessage elementRight70"/>
+            <h:outputLabel styleClass="label30 fakeRequired" id="ContractStreet" value="#{msg.lblStreet}: " />
+            <h:inputText styleClass="inputlong fakeRequired" id="txtContractStreet" value="#{cc.attrs.contact.street}"
+                         readonly="#{cc.attrs.readonly}" required="true">
+                <f:ajax event="blur" render="@this msgStreet :logout:remaining" />
+            </h:inputText>
+        </div>
+
+        <div class="inputPart">
+            <h:message id="msgZip" for="txtContractPLZ" styleClass="errorMessage elementRight70"/>
+            <h:outputLabel styleClass="label30 fakeRequired" id="ContractPLZ" value="#{msg.lblPostalCode}: " for="txtContractPLZ"/>
+            <h:inputText styleClass="inputlong fakeRequired" id="txtContractPLZ" value="#{cc.attrs.contact.zip}"
+                         readonly="#{cc.attrs.readonly}" required="true">
+                <f:ajax event="blur" render="@this msgZip :logout:remaining" />
+            </h:inputText>
+        </div>
+
+        <div class="inputPart">
+            <h:message id="msgTown" for="txtContractTown" styleClass="errorMessage elementRight70"/>
+            <h:outputLabel styleClass="label30 fakeRequired" id="ContractTown" value="#{msg.lblTown}: " />
+            <h:inputText styleClass="inputlong fakeRequired" id="txtContractTown" value="#{cc.attrs.contact.town}"
+                         readonly="#{cc.attrs.readonly}" required="true">
+                <f:ajax event="blur" render="@this msgTown :logout:remaining" />
+            </h:inputText>
+        </div>
+
+
+        <h:panelGroup rendered="#{cc.attrs.contact.contactTypeId == 1}">
+            <div class="inputPart">
+                <h:outputLabel styleClass="label30" id="ContractRegCare" value="#{msg.lblRegCare}: " />
+                <h:selectBooleanCheckbox id="ChkContractRegCare" value="#{cc.attrs.contact.regCare}"
+                                         readonly="#{cc.attrs.readonly}">
+                    <f:ajax event="click" render="@this :logout:remaining" />
+                </h:selectBooleanCheckbox>
+            </div>
+        </h:panelGroup>
+
+        <div class="inputPart">
+            <h:message id="msgPerson" for="txtContractPerson" styleClass="errorMessage elementRight70"/>
+            <h:outputLabel styleClass="label30 fakeRequired" id="ContractPerson" value="#{msg.lblContactPerson}: " />
+            <h:inputText styleClass="inputlong fakeRequired" id="txtContractPerson" value="#{cc.attrs.contact.contactPerson}"
+                         readonly="#{cc.attrs.readonly}" required="true">
+                <f:ajax event="blur" render="@this msgPerson :logout:remaining" />
+            </h:inputText>
+        </div>
+
+        <div class="inputPart">
+            <h:message id="msgPhone" for="txtContractPhone" styleClass="errorMessage elementRight70"/>
+            <h:outputLabel styleClass="label30 fakeRequired" id="ContractPhone" value="#{msg.lblPhone}: " />
+            <h:inputText styleClass="inputlong fakeRequired" id="txtContractPhone" value="#{cc.attrs.contact.phone}"
+                         readonly="#{cc.attrs.readonly}" required="true">
+                <f:ajax event="blur" render="@this msgPhone :logout:remaining" />
+            </h:inputText>
+        </div>
+
+        <div class="inputPart">
+            <h:message id="msgMail" for="txtContractMail" styleClass="errorMessage elementRight70"/>
+            <h:outputLabel styleClass="label30 fakeRequired" id="ContractMail" value="#{msg.lblMail}: " />
+            <h:inputText styleClass="inputlong fakeRequired" id="txtContractMail" value="#{cc.attrs.contact.email}"
+                         readonly="#{cc.attrs.readonly}" required="true">
+                <f:validator validatorId="EmailValidator"/>
+                <f:ajax event="blur" render="@this msgMail :logout:remaining" />
+            </h:inputText>
+        </div>
+
+    </cc:implementation>
+</html>

@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                template="/Templates/PortalTemplate.xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="metaData">
+        <f:event type="preRenderView" listener="#{requestController.forceLoginIfNotLoggedIn}"/>
+    </ui:define>
+
+    <ui:define name="userInfo">
+
+        <c:if test="#{sessionController.loggedIn}">
+            <h:form id="logout">
+                <h:outputLabel styleClass="label" value="#{msg.lblWelcome} #{sessionController.user}"/>
+                <h:outputLabel styleClass="light" value=" (#{msg.lblAutoLogout} "/>
+                <h:outputText id="remaining" styleClass="light" value="#{sessionController.remainingTime}"/>
+                <h:outputLabel styleClass="light" value=") "/>
+                <h:commandLink styleClass="btnLogout" value="#{msg.btnLogout}" action="#{sessionController.logout}"/>
+            </h:form>
+        </c:if>
+    </ui:define>
+
+    <ui:define name="menuList">
+
+        <c:if test="#{sessionController.loggedIn}">
+            <li>
+                <h:commandLink value="#{msg.btnLogout}" action="#{sessionController.logout}"/>
+            </li>
+        </c:if>
+
+        <ui:repeat value="#{sessionController.topics}" var="topic">
+            <li class="#{topic.active ? 'activemenu' : 'menu'}">
+                <h:commandLink action="#{sessionController.navigate(topic.outcome)}" value="#{topic.title}" immediate="true">
+                    <h:panelGroup rendered="#{documentList.renderNumDocs(topic.title)}" styleClass="notifier">
+                        <h:outputLabel id="docs" styleClass="notifierNum" value="#{documentList.getNumberOfUnreadDocs(topic.title)}" />
+                    </h:panelGroup>
+                </h:commandLink>
+            </li>
+        </ui:repeat>
+
+        <ui:insert name="navItems"></ui:insert>
+
+        <c:if test="#{sessionController.loggedIn}">
+            <li class="#{empty(sessionController.currentTopic) ? 'activemenu' : 'menu'}">
+                <h:commandLink value="#{msg.lblSummary}" action="#{sessionController.navigate(sessionTools.pages.MainApp)}"/>
+            </li>
+            <li>
+                <h:commandLink value="Zum #{sessionController.targetType} Portal" action="#{sessionController.switchPortalType()}"/>
+            </li>
+        </c:if>
+
+        <ui:remove>
+            <c:if test="#{sessionController.isInekUser('ADMIN')}">
+                <li>
+                    <h:link outcome="/Common/redirect.xhtml" value="TestLink"/>
+                </li>
+                <li>
+                    <h:commandLink value="Test Command" actionListener="#{sessionController.logoutListener()}">
+                        <f:ajax render="nav:token" onevent="handleClick"/>
+                    </h:commandLink>
+                </li>
+                <h:outputText id="token" value="#{sessionController.token}"/>
+
+            </c:if>
+            <script>
+                function handleClick(data) {
+                    var status = data.status;
+
+                    switch (status) {
+                        case "begin":
+                            // This is the start of the AJAX request.
+                            break;
+
+                        case "complete":
+                            // This is invoked right after ajax response is returned.
+                            break;
+
+                        case "success":
+                            //alert (data.responseText);
+                            // This is invoked right after successful processing of ajax response and update of HTML DOM.
+                            if (data.responseText.indexOf('span id="nav:token"') >= 0) {
+                                tail = data.responseText.substring(data.responseText.indexOf('span id="nav:token">') + 20);
+                                token = tail.substring(0, tail.indexOf('&lt;/'));
+                            }
+                            url = "http://localhost:8080/DataPortal/Common/MainApp.xhtml?token=" + token + "&amp;type=PSY";
+                            //url = "https://blog.mueller-bruehl.de";
+                            //alert(url);
+                            window.location.href = url;
+                            break;
+                    }
+                }
+
+            </script>
+        </ui:remove>
+    </ui:define>
+
+
+    <ui:define name="mainContent">
+        <ui:insert name="content">Content</ui:insert>
+    </ui:define>
+
+    <ui:define name="bottom">
+        <h:form id="check" rendered="true">
+            <h:inputText id="windowName" value="#{sessionController.windowName}" styleClass="hide"/>
+        </h:form>
+        <script>
+            function testWindow() {
+                document.getElementById('check:windowName').value = window.name;
+                jsf.ajax.request('check:windowName', null, {'execute': 'check:windowName', 'render': 'check:windowName'});
+            }
+            function handleAjax(data) {
+                var status = data.status;
+
+                switch (status) {
+                    case "begin":
+                        // This is the start of the AJAX request.
+                        break;
+
+                    case "complete":
+                        // This is invoked right after ajax response is returned.
+                        break;
+
+                    case "success":
+                        // This is invoked right after successful processing of ajax response and update of HTML DOM.
+                        if (data.responseText.indexOf('update id="check:windowName"') >= 0) {
+                            tail = data.responseText.substring(data.responseText.indexOf('#DataPortal#'));
+                            window.name = tail.substring(0, tail.indexOf('"'));
+                        }
+                        break;
+                }
+            }
+
+            //jsf.ajax.addOnEvent(handleAjax);
+            //addOnLoadFunction(setTimeout(testWindow, 200));
+        </script>
+    </ui:define>
+
+
+</ui:composition>

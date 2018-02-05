@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+      xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="costCenterId"/>
+        <cc:attribute name="backingBean"/> <!-- class="org.inek.dataportal.feature.calculationhospital.EditCalcBasicsDrg" might be Pepp, too -->
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <h:dataTable value="#{cc.attrs.backingBean.calcBasics.costCenters.stream().filter(c -> c.costCenterId == cc.attrs.costCenterId).toList()}" var="item"
+                     styleClass="marginTop" width="100%"
+                     columnClasses="colIcon, col05em, colValue, col05em number, col05em number, colValue, colValue, col05em number, col05em number" rowClasses="row1, row2">
+
+            <h:column>
+                <f:facet name="header">
+                    <h:graphicImage alt="" name="Icon/small/information.png" title="Platzieren Sie den Mauszeiger auf eine Spaltenüberschrift, um zusätzliche Informationen zu erhalten."/>
+                </f:facet>
+                <h:commandLink action="#{cc.attrs.backingBean.deleteCostCenter(item)}" immediate="true" rendered="#{!cc.attrs.backingBean.readOnly}">
+                    <h:graphicImage alt="#{msg.btnDelete}" name="Icon/small/delete.png" title="#{msg.btnDelete}" value=""/>
+                    <cb:confirmDelete/>
+                </h:commandLink>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header"><h:outputLabel value="Nummer" title="Nummer der Kostenstelle"/></f:facet>
+                <inek:InputTextWithMessage styleClass="element100" value="#{item.costCenterNumber}" readonly="#{cc.attrs.backingBean.readOnly}"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header"><h:outputLabel value="Bezeichnung" title="Name der Kostenstelle"/></f:facet>
+                <inek:InputTextWithMessage styleClass="element100" value="#{item.costCenterText}" readonly="#{cc.attrs.backingBean.readOnly}"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header"><h:outputLabel value="Kostenvolumen" title="Kostenvolumen"/></f:facet>
+                <inek:InputIntegerWithMessage styleClass="element100" value="#{item.amount}" renderElement="result" readonly="#{cc.attrs.backingBean.readOnly}"/>
+            </h:column>
+
+            <h:column class="col05em">
+                <f:facet name="header">
+                    <h:outputLabel value="VK ÄD" title="Anzahl der zugeordneten Vollkräfte des Ärztlichen Dienstes zur Kostenstelle"/>
+                </f:facet>
+                <inek:InputNumberWithMessage styleClass="element100" value="#{item.fullVigorCnt}" readonly="#{cc.attrs.backingBean.readOnly}"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header"><h:outputLabel value="Leistungsschlüssel" title="Leistungsschlüssel"/></f:facet>
+                <inek:InputTextWithMessage styleClass="element100" value="#{item.serviceKey}" readonly="#{cc.attrs.backingBean.readOnly}"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header"><h:outputLabel value="Beschreibung" title="Beschreibung, falls Leistungsschlüssel abweichend vom Kalkulationshandbuch, Version 4.0"/></f:facet>
+                <inek:InputTextWithMessage styleClass="element100" value="#{item.serviceKeyDescription}" readonly="#{cc.attrs.backingBean.readOnly}"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header"><h:outputLabel value="Sum. LE" title="Summe der Leistungseinheiten"/></f:facet>
+                <inek:InputIntegerWithMessage styleClass="element100" value="#{item.serviceSum}" renderElement="@form" readonly="#{cc.attrs.backingBean.readOnly}"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header"><h:outputLabel value="Kost/LE" title="Kostensatz je Leistungseinheiten"/></f:facet>
+                <h:panelGroup id="result">
+                    <inek:InputNumberWithMessage value="#{item.amount / item.serviceSum}" disabled="true"/>
+                </h:panelGroup>
+            </h:column>
+
+        </h:dataTable>
+
+        <h:panelGroup rendered="#{!cc.attrs.backingBean.readOnly}" class="inputPart">
+            <h:commandLink id="addButton" styleClass="addButton marginRight" value="#{msg.btnAddEntry}"
+                           rendered="#{!cc.attrs.backingBean.readOnly}">
+                <f:ajax event="click" render="@form :logout:remaining" listener="#{cc.attrs.backingBean.addCostCenter(cc.attrs.costCenterId)}"/>
+            </h:commandLink>
+
+            <div class="uploadFile inlineBlock marginRight">
+                <h:inputFile styleClass="hiddenFile" id="file" value="#{cc.attrs.backingBean.file}" >
+                    <f:ajax listener="#{cc.attrs.backingBean.uploadNotices()}" render="@all"/>
+                </h:inputFile>
+                <div class="fakeFile">
+                    <h:outputLabel style="margin-top: 1px;" styleClass="button element100" value="Upload Kostenstellengruppen 11-13"/>
+                </div>
+            </div>
+            
+            <h:commandLink styleClass="button" value="Download Musterdatei" action="#{cc.attrs.backingBean.downloadTemplate}" immediate="true"/>
+
+            <h:commandLink rendered="#{cc.attrs.backingBean.importMessage.length() gt 0}" 
+                           styleClass="button"
+                           value="#{msg.btnJournal} &nbsp; #{cc.attrs.backingBean.showJournal ? '˄' : '˅'}" 
+                           actionListener="#{cc.attrs.backingBean.toggleJournal}">
+                <f:ajax render="journal :logout:remaining"/>
+            </h:commandLink>
+
+            <h:inputTextarea id="journal" rendered="#{cc.attrs.backingBean.importMessage.length() gt 0 and cc.attrs.backingBean.showJournal}" 
+                             value="#{cc.attrs.backingBean.importMessage}"
+                             readonly="true"
+                             styleClass="element100 #{cc.attrs.backingBean.importMessage.length() > 500 ? 'areaHugh' : 'areaWideHigh'}"/>
+        </h:panelGroup>
+        
+    </cc:implementation>
+</html>

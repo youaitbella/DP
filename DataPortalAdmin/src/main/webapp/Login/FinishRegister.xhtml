@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/Templates/PortalPublicTemplate.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <ui:define name="content">
+        <div class="marginElement">
+        <ui:repeat value="#{register.finishRegisterText}" var="text">
+            <p>
+                <h:outputText value="#{text}"/>
+            </p>
+        </ui:repeat>
+        </div>
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,161 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+      xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="patType" default="Adults"/>
+        <cc:attribute name="readonly" default="false"/>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation >
+        <h2>Vereinbarte Stellenbesetzung in Vollkräften - Bereich #{'Adults'.equals(cc.attrs.patType) ? 'Erwachsene' : 'Kinder und Jugendliche'}</h2>
+        <span>(§ 3 Psych-Personalnachweis)</span>
+
+        <div class="inputPart">
+            <h:outputLabel value="Ausnahmetatbestand" 
+                           styleClass="label element15em"
+                           title="Sofern Sie von der Nachweispflicht befreit sind, geben Sie bitte den Grund dafür an."/>
+
+            <h:selectOneMenu id="exclusion"
+                             styleClass="inlineBlock element100-25em"
+                             value="#{editPsyStaff.staffProof.exclusionFactId1}"
+                             disabled="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
+                             title="Sofern Sie von der Nachweispflicht befreit sind, geben Sie bitte den Grund dafür an.">
+                <f:selectItems  value="#{editPsyStaff.exclusionFacts1}" var="f" itemValue="#{f.id}" itemLabel="#{f.name}" />
+                <f:ajax event="change" listener="#{editPsyStaff.exclusionFactChanged1()}" render="@form"/>
+                <!--f:converter converterId="ExclusionFactConverter"/-->
+            </h:selectOneMenu>
+        </div>
+
+        <div class="inputPart" jsf:id="exclusionReason">
+            <inek:LabeledText rendered="#{editPsyStaff.staffProof.exclusionFact1.needReason}"
+                              required="true"
+                              readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
+                              label="Begründung"
+                              value="#{editPsyStaff.staffProof.exclusionReason1}"
+                              title="Bitte geben Sie eine stichwortartige Begründung an."
+                              styleClassLabel="label element15em"
+                              styleClass="element100-25em"
+                              singleLine="true"/>
+        </div>
+        <br/>
+
+        <div jsf:rendered="#{editPsyStaff.staffProof.exclusionFact1.id le 0}">
+            <div class="container marginTop">
+                <table jsf:id="data" class="marginTop">
+                    <thead>
+                        <tr>
+                            <th class="col10em row1" scope="col"> Personalgruppen </th>
+                            <th class="col02em row1" scope="col"> Nr. </th>
+                            <th class="col10em row1" scope="col"> Berufsgruppen der Psych-PV </th>
+                            <th class="col10em row1" scope="col"> Stellenbesetzung für eine vollständige Umsetzung der Psych-PV in VK </th>
+                            <th class="col10em row1" scope="col"> Stellenbesetzung als Budgetgrundlage in VK </th>
+                            <th class="col10em row1" scope="col"> Durchschnittskosten je VK in Euro </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ui:repeat value="#{editPsyStaff.staffProof.getStaffProofsAgreed(cc.attrs.patType)}" var="item">
+                            <tr>
+                                <td class="row1">
+                                    <h:outputText value="#{item.occupationalCategory.personnelGroup.name}" styleClass="element10em"/>
+                                </td>
+                                <td class="row1">
+                                    <h:outputText value="#{item.occupationalCategory.id}" styleClass="element02em"/>
+                                </td>
+                                <td class="row1"> 
+                                    <h:outputText value="#{item.occupationalCategory.name}" styleClass="element10em"/>
+                                </td>
+                                <td>
+                                    <inek:InputNumberWithMessage value="#{item.staffingComplete}" 
+                                                                 styleClass="element10em number"
+                                                                 renderElement=":psychStaff:closeButton :#{cc.attrs.clientId}:sumStaffingComplete "
+                                                                 readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
+                                                                 disabled="#{item.occupationalCategory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
+                                                                 title="#{item.occupationalCategory.id == 2 ? msg.InfoPsychStaffNoteEducation : ''}"/>
+                                </td>
+                                <td>
+                                    <inek:InputNumberWithMessage value="#{item.staffingBudget}" 
+                                                                 styleClass="element10em number"
+                                                                 renderElement=":psychStaff:closeButton :#{cc.attrs.clientId}:sumStaffingBudget "
+                                                                 readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
+                                                                 disabled="#{item.occupationalCategory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
+                                                                 title="#{item.occupationalCategory.id == 2 ? msg.InfoPsychStaffNoteEducation : ''}"/>
+                                </td>
+                                <td >
+                                    <inek:InputNumberWithMessage value="#{item.avgCost}" 
+                                                                 styleClass="element10em number"
+                                                                 readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
+                                                                 disabled="#{item.occupationalCategory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
+                                                                 title="#{item.occupationalCategory.id == 2 ? msg.InfoPsychStaffNoteEducation : ''}"/>
+                                </td>
+                            </tr>
+                        </ui:repeat>
+
+                        <tfoot>
+                            <tr>
+                                <td class="col10em row1" scope="col"> </td>
+                                <td class="col02em row1" scope="col"> </td>
+                                <td class="col10em row1" scope="col"> Gesamt </td>
+                                <th class="col10em row1" scope="col"> 
+                                    <inek:InputNumberWithMessage id="sumStaffingComplete" 
+                                                                 value="#{editPsyStaff.sumAgreedStaffingComplete(cc.attrs.patType)}"
+                                                                 styleClass="element10em number"
+                                                                 disabled="true"/>
+                                </th>
+                                <td class="col10em row1 centered" scope="col"> 
+                                    <inek:InputNumberWithMessage id="sumStaffingBudget" 
+                                                                 value="#{editPsyStaff.sumAgreedStaffingBudget(cc.attrs.patType)}"
+                                                                 styleClass="element10em number"
+                                                                 disabled="true"/> 
+                                </td>
+                                <td class="col10em row1" scope="col">  </td>
+                            </tr>
+
+                        </tfoot>
+                    </tbody>
+                </table>
+            </div>
+
+            <inek:LabeledInteger id="agreedDays"
+                                 label="#{msg.lblAgreedDays} (#{editPsyStaff.staffProof.calculationType == '1' ? 'PEPPV' : 'BPflV/LKA'})"
+                                 value="#{'Adults'.equals(cc.attrs.patType) ? editPsyStaff.staffProof.adultsAgreedDays : editPsyStaff.staffProof.kidsAgreedDays}"
+                                 styleClass="element08em"
+                                 readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
+                                 renderElement=":#{cc.attrs.clientId}:checksum"
+                                 title="#{msg.infoPsychStaffNoteCalcDays}"
+                                 minimum="1"
+                                 pattern="#,##0"
+                                 required="true"/>
+
+
+            <div class="marginTop" jsf:rendered="#{not empty editPsyStaff.staffProof.signatureAgreement}">
+                <hr class="simpleLine"/>
+                <h:outputLabel value="Signatur:"
+                               styleClass="label element08em"/>
+                <h:outputLabel id="checksum" 
+                               value="#{editPsyStaff.staffProof.signatureAgreement}"
+                               styleClass="label"/>
+                <hr class="simpleLine"/>
+            </div>
+
+            <div jsf:id="fileName" class="inputPart" jsf:rendered="#{not empty editPsyStaff.staffProof.getStaffProofDocumentName(editPsyStaff.staffProof.signatureAgreement)}">
+                <h:outputLabel value="Anlage:" styleClass="label element08em"/>
+                <h:commandLink action="#{editPsyStaff.downloadDocument(editPsyStaff.staffProof.signatureAgreement)}" 
+                               value="#{editPsyStaff.staffProof.getStaffProofDocumentName(editPsyStaff.staffProof.signatureAgreement)}"
+                               immediate="true">
+                </h:commandLink>
+
+            </div>
+        </div>
+    </cc:implementation>
+</html>

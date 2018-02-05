@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="label"/>
+        <cc:attribute name="value"/>
+        <cc:attribute name="title" default=""/>
+        <cc:attribute name="required" default="false"/>
+        <cc:attribute name="singleLine" default="false"/>
+        <cc:attribute name="styleClassComponent" default="inputPart"/>
+        <cc:attribute name="styleClassLabel" default="label"/>
+        <cc:attribute name="styleClass" default="element70"/>
+        <cc:attribute name="readonly" default="false"/>
+        <cc:attribute name="displayAsLabel" default="false"/>
+        <cc:attribute name="event" default="change"/>
+        <cc:attribute name="renderElement" default="@this"/>
+        <cc:actionSource name="inputText"/>
+        <cc:editableValueHolder name="inputText"/>
+        <cc:clientBehavior name="blur" targets="inputText" event="blur" />
+        <cc:attribute name="listener" method-signature="void listener()" />
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <div class="#{cc.attrs.styleClassComponent}">
+            <h:panelGroup style="display: inline-block; width: 100%;" rendered="#{!cc.attrs.singleLine}">
+                <h:outputLabel styleClass="#{cc.attrs.styleClassLabel} #{cc.attrs.required ? ' required ' : ''}" 
+                               value="#{cc.attrs.label}:" for="inputText" title="#{cc.attrs.title}"/>
+                <h:message for="inputText" id="msgText" styleClass="errorMessage"/>
+            </h:panelGroup>
+            <h:outputLabel styleClass="#{cc.attrs.styleClassLabel} #{cc.attrs.required ? ' required ' : ''}" 
+                           value="#{cc.attrs.label}:" for="inputText" rendered="#{cc.attrs.singleLine}"/>
+            <h:inputText id="inputText" rendered="#{not cc.attrs.displayAsLabel or not cc.attrs.readonly}"
+                         styleClass="#{cc.attrs.styleClass} #{cc.attrs.required ? ' required ' : ''}" 
+                         value="#{cc.attrs.value}" 
+                         title="#{cc.attrs.title}" 
+                         readonly="#{cc.attrs.readonly}"
+                         required="#{cc.attrs.required}">
+                <c:if test="#{cc.getValueExpression('listener') != null}">
+                    <f:ajax event="#{cc.attrs.event}" render="msgText msgText2 :logout:remaining #{cc.attrs.renderElement}" listener="#{cc.attrs.listener}"/>
+                </c:if>
+                <c:if test="#{cc.getValueExpression('listener') == null}">
+                    <f:ajax event="#{cc.attrs.event}" render="msgText msgText2 :logout:remaining #{cc.attrs.renderElement}" />
+                </c:if>
+
+            </h:inputText>
+            <h:outputLabel rendered="#{cc.attrs.displayAsLabel and cc.attrs.readonly}"
+                           styleClass="#{cc.attrs.styleClass}"
+                           title="#{cc.attrs.title}" 
+                           value="#{cc.attrs.value}"/>
+            <h:message for="inputText" id="msgText2" styleClass="errorMessage" rendered="#{cc.attrs.singleLine}"/>
+        </div>
+    </cc:implementation>
+</html>

@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="list"/>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <div class="paddingElement">
+            <h:dataTable rendered="#{cc.attrs.list.size() > 0}"  headerClass="list-header" id="tblModelIntentions" 
+                         value="#{cc.attrs.list}" var="model" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colIcon, colId, colValue">
+
+                <h:column id="colPrintId" >
+                    <f:facet name="header">
+                        <h:outputText value=""/>
+                    </f:facet>
+                    <h:commandLink action="#{modelIntentionList.printModelIntention(model.id)}" immediate="true" >
+                        <h:graphicImage alt="drucken" name="Icon/small/print.png" title="Druckansicht" value=""/>
+                    </h:commandLink>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value=""/>
+                    </f:facet>
+                    <h:commandLink action="#{modelIntentionList.editModelIntention(model.id)}" immediate="true" >
+                        <h:graphicImage alt="Status" name="Icon/small/#{model.status.icon}" value="" title="#{model.status.description}" rendered="#{model.status.icon.length() gt 0}"/>
+                        <f:param name="id" value="#{model.id}"/>
+                    </h:commandLink>
+                </h:column>
+                <h:column id="colIK">
+                    <f:facet name="header">
+                        <h:outputText value="Kennung"/>
+                    </f:facet>
+                    <h:commandLink action="#{modelIntentionList.editModelIntention(model.id)}" value="#{model.code.isEmpty() ? 'nicht&nbsp;erteilt' : model.code}" immediate="true">
+                        <f:param name="id" value="#{model.id}"/>
+                    </h:commandLink>
+                </h:column>
+                <h:column id="colName">
+                    <f:facet name="header">
+                        <h:outputText value="Bezeichnung"/>
+                    </f:facet>
+                    <h:commandLink action="#{modelIntentionList.editModelIntention(model.id)}" value="#{model.description}" immediate="true">
+                        <f:param name="id" value="#{model.id}"/>
+                    </h:commandLink>
+                </h:column>
+            </h:dataTable>
+        </div>
+    </cc:implementation>
+</html>

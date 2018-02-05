@@ -35,4 +35,33 @@
             <type>jar</type>
         </dependency>
     </dependencies>
+    
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>biz.gabrys.maven.plugins</groupId>
+                <artifactId>lesscss-maven-plugin</artifactId>
+                <version>1.2.1</version>
+                <executions>
+                    <execution>
+                        <id>default-compile</id>
+                        <phase>process-sources</phase> <!-- When omitted defaults to 'generate-sources' -->
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                        <configuration>
+                            <excludes>
+                                <exclude>**/commonstyles.less</exclude> 
+                            </excludes>
+                            <sourceDirectory>${project.basedir}/src/main/less</sourceDirectory>
+                            <outputDirectory>${project.basedir}/src/main/resources/META-INF/resources/css</outputDirectory>
+                            <compress>false</compress>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+        
+    </build>
+    
 </project>

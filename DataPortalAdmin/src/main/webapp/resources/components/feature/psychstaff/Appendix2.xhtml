@@ -1,0 +1,299 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+      xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common"
+
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="patType" default="Adults"/>
+        <cc:attribute name="readonly" default="false"/>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <h2>Tatsächliche Stellenbesetzung in Vollkräften - Bereich #{'Adults'.equals(cc.attrs.patType) ? 'Erwachsene' : 'Kinder und Jugendliche'}</h2>
+        <span>(§ 4 Psych-Personalnachweis)</span>
+
+        <div class="inputPart">
+            <h:outputLabel value="Ausnahmetatbestand" 
+                           styleClass="label element15em"
+                           title="Sofern Sie von der Nachweispflicht befreit sind, geben Sie bitte den Grund dafür an."/>
+
+            <h:selectOneMenu id="exclusion"
+                             styleClass="inlineBlock element100-25em"
+                             value="#{editPsyStaff.staffProof.exclusionFactId2}"
+                             disabled="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
+                             title="Sofern Sie von der Nachweispflicht befreit sind, geben Sie bitte den Grund dafür an.">
+                <f:selectItems  value="#{editPsyStaff.exclusionFacts2}" var="f" itemValue="#{f.id}" itemLabel="#{f.name}" />
+                <f:ajax event="change" listener="#{editPsyStaff.exclusionFactChanged2()}" render="@form"/>
+                <!--f:converter converterId="ExclusionFactConverter"/-->
+            </h:selectOneMenu>
+        </div>
+
+        <div class="inputPart" jsf:id="exclusionReason">
+            <inek:LabeledText rendered="#{editPsyStaff.staffProof.exclusionFact2.needReason}"
+                              required="true"
+                              readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
+                              label="Begründung"
+                              value="#{editPsyStaff.staffProof.exclusionReason2}"
+                              title="Bitte begründen Sie, warum eine firstgerechte Lieferung nicht erfolgt(e)."
+                              styleClassLabel="label element15em"
+                              styleClass="element100-25em"
+                              singleLine="true"/>
+        </div>
+        <br/>
+
+        <div jsf:rendered="#{editPsyStaff.staffProof.exclusionFact2.id le 0}">
+            <table class="marginTop">
+                <thead>
+                    <tr>
+                        <th class="col02em row1" scope="col" rowspan="2"> Nr. </th>
+                        <th class="col10em row1" scope="col" rowspan="2"> Berufsgruppen der Psych-PV </th>
+                        <th class="col10em row1" scope="col" rowspan="2"> Psych-PV-Personal in VK (jeweils in Summe) </th>
+                        <th class="col10em row1 centered" scope="col" colspan="3"> davon </th>
+                        <th class="col10em row1" scope="col" rowspan="2"> Umsetzungsgrad der Psych-PV in % </th>
+                    </tr>
+                    <tr>
+                        <th class="col10em row1" scope="col"> #{msg.lblDeductionPsych} in VK (§4 Abs. 4 Vereinb.) </th>
+                        <th class="col10em row1" scope="col"> #{msg.lblDeductionNonPsych} in VK (§4 Abs. 5 Vereinb.) </th>
+                        <th class="col10em row1" scope="col"> #{msg.lblDeductionOther} in VK (§4 Abs. 6 Vereinb.) </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ui:repeat value="#{editPsyStaff.staffProof.getStaffProofsEffective(cc.attrs.patType)}" var="item" id="repeat" varStatus="status">
+                        <tr>
+                            <td class="row1">
+                                <h:outputText value="#{item.occupationalCategory.id}" styleClass="element02em"/>
+                            </td>
+
+                            <td class="row1"> 
+                                <h:outputText value="#{item.occupationalCategory.name}" styleClass="element10em"/>
+                            </td>
+
+                            <td>
+                                <inek:InputNumberWithMessage id="myInput"
+                                                             value="#{item.staffingComplete}" 
+                                                             styleClass="element10em number"
+                                                             readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
+                                                             disabled="#{item.occupationalCategory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
+                                                             title="#{item.occupationalCategory.id == 2 ? msg.InfoPsychStaffNoteEducation : ''}">
+                                    <f:ajax event="clientChange" 
+                                            render="#{cc.attrs.clientId}:sumStaffingComplete:text #{cc.attrs.clientId}:repeat:#{status.index}:factor"/>
+                                </inek:InputNumberWithMessage>
+                            </td>
+
+
+                            <td>
+                                <inek:InputNumberWithMessage value="#{item.staffingDeductionPsych}" 
+                                                             styleClass="element10em number"
+                                                             readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
+                                                             disabled="#{item.occupationalCategory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
+                                                             title="#{item.occupationalCategory.id == 2 ? msg.InfoPsychStaffNoteEducation : ''}">
+                                    <f:ajax event="clientChange" listener="#{editPsyStaff.countChanged(item, 4)}" 
+                                            render="#{cc.attrs.clientId}:sumStaffingDeductionPsych:text #{cc.attrs.clientId}:explanation"/>
+                                </inek:InputNumberWithMessage>
+                            </td>
+
+                            <td >
+                                <inek:InputNumberWithMessage value="#{item.staffingDeductionNonPsych}" 
+                                                             styleClass="element10em number"
+                                                             readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
+                                                             disabled="#{item.occupationalCategory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType) or item.occupationalCategory.id == 1}"
+                                                             title="#{item.occupationalCategory.id == 2 ? msg.InfoPsychStaffNoteEducation : ''}">
+                                    <f:ajax event="clientChange" listener="#{editPsyStaff.countChanged(item, 5)}" 
+                                            render="#{cc.attrs.clientId}:sumStaffingDeductionNonPsych:text #{cc.attrs.clientId}:explanation"/>
+                                </inek:InputNumberWithMessage>
+                            </td>
+
+                            <td >
+                                <inek:InputNumberWithMessage value="#{item.staffingDeductionOther}" 
+                                                             styleClass="element10em number"
+                                                             readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
+                                                             disabled="#{item.occupationalCategory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
+                                                             title="#{item.occupationalCategory.id == 2 ? msg.InfoPsychStaffNoteEducation : ''}">
+                                    <f:ajax event="clientChange" listener="#{editPsyStaff.countChanged(item, 6)}" 
+                                            render="#{cc.attrs.clientId}:sumStaffingDeductionOther:text #{cc.attrs.clientId}:explanation"/>
+                                </inek:InputNumberWithMessage>
+                            </td>
+
+                            <td >
+                                <h:outputText id="factor"
+                                              value="#{editPsyStaff.determineFactor(item)}" 
+                                              styleClass="element10em number"/>
+                            </td>
+
+                        </tr>
+                    </ui:repeat>
+
+                    <tfoot>
+                        <tr>
+                            <td class="col02em row1" scope="col"> </td>
+                            <td class="col10em row1" scope="col"> Gesamt </td>
+                            <th class="col10em row1" scope="col"> 
+                                <inek:InputNumberWithMessage id="sumStaffingComplete" 
+                                                             value="#{editPsyStaff.sumEffectiveStaffingComplete(cc.attrs.patType)}"
+                                                             styleClass="element10em number"
+                                                             disabled="true"/>
+                            </th>
+                            <td class="col10em row1" scope="col"> 
+                                <inek:InputNumberWithMessage id="sumStaffingDeductionPsych" 
+                                                             value="#{editPsyStaff.sumEffectiveStaffingDeductionPsych(cc.attrs.patType)}"
+                                                             styleClass="element10em number"
+                                                             disabled="true"/> 
+                            </td>
+                            <td class="col10em row1" scope="col"> 
+                                <inek:InputNumberWithMessage id="sumStaffingDeductionNonPsych" 
+                                                             value="#{editPsyStaff.sumEffectiveStaffingDeductionNonPsych(cc.attrs.patType)}"
+                                                             styleClass="element10em number"
+                                                             disabled="true"/> 
+                            </td>
+                            <td class="col10em row1" scope="col"> 
+                                <inek:InputNumberWithMessage id="sumStaffingDeductionOther" 
+                                                             value="#{editPsyStaff.sumEffectiveStaffingDeductionOther(cc.attrs.patType)}"
+                                                             styleClass="element10em number"
+                                                             disabled="true"/> 
+                            </td>
+                            <td class="col10em row1" scope="col">  </td>
+                        </tr>
+
+                    </tfoot>
+                </tbody>
+            </table>
+
+            <div jsf:id="explanation">
+                <div jsf:rendered="#{editPsyStaff.staffProof.getStaffProofExplanations(cc.attrs.patType).size() gt 0}">
+                    <h2>Erläuterung zur Anrechnung von Fachkräften</h2>
+                </div>
+
+                <div class="container marginTop">
+                    <table class="marginTop"
+                           jsf:rendered="#{editPsyStaff.staffProof.getStaffProofExplanations(cc.attrs.patType).size() gt 0}">
+                        <thead>
+                            <tr>
+                                <th class="colIcon row1" scope="col"> </th>
+                                <th class="col10em row1" scope="col"> Psych-PV-Berufsgruppe, bei der die Anrechnung erfolgt </th>
+                                <th class="col16em row1" scope="col"> Anrechnungstatbestand </th>
+                                <th class="col10em row1" scope="col"> Tatsächlich Berufsgruppe der angerechneten Fachkraft </th>
+                                <th class="col10em row1" scope="col"> Angerechnete Stellenbesetzung in VK </th>
+                                <th class="col25em row1" scope="col"> Erläuterung </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ui:repeat value="#{editPsyStaff.staffProof.getStaffProofExplanations(cc.attrs.patType)}" var="item">
+                                <tr>
+                                    <td  class="colIcon row1" scope="col" >
+                                        <h:commandLink action="#{editPsyStaff.deleteExplanation(item)}" 
+                                                       rendered="#{not editPsyStaff.readOnly}"
+                                                       immediate="true">
+                                            <h:graphicImage alt="löschen" name="Icon/small/delete.png"
+                                                            title="'Löschen'" value=""/>
+                                            <cb:confirmDelete/>
+                                        </h:commandLink>
+                                    </td>
+                                    <td  class="col10em row1" scope="col" >
+                                        <h:outputText styleClass="element10em"
+                                                      value="#{item.occupationalCategory.name}"/>
+                                    </td>
+
+                                    <td  class="col16em row1" scope="col" >
+                                        <h:outputText value="#{item.deductedSpecialistId == 4 
+                                                               ? msg.lblDeductionPsych 
+                                                               : item.deductedSpecialistId == 5 ? msg.lblDeductionNonPsych : msg.lblDeductionOther}"/>
+                                    </td>
+
+                                    <td class="col10em" scope="col">
+                                        <inek:InputTextWithMessage value="#{item.effectiveOccupationalCategory}"
+                                                                   styleClass="element10em"
+                                                                   readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"/>
+                                    </td>
+
+                                    <td class="col10em" scope="col">
+                                        <inek:InputNumberWithMessage value="#{item.deductedFullVigor}"
+                                                                     styleClass="element10em number"
+                                                                     readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}">
+                                            <ui:remove>
+                                                <f:ajax event="clientChange" listener="#{editPsyStaff.adjustLines(item)}" render="#{cc.attrs.clientId}:explanation"/>
+                                            </ui:remove>
+                                        </inek:InputNumberWithMessage>
+                                    </td>
+
+                                    <td class="col25em" scope="col">
+                                        <h:panelGroup>
+                                            <h:inputTextarea id="txtExplanation"
+                                                             value="#{item.explanation}"
+                                                             styleClass="element25em"
+                                                             readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
+                                                             title="In den Erläuterungen sind die betroffenen Regelaufgaben nach Psych-PV aufzuführen. Bei Anrechnung von Fachkräften ohne direktes Beschäftigungsverhältnis mit dem Krankenhaus nach § 4 Absatz 6 sind die in VK umgerechneten Sachkosten auszuweisen.">
+                                                <f:ajax event="change" render="msgExplanation :logout:remaining message"/>
+                                            </h:inputTextarea>
+                                            <h:message for="txtExplanation" id="msgExplanation" errorClass="errorMessage"/>
+                                        </h:panelGroup>
+
+                                    </td>
+
+                                </tr>
+                            </ui:repeat>
+                        </tbody>
+                    </table>
+
+                </div>
+
+                <h:commandLink value="Zeilen zufügen" 
+                               styleClass="addButton"
+                               rendered="#{editPsyStaff.staffProof.getStaffProofExplanations(cc.attrs.patType).size() gt 0}">
+                    <f:ajax listener="#{editPsyStaff.adjustAllLines(cc.attrs.patType)}" 
+                            render=" #{cc.attrs.clientId}:explanation"/>
+                </h:commandLink>
+            </div>
+
+            <hr/>
+
+            <inek:LabeledInteger label="Tatsächliche Berechnungstage (#{editPsyStaff.staffProof.calculationType == '1' ? 'PEPPV' : 'BPflV/LKA'})"
+                                 value="#{'Adults'.equals(cc.attrs.patType) ? editPsyStaff.staffProof.adultsEffectiveDays : editPsyStaff.staffProof.kidsEffectiveDays}"
+                                 styleClass="element08em"
+                                 readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
+                                 renderElement=":#{cc.attrs.clientId}:checksum"
+                                 title="#{msg.infoPsychStaffNoteCalcDays}"
+                                 minimum="1"
+                                 pattern="#,##0"
+                                 required="true"/>
+
+            <inek:LabeledNumber label="Tatsächliche Kosten für das Psych-PV-Personal in Summe nach § 5 in Euro"
+                                value="#{'Adults'.equals(cc.attrs.patType) ? editPsyStaff.staffProof.adultsEffectiveCosts : editPsyStaff.staffProof.kidsEffectiveCosts}"
+                                styleClass="element08em"
+                                readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
+                                renderElement=":#{cc.attrs.clientId}:checksum"
+                                minimum="1"
+                                required="true"/>
+
+            <div class="marginTop" jsf:rendered="#{not empty editPsyStaff.staffProof.signatureEffective}">
+                <hr class="simpleLine"/>
+                <h:outputLabel value="Signatur:"
+                               styleClass="label element08em"/>
+                <h:outputLabel id="checksum" 
+                               value="#{editPsyStaff.staffProof.signatureEffective}"
+                               styleClass="label"/>
+                <hr class="simpleLine"/>
+            </div>
+
+            <div jsf:id="fileName" class="inputPart" jsf:rendered="#{not empty editPsyStaff.staffProof.getStaffProofDocumentName(editPsyStaff.staffProof.signatureEffective)}">
+                <h:outputLabel value="Anlage:" styleClass="label element08em"/>
+                <h:commandLink action="#{editPsyStaff.downloadDocument(editPsyStaff.staffProof.signatureEffective)}" 
+                               value="#{editPsyStaff.staffProof.getStaffProofDocumentName(editPsyStaff.staffProof.signatureEffective)}"
+                               immediate="true">
+                    <f:ajax event="blur" render="@all"/>
+                </h:commandLink>
+
+            </div>
+
+        </div>
+    </cc:implementation>
+</html>
