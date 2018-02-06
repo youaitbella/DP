@@ -26,7 +26,7 @@ import javax.persistence.Temporal;
 import javax.persistence.Version;
 import org.inek.dataportal.enums.DrgProposalCategory;
 import org.inek.dataportal.enums.DrgProposalChangeMethod;
-import org.inek.dataportal.enums.WorkflowStatus;
+import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.utils.Documentation;
 
 /**

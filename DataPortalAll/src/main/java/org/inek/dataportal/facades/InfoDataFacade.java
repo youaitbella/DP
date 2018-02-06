@@ -12,7 +12,7 @@ import javax.persistence.criteria.Root;
 import org.inek.dataportal.entities.ListFeature;
 import org.inek.dataportal.entities.ListWorkflowStatus;
 import org.inek.dataportal.entities.TrashMail;
-import org.inek.dataportal.enums.WorkflowStatus;
+import org.inek.dataportal.common.enums.WorkflowStatus;
 
 /**
  * This is a facade to various informative data

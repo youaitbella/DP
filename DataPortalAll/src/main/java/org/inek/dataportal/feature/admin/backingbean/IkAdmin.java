@@ -20,7 +20,7 @@ import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountFeature;
-import org.inek.dataportal.enums.IkReference;
+import org.inek.dataportal.common.enums.IkReference;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.feature.admin.dao.IkAccount;
 import org.inek.dataportal.feature.ikadmin.entity.AccessRight;

@@ -21,7 +21,7 @@ import javax.persistence.criteria.Root;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.modelintention.ModelIntention;
 import org.inek.dataportal.enums.DataSet;
-import org.inek.dataportal.enums.Feature;
+import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.enums.UserSet;
 import org.inek.dataportal.facades.AbstractFacade;
 import org.inek.dataportal.helper.structures.EntityInfo;

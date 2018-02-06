@@ -5,8 +5,6 @@
  */
 package org.inek.dataportal.helper;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -23,7 +21,6 @@ import java.util.zip.Adler32;
 import java.util.zip.CheckedOutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
-import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.AccountDocument;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.feature.admin.facade.ConfigFacade;

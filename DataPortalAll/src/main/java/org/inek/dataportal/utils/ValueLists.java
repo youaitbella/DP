@@ -13,7 +13,7 @@ import javax.inject.Named;
 import org.inek.dataportal.entities.common.CostCenter;
 import org.inek.dataportal.entities.common.CostType;
 import org.inek.dataportal.entities.modelintention.AdjustmentType;
-import org.inek.dataportal.enums.Feature;
+import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.enums.Genders;
 import org.inek.dataportal.enums.HospitalType;
 import org.inek.dataportal.enums.InsuranceAffiliation;

@@ -1,4 +1,5 @@
-package org.inek.dataportal.enums;
+package org.inek.dataportal.common.enums;
+
 
 /**
  *

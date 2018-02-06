@@ -16,7 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Temporal;
 import org.inek.dataportal.enums.CalcInfoType;
-import org.inek.dataportal.enums.WorkflowStatus;
+import org.inek.dataportal.common.enums.WorkflowStatus;
 
 /**
  *

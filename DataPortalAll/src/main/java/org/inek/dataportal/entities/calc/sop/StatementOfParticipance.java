@@ -29,8 +29,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import org.inek.dataportal.entities.iface.StatusEntity;
-import org.inek.dataportal.enums.Feature;
-import org.inek.dataportal.enums.WorkflowStatus;
+import org.inek.dataportal.common.enums.Feature;
+import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.utils.Documentation;
 

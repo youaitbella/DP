@@ -5,7 +5,7 @@
  */
 package org.inek.dataportal.entities.iface;
 
-import org.inek.dataportal.enums.WorkflowStatus;
+import org.inek.dataportal.common.enums.WorkflowStatus;
 
 /**
  *

@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.enums.Pages;
-import org.inek.dataportal.enums.PortalType;
+import org.inek.dataportal.common.enums.PortalType;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.cooperation.CooperationRequestEmailFacade;
 

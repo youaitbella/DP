@@ -20,7 +20,7 @@ import org.inek.dataportal.common.SessionTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.dropbox.DropBox;
 import org.inek.dataportal.enums.ConfigKey;
-import org.inek.dataportal.enums.Feature;
+import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.facades.DropBoxFacade;
 import org.inek.dataportal.feature.dropbox.DropBoxController;
 import org.inek.dataportal.helper.StreamHelper;

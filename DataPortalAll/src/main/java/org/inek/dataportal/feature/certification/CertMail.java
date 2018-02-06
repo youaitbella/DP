@@ -19,7 +19,7 @@ import org.inek.dataportal.entities.certification.Grouper;
 import org.inek.dataportal.entities.certification.MapEmailReceiverLabel;
 import org.inek.dataportal.entities.certification.RemunerationSystem;
 import org.inek.dataportal.enums.CertMailType;
-import org.inek.dataportal.enums.Feature;
+import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.enums.Genders;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.certification.EmailLogFacade;

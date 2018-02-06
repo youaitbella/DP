@@ -13,7 +13,7 @@ import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountFeature;
 import org.inek.dataportal.entities.account.AccountFeatureRequest;
-import org.inek.dataportal.enums.FeatureState;
+import org.inek.dataportal.common.enums.FeatureState;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.ContactRoleFacade;
 import org.inek.dataportal.facades.CustomerFacade;

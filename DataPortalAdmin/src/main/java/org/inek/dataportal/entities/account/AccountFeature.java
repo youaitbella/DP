@@ -15,8 +15,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import org.inek.dataportal.enums.Feature;
-import org.inek.dataportal.enums.FeatureState;
+import org.inek.dataportal.common.enums.Feature;
+import org.inek.dataportal.common.enums.FeatureState;
 import org.inek.dataportal.helper.converter.FeatureConverter;
 
 /**

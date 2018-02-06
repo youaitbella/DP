@@ -5,7 +5,7 @@ import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import javax.persistence.*;
-import org.inek.dataportal.enums.WorkflowStatus;
+import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.utils.Documentation;
 
 /**

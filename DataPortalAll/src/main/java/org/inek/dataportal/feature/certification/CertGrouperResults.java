@@ -17,7 +17,7 @@ import org.inek.dataportal.entities.certification.EmailLog;
 import org.inek.dataportal.entities.certification.Grouper;
 import org.inek.dataportal.enums.CertMailType;
 import org.inek.dataportal.enums.CertStatus;
-import org.inek.dataportal.enums.Feature;
+import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.enums.Genders;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.account.AccountFacade;

@@ -1,6 +1,6 @@
 package org.inek.dataportal.helper.structures;
 
-import org.inek.dataportal.enums.WorkflowStatus;
+import org.inek.dataportal.common.enums.WorkflowStatus;
 
 /**
  *

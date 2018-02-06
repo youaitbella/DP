@@ -2,7 +2,7 @@ package org.inek.dataportal.helper.converter;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
-import org.inek.dataportal.enums.Feature;
+import org.inek.dataportal.common.enums.Feature;
 
 /**
  *

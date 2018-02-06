@@ -14,7 +14,7 @@ import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import org.inek.dataportal.common.AccessManager;
 import static org.inek.dataportal.common.AccessManager.canReadSealed;
-import org.inek.dataportal.enums.Feature;
+import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.facades.NubRequestFacade;
 import org.inek.dataportal.helper.Utils;
 import org.inek.portallib.tree.RootNode;

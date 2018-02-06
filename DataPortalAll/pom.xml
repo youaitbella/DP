@@ -39,7 +39,7 @@
             <scope>test</scope>
         </dependency>
         
-		<dependency>
+        <dependency>
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-junit</artifactId>
             <scope>test</scope>
@@ -65,23 +65,23 @@
             <type>jar</type>
         </dependency>
         
-		<dependency>
+        <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
             <scope>provided</scope>
         </dependency>
         
-		<dependency>
+        <dependency>
             <groupId>javax.mail</groupId>
             <artifactId>mail</artifactId>
         </dependency>
         
-		<dependency>
+        <dependency>
             <groupId>org.jboss.weld</groupId>
             <artifactId>weld-osgi-bundle</artifactId>
         </dependency>
         
-		<!-- https://mvnrepository.com/artifact/com.itextpdf/itextpdf -->
+        <!-- https://mvnrepository.com/artifact/com.itextpdf/itextpdf -->
         <dependency>
             <groupId>com.itextpdf</groupId>
             <artifactId>itextpdf</artifactId>
@@ -91,38 +91,6 @@
     
     <build>
         <finalName>DataPortal</finalName>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-            </resource>
-        </resources>
-        <plugins>
-            <plugin>
-                <groupId>biz.gabrys.maven.plugins</groupId>
-                <artifactId>lesscss-maven-plugin</artifactId>
-                <version>1.2.1</version>
-                <executions>
-                    <execution>
-                        <id>default-compile</id>
-                        <phase>process-sources</phase> <!-- When omitted defaults to 'generate-sources' -->
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
-                        <configuration>
-                            <excludes>
-                                <exclude>**/commonstyles.less</exclude> 
-                            </excludes>
-                            <sourceDirectory>${project.basedir}/src/main/less</sourceDirectory>
-                            <!--outputDirectory>${project.basedir}/src/main/webapp/resources/css</outputDirectory-->
-                            <outputDirectory>${project.build.directory}/${project.build.finalName}/resources/css</outputDirectory>
-                            <compress>false</compress>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-        
     </build>
 
 </project>

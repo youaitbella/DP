@@ -9,7 +9,7 @@ import javax.persistence.TypedQuery;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.additionalcost.AdditionalCost;
 import org.inek.dataportal.enums.DataSet;
-import org.inek.dataportal.enums.WorkflowStatus;
+import org.inek.dataportal.common.enums.WorkflowStatus;
 
 /**
  *

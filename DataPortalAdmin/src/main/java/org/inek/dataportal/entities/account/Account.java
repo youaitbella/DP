@@ -36,8 +36,8 @@ import javax.persistence.Transient;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import org.inek.dataportal.entities.certification.RemunerationSystem;
-import org.inek.dataportal.enums.Feature;
-import org.inek.dataportal.enums.FeatureState;
+import org.inek.dataportal.common.enums.Feature;
+import org.inek.dataportal.common.enums.FeatureState;
 import org.inek.dataportal.feature.admin.entity.InekRole;
 
 /**

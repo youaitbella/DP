@@ -5,7 +5,7 @@ import javax.ejb.Singleton;
 import javax.inject.Inject;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.cooperation.PortalMessage;
-import org.inek.dataportal.enums.Feature;
+import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.facades.cooperation.PortalMessageFacade;
 import org.inek.dataportal.mail.Mailer;
 

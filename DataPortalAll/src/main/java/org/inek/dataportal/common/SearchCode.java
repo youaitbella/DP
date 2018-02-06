@@ -18,7 +18,7 @@ import javax.inject.Named;
 import org.inek.dataportal.common.SearchController.CodeInfo;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.enums.CodeType;
-import org.inek.dataportal.enums.Feature;
+import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.enums.GlobalVars;
 import org.inek.dataportal.helper.Utils;
 

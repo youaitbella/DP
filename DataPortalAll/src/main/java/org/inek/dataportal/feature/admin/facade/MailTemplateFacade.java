@@ -10,7 +10,7 @@ import javax.faces.model.SelectItem;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import org.inek.dataportal.feature.admin.entity.MailTemplate;
-import org.inek.dataportal.enums.Feature;
+import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.facades.*;
 
 @Stateless

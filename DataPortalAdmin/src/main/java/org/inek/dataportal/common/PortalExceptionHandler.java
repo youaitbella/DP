@@ -25,7 +25,6 @@ import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.helper.NotLoggedInException;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.mail.Mailer;
-import org.jboss.weld.exceptions.WeldException;
 
 /**
  *
@@ -107,7 +106,7 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
     }
 
     private static boolean isWeldException(Throwable exception) {
-        return exception instanceof NonexistentConversationException || exception instanceof WeldException
+        return exception instanceof NonexistentConversationException //|| exception instanceof WeldException
                 // todo: exception instanceof WeldException is fine in direct window, but does not work here.
                 // thus check for exception's name as workarround
                 || exception.getClass().toString().equals("class org.jboss.weld.exceptions.WeldException")
