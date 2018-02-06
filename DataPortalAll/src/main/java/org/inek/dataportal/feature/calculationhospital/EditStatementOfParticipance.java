@@ -187,7 +187,8 @@ public class EditStatementOfParticipance extends AbstractEditController {
         try {
             int id = Integer.parseInt("" + idObject);
             StatementOfParticipance statement = _calcFacade.findStatementOfParticipance(id);
-            if (_accessManager.isAccessAllowed(Feature.CALCULATION_HOSPITAL, statement.getStatus(), statement.getAccountId())) {
+            if (_accessManager.isAccessAllowed(Feature.CALCULATION_HOSPITAL, statement.getStatus(), 
+                    statement.getAccountId(), statement.getIk())) {
                 updateObligatorySetting(statement);
                 return statement;
             }
@@ -395,21 +396,24 @@ public class EditStatementOfParticipance extends AbstractEditController {
         if (!_appTools.isEnabled(ConfigKey.IsStatemenOfParticipanceSendEnabled)) {
             return false;
         }
-        return _accessManager.isSealedEnabled(Feature.CALCULATION_HOSPITAL, _statement.getStatus(), _statement.getAccountId());
+        return _accessManager.isSealedEnabled(Feature.CALCULATION_HOSPITAL, _statement.getStatus(), 
+                _statement.getAccountId(), _statement.getIk());
     }
 
     public boolean isApprovalRequestEnabled() {
         if (!_appTools.isEnabled(ConfigKey.IsStatemenOfParticipanceSendEnabled)) {
             return false;
         }
-        return _accessManager.isApprovalRequestEnabled(Feature.CALCULATION_HOSPITAL, _statement.getStatus(), _statement.getAccountId());
+        return _accessManager.isApprovalRequestEnabled(Feature.CALCULATION_HOSPITAL, _statement.getStatus(), 
+                _statement.getAccountId(), _statement.getIk());
     }
 
     public boolean isRequestCorrectionEnabled() {
         if (!_appTools.isEnabled(ConfigKey.IsStatemenOfParticipanceSendEnabled)) {
             return false;
         }
-        return _accessManager.isRequestCorrectionEnabled(Feature.CALCULATION_HOSPITAL, _statement.getStatus(), _statement.getAccountId());
+        return _accessManager.isRequestCorrectionEnabled(Feature.CALCULATION_HOSPITAL, _statement.getStatus(), 
+                _statement.getAccountId(), _statement.getIk());
     }
 
     public boolean isTakeEnabled() {
