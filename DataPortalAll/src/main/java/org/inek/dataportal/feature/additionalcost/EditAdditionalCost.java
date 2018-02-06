@@ -5,7 +5,7 @@
  */
 package org.inek.dataportal.feature.additionalcost;
 
-import org.inek.dataportal.entities.additionalcost.AdditionalCost;
+import org.inek.dataportal.feature.additionalcost.entity.AdditionalCost;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -28,7 +28,7 @@ import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.facades.AdditionalCostFacade;
+import org.inek.dataportal.feature.additionalcost.facade.AdditionalCostFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.feature.admin.facade.InekRoleFacade;
 import org.inek.dataportal.helper.Utils;

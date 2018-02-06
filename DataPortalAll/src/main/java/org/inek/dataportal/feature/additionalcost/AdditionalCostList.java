@@ -1,16 +1,16 @@
 package org.inek.dataportal.feature.additionalcost;
 
+import org.inek.dataportal.feature.additionalcost.entity.AdditionalCost;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
-import org.inek.dataportal.entities.additionalcost.AdditionalCost;
 import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.facades.AdditionalCostFacade;
+import org.inek.dataportal.feature.additionalcost.facade.AdditionalCostFacade;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
 import org.inek.dataportal.utils.DocumentationUtil;
@@ -64,7 +64,7 @@ public class AdditionalCostList {
     
     public String printNotice(int adId) {
         Utils.getFlash().put("headLine", Utils.getMessage("nameADDITIONAL_COST"));
-        Utils.getFlash().put("targetPage", Pages.InsuranceSummary.URL());
+        Utils.getFlash().put("targetPage", Pages.AdditionalCostSummary.URL());
         Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(_addFacade.findAdditionalCost(adId)));
         return Pages.PrintView.URL();
     }

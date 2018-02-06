@@ -1,4 +1,4 @@
-package org.inek.dataportal.facades;
+package org.inek.dataportal.feature.additionalcost.facade;
 
 import java.util.HashSet;
 import java.util.List;
@@ -7,9 +7,10 @@ import javax.ejb.Stateless;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import org.inek.dataportal.entities.account.Account;
-import org.inek.dataportal.entities.additionalcost.AdditionalCost;
+import org.inek.dataportal.feature.additionalcost.entity.AdditionalCost;
 import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.facades.AbstractDataAccess;
 
 /**
  *

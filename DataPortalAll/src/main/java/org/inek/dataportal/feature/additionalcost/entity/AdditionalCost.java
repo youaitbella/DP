@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.entities.additionalcost;
+package org.inek.dataportal.feature.additionalcost.entity;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -62,6 +62,7 @@ public class AdditionalCost implements Serializable, StatusEntity {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property LastChanged">
+    @Documentation(name = "letzte Änderung")
     @Column(name = "adcLastChanged")
     @Temporal(TemporalType.TIMESTAMP)
     private Date _adcLastChanged;
@@ -75,7 +76,8 @@ public class AdditionalCost implements Serializable, StatusEntity {
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="Prperty Ik">
+    //<editor-fold defaultstate="collapsed" desc="Property Ik">
+    @Documentation(key = "lblIK")
     @Column(name = "adcIk")
     private int _ik;
 
@@ -89,6 +91,7 @@ public class AdditionalCost implements Serializable, StatusEntity {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="ContactFirstName">
+    @Documentation(key = "lblFirstName")
     @Column(name = "adcContactFirstName")
     private String _contactFirstName = "";
 
@@ -99,9 +102,10 @@ public class AdditionalCost implements Serializable, StatusEntity {
     public void setContactFirstName(String contacFirstName) {
         this._contactFirstName = contacFirstName;
     }
-//</editor-fold>
+    //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="ContactLastName">
+    @Documentation(key = "lblLastName")
     @Column(name = "adcContactLastName")
     private String _contactLastName = "";
 
@@ -115,6 +119,7 @@ public class AdditionalCost implements Serializable, StatusEntity {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="ContactPhone">
+    @Documentation(key = "lblPhone")
     @Column(name = "adcContactPhone")
     private String _contactPhone = "";
 
@@ -128,6 +133,7 @@ public class AdditionalCost implements Serializable, StatusEntity {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="ContactEmail">
+    @Documentation(key = "lblEMail")
     @Column(name = "adcContactEmail")
     private String _contactEmail = "";
 
@@ -178,6 +184,7 @@ public class AdditionalCost implements Serializable, StatusEntity {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="PerinatalcentreLevel">
+    @Documentation(key = "lblPerinatalzentrum_level")
     @Column(name = "adcPerinatalcentreLevel")
     private int _perinatalcentreLevel;
 
@@ -191,6 +198,7 @@ public class AdditionalCost implements Serializable, StatusEntity {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="PeriodFrom">
+    @Documentation(name = "Vereinbarungszeitraum von")
     @Column(name = "adcPeriodFrom")
     private int _periodFrom;
 
@@ -204,6 +212,7 @@ public class AdditionalCost implements Serializable, StatusEntity {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="PeriodTo">
+    @Documentation(name = "Vereinbarungszeitraum bis")
     @Column(name = "adcPeriodTo")
     private int _periodTo;
 
@@ -217,6 +226,7 @@ public class AdditionalCost implements Serializable, StatusEntity {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="EffectivCaseMix">
+    @Documentation(key = "effectivCaseMix")
     @Column(name = "adcEffectivCaseMix")
     private double _effectivCaseMix;
 
@@ -230,6 +240,7 @@ public class AdditionalCost implements Serializable, StatusEntity {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="ExtraChargeA">
+    @Documentation(key = "extraChargeA")
     @Column(name = "adcExtraChargeA")
     private double _extraChargeA;
 
@@ -243,6 +254,7 @@ public class AdditionalCost implements Serializable, StatusEntity {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="ExtraChargeB">
+    @Documentation(key = "extraChargeB")
     @Column(name = "adcExtraChargeB")
     private double _extraChargeB;
 
@@ -256,6 +268,7 @@ public class AdditionalCost implements Serializable, StatusEntity {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="ExtraChargeC">
+    @Documentation(key = "extraChargeC")
     @Column(name = "adcExtraChargeC")
     private double _extraChargeC;
 
@@ -269,6 +282,7 @@ public class AdditionalCost implements Serializable, StatusEntity {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="AgreedHospitalIndividualExtraCharge">
+    @Documentation(key = "agreedHospitalIndividualExtraCharge")
     @Column(name = "adcAgreedHospitalIndividualExtraCharge")
     private double _agreedHospitalIndividualExtraCharge;
 
@@ -281,61 +295,8 @@ public class AdditionalCost implements Serializable, StatusEntity {
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="AgreedRepaymentAdditionalCost">
-    @Column(name = "adcAgreedRepaymentAdditionalCost")
-    private double _agreedRepaymentAdditionalCost;
-
-    public double getAgreedRepaymentAdditionalCost() {
-        return _agreedRepaymentAdditionalCost;
-    }
-
-    public void setAgreedRepaymentAdditionalCost(double agreedRepaymentAdditionalCost) {
-        this._agreedRepaymentAdditionalCost = agreedRepaymentAdditionalCost;
-    }
-    //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="RepaymentPeriodFrom">
-    @Column(name = "adcRepaymentPeriodFrom")
-    private int _repaymentPeriodFrom;
-
-    public int getRepaymentPeriodFrom() {
-        return _repaymentPeriodFrom;
-    }
-
-    public void setRepaymentPeriodFrom(int repaymentPeriodFrom) {
-        this._repaymentPeriodFrom = repaymentPeriodFrom;
-    }
-
-    //</editor-fold>
-    
-    //<editor-fold defaultstate="collapsed" desc="RepaymentPeriodTo">
-    @Column(name = "adcRepaymentPeriodTo")
-    private int _repaymentPeriodTo;
-
-    public int getRepaymentPeriodTo() {
-        return _repaymentPeriodTo;
-    }
-
-    public void setRepaymentPeriodTo(int repaymentPeriodTo) {
-        this._repaymentPeriodTo = repaymentPeriodTo;
-    }
-
-    //</editor-fold>
-    
-    //<editor-fold defaultstate="collapsed" desc="CalenderYear">
-    @Column(name = "adcCalenderYear")
-    private int _calenderYear;
-
-    public int getCalenderYear() {
-        return _calenderYear;
-    }
-
-    public void setCalenderYear(int calenderYear) {
-        this._calenderYear = calenderYear;
-    }
-    //</editor-fold>
-
     //<editor-fold defaultstate="collapsed" desc="HospitalIndividualExtraCharge">
+    @Documentation(key = "hospitalIndividualExtraCharge")
     @Column(name = "adcHospitalIndividualExtraCharge")
     private double _hospitalIndividualExtraCharge;
 
@@ -351,6 +312,7 @@ public class AdditionalCost implements Serializable, StatusEntity {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="IsAdditionalCostAgreementAgreed">
+    @Documentation(key = "isAdditionalCostAgreementAgreed")
     @Column(name = "adcIsAdditionalCostAgreementAgreed")
     private boolean _isAdditionalCostAgreementAgreed;
     
@@ -363,7 +325,52 @@ public class AdditionalCost implements Serializable, StatusEntity {
     }
     //</editor-fold>
     
+    //<editor-fold defaultstate="collapsed" desc="AgreedRepaymentAdditionalCost">
+    @Documentation(key = "agreedRepaymentAdditionalCost")
+    @Column(name = "adcAgreedRepaymentAdditionalCost")
+    private double _agreedRepaymentAdditionalCost;
+
+    public double getAgreedRepaymentAdditionalCost() {
+        return _agreedRepaymentAdditionalCost;
+    }
+
+    public void setAgreedRepaymentAdditionalCost(double agreedRepaymentAdditionalCost) {
+        this._agreedRepaymentAdditionalCost = agreedRepaymentAdditionalCost;
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="RepaymentPeriodFrom">
+    @Documentation(name = "Vereinbarungszeitraum Rückzahlungsvolumen von")
+    @Column(name = "adcRepaymentPeriodFrom")
+    private int _repaymentPeriodFrom;
+
+    public int getRepaymentPeriodFrom() {
+        return _repaymentPeriodFrom;
+    }
+
+    public void setRepaymentPeriodFrom(int repaymentPeriodFrom) {
+        this._repaymentPeriodFrom = repaymentPeriodFrom;
+    }
+
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="RepaymentPeriodTo">
+    @Column(name = "adcRepaymentPeriodTo")
+    @Documentation(name = "Vereinbarungszeitraum Rückzahlungsvolumen bis")
+    private int _repaymentPeriodTo;
+
+    public int getRepaymentPeriodTo() {
+        return _repaymentPeriodTo;
+    }
+
+    public void setRepaymentPeriodTo(int repaymentPeriodTo) {
+        this._repaymentPeriodTo = repaymentPeriodTo;
+    }
+
+    //</editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc="ComplianceRate">
+    @Documentation(key = "complianceRate")
     @Column(name = "adcComplianceRate")
     private double _complianceRate;
 
@@ -378,9 +385,22 @@ public class AdditionalCost implements Serializable, StatusEntity {
     }
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="CalenderYear">
+    @Documentation(key = "Kalenderjahr Erfüllungsquote")
+    @Column(name = "adcCalenderYear")
+    private int _calenderYear;
+
+    public int getCalenderYear() {
+        return _calenderYear;
+    }
+
+    public void setCalenderYear(int calenderYear) {
+        this._calenderYear = calenderYear;
+    }
+    //</editor-fold>
+
     //<editor-fold defaultstate="collapsed" desc="Code">
     @Column(name = "adcCode")
-    @Documentation(key = "lblContractKey")
     private String _code = "";
 
     @Size(max = 10)
