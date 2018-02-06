@@ -7,7 +7,7 @@ package org.inek.dataportal.common.enums;
  */
 public enum Feature {
 
-    ADMIN(1, "Administration", NeedApproval.No, PortalType.DRG, IkReference.None, Shareable.No),
+    ADMIN(1, "Administration", NeedApproval.No, PortalType.ADMIN, IkReference.None, Shareable.No),
     USER_MAINTENANCE(2, "Stammdaten", NeedApproval.No, PortalType.COMMON, IkReference.None, Shareable.No),
     NUB(3, "Neue Untersuchungs- und Behandlungsmethoden", NeedApproval.No, PortalType.DRG, IkReference.Hospital, Shareable.Yes),
     REQUEST_SYSTEM(4, "Anfrageverfahren", NeedApproval.No, PortalType.DRG, IkReference.None, Shareable.No),

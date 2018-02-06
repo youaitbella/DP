@@ -28,6 +28,7 @@ import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.enums.FeatureState;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.common.enums.PortalType;
+import org.inek.dataportal.common.helper.EnvironmentInfo;
 import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.CustomerTypeFacade;
 import org.inek.dataportal.facades.DrgFacade;
@@ -787,6 +788,8 @@ public class SessionController implements Serializable {
                 return "psyportal.css";
             case DRG:
                 return "drgportal.css";
+            case ADMIN:
+                return "adminportal.css";
             default:
                 return "commonportal.css";
         }
@@ -899,4 +902,7 @@ public class SessionController implements Serializable {
         return new byte[0];
     }
 
+    public String getServerWithProtocolAndPort() {
+        return EnvironmentInfo.getServerWithProtocolAndPort();
+    }
 }

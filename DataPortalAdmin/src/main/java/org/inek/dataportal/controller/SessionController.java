@@ -27,6 +27,7 @@ import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.enums.FeatureState;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.common.enums.PortalType;
+import org.inek.dataportal.common.helper.EnvironmentInfo;
 import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.CustomerTypeFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
@@ -321,8 +322,7 @@ public class SessionController implements Serializable {
         return "localhost://test";
     }
 
-    public boolean loginByToken(String token, PortalType portalType) {
-        _portalType = portalType;
+    public boolean loginByToken(String token) {
         String loginInfo = Utils.getClientIP() + "; UserAgent=" + Utils.getUserAgent();
         int id = getId(token);
         _account = _accountFacade.findAccount(id);
@@ -340,8 +340,7 @@ public class SessionController implements Serializable {
     }
 
     public boolean loginAndSetTopics(String mailOrUser, String password, PortalType portalType) {
-        _portalType = portalType;
-        //invalidateSession();
+        //_portalType = portalType;
         login(mailOrUser, password);
         setTopics();
         setParts();
@@ -770,6 +769,8 @@ public class SessionController implements Serializable {
                 return "psyportal.css";
             case DRG:
                 return "drgportal.css";
+            case ADMIN:
+                return "adminportal.css";
             default:
                 return "commonportal.css";
         }
@@ -781,6 +782,8 @@ public class SessionController implements Serializable {
                 return PortalType.DRG;
             case DRG:
                 return PortalType.PSY;
+            case ADMIN:
+                return PortalType.ADMIN;
             case COMMON:
                 return PortalType.COMMON;
             default:
@@ -880,6 +883,10 @@ public class SessionController implements Serializable {
             alertClient("Bei der Reporterstellung trat ein Fehler auf");
         }
         return new byte[0];
+    }
+
+    public String getServerWithProtocolAndPort() {
+        return EnvironmentInfo.getServerWithProtocolAndPort();
     }
 
 }

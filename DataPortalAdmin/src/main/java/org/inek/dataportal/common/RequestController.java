@@ -51,13 +51,11 @@ public class RequestController implements Serializable {
 
     private boolean loginByToken(FacesContext facesContext) {
         String token = facesContext.getExternalContext().getRequestParameterMap().get("token");
-        String type = facesContext.getExternalContext().getRequestParameterMap().get("type");
-        if (token == null || type == null) {
+        if (token == null) {
             return false;
         }
         try {
-            PortalType portalType = PortalType.valueOf(type);
-            return _sessionController.loginByToken(token, portalType);
+            return _sessionController.loginByToken(token);
         } catch (Exception ex) {
             return false;
         }

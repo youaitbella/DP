@@ -85,7 +85,7 @@ public class Login implements Serializable {
             return "";
         }
         _loginMessage = "";
-        return _sessionController.countInstalledFeatures() <= 1 ? Pages.UserMaintenanceFeatures.URL() : Pages.MainApp.URL();
+        return  Pages.MainApp.URL();
     }
 
 }

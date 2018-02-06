@@ -8,5 +8,6 @@ package org.inek.dataportal.common.enums;
 public enum PortalType {
     COMMON,
     DRG,
-    PSY;
+    PSY,
+    ADMIN;
 }

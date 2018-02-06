@@ -40,7 +40,7 @@ import org.inek.dataportal.feature.admin.entity.MailTemplate;
 import org.inek.dataportal.feature.admin.facade.ConfigFacade;
 import org.inek.dataportal.feature.admin.facade.MailTemplateFacade;
 import org.inek.dataportal.helper.Utils;
-import static org.inek.portallib.util.Const.*;
+import static org.inek.dataportal.common.helper.Const.*;
 
 /**
  *

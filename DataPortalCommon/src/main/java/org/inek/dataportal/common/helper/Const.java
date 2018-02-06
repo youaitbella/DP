@@ -1,4 +1,4 @@
-package org.inek.portallib.util;
+package org.inek.dataportal.common.helper;
 
 /**
  *
