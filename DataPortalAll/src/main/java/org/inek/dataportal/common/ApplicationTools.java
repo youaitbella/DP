@@ -73,7 +73,7 @@ public class ApplicationTools extends AbstractDataAccess{
      */
     public String getVersion() {
         ensureProjectProperties();
-        return _properties.getProperty("version", "0");
+        return "2018.02.06";//_properties.getProperty("version", "0");
     }
 
     private void ensureProjectProperties() {

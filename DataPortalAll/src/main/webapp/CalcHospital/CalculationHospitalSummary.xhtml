@@ -77,11 +77,11 @@
                 <p>
                 <h:commandLink action="#{year.toggle}" immediate="true" >
                     <h:graphicImage alt="auf/zuklappen" name="Icon/small/#{year.expanded ? 'ButtonMinus.png' : 'ButtonPlus.png'}" title="Details auf/zuklappen" value=""/>
-                    <f:ajax render="@this NubYear :logout:remaining"/>
+                    <f:ajax render="@this YearNode :logout:remaining"/>
                 </h:commandLink>
                 <h:commandLink styleClass="block marginTop" action="#{year.toggle}" value="Kalkulationsdaten für #{year.id}" immediate="true" />
                 </p>
-                <div jsf:id="NubYear">
+                <div jsf:id="YearNode">
                     <ui:repeat value="#{year.children}" var="accountNode" varStatus="status">
                         <calc:AccountNode accountNode="#{accountNode}"/>
                     </ui:repeat>
