@@ -6,7 +6,7 @@
 }
 html {
   font-size: 12px;
-  background-color: #ffffff;
+  background-color: #ffc3c3;
 }
 body {
   text-align: left;
@@ -22,7 +22,7 @@ body {
 * {
   font-family: 'Arial Unicode MS', Arial, Verdana, sans-serif, Georgia, Helvetica, Geneva;
   font-size: 1em;
-  color: #990000;
+  color: #000000;
   margin: 0;
   padding: 0;
 }
@@ -33,7 +33,7 @@ hr {
   margin: 20px 0;
   height: 1px;
   display: block;
-  background-color: #ff0000;
+  background-color: #440000;
 }
 hr.simpleLine {
   margin: 0.75em 0;
@@ -351,11 +351,11 @@ div#wrapper {
 }
 #content .navi a:hover,
 #content .navi a:focus {
-  background: #ff0000;
+  background: #440000;
   color: #fff;
 }
 #content .activemenu a {
-  background: #ff0000;
+  background: #440000;
   color: #fff;
   background-position: right;
   background-repeat: no-repeat;
@@ -392,8 +392,8 @@ div#wrapper {
   #globalLinks a {
     line-height: 1em;
     text-decoration: none;
-    border-bottom: 1px solid #ff0000;
-    color: #ff0000;
+    border-bottom: 1px solid #440000;
+    color: #440000;
   }
   #globalLinks ul a {
     display: block;
@@ -402,8 +402,8 @@ div#wrapper {
   #globalLinks a:active,
   #globalLinks a:hover,
   #globalLinks a:focus {
-    border-bottom: 1px solid #ff0000;
-    color: #ff0000;
+    border-bottom: 1px solid #440000;
+    color: #440000;
   }
 }
 @media print {
@@ -714,7 +714,7 @@ select:focus {
   width: 94.5%;
   padding-left: 1.5%;
   padding-right: 1.5%;
-  background-color: #ff0000;
+  background-color: #440000;
   color: white;
   text-decoration: none;
 }
@@ -722,7 +722,7 @@ select:focus {
   display: inline-block;
   width: 97%;
   padding: 0.1em 1.5%;
-  background-color: #ff0000;
+  background-color: #440000;
   color: white;
   text-decoration: none;
   margin-top: 0.5em;
@@ -743,13 +743,13 @@ select:focus {
   display: inline-block;
   padding: 0.1em 0.25em;
   margin: 0 1px;
-  background-color: #ff0000;
+  background-color: #440000;
   color: white;
   text-decoration: none;
   font-weight: bold;
 }
 .blockElement {
-  background-color: #ff0000;
+  background-color: #440000;
   color: white;
 }
 .blockElementLight {
@@ -1069,11 +1069,11 @@ a.rightArrow {
   color: white;
 }
 .bigButton {
-  background-color: #ff0000;
+  background-color: #440000;
 }
 .bigButton:hover {
   color: white;
-  box-shadow: 0px 0px 5px 1px #ff0000;
+  box-shadow: 0px 0px 5px 1px #440000;
   cursor: pointer;
 }
 .buttonDisabled {
@@ -1094,7 +1094,7 @@ a.button,
 .smallButton,
 input.button,
 label.button {
-  background-color: #ff0000;
+  background-color: #440000;
   color: white;
   margin: 0.5em 1.5em 0.5em 0;
 }
@@ -1123,7 +1123,7 @@ a.button:hover,
 a.secondaryButton:hover,
 .smallButton:hover {
   color: white;
-  box-shadow: 0px 0px 5px 1px #ff0000;
+  box-shadow: 0px 0px 5px 1px #440000;
   cursor: pointer;
 }
 input.button:active,
@@ -1147,7 +1147,7 @@ a.secondaryButton:active,
 }
 .sendButton:hover {
   color: white;
-  box-shadow: 0px 0px 5px 1px #ff0000;
+  box-shadow: 0px 0px 5px 1px #440000;
   background-image: url("/DataPortal/javax.faces.resource/Icon/small/arrow_go_hover.png.xhtml");
 }
 .addIcon:before,
@@ -1159,7 +1159,7 @@ a.secondaryButton:active,
 .addButton,
 .addIcon {
   color: white;
-  background-color: #ff0000;
+  background-color: #440000;
   background-image: url("/DataPortal/javax.faces.resource/Icon/small/add.png.xhtml");
   background-repeat: no-repeat;
   background-position: left center;
@@ -1167,7 +1167,7 @@ a.secondaryButton:active,
 .addButton:hover,
 .addIcon:hover {
   color: white;
-  box-shadow: 0px 0px 5px 1px #ff0000;
+  box-shadow: 0px 0px 5px 1px #440000;
   background-image: url("/DataPortal/javax.faces.resource/Icon/small/add_hover.png.xhtml");
 }
 .rightAllign {

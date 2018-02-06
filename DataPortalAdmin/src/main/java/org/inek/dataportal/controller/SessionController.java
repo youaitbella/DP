@@ -323,6 +323,7 @@ public class SessionController implements Serializable {
     }
 
     public boolean loginByToken(String token) {
+        _portalType = PortalType.ADMIN;
         String loginInfo = Utils.getClientIP() + "; UserAgent=" + Utils.getUserAgent();
         int id = getId(token);
         _account = _accountFacade.findAccount(id);
@@ -340,7 +341,7 @@ public class SessionController implements Serializable {
     }
 
     public boolean loginAndSetTopics(String mailOrUser, String password, PortalType portalType) {
-        //_portalType = portalType;
+        _portalType = portalType;
         login(mailOrUser, password);
         setTopics();
         setParts();

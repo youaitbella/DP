@@ -49,24 +49,16 @@
             <li class="#{empty(sessionController.currentTopic) ? 'activemenu' : 'menu'}">
                 <h:commandLink value="#{msg.lblSummary}" action="#{sessionController.navigate(sessionTools.pages.MainApp)}"/>
             </li>
-            <li>
-                <h:commandLink value="Zum #{sessionController.targetType} Portal" action="#{sessionController.switchPortalType()}"/>
-            </li>
         </c:if>
 
-        <ui:remove>
-            <c:if test="#{sessionController.isInekUser('ADMIN')}">
-                <li>
-                    <h:link outcome="/Common/redirect.xhtml" value="TestLink"/>
-                </li>
-                <li>
-                    <h:commandLink value="Test Command" actionListener="#{sessionController.logoutListener()}">
-                        <f:ajax render="nav:token" onevent="handleClick"/>
-                    </h:commandLink>
-                </li>
-                <h:outputText id="token" value="#{sessionController.token}"/>
+        <c:if test="#{sessionController.isInekUser('ADMIN')}">
+            <li>
+                <h:commandLink value="Zum DRG Portal" actionListener="#{sessionController.logoutListener()}">
+                    <f:ajax render="nav:token" onevent="handleClick"/>
+                </h:commandLink>
+            </li>
+            <h:outputText  style="display: none;" id="token" value="#{sessionController.token}"/>
 
-            </c:if>
             <script>
                 function handleClick(data) {
                     var status = data.status;
@@ -81,22 +73,23 @@
                             break;
 
                         case "success":
-                            //alert (data.responseText);
+                            text = data.responseText;
+                            //alert (text);
                             // This is invoked right after successful processing of ajax response and update of HTML DOM.
                             if (data.responseText.indexOf('span id="nav:token"') >= 0) {
-                                tail = data.responseText.substring(data.responseText.indexOf('span id="nav:token">') + 20);
-                                token = tail.substring(0, tail.indexOf('&lt;/'));
+                                cdata = text.substring(text.indexOf('[CDATA[') + 7, text.indexOf(']]'));
+                                //alert (cdata);
+                                token = cdata.substring(cdata.indexOf('&gt;') + 1, cdata.indexOf('&lt;/'));
                             }
-                            url = "http://localhost:8080/DataPortal/Common/MainApp.xhtml?token=" + token + "&amp;type=PSY";
-                            //url = "https://blog.mueller-bruehl.de";
-                            //alert(url);
+                            url = "#{sessionController.serverWithProtocolAndPort}/DataPortal/Common/MainApp.xhtml?token=" + token + "&amp;type=DRG";
+                            //alert (url);
                             window.location.href = url;
                             break;
                     }
                 }
 
             </script>
-        </ui:remove>
+        </c:if>
     </ui:define>
 
 
