@@ -53,42 +53,11 @@
 
         <c:if test="#{sessionController.isInekUser('ADMIN')}">
             <li>
-                <h:commandLink value="Zum DRG Portal" actionListener="#{sessionController.logoutListener()}">
-                    <f:ajax render="nav:token" onevent="handleClick"/>
+                <h:commandLink value="DRG Portal" 
+                               actionListener="#{sessionController.changePortal('/DataPortal/Common/MainApp.xhtml')}"
+                               immediate="true">
                 </h:commandLink>
             </li>
-            <h:outputText  style="display: none;" id="token" value="#{sessionController.token}"/>
-
-            <script>
-                function handleClick(data) {
-                    var status = data.status;
-
-                    switch (status) {
-                        case "begin":
-                            // This is the start of the AJAX request.
-                            break;
-
-                        case "complete":
-                            // This is invoked right after ajax response is returned.
-                            break;
-
-                        case "success":
-                            text = data.responseText;
-                            //alert (text);
-                            // This is invoked right after successful processing of ajax response and update of HTML DOM.
-                            if (data.responseText.indexOf('span id="nav:token"') >= 0) {
-                                cdata = text.substring(text.indexOf('[CDATA[') + 7, text.indexOf(']]'));
-                                //alert (cdata);
-                                token = cdata.substring(cdata.indexOf('&gt;') + 1, cdata.indexOf('&lt;/'));
-                            }
-                            url = "#{sessionController.serverWithProtocolAndPort}/DataPortal/Common/MainApp.xhtml?token=" + token + "&amp;type=DRG";
-                            //alert (url);
-                            window.location.href = url;
-                            break;
-                    }
-                }
-
-            </script>
         </c:if>
     </ui:define>
 

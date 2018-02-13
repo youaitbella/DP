@@ -275,14 +275,14 @@ public class SessionController implements Serializable {
         return loginAndSetTopics(mailOrUser, password, _portalType);
     }
 
-    public void logoutListener() {
-        System.out.println("logoutListener");
+    public void changePortal(String target) throws IOException{
         FeatureScopedContextHolder.Instance.destroyAllBeans();
         logMessage("change portal");
         _topics.clear();
         _features.clear();
         _parts.clear();
-        //_account = null;
+        String url = EnvironmentInfo.getServerWithProtocolAndPort() + target + "?token=" + getToken();
+        FacesContext.getCurrentInstance().getExternalContext().redirect(url);
     }
 
     public String getTokenAndLogout() {
@@ -297,10 +297,8 @@ public class SessionController implements Serializable {
             URL url = new URL(address);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
-            conn.setRequestProperty("X-ReportServer-ClientId", "portal");
-            conn.setRequestProperty("X-ReportServer-ClientToken", "FG+RYOLDRuAEh0bO6OBddzcrF45aOI9C");
             if (conn.getResponseCode() != 200) {
-                throw new IOException("Report failed: HTTP error code : " + conn.getResponseCode());
+                throw new IOException("HTTP error code : " + conn.getResponseCode());
             }
             String token = StreamHelper.toString(conn.getInputStream());
             System.out.println("getToken from id " + getAccountId() + " ==> " + token);
@@ -319,10 +317,8 @@ public class SessionController implements Serializable {
             URL url = new URL(address);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
-            conn.setRequestProperty("X-ReportServer-ClientId", "portal");
-            conn.setRequestProperty("X-ReportServer-ClientToken", "FG+RYOLDRuAEh0bO6OBddzcrF45aOI9C");
             if (conn.getResponseCode() != 200) {
-                throw new IOException("Report failed: HTTP error code : " + conn.getResponseCode());
+                throw new IOException("HTTP error code : " + conn.getResponseCode());
             }
             String idString = StreamHelper.toString(conn.getInputStream());
             System.out.println("getId from token " + token + " ==> " + idString);
