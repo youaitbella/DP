@@ -5,7 +5,9 @@ import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import javax.persistence.*;
+import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.utils.Documentation;
 
 /**
@@ -84,7 +86,7 @@ public class ValuationRatio implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property Data Year">
     @Column(name = "vrDataYear")
     @Documentation(key = "lblYear")
-    private int _dataYear = Calendar.getInstance().get(Calendar.YEAR)-1;
+    private int _dataYear = Utils.getTargetYear(Feature.VALUATION_RATIO);
 
     public int getDataYear() {
         return _dataYear;

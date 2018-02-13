@@ -339,6 +339,8 @@ public class Utils {
             case DRG_PROPOSAL:
             case PEPP_PROPOSAL:
                 return LocalDateTime.now().getYear() + (LocalDateTime.now().getMonthValue() >= 6 ? 2 : 1);
+            case VALUATION_RATIO:
+                return LocalDateTime.now().getYear() - (LocalDateTime.now().getMonthValue() <= 6 ? 2 : 1);
             case CALCULATION_HOSPITAL:
                 // here the target year is the data year which might be in the past
                 return LocalDateTime.now().getYear() -1;

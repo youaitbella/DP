@@ -112,6 +112,7 @@
                                 <td class="centered">
                             <h:panelGroup id="i68d-panel">
                                 <h:selectBooleanCheckbox rendered="#{editValuationRatio.isDrgBelowMedian('I68D', editValuationRatio.i68d)}"
+                                                         id="chkI68D"
                                                          value="#{editValuationRatio.valuationRatio.i68dList}"
                                                          readonly="#{editValuationRatio.readOnly}"
                                                          title="Die angegebene Fallzahl ist kleiner oder gleich dem Median. Kreuzen Sie dieses Feld an, um die DRG auf die Liste zu setzen.">
@@ -127,6 +128,7 @@
                             <td class="centered">
                             <h:panelGroup id="i68e-panel">
                                 <h:selectBooleanCheckbox rendered="#{editValuationRatio.isDrgBelowMedian('I68E', editValuationRatio.i68e)}"
+                                                         id="chkI68E"
                                                          value="#{editValuationRatio.valuationRatio.i68eList}"
                                                          readonly="#{editValuationRatio.readOnly}"
                                                          title="Die angegebene Fallzahl ist kleiner oder gleich dem Median. Kreuzen Sie dieses Feld an, um die DRG auf die Liste zu setzen.">
@@ -175,12 +177,30 @@
                                        action="#{editValuationRatio.provide}"
                                        value="#{msg.btnSaveAndClose}"
                                        rendered="#{!editValuationRatio.readOnly and editValuationRatio.sealEnabled}"
-                                       title="#{msg.infoSaveAndClose}">
+                                       title="#{msg.infoSaveAndClose}"
+                                       onclick="return checkData();">
                             <cb:confirmSeal/>
                         </h:commandLink>
                     </div>
                 </div>
             </h:form>
+
+            <script>
+                function checkData() {
+                    alert("Start check");
+                    var element = document.getElementById("addressForm:chkI68D");
+                    if (element) {
+                        alert(element.checked);
+                    }
+
+                    //alert(getElementById('addressForm:chkI68D'));
+                    //alert(getElementById('addressForm:chkI68E'));
+                    //if (getElementById('addressForm:chkI68D')
+                    return confirm("Test this");
+                }
+            </script>
+
+
         </div>
 
     </ui:define>
