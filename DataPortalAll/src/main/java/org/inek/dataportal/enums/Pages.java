@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates and open the template in
- * the editor.
- */
 package org.inek.dataportal.enums;
 
 /**
@@ -200,14 +196,6 @@ public enum Pages {
     AdminApproved("/Admin/approvalcompleted"),
     AdminApproval("/Admin/approval"),
     AdminApprovalNone("/Admin/approvalNone"),
-    AdminTaskSystemStatus("/Admin/AdminTaskSystemStatus"),
-    AdminTaskInekRoles("/Admin/AdminTaskInekRoles"),
-    AdminTaskRoleMapping("/Admin/AdminTaskRoleMapping"),
-    AdminTaskMailTemplate("/Admin/AdminTaskMailtTemplate"),
-    AdminTaskIkSupervisor("/Admin/AdminTaskIkSupervisor"),
-    AdminTaskIkAdmin("/Admin/AdminTaskIkAdmin"),
-    AdminTaskChangeNub("/Admin/AdminTaskChangeNub"),
-    AdminTaskUploadDoc("/Admin/AdminTaskUploadDoc"),
     //
     IkAdminSummary("/IkAdmin/IkAdminSummary"),
     PartIkAdmin("/IkAdmin/PartIkAdmin"),

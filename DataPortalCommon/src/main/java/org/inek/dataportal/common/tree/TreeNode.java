@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.inek.dataportal.common.tree;
 
 import java.io.Serializable;
@@ -12,12 +7,11 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
- * TreeNode and its descendents are used to encapsulate the tree status as well
- * as to wrap the user object inside.
+ * TreeNode and its descendents are used to encapsulate the tree status as well as to wrap the user object inside.
  *
  * @author muellermi
  */
-public abstract class TreeNode implements Serializable{
+public abstract class TreeNode implements Serializable {
 
     private final TreeNode _parent;
 
@@ -35,19 +29,19 @@ public abstract class TreeNode implements Serializable{
     public Collection<TreeNode> getChildren() {
         return new CopyOnWriteArrayList<>(_children);
     }
-    
+
     public Collection<TreeNode> getSortedChildren() {
         if (_observer != null) {
             return _observer.obtainSortedChildren(this);
         }
         return _children;
     }
-    
-    public void addChild(TreeNode child){
+
+    public void addChild(TreeNode child) {
         _children.add(child);
     }
     // </editor-fold>    
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property Id">    
     private int _id;
 
@@ -59,7 +53,7 @@ public abstract class TreeNode implements Serializable{
         _id = id;
     }
     // </editor-fold>    
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property Expanded">    
     private boolean _isExpanded;
 
@@ -74,9 +68,8 @@ public abstract class TreeNode implements Serializable{
             collapse();
         }
     }
-
     // </editor-fold>   
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property Checked">    
     private boolean _isChecked = false;
 
@@ -87,9 +80,8 @@ public abstract class TreeNode implements Serializable{
     public void setChecked(boolean isChecked) {
         _isChecked = isChecked;
     }
-
     // </editor-fold>  
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property SortCriteria + state">    
     private String _sortCriteria = "";
     private boolean _isDescending = false;
@@ -110,12 +102,12 @@ public abstract class TreeNode implements Serializable{
         }
         _sortCriteria = sortCriteria == null ? "" : sortCriteria;
     }
-    public String getSortCriteria(){
+
+    public String getSortCriteria() {
         return _sortCriteria;
     }
-
     // </editor-fold>    
-    
+
     public void toggle() {
         if (_isExpanded) {
             collapse();
@@ -230,5 +222,5 @@ public abstract class TreeNode implements Serializable{
         final TreeNode other = (TreeNode) obj;
         return _id == other._id;
     }
-    
+
 }

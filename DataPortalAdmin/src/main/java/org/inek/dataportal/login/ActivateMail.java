@@ -62,7 +62,7 @@ public class ActivateMail implements Serializable{
         if (!_sessionController.loginAndSetTopics(_email, _password)){
             return null;
         }
-        return _sessionController.countInstalledFeatures() <= 1 ? Pages.UserMaintenanceFeatures.URL() :  Pages.MainApp.URL();
+        return Pages.MainApp.URL();
     }
 
 
