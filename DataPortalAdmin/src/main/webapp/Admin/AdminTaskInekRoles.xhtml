@@ -57,8 +57,7 @@
 
                     <td class="alignBottom">
                     <h:panelGrid columns="1">
-                        <h:selectBooleanCheckbox id="inekRoleWrite#{status.index}" value="#{inekRole.writeEnabled}"
-                                                 styleClass="fullWidth">
+                        <h:selectBooleanCheckbox id="inekRoleWrite#{status.index}" value="#{inekRole.writeEnabled}">
                             <f:ajax event="change" render="@this btnSaveRole :logout:remaining" listener="#{adminTask.roleChangeListener}"/>
                         </h:selectBooleanCheckbox>
                     </h:panelGrid>
