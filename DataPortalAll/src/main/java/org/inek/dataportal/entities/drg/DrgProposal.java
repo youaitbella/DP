@@ -138,7 +138,7 @@ public class DrgProposal implements Serializable {
 
     @Documentation(key = "lblContactRole")
     @Column(name = "prRoleId")
-    private Integer _roleId = -1;
+    private int _roleId = -1;
 
     @Documentation(key = "lblStreet")
     @Column(name = "prStreet")
@@ -366,11 +366,11 @@ public class DrgProposal implements Serializable {
         _division = division;
     }
 
-    public Integer getRoleId() {
+    public int getRoleId() {
         return _roleId;
     }
 
-    public void setRoleId(Integer roleId) {
+    public void setRoleId(int roleId) {
         _roleId = roleId;
     }
 
