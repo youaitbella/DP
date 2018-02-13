@@ -2,25 +2,19 @@ package org.inek.dataportal.feature.peppproposal.tree;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.TreeMap;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.inek.dataportal.common.AccessManager;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.pepp.PeppProposal;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.PeppProposalFacade;
-import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.tree.entityTree.AccountTreeNode;
 import org.inek.dataportal.helper.tree.ProposalInfoTreeNode;
@@ -38,7 +32,6 @@ import org.inek.dataportal.utils.KeyValueLevel;
 @SessionScoped
 public class PeppProposalTreeHandler implements Serializable {
 
-    private static final Logger LOGGER = Logger.getLogger("PeppProposalTreeHandler");
     private static final long serialVersionUID = 1L;
 
     @Inject private PeppProposalFacade _peppProposalFacade;

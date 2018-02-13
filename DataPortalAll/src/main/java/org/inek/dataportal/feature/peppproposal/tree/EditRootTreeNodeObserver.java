@@ -21,7 +21,6 @@ import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.facades.PeppProposalFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
-import org.inek.dataportal.common.tree.RootNode;
 import org.inek.dataportal.helper.tree.entityTree.AccountTreeNode;
 import org.inek.dataportal.common.tree.TreeNode;
 import org.inek.dataportal.common.tree.TreeNodeObserver;
