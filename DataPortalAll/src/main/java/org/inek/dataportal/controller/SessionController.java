@@ -456,9 +456,6 @@ public class SessionController implements Serializable {
     }
 
     private void addAdminIfNeeded() {
-        if (isInekUser(Feature.ADMIN)) {
-            _features.add(FeatureFactory.createController(Feature.ADMIN, this));
-        }
         if (_account.getAdminIks().size() > 0) {
             _features.add(FeatureFactory.createController(Feature.IK_ADMIN, this));
         }
