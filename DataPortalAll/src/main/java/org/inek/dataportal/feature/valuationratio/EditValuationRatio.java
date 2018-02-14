@@ -220,20 +220,6 @@ public class EditValuationRatio extends AbstractEditController {
         return "";
     }
 
-    public String getConfirmMessage() {
-        String message = Utils.getMessageOrEmpty("msgConfirmSeal");
-        if (isDrgBelowMedian("I68D", getI68d()) && !_valuationRatio.getI68dList() 
-                || isDrgBelowMedian("I68E", getI68e()) && !_valuationRatio.getI68eList()){
-            message += "\n\n"
-                    + "Hinweis:\n"
-                    + "Sie haben Ihr Krankenhaus für mindestens eine DRG nicht auf die Liste gesetzt, "
-                    + "obwohl dies aufgrund der Fallzahl möglich wäre. "
-                    + "Soltten Sie Ihr Krankenhaus auf die Liste setzen wollen, "
-                    + "so brechen Sie den Sendevorgang bitte ab und ändern Ihre Eingabe."; 
-        }
-        return "return confirm ('" + message.replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
-    }
-    
     /**
      * provide the message to InEK
      *
