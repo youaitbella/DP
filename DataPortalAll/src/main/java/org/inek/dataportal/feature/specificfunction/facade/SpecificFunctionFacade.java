@@ -16,7 +16,7 @@ import javax.transaction.Transactional;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.facades.AbstractDataAccess;
+import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.feature.specificfunction.entity.AgreedCenter;
 import org.inek.dataportal.feature.specificfunction.entity.AgreedRemunerationKeys;
 import org.inek.dataportal.feature.specificfunction.entity.CenterName;

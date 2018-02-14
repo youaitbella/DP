@@ -10,7 +10,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 import org.inek.dataportal.entities.calc.sop.StatementOfParticipance;
-import org.inek.dataportal.facades.AbstractDataAccess;
+import org.inek.dataportal.common.data.AbstractDataAccess;
 
 /**
  *

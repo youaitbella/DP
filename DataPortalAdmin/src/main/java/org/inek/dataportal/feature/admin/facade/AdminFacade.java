@@ -10,7 +10,7 @@ import java.util.logging.Level;
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
-import org.inek.dataportal.facades.AbstractDataAccess;
+import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.feature.admin.entity.ReportTemplate;
 
 /**

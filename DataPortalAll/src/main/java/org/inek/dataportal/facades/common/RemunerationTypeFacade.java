@@ -4,7 +4,7 @@ import java.util.Optional;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 import org.inek.dataportal.entities.common.RemunerationType;
-import org.inek.dataportal.facades.AbstractDataAccess;
+import org.inek.dataportal.common.data.AbstractDataAccess;
 
 @Stateless
 public class RemunerationTypeFacade extends AbstractDataAccess {

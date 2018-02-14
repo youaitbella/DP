@@ -24,7 +24,7 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.enums.DataSet;
-import org.inek.dataportal.facades.AbstractDataAccess;
+import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.feature.admin.facade.ConfigFacade;
 import org.inek.dataportal.feature.ikadmin.entity.AccessRight;
 import org.inek.dataportal.feature.ikadmin.enums.Right;

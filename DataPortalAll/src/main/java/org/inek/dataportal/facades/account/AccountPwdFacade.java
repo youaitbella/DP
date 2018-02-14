@@ -8,7 +8,7 @@ import org.inek.dataportal.entities.account.AccountPwd;
 import org.inek.dataportal.entities.account.WeakPassword;
 import org.inek.dataportal.feature.admin.entity.Log;
 import org.inek.dataportal.enums.ConfigKey;
-import org.inek.dataportal.facades.AbstractDataAccess;
+import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.feature.admin.facade.ConfigFacade;
 import org.inek.dataportal.feature.admin.facade.LogFacade;
 import org.inek.dataportal.helper.Utils;

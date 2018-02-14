@@ -92,10 +92,9 @@ public class FeatureRequestHandler {
         String protocol = externalContext.getRequestScheme() + "://";
         int port = externalContext.getRequestServerPort();
         String server = externalContext.getRequestServerName();
-        String contextPath = externalContext.getRequestContextPath();
         String link = protocol
                 + server + (port == HTTP_PORT || port == HTTPS_PORT ? "" : ":" + port)
-                + contextPath
+                + "/DataPortalAdmin"
                 + Pages.AdminApproval.URL()
                 + "?key=" + key;
         return link;

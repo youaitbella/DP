@@ -27,7 +27,7 @@ import org.inek.dataportal.entities.account.AccountRequest;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.enums.FeatureState;
 import org.inek.dataportal.common.enums.IkReference;
-import org.inek.dataportal.facades.AbstractDataAccess;
+import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.PasswordRequestFacade;
 import org.inek.dataportal.feature.admin.facade.ConfigFacade;

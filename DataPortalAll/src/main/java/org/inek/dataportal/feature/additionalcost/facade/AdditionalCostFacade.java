@@ -10,7 +10,7 @@ import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.feature.additionalcost.entity.AdditionalCost;
 import org.inek.dataportal.enums.DataSet;
 import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.facades.AbstractDataAccess;
+import org.inek.dataportal.common.data.AbstractDataAccess;
 
 /**
  *

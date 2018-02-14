@@ -25,6 +25,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.nub.NubFormerRequest;
 import org.inek.dataportal.entities.nub.NubFormerRequestMerged;

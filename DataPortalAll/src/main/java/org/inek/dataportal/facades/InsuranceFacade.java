@@ -4,6 +4,7 @@
  */
 package org.inek.dataportal.facades;
 
+import org.inek.dataportal.common.data.AbstractDataAccess;
 import java.util.List;
 import java.util.Optional;
 import javax.ejb.Stateless;

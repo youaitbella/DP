@@ -5,7 +5,7 @@ import javax.ejb.Stateless;
 import org.inek.dataportal.feature.admin.entity.Config;
 import org.inek.dataportal.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Feature;
-import org.inek.dataportal.facades.AbstractDataAccess;
+import org.inek.dataportal.common.data.AbstractDataAccess;
 
 /**
  *
