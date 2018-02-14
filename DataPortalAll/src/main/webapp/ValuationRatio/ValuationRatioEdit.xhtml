@@ -187,16 +187,18 @@
 
             <script>
                 function checkData() {
-                    alert("Start check");
-                    var element = document.getElementById("addressForm:chkI68D");
-                    if (element) {
-                        alert(element.checked);
+                    var i68d = document.getElementById("addressForm:chkI68D");
+                    var i68e = document.getElementById("addressForm:chkI68E");
+                    var msg = "Aufgrund einer Fallzahl unter oder gleich dem Median ist es für Ihr Haus möglich, " 
+                            + "die entsprechende DRG auf die Liste der nicht gezielt abgesenkten Abrechnung zu setzen.\n\n" 
+                            + "Sie haben für Ihr Krankenhaus mindestens eine DRG nicht auf die Liste gesetzt, "
+                            + "obwohl dies aufgrund der Fallzahl möglich wäre. "
+                            + "Soltten Sie Ihr Krankenhaus auf die Liste setzen wollen, "
+                            + "so brechen Sie den Sendevorgang bitte ab und ändern Ihre Eingabe indem Sie das entsprechende Feld unterhalb der Fallzahl ankreuzen..";
+                    if (i68d &amp;&amp; !i68d.checked || i68e &amp;&amp; !i68e.checked) {
+                        return confirm(msg);
                     }
-
-                    //alert(getElementById('addressForm:chkI68D'));
-                    //alert(getElementById('addressForm:chkI68E'));
-                    //if (getElementById('addressForm:chkI68D')
-                    return confirm("Test this");
+                    return true;
                 }
             </script>
 
