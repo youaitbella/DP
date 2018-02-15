@@ -10,8 +10,8 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import org.inek.dataportal.common.data.AbstractDataAccess;
-import org.inek.dataportal.entities.ListFeature;
-import org.inek.dataportal.entities.ListWorkflowStatus;
+import org.inek.dataportal.common.data.common.ListFeature;
+import org.inek.dataportal.common.data.common.ListWorkflowStatus;
 import org.inek.dataportal.entities.TrashMail;
 
 /**
