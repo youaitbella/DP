@@ -20,7 +20,7 @@ import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.account.AccountDocumentFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.feature.AbstractEditController;
-import org.inek.dataportal.feature.admin.facade.ConfigFacade;
+import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.helper.StreamHelper;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.utils.Helper;

@@ -22,8 +22,8 @@ import java.util.zip.CheckedOutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import org.inek.dataportal.entities.account.AccountDocument;
-import org.inek.dataportal.enums.ConfigKey;
-import org.inek.dataportal.feature.admin.facade.ConfigFacade;
+import org.inek.dataportal.common.enums.ConfigKey;
+import org.inek.dataportal.common.data.access.ConfigFacade;
 
 /**
  *

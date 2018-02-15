@@ -25,7 +25,7 @@ import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.valuationratio.ValuationRatio;
 import org.inek.dataportal.entities.valuationratio.ValuationRatioDrgCount;
 import org.inek.dataportal.entities.valuationratio.ValuationRatioMedian;
-import org.inek.dataportal.enums.ConfigKey;
+import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.facades.ValuationRatioFacade;

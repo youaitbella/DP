@@ -23,7 +23,7 @@ import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.cooperation.CooperationRight;
 import org.inek.dataportal.entities.nub.NubRequest;
-import org.inek.dataportal.enums.ConfigKey;
+import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.enums.Pages;

@@ -34,7 +34,7 @@ import org.inek.dataportal.entities.nub.NubFormerRequestMerged;
 import org.inek.dataportal.entities.nub.NubRequest;
 import org.inek.dataportal.entities.nub.NubRequestDocument;
 import org.inek.dataportal.enums.CodeType;
-import org.inek.dataportal.enums.ConfigKey;
+import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.enums.Pages;

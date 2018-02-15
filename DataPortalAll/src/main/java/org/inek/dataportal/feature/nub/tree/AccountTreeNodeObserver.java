@@ -12,7 +12,7 @@ import org.inek.dataportal.common.AccessManager;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.nub.NubRequest;
-import org.inek.dataportal.enums.DataSet;
+import org.inek.dataportal.common.enums.DataSet;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.facades.NubRequestFacade;
 import org.inek.dataportal.feature.ikadmin.entity.AccessRight;

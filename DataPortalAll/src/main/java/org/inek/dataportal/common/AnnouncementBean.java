@@ -4,7 +4,7 @@ import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.inek.dataportal.enums.ConfigKey;
+import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.data.adm.Announcement;
 import org.inek.dataportal.feature.admin.facade.AnnouncementFacade;
 

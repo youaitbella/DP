@@ -22,7 +22,7 @@ import org.inek.dataportal.entities.calc.CalcHospitalInfo;
 import org.inek.dataportal.entities.iface.StatusEntity;
 import org.inek.dataportal.enums.CalcHospitalFunction;
 import org.inek.dataportal.enums.CalcInfoType;
-import org.inek.dataportal.enums.ConfigKey;
+import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;

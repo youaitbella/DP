@@ -30,7 +30,7 @@ import org.inek.dataportal.common.enums.IkReference;
 import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.PasswordRequestFacade;
-import org.inek.dataportal.feature.admin.facade.ConfigFacade;
+import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.feature.ikadmin.entity.AccessRight;
 import org.inek.dataportal.feature.ikadmin.enums.Right;
 import org.inek.dataportal.feature.ikadmin.facade.IkAdminFacade;

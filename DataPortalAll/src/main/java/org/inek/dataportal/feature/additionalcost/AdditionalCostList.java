@@ -7,7 +7,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
-import org.inek.dataportal.enums.DataSet;
+import org.inek.dataportal.common.enums.DataSet;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.feature.additionalcost.facade.AdditionalCostFacade;

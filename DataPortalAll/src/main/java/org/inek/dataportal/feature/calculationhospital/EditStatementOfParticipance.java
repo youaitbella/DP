@@ -31,7 +31,7 @@ import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.calc.sop.CalcContact;
 import org.inek.dataportal.entities.calc.sop.StatementOfParticipance;
-import org.inek.dataportal.enums.ConfigKey;
+import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;

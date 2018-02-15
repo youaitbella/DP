@@ -14,7 +14,7 @@ import org.inek.dataportal.entities.cooperation.CooperationRight;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.modelintention.ModelIntention;
 import org.inek.dataportal.enums.CooperativeRight;
-import org.inek.dataportal.enums.DataSet;
+import org.inek.dataportal.common.enums.DataSet;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.UserSet;

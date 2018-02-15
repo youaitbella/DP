@@ -26,7 +26,7 @@ import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.calc.autopsy.AutopsyItem;
 import org.inek.dataportal.entities.calc.autopsy.AutopsyServiceText;
 import org.inek.dataportal.entities.calc.autopsy.CalcBasicsAutopsy;
-import org.inek.dataportal.enums.ConfigKey;
+import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;

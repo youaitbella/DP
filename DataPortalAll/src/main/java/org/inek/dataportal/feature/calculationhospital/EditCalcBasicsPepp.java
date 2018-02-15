@@ -42,7 +42,7 @@ import org.inek.dataportal.entities.calc.psy.KGPPersonalAccounting;
 import org.inek.dataportal.entities.calc.psy.KgpListMedInfra;
 import org.inek.dataportal.entities.calc.psy.PeppCalcBasics;
 import org.inek.dataportal.entities.iface.BaseIdValue;
-import org.inek.dataportal.enums.ConfigKey;
+import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;

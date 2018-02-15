@@ -12,13 +12,13 @@ import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountDocument;
 import org.inek.dataportal.entities.account.DocumentDomain;
 import org.inek.dataportal.entities.account.WaitingDocument;
-import org.inek.dataportal.enums.ConfigKey;
+import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.facades.account.AccountDocumentFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.account.DocumentDomainFacade;
 import org.inek.dataportal.facades.account.WaitingDocumentFacade;
 import org.inek.dataportal.common.data.adm.MailTemplate;
-import org.inek.dataportal.feature.admin.facade.ConfigFacade;
+import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.mail.Mailer;
 
 /**

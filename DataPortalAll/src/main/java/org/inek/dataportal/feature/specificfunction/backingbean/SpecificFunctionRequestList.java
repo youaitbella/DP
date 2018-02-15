@@ -6,7 +6,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.feature.specificfunction.entity.SpecificFunctionRequest;
-import org.inek.dataportal.enums.ConfigKey;
+import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.feature.specificfunction.facade.SpecificFunctionFacade;

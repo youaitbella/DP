@@ -16,13 +16,13 @@ import javax.inject.Named;
 import org.inek.dataportal.common.data.common.ListFeature;
 import org.inek.dataportal.common.data.common.ListWorkflowStatus;
 import org.inek.dataportal.entities.icmt.Customer;
-import org.inek.dataportal.enums.ConfigKey;
+import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.InfoDataFacade;
-import org.inek.dataportal.feature.admin.facade.ConfigFacade;
+import org.inek.dataportal.common.data.access.ConfigFacade;
 
 @Named @ApplicationScoped
 public class ApplicationTools extends AbstractDataAccess{

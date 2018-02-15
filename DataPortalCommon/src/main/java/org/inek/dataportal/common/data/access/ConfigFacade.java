@@ -1,9 +1,8 @@
-package org.inek.dataportal.feature.admin.facade;
+package org.inek.dataportal.common.data.access;
 
-import javax.ejb.Schedule;
 import javax.ejb.Stateless;
 import org.inek.dataportal.common.data.adm.Config;
-import org.inek.dataportal.enums.ConfigKey;
+import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.data.AbstractDataAccess;
 

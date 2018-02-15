@@ -32,7 +32,7 @@ import org.inek.dataportal.entities.nub.NubFormerRequestMerged;
 import org.inek.dataportal.entities.nub.NubMethodInfo;
 import org.inek.dataportal.entities.nub.NubRequest;
 import org.inek.dataportal.entities.nub.NubRequestHistory;
-import org.inek.dataportal.enums.DataSet;
+import org.inek.dataportal.common.enums.DataSet;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.feature.admin.backingbean.AccountInfo;
 import org.inek.dataportal.helper.structures.ProposalInfo;
@@ -48,7 +48,6 @@ public class NubRequestFacade extends AbstractDataAccess {
     private static final String FIELD_ID = "_id";
     private static final String FIELD_STATUS = "_status";
     private static final String IK = "ik";
-    private static final String ACCOUNT_ID = "accountId";
     private static final String STATUS_HIGH = "statusHigh";
     private static final String STATUS_LOW = "statusLow";
     private static final String YEAR = "year";
@@ -434,8 +433,8 @@ public class NubRequestFacade extends AbstractDataAccess {
                         m.setName(nr.getName());
                         return m;
                     }).forEachOrdered((m) -> {
-                list.add(m);
-            });
+                        list.add(m);
+                    });
         }
 
         if (!maxYearOnly) {
@@ -453,8 +452,8 @@ public class NubRequestFacade extends AbstractDataAccess {
                             m.setName(nfr.getName());
                             return m;
                         }).forEachOrdered((m) -> {
-                    list.add(m);
-                });
+                            list.add(m);
+                        });
             }
         }
         return list;

@@ -33,7 +33,7 @@ import org.inek.dataportal.entities.nub.NubFormerRequestMerged;
 import org.inek.dataportal.entities.nub.NubMethodInfo;
 import org.inek.dataportal.entities.nub.NubRequest;
 import org.inek.dataportal.entities.nub.NubRequestHistory;
-import org.inek.dataportal.enums.DataSet;
+import org.inek.dataportal.common.enums.DataSet;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.feature.admin.backingbean.AccountInfo;
 import org.inek.dataportal.feature.ikadmin.entity.AccessRight;

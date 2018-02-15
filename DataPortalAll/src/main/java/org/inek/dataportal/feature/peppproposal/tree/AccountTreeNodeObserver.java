@@ -14,7 +14,7 @@ import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import org.inek.dataportal.common.AccessManager;
 import org.inek.dataportal.controller.SessionController;
-import org.inek.dataportal.enums.DataSet;
+import org.inek.dataportal.common.enums.DataSet;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.facades.PeppProposalFacade;
 import org.inek.dataportal.helper.structures.ProposalInfo;

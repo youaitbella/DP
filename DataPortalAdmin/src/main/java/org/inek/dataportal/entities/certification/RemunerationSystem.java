@@ -19,9 +19,9 @@ import javax.persistence.Transient;
 import javax.persistence.Version;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import org.inek.dataportal.enums.ConfigKey;
+import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.enums.RemunSystem;
-import org.inek.dataportal.feature.admin.facade.ConfigFacade;
+import org.inek.dataportal.common.data.access.ConfigFacade;
 
 /**
  *

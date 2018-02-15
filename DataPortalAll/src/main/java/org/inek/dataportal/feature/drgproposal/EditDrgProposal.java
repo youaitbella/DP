@@ -27,7 +27,7 @@ import org.inek.dataportal.entities.common.ProcedureInfo;
 import org.inek.dataportal.entities.drg.DrgProposal;
 import org.inek.dataportal.entities.drg.DrgProposalDocument;
 import org.inek.dataportal.enums.CodeType;
-import org.inek.dataportal.enums.ConfigKey;
+import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.enums.DrgProposalCategory;
 import org.inek.dataportal.enums.DrgProposalChangeMethod;
 import org.inek.dataportal.common.enums.Feature;

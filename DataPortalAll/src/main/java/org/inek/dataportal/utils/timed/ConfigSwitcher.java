@@ -3,8 +3,8 @@ package org.inek.dataportal.utils.timed;
 import javax.ejb.Schedule;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import org.inek.dataportal.enums.ConfigKey;
-import org.inek.dataportal.feature.admin.facade.ConfigFacade;
+import org.inek.dataportal.common.enums.ConfigKey;
+import org.inek.dataportal.common.data.access.ConfigFacade;
 
 /**
  *

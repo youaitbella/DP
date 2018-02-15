@@ -17,7 +17,7 @@ import org.inek.dataportal.entities.insurance.Unit;
 import org.inek.dataportal.entities.insurance.InekMethod;
 import org.inek.dataportal.entities.insurance.InsuranceNubNoticeItem;
 import org.inek.dataportal.entities.insurance.InsuranceNubMethodInfo;
-import org.inek.dataportal.enums.DataSet;
+import org.inek.dataportal.common.enums.DataSet;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 
 /**
