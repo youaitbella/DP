@@ -88,31 +88,4 @@ public class ConfigFacade extends AbstractDataAccess {
             return key.getIntDefault();
         }
     }
-
-    @Schedule(month = "9", dayOfMonth = "1", hour = "0")
-    private void enableNub() {
-        save(ConfigKey.IsNubCreateEnabled, true);
-        save(ConfigKey.IsNubSendEnabled, true);
-    }
-
-    @Schedule(month = "11", dayOfMonth = "3", hour = "0")
-    private void disableCreateNub() {
-        save(ConfigKey.IsNubCreateEnabled, false);
-    }
-
-    @Schedule(month = "11", dayOfMonth = "4", hour = "0")
-    private void disableSendNub() {
-        save(ConfigKey.IsNubSendEnabled, false);
-    }
-
-    @Schedule(month = "4", dayOfMonth = "1", hour = "0")
-    private void disableCreateDrgProposal() {
-        save(ConfigKey.IsDrgProposalCreateEnabled, false);
-    }
-
-    @Schedule(month = "4", dayOfMonth = "3", hour = "0")
-    private void disableSendDrgProposal() {
-        save(ConfigKey.IsDrgProposalSendEnabled, false);
-    }
-
 }
