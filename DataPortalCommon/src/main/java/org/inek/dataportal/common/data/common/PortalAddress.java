@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import org.inek.dataportal.common.enums.PortalType;
 import org.inek.dataportal.common.enums.Stage;
 
@@ -13,7 +14,8 @@ import org.inek.dataportal.common.enums.Stage;
  *
  * @author muellermi
  */
-@Entity(name = "listPortalAddress")
+@Entity
+@Table(name = "listPortalAddress")
 public class PortalAddress implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
@@ -57,9 +59,9 @@ public class PortalAddress implements Serializable {
     }
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="Property Description">
+    //<editor-fold defaultstate="collapsed" desc="Property Url">
     @Column(name = "paUrl")
-    private String _url;
+    private String _url = "";
 
     public String getUrl() {
         return _url;

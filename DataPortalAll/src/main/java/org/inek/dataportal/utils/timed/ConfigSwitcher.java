@@ -17,28 +17,28 @@ public class ConfigSwitcher {
     
     @Schedule(month = "9", dayOfMonth = "1", hour = "0")
     private void enableNub() {
-        _configFacade.save(ConfigKey.IsNubCreateEnabled, true);
-        _configFacade.save(ConfigKey.IsNubSendEnabled, true);
+        _configFacade.saveConfig(ConfigKey.IsNubCreateEnabled, true);
+        _configFacade.saveConfig(ConfigKey.IsNubSendEnabled, true);
     }
 
     @Schedule(month = "11", dayOfMonth = "3", hour = "0")
     private void disableCreateNub() {
-        _configFacade.save(ConfigKey.IsNubCreateEnabled, false);
+        _configFacade.saveConfig(ConfigKey.IsNubCreateEnabled, false);
     }
 
     @Schedule(month = "11", dayOfMonth = "4", hour = "0")
     private void disableSendNub() {
-        _configFacade.save(ConfigKey.IsNubSendEnabled, false);
+        _configFacade.saveConfig(ConfigKey.IsNubSendEnabled, false);
     }
 
     @Schedule(month = "4", dayOfMonth = "1", hour = "0")
     private void disableCreateDrgProposal() {
-        _configFacade.save(ConfigKey.IsDrgProposalCreateEnabled, false);
+        _configFacade.saveConfig(ConfigKey.IsDrgProposalCreateEnabled, false);
     }
 
     @Schedule(month = "4", dayOfMonth = "3", hour = "0")
     private void disableSendDrgProposal() {
-        _configFacade.save(ConfigKey.IsDrgProposalSendEnabled, false);
+        _configFacade.saveConfig(ConfigKey.IsDrgProposalSendEnabled, false);
     }
     
 }

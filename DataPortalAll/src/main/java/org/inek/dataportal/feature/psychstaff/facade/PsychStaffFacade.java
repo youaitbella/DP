@@ -174,7 +174,7 @@ public class PsychStaffFacade extends AbstractDataAccess {
             }
         }
         StaffProof mergedStaffProof = merge(staffProof);
-        if (_configFacade.readBool(ConfigKey.IsPsychStaffParanoiacheckEnabled)) {
+        if (_configFacade.readConfigBool(ConfigKey.IsPsychStaffParanoiacheckEnabled)) {
             if (!hasDifferentData(staffProof, mergedStaffProof)) {
                 StaffProof findFresh = findFresh(StaffProof.class, mergedStaffProof.getId());
                 hasDifferentData(findFresh, mergedStaffProof);

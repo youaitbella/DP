@@ -9,12 +9,14 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  *
  * @author muellermi
  */
-@Entity(name = "listFeature")
+@Entity
+@Table(name = "listFeature")
 public class ListFeature implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property Id">

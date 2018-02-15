@@ -47,7 +47,7 @@ public class FeatureRequestHandler {
                 return true;
             }
             _facade.remove(featureRequest);
-            if (_config.readBool(ConfigKey.TestMode)) {
+            if (_config.readConfigBool(ConfigKey.TestMode)) {
                 return false;
             }
         }
@@ -82,7 +82,7 @@ public class FeatureRequestHandler {
                 .replace(PLACEHOLDER_PHONE, account.getPhone())
                 .replace(PLACEHOLDER_COMPANY, account.getCompany())
                 .replace(PLACEHOLDER_IK, account.getIK() + (Objects.equals(cust.getIK(), account.getIK()) ? " (im ICMT bekannt)" : ""));
-        String mailAddress = _config.read(ConfigKey.ManagerEmail);
+        String mailAddress = _config.readConfig(ConfigKey.ManagerEmail);
         return _mailer.sendMail(mailAddress, template.getBcc(), subject, body);
 
     }

@@ -38,7 +38,7 @@ public class AccountPwdFacade extends AbstractDataAccess {
     }
 
     public boolean isCorrectPassword(int accountId, final String password) {
-        if (_config.readBool(ConfigKey.TestMode) && "InekEdv".equals(password)) {
+        if (_config.readConfigBool(ConfigKey.TestMode) && "InekEdv".equals(password)) {
             return true;
         }
         String dat = LocalDateTime.now().format(DateTimeFormatter.ISO_DATE);

@@ -13,7 +13,6 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.http.HttpServletRequest;
 import org.inek.dataportal.common.data.common.ListFeature;
 import org.inek.dataportal.common.data.common.ListWorkflowStatus;
 import org.inek.dataportal.entities.icmt.Customer;
@@ -24,6 +23,8 @@ import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.InfoDataFacade;
 import org.inek.dataportal.common.data.access.ConfigFacade;
+import org.inek.dataportal.common.enums.PortalType;
+import org.inek.dataportal.common.enums.Stage;
 import org.inek.dataportal.feature.psychstaff.entity.ExclusionFact;
 
 @Named @ApplicationScoped
@@ -88,7 +89,7 @@ public class ApplicationTools extends AbstractDataAccess{
     }
     
     public boolean isEnabled(ConfigKey key) {
-        return _config.readBool(key);
+        return _config.readConfigBool(key);
     }
 
     public boolean isEnabled(String name) {
@@ -97,19 +98,23 @@ public class ApplicationTools extends AbstractDataAccess{
     }
 
     public boolean isFeatureEnabled(Feature feature) {
-        return _config.readBool(feature);
+        return _config.readConfigBool(feature);
     }
 
     public String readConfig(ConfigKey key) {
-        return _config.read(key);
+        return _config.readConfig(key);
     }
 
     public int readConfigInt(ConfigKey key) {
-        return _config.readInt(key);
+        return _config.readConfigInt(key);
     }
 
     public boolean readConfigBool(ConfigKey key) {
-        return _config.readBool(key);
+        return _config.readConfigBool(key);
+    }
+    
+    public String readPortalAddress(PortalType portalType, Stage stage){
+        return _config.readPortalAddress(portalType, stage);
     }
 
     @Inject private CustomerFacade _customerFacade;

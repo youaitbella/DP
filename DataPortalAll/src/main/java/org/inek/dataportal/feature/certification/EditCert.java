@@ -144,7 +144,7 @@ public class EditCert extends AbstractEditController {
     }
    // <editor-fold defaultstate="collapsed" desc="SystemRoot">
     public File getSystemRoot(RemunerationSystem system) {
-        File root = new File(_config.read(ConfigKey.CertiFolderRoot), "System " + system.getYearSystem());
+        File root = new File(_config.readConfig(ConfigKey.CertiFolderRoot), "System " + system.getYearSystem());
         File systemRoot = new File(root, system.getFileName());
         return systemRoot;
     }

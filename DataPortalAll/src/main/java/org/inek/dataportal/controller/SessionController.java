@@ -3,6 +3,7 @@ package org.inek.dataportal.controller;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.HttpURLConnection;
+import static java.net.HttpURLConnection.HTTP_OK;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -41,6 +42,8 @@ import org.inek.dataportal.facades.cooperation.CooperationRequestFacade;
 import org.inek.dataportal.common.data.adm.InekRole;
 import org.inek.dataportal.common.data.adm.Log;
 import org.inek.dataportal.common.data.adm.ReportTemplate;
+import org.inek.dataportal.common.enums.ConfigKey;
+import org.inek.dataportal.common.enums.Stage;
 import org.inek.dataportal.feature.admin.facade.AdminFacade;
 import org.inek.dataportal.helper.NotLoggedInException;
 import org.inek.dataportal.helper.StreamHelper;
@@ -70,6 +73,11 @@ public class SessionController implements Serializable {
     @Inject private Mailer _mailer;
     @Inject private CustomerTypeFacade _typeFacade;
     @Inject private CooperationRequestFacade _coopFacade;
+    @Inject private ApplicationTools _appTools;
+
+    public ApplicationTools getApplicationTools() {
+        return _appTools;
+    }
 
     private PortalType _portalType = PortalType.COMMON;
 
@@ -209,16 +217,10 @@ public class SessionController implements Serializable {
 
     public String logout() {
         performLogout("Logout");
-        invalidateSession();
         return Pages.Login.URL();// + "?faces-redirect=true";
     }
 
-    public void logout(String message) {
-        performLogout(message);
-        invalidateSession();
-    }
-
-    private void performLogout(String message) {
+    public void performLogout(String message) {
         if (_account != null) {
             FeatureScopedContextHolder.Instance.destroyAllBeans();
             logMessage(message);
@@ -228,6 +230,7 @@ public class SessionController implements Serializable {
             _account = null;
             _portalType = PortalType.COMMON;
         }
+        invalidateSession();
     }
 
     private void invalidateSession() {
@@ -244,6 +247,9 @@ public class SessionController implements Serializable {
     }
 
     public void logMessage(String msg) {
+        if (msg.isEmpty()) {
+            return;
+        }
         String sessionId = retrieveSessionId();
         int accountId = -1;
         if (_account != null) {
@@ -275,20 +281,31 @@ public class SessionController implements Serializable {
         return loginAndSetTopics(mailOrUser, password, _portalType);
     }
 
-    public void changePortal(String target) throws IOException{
-        FeatureScopedContextHolder.Instance.destroyAllBeans();
-        logMessage("change portal");
-        _topics.clear();
-        _features.clear();
-        _parts.clear();
-        String url = EnvironmentInfo.getServerWithProtocolAndPort() + target + "?token=" + getToken();
+    public void changePortal(PortalType portalType) throws IOException {
+        String url = obtainTargetUrl(portalType);
+        if (url.isEmpty()) {
+            return;
+        }
+        url = url + "?token=" + getToken();
+        performLogout("");
+        clearUserData();
         FacesContext.getCurrentInstance().getExternalContext().redirect(url);
     }
 
-    public String getTokenAndLogout() {
-        String token = getToken();
-        logout("change portal");
-        return token;
+    private String obtainTargetUrl(PortalType portalType) {
+        Stage stage = _appTools.isEnabled(ConfigKey.TestMode)
+                ? EnvironmentInfo.getServerName().equals("localhost") ? Stage.DEVELOPMENT : Stage.TEST
+                : Stage.PRODUCTION;
+        String url = _appTools.readPortalAddress(portalType, stage);
+        return url;
+    }
+
+    private void clearUserData() {
+        FeatureScopedContextHolder.Instance.destroyAllBeans();
+        _topics.clear();
+        _features.clear();
+        _parts.clear();
+        _account = null;
     }
 
     public String getToken() {
@@ -297,7 +314,7 @@ public class SessionController implements Serializable {
             URL url = new URL(address);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
-            if (conn.getResponseCode() != 200) {
+            if (conn.getResponseCode() != HTTP_OK) {
                 throw new IOException("HTTP error code : " + conn.getResponseCode());
             }
             String token = StreamHelper.toString(conn.getInputStream());
@@ -317,7 +334,7 @@ public class SessionController implements Serializable {
             URL url = new URL(address);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
-            if (conn.getResponseCode() != 200) {
+            if (conn.getResponseCode() != HTTP_OK) {
                 throw new IOException("HTTP error code : " + conn.getResponseCode());
             }
             String idString = StreamHelper.toString(conn.getInputStream());
@@ -734,11 +751,6 @@ public class SessionController implements Serializable {
         }
         return "InEK-Datenportal.pdf";
     }
-    @Inject private ApplicationTools _appTools;
-
-    public ApplicationTools getApplicationTools() {
-        return _appTools;
-    }
 
     public boolean isInMaintenanceMode() {
         // todo: read config or something else appropiate to determine, whether system is in maintenance mode
@@ -797,7 +809,7 @@ public class SessionController implements Serializable {
             case COMMON:
                 return PortalType.COMMON;
             default:
-                logout("unknown PortalType");
+                performLogout("unknown PortalType");
                 return PortalType.COMMON;
         }
     }

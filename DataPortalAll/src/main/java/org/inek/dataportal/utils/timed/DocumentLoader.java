@@ -60,7 +60,7 @@ public class DocumentLoader {
                 return;
             }
             setWaitCounter(100);
-            File baseDir = new File(_config.read(ConfigKey.FolderRoot), _config.read(ConfigKey.FolderDocumentScanBase));
+            File baseDir = new File(_config.readConfig(ConfigKey.FolderRoot), _config.readConfig(ConfigKey.FolderDocumentScanBase));
             if (!baseDir.exists()) {
                 baseDir.mkdirs();
             }
@@ -79,7 +79,7 @@ public class DocumentLoader {
     }
 
     private synchronized void checkDocumentFolder(File dir) {
-        if (!_config.readBool(ConfigKey.DocumentScanDir, dir.getName())) {
+        if (!_config.readConfigBool(ConfigKey.DocumentScanDir, dir.getName())) {
             return;
         }
         for (File file : dir.listFiles(f -> f.isFile() && f.getName().toLowerCase().endsWith(".zip"))) {
@@ -124,7 +124,7 @@ public class DocumentLoader {
     }
 
     private void createDocuments(DocumentImportInfo importInfo) {
-        int validity = _config.readInt(ConfigKey.ReportValidity);
+        int validity = _config.readConfigInt(ConfigKey.ReportValidity);
         Map<String, byte[]> files = importInfo.getFiles();
         for (Account account : importInfo.getAccounts()) {
             String subject = importInfo.getSubject();
@@ -161,7 +161,7 @@ public class DocumentLoader {
     }
 
     private synchronized void createWaitingDocuments(DocumentImportInfo importInfo) {
-        int validity = _config.readInt(ConfigKey.ReportValidity);
+        int validity = _config.readConfigInt(ConfigKey.ReportValidity);
         Map<String, byte[]> files = importInfo.getFiles();
 
         Account agent = importInfo.getApprovalAccount();

@@ -9,12 +9,14 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  *
  * @author muellermi
  */
-@Entity(name = "listWorkflowStatus")
+@Entity
+@Table(name = "listWorkflowStatus")
 public class ListWorkflowStatus implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property Id">

@@ -109,7 +109,7 @@ public class RequestController implements Serializable {
 
     private void tryLogout(String message) {
         if (_sessionController != null) {
-            _sessionController.logout(message);
+            _sessionController.performLogout(message);
         }
     }
 

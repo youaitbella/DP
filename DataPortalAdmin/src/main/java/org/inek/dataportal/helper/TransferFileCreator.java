@@ -45,11 +45,11 @@ public class TransferFileCreator {
 
     public static void createEmailTransferFile(ConfigFacade configFacade, String email) {
         try {
-            File workingDir = new File(configFacade.read(ConfigKey.FolderRoot), configFacade.read(ConfigKey.FolderUpload));
+            File workingDir = new File(configFacade.readConfig(ConfigKey.FolderRoot), configFacade.readConfig(ConfigKey.FolderUpload));
             if (!workingDir.exists()) {
                 workingDir.mkdirs();
             }
-            File targetDir = new File(configFacade.read(ConfigKey.FolderRoot), "added");
+            File targetDir = new File(configFacade.readConfig(ConfigKey.FolderRoot), "added");
             if (!targetDir.exists()) {
                 targetDir.mkdirs();
             }
@@ -91,9 +91,9 @@ public class TransferFileCreator {
     }
     
     public static void createInekDocumentFiles(ConfigFacade configFacade, List<AccountDocument> documents, String email, String subject) {
-        File workingDir = new File(configFacade.read(ConfigKey.FolderRoot), 
-                configFacade.read(ConfigKey.FolderUpload));
-        File targetDir = new File(configFacade.read(ConfigKey.FolderRoot), "added");
+        File workingDir = new File(configFacade.readConfig(ConfigKey.FolderRoot), 
+                configFacade.readConfig(ConfigKey.FolderUpload));
+        File targetDir = new File(configFacade.readConfig(ConfigKey.FolderRoot), "added");
         File zipFile = new File(workingDir, UUID.randomUUID() + ".zip");
 
         Date ts = Calendar.getInstance().getTime();

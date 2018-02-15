@@ -268,12 +268,6 @@ public class SessionController implements Serializable {
         FacesContext.getCurrentInstance().getExternalContext().redirect(url);
     }
 
-    public String getTokenAndLogout() {
-        String token = getToken();
-        logout("change portal");
-        return token;
-    }
-
     public String getToken() {
         String address = "http://vubuntu01:9999/AccountService/api/account/id/{0}".replace("{0}", "" + getAccountId());
         try {

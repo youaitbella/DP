@@ -1,10 +1,14 @@
 package org.inek.dataportal.common.data.access;
 
 import javax.ejb.Stateless;
+import javax.persistence.TypedQuery;
 import org.inek.dataportal.common.data.adm.Config;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.data.AbstractDataAccess;
+import org.inek.dataportal.common.data.common.PortalAddress;
+import org.inek.dataportal.common.enums.PortalType;
+import org.inek.dataportal.common.enums.Stage;
 
 /**
  *
@@ -14,71 +18,71 @@ import org.inek.dataportal.common.data.AbstractDataAccess;
 public class ConfigFacade extends AbstractDataAccess {
     private static final String FEATURE = "Feature:";
 
-    public void save(ConfigKey key, String value) {
-        save (key.name(), value);
+    public void saveConfig(ConfigKey key, String value) {
+        saveConfig (key.name(), value);
     }
 
-    public void save(Feature feature, boolean value) {
-        save (FEATURE + feature.name(), "" + value);
+    public void saveConfig(Feature feature, boolean value) {
+        saveConfig (FEATURE + feature.name(), "" + value);
     }
 
-    private void save(String key, String value) {
+    private void saveConfig(String key, String value) {
         Config config = new Config();
         config.setKey(key);
         config.setValue(value);
         merge(config);
     }
 
-    public String read(ConfigKey key) {
+    public String readConfig(ConfigKey key) {
         Config config = findFresh(Config.class, key.name());
         
         if (config == null) {
-            save(key, key.getDefault());
+            saveConfig(key, key.getDefault());
             return key.getDefault();
         }
         return config.getValue();
     }
 
-    public String read(ConfigKey key, String appendix) {
+    public String readConfig(ConfigKey key, String appendix) {
         String fullKey = key.name() + ":" + appendix;
         Config config = findFresh(Config.class, fullKey);
         
         if (config == null) {
-            save(fullKey, key.getDefault());
+            saveConfig(fullKey, key.getDefault());
             return key.getDefault();
         }
         return config.getValue();
     }
 
-    public void save(ConfigKey key, boolean value) {
-        save(key, "" + value);
+    public void saveConfig(ConfigKey key, boolean value) {
+        saveConfig(key, "" + value);
     }
 
-    public boolean readBool(ConfigKey key) {
-        return Boolean.parseBoolean(read(key));
+    public boolean readConfigBool(ConfigKey key) {
+        return Boolean.parseBoolean(readConfig(key));
     }
 
-    public boolean readBool(ConfigKey key, String appendix) {
-        return Boolean.parseBoolean(read(key, appendix));
+    public boolean readConfigBool(ConfigKey key, String appendix) {
+        return Boolean.parseBoolean(readConfig(key, appendix));
     }
 
-    public boolean readBool(Feature feature) {
+    public boolean readConfigBool(Feature feature) {
         Config config = findFresh(Config.class, FEATURE + feature.name());
         if (config == null) {
-            save(feature, true);
+            saveConfig(feature, true);
             return true;
         }
         return Boolean.parseBoolean(config.getValue());
     }
 
-    public void save(ConfigKey key, int value) {
-        save(key, "" + value);
+    public void saveConfig(ConfigKey key, int value) {
+        saveConfig(key, "" + value);
     }
 
-    public int readInt(ConfigKey key) {
+    public int readConfigInt(ConfigKey key) {
         Config config = findFresh(Config.class, key.name());
         if (config == null) {
-            save(key, key.getIntDefault());
+            saveConfig(key, key.getIntDefault());
             return key.getIntDefault();
         }
         try {
@@ -88,4 +92,11 @@ public class ConfigFacade extends AbstractDataAccess {
         }
     }
 
+    public String readPortalAddress(PortalType portalType, Stage stage){
+        String jpql = "Select pa from PortalAddress pa where pa._portalType = :portalType and pa._stage = :stage";
+        TypedQuery<PortalAddress> query = getEntityManager().createQuery(jpql, PortalAddress.class);
+        query.setParameter("portalType", portalType);
+        query.setParameter("stage", stage);
+        return query.getResultList().stream().findFirst().orElse(new PortalAddress()).getUrl();
+    }
 }

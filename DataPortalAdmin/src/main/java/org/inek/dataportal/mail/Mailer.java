@@ -150,7 +150,7 @@ public class Mailer {
         if (template == null) {
             String serverName = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()).getServerName();
             String msg = "Server: " + serverName + "\r\n Mail template not found: " + name + "\r\n";
-            sendMail(_config.read(ConfigKey.ExceptionEmail), "MailTemplate not found", msg);
+            sendMail(_config.readConfig(ConfigKey.ExceptionEmail), "MailTemplate not found", msg);
         }
         return template;
     }
@@ -267,7 +267,7 @@ public class Mailer {
 
         String name = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()).getServerName();
         String subject = "Exception reported by Server " + name;
-        sendMail(_config.read(ConfigKey.ExceptionEmail), subject, msg.toString());
+        sendMail(_config.readConfig(ConfigKey.ExceptionEmail), subject, msg.toString());
     }
     
     public static String buildCC(List<String> ccEmails) {

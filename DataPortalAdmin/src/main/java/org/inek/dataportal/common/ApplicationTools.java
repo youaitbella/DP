@@ -86,7 +86,7 @@ public class ApplicationTools extends AbstractDataAccess{
     }
     
     public boolean isEnabled(ConfigKey key) {
-        return _config.readBool(key);
+        return _config.readConfigBool(key);
     }
 
     public boolean isEnabled(String name) {
@@ -95,19 +95,19 @@ public class ApplicationTools extends AbstractDataAccess{
     }
 
     public boolean isFeatureEnabled(Feature feature) {
-        return _config.readBool(feature);
+        return _config.readConfigBool(feature);
     }
 
     public String readConfig(ConfigKey key) {
-        return _config.read(key);
+        return _config.readConfig(key);
     }
 
     public int readConfigInt(ConfigKey key) {
-        return _config.readInt(key);
+        return _config.readConfigInt(key);
     }
 
     public boolean readConfigBool(ConfigKey key) {
-        return _config.readBool(key);
+        return _config.readConfigBool(key);
     }
 
     @Inject private CustomerFacade _customerFacade;

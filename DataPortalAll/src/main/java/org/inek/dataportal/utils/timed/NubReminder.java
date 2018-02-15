@@ -54,7 +54,7 @@ public class NubReminder {
      */
     @Asynchronous
     public void remindSeal() {
-        if (!_config.readBool(ConfigKey.RemindNubSeal) || _config.readBool(ConfigKey.TestMode)) {
+        if (!_config.readConfigBool(ConfigKey.RemindNubSeal) || _config.readConfigBool(ConfigKey.TestMode)) {
             LOGGER.log(Level.INFO, "RemindNubSeal is not enabled");
             return;
         }

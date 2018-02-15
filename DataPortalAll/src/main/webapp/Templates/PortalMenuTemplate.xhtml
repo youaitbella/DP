@@ -57,7 +57,7 @@
         <c:if test="#{sessionController.isInekUser('ADMIN')}">
             <li>
                 <h:commandLink value="Admin Portal" 
-                               actionListener="#{sessionController.changePortal('/DataPortalAdmin/Common/MainApp.xhtml')}"
+                               actionListener="#{sessionController.changePortal('ADMIN')}"
                                immediate="true">
                 </h:commandLink>
             </li>
