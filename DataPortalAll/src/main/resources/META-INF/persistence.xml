@@ -13,6 +13,7 @@
     <class>org.inek.dataportal.common.data.adm.RoleMapping</class>
     <class>org.inek.dataportal.common.data.common.ListFeature</class>
     <class>org.inek.dataportal.common.data.common.ListWorkflowStatus</class>
+    <class>org.inek.dataportal.common.data.common.PortalAddress</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="eclipselink.jpa.uppercase-column-names" value="true"/>
