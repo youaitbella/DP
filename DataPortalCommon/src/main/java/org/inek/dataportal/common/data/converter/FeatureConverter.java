@@ -1,4 +1,4 @@
-package org.inek.dataportal.helper.converter;
+package org.inek.dataportal.common.data.converter;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;

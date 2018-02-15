@@ -1,4 +1,4 @@
-package org.inek.dataportal.feature.admin.entity;
+package org.inek.dataportal.common.data.adm;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -8,7 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.inek.dataportal.common.enums.Feature;
-import org.inek.dataportal.helper.converter.FeatureConverter;
+import org.inek.dataportal.common.data.converter.FeatureConverter;
 
 /**
  *

@@ -38,7 +38,7 @@ import javax.validation.constraints.Min;
 import org.inek.dataportal.entities.certification.RemunerationSystem;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.enums.FeatureState;
-import org.inek.dataportal.feature.admin.entity.InekRole;
+import org.inek.dataportal.common.data.adm.InekRole;
 
 /**
  *

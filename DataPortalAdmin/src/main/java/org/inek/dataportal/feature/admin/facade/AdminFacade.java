@@ -11,7 +11,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import org.inek.dataportal.common.data.AbstractDataAccess;
-import org.inek.dataportal.feature.admin.entity.ReportTemplate;
+import org.inek.dataportal.common.data.adm.ReportTemplate;
 
 /**
  * Hides the database accesses fro the admin tasks behind a facade

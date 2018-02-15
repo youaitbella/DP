@@ -5,7 +5,7 @@ import javax.ejb.Stateless;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import org.inek.dataportal.feature.admin.entity.Announcement;
+import org.inek.dataportal.common.data.adm.Announcement;
 import org.inek.dataportal.facades.AbstractFacade;
 
 @Stateless

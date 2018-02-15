@@ -20,7 +20,7 @@ import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.ContactRoleFacade;
 import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.account.AccountFeatureRequestFacade;
-import org.inek.dataportal.feature.admin.entity.MailTemplate;
+import org.inek.dataportal.common.data.adm.MailTemplate;
 import org.inek.dataportal.feature.admin.facade.ConfigFacade;
 import org.inek.dataportal.mail.Mailer;
 import org.inek.dataportal.utils.DateUtils;

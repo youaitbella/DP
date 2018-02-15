@@ -18,7 +18,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
 import org.inek.dataportal.common.enums.Feature;
-import org.inek.dataportal.helper.converter.FeatureConverter;
+import org.inek.dataportal.common.data.converter.FeatureConverter;
 
 /**
  *

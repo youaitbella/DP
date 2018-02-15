@@ -32,7 +32,7 @@ import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.NubRequestFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.cooperation.CooperationRightFacade;
-import org.inek.dataportal.feature.admin.entity.MailTemplate;
+import org.inek.dataportal.common.data.adm.MailTemplate;
 import org.inek.dataportal.feature.nub.tree.AccountTreeNodeObserver;
 import org.inek.dataportal.feature.nub.tree.EditRootTreeNodeObserver;
 import org.inek.dataportal.feature.nub.tree.ViewRootTreeNodeObserver;

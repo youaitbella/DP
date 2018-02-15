@@ -1,5 +1,5 @@
 
-package org.inek.dataportal.feature.admin.entity;
+package org.inek.dataportal.common.data.adm;
 
 import java.io.Serializable;
 import javax.persistence.Column;
@@ -12,7 +12,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.inek.dataportal.common.enums.Feature;
-import org.inek.dataportal.helper.converter.FeatureConverter;
+import org.inek.dataportal.common.data.converter.FeatureConverter;
 
 @Entity
 @Table(name = "MailTemplate", schema = "adm")

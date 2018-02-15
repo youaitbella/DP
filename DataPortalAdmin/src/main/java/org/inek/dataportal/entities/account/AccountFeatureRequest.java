@@ -12,7 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import org.inek.dataportal.common.enums.Feature;
-import org.inek.dataportal.helper.converter.FeatureConverter;
+import org.inek.dataportal.common.data.converter.FeatureConverter;
 
 /**
  *
