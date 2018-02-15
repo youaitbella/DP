@@ -288,7 +288,6 @@ public class SessionController implements Serializable {
         }
         url = url + "?token=" + getToken();
         performLogout("");
-        clearUserData();
         FacesContext.getCurrentInstance().getExternalContext().redirect(url);
     }
 
@@ -298,14 +297,6 @@ public class SessionController implements Serializable {
                 : Stage.PRODUCTION;
         String url = _appTools.readPortalAddress(portalType, stage);
         return url;
-    }
-
-    private void clearUserData() {
-        FeatureScopedContextHolder.Instance.destroyAllBeans();
-        _topics.clear();
-        _features.clear();
-        _parts.clear();
-        _account = null;
     }
 
     public String getToken() {
@@ -318,7 +309,6 @@ public class SessionController implements Serializable {
                 throw new IOException("HTTP error code : " + conn.getResponseCode());
             }
             String token = StreamHelper.toString(conn.getInputStream());
-            System.out.println("getToken from id " + getAccountId() + " ==> " + token);
             conn.disconnect();
             return token;
         } catch (IOException ex) {
@@ -338,7 +328,6 @@ public class SessionController implements Serializable {
                 throw new IOException("HTTP error code : " + conn.getResponseCode());
             }
             String idString = StreamHelper.toString(conn.getInputStream());
-            System.out.println("getId from token " + token + " ==> " + idString);
             conn.disconnect();
             return Integer.parseInt(idString);
         } catch (Exception ex) {
@@ -352,15 +341,14 @@ public class SessionController implements Serializable {
         return "localhost://test";
     }
 
-    public boolean loginByToken(String token, PortalType portalType) {
-        _portalType = portalType;
+    public boolean loginByToken(String token) {
+        _portalType = PortalType.DRG;
         String loginInfo = Utils.getClientIP() + "; UserAgent=" + Utils.getUserAgent();
         int id = getId(token);
         _account = _accountFacade.findAccount(id);
         if (_account == null) {
             logMessage("Login by token failed: " + loginInfo);
         } else {
-            System.out.println("loginByToken " + token + " --> " + id);
             logMessage("Login by token successful: " + loginInfo);
             initFeatures();
         }

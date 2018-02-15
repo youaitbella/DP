@@ -15,7 +15,6 @@ import javax.inject.Named;
 import javax.servlet.RequestDispatcher;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.enums.Pages;
-import org.inek.dataportal.common.enums.PortalType;
 import org.inek.dataportal.helper.Utils;
 
 /**
@@ -39,7 +38,8 @@ public class RequestController implements Serializable {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         String viewId = facesContext.getViewRoot().getViewId();
         if (loginByToken(facesContext)) {
-            facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, Pages.MainApp.RedirectURL());
+            facesContext.getApplication().getNavigationHandler()
+                    .handleNavigation(facesContext, null, viewId + "?faces-redirect=true");
             return;
         }
         if (_sessionController.isLoggedIn()) {
@@ -107,7 +107,7 @@ public class RequestController implements Serializable {
 
     private void tryLogout(String message) {
         if (_sessionController != null) {
-            _sessionController.logout(message);
+            _sessionController.performLogout(message);
         }
     }
 

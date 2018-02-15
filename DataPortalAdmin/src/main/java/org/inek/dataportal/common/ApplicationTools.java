@@ -23,6 +23,8 @@ import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.InfoDataFacade;
 import org.inek.dataportal.common.data.access.ConfigFacade;
+import org.inek.dataportal.common.enums.PortalType;
+import org.inek.dataportal.common.enums.Stage;
 
 @Named @ApplicationScoped
 public class ApplicationTools extends AbstractDataAccess{
@@ -108,6 +110,10 @@ public class ApplicationTools extends AbstractDataAccess{
 
     public boolean readConfigBool(ConfigKey key) {
         return _config.readConfigBool(key);
+    }
+
+    public String readPortalAddress(PortalType portalType, Stage stage){
+        return _config.readPortalAddress(portalType, stage);
     }
 
     @Inject private CustomerFacade _customerFacade;
