@@ -290,6 +290,7 @@ public class PreloadFunctionsCalcBasicsDrg {
                 .map((ccc) -> {
                     KGLListCostCenterCost c = new KGLListCostCenterCost();
                     c.setPrior(ccc);
+                    c.setCostCenterNumber(ccc.getCostCenterNumber());
                     c.setCostCenterText(ccc.getCostCenterText());
                     c.setCostCenter(ccc.getCostCenter());
                     c.setPriorId(ccc.getPriorId());
@@ -320,7 +321,7 @@ public class PreloadFunctionsCalcBasicsDrg {
 
     public static void ensureRadiologyServiceData(CalcDrgFacade calcDrgFacade, DrgCalcBasics calcBasics) {
         for (DrgContentText ct : calcDrgFacade.findAllCalcContentTexts()) {
-            if (ct.getHeaderTextId() == 12) {
+            if (ct.getHeaderTextId() == 12 && ct.getLastYear() >= calcBasics.getDataYear()) {
                 KGLRadiologyService rs = new KGLRadiologyService();
                 rs.setBaseInformationId(calcBasics.getId());
                 rs.setRsContentTextID(ct.getId());

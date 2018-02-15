@@ -142,6 +142,15 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     }
 
     private void preloadData(PeppCalcBasics calcBasics) {
+        //Station Costs
+        
+        for (KGPListStationServiceCost ssc : _priorCalcBasics.getStationServiceCosts()) {
+            KGPListStationServiceCost newCost = new KGPListStationServiceCost();
+            newCost.setCostCenterNumber(ssc.getCostCenterNumber());
+            newCost.setStation(ssc.getStation());
+            calcBasics.addStationServiceCost(newCost);
+        }
+        
         // Locations
         calcBasics.setLocationCnt(_priorCalcBasics.getLocationCnt());
         calcBasics.setDifLocationSupply(_priorCalcBasics.isDifLocationSupply());

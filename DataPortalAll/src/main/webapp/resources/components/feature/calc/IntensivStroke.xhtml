@@ -81,11 +81,11 @@
                     <td class="">
                         Mindest-merkmale nur erfüllt im Zeitabschnitt:
                     </td>
-                    <td class="">
-                        Summe gewichtete Intensiv-stunden
-                    </td>
                     <td>
                         Summe ungewichtete Intensiv-stunden
+                    </td>
+                    <td class="">
+                        Summe gewichtete Intensiv-stunden
                     </td>
                     <td>
                         Auslastung
@@ -134,10 +134,10 @@
                                                        value="#{x.minimumCriteriaPeriod}" rendered="true"/>
                         </td>
                         <td>
-                            <inek:InputIntegerWithMessage value="#{x.intensivHoursWeighted}"  renderElement="@this diff-msc-#{loop.index} sumIntWeighted"/>
+                            <inek:InputIntegerWithMessage value="#{x.intensivHoursNotweighted}"  renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:utilization sumIntNotWeighted"/>
                         </td>
                         <td>
-                            <inek:InputIntegerWithMessage value="#{x.intensivHoursNotweighted}"  renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:utilization sumIntNotWeighted"/>
+                            <inek:InputIntegerWithMessage value="#{x.intensivHoursWeighted}"  renderElement="@this diff-msc-#{loop.index} sumIntWeighted"/>
                         </td>
                         <td>
                             <h:outputLabel id="utilization" value="#{x.calcUtilization()}" 
