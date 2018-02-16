@@ -884,7 +884,7 @@ public class SessionController implements Serializable {
     }
 
     public String getServerWithProtocolAndPort() {
-        return EnvironmentInfo.getServerWithProtocolAndPort();
+        return EnvironmentInfo.getServerUrl();
     }
 
 }

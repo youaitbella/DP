@@ -124,17 +124,30 @@ public class SessionController implements Serializable {
         return _account;
     }
 
-    private void checkAccount() throws NotLoggedInException {
+    /**
+     * returns the account id if logged in, otherwise it redirects to session. timeOut
+     *
+     * @return
+     */
+    public int getAccountId() {
+        return getAccount().getId();
+    }
+
+    private void checkAccount() {
         if (_account == null) {
             FacesContext facesContext = FacesContext.getCurrentInstance();
-            facesContext.getApplication().getNavigationHandler().
-                    handleNavigation(facesContext, null, Pages.SessionTimeout.URL());
-            throw new NotLoggedInException();
+            try {
+                String url = EnvironmentInfo.getServerUrlWithContextpath() + Pages.SessionTimeout.URL();
+                facesContext.getExternalContext().redirect(url);
+            } catch (IOException | IllegalStateException ex) {
+                facesContext.getApplication().getNavigationHandler().
+                        handleNavigation(facesContext, null, Pages.SessionTimeout.URL());
+            }
         }
     }
 
     public boolean isHospital() {
-        // we had unexpecte null access here.
+        // we had unexpected null access here.
         // let's do some logging and redirect the user to an error view
         if (_typeFacade == null) {
             String msg = "Access without typeFacade";
@@ -156,16 +169,6 @@ public class SessionController implements Serializable {
 
     public boolean isLoggedIn() {
         return _account != null;
-    }
-
-    /**
-     * returns the account id if logged in, otherwise it redirects to session. timeOut
-     *
-     * @return
-     */
-    public int getAccountId() {
-        checkAccount();
-        return _account.getId();
     }
 
     public SearchController getSearchController() {
@@ -896,6 +899,6 @@ public class SessionController implements Serializable {
     }
 
     public String getServerWithProtocolAndPort() {
-        return EnvironmentInfo.getServerWithProtocolAndPort();
+        return EnvironmentInfo.getServerUrl();
     }
 }
