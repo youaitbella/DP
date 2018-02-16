@@ -20,8 +20,8 @@
 
         <h:form id="form">
 
-            <ui:repeat value="#{calcHospitalTreeHandler.editNode.children}" var="accountNode" >
-                <calc:AccountNode accountNode="#{accountNode}"/>
+            <ui:repeat value="#{calcHospitalTreeHandler.editNode.children}" var="treeNode" >
+                <calc:TreeNode treeNode="#{treeNode}"/>
             </ui:repeat>
 
             <div jsf:id="dist" jsf:rendered="#{sessionController.isInekUser('CALCULATION_HOSPITAL')}">
@@ -41,8 +41,8 @@
                     </h:commandLink>
                 </div>
 
-                <ui:repeat value="#{distributionModellTreeHandler.rootNode.children}" var="accountNode" >
-                    <calc:AccountNode accountNode="#{accountNode}" editPartner="false"/>
+                <ui:repeat value="#{distributionModellTreeHandler.rootNode.children}" var="treeNode" >
+                    <calc:TreeNode treeNode="#{treeNode}" editPartner="false"/>
                 </ui:repeat>
             </div>
 
@@ -63,8 +63,8 @@
                     </h:commandLink>
                 </div>
 
-                <ui:repeat value="#{calcBasicsTreeHandler.rootNode.children}" var="accountNode" >
-                    <calc:AccountNode accountNode="#{accountNode}" editPartner="false" isSealed="true"/>
+                <ui:repeat value="#{calcBasicsTreeHandler.rootNode.children}" var="treeNode" >
+                    <calc:TreeNode treeNode="#{treeNode}" editPartner="false" isSealed="true"/>
                 </ui:repeat>
             </div>
 
@@ -82,8 +82,8 @@
                 <h:commandLink styleClass="block marginTop" action="#{year.toggle}" value="Kalkulationsdaten für #{year.id}" immediate="true" />
                 </p>
                 <div jsf:id="YearNode">
-                    <ui:repeat value="#{year.children}" var="accountNode" varStatus="status">
-                        <calc:AccountNode accountNode="#{accountNode}"/>
+                    <ui:repeat value="#{year.children}" var="treeNode" varStatus="status">
+                        <calc:TreeNode treeNode="#{treeNode}"/>
                     </ui:repeat>
                 </div>
             </ui:repeat>

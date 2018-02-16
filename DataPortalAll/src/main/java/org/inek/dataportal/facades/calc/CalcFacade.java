@@ -5,6 +5,7 @@
  */
 package org.inek.dataportal.facades.calc;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -33,30 +34,37 @@ public class CalcFacade extends AbstractDataAccess {
             WorkflowStatus statusLow,
             WorkflowStatus statusHigh,
             int ik) {
+        if (ik <= 0 && accountId <= 0){
+            return new ArrayList<>();
+        }
         String statusCond = " between " + statusLow.getId() + " and " + statusHigh.getId();
         String sql = "select sopId as Id, 'SOP' as [Type], sopAccountId as AccountId, sopDataYear as DataYear, "
                 + "  sopIk as IK, sopStatusId as StatusId,\n"
                 + " '" + Utils.getMessage("lblStatementOfParticipance") + "' as Name, sopLastChanged as LastChanged\n"
                 + "from calc.StatementOfParticipance\n"
-                + "where sopStatusId" + statusCond + " and sopAccountId = " + accountId + " and sopDataYear = " + year + "\n"
+                + "where sopStatusId" + statusCond + " and sopDataYear = " + year + "\n"
+                + (accountId > 0 ? " and sopAccountId = " + accountId + "\n" : "")
                 + (ik > 0 ? " and sopIk = " + ik + "\n" : "")
                 + "union\n"
                 + "select biId as Id, 'CBD' as [Type], biAccountId as AccountId, biDataYear as DataYear, biIk as IK, biStatusId as StatusId,\n"
                 + " '" + Utils.getMessage("lblCalculationBasicsDrg") + "' as Name, biLastChanged as LastChanged\n"
                 + "from calc.KGLBaseInformation\n"
-                + "where biStatusId" + statusCond + " and biAccountId = " + accountId + " and biDataYear = " + year + "\n"
+                + "where biStatusId" + statusCond + " and biDataYear = " + year + "\n"
+                + (accountId > 0 ? " and biAccountId = " + accountId + "\n" : "")
                 + (ik > 0 ? " and biIk = " + ik + "\n" : "")
                 + "union\n"
                 + "select biId as Id, 'CBP' as [Type], biAccountId as AccountId, biDataYear as DataYear, biIk as IK, biStatusId as StatusId,\n"
                 + " '" + Utils.getMessage("lblCalculationBasicsPsy") + "' as Name, biLastChanged as LastChanged\n"
                 + "from calc.KGPBaseInformation\n"
-                + "where biStatusId" + statusCond + " and biAccountId = " + accountId + " and biDataYear = " + year + "\n"
+                + "where biStatusId" + statusCond + " and biDataYear = " + year + "\n"
+                + (accountId > 0 ? " and biAccountId = " + accountId + "\n" : "")
                 + (ik > 0 ? " and biIk = " + ik + "\n" : "")
                 + "union\n"
                 + "select cbaId as Id, 'CBA' as [Type], cbaAccountId as AccountId, cbaDataYear as DataYear, cbaIk as IK, cbaStatusId as StatusId,\n"
                 + " '" + Utils.getMessage("lblCalculationBasicsObd") + "' as Name, cbaLastChanged as LastChanged\n"
                 + "from calc.CalcBasicsAutopsy\n"
-                + "where cbaStatusId" + statusCond + " and cbaAccountId = " + accountId + " and cbaDataYear = " + year + "\n"
+                + "where cbaStatusId" + statusCond + " and cbaDataYear = " + year + "\n"
+                + (accountId > 0 ? " and cbaAccountId = " + accountId + "\n" : "")
                 + (ik > 0 ? " and cbaIk = " + ik + "\n" : "")
                 + "union\n"
                 + "select dmmId as Id, 'CDM' as [Type], dmmAccountId as AccountId, dmmDataYear as DataYear, dmmIk as IK, dmmStatusId as StatusId,\n"
@@ -64,7 +72,8 @@ public class CalcFacade extends AbstractDataAccess {
                 + "+ case dmmType when 0 then 'DRG' when 1 then 'PEPP' else '???' end as Name, "
                 + "dmmLastChanged as LastChanged\n"
                 + "from calc.DistributionModelMaster\n"
-                + "where dmmStatusId" + statusCond + " and dmmAccountId = " + accountId + " and dmmDataYear = " + year + "\n"
+                + "where dmmStatusId" + statusCond + " and dmmDataYear = " + year + "\n"
+                + (accountId > 0 ? " and dmmAccountId = " + accountId + "\n" : "")
                 + (ik > 0 ? " and dmmIk = " + ik + "\n" : "")
                 + "order by 2, 4, 5, 8 desc";
         Query query = getEntityManager().createNativeQuery(sql, CalcHospitalInfo.class);
@@ -100,28 +109,34 @@ public class CalcFacade extends AbstractDataAccess {
     }
 
     public Set<Integer> checkAccountsForYear(Set<Integer> accountIds, int year, WorkflowStatus statusLow,
-            WorkflowStatus statusHigh) {
+            WorkflowStatus statusHigh, Set<Integer> managedIks) {
+        String excludedIks =  managedIks.stream().map(i -> "" + i).collect(Collectors.joining(","));
         String statusCond = " between " + statusLow.getId() + " and " + statusHigh.getId();
         String accountCond = " in (" + accountIds.stream().map(i -> i.toString()).collect(Collectors.joining(", ")) + ") ";
         String sql = "select sopAccountId as AccountId\n"
                 + "from calc.StatementOfParticipance\n"
                 + "where sopStatusId" + statusCond + " and sopAccountId" + accountCond + " and sopDataYear = " + year + "\n"
+                + (managedIks.isEmpty() ? "" : " and sopIk not in ("+ excludedIks + ")\n")
                 + "union\n"
                 + "select biAccountId as AccountId\n"
                 + "from calc.KGLBaseInformation\n"
                 + "where biStatusId" + statusCond + " and biAccountId" + accountCond + " and biDataYear = " + year + "\n"
+                + (managedIks.isEmpty() ? "" : " and biIk not in ("+ excludedIks + ")\n")
                 + "union\n"
                 + "select biAccountId as AccountId\n"
                 + "from calc.KGPBaseInformation\n"
                 + "where biStatusId" + statusCond + " and biAccountId" + accountCond + " and biDataYear = " + year + "\n"
+                + (managedIks.isEmpty() ? "" : " and biIk not in ("+ excludedIks + ")\n")
                 + "union\n"
                 + "select cbaAccountId as AccountId\n"
                 + "from calc.CalcBasicsAutopsy\n"
                 + "where cbaStatusId" + statusCond + " and cbaAccountId" + accountCond + " and cbaDataYear = " + year + "\n"
+                + (managedIks.isEmpty() ? "" : " and cbaIk not in ("+ excludedIks + ")\n")
                 + "union\n"
                 + "select dmmAccountId as AccountId\n"
                 + "from calc.DistributionModelMaster\n"
-                + "where dmmStatusId" + statusCond + " and dmmAccountId" + accountCond + " and dmmDataYear = " + year;
+                + "where dmmStatusId" + statusCond + " and dmmAccountId" + accountCond + " and dmmDataYear = " + year + "\n"
+                + (managedIks.isEmpty() ? "" : " and dmmIk not in ("+ excludedIks + ")\n");
         Query query = getEntityManager().createNativeQuery(sql);
         @SuppressWarnings("unchecked") HashSet<Integer> result = new HashSet<>(query.getResultList());
         return result;
