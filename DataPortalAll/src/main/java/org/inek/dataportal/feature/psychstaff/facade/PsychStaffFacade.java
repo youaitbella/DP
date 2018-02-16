@@ -27,7 +27,7 @@ import org.inek.dataportal.common.enums.DataSet;
 import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.feature.ikadmin.entity.AccessRight;
-import org.inek.dataportal.feature.ikadmin.enums.Right;
+import org.inek.dataportal.common.enums.Right;
 import org.inek.dataportal.feature.psychstaff.entity.OccupationalCategory;
 import org.inek.dataportal.feature.psychstaff.entity.PersonnelGroup;
 import org.inek.dataportal.feature.psychstaff.entity.StaffProof;

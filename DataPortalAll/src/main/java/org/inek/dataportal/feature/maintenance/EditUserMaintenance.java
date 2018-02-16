@@ -29,7 +29,7 @@ import org.inek.dataportal.facades.account.AccountPwdFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.common.data.adm.MailTemplate;
 import org.inek.dataportal.feature.ikadmin.entity.AccessRight;
-import org.inek.dataportal.feature.ikadmin.enums.Right;
+import org.inek.dataportal.common.enums.Right;
 import org.inek.dataportal.feature.ikadmin.facade.IkAdminFacade;
 import org.inek.dataportal.feature.nub.NubSessionTools;
 import org.inek.dataportal.helper.Utils;

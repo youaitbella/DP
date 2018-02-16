@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.feature.ikadmin.converter;
+package org.inek.dataportal.common.data.converter;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
-import org.inek.dataportal.feature.ikadmin.enums.Right;
+import org.inek.dataportal.common.enums.Right;
 
 /**
  *

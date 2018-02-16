@@ -3,6 +3,7 @@
   <persistence-unit name="DataPortalPU" transaction-type="JTA">
     <jta-data-source>jdbc/dataportal</jta-data-source>
     <class>org.inek.dataportal.common.data.converter.FeatureConverter</class>
+    <class>org.inek.dataportal.common.data.converter.RightConverter</class>
     <class>org.inek.dataportal.common.data.adm.Announcement</class>
     <class>org.inek.dataportal.common.data.adm.Config</class>
     <class>org.inek.dataportal.common.data.adm.InekRole</class>

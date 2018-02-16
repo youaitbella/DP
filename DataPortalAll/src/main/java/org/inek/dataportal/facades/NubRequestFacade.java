@@ -37,7 +37,7 @@ import org.inek.dataportal.common.enums.DataSet;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.feature.admin.backingbean.AccountInfo;
 import org.inek.dataportal.feature.ikadmin.entity.AccessRight;
-import org.inek.dataportal.feature.ikadmin.enums.Right;
+import org.inek.dataportal.common.enums.Right;
 import org.inek.dataportal.helper.structures.ProposalInfo;
 import org.inek.dataportal.utils.DateUtils;
 
