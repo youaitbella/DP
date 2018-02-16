@@ -75,7 +75,7 @@ public class CalcPsyFacade extends AbstractDataAccess {
         query.setParameter("ik", calcBasics.getIk());
         query.setParameter("year", calcBasics.getDataYear() - 1);
         try {
-            PeppCalcBasics priorCalcBasics = query.getSingleResult();
+            PeppCalcBasics priorCalcBasics = query.getResultList().get(0);//query.getSingleResult();
             getEntityManager().detach(priorCalcBasics);
             return priorCalcBasics;
         } catch (Exception ex) {

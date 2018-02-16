@@ -505,12 +505,34 @@ public class KGPListStationServiceCost implements Serializable, BaseIdValue {
         this._psyPvMapping = getPsyPvMapping();
     }
     //</editor-fold>
+    
+        //<editor-fold defaultstate="collapsed" desc="Property _nonMedicalInfrastructureAmount">
+    @Column(name = "sscOccupancy")
+    @Documentation(name = "Belegung", rank = 230)
+    private int _occupancy;
+
+    public int getOccupancy() {
+        return _occupancy;
+    }
+
+    public void setOccupancy(int occupancy) {
+        this._occupancy = occupancy;
+    }
+    //</editor-fold>
 
     public String getUtilization() {
         if (_bedCnt == 0) {
             return "";
         }
-        double result = Math.round((_regularCareDays + _intensiveCareDays) * 1000.0d / (_bedCnt * 365)) / 10d;
+        double result = 0;
+        
+        if(_occupancy == 1 || _occupancy == 3) {
+            result = Math.round((_regularCareDays + _intensiveCareDays) * 1000.0d / (_bedCnt * 365)) / 10d;
+        }
+        else if (_occupancy == 2) {
+            result = Math.round((_regularCareDays + _intensiveCareDays) * 1000.0d / (_bedCnt * (365-104))) / 10d;
+        }
+//        double result = Math.round((_regularCareDays + _intensiveCareDays) * 1000.0d / (_bedCnt * 365)) / 10d;
         return "" + result + "%";
     }
 
@@ -703,5 +725,6 @@ public class KGPListStationServiceCost implements Serializable, BaseIdValue {
         this._childYouthMapping = item._childYouthMapping;
         this._psychosomaticMapping = item._psychosomaticMapping;
         this._psyPvMapping = item._psyPvMapping;
+        this._occupancy = item._occupancy;
     }
 }

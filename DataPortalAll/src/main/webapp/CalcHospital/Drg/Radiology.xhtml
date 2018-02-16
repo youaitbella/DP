@@ -141,14 +141,14 @@
             <inek:InputIntegerWithMessage id="point-value2" value="#{(item.amountPost != 0 and item.serviceVolumePost != 0) ? item.amountPost / item.serviceVolumePost : 0}" readonly="true" pattern="0.0"/>
         </h:column>
     </h:dataTable>
-    
+
     <inek:UploadButtons importer="#{editCalcBasicsDrg.getImporter('drgradiology')}"
-                         calcbase="#{editCalcBasicsDrg.calcBasics}" 
-                         readOnly="#{editCalcBasicsDrg.readOnly}"
-                         addListener="#{editCalcBasicsDrg.addRadiology()}"
-                         uploadButtonText="Upload"
-                         actionDeleteTable="#{editCalcBasicsDrg.deleteRadiologies()}"
-                         />
+                        calcbase="#{editCalcBasicsDrg.calcBasics}" 
+                        readOnly="#{editCalcBasicsDrg.readOnly}"
+                        addListener="#{editCalcBasicsDrg.addRadiology()}"
+                        uploadButtonText="Upload"
+                        actionDeleteTable="#{editCalcBasicsDrg.deleteRadiologies()}"
+                        />
 
     <br/>
 
@@ -168,42 +168,82 @@
 
     <br/>
 
-    <table id="radioServicesTable">
-        <!--tr>
-            <td class="underlined-col border-right-col" colspan="6"><b># {editCalcBasicsDrg.calcBasics.dataYear}</b></td>
-            <td class="underlined-col border-right-col" colspan="4"><b># {editCalcBasicsDrg.calcBasics.dataYear-1}</b></td>
-        </tr-->
-        <tr>
-            <th>Ausgewählte Leistung</th>
-            <th>OPS</th>
-            <th>Kosten pro Leistung</th>
-            <th>Fallzahl stationär</th>
-            <th>Fallzahl ambulant</th>
-            <th class="border-right-col">abgegr. Kosten-volumen (€) ambulant</th>
-            <!--th>Kosten pro Leistung</th>
-            <th>Fallzahl stationär</th>
-            <th>Fallzahl ambulant</th>
-            <th class="border-right-col">abgegr. Kosten-volumen (€) ambulant</th-->
-        </tr>
-        <ui:repeat value="#{editCalcBasicsDrg.calcBasics.radiologyServices}" var="item">
+    <div hidden="#{editCalcBasicsDrg.calcBasics.dataYear gt 2017}">
+        <table id="radioServicesTable" >
+            <!--tr>
+                <td class="underlined-col border-right-col" colspan="6"><b># {editCalcBasicsDrg.calcBasics.dataYear}</b></td>
+                <td class="underlined-col border-right-col" colspan="4"><b># {editCalcBasicsDrg.calcBasics.dataYear-1}</b></td>
+            </tr-->
             <tr>
-                <td class="underlined-col">#{editCalcBasicsDrg.getContentText(item.rsContentTextID)}</td>
-                <td class="underlined-col">#{item.opsCode}</td>
-                <td>
-            <inek:InputIntegerWithMessage value="#{item.serviceCost}" />
-            </td>
-            <td>
-            <inek:InputIntegerWithMessage value="#{item.caseCntStationary}" />
-            </td>
-            <td>
-            <inek:InputIntegerWithMessage value="#{item.caseCntAmbulant}" />
-            </td>
-            <td>
-            <inek:InputIntegerWithMessage value="#{item.ambulantAmount}" />
-            </td>
+                <th>Ausgewählte Leistung</th>
+                <th>OPS</th>
+                <th>Kosten pro Leistung</th>
+                <th>Fallzahl stationär</th>
+                <th>Fallzahl ambulant</th>
+                <th class="border-right-col">abgegr. Kosten-volumen (€) ambulant</th>
+                <!--th>Kosten pro Leistung</th>
+                <th>Fallzahl stationär</th>
+                <th>Fallzahl ambulant</th>
+                <th class="border-right-col">abgegr. Kosten-volumen (€) ambulant</th-->
             </tr>
-        </ui:repeat>
-    </table>
+            <ui:repeat value="#{editCalcBasicsDrg.calcBasics.radiologyServices}" var="item">
+                <tr>
+                    <td class="underlined-col">#{editCalcBasicsDrg.getContentText(item.rsContentTextID)}</td>
+                    <td class="underlined-col">#{item.opsCode}</td>
+                    <td>
+                <inek:InputIntegerWithMessage value="#{item.serviceCost}" />
+                </td>
+                <td>
+                <inek:InputIntegerWithMessage value="#{item.caseCntStationary}" />
+                </td>
+                <td>
+                <inek:InputIntegerWithMessage value="#{item.caseCntAmbulant}" />
+                </td>
+                <td>
+                <inek:InputIntegerWithMessage value="#{item.ambulantAmount}" />
+                </td>
+                </tr>
+            </ui:repeat>
+        </table>
+    </div>
 
+    <h:panelGrid rendered="#{editCalcBasicsDrg.calcBasics.dataYear ge 2017}">
+        <table id="radioServicesTable" >
+            <!--tr>
+                <td class="underlined-col border-right-col" colspan="6"><b># {editCalcBasicsDrg.calcBasics.dataYear}</b></td>
+                <td class="underlined-col border-right-col" colspan="4"><b># {editCalcBasicsDrg.calcBasics.dataYear-1}</b></td>
+            </tr-->
+            <tr>
+                <th>DKG-NT Tarif-Nr.</th>
+                <th>Ausgewählte Leistung</th>
+                <th>Kosten pro Leistung</th>
+                <th>Fallzahl stationär</th>
+                <th>Fallzahl ambulant</th>
+                <th class="border-right-col">abgegr. Kosten-volumen (€) ambulant</th>
+                <!--th>Kosten pro Leistung</th>
+                <th>Fallzahl stationär</th>
+                <th>Fallzahl ambulant</th>
+                <th class="border-right-col">abgegr. Kosten-volumen (€) ambulant</th-->
+            </tr>
+            <ui:repeat value="#{editCalcBasicsDrg.calcBasics.radiologyServices}" var="item">
+                <tr>
+                    <td class="underlined-col">#{item.opsCode}</td>
+                    <td class="underlined-col">#{editCalcBasicsDrg.getContentText(item.rsContentTextID)}</td>
+                    <td>
+                <inek:InputIntegerWithMessage value="#{item.serviceCost}" />
+                </td>
+                <td>
+                <inek:InputIntegerWithMessage value="#{item.caseCntStationary}" />
+                </td>
+                <td>
+                <inek:InputIntegerWithMessage value="#{item.caseCntAmbulant}" />
+                </td>
+                <td>
+                <inek:InputIntegerWithMessage value="#{item.ambulantAmount}" />
+                </td>
+                </tr>
+            </ui:repeat>
+        </table>
+    </h:panelGrid>
 </ui:composition>
 

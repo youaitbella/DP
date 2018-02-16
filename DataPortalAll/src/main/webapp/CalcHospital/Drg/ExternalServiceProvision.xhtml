@@ -52,7 +52,7 @@
                 <f:selectItem itemLabel="#{msg.itemNotExternalProvided}" itemValue="#{1}"/>
                 <f:selectItem itemLabel="#{msg.itemExternalProvided}" itemValue="#{2}"/>
                 <f:selectItem itemLabel="#{msg.itemPartialExternalProvided}" itemValue="#{3}"/>
-                <f:ajax event="change" render="@form :logout:remaining msgLevel"/>
+                <f:ajax event="change" render="@all :logout:remaining msgLevel"/>
             </h:selectOneMenu>
         </h:column>
 
@@ -76,9 +76,10 @@
             <f:facet name="header">Kosten- volumen #{editCalcBasicsDrg.calcBasics.dataYear}</f:facet>
             <inek:InputIntegerWithMessage value="#{item.amount}" 
                                          styleClassComponent="col05em" 
-                                         readonly="#{item.serviceProvisionTypeId lt 0 and empty item.domain}"
+                                         disabled="#{item.providedTypeId lt 2}"
+                                         readonly="#{item.providedTypeId lt 2}"
                                          renderElement="@form" 
-                                         required="#{item.providedTypeId gt 0}"/>
+                                         required="#{item.providedTypeId gt 1}"/>
         </h:column>
 
         <h:column>

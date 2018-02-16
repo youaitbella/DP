@@ -453,17 +453,21 @@
                 <inek:InputIntegerWithMessage value="#{x.pprWeight}"  renderElement="sumAddPpr:text"/>
                 </td>
                 <td class="colInput">
-                <inek:InputNumberWithMessage title="#{(x.careDays != 0 and x.bedCnt != 0 and (x.careDays / (x.bedCnt * 365)) lt 0.6) ? 'Der Wert ist unter 60%!' : ''}" 
+                <h:inputText title="#{(x.careDays != 0 and x.bedCnt != 0 and (x.careDays / (x.bedCnt * 365)) lt 0.6) ? 'Der Wert ist unter 60%!' : ''}" 
                                              styleClass="#{(x.careDays != 0 and x.bedCnt != 0 and (x.careDays / (x.bedCnt * 365)) lt 0.6) ? 'red' : ''}"
-                                             id="calc-field-#{loop.index}" disabled="true" 
+                                             id="calc-field-#{loop.index}"
                                              value="#{(x.careDays != 0 and x.bedCnt != 0) ? (x.careDays / (x.bedCnt * 365)) : ''}" 
-                                             renderElement="@this :logout:remaining"/> 
+                                             readonly="true">
+                    <f:convertNumber pattern="##,00%"/>
+                </h:inputText>
                 </td>
                 <td class="colInput">
                 <h:outputLabel styleClass="prior" 
                                rendered="#{x.prior != null}"
                                title="Vorjahreswert (#{editCalcBasicsDrg.priorCalcBasics.dataYear})" 
-                               value="#{x.prior != null ? x.prior.medicalServiceCnt : ''}" />
+                               value="#{x.prior != null ? x.prior.medicalServiceCnt : ''}" >
+                    <f:convertNumber pattern="#0.00" locale="de" />
+                </h:outputLabel>
                 <inek:InputNumberWithMessage value="#{x.medicalServiceCnt}"  renderElement="diff-msc-#{loop.index} sumMedicalService:text"/>
                 <h:outputLabel  id="diff-msc-#{loop.index}"
                                 styleClass="prior diff" 
@@ -474,7 +478,9 @@
                 <h:outputLabel styleClass="prior" 
                                rendered="#{x.prior != null}"
                                title="Vorjahreswert (#{editCalcBasicsDrg.priorCalcBasics.dataYear})" 
-                               value="#{x.prior != null ? x.prior.nursingServiceCnt : ''}" />
+                               value="#{x.prior != null ? x.prior.nursingServiceCnt : ''}" >
+                        <f:convertNumber pattern="#0.00" locale="de" />
+                </h:outputLabel>
                 <inek:InputNumberWithMessage value="#{x.nursingServiceCnt}"  renderElement="diff-nsc-#{loop.index} sumNurseService:text"/>
                 <h:outputLabel  id="diff-nsc-#{loop.index}"
                                 styleClass="prior diff" 
@@ -485,7 +491,9 @@
                 <h:outputLabel styleClass="prior" 
                                rendered="#{x.prior != null}"
                                title="Vorjahreswert (#{editCalcBasicsDrg.priorCalcBasics.dataYear})" 
-                               value="#{x.prior != null ? x.prior.functionalServiceCnt : ''}" />
+                               value="#{x.prior != null ? x.prior.functionalServiceCnt : ''}" >
+                        <f:convertNumber pattern="#0.00" locale="de" />
+                </h:outputLabel>
                 <inek:InputNumberWithMessage value="#{x.functionalServiceCnt}"  renderElement="diff-fsc-#{loop.index} sumFuncService:text"/>
                 <h:outputLabel  id="diff-fsc-#{loop.index}"
                                 styleClass="prior diff" 
@@ -496,7 +504,9 @@
                 <h:outputLabel styleClass="prior" 
                                rendered="#{x.prior != null}"
                                title="Vorjahreswert (#{editCalcBasicsDrg.priorCalcBasics.dataYear})" 
-                               value="#{x.prior != null ? x.prior.medicalServiceAmount : ''}" />
+                               value="#{x.prior != null ? x.prior.medicalServiceAmount : ''}" >
+                    <f:convertNumber type="number" locale="de"/>
+                </h:outputLabel>
                 <inek:InputIntegerWithMessage value="#{x.medicalServiceAmount}"  renderElement="diff-msa-#{loop.index} sumMedicalService2:text"/>
                 <h:outputLabel  id="diff-msa-#{loop.index}"
                                 styleClass="prior diff" 
@@ -507,7 +517,9 @@
                 <h:outputLabel styleClass="prior" 
                                rendered="#{x.prior != null}"
                                title="Vorjahreswert (#{editCalcBasicsDrg.priorCalcBasics.dataYear})" 
-                               value="#{x.prior != null ? x.prior.nursingServiceAmount : ''}" />
+                               value="#{x.prior != null ? x.prior.nursingServiceAmount : ''}" >
+                    <f:convertNumber type="number" locale="de"/>
+                </h:outputLabel>
                 <inek:InputIntegerWithMessage value="#{x.nursingServiceAmount}"  renderElement="diff-nsa-#{loop.index} sumNurseService2:text"/>
                 <h:outputLabel  id="diff-nsa-#{loop.index}"
                                 styleClass="prior diff" 
@@ -518,7 +530,9 @@
                 <h:outputLabel styleClass="prior" 
                                rendered="#{x.prior != null}"
                                title="Vorjahreswert (#{editCalcBasicsDrg.priorCalcBasics.dataYear})" 
-                               value="#{x.prior != null ? x.prior.functionalServiceAmount : ''}" />
+                               value="#{x.prior != null ? x.prior.functionalServiceAmount : ''}" >
+                    <f:convertNumber type="number" locale="de"/>
+                </h:outputLabel>
                 <inek:InputIntegerWithMessage value="#{x.functionalServiceAmount}"  renderElement="diff-fsa-#{loop.index} sumFuncService2:text"/>
                 <h:outputLabel  id="diff-fsa-#{loop.index}"
                                 styleClass="prior diff" 
@@ -529,7 +543,9 @@
                 <h:outputLabel styleClass="prior" 
                                rendered="#{x.prior != null}"
                                title="Vorjahreswert (#{editCalcBasicsDrg.priorCalcBasics.dataYear})" 
-                               value="#{x.prior != null ? x.prior.overheadsMedicine : ''}" />
+                               value="#{x.prior != null ? x.prior.overheadsMedicine : ''}" >
+                    <f:convertNumber type="number" locale="de"/>
+                </h:outputLabel>
                 <inek:InputIntegerWithMessage value="#{x.overheadsMedicine}"  renderElement="diff-oa-#{loop.index} sumShareMedicine:text"/>
                 <h:outputLabel  id="diff-oa-#{loop.index}"
                                 styleClass="prior diff" 
@@ -540,7 +556,9 @@
                 <h:outputLabel styleClass="prior" 
                                rendered="#{x.prior != null}"
                                title="Vorjahreswert (#{editCalcBasicsDrg.priorCalcBasics.dataYear})" 
-                               value="#{x.prior != null ? x.prior.overheadsMedicalGoods : ''}" />
+                               value="#{x.prior != null ? x.prior.overheadsMedicalGoods : ''}" >
+                    <f:convertNumber type="number" locale="de"/>
+                </h:outputLabel>
                 <inek:InputIntegerWithMessage value="#{x.overheadsMedicalGoods}"  renderElement="diff-omg-#{loop.index} sumShareMedicineStuff:text"/>
                 <h:outputLabel  id="diff-omg-#{loop.index}"
                                 rendered="#{x.prior != null}"
@@ -551,7 +569,9 @@
                 <h:outputLabel styleClass="prior" 
                                rendered="#{x.prior != null}"
                                title="Vorjahreswert (#{editCalcBasicsDrg.priorCalcBasics.dataYear})" 
-                               value="#{x.prior != null ? x.prior.medicalInfrastructureCost : ''}" />
+                               value="#{x.prior != null ? x.prior.medicalInfrastructureCost : ''}" >
+                    <f:convertNumber type="number" locale="de"/>
+                </h:outputLabel>
                 <inek:InputIntegerWithMessage value="#{x.medicalInfrastructureCost}"  renderElement="diff-mic-#{loop.index} sumMedInfra:text"/>
                 <h:outputLabel  id="diff-mic-#{loop.index}"
                                 rendered="#{x.prior != null}"
@@ -562,7 +582,9 @@
                 <h:outputLabel styleClass="prior" 
                                rendered="#{x.prior != null}"
                                title="Vorjahreswert (#{editCalcBasicsDrg.priorCalcBasics.dataYear})" 
-                               value="#{x.prior != null ? x.prior.nonMedicalInfrastructureCost : ''}" />
+                               value="#{x.prior != null ? x.prior.nonMedicalInfrastructureCost : ''}" >
+                    <f:convertNumber type="number" locale="de"/>
+                </h:outputLabel>
                 <inek:InputIntegerWithMessage value="#{x.nonMedicalInfrastructureCost}"  renderElement="diff-nmic-#{loop.index} sumNonMedInfra:text"/>
                 <h:outputLabel  id="diff-nmic-#{loop.index}"
                                 styleClass="prior diff" 

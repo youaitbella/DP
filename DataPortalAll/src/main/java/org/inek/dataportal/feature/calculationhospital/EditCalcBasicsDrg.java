@@ -112,6 +112,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             _baseLine = _calcDrgFacade.findCalcBasicsDrg(_calcBasics.getId());
             retrievePriorData(_calcBasics);
             PreloadFunctionsCalcBasicsDrg.populateDelimitationFactsIfAbsent(_calcDrgFacade, _calcBasics, _priorCalcBasics);
+            loadPriorDataForNormalWardTable(_calcBasics, _priorCalcBasics);
         } else {
             Utils.navigate(Pages.Error.RedirectURL());
         }
@@ -192,6 +193,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         ccc.setBaseInformationId(_calcBasics.getId());
         ccc.setId(-1);
         _calcBasics.getCostCenterCosts().add(ccc);
+        loadPriorDataForNormalWardTable(_calcBasics, _priorCalcBasics);
     }
 
     public void deleteCostCenterCosts(KGLListCostCenterCost x) {
@@ -354,9 +356,27 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }
         return result;
     }
+    
+    public int getPriorSumIntensivStrokeWeighted() {
+        List<KGLListIntensivStroke> intensivStrokes = _priorCalcBasics.getIntensivStrokes();
+        int result = 0;
+        for (KGLListIntensivStroke intensivStroke : intensivStrokes) {
+            result += intensivStroke.getIntensivHoursWeighted();
+        }
+        return result;
+    }
 
     public int getSumIntensivStrokeNotWeighted() {
         List<KGLListIntensivStroke> intensivStrokes = _calcBasics.getIntensivStrokes();
+        int result = 0;
+        for (KGLListIntensivStroke intensivStroke : intensivStrokes) {
+            result += intensivStroke.getIntensivHoursNotweighted();
+        }
+        return result;
+    }
+    
+    public int getPriorSumIntensivStrokeNotWeighted() {
+        List<KGLListIntensivStroke> intensivStrokes = _priorCalcBasics.getIntensivStrokes();
         int result = 0;
         for (KGLListIntensivStroke intensivStroke : intensivStrokes) {
             result += intensivStroke.getIntensivHoursNotweighted();
@@ -445,7 +465,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         addTopic("TopicCalcMedicalInfrastructure", Pages.CalcDrgMedicalInfrastructure.URL());
         addTopic("TopicCalcNonMedicalInfrastructure", Pages.CalcDrgNonMedicalInfrastructure.URL());
         addTopic("TopicCalcStaffCost", Pages.CalcDrgStaffCost.URL());
-        addTopic("TopicCalcValvularIntervention", Pages.CalcDrgValvularIntervention.URL());
+//        addTopic("TopicCalcValvularIntervention", Pages.CalcDrgValvularIntervention.URL());
         addTopic("TopicCalcNeonatology", Pages.CalcDrgNeonatology.URL());
     }
 
@@ -1006,6 +1026,20 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             }
         }
         return new KGLRadiologyService();
+    }
+
+    private void loadPriorDataForNormalWardTable(DrgCalcBasics calcBasics, DrgCalcBasics priorCalcBasics) {
+        try {
+            calcBasics.getCostCenterCosts().forEach((kst) -> {
+                kst.setPrior(priorCalcBasics.getCostCenterCosts().stream()
+                        .filter(c -> c.getCostCenterText().equals(kst.getCostCenterText()))
+                        .findFirst()
+                        .get());
+            });            
+        }
+        catch (Exception ex){
+            
+        }
     }
     
 }

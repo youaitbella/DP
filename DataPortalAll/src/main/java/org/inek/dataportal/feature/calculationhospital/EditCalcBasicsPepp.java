@@ -5,9 +5,12 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -139,6 +142,15 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     }
 
     private void preloadData(PeppCalcBasics calcBasics) {
+        //Station Costs
+        
+        for (KGPListStationServiceCost ssc : _priorCalcBasics.getStationServiceCosts()) {
+            KGPListStationServiceCost newCost = new KGPListStationServiceCost();
+            newCost.setCostCenterNumber(ssc.getCostCenterNumber());
+            newCost.setStation(ssc.getStation());
+            calcBasics.addStationServiceCost(newCost);
+        }
+        
         // Locations
         calcBasics.setLocationCnt(_priorCalcBasics.getLocationCnt());
         calcBasics.setDifLocationSupply(_priorCalcBasics.isDifLocationSupply());
@@ -796,5 +808,15 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
 
     public void clearRadiologyLaboratory(int costCenter) {
         _calcBasics.clearRadiologyLaboratory(costCenter);
+    }
+    
+    public List<SelectItem> getOccupancyItems() {
+        List<SelectItem> items = new ArrayList<>();
+        items.add(new SelectItem(-1, "Bitte wählen..."));
+        items.add(new SelectItem(1, "vollstationär"));
+        items.add(new SelectItem(2, "teilstationär"));
+        items.add(new SelectItem(3, "voll- und teilstationär"));
+        
+        return items;
     }
 }
