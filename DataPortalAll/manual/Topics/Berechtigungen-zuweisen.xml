@@ -18,10 +18,13 @@
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Dieser Dialog ist zweigeteilt: Im oberen Bereich können Sie einen Benutzer nebst der gewünschten Funktion auswählen und dem unteren Bereich zufügen. In der Auswahlbox </text><text styleclass="Normal" style="font-weight:bold;" translate="true">Benutzer</text><text styleclass="Normal" translate="true"> werden alle Anwender aufgeführt, die in ihren Stammdaten das entsprechende IK eingetragen haben sowie solche, deren Mailadresse zu der für das Krankenhaus hinterlegten Domäne gehört. Die Auswahlbox </text><text styleclass="Normal" style="font-weight:bold;" translate="true">Funktion</text><text styleclass="Normal" translate="true"> zeigt alle Funktionen, für die Sie Rechte vergeben können.</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Mit Stand 02. Januar 2018 werden bereits alle Funktionen gelistet, für die eine entsprechende Rechtevergabe vorgesehen ist, so dass Sie dies bereits eintragen können. Die Funktion des IK-Admin ist derzeit noch nicht vollständig implementiert. Zwar werden innerhalb der meisten Erfassungsdialog bereits die Rechte beachtet; die jeweilige Auflistung der Datensätze berücksichtigt dies jedoch bisher nur in den Funktionen Teilnahme Kostenkalkulation, NUB, gezielte Absenkung (</text><var styleclass="Normal">&lt;%TITLE_DRG%&gt;)</var><text styleclass="Normal" translate="true"> sowie Psych-Personalvereinbarung (</text><var styleclass="Normal">&lt;%TITLE_PSY%&gt;)</var><text styleclass="Normal" translate="true">. Weitere Funktionen folgen kurzfristig. </text></para>
-    <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Der untere Bereich listet alle hinterlegten Berechtigungen und erlaubt Ihnen, diese zu bearbeiten. Die Rechte können Sie dabei aus einer Lister möglicher Berechtigungen auswählen. Diese sind selbsterklärend. Eine besondere Stellung nimmt &quot;Zugriff verboten&quot; ein, da dies kein Recht einräumt, sondern Rechte entzieht. Wird der Zugriff verboten, kann der Anwender auch auf solche Daten (entsprechend IK und Funktion) nicht mehr zugreifen, die er früher einmal selber erfasst hat.</text></para>
     <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die folgenden Funktionen sind bereits für die Verwaltung via IK-Admin vorgesehen, können aber derzeit (Feb. 2018) nur erfassenden Anwender gesichtet werden:</text></para>
+    <list id="36" type="ul" listtype="bullet" formatstring="&#183;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Symbol; font-size:11pt; color:#000000;">
+      <li styleclass="Normal"><text styleclass="Normal" translate="true">Finanzierung von Mehrkosten</text></li>
+      <li styleclass="Normal"><text styleclass="Normal" translate="true">Gezielte Absenkung</text></li>
+    </list>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"></para>
