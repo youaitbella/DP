@@ -93,6 +93,7 @@ public class EditDistributionModel extends AbstractEditController implements Ser
         String id = "" + params.get("id");
         String type = "" + params.get("type");
         if ("new".equals(id) && !"0".equals(type) && !"1".equals(type)) {
+            _model = new DistributionModel();
             Utils.navigate(Pages.NotAllowed.RedirectURL());
             return;
         }
@@ -100,11 +101,11 @@ public class EditDistributionModel extends AbstractEditController implements Ser
             _model = newDistributionModel(type);
         } else if (Utils.isInteger(id)) {
             DistributionModel model = loadDistributionModel(id);
+            _model = model;
             if (model.getId() == -1) {
                 Utils.navigate(Pages.NotAllowed.RedirectURL());
                 return;
-            }
-            _model = model;
+            }            
             if (isRequestCorrectionEnabled()){
                 _priorModel = _distModelFacade.findPriorDistributionModel(_model);
             }
