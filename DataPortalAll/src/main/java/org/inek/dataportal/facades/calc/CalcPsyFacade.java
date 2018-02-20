@@ -137,6 +137,8 @@ public class CalcPsyFacade extends AbstractDataAccess {
         if (mandatoryOnly) {
             jpql += " and pt._firstYear > 1900";
         }
+        
+        jpql += " order by pt._sequence";
         TypedQuery<KGPListServiceProvisionType> query = getEntityManager().createQuery(jpql, KGPListServiceProvisionType.class);
         query.setParameter("year", year);
         return query.getResultList();

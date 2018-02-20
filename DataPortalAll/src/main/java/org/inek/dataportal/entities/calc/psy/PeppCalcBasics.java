@@ -648,10 +648,7 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
     private List<KGPListServiceProvision> _serviceProvisions = new Vector<>();
 
     public List<KGPListServiceProvision> getServiceProvisions() {
-        return _serviceProvisions
-                .stream()
-                 .sorted((x, y) -> compareServiceProvision(x, y)) // @orderBy doesnt work properly.
-                 .collect(Collectors.toList());
+        return _serviceProvisions;
         
     }
     private int compareServiceProvision(KGPListServiceProvision sp1, KGPListServiceProvision sp2) {

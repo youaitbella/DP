@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.entities.calc.psy;
+package org.inek.dataportal.entities.calc.drg;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
 import org.inek.dataportal.utils.Documentation;
 
 /**
@@ -21,16 +22,17 @@ import org.inek.dataportal.utils.Documentation;
  * @author kunkelan
  */
 @Entity
-@Table(name = "KGPListServiceProvisionType", schema = "calc")
-public class KGPListServiceProvisionType implements Serializable {
+@Table(name = "KGLListOverviewPersonalType", schema = "calc")
+@XmlRootElement
+public class KGLListOverviewPersonalType implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    //<editor-fold defaultstate="collapsed" desc="Property _id">
+    //<editor-fold defaultstate="collapsed" desc="ID">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "sptID", updatable = false, nullable = false)
-    private int _id;
+    @Column(name = "optID", updatable = false, nullable = false)
+    private int _id = -1;
 
     public int getId() {
         return _id;
@@ -41,9 +43,9 @@ public class KGPListServiceProvisionType implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _text">
-    @Column(name = "sptText")
-    @Documentation(name = "Text", rank = 10)
+    //<editor-fold defaultstate="collapsed" desc="Text">
+    @Column(name = "optText")
+    @Documentation(name = "Beschreibung", rank = 10)
     private String _text = "";
 
     @Size(max = 200)
@@ -56,8 +58,8 @@ public class KGPListServiceProvisionType implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _firstYear">
-    @Column(name = "sptFirstYear")
+    //<editor-fold defaultstate="collapsed" desc="FirstYear">
+    @Column(name = "optFirstYear")
     @Documentation(name = "Erstes Jahr", rank = 20)
     private int _firstYear;
 
@@ -70,8 +72,8 @@ public class KGPListServiceProvisionType implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property _lastYear">
-    @Column(name = "sptLastYear")
+    //<editor-fold defaultstate="collapsed" desc="LastYear">
+    @Column(name = "optLastYear")
     @Documentation(name = "Letztes Jahr", rank = 30)
     private int _lastYear;
 
@@ -82,10 +84,11 @@ public class KGPListServiceProvisionType implements Serializable {
     public void setLastYear(int lastYear) {
         this._lastYear = lastYear;
     }
-    //</editor-fold>        
-
+    //</editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc="Sequence">
-    @Column(name = "sptSequence")
+    @Column(name = "optSequence")
+    @Documentation(name = "Sequence", rank = 30)
     private int _sequence;
 
     public int getSequence() {
@@ -96,47 +99,33 @@ public class KGPListServiceProvisionType implements Serializable {
         this._sequence = sequence;
     }
     //</editor-fold>
-    
-
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "spServiceProvisionTypeId")
-//    private List<KGPListServiceProvision> kGPListServiceProvisionList;
-    public KGPListServiceProvisionType() {
-    }
-
-    public KGPListServiceProvisionType(int sptID) {
-        this._id = sptID;
-    }
-
-    public KGPListServiceProvisionType(int sptID, String sptText, int sptFirstYear, int sptLastYear) {
-        this._id = sptID;
-        this._text = sptText;
-        this._firstYear = sptFirstYear;
-        this._lastYear = sptLastYear;
-    }
 
     //<editor-fold defaultstate="collapsed" desc="hash && equals && toString">
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 47 * hash + this._id;
+        int hash = 5;
+        hash = 59 * hash + this._id;
         if (this._id != -1) {
             return hash;
         }
-        hash = 47 * hash + Objects.hashCode(this._text);
-        hash = 47 * hash + this._firstYear;
-        hash = 47 * hash + this._lastYear;
+        hash = 59 * hash + Objects.hashCode(this._text);
+        hash = 59 * hash + this._firstYear;
+        hash = 59 * hash + this._lastYear;
         return hash;
     }
-
+    
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof KGPListServiceProvisionType)) {
+        if (obj == null) {
             return false;
         }
-        final KGPListServiceProvisionType other = (KGPListServiceProvisionType) obj;
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final KGLListOverviewPersonalType other = (KGLListOverviewPersonalType) obj;
         if (this._id != -1 && this._id == other._id) {
             return true;
         }
@@ -149,13 +138,10 @@ public class KGPListServiceProvisionType implements Serializable {
         if (this._lastYear != other._lastYear) {
             return false;
         }
-        return Objects.equals(this._text, other._text);
-    }
-
-    @Override
-    public String toString() {
-        return "org.inek.dataportal.entities.calc.KGPListServiceProvisionType[ sptID=" + _id + " ]";
+        if (!Objects.equals(this._text, other._text)) {
+            return false;
+        }
+        return true;
     }
     //</editor-fold>
-
 }

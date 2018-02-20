@@ -30,6 +30,8 @@ import org.inek.dataportal.entities.calc.drg.KGLNormalStationServiceDocumentatio
 import org.inek.dataportal.entities.calc.drg.KGLPersonalAccounting;
 import org.inek.dataportal.entities.calc.drg.KGLRadiologyService;
 import org.inek.dataportal.entities.calc.drg.KglOpAn;
+import org.inek.dataportal.entities.calc.drg.KGLListOverviewPersonalType;
+import org.inek.dataportal.entities.calc.drg.KGLListOverviewPersonal;
 import org.inek.dataportal.facades.calc.CalcDrgFacade;
 
 /**
@@ -332,6 +334,15 @@ public class PreloadFunctionsCalcBasicsDrg {
                 calcBasics.getRadiologyServices().add(rs);
             }
         }
+    }
+
+    static void ensureOverviewPersonal(CalcDrgFacade calcDrgFacade, DrgCalcBasics calcBasics) {
+        for (KGLListOverviewPersonalType spt : calcDrgFacade.retrieveOverviewPersonalTypes(calcBasics.getDataYear())) {
+            KGLListOverviewPersonal op = new KGLListOverviewPersonal();
+            op.setBaseInformationId(calcBasics.getId());
+            op.setOverviewPersonalType(spt);
+            calcBasics.addOverviewPersonal(op);
+        }        
     }
 
 }
