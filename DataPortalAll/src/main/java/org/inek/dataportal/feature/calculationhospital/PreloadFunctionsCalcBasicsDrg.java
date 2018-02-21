@@ -161,19 +161,9 @@ public class PreloadFunctionsCalcBasicsDrg {
             KGLListRadiologyLaboratory rl = new KGLListRadiologyLaboratory();
             rl.setId(-1);
             rl.setBaseInformationId(calcBasics.getId());
-            rl.setAmountPost(prl.getAmountPost());
-            rl.setAmountPre(prl.getAmountPre());
             rl.setCostCenterId(prl.getCostCenterId());
             rl.setCostCenterNumber(prl.getCostCenterNumber());
             rl.setCostCenterText(prl.getCostCenterText());
-            rl.setDescription(prl.getDescription());
-            rl.setServiceDocDKG(prl.isServiceDocDKG());
-            rl.setServiceDocDif(prl.isServiceDocDif());
-            rl.setServiceDocEBM(prl.isServiceDocEBM());
-            rl.setServiceDocGOA(prl.isServiceDocGOA());
-            rl.setServiceDocHome(prl.isServiceDocHome());
-            rl.setServiceVolumePost(prl.getServiceVolumePost());
-            rl.setServiceVolumePre(prl.getServiceVolumePre());
             calcBasics.getRadiologyLaboratories().add(rl);
         }
     }
