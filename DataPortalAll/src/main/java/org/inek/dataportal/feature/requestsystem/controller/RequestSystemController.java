@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.inek.dataportal.controller.AbstractFeatureController;
 import org.inek.dataportal.controller.SessionController;
-import org.inek.dataportal.enums.Feature;
+import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.feature.requestsystem.entity.RequestDocument;
 import org.inek.dataportal.helper.Topics;

@@ -27,7 +27,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Min;
 import org.inek.dataportal.entities.iface.StatusEntity;
-import org.inek.dataportal.enums.WorkflowStatus;
+import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.helper.groupinterface.Seal;
 import org.inek.dataportal.utils.Documentation;
 

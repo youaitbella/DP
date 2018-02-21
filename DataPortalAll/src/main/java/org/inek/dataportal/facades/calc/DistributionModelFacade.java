@@ -17,8 +17,8 @@ import org.inek.dataportal.entities.calc.CalcHospitalInfo;
 import org.inek.dataportal.entities.calc.cdm.DistributionModel;
 import org.inek.dataportal.entities.calc.cdm.DistributionModelDetail;
 import org.inek.dataportal.enums.CalcHospitalFunction;
-import org.inek.dataportal.enums.WorkflowStatus;
-import org.inek.dataportal.facades.AbstractDataAccess;
+import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.utils.StringUtil;
 

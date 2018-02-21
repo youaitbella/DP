@@ -27,14 +27,14 @@ import org.inek.dataportal.entities.account.AccountAdditionalIK;
 import org.inek.dataportal.entities.calc.cdm.DistributionModel;
 import org.inek.dataportal.entities.calc.cdm.DistributionModelDetail;
 import org.inek.dataportal.enums.CalcHospitalFunction;
-import org.inek.dataportal.enums.ConfigKey;
-import org.inek.dataportal.enums.Feature;
+import org.inek.dataportal.common.enums.ConfigKey;
+import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.enums.Pages;
-import org.inek.dataportal.enums.WorkflowStatus;
+import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.calc.DistributionModelFacade;
 import org.inek.dataportal.feature.AbstractEditController;
-import org.inek.dataportal.feature.admin.entity.MailTemplate;
+import org.inek.dataportal.common.data.adm.MailTemplate;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.structures.MessageContainer;
 import org.inek.dataportal.mail.Mailer;
@@ -93,6 +93,7 @@ public class EditDistributionModel extends AbstractEditController implements Ser
         String id = "" + params.get("id");
         String type = "" + params.get("type");
         if ("new".equals(id) && !"0".equals(type) && !"1".equals(type)) {
+            _model = new DistributionModel();
             Utils.navigate(Pages.NotAllowed.RedirectURL());
             return;
         }
@@ -100,11 +101,11 @@ public class EditDistributionModel extends AbstractEditController implements Ser
             _model = newDistributionModel(type);
         } else if (Utils.isInteger(id)) {
             DistributionModel model = loadDistributionModel(id);
+            _model = model;
             if (model.getId() == -1) {
                 Utils.navigate(Pages.NotAllowed.RedirectURL());
                 return;
-            }
-            _model = model;
+            }            
             if (isRequestCorrectionEnabled()){
                 _priorModel = _distModelFacade.findPriorDistributionModel(_model);
             }

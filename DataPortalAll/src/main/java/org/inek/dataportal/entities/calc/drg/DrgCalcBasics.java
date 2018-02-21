@@ -38,7 +38,7 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import org.inek.dataportal.entities.calc.psy.KglPkmsAlternative;
 import org.inek.dataportal.entities.iface.StatusEntity;
-import org.inek.dataportal.enums.WorkflowStatus;
+import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.feature.calculationhospital.CalcBasicsStaticData;
 import org.inek.dataportal.utils.Documentation;
 import org.inek.dataportal.utils.ListUtil;
@@ -1016,6 +1016,29 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
                 .collect(Collectors.toList());
         _serviceProvisions.removeAll(emptyEntries);
     }
+    //</editor-fold>
+    
+        //<editor-fold defaultstate="collapsed" desc="Property List OverviewPersonal">
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "opBaseInformationId", referencedColumnName = "biId")
+    @Documentation(name = "Übersicht Personal", headline = "Übersicht Personal", rank = 10)
+    private List<KGLListOverviewPersonal> _overviewPersonal = new Vector<>();
+
+    public List<KGLListOverviewPersonal> getOverviewPersonals() {
+        return _overviewPersonal.stream()
+                .sorted((e1, e2) -> Integer.compare(e1.getOverviewPersonalType().getSequence(),
+                    e2.getOverviewPersonalType().getSequence()))
+                .collect(Collectors.toList());
+    }
+
+    public void setOverviewPersonals(List<KGLListOverviewPersonal> overviewPersonal) {
+        this._overviewPersonal = overviewPersonal;
+    }
+
+    public void addOverviewPersonal(KGLListOverviewPersonal overviewPersonal) {
+        this._overviewPersonal.add(overviewPersonal);
+    }
+
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property List KstTop">

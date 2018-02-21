@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/Templates/PortalErrorTemplate.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <ui:define name="metaData"/>
+    <ui:define name="userInfo"/>
+    <ui:define name="menuList"/>
+    <ui:define name="bottom"/>
+
+
+    <ui:define name="content">
+        <h1>Mehrere Fenster</h1>
+        <br/>
+        <h4>
+            Das Datenportal hat die Nutzung mehrerer Fenster (dies kann auch ein zweiter Karteireiter im Browser sein) erkannt. Dies könnte zu einem nicht spezifizierten Verhalten führen und ist daher nicht zulässig.
+            Vorsichtshalber wurden Sie deshalb automatisch abgemeldet (im anderen Fenster führt dies abhängig von der Klick-Reihenfolge zur Meldung "Timeout" oder direkt zum Login).
+        </h4>
+        <p class="marginElement">
+            Sie können via Login die Arbeit in diesem Fenster fortsetzen.
+            Bitte nutzen Sie im weiteren Verlauf nur ein Fenster. 
+        </p>
+        <p class="marginElement">
+            Sollten Sie das ursprüngliche Fenster bereits geschlossen und trotzdem diese Meldung erhalten haben, kann dies an einer fehlenden Abmeldung liegen.
+        </p>
+        <hr/>
+        <p class="marginElement">
+            Einige moderne Browser bieten die Möglichkeit eines "privaten" Fensters, manchmal auch "Inkognito-Fenster" genannt. Damit wird es - abhängig vom Browser - möglich, das Datenportal gleichzeitig in zwei Fenstern (einmal "normal", einmal "privat" bzw. "inkognito") zu öffnen.
+        </p>
+
+        <br/>
+        <br/>
+    </ui:define>
+
+</ui:composition>

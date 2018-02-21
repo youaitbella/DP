@@ -22,11 +22,13 @@ import org.inek.dataportal.entities.calc.drg.KGLListServiceProvision;
 import org.inek.dataportal.entities.calc.drg.KGLListServiceProvisionType;
 import org.inek.dataportal.entities.calc.drg.KglOpAn;
 import org.inek.dataportal.entities.calc.sop.StatementOfParticipance;
-import org.inek.dataportal.enums.Feature;
-import org.inek.dataportal.enums.WorkflowStatus;
-import org.inek.dataportal.facades.AbstractDataAccess;
+import org.inek.dataportal.common.enums.Feature;
+import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.entities.iface.BaseIdValue;
+import org.inek.dataportal.entities.calc.drg.KGLListOverviewPersonalType;
+import org.inek.dataportal.entities.calc.drg.KGLListOverviewPersonal;
 
 /**
  *
@@ -113,6 +115,8 @@ public class CalcDrgFacade extends AbstractDataAccess {
         query.setParameter("text", text);
         return query.getSingleResult();
     }
+    
+    
 
     public KGLListContentTextOps findOpsCodeByContentTextId(int contextTextId) {
         String jpql = "select cto from KGLListContentTextOps cto where cto._contentTextId = :id";
@@ -235,6 +239,14 @@ public class CalcDrgFacade extends AbstractDataAccess {
         return query.getResultList();
     }
 
+    public List<KGLListOverviewPersonalType> retrieveOverviewPersonalTypes(int year) {
+        String jpql = "select op from KGLListOverviewPersonalType op "
+                + "where op._firstYear <= :year and op._lastYear >= :year order by op._sequence";
+        TypedQuery<KGLListOverviewPersonalType> query = getEntityManager().createQuery(jpql, KGLListOverviewPersonalType.class);
+        query.setParameter("year", year);
+        return query.getResultList();
+    }
+    
     public DrgHeaderText saveCalcHeaderText(DrgHeaderText headerText) {
         if (headerText.getId() > 0) {
             return merge(headerText);

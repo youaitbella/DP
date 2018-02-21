@@ -82,7 +82,21 @@ public class KGPListServiceProvisionType implements Serializable {
     public void setLastYear(int lastYear) {
         this._lastYear = lastYear;
     }
+    //</editor-fold>        
+
+    //<editor-fold defaultstate="collapsed" desc="Sequence">
+    @Column(name = "sptSequence")
+    private int _sequence;
+
+    public int getSequence() {
+        return _sequence;
+    }
+
+    public void setSequence(int sequence) {
+        this._sequence = sequence;
+    }
     //</editor-fold>
+    
 
 //    @OneToMany(cascade = CascadeType.ALL, mappedBy = "spServiceProvisionTypeId")
 //    private List<KGPListServiceProvision> kGPListServiceProvisionList;

@@ -10,7 +10,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.faces.model.SelectItem;
 import org.inek.dataportal.entities.certification.RemunerationSystem;
-import org.inek.dataportal.facades.AbstractDataAccess;
+import org.inek.dataportal.common.data.AbstractDataAccess;
 
 /**
  *

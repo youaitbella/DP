@@ -3,6 +3,7 @@ package org.inek.dataportal.controller;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.HttpURLConnection;
+import static java.net.HttpURLConnection.HTTP_OK;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -24,10 +25,11 @@ import org.inek.dataportal.entities.CustomerType;
 import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountFeature;
-import org.inek.dataportal.enums.Feature;
-import org.inek.dataportal.enums.FeatureState;
+import org.inek.dataportal.common.enums.Feature;
+import org.inek.dataportal.common.enums.FeatureState;
 import org.inek.dataportal.enums.Pages;
-import org.inek.dataportal.enums.PortalType;
+import org.inek.dataportal.common.enums.PortalType;
+import org.inek.dataportal.common.helper.EnvironmentInfo;
 import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.CustomerTypeFacade;
 import org.inek.dataportal.facades.DrgFacade;
@@ -37,9 +39,11 @@ import org.inek.dataportal.feature.admin.facade.LogFacade;
 import org.inek.dataportal.facades.common.DiagnosisFacade;
 import org.inek.dataportal.facades.common.ProcedureFacade;
 import org.inek.dataportal.facades.cooperation.CooperationRequestFacade;
-import org.inek.dataportal.feature.admin.entity.InekRole;
-import org.inek.dataportal.feature.admin.entity.Log;
-import org.inek.dataportal.feature.admin.entity.ReportTemplate;
+import org.inek.dataportal.common.data.adm.InekRole;
+import org.inek.dataportal.common.data.adm.Log;
+import org.inek.dataportal.common.data.adm.ReportTemplate;
+import org.inek.dataportal.common.enums.ConfigKey;
+import org.inek.dataportal.common.enums.Stage;
 import org.inek.dataportal.feature.admin.facade.AdminFacade;
 import org.inek.dataportal.helper.NotLoggedInException;
 import org.inek.dataportal.helper.StreamHelper;
@@ -69,6 +73,11 @@ public class SessionController implements Serializable {
     @Inject private Mailer _mailer;
     @Inject private CustomerTypeFacade _typeFacade;
     @Inject private CooperationRequestFacade _coopFacade;
+    @Inject private ApplicationTools _appTools;
+
+    public ApplicationTools getApplicationTools() {
+        return _appTools;
+    }
 
     private PortalType _portalType = PortalType.COMMON;
 
@@ -115,17 +124,30 @@ public class SessionController implements Serializable {
         return _account;
     }
 
-    private void checkAccount() throws NotLoggedInException {
+    /**
+     * returns the account id if logged in, otherwise it redirects to session. timeOut
+     *
+     * @return
+     */
+    public int getAccountId() {
+        return getAccount().getId();
+    }
+
+    private void checkAccount() {
         if (_account == null) {
             FacesContext facesContext = FacesContext.getCurrentInstance();
-            facesContext.getApplication().getNavigationHandler().
-                    handleNavigation(facesContext, null, Pages.SessionTimeout.URL());
-            throw new NotLoggedInException();
+            try {
+                String url = EnvironmentInfo.getServerUrlWithContextpath() + Pages.SessionTimeout.URL();
+                facesContext.getExternalContext().redirect(url);
+            } catch (IOException | IllegalStateException ex) {
+                facesContext.getApplication().getNavigationHandler().
+                        handleNavigation(facesContext, null, Pages.SessionTimeout.URL());
+            }
         }
     }
 
     public boolean isHospital() {
-        // we had unexpecte null access here.
+        // we had unexpected null access here.
         // let's do some logging and redirect the user to an error view
         if (_typeFacade == null) {
             String msg = "Access without typeFacade";
@@ -147,16 +169,6 @@ public class SessionController implements Serializable {
 
     public boolean isLoggedIn() {
         return _account != null;
-    }
-
-    /**
-     * returns the account id if logged in, otherwise it redirects to session. timeOut
-     *
-     * @return
-     */
-    public int getAccountId() {
-        checkAccount();
-        return _account.getId();
     }
 
     public SearchController getSearchController() {
@@ -208,16 +220,10 @@ public class SessionController implements Serializable {
 
     public String logout() {
         performLogout("Logout");
-        invalidateSession();
         return Pages.Login.URL();// + "?faces-redirect=true";
     }
 
-    public void logout(String message) {
-        performLogout(message);
-        invalidateSession();
-    }
-
-    private void performLogout(String message) {
+    public void performLogout(String message) {
         if (_account != null) {
             FeatureScopedContextHolder.Instance.destroyAllBeans();
             logMessage(message);
@@ -227,6 +233,7 @@ public class SessionController implements Serializable {
             _account = null;
             _portalType = PortalType.COMMON;
         }
+        invalidateSession();
     }
 
     private void invalidateSession() {
@@ -243,6 +250,9 @@ public class SessionController implements Serializable {
     }
 
     public void logMessage(String msg) {
+        if (msg.isEmpty()) {
+            return;
+        }
         String sessionId = retrieveSessionId();
         int accountId = -1;
         if (_account != null) {
@@ -274,20 +284,22 @@ public class SessionController implements Serializable {
         return loginAndSetTopics(mailOrUser, password, _portalType);
     }
 
-    public void logoutListener() {
-        System.out.println("logoutListener");
-        FeatureScopedContextHolder.Instance.destroyAllBeans();
-        logMessage("change portal");
-        _topics.clear();
-        _features.clear();
-        _parts.clear();
-        //_account = null;
+    public void changePortal(PortalType portalType) throws IOException {
+        String url = obtainTargetUrl(portalType);
+        if (url.isEmpty()) {
+            return;
+        }
+        url = url + "?token=" + getToken();
+        performLogout("");
+        FacesContext.getCurrentInstance().getExternalContext().redirect(url);
     }
 
-    public String getTokenAndLogout() {
-        String token = getToken();
-        logout("change portal");
-        return token;
+    private String obtainTargetUrl(PortalType portalType) {
+        Stage stage = _appTools.isEnabled(ConfigKey.TestMode)
+                ? EnvironmentInfo.getServerName().equals("localhost") ? Stage.DEVELOPMENT : Stage.TEST
+                : Stage.PRODUCTION;
+        String url = _appTools.readPortalAddress(portalType, stage);
+        return url;
     }
 
     public String getToken() {
@@ -296,13 +308,10 @@ public class SessionController implements Serializable {
             URL url = new URL(address);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
-            conn.setRequestProperty("X-ReportServer-ClientId", "portal");
-            conn.setRequestProperty("X-ReportServer-ClientToken", "FG+RYOLDRuAEh0bO6OBddzcrF45aOI9C");
-            if (conn.getResponseCode() != 200) {
-                throw new IOException("Report failed: HTTP error code : " + conn.getResponseCode());
+            if (conn.getResponseCode() != HTTP_OK) {
+                throw new IOException("HTTP error code : " + conn.getResponseCode());
             }
             String token = StreamHelper.toString(conn.getInputStream());
-            System.out.println("getToken from id " + getAccountId() + " ==> " + token);
             conn.disconnect();
             return token;
         } catch (IOException ex) {
@@ -318,13 +327,10 @@ public class SessionController implements Serializable {
             URL url = new URL(address);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
-            conn.setRequestProperty("X-ReportServer-ClientId", "portal");
-            conn.setRequestProperty("X-ReportServer-ClientToken", "FG+RYOLDRuAEh0bO6OBddzcrF45aOI9C");
-            if (conn.getResponseCode() != 200) {
-                throw new IOException("Report failed: HTTP error code : " + conn.getResponseCode());
+            if (conn.getResponseCode() != HTTP_OK) {
+                throw new IOException("HTTP error code : " + conn.getResponseCode());
             }
             String idString = StreamHelper.toString(conn.getInputStream());
-            System.out.println("getId from token " + token + " ==> " + idString);
             conn.disconnect();
             return Integer.parseInt(idString);
         } catch (Exception ex) {
@@ -338,15 +344,14 @@ public class SessionController implements Serializable {
         return "localhost://test";
     }
 
-    public boolean loginByToken(String token, PortalType portalType) {
-        _portalType = portalType;
+    public boolean loginByToken(String token) {
+        _portalType = PortalType.DRG;
         String loginInfo = Utils.getClientIP() + "; UserAgent=" + Utils.getUserAgent();
         int id = getId(token);
         _account = _accountFacade.findAccount(id);
         if (_account == null) {
             logMessage("Login by token failed: " + loginInfo);
         } else {
-            System.out.println("loginByToken " + token + " --> " + id);
             logMessage("Login by token successful: " + loginInfo);
             initFeatures();
         }
@@ -459,9 +464,6 @@ public class SessionController implements Serializable {
     }
 
     private void addAdminIfNeeded() {
-        if (isInekUser(Feature.ADMIN)) {
-            _features.add(FeatureFactory.createController(Feature.ADMIN, this));
-        }
         if (_account.getAdminIks().size() > 0) {
             _features.add(FeatureFactory.createController(Feature.IK_ADMIN, this));
         }
@@ -740,11 +742,6 @@ public class SessionController implements Serializable {
         }
         return "InEK-Datenportal.pdf";
     }
-    @Inject private ApplicationTools _appTools;
-
-    public ApplicationTools getApplicationTools() {
-        return _appTools;
-    }
 
     public boolean isInMaintenanceMode() {
         // todo: read config or something else appropiate to determine, whether system is in maintenance mode
@@ -787,6 +784,8 @@ public class SessionController implements Serializable {
                 return "psyportal.css";
             case DRG:
                 return "drgportal.css";
+            case ADMIN:
+                return "adminportal.css";
             default:
                 return "commonportal.css";
         }
@@ -801,7 +800,7 @@ public class SessionController implements Serializable {
             case COMMON:
                 return PortalType.COMMON;
             default:
-                logout("unknown PortalType");
+                performLogout("unknown PortalType");
                 return PortalType.COMMON;
         }
     }
@@ -899,4 +898,7 @@ public class SessionController implements Serializable {
         return new byte[0];
     }
 
+    public String getServerWithProtocolAndPort() {
+        return EnvironmentInfo.getServerUrl();
+    }
 }

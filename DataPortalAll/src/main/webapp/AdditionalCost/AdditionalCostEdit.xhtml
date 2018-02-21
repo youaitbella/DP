@@ -251,9 +251,9 @@
                         <h:inputText id="complianceRate"
                                      value="#{editAdditionalCost.additionalCost.complianceRate}"
                                      styleClass="element05em number"
-                                     required="true">
+                                     required="false">
                             <f:convertNumber pattern="#,##0.0"/>
-                            <f:validateDoubleRange minimum="0.01" maximum="100"/>
+                            <f:validateDoubleRange minimum="0.00" maximum="100"/>
                             <f:ajax render="msgComplianceRate @this :logout:remaining"/>
                         </h:inputText>
                         <h:message for="complianceRate" id="msgComplianceRate" styleClass="errorMessage"/>
@@ -262,7 +262,7 @@
                                        styleClass="label"/>
                         <h:outputLabel for="calenderYear" 
                                        value="für KJ" 
-                                       title="Auswahlfenster füe die Jahre 2017, 2018,...,2020"
+                                       title="Auswahlfenster füe die Jahre 2017 bis 2020"
                                        styleClass="label element05em number marginRight"/>
                         <h:selectOneMenu id="calenderYear"
                                          styleClass="element05em"

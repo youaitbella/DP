@@ -4,6 +4,7 @@
  */
 package org.inek.dataportal.facades;
 
+import org.inek.dataportal.common.data.AbstractDataAccess;
 import java.util.List;
 import java.util.Set;
 import javax.ejb.Stateless;
@@ -11,8 +12,8 @@ import javax.persistence.TypedQuery;
 import org.inek.dataportal.entities.valuationratio.ValuationRatio;
 import org.inek.dataportal.entities.valuationratio.ValuationRatioDrgCount;
 import org.inek.dataportal.entities.valuationratio.ValuationRatioMedian;
-import org.inek.dataportal.enums.DataSet;
-import org.inek.dataportal.enums.WorkflowStatus;
+import org.inek.dataportal.common.enums.DataSet;
+import org.inek.dataportal.common.enums.WorkflowStatus;
 
 /**
  *

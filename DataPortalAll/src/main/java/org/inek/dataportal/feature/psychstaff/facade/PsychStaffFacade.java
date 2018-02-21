@@ -22,12 +22,12 @@ import javax.inject.Inject;
 import javax.persistence.EntityGraph;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import org.inek.dataportal.enums.ConfigKey;
-import org.inek.dataportal.enums.DataSet;
-import org.inek.dataportal.facades.AbstractDataAccess;
-import org.inek.dataportal.feature.admin.facade.ConfigFacade;
+import org.inek.dataportal.common.enums.ConfigKey;
+import org.inek.dataportal.common.enums.DataSet;
+import org.inek.dataportal.common.data.AbstractDataAccess;
+import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.feature.ikadmin.entity.AccessRight;
-import org.inek.dataportal.feature.ikadmin.enums.Right;
+import org.inek.dataportal.common.enums.Right;
 import org.inek.dataportal.feature.psychstaff.entity.OccupationalCategory;
 import org.inek.dataportal.feature.psychstaff.entity.PersonnelGroup;
 import org.inek.dataportal.feature.psychstaff.entity.StaffProof;
@@ -174,7 +174,7 @@ public class PsychStaffFacade extends AbstractDataAccess {
             }
         }
         StaffProof mergedStaffProof = merge(staffProof);
-        if (_configFacade.readBool(ConfigKey.IsPsychStaffParanoiacheckEnabled)) {
+        if (_configFacade.readConfigBool(ConfigKey.IsPsychStaffParanoiacheckEnabled)) {
             if (!hasDifferentData(staffProof, mergedStaffProof)) {
                 StaffProof findFresh = findFresh(StaffProof.class, mergedStaffProof.getId());
                 hasDifferentData(findFresh, mergedStaffProof);

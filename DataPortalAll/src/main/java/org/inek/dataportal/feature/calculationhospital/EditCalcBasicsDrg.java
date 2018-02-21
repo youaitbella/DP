@@ -57,10 +57,10 @@ import org.inek.dataportal.entities.calc.drg.KGLPersonalAccounting;
 import org.inek.dataportal.entities.calc.drg.KGLRadiologyService;
 import org.inek.dataportal.entities.calc.psy.KglPkmsAlternative;
 import org.inek.dataportal.entities.iface.BaseIdValue;
-import org.inek.dataportal.enums.ConfigKey;
-import org.inek.dataportal.enums.Feature;
+import org.inek.dataportal.common.enums.ConfigKey;
+import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.enums.Pages;
-import org.inek.dataportal.enums.WorkflowStatus;
+import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.facades.calc.CalcDrgFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.ObjectUtils;
@@ -179,6 +179,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }
         PreloadFunctionsCalcBasicsDrg.ensureNeonateData(_calcDrgFacade, calcBasics);
         PreloadFunctionsCalcBasicsDrg.ensureRadiologyServiceData(_calcDrgFacade, calcBasics);
+        PreloadFunctionsCalcBasicsDrg.ensureOverviewPersonal(_calcDrgFacade, calcBasics);
         retrievePriorData(calcBasics);
         PreloadFunctionsCalcBasicsDrg.preloadData(_calcDrgFacade, calcBasics, _priorCalcBasics);
         KGLNormalStationServiceDocumentationMinutes min = new KGLNormalStationServiceDocumentationMinutes();
@@ -449,6 +450,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     protected void addTopics() {
         addTopic("TopicFrontPage", Pages.CalcDrgBasics.URL());
         addTopic("TopicBasicExplanation", Pages.CalcDrgBasicExplanation.URL());
+        addTopic("TopicCalcOverviewPersonal", Pages.CalcDrgOverviewPersonal.URL());
         addTopic("TopicCalcExternalServiceProvision", Pages.CalcDrgExternalServiceProvision.URL());
         addTopic("TopicCalcOpAn", Pages.CalcDrgOperation.URL());
         addTopic("TopicCalcMaternityRoom", Pages.CalcDrgMaternityRoom.URL());
@@ -465,7 +467,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         addTopic("TopicCalcMedicalInfrastructure", Pages.CalcDrgMedicalInfrastructure.URL());
         addTopic("TopicCalcNonMedicalInfrastructure", Pages.CalcDrgNonMedicalInfrastructure.URL());
         addTopic("TopicCalcStaffCost", Pages.CalcDrgStaffCost.URL());
-//        addTopic("TopicCalcValvularIntervention", Pages.CalcDrgValvularIntervention.URL());
+        //addTopic("TopicCalcValvularIntervention", Pages.CalcDrgValvularIntervention.URL());
         addTopic("TopicCalcNeonatology", Pages.CalcDrgNeonatology.URL());
     }
 

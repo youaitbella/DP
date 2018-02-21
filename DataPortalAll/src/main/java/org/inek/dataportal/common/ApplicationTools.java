@@ -1,6 +1,5 @@
 package org.inek.dataportal.common;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
@@ -14,18 +13,18 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.http.HttpServletRequest;
-import org.inek.dataportal.entities.ListFeature;
-import org.inek.dataportal.entities.ListWorkflowStatus;
-import org.inek.dataportal.entities.certification.RemunerationSystem;
+import org.inek.dataportal.common.data.common.ListFeature;
+import org.inek.dataportal.common.data.common.ListWorkflowStatus;
 import org.inek.dataportal.entities.icmt.Customer;
-import org.inek.dataportal.enums.ConfigKey;
-import org.inek.dataportal.enums.Feature;
-import org.inek.dataportal.enums.WorkflowStatus;
-import org.inek.dataportal.facades.AbstractDataAccess;
+import org.inek.dataportal.common.enums.ConfigKey;
+import org.inek.dataportal.common.enums.Feature;
+import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.InfoDataFacade;
-import org.inek.dataportal.feature.admin.facade.ConfigFacade;
+import org.inek.dataportal.common.data.access.ConfigFacade;
+import org.inek.dataportal.common.enums.PortalType;
+import org.inek.dataportal.common.enums.Stage;
 import org.inek.dataportal.feature.psychstaff.entity.ExclusionFact;
 
 @Named @ApplicationScoped
@@ -89,21 +88,8 @@ public class ApplicationTools extends AbstractDataAccess{
         }
     }
     
-    public String getServer() {
-        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        String url = request.getRequestURL().toString();
-        url = url.toLowerCase();
-        if(url.contains("localhost"))
-            return " (local)";
-        else if(url.contains("vdataportal01"))
-            return " (vdata01)";
-        else if(url.contains("vdataportal02"))
-            return " (vdata02)";
-        return "";
-    }
-
     public boolean isEnabled(ConfigKey key) {
-        return _config.readBool(key);
+        return _config.readConfigBool(key);
     }
 
     public boolean isEnabled(String name) {
@@ -112,28 +98,24 @@ public class ApplicationTools extends AbstractDataAccess{
     }
 
     public boolean isFeatureEnabled(Feature feature) {
-        return _config.readBool(feature);
+        return _config.readConfigBool(feature);
     }
 
     public String readConfig(ConfigKey key) {
-        return _config.read(key);
+        return _config.readConfig(key);
     }
 
     public int readConfigInt(ConfigKey key) {
-        return _config.readInt(key);
+        return _config.readConfigInt(key);
     }
 
     public boolean readConfigBool(ConfigKey key) {
-        return _config.readBool(key);
+        return _config.readConfigBool(key);
     }
-
-    // <editor-fold defaultstate="collapsed" desc="SystemRoot">
-    public File getSystemRoot(RemunerationSystem system) {
-        File root = new File(_config.read(ConfigKey.CertiFolderRoot), "System " + system.getYearSystem());
-        File systemRoot = new File(root, system.getFileName());
-        return systemRoot;
+    
+    public String readPortalAddress(PortalType portalType, Stage stage){
+        return _config.readPortalAddress(portalType, stage);
     }
-    // </editor-fold>
 
     @Inject private CustomerFacade _customerFacade;
     private final Map<Integer, String> _hospitalInfo = new ConcurrentHashMap<>();

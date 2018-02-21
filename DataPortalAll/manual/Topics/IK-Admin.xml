@@ -11,6 +11,7 @@
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Von zentraler Stelle (durch einen Administrator) wird gesteuert, welche Person Zugriff auf welche Krankenhausdaten im </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> erhält. Das InEK kann solche Aufgaben nicht übernehmen; vielmehr muss der Administrator die berechtigten Personen kennen. Als Administrator eignet sich somit ein Mitarbeiter oder Beauftragter des jeweiligen Krankenhauses. Ein solcher Administrator darf natürlich nur die Berechtigungen des jeweiligen Krankenhauses verwalten. Das </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> bietet mit der Funktion des IK-Admins genau diese Möglichkeit.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Ein IK-Admin ist eine vom Krankenhaus benannte Person, die für ein bestimmtes IK steuern kann, welche Personen Zugriff auf welche Daten erhalten. Wird ein IK-Admin eingerichtet, so &quot;gehören&quot; alle Daten mit &quot;starkem&quot; IK-Bezug automatisch zum betreffenden Krankenhaus. Damit ist der Zugriff auf diese Daten abhängig von den vom IK-Admin vergebenen Rechten und nicht davon, wer die Daten ursprünglich erfasst hat.</text></para>
+    <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">&quot;Starker&quot; IK-Bezug heißt hier, dass es sich um Daten mit eindeutigem Krankenhausbezug handelt. Diese sind im Datenportal daran zu erkennen, dass zur Datenerfassung ein IK an prominenter Stelle erforderlich ist. Beispiele hierfür sind NUB-Anfragen, Teilnahme Kostenkalkulation, Angaben zur Psych-Personalstellen-Vereinbarung und mehr. Angaben von Dritten, z.B. NUB-Meldungen von Krankenkassen für ein bestimmtes Krankenhaus gelten in diesem Sinne nicht als Krankenhausdaten und fallen damit auch nicht in den Zuständigkeitsbereich des IK-Admins.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Ein Anwender wird durch entsprechende Konfiguration zum IK-Admin. Diese Konfiguration nimmt das InEK nach offiziellem schriftlichem Auftrag (Brief oder Fax), der durch die Krankenhausleitung erfolgt, vor. In diesem Auftrag können eine oder mehrere Personen als IK-Admin benannt werden. Bitte geben Sie jeweils das IK, den Namen der Person, deren E-Mail-Adresse sowie den oder die Domainnamen des Krankenhauses an. Die betreffende Person muss vor Erteilung eines Auftrags zum Einrichten des IK-Admins im </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> registriert sein. Soll einer Person die IK-Admin-Funktion wieder entzogen werden, ist dazu ebenfalls ein schriftlicher Auftrag durch die Krankenhausleitung erforderlich.</text></para>
@@ -25,6 +26,27 @@
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Beispiel: Wurde für den IK-Admin die Domaine &quot;musterhospital.de&quot; hinterlegt, so werden alle im </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> registrierten Personen gelistet, deren E-Mail-Adresse auf &quot;</text><link displaytype="text" defaultstyle="true" type="weblink" href="mailto:&lt;%LINK_CAPTION%&gt;" styleclass="Normal" translate="true">@musterhospital.de</link><text styleclass="Normal" translate="true">&quot; endet. Allgemeine Domainnamen wie &quot;email.de&quot; können nicht hinterlegt werden.</text></para>
     <para styleclass="Normal"></para>
+    <para styleclass="Heading2"><text styleclass="Heading2" translate="true">Funktionen mit IK-Bezug</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Folgenden Funktionen haben einen &quot;starken&quot; IK-Bezug und sind deshalb für die Rechtevergabe über einen IK-Admin vorgesehen:</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Allgemein</text></para>
+    <list id="0" type="ul" listtype="bullet" formatstring="&#183;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Symbol; font-size:11pt; color:#000000;">
+      <li styleclass="Normal"><text styleclass="Normal" translate="true">Teilnahme Kostenkalkulation</text></li>
+    </list>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><var styleclass="Normal">&lt;%TITLE_DRG%&gt;</var></para>
+    <list id="0" type="ul" listtype="bullet" formatstring="&#183;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Symbol; font-size:11pt; color:#000000;">
+      <li styleclass="Normal"><text styleclass="Normal" translate="true">Anfragen zu neuen Untersuchungs- und Behandlungsmethoden (NUB)</text></li>
+      <li styleclass="Normal"><text styleclass="Normal" translate="true">Besondere Aufgaben / Zentrumszuschlag</text></li>
+      <li styleclass="Normal"><text styleclass="Normal" translate="true">Finanzierung von Mehrkosten</text></li>
+      <li styleclass="Normal"><text styleclass="Normal" translate="true">Gezielte Absenkung</text></li>
+    </list>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><var styleclass="Normal">&lt;%TITLE_PSY%&gt;</var></para>
+    <list id="0" type="ul" listtype="bullet" formatstring="&#183;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Symbol; font-size:11pt; color:#000000;">
+      <li styleclass="Normal"><text styleclass="Normal" translate="true">Psych-Personalnachweis-Vereinbarung</text></li>
+    </list>
     <para styleclass="Normal"></para>
   </body>
 </topic>

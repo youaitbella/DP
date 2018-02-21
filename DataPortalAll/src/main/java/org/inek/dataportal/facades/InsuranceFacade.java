@@ -4,6 +4,7 @@
  */
 package org.inek.dataportal.facades;
 
+import org.inek.dataportal.common.data.AbstractDataAccess;
 import java.util.List;
 import java.util.Optional;
 import javax.ejb.Stateless;
@@ -16,8 +17,8 @@ import org.inek.dataportal.entities.insurance.Unit;
 import org.inek.dataportal.entities.insurance.InekMethod;
 import org.inek.dataportal.entities.insurance.InsuranceNubNoticeItem;
 import org.inek.dataportal.entities.insurance.InsuranceNubMethodInfo;
-import org.inek.dataportal.enums.DataSet;
-import org.inek.dataportal.enums.WorkflowStatus;
+import org.inek.dataportal.common.enums.DataSet;
+import org.inek.dataportal.common.enums.WorkflowStatus;
 
 /**
  *

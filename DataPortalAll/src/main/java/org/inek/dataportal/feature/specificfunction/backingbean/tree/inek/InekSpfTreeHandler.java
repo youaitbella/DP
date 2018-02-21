@@ -11,14 +11,14 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.ApplicationTools;
-import org.inek.dataportal.enums.Feature;
+import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.feature.specificfunction.entity.SpecificFunctionRequest;
 import org.inek.dataportal.feature.specificfunction.facade.SpecificFunctionFacade;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.tree.SpecificFunctionRequestTreeNode;
-import org.inek.portallib.tree.RootNode;
-import org.inek.portallib.tree.TreeNode;
-import org.inek.portallib.tree.TreeNodeObserver;
+import org.inek.dataportal.common.tree.RootNode;
+import org.inek.dataportal.common.tree.TreeNode;
+import org.inek.dataportal.common.tree.TreeNodeObserver;
 
 /**
  *

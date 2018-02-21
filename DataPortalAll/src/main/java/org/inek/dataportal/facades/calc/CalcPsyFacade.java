@@ -17,9 +17,9 @@ import org.inek.dataportal.entities.calc.psy.PeppCalcBasics;
 import org.inek.dataportal.entities.calc.psy.KGPListContentText;
 import org.inek.dataportal.entities.calc.psy.KGPListServiceProvisionType;
 import org.inek.dataportal.entities.calc.sop.StatementOfParticipance;
-import org.inek.dataportal.enums.Feature;
-import org.inek.dataportal.enums.WorkflowStatus;
-import org.inek.dataportal.facades.AbstractDataAccess;
+import org.inek.dataportal.common.enums.Feature;
+import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.entities.iface.BaseIdValue;
 
@@ -137,6 +137,8 @@ public class CalcPsyFacade extends AbstractDataAccess {
         if (mandatoryOnly) {
             jpql += " and pt._firstYear > 1900";
         }
+        
+        jpql += " order by pt._sequence";
         TypedQuery<KGPListServiceProvisionType> query = getEntityManager().createQuery(jpql, KGPListServiceProvisionType.class);
         query.setParameter("year", year);
         return query.getResultList();

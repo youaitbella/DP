@@ -309,7 +309,11 @@
         </h:column>
 
     </h:dataTable>
-
+    
+    <h:commandLink id="addButtonLocation" styleClass="addButton inputPart" value="#{msg.btnAddEntry}" rendered="#{!editCalcBasicsDrg.readOnly}">
+        <f:ajax event="click" render="@form :logout:remaining" listener="#{editCalcBasicsDrg.addLocation()}"/>
+    </h:commandLink>
+    
     <h2>Besondere Einrichtungen (BE)</h2>
 
     <div class="inputPart">

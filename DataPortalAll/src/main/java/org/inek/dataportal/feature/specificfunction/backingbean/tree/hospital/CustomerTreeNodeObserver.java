@@ -7,14 +7,14 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.inject.Inject;
 import org.inek.dataportal.common.ApplicationTools;
-import org.inek.dataportal.enums.WorkflowStatus;
+import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.feature.specificfunction.entity.SpecificFunctionRequest;
 import org.inek.dataportal.feature.specificfunction.facade.SpecificFunctionFacade;
 import org.inek.dataportal.helper.tree.SpecificFunctionRequestTreeNode;
 import org.inek.dataportal.helper.tree.entityTree.CustomerTreeNode;
-import org.inek.portallib.tree.TreeNode;
-import org.inek.portallib.tree.TreeNodeObserver;
-import org.inek.portallib.tree.YearTreeNode;
+import org.inek.dataportal.common.tree.TreeNode;
+import org.inek.dataportal.common.tree.TreeNodeObserver;
+import org.inek.dataportal.common.tree.YearTreeNode;
 
 public class CustomerTreeNodeObserver implements TreeNodeObserver {
 

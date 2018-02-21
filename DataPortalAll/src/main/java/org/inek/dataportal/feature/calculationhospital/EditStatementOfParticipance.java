@@ -31,10 +31,10 @@ import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.calc.sop.CalcContact;
 import org.inek.dataportal.entities.calc.sop.StatementOfParticipance;
-import org.inek.dataportal.enums.ConfigKey;
-import org.inek.dataportal.enums.Feature;
+import org.inek.dataportal.common.enums.ConfigKey;
+import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.enums.Pages;
-import org.inek.dataportal.enums.WorkflowStatus;
+import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.calc.CalcSopFacade;
 import org.inek.dataportal.facades.calc.IcmtUpdater;
@@ -76,6 +76,10 @@ public class EditStatementOfParticipance extends AbstractEditController {
     private boolean _obligatorDrg;
     private boolean _obligatorPsy;
     private boolean _obligatorInv;
+
+    private boolean statementIsNoParticipation() {
+        return !_statement.isDrgCalc() && !_statement.isPsyCalc() && !_statement.isInvCalc() && !_statement.isTpgCalc() && !_statement.isObdCalc();
+    }
 
     enum StatementOfParticipanceTabs {
         tabStatementOfParticipanceAddress,
@@ -183,7 +187,8 @@ public class EditStatementOfParticipance extends AbstractEditController {
         try {
             int id = Integer.parseInt("" + idObject);
             StatementOfParticipance statement = _calcFacade.findStatementOfParticipance(id);
-            if (_accessManager.isAccessAllowed(Feature.CALCULATION_HOSPITAL, statement.getStatus(), statement.getAccountId())) {
+            if (_accessManager.isAccessAllowed(Feature.CALCULATION_HOSPITAL, statement.getStatus(), 
+                    statement.getAccountId(), statement.getIk())) {
                 updateObligatorySetting(statement);
                 return statement;
             }
@@ -391,21 +396,24 @@ public class EditStatementOfParticipance extends AbstractEditController {
         if (!_appTools.isEnabled(ConfigKey.IsStatemenOfParticipanceSendEnabled)) {
             return false;
         }
-        return _accessManager.isSealedEnabled(Feature.CALCULATION_HOSPITAL, _statement.getStatus(), _statement.getAccountId());
+        return _accessManager.isSealedEnabled(Feature.CALCULATION_HOSPITAL, _statement.getStatus(), 
+                _statement.getAccountId(), _statement.getIk());
     }
 
     public boolean isApprovalRequestEnabled() {
         if (!_appTools.isEnabled(ConfigKey.IsStatemenOfParticipanceSendEnabled)) {
             return false;
         }
-        return _accessManager.isApprovalRequestEnabled(Feature.CALCULATION_HOSPITAL, _statement.getStatus(), _statement.getAccountId());
+        return _accessManager.isApprovalRequestEnabled(Feature.CALCULATION_HOSPITAL, _statement.getStatus(), 
+                _statement.getAccountId(), _statement.getIk());
     }
 
     public boolean isRequestCorrectionEnabled() {
         if (!_appTools.isEnabled(ConfigKey.IsStatemenOfParticipanceSendEnabled)) {
             return false;
         }
-        return _accessManager.isRequestCorrectionEnabled(Feature.CALCULATION_HOSPITAL, _statement.getStatus(), _statement.getAccountId());
+        return _accessManager.isRequestCorrectionEnabled(Feature.CALCULATION_HOSPITAL, _statement.getStatus(), 
+                _statement.getAccountId(), _statement.getIk());
     }
 
     public boolean isTakeEnabled() {
@@ -428,13 +436,15 @@ public class EditStatementOfParticipance extends AbstractEditController {
         setDistibutionModelAndMuliyear();
 
         populateDefaultsForUnreachableFields();
-        if (!statementIsComplete()) {
-            return getActiveTopic().getOutcome();
+        if(!statementIsNoParticipation()) {
+            if (!statementIsComplete()) {
+                return getActiveTopic().getOutcome();
+            }
         }
         _statement.setStatus(WorkflowStatus.Provided);
         setModifiedInfo();
         _statement.setSealed(new Date());
-
+        
         for (StatementOfParticipance sop : _calcFacade.listStatementOfParticipanceByIk(_statement.getIk())) {
             sop.setStatus(WorkflowStatus.Retired);
             _calcFacade.saveStatementOfParticipance(sop);

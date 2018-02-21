@@ -112,6 +112,7 @@
                                 <td class="centered">
                             <h:panelGroup id="i68d-panel">
                                 <h:selectBooleanCheckbox rendered="#{editValuationRatio.isDrgBelowMedian('I68D', editValuationRatio.i68d)}"
+                                                         id="chkI68D"
                                                          value="#{editValuationRatio.valuationRatio.i68dList}"
                                                          readonly="#{editValuationRatio.readOnly}"
                                                          title="Die angegebene Fallzahl ist kleiner oder gleich dem Median. Kreuzen Sie dieses Feld an, um die DRG auf die Liste zu setzen.">
@@ -127,6 +128,7 @@
                             <td class="centered">
                             <h:panelGroup id="i68e-panel">
                                 <h:selectBooleanCheckbox rendered="#{editValuationRatio.isDrgBelowMedian('I68E', editValuationRatio.i68e)}"
+                                                         id="chkI68E"
                                                          value="#{editValuationRatio.valuationRatio.i68eList}"
                                                          readonly="#{editValuationRatio.readOnly}"
                                                          title="Die angegebene Fallzahl ist kleiner oder gleich dem Median. Kreuzen Sie dieses Feld an, um die DRG auf die Liste zu setzen.">
@@ -175,12 +177,32 @@
                                        action="#{editValuationRatio.provide}"
                                        value="#{msg.btnSaveAndClose}"
                                        rendered="#{!editValuationRatio.readOnly and editValuationRatio.sealEnabled}"
-                                       title="#{msg.infoSaveAndClose}">
+                                       title="#{msg.infoSaveAndClose}"
+                                       onclick="return checkData();">
                             <cb:confirmSeal/>
                         </h:commandLink>
                     </div>
                 </div>
             </h:form>
+
+            <script>
+                function checkData() {
+                    var i68d = document.getElementById("addressForm:chkI68D");
+                    var i68e = document.getElementById("addressForm:chkI68E");
+                    if (i68d &amp;&amp; !i68d.checked || i68e &amp;&amp; !i68e.checked) {
+                        var msg = "Aufgrund einer Fallzahl unter oder gleich dem Median ist es für Ihr Haus möglich, "
+                                + "die entsprechende DRG auf die Liste zur Abrechnung der nicht gezielt abgesenkten Bewertungsrelationen zu setzen.\n\n"
+                                + "Sie haben für Ihr Krankenhaus mindestens eine DRG nicht auf die Liste gesetzt, "
+                                + "obwohl dies aufgrund der Fallzahl möglich wäre. "
+                                + "Sollten Sie Ihr Krankenhaus auf die Liste setzen wollen, "
+                                + "brechen Sie den Sendevorgang bitte ab und ändern Ihre Eingabe indem Sie das entsprechende Feld unterhalb der Fallzahl ankreuzen.";
+                        return confirm(msg);
+                    }
+                    return true;
+                }
+            </script>
+
+
         </div>
 
     </ui:define>

@@ -19,7 +19,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.entities.dropbox.DropBox;
-import org.inek.dataportal.enums.ConfigKey;
+import org.inek.dataportal.common.enums.ConfigKey;
 
 /**
  *

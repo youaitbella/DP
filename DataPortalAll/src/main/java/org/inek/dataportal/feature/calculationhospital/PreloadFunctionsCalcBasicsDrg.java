@@ -30,6 +30,8 @@ import org.inek.dataportal.entities.calc.drg.KGLNormalStationServiceDocumentatio
 import org.inek.dataportal.entities.calc.drg.KGLPersonalAccounting;
 import org.inek.dataportal.entities.calc.drg.KGLRadiologyService;
 import org.inek.dataportal.entities.calc.drg.KglOpAn;
+import org.inek.dataportal.entities.calc.drg.KGLListOverviewPersonalType;
+import org.inek.dataportal.entities.calc.drg.KGLListOverviewPersonal;
 import org.inek.dataportal.facades.calc.CalcDrgFacade;
 
 /**
@@ -159,19 +161,9 @@ public class PreloadFunctionsCalcBasicsDrg {
             KGLListRadiologyLaboratory rl = new KGLListRadiologyLaboratory();
             rl.setId(-1);
             rl.setBaseInformationId(calcBasics.getId());
-            rl.setAmountPost(prl.getAmountPost());
-            rl.setAmountPre(prl.getAmountPre());
             rl.setCostCenterId(prl.getCostCenterId());
             rl.setCostCenterNumber(prl.getCostCenterNumber());
             rl.setCostCenterText(prl.getCostCenterText());
-            rl.setDescription(prl.getDescription());
-            rl.setServiceDocDKG(prl.isServiceDocDKG());
-            rl.setServiceDocDif(prl.isServiceDocDif());
-            rl.setServiceDocEBM(prl.isServiceDocEBM());
-            rl.setServiceDocGOA(prl.isServiceDocGOA());
-            rl.setServiceDocHome(prl.isServiceDocHome());
-            rl.setServiceVolumePost(prl.getServiceVolumePost());
-            rl.setServiceVolumePre(prl.getServiceVolumePre());
             calcBasics.getRadiologyLaboratories().add(rl);
         }
     }
@@ -332,6 +324,15 @@ public class PreloadFunctionsCalcBasicsDrg {
                 calcBasics.getRadiologyServices().add(rs);
             }
         }
+    }
+
+    static void ensureOverviewPersonal(CalcDrgFacade calcDrgFacade, DrgCalcBasics calcBasics) {
+        for (KGLListOverviewPersonalType spt : calcDrgFacade.retrieveOverviewPersonalTypes(calcBasics.getDataYear())) {
+            KGLListOverviewPersonal op = new KGLListOverviewPersonal();
+            op.setBaseInformationId(calcBasics.getId());
+            op.setOverviewPersonalType(spt);
+            calcBasics.addOverviewPersonal(op);
+        }        
     }
 
 }

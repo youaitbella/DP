@@ -35,9 +35,8 @@ import javax.faces.validator.ValidatorException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.inek.dataportal.entities.Document;
-import org.inek.dataportal.enums.Feature;
+import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.enums.Pages;
-import org.inek.dataportal.feature.nub.EditNubRequest;
 import org.inek.dataportal.utils.Helper;
 
 /**
@@ -241,7 +240,7 @@ public class Utils {
             }
             return sb.toString();
         } catch (IOException | NoSuchAlgorithmException ex) {
-            Logger.getLogger(EditNubRequest.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         }
         return "";
     }
@@ -340,6 +339,8 @@ public class Utils {
             case DRG_PROPOSAL:
             case PEPP_PROPOSAL:
                 return LocalDateTime.now().getYear() + (LocalDateTime.now().getMonthValue() >= 6 ? 2 : 1);
+            case VALUATION_RATIO:
+                return LocalDateTime.now().getYear() - (LocalDateTime.now().getMonthValue() <= 6 ? 2 : 1);
             case CALCULATION_HOSPITAL:
                 // here the target year is the data year which might be in the past
                 return LocalDateTime.now().getYear() -1;

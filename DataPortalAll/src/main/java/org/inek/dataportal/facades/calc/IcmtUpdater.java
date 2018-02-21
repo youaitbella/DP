@@ -5,11 +5,12 @@
  */
 package org.inek.dataportal.facades.calc;
 
+import java.util.UUID;
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 import org.inek.dataportal.entities.calc.sop.StatementOfParticipance;
-import org.inek.dataportal.facades.AbstractDataAccess;
+import org.inek.dataportal.common.data.AbstractDataAccess;
 
 /**
  *
@@ -143,11 +144,13 @@ public class IcmtUpdater extends AbstractDataAccess {
         int ik = statement.getIk();
         int dataYear = statement.getDataYear();
         String maxValidDate = dataYear + "-12-31";
+        String table = "tmp.dpContacts" + UUID.randomUUID().toString().replace("-", "");
         String sql = ""
                 //temp Tabelle mit Kontaktinfos anlegen
                 // todo: remove rw when removing prio
-                + "insert into tmp.dpContacts (cuid, coid, gender, title, firstName, lastName, mail, phone, consultantCompany, rw) \n"
-                + "select *, ROW_NUMBER() OVER (order by a.coid) rw from ("
+                + "select *, ROW_NUMBER() OVER (order by a.coid) rw "
+                + "into " + table + "\n"
+                + "from ("
                 + "select c.cuid, cr.coId, a.coGender gender, a.coTitle title, a.coFirstName firstName, "
                 + "    a.coLastName lastName, a.coMail mail, a.coPhone phone, "
                 + "    case when a.coIsConsultant = 1 then b.sopConsultantCompany else '' end consultantCompany \n"
@@ -170,7 +173,7 @@ public class IcmtUpdater extends AbstractDataAccess {
                 //Temp Kontakte aktualisieren
                 + "update a \n"
                 + "set a.coid = b.coid \n"
-                + "from tmp.dpContacts a \n"
+                + "from " + table + " a \n"
                 + "join CallCenterDB.dbo.ccContact b on cuid = coCustomerId and coFirstName = FirstName and coLastName = LastName \n"
                 + "where a.coid is null \n"
                 + "\n\n"
@@ -179,19 +182,19 @@ public class IcmtUpdater extends AbstractDataAccess {
                 + "    coIsMain, coIsActive, coDPReceiver, coInfo) \n"
                 + "select cuid, case when gender = 1 then 'F' when gender = 2 then 'H' else 'U' end gender, "
                 + "    isnull(title, ''), firstName, lastName, 0, 1, 1, isnull(consultantCompany, '') \n"
-                + "from tmp.dpContacts \n"
+                + "from " + table + " \n"
                 + "where coid is null \n"
                 + "\n\n"
                 //Kontaktdetails einfügen nachdem neuer Kontakt vorhanden
                 + "insert into CallCenterDB.dbo.ccContactDetails (cdContactId, cdDetails, cdContactDetailTypeId) \n"
                 + "select b.coId, phone, 'T' \n"
-                + "from tmp.dpContacts  a \n"
+                + "from " + table + "  a \n"
                 + "join CallCenterDB.dbo.ccContact b on cuId = coCustomerId and firstName = coFirstName and lastName = coLastName \n"
                 + "where a.coid is null \n"
                 + "and b.coid not in (select cdContactId from CallCenterDB.dbo.ccContactDetails where cdContactDetailTypeId = 'T') \n"
                 + "union \n"
                 + "select b.coId, mail, 'E' \n"
-                + "from tmp.dpContacts  a \n"
+                + "from " + table + "  a \n"
                 + "join CallCenterDB.dbo.ccContact b on cuId = coCustomerId and firstName = coFirstName and lastName = coLastName \n"
                 + "where a.coid is null \n"
                 + "and b.coid not in (select cdContactId from CallCenterDB.dbo.ccContactDetails where cdContactDetailTypeId = 'E') \n"
@@ -199,20 +202,20 @@ public class IcmtUpdater extends AbstractDataAccess {
                 //Telefon aus DP übernehmen
                 + "update b \n"
                 + "set cdDetails = phone \n"
-                + "from tmp.dpContacts a \n"
+                + "from " + table + " a \n"
                 + "join CallCenterDB.dbo.ccContactDetails b on coId = cdContactId and cdContactDetailTypeId = 'T' \n"
                 + "\n\n"
                 //Unterschiedliche Mail (DP - ICMT) als Atlernativmail speichern
                 + "insert into CallCenterDB.dbo.ccContactDetails (cdContactId, cdDetails, cdContactDetailTypeId) \n"
                 + "select coid, cdDetails, 'A' \n"
-                + "from tmp.dpContacts a \n"
+                + "from " + table + " a \n"
                 + "join CallCenterDB.dbo.ccContactDetails b on coId = cdContactId and cdContactDetailTypeId = 'E' \n"
                 + "where cdDetails != mail \n"
                 + "\n\n"
                 //Mail aus DP setzen
                 + "update b \n"
                 + "set cdDetails = mail \n"
-                + "from tmp.dpContacts a \n"
+                + "from " + table + " a \n"
                 + "join CallCenterDB.dbo.ccContactDetails b on coId = cdContactId and cdContactDetailTypeId = 'E' \n"
                 + "where cdDetails != mail \n"
                 + "\n\n"
@@ -220,19 +223,19 @@ public class IcmtUpdater extends AbstractDataAccess {
                 + "delete a \n"
                 + "from CallCenterDB.dbo.mapContactRole a \n"
                 + "where mcrRoleId = " + roleID + "\n"
-                + "and mcrContactId in (select coid from CallCenterDB.dbo.ccContact where coCustomerId in (select cuid from tmp.dpContacts))"
+                + "and mcrContactId in (select coid from CallCenterDB.dbo.ccContact where coCustomerId in (select cuid from " + table + "))"
                 + "\n\n"
                 //Temp Kontakte aktualisieren
                 + "update a \n"
                 + "set a.coid = b.coid \n"
-                + "from tmp.dpContacts a \n"
+                + "from " + table + " a \n"
                 + "join CallCenterDB.dbo.ccContact b on cuid = coCustomerId and coFirstName = FirstName and coLastName = LastName \n"
                 + "where a.coid is null \n"
                 + "\n\n"
                 //Rolle anhand DP neu setzen
                 + "insert into CallCenterDB.dbo.mapContactRole (mcrContactId, mcrRoleId) \n"
                 + "select distinct coid, " + roleID + " \n"
-                + "from tmp.dpContacts \n"
+                + "from " + table + " \n"
                 + "--where coid is not null \n"
                 + "\n\n"
                 + //Calc Report AP zuordnen
@@ -255,7 +258,7 @@ public class IcmtUpdater extends AbstractDataAccess {
                 + "select cciId, a.coid , '" + dataYear + "-01-01', \n"
                 + "'" + dataYear + "-12-31' \n"
                 + "--select * \n"
-                + "from tmp.dpContacts a \n"
+                + "from " + table + " a \n"
                 + "join CallCenterDB.dbo.CustomerCalcInfo  on a.cuId = cciCustomerId and \n"
                 + " cciCalcTypeId = " + calcType + "  and cciInfoTypeId = 13 \n"
                 + "and cciValidTo = '" + maxValidDate + "' \n"
@@ -267,12 +270,12 @@ public class IcmtUpdater extends AbstractDataAccess {
                 + "update a \n"
                 + "set coPrio = case when b.coid is not null then rw else 99 end \n"
                 + "from CallCenterDB.dbo.ccContact a \n"
-                + "left join tmp.dpContacts b on a.coId = b.coId \n"
-                + "where a.coCustomerId = (select distinct cuid from tmp.dpContacts) \n"
+                + "left join " + table + " b on a.coId = b.coId \n"
+                + "where a.coCustomerId = (select distinct cuid from " + table + ") \n"
                 + "and coIsMain = 0 \n"
                 + "\n\n"
                 //Temp Tabelle löschen
-                + "delete from tmp.dpContacts \n";
+                + "drop table " + table + " \n";
 
         Query query = getEntityManager().createNativeQuery(sql);
         query.executeUpdate();
@@ -281,11 +284,13 @@ public class IcmtUpdater extends AbstractDataAccess {
     private void performInsertUpdateContactRoleICMTConsultant(StatementOfParticipance statement, int roleID) {
         int ik = statement.getIk();
         int dataYear = statement.getDataYear();
+        String table = "tmp.dpContacts" + UUID.randomUUID().toString().replace("-", "");
         String sql = ""
                 //temp Tabelle mit Kontaktinfos anlegen
                 // todo: remove rw when removing prio
-                + "insert into tmp.dpContacts (cuid, coid, gender, title, firstName, lastName, mail, phone, consultantCompany, rw) \n"
-                + "select *, ROW_NUMBER() OVER (order by a.coid) rw from ("
+                + "select *, ROW_NUMBER() OVER (order by a.coid) rw "
+                + "into " + table + "\n"
+                + "from ("
                 + "select c.cuid, cr.coId, a.coGender gender, a.coTitle title, a.coFirstName firstName, "
                 + "    a.coLastName lastName, a.coMail mail, a.coPhone phone, "
                 + "    case when a.coIsConsultant = 1 then b.sopConsultantCompany else '' end consultantCompany \n"
@@ -308,7 +313,7 @@ public class IcmtUpdater extends AbstractDataAccess {
                 //Temp Kontakte aktualisieren
                 + "update a \n"
                 + "set a.coid = b.coid \n"
-                + "from tmp.dpContacts a \n"
+                + "from " + table + " a \n"
                 + "join CallCenterDB.dbo.ccContact b on cuid = coCustomerId and coFirstName = FirstName and coLastName = LastName \n"
                 + "where a.coid is null \n"
                 + "\n\n"
@@ -316,19 +321,19 @@ public class IcmtUpdater extends AbstractDataAccess {
                 + "delete a \n"
                 + "from CallCenterDB.dbo.mapContactRole a \n"
                 + "where mcrRoleId = " + roleID + "\n"
-                + "and mcrContactId in (select coid from CallCenterDB.dbo.ccContact where coCustomerId in (select cuid from tmp.dpContacts))"
+                + "and mcrContactId in (select coid from CallCenterDB.dbo.ccContact where coCustomerId in (select cuid from " + table + "))"
                 + "\n\n"
                 //Temp Kontakte aktualisieren
                 + "update a \n"
                 + "set a.coid = b.coid \n"
-                + "from tmp.dpContacts a \n"
+                + "from " + table + " a \n"
                 + "join CallCenterDB.dbo.ccContact b on cuid = coCustomerId and coFirstName = FirstName and coLastName = LastName \n"
                 + "where a.coid is null \n"
                 + "\n\n"
                 //Rolle anhand DP neu setzen
                 + "insert into CallCenterDB.dbo.mapContactRole (mcrContactId, mcrRoleId) \n"
                 + "select distinct coid, " + roleID + " \n"
-                + "from tmp.dpContacts \n"
+                + "from " + table + " \n"
                 + "--where coid is not null \n"
                 + "\n\n"
                 //Prio setzen
@@ -336,12 +341,12 @@ public class IcmtUpdater extends AbstractDataAccess {
                 + "update a \n"
                 + "set coPrio = case when b.coid is not null then rw else 99 end \n"
                 + "from CallCenterDB.dbo.ccContact a \n"
-                + "left join tmp.dpContacts b on a.coId = b.coId \n"
-                + "where a.coCustomerId = (select distinct cuid from tmp.dpContacts) \n"
+                + "left join " + table + " b on a.coId = b.coId \n"
+                + "where a.coCustomerId = (select distinct cuid from " + table + ") \n"
                 + "and coIsMain = 0 \n"
                 + "\n\n"
                 //Temp Tabelle löschen
-                + "delete from tmp.dpContacts \n";
+                + "drop table " + table + " \n";
 
         Query query = getEntityManager().createNativeQuery(sql);
         query.executeUpdate();

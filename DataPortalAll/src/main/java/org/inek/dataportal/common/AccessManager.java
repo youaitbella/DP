@@ -16,12 +16,12 @@ import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.cooperation.CooperationRight;
 import org.inek.dataportal.enums.CooperativeRight;
-import org.inek.dataportal.enums.Feature;
-import org.inek.dataportal.enums.WorkflowStatus;
+import org.inek.dataportal.common.enums.Feature;
+import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.cooperation.CooperationRightFacade;
 import org.inek.dataportal.feature.ikadmin.entity.AccessRight;
-import org.inek.dataportal.feature.ikadmin.enums.Right;
+import org.inek.dataportal.common.enums.Right;
 import org.inek.dataportal.feature.ikadmin.facade.IkAdminFacade;
 
 /**

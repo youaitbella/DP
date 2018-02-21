@@ -80,7 +80,7 @@
                              calcbase="#{cc.attrs.backingBean.calcBasics}" 
                              readOnly="#{cc.attrs.backingBean.readOnly}"
                              addListener="#{cc.attrs.backingBean.addCostCenter(cc.attrs.costCenterId)}"
-                             uploadButtonText="Upload KStGr. 11-13"
+                             uploadButtonText="Upload KStGr. #{cc.attrs.costCenterId}"
                              actionDeleteTable="#{cc.attrs.backingBean.deleteCostCenters(cc.attrs.costCenterId)}"
                              />
 

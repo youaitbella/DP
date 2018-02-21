@@ -31,7 +31,7 @@ import javax.persistence.Transient;
 import javax.persistence.Version;
 import javax.validation.constraints.Size;
 import org.inek.dataportal.entities.iface.StatusEntity;
-import org.inek.dataportal.enums.WorkflowStatus;
+import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.utils.Documentation;
 import org.inek.dataportal.utils.ListUtil;
 
@@ -648,11 +648,8 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
     private List<KGPListServiceProvision> _serviceProvisions = new Vector<>();
 
     public List<KGPListServiceProvision> getServiceProvisions() {
-        return _serviceProvisions
-                .stream()
-                 .sorted((x, y) -> compareServiceProvision(x, y)) // @orderBy doesnt work properly.
-                 .collect(Collectors.toList());
-
+        return _serviceProvisions;
+        
     }
     private int compareServiceProvision(KGPListServiceProvision sp1, KGPListServiceProvision sp2) {
         return sp1.getServiceProvisionTypeId() > sp2.getServiceProvisionTypeId() ?

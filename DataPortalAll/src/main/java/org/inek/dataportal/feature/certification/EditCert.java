@@ -16,13 +16,14 @@ import java.util.zip.ZipInputStream;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.Part;
-import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.certification.RemunerationSystem;
-import org.inek.dataportal.enums.Feature;
+import org.inek.dataportal.common.enums.ConfigKey;
+import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.certification.SystemFacade;
 import org.inek.dataportal.feature.AbstractEditController;
+import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.helper.StreamHelper;
 import org.inek.dataportal.helper.scope.FeatureScoped;
 import static org.inek.dataportal.helper.StreamHelper.BUFFER_LENGHT;
@@ -37,10 +38,10 @@ public class EditCert extends AbstractEditController {
 
     private static final Logger LOGGER = Logger.getLogger("EditCert");
 
-    @Inject private ApplicationTools _appTools;
+    @Inject private ConfigFacade _config;
     @Inject private SessionController _sessionController;
     @Inject private SystemFacade _systemFacade;
-
+    
 //    @PostConstruct
 //    private void init() {
 //        LOGGER.log(Level.WARNING, "Init EditCert");
@@ -132,7 +133,7 @@ public class EditCert extends AbstractEditController {
      * @return folder if ok, null otherwise
      */
     public Optional<File> getUploadFolder(RemunerationSystem system, String folderName) {
-        File folder = new File(_appTools.getSystemRoot(system), folderName);
+        File folder = new File(getSystemRoot(system), folderName);
         try {
             folder.mkdirs();
         } catch (Exception ex) {
@@ -141,6 +142,14 @@ public class EditCert extends AbstractEditController {
         }
         return Optional.of(folder);
     }
+   // <editor-fold defaultstate="collapsed" desc="SystemRoot">
+    public File getSystemRoot(RemunerationSystem system) {
+        File root = new File(_config.readConfig(ConfigKey.CertiFolderRoot), "System " + system.getYearSystem());
+        File systemRoot = new File(root, system.getFileName());
+        return systemRoot;
+    }
+    // </editor-fold>
+    
 
     /**
      * gets the last file (in alphabetical order) matching the file name pattern

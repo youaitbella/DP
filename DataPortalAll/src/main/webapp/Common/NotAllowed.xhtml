@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/Templates/PortalErrorTemplate.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <ui:define name="content">
+        <h1>Unbekannt oder nicht erlaubt</h1>
+        <div class="marginLeft">
+            <div class="verticalSpace">
+                Die angeforderte Seite ist entweder unbekannt oder nicht erlaubt.
+            </div>
+            <div class="verticalSpace">
+                Mögliche Ursachen:
+                <br/>
+                <ul class="leftSpace">
+                    <li>
+                        Sie haben ein Lesezeichen auf eine Seite des Portals gesetzt, die nur mit Anmeldung zugänglich ist.
+                    </li>
+                    <li>
+                        Sie haben haben versehentlich eine unbekannte URL (Internet-Adresse) innerhalb des InEK Datenportals angegeben.
+                    </li>
+                    <li>
+                        <b>
+                        Dieser Fehler taucht auch auf, wenn Sie einen Eingabedialog durch Klick auf Menü oder ähnliches verlassen wollen, aber vor dem Dialogwechsel nochmals auf einen Registereintrag des bisher aktiven Dialogs klicken.
+                        </b>
+                        Bitte warten Sie nach einem Klick den Seitenaufbau ab.
+                    </li>
+                </ul>
+            </div>
+            <div class="verticalSpace">
+                Bitte beachten Sie: Das InEK Datenportal ist eine Web-Anwendung, die ausschließlich über die Adresse "daten.inek.org" zu starten ist.
+            </div>
+            <div class="verticalSpace">
+                Die folgende Schaltfläche führt sie direkt zur Anmeldung.
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>

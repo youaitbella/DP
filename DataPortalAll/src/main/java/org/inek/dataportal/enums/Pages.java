@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates and open the template in
- * the editor.
- */
 package org.inek.dataportal.enums;
 
 /**
@@ -10,15 +6,15 @@ package org.inek.dataportal.enums;
  */
 public enum Pages {
 
-    Login("/login/Login"),
-    LoginFinishRegister("/login/FinishRegister"),
-    LoginRegister("/login/Register"),
-    LoginActivate("/login/Activate"),
-    LoginActivateAccount("/login/ActivateAccount"),
-    LoginRequestPwd("/login/RequestPassword"),
-    LoginActivatePwd("/login/ActivatePassword"),
-    LoginFinishRequestPwd("/login/FinishRequestPassword"),
-    MainApp("/common/MainApp"),
+    Login("/Login/Login"),
+    LoginFinishRegister("/Login/FinishRegister"),
+    LoginRegister("/Login/Register"),
+    LoginActivate("/Login/Activate"),
+    LoginActivateAccount("/Login/ActivateAccount"),
+    LoginRequestPwd("/Login/RequestPassword"),
+    LoginActivatePwd("/Login/ActivatePassword"),
+    LoginFinishRequestPwd("/Login/FinishRequestPassword"),
+    MainApp("/Common/MainApp"),
     //
     UserMaintenanceMasterData("/UserMaintenance/UserMaintenanceMasterData"),
     UserMaintenanceAdditionalIKs("/UserMaintenance/UserMaintenanceAdditionalIKs"),
@@ -71,6 +67,7 @@ public enum Pages {
     CalcDrgStaffCost("/CalcHospital/Drg/StaffCost"),
     CalcDrgValvularIntervention("/CalcHospital/Drg/ValvularIntervention"),
     CalcDrgNeonatology("/CalcHospital/Drg/Neonat/Neonatology"),
+    CalcDrgOverviewPersonal("/CalcHospital/Drg/OverviewPersonal"),
     // PEPP calculation
     CalcPeppEdit("/CalcHospital/Pepp/EditPepp"),
     CalcPeppBasics("/CalcHospital/Pepp/BasicsPepp"),
@@ -186,28 +183,20 @@ public enum Pages {
     PsychStaffAppendix2Kids("/PsychStaff/Appendix2Kids"),
     PsychStaffListButtons("/PsychStaff/fragment/ListButtons"),
     //
-    NotAllowed("/common/NotAllowed"),
-    PrintView("/common/PrintView"),
-    PrintMultipleView("/common/PrintMultipleView"),
-    Error("/common/Error"),
-    DataError("/common/DataError"),
-    SessionTimeout("/common/TimeOut"),
-    DoubleWindow("/common/DoubleWindow"),
-    InvalidConversation("/common/InvalidConversation"),
-    SearchCode("/common/SearchCode"),
+    NotAllowed("/Common/NotAllowed"),
+    PrintView("/Common/PrintView"),
+    PrintMultipleView("/Common/PrintMultipleView"),
+    Error("/Common/Error"),
+    DataError("/Common/DataError"),
+    SessionTimeout("/Common/TimeOut"),
+    DoubleWindow("/Common/DoubleWindow"),
+    InvalidConversation("/Common/InvalidConversation"),
+    SearchCode("/Common/SearchCode"),
     //
     AdminError("/Admin/error"),
     AdminApproved("/Admin/approvalcompleted"),
     AdminApproval("/Admin/approval"),
     AdminApprovalNone("/Admin/approvalNone"),
-    AdminTaskSystemStatus("/Admin/AdminTaskSystemStatus"),
-    AdminTaskInekRoles("/Admin/AdminTaskInekRoles"),
-    AdminTaskRoleMapping("/Admin/AdminTaskRoleMapping"),
-    AdminTaskMailTemplate("/Admin/AdminTaskMailtTemplate"),
-    AdminTaskIkSupervisor("/Admin/AdminTaskIkSupervisor"),
-    AdminTaskIkAdmin("/Admin/AdminTaskIkAdmin"),
-    AdminTaskChangeNub("/Admin/AdminTaskChangeNub"),
-    AdminTaskUploadDoc("/Admin/AdminTaskUploadDoc"),
     //
     IkAdminSummary("/IkAdmin/IkAdminSummary"),
     PartIkAdmin("/IkAdmin/PartIkAdmin"),

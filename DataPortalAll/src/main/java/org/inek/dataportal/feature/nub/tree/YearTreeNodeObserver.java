@@ -19,8 +19,8 @@ import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.icmt.Customer;
-import org.inek.dataportal.enums.Feature;
-import org.inek.dataportal.enums.WorkflowStatus;
+import org.inek.dataportal.common.enums.Feature;
+import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.NubRequestFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
@@ -29,9 +29,9 @@ import org.inek.dataportal.feature.ikadmin.entity.AccessRight;
 import org.inek.dataportal.helper.tree.entityTree.AccountTreeNode;
 import org.inek.dataportal.helper.tree.entityTree.CustomerTreeNode;
 import org.inek.dataportal.helper.tree.entityTree.EntityTreeNode;
-import org.inek.portallib.tree.TreeNode;
-import org.inek.portallib.tree.TreeNodeObserver;
-import org.inek.portallib.tree.YearTreeNode;
+import org.inek.dataportal.common.tree.TreeNode;
+import org.inek.dataportal.common.tree.TreeNodeObserver;
+import org.inek.dataportal.common.tree.YearTreeNode;
 
 /**
  *

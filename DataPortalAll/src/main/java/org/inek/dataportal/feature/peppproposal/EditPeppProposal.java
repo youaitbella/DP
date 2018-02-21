@@ -29,11 +29,11 @@ import org.inek.dataportal.entities.common.ProcedureInfo;
 import org.inek.dataportal.entities.pepp.PeppProposal;
 import org.inek.dataportal.entities.pepp.PeppProposalDocument;
 import org.inek.dataportal.enums.CodeType;
-import org.inek.dataportal.enums.ConfigKey;
-import org.inek.dataportal.enums.Feature;
+import org.inek.dataportal.common.enums.ConfigKey;
+import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.enums.PeppProposalCategory;
-import org.inek.dataportal.enums.WorkflowStatus;
+import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.facades.PeppProposalFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.common.DiagnosisFacade;
@@ -231,7 +231,7 @@ public class EditPeppProposal extends AbstractEditController {
                 .bindTargetPage(Pages.PeppProposalEdit.URL())
                 .enableCodeType(CodeType.Diag).enableCodeType(CodeType.Proc).enableCodeType(CodeType.Pepp)
                 .bindCodeType(codeType).setCodeSystem(CodeType.Pepp);
-        return "/common/SearchCode";
+        return Pages.SearchCode.URL();
     }
 
     @Override

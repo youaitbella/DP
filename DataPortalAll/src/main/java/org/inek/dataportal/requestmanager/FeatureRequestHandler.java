@@ -8,20 +8,23 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountFeatureRequest;
-import org.inek.dataportal.enums.ConfigKey;
-import org.inek.dataportal.enums.Feature;
+import org.inek.dataportal.common.enums.ConfigKey;
+import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.ContactRoleFacade;
 import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.account.AccountFeatureRequestFacade;
-import org.inek.dataportal.feature.admin.entity.MailTemplate;
-import org.inek.dataportal.feature.admin.facade.ConfigFacade;
+import org.inek.dataportal.common.data.adm.MailTemplate;
+import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.mail.Mailer;
 import org.inek.dataportal.utils.DateUtils;
+import static org.inek.dataportal.common.helper.Const.*;
 
 /**
  *
@@ -44,7 +47,7 @@ public class FeatureRequestHandler {
                 return true;
             }
             _facade.remove(featureRequest);
-            if (_config.readBool(ConfigKey.TestMode)) {
+            if (_config.readConfigBool(ConfigKey.TestMode)) {
                 return false;
             }
         }
@@ -67,21 +70,34 @@ public class FeatureRequestHandler {
         if (template == null) {
             return false;
         }
-        String link = _config.read(ConfigKey.LocalManagerURL) + Pages.AdminApproval.URL() + "?key=" + featureRequest.getApprovalKey();
-        String subject = template.getSubject().replace("{feature}", featureRequest.getFeature().getDescription());
+        String link = buildLink(featureRequest.getApprovalKey());
+        String subject = template.getSubject().replace(PLACEHOLDER_FEATURE, featureRequest.getFeature().getDescription());
         Customer cust = _customerFacade.getCustomerByIK(account.getIK());
         String body = template.getBody()
-                .replace("{link}", link)
-                .replace("{feature}", featureRequest.getFeature().getDescription())
-                .replace("{name}", account.getFirstName() + " " + account.getLastName())
-                .replace("{email}", account.getEmail())
-                .replace("{role}", _roleFacade.find(account.getRoleId()).getText())
-                .replace("{phone}", account.getPhone())
-                .replace("{company}", account.getCompany())
-                .replace("{ik}", account.getIK() + (Objects.equals(cust.getIK(), account.getIK()) ? " (im ICMT bekannt)" : ""));
-        String mailAddress = _config.read(ConfigKey.ManagerEmail);
+                .replace(PLACEHOLDER_LINK, link)
+                .replace(PLACEHOLDER_FEATURE, featureRequest.getFeature().getDescription())
+                .replace(PLACEHOLDER_NAME, account.getFirstName() + " " + account.getLastName())
+                .replace(PLACEHOLDER_EMAIL, account.getEmail())
+                .replace(PLACEHOLDER_ROLE, _roleFacade.find(account.getRoleId()).getText())
+                .replace(PLACEHOLDER_PHONE, account.getPhone())
+                .replace(PLACEHOLDER_COMPANY, account.getCompany())
+                .replace(PLACEHOLDER_IK, account.getIK() + (Objects.equals(cust.getIK(), account.getIK()) ? " (im ICMT bekannt)" : ""));
+        String mailAddress = _config.readConfig(ConfigKey.ManagerEmail);
         return _mailer.sendMail(mailAddress, template.getBcc(), subject, body);
 
+    }
+
+    private String buildLink(String key) {
+        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+        String protocol = externalContext.getRequestScheme() + "://";
+        int port = externalContext.getRequestServerPort();
+        String server = externalContext.getRequestServerName();
+        String link = protocol
+                + server + (port == HTTP_PORT || port == HTTPS_PORT ? "" : ":" + port)
+                + "/DataPortalAdmin"
+                + Pages.AdminApproval.URL()
+                + "?key=" + key;
+        return link;
     }
 
 }

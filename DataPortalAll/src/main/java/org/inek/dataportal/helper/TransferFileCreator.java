@@ -28,8 +28,8 @@ import org.inek.dataportal.entities.account.AccountDocument;
 import org.inek.dataportal.entities.calc.autopsy.CalcBasicsAutopsy;
 import org.inek.dataportal.entities.calc.drg.DrgCalcBasics;
 import org.inek.dataportal.entities.calc.psy.PeppCalcBasics;
-import org.inek.dataportal.enums.ConfigKey;
-import org.inek.dataportal.feature.admin.facade.ConfigFacade;
+import org.inek.dataportal.common.enums.ConfigKey;
+import org.inek.dataportal.common.data.access.ConfigFacade;
 
 /**
  *
@@ -107,11 +107,11 @@ public class TransferFileCreator {
 
     public static void createEmailTransferFile(ConfigFacade configFacade, String email) {
         try {
-            File workingDir = new File(configFacade.read(ConfigKey.FolderRoot), configFacade.read(ConfigKey.FolderUpload));
+            File workingDir = new File(configFacade.readConfig(ConfigKey.FolderRoot), configFacade.readConfig(ConfigKey.FolderUpload));
             if (!workingDir.exists()) {
                 workingDir.mkdirs();
             }
-            File targetDir = new File(configFacade.read(ConfigKey.FolderRoot), "added");
+            File targetDir = new File(configFacade.readConfig(ConfigKey.FolderRoot), "added");
             if (!targetDir.exists()) {
                 targetDir.mkdirs();
             }
@@ -153,9 +153,9 @@ public class TransferFileCreator {
     }
     
     public static void createInekDocumentFiles(ConfigFacade configFacade, List<AccountDocument> documents, String email, String subject) {
-        File workingDir = new File(configFacade.read(ConfigKey.FolderRoot), 
-                configFacade.read(ConfigKey.FolderUpload));
-        File targetDir = new File(configFacade.read(ConfigKey.FolderRoot), "added");
+        File workingDir = new File(configFacade.readConfig(ConfigKey.FolderRoot), 
+                configFacade.readConfig(ConfigKey.FolderUpload));
+        File targetDir = new File(configFacade.readConfig(ConfigKey.FolderRoot), "added");
         File zipFile = new File(workingDir, UUID.randomUUID() + ".zip");
 
         Date ts = Calendar.getInstance().getTime();

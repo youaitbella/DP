@@ -23,16 +23,16 @@ import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.cooperation.CooperationRight;
 import org.inek.dataportal.entities.nub.NubRequest;
-import org.inek.dataportal.enums.ConfigKey;
+import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.enums.CooperativeRight;
-import org.inek.dataportal.enums.Feature;
+import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.enums.Pages;
-import org.inek.dataportal.enums.WorkflowStatus;
+import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.NubRequestFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.cooperation.CooperationRightFacade;
-import org.inek.dataportal.feature.admin.entity.MailTemplate;
+import org.inek.dataportal.common.data.adm.MailTemplate;
 import org.inek.dataportal.feature.nub.tree.AccountTreeNodeObserver;
 import org.inek.dataportal.feature.nub.tree.EditRootTreeNodeObserver;
 import org.inek.dataportal.feature.nub.tree.ViewRootTreeNodeObserver;
@@ -42,8 +42,8 @@ import org.inek.dataportal.helper.structures.MessageContainer;
 import org.inek.dataportal.helper.structures.ProposalInfo;
 import org.inek.dataportal.helper.tree.entityTree.AccountTreeNode;
 import org.inek.dataportal.helper.tree.ProposalInfoTreeNode;
-import org.inek.portallib.tree.RootNode;
-import org.inek.portallib.tree.TreeNode;
+import org.inek.dataportal.common.tree.RootNode;
+import org.inek.dataportal.common.tree.TreeNode;
 import org.inek.dataportal.mail.Mailer;
 import org.inek.dataportal.utils.DocumentationUtil;
 import org.inek.dataportal.utils.KeyValueLevel;
@@ -409,19 +409,23 @@ public class NubSessionTools implements Serializable {
     }
 
     public boolean sendNubConfirmationMail(NubRequest nubRequest) {
+        boolean isRetired = nubRequest.getStatus() ==  WorkflowStatus.Retired;
+
         Account current = _sessionController.getAccount();
-        Account owner = _accountFacade.findAccount(nubRequest.getAccountId());
-        if (!current.isNubConfirmation() && !owner.isNubConfirmation()) {
+        Account other = isRetired ? _accountFacade.findAccount(nubRequest.getSealedBy()) : _accountFacade.findAccount(nubRequest.getAccountId());
+        if (!current.isNubConfirmation() && !other.isNubConfirmation() && !isRetired) {
             return true;
         }
         if (!current.isNubConfirmation()) {
-            current = owner;
+            current = other;
         }
-        if (!owner.isNubConfirmation()) {
-            owner = current;
+        if (!isRetired && !other.isNubConfirmation()) {
+            other = current;
         }
-
-        MailTemplate template = _mailer.getMailTemplate("NUB confirmation");
+        String templateName = isRetired
+                ? "NUB retire confirmation" 
+                : "NUB confirmation";
+        MailTemplate template = _mailer.getMailTemplate(templateName);
         if (template == null) {
             return false;
         }
@@ -445,7 +449,7 @@ public class NubSessionTools implements Serializable {
                 .replace("{ik}", "" + nubRequest.getIk());
 
         return _mailer.
-                sendMailFrom("NUB Datenannahme <nub@inek-drg.de>", current.getEmail(), owner.getEmail(), template.
+                sendMailFrom("NUB Datenannahme <nub@inek-drg.de>", current.getEmail(), other.getEmail(), template.
                         getBcc(), subject, body);
     }
 

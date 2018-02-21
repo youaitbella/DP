@@ -8,7 +8,7 @@ import javax.persistence.TypedQuery;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.certification.AdditionalEmail;
 import org.inek.dataportal.entities.certification.Grouper;
-import org.inek.dataportal.facades.AbstractDataAccess;
+import org.inek.dataportal.common.data.AbstractDataAccess;
 
 /**
  *
@@ -71,8 +71,8 @@ public class GrouperFacade extends AbstractDataAccess {
     }
 
     public List<Grouper> getGrouperWithoutWebsideRealease() {
-        String query = "SELECT g FROM Grouper g JOIN RemunerationSystem s WHERE "
-                + "g._certStatus = 90 AND g._websiteRelease IS null AND s._active = 1";
+        String query = "SELECT g FROM Grouper g JOIN RemunerationSystem s on g._systemId = s._id WHERE "
+                + "g._certStatus = 90 AND g._websiteRelease IS NULL AND s._active = 1";
         return getEntityManager().createQuery(query, Grouper.class).getResultList();
     }
 }

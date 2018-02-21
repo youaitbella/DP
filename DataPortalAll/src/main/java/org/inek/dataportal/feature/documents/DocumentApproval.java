@@ -30,7 +30,7 @@ import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.account.Account;
 import org.inek.dataportal.entities.account.AccountDocument;
 import org.inek.dataportal.entities.account.WaitingDocument;
-import org.inek.dataportal.enums.Feature;
+import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.facades.account.AccountDocumentFacade;
 import org.inek.dataportal.facades.account.WaitingDocumentFacade;
@@ -40,9 +40,9 @@ import org.inek.dataportal.helper.structures.DocInfo;
 import org.inek.dataportal.helper.tree.entityTree.AccountTreeNode;
 import org.inek.dataportal.helper.tree.DocumentInfoTreeNode;
 import org.inek.dataportal.mail.Mailer;
-import org.inek.portallib.tree.RootNode;
-import org.inek.portallib.tree.TreeNode;
-import org.inek.portallib.tree.TreeNodeObserver;
+import org.inek.dataportal.common.tree.RootNode;
+import org.inek.dataportal.common.tree.TreeNode;
+import org.inek.dataportal.common.tree.TreeNodeObserver;
 import org.inek.dataportal.utils.Helper;
 
 /**
