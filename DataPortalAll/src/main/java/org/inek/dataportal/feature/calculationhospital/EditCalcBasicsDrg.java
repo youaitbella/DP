@@ -28,8 +28,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.Id;
 import javax.persistence.OptimisticLockException;
-import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.AccessManager;
+import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.Document;
 import org.inek.dataportal.entities.account.Account;
@@ -117,7 +117,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             Utils.navigate(Pages.Error.RedirectURL());
         }
         // extend session timeout to 1 hour (to provide enough time for an upload)
-        FacesContext.getCurrentInstance().getExternalContext().setSessionMaxInactiveInterval(3600); 
+        FacesContext.getCurrentInstance().getExternalContext().setSessionMaxInactiveInterval(3600);
     }
 
     public void retrievePriorData(DrgCalcBasics calcBasics) {
@@ -132,7 +132,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }
         calcBasics.setNoDeliveryRoomHabitation(_priorCalcBasics.isNoDeliveryRoomHabitation());
     }
-    
+
     public void ikChanged() {
         retrievePriorData(_calcBasics);
         PreloadFunctionsCalcBasicsDrg.preloadData(_calcDrgFacade, _calcBasics, _priorCalcBasics);
@@ -148,8 +148,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     private boolean hasSufficientRights(DrgCalcBasics calcBasics) {
-        return _accessManager.isAccessAllowed(Feature.CALCULATION_HOSPITAL, 
-                calcBasics.getStatus(), 
+        return _accessManager.isAccessAllowed(Feature.CALCULATION_HOSPITAL,
+                calcBasics.getStatus(),
                 calcBasics.getAccountId(),
                 calcBasics.getIk());
     }
@@ -201,7 +201,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     public void deleteAllCostCenterCosts() {
-        _calcBasics.getCostCenterCosts().clear();
+        _calcBasics.clearCostCenterCosts();
     }
 
     public void deleteSpecialUnit(KGLListSpecialUnit su) {
@@ -356,7 +356,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }
         return result;
     }
-    
+
     public int getPriorSumIntensivStrokeWeighted() {
         List<KGLListIntensivStroke> intensivStrokes = _priorCalcBasics.getIntensivStrokes();
         int result = 0;
@@ -374,7 +374,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         }
         return result;
     }
-    
+
     public int getPriorSumIntensivStrokeNotWeighted() {
         List<KGLListIntensivStroke> intensivStrokes = _priorCalcBasics.getIntensivStrokes();
         int result = 0;
@@ -479,8 +479,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             return true;
         }
         // todo apply rights depending on ik?
-        return _accessManager.isReadOnly(Feature.CALCULATION_HOSPITAL, 
-                _calcBasics.getStatus(), 
+        return _accessManager.isReadOnly(Feature.CALCULATION_HOSPITAL,
+                _calcBasics.getStatus(),
                 _calcBasics.getAccountId(),
                 _calcBasics.getIk());
     }
@@ -498,7 +498,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     private String saveData(boolean showSaveMessage) {
         _calcBasics.removeEmptyServiceProvisions();
-        
+
         if (_baseLine != null && ObjectUtils.getDifferences(_baseLine, _calcBasics, null).isEmpty()) {
             // nothing is changed, but we will reload the data if changed by somebody else (as indicated by a new version)
             if (_baseLine.getVersion() != _calcDrgFacade.getCalcBasicsDrgVersion(_calcBasics.getId())) {
@@ -586,7 +586,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         return differencesPartner;
     }
 
-    private List<String> updateFields(Map<String, FieldValues> differencesUser, Map<String, 
+    private List<String> updateFields(Map<String, FieldValues> differencesUser, Map<String,
             FieldValues> differencesPartner, DrgCalcBasics modifiedCalcBasics) {
         List<String> collisions = new ArrayList<>();
         for (String fieldName : differencesUser.keySet()) {
@@ -613,8 +613,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     public boolean isSealEnabled() {
         return isSendEnabled()
-                && _accessManager.isSealedEnabled(Feature.CALCULATION_HOSPITAL, 
-                        _calcBasics.getStatus(), 
+                && _accessManager.isSealedEnabled(Feature.CALCULATION_HOSPITAL,
+                        _calcBasics.getStatus(),
                         _calcBasics.getAccountId(),
                         _calcBasics.getIk());
     }
@@ -622,19 +622,19 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     private boolean isSendEnabled(){
         return _appTools.isEnabled(ConfigKey.IsCalculationBasicsDrgSendEnabled);
     }
-    
+
     public boolean isApprovalRequestEnabled() {
         return isSendEnabled()
-                && _accessManager.isApprovalRequestEnabled(Feature.CALCULATION_HOSPITAL, 
-                        _calcBasics.getStatus(), 
+                && _accessManager.isApprovalRequestEnabled(Feature.CALCULATION_HOSPITAL,
+                        _calcBasics.getStatus(),
                         _calcBasics.getAccountId(),
                         _calcBasics.getIk());
     }
 
     public boolean isRequestCorrectionEnabled() {
         return isSendEnabled()
-                && _accessManager.isRequestCorrectionEnabled(Feature.CALCULATION_HOSPITAL, 
-                        _calcBasics.getStatus(), 
+                && _accessManager.isRequestCorrectionEnabled(Feature.CALCULATION_HOSPITAL,
+                        _calcBasics.getStatus(),
                         _calcBasics.getAccountId(),
                         _calcBasics.getIk());
     }
@@ -878,7 +878,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     public void deleteCostCenters(int costCenterId) {
-        _calcBasics.getCostCenters().removeIf(center -> center.getCostCenterId() == costCenterId);
+        _calcBasics.deleteCostCenters(costCenterId);
     }
 
     public void downloadNormalStation() {
@@ -1035,11 +1035,11 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                         .filter(c -> c.getCostCenterText().equals(kst.getCostCenterText()))
                         .findFirst()
                         .get());
-            });            
+            });
         }
         catch (Exception ex){
-            
+
         }
     }
-    
+
 }

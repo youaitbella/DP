@@ -10,9 +10,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneOffset;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
@@ -386,7 +384,7 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
 
     //<editor-fold defaultstate="collapsed" desc="gynecology">
     @Column(name = "biGynecology")
-    
+
     @Documentation(name = "Leistungen im Bereich der Gynäkologie", headline = "Kostenstellengruppe 6 (Kreißsaal)", rank = 4000)
     private boolean _gynecology;
 
@@ -459,7 +457,7 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
 
     //<editor-fold defaultstate="collapsed" desc="noDeliveryRoomHabitation">
     @Column(name = "biNoDeliveryRoomHabitation")
-    
+
     @Documentation(name = "Bei vorgeburtlichen Fällen keine Aufenthaltszeiten der Patientin im Kreißsaal", omitOnEmpty = true, rank = 4000)
     private boolean _noDeliveryRoomHabitation;
 
@@ -488,7 +486,7 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
 
     //<editor-fold defaultstate="collapsed" desc="cardiology">
     @Column(name = "biCardiology")
-    
+
     @Documentation(name = "KH erbringt Leistungen in Kardiologie", rank = 5000, headline = "Kostenstellengruppe 7 (Kardiologie)")
     private boolean _cardiology;
 
@@ -533,7 +531,7 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
 
     //<editor-fold defaultstate="collapsed" desc="endoscopy">
     @Column(name = "biEndoscopy")
-    
+
     @Documentation(name = "Leistungen im Bereich der Endoskopie", rank = 6000, headline = "Kostenstellengruppe 8 (Endoskopie)")
     private boolean _endoscopy;
 
@@ -758,7 +756,7 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
 
     //<editor-fold defaultstate="collapsed" desc="intensiveBed">
     @Column(name = "biIntensiveBed")
-    
+
     @Documentation(name = "Das Krankenhaus hat Intensivbetten", rank = 13010, headline = "Ergänzende Angaben zur Intensivbehandlung")
     private boolean _intensiveBed;
 
@@ -871,6 +869,13 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
         }
     }
 
+    public void deleteCostCenters(int costCenterId) {
+        _costCenters.removeIf(center -> center.getCostCenterId() == costCenterId);
+    }
+
+    public void deleteCostCenters_11_12_13() {
+        _costCenters.removeIf(center -> center.getCostCenterId() >= 11 && center.getCostCenterId() <= 13);
+    }
     //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="Property List RadiologyLaboratories">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -903,6 +908,14 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
 
     public void setRadiologyLaboratories(List<KGLListRadiologyLaboratory> radiologyLaboratory) {
         this._radiologyLaboratories = radiologyLaboratory;
+    }
+
+    public void clearRadiologies() {
+        _radiologyLaboratories.removeIf(laboratory -> laboratory.getCostCenterId() == 9);
+    }
+
+    public void clearLaboratories() {
+        _radiologyLaboratories.removeIf(laboratory -> laboratory.getCostCenterId() == 10);
     }
 
     public void addRadiologyLaboratories(KGLListRadiologyLaboratory item, int ccId) {
@@ -995,7 +1008,7 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     public void addServiceProvision(KGLListServiceProvision serviceProvision) {
         this._serviceProvisions.add(serviceProvision);
     }
-    
+
     public void removeEmptyServiceProvisions() {
         List<KGLListServiceProvision> emptyEntries = _serviceProvisions
                 .stream()
@@ -1140,6 +1153,14 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
         this._intensivStrokes.add(intensivStroke);
         return true;
     }
+
+    public void clearIntensive() {
+        _intensivStrokes.removeIf(intStroke -> intStroke.getIntensiveType() == 1);
+    }
+
+    public void clearStroke() {
+        _intensivStrokes.removeIf(intStroke -> intStroke.getIntensiveType() == 2);
+    }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property List medInfras">
@@ -1203,6 +1224,15 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
         _medInfras.add(medInfra);
         return true;
     }
+
+    public void clearMedInfra() {
+        _medInfras.removeIf(medInfra -> medInfra.getCostTypeId() == 170);
+    }
+
+    public void clearNonMedInfra() {
+        _medInfras.removeIf(medInfra -> medInfra.getCostTypeId() == 180);
+    }
+
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property List PersonalAccountings">
@@ -1321,7 +1351,10 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
         } else {
             _costCenterCosts.add(item);
         }
+    }
 
+    public void clearCostCenterCosts() {
+        _costCenterCosts.clear();
     }
     //</editor-fold>
 
@@ -1334,7 +1367,7 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     public List<KglPkmsAlternative> getPkmsAlternatives() {
         return Collections.unmodifiableList(_pkmsAlternatives);
     }
-    
+
     public void setPkmsAlternatives(List<KglPkmsAlternative> pkmsAlternatives) {
         _pkmsAlternatives = pkmsAlternatives;
     }

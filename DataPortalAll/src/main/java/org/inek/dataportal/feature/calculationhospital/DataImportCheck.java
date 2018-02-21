@@ -31,8 +31,8 @@ public class DataImportCheck<T, I> implements Serializable {
     private final String errorMsg;
 
     public DataImportCheck(
-            ErrorCounter counter, 
-            QuintConsumer<T, String, BiConsumer<T, I>, String, ErrorCounter> check, BiConsumer<T, I> assign, 
+            ErrorCounter counter,
+            QuintConsumer<T, String, BiConsumer<T, I>, String, ErrorCounter> check, BiConsumer<T, I> assign,
             String errorMsg) {
         this.counter = counter;
         this.check = check;
@@ -104,6 +104,33 @@ public class DataImportCheck<T, I> implements Serializable {
         if (allowedValues.contains(data)){
             tryImportString(item, data, assign, errorMsg, counter);
         } else{
+            counter.addColumnErrorMsg(errorMsg + data);
+        }
+    }
+
+    public static <T> void tryImportCostCenterId11(T item, String data, BiConsumer<T, String> assign, String errorMsg, ErrorCounter counter) {
+        List<String> allowedValues = Arrays.asList("11");
+        if (allowedValues.contains(data)) {
+            tryImportString(item, data, assign, errorMsg, counter);
+        } else {
+            counter.addColumnErrorMsg(errorMsg + data);
+        }
+    }
+
+    public static <T> void tryImportCostCenterId12(T item, String data, BiConsumer<T, String> assign, String errorMsg, ErrorCounter counter) {
+        List<String> allowedValues = Arrays.asList("12");
+        if (allowedValues.contains(data)) {
+            tryImportString(item, data, assign, errorMsg, counter);
+        } else {
+            counter.addColumnErrorMsg(errorMsg + data);
+        }
+    }
+
+    public static <T> void tryImportCostCenterId13(T item, String data, BiConsumer<T, String> assign, String errorMsg, ErrorCounter counter) {
+        List<String> allowedValues = Arrays.asList("13");
+        if (allowedValues.contains(data)) {
+            tryImportString(item, data, assign, errorMsg, counter);
+        } else {
             counter.addColumnErrorMsg(errorMsg + data);
         }
     }

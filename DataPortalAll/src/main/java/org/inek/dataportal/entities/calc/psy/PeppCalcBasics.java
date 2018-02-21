@@ -522,7 +522,7 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
 
     // <editor-fold defaultstate="collapsed" desc="Property _otherMethodMedInfra">
     @Column(name = "biOtherMethodMedInfra")
-    @Documentation(name = "Gewähltes Verfahren bei Durchführung der IBLV", rank = 11010, 
+    @Documentation(name = "Gewähltes Verfahren bei Durchführung der IBLV", rank = 11010,
             translateValue = "0= ;1=Gleichungsverfahren;2=Stufenleiterverfahren;3=Anbauverfahren;4=Sonstige Vorgehensweise")
     private String _otherMethodMedInfra = "";
 
@@ -625,7 +625,7 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
     //@OneToMany(cascade = CascadeType.ALL, mappedBy = "paBaseInformationId")
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "paBaseInformationId", referencedColumnName = "biID")
-    @Documentation(name = "Gewähltes Verfahren für die Durchführung der Personalkostenverrechnung", rank = 12010, 
+    @Documentation(name = "Gewähltes Verfahren für die Durchführung der Personalkostenverrechnung", rank = 12010,
             headline = "Ergänzende Angaben zur Personalkostenverrechnung")
     @OrderBy(value = "_costTypeId")
     private List<KGPPersonalAccounting> _personalAccountings = new ArrayList<>();
@@ -652,19 +652,19 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
                 .stream()
                  .sorted((x, y) -> compareServiceProvision(x, y)) // @orderBy doesnt work properly.
                  .collect(Collectors.toList());
-        
+
     }
     private int compareServiceProvision(KGPListServiceProvision sp1, KGPListServiceProvision sp2) {
-        return sp1.getServiceProvisionTypeId() > sp2.getServiceProvisionTypeId() ? 
-                1 : sp1.getServiceProvisionTypeId() < sp2.getServiceProvisionTypeId() ? 
+        return sp1.getServiceProvisionTypeId() > sp2.getServiceProvisionTypeId() ?
+                1 : sp1.getServiceProvisionTypeId() < sp2.getServiceProvisionTypeId() ?
                 -1 : 0;
     }
-    
+
 
     public void setServiceProvisions(List<KGPListServiceProvision> serviceProvisions) {
         this._serviceProvisions = serviceProvisions;
     }
-    
+
     public void removeEmptyServiceProvisions(){
         List<KGPListServiceProvision> emptyEntries = _serviceProvisions
                 .stream()
@@ -724,6 +724,14 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
         } else {
             _costCenters.add(item);
         }
+    }
+
+    public void deleteCostCenters(int costCenterId) {
+        _costCenters.removeIf(center -> center.getCostCenterId() == costCenterId);
+    }
+
+    public void deleteCostCenters() {
+        _costCenters.clear();
     }
 
     // </editor-fold>
@@ -786,6 +794,10 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
         } else {
             _therapies.add(item);
         }
+    }
+
+    public void clearTheapies() {
+        _therapies.clear();
     }
     // </editor-fold>
 
