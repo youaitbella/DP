@@ -199,6 +199,23 @@ public class DataImportCheck<T, I> implements Serializable {
         assign.accept(item, type);
     }
 
+    public static <T> void tryImportOccupancyType(T item, String data, BiConsumer<T, Integer> assign, String errorMsg, ErrorCounter counter) {
+        String lowerData = data.trim().toLowerCase();
+        int type = 0;
+        switch (lowerData) {
+            case "vollstationär": type = 1;
+                break;
+            case "teilstationär": type = 2;
+                break;
+            case "voll- und teilstationär": type = 3;
+                break;
+            default: type = 0;
+        }
+        if (type == 0) {
+            counter.addColumnErrorMsg(errorMsg + " " + data);
+        }
+        assign.accept(item, type);
+    }
 
 //    private void tryImportInteger(T item, String data, BiConsumer<T ,Integer> bind, String errorMsg) {
 //        try {

@@ -660,7 +660,7 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
                 //<editor-fold defaultstate="collapsed" desc="new DataImporter stationServiceCost">
                 return new DataImporter<KGPListStationServiceCost, PeppCalcBasics>(
                         "Nummer der Kostenstelle;Station;Eindeutige Zuordnung nach Psych-PV* (A, S, G, KJP, P);"
-                        + "Anzahl Betten;bettenführende Aufnahmestation (bitte ankreuzen);"
+                        + "Anzahl Betten;Belegung;"
                         + "Summe Pflegetage Regelbehandlung;Summe Gewichtungspunkte** Regelbehandlung;"
                         + "Summe Pflegetage Intensivbehandlung;Summe Gewichtungspunkte** Intensivbehandlung;"
                         + "VK Ärztlicher Dienst;VK Pflegedienst/Erziehungsdienst;VK Psychologen;"
@@ -693,11 +693,11 @@ public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> i
                                         DataImportCheck::tryImportInteger,
                                         (i, s) -> i.setBedCnt(s),
                                         "Summer der Leistungseinheiten ungültig : "),
-                                new DataImportCheck<KGPListStationServiceCost, Boolean>(
+                                new DataImportCheck<KGPListStationServiceCost, Integer>(
                                         ErrorCounter.obtainErrorCounter("PEPP_STATION_SERVICE_COST"),
-                                        DataImportCheck::tryImportBoolean,
-                                        (i, s) -> i.setReceivingStation(s),
-                                        "bettenführende Aufnahmestation (bitte ankreuzen) ungültig: "),
+                                        DataImportCheck::tryImportOccupancyType,
+                                        (i, s) -> i.setOccupancy(s),
+                                        "Belegung (voll- und/oder teilstationär) ungültig: "),
                                 new DataImportCheck<KGPListStationServiceCost, Integer>(
                                         ErrorCounter.obtainErrorCounter("PEPP_STATION_SERVICE_COST"),
                                         DataImportCheck::tryImportInteger,
