@@ -90,6 +90,7 @@ public class CalcDrgFacade extends AbstractDataAccess {
         saveIdList(calcBasics.getIntensivStrokes());
         saveIdList(calcBasics.getPkmsAlternatives());
         saveIdList(calcBasics.getPersonalAccountings());
+        saveIdList(calcBasics.getOverviewPersonals());
         return merge(calcBasics);
     }
 
