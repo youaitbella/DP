@@ -88,6 +88,7 @@ public class EditCalcBasicsAutopsy extends AbstractEditController implements Ser
         } else if (Utils.isInteger(id)) {
             CalcBasicsAutopsy calcBasics = loadCalcBasics(id);
             if (calcBasics.getId() == -1) {
+                _calcBasics = calcBasics;
                 Utils.navigate(Pages.NotAllowed.RedirectURL());
                 return;
             }
