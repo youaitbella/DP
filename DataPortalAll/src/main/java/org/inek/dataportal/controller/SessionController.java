@@ -130,7 +130,11 @@ public class SessionController implements Serializable {
      * @return
      */
     public int getAccountId() {
-        return getAccount().getId();
+        Account account = getAccount();
+        if (account == null){
+            return 0;
+        }
+        return account.getId();
     }
 
     private void checkAccount() {
