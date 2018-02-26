@@ -35,7 +35,6 @@ import javax.persistence.Temporal;
 import javax.persistence.Transient;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import org.inek.dataportal.entities.certification.RemunerationSystem;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.enums.FeatureState;
 import org.inek.dataportal.common.data.adm.InekRole;
@@ -279,23 +278,6 @@ public class Account implements Serializable, Person {
 
     public void setInekRoles(List<InekRole> inekRoles) {
         _inekRoles = inekRoles;
-    }
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Property CertSystems">
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-    @JoinTable(
-            name = "Grouper", schema = "crt",
-            joinColumns = @JoinColumn(name = "grAccountId"),
-            inverseJoinColumns = @JoinColumn(name = "grSystemId"))
-    private List<RemunerationSystem> _systems;
-
-    public List<RemunerationSystem> getRemuneratiosSystems() {
-        return _systems;
-    }
-
-    public void setRemuneratiosSystems(List<RemunerationSystem> systems) {
-        _systems = systems;
     }
     // </editor-fold>
 
