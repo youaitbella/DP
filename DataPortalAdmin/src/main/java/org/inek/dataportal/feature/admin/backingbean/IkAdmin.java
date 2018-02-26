@@ -23,7 +23,7 @@ import org.inek.dataportal.entities.account.AccountFeature;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.feature.admin.dao.IkAccount;
 import org.inek.dataportal.feature.ikadmin.entity.AccessRight;
-import org.inek.dataportal.feature.ikadmin.enums.Right;
+import org.inek.dataportal.common.enums.Right;
 import org.inek.dataportal.feature.ikadmin.facade.IkAdminFacade;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;

@@ -7,7 +7,7 @@ package org.inek.dataportal.feature.ikadmin.entity;
 import java.io.Serializable;
 import javax.persistence.*;
 import org.inek.dataportal.common.enums.Feature;
-import org.inek.dataportal.feature.ikadmin.enums.Right;
+import org.inek.dataportal.common.enums.Right;
 import org.inek.dataportal.common.data.converter.FeatureConverter;
 import org.inek.dataportal.common.data.converter.RightConverter;
 
