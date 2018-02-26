@@ -32,7 +32,6 @@ import org.inek.dataportal.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.calc.CalcAutopsyFacade;
-import org.inek.dataportal.facades.calc.CalcFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.common.data.adm.MailTemplate;
 import org.inek.dataportal.helper.TransferFileCreator;
@@ -54,7 +53,6 @@ public class EditCalcBasicsAutopsy extends AbstractEditController implements Ser
 
     @Inject private AccessManager _accessManager;
     @Inject private SessionController _sessionController;
-    @Inject private CalcFacade _calcFacade;
     @Inject private CalcAutopsyFacade _calcAutopsyFacade;
     @Inject private ApplicationTools _appTools;
 
@@ -65,7 +63,7 @@ public class EditCalcBasicsAutopsy extends AbstractEditController implements Ser
     }
 
     public void setCalcBasics(CalcBasicsAutopsy calcBasics) {
-        this._calcBasics = calcBasics;
+        _calcBasics = calcBasics;
     }
 
     private CalcBasicsAutopsy _priorCalcBasics;
@@ -86,13 +84,11 @@ public class EditCalcBasicsAutopsy extends AbstractEditController implements Ser
         if ("new".equals(id)) {
             _calcBasics = newCalcBasics();
         } else if (Utils.isInteger(id)) {
-            CalcBasicsAutopsy calcBasics = loadCalcBasics(id);
-            if (calcBasics.getId() == -1) {
-                _calcBasics = calcBasics;
+            _calcBasics = loadCalcBasics(id);
+            if (_calcBasics.getId() == -1) {
                 Utils.navigate(Pages.NotAllowed.RedirectURL());
                 return;
             }
-            _calcBasics = calcBasics;
             if (isRequestCorrectionEnabled()) {
                 //todo  _priorCalcBasics = _calcFacade.findPriorCalcBasics(_calcBasics);
             }
