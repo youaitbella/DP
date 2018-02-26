@@ -11,7 +11,7 @@ public enum Feature {
     USER_MAINTENANCE(2, "Stammdaten", NeedApproval.No, PortalType.COMMON, IkReference.None, Shareable.No),
     NUB(3, "Neue Untersuchungs- und Behandlungsmethoden", NeedApproval.No, PortalType.DRG, IkReference.Hospital, Shareable.Yes),
     REQUEST_SYSTEM(4, "Anfrageverfahren", NeedApproval.No, PortalType.DRG, IkReference.None, Shareable.No),
-    DROPBOX(5, "DropBox", NeedApproval.Yes, PortalType.COMMON, IkReference.Hospital, Shareable.No),
+    DROPBOX(5, "DropBox", NeedApproval.Yes, PortalType.COMMON, IkReference.None, Shareable.No),
     PEPP_PROPOSAL(6, "PEPP-Vorschlagsverfahren", NeedApproval.No, PortalType.PSY, IkReference.None, Shareable.Yes),
     DRG_PROPOSAL(7, "DRG-Vorschlagsverfahren", NeedApproval.No, PortalType.DRG, IkReference.None, Shareable.Yes),
     COOPERATION(8, "Kooperation", NeedApproval.No, PortalType.COMMON, IkReference.None, Shareable.No),
