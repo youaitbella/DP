@@ -1,9 +1,7 @@
 package org.inek.dataportal.entities;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.*;
-import org.inek.dataportal.common.feature.account.entities.Account;
 
 /**
  *
@@ -39,23 +37,6 @@ public class Agency implements Serializable {
 
     public void setName(String name) {
         _name = name;
-    }
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="List Accounts">
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "mapAccountAgency",
-            joinColumns = @JoinColumn(name = "maaAgencyId"),
-            inverseJoinColumns = @JoinColumn(name = "maaAccountId"))
-    private List<Account> _accounts;    
-
-    public List<Account> getAccounts() {
-        return _accounts;
-    }
-
-    public void setAccounts(List<Account> accounts) {
-        _accounts = accounts;
     }
     // </editor-fold>
 

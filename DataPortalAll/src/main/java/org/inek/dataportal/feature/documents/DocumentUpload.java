@@ -125,7 +125,7 @@ public class DocumentUpload implements Serializable {
     @Inject private AgencyFacade _agencyFacade;
 
     public List<Agency> getAgencies() {
-        return _agencyFacade.findAll();
+        return _agencyFacade.findAllAgencies();
     }
     // </editor-fold>
 
@@ -306,11 +306,7 @@ public class DocumentUpload implements Serializable {
                 if (_agencyId == null) {
                     return;
                 }
-                Agency agency = _agencyFacade.find(_agencyId);
-                if (agency == null) {
-                    return;
-                }
-                for (Account account : agency.getAccounts()) {
+                for (Account account : _agencyFacade.findAgencyAccounts(_agencyId)) {
                     addDocuments(_docs, account);
                 }
                 break;
@@ -367,8 +363,7 @@ public class DocumentUpload implements Serializable {
                     accounts.add(_account);
                     break;
                 case Agency:
-                    Agency agency = _agencyFacade.find(_agencyId);
-                    for (Account account : agency.getAccounts()) {
+                    for (Account account : _agencyFacade.findAgencyAccounts(_agencyId)) {
                         storeDocument(accountDocument, account.getId());
                         accounts.add(account);
                     }
