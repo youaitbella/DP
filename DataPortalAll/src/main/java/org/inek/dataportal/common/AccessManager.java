@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -38,6 +40,8 @@ import org.inek.dataportal.feature.ikadmin.facade.IkAdminFacade;
 @Named
 @RequestScoped
 public class AccessManager implements Serializable {
+
+    private static final Logger LOGGER = Logger.getLogger("AccessManager");
 
     @Inject private CooperationRightFacade _cooperationRightFacade;
     @Inject private SessionController _sessionController;
@@ -466,10 +470,13 @@ public class AccessManager implements Serializable {
         return r -> r.getCooperativeRight().canWriteAlways();
     }
 
-    //todo: rename to determinePartnerAccountIds
     public Set<Integer> determineAccountIds(Feature feature, Predicate<CooperationRight> canRead) {
-        Account account = _sessionController.getAccount();
         Set<Integer> ids = new LinkedHashSet<>();
+        Account account = _sessionController.getAccount();
+        if (account == null){
+            LOGGER.log(Level.WARNING, "Accessmanager called without logged in user");
+            return ids;
+        }
         ids.add(account.getId());  // user always has the right to see his own
         getCooperationRights(feature, account)
                 .stream()

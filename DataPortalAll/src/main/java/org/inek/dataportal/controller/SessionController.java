@@ -131,7 +131,7 @@ public class SessionController implements Serializable {
      */
     public int getAccountId() {
         Account account = getAccount();
-        if (account == null){
+        if (account == null) {
             return 0;
         }
         return account.getId();
@@ -146,6 +146,7 @@ public class SessionController implements Serializable {
             } catch (IOException | IllegalStateException ex) {
                 facesContext.getApplication().getNavigationHandler().
                         handleNavigation(facesContext, null, Pages.SessionTimeout.URL());
+                throw new NotLoggedInException();
             }
         }
     }

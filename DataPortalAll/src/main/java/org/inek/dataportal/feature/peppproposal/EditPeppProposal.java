@@ -102,6 +102,7 @@ public class EditPeppProposal extends AbstractEditController {
 
         if (id == null) {
             Utils.navigate(Pages.NotAllowed.RedirectURL());
+            return;
         } else if (id.toString().equals("new")) {
             if (!_appTools.isEnabled(ConfigKey.IsPeppProposalCreateEnabled)) {
                 Utils.navigate(Pages.NotAllowed.RedirectURL());
