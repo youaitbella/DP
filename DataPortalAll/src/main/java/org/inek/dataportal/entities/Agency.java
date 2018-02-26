@@ -3,7 +3,7 @@ package org.inek.dataportal.entities;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.*;
-import org.inek.dataportal.entities.account.Account;
+import org.inek.dataportal.common.feature.account.entities.Account;
 
 /**
  *

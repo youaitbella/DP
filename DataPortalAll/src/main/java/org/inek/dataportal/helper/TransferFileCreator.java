@@ -24,7 +24,7 @@ import java.util.zip.CheckedOutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import org.inek.dataportal.controller.SessionController;
-import org.inek.dataportal.entities.account.AccountDocument;
+import org.inek.dataportal.common.feature.account.entities.AccountDocument;
 import org.inek.dataportal.entities.calc.autopsy.CalcBasicsAutopsy;
 import org.inek.dataportal.entities.calc.drg.DrgCalcBasics;
 import org.inek.dataportal.entities.calc.psy.PeppCalcBasics;

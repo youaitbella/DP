@@ -26,7 +26,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import org.inek.dataportal.entities.account.Account;
+import org.inek.dataportal.common.feature.account.entities.Account;
 import org.inek.dataportal.entities.insurance.InekMethod;
 import org.inek.dataportal.entities.nub.NubFormerRequest;
 import org.inek.dataportal.entities.nub.NubFormerRequestMerged;
@@ -36,10 +36,10 @@ import org.inek.dataportal.entities.nub.NubRequestHistory;
 import org.inek.dataportal.common.enums.DataSet;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.feature.admin.backingbean.AccountInfo;
-import org.inek.dataportal.feature.ikadmin.entity.AccessRight;
+import org.inek.dataportal.common.feature.ikadmin.entity.AccessRight;
 import org.inek.dataportal.common.enums.Right;
 import org.inek.dataportal.helper.structures.ProposalInfo;
-import org.inek.dataportal.utils.DateUtils;
+import org.inek.dataportal.common.utils.DateUtils;
 
 /**
  *

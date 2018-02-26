@@ -6,7 +6,7 @@ package org.inek.dataportal.controller;
 
 import java.io.Serializable;
 import java.util.logging.Logger;
-import org.inek.dataportal.entities.account.Account;
+import org.inek.dataportal.common.feature.account.entities.Account;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.helper.Topics;
 

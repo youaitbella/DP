@@ -7,7 +7,7 @@ package org.inek.dataportal.feature.admin.dao;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.inek.dataportal.entities.account.Account;
+import org.inek.dataportal.common.feature.account.entities.Account;
 
 /**
  *

@@ -4,15 +4,15 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import org.inek.dataportal.entities.account.AccountPwd;
-import org.inek.dataportal.entities.account.WeakPassword;
 import org.inek.dataportal.common.data.adm.Log;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.common.data.access.ConfigFacade;
+import org.inek.dataportal.common.feature.account.entities.AccountPwd;
+import org.inek.dataportal.common.feature.account.entities.WeakPassword;
+import org.inek.dataportal.common.utils.Crypt;
 import org.inek.dataportal.feature.admin.facade.LogFacade;
 import org.inek.dataportal.helper.Utils;
-import org.inek.dataportal.utils.Crypt;
 
 /**
  *

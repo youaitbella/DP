@@ -31,8 +31,8 @@ import javax.servlet.http.Part;
 import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.AccessManager;
 import org.inek.dataportal.controller.SessionController;
-import org.inek.dataportal.entities.account.Account;
-import org.inek.dataportal.entities.account.AccountAdditionalIK;
+import org.inek.dataportal.common.feature.account.entities.Account;
+import org.inek.dataportal.common.feature.account.entities.AccountAdditionalIK;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.enums.Pages;
@@ -50,7 +50,7 @@ import org.inek.dataportal.feature.psychstaff.facade.PsychStaffFacade;
 import org.inek.dataportal.feature.psychstaff.pdf.PdfBuilder;
 import org.inek.dataportal.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
-import org.inek.dataportal.utils.DateUtils;
+import org.inek.dataportal.common.utils.DateUtils;
 
 /**
  *

@@ -20,7 +20,7 @@ import javax.inject.Named;
 import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.AccessManager;
 import org.inek.dataportal.controller.SessionController;
-import org.inek.dataportal.entities.account.Account;
+import org.inek.dataportal.common.feature.account.entities.Account;
 import org.inek.dataportal.entities.cooperation.CooperationRight;
 import org.inek.dataportal.entities.nub.NubRequest;
 import org.inek.dataportal.common.enums.ConfigKey;

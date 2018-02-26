@@ -2,7 +2,7 @@ package org.inek.dataportal.entities.pepp;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import org.inek.dataportal.entities.Document;
+import org.inek.dataportal.common.feature.account.iface.Document;
 
 /**
  *

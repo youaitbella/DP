@@ -5,6 +5,7 @@
  */
 package org.inek.dataportal.utils;
 
+import org.inek.dataportal.common.utils.Crypt;
 import java.util.UUID;
 import org.junit.Test;
 import static org.junit.Assert.*;

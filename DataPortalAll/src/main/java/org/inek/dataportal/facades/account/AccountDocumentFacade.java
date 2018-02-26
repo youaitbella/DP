@@ -12,10 +12,10 @@ import javax.ejb.Stateless;
 import javax.faces.model.SelectItem;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import org.inek.dataportal.entities.account.AccountDocument;
+import org.inek.dataportal.common.feature.account.entities.AccountDocument;
 import org.inek.dataportal.facades.AbstractFacade;
 import org.inek.dataportal.helper.structures.DocInfo;
-import org.inek.dataportal.utils.DateUtils;
+import org.inek.dataportal.common.utils.DateUtils;
 
 @Stateless
 public class AccountDocumentFacade extends AbstractFacade<AccountDocument> {

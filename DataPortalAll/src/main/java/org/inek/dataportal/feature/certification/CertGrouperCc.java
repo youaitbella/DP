@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.inek.dataportal.entities.account.Account;
+import org.inek.dataportal.common.feature.account.entities.Account;
 import org.inek.dataportal.entities.certification.AdditionalEmail;
 import org.inek.dataportal.facades.certification.GrouperFacade;
 import org.inek.dataportal.helper.scope.FeatureScoped;

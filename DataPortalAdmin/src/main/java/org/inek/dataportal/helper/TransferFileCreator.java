@@ -21,9 +21,9 @@ import java.util.zip.Adler32;
 import java.util.zip.CheckedOutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
-import org.inek.dataportal.entities.account.AccountDocument;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.data.access.ConfigFacade;
+import org.inek.dataportal.common.feature.account.entities.AccountDocument;
 
 /**
  *

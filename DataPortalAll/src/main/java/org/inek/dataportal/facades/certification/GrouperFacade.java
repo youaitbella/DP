@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.logging.Level;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
-import org.inek.dataportal.entities.account.Account;
+import org.inek.dataportal.common.feature.account.entities.Account;
 import org.inek.dataportal.entities.certification.AdditionalEmail;
 import org.inek.dataportal.entities.certification.Grouper;
 import org.inek.dataportal.common.data.AbstractDataAccess;

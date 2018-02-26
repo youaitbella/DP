@@ -4,8 +4,8 @@
  */
 package org.inek.dataportal.feature.maintenance;
 
-import org.inek.dataportal.entities.account.Account;
-import org.inek.dataportal.entities.account.AccountFeature;
+import org.inek.dataportal.common.feature.account.entities.Account;
+import org.inek.dataportal.common.feature.account.entities.AccountFeature;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.enums.FeatureState;
 import org.inek.dataportal.helper.Utils;

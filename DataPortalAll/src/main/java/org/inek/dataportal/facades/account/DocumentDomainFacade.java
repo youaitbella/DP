@@ -10,7 +10,7 @@ import org.inek.dataportal.facades.*;
 import javax.ejb.Stateless;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
-import org.inek.dataportal.entities.account.DocumentDomain;
+import org.inek.dataportal.common.feature.account.entities.DocumentDomain;
 
 /**
  *

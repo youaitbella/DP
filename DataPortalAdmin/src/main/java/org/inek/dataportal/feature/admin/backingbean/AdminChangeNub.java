@@ -10,7 +10,7 @@ import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
-import org.inek.dataportal.entities.account.Account;
+import org.inek.dataportal.common.feature.account.entities.Account;
 import org.inek.dataportal.entities.nub.NubRequest;
 import org.inek.dataportal.common.enums.DataSet;
 import org.inek.dataportal.facades.NubRequestFacade;

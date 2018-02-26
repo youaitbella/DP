@@ -12,8 +12,8 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import org.inek.dataportal.entities.icmt.Customer;
-import org.inek.dataportal.entities.account.Account;
-import org.inek.dataportal.entities.account.AccountFeatureRequest;
+import org.inek.dataportal.common.feature.account.entities.Account;
+import org.inek.dataportal.common.feature.account.entities.AccountFeatureRequest;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.enums.Pages;
@@ -23,7 +23,7 @@ import org.inek.dataportal.facades.account.AccountFeatureRequestFacade;
 import org.inek.dataportal.common.data.adm.MailTemplate;
 import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.mail.Mailer;
-import org.inek.dataportal.utils.DateUtils;
+import org.inek.dataportal.common.utils.DateUtils;
 import static org.inek.dataportal.common.helper.Const.*;
 
 /**
