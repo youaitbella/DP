@@ -282,23 +282,6 @@ public class Account implements Serializable, Person {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property CertSystems">
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-    @JoinTable(
-            name = "Grouper", schema = "crt",
-            joinColumns = @JoinColumn(name = "grAccountId"),
-            inverseJoinColumns = @JoinColumn(name = "grSystemId"))
-    private List<RemunerationSystem> _systems;
-
-    public List<RemunerationSystem> getRemuneratiosSystems() {
-        return _systems;
-    }
-
-    public void setRemuneratiosSystems(List<RemunerationSystem> systems) {
-        _systems = systems;
-    }
-    // </editor-fold>
-
     // <editor-fold defaultstate="collapsed" desc="getter / setter">
     public Date getLastModified() {
         return _lastModified;

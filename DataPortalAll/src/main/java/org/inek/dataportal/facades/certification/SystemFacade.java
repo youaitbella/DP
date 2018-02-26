@@ -1,14 +1,10 @@
 package org.inek.dataportal.facades.certification;
 
-import java.text.SimpleDateFormat;
-import java.time.Clock;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.faces.model.SelectItem;
+import javax.persistence.TypedQuery;
 import org.inek.dataportal.entities.certification.RemunerationSystem;
 import org.inek.dataportal.common.data.AbstractDataAccess;
 
@@ -70,5 +66,13 @@ public class SystemFacade extends AbstractDataAccess {
     
     public List<RemunerationSystem> findAllFresh() {
         return super.findAllFresh(RemunerationSystem.class);
+    }
+
+    public List<RemunerationSystem> getRemunerationSystems(int accountId) {
+        String jpql = "select distinct s from RemunerationSystem s join Grouper g"
+                + " where s._id = g._systemId and g._accountId = :accountId";
+        TypedQuery<RemunerationSystem> query = getEntityManager().createQuery(jpql, RemunerationSystem.class);
+        query.setParameter("accountId", accountId);
+        return query.getResultList();
     }
 }

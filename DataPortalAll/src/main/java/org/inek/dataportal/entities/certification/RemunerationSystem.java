@@ -1,10 +1,8 @@
 package org.inek.dataportal.entities.certification;
 
-import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.inject.Inject;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,13 +13,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.persistence.Version;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.enums.RemunSystem;
-import org.inek.dataportal.common.data.access.ConfigFacade;
 
 /**
  *

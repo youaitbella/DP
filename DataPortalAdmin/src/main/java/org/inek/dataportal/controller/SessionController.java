@@ -109,15 +109,32 @@ public class SessionController implements Serializable {
         return _account;
     }
 
-    private void checkAccount() throws NotLoggedInException {
-        if (_account == null) {
-            FacesContext facesContext = FacesContext.getCurrentInstance();
-            facesContext.getApplication().getNavigationHandler().
-                    handleNavigation(facesContext, null, Pages.SessionTimeout.URL());
-            throw new NotLoggedInException();
+    /**
+     * returns the account id if logged in, otherwise it redirects to session. timeOut
+     *
+     * @return
+     */
+    public int getAccountId() {
+        Account account = getAccount();
+        if (account == null) {
+            return 0;
         }
+        return account.getId();
     }
 
+    private void checkAccount() {
+        if (_account == null) {
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            try {
+                String url = EnvironmentInfo.getServerUrlWithContextpath() + Pages.SessionTimeout.URL();
+                facesContext.getExternalContext().redirect(url);
+            } catch (IOException | IllegalStateException ex) {
+                facesContext.getApplication().getNavigationHandler().
+                        handleNavigation(facesContext, null, Pages.SessionTimeout.URL());
+                throw new NotLoggedInException();
+            }
+        }
+    }
     public boolean isHospital() {
         // we had unexpecte null access here.
         // let's do some logging and redirect the user to an error view
@@ -141,16 +158,6 @@ public class SessionController implements Serializable {
 
     public boolean isLoggedIn() {
         return _account != null;
-    }
-
-    /**
-     * returns the account id if logged in, otherwise it redirects to session. timeOut
-     *
-     * @return
-     */
-    public int getAccountId() {
-        checkAccount();
-        return _account.getId();
     }
 
     public String getMainPage() {

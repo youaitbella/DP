@@ -11,8 +11,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
@@ -51,20 +49,11 @@ public class CertCertification implements Serializable{
     @Inject private SystemFacade _systemFacade;
     @Inject private GrouperFacade _grouperFacade;
 
-    @PostConstruct
-    private void init() {
-        // LOGGER.log(Level.WARNING, "Init CertCertification");
-    }
-
-    @PreDestroy
-    private void destroy() {
-        // LOGGER.log(Level.WARNING, "Destroy CertCertification");
-    }
-
     public List<SelectItem> getSystems4Account() {
 
         List<SelectItem> list = new ArrayList<>();
-        for (RemunerationSystem system : _sessionController.getAccount().getRemuneratiosSystems()) {
+        List<RemunerationSystem> remunerationSystems = _systemFacade.getRemunerationSystems(_sessionController.getAccountId());
+        for (RemunerationSystem system : remunerationSystems) {
             if (system.isApproved()) {
                 list.add(new SelectItem(system.getId(), system.getDisplayName()));
             }
