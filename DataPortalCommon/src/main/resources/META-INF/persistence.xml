@@ -15,22 +15,22 @@
     <class>org.inek.dataportal.common.data.common.ListFeature</class>
     <class>org.inek.dataportal.common.data.common.ListWorkflowStatus</class>
     <class>org.inek.dataportal.common.data.common.PortalAddress</class>
-    <class>org.inek.dataportal.common.feature.account.entities.Account</class>
-    <class>org.inek.dataportal.common.feature.account.entities.AccountActivation</class>
-    <class>org.inek.dataportal.common.feature.account.entities.AccountAdditionalIK</class>
-    <class>org.inek.dataportal.common.feature.account.entities.AccountChangeMail</class>
-    <class>org.inek.dataportal.common.feature.account.entities.AccountDocument</class>
-    <class>org.inek.dataportal.common.feature.account.entities.AccountFeature</class>
-    <class>org.inek.dataportal.common.feature.account.entities.AccountFeatureRequest</class>
-    <class>org.inek.dataportal.common.feature.account.entities.AccountPwd</class>
-    <class>org.inek.dataportal.common.feature.account.entities.AccountRequest</class>
-    <class>org.inek.dataportal.common.feature.account.entities.DocumentDomain</class>
-    <class>org.inek.dataportal.common.feature.account.entities.WaitingDocument</class>
-    <class>org.inek.dataportal.common.feature.account.entities.WaitingDocumentInfo</class>
-    <class>org.inek.dataportal.common.feature.account.entities.WeakPassword</class>
-    <class>org.inek.dataportal.common.feature.ikadmin.entity.AccessRight</class>
-    <class>org.inek.dataportal.common.feature.ikadmin.entity.AccountIkAdmin</class>
-    <class>org.inek.dataportal.common.feature.ikadmin.entity.User</class>
+    <class>org.inek.dataportal.common.data.account.entities.AccountFeature</class>
+    <class>org.inek.dataportal.common.data.account.entities.WaitingDocumentInfo</class>
+    <class>org.inek.dataportal.common.data.account.entities.AccountFeatureRequest</class>
+    <class>org.inek.dataportal.common.data.account.entities.AccountDocument</class>
+    <class>org.inek.dataportal.common.data.account.entities.WeakPassword</class>
+    <class>org.inek.dataportal.common.data.account.entities.AccountChangeMail</class>
+    <class>org.inek.dataportal.common.data.account.entities.AccountAdditionalIK</class>
+    <class>org.inek.dataportal.common.data.account.entities.AccountRequest</class>
+    <class>org.inek.dataportal.common.data.account.entities.AccountActivation</class>
+    <class>org.inek.dataportal.common.data.account.entities.AccountPwd</class>
+    <class>org.inek.dataportal.common.data.account.entities.WaitingDocument</class>
+    <class>org.inek.dataportal.common.data.account.entities.Account</class>
+    <class>org.inek.dataportal.common.data.account.entities.DocumentDomain</class>
+    <class>org.inek.dataportal.common.data.ikadmin.entity.AccessRight</class>
+    <class>org.inek.dataportal.common.data.ikadmin.entity.AccountIkAdmin</class>
+    <class>org.inek.dataportal.common.data.ikadmin.entity.User</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="eclipselink.jpa.uppercase-column-names" value="true"/>

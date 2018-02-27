@@ -10,7 +10,7 @@ import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpSession;
 import org.inek.dataportal.controller.SessionController;
-import org.inek.dataportal.common.feature.account.entities.AccountDocument;
+import org.inek.dataportal.common.data.account.entities.AccountDocument;
 import org.inek.dataportal.feature.documents.DocumentUpload;
 import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
 import org.inek.dataportal.utils.StreamUtils;

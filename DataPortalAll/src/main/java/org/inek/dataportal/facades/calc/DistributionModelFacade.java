@@ -12,7 +12,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
-import org.inek.dataportal.common.feature.account.entities.Account;
+import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.entities.calc.CalcHospitalInfo;
 import org.inek.dataportal.entities.calc.cdm.DistributionModel;
 import org.inek.dataportal.entities.calc.cdm.DistributionModelDetail;

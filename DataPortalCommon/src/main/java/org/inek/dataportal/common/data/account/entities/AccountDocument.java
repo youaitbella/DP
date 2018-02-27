@@ -1,4 +1,4 @@
-package org.inek.dataportal.common.feature.account.entities;
+package org.inek.dataportal.common.data.account.entities;
 
 import java.io.Serializable;
 import java.util.Calendar;
@@ -16,7 +16,7 @@ import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
-import org.inek.dataportal.common.feature.account.iface.Document;
+import org.inek.dataportal.common.data.account.iface.Document;
 import org.inek.dataportal.common.utils.DateUtils;
 
 @Entity

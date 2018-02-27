@@ -3,7 +3,7 @@ package org.inek.dataportal.entities.drg;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import org.inek.dataportal.common.feature.account.iface.Document;
+import org.inek.dataportal.common.data.account.iface.Document;
 import org.inek.dataportal.utils.Documentation;
 
 /**

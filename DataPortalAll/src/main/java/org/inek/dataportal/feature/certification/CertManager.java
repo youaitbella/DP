@@ -20,7 +20,7 @@ import javax.inject.Named;
 import javax.persistence.OptimisticLockException;
 import javax.servlet.http.Part;
 import org.inek.dataportal.controller.SessionController;
-import org.inek.dataportal.common.feature.account.entities.Account;
+import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.entities.certification.Grouper;
 import org.inek.dataportal.entities.certification.RemunerationSystem;
 import org.inek.dataportal.enums.CertStatus;

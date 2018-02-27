@@ -27,7 +27,7 @@ import javax.inject.Named;
 import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.AccessManager;
 import org.inek.dataportal.controller.SessionController;
-import org.inek.dataportal.common.feature.account.entities.Account;
+import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.enums.Pages;

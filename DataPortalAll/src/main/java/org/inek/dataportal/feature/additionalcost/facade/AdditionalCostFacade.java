@@ -6,7 +6,7 @@ import java.util.Set;
 import javax.ejb.Stateless;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import org.inek.dataportal.common.feature.account.entities.Account;
+import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.feature.additionalcost.entity.AdditionalCost;
 import org.inek.dataportal.common.enums.DataSet;
 import org.inek.dataportal.common.enums.WorkflowStatus;

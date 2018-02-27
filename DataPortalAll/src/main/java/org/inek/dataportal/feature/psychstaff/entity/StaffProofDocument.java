@@ -12,7 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
-import org.inek.dataportal.common.feature.account.iface.Document;
+import org.inek.dataportal.common.data.account.iface.Document;
 import org.inek.dataportal.feature.psychstaff.enums.PsychType;
 
 @Entity

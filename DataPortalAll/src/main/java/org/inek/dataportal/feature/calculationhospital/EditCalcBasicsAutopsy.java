@@ -22,7 +22,7 @@ import javax.inject.Named;
 import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.AccessManager;
 import org.inek.dataportal.controller.SessionController;
-import org.inek.dataportal.common.feature.account.entities.Account;
+import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.entities.calc.autopsy.AutopsyItem;
 import org.inek.dataportal.entities.calc.autopsy.AutopsyServiceText;
 import org.inek.dataportal.entities.calc.autopsy.CalcBasicsAutopsy;

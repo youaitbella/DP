@@ -9,7 +9,7 @@ import java.util.stream.Stream;
 import javax.inject.Inject;
 import org.inek.dataportal.common.AccessManager;
 import org.inek.dataportal.controller.SessionController;
-import org.inek.dataportal.common.feature.account.entities.Account;
+import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.entities.nub.NubRequest;
 import org.inek.dataportal.common.enums.DataSet;
 import org.inek.dataportal.common.enums.Feature;

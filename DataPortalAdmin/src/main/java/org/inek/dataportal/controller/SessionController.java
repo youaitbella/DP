@@ -22,7 +22,7 @@ import javax.inject.Named;
 import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.entities.CustomerType;
 import org.inek.dataportal.entities.icmt.Customer;
-import org.inek.dataportal.common.feature.account.entities.Account;
+import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.enums.FeatureState;
 import org.inek.dataportal.enums.Pages;
@@ -38,7 +38,7 @@ import org.inek.dataportal.common.data.adm.Log;
 import org.inek.dataportal.common.data.adm.ReportTemplate;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Stage;
-import org.inek.dataportal.common.feature.account.entities.AccountFeature;
+import org.inek.dataportal.common.data.account.entities.AccountFeature;
 import org.inek.dataportal.feature.admin.facade.AdminFacade;
 import org.inek.dataportal.helper.NotLoggedInException;
 import org.inek.dataportal.helper.StreamHelper;
@@ -435,13 +435,6 @@ public class SessionController implements Serializable {
         if (!hasDocument) {
             _features.add(FeatureFactory.createController(Feature.DOCUMENTS, this));
             persistFeature(Feature.DOCUMENTS);
-        }
-        if (!hasCooperation && _coopFacade.getOpenCooperationRequestCount(_account.getId()) > 0) {
-            _features.add(FeatureFactory.createController(Feature.COOPERATION, this));
-            persistFeature(Feature.COOPERATION);
-        }
-        for (Feature f : features.values()) {
-//            _features.add(FeatureFactory.createController(f, this));
         }
     }
 

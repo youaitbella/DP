@@ -5,7 +5,7 @@
  */
 package org.inek.dataportal.feature.admin.backingbean;
 
-import org.inek.dataportal.common.feature.account.entities.Account;
+import org.inek.dataportal.common.data.account.entities.Account;
 
 /**
  *

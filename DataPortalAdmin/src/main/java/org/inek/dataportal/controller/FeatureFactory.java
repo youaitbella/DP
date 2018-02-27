@@ -6,7 +6,6 @@ package org.inek.dataportal.controller;
 
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.feature.admin.controller.AdminController;
-import org.inek.dataportal.feature.cooperation.CooperationController;
 
 /**
  *
@@ -19,8 +18,6 @@ public class FeatureFactory {
         switch (feature) {
             case ADMIN:
                 return new AdminController(sessionController);
-            case COOPERATION:
-                return new CooperationController(sessionController);
             default:
                 throw new IllegalArgumentException("no such controller");
         }

@@ -15,7 +15,7 @@ import javax.inject.Inject;
 import org.inek.dataportal.common.AccessManager;
 import static org.inek.dataportal.common.AccessManager.canReadCompleted;
 import org.inek.dataportal.controller.SessionController;
-import org.inek.dataportal.common.feature.account.entities.Account;
+import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.feature.specificfunction.facade.SpecificFunctionFacade;

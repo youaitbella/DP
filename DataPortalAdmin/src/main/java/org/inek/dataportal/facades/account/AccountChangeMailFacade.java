@@ -10,7 +10,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import org.inek.dataportal.common.feature.account.entities.AccountChangeMail;
+import org.inek.dataportal.common.data.account.entities.AccountChangeMail;
 import org.inek.dataportal.facades.AbstractFacade;
 import org.inek.dataportal.mail.Mailer;
 import org.inek.dataportal.utils.StringUtil;

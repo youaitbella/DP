@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates and open the template in
  * the editor.
  */
-package org.inek.dataportal.common.feature.account.entities;
+package org.inek.dataportal.common.data.account.entities;
 
 import java.io.Serializable;
 import java.util.Objects;

@@ -21,7 +21,7 @@ import javax.inject.Named;
 import javax.validation.ValidationException;
 import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.controller.SessionController;
-import org.inek.dataportal.common.feature.account.entities.Account;
+import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.entities.valuationratio.ValuationRatio;
 import org.inek.dataportal.entities.valuationratio.ValuationRatioDrgCount;
 import org.inek.dataportal.entities.valuationratio.ValuationRatioMedian;

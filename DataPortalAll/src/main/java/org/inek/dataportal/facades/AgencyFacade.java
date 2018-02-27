@@ -8,7 +8,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.Query;
 import org.inek.dataportal.common.data.AbstractDataAccess;
-import org.inek.dataportal.common.feature.account.entities.Account;
+import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.entities.Agency;
 
 /**

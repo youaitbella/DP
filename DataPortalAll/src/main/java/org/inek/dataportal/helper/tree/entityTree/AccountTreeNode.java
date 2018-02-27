@@ -7,7 +7,7 @@ package org.inek.dataportal.helper.tree.entityTree;
 
 import org.inek.dataportal.common.tree.TreeNode;
 import org.inek.dataportal.common.tree.TreeNodeObserver;
-import org.inek.dataportal.common.feature.account.entities.Account;
+import org.inek.dataportal.common.data.account.entities.Account;
 
 /**
  *

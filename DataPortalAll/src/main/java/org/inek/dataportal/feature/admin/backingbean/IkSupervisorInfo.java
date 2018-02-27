@@ -6,7 +6,7 @@
 package org.inek.dataportal.feature.admin.backingbean;
 
 import java.util.Objects;
-import org.inek.dataportal.common.feature.account.entities.Account;
+import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.common.enums.Feature;
 

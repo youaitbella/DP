@@ -2,9 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.common.feature.ikadmin.entity;
+package org.inek.dataportal.common.data.ikadmin.entity;
 
-import org.inek.dataportal.common.feature.account.iface.Person;
+import org.inek.dataportal.common.data.account.iface.Person;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;

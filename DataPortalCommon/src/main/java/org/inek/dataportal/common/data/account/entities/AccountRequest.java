@@ -2,9 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.common.feature.account.entities;
+package org.inek.dataportal.common.data.account.entities;
 
-import org.inek.dataportal.common.feature.account.iface.Person;
+import org.inek.dataportal.common.data.account.iface.Person;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;

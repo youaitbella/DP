@@ -12,7 +12,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.inek.dataportal.common.enums.Feature;
-import org.inek.dataportal.common.feature.account.entities.AccountFeatureRequest;
+import org.inek.dataportal.common.data.account.entities.AccountFeatureRequest;
 import org.inek.dataportal.facades.AbstractFacade;
 
 /**

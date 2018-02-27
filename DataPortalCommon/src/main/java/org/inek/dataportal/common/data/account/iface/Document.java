@@ -1,4 +1,4 @@
-package org.inek.dataportal.common.feature.account.iface;
+package org.inek.dataportal.common.data.account.iface;
 
 /**
  *

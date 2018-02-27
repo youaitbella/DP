@@ -23,7 +23,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.data.access.ConfigFacade;
-import org.inek.dataportal.common.feature.account.entities.AccountDocument;
+import org.inek.dataportal.common.data.account.entities.AccountDocument;
 
 /**
  *

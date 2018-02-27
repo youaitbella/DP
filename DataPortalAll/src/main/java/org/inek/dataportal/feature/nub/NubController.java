@@ -8,7 +8,7 @@ import java.util.Calendar;
 import org.inek.dataportal.controller.AbstractFeatureController;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.nub.NubRequest;
-import org.inek.dataportal.common.feature.account.entities.Account;
+import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.enums.NubFieldKey;
 import org.inek.dataportal.enums.Pages;

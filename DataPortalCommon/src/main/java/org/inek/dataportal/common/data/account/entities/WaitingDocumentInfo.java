@@ -1,8 +1,7 @@
-package org.inek.dataportal.common.feature.account.entities;
+package org.inek.dataportal.common.data.account.entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -14,24 +13,20 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
-import org.inek.dataportal.common.feature.account.iface.Document;
 
 @Entity
 @Table(name = "WaitingDocument")
-public class WaitingDocument implements Serializable, Document {
+public class WaitingDocumentInfo implements Serializable {
     
     private static final long serialVersionUID = 1L;
     
-    public WaitingDocument() {}
+    public WaitingDocumentInfo() {}
 
-    public WaitingDocument(String name) {
+    public WaitingDocumentInfo(String name) {
         _name = name;
     }
 
@@ -45,13 +40,10 @@ public class WaitingDocument implements Serializable, Document {
         return _id;
     }
 
-    public void setId(int id) {
-        _id = id;
-    }
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="List Accounts">
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH, orphanRemoval = true)
     @JoinTable(
             name = "mapWaitingDocAccount",
             joinColumns = @JoinColumn(name = "wdaWaitingDocumentId"),
@@ -62,9 +54,6 @@ public class WaitingDocument implements Serializable, Document {
         return _accounts;
     }
 
-    public void setAccounts(List<Account> accounts) {
-        _accounts = accounts;
-    }
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Property AgentAccountId">
@@ -89,23 +78,14 @@ public class WaitingDocument implements Serializable, Document {
         return _timestamp;
     }
 
-    public void setTimestamp(Date timestamp) {
-        _timestamp = timestamp;
-    }
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Name">
     @Column(name = "wdName")
     private String _name;
 
-    @Override
     public String getName() {
         return _name;
-    }
-
-    @Override
-    public void setName(String name) {
-        _name = name;
     }
     // </editor-fold>
    
@@ -116,29 +96,8 @@ public class WaitingDocument implements Serializable, Document {
     public int getIk() {
         return _ik;
     }
-
-    public void setIk(int ik) {
-        this._ik = ik;
-    }
-    // </editor-fold>
-    
-    // <editor-fold defaultstate="collapsed" desc="Property Content">
-    @Lob
-    @Column(name = "wdContent")
-    private byte[] _content;
-    
-    @Override
-    public byte[] getContent() {
-        return _content;
-    }
-
-    @Override
-    public void setContent(byte[] content) {
-        _content = content;
-    }
     // </editor-fold>
    
-
     @Column(name = "wdDocumentDomainId", updatable = false, insertable = false)
     private int _domainId;
 
@@ -165,9 +124,6 @@ public class WaitingDocument implements Serializable, Document {
         return _validity;
     }
 
-    public void setValidity(int validity) {
-        _validity = validity;
-    }
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Property JsonMail">
@@ -178,15 +134,7 @@ public class WaitingDocument implements Serializable, Document {
         return _jsonMail;
     }
 
-    public void setJsonMail(String jsonMail) {
-        _jsonMail = jsonMail;
-    }
     // </editor-fold>
     
-    @PrePersist
-    @PreUpdate
-    private void tagCreated() {
-        _timestamp = Calendar.getInstance().getTime();
-    }
     
 }
