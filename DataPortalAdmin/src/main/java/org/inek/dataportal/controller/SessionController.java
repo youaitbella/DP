@@ -31,7 +31,6 @@ import org.inek.dataportal.common.helper.EnvironmentInfo;
 import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.CustomerTypeFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
-import org.inek.dataportal.feature.admin.facade.LogFacade;
 import org.inek.dataportal.facades.cooperation.CooperationRequestFacade;
 import org.inek.dataportal.common.data.adm.InekRole;
 import org.inek.dataportal.common.data.adm.Log;
@@ -39,6 +38,7 @@ import org.inek.dataportal.common.data.adm.ReportTemplate;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Stage;
 import org.inek.dataportal.common.data.account.entities.AccountFeature;
+import org.inek.dataportal.common.data.adm.facade.LogFacade;
 import org.inek.dataportal.feature.admin.facade.AdminFacade;
 import org.inek.dataportal.helper.NotLoggedInException;
 import org.inek.dataportal.helper.StreamHelper;
@@ -63,7 +63,6 @@ public class SessionController implements Serializable {
     @Inject private LogFacade _logFacade;
     @Inject private Mailer _mailer;
     @Inject private CustomerTypeFacade _typeFacade;
-    @Inject private CooperationRequestFacade _coopFacade;
 
     private PortalType _portalType = PortalType.COMMON;
 
