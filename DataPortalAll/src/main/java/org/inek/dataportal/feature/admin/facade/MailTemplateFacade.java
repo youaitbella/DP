@@ -1,5 +1,6 @@
 package org.inek.dataportal.feature.admin.facade;
 
+import org.inek.dataportal.common.data.AbstractFacade;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;

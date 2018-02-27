@@ -4,6 +4,7 @@
  */
 package org.inek.dataportal.facades.account;
 
+import org.inek.dataportal.common.data.AbstractFacade;
 import java.util.List;
 import java.util.Optional;
 import org.inek.dataportal.facades.*;

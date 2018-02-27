@@ -1,5 +1,6 @@
 package org.inek.dataportal.facades;
 
+import org.inek.dataportal.common.data.AbstractFacade;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;

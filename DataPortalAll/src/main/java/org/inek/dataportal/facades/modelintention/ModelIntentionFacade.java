@@ -23,7 +23,7 @@ import org.inek.dataportal.entities.modelintention.ModelIntention;
 import org.inek.dataportal.common.enums.DataSet;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.enums.UserSet;
-import org.inek.dataportal.facades.AbstractFacade;
+import org.inek.dataportal.common.data.AbstractFacade;
 import org.inek.dataportal.helper.structures.EntityInfo;
 
 /**

@@ -12,7 +12,7 @@ import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.data.account.entities.WaitingDocument;
 import org.inek.dataportal.common.data.account.entities.WaitingDocumentInfo;
-import org.inek.dataportal.facades.AbstractFacade;
+import org.inek.dataportal.common.data.AbstractFacade;
 import org.inek.dataportal.helper.structures.DocInfo;
 import org.inek.dataportal.common.utils.DateUtils;
 

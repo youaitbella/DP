@@ -23,7 +23,6 @@
     <class>org.inek.dataportal.common.data.account.entities.AccountChangeMail</class>
     <class>org.inek.dataportal.common.data.account.entities.AccountAdditionalIK</class>
     <class>org.inek.dataportal.common.data.account.entities.AccountRequest</class>
-    <class>org.inek.dataportal.common.data.account.entities.AccountActivation</class>
     <class>org.inek.dataportal.common.data.account.entities.AccountPwd</class>
     <class>org.inek.dataportal.common.data.account.entities.WaitingDocument</class>
     <class>org.inek.dataportal.common.data.account.entities.Account</class>

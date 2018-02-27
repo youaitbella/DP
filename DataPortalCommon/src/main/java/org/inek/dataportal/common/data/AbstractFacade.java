@@ -1,4 +1,4 @@
-package org.inek.dataportal.facades;
+package org.inek.dataportal.common.data;
 
 import java.util.HashMap;
 import java.util.List;

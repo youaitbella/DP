@@ -4,7 +4,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 import org.inek.dataportal.entities.certification.MapEmailReceiverLabel;
-import org.inek.dataportal.facades.AbstractFacade;
+import org.inek.dataportal.common.data.AbstractFacade;
 
 /**
  *

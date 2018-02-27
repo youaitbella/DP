@@ -7,7 +7,7 @@ import javax.ejb.Stateless;
 import javax.persistence.Query;
 import org.inek.dataportal.entities.nub.NubRequest;
 import org.inek.dataportal.common.data.adm.Log;
-import org.inek.dataportal.facades.AbstractFacade;
+import org.inek.dataportal.common.data.AbstractFacade;
 import org.inek.dataportal.common.utils.DateUtils;
 
 @Stateless

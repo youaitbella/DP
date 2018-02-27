@@ -9,7 +9,7 @@ import javax.persistence.criteria.Root;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.entities.cooperation.Cooperation;
 import org.inek.dataportal.entities.cooperation.CooperationRight;
-import org.inek.dataportal.facades.AbstractFacade;
+import org.inek.dataportal.common.data.AbstractFacade;
 
 /**
  *

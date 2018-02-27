@@ -5,7 +5,7 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import org.inek.dataportal.entities.modelintention.AgreedPatients;
-import org.inek.dataportal.facades.AbstractFacade;
+import org.inek.dataportal.common.data.AbstractFacade;
 
 @Stateless
 public class AgreedPatientsFacade extends AbstractFacade<AgreedPatients> {

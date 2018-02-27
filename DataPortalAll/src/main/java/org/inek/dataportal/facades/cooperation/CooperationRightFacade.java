@@ -9,7 +9,7 @@ import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.entities.cooperation.CooperationRight;
 import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.common.enums.Feature;
-import org.inek.dataportal.facades.AbstractFacade;
+import org.inek.dataportal.common.data.AbstractFacade;
 import org.inek.dataportal.feature.admin.backingbean.IkSupervisorInfo;
 
 @Stateless

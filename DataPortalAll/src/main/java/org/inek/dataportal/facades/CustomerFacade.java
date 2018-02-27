@@ -1,5 +1,6 @@
 package org.inek.dataportal.facades;
 
+import org.inek.dataportal.common.data.AbstractFacade;
 import javax.ejb.Stateless;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;

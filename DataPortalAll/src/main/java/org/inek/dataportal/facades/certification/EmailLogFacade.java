@@ -6,7 +6,7 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.persistence.TypedQuery;
 import org.inek.dataportal.entities.certification.EmailLog;
-import org.inek.dataportal.facades.AbstractFacade;
+import org.inek.dataportal.common.data.AbstractFacade;
 
 /**
  *

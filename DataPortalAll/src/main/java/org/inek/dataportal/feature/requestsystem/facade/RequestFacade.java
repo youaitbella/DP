@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.criteria.*;
-import org.inek.dataportal.facades.AbstractFacade;
+import org.inek.dataportal.common.data.AbstractFacade;
 import org.inek.dataportal.feature.requestsystem.dao.RequestInfo;
 import org.inek.dataportal.feature.requestsystem.entity.Request;
 

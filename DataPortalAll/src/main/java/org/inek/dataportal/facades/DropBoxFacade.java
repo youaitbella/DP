@@ -4,6 +4,7 @@
  */
 package org.inek.dataportal.facades;
 
+import org.inek.dataportal.common.data.AbstractFacade;
 import java.io.File;
 import java.util.Calendar;
 import java.util.Date;
