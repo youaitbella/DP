@@ -25,14 +25,14 @@ import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.enums.IkReference;
-import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
 import org.inek.dataportal.common.data.ikadmin.entity.User;
 import org.inek.dataportal.common.enums.Right;
 import org.inek.dataportal.common.data.ikadmin.facade.IkAdminFacade;
-import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.common.helper.Utils;
 
 /**
  *

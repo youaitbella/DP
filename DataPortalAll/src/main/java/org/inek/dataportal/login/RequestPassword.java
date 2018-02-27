@@ -14,9 +14,9 @@ import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.SessionTools;
-import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.facades.account.AccountFacade;
-import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.common.helper.Utils;
 
 /**
  *

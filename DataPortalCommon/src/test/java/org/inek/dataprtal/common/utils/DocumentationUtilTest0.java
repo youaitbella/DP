@@ -1,4 +1,4 @@
-package org.inek.dataportal.utils;
+package org.inek.dataprtal.common.utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -7,6 +7,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.inek.dataportal.common.utils.Documentation;
+import org.inek.dataportal.common.utils.DocumentationUtil;
+import org.inek.dataportal.common.utils.KeyValueLevel;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 

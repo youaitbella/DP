@@ -24,16 +24,16 @@ import org.inek.dataportal.entities.certification.Grouper;
 import org.inek.dataportal.entities.certification.GrouperAction;
 import org.inek.dataportal.entities.certification.RemunerationSystem;
 import org.inek.dataportal.enums.CertStatus;
-import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.facades.certification.GrouperActionFacade;
 import org.inek.dataportal.facades.certification.GrouperFacade;
 import org.inek.dataportal.facades.certification.SystemFacade;
-import org.inek.dataportal.helper.StreamHelper;
-import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.common.helper.StreamHelper;
+import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
 import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
 import org.inek.dataportal.mail.Mailer;
-import org.inek.dataportal.utils.Helper;
+import org.inek.dataportal.common.utils.Helper;
 
 /**
  *

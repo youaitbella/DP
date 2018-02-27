@@ -23,8 +23,8 @@ import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.facades.DropBoxFacade;
 import org.inek.dataportal.feature.dropbox.DropBoxController;
-import org.inek.dataportal.helper.StreamHelper;
-import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.common.helper.StreamHelper;
+import org.inek.dataportal.common.helper.Utils;
 
 @WebServlet(urlPatterns = {"/upload/tool"}, name = "ToolUploadServlet")
 @MultipartConfig(fileSizeThreshold = 10 * 1024 * 1024)

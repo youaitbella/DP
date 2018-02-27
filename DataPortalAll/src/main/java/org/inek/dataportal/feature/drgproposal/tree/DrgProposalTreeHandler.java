@@ -14,16 +14,16 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.drg.DrgProposal;
-import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.facades.DrgProposalFacade;
-import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.helper.tree.entityTree.AccountTreeNode;
 import org.inek.dataportal.helper.tree.ProposalInfoTreeNode;
 import org.inek.dataportal.common.tree.RootNode;
 import org.inek.dataportal.common.tree.TreeNode;
 import org.inek.dataportal.common.tree.TreeNodeObserver;
-import org.inek.dataportal.utils.DocumentationUtil;
-import org.inek.dataportal.utils.KeyValueLevel;
+import org.inek.dataportal.common.utils.DocumentationUtil;
+import org.inek.dataportal.common.utils.KeyValueLevel;
 
 /**
  *

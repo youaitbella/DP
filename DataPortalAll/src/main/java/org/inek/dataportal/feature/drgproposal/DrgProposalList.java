@@ -7,12 +7,12 @@ import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.AccessManager;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.drg.DrgProposal;
-import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.facades.DrgProposalFacade;
-import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
-import org.inek.dataportal.utils.DocumentationUtil;
+import org.inek.dataportal.common.utils.DocumentationUtil;
 
 @Named
 @RequestScoped

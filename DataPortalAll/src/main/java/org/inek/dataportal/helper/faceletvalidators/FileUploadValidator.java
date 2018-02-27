@@ -13,7 +13,7 @@ import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.servlet.http.Part;
-import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.mail.Mailer;
 
 /**

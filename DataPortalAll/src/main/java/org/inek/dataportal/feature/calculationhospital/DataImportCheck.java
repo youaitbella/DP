@@ -12,8 +12,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.function.BiConsumer;
-import org.inek.dataportal.helper.Utils;
-import org.inek.dataportal.utils.StringUtil;
+import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.common.utils.StringUtil;
 
 /**
  * Holds the Info where the data will be stored and which check to perform to validate the input.

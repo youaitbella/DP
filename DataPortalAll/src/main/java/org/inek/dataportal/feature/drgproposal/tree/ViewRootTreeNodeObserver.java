@@ -17,7 +17,7 @@ import org.inek.dataportal.common.AccessManager;
 import static org.inek.dataportal.common.AccessManager.canReadSealed;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.facades.DrgProposalFacade;
-import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.tree.TreeNode;
 import org.inek.dataportal.common.tree.TreeNodeObserver;
 import org.inek.dataportal.common.tree.YearTreeNode;

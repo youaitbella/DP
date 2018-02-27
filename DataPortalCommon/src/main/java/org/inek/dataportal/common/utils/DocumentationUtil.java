@@ -1,4 +1,4 @@
-package org.inek.dataportal.utils;
+package org.inek.dataportal.common.utils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -15,7 +15,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
-import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.common.utils.KeyValueLevel;
 
 /**
  *

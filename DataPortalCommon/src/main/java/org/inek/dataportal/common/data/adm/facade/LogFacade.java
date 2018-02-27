@@ -1,11 +1,10 @@
-package org.inek.dataportal.feature.admin.facade;
+package org.inek.dataportal.common.data.adm.facade;
 
 import java.util.Date;
 import javax.ejb.Asynchronous;
 import javax.ejb.Schedule;
 import javax.ejb.Stateless;
 import javax.persistence.Query;
-import org.inek.dataportal.entities.nub.NubRequest;
 import org.inek.dataportal.common.data.adm.Log;
 import org.inek.dataportal.common.data.AbstractFacade;
 import org.inek.dataportal.common.utils.DateUtils;
@@ -26,7 +25,7 @@ public class LogFacade extends AbstractFacade<Log> {
     private void removeOldEntries() {
         Date logDate = DateUtils.getDateWithDayOffset(-90);
         String sql = "DELETE FROM Log l WHERE l._creationDate < :date";
-        Query query = getEntityManager().createQuery(sql, NubRequest.class);
+        Query query = getEntityManager().createQuery(sql);
         query.setParameter("date", logDate).executeUpdate();
     }
 

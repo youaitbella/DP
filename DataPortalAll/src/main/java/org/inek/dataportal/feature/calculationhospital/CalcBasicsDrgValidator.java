@@ -17,7 +17,7 @@ import org.inek.dataportal.entities.calc.drg.KGLListEndoscopyAmbulant;
 import org.inek.dataportal.entities.calc.drg.KGLListEndoscopyDifferential;
 import org.inek.dataportal.entities.calc.drg.KGLListKstTop;
 import org.inek.dataportal.entities.calc.drg.KglOpAn;
-import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.helper.groupinterface.Seal;
 import org.inek.dataportal.helper.structures.MessageContainer;
 

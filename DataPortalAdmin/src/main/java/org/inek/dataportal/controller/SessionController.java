@@ -25,7 +25,7 @@ import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.enums.FeatureState;
-import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.PortalType;
 import org.inek.dataportal.common.helper.EnvironmentInfo;
 import org.inek.dataportal.facades.CustomerFacade;

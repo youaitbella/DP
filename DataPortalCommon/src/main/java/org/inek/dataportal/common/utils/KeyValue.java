@@ -1,4 +1,4 @@
-package org.inek.dataportal.utils;
+package org.inek.dataportal.common.utils;
 
 import java.util.Objects;
 

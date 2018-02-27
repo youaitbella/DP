@@ -14,7 +14,7 @@ import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.feature.specificfunction.entity.SpecificFunctionRequest;
 import org.inek.dataportal.feature.specificfunction.facade.SpecificFunctionFacade;
-import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.helper.tree.SpecificFunctionRequestTreeNode;
 import org.inek.dataportal.common.tree.RootNode;
 import org.inek.dataportal.common.tree.TreeNode;

@@ -2,7 +2,7 @@ package org.inek.dataportal.entities.valuationratio;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import org.inek.dataportal.utils.Documentation;
+import org.inek.dataportal.common.utils.Documentation;
 
 /**
  *

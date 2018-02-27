@@ -23,7 +23,7 @@ import javax.persistence.Version;
 import org.inek.dataportal.entities.common.ProcedureInfo;
 import org.inek.dataportal.enums.PeppProposalCategory;
 import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.utils.Documentation;
+import org.inek.dataportal.common.utils.Documentation;
 
 /**
  *

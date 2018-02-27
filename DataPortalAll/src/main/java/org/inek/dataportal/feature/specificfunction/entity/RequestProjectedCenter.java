@@ -7,7 +7,7 @@ import java.util.Vector;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
-import org.inek.dataportal.utils.Documentation;
+import org.inek.dataportal.common.utils.Documentation;
 
 /**
  *

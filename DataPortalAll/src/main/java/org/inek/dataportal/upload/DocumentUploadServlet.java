@@ -13,7 +13,7 @@ import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.AccountDocument;
 import org.inek.dataportal.feature.documents.DocumentUpload;
 import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
-import org.inek.dataportal.utils.StreamUtils;
+import org.inek.dataportal.common.utils.StreamUtils;
 
 @WebServlet(urlPatterns = {"/upload/document"}, name = "DocumentUploadServlet")
 @MultipartConfig(fileSizeThreshold = 16 * 1024 * 1024, maxFileSize = Integer.MAX_VALUE - 5)

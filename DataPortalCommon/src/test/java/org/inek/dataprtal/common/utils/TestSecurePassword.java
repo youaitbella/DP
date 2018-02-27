@@ -3,11 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.utils;
+package org.inek.dataprtal.common.utils;
 
+import org.inek.dataportal.common.utils.SecurePassword;
 import java.util.HashMap;
 import java.util.Map;
-import org.inek.dataportal.enums.Quality;
+import org.inek.dataportal.common.enums.Quality;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 

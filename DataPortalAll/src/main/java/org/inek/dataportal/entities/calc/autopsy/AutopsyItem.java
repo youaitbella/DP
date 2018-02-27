@@ -15,7 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
-import org.inek.dataportal.utils.Documentation;
+import org.inek.dataportal.common.utils.Documentation;
 
 /**
  *

@@ -7,7 +7,7 @@ package org.inek.dataportal.common;
 import java.io.Serializable;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
-import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.common.enums.Pages;
 
 /**
  *

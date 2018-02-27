@@ -3,7 +3,7 @@ package org.inek.dataportal.clientbehaviour;
 import javax.faces.component.behavior.ClientBehaviorBase;
 import javax.faces.component.behavior.ClientBehaviorContext;
 import javax.faces.component.behavior.FacesBehavior;
-import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.common.helper.Utils;
 
 /**
  *

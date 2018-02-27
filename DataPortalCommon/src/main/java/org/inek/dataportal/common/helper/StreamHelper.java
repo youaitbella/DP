@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.helper;
+package org.inek.dataportal.common.helper;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;

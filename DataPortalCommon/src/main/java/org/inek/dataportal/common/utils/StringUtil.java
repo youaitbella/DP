@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates and open the template in
  * the editor.
  */
-package org.inek.dataportal.utils;
+package org.inek.dataportal.common.utils;
 
 import java.text.NumberFormat;
 import java.text.ParseException;

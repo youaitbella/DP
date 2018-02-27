@@ -7,12 +7,12 @@ import javax.inject.Named;
 import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.feature.specificfunction.entity.SpecificFunctionRequest;
 import org.inek.dataportal.common.enums.ConfigKey;
-import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.feature.specificfunction.facade.SpecificFunctionFacade;
-import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
-import org.inek.dataportal.utils.DocumentationUtil;
+import org.inek.dataportal.common.utils.DocumentationUtil;
 
 /**
  *

@@ -31,10 +31,10 @@ import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.data.account.entities.AccountDocument;
 import org.inek.dataportal.common.data.account.entities.WaitingDocument;
 import org.inek.dataportal.common.enums.Feature;
-import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.facades.account.AccountDocumentFacade;
 import org.inek.dataportal.facades.account.WaitingDocumentFacade;
-import org.inek.dataportal.helper.StreamHelper;
+import org.inek.dataportal.common.helper.StreamHelper;
 import org.inek.dataportal.helper.scope.FeatureScoped;
 import org.inek.dataportal.helper.structures.DocInfo;
 import org.inek.dataportal.helper.tree.entityTree.AccountTreeNode;
@@ -43,7 +43,7 @@ import org.inek.dataportal.mail.Mailer;
 import org.inek.dataportal.common.tree.RootNode;
 import org.inek.dataportal.common.tree.TreeNode;
 import org.inek.dataportal.common.tree.TreeNodeObserver;
-import org.inek.dataportal.utils.Helper;
+import org.inek.dataportal.common.utils.Helper;
 
 /**
  *

@@ -5,7 +5,7 @@ import javax.faces.component.behavior.ClientBehaviorBase;
 import javax.faces.component.behavior.ClientBehaviorContext;
 import javax.faces.component.behavior.FacesBehavior;
 import javax.faces.context.FacesContext;
-import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.common.helper.Utils;
 
 /**
  *

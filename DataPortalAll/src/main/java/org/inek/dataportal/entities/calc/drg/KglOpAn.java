@@ -17,7 +17,7 @@ import javax.validation.constraints.Min;
 import org.inek.dataportal.feature.calculationhospital.CalcBasicsStaticData;
 import org.inek.dataportal.helper.groupinterface.TopicCalcOpAn;
 import org.inek.dataportal.helper.groupinterface.Seal;
-import org.inek.dataportal.utils.Documentation;
+import org.inek.dataportal.common.utils.Documentation;
 
 /**
  *

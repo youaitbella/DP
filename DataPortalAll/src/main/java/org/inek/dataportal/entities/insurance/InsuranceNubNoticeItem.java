@@ -6,7 +6,7 @@ import java.util.Objects;
 import java.util.UUID;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
-import org.inek.dataportal.utils.Documentation;
+import org.inek.dataportal.common.utils.Documentation;
 
 /**
  *

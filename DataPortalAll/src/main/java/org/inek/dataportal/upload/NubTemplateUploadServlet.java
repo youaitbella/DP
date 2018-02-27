@@ -13,7 +13,7 @@ import org.inek.dataportal.enums.NubFieldKey;
 import org.inek.dataportal.facades.NubRequestFacade;
 import org.inek.dataportal.feature.nub.NubController;
 import org.inek.dataportal.feature.nub.NubSessionTools;
-import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.common.helper.Utils;
 
 @WebServlet(urlPatterns = {"/upload/nub"}, name = "NubTemplateUploadServlet")
 @MultipartConfig(fileSizeThreshold = 10 * 1024 * 1024)

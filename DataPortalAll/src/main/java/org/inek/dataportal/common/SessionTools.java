@@ -21,13 +21,13 @@ import javax.inject.Named;
 import org.inek.dataportal.entities.ContactRole;
 import org.inek.dataportal.entities.CustomerType;
 import org.inek.dataportal.entities.dropbox.DropBoxType;
-import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.facades.ContactRoleFacade;
 import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.CustomerTypeFacade;
 import org.inek.dataportal.facades.DropBoxTypeFacade;
 import org.inek.dataportal.facades.InfoDataFacade;
-import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.helper.faceletvalidators.EmailValidator;
 
 /**

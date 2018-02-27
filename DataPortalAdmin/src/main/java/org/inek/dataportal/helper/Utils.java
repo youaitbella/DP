@@ -35,9 +35,9 @@ import javax.faces.validator.ValidatorException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.inek.dataportal.common.enums.Feature;
+import org.inek.dataportal.common.enums.Pages;
+import org.inek.dataportal.common.utils.Helper;
 import org.inek.dataportal.entities.Document;
-import org.inek.dataportal.enums.Pages;
-import org.inek.dataportal.utils.Helper;
 
 /**
  *

@@ -18,8 +18,8 @@ import org.inek.dataportal.entities.calc.CalcHospitalInfo;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.data.AbstractDataAccess;
-import org.inek.dataportal.helper.Utils;
-import org.inek.dataportal.utils.StringUtil;
+import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.common.utils.StringUtil;
 
 /**
  *

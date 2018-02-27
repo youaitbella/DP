@@ -1,5 +1,6 @@
 package org.inek.dataportal.facades.account;
 
+import org.inek.dataportal.common.data.account.facade.AccountPwdFacade;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -35,12 +36,12 @@ import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
 import org.inek.dataportal.common.enums.Right;
 import org.inek.dataportal.common.data.ikadmin.facade.IkAdminFacade;
 import org.inek.dataportal.helper.TransferFileCreator;
-import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.mail.Mailer;
 import org.inek.dataportal.requestmanager.FeatureRequestHandler;
 import org.inek.dataportal.common.utils.Crypt;
 import org.inek.dataportal.utils.ObjectUtil;
-import org.inek.dataportal.utils.StringUtil;
+import org.inek.dataportal.common.utils.StringUtil;
 
 /**
  *

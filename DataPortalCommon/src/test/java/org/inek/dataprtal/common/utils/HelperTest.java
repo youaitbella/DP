@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.utils;
+package org.inek.dataprtal.common.utils;
 
-import org.inek.dataportal.utils.Helper;
+import org.inek.dataportal.common.utils.Helper;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

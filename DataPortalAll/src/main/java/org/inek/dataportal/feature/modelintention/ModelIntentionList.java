@@ -16,16 +16,16 @@ import org.inek.dataportal.entities.modelintention.ModelIntention;
 import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.common.enums.DataSet;
 import org.inek.dataportal.common.enums.Feature;
-import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.enums.UserSet;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.facades.cooperation.CooperationFacade;
 import org.inek.dataportal.facades.cooperation.CooperationRightFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.modelintention.ModelIntentionFacade;
-import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.helper.structures.EntityInfo;
-import org.inek.dataportal.utils.DocumentationUtil;
+import org.inek.dataportal.common.utils.DocumentationUtil;
 
 @Named
 @RequestScoped

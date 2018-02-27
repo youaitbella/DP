@@ -16,7 +16,7 @@ import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.data.account.entities.AccountFeatureRequest;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Feature;
-import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.facades.ContactRoleFacade;
 import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.account.AccountFeatureRequestFacade;

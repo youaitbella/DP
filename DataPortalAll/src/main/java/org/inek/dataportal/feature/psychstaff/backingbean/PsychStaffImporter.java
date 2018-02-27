@@ -17,8 +17,8 @@ import org.inek.dataportal.feature.psychstaff.entity.StaffProofAgreed;
 import org.inek.dataportal.feature.psychstaff.entity.StaffProofEffective;
 import org.inek.dataportal.feature.psychstaff.entity.StaffProofExplanation;
 import org.inek.dataportal.feature.psychstaff.enums.PsychType;
-import org.inek.dataportal.helper.Utils;
-import org.inek.dataportal.utils.StringUtil;
+import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.common.utils.StringUtil;
 
 /**
  *

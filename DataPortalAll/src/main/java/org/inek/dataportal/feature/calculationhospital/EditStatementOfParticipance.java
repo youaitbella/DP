@@ -33,17 +33,17 @@ import org.inek.dataportal.entities.calc.sop.CalcContact;
 import org.inek.dataportal.entities.calc.sop.StatementOfParticipance;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Feature;
-import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.calc.CalcSopFacade;
 import org.inek.dataportal.facades.calc.IcmtUpdater;
 import org.inek.dataportal.feature.AbstractEditController;
-import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
 import org.inek.dataportal.helper.structures.MessageContainer;
 import org.inek.dataportal.mail.Mailer;
-import org.inek.dataportal.utils.DocumentationUtil;
+import org.inek.dataportal.common.utils.DocumentationUtil;
 
 /**
  *

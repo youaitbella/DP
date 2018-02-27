@@ -26,7 +26,7 @@ import org.inek.dataportal.entities.nub.NubRequest;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.common.enums.Feature;
-import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.NubRequestFacade;
@@ -37,7 +37,7 @@ import org.inek.dataportal.feature.nub.tree.AccountTreeNodeObserver;
 import org.inek.dataportal.feature.nub.tree.EditRootTreeNodeObserver;
 import org.inek.dataportal.feature.nub.tree.ViewRootTreeNodeObserver;
 import org.inek.dataportal.helper.ObjectUtils;
-import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.helper.structures.MessageContainer;
 import org.inek.dataportal.helper.structures.ProposalInfo;
 import org.inek.dataportal.helper.tree.entityTree.AccountTreeNode;
@@ -45,8 +45,8 @@ import org.inek.dataportal.helper.tree.ProposalInfoTreeNode;
 import org.inek.dataportal.common.tree.RootNode;
 import org.inek.dataportal.common.tree.TreeNode;
 import org.inek.dataportal.mail.Mailer;
-import org.inek.dataportal.utils.DocumentationUtil;
-import org.inek.dataportal.utils.KeyValueLevel;
+import org.inek.dataportal.common.utils.DocumentationUtil;
+import org.inek.dataportal.common.utils.KeyValueLevel;
 
 // todo: devide into several classes, use a specialized TreeNodeObserver on every level
 // todo: use customer node for iks managed by ikAdmin

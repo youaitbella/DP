@@ -5,12 +5,12 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.nub.NubRequest;
-import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.facades.NubRequestFacade;
-import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
-import org.inek.dataportal.utils.DocumentationUtil;
+import org.inek.dataportal.common.utils.DocumentationUtil;
 
 @Named
 @RequestScoped

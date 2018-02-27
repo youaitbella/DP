@@ -26,8 +26,8 @@ import org.inek.dataportal.entities.calc.psy.PeppCalcBasics;
 import org.inek.dataportal.entities.iface.BaseIdValue;
 import org.inek.dataportal.entities.iface.StatusEntity;
 import org.inek.dataportal.helper.BeanValidator;
-import org.inek.dataportal.helper.Utils;
-import org.inek.dataportal.utils.StringUtil;
+import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.common.utils.StringUtil;
 
 /**
  * A utility class to read csv data and create elements for each row. These Elements will be bound to an owner via

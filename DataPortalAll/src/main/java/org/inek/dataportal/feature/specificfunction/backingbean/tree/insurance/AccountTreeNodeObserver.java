@@ -19,7 +19,7 @@ import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.feature.specificfunction.entity.SpecificFunctionAgreement;
 import org.inek.dataportal.feature.specificfunction.facade.SpecificFunctionFacade;
-import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.helper.tree.SpecificFunctionAgreementTreeNode;
 import org.inek.dataportal.helper.tree.entityTree.AccountTreeNode;
 import org.inek.dataportal.common.tree.TreeNode;

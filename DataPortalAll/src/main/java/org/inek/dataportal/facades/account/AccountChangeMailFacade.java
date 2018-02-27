@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
 import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -15,7 +13,7 @@ import javax.persistence.criteria.Root;
 import org.inek.dataportal.common.data.account.entities.AccountChangeMail;
 import org.inek.dataportal.common.data.AbstractFacade;
 import org.inek.dataportal.mail.Mailer;
-import org.inek.dataportal.utils.StringUtil;
+import org.inek.dataportal.common.utils.StringUtil;
 
 @Stateless
 public class AccountChangeMailFacade extends AbstractFacade<AccountChangeMail> {

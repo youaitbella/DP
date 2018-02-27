@@ -18,8 +18,8 @@ import org.inek.dataportal.entities.insurance.InsuranceNubNoticeItem;
 import org.inek.dataportal.entities.insurance.Unit;
 import org.inek.dataportal.facades.InsuranceFacade;
 import org.inek.dataportal.facades.common.ProcedureFacade;
-import org.inek.dataportal.helper.Utils;
-import org.inek.dataportal.utils.StringUtil;
+import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.common.utils.StringUtil;
 
 /**
  *

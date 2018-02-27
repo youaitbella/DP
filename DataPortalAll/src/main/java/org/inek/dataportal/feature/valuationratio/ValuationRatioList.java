@@ -12,11 +12,11 @@ import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.entities.valuationratio.ValuationRatio;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.DataSet;
-import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.facades.ValuationRatioFacade;
-import org.inek.dataportal.helper.Utils;
-import org.inek.dataportal.utils.DocumentationUtil;
+import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.common.utils.DocumentationUtil;
 
 @Named
 @RequestScoped

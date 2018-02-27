@@ -11,14 +11,14 @@ import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
-import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.feature.specificfunction.backingbean.tree.hospital.AccountTreeNodeObserver;
-import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.helper.tree.entityTree.AccountTreeNode;
 import org.inek.dataportal.helper.tree.SpecificFunctionRequestTreeNode;
 import org.inek.dataportal.common.tree.RootNode;
 import org.inek.dataportal.common.tree.TreeNode;
-import org.inek.dataportal.utils.KeyValueLevel;
+import org.inek.dataportal.common.utils.KeyValueLevel;
 
 /**
  *

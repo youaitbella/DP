@@ -10,7 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.feature.dropbox.DropBoxController;
-import org.inek.dataportal.helper.StreamHelper;
+import org.inek.dataportal.common.helper.StreamHelper;
 
 @WebServlet(urlPatterns = {"/upload/dropbox"}, name = "FileUploadServlet")
 @MultipartConfig(fileSizeThreshold = 10 * 1024 * 1024)

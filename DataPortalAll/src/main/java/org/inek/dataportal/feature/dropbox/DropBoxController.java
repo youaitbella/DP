@@ -1,5 +1,7 @@
 package org.inek.dataportal.feature.dropbox;
 
+import org.inek.dataportal.common.helper.StreamHelper;
+import org.inek.dataportal.common.helper.Utils;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -17,7 +19,7 @@ import org.inek.dataportal.entities.dropbox.DropBox;
 import org.inek.dataportal.entities.dropbox.DropBoxItem;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Feature;
-import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.facades.DropBoxFacade;
 import org.inek.dataportal.helper.*;
 

@@ -32,7 +32,7 @@ import javax.persistence.Version;
 import javax.validation.constraints.Size;
 import org.inek.dataportal.entities.iface.StatusEntity;
 import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.utils.Documentation;
+import org.inek.dataportal.common.utils.Documentation;
 import org.inek.dataportal.utils.ListUtil;
 
 /**

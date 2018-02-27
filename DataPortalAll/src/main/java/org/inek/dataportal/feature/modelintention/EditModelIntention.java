@@ -30,16 +30,16 @@ import org.inek.dataportal.entities.modelintention.ModelLife;
 import org.inek.dataportal.entities.modelintention.Quality;
 import org.inek.dataportal.entities.modelintention.Remuneration;
 import org.inek.dataportal.common.enums.Feature;
-import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.enums.Region;
 import org.inek.dataportal.enums.SelfHospitalisationType;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.facades.common.RemunerationTypeFacade;
 import org.inek.dataportal.facades.modelintention.ModelIntentionFacade;
 import org.inek.dataportal.feature.AbstractEditController;
-import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
-import org.inek.dataportal.utils.DocumentationUtil;
+import org.inek.dataportal.common.utils.DocumentationUtil;
 
 /**
  *

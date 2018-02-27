@@ -26,8 +26,8 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.facades.account.AccountFacade;
-import org.inek.dataportal.utils.StreamUtils;
-import org.inek.dataportal.utils.Helper;
+import org.inek.dataportal.common.utils.StreamUtils;
+import org.inek.dataportal.common.utils.Helper;
 
 /**
  *

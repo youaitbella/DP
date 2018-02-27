@@ -27,7 +27,7 @@ import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.enums.FeatureState;
 import org.inek.dataportal.common.enums.IkReference;
-import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.cooperation.CooperationFacade;
 import org.inek.dataportal.facades.cooperation.CooperationRequestFacade;
@@ -35,7 +35,7 @@ import org.inek.dataportal.facades.cooperation.CooperationRightFacade;
 import org.inek.dataportal.facades.cooperation.PortalMessageFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.Topic;
-import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
 import org.inek.dataportal.services.MessageService;
 

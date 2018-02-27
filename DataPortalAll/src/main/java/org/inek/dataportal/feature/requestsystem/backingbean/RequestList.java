@@ -5,12 +5,12 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
-import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.feature.requestsystem.dao.RequestInfo;
 import org.inek.dataportal.feature.requestsystem.entity.Request;
 import org.inek.dataportal.feature.requestsystem.facade.RequestFacade;
-import org.inek.dataportal.helper.Utils;
-import org.inek.dataportal.utils.DocumentationUtil;
+import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.common.utils.DocumentationUtil;
 
 /**
  *

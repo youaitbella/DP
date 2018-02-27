@@ -1,4 +1,4 @@
-package org.inek.dataportal.facades.account;
+package org.inek.dataportal.common.data.account.facade;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -10,8 +10,8 @@ import org.inek.dataportal.common.data.adm.Log;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.common.data.access.ConfigFacade;
-import org.inek.dataportal.feature.admin.facade.LogFacade;
-import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.common.data.adm.facade.LogFacade;
+import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.utils.Crypt;
 
 /**

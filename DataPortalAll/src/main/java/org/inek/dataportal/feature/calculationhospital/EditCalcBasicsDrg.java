@@ -59,16 +59,16 @@ import org.inek.dataportal.entities.calc.psy.KglPkmsAlternative;
 import org.inek.dataportal.entities.iface.BaseIdValue;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Feature;
-import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.facades.calc.CalcDrgFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.helper.ObjectUtils;
 import org.inek.dataportal.helper.TransferFileCreator;
-import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.helper.structures.FieldValues;
 import org.inek.dataportal.helper.structures.MessageContainer;
-import org.inek.dataportal.utils.DocumentationUtil;
+import org.inek.dataportal.common.utils.DocumentationUtil;
 
 /**
  *

@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
-import org.inek.dataportal.helper.Utils;
-import org.inek.dataportal.utils.StreamUtils;
+import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.common.utils.StreamUtils;
 
 public abstract class AbstractUploadServlet extends HttpServlet {
 

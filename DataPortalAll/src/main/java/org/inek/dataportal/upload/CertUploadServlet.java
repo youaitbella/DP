@@ -15,7 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpSession;
 import org.inek.dataportal.feature.certification.CertCertification;
 import org.inek.dataportal.feature.certification.EditCert;
-import org.inek.dataportal.helper.StreamHelper;
+import org.inek.dataportal.common.helper.StreamHelper;
 import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
 
 /**

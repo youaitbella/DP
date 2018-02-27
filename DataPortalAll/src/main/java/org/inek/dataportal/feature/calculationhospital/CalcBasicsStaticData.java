@@ -10,7 +10,7 @@ import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
 import javax.faces.model.SelectItem;
 import javax.inject.Named;
-import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.common.helper.Utils;
 
 /**
  * This class is instantiated at application level. Thus, it acts as a kind of

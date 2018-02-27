@@ -8,7 +8,7 @@ import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.data.account.entities.AccountFeature;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.enums.FeatureState;
-import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.common.helper.Utils;
 
 /**
  *

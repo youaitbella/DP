@@ -3,15 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.utils;
+package org.inek.dataportal.common.utils;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.component.UIInput;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.inek.dataportal.enums.Quality;
-import org.inek.dataportal.facades.account.AccountPwdFacade;
+import org.inek.dataportal.common.data.account.facade.AccountPwdFacade;
+import org.inek.dataportal.common.enums.Quality;
 
 /**
  *

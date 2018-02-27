@@ -1,7 +1,10 @@
-package org.inek.dataportal.utils;
+package org.inek.dataprtal.common.utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.inek.dataportal.common.utils.Documentation;
+import org.inek.dataportal.common.utils.DocumentationUtil;
+import org.inek.dataportal.common.utils.KeyValueLevel;
 import static org.junit.Assert.assertEquals;
 
 /**

@@ -20,13 +20,13 @@ import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.certification.RemunerationSystem;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Feature;
-import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.facades.certification.SystemFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.common.data.access.ConfigFacade;
-import org.inek.dataportal.helper.StreamHelper;
+import org.inek.dataportal.common.helper.StreamHelper;
 import org.inek.dataportal.helper.scope.FeatureScoped;
-import static org.inek.dataportal.helper.StreamHelper.BUFFER_LENGHT;
+import static org.inek.dataportal.common.helper.StreamHelper.BUFFER_LENGHT;
 
 /**
  *

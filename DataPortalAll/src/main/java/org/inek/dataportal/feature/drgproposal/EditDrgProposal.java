@@ -31,7 +31,7 @@ import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.enums.DrgProposalCategory;
 import org.inek.dataportal.enums.DrgProposalChangeMethod;
 import org.inek.dataportal.common.enums.Feature;
-import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.facades.DrgProposalFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
@@ -39,11 +39,11 @@ import org.inek.dataportal.facades.common.DiagnosisFacade;
 import org.inek.dataportal.facades.common.ProcedureFacade;
 import org.inek.dataportal.facades.cooperation.PortalMessageFacade;
 import org.inek.dataportal.feature.AbstractEditController;
-import org.inek.dataportal.helper.StreamHelper;
-import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.common.helper.StreamHelper;
+import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
 import org.inek.dataportal.services.MessageService;
-import org.inek.dataportal.utils.DocumentationUtil;
+import org.inek.dataportal.common.utils.DocumentationUtil;
 
 /**
  *

@@ -2,7 +2,7 @@ package org.inek.dataportal.feature.modelintention;
 
 import org.inek.dataportal.entities.modelintention.AcademicSupervision;
 import org.inek.dataportal.entities.modelintention.ModelIntention;
-import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.common.helper.Utils;
 
 public class AcademicSupervisionDynamicTable extends DynamicTable<AcademicSupervision> {
 

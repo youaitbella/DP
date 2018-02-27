@@ -26,12 +26,12 @@ import org.inek.dataportal.entities.valuationratio.ValuationRatio;
 import org.inek.dataportal.entities.valuationratio.ValuationRatioDrgCount;
 import org.inek.dataportal.entities.valuationratio.ValuationRatioMedian;
 import org.inek.dataportal.common.enums.ConfigKey;
-import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.facades.ValuationRatioFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.common.data.adm.MailTemplate;
-import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.mail.Mailer;
 
 /**

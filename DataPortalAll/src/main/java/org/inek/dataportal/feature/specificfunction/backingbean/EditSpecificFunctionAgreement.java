@@ -28,7 +28,7 @@ import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.data.account.entities.AccountAdditionalIK;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Feature;
-import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.feature.AbstractEditController;
@@ -43,10 +43,10 @@ import org.inek.dataportal.feature.specificfunction.entity.SpecificFunctionAgree
 import org.inek.dataportal.feature.specificfunction.entity.SpecificFunctionRequest;
 import org.inek.dataportal.feature.specificfunction.entity.TypeExtraCharge;
 import org.inek.dataportal.feature.specificfunction.facade.SpecificFunctionFacade;
-import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.helper.structures.MessageContainer;
 import org.inek.dataportal.mail.Mailer;
-import org.inek.dataportal.utils.DocumentationUtil;
+import org.inek.dataportal.common.utils.DocumentationUtil;
 
 /**
  *

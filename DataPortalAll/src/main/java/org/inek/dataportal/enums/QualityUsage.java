@@ -5,7 +5,7 @@
  */
 package org.inek.dataportal.enums;
 
-import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.common.helper.Utils;
 
 /**
  *

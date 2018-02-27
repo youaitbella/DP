@@ -17,7 +17,7 @@ import org.inek.dataportal.entities.iface.StatusEntity;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.feature.psychstaff.enums.PsychType;
 import org.inek.dataportal.common.utils.Crypt;
-import org.inek.dataportal.utils.Documentation;
+import org.inek.dataportal.common.utils.Documentation;
 
 /**
  *

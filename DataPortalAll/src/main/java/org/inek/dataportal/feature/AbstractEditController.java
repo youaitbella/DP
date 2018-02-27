@@ -10,7 +10,7 @@ import javax.annotation.PostConstruct;
 import org.inek.dataportal.common.SearchConsumer;
 import org.inek.dataportal.helper.Topic;
 import org.inek.dataportal.helper.Topics;
-import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.common.helper.Utils;
 
 /**
  *

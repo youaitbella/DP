@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
 import org.inek.dataportal.enums.RequestCategory;
-import org.inek.dataportal.utils.Documentation;
+import org.inek.dataportal.common.utils.Documentation;
 
 /**
  *

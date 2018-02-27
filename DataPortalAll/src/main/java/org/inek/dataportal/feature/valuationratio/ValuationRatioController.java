@@ -1,9 +1,10 @@
 package org.inek.dataportal.feature.valuationratio;
 
+import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.controller.AbstractFeatureController;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.common.enums.Feature;
-import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.helper.*;
 
 /**

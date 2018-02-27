@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import org.inek.dataportal.utils.Documentation;
+import org.inek.dataportal.common.utils.Documentation;
 
 /**
  * A contact might be any (juristic) person, who is involved into the model

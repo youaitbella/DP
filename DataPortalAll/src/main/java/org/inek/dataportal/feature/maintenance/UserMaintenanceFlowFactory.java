@@ -12,7 +12,7 @@ import javax.faces.flow.Flow;
 import javax.faces.flow.builder.FlowBuilder;
 import javax.faces.flow.builder.FlowBuilderParameter;
 import javax.faces.flow.builder.FlowDefinition;
-import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.common.enums.Pages;
 
 /**
  *

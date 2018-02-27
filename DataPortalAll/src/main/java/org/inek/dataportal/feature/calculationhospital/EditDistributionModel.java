@@ -29,16 +29,16 @@ import org.inek.dataportal.entities.calc.cdm.DistributionModelDetail;
 import org.inek.dataportal.enums.CalcHospitalFunction;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Feature;
-import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.calc.DistributionModelFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.common.data.adm.MailTemplate;
-import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.helper.structures.MessageContainer;
 import org.inek.dataportal.mail.Mailer;
-import org.inek.dataportal.utils.DocumentationUtil;
+import org.inek.dataportal.common.utils.DocumentationUtil;
 
 /**
  *

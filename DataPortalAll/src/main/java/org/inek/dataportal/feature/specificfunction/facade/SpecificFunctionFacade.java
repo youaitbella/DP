@@ -27,8 +27,8 @@ import org.inek.dataportal.feature.specificfunction.entity.SpecificFunction;
 import org.inek.dataportal.feature.specificfunction.entity.SpecificFunctionAgreement;
 import org.inek.dataportal.feature.specificfunction.entity.SpecificFunctionRequest;
 import org.inek.dataportal.feature.specificfunction.entity.TypeExtraCharge;
-import org.inek.dataportal.helper.Utils;
-import org.inek.dataportal.utils.StringUtil;
+import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.common.utils.StringUtil;
 
 /**
  *

@@ -20,7 +20,7 @@ import org.inek.dataportal.entities.calc.sop.StatementOfParticipance;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.data.AbstractDataAccess;
-import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.entities.iface.BaseIdValue;
 
 /**

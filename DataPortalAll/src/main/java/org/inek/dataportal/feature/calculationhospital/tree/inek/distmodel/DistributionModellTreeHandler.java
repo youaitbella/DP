@@ -20,7 +20,7 @@ import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.entities.calc.CalcHospitalInfo;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.facades.calc.DistributionModelFacade;
-import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.helper.tree.entityTree.AccountTreeNode;
 import org.inek.dataportal.helper.tree.CalcHospitalTreeNode;
 import org.inek.dataportal.common.tree.RootNode;

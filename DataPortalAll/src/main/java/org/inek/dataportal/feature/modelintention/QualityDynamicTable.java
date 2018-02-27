@@ -3,7 +3,7 @@ package org.inek.dataportal.feature.modelintention;
 import java.util.List;
 import org.inek.dataportal.entities.modelintention.ModelIntention;
 import org.inek.dataportal.entities.modelintention.Quality;
-import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.common.helper.Utils;
 
 public class QualityDynamicTable extends DynamicTable<Quality> {
     private final int _typeId;

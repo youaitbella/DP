@@ -16,14 +16,14 @@ import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.AccountDocument;
 import org.inek.dataportal.common.enums.Feature;
-import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.facades.account.AccountDocumentFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.common.data.access.ConfigFacade;
-import org.inek.dataportal.helper.StreamHelper;
-import org.inek.dataportal.helper.Utils;
-import org.inek.dataportal.utils.Helper;
+import org.inek.dataportal.common.helper.StreamHelper;
+import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.common.utils.Helper;
 
 /**
  *

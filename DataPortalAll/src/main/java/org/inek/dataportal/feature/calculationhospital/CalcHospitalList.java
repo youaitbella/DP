@@ -24,7 +24,7 @@ import org.inek.dataportal.enums.CalcHospitalFunction;
 import org.inek.dataportal.enums.CalcInfoType;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Feature;
-import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.facades.calc.CalcAutopsyFacade;
 import org.inek.dataportal.facades.calc.CalcDrgFacade;
@@ -32,9 +32,9 @@ import org.inek.dataportal.facades.calc.CalcFacade;
 import org.inek.dataportal.facades.calc.CalcPsyFacade;
 import org.inek.dataportal.facades.calc.CalcSopFacade;
 import org.inek.dataportal.facades.calc.DistributionModelFacade;
-import org.inek.dataportal.helper.Utils;
-import org.inek.dataportal.utils.DocumentationUtil;
-import org.inek.dataportal.utils.KeyValueLevel;
+import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.common.utils.DocumentationUtil;
+import org.inek.dataportal.common.utils.KeyValueLevel;
 
 /**
  *

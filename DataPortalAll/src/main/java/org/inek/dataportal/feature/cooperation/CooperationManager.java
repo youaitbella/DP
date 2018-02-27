@@ -9,7 +9,7 @@ import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.data.account.entities.AccountFeature;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.enums.Genders;
-import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.cooperation.CooperationFacade;
 import org.inek.dataportal.facades.cooperation.CooperationRequestEmailFacade;
@@ -17,7 +17,7 @@ import org.inek.dataportal.facades.cooperation.CooperationRequestFacade;
 import org.inek.dataportal.facades.cooperation.PortalMessageFacade;
 import org.inek.dataportal.common.data.adm.MailTemplate;
 import org.inek.dataportal.feature.admin.facade.MailTemplateFacade;
-import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.helper.faceletvalidators.EmailValidator;
 import org.inek.dataportal.mail.Mailer;
 

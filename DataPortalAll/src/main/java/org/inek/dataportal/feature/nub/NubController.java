@@ -11,9 +11,9 @@ import org.inek.dataportal.entities.nub.NubRequest;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.enums.NubFieldKey;
-import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.helper.Topics;
-import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.common.helper.Utils;
 
 /**
  *

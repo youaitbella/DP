@@ -16,14 +16,14 @@ import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.DataSet;
 import org.inek.dataportal.common.enums.Feature;
-import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
 import org.inek.dataportal.common.data.ikadmin.facade.IkAdminFacade;
 import org.inek.dataportal.feature.psychstaff.entity.StaffProof;
 import org.inek.dataportal.feature.psychstaff.facade.PsychStaffFacade;
-import org.inek.dataportal.helper.Utils;
-import org.inek.dataportal.utils.DocumentationUtil;
+import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.common.utils.DocumentationUtil;
 
 /**
  *

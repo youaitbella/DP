@@ -8,9 +8,9 @@ package org.inek.dataportal.feature.additionalcost;
 import org.inek.dataportal.controller.AbstractFeatureController;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.common.enums.Feature;
-import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.helper.Topics;
-import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.common.helper.Utils;
 
 /**
  *

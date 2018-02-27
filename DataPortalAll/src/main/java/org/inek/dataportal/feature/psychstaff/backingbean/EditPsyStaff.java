@@ -35,7 +35,7 @@ import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.data.account.entities.AccountAdditionalIK;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Feature;
-import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.feature.psychstaff.entity.ExclusionFact;
@@ -48,7 +48,7 @@ import org.inek.dataportal.feature.psychstaff.entity.StaffProofExplanation;
 import org.inek.dataportal.feature.psychstaff.enums.PsychType;
 import org.inek.dataportal.feature.psychstaff.facade.PsychStaffFacade;
 import org.inek.dataportal.feature.psychstaff.pdf.PdfBuilder;
-import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
 import org.inek.dataportal.common.utils.DateUtils;
 

@@ -1,4 +1,4 @@
-package org.inek.dataportal.utils;
+package org.inek.dataprtal.common.utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -7,6 +7,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.inek.dataportal.common.utils.Documentation;
+import org.inek.dataportal.common.utils.DocumentationUtil;
+import org.inek.dataportal.common.utils.KeyValueLevel;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
@@ -14,32 +17,27 @@ import org.junit.Test;
  *
  * @author muellermi
  */
-public class DocumentationUtilTest0 {
+public class DocumentationUtilTest1 {
     
     @Test
     public void testGetDocumentation() {
         System.out.println("getDocumentation");
-        Object o = new TestEntity();
+        Object o = new TestEntity1();
         List<KeyValueLevel<?, ?>> expResult = new ArrayList<>();
         expResult.add(new KeyValueLevel<>("Name", "myName", 0));
         expResult.add(new KeyValueLevel<>("Anzahl", "100", 0));
         expResult.add(new KeyValueLevel<>("DateTime", "01.01.2015 10:20", 0));
         expResult.add(new KeyValueLevel<>("DateOnly", "01.01.2015", 0));
-        List<KeyValueLevel<?, ?>> expSubResult = new ArrayList<>();
-        expSubResult.add(new KeyValueLevel<>("FirstName", "Firstname", 1));
-        expSubResult.add(new KeyValueLevel<>("LastName", "Lastname", 1));
-        expResult.add(new KeyValueLevel<>("Persons (1)", expSubResult, 1));
-        expResult.add(new KeyValueLevel<>("Persons (2)", expSubResult, 1));
         List<KeyValueLevel> result = DocumentationUtil.getDocumentation(o);
         assertEquals(expResult, result);
     }
     
 }
 
-class TestEntity{
-    TestEntity(){
-        _persons.add(new Person());
-        _persons.add(new Person());
+class TestEntity1{
+    TestEntity1(){
+        _persons.add(new Person1());
+        _persons.add(new Person1());
         try {
             _dateTime = (new SimpleDateFormat("dd.MM.yyyy hh:mm:ss")).parse("01.01.2015 10:20:30");
             _dateOnly = (new SimpleDateFormat("dd.MM.yyyy hh:mm:ss")).parse("01.01.2015 10:20:30");
@@ -60,12 +58,12 @@ class TestEntity{
     @Documentation(dateFormat = "dd.MM.yyyy")
     private Date _dateOnly;
 
-    @Documentation(omitOnOtherValues = "TestEntity1._name=xxx")
-    private List<Person> _persons = new ArrayList<>();
+    @Documentation(omitOnOtherValues = "TestEntity1._name=myName")
+    private List<Person1> _persons = new ArrayList<>();
         
 }
 
-class Person{
+class Person1{
     @Documentation
     private String _firstName = "Firstname";
     

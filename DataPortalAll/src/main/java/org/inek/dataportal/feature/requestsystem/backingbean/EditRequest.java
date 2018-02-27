@@ -12,15 +12,15 @@ import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.enums.Feature;
-import org.inek.dataportal.enums.Pages;
+import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.enums.RequestCategory;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.feature.requestsystem.entity.Request;
 import org.inek.dataportal.feature.requestsystem.entity.RequestDocument;
 import org.inek.dataportal.feature.requestsystem.facade.RequestFacade;
-import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
-import org.inek.dataportal.utils.DocumentationUtil;
+import org.inek.dataportal.common.utils.DocumentationUtil;
 
 /**
  *

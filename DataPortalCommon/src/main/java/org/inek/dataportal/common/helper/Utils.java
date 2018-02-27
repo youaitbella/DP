@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates and open the template in
  * the editor.
  */
-package org.inek.dataportal.helper;
+package org.inek.dataportal.common.helper;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -36,8 +36,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.inek.dataportal.common.data.account.iface.Document;
 import org.inek.dataportal.common.enums.Feature;
-import org.inek.dataportal.enums.Pages;
-import org.inek.dataportal.utils.Helper;
+import org.inek.dataportal.common.enums.Pages;
+import org.inek.dataportal.common.utils.Helper;
 
 /**
  *
