@@ -51,15 +51,8 @@ public class EditInsuranceNubNotice extends AbstractEditController {
 
     // <editor-fold defaultstate="collapsed" desc="override AbstractEditController">    
     @Override
-    protected void addTopics() {
-        addTopic(NubRequestTabs.tabMessageAdress.name(), Pages.InsuranceNubNoticeEditAddress.URL());
-        addTopic(NubRequestTabs.tabMessageList.name(), Pages.InsuranceNubNoticeEditList.URL());
-    }
+    protected void addTopics() {}
 
-    enum NubRequestTabs {
-        tabMessageAdress,
-        tabMessageList;
-    }
     // </editor-fold>
 
     @Inject private InsuranceFacade _insuranceFacade;

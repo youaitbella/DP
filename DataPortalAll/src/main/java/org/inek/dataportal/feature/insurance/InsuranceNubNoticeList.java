@@ -36,7 +36,7 @@ public class InsuranceNubNoticeList {
         // if the user hit the browser's back-button, a request might be still active. 
         // To prevent invoking the wrong, we destroy all Feature scoped beans first
         FeatureScopedContextHolder.Instance.destroyBeansOfScope("Insurance");
-        return Pages.InsuranceNubNoticeEditAddress.URL();
+        return Pages.InsuranceNubNoticeEdit.URL();
     }
 
     public String getConfirmMessage(int noticeId) {

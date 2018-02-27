@@ -154,7 +154,7 @@ public enum Pages {
     //
     PartInsurance("/Insurance/PartInsurance"),
     InsuranceSummary("/Insurance/InsuranceSummary"),
-    InsuranceNubNoticeEditAddress("/Insurance/InsuranceNubNoticeEdit"),
+    InsuranceNubNoticeEdit("/Insurance/InsuranceNubNoticeEdit"),
     InsuranceNubNoticeEditList("/Insurance/InsuranceNubNoticeEdit"),
     //
     PartValuationRatio("/ValuationRatio/PartValuationRatio"),
