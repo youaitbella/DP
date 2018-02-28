@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/Templates/PortalMenuTemplate.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <ui:define name="content">
+        <h:form>
+            <h1>
+                Psych-Personalnachweis: Überprüfung der Signatur
+            </h1>
+        </h:form>
+        <div class="edit">
+
+            <h:form id="checkForm">
+                <div class="inputPart">
+                    <inek:LabeledText label="Signatur" 
+                                      value="#{signatureChecker.signature}"
+                                      singleLine="true"
+                                      styleClassComponent="element30em inlineBlock"
+                                      styleClassLabel="label element06em"
+                                      styleClass="element22em"/>
+                    <h:commandButton value="prüfen"
+                                     styleClass="smallButton"
+                                     action="#{signatureChecker.check}">
+                        <f:ajax render="checkResult"/>
+                    </h:commandButton>
+                </div>
+                <div class="inputPart">
+                    <h:outputLabel id="checkResult" value="#{signatureChecker.checkResult}"/>
+                </div>
+
+
+            </h:form>
+
+        </div>
+
+    </ui:define>
+
+</ui:composition>

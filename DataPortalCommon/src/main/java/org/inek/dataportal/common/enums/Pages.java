@@ -153,9 +153,9 @@ public enum Pages {
     PartAgency("/Agency/PartAgency"),
     //
     PartInsurance("/Insurance/PartInsurance"),
-    InsuranceSummary("/Insurance/InsuranceSummary"),
-    InsuranceNubNoticeEdit("/Insurance/InsuranceNubNoticeEdit"),
-    InsuranceNubNoticeEditList("/Insurance/InsuranceNubNoticeEdit"),
+    InsuranceSummary("/Insurance/NUB/InsuranceSummary"),
+    InsuranceNubNoticeEdit("/Insurance/NUB/InsuranceNubNoticeEdit"),
+    InsuranceCheckSignature("/Insurance/PsychStaff/CheckSignature"),
     //
     PartValuationRatio("/ValuationRatio/PartValuationRatio"),
     ValuationRatioSummary("/ValuationRatio/ValuationRatioSummary"),

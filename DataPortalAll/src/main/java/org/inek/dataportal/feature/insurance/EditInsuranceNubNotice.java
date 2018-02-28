@@ -33,7 +33,7 @@ import org.inek.dataportal.entities.insurance.Unit;
 import org.inek.dataportal.entities.insurance.InsuranceNubMethodInfo;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.facades.InsuranceFacade;
+import org.inek.dataportal.feature.insurance.facade.InsuranceFacade;
 import org.inek.dataportal.facades.common.ProcedureFacade;
 import org.inek.dataportal.feature.AbstractEditController;
 import org.inek.dataportal.common.helper.Utils;

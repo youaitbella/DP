@@ -188,6 +188,7 @@ public class DataImportCheck<T, I> implements Serializable {
         switch (lowerData) {
             case "hauskatalog": type = 1; break;
             case "dkg_nt": type = 2; break;
+            case "dkg-nt": type = 2; break;
             case "ebm": type = 3; break;
             case "goä": type = 4; break;
             case "sonstiges": type = 5; break;

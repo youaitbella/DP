@@ -10,7 +10,7 @@ import org.inek.dataportal.entities.insurance.InsuranceNubNotice;
 import org.inek.dataportal.common.enums.DataSet;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.facades.InsuranceFacade;
+import org.inek.dataportal.feature.insurance.facade.InsuranceFacade;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
 import org.inek.dataportal.common.utils.DocumentationUtil;

@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Psych-Personalnachweis</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Psych-Personalnachweis</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Diese Funktion erlaubt die Gültigkeitsprüfung einer Signatur im Rahmen des Psych-Personalnachweises. Sie steht Anwendern zur Verfügung, die für den Funktionsbereich &quot;Krankenkassen&quot; freigeschaltet sind.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Hintergrund: Wird die Datenerfassung des Psych-Personalnachweises abgeschlossen, so erzeugt das </text><var styleclass="Normal">&lt;%TITLE_PSY%&gt;</var><text styleclass="Normal" translate="true"> eine Signatur, die im zugehörigen Dokument bzw. der daraus erzeugten Kalkulationstabelle angegeben wird. Ändert der Erfasser später die Daten, wird die Signatur ungültig und bei erneutem Abschluss eine neue Signatur erstellt. Damit die Krankenkasse verifizieren kann, ob die vom Krankenhaus übermittelte Dokumentation die letztgültige Signatur enthält kann die Krankenkasse die Signatur im Datenportal prüfen lassen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="InsurancePsych00.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Überprüfung der Signatur</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Geben Sie die Signatur ein und klicken Sie auf </text><text styleclass="Button" translate="true">[ prüfen ]</text><text styleclass="Normal" translate="true">. Sofern es sich um eine gültige Signatur handelt, zeigt Ihnen das Datenportal das IK des Krankenhauses nebst Namen und Ort, das Vereinbarungsjahr und dies Anlage (1 oder 2) an. Sofern Ihnen die Daten als Kalkulations-Datei mit Signatur vorliegen, können Sie die Signatur zur Vermeidung von Eingabefehlern in die Zwischenablage kopieren und von dort in das Eingabeformular einfügen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="InsurancePsych02.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Ausgabe bei gültiger Signatur</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Geben Sie eine unbekannte oder nicht mehr gültige Signatur ein, so erhalten Sie eine entsprechende Meldung:</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="InsurancePsych01.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Prüfergebnis bei unbekannter oder ungültiger Signatur</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

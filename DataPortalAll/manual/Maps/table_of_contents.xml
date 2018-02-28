@@ -272,15 +272,6 @@
         <caption translate="true">Früh- und Reifgeborene</caption>
       </topicref>
     </topicref>
-    <topicref type="topic" id="426207377323422" build="ALL" modified="2016-09-07T15:29:02.542Z" icon="0" href="Insurance">
-      <caption translate="true">Krankenkasse</caption>
-      <topicref type="topic" id="426204917611885" build="ALL" modified="2016-09-08T11:19:37.917Z" icon="0" href="NubReport">
-        <caption translate="true">NUB-Meldung</caption>
-      </topicref>
-      <topicref type="topic" id="429965783495004" build="ALL" modified="2017-09-18T16:27:37.463Z" icon="0" href="Besondere-Aufgaben-_-Zentrum">
-        <caption translate="true">Besondere Aufgaben / Zentrum</caption>
-      </topicref>
-    </topicref>
   </topicref>
   <topicref type="topic" id="429921816454207" build="ALL" modified="2017-09-14T08:20:03.118Z" icon="0" href="PSY-Portal">
     <caption translate="true">PSY Portal</caption>
@@ -340,6 +331,18 @@
       <topicref type="topic" id="430683815687028" build="ALL" modified="2017-11-29T09:54:59.775Z" icon="0" href="Datenexport">
         <caption translate="true">Datenexport</caption>
       </topicref>
+    </topicref>
+  </topicref>
+  <topicref type="topic" id="426207377323422" build="ALL" modified="2016-09-07T15:29:02.542Z" icon="0" href="Insurance">
+    <caption translate="true">Krankenkasse</caption>
+    <topicref type="topic" id="426204917611885" build="ALL" modified="2016-09-08T11:19:37.917Z" icon="0" href="NubReport">
+      <caption translate="true">NUB-Meldung</caption>
+    </topicref>
+    <topicref type="topic" id="429965783495004" build="ALL" modified="2017-09-18T16:27:37.463Z" icon="0" href="Besondere-Aufgaben-_-Zentrum">
+      <caption translate="true">Besondere Aufgaben / Zentrum</caption>
+    </topicref>
+    <topicref type="topic" id="431597413763570" build="ALL" modified="2018-02-28T12:54:43.193Z" icon="0" href="InsurancePsych">
+      <caption translate="true">Psych-Personalnachweis</caption>
     </topicref>
   </topicref>
   <topicref type="topic" id="418795822620952" build="ALL" modified="2014-08-28T11:15:02.765Z" icon="0" href="SpecialTasks">

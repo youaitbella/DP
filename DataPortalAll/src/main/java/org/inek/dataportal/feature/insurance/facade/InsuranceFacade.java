@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.facades;
+package org.inek.dataportal.feature.insurance.facade;
 
 import org.inek.dataportal.common.data.AbstractDataAccess;
 import java.util.List;
@@ -40,7 +40,8 @@ public class InsuranceFacade extends AbstractDataAccess {
                 + "WHERE n._accountId = :accountId and n._workflowStatusId BETWEEN :minStatus AND :maxStatus ORDER BY n._year, n._id";
         TypedQuery<InsuranceNubNotice> query = getEntityManager().createQuery(sql, InsuranceNubNotice.class);
         int minStatus = dataSet == DataSet.AllOpen ? WorkflowStatus.New.getId() : WorkflowStatus.Provided.getId();
-        int maxStatus = dataSet == DataSet.AllOpen ? WorkflowStatus.Provided.getId()-1 : WorkflowStatus.Retired.getId();
+        int maxStatus = dataSet == DataSet.AllOpen ? WorkflowStatus.Provided.getId() - 1 : WorkflowStatus.Retired.
+                getId();
         query.setParameter("accountId", accountId);
         query.setParameter("minStatus", minStatus);
         query.setParameter("maxStatus", maxStatus);
@@ -75,7 +76,7 @@ public class InsuranceFacade extends AbstractDataAccess {
 
     public Optional<Integer> getDosageFormId(String text) {
         text = text.trim();
-        if (text.endsWith(".")){
+        if (text.endsWith(".")) {
             text = text.substring(0, text.length() - 1);
         }
         String sql = "select distinct dfId from dbo.listDosageForm "
@@ -85,7 +86,7 @@ public class InsuranceFacade extends AbstractDataAccess {
         query.setParameter(1, text);
         query.setParameter(2, text);
         try {
-            return Optional.of((int)query.getSingleResult());
+            return Optional.of((int) query.getSingleResult());
         } catch (Exception ex) {
             return Optional.empty();
         }
@@ -175,6 +176,24 @@ public class InsuranceFacade extends AbstractDataAccess {
 
     public void delete(InsuranceNubNotice notice) {
         remove(notice);
+    }
+
+    public String checkSignature(String signature) {
+        String select = "select 'IK: ' +  cast(spmIk as varchar)  + ' ('+ cuName + ', ' + "
+                + "cuCity + ')' + ', Vereinbarungsjahr: ' + cast (spmYear as varchar) + ', Anlage ";
+        String from = " from psy.StaffProofMaster join CallCenterDB.dbo.ccCustomer on spmIk = cuIk ";
+        String sql = select + "1' " + from + " where spmSignatureAgreement = ?\n"
+                + "union\n"
+                + select + "2' " + from + " where spmSignatureEffective = ?";
+        Query query = getEntityManager().createNativeQuery(sql);
+        query.setParameter(1, signature);
+        query.setParameter(2, signature);
+        List resultList = query.getResultList();
+        if (resultList.size() > 0) {
+            return (String) resultList.get(0);
+        }
+        return "unbekannte oder ungültige Signatur";
+        
     }
 
 }

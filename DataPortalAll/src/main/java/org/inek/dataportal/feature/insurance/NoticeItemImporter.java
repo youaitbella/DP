@@ -16,7 +16,7 @@ import org.inek.dataportal.entities.common.RemunerationType;
 import org.inek.dataportal.entities.insurance.InsuranceNubNotice;
 import org.inek.dataportal.entities.insurance.InsuranceNubNoticeItem;
 import org.inek.dataportal.entities.insurance.Unit;
-import org.inek.dataportal.facades.InsuranceFacade;
+import org.inek.dataportal.feature.insurance.facade.InsuranceFacade;
 import org.inek.dataportal.facades.common.ProcedureFacade;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.utils.StringUtil;
