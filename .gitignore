@@ -1,6 +1,6 @@
 **/target
 **/__history
-*.pdf
+InEK-Datenportal*.pdf
 *.htm
 /DataPortal/nbproject/
 DataPortal/nb-configuration.xml
