@@ -49,6 +49,9 @@ public class AccountPwdFacade extends AbstractDataAccess {
         }
 
         AccountPwd accountPwd = findFresh(AccountPwd.class, accountId);
+        if (accountPwd == null){
+            return false;
+        }
         if (accountPwd.getSalt().isEmpty()) {
             // old format. todo: remove once most users have their password stored in new format. Apx. mid 2017
             return checkAndUpdatedOldPasswordFormat(accountPwd, password, accountId);
