@@ -54,6 +54,7 @@ public class AccountPwdFacade extends AbstractDataAccess {
         }
         if (accountPwd.getSalt().isEmpty()) {
             // old format. todo: remove once most users have their password stored in new format. Apx. mid 2017
+            // agreed 2018: remove this if after current campain in May 2018
             return checkAndUpdatedOldPasswordFormat(accountPwd, password, accountId);
         }
         return accountPwd.getPasswordHash().equals(Crypt.hashPassword(password, accountPwd.getSalt()));

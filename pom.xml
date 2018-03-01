@@ -29,6 +29,7 @@
         <module>DataPortalInek</module>
         <module>DataPortalInsurance</module>
         <module>DataPortalPsy</module>
+        
         <module>AccountService</module>
     </modules>
 
