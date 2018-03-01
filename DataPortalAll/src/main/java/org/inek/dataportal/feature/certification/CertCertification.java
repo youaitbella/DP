@@ -32,7 +32,7 @@ import org.inek.dataportal.common.helper.StreamHelper;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
 import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
-import org.inek.dataportal.mail.Mailer;
+import org.inek.dataportal.common.mail.Mailer;
 import org.inek.dataportal.common.utils.Helper;
 
 /**

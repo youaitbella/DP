@@ -51,7 +51,7 @@ import org.inek.dataportal.helper.Topic;
 import org.inek.dataportal.helper.Topics;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
-import org.inek.dataportal.mail.Mailer;
+import org.inek.dataportal.common.mail.Mailer;
 import org.inek.dataportal.system.SessionCounter;
 
 /**

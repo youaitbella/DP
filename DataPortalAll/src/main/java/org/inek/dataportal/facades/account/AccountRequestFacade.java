@@ -14,7 +14,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import org.inek.dataportal.common.data.account.entities.AccountRequest;
 import org.inek.dataportal.common.data.AbstractFacade;
-import org.inek.dataportal.mail.Mailer;
+import org.inek.dataportal.common.mail.Mailer;
 import org.inek.dataportal.common.utils.DateUtils;
 
 /**

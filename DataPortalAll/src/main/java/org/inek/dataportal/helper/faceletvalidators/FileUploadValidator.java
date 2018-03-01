@@ -14,7 +14,7 @@ import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.servlet.http.Part;
 import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.mail.Mailer;
+import org.inek.dataportal.common.mail.Mailer;
 
 /**
  * Validates file

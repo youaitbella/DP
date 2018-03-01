@@ -34,7 +34,7 @@ import org.inek.dataportal.feature.admin.facade.InekRoleFacade;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
 import org.inek.dataportal.helper.structures.MessageContainer;
-import org.inek.dataportal.mail.Mailer;
+import org.inek.dataportal.common.mail.Mailer;
 import org.inek.dataportal.common.utils.DocumentationUtil;
 
 /**

@@ -1,17 +1,15 @@
-package org.inek.dataportal.feature.admin.facade;
+package org.inek.dataportal.common.mail;
 
+import org.inek.dataportal.common.data.AbstractFacade;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
 import javax.faces.model.SelectItem;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import org.inek.dataportal.common.data.adm.MailTemplate;
 import org.inek.dataportal.common.enums.Feature;
-import org.inek.dataportal.facades.*;
 
 @Stateless
 public class MailTemplateFacade extends AbstractFacade<MailTemplate> {

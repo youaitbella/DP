@@ -15,11 +15,11 @@ import org.inek.dataportal.common.enums.FeatureState;
 import org.inek.dataportal.common.data.account.entities.AccountFeature;
 import org.inek.dataportal.common.data.account.entities.AccountFeatureRequest;
 import org.inek.dataportal.common.enums.Pages;
+import org.inek.dataportal.common.mail.Mailer;
 import org.inek.dataportal.facades.ContactRoleFacade;
 import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.account.AccountFeatureRequestFacade;
-import org.inek.dataportal.mail.Mailer;
 
 /**
  *

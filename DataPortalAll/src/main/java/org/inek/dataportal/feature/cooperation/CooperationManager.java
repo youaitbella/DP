@@ -16,10 +16,10 @@ import org.inek.dataportal.facades.cooperation.CooperationRequestEmailFacade;
 import org.inek.dataportal.facades.cooperation.CooperationRequestFacade;
 import org.inek.dataportal.facades.cooperation.PortalMessageFacade;
 import org.inek.dataportal.common.data.adm.MailTemplate;
-import org.inek.dataportal.feature.admin.facade.MailTemplateFacade;
+import org.inek.dataportal.common.mail.MailTemplateFacade;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.helper.faceletvalidators.EmailValidator;
-import org.inek.dataportal.mail.Mailer;
+import org.inek.dataportal.common.mail.Mailer;
 
 /**
  *

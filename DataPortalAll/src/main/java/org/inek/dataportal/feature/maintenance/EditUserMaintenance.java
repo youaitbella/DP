@@ -23,7 +23,7 @@ import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.enums.FeatureState;
 import org.inek.dataportal.common.enums.IkReference;
 import org.inek.dataportal.common.enums.Pages;
-import org.inek.dataportal.facades.account.AccountChangeMailFacade;
+import org.inek.dataportal.common.data.account.facade.AccountChangeMailFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.common.data.account.facade.AccountPwdFacade;
 import org.inek.dataportal.feature.AbstractEditController;
@@ -35,7 +35,7 @@ import org.inek.dataportal.feature.nub.NubSessionTools;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.helper.faceletvalidators.NameValidator;
 import org.inek.dataportal.helper.scope.FeatureScoped;
-import org.inek.dataportal.mail.Mailer;
+import org.inek.dataportal.common.mail.Mailer;
 
 /**
  *

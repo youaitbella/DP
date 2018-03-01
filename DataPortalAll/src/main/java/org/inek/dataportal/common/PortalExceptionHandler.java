@@ -24,7 +24,7 @@ import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.helper.NotLoggedInException;
 import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.mail.Mailer;
+import org.inek.dataportal.common.mail.Mailer;
 
 /**
  *

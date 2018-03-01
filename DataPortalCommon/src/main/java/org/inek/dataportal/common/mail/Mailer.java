@@ -3,7 +3,7 @@
  * the editor.
  */
 //../Licenses/license-default.txt
-package org.inek.dataportal.mail;
+package org.inek.dataportal.common.mail;
 
 import java.io.File;
 import java.util.List;
@@ -29,17 +29,16 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.servlet.http.HttpServletRequest;
-import org.inek.dataportal.entities.PasswordRequest;
 import org.inek.dataportal.common.data.account.entities.Account;
+import org.inek.dataportal.common.data.account.entities.AccountChangeMail;
+import org.inek.dataportal.common.data.account.entities.AccountFeatureRequest;
+import org.inek.dataportal.common.data.account.entities.AccountRequest;
 import org.inek.dataportal.common.data.account.iface.Person;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.data.adm.MailTemplate;
 import org.inek.dataportal.common.data.access.ConfigFacade;
-import org.inek.dataportal.common.data.account.entities.AccountChangeMail;
-import org.inek.dataportal.common.data.account.entities.AccountFeatureRequest;
-import org.inek.dataportal.common.data.account.entities.AccountRequest;
-import org.inek.dataportal.feature.admin.facade.MailTemplateFacade;
-import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.common.data.account.entities.PasswordRequest;
+import org.inek.dataportal.common.helper.Utils;
 import static org.inek.dataportal.common.helper.Const.*;
 
 /**

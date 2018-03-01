@@ -22,7 +22,7 @@ import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.facades.account.AccountFeatureRequestFacade;
 import org.inek.dataportal.common.data.adm.MailTemplate;
 import org.inek.dataportal.common.data.access.ConfigFacade;
-import org.inek.dataportal.mail.Mailer;
+import org.inek.dataportal.common.mail.Mailer;
 import org.inek.dataportal.common.utils.DateUtils;
 import static org.inek.dataportal.common.helper.Const.*;
 

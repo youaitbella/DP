@@ -1,4 +1,5 @@
-package org.inek.dataportal.facades;
+package org.inek.dataportal.common.data.account.facade;
+
 
 import org.inek.dataportal.common.data.AbstractFacade;
 import java.util.Date;
@@ -9,7 +10,7 @@ import javax.ejb.Stateless;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import org.inek.dataportal.entities.PasswordRequest;
+import org.inek.dataportal.common.data.account.entities.PasswordRequest;
 import org.inek.dataportal.common.utils.DateUtils;
 
 /**

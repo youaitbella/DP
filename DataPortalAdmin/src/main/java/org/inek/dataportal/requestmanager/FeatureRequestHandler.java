@@ -22,8 +22,8 @@ import org.inek.dataportal.common.data.adm.MailTemplate;
 import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.common.data.account.entities.AccountFeatureRequest;
 import org.inek.dataportal.common.enums.Pages;
-import org.inek.dataportal.mail.Mailer;
 import static org.inek.dataportal.common.helper.Const.*;
+import org.inek.dataportal.common.mail.Mailer;
 import org.inek.dataportal.common.utils.DateUtils;
 
 /**

@@ -19,7 +19,7 @@ import org.inek.dataportal.facades.account.DocumentDomainFacade;
 import org.inek.dataportal.facades.account.WaitingDocumentFacade;
 import org.inek.dataportal.common.data.adm.MailTemplate;
 import org.inek.dataportal.common.data.access.ConfigFacade;
-import org.inek.dataportal.mail.Mailer;
+import org.inek.dataportal.common.mail.Mailer;
 
 /**
  *

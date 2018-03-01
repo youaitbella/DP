@@ -37,7 +37,7 @@ import org.inek.dataportal.common.data.adm.MailTemplate;
 import org.inek.dataportal.helper.TransferFileCreator;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.helper.structures.MessageContainer;
-import org.inek.dataportal.mail.Mailer;
+import org.inek.dataportal.common.mail.Mailer;
 import org.inek.dataportal.common.utils.DocumentationUtil;
 
 /**

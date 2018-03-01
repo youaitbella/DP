@@ -7,7 +7,7 @@ import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.entities.cooperation.PortalMessage;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.facades.cooperation.PortalMessageFacade;
-import org.inek.dataportal.mail.Mailer;
+import org.inek.dataportal.common.mail.Mailer;
 
 /**
  *

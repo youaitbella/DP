@@ -1,4 +1,4 @@
-package org.inek.dataportal.facades.account;
+package org.inek.dataportal.common.data.account.facade;
 
 import java.util.Date;
 import java.util.List;
@@ -12,7 +12,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.inek.dataportal.common.data.account.entities.AccountChangeMail;
 import org.inek.dataportal.common.data.AbstractFacade;
-import org.inek.dataportal.mail.Mailer;
+import org.inek.dataportal.common.mail.Mailer;
 import org.inek.dataportal.common.utils.StringUtil;
 
 @Stateless

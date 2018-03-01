@@ -9,7 +9,7 @@ import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.entities.certification.Grouper;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.facades.certification.GrouperFacade;
-import org.inek.dataportal.mail.Mailer;
+import org.inek.dataportal.common.mail.Mailer;
 
 /**
  *
