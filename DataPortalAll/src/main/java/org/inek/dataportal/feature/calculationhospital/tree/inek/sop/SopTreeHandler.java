@@ -52,15 +52,4 @@ public class SopTreeHandler implements Serializable {
         refreshNodes();
     }
 
-    private int _year = Utils.getTargetYear(Feature.CALCULATION_HOSPITAL);
-
-    public int getYear() {
-        return _year;
-    }
-
-    public void setYear(int year) {
-        _year = year;
-        refreshNodes();
-    }
-
 }

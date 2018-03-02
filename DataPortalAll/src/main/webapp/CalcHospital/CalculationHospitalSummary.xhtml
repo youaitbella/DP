@@ -23,7 +23,7 @@
             <ui:repeat value="#{calcHospitalTreeHandler.editNode.children}" var="treeNode" >
                 <calc:TreeNode treeNode="#{treeNode}"/>
             </ui:repeat>
-            
+
             <div jsf:id="dist" jsf:rendered="#{sessionController.isInekUser('CALCULATION_HOSPITAL')}">
                 <h2>Klinische Verteilungsmodelle - Bearbeitung durch InEK</h2>
 
@@ -78,10 +78,6 @@
                 <h2>An das InEK gesendete Kalkulationsgrundlagen</h2>
 
                 <div class="inputPart">
-                    <h:outputLabel for="txtYear" styleClass="label marginRight" value="#{msg.lblYearData}"/>
-                    <h:inputText id="txtYear" styleClass="inputshort marginRight" value="#{calcBasicsTreeHandler.year}">
-                        <f:ajax/>
-                    </h:inputText>
                     <h:outputLabel for="txtFilter" styleClass="label marginRight" value="#{msg.lblFilter}"/>
                     <h:inputText id="txtFilter" styleClass="inputmedium marginRight" value="#{calcBasicsTreeHandler.filter}">
                         <f:ajax/>
@@ -92,8 +88,20 @@
                 </div>
 
                 <ui:repeat value="#{calcBasicsTreeHandler.rootNode.children}" var="treeNode" >
-                    <calc:TreeNode treeNode="#{treeNode}" editPartner="false" isSealed="true"/>
+                    <p>
+                    <h:commandLink action="#{treeNode.toggle}" immediate="true" >
+                        <h:graphicImage alt="auf/zuklappen" name="Icon/small/#{treeNode.expanded ? 'ButtonMinus.png' : 'ButtonPlus.png'}" title="Details auf/zuklappen" value=""/>
+                        <f:ajax render="@this CalcYearNode :logout:remaining"/>
+                    </h:commandLink>
+                    <h:commandLink styleClass="block marginTop" action="#{treeNode.toggle}" value="Kalkulationsgrundlagen für #{treeNode.year}" immediate="true" />
+                    </p>
+                    <div jsf:id="CalcYearNode" style="margin-left:16px;">
+                        <ui:repeat value="#{treeNode.children}" var="yearNode"  rendered="#{treeNode.expanded}">
+                            <calc:TreeNode treeNode="#{yearNode}" editPartner="false" isSealed="true"/>
+                        </ui:repeat>
+                    </div>
                 </ui:repeat>
+
             </div>
 
             <ui:include src="ButtonsCalculationHospital.xhtml"/>

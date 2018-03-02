@@ -51,17 +51,4 @@ public class CalcBasicsTreeHandler implements Serializable {
         refreshNodes();
     }
     //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="Property Year">
-    private int _year = Utils.getTargetYear(Feature.CALCULATION_HOSPITAL);
-
-    public int getYear() {
-        return _year;
-    }
-
-    public void setYear(int year) {
-        _year = year;
-        refreshNodes();
-    }
-    //</editor-fold>
 }

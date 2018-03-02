@@ -13,6 +13,7 @@ import org.inek.dataportal.helper.tree.CalcHospitalTreeNode;
 import org.inek.dataportal.helper.tree.entityTree.AccountTreeNode;
 import org.inek.dataportal.common.tree.TreeNode;
 import org.inek.dataportal.common.tree.TreeNodeObserver;
+import org.inek.dataportal.common.tree.YearTreeNode;
 
 /**
  *
@@ -40,8 +41,9 @@ public class AccountTreeNodeObserver implements TreeNodeObserver {
     }
 
     private Collection<TreeNode> obtainAccountNodeChildren(AccountTreeNode accountTreeNode) {
+        int year = ((YearTreeNode) accountTreeNode.getParent()).getYear();
         List<CalcHospitalInfo> infos = _calcFacade.
-                getCalcBasicsByEmail(accountTreeNode.getEmail(), _treeHandler.getYear(), _treeHandler.getFilter());
+                getCalcBasicsByEmail(accountTreeNode.getEmail(), year, _treeHandler.getFilter());
         Collection<TreeNode> children = new ArrayList<>();
         for (CalcHospitalInfo info : infos) {
             children.add(CalcHospitalTreeNode.create(accountTreeNode, info, null));
