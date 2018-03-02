@@ -31,7 +31,7 @@ import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.PortalType;
 import org.inek.dataportal.common.helper.EnvironmentInfo;
 import org.inek.dataportal.facades.CustomerFacade;
-import org.inek.dataportal.facades.CustomerTypeFacade;
+import org.inek.dataportal.common.data.access.CustomerTypeFacade;
 import org.inek.dataportal.facades.DrgFacade;
 import org.inek.dataportal.facades.PeppFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
