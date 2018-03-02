@@ -1,4 +1,4 @@
-package org.inek.dataportal.facades.account;
+package org.inek.dataportal.common.data.account.facade;
 
 import java.util.Date;
 import java.util.List;

@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates and open the template in
  * the editor.
  */
-package org.inek.dataportal.facades.account;
+package org.inek.dataportal.common.data.account.facade;
 
 import javax.ejb.Stateless;
 import javax.persistence.NoResultException;
