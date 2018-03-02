@@ -19,16 +19,14 @@ import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.common.enums.ConfigKey;	
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.common.data.access.InfoDataFacade;
 import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.common.enums.PortalType;
 import org.inek.dataportal.common.enums.Stage;
-import org.inek.dataportal.feature.psychstaff.entity.ExclusionFact;
 
 @Named @ApplicationScoped
-public class ApplicationTools extends AbstractDataAccess{
+public class ApplicationTools{
 
     private Properties _properties;
 
