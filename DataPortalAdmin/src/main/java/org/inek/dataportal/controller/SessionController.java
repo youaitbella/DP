@@ -23,6 +23,7 @@ import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.data.common.CustomerType;
 import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.common.data.account.entities.Account;
+import org.inek.dataportal.common.data.account.entities.AccountFeature;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.enums.FeatureState;
 import org.inek.dataportal.common.enums.Pages;
@@ -31,21 +32,20 @@ import org.inek.dataportal.common.helper.EnvironmentInfo;
 import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.common.data.access.CustomerTypeFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
+import org.inek.dataportal.common.data.adm.facade.LogFacade;
 import org.inek.dataportal.common.data.adm.InekRole;
 import org.inek.dataportal.common.data.adm.Log;
 import org.inek.dataportal.common.data.adm.ReportTemplate;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Stage;
-import org.inek.dataportal.common.data.account.entities.AccountFeature;
-import org.inek.dataportal.common.data.adm.facade.LogFacade;
-import org.inek.dataportal.common.mail.Mailer;
 import org.inek.dataportal.feature.admin.facade.AdminFacade;
 import org.inek.dataportal.helper.NotLoggedInException;
-import org.inek.dataportal.helper.StreamHelper;
+import org.inek.dataportal.common.helper.StreamHelper;
 import org.inek.dataportal.helper.Topic;
 import org.inek.dataportal.helper.Topics;
-import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
+import org.inek.dataportal.common.mail.Mailer;
 import org.inek.dataportal.system.SessionCounter;
 
 /**
@@ -62,6 +62,11 @@ public class SessionController implements Serializable {
     @Inject private LogFacade _logFacade;
     @Inject private Mailer _mailer;
     @Inject private CustomerTypeFacade _typeFacade;
+    @Inject private ApplicationTools _appTools;
+
+    public ApplicationTools getApplicationTools() {
+        return _appTools;
+    }
 
     private PortalType _portalType = PortalType.COMMON;
 
@@ -717,11 +722,6 @@ public class SessionController implements Serializable {
             return "InEK-DatenportalZerti.pdf";
         }
         return "InEK-Datenportal.pdf";
-    }
-    @Inject private ApplicationTools _appTools;
-
-    public ApplicationTools getApplicationTools() {
-        return _appTools;
     }
 
     public boolean isInMaintenanceMode() {

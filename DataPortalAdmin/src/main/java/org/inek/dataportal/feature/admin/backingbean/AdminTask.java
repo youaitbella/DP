@@ -22,7 +22,7 @@ import org.inek.dataportal.common.data.adm.RoleMapping;
 import org.inek.dataportal.common.mail.MailTemplateFacade;
 import org.inek.dataportal.feature.admin.facade.InekRoleFacade;
 import org.inek.dataportal.feature.admin.facade.RoleMappingFacade;
-import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
 
 /**

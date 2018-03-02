@@ -368,7 +368,6 @@ public class SessionController implements Serializable {
 
     public boolean loginAndSetTopics(String mailOrUser, String password, PortalType portalType) {
         _portalType = portalType;
-        //invalidateSession();
         login(mailOrUser, password);
         setTopics();
         setParts();
@@ -802,6 +801,8 @@ public class SessionController implements Serializable {
                 return PortalType.DRG;
             case DRG:
                 return PortalType.PSY;
+            case ADMIN:
+                return PortalType.ADMIN;
             case COMMON:
                 return PortalType.COMMON;
             default:

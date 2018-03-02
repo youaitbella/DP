@@ -15,7 +15,7 @@ import org.inek.dataportal.entities.nub.NubRequest;
 import org.inek.dataportal.common.enums.DataSet;
 import org.inek.dataportal.facades.NubRequestFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
-import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
 
 /**

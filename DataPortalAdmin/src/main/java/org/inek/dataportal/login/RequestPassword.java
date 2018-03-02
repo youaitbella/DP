@@ -16,7 +16,7 @@ import javax.inject.Named;
 import org.inek.dataportal.common.SessionTools;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.facades.account.AccountFacade;
-import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.common.helper.Utils;
 
 /**
  *

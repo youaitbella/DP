@@ -25,7 +25,7 @@ import org.inek.dataportal.facades.ContactRoleFacade;
 import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.common.data.access.CustomerTypeFacade;
 import org.inek.dataportal.facades.InfoDataFacade;
-import org.inek.dataportal.helper.Utils;
+import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.helper.faceletvalidators.EmailValidator;
 
 /**
