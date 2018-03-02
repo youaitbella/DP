@@ -1,5 +1,5 @@
 
-package org.inek.dataportal.helper;
+package org.inek.dataportal.common.helper;
 
 public class NotLoggedInException extends RuntimeException {
 

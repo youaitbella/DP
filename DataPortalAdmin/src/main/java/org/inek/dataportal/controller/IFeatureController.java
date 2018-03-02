@@ -5,7 +5,7 @@
 package org.inek.dataportal.controller;
 
 import org.inek.dataportal.common.enums.Feature;
-import org.inek.dataportal.helper.Topics;
+import org.inek.dataportal.common.helper.Topics;
 
 /**
  *

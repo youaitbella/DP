@@ -36,7 +36,7 @@ import org.inek.dataportal.common.data.adm.MailTemplate;
 import org.inek.dataportal.feature.nub.tree.AccountTreeNodeObserver;
 import org.inek.dataportal.feature.nub.tree.EditRootTreeNodeObserver;
 import org.inek.dataportal.feature.nub.tree.ViewRootTreeNodeObserver;
-import org.inek.dataportal.helper.ObjectUtils;
+import org.inek.dataportal.common.helper.ObjectUtils;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.helper.structures.MessageContainer;
 import org.inek.dataportal.helper.structures.ProposalInfo;

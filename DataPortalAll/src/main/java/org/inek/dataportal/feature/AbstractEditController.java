@@ -8,8 +8,8 @@ import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import org.inek.dataportal.common.SearchConsumer;
-import org.inek.dataportal.helper.Topic;
-import org.inek.dataportal.helper.Topics;
+import org.inek.dataportal.common.helper.Topic;
+import org.inek.dataportal.common.helper.Topics;
 import org.inek.dataportal.common.helper.Utils;
 
 /**

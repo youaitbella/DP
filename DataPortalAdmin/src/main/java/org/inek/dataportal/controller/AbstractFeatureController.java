@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.logging.Logger;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.enums.Feature;
-import org.inek.dataportal.helper.Topics;
+import org.inek.dataportal.common.helper.Topics;
 
 /**
  * A feature controller is responsible for displaying parts of the overview and distributing functional topics

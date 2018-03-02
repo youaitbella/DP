@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Pages;
-import org.inek.dataportal.helper.NotLoggedInException;
+import org.inek.dataportal.common.helper.NotLoggedInException;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.mail.Mailer;
 

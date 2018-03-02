@@ -5,9 +5,10 @@
  */
 package org.inek.dataportal.helper;
 
+import org.inek.dataportal.common.helper.ObjectUtils;
 import java.util.Map;
 import org.inek.dataportal.entities.nub.NubRequest;
-import org.inek.dataportal.helper.structures.FieldValues;
+import org.inek.dataportal.common.helper.structures.FieldValues;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

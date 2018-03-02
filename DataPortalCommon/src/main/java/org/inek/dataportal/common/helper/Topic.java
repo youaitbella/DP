@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 //../Licenses/license-default.txt
-package org.inek.dataportal.helper;
+package org.inek.dataportal.common.helper;
 
 import java.io.Serializable;
 

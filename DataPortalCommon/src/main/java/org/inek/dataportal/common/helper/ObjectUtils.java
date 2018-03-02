@@ -1,4 +1,4 @@
-package org.inek.dataportal.helper;
+package org.inek.dataportal.common.helper;
 
 import java.io.*;
 import java.lang.reflect.Array;
@@ -15,8 +15,8 @@ import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.Transient;
-import org.inek.dataportal.helper.structures.FieldValues;
-import org.inek.dataportal.utils.IgnoreOnCompare;
+import org.inek.dataportal.common.helper.structures.FieldValues;
+import org.inek.dataportal.common.utils.IgnoreOnCompare;
 
 /**
  *

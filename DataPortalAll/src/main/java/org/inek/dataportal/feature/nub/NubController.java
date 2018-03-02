@@ -12,7 +12,7 @@ import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.enums.NubFieldKey;
 import org.inek.dataportal.common.enums.Pages;
-import org.inek.dataportal.helper.Topics;
+import org.inek.dataportal.common.helper.Topics;
 import org.inek.dataportal.common.helper.Utils;
 
 /**

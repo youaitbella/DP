@@ -63,10 +63,10 @@ import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.facades.calc.CalcDrgFacade;
 import org.inek.dataportal.feature.AbstractEditController;
-import org.inek.dataportal.helper.ObjectUtils;
+import org.inek.dataportal.common.helper.ObjectUtils;
 import org.inek.dataportal.helper.TransferFileCreator;
 import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.helper.structures.FieldValues;
+import org.inek.dataportal.common.helper.structures.FieldValues;
 import org.inek.dataportal.helper.structures.MessageContainer;
 import org.inek.dataportal.common.utils.DocumentationUtil;
 
