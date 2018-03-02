@@ -36,7 +36,7 @@ import org.inek.dataportal.facades.account.AccountDocumentFacade;
 import org.inek.dataportal.facades.account.WaitingDocumentFacade;
 import org.inek.dataportal.common.helper.StreamHelper;
 import org.inek.dataportal.helper.scope.FeatureScoped;
-import org.inek.dataportal.helper.structures.DocInfo;
+import org.inek.dataportal.common.helper.structures.DocInfo;
 import org.inek.dataportal.helper.tree.entityTree.AccountTreeNode;
 import org.inek.dataportal.helper.tree.DocumentInfoTreeNode;
 import org.inek.dataportal.common.mail.Mailer;

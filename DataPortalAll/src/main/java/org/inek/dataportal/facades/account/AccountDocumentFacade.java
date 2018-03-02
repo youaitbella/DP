@@ -14,7 +14,7 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import org.inek.dataportal.common.data.account.entities.AccountDocument;
 import org.inek.dataportal.common.data.AbstractFacade;
-import org.inek.dataportal.helper.structures.DocInfo;
+import org.inek.dataportal.common.helper.structures.DocInfo;
 import org.inek.dataportal.common.utils.DateUtils;
 
 @Stateless

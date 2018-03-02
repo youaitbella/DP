@@ -1,4 +1,4 @@
-package org.inek.dataportal.helper.structures;
+package org.inek.dataportal.common.helper.structures;
 
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -118,6 +118,6 @@ public class DocInfo implements Serializable{
     }
 
     public void setSelected(boolean isSelected) {
-        this._isSelected = isSelected;
+        _isSelected = isSelected;
     }
 }

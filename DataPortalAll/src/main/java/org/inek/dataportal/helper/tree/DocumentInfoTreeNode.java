@@ -5,7 +5,7 @@
  */
 package org.inek.dataportal.helper.tree;
 
-import org.inek.dataportal.helper.structures.DocInfo;
+import org.inek.dataportal.common.helper.structures.DocInfo;
 import org.inek.dataportal.common.tree.TreeNode;
 import org.inek.dataportal.common.tree.TreeNodeObserver;
 

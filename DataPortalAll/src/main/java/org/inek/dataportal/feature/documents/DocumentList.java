@@ -18,7 +18,7 @@ import org.inek.dataportal.facades.cooperation.PortalMessageFacade;
 import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.helper.TransferFileCreator;
 import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.helper.structures.DocInfo;
+import org.inek.dataportal.common.helper.structures.DocInfo;
 
 @Named
 @ViewScoped
