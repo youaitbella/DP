@@ -464,7 +464,6 @@ public class EditStatementOfParticipance extends AbstractEditController {
         _statement = _calcFacade.saveStatementOfParticipance(_statement);
 
         boolean testMode = _appTools.isEnabled(ConfigKey.TestMode);
-        testMode = false;
         if (!testMode) {
             _icmtUpdater.saveStatementOfParticipanceForIcmt(_statement);
             if (isObligatorInv()) {
