@@ -25,11 +25,21 @@ public class RootTreeNodeObserver implements TreeNodeObserver{
 
     @Override
     public Collection<TreeNode> obtainChildren(TreeNode treeNode) {
-        // todo: obtain years from database
+        Collection<TreeNode> oldChildren = treeNode.getChildren();
+
         Collection<TreeNode> children = new ArrayList<>();
         for (int year = Utils.getTargetYear(Feature.CALCULATION_HOSPITAL); year >= 2016; year--) {
-            children.add(YearTreeNode.create(treeNode, year, _yearTreeNodeObserverProvider.get()));
+            children.add(getNode(oldChildren, year, treeNode));
         }
         return children;
+    }
+
+    private TreeNode getNode(Collection<TreeNode> oldChildren, int year, TreeNode treeNode) {
+        TreeNode node = oldChildren
+                .stream()
+                .filter(n -> ((YearTreeNode)n).getYear() == year)
+                .findFirst()
+                .orElseGet(() -> YearTreeNode.create(treeNode, year, _yearTreeNodeObserverProvider.get()));
+        return node;
     }
 }

@@ -76,7 +76,10 @@
                     <h:commandLink styleClass="block marginTop" action="#{treeNode.toggle}" value="Teilnahmeerklärungen für #{treeNode.year}" immediate="true" />
                     </p>
                     <div jsf:id="YearNode" style="margin-left:16px;">
-                        <calc:CalcHospitalNode parentNode="#{treeNode}" isSealed="true" rendered="#{treeNode.expanded}"/>
+                        <calc:CalcHospitalNode parentNode="#{treeNode}" 
+                                               isSealed="true" 
+                                               showSelectBox="false"
+                                               rendered="#{treeNode.expanded}"/>
                     </div>
                 </ui:repeat>
 
