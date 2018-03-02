@@ -22,12 +22,14 @@ import javax.inject.Inject;
 import javax.persistence.EntityGraph;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.DataSet;
 import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
 import org.inek.dataportal.common.enums.Right;
+import org.inek.dataportal.feature.psychstaff.entity.ExclusionFact;
 import org.inek.dataportal.feature.psychstaff.entity.OccupationalCategory;
 import org.inek.dataportal.feature.psychstaff.entity.PersonnelGroup;
 import org.inek.dataportal.feature.psychstaff.entity.StaffProof;
@@ -248,4 +250,8 @@ public class PsychStaffFacade extends AbstractDataAccess {
         return query.getResultList();
     }
 
+    public List<ExclusionFact> findAllExclusionFacts() {
+        return findAll(ExclusionFact.class);
+    }
+    
 }

@@ -16,7 +16,7 @@ import javax.inject.Named;
 import org.inek.dataportal.common.data.common.ListFeature;
 import org.inek.dataportal.common.data.common.ListWorkflowStatus;
 import org.inek.dataportal.entities.icmt.Customer;
-import org.inek.dataportal.common.enums.ConfigKey;
+import org.inek.dataportal.common.enums.ConfigKey;	
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.data.AbstractDataAccess;
@@ -132,16 +132,5 @@ public class ApplicationTools extends AbstractDataAccess{
         return  info;
     }
 
-    private List<ExclusionFact> _exclusionFacts;
-    public List<ExclusionFact> getExclusionFacts (){
-        ensureExclusionFacts();
-        return _exclusionFacts;
-    }
 
-    private void ensureExclusionFacts() {
-        if (_exclusionFacts == null){
-            _exclusionFacts = findAll(ExclusionFact.class);
-        }
-    }
-    
 }
