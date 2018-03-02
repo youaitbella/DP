@@ -19,7 +19,7 @@ import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.entities.ContactRole;
-import org.inek.dataportal.entities.CustomerType;
+import org.inek.dataportal.common.data.common.CustomerType;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.facades.ContactRoleFacade;
 import org.inek.dataportal.facades.CustomerFacade;

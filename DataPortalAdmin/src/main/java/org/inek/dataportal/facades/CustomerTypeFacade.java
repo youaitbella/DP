@@ -5,8 +5,7 @@
 package org.inek.dataportal.facades;
 
 import javax.ejb.Stateless;
-import javax.inject.Named;
-import org.inek.dataportal.entities.CustomerType;
+import org.inek.dataportal.common.data.common.CustomerType;
 
 /**
  *

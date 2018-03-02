@@ -20,7 +20,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.ApplicationTools;
-import org.inek.dataportal.entities.CustomerType;
+import org.inek.dataportal.common.data.common.CustomerType;
 import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.enums.Feature;
