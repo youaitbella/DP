@@ -29,6 +29,7 @@ import org.inek.dataportal.common.ApplicationTools;
 import org.inek.dataportal.common.AccessManager;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
+import org.inek.dataportal.common.data.adm.InekRole;
 import org.inek.dataportal.entities.calc.sop.CalcContact;
 import org.inek.dataportal.entities.calc.sop.StatementOfParticipance;
 import org.inek.dataportal.common.enums.ConfigKey;
@@ -327,6 +328,16 @@ public class EditStatementOfParticipance extends AbstractEditController {
                 && (_statement.isDrgCalc() || _statement.isPsyCalc());
         return enable;
     }
+    
+    public boolean isInInekRole() {
+        // todo: move to a central place, using a more general concept
+        for (InekRole role : _sessionController.getAccount().getInekRoles()) {
+            if(role.getText().equals("TE Admin")) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public String getEmailInfo() {
         String info = "";
@@ -401,7 +412,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
     }
 
     public boolean isApprovalRequestEnabled() {
-        if (!_appTools.isEnabled(ConfigKey.IsStatemenOfParticipanceSendEnabled)) {
+        if (!_appTools.isEnabled(ConfigKey.IsStatemenOfParticipanceResendEnabled)) {
             return false;
         }
         return _accessManager.isApprovalRequestEnabled(Feature.CALCULATION_HOSPITAL, _statement.getStatus(), 

@@ -23,7 +23,7 @@
             <ui:repeat value="#{calcHospitalTreeHandler.editNode.children}" var="treeNode" >
                 <calc:TreeNode treeNode="#{treeNode}"/>
             </ui:repeat>
-
+            
             <div jsf:id="dist" jsf:rendered="#{sessionController.isInekUser('CALCULATION_HOSPITAL')}">
                 <h2>Klinische Verteilungsmodelle - Bearbeitung durch InEK</h2>
 

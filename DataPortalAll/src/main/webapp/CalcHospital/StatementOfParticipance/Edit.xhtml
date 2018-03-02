@@ -33,6 +33,13 @@
 
                 <div class="toolBar">
                     <h:commandLink styleClass="bigButton"
+                                   action="#{editStatementOfParticipance.requestApproval}"
+                                   value="Als Admin Teilnahmeerklärung ändern"
+                                   immediate="true"
+                                   rendered="#{editStatementOfParticipance.statement.statusId eq 10 and editStatementOfParticipance.inInekRole}">
+                    </h:commandLink>
+                    
+                    <h:commandLink styleClass="bigButton"
                                    action="#{editStatementOfParticipance.save}"
                                    value="#{msg.btnSave}"
                                    immediate="true"
@@ -42,7 +49,7 @@
                     <h:commandLink styleClass="sendButton"
                                    action="#{editStatementOfParticipance.requestApproval}"
                                    value="#{msg.btnRequestApproval}"
-                                   rendered="#{editStatementOfParticipance.approvalRequestEnabled}"
+                                   rendered="#{editStatementOfParticipance.approvalRequestEnabled and editStatementOfParticipance.statement.statusId eq 10}"
                                    title="#{msg.infoSaveAndClose}">
                         <cb:confirmRequestApproval/>
                     </h:commandLink>
