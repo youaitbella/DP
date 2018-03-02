@@ -4,6 +4,7 @@
  */
 package org.inek.dataportal.common;
 
+import org.inek.dataportal.common.controller.SearchConsumer;
 import java.util.ArrayList;
 import java.util.List;
 import org.inek.dataportal.controller.SessionController;

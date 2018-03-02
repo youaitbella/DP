@@ -2,12 +2,11 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.feature;
+package org.inek.dataportal.common.controller;
 
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import org.inek.dataportal.common.SearchConsumer;
 import org.inek.dataportal.common.helper.Topic;
 import org.inek.dataportal.common.helper.Topics;
 import org.inek.dataportal.common.helper.Utils;

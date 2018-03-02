@@ -16,6 +16,7 @@
     <class>org.inek.dataportal.common.data.common.ListWorkflowStatus</class>
     <class>org.inek.dataportal.common.data.common.PortalAddress</class>
     <class>org.inek.dataportal.common.data.common.CustomerType</class>
+    <class>org.inek.dataportal.common.data.common.TrashMail</class>
     <class>org.inek.dataportal.common.data.account.entities.AccountFeature</class>
     <class>org.inek.dataportal.common.data.account.entities.WaitingDocumentInfo</class>
     <class>org.inek.dataportal.common.data.account.entities.AccountFeatureRequest</class>

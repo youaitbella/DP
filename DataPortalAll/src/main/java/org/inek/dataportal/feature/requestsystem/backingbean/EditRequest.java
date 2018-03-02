@@ -14,7 +14,7 @@ import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.enums.RequestCategory;
-import org.inek.dataportal.feature.AbstractEditController;
+import org.inek.dataportal.common.controller.AbstractEditController;
 import org.inek.dataportal.feature.requestsystem.entity.Request;
 import org.inek.dataportal.feature.requestsystem.entity.RequestDocument;
 import org.inek.dataportal.feature.requestsystem.facade.RequestFacade;

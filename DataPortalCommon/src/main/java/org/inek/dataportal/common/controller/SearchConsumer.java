@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 //../Licenses/license-default.txt
-package org.inek.dataportal.common;
+package org.inek.dataportal.common.controller;
 
 /**
  * This interface enables the SearchController to write a result of specific type

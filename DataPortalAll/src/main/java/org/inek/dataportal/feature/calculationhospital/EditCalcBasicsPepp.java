@@ -47,7 +47,7 @@ import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.facades.calc.CalcPsyFacade;
-import org.inek.dataportal.feature.AbstractEditController;
+import org.inek.dataportal.common.controller.AbstractEditController;
 import org.inek.dataportal.common.helper.ObjectUtils;
 import org.inek.dataportal.helper.TransferFileCreator;
 import org.inek.dataportal.common.helper.Utils;

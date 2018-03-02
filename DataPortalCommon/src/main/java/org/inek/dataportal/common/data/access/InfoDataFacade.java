@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.facades;
+package org.inek.dataportal.common.data.access;
 
 import org.inek.dataportal.common.data.AbstractDataAccess;
 import java.util.List;
@@ -12,7 +12,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import org.inek.dataportal.common.data.common.ListFeature;
 import org.inek.dataportal.common.data.common.ListWorkflowStatus;
-import org.inek.dataportal.entities.TrashMail;
+import org.inek.dataportal.common.data.common.TrashMail;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 
 /**

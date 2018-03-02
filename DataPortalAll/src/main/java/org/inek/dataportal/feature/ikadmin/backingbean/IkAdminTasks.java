@@ -27,7 +27,7 @@ import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.enums.IkReference;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.facades.account.AccountFacade;
-import org.inek.dataportal.feature.AbstractEditController;
+import org.inek.dataportal.common.controller.AbstractEditController;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
 import org.inek.dataportal.common.data.ikadmin.entity.User;
 import org.inek.dataportal.common.enums.Right;

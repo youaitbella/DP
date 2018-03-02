@@ -26,7 +26,7 @@ import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.data.account.facade.AccountChangeMailFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.common.data.account.facade.AccountPwdFacade;
-import org.inek.dataportal.feature.AbstractEditController;
+import org.inek.dataportal.common.controller.AbstractEditController;
 import org.inek.dataportal.common.data.adm.MailTemplate;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
 import org.inek.dataportal.common.enums.Right;

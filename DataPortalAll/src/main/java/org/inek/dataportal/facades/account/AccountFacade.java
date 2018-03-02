@@ -41,7 +41,7 @@ import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.mail.Mailer;
 import org.inek.dataportal.requestmanager.FeatureRequestHandler;
 import org.inek.dataportal.common.utils.Crypt;
-import org.inek.dataportal.utils.ObjectUtil;
+import org.inek.dataportal.common.utils.ObjectUtil;
 import org.inek.dataportal.common.utils.StringUtil;
 
 /**

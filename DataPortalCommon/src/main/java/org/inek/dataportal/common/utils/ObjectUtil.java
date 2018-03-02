@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates and open the template in
  * the editor.
  */
-package org.inek.dataportal.utils;
+package org.inek.dataportal.common.utils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;

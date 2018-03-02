@@ -13,7 +13,7 @@ import javax.persistence.criteria.Root;
 import org.inek.dataportal.common.data.account.entities.AccountChangeMail;
 import org.inek.dataportal.common.mail.Mailer;
 import org.inek.dataportal.common.utils.StringUtil;
-import org.inek.dataportal.facades.AbstractFacade;
+import org.inek.dataportal.common.data.AbstractFacade;
 
 @Stateless
 public class AccountChangeMailFacade extends AbstractFacade<AccountChangeMail> {

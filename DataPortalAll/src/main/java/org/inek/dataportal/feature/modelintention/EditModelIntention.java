@@ -36,7 +36,7 @@ import org.inek.dataportal.enums.SelfHospitalisationType;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.facades.common.RemunerationTypeFacade;
 import org.inek.dataportal.facades.modelintention.ModelIntentionFacade;
-import org.inek.dataportal.feature.AbstractEditController;
+import org.inek.dataportal.common.controller.AbstractEditController;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
 import org.inek.dataportal.common.utils.DocumentationUtil;
