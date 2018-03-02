@@ -5,7 +5,7 @@
  */
 package org.inek.dataportal.facades.calc;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -20,6 +20,7 @@ import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.entities.calc.CalcHospitalInfo;
 
 /**
  *
@@ -399,4 +400,32 @@ public class CalcSopFacade extends AbstractDataAccess {
         }
         return contacts;
     }
+    
+    
+    public List<CalcHospitalInfo> retrieveSopForInek(int year, String filter){
+        // todo: include hospital name and city into CalcHospitalInfo to avoid extra data access
+        String filterCond = "";
+        String join = "";
+        if (filter.matches("\\d{9}")){
+            filterCond = " and sopIk = " + filter + "\n";
+        } else if(!filter.isEmpty()){
+            join = " join CallCenterDB.dbo.ccCustomer on sopIk = cuIK\n";
+            filter = filter.replaceAll("[;,:'\"]", "");
+            filterCond = " and (cuName like '%" + filter + "%' or cuCity like '%" + filter + "%')\n";
+        }
+        
+        String sql = "select sopId as Id, 'SOP' as [Type], sopAccountId as AccountId, sopDataYear as DataYear, "
+                + "  sopIk as IK, sopStatusId as StatusId,\n"
+                + " '" + Utils.getMessage("lblStatementOfParticipance") + "' as Name, sopLastChanged as LastChanged\n"
+                + "from calc.StatementOfParticipance\n"
+                + join
+                + "where sopStatusId between 5 and 199 and sopDataYear = " + year + "\n"
+                + filterCond
+                + "order by 2, 4, 5, 8 desc";
+        Query query = getEntityManager().createNativeQuery(sql, CalcHospitalInfo.class);
+        @SuppressWarnings("unchecked") List<CalcHospitalInfo> infos = query.getResultList();
+        return infos;
+    }
+
+    
 }

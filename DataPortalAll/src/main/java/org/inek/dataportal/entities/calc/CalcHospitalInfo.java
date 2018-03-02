@@ -24,6 +24,7 @@ import org.inek.dataportal.common.enums.WorkflowStatus;
  */
 @Entity @IdClass(CalcHospitalInfoId.class)
 public class CalcHospitalInfo implements Serializable {
+        // todo: include hospital name and city into CalcHospitalInfo to avoid extra data access
 
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id

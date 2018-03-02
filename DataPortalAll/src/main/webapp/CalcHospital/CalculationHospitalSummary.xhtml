@@ -17,7 +17,7 @@
         #{calcHospitalTreeHandler.refreshNodes()}
         #{distributionModellTreeHandler.refreshNodes()}
         #{calcBasicsTreeHandler.refreshNodes()}
-        
+
         <h:form id="form">
 
             <ui:repeat value="#{calcHospitalTreeHandler.editNode.children}" var="treeNode" >
@@ -44,6 +44,34 @@
                 <ui:repeat value="#{distributionModellTreeHandler.rootNode.children}" var="treeNode" >
                     <calc:TreeNode treeNode="#{treeNode}" editPartner="false"/>
                 </ui:repeat>
+            </div>
+
+            <div jsf:id="sop" jsf:rendered="#{sessionController.isInekUser('CALCULATION_HOSPITAL')}">
+                <h2>An das InEK gesendete Teilnahmeerklärungen</h2>
+
+                <div class="inputPart">
+                    <h:outputLabel styleClass="label marginRight" value="#{msg.lblFilter}"/>
+                    <h:inputText  styleClass="inputmedium marginRight" value="#{sopTreeHandler.filter}">
+                        <f:ajax/>
+                    </h:inputText>
+                    <h:commandLink styleClass="button" value="#{msg.btnRefreshList}">
+                        <f:ajax render="@form :logout:remaining"/>
+                    </h:commandLink>
+                </div>
+
+                <ui:repeat value="#{sopTreeHandler.rootNode.children}" var="treeNode" >
+                    <p>
+                    <h:commandLink action="#{treeNode.toggle}" immediate="true" >
+                        <h:graphicImage alt="auf/zuklappen" name="Icon/small/#{treeNode.expanded ? 'ButtonMinus.png' : 'ButtonPlus.png'}" title="Details auf/zuklappen" value=""/>
+                        <f:ajax render="@this YearNode :logout:remaining"/>
+                    </h:commandLink>
+                    <h:commandLink styleClass="block marginTop" action="#{treeNode.toggle}" value="Teilnahmeerklärungen für #{treeNode.year}" immediate="true" />
+                    </p>
+                    <div jsf:id="YearNode" style="margin-left:16px;">
+                        <calc:CalcHospitalNode parentNode="#{treeNode}" isSealed="true" rendered="#{treeNode.expanded}"/>
+                    </div>
+                </ui:repeat>
+
             </div>
 
             <div jsf:id="calcBasics" jsf:rendered="#{sessionController.isInekUser('CALCULATION_HOSPITAL')}">

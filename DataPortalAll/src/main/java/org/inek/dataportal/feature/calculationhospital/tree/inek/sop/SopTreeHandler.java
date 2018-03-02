@@ -1,4 +1,4 @@
-package org.inek.dataportal.feature.calculationhospital.tree.inek.distmodel;
+package org.inek.dataportal.feature.calculationhospital.tree.inek.sop;
 
 import java.io.Serializable;
 import java.util.logging.Logger;
@@ -16,9 +16,9 @@ import org.inek.dataportal.common.tree.RootNode;
  * @author muellermi
  */
 @Named @SessionScoped
-public class DistributionModellTreeHandler implements Serializable {
+public class SopTreeHandler implements Serializable {
 
-    private static final Logger LOGGER = Logger.getLogger("DistributionModellTreeHandler");
+    private static final Logger LOGGER = Logger.getLogger("SopTreeHandler");
     private static final long serialVersionUID = 1L;
 
     @Inject private Instance<RootTreeNodeObserver> _rootTreeNodeObserverProvider;
