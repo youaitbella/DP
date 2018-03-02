@@ -264,13 +264,6 @@ public class NubRequestFacade extends AbstractDataAccess {
         return query.getResultList();
     }
 
-    public List<Integer> findAccountIdForIk(int ik) {
-        String jpql = "SELECT DISTINCT p._accountId FROM NubRequest p WHERE p._ik = :ik  ";
-        TypedQuery<Integer> query = getEntityManager().createQuery(jpql, Integer.class);
-        query.setParameter(IK, ik);
-        return query.getResultList();
-    }
-
     public List<AccountInfo> getAccountInfos(int ik) {
         String jpql = "SELECT a, false, count(n) FROM NubRequest n JOIN Account a WHERE n._accountId = a._id and n._ik = :ik GROUP BY a";
         // sadly this is not a list of the expected type, but of object[]
