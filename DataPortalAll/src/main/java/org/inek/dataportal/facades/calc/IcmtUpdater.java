@@ -253,7 +253,7 @@ public class IcmtUpdater extends AbstractDataAccess {
                 + "\n\n"
                 //Vorhandene Kontakte löschen
                 + "-- vorhandene Kontakte löschen \n"
-                + "delete from CallCenterDB.dbo.mapCustomerCalcInfoContact where ccicCustomerCalcId in ("
+                + "delete from CallCenterDB.dbo.mapCustomerCalcInfoContact where ccicCustomerCalcInfoId in ("
                 + "select cciId \n"
                 + "from CallCenterDB.dbo.ccCustomer \n"
                 + "join CallCenterDB.dbo.CustomerCalcInfo on cuId = cciCustomerId and cciInfoTypeId = 13 "

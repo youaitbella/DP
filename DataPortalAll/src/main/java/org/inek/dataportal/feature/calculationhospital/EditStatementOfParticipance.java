@@ -412,7 +412,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
     }
 
     public boolean isApprovalRequestEnabled() {
-        if (!_appTools.isEnabled(ConfigKey.IsStatemenOfParticipanceResendEnabled)) {
+        if (!_appTools.isEnabled(ConfigKey.IsStatemenOfParticipanceSendEnabled)) {
             return false;
         }
         return _accessManager.isApprovalRequestEnabled(Feature.CALCULATION_HOSPITAL, _statement.getStatus(), 
@@ -464,6 +464,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
         _statement = _calcFacade.saveStatementOfParticipance(_statement);
 
         boolean testMode = _appTools.isEnabled(ConfigKey.TestMode);
+        testMode = false;
         if (!testMode) {
             _icmtUpdater.saveStatementOfParticipanceForIcmt(_statement);
             if (isObligatorInv()) {
