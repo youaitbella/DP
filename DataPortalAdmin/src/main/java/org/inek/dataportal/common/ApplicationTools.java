@@ -15,13 +15,13 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.data.common.ListFeature;
 import org.inek.dataportal.common.data.common.ListWorkflowStatus;
-import org.inek.dataportal.entities.icmt.Customer;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.common.data.access.InfoDataFacade;
 import org.inek.dataportal.common.data.access.ConfigFacade;
+import org.inek.dataportal.common.data.icmt.entities.Customer;
+import org.inek.dataportal.common.data.icmt.facade.CustomerFacade;
 import org.inek.dataportal.common.enums.PortalType;
 import org.inek.dataportal.common.enums.Stage;
 

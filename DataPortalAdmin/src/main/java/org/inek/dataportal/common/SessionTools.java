@@ -18,13 +18,13 @@ import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.inek.dataportal.entities.ContactRole;
 import org.inek.dataportal.common.data.common.CustomerType;
 import org.inek.dataportal.common.enums.Pages;
-import org.inek.dataportal.facades.ContactRoleFacade;
-import org.inek.dataportal.facades.CustomerFacade;
 import org.inek.dataportal.common.data.access.CustomerTypeFacade;
 import org.inek.dataportal.common.data.access.InfoDataFacade;
+import org.inek.dataportal.common.data.icmt.entities.ContactRole;
+import org.inek.dataportal.common.data.icmt.facade.ContactRoleFacade;
+import org.inek.dataportal.common.data.icmt.facade.CustomerFacade;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.helper.faceletvalidators.EmailValidator;
 
