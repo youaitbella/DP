@@ -254,7 +254,11 @@ public class EditUserMaintenance extends AbstractEditController {
     private List<FeatureEditorDAO> getFeatures4Editor() {
         List<FeatureEditorDAO> features = new ArrayList<>();
         List<Feature> configuredFeatures = new ArrayList<>();
-        for (AccountFeature accFeature : _sessionController.getAccount().getFeatures()) {
+        Account account = _sessionController.getAccount();
+        if (account == null){
+            return features;
+        }
+        for (AccountFeature accFeature : account.getFeatures()) {
             features.add(new FeatureEditorDAO(accFeature, _sessionController.getAccount()));
             configuredFeatures.add(accFeature.getFeature());
         }
