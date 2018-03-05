@@ -33,9 +33,34 @@ Testen des Services
 - Integrationstest via Projekt, dass die Schnittstellen anspricht
 
 API
-- SaveAccount(account) 
-- Activate (username/email, password
+
+Account
+- RegisterAccount(account) : void 
+- Activate Account(username/email, password, activationKey) : account
+- SaveAccount(account) : account
 - Login (username/email, password) : account
 - GetTransferToken (secret) : token
 - LoginByToken (token) : account
-- ChangePassword
+- ChangePassword(secret, oldPassword, newPassword)
+- RequestPassword(username/email, password) : void
+- ConfirmPassword(username/email, password, activationKey) : void
+- RequestNewEmail(username, newEmail) : void
+- ConfirmNewEmail(activationKey) : void
+
+Cooperation
+SaveCooperation()
+
+IkAdmin
+
+AccessRights
+GetAccessRight(Secret, Feature, IK)
+GetAccessRight(Secret, Feature, IK, PartnerAccountId)
+
+"account" ist in diesem Zusammenhang ein DTO, das mittels JSON übertragen wird.
+Neben den in der Account-Klasse des AccountServices vorhandenen Properties enthält dieses DTO ein Secret (z.B. UUID), 
+welches zur Anforderung eines Tokens für die Anmeldung bei einem anderen Portal genutzt werden kann. 
+Dieses Secret wird jeweils bei Übermittlung des Accounts zum aufrufenden Programm erzeugt. 
+Es wird ungültig bei Anforderung eines TransferTokens respektive nach Ablauf eines Gültigkeitzeitraums, jenachdem, welches Ereignis zuerst eintritt.
+Dabei ist zu beachten, dass der Anwender sich gleichzeitig mit mehreren Browswern anmelden könnte; hier muss der AccountService alle Secrets kennen.
+Sollten mehrerer AccountServivces eingesetzt werden, müssen alle über das Wissen um gültige Secrets verfügen.
+Die Secrets werden daher temporär in einer Datenbank (SQL oder Key-Value-Store) hinterlegt.
