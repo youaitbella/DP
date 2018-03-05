@@ -27,3 +27,15 @@ Daten, die zum Anwenderkonto gehören
 - Liste der Kooperationen
 - Liste der Features
 - Liste der vom IK-Admin hinterlegten Rechte
+
+Testen des Services
+- Unit Test interner Funktionen, die über einfache Zugriffe hinausgehen
+- Integrationstest via Projekt, dass die Schnittstellen anspricht
+
+API
+- SaveAccount(account) 
+- Activate (username/email, password
+- Login (username/email, password) : account
+- GetTransferToken (secret) : token
+- LoginByToken (token) : account
+- ChangePassword
