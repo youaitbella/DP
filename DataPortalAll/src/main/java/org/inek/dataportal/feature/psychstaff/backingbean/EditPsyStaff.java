@@ -110,7 +110,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
 
     @Override
     protected void topicChanged() {
-        if (_sessionController.getAccount().isAutoSave() && !isReadOnly()) {
+        if (!isReadOnly()) {
             save(false);
         }
     }

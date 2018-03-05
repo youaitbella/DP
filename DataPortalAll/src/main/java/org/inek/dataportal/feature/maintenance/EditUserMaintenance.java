@@ -461,7 +461,6 @@ public class EditUserMaintenance extends AbstractEditController {
                 && original.getCustomerFax().equals(copy.getCustomerFax())
                 && original.isNubConfirmation() == copy.isNubConfirmation()
                 && original.isMessageCopy() == copy.isMessageCopy()
-                && original.isAutoSave() == copy.isAutoSave()
                 && original.getDropBoxHoldTime() == copy.getDropBoxHoldTime();
         return !isEqual;
     }
@@ -487,7 +486,6 @@ public class EditUserMaintenance extends AbstractEditController {
         original.setCustomerFax(copy.getCustomerFax());
         original.setNubConfirmation(copy.isNubConfirmation());
         original.setMessageCopy(copy.isMessageCopy());
-        original.setAutoSave(copy.isAutoSave());
         original.setDropBoxHoldTime(copy.getDropBoxHoldTime());
     }
 

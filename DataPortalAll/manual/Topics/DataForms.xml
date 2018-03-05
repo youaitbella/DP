@@ -11,7 +11,7 @@
     </header>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Neben Stammdaten, Datenübermittlung nach §21 KHEntgG via DropBox und weiteren Funktionen, dient das </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> auch der Erfassung diverser Daten mittels Formular (Erfassungsmaske). Hierzu gehören</text></para>
     <para styleclass="Normal"></para>
-    <list id="3" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+    <list id="10" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">NUB-Anfragen</text></li>
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">DRG-Vorschlagsverfahren</text></li>
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">PEPP-Vorschlagsverfahren</text></li>
@@ -22,13 +22,13 @@
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Betrachtet man nur die Kernaufgaben, so ist dieser Prozess recht kurz:</text></para>
     <para styleclass="Normal"></para>
-    <list id="4" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+    <list id="11" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Anlegen eines neuen Datensatzes, Ausfüllen der Felder und Senden an das InEK</text></li>
     </list>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Manchmal muss die Arbeit &#160;unterbrochen werden, z.B. um Inhalte abzustimmen. So könnten mehrere Datensätze auf weitere Bearbeitung warten. Daraus ergibt sich ein erweiterter Ablauf, der auch Sprünge (vor und zurück) umfassen kann. Die einzelnen Schritte lassen sich so darstellen:</text></para>
     <para styleclass="Normal"></para>
-    <list id="5" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+    <list id="12" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Anlegen eines neuen Datensatzes</text></li>
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Jederzeit Speichern bei Bedarf</text></li>
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Bei Bedarf Unterbrechung der Arbeit</text></li>
@@ -42,6 +42,8 @@
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Da diese Aufgaben bei den angeführten Funktionsbereichen direkt vergleichbar sind, werden diese in den folgenden Abschnitten gemeinsam beschrieben.</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"></para>
+    <list id="13" type="ul" listtype="bullet" formatstring="&#216;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Wingdings; font-size:11pt; color:#000000;">
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Autospeichern bei Seitenwechsel</text><br/><text styleclass="Bullet Text" translate="true">Beim Wechsel einer Registerseite </text><text styleclass="Bullet Text" style="font-style:italic;" translate="true">innerhalb</text><text styleclass="Bullet Text" translate="true"> der jeweiligen Funktion erfolgt eine automatische Speicherung der aktuell erfassten Daten. Verlassen Sie die gerade angezeigte Seite in Richtung einer anderen Funktion oder Website, so werden die Daten </text><text styleclass="Bullet Text" style="font-style:italic;" translate="true">nicht</text><text styleclass="Bullet Text" translate="true"> automatisch gespeichert. Dies erlaubt es Ihnen, ungewollte Änderungen zu verwerfen.</text></li>
+    </list>
   </body>
 </topic>

@@ -1,0 +1,29 @@
+== Account Service
+
+Dient dazu, Benutzer unabhängig von dem jeweiligen Portal zu verwalten.
+Dazu gehören neben den persönlichen Daten auch das Passwort und die Rechte.
+
+- Anlegen Benutzerkonto
+- Rechteverwaltung (kooperativ, IK-Admin)
+- Anmeldung (interaktiv)
+- Anmeldung (Mitnahme von anderem Portal, SSO)
+
+nicht dazu gehören
+- Portalspezifische Anwenderdaten
+- Daten, die über die reinen Anwenderdaten hinausgehen wie beispw. Dokumente
+- Konfiguration von Verhalten (beispw. Speicherdaer von Dropbox)
+
+Daten, die zum Anwenderkonto gehören
+
+- Username
+- E-Mail
+- Passwordhash (+ salt)
+- Vorname, Nachname
+- Rolle
+- Firma/Krankenhaus
+- Adresse
+- Kontaktdaten
+- Liste der IKs
+- Liste der Kooperationen
+- Liste der Features
+- Liste der vom IK-Admin hinterlegten Rechte

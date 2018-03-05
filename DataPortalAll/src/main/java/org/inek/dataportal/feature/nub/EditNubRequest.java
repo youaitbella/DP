@@ -371,7 +371,7 @@ public class EditNubRequest extends AbstractEditController {
 
     @Override
     protected void topicChanged() {
-        if (_sessionController.getAccount().isAutoSave() && !isReadOnly()) {
+        if (!isReadOnly()) {
             saveData(false);
         }
     }
