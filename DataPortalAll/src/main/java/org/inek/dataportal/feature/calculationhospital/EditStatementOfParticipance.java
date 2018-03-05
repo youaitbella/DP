@@ -378,6 +378,9 @@ public class EditStatementOfParticipance extends AbstractEditController {
         if (_accessManager == null || _statement == null) {
             return true;
         }
+        if (isInInekRole()) {
+            return false;
+        }
         return _accessManager.isReadOnly(Feature.CALCULATION_HOSPITAL, _statement.getStatus(), _statement.getAccountId(), _statement.getIk());
     }
 
@@ -406,6 +409,10 @@ public class EditStatementOfParticipance extends AbstractEditController {
     public boolean isSealEnabled() {
         if (!_appTools.isEnabled(ConfigKey.IsStatemenOfParticipanceSendEnabled)) {
             return false;
+        }
+         
+        if (isInInekRole()) {
+            return true;
         }
         return _accessManager.isSealedEnabled(Feature.CALCULATION_HOSPITAL, _statement.getStatus(), 
                 _statement.getAccountId(), _statement.getIk());
