@@ -252,7 +252,7 @@
                                      value="#{editAdditionalCost.additionalCost.complianceRate}"
                                      styleClass="element05em number"
                                      required="false">
-                            <f:convertNumber pattern="#,##0.0"/>
+                            <f:convertNumber pattern="#,##0.00"/>
                             <f:validateDoubleRange minimum="0.00" maximum="100"/>
                             <f:ajax render="msgComplianceRate @this :logout:remaining"/>
                         </h:inputText>
