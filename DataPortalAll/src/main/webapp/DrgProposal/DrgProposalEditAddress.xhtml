@@ -204,14 +204,16 @@
                 <f:validator validatorId="EmailValidator"/>
             </h:inputText>
         </div>
-        
-        <div class="inputPart">
-            <h:outputLabel styleClass="label" value="Publikation:" /><br/>
-            <h:selectBooleanCheckbox id="agreePublication" value="#{editDrgProposal.drgProposal.publication}">
-                <f:ajax event="blur" render="@this :logout:remaining" />
-            </h:selectBooleanCheckbox>&nbsp;
-            <h:outputLabel for="agreePublication" value="#{msg.lblProposalPublication}." />
-        </div>
+
+        <ui:remove>
+            <div class="inputPart">
+                <h:outputLabel styleClass="label" value="Publikation:" /><br/>
+                <h:selectBooleanCheckbox id="agreePublication" value="#{editDrgProposal.drgProposal.publication}">
+                    <f:ajax event="blur" render="@this :logout:remaining" />
+                </h:selectBooleanCheckbox>&nbsp;
+                <h:outputLabel for="agreePublication" value="#{msg.lblProposalPublication}." />
+            </div>            
+        </ui:remove>
 
     </ui:define>
 </ui:composition>
