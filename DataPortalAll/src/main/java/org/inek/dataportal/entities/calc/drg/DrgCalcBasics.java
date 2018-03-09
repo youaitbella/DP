@@ -1010,11 +1010,7 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     }
 
     public void removeEmptyServiceProvisions() {
-        List<KGLListServiceProvision> emptyEntries = _serviceProvisions
-                .stream()
-                .filter(p -> p.getServiceProvisionTypeId() < 0 && p.getDomain().isEmpty())
-                .collect(Collectors.toList());
-        _serviceProvisions.removeAll(emptyEntries);
+        _serviceProvisions.removeIf(p -> p.getServiceProvisionTypeId() < 0 && p.getDomain().isEmpty());
     }
     //</editor-fold>
     
@@ -1211,11 +1207,7 @@ public class DrgCalcBasics implements Serializable, StatusEntity {
     }
 
     public void deleteMedInfraItems(int costTypeId) {
-        List<KGLListMedInfra> itemsToDelete = _medInfras
-                .stream()
-                .filter(i -> i.getCostTypeId() == costTypeId)
-                .collect(Collectors.toList());
-        _medInfras.removeAll(itemsToDelete);
+        _medInfras.removeIf(i -> i.getCostTypeId() == costTypeId);
     }
 
     public void setMedInfras(List<KGLListMedInfra> medInfras) {

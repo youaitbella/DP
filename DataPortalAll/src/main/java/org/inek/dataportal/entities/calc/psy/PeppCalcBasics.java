@@ -586,8 +586,7 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
     }
 
     public void deleteKgpMedInfraList(int costTypeId){
-        List<KgpListMedInfra> itemsToDelete = _kgpMedInfraList.stream().filter(c -> c.getCostTypeId()== costTypeId).collect(Collectors.toList());
-        _kgpMedInfraList.removeAll(itemsToDelete);
+        _kgpMedInfraList.removeIf(c -> c.getCostTypeId()== costTypeId);
     }
 
     public void setKgpMedInfraList(List<KgpListMedInfra> kgpMedInfraList) {
