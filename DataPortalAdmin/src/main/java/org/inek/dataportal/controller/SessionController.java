@@ -32,6 +32,7 @@ import org.inek.dataportal.common.helper.EnvironmentInfo;
 import org.inek.dataportal.common.data.access.CustomerTypeFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.common.data.adm.facade.LogFacade;
+import org.inek.dataportal.common.data.cooperation.facade.CooperationRequestFacade;
 import org.inek.dataportal.common.data.adm.InekRole;
 import org.inek.dataportal.common.data.adm.Log;
 import org.inek.dataportal.common.data.adm.ReportTemplate;
@@ -63,6 +64,7 @@ public class SessionController implements Serializable {
     @Inject private LogFacade _logFacade;
     @Inject private Mailer _mailer;
     @Inject private CustomerTypeFacade _typeFacade;
+    @Inject private CooperationRequestFacade _coopFacade;
     @Inject private ApplicationTools _appTools;
 
     public ApplicationTools getApplicationTools() {
@@ -290,6 +292,7 @@ public class SessionController implements Serializable {
 
     
     public String getToken() {
+        // todo: retrieve service address from a common place, e.g. database
         String address = "http://vubuntu01:9999/AccountService/api/account/id/{0}".replace("{0}", "" + getAccountId());
         try {
             URL url = new URL(address);
@@ -880,10 +883,6 @@ public class SessionController implements Serializable {
             alertClient("Bei der Reporterstellung trat ein Fehler auf");
         }
         return new byte[0];
-    }
-
-    public String getServerWithProtocolAndPort() {
-        return EnvironmentInfo.getServerUrl();
     }
 
 }

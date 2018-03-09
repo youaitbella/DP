@@ -292,6 +292,7 @@ public class SessionController implements Serializable {
     }
 
     public String getToken() {
+        // todo: retrieve service address from a common place, e.g. database
         String address = "http://vubuntu01:9999/AccountService/api/account/id/{0}".replace("{0}", "" + getAccountId());
         try {
             URL url = new URL(address);
@@ -887,8 +888,5 @@ public class SessionController implements Serializable {
         }
         return new byte[0];
     }
-
-    public String getServerWithProtocolAndPort() {
-        return EnvironmentInfo.getServerUrl();
-    }
+    
 }
