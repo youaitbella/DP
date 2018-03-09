@@ -4,8 +4,8 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.entities.cooperation.CooperationRequestEmail;
 import org.inek.dataportal.common.data.AbstractFacade;
+import org.inek.dataportal.common.data.cooperation.entities.CooperationRequestEmail;
 import org.inek.dataportal.facades.account.AccountFacade;
 
 /**

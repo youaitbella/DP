@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates and open the template in
  * the editor.
  */
-package org.inek.dataportal.entities.cooperation;
+package org.inek.dataportal.common.data.cooperation.entities;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -15,9 +15,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.data.converter.FeatureConverter;
+import org.inek.dataportal.common.enums.CooperativeRight;
 
 /**
  *

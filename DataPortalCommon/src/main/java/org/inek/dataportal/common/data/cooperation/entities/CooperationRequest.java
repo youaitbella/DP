@@ -1,4 +1,4 @@
-package org.inek.dataportal.entities.cooperation;
+package org.inek.dataportal.common.data.cooperation.entities;
 
 import java.io.Serializable;
 import java.util.Calendar;
@@ -8,35 +8,35 @@ import javax.persistence.*;
 /**
  * This entity is used to signal a cooperation request
  * It will be deleted after confirmation of the cooperation 
- * or after a defined amount of time, whichever occurs first
+ * or after a defined amount of time, whichever occurs first.
  * @author muellermi
  */
 @Entity
-@Table(name = "Cooperation", schema = "usr")
-public class Cooperation implements Serializable {
+@Table(name = "CooperationRequest", schema = "usr")
+public class CooperationRequest implements Serializable {
     private static final long serialVersionUID = 1L;
-    
-    public static Cooperation create(int accountId1, int accountId2) {
-        Cooperation request = new Cooperation();
-        request.setAccountId1(accountId1);
-        request.setAccountId2(accountId2);
+
+    public static CooperationRequest create(int requestorId, int requestedId) {
+        CooperationRequest request = new CooperationRequest();
+        request.setRequestorId(requestorId);
+        request.setRequestedId(requestedId);
         return request;
     }
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "coId")
+    @Column(name = "crId")
     private Integer _id;
 
-    @Column(name = "coCreationDate")
+    @Column(name = "crCreationDate")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date _creationDate = null;
 
-    @Column(name = "coAccountId1")
-    private int _accountId1;
+    @Column(name = "crRequestorAccountId")
+    private int _requestorId;
 
-    @Column(name = "coAccountId2")
-    private int _accountId2;
+    @Column(name = "crRequestedAccountId")
+    private int _requestedId;
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter">
     public Integer getId() {
@@ -51,20 +51,20 @@ public class Cooperation implements Serializable {
         return _creationDate;
     }
 
-    public int getAccountId1() {
-        return _accountId1;
+    public int getRequestorId() {
+        return _requestorId;
     }
 
-    public void setAccountId1(int accountId) {
-        _accountId1 = accountId;
+    public void setRequestorId(int requestorId) {
+        _requestorId = requestorId;
     }
 
-    public int getAccountId2() {
-        return _accountId2;
+    public int getRequestedId() {
+        return _requestedId;
     }
 
-    public void setAccountId2(int accountId) {
-        _accountId2 = accountId;
+    public void setRequestedId(int requestedId) {
+        _requestedId = requestedId;
     }
 
     
@@ -85,10 +85,10 @@ public class Cooperation implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        if (!(object instanceof Cooperation)) {
+        if (!(object instanceof CooperationRequest)) {
             return false;
         }
-        Cooperation other = (Cooperation) object;
+        CooperationRequest other = (CooperationRequest) object;
         if ((_id == null && other.getId() != null) || (_id != null && !_id.equals(other.getId()))) {
             return false;
         }

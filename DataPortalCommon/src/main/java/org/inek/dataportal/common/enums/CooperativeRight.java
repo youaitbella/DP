@@ -1,4 +1,4 @@
-package org.inek.dataportal.enums;
+package org.inek.dataportal.common.enums;
 
 import org.inek.dataportal.common.helper.Utils;
 

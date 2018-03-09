@@ -6,10 +6,10 @@ import java.util.List;
 import java.util.Set;
 import javax.ejb.Stateless;
 import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.entities.cooperation.CooperationRight;
-import org.inek.dataportal.enums.CooperativeRight;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.data.AbstractFacade;
+import org.inek.dataportal.common.data.cooperation.entities.CooperationRight;
+import org.inek.dataportal.common.enums.CooperativeRight;
 import org.inek.dataportal.feature.admin.backingbean.IkSupervisorInfo;
 
 @Stateless

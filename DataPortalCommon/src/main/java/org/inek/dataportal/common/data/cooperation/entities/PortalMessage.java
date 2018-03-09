@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.entities.cooperation;
+package org.inek.dataportal.common.data.cooperation.entities;
 
 import java.io.Serializable;
 import java.util.Calendar;

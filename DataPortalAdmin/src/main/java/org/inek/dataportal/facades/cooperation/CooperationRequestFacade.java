@@ -9,8 +9,8 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.entities.cooperation.CooperationRequest;
 import org.inek.dataportal.common.data.AbstractFacade;
+import org.inek.dataportal.common.data.cooperation.entities.CooperationRequest;
 
 /**
  *

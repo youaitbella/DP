@@ -1,5 +1,6 @@
-package org.inek.dataportal.enums;
+package org.inek.dataprtal.common.enums;
 
+import org.inek.dataportal.common.enums.CooperativeRight;
 import org.hamcrest.core.Is;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;

@@ -1,4 +1,4 @@
-package org.inek.dataportal.entities.cooperation;
+package org.inek.dataportal.common.data.cooperation.entities;
 
 import java.io.Serializable;
 import java.util.Calendar;

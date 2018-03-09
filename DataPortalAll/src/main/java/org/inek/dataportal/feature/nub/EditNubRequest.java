@@ -35,7 +35,7 @@ import org.inek.dataportal.entities.nub.NubRequest;
 import org.inek.dataportal.entities.nub.NubRequestDocument;
 import org.inek.dataportal.enums.CodeType;
 import org.inek.dataportal.common.enums.ConfigKey;
-import org.inek.dataportal.enums.CooperativeRight;
+import org.inek.dataportal.common.enums.CooperativeRight;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
