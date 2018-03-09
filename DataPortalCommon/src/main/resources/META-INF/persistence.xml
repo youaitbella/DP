@@ -36,6 +36,11 @@
     <class>org.inek.dataportal.common.data.account.entities.WaitingDocument</class>
     <class>org.inek.dataportal.common.data.account.entities.Account</class>
     <class>org.inek.dataportal.common.data.account.entities.DocumentDomain</class>
+    <class>org.inek.dataportal.common.data.cooperation.entities.Cooperation</class>
+    <class>org.inek.dataportal.common.data.cooperation.entities.CooperationRequest</class>
+    <class>org.inek.dataportal.common.data.cooperation.entities.CooperationRequestEmail</class>
+    <class>org.inek.dataportal.common.data.cooperation.entities.CooperationRight</class>
+    <class>org.inek.dataportal.common.data.cooperation.entities.PortalMessage</class>
     <class>org.inek.dataportal.common.data.ikadmin.entity.AccessRight</class>
     <class>org.inek.dataportal.common.data.ikadmin.entity.AccountIkAdmin</class>
     <class>org.inek.dataportal.common.data.ikadmin.entity.User</class>
