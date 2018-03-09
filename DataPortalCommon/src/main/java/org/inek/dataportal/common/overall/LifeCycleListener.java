@@ -1,6 +1,5 @@
 package org.inek.dataportal.common.overall;
 
-import java.util.Iterator;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.component.UIViewRoot;
