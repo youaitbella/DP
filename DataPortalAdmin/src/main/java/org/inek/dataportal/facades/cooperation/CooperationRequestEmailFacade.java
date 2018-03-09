@@ -3,10 +3,10 @@ package org.inek.dataportal.facades.cooperation;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.persistence.TypedQuery;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.data.AbstractFacade;
 import org.inek.dataportal.common.data.cooperation.entities.CooperationRequestEmail;
-import org.inek.dataportal.facades.account.AccountFacade;
 
 /**
  *
@@ -15,7 +15,6 @@ import org.inek.dataportal.facades.account.AccountFacade;
 @Stateless
 public class CooperationRequestEmailFacade extends AbstractFacade<CooperationRequestEmail> {
     
-    @Inject private AccountFacade _accFacade;
     @Inject private CooperationRequestFacade _coopFacade;
     
     public CooperationRequestEmailFacade() {
@@ -26,15 +25,19 @@ public class CooperationRequestEmailFacade extends AbstractFacade<CooperationReq
         return findAll().stream().anyMatch((request) -> (request.getCreatorId() == creatorId && request.getRequestEmail().equals(requestEmail)));
     }
     
-    public void createRealCooperationRequests(String email) {
-        List<CooperationRequestEmail> requests = findAll();
-        requests.stream().filter((request) -> !(!request.getRequestEmail().equals(email))).map((request) -> {
-            Account newAccount = _accFacade.findByMail(email);
-            _coopFacade.createCooperationRequest(request.getCreatorId(), newAccount.getId());
-            return request;
-        }).forEachOrdered((request) -> {
+    public void createRealCooperationRequests(Account account) {
+        List<CooperationRequestEmail> requests = findRequestsByEmail(account.getEmail());
+        for (CooperationRequestEmail request : requests) {
+            _coopFacade.createCooperationRequest(request.getCreatorId(), account.getId());
             remove(request);
-        });
+        }
+    }
+
+    private List<CooperationRequestEmail> findRequestsByEmail(String email) {
+        String jpql = "select r from CooperationRequestEmail r where r._requestEmail = :email";
+        TypedQuery<CooperationRequestEmail> query = getEntityManager().createQuery(jpql, CooperationRequestEmail.class);
+        query.setParameter("email", email);
+        return query.getResultList();
     }
 
     public void createCooperation(int creatorId, String requestEmail) {

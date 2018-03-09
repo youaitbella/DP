@@ -86,7 +86,7 @@ public class Activate implements Serializable {
             return null;
         }
         Account userAcc = _accountFacade.findByMailOrUser(_emailOrUser);
-        _coopRequestEmailFacade.createRealCooperationRequests(userAcc.getEmail());
+        _coopRequestEmailFacade.createRealCooperationRequests(userAcc);
         
         if (!_sessionController.loginAndSetTopics(_emailOrUser, _password, PortalType.DRG)) {
             LOGGER.log(Level.WARNING, "Login and set topics failed: {0}", _emailOrUser);
