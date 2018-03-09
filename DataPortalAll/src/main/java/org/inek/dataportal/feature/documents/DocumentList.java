@@ -13,7 +13,7 @@ import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.AccountDocument;
 import org.inek.dataportal.facades.account.AccountDocumentFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
-import org.inek.dataportal.facades.cooperation.CooperationRequestFacade;
+import org.inek.dataportal.common.data.cooperation.facade.CooperationRequestFacade;
 import org.inek.dataportal.facades.cooperation.PortalMessageFacade;
 import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.helper.TransferFileCreator;

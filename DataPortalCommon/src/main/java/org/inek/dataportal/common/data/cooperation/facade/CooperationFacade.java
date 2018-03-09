@@ -1,4 +1,4 @@
-package org.inek.dataportal.facades.cooperation;
+package org.inek.dataportal.common.data.cooperation.facade;
 
 import java.util.List;
 import javax.ejb.Stateless;

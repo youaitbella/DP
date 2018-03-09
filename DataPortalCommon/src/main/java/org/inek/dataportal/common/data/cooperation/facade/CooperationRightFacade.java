@@ -1,4 +1,4 @@
-package org.inek.dataportal.facades.cooperation;
+package org.inek.dataportal.common.data.cooperation.facade;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -10,7 +10,7 @@ import org.inek.dataportal.common.data.cooperation.entities.CooperationRight;
 import org.inek.dataportal.common.enums.CooperativeRight;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.data.AbstractFacade;
-import org.inek.dataportal.feature.admin.backingbean.IkSupervisorInfo;
+import org.inek.dataportal.common.data.IkSupervisorInfo;
 
 @Stateless
 public class CooperationRightFacade extends AbstractFacade<CooperationRight> {

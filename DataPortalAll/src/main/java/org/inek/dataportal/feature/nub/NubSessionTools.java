@@ -31,7 +31,7 @@ import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.data.icmt.facade.CustomerFacade;
 import org.inek.dataportal.facades.NubRequestFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
-import org.inek.dataportal.facades.cooperation.CooperationRightFacade;
+import org.inek.dataportal.common.data.cooperation.facade.CooperationRightFacade;
 import org.inek.dataportal.common.data.adm.MailTemplate;
 import org.inek.dataportal.feature.nub.tree.AccountTreeNodeObserver;
 import org.inek.dataportal.feature.nub.tree.EditRootTreeNodeObserver;

@@ -17,7 +17,7 @@ import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.PortalType;
 import org.inek.dataportal.facades.account.AccountFacade;
-import org.inek.dataportal.facades.cooperation.CooperationRequestEmailFacade;
+import org.inek.dataportal.common.data.cooperation.facade.CooperationRequestEmailFacade;
 
 /**
  *
