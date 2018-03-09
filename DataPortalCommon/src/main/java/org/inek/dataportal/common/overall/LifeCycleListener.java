@@ -1,4 +1,4 @@
-package org.inek.dataportal.common;
+package org.inek.dataportal.common.overall;
 
 import java.util.Iterator;
 import javax.faces.component.UIComponent;

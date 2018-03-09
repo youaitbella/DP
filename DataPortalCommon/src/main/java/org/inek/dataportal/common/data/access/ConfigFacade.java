@@ -1,11 +1,16 @@
 package org.inek.dataportal.common.data.access;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import org.inek.dataportal.common.data.adm.Config;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.data.AbstractDataAccess;
+import org.inek.dataportal.common.data.adm.Announcement;
 import org.inek.dataportal.common.data.common.PortalAddress;
 import org.inek.dataportal.common.enums.PortalType;
 import org.inek.dataportal.common.enums.Stage;
@@ -99,4 +104,16 @@ public class ConfigFacade extends AbstractDataAccess {
         query.setParameter("stage", stage);
         return query.getResultList().stream().findFirst().orElse(new PortalAddress()).getUrl();
     }
+    
+    public List<Announcement> findActiveWarnings() {
+        clearCache(Announcement.class);
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Announcement> cq = cb.createQuery(Announcement.class);
+        Root<Announcement> request = cq.from(Announcement.class);
+        cq.select(request)
+                .where(cb.isTrue(request.get("_isActive")))
+                .orderBy(cb.asc(request.get("_id")));
+        return getEntityManager().createQuery(cq).getResultList();
+    }
+   
 }
