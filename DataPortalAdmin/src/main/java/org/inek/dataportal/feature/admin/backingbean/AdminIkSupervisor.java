@@ -16,10 +16,10 @@ import javax.inject.Named;
 import org.inek.dataportal.common.data.IkSupervisorInfo;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
+import org.inek.dataportal.common.data.cooperation.facade.CooperationRightFacade;
 import org.inek.dataportal.common.enums.CooperativeRight;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.facades.account.AccountFacade;
-import org.inek.dataportal.facades.cooperation.CooperationRightFacade;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
 
