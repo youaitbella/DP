@@ -112,9 +112,9 @@ public class NubRequestFacade extends AbstractDataAccess {
 
     @SuppressWarnings("unchecked")
     public List<NubRequest> findForAccount(
-            int accountId, 
-            int year, 
-            DataSet dataSet, 
+            int accountId,
+            int year,
+            DataSet dataSet,
             Set<Integer> managedIks,
             String filter) {
         String sql = "SELECT nub.* \n"
@@ -247,12 +247,14 @@ public class NubRequestFacade extends AbstractDataAccess {
                 + "join NubRequest p "
                 + "WHERE a._id = p._accountId "
                 + " and p._accountId in :accountIds "
-                + " and (p._targetYear = :year or -1 = :year) "
+                + (year > 0 ? " and p._targetYear = :year " : "")
                 + " and p._status between :statusLow and :statusHigh "
                 + (managedIks.isEmpty() ? "" : " and p._ik not in :iks");
         TypedQuery<Account> query = getEntityManager().createQuery(jpql, Account.class);
         query.setParameter("accountIds", accountIds);
-        query.setParameter(YEAR, year);
+        if (year > 0) {
+            query.setParameter(YEAR, year);
+        }
         query.setParameter(STATUS_LOW, statusLow.getId());
         query.setParameter(STATUS_HIGH, statusHigh.getId());
         if (!managedIks.isEmpty()) {
