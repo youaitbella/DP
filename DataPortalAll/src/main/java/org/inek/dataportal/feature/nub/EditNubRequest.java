@@ -51,6 +51,7 @@ import org.inek.dataportal.common.helper.structures.FieldValues;
 import org.inek.dataportal.helper.structures.MessageContainer;
 import org.inek.dataportal.services.MessageService;
 import org.inek.dataportal.common.utils.DocumentationUtil;
+import org.inek.dataportal.controller.SessionHelper;
 
 /**
  *
@@ -65,6 +66,7 @@ public class EditNubRequest extends AbstractEditController {
     @Inject private AccessManager _accessManager;
     @Inject private ProcedureFacade _procedureFacade;
     @Inject private SessionController _sessionController;
+    @Inject private SessionHelper _sessionHelper;
     @Inject private NubRequestFacade _nubRequestFacade;
     @Inject private CustomerFacade _customerFacade;
     @Inject private NubSessionTools _nubSessionTools;
@@ -287,7 +289,7 @@ public class EditNubRequest extends AbstractEditController {
     }
 
     public String searchCode(CodeType codeType) {
-        _sessionController.getSearchController().bindSearchConsumer(this)
+        _sessionHelper.getSearchController().bindSearchConsumer(this)
                 .bindTargetPage(Pages.NubEditPage1.URL())
                 .enableCodeType(CodeType.Proc).enableCodeType(CodeType.Drg)
                 .bindCodeType(codeType);

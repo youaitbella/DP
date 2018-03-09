@@ -44,6 +44,7 @@ import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
 import org.inek.dataportal.services.MessageService;
 import org.inek.dataportal.common.utils.DocumentationUtil;
+import org.inek.dataportal.controller.SessionHelper;
 
 /**
  *
@@ -58,6 +59,7 @@ public class EditPeppProposal extends AbstractEditController {
 
     // <editor-fold defaultstate="collapsed" desc="fields">
     @Inject private SessionController _sessionController;
+    @Inject private SessionHelper _sessionHelper;
     @Inject private ProcedureFacade _procedureFacade;
     @Inject private DiagnosisFacade _diagnosisFacade;
     @Inject private PeppProposalFacade _peppProposalFacade;
@@ -89,8 +91,8 @@ public class EditPeppProposal extends AbstractEditController {
         tabPPCodes,
         tabPPDocuments,
     }
-
     // </editor-fold>
+    
     public EditPeppProposal() {
         //System.out.println("ctor EditPeppProposal");
     }
@@ -213,8 +215,8 @@ public class EditPeppProposal extends AbstractEditController {
         return getPeppProposal().getCategory() == PeppProposalCategory.SYSTEM;
     }
     // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="Codes">
-
     public String searchDiag() {
         return searchCode(CodeType.Diag);
     }
@@ -228,7 +230,7 @@ public class EditPeppProposal extends AbstractEditController {
     }
 
     public String searchCode(CodeType codeType) {
-        _sessionController.getSearchController().bindSearchConsumer(this)
+        _sessionHelper.getSearchController().bindSearchConsumer(this)
                 .bindTargetPage(Pages.PeppProposalEdit.URL())
                 .enableCodeType(CodeType.Diag).enableCodeType(CodeType.Proc).enableCodeType(CodeType.Pepp)
                 .bindCodeType(codeType).setCodeSystem(CodeType.Pepp);
@@ -290,8 +292,8 @@ public class EditPeppProposal extends AbstractEditController {
         }
     }
     // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="Tab Documents">
-
     public boolean isAnonymousData() {
         return getPeppProposal().isAnonymousData() == null ? false : getPeppProposal().isAnonymousData();
     }

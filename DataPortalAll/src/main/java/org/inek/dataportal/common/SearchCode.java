@@ -16,11 +16,11 @@ import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.SearchController.CodeInfo;
-import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.enums.CodeType;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.enums.GlobalVars;
 import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.controller.SessionHelper;
 
 /**
  *
@@ -31,7 +31,7 @@ import org.inek.dataportal.common.helper.Utils;
 public class SearchCode implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Inject private SessionController _sessionController;
+    @Inject private SessionHelper _sessionHelper;
     private String _searchText;
     private String _hint = "";
     private int _proposalSection = GlobalVars.ProposalSectionPepp.getVal(); 
@@ -161,7 +161,7 @@ public class SearchCode implements Serializable {
 
 // </editor-fold>
     public SearchController getSearchController() {
-        return _sessionController.getSearchController();
+        return _sessionHelper.getSearchController();
     }
 
     public String getTargetPage() {

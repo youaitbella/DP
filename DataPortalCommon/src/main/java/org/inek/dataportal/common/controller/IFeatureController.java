@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.controller;
+package org.inek.dataportal.common.controller;
 
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.helper.Topics;

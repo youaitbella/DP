@@ -44,6 +44,7 @@ import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.helper.scope.FeatureScoped;
 import org.inek.dataportal.services.MessageService;
 import org.inek.dataportal.common.utils.DocumentationUtil;
+import org.inek.dataportal.controller.SessionHelper;
 
 /**
  *
@@ -58,6 +59,7 @@ public class EditDrgProposal extends AbstractEditController {
 
     @Inject private AccessManager _accessManager;
     @Inject private SessionController _sessionController;
+    @Inject private SessionHelper _sessionHelper;
     @Inject private ProcedureFacade _procedureFacade;
     @Inject private DiagnosisFacade _diagnosisFacade;
     @Inject private DrgProposalFacade _drgProposalFacade;
@@ -289,7 +291,7 @@ public class EditDrgProposal extends AbstractEditController {
     }
 
     public String searchCode(CodeType codeType) {
-        _sessionController.getSearchController().bindSearchConsumer(this)
+        _sessionHelper.getSearchController().bindSearchConsumer(this)
                 .bindTargetPage(Pages.DrgProposalEditCoding.URL())
                 .enableCodeType(CodeType.Diag).enableCodeType(CodeType.Proc).enableCodeType(CodeType.Drg)
                 .bindCodeType(codeType).setCodeSystem(CodeType.Drg);

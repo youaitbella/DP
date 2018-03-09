@@ -4,6 +4,7 @@
  */
 package org.inek.dataportal.controller;
 
+import org.inek.dataportal.common.controller.IFeatureController;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.feature.admin.controller.AdminController;
 

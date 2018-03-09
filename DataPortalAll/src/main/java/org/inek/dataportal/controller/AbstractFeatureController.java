@@ -4,6 +4,7 @@
  */
 package org.inek.dataportal.controller;
 
+import org.inek.dataportal.common.controller.IFeatureController;
 import java.io.Serializable;
 import java.util.logging.Logger;
 import org.inek.dataportal.common.data.account.entities.Account;

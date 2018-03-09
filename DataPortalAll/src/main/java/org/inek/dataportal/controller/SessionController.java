@@ -1,5 +1,6 @@
 package org.inek.dataportal.controller;
 
+import org.inek.dataportal.common.controller.IFeatureController;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.HttpURLConnection;
@@ -20,9 +21,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.ApplicationTools;
-import org.inek.dataportal.common.SearchController;
 import org.inek.dataportal.common.data.common.CustomerType;
-import org.inek.dataportal.common.data.icmt.entities.Customer;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.data.account.entities.AccountFeature;
 import org.inek.dataportal.common.enums.Feature;
@@ -30,18 +29,15 @@ import org.inek.dataportal.common.enums.FeatureState;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.PortalType;
 import org.inek.dataportal.common.helper.EnvironmentInfo;
-import org.inek.dataportal.common.data.icmt.facade.CustomerFacade;
 import org.inek.dataportal.common.data.access.CustomerTypeFacade;
-import org.inek.dataportal.facades.DrgFacade;
-import org.inek.dataportal.facades.PeppFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.common.data.adm.facade.LogFacade;
-import org.inek.dataportal.facades.common.DiagnosisFacade;
-import org.inek.dataportal.facades.common.ProcedureFacade;
 import org.inek.dataportal.common.data.cooperation.facade.CooperationRequestFacade;
 import org.inek.dataportal.common.data.adm.InekRole;
 import org.inek.dataportal.common.data.adm.Log;
 import org.inek.dataportal.common.data.adm.ReportTemplate;
+import org.inek.dataportal.common.data.icmt.entities.Customer;
+import org.inek.dataportal.common.data.icmt.facade.CustomerFacade;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Stage;
 import org.inek.dataportal.feature.admin.facade.AdminFacade;
@@ -65,10 +61,6 @@ public class SessionController implements Serializable {
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger("SessionController");
     @Inject private AccountFacade _accountFacade;
-    @Inject private ProcedureFacade _procedureFacade;
-    @Inject private DiagnosisFacade _diagnosisFacade;
-    @Inject private PeppFacade _peppFacade;
-    @Inject private DrgFacade _drgFacade;
     @Inject private LogFacade _logFacade;
     @Inject private Mailer _mailer;
     @Inject private CustomerTypeFacade _typeFacade;
@@ -89,7 +81,6 @@ public class SessionController implements Serializable {
     private final Topics _topics = new Topics();
     private String _currentTopic = "";
     private final List<IFeatureController> _features;
-    private SearchController _searchController;
     private final List<String> _parts = new ArrayList<>();
 
     public SessionController() {
@@ -174,13 +165,6 @@ public class SessionController implements Serializable {
 
     public boolean isLoggedIn() {
         return _account != null;
-    }
-
-    public SearchController getSearchController() {
-        if (_searchController == null) {
-            _searchController = new SearchController(this, _procedureFacade, _diagnosisFacade, _peppFacade, _drgFacade);
-        }
-        return _searchController;
     }
 
     public String getMainPage() {
