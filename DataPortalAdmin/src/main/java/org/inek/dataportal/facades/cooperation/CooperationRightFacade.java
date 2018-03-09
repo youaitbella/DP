@@ -8,9 +8,9 @@ import javax.ejb.Stateless;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.data.AbstractFacade;
+import org.inek.dataportal.common.data.IkSupervisorInfo;
 import org.inek.dataportal.common.data.cooperation.entities.CooperationRight;
 import org.inek.dataportal.common.enums.CooperativeRight;
-import org.inek.dataportal.feature.admin.backingbean.IkSupervisorInfo;
 
 @Stateless
 public class CooperationRightFacade extends AbstractFacade<CooperationRight> {

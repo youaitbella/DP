@@ -14,9 +14,9 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import org.inek.dataportal.common.data.AbstractDataAccess;
+import org.inek.dataportal.common.data.AccountInfo;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.data.adm.ReportTemplate;
-import org.inek.dataportal.feature.admin.backingbean.AccountInfo;
 
 /**
  * Hides the database accesses fro the admin tasks behind a facade
