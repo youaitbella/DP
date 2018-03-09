@@ -178,14 +178,14 @@ public class KGPListServiceProvision implements Serializable, BaseIdValue {
 
     //<editor-fold defaultstate="collapsed" desc="Transient property Domain">
     @Transient
-    private String _domain;
+    private String _domain = "";
 
     public String getDomain() {
         return _domain;
     }
 
     public void setDomain(String domain) {
-        this._domain = domain;
+        _domain = domain;
     }
     //</editor-fold>
 

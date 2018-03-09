@@ -147,6 +147,10 @@ public class AccessManager implements Serializable {
     }
 
     public boolean isAccessAllowed(Feature feature, WorkflowStatus state, int ownerId, int ik) {
+        if (_sessionController.isInekUser(feature)) {
+            return true;
+        }
+
         if (ik > 0) {
             for (AccessRight accessRight : obtainAccessRights(feature)) {
                 if (accessRight.getIk() == ik) {
@@ -156,9 +160,6 @@ public class AccessManager implements Serializable {
         }
 
         if (ownerId == _sessionController.getAccountId()) {
-            return true;
-        }
-        if (_sessionController.isInekUser(feature)) {
             return true;
         }
 

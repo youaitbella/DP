@@ -254,7 +254,11 @@ public class EditUserMaintenance extends AbstractEditController {
     private List<FeatureEditorDAO> getFeatures4Editor() {
         List<FeatureEditorDAO> features = new ArrayList<>();
         List<Feature> configuredFeatures = new ArrayList<>();
-        for (AccountFeature accFeature : _sessionController.getAccount().getFeatures()) {
+        Account account = _sessionController.getAccount();
+        if (account == null){
+            return features;
+        }
+        for (AccountFeature accFeature : account.getFeatures()) {
             features.add(new FeatureEditorDAO(accFeature, _sessionController.getAccount()));
             configuredFeatures.add(accFeature.getFeature());
         }
@@ -457,7 +461,6 @@ public class EditUserMaintenance extends AbstractEditController {
                 && original.getCustomerFax().equals(copy.getCustomerFax())
                 && original.isNubConfirmation() == copy.isNubConfirmation()
                 && original.isMessageCopy() == copy.isMessageCopy()
-                && original.isAutoSave() == copy.isAutoSave()
                 && original.getDropBoxHoldTime() == copy.getDropBoxHoldTime();
         return !isEqual;
     }
@@ -483,7 +486,6 @@ public class EditUserMaintenance extends AbstractEditController {
         original.setCustomerFax(copy.getCustomerFax());
         original.setNubConfirmation(copy.isNubConfirmation());
         original.setMessageCopy(copy.isMessageCopy());
-        original.setAutoSave(copy.isAutoSave());
         original.setDropBoxHoldTime(copy.getDropBoxHoldTime());
     }
 

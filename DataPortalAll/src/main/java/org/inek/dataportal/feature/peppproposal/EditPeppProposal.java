@@ -311,7 +311,7 @@ public class EditPeppProposal extends AbstractEditController {
 
     @Override
     protected void topicChanged() {
-        if (_sessionController.getAccount().isAutoSave() && !isReadOnly()) {
+        if (!isReadOnly()) {
             saveData();
         }
     }

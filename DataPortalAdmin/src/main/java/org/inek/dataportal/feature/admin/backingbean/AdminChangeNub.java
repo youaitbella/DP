@@ -11,11 +11,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.entities.nub.NubRequest;
-import org.inek.dataportal.common.enums.DataSet;
-import org.inek.dataportal.facades.NubRequestFacade;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.feature.admin.facade.AdminFacade;
 import org.inek.dataportal.helper.scope.FeatureScoped;
 
 /**
@@ -24,11 +22,11 @@ import org.inek.dataportal.helper.scope.FeatureScoped;
  */
 @Named
 @FeatureScoped(name = "AdminTask")
-public class AdminChangeNub implements Serializable{
+public class AdminChangeNub implements Serializable {
 
     @Inject private SessionController _sessionController;
     @Inject private AccountFacade _accountFacade;
-    @Inject private NubRequestFacade _nubFacade;
+    @Inject private AdminFacade _adminFacade;
     private int _ik;
     private Account _account;
     private List<AccountInfo> _accountInfos = Collections.emptyList();
@@ -61,7 +59,6 @@ public class AdminChangeNub implements Serializable{
         _account = _accountFacade.findAccount(accountId);
     }
 
-
     public int getAccountId() {
         return _account == null ? 0 : _account.getId();
     }
@@ -84,36 +81,30 @@ public class AdminChangeNub implements Serializable{
     }
 
     public void setIk(Integer ik) {
-        if (ik == null){
+        if (ik == null) {
             ik = 0;
         }
-        if (_ik != ik){
+        if (_ik != ik) {
             updateAccounts(ik);
         }
         _ik = ik;
     }
 
     public Integer getIk() {
-        return _ik > 0 ? _ik : null ;
+        return _ik > 0 ? _ik : null;
     }
 
     private void updateAccounts(int ik) {
-        _accountInfos = _nubFacade.getAccountInfos(ik);
+        _accountInfos = _adminFacade.retrieveNubAccountInfos(ik);
     }
 
-    public String changeOwner(){
+    public String changeOwner() {
         _accountInfos.stream().filter(ai -> ai.isSelected()).forEach(ai -> changeOwnerForAccount(ai.getAccount()));
         updateAccounts(_ik);
         return "";
     }
-    
-    private void changeOwnerForAccount(Account account){
-        List<NubRequest> nubRequests = _nubFacade.findAll(account.getId(), _ik, -1, DataSet.All, "");
-        for (NubRequest nubRequest : nubRequests){
-            nubRequest.setAccountId(_account.getId());
-            _nubFacade.saveNubRequest(nubRequest);
-            _sessionController.logMessage("NubOwner changed: nub=" + nubRequest.getId() 
-                    + ", oldOwner=" + account.getId() + ", newOwner=" + _account.getId());
-        }
+
+    private void changeOwnerForAccount(Account oldAccount) {
+        _adminFacade.changeNubOwner(_ik, oldAccount.getId(), _account.getId(), _sessionController.getAccountId());
     }
 }

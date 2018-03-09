@@ -651,23 +651,13 @@ public class PeppCalcBasics implements Serializable, StatusEntity {
         return _serviceProvisions;
         
     }
-    private int compareServiceProvision(KGPListServiceProvision sp1, KGPListServiceProvision sp2) {
-        return sp1.getServiceProvisionTypeId() > sp2.getServiceProvisionTypeId() ?
-                1 : sp1.getServiceProvisionTypeId() < sp2.getServiceProvisionTypeId() ?
-                -1 : 0;
-    }
-
 
     public void setServiceProvisions(List<KGPListServiceProvision> serviceProvisions) {
-        this._serviceProvisions = serviceProvisions;
+        _serviceProvisions = serviceProvisions;
     }
 
     public void removeEmptyServiceProvisions(){
-        List<KGPListServiceProvision> emptyEntries = _serviceProvisions
-                .stream()
-                .filter(p -> p.getServiceProvisionTypeId() < 0  && p.getDomain().isEmpty())
-                .collect(Collectors.toList());
-        _serviceProvisions.removeAll(emptyEntries);
+        _serviceProvisions.removeIf(p -> p.getServiceProvisionTypeId() < 0  && p.getDomain().isEmpty());
     }
     // </editor-fold>
 

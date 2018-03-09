@@ -35,9 +35,6 @@ import org.inek.dataportal.entities.nub.NubRequest;
 import org.inek.dataportal.entities.nub.NubRequestHistory;
 import org.inek.dataportal.common.enums.DataSet;
 import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.feature.admin.backingbean.AccountInfo;
-import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
-import org.inek.dataportal.common.enums.Right;
 import org.inek.dataportal.helper.structures.ProposalInfo;
 import org.inek.dataportal.common.utils.DateUtils;
 
@@ -262,33 +259,6 @@ public class NubRequestFacade extends AbstractDataAccess {
             query.setParameter("iks", managedIks);
         }
         return query.getResultList();
-    }
-
-    public List<Integer> findAccountIdForIk(int ik) {
-        String jpql = "SELECT DISTINCT p._accountId FROM NubRequest p WHERE p._ik = :ik  ";
-        TypedQuery<Integer> query = getEntityManager().createQuery(jpql, Integer.class);
-        query.setParameter(IK, ik);
-        return query.getResultList();
-    }
-
-    public List<AccountInfo> getAccountInfos(int ik) {
-        String jpql = "SELECT a, false, count(n) FROM NubRequest n JOIN Account a WHERE n._accountId = a._id and n._ik = :ik GROUP BY a";
-        // sadly this is not a list of the expected type, but of object[]
-//        TypedQuery<AccountInfo> query = getEntityManager().createQuery(jpql, AccountInfo.class);
-//        query.setParameter("ik", ik);
-//        List<AccountInfo> infos = query.getResultList();
-//        return infos;
-
-        // although the compiler tells us something else, this is what we get
-        List<AccountInfo> infos = new ArrayList<>();
-        Query query = getEntityManager().createQuery(jpql);
-        query.setParameter(IK, ik);
-        @SuppressWarnings("unchecked") List<Object[]> objects = query.getResultList();
-        for (Object[] obj : objects) {
-            AccountInfo info = new AccountInfo((Account) obj[0], (boolean) obj[1], (int) (long) obj[2]);
-            infos.add(info);
-        }
-        return infos;
     }
 
     public Map<Integer, Integer> countOpenPerIk() {

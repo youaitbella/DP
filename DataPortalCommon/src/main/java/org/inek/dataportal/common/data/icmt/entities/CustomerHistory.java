@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.entities.icmt;
+package org.inek.dataportal.common.data.icmt.entities;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -15,7 +15,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import org.eclipse.persistence.jpa.jpql.parser.DateTime;
 
 /**
  *
@@ -53,7 +52,7 @@ public class CustomerHistory implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property reviousCustomerId">
+    //<editor-fold defaultstate="collapsed" desc="Property previousCustomerId">
     @Column(name = "chPreviousCustomerId")
     private int _previousCustomerId;
 
