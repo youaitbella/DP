@@ -15,7 +15,7 @@ import javax.inject.Inject;
 import org.inek.dataportal.common.AccessManager;
 import static org.inek.dataportal.common.AccessManager.canReadCompleted;
 import static org.inek.dataportal.common.AccessManager.canReadSealed;
-import org.inek.dataportal.common.ApplicationTools;
+import org.inek.dataportal.common.overall.ApplicationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.data.icmt.entities.Customer;

@@ -4,6 +4,7 @@
  */
 package org.inek.dataportal.common;
 
+import org.inek.dataportal.common.overall.ApplicationTools;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.logging.Level;

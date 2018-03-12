@@ -9,7 +9,7 @@ import java.util.stream.Stream;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import org.inek.dataportal.common.AccessManager;
-import org.inek.dataportal.common.ApplicationTools;
+import org.inek.dataportal.common.overall.ApplicationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.enums.Feature;

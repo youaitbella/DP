@@ -19,7 +19,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.inek.dataportal.common.ApplicationTools;
+import org.inek.dataportal.common.overall.ApplicationTools;
 import org.inek.dataportal.common.data.common.CustomerType;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.data.account.entities.AccountFeature;

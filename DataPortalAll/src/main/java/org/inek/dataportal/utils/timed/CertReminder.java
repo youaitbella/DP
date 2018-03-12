@@ -5,7 +5,7 @@ import javax.ejb.Schedule;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Inject;
-import org.inek.dataportal.common.ApplicationTools;
+import org.inek.dataportal.common.overall.ApplicationTools;
 import org.inek.dataportal.entities.certification.Grouper;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.facades.certification.GrouperFacade;

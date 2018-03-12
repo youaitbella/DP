@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.inek.dataportal.common.ApplicationTools;
+import org.inek.dataportal.common.overall.ApplicationTools;
 import org.inek.dataportal.feature.specificfunction.entity.SpecificFunctionAgreement;
 import org.inek.dataportal.feature.specificfunction.entity.SpecificFunctionRequest;
 import org.inek.dataportal.common.enums.ConfigKey;

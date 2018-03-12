@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.inek.dataportal.common.ApplicationTools;
+import org.inek.dataportal.common.overall.ApplicationTools;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.DataSet;

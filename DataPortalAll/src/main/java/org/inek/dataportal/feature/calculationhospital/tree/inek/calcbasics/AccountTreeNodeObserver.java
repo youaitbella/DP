@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.inject.Inject;
-import org.inek.dataportal.common.ApplicationTools;
+import org.inek.dataportal.common.overall.ApplicationTools;
 import org.inek.dataportal.entities.calc.CalcHospitalInfo;
 import org.inek.dataportal.facades.calc.CalcFacade;
 import org.inek.dataportal.helper.tree.CalcHospitalTreeNode;

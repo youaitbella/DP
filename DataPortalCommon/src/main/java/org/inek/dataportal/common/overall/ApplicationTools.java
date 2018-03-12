@@ -1,4 +1,4 @@
-package org.inek.dataportal.common;
+package org.inek.dataportal.common.overall;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -16,7 +16,7 @@ import javax.inject.Named;
 import org.inek.dataportal.common.data.common.ListFeature;
 import org.inek.dataportal.common.data.common.ListWorkflowStatus;
 import org.inek.dataportal.common.data.icmt.entities.Customer;
-import org.inek.dataportal.common.enums.ConfigKey;	
+import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.data.icmt.facade.CustomerFacade;

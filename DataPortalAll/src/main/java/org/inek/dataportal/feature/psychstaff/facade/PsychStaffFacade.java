@@ -22,7 +22,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityGraph;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import org.inek.dataportal.common.ApplicationTools;
+import org.inek.dataportal.common.overall.ApplicationTools;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.DataSet;
 import org.inek.dataportal.common.data.AbstractDataAccess;
