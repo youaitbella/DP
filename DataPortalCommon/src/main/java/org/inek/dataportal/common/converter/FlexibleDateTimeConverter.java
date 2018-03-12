@@ -1,4 +1,4 @@
-package org.inek.dataportal.helper.converter;
+package org.inek.dataportal.common.converter;
 
 import java.text.DateFormat;
 import java.text.ParseException;
