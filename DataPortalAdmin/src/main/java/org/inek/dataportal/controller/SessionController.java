@@ -273,7 +273,7 @@ public class SessionController implements Serializable {
         if (url.isEmpty()) {
             return;
         }
-        url = url + "?token=" + getToken();
+        url = url + "?token=" + getToken() + "&portal=" + portalType.name() ;
         performLogout("");
         FacesContext.getCurrentInstance().getExternalContext().redirect(url);
     }
@@ -330,8 +330,8 @@ public class SessionController implements Serializable {
         return "localhost://test";
     }
 
-    public boolean loginByToken(String token) {
-        _portalType = PortalType.ADMIN;
+    public boolean loginByToken(String token, PortalType portalType) {
+        _portalType = portalType;
         String loginInfo = Utils.getClientIP() + "; UserAgent=" + Utils.getUserAgent();
         int id = getId(token);
         _account = _accountFacade.findAccount(id);

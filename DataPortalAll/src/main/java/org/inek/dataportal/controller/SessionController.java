@@ -43,8 +43,8 @@ import org.inek.dataportal.common.helper.StreamHelper;
 import org.inek.dataportal.common.helper.Topic;
 import org.inek.dataportal.common.helper.Topics;
 import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.common.scope.FeatureScopedContextHolder;
 import org.inek.dataportal.common.mail.Mailer;
+import org.inek.dataportal.common.scope.FeatureScopedContextHolder;
 
 /**
  *
@@ -274,7 +274,7 @@ public class SessionController implements Serializable {
         if (url.isEmpty()) {
             return;
         }
-        url = url + "?token=" + getToken();
+        url = url + "?token=" + getToken() + "&portal=" + portalType.name() ;
         performLogout("");
         FacesContext.getCurrentInstance().getExternalContext().redirect(url);
     }
@@ -330,8 +330,8 @@ public class SessionController implements Serializable {
         return "localhost://test";
     }
 
-    public boolean loginByToken(String token) {
-        _portalType = PortalType.DRG;
+    public boolean loginByToken(String token, PortalType portalType) {
+        _portalType = portalType;
         String loginInfo = Utils.getClientIP() + "; UserAgent=" + Utils.getUserAgent();
         int id = getId(token);
         _account = _accountFacade.findAccount(id);
