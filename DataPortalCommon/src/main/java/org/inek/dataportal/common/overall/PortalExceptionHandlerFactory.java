@@ -1,4 +1,4 @@
-package org.inek.dataportal.common;
+package org.inek.dataportal.common.overall;
 
 import javax.faces.context.ExceptionHandler;
 import javax.faces.context.ExceptionHandlerFactory;

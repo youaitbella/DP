@@ -4,7 +4,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.overall.ApplicationTools;
-import org.inek.dataportal.common.AccessManager;
+import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.entities.drg.DrgProposal;
 import org.inek.dataportal.common.enums.Pages;

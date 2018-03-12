@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.common;
+package org.inek.dataportal.common.overall;
 
 import org.inek.dataportal.common.overall.ApplicationTools;
 import java.util.Iterator;

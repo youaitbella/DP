@@ -1,4 +1,4 @@
-package org.inek.dataportal.common;
+package org.inek.dataportal.common.overall;
 
 import java.io.Serializable;
 import java.util.HashMap;

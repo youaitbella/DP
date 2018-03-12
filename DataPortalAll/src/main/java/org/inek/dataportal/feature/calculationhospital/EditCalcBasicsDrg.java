@@ -28,7 +28,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.Id;
 import javax.persistence.OptimisticLockException;
-import org.inek.dataportal.common.AccessManager;
+import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.overall.ApplicationTools;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.iface.Document;
