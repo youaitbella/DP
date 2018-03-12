@@ -1,4 +1,4 @@
-package org.inek.dataportal.clientbehaviour;
+package org.inek.dataportal.common.clientbehaviour;
 
 import javax.faces.component.UIComponent;
 import javax.faces.component.behavior.ClientBehaviorBase;

@@ -1,4 +1,4 @@
-package org.inek.dataportal.clientbehaviour;
+package org.inek.dataportal.common.clientbehaviour;
 
 import javax.faces.component.behavior.ClientBehaviorBase;
 import javax.faces.component.behavior.ClientBehaviorContext;
@@ -9,12 +9,12 @@ import org.inek.dataportal.common.helper.Utils;
  *
  * @author muellermi
  */
-@FacesBehavior(value = "confirmRequestApproval")
-public class ConfirmRequestApprovalBehaviour extends ClientBehaviorBase {
+@FacesBehavior(value = "confirmSeal")
+public class ConfirmSealBehaviour extends ClientBehaviorBase {
     
     @Override
     public String getScript(ClientBehaviorContext behaviorContext) {
-        return "return confirm('" + Utils.getMessage("msgRequestApproval")+ "');";
+        return "return confirm('" + Utils.getMessage("msgConfirmSeal")+ "');";
     }
     
 }

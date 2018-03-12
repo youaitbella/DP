@@ -2,7 +2,7 @@ package org.inek.dataportal.feature.peppproposal;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.inek.dataportal.controller.AbstractFeatureController;
+import org.inek.dataportal.common.controller.AbstractFeatureController;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.entities.pepp.PeppProposalDocument;
 import org.inek.dataportal.common.enums.Feature;

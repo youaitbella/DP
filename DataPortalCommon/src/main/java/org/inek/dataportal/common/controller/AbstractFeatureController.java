@@ -2,12 +2,12 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.controller;
+package org.inek.dataportal.common.controller;
 
+import org.inek.dataportal.common.controller.SessionController;
+import org.inek.dataportal.common.controller.IFeatureController;
 import java.io.Serializable;
 import java.util.logging.Logger;
-import org.inek.dataportal.common.controller.IFeatureController;
-import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.helper.Topics;

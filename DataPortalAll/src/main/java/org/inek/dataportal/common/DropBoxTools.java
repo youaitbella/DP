@@ -1,11 +1,14 @@
 package org.inek.dataportal.common;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
+import javax.inject.Named;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.entities.dropbox.DropBoxType;
 import org.inek.dataportal.facades.DropBoxTypeFacade;
@@ -14,7 +17,9 @@ import org.inek.dataportal.facades.DropBoxTypeFacade;
  *
  * @author muellermi
  */
-public class DropBoxTools {
+@Named
+@SessionScoped
+public class DropBoxTools implements Serializable{
 
     private Map<Integer, DropBoxType> _dropBoxTypes;
     @Inject

@@ -1,4 +1,4 @@
-package org.inek.dataportal.clientbehaviour;
+package org.inek.dataportal.common.clientbehaviour;
 
 import javax.faces.component.UIComponent;
 import javax.faces.component.behavior.ClientBehaviorBase;
@@ -11,17 +11,15 @@ import org.inek.dataportal.common.helper.Utils;
  *
  * @author muellermi
  */
-@FacesBehavior(value = "confirmDelete")
-public class ConfirmDeleteBehaviour extends ClientBehaviorBase {
+@FacesBehavior(value = "confirmReset")
+public class ConfirmReset extends ClientBehaviorBase {
 
     @Override
     public String getScript(ClientBehaviorContext behaviorContext) {
-        return "return confirm('" + Utils.getMessage("msgConfirmDelete") + "');";
+        return "return confirm('" + Utils.getMessage("msgConfirmReset") + "');";
     }
 
     @Override
-    public void decode(FacesContext context, UIComponent component) {
-
-    }
+    public void decode(FacesContext context, UIComponent component) { }
 
 }
