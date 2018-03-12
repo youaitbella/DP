@@ -9,7 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpSession;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.feature.psychstaff.backingbean.EditPsyStaff;
-import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
+import org.inek.dataportal.common.scope.FeatureScopedContextHolder;
 
 @WebServlet(urlPatterns = {"/upload/psychstaff"}, name = "PsychStaffUploadServlet")
 @MultipartConfig(fileSizeThreshold = 10 * 1024 * 1024)

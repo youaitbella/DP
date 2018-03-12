@@ -25,7 +25,7 @@ import org.inek.dataportal.facades.certification.SystemFacade;
 import org.inek.dataportal.common.controller.AbstractEditController;
 import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.common.helper.StreamHelper;
-import org.inek.dataportal.helper.scope.FeatureScoped;
+import org.inek.dataportal.common.scope.FeatureScoped;
 import static org.inek.dataportal.common.helper.StreamHelper.BUFFER_LENGHT;
 
 /**

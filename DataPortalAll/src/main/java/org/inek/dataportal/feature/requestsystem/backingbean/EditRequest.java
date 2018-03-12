@@ -19,7 +19,7 @@ import org.inek.dataportal.feature.requestsystem.entity.Request;
 import org.inek.dataportal.feature.requestsystem.entity.RequestDocument;
 import org.inek.dataportal.feature.requestsystem.facade.RequestFacade;
 import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.helper.scope.FeatureScoped;
+import org.inek.dataportal.common.scope.FeatureScoped;
 import org.inek.dataportal.common.utils.DocumentationUtil;
 
 /**

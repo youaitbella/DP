@@ -12,7 +12,7 @@ import org.inek.dataportal.enums.CertMailType;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.mail.MailTemplateFacade;
 import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.helper.scope.FeatureScoped;
+import org.inek.dataportal.common.scope.FeatureScoped;
 
 /**
  *

@@ -11,7 +11,7 @@ import javax.servlet.http.HttpSession;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.entities.nub.NubRequestDocument;
 import org.inek.dataportal.feature.nub.EditNubRequest;
-import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
+import org.inek.dataportal.common.scope.FeatureScopedContextHolder;
 
 @WebServlet(urlPatterns = {"/upload/nubrequest"}, name = "NubRequestUploadServlet")
 @MultipartConfig(fileSizeThreshold = 10 * 1024 * 1024)

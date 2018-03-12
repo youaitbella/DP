@@ -34,7 +34,7 @@ import org.inek.dataportal.common.data.ikadmin.facade.IkAdminFacade;
 import org.inek.dataportal.feature.nub.NubSessionTools;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.helper.faceletvalidators.NameValidator;
-import org.inek.dataportal.helper.scope.FeatureScoped;
+import org.inek.dataportal.common.scope.FeatureScoped;
 import org.inek.dataportal.common.mail.Mailer;
 
 /**

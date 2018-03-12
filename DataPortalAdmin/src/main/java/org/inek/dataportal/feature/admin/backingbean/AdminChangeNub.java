@@ -14,8 +14,8 @@ import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.common.scope.FeatureScoped;
 import org.inek.dataportal.feature.admin.facade.AdminFacade;
-import org.inek.dataportal.helper.scope.FeatureScoped;
 
 /**
  *

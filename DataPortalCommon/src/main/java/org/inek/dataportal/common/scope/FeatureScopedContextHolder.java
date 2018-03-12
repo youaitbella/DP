@@ -1,4 +1,4 @@
-package org.inek.dataportal.helper.scope;
+package org.inek.dataportal.common.scope;
 
 import java.io.Serializable;
 import java.util.Collections;

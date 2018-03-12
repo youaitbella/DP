@@ -13,7 +13,7 @@ import javax.inject.Named;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.entities.certification.AdditionalEmail;
 import org.inek.dataportal.facades.certification.GrouperFacade;
-import org.inek.dataportal.helper.scope.FeatureScoped;
+import org.inek.dataportal.common.scope.FeatureScoped;
 
 /**
  *

@@ -11,7 +11,7 @@ import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.feature.specificfunction.facade.SpecificFunctionFacade;
 import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
+import org.inek.dataportal.common.scope.FeatureScopedContextHolder;
 import org.inek.dataportal.common.utils.DocumentationUtil;
 
 /**

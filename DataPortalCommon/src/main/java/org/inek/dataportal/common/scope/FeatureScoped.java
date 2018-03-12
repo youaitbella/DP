@@ -1,4 +1,4 @@
-package org.inek.dataportal.helper.scope;
+package org.inek.dataportal.common.scope;
 
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;

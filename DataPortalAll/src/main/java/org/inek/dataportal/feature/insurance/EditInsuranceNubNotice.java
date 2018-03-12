@@ -37,7 +37,7 @@ import org.inek.dataportal.feature.insurance.facade.InsuranceFacade;
 import org.inek.dataportal.facades.common.ProcedureFacade;
 import org.inek.dataportal.common.controller.AbstractEditController;
 import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.helper.scope.FeatureScoped;
+import org.inek.dataportal.common.scope.FeatureScoped;
 
 /**
  *

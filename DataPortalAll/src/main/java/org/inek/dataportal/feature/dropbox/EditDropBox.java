@@ -22,7 +22,7 @@ import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.facades.DropBoxFacade;
 import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.helper.scope.FeatureScoped;
+import org.inek.dataportal.common.scope.FeatureScoped;
 import org.inek.dataportal.common.mail.Mailer;
 
 /**

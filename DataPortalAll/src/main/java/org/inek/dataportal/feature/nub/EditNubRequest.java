@@ -46,7 +46,7 @@ import org.inek.dataportal.facades.common.ProcedureFacade;
 import org.inek.dataportal.common.controller.AbstractEditController;
 import org.inek.dataportal.common.helper.ObjectUtils;
 import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.helper.scope.FeatureScoped;
+import org.inek.dataportal.common.scope.FeatureScoped;
 import org.inek.dataportal.common.helper.structures.FieldValues;
 import org.inek.dataportal.helper.structures.MessageContainer;
 import org.inek.dataportal.services.MessageService;

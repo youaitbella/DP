@@ -26,7 +26,7 @@ import org.inek.dataportal.common.data.account.entities.AccountFeature;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
 import org.inek.dataportal.common.data.ikadmin.facade.IkAdminFacade;
 import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.helper.scope.FeatureScoped;
+import org.inek.dataportal.common.scope.FeatureScoped;
 
 /**
  *

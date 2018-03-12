@@ -36,7 +36,7 @@ import org.inek.dataportal.facades.cooperation.PortalMessageFacade;
 import org.inek.dataportal.common.controller.AbstractEditController;
 import org.inek.dataportal.common.helper.Topic;
 import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.helper.scope.FeatureScoped;
+import org.inek.dataportal.common.scope.FeatureScoped;
 import org.inek.dataportal.services.MessageService;
 
 /**

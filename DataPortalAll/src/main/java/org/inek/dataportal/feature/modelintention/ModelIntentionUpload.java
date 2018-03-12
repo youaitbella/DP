@@ -12,7 +12,7 @@ import javax.servlet.http.Part;
 import org.inek.dataportal.entities.modelintention.Cost;
 import org.inek.dataportal.entities.modelintention.ModelIntentionContact;
 import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
+import org.inek.dataportal.common.scope.FeatureScopedContextHolder;
 import org.inek.dataportal.common.utils.StringUtil;
 import org.inek.dataportal.utils.ValueLists;
 

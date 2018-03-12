@@ -47,7 +47,7 @@ import org.inek.dataportal.feature.psychstaff.enums.PsychType;
 import org.inek.dataportal.feature.psychstaff.facade.PsychStaffFacade;
 import org.inek.dataportal.feature.psychstaff.pdf.PdfBuilder;
 import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.helper.scope.FeatureScoped;
+import org.inek.dataportal.common.scope.FeatureScoped;
 import org.inek.dataportal.common.utils.DateUtils;
 
 /**

@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.AccountDocument;
 import org.inek.dataportal.feature.documents.DocumentUpload;
-import org.inek.dataportal.helper.scope.FeatureScopedContextHolder;
+import org.inek.dataportal.common.scope.FeatureScopedContextHolder;
 import org.inek.dataportal.common.utils.StreamUtils;
 
 @WebServlet(urlPatterns = {"/upload/document"}, name = "DocumentUploadServlet")
