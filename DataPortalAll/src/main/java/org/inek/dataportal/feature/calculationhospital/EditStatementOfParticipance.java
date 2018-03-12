@@ -36,7 +36,7 @@ import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.facades.account.AccountFacade;
+import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.facades.calc.CalcSopFacade;
 import org.inek.dataportal.facades.calc.IcmtUpdater;
 import org.inek.dataportal.common.controller.AbstractEditController;

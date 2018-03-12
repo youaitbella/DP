@@ -25,7 +25,7 @@ import java.util.zip.CheckedInputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.facades.account.AccountFacade;
+import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.common.utils.StreamUtils;
 import org.inek.dataportal.common.utils.Helper;
 

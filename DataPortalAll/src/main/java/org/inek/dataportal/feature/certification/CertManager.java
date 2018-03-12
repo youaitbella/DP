@@ -27,7 +27,7 @@ import org.inek.dataportal.enums.CertStatus;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.enums.Pages;
-import org.inek.dataportal.facades.account.AccountFacade;
+import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.facades.certification.GrouperFacade;
 import org.inek.dataportal.facades.certification.SystemFacade;
 import org.inek.dataportal.common.data.access.ConfigFacade;

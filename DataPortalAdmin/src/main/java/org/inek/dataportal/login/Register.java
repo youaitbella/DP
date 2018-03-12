@@ -19,7 +19,7 @@ import org.inek.dataportal.common.SessionTools;
 import org.inek.dataportal.common.data.account.entities.AccountRequest;
 import org.inek.dataportal.common.data.account.facade.AccountRequestFacade;
 import org.inek.dataportal.common.enums.Pages;
-import org.inek.dataportal.facades.account.AccountFacade;
+import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.helper.faceletvalidators.NameValidator;
 

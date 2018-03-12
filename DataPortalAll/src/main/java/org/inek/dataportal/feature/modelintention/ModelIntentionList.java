@@ -21,7 +21,7 @@ import org.inek.dataportal.enums.UserSet;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.data.cooperation.facade.CooperationFacade;
 import org.inek.dataportal.common.data.cooperation.facade.CooperationRightFacade;
-import org.inek.dataportal.facades.account.AccountFacade;
+import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.facades.modelintention.ModelIntentionFacade;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.helper.structures.EntityInfo;

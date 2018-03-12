@@ -14,7 +14,7 @@ import org.inek.dataportal.common.data.account.entities.DocumentDomain;
 import org.inek.dataportal.common.data.account.entities.WaitingDocument;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.facades.account.AccountDocumentFacade;
-import org.inek.dataportal.facades.account.AccountFacade;
+import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.facades.account.DocumentDomainFacade;
 import org.inek.dataportal.facades.account.WaitingDocumentFacade;
 import org.inek.dataportal.common.data.adm.MailTemplate;

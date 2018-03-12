@@ -19,9 +19,9 @@ import org.inek.dataportal.common.data.account.entities.AccountFeature;
 import org.inek.dataportal.common.data.account.entities.AccountFeatureRequest;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.enums.FeatureState;
-import org.inek.dataportal.facades.account.AccountFacade;
+import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.common.data.account.facade.AccountFeatureRequestFacade;
-import org.inek.dataportal.requestmanager.FeatureRequestHandler;
+import org.inek.dataportal.common.requestmanager.FeatureRequestHandler;
 
 /**
  *

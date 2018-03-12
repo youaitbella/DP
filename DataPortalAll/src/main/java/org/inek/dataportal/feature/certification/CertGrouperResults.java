@@ -20,7 +20,7 @@ import org.inek.dataportal.enums.CertStatus;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.enums.Genders;
 import org.inek.dataportal.common.enums.Pages;
-import org.inek.dataportal.facades.account.AccountFacade;
+import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.facades.certification.EmailLogFacade;
 import org.inek.dataportal.facades.certification.GrouperFacade;
 import org.inek.dataportal.facades.certification.SystemFacade;

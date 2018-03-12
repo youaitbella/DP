@@ -13,7 +13,7 @@ import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.facades.account.AccountFacade;
+import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.facades.calc.CalcFacade;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.helper.tree.entityTree.AccountTreeNode;

@@ -10,7 +10,7 @@ import org.inek.dataportal.common.data.account.entities.AccountFeature;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.enums.Genders;
 import org.inek.dataportal.common.enums.Pages;
-import org.inek.dataportal.facades.account.AccountFacade;
+import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.common.data.cooperation.facade.CooperationFacade;
 import org.inek.dataportal.common.data.cooperation.facade.CooperationRequestEmailFacade;
 import org.inek.dataportal.common.data.cooperation.facade.CooperationRequestFacade;

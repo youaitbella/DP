@@ -35,7 +35,7 @@ import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.enums.PeppProposalCategory;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.facades.PeppProposalFacade;
-import org.inek.dataportal.facades.account.AccountFacade;
+import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.facades.common.DiagnosisFacade;
 import org.inek.dataportal.facades.common.ProcedureFacade;
 import org.inek.dataportal.common.controller.AbstractEditController;

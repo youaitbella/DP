@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates and open the template in
  * the editor.
  */
-package org.inek.dataportal.requestmanager;
+package org.inek.dataportal.common.requestmanager;
 
 import java.util.Objects;
 import java.util.UUID;

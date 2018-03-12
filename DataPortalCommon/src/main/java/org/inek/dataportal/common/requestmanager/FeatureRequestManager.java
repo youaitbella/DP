@@ -1,5 +1,6 @@
-package org.inek.dataportal.requestmanager;
+package org.inek.dataportal.common.requestmanager;
 
+import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import java.io.Serializable;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -17,7 +18,6 @@ import org.inek.dataportal.common.enums.FeatureState;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.data.icmt.facade.ContactRoleFacade;
 import org.inek.dataportal.common.data.icmt.facade.CustomerFacade;
-import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.common.data.account.facade.AccountFeatureRequestFacade;
 import org.inek.dataportal.common.mail.Mailer;
 

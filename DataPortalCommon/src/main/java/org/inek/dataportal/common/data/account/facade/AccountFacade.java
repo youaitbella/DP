@@ -1,4 +1,4 @@
-package org.inek.dataportal.facades.account;
+package org.inek.dataportal.common.data.account.facade;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,34 +16,35 @@ import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import org.inek.dataportal.common.data.icmt.entities.Customer;
+import org.inek.dataportal.common.data.account.entities.PasswordRequest;
 import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.common.enums.Feature;
-import org.inek.dataportal.common.enums.FeatureState;
-import org.inek.dataportal.common.enums.IkReference;
-import org.inek.dataportal.common.data.AbstractDataAccess;
-import org.inek.dataportal.common.data.access.ConfigFacade;
-import org.inek.dataportal.common.enums.Right;
 import org.inek.dataportal.common.data.account.entities.AccountAdditionalIK;
 import org.inek.dataportal.common.data.account.entities.AccountChangeMail;
 import org.inek.dataportal.common.data.account.entities.AccountFeature;
 import org.inek.dataportal.common.data.account.entities.AccountPwd;
 import org.inek.dataportal.common.data.account.entities.AccountRequest;
-import org.inek.dataportal.common.data.account.entities.PasswordRequest;
+import org.inek.dataportal.common.enums.Feature;
+import org.inek.dataportal.common.enums.FeatureState;
+import org.inek.dataportal.common.enums.IkReference;
+import org.inek.dataportal.common.data.AbstractDataAccess;
+import org.inek.dataportal.common.data.icmt.facade.CustomerFacade;
+import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.common.data.account.facade.AccountChangeMailFacade;
 import org.inek.dataportal.common.data.account.facade.AccountPwdFacade;
 import org.inek.dataportal.common.data.account.facade.AccountRequestFacade;
 import org.inek.dataportal.common.data.account.facade.PasswordRequestFacade;
-import org.inek.dataportal.common.data.icmt.entities.Customer;
-import org.inek.dataportal.common.data.icmt.facade.CustomerFacade;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
+import org.inek.dataportal.common.enums.Right;
 import org.inek.dataportal.common.data.ikadmin.facade.IkAdminFacade;
 import org.inek.dataportal.common.helper.TransferFileCreator;
-import org.inek.dataportal.common.mail.Mailer;
-import org.inek.dataportal.common.utils.Crypt;
-import org.inek.dataportal.common.utils.StringUtil;
 import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.requestmanager.FeatureRequestHandler;
+import org.inek.dataportal.common.mail.Mailer;
+import org.inek.dataportal.common.requestmanager.FeatureRequestHandler;
+import org.inek.dataportal.common.requestmanager.FeatureRequestHandler;
+import org.inek.dataportal.common.utils.Crypt;
 import org.inek.dataportal.common.utils.ObjectUtil;
+import org.inek.dataportal.common.utils.StringUtil;
 
 /**
  *

@@ -31,7 +31,7 @@ import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.facades.AgencyFacade;
 import org.inek.dataportal.common.data.icmt.facade.CustomerFacade;
 import org.inek.dataportal.facades.account.AccountDocumentFacade;
-import org.inek.dataportal.facades.account.AccountFacade;
+import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.facades.account.DocumentDomainFacade;
 import org.inek.dataportal.common.data.adm.MailTemplate;
 import org.inek.dataportal.common.mail.MailTemplateFacade;

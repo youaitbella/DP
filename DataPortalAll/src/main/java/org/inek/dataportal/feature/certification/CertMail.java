@@ -21,7 +21,7 @@ import org.inek.dataportal.entities.certification.RemunerationSystem;
 import org.inek.dataportal.enums.CertMailType;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.enums.Genders;
-import org.inek.dataportal.facades.account.AccountFacade;
+import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.facades.certification.EmailLogFacade;
 import org.inek.dataportal.facades.certification.EmailReceiverLabelFacade;
 import org.inek.dataportal.facades.certification.GrouperFacade;

@@ -29,7 +29,7 @@ import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.PortalType;
 import org.inek.dataportal.common.helper.EnvironmentInfo;
 import org.inek.dataportal.common.data.access.CustomerTypeFacade;
-import org.inek.dataportal.facades.account.AccountFacade;
+import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.common.data.adm.facade.LogFacade;
 import org.inek.dataportal.common.data.cooperation.facade.CooperationRequestFacade;
 import org.inek.dataportal.common.data.adm.InekRole;
