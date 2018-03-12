@@ -48,7 +48,6 @@ import org.inek.dataportal.common.helper.Topics;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.mail.Mailer;
 import org.inek.dataportal.common.scope.FeatureScopedContextHolder;
-import org.inek.dataportal.system.SessionCounter;
 
 /**
  *
@@ -631,10 +630,6 @@ public class SessionController implements Serializable {
     public void alertClient(String message) {
         String script = "alert ('" + message.replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
         setScript(script);
-    }
-
-    public int getSessionCount() {
-        return SessionCounter.getCount();
     }
 
     /**

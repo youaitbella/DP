@@ -24,6 +24,7 @@ import org.inek.dataportal.feature.admin.facade.InekRoleFacade;
 import org.inek.dataportal.feature.admin.facade.RoleMappingFacade;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.scope.FeatureScoped;
+import org.inek.dataportal.system.SessionCounter;
 
 /**
  *
@@ -74,7 +75,12 @@ public class AdminTask extends AbstractEditController {
         }
     }
 
+    
     // <editor-fold defaultstate="collapsed" desc="tab Status">
+    public int getSessionCount() {
+        return SessionCounter.getCount();
+    }
+
     public void clearCache() {
         _accountFacade.clearCache();
         Utils.showMessageInBrowser("Cache cleared.");
