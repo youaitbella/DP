@@ -439,15 +439,24 @@ public class SessionController implements Serializable {
             _features.add(FeatureFactory.createController(Feature.DOCUMENTS, this));
             persistFeature(Feature.DOCUMENTS);
         }
+        if (_portalType != PortalType.ADMIN) {
+            if (!hasCooperation && _coopFacade.getOpenCooperationRequestCount(_account.getId()) > 0) {
+                _features.add(FeatureFactory.createController(Feature.COOPERATION, this));
+                persistFeature(Feature.COOPERATION);
+            }
+            for (Feature f : features.values()) {
+                _features.add(FeatureFactory.createController(f, this));
+            }
+        }
     }
 
     private void addAdminIfNeeded() {
-        if (isInekUser(Feature.ADMIN)) {
+        if (_portalType == PortalType.ADMIN && isInekUser(Feature.ADMIN)) {
             _features.add(FeatureFactory.createController(Feature.ADMIN, this));
         }
-//        if (_account.getAdminIks().size() > 0) {
-//            _features.add(FeatureFactory.createController(Feature.IK_ADMIN, this));
-//        }
+        if (_portalType != PortalType.ADMIN && _account.getAdminIks().size() > 0) {
+            _features.add(FeatureFactory.createController(Feature.IK_ADMIN, this));
+        }
     }
 
     private boolean featureIsValid(AccountFeature accFeature) {
@@ -806,7 +815,7 @@ public class SessionController implements Serializable {
     }
 
     public void setPortalType(PortalType portalType) {
-        this._portalType = portalType;
+        _portalType = portalType;
     }
 
 }

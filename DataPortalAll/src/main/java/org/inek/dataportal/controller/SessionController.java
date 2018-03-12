@@ -274,7 +274,7 @@ public class SessionController implements Serializable {
         if (url.isEmpty()) {
             return;
         }
-        url = url + "?token=" + getToken() + "&portal=" + portalType.name() ;
+        url = url + "?token=" + getToken() + "&portal=" + portalType.name();
         performLogout("");
         FacesContext.getCurrentInstance().getExternalContext().redirect(url);
     }
@@ -439,17 +439,22 @@ public class SessionController implements Serializable {
             _features.add(FeatureFactory.createController(Feature.DOCUMENTS, this));
             persistFeature(Feature.DOCUMENTS);
         }
-        if (!hasCooperation && _coopFacade.getOpenCooperationRequestCount(_account.getId()) > 0) {
-            _features.add(FeatureFactory.createController(Feature.COOPERATION, this));
-            persistFeature(Feature.COOPERATION);
-        }
-        for (Feature f : features.values()) {
-            _features.add(FeatureFactory.createController(f, this));
+        if (_portalType != PortalType.ADMIN) {
+            if (!hasCooperation && _coopFacade.getOpenCooperationRequestCount(_account.getId()) > 0) {
+                _features.add(FeatureFactory.createController(Feature.COOPERATION, this));
+                persistFeature(Feature.COOPERATION);
+            }
+            for (Feature f : features.values()) {
+                _features.add(FeatureFactory.createController(f, this));
+            }
         }
     }
 
     private void addAdminIfNeeded() {
-        if (_account.getAdminIks().size() > 0) {
+        if (_portalType == PortalType.ADMIN && isInekUser(Feature.ADMIN)) {
+            _features.add(FeatureFactory.createController(Feature.ADMIN, this));
+        }
+        if (_portalType != PortalType.ADMIN && _account.getAdminIks().size() > 0) {
             _features.add(FeatureFactory.createController(Feature.IK_ADMIN, this));
         }
     }
@@ -813,5 +818,4 @@ public class SessionController implements Serializable {
         _portalType = portalType;
     }
 
-    
 }
