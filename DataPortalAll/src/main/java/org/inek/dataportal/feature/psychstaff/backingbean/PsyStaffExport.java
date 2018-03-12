@@ -16,11 +16,11 @@ import java.util.zip.Adler32;
 import java.util.zip.CheckedOutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
-import org.inek.dataportal.controller.SessionController;
 import org.inek.dataportal.common.data.account.iface.Document;
 import org.inek.dataportal.feature.psychstaff.entity.StaffProof;
 import org.inek.dataportal.common.helper.StreamHelper;
 import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.controller.ReportController;
 
 /**
  *
@@ -28,10 +28,10 @@ import org.inek.dataportal.common.helper.Utils;
  */
 public class PsyStaffExport {
     
-    private SessionController _sessionController;
+    private ReportController _reportController;
 
-    public PsyStaffExport(SessionController controller) {
-        _sessionController = controller;
+    public PsyStaffExport(ReportController controller) {
+        _reportController = controller;
     }
     
     public void exportAllData(String excelDokument,StaffProof staffProof) {
@@ -42,7 +42,7 @@ public class PsyStaffExport {
           CheckedOutputStream checkedOut = new CheckedOutputStream(fileOut, new Adler32());
           ZipOutputStream compressedOut = new ZipOutputStream(new BufferedOutputStream(checkedOut))) {
             compressedOut.putNextEntry(new ZipEntry(excelFileName));
-            ByteArrayInputStream ips = new ByteArrayInputStream(_sessionController.getSingleDocument(excelDokument, staffProof.getId(),
+            ByteArrayInputStream ips = new ByteArrayInputStream(_reportController.getSingleDocument(excelDokument, staffProof.getId(),
                     excelFileName));
             StreamHelper.copyStream(ips, compressedOut);
             compressedOut.closeEntry();

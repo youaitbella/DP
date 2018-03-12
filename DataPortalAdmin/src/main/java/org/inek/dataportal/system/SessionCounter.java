@@ -14,6 +14,8 @@ import org.inek.dataportal.common.scope.FeatureScopedContextHolder;
  *
  * @author muellermi
  */
+// todo: This session counter only counts within the local app. 
+// After creating independent apps, we need to collect data from every app and send it to a central place
 @WebListener
 public class SessionCounter implements HttpSessionListener {
 

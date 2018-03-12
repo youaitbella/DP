@@ -35,6 +35,7 @@ import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.scope.FeatureScoped;
 import org.inek.dataportal.common.scope.FeatureScopedContextHolder;
 import org.inek.dataportal.common.utils.DateUtils;
+import org.inek.dataportal.controller.ReportController;
 
 /**
  *
@@ -53,6 +54,8 @@ public class CertManager implements Serializable {
     private GrouperFacade _grouperFacade;
     @Inject
     private SessionController _sessionController;
+    @Inject
+    private ReportController _reportController;
 
     @PreDestroy
     private void preDestroy() {
@@ -417,7 +420,7 @@ public class CertManager implements Serializable {
     }
     
     public void ExportCertGrouper() {
-        _sessionController.createSingleDocument("CertGrouperAkt.xlsx", _system.getId());
+        _reportController.createSingleDocument("CertGrouperAkt.xlsx", _system.getId());
     }
     
    // <editor-fold defaultstate="collapsed" desc="SystemRoot">

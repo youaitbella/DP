@@ -49,6 +49,7 @@ import org.inek.dataportal.feature.psychstaff.pdf.PdfBuilder;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.scope.FeatureScoped;
 import org.inek.dataportal.common.utils.DateUtils;
+import org.inek.dataportal.controller.ReportController;
 
 /**
  *
@@ -71,6 +72,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
 
     private AccessManager _accessManager;
     private SessionController _sessionController;
+    private ReportController _reportController;
     private PsychStaffFacade _psychStaffFacade;
     private ApplicationTools _appTools;
 
@@ -80,10 +82,12 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     @Inject
     public EditPsyStaff(AccessManager accessManager,
             SessionController sessionController,
+            ReportController reportController,
             PsychStaffFacade psychStaffFacade,
             ApplicationTools appTools) {
         _accessManager = accessManager;
         _sessionController = sessionController;
+        _reportController = reportController;
         _psychStaffFacade = psychStaffFacade;
         _appTools = appTools;
     }
@@ -310,8 +314,8 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         if (_staffProof == null) {
             return true;
         }
-        if (_sessionController.isInekUser(Feature.PSYCH_STAFF) && _staffProof.getAccountId() != _sessionController.
-                getAccountId()) {
+        if (_sessionController.isInekUser(Feature.PSYCH_STAFF) 
+                && _staffProof.getAccountId() != _sessionController.getAccountId()) {
             return true;
         }
         if (isCompleteSinceMoreThan3Days()) {
@@ -471,7 +475,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
             return false;
         }
         // ready, if provided and (exclusion fact or document exists)
-        return isComplete() && _sessionController.reportTemplateExists(EXCEL_DOCUMENT);
+        return isComplete() && _reportController.reportTemplateExists(EXCEL_DOCUMENT);
     }
 
     public String getBtnClose() {
@@ -850,7 +854,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
 
     public void createDocument() {
         // just for testing. Need to determin current apx
-        //_sessionController.createSingleDocument(PDF_DOCUMENT_APX1, _staffProof.getId());
+        //_reportController.createSingleDocument(PDF_DOCUMENT_APX1, _staffProof.getId());
         try {
             new PdfBuilder(this).createDocument();
         } catch (DocumentException | IOException | NoSuchAlgorithmException ex) {
@@ -860,7 +864,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
 
     public void exportData() {
         String fileName = EXCEL_DOCUMENT.substring(0, EXCEL_DOCUMENT.lastIndexOf(".")) + "_" + _staffProof.getIk() + ".xlsx";
-        _sessionController.createSingleDocument(EXCEL_DOCUMENT, _staffProof.getId(), fileName);
+        _reportController.createSingleDocument(EXCEL_DOCUMENT, _staffProof.getId(), fileName);
     }
 
     public void deleteExplanation(StaffProofExplanation item) {
@@ -868,7 +872,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     }
 
     public void exportAllData() {
-        PsyStaffExport exporter = new PsyStaffExport(_sessionController);
+        PsyStaffExport exporter = new PsyStaffExport(_reportController);
         exporter.exportAllData(EXCEL_DOCUMENT, _staffProof);
     }
 
