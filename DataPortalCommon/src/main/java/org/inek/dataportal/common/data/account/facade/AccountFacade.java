@@ -30,17 +30,12 @@ import org.inek.dataportal.common.enums.IkReference;
 import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.common.data.icmt.facade.CustomerFacade;
 import org.inek.dataportal.common.data.access.ConfigFacade;
-import org.inek.dataportal.common.data.account.facade.AccountChangeMailFacade;
-import org.inek.dataportal.common.data.account.facade.AccountPwdFacade;
-import org.inek.dataportal.common.data.account.facade.AccountRequestFacade;
-import org.inek.dataportal.common.data.account.facade.PasswordRequestFacade;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
 import org.inek.dataportal.common.enums.Right;
 import org.inek.dataportal.common.data.ikadmin.facade.IkAdminFacade;
 import org.inek.dataportal.common.helper.TransferFileCreator;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.mail.Mailer;
-import org.inek.dataportal.common.requestmanager.FeatureRequestHandler;
 import org.inek.dataportal.common.requestmanager.FeatureRequestHandler;
 import org.inek.dataportal.common.utils.Crypt;
 import org.inek.dataportal.common.utils.ObjectUtil;
@@ -63,7 +58,8 @@ public class AccountFacade extends AbstractDataAccess {
 
     public Account findByMailOrUser(String mailOrUser) {
         String query = "SELECT a FROM Account a WHERE a._email = :mailOrUser or a._user = :mailOrUser";
-        List<Account> list = getEntityManager().createQuery(query, Account.class).setParameter("mailOrUser", mailOrUser).getResultList();
+        List<Account> list = getEntityManager().createQuery(query, Account.class).setParameter("mailOrUser", mailOrUser).
+                getResultList();
         if (list.size() == 1) {
             return list.get(0);
         }
@@ -72,7 +68,8 @@ public class AccountFacade extends AbstractDataAccess {
 
     public Account findByMail(String mail) {
         String query = "SELECT a FROM Account a WHERE a._email = :mail";
-        List<Account> list = getEntityManager().createQuery(query, Account.class).setParameter("mail", mail).getResultList();
+        List<Account> list = getEntityManager().createQuery(query, Account.class).setParameter("mail", mail).
+                getResultList();
         if (list.size() == 1) {
             return list.get(0);
         }
@@ -162,12 +159,13 @@ public class AccountFacade extends AbstractDataAccess {
                         if (_ikAdminFacade.hasIkAdmin(ik)) {
                             AccessRight accessRight = new AccessRight(account.getId(), ik, feature, Right.Deny);
                             _ikAdminFacade.saveAccessRight(accessRight);
-                            accFeature.setFeatureState(feature.needsApproval() ? FeatureState.APPROVED : FeatureState.SIMPLE);
+                            accFeature.
+                                    setFeatureState(feature.needsApproval() ? FeatureState.APPROVED : FeatureState.SIMPLE);
                         } else {
                             handleClassicalWay = true;
                         }
                     }
-                }else{
+                } else {
                     handleClassicalWay = true;
                 }
                 if (handleClassicalWay) {
@@ -186,7 +184,6 @@ public class AccountFacade extends AbstractDataAccess {
         return managedAccount;
     }
 
-
     public void deleteAccount(Account account) {
         if (account.getId() > 0) {
             Account emptyAccount = new Account();
@@ -200,7 +197,8 @@ public class AccountFacade extends AbstractDataAccess {
     }
 
     public boolean activateAccount(String mailOrUser, String password, String activationKey) {
-        if (StringUtil.isNullOrEmpty(mailOrUser) || StringUtil.isNullOrEmpty(password) || StringUtil.isNullOrEmpty(activationKey)) {
+        if (StringUtil.isNullOrEmpty(mailOrUser) || StringUtil.isNullOrEmpty(password) || StringUtil.
+                isNullOrEmpty(activationKey)) {
             return false;
         }
         AccountRequest accountRequest = _accountRequestFacade.findByMailOrUser(mailOrUser);
@@ -227,7 +225,8 @@ public class AccountFacade extends AbstractDataAccess {
     }
 
     public boolean activateMail(String mail, String password, String activationKey) {
-        if (StringUtil.isNullOrEmpty(mail) || StringUtil.isNullOrEmpty(password) || StringUtil.isNullOrEmpty(activationKey)) {
+        if (StringUtil.isNullOrEmpty(mail) || StringUtil.isNullOrEmpty(password) || StringUtil.
+                isNullOrEmpty(activationKey)) {
             return false;
         }
 
@@ -260,7 +259,8 @@ public class AccountFacade extends AbstractDataAccess {
     }
 
     public boolean activatePassword(String mailOrUser, String password, String activationKey) {
-        if (StringUtil.isNullOrEmpty(mailOrUser) || StringUtil.isNullOrEmpty(password) || StringUtil.isNullOrEmpty(activationKey)) {
+        if (StringUtil.isNullOrEmpty(mailOrUser) || StringUtil.isNullOrEmpty(password) || StringUtil.
+                isNullOrEmpty(activationKey)) {
             return false;
         }
         Account account = findByMailOrUser(mailOrUser);
@@ -277,7 +277,8 @@ public class AccountFacade extends AbstractDataAccess {
         }
         AccountPwd accountPwd = _accountPwdFacade.find(account.getId());
         if (accountPwd == null) {
-            return false;
+            accountPwd = new AccountPwd();
+            accountPwd.setAccountId(account.getId());
         }
         String salt = UUID.randomUUID().toString().replace("-", "") + UUID.randomUUID().toString().replace("-", "");
         accountPwd.setSalt(salt);
@@ -374,7 +375,8 @@ public class AccountFacade extends AbstractDataAccess {
 
     public Map<Account, String> obtainRoleInfo(int ik, List<Account> accounts) {
         Map<Account, String> accountRoles = new HashMap<>();
-        String addresses = accounts.stream().map(a -> "'" + a.getEmail().toLowerCase() + "'").collect(Collectors.joining(", "));
+        String addresses = accounts.stream().map(a -> "'" + a.getEmail().toLowerCase() + "'").collect(Collectors.
+                joining(", "));
         if (addresses.isEmpty()) {
             return accountRoles;
         }
@@ -431,19 +433,19 @@ public class AccountFacade extends AbstractDataAccess {
         if (iks.isEmpty()) {
             return Collections.EMPTY_LIST;
         }
-        String sql = "select account.* \n" +
-                    "from dbo.Account \n" +
-                    "join CallCenterDB.dbo.ccAgent on agEMail = acMail \n" +
-                    "join (\n" +
-                    "select distinct cciaAgentId \n" +
-                    "from CallCenterDB.dbo.ccCustomer \n" +
-                    "join CallCenterDB.dbo.CustomerCalcInfo on cuId = cciCustomerId \n" +
-                    "join CallCenterDB.dbo.mapCustomerCalcInfoAgent on cciaCustomerCalcInfoId = cciId \n" +
-                    "and Year(cciaValidTo) = " + Utils.getTargetYear(Feature.CALCULATION_HOSPITAL) + " \n" +
-                    "and cuIK in (" + iks.stream().map(i -> "" + i).collect(Collectors.joining(", ")) + ") \n" +
-                    ") d on agId = cciaAgentId \n" +
-                    "where agActive = 1 \n" +
-                    "order by acLastName";
+        String sql = "select account.* \n"
+                + "from dbo.Account \n"
+                + "join CallCenterDB.dbo.ccAgent on agEMail = acMail \n"
+                + "join (\n"
+                + "select distinct cciaAgentId \n"
+                + "from CallCenterDB.dbo.ccCustomer \n"
+                + "join CallCenterDB.dbo.CustomerCalcInfo on cuId = cciCustomerId \n"
+                + "join CallCenterDB.dbo.mapCustomerCalcInfoAgent on cciaCustomerCalcInfoId = cciId \n"
+                + "and Year(cciaValidTo) = " + Utils.getTargetYear(Feature.CALCULATION_HOSPITAL) + " \n"
+                + "and cuIK in (" + iks.stream().map(i -> "" + i).collect(Collectors.joining(", ")) + ") \n"
+                + ") d on agId = cciaAgentId \n"
+                + "where agActive = 1 \n"
+                + "order by acLastName";
         Query query = getEntityManager().createNativeQuery(sql, Account.class);
         return query.getResultList();
     }
