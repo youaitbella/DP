@@ -37,7 +37,7 @@ import org.inek.dataportal.common.data.account.facade.PasswordRequestFacade;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
 import org.inek.dataportal.common.enums.Right;
 import org.inek.dataportal.common.data.ikadmin.facade.IkAdminFacade;
-import org.inek.dataportal.helper.TransferFileCreator;
+import org.inek.dataportal.common.helper.TransferFileCreator;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.mail.Mailer;
 import org.inek.dataportal.requestmanager.FeatureRequestHandler;

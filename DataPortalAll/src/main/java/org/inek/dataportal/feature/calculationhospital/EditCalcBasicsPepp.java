@@ -49,11 +49,12 @@ import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.facades.calc.CalcPsyFacade;
 import org.inek.dataportal.common.controller.AbstractEditController;
 import org.inek.dataportal.common.helper.ObjectUtils;
-import org.inek.dataportal.helper.TransferFileCreator;
+import org.inek.dataportal.common.helper.TransferFileCreator;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.helper.structures.FieldValues;
 import org.inek.dataportal.helper.structures.MessageContainer;
 import org.inek.dataportal.common.utils.DocumentationUtil;
+import org.inek.dataportal.helper.CalcBasicsTransferFileCreator;
 import org.inek.dataportal.utils.ValueLists;
 
 @Named
@@ -552,7 +553,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         _calcBasics.setSealed(Calendar.getInstance().getTime());
         saveData(false);
 
-        TransferFileCreator.createCalcBasicsTransferFile(_sessionController, _calcBasics);
+        CalcBasicsTransferFileCreator.createCalcBasicsTransferFile(_sessionController, _calcBasics);
 
         if (isValidId(_calcBasics.getId())) {
             Utils.getFlash().put("headLine", Utils.getMessage("nameCALCULATION_HOSPITAL"));

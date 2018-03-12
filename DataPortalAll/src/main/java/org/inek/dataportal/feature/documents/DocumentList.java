@@ -16,7 +16,7 @@ import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.common.data.cooperation.facade.CooperationRequestFacade;
 import org.inek.dataportal.facades.cooperation.PortalMessageFacade;
 import org.inek.dataportal.common.data.access.ConfigFacade;
-import org.inek.dataportal.helper.TransferFileCreator;
+import org.inek.dataportal.common.helper.TransferFileCreator;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.helper.structures.DocInfo;
 

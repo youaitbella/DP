@@ -34,11 +34,12 @@ import org.inek.dataportal.facades.account.AccountFacade;
 import org.inek.dataportal.facades.calc.CalcAutopsyFacade;
 import org.inek.dataportal.common.controller.AbstractEditController;
 import org.inek.dataportal.common.data.adm.MailTemplate;
-import org.inek.dataportal.helper.TransferFileCreator;
+import org.inek.dataportal.common.helper.TransferFileCreator;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.helper.structures.MessageContainer;
 import org.inek.dataportal.common.mail.Mailer;
 import org.inek.dataportal.common.utils.DocumentationUtil;
+import org.inek.dataportal.helper.CalcBasicsTransferFileCreator;
 
 /**
  *
@@ -336,7 +337,7 @@ public class EditCalcBasicsAutopsy extends AbstractEditController implements Ser
         _calcBasics.setSealed(Calendar.getInstance().getTime());
         _calcBasics = _calcAutopsyFacade.saveCalcBasicsAutopsy(_calcBasics);
 
-        TransferFileCreator.createCalcBasicsTransferFile(_sessionController, _calcBasics);
+        CalcBasicsTransferFileCreator.createCalcBasicsTransferFile(_sessionController, _calcBasics);
         
         if (isValidId(_calcBasics.getId())) {
             Utils.getFlash().put("headLine", Utils.getMessage("nameCALCULATION_HOSPITAL"));
