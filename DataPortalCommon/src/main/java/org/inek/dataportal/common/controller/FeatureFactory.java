@@ -1,6 +1,5 @@
 package org.inek.dataportal.common.controller;
 
-import org.inek.dataportal.common.controller.IFeatureController;
 import org.inek.dataportal.common.enums.Feature;
 
 /**

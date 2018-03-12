@@ -4,6 +4,8 @@
  */
 package org.inek.dataportal.controller;
 
+import java.io.Serializable;
+import javax.enterprise.context.Dependent;
 import org.inek.dataportal.common.controller.FeatureFactory;
 import org.inek.dataportal.common.controller.IFeatureController;
 import org.inek.dataportal.common.controller.SessionController;
@@ -14,8 +16,10 @@ import org.inek.dataportal.feature.admin.controller.AdminController;
  *
  * @author muellermi
  */
-public class FeatureFactoryImpl implements FeatureFactory{
+@Dependent
+public class FeatureFactoryImpl implements FeatureFactory, Serializable{
 
+    @Override
     public IFeatureController createController(Feature feature, SessionController sessionController) {
 
         switch (feature) {

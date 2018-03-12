@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.helper.faceletvalidators;
+package org.inek.dataportal.common.faceletvalidators;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -16,19 +16,21 @@ import org.inek.dataportal.common.helper.Utils;
  *
  * @author muellermi
  */
-@FacesValidator(value="NameValidator")
-public class NameValidator implements Validator{
+@FacesValidator(value = "EmailValidator")
+public class EmailValidator implements Validator {
 
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
-        if (value == null){return;}
-        if (!isValidName("" + value)) {
-            String msg = Utils.getMessage("msgInvalidCharacters");
+        if (value == null) {
+            return;
+        }
+        if (!isValidEmail("" + value)) {
+            String msg = Utils.getMessage("msgNoEmail");
             throw new ValidatorException(new FacesMessage(msg));
         }
     }
-    
-    public static boolean isValidName(String name){
-        return name.matches("\\p{L}+((-|_|\\.| |\\. )?(\\d|\\p{L})+)*");
+
+    public static boolean isValidEmail(String address) {
+        return  address.matches("(\\w[a-zA-Z_0-9+-.]*\\w|\\w+)@(\\w(\\w|-|\\.)*\\w|\\w+)\\.[a-zA-Z]+");
     }
 }

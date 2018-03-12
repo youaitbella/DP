@@ -21,7 +21,7 @@ import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.common.data.account.facade.AccountRequestFacade;
 import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.helper.faceletvalidators.NameValidator;
+import org.inek.dataportal.common.faceletvalidators.NameValidator;
 
 /**
  *

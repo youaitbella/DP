@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.helper.faceletvalidators;
+package org.inek.dataportal.common.faceletvalidators;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -13,30 +13,27 @@ import javax.faces.validator.ValidatorException;
 import org.inek.dataportal.common.helper.Utils;
 
 /**
+ * Checks whether a required files contains at least one non whitespace
+ * character
  *
  * @author muellermi
  */
-@FacesValidator(value = "MultiEmailValidator")
-public class MultiEmailValidator implements Validator {
+@FacesValidator(value = "ContainsNoneZeroDigitValidator")
+public class ContainsNoneZeroDigitValidator implements Validator {
 
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
         if (value == null) {
             return;
         }
-        if (!isValidEmail("" + value)) {
-            String msg = Utils.getMessage("msgNoEmail");
+        if (!isValidName("" + value)) {
+            String msg = Utils.getMessage("msgDigitNeeded");
             throw new ValidatorException(new FacesMessage(msg));
         }
     }
 
-    public static boolean isValidEmail(String addressString) {
-        boolean isValid = !addressString.trim().isEmpty();
-        String[] addresses = addressString.split(";");
-        for (String address : addresses) {
-            isValid &= (address.matches("(\\w[a-zA-Z_0-9+-.]*\\w|\\w+)@(\\w(\\w|-|\\.)*\\w|\\w+)\\.[a-zA-Z]+")
-                    || address.matches("[{].*[}]")) ;
-        }
-        return isValid;
+    public boolean isValidName(String name) {
+        String test = name.replaceAll("(\\r|\\n|\\u0085|\\u2028|\\u2029)", ""); // remove line breaks to avoid matching conflicts
+        return test.matches(".*[1-9]+.*");
     }
 }

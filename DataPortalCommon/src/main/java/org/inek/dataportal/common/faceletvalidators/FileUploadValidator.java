@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.helper.faceletvalidators;
+package org.inek.dataportal.common.faceletvalidators;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;

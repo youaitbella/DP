@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.helper.faceletvalidators;
+package org.inek.dataportal.common.faceletvalidators;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -18,8 +18,8 @@ import org.inek.dataportal.common.helper.Utils;
  *
  * @author muellermi
  */
-@FacesValidator(value = "PredominantPrintableAsciiValidator")
-public class PredominantPrintableAsciiValidator implements Validator {
+@FacesValidator(value = "RequiredValidator")
+public class RequiredValidator implements Validator {
 
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
@@ -27,14 +27,13 @@ public class PredominantPrintableAsciiValidator implements Validator {
             return;
         }
         if (!isValidName("" + value)) {
-            String msg = Utils.getMessage("msgAsciiNeeded");
+            String msg = Utils.getMessage("msgValueNeeded");
             throw new ValidatorException(new FacesMessage(msg));
         }
     }
 
     public boolean isValidName(String name) {
         String test = name.replaceAll("(\\r|\\n|\\u0085|\\u2028|\\u2029)", ""); // remove line breaks to avoid matching conflicts
-        long asciiCount = test.chars().filter(c -> c >= 32 && c < 127).count();
-        return asciiCount >= test.length() * .9;
+        return test.matches("\\s*\\S+.*");
     }
 }

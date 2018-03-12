@@ -28,7 +28,7 @@ import org.inek.dataportal.common.data.access.CustomerTypeFacade;
 import org.inek.dataportal.facades.DropBoxTypeFacade;
 import org.inek.dataportal.common.data.access.InfoDataFacade;
 import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.helper.faceletvalidators.EmailValidator;
+import org.inek.dataportal.common.faceletvalidators.EmailValidator;
 
 /**
  *
