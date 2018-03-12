@@ -49,7 +49,7 @@
                                          styleClass="inputwide"
                                          value="#{inekRole.feature}"
                                          required="true">
-                            <f:selectItems value="#{valueLists.features}" var="feature" itemLabel="#{feature.label}" itemValue="#{feature}"/>
+                            <f:selectItems value="#{adminTask.features}" var="feature" itemLabel="#{feature.label}" itemValue="#{feature}"/>
                             <f:ajax render="@this btnSaveRole :logout:remaining msgInekRoleFeature#{status.index}" listener="#{adminTask.roleChangeListener}"/>
                         </h:selectOneMenu>
                     </h:panelGrid>

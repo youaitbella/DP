@@ -75,7 +75,6 @@ public class AdminTask extends AbstractEditController {
         }
     }
 
-    
     // <editor-fold defaultstate="collapsed" desc="tab Status">
     public int getSessionCount() {
         return SessionCounter.getCount();
@@ -94,7 +93,8 @@ public class AdminTask extends AbstractEditController {
     public String getMemoryInfo() {
         int MB = 1024 * 1024;
         Runtime runtime = Runtime.getRuntime();
-        return "Speicher: max " + runtime.maxMemory() / MB + ", total " + runtime.totalMemory() / MB + "; free " + runtime.freeMemory() / MB;
+        return "Speicher: max " + runtime.maxMemory() / MB + ", total " + runtime.totalMemory() / MB + "; free " + runtime.
+                freeMemory() / MB;
     }
     // </editor-fold>
 
@@ -178,7 +178,7 @@ public class AdminTask extends AbstractEditController {
         setTemplateChanged(true);
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="tab InEK roles">
     private boolean _roleChanged = false;
 
@@ -369,5 +369,16 @@ public class AdminTask extends AbstractEditController {
         setMappingChanged(true);
     }
     // </editor-fold>
+
+    public List<SelectItem> getFeatures() {
+        List<SelectItem> l = new ArrayList<>();
+        SelectItem emptyItem = new SelectItem(null, "");
+        emptyItem.setNoSelectionOption(true);
+        l.add(emptyItem);
+        for (Feature f : Feature.values()) {
+            l.add(new SelectItem(f, f.getDescription()));
+        }
+        return l;
+    }
 
 }

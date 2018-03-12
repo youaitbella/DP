@@ -236,16 +236,4 @@ public class ValueLists{
         }
         return l;
     }
-
-    public List<SelectItem> getFeatures() {
-        List<SelectItem> l = new ArrayList<>();
-        SelectItem emptyItem = new SelectItem(null, "");
-        emptyItem.setNoSelectionOption(true);
-        l.add(emptyItem);
-        for (Feature f : Feature.values()) {
-            l.add(new SelectItem(f, f.getDescription()));
-        }
-        return l;
-    }
-
 }

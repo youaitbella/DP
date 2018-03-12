@@ -39,7 +39,7 @@
                                  value="#{adminTask.mailTemplate.feature}"
                                  required="true"
                                  disabled="#{adminTask.mailTemplate == null}">
-                    <f:selectItems value="#{valueLists.features}" var="feature" itemLabel="#{feature.label}" itemValue="#{feature}"/>
+                    <f:selectItems value="#{adminTask.features}" var="feature" itemLabel="#{feature.label}" itemValue="#{feature}"/>
                     <f:ajax render="@this msgFeature mnuTemplate btnMailTemplateSave :logout:remaining" listener="#{adminTask.mailTemplateChangeListener}"/>
                 </h:selectOneMenu>
             </div>
