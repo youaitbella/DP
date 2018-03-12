@@ -15,7 +15,7 @@ import javax.inject.Named;
 import javax.transaction.Transactional;
 import org.inek.dataportal.common.overall.ApplicationTools;
 import org.inek.dataportal.common.SessionTools;
-import org.inek.dataportal.controller.SessionController;
+import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.data.account.entities.AccountAdditionalIK;
 import org.inek.dataportal.common.data.account.entities.AccountFeature;

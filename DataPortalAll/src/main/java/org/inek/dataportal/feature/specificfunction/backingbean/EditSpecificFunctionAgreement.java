@@ -23,7 +23,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.overall.ApplicationTools;
 import org.inek.dataportal.common.AccessManager;
-import org.inek.dataportal.controller.SessionController;
+import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.data.account.entities.AccountAdditionalIK;
 import org.inek.dataportal.common.enums.ConfigKey;

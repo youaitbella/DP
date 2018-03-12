@@ -5,7 +5,7 @@ import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.inek.dataportal.controller.SessionController;
+import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.entities.insurance.InsuranceNubNotice;
 import org.inek.dataportal.common.enums.DataSet;
 import org.inek.dataportal.common.enums.Pages;

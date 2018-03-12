@@ -1,5 +1,6 @@
 package org.inek.dataportal.controller;
 
+import org.inek.dataportal.common.controller.SessionController;
 import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;

@@ -15,7 +15,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import org.inek.dataportal.controller.AbstractFeatureController;
-import org.inek.dataportal.controller.SessionController;
+import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.entities.dropbox.DropBox;
 import org.inek.dataportal.entities.dropbox.DropBoxItem;
 import org.inek.dataportal.common.enums.ConfigKey;

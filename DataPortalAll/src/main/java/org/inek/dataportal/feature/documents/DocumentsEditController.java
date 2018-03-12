@@ -8,7 +8,7 @@ package org.inek.dataportal.feature.documents;
 import java.util.logging.Logger;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.inek.dataportal.controller.SessionController;
+import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.controller.AbstractEditController;

@@ -7,7 +7,7 @@ package org.inek.dataportal.common;
 import org.inek.dataportal.common.controller.SearchConsumer;
 import java.util.ArrayList;
 import java.util.List;
-import org.inek.dataportal.controller.SessionController;
+import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.entities.common.DiagnosisInfo;
 import org.inek.dataportal.entities.common.ProcedureInfo;
 import org.inek.dataportal.entities.drg.DrgInfo;

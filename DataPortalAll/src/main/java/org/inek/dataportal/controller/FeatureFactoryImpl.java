@@ -4,6 +4,8 @@
  */
 package org.inek.dataportal.controller;
 
+import org.inek.dataportal.common.controller.FeatureFactory;
+import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.controller.IFeatureController;
 import org.inek.dataportal.common.enums.Feature;
 import static org.inek.dataportal.common.enums.Feature.DROPBOX;
@@ -33,9 +35,10 @@ import org.inek.dataportal.feature.specificfunction.controller.SpecificFunctionC
  *
  * @author muellermi
  */
-public class FeatureFactory {
+public class FeatureFactoryImpl implements FeatureFactory {
 
-    public static IFeatureController createController(Feature feature, SessionController sessionController) {
+    @Override
+    public IFeatureController createController(Feature feature, SessionController sessionController) {
 
         switch (feature) {
             case IK_ADMIN:

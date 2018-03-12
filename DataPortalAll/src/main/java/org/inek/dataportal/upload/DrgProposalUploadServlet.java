@@ -6,7 +6,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
-import org.inek.dataportal.controller.SessionController;
+import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.entities.drg.DrgProposalDocument;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.feature.drgproposal.DrgProposalController;

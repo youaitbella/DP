@@ -16,7 +16,7 @@ import java.util.zip.ZipInputStream;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.Part;
-import org.inek.dataportal.controller.SessionController;
+import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.entities.certification.RemunerationSystem;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Feature;

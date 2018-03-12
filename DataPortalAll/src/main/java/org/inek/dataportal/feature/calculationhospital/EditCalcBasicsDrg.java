@@ -30,7 +30,7 @@ import javax.persistence.Id;
 import javax.persistence.OptimisticLockException;
 import org.inek.dataportal.common.AccessManager;
 import org.inek.dataportal.common.overall.ApplicationTools;
-import org.inek.dataportal.controller.SessionController;
+import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.iface.Document;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.entities.calc.drg.DrgCalcBasics;

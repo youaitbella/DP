@@ -1,5 +1,6 @@
-package org.inek.dataportal.controller;
+package org.inek.dataportal.common.controller;
 
+import org.inek.dataportal.common.controller.IFeatureController;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.HttpURLConnection;
@@ -19,7 +20,6 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.overall.ApplicationTools;
-import org.inek.dataportal.common.controller.IFeatureController;
 import org.inek.dataportal.common.data.common.CustomerType;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.data.account.entities.AccountFeature;
@@ -62,6 +62,7 @@ public class SessionController implements Serializable {
     @Inject private CustomerTypeFacade _typeFacade;
     @Inject private CooperationRequestFacade _coopFacade;
     @Inject private ApplicationTools _appTools;
+    @Inject private FeatureFactory _featureFactory;
 
     public ApplicationTools getApplicationTools() {
         return _appTools;
@@ -137,9 +138,8 @@ public class SessionController implements Serializable {
             }
         }
     }
-
     public boolean isHospital() {
-        // we had unexpected null access here.
+        // we had unexpecte null access here.
         // let's do some logging and redirect the user to an error view
         if (_typeFacade == null) {
             String msg = "Access without typeFacade";
@@ -274,7 +274,7 @@ public class SessionController implements Serializable {
         if (url.isEmpty()) {
             return;
         }
-        url = url + "?token=" + getToken() + "&portal=" + portalType.name();
+        url = url + "?token=" + getToken() + "&portal=" + portalType.name() ;
         performLogout("");
         FacesContext.getCurrentInstance().getExternalContext().redirect(url);
     }
@@ -287,6 +287,7 @@ public class SessionController implements Serializable {
         return url;
     }
 
+    
     public String getToken() {
         // todo: retrieve service address from a common place, e.g. database
         String address = "http://vubuntu01:9999/AccountService/api/account/id/{0}".replace("{0}", "" + getAccountId());
@@ -433,29 +434,29 @@ public class SessionController implements Serializable {
         }
         addAdminIfNeeded();
         if (!hasMaintenance) {
-            _features.add(FeatureFactory.createController(Feature.USER_MAINTENANCE, this));
+            _features.add(_featureFactory.createController(Feature.USER_MAINTENANCE, this));
         }
         if (!hasDocument) {
-            _features.add(FeatureFactory.createController(Feature.DOCUMENTS, this));
+            _features.add(_featureFactory.createController(Feature.DOCUMENTS, this));
             persistFeature(Feature.DOCUMENTS);
         }
         if (_portalType != PortalType.ADMIN) {
             if (!hasCooperation && _coopFacade.getOpenCooperationRequestCount(_account.getId()) > 0) {
-                _features.add(FeatureFactory.createController(Feature.COOPERATION, this));
+                _features.add(_featureFactory.createController(Feature.COOPERATION, this));
                 persistFeature(Feature.COOPERATION);
             }
             for (Feature f : features.values()) {
-                _features.add(FeatureFactory.createController(f, this));
+                _features.add(_featureFactory.createController(f, this));
             }
         }
     }
 
     private void addAdminIfNeeded() {
         if (_portalType == PortalType.ADMIN && isInekUser(Feature.ADMIN)) {
-            _features.add(FeatureFactory.createController(Feature.ADMIN, this));
+            _features.add(_featureFactory.createController(Feature.ADMIN, this));
         }
         if (_portalType != PortalType.ADMIN && _account.getAdminIks().size() > 0) {
-            _features.add(FeatureFactory.createController(Feature.IK_ADMIN, this));
+            _features.add(_featureFactory.createController(Feature.IK_ADMIN, this));
         }
     }
 

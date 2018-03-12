@@ -15,7 +15,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.inek.dataportal.controller.SessionController;
+import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.entities.dropbox.DropBox;
 import org.inek.dataportal.entities.dropbox.DropBoxItem;
 import org.inek.dataportal.common.enums.Feature;

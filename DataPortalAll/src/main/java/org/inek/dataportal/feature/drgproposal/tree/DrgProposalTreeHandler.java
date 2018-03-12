@@ -12,7 +12,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.inek.dataportal.controller.SessionController;
+import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.entities.drg.DrgProposal;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.facades.DrgProposalFacade;

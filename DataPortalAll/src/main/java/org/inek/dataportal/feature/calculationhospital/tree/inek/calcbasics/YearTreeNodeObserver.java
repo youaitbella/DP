@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
-import org.inek.dataportal.controller.SessionController;
+import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.facades.calc.CalcFacade;
 import org.inek.dataportal.helper.tree.entityTree.AccountTreeNode;

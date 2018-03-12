@@ -3,7 +3,7 @@ package org.inek.dataportal.feature.requestsystem.controller;
 import java.util.ArrayList;
 import java.util.List;
 import org.inek.dataportal.controller.AbstractFeatureController;
-import org.inek.dataportal.controller.SessionController;
+import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.feature.requestsystem.entity.RequestDocument;

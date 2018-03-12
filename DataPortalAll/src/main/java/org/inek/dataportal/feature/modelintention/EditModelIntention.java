@@ -19,7 +19,7 @@ import javax.inject.Named;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
-import org.inek.dataportal.controller.SessionController;
+import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.entities.common.RemunerationType;
 import org.inek.dataportal.entities.modelintention.Adjustment;
 import org.inek.dataportal.entities.modelintention.AgreedPatients;
