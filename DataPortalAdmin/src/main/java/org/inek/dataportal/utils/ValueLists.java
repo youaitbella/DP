@@ -6,8 +6,6 @@ import javax.ejb.Singleton;
 import javax.faces.model.SelectItem;
 import javax.inject.Named;
 import org.inek.dataportal.common.enums.Feature;
-import org.inek.dataportal.enums.Region;
-import org.inek.dataportal.enums.RemunSystem;
 
 /**
  *
@@ -16,23 +14,6 @@ import org.inek.dataportal.enums.RemunSystem;
 @Named
 @Singleton
 public class ValueLists{
-
-    public List getRemunerationDomains() {
-        List<SelectItem> list = new ArrayList<>();
-        for (RemunSystem val : RemunSystem.values()) {
-            list.add(new SelectItem(val.getId(), val.getName()));
-        }
-        return list;
-    }
-
-    public SelectItem[] getRegions() {
-        List<SelectItem> l = new ArrayList<>();
-        Region[] regions = Region.values();
-        for (Region r : regions) {
-            l.add(new SelectItem(r.id(), r.region()));
-        }
-        return l.toArray(new SelectItem[l.size()]);
-    }
 
     public List<SelectItem> getFeatures() {
         List<SelectItem> l = new ArrayList<>();
