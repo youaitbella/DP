@@ -11,7 +11,7 @@ import javax.faces.model.SelectItem;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.inek.dataportal.common.SessionTools;
+import org.inek.dataportal.common.DropBoxTools;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.AccountAdditionalIK;
 import org.inek.dataportal.entities.dropbox.DropBox;
@@ -28,7 +28,7 @@ public class DropBoxCreator implements Serializable{
 
     @Inject private org.inek.dataportal.facades.DropBoxFacade _dropBoxFacade;
     @Inject private SessionController _sessionController;
-    @Inject private SessionTools _sessionTools;
+    @Inject private DropBoxTools _dropboxTools;
     private int _dropboxTypeId = 1;
     private int _ik;
     private String _description;
@@ -85,7 +85,7 @@ public class DropBoxCreator implements Serializable{
     }
 
     public boolean getIkRequired(){
-        return _sessionTools.getDropBoxType(_dropboxTypeId).isNeedsIK();
+        return _dropboxTools.getDropBoxType(_dropboxTypeId).isNeedsIK();
     }
     
     private int createDropBox() {
@@ -93,7 +93,7 @@ public class DropBoxCreator implements Serializable{
         dropBox.setAccountId(_sessionController.getAccountId());
         dropBox.setDirectory("");
         dropBox.setDescription(_description);
-        dropBox.setDropboxType(_sessionTools.getDropBoxType(_dropboxTypeId));
+        dropBox.setDropboxType(_dropboxTools.getDropBoxType(_dropboxTypeId));
         dropBox.setIK(_ik);
         dropBox = _dropBoxFacade.createDropBox(dropBox);
         return dropBox.getDropBoxId();

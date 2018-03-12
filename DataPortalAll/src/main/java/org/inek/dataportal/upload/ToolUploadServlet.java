@@ -15,8 +15,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
+import org.inek.dataportal.common.DropBoxTools;
 import org.inek.dataportal.common.overall.ApplicationTools;
-import org.inek.dataportal.common.SessionTools;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.entities.dropbox.DropBox;
 import org.inek.dataportal.common.enums.ConfigKey;
@@ -34,8 +34,8 @@ public class ToolUploadServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     @Inject private ApplicationTools _appTools;
     @Inject private SessionController _sessionController;
-    @Inject private SessionTools _sessionTools;
     @Inject private DropBoxFacade _dropBoxFacade;
+    @Inject private DropBoxTools _dropboxTools;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
@@ -134,7 +134,7 @@ public class ToolUploadServlet extends HttpServlet {
         dropBox.setDirectory("");
         dropBox.setDescription("DataTool: " + filename);
         int typeId = _appTools.readConfigInt(ConfigKey.DropBoxTypeId);
-        dropBox.setDropboxType(_sessionTools.getDropBoxType(typeId));
+        dropBox.setDropboxType(_dropboxTools.getDropBoxType(typeId));
         dropBox.setIK(ik);
         return _dropBoxFacade.createDropBox(dropBox);
     }

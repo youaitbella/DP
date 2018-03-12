@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package org.inek.dataportal.login;
+package org.inek.dataportal.common.login;
 
 import java.io.Serializable;
 import javax.enterprise.context.RequestScoped;
@@ -13,10 +13,10 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.inek.dataportal.common.SessionTools;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.common.overall.SessionTools;
 
 /**
  *

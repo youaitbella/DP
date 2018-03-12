@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.login;
+package org.inek.dataportal.common.login;
 
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
@@ -85,7 +85,7 @@ public class Login implements Serializable {
             return "";
         }
         _loginMessage = "";
-        return  Pages.MainApp.URL();
+        return _sessionController.countInstalledFeatures() <= 1 ? Pages.UserMaintenanceFeatures.URL() : Pages.MainApp.URL();
     }
 
 }

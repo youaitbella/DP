@@ -1,20 +1,12 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-package org.inek.dataportal.login;
+package org.inek.dataportal.common.login;
 
 import java.io.Serializable;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.common.data.cooperation.facade.CooperationRequestEmailFacade;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.PortalType;
 import org.inek.dataportal.common.data.account.facade.AccountFacade;
@@ -25,28 +17,22 @@ import org.inek.dataportal.common.data.account.facade.AccountFacade;
  */
 @Named
 @RequestScoped
-public class Activate implements Serializable {
-
+public class ActivatePassword implements Serializable{
     @Inject private SessionController _sessionController;
     @Inject private AccountFacade _accountFacade;
-    @Inject private CooperationRequestEmailFacade _coopRequestEmailFacade;
-
-    protected static final Logger LOGGER = Logger.getLogger("Activate");
-
     private String _emailOrUser;
     private String _password;
     private String _key;
 
-    /**
-     * Creates a new instance of Activate
-     */
-    public Activate() {
+    /** Creates a new instance of Activate */
+    public ActivatePassword() {
         HttpServletRequest r = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        _emailOrUser = r.getParameter("user");
+        _emailOrUser = r.getParameter("mail");
         _key = r.getParameter("key");
     }
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
+
     public String getEmailOrUser() {
         return _emailOrUser;
     }
@@ -76,28 +62,20 @@ public class Activate implements Serializable {
     public void setKey(String key) {
         this._key = key;
     }
+
     // </editor-fold>
-    
-    public String activateAndLogin() {
-        if (!_accountFacade.activateAccount(_emailOrUser, _password, _key)) {
-            LOGGER.log(Level.WARNING, "Activation failed: {0}", _emailOrUser);
+
+    public String activateAndLogin(){
+        if (!_accountFacade.activatePassword(_emailOrUser, _password, _key)){
             _sessionController.alertClient("Die eingegeben Informationen konnten nicht verifizert werden. Bitte "
-                                           + "überprüfen Sie Ihre Eingaben und versuchen Sie es erneut. ");            
+                                           + "überprüfen Sie Ihre Eingaben und versuchen Sie es erneut. ");
             return null;
         }
-        Account userAcc = _accountFacade.findByMailOrUser(_emailOrUser);
-        _coopRequestEmailFacade.createRealCooperationRequests(userAcc);
-        
-        if (!_sessionController.loginAndSetTopics(_emailOrUser, _password, PortalType.DRG)) {
-            LOGGER.log(Level.WARNING, "Login and set topics failed: {0}", _emailOrUser);
+        if (!_sessionController.loginAndSetTopics(_emailOrUser, _password,PortalType.DRG)){
             return null;
         }
-        LOGGER.log(Level.INFO, "Activation successful: {0}", _emailOrUser);
-        if (_sessionController.countInstalledFeatures() <= 1) {
-            _sessionController.setCurrentTopicByUrl(Pages.UserMaintenanceMasterData.URL());
-            return Pages.UserMaintenanceFeatures.URL();
-        }
-        return Pages.MainApp.URL();
+        return _sessionController.countInstalledFeatures() <= 1 ? Pages.UserMaintenanceFeatures.URL() :  Pages.MainApp.URL();
     }
+
 
 }

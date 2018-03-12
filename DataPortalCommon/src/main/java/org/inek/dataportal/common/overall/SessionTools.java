@@ -1,4 +1,4 @@
-package org.inek.dataportal.common;
+package org.inek.dataportal.common.overall;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -20,12 +20,10 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.data.icmt.entities.ContactRole;
 import org.inek.dataportal.common.data.common.CustomerType;
-import org.inek.dataportal.entities.dropbox.DropBoxType;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.data.icmt.facade.ContactRoleFacade;
 import org.inek.dataportal.common.data.icmt.facade.CustomerFacade;
 import org.inek.dataportal.common.data.access.CustomerTypeFacade;
-import org.inek.dataportal.facades.DropBoxTypeFacade;
 import org.inek.dataportal.common.data.access.InfoDataFacade;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.faceletvalidators.EmailValidator;
@@ -45,7 +43,6 @@ public class SessionTools implements Serializable {
     private Map<String, String> _pages;
     @Inject private transient ContactRoleFacade _contactRoleFacade;
     @Inject private transient CustomerTypeFacade _typeFacade;
-    @Inject private transient DropBoxTypeFacade _dropBoxTypeFacade;
     @Inject private transient InfoDataFacade _trashMailfacade;
     @Inject private transient CustomerFacade _customerFacade;
 
@@ -103,32 +100,6 @@ public class SessionTools implements Serializable {
         return _customerTypeItems;
     }
 
-    private void initDropBoxTypes() {
-        if (_dropBoxTypes == null) {
-            _dropBoxTypes = new HashMap<>();
-            for (DropBoxType type : _dropBoxTypeFacade.findAll()) {
-                _dropBoxTypes.put(type.getId(), type);
-            }
-        }
-    }
-
-    private Map<Integer, DropBoxType> _dropBoxTypes;
-
-    public DropBoxType getDropBoxType(int id) {
-        initDropBoxTypes();
-        return _dropBoxTypes.get(id);
-    }
-
-    public List<SelectItem> getDropBoxTypeItems() {
-        initDropBoxTypes();
-        List<SelectItem> dropboxTypeItems;
-        dropboxTypeItems = new ArrayList<>();
-        dropboxTypeItems.add(new SelectItem(null, Utils.getMessage("lblChooseEntry")));
-        for (DropBoxType type : _dropBoxTypes.values()) {
-            dropboxTypeItems.add(new SelectItem(type.getId(), type.getName()));
-        }
-        return dropboxTypeItems;
-    }
 
     public boolean isHospital(Integer typeId) {
         if (_customerTypeItems == null) {

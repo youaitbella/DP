@@ -47,7 +47,7 @@
                 <h:message id="msgDropboxType" for="dropboxType" styleClass="errorMessage"/>
                 <br/>
                 <h:selectOneMenu styleClass="input" id="dropboxType" value="#{dropBoxCreator.dropboxTypeId}" required="true" requiredMessage="#{msg.lblChooseEntry}">
-                    <f:selectItems value="#{sessionTools.dropBoxTypeItems}"/>
+                    <f:selectItems value="#{dropBoxTools.dropBoxTypeItems}"/>
                     <f:ajax event="change" render="@form :logout:remaining"/>
                 </h:selectOneMenu>
                 </p>

@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.login;
+package org.inek.dataportal.common.login;
 
 import java.io.Serializable;
 import java.util.logging.Level;
