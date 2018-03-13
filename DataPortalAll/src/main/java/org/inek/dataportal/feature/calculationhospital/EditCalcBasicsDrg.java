@@ -1,11 +1,23 @@
 package org.inek.dataportal.feature.calculationhospital;
 
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.zip.Adler32;
+import java.util.zip.CheckedOutputStream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
+import java.net.URLEncoder;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -63,12 +75,14 @@ import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.facades.calc.CalcDrgFacade;
 import org.inek.dataportal.common.controller.AbstractEditController;
+import org.inek.dataportal.common.data.adm.ReportTemplate;
 import org.inek.dataportal.common.helper.ObjectUtils;
-import org.inek.dataportal.common.helper.TransferFileCreator;
+import org.inek.dataportal.common.helper.StreamHelper;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.helper.structures.FieldValues;
 import org.inek.dataportal.helper.structures.MessageContainer;
 import org.inek.dataportal.common.utils.DocumentationUtil;
+import org.inek.dataportal.controller.ReportController;
 import org.inek.dataportal.helper.CalcBasicsTransferFileCreator;
 
 /**
@@ -87,6 +101,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     @Inject private SessionController _sessionController;
     @Inject private CalcDrgFacade _calcDrgFacade;
     @Inject private ApplicationTools _appTools;
+    @Inject private ReportController _reportController;
 
     private DrgCalcBasics _calcBasics;
     private DrgCalcBasics _baseLine;
@@ -1044,5 +1059,38 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
         }
     }
-
+    
+    	    public void exportAll() {
+        List<ReportTemplate> reports =  _reportController.getReportTemplates(1);
+        
+        File zipFile = new File("Export_" + _calcBasics.getIk() + ".zip");
+        
+        try (FileOutputStream fileOut = new FileOutputStream(zipFile);
+          CheckedOutputStream checkedOut = new CheckedOutputStream(fileOut, new Adler32());
+          ZipOutputStream compressedOut = new ZipOutputStream(new BufferedOutputStream(checkedOut))) 
+        {
+            for(ReportTemplate rt : reports) {
+                String path = rt.getAddress().replace("{0}", _calcBasics.getId() + "");
+                path = path.replace("{1}", URLEncoder.encode(_appTools.retrieveHospitalInfo(_calcBasics.getIk()), "UTF-8"));
+                path = path.replace("{2}", _calcBasics.getDataYear() + "");
+                if(!rt.getName().contains("Übersicht Personal")) {
+                    compressedOut.putNextEntry(new ZipEntry(rt.getName()));
+                    ByteArrayInputStream ips = new ByteArrayInputStream(_reportController.getSingleDocument(path));
+                    StreamHelper.copyStream(ips, compressedOut);
+                    compressedOut.closeEntry();
+                    compressedOut.flush();                    
+                }
+            }             
+//            }         
+        } catch (IOException ex) {
+            //throw new IllegalStateException(ex);
+        }    
+        try {
+            InputStream is = new FileInputStream(zipFile);
+            Utils.downLoadDocument(is, "Export_" + _calcBasics.getIk() + ".zip", 0);   
+        } catch (IOException ex) {
+            //throw new IllegalStateException(ex);
+        }
+    }
+    
 }

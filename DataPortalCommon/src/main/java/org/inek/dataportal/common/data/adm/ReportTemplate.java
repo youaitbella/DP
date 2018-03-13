@@ -67,6 +67,19 @@ public class ReportTemplate implements Serializable {
         _address = address;
     }
     // </editor-fold>
+        
+    // <editor-fold defaultstate="collapsed" desc="Property Address">
+    @Column(name = "rtReportTyp")
+    private int _reportTyp = 0;
+    
+    public int getReportTyp() {
+        return _reportTyp;
+    }
+
+    public void setReportTyp(int reportTyp) {
+        _reportTyp = reportTyp;
+    }
+    // </editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="hashCode, equals, toString">
     @Override

@@ -1,8 +1,10 @@
 package org.inek.dataportal.controller;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,7 +18,7 @@ import org.inek.dataportal.feature.admin.facade.AdminFacade;
  *
  * @author muellermi
  */
-public class ReportController {
+public class ReportController implements Serializable {
     private static final Logger LOGGER = Logger.getLogger("ReportController");
 
     @Inject
@@ -85,6 +87,28 @@ public class ReportController {
             LOGGER.log(Level.SEVERE, null, ex);
             // todo? sessionController.alertClient("Bei der Reporterstellung trat ein Fehler auf");
         }
+    }
+    public byte[] getSingleDocument(String path) {
+        try {
+            URL url = new URL(path);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("X-ReportServer-ClientId", "portal");
+            conn.setRequestProperty("X-ReportServer-ClientToken", "FG+RYOLDRuAEh0bO6OBddzcrF45aOI9C");
+            if (conn.getResponseCode() != 200) {
+                throw new IOException("Report failed: HTTP error code : " + conn.getResponseCode());
+            }
+            byte[] file = StreamHelper.toByteArray(conn.getInputStream());
+            conn.disconnect();
+            return file;
+        } catch (IOException ex) {
+            LOGGER.log(Level.SEVERE, null, ex);
+        }
+        return new byte[0];
+    }
+    
+    public List<ReportTemplate> getReportTemplates(int typeId) {
+        return _adminFacade.getReportTemplatesById(typeId);
     }
     
 }

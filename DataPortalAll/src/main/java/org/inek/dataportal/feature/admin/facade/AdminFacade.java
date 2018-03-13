@@ -5,6 +5,7 @@
  */
 package org.inek.dataportal.feature.admin.facade;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import javax.enterprise.context.RequestScoped;
@@ -37,5 +38,10 @@ public class AdminFacade extends AbstractDataAccess {
             return Optional.empty();
         }
     }
-   
+    
+    public List<ReportTemplate> getReportTemplatesById(int reportType) {
+        String jpql = "select rt from ReportTemplate rt where rt._reportTyp = :id";
+        TypedQuery<ReportTemplate> query = getEntityManager().createQuery(jpql, ReportTemplate.class);
+        return query.setParameter("id", reportType).getResultList();
+    }   
 }
