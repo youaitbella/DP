@@ -1,0 +1,12 @@
+== Modulkonzept
+
+Das InEK Dataportal wurde als relativ kleine Web-Applikation begonnen.
+Im Laufe mehrerer Jahre wurden stetig weitere Funktionalitäten zugefügt; weitere Funktionen sind bereits geplant oder könnten aufgrund angedachter gesetzlicher Anforderungen notwendig werden.
+
+Eine monolithische Applikation wird mit steigender Größe immer unhandlicher und schwerer zu pflegen; die Kosten für den Wartungsaufwand steigen exponenziell an.
+Ebenso drücken stetig wachsende Compile- und Deployzeiten die Produktivität.
+Jede einzelne Funktion separat mit einem eigenen Service zu implementieren, erlaubt andererseits für diesen Service eine gute Übersicht, kurze Compile- und Deployzeiten.
+Andererseits steigt die Komplexität des Gesamtsystems mit der Zahl der Services.
+
+Das InEK Datenportal wird daher als eine Menge von Applikationen realisiert, welche jeweils eine kleine, logisch zusammengehörende  Menge an Features umfassen.
+Diese ermöglicht einen Kompromiss zwischen Applikationsgröße und Anzahl unterschiedlicher Applikationen.

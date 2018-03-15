@@ -85,7 +85,7 @@ public class Login implements Serializable {
             return "";
         }
         _loginMessage = "";
-        // todo: check for features and call maintenace dialog???
+        // todo: check for features and call maintenance dialog???
         //return _sessionController.countInstalledFeatures() <= 1 ? Pages.UserMaintenanceFeatures.URL() : Pages.MainApp.URL();
         return Pages.MainApp.URL();
     }
