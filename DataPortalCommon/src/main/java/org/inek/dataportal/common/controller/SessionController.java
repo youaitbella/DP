@@ -777,6 +777,8 @@ public class SessionController implements Serializable {
                 return "drgportal.css";
             case ADMIN:
                 return "adminportal.css";
+            case INSURANCE:
+                return "insuranceportal.css";
             default:
                 return "commonportal.css";
         }

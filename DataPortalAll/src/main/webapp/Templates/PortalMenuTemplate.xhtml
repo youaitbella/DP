@@ -62,6 +62,16 @@
                 </h:commandLink>
             </li>
         </c:if>
+        
+        <-- just for testing insurance module -->
+        <c:if test="#{sessionController.isInekUser('ADMIN')}">
+            <li>
+                <h:commandLink value="Krankenkassen Portal" 
+                               actionListener="#{sessionController.changePortal('INSURANCE')}"
+                               immediate="true">
+                </h:commandLink>
+            </li>
+        </c:if>
     </ui:define>
 
 
