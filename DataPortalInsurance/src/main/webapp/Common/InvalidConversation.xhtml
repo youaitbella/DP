@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/Templates/PortalErrorTemplate.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <ui:define name="content">
+        <h1>#{msg.msgInvalidConversation}</h1>
+        <br/>
+        <br/>
+        <br/>
+        <div style="margin-left: 4px;">
+            <p>
+                #{msg.msgErrorOccured}
+            </p>
+            <br/>
+            <p>
+                #{msg.msgPossibleErrorReasons}
+                <ul style="margin-left: 26px;">
+                    <li>#{msg.msgLinkFromFavorites}</li>
+                    <li>#{msg.msgTimedSession}</li>
+                    <li>#{msg.msgBackInBrowser}</li>
+                    <li>#{msg.msgMultipleBrowserWindows}</li>
+                </ul>
+                <br/>
+                #{msg.msgNoReasonMatches} <a href="mailto:anfragen@datenstelle.de">anfragen@datenstelle.de</a>
+            </p>
+        </div>
+
+    </ui:define>
+
+</ui:composition>
