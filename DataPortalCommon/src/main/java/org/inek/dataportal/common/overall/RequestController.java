@@ -4,6 +4,7 @@
  */
 package org.inek.dataportal.common.overall;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -47,7 +48,13 @@ public class RequestController implements Serializable {
             return;
         }
         _sessionController.logMessage("Force to login: IP=" + Utils.getClientIP() + "; FromView=" + viewId);
-        facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, Pages.Login.URL());
+        try {
+            // this creates an illegalStateException: _sessionController.changePortal(PortalType.COMMON);
+            String url = _sessionController.obtainTargetUrl(PortalType.COMMON);
+            facesContext.getExternalContext().redirect(url);
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, null, ex);
+        }
     }
 
     private boolean loginByToken(FacesContext facesContext) {
