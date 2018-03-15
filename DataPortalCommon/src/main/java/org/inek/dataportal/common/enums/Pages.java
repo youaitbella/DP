@@ -164,8 +164,9 @@ public enum Pages {
     PartSpecificFunction("/SpecificFunction/PartSpecificFunction"),
     SpecificFunctionSummary("/SpecificFunction/Hospital/SpecificFunctionSummary"),
     SpecificFunctionEditRequest("/SpecificFunction/Hospital/EditRequest"),
-    InsuranceSpecificFunctionSummary("/SpecificFunction/Insurance/SpecificFunctionSummary"),
-    SpecificFunctionEditAgreement("/SpecificFunction/Insurance/EditAgreed"),
+    //
+    InsuranceSpecificFunctionSummary("/Insurance/SpecificFunction/SpecificFunctionSummary"),
+    InsuranceSpecificFunctionEditAgreement("/Insurance/SpecificFunction/EditAgreed"),
 
     //
     PartAdditionalCost("/AdditionalCost/PartAdditionalCost"),

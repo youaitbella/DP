@@ -39,7 +39,7 @@ public class SpecificFunctionAgreementList {
     }
 
     public String newRequest() {
-        return Pages.SpecificFunctionEditAgreement.URL();
+        return Pages.InsuranceSpecificFunctionEditAgreement.URL();
     }
 
     public String print(SpecificFunctionRequest request) {
@@ -63,7 +63,7 @@ public class SpecificFunctionAgreementList {
     }
 
     public String edit() {
-        return Pages.SpecificFunctionEditAgreement.URL();
+        return Pages.InsuranceSpecificFunctionEditAgreement.URL();
     }
 
 }
