@@ -10,3 +10,7 @@ Andererseits steigt die Komplexität des Gesamtsystems mit der Zahl der Services
 
 Das InEK Datenportal wird daher als eine Menge von Applikationen realisiert, welche jeweils eine kleine, logisch zusammengehörende  Menge an Features umfassen.
 Diese ermöglicht einen Kompromiss zwischen Applikationsgröße und Anzahl unterschiedlicher Applikationen.
+
+Der Anwender kann selber bestimmen, welche Funktionalität er nutzen möchte.
+Beim Start der jeweiligen Applikation (als Folge des Login-Vorgangs) ist daher zu prüfen, welche dieser Funktionen zur aktuellen Applikation gehören, damit diese in der Navigation erscheinen.
+Weiterhin wird geprüft, zu welchen anderen Applikationen ein Link in die Navigation aufgenommen wird.
