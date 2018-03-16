@@ -101,6 +101,11 @@ public class PsychStaffList implements Serializable {
 
     public String getConfirmMessage(int id) {
         StaffProof proof = _psychFacade.findStaffProof(id);
+        if (proof == null) {
+            // this method might get called AFTER data is deleted.
+            // in such a case prrof is null
+            return "";
+        }
         String msg = "Meldung für " + proof.getIk() + "\n"
                 + (proof.getStatus().getId() <= 9 ? Utils.getMessage("msgConfirmDelete") : Utils.
                 getMessage("msgConfirmRetire"));
