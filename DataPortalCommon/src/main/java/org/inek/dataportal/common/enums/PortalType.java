@@ -9,5 +9,6 @@ public enum PortalType {
     COMMON,
     DRG,
     PSY,
+    INSURANCE,
     ADMIN;
 }

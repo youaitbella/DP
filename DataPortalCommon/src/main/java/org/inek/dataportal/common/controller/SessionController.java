@@ -269,17 +269,21 @@ public class SessionController implements Serializable {
         return loginAndSetTopics(mailOrUser, password, _portalType);
     }
 
-    public void changePortal(PortalType portalType) throws IOException {
+    public void changePortal(PortalType portalType) {
         String url = obtainTargetUrl(portalType);
         if (url.isEmpty()) {
             return;
         }
         url = url + "?token=" + getToken() + "&portal=" + portalType.name() ;
         performLogout("");
-        FacesContext.getCurrentInstance().getExternalContext().redirect(url);
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect(url);
+        } catch (IOException ex) {
+            LOGGER.log(Level.SEVERE, null, ex);
+        }
     }
 
-    private String obtainTargetUrl(PortalType portalType) {
+    public String obtainTargetUrl(PortalType portalType) {
         Stage stage = _appTools.isEnabled(ConfigKey.TestMode)
                 ? EnvironmentInfo.getServerName().equals("localhost") ? Stage.DEVELOPMENT : Stage.TEST
                 : Stage.PRODUCTION;
