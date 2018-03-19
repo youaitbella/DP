@@ -1,6 +1,5 @@
 package org.inek.dataportal.common.controller;
 
-import org.inek.dataportal.common.controller.IFeatureController;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.HttpURLConnection;
