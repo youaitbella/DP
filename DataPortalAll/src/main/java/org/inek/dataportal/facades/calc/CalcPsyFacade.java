@@ -70,7 +70,7 @@ public class CalcPsyFacade extends AbstractDataAccess {
     }
     
     public PeppCalcBasics retrievePriorCalcBasics(PeppCalcBasics calcBasics) {
-        String jpql = "select c from PeppCalcBasics c where c._ik = :ik and c._dataYear = :year";
+        String jpql = "select c from PeppCalcBasics c where c._ik = :ik and (c._statusId = 10 or c._statusId = 3) and c._dataYear = :year";
         TypedQuery<PeppCalcBasics> query = getEntityManager().createQuery(jpql, PeppCalcBasics.class);
         query.setParameter("ik", calcBasics.getIk());
         query.setParameter("year", calcBasics.getDataYear() - 1);
