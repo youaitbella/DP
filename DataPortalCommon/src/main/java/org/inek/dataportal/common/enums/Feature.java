@@ -16,19 +16,23 @@ public enum Feature {
     DRG_PROPOSAL(7, "DRG-Vorschlagsverfahren", NeedApproval.No, PortalType.DRG, IkReference.None, Selectable.Yes, Shareable.Yes),
     COOPERATION(8, "Kooperation", NeedApproval.No, PortalType.COMMON, IkReference.None, Selectable.Yes, Shareable.No),
     MODEL_INTENTION(9, "Modellvorhaben Psy", NeedApproval.No, PortalType.PSY, IkReference.None, Selectable.Yes, Shareable.Yes),
-    DOCUMENTS(10, "Dokumente", NeedApproval.No, PortalType.COMMON, IkReference.None, Selectable.Yes, Shareable.No), // todo: make shareable
+    DOCUMENTS(10, "Dokumente", NeedApproval.No, PortalType.COMMON, IkReference.None, Selectable.No, Shareable.No),
     CERT(11, "Zertifizierung", NeedApproval.Yes, PortalType.DRG, IkReference.None, Selectable.Yes, Shareable.No),
     AGENCY(12, "Behörde", NeedApproval.Yes, PortalType.DRG, IkReference.None, Selectable.Yes, Shareable.No),
     INSURANCE(13, "Krankenkasse", NeedApproval.Yes, PortalType.INSURANCE, IkReference.None, Selectable.Yes, Shareable.No),
     CALCULATION_HOSPITAL(14, "Teilnahme Kostenkalkulation", NeedApproval.Yes, PortalType.COMMON, IkReference.Hospital, Selectable.Yes, Shareable.Yes),
     SPECIFIC_FUNCTION(15, "Besondere Aufgaben", NeedApproval.Yes, PortalType.DRG, IkReference.Hospital, Selectable.Yes, Shareable.Yes),
-    ADDITIONAL_COST(16, "Finanzierung von Mehrkosten", NeedApproval.Yes, PortalType.DRG, IkReference.Hospital, Selectable.Yes, Shareable.No), // todo: make shareable
-    PSYCH_STAFF(17, "Psych-Personalnachweis-Vereinbarung", NeedApproval.Yes, PortalType.PSY, IkReference.Hospital, Selectable.Yes, Shareable.No), // todo: shareable
-    VALUATION_RATIO(18, "Gezielte Absenkung", NeedApproval.Yes, PortalType.DRG, IkReference.Hospital, Selectable.Yes, Shareable.No), // todo: make shareable
+    // todo: make ADDITIONAL_COST shareable
+    ADDITIONAL_COST(16, "Finanzierung von Mehrkosten", NeedApproval.Yes, PortalType.DRG, IkReference.Hospital, Selectable.Yes, Shareable.No),
+    // todo: make PSYCH_STAFF shareable
+    PSYCH_STAFF(17, "Psych-Personalnachweis-Vereinbarung", NeedApproval.Yes, PortalType.PSY, IkReference.Hospital, Selectable.Yes, Shareable.No),
+    // todo: make VALUATION_RATIO shareable
+    VALUATION_RATIO(18, "Gezielte Absenkung", NeedApproval.Yes, PortalType.DRG, IkReference.Hospital, Selectable.Yes, Shareable.No),
     IK_ADMIN(19, "IK-Administration", NeedApproval.No, PortalType.COMMON, IkReference.None, Selectable.No, Shareable.No),
-    PORTAL_TYPE_HOLDER(20, "IK-Administration", NeedApproval.No, PortalType.COMMON, IkReference.None, Selectable.No, Shareable.No);
+    PORTAL_TYPE_HOLDER(20, "Portal-Navigation", NeedApproval.No, PortalType.COMMON, IkReference.None, Selectable.No, Shareable.No);
 
-    Feature(int id, String description, NeedApproval needApproval, PortalType portalType, IkReference ikReference, Selectable selectable, Shareable shareable) {
+    Feature(int id, String description, NeedApproval needApproval, PortalType portalType, 
+            IkReference ikReference, Selectable selectable, Shareable shareable) {
         _id = id;
         _description = description;
         _needApproval = needApproval;

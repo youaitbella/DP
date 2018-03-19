@@ -12,7 +12,6 @@ public enum FeatureState {
     NEW,
     SIMPLE,
     REQUESTED,
-    DECIDING,
     APPROVED,
     REJECTED;
 }
