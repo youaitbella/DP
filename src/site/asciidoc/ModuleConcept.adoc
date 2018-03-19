@@ -8,9 +8,14 @@ Ebenso drücken stetig wachsende Compile- und Deployzeiten die Produktivität.
 Jede einzelne Funktion separat mit einem eigenen Service zu implementieren, erlaubt andererseits für diesen Service eine gute Übersicht, kurze Compile- und Deployzeiten.
 Andererseits steigt die Komplexität des Gesamtsystems mit der Zahl der Services.
 
-Das InEK Datenportal wird daher als eine Menge von Applikationen realisiert, welche jeweils eine kleine, logisch zusammengehörende  Menge an Features umfassen.
+Das InEK Datenportal wird daher als eine Menge von Applikationen realisiert, welche jeweils eine kleine, logisch zusammengehörende Menge an Features umfassen.
 Diese ermöglicht einen Kompromiss zwischen Applikationsgröße und Anzahl unterschiedlicher Applikationen.
 
 Der Anwender kann selber bestimmen, welche Funktionalität er nutzen möchte.
 Beim Start der jeweiligen Applikation (als Folge des Login-Vorgangs) ist daher zu prüfen, welche dieser Funktionen zur aktuellen Applikation gehören, damit diese in der Navigation erscheinen.
 Weiterhin wird geprüft, zu welchen anderen Applikationen ein Link in die Navigation aufgenommen wird.
+
+Beim Login-Vorgang werden in der jeweiligen Applikation alle Features des Anwenders initial geprüft.
+ - Feature der eigenen Applikation: Anzeige des Features in der Navigation. Bei Aufruf der Übersicht ggf. Anzeige eines "Parts".
+ - Feature einer anderen Applikation: Distinkte Anzeige der anderen Applikation in der Navigation. Kein "Part".
+
