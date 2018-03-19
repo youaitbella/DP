@@ -1,5 +1,6 @@
 package org.inek.dataportal.common.controller;
 
+import java.beans.Transient;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.HttpURLConnection;
@@ -61,6 +62,7 @@ public class SessionController implements Serializable {
     @Inject private CustomerTypeFacade _typeFacade;
     @Inject private CooperationRequestFacade _coopFacade;
     @Inject private ApplicationTools _appTools;
+    @Inject private transient FeatureControllers _featureControllers;
 
     public ApplicationTools getApplicationTools() {
         return _appTools;
@@ -75,7 +77,6 @@ public class SessionController implements Serializable {
     private Account _account;
     private final Topics _topics = new Topics();
     private String _currentTopic = "";
-    private final FeatureControllers _featureControllers = new FeatureControllers();
     private final List<String> _parts = new ArrayList<>();
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">

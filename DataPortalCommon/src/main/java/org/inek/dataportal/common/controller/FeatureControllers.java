@@ -2,6 +2,7 @@ package org.inek.dataportal.common.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import org.inek.dataportal.common.enums.Feature;
 
@@ -9,6 +10,7 @@ import org.inek.dataportal.common.enums.Feature;
  *
  * @author muellermi
  */
+@Dependent
 public class FeatureControllers {
 
     @Inject private FeatureFactory _featureFactory;
