@@ -23,7 +23,6 @@ import org.inek.dataportal.common.overall.ApplicationTools;
 import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.common.data.account.entities.AccountAdditionalIK;
 import org.inek.dataportal.entities.calc.cdm.DistributionModel;
 import org.inek.dataportal.entities.calc.cdm.DistributionModelDetail;
 import org.inek.dataportal.enums.CalcHospitalFunction;
@@ -128,7 +127,7 @@ public class EditDistributionModel extends AbstractEditController implements Ser
         if (isInekViewable(model)) {
             return true;
         }
-        return _accessManager.isAccessAllowed(Feature.CALCULATION_HOSPITAL, model.getStatus(), model.getAccountId());
+        return _accessManager.isAccessAllowed(Feature.CALCULATION_HOSPITAL, model.getStatus(), model.getAccountId(), model.getIk());
     }
 
     private DistributionModel newDistributionModel(String type) {
@@ -150,7 +149,7 @@ public class EditDistributionModel extends AbstractEditController implements Ser
     }
 
     public boolean isReadOnly() {
-        return _accessManager.isReadOnly(Feature.CALCULATION_HOSPITAL, _model.getStatus(), _model.getAccountId())
+        return _accessManager.isReadOnly(Feature.CALCULATION_HOSPITAL, _model.getStatus(), _model.getAccountId(), _model.getIk())
                 || _sessionController.isInekUser(Feature.CALCULATION_HOSPITAL) && !isOwnModel();
     }
 
@@ -200,14 +199,14 @@ public class EditDistributionModel extends AbstractEditController implements Ser
         if (!_appTools.isEnabled(ConfigKey.IsDistributionModelSendEnabled)) {
             return false;
         }
-        return _accessManager.isSealedEnabled(Feature.CALCULATION_HOSPITAL, _model.getStatus(), _model.getAccountId());
+        return _accessManager.isSealedEnabled(Feature.CALCULATION_HOSPITAL, _model.getStatus(), _model.getAccountId(), _model.getIk());
     }
 
     public boolean isApprovalRequestEnabled() {
         if (!_appTools.isEnabled(ConfigKey.IsDistributionModelSendEnabled)) {
             return false;
         }
-        return _accessManager.isApprovalRequestEnabled(Feature.CALCULATION_HOSPITAL, _model.getStatus(), _model.getAccountId());
+        return _accessManager.isApprovalRequestEnabled(Feature.CALCULATION_HOSPITAL, _model.getStatus(), _model.getAccountId(), _model.getIk());
     }
 
     public boolean isRequestCorrectionEnabled() {
@@ -283,7 +282,7 @@ public class EditDistributionModel extends AbstractEditController implements Ser
     public boolean isTakeEnabled() {
         return false;
         // todo: do not allow consultant
-        //return _accessManager.isTakeEnabled(Feature.CALCULATION_HOSPITAL, _model.getStatus(), _model.getAccountId());
+        //return _accessManager.isTakeEnabled(Feature.CALCULATION_HOSPITAL, _model.getStatus(), _model.getAccountId(), _model.getIk());
     }
 
     /**
