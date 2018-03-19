@@ -1,12 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.inek.dataportal.common.controller;
 
 import java.io.Serializable;
 import java.util.logging.Logger;
-import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.helper.Topics;
 
@@ -26,10 +21,6 @@ public abstract class AbstractFeatureController implements IFeatureController, S
     }
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
-    protected Account getAccount() {
-        return _sessionController.getAccount();
-    }
-
     @Override
     public boolean isActive() {
         return _isActive;

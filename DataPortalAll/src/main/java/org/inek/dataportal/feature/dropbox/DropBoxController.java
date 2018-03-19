@@ -22,7 +22,6 @@ import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.facades.DropBoxFacade;
-import org.inek.dataportal.helper.*;
 
 /**
  *
@@ -152,7 +151,7 @@ public class DropBoxController extends AbstractFeatureController {
             String fileName = "EMailInfo" + new SimpleDateFormat("ddMMyyyyHHmmss").format(ts) + ".txt";
             File file = new File(dir, fileName);
             pw = new PrintWriter(new FileOutputStream(file));
-            pw.println("From=" + getAccount().getEmail());
+            pw.println("From=" + getSessionController().getAccount().getEmail());
             pw.println("Accept=Dropbox");
             pw.println("Received=" + new SimpleDateFormat("dd.MM.yyyy HH:mm").format(ts));
             pw.println("Subject=Dropbox_" + dropBox.getIK());

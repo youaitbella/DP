@@ -61,7 +61,6 @@ public class SessionController implements Serializable {
     @Inject private CustomerTypeFacade _typeFacade;
     @Inject private CooperationRequestFacade _coopFacade;
     @Inject private ApplicationTools _appTools;
-    @Inject private FeatureFactory _featureFactory;
 
     public ApplicationTools getApplicationTools() {
         return _appTools;
@@ -76,12 +75,8 @@ public class SessionController implements Serializable {
     private Account _account;
     private final Topics _topics = new Topics();
     private String _currentTopic = "";
-    private final List<IFeatureController> _features;
+    private final FeatureControllers _featureControllers = new FeatureControllers();
     private final List<String> _parts = new ArrayList<>();
-
-    public SessionController() {
-        _features = new ArrayList<>();
-    }
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     public List<Topic> getTopics() {
@@ -212,7 +207,7 @@ public class SessionController implements Serializable {
             FeatureScopedContextHolder.Instance.destroyAllBeans();
             logMessage(message);
             _topics.clear();
-            _features.clear();
+            _featureControllers.clear();
             _parts.clear();
             _account = null;
             _portalType = PortalType.COMMON;
@@ -413,7 +408,7 @@ public class SessionController implements Serializable {
     }
 
     private void initFeatures() {
-        _features.clear();
+        _featureControllers.clear();
         if (_account == null) {
             return;
         }
@@ -437,29 +432,29 @@ public class SessionController implements Serializable {
         }
         addAdminIfNeeded();
         if (!hasMaintenance) {
-            _features.add(_featureFactory.createController(Feature.USER_MAINTENANCE, this));
+            _featureControllers.add(Feature.USER_MAINTENANCE, this);
         }
         if (!hasDocument) {
-            _features.add(_featureFactory.createController(Feature.DOCUMENTS, this));
+            _featureControllers.add(Feature.DOCUMENTS, this);
             persistFeature(Feature.DOCUMENTS);
         }
         if (_portalType != PortalType.ADMIN) {
             if (!hasCooperation && _coopFacade.getOpenCooperationRequestCount(_account.getId()) > 0) {
-                _features.add(_featureFactory.createController(Feature.COOPERATION, this));
+                _featureControllers.add(Feature.COOPERATION, this);
                 persistFeature(Feature.COOPERATION);
             }
             for (Feature f : features.values()) {
-                _features.add(_featureFactory.createController(f, this));
+                _featureControllers.add(f, this);
             }
         }
     }
 
     private void addAdminIfNeeded() {
         if (_portalType == PortalType.ADMIN && isInekUser(Feature.ADMIN)) {
-            _features.add(_featureFactory.createController(Feature.ADMIN, this));
+            _featureControllers.add(Feature.ADMIN, this);
         }
         if (_portalType != PortalType.ADMIN && _account.getAdminIks().size() > 0) {
-            _features.add(_featureFactory.createController(Feature.IK_ADMIN, this));
+            _featureControllers.add(Feature.IK_ADMIN, this);
         }
     }
 
@@ -504,7 +499,7 @@ public class SessionController implements Serializable {
         if (!isLoggedIn()) {
             return;
         }
-        for (IFeatureController feature : _features) {
+        for (IFeatureController feature : _featureControllers.getFeatureControllers()) {
             _topics.addTopics(feature.getTopics());
         }
     }
@@ -556,7 +551,7 @@ public class SessionController implements Serializable {
 
     public void setParts() {
         _parts.clear();
-        for (IFeatureController feature : _features) {
+        for (IFeatureController feature : _featureControllers.getFeatureControllers()) {
             if (feature.getMainPart().length() > 0) {
                 _parts.add(feature.getMainPart());
             }
@@ -568,7 +563,7 @@ public class SessionController implements Serializable {
     }
 
     public IFeatureController getFeatureController(Feature feature) {
-        for (IFeatureController featureController : _features) {
+        for (IFeatureController featureController : _featureControllers.getFeatureControllers()) {
             if (featureController.getFeature() == feature) {
                 return featureController;
             }
@@ -577,13 +572,13 @@ public class SessionController implements Serializable {
     }
 
     public void setFeatureActive(Feature feature) {
-        for (IFeatureController featureController : _features) {
+        for (IFeatureController featureController : _featureControllers.getFeatureControllers()) {
             featureController.setActive(featureController.getFeature() == feature);
         }
     }
 
     public IFeatureController getActiveFeatureController() {
-        for (IFeatureController featureController : _features) {
+        for (IFeatureController featureController : _featureControllers.getFeatureControllers()) {
             if (featureController.isActive()) {
                 return featureController;
             }
@@ -592,7 +587,7 @@ public class SessionController implements Serializable {
     }
 
     public int countInstalledFeatures() {
-        return _features.size();
+        return _featureControllers.getFeatureCount();
     }
 
     private Map<Integer, String> _ikInfo;
