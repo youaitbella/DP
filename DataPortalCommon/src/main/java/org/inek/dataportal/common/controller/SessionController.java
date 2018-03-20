@@ -450,7 +450,7 @@ public class SessionController implements Serializable {
         if (_portalType == PortalType.ADMIN && isInekUser(Feature.ADMIN)) {
             _featureControllers.add(Feature.ADMIN, this);
         }
-        if (_portalType != PortalType.ADMIN && _account.getAdminIks().size() > 0) {
+        if ((_portalType == PortalType.DRG || _portalType == PortalType.PSY) && _account.getAdminIks().size() > 0) {
             _featureControllers.add(Feature.IK_ADMIN, this);
         }
     }
