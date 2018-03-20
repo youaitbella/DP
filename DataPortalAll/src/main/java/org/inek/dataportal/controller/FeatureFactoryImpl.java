@@ -28,7 +28,6 @@ import org.inek.dataportal.feature.certification.CertController;
 import org.inek.dataportal.feature.drgproposal.DrgProposalController;
 import org.inek.dataportal.feature.ikadmin.controller.IkAdminController;
 import org.inek.dataportal.feature.valuationratio.ValuationRatioController;
-import org.inek.dataportal.feature.insurance.InsuranceController;
 import org.inek.dataportal.feature.psychstaff.controller.PsychStaffController;
 import org.inek.dataportal.feature.requestsystem.controller.RequestSystemController;
 import org.inek.dataportal.feature.specificfunction.controller.SpecificFunctionController;
@@ -66,8 +65,6 @@ public class FeatureFactoryImpl implements FeatureFactory, Serializable {
                 return new CertController(sessionController);
             case AGENCY:
                 return new AgencyController(sessionController);
-            case INSURANCE:
-                return new InsuranceController(sessionController);
             case CALCULATION_HOSPITAL:
                 return new CalcHospitalController(sessionController);
             case SPECIFIC_FUNCTION:

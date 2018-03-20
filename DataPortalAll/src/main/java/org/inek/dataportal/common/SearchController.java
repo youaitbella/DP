@@ -8,15 +8,15 @@ import org.inek.dataportal.common.controller.SearchConsumer;
 import java.util.ArrayList;
 import java.util.List;
 import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.entities.common.DiagnosisInfo;
-import org.inek.dataportal.entities.common.ProcedureInfo;
+import org.inek.dataportal.common.data.common.DiagnosisInfo;
+import org.inek.dataportal.common.data.common.ProcedureInfo;
 import org.inek.dataportal.entities.drg.DrgInfo;
 import org.inek.dataportal.entities.pepp.PeppInfo;
 import org.inek.dataportal.enums.CodeType;
 import org.inek.dataportal.facades.DrgFacade;
 import org.inek.dataportal.facades.PeppFacade;
-import org.inek.dataportal.facades.common.DiagnosisFacade;
-import org.inek.dataportal.facades.common.ProcedureFacade;
+import org.inek.dataportal.common.data.access.DiagnosisFacade;
+import org.inek.dataportal.common.data.access.ProcedureFacade;
 
 /**
  *

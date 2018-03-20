@@ -27,7 +27,6 @@ import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.entities.insurance.InekMethod;
 import org.inek.dataportal.entities.nub.NubFormerRequest;
 import org.inek.dataportal.entities.nub.NubFormerRequestMerged;
 import org.inek.dataportal.entities.nub.NubMethodInfo;
@@ -293,10 +292,6 @@ public class NubRequestFacade extends AbstractDataAccess {
         TypedQuery<NubRequest> query = getEntityManager().createQuery(jpql, NubRequest.class);
         query.setParameter("requestIds", requestIds);
         return query.getResultList();
-    }
-
-    public List<InekMethod> getInekMethods() {
-        return super.findAll(InekMethod.class);
     }
 
     @Schedule(hour = "0", info = "once a day")

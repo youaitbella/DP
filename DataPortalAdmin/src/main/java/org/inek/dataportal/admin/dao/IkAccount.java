@@ -1,0 +1,50 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package org.inek.dataportal.admin.dao;
+
+import java.util.ArrayList;
+import java.util.List;
+import org.inek.dataportal.common.data.account.entities.Account;
+
+/**
+ *
+ * @author muellermi
+ */
+public class IkAccount {
+
+    public static List<IkAccount> createFromAccounts(List<Account> accounts) {
+        List<IkAccount> ikAccounts = new ArrayList<>();
+        accounts.forEach(account -> {
+            account.getAdminIks().forEach(ai -> {
+                ikAccounts.add(new IkAccount(account, ai.getIk(), ai.getMailDomain()));
+            });
+        });
+        return ikAccounts;
+    }
+
+    public IkAccount(Account account, int ik, String mailDomain) {
+        _account = account;
+        _ik = ik;
+        _mailDomain = mailDomain;
+    }
+    private final Account _account;
+
+    public Account getAccount() {
+        return _account;
+    }
+
+    private final int _ik;
+
+    public int getIk() {
+        return _ik;
+    }
+
+    private final String _mailDomain;
+    
+    public String getMailDomain(){
+        return _mailDomain;
+    }
+}

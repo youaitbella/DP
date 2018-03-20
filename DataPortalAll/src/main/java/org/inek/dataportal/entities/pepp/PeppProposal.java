@@ -20,7 +20,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Version;
-import org.inek.dataportal.entities.common.ProcedureInfo;
+import org.inek.dataportal.common.data.common.ProcedureInfo;
 import org.inek.dataportal.enums.PeppProposalCategory;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.utils.Documentation;

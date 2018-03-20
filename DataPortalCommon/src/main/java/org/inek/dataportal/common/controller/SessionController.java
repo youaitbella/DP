@@ -5,7 +5,6 @@ import java.io.Serializable;
 import java.net.HttpURLConnection;
 import static java.net.HttpURLConnection.HTTP_OK;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -414,6 +413,8 @@ public class SessionController implements Serializable {
         boolean hasDocument = false;
         boolean hasCooperation = false;
 
+        addAdminIfNeeded();
+        
         List<AccountFeature> accountFatures = _account.getFeatures();
         for (AccountFeature accFeature : accountFatures) {
             Feature feature = accFeature.getFeature();
@@ -427,7 +428,6 @@ public class SessionController implements Serializable {
                 features.put(accFeature.getSequence(), feature);
             }
         }
-        addAdminIfNeeded();
         if (!hasMaintenance) {
             _featureControllers.add(Feature.USER_MAINTENANCE, this);
         }

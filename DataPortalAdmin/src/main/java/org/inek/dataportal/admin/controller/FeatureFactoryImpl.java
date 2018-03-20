@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.controller;
+package org.inek.dataportal.admin.controller;
 
 import java.io.Serializable;
 import javax.enterprise.context.Dependent;
@@ -10,7 +10,6 @@ import org.inek.dataportal.common.controller.FeatureFactory;
 import org.inek.dataportal.common.controller.IFeatureController;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.enums.Feature;
-import org.inek.dataportal.insurance.InsuranceController;
 
 /**
  *
@@ -23,8 +22,8 @@ public class FeatureFactoryImpl implements FeatureFactory, Serializable{
     public IFeatureController createController(Feature feature, SessionController sessionController) {
 
         switch (feature) {
-            case INSURANCE:
-                return new InsuranceController(sessionController);
+            case ADMIN:
+                return new AdminController(sessionController);
             default:
                 throw new IllegalArgumentException("no such controller");
         }

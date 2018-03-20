@@ -17,6 +17,9 @@
     <class>org.inek.dataportal.common.data.common.PortalAddress</class>
     <class>org.inek.dataportal.common.data.common.CustomerType</class>
     <class>org.inek.dataportal.common.data.common.TrashMail</class>
+    <class>org.inek.dataportal.common.data.common.DiagnosisInfo</class>
+    <class>org.inek.dataportal.common.data.common.ProcedureInfo</class>
+    <class>org.inek.dataportal.common.data.common.RemunerationType</class>
     <class>org.inek.dataportal.common.data.icmt.entities.Agent</class>
     <class>org.inek.dataportal.common.data.icmt.entities.Contact</class>
     <class>org.inek.dataportal.common.data.icmt.entities.ContactDetail</class>

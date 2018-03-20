@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.Map;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
+import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.enums.Feature;
+import org.inek.dataportal.common.enums.PortalType;
 
 /**
  *
@@ -18,6 +20,10 @@ public class FeatureControllers {
     @Inject private FeatureFactory _featureFactory;
     private final Map<String, IFeatureController> _featureControllers = new Hashtable<>();
 
+    public void initFeatures(Account account, PortalType portaltype){
+        
+    }
+    
     public void clear() {
         _featureControllers.clear();
     }
