@@ -74,7 +74,7 @@ public class ActivatePassword implements Serializable{
         if (!_sessionController.loginAndSetTopics(_emailOrUser, _password,PortalType.DRG)){
             return null;
         }
-        return _sessionController.countInstalledFeatures() <= 1 ? Pages.UserMaintenanceFeatures.URL() :  Pages.MainApp.URL();
+        return Pages.MainApp.URL();
     }
 
 

@@ -1,6 +1,5 @@
 package org.inek.dataportal.common.controller;
 
-import java.beans.Transient;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.HttpURLConnection;
@@ -62,6 +61,7 @@ public class SessionController implements Serializable {
     @Inject private CustomerTypeFacade _typeFacade;
     @Inject private CooperationRequestFacade _coopFacade;
     @Inject private ApplicationTools _appTools;
+    @Inject private CustomerFacade _customerFacade;
     @Inject private transient FeatureControllers _featureControllers;
 
     public ApplicationTools getApplicationTools() {
@@ -77,7 +77,6 @@ public class SessionController implements Serializable {
     private Account _account;
     private final Topics _topics = new Topics();
     private String _currentTopic = "";
-    private final List<String> _parts = new ArrayList<>();
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     public List<Topic> getTopics() {
@@ -209,7 +208,6 @@ public class SessionController implements Serializable {
             logMessage(message);
             _topics.clear();
             _featureControllers.clear();
-            _parts.clear();
             _account = null;
             _portalType = PortalType.COMMON;
         }
@@ -343,7 +341,6 @@ public class SessionController implements Serializable {
         }
 
         setTopics();
-        setParts();
         return _account != null;
     }
 
@@ -351,7 +348,6 @@ public class SessionController implements Serializable {
         _portalType = portalType;
         login(mailOrUser, password);
         setTopics();
-        setParts();
         return _account != null;
     }
 
@@ -488,7 +484,6 @@ public class SessionController implements Serializable {
         _account = _accountFacade.updateAccount(_account);
         initFeatures();
         setTopics();
-        setParts();
     }
 
     public void deleteAccount() {
@@ -550,49 +545,18 @@ public class SessionController implements Serializable {
         return false;
     }
 
-    public void setParts() {
-        _parts.clear();
-        for (IFeatureController feature : _featureControllers.getFeatureControllers()) {
-            if (feature.getMainPart().length() > 0) {
-                _parts.add(feature.getMainPart());
-            }
-        }
-    }
-
     public List<String> getParts() {
-        return _parts;
+        return _featureControllers.getParts();
     }
 
     public IFeatureController getFeatureController(Feature feature) {
-        for (IFeatureController featureController : _featureControllers.getFeatureControllers()) {
-            if (featureController.getFeature() == feature) {
-                return featureController;
-            }
-        }
-        throw new IllegalArgumentException("Feature " + feature + " is not registered");
-    }
-
-    public void setFeatureActive(Feature feature) {
-        for (IFeatureController featureController : _featureControllers.getFeatureControllers()) {
-            featureController.setActive(featureController.getFeature() == feature);
-        }
-    }
-
-    public IFeatureController getActiveFeatureController() {
-        for (IFeatureController featureController : _featureControllers.getFeatureControllers()) {
-            if (featureController.isActive()) {
-                return featureController;
-            }
-        }
-        throw new IllegalArgumentException("No active FeatureController available");
+        return _featureControllers.getFeatureController(feature);
     }
 
     public int countInstalledFeatures() {
         return _featureControllers.getFeatureCount();
     }
 
-    private Map<Integer, String> _ikInfo;
-    @Inject private CustomerFacade _customerFacade;
 
     public String getIkName(Integer ik) {
         if (ik == null || ik == 0) {
@@ -808,7 +772,6 @@ public class SessionController implements Serializable {
         _portalType = portalType;
         initFeatures();
         setTopics();
-        setParts();
         return navigate(Pages.MainApp.URL());
     }
 

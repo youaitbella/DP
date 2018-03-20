@@ -93,10 +93,6 @@ public class Activate implements Serializable {
             return null;
         }
         LOGGER.log(Level.INFO, "Activation successful: {0}", _emailOrUser);
-        if (_sessionController.countInstalledFeatures() <= 1) {
-            _sessionController.setCurrentTopicByUrl(Pages.UserMaintenanceMasterData.URL());
-            return Pages.UserMaintenanceFeatures.URL();
-        }
         return Pages.MainApp.URL();
     }
 

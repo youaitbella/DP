@@ -6,7 +6,6 @@ package org.inek.dataportal.common.data.access;
 
 import org.inek.dataportal.common.data.AbstractFacade;
 import javax.ejb.Stateless;
-import javax.inject.Named;
 import org.inek.dataportal.common.data.common.CustomerType;
 
 /**

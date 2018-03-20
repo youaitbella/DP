@@ -1,7 +1,9 @@
 package org.inek.dataportal.common.controller;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import org.inek.dataportal.common.enums.Feature;
@@ -14,28 +16,56 @@ import org.inek.dataportal.common.enums.Feature;
 public class FeatureControllers {
 
     @Inject private FeatureFactory _featureFactory;
-    private final List<IFeatureController> _featureControllers = new ArrayList<>();
+    private final Map<String, IFeatureController> _featureControllers = new Hashtable<>();
 
-    void clear() {
+    public void clear() {
         _featureControllers.clear();
     }
 
-    void add(IFeatureController controller) {
-        _featureControllers.add(controller);
+    public void add(Feature feature, SessionController sessionController) {
+        IFeatureController controller = _featureFactory.createController(feature, sessionController);
+        _featureControllers.put(feature.name(), controller);
     }
 
-    void add(Feature feature, SessionController sessionController) {
-        add (_featureFactory.createController(feature, sessionController));
+    public Iterable<IFeatureController> getFeatureControllers() {
+        return _featureControllers.values();
     }
 
-    Iterable<IFeatureController> getFeatureControllers() {
-        return _featureControllers;
+    public IFeatureController getFeatureController(Feature feature) {
+        IFeatureController controller = _featureControllers.get(feature.name());
+        if (controller == null) {
+            throw new IllegalArgumentException("Feature " + feature + " is not registered");
+        }
+        return controller;
     }
 
-    int getFeatureCount() {
+    public int getFeatureCount() {
         return _featureControllers.size();
     }
-    
-    
 
+    public void setFeatureActive(Feature feature) {
+        for (IFeatureController featureController : _featureControllers.values()) {
+            featureController.setActive(featureController.getFeature() == feature);
+        }
+    }
+
+    public IFeatureController getActiveFeatureController() {
+        for (IFeatureController featureController : _featureControllers.values()) {
+            if (featureController.isActive()) {
+                return featureController;
+            }
+        }
+        throw new IllegalArgumentException("No active FeatureController available");
+    }
+
+    List<String> getParts() {
+        List<String> parts = new ArrayList<>();
+        for (IFeatureController feature : _featureControllers.values()) {
+            if (feature.getMainPart().length() > 0) {
+                parts.add(feature.getMainPart());
+            }
+        }
+        return parts;
+    }
+    
 }

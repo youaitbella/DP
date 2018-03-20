@@ -1,6 +1,5 @@
 package org.inek.dataportal.common.data.adm.facade;
 
-import java.io.Serializable;
 import java.util.Date;
 import javax.ejb.Asynchronous;
 import javax.ejb.Schedule;
@@ -11,7 +10,7 @@ import org.inek.dataportal.common.data.AbstractFacade;
 import org.inek.dataportal.common.utils.DateUtils;
 
 @Stateless
-public class LogFacade extends AbstractFacade<Log> implements Serializable{
+public class LogFacade extends AbstractFacade<Log>{
 
     public LogFacade() {
         super(Log.class);
