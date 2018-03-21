@@ -214,7 +214,6 @@
                 <td class="underlined-col border-right-col" colspan="4"><b># {editCalcBasicsDrg.calcBasics.dataYear-1}</b></td>
             </tr-->
             <tr>
-                <th>DKG-NT Tarif-Nr.</th>
                 <th>Ausgewählte Leistung</th>
                 <th>Kosten pro Leistung</th>
                 <th>Fallzahl stationär</th>
@@ -227,7 +226,6 @@
             </tr>
             <ui:repeat value="#{editCalcBasicsDrg.calcBasics.radiologyServices}" var="item">
                 <tr>
-                    <td class="underlined-col">#{item.opsCode}</td>
                     <td class="underlined-col">#{editCalcBasicsDrg.getContentText(item.rsContentTextID)}</td>
                     <td>
                 <inek:InputIntegerWithMessage value="#{item.serviceCost}" />
