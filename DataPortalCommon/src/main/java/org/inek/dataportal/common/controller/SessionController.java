@@ -131,6 +131,7 @@ public class SessionController implements Serializable {
             }
         }
     }
+
     public boolean isHospital() {
         // we had unexpecte null access here.
         // let's do some logging and redirect the user to an error view
@@ -266,7 +267,7 @@ public class SessionController implements Serializable {
         if (url.isEmpty()) {
             return;
         }
-        url = url + "?token=" + getToken() + "&portal=" + portalType.name() ;
+        url = url + "?token=" + getToken() + "&portal=" + portalType.name();
         performLogout("");
         try {
             FacesContext.getCurrentInstance().getExternalContext().redirect(url);
@@ -283,7 +284,6 @@ public class SessionController implements Serializable {
         return url;
     }
 
-    
     public String getToken() {
         // todo: retrieve service address from a common place, e.g. database
         String address = "http://vubuntu01:9999/AccountService/api/account/id/{0}".replace("{0}", "" + getAccountId());
@@ -409,41 +409,49 @@ public class SessionController implements Serializable {
             return;
         }
         Map<Integer, Feature> features = new TreeMap<>();
-        boolean hasMaintenance = false;
-        boolean hasDocument = false;
-        boolean hasCooperation = false;
 
         addAdminIfNeeded();
-        
+
+        _account = addFeatureIfMissing(_account, Feature.USER_MAINTENANCE);
+        _account = addFeatureIfMissing(_account, Feature.DOCUMENTS);
+        if (_coopFacade.getOpenCooperationRequestCount(_account.getId()) > 0) {
+            _account = addFeatureIfMissing(_account, Feature.COOPERATION);
+        }
+
         List<AccountFeature> accountFatures = _account.getFeatures();
         for (AccountFeature accFeature : accountFatures) {
             Feature feature = accFeature.getFeature();
-            if (feature.getPortalType() != PortalType.COMMON && feature.getPortalType() != _portalType) {
-                continue;
+            if (feature.getPortalType() == _portalType
+                    || feature.getPortalType() == PortalType.COMMON && (_portalType == PortalType.DRG || _portalType == PortalType.PSY)) {
+                if (featureIsValid(accFeature)) {
+                    features.put(accFeature.getSequence(), feature);
+                }
             }
-            hasMaintenance |= feature == Feature.USER_MAINTENANCE;
-            hasDocument |= feature == Feature.DOCUMENTS;
-            hasCooperation |= feature == Feature.COOPERATION;
-            if (featureIsValid(accFeature)) {
-                features.put(accFeature.getSequence(), feature);
-            }
-        }
-        if (!hasMaintenance) {
-            _featureControllers.add(Feature.USER_MAINTENANCE, this);
-        }
-        if (!hasDocument) {
-            _featureControllers.add(Feature.DOCUMENTS, this);
-            persistFeature(Feature.DOCUMENTS);
         }
         if (_portalType != PortalType.ADMIN) {
-            if (!hasCooperation && _coopFacade.getOpenCooperationRequestCount(_account.getId()) > 0) {
-                _featureControllers.add(Feature.COOPERATION, this);
-                persistFeature(Feature.COOPERATION);
-            }
             for (Feature f : features.values()) {
                 _featureControllers.add(f, this);
             }
         }
+    }
+
+    private Account addFeatureIfMissing(Account account, Feature feature) {
+        boolean featureExists = account.getFeatures().stream().anyMatch(f -> f.getFeature() == feature);
+        if (featureExists) {
+            return account;
+        }
+        return addFeature(account, feature);
+    }
+
+    private Account addFeature(Account account, Feature feature) {
+        AccountFeature accFeature = new AccountFeature();
+        accFeature.setFeature(feature);
+        FeatureState state = feature.needsApproval() ? FeatureState.NEW : FeatureState.SIMPLE;
+        accFeature.setFeatureState(state);
+        accFeature.setSequence(account.getFeatures().size());
+        account.getFeatures().add(accFeature);
+        return _accountFacade.updateAccount(account);
+
     }
 
     private void addAdminIfNeeded() {
@@ -461,23 +469,6 @@ public class SessionController implements Serializable {
         return _appTools.isFeatureEnabled(feature)
                 && (accFeature.getFeatureState() == FeatureState.SIMPLE
                 || accFeature.getFeatureState() == FeatureState.APPROVED);
-    }
-
-    private void persistFeature(Feature feature) {
-        AccountFeature doc = createAccountFeature(feature);
-        List<AccountFeature> afs = _account.getFeatures();
-        afs.add(doc);
-        _account.setFeatures(afs);
-        _account = _accountFacade.updateAccount(_account);
-    }
-
-    private AccountFeature createAccountFeature(Feature feature) {
-        AccountFeature accFeature = new AccountFeature();
-        accFeature.setFeature(feature);
-        FeatureState state = FeatureState.NEW;
-        accFeature.setFeatureState(state);
-        accFeature.setSequence(_account.getFeatures().size());
-        return accFeature;
     }
 
     public void saveAccount() {
@@ -556,7 +547,6 @@ public class SessionController implements Serializable {
     public int countInstalledFeatures() {
         return _featureControllers.getFeatureCount();
     }
-
 
     public String getIkName(Integer ik) {
         if (ik == null || ik == 0) {
