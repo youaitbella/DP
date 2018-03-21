@@ -58,7 +58,7 @@ public class SessionController implements Serializable {
     @Inject private CooperationRequestFacade _coopFacade;
     @Inject private ApplicationTools _appTools;
     @Inject private CustomerFacade _customerFacade;
-    @Inject private transient FeatureHolder _featureControllers;
+    @Inject private transient FeatureHolder _featureHolder;
 
     public ApplicationTools getApplicationTools() {
         return _appTools;
@@ -74,19 +74,19 @@ public class SessionController implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     public List<Topic> getTopics() {
-        return _featureControllers.getTopics();
+        return _featureHolder.getTopics();
     }
 
     public String getCurrentTopic() {
-        return _featureControllers.getCurrentTopic();
+        return _featureHolder.getCurrentTopic();
     }
 
     public void setCurrentTopic(String currentTopic) {
-        _featureControllers.setCurrentTopic(currentTopic);
+        _featureHolder.setCurrentTopic(currentTopic);
     }
 
     public void clearCurrentTopic() {
-        _featureControllers.clearCurrentTopic();
+        _featureHolder.clearCurrentTopic();
     }
 
     public Account getAccount() {
@@ -171,7 +171,7 @@ public class SessionController implements Serializable {
     }
 
     public void setCurrentTopicByUrl(String url) {
-        _featureControllers.setCurrentTopicByUrl(url);
+        _featureHolder.setCurrentTopicByUrl(url);
     }
 
     public String logout() {
@@ -183,7 +183,7 @@ public class SessionController implements Serializable {
         if (_account != null) {
             FeatureScopedContextHolder.Instance.destroyAllBeans();
             logMessage(message);
-            _featureControllers.clear();
+            _featureHolder.clear();
             _account = null;
             _portalType = PortalType.COMMON;
         }
@@ -323,7 +323,7 @@ public class SessionController implements Serializable {
         _account = _accountFacade.findAccount(id);
         if (_account == null) {
             logMessage("Login by token failed: " + loginInfo);
-            _featureControllers.clear();
+            _featureHolder.clear();
         } else {
             logMessage("Login by token successful: " + loginInfo);
             initFeatures();
@@ -392,7 +392,7 @@ public class SessionController implements Serializable {
     }
 
     private void initFeatures() {
-        _featureControllers.clear();
+        _featureHolder.clear();
         if (_account == null) {
             return;
         }
@@ -409,9 +409,9 @@ public class SessionController implements Serializable {
                 .forEach(accFeature -> {
                     Feature feature = accFeature.getFeature();
                     if (belongsToCurrentPortal(feature)) {
-                        _featureControllers.add(feature, this);
+                        _featureHolder.add(feature, this);
                     } else {
-                        _featureControllers.addIfMissing(feature.getPortalType());
+                        _featureHolder.addIfMissing(feature.getPortalType());
                     }
 
                 });
@@ -452,10 +452,10 @@ public class SessionController implements Serializable {
 
     private void addAdminIfNeeded() {
         if (_portalType == PortalType.ADMIN && isInekUser(Feature.ADMIN)) {
-            _featureControllers.add(Feature.ADMIN, this);
+            _featureHolder.add(Feature.ADMIN, this);
         }
         if ((_portalType == PortalType.DRG || _portalType == PortalType.PSY) && _account.getAdminIks().size() > 0) {
-            _featureControllers.add(Feature.IK_ADMIN, this);
+            _featureHolder.add(Feature.IK_ADMIN, this);
         }
     }
 
@@ -522,15 +522,15 @@ public class SessionController implements Serializable {
     }
 
     public List<String> getParts() {
-        return _featureControllers.getParts();
+        return _featureHolder.getParts();
     }
 
     public IFeatureController getFeatureController(Feature feature) {
-        return _featureControllers.getFeatureController(feature);
+        return _featureHolder.getFeatureController(feature);
     }
 
     public int countInstalledFeatures() {
-        return _featureControllers.getFeatureCount();
+        return _featureHolder.getFeatureCount();
     }
 
     public String getIkName(Integer ik) {
