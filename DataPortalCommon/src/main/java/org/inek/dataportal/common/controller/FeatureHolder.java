@@ -11,17 +11,21 @@ import javax.inject.Inject;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.enums.PortalType;
+import org.inek.dataportal.common.helper.Topic;
+import org.inek.dataportal.common.helper.Topics;
 
 /**
  *
  * @author muellermi
  */
 @Dependent
-public class FeatureControllers {
+public class FeatureHolder {
 
     @Inject private FeatureFactory _featureFactory;
     private final Map<String, IFeatureController> _featureControllers = new Hashtable<>();
-    private final Set<PortalType> portalTypes = new HashSet<>();
+    private final Set<PortalType> _portalTypes = new HashSet<>();
+    private final Topics _topics = new Topics();
+    private String _currentTopic = "";
 
     public void initFeatures(Account account, PortalType portaltype) {
 
@@ -29,12 +33,14 @@ public class FeatureControllers {
 
     public void clear() {
         _featureControllers.clear();
-        portalTypes.clear();
+        _portalTypes.clear();
+        _topics.clear();
     }
 
     public void add(Feature feature, SessionController sessionController) {
         IFeatureController controller = _featureFactory.createController(feature, sessionController);
         _featureControllers.put(feature.name(), controller);
+        _topics.addTopics(controller.getTopics());
     }
 
     public Iterable<IFeatureController> getFeatureControllers() {
@@ -79,7 +85,33 @@ public class FeatureControllers {
     }
 
     void addIfMissing(PortalType portalType) {
-        portalTypes.add(portalType);
+        _portalTypes.add(portalType);
+    }
+
+    public List<Topic> getTopics() {
+        return _topics.getTopics();
+    }
+
+    public String getCurrentTopic() {
+        return _topics.getActiveTopic().getKey();
+    }
+
+    public void setCurrentTopic(String currentTopic) {
+        _topics.setActive(currentTopic);
+
+    }
+
+    public void clearCurrentTopic() {
+        _topics.setAllInactive();
+    }
+
+    public void setCurrentTopicByUrl(String url) {
+        Topic topic = _topics.findTopicByOutcome(url);
+        if (topic.getKey() == null) {
+            clearCurrentTopic();
+        } else {
+            setCurrentTopic(topic.getKey());
+        }
     }
 
 }

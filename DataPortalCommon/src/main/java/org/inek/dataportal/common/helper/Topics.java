@@ -41,7 +41,7 @@ public class Topics implements Serializable {
      * @param topics the _topics to set
      */
     public void setTopics(List<Topic> topics) {
-        this._topics = topics;
+        _topics = topics;
     }
 
     // </editor-fold>

@@ -7,9 +7,7 @@ import static java.net.HttpURLConnection.HTTP_OK;
 import java.net.URL;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -39,7 +37,6 @@ import org.inek.dataportal.common.enums.Stage;
 import org.inek.dataportal.common.helper.NotLoggedInException;
 import org.inek.dataportal.common.helper.StreamHelper;
 import org.inek.dataportal.common.helper.Topic;
-import org.inek.dataportal.common.helper.Topics;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.mail.Mailer;
 import org.inek.dataportal.common.scope.FeatureScopedContextHolder;
@@ -61,7 +58,7 @@ public class SessionController implements Serializable {
     @Inject private CooperationRequestFacade _coopFacade;
     @Inject private ApplicationTools _appTools;
     @Inject private CustomerFacade _customerFacade;
-    @Inject private transient FeatureControllers _featureControllers;
+    @Inject private transient FeatureHolder _featureControllers;
 
     public ApplicationTools getApplicationTools() {
         return _appTools;
@@ -74,30 +71,22 @@ public class SessionController implements Serializable {
     }
 
     private Account _account;
-    private final Topics _topics = new Topics();
-    private String _currentTopic = "";
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     public List<Topic> getTopics() {
-        return _topics.getTopics();
-    }
-
-    public void setTopics(List<Topic> topics) {
-        _topics.setTopics(topics);
+        return _featureControllers.getTopics();
     }
 
     public String getCurrentTopic() {
-        return _currentTopic;
+        return _featureControllers.getCurrentTopic();
     }
 
     public void setCurrentTopic(String currentTopic) {
-        _currentTopic = currentTopic;
-        _topics.setActive(_currentTopic);
+        _featureControllers.setCurrentTopic(currentTopic);
     }
 
     public void clearCurrentTopic() {
-        _currentTopic = "";
-        _topics.setAllInactive();
+        _featureControllers.clearCurrentTopic();
     }
 
     public Account getAccount() {
@@ -189,12 +178,7 @@ public class SessionController implements Serializable {
     }
 
     public void setCurrentTopicByUrl(String url) {
-        Topic topic = _topics.findTopicByOutcome(url);
-        if (topic.getKey() == null) {
-            clearCurrentTopic();
-        } else {
-            setCurrentTopic(topic.getKey());
-        }
+        _featureControllers.setCurrentTopicByUrl(url);
     }
 
     public String logout() {
@@ -206,7 +190,6 @@ public class SessionController implements Serializable {
         if (_account != null) {
             FeatureScopedContextHolder.Instance.destroyAllBeans();
             logMessage(message);
-            _topics.clear();
             _featureControllers.clear();
             _account = null;
             _portalType = PortalType.COMMON;
@@ -334,19 +317,18 @@ public class SessionController implements Serializable {
         _account = _accountFacade.findAccount(id);
         if (_account == null) {
             logMessage("Login by token failed: " + loginInfo);
+            _featureControllers.clear();
         } else {
             logMessage("Login by token successful: " + loginInfo);
             initFeatures();
         }
 
-        setTopics();
         return _account != null;
     }
 
     public boolean loginAndSetTopics(String mailOrUser, String password, PortalType portalType) {
         _portalType = portalType;
         login(mailOrUser, password);
-        setTopics();
         return _account != null;
     }
 
@@ -481,21 +463,10 @@ public class SessionController implements Serializable {
     public void saveAccount() {
         _account = _accountFacade.updateAccount(_account);
         initFeatures();
-        setTopics();
     }
 
     public void deleteAccount() {
         _accountFacade.deleteAccount(_account);
-    }
-
-    private void setTopics() {
-        _topics.clear();
-        if (!isLoggedIn()) {
-            return;
-        }
-        for (IFeatureController feature : _featureControllers.getFeatureControllers()) {
-            _topics.addTopics(feature.getTopics());
-        }
     }
 
     public String getUser() {
@@ -768,7 +739,6 @@ public class SessionController implements Serializable {
     public String navigateToPortal(PortalType portalType) {
         _portalType = portalType;
         initFeatures();
-        setTopics();
         return navigate(Pages.MainApp.URL());
     }
 
