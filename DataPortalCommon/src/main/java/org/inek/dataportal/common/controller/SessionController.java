@@ -419,15 +419,19 @@ public class SessionController implements Serializable {
                 .sorted((f1, f2) -> f1.getSequence() - f2.getSequence())
                 .forEach(accFeature -> {
                     Feature feature = accFeature.getFeature();
-                    if (feature.getPortalType() == _portalType
-                            || feature.getPortalType() == PortalType.COMMON && (_portalType == PortalType.DRG || _portalType == PortalType.PSY)) {
+                    if (belongsToCurrentPortal(feature)) {
                         _featureControllers.add(feature, this);
                     } else {
-
+                        _featureControllers.addIfMissing(feature.getPortalType());
                     }
 
                 });
 
+    }
+
+    private boolean belongsToCurrentPortal(Feature feature) {
+        return feature.getPortalType() == _portalType
+                || feature.getPortalType() == PortalType.COMMON && (_portalType == PortalType.DRG || _portalType == PortalType.PSY);
     }
 
     private void addMissingFeatures() {
