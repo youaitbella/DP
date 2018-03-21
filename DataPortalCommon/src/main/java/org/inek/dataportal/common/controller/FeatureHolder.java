@@ -85,7 +85,11 @@ public class FeatureHolder {
     }
 
     void addIfMissing(PortalType portalType) {
+        if (_portalTypes.contains(portalType)){
+            return;
+        }
         _portalTypes.add(portalType);
+        _topics.addTopic(portalType.getDisplayName(), portalType.name());
     }
 
     public List<Topic> getTopics() {

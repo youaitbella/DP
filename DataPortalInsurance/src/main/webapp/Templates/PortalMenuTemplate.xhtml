@@ -51,14 +51,6 @@
             </li>
         </c:if>
 
-        <c:if test="#{sessionController.isInekUser('ADMIN')}">
-            <li>
-                <h:commandLink value="DRG Portal" 
-                               actionListener="#{sessionController.changePortal('DRG')}"
-                               immediate="true">
-                </h:commandLink>
-            </li>
-        </c:if>
     </ui:define>
 
 

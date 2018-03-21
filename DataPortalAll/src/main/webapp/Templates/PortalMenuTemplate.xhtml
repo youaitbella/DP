@@ -45,33 +45,15 @@
 
         <ui:insert name="navItems"></ui:insert>
 
-        <c:if test="#{sessionController.loggedIn}">
-            <li class="#{empty(sessionController.currentTopic) ? 'activemenu' : 'menu'}">
-                <h:commandLink value="#{msg.lblSummary}" action="#{sessionController.navigate(sessionTools.pages.MainApp)}"/>
-            </li>
-            <li>
-                <h:commandLink value="Zum #{sessionController.targetType} Portal" action="#{sessionController.switchPortalType()}"/>
-            </li>
-        </c:if>
-
         <c:if test="#{sessionController.isInekUser('ADMIN')}">
             <li>
                 <h:commandLink value="Admin Portal" 
-                               actionListener="#{sessionController.changePortal('ADMIN')}"
+                               action="#{sessionController.changePortal('ADMIN')}"
                                immediate="true">
                 </h:commandLink>
             </li>
         </c:if>
         
-        <!-- just for testing insurance module -->
-        <c:if test="#{sessionController.isInekUser('ADMIN')}">
-            <li>
-                <h:commandLink value="Krankenkassen Portal" 
-                               actionListener="#{sessionController.changePortal('INSURANCE')}"
-                               immediate="true">
-                </h:commandLink>
-            </li>
-        </c:if>
     </ui:define>
 
 

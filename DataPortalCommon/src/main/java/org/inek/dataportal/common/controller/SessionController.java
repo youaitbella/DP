@@ -170,13 +170,6 @@ public class SessionController implements Serializable {
         FeatureScopedContextHolder.Instance.destroyAllBeans();
     }
 
-    public String navigate(String url) {
-        logMessage("Navigate: URL=" + url);
-        setCurrentTopicByUrl(url);
-        FeatureScopedContextHolder.Instance.destroyAllBeans();
-        return url + "?faces-redirect=true";
-    }
-
     public void setCurrentTopicByUrl(String url) {
         _featureControllers.setCurrentTopicByUrl(url);
     }
@@ -243,6 +236,19 @@ public class SessionController implements Serializable {
     @Deprecated
     public boolean loginAndSetTopics(String mailOrUser, String password) {
         return loginAndSetTopics(mailOrUser, password, _portalType);
+    }
+
+    public String navigate(String url) {
+        try {
+            PortalType portalType = PortalType.valueOf(url);
+            changePortal(portalType);
+            return "";
+        } catch (IllegalArgumentException ex) {
+            logMessage("Navigate: URL=" + url);
+            setCurrentTopicByUrl(url);
+            FeatureScopedContextHolder.Instance.destroyAllBeans();
+            return url + "?faces-redirect=true";
+        }
     }
 
     public void changePortal(PortalType portalType) {
@@ -398,7 +404,8 @@ public class SessionController implements Serializable {
         accountFatures
                 .stream()
                 .filter(f -> featureIsValid(f))
-                .sorted((f1, f2) -> f1.getSequence() - f2.getSequence())
+                .sorted((f1, f2) -> f1.getSequence() + (belongsToCurrentPortal(f1.getFeature()) ? 0 : 100) 
+                        - f2.getSequence() - (belongsToCurrentPortal(f2.getFeature()) ? 0 : 100))
                 .forEach(accFeature -> {
                     Feature feature = accFeature.getFeature();
                     if (belongsToCurrentPortal(feature)) {
