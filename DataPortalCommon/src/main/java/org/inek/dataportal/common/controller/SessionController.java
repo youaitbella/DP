@@ -408,30 +408,33 @@ public class SessionController implements Serializable {
         if (_account == null) {
             return;
         }
-        Map<Integer, Feature> features = new TreeMap<>();
 
         addAdminIfNeeded();
+        addMissingFeatures();
 
+        List<AccountFeature> accountFatures = _account.getFeatures();
+        accountFatures
+                .stream()
+                .filter(f -> featureIsValid(f))
+                .sorted((f1, f2) -> f1.getSequence() - f2.getSequence())
+                .forEach(accFeature -> {
+                    Feature feature = accFeature.getFeature();
+                    if (feature.getPortalType() == _portalType
+                            || feature.getPortalType() == PortalType.COMMON && (_portalType == PortalType.DRG || _portalType == PortalType.PSY)) {
+                        _featureControllers.add(feature, this);
+                    } else {
+
+                    }
+
+                });
+
+    }
+
+    private void addMissingFeatures() {
         _account = addFeatureIfMissing(_account, Feature.USER_MAINTENANCE);
         _account = addFeatureIfMissing(_account, Feature.DOCUMENTS);
         if (_coopFacade.getOpenCooperationRequestCount(_account.getId()) > 0) {
             _account = addFeatureIfMissing(_account, Feature.COOPERATION);
-        }
-
-        List<AccountFeature> accountFatures = _account.getFeatures();
-        for (AccountFeature accFeature : accountFatures) {
-            Feature feature = accFeature.getFeature();
-            if (feature.getPortalType() == _portalType
-                    || feature.getPortalType() == PortalType.COMMON && (_portalType == PortalType.DRG || _portalType == PortalType.PSY)) {
-                if (featureIsValid(accFeature)) {
-                    features.put(accFeature.getSequence(), feature);
-                }
-            }
-        }
-        if (_portalType != PortalType.ADMIN) {
-            for (Feature f : features.values()) {
-                _featureControllers.add(f, this);
-            }
         }
     }
 
