@@ -24,7 +24,6 @@ import org.inek.dataportal.feature.maintenance.UserMaintenanceController;
 import org.inek.dataportal.feature.modelintention.ModelIntentionController;
 import org.inek.dataportal.feature.nub.NubController;
 import org.inek.dataportal.feature.peppproposal.PeppProposalController;
-import org.inek.dataportal.feature.certification.CertController;
 import org.inek.dataportal.feature.drgproposal.DrgProposalController;
 import org.inek.dataportal.feature.ikadmin.controller.IkAdminController;
 import org.inek.dataportal.feature.valuationratio.ValuationRatioController;
@@ -61,8 +60,6 @@ public class FeatureFactoryImpl implements FeatureFactory, Serializable {
                 return new ModelIntentionController(sessionController);
             case DOCUMENTS:
                 return new DocumentsController(sessionController);
-            case CERT:
-                return new CertController(sessionController);
             case AGENCY:
                 return new AgencyController(sessionController);
             case CALCULATION_HOSPITAL:

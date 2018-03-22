@@ -1,0 +1,185 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <f:view locale="#{sessionTools.language}">
+
+        <f:metadata>
+            <ui:insert name="metaData">metaData</ui:insert>
+            <f:phaseListener type="org.inek.dataportal.common.overall.LifeCycleListener"/>
+        </f:metadata>
+
+        <h:head>
+            <title>#{msg.lblApplicationName} #{request.serverName.contains('daten.inek.org') ? '' : request.serverName}</title>
+            <link rel="shortcut icon" type="image/x-icon" href="#{request.contextPath}/javax.faces.resource/Icon/small/InEK.ico.xhtml"/>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <meta name="msapplication-config" content="none"/>        
+            <ui:remove>
+                <!-- 
+                Do not load the JSF AJAX library, although it might be needed for direct access.
+                JSF will load it independently from the following statement, if AJAX is used.
+                Thus, this lib would be loaded twice.
+                Instead insert a dummy AJAX access by JSF to ensure the library being loaded.
+                JSF will load only once.
+                -->
+                <h:outputScript name="jsf.js" library="javax.faces"/>
+
+                <!-- 
+                Do not use resources the JSF way, because they would be cached, although a new version might be provided.
+                Use standrd html tags combined with a version. This ensures a reload after each compile/deployment cycls
+                -->
+                <h:outputStylesheet name="css/dataportal.css"/>
+                <h:outputScript name="script/clientutils.js"/>
+            </ui:remove>
+            <h:outputScript name="script/jquery-3.1.1.min.js"/>
+            <link type="text/css" rel="stylesheet" href="#{request.contextPath}/javax.faces.resource/css/bootstrap.css.xhtml?version=#{applicationTools.version}" />
+            <link type="text/css" rel="stylesheet" href="#{request.contextPath}/javax.faces.resource/css/#{sessionController.css}.xhtml?version=#{applicationTools.version}" />
+            <script type="text/javascript" src="#{request.contextPath}/javax.faces.resource/script/bootstrap.min.js.xhtml?version=#{applicationTools.version}"></script>
+            <script type="text/javascript" src="#{request.contextPath}/javax.faces.resource/script/clientutils.js.xhtml?version=#{applicationTools.version}"></script>
+        </h:head>
+
+        <h:body>
+
+            <h:inputText value="" styleClass="hide"><f:ajax/></h:inputText> <!-- dummy to ensure jsf.js -->
+            <div class="noPrint warningWide" jsf:rendered="#{sessionController.elderInternetExplorer}">
+                <h5>
+                    Ihr Browser wurde als ältere Version des Internet-Explorers erkannt.
+                    Bekanntermaßen kann dies (insbesondere bei Versionen kleiner 9) zu unerwarteten Fehlern ("Abstürzen") führen.
+                    Empfehlung: Aktualisieren Sie Ihren Internet Explorer (mind. Version 11) oder nutzen Sie einen anderen modernen Browser.
+                    Bitte beachten Sie die entsprechenden Hinweise im Handbuch.
+                </h5>
+            </div>
+            <div id="wrapper">
+                <div id="top">
+                    <div class="left">
+                        <h:outputLink value="http://g-drg.de/">
+                            <h:graphicImage alt="Logo InEK GmbH" name="Image/InEK_transparent.png"/>
+                        </h:outputLink>
+                    </div>
+                    <div class="right">
+                        <div id="globalLinks">
+                            <ul>
+                                <li class="firstelement"><a href="http://g-drg.de/cms" title="zur Startseite wechseln">Home</a></li>
+                                <li class="lastelement"><a href="http://g-drg.de/cms/Impressum" title="zum Impressum wechseln">#{msg.lblImprint}</a></li>
+                            </ul>
+                            <ui:insert name="userInfo">userInfo</ui:insert>
+                        </div>
+                        <div class ="head inlineBlock">
+                            #{msg.lblApplicationName}
+                        </div>
+                        <h:dataTable value="#{announcementBean.announcements.stream().filter(a->a.warning).toList()}" var="a" styleClass="warningWide inlineBlock"
+                                     rendered="#{announcementBean.announcements.stream().filter(a->a.warning).toList().size() gt 0}">
+                            <h:column>
+                                <h:outputText value="#{a.text}"/>
+                            </h:column>
+                        </h:dataTable>
+
+                        <h:form>
+                            <div class="highlight">
+                                #{msg.lblInstitutionName}
+
+                                <span class="small">
+                                    <h:commandLink value="en" action="#{sessionTools.putLanguage('en')}" immediate="true" styleClass="marginLeft" style="color: slategray"/>
+                                    <h:commandLink value="de" action="#{sessionTools.putLanguage('de')}" immediate="true" styleClass="marginLeft" style="color: slategray"/>
+                                    v#{applicationTools.version}
+                                </span>
+                            </div>
+                        </h:form>
+                    </div>
+                </div>
+                <div class="defloat"></div>
+
+                <div id="content">
+                    <div id="menu" class="navi" role="navigation">
+                        <h:form id="nav">
+                            <ul>
+                                <ui:insert name="menuList">menuList</ui:insert>
+                                <li>
+                                    <a href="/DataPortal/resources/manual/#{sessionController.manual}" target="blank"  title="#{msg.titleManual}">#{msg.lblUserManual}</a>
+                                </li>
+                            </ul>
+                        </h:form>
+
+                        <h:dataTable value="#{announcementBean.announcements.stream().filter(a->!a.warning).toList()}" var="a" styleClass="hint"
+                                     rendered="#{announcementBean.announcements.stream().filter(a->!a.warning).toList().size() gt 0}">
+                            <h:column>
+                                <h:outputText value="#{a.text}"/>
+                            </h:column>
+                        </h:dataTable>
+
+                    </div>
+
+
+                    <div class="right">
+                        <noscript>
+                            <h3 class="warningWide">#{msg.msgEnableScript}</h3>
+                        </noscript>
+                        <h:form id="browsertest" rendered="false">
+                            <div jsf:rendered="#{!sessionController.testPerformed}">
+                                <script>
+                                    function test() {
+                                        document.getElementById('browsertest:testclick').click();
+                                    }
+                                    addOnLoadFunction(test);
+                                </script>
+                                <h:commandLink id="testclick" action="#{sessionController.testClick}" immediate="true" value="testclick" style="display: none"/>
+                            </div>
+                            <div jsf:rendered="#{sessionController.testPerformed and !sessionController.clickable}">
+                                <h3 class="warningWide">Ihr Browser unterstützt nicht alle erforderlichen Funktionen. Bitte lesen Sie das Handbuch, Abschnitt "getestete Browser".</h3>
+                            </div>
+                        </h:form>
+                        <ui:insert name="mainContent">mainContent</ui:insert>
+                    </div>
+                    <div class="defloat"></div>
+                </div>
+                <h:form>
+                    <div id="footer">
+                        © #{msg.lblInstitutionName} 2010 - #{sessionTools.currentYear} | #{msg.lblRequiredHint}. 
+                    </div>
+                </h:form>
+                <ui:insert name="bottom">bottom</ui:insert>
+            </div>
+            <h:form id="script">
+                <script type="text/javascript">
+                    #{sessionController.script}
+
+<!-- prevent browser back button -->
+                    history.pushState(null, null, document.URL);
+                    window.addEventListener('popstate', function () {
+                        history.pushState(null, null, document.URL);
+                    });
+                </script>
+            </h:form>
+
+            <ui:remove>
+                <script type="text/javascript">
+                    $(function () {
+                        $('.title-placeholder').each(function (k, v) {
+                            $(v).attr('placeholder', $(v).attr('title'));
+                        });
+                    });
+                    </script>
+                </ui:remove>
+                <!-- Piwik ->
+                <script type="text/javascript">
+                  var _paq = _paq || [];
+                  _paq.push(["setDomains", ["*.daten.inek.org"]]);
+                  _paq.push(['trackPageView']);
+                  _paq.push(['enableLinkTracking']);
+                  (function() {
+                    var u="http://services.g-drg.de/piwik/";
+                    _paq.push(['setTrackerUrl', u+'piwik.php']);
+                    _paq.push(['setSiteId', 6]);
+                    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+                    g.type='text/javascript'; g.async=true; g.defer=true; g.src='# {request.contextPath}/javax.faces.resource/script/piwik.js.xhtml'; s.parentNode.insertBefore(g,s);
+                  })();
+                </script>
+                <noscript><p><img src="http://services.g-drg.de/piwik/piwik.php?idsite=6" style="border:0;" alt="" /></p></noscript>
+                <!- End Piwik Code -->
+            </h:body>
+        </f:view>
+    </html>
