@@ -41,7 +41,7 @@ import org.inek.dataportal.entities.calc.psy.KGPListTherapy;
 import org.inek.dataportal.entities.calc.psy.KGPPersonalAccounting;
 import org.inek.dataportal.entities.calc.psy.KgpListMedInfra;
 import org.inek.dataportal.entities.calc.psy.PeppCalcBasics;
-import org.inek.dataportal.entities.iface.BaseIdValue;
+import org.inek.dataportal.common.data.iface.BaseIdValue;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.enums.Pages;
@@ -49,13 +49,12 @@ import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.facades.calc.CalcPsyFacade;
 import org.inek.dataportal.common.controller.AbstractEditController;
 import org.inek.dataportal.common.helper.ObjectUtils;
-import org.inek.dataportal.common.helper.TransferFileCreator;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.helper.structures.FieldValues;
 import org.inek.dataportal.helper.structures.MessageContainer;
 import org.inek.dataportal.common.utils.DocumentationUtil;
+import org.inek.dataportal.common.utils.ValueLists;
 import org.inek.dataportal.helper.CalcBasicsTransferFileCreator;
-import org.inek.dataportal.utils.ValueLists;
 
 @Named
 @ViewScoped

@@ -20,7 +20,7 @@ import javax.ws.rs.core.MediaType;
 @Path("account")
 public class AccountREST {
 
-    private static final long VALID_TIME = 2000;
+    public static final long VALID_TIME = 5000;
     private static final Map<String, AccountInfo> ACCOUNT_INFOS = new ConcurrentHashMap<>();
 
     @GET

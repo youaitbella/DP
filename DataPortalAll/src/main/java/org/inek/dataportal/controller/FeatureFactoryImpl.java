@@ -12,7 +12,6 @@ import org.inek.dataportal.common.controller.IFeatureController;
 import org.inek.dataportal.common.enums.Feature;
 import static org.inek.dataportal.common.enums.Feature.DROPBOX;
 import static org.inek.dataportal.common.enums.Feature.NUB;
-import static org.inek.dataportal.common.enums.Feature.PEPP_PROPOSAL;
 import static org.inek.dataportal.common.enums.Feature.USER_MAINTENANCE;
 import org.inek.dataportal.feature.additionalcost.AdditionalCostController;
 import org.inek.dataportal.feature.agency.AgencyController;
@@ -21,13 +20,10 @@ import org.inek.dataportal.feature.cooperation.CooperationController;
 import org.inek.dataportal.feature.documents.DocumentsController;
 import org.inek.dataportal.feature.dropbox.DropBoxController;
 import org.inek.dataportal.feature.maintenance.UserMaintenanceController;
-import org.inek.dataportal.feature.modelintention.ModelIntentionController;
 import org.inek.dataportal.feature.nub.NubController;
-import org.inek.dataportal.feature.peppproposal.PeppProposalController;
 import org.inek.dataportal.feature.drgproposal.DrgProposalController;
 import org.inek.dataportal.feature.ikadmin.controller.IkAdminController;
 import org.inek.dataportal.feature.valuationratio.ValuationRatioController;
-import org.inek.dataportal.feature.psychstaff.controller.PsychStaffController;
 import org.inek.dataportal.feature.requestsystem.controller.RequestSystemController;
 import org.inek.dataportal.feature.specificfunction.controller.SpecificFunctionController;
 
@@ -48,16 +44,12 @@ public class FeatureFactoryImpl implements FeatureFactory, Serializable {
                 return new UserMaintenanceController(sessionController);
             case NUB:
                 return new NubController(sessionController);
-            case PEPP_PROPOSAL:
-                return new PeppProposalController(sessionController);
             case DRG_PROPOSAL:
                 return new DrgProposalController(sessionController);
             case DROPBOX:
                 return new DropBoxController(sessionController);
             case COOPERATION:
                 return new CooperationController(sessionController);
-            case MODEL_INTENTION:
-                return new ModelIntentionController(sessionController);
             case DOCUMENTS:
                 return new DocumentsController(sessionController);
             case AGENCY:
@@ -68,8 +60,6 @@ public class FeatureFactoryImpl implements FeatureFactory, Serializable {
                 return new SpecificFunctionController(sessionController);
             case ADDITIONAL_COST:
                 return new AdditionalCostController(sessionController);
-            case PSYCH_STAFF:
-                return new PsychStaffController(sessionController);
             case VALUATION_RATIO:
                 return new ValuationRatioController(sessionController);
             case REQUEST_SYSTEM:

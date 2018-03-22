@@ -21,7 +21,7 @@ import org.inek.dataportal.feature.specificfunction.entity.SpecificFunctionAgree
 import org.inek.dataportal.feature.specificfunction.facade.SpecificFunctionFacade;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.helper.tree.SpecificFunctionAgreementTreeNode;
-import org.inek.dataportal.helper.tree.entityTree.AccountTreeNode;
+import org.inek.dataportal.common.tree.entityTree.AccountTreeNode;
 import org.inek.dataportal.common.tree.TreeNode;
 import org.inek.dataportal.common.tree.TreeNodeObserver;
 import org.inek.dataportal.common.tree.YearTreeNode;

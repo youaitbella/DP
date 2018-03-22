@@ -16,8 +16,7 @@ import javax.persistence.Table;
 import javax.persistence.Version;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import org.inek.dataportal.cert.RemunSystem;
-
+import org.inek.dataportal.common.enums.RemunSystem;
 
 /**
  *

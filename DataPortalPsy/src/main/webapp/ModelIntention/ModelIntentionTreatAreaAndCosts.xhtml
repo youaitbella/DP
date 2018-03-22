@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="ModelIntention.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common"
+                >
+
+    <ui:define name="editContent">
+        <h:form id="form">
+            
+            <input id="focusTop" class="hide" autofocus="autofocus" />
+            
+            <h2>#{msg.headerModelIntentionTreatAreaAndCosts}</h2>
+                   
+            <inek:LabeledSelectAndText id="inpatientTreatmentText" 
+                                       label="#{msg.lblInpatientTreatment}" 
+                                       selectElement="#{editModelIntention.modelIntention.inpatientTreatmentType}"
+                                       selectItems="#{modelIntentionLists.treatmentTypes}"
+                                       value="#{editModelIntention.modelIntention.inpatientTreatmentText}"
+                                       readonly="#{editModelIntention.readOnly}"
+                                       />
+            
+            <inek:LabeledSelectAndText id="dayPatientTreatmentText" 
+                                       label="#{msg.lblDayPatientTreatment}" 
+                                       selectElement="#{editModelIntention.modelIntention.dayPatientTreatmentType}"
+                                       selectItems="#{modelIntentionLists.treatmentTypes}"
+                                       value="#{editModelIntention.modelIntention.dayPatientTreatmentText}"
+                                       readonly="#{editModelIntention.readOnly}"
+                                       />
+            
+            <inek:LabeledSelectAndText id="inpatientCompensationTreatmentText" 
+                                       label="#{msg.lblInpatientCompensationTreatment}" 
+                                       selectElement="#{editModelIntention.modelIntention.inpatientCompensationTreatmentType}"
+                                       selectItems="#{modelIntentionLists.treatmentTypes}"
+                                       value="#{editModelIntention.modelIntention.inpatientCompensationTreatmentText}"
+                                       readonly="#{editModelIntention.readOnly}"
+                                       />
+            
+            <inek:LabeledSelectAndText id="inpatientCompensationHomeTreatmentText" 
+                                       label="#{msg.lblInpatientCompensationHomeTreatment}" 
+                                       selectElement="#{editModelIntention.modelIntention.inpatientCompensationHomeTreatmentType}"
+                                       selectItems="#{modelIntentionLists.treatmentTypes}"
+                                       value="#{editModelIntention.modelIntention.inpatientCompensationHomeTreatmentText}"
+                                       readonly="#{editModelIntention.readOnly}"
+                                       />
+            
+            <inek:LabeledSelectAndText id="outpatientTreatmentText" 
+                                       label="#{msg.lblOutpatientTreatment}" 
+                                       selectElement="#{editModelIntention.modelIntention.outpatientTreatmentType}"
+                                       selectItems="#{modelIntentionLists.treatmentTypes}"
+                                       value="#{editModelIntention.modelIntention.outpatientTreatmentText}"
+                                       readonly="#{editModelIntention.readOnly}"
+                                       />
+            
+            <inek:LabeledSelectAndText id="outpatientHomeTreatmentText" 
+                                       label="#{msg.lblOutpatientHomeTreatment}" 
+                                       selectElement="#{editModelIntention.modelIntention.outpatientHomeTreatmentType}"
+                                       selectItems="#{modelIntentionLists.treatmentTypes}"
+                                       value="#{editModelIntention.modelIntention.outpatientHomeTreatmentText}"
+                                       readonly="#{editModelIntention.readOnly}"
+                                       />
+            
+            <inek:LabeledTextarea label="#{msg.lblMisc}" value="#{editModelIntention.modelIntention.miscTreatment}" 
+                                  readonly="#{editModelIntention.readOnly}" required="false"/>
+            
+
+            <h2>#{msg.headerSpecialPatientsConcept}</h2>
+
+            <inek:LabeledTextarea label="#{msg.lblCaseManagement}" value="#{editModelIntention.modelIntention.caseManagement}" readonly="#{editModelIntention.readOnly}"/>
+            <inek:LabeledTextarea label="#{msg.lblTeamBasedInnovations}" value="#{editModelIntention.modelIntention.teamBasedInnovations}" readonly="#{editModelIntention.readOnly}"/>
+            <inek:LabeledTextarea label="#{msg.lblCrossSectoralSupply}" value="#{editModelIntention.modelIntention.crossSectoralSupply}" readonly="#{editModelIntention.readOnly}"/>
+            <inek:LabeledTextarea label="#{msg.lblHomeTreatment}" value="#{editModelIntention.modelIntention.homeTreatment}" readonly="#{editModelIntention.readOnly}"/>
+            <inek:LabeledTextarea label="#{msg.lblMisc}" value="#{editModelIntention.modelIntention.miscSpecialPatientConcept}" readonly="#{editModelIntention.readOnly}"/>
+
+            <h2>#{msg.headerSpecificEffortModelIntention}</h2>
+            <inek:LabeledTextarea label="#{msg.lblSpecialPsyTherapy}" value="#{editModelIntention.modelIntention.specialPsyTherapy}" readonly="#{editModelIntention.readOnly}"/>
+            <inek:LabeledTextarea label="#{msg.lblSpecialMedicalMethod}" value="#{editModelIntention.modelIntention.specialMedicalMethod}" readonly="#{editModelIntention.readOnly}"/>
+            <inek:LabeledTextarea label="#{msg.lblOtherSpecialMedicalMethod}" value="#{editModelIntention.modelIntention.otherSpecialTherapyMethod}" readonly="#{editModelIntention.readOnly}"/>
+            <inek:LabeledTextarea label="#{msg.lblMisc}" value="#{editModelIntention.modelIntention.miscSpecificActivityContent}" readonly="#{editModelIntention.readOnly}"/>
+
+            <h2>#{msg.headerCosts}</h2>
+            <inek:LabeledTextarea label="#{msg.lblSingleRefund}" value="#{editModelIntention.modelIntention.singleRemuneration}" readonly="#{editModelIntention.readOnly}"/>
+            <inek:LabeledTextarea label="#{msg.lblDayPackage}" value="#{editModelIntention.modelIntention.dayPackage}" readonly="#{editModelIntention.readOnly}"/>
+            <inek:LabeledTextarea label="#{msg.lblCasePackage}" value="#{editModelIntention.modelIntention.casePackage}" readonly="#{editModelIntention.readOnly}"/>
+            <inek:LabeledTextarea label="#{msg.lblQuarterPackage}" value="#{editModelIntention.modelIntention.quarterPackage}" readonly="#{editModelIntention.readOnly}"/>
+            <inek:LabeledTextarea label="#{msg.lblComplexPackage}" value="#{editModelIntention.modelIntention.complexPackage}" readonly="#{editModelIntention.readOnly}"/>
+            <inek:LabeledTextarea label="#{msg.lblPeppRemuneration}" value="#{editModelIntention.modelIntention.peppRemuneration}" readonly="#{editModelIntention.readOnly}"/>
+            <inek:LabeledTextarea label="#{msg.lblReginalBudget}" value="#{editModelIntention.modelIntention.regionalBudget}" readonly="#{editModelIntention.readOnly}"/>
+            <inek:LabeledTextarea label="#{msg.lblMiscRefund}" value="#{editModelIntention.modelIntention.miscRemuneration}" readonly="#{editModelIntention.readOnly}"/>
+            
+        </h:form>
+
+        <ui:include src="#{sessionTools.pages.FragmentRemuneration}"/>
+        <ui:include src="#{sessionTools.pages.FragmentCost}"/>
+        <ui:include src="#{sessionTools.pages.FragmentAdjustment}"/>
+        
+    </ui:define>
+</ui:composition>

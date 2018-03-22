@@ -10,8 +10,10 @@ public enum PortalType {
     DRG("DRG-Portal") ,
     PSY("PSY-Portal"),
     INSURANCE("Krankenkassen-Funktionen"),
-    ADMIN("Admin-Bereich"),
-    CERT("Zertifizierung");
+    CERT("Zertifizierung"),
+    CALC("Teilnahme Kostenkalkulation"),
+    INEK("Interne Funktionen"),
+    ADMIN("Admin-Bereich");
     
     private final String _displayName;
 

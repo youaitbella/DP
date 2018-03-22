@@ -13,7 +13,7 @@ import javax.inject.Named;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.helper.tree.entityTree.AccountTreeNode;
+import org.inek.dataportal.common.tree.entityTree.AccountTreeNode;
 import org.inek.dataportal.helper.tree.SpecificFunctionRequestTreeNode;
 import org.inek.dataportal.common.tree.RootNode;
 import org.inek.dataportal.common.tree.TreeNode;
