@@ -1,4 +1,4 @@
-package org.inek.dataportal.facades.modelintention;
+package org.inek.dataportal.feature.modelintention.modelintention;
 
 import javax.ejb.Stateless;
 import org.inek.dataportal.entities.modelintention.ModelIntentionContact;

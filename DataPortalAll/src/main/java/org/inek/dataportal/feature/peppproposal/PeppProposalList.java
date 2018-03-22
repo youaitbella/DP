@@ -7,7 +7,7 @@ import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.entities.pepp.PeppProposal;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.facades.PeppProposalFacade;
+import org.inek.dataportal.feature.peppproposal.facades.PeppProposalFacade;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.scope.FeatureScopedContextHolder;
 import org.inek.dataportal.common.utils.DocumentationUtil;

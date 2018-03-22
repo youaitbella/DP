@@ -16,7 +16,7 @@ import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.enums.DataSet;
 import org.inek.dataportal.common.enums.Feature;
-import org.inek.dataportal.facades.PeppProposalFacade;
+import org.inek.dataportal.feature.peppproposal.facades.PeppProposalFacade;
 import org.inek.dataportal.helper.structures.ProposalInfo;
 import org.inek.dataportal.helper.tree.ProposalInfoTreeNode;
 import org.inek.dataportal.helper.tree.entityTree.AccountTreeNode;

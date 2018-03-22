@@ -14,7 +14,7 @@ import javax.inject.Named;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.entities.pepp.PeppProposal;
 import org.inek.dataportal.common.enums.Pages;
-import org.inek.dataportal.facades.PeppProposalFacade;
+import org.inek.dataportal.feature.peppproposal.facades.PeppProposalFacade;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.helper.tree.entityTree.AccountTreeNode;
 import org.inek.dataportal.helper.tree.ProposalInfoTreeNode;

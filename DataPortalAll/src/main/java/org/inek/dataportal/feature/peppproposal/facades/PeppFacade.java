@@ -2,13 +2,11 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.facades;
+package org.inek.dataportal.feature.peppproposal.facades;
 
 import org.inek.dataportal.common.data.AbstractFacade;
 import java.util.List;
 import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
 import org.inek.dataportal.entities.pepp.PeppInfo;
 
 /**

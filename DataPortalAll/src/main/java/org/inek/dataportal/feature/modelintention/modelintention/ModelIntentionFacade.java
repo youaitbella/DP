@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.facades.modelintention;
+package org.inek.dataportal.feature.modelintention.modelintention;
 
 import java.util.ArrayList;
 import java.util.Collections;

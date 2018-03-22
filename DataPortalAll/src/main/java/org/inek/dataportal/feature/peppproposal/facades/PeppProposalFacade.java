@@ -1,4 +1,4 @@
-package org.inek.dataportal.facades;
+package org.inek.dataportal.feature.peppproposal.facades;
 
 import org.inek.dataportal.common.data.AbstractFacade;
 import java.util.ArrayList;

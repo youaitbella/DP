@@ -7,7 +7,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.SearchController;
 import org.inek.dataportal.facades.DrgFacade;
-import org.inek.dataportal.facades.PeppFacade;
+import org.inek.dataportal.feature.peppproposal.facades.PeppFacade;
 import org.inek.dataportal.common.data.access.DiagnosisFacade;
 import org.inek.dataportal.common.data.access.ProcedureFacade;
 

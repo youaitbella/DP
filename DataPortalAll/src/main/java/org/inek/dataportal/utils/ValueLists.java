@@ -26,7 +26,7 @@ import org.inek.dataportal.enums.SettleType;
 import org.inek.dataportal.enums.TreatmentType;
 import org.inek.dataportal.facades.common.CostCenterFacade;
 import org.inek.dataportal.facades.common.CostTypeFacade;
-import org.inek.dataportal.facades.modelintention.AdjustmentTypeFacade;
+import org.inek.dataportal.feature.modelintention.modelintention.AdjustmentTypeFacade;
 
 /**
  *
