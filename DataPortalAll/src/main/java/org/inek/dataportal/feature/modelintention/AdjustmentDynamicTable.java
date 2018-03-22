@@ -1,7 +1,7 @@
 package org.inek.dataportal.feature.modelintention;
 
-import org.inek.dataportal.entities.modelintention.Adjustment;
-import org.inek.dataportal.entities.modelintention.ModelIntention;
+import org.inek.dataportal.feature.modelintention.entities.Adjustment;
+import org.inek.dataportal.feature.modelintention.entities.ModelIntention;
 
 public class AdjustmentDynamicTable extends DynamicTable<Adjustment> {
 

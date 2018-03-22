@@ -1,4 +1,4 @@
-package org.inek.dataportal.entities.modelintention;
+package org.inek.dataportal.feature.modelintention.entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;

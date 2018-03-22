@@ -1,7 +1,7 @@
 package org.inek.dataportal.feature.modelintention;
 
-import org.inek.dataportal.entities.modelintention.ModelIntention;
-import org.inek.dataportal.entities.modelintention.ModelLife;
+import org.inek.dataportal.feature.modelintention.entities.ModelIntention;
+import org.inek.dataportal.feature.modelintention.entities.ModelLife;
 
 public class ModelLifeDynamicTable extends DynamicTable<ModelLife> {
 

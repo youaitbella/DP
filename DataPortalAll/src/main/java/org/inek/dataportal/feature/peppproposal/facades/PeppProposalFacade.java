@@ -15,7 +15,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import org.inek.dataportal.entities.pepp.PeppProposal;
+import org.inek.dataportal.feature.peppproposal.entities.PeppProposal;
 import org.inek.dataportal.common.enums.DataSet;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.data.account.facade.AccountFacade;

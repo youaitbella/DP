@@ -1,7 +1,7 @@
 package org.inek.dataportal.feature.modelintention;
 
-import org.inek.dataportal.entities.modelintention.ModelIntention;
-import org.inek.dataportal.entities.modelintention.Remuneration;
+import org.inek.dataportal.feature.modelintention.entities.ModelIntention;
+import org.inek.dataportal.feature.modelintention.entities.Remuneration;
 
 public class RemunerationDynamicTable extends DynamicTable<Remuneration> {
 

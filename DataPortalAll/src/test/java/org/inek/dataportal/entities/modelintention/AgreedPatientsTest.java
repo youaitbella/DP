@@ -6,6 +6,7 @@
 
 package org.inek.dataportal.entities.modelintention;
 
+import org.inek.dataportal.feature.modelintention.entities.AgreedPatients;
 import java.util.Date;
 import org.junit.After;
 import org.junit.AfterClass;

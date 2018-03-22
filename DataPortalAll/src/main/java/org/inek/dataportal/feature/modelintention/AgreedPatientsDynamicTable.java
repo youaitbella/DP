@@ -1,7 +1,7 @@
 package org.inek.dataportal.feature.modelintention;
 
-import org.inek.dataportal.entities.modelintention.AgreedPatients;
-import org.inek.dataportal.entities.modelintention.ModelIntention;
+import org.inek.dataportal.feature.modelintention.entities.AgreedPatients;
+import org.inek.dataportal.feature.modelintention.entities.ModelIntention;
 
 public class AgreedPatientsDynamicTable extends DynamicTable<AgreedPatients> {
 

@@ -6,6 +6,7 @@
 
 package org.inek.dataportal.entities.modelintention;
 
+import org.inek.dataportal.feature.modelintention.entities.Cost;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;

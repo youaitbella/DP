@@ -11,7 +11,7 @@ import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.common.DiagnosisInfo;
 import org.inek.dataportal.common.data.common.ProcedureInfo;
 import org.inek.dataportal.entities.drg.DrgInfo;
-import org.inek.dataportal.entities.pepp.PeppInfo;
+import org.inek.dataportal.feature.peppproposal.entities.PeppInfo;
 import org.inek.dataportal.enums.CodeType;
 import org.inek.dataportal.facades.DrgFacade;
 import org.inek.dataportal.feature.peppproposal.facades.PeppFacade;

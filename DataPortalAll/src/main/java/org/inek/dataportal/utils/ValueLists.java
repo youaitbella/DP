@@ -12,7 +12,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.entities.common.CostCenter;
 import org.inek.dataportal.entities.common.CostType;
-import org.inek.dataportal.entities.modelintention.AdjustmentType;
+import org.inek.dataportal.feature.modelintention.entities.AdjustmentType;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.enums.Genders;
 import org.inek.dataportal.enums.HospitalType;
@@ -26,7 +26,7 @@ import org.inek.dataportal.enums.SettleType;
 import org.inek.dataportal.enums.TreatmentType;
 import org.inek.dataportal.facades.common.CostCenterFacade;
 import org.inek.dataportal.facades.common.CostTypeFacade;
-import org.inek.dataportal.feature.modelintention.modelintention.AdjustmentTypeFacade;
+import org.inek.dataportal.feature.modelintention.facades.AdjustmentTypeFacade;
 
 /**
  *

@@ -1,35 +1,33 @@
 
-package org.inek.dataportal.entities.modelintention;
+package org.inek.dataportal.feature.modelintention.entities;
 
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "listContactType", schema = "mvh")
-public class ContactType implements Serializable {
+@Table(name = "listAdjustmentType", schema = "mvh")
+public class AdjustmentType implements Serializable {
     private static final long serialVersionUID = 1L;
-
+    // <editor-fold defaultstate="collapsed" desc="id">
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column (name = "lctId")
-    private Long _id;
+    @Column (name = "adtId")
+    private Integer _id;
     
-    @Column (name = "lctText")
-    private String _text;
-    
-    // <editor-fold defaultstate="collapsed" desc=" Getter / Setter">
-    public Long getId() {
+    public int getId() {
         return _id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         _id = id;
     }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="text">
+    @Column (name = "adtText")
+    private String _text;
     
     public String getText() {
         return _text;
@@ -38,8 +36,6 @@ public class ContactType implements Serializable {
     public void setText(String text) {
         _text = text;
     }
-    
-    
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
@@ -54,10 +50,10 @@ public class ContactType implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the _id fields are not set
-        if (!(object instanceof ContactType)) {
+        if (!(object instanceof AdjustmentType)) {
             return false;
         }
-        ContactType other = (ContactType) object;
+        AdjustmentType other = (AdjustmentType) object;
         if ((this._id == null && other._id != null) || (this._id != null && !this._id.equals(other._id))) {
             return false;
         }
@@ -66,7 +62,7 @@ public class ContactType implements Serializable {
 
     @Override
     public String toString() {
-        return "org.inek.dataportal.entities.modelintention.ContactType[ id=" + _id + " ]";
+        return this.getClass().getName() + "[ id=" + _id + " ]";
     }
     // </editor-fold>
 

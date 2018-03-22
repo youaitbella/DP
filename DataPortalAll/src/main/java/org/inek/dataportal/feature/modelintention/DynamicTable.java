@@ -5,7 +5,7 @@ import java.util.List;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
-import org.inek.dataportal.entities.modelintention.ModelIntention;
+import org.inek.dataportal.feature.modelintention.entities.ModelIntention;
 
 public abstract class DynamicTable<T> {
 

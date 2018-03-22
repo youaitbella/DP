@@ -1,4 +1,4 @@
-package org.inek.dataportal.entities.pepp;
+package org.inek.dataportal.feature.peppproposal.entities;
 
 import java.io.Serializable;
 import java.util.Calendar;

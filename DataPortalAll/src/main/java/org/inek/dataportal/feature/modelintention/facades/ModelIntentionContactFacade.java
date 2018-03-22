@@ -1,7 +1,7 @@
-package org.inek.dataportal.feature.modelintention.modelintention;
+package org.inek.dataportal.feature.modelintention.facades;
 
 import javax.ejb.Stateless;
-import org.inek.dataportal.entities.modelintention.ModelIntentionContact;
+import org.inek.dataportal.feature.modelintention.entities.ModelIntentionContact;
 import org.inek.dataportal.common.data.AbstractFacade;
 
 @Stateless

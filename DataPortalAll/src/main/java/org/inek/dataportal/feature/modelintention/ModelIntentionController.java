@@ -6,7 +6,7 @@ package org.inek.dataportal.feature.modelintention;
 
 import org.inek.dataportal.common.controller.AbstractFeatureController;
 import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.entities.modelintention.ModelIntention;
+import org.inek.dataportal.feature.modelintention.entities.ModelIntention;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.helper.Topics;

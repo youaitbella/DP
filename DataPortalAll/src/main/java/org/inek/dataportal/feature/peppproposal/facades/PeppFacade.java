@@ -7,7 +7,7 @@ package org.inek.dataportal.feature.peppproposal.facades;
 import org.inek.dataportal.common.data.AbstractFacade;
 import java.util.List;
 import javax.ejb.Stateless;
-import org.inek.dataportal.entities.pepp.PeppInfo;
+import org.inek.dataportal.feature.peppproposal.entities.PeppInfo;
 
 /**
  *

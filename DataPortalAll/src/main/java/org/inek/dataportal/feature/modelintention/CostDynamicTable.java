@@ -1,7 +1,7 @@
 package org.inek.dataportal.feature.modelintention;
 
-import org.inek.dataportal.entities.modelintention.Cost;
-import org.inek.dataportal.entities.modelintention.ModelIntention;
+import org.inek.dataportal.feature.modelintention.entities.Cost;
+import org.inek.dataportal.feature.modelintention.entities.ModelIntention;
 import org.inek.dataportal.common.helper.Utils;
 
 public class CostDynamicTable extends DynamicTable<Cost> {

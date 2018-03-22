@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.feature.modelintention.modelintention;
+package org.inek.dataportal.feature.modelintention.facades;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,7 +19,7 @@ import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.entities.modelintention.ModelIntention;
+import org.inek.dataportal.feature.modelintention.entities.ModelIntention;
 import org.inek.dataportal.common.enums.DataSet;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.enums.UserSet;

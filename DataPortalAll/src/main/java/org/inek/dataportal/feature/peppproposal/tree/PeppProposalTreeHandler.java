@@ -12,7 +12,7 @@ import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.entities.pepp.PeppProposal;
+import org.inek.dataportal.feature.peppproposal.entities.PeppProposal;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.feature.peppproposal.facades.PeppProposalFacade;
 import org.inek.dataportal.common.helper.Utils;
