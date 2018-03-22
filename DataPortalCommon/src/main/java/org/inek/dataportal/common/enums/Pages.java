@@ -141,14 +141,14 @@ public enum Pages {
     FragmentAcademicSupervision("/ModelIntention/fragment/AcademicSupervision"),
     FragmentQuality("/ModelIntention/fragment/Quality"),
     //
-    Cert("/Certification/Cert"),
-    PartCert("/Certification/PartCert"),
-    CertSystemManagement("/Certification/CertSystemManagement"),
-    CertMail("/Certification/CertMail"),
-    CertMailTemplate("/Certification/CertMailTemplate"),
-    CertCertification("/Certification/CertCertification"),
-    CertGrouperResults("/Certification/CertGrouperResults"),
-    CertGrouperCc("/Certification/CertGrouperCc"),
+    Cert("/Cert/Cert"),
+    PartCert("/Cert/PartCert"),
+    CertSystemManagement("/Cert/CertSystemManagement"),
+    CertMail("/Cert/CertMail"),
+    CertMailTemplate("/Cert/CertMailTemplate"),
+    CertCertification("/Cert/CertCertification"),
+    CertGrouperResults("/Cert/CertGrouperResults"),
+    CertGrouperCc("/Cert/CertGrouperCc"),
     //
     PartAgency("/Agency/PartAgency"),
     //
