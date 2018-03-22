@@ -1,29 +1,20 @@
 package org.inek.dataportal.modelintention;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.modelintention.entities.AdjustmentType;
-import org.inek.dataportal.common.enums.Feature;
-import org.inek.dataportal.enums.Genders;
-import org.inek.dataportal.enums.HospitalType;
-import org.inek.dataportal.enums.InsuranceAffiliation;
-import org.inek.dataportal.enums.MedicalAttribute;
-import org.inek.dataportal.enums.PiaType;
+import org.inek.dataportal.modelintention.enums.HospitalType;
+import org.inek.dataportal.modelintention.enums.InsuranceAffiliation;
+import org.inek.dataportal.modelintention.enums.MedicalAttribute;
 import org.inek.dataportal.modelintention.enums.QualityUsage;
 import org.inek.dataportal.modelintention.enums.Region;
-import org.inek.dataportal.enums.RemunSystem;
-import org.inek.dataportal.enums.SettleType;
 import org.inek.dataportal.modelintention.enums.TreatmentType;
-import org.inek.dataportal.facades.common.CostCenterFacade;
-import org.inek.dataportal.facades.common.CostTypeFacade;
+import org.inek.dataportal.modelintention.enums.PiaType;
+import org.inek.dataportal.modelintention.enums.SettleType;
 import org.inek.dataportal.modelintention.facades.AdjustmentTypeFacade;
 
 /**
@@ -32,7 +23,7 @@ import org.inek.dataportal.modelintention.facades.AdjustmentTypeFacade;
  */
 @Named
 @Singleton
-public class ValueLists{
+public class ModelIntentionLists{
 
     @Inject private AdjustmentTypeFacade _adjustmentTypeFacade;
 

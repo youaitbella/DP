@@ -42,7 +42,7 @@
                                 <h:message id="msgAdjustmentType#{status.index}" for="adjustmentType#{status.index}" styleClass="errorMessage"/>
                                 <h:selectOneMenu styleClass="fullWidth" id="adjustmentType#{status.index}" value="#{adjustment.adjustmentTypeId}" 
                                                  required="true" readonly="#{editModelIntention.readOnly}">
-                                    <f:selectItems value="#{valueLists.adjustmentTypes}" />
+                                    <f:selectItems value="#{modelIntentionLists.adjustmentTypes}" />
                                     <f:ajax event="change" render="adjustmentForm :logout:remaining" listener="#{editModelIntention.adjustmentTable.checkDynamicListener}"/>
                                 </h:selectOneMenu> 
                             </h:panelGrid>

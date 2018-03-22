@@ -67,7 +67,7 @@
             <inek:LabeledSelectAndText id="region"
                                        label="#{msg.lblRegionalFeatures}" 
                                        selectElement="#{editModelIntention.modelIntention.regionType}"
-                                       selectItems="#{valueLists.regions}"
+                                       selectItems="#{modelIntentionLists.regions}"
                                        value="#{editModelIntention.modelIntention.region}"
                                        readonly="#{editModelIntention.readOnly}"
                                        />
@@ -75,7 +75,7 @@
             <inek:LabeledSelectAndText id="medicalSpecification" 
                                        label="#{msg.lblMedicalFeature}" 
                                        selectElement="#{editModelIntention.modelIntention.medicalAttributesType}"
-                                       selectItems="#{valueLists.medicalAttributes}"
+                                       selectItems="#{modelIntentionLists.medicalAttributes}"
                                        value="#{editModelIntention.modelIntention.medicalSpecification}" 
                                        readonly="#{editModelIntention.readOnly}"
                                        threshold="0"
@@ -83,7 +83,7 @@
 
             <h:outputLabel styleClass="label30" id="insuranceAffiliation" value="#{msg.lblModelIntentionHealthInsurance}:" />
             <h:selectOneMenu id="insuranceAffiliations" value="#{editModelIntention.modelIntention.insuranceAffiliation}" readonly="#{editModelIntention.readOnly}">
-                <f:selectItems value="#{valueLists.insuranceAffiliation}" />
+                <f:selectItems value="#{modelIntentionLists.insuranceAffiliation}" />
                 <f:ajax event="change" render="@this :logout:remaining" />
             </h:selectOneMenu>
 
@@ -100,7 +100,7 @@
             <inek:LabeledSelectAndText id="settleMedicText" 
                                        label="#{msg.lblSettledDocs}" 
                                        selectElement="#{editModelIntention.modelIntention.settleMedicType}"
-                                       selectItems="#{valueLists.settledTypes}"
+                                       selectItems="#{modelIntentionLists.settledTypes}"
                                        value="#{editModelIntention.modelIntention.settleMedicText}"
                                        threshold="1" 
                                        readonly="#{editModelIntention.readOnly}"
@@ -109,7 +109,7 @@
             <inek:LabeledSelectAndText id="piaText" 
                                        label="#{msg.lblPia}" 
                                        selectElement="#{editModelIntention.modelIntention.piaType}"
-                                       selectItems="#{valueLists.piaTypes}"
+                                       selectItems="#{modelIntentionLists.piaTypes}"
                                        value="#{editModelIntention.modelIntention.piaText}" 
                                        readonly="#{editModelIntention.readOnly}"
                                        />
@@ -117,7 +117,7 @@
             <inek:LabeledSelectAndText id="hospitalText" 
                                        label="#{msg.lblHospital}" 
                                        selectElement="#{editModelIntention.modelIntention.hospitalType}"
-                                       selectItems="#{valueLists.hospitalTypes}"
+                                       selectItems="#{modelIntentionLists.hospitalTypes}"
                                        value="#{editModelIntention.modelIntention.hospitalText}"
                                        readonly="#{editModelIntention.readOnly}"
                                        threshold="2"
