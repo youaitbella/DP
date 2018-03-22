@@ -1,4 +1,4 @@
-package org.inek.dataportal.entities.modelintention;
+package org.inek.dataportal.psy.entities.modelintention;
 
 import org.inek.dataportal.psy.modelintention.entities.Quality;
 import static org.junit.Assert.assertEquals;

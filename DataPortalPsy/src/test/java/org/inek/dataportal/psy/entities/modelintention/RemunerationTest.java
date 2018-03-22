@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package org.inek.dataportal.entities.modelintention;
+package org.inek.dataportal.psy.entities.modelintention;
 
 //import org.junit.After;
 //import org.junit.AfterClass;

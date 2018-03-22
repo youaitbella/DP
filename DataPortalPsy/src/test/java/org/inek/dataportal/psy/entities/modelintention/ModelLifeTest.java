@@ -1,4 +1,4 @@
-package org.inek.dataportal.entities.modelintention;
+package org.inek.dataportal.psy.entities.modelintention;
 
 import org.inek.dataportal.psy.modelintention.entities.ModelLife;
 import org.eclipse.persistence.internal.helper.Helper;

@@ -66,7 +66,7 @@ public class ContactType implements Serializable {
 
     @Override
     public String toString() {
-        return "org.inek.dataportal.entities.modelintention.ContactType[ id=" + _id + " ]";
+        return "ContactType[ id=" + _id + " ]";
     }
     // </editor-fold>
 
