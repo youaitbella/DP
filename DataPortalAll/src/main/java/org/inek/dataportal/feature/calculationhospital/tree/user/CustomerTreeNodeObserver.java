@@ -17,7 +17,7 @@ import org.inek.dataportal.entities.calc.CalcHospitalInfo;
 import org.inek.dataportal.facades.calc.CalcFacade;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.helper.tree.CalcHospitalTreeNode;
-import org.inek.dataportal.helper.tree.entityTree.CustomerTreeNode;
+import org.inek.dataportal.common.tree.entityTree.CustomerTreeNode;
 
 /**
  *

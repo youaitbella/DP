@@ -68,13 +68,14 @@ import org.inek.dataportal.entities.calc.drg.KGLNormalStationServiceDocumentatio
 import org.inek.dataportal.entities.calc.drg.KGLPersonalAccounting;
 import org.inek.dataportal.entities.calc.drg.KGLRadiologyService;
 import org.inek.dataportal.entities.calc.psy.KglPkmsAlternative;
-import org.inek.dataportal.entities.iface.BaseIdValue;
+import org.inek.dataportal.common.data.iface.BaseIdValue;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.facades.calc.CalcDrgFacade;
 import org.inek.dataportal.common.controller.AbstractEditController;
+import org.inek.dataportal.common.controller.ReportController;
 import org.inek.dataportal.common.data.adm.ReportTemplate;
 import org.inek.dataportal.common.helper.ObjectUtils;
 import org.inek.dataportal.common.helper.StreamHelper;
@@ -82,7 +83,6 @@ import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.helper.structures.FieldValues;
 import org.inek.dataportal.helper.structures.MessageContainer;
 import org.inek.dataportal.common.utils.DocumentationUtil;
-import org.inek.dataportal.controller.ReportController;
 import org.inek.dataportal.helper.CalcBasicsTransferFileCreator;
 
 /**

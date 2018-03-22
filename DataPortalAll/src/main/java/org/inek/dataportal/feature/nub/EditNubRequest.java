@@ -33,7 +33,7 @@ import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.entities.nub.NubFormerRequestMerged;
 import org.inek.dataportal.entities.nub.NubRequest;
 import org.inek.dataportal.entities.nub.NubRequestDocument;
-import org.inek.dataportal.enums.CodeType;
+import org.inek.dataportal.common.enums.CodeType;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.CooperativeRight;
 import org.inek.dataportal.common.enums.Feature;
@@ -49,7 +49,7 @@ import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.scope.FeatureScoped;
 import org.inek.dataportal.common.helper.structures.FieldValues;
 import org.inek.dataportal.helper.structures.MessageContainer;
-import org.inek.dataportal.services.MessageService;
+import org.inek.dataportal.common.services.MessageService;
 import org.inek.dataportal.common.utils.DocumentationUtil;
 import org.inek.dataportal.controller.SessionHelper;
 

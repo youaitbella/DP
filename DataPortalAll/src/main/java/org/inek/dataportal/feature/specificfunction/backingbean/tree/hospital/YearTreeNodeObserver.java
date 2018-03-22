@@ -17,8 +17,8 @@ import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.data.icmt.facade.CustomerFacade;
 import org.inek.dataportal.feature.specificfunction.facade.SpecificFunctionFacade;
-import org.inek.dataportal.helper.tree.entityTree.AccountTreeNode;
-import org.inek.dataportal.helper.tree.entityTree.CustomerTreeNode;
+import org.inek.dataportal.common.tree.entityTree.AccountTreeNode;
+import org.inek.dataportal.common.tree.entityTree.CustomerTreeNode;
 import org.inek.dataportal.common.tree.TreeNode;
 import org.inek.dataportal.common.tree.TreeNodeObserver;
 

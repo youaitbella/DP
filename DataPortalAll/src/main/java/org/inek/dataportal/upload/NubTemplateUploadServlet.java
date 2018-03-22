@@ -1,18 +1,17 @@
 package org.inek.dataportal.upload;
 
+import org.inek.dataportal.common.upload.HttpUtil;
+import org.inek.dataportal.common.upload.AbstractUploadServlet;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 import javax.inject.Inject;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.feature.peppproposal.entities.PeppProposalDocument;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.enums.NubFieldKey;
 import org.inek.dataportal.facades.NubRequestFacade;
 import org.inek.dataportal.feature.nub.NubController;
-import org.inek.dataportal.feature.nub.NubSessionTools;
 import org.inek.dataportal.common.helper.Utils;
 
 @WebServlet(urlPatterns = {"/upload/nub"}, name = "NubTemplateUploadServlet")
@@ -21,7 +20,6 @@ public class NubTemplateUploadServlet extends AbstractUploadServlet {
 
     @Inject private SessionController _sessionController;
     @Inject private NubRequestFacade _nubFacade;
-    @Inject private NubSessionTools _nubSessionTools;
     
     @Override
     protected void stream2Document(String filename, InputStream is, HttpUtil httpUtil) throws IOException {
@@ -43,15 +41,6 @@ public class NubTemplateUploadServlet extends AbstractUploadServlet {
         } catch (Exception e) {
             throw new IOException(e.getMessage());
         }
-    }
-
-    private PeppProposalDocument findByName(List<PeppProposalDocument> documents, String name) {
-        for (PeppProposalDocument document : documents) {
-            if (document.getName().equalsIgnoreCase(name)) {
-                return document;
-            }
-        }
-        return null;
     }
 
 }

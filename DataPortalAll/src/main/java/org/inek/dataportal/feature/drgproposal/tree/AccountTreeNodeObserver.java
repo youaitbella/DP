@@ -17,12 +17,12 @@ import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.enums.DataSet;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.facades.DrgProposalFacade;
-import org.inek.dataportal.helper.structures.ProposalInfo;
-import org.inek.dataportal.helper.tree.ProposalInfoTreeNode;
+import org.inek.dataportal.common.helper.structures.ProposalInfo;
+import org.inek.dataportal.common.tree.ProposalInfoTreeNode;
 import org.inek.dataportal.common.tree.TreeNode;
 import org.inek.dataportal.common.tree.TreeNodeObserver;
 import org.inek.dataportal.common.tree.YearTreeNode;
-import org.inek.dataportal.helper.tree.entityTree.AccountTreeNode;
+import org.inek.dataportal.common.tree.entityTree.AccountTreeNode;
 
 /**
  *

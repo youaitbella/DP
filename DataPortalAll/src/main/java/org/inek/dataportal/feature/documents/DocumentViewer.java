@@ -13,7 +13,7 @@ import javax.inject.Named;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.facades.account.AccountDocumentFacade;
 import org.inek.dataportal.common.data.cooperation.facade.CooperationRequestFacade;
-import org.inek.dataportal.facades.cooperation.PortalMessageFacade;
+import org.inek.dataportal.common.data.cooperation.facade.PortalMessageFacade;
 import org.inek.dataportal.common.helper.structures.DocInfo;
 
 @Named

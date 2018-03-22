@@ -17,8 +17,8 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
-import org.inek.dataportal.entities.iface.BaseIdValue;
-import org.inek.dataportal.entities.common.CostType;
+import org.inek.dataportal.common.data.iface.BaseIdValue;
+import org.inek.dataportal.common.data.common.CostType;
 import org.inek.dataportal.common.utils.Documentation;
 
 /**

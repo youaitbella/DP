@@ -13,6 +13,8 @@
     <class>org.inek.dataportal.common.data.adm.ReportTemplate</class>
     <class>org.inek.dataportal.common.data.adm.RoleMapping</class>
     <class>org.inek.dataportal.common.data.common.ListFeature</class>
+    <class>org.inek.dataportal.common.data.common.CostCenter</class>
+    <class>org.inek.dataportal.common.data.common.CostType</class>
     <class>org.inek.dataportal.common.data.common.ListWorkflowStatus</class>
     <class>org.inek.dataportal.common.data.common.PortalAddress</class>
     <class>org.inek.dataportal.common.data.common.CustomerType</class>

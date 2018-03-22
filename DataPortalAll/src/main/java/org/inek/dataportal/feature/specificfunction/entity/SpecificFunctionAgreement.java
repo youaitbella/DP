@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Vector;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
-import org.inek.dataportal.entities.iface.StatusEntity;
+import org.inek.dataportal.common.data.iface.StatusEntity;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.utils.Documentation;
 

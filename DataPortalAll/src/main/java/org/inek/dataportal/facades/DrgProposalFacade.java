@@ -17,7 +17,7 @@ import javax.persistence.criteria.Root;
 import org.inek.dataportal.entities.drg.DrgProposal;
 import org.inek.dataportal.common.enums.DataSet;
 import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.helper.structures.ProposalInfo;
+import org.inek.dataportal.common.helper.structures.ProposalInfo;
 import org.inek.dataportal.common.utils.DocumentationUtil;
 import org.inek.dataportal.common.utils.KeyValueLevel;
 

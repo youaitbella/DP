@@ -19,7 +19,7 @@ import org.inek.dataportal.common.overall.ApplicationTools;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.entities.calc.CalcHospitalInfo;
-import org.inek.dataportal.entities.iface.StatusEntity;
+import org.inek.dataportal.common.data.iface.StatusEntity;
 import org.inek.dataportal.enums.CalcHospitalFunction;
 import org.inek.dataportal.enums.CalcInfoType;
 import org.inek.dataportal.common.enums.ConfigKey;

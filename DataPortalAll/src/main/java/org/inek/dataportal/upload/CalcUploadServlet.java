@@ -1,5 +1,7 @@
 package org.inek.dataportal.upload;
 
+import org.inek.dataportal.common.upload.HttpUtil;
+import org.inek.dataportal.common.upload.AbstractUploadServlet;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;

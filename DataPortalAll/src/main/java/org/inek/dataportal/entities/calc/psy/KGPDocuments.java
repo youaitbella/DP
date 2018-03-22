@@ -16,7 +16,7 @@ import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import org.inek.dataportal.entities.iface.BaseIdValue;
+import org.inek.dataportal.common.data.iface.BaseIdValue;
 
 /**
  *

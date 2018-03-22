@@ -32,12 +32,12 @@ import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.common.data.cooperation.facade.CooperationFacade;
 import org.inek.dataportal.common.data.cooperation.facade.CooperationRequestFacade;
 import org.inek.dataportal.common.data.cooperation.facade.CooperationRightFacade;
-import org.inek.dataportal.facades.cooperation.PortalMessageFacade;
+import org.inek.dataportal.common.data.cooperation.facade.PortalMessageFacade;
 import org.inek.dataportal.common.controller.AbstractEditController;
 import org.inek.dataportal.common.helper.Topic;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.scope.FeatureScoped;
-import org.inek.dataportal.services.MessageService;
+import org.inek.dataportal.common.services.MessageService;
 
 /**
  *
