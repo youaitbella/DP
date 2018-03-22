@@ -1,6 +1,6 @@
 package org.inek.dataportal.entities.modelintention;
 
-import org.inek.dataportal.modelintention.entities.Quality;
+import org.inek.dataportal.psy.modelintention.entities.Quality;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;

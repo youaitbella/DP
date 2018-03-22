@@ -24,7 +24,7 @@ import org.inek.dataportal.admin.facade.InekRoleFacade;
 import org.inek.dataportal.admin.facade.RoleMappingFacade;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.scope.FeatureScoped;
-import org.inek.dataportal.system.SessionCounter;
+import org.inek.dataportal.admin.system.SessionCounter;
 
 /**
  *

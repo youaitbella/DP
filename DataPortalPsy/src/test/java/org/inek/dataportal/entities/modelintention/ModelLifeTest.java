@@ -1,6 +1,6 @@
 package org.inek.dataportal.entities.modelintention;
 
-import org.inek.dataportal.modelintention.entities.ModelLife;
+import org.inek.dataportal.psy.modelintention.entities.ModelLife;
 import org.eclipse.persistence.internal.helper.Helper;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

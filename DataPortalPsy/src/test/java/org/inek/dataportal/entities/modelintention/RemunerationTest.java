@@ -10,7 +10,7 @@ package org.inek.dataportal.entities.modelintention;
 //import org.junit.AfterClass;
 //import org.junit.Before;
 //import org.junit.BeforeClass;
-import org.inek.dataportal.modelintention.entities.Remuneration;
+import org.inek.dataportal.psy.modelintention.entities.Remuneration;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
