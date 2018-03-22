@@ -420,7 +420,7 @@ public class SessionController implements Serializable {
 
     private boolean belongsToCurrentPortal(Feature feature) {
         return feature.getPortalType() == _portalType
-                || feature.getPortalType() == PortalType.COMMON && (_portalType == PortalType.DRG || _portalType == PortalType.PSY);
+                || feature.getPortalType() == PortalType.COMMON && _portalType == PortalType.DRG;
     }
 
     private void addMissingFeatures() {
@@ -454,7 +454,7 @@ public class SessionController implements Serializable {
         if (_portalType == PortalType.ADMIN && isInekUser(Feature.ADMIN)) {
             _featureHolder.add(Feature.ADMIN, this);
         }
-        if ((_portalType == PortalType.DRG || _portalType == PortalType.PSY) && _account.getAdminIks().size() > 0) {
+        if (_portalType == PortalType.DRG && _account.getAdminIks().size() > 0) {
             _featureHolder.add(Feature.IK_ADMIN, this);
         }
     }
