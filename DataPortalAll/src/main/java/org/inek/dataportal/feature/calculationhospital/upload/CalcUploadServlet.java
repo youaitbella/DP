@@ -1,4 +1,4 @@
-package org.inek.dataportal.upload;
+package org.inek.dataportal.feature.calculationhospital.upload;
 
 import org.inek.dataportal.common.upload.HttpUtil;
 import org.inek.dataportal.common.upload.AbstractUploadServlet;
