@@ -50,6 +50,13 @@
     <class>org.inek.dataportal.common.data.ikadmin.entity.AccessRight</class>
     <class>org.inek.dataportal.common.data.ikadmin.entity.AccountIkAdmin</class>
     <class>org.inek.dataportal.common.data.ikadmin.entity.User</class>
+    <class>org.inek.dataportal.common.specificfunction.entity.CenterName</class>
+    <class>org.inek.dataportal.common.specificfunction.entity.RelatedName</class>
+    <class>org.inek.dataportal.common.specificfunction.entity.RequestAgreedCenter</class>
+    <class>org.inek.dataportal.common.specificfunction.entity.RequestProjectedCenter</class>
+    <class>org.inek.dataportal.common.specificfunction.entity.SpecificFunction</class>
+    <class>org.inek.dataportal.common.specificfunction.entity.SpecificFunctionRequest</class>
+    <class>org.inek.dataportal.common.specificfunction.entity.TypeExtraCharge</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="eclipselink.jpa.uppercase-column-names" value="true"/>

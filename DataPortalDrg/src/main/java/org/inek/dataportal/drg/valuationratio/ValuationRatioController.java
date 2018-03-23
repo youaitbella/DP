@@ -6,7 +6,6 @@ import org.inek.dataportal.common.controller.AbstractFeatureController;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.enums.Pages;
-import org.inek.dataportal.helper.*;
 
 /**
  *

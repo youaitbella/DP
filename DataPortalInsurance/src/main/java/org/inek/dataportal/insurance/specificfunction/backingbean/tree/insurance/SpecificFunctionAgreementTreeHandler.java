@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.TreeMap;
 import java.util.logging.Logger;
 import javax.enterprise.context.SessionScoped;
+import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.controller.SessionController;
@@ -30,8 +31,7 @@ public class SpecificFunctionAgreementTreeHandler implements Serializable {
 
     @Inject private SessionController _sessionController;
     
-    // todo: check whether accountTreeNodeObserver is needed
-//    @Inject private Instance<AccountTreeNodeObserver> _accountTreeNodeObserverProvider;
+    @Inject private Instance<AccountTreeNodeObserver> _accountTreeNodeObserverProvider;
 
     private final RootNode _rootNode = RootNode.create(0, null);
     private AccountTreeNode _accountNode;
@@ -62,7 +62,7 @@ public class SpecificFunctionAgreementTreeHandler implements Serializable {
 
     public AccountTreeNode getAccountNode() {
         if (_accountNode == null) {
-            //_accountNode = AccountTreeNode.create(null, _sessionController.getAccount(), _accountTreeNodeObserverProvider.get());
+            _accountNode = AccountTreeNode.create(null, _sessionController.getAccount(), _accountTreeNodeObserverProvider.get());
             _accountNode.expand();
         }
         return _accountNode;
