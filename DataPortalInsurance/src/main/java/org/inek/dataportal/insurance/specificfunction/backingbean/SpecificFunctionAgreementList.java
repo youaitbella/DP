@@ -3,19 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.feature.ins_specificfunction.backingbean;
+package org.inek.dataportal.insurance.specificfunction.backingbean;
 
 import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.overall.ApplicationTools;
-import org.inek.dataportal.feature.ins_specificfunction.entity.SpecificFunctionAgreement;
+import org.inek.dataportal.insurance.specificfunction.entity.SpecificFunctionAgreement;
 import org.inek.dataportal.common.specificfunction.entity.SpecificFunctionRequest;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.feature.ins_specificfunction.facade.SpecificFunctionFacade;
+import org.inek.dataportal.insurance.specificfunction.facade.SpecificFunctionFacade;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.utils.DocumentationUtil;
 

@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.feature.ins_specificfunction.backingbean.tree;
+package org.inek.dataportal.insurance.specificfunction.backingbean.tree;
 
-import org.inek.dataportal.feature.ins_specificfunction.entity.SpecificFunctionAgreement;
+import org.inek.dataportal.insurance.specificfunction.entity.SpecificFunctionAgreement;
 import org.inek.dataportal.common.tree.TreeNode;
 import org.inek.dataportal.common.tree.TreeNodeObserver;
 

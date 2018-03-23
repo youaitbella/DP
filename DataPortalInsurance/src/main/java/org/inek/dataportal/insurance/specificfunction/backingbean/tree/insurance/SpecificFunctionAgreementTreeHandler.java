@@ -1,4 +1,4 @@
-package org.inek.dataportal.feature.ins_specificfunction.backingbean.tree.insurance;
+package org.inek.dataportal.insurance.specificfunction.backingbean.tree.insurance;
 
 import java.io.Serializable;
 import java.util.List;

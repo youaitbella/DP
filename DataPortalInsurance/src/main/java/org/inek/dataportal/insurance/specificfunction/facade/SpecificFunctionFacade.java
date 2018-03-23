@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.feature.ins_specificfunction.facade;
+package org.inek.dataportal.insurance.specificfunction.facade;
 
 import java.util.HashSet;
 import java.util.List;
@@ -16,9 +16,9 @@ import javax.transaction.Transactional;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.data.AbstractDataAccess;
-import org.inek.dataportal.feature.ins_specificfunction.entity.AgreedCenter;
-import org.inek.dataportal.feature.ins_specificfunction.entity.AgreedRemunerationKeys;
-import org.inek.dataportal.feature.ins_specificfunction.entity.SpecificFunctionAgreement;
+import org.inek.dataportal.insurance.specificfunction.entity.AgreedCenter;
+import org.inek.dataportal.insurance.specificfunction.entity.AgreedRemunerationKeys;
+import org.inek.dataportal.insurance.specificfunction.entity.SpecificFunctionAgreement;
 import org.inek.dataportal.common.specificfunction.entity.CenterName;
 import org.inek.dataportal.common.specificfunction.entity.RelatedName;
 import org.inek.dataportal.common.specificfunction.entity.SpecificFunction;
