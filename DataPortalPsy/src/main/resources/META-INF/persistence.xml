@@ -50,7 +50,6 @@
     <class>org.inek.dataportal.common.data.ikadmin.entity.AccessRight</class>
     <class>org.inek.dataportal.common.data.ikadmin.entity.AccountIkAdmin</class>
     <class>org.inek.dataportal.common.data.ikadmin.entity.User</class>
-    <class>org.inek.dataportal.psy.modelintention.entities.ModelIntentionContact</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="eclipselink.jpa.uppercase-column-names" value="true"/>

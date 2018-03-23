@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.controller;
+package org.inek.dataportal.psy.controller;
 
 import java.io.Serializable;
 import java.util.List;
@@ -15,11 +15,11 @@ import javax.faces.event.ActionEvent;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.inek.dataportal.controller.SearchController.CodeInfo;
 import org.inek.dataportal.common.enums.CodeType;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.enums.GlobalVars;
 import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.psy.controller.SearchController.CodeInfo;
 
 /**
  *
@@ -111,21 +111,21 @@ public class SearchCode implements Serializable {
         return getSearchController().isEnableProc();
     }
 
-    public boolean isSearchPepp() {
-        return false;  // todo: remove
+   public boolean isSearchPepp() {
+        return getSearchController().isEnablePepp();
     }
     
     public boolean isSearchPeppPossible() {
-        return false;
+        //return false;
+        return getSearchController().getCodeSystem() == CodeType.Pepp;
     }
     
     public boolean isSearchDrgPossible() {
-        //return false;
-        return getSearchController().getCodeSystem() == CodeType.Drg;
+        return false;
     }
 
     public boolean isSearchDrg() {
-        return getSearchController().isEnableDrg();
+        return false;
     }
     
     private int getProposalSectionYear() {
