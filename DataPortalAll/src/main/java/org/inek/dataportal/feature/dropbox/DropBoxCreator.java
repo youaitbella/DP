@@ -14,7 +14,7 @@ import javax.inject.Named;
 import org.inek.dataportal.common.DropBoxTools;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.AccountAdditionalIK;
-import org.inek.dataportal.entities.dropbox.DropBox;
+import org.inek.dataportal.feature.dropbox.entities.DropBox;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.helper.Utils;
 
@@ -26,7 +26,7 @@ import org.inek.dataportal.common.helper.Utils;
 @ViewScoped
 public class DropBoxCreator implements Serializable{
 
-    @Inject private org.inek.dataportal.facades.DropBoxFacade _dropBoxFacade;
+    @Inject private org.inek.dataportal.feature.dropbox.facade.DropBoxFacade _dropBoxFacade;
     @Inject private SessionController _sessionController;
     @Inject private DropBoxTools _dropboxTools;
     private int _dropboxTypeId = 1;

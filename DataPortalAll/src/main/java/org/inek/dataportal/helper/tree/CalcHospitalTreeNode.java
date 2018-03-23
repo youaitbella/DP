@@ -5,7 +5,7 @@
  */
 package org.inek.dataportal.helper.tree;
 
-import org.inek.dataportal.entities.calc.CalcHospitalInfo;
+import org.inek.dataportal.feature.calculationhospital.entities.CalcHospitalInfo;
 import org.inek.dataportal.common.tree.TreeNode;
 import org.inek.dataportal.common.tree.TreeNodeObserver;
 

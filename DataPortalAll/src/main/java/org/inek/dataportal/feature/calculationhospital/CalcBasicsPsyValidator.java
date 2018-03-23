@@ -6,9 +6,9 @@
 package org.inek.dataportal.feature.calculationhospital;
 
 import java.util.List;
-import org.inek.dataportal.entities.calc.psy.KGPListStationServiceCost;
-import org.inek.dataportal.entities.calc.psy.KGPPersonalAccounting;
-import org.inek.dataportal.entities.calc.psy.PeppCalcBasics;
+import org.inek.dataportal.feature.calculationhospital.entities.psy.KGPListStationServiceCost;
+import org.inek.dataportal.feature.calculationhospital.entities.psy.KGPPersonalAccounting;
+import org.inek.dataportal.feature.calculationhospital.entities.psy.PeppCalcBasics;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.helper.structures.MessageContainer;
 

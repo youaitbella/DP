@@ -5,7 +5,7 @@
  */
 package org.inek.dataportal.feature.calculationhospital;
 
-import org.inek.dataportal.entities.calc.psy.PeppCalcBasics;
+import org.inek.dataportal.feature.calculationhospital.entities.psy.PeppCalcBasics;
 
 /**
  *

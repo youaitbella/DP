@@ -6,7 +6,8 @@
 
 package org.inek.dataportal.calc;
 
-import org.inek.dataportal.entities.calc.sop.*;
+import org.inek.dataportal.feature.calculationhospital.entities.sop.StatementOfParticipance;
+import org.inek.dataportal.feature.calculationhospital.entities.sop.CalcContact;
 import org.inek.dataportal.feature.calculationhospital.EditStatementOfParticipance;
 import org.inek.dataportal.common.helper.structures.MessageContainer;
 import static org.junit.Assert.assertFalse;

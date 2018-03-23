@@ -8,7 +8,7 @@ import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.facades.calc.CalcFacade;
+import org.inek.dataportal.feature.calculationhospital.facades.CalcFacade;
 import org.inek.dataportal.common.tree.entityTree.AccountTreeNode;
 import org.inek.dataportal.common.tree.TreeNode;
 import org.inek.dataportal.common.tree.TreeNodeObserver;

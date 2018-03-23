@@ -19,9 +19,9 @@ import java.util.zip.ZipOutputStream;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.helper.StreamHelper;
 import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.entities.calc.autopsy.CalcBasicsAutopsy;
-import org.inek.dataportal.entities.calc.drg.DrgCalcBasics;
-import org.inek.dataportal.entities.calc.psy.PeppCalcBasics;
+import org.inek.dataportal.feature.calculationhospital.entities.autopsy.CalcBasicsAutopsy;
+import org.inek.dataportal.feature.calculationhospital.entities.drg.DrgCalcBasics;
+import org.inek.dataportal.feature.calculationhospital.entities.psy.PeppCalcBasics;
 
 /**
  *

@@ -11,10 +11,10 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.entities.dropbox.DropBox;
+import org.inek.dataportal.feature.dropbox.entities.DropBox;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.enums.Pages;
-import org.inek.dataportal.facades.DropBoxFacade;
+import org.inek.dataportal.feature.dropbox.facade.DropBoxFacade;
 import org.inek.dataportal.common.helper.Utils;
 
 /**

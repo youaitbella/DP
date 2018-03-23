@@ -9,7 +9,7 @@ import java.util.Map;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpSession;
-import org.inek.dataportal.entities.calc.drg.KGLDocument;
+import org.inek.dataportal.feature.calculationhospital.entities.drg.KGLDocument;
 import org.inek.dataportal.feature.calculationhospital.EditCalcBasicsDrg;
 
 @WebServlet(urlPatterns = {"/upload/calcBasics"}, name = "CalcUploadServlet")

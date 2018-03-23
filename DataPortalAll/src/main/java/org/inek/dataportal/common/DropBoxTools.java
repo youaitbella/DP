@@ -10,8 +10,8 @@ import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.entities.dropbox.DropBoxType;
-import org.inek.dataportal.facades.DropBoxTypeFacade;
+import org.inek.dataportal.feature.dropbox.entities.DropBoxType;
+import org.inek.dataportal.feature.dropbox.facade.DropBoxTypeFacade;
 
 /**
  *

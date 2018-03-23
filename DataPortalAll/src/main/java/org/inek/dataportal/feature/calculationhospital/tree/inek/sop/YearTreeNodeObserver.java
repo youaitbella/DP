@@ -10,8 +10,8 @@ import org.inek.dataportal.common.overall.ApplicationTools;
 import org.inek.dataportal.common.tree.TreeNode;
 import org.inek.dataportal.common.tree.TreeNodeObserver;
 import org.inek.dataportal.common.tree.YearTreeNode;
-import org.inek.dataportal.entities.calc.CalcHospitalInfo;
-import org.inek.dataportal.facades.calc.CalcSopFacade;
+import org.inek.dataportal.feature.calculationhospital.entities.CalcHospitalInfo;
+import org.inek.dataportal.feature.calculationhospital.facades.CalcSopFacade;
 import org.inek.dataportal.helper.tree.CalcHospitalTreeNode;
 
 /**
