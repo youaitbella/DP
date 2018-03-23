@@ -3,8 +3,6 @@ package org.inek.dataportal.facades;
 import org.inek.dataportal.common.data.AbstractFacade;
 import java.util.List;
 import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
 import org.inek.dataportal.feature.drgproposal.entities.DrgInfo;
 
 
