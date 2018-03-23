@@ -12,7 +12,7 @@ public class AccountRESTTest {
 
     // tests won't execute parallel!
     private static final String ID = "12345";
-    private static final int DELAY = 5;
+    private static final int DELAY = 10;
     
     @Test
     public void storeIdAnRetrieveItByToken() {
