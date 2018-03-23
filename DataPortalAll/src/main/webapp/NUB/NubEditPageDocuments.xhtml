@@ -16,7 +16,7 @@
             function createUploader() {
                 var uploader = new qq.FileUploader({
                     element: document.getElementById('file-uploader'),
-                    action: '/DataPortal/upload/nubrequest',
+                    action: '#{request.contextPath}/upload/nubrequest',
                     debug: true,
                     allowedExtensions: ['png', 'jpg', 'pdf', 'txt', 'odt', 'doc', 'docx', 'odc', 'xls', 'xlsx'],
                     onSubmit: function (id, fileName) {

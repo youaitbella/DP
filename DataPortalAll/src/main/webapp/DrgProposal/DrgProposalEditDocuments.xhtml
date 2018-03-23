@@ -16,7 +16,7 @@
                 function createUploader() {
                     var uploader = new qq.FileUploader({
                         element: document.getElementById('file-uploader'),
-                        action: '/DataPortal/upload/drgproposal',
+                        action: '#{request.contextPath}/upload/drgproposal',
                         debug: true,
                         allowedExtensions: [],
                         onSubmit: function (id, fileName) {

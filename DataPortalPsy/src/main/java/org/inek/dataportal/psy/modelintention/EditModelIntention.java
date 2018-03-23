@@ -759,12 +759,7 @@ public class EditModelIntention extends AbstractEditController {
     }
 
     private void removeEmptyContacts() {
-        for (Iterator<ModelIntentionContact> itr = _modelIntention.getContacts().iterator(); itr.hasNext();) {
-            ModelIntentionContact entry = itr.next();
-            if (entry.isEmpty()) {
-                itr.remove();
-            }
-        }
+        _modelIntention.getContacts().removeIf(c -> c.isEmpty());
     }
 
     private void ensureEmptyEntries() {

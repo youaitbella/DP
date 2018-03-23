@@ -19,7 +19,7 @@
             function createUploader() {
                 var uploader = new qq.FileUploader({
                     element: document.getElementById('file-uploader'),
-                    action: '/DataPortal/upload/psychstaff',
+                    action: '#{request.contextPath}/upload/psychstaff',
                     debug: true,
                     allowedExtensions: ['pdf', 'jpg', 'jpeg', 'png', 'bmp', 'gif'],
                     onSubmit: function (id, fileName) {

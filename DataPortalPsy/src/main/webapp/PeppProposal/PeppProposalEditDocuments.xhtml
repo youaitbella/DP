@@ -14,7 +14,7 @@
             function createUploader() {
                 var uploader = new qq.FileUploader({
                     element: document.getElementById('file-uploader'),
-                    action: '/DataPortal/upload/peppproposal',
+                    action: '#{request.contextPath}/upload/peppproposal',
                     debug: true,
                     allowedExtensions: [], //['zip', '7z', 'rar', 'gpg', 'pgp'],
                     onSubmit: function (id, fileName) {

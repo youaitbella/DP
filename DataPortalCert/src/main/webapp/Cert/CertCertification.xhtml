@@ -17,7 +17,7 @@
             var fileCounter = 0;
             function createUploader(label) {
                 var uploader = new qq.FileUploader({element: document.getElementById('file-uploader'),
-                    action: '/DataPortal/upload/CertUploadServlet',
+                    action: '#{request.contextPath}/upload/CertUploadServlet',
                     debug: true,
                     allowedExtensions: ['zip'], //['zip', '7z', 'rar', 'gpg', 'pgp'],
                     onSubmit: function (id, fileName) {

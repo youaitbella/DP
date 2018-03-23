@@ -15,7 +15,7 @@
         function createUploader() {
             var uploader = new qq.FileUploader({
                 element: document.getElementById('file-uploader'),
-                action: '/DataPortal/upload/calcBasics',
+                action: '#{request.contextPath}/upload/calcBasics',
                 debug: true,
                 allowedExtensions: ['png', 'jpg', 'pdf', 'txt', 'odt', 'doc', 'docx', 'odc', 'xls', 'xlsx'],
                 onSubmit: function (id, fileName) {

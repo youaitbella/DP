@@ -19,7 +19,7 @@
             function createUploader() {
                 var uploader = new qq.FileUploader({
                     element: document.getElementById('file-uploader'),
-                    action: '/DataPortal/upload/nub',
+                    action: '#{request.contextPath}/upload/nub',
                     debug: true,
                     multiple: true,
                     allowedExtensions: ['nub', 'txt'], //['zip', '7z', 'rar', 'gpg', 'pgp'],
