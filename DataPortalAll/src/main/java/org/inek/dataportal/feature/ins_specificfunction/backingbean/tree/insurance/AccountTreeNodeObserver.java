@@ -17,7 +17,7 @@ import org.inek.dataportal.common.overall.ApplicationTools;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.feature.ins_specificfunction.entities.SpecificFunctionAgreement;
+import org.inek.dataportal.feature.ins_specificfunction.entity.SpecificFunctionAgreement;
 import org.inek.dataportal.feature.ins_specificfunction.facade.SpecificFunctionFacade;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.helper.tree.SpecificFunctionAgreementTreeNode;

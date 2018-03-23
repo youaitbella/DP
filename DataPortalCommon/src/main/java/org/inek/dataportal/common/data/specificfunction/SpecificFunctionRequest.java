@@ -1,4 +1,4 @@
-package org.inek.dataportal.feature.specificfunction.entity;
+package org.inek.dataportal.common.data.specificfunction;
 
 import java.io.Serializable;
 import java.time.LocalDate;

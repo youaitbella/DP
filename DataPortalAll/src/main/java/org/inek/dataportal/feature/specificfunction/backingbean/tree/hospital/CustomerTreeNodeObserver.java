@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 import javax.inject.Inject;
 import org.inek.dataportal.common.overall.ApplicationTools;
 import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.feature.specificfunction.entity.SpecificFunctionRequest;
+import org.inek.dataportal.common.data.specificfunction.SpecificFunctionRequest;
 import org.inek.dataportal.feature.specificfunction.facade.SpecificFunctionFacade;
 import org.inek.dataportal.helper.tree.SpecificFunctionRequestTreeNode;
 import org.inek.dataportal.common.tree.entityTree.CustomerTreeNode;

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.feature.specificfunction.entity;
+package org.inek.dataportal.common.data.specificfunction;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -13,56 +13,58 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 import org.inek.dataportal.common.utils.Documentation;
 
 /**
  *
- * @author aitbellayo
+ * @author muellermi
  */
 @Entity
-@Table(name = "listTypeExtraCharge", schema = "spf")
-public class TypeExtraCharge implements Serializable {
+@Table(name = "listCenterName", schema = "spf")
+public class CenterName implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
+    
     //<editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "tecId")
+    @Column(name = "cnId")
     private int _id;
-
+    
     public int getId() {
         return _id;
     }
-
+    
     public void setId(int id) {
         this._id = id;
     }
     //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="Property Name">
-    @Column(name = "tecName")
+    
+    // <editor-fold defaultstate="collapsed" desc="Property Name">
+    @Column(name = "cnName")
     @Documentation(key = "lblName")
     private String _name = "";
 
-    //</editor-fold>
+    @Size(max = 200)
     public String getName() {
         return _name;
     }
 
     public void setName(String name) {
-        this._name = name;
+        _name = name;
     }
+    // </editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="hashCode, equals, toString">
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 67 * hash + this._id;
-        hash = 67 * hash + Objects.hashCode(this._name);
+        hash = 97 * hash + this._id;
+        hash = 97 * hash + Objects.hashCode(this._name);
         return hash;
     }
-
+    
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -74,7 +76,7 @@ public class TypeExtraCharge implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final TypeExtraCharge other = (TypeExtraCharge) obj;
+        final CenterName other = (CenterName) obj;
         if (this._id != other._id) {
             return false;
         }
@@ -83,11 +85,11 @@ public class TypeExtraCharge implements Serializable {
         }
         return true;
     }
-
+    
     @Override
     public String toString() {
-        return "TypeExtraCharge{" + "_id=" + _id + ", _name=" + _name + '}';
+        return _name;
     }
-
     //</editor-fold>
+    
 }

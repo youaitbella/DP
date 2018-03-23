@@ -5,7 +5,7 @@
  */
 package org.inek.dataportal.helper.tree;
 
-import org.inek.dataportal.feature.specificfunction.entity.SpecificFunctionRequest;
+import org.inek.dataportal.common.data.specificfunction.SpecificFunctionRequest;
 import org.inek.dataportal.common.tree.TreeNode;
 import org.inek.dataportal.common.tree.TreeNodeObserver;
 

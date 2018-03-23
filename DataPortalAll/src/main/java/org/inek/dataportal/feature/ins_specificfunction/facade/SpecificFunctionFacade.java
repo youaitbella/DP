@@ -16,14 +16,14 @@ import javax.transaction.Transactional;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.data.AbstractDataAccess;
-import org.inek.dataportal.feature.ins_specificfunction.entities.AgreedCenter;
-import org.inek.dataportal.feature.ins_specificfunction.entities.AgreedRemunerationKeys;
-import org.inek.dataportal.feature.specificfunction.entity.CenterName;
-import org.inek.dataportal.feature.specificfunction.entity.RelatedName;
-import org.inek.dataportal.feature.specificfunction.entity.SpecificFunction;
-import org.inek.dataportal.feature.ins_specificfunction.entities.SpecificFunctionAgreement;
-import org.inek.dataportal.feature.specificfunction.entity.SpecificFunctionRequest;
-import org.inek.dataportal.feature.specificfunction.entity.TypeExtraCharge;
+import org.inek.dataportal.feature.ins_specificfunction.entity.AgreedCenter;
+import org.inek.dataportal.feature.ins_specificfunction.entity.AgreedRemunerationKeys;
+import org.inek.dataportal.feature.ins_specificfunction.entity.SpecificFunctionAgreement;
+import org.inek.dataportal.common.data.specificfunction.CenterName;
+import org.inek.dataportal.common.data.specificfunction.RelatedName;
+import org.inek.dataportal.common.data.specificfunction.SpecificFunction;
+import org.inek.dataportal.common.data.specificfunction.SpecificFunctionRequest;
+import org.inek.dataportal.common.data.specificfunction.TypeExtraCharge;
 
 /**
  *
