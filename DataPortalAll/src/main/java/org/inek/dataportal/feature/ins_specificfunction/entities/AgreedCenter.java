@@ -1,4 +1,4 @@
-package org.inek.dataportal.feature.specificfunction.entity;
+package org.inek.dataportal.feature.ins_specificfunction.entities;
 
 import java.io.Serializable;
 import java.util.List;
@@ -8,6 +8,9 @@ import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import org.inek.dataportal.common.utils.Documentation;
+import org.inek.dataportal.feature.specificfunction.entity.CenterName;
+import org.inek.dataportal.feature.specificfunction.entity.RelatedName;
+import org.inek.dataportal.feature.specificfunction.entity.SpecificFunction;
 
 /**
  *

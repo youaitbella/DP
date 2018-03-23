@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.feature.specificfunction.backingbean;
+package org.inek.dataportal.feature.ins_specificfunction.backingbean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -34,15 +34,15 @@ import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.common.controller.AbstractEditController;
 import org.inek.dataportal.common.data.adm.MailTemplate;
 import org.inek.dataportal.common.data.adm.facade.InekRoleFacade;
-import org.inek.dataportal.feature.specificfunction.entity.AgreedCenter;
-import org.inek.dataportal.feature.specificfunction.entity.AgreedRemunerationKeys;
+import org.inek.dataportal.feature.ins_specificfunction.entities.AgreedCenter;
+import org.inek.dataportal.feature.ins_specificfunction.entities.AgreedRemunerationKeys;
 import org.inek.dataportal.feature.specificfunction.entity.CenterName;
 import org.inek.dataportal.feature.specificfunction.entity.RelatedName;
 import org.inek.dataportal.feature.specificfunction.entity.SpecificFunction;
-import org.inek.dataportal.feature.specificfunction.entity.SpecificFunctionAgreement;
+import org.inek.dataportal.feature.ins_specificfunction.entities.SpecificFunctionAgreement;
 import org.inek.dataportal.feature.specificfunction.entity.SpecificFunctionRequest;
 import org.inek.dataportal.feature.specificfunction.entity.TypeExtraCharge;
-import org.inek.dataportal.feature.specificfunction.facade.SpecificFunctionFacade;
+import org.inek.dataportal.feature.ins_specificfunction.facade.SpecificFunctionFacade;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.helper.structures.MessageContainer;
 import org.inek.dataportal.common.mail.Mailer;

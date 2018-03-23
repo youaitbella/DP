@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.feature.specificfunction.backingbean.tree.insurance;
+package org.inek.dataportal.feature.ins_specificfunction.backingbean.tree.insurance;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -17,8 +17,8 @@ import org.inek.dataportal.common.overall.ApplicationTools;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.feature.specificfunction.entity.SpecificFunctionAgreement;
-import org.inek.dataportal.feature.specificfunction.facade.SpecificFunctionFacade;
+import org.inek.dataportal.feature.ins_specificfunction.entities.SpecificFunctionAgreement;
+import org.inek.dataportal.feature.ins_specificfunction.facade.SpecificFunctionFacade;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.helper.tree.SpecificFunctionAgreementTreeNode;
 import org.inek.dataportal.common.tree.entityTree.AccountTreeNode;

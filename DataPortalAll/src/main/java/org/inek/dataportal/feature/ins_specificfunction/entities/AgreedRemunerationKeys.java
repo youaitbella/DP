@@ -1,4 +1,4 @@
-package org.inek.dataportal.feature.specificfunction.entity;
+package org.inek.dataportal.feature.ins_specificfunction.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;

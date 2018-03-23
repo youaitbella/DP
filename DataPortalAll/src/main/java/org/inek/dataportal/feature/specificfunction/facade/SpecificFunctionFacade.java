@@ -17,14 +17,11 @@ import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.data.AbstractDataAccess;
-import org.inek.dataportal.feature.specificfunction.entity.AgreedCenter;
-import org.inek.dataportal.feature.specificfunction.entity.AgreedRemunerationKeys;
 import org.inek.dataportal.feature.specificfunction.entity.CenterName;
 import org.inek.dataportal.feature.specificfunction.entity.RelatedName;
 import org.inek.dataportal.feature.specificfunction.entity.RequestAgreedCenter;
 import org.inek.dataportal.feature.specificfunction.entity.RequestProjectedCenter;
 import org.inek.dataportal.feature.specificfunction.entity.SpecificFunction;
-import org.inek.dataportal.feature.specificfunction.entity.SpecificFunctionAgreement;
 import org.inek.dataportal.feature.specificfunction.entity.SpecificFunctionRequest;
 import org.inek.dataportal.feature.specificfunction.entity.TypeExtraCharge;
 import org.inek.dataportal.common.helper.Utils;
@@ -217,114 +214,11 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
         return result;
     }
 
-    public SpecificFunctionRequest findSpecificFunctionRequestByCode(String code) {
-        String jpql = "select spf from SpecificFunctionRequest spf where spf._code = :code";
-        TypedQuery<SpecificFunctionRequest> query = getEntityManager().createQuery(jpql, SpecificFunctionRequest.class);
-        query.setParameter(CODE, code);
-        try {
-            return query.getSingleResult();
-        } catch (Exception ex) {
-            return new SpecificFunctionRequest();
-        }
-    }
-
     public List<Integer> getExistingYears(int ik) {
         String jpql = "SELECT distinct spf._dataYear FROM SpecificFunctionRequest spf WHERE spf._ik = :ik";
         TypedQuery<Integer> query = getEntityManager().createQuery(jpql, Integer.class);
         query.setParameter(IK, ik);
         return query.getResultList();
-    }
-    //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="Specific Function Agreement">
-    public SpecificFunctionAgreement findSpecificFunctionAgreement(int id) {
-        return findFresh(SpecificFunctionAgreement.class, id);
-    }
-
-    public SpecificFunctionAgreement findSpecificFunctionAgreementByCode(String code) {
-        String jpql = "SELECT s FROM SpecificFunctionAgreement s WHERE s._code = :code";
-        TypedQuery<SpecificFunctionAgreement> query = getEntityManager().
-                createQuery(jpql, SpecificFunctionAgreement.class);
-        query.setParameter(CODE, code);
-        try {
-            return query.getSingleResult();
-        } catch (Exception ex) {
-            return null;
-        }
-    }
-
-    public boolean SpecificFunctionAgreementExists(String code) {
-        SpecificFunctionAgreement agreement = findSpecificFunctionAgreementByCode(code);
-        return agreement != null;
-    }
-
-    public List<SpecificFunctionAgreement> obtainSpecificFunctionAgreements(int accountId, int year,
-            WorkflowStatus statusLow, WorkflowStatus statusHigh) {
-        String jpql = "SELECT s FROM SpecificFunctionAgreement s "
-                + "WHERE s._accountId = :accountId and s._dataYear = :year and s._statusId between :statusLow and :statusHigh ORDER BY s._id DESC";
-        TypedQuery<SpecificFunctionAgreement> query = getEntityManager().
-                createQuery(jpql, SpecificFunctionAgreement.class);
-        query.setParameter(ACCOUNT_ID, accountId);
-        query.setParameter(YEAR, year);
-        query.setParameter(STATUS_LOW, statusLow.getId());
-        query.setParameter(STATUS_HIGH, statusHigh.getId());
-        return query.getResultList();
-    }
-
-    public List<Account> loadAgreementAccountsForYear(Set<Integer> accountIds, int year, WorkflowStatus statusLow,
-            WorkflowStatus statusHigh) {
-        String jpql = "select distinct a "
-                + "from Account a "
-                + "join SpecificFunctionAgreement s "
-                + "where a._id = s._accountId and s._dataYear = :year "
-                + "    and s._statusId between :statusLow and :statusHigh and s._accountId in :accountIds";
-        TypedQuery<Account> query = getEntityManager().createQuery(jpql, Account.class);
-        query.setParameter(YEAR, year);
-        query.setParameter(STATUS_LOW, statusLow.getId());
-        query.setParameter(STATUS_HIGH, statusHigh.getId());
-        query.setParameter(ACCOUNT_IDS, accountIds);
-        return query.getResultList();
-    }
-
-    public Set<Integer> getAgreementCalcYears(Set<Integer> accountIds) {
-        String jpql = "select s._dataYear from SpecificFunctionAgreement s where s._accountId in :accountIds and s._statusId >= 10";
-        Query query = getEntityManager().createQuery(jpql);
-        query.setParameter(ACCOUNT_IDS, accountIds);
-        @SuppressWarnings("unchecked") HashSet<Integer> result = new HashSet<>(query.getResultList());
-        return result;
-    }
-
-    public SpecificFunctionAgreement saveSpecificFunctionAgreement(SpecificFunctionAgreement agreement) {
-        if (agreement.getStatus() == WorkflowStatus.Unknown) {
-            agreement.setStatus(WorkflowStatus.New);
-        }
-
-        if (agreement.getId() == -1) {
-            persist(agreement);
-            return agreement;
-        }
-
-        for (AgreedCenter item : agreement.getAgreedCenters()) {
-            if (item.getId() == -1) {
-                persist(item);
-            } else {
-                merge(item);
-            }
-        }
-
-        for (AgreedRemunerationKeys item : agreement.getRemunerationKeys()) {
-            if (item.getId() == -1) {
-                persist(item);
-            } else {
-                merge(item);
-            }
-        }
-
-        return merge(agreement);
-    }
-
-    public void deleteSpecificFunctionAgreement(SpecificFunctionAgreement agreement) {
-        remove(agreement);
     }
     //</editor-fold>
 
