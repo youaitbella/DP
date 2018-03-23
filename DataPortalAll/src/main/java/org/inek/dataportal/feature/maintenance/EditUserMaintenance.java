@@ -31,7 +31,6 @@ import org.inek.dataportal.common.data.adm.MailTemplate;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
 import org.inek.dataportal.common.enums.Right;
 import org.inek.dataportal.common.data.ikadmin.facade.IkAdminFacade;
-import org.inek.dataportal.feature.nub.NubSessionTools;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.faceletvalidators.NameValidator;
 import org.inek.dataportal.common.scope.FeatureScoped;
@@ -63,7 +62,6 @@ public class EditUserMaintenance extends AbstractEditController {
     // todo: reduce injection by combining facades. Next replace field injection by constructor injection
     @Inject private ApplicationTools _appTools;
     @Inject private SessionTools _sessionTools;
-    @Inject private NubSessionTools _nubSessionTools;
     @Inject private SessionController _sessionController;
     @Inject private AccountFacade _accountFacade;
     @Inject private AccountPwdFacade _accountPwdFacade;
@@ -348,7 +346,6 @@ public class EditUserMaintenance extends AbstractEditController {
         if (isMasterdataChanged()) {
             mergeMasterData();
             _sessionController.saveAccount();
-            _nubSessionTools.clearCache();
         }
         return "";
     }
@@ -357,7 +354,6 @@ public class EditUserMaintenance extends AbstractEditController {
     public String saveIks() {
         if (mergeIKListIfModified()) {
             _sessionController.saveAccount();
-            _nubSessionTools.clearCache();
         }
         return "";
     }

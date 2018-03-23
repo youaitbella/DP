@@ -11,7 +11,6 @@ import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.controller.IFeatureController;
 import org.inek.dataportal.common.enums.Feature;
 import static org.inek.dataportal.common.enums.Feature.DROPBOX;
-import static org.inek.dataportal.common.enums.Feature.NUB;
 import static org.inek.dataportal.common.enums.Feature.USER_MAINTENANCE;
 import org.inek.dataportal.feature.additionalcost.AdditionalCostController;
 import org.inek.dataportal.feature.agency.AgencyController;
@@ -20,8 +19,6 @@ import org.inek.dataportal.feature.cooperation.CooperationController;
 import org.inek.dataportal.feature.documents.DocumentsController;
 import org.inek.dataportal.feature.dropbox.DropBoxController;
 import org.inek.dataportal.feature.maintenance.UserMaintenanceController;
-import org.inek.dataportal.feature.nub.NubController;
-import org.inek.dataportal.feature.drgproposal.DrgProposalController;
 import org.inek.dataportal.feature.ikadmin.controller.IkAdminController;
 import org.inek.dataportal.feature.requestsystem.controller.RequestSystemController;
 import org.inek.dataportal.feature.specificfunction.controller.SpecificFunctionController;
@@ -41,10 +38,6 @@ public class FeatureFactoryImpl implements FeatureFactory, Serializable {
                 return new IkAdminController(sessionController);
             case USER_MAINTENANCE:
                 return new UserMaintenanceController(sessionController);
-            case NUB:
-                return new NubController(sessionController);
-            case DRG_PROPOSAL:
-                return new DrgProposalController(sessionController);
             case DROPBOX:
                 return new DropBoxController(sessionController);
             case COOPERATION:

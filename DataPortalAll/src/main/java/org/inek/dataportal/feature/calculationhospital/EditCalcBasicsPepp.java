@@ -51,7 +51,7 @@ import org.inek.dataportal.common.controller.AbstractEditController;
 import org.inek.dataportal.common.helper.ObjectUtils;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.helper.structures.FieldValues;
-import org.inek.dataportal.helper.structures.MessageContainer;
+import org.inek.dataportal.common.helper.structures.MessageContainer;
 import org.inek.dataportal.common.utils.DocumentationUtil;
 import org.inek.dataportal.common.utils.ValueLists;
 import org.inek.dataportal.helper.CalcBasicsTransferFileCreator;

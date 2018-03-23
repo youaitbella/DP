@@ -8,7 +8,7 @@ package org.inek.dataportal.calc;
 
 import org.inek.dataportal.entities.calc.sop.*;
 import org.inek.dataportal.feature.calculationhospital.EditStatementOfParticipance;
-import org.inek.dataportal.helper.structures.MessageContainer;
+import org.inek.dataportal.common.helper.structures.MessageContainer;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
