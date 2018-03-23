@@ -1,5 +1,7 @@
-package org.inek.dataportal.feature.ins_specificfunction.entity;
+package org.inek.dataportal.common.specificfunction.entity;
 
+import org.inek.dataportal.common.specificfunction.entity.CenterName;
+import org.inek.dataportal.common.specificfunction.entity.SpecificFunction;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
@@ -8,31 +10,28 @@ import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import org.inek.dataportal.common.utils.Documentation;
-import org.inek.dataportal.common.specificfunction.entity.CenterName;
-import org.inek.dataportal.common.specificfunction.entity.RelatedName;
-import org.inek.dataportal.common.specificfunction.entity.SpecificFunction;
 
 /**
  *
  * @author muellermi
  */
 @Entity
-@Table(name = "AgreedCenter", schema = "spf")
-public class AgreedCenter implements Serializable {
+@Table(name = "RequestProjectedCenter", schema = "spf")
+public class RequestProjectedCenter implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public AgreedCenter() {
+    public RequestProjectedCenter() {
     }
 
-    public AgreedCenter(int masterId) {
-        _agreedMasterId = masterId;
+    public RequestProjectedCenter(int masterId) {
+        _requestMasterId = masterId;
     }
 
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "acId")
+    @Column(name = "rpcId")
     private int _id = -1;
 
     public int getId() {
@@ -44,21 +43,21 @@ public class AgreedCenter implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property AgreedMasterId">
-    @Column(name = "acAgreedMasterId")
-    private int _agreedMasterId = -1;
+    // <editor-fold defaultstate="collapsed" desc="Property RequestMasterId">
+    @Column(name = "rpcRequestMasterId")
+    private int _requestMasterId = -1;
 
-    public int getAgreedMasterId() {
-        return _agreedMasterId;
+    public int getRequestMasterId() {
+        return _requestMasterId;
     }
 
-    public void setAgreedMasterId(int agreedMasterId) {
-        _agreedMasterId = agreedMasterId;
+    public void setRequestMasterId(int requestMasterId) {
+        _requestMasterId = requestMasterId;
     }
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property CenterId">
-    @Column(name = "acCenterId")
+    @Column(name = "rpcCenterId")
     private int _centerId;
 
     public int getCenterId() {
@@ -72,7 +71,7 @@ public class AgreedCenter implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property CenterName">
     @OneToOne
-    @PrimaryKeyJoinColumn(name = "acCenterId")
+    @PrimaryKeyJoinColumn(name = "rpcCenterId")
     @Documentation(name = "Zentrum")
     private CenterName _centerName;
 
@@ -86,7 +85,7 @@ public class AgreedCenter implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property OtherCenterName">
-    @Column(name = "acOtherCenterName")
+    @Column(name = "rpcOtherCenterName")
     @Documentation(name = "Sonstige Art des Zentrums", omitOnEmpty = true)
     private String _otherCenterName = "";
 
@@ -101,7 +100,7 @@ public class AgreedCenter implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Location">
-    @Column(name = "acLocation")
+    @Column(name = "rpcLocation")
     @Documentation(name = "Standort", omitOnEmpty = true)
     private String _location = "";
 
@@ -118,12 +117,12 @@ public class AgreedCenter implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property SpecificFunction">
     @OneToMany
     @JoinTable(
-            name = "mapAgreedCenterSpecificFunction",
+            name = "mapProjectedCenterSpecificFunction",
             schema = "spf",
             joinColumns = {
-                @JoinColumn(name = "acsfAgreedCenterId", referencedColumnName = "acId")},
+                @JoinColumn(name = "pcsfProjectedCenterId", referencedColumnName = "rpcId")},
             inverseJoinColumns = {
-                @JoinColumn(name = "acsfSpecificFunctionId", referencedColumnName = "sfId", unique = true)}
+                @JoinColumn(name = "pcsfSpecificFunctionId", referencedColumnName = "sfId", unique = true)}
             )
     @Documentation(name = "Besondere Aufgaben")
     private List<SpecificFunction> _specificFunctions = new Vector<>();
@@ -138,7 +137,7 @@ public class AgreedCenter implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property OtherSpecificFunction">
-    @Column(name = "acOtherSpecificFunction")
+    @Column(name = "rpcOtherSpecificFunction")
     @Documentation(name = "Sonstige Besondere Aufgaben", omitOnEmpty = true)
     private String _otherSpecificFunction = "";
 
@@ -152,93 +151,37 @@ public class AgreedCenter implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property CostSum">
-    @Column(name = "acCostSum")
-    private double _costSum;
+    // <editor-fold defaultstate="collapsed" desc="Property TypeId">
+    @Column(name = "rpcTypeId")
+    @Documentation(name = "Ausweisung und Festsetzung",
+            translateValue = "1=im Krankenhausplan des Landes;2=durch gleichartige Festlegung der zuständigen Landesbehörde")
+    private int _typeId;
 
     @Min(0)
-    public double getCostSum() {
-        return _costSum;
+    public int getTypeId() {
+        return _typeId;
     }
 
-    public void setCostSum(double costSum) {
-        _costSum = costSum;
-    }
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Property RelatedId">
-    @Column(name = "acRelatedId")
-    private int _relatedId;
-
-    public int getRelatedId() {
-        return _relatedId;
-    }
-
-    public void setRelatedId(int value) {
-        _relatedId = value;
+    public void setTypeId(int typeId) {
+        _typeId = typeId;
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property CenterName">
-    @OneToOne
-    @PrimaryKeyJoinColumn(name = "acRelatedId")
-    @Documentation(name = "Zentrum")
-    private RelatedName _relatedName;
-
-    public RelatedName getRelatedName() {
-        return _relatedName;
-    }
-
-    public void setRelatedName(RelatedName value) {
-        _relatedName = value;
-    }
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Property OtherRelatedText">
-    @Column(name = "acOtherRelatedText")
-    @Documentation(name = "Sonstige Art des Zentrums", omitOnEmpty = true)
-    private String _otherRelatedText = "";
-
-    @Size(max = 250)
-    public String getOtherRelatedText() {
-        return _otherRelatedText;
-    }
-
-    public void setOtherRelatedText(String otherRelatedText) {
-        _otherRelatedText = otherRelatedText;
-    }
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Property ExtraAmount">
-    @Column(name = "acExtraAmount")
-    @Documentation(name = "Höhe des Zuschlags (€)")
-    private double _extraAmount;
+    // <editor-fold defaultstate="collapsed" desc="Property EstimatedPatientCount">
+    @Column(name = "rpcEstimatedPatientCount")
+    @Documentation(name = "Anzahl Patienten (ca.)")
+    private int _estimatedPatientCount;
 
     @Min(0)
-    public double getExtraAmount() {
-        return _extraAmount;
+    public int getEstimatedPatientCount() {
+        return _estimatedPatientCount;
     }
 
-    public void setExtraAmount(double extraAmount) {
-        _extraAmount = extraAmount;
-    }
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Property Sequence">
-    @Column(name = "acSequence")
-    @Documentation(name = "laufende Nummers")
-    private int _sequence;
-
-    public int getSequence() {
-        return _sequence;
-    }
-
-    public void setSequence(int sequence) {
-        this._sequence = sequence;
+    public void setEstimatedPatientCount(int estimatedPatientCount) {
+        _estimatedPatientCount = estimatedPatientCount;
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public int hashCode() {
         if (_id > 0) {
@@ -246,14 +189,16 @@ public class AgreedCenter implements Serializable {
         }
         int hash = 7;
         hash = 97 * hash + this._id;
-        hash = 97 * hash + this._agreedMasterId;
+        hash = 97 * hash + this._requestMasterId;
         hash = 97 * hash + Objects.hashCode(this._otherCenterName);
         hash = 97 * hash + Objects.hashCode(this._location);
         hash = 97 * hash + Objects.hashCode(this._otherSpecificFunction);
-
+        hash = 97 * hash + this._typeId;
+        hash = 97 * hash + this._estimatedPatientCount;
         return hash;
     }
 
+    // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     @SuppressWarnings("CyclomaticComplexity")
     public boolean equals(Object obj) {
@@ -266,17 +211,17 @@ public class AgreedCenter implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final AgreedCenter other = (AgreedCenter) obj;
+        final RequestProjectedCenter other = (RequestProjectedCenter) obj;
         if (_id > 0 || other._id > 0) {
             return _id == other._id;
         }
-        if (this._agreedMasterId != other._agreedMasterId) {
+        if (this._requestMasterId != other._requestMasterId) {
             return false;
         }
-        if (this._costSum != other._costSum) {
+        if (this._typeId != other._typeId) {
             return false;
         }
-        if (this._extraAmount != other._extraAmount) {
+        if (this._estimatedPatientCount != other._estimatedPatientCount) {
             return false;
         }
         if (!Objects.equals(this._otherCenterName, other._otherCenterName)) {
@@ -304,7 +249,8 @@ public class AgreedCenter implements Serializable {
                 && _location.isEmpty()
                 && _specificFunctions.isEmpty()
                 && _otherSpecificFunction.isEmpty()
-                && _costSum == 0d
-                && _extraAmount == 0d;
+                && _typeId == 0
+                && _estimatedPatientCount == 0;
     }
+
 }

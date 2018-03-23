@@ -1,21 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package org.inek.dataportal.feature.ins_specificfunction.backingbean;
+package org.inek.dataportal.drg.specificfunction.backingbean;
 
 import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.overall.ApplicationTools;
-import org.inek.dataportal.feature.ins_specificfunction.entity.SpecificFunctionAgreement;
 import org.inek.dataportal.common.specificfunction.entity.SpecificFunctionRequest;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.feature.ins_specificfunction.facade.SpecificFunctionFacade;
+import org.inek.dataportal.drg.specificfunction.facade.SpecificFunctionFacade;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.utils.DocumentationUtil;
 
@@ -25,21 +19,21 @@ import org.inek.dataportal.common.utils.DocumentationUtil;
  */
 @Named
 @RequestScoped
-public class SpecificFunctionAgreementList {
+public class SpecificFunctionRequestList {
 
     // <editor-fold defaultstate="collapsed" desc="fields">
-    private static final Logger LOGGER = Logger.getLogger("SpecificFunctionAgreementList");
+    private static final Logger LOGGER = Logger.getLogger(SpecificFunctionRequestList.class.getName());
 
     @Inject private SpecificFunctionFacade _specificFunctionFacade;
     @Inject private ApplicationTools _appTools;
     // </editor-fold>
 
     public boolean isNewAllowed() {
-        return _appTools.isEnabled(ConfigKey.IsSpecificFunctionAgreementCreateEnabled);
+        return _appTools.isEnabled(ConfigKey.IsSpecificFunctionRequestCreateEnabled);
     }
 
     public String newRequest() {
-        return Pages.InsuranceSpecificFunctionEditAgreement.URL();
+        return Pages.SpecificFunctionEditRequest.URL();
     }
 
     public String print(SpecificFunctionRequest request) {
@@ -49,21 +43,21 @@ public class SpecificFunctionAgreementList {
         return Pages.PrintView.URL();
     }
 
-    public void delete(SpecificFunctionAgreement agreement) {
-        if (agreement == null) {
+    public void delete(SpecificFunctionRequest request) {
+        if (request == null) {
             // might be deleted by somebody else
             return;
         }
-        if (agreement.getStatus().getId() >= WorkflowStatus.Provided.getId()) {
-            agreement.setStatus(WorkflowStatus.Retired);
-            _specificFunctionFacade.saveSpecificFunctionAgreement(agreement);
+        if (request.getStatus().getId() >= WorkflowStatus.Provided.getId()) {
+            request.setStatus(WorkflowStatus.Retired);
+            _specificFunctionFacade.saveSpecificFunctionRequest(request);
         } else {
-            _specificFunctionFacade.deleteSpecificFunctionAgreement(agreement);
+            _specificFunctionFacade.deleteSpecificFunctionRequest(request);
         }
     }
 
     public String edit() {
-        return Pages.InsuranceSpecificFunctionEditAgreement.URL();
+        return Pages.SpecificFunctionEditRequest.URL();
     }
 
 }

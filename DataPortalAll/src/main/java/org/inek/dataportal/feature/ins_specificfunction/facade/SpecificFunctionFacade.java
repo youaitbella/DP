@@ -19,11 +19,11 @@ import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.feature.ins_specificfunction.entity.AgreedCenter;
 import org.inek.dataportal.feature.ins_specificfunction.entity.AgreedRemunerationKeys;
 import org.inek.dataportal.feature.ins_specificfunction.entity.SpecificFunctionAgreement;
-import org.inek.dataportal.common.data.specificfunction.CenterName;
-import org.inek.dataportal.common.data.specificfunction.RelatedName;
-import org.inek.dataportal.common.data.specificfunction.SpecificFunction;
-import org.inek.dataportal.common.data.specificfunction.SpecificFunctionRequest;
-import org.inek.dataportal.common.data.specificfunction.TypeExtraCharge;
+import org.inek.dataportal.common.specificfunction.entity.CenterName;
+import org.inek.dataportal.common.specificfunction.entity.RelatedName;
+import org.inek.dataportal.common.specificfunction.entity.SpecificFunction;
+import org.inek.dataportal.common.specificfunction.entity.SpecificFunctionRequest;
+import org.inek.dataportal.common.specificfunction.entity.TypeExtraCharge;
 
 /**
  *

@@ -20,7 +20,6 @@ import org.inek.dataportal.feature.dropbox.DropBoxController;
 import org.inek.dataportal.feature.maintenance.UserMaintenanceController;
 import org.inek.dataportal.feature.ikadmin.controller.IkAdminController;
 import org.inek.dataportal.feature.requestsystem.controller.RequestSystemController;
-import org.inek.dataportal.feature.specificfunction.controller.SpecificFunctionController;
 
 /**
  *
@@ -47,8 +46,6 @@ public class FeatureFactoryImpl implements FeatureFactory, Serializable {
                 return new AgencyController(sessionController);
             case CALCULATION_HOSPITAL:
                 return new CalcHospitalController(sessionController);
-            case SPECIFIC_FUNCTION:
-                return new SpecificFunctionController(sessionController);
             case REQUEST_SYSTEM:
                 return new RequestSystemController(sessionController);
             default:

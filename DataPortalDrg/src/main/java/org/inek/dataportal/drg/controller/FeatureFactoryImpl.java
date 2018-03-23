@@ -13,6 +13,7 @@ import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.drg.additionalcost.AdditionalCostController;
 import org.inek.dataportal.drg.drgproposal.DrgProposalController;
 import org.inek.dataportal.drg.nub.NubController;
+import org.inek.dataportal.drg.specificfunction.controller.SpecificFunctionController;
 import org.inek.dataportal.drg.valuationratio.ValuationRatioController;
 
 /**
@@ -34,6 +35,8 @@ public class FeatureFactoryImpl implements FeatureFactory, Serializable{
                 return new ValuationRatioController(sessionController);
             case ADDITIONAL_COST:
                 return new AdditionalCostController(sessionController);
+            case SPECIFIC_FUNCTION:
+                return new SpecificFunctionController(sessionController);
             default:
                 throw new IllegalArgumentException("no such controller");
         }
