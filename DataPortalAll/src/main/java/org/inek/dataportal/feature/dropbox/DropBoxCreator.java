@@ -11,7 +11,6 @@ import javax.faces.model.SelectItem;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.inek.dataportal.common.DropBoxTools;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.AccountAdditionalIK;
 import org.inek.dataportal.feature.dropbox.entities.DropBox;

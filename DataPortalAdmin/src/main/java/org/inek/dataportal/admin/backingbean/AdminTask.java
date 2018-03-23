@@ -20,11 +20,11 @@ import org.inek.dataportal.common.data.adm.InekRole;
 import org.inek.dataportal.common.data.adm.MailTemplate;
 import org.inek.dataportal.common.data.adm.RoleMapping;
 import org.inek.dataportal.common.mail.MailTemplateFacade;
-import org.inek.dataportal.admin.facade.InekRoleFacade;
 import org.inek.dataportal.admin.facade.RoleMappingFacade;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.scope.FeatureScoped;
 import org.inek.dataportal.admin.system.SessionCounter;
+import org.inek.dataportal.common.data.adm.facade.InekRoleFacade;
 
 /**
  *

@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.feature.additionalcost;
+package org.inek.dataportal.drg.additionalcost;
 
-import org.inek.dataportal.feature.additionalcost.entity.AdditionalCost;
+import org.inek.dataportal.drg.additionalcost.entity.AdditionalCost;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -28,9 +28,9 @@ import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.feature.additionalcost.facade.AdditionalCostFacade;
+import org.inek.dataportal.drg.additionalcost.facade.AdditionalCostFacade;
 import org.inek.dataportal.common.controller.AbstractEditController;
-import org.inek.dataportal.feature.admin.facade.InekRoleFacade;
+import org.inek.dataportal.common.data.adm.facade.InekRoleFacade;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.scope.FeatureScoped;
 import org.inek.dataportal.common.helper.structures.MessageContainer;

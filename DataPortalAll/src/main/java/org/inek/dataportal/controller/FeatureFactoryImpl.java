@@ -12,7 +12,6 @@ import org.inek.dataportal.common.controller.IFeatureController;
 import org.inek.dataportal.common.enums.Feature;
 import static org.inek.dataportal.common.enums.Feature.DROPBOX;
 import static org.inek.dataportal.common.enums.Feature.USER_MAINTENANCE;
-import org.inek.dataportal.feature.additionalcost.AdditionalCostController;
 import org.inek.dataportal.feature.agency.AgencyController;
 import org.inek.dataportal.feature.calculationhospital.CalcHospitalController;
 import org.inek.dataportal.feature.cooperation.CooperationController;
@@ -50,8 +49,6 @@ public class FeatureFactoryImpl implements FeatureFactory, Serializable {
                 return new CalcHospitalController(sessionController);
             case SPECIFIC_FUNCTION:
                 return new SpecificFunctionController(sessionController);
-            case ADDITIONAL_COST:
-                return new AdditionalCostController(sessionController);
             case REQUEST_SYSTEM:
                 return new RequestSystemController(sessionController);
             default:

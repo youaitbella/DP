@@ -1,6 +1,6 @@
-package org.inek.dataportal.feature.additionalcost;
+package org.inek.dataportal.drg.additionalcost;
 
-import org.inek.dataportal.feature.additionalcost.entity.AdditionalCost;
+import org.inek.dataportal.drg.additionalcost.entity.AdditionalCost;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
@@ -10,7 +10,7 @@ import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.enums.DataSet;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.feature.additionalcost.facade.AdditionalCostFacade;
+import org.inek.dataportal.drg.additionalcost.facade.AdditionalCostFacade;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.scope.FeatureScopedContextHolder;
 import org.inek.dataportal.common.utils.DocumentationUtil;

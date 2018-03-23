@@ -33,7 +33,7 @@ import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.common.controller.AbstractEditController;
 import org.inek.dataportal.common.data.adm.MailTemplate;
-import org.inek.dataportal.feature.admin.facade.InekRoleFacade;
+import org.inek.dataportal.common.data.adm.facade.InekRoleFacade;
 import org.inek.dataportal.feature.specificfunction.entity.AgreedCenter;
 import org.inek.dataportal.feature.specificfunction.entity.AgreedRemunerationKeys;
 import org.inek.dataportal.feature.specificfunction.entity.CenterName;

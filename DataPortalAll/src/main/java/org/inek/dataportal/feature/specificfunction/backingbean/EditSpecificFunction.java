@@ -36,7 +36,7 @@ import org.inek.dataportal.feature.specificfunction.facade.SpecificFunctionFacad
 import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.common.controller.AbstractEditController;
 import org.inek.dataportal.common.data.adm.MailTemplate;
-import org.inek.dataportal.feature.admin.facade.InekRoleFacade;
+import org.inek.dataportal.common.data.adm.facade.InekRoleFacade;
 import org.inek.dataportal.feature.specificfunction.entity.CenterName;
 import org.inek.dataportal.feature.specificfunction.entity.RequestAgreedCenter;
 import org.inek.dataportal.feature.specificfunction.entity.RequestProjectedCenter;
