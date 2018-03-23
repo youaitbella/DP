@@ -420,6 +420,14 @@ public class CertManager implements Serializable {
         //_reportController.createSingleDocument("CertGrouperAkt.xlsx", _system.getId());
     }
     
+    public List getRemunerationDomains() {
+        List<SelectItem> list = new ArrayList<>();
+        for (RemunSystem val : RemunSystem.values()) {
+            list.add(new SelectItem(val.getId(), val.getName()));
+        }
+        return list;
+    }
+    
    // <editor-fold defaultstate="collapsed" desc="SystemRoot">
     public File getSystemRoot(RemunerationSystem system) {
         File root = new File(_config.readConfig(ConfigKey.CertiFolderRoot), "System " + system.getYearSystem());

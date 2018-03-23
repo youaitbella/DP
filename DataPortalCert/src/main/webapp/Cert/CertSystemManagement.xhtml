@@ -35,7 +35,7 @@
                                  value="#{certManager.system.remunerationId}" 
                                  immediate="true" 
                                  disabled="#{certManager.systemChanged}">
-                    <f:selectItems value="#{valueLists.remunerationDomains}" var="domain" itemLabel="#{domain.label}" itemValue="#{domain.value}"/>
+                    <f:selectItems value="#{certManager.remunerationDomains}" var="domain" itemLabel="#{domain.label}" itemValue="#{domain.value}"/>
                     <f:ajax render="@form msgDomain certButtons:btnSystemSave :logout:remaining" />
                 </h:selectOneMenu>
                 <h:message for="mnuDomain" id="msgDomain" styleClass="errorMessage"/>
