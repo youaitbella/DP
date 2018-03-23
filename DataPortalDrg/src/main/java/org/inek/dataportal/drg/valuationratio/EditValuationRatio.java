@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.feature.valuationratio;
+package org.inek.dataportal.drg.valuationratio;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -22,13 +22,13 @@ import javax.validation.ValidationException;
 import org.inek.dataportal.common.overall.ApplicationTools;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.feature.valuationratio.entities.ValuationRatio;
-import org.inek.dataportal.feature.valuationratio.entities.ValuationRatioDrgCount;
-import org.inek.dataportal.feature.valuationratio.entities.ValuationRatioMedian;
+import org.inek.dataportal.drg.valuationratio.entities.ValuationRatio;
+import org.inek.dataportal.drg.valuationratio.entities.ValuationRatioDrgCount;
+import org.inek.dataportal.drg.valuationratio.entities.ValuationRatioMedian;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.feature.valuationratio.facades.ValuationRatioFacade;
+import org.inek.dataportal.drg.valuationratio.facades.ValuationRatioFacade;
 import org.inek.dataportal.common.controller.AbstractEditController;
 import org.inek.dataportal.common.data.adm.MailTemplate;
 import org.inek.dataportal.common.helper.Utils;

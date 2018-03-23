@@ -23,7 +23,6 @@ import org.inek.dataportal.feature.maintenance.UserMaintenanceController;
 import org.inek.dataportal.feature.nub.NubController;
 import org.inek.dataportal.feature.drgproposal.DrgProposalController;
 import org.inek.dataportal.feature.ikadmin.controller.IkAdminController;
-import org.inek.dataportal.feature.valuationratio.ValuationRatioController;
 import org.inek.dataportal.feature.requestsystem.controller.RequestSystemController;
 import org.inek.dataportal.feature.specificfunction.controller.SpecificFunctionController;
 
@@ -60,8 +59,6 @@ public class FeatureFactoryImpl implements FeatureFactory, Serializable {
                 return new SpecificFunctionController(sessionController);
             case ADDITIONAL_COST:
                 return new AdditionalCostController(sessionController);
-            case VALUATION_RATIO:
-                return new ValuationRatioController(sessionController);
             case REQUEST_SYSTEM:
                 return new RequestSystemController(sessionController);
             default:

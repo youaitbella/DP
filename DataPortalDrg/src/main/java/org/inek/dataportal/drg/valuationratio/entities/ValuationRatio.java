@@ -1,4 +1,4 @@
-package org.inek.dataportal.feature.valuationratio.entities;
+package org.inek.dataportal.drg.valuationratio.entities;
 
 import java.io.Serializable;
 import java.text.DateFormat;

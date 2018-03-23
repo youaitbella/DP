@@ -2,16 +2,16 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.feature.valuationratio.facades;
+package org.inek.dataportal.drg.valuationratio.facades;
 
 import org.inek.dataportal.common.data.AbstractDataAccess;
 import java.util.List;
 import java.util.Set;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
-import org.inek.dataportal.feature.valuationratio.entities.ValuationRatio;
-import org.inek.dataportal.feature.valuationratio.entities.ValuationRatioDrgCount;
-import org.inek.dataportal.feature.valuationratio.entities.ValuationRatioMedian;
+import org.inek.dataportal.drg.valuationratio.entities.ValuationRatio;
+import org.inek.dataportal.drg.valuationratio.entities.ValuationRatioDrgCount;
+import org.inek.dataportal.drg.valuationratio.entities.ValuationRatioMedian;
 import org.inek.dataportal.common.enums.DataSet;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 

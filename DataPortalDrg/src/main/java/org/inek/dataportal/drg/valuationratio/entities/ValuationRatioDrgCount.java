@@ -1,4 +1,4 @@
-package org.inek.dataportal.feature.valuationratio.entities;
+package org.inek.dataportal.drg.valuationratio.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
@@ -9,15 +9,15 @@ import org.inek.dataportal.common.utils.Documentation;
  * @author muellermi
  */
 @Entity
-@Table(name = "ValuationRatioMedians", schema = "vr")
-public class ValuationRatioMedian implements Serializable {
+@Table(name = "ValuationRatioDrgCount", schema = "vr")
+public class ValuationRatioDrgCount implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "vrmId")
+    @Column(name = "vrdcId")
     private int _id = -1;
 
     public int getId() {
@@ -30,7 +30,7 @@ public class ValuationRatioMedian implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Data Year">
-    @Column(name = "vrmDataYear")
+    @Column(name = "vrdcDataYear")
     @Documentation(key = "lblYear")
     private int _dataYear;
 
@@ -39,25 +39,25 @@ public class ValuationRatioMedian implements Serializable {
     }
     // </editor-fold>
     
-    @Column(name = "vrmDrg")
+    @Column(name = "vrdcDrg")
     private String _drg;
 
     public String getDrg() {
         return _drg;
     }
     
-    @Column(name = "vrmMedian")
-    private int _median;
+    @Column(name = "vrdcCount")
+    private int _count;
 
-    public int getMedian() {
-        return _median;
+    public int getCount() {
+        return _count;
     }
     
-    @Column(name = "vrmFactor")
-    private float _factor;
+    @Column(name = "vrdcIk")
+    private int _ik;
 
-    public float getFactor() {
-        return _factor;
+    public int getIk() {
+        return _ik;
     }
     
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
@@ -79,7 +79,7 @@ public class ValuationRatioMedian implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final ValuationRatioMedian other = (ValuationRatioMedian) obj;
+        final ValuationRatioDrgCount other = (ValuationRatioDrgCount) obj;
         if (this._id != other._id) {
             return false;
         }

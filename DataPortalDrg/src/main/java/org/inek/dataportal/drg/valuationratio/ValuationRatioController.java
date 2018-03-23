@@ -1,4 +1,4 @@
-package org.inek.dataportal.feature.valuationratio;
+package org.inek.dataportal.drg.valuationratio;
 
 import org.inek.dataportal.common.helper.Topics;
 import org.inek.dataportal.common.helper.Utils;
