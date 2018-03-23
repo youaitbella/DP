@@ -10,7 +10,7 @@ import java.util.List;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.common.DiagnosisInfo;
 import org.inek.dataportal.common.data.common.ProcedureInfo;
-import org.inek.dataportal.entities.drg.DrgInfo;
+import org.inek.dataportal.feature.drgproposal.entities.DrgInfo;
 import org.inek.dataportal.common.enums.CodeType;
 import org.inek.dataportal.facades.DrgFacade;
 import org.inek.dataportal.common.data.access.DiagnosisFacade;

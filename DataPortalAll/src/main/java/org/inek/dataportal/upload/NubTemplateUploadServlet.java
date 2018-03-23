@@ -10,7 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.enums.NubFieldKey;
-import org.inek.dataportal.facades.NubRequestFacade;
+import org.inek.dataportal.feature.nub.facades.NubRequestFacade;
 import org.inek.dataportal.feature.nub.NubController;
 import org.inek.dataportal.common.helper.Utils;
 

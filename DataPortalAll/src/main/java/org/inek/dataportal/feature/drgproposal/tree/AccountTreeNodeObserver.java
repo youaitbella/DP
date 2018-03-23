@@ -16,7 +16,7 @@ import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.enums.DataSet;
 import org.inek.dataportal.common.enums.Feature;
-import org.inek.dataportal.facades.DrgProposalFacade;
+import org.inek.dataportal.feature.drgproposal.facades.DrgProposalFacade;
 import org.inek.dataportal.common.helper.structures.ProposalInfo;
 import org.inek.dataportal.common.tree.ProposalInfoTreeNode;
 import org.inek.dataportal.common.tree.TreeNode;

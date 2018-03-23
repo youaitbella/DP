@@ -14,8 +14,8 @@ import java.util.stream.Stream;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.inek.dataportal.entities.nub.NubMethodInfo;
-import org.inek.dataportal.facades.NubRequestFacade;
+import org.inek.dataportal.feature.nub.entities.NubMethodInfo;
+import org.inek.dataportal.feature.nub.facades.NubRequestFacade;
 
 /**
  *

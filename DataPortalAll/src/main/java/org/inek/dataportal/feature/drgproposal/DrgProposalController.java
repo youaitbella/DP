@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.inek.dataportal.common.controller.AbstractFeatureController;
 import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.entities.drg.DrgProposalDocument;
+import org.inek.dataportal.feature.drgproposal.entities.DrgProposalDocument;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.helper.Topics;
