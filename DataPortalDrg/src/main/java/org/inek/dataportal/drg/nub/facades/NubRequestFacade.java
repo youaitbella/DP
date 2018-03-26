@@ -212,18 +212,22 @@ public class NubRequestFacade extends AbstractDataAccess {
         }
         return proposalInfos;
     }
-
-    public List<Integer> getNubYears(int accountId) {
-        Set<Integer> accountIds = new HashSet<>();
-        accountIds.add(accountId);
-        return getNubYears(accountIds);
-    }
-
-    public List<Integer> getNubYears(Set<Integer> accountIds) {
+    
+    public List<Integer> getNubYears(Set<Integer> accountIds, Set<Integer> managedIks) {
         String jpql = "SELECT DISTINCT p._targetYear FROM NubRequest p "
-                + "WHERE p._accountId in :accountIds and p._status >= 10 ORDER BY p._targetYear DESC";
+                + "WHERE p._status >= 10 and ("
+                + (accountIds.isEmpty() ? "1=2" : "p._accountId in :accountIds")
+                + " or "
+                + (managedIks.isEmpty() ? "1=2" : "p._ik in :managedIks")
+                + ")\n"
+                + "ORDER BY p._targetYear DESC";
         TypedQuery<Integer> query = getEntityManager().createQuery(jpql, Integer.class);
-        query.setParameter("accountIds", accountIds);
+        if (!accountIds.isEmpty()) {
+            query.setParameter("accountIds", accountIds);
+        }
+        if (!managedIks.isEmpty()) {
+            query.setParameter("managedIks", managedIks);
+        }
         return query.getResultList();
     }
 

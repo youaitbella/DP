@@ -18,7 +18,7 @@ public enum Feature {
     MODEL_INTENTION(9, "Modellvorhaben Psy", NeedApproval.No, PortalType.PSY, IkReference.None, Selectable.Yes, Shareable.Yes),
     DOCUMENTS(10, "Dokumente", NeedApproval.No, PortalType.COMMON, IkReference.None, Selectable.No, Shareable.No),
     CERT(11, "Zertifizierung", NeedApproval.Yes, PortalType.CERT, IkReference.None, Selectable.Yes, Shareable.No),
-    AGENCY(12, "Behörde", NeedApproval.Yes, PortalType.DRG, IkReference.None, Selectable.Yes, Shareable.No),
+    AGENCY(12, "Behörde", NeedApproval.Yes, PortalType.COMMON, IkReference.None, Selectable.Yes, Shareable.No),
     INSURANCE(13, "Krankenkasse", NeedApproval.Yes, PortalType.INSURANCE, IkReference.None, Selectable.Yes, Shareable.No),
     CALCULATION_HOSPITAL(14, "Teilnahme Kostenkalkulation", NeedApproval.Yes, PortalType.COMMON, IkReference.Hospital, Selectable.Yes, Shareable.Yes),
     SPECIFIC_FUNCTION(15, "Besondere Aufgaben", NeedApproval.Yes, PortalType.DRG, IkReference.Hospital, Selectable.Yes, Shareable.Yes),
