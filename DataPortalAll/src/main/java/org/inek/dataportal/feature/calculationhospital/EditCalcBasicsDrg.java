@@ -119,12 +119,11 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             _calcBasics = newCalcBasicsDrg();
             _baseLine = null;
         } else if (Utils.isInteger(id)) {
-            DrgCalcBasics calcBasics = loadCalcBasicsDrg(id);
-            if (calcBasics.getId() == -1) {
+            _calcBasics = loadCalcBasicsDrg(id);
+            if (_calcBasics.getId() == -1) {
                 Utils.navigate(Pages.NotAllowed.RedirectURL());
                 return;
             }
-            _calcBasics = calcBasics;
             _baseLine = _calcDrgFacade.findCalcBasicsDrg(_calcBasics.getId());
             retrievePriorData(_calcBasics);
             PreloadFunctionsCalcBasicsDrg.populateDelimitationFactsIfAbsent(_calcDrgFacade, _calcBasics, _priorCalcBasics);

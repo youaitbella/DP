@@ -160,6 +160,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
 
         if (id == null) {
             Utils.navigate(Pages.NotAllowed.RedirectURL());
+            _statement = newStatementOfParticipance();
             return;
         } else if ("new".equals(id.toString())) {
             if (!_appTools.isEnabled(ConfigKey.IsStatemenOfParticipanceCreateEnabled)) {
