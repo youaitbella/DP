@@ -10,6 +10,7 @@ import javax.ejb.Asynchronous;
 import javax.ejb.Schedule;
 import javax.ejb.Stateless;
 import javax.faces.model.SelectItem;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import org.inek.dataportal.common.data.account.entities.AccountDocument;
@@ -41,7 +42,7 @@ public class AccountDocumentFacade extends AbstractFacade<AccountDocument> {
         @SuppressWarnings("unchecked") List<Object[]> objects = query.getResultList();
         List<DocInfo> docInfos = new ArrayList<>();
         for (Object[] obj : objects) {
-            docInfos.add(new DocInfo((int) obj[0], (String) obj[1], (String) obj[2], (Date) obj[3], (Date) obj[4], 
+            docInfos.add(new DocInfo((int) obj[0], (String) obj[1], (String) obj[2], (Date) obj[3], (Date) obj[4],
                     (boolean) obj[5], (int) obj[6], (int) obj[7], (int) obj[8], "", (String) obj[9], (boolean) obj[10]));
         }
         return docInfos;
@@ -56,8 +57,8 @@ public class AccountDocumentFacade extends AbstractFacade<AccountDocument> {
                 + "WHERE d._domainId = dd._id and d._accountId = a._id "
                 + "  and d._agentAccountId in :accountIds "
                 + "  and d._created > :refDate "
-                + (filter.isEmpty() 
-                ? "" 
+                + (filter.isEmpty()
+                ? ""
                 : " and (d._name like :filter or a._ik = :numFilter or a._company like :filter or a._town like :filter or dd._name like :filter)")
                 + "ORDER BY d._read, d._created DESC";
         Query query = getEntityManager().createQuery(jpql); //.setMaxResults(100);
@@ -77,9 +78,9 @@ public class AccountDocumentFacade extends AbstractFacade<AccountDocument> {
         @SuppressWarnings("unchecked") List<Object[]> objects = query.getResultList();
         List<DocInfo> docInfos = new ArrayList<>();
         for (Object[] obj : objects) {
-            docInfos.add(new DocInfo((int) obj[0], (String) obj[1], (String) obj[2], (Date) obj[3], (Date) obj[4], 
-                    (boolean) obj[5], (int) obj[6], (int) obj[7], (int) obj[8], "", 
-                    ((int)obj[9] < 0 ? "" : obj[9] + " ") + obj[10], (boolean) obj[11]));
+            docInfos.add(new DocInfo((int) obj[0], (String) obj[1], (String) obj[2], (Date) obj[3], (Date) obj[4],
+                    (boolean) obj[5], (int) obj[6], (int) obj[7], (int) obj[8], "",
+                    ((int) obj[9] < 0 ? "" : obj[9] + " ") + obj[10], (boolean) obj[11]));
         }
         return docInfos;
     }
@@ -107,35 +108,36 @@ public class AccountDocumentFacade extends AbstractFacade<AccountDocument> {
     }
 
     public List<String> getNewDocs(int accountId) {
-        String sql = "SELECT d._name FROM AccountDocument d WHERE d._accountId = :accountId and d._created > :referenceDate ORDER BY d._id DESC";
-        TypedQuery<String> query = getEntityManager().createQuery(sql, String.class);
+        String jpql = "SELECT d._name FROM AccountDocument d WHERE d._accountId = :accountId and d._created > :referenceDate ORDER BY d._id DESC";
+        TypedQuery<String> query = getEntityManager().createQuery(jpql, String.class);
         query.setParameter("accountId", accountId);
         query.setParameter("referenceDate", DateUtils.getDateWithDayOffset(-30));
         return query.setMaxResults(5).getResultList();
     }
 
     public List<AccountDocument> findAll(int accountId) {
-        String sql = "SELECT d FROM AccountDocument d WHERE d._accountId = :accountId ORDER BY d._id DESC";
-        TypedQuery<AccountDocument> query = getEntityManager().createQuery(sql, AccountDocument.class);
+        String jpql = "SELECT d FROM AccountDocument d WHERE d._accountId = :accountId ORDER BY d._id DESC";
+        TypedQuery<AccountDocument> query = getEntityManager().createQuery(jpql, AccountDocument.class);
         query.setParameter("accountId", accountId);
         return query.getResultList();
     }
 
     public long count(int accountId) {
-        String sql = "SELECT count(d._id) FROM AccountDocument d WHERE d._accountId = :accountId";
-        Query query = getEntityManager().createQuery(sql, Long.class);
+        String jpql = "SELECT count(d._id) FROM AccountDocument d WHERE d._accountId = :accountId";
+        Query query = getEntityManager().createQuery(jpql, Long.class);
         query.setParameter("accountId", accountId);
         return (long) query.getSingleResult();
     }
 
     public boolean isDocRead(int docId) {
-        AccountDocument doc = find(docId);
-        // the the user has opened multiple browsers or tabs, the document might be deleted somewhere else
-        // thus we need to check for null
-        if (doc != null && doc.isRead()) {
-            return true;
+        String jpql = "SELECT d._read FROM AccountDocument d WHERE d._id = :docId";
+        Query query = getEntityManager().createQuery(jpql, Boolean.class);
+        query.setParameter("docId", docId);
+        try {
+            return (boolean) query.getSingleResult();
+        } catch (NoResultException ex) {
+            return false;
         }
-        return false;
     }
 
     @Schedule(hour = "2", minute = "15", info = "once a day")
