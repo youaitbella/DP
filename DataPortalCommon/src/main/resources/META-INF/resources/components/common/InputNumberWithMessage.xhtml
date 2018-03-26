@@ -38,7 +38,7 @@
                          requiredMessage="#{msg.msgValueNeeded}"
                          validatorMessage="#{cc.attrs.validatorMessage}"
                          >
-                <f:ajax event="blur" render="#{cc.attrs.renderElement} :logout:remaining message @this"/>
+                <f:ajax event="blur" render="#{cc.attrs.renderElement} :logout:remaining message"/>
                 <f:convertNumber pattern="#{cc.attrs.pattern}"/>
                 <f:validateDoubleRange minimum="#{cc.attrs.minimum}" maximum="#{cc.attrs.maximum}"/>
             </h:inputText>
