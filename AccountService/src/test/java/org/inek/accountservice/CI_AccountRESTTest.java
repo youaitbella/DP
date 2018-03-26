@@ -8,7 +8,7 @@ import static org.inek.accountservice.AccountREST.VALID_TIME;
  *
  * @author muellermi
  */
-public class AccountRESTTest {
+public class CI_AccountRESTTest {
 
     // tests won't execute parallel!
     private static final String ID = "12345";
