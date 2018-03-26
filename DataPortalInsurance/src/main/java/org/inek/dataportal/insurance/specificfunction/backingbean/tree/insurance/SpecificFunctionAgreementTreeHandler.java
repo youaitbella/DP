@@ -6,17 +6,17 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.TreeMap;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.common.tree.entityTree.AccountTreeNode;
 import org.inek.dataportal.common.specificfunction.tree.SpecificFunctionRequestTreeNode;
 import org.inek.dataportal.common.tree.RootNode;
 import org.inek.dataportal.common.tree.TreeNode;
+import org.inek.dataportal.common.tree.TreeNodeObserver;
 import org.inek.dataportal.common.utils.KeyValueLevel;
 
 /**
@@ -28,44 +28,40 @@ public class SpecificFunctionAgreementTreeHandler implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger("SpecificFunctionAgreementTreeHandler");
     private static final long serialVersionUID = 1L;
+   
+    @Inject private Instance<EditRootTreeNodeObserver> _editRootTreeNodeObserverProvider;
+    @Inject private Instance<ViewRootTreeNodeObserver> _viewRootTreeNodeObserverProvider;
 
-    @Inject private SessionController _sessionController;
-    
-    @Inject private Instance<AccountTreeNodeObserver> _accountTreeNodeObserverProvider;
+    private RootNode _rootNode;
 
-    private final RootNode _rootNode = RootNode.create(0, null);
-    private AccountTreeNode _accountNode;
+    @PostConstruct
+    private void init() {
+        _rootNode = RootNode.create(0, null);
+        _rootNode.setExpanded(true);
+    }
 
-    private RootNode getRootNode(int id) {
+    public RootNode getEditNode() {
+        return getRootNode(1, _editRootTreeNodeObserverProvider);
+    }
+
+    public RootNode getViewNode() {
+        return getRootNode(2, _viewRootTreeNodeObserverProvider);
+    }
+
+    private RootNode getRootNode(int id,
+            Instance<? extends TreeNodeObserver> treeNodeObserverProvider) {
         Optional<TreeNode> optionalRoot = _rootNode.getChildren().stream().filter(n -> n.getId() == id).findAny();
         if (optionalRoot.isPresent()) {
             return (RootNode) optionalRoot.get();
         }
-        RootNode node = RootNode.create(id, null);
+        RootNode node = RootNode.create(id, treeNodeObserverProvider.get());
         node.expand();
-        _rootNode.setExpanded(true);
         _rootNode.addChild(node);
         return node;
     }
 
-    public RootNode getEditNode() {
-        return getRootNode(1);
-    }
-
-    public RootNode getViewNode() {
-        return getRootNode(2);
-    }
-
     public void refreshNodes() {
         _rootNode.refresh();
-    }
-
-    public AccountTreeNode getAccountNode() {
-        if (_accountNode == null) {
-            _accountNode = AccountTreeNode.create(null, _sessionController.getAccount(), _accountTreeNodeObserverProvider.get());
-            _accountNode.expand();
-        }
-        return _accountNode;
     }
 
     public void selectAll() {

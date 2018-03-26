@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import javax.enterprise.context.Dependent;
+import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import org.inek.dataportal.common.overall.AccessManager;
 import static org.inek.dataportal.common.overall.AccessManager.canReadSealed;
@@ -29,10 +30,9 @@ import org.inek.dataportal.common.tree.YearTreeNode;
 @Dependent
 public class ViewRootTreeNodeObserver implements TreeNodeObserver {
 
-    @Inject
-    private AccessManager _accessManager;
-    @Inject
-    private SpecificFunctionFacade _specificFunctionFacade;
+    @Inject    private AccessManager _accessManager;
+    @Inject    private SpecificFunctionFacade _specificFunctionFacade;
+    @Inject private Instance<AccountTreeNodeObserver> _accountTreeNodeObserver;
 
     @Override
     public Collection<TreeNode> obtainChildren(TreeNode treeNode) {
@@ -48,7 +48,7 @@ public class ViewRootTreeNodeObserver implements TreeNodeObserver {
         for (Integer year : years) {
             Optional<? extends TreeNode> existing = oldChildren.stream().filter(n -> n.getId() == year).findFirst();
             YearTreeNode childNode = existing.isPresent() ? (YearTreeNode) existing.get() : YearTreeNode.
-                    create(treeNode, year, this);
+                    create(treeNode, year, _accountTreeNodeObserver.get());
             children.add((TreeNode) childNode);
             oldChildren.remove(childNode);
             if (year == targetYear) {

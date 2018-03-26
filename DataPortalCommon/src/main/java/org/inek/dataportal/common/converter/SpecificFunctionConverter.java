@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.drg.specificfunction.converter;
+package org.inek.dataportal.common.converter;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
