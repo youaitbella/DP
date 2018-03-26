@@ -8,14 +8,11 @@ package org.inek.dataportal.drg.nub.tree;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import org.inek.dataportal.common.overall.AccessManager;
-import static org.inek.dataportal.common.overall.AccessManager.canReadCompleted;
 import static org.inek.dataportal.common.overall.AccessManager.canReadSealed;
-import org.inek.dataportal.common.overall.ApplicationTools;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.data.icmt.entities.Customer;
@@ -24,14 +21,10 @@ import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.data.icmt.facade.CustomerFacade;
 import org.inek.dataportal.drg.nub.facades.NubRequestFacade;
 import org.inek.dataportal.common.data.account.facade.AccountFacade;
-import org.inek.dataportal.common.data.cooperation.facade.CooperationRightFacade;
-import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
 import org.inek.dataportal.common.tree.entityTree.AccountTreeNode;
 import org.inek.dataportal.common.tree.entityTree.CustomerTreeNode;
-import org.inek.dataportal.common.tree.entityTree.EntityTreeNode;
 import org.inek.dataportal.common.tree.TreeNode;
 import org.inek.dataportal.common.tree.TreeNodeObserver;
-import org.inek.dataportal.common.tree.YearTreeNode;
 
 /**
  *

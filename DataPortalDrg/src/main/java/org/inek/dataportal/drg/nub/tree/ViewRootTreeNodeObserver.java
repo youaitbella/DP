@@ -17,7 +17,6 @@ import static org.inek.dataportal.common.overall.AccessManager.canReadSealed;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.drg.nub.facades.NubRequestFacade;
 import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.common.tree.RootNode;
 import org.inek.dataportal.common.tree.TreeNode;
 import org.inek.dataportal.common.tree.TreeNodeObserver;
 import org.inek.dataportal.common.tree.YearTreeNode;
@@ -35,7 +34,8 @@ public class ViewRootTreeNodeObserver implements TreeNodeObserver {
     @Override
     public Collection<TreeNode> obtainChildren(TreeNode treeNode) {
         Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.NUB, canReadSealed());
-        List<Integer> years = _nubRequestFacade.getNubYears(accountIds);
+        Set<Integer> managedIks = _accessManager.retrieveAllowedManagedIks(Feature.NUB);
+        List<Integer> years = _nubRequestFacade.getNubYears(accountIds, managedIks);
         int targetYear = Utils.getTargetYear(Feature.NUB);
         List<? extends TreeNode> oldChildren = new ArrayList<>(treeNode.getChildren());
         Collection<TreeNode> children = new ArrayList<>();
