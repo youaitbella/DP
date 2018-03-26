@@ -41,15 +41,14 @@ public class RequestController implements Serializable {
      */
     public void forceLoginIfNotLoggedIn(ComponentSystemEvent e) {
         FacesContext facesContext = FacesContext.getCurrentInstance();
-        ExternalContext externalContext = facesContext.getExternalContext();
         String viewId = facesContext.getViewRoot().getViewId();
-        if (loginByToken(externalContext)) {
+        if (loginByToken(facesContext.getExternalContext())) {
             facesContext.getApplication().getNavigationHandler()
                     .handleNavigation(facesContext, null, viewId + "?faces-redirect=true");
             return;
         }
         if (_sessionController.isLoggedIn()) {
-            AddCacheControlToResponse(externalContext);
+            AddCacheControlToResponse(facesContext);
             return;
         }
         _sessionController.logMessage("Force to login: IP=" + Utils.getClientIP() + "; FromView=" + viewId);
@@ -62,7 +61,11 @@ public class RequestController implements Serializable {
         }
     }
 
-    private void AddCacheControlToResponse(ExternalContext externalContext) {
+    private void AddCacheControlToResponse(FacesContext facesContext) {
+        if (facesContext.getPartialViewContext().isPartialRequest()) {
+            return;
+        }
+        ExternalContext externalContext = facesContext.getExternalContext();
         HttpServletResponse response = (HttpServletResponse) externalContext.getResponse();
         HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
         if (!response.containsHeader("Content-Disposition")
