@@ -175,7 +175,13 @@ public class SessionController implements Serializable {
     }
 
     public String logout() {
+        String url = obtainTargetUrl(PortalType.COMMON);
         performLogout("Logout");
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect(url);
+        } catch (IOException ex) {
+            LOGGER.log(Level.SEVERE, null, ex);
+        }
         return Pages.Login.RedirectURL();
     }
 
