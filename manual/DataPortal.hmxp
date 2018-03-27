@@ -13,6 +13,9 @@
               <task-config-value name="make4status">*</task-config-value>
               <task-config-value name="table_of_contents">Inhaltsverzeichnis</task-config-value>
             </task-config-group>
+            <task-build-events>
+              <task-build-event id="Copy to Server" event-kind="after" command="D:\projects\DataPortal\manual\deployDatenportalHandbuch2Apache.bat"/>
+            </task-build-events>
           </export-task>
           <export-task name="Handbuch Grouperhersteller" format="PDF">
             <task-config-group name="settings">
@@ -22,6 +25,9 @@
               <task-config-value name="make4include">PDF,USER1</task-config-value>
               <task-config-value name="make4status">*</task-config-value>
             </task-config-group>
+            <task-build-events>
+              <task-build-event id="Copy to Server" event-kind="after" command="D:\projects\DataPortal\manual\deployDatenportalZertiHandbuch2Apache.bat"/>
+            </task-build-events>
           </export-task>
           <export-task name="Handbuch intern" format="PDF">
             <task-config-group name="settings">
@@ -31,6 +37,9 @@
               <task-config-value name="make4include">USER1,USER2</task-config-value>
               <task-config-value name="make4status">*</task-config-value>
             </task-config-group>
+            <task-build-events>
+              <task-build-event id="Copy to Server" event-kind="after" command="D:\projects\DataPortal\manual\deployDatenportalInternHandbuch2Apache.bat"/>
+            </task-build-events>
           </export-task>
         </export-tasks>
       </export-task-group>
