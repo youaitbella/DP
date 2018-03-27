@@ -10,7 +10,7 @@ public enum Feature {
     ADMIN(1, "Administration", NeedApproval.No, PortalType.ADMIN, IkReference.None, Selectable.No, Shareable.No),
     USER_MAINTENANCE(2, "Stammdaten", NeedApproval.No, PortalType.COMMON, IkReference.None, Selectable.No, Shareable.No),
     NUB(3, "Neue Untersuchungs- und Behandlungsmethoden", NeedApproval.No, PortalType.DRG, IkReference.Hospital, Selectable.Yes, Shareable.Yes),
-    REQUEST_SYSTEM(4, "Anfrageverfahren", NeedApproval.No, PortalType.DRG, IkReference.None, Selectable.Yes, Shareable.No),
+    REQUEST_SYSTEM(4, "Anfrageverfahren", NeedApproval.No, PortalType.COMMON, IkReference.None, Selectable.Yes, Shareable.No),
     DROPBOX(5, "DropBox", NeedApproval.Yes, PortalType.COMMON, IkReference.None, Selectable.Yes, Shareable.No),
     PEPP_PROPOSAL(6, "PEPP-Vorschlagsverfahren", NeedApproval.No, PortalType.PSY, IkReference.None, Selectable.Yes, Shareable.Yes),
     DRG_PROPOSAL(7, "DRG-Vorschlagsverfahren", NeedApproval.No, PortalType.DRG, IkReference.None, Selectable.Yes, Shareable.Yes),
@@ -20,7 +20,7 @@ public enum Feature {
     CERT(11, "Zertifizierung", NeedApproval.Yes, PortalType.CERT, IkReference.None, Selectable.Yes, Shareable.No),
     AGENCY(12, "Behörde", NeedApproval.Yes, PortalType.COMMON, IkReference.None, Selectable.Yes, Shareable.No),
     INSURANCE(13, "Krankenkasse", NeedApproval.Yes, PortalType.INSURANCE, IkReference.None, Selectable.Yes, Shareable.No),
-    CALCULATION_HOSPITAL(14, "Teilnahme Kostenkalkulation", NeedApproval.Yes, PortalType.COMMON, IkReference.Hospital, Selectable.Yes, Shareable.Yes),
+    CALCULATION_HOSPITAL(14, "Teilnahme Kostenkalkulation", NeedApproval.Yes, PortalType.CALC, IkReference.Hospital, Selectable.Yes, Shareable.Yes),
     SPECIFIC_FUNCTION(15, "Besondere Aufgaben", NeedApproval.Yes, PortalType.DRG, IkReference.Hospital, Selectable.Yes, Shareable.Yes),
     // todo: make ADDITIONAL_COST shareable
     ADDITIONAL_COST(16, "Finanzierung von Mehrkosten", NeedApproval.Yes, PortalType.DRG, IkReference.Hospital, Selectable.Yes, Shareable.No),
