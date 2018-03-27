@@ -176,7 +176,7 @@ public class SessionController implements Serializable {
 
     public String logout() {
         performLogout("Logout");
-        return Pages.Login.URL();// + "?faces-redirect=true";
+        return Pages.Login.RedirectURL();
     }
 
     public void performLogout(String message) {
