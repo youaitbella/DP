@@ -314,7 +314,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         if (_staffProof == null) {
             return true;
         }
-        if (_sessionController.isInekUser(Feature.PSYCH_STAFF) 
+        if (_sessionController.isInekUser(Feature.PSYCH_STAFF)
                 && _staffProof.getAccountId() != _sessionController.getAccountId()) {
             return true;
         }
@@ -345,6 +345,13 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         setModifiedInfo();
         try {
             _staffProof = _psychStaffFacade.saveStaffProof(_staffProof);
+            if (_staffProof.isForAdults()) {
+                adjustAllLines(PsychType.Adults);
+            }
+            if (_staffProof.isForKids()) {
+                adjustAllLines(PsychType.Kids);
+            }
+
             if (_staffProof.getId() >= 0) {
                 if (showMessage) {
                     // CR+LF or LF only will be replaced by "\r\n"
@@ -785,6 +792,10 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
 
     public void adjustAllLines(String typeString) {
         PsychType type = PsychType.valueOf(typeString);
+        adjustAllLines(type);
+    }
+
+    public void adjustAllLines(PsychType type) {
         for (StaffProofEffective staffProofEffective : _staffProof.getStaffProofsEffective(type)) {
             for (int key = 4; key <= 6; key++) {
                 adjustLine(staffProofEffective, key);

@@ -85,8 +85,8 @@
                                                              readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
                                                              disabled="#{item.occupationalCategory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
                                                              title="#{item.occupationalCategory.id == 2 ? msg.InfoPsychStaffNoteEducation : ''}">
-                                    <f:ajax event="clientChange" 
-                                            render="#{cc.attrs.clientId}:sumStaffingComplete:text #{cc.attrs.clientId}:repeat:#{status.index}:factor"/>
+                                    <!--f:ajax event="clientChange" 
+                                            render="# {cc.attrs.clientId}:sumStaffingComplete:text # {cc.attrs.clientId}:repeat:# {status.index}:factor"/-->
                                 </inek:InputNumberWithMessage>
                             </td>
 
@@ -97,8 +97,8 @@
                                                              readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
                                                              disabled="#{item.occupationalCategory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
                                                              title="#{item.occupationalCategory.id == 2 ? msg.InfoPsychStaffNoteEducation : ''}">
-                                    <f:ajax event="clientChange" listener="#{editPsyStaff.countChanged(item, 4)}" 
-                                            render="#{cc.attrs.clientId}:sumStaffingDeductionPsych:text "/>
+                                    <!--f:ajax event="clientChange" listener="# {editPsyStaff.countChanged(item, 4)}" 
+                                            render="# {cc.attrs.clientId}:sumStaffingDeductionPsych:text "/-->
                                 </inek:InputNumberWithMessage>
                             </td>
 
@@ -108,8 +108,8 @@
                                                              readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
                                                              disabled="#{item.occupationalCategory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType) or item.occupationalCategory.id == 1}"
                                                              title="#{item.occupationalCategory.id == 2 ? msg.InfoPsychStaffNoteEducation : ''}">
-                                    <f:ajax event="clientChange" listener="#{editPsyStaff.countChanged(item, 5)}" 
-                                            render="#{cc.attrs.clientId}:sumStaffingDeductionNonPsych:text "/>
+                                    <!--f:ajax event="clientChange" listener="# {editPsyStaff.countChanged(item, 5)}" 
+                                            render="# {cc.attrs.clientId}:sumStaffingDeductionNonPsych:text "/-->
                                 </inek:InputNumberWithMessage>
                             </td>
 
@@ -119,8 +119,8 @@
                                                              readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
                                                              disabled="#{item.occupationalCategory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
                                                              title="#{item.occupationalCategory.id == 2 ? msg.InfoPsychStaffNoteEducation : ''}">
-                                    <f:ajax event="clientChange" listener="#{editPsyStaff.countChanged(item, 6)}" 
-                                            render="#{cc.attrs.clientId}:sumStaffingDeductionOther:text "/>
+                                    <!--f:ajax event="clientChange" listener="# {editPsyStaff.countChanged(item, 6)}" 
+                                            render="# {cc.attrs.clientId}:sumStaffingDeductionOther:text "/-->
                                 </inek:InputNumberWithMessage>
                             </td>
 
@@ -246,9 +246,8 @@
 
                 </div>
 
-                <h:commandLink value="Zeilen zufügen" 
-                               styleClass="addButton"
-                               rendered="#{editPsyStaff.staffProof.getStaffProofExplanations(cc.attrs.patType).size() gt 0}">
+                <h:commandLink value="Erläuterung zufügen" 
+                               styleClass="addButton">
                     <f:ajax listener="#{editPsyStaff.adjustAllLines(cc.attrs.patType)}" 
                             render=" #{cc.attrs.clientId}:explanation"/>
                 </h:commandLink>
