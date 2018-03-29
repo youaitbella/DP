@@ -7,7 +7,7 @@
         <export-tasks>
           <export-task name="Anwenderhandbuch" format="PDF">
             <task-config-group name="settings">
-              <task-config-value name="outputfile">..\src\main\webapp\resources\manual\InEK-Datenportal.pdf</task-config-value>
+              <task-config-value name="outputfile">.\output\InEK-Datenportal.pdf</task-config-value>
               <task-config-value name="template">.\template\WebRequest.mnl</task-config-value>
               <task-config-value name="make4include">PDF</task-config-value>
               <task-config-value name="make4status">*</task-config-value>
@@ -19,7 +19,7 @@
           </export-task>
           <export-task name="Handbuch Grouperhersteller" format="PDF">
             <task-config-group name="settings">
-              <task-config-value name="outputfile">..\src\main\webapp\resources\manual\InEK-DatenportalZerti.pdf</task-config-value>
+              <task-config-value name="outputfile">.\output\InEK-DatenportalZerti.pdf</task-config-value>
               <task-config-value name="template">.\template\WebRequest.mnl</task-config-value>
               <task-config-value name="table_of_contents">Inhaltsverzeichnis</task-config-value>
               <task-config-value name="make4include">PDF,USER1</task-config-value>
@@ -31,7 +31,7 @@
           </export-task>
           <export-task name="Handbuch intern" format="PDF">
             <task-config-group name="settings">
-              <task-config-value name="outputfile">..\src\main\webapp\resources\manual\InEK-DatenportalIntern.pdf</task-config-value>
+              <task-config-value name="outputfile">.\output\InEK-DatenportalIntern.pdf</task-config-value>
               <task-config-value name="template">.\template\WebRequest.mnl</task-config-value>
               <task-config-value name="table_of_contents">Inhaltsverzeichnis</task-config-value>
               <task-config-value name="make4include">USER1,USER2</task-config-value>
@@ -208,7 +208,7 @@
       <config-value name="outlinesnumbered">0</config-value>
       <config-value name="createhotspots">1</config-value>
       <config-value name="insertseealso">0</config-value>
-      <config-value name="linkcolor">-1</config-value>
+      <config-value name="linkcolor">16711680</config-value>
       <config-value name="ignoreblank">1</config-value>
       <config-value name="compression">1</config-value>
       <config-value name="jpegquality">100</config-value>

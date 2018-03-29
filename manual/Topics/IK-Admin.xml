@@ -28,7 +28,7 @@
     <para styleclass="Normal"></para>
     <para styleclass="Heading2"><text styleclass="Heading2" translate="true">Funktionen mit IK-Bezug</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Folgenden Funktionen haben einen &quot;starken&quot; IK-Bezug und sind deshalb für die Rechtevergabe über einen IK-Admin vorgesehen:</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die folgenden Funktionen haben einen eindeutigen IK-Bezug und sind deshalb für die Rechtevergabe über einen IK-Admin vorgesehen:</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Allgemein</text></para>
     <list id="1" type="ul" listtype="bullet" formatstring="&#183;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Symbol; font-size:11pt; color:#000000;">

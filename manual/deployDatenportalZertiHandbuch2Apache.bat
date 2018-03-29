@@ -1,7 +1,7 @@
 @echo off
 
 echo Kopiere InEK-Datenportal.pdf auf den Server
-scp ../DataPortal/src/main/webapp/resources/manual/InEK-DatenportalZerti.pdf edv@vDmzApacheSvr01:.
+scp output/InEK-DatenportalZerti.pdf edv@vDmzApacheSvr01:.
 echo.
 
 echo Starte deployment auf dem Server
