@@ -51,8 +51,8 @@
                                       readonly="#{editPsyStaff.readOnly or editPsyStaff.staffProof.anyClosed}"
                                       styleClassComponent="inlineBlock element10em"
                                       precedingBox="true"
-                                      renderElement="@form">
-                    <f:ajax event="clientChange" listener="#{editPsyStaff.domainChanged()}"/>
+                                      renderElement="@form"
+                                      listener="#{editPsyStaff.domainChanged()}">
                 </inek:LabeledCheckbox>
 
                 <inek:LabeledCheckbox label="Kinder und Jugendliche" 
@@ -60,8 +60,8 @@
                                       readonly="#{editPsyStaff.readOnly or editPsyStaff.staffProof.anyClosed}"
                                       styleClassComponent="inlineBlock"
                                       precedingBox="true"
-                                      renderElement="@form">
-                    <f:ajax event="clientChange" listener="#{editPsyStaff.domainChanged()}"/>
+                                      renderElement="@form"
+                                      listener="#{editPsyStaff.domainChanged()}">
                 </inek:LabeledCheckbox>
             </div>
 

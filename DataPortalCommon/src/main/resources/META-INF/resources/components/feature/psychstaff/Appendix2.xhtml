@@ -84,7 +84,8 @@
                                                              styleClass="element10em number"
                                                              readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
                                                              disabled="#{item.occupationalCategory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
-                                                             title="#{item.occupationalCategory.id == 2 ? msg.InfoPsychStaffNoteEducation : ''}">
+                                                             title="#{item.occupationalCategory.id == 2 ? msg.InfoPsychStaffNoteEducation : ''}"
+                                                             renderElement="#{cc.attrs.clientId}:sumStaffingComplete:text #{cc.attrs.clientId}:repeat:#{status.index}:factor">
                                     <!--f:ajax event="clientChange" 
                                             render="# {cc.attrs.clientId}:sumStaffingComplete:text # {cc.attrs.clientId}:repeat:# {status.index}:factor"/-->
                                 </inek:InputNumberWithMessage>
@@ -96,7 +97,9 @@
                                                              styleClass="element10em number"
                                                              readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
                                                              disabled="#{item.occupationalCategory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
-                                                             title="#{item.occupationalCategory.id == 2 ? msg.InfoPsychStaffNoteEducation : ''}">
+                                                             title="#{item.occupationalCategory.id == 2 ? msg.InfoPsychStaffNoteEducation : ''}"
+                                                             renderElement="#{cc.attrs.clientId}:sumStaffingDeductionPsych:text #{cc.attrs.clientId}:explanation"
+                                                             listener="#{editPsyStaff.countChanged(item, 4)}">
                                     <!--f:ajax event="clientChange" listener="# {editPsyStaff.countChanged(item, 4)}" 
                                             render="# {cc.attrs.clientId}:sumStaffingDeductionPsych:text "/-->
                                 </inek:InputNumberWithMessage>
@@ -107,7 +110,9 @@
                                                              styleClass="element10em number"
                                                              readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
                                                              disabled="#{item.occupationalCategory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType) or item.occupationalCategory.id == 1}"
-                                                             title="#{item.occupationalCategory.id == 2 ? msg.InfoPsychStaffNoteEducation : ''}">
+                                                             title="#{item.occupationalCategory.id == 2 ? msg.InfoPsychStaffNoteEducation : ''}"
+                                                             renderElement="#{cc.attrs.clientId}:sumStaffingDeductionNonPsych:text #{cc.attrs.clientId}:explanation"
+                                                             listener="#{editPsyStaff.countChanged(item, 5)}">
                                     <!--f:ajax event="clientChange" listener="# {editPsyStaff.countChanged(item, 5)}" 
                                             render="# {cc.attrs.clientId}:sumStaffingDeductionNonPsych:text "/-->
                                 </inek:InputNumberWithMessage>
@@ -118,7 +123,9 @@
                                                              styleClass="element10em number"
                                                              readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
                                                              disabled="#{item.occupationalCategory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
-                                                             title="#{item.occupationalCategory.id == 2 ? msg.InfoPsychStaffNoteEducation : ''}">
+                                                             title="#{item.occupationalCategory.id == 2 ? msg.InfoPsychStaffNoteEducation : ''}"
+                                                             renderElement="#{cc.attrs.clientId}:sumStaffingDeductionOther:text #{cc.attrs.clientId}:explanation"
+                                                             listener="#{editPsyStaff.countChanged(item, 6)}">
                                     <!--f:ajax event="clientChange" listener="# {editPsyStaff.countChanged(item, 6)}" 
                                             render="# {cc.attrs.clientId}:sumStaffingDeductionOther:text "/-->
                                 </inek:InputNumberWithMessage>
@@ -218,10 +225,9 @@
                                     <td class="col10em" scope="col">
                                         <inek:InputNumberWithMessage value="#{item.deductedFullVigor}"
                                                                      styleClass="element10em number"
-                                                                     readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}">
-                                            <ui:remove>
-                                                <f:ajax event="clientChange" listener="# {editPsyStaff.adjustLines(item)}" render="# {cc.attrs.clientId}:explanation"/>
-                                            </ui:remove>
+                                                                     readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
+                                                                     renderElement="#{cc.attrs.clientId}:explanation"
+                                                                     listener="#{editPsyStaff.adjustLines(item)}">
                                         </inek:InputNumberWithMessage>
                                     </td>
 
