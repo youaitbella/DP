@@ -157,24 +157,20 @@ public class PsychStaffFacade extends AbstractDataAccess {
             return staffProof;
         }
 
-        /*
-        usually we need to store lists separate - but here, everything is ok with a merge only
-        merging separate will double the entries!
-         */
-        for (PsychType type : PsychType.values()) {
-            for (StaffProofAgreed item : staffProof.getStaffProofsAgreed(type)) {
-                item.setStaffProofMasterId(staffProof.getId());
-                merge(item);
-            }
-            for (StaffProofEffective item : staffProof.getStaffProofsEffective(type)) {
-                item.setStaffProofMasterId(staffProof.getId());
-                merge(item);
-            }
-            for (StaffProofExplanation item : staffProof.getStaffProofExplanations(type)) {
-                item.setStaffProofMasterId(staffProof.getId());
-                merge(item);
-            }
-        }
+//        for (PsychType type : PsychType.values()) {
+//            for (StaffProofAgreed item : staffProof.getStaffProofsAgreed(type)) {
+//                item.setStaffProofMasterId(staffProof.getId());
+//                merge(item);
+//            }
+//            for (StaffProofEffective item : staffProof.getStaffProofsEffective(type)) {
+//                item.setStaffProofMasterId(staffProof.getId());
+//                merge(item);
+//            }
+//            for (StaffProofExplanation item : staffProof.getStaffProofExplanations(type)) {
+//                item.setStaffProofMasterId(staffProof.getId());
+//                merge(item);
+//            }
+//        }
         StaffProof mergedStaffProof = merge(staffProof);
         if (_configFacade.readConfigBool(ConfigKey.IsPsychStaffParanoiacheckEnabled)) {
             if (!hasDifferentData(staffProof, mergedStaffProof)) {
