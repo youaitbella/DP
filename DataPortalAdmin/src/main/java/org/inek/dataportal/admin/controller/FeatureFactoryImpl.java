@@ -8,7 +8,6 @@ import java.io.Serializable;
 import javax.enterprise.context.Dependent;
 import org.inek.dataportal.common.controller.FeatureFactory;
 import org.inek.dataportal.common.controller.IFeatureController;
-import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.enums.Feature;
 
 /**
