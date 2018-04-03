@@ -7,6 +7,7 @@ package org.inek.dataportal.common.enums;
  */
 public enum PortalType {
     COMMON("Allgemein"),
+    BASE("Basisfunktionen") ,
     DRG("DRG-Portal") ,
     PSY("PSY-Portal"),
     INSURANCE("Krankenkassen-Funktionen"),

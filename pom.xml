@@ -20,8 +20,8 @@
 
     <modules>
         <module>DataPortalCommon</module>
-        <module>DataPortalAll</module>
 
+        <module>DataPortalBase</module>
         <module>DataPortalAdmin</module>
         <module>DataPortalCert</module>
         <module>DataPortalCalc</module>
