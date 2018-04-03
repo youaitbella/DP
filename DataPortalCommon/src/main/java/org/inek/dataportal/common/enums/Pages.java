@@ -194,10 +194,10 @@ public enum Pages {
     InvalidConversation("/Common/InvalidConversation"),
     SearchCode("/Common/SearchCode"),
     //
-    AdminError("/Admin/error"),
-    AdminApproved("/Admin/approvalcompleted"),
-    AdminApproval("/Admin/approval"),
-    AdminApprovalNone("/Admin/approvalNone"),
+    FeatureApprovalError("/FeatureApproval/error"),
+    FeatureApprovalApproved("/FeatureApproval/approvalcompleted"),
+    FeatureApproval("/FeatureApproval/approval"),
+    //
     AdminTaskSystemStatus("/Admin/AdminTaskSystemStatus"),
     AdminTaskInekRoles("/Admin/AdminTaskInekRoles"),
     AdminTaskRoleMapping("/Admin/AdminTaskRoleMapping"),

@@ -80,18 +80,18 @@ public class FeatureRequestManager implements Serializable {
         if (_account != null) {
             setNewState(FeatureState.APPROVED);
             _mailer.sendFeatureRequestAnswer("FeatureApprovalMail", _account, _request);
-            return Pages.AdminApproved.URL();
+            return Pages.FeatureApprovalApproved.URL();
         }
-        return Pages.AdminError.URL();
+        return Pages.FeatureApprovalError.URL();
     }
 
     public String reject() {
         if (_account != null) {
             setNewState(FeatureState.REJECTED);
             _mailer.sendFeatureRequestAnswer("FeatureRejectMail", _account, _request);
-            return Pages.AdminApproved.URL();
+            return Pages.FeatureApprovalApproved.URL();
         }
-        return Pages.AdminError.URL();
+        return Pages.FeatureApprovalError.URL();
     }
 
     /**
@@ -102,9 +102,9 @@ public class FeatureRequestManager implements Serializable {
     public String remove() {
         if (_account != null) {
             setNewState(null);
-            return Pages.AdminApproved.URL();
+            return Pages.FeatureApprovalApproved.URL();
         }
-        return Pages.AdminError.URL();
+        return Pages.FeatureApprovalError.URL();
     }
 
     private void setNewState(FeatureState newState) {

@@ -95,7 +95,7 @@ public class FeatureRequestHandler {
         String link = protocol
                 + server + (port == HTTP_PORT || port == HTTPS_PORT ? "" : ":" + port)
                 + "/DataPortalAdmin"
-                + Pages.AdminApproval.URL()
+                + Pages.FeatureApproval.URL()
                 + "?key=" + key;
         return link;
     }
