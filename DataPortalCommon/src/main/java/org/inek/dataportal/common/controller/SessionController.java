@@ -689,14 +689,6 @@ public class SessionController implements Serializable {
         return _acceptedTerms.contains(name);
     }
 
-    //@SuppressWarnings("unchecked")
-    public <T> T findBean(String beanName, Class<T> clazz) {
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        return clazz.cast(facesContext.getApplication().
-                evaluateExpressionGet(facesContext, "#{" + beanName + "}", Object.class));
-        //return (T) facesContext.getApplication().evaluateExpressionGet(facesContext, "#{" + beanName + "}", Object.class);
-    }
-
     public void hideData(boolean enabled) {
         if (!enabled) {
             String msg = "Sie haben gerade einen Bereich, der möglicherweise Daten enthält, ausgeblendet. "
@@ -718,48 +710,11 @@ public class SessionController implements Serializable {
                 return "adminportal.css";
             case INSURANCE:
                 return "insuranceportal.css";
+            case CALC:
+                return "calcportal.css";
             default:
                 return "commonportal.css";
         }
-    }
-
-    public PortalType getTargetType() {
-        switch (_portalType) {
-            case PSY:
-                return PortalType.DRG;
-            case DRG:
-                return PortalType.PSY;
-            case ADMIN:
-                return PortalType.ADMIN;
-            case COMMON:
-                return PortalType.COMMON;
-            default:
-                performLogout("unknown PortalType");
-                return PortalType.COMMON;
-        }
-    }
-
-    /**
-     * conveniance method to switch beetween two portal types
-     *
-     * @return
-     */
-    public String switchPortalType() {
-        return navigateToPortal(getTargetType());
-    }
-
-    public String navigateToPortal(PortalType portalType) {
-        _portalType = portalType;
-        initFeatures();
-        return navigate(Pages.MainApp.URL());
-    }
-
-    public PortalType getPortalType() {
-        return _portalType;
-    }
-
-    public void setPortalType(PortalType portalType) {
-        _portalType = portalType;
     }
 
 }
