@@ -140,6 +140,7 @@
                         <configuration>
                             <excludes>
                                 <exclude>**/CI_*.java</exclude>
+                                <exclude>**/ci_*.java</exclude>
                             </excludes>
                         </configuration>
                     </plugin>

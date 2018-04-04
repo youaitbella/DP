@@ -45,6 +45,13 @@ public class AccountREST {
         return id;
     }
 
+    @GET
+    @Path("login/{emailOrUser}/{password}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public void login(@PathParam("emailOrUser") String emailOrUser, @PathParam("password") String password){
+        
+    }
+    
     @Schedule(hour = "*", minute = "*", second = "*/10")
     public void sweepOld() {
         long ts = new Date().getTime();
