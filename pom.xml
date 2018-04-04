@@ -153,7 +153,6 @@
             <id>ci</id>
             <build>
                 <plugins>
-                    <!-- Can't access OWASP from Hades, thus can't use this check. Reactivate once access is possible.
                     <plugin>
                         <groupId>org.owasp</groupId>
                         <artifactId>dependency-check-maven</artifactId>
@@ -187,7 +186,6 @@
                             </execution>
                         </executions>
                     </plugin>
-                    -->
                     
                 </plugins>
             </build>
