@@ -899,5 +899,9 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         }
         return _exclusionFacts;
     }
-
+    
+    public void setLastChangeAtNow() {
+        _staffProof.setLastChanged(Calendar.getInstance().getTime());
+        _psychStaffFacade.saveStaffProof(_staffProof);
+    }
 }

@@ -169,6 +169,13 @@
                                        rendered="#{editPsyStaff.dataExportEnabled}"
                                        title="Dies erzeugt eine elektronisch lesbare Datei zum Versand an die Krankenkassen">
                         </h:commandLink>
+                        
+                        <h:commandLink styleClass="bigButton"
+                                       immediate="true"
+                                       action="#{editPsyStaff.setLastChangeAtNow()}"
+                                       value="Last Change zurücksetzen"
+                                       rendered="#{sessionController.isInekUser(requestedFeature)}">
+                        </h:commandLink>
 
                         <ui:remove>
                             <h:commandLink styleClass="bigButton"
