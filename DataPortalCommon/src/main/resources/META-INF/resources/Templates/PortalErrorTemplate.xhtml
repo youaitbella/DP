@@ -14,7 +14,10 @@
         <ui:insert name="content">content</ui:insert>
         <div class="inpuPart">
             <h:form>
-                <h:commandLink styleClass="bigButton" value="#{msg.btnLogin}" action="#{sessionController.navigateLogin}" immediate="true"/>
+                <a href="#{sessionController.obtainTargetUrl('COMMON')}" class="bigButton">
+                    #{msg.btnLogin}
+                </a>
+
             </h:form>
         </div>
     </ui:define>

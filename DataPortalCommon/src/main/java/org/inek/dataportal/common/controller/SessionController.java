@@ -175,7 +175,7 @@ public class SessionController implements Serializable {
     }
 
     public String logout() {
-        String url = obtainTargetUrl(PortalType.COMMON);
+        String url = obtainTargetUrl(PortalType.BASE);
         performLogout("Logout");
         try {
             FacesContext.getCurrentInstance().getExternalContext().redirect(url);
@@ -191,7 +191,7 @@ public class SessionController implements Serializable {
             logMessage(message);
             _featureHolder.clear();
             _account = null;
-            _portalType = PortalType.COMMON;
+            _portalType = PortalType.BASE;
         }
         invalidateSession();
     }
@@ -459,7 +459,7 @@ public class SessionController implements Serializable {
         if (_portalType == PortalType.ADMIN && isInekUser(Feature.ADMIN)) {
             _featureHolder.add(Feature.ADMIN, this);
         }
-        if (_portalType == PortalType.COMMON && _account.getAdminIks().size() > 0) {
+        if (_portalType == PortalType.BASE && _account.getAdminIks().size() > 0) {
             _featureHolder.add(Feature.IK_ADMIN, this);
         }
     }

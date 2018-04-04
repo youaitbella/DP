@@ -28,11 +28,7 @@
                 <h:inputSecret styleClass="inputmedium" id="password" value="#{login.password}" required="true" requiredMessage="#{msg.msgValueNeeded}"/>
                 <h:message for="password" errorClass="errorMessage"/>
             </p>
-            #{msg.lblRequestPassword1}
-            <!--a href="#{request.contextPath}/Login/RequestPassword.xhtml" title="# {msg.hintRequestPassword}" class="label"-->
-            <a href="#{sessionController.obtainTargetUrl('COMMON')}/Login/RequestPassword.xhtml" title="#{msg.hintRequestPassword}" class="label">
-                #{msg.lblRequestPassword2}
-            </a>.
+            #{msg.lblRequestPassword1} <h:commandLink styleClass="label" action="RequestPassword" immediate="true" value="#{msg.lblRequestPassword2}" title="#{msg.hintRequestPassword}"/>.
             <br/>
             <h:outputText styleClass="errorMessage" value="#{login.loginMessage}"/>
             <p>
