@@ -14,21 +14,12 @@ import javax.persistence.*;
 public class Announcement implements Serializable {
     private static final long serialVersionUID = 1L;
     
+    // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "anId")
     private Integer _id;
     
-    @Column(name = "anActive")
-    private boolean _isActive;
-    
-    @Column(name = "anWarning")
-    private boolean _isWarning;
-
-    @Column(name = "anText")
-    private String _text;
-
-    // <editor-fold defaultstate="collapsed" desc="getter / setter">
     public Integer getId() {
         return _id;
     }
@@ -36,6 +27,12 @@ public class Announcement implements Serializable {
     public void setId(Integer id) {
         _id = id;
     }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property Active">
+    @Column(name = "anActive")
+    private boolean _isActive;
+    
 
     public boolean isActive() {
         return _isActive;
@@ -44,14 +41,37 @@ public class Announcement implements Serializable {
     public void setActive(boolean isActive) {
         _isActive = isActive;
     }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property Warning">
+    @Column(name = "anWarning")
+    private boolean _isWarning;
 
     public boolean isWarning() {
         return _isWarning;
     }
 
     public void setWarning(boolean isWarning) {
-        this._isWarning = isWarning;
+        _isWarning = isWarning;
     }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Property PortalType">
+    @Column(name = "anPortalType")
+    private String _portalType;
+
+    public String getPortalType() {
+        return _portalType;
+    }
+
+    public void setPortalType(String portalType) {
+        _portalType = portalType;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property Text">
+    @Column(name = "anText")
+    private String _text;
 
     public String getText() {
         return _text;
@@ -60,7 +80,6 @@ public class Announcement implements Serializable {
     public void setText(String text) {
         _text = text;
     }
-   
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
