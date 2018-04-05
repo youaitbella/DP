@@ -73,6 +73,18 @@ public class FeatureRequestHandler {
         String link = buildLink(featureRequest.getApprovalKey());
         String subject = template.getSubject().replace(PLACEHOLDER_FEATURE, featureRequest.getFeature().getDescription());
         Customer cust = _customerFacade.getCustomerByIK(account.getIK());
+        String iks = "";
+        boolean firstIK = true;
+        for (int s : account.getFullIkSet()) {
+            if(firstIK) {
+                iks += s;
+                firstIK = false;
+            }
+            else {
+                iks += "," + s;
+            }
+        }
+        
         String body = template.getBody()
                 .replace(PLACEHOLDER_LINK, link)
                 .replace(PLACEHOLDER_FEATURE, featureRequest.getFeature().getDescription())
@@ -81,7 +93,7 @@ public class FeatureRequestHandler {
                 .replace(PLACEHOLDER_ROLE, _roleFacade.find(account.getRoleId()).getText())
                 .replace(PLACEHOLDER_PHONE, account.getPhone())
                 .replace(PLACEHOLDER_COMPANY, account.getCompany())
-                .replace(PLACEHOLDER_IK, account.getIK() + (Objects.equals(cust.getIK(), account.getIK()) ? " (im ICMT bekannt)" : ""));
+                .replace(PLACEHOLDER_IK, iks + (Objects.equals(cust.getIK(), account.getIK()) ? " (im ICMT bekannt)" : ""));
         String mailAddress = _config.readConfig(ConfigKey.ManagerEmail);
         return _mailer.sendMail(mailAddress, template.getBcc(), subject, body);
 
