@@ -66,6 +66,14 @@ public class SessionController implements Serializable {
 
     private PortalType _portalType = PortalType.COMMON;
 
+    public PortalType getPortalType() {
+        return _portalType;
+    }
+
+    public void setPortalType(PortalType portalType) {
+        this._portalType = portalType;
+    }
+
     public Mailer getMailer() {
         return _mailer;
     }

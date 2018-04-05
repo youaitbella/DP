@@ -1,5 +1,6 @@
 package org.inek.dataportal.common.data.access;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
@@ -105,15 +106,15 @@ public class ConfigFacade extends AbstractDataAccess {
         return query.getResultList().stream().findFirst().orElse(new PortalAddress()).getUrl();
     }
     
-    public List<Announcement> findActiveWarnings() {
-        clearCache(Announcement.class);
-        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
-        CriteriaQuery<Announcement> cq = cb.createQuery(Announcement.class);
-        Root<Announcement> request = cq.from(Announcement.class);
-        cq.select(request)
-                .where(cb.isTrue(request.get("_isActive")))
-                .orderBy(cb.asc(request.get("_id")));
-        return getEntityManager().createQuery(cq).getResultList();
+    public List<Announcement> findActiveWarnings(PortalType portalType) {
+        String jpql = "Select a from Announcement a where a._portalType in :portalTypes and a._isActive = true order by a._id";
+        TypedQuery<Announcement> query = getEntityManager().createQuery(jpql, Announcement.class);
+        List<PortalType> portalTypes = new ArrayList<>();
+        portalTypes.add(portalType);
+        portalTypes.add(PortalType.COMMON);
+        query.setParameter("portalTypes", portalTypes);
+        dumpSql(query);
+        return query.getResultList();
     }
    
 }

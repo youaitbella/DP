@@ -4,6 +4,7 @@ import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.data.adm.Announcement;
@@ -17,11 +18,12 @@ import org.inek.dataportal.common.data.adm.Announcement;
 public class AnnouncementBean {
 
     @Inject private ConfigFacade _config;
+    @Inject private SessionController _sessionController;
     private List<Announcement> _announcements;
 
     public List<Announcement> getAnnouncements() {
         if (_announcements == null) {
-            _announcements = _config.findActiveWarnings();
+            _announcements = _config.findActiveWarnings(_sessionController.getPortalType());
             if (isEnabled(ConfigKey.TestMode)) {
                 Announcement announcement = new Announcement();
                 announcement.setWarning(true);
