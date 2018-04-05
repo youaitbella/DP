@@ -13,7 +13,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -22,7 +21,6 @@ import javax.inject.Inject;
 import javax.persistence.EntityGraph;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import org.inek.dataportal.common.overall.ApplicationTools;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.DataSet;
 import org.inek.dataportal.common.data.AbstractDataAccess;
@@ -157,20 +155,20 @@ public class PsychStaffFacade extends AbstractDataAccess {
             return staffProof;
         }
 
-//        for (PsychType type : PsychType.values()) {
-//            for (StaffProofAgreed item : staffProof.getStaffProofsAgreed(type)) {
-//                item.setStaffProofMasterId(staffProof.getId());
-//                merge(item);
-//            }
-//            for (StaffProofEffective item : staffProof.getStaffProofsEffective(type)) {
-//                item.setStaffProofMasterId(staffProof.getId());
-//                merge(item);
-//            }
-//            for (StaffProofExplanation item : staffProof.getStaffProofExplanations(type)) {
-//                item.setStaffProofMasterId(staffProof.getId());
-//                merge(item);
-//            }
-//        }
+        for (PsychType type : PsychType.values()) {
+            for (StaffProofAgreed item : staffProof.getStaffProofsAgreed(type)) {
+                item.setStaffProofMasterId(staffProof.getId());
+                merge(item);
+            }
+            for (StaffProofEffective item : staffProof.getStaffProofsEffective(type)) {
+                item.setStaffProofMasterId(staffProof.getId());
+                merge(item);
+            }
+            for (StaffProofExplanation item : staffProof.getStaffProofExplanations(type)) {
+                item.setStaffProofMasterId(staffProof.getId());
+                merge(item);
+            }
+        }
         StaffProof mergedStaffProof = merge(staffProof);
         if (_configFacade.readConfigBool(ConfigKey.IsPsychStaffParanoiacheckEnabled)) {
             if (!hasDifferentData(staffProof, mergedStaffProof)) {
