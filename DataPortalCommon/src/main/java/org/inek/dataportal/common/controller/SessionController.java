@@ -38,7 +38,7 @@ import org.inek.dataportal.common.helper.NotLoggedInException;
 import org.inek.dataportal.common.helper.StreamHelper;
 import org.inek.dataportal.common.helper.Topic;
 import org.inek.dataportal.common.helper.Utils;
-//import org.inek.dataportal.common.mail.Mailer;
+import org.inek.dataportal.common.mail.Mailer;
 import org.inek.dataportal.common.scope.FeatureScopedContextHolder;
 
 /**
