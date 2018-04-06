@@ -515,6 +515,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
     private String saveData(boolean showSaveMessage) {
         _calcBasics.removeEmptyServiceProvisions();
+        removeEmptyLocations();
 
         if (_baseLine != null && ObjectUtils.getDifferences(_baseLine, _calcBasics, null).isEmpty()) {
             // nothing is changed, but we will reload the data if changed by somebody else (as indicated by a new version)
