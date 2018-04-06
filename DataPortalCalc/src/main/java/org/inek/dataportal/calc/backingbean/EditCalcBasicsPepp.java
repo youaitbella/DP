@@ -1,8 +1,16 @@
 package org.inek.dataportal.calc.backingbean;
 
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -14,6 +22,10 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import java.util.zip.Adler32;
+import java.util.zip.CheckedOutputStream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 import javax.annotation.PostConstruct;
 import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.FacesContext;
@@ -55,6 +67,9 @@ import org.inek.dataportal.common.helper.structures.MessageContainer;
 import org.inek.dataportal.common.utils.DocumentationUtil;
 import org.inek.dataportal.common.utils.ValueLists;
 import org.inek.dataportal.calc.CalcBasicsTransferFileCreator;
+import org.inek.dataportal.common.helper.StreamHelper;
+import org.inek.dataportal.common.data.adm.ReportTemplate;
+import org.inek.dataportal.common.controller.ReportController;
 
 @Named
 @ViewScoped
@@ -69,6 +84,7 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     @Inject private SessionController _sessionController;
     @Inject private CalcPsyFacade _calcFacade;
     @Inject private ApplicationTools _appTools;
+    @Inject private ReportController _reportController;
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
@@ -815,5 +831,35 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         items.add(new SelectItem(3, "voll- und teilstationär"));
 
         return items;
+    }
+    
+    public void exportAll() {
+        List<ReportTemplate> reports =  _reportController.getReportTemplates(2);
+        
+        File zipFile = new File("Export_" + _calcBasics.getIk() + ".zip");
+        
+        try (FileOutputStream fileOut = new FileOutputStream(zipFile);
+          CheckedOutputStream checkedOut = new CheckedOutputStream(fileOut, new Adler32());
+          ZipOutputStream compressedOut = new ZipOutputStream(new BufferedOutputStream(checkedOut))) 
+        {
+            for(ReportTemplate rt : reports) {
+                String path = rt.getAddress().replace("{0}", _calcBasics.getId() + "");
+                path = path.replace("{1}", URLEncoder.encode(_appTools.retrieveHospitalInfo(_calcBasics.getIk()), "UTF-8"));
+                path = path.replace("{2}", _calcBasics.getDataYear() + "");
+                    compressedOut.putNextEntry(new ZipEntry(rt.getName()));
+                    ByteArrayInputStream ips = new ByteArrayInputStream(_reportController.getSingleDocument(path));
+                    StreamHelper.copyStream(ips, compressedOut);
+                    compressedOut.closeEntry();
+                    compressedOut.flush();                    
+            }
+        } catch (IOException ex) {
+            //throw new IllegalStateException(ex);
+        }    
+        try {
+            InputStream is = new FileInputStream(zipFile);
+            Utils.downLoadDocument(is, "Export_" + _calcBasics.getIk() + ".zip", 0);   
+        } catch (IOException ex) {
+            //throw new IllegalStateException(ex);
+        }
     }
 }

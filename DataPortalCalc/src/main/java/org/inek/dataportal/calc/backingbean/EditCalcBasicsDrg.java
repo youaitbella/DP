@@ -97,11 +97,16 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     // <editor-fold defaultstate="collapsed" desc="fields & enums">
     private static final Logger LOGGER = Logger.getLogger("EditCalcBasicsDrg");
 
-    @Inject private AccessManager _accessManager;
-    @Inject private SessionController _sessionController;
-    @Inject private CalcDrgFacade _calcDrgFacade;
-    @Inject private ApplicationTools _appTools;
-    @Inject private ReportController _reportController;
+    @Inject
+    private AccessManager _accessManager;
+    @Inject
+    private SessionController _sessionController;
+    @Inject
+    private CalcDrgFacade _calcDrgFacade;
+    @Inject
+    private ApplicationTools _appTools;
+    @Inject
+    private ReportController _reportController;
 
     private DrgCalcBasics _calcBasics;
     private DrgCalcBasics _baseLine;
@@ -604,8 +609,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         return differencesPartner;
     }
 
-    private List<String> updateFields(Map<String, FieldValues> differencesUser, Map<String,
-            FieldValues> differencesPartner, DrgCalcBasics modifiedCalcBasics) {
+    private List<String> updateFields(Map<String, FieldValues> differencesUser, Map<String, FieldValues> differencesPartner, DrgCalcBasics modifiedCalcBasics) {
         List<String> collisions = new ArrayList<>();
         for (String fieldName : differencesUser.keySet()) {
             if (differencesPartner.containsKey(fieldName) || _calcBasics.isSealed()) {
@@ -637,7 +641,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                         _calcBasics.getIk());
     }
 
-    private boolean isSendEnabled(){
+    private boolean isSendEnabled() {
         return _appTools.isEnabled(ConfigKey.IsCalculationBasicsDrgSendEnabled);
     }
 
@@ -738,8 +742,10 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     /**
-     * This function seals a statement od participance if possible. Sealing is possible, if all mandatory fields are
-     * fulfilled. After sealing, the statement od participance can not be edited anymore and is available for the InEK.
+     * This function seals a statement od participance if possible. Sealing is
+     * possible, if all mandatory fields are fulfilled. After sealing, the
+     * statement od participance can not be edited anymore and is available for
+     * the InEK.
      *
      * @return
      */
@@ -929,14 +935,14 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         Utils.downloadText(content, "Normalstation.csv");
     }
 
-    @Inject private DataImporterPool importerPool;
+    @Inject
+    private DataImporterPool importerPool;
 
     public DataImporter<?, ?> getImporter(String importerName) {
         return importerPool.getDataImporter(importerName.toLowerCase());
     }
 
     //</editor-fold>
-
     //<editor-fold defaultstate="collapsed" desc="Tab MVI">
     public String downloadDocument(String name) {
         Document document = _calcBasics.getDocuments().stream()
@@ -1054,43 +1060,40 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
                         .findFirst()
                         .get());
             });
-        }
-        catch (Exception ex){
+        } catch (Exception ex) {
 
         }
     }
-    
-    	    public void exportAll() {
-        List<ReportTemplate> reports =  _reportController.getReportTemplates(1);
-        
+
+    public void exportAll() {
+        List<ReportTemplate> reports = _reportController.getReportTemplates(1);
+
         File zipFile = new File("Export_" + _calcBasics.getIk() + ".zip");
-        
+
         try (FileOutputStream fileOut = new FileOutputStream(zipFile);
-          CheckedOutputStream checkedOut = new CheckedOutputStream(fileOut, new Adler32());
-          ZipOutputStream compressedOut = new ZipOutputStream(new BufferedOutputStream(checkedOut))) 
-        {
-            for(ReportTemplate rt : reports) {
+                CheckedOutputStream checkedOut = new CheckedOutputStream(fileOut, new Adler32());
+                ZipOutputStream compressedOut = new ZipOutputStream(new BufferedOutputStream(checkedOut))) {
+            for (ReportTemplate rt : reports) {
                 String path = rt.getAddress().replace("{0}", _calcBasics.getId() + "");
                 path = path.replace("{1}", URLEncoder.encode(_appTools.retrieveHospitalInfo(_calcBasics.getIk()), "UTF-8"));
                 path = path.replace("{2}", _calcBasics.getDataYear() + "");
-                if(!rt.getName().contains("Übersicht Personal")) {
+                if (!rt.getName().contains("Übersicht Personal")) {
                     compressedOut.putNextEntry(new ZipEntry(rt.getName()));
                     ByteArrayInputStream ips = new ByteArrayInputStream(_reportController.getSingleDocument(path));
                     StreamHelper.copyStream(ips, compressedOut);
                     compressedOut.closeEntry();
-                    compressedOut.flush();                    
+                    compressedOut.flush();
                 }
-            }             
-//            }         
+            }
         } catch (IOException ex) {
             //throw new IllegalStateException(ex);
-        }    
+        }
         try {
             InputStream is = new FileInputStream(zipFile);
-            Utils.downLoadDocument(is, "Export_" + _calcBasics.getIk() + ".zip", 0);   
+            Utils.downLoadDocument(is, "Export_" + _calcBasics.getIk() + ".zip", 0);
         } catch (IOException ex) {
             //throw new IllegalStateException(ex);
         }
     }
-    
+
 }
