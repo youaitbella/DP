@@ -124,12 +124,6 @@ public class Utils {
         }
     }
 
-    public static String getServerName() {
-        FacesContext ctx = FacesContext.getCurrentInstance();
-        ExternalContext extContext = ctx.getExternalContext();
-        return extContext.getRequestServerName();
-    }
-
     public static void logMessageAndLogoff(String msg) {
         LOGGER.severe(msg);
         FacesContext facesContext = FacesContext.getCurrentInstance();

@@ -8,6 +8,7 @@ import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.data.adm.Announcement;
+import org.inek.dataportal.common.helper.EnvironmentInfo;
 
 /**
  *
@@ -27,7 +28,7 @@ public class AnnouncementBean {
             if (isEnabled(ConfigKey.TestMode)) {
                 Announcement announcement = new Announcement();
                 announcement.setWarning(true);
-                announcement.setText("### Testmodus aktiv ###");
+                announcement.setText("### Testmodus [" + EnvironmentInfo.getServerName() + "] aktiv ###");
                 _announcements.add(0, announcement);
             }
         }
