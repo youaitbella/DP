@@ -113,7 +113,6 @@ public class ConfigFacade extends AbstractDataAccess {
         portalTypes.add(portalType);
         portalTypes.add(PortalType.COMMON);
         query.setParameter("portalTypes", portalTypes);
-        dumpSql(query);
         return query.getResultList();
     }
    
