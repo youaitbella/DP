@@ -5,6 +5,14 @@
  */
 package org.inek.dataportal.calc.backingbean;
 
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +20,10 @@ import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.logging.Logger;
+import java.util.zip.Adler32;
+import java.util.zip.CheckedOutputStream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -19,6 +31,8 @@ import org.inek.dataportal.common.overall.ApplicationTools;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.calc.entities.CalcHospitalInfo;
+import org.inek.dataportal.calc.entities.drg.DrgCalcBasics;
+import org.inek.dataportal.calc.entities.psy.PeppCalcBasics;
 import org.inek.dataportal.common.data.iface.StatusEntity;
 import org.inek.dataportal.calc.enums.CalcHospitalFunction;
 import org.inek.dataportal.calc.enums.CalcInfoType;
@@ -32,6 +46,9 @@ import org.inek.dataportal.calc.facades.CalcFacade;
 import org.inek.dataportal.calc.facades.CalcPsyFacade;
 import org.inek.dataportal.calc.facades.CalcSopFacade;
 import org.inek.dataportal.calc.facades.DistributionModelFacade;
+import org.inek.dataportal.common.controller.ReportController;
+import org.inek.dataportal.common.data.adm.ReportTemplate;
+import org.inek.dataportal.common.helper.StreamHelper;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.utils.DocumentationUtil;
 import org.inek.dataportal.common.utils.KeyValueLevel;
@@ -65,7 +82,7 @@ public class CalcHospitalList {
         if (!_allowedButtons.containsKey(CalcHospitalFunction.StatementOfParticipance)) {
             boolean testMode = _appTools.isEnabled(ConfigKey.TestMode);
             Set<Integer> iks = _calcSopPsyFacade.obtainIks4NewStatementOfParticipance(
-                    _sessionController.getAccountId(), 
+                    _sessionController.getAccountId(),
                     Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
             _allowedButtons.put(CalcHospitalFunction.StatementOfParticipance, iks.size() > 0);
         }
@@ -94,7 +111,8 @@ public class CalcHospitalList {
         if (!_allowedButtons.containsKey(calcFunct)) {
             boolean testMode = _appTools.isEnabled(ConfigKey.TestMode);
             int year = Utils.getTargetYear(Feature.CALCULATION_HOSPITAL);
-            Set<Integer> possibleIks = _distModelFacade.obtainIks4NewDistributionModel(calcFunct, _sessionController.getAccountId(), year, testMode);
+            Set<Integer> possibleIks = _distModelFacade.obtainIks4NewDistributionModel(calcFunct, _sessionController.
+                    getAccountId(), year, testMode);
             Account account = _sessionController.getAccount();
             boolean isAllowed = account.getFullIkSet().stream().anyMatch(ik -> possibleIks.contains(ik));
             _allowedButtons.put(calcFunct, isAllowed);
@@ -141,7 +159,7 @@ public class CalcHospitalList {
             Set<Integer> possibleIks;
             int year = Utils.getTargetYear(Feature.CALCULATION_HOSPITAL);
             int accountId = _sessionController.getAccountId();
-            switch (calcFunct){
+            switch (calcFunct) {
                 case CalculationBasicsDrg:
                     possibleIks = _calcDrgFacade.obtainIks4NewBasicsDrg(accountId, year, testMode);
                     break;
@@ -166,9 +184,15 @@ public class CalcHospitalList {
             case SOP:
                 return printData(_calcSopPsyFacade::findStatementOfParticipance, hospitalInfo);
             case CBD:
-                return printData(_calcDrgFacade::findCalcBasicsDrg, hospitalInfo);
+                //return printData(_calcDrgFacade::findCalcBasicsDrg, hospitalInfo);
+                DrgCalcBasics drgCalcBasics = _calcDrgFacade.findCalcBasicsDrg(hospitalInfo.getId());
+                exportDrgCalcBasisc(drgCalcBasics);
+                return "";
             case CBP:
-                return printData(_calcPsyFacade::findCalcBasicsPepp, hospitalInfo);
+                //return printData(_calcPsyFacade::findCalcBasicsPepp, hospitalInfo);
+                PeppCalcBasics peppCalcBasics = _calcPsyFacade.findCalcBasicsPepp(hospitalInfo.getId());
+                exportPeppCalcBasics(peppCalcBasics);
+                return "";
             case CBA:
                 return printData(_calcAutopsyFacade::findCalcBasicsAutopsy, hospitalInfo);
             case CDM:
@@ -187,36 +211,100 @@ public class CalcHospitalList {
         return Pages.PrintView.URL();
     }
 
+    @Inject private ReportController _reportController;
+
+    private void exportDrgCalcBasisc(DrgCalcBasics calcBasics) {
+        List<ReportTemplate> reports = _reportController.getReportTemplates(1);
+
+        File zipFile = new File("Export_" + calcBasics.getIk() + ".zip");
+
+        try (FileOutputStream fileOut = new FileOutputStream(zipFile);
+                CheckedOutputStream checkedOut = new CheckedOutputStream(fileOut, new Adler32());
+                ZipOutputStream compressedOut = new ZipOutputStream(new BufferedOutputStream(checkedOut))) {
+            for (ReportTemplate rt : reports) {
+                String path = rt.getAddress().replace("{0}", calcBasics.getId() + "");
+                path = path.replace("{1}", URLEncoder.
+                        encode(_appTools.retrieveHospitalInfo(calcBasics.getIk()), "UTF-8"));
+                path = path.replace("{2}", calcBasics.getDataYear() + "");
+                if (!rt.getName().contains("Übersicht Personal")) {
+                    compressedOut.putNextEntry(new ZipEntry(rt.getName()));
+                    ByteArrayInputStream ips = new ByteArrayInputStream(_reportController.getSingleDocument(path));
+                    StreamHelper.copyStream(ips, compressedOut);
+                    compressedOut.closeEntry();
+                    compressedOut.flush();
+                }
+            }
+        } catch (IOException ex) {
+            //throw new IllegalStateException(ex);
+        }
+        try {
+            InputStream is = new FileInputStream(zipFile);
+            Utils.downLoadDocument(is, "Export_" + calcBasics.getIk() + ".zip", 0);
+        } catch (IOException ex) {
+            //throw new IllegalStateException(ex);
+        }
+    }
+
+    private void exportPeppCalcBasics(PeppCalcBasics calcBasics) {
+        List<ReportTemplate> reports = _reportController.getReportTemplates(2);
+
+        File zipFile = new File("Export_" + calcBasics.getIk() + ".zip");
+
+        try (FileOutputStream fileOut = new FileOutputStream(zipFile);
+                CheckedOutputStream checkedOut = new CheckedOutputStream(fileOut, new Adler32());
+                ZipOutputStream compressedOut = new ZipOutputStream(new BufferedOutputStream(checkedOut))) {
+            for (ReportTemplate rt : reports) {
+                String path = rt.getAddress().replace("{0}", calcBasics.getId() + "");
+                path = path.replace("{1}", URLEncoder.
+                        encode(_appTools.retrieveHospitalInfo(calcBasics.getIk()), "UTF-8"));
+                path = path.replace("{2}", calcBasics.getDataYear() + "");
+                compressedOut.putNextEntry(new ZipEntry(rt.getName()));
+                ByteArrayInputStream ips = new ByteArrayInputStream(_reportController.getSingleDocument(path));
+                StreamHelper.copyStream(ips, compressedOut);
+                compressedOut.closeEntry();
+                compressedOut.flush();
+            }
+        } catch (IOException ex) {
+            //throw new IllegalStateException(ex);
+        }
+        try {
+            InputStream is = new FileInputStream(zipFile);
+            Utils.downLoadDocument(is, "Export_" + calcBasics.getIk() + ".zip", 0);
+        } catch (IOException ex) {
+            //throw new IllegalStateException(ex);
+        }
+    }
+
     public String deleteHospitalInfo(CalcHospitalInfo hospitalInfo) {
         switch (hospitalInfo.getType()) {
             case SOP:
-                deleteData(_calcSopPsyFacade::findStatementOfParticipance, 
-                        _calcSopPsyFacade::saveStatementOfParticipance, 
-                        _calcSopPsyFacade::delete, 
+                deleteData(_calcSopPsyFacade::findStatementOfParticipance,
+                        _calcSopPsyFacade::saveStatementOfParticipance,
+                        _calcSopPsyFacade::delete,
                         hospitalInfo);
                 break;
             case CBD:
-                deleteData(_calcDrgFacade::findCalcBasicsDrg, 
-                        _calcDrgFacade::saveCalcBasicsDrg, 
-                        _calcDrgFacade::delete, 
+                deleteData(_calcDrgFacade::findCalcBasicsDrg,
+                        _calcDrgFacade::saveCalcBasicsDrg,
+                        _calcDrgFacade::delete,
                         hospitalInfo);
                 break;
             case CBP:
                 deleteData(_calcPsyFacade::findCalcBasicsPepp,
-                        _calcPsyFacade::saveCalcBasicsPepp, 
-                        _calcPsyFacade::delete, 
+                        _calcPsyFacade::saveCalcBasicsPepp,
+                        _calcPsyFacade::delete,
                         hospitalInfo);
                 break;
             case CBA:
-                deleteData(_calcAutopsyFacade::findCalcBasicsAutopsy, 
+                deleteData(_calcAutopsyFacade::findCalcBasicsAutopsy,
                         _calcAutopsyFacade::saveCalcBasicsAutopsy,
-                        _calcAutopsyFacade::delete, 
+                        _calcAutopsyFacade::delete,
                         hospitalInfo);
                 break;
             case CDM:
-                deleteData(_distModelFacade::findDistributionModel, 
-                        _distModelFacade::saveDistributionModel, 
-                        _distModelFacade::delete, 
+                deleteData(_distModelFacade::findDistributionModel,
+                        _distModelFacade::saveDistributionModel,
+                        _distModelFacade::delete,
                         hospitalInfo);
                 break;
             default:
@@ -226,9 +314,9 @@ public class CalcHospitalList {
     }
 
     private <T> void deleteData(
-            Function<Integer, T> findData, 
-            Function<T, T> saveData, 
-            Consumer<T> deleteData, 
+            Function<Integer, T> findData,
+            Function<T, T> saveData,
+            Consumer<T> deleteData,
             CalcHospitalInfo hospitalInfo) {
         T data = findData.apply(hospitalInfo.getId());
         if (data == null) {

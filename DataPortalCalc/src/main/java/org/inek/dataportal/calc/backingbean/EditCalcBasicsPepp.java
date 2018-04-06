@@ -84,7 +84,6 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     @Inject private SessionController _sessionController;
     @Inject private CalcPsyFacade _calcFacade;
     @Inject private ApplicationTools _appTools;
-    @Inject private ReportController _reportController;
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
@@ -832,34 +831,5 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
 
         return items;
     }
-    
-    public void exportAll() {
-        List<ReportTemplate> reports =  _reportController.getReportTemplates(2);
-        
-        File zipFile = new File("Export_" + _calcBasics.getIk() + ".zip");
-        
-        try (FileOutputStream fileOut = new FileOutputStream(zipFile);
-          CheckedOutputStream checkedOut = new CheckedOutputStream(fileOut, new Adler32());
-          ZipOutputStream compressedOut = new ZipOutputStream(new BufferedOutputStream(checkedOut))) 
-        {
-            for(ReportTemplate rt : reports) {
-                String path = rt.getAddress().replace("{0}", _calcBasics.getId() + "");
-                path = path.replace("{1}", URLEncoder.encode(_appTools.retrieveHospitalInfo(_calcBasics.getIk()), "UTF-8"));
-                path = path.replace("{2}", _calcBasics.getDataYear() + "");
-                    compressedOut.putNextEntry(new ZipEntry(rt.getName()));
-                    ByteArrayInputStream ips = new ByteArrayInputStream(_reportController.getSingleDocument(path));
-                    StreamHelper.copyStream(ips, compressedOut);
-                    compressedOut.closeEntry();
-                    compressedOut.flush();                    
-            }
-        } catch (IOException ex) {
-            //throw new IllegalStateException(ex);
-        }    
-        try {
-            InputStream is = new FileInputStream(zipFile);
-            Utils.downLoadDocument(is, "Export_" + _calcBasics.getIk() + ".zip", 0);   
-        } catch (IOException ex) {
-            //throw new IllegalStateException(ex);
-        }
-    }
+   
 }
