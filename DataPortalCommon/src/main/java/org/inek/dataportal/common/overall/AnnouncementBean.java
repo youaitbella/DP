@@ -28,7 +28,7 @@ public class AnnouncementBean {
             if (isEnabled(ConfigKey.TestMode)) {
                 Announcement announcement = new Announcement();
                 announcement.setWarning(true);
-                announcement.setText("### Testmodus [" + EnvironmentInfo.getServerName() + "] aktiv ###");
+                announcement.setText("### Testmodus [" + EnvironmentInfo.getLocalServerName() + "] aktiv ###");
                 _announcements.add(0, announcement);
             }
         }
