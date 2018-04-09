@@ -9,6 +9,7 @@
     <header>
       <para styleclass="Heading1"><text styleclass="Heading1" translate="true">IK-Supervisor</text></para>
     </header>
+    <para styleclass="Warning"><text styleclass="Warning" translate="true">Durch Einführung der IK-Admin Funktionalität wurde die Funktion IK-Supervisor zwischenzeitlich obsolet. Sie wird künftig aus dem </text><var styleclass="Warning">&lt;%TITLE%&gt;</var><text styleclass="Warning" translate="true"> entfernt.</text></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Aus organisatorischen Gründen kann es sinnvoll sein, Daten, z.B. NUB-Anfragen, vor Bereitstellung an das InEK durch eine andere Person prüfen zu lassen. Ein solches Verfahren können Sie auf kooperativer Basis selber einrichten. Dies ist aus Sicht des InEK der bevorzugte Weg.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Darüber hinaus ist es möglich, ein zweistufiges Verfahren zu erzwingen: Für jedes Institutskennzeichen (IK) können ein oder mehrere Supervisor eingerichtet werden. Die Bereitstellung von Daten für das InEK ist dann erst nach Prüfung und Freigabe durch einen dieser Supervisor möglich. Damit entspricht dieses Verfahren der Kooperation, als wenn dort jeder Anwender, der Daten für diese IK bearbeitet, dem Supervisor (Partner) das Recht</text></para>

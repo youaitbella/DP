@@ -57,8 +57,8 @@
       </topicref>
     </topicref>
   </topicref>
-  <topicref type="topic" id="429921553860369" build="ALL" modified="2017-09-14T08:19:30.314Z" icon="0" href="Gemeinsame-Funktionen">
-    <caption translate="true">Gemeinsame Funktionen</caption>
+  <topicref type="topic" id="429921553860369" build="ALL" modified="2018-04-09T13:00:40.347Z" icon="0" href="Gemeinsame-Funktionen">
+    <caption translate="true">Basisfunktionen</caption>
     <topicref type="topic" id="409492600173250" build="ALL" modified="2012-02-10T10:17:54.656Z" icon="0" href="UserMaintenance">
       <caption translate="true">Stammdaten</caption>
       <topicref type="topic" id="409492599993961" build="ALL" modified="2012-02-10T10:23:39.423Z" icon="0" href="EditUserMaintenance">
@@ -126,57 +126,6 @@
       <caption translate="true">IK-Admin</caption>
       <topicref type="topic" id="430897895498095" build="ALL" modified="2017-12-20T16:48:24.040Z" icon="0" href="Berechtigungen-zuweisen">
         <caption translate="true">Berechtigungen zuweisen</caption>
-      </topicref>
-    </topicref>
-    <topicref type="topic" id="427595867392904" build="ALL" modified="2017-01-24T11:31:18.782Z" icon="0" href="ParticipanceCostCalculation">
-      <caption translate="true">Teilnahme Kostenkalkulation</caption>
-      <topicref type="topic" id="427596594566388" build="ALL" modified="2017-01-24T11:30:39.444Z" icon="0" href="StatementOfParticipance">
-        <caption translate="true">Teilnahmeerklärung</caption>
-      </topicref>
-      <topicref type="topic" id="427595211098679" build="ALL" modified="2017-01-24T11:34:22.667Z" icon="0" href="CalculationBasicsDrg">
-        <caption translate="true">Kalkulationsgrundlage DRG</caption>
-      </topicref>
-      <topicref type="topic" id="427595416159886" build="ALL" modified="2017-02-22T17:15:52.234Z" icon="0" href="CalculationBasiscsPsy">
-        <caption translate="true">Kalkulationsgrundlage PSY</caption>
-      </topicref>
-      <topicref type="topic" id="428576096113991" build="ALL" modified="2017-05-02T17:19:33.494Z" icon="0" href="CalculationBasiscsAutopsy">
-        <caption translate="true">Kalkulationsgrundlage OBD</caption>
-      </topicref>
-      <topicref type="topic" id="427866033856711" build="ALL" modified="2017-02-22T10:29:53.547Z" icon="0" href="ClinicalDistributionModel">
-        <caption translate="true">Klinische Verteilungsmodelle (KVM)</caption>
-      </topicref>
-    </topicref>
-    <topicref type="topic" id="424515529806881" build="USER1" modified="2016-03-22T11:43:12.266Z" icon="0" href="CertifyGrouper">
-      <caption translate="true">Grouper-Zertifizierung</caption>
-    </topicref>
-    <topicref type="topic" id="419394139251408" build="USER2" modified="2016-03-22T11:43:41.152Z" icon="0" href="GrouperCertification">
-      <caption translate="true">Grouper-Zertifizierung - Managersicht</caption>
-      <topicref type="topic" id="422984980682292" build="ALL" modified="2015-10-21T14:19:59.175Z" icon="0" href="Systemverwaltung">
-        <caption translate="true">Systemverwaltung</caption>
-        <topicref type="topic" id="422987636500921" build="ALL" modified="2015-10-21T15:39:18.469Z" icon="0" href="Grouperstatus">
-          <caption translate="true">Grouperstatus</caption>
-        </topicref>
-        <topicref type="topic" id="422988308748370" build="ALL" modified="2015-10-21T15:54:34.901Z" icon="0" href="Ergebnis">
-          <caption translate="true">Ergebnis</caption>
-        </topicref>
-      </topicref>
-      <topicref type="topic" id="422987052331027" build="ALL" modified="2015-10-21T14:20:14.215Z" icon="0" href="E-Mail-Template">
-        <caption translate="true">E-Mail-Template</caption>
-        <topicref type="topic" id="423048653803773" build="ALL" modified="2015-10-27T16:27:57.093Z" icon="0" href="E-Mail-Typ">
-          <caption translate="true">E-Mail-Typ</caption>
-        </topicref>
-        <topicref type="topic" id="423047224023237" build="ALL" modified="2015-10-27T16:30:18.888Z" icon="0" href="E-Mail-Platzhalter">
-          <caption translate="true">E-Mail-Platzhalter</caption>
-        </topicref>
-      </topicref>
-      <topicref type="topic" id="422985181019370" build="ALL" modified="2015-10-21T14:20:20.805Z" icon="0" href="Mailversand">
-        <caption translate="true">Mailversand</caption>
-      </topicref>
-      <topicref type="topic" id="422985586821799" build="ALL" modified="2015-10-21T14:20:33.951Z" icon="0" href="Grouperzertifizierung">
-        <caption translate="true">Grouperzertifizierung</caption>
-      </topicref>
-      <topicref type="topic" id="423005735963257" build="ALL" modified="2015-10-23T11:22:41.021Z" icon="0" href="Pruefservice">
-        <caption translate="true">Prüfservice</caption>
       </topicref>
     </topicref>
   </topicref>
@@ -333,6 +282,27 @@
       </topicref>
     </topicref>
   </topicref>
+  <topicref type="topic" id="431997314533550" build="ALL" modified="2018-04-09T13:03:38.990Z" icon="0" href="Teilnahme-Kostenkalkulation">
+    <caption translate="true">Teilnahme Kostenkalkulation</caption>
+    <topicref type="topic" id="427595867392904" build="ALL" modified="2017-01-24T11:31:18.782Z" icon="0" href="ParticipanceCostCalculation">
+      <caption translate="true">Teilnahme Kostenkalkulation</caption>
+      <topicref type="topic" id="427596594566388" build="ALL" modified="2017-01-24T11:30:39.444Z" icon="0" href="StatementOfParticipance">
+        <caption translate="true">Teilnahmeerklärung</caption>
+      </topicref>
+      <topicref type="topic" id="427595211098679" build="ALL" modified="2017-01-24T11:34:22.667Z" icon="0" href="CalculationBasicsDrg">
+        <caption translate="true">Kalkulationsgrundlage DRG</caption>
+      </topicref>
+      <topicref type="topic" id="427595416159886" build="ALL" modified="2017-02-22T17:15:52.234Z" icon="0" href="CalculationBasiscsPsy">
+        <caption translate="true">Kalkulationsgrundlage PSY</caption>
+      </topicref>
+      <topicref type="topic" id="428576096113991" build="ALL" modified="2017-05-02T17:19:33.494Z" icon="0" href="CalculationBasiscsAutopsy">
+        <caption translate="true">Kalkulationsgrundlage OBD</caption>
+      </topicref>
+      <topicref type="topic" id="427866033856711" build="ALL" modified="2017-02-22T10:29:53.547Z" icon="0" href="ClinicalDistributionModel">
+        <caption translate="true">Klinische Verteilungsmodelle (KVM)</caption>
+      </topicref>
+    </topicref>
+  </topicref>
   <topicref type="topic" id="426207377323422" build="ALL" modified="2016-09-07T15:29:02.542Z" icon="0" href="Insurance">
     <caption translate="true">Krankenkasse</caption>
     <topicref type="topic" id="426204917611885" build="ALL" modified="2016-09-08T11:19:37.917Z" icon="0" href="NubReport">
@@ -343,6 +313,42 @@
     </topicref>
     <topicref type="topic" id="431597413763570" build="ALL" modified="2018-02-28T12:54:43.193Z" icon="0" href="InsurancePsych">
       <caption translate="true">Psych-Personalnachweis</caption>
+    </topicref>
+  </topicref>
+  <topicref type="topic" id="431995674349646" build="USER1,USER2" modified="2018-04-09T13:05:04.588Z" icon="0" href="Zertifizierung">
+    <caption translate="true">Zertifizierung</caption>
+    <topicref type="topic" id="424515529806881" build="USER1" modified="2016-03-22T11:43:12.266Z" icon="0" href="CertifyGrouper">
+      <caption translate="true">Grouper-Zertifizierung</caption>
+    </topicref>
+    <topicref type="topic" id="419394139251408" build="USER2" modified="2016-03-22T11:43:41.152Z" icon="0" href="GrouperCertification">
+      <caption translate="true">Grouper-Zertifizierung - Managersicht</caption>
+      <topicref type="topic" id="422984980682292" build="ALL" modified="2015-10-21T14:19:59.175Z" icon="0" href="Systemverwaltung">
+        <caption translate="true">Systemverwaltung</caption>
+        <topicref type="topic" id="422987636500921" build="ALL" modified="2015-10-21T15:39:18.469Z" icon="0" href="Grouperstatus">
+          <caption translate="true">Grouperstatus</caption>
+        </topicref>
+        <topicref type="topic" id="422988308748370" build="ALL" modified="2015-10-21T15:54:34.901Z" icon="0" href="Ergebnis">
+          <caption translate="true">Ergebnis</caption>
+        </topicref>
+      </topicref>
+      <topicref type="topic" id="422987052331027" build="ALL" modified="2015-10-21T14:20:14.215Z" icon="0" href="E-Mail-Template">
+        <caption translate="true">E-Mail-Template</caption>
+        <topicref type="topic" id="423048653803773" build="ALL" modified="2015-10-27T16:27:57.093Z" icon="0" href="E-Mail-Typ">
+          <caption translate="true">E-Mail-Typ</caption>
+        </topicref>
+        <topicref type="topic" id="423047224023237" build="ALL" modified="2015-10-27T16:30:18.888Z" icon="0" href="E-Mail-Platzhalter">
+          <caption translate="true">E-Mail-Platzhalter</caption>
+        </topicref>
+      </topicref>
+      <topicref type="topic" id="422985181019370" build="ALL" modified="2015-10-21T14:20:20.805Z" icon="0" href="Mailversand">
+        <caption translate="true">Mailversand</caption>
+      </topicref>
+      <topicref type="topic" id="422985586821799" build="ALL" modified="2015-10-21T14:20:33.951Z" icon="0" href="Grouperzertifizierung">
+        <caption translate="true">Grouperzertifizierung</caption>
+      </topicref>
+      <topicref type="topic" id="423005735963257" build="ALL" modified="2015-10-23T11:22:41.021Z" icon="0" href="Pruefservice">
+        <caption translate="true">Prüfservice</caption>
+      </topicref>
     </topicref>
   </topicref>
   <topicref type="topic" id="418795822620952" build="ALL" modified="2014-08-28T11:15:02.765Z" icon="0" href="SpecialTasks">
