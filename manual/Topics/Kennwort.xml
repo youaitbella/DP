@@ -15,11 +15,16 @@
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Der Indikator bietet Ihnen lediglich eine ungefähre Hilfestellung zur Abschätzung Ihrer Kennwortqualität.</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Beispiel:</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Beispiele:</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" style="font-style:italic;" translate="true">TopSecr</text><text styleclass="Normal" translate="true"> wird rot angezeigt, da dieses Kennwort ausschließlich aus Buchstaben besteht und zu kurz ausfällt.</text></para>
-    <para styleclass="Normal"><text styleclass="Normal" style="font-style:italic;" translate="true">TopSecre</text><text styleclass="Normal" translate="true"> wird orange angezeigt, da dieses Kennwort zwar die empfohlene Mindestlänge erreicht, aber ausschließlich aus Buchstaben besteht.</text></para>
-    <para styleclass="Normal"><text styleclass="Normal" style="font-style:italic;" translate="true">TopSecret</text><text styleclass="Normal" translate="true"> wird rot angezeigt, da dieses Kennwort als unsicheres Kennwort bekannt ist.</text></para>
+    <list id="12" type="ul" listtype="bullet" formatstring="&#183;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Symbol; font-size:11pt; color:#000000;">
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">TopSecr</text><text styleclass="Bullet Text" translate="true">&#32;</text><br/><text styleclass="Bullet Text" translate="true">wird rot angezeigt, da dieses Kennwort ausschließlich aus Buchstaben besteht und zu kurz ausfällt.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">TopSecre</text><text styleclass="Bullet Text" translate="true">&#32;</text><br/><text styleclass="Bullet Text" translate="true">wird orange angezeigt, da dieses Kennwort zwar die empfohlene Mindestlänge erreicht, aber ausschließlich aus Buchstaben besteht.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">TopSecret</text><text styleclass="Bullet Text" translate="true">&#32;</text><br/><text styleclass="Bullet Text" translate="true">wird rot angezeigt, da dieses Kennwort als häufig genutztes Kennwort bekannt ist und somit einfach über einen sogenannten &quot;Wörterbuchangriff&quot; genutzt werden kann.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">TopSecret!</text><text styleclass="Bullet Text" translate="true">&#32;</text><br/><text styleclass="Bullet Text" translate="true">wird gelb angezeigt, da es durch die Kombination mit einem Sonderzeichen nicht in der Wörterbuchliste enthalten ist. </text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">TopSecret!?</text><br/><text styleclass="Bullet Text" translate="true">aufgrund der gestiegenen Länge erfolgt nun eine grüne Anzeige.</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">111111111111</text><br/><text styleclass="Bullet Text" translate="true">wird rot angezeigt. Die Mindestlänge wurde zwar deutlich überschritten, jedoch wird die Wiederholung negativ bewertet.</text></li>
+    </list>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Das InEK behält sich vor, den Zugang zu einzelnen Programmfunktionen nur dann zuzulassen, sofern eine hohe Kennwortqualität erreicht wird.</text></para>
     <para styleclass="Normal"></para>
