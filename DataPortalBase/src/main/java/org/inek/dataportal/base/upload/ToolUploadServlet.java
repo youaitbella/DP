@@ -24,6 +24,7 @@ import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.base.feature.dropbox.facade.DropBoxFacade;
 import org.inek.dataportal.base.feature.dropbox.DropBoxController;
+import org.inek.dataportal.common.enums.PortalType;
 import org.inek.dataportal.common.helper.StreamHelper;
 import org.inek.dataportal.common.helper.Utils;
 
@@ -86,7 +87,7 @@ public class ToolUploadServlet extends HttpServlet {
 
     private boolean loginAndResponseFailure(String emailOrUser, String password, HttpUtil httpUtil) throws IOException {
         String message = "IP=" + Utils.getClientIp(httpUtil.getRequest()) + "; DatenDienst";
-        if (!_sessionController.login(emailOrUser, password, message)) {
+        if (!_sessionController.login(emailOrUser, password, message, PortalType.BASE)) {
             httpUtil.writeStatus("fail");
             _sessionController.logMessage("Datendienst: Login failed for " + emailOrUser);
             return false;

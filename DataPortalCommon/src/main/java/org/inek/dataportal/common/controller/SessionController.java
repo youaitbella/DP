@@ -187,6 +187,7 @@ public class SessionController implements Serializable {
         performLogout("Logout");
         try {
             FacesContext.getCurrentInstance().getExternalContext().redirect(url);
+            return null;
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
@@ -347,14 +348,8 @@ public class SessionController implements Serializable {
     }
     
     public boolean loginAndSetTopics(String mailOrUser, String password, PortalType portalType) {
-        _portalType = portalType;
-        login(mailOrUser, password);
-        return _account != null;
-    }
-    
-    private boolean login(String mailOrUser, String password) {
         String loginInfo = Utils.getClientIP() + "; UserAgent=" + Utils.getUserAgent();
-        if (!login(mailOrUser, password, loginInfo)) {
+        if (!login(mailOrUser, password, loginInfo, portalType)) {
             return false;
         }
         
@@ -374,7 +369,8 @@ public class SessionController implements Serializable {
      *
      * @return
      */
-    public boolean login(String mailOrUser, String password, String loginInfo) {
+    public boolean login(String mailOrUser, String password, String loginInfo, PortalType portalType) {
+        _portalType = portalType;
         _account = _accountFacade.getAccount(mailOrUser, password);
         if (_account == null) {
             logMessage("Login failed: " + loginInfo);
