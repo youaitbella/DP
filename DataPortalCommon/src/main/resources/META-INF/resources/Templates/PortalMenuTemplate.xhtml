@@ -45,15 +45,12 @@
 
         <ui:insert name="navItems"></ui:insert>
 
-        <c:if test="#{sessionController.isInekUser('ADMIN')}">
-            <li>
-                <h:commandLink value="Admin Portal" 
-                               action="#{sessionController.changePortal('ADMIN')}"
-                               immediate="true">
-                </h:commandLink>
+        <c:if test="#{sessionController.loggedIn}">
+            <li class="#{empty(sessionController.currentTopic) ? 'activemenu' : 'menu'}">
+                <h:commandLink value="#{msg.lblSummary}" action="#{sessionController.navigate(sessionTools.pages.MainApp)}"/>
             </li>
         </c:if>
-        
+
     </ui:define>
 
 
