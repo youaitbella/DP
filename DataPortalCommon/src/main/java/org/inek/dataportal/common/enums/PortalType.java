@@ -7,14 +7,14 @@ package org.inek.dataportal.common.enums;
  */
 public enum PortalType {
     COMMON("Allgemein"),
-    BASE("Basisfunktionen") ,
-    DRG("DRG-Portal") ,
-    PSY("PSY-Portal"),
-    INSURANCE("Krankenkassen-Funktionen"),
-    CERT("Zertifizierung"),
-    CALC("Teilnahme Kostenkalkulation"),
+    BASE("zu den Basisfunktionen") ,
+    DRG("zum DRG-Portal") ,
+    PSY("zum PSY-Portal"),
+    INSURANCE("zu Krankenkassen-Funktionen"),
+    CERT("zur Zertifizierung"),
+    CALC("zur Teilnahme Kostenkalkulation"),
     INEK("Interne Funktionen"),
-    ADMIN("Admin-Bereich");
+    ADMIN("zum Admin-Bereich");
     
     private final String _displayName;
 

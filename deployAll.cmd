@@ -12,7 +12,7 @@ rem deploy to 03
 %JAVA% -jar %GF_CLI% --user admin --passwordfile password.txt --host vdataportal03 deploy --force --keepstate DataPortalInsurance\target\DataPortalInsurance.war
 %JAVA% -jar %GF_CLI% --user admin --passwordfile password.txt --host vdataportal03 deploy --force --keepstate DataPortalDrg\target\DataPortalDrg.war
 %JAVA% -jar %GF_CLI% --user admin --passwordfile password.txt --host vdataportal03 deploy --force --keepstate DataPortalPsy\target\DataPortalPsy.war
-goto finish
+rem goto finish
 
 rem deploy to 04
 %JAVA% -jar %GF_CLI% --user admin --passwordfile password.txt --host vdataportal04 deploy --force --keepstate DataPortalBase\target\DataPortal.war
