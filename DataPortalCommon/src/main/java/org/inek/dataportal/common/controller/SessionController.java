@@ -333,7 +333,7 @@ public class SessionController implements Serializable {
     
     public boolean loginByToken(String token, PortalType portalType) {
         _portalType = portalType;
-        String loginInfo = Utils.getClientIP() + "; UserAgent=" + Utils.getUserAgent();
+        String loginInfo = Utils.getClientIP() + "; UserAgent=" + Utils.getUserAgent() + "; targetServer=" + EnvironmentInfo.getLocalServerName();
         int id = getId(token);
         _account = _accountFacade.findAccount(id);
         if (_account == null) {
@@ -348,7 +348,7 @@ public class SessionController implements Serializable {
     }
     
     public boolean loginAndSetTopics(String mailOrUser, String password, PortalType portalType) {
-        String loginInfo = Utils.getClientIP() + "; UserAgent=" + Utils.getUserAgent();
+        String loginInfo = Utils.getClientIP() + "; UserAgent=" + Utils.getUserAgent() + "; targetServer=" + EnvironmentInfo.getLocalServerName();
         if (!login(mailOrUser, password, loginInfo, portalType)) {
             return false;
         }
@@ -365,7 +365,8 @@ public class SessionController implements Serializable {
      *
      * @param mailOrUser
      * @param password
-     * @param loginInfo  An infostring|message to be displayed
+     * @param loginInfo  An infostring|mes
+     * @param portalType to be displayed
      *
      * @return
      */
@@ -542,8 +543,8 @@ public class SessionController implements Serializable {
         return _featureHolder.getFeatureController(feature);
     }
     
-    public int countInstalledFeatures() {
-        return _featureHolder.getFeatureCount();
+    public boolean hasNoFeatureSubscribed() {
+        return _featureHolder.hasNoFeatureSubscribed();
     }
     
     public String getIkName(Integer ik) {
@@ -679,11 +680,6 @@ public class SessionController implements Serializable {
             return "InEK-DatenportalZerti.pdf";
         }
         return "InEK-Datenportal.pdf";
-    }
-    
-    public boolean isInMaintenanceMode() {
-        // todo: read config or something else appropiate to determine, whether system is in maintenance mode
-        return false;
     }
     
     private final Set<String> _acceptedTerms = new HashSet<>(4);

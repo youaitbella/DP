@@ -1367,6 +1367,10 @@ sup {
 input[type=text].hasError {
   border: solid 1px red;
 }
+html.progress,
+html.progress * {
+  cursor: progress !important;
+}
 #content .activemenu a {
   background-image: url("/DataPortal/javax.faces.resource/Icon/small/menu_active_psy.png.xhtml");
 }

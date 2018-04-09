@@ -55,8 +55,14 @@ public class FeatureHolder {
         return controller;
     }
 
-    public int getFeatureCount() {
-        return _featureControllers.size();
+    public boolean hasNoFeatureSubscribed() {
+        return _featureControllers
+                .values()
+                .stream()
+                .filter(f -> f.getFeature() != Feature.USER_MAINTENANCE)
+                .filter(f -> f.getFeature() != Feature.DOCUMENTS)
+                .filter(f -> f.getFeature() != Feature.COOPERATION)
+                .count() == 0;
     }
 
     public void setFeatureActive(Feature feature) {

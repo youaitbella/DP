@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Pages;
+import org.inek.dataportal.common.helper.EnvironmentInfo;
 import org.inek.dataportal.common.helper.NotLoggedInException;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.mail.Mailer;
@@ -217,8 +218,7 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
             LOGGER.log(Level.SEVERE, "##### Mailer not injected #####");
             return;
         }
-        String name = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()).getServerName();
-        String subject = "Exception reported by Server " + name;
+        String subject = "Exception reported by Server " + EnvironmentInfo.getLocalServerName();
         if (_appTools == null) {
             _mailer.sendMail(ConfigKey.ExceptionEmail.getDefault(), "[no application tools available] " + subject, msg);
         } else {

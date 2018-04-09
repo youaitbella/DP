@@ -76,18 +76,15 @@ public class Login implements Serializable {
     // </editor-fold>
 
     public String login(PortalType portalType) {
-        if (_sessionController.isInMaintenanceMode()) {
-            _sessionController.alertClient("Aufgrund von Wartungsarbeiten ist derzeit kein Zugang möglich");
-            return "";
-        }
         if (!_sessionController.loginAndSetTopics(_emailOrUser, _password, portalType)) {
             _loginMessage = "Name bzw. Email und / oder Kennwort sind ungültig";
             return "";
         }
         _loginMessage = "";
-        // todo: check for features and call maintenance dialog???
-        //return _sessionController.countInstalledFeatures() <= 1 ? Pages.UserMaintenanceFeatures.URL() : Pages.MainApp.URL();
-        return Pages.MainApp.URL();
+        // if no feature subscribed
+        return _sessionController.hasNoFeatureSubscribed() 
+                ? Pages.UserMaintenanceFeatures.RedirectURL() 
+                : Pages.MainApp.RedirectURL();
     }
 
 }
