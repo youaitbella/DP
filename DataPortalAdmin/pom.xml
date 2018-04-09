@@ -5,14 +5,14 @@
     <parent>
         <groupId>org.inek</groupId>
         <artifactId>DataPortal</artifactId>
-        <version>2018.1.0-SNAPSHOT</version>
+        <version>2018.04.09-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>DataPortalAdmin</artifactId>
     <packaging>war</packaging>
     <name>${project.artifactId}</name>
-    <version>2018.1.0-SNAPSHOT</version>
+    <version>2018.04.09-SNAPSHOT</version>
 
     <dependencies>
         <dependency>
