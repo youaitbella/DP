@@ -73,8 +73,8 @@ public class DocumentLoader {
             if (!lockFile.exists()){
                 lockFile.createNewFile();
             }
-            try (FileChannel fileChannel = FileChannel.open(lockFile.toPath(), StandardOpenOption.WRITE, StandardOpenOption.APPEND)) {
-                FileLock lock = fileChannel.lock();
+            try (FileChannel fileChannel = FileChannel.open(lockFile.toPath(), StandardOpenOption.WRITE, StandardOpenOption.APPEND); 
+                    FileLock lock = fileChannel.lock()) {
                 for (File dir : baseDir.listFiles()) {
                     if (dir.isDirectory()) {
                         LOGGER.log(Level.INFO, "Check document folder ({0})", dir);
@@ -82,7 +82,6 @@ public class DocumentLoader {
                     }
                 }
                 setWaitCounter(0);
-                lock.release();
             }
         } catch (Exception ex) {
             // baseDir.listFiles() might become null if the drive is not available
