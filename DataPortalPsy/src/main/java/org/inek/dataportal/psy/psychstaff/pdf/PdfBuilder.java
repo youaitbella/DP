@@ -25,7 +25,6 @@ import java.util.Arrays;
 import java.util.List;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import org.inek.dataportal.psy.psychstaff.backingbean.EditPsyStaff;
@@ -416,8 +415,7 @@ public class PdfBuilder extends PdfPageEventHelper {
     //<editor-fold defaultstate="collapsed" desc="addLogo">
     private void addLogo(Document document, String bereich, String anlage, String sig)
             throws IOException, BadElementException, DocumentException {
-
-        URL resource = FacesContext.getCurrentInstance().getExternalContext().getResource("/resources/img/InEK.gif");
+        URL resource = FacesContext.getCurrentInstance().getExternalContext().getResource("/Image/InEK.gif");
         Image inekLogo = Image.getInstance(resource);
         PdfPTable tb;
         PdfPCell cell;

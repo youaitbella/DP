@@ -48,7 +48,7 @@ import org.inek.dataportal.common.scope.FeatureScopedContextHolder;
 @Named
 @SessionScoped
 public class SessionController implements Serializable {
-    
+
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger("SessionController");
     @Inject private AccountFacade _accountFacade;
@@ -59,44 +59,44 @@ public class SessionController implements Serializable {
     @Inject private ApplicationTools _appTools;
     @Inject private CustomerFacade _customerFacade;
     @Inject private transient FeatureHolder _featureHolder;
-    
+
     public ApplicationTools getApplicationTools() {
         return _appTools;
     }
-    
+
     private PortalType _portalType = PortalType.COMMON;
-    
+
     public PortalType getPortalType() {
         return _portalType;
     }
-    
+
     public void setPortalType(PortalType portalType) {
         this._portalType = portalType;
     }
-    
+
     public Mailer getMailer() {
         return _mailer;
     }
-    
+
     private Account _account;
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     public List<Topic> getTopics() {
         return _featureHolder.getTopics();
     }
-    
+
     public String getCurrentTopic() {
         return _featureHolder.getCurrentTopic();
     }
-    
+
     public void setCurrentTopic(String currentTopic) {
         _featureHolder.setCurrentTopic(currentTopic);
     }
-    
+
     public void clearCurrentTopic() {
         _featureHolder.clearCurrentTopic();
     }
-    
+
     public Account getAccount() {
         checkAccount();
         return _account;
@@ -114,7 +114,7 @@ public class SessionController implements Serializable {
         }
         return account.getId();
     }
-    
+
     private void checkAccount() {
         if (_account == null) {
             FacesContext facesContext = FacesContext.getCurrentInstance();
@@ -128,7 +128,7 @@ public class SessionController implements Serializable {
             }
         }
     }
-    
+
     public boolean isHospital() {
         // we had unexpecte null access here.
         // let's do some logging and redirect the user to an error view
@@ -149,15 +149,15 @@ public class SessionController implements Serializable {
         CustomerType type = _typeFacade.find(_account.getCustomerTypeId());
         return type.isHospital() || isInekUser(Feature.ADMIN);
     }
-    
+
     public boolean isLoggedIn() {
         return _account != null;
     }
-    
+
     public String getMainPage() {
         return Pages.MainApp.URL();
     }
-    
+
     public String getRemainingTime() {
         int maxInterval = FacesContext.getCurrentInstance().getExternalContext().getSessionMaxInactiveInterval();
         int minutes = maxInterval / 60;
@@ -177,11 +177,11 @@ public class SessionController implements Serializable {
         logMessage("Navigate: URL=" + url);
         FeatureScopedContextHolder.Instance.destroyAllBeans();
     }
-    
+
     public void setCurrentTopicByUrl(String url) {
         _featureHolder.setCurrentTopicByUrl(url);
     }
-    
+
     public String logout() {
         String url = obtainTargetUrl(PortalType.COMMON);
         performLogout("Logout");
@@ -193,7 +193,7 @@ public class SessionController implements Serializable {
         }
         return Pages.Login.RedirectURL();
     }
-    
+
     public void performLogout(String message) {
         if (_account != null) {
             FeatureScopedContextHolder.Instance.destroyAllBeans();
@@ -204,7 +204,7 @@ public class SessionController implements Serializable {
         }
         invalidateSession();
     }
-    
+
     private void invalidateSession() {
         String sessionId = retrieveSessionId();
         if (sessionId.length() > 0) {
@@ -217,7 +217,7 @@ public class SessionController implements Serializable {
             }
         }
     }
-    
+
     public void logMessage(String msg) {
         if (msg.isEmpty()) {
             return;
@@ -230,7 +230,7 @@ public class SessionController implements Serializable {
         Log log = new Log(accountId, sessionId, msg);
         _logFacade.save(log);
     }
-    
+
     private String retrieveSessionId() {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         if (facesContext == null) {
@@ -252,7 +252,7 @@ public class SessionController implements Serializable {
     public boolean loginAndSetTopics(String mailOrUser, String password) {
         return loginAndSetTopics(mailOrUser, password, _portalType);
     }
-    
+
     public String navigate(String url) {
         try {
             PortalType portalType = PortalType.valueOf(url);
@@ -265,7 +265,7 @@ public class SessionController implements Serializable {
             return url + "?faces-redirect=true";
         }
     }
-    
+
     public void changePortal(PortalType portalType) {
         String url = obtainTargetUrl(portalType);
         if (url.isEmpty()) {
@@ -279,7 +279,7 @@ public class SessionController implements Serializable {
             LOGGER.log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public String obtainTargetUrl(PortalType portalType) {
         Stage stage = _appTools.isEnabled(ConfigKey.TestMode)
                 ? EnvironmentInfo.getServerName().equals("localhost") ? Stage.DEVELOPMENT : Stage.TEST
@@ -287,7 +287,7 @@ public class SessionController implements Serializable {
         String url = _appTools.readPortalAddress(portalType, stage);
         return url;
     }
-    
+
     public String getToken() {
         // todo: retrieve service address from a common place, e.g. database
         String address = "http://vubuntu01:9999/AccountService/api/account/id/{0}".replace("{0}", "" + getAccountId());
@@ -307,7 +307,7 @@ public class SessionController implements Serializable {
             return "";
         }
     }
-    
+
     private int getId(String token) {
         String address = "http://vubuntu01:9999/AccountService/api/account/token/{0}".replace("{0}", token);
         try {
@@ -326,14 +326,15 @@ public class SessionController implements Serializable {
             return -123;
         }
     }
-    
+
     public String testNavigation() {
         return "localhost://test";
     }
-    
+
     public boolean loginByToken(String token, PortalType portalType) {
         _portalType = portalType;
-        String loginInfo = Utils.getClientIP() + "; UserAgent=" + Utils.getUserAgent() + "; targetServer=" + EnvironmentInfo.getLocalServerName();
+        String loginInfo = Utils.getClientIP() + "; UserAgent=" + Utils.getUserAgent() + "; targetServer=" + EnvironmentInfo.
+                getLocalServerName();
         int id = getId(token);
         _account = _accountFacade.findAccount(id);
         if (_account == null) {
@@ -343,16 +344,17 @@ public class SessionController implements Serializable {
             logMessage("Login by token successful: " + loginInfo);
             initFeatures();
         }
-        
+
         return _account != null;
     }
-    
+
     public boolean loginAndSetTopics(String mailOrUser, String password, PortalType portalType) {
-        String loginInfo = Utils.getClientIP() + "; UserAgent=" + Utils.getUserAgent() + "; targetServer=" + EnvironmentInfo.getLocalServerName();
+        String loginInfo = Utils.getClientIP() + "; UserAgent=" + Utils.getUserAgent() + "; targetServer=" + EnvironmentInfo.
+                getLocalServerName();
         if (!login(mailOrUser, password, loginInfo, portalType)) {
             return false;
         }
-        
+
         int sessionTimeout = (_account.getEmail().toLowerCase().endsWith("@inek-drg.de")
                 && isInternalClient()) ? 36000 : 1800; // session timeout extended to 10 hour for internal user
         FacesContext.getCurrentInstance().getExternalContext().setSessionMaxInactiveInterval(sessionTimeout);
@@ -381,7 +383,7 @@ public class SessionController implements Serializable {
         initFeatures();
         return true;
     }
-    
+
     public boolean isElderInternetExplorer() {
         String userAgent = Utils.getUserAgent();
         if (userAgent == null) {
@@ -401,16 +403,16 @@ public class SessionController implements Serializable {
             return true;
         }
     }
-    
+
     private void initFeatures() {
         _featureHolder.clear();
         if (_account == null) {
             return;
         }
-        
+
         addAdminIfNeeded();
         addMissingFeatures();
-        
+
         List<AccountFeature> accountFatures = _account.getFeatures();
         accountFatures
                 .stream()
@@ -424,15 +426,15 @@ public class SessionController implements Serializable {
                     } else {
                         _featureHolder.addIfMissing(feature.getPortalType());
                     }
-                    
+
                 });
-        
+
     }
-    
+
     private boolean belongsToCurrentPortal(Feature feature) {
         return feature.getPortalType() == _portalType;
     }
-    
+
     private void addMissingFeatures() {
         _account = addFeatureIfMissing(_account, Feature.USER_MAINTENANCE);
         _account = addFeatureIfMissing(_account, Feature.DOCUMENTS);
@@ -440,7 +442,7 @@ public class SessionController implements Serializable {
             _account = addFeatureIfMissing(_account, Feature.COOPERATION);
         }
     }
-    
+
     private Account addFeatureIfMissing(Account account, Feature feature) {
         boolean featureExists = account.getFeatures().stream().anyMatch(f -> f.getFeature() == feature);
         if (featureExists) {
@@ -448,7 +450,7 @@ public class SessionController implements Serializable {
         }
         return addFeature(account, feature);
     }
-    
+
     private Account addFeature(Account account, Feature feature) {
         AccountFeature accFeature = new AccountFeature();
         accFeature.setFeature(feature);
@@ -457,9 +459,9 @@ public class SessionController implements Serializable {
         accFeature.setSequence(account.getFeatures().size());
         account.getFeatures().add(accFeature);
         return _accountFacade.updateAccount(account);
-        
+
     }
-    
+
     private void addAdminIfNeeded() {
         if (isInekUser(Feature.ADMIN)) {
             if (_portalType == PortalType.ADMIN) {
@@ -472,24 +474,24 @@ public class SessionController implements Serializable {
             _featureHolder.add(Feature.IK_ADMIN, this);
         }
     }
-    
+
     private boolean featureIsValid(AccountFeature accFeature) {
         Feature feature = accFeature.getFeature();
-        
+
         return _appTools.isFeatureEnabled(feature)
                 && (accFeature.getFeatureState() == FeatureState.SIMPLE
                 || accFeature.getFeatureState() == FeatureState.APPROVED);
     }
-    
+
     public void saveAccount() {
         _account = _accountFacade.updateAccount(_account);
         initFeatures();
     }
-    
+
     public void deleteAccount() {
         _accountFacade.deleteAccount(_account);
     }
-    
+
     public String getUser() {
         if (_account == null) {
             return "???";
@@ -505,10 +507,15 @@ public class SessionController implements Serializable {
     public boolean isInekUser(Feature requestedFeature) {
         return isInekUser(requestedFeature, false);
     }
-    
+
     public boolean isInekUser(String featureName) {
-        Feature requestedFeature = Feature.valueOf(featureName);
-        return isInekUser(requestedFeature, false);
+        try {
+            Feature requestedFeature = Feature.valueOf(featureName);
+            return isInekUser(requestedFeature, false);
+        } catch (Exception ex) {
+            LOGGER.log(Level.WARNING, "Unknown Feature: " + featureName);
+            return false;
+        }
     }
 
     /**
@@ -534,19 +541,19 @@ public class SessionController implements Serializable {
         }
         return false;
     }
-    
+
     public List<String> getParts() {
         return _featureHolder.getParts();
     }
-    
+
     public IFeatureController getFeatureController(Feature feature) {
         return _featureHolder.getFeatureController(feature);
     }
-    
+
     public boolean hasNoFeatureSubscribed() {
         return _featureHolder.hasNoFeatureSubscribed();
     }
-    
+
     public String getIkName(Integer ik) {
         if (ik == null || ik == 0) {
             return "";
@@ -555,11 +562,11 @@ public class SessionController implements Serializable {
         String name = customer.getName() == null ? Utils.getMessage("msgUnknownIK") : customer.getName();
         return name;
     }
-    
+
     public boolean isMyAccount(int accountId) {
         return isMyAccount(accountId, true);
     }
-    
+
     public boolean isMyAccount(int accountId, boolean log) {
         if (_account.getId() == accountId) {
             return true;
@@ -570,7 +577,7 @@ public class SessionController implements Serializable {
         }
         return false;
     }
-    
+
     public String getScript() {
         if (_script.isEmpty()) {
             return "";
@@ -579,13 +586,13 @@ public class SessionController implements Serializable {
         _script = "";
         return script;
     }
-    
+
     public void setScript(String script) {
         _script = script;
     }
-    
+
     private String _script = "";
-    
+
     public void alertClient(String message) {
         String script = "alert ('" + message.replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
         setScript(script);
@@ -605,13 +612,13 @@ public class SessionController implements Serializable {
         }
         return "return confirm ('" + message.replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
     }
-    
+
     public boolean isInternalClient() {
         return Utils.getClientIP().equals("127.0.0.1")
                 || Utils.getClientIP().equals("0:0:0:0:0:0:0:1")
                 || Utils.getClientIP().startsWith("192.168.0");
     }
-    
+
     public AccountFeature findAccountFeature(Feature feature) {
         for (AccountFeature accountFeature : getAccount().getFeatures()) {
             if (accountFeature.getFeature().equals(feature)) {
@@ -620,39 +627,39 @@ public class SessionController implements Serializable {
         }
         return null;
     }
-    
+
     private boolean _testPerformed = false;
-    
+
     public boolean isTestPerformed() {
         return _testPerformed;
     }
-    
+
     public void setTestPerformed(boolean testPerformed) {
         _testPerformed = testPerformed;
     }
-    
+
     private boolean _clickable = false;
-    
+
     public boolean isClickable() {
         return _clickable;
     }
-    
+
     public void setClickable(boolean clickable) {
         _clickable = clickable;
     }
-    
+
     public String testClick() {
         _clickable = true;
         setTestPerformed(true);
         return Pages.Login.URL();
     }
-    
+
     private String _windowName;
-    
+
     public String getWindowName() {
         return _windowName;
     }
-    
+
     public void setWindowName(String windowName) {
         if (_windowName == null) {
             // first access
@@ -663,12 +670,12 @@ public class SessionController implements Serializable {
             Utils.navigate(Pages.DoubleWindow.RedirectURL());
         }
     }
-    
+
     public String navigateLogin() {
         _windowName = null;
         return Pages.Login.RedirectURL();
     }
-    
+
     public String getManual() {
         if (_account == null) {
             return "InEK-Datenportal.pdf";
@@ -681,18 +688,18 @@ public class SessionController implements Serializable {
         }
         return "InEK-Datenportal.pdf";
     }
-    
+
     private final Set<String> _acceptedTerms = new HashSet<>(4);
-    
+
     public void acceptTermsOfUse(String name) {
         _acceptedTerms.add(name);
         logMessage("Nutzungsbedingungen akzeptiert: " + name);
     }
-    
+
     public boolean isTermsOfUseAccepted(String name) {
         return _acceptedTerms.contains(name);
     }
-    
+
     public void hideData(boolean enabled) {
         if (!enabled) {
             String msg = "Sie haben gerade einen Bereich, der möglicherweise Daten enthält, ausgeblendet. "
@@ -703,7 +710,7 @@ public class SessionController implements Serializable {
             setScript("alert('" + msg + "');");
         }
     }
-    
+
     public String getCss() {
         switch (_portalType) {
             case PSY:
@@ -720,5 +727,5 @@ public class SessionController implements Serializable {
                 return "commonportal.css";
         }
     }
-    
+
 }

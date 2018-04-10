@@ -25,3 +25,4 @@ rem deploy to 04
 
 :finish
 del password.txt
+pause

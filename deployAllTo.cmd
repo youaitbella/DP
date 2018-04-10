@@ -14,3 +14,4 @@ set GF_CLI=d:\payara-4.1.2.174\glassfish\lib\client\appserver-cli.jar
 %JAVA% -jar %GF_CLI% --user admin --passwordfile password.txt --host vdataportal0%NUMBER% deploy --force --keepstate DataPortalPsy\target\DataPortalPsy.war
 
 del password.txt
+pause
