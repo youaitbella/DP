@@ -18,10 +18,15 @@
 
     <!-- IMPLEMENTATION -->
     <cc:implementation>
+
+        <script>
+            //jsf.ajax.addOnEvent(showProgressCursor);
+        </script>
+
         <h:dataTable headerClass="list-header" id="calcHospitalInfos"
                      value="#{cc.attrs.parentNode.sortedChildren}" var="node" width="100%" rowClasses="row1, row2" 
                      columnClasses="#{cc.attrs.showSelectBox.equals('true') ? 'colIcon, ' : ''} colIcon, colIcon, colIcon, colIk, colValue, #{cc.attrs.isSealed.equals('true') ? 'col10em,' : ''} colValue">
-            
+
             <h:column rendered="#{cc.attrs.showSelectBox}">
                 <f:facet name="header">
                     <h:outputText value=""/>
@@ -35,11 +40,14 @@
                 <f:facet name="header">
                     <h:outputText value=""/>
                 </f:facet>
-                <h:commandLink action="#{calcHospitalList.printHospitalInfo(node.calcHospitalInfo)}" immediate="true" >
+                <h:commandLink action="#{calcHospitalList.printHospitalInfo(node.calcHospitalInfo)}" immediate="true" 
+                               onclick="alert('Die Erstellung Ihres PDF-Dokuments wird mit OK gestartet. Diese Erstllung dauert einige Sekunden. Bitte haben Sie etwas Geduld, bis der Download startet.');">
                     <h:graphicImage alt="drucken" name="Icon/small/print.png" title="Druckansicht" value=""/>
                 </h:commandLink>
+                
+                
             </h:column>
-            
+
             <h:column id="colDeleteId" >
                 <f:facet name="header">
                     <h:outputText value=""/>
@@ -50,7 +58,7 @@
                     <cb:confirmDelete/>
                 </h:commandLink>
             </h:column>
-            
+
             <h:column>
                 <f:facet name="header">
                     <h:outputText value=""/>
@@ -62,7 +70,7 @@
                                     rendered="#{node.calcHospitalInfo.status.icon.length() gt 0}"/>
                 </h:link>
             </h:column>
-            
+
             <h:column>
                 <f:facet name="header">
                     <h:commandLink value="#{msg.lblIkShort} #{cc.attrs.parentNode.sortCriteria.equals('IK') ? (cc.attrs.parentNode.descending ? '↓' : '↑') : ''}">
@@ -70,11 +78,11 @@
                     </h:commandLink>
                 </f:facet>
                 <h:link outcome="#{calcHospitalList.editHospitalInfo(node.calcHospitalInfo.type)}"
-                               value="#{node.calcHospitalInfo.ik}" >
+                        value="#{node.calcHospitalInfo.ik}" >
                     <f:param name="id" value="#{node.calcHospitalInfo.id}"/>
                 </h:link>
             </h:column>
-            
+
             <h:column>
                 <f:facet name="header">
                     <h:commandLink value="#{msg.lblHospital} #{cc.attrs.parentNode.sortCriteria.equals('Hospital') ? (cc.attrs.parentNode.descending ? '↓' : '↑') : ''}">
@@ -86,7 +94,7 @@
                     <f:param name="id" value="#{node.calcHospitalInfo.id}"/>
                 </h:link>
             </h:column>
-            
+
             <h:column rendered="#{cc.attrs.isSealed}">
                 <f:facet name="header">
                     <h:commandLink value="#{msg.lblDate} #{cc.attrs.parentNode.sortCriteria.equals('date') ? (cc.attrs.parentNode.descending ? '↓' : '↑') : ''}">
@@ -94,7 +102,7 @@
                     </h:commandLink>
                 </f:facet>
                 <h:link outcome="#{calcHospitalList.editHospitalInfo(node.calcHospitalInfo.type)}"
-                               value="#{sessionTools.formatDate(node.calcHospitalInfo.lastChanged, 'dd.MM.yyyy HH:mm')}" >
+                        value="#{sessionTools.formatDate(node.calcHospitalInfo.lastChanged, 'dd.MM.yyyy HH:mm')}" >
                     <f:param name="id" value="#{node.calcHospitalInfo.id}"/>
                 </h:link>
             </h:column>
@@ -106,11 +114,11 @@
                     </h:commandLink>
                 </f:facet>
                 <h:link outcome="#{calcHospitalList.editHospitalInfo(node.calcHospitalInfo.type)}"
-                               value="#{node.calcHospitalInfo.name}">
+                        value="#{node.calcHospitalInfo.name}">
                     <f:param name="id" value="#{node.calcHospitalInfo.id}"/>
                 </h:link>
             </h:column>
-            
+
         </h:dataTable>
 
     </cc:implementation>

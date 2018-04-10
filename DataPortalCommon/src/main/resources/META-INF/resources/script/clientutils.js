@@ -178,3 +178,25 @@ function addOnLoadFunction(func) {
             func();
         };
 }
+
+/*
+ * usage in page:
+ *         <script>
+ *           jsf.ajax.addOnEvent(showProgressCursor);
+ *       </script>
+ */
+function showProgressCursor(data) {
+    var status = data.status;
+    var element = document.getElementsByTagName('HTML')[0];
+
+    switch (status) {
+        case "begin":
+            element.className = 'progress';
+            break;
+
+        case "complete":
+        case "success":
+            element.className = '';
+            break;
+    }
+}

@@ -1,6 +1,7 @@
 package org.inek.dataportal.base.utils.timed;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
 import java.nio.file.StandardOpenOption;
@@ -70,10 +71,11 @@ public class DocumentLoader {
 
         try {
             File lockFile = new File(baseDir, "DOCUMENT.LOCK");
-            if (!lockFile.exists()){
+            if (!lockFile.exists()) {
                 lockFile.createNewFile();
             }
-            try (FileChannel fileChannel = FileChannel.open(lockFile.toPath(), StandardOpenOption.WRITE, StandardOpenOption.APPEND); 
+            try (FileChannel fileChannel = FileChannel.
+                    open(lockFile.toPath(), StandardOpenOption.WRITE, StandardOpenOption.APPEND);
                     FileLock lock = fileChannel.lock()) {
                 for (File dir : baseDir.listFiles()) {
                     if (dir.isDirectory()) {
