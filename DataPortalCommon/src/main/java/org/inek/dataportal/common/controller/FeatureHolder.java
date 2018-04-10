@@ -56,13 +56,14 @@ public class FeatureHolder {
     }
 
     public boolean hasNoFeatureSubscribed() {
-        return _featureControllers
+        long featureCount = _featureControllers
                 .values()
                 .stream()
                 .filter(f -> f.getFeature() != Feature.USER_MAINTENANCE)
                 .filter(f -> f.getFeature() != Feature.DOCUMENTS)
                 .filter(f -> f.getFeature() != Feature.COOPERATION)
-                .count() == 0;
+                .count();
+        return featureCount + _portalTypes.size() == 0;
     }
 
     public void setFeatureActive(Feature feature) {
