@@ -1,6 +1,9 @@
 package org.inek.dataportal.base.utils.timed;
 
 import java.io.File;
+import java.nio.channels.FileChannel;
+import java.nio.channels.FileLock;
+import java.nio.file.StandardOpenOption;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -55,27 +58,38 @@ public class DocumentLoader {
 
     @Asynchronous
     public void monitorDocumentRoot() {
+        if (waitAndDecrementCounter()) {
+            return;
+        }
+        setWaitCounter(100);
+        File baseDir = new File(_config.readConfig(ConfigKey.FolderRoot), _config.
+                readConfig(ConfigKey.FolderDocumentScanBase));
+        if (!baseDir.exists()) {
+            baseDir.mkdirs();
+        }
+
         try {
-            if (waitAndDecrementCounter()) {
-                return;
+            File lockFile = new File(baseDir, "DOCUMENT.LOCK");
+            if (!lockFile.exists()){
+                lockFile.createNewFile();
             }
-            setWaitCounter(100);
-            File baseDir = new File(_config.readConfig(ConfigKey.FolderRoot), _config.readConfig(ConfigKey.FolderDocumentScanBase));
-            if (!baseDir.exists()) {
-                baseDir.mkdirs();
-            }
-            for (File dir : baseDir.listFiles()) {
-                if (dir.isDirectory()) {
-                    LOGGER.log(Level.INFO, "Check document folder ({0})", dir);
-                    checkDocumentFolder(dir);
+            try (FileChannel fileChannel = FileChannel.open(lockFile.toPath(), StandardOpenOption.WRITE, StandardOpenOption.APPEND)) {
+                FileLock lock = fileChannel.lock();
+                for (File dir : baseDir.listFiles()) {
+                    if (dir.isDirectory()) {
+                        LOGGER.log(Level.INFO, "Check document folder ({0})", dir);
+                        checkDocumentFolder(dir);
+                    }
                 }
+                setWaitCounter(0);
+                lock.release();
             }
-            setWaitCounter(0);
         } catch (Exception ex) {
             // baseDir.listFiles() might become null if the drive is not available
             // log (to detect possible other faults) and ignore 
             LOGGER.log(Level.SEVERE, ex.getMessage());
         }
+
     }
 
     private synchronized void checkDocumentFolder(File dir) {
@@ -146,7 +160,8 @@ public class DocumentLoader {
         }
     }
 
-    private void createAccountDocument(Account account, Map<String, byte[]> files, String name, int validity, DocumentImportInfo importInfo) {
+    private void createAccountDocument(Account account, Map<String, byte[]> files, String name, int validity,
+            DocumentImportInfo importInfo) {
         AccountDocument doc = new AccountDocument();
         doc.setAccountId(account.getId());
         doc.setContent(files.get(name));
@@ -194,7 +209,8 @@ public class DocumentLoader {
         _mailer.sendMailFrom(importInfo.getSender(), agent.getEmail(), "", subject, body);
     }
 
-    private void createWaitingDocument(String name, byte[] content, int validity, DocumentImportInfo importInfo, JsonObject jsonMail) {
+    private void createWaitingDocument(String name, byte[] content, int validity, DocumentImportInfo importInfo,
+            JsonObject jsonMail) {
         WaitingDocument doc = new WaitingDocument();
         //doc.setAccountId(account.getId());
         doc.getAccounts().addAll(importInfo.getAccounts());
@@ -207,7 +223,8 @@ public class DocumentLoader {
         doc.setIk(importInfo.getIk());
         doc.setJsonMail(jsonMail.toString());
         _waitingDocFacade.save(doc);
-        LOGGER.log(Level.INFO, "Document created for approval: {0} for account {1}", new Object[]{name, importInfo.getApprovalAccount().getId()});
+        LOGGER.log(Level.INFO, "Document created for approval: {0} for account {1}", new Object[]{name, importInfo.
+            getApprovalAccount().getId()});
     }
 
 }
