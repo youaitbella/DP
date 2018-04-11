@@ -7,6 +7,7 @@ package org.inek.dataportal.base.feature.documents;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -25,7 +26,6 @@ import org.inek.dataportal.base.feature.agency.entities.Agency;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.data.account.entities.AccountDocument;
 import org.inek.dataportal.common.data.account.entities.DocumentDomain;
-import org.inek.dataportal.common.data.icmt.entities.Customer;
 import org.inek.dataportal.base.enums.DocumentTarget;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.base.feature.agency.facades.AgencyFacade;
@@ -106,16 +106,11 @@ public class DocumentUpload implements Serializable {
     }
 
     public void setIk(int ik) {
+        if (_ik == ik){
+            return;
+        }
         _ik = ik;
-        Customer customer = _customerFacade.getCustomerByIK(_ik);
-        Set<String> emails = customer.getContacts()
-                .stream().filter(c -> c.isActive())
-                .flatMap(c -> c.getContactDetails()
-                .stream()
-                .filter(d -> d.getContactDetailTypeId().equals("E"))
-                .map(d -> d.getDetails().toLowerCase()))
-                .collect(Collectors.toSet());
-        List<Account> accounts = _accountFacade.getAccounts4Ik(_ik, emails);
+        Collection<Account> accounts = _accountFacade.getAccounts4IkInludeCustomer(_ik);
         _accountRoles = _accountFacade.obtainRoleInfo(_ik, accounts);
         loadLastDocuments();
     }
@@ -134,7 +129,11 @@ public class DocumentUpload implements Serializable {
 
     public List<Account> getAccounts() {
         // need to return a list rather then a set to keep order
-        return _accountRoles.keySet().stream().sorted((a1, a2) -> Boolean.compare(a2.isSelected(), a1.isSelected())).collect(Collectors.toList());
+        return _accountRoles.keySet()
+                .stream()
+                .sorted((a1, a2) -> (a1.isSelected() + a1.getLastName())
+                        .compareTo(a2.isSelected() + a2.getLastName()))
+                .collect(Collectors.toList());
     }
     // </editor-fold>
 

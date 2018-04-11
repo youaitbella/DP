@@ -340,15 +340,30 @@ public class AccountFacade extends AbstractDataAccess {
         }
     }
 
-    public List<Account> getAccounts4Ik(Integer ik, Set<String> emails) {
-        String orEmailCond = emails.isEmpty() ? "" : " or a._email in (" + emails.stream().map(e -> "'" + e + "'")
-                .collect(Collectors.joining(", ")) + ") ";
+    public List<Account> getAccounts4Ik(int ik) {
         String jpql = "SELECT DISTINCT a FROM Account a left join AccountAdditionalIK i "
-                + "WHERE  a._ik = :ik  or a._id = i._accountId and i._ik = :ik " + orEmailCond
+                + "WHERE  a._ik = :ik  or a._id = i._accountId and i._ik = :ik "
                 + "order by a._lastName";
         TypedQuery<Account> query = getEntityManager().createQuery(jpql, Account.class);
         query.setParameter("ik", ik);
         return query.getResultList();
+    }
+
+    public Set<Account> getAccounts4IkInludeCustomer(int ik) {
+        String sql = "select distinct a.* \n"
+                + "from dbo.Account a\n"
+                + "left join dbo.AccountAdditionalIK on acId = aaiAccountId\n"
+                + "where acIK = " + ik + " or aaiIK = " + ik + "\n"
+                + "  or acMail in (\n"
+                + "     select cdDetails\n"
+                + "     from CallCenterDb.dbo.ccCustomer\n"
+                + "     join CallCenterDB.dbo.ccContact on cuId = coCustomerId and coIsActive = 1\n"
+                + "     join CallCenterDB.dbo.ccContactDetails on coId = cdContactId and cdContactDetailTypeId = 'E'\n"
+                + "     where cuIk = " + ik + "\n"
+                + " )";
+        Query query = getEntityManager().createNativeQuery(sql, Account.class);
+        @SuppressWarnings("unchecked") HashSet<Account> result = new HashSet<>(query.getResultList());
+        return result;
     }
 
     public List<Account> findAccountsByMailDomain(String mailDomain) {
@@ -369,11 +384,11 @@ public class AccountFacade extends AbstractDataAccess {
                 + "\r\n join dbo.AccountAdditionalIK on acId = aaiAccountId"
                 + "\r\n where acId in (" + accountIdList + ")";
         Query query = getEntityManager().createNativeQuery(sql, Integer.class);
-        @SuppressWarnings("unchecked") HashSet<Integer> result = new HashSet<Integer>(query.getResultList());
+        @SuppressWarnings("unchecked") HashSet<Integer> result = new HashSet<>(query.getResultList());
         return result;
     }
 
-    public Map<Account, String> obtainRoleInfo(int ik, List<Account> accounts) {
+    public Map<Account, String> obtainRoleInfo(int ik, Collection<Account> accounts) {
         Map<Account, String> accountRoles = new HashMap<>();
         String addresses = accounts.stream().map(a -> "'" + a.getEmail().toLowerCase() + "'").collect(Collectors.
                 joining(", "));

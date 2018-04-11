@@ -183,8 +183,7 @@ public class IkAdminTasks extends AbstractEditController implements Serializable
 
     private void ensureAccounts() {
         if (_accounts.isEmpty()) {
-            Set<String> emails = new HashSet<>();
-            List<Account> accounts = _accountFacade.getAccounts4Ik(_ik, emails);
+            List<Account> accounts = _accountFacade.getAccounts4Ik(_ik);
             for (Account account : accounts) {
                 _accounts.put(account.getId(), account);
             }

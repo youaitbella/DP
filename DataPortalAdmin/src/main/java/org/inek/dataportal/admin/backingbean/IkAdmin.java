@@ -126,8 +126,7 @@ public class IkAdmin implements Serializable {
      */
     private void collectExistingAccess(int ik) {
         List<AccessRight> accessRights = _ikAdminFacade.findAccessRights(ik);
-        Set<String> emails = new HashSet<>();
-        List<Account> accounts = _accountFacade.getAccounts4Ik(ik, emails);
+        List<Account> accounts = _accountFacade.getAccounts4Ik(ik);
         for (Account account : accounts) {
             for (AccountFeature feature : account.getFeatures()) {
                 if (feature.getFeature().getIkReference() != IkReference.Hospital 
