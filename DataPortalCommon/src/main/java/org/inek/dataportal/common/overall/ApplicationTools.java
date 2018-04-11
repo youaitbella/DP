@@ -80,7 +80,7 @@ public class ApplicationTools {
             dot = servername.length();
         }
         String serverIndicator = "0:0:0:0:0:0:0:1".equals(servername) ? "L" : servername.substring(dot - 1, dot);
-        return version + " - " + serverIndicator;
+        return version + "." + serverIndicator;
     }
 
     private void ensureProjectProperties() {
