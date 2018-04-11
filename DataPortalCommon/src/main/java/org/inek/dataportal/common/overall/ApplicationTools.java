@@ -24,9 +24,10 @@ import org.inek.dataportal.common.data.access.InfoDataFacade;
 import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.common.enums.PortalType;
 import org.inek.dataportal.common.enums.Stage;
+import org.inek.dataportal.common.helper.EnvironmentInfo;
 
 @Named @ApplicationScoped
-public class ApplicationTools{
+public class ApplicationTools {
 
     private Properties _properties;
 
@@ -35,15 +36,15 @@ public class ApplicationTools{
     @Inject private InfoDataFacade _info;
 
     @PostConstruct
-    private void init(){
+    private void init() {
         initListFeature();
         initListWorkflowStatus();
     }
-    
-    private void initListFeature(){
+
+    private void initListFeature() {
         List<ListFeature> listFeatures = _info.findAllListFeature();
         for (Feature feature : Feature.values()) {
-            if (listFeatures.stream().noneMatch(f -> f.getId() == feature.getId())){
+            if (listFeatures.stream().noneMatch(f -> f.getId() == feature.getId())) {
                 ListFeature listFeature = new ListFeature();
                 listFeature.setId(feature.getId());
                 listFeature.setName(feature.name());
@@ -53,10 +54,10 @@ public class ApplicationTools{
         }
     }
 
-    private void initListWorkflowStatus(){
+    private void initListWorkflowStatus() {
         List<ListWorkflowStatus> listWorkflowStatus = _info.findAllListWorkflowStatus();
         for (WorkflowStatus workflowStatus : WorkflowStatus.values()) {
-            if (listWorkflowStatus.stream().noneMatch(f -> f.getId() == workflowStatus.getId())){
+            if (listWorkflowStatus.stream().noneMatch(f -> f.getId() == workflowStatus.getId())) {
                 ListWorkflowStatus item = new ListWorkflowStatus();
                 item.setId(workflowStatus.getId());
                 item.setName(workflowStatus.name());
@@ -72,7 +73,14 @@ public class ApplicationTools{
      */
     public String getVersion() {
         ensureProjectProperties();
-        return _properties.getProperty("version", "0");
+        String version = _properties.getProperty("version", "0");
+        String servername = EnvironmentInfo.getLocalServerName();
+        int dot = servername.indexOf(".");
+        if (dot < 0) {
+            dot = servername.length();
+        }
+        String serverIndicator = "0:0:0:0:0:0:0:1".equals(servername) ? "L" : servername.substring(dot - 1, dot);
+        return version + " - " + serverIndicator;
     }
 
     private void ensureProjectProperties() {
@@ -85,7 +93,7 @@ public class ApplicationTools{
             LOGGER.log(Level.WARNING, "Unexpected IOException whilst reading properties. Will use defaults.", e);
         }
     }
-    
+
     public boolean isEnabled(ConfigKey key) {
         return _config.readConfigBool(key);
     }
@@ -110,25 +118,25 @@ public class ApplicationTools{
     public boolean readConfigBool(ConfigKey key) {
         return _config.readConfigBool(key);
     }
-    
-    public String readPortalAddress(PortalType portalType, Stage stage){
+
+    public String readPortalAddress(PortalType portalType, Stage stage) {
         return _config.readPortalAddress(portalType, stage);
     }
 
     @Inject private CustomerFacade _customerFacade;
     private final Map<Integer, String> _hospitalInfo = new ConcurrentHashMap<>();
+
     public String retrieveHospitalInfo(int ik) {
-        if (_hospitalInfo.containsKey(ik)){
+        if (_hospitalInfo.containsKey(ik)) {
             return _hospitalInfo.get(ik);
         }
         Customer c = _customerFacade.getCustomerByIK(ik);
         if (c == null || c.getName() == null) {
             return "";
         }
-        String info =  c.getName() + ", " + c.getTown();
+        String info = c.getName() + ", " + c.getTown();
         _hospitalInfo.put(ik, info);
-        return  info;
+        return info;
     }
-
 
 }
