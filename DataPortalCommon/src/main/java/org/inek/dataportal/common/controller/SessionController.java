@@ -373,15 +373,30 @@ public class SessionController implements Serializable {
      * @return
      */
     public boolean login(String mailOrUser, String password, String loginInfo, PortalType portalType) {
+        if (inconsistentState()) {
+            return false;
+        }
         _portalType = portalType;
         _account = _accountFacade.getAccount(mailOrUser, password);
         if (_account == null) {
             logMessage("Login failed: " + loginInfo);
             return false;
         }
-        logMessage("Login successful: " + loginInfo);
         initFeatures();
-        return true;
+        logMessage((_account != null ? "Login successful: " : "Login failed: ") + loginInfo);
+        return _account != null;
+    }
+
+    private boolean inconsistentState() {
+        if (_featureHolder == null) {
+            // sometimes, when the app had gone away whilst the user was logged in, the browser might became inconsitent
+            // In such a case the _featureHolder -even if injected- had been null. A browser restart fixed this local problem
+            // Hopefulle due to blue green deployment, this problem would not appear anymore...
+            alertClient("Um das Datenportal nutzen zu können, schließen Sie bitte erst Ihren Browser und starten diesen neu.");
+            _account = null;
+            return true;
+        }
+        return false;
     }
 
     public boolean isElderInternetExplorer() {
