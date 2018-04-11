@@ -131,8 +131,8 @@ public class DocumentUpload implements Serializable {
         // need to return a list rather then a set to keep order
         return _accountRoles.keySet()
                 .stream()
-                .sorted((a1, a2) -> (a1.isSelected() + a1.getLastName())
-                        .compareTo(a2.isSelected() + a2.getLastName()))
+                .sorted((a1, a2) -> (!a1.isSelected() + a1.getLastName())
+                        .compareTo(!a2.isSelected() + a2.getLastName()))
                 .collect(Collectors.toList());
     }
     // </editor-fold>

@@ -390,29 +390,30 @@ public class AccountFacade extends AbstractDataAccess {
 
     public Map<Account, String> obtainRoleInfo(int ik, Collection<Account> accounts) {
         Map<Account, String> accountRoles = new HashMap<>();
-        String addresses = accounts.stream().map(a -> "'" + a.getEmail().toLowerCase() + "'").collect(Collectors.
-                joining(", "));
-        if (addresses.isEmpty()) {
+        String emails = accounts
+                .stream()
+                .map(a -> "'" + a.getEmail().toLowerCase() + "'")
+                .collect(Collectors.joining(", "));
+        if (emails.isEmpty()) {  // todo return map without info
             return accountRoles;
         }
-        String sql = "select cdDetails, dbo.concatenate(roText)\n"
-                + "from CallCenterDB.dbo.ccCustomer\n"
-                + "join CallCenterDB.dbo.ccContact on cuId = coCustomerId\n"
-                + "join CallCenterDB.dbo.mapContactRole r1 on coId = r1.mcrContactId and r1.mcrRoleId in (3, 12, 14, 15, 16, 18, 19)\n"
-                + "join CallCenterDB.dbo.listRole on r1.mcrRoleId = roId\n"
-                + "join CallCenterDB.dbo.ccContactDetails on coId = cdContactId\n"
-                + "where cuIk = " + ik + "\n"
-                + "    and coIsActive = 1\n"
-                + "    and cdContactDetailTypeId = 'E'\n"
-                + "    and cdDetails in(" + addresses + ")\n"
-                + "group by cdDetails";
+        int year = 2017;
+        String sql = "select lower(coMail), "
+                + "IIF(coIsDrg = 1, 'DRG ', '') + IIF(coIsPsy = 1, 'PSY ', '') + IIF(coIsInv = 1, 'INV ', '') "
+                + "+ IIF(coIsTpg = 1, 'TPG ', '') + IIF(coIsObd = 1, 'OBD ', '') + IIF(coIsConsultant = 1, 'Berater', '')\n"
+                + "from calc.StatementOfParticipance\n"
+                + "join calc.Contact on sopId = coStatementOfParticipanceId\n"
+                + "where sopStatusId < 200\n"
+                + "    and sopik = " + ik + " \n"
+                + "    and sopDataYear = " + year + " \n"
+                + "    and coMail in (" + emails + ")";
         Query query = getEntityManager().createNativeQuery(sql);
         Map<String, String> mailRole = new HashMap<>();
         @SuppressWarnings("unchecked") List<Object[]> objects = query.getResultList();
         for (Object[] obj : objects) {
             String email = (String) obj[0];
             String roles = (String) obj[1];
-            mailRole.put(email.toLowerCase(), roles);
+            mailRole.put(email, roles);
         }
         for (Account account : accounts) {
             String email = account.getEmail().toLowerCase();
