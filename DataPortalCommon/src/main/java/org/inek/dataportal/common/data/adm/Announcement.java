@@ -68,6 +68,19 @@ public class Announcement implements Serializable {
         _portalType = portalType;
     }
     // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Property ServerName">
+    @Column(name = "anServerName")
+    private String _serverName;
+
+    public String getServerName() {
+        return _serverName;
+    }
+
+    public void setServerName(String serverName) {
+        this._serverName = serverName;
+    }
+    // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Text">
     @Column(name = "anText")

@@ -15,6 +15,7 @@ import org.inek.dataportal.common.data.adm.Announcement;
 import org.inek.dataportal.common.data.common.PortalAddress;
 import org.inek.dataportal.common.enums.PortalType;
 import org.inek.dataportal.common.enums.Stage;
+import org.inek.dataportal.common.helper.EnvironmentInfo;
 
 /**
  *
@@ -107,12 +108,16 @@ public class ConfigFacade extends AbstractDataAccess {
     }
     
     public List<Announcement> findActiveWarnings(PortalType portalType) {
-        String jpql = "Select a from Announcement a where a._portalType in :portalTypes and a._isActive = true order by a._id";
+        String servername = EnvironmentInfo.getLocalServerName();
+        String jpql = "Select a from Announcement a where a._portalType in :portalTypes and a._isActive = true "
+                + "and (a._serverName = '' or a._serverName = :servername) "
+                + "order by a._id";
         TypedQuery<Announcement> query = getEntityManager().createQuery(jpql, Announcement.class);
         List<PortalType> portalTypes = new ArrayList<>();
         portalTypes.add(portalType);
         portalTypes.add(PortalType.COMMON);
         query.setParameter("portalTypes", portalTypes);
+        query.setParameter("servername", servername);
         return query.getResultList();
     }
    
