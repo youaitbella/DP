@@ -343,6 +343,7 @@ public class SessionController implements Serializable {
         } else {
             logMessage("Login by token successful: " + loginInfo);
             initFeatures();
+            configureSessionTimeout();
         }
 
         return _account != null;
@@ -355,10 +356,14 @@ public class SessionController implements Serializable {
             return false;
         }
 
-        int sessionTimeout = (_account.getEmail().toLowerCase().endsWith("@inek-drg.de")
-                && isInternalClient()) ? 36000 : 1800; // session timeout extended to 10 hour for internal user
-        FacesContext.getCurrentInstance().getExternalContext().setSessionMaxInactiveInterval(sessionTimeout);
+        configureSessionTimeout();
         return true;
+    }
+
+    private void configureSessionTimeout() {
+        int sessionTimeout = (_account != null && _account.getEmail().toLowerCase().endsWith("@inek-drg.de")
+                && isInternalClient()) ? 7200 : 1800; // session timeout extended to 4 hour for internal user
+        FacesContext.getCurrentInstance().getExternalContext().setSessionMaxInactiveInterval(sessionTimeout);
     }
 
     /**
