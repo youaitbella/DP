@@ -185,16 +185,17 @@ public class Account implements Serializable, Person {
     @Column(name = "acNubInformationMail")
     private boolean _nubInformationMail = true;
     
-    @Column(name ="acDisclaimerConfirmation")
-    private boolean _disclaimerConfirmation = true;
+    @Column(name ="acIkAdminDisclaimer")
+    private Date _ikAdminDisclaimer;
 
-    public boolean isDisclaimerConfirmation() {
-        return _disclaimerConfirmation;
+    public Date getIkAdminDisclaimer() {
+        return _ikAdminDisclaimer;
     }
 
-    public void setDisclaimerConfirmation(boolean disclaimerConfirmation) {
-        this._disclaimerConfirmation = disclaimerConfirmation;
+    public void setIkAdminDisclaimer(Date ikAdminDisclaimer) {
+        this._ikAdminDisclaimer = ikAdminDisclaimer;
     }
+
 
     public boolean isNubInformationMail() {
         return _nubInformationMail;
