@@ -215,7 +215,7 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
     }
 
     public List<Integer> getExistingYears(int ik) {
-        String jpql = "SELECT distinct spf._dataYear FROM SpecificFunctionRequest spf WHERE spf._ik = :ik";
+        String jpql = "SELECT distinct spf._dataYear FROM SpecificFunctionRequest spf WHERE spf._ik = :ik  and spf._statusId != 200";
         TypedQuery<Integer> query = getEntityManager().createQuery(jpql, Integer.class);
         query.setParameter(IK, ik);
         return query.getResultList();

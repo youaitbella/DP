@@ -150,7 +150,7 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
         List<Integer> existingYears = _specificFunctionFacade.getExistingYears(_request.getIk());
         
         _availableYears = new ArrayList<>();
-        IntStream.rangeClosed(2015, 2019)
+        IntStream.rangeClosed(2015, 2019) // allowed range according to agreement
                 .filter(y -> y == _request.getDataYear() || !existingYears.contains(y))
                 .forEach(y -> _availableYears.add(y));
     }
