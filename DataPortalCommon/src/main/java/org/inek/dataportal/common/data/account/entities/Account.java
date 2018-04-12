@@ -493,6 +493,19 @@ public class Account implements Serializable, Person {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Transient Property CalcRoles">
+    @Transient
+    private String _calcRoles;
+
+    public String getCalcRoles() {
+        return _calcRoles;
+    }
+
+    public void setCalcRoles(String calcRoles) {
+        _calcRoles = calcRoles;
+    }
+    // </editor-fold>
+
 
 
 }

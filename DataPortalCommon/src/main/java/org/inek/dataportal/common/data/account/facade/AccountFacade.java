@@ -349,7 +349,7 @@ public class AccountFacade extends AbstractDataAccess {
         return query.getResultList();
     }
 
-    public Set<Account> getAccounts4IkInludeCustomer(int ik) {
+    public List<Account> getAccounts4IkInludeCustomer(int ik) {
         String sql = "select distinct a.* \n"
                 + "from dbo.Account a\n"
                 + "left join dbo.AccountAdditionalIK on acId = aaiAccountId\n"
@@ -360,9 +360,10 @@ public class AccountFacade extends AbstractDataAccess {
                 + "     join CallCenterDB.dbo.ccContact on cuId = coCustomerId and coIsActive = 1\n"
                 + "     join CallCenterDB.dbo.ccContactDetails on coId = cdContactId and cdContactDetailTypeId = 'E'\n"
                 + "     where cuIk = " + ik + "\n"
-                + " )";
+                + " )\n"
+                + "order by acLastName";
         Query query = getEntityManager().createNativeQuery(sql, Account.class);
-        @SuppressWarnings("unchecked") HashSet<Account> result = new HashSet<>(query.getResultList());
+        @SuppressWarnings("unchecked") List<Account>result = query.getResultList();
         return result;
     }
 
@@ -388,14 +389,14 @@ public class AccountFacade extends AbstractDataAccess {
         return result;
     }
 
-    public Map<Account, String> obtainRoleInfo(int ik, Collection<Account> accounts) {
+    public void obtainRoleInfo(int ik, Collection<Account> accounts) {
         Map<Account, String> accountRoles = new HashMap<>();
         String emails = accounts
                 .stream()
                 .map(a -> "'" + a.getEmail().toLowerCase() + "'")
                 .collect(Collectors.joining(", "));
-        if (emails.isEmpty()) {  // todo return map without info
-            return accountRoles;
+        if (emails.isEmpty()) {
+            return;
         }
         int year = 2017;
         String sql = "select lower(coMail), "
@@ -419,9 +420,8 @@ public class AccountFacade extends AbstractDataAccess {
             String email = account.getEmail().toLowerCase();
             String roles = mailRole.containsKey(email) ? mailRole.get(email) : "";
             account.setSelected(!roles.isEmpty());
-            accountRoles.put(account, roles);
+            account.setCalcRoles(roles);
         }
-        return accountRoles;
     }
 
     public List<SelectItem> getInekAgents() {

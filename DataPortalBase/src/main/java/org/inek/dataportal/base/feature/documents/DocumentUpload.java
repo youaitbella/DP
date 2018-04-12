@@ -11,7 +11,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
@@ -29,7 +28,6 @@ import org.inek.dataportal.common.data.account.entities.DocumentDomain;
 import org.inek.dataportal.base.enums.DocumentTarget;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.base.feature.agency.facades.AgencyFacade;
-import org.inek.dataportal.common.data.icmt.facade.CustomerFacade;
 import org.inek.dataportal.base.facades.account.AccountDocumentFacade;
 import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.base.facades.account.DocumentDomainFacade;
@@ -99,7 +97,6 @@ public class DocumentUpload implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property IK">
     private int _ik;
-    @Inject private CustomerFacade _customerFacade;
 
     public int getIk() {
         return _ik;
@@ -110,8 +107,8 @@ public class DocumentUpload implements Serializable {
             return;
         }
         _ik = ik;
-        Collection<Account> accounts = _accountFacade.getAccounts4IkInludeCustomer(_ik);
-        _accountRoles = _accountFacade.obtainRoleInfo(_ik, accounts);
+        _accounts = _accountFacade.getAccounts4IkInludeCustomer(_ik);
+        _accountFacade.obtainRoleInfo(_ik, _accounts);
         loadLastDocuments();
     }
     // </editor-fold>
@@ -125,15 +122,11 @@ public class DocumentUpload implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Accounts">
-    private Map<Account, String> _accountRoles = Collections.emptyMap();
+    private Collection<Account> _accounts = Collections.emptyList();
 
-    public List<Account> getAccounts() {
+    public Collection<Account> getAccounts() {
         // need to return a list rather then a set to keep order
-        return _accountRoles.keySet()
-                .stream()
-                .sorted((a1, a2) -> (!a1.isSelected() + a1.getLastName())
-                        .compareTo(!a2.isSelected() + a2.getLastName()))
-                .collect(Collectors.toList());
+        return _accounts;
     }
     // </editor-fold>
 
@@ -238,10 +231,6 @@ public class DocumentUpload implements Serializable {
         return _domainFacade.findAll().stream().filter(d -> d.isPublicUsable()).collect(Collectors.toList());
     }
 
-    public String getRoles(Account account) {
-        return _accountRoles.get(account);
-    }
-
     public String getEmail() {
         return _account == null ? "" : _account.getEmail();
     }
@@ -313,7 +302,7 @@ public class DocumentUpload implements Serializable {
                 if (_ik <= 0) {
                     return;
                 }
-                for (Account account : _accountRoles.keySet()) {
+                for (Account account : _accounts) {
                     addDocuments(_docs, account);
                 }
                 break;
@@ -368,7 +357,7 @@ public class DocumentUpload implements Serializable {
                     }
                     break;
                 case IK:
-                    for (Account account : _accountRoles.keySet()) {
+                    for (Account account : _accounts) {
                         if (account.isSelected()) {
                             storeDocument(accountDocument, account.getId());
                             accounts.add(account);
