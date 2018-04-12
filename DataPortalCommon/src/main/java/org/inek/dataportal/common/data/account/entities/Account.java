@@ -184,6 +184,17 @@ public class Account implements Serializable, Person {
 
     @Column(name = "acNubInformationMail")
     private boolean _nubInformationMail = true;
+    
+    @Column(name ="acDisclaimerConfirmation")
+    private boolean _disclaimerConfirmation = true;
+
+    public boolean isDisclaimerConfirmation() {
+        return _disclaimerConfirmation;
+    }
+
+    public void setDisclaimerConfirmation(boolean disclaimerConfirmation) {
+        this._disclaimerConfirmation = disclaimerConfirmation;
+    }
 
     public boolean isNubInformationMail() {
         return _nubInformationMail;
