@@ -340,6 +340,11 @@ public class EditUserMaintenance extends AbstractEditController {
         _sessionController.deleteAccount();
         return Pages.Login.URL();
     }
+    
+    public boolean deleteAllowed() {
+        return _sessionController.getAccount().getAdminIks().isEmpty();
+    }
+    
     // </editor-fold>
 
     public String save() {

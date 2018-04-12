@@ -72,13 +72,12 @@
             </p>
         </div>
 
-        <div class="groupBox marginTop">
-
+        <h:panelGroup styleClass="groupBox marginTop" rendered="#{editUserMaintenance.deleteAllowed()}" >
             <h:outputLabel value="#{msg.msgDeleteAccount}"/>
             <br/>
             <h:commandLink styleClass="bigButton" action="#{editUserMaintenance.requestDelete}" value="#{msg.btnDeleteAccount}" immediate="true" />
             <h:commandLink id="deleteAccount" style="display: none" action="#{editUserMaintenance.delete}" value="delete"/>
-        </div>
+        </h:panelGroup>
     </ui:define>
 </ui:composition>
 
