@@ -119,8 +119,6 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         } else {
             Utils.navigate(Pages.Error.RedirectURL());
         }
-        // extend session timeout to 1 hour (to provide enough time for an upload)
-        FacesContext.getCurrentInstance().getExternalContext().setSessionMaxInactiveInterval(3600);
     }
 
     public void retrievePriorData(DrgCalcBasics calcBasics) {

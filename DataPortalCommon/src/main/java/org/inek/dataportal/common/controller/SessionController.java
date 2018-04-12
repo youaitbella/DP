@@ -361,8 +361,12 @@ public class SessionController implements Serializable {
     }
 
     private void configureSessionTimeout() {
-        int sessionTimeout = (_account != null && _account.getEmail().toLowerCase().endsWith("@inek-drg.de")
-                && isInternalClient()) ? 7200 : 1800; // session timeout extended to 4 hour for internal user
+        if (_account == null){
+            return;
+        }
+        int sessionTimeout  = (_portalType == PortalType.CALC || _portalType == PortalType.CERT) ? 3600 : 1800;
+        sessionTimeout = (_account.getEmail().toLowerCase().endsWith("@inek-drg.de")
+                && isInternalClient()) ? 7200 : sessionTimeout; // session timeout extended to 4 hour for internal user
         FacesContext.getCurrentInstance().getExternalContext().setSessionMaxInactiveInterval(sessionTimeout);
     }
 

@@ -75,8 +75,6 @@ public class CertCertification implements Serializable{
     }
 
     public int getSystemId() {
-        // session timeout extended to 1 hour (to provide enough time for an upload)
-        FacesContext.getCurrentInstance().getExternalContext().setSessionMaxInactiveInterval(3600); 
         return _grouper.getSystemId();
     }
 

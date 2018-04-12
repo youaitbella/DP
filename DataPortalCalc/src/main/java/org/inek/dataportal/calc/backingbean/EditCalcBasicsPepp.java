@@ -140,8 +140,6 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         } else {
             Utils.navigate(Pages.Error.RedirectURL());
         }
-        // session timeout extended to 1 hour (to provide enough time for an upload)
-        FacesContext.getCurrentInstance().getExternalContext().setSessionMaxInactiveInterval(ONE_HOUR);
     }
 
     public void retrievePriorData(PeppCalcBasics calcBasics) {
