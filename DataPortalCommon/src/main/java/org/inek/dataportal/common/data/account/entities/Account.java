@@ -6,7 +6,6 @@ package org.inek.dataportal.common.data.account.entities;
 
 import org.inek.dataportal.common.data.account.iface.Person;
 import java.io.Serializable;
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -192,7 +191,7 @@ public class Account implements Serializable, Person {
     private boolean _nubInformationMail = true;
 
     @Column(name = "acIkAdminDisclaimer")
-    private Date _ikAdminDisclaimer;
+    private Date _ikAdminDisclaimer = getDefalutDate();
 
     public Date getIkAdminDisclaimer() {
         return _ikAdminDisclaimer;
@@ -203,12 +202,15 @@ public class Account implements Serializable, Person {
     }
 
     public boolean isDisclaimerConfirmed() {
+        return _ikAdminDisclaimer.after(getDefalutDate());
+    }
+
+    private Date getDefalutDate() {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, 2000);
         calendar.set(Calendar.DAY_OF_YEAR, 1);
-        Date dummyDate = calendar.getTime();
-
-        return _ikAdminDisclaimer.after(dummyDate);
+        Date defaultDate = calendar.getTime();
+        return defaultDate;
     }
 
     public boolean isNubInformationMail() {

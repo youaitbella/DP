@@ -5,28 +5,8 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 >
 
-    <h1>IK-Admin</h1>
-
-    <h:commandLink rendered="#{sessionController.account.disclaimerConfirmed and false}"
-                   value="Hinweis zur Nutzung anzeigen"
-                   actionListener="#{ikAdminList.setShowDisclaimer(true)}"/>
-    
-    <h:panelGroup rendered="#{not sessionController.account.disclaimerConfirmed and false}">
-        <h2>Hinweis</h2>
-        <p>
-            Als IK-Admin bestimmen Sie, welcher Anwender welche Daten zum jeweiligen IK sehen, ändern, sowie an das InEK senden darf.
-            Für jede Funktion, welche von Ihrem Haus genutzt werden soll, benötigt mindestens ein Anwender das Recht, die Daten zu bearbeiten und an das InEK senden zu können.
-            Andernfalls lässt sich die betreffende Funktion nicht im gewünschten Maße nutzen.
-        </p>
-        <p>
-            Weitere Informationen entnehmen Sie bitte dem Anwenderhandbuch.
-        </p>
-    </h:panelGroup>
-    
-    <h:commandLink value="Hinweis zur Kenntniss genommen" rendered="#{not sessionController.account.disclaimerConfirmed and false}"/>
-
     <h:dataTable value="#{sessionController.account.adminIks}" var="item"
-                 rowClasses="row1, row2" rendered="#{sessionController.account.disclaimerConfirmed or true}">
+                 rowClasses="row1, row2" rendered="#{sessionController.account.disclaimerConfirmed}">
 
         <h:column>
             <f:facet name="header">#{msg.lblIkShort}</f:facet>
@@ -45,4 +25,34 @@
         </h:column>
 
     </h:dataTable>
+
+    <h:commandLink rendered="#{sessionController.account.disclaimerConfirmed}"
+                   styleClass="button"
+                   value="Hinweis zur Nutzung anzeigen"
+                   actionListener="#{ikAdminList.setShowDisclaimer(true)}"
+                   immediate="true"/>
+
+    <h:panelGroup rendered="#{not sessionController.account.disclaimerConfirmed or ikAdminList.showDisclaimer}">
+        <h3>Hinweis</h3>
+        <p>
+            Als IK-Admin bestimmen Sie, welche Rechte die für Ihre Institution im InEK-Datenportal angemeldeten Anwender besitzen. 
+            Mit der Rechtevergabe entscheiden Sie entsprechend, welche Daten zu Ihrer Institution vom jeweiligen Anwender gesehen, geändert, sowie an das InEK gesendet werden dürfen. 
+            Ein künftig neu registrierter Anwender besitzt initial keine Rechte. 
+            Anwender, die bereits vor Einrichtung des IK-Admins registriert waren, wurden initial mit Ihren bisherigen Rechten ausgestattet.
+        </p>
+        <p>
+            Für jede Funktion, welche von Ihrem Haus genutzt werden soll, benötigt mindestens ein Anwender das Recht, die Daten zu bearbeiten und an das InEK senden zu können. 
+            Anderenfalls lässt sich die betreffende Funktion nicht im gewünschten Maße nutzen. 
+        </p>
+        <p>
+            Weitere Details entnehmen Sie bitte dem Anwenderhandbuch. 
+        </p>
+    </h:panelGroup>
+
+    <h:commandLink rendered="#{not sessionController.account.disclaimerConfirmed}"
+                   styleClass="bigButton"
+                   value="Hinweis zur Kenntniss genommen"
+                   actionListener="#{ikAdminList.setDisclaimerDate(sessionController.account)}"
+                   immediate="true"/>
+
 </ui:composition>
