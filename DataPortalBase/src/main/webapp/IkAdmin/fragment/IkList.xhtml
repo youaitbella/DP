@@ -17,7 +17,7 @@
         </h:column>
 
         <h:column>
-            <f:facet name="header">#{msg.lblHospital}</f:facet>
+            <f:facet name="header">Institution</f:facet>
             <h:link outcome="#{sessionTools.pages.IkAdminTasks}"
                     value="#{applicationTools.retrieveHospitalInfo(item.ik)}" >
                 <f:param name="ik" value="#{item.ik}"/>
@@ -28,12 +28,12 @@
 
     <h:commandLink rendered="#{sessionController.account.disclaimerConfirmed}"
                    styleClass="button"
-                   value="Hinweis zur Nutzung anzeigen"
+                   value="&nbsp; Nutzungshinweis anzeigen &nbsp;"
                    actionListener="#{ikAdminList.setShowDisclaimer(true)}"
                    immediate="true"/>
 
     <h:panelGroup rendered="#{not sessionController.account.disclaimerConfirmed or ikAdminList.showDisclaimer}">
-        <h3>Hinweis</h3>
+        <h3>Nutzungshinweis</h3>
         <p>
             Als IK-Admin bestimmen Sie, welche Rechte die für Ihre Institution im InEK-Datenportal angemeldeten Anwender besitzen. 
             Mit der Rechtevergabe entscheiden Sie entsprechend, welche Daten zu Ihrer Institution vom jeweiligen Anwender gesehen, geändert, sowie an das InEK gesendet werden dürfen. 
@@ -51,7 +51,7 @@
 
     <h:commandLink rendered="#{not sessionController.account.disclaimerConfirmed}"
                    styleClass="bigButton"
-                   value="Hinweis zur Kenntniss genommen"
+                   value="&nbsp; Ich habe den Nutzungshinweis zur Kenntniss genommen &nbsp;"
                    actionListener="#{ikAdminList.setDisclaimerDate(sessionController.account)}"
                    immediate="true"/>
 
