@@ -17,14 +17,17 @@ import org.inek.dataportal.common.data.account.facade.AccountFacade;
  */
 @Named
 @RequestScoped
-public class ActivatePassword implements Serializable{
+public class ActivatePassword implements Serializable {
+
     @Inject private SessionController _sessionController;
     @Inject private AccountFacade _accountFacade;
     private String _emailOrUser;
     private String _password;
     private String _key;
 
-    /** Creates a new instance of Activate */
+    /**
+     * Creates a new instance of Activate
+     */
     public ActivatePassword() {
         HttpServletRequest r = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         _emailOrUser = r.getParameter("mail");
@@ -32,7 +35,6 @@ public class ActivatePassword implements Serializable{
     }
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
-
     public String getEmailOrUser() {
         return _emailOrUser;
     }
@@ -64,18 +66,16 @@ public class ActivatePassword implements Serializable{
     }
 
     // </editor-fold>
-
-    public String activateAndLogin(){
-        if (!_accountFacade.activatePassword(_emailOrUser, _password, _key)){
+    public String activateAndLogin() {
+        if (!_accountFacade.activatePassword(_emailOrUser, _password, _key)) {
             _sessionController.alertClient("Die eingegeben Informationen konnten nicht verifizert werden. Bitte "
-                                           + "überprüfen Sie Ihre Eingaben und versuchen Sie es erneut. ");
+                    + "überprüfen Sie Ihre Eingaben und versuchen Sie es erneut. ");
             return null;
         }
-        if (!_sessionController.loginAndSetTopics(_emailOrUser, _password,PortalType.DRG)){
+        if (!_sessionController.loginAndSetTopics(_emailOrUser, _password, PortalType.BASE)) {
             return null;
         }
         return Pages.MainApp.URL();
     }
-
 
 }
