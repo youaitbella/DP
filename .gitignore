@@ -10,3 +10,5 @@ DataPortal/nb-configuration.xml
 /DataPortalCommon/nbproject/
 DataPortalAdmin/nb-configuration.xml
 password.txt
+DataPortalDrg/nbproject/project.properties
+DataPortalCalc/nb-configuration.xml
