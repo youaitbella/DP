@@ -13,31 +13,31 @@ exit
 
 :update
 if %PORTAL_TYPE%==base (
-%JAVA% -jar %GF_CLI% --user admin --passwordfile password.txt --host vdataportal0%1 deploy --force --keepstate DataPortalBase\target\DataPortal.war
+%JAVA% -jar %GF_CLI% --user admin --passwordfile password.txt --host vdataportal0%1 redeploy --force --keepstate=true --name=DataPortal DataPortalBase\target\DataPortal.war
 goto end
 )
 if %PORTAL_TYPE%==admin (
-	%JAVA% -jar %GF_CLI% --user admin --passwordfile password.txt --host vdataportal0%1 deploy --force --keepstate DataPortalAdmin\target\DataPortalAdmin.war
+	%JAVA% -jar %GF_CLI% --user admin --passwordfile password.txt --host vdataportal0%1 redeploy --force --keepstate=true --name=DataPortalAdmin DataPortalAdmin\target\DataPortalAdmin.war
 	goto end
 )	
 if %PORTAL_TYPE%==calc (
-	%JAVA% -jar %GF_CLI% --user admin --passwordfile password.txt --host vdataportal0%1 deploy --force --keepstate DataPortalCalc\target\DataPortalCalc.war
+	%JAVA% -jar %GF_CLI% --user admin --passwordfile password.txt --host vdataportal0%1 redeploy --force --keepstate=true --name=DataPortalCalc DataPortalCalc\target\DataPortalCalc.war
 	goto end
 )
 if %PORTAL_TYPE%==cert (
-	%JAVA% -jar %GF_CLI% --user admin --passwordfile password.txt --host vdataportal0%1 deploy --force --keepstate DataPortalCert\target\DataPortalCert.war
+	%JAVA% -jar %GF_CLI% --user admin --passwordfile password.txt --host vdataportal0%1 redeploy --force --keepstate=true --name=DataPortalCert DataPortalCert\target\DataPortalCert.war
 	goto end
 )	
 if %PORTAL_TYPE%==drg (
-	%JAVA% -jar %GF_CLI% --user admin --passwordfile password.txt --host vdataportal0%1 deploy --force --keepstate DataPortalDrg\target\DataPortalDrg.war
+	%JAVA% -jar %GF_CLI% --user admin --passwordfile password.txt --host vdataportal0%1 redeploy --force --keepstate=true --name=DataPortalDrg DataPortalDrg\target\DataPortalDrg.war
 	goto end
 )
 if %PORTAL_TYPE%==insurance (
-	%JAVA% -jar %GF_CLI% --user admin --passwordfile password.txt --host vdataportal0%1 deploy --force --keepstate DataPortalInsurance\target\DataPortalInsurance.war
+	%JAVA% -jar %GF_CLI% --user admin --passwordfile password.txt --host vdataportal0%1 redeploy --force --keepstate=true --name=DataPortalInsurance DataPortalInsurance\target\DataPortalInsurance.war
 	goto end
 )
 if %PORTAL_TYPE%==psy (
-	%JAVA% -jar %GF_CLI% --user admin --passwordfile password.txt --host vdataportal0%1 deploy --force --keepstate DataPortalPsy\target\DataPortalPsy.war
+	%JAVA% -jar %GF_CLI% --user admin --passwordfile password.txt --host vdataportal0%1 redeploy --force --keepstate=true --name=DataPortalPsy DataPortalPsy\target\DataPortalPsy.war
 	goto end
 )
 echo "valid portal types: base|admin|calc|cert|drg|insurance|psy"
