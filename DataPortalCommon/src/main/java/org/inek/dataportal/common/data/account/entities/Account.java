@@ -6,6 +6,7 @@ package org.inek.dataportal.common.data.account.entities;
 
 import org.inek.dataportal.common.data.account.iface.Person;
 import java.io.Serializable;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -49,13 +50,13 @@ import org.inek.dataportal.common.data.ikadmin.entity.AccountIkAdmin;
 public class Account implements Serializable, Person {
 
     private static final long serialVersionUID = 1L;
-    
 
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "acId")
     private int _id = -1;
+
     public int getId() {
         return _id;
     }
@@ -68,6 +69,7 @@ public class Account implements Serializable, Person {
     // <editor-fold defaultstate="collapsed" desc="Property Gender">
     @Column(name = "acGender")
     private int _gender = 0;
+
     @Override
     public int getGender() {
         return _gender;
@@ -82,6 +84,7 @@ public class Account implements Serializable, Person {
     // <editor-fold defaultstate="collapsed" desc="Property Title">
     @Column(name = "acTitle")
     private String _title = "";
+
     @Override
     public String getTitle() {
         return _title;
@@ -96,6 +99,7 @@ public class Account implements Serializable, Person {
     // <editor-fold defaultstate="collapsed" desc="Property FirstName">
     @Column(name = "acFirstName")
     private String _firstName = "";
+
     @Override
     public String getFirstName() {
         return _firstName;
@@ -110,6 +114,7 @@ public class Account implements Serializable, Person {
     // <editor-fold defaultstate="collapsed" desc="Property LastName">
     @Column(name = "acLastName")
     private String _lastName = "";
+
     @Override
     public String getLastName() {
         return _lastName;
@@ -124,6 +129,7 @@ public class Account implements Serializable, Person {
     // <editor-fold defaultstate="collapsed" desc="Property Mail">
     @Column(name = "acMail")
     private String _email;
+
     @Override
     public String getEmail() {
         return _email;
@@ -147,7 +153,7 @@ public class Account implements Serializable, Person {
         _company = company;
     }
     // </editor-fold>
-    
+
     @Column(name = "acLastModified")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date _lastModified = null;
@@ -184,8 +190,8 @@ public class Account implements Serializable, Person {
 
     @Column(name = "acNubInformationMail")
     private boolean _nubInformationMail = true;
-    
-    @Column(name ="acIkAdminDisclaimer")
+
+    @Column(name = "acIkAdminDisclaimer")
     private Date _ikAdminDisclaimer;
 
     public Date getIkAdminDisclaimer() {
@@ -196,6 +202,14 @@ public class Account implements Serializable, Person {
         this._ikAdminDisclaimer = ikAdminDisclaimer;
     }
 
+    public boolean isDisclaimerConfirmed() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, 2000);
+        calendar.set(Calendar.DAY_OF_YEAR, 1);
+        Date dummyDate = calendar.getTime();
+
+        return _ikAdminDisclaimer.after(dummyDate);
+    }
 
     public boolean isNubInformationMail() {
         return _nubInformationMail;
@@ -207,9 +221,10 @@ public class Account implements Serializable, Person {
 
     // <editor-fold defaultstate="collapsed" desc="Property DropBoxHoldTime">
     @Column(name = "acDropBoxHoldTime")
-    private int _dropBoxHoldTime=100;
+    private int _dropBoxHoldTime = 100;
 
-    @Min(30) @Max(1500)
+    @Min(30)
+    @Max(1500)
     public int getDropBoxHoldTime() {
         return _dropBoxHoldTime;
     }
@@ -248,14 +263,16 @@ public class Account implements Serializable, Person {
     }
 
     /**
-     * Adds an ik and returns true, if ik could be added, false otherwise (ik existed)
+     * Adds an ik and returns true, if ik could be added, false otherwise (ik
+     * existed)
+     *
      * @param ik
      * @param mailDomain
-     * @return 
+     * @return
      */
     public boolean addIkAdmin(int ik, String mailDomain) {
         Optional<AccountIkAdmin> admin = _adminIks.stream().filter(ai -> ai.getIk() == ik).findAny();
-        if (admin.isPresent()){
+        if (admin.isPresent()) {
             admin.get().setMailDomain(mailDomain);
             return false;
         }
@@ -399,8 +416,8 @@ public class Account implements Serializable, Person {
     }
 
     public void addFeature(Feature feature, boolean isApproved) {
-        FeatureState state = feature.needsApproval() 
-                ? (isApproved ? FeatureState.APPROVED : FeatureState.NEW) 
+        FeatureState state = feature.needsApproval()
+                ? (isApproved ? FeatureState.APPROVED : FeatureState.NEW)
                 : FeatureState.SIMPLE;
         _features.add(new AccountFeature(_features.size(), state, feature));
     }
@@ -416,7 +433,6 @@ public class Account implements Serializable, Person {
         return _features;
     }
 
-    
     public void setAdditionalIKs(List<AccountAdditionalIK> additionalIKs) {
         _additionalIKs = additionalIKs;
     }
@@ -428,11 +444,11 @@ public class Account implements Serializable, Person {
         return _additionalIKs;
     }
 
-    public void addIk(int ik){
+    public void addIk(int ik) {
         _additionalIKs.add(new AccountAdditionalIK(_id, ik));
     }
     // </editor-fold>
-    
+
     public Set<Integer> getFullIkSet() {
         Set<Integer> iks = new HashSet<>();
         if (_ik != null && _ik > 0) {
@@ -517,7 +533,5 @@ public class Account implements Serializable, Person {
         _calcRoles = calcRoles;
     }
     // </editor-fold>
-
-
 
 }

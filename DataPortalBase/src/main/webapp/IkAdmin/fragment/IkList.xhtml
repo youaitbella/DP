@@ -7,8 +7,26 @@
 
     <h1>IK-Admin</h1>
 
+    <h:commandLink rendered="#{sessionController.account.disclaimerConfirmed and false}"
+                   value="Hinweis zur Nutzung anzeigen"
+                   actionListener="#{ikAdminList.setShowDisclaimer(true)}"/>
+    
+    <h:panelGroup rendered="#{not sessionController.account.disclaimerConfirmed and false}">
+        <h2>Hinweis</h2>
+        <p>
+            Als IK-Admin bestimmen Sie, welcher Anwender welche Daten zum jeweiligen IK sehen, ändern, sowie an das InEK senden darf.
+            Für jede Funktion, welche von Ihrem Haus genutzt werden soll, benötigt mindestens ein Anwender das Recht, die Daten zu bearbeiten und an das InEK senden zu können.
+            Andernfalls lässt sich die betreffende Funktion nicht im gewünschten Maße nutzen.
+        </p>
+        <p>
+            Weitere Informationen entnehmen Sie bitte dem Anwenderhandbuch.
+        </p>
+    </h:panelGroup>
+    
+    <h:commandLink value="Hinweis zur Kenntniss genommen" rendered="#{not sessionController.account.disclaimerConfirmed and false}"/>
+
     <h:dataTable value="#{sessionController.account.adminIks}" var="item"
-                 rowClasses="row1, row2">
+                 rowClasses="row1, row2" rendered="#{sessionController.account.disclaimerConfirmed or true}">
 
         <h:column>
             <f:facet name="header">#{msg.lblIkShort}</f:facet>
