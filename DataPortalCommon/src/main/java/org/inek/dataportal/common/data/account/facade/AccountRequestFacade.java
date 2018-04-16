@@ -39,6 +39,15 @@ public class AccountRequestFacade extends AbstractFacade<AccountRequest> {
             return null;
         }
     }
+    
+    public boolean accountRequestExists(String mail, String user) {
+        String jpql = "SELECT a FROM AccountRequest a WHERE a._email = :mail or a._user = :user";
+        TypedQuery<AccountRequest> query = getEntityManager().createQuery(jpql, AccountRequest.class);
+        query.setParameter("mail", mail);
+        query.setParameter("user", user);
+        
+        return !query.getResultList().isEmpty();
+    }
 
     
     public List<AccountRequest> findRequestsOlderThan(Date date) {

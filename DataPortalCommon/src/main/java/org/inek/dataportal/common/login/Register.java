@@ -147,16 +147,17 @@ public class Register implements Serializable {
     }
 
     public String register() {
-        if (_accountFacade.isReRegister(_accountRequest.getEmail())){
+        if(_accountRequestFacade.accountRequestExists(_accountRequest.getEmail(), _accountRequest.getUser())) {
             return Pages.LoginFinishRegister.URL();
         }
-        if (!_accountFacade.existsMailOrUser(_accountRequest.getEmail())) {
+        
+        if (!_accountFacade.isReRegister(_accountRequest.getEmail())){
             _accountRequest.setPassword(_password);
             if (!_accountRequestFacade.createAccountRequest(_accountRequest)) {
                 Utils.showMessageInBrowser(Utils.getMessage("errProcessing"));
                 return "";
             }
-        }
+        }        
         return Pages.LoginFinishRegister.URL();
     }
 
