@@ -8,6 +8,7 @@ import javax.ejb.Asynchronous;
 import javax.ejb.Schedule;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -26,6 +27,10 @@ public class AccountRequestFacade extends AbstractFacade<AccountRequest> {
 
     public AccountRequestFacade() {
         super(AccountRequest.class);
+    }
+
+    public AccountRequestFacade(EntityManager em) {
+        super(AccountRequest.class, em);
     }
 
     

@@ -6,7 +6,9 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceUnit;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -38,16 +40,17 @@ public abstract class AbstractFacade<T> {
         _entityClass = entityClass;
     }
 
+    public AbstractFacade(Class<T> _entityClass, EntityManager _em) {
+        this._em = _em;
+        this._entityClass = _entityClass;
+    }
+
     public static Logger getLogger() {
         return LOGGER;
     }
 
     protected EntityManager getEntityManager() {
         return _em;
-    }
-
-    void setEntityManager(EntityManager em) {
-        _em = em;
     }
 
     protected void persist(T entity) {
@@ -93,7 +96,7 @@ public abstract class AbstractFacade<T> {
         Map<String, Object> props = new HashMap<>();
         props.put("javax.persistence.cache.retrieveMode", "BYPASS");
         return _em.find(_entityClass, id, props);
-// alternative approach:        
+// alternative approach:
 //        T entity = find(id);
 //        refresh(entity);
 //        return entity;
