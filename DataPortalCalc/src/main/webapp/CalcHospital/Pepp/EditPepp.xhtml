@@ -114,21 +114,6 @@
 
             </h:panelGroup>
         </h:form>
-
-        <script type="text/javascript">
-            $(function() {
-                $('body').on('click', 'input[type=text]', function() {
-                    var val = $(this).val();
-                    val = val.replace(',', '');
-                    while(val.indexOf('.') >= 0) {
-                        val = val.replace('.', '');
-                    }
-                    if($.isNumeric(val))
-                        $(this).select();
-                });
-            });
-        </script>
-
     </ui:define>
 
 </ui:composition>
