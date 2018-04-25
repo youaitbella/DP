@@ -36,7 +36,7 @@
                     <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(cc.attrs.treeNode.accountId)}" value="#{cc.attrs.treeNode.company}" immediate="true"/>
                     <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(cc.attrs.treeNode.accountId)}" value="#{cc.attrs.treeNode.town}" immediate="true"/>
                 </h:panelGroup>
-                <h:panelGroup rendered="#{not cc.attrs.editPartner or treeNode['class'].simpleName eq 'CustomerTreeNode'}">
+                <!--h:panelGroup rendered="#{not cc.attrs.editPartner or treeNode['class'].simpleName eq 'CustomerTreeNode'}"-->
             </ui:remove>
             <h:panelGroup>
                 <h:outputText styleClass="third marginTop" value="#{cc.attrs.treeNode.displayName}"/>
