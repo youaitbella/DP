@@ -9,7 +9,8 @@
       xmlns:jsf="http://xmlns.jcp.org/jsf"      
       xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:cb="http://inek.org/dataportal/clientbehaviour"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
     <!-- INTERFACE -->
     <cc:interface>
@@ -27,12 +28,17 @@
                 <f:ajax render="@this proposalEdit :logout:remaining"/>
             </h:commandLink>
 
-            <h:panelGroup rendered="#{cc.attrs.editPartner and treeNode['class'].simpleName eq 'AccountTreeNode'}">
-                <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(cc.attrs.treeNode.accountId)}" value="#{cc.attrs.treeNode.displayName}" immediate="true"/>
-                <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(cc.attrs.treeNode.accountId)}" value="#{cc.attrs.treeNode.company}" immediate="true"/>
-                <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(cc.attrs.treeNode.accountId)}" value="#{cc.attrs.treeNode.town}" immediate="true"/>
-            </h:panelGroup>
-            <h:panelGroup rendered="#{not cc.attrs.editPartner or treeNode['class'].simpleName eq 'CustomerTreeNode'}">
+            <ui:remove>
+                cooperation manager is part of the base app
+                either the user can't use the link (as forced by the ui:remove) or we need to change the app and auto-navigate to cooperation
+                <h:panelGroup rendered="#{cc.attrs.editPartner and treeNode['class'].simpleName eq 'AccountTreeNode'}">
+                    <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(cc.attrs.treeNode.accountId)}" value="#{cc.attrs.treeNode.displayName}" immediate="true"/>
+                    <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(cc.attrs.treeNode.accountId)}" value="#{cc.attrs.treeNode.company}" immediate="true"/>
+                    <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(cc.attrs.treeNode.accountId)}" value="#{cc.attrs.treeNode.town}" immediate="true"/>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{not cc.attrs.editPartner or treeNode['class'].simpleName eq 'CustomerTreeNode'}">
+            </ui:remove>
+            <h:panelGroup>
                 <h:outputText styleClass="third marginTop" value="#{cc.attrs.treeNode.displayName}"/>
                 <h:outputText styleClass="third marginTop" value="#{cc.attrs.treeNode.company}"/>
                 <h:outputText styleClass="third marginTop" value="#{cc.attrs.treeNode.town}"/>
@@ -42,7 +48,7 @@
                                rendered="#{treeNode['class'].simpleName eq 'AccountTreeNode' and cc.attrs.treeNode.expanded and cc.attrs.treeNode.children.size() eq 0}"/>
                 <h:outputLabel value="Für dieses IK sind noch keine Kalkulationsdaten vorhanden" 
                                rendered="#{treeNode['class'].simpleName eq 'CustomerTreeNode' and cc.attrs.treeNode.expanded and cc.attrs.treeNode.children.size() eq 0}"/>
-                
+
                 <calc:CalcHospitalNode parentNode="#{cc.attrs.treeNode}" isSealed="#{cc.attrs.isSealed}" 
                                        showSelectBox="#{cc.attrs.showSelectBox}"
                                        showDelete="#{cc.attrs.treeNode.id == sessionController.accountId ? 'true' : 'false'}" 
