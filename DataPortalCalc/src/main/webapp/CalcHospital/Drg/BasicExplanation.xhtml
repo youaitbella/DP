@@ -318,10 +318,8 @@
 
     <div class="inputPart">
         <inek:BooleanRadioButton label="Besteht für das Krankenhaus (bzw. eine Fachabteilung) eine Vereinbarung einer/mehrerer Besonderen(r) Einrichtung(en) nach den Regelungen der VBE 2017:"  
-                                 renderElement="@this :logout:remaining" value="#{editCalcBasicsDrg.calcBasics.specialUnit}" labelStyle="label">
-            <f:ajax event="clientChange"  
-                    render="@form :script"
-                    listener="#{sessionController.hideData(editCalcBasicsDrg.calcBasics.specialUnit)}"/>
+                                 renderElement="@form :script" value="#{editCalcBasicsDrg.calcBasics.specialUnit}" labelStyle="label"
+                                 listener="#{sessionController.hideData(editCalcBasicsDrg.calcBasics.specialUnit)}">
         </inek:BooleanRadioButton>
     </div>
 
@@ -376,10 +374,10 @@
 
     <div class="inputPart">
         <inek:BooleanRadioButton label="Besteht eine gesondert vereinbarte Vergütung für Zentren und Schwerpunkte gem. § 2 Abs. 2 Satz 2 Nr. 4 KHEntgG:"  
-                                 renderElement="@this :logout:remaining" value="#{editCalcBasicsDrg.calcBasics.centralFocus}" labelStyle="label">
-            <f:ajax event="clientChange"  
-                    render="@form :script"
-                    listener="#{sessionController.hideData(editCalcBasicsDrg.calcBasics.centralFocus)}"/>
+                                 renderElement="@form :script" 
+                                 value="#{editCalcBasicsDrg.calcBasics.centralFocus}" 
+                                 labelStyle="label"
+                                 listener="#{sessionController.hideData(editCalcBasicsDrg.calcBasics.centralFocus)}">
         </inek:BooleanRadioButton>
     </div>
 

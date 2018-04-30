@@ -79,15 +79,12 @@
                             </td>
 
                             <td>
-                                <inek:InputNumberWithMessage id="myInput"
-                                                             value="#{item.staffingComplete}" 
+                                <inek:InputNumberWithMessage value="#{item.staffingComplete}" 
                                                              styleClass="element10em number"
                                                              readonly="#{editPsyStaff.readOnly or editPsyStaff.closedState}"
                                                              disabled="#{item.occupationalCategory.name.contains('nur KJP') and 'Adults'.equals(cc.attrs.patType)}"
                                                              title="#{item.occupationalCategory.id == 2 ? msg.InfoPsychStaffNoteEducation : ''}"
                                                              renderElement="#{cc.attrs.clientId}:sumStaffingComplete:text #{cc.attrs.clientId}:repeat:#{status.index}:factor">
-                                    <!--f:ajax event="clientChange" 
-                                            render="# {cc.attrs.clientId}:sumStaffingComplete:text # {cc.attrs.clientId}:repeat:# {status.index}:factor"/-->
                                 </inek:InputNumberWithMessage>
                             </td>
 
@@ -100,8 +97,6 @@
                                                              title="#{item.occupationalCategory.id == 2 ? msg.InfoPsychStaffNoteEducation : ''}"
                                                              renderElement="#{cc.attrs.clientId}:sumStaffingDeductionPsych:text #{cc.attrs.clientId}:explanation"
                                                              listener="#{editPsyStaff.countChanged(item, 4)}">
-                                    <!--f:ajax event="clientChange" listener="# {editPsyStaff.countChanged(item, 4)}" 
-                                            render="# {cc.attrs.clientId}:sumStaffingDeductionPsych:text "/-->
                                 </inek:InputNumberWithMessage>
                             </td>
 
@@ -113,8 +108,6 @@
                                                              title="#{item.occupationalCategory.id == 2 ? msg.InfoPsychStaffNoteEducation : ''}"
                                                              renderElement="#{cc.attrs.clientId}:sumStaffingDeductionNonPsych:text #{cc.attrs.clientId}:explanation"
                                                              listener="#{editPsyStaff.countChanged(item, 5)}">
-                                    <!--f:ajax event="clientChange" listener="# {editPsyStaff.countChanged(item, 5)}" 
-                                            render="# {cc.attrs.clientId}:sumStaffingDeductionNonPsych:text "/-->
                                 </inek:InputNumberWithMessage>
                             </td>
 
@@ -126,8 +119,6 @@
                                                              title="#{item.occupationalCategory.id == 2 ? msg.InfoPsychStaffNoteEducation : ''}"
                                                              renderElement="#{cc.attrs.clientId}:sumStaffingDeductionOther:text #{cc.attrs.clientId}:explanation"
                                                              listener="#{editPsyStaff.countChanged(item, 6)}">
-                                    <!--f:ajax event="clientChange" listener="# {editPsyStaff.countChanged(item, 6)}" 
-                                            render="# {cc.attrs.clientId}:sumStaffingDeductionOther:text "/-->
                                 </inek:InputNumberWithMessage>
                             </td>
 
