@@ -27,9 +27,8 @@
                     <inek:BooleanRadioButton label="#{msg.lblStatementDrg}" 
                                              value="#{editStatementOfParticipance.statement.drgCalc}" 
                                              renderElement="@form"
-                                             readonly="#{editStatementOfParticipance.readOnly or editStatementOfParticipance.enableDrgCalc}">
-                        <f:ajax event="clientChange" listener="#{editStatementOfParticipance.enableDisableStatementPage()}"/>
-                    </inek:BooleanRadioButton>
+                                             readonly="#{editStatementOfParticipance.readOnly or editStatementOfParticipance.enableDrgCalc}"
+                                             listener="#{editStatementOfParticipance.enableDisableStatementPage()}"/>
                 </h:panelGrid>
 
             </div>
@@ -39,9 +38,8 @@
                     <inek:BooleanRadioButton label="#{msg.lblStatementPepp}" 
                                              value="#{editStatementOfParticipance.statement.psyCalc}" 
                                              renderElement="@form"
-                                             readonly="#{editStatementOfParticipance.readOnly or editStatementOfParticipance.enablePsyCalc}">
-                        <f:ajax event="clientChange" listener="#{editStatementOfParticipance.enableDisableStatementPage()}"/>
-                    </inek:BooleanRadioButton>
+                                             readonly="#{editStatementOfParticipance.readOnly or editStatementOfParticipance.enablePsyCalc}"
+                                             listener="#{editStatementOfParticipance.enableDisableStatementPage()}"/>
                 </h:panelGrid>
             </div>
             <h:panelGrid columns="1">
