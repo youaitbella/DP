@@ -14,11 +14,9 @@
 
     <inek:BooleanRadioButton label="#{msg.lblHospitalHasIntensiveStrokeBeds}" 
                              value="#{editCalcBasicsDrg.calcBasics.strokeBed}"
-                             labelStyle="label element25em">
-        <f:ajax event="clientChange"  
-                render="@form :script"
-                listener="#{sessionController.hideData(editCalcBasicsDrg.calcBasics.strokeBed)}"/>
-    </inek:BooleanRadioButton>
+                             labelStyle="label element25em"
+                             renderElement="@form :script"
+                             listener="#{sessionController.hideData(editCalcBasicsDrg.calcBasics.strokeBed)}"/>
     <br/>
 
     <div jsf:id="intensivCareDetail" jsf:rendered="#{editCalcBasicsDrg.calcBasics.strokeBed}">
@@ -35,7 +33,7 @@
         </h:outputLabel>
 
         <calc:IntensivStroke id="intStroke" intensiveType="2"/>
-        
+
     </div>
 
 </ui:composition>
