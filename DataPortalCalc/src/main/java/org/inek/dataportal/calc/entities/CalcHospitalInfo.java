@@ -22,9 +22,29 @@ import org.inek.dataportal.common.enums.WorkflowStatus;
  *
  * @author muellermi
  */
-@Entity @IdClass(CalcHospitalInfoId.class)
+@Entity
+@IdClass(CalcHospitalInfoId.class)
 public class CalcHospitalInfo implements Serializable {
-        // todo: include hospital name and city into CalcHospitalInfo to avoid extra data access
+
+    public CalcHospitalInfo() {
+    }
+
+    public CalcHospitalInfo(int _id, CalcInfoType _type, int _accountId, int _dataYear, int _ik, int _statusId, String _name, Date _lastChanged, String _customerName, String _betreuerMail, String _customerTown) {
+        this._id = _id;
+        this._type = _type;
+        this._accountId = _accountId;
+        this._betreuerMail = _betreuerMail;
+        this._dataYear = _dataYear;
+        this._ik = _ik;
+        this._statusId = _statusId;
+        this._name = _name;
+        this._customerTown = _customerTown;
+        this._customerName = _customerName;
+        this._lastChanged = _lastChanged;
+
+        //biId as Id, biType as [Type], biAccountId as AccountId, biDataYear as DataYear, biIk as IK, "
+        //           + "biStatusId as StatusId, Name, biLastChanged as LastChanged, cuName as customerName, agLastName + ', ' + agFirstName as BetreuerMail, cuCity as customerTown
+    }
 
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
@@ -65,6 +85,19 @@ public class CalcHospitalInfo implements Serializable {
 
     public void setAccountId(int accountId) {
         _accountId = accountId;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property BeraterId">
+    @Column(name = "BetreuerMail")
+    private String _betreuerMail;
+
+    public String getBetreuerMail() {
+        return _betreuerMail;
+    }
+
+    public void setBetreuerMail(String betreuerMail) {
+        _betreuerMail = betreuerMail;
     }
     // </editor-fold>
 
@@ -128,6 +161,32 @@ public class CalcHospitalInfo implements Serializable {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Property CustomerName">
+    @Column(name = "customerTown")
+    private String _customerTown;
+
+    public String getCustomerTown() {
+        return _customerTown;
+    }
+
+    public void setCustomerTown(String customerTown) {
+        _customerTown = customerTown;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property CustomerName">
+    @Column(name = "customerName")
+    private String _customerName;
+
+    public String getCustomerName() {
+        return _customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        _customerName = customerName;
+    }
+    // </editor-fold>
+
     // <editor-fold defaultstate="collapsed" desc="Property LastChanged">
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     @Column(name = "LastChanged")
@@ -145,41 +204,34 @@ public class CalcHospitalInfo implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Hash & Equals">
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 83 * hash + this._id;
-        if (this._id != -1) {
-            return hash;
-        }
-
-        hash = 83 * hash + _type.hashCode();
-        hash = 83 * hash + this._accountId;
-        hash = 83 * hash + this._dataYear;
-        hash = 83 * hash + this._ik;
-        hash = 83 * hash + this._statusId;
-        hash = 83 * hash + Objects.hashCode(this._name);
+        int hash = 7;
+        hash = 43 * hash + this._id;
+        hash = 43 * hash + Objects.hashCode(this._type);
+        hash = 43 * hash + this._accountId;
+        hash = 43 * hash + Objects.hashCode(this._betreuerMail);
+        hash = 43 * hash + this._dataYear;
+        hash = 43 * hash + this._ik;
+        hash = 43 * hash + this._statusId;
+        hash = 43 * hash + Objects.hashCode(this._name);
+        hash = 43 * hash + Objects.hashCode(this._customerTown);
+        hash = 43 * hash + Objects.hashCode(this._customerName);
+        hash = 43 * hash + Objects.hashCode(this._lastChanged);
         return hash;
     }
 
     @Override
-    @SuppressWarnings("CyclomaticComplexity")
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
         }
-
-        if (!(obj instanceof CalcHospitalInfo)) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
             return false;
         }
         final CalcHospitalInfo other = (CalcHospitalInfo) obj;
-
-        if (this._id != -1 && this._id == other._id) {
-            return true;
-        }
-
         if (this._id != other._id) {
-            return false;
-        }
-        if (this._type != other._type) {
             return false;
         }
         if (this._accountId != other._accountId) {
@@ -194,11 +246,25 @@ public class CalcHospitalInfo implements Serializable {
         if (this._statusId != other._statusId) {
             return false;
         }
+        if (!Objects.equals(this._betreuerMail, other._betreuerMail)) {
+            return false;
+        }
         if (!Objects.equals(this._name, other._name)) {
+            return false;
+        }
+        if (!Objects.equals(this._customerTown, other._customerTown)) {
+            return false;
+        }
+        if (!Objects.equals(this._customerName, other._customerName)) {
+            return false;
+        }
+        if (this._type != other._type) {
+            return false;
+        }
+        if (!Objects.equals(this._lastChanged, other._lastChanged)) {
             return false;
         }
         return true;
     }
     // </editor-fold>
-
 }
