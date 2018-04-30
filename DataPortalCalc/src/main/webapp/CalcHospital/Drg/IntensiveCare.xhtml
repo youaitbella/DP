@@ -16,11 +16,9 @@
 
     <inek:BooleanRadioButton label="#{msg.lblHospitalHasIntensiveBeds}" 
                              value="#{editCalcBasicsDrg.calcBasics.intensiveBed}"
-                             labelStyle="label element25em">
-            <f:ajax event="clientChange"  
-                    render="@form :script"
+                             labelStyle="label element25em"
+                             renderElement="@form :script"
                     listener="#{sessionController.hideData(editCalcBasicsDrg.calcBasics.intensiveBed)}"/>
-    </inek:BooleanRadioButton>
     <br/>
 
     <div jsf:id="intensivCareDetail" jsf:rendered="#{editCalcBasicsDrg.calcBasics.intensiveBed}">
