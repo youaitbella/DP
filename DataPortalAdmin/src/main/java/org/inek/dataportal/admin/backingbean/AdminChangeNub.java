@@ -9,7 +9,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.inek.dataportal.common.data.AccountInfo;
+import org.inek.dataportal.admin.dao.AccountInfo;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.data.account.facade.AccountFacade;
@@ -100,12 +100,12 @@ public class AdminChangeNub implements Serializable {
     }
 
     public String changeOwner() {
-        _accountInfos.stream().filter(ai -> ai.isSelected()).forEach(ai -> changeOwnerForAccount(ai.getAccount()));
+        _accountInfos.stream().filter(ai -> ai.isSelected()).forEach(ai -> changeOwnerForAccount(ai.getAccountId()));
         updateAccounts(_ik);
         return "";
     }
 
-    private void changeOwnerForAccount(Account oldAccount) {
-        _adminFacade.changeNubOwner(_ik, oldAccount.getId(), _account.getId(), _sessionController.getAccountId());
+    private void changeOwnerForAccount(int oldAccountId) {
+        _adminFacade.changeNubOwner(_ik, oldAccountId, _account.getId(), _sessionController.getAccountId());
     }
 }
