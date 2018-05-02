@@ -112,6 +112,7 @@
                              required="#{editUserMaintenance.ikRequired}"
                              maxlength="9"
                              validator="#{sessionTools.checkIk}"
+                             readonly="#{!editUserMaintenance.removeIkAllowed(editUserMaintenance.account.IK)}"
                              >
                     <f:ajax event="blur" render="@this :logout:remaining msgIk"/>
                 </h:inputText>

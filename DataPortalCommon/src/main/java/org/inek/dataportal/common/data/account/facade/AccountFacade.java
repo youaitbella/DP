@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 import javax.ejb.Stateless;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import org.inek.dataportal.common.data.icmt.entities.Customer;
@@ -48,13 +49,27 @@ import org.inek.dataportal.common.utils.StringUtil;
 @Stateless
 public class AccountFacade extends AbstractDataAccess {
 
-    @Inject private AccountPwdFacade _accountPwdFacade;
-    @Inject private CustomerFacade _customerFacade;
-    @Inject private FeatureRequestHandler _requestHandler;
-    @Inject private AccountRequestFacade _accountRequestFacade;
-    @Inject private AccountChangeMailFacade _accountChangeMailFacade;
-    @Inject private PasswordRequestFacade _pwdRequestFacade;
-    @Inject private ConfigFacade _configFacade;
+    @Inject
+    private AccountPwdFacade _accountPwdFacade;
+    @Inject
+    private CustomerFacade _customerFacade;
+    @Inject
+    private FeatureRequestHandler _requestHandler;
+    @Inject
+    private AccountRequestFacade _accountRequestFacade;
+    @Inject
+    private AccountChangeMailFacade _accountChangeMailFacade;
+    @Inject
+    private PasswordRequestFacade _pwdRequestFacade;
+    @Inject
+    private ConfigFacade _configFacade;
+
+    public AccountFacade() {
+    }
+
+    public AccountFacade(EntityManager em) {
+        super(em);
+    }
 
     public Account findByMailOrUser(String mailOrUser) {
         String query = "SELECT a FROM Account a WHERE a._email = :mailOrUser or a._user = :mailOrUser";
@@ -139,7 +154,8 @@ public class AccountFacade extends AbstractDataAccess {
         }
     }
 
-    @Inject private IkAdminFacade _ikAdminFacade;
+    @Inject
+    private IkAdminFacade _ikAdminFacade;
 
     public Account updateAccount(Account account) {
         if (account.getId() <= 0) {
@@ -288,7 +304,8 @@ public class AccountFacade extends AbstractDataAccess {
         return true;
     }
 
-    @Inject private Mailer _mailer;
+    @Inject
+    private Mailer _mailer;
 
     public boolean requestPassword(final String mail, final String password) {
         if (StringUtil.isNullOrEmpty(mail) || StringUtil.isNullOrEmpty(password)) {
@@ -363,7 +380,8 @@ public class AccountFacade extends AbstractDataAccess {
                 + " )\n"
                 + "order by acLastName";
         Query query = getEntityManager().createNativeQuery(sql, Account.class);
-        @SuppressWarnings("unchecked") List<Account>result = query.getResultList();
+        @SuppressWarnings("unchecked")
+        List<Account> result = query.getResultList();
         return result;
     }
 
@@ -385,7 +403,8 @@ public class AccountFacade extends AbstractDataAccess {
                 + "\r\n join dbo.AccountAdditionalIK on acId = aaiAccountId"
                 + "\r\n where acId in (" + accountIdList + ")";
         Query query = getEntityManager().createNativeQuery(sql, Integer.class);
-        @SuppressWarnings("unchecked") HashSet<Integer> result = new HashSet<>(query.getResultList());
+        @SuppressWarnings("unchecked")
+        HashSet<Integer> result = new HashSet<>(query.getResultList());
         return result;
     }
 
@@ -410,7 +429,8 @@ public class AccountFacade extends AbstractDataAccess {
                 + "    and coMail in (" + emails + ")";
         Query query = getEntityManager().createNativeQuery(sql);
         Map<String, String> mailRole = new HashMap<>();
-        @SuppressWarnings("unchecked") List<Object[]> objects = query.getResultList();
+        @SuppressWarnings("unchecked")
+        List<Object[]> objects = query.getResultList();
         for (Object[] obj : objects) {
             String email = (String) obj[0];
             String roles = (String) obj[1];
@@ -439,7 +459,8 @@ public class AccountFacade extends AbstractDataAccess {
                 + "where agActive = 1\n" //  and agDomainId in ('O', 'E', 'M')
                 + "order by acLastName";
         Query query = getEntityManager().createNativeQuery(sql, Account.class);
-        @SuppressWarnings("unchecked") List<Account> result = query.getResultList();
+        @SuppressWarnings("unchecked")
+        List<Account> result = query.getResultList();
         return result;
     }
 
@@ -481,4 +502,44 @@ public class AccountFacade extends AbstractDataAccess {
         return find(Account.class, id);
     }
 
+    public boolean deleteIkAllowed(int ik, Account acc) {
+        String sql = "select distinct 1 from calc.KGLBaseInformation\n"
+                + "where biAccountID = " + acc.getId() + "\n"
+                + "and biIK = " + ik + "\n"
+                + "union\n"
+                + "select distinct 1 from calc.KGPBaseInformation\n"
+                + "where biAccountID = " + acc.getId() + "\n"
+                + "and biIK = " + ik + "\n"
+                + "union\n"
+                + "select distinct 1 from calc.StatementOfParticipance\n"
+                + "where sopAccountId = " + acc.getId() + "\n"
+                + "and sopIk = " + ik + "\n"
+                + "union\n"
+                + "select 1 from calc.DistributionModelMaster\n"
+                + "where dmmAccountId = " + acc.getId() + "\n"
+                + "and dmmIk = " + ik + "\n"
+                + "union\n"
+                + "select 1 from vr.ValuationRatio\n"
+                + "where vrAccountId = " + acc.getId() + "\n"
+                + "and vrIK = " + ik + "\n"
+                + "union\n"
+                + "select 1 from spf.RequestMaster\n"
+                + "where rmAccountId = " + acc.getId() + "\n"
+                + "and rmIK = " + ik + "\n"
+                + "union\n"
+                + "select 1 from spf.AgreementMaster\n"
+                + "where amAccountId = " + acc.getId() + "\n"
+                + "and amIK = " + ik + "\n"
+                + "union\n"
+                + "select 1 from psy.StaffProofMaster\n"
+                + "where spmAccountId = " + acc.getId() + "\n"
+                + "and spmIK = " + ik + "\n"
+                + "union\n"
+                + "select 1 from dbo.NubProposal\n"
+                + "where nubAccountId = " + acc.getId() + "\n"
+                + "and nubIk = " + ik + "";
+
+        Query query = getEntityManager().createNativeQuery(sql);
+        return !(query.getResultList().size() > 0);
+    }
 }

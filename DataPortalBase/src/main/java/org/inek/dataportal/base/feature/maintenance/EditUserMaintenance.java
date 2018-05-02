@@ -44,10 +44,9 @@ import org.inek.dataportal.common.mail.Mailer;
 @FeatureScoped(name = "UserMaintenance")
 public class EditUserMaintenance extends AbstractEditController {
 
-    // todo: Do not copy and merge parts. Simply get a fresh copy from database to edit. 
+    // todo: Do not copy and merge parts. Simply get a fresh copy from database to edit.
     // After save, replace the account object in sessionConctoller.
     // Refactor this class according to the common edit handling
-
     // <editor-fold defaultstate="collapsed" desc="fields">
     enum UserMaintenaceTabs {
 
@@ -60,13 +59,20 @@ public class EditUserMaintenance extends AbstractEditController {
     private static final Logger LOGGER = Logger.getLogger("EditUserMaintenance");
 
     // todo: reduce injection by combining facades. Next replace field injection by constructor injection
-    @Inject private ApplicationTools _appTools;
-    @Inject private SessionTools _sessionTools;
-    @Inject private SessionController _sessionController;
-    @Inject private AccountFacade _accountFacade;
-    @Inject private AccountPwdFacade _accountPwdFacade;
-    @Inject private AccountChangeMailFacade _accountChangeMailFacade;
-    @Inject private IkAdminFacade _ikAdminFacade;
+    @Inject
+    private ApplicationTools _appTools;
+    @Inject
+    private SessionTools _sessionTools;
+    @Inject
+    private SessionController _sessionController;
+    @Inject
+    private AccountFacade _accountFacade;
+    @Inject
+    private AccountPwdFacade _accountPwdFacade;
+    @Inject
+    private AccountChangeMailFacade _accountChangeMailFacade;
+    @Inject
+    private IkAdminFacade _ikAdminFacade;
 
     private String _user;
     private String _email;
@@ -253,7 +259,7 @@ public class EditUserMaintenance extends AbstractEditController {
         List<FeatureEditorDAO> features = new ArrayList<>();
         List<Feature> configuredFeatures = new ArrayList<>();
         Account account = _sessionController.getAccount();
-        if (account == null){
+        if (account == null) {
             return features;
         }
         for (AccountFeature accFeature : account.getFeatures()) {
@@ -263,7 +269,7 @@ public class EditUserMaintenance extends AbstractEditController {
         for (Feature feature : Feature.values()) {
             if (configuredFeatures.contains(feature)) {
                 continue;
-            } 
+            }
             if (feature.isSelectable() && _appTools.isFeatureEnabled(feature)) {
                 features.add(new FeatureEditorDAO(createAccountFeature(feature), _sessionController.getAccount()));
             }
@@ -340,13 +346,12 @@ public class EditUserMaintenance extends AbstractEditController {
         _sessionController.deleteAccount();
         return Pages.Login.URL();
     }
-    
+
     public boolean deleteAllowed() {
         return _sessionController.getAccount().getAdminIks().isEmpty();
     }
-    
-    // </editor-fold>
 
+    // </editor-fold>
     public String save() {
         if (isMasterdataChanged()) {
             mergeMasterData();
@@ -569,7 +574,9 @@ public class EditUserMaintenance extends AbstractEditController {
                         hasNewEntry = true;
                     }
                 }
-                if (hasNewEntry) {notifyIkAdmin(ik, account);}
+                if (hasNewEntry) {
+                    notifyIkAdmin(ik, account);
+                }
             }
             AccountAdditionalIK addIK = new AccountAdditionalIK();
             addIK.setIK(ik);
@@ -579,8 +586,8 @@ public class EditUserMaintenance extends AbstractEditController {
 
     private void notifyIkAdmin(int ik, Account account) {
         String user = account.getFirstName() + " " + account.getLastName() + " (" + account.getCompany() + ", " + account.getTown() + ")";
-        List<Account> admins =_ikAdminFacade.findIkAdmins(ik);
-        
+        List<Account> admins = _ikAdminFacade.findIkAdmins(ik);
+
         for (Account admin : admins) {
             Mailer mailer = _sessionController.getMailer();
             MailTemplate template = mailer.getMailTemplate("IK-Admin: new user");
@@ -596,7 +603,6 @@ public class EditUserMaintenance extends AbstractEditController {
         }
     }
 
-    
     private boolean isIKListMofified() {
         List<AccountAdditionalIK> additionalIKs = _sessionController.getAccount().getAdditionalIKs();
         Set<Integer> oldSet = additionalIKs.stream().map(ai -> ai.getIK()).collect(Collectors.toSet());
@@ -617,6 +623,10 @@ public class EditUserMaintenance extends AbstractEditController {
         String script = _script;
         _script = "";
         return script;
+    }
+
+    public boolean removeIkAllowed(int ik) {
+        return _accountFacade.deleteIkAllowed(ik, _sessionController.getAccount());
     }
 
 }

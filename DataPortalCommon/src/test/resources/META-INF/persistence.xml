@@ -17,4 +17,20 @@
             <property name="eclipselink.cache.shared.default" value="false"/>
         </properties>
     </persistence-unit>
+    <persistence-unit name="DataPortalLocalScriptPU" transaction-type="RESOURCE_LOCAL">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+        <properties>
+            <property name="javax.persistence.jdbc.url" value="jdbc:derby:memory:./exploringJpa;create=true"/>
+            <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver"/>
+            <property name="javax.persistence.jdbc.user" value=""/>
+            <property name="javax.persistence.jdbc.password" value=""/>
+            <property name="javax.persistence.schema-generation.database.action" value="create"/>
+            <property name="javax.persistence.schema-generation.create-source" value="script"/>
+            <property name="javax.persistence.schema-generation.create-script-source" value="CreateTestDB.sql"/>
+            <property name="eclipselink.logging.level" value="FINE"/>
+            <property name="eclipselink.jpa.uppercase-column-names" value="true"/>
+            <property name="eclipselink.cache.shared.default" value="false"/>
+        </properties>
+    </persistence-unit>
 </persistence>
