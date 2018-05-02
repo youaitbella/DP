@@ -46,16 +46,6 @@
         </script>
 
         <h:form id="psychStaff" enctype="multipart/form-data">
-            <ui:remove>
-                <h1>
-                    <h:link value="#{msg.namePSYCH_STAFF}" 
-                            outcome="#{sessionTools.pages.PsychStaffSummary}"
-                            onclick="alert('xxx');"
-                            >
-                        <f:ajax listener="#{sessionController.logTarget(sessionTools.pages.PsychStaffSummary)}"/>
-                    </h:link>
-                </h1>
-            </ui:remove>
             
             <h1><h:commandLink value="#{msg.namePSYCH_STAFF}" 
                                action="#{sessionController.navigate(sessionTools.pages.PsychStaffSummary)}" 
@@ -174,7 +164,7 @@
                                        immediate="true"
                                        action="#{editPsyStaff.setLastChangeAtNow()}"
                                        value="Last Change zurücksetzen"
-                                       rendered="#{sessionController.isInekUser('PSYCH_STAFF')}">
+                                       rendered="#{sessionController.isInekUser('PSYCH_STAFF') and editPsyStaff.complete}">
                         </h:commandLink>
 
                         <ui:remove>

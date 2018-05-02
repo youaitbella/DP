@@ -314,10 +314,10 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         if (_staffProof == null) {
             return true;
         }
-        if (_sessionController.isInekUser(Feature.PSYCH_STAFF)
-                && _staffProof.getAccountId() != _sessionController.getAccountId()) {
-            return true;
-        }
+//        if (_sessionController.isInekUser(Feature.PSYCH_STAFF)
+//                && _staffProof.getAccountId() != _sessionController.getAccountId()) {
+//            return true;
+//        }
         if (isCompleteSinceMoreThan3Days()) {
             return true;
         }
