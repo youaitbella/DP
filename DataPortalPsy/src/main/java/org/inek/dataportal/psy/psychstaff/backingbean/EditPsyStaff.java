@@ -902,6 +902,6 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     
     public void setLastChangeAtNow() {
         _staffProof.setLastChanged(Calendar.getInstance().getTime());
-        _psychStaffFacade.saveStaffProof(_staffProof);
+        _staffProof = _psychStaffFacade.saveStaffProof(_staffProof);
     }
 }
