@@ -29,18 +29,18 @@ public class CalcHospitalInfo implements Serializable {
     public CalcHospitalInfo() {
     }
 
-    public CalcHospitalInfo(int _id, CalcInfoType _type, int _accountId, int _dataYear, int _ik, int _statusId, String _name, Date _lastChanged, String _customerName, String _betreuerMail, String _customerTown) {
-        this._id = _id;
-        this._type = _type;
-        this._accountId = _accountId;
-        this._betreuerMail = _betreuerMail;
-        this._dataYear = _dataYear;
-        this._ik = _ik;
-        this._statusId = _statusId;
-        this._name = _name;
-        this._customerTown = _customerTown;
-        this._customerName = _customerName;
-        this._lastChanged = _lastChanged;
+    public CalcHospitalInfo(int id, CalcInfoType type, int accountId, int dataYear, int ik, int statusId, String name, Date lastChanged, String customerName, String advisorMail, String customerTown) {
+        this._id = id;
+        this._type = type;
+        this._accountId = accountId;
+        this._dataYear = dataYear;
+        this._ik = ik;
+        this._statusId = statusId;
+        this._name = name;
+        this._lastChanged = lastChanged;
+        this._customerName = customerName;
+        this._advisorMail = advisorMail;
+        this._customerTown = customerTown;
 
         //biId as Id, biType as [Type], biAccountId as AccountId, biDataYear as DataYear, biIk as IK, "
         //           + "biStatusId as StatusId, Name, biLastChanged as LastChanged, cuName as customerName, agLastName + ', ' + agFirstName as BetreuerMail, cuCity as customerTown
@@ -90,14 +90,14 @@ public class CalcHospitalInfo implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property BeraterId">
     @Column(name = "BetreuerMail")
-    private String _betreuerMail;
+    private String _advisorMail;
 
-    public String getBetreuerMail() {
-        return _betreuerMail;
+    public String getAdvisorMail() {
+        return _advisorMail;
     }
 
-    public void setBetreuerMail(String betreuerMail) {
-        _betreuerMail = betreuerMail;
+    public void setAdvisorMail(String advisorMail) {
+        _advisorMail = advisorMail;
     }
     // </editor-fold>
 
@@ -208,7 +208,7 @@ public class CalcHospitalInfo implements Serializable {
         hash = 43 * hash + this._id;
         hash = 43 * hash + Objects.hashCode(this._type);
         hash = 43 * hash + this._accountId;
-        hash = 43 * hash + Objects.hashCode(this._betreuerMail);
+        hash = 43 * hash + Objects.hashCode(this._advisorMail);
         hash = 43 * hash + this._dataYear;
         hash = 43 * hash + this._ik;
         hash = 43 * hash + this._statusId;
@@ -246,7 +246,7 @@ public class CalcHospitalInfo implements Serializable {
         if (this._statusId != other._statusId) {
             return false;
         }
-        if (!Objects.equals(this._betreuerMail, other._betreuerMail)) {
+        if (!Objects.equals(this._advisorMail, other._advisorMail)) {
             return false;
         }
         if (!Objects.equals(this._name, other._name)) {

@@ -150,9 +150,9 @@ public final class SummaryData {
 
     }
 
-    public List<String> getBetreuerList() {
+    public List<String> getAdvisorList() {
         List<String> agents = getAllKg().stream()
-                .map(c -> c.getBetreuerMail())
+                .map(c -> c.getAdvisorMail())
                 .distinct()
                 .collect(Collectors.toList());
 

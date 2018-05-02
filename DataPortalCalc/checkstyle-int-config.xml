@@ -1,0 +1,173 @@
+<?xml version="1.0"?>
+<!DOCTYPE module PUBLIC
+    "-//Puppy Crawl//DTD Check Configuration 1.2//EN"
+    "http://www.puppycrawl.com/dtds/configuration_1_2.dtd">
+
+
+<module name="Checker">
+
+    <!-- Checks that a package.html file exists for each package.     -->
+    <!-- See http://checkstyle.sf.net/config_javadoc.html#PackageHtml -->
+    <!--module name="PackageHtml"/-->
+        
+    <!-- Checks whether files end with a new line.                        -->
+    <!-- See http://checkstyle.sf.net/config_misc.html#NewlineAtEndOfFile -->
+    <module name="NewlineAtEndOfFile">
+        <property name="lineSeparator" value="lf"/>
+    </module>
+
+
+    <!-- Checks that property files contain the same keys.         -->
+    <!-- See http://checkstyle.sf.net/config_misc.html#Translation -->
+    <module name="Translation"/>
+    
+    <module name="FileTabCharacter"/> <!-- moved up to checkers -->
+
+    <!-- Filter out Checkstyle warnings that have been suppressed with the @SuppressWarnings annotation -->
+    <module name="SuppressWarningsFilter"/>
+
+    <module name="TreeWalker">
+        <module name="JavaNCSS">
+            <property name="fileMaximum" value="650"/>
+            <property name="classMaximum" value="500"/>
+            <property name="methodMaximum" value="50"/>
+        </module>
+        
+        <module name="JavadocStyle">
+            <property name="checkFirstSentence" value="false"/>
+        </module>
+
+        <module name="PackageDeclaration"/>
+
+        <module name="MemberName">
+            <property name="format" value="^[_a-z]([_][0-9]|[0-9][_]|[a-zA-Z0-9])*$"/>
+        </module>
+        
+        <module name="ConstantName">
+            <property name="format" value="^[_A-Z][_A-Z0-9]*$"/>
+        </module>    
+
+        <module name="Indentation">
+            <property name="basicOffset" value="4"/>
+            <property name="braceAdjustment" value="0"/>
+            <property name="throwsIndent" value="4"/>
+            <property name="lineWrappingIndentation" value="8"/>
+        </module>
+        
+        <module name="DefaultComesLast"/>
+        <module name="EmptyStatement"/>
+        <module name="EqualsAvoidNull"/>
+        <module name="EqualsHashCode"/>
+        <module name="FallThrough"/>
+        <module name="MissingSwitchDefault"/>
+        <module name="HiddenField">
+            <property name="ignoreConstructorParameter" value="true"/>
+            <property name="ignoreSetter" value="true"/>
+            <property name="setterCanReturnItsClass" value="true"/>
+        </module>
+        <module name="ModifiedControlVariable"/>
+
+		<module name="MultipleStringLiterals">
+			<property name="allowedDuplicates" value="2"/>
+			<property name="ignoreStringsRegexp" value='(^(("")|(", ")|("\\\\r\\\\n")|("\\r\\n")|("\\n")|("UTF-8")|(".?")|("\s?.?\s?"))$)|(.*select .*)|(.*from .*)|(.*union .*)|(.*join .*)|(.*insert .*)|(.*update .*)|(.*and .*)|(.*or .*)|(.*where .*)|(.*\.png)'/>
+			<property name="severity" value="warning"/>
+		</module>
+
+        <module name="AbbreviationAsWordInName">
+            <property name="allowedAbbreviationLength" value="4"/> <!-- todo: reduce this value -->
+        </module>
+            
+        <!--        <module name="RequireThis">
+            <property name="checkMethods" value="false"/>
+            <property name="validateOnlyOverlapping" value="true"/>
+        </module>-->
+
+        <module name="MagicNumber">
+            <property name="ignoreNumbers" value="-1, 0, 1, 2, 3, 4, 5"/>
+            <property name="ignoreAnnotation" value="true"/>
+            <property name="ignoreHashCodeMethod" value="true"/>
+            <property name="constantWaiverParentToken" value="ASSIGN, ARRAY_INIT, EXPR, UNARY_PLUS, UNARY_MINUS, TYPECAST, ELIST, LITERAL_NEW, METHOD_CALL, STAR, DIV, PLUS, MINUS"/>
+			<property name="severity" value="warning"/>
+        </module>
+
+        <!-- Checks for Javadoc comments.                     -->
+        <!-- See http://checkstyle.sf.net/config_javadoc.html -->
+        <!-- <module name="JavadocMethod">
+            <property name="scope" value="public"/>
+        </module>  -->
+		
+        <!-- temp. disable check for java doc
+        <module name="JavadocType">
+            <property name="scope" value="public"/>
+        </module>
+        -->
+        <!--
+        <module name="JavadocVariable">
+            <property name="scope" value="public"/>
+        </module> -->
+
+
+        <!-- Checks for Size Violations.                    -->
+        <!-- See http://checkstyle.sf.net/config_sizes.html -->
+        <module name="LineLength">
+            <property name="max" value="150"/>
+        </module>
+
+        <!-- better done by JavaNCSS 
+        <module name="MethodLength"/>
+        -->
+        <module name="MethodCount">
+            <property name="severity" value="info"/>
+        </module>
+        
+        <module name="ParameterNumber">
+            <property name="max" value="7"/>
+            <property name="ignoreOverriddenMethods" value="true"/>
+            <property name="tokens" value="METHOD_DEF"/>
+        </module>
+
+
+        <!-- Modifier Checks                                    -->
+        <!-- See http://checkstyle.sf.net/config_modifiers.html -->
+        <module name="ModifierOrder"/>
+        <module name="RedundantModifier"/>
+        <module name="MissingOverride"/>
+
+        <!-- Checks for class design                         -->
+        <!-- See http://checkstyle.sf.net/config_design.html -->
+        <!-- <module name="DesignForExtension"/> -->
+        <module name="FinalClass"/>
+        <!--<module name="HideUtilityClassConstructor"/>-->
+        <module name="InterfaceIsType"/>
+        <module name="VisibilityModifier"/>
+
+
+        <!-- Miscellaneous other checks.                   -->
+        <!-- See http://checkstyle.sf.net/config_misc.html -->
+        <module name="ArrayTypeStyle"/>
+        <!-- <module name="FinalParameters"/> -->
+        <!-- <module name="GenericIllegalRegexp">
+            <property name="format" value="\s+$"/>
+            <property name="message" value="Line has trailing spaces."/>
+        </module> seem's it not there -->
+        <!--module name="TodoComment">
+            <property name="severity" value="info"/>
+        </module-->
+
+        <module name="UpperEll"/>
+
+        <!-- Checks for class metrics                         -->
+        <!-- See http://checkstyle.sourceforge.net/config_metrics.html -->
+        <module name="CyclomaticComplexity">
+            <property name="max" value="12"/> <!-- Reduce to 10? Might be hard. -->
+            <property name="switchBlockAsSingleDecisionPoint" value="true"/>
+            <property name="severity" value="error"/>
+        </module>
+
+        <!-- Make the @SuppressWarnings annotation available to Checkstyle -->
+        <module name="SuppressWarningsHolder"/>
+        <module name="FileContentsHolder"/>
+
+    </module>
+
+</module>
