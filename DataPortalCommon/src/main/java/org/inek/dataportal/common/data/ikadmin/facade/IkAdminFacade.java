@@ -63,6 +63,15 @@ public class IkAdminFacade extends AbstractDataAccess {
         return query.getResultList();
     }
 
+    public List<AccessRight> findAccessRightsByAccountIkAndFeature(Account account, int ik, Feature feature) {
+        String jpql = "select ar from AccessRight ar where ar._accountId = :accountId and ar._ik = :ik and ar._feature = :feature";
+        TypedQuery<AccessRight> query = getEntityManager().createQuery(jpql, AccessRight.class);
+        query.setParameter("accountId", account.getId());
+        query.setParameter("ik", ik);
+        query.setParameter("feature", feature);
+        return query.getResultList();
+    }
+
     /**
      * Checks for a list of iks, which of them are managed by an ik admin
      * @param iks

@@ -173,8 +173,12 @@ public class AccountFacade extends AbstractDataAccess {
                     handleClassicalWay = fullIkSet.isEmpty();
                     for (int ik : fullIkSet) {
                         if (_ikAdminFacade.hasIkAdmin(ik)) {
-                            AccessRight accessRight = new AccessRight(account.getId(), ik, feature, Right.Deny);
-                            _ikAdminFacade.saveAccessRight(accessRight);
+                            List<AccessRight> formerRights = _ikAdminFacade.
+                                    findAccessRightsByAccountIkAndFeature(account, ik, feature);
+                            if (formerRights.isEmpty()) {
+                                AccessRight accessRight = new AccessRight(account.getId(), ik, feature, Right.Deny);
+                                _ikAdminFacade.saveAccessRight(accessRight);
+                            }
                             accFeature.
                                     setFeatureState(feature.needsApproval() ? FeatureState.APPROVED : FeatureState.SIMPLE);
                         } else {
