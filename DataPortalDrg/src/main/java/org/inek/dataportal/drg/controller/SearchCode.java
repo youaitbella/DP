@@ -33,13 +33,14 @@ public class SearchCode implements Serializable {
     @Inject private SessionHelper _sessionHelper;
     private String _searchText;
     private String _hint = "";
-    private int _proposalSection = GlobalVars.ProposalSectionPepp.getVal(); 
+    private int _proposalSection = GlobalVars.ProposalSectionPepp.getVal();
 
     public void checkSearchToken(FacesContext context, UIComponent component, Object value) {
         _hint = "";
         String[] tokens = value.toString().split("(\\s|,)");
         for (String t : tokens) {
-            if (t.replace("sch", "_").replace("ch", "_").replace("ck", "_").replace("st", "_").replace("qu", "_").length() < 3) {
+            if (t.replace("sch", "_").replace("ch", "_").replace("ck", "_").replace("st", "_").replace("qu", "_").
+                    length() < 3) {
                 FacesMessage msg = new FacesMessage(getBundle().getString("msgSearchMinLen"));
                 throw new ValidatorException(msg);
             }
@@ -80,12 +81,11 @@ public class SearchCode implements Serializable {
         this._searchText = searchText;
         _hint = "";
     }
-    
-    public void setProposalSection (int proposalSection)
-    {
+
+    public void setProposalSection(int proposalSection) {
         this._proposalSection = proposalSection;
     }
-    
+
     public int getProposalSection() {
         return _proposalSection;
     }
@@ -114,11 +114,11 @@ public class SearchCode implements Serializable {
     public boolean isSearchPepp() {
         return false;  // todo: remove
     }
-    
+
     public boolean isSearchPeppPossible() {
         return false;
     }
-    
+
     public boolean isSearchDrgPossible() {
         //return false;
         return getSearchController().getCodeSystem() == CodeType.Drg;
@@ -127,7 +127,7 @@ public class SearchCode implements Serializable {
     public boolean isSearchDrg() {
         return getSearchController().isEnableDrg();
     }
-    
+
     private int getProposalSectionYear() {
         int resultYear = 2015;
         switch (_proposalSection) {

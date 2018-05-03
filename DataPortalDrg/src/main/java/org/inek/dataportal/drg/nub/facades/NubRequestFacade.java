@@ -212,7 +212,7 @@ public class NubRequestFacade extends AbstractDataAccess {
         }
         return proposalInfos;
     }
-    
+
     public List<Integer> getNubYears(Set<Integer> accountIds, Set<Integer> managedIks) {
         String jpql = "SELECT DISTINCT p._targetYear FROM NubRequest p "
                 + "WHERE p._status >= 10 and ("
@@ -412,8 +412,8 @@ public class NubRequestFacade extends AbstractDataAccess {
                         m.setName(nr.getName());
                         return m;
                     }).forEachOrdered((m) -> {
-                list.add(m);
-            });
+                        list.add(m);
+                    });
         }
 
         if (!maxYearOnly) {
@@ -431,8 +431,8 @@ public class NubRequestFacade extends AbstractDataAccess {
                             m.setName(nfr.getName());
                             return m;
                         }).forEachOrdered((m) -> {
-                    list.add(m);
-                });
+                            list.add(m);
+                        });
             }
         }
         return list;

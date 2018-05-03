@@ -224,8 +224,8 @@ public class DocumentLoader {
         doc.setIk(importInfo.getIk());
         doc.setJsonMail(jsonMail.toString());
         _waitingDocFacade.save(doc);
-        LOGGER.log(Level.INFO, "Document created for approval: {0} for account {1}", new Object[]{name, importInfo.
-            getApprovalAccount().getId()});
+        LOGGER.log(Level.INFO, "Document created for approval: {0} for account {1}", 
+                new Object[]{name, importInfo.getApprovalAccount().getId()});
     }
 
 }

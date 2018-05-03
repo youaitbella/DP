@@ -55,6 +55,7 @@ import org.inek.dataportal.common.controller.ReportController;
  *
  * @author muellermi
  */
+@SuppressWarnings("JavaNCSS")
 @Named
 @FeatureScoped
 public class EditPsyStaff extends AbstractEditController implements Serializable {

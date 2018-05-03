@@ -64,5 +64,4 @@ public class YearTreeNodeObserver implements TreeNodeObserver{
         }
         return children;
     }
-    
 }

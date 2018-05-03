@@ -37,6 +37,14 @@ public class CalcFacade extends AbstractDataAccess {
             return new ArrayList<>();
         }
         String statusCond = " between " + statusLow.getId() + " and " + statusHigh.getId();
+        String sql = getListCalcInfoStatement(statusCond, year, accountId, ik);
+        Query query = getEntityManager().createNativeQuery(sql, CalcHospitalInfo.class);
+        @SuppressWarnings("unchecked")
+        List<CalcHospitalInfo> infos = query.getResultList();
+        return infos;
+    }
+
+    private String getListCalcInfoStatement(String statusCond, int year, int accountId, int ik) {
         String sql = "select sopId as Id, 'SOP' as [Type], sopAccountId as AccountId, sopDataYear as DataYear, "
                 + "  sopIk as IK, sopStatusId as StatusId,\n"
                 + " '" + Utils.getMessage("lblStatementOfParticipance") + "' as Name, sopLastChanged as LastChanged\n"
@@ -75,10 +83,7 @@ public class CalcFacade extends AbstractDataAccess {
                 + (accountId > 0 ? " and dmmAccountId = " + accountId + "\n" : "")
                 + (ik > 0 ? " and dmmIk = " + ik + "\n" : "")
                 + "order by 2, 4, 5, 8 desc";
-        Query query = getEntityManager().createNativeQuery(sql, CalcHospitalInfo.class);
-        @SuppressWarnings("unchecked")
-        List<CalcHospitalInfo> infos = query.getResultList();
-        return infos;
+        return sql;
     }
 
     @SuppressWarnings("unchecked")
@@ -241,7 +246,8 @@ public class CalcFacade extends AbstractDataAccess {
 
     public List<CalcHospitalInfo> getAllCalcBasics(int dataYear) {
         String sql = "select distinct biId as Id, biType as [Type], biAccountId as AccountId, biDataYear as DataYear, biIk as IK, "
-                + "biStatusId as StatusId, Name, biLastChanged as LastChanged, cuName as customerName, agLastName + ', ' + agFirstName as BetreuerMail, cuCity as customerTown \n"
+                + "biStatusId as StatusId, Name, biLastChanged as LastChanged, cuName as customerName, "
+                + "agLastName + ', ' + agFirstName as BetreuerMail, cuCity as customerTown \n"
                 + "from ("
                 + "select biId, biIk, 'CBD' as biType, biDataYear, biAccountID, biStatusId, biLastChanged,"
                 + " 'KGL' as Name \n"
@@ -289,7 +295,8 @@ public class CalcFacade extends AbstractDataAccess {
 
     public List<CalcHospitalInfo> getSopByEmail(String email, int year) {
         String sql = "select distinct sopId as Id, 'SOP' as [Type], sopAccountId as AccountId, sopDataYear as DataYear, sopIk as IK, "
-                + "sopStatusId as StatusId, cuName, sopLastChanged as LastChanged, cuName as customerName, agLastName + ', ' + agFirstName as BetreuerMail, cuCity as customerTown\n"
+                + "sopStatusId as StatusId, cuName, sopLastChanged as LastChanged, cuName as customerName, "
+                + "agLastName + ', ' + agFirstName as BetreuerMail, cuCity as customerTown\n"
                 + "from calc.StatementOfParticipance \n"
                 + "join CallCenterDB.dbo.ccCustomer on sopIk = cuIK\n"
                 + "join CallCenterDB.dbo.CustomerCalcInfo on cuId = cciCustomerId"
@@ -312,7 +319,9 @@ public class CalcFacade extends AbstractDataAccess {
         String sql = "select distinct dmmId as Id, 'CDM' as [Type], dmmAccountId as AccountId, dmmDataYear as DataYear, dmmIk as IK, "
                 + "dmmStatusId as StatusId,\n"
                 + " '" + Utils.getMessage("lblClinicalDistributionModel") + " '\n"
-                + "    + case dmmType when 0 then 'DRG' when 1 then 'PEPP' else '???' end as Name, dmmLastChanged as LastChanged, cuName as customerName, agLastName + ', ' + agFirstName as BetreuerMail, cuCity as customerTown\n"
+                + "    + case dmmType when 0 then 'DRG' when 1 then 'PEPP' else '???' end as Name, "
+                + "dmmLastChanged as LastChanged, cuName as customerName, "
+                + "agLastName + ', ' + agFirstName as BetreuerMail, cuCity as customerTown\n"
                 + "from calc.DistributionModelMaster\n"
                 + "join CallCenterDB.dbo.ccCustomer on dmmIk = cuIK\n"
                 + "join CallCenterDB.dbo.CustomerCalcInfo on cuId = cciCustomerId "
@@ -335,7 +344,9 @@ public class CalcFacade extends AbstractDataAccess {
         String sql = "select distinct dmmId as Id, 'CDM' as [Type], dmmAccountId as AccountId, dmmDataYear as DataYear, dmmIk as IK, "
                 + "dmmStatusId as StatusId,\n"
                 + " '" + Utils.getMessage("lblClinicalDistributionModel") + " '\n"
-                + "    + case dmmType when 0 then 'DRG' when 1 then 'PEPP' else '???' end as Name, dmmLastChanged as LastChanged, cuName as customerName, agLastName + ', ' + agFirstName as BetreuerMail, cuCity as customerTown\n"
+                + "    + case dmmType when 0 then 'DRG' when 1 then 'PEPP' else '???' end as Name, "
+                + "dmmLastChanged as LastChanged, cuName as customerName, "
+                + "agLastName + ', ' + agFirstName as BetreuerMail, cuCity as customerTown\n"
                 + "from calc.DistributionModelMaster\n"
                 + "join CallCenterDB.dbo.ccCustomer on dmmIk = cuIK\n"
                 + "join CallCenterDB.dbo.CustomerCalcInfo on cuId = cciCustomerId "

@@ -50,7 +50,9 @@ public class CalcBasicsTransferFileCreator {
         File zipFile = new File(workingDir, UUID.randomUUID() + ".zip");
         Date ts = Calendar.getInstance().getTime();
         String emailInfo = "EMailInfo" + new SimpleDateFormat("ddMMyyyyHHmmss").format(ts) + ".txt";
-        try (final FileOutputStream fileOut = new FileOutputStream(zipFile);final CheckedOutputStream checkedOut = new CheckedOutputStream(fileOut, new Adler32());final ZipOutputStream compressedOut = new ZipOutputStream(new BufferedOutputStream(checkedOut))) {
+        try (final FileOutputStream fileOut = new FileOutputStream(zipFile);
+                final CheckedOutputStream checkedOut = new CheckedOutputStream(fileOut, new Adler32());
+                final ZipOutputStream compressedOut = new ZipOutputStream(new BufferedOutputStream(checkedOut))) {
             compressedOut.putNextEntry(new ZipEntry(emailInfo));
             String content = obtainInfoText(sessionController, type, ik);
             ByteArrayInputStream is = new ByteArrayInputStream(content.getBytes("UTF-8"));

@@ -29,7 +29,8 @@ public class CalcHospitalInfo implements Serializable {
     public CalcHospitalInfo() {
     }
 
-    public CalcHospitalInfo(int id, CalcInfoType type, int accountId, int dataYear, int ik, int statusId, String name, Date lastChanged, String customerName, String advisorMail, String customerTown) {
+    public CalcHospitalInfo(int id, CalcInfoType type, int accountId, int dataYear, int ik, 
+            int statusId, String name, Date lastChanged, String customerName, String advisorMail, String customerTown) {
         this._id = id;
         this._type = type;
         this._accountId = accountId;
@@ -41,9 +42,6 @@ public class CalcHospitalInfo implements Serializable {
         this._customerName = customerName;
         this._advisorMail = advisorMail;
         this._customerTown = customerTown;
-
-        //biId as Id, biType as [Type], biAccountId as AccountId, biDataYear as DataYear, biIk as IK, "
-        //           + "biStatusId as StatusId, Name, biLastChanged as LastChanged, cuName as customerName, agLastName + ', ' + agFirstName as BetreuerMail, cuCity as customerTown
     }
 
     // <editor-fold defaultstate="collapsed" desc="Property Id">
@@ -219,6 +217,7 @@ public class CalcHospitalInfo implements Serializable {
         return hash;
     }
 
+    @SuppressWarnings("CyclomaticComplexity")
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

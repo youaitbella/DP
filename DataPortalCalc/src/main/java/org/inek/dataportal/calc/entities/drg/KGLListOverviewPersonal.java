@@ -142,7 +142,7 @@ public class KGLListOverviewPersonal implements Serializable, BaseIdValue {
     }
     // </editor-fold>
     
-        @JsonIgnore
+    @JsonIgnore
     public boolean isEmpty(){
         return false;
     }

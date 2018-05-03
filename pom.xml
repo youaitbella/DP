@@ -86,11 +86,16 @@
                 <version>3.0.0</version>
                 <executions>
                     <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
                         <configuration>
                             <suppressionsLocation>checkstyle-suppressions.xml</suppressionsLocation>
                             <suppressionsFileExpression>checkstyle.suppressions.file</suppressionsFileExpression>
                             <configLocation>checkstyle-int-config.xml</configLocation>
-
+                            <sourceDirectories>
+                                <sourceDirectory>src/main/java</sourceDirectory>
+                            </sourceDirectories>                            
                             <consoleOutput>true</consoleOutput>
                             <failsOnError>true</failsOnError>
                             <failOnViolation>true</failOnViolation>
@@ -212,15 +217,15 @@
             </dependency>
             
             <dependency>
-              <groupId>org.junit.platform</groupId>
-              <artifactId>junit-platform-surefire-provider</artifactId>
-              <version>1.0.2</version>
+                <groupId>org.junit.platform</groupId>
+                <artifactId>junit-platform-surefire-provider</artifactId>
+                <version>1.0.2</version>
             </dependency>
           
             <dependency>
-              <groupId>org.junit.jupiter</groupId>
-              <artifactId>junit-jupiter-engine</artifactId>
-              <version>5.0.2</version>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-engine</artifactId>
+                <version>5.0.2</version>
             </dependency>
 
             <dependency>

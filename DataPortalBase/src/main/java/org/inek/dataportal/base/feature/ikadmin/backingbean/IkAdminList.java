@@ -12,7 +12,7 @@ import org.inek.dataportal.common.data.account.facade.AccountFacade;
 @ViewScoped
 public class IkAdminList implements Serializable{
 
-    @Inject AccountFacade _accountFacade;
+    @Inject private AccountFacade _accountFacade;
     private boolean _showDisclaimer;
 
     public boolean isShowDisclaimer() {
