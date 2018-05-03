@@ -193,7 +193,8 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
         String sqlFilter = StringUtil.getSqlFilter(filter);
         String sql = "select RequestMaster.* from spf.RequestMaster "
                 + (sqlFilter.length() > 0 ? " join CallCenterDB.dbo.ccCustomer on rmik=cuIK " : "")
-                + "where rmStatusId in (3, 10) and rmDataYear = " + year;
+                + "where rmStatusId in (3, 10)"
+                + (year > 2000 ? " and rmDataYear = " + year : "") ;
         if (sqlFilter.length() > 0) {
             sql = sql + "\n"
                     + "    and (cast (rmIk as varchar) = " + sqlFilter

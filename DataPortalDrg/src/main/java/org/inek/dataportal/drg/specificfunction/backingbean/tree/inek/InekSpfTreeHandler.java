@@ -68,7 +68,7 @@ public class InekSpfTreeHandler implements Serializable, TreeNodeObserver {
         refreshNodes();
     }
 
-    private int _year = Utils.getTargetYear(Feature.SPECIFIC_FUNCTION);
+    private int _year = 0;
 
     public int getYear() {
         return _year;
