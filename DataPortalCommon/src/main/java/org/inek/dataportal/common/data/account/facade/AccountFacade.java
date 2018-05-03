@@ -158,50 +158,48 @@ public class AccountFacade extends AbstractDataAccess {
     private IkAdminFacade _ikAdminFacade;
 
     public Account updateAccount(Account account) {
-        if (account.getId() <= 0) {
-            getLogger().log(Level.SEVERE, "attempt to update a non-existing account");
-            return null;  // let the client crash
-        }
-
         for (AccountFeature accFeature : account.getFeatures()) {
             if (accFeature.getFeatureState() == FeatureState.NEW) {
+                if (accFeature.getFeature().getIkReference() == IkReference.Hospital 
+                        && updateIfManaged(account, accFeature)) {
+                    continue;
+                }
                 Feature feature = accFeature.getFeature();
-                boolean handleClassicalWay = false;
-                if (accFeature.getFeature().getIkReference() == IkReference.Hospital) {
-                    // this feature might be affected by an ik admin
-                    Set<Integer> fullIkSet = account.getFullIkSet();
-                    handleClassicalWay = fullIkSet.isEmpty();
-                    for (int ik : fullIkSet) {
-                        if (_ikAdminFacade.hasIkAdmin(ik)) {
-                            List<AccessRight> formerRights = _ikAdminFacade.
-                                    findAccessRightsByAccountIkAndFeature(account, ik, feature);
-                            if (formerRights.isEmpty()) {
-                                AccessRight accessRight = new AccessRight(account.getId(), ik, feature, Right.Deny);
-                                _ikAdminFacade.saveAccessRight(accessRight);
-                            }
-                            accFeature.
-                                    setFeatureState(feature.needsApproval() ? FeatureState.APPROVED : FeatureState.SIMPLE);
-                        } else {
-                            handleClassicalWay = true;
-                        }
+                if (feature.needsApproval()) {
+                    if (_requestHandler.handleFeatureRequest(account, feature)) {
+                        accFeature.setFeatureState(FeatureState.REQUESTED);
                     }
                 } else {
-                    handleClassicalWay = true;
-                }
-                if (handleClassicalWay) {
-                    if (feature.needsApproval()) {
-                        if (_requestHandler.handleFeatureRequest(account, feature)) {
-                            accFeature.setFeatureState(FeatureState.REQUESTED);
-                        }
-                    } else {
-                        accFeature.setFeatureState(FeatureState.SIMPLE);
-                    }
+                    accFeature.setFeatureState(FeatureState.SIMPLE);
                 }
             }
         }
         Account managedAccount = merge(account);
         setIKNames(managedAccount);
         return managedAccount;
+    }
+
+    private boolean updateIfManaged(Account account, AccountFeature accFeature) {
+        Feature feature = accFeature.getFeature();
+        boolean handleClassicalWay;
+        // this feature might be affected by an ik admin
+        Set<Integer> fullIkSet = account.getFullIkSet();
+        handleClassicalWay = fullIkSet.isEmpty();
+        for (int ik : fullIkSet) {
+            if (_ikAdminFacade.hasIkAdmin(ik)) {
+                List<AccessRight> formerRights = _ikAdminFacade.
+                        findAccessRightsByAccountIkAndFeature(account, ik, feature);
+                if (formerRights.isEmpty()) {
+                    AccessRight accessRight = new AccessRight(account.getId(), ik, feature, Right.Deny);
+                    _ikAdminFacade.saveAccessRight(accessRight);
+                }
+                accFeature.
+                        setFeatureState(feature.needsApproval() ? FeatureState.APPROVED : FeatureState.SIMPLE);
+            } else {
+                handleClassicalWay = true;
+            }
+        }
+        return !handleClassicalWay;
     }
 
     public void deleteAccount(Account account) {
