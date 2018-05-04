@@ -20,7 +20,6 @@ import org.inek.dataportal.common.utils.DateUtils;
 public class WaitingDocumentFacade extends AbstractFacade<WaitingDocument> {
 
     @Inject private ApplicationTools _applicationTools;
-    
 
     public WaitingDocumentFacade() {
         super(WaitingDocument.class);
@@ -41,25 +40,20 @@ public class WaitingDocumentFacade extends AbstractFacade<WaitingDocument> {
             } else {
                 Account account = info.getAccounts().get(0);
                 accountId = account.getId();
-                int ikDoc = info.getIk();
-                int ikAccount = account.getIK() == null ? -1 : account.getIK();
-                if (ikDoc < 0 || ikDoc == ikAccount) {
-                    receipientInfo = ikAccount + " " + account.getCompany() + " " + account.getTown();
-                } else {
-                    receipientInfo = ikDoc + " " + _applicationTools.retrieveHospitalInfo(ikDoc);
-                }
+                int ik = info.getIk();
+                receipientInfo = ik + " " + _applicationTools.retrieveHospitalInfo(ik);
             }
             DocInfo docInfo = new DocInfo(
-                    (int) info.getId(), 
-                    info.getName(), 
-                    info.getDomain().getName(), 
-                    info.getTimestamp(), 
-                    null, 
-                    false, 
-                    accountId, 
-                    info.getAgentAccountId(), 
+                    (int) info.getId(),
+                    info.getName(),
+                    info.getDomain().getName(),
+                    info.getTimestamp(),
+                    null,
+                    false,
+                    accountId,
+                    info.getAgentAccountId(),
                     0,
-                    "", 
+                    "",
                     receipientInfo,
                     false
             );
@@ -81,7 +75,7 @@ public class WaitingDocumentFacade extends AbstractFacade<WaitingDocument> {
         deleteOldDocuments();
         LOGGER.log(Level.INFO, "Finished deleting old documents");
     }
-    
+
     @Asynchronous
     private void deleteOldDocuments() {
         String sql = "SELECT p FROM WaitingDocument p WHERE p._timestamp < :referenceDate";
@@ -89,7 +83,8 @@ public class WaitingDocumentFacade extends AbstractFacade<WaitingDocument> {
         query.setParameter("referenceDate", DateUtils.getDateWithDayOffset(-60));
         List<WaitingDocument> docs = query.getResultList();
         for (WaitingDocument doc : docs) {
-            LOGGER.log(Level.INFO, "Delete old waiting document {0} of agent {1}", new Object[]{doc.getName(), doc.getAgentAccountId()});
+            LOGGER.log(Level.INFO, "Delete old waiting document {0} of agent {1}", new Object[]{doc.getName(), 
+                doc.getAgentAccountId()});
             remove(doc);
         }
     }
