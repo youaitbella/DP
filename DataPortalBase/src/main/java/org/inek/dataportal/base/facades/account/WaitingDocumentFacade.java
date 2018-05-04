@@ -8,18 +8,19 @@ import javax.ejb.Schedule;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.TypedQuery;
-import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.data.account.entities.WaitingDocument;
 import org.inek.dataportal.common.data.account.entities.WaitingDocumentInfo;
 import org.inek.dataportal.common.data.AbstractFacade;
 import org.inek.dataportal.common.helper.structures.DocInfo;
+import org.inek.dataportal.common.overall.ApplicationTools;
 import org.inek.dataportal.common.utils.DateUtils;
 
 @Stateless
 public class WaitingDocumentFacade extends AbstractFacade<WaitingDocument> {
 
-    @Inject private SessionController _sessionController;
+    @Inject private ApplicationTools _applicationTools;
+    
 
     public WaitingDocumentFacade() {
         super(WaitingDocument.class);
@@ -45,7 +46,7 @@ public class WaitingDocumentFacade extends AbstractFacade<WaitingDocument> {
                 if (ikDoc < 0 || ikDoc == ikAccount) {
                     receipientInfo = ikAccount + " " + account.getCompany() + " " + account.getTown();
                 } else {
-                    receipientInfo = ikDoc + " " + _sessionController.getIkName(ikDoc);
+                    receipientInfo = ikDoc + " " + _applicationTools.retrieveHospitalInfo(ikDoc);
                 }
             }
             DocInfo docInfo = new DocInfo(

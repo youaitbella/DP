@@ -15,7 +15,7 @@
                 <h:inputText id="ik" value="#{adminChangeNub.ik}" styleClass="inputmedium" required="true" validator="#{sessionTools.checkIk}">
                     <f:ajax render="@this ikName msgIk accountInfos :logout:remaining" />
                 </h:inputText>
-                <h:outputLabel id="ikName" value="#{sessionController.getIkName(adminChangeNub.ik)}" styleClass="marginLeft"/>
+                <h:outputLabel id="ikName" value="#{applicationTools.retrieveHospitalInfo(adminChangeNub.ik)}" styleClass="marginLeft"/>
                 <h:message id="msgIk" for="ik" styleClass="errorMessage"/>
             </div>                    
 

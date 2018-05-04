@@ -65,7 +65,7 @@
                     <f:ajax event="blur" 
                             render="@this :logout:remaining msgHospitalIk hospitalName messageForm"/>
                 </h:inputText>
-                <h:outputText id="hospitalName" styleClass="marginLeft" value="#{sessionController.getIkName(editInsuranceNubNotice.notice.hospitalIk)}"/>
+                <h:outputText id="hospitalName" styleClass="marginLeft" value="#{applicationTools.retrieveHospitalInfo(editInsuranceNubNotice.notice.hospitalIk)}"/>
             </div>
 
         </h:form>

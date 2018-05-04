@@ -102,7 +102,7 @@
                         <f:ajax render="@form :logout:remaining"/>
                     </h:inputText>
                     <h:message for="txtIk"/>
-                    <h:outputLabel  value="#{sessionController.getIkName(documentUpload.ik)}"/>
+                    <h:outputLabel  value="#{applicationTools.retrieveHospitalInfo(documentUpload.ik)}"/>
 
                 </div>
                 <div>

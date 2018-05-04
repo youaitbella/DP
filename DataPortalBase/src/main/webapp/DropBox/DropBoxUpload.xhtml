@@ -78,7 +78,7 @@
                 <p>
                     <h:outputLabel styleClass="label" for="hospitalName" value="#{msg.lblHospital}:"/>
                     <br/>
-                    <h:outputText id="hospitalName" value="#{sessionController.getIkName(editDropBox.dropBox.IK)}"/>
+                    <h:outputText id="hospitalName" value="#{applicationTools.retrieveHospitalInfo(editDropBox.dropBox.IK)}"/>
                 </p>
                 <p>
                     <h:panelGroup rendered="#{editDropBox.uploadedFiles.size() > 0}">

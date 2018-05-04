@@ -575,15 +575,6 @@ public class SessionController implements Serializable {
         return _featureHolder.hasNoFeatureSubscribed();
     }
 
-    public String getIkName(Integer ik) {
-        if (ik == null || ik == 0) {
-            return "";
-        }
-        Customer customer = _customerFacade.getCustomerByIK(ik);
-        String name = customer.getName() == null ? Utils.getMessage("msgUnknownIK") : customer.getName();
-        return name;
-    }
-
     public boolean isMyAccount(int accountId) {
         return isMyAccount(accountId, true);
     }
