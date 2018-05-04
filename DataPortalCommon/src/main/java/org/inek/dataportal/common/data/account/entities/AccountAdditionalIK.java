@@ -82,19 +82,6 @@ public class AccountAdditionalIK implements Serializable {
         _mainIk = mainIk;
     }
     //</editor-fold>
-
-    @Transient
-    private String _name;
-
-    // <editor-fold defaultstate="collapsed" desc="getter / setter">
-    public String getName() {
-        return _name;
-    }
-
-    public void setName(String name) {
-        this._name = name;
-    }
-    // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override

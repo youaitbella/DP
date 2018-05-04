@@ -143,15 +143,7 @@ public class AccountFacade extends AbstractDataAccess {
         if (!_accountPwdFacade.isCorrectPassword(account.getId(), password)) {
             return null;
         }
-        setIKNames(account);
         return account;
-    }
-
-    private void setIKNames(Account account) {
-        for (AccountAdditionalIK ikInfo : account.getAdditionalIKs()) {
-            Customer customer = _customerFacade.getCustomerByIK(ikInfo.getIK());
-            ikInfo.setName(customer == null ? "" : customer.getName());
-        }
     }
 
     @Inject
@@ -175,7 +167,6 @@ public class AccountFacade extends AbstractDataAccess {
             }
         }
         Account managedAccount = merge(account);
-        setIKNames(managedAccount);
         return managedAccount;
     }
 
