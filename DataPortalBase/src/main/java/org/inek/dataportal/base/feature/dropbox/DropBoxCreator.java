@@ -12,10 +12,10 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.common.data.account.entities.AccountAdditionalIK;
 import org.inek.dataportal.base.feature.dropbox.entities.DropBox;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.common.overall.ApplicationTools;
 
 /**
  *
@@ -27,6 +27,7 @@ public class DropBoxCreator implements Serializable{
 
     @Inject private org.inek.dataportal.base.feature.dropbox.facade.DropBoxFacade _dropBoxFacade;
     @Inject private SessionController _sessionController;
+    @Inject private ApplicationTools _appTools;
     @Inject private DropBoxTools _dropboxTools;
     private int _dropboxTypeId = 1;
     private int _ik;
@@ -61,12 +62,8 @@ public class DropBoxCreator implements Serializable{
 
     public List<SelectItem> getIkItems() {
         List<SelectItem> ikItems = new ArrayList<>();
-        Integer ik = _sessionController.getAccount().getIK();
-        if (ik != null) {
-            ikItems.add(new SelectItem(ik, ik + " " + _sessionController.getAccount().getCompany()));
-        }
-        for (AccountAdditionalIK addIk : _sessionController.getAccount().getAdditionalIKs()) {
-            ikItems.add(new SelectItem(addIk.getIK(), addIk.getIK() + " " + addIk.getName()));
+        for (int ik : _sessionController.getAccount().getFullIkSet()) {
+            ikItems.add(new SelectItem(ik, ik + " " + _appTools.retrieveHospitalInfo(ik)));
         }
         if (ikItems.size() > 1) {
             ikItems.add(0, new SelectItem(null, Utils.getMessage("lblChooseEntry")));
