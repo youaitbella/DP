@@ -20,10 +20,6 @@ public class AccountAdditionalIK implements Serializable {
     public AccountAdditionalIK() {
     }
 
-    public AccountAdditionalIK(final Integer ik) {
-        _ik = ik;
-    }
-
     public AccountAdditionalIK(int accountId, int ik) {
         _accountId = accountId;
         _ik = ik;
