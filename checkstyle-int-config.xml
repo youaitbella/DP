@@ -47,12 +47,6 @@
             <property name="format" value="^[_A-Z][_A-Z0-9]*$"/>
         </module>    
 
-        <module name="Indentation">
-            <property name="basicOffset" value="4"/>
-            <property name="braceAdjustment" value="0"/>
-            <property name="throwsIndent" value="4"/>
-            <property name="lineWrappingIndentation" value="8"/>
-        </module>
         
         <module name="DefaultComesLast"/>
         <module name="EmptyStatement"/>
@@ -83,7 +77,7 @@
         </module>-->
 
         <module name="MagicNumber">
-            <property name="ignoreNumbers" value="-1, 0, 1, 2, 3, 4, 5"/>
+            <property name="ignoreNumbers" value="-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9"/>
             <property name="ignoreAnnotation" value="true"/>
             <property name="ignoreHashCodeMethod" value="true"/>
             <property name="constantWaiverParentToken" value="ASSIGN, ARRAY_INIT, EXPR, UNARY_PLUS, UNARY_MINUS, TYPECAST, ELIST, LITERAL_NEW, METHOD_CALL, STAR, DIV, PLUS, MINUS"/>
