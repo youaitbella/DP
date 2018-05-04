@@ -16,20 +16,7 @@ import javax.persistence.*;
 public class AccountAdditionalIK implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "aaiId")
-    private Integer _id;
-    
-    @Column(name = "aaiIK")
-    private Integer _ik;
 
-    @Column(name = "aaiAccountId")
-    private Integer _accountId;
-
-    @Transient
-    private String _name;
-   
     public AccountAdditionalIK() {
     }
 
@@ -42,14 +29,24 @@ public class AccountAdditionalIK implements Serializable {
         _ik = ik;
     }
 
-    // <editor-fold defaultstate="collapsed" desc="getter / setter">
+    //<editor-fold defaultstate="collapsed" desc="Property Id">
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "aaiId")
+    private Integer _id;
+
     public Integer getId() {
         return _id;
     }
 
     public void setId(Integer id) {
-        this._id = id;
+        _id = id;
     }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property Ik">
+    @Column(name = "aaiIK")
+    private Integer _ik;
 
     public Integer getIK() {
         return _ik;
@@ -58,6 +55,11 @@ public class AccountAdditionalIK implements Serializable {
     public void setIK(Integer ik) {
         _ik = ik;
     }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property AccountId">
+    @Column(name = "aaiAccountId")
+    private Integer _accountId;
 
     public Integer getAccountId() {
         return _accountId;
@@ -66,7 +68,25 @@ public class AccountAdditionalIK implements Serializable {
     public void setAccountId(Integer accountId) {
         _accountId = accountId;
     }
+    //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Property IsMainIk">
+    @Column(name = "aaiIsMainIk")
+    private boolean _mainIk;
+
+    public boolean isMainIk() {
+        return _mainIk;
+    }
+
+    public void setMainIk(boolean mainIk) {
+        _mainIk = mainIk;
+    }
+    //</editor-fold>
+
+    @Transient
+    private String _name;
+
+    // <editor-fold defaultstate="collapsed" desc="getter / setter">
     public String getName() {
         return _name;
     }
@@ -74,9 +94,8 @@ public class AccountAdditionalIK implements Serializable {
     public void setName(String name) {
         this._name = name;
     }
-
     // </editor-fold>
-
+    
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public int hashCode() {
@@ -102,5 +121,5 @@ public class AccountAdditionalIK implements Serializable {
         return "org.inek.entities.AccountAdditionalIK[id=" + _id + "]";
     }
     // </editor-fold>
-    
+
 }
