@@ -13,6 +13,12 @@
 
     <ui:define name="content">
 
+        <style>
+            .ui-datatable .ui-column-filter {
+                width: 90% !important
+            }
+        </style>
+
         <pf:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
 
         <pf:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="true" header="Daten werden geladen">
@@ -38,7 +44,7 @@
                     <pf:ajax listener="#{summaryData.reloadData()}" update=":inek:tabView :logout:remaining"/>
                 </pf:selectOneButton>
             </h:panelGrid>
-            
+
             <pf:tabView id="tabView">
                 <pf:tab title="Kalkulationsgrundlagen">
                     <!-- start KG alle -->
@@ -49,43 +55,42 @@
                                   rows="50"
                                   paginator="true"
                                   rowsPerPageTemplate="15,25,50,100"
-                                  tableStyle="table-layout: auto;"
-                                  style="background-color: #7f9baf;">
-                        
+                                  tableStyle="table-layout: auto;">
+
                         <pf:column headerText="IK" sortBy="#{calc.ik}" filterBy="#{calc.ik}">
                             <h:link outcome="#{summaryData.getHospitalInfoLink(calc.type)}"
                                     value="#{calc.ik}" >
                                 <f:param name="id" value="#{calc.id}"/>
                             </h:link>
                         </pf:column>
-                        
+
                         <pf:column headerText="Krankenhaus" sortBy="#{calc.customerName}" filterBy="#{calc.customerName}" filterMatchMode="contains">
                             <h:link outcome="#{summaryData.getHospitalInfoLink(calc.type)}"
                                     value="#{calc.customerName}" >
                                 <f:param name="id" value="#{calc.id}"/>
                             </h:link>
                         </pf:column>
-                        
+
                         <pf:column headerText="Ort" sortBy="#{calc.customerTown}" filterBy="#{calc.customerTown}" filterMatchMode="contains">
                             <h:link outcome="#{summaryData.getHospitalInfoLink(calc.type)}"
                                     value="#{calc.customerTown}" >
                                 <f:param name="id" value="#{calc.id}"/>
                             </h:link>
                         </pf:column>
-                        
+
                         <pf:column headerText="Datum" sortBy="#{calc.lastChanged}">
                             <h:outputText value="#{calc.lastChanged}" >
                                 <f:convertDateTime pattern="dd.MM.yyyy" />
                             </h:outputText>
                         </pf:column>
-                        
+
                         <pf:column headerText="Typ" sortBy="#{calc.name}" filterBy="#{calc.name}" filterMatchMode="contains">
                             <f:facet name="filter">
                                 <pf:selectOneMenu onchange="PF('kgall').filter()" >
                                     <f:selectItem itemLabel="Alle" itemValue="#{null}" noSelectionOption="true" />
                                     <f:selectItem itemLabel="KGL" itemValue="KGL" />
                                     <f:selectItem itemLabel="KGP" itemValue="KGP" />
-                                    <f:selectItem itemLabel="KGO" itemValue="OBD" />
+                                    <f:selectItem itemLabel="KGO" itemValue="KGO" />
                                 </pf:selectOneMenu>
                             </f:facet>
                             <h:link outcome="#{summaryData.getHospitalInfoLink(calc.type)}"
@@ -93,7 +98,7 @@
                                 <f:param name="id" value="#{calc.id}"/>
                             </h:link>
                         </pf:column>
-                        
+
                         <pf:column headerText="Betreuer" sortBy="#{calc.advisorMail}" filterBy="#{calc.advisorMail}">
                             <f:facet name="filter">
                                 <pf:selectOneMenu onchange="PF('kgall').filter()" >
@@ -103,11 +108,11 @@
                             </f:facet>
                             <h:outputLabel value="#{calc.advisorMail}" />
                         </pf:column>
-                        
+
                     </pf:dataTable>
                     <!-- ende KG alle -->
                 </pf:tab>
-                
+
                 <pf:tab title="Teilnahmeerklärungen">
                     <!-- start TE alle -->
                     <pf:dataTable var="te" value="#{summaryData.allTe}"
@@ -116,40 +121,39 @@
                                   emptyMessage="Keine Daten vorhanden"
                                   rows="50"
                                   paginator="true"
-                                  rowsPerPageTemplate="15,25,50,100"
-                                  tableStyle="table-layout: auto;">
-                        
+                                  rowsPerPageTemplate="15,25,50,100">
+
                         <pf:column headerText="IK" sortBy="#{te.ik}" filterBy="#{te.ik}">
                             <h:link outcome="#{summaryData.getHospitalInfoLink(te.type)}"
                                     value="#{te.ik}" >
                                 <f:param name="id" value="#{te.id}"/>
                             </h:link>
                         </pf:column>
-                        
+
                         <pf:column headerText="Krankenhaus" sortBy="#{te.customerName}" filterBy="#{te.customerName}" filterMatchMode="contains">
                             <h:link outcome="#{summaryData.getHospitalInfoLink(te.type)}"
                                     value="#{te.customerName}" >
                                 <f:param name="id" value="#{te.id}"/>
                             </h:link>
                         </pf:column>
-                        
+
                         <pf:column headerText="Ort" sortBy="#{te.customerTown}" filterBy="#{te.customerTown}" filterMatchMode="contains">
                             <h:link outcome="#{summaryData.getHospitalInfoLink(te.type)}"
                                     value="#{te.customerTown}" >
                                 <f:param name="id" value="#{te.id}"/>
                             </h:link>
                         </pf:column>
-                        
+
                         <pf:column headerText="Datum" sortBy="#{te.lastChanged}">
                             <h:outputText value="#{te.lastChanged}" >
                                 <f:convertDateTime pattern="dd.MM.yyyy" />
                             </h:outputText>
                         </pf:column>
-                        
+
                     </pf:dataTable>
                     <!-- ende TE alle -->
                 </pf:tab>
-                
+
                 <pf:tab id="tbkvm" title="Klinische Verteilungsmodelle">
                     <!-- start KVM alle -->
                     <pf:dataTable var="kvm" value="#{summaryData.allKvm}"
@@ -159,34 +163,34 @@
                                   paginator="true"
                                   rowsPerPageTemplate="15,25,50,100"
                                   tableStyle="table-layout: auto;">
-                        
+
                         <pf:column headerText="IK" sortBy="#{kvm.ik}" filterBy="#{kvm.ik}">
                             <h:link outcome="#{summaryData.getHospitalInfoLink(kvm.type)}"
                                     value="#{kvm.ik}" >
                                 <f:param name="id" value="#{kvm.id}"/>
                             </h:link>
                         </pf:column>
-                        
+
                         <pf:column headerText="Krankenhaus" sortBy="#{kvm.customerName}" filterBy="#{kvm.customerName}" filterMatchMode="contains">
                             <h:link outcome="#{summaryData.getHospitalInfoLink(kvm.type)}"
                                     value="#{kvm.customerName}" >
                                 <f:param name="id" value="#{kvm.id}"/>
                             </h:link>
                         </pf:column>
-                        
+
                         <pf:column headerText="Ort" sortBy="#{kvm.customerTown}" filterBy="#{kvm.customerTown}" filterMatchMode="contains">
                             <h:link outcome="#{summaryData.getHospitalInfoLink(kvm.type)}"
                                     value="#{kvm.customerTown}" >
                                 <f:param name="id" value="#{kvm.id}"/>
                             </h:link>
                         </pf:column>
-                        
+
                         <pf:column headerText="Datum" sortBy="#{kvm.lastChanged}">
                             <h:outputText value="#{kvm.lastChanged}" >
                                 <f:convertDateTime pattern="dd.MM.yyyy" />
                             </h:outputText>
                         </pf:column>
-                        
+
                         <pf:column headerText="Typ" sortBy="#{kvm.name}" filterBy="#{kvm.name}" filterMatchMode="contains">
                             <f:facet name="filter">
                                 <pf:selectOneMenu onchange="PF('kvmall').filter()" >
@@ -200,7 +204,7 @@
                                 <f:param name="id" value="#{kvm.id}"/>
                             </h:link>
                         </pf:column>
-                        
+
                         <pf:column headerText="Betreuer" sortBy="#{kvm.advisorMail}" filterBy="#{kvm.advisorMail}">
                             <f:facet name="filter">
                                 <pf:selectOneMenu onchange="PF('kvmall').filter()" >
@@ -210,12 +214,12 @@
                             </f:facet>
                             <h:outputLabel value="#{kvm.advisorMail}" />
                         </pf:column>
-                        
+
                     </pf:dataTable>
                     <!-- ende KVM alle -->
                 </pf:tab>
             </pf:tabView>
-            
+
             <br/>
         </h:form>
 
