@@ -3,14 +3,14 @@
     <modelVersion>4.0.0</modelVersion>
 
 
-    <!--<repositories>
+    <repositories>
         <repository>
             <id>prime-repo</id>
             <name>PrimeFaces Maven Repository</name>
             <url>http://repository.primefaces.org</url>
             <layout>default</layout>
         </repository>
-    </repositories>-->
+    </repositories>
 
     <parent>
         <groupId>org.inek</groupId>
