@@ -229,9 +229,9 @@ public class DocumentApproval implements TreeNodeObserver, Serializable {
     }
 
     public void delete(int docId) {
-//        WaitingDocument waitingDoc = _waitingDocFacade.find(docId);
-//        _waitingDocFacade.remove(waitingDoc);
-//        _rootNode.refresh();
+        WaitingDocument waitingDoc = _waitingDocFacade.find(docId);
+        _waitingDocFacade.remove(waitingDoc);
+        _rootNode.refresh();
     }
 
     public void approve(int docId) {
