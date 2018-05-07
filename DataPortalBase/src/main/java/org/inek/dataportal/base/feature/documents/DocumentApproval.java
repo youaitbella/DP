@@ -55,9 +55,12 @@ public class DocumentApproval implements TreeNodeObserver, Serializable {
 
     private static final Logger LOGGER = Logger.getLogger("DocumentApproval");
 
-    @Inject private SessionController _sessionController;
-    @Inject private WaitingDocumentFacade _waitingDocFacade;
-    @Inject private AccountDocumentFacade _accountDocFacade;
+    @Inject
+    private SessionController _sessionController;
+    @Inject
+    private WaitingDocumentFacade _waitingDocFacade;
+    @Inject
+    private AccountDocumentFacade _accountDocFacade;
 
     private final RootNode _rootNode = RootNode.create(0, this);
 
@@ -66,7 +69,7 @@ public class DocumentApproval implements TreeNodeObserver, Serializable {
         _rootNode.setExpanded(true);
     }
 
-    // <editor-fold defaultstate="collapsed" desc="Property Filter">    
+    // <editor-fold defaultstate="collapsed" desc="Property Filter">
     private String _filter = "";
 
     public String getFilter() {
@@ -80,9 +83,9 @@ public class DocumentApproval implements TreeNodeObserver, Serializable {
     public String reload() {
         return "";
     }
-    // </editor-fold>    
+    // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property SortCriteria + state">    
+    // <editor-fold defaultstate="collapsed" desc="Property SortCriteria + state">
     private String _sortCriteria = "";
     private boolean _isDescending = false;
 
@@ -106,7 +109,7 @@ public class DocumentApproval implements TreeNodeObserver, Serializable {
     public String getSortCriteria() {
         return _sortCriteria;
     }
-    // </editor-fold>    
+    // </editor-fold>
 
     public RootNode getRootNode() {
         return _rootNode;
@@ -226,9 +229,9 @@ public class DocumentApproval implements TreeNodeObserver, Serializable {
     }
 
     public void delete(int docId) {
-        WaitingDocument waitingDoc = _waitingDocFacade.find(docId);
-        _waitingDocFacade.remove(waitingDoc);
-        _rootNode.refresh();
+//        WaitingDocument waitingDoc = _waitingDocFacade.find(docId);
+//        _waitingDocFacade.remove(waitingDoc);
+//        _rootNode.refresh();
     }
 
     public void approve(int docId) {
@@ -265,7 +268,8 @@ public class DocumentApproval implements TreeNodeObserver, Serializable {
         _accountDocFacade.save(accountDoc);
     }
 
-    @Inject private Mailer _mailer;
+    @Inject
+    private Mailer _mailer;
 
     private void notify(String jsonMail, Collection<Account> accounts) {
         if (jsonMail.isEmpty()) {
@@ -330,5 +334,13 @@ public class DocumentApproval implements TreeNodeObserver, Serializable {
             return _accounts;
         }
 
+    }
+
+    public void Test() {
+        System.out.println("Test");
+    }
+
+    public void Test2() {
+        System.out.println("Test");
     }
 }
