@@ -335,12 +335,4 @@ public class DocumentApproval implements TreeNodeObserver, Serializable {
         }
 
     }
-
-    public void Test() {
-        System.out.println("Test");
-    }
-
-    public void Test2() {
-        System.out.println("Test");
-    }
 }
