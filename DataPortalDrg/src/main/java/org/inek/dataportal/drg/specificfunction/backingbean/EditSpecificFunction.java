@@ -58,10 +58,14 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
     // <editor-fold defaultstate="collapsed" desc="fields & enums">
     private static final Logger LOGGER = Logger.getLogger("EditSpecificFunctionRequest");
 
-    @Inject private AccessManager _accessManager;
-    @Inject private SessionController _sessionController;
-    @Inject private SpecificFunctionFacade _specificFunctionFacade;
-    @Inject private ApplicationTools _appTools;
+    @Inject
+    private AccessManager _accessManager;
+    @Inject
+    private SessionController _sessionController;
+    @Inject
+    private SpecificFunctionFacade _specificFunctionFacade;
+    @Inject
+    private ApplicationTools _appTools;
 
     private SpecificFunctionRequest _request;
 
@@ -105,7 +109,7 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
     }
 
     private boolean hasSufficientRights(SpecificFunctionRequest calcBasics) {
-        return _accessManager.isAccessAllowed(Feature.SPECIFIC_FUNCTION, calcBasics.getStatus(), 
+        return _accessManager.isAccessAllowed(Feature.SPECIFIC_FUNCTION, calcBasics.getStatus(),
                 calcBasics.getAccountId(), calcBasics.getIk());
     }
 
@@ -148,7 +152,7 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
 
     private void obtainAvailableYears() {
         List<Integer> existingYears = _specificFunctionFacade.getExistingYears(_request.getIk());
-        
+
         _availableYears = new ArrayList<>();
         IntStream.rangeClosed(2015, 2019) // allowed range according to agreement
                 .filter(y -> y == _request.getDataYear() || !existingYears.contains(y))
@@ -206,8 +210,10 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
         return Pages.Error.URL();
     }
 
-    @Inject private AccountFacade _accountFacade;
-    @Inject private Mailer _mailer;
+    @Inject
+    private AccountFacade _accountFacade;
+    @Inject
+    private Mailer _mailer;
 
     private void sendMessage(String name) {
         //todo: refactor for gloabal usage (move to mailer?) and remove all similar methods
@@ -237,7 +243,7 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
         if (!_appTools.isEnabled(ConfigKey.IsSpecificFunctionRequestSendEnabled)) {
             return false;
         }
-        return _accessManager.isSealedEnabled(Feature.SPECIFIC_FUNCTION, _request.getStatus(), 
+        return _accessManager.isSealedEnabled(Feature.SPECIFIC_FUNCTION, _request.getStatus(),
                 _request.getAccountId(), _request.getIk());
     }
 
@@ -245,7 +251,7 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
         if (!_appTools.isEnabled(ConfigKey.IsSpecificFunctionRequestSendEnabled)) {
             return false;
         }
-        return _accessManager.isApprovalRequestEnabled(Feature.SPECIFIC_FUNCTION, _request.getStatus(), 
+        return _accessManager.isApprovalRequestEnabled(Feature.SPECIFIC_FUNCTION, _request.getStatus(),
                 _request.getAccountId(), _request.getIk());
     }
 
@@ -285,7 +291,7 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
     }
 
     public boolean isTakeEnabled() {
-        return _accessManager.isTakeEnabled(Feature.SPECIFIC_FUNCTION, _request.getStatus(), 
+        return _accessManager.isTakeEnabled(Feature.SPECIFIC_FUNCTION, _request.getStatus(),
                 _request.getAccountId(), _request.getIk());
     }
 
@@ -319,7 +325,8 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
         return "";
     }
 
-    @Inject private InekRoleFacade _inekRoleFacade;
+    @Inject
+    private InekRoleFacade _inekRoleFacade;
 
     public void sendNotification() {
         List<Account> inekAccounts = _inekRoleFacade.findForFeature(Feature.SPECIFIC_FUNCTION);
@@ -383,7 +390,6 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
                 continue;
             }
             checkField(message, center.getCenter(), "Bitte Art des Zentrums angeben", "");
-            checkField(message, center.getRemunerationKey(), "Bitte Entgeltschlüssel angeben", "");
             if (center.getPercent() <= 0.0) {
                 checkField(message, center.getAmount(), 1, 99999999, "Bitte Betrag oder Prozentsatz angeben", "");
             }

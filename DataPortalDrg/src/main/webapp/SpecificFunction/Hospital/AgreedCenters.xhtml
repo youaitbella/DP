@@ -10,14 +10,14 @@
                 >
 
     <h2 style="margin-top: 1em;"></h2>
-    <inek:LabeledCheckbox id="chkAgreement" 
-                          label="Für unser Haus liegt für das Budgetjahr #{editSpecificFunction.request.dataYear - 1} bereits eine Vereinbarung gem. § 5 Abs. 3 KHEntgG vor" 
+    <inek:LabeledCheckbox id="chkAgreement"
+                          label="Für unser Haus liegt für das Budgetjahr #{editSpecificFunction.request.dataYear - 1} bereits eine Vereinbarung gem. § 5 Abs. 3 KHEntgG vor"
                           styleClassComponent="marginTop01em"
                           value="#{editSpecificFunction.request.hasAgreement}"
                           readonly="#{editSpecificFunction.readOnly}"
                           renderElement="@form"/>
 
-    <h:dataTable id="agreedCenters" value="#{editSpecificFunction.request.requestAgreedCenters}" 
+    <h:dataTable id="agreedCenters" value="#{editSpecificFunction.request.requestAgreedCenters}"
                  var="item"
                  rendered="#{editSpecificFunction.request.hasAgreement}"
                  styleClass="marginTop" width="100%"
@@ -41,25 +41,25 @@
 
         <h:column>
             <f:facet name="header"><h:outputLabel value="#{msg.lblRemunerationCode}" title="Bitte geben Sie den Entgeltschlüssel Ihrer Vereinbarung an"/></f:facet>
-            <inek:InputTextWithMessage styleClass="element100" value="#{item.remunerationKey}" readonly="#{editSpecificFunction.readOnly}" required="true"/>
+            <inek:InputTextWithMessage styleClass="element100" value="#{item.remunerationKey}" readonly="#{editSpecificFunction.readOnly}"/>
         </h:column>
 
         <h:column>
             <f:facet name="header"><h:outputLabel value="Betrag" title="Bitte geben Sie den vereinbarten Betrag an"/></f:facet>
-            <inek:InputTextWithMessage styleClass="element100" 
-                                       value="#{item.amount}" 
-                                       readonly="#{editSpecificFunction.readOnly}" 
+            <inek:InputTextWithMessage styleClass="element100"
+                                       value="#{item.amount}"
+                                       readonly="#{editSpecificFunction.readOnly}"
                                        disabled="#{item.percent gt 0}"
                                        required="true"/>
         </h:column>
 
         <h:column>
             <f:facet name="header"><h:outputLabel value="Prozent" title="Bitte geben Sie den vereinbarten Prozentsatz an"/></f:facet>
-            <inek:InputNumberWithMessage styleClass="element100" 
-                                       value="#{item.percent}" 
-                                       readonly="#{editSpecificFunction.readOnly}" 
-                                       disabled="#{item.amount gt 0}"
-                                       required="true"/>
+            <inek:InputNumberWithMessage styleClass="element100"
+                                         value="#{item.percent}"
+                                         readonly="#{editSpecificFunction.readOnly}"
+                                         disabled="#{item.amount gt 0}"
+                                         required="true"/>
         </h:column>
 
     </h:dataTable>
