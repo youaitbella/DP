@@ -33,6 +33,7 @@ import org.inek.dataportal.common.data.ikadmin.entity.User;
 import org.inek.dataportal.common.enums.Right;
 import org.inek.dataportal.common.data.ikadmin.facade.IkAdminFacade;
 import org.inek.dataportal.common.helper.Utils;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -45,9 +46,12 @@ public class IkAdminTasks extends AbstractEditController implements Serializable
     private static final Logger LOGGER = Logger.getLogger("IkAdminTasks");
     private static final String TOPIC_USER = "topicUserManagement";
 
-    @Inject private SessionController _sessionController;
-    @Inject private IkAdminFacade _ikAdminFacade;
-    @Inject private AccountFacade _accountFacade;
+    @Inject
+    private SessionController _sessionController;
+    @Inject
+    private IkAdminFacade _ikAdminFacade;
+    @Inject
+    private AccountFacade _accountFacade;
 
     private int _ik;
 
@@ -109,11 +113,16 @@ public class IkAdminTasks extends AbstractEditController implements Serializable
 
     public String saveAccessRights() {
         try {
-            for (AccessRight accessRight : _accessRights) {
-                _ikAdminFacade.saveAccessRight(accessRight);
+            if (saveAccessRightsAllowed(_accessRights)) {
+                for (AccessRight accessRight : _accessRights) {
+                    _ikAdminFacade.saveAccessRight(accessRight);
+                }
+                _sessionController.alertClient("Berechtigungen gespeichert");
+                return null;
+            } else {
+                addMessage("");
+                return null;
             }
-            _sessionController.alertClient("Berechtigungen gespeichert");
-            return null;
         } catch (Exception ex) {
             LOGGER.log(Level.WARNING, ex.getMessage());
             return Pages.Error.URL();
@@ -224,7 +233,7 @@ public class IkAdminTasks extends AbstractEditController implements Serializable
             account.addFeature(feature, true);
         }
         _accountFacade.updateAccount(account);
-        _featureId=0;
+        _featureId = 0;
     }
     // </editor-fold>
 
@@ -238,4 +247,20 @@ public class IkAdminTasks extends AbstractEditController implements Serializable
         return user;
     }
 
+    public boolean saveAccessRightsAllowed(List<AccessRight> accessRights) {
+        for (AccessRight ar : accessRights) {
+            if (!accessRights.stream()
+                    .anyMatch(c -> c.getIk() == ar.getIk()
+                    && c.getFeature() == ar.getFeature()
+                    && c.getRight() != Right.Deny)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void addMessage(String message) {
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.execute("PF('dialog').show();");
+    }
 }

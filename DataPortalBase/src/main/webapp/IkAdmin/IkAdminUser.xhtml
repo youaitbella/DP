@@ -7,7 +7,8 @@
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 xmlns:psystaff="http://xmlns.jcp.org/jsf/composite/components/feature/psychstaff"
-                xmlns:jsf="http://xmlns.jcp.org/jsf">
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:pf='http://primefaces.org/ui'>
 
     <div class="rectangle inputPart">
         <h2>Benutzer und / oder Funktion hinzufügen</h2>
@@ -39,7 +40,7 @@
     <div class="rectangle inputPart">
         <h2>Berechtigungen</h2>
         <div class ="container" style="max-height: 20em;">
-            <h:dataTable id="accessRights" value="#{ikAdminTasks.accessRights}" 
+            <h:dataTable id="accessRights" value="#{ikAdminTasks.accessRights}"
                          var="item"
                          rowClasses="row1, row2"
                          width="100%">
@@ -72,11 +73,17 @@
         </div>
     </div>
 
-    <h:commandLink value="#{msg.btnSave}" 
-                   action="#{ikAdminTasks.saveAccessRights}" 
+    <h:commandLink value="#{msg.btnSave}"
+                   action="#{ikAdminTasks.saveAccessRights}"
                    styleClass="bigButton"
                    immediate="true"
                    />
+
+    <pf:dialog resizable="false" header="Hinweis" modal="true" widgetVar="dialog">
+        Für eine oder mehrere Funktionen besteht kein Zugriff durch einen Benutzer. Bitte passen Sie die Berechtigungen so an, dass mindesten ein Benutzer die Daten einsehen kann.
+        </ br>
+        <pf:commandButton value="Ok" onclick="PF('dialog').close()" />
+    </pf:dialog>
 
     <h:messages globalOnly="true"/>
 </ui:composition>
