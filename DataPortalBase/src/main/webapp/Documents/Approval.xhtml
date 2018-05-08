@@ -17,6 +17,18 @@
                 <pf:commandButton value="Nein" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
             </pf:confirmDialog>
 
+            <script>
+                function changeCSSColor(action) {
+                    if (action === 'approval') {
+                        $('.ui-dialog.ui-widget-content .ui-dialog-titlebar').css({"background-color": "#5bf770"});
+                    } else if (action === 'delete') {
+                        $('.ui-dialog.ui-widget-content .ui-dialog-titlebar').css({"background-color": "#ea4848"});
+                    } else {
+                        //document.write('Action unknown');
+                    }
+                }
+            </script>
+
             <div class="inputPart">
                 <h:outputLabel value="Filter: " styleClass="label marginRight" for="filter"/>
                 <h:inputText id="filter" styleClass="input marginRight" value="#{documentApproval.filter}"/>
@@ -45,18 +57,22 @@
                             </h:column>
 
                             <h:column>
-                                <pf:commandLink action="#{documentApproval.approve(docNode.docInfo.id)}" immediate="true">
-                                    <pf:confirm header="Dokument Freigeben" message="Dokument #{docNode.docInfo.name} wirklich freigeben?" icon="ui-icon-info" />
-                                    <pf:graphicImage alt="freigeben" name="Icon/small/key.png" title="Freigabe" value=""/>
-                                </pf:commandLink>
+                                <div onclick="changeCSSColor('approva')">
+                                    <pf:commandLink action="#{documentApproval.approve(docNode.docInfo.id)}" immediate="true">
+                                        <pf:confirm  header="Dokument Freigeben" message="Dokument #{docNode.docInfo.name} wirklich freigeben?" icon="ui-icon-info" />
+                                        <pf:graphicImage alt="freigeben" name="Icon/small/key.png" title="Freigabe" value=""/>
+                                    </pf:commandLink>
+                                </div>
                             </h:column>
 
                             <h:column>
-                                <pf:commandLink immediate="true" action="#{documentApproval.delete(docNode.docInfo.id)}">
-                                    <pf:confirm class="dialogGreen" header="Dokument Löschen" message="Dokument #{docNode.docInfo.name} wirklich löschen?" icon="ui-icon-alert"/>
-                                    <pf:graphicImage alt="Löschen" name="Icon/small/delete.png" title="Löschen" value=""/>
-                                    <pf:ajax update="@form"/>
-                                </pf:commandLink>
+                                <div onclick="changeCSSColor('delete')">
+                                    <pf:commandLink immediate="true" action="#{documentApproval.delete(docNode.docInfo.id)}">
+                                        <pf:confirm header="Dokument Löschen" message="Dokument #{docNode.docInfo.name} wirklich löschen?" icon="ui-icon-alert"/>
+                                        <pf:graphicImage alt="Löschen" name="Icon/small/delete.png" title="Löschen" value=""/>
+                                        <pf:ajax update="@form"/>
+                                    </pf:commandLink>
+                                </div>
                             </h:column>
 
                             <h:column id="colIk">
