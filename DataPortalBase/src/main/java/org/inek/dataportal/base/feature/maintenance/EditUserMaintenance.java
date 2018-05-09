@@ -568,7 +568,8 @@ public class EditUserMaintenance extends AbstractEditController {
             if (_ikAdminFacade.hasIkAdmin(ik)) {
                 boolean hasNewEntry = false;
                 for (AccountFeature feature : account.getFeatures()) {
-                    if (feature.getFeature().getIkReference() == IkReference.Hospital) {
+                    if (feature.getFeature().getIkReference() == IkReference.Hospital
+                            && _ikAdminFacade.findAccessRightsByAccountIkAndFeature(account, ik, feature.getFeature()).isEmpty()) {
                         AccessRight accessRight = new AccessRight(account.getId(), ik, feature.getFeature(), Right.Deny);
                         _ikAdminFacade.saveAccessRight(accessRight);
                         hasNewEntry = true;
