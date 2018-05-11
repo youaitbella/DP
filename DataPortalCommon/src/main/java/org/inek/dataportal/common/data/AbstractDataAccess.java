@@ -1,5 +1,7 @@
 package org.inek.dataportal.common.data;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -112,5 +114,15 @@ public abstract class AbstractDataAccess {
     protected void dumpSql(Query query) {
         String sql = query.unwrap(JpaQuery.class).getDatabaseQuery().getSQLString();
         System.out.println(sql);
+    }
+
+    public String getDatabaseName() {
+        Connection dbCon = _em.unwrap(Connection.class);
+        try {
+            return dbCon.getCatalog();
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, null, ex);
+        }
+        return "";
     }
 }

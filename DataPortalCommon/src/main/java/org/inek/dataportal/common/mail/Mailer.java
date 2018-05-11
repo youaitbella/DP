@@ -51,8 +51,10 @@ public class Mailer {
 
     protected static final Logger LOGGER = Logger.getLogger("Mailer");
 
-    @Inject private MailTemplateFacade _mailTemplateFacade;
-    @Inject private ConfigFacade _config;
+    @Inject
+    private MailTemplateFacade _mailTemplateFacade;
+    @Inject
+    private ConfigFacade _config;
 
     public boolean sendMail(String recipient, String subject, String body) {
         return sendMail(recipient, "", subject, body);
@@ -94,11 +96,17 @@ public class Mailer {
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(from));
             message.setSender(new InternetAddress("InEK-Datenportal <datenportal@inek.org>"));
-            addReceipients(message, recipient, Message.RecipientType.TO);
-            if (!cc.equals(recipient)) {
-                addReceipients(message, cc, Message.RecipientType.CC);
+            if (_config.readConfigBool(ConfigKey.TestMode) && !_config.getDatabaseName().equals("DataPortal")) {
+                addReceipients(message, "dataportaldev@inek-drg.de", Message.RecipientType.TO);
+                body = createTestBody(recipient, cc, bcc) + body;
+                subject = "!!! Testserver !!!  " + subject;
+            } else {
+                addReceipients(message, recipient, Message.RecipientType.TO);
+                if (!cc.equals(recipient)) {
+                    addReceipients(message, cc, Message.RecipientType.CC);
+                }
+                addReceipients(message, bcc, Message.RecipientType.BCC);
             }
-            addReceipients(message, bcc, Message.RecipientType.BCC);
             message.setSubject(subject);
             MimeBodyPart messageBodyPart = new MimeBodyPart();
             messageBodyPart.setText(body);
@@ -116,7 +124,7 @@ public class Mailer {
         }
         return false;
     }
-    
+
     public boolean sendMailTemplate(MailTemplate template, String rec) {
         return sendMailFrom(template.getFrom(), rec, template.getBcc(), template.getSubject(), template.getBody());
     }
@@ -167,7 +175,7 @@ public class Mailer {
         }
         String salutation = getFormalSalutation(accountRequest);
         String codedUser = Utils.encodeUrl(accountRequest.getUser());
-        String link = buildAppUrl() + "/Login/Activate.xhtml?key=" 
+        String link = buildAppUrl() + "/Login/Activate.xhtml?key="
                 + accountRequest.getActivationKey() + "&user=" + codedUser;
         String body = template.getBody()
                 .replace(PLACEHOLDER_FORMAL_SALUTATION, salutation)
@@ -177,7 +185,6 @@ public class Mailer {
         return sendMail(accountRequest.getEmail(), template.getBcc(), template.getSubject(), body);
     }
 
-    
     private String buildAppUrl() {
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         String protocol = externalContext.getRequestScheme() + "://";
@@ -186,7 +193,7 @@ public class Mailer {
         String contextPath = externalContext.getRequestContextPath();
         return protocol + server + (port == HTTP_PORT || port == HTTPS_PORT ? "" : ":" + port) + contextPath;
     }
-    
+
     public boolean sendReRegisterMail(Account account) {
         MailTemplate template = getMailTemplate("AccountReRegistrationMail");
         if (template == null) {
@@ -203,7 +210,7 @@ public class Mailer {
         if (template == null) {
             return false;
         }
-        String link = buildAppUrl() + "/Login/ActivateMail.xhtml?key=" 
+        String link = buildAppUrl() + "/Login/ActivateMail.xhtml?key="
                 + changeMail.getActivationKey() + "&mail=" + changeMail.getMail();
         String body = template.getBody()
                 //.replace("{formalSalutation}", salutation)
@@ -220,7 +227,7 @@ public class Mailer {
             return false;
         }
         String salutation = getFormalSalutation(account);
-        String link = buildAppUrl() + "/Login/ActivatePassword.xhtml?key=" 
+        String link = buildAppUrl() + "/Login/ActivatePassword.xhtml?key="
                 + pwdRequest.getActivationKey() + "&mail=" + account.getEmail();
 
         String body = template.getBody()
@@ -268,8 +275,16 @@ public class Mailer {
         String subject = "Exception reported by Server " + name;
         sendMail(_config.readConfig(ConfigKey.ExceptionEmail), subject, msg.toString());
     }
-    
+
     public static String buildCC(List<String> ccEmails) {
         return ccEmails.stream().collect(Collectors.joining(";"));
+    }
+
+    private String createTestBody(String recipient, String cc, String bcc) {
+        String bodyHeader;
+
+        bodyHeader = "###### Empfänger ###### \n An: " + recipient + " \n CC: " + cc + " \n BCC: " + bcc + " \n ###### Ende Empfänger ###### \n \n";
+
+        return bodyHeader;
     }
 }
