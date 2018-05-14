@@ -29,7 +29,7 @@ public class CalcHospitalInfo implements Serializable {
     public CalcHospitalInfo() {
     }
 
-    public CalcHospitalInfo(int id, CalcInfoType type, int accountId, int dataYear, int ik, 
+    public CalcHospitalInfo(int id, CalcInfoType type, int accountId, int dataYear, int ik,
             int statusId, String name, Date lastChanged, String customerName, String advisorMail, String customerTown) {
         this._id = id;
         this._type = type;
@@ -40,7 +40,7 @@ public class CalcHospitalInfo implements Serializable {
         this._name = name;
         this._lastChanged = lastChanged;
         this._customerName = customerName;
-        this._advisorMail = advisorMail;
+        this._agentName = advisorMail;
         this._customerTown = customerTown;
     }
 
@@ -86,16 +86,16 @@ public class CalcHospitalInfo implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property BeraterId">
-    @Column(name = "BetreuerMail")
-    private String _advisorMail;
+    // <editor-fold defaultstate="collapsed" desc="Property AgentName">
+    @Column(name = "AgentName")
+    private String _agentName;
 
-    public String getAdvisorMail() {
-        return _advisorMail;
+    public String getAgentName() {
+        return _agentName;
     }
 
     public void setAdvisorMail(String advisorMail) {
-        _advisorMail = advisorMail;
+        _agentName = advisorMail;
     }
     // </editor-fold>
 
@@ -206,7 +206,7 @@ public class CalcHospitalInfo implements Serializable {
         hash = 43 * hash + this._id;
         hash = 43 * hash + Objects.hashCode(this._type);
         hash = 43 * hash + this._accountId;
-        hash = 43 * hash + Objects.hashCode(this._advisorMail);
+        hash = 43 * hash + Objects.hashCode(this._agentName);
         hash = 43 * hash + this._dataYear;
         hash = 43 * hash + this._ik;
         hash = 43 * hash + this._statusId;
@@ -245,7 +245,7 @@ public class CalcHospitalInfo implements Serializable {
         if (this._statusId != other._statusId) {
             return false;
         }
-        if (!Objects.equals(this._advisorMail, other._advisorMail)) {
+        if (!Objects.equals(this._agentName, other._agentName)) {
             return false;
         }
         if (!Objects.equals(this._name, other._name)) {

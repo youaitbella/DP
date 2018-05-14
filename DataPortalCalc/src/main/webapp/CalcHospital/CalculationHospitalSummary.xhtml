@@ -39,12 +39,12 @@
                     <f:selectItem itemValue="2017" itemLabel="Datenjahr 2017" />
                     <f:selectItem itemValue="2016" itemLabel="Datenjahr 2016" />
                     <f:selectItem itemValue="2015" itemLabel="Datenjahr 2015" />
-                    <pf:ajax event="change" update=":inek:tabView :logout:remaining" listener="#{summaryData.reloadData()}" />
+                    <pf:ajax event="change" update=":inek:tabView:teId :inek:tabView:kgId :inek:tabView:kvId :logout:remaining" listener="#{summaryData.reloadData()}" />
                 </pf:selectOneMenu>
                 <pf:selectOneButton value="#{summaryData.all}" unselectable="true">
                     <f:selectItem itemLabel="Alle" itemValue="true" />
                     <f:selectItem itemLabel="Mir zugewiesen" itemValue="false" />
-                    <pf:ajax listener="#{summaryData.reloadData()}" update=":inek:tabView :logout:remaining"/>
+                    <pf:ajax listener="#{summaryData.reloadData()}" update=":inek:tabView:teId :inek:tabView:kgId :inek:tabView:kvId :logout:remaining"/>
                 </pf:selectOneButton>
             </h:panelGrid>
 
@@ -58,7 +58,7 @@
                                   rows="50"
                                   paginator="true"
                                   rowsPerPageTemplate="15,25,50,100"
-                                  tableStyle="table-layout: auto;">
+                                  tableStyle="table-layout: auto;" >
 
                         <pf:column headerText="IK" sortBy="#{calc.ik}" filterBy="#{calc.ik}">
                             <h:link outcome="#{summaryData.getHospitalInfoLink(calc.type)}"
@@ -102,21 +102,21 @@
                             </h:link>
                         </pf:column>
 
-                        <pf:column headerText="Betreuer" sortBy="#{calc.advisorMail}" filterBy="#{calc.advisorMail}">
+                        <pf:column headerText="Betreuer" sortBy="#{calc.agentName}" filterBy="#{calc.agentName}" filterValue="#{sessionController.account.lastName} , #{sessionController.account.firstName}">
                             <f:facet name="filter">
                                 <pf:selectOneMenu onchange="PF('kgall').filter()" >
                                     <f:selectItem itemLabel="Alle" itemValue="#{null}" noSelectionOption="true" />
-                                    <f:selectItems value="#{summaryData.advisorList}"/>
+                                    <f:selectItems value="#{summaryData.agentList}"/>
                                 </pf:selectOneMenu>
                             </f:facet>
-                            <h:outputLabel value="#{calc.advisorMail}" />
+                            <h:outputLabel value="#{calc.agentName}" />
                         </pf:column>
 
                     </pf:dataTable>
                     <!-- ende KG alle -->
                 </pf:tab>
 
-                <pf:tab title="Teilnahmeerklärungen">
+                <pf:tab id="tabTe" title="Teilnahmeerklärungen">
                     <!-- start TE alle -->
                     <pf:dataTable var="te" value="#{summaryData.allTe}"
                                   id="teId"
@@ -160,6 +160,7 @@
                 <pf:tab id="tbkvm" title="Klinische Verteilungsmodelle">
                     <!-- start KVM alle -->
                     <pf:dataTable var="kvm" value="#{summaryData.allKvm}"
+                                  id="kvId"
                                   widgetVar="kvmall"
                                   emptyMessage="Keine Daten vorhanden"
                                   rows="50"
@@ -208,14 +209,14 @@
                             </h:link>
                         </pf:column>
 
-                        <pf:column headerText="Betreuer" sortBy="#{kvm.advisorMail}" filterBy="#{kvm.advisorMail}">
+                        <pf:column headerText="Betreuer" sortBy="#{kvm.agentName}" filterBy="#{kvm.agentName}">
                             <f:facet name="filter">
                                 <pf:selectOneMenu onchange="PF('kvmall').filter()" >
                                     <f:selectItem itemLabel="Alle" itemValue="#{null}" noSelectionOption="true" />
-                                    <f:selectItems value="#{summaryData.advisorList}"/>
+                                    <f:selectItems value="#{summaryData.agentList}"/>
                                 </pf:selectOneMenu>
                             </f:facet>
-                            <h:outputLabel value="#{kvm.advisorMail}" />
+                            <h:outputLabel value="#{kvm.agentName}" />
                         </pf:column>
 
                     </pf:dataTable>
