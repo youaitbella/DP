@@ -381,6 +381,7 @@ document.write('</frameset>');
       <file-mod href="Dokumente---Managersicht.xml" build="USER2"/>
       <file-mod href="UploadDocumentForInek.xml"/>
       <file-mod href="Zertifizierung.xml" build="USER1,USER2"/>
+      <file-mod href="Teilnahme-Kostenkalkulation---.xml" build="USER2"/>
     </file>
     <file href="Baggage/*.*" build="ALL" filetype="baggage"/>
   </project-files>

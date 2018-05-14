@@ -6,6 +6,6 @@
     <header>
       <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Dokumente - Managersicht</text></para>
     </header>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Neben der im vorgehenden Abschnitt gezeigten Funktion &quot;Dokumente&quot; bietet das </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> zahlreiche Management-Funktionen, die nur für entsprechend berechtigte Mitarbeiter des InEKs zugänglich sind. Diese Funktionen stehen nur zur Verfügung, dass Sie sich von InEK-Netz aus anmelden; bei Anmeldung außerhalb des InEK-Netzes sind diese nicht verfügbar.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Neben der im vorgehenden Abschnitt gezeigten Funktion &quot;Dokumente&quot; bietet das </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> zahlreiche Management-Funktionen, die nur für entsprechend berechtigte Mitarbeiter des InEKs zugänglich sind. Diese Funktionen stehen nur zur Verfügung, wenn Sie sich innerhalb des InEK anmelden; bei Anmeldung außerhalb des InEK-Netzes sind diese nicht verfügbar.</text></para>
   </body>
 </topic>
