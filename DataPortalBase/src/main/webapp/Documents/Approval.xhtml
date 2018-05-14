@@ -61,6 +61,7 @@
                                     <pf:commandLink action="#{documentApproval.approve(docNode.docInfo.id)}" immediate="true">
                                         <pf:confirm  header="Dokument Freigeben" message="Dokument #{docNode.docInfo.name} wirklich freigeben?" icon="ui-icon-info" />
                                         <pf:graphicImage alt="freigeben" name="Icon/small/key.png" title="Freigabe" value=""/>
+                                        <pf:ajax update="@form"/>
                                     </pf:commandLink>
                                 </div>
                             </h:column>
