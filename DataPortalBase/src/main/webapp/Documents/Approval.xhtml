@@ -58,20 +58,18 @@
 
                             <h:column>
                                 <div onclick="changeCSSColor('approval')">
-                                    <pf:commandLink action="#{documentApproval.approve(docNode.docInfo.id)}" immediate="true">
+                                    <pf:commandLink action="#{documentApproval.approve(docNode.docInfo.id)}" immediate="true" update="@form">
                                         <pf:confirm  header="Dokument Freigeben" message="Dokument #{docNode.docInfo.name} wirklich freigeben?" icon="ui-icon-info" />
                                         <pf:graphicImage alt="freigeben" name="Icon/small/key.png" title="Freigabe" value=""/>
-                                        <pf:ajax update="@form"/>
                                     </pf:commandLink>
                                 </div>
                             </h:column>
 
                             <h:column>
                                 <div onclick="changeCSSColor('delete')">
-                                    <pf:commandLink immediate="true" action="#{documentApproval.delete(docNode.docInfo.id)}">
+                                    <pf:commandLink immediate="true" action="#{documentApproval.delete(docNode.docInfo.id)}" update="@form">
                                         <pf:confirm header="Dokument Löschen" message="Dokument #{docNode.docInfo.name} wirklich löschen?" icon="ui-icon-alert"/>
                                         <pf:graphicImage alt="Löschen" name="Icon/small/delete.png" title="Löschen" value=""/>
-                                        <pf:ajax update="@form"/>
                                     </pf:commandLink>
                                 </div>
                             </h:column>
