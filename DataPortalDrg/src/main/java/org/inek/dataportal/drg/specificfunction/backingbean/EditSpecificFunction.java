@@ -331,7 +331,8 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
     public void sendNotification() {
         List<Account> inekAccounts = _inekRoleFacade.findForFeature(Feature.SPECIFIC_FUNCTION);
         String receipients = inekAccounts.stream().map(a -> a.getEmail()).collect(Collectors.joining(";"));
-        _mailer.sendMail(receipients, "Besondere Aufgaben / Zentrum, IK: " + _request.getIk(), "Es wurde ein Datensatz an das InEK gesendet.");
+        _mailer.
+                sendMail(receipients, "Besondere Aufgaben / Zentrum, IK: " + _request.getIk(), "Es wurde ein Datensatz an das InEK gesendet.");
     }
 
     private boolean requestIsComplete() {
@@ -459,7 +460,11 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
             iks.add(_request.getIk());
         }
         List<SelectItem> items = new ArrayList<>();
+        Set<Integer> denyedIks = _accessManager.retrieveDenyedManagedIks(Feature.SPECIFIC_FUNCTION);
         for (int ik : iks) {
+            if (denyedIks.contains(ik)) {
+                continue;
+            }
             items.add(new SelectItem(ik));
         }
         return items;
