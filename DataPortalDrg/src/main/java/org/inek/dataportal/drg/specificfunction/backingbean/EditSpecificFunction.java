@@ -460,9 +460,9 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
             iks.add(_request.getIk());
         }
         List<SelectItem> items = new ArrayList<>();
-        Set<Integer> denyedIks = _accessManager.retrieveDenyedManagedIks(Feature.SPECIFIC_FUNCTION);
+        Set<Integer> deniedIks = _accessManager.retrieveDenyedManagedIks(Feature.SPECIFIC_FUNCTION);
         for (int ik : iks) {
-            if (denyedIks.contains(ik)) {
+            if (deniedIks.contains(ik)) {
                 continue;
             }
             items.add(new SelectItem(ik));

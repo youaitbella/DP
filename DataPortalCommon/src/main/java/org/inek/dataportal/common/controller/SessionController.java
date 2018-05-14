@@ -30,7 +30,6 @@ import org.inek.dataportal.common.data.adm.facade.LogFacade;
 import org.inek.dataportal.common.data.cooperation.facade.CooperationRequestFacade;
 import org.inek.dataportal.common.data.adm.InekRole;
 import org.inek.dataportal.common.data.adm.Log;
-import org.inek.dataportal.common.data.icmt.entities.Customer;
 import org.inek.dataportal.common.data.icmt.facade.CustomerFacade;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Stage;

@@ -2,7 +2,7 @@ package org.inek.dataportal.common.controller;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Hashtable;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -22,10 +22,9 @@ import org.inek.dataportal.common.helper.Topics;
 public class FeatureHolder {
 
     @Inject private FeatureFactory _featureFactory;
-    private final Map<String, IFeatureController> _featureControllers = new Hashtable<>();
+    private final Map<String, IFeatureController> _featureControllers = new LinkedHashMap<>(); // keeps order
     private final Set<PortalType> _portalTypes = new HashSet<>();
     private final Topics _topics = new Topics();
-    private String _currentTopic = "";
 
     public void initFeatures(Account account, PortalType portaltype) {
 
