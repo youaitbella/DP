@@ -49,18 +49,15 @@
                                        for="year"/>
 
                         <h:selectOneMenu id="year" 
-                                         rendered="#{editSpecificFunction.request.id le 0}"
                                          value="#{editSpecificFunction.request.dataYear}"
                                          disabled="#{editSpecificFunction.readOnly}"
                                          required="true"
                                          hideNoSelectionOption="true">
                             <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
                             <f:selectItems value="#{editSpecificFunction.years}" />
-                            <f:ajax render="specificFuntion:chkAgreement:label"/>
+                            <f:ajax render="specificFuntion:chkAgreement:label msgYear"/>
                         </h:selectOneMenu>
-                        <h:inputText readonly="true"
-                                     rendered="#{editSpecificFunction.request.id gt 0}"
-                                     value="#{editSpecificFunction.request.dataYear}"/>                                     
+                        <h:message id="msgYear" for="year" styleClass="errorMessage"/>
                     </div>
 
                     <h2>#{msg.lblContactPerson}</h2>

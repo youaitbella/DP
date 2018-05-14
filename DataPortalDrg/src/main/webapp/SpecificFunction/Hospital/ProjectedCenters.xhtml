@@ -93,20 +93,6 @@
                 <h:message for="specificFunction" id="msgSpecificFunction" styleClass="errorMessage elementRight70"/>
             </div>
 
-            <!--div class="inputPart">
-                <h:outputLabel id="lblOtherSpecificFunction" value="Sonstige Aufgaben" styleClass="label element12em" for="otherSpecificFunction"/>
-                <h:inputText id="otherSpecificFunction" 
-                             styleClass="element100-12em"
-                             readonly="# not center.specificFunctions.stream().anyMatch(f -> f.getId() == -1)}"
-                             required="# {center.specificFunctions.stream().anyMatch(f -> f.getId() == -1)}"
-                             title="Für Verhandlung vorgesehene besondere Aufgaben (Stichpunktartige Auflistung der zentralen Aufgaben)"
-                             value="# {center.otherSpecificFunction}" >
-                    <f:ajax event="focus" render="@this lblOtherSpecificFunction :logout:remaining msgOtherSpecificFunction"/>
-                    <f:ajax event="change" render="@this lblOtherSpecificFunction :logout:remaining msgOtherSpecificFunction"/ second event causes an error if agent is edited :(>
-                </h:inputText>
-                <h:message id="msgOtherSpecificFunction" for="otherSpecificFunction" styleClass="errorMessage right"/>
-            </div-->
-
             <inek:LabeledText label="Sonstige Aufgaben"
                               rendered="#{center.specificFunctions.stream().anyMatch(f -> f.getId() == -1)}"
                               title="Für Verhandlung vorgesehene besondere Aufgaben (Stichpunktartige Auflistung der zentralen Aufgaben)" 
@@ -117,7 +103,7 @@
                               styleClass="element100-12em"
                               singleLine="true"/>
 
-            <inek:LabeledText label="Anzahl Patienten (ca.)"
+            <inek:LabeledText label="Voraussichtliche Anzahl Patienten (ca.)"
                               title="Voraussichtliche Anzahl der durch das Zentrum /den Schwerpunkt betreuten Patientinnen/Patienten" 
                               value="#{center.estimatedPatientCount}" 
                               required="true"
