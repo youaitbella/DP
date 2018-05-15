@@ -34,10 +34,14 @@ import static org.inek.dataportal.common.helper.Const.*;
 public class FeatureRequestHandler {
 
     private static final Logger LOGGER = Logger.getLogger("FeatureRequestHandler");
-    @Inject private AccountFeatureRequestFacade _facade;
-    @Inject private ContactRoleFacade _roleFacade;
-    @Inject private CustomerFacade _customerFacade;
-    @Inject private ConfigFacade _config;
+    @Inject
+    private AccountFeatureRequestFacade _facade;
+    @Inject
+    private ContactRoleFacade _roleFacade;
+    @Inject
+    private CustomerFacade _customerFacade;
+    @Inject
+    private ConfigFacade _config;
 
     public boolean handleFeatureRequest(Account account, Feature feature) {
         AccountFeatureRequest featureRequest = _facade.findByAccountIdAndFeature(account.getId(), feature);
@@ -63,7 +67,8 @@ public class FeatureRequestHandler {
         return false;
     }
 
-    @Inject private Mailer _mailer;
+    @Inject
+    private Mailer _mailer;
 
     private boolean sendApprovalRequestMail(Account account, AccountFeatureRequest featureRequest) {
         MailTemplate template = _mailer.getMailTemplate("ApprovalRequestMail");
@@ -72,19 +77,17 @@ public class FeatureRequestHandler {
         }
         String link = buildLink(featureRequest.getApprovalKey());
         String subject = template.getSubject().replace(PLACEHOLDER_FEATURE, featureRequest.getFeature().getDescription());
-        Customer cust = _customerFacade.getCustomerByIK(account.getIK());
         String iks = "";
         boolean firstIK = true;
         for (int s : account.getFullIkSet()) {
-            if(firstIK) {
+            if (firstIK) {
                 iks += s;
                 firstIK = false;
-            }
-            else {
+            } else {
                 iks += "," + s;
             }
         }
-        
+
         String body = template.getBody()
                 .replace(PLACEHOLDER_LINK, link)
                 .replace(PLACEHOLDER_FEATURE, featureRequest.getFeature().getDescription())
@@ -93,7 +96,7 @@ public class FeatureRequestHandler {
                 .replace(PLACEHOLDER_ROLE, _roleFacade.find(account.getRoleId()).getText())
                 .replace(PLACEHOLDER_PHONE, account.getPhone())
                 .replace(PLACEHOLDER_COMPANY, account.getCompany())
-                .replace(PLACEHOLDER_IK, iks + (Objects.equals(cust.getIK(), account.getIK()) ? " (im ICMT bekannt)" : ""));
+                .replace(PLACEHOLDER_IK, iks);
         String mailAddress = _config.readConfig(ConfigKey.ManagerEmail);
         return _mailer.sendMail(mailAddress, template.getBcc(), subject, body);
 

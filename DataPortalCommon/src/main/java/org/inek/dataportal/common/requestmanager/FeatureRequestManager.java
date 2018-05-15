@@ -31,11 +31,16 @@ public class FeatureRequestManager implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger("FeatureRequestManager");
     private static final long serialVersionUID = 1L;
-    @Inject private Mailer _mailer;
-    @Inject private AccountFacade _accountFacade;
-    @Inject private AccountFeatureRequestFacade _featureRequestFacade;
-    @Inject private CustomerFacade _customerFacade;
-    @Inject private ContactRoleFacade _roleFacade;
+    @Inject
+    private Mailer _mailer;
+    @Inject
+    private AccountFacade _accountFacade;
+    @Inject
+    private AccountFeatureRequestFacade _featureRequestFacade;
+    @Inject
+    private CustomerFacade _customerFacade;
+    @Inject
+    private ContactRoleFacade _roleFacade;
     private AccountFeatureRequest _request;
     private Account _account;
 
@@ -112,30 +117,14 @@ public class FeatureRequestManager implements Serializable {
                 .stream()
                 .filter(f -> f.getFeatureState() == FeatureState.REQUESTED && f.getFeature() == _request.getFeature())
                 .findFirst();
-        if (optFeature.isPresent()){
-            if (newState == null){
+        if (optFeature.isPresent()) {
+            if (newState == null) {
                 _account.getFeatures().remove(optFeature.get());
-            }else{
+            } else {
                 optFeature.get().setFeatureState(newState);
             }
         }
         _accountFacade.merge(_account);
         _featureRequestFacade.remove(_request);
     }
-
-    public String getIkKnown() {
-        if (_account == null) {
-            return "";
-        }
-        Integer ik = _account.getIK();
-        if (ik == null) {
-            return "---";
-        }
-        Customer cust = _customerFacade.getCustomerByIK(ik);
-        if (cust == null) {
-            return " (New IK)";
-        }
-        return " (IK well known in ICMT)";
-    }
-
 }
