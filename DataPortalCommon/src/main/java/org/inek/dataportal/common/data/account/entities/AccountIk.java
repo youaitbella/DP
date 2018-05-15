@@ -13,14 +13,14 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "AccountAdditionalIK")
-public class AccountAdditionalIK implements Serializable {
+public class AccountIk implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public AccountAdditionalIK() {
+    public AccountIk() {
     }
 
-    public AccountAdditionalIK(int accountId, int ik) {
+    public AccountIk(int accountId, int ik) {
         _accountId = accountId;
         _ik = ik;
     }
@@ -89,10 +89,10 @@ public class AccountAdditionalIK implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        if (!(object instanceof AccountAdditionalIK)) {
+        if (!(object instanceof AccountIk)) {
             return false;
         }
-        AccountAdditionalIK other = (AccountAdditionalIK) object;
+        AccountIk other = (AccountIk) object;
         if ((_id == null && other.getId() != null) || (_id != null && !_id.equals(other.getId()))) {
             return false;
         }

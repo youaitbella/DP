@@ -25,7 +25,7 @@ import org.inek.dataportal.common.overall.ApplicationTools;
 import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.common.data.account.entities.AccountAdditionalIK;
+import org.inek.dataportal.common.data.account.entities.AccountIk;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.enums.Pages;

@@ -20,7 +20,7 @@ import javax.persistence.TypedQuery;
 import org.inek.dataportal.common.data.icmt.entities.Customer;
 import org.inek.dataportal.common.data.account.entities.PasswordRequest;
 import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.common.data.account.entities.AccountAdditionalIK;
+import org.inek.dataportal.common.data.account.entities.AccountIk;
 import org.inek.dataportal.common.data.account.entities.AccountChangeMail;
 import org.inek.dataportal.common.data.account.entities.AccountFeature;
 import org.inek.dataportal.common.data.account.entities.AccountPwd;

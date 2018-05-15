@@ -17,7 +17,7 @@ import org.inek.dataportal.common.overall.ApplicationTools;
 import org.inek.dataportal.common.overall.SessionTools;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.common.data.account.entities.AccountAdditionalIK;
+import org.inek.dataportal.common.data.account.entities.AccountIk;
 import org.inek.dataportal.common.data.account.entities.AccountFeature;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.enums.FeatureState;
@@ -227,7 +227,7 @@ public class EditUserMaintenance extends AbstractEditController {
     public List<Integer> getAdditionalIKs() {
         if (_additionalIKs == null) {
             _additionalIKs = new ArrayList<>();
-            for (AccountAdditionalIK addIk : _sessionController.getAccount().getAdditionalIKs()) {
+            for (AccountIk addIk : _sessionController.getAccount().getAdditionalIKs()) {
                 _additionalIKs.add(addIk.getIK());
             }
         }
@@ -536,7 +536,7 @@ public class EditUserMaintenance extends AbstractEditController {
 
     private boolean mergeIKListIfModified() {
         Account account = _sessionController.getAccount();
-        List<AccountAdditionalIK> additionalIKs = account.getAdditionalIKs();
+        List<AccountIk> additionalIKs = account.getAdditionalIKs();
         Set<Integer> oldSet = additionalIKs.stream().map(ai -> ai.getIK()).collect(Collectors.toSet());
         Set<Integer> newSet = _additionalIKs.stream().filter(ai -> ai != null).collect(Collectors.toSet());
         if (equalSets(newSet, oldSet)) {
@@ -548,9 +548,9 @@ public class EditUserMaintenance extends AbstractEditController {
         return true;
     }
 
-    private void removeOldIksAndUpdateNewSet(List<AccountAdditionalIK> additionalIKs, Set<Integer> newSet, Account account) {
+    private void removeOldIksAndUpdateNewSet(List<AccountIk> additionalIKs, Set<Integer> newSet, Account account) {
         for (int i = additionalIKs.size() - 1; i >= 0; i--) {
-            AccountAdditionalIK addIK = additionalIKs.get(i);
+            AccountIk addIK = additionalIKs.get(i);
             if (newSet.contains(addIK.getIK())) {
                 newSet.remove(addIK.getIK());
             } else {
@@ -563,7 +563,7 @@ public class EditUserMaintenance extends AbstractEditController {
         }
     }
 
-    private void addNewIks(Set<Integer> newSet, Account account, List<AccountAdditionalIK> additionalIKs) {
+    private void addNewIks(Set<Integer> newSet, Account account, List<AccountIk> additionalIKs) {
         for (int ik : newSet) {
             if (_ikAdminFacade.hasIkAdmin(ik)) {
                 boolean hasNewEntry = false;
@@ -579,7 +579,7 @@ public class EditUserMaintenance extends AbstractEditController {
                     notifyIkAdmin(ik, account);
                 }
             }
-            AccountAdditionalIK addIK = new AccountAdditionalIK();
+            AccountIk addIK = new AccountIk();
             addIK.setIK(ik);
             additionalIKs.add(addIK);
         }
@@ -605,7 +605,7 @@ public class EditUserMaintenance extends AbstractEditController {
     }
 
     private boolean isIKListMofified() {
-        List<AccountAdditionalIK> additionalIKs = _sessionController.getAccount().getAdditionalIKs();
+        List<AccountIk> additionalIKs = _sessionController.getAccount().getAdditionalIKs();
         Set<Integer> oldSet = additionalIKs.stream().map(ai -> ai.getIK()).collect(Collectors.toSet());
         Set<Integer> newSet = _additionalIKs.stream().filter(ai -> ai != null).collect(Collectors.toSet());
         return !equalSets(newSet, oldSet);

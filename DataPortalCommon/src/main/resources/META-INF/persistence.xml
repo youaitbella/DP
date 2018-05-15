@@ -34,7 +34,6 @@
     <class>org.inek.dataportal.common.data.account.entities.AccountDocument</class>
     <class>org.inek.dataportal.common.data.account.entities.WeakPassword</class>
     <class>org.inek.dataportal.common.data.account.entities.AccountChangeMail</class>
-    <class>org.inek.dataportal.common.data.account.entities.AccountAdditionalIK</class>
     <class>org.inek.dataportal.common.data.account.entities.AccountRequest</class>
     <class>org.inek.dataportal.common.data.account.entities.AccountPwd</class>
     <class>org.inek.dataportal.common.data.account.entities.PasswordRequest</class>
@@ -56,6 +55,7 @@
     <class>org.inek.dataportal.common.specificfunction.entity.SpecificFunction</class>
     <class>org.inek.dataportal.common.specificfunction.entity.SpecificFunctionRequest</class>
     <class>org.inek.dataportal.common.specificfunction.entity.TypeExtraCharge</class>
+    <class>org.inek.dataportal.common.data.account.entities.AccountIk</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="eclipselink.jpa.uppercase-column-names" value="true"/>

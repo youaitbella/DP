@@ -244,7 +244,7 @@ public class Account implements Serializable, Person {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "aaiAccountId", referencedColumnName = "acId")
     @OrderBy("_ik")
-    private List<AccountAdditionalIK> _additionalIKs;
+    private List<AccountIk> _additionalIKs;
 
     // <editor-fold defaultstate="collapsed" desc="Property AdminIks">
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
@@ -435,11 +435,11 @@ public class Account implements Serializable, Person {
         return _features;
     }
 
-    public void setAdditionalIKs(List<AccountAdditionalIK> additionalIKs) {
+    public void setAdditionalIKs(List<AccountIk> additionalIKs) {
         _additionalIKs = additionalIKs;
     }
 
-    public List<AccountAdditionalIK> getAdditionalIKs() {
+    public List<AccountIk> getAdditionalIKs() {
         if (_additionalIKs == null) {
             _additionalIKs = new ArrayList<>();
         }
@@ -447,7 +447,7 @@ public class Account implements Serializable, Person {
     }
 
     public void addIk(int ik) {
-        _additionalIKs.add(new AccountAdditionalIK(_id, ik));
+        _additionalIKs.add(new AccountIk(_id, ik));
     }
     // </editor-fold>
 
@@ -456,7 +456,7 @@ public class Account implements Serializable, Person {
         if (_ik != null && _ik > 0) {
             iks.add(_ik);
         }
-        for (AccountAdditionalIK addIk : getAdditionalIKs()) {
+        for (AccountIk addIk : getAdditionalIKs()) {
             iks.add(addIk.getIK());
         }
         return iks;
