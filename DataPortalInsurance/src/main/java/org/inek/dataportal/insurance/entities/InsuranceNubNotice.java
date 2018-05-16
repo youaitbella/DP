@@ -135,7 +135,7 @@ public class InsuranceNubNotice implements Serializable {
     
     // <editor-fold defaultstate="collapsed" desc="Property InsuranceIk">
     @Column(name = "innInsuranceIk")
-    private int _insuranceIk = -1;
+    private int _insuranceIk;
 
     public int getInsuranceIk() {
         return _insuranceIk;

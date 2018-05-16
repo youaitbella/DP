@@ -5,6 +5,7 @@
 package org.inek.dataportal.insurance;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -40,7 +41,9 @@ import org.inek.dataportal.common.controller.AbstractEditController;
 import org.inek.dataportal.common.data.access.ProcedureFacade;
 import org.inek.dataportal.common.data.common.RemunerationType;
 import org.inek.dataportal.common.data.icmt.facade.CustomerFacade;
+import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.scope.FeatureScoped;
 
 /**
@@ -67,6 +70,8 @@ public class EditInsuranceNubNotice extends AbstractEditController {
     private SessionController _sessionController;
     @Inject
     private CustomerFacade _customerFacade;
+    @Inject
+    private AccessManager _accessManager;
 
     @PostConstruct
     private void init() {
@@ -108,8 +113,27 @@ public class EditInsuranceNubNotice extends AbstractEditController {
         _notice.setInsuranceName(_customerFacade.getCustomerByIK(_notice.getInsuranceIk()).getName());
     }
 
+    public List<SelectItem> getValidIksX() {
+        Account account = _sessionController.getAccount();
+        Set<Integer> iks = account.getFullIkSet();
+        if (_notice != null && _notice.getInsuranceIk()> 0) {
+            iks.add(_notice.getInsuranceIk());
+        }
+        List<SelectItem> items = new ArrayList<>();
+        Set<Integer> deniedIks = _accessManager.retrieveDenyedManagedIks(Feature.INSURANCE);
+        for (int ik : iks) {
+            if (deniedIks.contains(ik)) {
+                continue;
+            }
+            items.add(new SelectItem(ik));
+        }
+        return items;
+    }
     public Set<Integer> getValidIks() {
-        return _sessionController.getAccount().getFullIkSet();
+        Set<Integer> iks = _sessionController.getAccount().getFullIkSet();
+        Set<Integer> deniedIks = _accessManager.retrieveDenyedManagedIks(Feature.INSURANCE);
+        iks.removeAll(deniedIks);
+        return iks;
     }
 
     private InsuranceNubNotice _notice;

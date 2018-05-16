@@ -66,10 +66,12 @@
 
             </h:form>
 
-            <h:form id="uploadForm" rendered="#{!editInsuranceNubNotice.readOnly}" enctype="multipart/form-data" style="margin-top: 40px;">
+            <h:form id="uploadForm" 
+                    rendered="#{!editInsuranceNubNotice.readOnly}" 
+                    enctype="multipart/form-data" style="margin-top: 40px;">
                 <div class="uploadFile" id="testDiv">
-                    <h:inputFile styleClass="hiddenFile" id="file" value="#{editInsuranceNubNotice.file}" title="#{msg.btnUploadMessage}" >
-                        <!-- todo: want to show this: onclick="document.getElementById('wrapper').style.cursor = 'progress';" -->
+                    <h:inputFile styleClass="hiddenFile" id="file" value="#{editInsuranceNubNotice.file}" title="#{msg.btnUploadMessage}"
+                        onclick="document.getElementById('uploadForm').style.cursor = 'progress';">
                         <f:ajax listener="#{editInsuranceNubNotice.uploadNotices()}" render=":uploadForm :messageForm"/>
                     </h:inputFile>
                     <div class="fakeFile">
@@ -77,7 +79,7 @@
                     </div>
                     <h:commandLink rendered="#{editInsuranceNubNotice.importMessage.length() gt 0}" 
                                    styleClass="button"
-                                   value="#{msg.btnJournal} &nbsp; #{editInsuranceNubNotice.showJournal ? '^' : '?'}" immediate="true"
+                                   value="#{msg.btnJournal} &nbsp; #{editInsuranceNubNotice.showJournal ? '˄' : '˅'}" immediate="true"
                                    action="#{editInsuranceNubNotice.toggleJournal}">
                         <f:ajax event="blur" render="importMessage :logout:remaining"/>
                     </h:commandLink>
