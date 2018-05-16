@@ -113,6 +113,10 @@ public class NoticeItemImporter {
     }
 
     private void tryImportDosageForm(InsuranceNubNoticeItem item, String dataString) {
+        if (dataString.trim().isEmpty()){
+            item.setDosageFormId(0);
+            return;
+        }
         Optional<Integer> dosageFormOpt = _insuranceFacade.getDosageFormId(dataString);
         if (dosageFormOpt.isPresent()) {
             item.setDosageFormId(dosageFormOpt.get());
