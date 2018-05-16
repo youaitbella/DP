@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
@@ -36,6 +37,7 @@ import org.inek.dataportal.insurance.facade.InsuranceFacade;
 import org.inek.dataportal.common.controller.AbstractEditController;
 import org.inek.dataportal.common.data.access.ProcedureFacade;
 import org.inek.dataportal.common.data.common.RemunerationType;
+import org.inek.dataportal.common.data.icmt.facade.CustomerFacade;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.scope.FeatureScoped;
 
@@ -49,15 +51,20 @@ public class EditInsuranceNubNotice extends AbstractEditController {
 
     private static final Logger LOGGER = Logger.getLogger("EditInsuranceNubNotice");
 
-    // <editor-fold defaultstate="collapsed" desc="override AbstractEditController">    
+    // <editor-fold defaultstate="collapsed" desc="override AbstractEditController">
     @Override
-    protected void addTopics() {}
+    protected void addTopics() {
+    }
 
     // </editor-fold>
-
-    @Inject private InsuranceFacade _insuranceFacade;
-    @Inject private ProcedureFacade _procedureFacade;
-    @Inject private SessionController _sessionController;
+    @Inject
+    private InsuranceFacade _insuranceFacade;
+    @Inject
+    private ProcedureFacade _procedureFacade;
+    @Inject
+    private SessionController _sessionController;
+    @Inject
+    private CustomerFacade _customerFacade;
 
     @PostConstruct
     private void init() {
@@ -89,8 +96,6 @@ public class EditInsuranceNubNotice extends AbstractEditController {
     private InsuranceNubNotice newNotice() {
         Account account = _sessionController.getAccount();
         InsuranceNubNotice notice = new InsuranceNubNotice();
-        notice.setInsuranceName(account.getCompany());
-        notice.setInsuranceIk(account.getIK() == null ? 0 : account.getIK());
         notice.setAccountId(account.getId());
         notice.setWorkflowStatusId(0);
         return notice;
@@ -98,6 +103,11 @@ public class EditInsuranceNubNotice extends AbstractEditController {
 
     public void ikChanged() {
         _nubInfos = null;
+        _notice.setInsuranceName(_customerFacade.getCustomerByIK(_notice.getInsuranceIk()).getName());
+    }
+
+    public Set<Integer> getValidIks() {
+        return _sessionController.getAccount().getFullIkSet();
     }
 
     private InsuranceNubNotice _notice;
@@ -308,7 +318,8 @@ public class EditInsuranceNubNotice extends AbstractEditController {
         return _importMessage;
     }
 
-    @Inject private Instance<NoticeItemImporter> _importProvider;
+    @Inject
+    private Instance<NoticeItemImporter> _importProvider;
 
     public void uploadNotices() {
         try {

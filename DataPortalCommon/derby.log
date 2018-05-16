@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Tue May 15 15:46:12 CEST 2018:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.1 - (1616546): instance a816c00e-0163-640d-23db-00000b030b10 
+on database directory memory:D:\projects\DataPortal\DataPortalCommon\exploringJpa with class loader sun.misc.Launcher$AppClassLoader@6bc7c054 
+Loaded from file:/C:/Users/lautenti/.m2/repository/org/apache/derby/derby/10.11.1.1/derby-10.11.1.1.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_102-b14
+user.dir=D:\projects\DataPortal\DataPortalCommon
+os.name=Windows 7
+os.arch=amd64
+os.version=6.1
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
