@@ -5,7 +5,9 @@
 package org.inek.dataportal.insurance;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -66,6 +68,13 @@ public class EditInsuranceNubNotice extends AbstractEditController {
     @Inject
     private CustomerFacade _customerFacade;
 
+    @Inject
+    private InsuranceFacade _insuranceFacade;
+    @Inject
+    private ProcedureFacade _procedureFacade;
+    @Inject
+    private SessionController _sessionController;
+
     @PostConstruct
     private void init() {
         String id = "" + FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id");
@@ -123,7 +132,8 @@ public class EditInsuranceNubNotice extends AbstractEditController {
         return _nubInfos
                 .stream()
                 .sorted((n, m) -> n.getMethodName().compareTo(m.getMethodName()))
-                .map(i -> new SelectItem(i.getRequestId(), i.getMethodName() + " [N" + i.getRequestId() + "]", i.getRequestName()))
+                .map(i -> new SelectItem(i.getRequestId(), i.getMethodName() + " [N" + i.getRequestId() + "]", i.
+                getRequestName()))
                 .collect(Collectors.toList());
     }
 
@@ -161,6 +171,10 @@ public class EditInsuranceNubNotice extends AbstractEditController {
 
     public boolean getProvideEnabled() {
         return true;
+    }
+
+    public int getMaxYear() {
+        return Calendar.getInstance().get(Calendar.YEAR);
     }
 
     public boolean getReadOnly() {
