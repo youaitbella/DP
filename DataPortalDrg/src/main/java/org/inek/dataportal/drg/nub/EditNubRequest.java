@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -63,14 +64,22 @@ public class EditNubRequest extends AbstractEditController {
 
     private static final Logger LOGGER = Logger.getLogger("EditNubRequest");
 
-    @Inject private AccessManager _accessManager;
-    @Inject private ProcedureFacade _procedureFacade;
-    @Inject private SessionController _sessionController;
-    @Inject private SessionHelper _sessionHelper;
-    @Inject private NubRequestFacade _nubRequestFacade;
-    @Inject private CustomerFacade _customerFacade;
-    @Inject private NubSessionTools _nubSessionTools;
-    @Inject private ApplicationTools _appTools;
+    @Inject
+    private AccessManager _accessManager;
+    @Inject
+    private ProcedureFacade _procedureFacade;
+    @Inject
+    private SessionController _sessionController;
+    @Inject
+    private SessionHelper _sessionHelper;
+    @Inject
+    private NubRequestFacade _nubRequestFacade;
+    @Inject
+    private CustomerFacade _customerFacade;
+    @Inject
+    private NubSessionTools _nubSessionTools;
+    @Inject
+    private ApplicationTools _appTools;
     private NubRequest _nubRequest;
     private NubRequest _nubRequestBaseline;
     private CooperativeRight _cooperativeRight;
@@ -129,9 +138,6 @@ public class EditNubRequest extends AbstractEditController {
                 }
             } else {
                 _nubRequest.setIkName(c.getName());
-                if (_sessionController.getAccount().getIK() != null && _nubRequest.getIk() == _sessionController.getAccount().getIK()) {
-                    _nubRequest.setIkName(_sessionController.getAccount().getCompany());
-                }
             }
         }
     }
@@ -191,10 +197,10 @@ public class EditNubRequest extends AbstractEditController {
         if (isOwnNub(nubRequest)) {
             return true;
         }
-        if (_accessManager.retrieveDenyedManagedIks(Feature.NUB).contains(nubRequest.getIk())){
+        if (_accessManager.retrieveDenyedManagedIks(Feature.NUB).contains(nubRequest.getIk())) {
             return false;
         }
-        if (_accessManager.retrieveAllowedManagedIks(Feature.NUB).contains(nubRequest.getIk())){
+        if (_accessManager.retrieveAllowedManagedIks(Feature.NUB).contains(nubRequest.getIk())) {
             return true;
         }
         ensureCooperativeRight(nubRequest);
@@ -235,19 +241,11 @@ public class EditNubRequest extends AbstractEditController {
         return items;
     }
 
-    public List<SelectItem> getIks() {
-        Set<Integer> iks = _sessionController.getAccount().getFullIkSet();
-        List<SelectItem> items = new ArrayList<>();
-        if (_nubRequest.getIk() > 0) {
-            iks.add(_nubRequest.getIk());
-        }
-        for (int ik : iks) {
-            items.add(new SelectItem(ik));
-        }
-        if (_nubRequest.getIk() == -1) {
-            items.add(0, new SelectItem(-1, ""));
-        }
-        return items;
+    public Set<Integer> getIks() {
+        Set<Integer> iks = new HashSet<>();
+        iks.add(-1);
+        iks.addAll(_sessionController.getAccount().getFullIkSet());
+        return iks;
     }
 
     public void checkPostalCode(FacesContext context, UIComponent component, Object value) {
@@ -689,7 +687,8 @@ public class EditNubRequest extends AbstractEditController {
         Utils.downloadText(content, _nubRequest.getName() + ".nub", "UTF-8");
     }
 
-    @Inject private AccountFacade _accountFacade;
+    @Inject
+    private AccountFacade _accountFacade;
 
     public void copyNubRequest(AjaxBehaviorEvent event) {
         if (_nubSessionTools.copyNubRequest(_nubRequest)) {
@@ -698,7 +697,8 @@ public class EditNubRequest extends AbstractEditController {
     }
 
     // <editor-fold defaultstate="collapsed" desc="Request correction">
-    @Inject private MessageService _messageService;
+    @Inject
+    private MessageService _messageService;
 
     public String requestCorrection() {
         if (!isReadOnly()) {

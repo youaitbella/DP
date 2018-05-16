@@ -55,8 +55,8 @@ public class NubController extends AbstractFeatureController {
         Account account = getSessionController().getAccount();
         String helperId = encodeHelpId(account.getId());
         appendLine(sb, NubFieldKey.ID, helperId);
-        String helperName = account.getTitle()+ " " + account.getFirstName() + " " + account.getLastName();
-        String helper = account.getCompany() 
+        String helperName = account.getTitle() + " " + account.getFirstName() + " " + account.getLastName();
+        String helper = account.getCompany()
                 + "\r\n" + helperName.trim()
                 + "\r\n" + nubRequest.getFormFillHelper();
         appendLine(sb, NubFieldKey.Helper, helper);
@@ -237,15 +237,7 @@ public class NubController extends AbstractFeatureController {
     }
 
     public void populateMasterData(NubRequest proposal, Account account) {
-        Integer ik = account.getIK();
-        if (ik == null){
-            // todo: remove, once AccountIK is from type int
-            ik = -1;
-        }
-        if (ik == -1 && !account.getAdditionalIKs().isEmpty()) {
-            ik = account.getAdditionalIKs().get(0).getIK();
-        }
-        proposal.setIk(ik);
+        proposal.setIk(-1);
         proposal.setIkName(account.getCompany());
         proposal.setGender(account.getGender());
         proposal.setTitle(account.getTitle());
