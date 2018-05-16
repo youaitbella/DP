@@ -9,7 +9,9 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Optional;
 import javax.inject.Inject;
 import org.inek.dataportal.common.data.access.ProcedureFacade;
@@ -112,13 +114,18 @@ public class NoticeItemImporter {
         }
     }
 
+    private Map<String, Integer> dosageCache = new HashMap<>();
     private void tryImportDosageForm(InsuranceNubNoticeItem item, String dataString) {
         if (dataString.trim().isEmpty()){
             item.setDosageFormId(0);
             return;
         }
+        if (dosageCache.containsKey(dataString)){
+            item.setDosageFormId(dosageCache.get(dataString));
+        }
         Optional<Integer> dosageFormOpt = _insuranceFacade.getDosageFormId(dataString);
         if (dosageFormOpt.isPresent()) {
+            dosageCache.put(dataString, dosageFormOpt.get());
             item.setDosageFormId(dosageFormOpt.get());
         } else {
             throw new IllegalArgumentException(Utils.getMessage("msgUnknowDosageForm") + ": " + dataString);
@@ -145,6 +152,10 @@ public class NoticeItemImporter {
     }
 
     private void tryImportUnit(InsuranceNubNoticeItem item, String dataString) {
+        if (dataString.trim().isEmpty()){
+            item.setUnitId(0);
+            return;
+        }
         Optional<Unit> unitOpt = _insuranceFacade.getUnit(dataString);
         if (unitOpt.isPresent()) {
             item.setUnitId(unitOpt.get().getId());
