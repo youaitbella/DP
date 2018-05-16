@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
-Wed May 16 14:40:15 CEST 2018:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.1 - (1616546): instance a816c00e-0163-68f7-1d6b-00000af0baf8 
+Wed May 16 16:10:20 CEST 2018:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.1 - (1616546): instance a816c00e-0163-6949-94cd-00000afd6198 
 on database directory memory:D:\projects\DataPortal\DataPortalCommon\exploringJpa with class loader sun.misc.Launcher$AppClassLoader@6bc7c054 
 Loaded from file:/C:/Users/lautenti/.m2/repository/org/apache/derby/derby/10.11.1.1/derby-10.11.1.1.jar
 java.vendor=Oracle Corporation

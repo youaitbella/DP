@@ -68,13 +68,6 @@ public class EditInsuranceNubNotice extends AbstractEditController {
     @Inject
     private CustomerFacade _customerFacade;
 
-    @Inject
-    private InsuranceFacade _insuranceFacade;
-    @Inject
-    private ProcedureFacade _procedureFacade;
-    @Inject
-    private SessionController _sessionController;
-
     @PostConstruct
     private void init() {
         String id = "" + FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id");
