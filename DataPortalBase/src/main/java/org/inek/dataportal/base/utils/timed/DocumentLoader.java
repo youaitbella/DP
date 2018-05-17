@@ -108,22 +108,26 @@ public class DocumentLoader {
 
     public static boolean moveFile(String targetFolder, File file) {
         File targetDir = new File(file.getParent(), targetFolder);
-        if (!targetDir.exists()) {
-            targetDir.mkdirs();
-        }
-        boolean success = file.renameTo(new File(targetDir, file.getName()));
-        
-        if (!success) {
+        try {
+            if (!targetDir.exists()) {
+                targetDir.mkdirs();
+            }
+            boolean success = file.renameTo(new File(targetDir, file.getName()));
+            if (!success){
+                throw new IOException("Rename failed");
+            }
+            return true;
+        } catch (Exception ex) {
             String msg;
             if (new File(targetDir, file.getName()).exists()) {
                 msg = "File {0} exists in target folder";
             } else {
-                msg = "Could not rename {0}.";
+                msg = "Could not rename {0}. Reason: " + ex.getMessage();
             }
             LOGGER.log(Level.INFO, msg, file.getName());
             file.delete();
+            return false;
         }
-        return success;
     }
 
     private synchronized void handleContainer(File file) {
