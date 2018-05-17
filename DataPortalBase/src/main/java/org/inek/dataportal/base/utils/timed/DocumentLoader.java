@@ -117,7 +117,8 @@ public class DocumentLoader {
                 throw new IOException("Rename failed");
             }
             return true;
-        } catch (Exception ex) {
+            
+        } catch (NullPointerException | SecurityException | IOException ex) {
             String msg;
             if (new File(targetDir, file.getName()).exists()) {
                 msg = "File {0} exists in target folder";
