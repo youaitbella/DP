@@ -57,7 +57,11 @@ public class DocumentLoaderTest {
         assertTrue("targetFile created", targetFile.exists());
 
         boolean result = DocumentLoader.moveFile(targetRelativePath, file);
+        if (isWindows()){
         assertFalse(result);
+        }else{
+        assertTrue(result);
+        }
         assertTrue("File moved", targetFile.exists());
         
         
@@ -70,6 +74,11 @@ public class DocumentLoaderTest {
     public File getUserHomeDir() {
         File dir = new File(System.getProperty("user.home"));
         return dir;
+    }
+
+    private boolean isWindows() {
+        String os = System.getProperty("os.name");
+        return os.toLowerCase().startsWith("windows");
     }
 
 }
