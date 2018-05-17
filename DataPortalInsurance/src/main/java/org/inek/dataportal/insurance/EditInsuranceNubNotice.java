@@ -113,22 +113,6 @@ public class EditInsuranceNubNotice extends AbstractEditController {
         _notice.setInsuranceName(_customerFacade.getCustomerByIK(_notice.getInsuranceIk()).getName());
     }
 
-    public List<SelectItem> getValidIksX() {
-        Account account = _sessionController.getAccount();
-        Set<Integer> iks = account.getFullIkSet();
-        if (_notice != null && _notice.getInsuranceIk()> 0) {
-            iks.add(_notice.getInsuranceIk());
-        }
-        List<SelectItem> items = new ArrayList<>();
-        Set<Integer> deniedIks = _accessManager.retrieveDenyedManagedIks(Feature.INSURANCE);
-        for (int ik : iks) {
-            if (deniedIks.contains(ik)) {
-                continue;
-            }
-            items.add(new SelectItem(ik));
-        }
-        return items;
-    }
     public Set<Integer> getValidIks() {
         Set<Integer> iks = _sessionController.getAccount().getFullIkSet();
         Set<Integer> deniedIks = _accessManager.retrieveDenyedManagedIks(Feature.INSURANCE);

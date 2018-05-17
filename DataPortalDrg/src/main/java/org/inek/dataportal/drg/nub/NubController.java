@@ -237,7 +237,6 @@ public class NubController extends AbstractFeatureController {
     }
 
     public void populateMasterData(NubRequest proposal, Account account) {
-        proposal.setIk(-1);
         proposal.setIkName(account.getCompany());
         proposal.setGender(account.getGender());
         proposal.setTitle(account.getTitle());
@@ -263,7 +262,7 @@ public class NubController extends AbstractFeatureController {
     private byte getByteValue(String content) {
         try {
             return Byte.parseByte(content);
-        } catch (Exception ex) {
+        } catch (NumberFormatException ex) {
             return 0;
         }
     }

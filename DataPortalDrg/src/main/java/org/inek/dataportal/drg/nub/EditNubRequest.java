@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -242,9 +241,9 @@ public class EditNubRequest extends AbstractEditController {
     }
 
     public Set<Integer> getIks() {
-        Set<Integer> iks = new HashSet<>();
-        iks.add(-1);
-        iks.addAll(_sessionController.getAccount().getFullIkSet());
+        Set<Integer> iks = _sessionController.getAccount().getFullIkSet();
+        Set<Integer> deniedIks = _accessManager.retrieveDenyedManagedIks(Feature.NUB);
+        iks.removeAll(deniedIks);
         return iks;
     }
 
