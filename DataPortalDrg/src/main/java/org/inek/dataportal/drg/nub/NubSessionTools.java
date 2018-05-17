@@ -280,6 +280,9 @@ public class NubSessionTools implements Serializable {
     }
 
     public boolean isSealEnabled(NubRequest nubRequest) {
+        if (nubRequest.getIk() <= 0){
+            return false;
+        }
         if (!_appTools.isEnabled(ConfigKey.IsNubSendEnabled)) {
             return false;
         }
