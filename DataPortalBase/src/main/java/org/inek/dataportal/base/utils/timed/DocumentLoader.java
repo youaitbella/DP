@@ -106,16 +106,24 @@ public class DocumentLoader {
         }
     }
 
-    private void moveFile(String targetFolder, File file) {
-        try {
-            File targetDir = new File(file.getParent(), targetFolder);
-            if (!targetDir.exists()) {
-                targetDir.mkdirs();
-            }
-            file.renameTo(new File(targetDir, file.getName()));
-        } catch (Exception ex) {
-            LOGGER.log(Level.INFO, "Could not rename {0}", file.getName());
+    public static boolean moveFile(String targetFolder, File file) {
+        File targetDir = new File(file.getParent(), targetFolder);
+        if (!targetDir.exists()) {
+            targetDir.mkdirs();
         }
+        boolean success = file.renameTo(new File(targetDir, file.getName()));
+        
+        if (!success) {
+            String msg;
+            if (new File(targetDir, file.getName()).exists()) {
+                msg = "File {0} exists in target folder";
+            } else {
+                msg = "Could not rename {0}.";
+            }
+            LOGGER.log(Level.INFO, msg, file.getName());
+            file.delete();
+        }
+        return success;
     }
 
     private synchronized void handleContainer(File file) {
@@ -224,7 +232,7 @@ public class DocumentLoader {
         doc.setIk(importInfo.getIk());
         doc.setJsonMail(jsonMail.toString());
         _waitingDocFacade.save(doc);
-        LOGGER.log(Level.INFO, "Document created for approval: {0} for account {1}", 
+        LOGGER.log(Level.INFO, "Document created for approval: {0} for account {1}",
                 new Object[]{name, importInfo.getApprovalAccount().getId()});
     }
 
