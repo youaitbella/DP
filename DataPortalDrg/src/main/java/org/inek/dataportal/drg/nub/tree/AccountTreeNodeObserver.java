@@ -63,12 +63,16 @@ public class AccountTreeNodeObserver implements TreeNodeObserver {
     private List<ProposalInfo> obtainNubInfosForRead(Account account, int year) {
         List<ProposalInfo> infos = new ArrayList<>();
         Set<Integer> managedIks = _accessManager.retrieveAllManagedIks(Feature.NUB);
-            // todo: for own account read all nubs which are not for a managed ik, independently from the account's ik set
+        // todo: for own account read all nubs which are not for a managed ik, independently from the account's ik set
 //        if (account.getId() == _sessionController.getAccountId()){
 //        }else {
 //        }
         Set<Integer> ikSet = account.getFullIkSet();
         ikSet.removeAll(managedIks);
+        boolean itsMe = account == _sessionController.getAccount();
+        if (itsMe) {
+            ikSet.add(0);
+        }
         for (int ik : ikSet) {
             if (account.getId() != _sessionController.getAccountId()
                     && !_accessManager.canReadSealed(Feature.NUB, account.getId(), ik)) {
@@ -86,8 +90,11 @@ public class AccountTreeNodeObserver implements TreeNodeObserver {
         Set<Integer> managedIks = _accessManager.retrieveAllManagedIks(Feature.NUB);
         Set<Integer> ikSet = account.getFullIkSet();
         ikSet.removeAll(managedIks);
+        boolean itsMe = account == _sessionController.getAccount();
+        if (itsMe) {
+            ikSet.add(0);
+        }
         for (int ik : ikSet) {
-            boolean itsMe = account == _sessionController.getAccount();
             if (!itsMe && !_accessManager.canReadCompleted(Feature.NUB, account.getId(), ik)) {
                 continue;
             }

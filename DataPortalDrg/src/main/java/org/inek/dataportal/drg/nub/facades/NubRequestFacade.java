@@ -98,7 +98,7 @@ public class NubRequestFacade extends AbstractDataAccess {
                     like(request.get("_displayName"), filter));
             condition = cb.and(condition, isFiltered);
         }
-        if (ik > 0) {
+        if (ik >= 0) {
             Predicate ikCondition = cb.equal(request.get("_ik"), ik);
             condition = cb.and(condition, ikCondition);
         }

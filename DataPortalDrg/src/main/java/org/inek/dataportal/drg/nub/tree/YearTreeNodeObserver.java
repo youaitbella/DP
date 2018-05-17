@@ -20,7 +20,6 @@ import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.data.icmt.facade.CustomerFacade;
 import org.inek.dataportal.drg.nub.facades.NubRequestFacade;
-import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.common.tree.entityTree.AccountTreeNode;
 import org.inek.dataportal.common.tree.entityTree.CustomerTreeNode;
 import org.inek.dataportal.common.tree.TreeNode;
@@ -37,7 +36,6 @@ public class YearTreeNodeObserver implements TreeNodeObserver {
     @Inject private Instance<AccountTreeNodeObserver> _accountTreeNodeObserverProvider;
     @Inject private Instance<CustomerTreeNodeObserver> _customerTreeNodeObserverProvider;
     @Inject private AccessManager _accessManager;
-    @Inject private AccountFacade _accountFacade;
     @Inject private CustomerFacade _customerFacade;
 
     @Override
