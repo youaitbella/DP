@@ -27,8 +27,11 @@
     <para styleclass="Normal"><text styleclass="Normal" style="font-weight:normal;" translate="true">Sobald Sie eines der beiden Ankreuzfelder (&quot;CheckBoxen&quot;) für beabsichtigte bzw. vorliegende Vereinbarungen markiert ist, öffnet sich ein entsprechender Bereich, der Ihnen die weitere Eingabe von Daten ermöglicht. Diese Markierung ist per Vorgabe gesetzt, kann aber bei Bedarf entfernt werden.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Image Caption"><image src="SpecificFunction02.png" scale="100.00%" styleclass="Image Caption"></image></para>
-    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Eingabebereich geplante Vereinbarung</text></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Eingabebereich geplante Vereinbarung vor Auswahl </text><text styleclass="Image Caption" style="font-weight:bold;" translate="true">Zentrumszuschlag für</text></para>
     <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="SpecificFunction04.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Eingabebereich geplante Vereinbarung nach Auswahl </text><text styleclass="Image Caption" style="font-weight:bold;" translate="true">Zentrumszuschlag für</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"></para>
     <para styleclass="Image Caption"><image src="SpecificFunction03.png" scale="100.00%" styleclass="Image Caption"></image></para>
@@ -36,10 +39,11 @@
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" style="font-weight:normal;" translate="true">Geben Sie in beiden Bereichen die Daten entsprechend der Dialogbeschriftung an. Sowohl bei </text><text styleclass="Normal" style="font-weight:bold;" translate="true">Zentrumszuschlag für</text><text styleclass="Normal" style="font-weight:normal;" translate="true"> (Auswahlliste) als auch </text><text styleclass="Normal" style="font-weight:bold;" translate="true">Besondere Aufgaben</text><text styleclass="Normal" style="font-weight:normal;" translate="true"> (Mehrfachauswahl) gibt es einen Eintrag </text><text styleclass="Normal" style="font-weight:normal; font-style:italic;" translate="true">Sonstige</text><text styleclass="Normal" style="font-weight:normal;" translate="true">. Dieser erfordert eine entsprechende Erläuterung.</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Button" translate="true">[ Zeile Zufügen ]</text><text styleclass="Normal" style="font-weight:normal;" translate="true"> erlaubt Ihnen im jeweiligen Bereich eine weitere Datenzeile zuzufügen. Im Bereich der beabsichtigten Vereinbarungen wird eine solche &quot;Zeile&quot; in einem eigenen umrahmten Bereich dargestellt.</text></para>
+    <para styleclass="Normal"><text styleclass="Button" translate="true">[ Weiters Zentrum zufügen ]</text><text styleclass="Normal" style="font-weight:normal;" translate="true"> bzw. </text><text styleclass="Button" translate="true">[ Weitere Zeile zufügen ]</text><text styleclass="Normal" style="font-weight:normal;" translate="true"> erlaubt Ihnen im jeweiligen Bereich einen weitere Eintrag zuzufügen. Im Bereich der beabsichtigten Vereinbarungen wird eine solcher Eintrag in einem eigenen umrahmten Bereich dargestellt.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Button" translate="true">[ Speichern ]</text><text styleclass="Normal" style="font-weight:normal;" translate="true"> Sie die Daten jederzeit zwischendurch.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Button" translate="true">[ ans InEK senden ]</text><text styleclass="Normal" style="font-weight:normal;" translate="true"> sendet die Daten zur weiteren Bearbeitung an das InEK. In diesem Zusammenhang erfolgt vorab eine Prüfung, ob alle Pflichtfelder gefüllt sind. Wenn Sie die Daten an das InEK gesendet haben ist eine Änderung nicht mehr möglich.</text></para>
+    <para styleclass="Normal"></para>
   </body>
 </topic>
