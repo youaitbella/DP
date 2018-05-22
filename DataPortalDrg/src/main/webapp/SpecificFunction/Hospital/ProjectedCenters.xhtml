@@ -19,7 +19,7 @@
                    zur Vereinbarung von Zuschlägen zugewiesen. Tragen Sie bitte alle Zentren, über die Sie verhandeln möchten in der unten aufgeführten Übersicht ein."/>
 
     <ui:repeat value="#{editSpecificFunction.request.requestProjectedCenters}" var="center" 
-               rendered="#{editSpecificFunction.request.willNegotiate}">
+               rendered="#{editSpecificFunction.request.willNegotiate}" varStatus="status">
         <div class="rectangle">
             <div class="inputPart">
                 <h:commandLink rendered="#{!editSpecificFunction.readOnly}">
@@ -45,9 +45,10 @@
                     <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
                     <f:selectItems value="#{editSpecificFunction.centerNames}" var="centerName" itemValue="#{centerName.id}" itemLabel="#{centerName.name}"/>
                     <f:selectItem itemLabel="Sonstiges (bitte angeben)" itemValue="#{-1}"/>
-                    <f:ajax event="change" render="@form :logout:remaining msgCenterName"/>
+                    <f:ajax event="change" render="@form :logout:remaining msgCenterName centerData"/>
                 </h:selectOneMenu>
                 <h:message for="centerName" id="msgCenterName" styleClass="errorMessage"/>
+
                 <h:panelGroup id="otherName" 
                               styleClass="element100-37em"
                               rendered="#{center.centerId eq -1}">
@@ -63,71 +64,72 @@
                 </h:panelGroup>
             </div>
 
-            <inek:LabeledText label="Standort"
-                              title="Angabe des Standortes bei nach Standorten differenziertem Versorgungsauftrag gemäß Krankenhausplan des Landes; sobald verfügbar (spätestens ab 01.01.2020) Angabe des Standort-Kennzeichens nach § 293 Absatz 6 SGB V." 
-                              value="#{center.location}" 
-                              styleClassLabel="label element12em" 
-                              styleClass="element100-12em"
-                              readonly="#{editSpecificFunction.readOnly}"
-                              singleLine="true"/>
+            <h:panelGroup id="centerData" rendered="#{center.centerId ne 0}">
+                <inek:LabeledText label="Standort"
+                                  title="Angabe des Standortes bei nach Standorten differenziertem Versorgungsauftrag gemäß Krankenhausplan des Landes; sobald verfügbar (spätestens ab 01.01.2020) Angabe des Standort-Kennzeichens nach § 293 Absatz 6 SGB V." 
+                                  value="#{center.location}" 
+                                  styleClassLabel="label element12em" 
+                                  styleClass="element100-12em"
+                                  readonly="#{editSpecificFunction.readOnly}"
+                                  singleLine="true"/>
 
-            <div class="inputPart">
-                <h:outputLabel for="specificFunction" 
-                               value="Besondere Aufgaben" 
-                               title="Für Verhandlung vorgesehene besondere Aufgaben (Stichpunktartige Auflistung der zentralen Aufgaben)" 
-                               styleClass="label element12em alignTop" />
+                <div class="inputPart">
+                    <h:outputLabel for="specificFunction" 
+                                   value="Besondere Aufgaben" 
+                                   title="Für Verhandlung vorgesehene besondere Aufgaben (Stichpunktartige Auflistung der zentralen Aufgaben)" 
+                                   styleClass="label element12em alignTop" />
 
-                <div class="container10em element100-13em">
+                    <div class="container10em element100-13em">
 
-                    <h:selectManyCheckbox id="specificFunction"
-                                          layout="pageDirection"
-                                          required="true"
-                                          readonly="#{editSpecificFunction.readOnly}"
-                                          requiredMessage="#{msg.msgValueNeeded}"
-                                          value="#{center.specificFunctions}">
-                        <f:selectItems value="#{editSpecificFunction.specificFunctions}" var="function" itemValue="#{function}" itemLabel="#{function.text}"/>
-                        <f:converter converterId="SpecificFunctionConverter"/>
-                        <f:ajax event="change" render="@form :logout:remaining msgSpecificFunction"/>
-                    </h:selectManyCheckbox>
+                        <h:selectManyCheckbox id="specificFunction"
+                                              layout="pageDirection"
+                                              required="true"
+                                              readonly="#{editSpecificFunction.readOnly}"
+                                              requiredMessage="#{msg.msgValueNeeded}"
+                                              value="#{center.specificFunctions}">
+                            <f:selectItems value="#{editSpecificFunction.specificFunctions}" var="function" itemValue="#{function}" itemLabel="#{function.text}"/>
+                            <f:converter converterId="SpecificFunctionConverter"/>
+                            <f:ajax event="change" render="@form :logout:remaining msgSpecificFunction"/>
+                        </h:selectManyCheckbox>
+                    </div>
+                    <h:message for="specificFunction" id="msgSpecificFunction" styleClass="errorMessage elementRight70"/>
                 </div>
-                <h:message for="specificFunction" id="msgSpecificFunction" styleClass="errorMessage elementRight70"/>
-            </div>
 
-            <inek:LabeledText label="Sonstige Aufgaben"
-                              rendered="#{center.specificFunctions.stream().anyMatch(f -> f.getId() == -1)}"
-                              title="Für Verhandlung vorgesehene besondere Aufgaben (Stichpunktartige Auflistung der zentralen Aufgaben)" 
-                              value="#{center.otherSpecificFunction}" 
-                              required="true"
-                              readonly="#{editSpecificFunction.readOnly}"
-                              styleClassLabel="label element12em" 
-                              styleClass="element100-12em"
-                              singleLine="true"/>
+                <inek:LabeledText label="Sonstige Aufgaben"
+                                  rendered="#{center.specificFunctions.stream().anyMatch(f -> f.getId() == -1)}"
+                                  title="Für Verhandlung vorgesehene besondere Aufgaben (Stichpunktartige Auflistung der zentralen Aufgaben)" 
+                                  value="#{center.otherSpecificFunction}" 
+                                  required="true"
+                                  readonly="#{editSpecificFunction.readOnly}"
+                                  styleClassLabel="label element12em" 
+                                  styleClass="element100-12em"
+                                  singleLine="true"/>
 
-            <inek:LabeledText label="Voraussichtliche Anzahl Patienten (ca.)"
-                              title="Voraussichtliche Anzahl der durch das Zentrum /den Schwerpunkt betreuten Patientinnen/Patienten" 
-                              value="#{center.estimatedPatientCount}" 
-                              required="true"
-                              readonly="#{editSpecificFunction.readOnly}"
-                              styleClassLabel="label element12em" 
-                              styleClass="col04em number"                              
-                              singleLine="true"/>
+                <inek:LabeledText label="Voraussichtliche Anzahl Patienten (ca.)"
+                                  title="Voraussichtliche Anzahl der durch das Zentrum /den Schwerpunkt betreuten Patientinnen/Patienten" 
+                                  value="#{center.estimatedPatientCount}" 
+                                  required="true"
+                                  readonly="#{editSpecificFunction.readOnly}"
+                                  styleClassLabel="label element12em" 
+                                  styleClass="col04em number"                              
+                                  singleLine="true"/>
 
-            <div class="marginTop">
-                <h:outputLabel for="type" value="Ausweisung und Festsetzung der besonderen Aufgaben" styleClass="label marginRight"/>
-                <h:selectOneMenu id="type"
-                                 title="Bitte angeben"
-                                 required="true"
-                                 readonly="#{editSpecificFunction.readOnly}"
-                                 requiredMessage="#{msg.msgValueNeeded}"
-                                 value="#{center.typeId}"
-                                 hideNoSelectionOption="true" >
-                    <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
-                    <f:selectItems value="#{editSpecificFunction.typeItems}" var="item" itemLabel="#{item.value}" itemValue="#{item.key}"/>
-                    <f:ajax event="change" render="@form :logout:remaining msgType"/>
-                </h:selectOneMenu>
-                <h:message for="type" id="msgType" styleClass="errorMessage"/>
-            </div>
-
+                <div class="marginTop">
+                    <h:outputLabel for="type" value="Ausweisung und Festsetzung der besonderen Aufgaben" styleClass="label marginRight"/>
+                    <h:selectOneMenu id="type"
+                                     title="Bitte angeben"
+                                     required="true"
+                                     readonly="#{editSpecificFunction.readOnly}"
+                                     requiredMessage="#{msg.msgValueNeeded}"
+                                     value="#{center.typeId}"
+                                     hideNoSelectionOption="true" >
+                        <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
+                        <f:selectItems value="#{editSpecificFunction.typeItems}" var="item" itemLabel="#{item.value}" itemValue="#{item.key}"/>
+                        <f:ajax event="change" render="@form :logout:remaining msgType"/>
+                    </h:selectOneMenu>
+                    <h:message for="type" id="msgType" styleClass="errorMessage"/>
+                </div>
+            </h:panelGroup>
         </div>
     </ui:repeat>
 
