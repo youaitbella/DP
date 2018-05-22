@@ -46,11 +46,9 @@
             </h:inputText>&nbsp;Tage&nbsp;
             <h:message id="msgDropBoxHoldTime" for="dropBoxHoldTime" styleClass="errorMessage"/>
         </div>
-        
-        <h:outputText styleClass="warningText" value="#{msg.msgDataChanged}" rendered="#{editUserMaintenance.mofified}"/>
+
         <div class="toolBar">
             <h:commandLink styleClass="bigButton" action="#{editUserMaintenance.save}" value="#{msg.btnSave}" immediate="false" />
-            <h:commandLink styleClass="bigButton" action="#{editUserMaintenance.discardChanges}" value="#{msg.btnDiscard}" immediate="true" />
         </div>
 
     </ui:define>

@@ -5,6 +5,7 @@
 package org.inek.dataportal.common.data.account.entities;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.*;
 
 /**
@@ -66,43 +67,33 @@ public class AccountIk implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property IsMainIk">
-    @Column(name = "aaiIsMainIk")
-    private boolean _mainIk;
-
-    public boolean isMainIk() {
-        return _mainIk;
-    }
-
-    public void setMainIk(boolean mainIk) {
-        _mainIk = mainIk;
-    }
-    //</editor-fold>
-    
-    // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (_id != null ? _id.hashCode() : 0);
+        int hash = 7;
+        hash = 89 * hash + Objects.hashCode(this._ik);
+        hash = 89 * hash + Objects.hashCode(this._accountId);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        if (!(object instanceof AccountIk)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        AccountIk other = (AccountIk) object;
-        if ((_id == null && other.getId() != null) || (_id != null && !_id.equals(other.getId()))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final AccountIk other = (AccountIk) obj;
+        if (!Objects.equals(this._ik, other._ik)) {
+            return false;
+        }
+        if (!Objects.equals(this._accountId, other._accountId)) {
             return false;
         }
         return true;
     }
-
-    @Override
-    public String toString() {
-        return "org.inek.entities.AccountAdditionalIK[id=" + _id + "]";
-    }
-    // </editor-fold>
 
 }

@@ -53,6 +53,10 @@
         <param-name>primefaces.THEME</param-name>
         <param-value>bootstrap</param-value>
     </context-param>
+    <context-param>
+        <param-name>primefaces.FONT_AWESOME</param-name>
+        <param-value>true</param-value>
+    </context-param>
     <!--listener>
         <listener-class>org.inek.dataportal.admin.SessionCounter</listener-class>
     </listener-->

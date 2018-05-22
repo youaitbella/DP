@@ -13,3 +13,4 @@ password.txt
 DataPortalDrg/nbproject/project.properties
 DataPortalCalc/nb-configuration.xml
 *.jdbc
+DataPortalCommon/derby.log

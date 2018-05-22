@@ -1,18 +1,21 @@
 package org.inek.dataportal.base.feature.maintenance;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.transaction.Transactional;
 import org.inek.dataportal.common.overall.ApplicationTools;
 import org.inek.dataportal.common.overall.SessionTools;
 import org.inek.dataportal.common.controller.SessionController;
@@ -28,6 +31,7 @@ import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.common.data.account.facade.AccountPwdFacade;
 import org.inek.dataportal.common.controller.AbstractEditController;
 import org.inek.dataportal.common.data.adm.MailTemplate;
+import org.inek.dataportal.common.data.icmt.facade.CustomerFacade;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
 import org.inek.dataportal.common.enums.Right;
 import org.inek.dataportal.common.data.ikadmin.facade.IkAdminFacade;
@@ -49,9 +53,7 @@ public class EditUserMaintenance extends AbstractEditController {
     // Refactor this class according to the common edit handling
     // <editor-fold defaultstate="collapsed" desc="fields">
     enum UserMaintenaceTabs {
-
         tabUMMaster,
-        tabUMAdditionalIKs,
         tabUMFeatures,
         tabUMOther,
         tabUMConfig;
@@ -73,13 +75,14 @@ public class EditUserMaintenance extends AbstractEditController {
     private AccountChangeMailFacade _accountChangeMailFacade;
     @Inject
     private IkAdminFacade _ikAdminFacade;
+    @Inject
+    private CustomerFacade _customerFacade;
 
     private String _user;
     private String _email;
-    private Account _accountWorkingCopy;
+    private Account _account;
     private List<FeatureEditorDAO> _features;
     private boolean _isMofified = false;
-    private List<Integer> _additionalIKs;
     private String _oldPassword;
     private String _newPassword;
     private String _repeatPassword;
@@ -88,7 +91,7 @@ public class EditUserMaintenance extends AbstractEditController {
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     public Account getAccount() {
-        return _accountWorkingCopy;
+        return _account;
     }
 
     public String getUser() {
@@ -139,12 +142,8 @@ public class EditUserMaintenance extends AbstractEditController {
 
     private void initOrResetData() {
         _features = null;
-        int accountId = _sessionController.getAccountId();
-        if (accountId < 0) {
-            return;
-        }
-        _accountWorkingCopy = _accountFacade.findAccount(accountId);
-        _user = _accountWorkingCopy.getUser();
+        _account = _sessionController.getAccount();
+        _user = _account.getUser();
         _oldPassword = "";
         _newPassword = "";
         _repeatPassword = "";
@@ -154,7 +153,6 @@ public class EditUserMaintenance extends AbstractEditController {
     @Override
     protected void addTopics() {
         addTopic(UserMaintenaceTabs.tabUMMaster.name(), Pages.UserMaintenanceMasterData.URL());
-        addTopic(UserMaintenaceTabs.tabUMAdditionalIKs.name(), Pages.UserMaintenanceAdditionalIKs.URL());
         addTopic(UserMaintenaceTabs.tabUMFeatures.name(), Pages.UserMaintenanceFeatures.URL());
         addTopic(UserMaintenaceTabs.tabUMOther.name(), Pages.UserMaintenanceOther.URL());
         addTopic(UserMaintenaceTabs.tabUMConfig.name(), Pages.UserMaintenanceConfig.URL());
@@ -169,16 +167,6 @@ public class EditUserMaintenance extends AbstractEditController {
     public void changeTab(String newTopic) {
         if (getActiveTopic().getKey().equals(newTopic)) {
             return;
-        }
-        if (getActiveTopic().getKey().equals(UserMaintenaceTabs.tabUMMaster.name())
-                || getActiveTopic().getKey().equals(UserMaintenaceTabs.tabUMConfig.name())) {
-            _isMofified = isMasterdataChanged();
-        }
-        if (getActiveTopic().getKey().equals(UserMaintenaceTabs.tabUMAdditionalIKs.name())) {
-            _isMofified = isIKListMofified();
-        }
-        if (getActiveTopic().getKey().equals(UserMaintenaceTabs.tabUMFeatures.name())) {
-            _isMofified = areFeaturesMofified();
         }
         if (!_isMofified) {
             setActiveTopic(newTopic);
@@ -224,22 +212,17 @@ public class EditUserMaintenance extends AbstractEditController {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Part Additional IKs">
-    public List<Integer> getAdditionalIKs() {
-        if (_additionalIKs == null) {
-            _additionalIKs = new ArrayList<>();
-            for (AccountIk addIk : _sessionController.getAccount().getAdditionalIKs()) {
-                _additionalIKs.add(addIk.getIK());
-            }
-        }
-        return _additionalIKs;
+    public List<AccountIk> getAdditionalIKs() {
+        return _account.getAdditionalIKs();
     }
 
-    public void addAdditionalIK() {
-        _additionalIKs.add(null);
+    public void addNewIK() {
+        _account.addIk(0);
     }
 
-    public void removeAdditionalIK(Integer ik) {
-        _additionalIKs.remove(ik);
+    public void removeIK(AccountIk accountIk) {
+        _account.getAdditionalIKs().remove(accountIk);
+        //TODO Remove IK-Admin Right
     }
     // </editor-fold>
 
@@ -353,19 +336,17 @@ public class EditUserMaintenance extends AbstractEditController {
 
     // </editor-fold>
     public String save() {
-        if (isMasterdataChanged()) {
-            mergeMasterData();
-            _sessionController.saveAccount();
-        }
+        removeDuplicateIks(_account);
+        checkIKAdminRights(_account);
+        _sessionController.saveAccount();
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Speichern Erfolgreich"));
         return "";
     }
 
-    @Transactional(Transactional.TxType.REQUIRES_NEW)
-    public String saveIks() {
-        if (mergeIKListIfModified()) {
-            _sessionController.saveAccount();
-        }
-        return "";
+    public void removeDuplicateIks(Account acc) {
+        Set<AccountIk> cleanList = new LinkedHashSet<>(acc.getAdditionalIKs());
+        acc.getAdditionalIKs().clear();
+        acc.getAdditionalIKs().addAll(cleanList);
     }
 
     public String saveFeatures() {
@@ -386,7 +367,7 @@ public class EditUserMaintenance extends AbstractEditController {
     }
 
     public boolean getFeatureNub() {
-        List<AccountFeature> list = _accountWorkingCopy.getFeatures();
+        List<AccountFeature> list = _account.getFeatures();
         for (AccountFeature ft : list) {
             if (ft.getFeature() == Feature.NUB) {
                 return true;
@@ -396,7 +377,7 @@ public class EditUserMaintenance extends AbstractEditController {
     }
 
     public boolean getFeatureCoop() {
-        List<AccountFeature> list = _accountWorkingCopy.getFeatures();
+        List<AccountFeature> list = _account.getFeatures();
         for (AccountFeature ft : list) {
             if (ft.getFeature() == Feature.COOPERATION) {
                 return true;
@@ -436,63 +417,11 @@ public class EditUserMaintenance extends AbstractEditController {
             msg += (msg.isEmpty() ? "" : "\\r\\n") + "Ein neues Kennwort ist erforderlich.";
         } else if (!_newPassword.equals(_repeatPassword)) {
             msg += (msg.isEmpty() ? "" : "\\r\\n") + "Passwort und Wiederholung stimmen nicht überein.";
-        } else if (!_accountPwdFacade.isCorrectPassword(_accountWorkingCopy.getId(), _oldPassword)) {
+        } else if (!_accountPwdFacade.isCorrectPassword(_account.getId(), _oldPassword)) {
             msg += (msg.isEmpty() ? "" : "\\r\\n") + "Das alte Passwort stimmt nicht überein.";
         }
         _script = msg.isEmpty() ? "" : "alert ('" + msg + "');";
         return msg.isEmpty();
-    }
-
-    @SuppressWarnings("CyclomaticComplexity")
-    private boolean isMasterdataChanged() {
-        Account original = _sessionController.getAccount();
-        Account copy = getAccount();
-        int origIK = original.getIK() == null ? -1 : original.getIK();
-        int copyIK = copy.getIK() == null ? -1 : copy.getIK();
-        boolean isEqual = original.getUser().equals(_user)
-                && original.getGender() == copy.getGender()
-                && original.getTitle().equals(copy.getTitle())
-                && original.getInitials().equals(copy.getInitials())
-                && original.getFirstName().equals(copy.getFirstName())
-                && original.getLastName().equals(copy.getLastName())
-                && original.getRoleId() == copy.getRoleId()
-                && original.getPhone().equals(copy.getPhone())
-                && original.getCompany().equals(copy.getCompany())
-                && original.getCustomerTypeId() == copy.getCustomerTypeId()
-                && origIK == copyIK
-                && original.getStreet().equals(copy.getStreet())
-                && original.getPostalCode().equals(copy.getPostalCode())
-                && original.getTown().equals(copy.getTown())
-                && original.getCustomerPhone().equals(copy.getCustomerPhone())
-                && original.getCustomerFax().equals(copy.getCustomerFax())
-                && original.isNubConfirmation() == copy.isNubConfirmation()
-                && original.isMessageCopy() == copy.isMessageCopy()
-                && original.getDropBoxHoldTime() == copy.getDropBoxHoldTime();
-        return !isEqual;
-    }
-
-    private void mergeMasterData() {
-        Account original = _sessionController.getAccount();
-        Account copy = getAccount();
-        original.setUser(_user);
-        original.setGender(copy.getGender());
-        original.setTitle(copy.getTitle());
-        original.setInitials(copy.getInitials());
-        original.setFirstName(copy.getFirstName());
-        original.setLastName(copy.getLastName());
-        original.setRoleId(copy.getRoleId());
-        original.setPhone(copy.getPhone());
-        original.setCompany(copy.getCompany());
-        original.setCustomerTypeId(copy.getCustomerTypeId());
-        original.setIK(copy.getIK());
-        original.setStreet(copy.getStreet());
-        original.setPostalCode(copy.getPostalCode());
-        original.setTown(copy.getTown());
-        original.setCustomerPhone(copy.getCustomerPhone());
-        original.setCustomerFax(copy.getCustomerFax());
-        original.setNubConfirmation(copy.isNubConfirmation());
-        original.setMessageCopy(copy.isMessageCopy());
-        original.setDropBoxHoldTime(copy.getDropBoxHoldTime());
     }
 
     private boolean mergeFeaturesIfModified() {
@@ -534,54 +463,22 @@ public class EditUserMaintenance extends AbstractEditController {
         return false;
     }
 
-    private boolean mergeIKListIfModified() {
-        Account account = _sessionController.getAccount();
-        List<AccountIk> additionalIKs = account.getAdditionalIKs();
-        Set<Integer> oldSet = additionalIKs.stream().map(ai -> ai.getIK()).collect(Collectors.toSet());
-        Set<Integer> newSet = _additionalIKs.stream().filter(ai -> ai != null).collect(Collectors.toSet());
-        if (equalSets(newSet, oldSet)) {
-            return false;
-        }
-
-        removeOldIksAndUpdateNewSet(additionalIKs, newSet, account);
-        addNewIks(newSet, account, additionalIKs);
-        return true;
-    }
-
-    private void removeOldIksAndUpdateNewSet(List<AccountIk> additionalIKs, Set<Integer> newSet, Account account) {
-        for (int i = additionalIKs.size() - 1; i >= 0; i--) {
-            AccountIk addIK = additionalIKs.get(i);
-            if (newSet.contains(addIK.getIK())) {
-                newSet.remove(addIK.getIK());
-            } else {
-                int ik = additionalIKs.get(i).getIK();
-                if (_ikAdminFacade.hasIkAdmin(ik)) {
-                    _ikAdminFacade.removeRights(account.getId(), ik);
-                }
-                additionalIKs.remove(i);
-            }
-        }
-    }
-
-    private void addNewIks(Set<Integer> newSet, Account account, List<AccountIk> additionalIKs) {
-        for (int ik : newSet) {
-            if (_ikAdminFacade.hasIkAdmin(ik)) {
+    private void checkIKAdminRights(Account account) {
+        for (AccountIk accountIK : account.getAdditionalIKs()) {
+            if (_ikAdminFacade.hasIkAdmin(accountIK.getIK())) {
                 boolean hasNewEntry = false;
                 for (AccountFeature feature : account.getFeatures()) {
                     if (feature.getFeature().getIkReference() == IkReference.Hospital
-                            && _ikAdminFacade.findAccessRightsByAccountIkAndFeature(account, ik, feature.getFeature()).isEmpty()) {
-                        AccessRight accessRight = new AccessRight(account.getId(), ik, feature.getFeature(), Right.Deny);
+                            && _ikAdminFacade.findAccessRightsByAccountIkAndFeature(account, accountIK.getIK(), feature.getFeature()).isEmpty()) {
+                        AccessRight accessRight = new AccessRight(account.getId(), accountIK.getIK(), feature.getFeature(), Right.Deny);
                         _ikAdminFacade.saveAccessRight(accessRight);
                         hasNewEntry = true;
                     }
                 }
                 if (hasNewEntry) {
-                    notifyIkAdmin(ik, account);
+                    notifyIkAdmin(accountIK.getIK(), account);
                 }
             }
-            AccountIk addIK = new AccountIk();
-            addIK.setIK(ik);
-            additionalIKs.add(addIK);
         }
     }
 
@@ -604,22 +501,6 @@ public class EditUserMaintenance extends AbstractEditController {
         }
     }
 
-    private boolean isIKListMofified() {
-        List<AccountIk> additionalIKs = _sessionController.getAccount().getAdditionalIKs();
-        Set<Integer> oldSet = additionalIKs.stream().map(ai -> ai.getIK()).collect(Collectors.toSet());
-        Set<Integer> newSet = _additionalIKs.stream().filter(ai -> ai != null).collect(Collectors.toSet());
-        return !equalSets(newSet, oldSet);
-    }
-
-    private boolean equalSets(Set<Integer> set1, Set<Integer> set2) {
-        return set1.size() == set2.size() && set1.stream().allMatch((i) -> set2.contains(i));
-    }
-
-    public String discardChanges() {
-        initOrResetData();
-        return Pages.UserMaintenanceMasterData.URL();
-    }
-
     public String getScript() {
         String script = _script;
         _script = "";
@@ -627,7 +508,32 @@ public class EditUserMaintenance extends AbstractEditController {
     }
 
     public boolean removeIkAllowed(int ik) {
+        if (ik == 0) {
+            return true;
+        }
         return _accountFacade.deleteIkAllowed(ik, _sessionController.getAccount());
     }
 
+    public String getCustomerName(int ik) {
+        return _customerFacade.getCustomerByIK(ik).getName();
+    }
+
+    public Boolean isIkValide(int ik) {
+        return _customerFacade.isValidIK("" + ik);
+    }
+
+    public void isIKValid(FacesContext ctx, UIComponent component, Object value) throws ValidatorException {
+        if (!isIkValide((Integer) value)) {
+            throw new ValidatorException(new FacesMessage("Ungültige IK"));
+        }
+    }
+
+    @PreDestroy
+    public void leaveBean() {
+        try {
+            _sessionController.refreshAccount(_account.getId());
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+        }
+    }
 }

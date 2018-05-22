@@ -50,14 +50,22 @@ public class SessionController implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger("SessionController");
-    @Inject private AccountFacade _accountFacade;
-    @Inject private LogFacade _logFacade;
-    @Inject private Mailer _mailer;
-    @Inject private CustomerTypeFacade _typeFacade;
-    @Inject private CooperationRequestFacade _coopFacade;
-    @Inject private ApplicationTools _appTools;
-    @Inject private CustomerFacade _customerFacade;
-    @Inject private transient FeatureHolder _featureHolder;
+    @Inject
+    private AccountFacade _accountFacade;
+    @Inject
+    private LogFacade _logFacade;
+    @Inject
+    private Mailer _mailer;
+    @Inject
+    private CustomerTypeFacade _typeFacade;
+    @Inject
+    private CooperationRequestFacade _coopFacade;
+    @Inject
+    private ApplicationTools _appTools;
+    @Inject
+    private CustomerFacade _customerFacade;
+    @Inject
+    private transient FeatureHolder _featureHolder;
 
     public ApplicationTools getApplicationTools() {
         return _appTools;
@@ -126,6 +134,10 @@ public class SessionController implements Serializable {
                 throw new NotLoggedInException();
             }
         }
+    }
+
+    public void refreshAccount(int id) {
+        _account = _accountFacade.findAccount(id);
     }
 
     public boolean isHospital() {
@@ -355,15 +367,15 @@ public class SessionController implements Serializable {
     }
 
     private void configureSessionTimeout() {
-        if (_account == null){
+        if (_account == null) {
             return;
         }
         FacesContext.getCurrentInstance().getExternalContext().getSessionId(true);
-        int sessionTimeout  = (_portalType == PortalType.CALC || _portalType == PortalType.CERT) ? 3600 : 1800;
+        int sessionTimeout = (_portalType == PortalType.CALC || _portalType == PortalType.CERT) ? 3600 : 1800;
         sessionTimeout = (_account.getEmail().toLowerCase().endsWith("@inek-drg.de")
                 && isInternalClient()) ? 7200 : sessionTimeout; // session timeout extended to 4 hour for internal user
         FacesContext.getCurrentInstance().getExternalContext().setSessionMaxInactiveInterval(sessionTimeout);
-        
+
     }
 
     /**
@@ -372,7 +384,7 @@ public class SessionController implements Serializable {
      *
      * @param mailOrUser
      * @param password
-     * @param loginInfo  An infostring|mes
+     * @param loginInfo An infostring|mes
      * @param portalType to be displayed
      *
      * @return
@@ -544,7 +556,7 @@ public class SessionController implements Serializable {
      * @param needsWriteAccess
      *
      * @return true, if the current user is within any InEK role for the requested feature and either has write access
-     *         enabled or no write access is requested
+     * enabled or no write access is requested
      */
     public boolean isInekUser(Feature requestedFeature, boolean needsWriteAccess) {
         if (requestedFeature != Feature.DOCUMENTS && !isInternalClient()) {

@@ -19,11 +19,11 @@ import org.inek.dataportal.common.enums.Pages;
  */
 public class FlowFactory implements Serializable {
 
-    @Produces @FlowDefinition
+    @Produces
+    @FlowDefinition
     public Flow defineFlow(@FlowBuilderParameter FlowBuilder flowBuilder) {
         flowBuilder.id("", "UserMaintenanceFlow");
         flowBuilder.viewNode(Pages.UserMaintenanceMasterData.name(), Pages.UserMaintenanceMasterData.URL());
-        flowBuilder.viewNode(Pages.UserMaintenanceAdditionalIKs.name(), Pages.UserMaintenanceAdditionalIKs.URL());
         flowBuilder.viewNode(Pages.UserMaintenanceConfig.name(), Pages.UserMaintenanceConfig.URL());
         flowBuilder.viewNode(Pages.UserMaintenanceFeatures.name(), Pages.UserMaintenanceFeatures.URL());
         flowBuilder.viewNode(Pages.UserMaintenanceOther.name(), Pages.UserMaintenanceOther.URL());

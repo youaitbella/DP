@@ -5,8 +5,18 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                xmlns:c="http://java.sun.com/jsp/jstl/core">
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:pf="http://primefaces.org/ui">
     <ui:define name="maintenanceContent">
+        <pf:ajaxStatus style="display:block;position:absolute;bottom: 5px;right: 5px;z-index:100">
+            <f:facet name="start">
+                <pf:graphicImage height="100" width="100" name="Image/load.gif" />
+            </f:facet>
+            <f:facet name="complete">
+                <h:outputText value="" />
+            </f:facet>
+        </pf:ajaxStatus>
+
         <div class="inputleft">
             <p>
                 <h:outputLabel styleClass="label" for="user" value="#{msg.lblUser}:"/>
@@ -104,20 +114,6 @@
                 </h:selectOneMenu>
             </p>
             <p>
-                <h:outputLabel styleClass="label" id="lblIk" for="ik" value="#{msg.lblIK}:"/>
-                <h:message id="msgIk" for="ik" styleClass="errorMessage"/>
-                <br/>
-                <h:inputText styleClass="input" id="ik" value="#{editUserMaintenance.account.IK}"
-                             requiredMessage="#{msg.msgValueNeeded}"
-                             required="#{editUserMaintenance.ikRequired}"
-                             maxlength="9"
-                             validator="#{sessionTools.checkIk}"
-                             readonly="#{!editUserMaintenance.removeIkAllowed(editUserMaintenance.account.IK)}"
-                             >
-                    <f:ajax event="blur" render="@this :logout:remaining msgIk"/>
-                </h:inputText>
-            </p>
-            <p>
                 <h:outputLabel styleClass="label" for="street" value="#{msg.lblStreet}:"/>
                 <h:message id="msgStreet" for="street" styleClass="errorMessage"/>
                 <br/>
@@ -166,11 +162,51 @@
         </div>
         <br class="defloat"/>
 
-        <h:outputText styleClass="warningText" value="#{msg.msgDataChanged}" rendered="#{editUserMaintenance.mofified}"/>
-        <div class="toolBar">
-            <h:commandLink styleClass="bigButton" action="#{editUserMaintenance.save}" value="#{msg.btnSave}" immediate="false" />
-            <h:commandLink styleClass="bigButton" action="#{editUserMaintenance.discardChanges}" value="#{msg.btnDiscard}" immediate="true" />
-        </div>
+        <h:form id="ilList">
+            <pf:growl id="Box" />
+            <h2>IK - Verwaltung</h2>
+            <pf:dataTable editable="true"
+                          editMode="cell"
+                          id="iks"
+                          var="accountIk"
+                          widgetVar="accountIks"
+                          value="#{editUserMaintenance.account.additionalIKs}"
+                          emptyMessage="Keine IK's eingetragen"
+                          tableStyle="width: auto">
+                <pf:column class="colIcon">
+                    <pf:commandLink rendered="#{editUserMaintenance.removeIkAllowed(accountIk.IK)}"
+                                    action="#{editUserMaintenance.removeIK(accountIk)}"
+                                    class="fa fa-trash" style="color: #e81919"
+                                    update="iks"
+                                    process="@this"/>
+                </pf:column>
+                <pf:column headerText="IK">
+                    <pf:inputNumber id="ikInput"
+                                    readonly="#{!editUserMaintenance.removeIkAllowed(accountIk.IK)}"
+                                    validator="#{editUserMaintenance.isIKValid}"
+                                    thousandSeparator=""
+                                    minValue="000000000"
+                                    maxValue="999999999"
+                                    decimalPlaces="0"
+                                    validatorMessage="Ungültige IK"
+                                    required="True"
+                                    value="#{accountIk.IK}">
+                        <pf:ajax event="blur" update="customerName ikInputMessage" />
+                    </pf:inputNumber>
+                    <pf:message for="ikInput" id="ikInputMessage" />
+                </pf:column>
+                <pf:column headerText="Name">
+                    <pf:outputLabel id="customerName" value="#{editUserMaintenance.getCustomerName(accountIk.IK)}" />
+                </pf:column>
+            </pf:dataTable>
+            <br />
+            <pf:commandButton value="Weitere IK hinzufügen" icon="fa fa-plus" process="@this" action="#{editUserMaintenance.addNewIK()}" oncomplete="PF('accountIks').addRow();"/>
+
+            <h:outputText styleClass="warningText" value="#{msg.msgDataChanged}" rendered="#{editUserMaintenance.mofified}"/>
+            <div class="toolBar">
+                <pf:commandLink styleClass="bigButton" update="iks Box" action="#{editUserMaintenance.save}" value="#{msg.btnSave}"/>
+            </div>
+        </h:form>
 
     </ui:define>
 </ui:composition>

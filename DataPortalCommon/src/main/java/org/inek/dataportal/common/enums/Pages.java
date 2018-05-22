@@ -17,7 +17,6 @@ public enum Pages {
     MainApp("/Common/MainApp"),
     //
     UserMaintenanceMasterData("/UserMaintenance/UserMaintenanceMasterData"),
-    UserMaintenanceAdditionalIKs("/UserMaintenance/UserMaintenanceAdditionalIKs"),
     UserMaintenanceFeatures("/UserMaintenance/UserMaintenanceFeatures"),
     UserMaintenanceOther("/UserMaintenance/UserMaintenanceOther"),
     UserMaintenanceConfig("/UserMaintenance/UserMaintenanceConfig"),
@@ -44,7 +43,6 @@ public enum Pages {
     CalculationHospitalSummary("/CalcHospital/CalculationHospitalSummary"),
     StatementOfParticipanceEditAddress("/CalcHospital/StatementOfParticipance/EditAddress"),
     StatementOfParticipanceEditStatements("/CalcHospital/StatementOfParticipance/EditStatements"),
-    
     // DRG calculation
     CalcDrgEdit("/CalcHospital/Drg/Edit"),
     CalcDrgBasics("/CalcHospital/Drg/Basics"),
@@ -87,7 +85,6 @@ public enum Pages {
     CalcObdEdit("/CalcHospital/Obd/Edit"),
     // clinical distribution model
     CalcDistributionModel("/CalcHospital/EditDistributionModel"),
-    
     //
     PartPeppProposal("/PeppProposal/PartPeppProposal"),
     ListPeppProposal("/PeppProposal/ListPeppProposal"),
@@ -167,12 +164,10 @@ public enum Pages {
     //
     InsuranceSpecificFunctionSummary("/Insurance/SpecificFunction/SpecificFunctionSummary"),
     InsuranceSpecificFunctionEditAgreement("/Insurance/SpecificFunction/EditAgreed"),
-
     //
     PartAdditionalCost("/AdditionalCost/PartAdditionalCost"),
     AdditionalCostSummary("/AdditionalCost/AdditionalCostSummary"),
     AdditionalCostEdit("/AdditionalCost/AdditionalCostEdit"),
-    
     //
     PartPsychStaff("/PsychStaff/PartPsychStaff"),
     PsychStaffSummary("/PsychStaff/PsychStaffSummary"),
