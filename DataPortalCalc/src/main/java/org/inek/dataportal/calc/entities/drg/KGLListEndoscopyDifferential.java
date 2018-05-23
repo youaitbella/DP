@@ -26,7 +26,7 @@ import org.inek.dataportal.common.utils.Documentation;
 public class KGLListEndoscopyDifferential implements Serializable, BaseIdValue {
 
     private static final long serialVersionUID = 1L;
-    
+
     // <editor-fold defaultstate="collapsed" desc="id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -88,13 +88,12 @@ public class KGLListEndoscopyDifferential implements Serializable, BaseIdValue {
         this._baseInformationId = baseInformationId;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="ActivityKey">
     @Column(name = "edActivityKeyComment")
     @Documentation(name = "Leistungsschlüssel Kommentar", rank = 30)
     private String _activityKeyComment = "";
 
-    @Size(max = 20)
     public String getActivityKeyComment() {
         return _activityKeyComment;
     }
