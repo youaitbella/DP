@@ -15,7 +15,7 @@
     <cc:implementation>
         <div class="paddingElement">
             <h:dataTable rendered="#{cc.attrs.list.size() > 0}"  headerClass="list-header" 
-                         value="#{cc.attrs.list}" var="add" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colIcon, colIcon, colId, colValue">
+                         value="#{cc.attrs.list}" var="add" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colIcon, colIcon, colId, colId, colValue, colValue">
 
                 <h:column  >
                     <f:facet name="header">
@@ -49,9 +49,18 @@
 
                 <h:column>
                     <f:facet name="header">
-                        <h:outputText value="#{msg.lblYear}"/>
+                        <h:outputText value="#{msg.lblYear} von"/>
                     </f:facet>
-                    <h:commandLink action="#{additionalCostList.editAdditionalCost}" value="#{add.calenderYear}" immediate="true">
+                    <h:commandLink action="#{additionalCostList.editAdditionalCost}" value="#{add.periodFrom}" immediate="true">
+                        <f:param name="id" value="#{add.id}"/>
+                    </h:commandLink>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{msg.lblYear} bis"/>
+                    </f:facet>
+                    <h:commandLink action="#{additionalCostList.editAdditionalCost}" value="#{add.periodTo}" immediate="true">
                         <f:param name="id" value="#{add.id}"/>
                     </h:commandLink>
                 </h:column>
