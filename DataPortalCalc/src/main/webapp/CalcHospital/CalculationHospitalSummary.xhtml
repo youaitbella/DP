@@ -22,11 +22,14 @@
             }
         </style>
 
-        <pf:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
-
-        <pf:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="true" header="Daten werden geladen">
-            <pf:graphicImage name="Image/load.gif" />
-        </pf:dialog>
+        <pf:ajaxStatus style="display:block;position:absolute;bottom: 5px;right: 5px;z-index:100">
+            <f:facet name="start">
+                <pf:graphicImage height="100" width="100" name="Image/load.gif" />
+            </f:facet>
+            <f:facet name="complete">
+                <h:outputText value="" />
+            </f:facet>
+        </pf:ajaxStatus>
 
         <h1>#{msg.lblCalculationParticipance}</h1>
 
