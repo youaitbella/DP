@@ -38,6 +38,10 @@ public class AccountFacadeTest {
         Assertions.assertThat(acc.getIK() == -1).isTrue().as("IK should be set to -1");
         Assertions.assertThat(acc.getAdditionalIKs().size() == 1).isTrue().as("IK List must have 1 element");
         Assertions.assertThat(acc.getAdditionalIKs().get(0).getIK() == 222222222).isTrue().as("IK List first element ik must be 222222222");
+
+        Account acc2 = new Account();
+        accountFacade.setNewIk(acc2);
+        Assertions.assertThat(acc2.getIK() == -1).isTrue().as("IK should be set to -1");
     }
 
 }
