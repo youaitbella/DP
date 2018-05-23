@@ -265,8 +265,7 @@ public class Account implements Serializable, Person {
     }
 
     /**
-     * Adds an ik and returns true, if ik could be added, false otherwise (ik
-     * existed)
+     * Adds an ik and returns true, if ik could be added, false otherwise (ik existed)
      *
      * @param ik
      * @param mailDomain
@@ -346,7 +345,7 @@ public class Account implements Serializable, Person {
     }
 
     public Integer getIK() {
-        return _ik == null || _ik < 0 ? null : _ik;
+        return _ik == null ? -1 : _ik;
     }
 
     public void setIK(Integer ik) {
@@ -447,6 +446,9 @@ public class Account implements Serializable, Person {
     }
 
     public void addIk(int ik) {
+        if (_additionalIKs == null) {
+            _additionalIKs = new ArrayList<>();
+        }
         _additionalIKs.add(new AccountIk(_id, ik));
     }
     // </editor-fold>

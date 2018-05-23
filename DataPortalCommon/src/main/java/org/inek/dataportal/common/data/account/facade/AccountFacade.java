@@ -152,7 +152,7 @@ public class AccountFacade extends AbstractDataAccess {
     public Account updateAccount(Account account) {
         for (AccountFeature accFeature : account.getFeatures()) {
             if (accFeature.getFeatureState() == FeatureState.NEW) {
-                if (accFeature.getFeature().getIkReference() == IkReference.Hospital 
+                if (accFeature.getFeature().getIkReference() == IkReference.Hospital
                         && updateIfManaged(account, accFeature)) {
                     continue;
                 }
@@ -222,6 +222,8 @@ public class AccountFacade extends AbstractDataAccess {
         }
         Account account = ObjectUtil.copyObject(Account.class, accountRequest);
         persist(account);
+        setNewIk(account);
+        merge(account);
         AccountPwd accountPwd = new AccountPwd();
         accountPwd.setAccountId(account.getId());
         String salt = Crypt.getSalt();
@@ -231,6 +233,13 @@ public class AccountFacade extends AbstractDataAccess {
         _accountRequestFacade.remove(accountRequest);
         TransferFileCreator.createEmailTransferFile(_configFacade, account.getEmail());
         return true;
+    }
+
+    public void setNewIk(Account acc) {
+        if (acc.getIK().toString().length() == 9) {
+            acc.addIk(acc.getIK());
+        }
+        acc.setIK(-1);
     }
 
     public boolean activateMail(String mail, String password, String activationKey) {
