@@ -451,8 +451,12 @@ public class Account implements Serializable, Person {
         }
         _additionalIKs.add(new AccountIk(_id, ik));
     }
-    // </editor-fold>
 
+    public void removeIk(AccountIk ik) {
+        _additionalIKs.remove(ik);
+    }
+
+    // </editor-fold>
     public Set<Integer> getFullIkSet() {
         Set<Integer> iks = new HashSet<>();
         if (_ik != null && _ik > 0) {

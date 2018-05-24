@@ -13,9 +13,9 @@
                 <ul class="tab">
                     <ui:repeat value="#{editUserMaintenance.topics}" var="topic">
                         <li class="#{topic.active ? 'activetab' : 'tab'}">
-                            <h:commandLink value="#{topic.title}" action="#{editUserMaintenance.changeTabPage(topic.key)}"
-                                           immediate="false">
-                            </h:commandLink>
+                        <h:commandLink value="#{topic.title}" action="#{editUserMaintenance.changeTabPage(topic.key)}"
+                                       immediate="false">
+                        </h:commandLink>
                         </li>
 
                     </ui:repeat>

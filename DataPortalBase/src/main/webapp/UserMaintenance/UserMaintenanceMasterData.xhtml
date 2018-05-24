@@ -23,160 +23,104 @@
             .ui-inputfield.ui-state-focus {
                 background-color: #C6D2DB !important
             }
-
-
         </style>
-        <div class="inputleft">
-            <p>
-                <h:outputLabel styleClass="label" for="user" value="#{msg.lblUser}:"/>
-                <h:message for="user" id="msgUser" styleClass="errorMessage"/>
-                <br/>
-                <h:inputText styleClass="input" id="user" value="#{editUserMaintenance.user}" immediate="false"
-                             required="true" requiredMessage="#{msg.msgValueNeeded}"
-                             validator="#{editUserMaintenance.checkUser}" maxlength="50"
-                             title="#{msg.tipUserName}">
-                    <f:ajax event="blur" render="@this :logout:remaining msgUser"/>
-                </h:inputText>
-            </p>
-            <p>
-                <h:panelGrid columns="3" width="90%">
-                    <h:panelGroup styleClass="inputmedium">
-                        <h:outputLabel styleClass="label" for="cbxGender" value="#{msg.lblSalutation}"/>
-                        <h:message id="msgGender" for="cbxGender" styleClass="errorMessage"/>
-                        <br/>
-                        <h:selectOneMenu styleClass="inputshort" id="cbxGender" value="#{editUserMaintenance.account.gender}"
-                                         required="true" requiredMessage="#{msg.msgChooseEntryShort}">
-                            <f:selectItems value="#{sessionTools.genderItems}"/>
-                            <f:ajax event="change" render="@this :logout:remaining msgGender"/>
-                        </h:selectOneMenu>
-                    </h:panelGroup>
-                    <h:panelGroup>
-                        <h:outputLabel styleClass="label" for="title" value="#{msg.lblTitle}"/>
-                        <br/>
-                        <h:inputText styleClass="inputmedium" id="title" value="#{editUserMaintenance.account.title}" required="false" maxlength="50"/>
-                    </h:panelGroup>
-                    <h:panelGroup>
-                        <h:outputLabel styleClass="label" for="initials" value="#{msg.lblInitials}"/>
-                        <br/>
-                        <h:inputText styleClass="inputshort" id="initials" value="#{editUserMaintenance.account.initials}" required="false" maxlength="5"/>
-                    </h:panelGroup>
-                </h:panelGrid>
-            </p>
-            <p>
-                <h:outputLabel styleClass="label" for="firstname" value="#{msg.lblFirstName}:"/>
-                <h:message for="firstname" id="msgFirstname" styleClass="errorMessage"/>
-                <br/>
-                <h:inputText styleClass="input" id="firstname" value="#{editUserMaintenance.account.firstName}"
-                             required="true" requiredMessage="#{msg.msgValueNeeded}" maxlength="50">
-                    <f:validator validatorId="RequiredValidator"/>
-                    <f:ajax event="blur" render="@this :logout:remaining msgFirstname"/>
-                </h:inputText>
-            </p>
-            <p>
-                <h:outputLabel styleClass="label" for="lasttname" value="#{msg.lblLastName}:"/>
-                <h:message id="msgLastname" for="lasttname" styleClass="errorMessage"/>
-                <br/>
-                <h:inputText styleClass="input" id="lasttname" value="#{editUserMaintenance.account.lastName}"
-                             required="true" requiredMessage="#{msg.msgValueNeeded}" maxlength="50">
-                    <f:validator validatorId="RequiredValidator"/>
-                    <f:ajax event="blur" render="@this :logout:remaining msgLastname"/>
-                </h:inputText>
-            </p>
-            <p>
-                <h:outputLabel styleClass="label" for="contactRole" value="#{msg.lblContactRole}:"/>
-                <h:message id="msgContactRole" for="contactRole" styleClass="errorMessage"/>
-                <br/>
-                <h:selectOneMenu styleClass="input" id="contactRole" value="#{editUserMaintenance.account.roleId}" required="true" requiredMessage="#{msg.lblChooseEntry}">
-                    <f:selectItems value="#{sessionTools.contactRoleItems}"/>
-                    <f:ajax event="change" render="@this :logout:remaining msgContactRole"/>
-                </h:selectOneMenu>
-            </p>
-            <p>
-                <h:outputLabel styleClass="label" for="contactPhone" value="#{msg.lblContactPhone}:"/>
-                <h:message id="msgContactPhone" for="contactPhone" styleClass="errorMessage"/>
-                <br/>
-                <h:inputText styleClass="input" id="contactPhone" value="#{editUserMaintenance.account.phone}" required="false" maxlength="50">
-                    <f:ajax event="blur" render="@this :logout:remaining msgContactPhone"/>
-                </h:inputText>
-            </p>
-        </div>
-        <div class="inputright">
-            <p>
-                <h:outputLabel styleClass="label" for="company" value="#{msg.lblCompany}:"/>
-                <h:message id="msgCompany" for="company" styleClass="errorMessage"/>
-                <br/>
-                <h:inputText styleClass="input" id="company" value="#{editUserMaintenance.account.company}"
-                             required="true" requiredMessage="#{msg.msgValueNeeded}"
-                             maxlength="200">
-                    <f:validator validatorId="RequiredValidator"/>
-                    <f:ajax event="blur" render="@this :logout:remaining msgCompany"/>
-                </h:inputText>
-            </p>
-            <p>
-                <h:outputLabel styleClass="label" for="customerType" value="#{msg.lblCustomerType}:"/>
-                <h:message id="msgCustomerType" for="customerType" styleClass="errorMessage"/>
-                <br/>
-                <h:selectOneMenu styleClass="input" id="customerType" value="#{editUserMaintenance.account.customerTypeId}"
-                                 required="true" requiredMessage="#{msg.lblChooseEntry}">
-                    <f:selectItems value="#{sessionTools.customerTypeItems}"/>
-                    <f:ajax event="change" render="@this :logout:remaining msgCustomerType lblIk ik"/>
-                </h:selectOneMenu>
-            </p>
-            <p>
-                <h:outputLabel styleClass="label" for="street" value="#{msg.lblStreet}:"/>
-                <h:message id="msgStreet" for="street" styleClass="errorMessage"/>
-                <br/>
-                <h:inputText styleClass="input" id="street" value="#{editUserMaintenance.account.street}"
-                             required="true" requiredMessage="#{msg.msgValueNeeded}" maxlength="50">
-                    <f:validator validatorId="RequiredValidator"/>
-                    <f:ajax event="blur" render="@this :logout:remaining msgStreet"/>
-                </h:inputText>
-            </p>
-            <p>
-                <h:outputLabel styleClass="label" for="zip" value="#{msg.lblPostalCode}:"/>
-                <h:message id="msgZip" for="zip" styleClass="errorMessage"/>
-                <br/>
-                <h:inputText styleClass="input" id="zip" value="#{editUserMaintenance.account.postalCode}"
-                             required="true" requiredMessage="#{msg.msgValueNeeded}" maxlength="10">
-                    <f:validator validatorId="RequiredValidator"/>
-                    <f:ajax event="blur" render="@this :logout:remaining msgZip"/>
-                </h:inputText>
-            </p>
-            <p>
-                <h:outputLabel styleClass="label" for="town" value="#{msg.lblTown}:"/>
-                <h:message id="msgTown" for="town" styleClass="errorMessage"/>
-                <br/>
-                <h:inputText styleClass="input" id="town" value="#{editUserMaintenance.account.town}"
-                             required="true" requiredMessage="#{msg.msgValueNeeded}" maxlength="50">
-                    <f:validator validatorId="RequiredValidator"/>
-                    <f:ajax event="blur" render="@this :logout:remaining msgTown"/>
-                </h:inputText>
-            </p>
-            <p>
-                <h:outputLabel styleClass="label" for="companyPhone" value="#{msg.lblPhone}:"/>
-                <h:message id="msgCompanyPhone" for="companyPhone" styleClass="errorMessage"/>
-                <br/>
-                <h:inputText styleClass="input" id="companyPhone" value="#{editUserMaintenance.account.customerPhone}" required="false" maxlength="50">
-                    <f:ajax event="blur" render="@this :logout:remaining msgCompanyPhone"/>
-                </h:inputText>
-            </p>
-            <p>
-                <h:outputLabel styleClass="label" for="companyFax" value="#{msg.lblFax}:"/>
-                <h:message id="msgCompanyFax" for="companyFax" styleClass="errorMessage"/>
-                <br/>
-                <h:inputText styleClass="input" id="companyFax" value="#{editUserMaintenance.account.customerFax}" required="false" maxlength="50">
-                    <f:ajax event="blur" render="@this :logout:remaining msgCompanyFax"/>
-                </h:inputText>
-            </p>
-        </div>
-        <br class="defloat"/>
 
-        <h:form id="ilList">
+        <h2>Allgemein</h2>
+        <h:form>
             <pf:growl id="Box" />
+            <div class="ui-g ui-fluid">
+                <div class="ui-g-8 ui-md-6">
+                    <pf:outputLabel style="font-weight: bold" value="Anwendername:* " />
+                    <pf:inputText id="username" required="true" requiredMessage="Bitte geben Sie einen Anwendernamen an" validator="#{editUserMaintenance.checkUser}" placeholder="Anwendername" value="#{editUserMaintenance.user}" maxlength="50" />
+                    <pf:message for="username" />
+                </div>
+
+                <div class="ui-g-8 ui-md-6">
+                    <pf:outputLabel style="font-weight: bold" value="Krankenhaus / Firma:* " />
+                    <pf:inputText id="company" required="true" requiredMessage="Bitte geben Sie eine Krankenhaus oder ein Firma an" placeholder="Krankenhaus / Firma" value="#{editUserMaintenance.account.company}"/>
+                    <pf:message for="company" />
+                </div>
+            </div>
+            <div class="ui-g ui-fluid">
+                <div class="ui-g-8 ui-md-3">
+                    <pf:outputLabel style="font-weight: bold" value="Anrede:* " />
+                    <pf:selectOneMenu id="gender" required="true" value="#{editUserMaintenance.account.gender}">
+                        <f:selectItems value="#{sessionTools.genderItems}"/>
+                    </pf:selectOneMenu>
+                    <pf:message for="gender" />
+                </div>
+
+                <div class="ui-g-8 ui-md-3">
+                    <pf:outputLabel style="font-weight: bold" value="Titel: " />
+                    <pf:inputText id="title" placeholder="Titel" value="#{editUserMaintenance.account.title}" maxlength="50" />
+                    <pf:message for="title" />
+                </div>
+
+                <div class="ui-g-8 ui-md-6">
+                    <pf:outputLabel style="font-weight: bold" value="Krankenhaus- bzw. Unternehmenstyp:* " />
+                    <pf:selectOneMenu id="customertyp" required="true" value="#{editUserMaintenance.account.customerTypeId}" >
+                        <f:selectItems value="#{sessionTools.customerTypeItems}"/>
+                    </pf:selectOneMenu>
+                    <pf:message for="customertyp" />
+                </div>
+            </div>
+            <div class="ui-g ui-fluid">
+                <div class="ui-g-8 ui-md-6">
+                    <pf:outputLabel style="font-weight: bold" value="Vorname:* " />
+                    <pf:inputText id="firstname" required="true" requiredMessage="Bitte geben Sie einen Vornamen an" placeholder="Vorname" value="#{editUserMaintenance.account.firstName}" maxlength="50" />
+                    <pf:message for="firstname" />
+                </div>
+                <div class="ui-g-8 ui-md-6">
+                    <pf:outputLabel style="font-weight: bold" value="Straße:* " />
+                    <pf:inputText id="street" required="true" requiredMessage="Bitte geben Sie eine Straße an" placeholder="Straße" value="#{editUserMaintenance.account.street}" maxlength="50" />
+                    <pf:message for="street" />
+                </div>
+                <div class="ui-g-8 ui-md-6">
+                    <pf:outputLabel style="font-weight: bold" value="Name:* " />
+                    <pf:inputText id="lastname" required="true" requiredMessage="Bitte geben Sie einen Nachnamen an" placeholder="Name" value="#{editUserMaintenance.account.lastName}" maxlength="50" />
+                    <pf:message for="lastname" />
+                </div>
+                <div class="ui-g-8 ui-md-6">
+                    <pf:outputLabel style="font-weight: bold" value="PLZ:* " />
+                    <pf:inputText id="plz" required="true" requiredMessage="Bitte geben Sie eine PLZ an" placeholder="PLZ" value="#{editUserMaintenance.account.postalCode}" maxlength="5" />
+                    <pf:message for="plz" />
+                </div>
+                <div class="ui-g-8 ui-md-6">
+                    <pf:outputLabel style="font-weight: bold" value="Funktion:* " />
+                    <pf:selectOneMenu id="role" value="#{editUserMaintenance.account.roleId}" required="true">
+                        <f:selectItems value="#{sessionTools.contactRoleItems}"/>
+                    </pf:selectOneMenu>
+                    <pf:message for="role" />
+                </div>
+                <div class="ui-g-8 ui-md-6">
+                    <pf:outputLabel style="font-weight: bold" value="Ort:* " />
+                    <pf:inputText id="town" required="true" requiredMessage="Bitte geben Sie einen Ort an" placeholder="Ort" value="#{editUserMaintenance.account.town}" maxlength="50" />
+                    <pf:message for="town" />
+                </div>
+                <div class="ui-g-8 ui-md-6">
+                    <pf:outputLabel style="font-weight: bold" value="Telefon / Durchwahl: " />
+                    <pf:inputText id="tel" placeholder="Telefon / Durchwahl" value="#{editUserMaintenance.account.phone}" maxlength="50" />
+                    <pf:message for="tel" />
+                </div>
+
+                <div class="ui-g-8 ui-md-6">
+                    <pf:outputLabel style="font-weight: bold" value="Telefon : " />
+                    <pf:inputText id="ctel" placeholder="Telefon" value="#{editUserMaintenance.account.customerPhone}" maxlength="50" />
+                    <pf:message for="ctel" />
+                </div>
+            </div>
+
+            <div class="ui-g ui-fluid">
+                <div class="ui-g-8 ui-md-6">
+                </div>
+                <div class="ui-g-8 ui-md-6">
+                    <pf:outputLabel style="font-weight: bold" value="Telefax: " />
+                    <pf:inputText id="cfax" placeholder="Telefax" value="#{editUserMaintenance.account.customerFax}" maxlength="50" />
+                    <pf:message for="cfax" />
+                </div>
+            </div>
             <h2>IK - Verwaltung</h2>
-            <pf:dataTable editable="true"
-                          editMode="cell"
-                          id="iks"
+            <pf:dataTable id="iks"
                           var="accountIk"
                           widgetVar="accountIks"
                           value="#{editUserMaintenance.account.additionalIKs}"
@@ -196,15 +140,11 @@
                                     readonly="#{!editUserMaintenance.removeIkAllowed(accountIk.IK)}"
                                     validator="#{editUserMaintenance.isIKValid}"
                                     thousandSeparator=""
-                                    minValue="000000000"
-                                    maxValue="999999999"
                                     decimalPlaces="0"
                                     validatorMessage="Ungültige IK"
                                     required="True"
-                                    value="#{accountIk.IK}">
-                        <pf:ajax event="blur" update="customerName ikInputMessage" />
-                    </pf:inputNumber>
-                    <pf:message for="ikInput" id="ikInputMessage" />
+                                    value="#{accountIk.IK}" />
+                    <pf:message for="ikInput" />
                 </pf:column>
                 <pf:column headerText="Name">
                     <pf:outputLabel id="customerName" value="#{editUserMaintenance.getCustomerName(accountIk.IK)}" />
@@ -212,10 +152,11 @@
             </pf:dataTable>
             <br />
             <pf:commandButton value="Weitere IK hinzufügen" icon="fa fa-plus" process="@this" action="#{editUserMaintenance.addNewIK()}" oncomplete="PF('accountIks').addRow();"/>
-
-            <div class="toolBar">
-                <pf:commandLink styleClass="bigButton" update="iks Box" action="#{editUserMaintenance.save}" value="#{msg.btnSave}"/>
-            </div>
+            <br /><br />
+            <pf:commandLink styleClass="bigButton"
+                            update="@(.ui-message) Box iks"
+                            action="#{editUserMaintenance.save}"
+                            value="#{msg.btnSave}" />
         </h:form>
 
     </ui:define>

@@ -3,13 +3,9 @@ package org.inek.dataportal.base.feature.maintenance;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
-import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -87,6 +83,7 @@ public class EditUserMaintenance extends AbstractEditController {
     private String _newPassword;
     private String _repeatPassword;
     private String _script = "";
+    private List<Integer> _iksNotAllowedForDelete = new ArrayList<>();
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
@@ -142,12 +139,13 @@ public class EditUserMaintenance extends AbstractEditController {
 
     private void initOrResetData() {
         _features = null;
-        _account = _sessionController.getAccount();
+        _account = _accountFacade.findAccount(_sessionController.getAccount().getId());
         _user = _account.getUser();
         _oldPassword = "";
         _newPassword = "";
         _repeatPassword = "";
         _isMofified = false;
+        setUsedIks();
     }
 
     @Override
@@ -175,6 +173,14 @@ public class EditUserMaintenance extends AbstractEditController {
 
     public boolean isMofified() {
         return _isMofified;
+    }
+
+    private void setUsedIks() {
+        for (AccountIk ik : _account.getAdditionalIKs()) {
+            if (!_accountFacade.deleteIkAllowed(ik.getIK(), _account)) {
+                _iksNotAllowedForDelete.add(ik.getIK());
+            }
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="Part UserMaintenance">
@@ -221,8 +227,7 @@ public class EditUserMaintenance extends AbstractEditController {
     }
 
     public void removeIK(AccountIk accountIk) {
-        _account.getAdditionalIKs().remove(accountIk);
-        //TODO Remove IK-Admin Right
+        _account.removeIk(accountIk);
     }
     // </editor-fold>
 
@@ -338,7 +343,8 @@ public class EditUserMaintenance extends AbstractEditController {
     public String save() {
         removeDuplicateIks(_account);
         checkIKAdminRights(_account);
-        _sessionController.saveAccount();
+        _accountFacade.merge(_account);
+        _sessionController.refreshAccount(_account.getId());
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Speichern Erfolgreich"));
         return "";
     }
@@ -508,10 +514,7 @@ public class EditUserMaintenance extends AbstractEditController {
     }
 
     public boolean removeIkAllowed(int ik) {
-        if (ik == 0) {
-            return true;
-        }
-        return _accountFacade.deleteIkAllowed(ik, _sessionController.getAccount());
+        return !_iksNotAllowedForDelete.contains(ik);
     }
 
     public String getCustomerName(int ik) {
@@ -525,15 +528,6 @@ public class EditUserMaintenance extends AbstractEditController {
     public void isIKValid(FacesContext ctx, UIComponent component, Object value) throws ValidatorException {
         if (!isIkValide((Integer) value)) {
             throw new ValidatorException(new FacesMessage("Ungültige IK"));
-        }
-    }
-
-    @PreDestroy
-    public void leaveBean() {
-        try {
-            _sessionController.refreshAccount(_account.getId());
-        } catch (Exception ex) {
-            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
         }
     }
 }
