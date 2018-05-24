@@ -20,6 +20,10 @@
             .ui-widget-content {
                 background: #eeeeee !important
             }
+            .ui-inputfield.ui-state-focus {
+                background-color: #C6D2DB !important
+            }
+
 
         </style>
         <div class="inputleft">
@@ -181,9 +185,11 @@
                 <pf:column class="colIcon">
                     <pf:commandLink rendered="#{editUserMaintenance.removeIkAllowed(accountIk.IK)}"
                                     action="#{editUserMaintenance.removeIK(accountIk)}"
-                                    class="fa fa-trash" style="color: #e81919"
                                     update="iks"
-                                    process="@this"/>
+                                    process="@this">
+                        <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value=""/>
+                    </pf:commandLink>
+
                 </pf:column>
                 <pf:column headerText="IK">
                     <pf:inputNumber id="ikInput"
@@ -207,7 +213,6 @@
             <br />
             <pf:commandButton value="Weitere IK hinzufügen" icon="fa fa-plus" process="@this" action="#{editUserMaintenance.addNewIK()}" oncomplete="PF('accountIks').addRow();"/>
 
-            <h:outputText styleClass="warningText" value="#{msg.msgDataChanged}" rendered="#{editUserMaintenance.mofified}"/>
             <div class="toolBar">
                 <pf:commandLink styleClass="bigButton" update="iks Box" action="#{editUserMaintenance.save}" value="#{msg.btnSave}"/>
             </div>
