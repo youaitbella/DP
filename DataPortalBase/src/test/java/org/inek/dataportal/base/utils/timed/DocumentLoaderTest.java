@@ -3,10 +3,9 @@ package org.inek.dataportal.base.utils.timed;
 import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
-import static org.junit.Assert.assertFalse;
-import org.junit.Test;
-import static org.junit.Assert.assertTrue;
-
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 /**
  *
  * @author muellermi
@@ -22,7 +21,7 @@ public class DocumentLoaderTest {
 
         File file = new File(homeDir, UUID.randomUUID().toString());
         file.createNewFile();
-        assertTrue("File created", file.exists());
+        assertTrue(file.exists(), "File created");
 
         String targetRelativePath = UUID.randomUUID().toString();
         File targetDir = new File(file.getParent(), targetRelativePath);
@@ -31,10 +30,10 @@ public class DocumentLoaderTest {
 
         boolean result = DocumentLoader.moveFile(targetRelativePath, file);
         assertTrue(result);
-        assertTrue("File moved", targetFile.exists());
+        assertTrue(targetFile.exists(), "File moved");
         
         
-        assertFalse("File removed",file.exists());
+        assertFalse(file.exists(), "File removed");
         
         targetFile.delete();
         targetDir.delete();
@@ -46,7 +45,7 @@ public class DocumentLoaderTest {
 
         File file = new File(homeDir, UUID.randomUUID().toString());
         file.createNewFile();
-        assertTrue("File created", file.exists());
+        assertTrue(file.exists(), "File created");
 
         String targetRelativePath = UUID.randomUUID().toString();
         File targetDir = new File(file.getParent(), targetRelativePath);
@@ -54,7 +53,7 @@ public class DocumentLoaderTest {
 
         File targetFile = new File(targetDir, file.getName());
         targetFile.createNewFile();
-        assertTrue("targetFile created", targetFile.exists());
+        assertTrue(targetFile.exists(), "targetFile created");
 
         boolean result = DocumentLoader.moveFile(targetRelativePath, file);
         if (isWindows()){
@@ -62,10 +61,10 @@ public class DocumentLoaderTest {
         }else{
         assertTrue(result);
         }
-        assertTrue("File moved", targetFile.exists());
+        assertTrue(targetFile.exists(), "File moved");
         
         
-        assertFalse("File removed",file.exists());
+        assertFalse(file.exists(), "File removed");
         
         targetFile.delete();
         targetDir.delete();

@@ -1,3 +1,5 @@
+package org.inek.dataportal.base.feature.ikadmin.backingbean;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -6,12 +8,12 @@
 
 import java.util.ArrayList;
 import java.util.List;
-import org.inek.dataportal.base.feature.ikadmin.backingbean.IkAdminTasks;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
 import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.enums.Right;
-import org.junit.Test;
 import org.assertj.core.api.Assertions;
+
+import org.junit.jupiter.api.Test;
 
 /**
  *
