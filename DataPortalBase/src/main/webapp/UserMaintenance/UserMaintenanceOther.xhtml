@@ -5,78 +5,86 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                xmlns:c="http://java.sun.com/jsp/jstl/core">
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:pf="http://primefaces.org/ui">
     <ui:define name="maintenanceContent">
-        <div class="groupBox marginTop">
-            <h:outputLabel value="#{msg.msgChangePassword}"/>
-            <br/>
-            <p>
-                <h:outputLabel styleClass="label fakeRequired" for="oldPassword" value="#{msg.lblOldPassword}:"/>
-                <h:message for="oldPassword" id="msgOldPassword" styleClass="errorMessage"/>
-                <br/>
-                <!-- required = false to prevent checks when switching the tab -->
-                <h:inputSecret styleClass="input fakeRequired" id="oldPassword" value="#{editUserMaintenance.oldPassword}" requiredMessage="#{msg.msgValueNeeded}" 
-                               redisplay="true" maxlength="50">
-                </h:inputSecret>
-            </p>
-            <p>
-                <h:outputLabel styleClass="label fakeRequired" for="password" value="#{msg.lblNewPassword}:"/>
-                <h:message for="password" id="msgPassword" styleClass="errorMessage"/>
-                <br/>
-                <h:inputSecret styleClass="input fakeRequired" id="password" value="#{editUserMaintenance.newPassword}" requiredMessage="#{msg.msgValueNeeded}" 
-                               redisplay="true" maxlength="50">
-                    <f:ajax render="qualityIndicator" event="keyup" listener="#{securePassword.checkPasswordQuality}"/>
-                </h:inputSecret>
-                <h:outputLabel id="qualityIndicator" value="" class="circle#{securePassword.quality.color}" title="#{msg.msgPasswordStrength}"/>
-            </p>
-            <p>
-                <h:outputLabel styleClass="label fakeRequired" for="repeatPassword" value="#{msg.lblRepeatPassword}:"/>
-                <h:message id="msgRepeatPassword" for="repeatPassword" styleClass="errorMessage"/>
-                <br/>
-                <h:inputSecret styleClass="input fakeRequired" id="repeatPassword" value="#{editUserMaintenance.repeatPassword}" requiredMessage="#{msg.msgValueNeeded}" 
-                               redisplay="true" maxlength="50"
-                               validator="#{editUserMaintenance.checkPassword}">
-                </h:inputSecret>
-            </p>
+        <h2>Passwort ändern</h2>
+        <h:form id="changePasswordForm">
+            <div class="ui-g ui-fluid">
+                <div class="ui-g-8 ui-md-6">
+                    <pf:outputLabel class="formLabel" value="Altes Passwort:* " />
+                    <pf:password id="oldPassword"
+                                 value="#{editUserMaintenance.oldPassword}"
+                                 maxlength="50" />
+                    <pf:message for="oldPassword" />
+                </div>
 
-            <p>
-                <h:outputText styleClass="warningText" value="#{msg.msgDataChanged}" rendered="#{editUserMaintenance.mofified}"/>
-                <h:commandLink styleClass="bigButton" action="#{editUserMaintenance.savePassword}" value="#{msg.btnSave}" immediate="false" />
-            </p>
-        </div>
+                <div class="ui-g-8 ui-md-6">
+                    <pf:outputLabel class="formLabel" value="Neues Passwort:* " />
+                    <pf:password id="newPassword"
+                                 value="#{editUserMaintenance.newPassword}"
+                                 maxlength="50" />
+                    <pf:message for="newPassword" />
+                </div>
 
-        <div class="groupBox marginTop">
-            <h:outputLabel value="#{msg.msgChangeMail}"/>
-            <br/>
+                <div class="ui-g-8 ui-md-6">
+                </div>
 
-            <p>
-                <h:outputLabel styleClass="label" for="currentEmail" value="#{msg.lblCurrentMail}:"/>
-                <br/>
-                <h:outputText styleClass="input" id="currentEmail" value="#{editUserMaintenance.account.email}"/>
-            </p>
+                <div class="ui-g-8 ui-md-6">
+                    <pf:outputLabel class="formLabel" value="Neues Passwort wiederholen:* " />
+                    <pf:password id="newPasswordRepeat"
+                                 value="#{editUserMaintenance.repeatPassword}"
+                                 maxlength="50"/>
+                    <pf:message for="newPasswordRepeat" />
+                </div>
+            </div>
+            <div class="ui-fluid">
+                <pf:commandLink styleClass="bigButton"
+                                update="@(.ui-message) Box"
+                                process="changePasswordForm"
+                                action="#{editUserMaintenance.savePassword}"
+                                value="Passwort ändern" />
+            </div>
+        </h:form>
 
-            <p>
-                <h:outputLabel styleClass="label" for="email" value="#{msg.lblNewMail}:"/>
-                <h:message for="email" id="msgEmail" styleClass="errorMessage"/>
-                <br/>
-                <h:inputText styleClass="input" id="email" value="#{editUserMaintenance.email}"
-                             validator="#{editUserMaintenance.checkEmail}" maxlength="100"
-                             title="#{msg.tipEmail}">
-                    <f:ajax event="blur" render="@this :logout:remaining msgEmail"/>
-                </h:inputText>
-            </p>
+        <h2>Email Ändern</h2>
 
-            <p>
-                <h:outputText styleClass="warningText" value="#{msg.msgDataChanged}" rendered="#{editUserMaintenance.mofified}"/>
-                <h:commandLink styleClass="bigButton" action="#{editUserMaintenance.saveEmail}" value="#{msg.btnSendConfirm}" immediate="false" />
-            </p>
-        </div>
+        <h:form id="changeEmailForm">
+            <div class="ui-g ui-fluid">
+                <div class="ui-g-8 ui-md-6">
+                    <pf:outputLabel class="formLabel" value="Aktuelle E-Mail: " />
+                    <pf:inputText id="oldMail"
+                                  value="#{editUserMaintenance.account.email}"
+                                  disabled="true"/>
+                </div>
+
+                <div class="ui-g-8 ui-md-6">
+                    <pf:outputLabel class="formLabel" value="Neue E-Mail:* " />
+                    <pf:inputText id="newMail"
+                                  value="#{editUserMaintenance.email}"
+                                  validator="#{editUserMaintenance.checkEmail}"
+                                  validatorMessage="Ungültige E-Mail Adresse"
+                                  maxlength="100"
+                                  required="true" />
+                    <pf:message id="newMail_m" for="newMail" />
+                </div>
+            </div>
+            <div class="ui-fluid">
+                <pf:commandLink styleClass="bigButton"
+                                update="@(.ui-message) Box"
+                                action="#{editUserMaintenance.saveEmail}"
+                                process="changeEmailForm"
+                                value="E-Mail ändern" />
+            </div>
+
+        </h:form>
 
         <h:panelGroup styleClass="groupBox marginTop" rendered="#{editUserMaintenance.deleteAllowed()}" >
             <h:outputLabel value="#{msg.msgDeleteAccount}"/>
-            <br/>
-            <h:commandLink styleClass="bigButton" action="#{editUserMaintenance.requestDelete}" value="#{msg.btnDeleteAccount}" immediate="true" />
-            <h:commandLink id="deleteAccount" style="display: none" action="#{editUserMaintenance.delete}" value="delete"/>
+
+            <pf:commandLink action="#{editUserMaintenance.delete()}" >
+                <pf:confirm  header="Account wirklich löschen?" message="Wollen Sie Ihren Zugang zum InEK-DatenPortal wirklich löschen?" icon="ui-icon-info" />
+            </pf:commandLink>
         </h:panelGroup>
     </ui:define>
 </ui:composition>

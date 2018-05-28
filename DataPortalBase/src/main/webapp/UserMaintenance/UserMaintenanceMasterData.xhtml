@@ -8,42 +8,24 @@
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xmlns:pf="http://primefaces.org/ui">
     <ui:define name="maintenanceContent">
-        <pf:ajaxStatus style="display:block;position:absolute;bottom: 5px;right: 5px;z-index:100">
-            <f:facet name="start">
-                <pf:graphicImage height="100" width="100" name="Image/load.gif" />
-            </f:facet>
-            <f:facet name="complete">
-                <h:outputText value="" />
-            </f:facet>
-        </pf:ajaxStatus>
-        <style>
-            .ui-widget-content {
-                background: #eeeeee !important
-            }
-            .ui-inputfield.ui-state-focus {
-                background-color: #C6D2DB !important
-            }
-        </style>
-
         <h2>Allgemein</h2>
         <h:form>
-            <pf:growl id="Box" />
             <div class="ui-g ui-fluid">
                 <div class="ui-g-8 ui-md-6">
-                    <pf:outputLabel style="font-weight: bold" value="Anwendername:* " />
+                    <pf:outputLabel class="formLabel" value="Anwendername:* " />
                     <pf:inputText id="username" required="true" requiredMessage="Bitte geben Sie einen Anwendernamen an" validator="#{editUserMaintenance.checkUser}" placeholder="Anwendername" value="#{editUserMaintenance.user}" maxlength="50" />
                     <pf:message for="username" />
                 </div>
 
                 <div class="ui-g-8 ui-md-6">
-                    <pf:outputLabel style="font-weight: bold" value="Krankenhaus / Firma:* " />
+                    <pf:outputLabel class="formLabel" value="Krankenhaus / Firma:* " />
                     <pf:inputText id="company" required="true" requiredMessage="Bitte geben Sie eine Krankenhaus oder ein Firma an" placeholder="Krankenhaus / Firma" value="#{editUserMaintenance.account.company}"/>
                     <pf:message for="company" />
                 </div>
             </div>
             <div class="ui-g ui-fluid">
                 <div class="ui-g-8 ui-md-3">
-                    <pf:outputLabel style="font-weight: bold" value="Anrede:* " />
+                    <pf:outputLabel class="formLabel" value="Anrede:* " />
                     <pf:selectOneMenu id="gender" required="true" value="#{editUserMaintenance.account.gender}">
                         <f:selectItems value="#{sessionTools.genderItems}"/>
                     </pf:selectOneMenu>
@@ -51,13 +33,13 @@
                 </div>
 
                 <div class="ui-g-8 ui-md-3">
-                    <pf:outputLabel style="font-weight: bold" value="Titel: " />
+                    <pf:outputLabel class="formLabel" value="Titel: " />
                     <pf:inputText id="title" placeholder="Titel" value="#{editUserMaintenance.account.title}" maxlength="50" />
                     <pf:message for="title" />
                 </div>
 
                 <div class="ui-g-8 ui-md-6">
-                    <pf:outputLabel style="font-weight: bold" value="Krankenhaus- bzw. Unternehmenstyp:* " />
+                    <pf:outputLabel class="formLabel" value="Krankenhaus- bzw. Unternehmenstyp:* " />
                     <pf:selectOneMenu id="customertyp" required="true" value="#{editUserMaintenance.account.customerTypeId}" >
                         <f:selectItems value="#{sessionTools.customerTypeItems}"/>
                     </pf:selectOneMenu>
@@ -66,45 +48,45 @@
             </div>
             <div class="ui-g ui-fluid">
                 <div class="ui-g-8 ui-md-6">
-                    <pf:outputLabel style="font-weight: bold" value="Vorname:* " />
+                    <pf:outputLabel class="formLabel" value="Vorname:* " />
                     <pf:inputText id="firstname" required="true" requiredMessage="Bitte geben Sie einen Vornamen an" placeholder="Vorname" value="#{editUserMaintenance.account.firstName}" maxlength="50" />
                     <pf:message for="firstname" />
                 </div>
                 <div class="ui-g-8 ui-md-6">
-                    <pf:outputLabel style="font-weight: bold" value="Straße:* " />
+                    <pf:outputLabel class="formLabel" value="Straße:* " />
                     <pf:inputText id="street" required="true" requiredMessage="Bitte geben Sie eine Straße an" placeholder="Straße" value="#{editUserMaintenance.account.street}" maxlength="50" />
                     <pf:message for="street" />
                 </div>
                 <div class="ui-g-8 ui-md-6">
-                    <pf:outputLabel style="font-weight: bold" value="Name:* " />
+                    <pf:outputLabel class="formLabel" value="Name:* " />
                     <pf:inputText id="lastname" required="true" requiredMessage="Bitte geben Sie einen Nachnamen an" placeholder="Name" value="#{editUserMaintenance.account.lastName}" maxlength="50" />
                     <pf:message for="lastname" />
                 </div>
                 <div class="ui-g-8 ui-md-6">
-                    <pf:outputLabel style="font-weight: bold" value="PLZ:* " />
+                    <pf:outputLabel class="formLabel" value="PLZ:* " />
                     <pf:inputText id="plz" required="true" requiredMessage="Bitte geben Sie eine PLZ an" placeholder="PLZ" value="#{editUserMaintenance.account.postalCode}" maxlength="5" />
                     <pf:message for="plz" />
                 </div>
                 <div class="ui-g-8 ui-md-6">
-                    <pf:outputLabel style="font-weight: bold" value="Funktion:* " />
+                    <pf:outputLabel class="formLabel" value="Funktion:* " />
                     <pf:selectOneMenu id="role" value="#{editUserMaintenance.account.roleId}" required="true">
                         <f:selectItems value="#{sessionTools.contactRoleItems}"/>
                     </pf:selectOneMenu>
                     <pf:message for="role" />
                 </div>
                 <div class="ui-g-8 ui-md-6">
-                    <pf:outputLabel style="font-weight: bold" value="Ort:* " />
+                    <pf:outputLabel class="formLabel" value="Ort:* " />
                     <pf:inputText id="town" required="true" requiredMessage="Bitte geben Sie einen Ort an" placeholder="Ort" value="#{editUserMaintenance.account.town}" maxlength="50" />
                     <pf:message for="town" />
                 </div>
                 <div class="ui-g-8 ui-md-6">
-                    <pf:outputLabel style="font-weight: bold" value="Telefon / Durchwahl: " />
+                    <pf:outputLabel class="formLabel" value="Telefon / Durchwahl: " />
                     <pf:inputText id="tel" placeholder="Telefon / Durchwahl" value="#{editUserMaintenance.account.phone}" maxlength="50" />
                     <pf:message for="tel" />
                 </div>
 
                 <div class="ui-g-8 ui-md-6">
-                    <pf:outputLabel style="font-weight: bold" value="Telefon : " />
+                    <pf:outputLabel class="formLabel" value="Telefon : " />
                     <pf:inputText id="ctel" placeholder="Telefon" value="#{editUserMaintenance.account.customerPhone}" maxlength="50" />
                     <pf:message for="ctel" />
                 </div>
@@ -114,49 +96,82 @@
                 <div class="ui-g-8 ui-md-6">
                 </div>
                 <div class="ui-g-8 ui-md-6">
-                    <pf:outputLabel style="font-weight: bold" value="Telefax: " />
+                    <pf:outputLabel class="formLabel" value="Telefax: " />
                     <pf:inputText id="cfax" placeholder="Telefax" value="#{editUserMaintenance.account.customerFax}" maxlength="50" />
                     <pf:message for="cfax" />
                 </div>
             </div>
-            <h2>IK - Verwaltung</h2>
-            <pf:dataTable id="iks"
-                          var="accountIk"
-                          widgetVar="accountIks"
-                          value="#{editUserMaintenance.account.additionalIKs}"
-                          emptyMessage="Keine IK's eingetragen"
-                          tableStyle="width: auto">
-                <pf:column class="colIcon">
-                    <pf:commandLink rendered="#{editUserMaintenance.removeIkAllowed(accountIk.IK)}"
-                                    action="#{editUserMaintenance.removeIK(accountIk)}"
-                                    update="iks"
-                                    process="@this">
-                        <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value=""/>
-                    </pf:commandLink>
+            <div class="ui-g ui-fluid">
+                <div class="ui-g-8 ui-md-6">
+                    <h2>IK - Verwaltung</h2>
+                    <pf:dataTable id="iks"
+                                  var="accountIk"
+                                  widgetVar="accountIks"
+                                  value="#{editUserMaintenance.account.additionalIKs}"
+                                  emptyMessage="Keine IK's eingetragen"
+                                  tableStyle="width: auto">
+                        <pf:column class="colIcon">
+                            <pf:commandLink rendered="#{editUserMaintenance.removeIkAllowed(accountIk.IK)}"
+                                            action="#{editUserMaintenance.removeIK(accountIk)}"
+                                            update="iks"
+                                            process="@this">
+                                <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value=""/>
+                            </pf:commandLink>
 
-                </pf:column>
-                <pf:column headerText="IK">
-                    <pf:inputNumber id="ikInput"
-                                    readonly="#{!editUserMaintenance.removeIkAllowed(accountIk.IK)}"
-                                    validator="#{editUserMaintenance.isIKValid}"
-                                    thousandSeparator=""
-                                    decimalPlaces="0"
-                                    validatorMessage="Ungültige IK"
-                                    required="True"
-                                    value="#{accountIk.IK}" />
-                    <pf:message for="ikInput" />
-                </pf:column>
-                <pf:column headerText="Name">
-                    <pf:outputLabel id="customerName" value="#{editUserMaintenance.getCustomerName(accountIk.IK)}" />
-                </pf:column>
-            </pf:dataTable>
-            <br />
-            <pf:commandButton value="Weitere IK hinzufügen" icon="fa fa-plus" process="@this" action="#{editUserMaintenance.addNewIK()}" oncomplete="PF('accountIks').addRow();"/>
+                        </pf:column>
+                        <pf:column headerText="IK">
+                            <pf:inputNumber id="ikInput"
+                                            readonly="#{!editUserMaintenance.removeIkAllowed(accountIk.IK)}"
+                                            validator="#{editUserMaintenance.isIKValid}"
+                                            thousandSeparator=""
+                                            decimalPlaces="0"
+                                            validatorMessage="Ungültige IK"
+                                            required="True"
+                                            value="#{accountIk.IK}" />
+                            <pf:message for="ikInput" />
+                        </pf:column>
+                        <pf:column headerText="Name">
+                            <pf:outputLabel id="customerName" value="#{editUserMaintenance.getCustomerName(accountIk.IK)}" />
+                        </pf:column>
+                    </pf:dataTable>
+                    <br />
+                    <div class="ui-g-8 ui-md-5">
+                        <pf:commandButton value="Weitere IK hinzufügen" icon="fa fa-plus" process="@this" action="#{editUserMaintenance.addNewIK()}" oncomplete="PF('accountIks').addRow();"/>
+                    </div>
+                </div>
+                <div class="ui-g-8 ui-md-6">
+                    <h2>Konfiguration</h2>
+                    <h:panelGrid columns="2" style="margin-bottom:10px" cellspacing="5">
+                        <pf:selectBooleanCheckbox id="nubConfirmation"
+                                                  value="#{editUserMaintenance.account.nubConfirmation}"
+                                                  disabled="#{!editUserMaintenance.featureNub}" />
+                        <pf:outputLabel for="nubConfirmation" value="#{msg.lblNubConfirmation}" />
+
+                        <pf:selectBooleanCheckbox id="nubInformation"
+                                                  value="#{editUserMaintenance.account.nubInformationMail}"
+                                                  disabled="#{!editUserMaintenance.featureNub}" />
+                        <pf:outputLabel for="nubInformation" value="#{msg.lblNubInformation}" />
+
+                        <pf:selectBooleanCheckbox id="messageCopy"
+                                                  value="#{editUserMaintenance.account.messageCopy}"
+                                                  disabled="#{!editUserMaintenance.featureCoop}" />
+                        <pf:outputLabel for="messageCopy" value="#{msg.lblMessageCopy}" />
+                    </h:panelGrid>
+
+                    <pf:outputLabel class="formLabel" for="dropBoxHoldTime" value="#{msg.lblDropBoxHoldTime}:"/>
+                    <pf:inputNumber id="dropBoxHoldTime"
+                                    value="#{editUserMaintenance.account.dropBoxHoldTime}"
+                                    thousandSeparator="."
+                                    decimalPlaces="0" />
+                </div>
+            </div>
             <br /><br />
-            <pf:commandLink styleClass="bigButton"
-                            update="@(.ui-message) Box iks"
-                            action="#{editUserMaintenance.save}"
-                            value="#{msg.btnSave}" />
+            <div class="ui-fluid">
+                <pf:commandLink styleClass="bigButton"
+                                update="@(.ui-message) Box iks"
+                                action="#{editUserMaintenance.save}"
+                                value="#{msg.btnSave}" />
+            </div>
         </h:form>
 
     </ui:define>

@@ -35,6 +35,7 @@ import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.faceletvalidators.NameValidator;
 import org.inek.dataportal.common.scope.FeatureScoped;
 import org.inek.dataportal.common.mail.Mailer;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -52,7 +53,6 @@ public class EditUserMaintenance extends AbstractEditController {
         tabUMMaster,
         tabUMFeatures,
         tabUMOther,
-        tabUMConfig;
     }
     private static final Logger LOGGER = Logger.getLogger("EditUserMaintenance");
 
@@ -78,11 +78,9 @@ public class EditUserMaintenance extends AbstractEditController {
     private String _email;
     private Account _account;
     private List<FeatureEditorDAO> _features;
-    private boolean _isMofified = false;
     private String _oldPassword;
     private String _newPassword;
     private String _repeatPassword;
-    private String _script = "";
     private List<Integer> _iksNotAllowedForDelete = new ArrayList<>();
     // </editor-fold>
 
@@ -144,8 +142,8 @@ public class EditUserMaintenance extends AbstractEditController {
         _oldPassword = "";
         _newPassword = "";
         _repeatPassword = "";
-        _isMofified = false;
         setUsedIks();
+        ensureFeatures();
     }
 
     @Override
@@ -153,7 +151,6 @@ public class EditUserMaintenance extends AbstractEditController {
         addTopic(UserMaintenaceTabs.tabUMMaster.name(), Pages.UserMaintenanceMasterData.URL());
         addTopic(UserMaintenaceTabs.tabUMFeatures.name(), Pages.UserMaintenanceFeatures.URL());
         addTopic(UserMaintenaceTabs.tabUMOther.name(), Pages.UserMaintenanceOther.URL());
-        addTopic(UserMaintenaceTabs.tabUMConfig.name(), Pages.UserMaintenanceConfig.URL());
     }
 
     /**
@@ -166,13 +163,7 @@ public class EditUserMaintenance extends AbstractEditController {
         if (getActiveTopic().getKey().equals(newTopic)) {
             return;
         }
-        if (!_isMofified) {
-            setActiveTopic(newTopic);
-        }
-    }
-
-    public boolean isMofified() {
-        return _isMofified;
+        setActiveTopic(newTopic);
     }
 
     private void setUsedIks() {
@@ -217,7 +208,6 @@ public class EditUserMaintenance extends AbstractEditController {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Part Additional IKs">
     public List<AccountIk> getAdditionalIKs() {
         return _account.getAdditionalIKs();
     }
@@ -229,11 +219,8 @@ public class EditUserMaintenance extends AbstractEditController {
     public void removeIK(AccountIk accountIk) {
         _account.removeIk(accountIk);
     }
-    // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Part Features">
     public List<FeatureEditorDAO> getFeatures() {
-        ensureFeatures();
         return _features;
     }
 
@@ -274,72 +261,19 @@ public class EditUserMaintenance extends AbstractEditController {
         return accFeature;
     }
 
-    public String up(String featureName) {
-        int pos = findFeature(featureName);
-        if (pos > 0) {
-            FeatureEditorDAO entry = _features.remove(pos);
-            _features.add(pos - 1, entry);
-        }
-        return null;
-    }
-
-    public String down(String featureName) {
-        int pos = findFeature(featureName);
-        if (pos >= 0 && pos < _features.size() - 1) {
-            FeatureEditorDAO entry = _features.remove(pos);
-            _features.add(pos + 1, entry);
-        }
-        return null;
-    }
-
-    private int findFeature(String featureName) {
-        for (int i = 0; i < _features.size(); i++) {
-            FeatureEditorDAO entry = _features.get(i);
-            AccountFeature accFeature = entry.getAccFeature();
-            if (accFeature.getFeature() == Feature.valueOf(featureName)) {
-                return i;
-            }
-        }
-        return -1;
-    }
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Part password">
     public void checkPassword(FacesContext context, UIComponent component, Object value) {
         Utils.checkPassword(context, component, value);
     }
-    // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Part other">
-    /**
-     * requests deleting of the account this function displays a confirmation dialog confirming with "ok" performs a
-     * call to delete
-     *
-     * @return
-     */
-    public String requestDelete() {
-        String msg = Utils.getMessage("msgDeleteAccount").replace("\r", "").replace("\n", "\\r\\n");
-        String areYouShure = Utils.getMessage("msgConfirm").replace("\r", "").replace("\n", "\\r\\n");
-        _script += "if (confirm ('" + msg + "')) {if (confirm('" + areYouShure + "')) {document.getElementById('form:deleteAccount').click();}}\r\n";
-        return "";
-    }
-
-    /**
-     * This function usually can only be called if the request to delete is confirmed. As a precaution, it performs some
-     * checks which have been done in requestSeal.
-     *
-     * @return
-     */
     public String delete() {
         _sessionController.deleteAccount();
         return Pages.Login.URL();
     }
 
     public boolean deleteAllowed() {
-        return _sessionController.getAccount().getAdminIks().isEmpty();
+        return _account.getAdminIks().isEmpty();
     }
 
-    // </editor-fold>
     public String save() {
         removeDuplicateIks(_account);
         checkIKAdminRights(_account);
@@ -359,8 +293,10 @@ public class EditUserMaintenance extends AbstractEditController {
         if (mergeFeaturesIfModified()) {
             _sessionController.saveAccount();
         }
-        _features = null; // force reload on / after save
+        _features = null;
+        ensureFeatures();
         setActiveTopic(UserMaintenaceTabs.tabUMFeatures.name());
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Speichern Erfolgreich"));
         return "";
     }
 
@@ -398,7 +334,7 @@ public class EditUserMaintenance extends AbstractEditController {
         }
         boolean success = _accountPwdFacade.changePassword(getAccount().getId(), _oldPassword, _newPassword);
         if (success) {
-            _script = "alert ('" + Utils.getMessage("msgPasswordChanged") + "');";
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(Utils.getMessage("msgPasswordChanged")));
         }
         return success ? "" : Pages.Error.URL();
     }
@@ -409,7 +345,7 @@ public class EditUserMaintenance extends AbstractEditController {
         }
         boolean success = _accountChangeMailFacade.changeMail(getAccount().getId(), getEmail());
         if (success) {
-            _script = "alert ('" + Utils.getMessage("msgMailChanged") + "');";
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(Utils.getMessage("msgMailChanged")));
         }
         return success ? "" : Pages.Error.URL();
     }
@@ -426,7 +362,9 @@ public class EditUserMaintenance extends AbstractEditController {
         } else if (!_accountPwdFacade.isCorrectPassword(_account.getId(), _oldPassword)) {
             msg += (msg.isEmpty() ? "" : "\\r\\n") + "Das alte Passwort stimmt nicht überein.";
         }
-        _script = msg.isEmpty() ? "" : "alert ('" + msg + "');";
+        if (!msg.isEmpty()) {
+            RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_WARN, "Falsche Eingabe", msg));
+        }
         return msg.isEmpty();
     }
 
@@ -434,7 +372,7 @@ public class EditUserMaintenance extends AbstractEditController {
         if (!areFeaturesMofified()) {
             return false;
         }
-        List<AccountFeature> accFeatures = _sessionController.getAccount().getFeatures();
+        List<AccountFeature> accFeatures = _account.getFeatures();
         accFeatures.clear();
 
         int seq = 0;
@@ -505,12 +443,6 @@ public class EditUserMaintenance extends AbstractEditController {
             template.setSubject(subject);
             mailer.sendMailTemplate(template, admin.getEmail());
         }
-    }
-
-    public String getScript() {
-        String script = _script;
-        _script = "";
-        return script;
     }
 
     public boolean removeIkAllowed(int ik) {

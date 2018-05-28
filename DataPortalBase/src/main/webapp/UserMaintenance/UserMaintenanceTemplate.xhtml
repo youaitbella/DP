@@ -4,9 +4,36 @@
                 template="/Templates/PortalMenuTemplate.xhtml"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:c="http://java.sun.com/jsp/jstl/core">
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:pf="http://primefaces.org/ui">
 
     <ui:define name="content">
+        <pf:ajaxStatus style="display:block;position:absolute;bottom: 5px;right: 5px;z-index:100">
+            <f:facet name="start">
+                <pf:graphicImage height="100" width="100" name="Image/load.gif" />
+            </f:facet>
+            <f:facet name="complete">
+                <h:outputText value="" />
+            </f:facet>
+        </pf:ajaxStatus>
+        <pf:growl id="Box" />
+        <pf:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+            <pf:commandButton value="Ja" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+            <pf:commandButton value="Nein" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+        </pf:confirmDialog>
+        <style>
+            .ui-widget-content {
+                background: #eeeeee !important
+            }
+            .ui-inputfield.ui-state-focus {
+                background-color: #C6D2DB !important
+            }
+
+            .formLabel {
+                font-weight: bold;
+            }
+
+        </style>
         <h1>#{msg.nameUSER_MAINTENANCE}</h1>
         <h:form id="form">
             <div class="tab">
@@ -25,9 +52,6 @@
                 <ui:insert name="maintenanceContent">Content</ui:insert>
             </div>
         </h:form>
-        <script type="text/javascript">
-            #{editUserMaintenance.script}
-        </script>
     </ui:define>
 
 </ui:composition>
