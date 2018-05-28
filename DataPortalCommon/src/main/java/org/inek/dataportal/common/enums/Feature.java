@@ -1,5 +1,6 @@
 package org.inek.dataportal.common.enums;
 
+import org.inek.dataportal.common.helper.Utils;
 
 /**
  *
@@ -30,7 +31,7 @@ public enum Feature {
     VALUATION_RATIO(18, "Gezielte Absenkung", NeedApproval.Yes, PortalType.DRG, IkReference.Hospital, Selectable.Yes, Shareable.No),
     IK_ADMIN(19, "IK-Administration", NeedApproval.No, PortalType.BASE, IkReference.None, Selectable.No, Shareable.No);
 
-    Feature(int id, String description, NeedApproval needApproval, PortalType portalType, 
+    Feature(int id, String description, NeedApproval needApproval, PortalType portalType,
             IkReference ikReference, Selectable selectable, Shareable shareable) {
         _id = id;
         _description = description;
@@ -81,6 +82,10 @@ public enum Feature {
 
     public boolean isShareable() {
         return _shareable == Shareable.Yes;
+    }
+
+    public String getDescriptionText() {
+        return Utils.getMessageOrEmpty("description" + this.name());
     }
 
     public static Feature getFeatureFromId(int id) {

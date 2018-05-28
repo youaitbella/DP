@@ -7,25 +7,60 @@
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xmlns:pf="http://primefaces.org/ui">
     <ui:define name="maintenanceContent">
-        <pf:dataTable value="#{editUserMaintenance.features}"
-                      var="feature"
+        <h2>Bereits aktivierte Funktionen</h2>
+        <pf:dataTable id="featureList"
+                      value="#{editUserMaintenance.account.features}"
+                      var="accountFeature"
                       tableStyle="width: auto"
                       draggableRows="true"
-                      sortBy="#{feature.accFeature.sequence}">
+                      sortBy="#{accountFeature.sequence}"
+                      emptyMessage="Keine Funktionen vorhanden"
+                      rowIndexVar="">
             <pf:column>
-                <pf:selectBooleanCheckbox value="#{feature.value}" disabled="#{!feature.editable}" styleClass="marginRight" />
+                <pf:commandButton value="Entfernen"
+                                  icon="fa fa-minus"
+                                  process="@this"
+                                  action="#{editUserMaintenance.removeAccountFeature(accountFeature)}"
+                                  update="featureList :form:newFeatureList"
+                                  rendered="#{accountFeature.allowedForRemove()}"
+                                  style="background: none; background-color: #ff5b5b; color: #ffffff !important"/>
+
+                <pf:outputLabel value="In Prüfung"
+                                rendered="#{!accountFeature.allowedForRemove()}"/>
             </pf:column>
             <pf:column headerText="Funktion">
-                <pf:outputLabel value="#{feature.shortText}"/>
+                <pf:outputLabel value="#{accountFeature.feature.description}"/>
             </pf:column>
             <pf:column headerText="Erläuterung">
+                <pf:outputLabel value="#{accountFeature.feature.getDescriptionText()}"/>
+            </pf:column>
+        </pf:dataTable>
+
+        <h2>Verfügbare Funktionen</h2>
+        <pf:dataTable id="newFeatureList"
+                      value="#{editUserMaintenance.getAvailableFeatures()}"
+                      var="feature"
+                      tableStyle="width: auto"
+                      emptyMessage="Keine neuen Funktionen vorhanden">
+            <pf:column>
+                <pf:commandButton value="Beantragen"
+                                  icon="fa fa-plus"
+                                  process="@this"
+                                  action="#{editUserMaintenance.addFeature(feature)}"
+                                  update=":form:featureList newFeatureList"
+                                  style="background: none; background-color: #7aff8c"/>
+            </pf:column>
+            <pf:column headerText="Funktion">
                 <pf:outputLabel value="#{feature.description}"/>
+            </pf:column>
+            <pf:column headerText="Erläuterung">
+                <pf:outputLabel value="#{feature.getDescriptionText()}"/>
             </pf:column>
         </pf:dataTable>
 
         <div class="toolBar">
             <pf:commandLink styleClass="bigButton"
-                            update="@(.ui-message) Box"
+                            update="@(.ui-message) Box featureList newFeatureList"
                             action="#{editUserMaintenance.saveFeatures}"
                             value="#{msg.btnSave}"/>
         </div>

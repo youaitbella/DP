@@ -98,6 +98,12 @@ public class AccountFeature implements Serializable {
     }
     // </editor-fold>
 
+    public Boolean allowedForRemove() {
+        return !(_featureState == FeatureState.NEW
+                || _featureState == FeatureState.REQUESTED
+                || _featureState == FeatureState.REJECTED);
+    }
+
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public int hashCode() {

@@ -77,7 +77,6 @@ public class EditUserMaintenance extends AbstractEditController {
     private String _user;
     private String _email;
     private Account _account;
-    private List<FeatureEditorDAO> _features;
     private String _oldPassword;
     private String _newPassword;
     private String _repeatPassword;
@@ -136,14 +135,12 @@ public class EditUserMaintenance extends AbstractEditController {
     }
 
     private void initOrResetData() {
-        _features = null;
         _account = _accountFacade.findAccount(_sessionController.getAccount().getId());
         _user = _account.getUser();
         _oldPassword = "";
         _newPassword = "";
         _repeatPassword = "";
         setUsedIks();
-        ensureFeatures();
     }
 
     @Override
@@ -220,43 +217,10 @@ public class EditUserMaintenance extends AbstractEditController {
         _account.removeIk(accountIk);
     }
 
-    public List<FeatureEditorDAO> getFeatures() {
-        return _features;
-    }
-
-    private void ensureFeatures() {
-        if (_features == null) {
-            _features = getFeatures4Editor();
-        }
-    }
-
-    private List<FeatureEditorDAO> getFeatures4Editor() {
-        List<FeatureEditorDAO> features = new ArrayList<>();
-        List<Feature> configuredFeatures = new ArrayList<>();
-        Account account = _sessionController.getAccount();
-        if (account == null) {
-            return features;
-        }
-        for (AccountFeature accFeature : account.getFeatures()) {
-            features.add(new FeatureEditorDAO(accFeature, _sessionController.getAccount()));
-            configuredFeatures.add(accFeature.getFeature());
-        }
-        for (Feature feature : Feature.values()) {
-            if (configuredFeatures.contains(feature)) {
-                continue;
-            }
-            if (feature.isSelectable() && _appTools.isFeatureEnabled(feature)) {
-                features.add(new FeatureEditorDAO(createAccountFeature(feature), _sessionController.getAccount()));
-            }
-        }
-        return features;
-    }
-
     private AccountFeature createAccountFeature(Feature feature) {
         AccountFeature accFeature = new AccountFeature();
         accFeature.setFeature(feature);
-        FeatureState state = FeatureState.NEW;
-        accFeature.setFeatureState(state);
+        accFeature.setFeatureState(FeatureState.NEW);
         accFeature.setSequence(0);
         return accFeature;
     }
@@ -289,14 +253,37 @@ public class EditUserMaintenance extends AbstractEditController {
         acc.getAdditionalIKs().addAll(cleanList);
     }
 
-    public String saveFeatures() {
-        if (mergeFeaturesIfModified()) {
-            _sessionController.saveAccount();
+    public List<Feature> getAvailableFeatures() {
+        List<Feature> newFeatures = new ArrayList<>();
+        for (Feature feature : Feature.values()) {
+            if (_account.getFeatures().stream().anyMatch(c -> c.getFeature() == feature)) {
+                continue;
+            }
+            if (feature.isSelectable() && _appTools.isFeatureEnabled(feature)) {
+                newFeatures.add(feature);
+            }
         }
-        _features = null;
-        ensureFeatures();
-        setActiveTopic(UserMaintenaceTabs.tabUMFeatures.name());
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Speichern Erfolgreich"));
+        return newFeatures;
+    }
+
+    public void removeAccountFeature(AccountFeature feature) {
+        _account.removeAccountFeature(feature);
+    }
+
+    public void addFeature(Feature feature) {
+        AccountFeature af = createAccountFeature(feature);
+
+        _account.getFeatures().add(af);
+    }
+
+    public String saveFeatures() {
+        try {
+            _account = _accountFacade.updateAccount(_account);
+            _sessionController.refreshAccount(_account.getId());
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Speichern Erfolgreich"));
+        } catch (Exception ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Fehler beim speichern"));
+        }
         return "";
     }
 
@@ -366,45 +353,6 @@ public class EditUserMaintenance extends AbstractEditController {
             RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_WARN, "Falsche Eingabe", msg));
         }
         return msg.isEmpty();
-    }
-
-    private boolean mergeFeaturesIfModified() {
-        if (!areFeaturesMofified()) {
-            return false;
-        }
-        List<AccountFeature> accFeatures = _account.getFeatures();
-        accFeatures.clear();
-
-        int seq = 0;
-        for (FeatureEditorDAO entry : _features) {
-            if (entry.isValue()) {
-                AccountFeature accFeature = entry.getAccFeature();
-                accFeature.setSequence(seq++);
-                accFeatures.add(accFeature);
-            }
-        }
-        return true;
-    }
-
-    private boolean areFeaturesMofified() {
-        if (_features == null) {
-            return false;
-        }
-        List<FeatureEditorDAO> orgFeatures = getFeatures4Editor();
-        if (_features.size() != orgFeatures.size()) {
-            return true;
-        }
-        for (int i = 0; i < _features.size(); i++) {
-            boolean equal = true;
-            equal &= _features.get(i).getAccFeature().getFeature().equals(orgFeatures.get(i).getAccFeature().getFeature());
-            equal &= _features.get(i).getName().equals(orgFeatures.get(i).getName());
-            equal &= _features.get(i).isValue() == orgFeatures.get(i).isValue();
-            equal &= _features.get(i).getAccFeature().getFeatureState().equals(orgFeatures.get(i).getAccFeature().getFeatureState());
-            if (!equal) {
-                return true;
-            }
-        }
-        return false;
     }
 
     private void checkIKAdminRights(Account account) {

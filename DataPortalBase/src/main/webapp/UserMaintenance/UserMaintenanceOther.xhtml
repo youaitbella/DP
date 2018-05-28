@@ -79,10 +79,12 @@
 
         </h:form>
 
-        <h:panelGroup styleClass="groupBox marginTop" rendered="#{editUserMaintenance.deleteAllowed()}" >
+        <h:panelGroup styleClass="groupBox marginTop" rendered="#{editUserMaintenance.deleteAllowed()}">
+            <h2>Account Löschen</h2>
             <h:outputLabel value="#{msg.msgDeleteAccount}"/>
-
-            <pf:commandLink action="#{editUserMaintenance.delete()}" >
+            <br />
+            <br />
+            <pf:commandLink styleClass="bigButton" action="#{editUserMaintenance.delete()}" value="Account Löschen">
                 <pf:confirm  header="Account wirklich löschen?" message="Wollen Sie Ihren Zugang zum InEK-DatenPortal wirklich löschen?" icon="ui-icon-info" />
             </pf:commandLink>
         </h:panelGroup>

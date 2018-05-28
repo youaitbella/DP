@@ -542,4 +542,8 @@ public class Account implements Serializable, Person {
     }
     // </editor-fold>
 
+    public void removeAccountFeature(AccountFeature feature) {
+        _features.remove(feature);
+    }
+
 }
