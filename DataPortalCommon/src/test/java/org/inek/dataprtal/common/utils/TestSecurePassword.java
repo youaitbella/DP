@@ -9,8 +9,8 @@ import org.inek.dataportal.common.utils.SecurePassword;
 import java.util.HashMap;
 import java.util.Map;
 import org.inek.dataportal.common.enums.Quality;
-import static org.junit.Assert.assertEquals;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
 
 /**
  *
@@ -84,7 +84,7 @@ public class TestSecurePassword {
         for (String pw : passwordList.keySet()){
             Quality expected = passwordList.get(pw);
             Quality result = sp.determinePasswordQuality(pw);
-            assertEquals("Password: "+pw, expected, result);
+            assertEquals(expected, result);
         }
     }
 }

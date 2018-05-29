@@ -1,8 +1,8 @@
 package org.inek.accountservice;
 
-import org.junit.Test;
 import static org.assertj.core.api.Assertions.*;
 import static org.inek.accountservice.AccountREST.VALID_TIME;
+import org.junit.jupiter.api.Test;
 
 /**
  *

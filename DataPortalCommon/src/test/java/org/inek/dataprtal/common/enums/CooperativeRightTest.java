@@ -1,11 +1,10 @@
 package org.inek.dataprtal.common.enums;
 
 import org.inek.dataportal.common.enums.CooperativeRight;
-import org.hamcrest.core.Is;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import org.assertj.core.api.Assertions;
 
 /**
  *
@@ -19,7 +18,7 @@ public class CooperativeRightTest {
     @Test
     public void assertExcpectedEnumCount() {
         System.out.println("assertExcpectedEnumCount");
-        assertThat(CooperativeRight.values().length, Is.is(15));
+        Assertions.assertThat(CooperativeRight.values().length).isEqualTo(15);
     }
 
     @Test
@@ -184,9 +183,12 @@ public class CooperativeRightTest {
     @Test
     public void testMerge() {
         System.out.println("testMerge");
-        assertThat(CooperativeRight.ReadWriteCompleted.mergeRights(CooperativeRight.ReadSealSupervisor), Is.is(CooperativeRight.ReadAllWriteCompletedSealSupervisor));
-        assertThat(CooperativeRight.ReadCompleted.mergeRights(CooperativeRight.ReadSealSupervisor), Is.is(CooperativeRight.ReadSealSupervisor));
-        assertThat(CooperativeRight.ReadSealed.mergeRightFromStrings("2200"), Is.is(CooperativeRight.ReadWriteCompleted));
+        Assertions.assertThat(CooperativeRight.ReadWriteCompleted.mergeRights(CooperativeRight.ReadSealSupervisor))
+                .isEqualTo(CooperativeRight.ReadAllWriteCompletedSealSupervisor);
+        Assertions.assertThat(CooperativeRight.ReadCompleted.mergeRights(CooperativeRight.ReadSealSupervisor))
+                .isEqualTo(CooperativeRight.ReadSealSupervisor);
+        Assertions.assertThat(CooperativeRight.ReadSealed.mergeRightFromStrings("2200"))
+                .isEqualTo(CooperativeRight.ReadWriteCompleted);
     }
 
 }

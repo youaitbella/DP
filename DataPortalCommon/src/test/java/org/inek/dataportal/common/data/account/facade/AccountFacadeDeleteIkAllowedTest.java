@@ -17,8 +17,8 @@ import javax.persistence.Query;
 import org.assertj.core.api.Assertions;
 import org.assertj.db.type.Source;
 import org.inek.dataportal.common.data.account.entities.Account;
-import org.junit.Test;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  *
@@ -30,7 +30,7 @@ public class AccountFacadeDeleteIkAllowedTest {
     private static EntityTransaction transaction;
     private static Source source;
 
-    @BeforeClass
+    @BeforeAll
     public static void setUpClass() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataPortalLocalScriptPU");
         em = emf.createEntityManager();

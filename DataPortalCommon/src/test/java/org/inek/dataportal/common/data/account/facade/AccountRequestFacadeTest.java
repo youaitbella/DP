@@ -14,8 +14,8 @@ import org.assertj.core.api.Assertions;
 import org.assertj.db.type.Request;
 import org.assertj.db.type.Source;
 import org.inek.dataportal.common.data.account.entities.AccountRequest;
-import org.junit.Test;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  *
@@ -27,7 +27,7 @@ public class AccountRequestFacadeTest {
     private static EntityTransaction transaction;
     private static Source source;
 
-    @BeforeClass
+    @BeforeAll
     public static void setUpClass() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("DataPortalLocalPU");
         em = emf.createEntityManager();

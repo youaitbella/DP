@@ -8,13 +8,12 @@ package org.inek.dataportal.psy.entities.modelintention;
 
 import org.inek.dataportal.psy.modelintention.entities.AgreedPatients;
 import java.util.Date;
-import org.junit.After;
-import org.junit.AfterClass;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  *
@@ -25,19 +24,19 @@ public class AgreedPatientsTest {
     public AgreedPatientsTest() {
     }
     
-    @BeforeClass
+    @BeforeAll
     public static void setUpClass() {
     }
     
-    @AfterClass
+    @AfterAll
     public static void tearDownClass() {
     }
     
-    @Before
+    @BeforeEach
     public void setUp() {
     }
     
-    @After
+    @AfterEach
     public void tearDown() {
     }
 
@@ -82,7 +81,7 @@ public class AgreedPatientsTest {
         other.setId(null);
         other.setPatientsFrom(d);
         other.setPatientsTo(d);
-        assertTrue(instance.equals(other));
+        assertEquals(instance, other);
     }
     
     @Test
@@ -97,7 +96,7 @@ public class AgreedPatientsTest {
         other.setId(null);
         other.setPatientsFrom(d);
         other.setPatientsTo(d);
-        assertTrue(instance.equals(other));
+        assertEquals(instance, other);
     }
 
 }

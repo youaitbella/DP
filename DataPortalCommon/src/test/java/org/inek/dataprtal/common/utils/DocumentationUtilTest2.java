@@ -5,7 +5,8 @@ import java.util.List;
 import org.inek.dataportal.common.utils.Documentation;
 import org.inek.dataportal.common.utils.DocumentationUtil;
 import org.inek.dataportal.common.utils.KeyValueLevel;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
 
 /**
  *

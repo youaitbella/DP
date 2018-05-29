@@ -7,7 +7,7 @@ package org.inek.dataportal.common.data.account.facade;
 
 import org.assertj.core.api.Assertions;
 import org.inek.dataportal.common.data.account.entities.Account;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  *

@@ -10,9 +10,9 @@ import org.inek.dataportal.calc.entities.sop.StatementOfParticipance;
 import org.inek.dataportal.calc.entities.sop.CalcContact;
 import org.inek.dataportal.calc.backingbean.EditStatementOfParticipance;
 import org.inek.dataportal.common.helper.structures.MessageContainer;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 /**
  *
