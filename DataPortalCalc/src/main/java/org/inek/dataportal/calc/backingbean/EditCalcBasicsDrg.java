@@ -117,6 +117,7 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             PreloadFunctionsCalcBasicsDrg.populateDelimitationFactsIfAbsent(_calcDrgFacade, _calcBasics, _priorCalcBasics);
             loadPriorDataForNormalWardTable(_calcBasics, _priorCalcBasics);
         } else {
+            _calcBasics = newCalcBasicsDrg();
             Utils.navigate(Pages.Error.RedirectURL());
         }
     }
