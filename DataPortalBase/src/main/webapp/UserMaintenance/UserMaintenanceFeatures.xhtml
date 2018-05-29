@@ -14,18 +14,19 @@
                       tableStyle="width: auto"
                       draggableRows="true"
                       sortBy="#{accountFeature.sequence}"
-                      emptyMessage="Keine Funktionen vorhanden"
-                      rowIndexVar="">
+                      emptyMessage="Keine Funktionen vorhanden">
+            <pf:ajax event="rowReorder" listener="#{editUserMaintenance.reorderFeatures()}" update="featureList"/>
             <pf:column>
-                <pf:commandButton value="Entfernen"
-                                  icon="fa fa-minus"
-                                  process="@this"
-                                  action="#{editUserMaintenance.removeAccountFeature(accountFeature)}"
-                                  update="featureList :form:newFeatureList"
-                                  rendered="#{accountFeature.allowedForRemove()}"
-                                  style="background: none; background-color: #ff5b5b; color: #ffffff !important"/>
-
-                <pf:outputLabel value="In Prüfung"
+                <pf:commandLink rendered="#{accountFeature.allowedForRemove()}"
+                                action="#{editUserMaintenance.removeAccountFeature(accountFeature)}"
+                                update="featureList :form:newFeatureList"
+                                process="@this">
+                    <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value=""/>
+                </pf:commandLink>
+                <h:graphicImage alt="Warte auf Freigabe"
+                                name="Icon/small/timed.png"
+                                title="Warten auf Freigabe"
+                                value=""
                                 rendered="#{!accountFeature.allowedForRemove()}"/>
             </pf:column>
             <pf:column headerText="Funktion">
@@ -52,6 +53,9 @@
             </pf:column>
             <pf:column headerText="Funktion">
                 <pf:outputLabel value="#{feature.description}"/>
+            </pf:column>
+            <pf:column headerText="Freigabe benötigt">
+                <pf:outputLabel value="#{feature.needsApproval()}"/>
             </pf:column>
             <pf:column headerText="Erläuterung">
                 <pf:outputLabel value="#{feature.getDescriptionText()}"/>

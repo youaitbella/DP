@@ -36,7 +36,6 @@ import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.faceletvalidators.NameValidator;
 import org.inek.dataportal.common.scope.FeatureScoped;
 import org.inek.dataportal.common.mail.Mailer;
-import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -226,6 +225,12 @@ public class EditUserMaintenance extends AbstractEditController {
         accFeature.setFeatureState(FeatureState.NEW);
         accFeature.setSequence(0);
         return accFeature;
+    }
+
+    public void reorderFeatures() {
+        for (int i = 0; i < _account.getFeatures().size(); i++) {
+            _account.getFeatures().get(i).setSequence(i);
+        }
     }
 
     public void checkPassword(FacesContext context, UIComponent component, Object value) {
