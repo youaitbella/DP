@@ -1,4 +1,3 @@
-
 package org.inek.dataportal.common.enums;
 
 /**
@@ -6,24 +5,30 @@ package org.inek.dataportal.common.enums;
  * @author muellermi
  */
 public enum PortalType {
-    COMMON("Allgemein"),
-    BASE("Zu den Basisfunktionen") ,
-    DRG("Zum DRG-Portal") ,
-    PSY("Zum PSY-Portal"),
-    INSURANCE("Zu den Krankenkassen-Funktionen"),
-    CERT("Zur Zertifizierung"),
-    CALC("Zur Teilnahme Kostenkalkulation"),
-    INEK("Zu den Internen Funktionen"),
-    ADMIN("Zum Admin-Bereich");
-    
-    private final String _displayName;
+    COMMON("Allgemein", "Allgemein"),
+    BASE("Zu den Basisfunktionen", "Basisfunktionen"),
+    DRG("Zum DRG-Portal", "DRG-Portal"),
+    PSY("Zum PSY-Portal", "PSY-Portal"),
+    INSURANCE("Zu den Krankenkassen-Funktionen", "Krankenkasse"),
+    CERT("Zur Zertifizierung", "Zertifizierung"),
+    CALC("Zur Teilnahme Kostenkalkulation", "Teilnahme Kostenkalkulation"),
+    INEK("Zu den Internen Funktionen", "InEK Intern"),
+    ADMIN("Zum Admin-Bereich", "Admin");
 
-    PortalType(String displayName) {
+    private final String _displayName;
+    private final String _area;
+
+    PortalType(String displayName, String area) {
         _displayName = displayName;
+        _area = area;
     }
 
     public String getDisplayName() {
         return _displayName;
+    }
+
+    public String getArea() {
+        return _area;
     }
 
 }

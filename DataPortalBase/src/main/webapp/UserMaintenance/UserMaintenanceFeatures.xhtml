@@ -32,6 +32,9 @@
             <pf:column headerText="Funktion">
                 <pf:outputLabel value="#{accountFeature.feature.description}"/>
             </pf:column>
+            <pf:column headerText="Bereich">
+                <pf:outputLabel value="#{accountFeature.feature.getPortalType().getArea()}"/>
+            </pf:column>
             <pf:column headerText="Erläuterung">
                 <pf:outputLabel value="#{accountFeature.feature.getDescriptionText()}"/>
             </pf:column>
@@ -48,8 +51,7 @@
                                   icon="fa fa-plus"
                                   process="@this"
                                   action="#{editUserMaintenance.addFeature(feature)}"
-                                  update=":form:featureList newFeatureList"
-                                  style="background: none; background-color: #7aff8c"/>
+                                  update=":form:featureList newFeatureList"/>
             </pf:column>
             <pf:column headerText="Funktion">
                 <pf:outputLabel value="#{feature.description}"/>
@@ -57,7 +59,7 @@
             <pf:column headerText="Freigabe">
                 <pf:outputLabel value="Keine benötigt"
                                 rendered="#{!feature.needsApproval()}"/>
-                <pf:outputLabel value="Von InEK benötigt"
+                <pf:outputLabel value="Freigabe benötigt"
                                 rendered="#{feature.needsApproval()}"/>
             </pf:column>
             <pf:column headerText="Erläuterung">
