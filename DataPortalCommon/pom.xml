@@ -51,6 +51,10 @@
             <artifactId>javaee-api</artifactId>
             <type>jar</type>
         </dependency>
+        <dependency>
+            <groupId>org.primefaces</groupId>
+            <artifactId>primefaces</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

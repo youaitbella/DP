@@ -26,6 +26,7 @@ import org.inek.dataportal.common.data.account.facade.AccountChangeMailFacade;
 import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.common.data.account.facade.AccountPwdFacade;
 import org.inek.dataportal.common.controller.AbstractEditController;
+import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.data.adm.MailTemplate;
 import org.inek.dataportal.common.data.icmt.facade.CustomerFacade;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
@@ -73,6 +74,8 @@ public class EditUserMaintenance extends AbstractEditController {
     private IkAdminFacade _ikAdminFacade;
     @Inject
     private CustomerFacade _customerFacade;
+    @Inject
+    private DialogController _dialogController;
 
     private String _user;
     private String _email;
@@ -280,9 +283,9 @@ public class EditUserMaintenance extends AbstractEditController {
         try {
             _account = _accountFacade.updateAccount(_account);
             _sessionController.refreshAccount(_account.getId());
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Speichern Erfolgreich"));
+            _dialogController.showInfoMessage("Speichern erfolgreich");
         } catch (Exception ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Fehler beim speichern"));
+            _dialogController.showInfoMessage("Fehler beim speichern");
         }
         return "";
     }
@@ -321,7 +324,7 @@ public class EditUserMaintenance extends AbstractEditController {
         }
         boolean success = _accountPwdFacade.changePassword(getAccount().getId(), _oldPassword, _newPassword);
         if (success) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(Utils.getMessage("msgPasswordChanged")));
+            _dialogController.showInfoMessage(Utils.getMessage("msgPasswordChanged"));
         }
         return success ? "" : Pages.Error.URL();
     }
@@ -332,7 +335,7 @@ public class EditUserMaintenance extends AbstractEditController {
         }
         boolean success = _accountChangeMailFacade.changeMail(getAccount().getId(), getEmail());
         if (success) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(Utils.getMessage("msgMailChanged")));
+            _dialogController.showInfoMessage(Utils.getMessage("msgMailChanged"));
         }
         return success ? "" : Pages.Error.URL();
     }
@@ -350,7 +353,7 @@ public class EditUserMaintenance extends AbstractEditController {
             msg += (msg.isEmpty() ? "" : "\\r\\n") + "Das alte Passwort stimmt nicht überein.";
         }
         if (!msg.isEmpty()) {
-            RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_WARN, "Falsche Eingabe", msg));
+            _dialogController.showWarningDialog(msg, "Falsche Eingabe");
         }
         return msg.isEmpty();
     }
