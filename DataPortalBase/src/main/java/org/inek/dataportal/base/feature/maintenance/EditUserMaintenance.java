@@ -247,11 +247,15 @@ public class EditUserMaintenance extends AbstractEditController {
     }
 
     public String save() {
-        removeDuplicateIks(_account);
-        checkIKAdminRights(_account);
-        _accountFacade.merge(_account);
-        _sessionController.refreshAccount(_account.getId());
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Speichern Erfolgreich"));
+        if (_sessionTools.isHospital(_account.getCustomerTypeId()) && _account.getAdditionalIKs().isEmpty()) {
+            _dialogController.showWarningDialog("Bitte mindestens eine IK eingeben", "Fehler beim speichern");
+        } else {
+            removeDuplicateIks(_account);
+            checkIKAdminRights(_account);
+            _accountFacade.merge(_account);
+            _sessionController.refreshAccount(_account.getId());
+            _dialogController.showInfoMessage("Speichern erfolgreich");
+        }
         return "";
     }
 
