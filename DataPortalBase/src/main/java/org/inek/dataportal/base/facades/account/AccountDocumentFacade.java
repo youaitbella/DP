@@ -50,7 +50,7 @@ public class AccountDocumentFacade extends AbstractFacade<AccountDocument> {
 
     public List<DocInfo> getSupervisedDocInfos(List<Integer> accountIds, String filter, int maxAge) {
         String jpql = "SELECT d._id, d._name, dd._name, d._created, null, d._read, d._accountId, d._agentAccountId, d._senderIk, "
-                + "    a._ik, concat (a._company, ' ', a._town, ' (', a._firstName, ' ', a._lastName, ')'), d._sendToProcess "
+                + "    -11, concat (a._company, ' ', a._town, ' (', a._firstName, ' ', a._lastName, ')'), d._sendToProcess "
                 + "FROM AccountDocument d "
                 + "join DocumentDomain dd "
                 + "join Account a "
@@ -59,18 +59,18 @@ public class AccountDocumentFacade extends AbstractFacade<AccountDocument> {
                 + "  and d._created > :refDate "
                 + (filter.isEmpty()
                 ? ""
-                : " and (d._name like :filter or a._ik = :numFilter or a._company like :filter or a._town like :filter or dd._name like :filter)")
+                : " and (d._name like :filter or a._company like :filter or a._town like :filter or dd._name like :filter)")
                 + "ORDER BY d._read, d._created DESC";
         Query query = getEntityManager().createQuery(jpql); //.setMaxResults(100);
         query.setParameter("accountIds", accountIds);
         if (!filter.isEmpty()) {
-            int numFilter;
-            try {
-                numFilter = Integer.parseInt(filter);
-            } catch (Exception ex) {
-                numFilter = -999;
-            }
-            query.setParameter("numFilter", numFilter);
+//            int numFilter;
+//            try {
+//                numFilter = Integer.parseInt(filter);
+//            } catch (Exception ex) {
+//                numFilter = -999;
+//            }
+//            query.setParameter("numFilter", numFilter);
             query.setParameter("filter", "%" + filter + "%");
         }
         query.setParameter("refDate", DateUtils.getDateWithDayOffset(-maxAge));

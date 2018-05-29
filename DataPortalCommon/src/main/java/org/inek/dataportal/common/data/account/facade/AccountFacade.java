@@ -360,7 +360,7 @@ public class AccountFacade extends AbstractDataAccess {
 
     public List<Account> getAccounts4Ik(int ik) {
         String jpql = "SELECT DISTINCT a FROM Account a left join AccountAdditionalIK i "
-                + "WHERE  a._ik = :ik  or a._id = i._accountId and i._ik = :ik "
+                + "WHERE  a._id = i._accountId and i._ik = :ik "
                 + "order by a._lastName";
         TypedQuery<Account> query = getEntityManager().createQuery(jpql, Account.class);
         query.setParameter("ik", ik);
