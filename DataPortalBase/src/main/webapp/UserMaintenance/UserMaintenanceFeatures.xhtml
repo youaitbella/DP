@@ -54,8 +54,11 @@
             <pf:column headerText="Funktion">
                 <pf:outputLabel value="#{feature.description}"/>
             </pf:column>
-            <pf:column headerText="Freigabe benötigt">
-                <pf:outputLabel value="#{feature.needsApproval()}"/>
+            <pf:column headerText="Freigabe">
+                <pf:outputLabel value="Keine benötigt"
+                                rendered="#{!feature.needsApproval()}"/>
+                <pf:outputLabel value="Von InEK benötigt"
+                                rendered="#{feature.needsApproval()}"/>
             </pf:column>
             <pf:column headerText="Erläuterung">
                 <pf:outputLabel value="#{feature.getDescriptionText()}"/>
