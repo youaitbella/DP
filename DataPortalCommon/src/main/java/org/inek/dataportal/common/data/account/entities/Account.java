@@ -8,12 +8,15 @@ import org.inek.dataportal.common.data.account.iface.Person;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArrayList;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -168,8 +171,6 @@ public class Account implements Serializable, Person {
     private int _roleId = -1;
     @Column(name = "acCustomerTypeId")
     private int _customerTypeId = -1;
-    @Column(name = "acIK")
-    private Integer _ik = -1;   // todo: change type to int
     @Column(name = "acStreet")
     private String _street = "";
     @Column(name = "acPostalCode")
@@ -344,14 +345,6 @@ public class Account implements Serializable, Person {
         _customerTypeId = customerTypeId;
     }
 
-    public Integer getIK() {
-        return _ik == null ? -1 : _ik;
-    }
-
-    public void setIK(Integer ik) {
-        _ik = ik == null ? -1 : ik;
-    }
-
     public String getCustomerPhone() {
         return _customerPhone;
     }
@@ -434,17 +427,6 @@ public class Account implements Serializable, Person {
         return _features;
     }
 
-    public void setAdditionalIKs(List<AccountIk> additionalIKs) {
-        _additionalIKs = additionalIKs;
-    }
-
-    public List<AccountIk> getAdditionalIKs() {
-        if (_additionalIKs == null) {
-            _additionalIKs = new ArrayList<>();
-        }
-        return _additionalIKs;
-    }
-
     public void addIk(int ik) {
         if (_additionalIKs == null) {
             _additionalIKs = new ArrayList<>();
@@ -452,39 +434,38 @@ public class Account implements Serializable, Person {
         _additionalIKs.add(new AccountIk(_id, ik));
     }
 
-    public void removeIk(AccountIk ik) {
-        _additionalIKs.remove(ik);
+    public void removeIk(int ik) {
+        _additionalIKs.removeIf(a -> a.getIK() == ik);
     }
 
+    public List<AccountIk> getAccountIks(){
+        return new CopyOnWriteArrayList<>(_additionalIKs);
+    }
+    
+    public void removeDuplicateIks(){
+        List<AccountIk> accountIks = new ArrayList<>();
+        for (AccountIk additionalIK : _additionalIKs) {
+            if (accountIks.stream().noneMatch(a -> a.getIK() == additionalIK.getIK())){
+                accountIks.add(additionalIK);
+            }
+        }
+       _additionalIKs = accountIks;
+    }
+    
     // </editor-fold>
     public Set<Integer> getFullIkSet() {
         Set<Integer> iks = new HashSet<>();
-        if (_ik != null && _ik > 0) {
-            iks.add(_ik);
-        }
-        for (AccountIk addIk : getAdditionalIKs()) {
+        for (AccountIk addIk : _additionalIKs) {
             iks.add(addIk.getIK());
         }
         return iks;
     }
 
-    @PostLoad
-    @PostPersist
-    @PostUpdate
-    public void nullIK() {
-        if (_ik != null && _ik == -1) {
-            // in db, -1 will indicate a non-existant IK
-            _ik = null;
-        }
-    }
 
     @PrePersist
     @PreUpdate
     public void tagModifiedDate() {
         _lastModified = Calendar.getInstance().getTime();
-        if (_ik == null) {
-            _ik = -1;
-        }
     }
 
     @Override

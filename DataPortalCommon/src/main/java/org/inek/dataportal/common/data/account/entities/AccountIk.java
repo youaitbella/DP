@@ -43,13 +43,13 @@ public class AccountIk implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property Ik">
     @Column(name = "aaiIK")
-    private Integer _ik;
+    private int _ik;
 
-    public Integer getIK() {
+    public int getIK() {
         return _ik;
     }
 
-    public void setIK(Integer ik) {
+    public void setIK(int ik) {
         _ik = ik;
     }
     //</editor-fold>

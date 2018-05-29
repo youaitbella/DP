@@ -222,7 +222,7 @@ public class AccountFacade extends AbstractDataAccess {
         }
         Account account = ObjectUtil.copyObject(Account.class, accountRequest);
         persist(account);
-        setNewIk(account);
+        setNewIk(account, accountRequest.getIK());
         merge(account);
         AccountPwd accountPwd = new AccountPwd();
         accountPwd.setAccountId(account.getId());
@@ -235,11 +235,10 @@ public class AccountFacade extends AbstractDataAccess {
         return true;
     }
 
-    public void setNewIk(Account acc) {
-        if (acc.getIK().toString().length() == 9) {
-            acc.addIk(acc.getIK());
+    public void setNewIk(Account acc, int ik) {
+        if (ik > 1000000000 && ik < 999999999) {
+            acc.addIk(ik);
         }
-        acc.setIK(-1);
     }
 
     public boolean activateMail(String mail, String password, String activationKey) {

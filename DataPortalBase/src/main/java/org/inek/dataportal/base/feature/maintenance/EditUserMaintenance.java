@@ -166,9 +166,9 @@ public class EditUserMaintenance extends AbstractEditController {
     }
 
     private void setUsedIks() {
-        for (AccountIk ik : _account.getAdditionalIKs()) {
-            if (!_accountFacade.deleteIkAllowed(ik.getIK(), _account)) {
-                _iksNotAllowedForDelete.add(ik.getIK());
+        for (int ik : _account.getFullIkSet()) {
+            if (!_accountFacade.deleteIkAllowed(ik, _account)) {
+                _iksNotAllowedForDelete.add(ik);
             }
         }
     }
@@ -207,16 +207,12 @@ public class EditUserMaintenance extends AbstractEditController {
     }
     // </editor-fold>
 
-    public List<AccountIk> getAdditionalIKs() {
-        return _account.getAdditionalIKs();
-    }
-
     public void addNewIK() {
         _account.addIk(0);
     }
 
-    public void removeIK(AccountIk accountIk) {
-        _account.removeIk(accountIk);
+    public void removeIK(int ik) {
+        _account.removeIk(ik);
     }
 
     private AccountFeature createAccountFeature(Feature feature) {
@@ -247,22 +243,16 @@ public class EditUserMaintenance extends AbstractEditController {
     }
 
     public String save() {
-        if (_sessionTools.isHospital(_account.getCustomerTypeId()) && _account.getAdditionalIKs().isEmpty()) {
+        if (_sessionTools.isHospital(_account.getCustomerTypeId()) && _account.getFullIkSet().isEmpty()) {
             _dialogController.showWarningDialog("Bitte mindestens eine IK eingeben", "Fehler beim speichern");
         } else {
-            removeDuplicateIks(_account);
             checkIKAdminRights(_account);
+            _account.removeDuplicateIks();
             _accountFacade.merge(_account);
             _sessionController.refreshAccount(_account.getId());
             _dialogController.showInfoMessage("Speichern erfolgreich");
         }
         return "";
-    }
-
-    public void removeDuplicateIks(Account acc) {
-        Set<AccountIk> cleanList = new LinkedHashSet<>(acc.getAdditionalIKs());
-        acc.getAdditionalIKs().clear();
-        acc.getAdditionalIKs().addAll(cleanList);
     }
 
     public List<Feature> getAvailableFeatures() {
@@ -368,19 +358,19 @@ public class EditUserMaintenance extends AbstractEditController {
     }
 
     private void checkIKAdminRights(Account account) {
-        for (AccountIk accountIK : account.getAdditionalIKs()) {
-            if (_ikAdminFacade.hasIkAdmin(accountIK.getIK())) {
+        for (int in : account.getFullIkSet()) {
+            if (_ikAdminFacade.hasIkAdmin(in)) {
                 boolean hasNewEntry = false;
                 for (AccountFeature feature : account.getFeatures()) {
                     if (feature.getFeature().getIkReference() == IkReference.Hospital
-                            && _ikAdminFacade.findAccessRightsByAccountIkAndFeature(account, accountIK.getIK(), feature.getFeature()).isEmpty()) {
-                        AccessRight accessRight = new AccessRight(account.getId(), accountIK.getIK(), feature.getFeature(), Right.Deny);
+                            && _ikAdminFacade.findAccessRightsByAccountIkAndFeature(account, in, feature.getFeature()).isEmpty()) {
+                        AccessRight accessRight = new AccessRight(account.getId(), in, feature.getFeature(), Right.Deny);
                         _ikAdminFacade.saveAccessRight(accessRight);
                         hasNewEntry = true;
                     }
                 }
                 if (hasNewEntry) {
-                    notifyIkAdmin(accountIK.getIK(), account);
+                    notifyIkAdmin(in, account);
                 }
             }
         }
@@ -413,12 +403,16 @@ public class EditUserMaintenance extends AbstractEditController {
         return _customerFacade.getCustomerByIK(ik).getName();
     }
 
-    public Boolean isIkValide(int ik) {
+    public Boolean isValidIk(int ik) {
         return _customerFacade.isValidIK("" + ik);
     }
 
     public void isIKValid(FacesContext ctx, UIComponent component, Object value) throws ValidatorException {
-        if (!isIkValide((Integer) value)) {
+        int ik = (Integer) value;
+//        if (_account.getFullIkSet().contains(ik)){
+//            throw new ValidatorException(new FacesMessage("IK bereits vorhanden"));
+//        }
+        if (!isValidIk(ik)) {
             throw new ValidatorException(new FacesMessage("Ungültige IK"));
         }
     }

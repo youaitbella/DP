@@ -107,12 +107,12 @@
                     <pf:dataTable id="iks"
                                   var="accountIk"
                                   widgetVar="accountIks"
-                                  value="#{editUserMaintenance.account.additionalIKs}"
+                                  value="#{editUserMaintenance.account.accountIks}"
                                   emptyMessage="Keine IK's eingetragen"
                                   tableStyle="width: auto">
                         <pf:column class="colIcon">
                             <pf:commandLink rendered="#{editUserMaintenance.removeIkAllowed(accountIk.IK)}"
-                                            action="#{editUserMaintenance.removeIK(accountIk)}"
+                                            action="#{editUserMaintenance.removeIK(accountIk.IK)}"
                                             update="iks"
                                             process="@this">
                                 <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value=""/>
@@ -126,8 +126,10 @@
                                             decimalPlaces="0"
                                             validatorMessage="Ungültige IK"
                                             required="True"
-                                            value="#{accountIk.IK}" />
-                            <pf:message for="ikInput" />
+                                            value="#{accountIk.IK}" >
+                                                    <pf:ajax event="blur" update="customerName ikInput_m" />
+                            </pf:inputNumber>
+                            <pf:message id="ikInput_m" for="ikInput" />
                         </pf:column>
                         <pf:column headerText="Name">
                             <pf:outputLabel id="customerName" value="#{editUserMaintenance.getCustomerName(accountIk.IK)}" />
