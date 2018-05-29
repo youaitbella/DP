@@ -139,4 +139,7 @@ public class ApplicationTools {
         return info;
     }
 
+    public void cleanHospitalInfoCache(){
+        _hospitalInfo.clear();
+    }
 }
