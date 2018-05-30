@@ -64,17 +64,14 @@
       <topicref type="topic" id="409492599993961" build="ALL" modified="2012-02-10T10:23:39.423Z" icon="0" href="EditUserMaintenance">
         <caption translate="true">Stammdaten editieren</caption>
       </topicref>
-      <topicref type="topic" id="416697520689639" build="ALL" modified="2014-01-30T14:34:22.002Z" icon="0" href="AdditionalIKs">
-        <caption translate="true">Weitere IKs</caption>
+      <topicref type="topic" id="416697520689639" build="ALL" modified="2018-05-29T15:53:06.166Z" icon="0" href="AdditionalIKs">
+        <caption translate="true">IKs eintragen</caption>
       </topicref>
       <topicref type="topic" id="409494782248724" build="ALL" modified="2013-08-29T12:00:45.288Z" icon="0" href="MaintenanceFeatures">
         <caption translate="true">Funktionen</caption>
       </topicref>
-      <topicref type="topic" id="409495228662107" build="ALL" modified="2012-02-10T11:40:19.905Z" icon="0" href="UserMaintenanceOther">
-        <caption translate="true">Sonstiges</caption>
-      </topicref>
-      <topicref type="topic" id="415366706050118" build="ALL" modified="2015-09-17T14:30:06.607Z" icon="0" href="MasterDataConfig">
-        <caption translate="true">Konfiguration</caption>
+      <topicref type="topic" id="409495228662107" build="ALL" modified="2018-05-29T16:00:14.532Z" icon="0" href="UserMaintenanceOther">
+        <caption translate="true">Passwort / E-Mail ändern</caption>
       </topicref>
     </topicref>
     <topicref type="topic" id="416693941611566" build="ALL" modified="2014-01-30T13:09:44.382Z" icon="0" href="documents">

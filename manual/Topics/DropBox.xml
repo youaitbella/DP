@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
-<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+<topic template="Default" lasteditedby="lautenti" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
   <title translate="true">DropBox</title>
   <keywords>
     <keyword translate="true">DropBox</keyword>
@@ -20,7 +20,7 @@
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Diese Liste der offenen DropBoxen sowie die Schaltfläche </text><text styleclass="Button" translate="true">[ DropBox anlegen ]</text><text styleclass="Normal" translate="true"> entsprechen den Elementen in der Übersicht. Hier, im Bereich DropBox-Verfahren, erhalten Sie unterhalb der genannten Schaltfläche eine Liste der geschlossenen DropBoxen. Dabei handelt es sich um DropBoxen, die Sie abgeschlossen und dem InEK zur Verfügung gestellt haben. Somit erhalten Sie einen Überblick über die Historie Ihrer Datenlieferungen. </text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Je länger diese Historie wird, desto länger werden auch die Ladezeiten für Ihren Browser. In der Regel sind jedoch nur die Informationen der letzten Wochen oder Monate von Interesse. Sie können daher in Ihren </text><link displaytype="text" defaultstyle="true" type="topiclink" href="MasterDataConfig" styleclass="Normal" translate="true">Stammdaten</link><text styleclass="Normal" translate="true"> einstellen, nach welcher Zeit die DropBoxen gelöscht werden sollen. Diese Löschung betrifft lediglich die Liefer-Information über die gelieferten Daten. Die Daten selbst werden vom InEK bestimmungsgemäß weiter verarbeitet.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Je länger diese Historie wird, desto länger werden auch die Ladezeiten für Ihren Browser. In der Regel sind jedoch nur die Informationen der letzten Wochen oder Monate von Interesse. Sie können daher in Ihren </text><link displaytype="text" defaultstyle="true" type="topiclink" href="UserMaintenance" styleclass="Normal" translate="true">Stammdaten</link><text styleclass="Normal" translate="true"> einstellen, nach welcher Zeit die DropBoxen gelöscht werden sollen. Diese Löschung betrifft lediglich die Liefer-Information über die gelieferten Daten. Die Daten selbst werden vom InEK bestimmungsgemäß weiter verarbeitet.</text></para>
     <para styleclass="Normal"></para>
   </body>
 </topic>
