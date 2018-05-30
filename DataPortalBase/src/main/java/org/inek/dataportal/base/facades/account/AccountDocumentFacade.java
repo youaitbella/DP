@@ -50,27 +50,32 @@ public class AccountDocumentFacade extends AbstractFacade<AccountDocument> {
 
     public List<DocInfo> getSupervisedDocInfos(List<Integer> accountIds, String filter, int maxAge) {
         String jpql = "SELECT d._id, d._name, dd._name, d._created, null, d._read, d._accountId, d._agentAccountId, d._senderIk, "
-                + "    -11, concat (a._company, ' ', a._town, ' (', a._firstName, ' ', a._lastName, ')'), d._sendToProcess "
+                + "    min(ai._ik), max(ai._ik), count(ai._ik), "
+                + "    concat (a._company, ' ', a._town, ' (', a._firstName, ' ', a._lastName, ')'), d._sendToProcess "
                 + "FROM AccountDocument d "
                 + "join DocumentDomain dd "
                 + "join Account a "
+                + "join AccountIk ai "
                 + "WHERE d._domainId = dd._id and d._accountId = a._id "
+                + "  and a._id = ai._accountId"
                 + "  and d._agentAccountId in :accountIds "
                 + "  and d._created > :refDate "
                 + (filter.isEmpty()
                 ? ""
-                : " and (d._name like :filter or a._company like :filter or a._town like :filter or dd._name like :filter)")
+                : " and (d._name like :filter or ai._ik = :numFilter or a._company like :filter or a._town like :filter or dd._name like :filter) ")
+                + "GROUP BY d._id, d._name, dd._name, d._created, d._read, d._accountId, d._agentAccountId, d._senderIk, "
+                + "    a._company, a._town, a._firstName, a._lastName, d._sendToProcess "
                 + "ORDER BY d._read, d._created DESC";
         Query query = getEntityManager().createQuery(jpql); //.setMaxResults(100);
         query.setParameter("accountIds", accountIds);
         if (!filter.isEmpty()) {
-//            int numFilter;
-//            try {
-//                numFilter = Integer.parseInt(filter);
-//            } catch (Exception ex) {
-//                numFilter = -999;
-//            }
-//            query.setParameter("numFilter", numFilter);
+            int numFilter;
+            try {
+                numFilter = Integer.parseInt(filter);
+            } catch (Exception ex) {
+                numFilter = -999;
+            }
+            query.setParameter("numFilter", numFilter);
             query.setParameter("filter", "%" + filter + "%");
         }
         query.setParameter("refDate", DateUtils.getDateWithDayOffset(-maxAge));
@@ -78,9 +83,14 @@ public class AccountDocumentFacade extends AbstractFacade<AccountDocument> {
         @SuppressWarnings("unchecked") List<Object[]> objects = query.getResultList();
         List<DocInfo> docInfos = new ArrayList<>();
         for (Object[] obj : objects) {
+            long ikCount = (long) obj[11];
+            String ikInfo = (ikCount > 0 ? obj[9] : "")
+                    + (ikCount > 2 ? ", (" + (ikCount - 2) + " weitere)" : "")
+                    + (ikCount > 1 ? ", " + obj[10] : "")
+                    + (ikCount > 0 ? " " : "");
             docInfos.add(new DocInfo((int) obj[0], (String) obj[1], (String) obj[2], (Date) obj[3], (Date) obj[4],
                     (boolean) obj[5], (int) obj[6], (int) obj[7], (int) obj[8], "",
-                    ((int) obj[9] < 0 ? "" : obj[9] + " ") + obj[10], (boolean) obj[11]));
+                    ikInfo + obj[12], (boolean) obj[13]));
         }
         return docInfos;
     }
