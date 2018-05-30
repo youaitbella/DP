@@ -302,6 +302,7 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
      * @return
      */
     public String seal() {
+        clearRequestAgreedCentersForSave(_request);
         if (!requestIsComplete()) {
             return null;
         }
@@ -323,6 +324,12 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
             return Pages.PrintView.URL();
         }
         return "";
+    }
+
+    public void clearRequestAgreedCentersForSave(SpecificFunctionRequest request) {
+        if (!request.isHasAgreement()) {
+            request.getRequestAgreedCenters().clear();
+        }
     }
 
     @Inject
