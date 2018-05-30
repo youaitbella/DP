@@ -157,7 +157,7 @@ public class AccountRequest implements Serializable, Person {
     }
 
     public Integer getIK() {
-        return _ik == null || _ik < 0 ? null : _ik;
+        return _ik == null || _ik < -1 ? null : _ik;
     }
 
     public void setIK(Integer ik) {

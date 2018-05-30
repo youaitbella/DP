@@ -236,7 +236,7 @@ public class AccountFacade extends AbstractDataAccess {
     }
 
     public void setNewIk(Account acc, int ik) {
-        if (ik > 1000000000 && ik < 999999999) {
+        if (ik > 100000000 && ik < 999999999) {
             acc.addIk(ik);
         }
     }

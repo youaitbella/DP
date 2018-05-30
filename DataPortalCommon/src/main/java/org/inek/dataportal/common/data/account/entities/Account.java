@@ -438,20 +438,23 @@ public class Account implements Serializable, Person {
         _additionalIKs.removeIf(a -> a.getIK() == ik);
     }
 
-    public List<AccountIk> getAccountIks(){
+    public List<AccountIk> getAccountIks() {
+        if (_additionalIKs == null) {
+            _additionalIKs = new ArrayList<>();
+        }
         return new CopyOnWriteArrayList<>(_additionalIKs);
     }
-    
-    public void removeDuplicateIks(){
+
+    public void removeDuplicateIks() {
         List<AccountIk> accountIks = new ArrayList<>();
         for (AccountIk additionalIK : _additionalIKs) {
-            if (accountIks.stream().noneMatch(a -> a.getIK() == additionalIK.getIK())){
+            if (accountIks.stream().noneMatch(a -> a.getIK() == additionalIK.getIK())) {
                 accountIks.add(additionalIK);
             }
         }
-       _additionalIKs = accountIks;
+        _additionalIKs = accountIks;
     }
-    
+
     // </editor-fold>
     public Set<Integer> getFullIkSet() {
         Set<Integer> iks = new HashSet<>();
@@ -460,7 +463,6 @@ public class Account implements Serializable, Person {
         }
         return iks;
     }
-
 
     @PrePersist
     @PreUpdate
