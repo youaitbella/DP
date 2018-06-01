@@ -52,7 +52,12 @@
             </p>
             <p>
                 <h:outputLabel for="ik" value="IK:" class="label15"/>
-                <h:outputText id="ik" value="#{featureRequestManager.account.IK}" />
+                <h:outputText id="ik" 
+                              rendered="#{featureRequestManager.account.fullIkSet.size() gt 0}"
+                              value="#{featureRequestManager.account.fullIkSet.stream().min().get()}" />
+                <h:outputText id="ikCount" 
+                              rendered="#{featureRequestManager.account.fullIkSet.size() gt 1}"
+                              value=" und #{featureRequestManager.account.fullIkSet.size() - 1} weitere"/>
             </p>
             <p>
                 <h:outputLabel for="street" value="Street:" class="label15"/>
