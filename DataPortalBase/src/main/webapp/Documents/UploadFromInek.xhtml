@@ -80,7 +80,9 @@
 
                 <div class="inputPart" jsf:rendered="#{documentUpload.account ne null}">
                     <h:outputLabel value="#{msg.lblIK}" styleClass="label20"/>
-                    <h:inputText id="UserIk" value="#{documentUpload.account.IK}" disabled="true" styleClass="inputlong"/>
+                    <h:inputText id="UserIk" value="#{documentUpload.account.fullIkSet.stream().min().get()}" 
+                                 rendered="#{documentUpload.account.fullIkSet.size() gt 0}"
+                                 disabled="true" styleClass="inputlong"/>
                 </div>        
 
             </h:panelGroup>
