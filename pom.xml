@@ -19,6 +19,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>DataPortalAPI</module>
         <module>DataPortalCommon</module>
 
         <module>DataPortalBase</module>
