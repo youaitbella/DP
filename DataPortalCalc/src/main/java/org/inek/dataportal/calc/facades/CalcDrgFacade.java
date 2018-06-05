@@ -22,7 +22,7 @@ import org.inek.dataportal.calc.entities.drg.KGLListServiceProvision;
 import org.inek.dataportal.calc.entities.drg.KGLListServiceProvisionType;
 import org.inek.dataportal.calc.entities.drg.KglOpAn;
 import org.inek.dataportal.calc.entities.sop.StatementOfParticipance;
-import org.inek.dataportal.common.enums.Feature;
+import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.common.helper.Utils;

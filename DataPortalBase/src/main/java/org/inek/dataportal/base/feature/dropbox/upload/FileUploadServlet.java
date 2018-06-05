@@ -10,7 +10,7 @@ import javax.inject.Inject;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.common.enums.Feature;
+import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.base.feature.dropbox.DropBoxController;
 import org.inek.dataportal.common.helper.StreamHelper;
 

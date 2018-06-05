@@ -29,7 +29,7 @@ import org.inek.dataportal.common.data.common.ProcedureInfo;
 import org.inek.dataportal.psy.peppproposal.entities.PeppProposal;
 import org.inek.dataportal.psy.peppproposal.entities.PeppProposalDocument;
 import org.inek.dataportal.common.enums.ConfigKey;
-import org.inek.dataportal.common.enums.Feature;
+import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.psy.peppproposal.facades.PeppProposalFacade;

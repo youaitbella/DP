@@ -37,7 +37,7 @@ import org.inek.dataportal.common.data.iface.StatusEntity;
 import org.inek.dataportal.calc.enums.CalcHospitalFunction;
 import org.inek.dataportal.calc.enums.CalcInfoType;
 import org.inek.dataportal.common.enums.ConfigKey;
-import org.inek.dataportal.common.enums.Feature;
+import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.calc.facades.CalcAutopsyFacade;

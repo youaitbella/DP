@@ -3,7 +3,7 @@ package org.inek.dataportal.base.feature.maintenance;
 import org.inek.dataportal.api.helper.FeatureMessageHandler;
 import org.inek.dataportal.common.controller.AbstractFeatureController;
 import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.common.enums.Feature;
+import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.helper.Topics;
 

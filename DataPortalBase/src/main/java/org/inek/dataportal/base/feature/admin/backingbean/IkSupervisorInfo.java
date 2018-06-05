@@ -8,7 +8,7 @@ package org.inek.dataportal.base.feature.admin.backingbean;
 import java.util.Objects;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.enums.CooperativeRight;
-import org.inek.dataportal.common.enums.Feature;
+import org.inek.dataportal.api.enums.Feature;
 
 /**
  *

@@ -4,7 +4,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.Query;
 import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.common.enums.Feature;
+import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.data.AbstractFacade;
 import org.inek.dataportal.common.data.adm.InekRole;
 

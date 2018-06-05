@@ -9,11 +9,11 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import org.inek.dataportal.common.data.adm.Config;
 import org.inek.dataportal.common.enums.ConfigKey;
-import org.inek.dataportal.common.enums.Feature;
+import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.common.data.adm.Announcement;
 import org.inek.dataportal.common.data.common.PortalAddress;
-import org.inek.dataportal.common.enums.PortalType;
+import org.inek.dataportal.api.enums.PortalType;
 import org.inek.dataportal.common.enums.Stage;
 import org.inek.dataportal.common.helper.EnvironmentInfo;
 

@@ -21,10 +21,10 @@ import org.inek.dataportal.common.overall.ApplicationTools;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.base.feature.dropbox.entities.DropBox;
 import org.inek.dataportal.common.enums.ConfigKey;
-import org.inek.dataportal.common.enums.Feature;
+import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.base.feature.dropbox.facade.DropBoxFacade;
 import org.inek.dataportal.base.feature.dropbox.DropBoxController;
-import org.inek.dataportal.common.enums.PortalType;
+import org.inek.dataportal.api.enums.PortalType;
 import org.inek.dataportal.common.helper.StreamHelper;
 import org.inek.dataportal.common.helper.Utils;
 

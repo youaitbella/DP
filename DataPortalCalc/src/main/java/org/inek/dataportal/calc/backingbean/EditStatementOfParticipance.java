@@ -33,7 +33,7 @@ import org.inek.dataportal.common.data.adm.InekRole;
 import org.inek.dataportal.calc.entities.sop.CalcContact;
 import org.inek.dataportal.calc.entities.sop.StatementOfParticipance;
 import org.inek.dataportal.common.enums.ConfigKey;
-import org.inek.dataportal.common.enums.Feature;
+import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.data.account.facade.AccountFacade;

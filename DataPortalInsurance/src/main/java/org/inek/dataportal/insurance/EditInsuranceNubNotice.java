@@ -41,7 +41,7 @@ import org.inek.dataportal.common.controller.AbstractEditController;
 import org.inek.dataportal.common.data.access.ProcedureFacade;
 import org.inek.dataportal.common.data.common.RemunerationType;
 import org.inek.dataportal.common.data.icmt.facade.CustomerFacade;
-import org.inek.dataportal.common.enums.Feature;
+import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.scope.FeatureScoped;

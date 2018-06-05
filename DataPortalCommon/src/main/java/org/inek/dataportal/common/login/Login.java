@@ -11,7 +11,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.enums.Pages;
-import org.inek.dataportal.common.enums.PortalType;
+import org.inek.dataportal.api.enums.PortalType;
 
 /**
  *

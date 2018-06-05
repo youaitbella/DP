@@ -16,7 +16,7 @@ import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.enums.CodeType;
-import org.inek.dataportal.common.enums.Feature;
+import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.enums.GlobalVars;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.psy.controller.SearchController.CodeInfo;

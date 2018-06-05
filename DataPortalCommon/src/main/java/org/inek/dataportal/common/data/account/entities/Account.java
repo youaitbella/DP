@@ -33,8 +33,8 @@ import javax.persistence.Temporal;
 import javax.persistence.Transient;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import org.inek.dataportal.common.enums.Feature;
-import org.inek.dataportal.common.enums.FeatureState;
+import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.api.enums.FeatureState;
 import org.inek.dataportal.common.data.adm.InekRole;
 import org.inek.dataportal.common.data.ikadmin.entity.AccountIkAdmin;
 

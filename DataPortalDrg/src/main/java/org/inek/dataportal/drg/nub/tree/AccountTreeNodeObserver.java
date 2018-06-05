@@ -12,7 +12,7 @@ import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.drg.nub.entities.NubRequest;
 import org.inek.dataportal.common.enums.DataSet;
-import org.inek.dataportal.common.enums.Feature;
+import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.drg.nub.facades.NubRequestFacade;
 import org.inek.dataportal.drg.nub.NubSessionTools;
 import org.inek.dataportal.common.helper.structures.ProposalInfo;

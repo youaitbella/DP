@@ -17,7 +17,7 @@ import org.inek.dataportal.common.overall.AccessManager;
 import static org.inek.dataportal.common.overall.AccessManager.canReadCompleted;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.common.enums.Feature;
+import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.psy.peppproposal.facades.PeppProposalFacade;
 import org.inek.dataportal.common.data.account.facade.AccountFacade;

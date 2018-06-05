@@ -4,7 +4,7 @@ package org.inek.dataportal.base.feature.ikadmin.backingbean;
 import java.util.ArrayList;
 import java.util.List;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
-import org.inek.dataportal.common.enums.Feature;
+import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.enums.Right;
 import org.assertj.core.api.Assertions;
 

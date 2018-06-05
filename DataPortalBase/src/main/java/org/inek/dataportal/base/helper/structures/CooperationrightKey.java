@@ -1,7 +1,7 @@
 package org.inek.dataportal.base.helper.structures;
 
 import java.util.Objects;
-import org.inek.dataportal.common.enums.Feature;
+import org.inek.dataportal.api.enums.Feature;
 
 /**
  *

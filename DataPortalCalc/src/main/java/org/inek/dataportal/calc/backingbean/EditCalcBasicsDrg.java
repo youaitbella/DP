@@ -58,7 +58,7 @@ import org.inek.dataportal.calc.entities.drg.KGLRadiologyService;
 import org.inek.dataportal.calc.entities.psy.KglPkmsAlternative;
 import org.inek.dataportal.common.data.iface.BaseIdValue;
 import org.inek.dataportal.common.enums.ConfigKey;
-import org.inek.dataportal.common.enums.Feature;
+import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.calc.facades.CalcDrgFacade;

@@ -27,7 +27,7 @@ import org.inek.dataportal.calc.entities.cdm.DistributionModel;
 import org.inek.dataportal.calc.entities.cdm.DistributionModelDetail;
 import org.inek.dataportal.calc.enums.CalcHospitalFunction;
 import org.inek.dataportal.common.enums.ConfigKey;
-import org.inek.dataportal.common.enums.Feature;
+import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.data.account.facade.AccountFacade;

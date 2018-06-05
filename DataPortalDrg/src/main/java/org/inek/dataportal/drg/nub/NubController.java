@@ -9,7 +9,7 @@ import org.inek.dataportal.common.controller.AbstractFeatureController;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.drg.nub.entities.NubRequest;
 import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.common.enums.Feature;
+import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.drg.nub.enums.NubFieldKey;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.helper.Topics;

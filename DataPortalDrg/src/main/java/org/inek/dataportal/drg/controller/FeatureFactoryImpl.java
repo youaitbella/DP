@@ -9,7 +9,7 @@ import javax.enterprise.context.Dependent;
 import org.inek.dataportal.common.controller.FeatureFactory;
 import org.inek.dataportal.common.controller.IFeatureController;
 import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.common.enums.Feature;
+import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.drg.additionalcost.AdditionalCostController;
 import org.inek.dataportal.drg.drgproposal.DrgProposalController;
 import org.inek.dataportal.drg.nub.NubController;

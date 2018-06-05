@@ -20,7 +20,7 @@ import org.inek.dataportal.cert.entities.RemunerationSystem;
 import org.inek.dataportal.cert.facade.SystemFacade;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.enums.ConfigKey;
-import org.inek.dataportal.common.enums.Feature;
+import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.controller.AbstractEditController;
 import org.inek.dataportal.common.data.access.ConfigFacade;

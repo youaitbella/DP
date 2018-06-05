@@ -24,7 +24,7 @@ import org.inek.dataportal.psy.modelintention.entities.ModelIntention;
 import org.inek.dataportal.psy.modelintention.entities.ModelIntentionContact;
 import org.inek.dataportal.psy.modelintention.entities.Quality;
 import org.inek.dataportal.psy.modelintention.entities.Remuneration;
-import org.inek.dataportal.common.enums.Feature;
+import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.psy.modelintention.enums.Region;
 import org.inek.dataportal.psy.modelintention.enums.SelfHospitalisationType;

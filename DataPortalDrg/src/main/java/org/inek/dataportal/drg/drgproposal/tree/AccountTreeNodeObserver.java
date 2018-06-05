@@ -15,7 +15,7 @@ import javax.inject.Inject;
 import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.enums.DataSet;
-import org.inek.dataportal.common.enums.Feature;
+import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.drg.drgproposal.facades.DrgProposalFacade;
 import org.inek.dataportal.common.helper.structures.ProposalInfo;
 import org.inek.dataportal.common.tree.ProposalInfoTreeNode;

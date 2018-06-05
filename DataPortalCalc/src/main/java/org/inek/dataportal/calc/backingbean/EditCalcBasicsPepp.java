@@ -55,7 +55,7 @@ import org.inek.dataportal.calc.entities.psy.KgpListMedInfra;
 import org.inek.dataportal.calc.entities.psy.PeppCalcBasics;
 import org.inek.dataportal.common.data.iface.BaseIdValue;
 import org.inek.dataportal.common.enums.ConfigKey;
-import org.inek.dataportal.common.enums.Feature;
+import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.calc.facades.CalcPsyFacade;

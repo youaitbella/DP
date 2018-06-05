@@ -10,7 +10,7 @@ import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.psy.peppproposal.entities.PeppProposalDocument;
-import org.inek.dataportal.common.enums.Feature;
+import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.psy.peppproposal.PeppProposalController;
 
 @WebServlet(urlPatterns = {"/upload/peppproposal"}, name = "PeppProposalUploadServlet")

@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.List;
 import javax.faces.model.SelectItem;
 import org.inek.dataportal.common.data.cooperation.entities.CooperationRight;
-import org.inek.dataportal.common.enums.Feature;
+import org.inek.dataportal.api.enums.Feature;
 
 /**
  *

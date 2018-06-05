@@ -9,8 +9,8 @@ import java.util.Set;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.common.enums.Feature;
-import org.inek.dataportal.common.enums.PortalType;
+import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.api.enums.PortalType;
 import org.inek.dataportal.common.helper.Topic;
 import org.inek.dataportal.common.helper.Topics;
 

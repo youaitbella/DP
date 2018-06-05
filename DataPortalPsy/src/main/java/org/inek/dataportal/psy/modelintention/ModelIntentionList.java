@@ -15,7 +15,7 @@ import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.psy.modelintention.entities.ModelIntention;
 import org.inek.dataportal.common.enums.CooperativeRight;
 import org.inek.dataportal.common.enums.DataSet;
-import org.inek.dataportal.common.enums.Feature;
+import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.psy.modelintention.enums.UserSet;
 import org.inek.dataportal.common.enums.WorkflowStatus;

@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.common.enums;
+package org.inek.dataportal.api.enums;
 
 /**
  *

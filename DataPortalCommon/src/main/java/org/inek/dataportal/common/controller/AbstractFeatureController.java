@@ -2,7 +2,7 @@ package org.inek.dataportal.common.controller;
 
 import java.io.Serializable;
 import java.util.logging.Logger;
-import org.inek.dataportal.common.enums.Feature;
+import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.helper.Topics;
 
 /**

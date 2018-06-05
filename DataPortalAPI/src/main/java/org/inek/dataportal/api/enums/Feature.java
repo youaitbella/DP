@@ -1,4 +1,4 @@
-package org.inek.dataportal.common.enums;
+package org.inek.dataportal.api.enums;
 
 import org.inek.dataportal.api.helper.FeatureMessageHandler;
 

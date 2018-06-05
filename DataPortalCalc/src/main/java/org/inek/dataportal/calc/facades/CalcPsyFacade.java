@@ -17,7 +17,7 @@ import org.inek.dataportal.calc.entities.psy.PeppCalcBasics;
 import org.inek.dataportal.calc.entities.psy.KGPListContentText;
 import org.inek.dataportal.calc.entities.psy.KGPListServiceProvisionType;
 import org.inek.dataportal.calc.entities.sop.StatementOfParticipance;
-import org.inek.dataportal.common.enums.Feature;
+import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.common.helper.Utils;

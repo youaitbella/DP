@@ -7,7 +7,7 @@ package org.inek.dataportal.base.feature.maintenance;
 import org.inek.dataportal.api.helper.FeatureMessageHandler;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.data.account.entities.AccountFeature;
-import org.inek.dataportal.common.enums.FeatureState;
+import org.inek.dataportal.api.enums.FeatureState;
 
 /**
  *

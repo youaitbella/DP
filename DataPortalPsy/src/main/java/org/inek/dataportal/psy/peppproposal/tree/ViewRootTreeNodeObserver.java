@@ -15,7 +15,7 @@ import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import org.inek.dataportal.common.overall.AccessManager;
 import static org.inek.dataportal.common.overall.AccessManager.canReadSealed;
-import org.inek.dataportal.common.enums.Feature;
+import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.psy.peppproposal.facades.PeppProposalFacade;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.tree.RootNode;
