@@ -16,6 +16,7 @@ import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.data.account.entities.AccountFeatureRequest;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.api.helper.Const;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.data.icmt.facade.ContactRoleFacade;
 import org.inek.dataportal.common.data.icmt.facade.CustomerFacade;
@@ -24,7 +25,7 @@ import org.inek.dataportal.common.data.adm.MailTemplate;
 import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.common.mail.Mailer;
 import org.inek.dataportal.common.utils.DateUtils;
-import static org.inek.dataportal.common.helper.Const.*;
+import static org.inek.dataportal.common.helper.Placeholder.*;
 
 /**
  *
@@ -76,7 +77,7 @@ public class FeatureRequestHandler {
             return false;
         }
         String link = buildLink(featureRequest.getApprovalKey());
-        String subject = template.getSubject().replace(PLACEHOLDER_FEATURE, featureRequest.getFeature().getDescription());
+        String subject = template.getSubject().replace(FEATURE, featureRequest.getFeature().getDescription());
         String iks = "";
         boolean firstIK = true;
         for (int s : account.getFullIkSet()) {
@@ -89,14 +90,14 @@ public class FeatureRequestHandler {
         }
 
         String body = template.getBody()
-                .replace(PLACEHOLDER_LINK, link)
-                .replace(PLACEHOLDER_FEATURE, featureRequest.getFeature().getDescription())
-                .replace(PLACEHOLDER_NAME, account.getFirstName() + " " + account.getLastName())
-                .replace(PLACEHOLDER_EMAIL, account.getEmail())
-                .replace(PLACEHOLDER_ROLE, _roleFacade.find(account.getRoleId()).getText())
-                .replace(PLACEHOLDER_PHONE, account.getPhone())
-                .replace(PLACEHOLDER_COMPANY, account.getCompany())
-                .replace(PLACEHOLDER_IK, iks);
+                .replace(LINK, link)
+                .replace(FEATURE, featureRequest.getFeature().getDescription())
+                .replace(NAME, account.getFirstName() + " " + account.getLastName())
+                .replace(EMAIL, account.getEmail())
+                .replace(ROLE, _roleFacade.find(account.getRoleId()).getText())
+                .replace(PHONE, account.getPhone())
+                .replace(COMPANY, account.getCompany())
+                .replace(IK, iks);
         String mailAddress = _config.readConfig(ConfigKey.ManagerEmail);
         return _mailer.sendMail(mailAddress, template.getBcc(), subject, body);
 
@@ -108,7 +109,7 @@ public class FeatureRequestHandler {
         int port = externalContext.getRequestServerPort();
         String server = externalContext.getRequestServerName();
         String link = protocol
-                + server + (port == HTTP_PORT || port == HTTPS_PORT ? "" : ":" + port)
+                + server + (port == Const.HTTP_PORT || port == Const.HTTPS_PORT ? "" : ":" + port)
                 + "/DataPortalAdmin"
                 + Pages.FeatureApproval.URL()
                 + "?key=" + key;

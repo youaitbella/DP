@@ -4,8 +4,9 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
-import static org.inek.dataportal.common.helper.Const.HTTPS_PORT;
-import static org.inek.dataportal.common.helper.Const.HTTP_PORT;
+import org.inek.dataportal.api.helper.Const;
+import static org.inek.dataportal.common.helper.Placeholder.HTTPS_PORT;
+import static org.inek.dataportal.common.helper.Placeholder.HTTP_PORT;
 
 /**
  *
@@ -28,7 +29,7 @@ public class EnvironmentInfo {
         String protocol = externalContext.getRequestScheme() + "://";
         int port = externalContext.getRequestServerPort();
         String server = externalContext.getRequestServerName();
-        return protocol + server + (port == HTTP_PORT || port == HTTPS_PORT ? "" : ":" + port);
+        return protocol + server + (port == Const.HTTP_PORT || port == Const.HTTPS_PORT ? "" : ":" + port);
     }
 
     public static String getServerUrlWithContextpath() {
