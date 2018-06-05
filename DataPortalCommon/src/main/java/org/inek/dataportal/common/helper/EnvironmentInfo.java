@@ -5,8 +5,6 @@ import javax.faces.context.FacesContext;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import org.inek.dataportal.api.helper.Const;
-import static org.inek.dataportal.common.helper.Placeholder.HTTPS_PORT;
-import static org.inek.dataportal.common.helper.Placeholder.HTTP_PORT;
 
 /**
  *
