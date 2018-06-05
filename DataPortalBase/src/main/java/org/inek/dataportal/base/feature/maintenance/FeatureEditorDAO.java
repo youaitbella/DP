@@ -4,11 +4,10 @@
  */
 package org.inek.dataportal.base.feature.maintenance;
 
+import org.inek.dataportal.api.helper.FeatureMessageHandler;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.data.account.entities.AccountFeature;
-import org.inek.dataportal.common.enums.Feature;
 import org.inek.dataportal.common.enums.FeatureState;
-import org.inek.dataportal.common.helper.Utils;
 
 /**
  *
@@ -35,12 +34,12 @@ public class FeatureEditorDAO {
 
     public String getShortText() {
         String name = _accFeature.getFeature().name();
-        return Utils.getMessageOrEmpty("name" + name);
+        return FeatureMessageHandler.getMessageOrEmpty("name" + name);
     }
 
     public String getDescription() {
         String name = _accFeature.getFeature().name();
-        return Utils.getMessageOrEmpty("description" + name);
+        return FeatureMessageHandler.getMessageOrEmpty("description" + name);
     }
 
     public boolean isValue() {

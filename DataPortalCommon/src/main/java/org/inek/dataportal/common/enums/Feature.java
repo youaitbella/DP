@@ -1,6 +1,6 @@
 package org.inek.dataportal.common.enums;
 
-import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.api.helper.FeatureMessageHandler;
 
 /**
  *
@@ -85,7 +85,7 @@ public enum Feature {
     }
 
     public String getDescriptionText() {
-        return Utils.getMessageOrEmpty("description" + this.name());
+        return FeatureMessageHandler.getMessageOrEmpty("description" + this.name());
     }
 
     public static Feature getFeatureFromId(int id) {
