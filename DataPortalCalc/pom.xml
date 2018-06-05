@@ -27,6 +27,12 @@
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
+            <artifactId>DataPortalAPI</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
             <artifactId>DataPortalCommon</artifactId>
             <version>${project.version}</version>
         </dependency>
