@@ -9,9 +9,6 @@ package org.inek.dataportal.common.enums;
  * @author muellermi
  */
 public enum GlobalVars {
-    PeppProposalSystemYear(2015),
-    NubRequestSystemYear(2015),
-    DrgProposalSystemYear(2015),
     ProposalSectionDg(101),
     ProposalSectionPepp(102),
     ProposalSectionNub(103);
