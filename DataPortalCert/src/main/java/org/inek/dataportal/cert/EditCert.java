@@ -21,12 +21,12 @@ import org.inek.dataportal.cert.facade.SystemFacade;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.api.helper.Const;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.controller.AbstractEditController;
 import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.common.helper.StreamHelper;
 import org.inek.dataportal.common.scope.FeatureScoped;
-import static org.inek.dataportal.common.helper.StreamHelper.BUFFER_SIZE;
 
 /**
  *
@@ -174,7 +174,7 @@ public class EditCert extends AbstractEditController {
         }
         LOGGER.log(Level.INFO, "uploading file {0}", uploadFile.getSubmittedFileName());
         try (InputStream inStream = uploadFile.getInputStream();
-                BufferedOutputStream dest = new BufferedOutputStream(new FileOutputStream(target), BUFFER_SIZE)) {
+                BufferedOutputStream dest = new BufferedOutputStream(new FileOutputStream(target), Const.BUFFER_SIZE)) {
             new StreamHelper().copyStream(inStream, dest);
         } catch (IOException e) {
             LOGGER.log(Level.WARNING, "upload exception: {0}", e.getMessage());
@@ -191,7 +191,7 @@ public class EditCert extends AbstractEditController {
                 ZipInputStream zis = new ZipInputStream(new BufferedInputStream(checksum))) {
             ZipEntry entry;
             while ((entry = zis.getNextEntry()) != null) {
-                try (BufferedOutputStream dest = new BufferedOutputStream(new FileOutputStream(target), BUFFER_SIZE)) {
+                try (BufferedOutputStream dest = new BufferedOutputStream(new FileOutputStream(target), Const.BUFFER_SIZE)) {
                     new StreamHelper().copyStream(zis, dest);
                     dest.flush();
                 }

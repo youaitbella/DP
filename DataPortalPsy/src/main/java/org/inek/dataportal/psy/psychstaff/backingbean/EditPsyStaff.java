@@ -559,10 +559,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         if (!_appTools.isEnabled(ConfigKey.IsPsychStaffSendEnabled)) {
             return false;
         }
-        if (_staffProof == null) {
-            return false;
-        }
-        return true;
+        return _staffProof != null;
     }
 
     public boolean isTakeEnabled() {

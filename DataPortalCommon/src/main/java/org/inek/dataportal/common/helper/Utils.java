@@ -36,6 +36,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.inek.dataportal.common.data.account.iface.Document;
 import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.api.helper.Const;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.utils.Helper;
 
@@ -221,7 +222,7 @@ public class Utils {
         try {
             ByteArrayInputStream is = new ByteArrayInputStream(text.getBytes("UTF-8"));
             MessageDigest md = MessageDigest.getInstance("SHA1");
-            byte[] buffer = new byte[8192];
+            byte[] buffer = new byte[Const.BUFFER_SIZE];
             int n;
             while ((n = is.read(buffer)) != -1) {
                 md.update(buffer, 0, n);

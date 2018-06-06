@@ -6,7 +6,6 @@ package org.inek.dataportal.common.helper;
  */
 public class Placeholder {
 
-
     public static final String LINK = "{link}";
     public static final String FEATURE = "{feature}";
     public static final String NAME = "{name}";

@@ -10,6 +10,7 @@ import java.util.Optional;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpSession;
+import org.inek.dataportal.api.helper.Const;
 import org.inek.dataportal.common.data.account.entities.AccountDocument;
 import org.inek.dataportal.base.feature.documents.DocumentUpload;
 import org.inek.dataportal.common.scope.FeatureScopedContextHolder;
@@ -40,7 +41,7 @@ public class DocumentUploadServlet extends AbstractUploadServlet {
         try{
             initialSize  = Long.parseLong(httpUtil.getRequest().getHeader("Content-Length"));
         } catch (NumberFormatException ex){
-            initialSize = 8192;
+            initialSize = Const.BUFFER_SIZE;
         }
         if (initialSize > Integer.MAX_VALUE - 8){
             return Integer.MAX_VALUE - 8;

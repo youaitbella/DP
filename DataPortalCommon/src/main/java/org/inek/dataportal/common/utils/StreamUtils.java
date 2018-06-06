@@ -7,6 +7,7 @@ package org.inek.dataportal.common.utils;
 
 import java.io.IOException;
 import java.io.InputStream;
+import org.inek.dataportal.api.helper.Const;
 
 /**
  *
@@ -22,12 +23,12 @@ public class StreamUtils {
      * @throws IOException
      */
     public static byte[] stream2blob(InputStream is) throws IOException, IllegalArgumentException {
-        return stream2blob(is, 8192);
+        return stream2blob(is, Const.BUFFER_SIZE);
     }
 
     public static byte[] stream2blob(InputStream is, int initialSize) throws IOException, IllegalArgumentException {
         int remaining = 1000;
-        byte[] buffer = new byte[8192];
+        byte[] buffer = new byte[Const.BUFFER_SIZE];
         byte[] tempBlob = new byte[initialSize];
         int n;
         int offset = 0;

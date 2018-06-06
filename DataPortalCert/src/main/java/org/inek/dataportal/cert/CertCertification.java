@@ -18,6 +18,7 @@ import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.OptimisticLockException;
+import org.inek.dataportal.api.helper.Const;
 import org.inek.dataportal.cert.entities.Grouper;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
@@ -28,7 +29,6 @@ import org.inek.dataportal.common.scope.FeatureScoped;
 import org.inek.dataportal.common.scope.FeatureScopedContextHolder;
 import org.inek.dataportal.common.mail.Mailer;
 import org.inek.dataportal.common.utils.Helper;
-import org.inek.dataportal.cert.CertStatus;
 import org.inek.dataportal.cert.entities.GrouperAction;
 import org.inek.dataportal.cert.entities.RemunerationSystem;
 import org.inek.dataportal.cert.facade.GrouperActionFacade;
@@ -152,7 +152,7 @@ public class CertCertification implements Serializable{
         FacesContext facesContext = FacesContext.getCurrentInstance();
         ExternalContext externalContext = facesContext.getExternalContext();
         try {
-            try (BufferedInputStream is = new BufferedInputStream(new FileInputStream(file), StreamHelper.BUFFER_SIZE)) {
+            try (BufferedInputStream is = new BufferedInputStream(new FileInputStream(file), Const.BUFFER_SIZE)) {
                 externalContext.setResponseHeader("Content-Type", Helper.getContentType(file.getName()));
                 externalContext.setResponseHeader("Content-Length", "");
                 externalContext.setResponseHeader("Content-Disposition", "attachment;filename=\"" + file.getName() + "\"");

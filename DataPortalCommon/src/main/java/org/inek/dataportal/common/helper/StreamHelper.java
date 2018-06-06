@@ -19,6 +19,7 @@ import java.util.zip.CheckedOutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
+import org.inek.dataportal.api.helper.Const;
 
 /**
  *
@@ -26,7 +27,6 @@ import java.util.zip.ZipOutputStream;
  */
 public class StreamHelper {
 
-    public static final int BUFFER_SIZE = 8192;
 
     public void compressFiles(File[] files, File target) throws IOException {
 
@@ -34,7 +34,7 @@ public class StreamHelper {
                 CheckedOutputStream checkedOut = new CheckedOutputStream(fileOut, new Adler32());
                 ZipOutputStream compressedOut = new ZipOutputStream(new BufferedOutputStream(checkedOut))) {
             for (File file : files) {
-                try (BufferedInputStream is = new BufferedInputStream(new FileInputStream(file), BUFFER_SIZE)) {
+                try (BufferedInputStream is = new BufferedInputStream(new FileInputStream(file), Const.BUFFER_SIZE)) {
                     compressedOut.putNextEntry(new ZipEntry(file.getName()));
                     copyStream(is, compressedOut);
                 }
@@ -57,7 +57,7 @@ public class StreamHelper {
             ZipEntry entry;
             while ((entry = zis.getNextEntry()) != null) {
                 File file = new File(dir, entry.getName());
-                try (BufferedOutputStream dest = new BufferedOutputStream(new FileOutputStream(file), BUFFER_SIZE)) {
+                try (BufferedOutputStream dest = new BufferedOutputStream(new FileOutputStream(file), Const.BUFFER_SIZE)) {
                     copyStream(zis, dest);
                     dest.flush();
                 }
@@ -66,7 +66,7 @@ public class StreamHelper {
     }
 
     public static void copyStream(InputStream is, OutputStream os) throws IOException {
-        byte[] buff = new byte[BUFFER_SIZE];
+        byte[] buff = new byte[Const.BUFFER_SIZE];
         int count;
         while ((count = is.read(buff)) != -1) {
             os.write(buff, 0, count);
