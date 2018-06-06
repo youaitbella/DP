@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.inek.dataportal.api.helper.FeatureMessageHandler;
 import org.inek.dataportal.common.overall.ApplicationTools;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
@@ -65,7 +66,7 @@ public class ValuationRatioList {
     }
 
     public String printValuationRatio(int valuationRatioId) {
-        Utils.getFlash().put("headLine", Utils.getMessage("nameVALUATION_RATIO"));
+        Utils.getFlash().put("headLine", FeatureMessageHandler.getMessage("nameVALUATION_RATIO"));
         Utils.getFlash().put("targetPage", Pages.ValuationRatioSummary.URL());
         Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(_valuationRatioFacade.findValuationRatio(valuationRatioId)));
         return Pages.PrintView.URL();

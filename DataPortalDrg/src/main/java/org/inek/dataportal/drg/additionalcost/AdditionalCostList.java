@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.inek.dataportal.api.helper.FeatureMessageHandler;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.enums.DataSet;
 import org.inek.dataportal.common.enums.Pages;
@@ -63,7 +64,7 @@ public class AdditionalCostList {
     }
     
     public String printNotice(int adId) {
-        Utils.getFlash().put("headLine", Utils.getMessage("nameADDITIONAL_COST"));
+        Utils.getFlash().put("headLine", FeatureMessageHandler.getMessage("nameADDITIONAL_COST"));
         Utils.getFlash().put("targetPage", Pages.AdditionalCostSummary.URL());
         Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(_addFacade.findAdditionalCost(adId)));
         return Pages.PrintView.URL();

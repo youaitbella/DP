@@ -26,6 +26,7 @@ import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.api.helper.FeatureMessageHandler;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.drg.additionalcost.facade.AdditionalCostFacade;
@@ -228,7 +229,7 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
 
         if (isValidId(_additionalCost.getId())) {
             sendNotification();
-            Utils.getFlash().put("headLine", Utils.getMessage("nameADDITIONAL_COST"));
+            Utils.getFlash().put("headLine", FeatureMessageHandler.getMessage("nameADDITIONAL_COST"));
             Utils.getFlash().put("targetPage", Pages.AdditionalCostSummary.URL());
             Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(_additionalCost));
             return Pages.PrintView.URL();

@@ -8,9 +8,9 @@ package org.inek.dataportal.drg.additionalcost;
 import org.inek.dataportal.common.controller.AbstractFeatureController;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.api.helper.FeatureMessageHandler;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.helper.Topics;
-import org.inek.dataportal.common.helper.Utils;
 
 /**
  *
@@ -24,7 +24,7 @@ public class AdditionalCostController extends AbstractFeatureController {
 
     @Override
     protected void addTopics(Topics topics) {
-        topics.addTopic(Utils.getMessage("nameADDITIONAL_COST"), Pages.AdditionalCostSummary.URL());
+        topics.addTopic(FeatureMessageHandler.getMessage("nameADDITIONAL_COST"), Pages.AdditionalCostSummary.URL());
     }
 
     @Override

@@ -16,6 +16,7 @@ import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.DataSet;
 import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.api.helper.FeatureMessageHandler;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
@@ -93,7 +94,7 @@ public class PsychStaffList implements Serializable {
     }
 
     public String print(StaffProof request) {
-        Utils.getFlash().put("headLine", Utils.getMessage("namePSYCH_STAFF"));
+        Utils.getFlash().put("headLine", FeatureMessageHandler.getMessage("namePSYCH_STAFF"));
         Utils.getFlash().put("targetPage", Pages.PsychStaffSummary.URL());
         Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(request));
         return Pages.PrintView.URL();
