@@ -157,7 +157,7 @@ public class AccountFacade extends AbstractDataAccess {
                     continue;
                 }
                 Feature feature = accFeature.getFeature();
-                if (feature.needsApproval()) {
+                if (feature.getNeedsApproval()) {
                     if (_requestHandler.handleFeatureRequest(account, feature)) {
                         accFeature.setFeatureState(FeatureState.REQUESTED);
                     }
@@ -185,7 +185,7 @@ public class AccountFacade extends AbstractDataAccess {
                     _ikAdminFacade.saveAccessRight(accessRight);
                 }
                 accFeature.
-                        setFeatureState(feature.needsApproval() ? FeatureState.APPROVED : FeatureState.SIMPLE);
+                        setFeatureState(feature.getNeedsApproval() ? FeatureState.APPROVED : FeatureState.SIMPLE);
             } else {
                 handleClassicalWay = true;
             }

@@ -19,8 +19,8 @@ xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/
             <var>msg</var>
         </resource-bundle>
         <resource-bundle>
-            <base-name>org.inek.dataportal.feature</base-name>
-            <var>feature</var>
+            <base-name>org.inek.dataportal.featureMsg</base-name>
+            <var>featureMsg</var>
         </resource-bundle>
     </application>
     <factory>

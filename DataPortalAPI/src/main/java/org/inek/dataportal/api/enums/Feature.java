@@ -56,7 +56,7 @@ public enum Feature {
 
     private final NeedApproval _needApproval;
 
-    public boolean needsApproval() {
+    public boolean getNeedsApproval() {
         return _needApproval == NeedApproval.Yes;
     }
 

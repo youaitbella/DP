@@ -11,7 +11,7 @@
 
     <ui:define name="content">
         <h:form id="form">
-            <h1><h:commandLink value="#{feature.namePEPP_PROPOSAL}" action="#{sessionController.navigate(sessionTools.pages.PeppProposalSummary)}" immediate="true"/></h1>
+            <h1><h:commandLink value="#{featureMsg.namePEPP_PROPOSAL}" action="#{sessionController.navigate(sessionTools.pages.PeppProposalSummary)}" immediate="true"/></h1>
             <div class="tab">
                 <ul class="tab">
                     <c:forEach items="#{editPeppProposal.visibleTopics}" var="topic">

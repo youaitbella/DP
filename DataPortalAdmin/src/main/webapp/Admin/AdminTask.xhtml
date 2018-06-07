@@ -9,7 +9,7 @@
 
     <ui:define name="content">
         <h:form id="tabForm">
-            <h1><h:commandLink value="#{feature.nameADMIN}" /></h1>
+            <h1><h:commandLink value="#{featureMsg.nameADMIN}" /></h1>
             <div class="tab">
                 <ul class="tab">
                     <ui:repeat value="#{adminTask.visibleTopics}" var="topic" varStatus="status" rendered="#{sessionController.isInekUser('ADMIN')}">

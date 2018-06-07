@@ -11,7 +11,7 @@ public class FeatureMessageHandler {
 
     private static String obtainMessage(String key) {
         ResourceBundle messageBundle;
-        messageBundle = ResourceBundle.getBundle("org.inek.dataportal.feature");
+        messageBundle = ResourceBundle.getBundle("org.inek.dataportal.featureMsg");
         return messageBundle.getString(key);
     }
 

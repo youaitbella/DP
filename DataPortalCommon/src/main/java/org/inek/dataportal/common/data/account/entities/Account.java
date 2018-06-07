@@ -405,7 +405,7 @@ public class Account implements Serializable, Person {
     }
 
     public void addFeature(Feature feature, boolean isApproved) {
-        FeatureState state = feature.needsApproval()
+        FeatureState state = feature.getNeedsApproval()
                 ? (isApproved ? FeatureState.APPROVED : FeatureState.NEW)
                 : FeatureState.SIMPLE;
         _features.add(new AccountFeature(_features.size(), state, feature));

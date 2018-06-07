@@ -33,16 +33,16 @@
                 <pf:outputLabel value="#{accountFeature.feature.description}"/>
             </pf:column>
             <pf:column headerText="Bereich">
-                <pf:outputLabel value="#{accountFeature.feature.getPortalType().getArea()}"/>
+                <pf:outputLabel value="#{accountFeature.feature.portalType.area}"/>
             </pf:column>
             <pf:column headerText="Erläuterung">
-                <pf:outputLabel value="#{accountFeature.feature.getDescriptionText()}"/>
+                <pf:outputLabel value="#{accountFeature.feature.descriptionText}"/>
             </pf:column>
         </pf:dataTable>
 
         <h2>Verfügbare Funktionen</h2>
         <pf:dataTable id="newFeatureList"
-                      value="#{editUserMaintenance.getAvailableFeatures()}"
+                      value="#{editUserMaintenance.availableFeatures}"
                       var="feature"
                       tableStyle="width: auto"
                       emptyMessage="Keine neuen Funktionen vorhanden">
@@ -58,12 +58,12 @@
             </pf:column>
             <pf:column headerText="Freigabe">
                 <pf:outputLabel value="Keine benötigt"
-                                rendered="#{!feature.needsApproval()}"/>
+                                rendered="#{!feature.needsApproval}"/>
                 <pf:outputLabel value="Freigabe benötigt"
-                                rendered="#{feature.needsApproval()}"/>
+                                rendered="#{feature.needsApproval}"/>
             </pf:column>
             <pf:column headerText="Erläuterung">
-                <pf:outputLabel value="#{feature.getDescriptionText()}"/>
+                <pf:outputLabel value="#{feature.descriptionText}"/>
             </pf:column>
         </pf:dataTable>
 

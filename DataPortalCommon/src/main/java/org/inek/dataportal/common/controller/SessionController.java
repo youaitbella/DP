@@ -486,7 +486,7 @@ public class SessionController implements Serializable {
     private Account addFeature(Account account, Feature feature) {
         AccountFeature accFeature = new AccountFeature();
         accFeature.setFeature(feature);
-        FeatureState state = feature.needsApproval() ? FeatureState.NEW : FeatureState.SIMPLE;
+        FeatureState state = feature.getNeedsApproval() ? FeatureState.NEW : FeatureState.SIMPLE;
         accFeature.setFeatureState(state);
         accFeature.setSequence(account.getFeatures().size());
         account.getFeatures().add(accFeature);

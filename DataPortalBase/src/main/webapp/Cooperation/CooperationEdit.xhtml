@@ -12,7 +12,7 @@
 
     <ui:define name="content">
         <h:form id="form">
-            <h1><h:commandLink value="#{feature.nameCOOPERATION}" action="#{sessionController.navigate(sessionTools.pages.CooperationSummary)}" immediate="true"/></h1>
+            <h1><h:commandLink value="#{featureMsg.nameCOOPERATION}" action="#{sessionController.navigate(sessionTools.pages.CooperationSummary)}" immediate="true"/></h1>
             <div class="tab">
                 <ul class="tab">
                     <c:forEach items="#{editCooperation.visibleTopics}" var="topic">
