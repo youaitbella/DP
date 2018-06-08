@@ -3,6 +3,7 @@ package org.inek.dataportal.common.controller;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.HttpURLConnection;
+import static java.net.HttpURLConnection.HTTP_OK;
 import java.net.URL;
 import java.util.List;
 import java.util.Optional;
@@ -46,7 +47,7 @@ public class ReportController implements Serializable {
             conn.setRequestMethod("GET");
             conn.setRequestProperty("X-ReportServer-ClientId", "portal");
             conn.setRequestProperty("X-ReportServer-ClientToken", "FG+RYOLDRuAEh0bO6OBddzcrF45aOI9C");
-            if (conn.getResponseCode() != 200) {
+            if (conn.getResponseCode() != HTTP_OK) {
                 throw new IOException("Report failed: HTTP error code : " + conn.getResponseCode());
             }
             byte[] file = StreamHelper.toByteArray(conn.getInputStream());
@@ -76,7 +77,7 @@ public class ReportController implements Serializable {
             conn.setRequestMethod("GET");
             conn.setRequestProperty("X-ReportServer-ClientId", "portal");
             conn.setRequestProperty("X-ReportServer-ClientToken", "FG+RYOLDRuAEh0bO6OBddzcrF45aOI9C");
-            if (conn.getResponseCode() != 200) {
+            if (conn.getResponseCode() != HTTP_OK) {
                 throw new IOException("Report failed: HTTP error code : " + conn.getResponseCode());
             }
             if (!Utils.downLoadDocument(conn.getInputStream(), fileName, 0)) {
@@ -95,7 +96,7 @@ public class ReportController implements Serializable {
             conn.setRequestMethod("GET");
             conn.setRequestProperty("X-ReportServer-ClientId", "portal");
             conn.setRequestProperty("X-ReportServer-ClientToken", "FG+RYOLDRuAEh0bO6OBddzcrF45aOI9C");
-            if (conn.getResponseCode() != 200) {
+            if (conn.getResponseCode() != HTTP_OK) {
                 throw new IOException("Report failed: HTTP error code : " + conn.getResponseCode());
             }
             byte[] file = StreamHelper.toByteArray(conn.getInputStream());

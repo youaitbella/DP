@@ -19,6 +19,7 @@ import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.base.feature.dropbox.entities.DropBox;
 import org.inek.dataportal.base.feature.dropbox.entities.DropBoxItem;
 import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.api.helper.Const;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.base.feature.dropbox.facade.DropBoxFacade;
 import org.inek.dataportal.common.helper.Utils;
@@ -88,16 +89,13 @@ public class EditDropBox implements Serializable {
     }
 
     public String formatSize(long size) {
-        int fact = 1024 * 1024 * 1024;
-        if (size > fact) {
-            return makeDecimal(size, fact) + " GB";
+        if (size > Const.BINARY_GIGA) {
+            return makeDecimal(size, Const.BINARY_GIGA) + " GB";
         }
-        fact = 1024 * 1024;
-        if (size > fact) {
-            return makeDecimal(size, fact) + " MB";
+        if (size > Const.BINARY_MEGA) {
+            return makeDecimal(size, Const.BINARY_MEGA) + " MB";
         }
-        fact = 1024;
-        return makeDecimal(size, fact) + " KB";
+        return makeDecimal(size, Const.BINARY_KILO) + " KB";
     }
 
     private String makeDecimal(long size, long fact) {

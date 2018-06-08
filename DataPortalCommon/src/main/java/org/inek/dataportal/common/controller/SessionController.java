@@ -23,6 +23,7 @@ import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.api.enums.FeatureState;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.api.enums.PortalType;
+import org.inek.dataportal.api.helper.Const;
 import org.inek.dataportal.common.helper.EnvironmentInfo;
 import org.inek.dataportal.common.data.access.CustomerTypeFacade;
 import org.inek.dataportal.common.data.account.facade.AccountFacade;
@@ -171,15 +172,11 @@ public class SessionController implements Serializable {
 
     public String getRemainingTime() {
         int maxInterval = FacesContext.getCurrentInstance().getExternalContext().getSessionMaxInactiveInterval();
-        int minutes = maxInterval / 60;
-        int seconds = maxInterval % 60;
-        //substract some time to ensure the client will log-out before the session expires
-        if (minutes > 20) {
-            minutes -= 1;
-        } else {
-            minutes -= 1;
-            seconds = 55;
-        }
+        int minutes = maxInterval / Const.SECONDS_PER_MINUTE;
+        int seconds = maxInterval % Const.SECONDS_PER_MINUTE;
+        //substract some seconds to ensure the client will log-out before the session expires
+        minutes--;
+        seconds = 55;
         return "" + minutes + ":" + (seconds < 10 ? "0" + seconds : seconds);
     }
     // </editor-fold>
@@ -371,9 +368,9 @@ public class SessionController implements Serializable {
             return;
         }
         FacesContext.getCurrentInstance().getExternalContext().getSessionId(true);
-        int sessionTimeout = (_portalType == PortalType.CALC || _portalType == PortalType.CERT) ? 3600 : 1800;
+        int sessionTimeout = (_portalType == PortalType.CALC || _portalType == PortalType.CERT) ? Const.SECONDS_PER_HOUR : Const.SECONDS_PER_HOUR / 2;
         sessionTimeout = (_account.getEmail().toLowerCase().endsWith("@inek-drg.de")
-                && isInternalClient()) ? 7200 : sessionTimeout; // session timeout extended to 4 hour for internal user
+                && isInternalClient()) ? 2 * Const.SECONDS_PER_HOUR : sessionTimeout; // session timeout extended to 4 hour for internal user
         FacesContext.getCurrentInstance().getExternalContext().setSessionMaxInactiveInterval(sessionTimeout);
 
     }
@@ -384,7 +381,7 @@ public class SessionController implements Serializable {
      *
      * @param mailOrUser
      * @param password
-     * @param loginInfo An infostring|mes
+     * @param loginInfo  An infostring|mes
      * @param portalType to be displayed
      *
      * @return
@@ -556,7 +553,7 @@ public class SessionController implements Serializable {
      * @param needsWriteAccess
      *
      * @return true, if the current user is within any InEK role for the requested feature and either has write access
-     * enabled or no write access is requested
+     *         enabled or no write access is requested
      */
     public boolean isInekUser(Feature requestedFeature, boolean needsWriteAccess) {
         if (requestedFeature != Feature.DOCUMENTS && !isInternalClient()) {
