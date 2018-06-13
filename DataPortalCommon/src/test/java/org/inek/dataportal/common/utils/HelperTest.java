@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataprtal.common.utils;
+package org.inek.dataportal.common.utils;
 
 import org.inek.dataportal.common.utils.Helper;
 import static org.junit.jupiter.api.Assertions.assertTrue;

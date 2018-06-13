@@ -1,4 +1,4 @@
-package org.inek.dataprtal.common.utils;
+package org.inek.dataportal.common.utils;
 
 import java.util.ArrayList;
 import java.util.List;

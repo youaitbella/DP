@@ -1,4 +1,4 @@
-package org.inek.dataprtal.common.enums;
+package org.inek.dataportal.common.enums;
 
 import org.inek.dataportal.common.enums.CooperativeRight;
 import org.junit.jupiter.api.Test;
