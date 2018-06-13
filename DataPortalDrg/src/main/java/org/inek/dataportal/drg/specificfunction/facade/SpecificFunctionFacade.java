@@ -149,20 +149,20 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
             return request;
         }
 
-        for (RequestProjectedCenter item : request.getRequestProjectedCenters()) {
-            if (item.getId() == -1) {
-                persist(item);
-            } else {
-                merge(item);
-            }
-        }
-        for (RequestAgreedCenter item : request.getRequestAgreedCenters()) {
-            if (item.getId() == -1) {
-                persist(item);
-            } else {
-                merge(item);
-            }
-        }
+//        for (RequestProjectedCenter item : request.getRequestProjectedCenters()) {
+//            if (item.getId() == -1) {
+//                persist(item);
+//            } else {
+//                merge(item);
+//            }
+//        }
+//        for (RequestAgreedCenter item : request.getRequestAgreedCenters()) {
+//            if (item.getId() == -1) {
+//                persist(item);
+//            } else {
+//                merge(item);
+//            }
+//        }
 
         return merge(request);
     }

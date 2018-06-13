@@ -27,7 +27,7 @@ public class SpecificFunctionRequest implements Serializable, StatusEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "rmId")
-    private int _id = -1;
+    private Integer _id = -1;
 
     @Override
     public int getId() {

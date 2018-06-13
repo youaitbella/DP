@@ -28,7 +28,7 @@ public class RequestAgreedCenter implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "racId")
-    private int _id = -1;
+    private Integer _id;
 
     public int getId() {
         return _id;
@@ -115,11 +115,10 @@ public class RequestAgreedCenter implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public int hashCode() {
-        if (_id > 0) {
+        if (_id != null) {
             return _id;
         }
         int hash = 7;
-        hash = 11 * hash + this._id;
         hash = 11 * hash + this._requestMasterId;
         hash = 11 * hash + Objects.hashCode(this._center);
         hash = 11 * hash + Objects.hashCode(this._remunerationKey);
@@ -139,10 +138,13 @@ public class RequestAgreedCenter implements Serializable {
             return false;
         }
         final RequestAgreedCenter other = (RequestAgreedCenter) obj;
-        if (_id > 0 || other._id > 0) {
-            return _id == other._id;
+        if (_id !=  null) {
+            return Objects.equals(_id, other._id);
         }
-        if (this._requestMasterId != other._requestMasterId) {
+        if (other._id != null) {
+            return false;
+        }
+        if (!Objects.equals(this._requestMasterId, other._requestMasterId)) {
             return false;
         }
         if (!Objects.equals(this._center, other._center)) {
@@ -161,7 +163,8 @@ public class RequestAgreedCenter implements Serializable {
     // </editor-fold>
 
     public boolean isEmpty() {
-        return _id <= 0 && _center.isEmpty() && _remunerationKey.isEmpty() && _amount == 0;
+        return _id == null
+                && _center.isEmpty() && _remunerationKey.isEmpty() && _amount == 0;
     }
 
 }

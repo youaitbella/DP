@@ -32,7 +32,7 @@ public class RequestProjectedCenter implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "rpcId")
-    private int _id = -1;
+    private Integer _id;
 
     public int getId() {
         return _id;
@@ -45,7 +45,7 @@ public class RequestProjectedCenter implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property RequestMasterId">
     @Column(name = "rpcRequestMasterId")
-    private int _requestMasterId = -1;
+    private Integer _requestMasterId = -1;
 
     public int getRequestMasterId() {
         return _requestMasterId;
@@ -184,11 +184,10 @@ public class RequestProjectedCenter implements Serializable {
 
     @Override
     public int hashCode() {
-        if (_id > 0) {
+        if (_id != null) {
             return _id;
         }
         int hash = 7;
-        hash = 97 * hash + this._id;
         hash = 97 * hash + this._requestMasterId;
         hash = 97 * hash + Objects.hashCode(this._otherCenterName);
         hash = 97 * hash + Objects.hashCode(this._location);
@@ -212,10 +211,13 @@ public class RequestProjectedCenter implements Serializable {
             return false;
         }
         final RequestProjectedCenter other = (RequestProjectedCenter) obj;
-        if (_id > 0 || other._id > 0) {
-            return _id == other._id;
+        if (_id != null) {
+            return Objects.equals(_id, other._id);
         }
-        if (this._requestMasterId != other._requestMasterId) {
+        if (other._id != null){
+            return false;
+        }
+        if (!Objects.equals(this._requestMasterId, other._requestMasterId)) {
             return false;
         }
         if (this._typeId != other._typeId) {
@@ -243,7 +245,7 @@ public class RequestProjectedCenter implements Serializable {
     // </editor-fold>
 
     public boolean isEmpty() {
-        return _id <= 0
+        return _id == null
                 && _centerId == 0
                 && _otherCenterName.isEmpty()
                 && _location.isEmpty()
