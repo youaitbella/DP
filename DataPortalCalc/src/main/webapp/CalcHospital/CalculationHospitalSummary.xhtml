@@ -63,6 +63,14 @@
                                   rowsPerPageTemplate="15,25,50,100"
                                   tableStyle="table-layout: auto;" >
 
+                        <pf:column>
+                            <f:facet name="header">
+                                <h:outputText value=""/>
+                            </f:facet>
+                            <h:graphicImage alt="Status" name="Icon/small/#{calc.status.icon}"
+                                            title="#{calc.status.description}" value=""/>
+                        </pf:column>
+
                         <pf:column headerText="IK" sortBy="#{calc.ik}" filterBy="#{calc.ik}">
                             <h:link outcome="#{summaryData.getHospitalInfoLink(calc.type)}"
                                     value="#{calc.ik}" >

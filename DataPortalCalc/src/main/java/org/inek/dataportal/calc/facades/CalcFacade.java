@@ -211,39 +211,13 @@ public class CalcFacade extends AbstractDataAccess {
         return result;
     }
 
-    public List<CalcHospitalInfo> getCalcBasicsByEmail(String email, int year) {
-        String sql = "select distinct biId as Id, biType as [Type], biAccountId as AccountId, biDataYear as DataYear, biIk as IK, "
-                + "biStatusId as StatusId, Name, biLastChanged as LastChanged, cuName as customerName, agLastName + ', ' + agFirstName as AgentName, "
-                + "cuCity as customerTown\n"
-                + "from (select biId, biIk, 'CBD' as biType, biDataYear, biAccountID, biStatusId, biLastChanged,"
-                + " '" + Utils.getMessage("lblCalculationBasicsDrg") + "' as Name \n"
-                + "from calc.KGLBaseInformation where biStatusID in (3, 5, 10) \n"
-                + "union \n"
-                + "select biId, biIk, 'CBP' as biType, biDataYear, biAccountID, biStatusId, biLastChanged,"
-                + " '" + Utils.getMessage("lblCalculationBasicsPsy") + "' as Name \n"
-                + "from calc.KGPBaseInformation where biStatusID in (3, 5, 10)\n"
-                + "union \n"
-                + "select cbaId, cbaIk, 'CBA' as biType, cbaDataYear, cbaAccountID, cbaStatusId,"
-                + " cbaLastChanged, ' " + Utils.getMessage("lblCalculationBasicsObd") + "' as Name \n"
-                + "from calc.CalcBasicsAutopsy \n"
-                + "where cbaStatusID in (3, 5, 10)\n"
-                + ") base\n"
-                + "join CallCenterDB.dbo.ccCustomer on biIk = cuIK\n"
-                + "join CallCenterDB.dbo.CustomerCalcInfo on cuId = cciCustomerId"
-                + " and biDataYear between year(cciValidFrom) and year(cciValidTo) and cciInfoTypeId = 14\n"
-                + "join CallCenterDB.dbo.mapCustomerCalcInfoAgent on cciId = cciaCustomerCalcInfoId"
-                + " and biDataYear between year(cciaValidFrom) and year(cciaValidTo)\n"
-                + "join CallCenterDB.dbo.ccAgent on cciaAgentId = agId\n"
+    public Boolean agentHasHospitals(String email, int year) {
+        String sql = "select 1 from CallCenterDB.dbo.ccAgent \n"
+                + "join CallCenterDB.dbo.mapCustomerCalcInfoAgent on agId = cciaAgentId \n"
                 + "where agEMail = '" + email + "'\n"
-                + "and (biType = 'CBD' and cciaReportTypeid = 1\n"
-                + "or biType = 'CBP' and cciaReportTypeId = 3\n"
-                + "or biType = 'CBA' and cciaReportTypeId = 10)\n"
-                + "and biDataYear = " + year + "\n"
-                + "order by cuCity";
-        Query query = getEntityManager().createNativeQuery(sql, CalcHospitalInfo.class);
-        @SuppressWarnings("unchecked")
-        List<CalcHospitalInfo> result = query.getResultList();
-        return result;
+                + "and YEAR(cciaValidTo) = " + year;
+        Query query = getEntityManager().createNativeQuery(sql);
+        return !query.getResultList().isEmpty();
     }
 
     public List<CalcHospitalInfo> getAllCalcBasics(int dataYear) {

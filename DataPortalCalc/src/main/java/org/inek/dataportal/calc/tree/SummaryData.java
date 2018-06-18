@@ -110,6 +110,7 @@ public final class SummaryData {
 
     @PostConstruct
     private void init() {
+        setAll(!calcFacade.agentHasHospitals(sessionController.getAccount().getEmail(), selectedtDataYear));
         reloadData();
     }
 
