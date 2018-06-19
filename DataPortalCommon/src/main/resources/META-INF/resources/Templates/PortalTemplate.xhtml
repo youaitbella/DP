@@ -17,9 +17,9 @@
             <title>#{msg.lblApplicationName} #{request.serverName.contains('daten.inek.org') ? '' : request.serverName}</title>
             <link rel="shortcut icon" type="image/x-icon" href="#{request.contextPath}/javax.faces.resource/Icon/small/InEK.ico.xhtml"/>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-            <meta name="msapplication-config" content="none"/>        
+            <meta name="msapplication-config" content="none"/>
             <ui:remove>
-                <!-- 
+                <!--
                 Do not load the JSF AJAX library, although it might be needed for direct access.
                 JSF will load it independently from the following statement, if AJAX is used.
                 Thus, this lib would be loaded twice.
@@ -28,7 +28,7 @@
                 -->
                 <h:outputScript name="jsf.js" library="javax.faces"/>
 
-                <!-- 
+                <!--
                 Do not use resources the JSF way, because they would be cached, although a new version might be provided.
                 Use standrd html tags combined with a version. This ensures a reload after each compile/deployment cycls
                 -->
@@ -37,6 +37,7 @@
             </ui:remove>
             <link type="text/css" rel="stylesheet" href="#{request.contextPath}/javax.faces.resource/css/#{sessionController.css}.xhtml?version=#{applicationTools.version}" />
             <script type="text/javascript" src="#{request.contextPath}/javax.faces.resource/script/clientutils.js.xhtml?version=#{applicationTools.version}"></script>
+            <h:outputStylesheet name="css/inekstyle.css" />
         </h:head>
 
         <h:body>
@@ -135,7 +136,7 @@
                 </div>
                 <h:form>
                     <div id="footer">
-                        © #{msg.lblInstitutionName} 2010 - #{sessionTools.currentYear} | #{msg.lblRequiredHint}. 
+                        © #{msg.lblInstitutionName} 2010 - #{sessionTools.currentYear} | #{msg.lblRequiredHint}.
                     </div>
                 </h:form>
                 <ui:insert name="bottom">bottom</ui:insert>

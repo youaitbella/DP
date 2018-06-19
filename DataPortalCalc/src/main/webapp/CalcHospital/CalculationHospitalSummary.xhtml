@@ -13,15 +13,6 @@
 
     <ui:define name="content">
 
-        <style>
-            .ui-datatable .ui-column-filter {
-                width: 90% !important
-            }
-            .ui-tabs .ui-tabs-nav.ui-widget-header li.ui-state-active a, .ui-tabs .ui-tabs-nav.ui-widget-header li.ui-state-active a {
-                color: #000000 !important
-            }
-        </style>
-
         <pf:ajaxStatus style="display:block;position:absolute;bottom: 5px;right: 5px;z-index:100">
             <f:facet name="start">
                 <pf:graphicImage height="100" width="100" name="Image/load.gif" />
@@ -178,6 +169,14 @@
                                   paginator="true"
                                   rowsPerPageTemplate="15,25,50,100"
                                   tableStyle="table-layout: auto;">
+
+                        <pf:column>
+                            <f:facet name="header">
+                                <h:outputText value=""/>
+                            </f:facet>
+                            <h:graphicImage alt="Status" name="Icon/small/#{kvm.status.icon}"
+                                            title="#{kvm.status.description}" value=""/>
+                        </pf:column>
 
                         <pf:column headerText="IK" sortBy="#{kvm.ik}" filterBy="#{kvm.ik}">
                             <h:link outcome="#{summaryData.getHospitalInfoLink(kvm.type)}"

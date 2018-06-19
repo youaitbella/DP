@@ -1,0 +1,22 @@
+/*Overwrites for Primefaces*/
+.ui-datatable .ui-column-filter {
+    width: 90% !important
+}
+.ui-tabs .ui-tabs-nav.ui-widget-header li.ui-state-active a, .ui-tabs .ui-tabs-nav.ui-widget-header li.ui-state-active a {
+    color: #000000 !important
+}
+
+.ui-widget-content {
+    background: #eeeeee !important
+}
+
+.ui-inputfield.ui-state-focus {
+    background-color: #C6D2DB !important
+}
+
+.formLabel {
+    font-weight: bold !important
+}
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+    cursor: default !important
+}
