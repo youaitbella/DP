@@ -11,6 +11,7 @@ import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.controller.IFeatureController;
 import org.inek.dataportal.api.enums.Feature;
 import static org.inek.dataportal.api.enums.Feature.PEPP_PROPOSAL;
+import org.inek.dataportal.psy.Aeb.Controller.AebController;
 import org.inek.dataportal.psy.modelintention.ModelIntentionController;
 import org.inek.dataportal.psy.peppproposal.PeppProposalController;
 import org.inek.dataportal.psy.psychstaff.controller.PsychStaffController;
@@ -32,6 +33,8 @@ public class FeatureFactoryImpl implements FeatureFactory, Serializable {
                 return new ModelIntentionController(sessionController);
             case PSYCH_STAFF:
                 return new PsychStaffController(sessionController);
+            case AEB:
+                return new AebController(sessionController);
             default:
                 throw new IllegalArgumentException("no such controller");
         }

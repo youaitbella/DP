@@ -29,7 +29,8 @@ public enum Feature {
     PSYCH_STAFF(17, "Psych-Personalnachweis-Vereinbarung", NeedApproval.Yes, PortalType.PSY, IkReference.Hospital, Selectable.Yes, Shareable.No),
     // todo: make VALUATION_RATIO shareable
     VALUATION_RATIO(18, "Gezielte Absenkung", NeedApproval.Yes, PortalType.DRG, IkReference.Hospital, Selectable.Yes, Shareable.No),
-    IK_ADMIN(19, "IK-Administration", NeedApproval.No, PortalType.BASE, IkReference.None, Selectable.No, Shareable.No);
+    IK_ADMIN(19, "IK-Administration", NeedApproval.No, PortalType.BASE, IkReference.None, Selectable.No, Shareable.No),
+    AEB(20, "Aufstellung der Entgelte und Budgetermittlung", NeedApproval.Yes, PortalType.PSY, IkReference.Hospital, Selectable.No, Shareable.No);
 
     Feature(int id, String description, NeedApproval needApproval, PortalType portalType,
             IkReference ikReference, Selectable selectable, Shareable shareable) {
