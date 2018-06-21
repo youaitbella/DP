@@ -36,9 +36,12 @@ public class Register implements Serializable {
     private String _repeatPassword;
     private String _repeatEmail;
     private AccountRequest _accountRequest;
-    @Inject private SessionTools _sessionTools;
-    @Inject private AccountFacade _accountFacade;
-    @Inject private AccountRequestFacade _accountRequestFacade;
+    @Inject
+    private SessionTools _sessionTools;
+    @Inject
+    private AccountFacade _accountFacade;
+    @Inject
+    private AccountRequestFacade _accountRequestFacade;
 
     public Register() {
         System.out.println("create register");
@@ -93,8 +96,8 @@ public class Register implements Serializable {
             String msg = Utils.getMessage("msgInvalidCharacters");
             throw new ValidatorException(new FacesMessage(msg));
         }
-        if (_accountFacade.existsMailOrUser(input) 
-                || _accountRequestFacade.findByMailOrUser(input) != null 
+        if (_accountFacade.existsMailOrUser(input)
+                || _accountRequestFacade.findByMailOrUser(input) != null
                 || input.toLowerCase().equals("supervisor")) {
             String msg = Utils.getMessage("msgUserExists");
             throw new ValidatorException(new FacesMessage(msg));
@@ -107,7 +110,7 @@ public class Register implements Serializable {
             String msg = Utils.getMessage("msgNoEmail");
             throw new ValidatorException(new FacesMessage(msg));
         }
-        
+
 // don't give any hint of registered users (except nick name as above)
 //        if (_accountFacade.existsMailOrUser(input) || _accountRequestFacade.findByMailOrUser(input) != null) {
 //            String msg = Utils.getMessage("msgUserExists");
@@ -147,23 +150,34 @@ public class Register implements Serializable {
     }
 
     public String register() {
-        if(_accountRequestFacade.accountRequestExists(_accountRequest.getEmail(), _accountRequest.getUser())) {
+        if (_accountRequestFacade.accountRequestExists(_accountRequest.getEmail(), _accountRequest.getUser())) {
             return Pages.LoginFinishRegister.URL();
         }
-        
-        if (!_accountFacade.isReRegister(_accountRequest.getEmail())){
+
+        if (!_accountFacade.isReRegister(_accountRequest.getEmail())) {
             _accountRequest.setPassword(_password);
             if (!_accountRequestFacade.createAccountRequest(_accountRequest)) {
                 Utils.showMessageInBrowser(Utils.getMessage("errProcessing"));
                 return "";
             }
-        }        
+        }
         return Pages.LoginFinishRegister.URL();
     }
 
     public String[] getFinishRegisterText() {
         String[] strings = Utils.getMessage("msgFinishRegister").split("\\n");
         return strings;
+    }
+
+    public void checkIk(FacesContext context, UIComponent component, Object value) {
+        try {
+            if ((int) value == -1 && getIkRequired().equals("false")) {
+                return;
+            }
+        } catch (Exception ex) {
+
+        }
+        _sessionTools.checkIk(context, component, value);
     }
 
 }

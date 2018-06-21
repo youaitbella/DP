@@ -119,7 +119,7 @@
                     </h:inputText>
                     </p>
                 </div>
-                
+
                 <div class="inputright">
                     <p>
                     <h:outputLabel styleClass="label" for="company" value="#{msg.lblCompany}:"/>
@@ -146,7 +146,7 @@
                     <h:message id="msgIk" for="ik" styleClass="errorMessage"/>
                     <br/>
                     <h:inputText styleClass="input" id="ik" value="#{register.accountRequest.IK}"
-                                 required="#{register.ikRequired}" requiredMessage="#{msg.msgValueNeeded}" maxlength="9" validator="#{sessionTools.checkIk}">
+                                 required="#{register.ikRequired}" requiredMessage="#{msg.msgValueNeeded}" maxlength="9" validator="#{register.checkIk}" >
                         <f:ajax event="blur" render="@this msgIk"/>
                     </h:inputText>
                     </p>
