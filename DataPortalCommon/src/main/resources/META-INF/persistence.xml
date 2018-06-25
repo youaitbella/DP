@@ -56,6 +56,7 @@
     <class>org.inek.dataportal.common.specificfunction.entity.SpecificFunctionRequest</class>
     <class>org.inek.dataportal.common.specificfunction.entity.TypeExtraCharge</class>
     <class>org.inek.dataportal.common.data.account.entities.AccountIk</class>
+    <class>org.inek.dataportal.common.data.infotext.entity.InfoText</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="eclipselink.jpa.uppercase-column-names" value="true"/>

@@ -6,21 +6,26 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
-                xmlns:pf="http://primefaces.org/ui">
+                xmlns:pf="http://primefaces.org/ui"
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/Input">
     <ui:define name="maintenanceContent">
         <h2>Allgemein</h2>
         <h:form>
             <div class="ui-g ui-fluid">
                 <div class="ui-g-8 ui-md-6">
-                    <pf:outputLabel class="formLabel" value="Anwendername:* " />
-                    <pf:inputText id="username" required="true" requiredMessage="Bitte geben Sie einen Anwendernamen an" validator="#{editUserMaintenance.checkUser}" placeholder="Anwendername" value="#{editUserMaintenance.user}" maxlength="50" />
-                    <pf:message for="username" />
+                    <inek:InputTextValidator value="#{editUserMaintenance.user}"
+                                             require="true"
+                                             requiredMessage="Bitte geben Sie einen Anwendernamen an"
+                                             labelText="Anwendername"
+                                             maxlength="50"
+                                             validatorFunction="#{editUserMaintenance.checkUser}"
+                                             validatorMessage="Diese Anwendername ist bereits vorhanden oder ungültig" />
                 </div>
-
                 <div class="ui-g-8 ui-md-6">
-                    <pf:outputLabel class="formLabel" value="Krankenhaus / Firma:* " />
-                    <pf:inputText id="company" required="true" requiredMessage="Bitte geben Sie eine Krankenhaus oder ein Firma an" placeholder="Krankenhaus / Firma" value="#{editUserMaintenance.account.company}"/>
-                    <pf:message for="company" />
+                    <inek:InputText value="#{editUserMaintenance.account.company}"
+                                    require="true"
+                                    requiredMessage="Bitte geben Sie eine Krankenhaus oder ein Firma an"
+                                    labelText="Krankenhaus / Firma"/>
                 </div>
             </div>
             <div class="ui-g ui-fluid">
@@ -127,7 +132,7 @@
                                             validatorMessage="Ungültige IK"
                                             required="True"
                                             value="#{accountIk.IK}" >
-                                                    <pf:ajax event="blur" update="customerName ikInput_m" />
+                                <pf:ajax event="blur" update="customerName ikInput_m" />
                             </pf:inputNumber>
                             <pf:message id="ikInput_m" for="ikInput" />
                         </pf:column>

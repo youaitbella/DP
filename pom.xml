@@ -142,7 +142,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-plugin</artifactId>
-                        <version>2.20.1</version> 
+                        <version>2.20.1</version>
                         <configuration>
                             <excludes>
                                 <exclude>**/CI_*.java</exclude>
@@ -155,7 +155,7 @@
                                 <artifactId>junit-platform-surefire-provider</artifactId>
                                 <version>1.2.0</version>
                             </dependency>
-          
+
                             <dependency>
                                 <groupId>org.junit.jupiter</groupId>
                                 <artifactId>junit-jupiter-engine</artifactId>
@@ -163,7 +163,7 @@
                             </dependency>
                         </dependencies>
                     </plugin>
-                    
+
                 </plugins>
             </build>
 
@@ -218,14 +218,14 @@
             <dependency>
                 <groupId>org.primefaces</groupId>
                 <artifactId>primefaces</artifactId>
-                <version>6.1</version>
+                <version>6.2</version>
             </dependency>
             <dependency>
                 <groupId>org.primefaces.themes</groupId>
                 <artifactId>all-themes</artifactId>
                 <version>1.0.10</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>org.eclipse.persistence</groupId>
                 <artifactId>eclipselink</artifactId>
@@ -260,14 +260,14 @@
                 <version>1.2.0</version>
                 <scope>test</scope>
             </dependency>
-            
+
             <dependency>
                 <groupId>org.seleniumhq.selenium</groupId>
                 <artifactId>selenium-firefox-driver</artifactId>
                 <version>3.8.1</version>
                 <scope>test</scope>
             </dependency>
-            
+
             <dependency>
                 <groupId>org.apache.derby</groupId>
                 <artifactId>derby</artifactId>
@@ -295,14 +295,14 @@
                 <version>2.13.0</version>
                 <scope>test</scope>
             </dependency>
-            
+
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
                 <version>2.9.2</version>
                 <type>jar</type>
             </dependency>
-            
+
         </dependencies>
     </dependencyManagement>
 
