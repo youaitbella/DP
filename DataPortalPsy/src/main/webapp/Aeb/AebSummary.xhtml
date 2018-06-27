@@ -7,12 +7,50 @@
                 xmlns:jsf="http://xmlns.jcp.org/jsf"
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-                >
+                xmlns:pf="http://primefaces.org/ui">
 
     <ui:define name="content">
-        <h:form>
-            <h1>Hier kommt dann der Inhalt hin</h1>
-        </h:form>
+        <h1>AEB - Übersicht</h1>
+        <pf:panel>
+            <div class="ui-g ui-fluid">
+                <div class="ui-g-6 ui-md-6">
+                    <h2>AEB in Bearbeitung</h2>
+                    <pf:dataTable value="#{aebSummary.listAEBWorking}"
+                                  var="baseInformation"
+                                  emptyMessage="Keine Einträge vorhanden" >
+                        <pf:column headerText="IK" >
+                            <pf:outputLabel value="#{baseInformation.ik}" />
+                        </pf:column>
+                        <pf:column headerText="Datenjahr" >
+                            <pf:outputLabel value="#{baseInformation.year}" />
+                        </pf:column>
+                        <pf:column headerText="Öffnen" >
+                            <h:link outcome="#{aebSummary.newAeb()}"
+                                    value="Öffnen" >
+                                <f:param name="id" value="#{baseInformation.id}"/>
+                            </h:link>
+                        </pf:column>
+                    </pf:dataTable>
+                </div>
+                <div class="ui-g-6 ui-md-6">
+                    <h2>Abgeschlossene AEB</h2>
+                    <pf:dataTable value="#{aebSummary.listAEBComplete}"
+                                  var="baseInformation"
+                                  emptyMessage="Keine Einträge vorhanden">
+                        <pf:column headerText="IK" >
+                            <pf:outputLabel value="#{baseInformation.ik}" />
+                        </pf:column>
+                        <pf:column headerText="Datenjahr" >
+                            <pf:outputLabel value="#{baseInformation.year}" />
+                        </pf:column>
+                    </pf:dataTable>
+                </div>
+            </div>
+            <pf:commandButton value="Neue AEB erstellen"
+                              action="#{aebSummary.newAeb()}"
+                              icon="fa fa-plus"/>
+        </pf:panel>
+
     </ui:define>
 
 </ui:composition>

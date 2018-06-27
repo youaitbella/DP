@@ -24,3 +24,7 @@
 .ui-tooltip .ui-tooltip-text {
     background-color: #7f9baf !important
 }
+
+.ui-inputfield.required {
+    background-color: lightyellow !important
+}

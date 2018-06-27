@@ -1,4 +1,4 @@
-package org.inek.dataportal.psy.Aeb.Controller;
+package org.inek.dataportal.psy.aeb.controller;
 
 import org.inek.dataportal.common.controller.AbstractFeatureController;
 import org.inek.dataportal.common.controller.SessionController;
@@ -8,7 +8,7 @@ import org.inek.dataportal.common.helper.Topics;
 
 /**
  *
- * @author muellermi
+ * @author lautenti
  */
 public class AebController extends AbstractFeatureController {
 

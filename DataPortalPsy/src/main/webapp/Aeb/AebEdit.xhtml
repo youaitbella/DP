@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/Templates/PortalMenuTemplate.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:pf="http://primefaces.org/ui">
+
+    <ui:define name="content">
+        <pf:panel>
+            <h:form>
+                <pf:messages>
+                    <pf:autoUpdate />
+                </pf:messages>
+                <h1>AEB - Übersicht</h1>
+                <pf:tabView dynamic="true">
+                    <pf:tab title="Allgemein">
+                        <ui:include src="AebGenerell.xhtml" />
+                    </pf:tab>
+                    <pf:tab title="Strukturinformationen">
+                        <ui:remove>
+                            <ui:include src="AebStructureInformation.xhtml" />
+                        </ui:remove>
+                    </pf:tab>
+                    <pf:tab title="PIA-Daten">
+                        Kommt noch
+                    </pf:tab>
+                    <pf:tab title="Blatt E1.1">
+                        <ui:include src="pages/AebPageE1_1.xhtml" />
+                    </pf:tab>
+                    <pf:tab title="Blatt E1.2">
+                        Kommt noch
+                    </pf:tab>
+                    <pf:tab title="Blatt E2">
+                        Kommt noch
+                    </pf:tab>
+                    <pf:tab title="Blatt E3.1">
+                        Kommt noch
+                    </pf:tab>
+                    <pf:tab title="Blatt E3.2">
+                        Kommt noch
+                    </pf:tab>
+                    <pf:tab title="Blatt E3.3">
+                        Kommt noch
+                    </pf:tab>
+                    <pf:tab title="Blatt B1">
+                        Kommt noch
+                    </pf:tab>
+                </pf:tabView>
+
+                <pf:commandButton value="Ans InEK senden"
+                                  update="@(.ui-message)"
+                                  action="#{editAEB.send()}"/>
+            </h:form>
+            <pf:commandButton value="Speichern" action="#{editAEB.save()}"
+                              update="@(.ui-message)"/>
+        </pf:panel>
+    </ui:define>
+
+</ui:composition>

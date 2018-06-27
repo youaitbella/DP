@@ -180,6 +180,7 @@ public enum Pages {
     PsychStaffListButtons("/PsychStaff/fragment/ListButtons"),
     //
     AebSummary("/Aeb/AebSummary"),
+    AebEdit("/Aeb/AebEdit"),
     PartAeb("/Aeb/PartAeb"),
     //
     NotAllowed("/Common/NotAllowed"),

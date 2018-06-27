@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/Input"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:pf="http://primefaces.org/ui">
+
+    <pf:dataTable id="listpagee11"
+                  var="page"
+                  value="#{editAEB.aebBaseInformation.aebPageE1_1}"
+                  widgetVar="pagesE11"
+                  emptyMessage="Keine Einträge vorhanden">
+        <pf:ajax event="cellEdit" update="listpagee11" />
+        <pf:column class="colIcon">
+            <pf:commandLink action="#{editAEB.removePageE1_1(page)}"
+                            update="listpagee11"
+                            process="@this">s
+                <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value=""/>
+            </pf:commandLink>
+        </pf:column>
+        <pf:column headerText="PEPP">
+            <inek:InputTextValidator value="#{page.pepp}" maxlength="5" validatorFunction="#{editAEB.isValidPepp}" validatorMessage="Ungültige Pepp"/>
+        </pf:column>
+        <pf:column headerText="Vergütungsklasse">
+            <inek:InputNumber value="#{page.compensationClass}" />
+        </pf:column>
+        <pf:column headerText="Fallzahl">
+            <inek:InputNumber value="#{page.caseCount}" />
+            <f:facet name="footer">
+                <pf:outputLabel value="#{editAEB.caseCountSum}" />
+            </f:facet>
+        </pf:column>
+        <pf:column headerText="Berechnungstage">
+            <inek:InputNumber value="#{page.calculationDays}" />
+            <f:facet name="footer">
+                <pf:outputLabel value="#{editAEB.calculationDaysSum}" />
+            </f:facet>
+        </pf:column>
+        <pf:column headerText="Bewertungsrelation / Tag">
+            <pf:outputLabel value="#{page.valuationRadioDay}" />
+        </pf:column>
+        <pf:column headerText="Summe der Bewertungsrelation">
+            <pf:outputLabel value="#{page.sumValuationRadio}" />
+            <f:facet name="footer">
+                <pf:outputLabel value="#{editAEB.sumValuationRadioSum}" />
+            </f:facet>
+        </pf:column>
+
+    </pf:dataTable>
+
+    <div class="ui-md-5">
+        <pf:commandButton value="Weiteren Eintrag hinzufügen" icon="fa fa-plus" process="@this" action="#{editAEB.addNewPageE1_1()}" oncomplete="PF('pagesE11').addRow();"/>
+    </div>
+
+</ui:composition>
