@@ -6,6 +6,7 @@
 package org.inek.dataportal.psy.aeb.backingbean;
 
 import java.util.Date;
+import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -16,12 +17,10 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.common.faceletvalidators.NameValidator;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.scope.FeatureScoped;
 import org.inek.dataportal.psy.aeb.entity.*;
 import org.inek.dataportal.psy.aeb.facade.AEBFacade;
-import org.primefaces.event.CellEditEvent;
 
 /**
  *
@@ -93,6 +92,7 @@ public class editAEB {
     }
 
     public void save() {
+        removeEmptyEntries();
         _aebBaseInformation.setLastChangeFrom(_sessionController.getAccountId());
         _aebBaseInformation.setLastChanged(new Date());
 
@@ -146,5 +146,13 @@ public class editAEB {
             String msg = Utils.getMessage("Ungültige Pepp");
             throw new ValidatorException(new FacesMessage(msg));
         }
+    }
+
+    public Set<Integer> getValidIks() {
+        return _sessionController.getAccount().getFullIkSet();
+    }
+
+    private void removeEmptyEntries() {
+        _aebBaseInformation.getAebPageE1_1().removeIf(c -> c.getPepp().length() == 0);
     }
 }

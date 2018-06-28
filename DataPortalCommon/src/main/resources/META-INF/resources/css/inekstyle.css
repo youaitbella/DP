@@ -28,3 +28,9 @@
 .ui-inputfield.required {
     background-color: lightyellow !important
 }
+
+.addEntry {
+    background-image: none !important;
+    background-color:  #e2f5d5 !important;
+    margin-top: 5px;
+}

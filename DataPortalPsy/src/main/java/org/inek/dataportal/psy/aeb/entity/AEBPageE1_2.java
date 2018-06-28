@@ -9,8 +9,8 @@ import javax.persistence.*;
  * @author lautenti
  */
 @Entity
-@Table(name = "AEBPage_E1_1", schema = "psy")
-public class AEBPageE1_1 implements Serializable {
+@Table(name = "AEBPage_E1_2", schema = "psy")
+public class AEBPageE1_2 implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -43,42 +43,16 @@ public class AEBPageE1_1 implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property Pepp">
-    @Column(name = "pePepp")
-    private String _pepp = "";
+    //<editor-fold defaultstate="collapsed" desc="Property ET">
+    @Column(name = "peEt")
+    private String _et = "";
 
-    public String getPepp() {
-        return _pepp;
+    public String getEt() {
+        return _et;
     }
 
-    public void setPepp(String pepp) {
-        _pepp = pepp;
-    }
-    //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="Property CompensationClass">
-    @Column(name = "peCompensationClass")
-    private int _compensationClass;
-
-    public int getCompensationClass() {
-        return _compensationClass;
-    }
-
-    public void setCompensationClass(int compensationClass) {
-        _compensationClass = compensationClass;
-    }
-    //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="Property CaseCount">
-    @Column(name = "peCaseCount")
-    private int _caseCount;
-
-    public int getCaseCount() {
-        return _caseCount;
-    }
-
-    public void setCaseCount(int caseCount) {
-        _caseCount = caseCount;
+    public void setEt(String et) {
+        _et = et;
     }
     //</editor-fold>
 
@@ -123,14 +97,12 @@ public class AEBPageE1_1 implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 11 * hash + Objects.hashCode(this._baseInformation);
-        hash = 11 * hash + Objects.hashCode(this._pepp);
-        hash = 11 * hash + Objects.hashCode(this._compensationClass);
-        hash = 11 * hash + this._caseCount;
-        hash = 11 * hash + this._calculationDays;
-        hash = 11 * hash + this._valuationRadioDay;
-        hash = 11 * hash + this._sumValuationRadio;
+        int hash = 5;
+        hash = 73 * hash + Objects.hashCode(this._baseInformation);
+        hash = 73 * hash + Objects.hashCode(this._et);
+        hash = 73 * hash + this._calculationDays;
+        hash = 73 * hash + this._valuationRadioDay;
+        hash = 73 * hash + this._sumValuationRadio;
         return hash;
     }
 
@@ -145,10 +117,7 @@ public class AEBPageE1_1 implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final AEBPageE1_1 other = (AEBPageE1_1) obj;
-        if (this._caseCount != other._caseCount) {
-            return false;
-        }
+        final AEBPageE1_2 other = (AEBPageE1_2) obj;
         if (this._calculationDays != other._calculationDays) {
             return false;
         }
@@ -158,10 +127,7 @@ public class AEBPageE1_1 implements Serializable {
         if (this._sumValuationRadio != other._sumValuationRadio) {
             return false;
         }
-        if (!Objects.equals(this._pepp, other._pepp)) {
-            return false;
-        }
-        if (!Objects.equals(this._compensationClass, other._compensationClass)) {
+        if (!Objects.equals(this._et, other._et)) {
             return false;
         }
         if (!Objects.equals(this._id, other._id)) {

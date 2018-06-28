@@ -176,7 +176,7 @@ public class AEBBaseInformation implements Serializable {
     }
 
     public void setAebPageE1_1(List<AEBPageE1_1> aebPageE1_1) {
-        this._aebPageE1_1 = aebPageE1_1;
+        _aebPageE1_1 = aebPageE1_1;
     }
 
     public void addAebPageE1_1() {
@@ -189,4 +189,47 @@ public class AEBBaseInformation implements Serializable {
         _aebPageE1_1.remove(page);
     }
 
+    @OneToMany(mappedBy = "_baseInformation", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "peBaseInformationId")
+    private List<AEBPageE1_2> _aebPageE1_2 = new ArrayList<>();
+
+    public List<AEBPageE1_2> getAebPageE1_2() {
+        return _aebPageE1_2;
+    }
+
+    public void setAebPageE1_2(List<AEBPageE1_2> aebPageE1_2) {
+        _aebPageE1_2 = aebPageE1_2;
+    }
+
+    public void addAebPageE1_2() {
+        AEBPageE1_2 page = new AEBPageE1_2();
+        page.setBaseInformation(this);
+        _aebPageE1_2.add(page);
+    }
+
+    public void removeAebPageE1_2(AEBPageE1_2 page) {
+        _aebPageE1_2.remove(page);
+    }
+
+    @OneToMany(mappedBy = "_baseInformation", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "peBaseInformationId")
+    private List<AEBPageE2> _aebPageE2 = new ArrayList<>();
+
+    public List<AEBPageE2> getAebPageE2() {
+        return _aebPageE2;
+    }
+
+    public void setAebPageE2(List<AEBPageE2> aebPageE2) {
+        _aebPageE2 = aebPageE2;
+    }
+
+    public void addAebPageE2() {
+        AEBPageE2 page = new AEBPageE2();
+        page.setBaseInformation(this);
+        _aebPageE2.add(page);
+    }
+
+    public void removeAebPageE2(AEBPageE2 page) {
+        _aebPageE2.remove(page);
+    }
 }

@@ -10,6 +10,16 @@
                 xmlns:pf="http://primefaces.org/ui">
 
     <ui:define name="content">
+
+        <pf:ajaxStatus style="display:block;position:absolute;bottom: 5px;right: 5px;z-index:100">
+            <f:facet name="start">
+                <pf:graphicImage height="100" width="100" name="Image/load.gif" />
+            </f:facet>
+            <f:facet name="complete">
+                <h:outputText value="" />
+            </f:facet>
+        </pf:ajaxStatus>
+
         <pf:panel>
             <h:form>
                 <pf:messages>
@@ -21,9 +31,7 @@
                         <ui:include src="AebGenerell.xhtml" />
                     </pf:tab>
                     <pf:tab title="Strukturinformationen">
-                        <ui:remove>
-                            <ui:include src="AebStructureInformation.xhtml" />
-                        </ui:remove>
+                        <ui:include src="AebStructureInformation.xhtml" />
                     </pf:tab>
                     <pf:tab title="PIA-Daten">
                         Kommt noch
@@ -52,11 +60,13 @@
                 </pf:tabView>
 
                 <pf:commandButton value="Ans InEK senden"
-                                  update="@(.ui-message)"
+                                  update="@(.ui-message) @all"
                                   action="#{editAEB.send()}"/>
+
+                <pf:commandButton value="Speichern" action="#{editAEB.save()}"
+                                  update="@(.ui-message) @all"
+                                  immediate="true"/>
             </h:form>
-            <pf:commandButton value="Speichern" action="#{editAEB.save()}"
-                              update="@(.ui-message)"/>
         </pf:panel>
     </ui:define>
 

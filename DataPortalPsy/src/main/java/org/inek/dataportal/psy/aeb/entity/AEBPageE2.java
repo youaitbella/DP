@@ -9,8 +9,8 @@ import javax.persistence.*;
  * @author lautenti
  */
 @Entity
-@Table(name = "AEBPage_E1_1", schema = "psy")
-public class AEBPageE1_1 implements Serializable {
+@Table(name = "AEBPage_E2", schema = "psy")
+public class AEBPageE2 implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -43,55 +43,29 @@ public class AEBPageE1_1 implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property Pepp">
-    @Column(name = "pePepp")
-    private String _pepp = "";
+    //<editor-fold defaultstate="collapsed" desc="Property Ze">
+    @Column(name = "peZe")
+    private String _ze = "";
 
-    public String getPepp() {
-        return _pepp;
+    public String getZe() {
+        return _ze;
     }
 
-    public void setPepp(String pepp) {
-        _pepp = pepp;
-    }
-    //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="Property CompensationClass">
-    @Column(name = "peCompensationClass")
-    private int _compensationClass;
-
-    public int getCompensationClass() {
-        return _compensationClass;
-    }
-
-    public void setCompensationClass(int compensationClass) {
-        _compensationClass = compensationClass;
+    public void setZe(String ze) {
+        _ze = ze;
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property CaseCount">
-    @Column(name = "peCaseCount")
-    private int _caseCount;
+    //<editor-fold defaultstate="collapsed" desc="Property ZeCount">
+    @Column(name = "peZeCount")
+    private int _zeCount;
 
-    public int getCaseCount() {
-        return _caseCount;
+    public int getZeCount() {
+        return _zeCount;
     }
 
-    public void setCaseCount(int caseCount) {
-        _caseCount = caseCount;
-    }
-    //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="Property CalculationDays">
-    @Column(name = "peCalculationDays")
-    private int _calculationDays;
-
-    public int getCalculationDays() {
-        return _calculationDays;
-    }
-
-    public void setCalculationDays(int calculationDays) {
-        _calculationDays = calculationDays;
+    public void setZeCount(int zeCount) {
+        _zeCount = zeCount;
     }
     //</editor-fold>
 
@@ -123,14 +97,12 @@ public class AEBPageE1_1 implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 11 * hash + Objects.hashCode(this._baseInformation);
-        hash = 11 * hash + Objects.hashCode(this._pepp);
-        hash = 11 * hash + Objects.hashCode(this._compensationClass);
-        hash = 11 * hash + this._caseCount;
-        hash = 11 * hash + this._calculationDays;
-        hash = 11 * hash + this._valuationRadioDay;
-        hash = 11 * hash + this._sumValuationRadio;
+        int hash = 3;
+        hash = 89 * hash + Objects.hashCode(this._baseInformation);
+        hash = 89 * hash + Objects.hashCode(this._ze);
+        hash = 89 * hash + this._zeCount;
+        hash = 89 * hash + this._valuationRadioDay;
+        hash = 89 * hash + this._sumValuationRadio;
         return hash;
     }
 
@@ -145,11 +117,8 @@ public class AEBPageE1_1 implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final AEBPageE1_1 other = (AEBPageE1_1) obj;
-        if (this._caseCount != other._caseCount) {
-            return false;
-        }
-        if (this._calculationDays != other._calculationDays) {
+        final AEBPageE2 other = (AEBPageE2) obj;
+        if (this._zeCount != other._zeCount) {
             return false;
         }
         if (this._valuationRadioDay != other._valuationRadioDay) {
@@ -158,10 +127,7 @@ public class AEBPageE1_1 implements Serializable {
         if (this._sumValuationRadio != other._sumValuationRadio) {
             return false;
         }
-        if (!Objects.equals(this._pepp, other._pepp)) {
-            return false;
-        }
-        if (!Objects.equals(this._compensationClass, other._compensationClass)) {
+        if (!Objects.equals(this._ze, other._ze)) {
             return false;
         }
         if (!Objects.equals(this._id, other._id)) {
