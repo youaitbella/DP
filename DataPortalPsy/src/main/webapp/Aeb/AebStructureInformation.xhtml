@@ -29,7 +29,8 @@
         <div class="ui-g-12">
             <pf:outputLabel class="formLabel"
                             value="Stichpunktartige Beschreibung der strukturellen und personellen Besonderheiten duch die regionalen Versorgungsverpflichtung:*" />
-            <pf:inputTextarea required="true" rows="10" cols="50" value="#{editAEB.aebBaseInformation.structureInformation.regionalCare}" disabled="#{editAEB.isReadOnly()}"/>
+            <pf:inputTextarea id="regionId" required="true" requiredMessage="Bitte Beschreiben Sie die Regionale Versorgungsverpflichtung" rows="10" cols="50" value="#{editAEB.aebBaseInformation.structureInformation.regionalCare}" disabled="#{editAEB.isReadOnly()}"/>
+            <pf:message for="regionId" />
         </div>
     </div>
 

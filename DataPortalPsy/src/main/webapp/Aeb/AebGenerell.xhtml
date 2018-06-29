@@ -11,22 +11,31 @@
 
     <div class="ui-g ui-fluid">
         <div class="ui-md-4">
-            <inekold:MultiIk ikList="#{editAEB.validIks}"
-                             value="#{editAEB.aebBaseInformation.ik}"
-                             readonly="#{editAEB.isReadOnly()}"/>
+            <pf:inputNumber value="#{editAEB.aebBaseInformation.ik}"
+                            required="true"
+                            requiredMessage="Bitte geben Sie eine IK an"
+                            disabled="#{editAEB.isReadOnly()}"
+                            thousandSeparator=""
+                            decimalPlaces="0">
+                <pf:ajax />
+            </pf:inputNumber>
         </div>
         <div class="ui-md-2">
-            <inek:InputNumber value="#{editAEB.aebBaseInformation.year}"
-                              require="true"
-                              requiredMessage="Bitte geben Sie die Bettenzahl an an"
-                              labelText="Datenjahr"
-                              disabled="#{editAEB.isReadOnly()}"/>
+            <pf:inputNumber value="#{editAEB.aebBaseInformation.year}"
+                            required="true"
+                            requiredMessage="Bitte geben Sie das Verinbahrungsjahr an"
+                            disabled="#{editAEB.isReadOnly()}"
+                            thousandSeparator=""
+                            decimalPlaces="0">
+                <pf:ajax />
+            </pf:inputNumber>
         </div>
     </div>
 
-    <pf:commandButton value="AEB aus Exel importieren"
-                      icon="fa fa-arrow-up"
-                      styleClass="addEntry"
-                      disabled="#{editAEB.isReadOnly()}"/>
+    <h3>
+        AEB aus Excel importieren
+    </h3>
+    <pf:fileUpload fileUploadListener="#{editAEB.handleFileUpload}" mode="advanced" dragDropSupport="false"
+                   allowTypes="/(\.|\/)(xlsx)$/" cancelLabel="Abbrechen" uploadLabel="Datei Hochladen" label="Exceldatei auswählen"/>
 
 </ui:composition>

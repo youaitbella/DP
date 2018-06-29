@@ -29,11 +29,13 @@
             </pf:commandLink>
         </pf:column>
         <pf:column headerText="PEPP">
-            <inek:InputTextValidator value="#{page.pepp}"
-                                     maxlength="5"
-                                     validatorFunction="#{psyValidator.isValidPepp}"
-                                     validatorMessage="Ungültige Pepp"
-                                     disabled="#{editAEB.isReadOnly()}"/>
+            <pf:inputText id="peppId"
+                          value="#{page.pepp}"
+                          maxlength="5"
+                          disabled="#{editAEB.isReadOnly()}" >
+                <pf:ajax event="change" oncomplete="#{editAEB.peppChanged(page)}" update="listpagee11" immediate="true" />
+            </pf:inputText>
+            <pf:message for="peppId" />
         </pf:column>
         <pf:column headerText="Vergütungsklasse">
             <pf:inputNumber id="vclasse11"
@@ -41,7 +43,7 @@
                             disabled="#{editAEB.isReadOnly()}"
                             decimalPlaces="0"
                             inputStyle="width: 100%; text-align: right">
-                <pf:ajax event="change" update="listpagee11" />
+                <pf:ajax event="change" oncomplete="#{editAEB.peppChanged(page)}" update="listpagee11" immediate="true" />
             </pf:inputNumber>
             <pf:message for="vclasse11" />
         </pf:column>
@@ -51,7 +53,7 @@
                             disabled="#{editAEB.isReadOnly()}"
                             decimalPlaces="0"
                             inputStyle="width: 100%; text-align: right">
-                <pf:ajax event="change" update="listpagee11" />
+                <pf:ajax event="change" oncomplete="#{editAEB.peppChanged(page)}" update="listpagee11" immediate="true" />
             </pf:inputNumber>
             <pf:message for="casecountid" />
             <f:facet name="footer">
@@ -65,7 +67,7 @@
                             disabled="#{editAEB.isReadOnly()}"
                             decimalPlaces="0"
                             inputStyle="width: 100%; text-align: right">
-                <pf:ajax event="change" update="listpagee11" />
+                <pf:ajax event="change" oncomplete="#{editAEB.peppChanged(page)}" update="listpagee11" immediate="true" />
             </pf:inputNumber>
             <pf:message for="calcdaysIde11" />
             <f:facet name="footer">
@@ -73,12 +75,18 @@
             </f:facet>
         </pf:column>
         <pf:column headerText="Bewertungsrelation / Tag" style="text-align: right">
-            <pf:outputLabel value="#{page.valuationRadioDay}" />
+            <pf:outputLabel value="#{page.valuationRadioDay}" >
+                <f:convertNumber groupingUsed="true" minFractionDigits="4" />
+            </pf:outputLabel>
         </pf:column>
         <pf:column headerText="Summe der Bewertungsrelation" style="text-align: right">
-            <pf:outputLabel value="#{page.sumValuationRadio}" />
+            <pf:outputLabel value="#{page.sumValuationRadio}" >
+                <f:convertNumber groupingUsed="true" minFractionDigits="4" />
+            </pf:outputLabel>
             <f:facet name="footer">
-                <pf:outputLabel value="#{editAEB.sumValuationRadioSum}" />
+                <pf:outputLabel value="#{editAEB.sumValuationRadioSum}" >
+                    <f:convertNumber groupingUsed="true" minFractionDigits="4" />
+                </pf:outputLabel>
             </f:facet>
         </pf:column>
 
@@ -90,8 +98,8 @@
                           icon="fa fa-plus"
                           process="@this"
                           action="#{editAEB.addNewPageE1_1()}"
-                          oncomplete="PF('pagesE11').addRow();"
-                          rendered="#{!editAEB.isReadOnly()}"/>
+                          rendered="#{!editAEB.isReadOnly()}"
+                          update="listpagee11"/>
     </div>
     <ui:remove>
         <pf:panel>

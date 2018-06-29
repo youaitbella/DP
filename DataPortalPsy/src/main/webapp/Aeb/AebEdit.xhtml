@@ -30,41 +30,41 @@
                     <pf:tab title="Allgemein">
                         <ui:include src="AebGenerell.xhtml" />
                     </pf:tab>
-                    <pf:tab title="Strukturinformationen">
+                    <pf:tab title="Strukturinformationen" disabled="#{editAEB.aebBaseInformation.year lt 2018}">
                         <ui:include src="AebStructureInformation.xhtml" />
                     </pf:tab>
-                    <pf:tab title="PIA-Daten">
+                    <pf:tab title="PIA-Daten" disabled="#{editAEB.aebBaseInformation.year lt 2018}">
                         Kommt noch
                     </pf:tab>
-                    <pf:tab title="Blatt E1.1">
+                    <pf:tab title="Blatt E1.1" disabled="#{editAEB.aebBaseInformation.year lt 2018}">
                         <ui:include src="pages/AebPageE1_1.xhtml" />
                     </pf:tab>
-                    <pf:tab title="Blatt E1.2">
+                    <pf:tab title="Blatt E1.2" disabled="#{editAEB.aebBaseInformation.year lt 2018}">
                         <ui:include src="pages/AebPageE1_2.xhtml" />
                     </pf:tab>
-                    <pf:tab title="Blatt E2">
+                    <pf:tab title="Blatt E2" disabled="#{editAEB.aebBaseInformation.year lt 2018}">
+                        <ui:include src="pages/AebPageE2.xhtml" />
+                    </pf:tab>
+                    <pf:tab title="Blatt E3.1" disabled="#{editAEB.aebBaseInformation.year lt 2018}">
                         Kommt noch
                     </pf:tab>
-                    <pf:tab title="Blatt E3.1">
+                    <pf:tab title="Blatt E3.2" disabled="#{editAEB.aebBaseInformation.year lt 2018}">
                         Kommt noch
                     </pf:tab>
-                    <pf:tab title="Blatt E3.2">
+                    <pf:tab title="Blatt E3.3" disabled="#{editAEB.aebBaseInformation.year lt 2018}">
                         Kommt noch
                     </pf:tab>
-                    <pf:tab title="Blatt E3.3">
-                        Kommt noch
-                    </pf:tab>
-                    <pf:tab title="Blatt B1">
+                    <pf:tab title="Blatt B1" disabled="#{editAEB.aebBaseInformation.year lt 2018}">
                         Kommt noch
                     </pf:tab>
                 </pf:tabView>
 
                 <pf:commandButton value="Ans InEK senden"
-                                  update="@(.ui-message) @form"
+                                  update="@(.ui-message) @all"
                                   action="#{editAEB.send()}"/>
 
                 <pf:commandButton value="Speichern" action="#{editAEB.save()}"
-                                  update="@(.ui-message) @form"
+                                  update="@(.ui-message) @all"
                                   immediate="true"/>
             </h:form>
         </pf:panel>

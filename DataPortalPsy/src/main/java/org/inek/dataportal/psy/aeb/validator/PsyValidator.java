@@ -37,4 +37,12 @@ public class PsyValidator {
         }
     }
 
+    public void isValidZe(FacesContext context, UIComponent component, Object value) {
+        String input = "" + value;
+        if (input.length() != 9) {
+            String msg = Utils.getMessage("Ungültige ET");
+            throw new ValidatorException(new FacesMessage(msg));
+        }
+    }
+
 }

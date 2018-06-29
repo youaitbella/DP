@@ -10,7 +10,60 @@
 
 
     <h2>
-        E2 Aufstellung der bewerteten Zusatzentgelte für das Krankenhaus 1)
+        E2 Aufstellung der bewerteten Zusatzentgelte für das Krankenhaus
     </h2>
+
+    <pf:dataTable id="listpagee2"
+                  var="page"
+                  value="#{editAEB.aebBaseInformation.aebPageE2}"
+                  widgetVar="pagesE2"
+                  emptyMessage="Keine Einträge vorhanden">
+        <pf:column class="colIcon" rendered="#{!editAEB.isReadOnly()}">
+            <pf:commandLink action="#{editAEB.removePageE2(page)}"
+                            update="listpagee2"
+                            process="@this">
+                <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value=""/>
+            </pf:commandLink>
+        </pf:column>
+        <pf:column headerText="ZE-Nr.">
+            <pf:inputText value="#{page.ze}"
+                          maxlength="9"
+                          validator="#{psyValidator.isValidZe}"
+                          validatorMessage="Ungültige ZE-Nr"
+                          disabled="#{editAEB.isReadOnly()}">
+                <pf:ajax event="change" oncomplete="#{editAEB.zeChanged(page)}" update="listpagee2" immediate="true" />
+            </pf:inputText>
+        </pf:column>
+        <pf:column headerText="Anzahl der ZE" style="text-align: right">
+            <pf:inputNumber id="calcdaysIde2"
+                            value="#{page.zeCount}"
+                            disabled="#{editAEB.isReadOnly()}"
+                            decimalPlaces="0"
+                            inputStyle="width: 100%; text-align: right">
+                <pf:ajax event="change" oncomplete="#{editAEB.zeChanged(page)}" update="listpagee2" immediate="true" />
+            </pf:inputNumber>
+            <pf:message for="calcdaysIde2" />
+        </pf:column>
+        <pf:column headerText="Bewertungsrelation / Tag" style="text-align: right">
+            <pf:outputLabel value="#{page.valuationRadioDay}" />
+        </pf:column>
+        <pf:column headerText="Summe der Bewertungsrelation" style="text-align: right">
+            <pf:outputLabel value="#{page.sumValuationRadio}" />
+            <f:facet name="footer">
+                <pf:outputLabel value="#{editAEB.calcSumValuationRadioSumE2()}" />
+            </f:facet>
+        </pf:column>
+
+    </pf:dataTable>
+
+    <div class="ui-md-5">
+        <pf:commandButton value="Weiteren Eintrag hinzufügen"
+                          class="addEntry"
+                          icon="fa fa-plus"
+                          process="@this"
+                          action="#{editAEB.addNewPageE2()}"
+                          rendered="#{!editAEB.isReadOnly()}"
+                          update="listpagee2"/>
+    </div>
 
 </ui:composition>

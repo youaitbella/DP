@@ -97,40 +97,44 @@ public class AEBPageE1_1 implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property ValuationRadioDay">
     @Column(name = "peValuationRadioDay")
-    private int _valuationRadioDay;
+    private double _valuationRadioDay;
 
-    public int getValuationRadioDay() {
+    public double getValuationRadioDay() {
         return _valuationRadioDay;
     }
 
-    public void setValuationRadioDay(int valuationRadioDay) {
+    public void setValuationRadioDay(double valuationRadioDay) {
         _valuationRadioDay = valuationRadioDay;
     }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property SumValuationRadio">
     @Column(name = "peSumValuationRadio")
-    private int _sumValuationRadio;
+    private double _sumValuationRadio;
 
-    public int getSumValuationRadio() {
+    public double getSumValuationRadio() {
         return _sumValuationRadio;
     }
 
-    public void setSumValuationRadio(int sumValuationRadio) {
+    public void setSumValuationRadio(double sumValuationRadio) {
         _sumValuationRadio = sumValuationRadio;
     }
     //</editor-fold>
 
+    public void calculateSum() {
+        setSumValuationRadio(_calculationDays * _valuationRadioDay);
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 11 * hash + Objects.hashCode(this._baseInformation);
-        hash = 11 * hash + Objects.hashCode(this._pepp);
-        hash = 11 * hash + Objects.hashCode(this._compensationClass);
-        hash = 11 * hash + this._caseCount;
-        hash = 11 * hash + this._calculationDays;
-        hash = 11 * hash + this._valuationRadioDay;
-        hash = 11 * hash + this._sumValuationRadio;
+        hash = 97 * hash + Objects.hashCode(this._baseInformation);
+        hash = 97 * hash + Objects.hashCode(this._pepp);
+        hash = 97 * hash + this._compensationClass;
+        hash = 97 * hash + this._caseCount;
+        hash = 97 * hash + this._calculationDays;
+        hash = 97 * hash + (int) (Double.doubleToLongBits(this._valuationRadioDay) ^ (Double.doubleToLongBits(this._valuationRadioDay) >>> 32));
+        hash = 97 * hash + (int) (Double.doubleToLongBits(this._sumValuationRadio) ^ (Double.doubleToLongBits(this._sumValuationRadio) >>> 32));
         return hash;
     }
 

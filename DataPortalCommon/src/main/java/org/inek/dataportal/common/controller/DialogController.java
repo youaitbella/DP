@@ -23,6 +23,10 @@ public class DialogController implements Serializable {
         PrimeFaces.current().dialog().showMessageDynamic(new FacesMessage(FacesMessage.SEVERITY_WARN, title, message));
     }
 
+    public void showInfoDialog(String message, String title) {
+        PrimeFaces.current().dialog().showMessageDynamic(new FacesMessage(FacesMessage.SEVERITY_INFO, title, message));
+    }
+
     public void showInfoMessage(String message) {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(message));
     }
