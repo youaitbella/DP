@@ -25,7 +25,7 @@ public class InfoText implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "itId")
-    private Integer _id;
+    private Integer _id = -1;
 
     public int getId() {
         return _id;
@@ -38,53 +38,78 @@ public class InfoText implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property Key">
     @Column(name = "itKey")
-    private String _key;
+    private String _key = "";
 
     public String getKey() {
         return _key;
     }
 
     public void setKey(String key) {
-        _key = key;
+        if (!_key.equals(key)) {
+            setModified();
+            _key = key;
+        }
     }
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property ShortText">
     @Column(name = "itShortText")
-    private String _shortText;
+    private String _shortText = "";
 
     public String getShortText() {
         return _shortText;
     }
 
     public void setShortText(String shortText) {
-        _shortText = shortText;
+        if (!_shortText.equals(shortText)) {
+            setModified();
+            _shortText = shortText;
+        }
     }
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Description">
     @Column(name = "itDescription")
-    private String _description;
+    private String _description = "";
 
     public String getDescription() {
         return _description;
     }
 
     public void setDescription(String description) {
-        _description = description;
+        if (!_description.equals(description)) {
+            setModified();
+            _description = description;
+        }
     }
-    // </editor-fold>
 
+    // </editor-fold>
+    // <editor-fold defaultstate="collapsed" desc="Property Modified">
+    @Transient
+    private boolean _modified;
+
+    public boolean getModified() {
+        return _modified;
+    }
+
+    private void setModified() {
+        _modified = true;
+    }
+
+    // </editor-fold>    
     // <editor-fold defaultstate="collapsed" desc="Property Language">
     @Column(name = "itLanguage")
-    private String _language;
+    private String _language = "DE";
 
     public String getLanguage() {
         return _language;
     }
 
     public void setLanguage(String language) {
-        _language = language;
+        if (!_language.equals(language)) {
+            setModified();
+            _language = language;
+        }
     }
     // </editor-fold>
 

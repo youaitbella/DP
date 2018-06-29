@@ -35,4 +35,12 @@ public class InfoTextFacade extends AbstractDataAccess {
         return query.getResultList();
     }
 
+    public InfoText save (InfoText infoText){
+        if (infoText.getId() < 0){
+            persist(infoText);
+            return infoText;
+        }else{
+            return merge(infoText);
+        }
+    }
 }
