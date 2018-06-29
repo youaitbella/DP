@@ -25,7 +25,7 @@ public class InfoTextHelper {
     private String getInfoText(String key, String language) {
         try {
             InfoText it = _infoTextFacade.getInfoText(key.toUpperCase(), language.toUpperCase());
-            return it.getText();
+            return it.getShortText();
         } catch (NoResultException ex) {
             return "No text found for " + key;
         }

@@ -49,16 +49,29 @@ public class InfoText implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property Text">
-    @Column(name = "itText")
-    private String _text;
+    // <editor-fold defaultstate="collapsed" desc="Property ShortText">
+    @Column(name = "itShortText")
+    private String _shortText;
 
-    public String getText() {
-        return _text;
+    public String getShortText() {
+        return _shortText;
     }
 
-    public void setText(String text) {
-        _text = text;
+    public void setShortText(String shortText) {
+        _shortText = shortText;
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property Description">
+    @Column(name = "itDescription")
+    private String _description;
+
+    public String getDescription() {
+        return _description;
+    }
+
+    public void setDescription(String description) {
+        _description = description;
     }
     // </editor-fold>
 
@@ -79,7 +92,8 @@ public class InfoText implements Serializable {
     public int hashCode() {
         int hash = 3;
         hash = 83 * hash + Objects.hashCode(this._key);
-        hash = 83 * hash + Objects.hashCode(this._text);
+        hash = 83 * hash + Objects.hashCode(this._shortText);
+        hash = 83 * hash + Objects.hashCode(this._description);
         hash = 83 * hash + Objects.hashCode(this._language);
         return hash;
     }
@@ -99,7 +113,10 @@ public class InfoText implements Serializable {
         if (!Objects.equals(this._key, other._key)) {
             return false;
         }
-        if (!Objects.equals(this._text, other._text)) {
+        if (!Objects.equals(this._shortText, other._shortText)) {
+            return false;
+        }
+        if (!Objects.equals(this._description, other._description)) {
             return false;
         }
         if (!Objects.equals(this._language, other._language)) {
