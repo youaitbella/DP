@@ -229,6 +229,12 @@ public class CalcBasicsStaticData {
         return items;
     }
 
+    public List<String> getInvDelimitationFactsSubTitles() {
+        List<String> tmp = new ArrayList<>();
+        tmp.add("Kostenvolumen");
+        return tmp;
+    }
+
     public List<String> getDelimitationFactsSubTitles() {
         List<String> tmp = new ArrayList<>();
         tmp.add("Personalkosten");

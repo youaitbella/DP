@@ -474,7 +474,7 @@
             <h:outputLabel value="#{msg.lblDevitation}" styleClass="blockElement" style="width: 6em;" rendered="#{x.used and x.requireInputs}"/>
         </div>
 
-        <h:dataTable value="#{calcBasicsStaticData.delimitationFactsSubTitles}" 
+        <h:dataTable value="#{x.contentText.text eq 'Investitionskosten' ? calcBasicsStaticData.invDelimitationFactsSubTitles : calcBasicsStaticData.delimitationFactsSubTitles}" 
                      rendered="#{x.used and x.requireInputs}"
                      var="data" 
                      width="100%"
@@ -490,7 +490,7 @@
                 <inek:InputIntegerWithMessage id="data-personal" rendered="#{data eq 'Personalkosten'}" value="#{x.personalCost}"
                                              styleClass="col06em" required="true" renderElement="@this diff-personal :logout:remaining"
                                              disabled="#{x.contentText.text eq 'Investitionskosten'}"/>
-                <inek:InputIntegerWithMessage id="data-material" rendered="#{data eq 'Sachkosten'}" value="#{x.materialCost}"
+                <inek:InputIntegerWithMessage id="data-material" rendered="#{data eq 'Sachkosten' or data eq 'Kostenvolumen'}" value="#{x.materialCost}"
                                              styleClass="col06em" required="true" renderElement="@this diff-material :logout:remaining"
                                              />
                 <inek:InputIntegerWithMessage id="data-infra" rendered="#{data eq 'Infrastrukturkosten'}" value="#{x.infraCost}"
