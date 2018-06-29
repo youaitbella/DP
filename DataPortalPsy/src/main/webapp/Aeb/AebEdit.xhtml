@@ -40,7 +40,7 @@
                         <ui:include src="pages/AebPageE1_1.xhtml" />
                     </pf:tab>
                     <pf:tab title="Blatt E1.2">
-                        Kommt noch
+                        <ui:include src="pages/AebPageE1_2.xhtml" />
                     </pf:tab>
                     <pf:tab title="Blatt E2">
                         Kommt noch
@@ -60,11 +60,11 @@
                 </pf:tabView>
 
                 <pf:commandButton value="Ans InEK senden"
-                                  update="@(.ui-message) @all"
+                                  update="@(.ui-message) @form"
                                   action="#{editAEB.send()}"/>
 
                 <pf:commandButton value="Speichern" action="#{editAEB.save()}"
-                                  update="@(.ui-message) @all"
+                                  update="@(.ui-message) @form"
                                   immediate="true"/>
             </h:form>
         </pf:panel>

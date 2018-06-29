@@ -116,6 +116,22 @@ public class editAEB {
         _aebBaseInformation.removeAebPageE1_1(page);
     }
 
+    public void addNewPageE1_2() {
+        _aebBaseInformation.addAebPageE1_2();
+    }
+
+    public void removePageE1_2(AEBPageE1_2 page) {
+        _aebBaseInformation.removeAebPageE1_2(page);
+    }
+
+    public void addNewPageE2() {
+        _aebBaseInformation.addAebPageE2();
+    }
+
+    public void removePageE2(AEBPageE2 page) {
+        _aebBaseInformation.removeAebPageE2(page);
+    }
+
     public int getCaseCountSum() {
         int sum = 0;
         for (AEBPageE1_1 page : _aebBaseInformation.getAebPageE1_1()) {
@@ -140,12 +156,12 @@ public class editAEB {
         return sum;
     }
 
-    public void isValidPepp(FacesContext context, UIComponent component, Object value) {
-        String input = "" + value;
-        if (input.length() != 5) {
-            String msg = Utils.getMessage("Ungültige Pepp");
-            throw new ValidatorException(new FacesMessage(msg));
+    public int calcSumValuationRadioSumE1_2() {
+        int sum = 0;
+        for (AEBPageE1_2 page : _aebBaseInformation.getAebPageE1_2()) {
+            sum += page.getSumValuationRadio();
         }
+        return sum;
     }
 
     public Set<Integer> getValidIks() {
@@ -154,5 +170,6 @@ public class editAEB {
 
     private void removeEmptyEntries() {
         _aebBaseInformation.getAebPageE1_1().removeIf(c -> c.getPepp().length() == 0);
+        _aebBaseInformation.getAebPageE1_2().removeIf(c -> c.getEt().length() == 0);
     }
 }

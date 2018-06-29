@@ -6,7 +6,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
-import org.primefaces.context.RequestContext;
+import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -20,7 +20,7 @@ public class DialogController implements Serializable {
     private static final Logger LOGGER = Logger.getLogger("SessionController");
 
     public void showWarningDialog(String message, String title) {
-        RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_WARN, title, message));
+        PrimeFaces.current().dialog().showMessageDynamic(new FacesMessage(FacesMessage.SEVERITY_WARN, title, message));
     }
 
     public void showInfoMessage(String message) {

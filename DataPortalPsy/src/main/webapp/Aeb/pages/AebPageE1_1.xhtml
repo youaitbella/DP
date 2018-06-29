@@ -21,7 +21,6 @@
                   value="#{editAEB.aebBaseInformation.aebPageE1_1}"
                   widgetVar="pagesE11"
                   emptyMessage="Keine Einträge vorhanden">
-        <pf:ajax event="cellEdit" update="listpagee11" />
         <pf:column class="colIcon" rendered="#{!editAEB.isReadOnly()}">
             <pf:commandLink action="#{editAEB.removePageE1_1(page)}"
                             update="listpagee11"
@@ -32,19 +31,19 @@
         <pf:column headerText="PEPP">
             <inek:InputTextValidator value="#{page.pepp}"
                                      maxlength="5"
-                                     validatorFunction="#{editAEB.isValidPepp}"
+                                     validatorFunction="#{psyValidator.isValidPepp}"
                                      validatorMessage="Ungültige Pepp"
                                      disabled="#{editAEB.isReadOnly()}"/>
         </pf:column>
         <pf:column headerText="Vergütungsklasse">
-            <pf:inputNumber id="vclass"
+            <pf:inputNumber id="vclasse11"
                             value="#{page.compensationClass}"
                             disabled="#{editAEB.isReadOnly()}"
                             decimalPlaces="0"
                             inputStyle="width: 100%; text-align: right">
                 <pf:ajax event="change" update="listpagee11" />
             </pf:inputNumber>
-            <pf:message for="vclass" />
+            <pf:message for="vclasse11" />
         </pf:column>
         <pf:column headerText="Fallzahl" style="text-align: right">
             <pf:inputNumber id="casecountid"
@@ -61,14 +60,14 @@
             </f:facet>
         </pf:column>
         <pf:column headerText="Berechnungstage" style="text-align: right">
-            <pf:inputNumber id="calcdaysId"
+            <pf:inputNumber id="calcdaysIde11"
                             value="#{page.calculationDays}"
                             disabled="#{editAEB.isReadOnly()}"
                             decimalPlaces="0"
                             inputStyle="width: 100%; text-align: right">
                 <pf:ajax event="change" update="listpagee11" />
             </pf:inputNumber>
-            <pf:message for="calcdaysId" />
+            <pf:message for="calcdaysIde11" />
             <f:facet name="footer">
                 <pf:outputLabel value="#{editAEB.calculationDaysSum}" />
             </f:facet>

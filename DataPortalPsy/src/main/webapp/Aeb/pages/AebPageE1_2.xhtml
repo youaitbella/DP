@@ -16,4 +16,55 @@
         E1.2 Aufstellung der ergänzenden Tagesentgelte (ET)
     </h4>
 
+    <pf:dataTable id="listpagee12"
+                  var="page"
+                  value="#{editAEB.aebBaseInformation.aebPageE1_2}"
+                  widgetVar="pagesE12"
+                  emptyMessage="Keine Einträge vorhanden">
+        <pf:column class="colIcon" rendered="#{!editAEB.isReadOnly()}">
+            <pf:commandLink action="#{editAEB.removePageE1_2(page)}"
+                            update="listpagee12"
+                            process="@this">
+                <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value=""/>
+            </pf:commandLink>
+        </pf:column>
+        <pf:column headerText="ET-Nr.">
+            <inek:InputTextValidator value="#{page.et}"
+                                     maxlength="4"
+                                     validatorFunction="#{psyValidator.isValidPepp}"
+                                     validatorMessage="Ungültige ET-Nr"
+                                     disabled="#{editAEB.isReadOnly()}"/>
+        </pf:column>
+        <pf:column headerText="Anzahl Berechnungstage" style="text-align: right">
+            <pf:inputNumber id="calcdaysIde12"
+                            value="#{page.calculationDays}"
+                            disabled="#{editAEB.isReadOnly()}"
+                            decimalPlaces="0"
+                            inputStyle="width: 100%; text-align: right">
+                <pf:ajax event="change" update="listpagee12" />
+            </pf:inputNumber>
+            <pf:message for="calcdaysIde12" />
+        </pf:column>
+        <pf:column headerText="Bewertungsrelation / Tag" style="text-align: right">
+            <pf:outputLabel value="#{page.valuationRadioDay}" />
+        </pf:column>
+        <pf:column headerText="Summe der Bewertungsrelation" style="text-align: right">
+            <pf:outputLabel value="#{page.sumValuationRadio}" />
+            <f:facet name="footer">
+                <pf:outputLabel value="#{editAEB.calcSumValuationRadioSumE1_2()}" />
+            </f:facet>
+        </pf:column>
+
+    </pf:dataTable>
+
+    <div class="ui-md-5">
+        <pf:commandButton value="Weiteren Eintrag hinzufügen"
+                          class="addEntry"
+                          icon="fa fa-plus"
+                          process="@this"
+                          action="#{editAEB.addNewPageE1_2()}"
+                          rendered="#{!editAEB.isReadOnly()}"
+                          update="listpagee12"/>
+    </div>
+
 </ui:composition>
