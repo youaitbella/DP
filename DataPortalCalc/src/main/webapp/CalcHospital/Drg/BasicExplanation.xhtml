@@ -500,7 +500,7 @@
 
             <h:column rendered="#{x.used and x.requireInputs}">
                 <inek:InputIntegerWithMessage rendered="#{data eq 'Personalkosten'}" value="#{editCalcBasicsDrg.getPriorDelimitationFact(x.contentTextId).personalCost}" styleClass="col06em" disabled="true"/>
-                <inek:InputIntegerWithMessage rendered="#{data eq 'Sachkosten'}" value="#{editCalcBasicsDrg.getPriorDelimitationFact(x.contentTextId).materialCost}" styleClass="col06em" disabled="true"/>
+                <inek:InputIntegerWithMessage rendered="#{data eq 'Sachkosten' or data eq 'Kostenvolumen'}" value="#{editCalcBasicsDrg.getPriorDelimitationFact(x.contentTextId).materialCost}" styleClass="col06em" disabled="true"/>
                 <inek:InputIntegerWithMessage rendered="#{data eq 'Infrastrukturkosten'}" value="#{editCalcBasicsDrg.getPriorDelimitationFact(x.contentTextId).infraCost}" styleClass="col06em" disabled="true"/>
             </h:column>
 
@@ -511,7 +511,7 @@
                                                  disabled="true"/>
                 </h:panelGrid>
                 <h:panelGrid id="diff-material" style="margin: 0; padding : 0;">
-                    <inek:InputIntegerWithMessage rendered="#{data eq 'Sachkosten'}" value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.getPriorDelimitationFact(x.contentTextId).materialCost, x.materialCost)}"
+                    <inek:InputIntegerWithMessage rendered="#{data eq 'Sachkosten' or data eq 'Kostenvolumen'}" value="#{editCalcBasicsDrg.calcPercentualDiff(editCalcBasicsDrg.getPriorDelimitationFact(x.contentTextId).materialCost, x.materialCost)}"
                                                  styleClass="col06em"
                                                  disabled="true"/>
                 </h:panelGrid>
