@@ -16,7 +16,8 @@
                   var="page"
                   value="#{editAEB.aebBaseInformation.aebPageE1_1}"
                   widgetVar="pagesE11"
-                  emptyMessage="Keine Einträge vorhanden">
+                  emptyMessage="Keine Einträge vorhanden"
+                  tableStyleClass="inekTablePsy">
         <pf:column class="colIcon" rendered="#{!editAEB.isReadOnly()}">
             <pf:commandLink action="#{editAEB.removePageE1_1(page)}"
                             update="listpagee11"

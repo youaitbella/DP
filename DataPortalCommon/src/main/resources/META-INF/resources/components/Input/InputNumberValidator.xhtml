@@ -22,7 +22,7 @@
                       javax.faces.component.UIComponent,
                       java.lang.Object)" />
         <cc:attribute name="validatorMessage" default="" type="java.lang.String"/>
-        <cc:attribute name="thousendSeperator" default="" type="java.lang.String"/>
+        <cc:attribute name="thousendSeperator" default="." type="java.lang.String"/>
 
     </cc:interface>
 
@@ -36,7 +36,6 @@
                 <pf:inputNumber id="text"
                                 required="#{cc.attrs.require}"
                                 requiredMessage="#{cc.attrs.requiredMessage}"
-                                placeholder="#{cc.attrs.labelText}"
                                 value="#{cc.attrs.value}"
                                 disabled="#{cc.attrs.disabled}"
                                 validator="#{cc.attrs.validatorFunction}"
@@ -45,7 +44,8 @@
                                 decimalPlaces="#{cc.attrs.decimalPlaces}"
                                 maxValue="#{cc.attrs.maxValue}"
                                 minValue="#{cc.attrs.minValue}"
-                                thousandSeparator="#{cc.attrs.thousendSeperator}"/>
+                                thousandSeparator="#{cc.attrs.thousendSeperator}"
+                                inputStyle="text-align: right"/>
                 <span jsf:rendered="#{cc.attrs.longInfoText.length() > 0}" class="ui-inputgroup-addon" onclick="PF('longInfo').toggle()" style="cursor: help; border: none; background-color: #7f9baf"><i class="fa fa-question" style="color: #ffffff"></i></span>
             </div>
             <pf:tooltip rendered="#{cc.attrs.shortInfoText.length() > 0}" for="text" showEvent="focus" hideEvent="blur" value="#{cc.attrs.shortInfoText}" />

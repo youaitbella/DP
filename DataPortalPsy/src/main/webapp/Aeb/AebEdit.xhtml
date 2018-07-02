@@ -30,12 +30,14 @@
                     <pf:tab title="Allgemein">
                         <ui:include src="AebGenerell.xhtml" />
                     </pf:tab>
-                    <pf:tab title="Strukturinformationen" disabled="#{editAEB.aebBaseInformation.year lt 2018}">
-                        <ui:include src="AebStructureInformation.xhtml" />
-                    </pf:tab>
-                    <pf:tab title="PIA-Daten" disabled="#{editAEB.aebBaseInformation.year lt 2018}">
-                        Kommt noch
-                    </pf:tab>
+                    <ui:remove>
+                        <pf:tab title="Strukturinformationen" disabled="#{editAEB.aebBaseInformation.year lt 2018}">
+                            <ui:include src="AebStructureInformation.xhtml" />
+                        </pf:tab>
+                        <pf:tab title="PIA-Daten" disabled="#{editAEB.aebBaseInformation.year lt 2018}">
+                            Kommt noch
+                        </pf:tab>
+                    </ui:remove>
                     <pf:tab title="Blatt E1.1" disabled="#{editAEB.aebBaseInformation.year lt 2018}">
                         <ui:include src="pages/AebPageE1_1.xhtml" />
                     </pf:tab>
@@ -55,7 +57,7 @@
                         <ui:include src="pages/AebPageE3_3.xhtml" />
                     </pf:tab>
                     <pf:tab title="Blatt B1" disabled="#{editAEB.aebBaseInformation.year lt 2018}">
-                        Kommt noch
+                        <ui:include src="pages/AebPageB1.xhtml" />
                     </pf:tab>
                 </pf:tabView>
 

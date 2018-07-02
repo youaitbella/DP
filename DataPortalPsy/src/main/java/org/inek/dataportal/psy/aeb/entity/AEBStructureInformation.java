@@ -41,6 +41,7 @@ public class AEBStructureInformation implements Serializable {
     public void setBaseInformation(AEBBaseInformation baseInformation) {
         this._baseInformation = baseInformation;
     }
+    //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property BedCount">
     @Column(name = "siBedCount")

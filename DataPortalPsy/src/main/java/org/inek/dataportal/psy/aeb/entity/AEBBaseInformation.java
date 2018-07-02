@@ -167,6 +167,17 @@ public class AEBBaseInformation implements Serializable {
         _structureInformation = structureInformation;
     }
 
+    @OneToOne(mappedBy = "_baseInformation", cascade = CascadeType.ALL)
+    private AEBPageB1 _aebPageB1;
+
+    public AEBPageB1 getAebPageB1() {
+        return _aebPageB1;
+    }
+
+    public void setAebPageB1(AEBPageB1 aebPageB1) {
+        this._aebPageB1 = aebPageB1;
+    }
+
     @OneToMany(mappedBy = "_baseInformation", cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "peBaseInformationId")
     private List<AEBPageE1_1> _aebPageE1_1 = new ArrayList<>();

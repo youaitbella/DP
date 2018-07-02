@@ -27,7 +27,7 @@ import org.primefaces.event.FileUploadEvent;
  */
 @Named
 @FeatureScoped
-public class editAEB {
+public class EditAEB {
 
     @Inject
     private SessionController _sessionController;
@@ -44,7 +44,7 @@ public class editAEB {
     public void init() {
         String id = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id");
         if (id == null) {
-            createNewAebBaseInformation();
+            _aebBaseInformation = createNewAebBaseInformation();
         } else if ("new".equals(id)) {
             _aebBaseInformation = createNewAebBaseInformation();
             _aebBaseInformation.setCreatedFrom(_sessionController.getAccountId());
@@ -70,13 +70,19 @@ public class editAEB {
     }
 
     public Boolean isReadOnly() {
-        return _aebBaseInformation.getStatus() == WorkflowStatus.Provided ? true : false;
+        if (_aebBaseInformation != null) {
+            return _aebBaseInformation.getStatus() == WorkflowStatus.Provided;
+        } else {
+            return true;
+        }
     }
 
     private AEBBaseInformation createNewAebBaseInformation() {
         AEBBaseInformation info = new AEBBaseInformation();
         info.setStructureInformation(new AEBStructureInformation());
         info.getStructureInformation().setBaseInformation(info);
+        info.setAebPageB1(new AEBPageB1());
+        info.getAebPageB1().setBaseInformation(info);
         return info;
     }
 
