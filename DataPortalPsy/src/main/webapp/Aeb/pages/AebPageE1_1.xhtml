@@ -8,10 +8,6 @@
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
                 xmlns:pf="http://primefaces.org/ui">
 
-
-    <h2>
-        E1 Aufstellung der mit Bewertungsrelationen bewerteten Entgelte für das Krankenhaus
-    </h2>
     <h4>
         E1.1 Aufstellung der tagesbezogenen pauschalierenden Entgelte für die Psychiatrie und Psychosomatik (PEPP)
     </h4>
@@ -57,7 +53,7 @@
             </pf:inputNumber>
             <pf:message for="casecountid" />
             <f:facet name="footer">
-                <pf:outputLabel value="#{editAEB.caseCountSum}"
+                <pf:outputLabel value="#{editAEB.aebBaseInformation.aebPageE1_1.stream().map(c -> c.getCaseCount()).sum()}"
                                 style="text-align: right"/>
             </f:facet>
         </pf:column>
@@ -71,7 +67,7 @@
             </pf:inputNumber>
             <pf:message for="calcdaysIde11" />
             <f:facet name="footer">
-                <pf:outputLabel value="#{editAEB.calculationDaysSum}" />
+                <pf:outputLabel value="#{editAEB.aebBaseInformation.aebPageE1_1.stream().map(c -> c.getCalculationDays()).sum()}" />
             </f:facet>
         </pf:column>
         <pf:column headerText="Bewertungsrelation / Tag" style="text-align: right">
@@ -84,7 +80,7 @@
                 <f:convertNumber groupingUsed="true" minFractionDigits="4" />
             </pf:outputLabel>
             <f:facet name="footer">
-                <pf:outputLabel value="#{editAEB.sumValuationRadioSum}" >
+                <pf:outputLabel value="#{editAEB.aebBaseInformation.aebPageE1_1.stream().map(c -> c.getSumValuationRadio()).sum()}" >
                     <f:convertNumber groupingUsed="true" minFractionDigits="4" />
                 </pf:outputLabel>
             </f:facet>
@@ -101,53 +97,4 @@
                           rendered="#{!editAEB.isReadOnly()}"
                           update="listpagee11"/>
     </div>
-    <ui:remove>
-        <pf:panel>
-            <div>
-                Die Aufstellung ist für die folgenden Zeiträume jeweils gesondert wie folgt aufzustellen und vorzulegen:
-            </div>
-            <ol>
-                <li>
-                    für das abgelaufene Kalenderjahr die Ist-Daten nach dem Entgeltkatalog des abgelaufenen Jahres; frühestens ab dem Jahr der erstmaligen Systemanwendung (Ziel: u.a. Ermittlung der endgültigen Erlösausgleiche); bei Übermittlungen von Daten nach dem Entgeltkatalog 2014 sind die Vorgaben der AEB-Psych-Vereinbarung für den Vereinbarungszeitraum 2014 zu beachten
-                </li>
-                <li>
-                    für das laufende Kalenderjahr die Ist-Daten nach dem Entgeltkatalog des laufenden Jahres; frühestens ab dem Jahr der erstmaligen Systemanwendung (Ziele: Darstellung der Ist-Daten sowie Ermittlung der vorläufigen Erlösausgleiche)
-                </li>
-                <li>
-                    für das laufende Kalenderjahr die Ist-Daten nach dem Entgeltkatalog für den Vereinbarungszeitraum (Ziel: Grundlage für die Vereinbarung von Budget und Mehr- oder Minderleistungen)
-                </li>
-                <li>
-                    für den Vereinbarungszeitraum die Forderung des Krankenhauses nach dem Entgeltkatalog für den Vereinbarungszeitraum (Ziel: Grundlage für die Budgetvereinbarung)
-                </li>
-            </ol>
-            <br />
-            <div>
-                Für die Leistungen von Belegabteilungen ist eine gesonderte Aufstellung vorzulegen.
-                Für noch ausstehende Ist-Daten des laufenden Kalenderjahres ist eine Hochrechnung zulässig.
-                Im Jahr der erstmaligen Systemanwendung ist die Aufstellung für alle ab dem 1. Januar aufgenommenen Patienten bis zum Ende des Budgetzeitraumes (31.12.) vorzulegen.
-                Soweit in den Abrechnungsbestimmungen vorgegeben wird, dass die Jahresüberlieger nach dem am Aufnahmetag geltenden Entgeltkatalog abgerechnet werden,
-                sind diese bei der Aufstellung der Ist-Daten nach den Nummern 1 und 2 zusätzlich gesondert in der Struktur des Abschnitts E1.1 bzw. des Abschnitts E1.2 auszuweisen:
-            </div>
-
-            <br />
-            <ul>
-                <li>
-                    Bei der Aufstellung für das abgelaufene Kalenderjahr gemäß Nr. 1 nach dem für die Abrechnung maßgeblichen Katalog (Katalog des Vorjahres) und nach dem Entgeltkatalog des abgelaufenen Jahres (nach Überleitung)
-                </li>
-                <li>
-                    Bei der Aufstellung für das laufende Kalenderjahr gemäß Nr. 2 nach dem für die Abrechnung maßgeblichen Katalog (Katalog des Vorjahres) und nach dem Entgeltkatalog des laufenden Jahres (nach Überleitung)
-                </li>
-            </ul>
-
-            <br />
-            <div>
-                Es gelten die Vorgaben der Abrechnungsbestimmungen. Die Spalte 3 braucht für die Forderung des Vereinbarungszeitraumes nicht ausgefüllt werden. Diese Spalten sind nur für die Ist-Daten des abgelaufenen Kalenderjahres und die Ist-Daten des laufenden Kalenderjahres (ggf. Hochrechnung) auszufüllen.
-            </div>
-
-            <br />
-            <div>
-                Alle Berechnungstage innerhalb des Budgetzeitraumes (01.01.-31.12.) unabhängig von der Aufnahme oder Entlassung; im Jahr der erstmaligen Systemanwendung für alle ab dem 1. Januar aufgenommenen Patienten.
-            </div>
-        </pf:panel>
-    </ui:remove>
 </ui:composition>

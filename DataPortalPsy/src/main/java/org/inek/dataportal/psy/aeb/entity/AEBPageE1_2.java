@@ -82,31 +82,17 @@ public class AEBPageE1_2 implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property SumValuationRadio">
-    @Column(name = "peSumValuationRadio")
-    private double _sumValuationRadio;
-
     public double getSumValuationRadio() {
-        return _sumValuationRadio;
-    }
-
-    public void setSumValuationRadio(double sumValuationRadio) {
-        _sumValuationRadio = sumValuationRadio;
-    }
-    //</editor-fold>
-
-    public void calculateSum() {
-        setSumValuationRadio(_calculationDays * _valuationRadioDay);
+        return _calculationDays * _valuationRadioDay;
     }
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 97 * hash + Objects.hashCode(this._baseInformation);
-        hash = 97 * hash + Objects.hashCode(this._et);
-        hash = 97 * hash + this._calculationDays;
-        hash = 97 * hash + (int) (Double.doubleToLongBits(this._valuationRadioDay) ^ (Double.doubleToLongBits(this._valuationRadioDay) >>> 32));
-        hash = 97 * hash + (int) (Double.doubleToLongBits(this._sumValuationRadio) ^ (Double.doubleToLongBits(this._sumValuationRadio) >>> 32));
+        int hash = 3;
+        hash = 67 * hash + Objects.hashCode(this._baseInformation);
+        hash = 67 * hash + Objects.hashCode(this._et);
+        hash = 67 * hash + this._calculationDays;
+        hash = 67 * hash + (int) (Double.doubleToLongBits(this._valuationRadioDay) ^ (Double.doubleToLongBits(this._valuationRadioDay) >>> 32));
         return hash;
     }
 
@@ -125,10 +111,7 @@ public class AEBPageE1_2 implements Serializable {
         if (this._calculationDays != other._calculationDays) {
             return false;
         }
-        if (this._valuationRadioDay != other._valuationRadioDay) {
-            return false;
-        }
-        if (this._sumValuationRadio != other._sumValuationRadio) {
+        if (Double.doubleToLongBits(this._valuationRadioDay) != Double.doubleToLongBits(other._valuationRadioDay)) {
             return false;
         }
         if (!Objects.equals(this._et, other._et)) {

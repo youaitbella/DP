@@ -14,6 +14,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.controller.SessionController;
+import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.scope.FeatureScoped;
 import org.inek.dataportal.psy.aeb.entity.*;
 import org.inek.dataportal.psy.aeb.facade.AEBFacade;
@@ -45,7 +46,8 @@ public class editAEB {
         if (id == null) {
             createNewAebBaseInformation();
         } else if ("new".equals(id)) {
-            createNewAebBaseInformation();
+            _aebBaseInformation = createNewAebBaseInformation();
+            _aebBaseInformation.setCreatedFrom(_sessionController.getAccountId());
         } else {
             _aebBaseInformation = _aebFacade.findAEBBaseInformation(Integer.parseInt(id));
         }
@@ -68,31 +70,35 @@ public class editAEB {
     }
 
     public Boolean isReadOnly() {
-        return false;
+        return _aebBaseInformation.getStatus() == WorkflowStatus.Provided ? true : false;
     }
 
-    private void createNewAebBaseInformation() {
-        _aebBaseInformation = new AEBBaseInformation();
-        _aebBaseInformation.setCreatedFrom(_sessionController.getAccountId());
-
-        _aebBaseInformation.setStructureInformation(new AEBStructureInformation());
-        _aebBaseInformation.getStructureInformation().setBaseInformation(_aebBaseInformation);
-
+    private AEBBaseInformation createNewAebBaseInformation() {
+        AEBBaseInformation info = new AEBBaseInformation();
+        info.setStructureInformation(new AEBStructureInformation());
+        info.getStructureInformation().setBaseInformation(info);
+        return info;
     }
 
     public void save() {
-        removeEmptyEntries();
+        removeEmptyEntries(_aebBaseInformation);
         _aebBaseInformation.setLastChangeFrom(_sessionController.getAccountId());
         _aebBaseInformation.setLastChanged(new Date());
         //
         _aebBaseInformation.getStructureInformation().setAccommodationId(1);
         _aebBaseInformation.getStructureInformation().setAmbulantPerformanceId(1);
         //
-        _aebBaseInformation = _aebFacade.save(_aebBaseInformation);
-        _dialogController.showInfoDialog("Speichern Erfolgreich", "Daten gespeichert");
+        try {
+            _aebBaseInformation = _aebFacade.save(_aebBaseInformation);
+            _dialogController.showSaveDialog();
+        } catch (Exception ex) {
+            _dialogController.showWarningDialog("Fehler beim Speichern", "Vorgang abgebrochen");
+        }
     }
 
     public void send() {
+        _aebBaseInformation.setStatus(WorkflowStatus.Provided);
+        _aebBaseInformation.setSend(new Date());
         save();
     }
 
@@ -120,83 +126,69 @@ public class editAEB {
         _aebBaseInformation.removeAebPageE2(page);
     }
 
+    public void addNewPageE3_1() {
+        _aebBaseInformation.addAebPageE3_1();
+    }
+
+    public void removePageE3_1(AEBPageE3_1 page) {
+        _aebBaseInformation.removeAebPageE3_1(page);
+    }
+
+    public void addNewPageE3_2() {
+        _aebBaseInformation.addAebPageE3_2();
+    }
+
+    public void removePageE3_2(AEBPageE3_2 page) {
+        _aebBaseInformation.removeAebPageE3_2(page);
+    }
+
+    public void addNewPageE3_3() {
+        _aebBaseInformation.addAebPageE3_3();
+    }
+
+    public void removePageE3_3(AEBPageE3_3 page) {
+        _aebBaseInformation.removeAebPageE3_3(page);
+    }
+
     public void handleFileUpload(FileUploadEvent event) {
         _dialogController.showInfoDialog(event.getFile().getFileName(), "Datei erfolgreich hochgeladen");
-    }
-
-    public int getCaseCountSum() {
-        int sum = 0;
-        for (AEBPageE1_1 page : _aebBaseInformation.getAebPageE1_1()) {
-            sum += page.getCaseCount();
-        }
-        return sum;
-    }
-
-    public double getSumValuationRadioSum() {
-        double sum = 0;
-        for (AEBPageE1_1 page : _aebBaseInformation.getAebPageE1_1()) {
-            sum += page.getSumValuationRadio();
-        }
-        return sum;
-    }
-
-    public double getCalculationDaysSum() {
-        double sum = 0;
-        for (AEBPageE1_1 page : _aebBaseInformation.getAebPageE1_1()) {
-            sum += page.getCalculationDays();
-        }
-        return sum;
-    }
-
-    public double calcSumValuationRadioSumE1_2() {
-        double sum = 0;
-        for (AEBPageE1_2 page : _aebBaseInformation.getAebPageE1_2()) {
-            sum += page.getSumValuationRadio();
-        }
-        return sum;
-    }
-
-    public double calcSumValuationRadioSumE2() {
-        double sum = 0;
-        for (AEBPageE2 page : _aebBaseInformation.getAebPageE2()) {
-            sum += page.getSumValuationRadio();
-        }
-        return sum;
     }
 
     public Set<Integer> getValidIks() {
         return _sessionController.getAccount().getFullIkSet();
     }
 
-    private void removeEmptyEntries() {
-        _aebBaseInformation.getAebPageE1_1().removeIf(c -> c.getPepp().length() == 0);
-        _aebBaseInformation.getAebPageE1_2().removeIf(c -> c.getEt().length() == 0);
-        _aebBaseInformation.getAebPageE2().removeIf(c -> c.getZe().length() == 0);
+    private void removeEmptyEntries(AEBBaseInformation baseInformation) {
+        baseInformation.getAebPageE1_1().removeIf(c -> c.getPepp().length() == 0);
+        baseInformation.getAebPageE1_2().removeIf(c -> c.getEt().length() == 0);
+        baseInformation.getAebPageE2().removeIf(c -> c.getZe().length() == 0);
+        baseInformation.getAebPageE3_1().removeIf(c -> c.getRenumeration().length() == 0);
+        baseInformation.getAebPageE3_2().removeIf(c -> c.getZe().length() == 0);
+        baseInformation.getAebPageE3_3().removeIf(c -> c.getRenumeration().length() == 0);
     }
 
     public void peppChanged(AEBPageE1_1 page) {
         if (page.getPepp().length() == 5) {
-            page.setValuationRadioDay(_aebListItemFacade.getValuationRadioDays(page.getPepp(),
+            page.setValuationRadioDay(_aebListItemFacade.getValuationRadioDaysByPepp(page.getPepp(),
                     page.getCompensationClass(), _aebBaseInformation.getYear()));
         } else {
             page.setValuationRadioDay(0.0);
         }
-        page.calculateSum();
     }
 
     public void zeChanged(AEBPageE2 page) {
-        if (page.getZe().length() == 9) {
-            page.setValuationRadioDay(0.123);
-            page.calculateSum();
+        if (page.getZe().length() == 7) {
+            page.setValuationRadioDay(_aebListItemFacade.getValuationRadioDaysByZe(page.getZe(),
+                    _aebBaseInformation.getYear()));
         } else {
             page.setValuationRadioDay(0.0);
         }
     }
 
     public void etChanged(AEBPageE1_2 page) {
-        if (page.getEt().length() == 5) {
-            page.setValuationRadioDay(0.123);
-            page.calculateSum();
+        if (page.getEt().length() == 7) {
+            page.setValuationRadioDay(_aebListItemFacade.getValuationRadioDaysByEt(page.getEt(),
+                    _aebBaseInformation.getYear()));
         } else {
             page.setValuationRadioDay(0.0);
         }

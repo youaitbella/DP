@@ -82,31 +82,17 @@ public class AEBPageE2 implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property SumValuationRadio">
-    @Column(name = "peSumValuationRadio")
-    private double _sumValuationRadio;
-
     public double getSumValuationRadio() {
-        return _sumValuationRadio;
-    }
-
-    public void setSumValuationRadio(double sumValuationRadio) {
-        _sumValuationRadio = sumValuationRadio;
-    }
-    //</editor-fold>
-
-    public void calculateSum() {
-        setSumValuationRadio(_zeCount * _valuationRadioDay);
+        return _zeCount * _valuationRadioDay;
     }
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 17 * hash + Objects.hashCode(this._baseInformation);
-        hash = 17 * hash + Objects.hashCode(this._ze);
-        hash = 17 * hash + this._zeCount;
-        hash = 17 * hash + (int) (Double.doubleToLongBits(this._valuationRadioDay) ^ (Double.doubleToLongBits(this._valuationRadioDay) >>> 32));
-        hash = 17 * hash + (int) (Double.doubleToLongBits(this._sumValuationRadio) ^ (Double.doubleToLongBits(this._sumValuationRadio) >>> 32));
+        int hash = 5;
+        hash = 23 * hash + Objects.hashCode(this._baseInformation);
+        hash = 23 * hash + Objects.hashCode(this._ze);
+        hash = 23 * hash + this._zeCount;
+        hash = 23 * hash + (int) (Double.doubleToLongBits(this._valuationRadioDay) ^ (Double.doubleToLongBits(this._valuationRadioDay) >>> 32));
         return hash;
     }
 
@@ -125,10 +111,7 @@ public class AEBPageE2 implements Serializable {
         if (this._zeCount != other._zeCount) {
             return false;
         }
-        if (this._valuationRadioDay != other._valuationRadioDay) {
-            return false;
-        }
-        if (this._sumValuationRadio != other._sumValuationRadio) {
+        if (Double.doubleToLongBits(this._valuationRadioDay) != Double.doubleToLongBits(other._valuationRadioDay)) {
             return false;
         }
         if (!Objects.equals(this._ze, other._ze)) {

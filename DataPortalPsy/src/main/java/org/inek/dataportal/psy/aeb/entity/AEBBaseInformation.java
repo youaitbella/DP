@@ -232,4 +232,70 @@ public class AEBBaseInformation implements Serializable {
     public void removeAebPageE2(AEBPageE2 page) {
         _aebPageE2.remove(page);
     }
+
+    @OneToMany(mappedBy = "_baseInformation", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "peBaseInformationId")
+    private List<AEBPageE3_1> _aebPageE3_1 = new ArrayList<>();
+
+    public List<AEBPageE3_1> getAebPageE3_1() {
+        return _aebPageE3_1;
+    }
+
+    public void setAebPageE3_1(List<AEBPageE3_1> aebPageE3_1) {
+        _aebPageE3_1 = aebPageE3_1;
+    }
+
+    public void addAebPageE3_1() {
+        AEBPageE3_1 page = new AEBPageE3_1();
+        page.setBaseInformation(this);
+        _aebPageE3_1.add(page);
+    }
+
+    public void removeAebPageE3_1(AEBPageE3_1 page) {
+        _aebPageE3_1.remove(page);
+    }
+
+    @OneToMany(mappedBy = "_baseInformation", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "peBaseInformationId")
+    private List<AEBPageE3_2> _aebPageE3_2 = new ArrayList<>();
+
+    public List<AEBPageE3_2> getAebPageE3_2() {
+        return _aebPageE3_2;
+    }
+
+    public void setAebPageE3_2(List<AEBPageE3_2> aebPageE3_2) {
+        _aebPageE3_2 = aebPageE3_2;
+    }
+
+    public void addAebPageE3_2() {
+        AEBPageE3_2 page = new AEBPageE3_2();
+        page.setBaseInformation(this);
+        _aebPageE3_2.add(page);
+    }
+
+    public void removeAebPageE3_2(AEBPageE3_2 page) {
+        _aebPageE3_2.remove(page);
+    }
+
+    @OneToMany(mappedBy = "_baseInformation", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "peBaseInformationId")
+    private List<AEBPageE3_3> _aebPageE3_3 = new ArrayList<>();
+
+    public List<AEBPageE3_3> getAebPageE3_3() {
+        return _aebPageE3_3;
+    }
+
+    public void setAebPageE3_3(List<AEBPageE3_3> aebPageE3_3) {
+        _aebPageE3_3 = aebPageE3_3;
+    }
+
+    public void addAebPageE3_3() {
+        AEBPageE3_3 page = new AEBPageE3_3();
+        page.setBaseInformation(this);
+        _aebPageE3_3.add(page);
+    }
+
+    public void removeAebPageE3_3(AEBPageE3_3 page) {
+        _aebPageE3_3.remove(page);
+    }
 }

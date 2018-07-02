@@ -25,7 +25,7 @@
                 <pf:messages>
                     <pf:autoUpdate />
                 </pf:messages>
-                <h1>AEB - Übersicht</h1>
+                <h1>Datenerfassung für den Krankenhausvergleich</h1>
                 <pf:tabView dynamic="true">
                     <pf:tab title="Allgemein">
                         <ui:include src="AebGenerell.xhtml" />
@@ -46,13 +46,13 @@
                         <ui:include src="pages/AebPageE2.xhtml" />
                     </pf:tab>
                     <pf:tab title="Blatt E3.1" disabled="#{editAEB.aebBaseInformation.year lt 2018}">
-                        Kommt noch
+                        <ui:include src="pages/AebPageE3_1.xhtml" />
                     </pf:tab>
                     <pf:tab title="Blatt E3.2" disabled="#{editAEB.aebBaseInformation.year lt 2018}">
-                        Kommt noch
+                        <ui:include src="pages/AebPageE3_2.xhtml" />
                     </pf:tab>
                     <pf:tab title="Blatt E3.3" disabled="#{editAEB.aebBaseInformation.year lt 2018}">
-                        Kommt noch
+                        <ui:include src="pages/AebPageE3_3.xhtml" />
                     </pf:tab>
                     <pf:tab title="Blatt B1" disabled="#{editAEB.aebBaseInformation.year lt 2018}">
                         Kommt noch
@@ -61,11 +61,15 @@
 
                 <pf:commandButton value="Ans InEK senden"
                                   update="@(.ui-message) @all"
-                                  action="#{editAEB.send()}"/>
+                                  action="#{editAEB.send()}"
+                                  styleClass="sendButton"/>
 
-                <pf:commandButton value="Speichern" action="#{editAEB.save()}"
+                <pf:commandButton styleClass="bigButton"
+                                  value="Speichern"
+                                  action="#{editAEB.save()}"
                                   update="@(.ui-message) @all"
-                                  immediate="true"/>
+                                  immediate="true"
+                                  oncomplete="changeDialogColor('save')"/>
             </h:form>
         </pf:panel>
     </ui:define>

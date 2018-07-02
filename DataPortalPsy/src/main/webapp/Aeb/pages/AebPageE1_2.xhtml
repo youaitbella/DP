@@ -8,10 +8,6 @@
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
                 xmlns:pf="http://primefaces.org/ui">
 
-
-    <h2>
-        E1 Aufstellung der mit Bewertungsrelationen bewerteten Entgelte für das Krankenhaus
-    </h2>
     <h4>
         E1.2 Aufstellung der ergänzenden Tagesentgelte (ET)
     </h4>
@@ -29,11 +25,11 @@
             </pf:commandLink>
         </pf:column>
         <pf:column headerText="ET-Nr.">
-            <inek:InputTextValidator value="#{page.et}"
-                                     maxlength="4"
-                                     validatorFunction="#{psyValidator.isValidPepp}"
-                                     validatorMessage="Ungültige ET-Nr"
-                                     disabled="#{editAEB.isReadOnly()}"/>
+            <pf:inputText value="#{page.et}"
+                          maxlength="7"
+                          disabled="#{editAEB.isReadOnly()}">
+                <pf:ajax event="change" oncomplete="#{editAEB.etChanged(page)}" update="listpagee12" immediate="true" />
+            </pf:inputText>
         </pf:column>
         <pf:column headerText="Anzahl Berechnungstage" style="text-align: right">
             <pf:inputNumber id="calcdaysIde12"
@@ -41,7 +37,7 @@
                             disabled="#{editAEB.isReadOnly()}"
                             decimalPlaces="0"
                             inputStyle="width: 100%; text-align: right">
-                <pf:ajax event="change" update="listpagee12" />
+                <pf:ajax event="change" oncomplete="#{editAEB.etChanged(page)}" update="listpagee12" immediate="true" />
             </pf:inputNumber>
             <pf:message for="calcdaysIde12" />
         </pf:column>
@@ -51,7 +47,7 @@
         <pf:column headerText="Summe der Bewertungsrelation" style="text-align: right">
             <pf:outputLabel value="#{page.sumValuationRadio}" />
             <f:facet name="footer">
-                <pf:outputLabel value="#{editAEB.calcSumValuationRadioSumE1_2()}" />
+                <pf:outputLabel value="#{editAEB.aebBaseInformation.aebPageE1_2.stream().map(c -> c.getSumValuationRadio()).sum()}" />
             </f:facet>
         </pf:column>
 

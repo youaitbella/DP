@@ -12,7 +12,6 @@
     <h2>
         E2 Aufstellung der bewerteten Zusatzentgelte für das Krankenhaus
     </h2>
-
     <pf:dataTable id="listpagee2"
                   var="page"
                   value="#{editAEB.aebBaseInformation.aebPageE2}"
@@ -27,9 +26,7 @@
         </pf:column>
         <pf:column headerText="ZE-Nr.">
             <pf:inputText value="#{page.ze}"
-                          maxlength="9"
-                          validator="#{psyValidator.isValidZe}"
-                          validatorMessage="Ungültige ZE-Nr"
+                          maxlength="7"
                           disabled="#{editAEB.isReadOnly()}">
                 <pf:ajax event="change" oncomplete="#{editAEB.zeChanged(page)}" update="listpagee2" immediate="true" />
             </pf:inputText>
@@ -50,7 +47,7 @@
         <pf:column headerText="Summe der Bewertungsrelation" style="text-align: right">
             <pf:outputLabel value="#{page.sumValuationRadio}" />
             <f:facet name="footer">
-                <pf:outputLabel value="#{editAEB.calcSumValuationRadioSumE2()}" />
+                <pf:outputLabel value="#{editAEB.aebBaseInformation.aebPageE2.stream().map(c -> c.getSumValuationRadio()).sum()}" />
             </f:facet>
         </pf:column>
 

@@ -108,33 +108,19 @@ public class AEBPageE1_1 implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property SumValuationRadio">
-    @Column(name = "peSumValuationRadio")
-    private double _sumValuationRadio;
-
     public double getSumValuationRadio() {
-        return _sumValuationRadio;
-    }
-
-    public void setSumValuationRadio(double sumValuationRadio) {
-        _sumValuationRadio = sumValuationRadio;
-    }
-    //</editor-fold>
-
-    public void calculateSum() {
-        setSumValuationRadio(_calculationDays * _valuationRadioDay);
+        return _calculationDays * _valuationRadioDay;
     }
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 97 * hash + Objects.hashCode(this._baseInformation);
-        hash = 97 * hash + Objects.hashCode(this._pepp);
-        hash = 97 * hash + this._compensationClass;
-        hash = 97 * hash + this._caseCount;
-        hash = 97 * hash + this._calculationDays;
-        hash = 97 * hash + (int) (Double.doubleToLongBits(this._valuationRadioDay) ^ (Double.doubleToLongBits(this._valuationRadioDay) >>> 32));
-        hash = 97 * hash + (int) (Double.doubleToLongBits(this._sumValuationRadio) ^ (Double.doubleToLongBits(this._sumValuationRadio) >>> 32));
+        int hash = 3;
+        hash = 59 * hash + Objects.hashCode(this._baseInformation);
+        hash = 59 * hash + Objects.hashCode(this._pepp);
+        hash = 59 * hash + this._compensationClass;
+        hash = 59 * hash + this._caseCount;
+        hash = 59 * hash + this._calculationDays;
+        hash = 59 * hash + (int) (Double.doubleToLongBits(this._valuationRadioDay) ^ (Double.doubleToLongBits(this._valuationRadioDay) >>> 32));
         return hash;
     }
 
@@ -150,22 +136,19 @@ public class AEBPageE1_1 implements Serializable {
             return false;
         }
         final AEBPageE1_1 other = (AEBPageE1_1) obj;
+        if (this._compensationClass != other._compensationClass) {
+            return false;
+        }
         if (this._caseCount != other._caseCount) {
             return false;
         }
         if (this._calculationDays != other._calculationDays) {
             return false;
         }
-        if (this._valuationRadioDay != other._valuationRadioDay) {
-            return false;
-        }
-        if (this._sumValuationRadio != other._sumValuationRadio) {
+        if (Double.doubleToLongBits(this._valuationRadioDay) != Double.doubleToLongBits(other._valuationRadioDay)) {
             return false;
         }
         if (!Objects.equals(this._pepp, other._pepp)) {
-            return false;
-        }
-        if (!Objects.equals(this._compensationClass, other._compensationClass)) {
             return false;
         }
         if (!Objects.equals(this._id, other._id)) {

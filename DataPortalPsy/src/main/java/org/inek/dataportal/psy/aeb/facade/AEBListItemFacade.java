@@ -35,11 +35,39 @@ public class AEBListItemFacade extends AbstractDataAccess {
         return items;
     }
 
-    public double getValuationRadioDays(String pepp, int compensationClass, int dataYear) {
+    public double getValuationRadioDaysByPepp(String pepp, int compensationClass, int dataYear) {
         String sql = "select lpValuationRadioDay from psy.listPepp\n"
                 + "where lpPepp = '" + pepp.toUpperCase() + "'\n"
                 + "and lpCompensationClass = " + compensationClass + "\n"
                 + "and lpDataYear = " + dataYear + "";
+
+        Query query = getEntityManager().createNativeQuery(sql);
+        List<BigDecimal> result = query.getResultList();
+        if (result.isEmpty()) {
+            return 0;
+        } else {
+            return result.get(0).doubleValue();
+        }
+    }
+
+    public double getValuationRadioDaysByEt(String et, int dataYear) {
+        String sql = "select leValuationRadioDay from psy.listEt\n"
+                + "where leEt = '" + et.toUpperCase() + "'\n"
+                + "and leDataYear = " + dataYear + "";
+
+        Query query = getEntityManager().createNativeQuery(sql);
+        List<BigDecimal> result = query.getResultList();
+        if (result.isEmpty()) {
+            return 0;
+        } else {
+            return result.get(0).doubleValue();
+        }
+    }
+
+    public double getValuationRadioDaysByZe(String ze, int dataYear) {
+        String sql = "select lzValuationRadioDay from psy.listZe\n"
+                + "where lzZe = '" + ze.toUpperCase() + "'\n"
+                + "and lzDataYear = " + dataYear + "";
 
         Query query = getEntityManager().createNativeQuery(sql);
         List<BigDecimal> result = query.getResultList();
