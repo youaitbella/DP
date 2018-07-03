@@ -179,9 +179,9 @@ public enum Pages {
     PsychStaffAppendix2Kids("/PsychStaff/Appendix2Kids"),
     PsychStaffListButtons("/PsychStaff/fragment/ListButtons"),
     //
-    AebSummary("/Aeb/AebSummary"),
-    AebEdit("/Aeb/AebEdit"),
-    PartAeb("/Aeb/PartAeb"),
+    KhComparisonSummary("/KhComparison/Summary"),
+    KhComparisonEdit("/KhComparison/Edit"),
+    PartKhComparison("/KhComparison/PartKhComparison"),
     //
     NotAllowed("/Common/NotAllowed"),
     PrintView("/Common/PrintView"),

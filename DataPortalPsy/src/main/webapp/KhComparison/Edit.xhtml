@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/Templates/PortalMenuTemplate.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:pf="http://primefaces.org/ui">
+
+    <ui:define name="content">
+
+        <pf:ajaxStatus style="display:block;position:absolute;bottom: 5px;right: 5px;z-index:100">
+            <f:facet name="start">
+                <pf:graphicImage height="100" width="100" name="Image/load.gif" />
+            </f:facet>
+            <f:facet name="complete">
+                <h:outputText value="" />
+            </f:facet>
+        </pf:ajaxStatus>
+
+        <pf:panel>
+            <h:form>
+                <pf:messages>
+                    <pf:autoUpdate />
+                </pf:messages>
+                <h1>Datenerfassung für den Krankenhausvergleich</h1>
+                <pf:tabView dynamic="true">
+                    <pf:tab title="Allgemein">
+                        <ui:include src="Generell.xhtml" />
+                    </pf:tab>
+                    <ui:remove>
+                        <pf:tab title="Strukturinformationen" disabled="#{edit.aebBaseInformation.year lt 2018}">
+                            <ui:include src="StructureInformation.xhtml" />
+                        </pf:tab>
+                        <pf:tab title="PIA-Daten" disabled="#{edit.aebBaseInformation.year lt 2018}">
+                            Kommt noch
+                        </pf:tab>
+                    </ui:remove>
+                    <pf:tab title="Blatt E1.1" disabled="#{edit.aebBaseInformation.year lt 2018}">
+                        <ui:include src="Aeb/pages/AebPageE1_1.xhtml" />
+                    </pf:tab>
+                    <pf:tab title="Blatt E1.2" disabled="#{edit.aebBaseInformation.year lt 2018}">
+                        <ui:include src="Aeb/pages/AebPageE1_2.xhtml" />
+                    </pf:tab>
+                    <pf:tab title="Blatt E2" disabled="#{edit.aebBaseInformation.year lt 2018}">
+                        <ui:include src="Aeb/pages/AebPageE2.xhtml" />
+                    </pf:tab>
+                    <pf:tab title="Blatt E3.1" disabled="#{edit.aebBaseInformation.year lt 2018}">
+                        <ui:include src="Aeb/pages/AebPageE3_1.xhtml" />
+                    </pf:tab>
+                    <pf:tab title="Blatt E3.2" disabled="#{edit.aebBaseInformation.year lt 2018}">
+                        <ui:include src="Aeb/pages/AebPageE3_2.xhtml" />
+                    </pf:tab>
+                    <pf:tab title="Blatt E3.3" disabled="#{edit.aebBaseInformation.year lt 2018}">
+                        <ui:include src="Aeb/pages/AebPageE3_3.xhtml" />
+                    </pf:tab>
+                    <pf:tab title="Blatt B1" disabled="#{edit.aebBaseInformation.year lt 2018}">
+                        <ui:include src="Aeb/pages/AebPageB1.xhtml" />
+                    </pf:tab>
+                </pf:tabView>
+
+                <pf:commandButton value="Ans InEK senden"
+                                  update="@(.ui-message) @all"
+                                  action="#{edit.send()}"
+                                  styleClass="sendButton"/>
+
+                <pf:commandButton styleClass="bigButton"
+                                  value="Speichern"
+                                  action="#{edit.save()}"
+                                  update="@(.ui-message) @all"
+                                  immediate="true"
+                                  oncomplete="changeDialogColor('save')"/>
+            </h:form>
+        </pf:panel>
+    </ui:define>
+
+</ui:composition>

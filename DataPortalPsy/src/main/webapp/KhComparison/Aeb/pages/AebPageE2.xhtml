@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/Input"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:pf="http://primefaces.org/ui">
+
+
+    <h2>
+        E2 Aufstellung der bewerteten Zusatzentgelte für das Krankenhaus
+    </h2>
+    <pf:dataTable id="listpagee2"
+                  var="page"
+                  value="#{edit.aebBaseInformation.aebPageE2}"
+                  widgetVar="pagesE2"
+                  emptyMessage="Keine Einträge vorhanden"
+                  tableStyleClass="inekTablePsy">
+        <pf:column class="colIcon" rendered="#{!edit.isReadOnly()}">
+            <pf:commandLink action="#{edit.removePageE2(page)}"
+                            update="listpagee2"
+                            process="@this">
+                <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value=""/>
+            </pf:commandLink>
+        </pf:column>
+        <pf:column headerText="ZE-Nr.">
+            <pf:inputText value="#{page.ze}"
+                          maxlength="7"
+                          disabled="#{edit.isReadOnly()}">
+                <pf:ajax event="change" oncomplete="#{edit.zeChanged(page)}" update="listpagee2" immediate="true" />
+            </pf:inputText>
+        </pf:column>
+        <pf:column headerText="Anzahl der ZE" style="text-align: right">
+            <pf:inputNumber id="calcdaysIde2"
+                            value="#{page.zeCount}"
+                            disabled="#{edit.isReadOnly()}"
+                            decimalPlaces="0"
+                            inputStyle="width: 100%; text-align: right">
+                <pf:ajax event="change" oncomplete="#{edit.zeChanged(page)}" update="listpagee2" immediate="true" />
+            </pf:inputNumber>
+            <pf:message for="calcdaysIde2" />
+        </pf:column>
+        <pf:column headerText="Bewertungsrelation / Tag" style="text-align: right">
+            <pf:outputLabel value="#{page.valuationRadioDay}" />
+        </pf:column>
+        <pf:column headerText="Summe der Bewertungsrelation" style="text-align: right">
+            <pf:outputLabel value="#{page.sumValuationRadio}" />
+            <f:facet name="footer">
+                <pf:outputLabel value="#{edit.aebBaseInformation.aebPageE2.stream().map(c -> c.getSumValuationRadio()).sum()}" />
+            </f:facet>
+        </pf:column>
+
+    </pf:dataTable>
+
+    <div class="ui-md-5">
+        <pf:commandButton value="Weiteren Eintrag hinzufügen"
+                          class="addEntry"
+                          icon="fa fa-plus"
+                          process="@this"
+                          action="#{edit.addNewPageE2()}"
+                          rendered="#{!edit.isReadOnly()}"
+                          update="listpagee2"/>
+    </div>
+
+</ui:composition>

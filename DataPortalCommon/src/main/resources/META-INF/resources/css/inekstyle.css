@@ -34,3 +34,13 @@
     background-color:  #e2f5d5 !important;
     margin-top: 5px;
 }
+
+.inekTablePsy th{
+    background-image: none !important;
+    background-color: #e2f5d5 !important
+}
+
+.inekTablePsy tr:nth-child(even) td {
+    background-color: #e2f5d5;
+    color: #000;
+}
