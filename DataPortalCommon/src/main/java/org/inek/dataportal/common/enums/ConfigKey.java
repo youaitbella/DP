@@ -32,8 +32,8 @@ public enum ConfigKey {
     IsSpecificFunctionRequestSendEnabled(false),
     IsSpecificFunctionAgreementCreateEnabled(false),
     IsSpecificFunctionAgreementSendEnabled(false),
-    IsDistributionModelSendEnabled(false), 
-    IsDistributionModelDrgCreateEnabled(false), 
+    IsDistributionModelSendEnabled(false),
+    IsDistributionModelDrgCreateEnabled(false),
     IsDistributionModelPeppCreateEnabled(false),
     IsPsychStaffCreateEnabled(false),
     IsPsychStaffSendEnabled(false),
@@ -48,9 +48,9 @@ public enum ConfigKey {
     FolderUpload("upload"),
     FolderDocumentScanBase("documents"),
     ExceptionEmail("PortalAdmin@inek-drg.de"),
-    ManagerEmail("dsportalanmeldungen@inek-drg.de"), 
-    ReportValidity(120);
-
+    ManagerEmail("dsportalanmeldungen@inek-drg.de"),
+    ReportValidity(120),
+    DocumentSetRead(false);
     //
     private final Object _defaultValue;
 
@@ -59,32 +59,31 @@ public enum ConfigKey {
     }
 
     public String getDefault() {
-        if (_defaultValue instanceof String ){}
+        if (_defaultValue instanceof String) {
+        }
         return "" + _defaultValue;
     }
-    
-    public boolean isBool(){
+
+    public boolean isBool() {
         return _defaultValue instanceof Boolean;
     }
-    
+
     public boolean getBoolDefault() {
         return (boolean) _defaultValue;
     }
-    
-    public boolean isInt(){
+
+    public boolean isInt() {
         return _defaultValue instanceof Integer;
     }
-    
+
     public int getIntDefault() {
         return (int) _defaultValue;
     }
-    
-    //private getType
 
+    //private getType
     @Override
     public String toString() {
         return this.name();
     }
 
 }
-
