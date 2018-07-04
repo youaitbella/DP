@@ -6,12 +6,9 @@
 package org.inek.dataportal.admin.backingbean;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
+
 import javax.annotation.PostConstruct;
 
 import javax.inject.Inject;
@@ -23,8 +20,6 @@ import org.inek.dataportal.common.data.infotext.entity.InfoText;
 import org.inek.dataportal.common.data.infotext.facade.InfoTextFacade;
 
 import org.inek.dataportal.common.scope.FeatureScoped;
-import org.primefaces.component.datatable.DataTable;
-import org.primefaces.event.CellEditEvent;
 
 /**
  *
@@ -55,53 +50,36 @@ public class AdminInfoText implements Serializable {
     }
 
     //</editor-fold>
+    //<editor-fold defaultstate="collapsed" desc="New Key Name">
+    String _newKey;
+
+    public String getNewKey() {
+        return _newKey;
+    }
+
+    public void setNewKey(String newKey) {
+        this._newKey = newKey;
+    }
+
+    //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="Drop Down Text">
-    private String _dropDownText;
-
-    public String getDropDownText() {
-        return _dropDownText;
-    }
-
-    public void setDropDownText(String dropDownText) {
-        this._dropDownText = dropDownText;
-    }
-    //</editor-fold>
-    //<editor-fold defaultstate="collapsed" desc="Info Text Text">
-    private String _infoTextText;
-
-    public String getInfoTextText() {
-        return _infoTextText;
-    }
-
-    public void setInfoTextText(String infoTextText) {
-        this._infoTextText = infoTextText;
-    }
-
-    //</editor-fold>
-    //<editor-fold defaultstate="collapsed" desc="Current Info Text">
-    private InfoText _currentInfoText;
-
-    public InfoText getCurrentInfoText() {
-        return _currentInfoText;
-    }
-
-    public void setCurrentInfoText(InfoText currentInfoText) {
-        this._currentInfoText = currentInfoText;
-    }
-
-    //</editor-fold>
     @PostConstruct
     private void initData() {
 
-        _dropDownText = "";
-        _infoTextText = "";
         _listOfInfoTexts = _infoTextFacade.getAllInfoTexts("DE");
 
     }
 
-    public void onSave() {
+    public void addInfoText(String key) {
 
-        setInfoTextText(_listOfInfoTexts.get(1).getModified() + "");
+        InfoText newText = new InfoText();
+        newText.setKey(_newKey);
+        _listOfInfoTexts.add(newText);
+        _newKey = "";
+
+    }
+
+    public void onSave() {
 
         for (InfoText infoText : _listOfInfoTexts) {
 

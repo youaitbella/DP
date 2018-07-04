@@ -92,7 +92,7 @@ public class InfoText implements Serializable {
         return _modified;
     }
 
-    private void setModified() {
+    public void setModified() {
         _modified = true;
     }
 
