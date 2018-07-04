@@ -18,7 +18,7 @@
                   var="personal"
                   value="#{edit.aebBaseInformation.personalAgreed}"
                   emptyMessage="Keine Einträge vorhanden"
-                  tableStyle="table-layout: auto;"
+                  tableStyle="table-layout: auto"
                   tableStyleClass="inekTablePsy">
         <pf:column headerText="Personalgruppe">
             <pf:outputLabel value="#{personal.occupationalCategory.personnelGroup.name}" />
@@ -29,7 +29,7 @@
         <pf:column headerText="Berufsgruppen der Psych-PV">
             <pf:outputLabel value="#{personal.occupationalCategory.name}" />
         </pf:column>
-        <pf:column headerText="Stellenbesetzung für eine vollständige Umsetzung der Psych-PV in VK">
+        <pf:column headerText="Stellenbesetzung für eine vollständige Umsetzung der Psych-PV in VK" style="text-align: right">
             <pf:inputNumber value="#{personal.complete}"
                             disabled="#{edit.isReadOnly()}"
                             decimalPlaces="2"
@@ -37,7 +37,7 @@
                 <pf:ajax />
             </pf:inputNumber>
         </pf:column>
-        <pf:column headerText="Stellenbesetzung als Budgetgrundlage in VK">
+        <pf:column headerText="Stellenbesetzung als Budgetgrundlage in VK" style="text-align: right">
             <pf:inputNumber value="#{personal.budget}"
                             disabled="#{edit.isReadOnly()}"
                             decimalPlaces="2"
@@ -45,9 +45,11 @@
                 <pf:ajax />
             </pf:inputNumber>
         </pf:column>
-        <pf:column headerText="Durchschnittskosten je VK in Euro">
+        <pf:column headerText="Durchschnittskosten je VK in Euro" style="text-align: right">
             <pf:inputNumber value="#{personal.averageCost}"
                             disabled="#{edit.isReadOnly()}"
+                            symbol=" €"
+                            symbolPosition="s"
                             decimalPlaces="2"
                             inputStyle="width: 100%; text-align: right">
                 <pf:ajax />

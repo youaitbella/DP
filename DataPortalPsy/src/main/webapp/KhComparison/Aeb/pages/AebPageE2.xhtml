@@ -43,12 +43,18 @@
             <pf:message for="calcdaysIde2" />
         </pf:column>
         <pf:column headerText="Bewertungsrelation / Tag" style="text-align: right">
-            <pf:outputLabel value="#{page.valuationRadioDay}" />
+            <pf:outputLabel value="#{page.valuationRadioDay}" >
+                <f:convertNumber groupingUsed="true" minFractionDigits="4" />
+            </pf:outputLabel>
         </pf:column>
         <pf:column headerText="Summe der Bewertungsrelation" style="text-align: right">
-            <pf:outputLabel value="#{page.sumValuationRadio}" />
+            <pf:outputLabel value="#{page.sumValuationRadio}" >
+                <f:convertNumber groupingUsed="true" minFractionDigits="4" />
+            </pf:outputLabel>
             <f:facet name="footer">
-                <pf:outputLabel value="#{edit.aebBaseInformation.aebPageE2.stream().map(c -> c.getSumValuationRadio()).sum()}" />
+                <pf:outputLabel value="#{edit.aebBaseInformation.aebPageE2.stream().map(c -> c.getSumValuationRadio()).sum()}" >
+                    <f:convertNumber groupingUsed="true" minFractionDigits="4" />
+                </pf:outputLabel>
             </f:facet>
         </pf:column>
 

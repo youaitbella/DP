@@ -1,6 +1,7 @@
 package org.inek.dataportal.psy.khcomparison.entity;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.*;
 import org.inek.dataportal.psy.psychstaff.entity.OccupationalCategory;
 
@@ -44,6 +45,17 @@ public class PersonalAgreed implements Serializable {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="OccupationalCategory">
+    @Column(name = "paOccupationalCategoryId")
+    private int _occupationalCategoryId;
+
+    public int getOccupationalCategoryId() {
+        return _occupationalCategoryId;
+    }
+
+    public void setOccupationalCategoryId(int occupationalCategoryId) {
+        _occupationalCategoryId = occupationalCategoryId;
+    }
+
     @OneToOne()
     @PrimaryKeyJoinColumn(name = "paOccupationalCategoryId")
     private OccupationalCategory _occupationalCategory;
@@ -54,6 +66,7 @@ public class PersonalAgreed implements Serializable {
 
     public void setOccupationalCategory(OccupationalCategory occupationalCategory) {
         _occupationalCategory = occupationalCategory;
+        _occupationalCategoryId = occupationalCategory.getId();
     }
     //</editor-fold>
 
@@ -95,5 +108,49 @@ public class PersonalAgreed implements Serializable {
         _averageCost = averageCost;
     }
     //</editor-fold>
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 43 * hash + Objects.hashCode(this._baseInformation);
+        hash = 43 * hash + Objects.hashCode(this._occupationalCategory);
+        hash = 43 * hash + (int) (Double.doubleToLongBits(this._complete) ^ (Double.doubleToLongBits(this._complete) >>> 32));
+        hash = 43 * hash + (int) (Double.doubleToLongBits(this._budget) ^ (Double.doubleToLongBits(this._budget) >>> 32));
+        hash = 43 * hash + (int) (Double.doubleToLongBits(this._averageCost) ^ (Double.doubleToLongBits(this._averageCost) >>> 32));
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final PersonalAgreed other = (PersonalAgreed) obj;
+        if (Double.doubleToLongBits(this._complete) != Double.doubleToLongBits(other._complete)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this._budget) != Double.doubleToLongBits(other._budget)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this._averageCost) != Double.doubleToLongBits(other._averageCost)) {
+            return false;
+        }
+        if (!Objects.equals(this._id, other._id)) {
+            return false;
+        }
+        if (!Objects.equals(this._baseInformation, other._baseInformation)) {
+            return false;
+        }
+        if (!Objects.equals(this._occupationalCategory, other._occupationalCategory)) {
+            return false;
+        }
+        return true;
+    }
 
 }

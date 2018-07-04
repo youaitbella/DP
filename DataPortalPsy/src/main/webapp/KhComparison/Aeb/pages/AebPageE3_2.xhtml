@@ -46,7 +46,7 @@
                 <pf:ajax />
             </pf:inputText>
         </pf:column>
-        <pf:column headerText="Anzahl">
+        <pf:column headerText="Anzahl" style="text-align: right">
             <pf:inputNumber value="#{page.count}"
                             disabled="#{edit.isReadOnly()}"
                             decimalPlaces="0"
@@ -57,19 +57,22 @@
                 <pf:outputLabel value="#{edit.aebBaseInformation.aebPageE3_2.stream().map(c -> c.getCount()).sum()}" />
             </f:facet>
         </pf:column>
-        <pf:column headerText="Entgeldhöhe">
+        <pf:column headerText="Entgeldhöhe" style="text-align: right">
             <pf:inputNumber value="#{page.renumerationValue}"
                             disabled="#{edit.isReadOnly()}"
+                            symbol=" €"
+                            symbolPosition="s"
                             decimalPlaces="2"
                             inputStyle="width: 100%; text-align: right">
                 <pf:ajax event="change" update="listpagee32" immediate="true" />
             </pf:inputNumber>
         </pf:column>
-        <pf:column headerText="Erlössumme">
-            <pf:outputLabel value="#{page.sumProceeds}"
-                            style="text-align: right" />
+        <pf:column headerText="Erlössumme" style="text-align: right">
+            <pf:outputLabel value="#{page.sumProceeds} €" />
             <f:facet name="footer">
-                <pf:outputLabel value="#{edit.aebBaseInformation.aebPageE3_2.stream().map(c -> c.getSumProceeds()).sum()}" />
+                <pf:outputLabel value="#{edit.aebBaseInformation.aebPageE3_2.stream().map(c -> c.getSumProceeds()).sum()} €" >
+                    <f:convertNumber groupingUsed="true" minFractionDigits="2" />
+                </pf:outputLabel>
             </f:facet>
         </pf:column>
     </pf:dataTable>

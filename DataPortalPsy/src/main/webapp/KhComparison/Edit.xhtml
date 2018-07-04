@@ -30,14 +30,6 @@
                     <pf:tab title="Allgemein">
                         <ui:include src="Generell.xhtml" />
                     </pf:tab>
-                    <ui:remove>
-                        <pf:tab title="Strukturinformationen" disabled="#{edit.aebBaseInformation.year lt 2018}">
-                            <ui:include src="StructureInformation.xhtml" />
-                        </pf:tab>
-                        <pf:tab title="PIA-Daten" disabled="#{edit.aebBaseInformation.year lt 2018}">
-                            Kommt noch
-                        </pf:tab>
-                    </ui:remove>
                     <pf:tab title="Blatt E1.1" disabled="#{edit.aebBaseInformation.year lt 2018}">
                         <ui:include src="Aeb/pages/AebPageE1_1.xhtml" />
                     </pf:tab>
@@ -64,6 +56,15 @@
                     </pf:tab>
                     <pf:tab title="Personalausstattung Psychosomatik" disabled="#{edit.aebBaseInformation.year lt 2018}">
                         <ui:include src="PersonalAgreed.xhtml" />
+                    </pf:tab>
+                    <pf:tab title="Regionale und Strukturelle Besonderheiten" disabled="#{edit.aebBaseInformation.year lt 2018}">
+                        <ui:include src="RegionStructurParticularities.xhtml" />
+                    </pf:tab>
+                    <pf:tab title="Strukturinformationen" disabled="#{edit.aebBaseInformation.year lt 2018}">
+                        <ui:include src="StructureInformation.xhtml" />
+                    </pf:tab>
+                    <pf:tab title="PIA-Daten" disabled="#{edit.aebBaseInformation.year lt 2018}">
+                        Kommt noch
                     </pf:tab>
                 </pf:tabView>
 

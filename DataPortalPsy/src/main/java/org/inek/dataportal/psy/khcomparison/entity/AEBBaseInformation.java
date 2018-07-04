@@ -351,4 +351,26 @@ public class AEBBaseInformation implements Serializable {
     public void removePersonalAgreed(PersonalAgreed agreed) {
         _personalAgreed.remove(agreed);
     }
+
+    @OneToMany(mappedBy = "_baseInformation", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "rspBaseInformationId")
+    private List<RegionStructurParticularities> _regionStructurParticularities = new ArrayList<>();
+
+    public List<RegionStructurParticularities> getRegionStructurParticularities() {
+        return _regionStructurParticularities;
+    }
+
+    public void setRegionStructurParticularities(List<RegionStructurParticularities> regionStructurParticularities) {
+        this._regionStructurParticularities = regionStructurParticularities;
+    }
+
+    public void addNewRegionStructurParticularities() {
+        RegionStructurParticularities value = new RegionStructurParticularities();
+        value.setBaseInformation(this);
+        _regionStructurParticularities.add(value);
+    }
+
+    public void removeRegionStructurParticularities(RegionStructurParticularities value) {
+        _regionStructurParticularities.remove(value);
+    }
 }

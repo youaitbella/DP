@@ -6,6 +6,7 @@
 package org.inek.dataportal.psy.khcomparison.facade;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.faces.model.SelectItem;
@@ -19,19 +20,39 @@ import org.inek.dataportal.common.data.AbstractDataAccess;
 @Stateless
 public class AEBListItemFacade extends AbstractDataAccess {
 
-    public SelectItem[] getAccommodationItems() {
-        SelectItem[] items = new SelectItem[3];
-        items[0] = new SelectItem("-1", "Bitte Eintrag wählen");
-        items[1] = new SelectItem("1", "Bonn");
-        items[2] = new SelectItem("2", "Nicht Bonn");
+    public List<SelectItem> getAccommodationItems() {
+        String sql = "select acId, acName from psy.AEBListAccommodation";
+        Query query = getEntityManager().createNativeQuery(sql);
+        List<Object[]> result = query.getResultList();
+
+        List<SelectItem> items = new ArrayList<>();
+        for (Object[] resultElement : result) {
+            items.add(new SelectItem(resultElement[0].toString(), resultElement[1].toString()));
+        }
         return items;
     }
 
-    public SelectItem[] getAmbulantItems() {
-        SelectItem[] items = new SelectItem[3];
-        items[0] = new SelectItem("-1", "Bitte Eintrag wählen");
-        items[1] = new SelectItem("1", "Bonn");
-        items[2] = new SelectItem("2", "Nicht Bonn");
+    public List<SelectItem> getAmbulantItems() {
+        String sql = "select apId, apName from psy.AEBListAmbulantPerformance";
+        Query query = getEntityManager().createNativeQuery(sql);
+        List<Object[]> result = query.getResultList();
+
+        List<SelectItem> items = new ArrayList<>();
+        for (Object[] resultElement : result) {
+            items.add(new SelectItem(resultElement[0].toString(), resultElement[1].toString()));
+        }
+        return items;
+    }
+
+    public List<SelectItem> getStructureCategorie() {
+        String sql = "select scId, scName from psy.listStructureCategorie";
+        Query query = getEntityManager().createNativeQuery(sql);
+        List<Object[]> result = query.getResultList();
+
+        List<SelectItem> items = new ArrayList<>();
+        for (Object[] resultElement : result) {
+            items.add(new SelectItem(resultElement[0].toString(), resultElement[1].toString()));
+        }
         return items;
     }
 

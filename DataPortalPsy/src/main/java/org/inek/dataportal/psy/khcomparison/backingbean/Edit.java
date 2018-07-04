@@ -6,9 +6,8 @@
 package org.inek.dataportal.psy.khcomparison.backingbean;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
@@ -54,6 +53,7 @@ public class Edit {
         String id = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id");
         if (id == null) {
             _aebBaseInformation = createNewAebBaseInformation();
+            _aebBaseInformation.setCreatedFrom(_sessionController.getAccountId());
         } else if ("new".equals(id)) {
             _aebBaseInformation = createNewAebBaseInformation();
             _aebBaseInformation.setCreatedFrom(_sessionController.getAccountId());
@@ -70,12 +70,16 @@ public class Edit {
         this._aebBaseInformation = aebBaseInformation;
     }
 
-    public SelectItem[] getAccommodationItems() {
+    public List<SelectItem> getAccommodationItems() {
         return _aebListItemFacade.getAccommodationItems();
     }
 
-    public SelectItem[] getAmbulantItems() {
+    public List<SelectItem> getAmbulantItems() {
         return _aebListItemFacade.getAmbulantItems();
+    }
+
+    public List<SelectItem> getStructureCategories() {
+        return _aebListItemFacade.getStructureCategorie();
     }
 
     public Boolean isReadOnly() {
@@ -106,10 +110,6 @@ public class Edit {
         removeEmptyEntries(_aebBaseInformation);
         _aebBaseInformation.setLastChangeFrom(_sessionController.getAccountId());
         _aebBaseInformation.setLastChanged(new Date());
-        //
-//        _aebBaseInformation.getStructureInformation().setAccommodationId(1);
-//        _aebBaseInformation.getStructureInformation().setAmbulantPerformanceId(1);
-        //
         try {
             _aebBaseInformation = _aebFacade.save(_aebBaseInformation);
             _dialogController.showSaveDialog();
@@ -170,6 +170,14 @@ public class Edit {
 
     public void removePageE3_3(AEBPageE3_3 page) {
         _aebBaseInformation.removeAebPageE3_3(page);
+    }
+
+    public void removeRegionStructurParticularities(RegionStructurParticularities region) {
+        _aebBaseInformation.removeRegionStructurParticularities(region);
+    }
+
+    public void addNewRegionStructurParticularities() {
+        _aebBaseInformation.addNewRegionStructurParticularities();
     }
 
     public void handleFileUpload(FileUploadEvent event) {

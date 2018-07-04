@@ -19,7 +19,7 @@
                         decimalPlaces="0">
             <pf:ajax />
         </pf:inputNumber>
-        <pf:outputLabel value="Datenjahr:" />
+        <pf:outputLabel value="Vereinbahrungsjahr:" />
         <pf:inputNumber value="#{edit.aebBaseInformation.year}"
                         required="true"
                         requiredMessage="Bitte geben Sie das Verinbahrungsjahr an"
@@ -32,7 +32,8 @@
     <h3 jsf:rendered="#{!edit.isReadOnly()}">
         AEB aus Excel importieren
     </h3>
-    <pf:fileUpload rendered="#{!edit.isReadOnly()}"
+    <pf:fileUpload styleClass="inekUploader"
+                   rendered="#{!edit.isReadOnly()}"
                    fileUploadListener="#{edit.handleFileUpload}"
                    mode="advanced"
                    fileLimit="1"

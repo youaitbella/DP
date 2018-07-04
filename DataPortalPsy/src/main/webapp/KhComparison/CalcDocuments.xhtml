@@ -18,6 +18,7 @@
                   var="doc"
                   value="#{edit.aebBaseInformation.psyDocument}"
                   emptyMessage="Keine Einträge vorhanden"
+                  tableStyle="table-layout: auto"
                   tableStyleClass="inekTablePsy">
         <pf:column class="colIcon" rendered="#{!edit.isReadOnly()}">
             <pf:commandLink action="#{edit.removeDocument(doc)}"
@@ -48,7 +49,8 @@
     <h3 jsf:rendered="#{!edit.isReadOnly()}">
         Dateien hochladen
     </h3>
-    <pf:fileUpload rendered="#{!edit.isReadOnly()}"
+    <pf:fileUpload styleClass="inekUploader"
+                   rendered="#{!edit.isReadOnly()}"
                    fileUploadListener="#{edit.handleDocumentUpload}"
                    mode="advanced"
                    multiple="true"

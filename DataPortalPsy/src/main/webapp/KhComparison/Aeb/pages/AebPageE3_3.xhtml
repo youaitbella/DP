@@ -39,7 +39,7 @@
                 <pf:ajax />
             </pf:inputText>
         </pf:column>
-        <pf:column headerText="Fallzahl">
+        <pf:column headerText="Fallzahl" style="text-align: right">
             <pf:inputNumber value="#{page.caseCount}"
                             disabled="#{edit.isReadOnly()}"
                             decimalPlaces="0"
@@ -47,10 +47,12 @@
                 <pf:ajax />
             </pf:inputNumber>
             <f:facet name="footer">
-                <pf:outputLabel value="#{edit.aebBaseInformation.aebPageE3_3.stream().map(c -> c.getCaseCount()).sum()}" />
+                <pf:outputLabel value="#{edit.aebBaseInformation.aebPageE3_3.stream().map(c -> c.getCaseCount()).sum()}" >
+                    <f:convertNumber groupingUsed="true" minFractionDigits="0" />
+                </pf:outputLabel>
             </f:facet>
         </pf:column>
-        <pf:column headerText="Tage">
+        <pf:column headerText="Tage" style="text-align: right">
             <pf:inputNumber value="#{page.days}"
                             disabled="#{edit.isReadOnly()}"
                             decimalPlaces="0"
@@ -61,19 +63,21 @@
                 <pf:outputLabel value="#{edit.aebBaseInformation.aebPageE3_3.stream().map(c -> c.getDays()).sum()}" />
             </f:facet>
         </pf:column>
-        <pf:column headerText="Entgeldhöhe">
+        <pf:column headerText="Entgeldhöhe" style="text-align: right">
             <pf:inputNumber value="#{page.renumerationValue}"
                             disabled="#{edit.isReadOnly()}"
+                            symbol=" €"
                             decimalPlaces="2"
                             inputStyle="width: 100%; text-align: right">
                 <pf:ajax event="change" update="listpagee33" immediate="true" />
             </pf:inputNumber>
         </pf:column>
-        <pf:column headerText="Erlössumme">
-            <pf:outputLabel value="#{page.sumProceeds}"
-                            style="text-align: right" />
+        <pf:column headerText="Erlössumme" style="text-align: right">
+            <pf:outputLabel value="#{page.sumProceeds} €" />
             <f:facet name="footer">
-                <pf:outputLabel value="#{edit.aebBaseInformation.aebPageE3_3.stream().map(c -> c.getSumProceeds()).sum()}" />
+                <pf:outputLabel value="#{edit.aebBaseInformation.aebPageE3_3.stream().map(c -> c.getSumProceeds()).sum()} €" >
+                    <f:convertNumber groupingUsed="true" minFractionDigits="2" />
+                </pf:outputLabel>
             </f:facet>
         </pf:column>
     </pf:dataTable>

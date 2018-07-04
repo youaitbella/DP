@@ -12,14 +12,11 @@
     <div class="ui-g ui-fluid">
         <div class="ui-md-3">
             <inek:InputNumber value="#{edit.aebBaseInformation.structureInformation.bedCount}"
-                              require="true"
-                              requiredMessage="Bitte geben Sie die Bettenzahl an an"
                               labelText="Bettenzahl"
                               disabled="#{edit.isReadOnly()}"/>
         </div>
         <div class="ui-md-3">
             <inek:InputNumber value="#{edit.aebBaseInformation.structureInformation.therapyPartCount}"
-                              requiredMessage="Bitte geben Sie die Anzahl der teilstationären Therapieplätze an"
                               labelText="Anzahl teilstationärer Therapieplätze"
                               disabled="#{edit.isReadOnly()}" />
         </div>
@@ -29,7 +26,7 @@
         <div class="ui-g-12">
             <pf:outputLabel class="formLabel"
                             value="Stichpunktartige Beschreibung der strukturellen und personellen Besonderheiten duch die regionalen Versorgungsverpflichtung:*" />
-            <pf:inputTextarea id="regionId" required="true" requiredMessage="Bitte Beschreiben Sie die Regionale Versorgungsverpflichtung" rows="10" cols="50" value="#{edit.aebBaseInformation.structureInformation.regionalCare}" disabled="#{edit.isReadOnly()}"/>
+            <pf:inputTextarea id="regionId" rows="10" cols="50" value="#{edit.aebBaseInformation.structureInformation.regionalCare}" disabled="#{edit.isReadOnly()}"/>
             <pf:message for="regionId" />
         </div>
     </div>
@@ -38,7 +35,7 @@
     <div class="ui-g ui-fluid">
         <div class="ui-g-3 ui-md-3">
             <pf:outputLabel class="formLabel" value="Unterbringung:* " />
-            <pf:selectOneMenu required="true" value="#{edit.aebBaseInformation.structureInformation.accommodationId}" disabled="#{edit.isReadOnly()}">
+            <pf:selectOneMenu value="#{edit.aebBaseInformation.structureInformation.accommodationId}" disabled="#{edit.isReadOnly()}">
                 <f:selectItems value="#{edit.accommodationItems}"/>
             </pf:selectOneMenu>
         </div>
@@ -60,7 +57,7 @@
         <div class="ui-g-9 ui-md-9">
             <pf:outputLabel class="formLabel"
                             value="Leistungsangebot und Leistungsschwerpunkte:*" />
-            <pf:inputTextarea required="#{edit.aebBaseInformation.structureInformation.SPCenter}" rows="10" cols="50" value="#{edit.aebBaseInformation.structureInformation.SPCenterText}" disabled="#{edit.isReadOnly()}"/>
+            <pf:inputTextarea rows="10" cols="50" value="#{edit.aebBaseInformation.structureInformation.SPCenterText}" disabled="#{edit.isReadOnly()}"/>
         </div>
     </div>
 
@@ -75,13 +72,13 @@
         <div class="ui-g-5 ui-md-5">
             <pf:outputLabel class="formLabel"
                             value="Wesentliche eingebundene Leistungserbringer:*" />
-            <pf:inputTextarea required="#{edit.aebBaseInformation.structureInformation.psychiatricCombine}" rows="10" cols="50" value="#{edit.aebBaseInformation.structureInformation.careProvider}" disabled="#{edit.isReadOnly()}"/>
+            <pf:inputTextarea rows="10" cols="50" value="#{edit.aebBaseInformation.structureInformation.careProvider}" disabled="#{edit.isReadOnly()}"/>
         </div>
 
         <div class="ui-g-4 ui-md-4">
             <pf:outputLabel class="formLabel"
                             value="Zentrale Leistungsbereiche:*" />
-            <pf:inputTextarea required="#{edit.aebBaseInformation.structureInformation.psychiatricCombine}" rows="10" cols="50" value="#{edit.aebBaseInformation.structureInformation.performanceAreas}" disabled="#{edit.isReadOnly()}"/>
+            <pf:inputTextarea rows="10" cols="50" value="#{edit.aebBaseInformation.structureInformation.performanceAreas}" disabled="#{edit.isReadOnly()}"/>
         </div>
     </div>
 
@@ -90,7 +87,7 @@
         <div class="ui-g-12">
             <pf:outputLabel class="formLabel"
                             value="Beschreibung der örtlichen Versorgungssituation im vertragsärztlichen/therapeutischen Bereich:*" />
-            <pf:inputTextarea required="true" rows="10" cols="50" value="#{edit.aebBaseInformation.structureInformation.ambulantStructure}" disabled="#{edit.isReadOnly()}"/>
+            <pf:inputTextarea rows="10" cols="50" value="#{edit.aebBaseInformation.structureInformation.ambulantStructure}" disabled="#{edit.isReadOnly()}"/>
         </div>
     </div>
 
@@ -99,7 +96,7 @@
         <div class="ui-g-12">
             <pf:outputLabel class="formLabel"
                             value="Beschreibung:*" />
-            <pf:inputTextarea required="true" rows="10" cols="50" value="#{edit.aebBaseInformation.structureInformation.socialPsychiatryService}" disabled="#{edit.isReadOnly()}"/>
+            <pf:inputTextarea rows="10" cols="50" value="#{edit.aebBaseInformation.structureInformation.socialPsychiatryService}" disabled="#{edit.isReadOnly()}"/>
         </div>
     </div>
 
@@ -107,14 +104,14 @@
     <div class="ui-g ui-fluid">
         <div class="ui-g-3 ui-md-3">
             <pf:outputLabel class="formLabel" value="Form:* " />
-            <pf:selectOneMenu required="true" value="#{edit.aebBaseInformation.structureInformation.ambulantPerformanceId}" disabled="#{edit.isReadOnly()}">
+            <pf:selectOneMenu value="#{edit.aebBaseInformation.structureInformation.ambulantPerformanceId}" disabled="#{edit.isReadOnly()}">
                 <f:selectItems value="#{edit.ambulantItems}"/>
             </pf:selectOneMenu>
         </div>
         <div class="ui-g-9 ui-md-9">
             <pf:outputLabel class="formLabel"
                             value="Angabe der Leistungsschwerpunkte:*" />
-            <pf:inputTextarea required="true" rows="10" cols="50" value="#{edit.aebBaseInformation.structureInformation.ambulantPerformanceMain}" disabled="#{edit.isReadOnly()}"/>
+            <pf:inputTextarea rows="10" cols="50" value="#{edit.aebBaseInformation.structureInformation.ambulantPerformanceMain}" disabled="#{edit.isReadOnly()}"/>
         </div>
     </div>
 
@@ -123,7 +120,7 @@
         <div class="ui-g-12">
             <pf:outputLabel class="formLabel"
                             value="Leistungsschwerpunkte:*" />
-            <pf:inputTextarea required="true" rows="10" cols="50" value="#{edit.aebBaseInformation.structureInformation.dismissManagement}" disabled="#{edit.isReadOnly()}">
+            <pf:inputTextarea rows="10" cols="50" value="#{edit.aebBaseInformation.structureInformation.dismissManagement}" disabled="#{edit.isReadOnly()}">
                 <pf:ajax />
             </pf:inputTextarea>
         </div>
