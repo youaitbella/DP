@@ -10,8 +10,12 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.scope.FeatureScoped;
 import org.inek.dataportal.psy.khcomparison.entity.AEBBaseInformation;
 import org.inek.dataportal.psy.khcomparison.facade.AEBFacade;
@@ -26,6 +30,10 @@ public class Summary {
 
     @Inject
     private AEBFacade _aebfacade;
+    @Inject
+    private AccessManager _accessManager;
+    @Inject
+    private SessionController _sessionController;
 
     private List<AEBBaseInformation> _listComplete;
     private List<AEBBaseInformation> _listWorking;
@@ -60,5 +68,22 @@ public class Summary {
 
     public String khComparisonOpen() {
         return Pages.KhComparisonEdit.URL();
+    }
+
+    public boolean isCreateEntryAllowed() {
+        return !getAllowedIks().isEmpty();
+    }
+
+    public List<Integer> getAllowedIks() {
+        List<Integer> iks = new ArrayList<>();
+        for (Integer ik : _aebfacade.getAllowedIks(_sessionController.getAccountId(),
+                Utils.getTargetYear(Feature.AEB))) {
+            if (_accessManager.isAccessAllowed(Feature.AEB, WorkflowStatus.Taken,
+                    _sessionController.getAccountId(),
+                    ik)) {
+                iks.add(ik);
+            }
+        }
+        return iks;
     }
 }

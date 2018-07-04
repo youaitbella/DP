@@ -7,6 +7,7 @@ package org.inek.dataportal.psy.khcomparison.facade;
 
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import org.inek.dataportal.common.data.AbstractDataAccess;
@@ -32,6 +33,17 @@ public class AEBFacade extends AbstractDataAccess {
         TypedQuery<AEBBaseInformation> query = getEntityManager().createQuery(sql, AEBBaseInformation.class);
         query.setParameter("status", status.getId());
         return query.getResultList();
+    }
+
+    public List<Integer> getAllowedIks(int accountId, int year) {
+        String sql = "select distinct aaiIK from dbo.AccountAdditionalIK\n"
+                + "where aaiAccountId = " + accountId + "\n"
+                + "and aaiIK not in (\n"
+                + "select biIk from psy.AEBBaseInformation\n"
+                + "where biDataYear >= " + year + ")";
+        Query query = getEntityManager().createNativeQuery(sql);
+        List<Integer> result = query.getResultList();
+        return result;
     }
 
     @Transactional
