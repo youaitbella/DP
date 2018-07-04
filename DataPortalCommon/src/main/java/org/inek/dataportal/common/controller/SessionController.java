@@ -368,7 +368,9 @@ public class SessionController implements Serializable {
             return;
         }
         FacesContext.getCurrentInstance().getExternalContext().getSessionId(true);
-        int sessionTimeout = (_portalType == PortalType.CALC || _portalType == PortalType.CERT) ? Const.SECONDS_PER_HOUR : Const.SECONDS_PER_HOUR / 2;
+        int sessionTimeout = (_portalType == PortalType.CALC
+                || _portalType == PortalType.CERT
+                || _portalType == PortalType.BASE) ? Const.SECONDS_PER_HOUR : Const.SECONDS_PER_HOUR / 2;
         sessionTimeout = (_account.getEmail().toLowerCase().endsWith("@inek-drg.de")
                 && isInternalClient()) ? 2 * Const.SECONDS_PER_HOUR : sessionTimeout; // session timeout extended to 4 hour for internal user
         FacesContext.getCurrentInstance().getExternalContext().setSessionMaxInactiveInterval(sessionTimeout);
@@ -381,7 +383,7 @@ public class SessionController implements Serializable {
      *
      * @param mailOrUser
      * @param password
-     * @param loginInfo  An infostring|mes
+     * @param loginInfo An infostring|mes
      * @param portalType to be displayed
      *
      * @return
@@ -553,7 +555,7 @@ public class SessionController implements Serializable {
      * @param needsWriteAccess
      *
      * @return true, if the current user is within any InEK role for the requested feature and either has write access
-     *         enabled or no write access is requested
+     * enabled or no write access is requested
      */
     public boolean isInekUser(Feature requestedFeature, boolean needsWriteAccess) {
         if (requestedFeature != Feature.DOCUMENTS && !isInternalClient()) {

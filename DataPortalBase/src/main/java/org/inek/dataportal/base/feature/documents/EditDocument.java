@@ -21,6 +21,7 @@ import org.inek.dataportal.base.facades.account.AccountDocumentFacade;
 import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.common.controller.AbstractEditController;
 import org.inek.dataportal.common.data.access.ConfigFacade;
+import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.helper.StreamHelper;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.utils.Helper;
@@ -35,16 +36,20 @@ public class EditDocument extends AbstractEditController {
 
     private static final Logger LOGGER = Logger.getLogger("EditDocument");
 
-    @Inject private AccountDocumentFacade _accDocFacade;
-    @Inject private AccountFacade _accFacade;
-    @Inject private ConfigFacade _configFacade;
-    @Inject private SessionController _sessionController;
+    @Inject
+    private AccountDocumentFacade _accDocFacade;
+    @Inject
+    private AccountFacade _accFacade;
+    @Inject
+    private ConfigFacade _configFacade;
+    @Inject
+    private SessionController _sessionController;
 
     public String downloadDocument(int docId) {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         ExternalContext externalContext = facesContext.getExternalContext();
         AccountDocument doc = _accDocFacade.find(docId);
-        if (doc == null){
+        if (doc == null) {
             LOGGER.log(Level.WARNING, "Document not found: {0}", docId);
             return "";
         }
@@ -64,26 +69,54 @@ public class EditDocument extends AbstractEditController {
             return Pages.Error.URL();
         }
         facesContext.responseComplete();
-        if (_sessionController.getAccountId() == doc.getAccountId()) {
-            doc.setRead(true);
+        if (_configFacade.readConfigBool(ConfigKey.DocumentSetRead)) {
+            if (_sessionController.getAccountId() == doc.getAccountId()) {
+                doc.setRead(true);
+            }
+            _accDocFacade.merge(doc);
         }
-        _accDocFacade.merge(doc);
+
         return "";
     }
 
-    public String deleteDocument(int docId) {
-        AccountDocument doc = _accDocFacade.find(docId);
-        if (doc != null && _sessionController.getAccountId() == doc.getAccountId()) {
-            _accDocFacade.remove(doc);
+    public String
+            deleteDocument(int docId
+            ) {
+        AccountDocument doc
+                = _accDocFacade
+                        .find(docId
+                        );
+
+        if (doc
+                != null && _sessionController
+                        .getAccountId() == doc
+                        .getAccountId()) {
+            _accDocFacade
+                    .remove(doc
+                    );
+
         }
         return "";
+
     }
 
-    public String getConfirmMessage(String name, String dateString) {
-        String msg = name + " vom " + dateString + "\n"
-                + Utils.getMessage("msgConfirmDelete");
-        msg = msg.replace("\r\n", "\n").replace("\n", "\\r\\n").replace("'", "\\'").replace("\"", "\\'");
-        return "return confirm ('" + msg + "');";
+    public String
+            getConfirmMessage(String name,
+                    String dateString
+            ) {
+        String msg
+                = name
+                + " vom " + dateString
+                + "\n"
+                + Utils
+                        .getMessage("msgConfirmDelete");
+        msg
+                = msg
+                        .replace("\r\n", "\n").replace("\n", "\\r\\n").replace("'", "\\'").replace("\"", "\\'");
+
+        return "return confirm ('" + msg
+                + "');";
+
     }
 
     @Override
