@@ -33,6 +33,64 @@
     background-image: none !important;
     background-color:  #e2f5d5 !important;
     margin-top: 5px;
+    cursor: pointer;
+}
+
+.btnDownload span {
+    background-image: none !important;
+    background-color: #7f9baf !important;
+    color: #ffffff !important;
+    min-width: 100px;
+    text-shadow: none;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.btnDownload span:hover {
+    background-color: #a8cce6 !important;
+}
+
+.btnDownload :before {
+    content: '\f063';
+    font-family: 'FontAwesome';
+    padding-right: 10px;
+}
+
+.btnSend span {
+    background-image: none !important;
+    background-color: #4aa628 !important;
+    color: #ffffff !important;
+    min-width: 150px;
+    text-shadow: none;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.btnSend span:hover {
+    background-color: #5eca37 !important;
+}
+
+.btnSend :after {
+    content: '\f061';
+    font-family: 'FontAwesome';
+    padding-left: 10px;
+}
+
+.btnPsy span {
+    background-image: none !important;
+    background-color: #437a1e !important;
+    color: #ffffff !important;
+    min-width: 150px;
+    text-shadow: none;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.btnPsy span:hover {
+    background-color: #60ab2e !important;
 }
 
 .inekTablePsy th{
@@ -41,6 +99,11 @@
 }
 
 .inekTablePsy tr:nth-child(even) td {
-    background-color: #e2f5d5;
+    background-color: #dddddd;
     color: #000;
+}
+
+.inekTablePsy tfoot td{
+    background-image: none !important;
+    background-color: #e2f5d5 !important
 }

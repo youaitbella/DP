@@ -9,33 +9,38 @@
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
                 xmlns:pf="http://primefaces.org/ui">
 
-    <div class="ui-g ui-fluid">
-        <div class="ui-md-4">
-            <pf:inputNumber value="#{edit.aebBaseInformation.ik}"
-                            required="true"
-                            requiredMessage="Bitte geben Sie eine IK an"
-                            disabled="#{edit.isReadOnly()}"
-                            thousandSeparator=""
-                            decimalPlaces="0">
-                <pf:ajax />
-            </pf:inputNumber>
-        </div>
-        <div class="ui-md-2">
-            <pf:inputNumber value="#{edit.aebBaseInformation.year}"
-                            required="true"
-                            requiredMessage="Bitte geben Sie das Verinbahrungsjahr an"
-                            disabled="#{edit.isReadOnly()}"
-                            thousandSeparator=""
-                            decimalPlaces="0">
-                <pf:ajax />
-            </pf:inputNumber>
-        </div>
-    </div>
-
-    <h3>
+    <pf:panelGrid columns="2" >
+        <pf:outputLabel value="IK:" />
+        <pf:inputNumber value="#{edit.aebBaseInformation.ik}"
+                        required="true"
+                        requiredMessage="Bitte geben Sie eine IK an"
+                        disabled="#{edit.isReadOnly()}"
+                        thousandSeparator=""
+                        decimalPlaces="0">
+            <pf:ajax />
+        </pf:inputNumber>
+        <pf:outputLabel value="Datenjahr:" />
+        <pf:inputNumber value="#{edit.aebBaseInformation.year}"
+                        required="true"
+                        requiredMessage="Bitte geben Sie das Verinbahrungsjahr an"
+                        disabled="#{edit.isReadOnly()}"
+                        thousandSeparator=""
+                        decimalPlaces="0">
+            <pf:ajax />
+        </pf:inputNumber>
+    </pf:panelGrid>
+    <h3 jsf:rendered="#{!edit.isReadOnly()}">
         AEB aus Excel importieren
     </h3>
-    <pf:fileUpload fileUploadListener="#{editAEB.handleFileUpload}" mode="advanced" dragDropSupport="false"
-                   allowTypes="/(\.|\/)(xlsx)$/" cancelLabel="Abbrechen" uploadLabel="Datei Hochladen" label="Exceldatei auswählen"/>
+    <pf:fileUpload rendered="#{!edit.isReadOnly()}"
+                   fileUploadListener="#{edit.handleFileUpload}"
+                   mode="advanced"
+                   fileLimit="1"
+                   fileLimitMessage="Es darf nur eine Datei hochgeladen werden"
+                   invalidFileMessage="Es dürfen nur Excel Dateien hochgeladen werden"
+                   allowTypes="/(\.|\/)(xlsx|xls)$/"
+                   cancelLabel="Abbrechen"
+                   uploadLabel="Datei Hochladen"
+                   label="Exceldatei auswählen"/>
 
 </ui:composition>

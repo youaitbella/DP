@@ -5,6 +5,9 @@
  */
 package org.inek.dataportal.psy.khcomparison.backingbean;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
 import java.util.Set;
 import javax.annotation.PostConstruct;
@@ -20,6 +23,8 @@ import org.inek.dataportal.psy.khcomparison.entity.*;
 import org.inek.dataportal.psy.khcomparison.facade.AEBFacade;
 import org.inek.dataportal.psy.khcomparison.facade.AEBListItemFacade;
 import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 
 /**
  *
@@ -79,8 +84,8 @@ public class Edit {
 
     private AEBBaseInformation createNewAebBaseInformation() {
         AEBBaseInformation info = new AEBBaseInformation();
-        info.setStructureInformation(new StructureInformation());
-        info.getStructureInformation().setBaseInformation(info);
+//        info.setStructureInformation(new StructureInformation());
+//        info.getStructureInformation().setBaseInformation(info);
         info.setAebPageB1(new AEBPageB1());
         info.getAebPageB1().setBaseInformation(info);
         return info;
@@ -91,8 +96,8 @@ public class Edit {
         _aebBaseInformation.setLastChangeFrom(_sessionController.getAccountId());
         _aebBaseInformation.setLastChanged(new Date());
         //
-        _aebBaseInformation.getStructureInformation().setAccommodationId(1);
-        _aebBaseInformation.getStructureInformation().setAmbulantPerformanceId(1);
+//        _aebBaseInformation.getStructureInformation().setAccommodationId(1);
+//        _aebBaseInformation.getStructureInformation().setAmbulantPerformanceId(1);
         //
         try {
             _aebBaseInformation = _aebFacade.save(_aebBaseInformation);
@@ -198,5 +203,26 @@ public class Edit {
         } else {
             page.setValuationRadioDay(0.0);
         }
+    }
+
+    public void handleDocumentUpload(FileUploadEvent event) {
+        PsyDocument doc = new PsyDocument();
+        doc.setName(event.getFile().getFileName());
+        doc.setContent(event.getFile().getContents());
+        _aebBaseInformation.addPsyDocument(doc);
+    }
+
+    public void removeDocument(PsyDocument doc) {
+        _aebBaseInformation.removePsyDocument(doc);
+    }
+
+    public StreamedContent downloadDocument(PsyDocument doc) {
+        ByteArrayInputStream stream = new ByteArrayInputStream(doc.getContent());
+        return new DefaultStreamedContent(stream, "applikation/xlxs", doc.getName());
+    }
+
+    public void change() {
+        _aebBaseInformation.setStatus(WorkflowStatus.CorrectionRequested);
+        _aebBaseInformation = _aebFacade.save(_aebBaseInformation);
     }
 }

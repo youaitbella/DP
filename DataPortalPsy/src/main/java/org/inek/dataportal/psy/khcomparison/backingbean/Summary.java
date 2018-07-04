@@ -27,38 +27,38 @@ public class Summary {
     @Inject
     private AEBFacade _aebfacade;
 
-    private List<AEBBaseInformation> _listAEBComplete;
-    private List<AEBBaseInformation> _listAEBWorking;
+    private List<AEBBaseInformation> _listComplete;
+    private List<AEBBaseInformation> _listWorking;
 
-    public List<AEBBaseInformation> getListAEBComplete() {
-        return _listAEBComplete;
+    public List<AEBBaseInformation> getListComplete() {
+        return _listComplete;
     }
 
-    public void setListAEBComplete(List<AEBBaseInformation> listAEBComplete) {
-        this._listAEBComplete = listAEBComplete;
+    public void setListComplete(List<AEBBaseInformation> listComplete) {
+        this._listComplete = listComplete;
     }
 
-    public List<AEBBaseInformation> getListAEBWorking() {
-        return _listAEBWorking;
+    public List<AEBBaseInformation> getListWorking() {
+        return _listWorking;
     }
 
-    public void setListAEBWorking(List<AEBBaseInformation> listAEBWorking) {
-        this._listAEBWorking = listAEBWorking;
+    public void setListWorking(List<AEBBaseInformation> listWorking) {
+        this._listWorking = listWorking;
     }
 
     @PostConstruct
     public void init() {
-        _listAEBComplete = new ArrayList<>();
-        _listAEBWorking = new ArrayList<>();
-        _listAEBComplete.addAll(getAebsByStatus(WorkflowStatus.Provided));
-        _listAEBWorking.addAll(getAebsByStatus(WorkflowStatus.New));
+        _listComplete = new ArrayList<>();
+        _listWorking = new ArrayList<>();
+        _listComplete.addAll(getAebsByStatus(WorkflowStatus.Provided));
+        _listWorking.addAll(getAebsByStatus(WorkflowStatus.New));
     }
 
     private List<AEBBaseInformation> getAebsByStatus(WorkflowStatus status) {
         return _aebfacade.getAllByStatus(status);
     }
 
-    public String newAeb() {
+    public String khComparisonOpen() {
         return Pages.KhComparisonEdit.URL();
     }
 }

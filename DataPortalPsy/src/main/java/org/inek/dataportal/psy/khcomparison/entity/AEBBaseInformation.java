@@ -309,4 +309,25 @@ public class AEBBaseInformation implements Serializable {
     public void removeAebPageE3_3(AEBPageE3_3 page) {
         _aebPageE3_3.remove(page);
     }
+
+    @OneToMany(mappedBy = "_baseInformation", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "doBaseInformationId")
+    private List<PsyDocument> _psyDocument = new ArrayList<>();
+
+    public List<PsyDocument> getPsyDocument() {
+        return _psyDocument;
+    }
+
+    public void setPsyDocument(List<PsyDocument> psyDocument) {
+        _psyDocument = psyDocument;
+    }
+
+    public void addPsyDocument(PsyDocument doc) {
+        doc.setBaseInformation(this);
+        _psyDocument.add(doc);
+    }
+
+    public void removePsyDocument(PsyDocument doc) {
+        _psyDocument.remove(doc);
+    }
 }
