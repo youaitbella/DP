@@ -22,6 +22,8 @@ import org.inek.dataportal.common.scope.FeatureScoped;
 import org.inek.dataportal.psy.khcomparison.entity.*;
 import org.inek.dataportal.psy.khcomparison.facade.AEBFacade;
 import org.inek.dataportal.psy.khcomparison.facade.AEBListItemFacade;
+import org.inek.dataportal.psy.psychstaff.entity.OccupationalCategory;
+import org.inek.dataportal.psy.psychstaff.facade.PsychStaffFacade;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -42,6 +44,8 @@ public class Edit {
     private DialogController _dialogController;
     @Inject
     private AEBListItemFacade _aebListItemFacade;
+    @Inject
+    private PsychStaffFacade _psychStaffFacade;
 
     private AEBBaseInformation _aebBaseInformation;
 
@@ -86,6 +90,13 @@ public class Edit {
         AEBBaseInformation info = new AEBBaseInformation();
 //        info.setStructureInformation(new StructureInformation());
 //        info.getStructureInformation().setBaseInformation(info);
+
+        for (OccupationalCategory cat : _psychStaffFacade.getOccupationalCategories()) {
+            PersonalAgreed agreed = new PersonalAgreed();
+            agreed.setOccupationalCategory(cat);
+            info.addPersonalAgreed(agreed);
+        }
+
         info.setAebPageB1(new AEBPageB1());
         info.getAebPageB1().setBaseInformation(info);
         return info;

@@ -62,6 +62,9 @@
                     <pf:tab title="Kalkulationsunterlagen" disabled="#{edit.aebBaseInformation.year lt 2018}">
                         <ui:include src="CalcDocuments.xhtml" />
                     </pf:tab>
+                    <pf:tab title="Personalausstattung Psychosomatik" disabled="#{edit.aebBaseInformation.year lt 2018}">
+                        <ui:include src="PersonalAgreed.xhtml" />
+                    </pf:tab>
                 </pf:tabView>
 
                 <br />

@@ -330,4 +330,25 @@ public class AEBBaseInformation implements Serializable {
     public void removePsyDocument(PsyDocument doc) {
         _psyDocument.remove(doc);
     }
+
+    @OneToMany(mappedBy = "_baseInformation", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "paBaseInformationId")
+    private List<PersonalAgreed> _personalAgreed = new ArrayList<>();
+
+    public List<PersonalAgreed> getPersonalAgreed() {
+        return _personalAgreed;
+    }
+
+    public void setPersonalAgreed(List<PersonalAgreed> psyDocument) {
+        _personalAgreed = psyDocument;
+    }
+
+    public void addPersonalAgreed(PersonalAgreed agreed) {
+        agreed.setBaseInformation(this);
+        _personalAgreed.add(agreed);
+    }
+
+    public void removePersonalAgreed(PersonalAgreed agreed) {
+        _personalAgreed.remove(agreed);
+    }
 }
