@@ -15,10 +15,18 @@
             <div class="ui-g ui-fluid">
                 <div class="ui-g-6 ui-md-6">
                     <h2>Daten in Erfassung</h2>
-                    <pf:dataTable value="#{summary.listWorking}"
+                    <pf:dataTable id="erfassungtable"
+                                  value="#{summary.listWorking}"
                                   var="baseInformation"
                                   emptyMessage="Keine Einträge vorhanden"
                                   tableStyleClass="inekTablePsy">
+                        <pf:column class="colIcon">
+                            <pf:commandLink action="#{summary.deleteBaseInformation(baseInformation)}"
+                                            update="@all erfassungtable"
+                                            process="@this">
+                                <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value=""/>
+                            </pf:commandLink>
+                        </pf:column>
                         <pf:column headerText="IK" >
                             <h:link outcome="#{summary.khComparisonOpen()}"
                                     value="#{baseInformation.ik}" >

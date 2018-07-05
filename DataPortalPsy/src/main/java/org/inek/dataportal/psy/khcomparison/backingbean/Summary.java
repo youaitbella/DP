@@ -86,4 +86,9 @@ public class Summary {
         }
         return iks;
     }
+
+    public void deleteBaseInformation(AEBBaseInformation info) {
+        _aebfacade.deleteBaseInformation(info);
+        _listWorking.addAll(getAebsByStatus(WorkflowStatus.New));
+    }
 }

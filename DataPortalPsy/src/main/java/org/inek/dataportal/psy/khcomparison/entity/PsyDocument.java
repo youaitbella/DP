@@ -84,6 +84,11 @@ public class PsyDocument implements Serializable {
     }
     //</editor-fold>
 
+    public String getContentTyp() {
+        String[] content = _name.split("\\.");
+        return content[content.length - 1];
+    }
+
     @Override
     public int hashCode() {
         int hash = 3;

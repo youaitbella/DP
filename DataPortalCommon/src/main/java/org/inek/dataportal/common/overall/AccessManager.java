@@ -43,10 +43,14 @@ public class AccessManager implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger("AccessManager");
 
-    @Inject private CooperationRightFacade _cooperationRightFacade;
-    @Inject private SessionController _sessionController;
-    @Inject private AccountFacade _accountFacade;
-    @Inject private IkAdminFacade _ikAdminFacade;
+    @Inject
+    private CooperationRightFacade _cooperationRightFacade;
+    @Inject
+    private SessionController _sessionController;
+    @Inject
+    private AccountFacade _accountFacade;
+    @Inject
+    private IkAdminFacade _ikAdminFacade;
 
     /**
      * gets the cooperation rights by delegating the first request to the service and retrieving them from a local cache
@@ -147,9 +151,9 @@ public class AccessManager implements Serializable {
     }
 
     public boolean isAccessAllowed(Feature feature, WorkflowStatus state, int ownerId, int ik) {
-        if (_sessionController.isInekUser(feature)) {
-            return true;
-        }
+//        if (_sessionController.isInekUser(feature)) {
+//            return true;
+//        }
 
         if (ik > 0) {
             for (AccessRight accessRight : obtainAccessRights(feature)) {
@@ -474,7 +478,7 @@ public class AccessManager implements Serializable {
     public Set<Integer> determineAccountIds(Feature feature, Predicate<CooperationRight> canRead) {
         Set<Integer> ids = new LinkedHashSet<>();
         Account account = _sessionController.getAccount();
-        if (account == null){
+        if (account == null) {
             LOGGER.log(Level.WARNING, "Accessmanager called without logged in user");
             return ids;
         }

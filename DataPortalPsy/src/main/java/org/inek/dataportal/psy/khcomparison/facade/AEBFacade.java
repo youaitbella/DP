@@ -46,6 +46,14 @@ public class AEBFacade extends AbstractDataAccess {
         return result;
     }
 
+    public List<Integer> getUsedDataYears(int ik) {
+        String sql = "select distinct biDataYear from psy.AEBBaseInformation\n"
+                + "where biIk = " + ik + "";
+        Query query = getEntityManager().createNativeQuery(sql);
+        List<Integer> result = query.getResultList();
+        return result;
+    }
+
     @Transactional
     public AEBBaseInformation save(AEBBaseInformation aebBaseInformation) {
         if (aebBaseInformation.getId() == -1) {
@@ -53,5 +61,9 @@ public class AEBFacade extends AbstractDataAccess {
             return aebBaseInformation;
         }
         return merge(aebBaseInformation);
+    }
+
+    public void deleteBaseInformation(AEBBaseInformation info) {
+        remove(info);
     }
 }

@@ -10,24 +10,24 @@
                 xmlns:pf="http://primefaces.org/ui">
 
     <pf:panelGrid columns="2" >
+
         <pf:outputLabel value="IK:" />
-        <pf:inputNumber value="#{edit.aebBaseInformation.ik}"
-                        required="true"
-                        requiredMessage="Bitte geben Sie eine IK an"
-                        disabled="#{edit.isReadOnly()}"
-                        thousandSeparator=""
-                        decimalPlaces="0">
-            <pf:ajax />
-        </pf:inputNumber>
+        <pf:selectOneMenu value="#{edit.aebBaseInformation.ik}"
+                          var="ik"
+                          disabled="#{edit.isReadOnly()}">
+            <f:selectItem rendered="#{edit.aebBaseInformation.ik eq 0}" itemLabel="#{edit.aebBaseInformation.ik}" itemValue="#{edit.aebBaseInformation.ik}" noSelectionOption="true" />
+            <f:selectItems value="#{edit.allowedIks}" />
+            <pf:ajax event="change" listener="#{edit.ikChanged()}" update="year" />
+        </pf:selectOneMenu>
+
         <pf:outputLabel value="Vereinbahrungsjahr:" />
-        <pf:inputNumber value="#{edit.aebBaseInformation.year}"
-                        required="true"
-                        requiredMessage="Bitte geben Sie das Verinbahrungsjahr an"
-                        disabled="#{edit.isReadOnly()}"
-                        thousandSeparator=""
-                        decimalPlaces="0">
-            <pf:ajax />
-        </pf:inputNumber>
+        <pf:selectOneMenu id="year"
+                          value="#{edit.aebBaseInformation.year}"
+                          disabled="#{edit.isReadOnly()}">
+            <f:selectItem rendered="#{edit.aebBaseInformation.year eq 0}" itemLabel="#{edit.aebBaseInformation.year}" itemValue="#{edit.aebBaseInformation.year}" noSelectionOption="true" />
+            <f:selectItems value="#{edit.validDatayears}" />
+            <pf:ajax event="change" />
+        </pf:selectOneMenu>
     </pf:panelGrid>
     <h3 jsf:rendered="#{!edit.isReadOnly()}">
         AEB aus Excel importieren

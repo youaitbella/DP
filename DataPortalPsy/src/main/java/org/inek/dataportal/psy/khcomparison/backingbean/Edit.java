@@ -6,17 +6,20 @@
 package org.inek.dataportal.psy.khcomparison.backingbean;
 
 import java.io.ByteArrayInputStream;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.scope.FeatureScoped;
 import org.inek.dataportal.psy.khcomparison.entity.*;
 import org.inek.dataportal.psy.khcomparison.facade.AEBFacade;
@@ -45,8 +48,12 @@ public class Edit {
     private AEBListItemFacade _aebListItemFacade;
     @Inject
     private PsychStaffFacade _psychStaffFacade;
+    @Inject
+    private AccessManager _accessManager;
 
     private AEBBaseInformation _aebBaseInformation;
+    private List<Integer> _validDatayears = new ArrayList<>();
+    private Boolean _readOnly;
 
     @PostConstruct
     public void init() {
@@ -60,6 +67,24 @@ public class Edit {
         } else {
             _aebBaseInformation = _aebFacade.findAEBBaseInformation(Integer.parseInt(id));
         }
+        ikChanged();
+        setReadOnly();
+    }
+
+    public Boolean isReadOnly() {
+        return _readOnly;
+    }
+
+    public void setReadOnly(Boolean readOnly) {
+        this._readOnly = readOnly;
+    }
+
+    public List<Integer> getValidDatayears() {
+        return _validDatayears;
+    }
+
+    public void setValidDatayears(List<Integer> validDatayears) {
+        this._validDatayears = validDatayears;
     }
 
     public AEBBaseInformation getAebBaseInformation() {
@@ -82,18 +107,23 @@ public class Edit {
         return _aebListItemFacade.getStructureCategorie();
     }
 
-    public Boolean isReadOnly() {
+    public void setReadOnly() {
         if (_aebBaseInformation != null) {
-            return _aebBaseInformation.getStatus() == WorkflowStatus.Provided;
+            setReadOnly(_accessManager.isReadOnly(Feature.AEB,
+                    _aebBaseInformation.getStatus(),
+                    _sessionController.getAccountId(),
+                    _aebBaseInformation.getIk()));
+        } else if (_aebBaseInformation.getIk() == 0) {
+            setReadOnly(false);
         } else {
-            return true;
+            setReadOnly(true);
         }
     }
 
     private AEBBaseInformation createNewAebBaseInformation() {
         AEBBaseInformation info = new AEBBaseInformation();
-//        info.setStructureInformation(new StructureInformation());
-//        info.getStructureInformation().setBaseInformation(info);
+        info.setStructureInformation(new StructureInformation());
+        info.getStructureInformation().setBaseInformation(info);
 
         for (OccupationalCategory cat : _psychStaffFacade.getOccupationalCategories()) {
             PersonalAgreed agreed = new PersonalAgreed();
@@ -184,10 +214,6 @@ public class Edit {
         _dialogController.showInfoDialog(event.getFile().getFileName(), "Datei erfolgreich hochgeladen");
     }
 
-    public Set<Integer> getValidIks() {
-        return _sessionController.getAccount().getFullIkSet();
-    }
-
     private void removeEmptyEntries(AEBBaseInformation baseInformation) {
         baseInformation.getAebPageE1_1().removeIf(c -> c.getPepp().length() == 0);
         baseInformation.getAebPageE1_2().removeIf(c -> c.getEt().length() == 0);
@@ -224,10 +250,10 @@ public class Edit {
         }
     }
 
-    public void handleDocumentUpload(FileUploadEvent event) {
+    public void handleDocumentUpload(FileUploadEvent file) {
         PsyDocument doc = new PsyDocument();
-        doc.setName(event.getFile().getFileName());
-        doc.setContent(event.getFile().getContents());
+        doc.setName(file.getFile().getFileName());
+        doc.setContent(file.getFile().getContents());
         _aebBaseInformation.addPsyDocument(doc);
     }
 
@@ -237,11 +263,44 @@ public class Edit {
 
     public StreamedContent downloadDocument(PsyDocument doc) {
         ByteArrayInputStream stream = new ByteArrayInputStream(doc.getContent());
-        return new DefaultStreamedContent(stream, "applikation/xlxs", doc.getName());
+        return new DefaultStreamedContent(stream, "applikation/" + doc.getContentTyp(), doc.getName());
     }
 
     public void change() {
         _aebBaseInformation.setStatus(WorkflowStatus.CorrectionRequested);
         _aebBaseInformation = _aebFacade.save(_aebBaseInformation);
+    }
+
+    public void ikChanged() {
+        List<Integer> usedYears = _aebFacade.getUsedDataYears(_aebBaseInformation.getIk());
+        setValidDatayears(getValideDatayears(getAllowedDataYears(), usedYears));
+    }
+
+    public List<Integer> getValideDatayears(List<Integer> allowedYears, List<Integer> usedYears) {
+        allowedYears.removeAll(usedYears);
+        return allowedYears;
+    }
+
+    public List<Integer> getAllowedDataYears() {
+        List<Integer> years = new ArrayList<>();
+        years.add(2016);
+        years.add(2017);
+        years.add(2018);
+        return years;
+    }
+
+    public List<Integer> getAllowedIks() {
+        List<Integer> iks = new ArrayList<>();
+        for (Integer ik : _aebFacade.getAllowedIks(_sessionController.getAccountId(),
+                Utils.getTargetYear(Feature.AEB))) {
+            if (_accessManager.isAccessAllowed(Feature.AEB, WorkflowStatus.Taken,
+                    _sessionController.getAccountId(),
+                    ik)) {
+                if (_aebBaseInformation.getIk() != ik) {
+                    iks.add(ik);
+                }
+            }
+        }
+        return iks;
     }
 }
