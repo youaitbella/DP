@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                template="AdminTask.xhtml"
+                template="/Templates/PortalMenuTemplate.xhtml"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
@@ -11,25 +11,25 @@
                 xmlns:pf="http://primefaces.org/ui">
 
 
-    <ui:define name="editContent">
+    <ui:define name="content">
 
         <h:form>
 
-            
             <pf:dataTable    id ="infoTextTable" 
                              var="infoText" 
                              value="#{adminInfoText.listOfInfoTexts}" 
                              rows="25"
                              paginator="true"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                             rowsPerPageTemplate="5, 10, 25, 50">
+                             rowsPerPageTemplate="5, 10, 25, 50"
+                             tableStyle="width:auto">
 
                 <pf:column headerText="Key">
                     <h:outputText value="#{infoText.key}" />
                 </pf:column>
 
                 <pf:column headerText="Short Text"> 
-                    <pf:inputText id="shortText"  value="#{infoText.shortText}" >
+                    <pf:inputText id="shortText"  value="#{infoText.shortText}" maxlength="100" size="89">
                         <pf:ajax />
                     </pf:inputText>               
                 </pf:column>
@@ -52,8 +52,14 @@
                 <pf:commandButton value="Abbrechen" id="btnInfoTextAddNewAbbort" onclick="PF('dlgAddNewInfoText').hide()" />
             </pf:dialog> 
             
-            <pf:commandButton value="#{msg.btnSave}" id="btnInfoTextSave" actionListener="#{adminInfoText.save}"/>
+            <pf:dialog header="Gespeichert" widgetVar="dlgSaved" modal="true" height="100">
+                Deine Änderungen wurden gespeichert
+                <pf:commandButton value="OK" id="btnOkaySave" onclick="PF('dlgSaved').hide()"/>
+            </pf:dialog> 
+            
+            <pf:commandButton value="#{msg.btnSave}" id="btnInfoTextSave" actionListener="#{adminInfoText.save}" onclick="PF('dlgSaved').show()"/>
             
         </h:form>
+        
     </ui:define>
 </ui:composition>

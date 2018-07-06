@@ -52,7 +52,6 @@ public class AdminTask extends AbstractEditController {
         addTopic(AdminTaskTabs.tabAdminTaskIkSupervisor.name(), Pages.AdminTaskIkSupervisor.URL());
         addTopic(AdminTaskTabs.tabAdminTaskIkAdmin.name(), Pages.AdminTaskIkAdmin.URL());
         addTopic(AdminTaskTabs.tabAdminTaskChangeNub.name(), Pages.AdminTaskChangeNub.URL());
-        addTopic(AdminTaskTabs.tabAdminTaskInfoText.name(), Pages.AdminTaskInfoText.URL());
 
     }
 
@@ -65,7 +64,7 @@ public class AdminTask extends AbstractEditController {
         tabAdminTaskIkSupervisor,
         tabAdminTaskIkAdmin,
         tabAdminTaskChangeNub,
-        tabAdminTaskInfoText;
+
     }
 
     @PostConstruct

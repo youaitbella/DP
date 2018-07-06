@@ -20,6 +20,7 @@ public class AdminController extends AbstractFeatureController {
     @Override
     protected void addTopics(Topics topics) {
         topics.addTopic(Utils.getMessage("nameADMIN"), Pages.AdminTaskSystemStatus.URL());
+        topics.addTopic(Utils.getMessage("tabAdminTaskInfoText"), Pages.AdminTaskInfoText.URL());
     }
 
     @Override
