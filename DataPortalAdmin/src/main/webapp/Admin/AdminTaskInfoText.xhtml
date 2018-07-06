@@ -19,10 +19,10 @@
             <pf:dataTable    id ="infoTextTable" 
                              var="infoText" 
                              value="#{adminInfoText.listOfInfoTexts}" 
-                             rows="10"
+                             rows="25"
                              paginator="true"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                             rowsPerPageTemplate="5,10,15">
+                             rowsPerPageTemplate="5, 10, 25, 50">
 
                 <pf:column headerText="Key">
                     <h:outputText value="#{infoText.key}" />
@@ -35,9 +35,9 @@
                 </pf:column>
 
                 <pf:column headerText="Description">            
-                    <pf:inputText id="description" value="#{infoText.description}" >
+                    <pf:inputTextarea id="description" value="#{infoText.description}" >
                         <pf:ajax />
-                    </pf:inputText>              
+                    </pf:inputTextarea>              
                 </pf:column>
                 <f:facet name="paginatorBottomRight">
                     <pf:commandButton value="Infotext hinzufügen" onclick="PF('dlgAddNewInfoText').show();" />

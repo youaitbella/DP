@@ -21,6 +21,11 @@ public class InfoText implements Serializable {
     public InfoText() {
     }
 
+    public InfoText(String key){
+        _key = key;
+        _modified = true;
+    }
+    
     //<editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,13 +47,6 @@ public class InfoText implements Serializable {
 
     public String getKey() {
         return _key;
-    }
-
-    public void setKey(String key) {
-        if (!_key.equals(key)) {
-            setModified();
-            _key = key;
-        }
     }
     // </editor-fold>
 
@@ -82,7 +80,6 @@ public class InfoText implements Serializable {
             _description = description;
         }
     }
-
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="Property Modified">
     @Transient

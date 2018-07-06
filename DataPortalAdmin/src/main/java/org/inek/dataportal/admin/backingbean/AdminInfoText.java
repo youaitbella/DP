@@ -55,13 +55,10 @@ public class AdminInfoText implements Serializable {
         _listOfInfoTexts = _infoTextFacade.getAllInfoTexts("DE");
     }
 
-    public void addInfoText(String key) {
-
-        InfoText newText = new InfoText();
-        newText.setKey(_newKey);
+    public void addInfoText() {
+        InfoText newText = new InfoText(_newKey);
         _listOfInfoTexts.add(newText);
         _newKey = "";
-
     }
 
     public void save() {
