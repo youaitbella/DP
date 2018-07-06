@@ -15,3 +15,4 @@ DataPortalCalc/nb-configuration.xml
 *.jdbc
 DataPortalCommon/derby.log
 /DataPortalDrg/nbproject/
+/DataPortalPsy/nbproject/
