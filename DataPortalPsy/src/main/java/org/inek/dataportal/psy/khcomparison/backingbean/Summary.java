@@ -60,6 +60,7 @@ public class Summary {
         _listWorking = new ArrayList<>();
         _listComplete.addAll(getAebsByStatus(WorkflowStatus.Provided));
         setListWorking(getAebsByStatus(WorkflowStatus.New));
+        _listWorking.addAll(getAebsByStatus(WorkflowStatus.CorrectionRequested));
     }
 
     private List<AEBBaseInformation> getAebsByStatus(WorkflowStatus status) {
