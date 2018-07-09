@@ -27,7 +27,7 @@
         </pf:column>
         <pf:column headerText="ET-Nr.">
             <pf:inputText value="#{page.et}"
-                          maxlength="7"
+                          maxlength="8"
                           disabled="#{edit.isReadOnly()}">
                 <pf:ajax event="change" oncomplete="#{edit.etChanged(page)}" update="listpagee12" immediate="true" />
             </pf:inputText>

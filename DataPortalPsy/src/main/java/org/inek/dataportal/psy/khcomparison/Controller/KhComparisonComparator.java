@@ -8,9 +8,10 @@ import org.inek.dataportal.psy.khcomparison.entity.*;
  *
  * @author lautenti
  */
+@SuppressWarnings("LineLength")
 public class KhComparisonComparator {
 
-    private final double TOLERANCE;
+    private static final double TOLERANCE = 10;
 
     private String _result = "";
 
@@ -23,11 +24,6 @@ public class KhComparisonComparator {
     }
 
     public KhComparisonComparator() {
-        TOLERANCE = 10;
-    }
-
-    public KhComparisonComparator(double tolerance) {
-        TOLERANCE = tolerance;
     }
 
     public void compare(AEBBaseInformation info1, AEBBaseInformation info2) {

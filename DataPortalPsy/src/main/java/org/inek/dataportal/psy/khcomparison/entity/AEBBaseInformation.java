@@ -373,4 +373,34 @@ public class AEBBaseInformation implements Serializable {
     public void removeRegionStructurParticularities(RegionStructurParticularities value) {
         _regionStructurParticularities.remove(value);
     }
+
+    public void addAebPageE1_1(AEBPageE1_1 page) {
+        page.setBaseInformation(this);
+        _aebPageE1_1.add(page);
+    }
+
+    public void addAebPageE1_2(AEBPageE1_2 page) {
+        page.setBaseInformation(this);
+        _aebPageE1_2.add(page);
+    }
+
+    public void addAebPageE2(AEBPageE2 page) {
+        page.setBaseInformation(this);
+        _aebPageE2.add(page);
+    }
+
+    public void addAebPageE3_1(AEBPageE3_1 page) {
+        page.setBaseInformation(this);
+        _aebPageE3_1.add(page);
+    }
+
+    public void addAebPageE3_2(AEBPageE3_2 page) {
+        page.setBaseInformation(this);
+        _aebPageE3_2.add(page);
+    }
+
+    public void addAebPageE3_3(AEBPageE3_3 page) {
+        page.setBaseInformation(this);
+        _aebPageE3_3.add(page);
+    }
 }

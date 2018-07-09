@@ -83,7 +83,7 @@ public class CompareAEBPageB1Test {
 
         com.compareAEBPageB1(createNewPage(0, 0, 10, 0, 0, 0, 0),
                 createNewPage(0, 0, 15, 0, 0, 0, 0));
-        Assertions.assertThat(com.getResult()).contains("Blatt B1 - Veränderter Gesamtbetrag: Unterschied von ");
+        Assertions.assertThat(com.getResult()).contains("Blatt B1 - Verändertes Erlösbudget: Unterschied von ");
         com.setResult("");
 
         com.compareAEBPageB1(createNewPage(0, 0, 12244250, 0, 0, 0, 0),

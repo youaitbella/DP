@@ -27,7 +27,7 @@
         </pf:column>
         <pf:column headerText="ZE-Nr.">
             <pf:inputText value="#{page.ze}"
-                          maxlength="7"
+                          maxlength="8"
                           disabled="#{edit.isReadOnly()}">
                 <pf:ajax event="change" oncomplete="#{edit.zeChanged(page)}" update="listpagee2" immediate="true" />
             </pf:inputText>

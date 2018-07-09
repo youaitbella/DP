@@ -68,7 +68,7 @@ public class CompareAEBPageE1_1Test {
 
     @Test
     public void compareDifferentCaseCountTest() {
-        KhComparisonComparator com = new KhComparisonComparator(10);
+        KhComparisonComparator com = new KhComparisonComparator();
 
         List<AEBPageE1_1> list1 = new ArrayList<>();
         List<AEBPageE1_1> list2 = new ArrayList<>();
@@ -95,7 +95,7 @@ public class CompareAEBPageE1_1Test {
 
     @Test
     public void compareDifferentCalculationDaysTest() {
-        KhComparisonComparator com = new KhComparisonComparator(10);
+        KhComparisonComparator com = new KhComparisonComparator();
 
         List<AEBPageE1_1> list1 = new ArrayList<>();
         List<AEBPageE1_1> list2 = new ArrayList<>();

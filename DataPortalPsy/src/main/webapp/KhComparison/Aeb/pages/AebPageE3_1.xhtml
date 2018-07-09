@@ -11,208 +11,170 @@
     <h4>
         E3.1  Aufstellung der fallbezogenen Entgelte
     </h4>
-    <pf:dataTable id="listpagee31"
-                  var="page"
-                  value="#{edit.aebBaseInformation.aebPageE3_1}"
-                  widgetVar="pagesE31"
-                  emptyMessage="Keine Einträge vorhanden"
-                  tableStyleClass="inekTablePsy">
+    <div class="container marginTop">
+        <pf:dataTable id="listpagee31"
+                      var="page"
+                      value="#{edit.aebBaseInformation.aebPageE3_1}"
+                      widgetVar="pagesE31"
+                      emptyMessage="Keine Einträge vorhanden"
+                      tableStyle="table-layout: auto"
+                      tableStyleClass="inekTablePsy">
 
-        <pf:column class="colIcon" rendered="#{!edit.isReadOnly()}">
-            <pf:commandLink action="#{edit.removePageE3_1(page)}"
-                            update="@all"
-                            process="@this">
-                <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value=""/>
-            </pf:commandLink>
-        </pf:column>
-        <pf:column headerText="Entgelt nach § 6 BPflV">
-            <pf:inputText value="#{page.renumeration}"
-                          maxlength="5"
-                          disabled="#{edit.isReadOnly()}" >
-                <pf:ajax event="change" update="@all" immediate="true" />
-            </pf:inputText>
-        </pf:column>
-        <pf:column headerText="Entgeltschlüssel nach § 301 SGB V">
-            <pf:inputText value="#{page.renumerationKey}"
-                          disabled="#{edit.isReadOnly()}"
-                          style="width: 100%;">
-                <pf:ajax event="change" update="listpagee31" immediate="true" />
-            </pf:inputText>
-        </pf:column>
-        <pf:column headerText="Fallzahl (fallbezogene Entgelte)" style="text-align: right">
-            <pf:inputNumber value="#{page.caseCount}"
-                            disabled="#{edit.isReadOnly()}"
-                            decimalPlaces="0"
-                            inputStyle="width: 100%; text-align: right;">
-                <pf:ajax event="change" update="listpagee31" immediate="true" />
-            </pf:inputNumber>
-            <f:facet name="footer">
-                <pf:outputLabel value="#{edit.aebBaseInformation.aebPageE3_1.stream().map(c -> c.getCaseCount()).sum()}"
-                                style="text-align: right"/>
-            </f:facet>
-        </pf:column>
-        <pf:column headerText="Entgelthöhe (in €)" style="text-align: right">
-            <pf:inputNumber value="#{page.renumerationValue}"
-                            disabled="#{edit.isReadOnly()}"
-                            symbol=" €"
-                            symbolPosition="s"
-                            decimalPlaces="2"
-                            inputStyle="width: 100%; text-align: right">
-                <pf:ajax event="change" update="listpagee31" immediate="true" />
-            </pf:inputNumber>
-            <f:facet name="footer">
-                <pf:outputLabel value="#{edit.aebBaseInformation.aebPageE3_1.stream().map(c -> c.getRenumerationValue()).sum()} €" >
+            <pf:column class="colIcon" rendered="#{!edit.isReadOnly()}">
+                <pf:commandLink action="#{edit.removePageE3_1(page)}"
+                                update="@all"
+                                process="@this">
+                    <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value=""/>
+                </pf:commandLink>
+            </pf:column>
+            <pf:column headerText="Entgelt nach § 6 BPflV">
+                <pf:inputText value="#{page.renumeration}"
+                              maxlength="9"
+                              disabled="#{edit.isReadOnly()}" >
+                    <pf:ajax event="change" update="@all" immediate="true" />
+                </pf:inputText>
+            </pf:column>
+            <pf:column headerText="Entgeltschlüssel nach § 301 SGB V">
+                <pf:inputText value="#{page.renumerationKey}"
+                              disabled="#{edit.isReadOnly()}"
+                              maxlength="10"
+                              style="width: 100%;">
+                    <pf:ajax event="change" update="listpagee31" immediate="true" />
+                </pf:inputText>
+            </pf:column>
+            <pf:column headerText="Fallzahl (fallbezogene Entgelte)" style="text-align: right">
+                <pf:inputNumber value="#{page.caseCount}"
+                                disabled="#{edit.isReadOnly()}"
+                                decimalPlaces="0"
+                                inputStyle="width: 100%; text-align: right;">
+                    <pf:ajax event="change" update="listpagee31" immediate="true" />
+                </pf:inputNumber>
+                <f:facet name="footer">
+                    <pf:outputLabel value="#{edit.aebBaseInformation.aebPageE3_1.stream().map(c -> c.getCaseCount()).sum()}"
+                                    style="text-align: right"/>
+                </f:facet>
+            </pf:column>
+            <pf:column headerText="Entgelthöhe (in €)" style="text-align: right">
+                <pf:inputNumber value="#{page.renumerationValue}"
+                                disabled="#{edit.isReadOnly()}"
+                                symbol=" €"
+                                symbolPosition="s"
+                                decimalPlaces="2"
+                                inputStyle="width: 100%; text-align: right">
+                    <pf:ajax event="change" update="listpagee31" immediate="true" />
+                </pf:inputNumber>
+                <f:facet name="footer">
+                    <pf:outputLabel value="#{edit.aebBaseInformation.aebPageE3_1.stream().map(c -> c.getRenumerationValue()).sum()} €" >
+                        <f:convertNumber groupingUsed="true" minFractionDigits="2" />
+                    </pf:outputLabel>
+                </f:facet>
+            </pf:column>
+            <pf:column headerText="Bruttoerlössumme ohne Zu- und Abschläge (in €)" style="text-align: right">
+                <pf:outputLabel value="#{page.sumBruttoClear} €" >
                     <f:convertNumber groupingUsed="true" minFractionDigits="2" />
                 </pf:outputLabel>
-            </f:facet>
-        </pf:column>
-        <pf:column headerText="Bruttoerlössumme ohne Zu- und Abschläge (in €)" style="text-align: right">
-            <pf:outputLabel value="#{page.sumBruttoClear} €" >
-                <f:convertNumber groupingUsed="true" minFractionDigits="2" />
-            </pf:outputLabel>
-            <f:facet name="footer">
-                <pf:outputLabel value="#{edit.aebBaseInformation.aebPageE3_1.stream().map(c -> c.getSumBruttoClear()).sum()} €" >
+                <f:facet name="footer">
+                    <pf:outputLabel value="#{edit.aebBaseInformation.aebPageE3_1.stream().map(c -> c.getSumBruttoClear()).sum()} €" >
+                        <f:convertNumber groupingUsed="true" minFractionDigits="2" />
+                    </pf:outputLabel>
+                </f:facet>
+            </pf:column>
+            <pf:column headerText="Anzahl der Fälle mit Abschlägen" style="text-align: right">
+                <pf:inputNumber value="#{page.caseCountDeductions}"
+                                disabled="#{edit.isReadOnly()}"
+                                decimalPlaces="0"
+                                inputStyle="width: 100%; text-align: right">
+                    <pf:ajax event="change" update="listpagee31" immediate="true" />
+                </pf:inputNumber>
+                <f:facet name="footer">
+                    <pf:outputLabel value="#{edit.aebBaseInformation.aebPageE3_1.stream().map(c -> c.getCaseCountDeductions()).sum()}" />
+                </f:facet>
+            </pf:column>
+            <pf:column headerText="Anzahl der Tage mit Abschlägen" style="text-align: right">
+                <pf:inputNumber value="#{page.dayCountDeductions}"
+                                disabled="#{edit.isReadOnly()}"
+                                decimalPlaces="0"
+                                inputStyle="width: 100%; text-align: right">
+                    <pf:ajax event="change" update="listpagee31" immediate="true" />
+                </pf:inputNumber>
+                <f:facet name="footer">
+                    <pf:outputLabel value="#{edit.aebBaseInformation.aebPageE3_1.stream().map(c -> c.getDayCountDeductions()).sum()}" />
+                </f:facet>
+            </pf:column>
+            <pf:column headerText="Abschlag je Tag (in €)" style="text-align: right">
+                <pf:inputNumber value="#{page.deductionPerDay}"
+                                disabled="#{edit.isReadOnly()}"
+                                symbol=" €"
+                                symbolPosition="s"
+                                decimalPlaces="2"
+                                inputStyle="width: 100%; text-align: right">
+                    <pf:ajax event="change" update="listpagee31" immediate="true" />
+                </pf:inputNumber>
+            </pf:column>
+            <pf:column headerText="Summe der Abschläge" style="text-align: right">
+                <pf:outputLabel value="#{page.sumDeduction} €"
+                                style="text-align: right" >
                     <f:convertNumber groupingUsed="true" minFractionDigits="2" />
                 </pf:outputLabel>
-            </f:facet>
-        </pf:column>
-    </pf:dataTable>
-
+                <f:facet name="footer">
+                    <pf:outputLabel value="#{edit.aebBaseInformation.aebPageE3_1.stream().map(c -> c.getSumDeduction()).sum()} €" >
+                        <f:convertNumber groupingUsed="true" minFractionDigits="2" />
+                    </pf:outputLabel>
+                </f:facet>
+            </pf:column>
+            <pf:column headerText="Anzahl der Fälle mit Zuschlägen" style="text-align: right">
+                <pf:inputNumber value="#{page.caseCountSurcharges}"
+                                disabled="#{edit.isReadOnly()}"
+                                decimalPlaces="0"
+                                inputStyle="width: 100%; text-align: right">
+                    <pf:ajax event="change" update="listpagee31" immediate="true" />
+                </pf:inputNumber>
+                <f:facet name="footer">
+                    <pf:outputLabel value="#{edit.aebBaseInformation.aebPageE3_1.stream().map(c -> c.getCaseCountSurcharges()).sum()}" />
+                </f:facet>
+            </pf:column>
+            <pf:column headerText="Anzahl der Tage mit Zuschlägen" style="text-align: right">
+                <pf:inputNumber value="#{page.dayCountSurcharges}"
+                                disabled="#{edit.isReadOnly()}"
+                                decimalPlaces="2"
+                                inputStyle="width: 100%; text-align: right">
+                    <pf:ajax event="change" update="listpagee31" immediate="true" />
+                </pf:inputNumber>
+                <f:facet name="footer">
+                    <pf:outputLabel value="#{edit.aebBaseInformation.aebPageE3_1.stream().map(c -> c.getDayCountSurcharges()).sum()}" />
+                </f:facet>
+            </pf:column>
+            <pf:column headerText="Zuschlag je Tag (in €)" style="text-align: right">
+                <pf:inputNumber value="#{page.surchargesPerDay}"
+                                disabled="#{edit.isReadOnly()}"
+                                symbol=" €"
+                                symbolPosition="s"
+                                decimalPlaces="2"
+                                inputStyle="width: 100%; text-align: right">
+                    <pf:ajax event="change" update="listpagee31" immediate="true" />
+                </pf:inputNumber>
+            </pf:column>
+            <pf:column headerText="Summe der Zuschlägen" style="text-align: right">
+                <pf:outputLabel value="#{page.sumSurcharges} €"
+                                style="text-align: right" />
+                <f:facet name="footer">
+                    <pf:outputLabel value="#{edit.aebBaseInformation.aebPageE3_1.stream().map(c -> c.getSumSurcharges()).sum()} €" >
+                        <f:convertNumber groupingUsed="true" minFractionDigits="2" />
+                    </pf:outputLabel>
+                </f:facet>
+            </pf:column>
+            <pf:column headerText="Nettoerlössumme inkl. Zu- und Abschläge (in €)" style="text-align: right">
+                <pf:outputLabel value="#{page.sumNetto} €"
+                                style="text-align: right" />
+                <f:facet name="footer">
+                    <pf:outputLabel value="#{edit.aebBaseInformation.aebPageE3_1.stream().map(c -> c.getSumNetto()).sum()} €" >
+                        <f:convertNumber groupingUsed="true" minFractionDigits="2" />
+                    </pf:outputLabel>
+                </f:facet>
+            </pf:column>
+        </pf:dataTable>
+    </div>
     <br />
-
-    <pf:dataTable id="listpagee31_1"
-                  var="page"
-                  value="#{edit.aebBaseInformation.aebPageE3_1}"
-                  widgetVar="pagesE31"
-                  emptyMessage="Keine Einträge vorhanden"
-                  tableStyleClass="inekTablePsy">
-
-        <f:facet name="header">
-            davon Fälle mit patientenbezogenen Abschlägen
-        </f:facet>
-        <pf:column headerText="Entgelt nach § 6 BPflV">
-            <pf:inputText value="#{page.renumeration}"
-                          maxlength="5"
-                          disabled="#{edit.isReadOnly()}" >
-                <pf:ajax event="change" update="@all" immediate="true" />
-            </pf:inputText>
-        </pf:column>
-        <pf:column headerText="Anzahl der Fälle mit Abschlägen" style="text-align: right">
-            <pf:inputNumber value="#{page.caseCountDeductions}"
-                            disabled="#{edit.isReadOnly()}"
-                            decimalPlaces="0"
-                            inputStyle="width: 100%; text-align: right">
-                <pf:ajax event="change" update="listpagee31_1" immediate="true" />
-            </pf:inputNumber>
-            <f:facet name="footer">
-                <pf:outputLabel value="#{edit.aebBaseInformation.aebPageE3_1.stream().map(c -> c.getCaseCountDeductions()).sum()}" />
-            </f:facet>
-        </pf:column>
-        <pf:column headerText="Anzahl der Tage mit Abschlägen" style="text-align: right">
-            <pf:inputNumber value="#{page.dayCountDeductions}"
-                            disabled="#{edit.isReadOnly()}"
-                            decimalPlaces="0"
-                            inputStyle="width: 100%; text-align: right">
-                <pf:ajax event="change" update="listpagee31_1" immediate="true" />
-            </pf:inputNumber>
-            <f:facet name="footer">
-                <pf:outputLabel value="#{edit.aebBaseInformation.aebPageE3_1.stream().map(c -> c.getDayCountDeductions()).sum()}" />
-            </f:facet>
-        </pf:column>
-        <pf:column headerText="Abschlag je Tag (in €)" style="text-align: right">
-            <pf:inputNumber value="#{page.deductionPerDay}"
-                            disabled="#{edit.isReadOnly()}"
-                            symbol=" €"
-                            symbolPosition="s"
-                            decimalPlaces="2"
-                            inputStyle="width: 100%; text-align: right">
-                <pf:ajax event="change" update="listpagee31_1" immediate="true" />
-            </pf:inputNumber>
-        </pf:column>
-        <pf:column headerText="Summe der Abschläge" style="text-align: right">
-            <pf:outputLabel value="#{page.sumDeduction} €"
-                            style="text-align: right" >
-                <f:convertNumber groupingUsed="true" minFractionDigits="2" />
-            </pf:outputLabel>
-            <f:facet name="footer">
-                <pf:outputLabel value="#{edit.aebBaseInformation.aebPageE3_1.stream().map(c -> c.getSumDeduction()).sum()} €" >
-                    <f:convertNumber groupingUsed="true" minFractionDigits="2" />
-                </pf:outputLabel>
-            </f:facet>
-        </pf:column>
-    </pf:dataTable>
-
-    <br />
-
-    <pf:dataTable id="listpagee31_2"
-                  var="page"
-                  value="#{edit.aebBaseInformation.aebPageE3_1}"
-                  widgetVar="pagesE31"
-                  emptyMessage="Keine Einträge vorhanden"
-                  tableStyleClass="inekTablePsy">
-
-        <f:facet name="header">
-            davon Fälle mit patientenbezogenen Zuschlägen
-        </f:facet>
-        <pf:column headerText="Entgelt nach § 6 BPflV">
-            <pf:inputText value="#{page.renumeration}"
-                          maxlength="5"
-                          disabled="#{edit.isReadOnly()}" >
-                <pf:ajax event="change" update="@all" immediate="true" />
-            </pf:inputText>
-        </pf:column>
-        <pf:column headerText="Anzahl der Fälle mit Zuschlägen" style="text-align: right">
-            <pf:inputNumber value="#{page.caseCountSurcharges}"
-                            disabled="#{edit.isReadOnly()}"
-                            decimalPlaces="0"
-                            inputStyle="width: 100%; text-align: right">
-                <pf:ajax event="change" update="listpagee31_2" immediate="true" />
-            </pf:inputNumber>
-            <f:facet name="footer">
-                <pf:outputLabel value="#{edit.aebBaseInformation.aebPageE3_1.stream().map(c -> c.getCaseCountSurcharges()).sum()}" />
-            </f:facet>
-        </pf:column>
-        <pf:column headerText="Anzahl der Tage mit Zuschlägen" style="text-align: right">
-            <pf:inputNumber value="#{page.dayCountSurcharges}"
-                            disabled="#{edit.isReadOnly()}"
-                            decimalPlaces="2"
-                            inputStyle="width: 100%; text-align: right">
-                <pf:ajax event="change" update="listpagee31_2" immediate="true" />
-            </pf:inputNumber>
-            <f:facet name="footer">
-                <pf:outputLabel value="#{edit.aebBaseInformation.aebPageE3_1.stream().map(c -> c.getDayCountSurcharges()).sum()}" />
-            </f:facet>
-        </pf:column>
-        <pf:column headerText="Zuschlag je Tag (in €)" style="text-align: right">
-            <pf:inputNumber value="#{page.surchargesPerDay}"
-                            disabled="#{edit.isReadOnly()}"
-                            symbol=" €"
-                            symbolPosition="s"
-                            decimalPlaces="2"
-                            inputStyle="width: 100%; text-align: right">
-                <pf:ajax event="change" update="listpagee31_2" immediate="true" />
-            </pf:inputNumber>
-        </pf:column>
-        <pf:column headerText="Summe der Zuschlägen" style="text-align: right">
-            <pf:outputLabel value="#{page.sumSurcharges} €"
-                            style="text-align: right" />
-            <f:facet name="footer">
-                <pf:outputLabel value="#{edit.aebBaseInformation.aebPageE3_1.stream().map(c -> c.getSumSurcharges()).sum()} €" >
-                    <f:convertNumber groupingUsed="true" minFractionDigits="2" />
-                </pf:outputLabel>
-            </f:facet>
-        </pf:column>
-        <pf:column headerText="Nettoerlössumme inkl. Zu- und Abschläge (in €)" style="text-align: right">
-            <pf:outputLabel value="#{page.sumNetto} €"
-                            style="text-align: right" />
-            <f:facet name="footer">
-                <pf:outputLabel value="#{edit.aebBaseInformation.aebPageE3_1.stream().map(c -> c.getSumNetto()).sum()} €" >
-                    <f:convertNumber groupingUsed="true" minFractionDigits="2" />
-                </pf:outputLabel>
-            </f:facet>
-        </pf:column>
-    </pf:dataTable>
-
     <div class="ui-md-5">
         <pf:commandButton value="Weiteren Eintrag hinzufügen"
                           class="addEntry"
@@ -220,6 +182,6 @@
                           process="@this"
                           action="#{edit.addNewPageE3_1()}"
                           rendered="#{!edit.isReadOnly()}"
-                          update="listpagee31 listpagee31_1 listpagee31_2"/>
+                          update="listpagee31"/>
     </div>
 </ui:composition>

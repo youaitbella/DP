@@ -24,6 +24,7 @@ import org.inek.dataportal.common.scope.FeatureScoped;
 import org.inek.dataportal.psy.khcomparison.entity.*;
 import org.inek.dataportal.psy.khcomparison.facade.AEBFacade;
 import org.inek.dataportal.psy.khcomparison.facade.AEBListItemFacade;
+import org.inek.dataportal.psy.khcomparison.importer.AebImporter;
 import org.inek.dataportal.psy.psychstaff.entity.OccupationalCategory;
 import org.inek.dataportal.psy.psychstaff.facade.PsychStaffFacade;
 import org.primefaces.event.FileUploadEvent;
@@ -211,7 +212,14 @@ public class Edit {
     }
 
     public void handleFileUpload(FileUploadEvent event) {
-        _dialogController.showInfoDialog(event.getFile().getFileName(), "Datei erfolgreich hochgeladen");
+        AebImporter importer = new AebImporter();
+        try {
+            if (importer.startImport(_aebBaseInformation, event.getFile().getInputstream())) {
+                _dialogController.showInfoDialog("Ihre Daten wurden erfolgreich hochgeladen", "Upload abgeschlossen");
+            }
+        } catch (Exception ex) {
+            _dialogController.showWarningDialog("Fehler beim Upload. Bitte versuchen Sie es erneut", "Upload fehlgeschlagen");
+        }
     }
 
     private void removeEmptyEntries(AEBBaseInformation baseInformation) {

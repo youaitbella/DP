@@ -39,7 +39,6 @@ public class DialogController implements Serializable {
         options.put("contentWidth", 400);
         options.put("contentHeight", 80);
         options.put("closable", false);
-
         PrimeFaces.current().dialog().openDynamic("/Dialog/SaveDialog", options, null);
     }
 }

@@ -81,13 +81,11 @@
                                   action="#{edit.save()}"
                                   update="@(.ui-message) @all"
                                   immediate="true"
-                                  oncomplete="changeDialogColor('save')"
                                   rendered="#{!edit.isReadOnly()}"/>
                 <pf:commandButton value="Ans InEK senden"
                                   update="@(.ui-message) @all"
                                   action="#{edit.send()}"
                                   styleClass="btnSend arrow-right"
-                                  oncomplete="changeDialogColor('save')"
                                   rendered="#{!edit.isReadOnly()}"/>
 
             </h:form>
