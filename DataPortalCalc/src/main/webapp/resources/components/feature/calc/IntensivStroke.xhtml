@@ -130,31 +130,31 @@
                             <inek:Checkbox value="#{cc.attrs.intensiveType == 1 ? x.ops898f : x.ops898b}"  renderElement="#{cc.attrs.id}:tbl-cont:#{loop.index}:medServCnt:text"/>
                         </td>
                         <td>
-                            <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100" 
+                            <inek:InputTextWithMessage styleClassComponent="element100" styleClass="element100"
                                                        value="#{x.minimumCriteriaPeriod}" rendered="true"/>
                         </td>
                         <td>
-                            <inek:InputIntegerWithMessage value="#{x.intensivHoursNotweighted}"  renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:utilization sumIntNotWeighted"/>
+                            <inek:InputIntegerWithMessage value="#{x.intensivHoursNotweighted}" renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:utilization sumIntNotWeighted"/>
                         </td>
                         <td>
-                            <inek:InputIntegerWithMessage value="#{x.intensivHoursWeighted}"  renderElement="@this diff-msc-#{loop.index} sumIntWeighted"/>
+                            <inek:InputIntegerWithMessage value="#{x.intensivHoursWeighted}" renderElement="@this diff-msc-#{loop.index} sumIntWeighted"/>
                         </td>
                         <td>
-                            <h:outputLabel id="utilization" value="#{x.calcUtilization()}" 
-                                           title="#{x.bedCnt > 0 and ((x.intensivHoursNotweighted / (365 * 24 * x.bedCnt) lt 0.3) or (x.intensivHoursNotweighted / (365 * 24 * x.bedCnt) gt 1.1)) ? 'Bitte beachten Sie, dass die Auslastung unter 30% bzw. über 110% liegt.' : ''}" 
+                            <h:outputLabel id="utilization" value="#{x.calcUtilization()}"
+                                           title="#{x.bedCnt > 0 and ((x.intensivHoursNotweighted / (365 * 24 * x.bedCnt) lt 0.3) or (x.intensivHoursNotweighted / (365 * 24 * x.bedCnt) gt 1.1)) ? 'Bitte beachten Sie, dass die Auslastung unter 30% bzw. über 110% liegt.' : ''}"
                                            styleClass="#{x.bedCnt > 0 and ((x.intensivHoursNotweighted / (365 * 24 * x.bedCnt) lt 0.3) or (x.intensivHoursNotweighted / (365 * 24 * x.bedCnt) gt 1.1)) ? 'red' : ''}"
                                            />
                         </td>
                         <td>
-                            <inek:InputIntegerWithMessage value="#{x.weightMinimum}" renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:spreizung" readonly="false"/>
+                            <inek:InputIntegerWithMessage value="#{x.weightMinimum}" pattern="#,#0" renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:spreizung" readonly="false"/>
                         </td>
                         <td>
-                            <inek:InputIntegerWithMessage value="#{x.weightMaximum}" renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:spreizung" readonly="false"/>
+                            <inek:InputIntegerWithMessage value="#{x.weightMaximum}" pattern="#,#0" renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:spreizung" readonly="false"/>
                         </td>
                         <td>
-                            <h:outputLabel id="spreizung" 
+                            <h:outputLabel id="spreizung"
                                            value="#{x.weightMinimum != 0 ? x.weightMaximum / x.weightMinimum : ''}"
-                                           title="#{x.weightMinimum != 0 and x.weightMaximum / x.weightMinimum ge 6 ? 'Bitte beachten Sie, dass eine Spreizung von über 6 nicht Handbuchkonform ist (Vgl. Kapitel 6.3.3, Kalkulationshandbuch, V4.0).' : ''}" 
+                                           title="#{x.weightMinimum != 0 and x.weightMaximum / x.weightMinimum ge 6 ? 'Bitte beachten Sie, dass eine Spreizung von über 6 nicht Handbuchkonform ist (Vgl. Kapitel 6.3.3, Kalkulationshandbuch, V4.0).' : ''}"
                                            styleClass="#{x.weightMinimum != 0 and x.weightMaximum / x.weightMinimum ge 6 ? 'red' : ''}"
                                            >
                                 <f:convertNumber pattern="#0.00" />
@@ -241,49 +241,49 @@
 
 
                         <td>
-                            <inek:InputIntegerWithMessage id='medServCnt' styleClassComponent="element100"  
-                                                          value="#{x.medicalServiceCnt}" rendered="true"
-                                                          title='#{(x.ops8980 or x.ops898f) and x.medicalServiceCnt lt 5 ? "Intensivkode 8-980 oder 8-98f verlangen mindestens 5 VK" : ""}'
-                                                          styleClass='#{(x.ops8980 or x.ops898f) and x.medicalServiceCnt lt 5 ? "red" : ""}'
-                                                          renderElement="#{cc.attrs.id}:tbl-cont:#{loop.index}:costPerMedical"
-                                                          />
+                            <inek:InputNumberWithMessage id='medServCnt' styleClassComponent="element100"
+                                                         value="#{x.medicalServiceCnt}" rendered="true"
+                                                         title='#{(x.ops8980 or x.ops898f) and x.medicalServiceCnt lt 5 ? "Intensivkode 8-980 oder 8-98f verlangen mindestens 5 VK" : ""}'
+                                                         styleClass='#{(x.ops8980 or x.ops898f) and x.medicalServiceCnt lt 5 ? "red" : ""}'
+                                                         renderElement="#{cc.attrs.id}:tbl-cont:#{loop.index}:costPerMedical" pattern="#0.00"
+                                                         />
                         </td>
                         <td>
-                            <inek:InputIntegerWithMessage styleClassComponent="element100" styleClass="element100" 
-                                                          value="#{x.nursingServiceCnt}" rendered="true" renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:costPerNursing"/>
+                            <inek:InputNumberWithMessage styleClassComponent="element100" styleClass="element100"
+                                                         value="#{x.nursingServiceCnt}" rendered="true" renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:costPerNursing" pattern="#0.00"/>
                         </td>
                         <td>
-                            <inek:InputIntegerWithMessage styleClassComponent="element100" styleClass="element100" 
-                                                          value="#{x.functionalServiceCnt}" rendered="true"/>
+                            <inek:InputNumberWithMessage styleClassComponent="element100" styleClass="element100"
+                                                         value="#{x.functionalServiceCnt}" rendered="true" pattern="#0.00" />
                         </td>
                         <td>
-                            <inek:InputIntegerWithMessage styleClassComponent="element100" styleClass="element100" 
-                                                          value="#{x.medicalServiceCost}" rendered="true" 
+                            <inek:InputIntegerWithMessage styleClassComponent="element100" styleClass="element100"
+                                                          value="#{x.medicalServiceCost}" rendered="true"
                                                           renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:overallCost #{cc.attrs.id}:tbl-cont:#{loop.index}:costPerMedical"/>
                         </td>
                         <td>
-                            <inek:InputIntegerWithMessage styleClassComponent="element100" styleClass="element100" 
-                                                          value="#{x.nursingServiceCost}" rendered="true" 
+                            <inek:InputIntegerWithMessage styleClassComponent="element100" styleClass="element100"
+                                                          value="#{x.nursingServiceCost}" rendered="true"
                                                           renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:overallCost #{cc.attrs.id}:tbl-cont:#{loop.index}:costPerNursing"/>
                         </td>
                         <td>
-                            <inek:InputIntegerWithMessage styleClassComponent="element100" styleClass="element100" 
+                            <inek:InputIntegerWithMessage styleClassComponent="element100" styleClass="element100"
                                                           value="#{x.functionalServiceCost}" rendered="true" renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:overallCost"/>
                         </td>
                         <td>
-                            <inek:InputIntegerWithMessage styleClassComponent="element100" styleClass="element100" 
+                            <inek:InputIntegerWithMessage styleClassComponent="element100" styleClass="element100"
                                                           value="#{x.overheadsMedicine}" rendered="true" renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:overallCost"/>
                         </td>
                         <td>
-                            <inek:InputIntegerWithMessage styleClassComponent="element100" styleClass="element100" 
+                            <inek:InputIntegerWithMessage styleClassComponent="element100" styleClass="element100"
                                                           value="#{x.overheadMedicalGoods}" rendered="true" renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:overallCost"/>
                         </td>
                         <td>
-                            <inek:InputIntegerWithMessage styleClassComponent="element100" styleClass="element100" 
+                            <inek:InputIntegerWithMessage styleClassComponent="element100" styleClass="element100"
                                                           value="#{x.medicalInfrastructureCost}" rendered="true" renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:overallCost"/>
                         </td>
                         <td>
-                            <inek:InputIntegerWithMessage styleClassComponent="element100" styleClass="element100" 
+                            <inek:InputIntegerWithMessage styleClassComponent="element100" styleClass="element100"
                                                           value="#{x.nonMedicalInfrastructureCost}" rendered="true" renderElement="@this #{cc.attrs.id}:tbl-cont:#{loop.index}:overallCost"/>
                         </td>
                         <td>
@@ -309,7 +309,7 @@
 
         <c:if test="#{cc.attrs.intensiveType == 1}">
             <inek:UploadButtons importer="#{editCalcBasicsDrg.getImporter('drgIntensive')}"
-                                calcbase="#{editCalcBasicsDrg.calcBasics}" 
+                                calcbase="#{editCalcBasicsDrg.calcBasics}"
                                 readOnly="#{editCalcBasicsDrg.readOnly}"
                                 addListener="#{editCalcBasicsDrg.addIntensivStroke(1)}"
                                 uploadButtonText="Upload"
@@ -318,7 +318,7 @@
         </c:if>
         <c:if test="#{cc.attrs.intensiveType != 1}">
             <inek:UploadButtons importer="#{editCalcBasicsDrg.getImporter('drgStrokeUnit')}"
-                                calcbase="#{editCalcBasicsDrg.calcBasics}" 
+                                calcbase="#{editCalcBasicsDrg.calcBasics}"
                                 readOnly="#{editCalcBasicsDrg.readOnly}"
                                 addListener="#{editCalcBasicsDrg.addIntensivStroke(2)}"
                                 uploadButtonText="Upload"

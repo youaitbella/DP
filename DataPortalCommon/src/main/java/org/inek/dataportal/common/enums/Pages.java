@@ -205,6 +205,7 @@ public enum Pages {
     AdminTaskIkAdmin("/Admin/AdminTaskIkAdmin"),
     AdminTaskChangeNub("/Admin/AdminTaskChangeNub"),
     AdminTaskUploadDoc("/Admin/AdminTaskUploadDoc"),
+    AdminTaskInfoText("/Admin/AdminTaskInfoText"),
     //
     IkAdminSummary("/IkAdmin/IkAdminSummary"),
     PartIkAdmin("/IkAdmin/PartIkAdmin"),

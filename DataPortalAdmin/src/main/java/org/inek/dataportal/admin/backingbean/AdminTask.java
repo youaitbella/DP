@@ -40,7 +40,8 @@ public class AdminTask extends AbstractEditController {
         //LOGGER.log(Level.INFO, "Ctor AdminTask");
     }
 
-    @Inject private SessionController _sessionController;
+    @Inject
+    private SessionController _sessionController;
 
     @Override
     protected void addTopics() {
@@ -51,6 +52,7 @@ public class AdminTask extends AbstractEditController {
         addTopic(AdminTaskTabs.tabAdminTaskIkSupervisor.name(), Pages.AdminTaskIkSupervisor.URL());
         addTopic(AdminTaskTabs.tabAdminTaskIkAdmin.name(), Pages.AdminTaskIkAdmin.URL());
         addTopic(AdminTaskTabs.tabAdminTaskChangeNub.name(), Pages.AdminTaskChangeNub.URL());
+        addTopic(AdminTaskTabs.tabAdminTaskInfoText.name(), Pages.AdminTaskInfoText.URL());
 
     }
 
@@ -62,7 +64,8 @@ public class AdminTask extends AbstractEditController {
         tabAdminTaskMailTemplate,
         tabAdminTaskIkSupervisor,
         tabAdminTaskIkAdmin,
-        tabAdminTaskChangeNub;
+        tabAdminTaskChangeNub,
+        tabAdminTaskInfoText;
     }
 
     @PostConstruct
@@ -99,7 +102,8 @@ public class AdminTask extends AbstractEditController {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="tab MailTemplate">
-    @Inject private MailTemplateFacade _mailTemplateFacade;
+    @Inject
+    private MailTemplateFacade _mailTemplateFacade;
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     public List<SelectItem> getMailTemplates() {
@@ -190,7 +194,8 @@ public class AdminTask extends AbstractEditController {
         _roleChanged = isChanged;
     }
 
-    @Inject private InekRoleFacade _inekRoleFacade;
+    @Inject
+    private InekRoleFacade _inekRoleFacade;
 
     private List<InekRole> _originalInekRoles;
     private List<InekRole> _inekRoles;
@@ -256,7 +261,8 @@ public class AdminTask extends AbstractEditController {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="tab RoleMapping">
-    @Inject private AccountFacade _accountFacade;
+    @Inject
+    private AccountFacade _accountFacade;
 
     private List<SelectItem> _inekAgents;
 
@@ -340,7 +346,8 @@ public class AdminTask extends AbstractEditController {
         return "";
     }
 
-    @Inject private RoleMappingFacade _mappingFacade;
+    @Inject
+    private RoleMappingFacade _mappingFacade;
 
     public String saveRoleMapping() {
         List<RoleMapping> former = copyList(_inekRole.getMappings());

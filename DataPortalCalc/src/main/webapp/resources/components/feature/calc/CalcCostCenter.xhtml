@@ -49,7 +49,7 @@
                 <f:facet name="header">
                     <h:outputLabel value="VK ÄD" title="Anzahl der zugeordneten Vollkräfte des Ärztlichen Dienstes zur Kostenstelle"/>
                 </f:facet>
-                <inek:InputNumberWithMessage styleClass="element100" value="#{item.fullVigorCnt}" readonly="#{cc.attrs.backingBean.readOnly}" pattern="#,##0.0"/>
+                <inek:InputNumberWithMessage styleClass="element100" value="#{item.fullVigorCnt}" readonly="#{cc.attrs.backingBean.readOnly}" pattern="#0.00"/>
             </h:column>
 
             <h:column>
@@ -77,12 +77,12 @@
         </h:dataTable>
 
         <inek:UploadButtons importer="#{cc.attrs.backingBean.getImporter(cc.attrs.importerName)}"
-                             calcbase="#{cc.attrs.backingBean.calcBasics}" 
-                             readOnly="#{cc.attrs.backingBean.readOnly}"
-                             addListener="#{cc.attrs.backingBean.addCostCenter(cc.attrs.costCenterId)}"
-                             uploadButtonText="Upload KStGr. #{cc.attrs.costCenterId}"
-                             actionDeleteTable="#{cc.attrs.backingBean.deleteCostCenters(cc.attrs.costCenterId)}"
-                             />
+                            calcbase="#{cc.attrs.backingBean.calcBasics}"
+                            readOnly="#{cc.attrs.backingBean.readOnly}"
+                            addListener="#{cc.attrs.backingBean.addCostCenter(cc.attrs.costCenterId)}"
+                            uploadButtonText="Upload KStGr. #{cc.attrs.costCenterId}"
+                            actionDeleteTable="#{cc.attrs.backingBean.deleteCostCenters(cc.attrs.costCenterId)}"
+                            />
 
     </cc:implementation>
 </html>
