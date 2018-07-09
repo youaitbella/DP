@@ -55,14 +55,14 @@ public class CompareAEBPageE2Test {
         list2.add(createNewPage("ZP2018-33", 0));
 
         com.compareAEBPageE2(list1, list2);
-        Assertions.assertThat(com.getResult()).as(com.getResult()).contains("Blatt E2: Element nicht vorhanden: Ze: ZP2018-31/nBlatt E2: Element nicht vorhanden: Ze: ZP2018-33");
+        Assertions.assertThat(com.getResult()).as(com.getResult()).contains("Blatt E2: Element nicht vorhanden: Ze: ZP2018-31\nBlatt E2: Element nicht vorhanden: Ze: ZP2018-33");
         com.setResult("");
 
         list1.add(createNewPage("ZP2018-33", 0));
         list2.add(createNewPage("ZP2018-34", 0));
 
         com.compareAEBPageE2(list1, list2);
-        Assertions.assertThat(com.getResult()).as(com.getResult()).contains("Blatt E2: Element nicht vorhanden: Ze: ZP2018-31/nBlatt E2: Element nicht vorhanden: Ze: ZP2018-34/n");
+        Assertions.assertThat(com.getResult()).as(com.getResult()).contains("Blatt E2: Element nicht vorhanden: Ze: ZP2018-31\nBlatt E2: Element nicht vorhanden: Ze: ZP2018-34\n");
 
     }
 

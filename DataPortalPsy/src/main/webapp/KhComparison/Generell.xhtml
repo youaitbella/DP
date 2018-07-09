@@ -10,7 +10,6 @@
                 xmlns:pf="http://primefaces.org/ui">
 
     <pf:panelGrid columns="2" >
-
         <pf:outputLabel value="IK:" />
         <pf:selectOneMenu value="#{edit.aebBaseInformation.ik}"
                           var="ik"
@@ -44,5 +43,9 @@
                    uploadLabel="Datei Hochladen"
                    label="Exceldatei auswählen"
                    update="@form"/>
+
+    <pf:inputTextarea value="#{edit.errorMessage}"
+                      rendered="#{edit.errorMessage.length() gt 0}"
+                      style="width: 100%"/>
 
 </ui:composition>

@@ -55,7 +55,7 @@ public class CompareAEBPageE3_1Test {
         list2.add(createNewPage("P001V", "P01", 0, 0, 0, 0, 0, 0, 0, 0));
 
         com.compareAEBPageE3_1(list1, list2);
-        Assertions.assertThat(com.getResult()).as(com.getResult()).contains("Blatt E3.1: Element nicht vorhanden: Entgeld: P001Z - P02/nBlatt E3.1: Element nicht vorhanden: Entgeld: P001Z - P03");
+        Assertions.assertThat(com.getResult()).as(com.getResult()).contains("Blatt E3.1: Element nicht vorhanden: Entgeld: P001Z - P02\nBlatt E3.1: Element nicht vorhanden: Entgeld: P001Z - P03");
         com.setResult("");
 
         list1.add(createNewPage("P001Z", "P03", 0, 0, 0, 0, 0, 0, 0, 0));

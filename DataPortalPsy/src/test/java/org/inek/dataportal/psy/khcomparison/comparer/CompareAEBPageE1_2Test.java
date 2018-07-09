@@ -55,14 +55,14 @@ public class CompareAEBPageE1_2Test {
         list2.add(createNewPage("ET03", 0));
 
         com.compareAEBPageE1_2(list1, list2);
-        Assertions.assertThat(com.getResult()).as(com.getResult()).contains("Blatt E1.2: Element nicht vorhanden: ET: ET02/nBlatt E1.2: Element nicht vorhanden: ET: ET03");
+        Assertions.assertThat(com.getResult()).as(com.getResult()).contains("Blatt E1.2: Element nicht vorhanden: ET: ET02\nBlatt E1.2: Element nicht vorhanden: ET: ET03");
         com.setResult("");
 
         list1.add(createNewPage("ET03", 0));
         list2.add(createNewPage("ET04", 0));
 
         com.compareAEBPageE1_2(list1, list2);
-        Assertions.assertThat(com.getResult()).as(com.getResult()).contains("Blatt E1.2: Element nicht vorhanden: ET: ET02/nBlatt E1.2: Element nicht vorhanden: ET: ET04/n");
+        Assertions.assertThat(com.getResult()).as(com.getResult()).contains("Blatt E1.2: Element nicht vorhanden: ET: ET02\nBlatt E1.2: Element nicht vorhanden: ET: ET04\n");
 
     }
 

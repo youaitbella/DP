@@ -59,7 +59,7 @@ public class Summary {
         _listComplete = new ArrayList<>();
         _listWorking = new ArrayList<>();
         _listComplete.addAll(getAebsByStatus(WorkflowStatus.Provided));
-        _listWorking.addAll(getAebsByStatus(WorkflowStatus.New));
+        setListWorking(getAebsByStatus(WorkflowStatus.New));
     }
 
     private List<AEBBaseInformation> getAebsByStatus(WorkflowStatus status) {
@@ -89,6 +89,6 @@ public class Summary {
 
     public void deleteBaseInformation(AEBBaseInformation info) {
         _aebfacade.deleteBaseInformation(info);
-        _listWorking.addAll(getAebsByStatus(WorkflowStatus.New));
+        setListWorking(getAebsByStatus(WorkflowStatus.New));
     }
 }

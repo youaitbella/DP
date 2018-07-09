@@ -21,6 +21,7 @@ import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.scope.FeatureScoped;
+import org.inek.dataportal.psy.khcomparison.checker.AebChecker;
 import org.inek.dataportal.psy.khcomparison.entity.*;
 import org.inek.dataportal.psy.khcomparison.facade.AEBFacade;
 import org.inek.dataportal.psy.khcomparison.facade.AEBListItemFacade;
@@ -55,6 +56,7 @@ public class Edit {
     private AEBBaseInformation _aebBaseInformation;
     private List<Integer> _validDatayears = new ArrayList<>();
     private Boolean _readOnly;
+    private String _errorMessage = "";
 
     @PostConstruct
     public void init() {
@@ -70,6 +72,14 @@ public class Edit {
         }
         ikChanged();
         setReadOnly();
+    }
+
+    public String getErrorMessage() {
+        return _errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this._errorMessage = errorMessage;
     }
 
     public Boolean isReadOnly() {
@@ -213,8 +223,12 @@ public class Edit {
 
     public void handleFileUpload(FileUploadEvent event) {
         AebImporter importer = new AebImporter();
+        AebChecker checker = new AebChecker(_aebListItemFacade);
         try {
             if (importer.startImport(_aebBaseInformation, event.getFile().getInputstream())) {
+                checker.checkAeb(_aebBaseInformation);
+                setErrorMessage(checker.getMessage());
+                setErrorMessage(getErrorMessage() + "\n \n --> " + importer.getCounter() + " Zeilen eingelesen");
                 _dialogController.showInfoDialog("Ihre Daten wurden erfolgreich hochgeladen", "Upload abgeschlossen");
             }
         } catch (Exception ex) {
@@ -291,8 +305,6 @@ public class Edit {
 
     public List<Integer> getAllowedDataYears() {
         List<Integer> years = new ArrayList<>();
-        years.add(2016);
-        years.add(2017);
         years.add(2018);
         return years;
     }

@@ -236,7 +236,7 @@ public class KhComparisonComparator {
     }
 
     private void addMessage(String message) {
-        setResult(getResult() + message + "/n");
+        setResult(getResult() + message + "\n");
     }
 
     private void compareInt(int value1, int value2, String page) {

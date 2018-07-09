@@ -403,4 +403,13 @@ public class AEBBaseInformation implements Serializable {
         page.setBaseInformation(this);
         _aebPageE3_3.add(page);
     }
+
+    public void clearAebPages() {
+        _aebPageE1_1.clear();
+        _aebPageE1_2.clear();
+        _aebPageE2.clear();
+        _aebPageE3_1.clear();
+        _aebPageE3_2.clear();
+        _aebPageE3_3.clear();
+    }
 }

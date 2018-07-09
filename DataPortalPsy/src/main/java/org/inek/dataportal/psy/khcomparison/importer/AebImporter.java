@@ -24,7 +24,18 @@ public class AebImporter {
     public static final String PAGE_E3_3 = "34 E3.3 V";
     public static final String PAGE_B1 = "35 B1";
 
+    private int _counter = 0;
+
+    public int getCounter() {
+        return _counter;
+    }
+
+    public void setCounter(int counter) {
+        this._counter = counter;
+    }
+
     public Boolean startImport(AEBBaseInformation info, InputStream file) {
+        info.clearAebPages();
         try (Workbook workbook = WorkbookFactory.create(file)) {
             for (Sheet s : workbook) {
                 switch (s.getSheetName()) {
@@ -71,6 +82,7 @@ public class AebImporter {
             page.setCalculationDays(getIntFromCell(sheet.getRow(i).getCell(3)));
             page.setValuationRadioDay(getDoubleFromCell(sheet.getRow(i).getCell(4)));
             info.addAebPageE1_1(page);
+            _counter++;
         }
     }
 
@@ -84,6 +96,7 @@ public class AebImporter {
             page.setCalculationDays(getIntFromCell(sheet.getRow(i).getCell(1)));
             page.setValuationRadioDay(getDoubleFromCell(sheet.getRow(i).getCell(2)));
             info.addAebPageE1_2(page);
+            _counter++;
         }
     }
 
@@ -97,6 +110,7 @@ public class AebImporter {
             page.setZeCount(getIntFromCell(sheet.getRow(i).getCell(1)));
             page.setValuationRadioDay(getDoubleFromCell(sheet.getRow(i).getCell(2)));
             info.addAebPageE2(page);
+            _counter++;
         }
     }
 
@@ -117,6 +131,7 @@ public class AebImporter {
             page.setDayCountSurcharges(getIntFromCell(sheet.getRow(i).getCell(10)));
             page.setSurchargesPerDay(getDoubleFromCell(sheet.getRow(i).getCell(11)));
             info.addAebPageE3_1(page);
+            _counter++;
         }
     }
 
@@ -132,6 +147,7 @@ public class AebImporter {
             page.setCount(getIntFromCell(sheet.getRow(i).getCell(3)));
             page.setRenumerationValue(getDoubleFromCell(sheet.getRow(i).getCell(4)));
             info.addAebPageE3_2(page);
+            _counter++;
         }
     }
 
@@ -147,6 +163,7 @@ public class AebImporter {
             page.setDays(getIntFromCell(sheet.getRow(i).getCell(3)));
             page.setRenumerationValue(getDoubleFromCell(sheet.getRow(i).getCell(4)));
             info.addAebPageE3_3(page);
+            _counter++;
         }
     }
 
@@ -158,6 +175,7 @@ public class AebImporter {
         info.getAebPageB1().setSumEffectivValuationRadio(getDoubleFromCell(sheet.getRow(35).getCell(2)));
         info.getAebPageB1().setBasisRenumerationValueCompensation(getDoubleFromCell(sheet.getRow(36).getCell(2)));
         info.getAebPageB1().setBasisRenumerationValueNoCompensation(getDoubleFromCell(sheet.getRow(37).getCell(2)));
+        _counter++;
     }
 
     private int getEndRow(Sheet sheet, int startRow, int maxRow) {
