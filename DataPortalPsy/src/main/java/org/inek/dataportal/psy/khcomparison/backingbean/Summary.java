@@ -58,13 +58,18 @@ public class Summary {
     public void init() {
         _listComplete = new ArrayList<>();
         _listWorking = new ArrayList<>();
-        _listComplete.addAll(getAebsByStatus(WorkflowStatus.Provided));
-        setListWorking(getAebsByStatus(WorkflowStatus.New));
-        _listWorking.addAll(getAebsByStatus(WorkflowStatus.CorrectionRequested));
+        _listComplete.addAll(getAebsByStatusAndAccount(WorkflowStatus.Provided));
+        setWorkingList();
     }
 
-    private List<AEBBaseInformation> getAebsByStatus(WorkflowStatus status) {
-        return _aebfacade.getAllByStatus(status);
+    private void setWorkingList() {
+        _listWorking.clear();
+        _listWorking.addAll(getAebsByStatusAndAccount(WorkflowStatus.New));
+        _listWorking.addAll(getAebsByStatusAndAccount(WorkflowStatus.CorrectionRequested));
+    }
+
+    private List<AEBBaseInformation> getAebsByStatusAndAccount(WorkflowStatus status) {
+        return _aebfacade.getAllByStatusAndAccount(status, _sessionController.getAccountId());
     }
 
     public String khComparisonOpen() {
@@ -90,6 +95,6 @@ public class Summary {
 
     public void deleteBaseInformation(AEBBaseInformation info) {
         _aebfacade.deleteBaseInformation(info);
-        setListWorking(getAebsByStatus(WorkflowStatus.New));
+        setWorkingList();
     }
 }

@@ -23,6 +23,7 @@ public class AEBListItemFacade extends AbstractDataAccess {
     public List<SelectItem> getAccommodationItems() {
         String sql = "select acId, acName from psy.AEBListAccommodation";
         Query query = getEntityManager().createNativeQuery(sql);
+        @SuppressWarnings("unchecked")
         List<Object[]> result = query.getResultList();
 
         List<SelectItem> items = new ArrayList<>();
@@ -35,6 +36,7 @@ public class AEBListItemFacade extends AbstractDataAccess {
     public List<SelectItem> getAmbulantItems() {
         String sql = "select apId, apName from psy.AEBListAmbulantPerformance";
         Query query = getEntityManager().createNativeQuery(sql);
+        @SuppressWarnings("unchecked")
         List<Object[]> result = query.getResultList();
 
         List<SelectItem> items = new ArrayList<>();
@@ -47,6 +49,7 @@ public class AEBListItemFacade extends AbstractDataAccess {
     public List<SelectItem> getStructureCategorie() {
         String sql = "select scId, scName from psy.listStructureCategorie";
         Query query = getEntityManager().createNativeQuery(sql);
+        @SuppressWarnings("unchecked")
         List<Object[]> result = query.getResultList();
 
         List<SelectItem> items = new ArrayList<>();
@@ -63,6 +66,7 @@ public class AEBListItemFacade extends AbstractDataAccess {
                 + "and lpDataYear = " + dataYear + "";
 
         Query query = getEntityManager().createNativeQuery(sql);
+        @SuppressWarnings("unchecked")
         List<BigDecimal> result = query.getResultList();
         if (result.isEmpty()) {
             return 0;
@@ -77,6 +81,7 @@ public class AEBListItemFacade extends AbstractDataAccess {
                 + "and leDataYear = " + dataYear + "";
 
         Query query = getEntityManager().createNativeQuery(sql);
+        @SuppressWarnings("unchecked")
         List<BigDecimal> result = query.getResultList();
         if (result.isEmpty()) {
             return 0;
@@ -91,6 +96,7 @@ public class AEBListItemFacade extends AbstractDataAccess {
                 + "and lzDataYear = " + dataYear + "";
 
         Query query = getEntityManager().createNativeQuery(sql);
+        @SuppressWarnings("unchecked")
         List<BigDecimal> result = query.getResultList();
         if (result.isEmpty()) {
             return 0;

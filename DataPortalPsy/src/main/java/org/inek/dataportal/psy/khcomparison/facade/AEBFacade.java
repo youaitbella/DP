@@ -35,6 +35,14 @@ public class AEBFacade extends AbstractDataAccess {
         return query.getResultList();
     }
 
+    public List<AEBBaseInformation> getAllByStatusAndAccount(WorkflowStatus status, int accId) {
+        String sql = "SELECT bi FROM AEBBaseInformation bi WHERE bi._statusId = :status and bi._createdFrom = :accId";
+        TypedQuery<AEBBaseInformation> query = getEntityManager().createQuery(sql, AEBBaseInformation.class);
+        query.setParameter("status", status.getId());
+        query.setParameter("accId", accId);
+        return query.getResultList();
+    }
+
     public List<Integer> getAllowedIks(int accountId, int year) {
         String sql = "select distinct aaiIK from dbo.AccountAdditionalIK\n"
                 + "where aaiAccountId = " + accountId + "\n"
@@ -42,6 +50,7 @@ public class AEBFacade extends AbstractDataAccess {
                 + "select biIk from psy.AEBBaseInformation\n"
                 + "where biDataYear >= " + year + ")";
         Query query = getEntityManager().createNativeQuery(sql);
+        @SuppressWarnings("unchecked")
         List<Integer> result = query.getResultList();
         return result;
     }
@@ -50,6 +59,7 @@ public class AEBFacade extends AbstractDataAccess {
         String sql = "select distinct biDataYear from psy.AEBBaseInformation\n"
                 + "where biIk = " + ik + "";
         Query query = getEntityManager().createNativeQuery(sql);
+        @SuppressWarnings("unchecked")
         List<Integer> result = query.getResultList();
         return result;
     }

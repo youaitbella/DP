@@ -80,7 +80,7 @@ public class AEBBaseInformation implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property CreatedFrom">
+    //<editor-fold defaultstate="collapsed" desc="Property Last Change">
     @Column(name = "biLastChangeFrom")
     private int _lastChangeFrom;
 
