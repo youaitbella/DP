@@ -25,7 +25,11 @@
                 <pf:messages>
                     <pf:autoUpdate />
                 </pf:messages>
-                <h1>Datenerfassung für den Krankenhausvergleich</h1>
+
+                <h1>
+                    <h:commandLink value="Datenerfassung für den Krankenhausvergleich" action="#{sessionController.navigate(sessionTools.pages.KhComparisonSummary)}" immediate="true"/>
+                </h1>
+
                 <pf:tabView dynamic="true">
                     <pf:tab title="Allgemein">
                         <ui:include src="Generell.xhtml" />
