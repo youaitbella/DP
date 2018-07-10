@@ -148,14 +148,18 @@ public class Edit {
     }
 
     public void save() {
-        removeEmptyEntries(_aebBaseInformation);
-        _aebBaseInformation.setLastChangeFrom(_sessionController.getAccountId());
-        _aebBaseInformation.setLastChanged(new Date());
-        try {
-            _aebBaseInformation = _aebFacade.save(_aebBaseInformation);
-            _dialogController.showSaveDialog();
-        } catch (Exception ex) {
-            _dialogController.showWarningDialog("Fehler beim Speichern", "Vorgang abgebrochen");
+        if (baseInfoisComplete(_aebBaseInformation)) {
+            removeEmptyEntries(_aebBaseInformation);
+            _aebBaseInformation.setLastChangeFrom(_sessionController.getAccountId());
+            _aebBaseInformation.setLastChanged(new Date());
+            try {
+                _aebBaseInformation = _aebFacade.save(_aebBaseInformation);
+                _dialogController.showSaveDialog();
+            } catch (Exception ex) {
+                _dialogController.showWarningDialog("Fehler beim Speichern", "Vorgang abgebrochen");
+            }
+        } else {
+            _dialogController.showInfoDialog("Fehler beim Speichern", "Bitte geben Sie eine gültige IK und Datenjahr an");
         }
     }
 
@@ -322,5 +326,12 @@ public class Edit {
             }
         }
         return iks;
+    }
+
+    private boolean baseInfoisComplete(AEBBaseInformation info) {
+        if (info.getIk() != 0 && info.getYear() != 0) {
+            return true;
+        }
+        return false;
     }
 }
