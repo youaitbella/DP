@@ -32,10 +32,10 @@ public class DrgProposalFacade extends AbstractFacade<DrgProposal> {
         super(DrgProposal.class);
     }
 
-    
     public List<DrgProposal> findAll(int accountId, DataSet dataSet) {
         return findAll(accountId, -1, dataSet);
     }
+
     public List<DrgProposal> findAll(int accountId, int year, DataSet dataSet) {
         if (dataSet == DataSet.None) {
             return new ArrayList<>();
@@ -57,10 +57,10 @@ public class DrgProposalFacade extends AbstractFacade<DrgProposal> {
             order = cb.desc(request.get("_id"));
         }
         Predicate checkYear;
-        if (year > 0){
-            checkYear = cb.equal(request.get("_targetYear"), year);  
-        }else{
-            checkYear = cb.notEqual(request.get("_targetYear"), year);  
+        if (year > 0) {
+            checkYear = cb.equal(request.get("_targetYear"), year);
+        } else {
+            checkYear = cb.notEqual(request.get("_targetYear"), year);
         }
         if (dataSet == DataSet.All) {
             cq.select(request).where(cb.and(sealed, checkYear)).orderBy(order);
@@ -86,7 +86,7 @@ public class DrgProposalFacade extends AbstractFacade<DrgProposal> {
         Level oldLevel = LOGGER.getLevel();
         LOGGER.setLevel(Level.INFO);
         for (KeyValueLevel kv : doc) {
-            LOGGER.log(Level.INFO, "{0} ^ Key: {1} ^ Length: {2} ^ Value: {3}", 
+            LOGGER.log(Level.INFO, "{0} ^ Key: {1} ^ Length: {2} ^ Value: {3}",
                     new Object[]{data.getClass().getSimpleName(), kv.getKey(), kv.getValue().toString().length(), kv.getValue()});
         }
         LOGGER.setLevel(oldLevel);
@@ -95,12 +95,12 @@ public class DrgProposalFacade extends AbstractFacade<DrgProposal> {
     public List<ProposalInfo> getDrgProposalInfos(int accountId, DataSet dataSet) {
         return getDrgProposalInfos(accountId, -1, dataSet);
     }
-    
+
     public List<ProposalInfo> getDrgProposalInfos(int accountId, int year, DataSet dataSet) {
         List<DrgProposal> drgProposals = findAll(accountId, year, dataSet);
         List<ProposalInfo> drgProposalInfos = new ArrayList<>();
         for (DrgProposal drgProposal : drgProposals) {
-            ProposalInfo ppInfo = new ProposalInfo(drgProposal.getId(), drgProposal.getName(), 
+            ProposalInfo ppInfo = new ProposalInfo(drgProposal.getId(), drgProposal.getName(),
                     drgProposal.getTargetYear(), drgProposal.getStatus());
             drgProposalInfos.add(ppInfo);
         }
@@ -109,15 +109,17 @@ public class DrgProposalFacade extends AbstractFacade<DrgProposal> {
 
     /**
      * returns a list with the distinct account ids of all provided proposals
-     * @return 
+     *
+     * @return
      */
-    public List<Integer> getProposalAccounts(){
+    public List<Integer> getProposalAccounts() {
         int base = 16;  // todo: determine base
         int fromId = base * 10000;
         int toId = fromId + 9999;
         String statement = "select distinct prAccountId from DrgProposal where prId between ?1 and ?2 and prStatus = 10";
         Query query = getEntityManager().createNativeQuery(statement).setParameter(1, fromId).setParameter(2, toId);
-        @SuppressWarnings("unchecked") List<Integer> result = query.getResultList();
+        @SuppressWarnings("unchecked")
+        List<Integer> result = query.getResultList();
         return result;
     }
 
@@ -141,13 +143,26 @@ public class DrgProposalFacade extends AbstractFacade<DrgProposal> {
         query.setParameter("accountIds", accountIds);
         return query.getResultList();
     }
-    
+
     public List<DrgProposal> find(List<Integer> requestIds) {
         String jpql = "SELECT p FROM DrgProposal p WHERE p._id in :requestIds  ";
         TypedQuery<DrgProposal> query = getEntityManager().createQuery(jpql, DrgProposal.class);
         query.setParameter("requestIds", requestIds);
         return query.getResultList();
     }
-    
-    
+
+    public Boolean updateDrgProposalDb(String id) {
+        String sql = "update DrgProposal.dbo.Proposal\n"
+                + "set prStatusId = 200\n"
+                + "where prExternalId = '" + id + "'";
+        Query query = getEntityManager().createNativeQuery(sql);
+
+        try {
+            query.executeUpdate();
+            return true;
+        } catch (Exception ex) {
+            return false;
+        }
+    }
+
 }
