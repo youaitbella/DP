@@ -16,3 +16,4 @@ DataPortalCalc/nb-configuration.xml
 DataPortalCommon/derby.log
 /DataPortalDrg/nbproject/
 DataPortalCalc/faces-config.NavData
+*.NavData

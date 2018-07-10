@@ -18,6 +18,11 @@ xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/
             <base-name>org.inek.dataportal.messages</base-name>
             <var>msg</var>
         </resource-bundle>
+        <resource-bundle>
+            <base-name>org.inek.dataportal.featureMsg</base-name>
+            <var>featureMsg</var>
+        </resource-bundle>
+        
         <action-listener>
             org.primefaces.application.DialogActionListener
         </action-listener>
