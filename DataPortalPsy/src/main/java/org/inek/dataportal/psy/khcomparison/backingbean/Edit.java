@@ -156,10 +156,10 @@ public class Edit {
                 _aebBaseInformation = _aebFacade.save(_aebBaseInformation);
                 _dialogController.showSaveDialog();
             } catch (Exception ex) {
-                _dialogController.showWarningDialog("Fehler beim Speichern", "Vorgang abgebrochen");
+                _dialogController.showErrorDialog("Fehler beim Speichern", "Vorgang abgebrochen");
             }
         } else {
-            _dialogController.showInfoDialog("Fehler beim Speichern", "Bitte geben Sie eine gültige IK und Datenjahr an");
+            _dialogController.showWarningDialog("Fehler beim Speichern", "Bitte geben Sie eine gültige IK und Datenjahr an");
         }
     }
 
@@ -233,10 +233,10 @@ public class Edit {
                 checker.checkAeb(_aebBaseInformation);
                 setErrorMessage(checker.getMessage());
                 setErrorMessage(getErrorMessage() + "\n \n --> " + importer.getCounter() + " Zeilen eingelesen");
-                _dialogController.showInfoDialog("Ihre Daten wurden erfolgreich hochgeladen", "Upload abgeschlossen");
+                _dialogController.showInfoDialog("Upload abgeschlossen", "Ihre Daten wurden erfolgreich hochgeladen");
             }
         } catch (Exception ex) {
-            _dialogController.showWarningDialog("Fehler beim Upload. Bitte versuchen Sie es erneut", "Upload fehlgeschlagen");
+            _dialogController.showWarningDialog("Upload fehlgeschlagen", "Fehler beim Upload. Bitte versuchen Sie es erneut");
         }
     }
 
