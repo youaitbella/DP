@@ -140,7 +140,7 @@
 }
 
 .ui-tabs .ui-tabs-nav.ui-widget-header li.ui-state-active a, .ui-tabs .ui-tabs-nav.ui-widget-header a {
-    color: white ;
+    color: white !important;
     text-shadow: none;
     text-decoration: none;
     font-weight: bold;
