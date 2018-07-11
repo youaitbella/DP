@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:pf="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="ikList"/>
+        <cc:attribute name="isFixed"/>
+        <cc:attribute name="value" type="java.lang.Integer"/>
+        <cc:attribute name="required" default="true"/>
+        <cc:attribute name="listener" method-signature="void f(javax.faces.context.FacesContext,
+                      javax.faces.component.UIComponent,
+                      java.lang.Object)"/>
+        <cc:attribute name="readonly" default="false"/>
+        <cc:attribute name="updateElement"/>
+        <cc:attribute name="label" default="IK"/>
+        <cc:actionSource name="ikMulti"/>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <div>
+            <h:outputLabel styleClass="label10 #{cc.attrs.required and not cc.attrs.readonly and not cc.attrs.isFixed ? ' required ' : ''}" for="ikMulti" value="#{cc.attrs.label}:"/>
+
+            <pf:selectOneMenu styleClass="#{cc.attrs.required ? ' required ' : ''}"
+                              rendered="#{!cc.attrs.readonly and not cc.attrs.isFixed}"
+                              id="ikMulti"
+                              title="#{msg.titleIK}"
+                              required="#{cc.attrs.required}"
+                              requiredMessage="#{msg.msgValueNeeded}"
+                              value="#{cc.attrs.value}" >
+                <f:selectItem rendered="#{cc.attrs.value eq 0}" itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
+                <f:selectItems value="#{cc.attrs.ikList}"/>
+                <pf:ajax event="change" listener="#{cc.attrs.listener}" update="#{cc.attrs.updateElement} @this" />
+            </pf:selectOneMenu>
+
+            <pf:inputText readonly="true" value="#{cc.attrs.value}" rendered="#{cc.attrs.readonly or cc.attrs.isFixed}"/>
+
+            <h:outputLabel id="hospitalName" styleClass="label marginLeft" value="#{applicationTools.retrieveHospitalInfo(cc.attrs.value)}"/>
+
+            <pf:message for="ikMulti" id="msgMultiIk"/>
+        </div>
+        <br/>
+    </cc:implementation>
+</html>

@@ -320,10 +320,11 @@ public class Edit {
             if (_accessManager.isAccessAllowed(Feature.AEB, WorkflowStatus.Taken,
                     _sessionController.getAccountId(),
                     ik)) {
-                if (_aebBaseInformation.getIk() != ik) {
-                    iks.add(ik);
-                }
+                iks.add(ik);
             }
+        }
+        if (_aebBaseInformation.getIk() != 0) {
+            iks.add(_aebBaseInformation.getIk());
         }
         return iks;
     }
