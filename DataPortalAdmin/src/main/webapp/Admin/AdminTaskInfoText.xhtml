@@ -7,59 +7,60 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
-                xmlns:jsf="http://xmlns.jcp.org/jsf"
-                xmlns:pf="http://primefaces.org/ui">
+                xmlns:pf="http://primefaces.org/ui"
+                xmlns:jsf="http://xmlns.jcp.org/jsf">
 
+ 
+        <ui:define name="content">
 
-    <ui:define name="content">
+            <h:form>
 
-        <h:form>
+                <pf:dataTable    id ="infoTextTable" 
+                                 var="infoText" 
+                                 value="#{adminInfoText.listOfInfoTexts}" 
+                                 rows="25"
+                                 paginator="true"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5, 10, 25, 50"
+                                 tableStyle="width:auto">
 
-            <pf:dataTable    id ="infoTextTable" 
-                             var="infoText" 
-                             value="#{adminInfoText.listOfInfoTexts}" 
-                             rows="25"
-                             paginator="true"
-                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                             rowsPerPageTemplate="5, 10, 25, 50"
-                             tableStyle="width:auto">
+                    <pf:column headerText="Key">
+                        <h:outputText value="#{infoText.key}" />
+                    </pf:column>
 
-                <pf:column headerText="Key">
-                    <h:outputText value="#{infoText.key}" />
-                </pf:column>
+                    <pf:column headerText="Short Text"> 
+                        <pf:inputText id="shortText"  value="#{infoText.shortText}" maxlength="100" size="89">
+                            <pf:ajax />
+                        </pf:inputText>               
+                    </pf:column>
 
-                <pf:column headerText="Short Text"> 
-                    <pf:inputText id="shortText"  value="#{infoText.shortText}" maxlength="100" size="89">
-                        <pf:ajax />
-                    </pf:inputText>               
-                </pf:column>
+                    <pf:column headerText="Description">            
+                        <pf:inputTextarea id="description" value="#{infoText.description}" >
+                            <pf:ajax />
+                        </pf:inputTextarea>              
+                    </pf:column>
+                    <f:facet name="paginatorBottomRight">
+                        <pf:commandButton value="Infotext hinzufügen" onclick="PF('dlgAddNewInfoText').show();" />
+                    </f:facet>
+                </pf:dataTable>
 
-                <pf:column headerText="Description">            
-                    <pf:inputTextarea id="description" value="#{infoText.description}" >
-                        <pf:ajax />
-                    </pf:inputTextarea>              
-                </pf:column>
-                <f:facet name="paginatorBottomRight">
-                    <pf:commandButton value="Infotext hinzufügen" onclick="PF('dlgAddNewInfoText').show();" />
-                </f:facet>
-            </pf:dataTable>
-            
-            <pf:dialog header="Infotext hinzufügen" widgetVar="dlgAddNewInfoText" modal="true" height="100">
-                <pf:inputText id="newInfoText" value="#{adminInfoText.newKey}">
-                        <pf:ajax />
-                </pf:inputText>  
-                <pf:commandButton value="Hinzufügen" id="btnInfoTextAddNew" actionListener="#{adminInfoText.addInfoText}" onclick="PF('dlgAddNewInfoText').hide()" update="infoTextTable"/>
-                <pf:commandButton value="Abbrechen" id="btnInfoTextAddNewAbbort" onclick="PF('dlgAddNewInfoText').hide()" />
-            </pf:dialog> 
-            
-            <pf:dialog header="Gespeichert" widgetVar="dlgSaved" modal="true" height="100">
-                Deine Änderungen wurden gespeichert
-                <pf:commandButton value="OK" id="btnOkaySave" onclick="PF('dlgSaved').hide()"/>
-            </pf:dialog> 
-            
-            <pf:commandButton value="#{msg.btnSave}" id="btnInfoTextSave" actionListener="#{adminInfoText.save}" onclick="PF('dlgSaved').show()"/>
-            
-        </h:form>
-        
-    </ui:define>
+                <pf:dialog header="Infotext hinzufügen" widgetVar="dlgAddNewInfoText" modal="true" height="100">
+                    <pf:inputText id="newInfoText" value="#{adminInfoText.newKey}">
+                            <pf:ajax />
+                    </pf:inputText>  
+                    <pf:commandButton value="Hinzufügen" id="btnInfoTextAddNew" actionListener="#{adminInfoText.addInfoText}" onclick="PF('dlgAddNewInfoText').hide()" update="infoTextTable"/>
+                    <pf:commandButton value="Abbrechen" id="btnInfoTextAddNewAbbort" onclick="PF('dlgAddNewInfoText').hide()" />
+                </pf:dialog> 
+
+                <pf:dialog header="Gespeichert" widgetVar="dlgSaved" modal="true" height="100">
+                    Deine Änderungen wurden gespeichert
+                    <pf:commandButton value="OK" id="btnOkaySave" onclick="PF('dlgSaved').hide()"/>
+                </pf:dialog> 
+
+                <pf:commandButton value="#{msg.btnSave}" id="btnInfoTextSave" actionListener="#{adminInfoText.save}" onclick="PF('dlgSaved').show()"/>
+
+            </h:form>
+
+        </ui:define>
+   
 </ui:composition>

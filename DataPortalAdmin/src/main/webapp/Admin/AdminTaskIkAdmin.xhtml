@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                template="AdminTask.xhtml"
+                template="/Templates/PortalMenuTemplate.xhtml"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
@@ -9,111 +9,113 @@
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
 
-    <ui:define name="editContent">
-        <h:form id="ikAdmin">
-            <h:dataTable value="#{ikAdmin.ikAccounts}" var="info" width="100%" rowClasses="row1, row2">
+    
+        <ui:define name="content">
+            <h:form id="ikAdmin">
+                <h:dataTable value="#{ikAdmin.ikAccounts}" var="info" width="100%" rowClasses="row1, row2">
 
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value=""/>
-                    </f:facet>
-                    <h:commandLink action="#{ikAdmin.deleteIkAdmin(info)}" immediate="true" >
-                        <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value=""/>
-                        <cb:confirmDelete/>
-                    </h:commandLink>
-                </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value=""/>
+                        </f:facet>
+                        <h:commandLink action="#{ikAdmin.deleteIkAdmin(info)}" immediate="true" >
+                            <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value=""/>
+                            <cb:confirmDelete/>
+                        </h:commandLink>
+                    </h:column>
 
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="#{msg.lblIkShort}"/>
-                    </f:facet>
-                    <h:commandLink value="#{info.ik}">
-                        <f:ajax listener="#{ikAdmin.setInput(info)}" render="ikAdmin:inputFields"/>
-                    </h:commandLink>
-                </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.lblIkShort}"/>
+                        </f:facet>
+                        <h:commandLink value="#{info.ik}">
+                            <f:ajax listener="#{ikAdmin.setInput(info)}" render="ikAdmin:inputFields"/>
+                        </h:commandLink>
+                    </h:column>
 
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="#{msg.lblName}"/>
-                    </f:facet>
-                    <h:commandLink value="#{info.account.firstName} #{info.account.lastName}">
-                        <f:ajax listener="#{ikAdmin.setInput(info)}" render="ikAdmin:inputFields"/>
-                    </h:commandLink>
-                </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.lblName}"/>
+                        </f:facet>
+                        <h:commandLink value="#{info.account.firstName} #{info.account.lastName}">
+                            <f:ajax listener="#{ikAdmin.setInput(info)}" render="ikAdmin:inputFields"/>
+                        </h:commandLink>
+                    </h:column>
 
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="#{msg.lblEMail}"/>
-                    </f:facet>
-                    <h:commandLink value="#{info.account.email}">
-                        <f:ajax listener="#{ikAdmin.setInput(info)}" render="ikAdmin:inputFields"/>
-                    </h:commandLink>
-                </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.lblEMail}"/>
+                        </f:facet>
+                        <h:commandLink value="#{info.account.email}">
+                            <f:ajax listener="#{ikAdmin.setInput(info)}" render="ikAdmin:inputFields"/>
+                        </h:commandLink>
+                    </h:column>
 
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="#{msg.lblEMail}"/>
-                    </f:facet>
-                    <h:commandLink value="#{info.mailDomain}">
-                        <f:ajax listener="#{ikAdmin.setInput(info)}" render="ikAdmin:inputFields"/>
-                    </h:commandLink>
-                </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{msg.lblEMail}"/>
+                        </f:facet>
+                        <h:commandLink value="#{info.mailDomain}">
+                            <f:ajax listener="#{ikAdmin.setInput(info)}" render="ikAdmin:inputFields"/>
+                        </h:commandLink>
+                    </h:column>
 
-            </h:dataTable>
+                </h:dataTable>
 
-            <br/>
+                <br/>
 
-            <h4>#{msg.headEditIkAdmin}</h4>
+                <h4>#{msg.headEditIkAdmin}</h4>
 
-            <div jsf:id="inputFields">
-                <div class="inputPart">
-                    <h:outputLabel for="ik" value="#{msg.lblIkShort}" styleClass="label20"/>
-                    <h:inputText id="ik" value="#{ikAdmin.ik}" styleClass="inputmedium" required="true" validator="#{sessionTools.checkIk}">
-                        <f:ajax render="@this ikName msgIk :logout:remaining" />
-                    </h:inputText>
-                    <h:outputLabel id="ikName" value="#{applicationTools.retrieveHospitalInfo(ikAdmin.ik)}" styleClass="marginLeft"/>
-                    <h:message id="msgIk" for="ik" styleClass="errorMessage"/>
-                </div>                    
+                <div jsf:id="inputFields">
+                    <div class="inputPart">
+                        <h:outputLabel for="ik" value="#{msg.lblIkShort}" styleClass="label20"/>
+                        <h:inputText id="ik" value="#{ikAdmin.ik}" styleClass="inputmedium" required="true" validator="#{sessionTools.checkIk}">
+                            <f:ajax render="@this ikName msgIk :logout:remaining" />
+                        </h:inputText>
+                        <h:outputLabel id="ikName" value="#{applicationTools.retrieveHospitalInfo(ikAdmin.ik)}" styleClass="marginLeft"/>
+                        <h:message id="msgIk" for="ik" styleClass="errorMessage"/>
+                    </div>                    
 
-                <div class="inputPart">
-                    <h:outputLabel for="UserEmail" value="#{msg.lblEMail}" styleClass="label20"/>
-                    <h:inputText id="UserEmail" value="#{ikAdmin.email}" validator="#{ikAdmin.checkEmail}" styleClass="inputlong">
-                        <f:ajax render="@this msgUserEmail accountId UserName UserInstitute :logout:remaining"/>
-                    </h:inputText>
-                    <h:message id="msgUserEmail" for="UserEmail" styleClass="errorMessage"/>
-                </div>                    
+                    <div class="inputPart">
+                        <h:outputLabel for="UserEmail" value="#{msg.lblEMail}" styleClass="label20"/>
+                        <h:inputText id="UserEmail" value="#{ikAdmin.email}" validator="#{ikAdmin.checkEmail}" styleClass="inputlong">
+                            <f:ajax render="@this msgUserEmail accountId UserName UserInstitute :logout:remaining"/>
+                        </h:inputText>
+                        <h:message id="msgUserEmail" for="UserEmail" styleClass="errorMessage"/>
+                    </div>                    
 
-                <div class="inputPart">
-                    <h:outputLabel for="accountId" value="AccountId" styleClass="label20"/>
-                    <h:inputText id="accountId" value="#{ikAdmin.accountId}" validator="#{ikAdmin.checkAccountId}" styleClass="inputmedium">
-                        <f:ajax render="@this msgAccountId UserEmail UserName UserInstitute :logout:remaining"/>
-                    </h:inputText>
-                    <h:message id="msgAccountId" for="accountId" styleClass="errorMessage"/>
-                </div>        
+                    <div class="inputPart">
+                        <h:outputLabel for="accountId" value="AccountId" styleClass="label20"/>
+                        <h:inputText id="accountId" value="#{ikAdmin.accountId}" validator="#{ikAdmin.checkAccountId}" styleClass="inputmedium">
+                            <f:ajax render="@this msgAccountId UserEmail UserName UserInstitute :logout:remaining"/>
+                        </h:inputText>
+                        <h:message id="msgAccountId" for="accountId" styleClass="errorMessage"/>
+                    </div>        
 
-                <div class="inputPart">
-                    <h:outputLabel value="#{msg.lblName}" styleClass="label20"/>
-                    <h:inputText id="UserName" value="#{ikAdmin.account.firstName} #{ikAdmin.account.lastName}" disabled="true" styleClass="inputlong"/>
-                </div>        
+                    <div class="inputPart">
+                        <h:outputLabel value="#{msg.lblName}" styleClass="label20"/>
+                        <h:inputText id="UserName" value="#{ikAdmin.account.firstName} #{ikAdmin.account.lastName}" disabled="true" styleClass="inputlong"/>
+                    </div>        
 
-                <div class="inputPart">
-                    <h:outputLabel value="#{msg.lblHospital}" styleClass="label20"/>
-                    <h:inputText id="UserInstitute" value="#{ikAdmin.account.company}" disabled="true" styleClass="inputlong"/>
-                </div>        
+                    <div class="inputPart">
+                        <h:outputLabel value="#{msg.lblHospital}" styleClass="label20"/>
+                        <h:inputText id="UserInstitute" value="#{ikAdmin.account.company}" disabled="true" styleClass="inputlong"/>
+                    </div>        
 
-                <inek:LabeledText label="Mail-Domäne"
-                                  value="#{ikAdmin.mailDomain}"
-                                  styleClassComponent="inputPart element100"
-                                  styleClassLabel="label20"
-                                  styleClass="inputlong"
-                                  singleLine="true"/>
+                    <inek:LabeledText label="Mail-Domäne"
+                                      value="#{ikAdmin.mailDomain}"
+                                      styleClassComponent="inputPart element100"
+                                      styleClassLabel="label20"
+                                      styleClass="inputlong"
+                                      singleLine="true"/>
 
-            </div>
-            <br/>
+                </div>
+                <br/>
 
-            <h:commandLink styleClass="bigButton" action="#{ikAdmin.saveIkAdmin}" value="#{msg.btnSave}" />
+                <h:commandLink styleClass="bigButton" action="#{ikAdmin.saveIkAdmin}" value="#{msg.btnSave}" />
 
-        </h:form>
+            </h:form>
 
-    </ui:define>
+        </ui:define>
+   
 </ui:composition>
