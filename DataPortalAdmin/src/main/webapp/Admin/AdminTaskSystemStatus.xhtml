@@ -14,14 +14,14 @@
                 Aktive Sessions: #{adminTask.sessionCount}
             </div>
             <div>
-                #{adminTask.processorInfo}
-            </div>
+                #{adminSystemStatus.processorInfo}
+}            </div>
             <div>
-                #{adminTask.memoryInfo}
+                #{adminSystemStatus.memoryInfo}
             </div>
             <div style="margin-top: 10em;">
                 <h:form>
-                    <h:commandLink styleClass="bigButton" value="Clear Cache" actionListener="#{adminTask.clearCache}">
+                    <h:commandLink styleClass="bigButton" value="Clear Cache" actionListener="#{adminSystemStatus.clearCache}">
                         <f:ajax/>
                     </h:commandLink>
                 </h:form>
