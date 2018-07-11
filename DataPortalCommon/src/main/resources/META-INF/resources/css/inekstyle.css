@@ -6,10 +6,6 @@
     color: #000000 !important
 }
 
-.ui-widget-content {
-    background: #eeeeee !important
-}
-
 .ui-inputfield.ui-state-focus {
     background-color: #C6D2DB !important
 }
@@ -140,9 +136,12 @@
 }
 
 .ui-tabs .ui-tabs-nav.ui-widget-header li.ui-state-active a, .ui-tabs .ui-tabs-nav.ui-widget-header a {
-    color: white !important;
+    color: white;
     text-shadow: none;
     text-decoration: none;
     font-weight: bold;
 }
 
+.ui-tabs-panels {
+    background-color: #eeeeee;
+}

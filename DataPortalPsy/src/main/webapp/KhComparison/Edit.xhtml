@@ -19,83 +19,81 @@
                 <h:outputText value="" />
             </f:facet>
         </pf:ajaxStatus>
+        <h:form>
+            <h1>
+                <h:commandLink value="Datenerfassung für den Krankenhausvergleich" action="#{sessionController.navigate(sessionTools.pages.KhComparisonSummary)}" immediate="true"/>
+            </h1>
+        </h:form>
+        <h:form>
+            <pf:messages>
+                <pf:autoUpdate />
+            </pf:messages>
 
-        <pf:panel>
-            <h:form>
-                <pf:messages>
-                    <pf:autoUpdate />
-                </pf:messages>
+            <pf:tabView styleClass="featureTabs" dynamic="true">
+                <pf:tab title="Allgemein">
+                    <ui:include src="Generell.xhtml" />
+                </pf:tab>
+                <pf:tab title="Blatt E1.1">
+                    <ui:include src="Aeb/pages/AebPageE1_1.xhtml" />
+                </pf:tab>
+                <pf:tab title="Blatt E1.2">
+                    <ui:include src="Aeb/pages/AebPageE1_2.xhtml" />
+                </pf:tab>
+                <pf:tab title="Blatt E2">
+                    <ui:include src="Aeb/pages/AebPageE2.xhtml" />
+                </pf:tab>
+                <pf:tab title="Blatt E3.1">
+                    <ui:include src="Aeb/pages/AebPageE3_1.xhtml" />
+                </pf:tab>
+                <pf:tab title="Blatt E3.2">
+                    <ui:include src="Aeb/pages/AebPageE3_2.xhtml" />
+                </pf:tab>
+                <pf:tab title="Blatt E3.3">
+                    <ui:include src="Aeb/pages/AebPageE3_3.xhtml" />
+                </pf:tab>
+                <pf:tab title="Blatt B1">
+                    <ui:include src="Aeb/pages/AebPageB1.xhtml" />
+                </pf:tab>
+                <pf:tab title="Kalkulationsunterlagen">
+                    <ui:include src="CalcDocuments.xhtml" />
+                </pf:tab>
+                <pf:tab title="Personalausstattung Psychosomatik">
+                    <ui:include src="PersonalAgreed.xhtml" />
+                </pf:tab>
+                <pf:tab title="Regionale und Strukturelle Besonderheiten">
+                    <ui:include src="RegionStructurParticularities.xhtml" />
+                </pf:tab>
+                <pf:tab title="Strukturinformationen">
+                    <ui:include src="StructureInformation.xhtml" />
+                </pf:tab>
+                <ui:remove>
+                    <pf:tab title="PIA-Daten">
+                        Kommt noch
+                    </pf:tab>
+                </ui:remove>
+            </pf:tabView>
 
-                <h1>
-                    <h:commandLink value="Datenerfassung für den Krankenhausvergleich" action="#{sessionController.navigate(sessionTools.pages.KhComparisonSummary)}" immediate="true"/>
-                </h1>
+            <br />
 
-                <pf:tabView dynamic="true">
-                    <pf:tab title="Allgemein">
-                        <ui:include src="Generell.xhtml" />
-                    </pf:tab>
-                    <pf:tab title="Blatt E1.1">
-                        <ui:include src="Aeb/pages/AebPageE1_1.xhtml" />
-                    </pf:tab>
-                    <pf:tab title="Blatt E1.2">
-                        <ui:include src="Aeb/pages/AebPageE1_2.xhtml" />
-                    </pf:tab>
-                    <pf:tab title="Blatt E2">
-                        <ui:include src="Aeb/pages/AebPageE2.xhtml" />
-                    </pf:tab>
-                    <pf:tab title="Blatt E3.1">
-                        <ui:include src="Aeb/pages/AebPageE3_1.xhtml" />
-                    </pf:tab>
-                    <pf:tab title="Blatt E3.2">
-                        <ui:include src="Aeb/pages/AebPageE3_2.xhtml" />
-                    </pf:tab>
-                    <pf:tab title="Blatt E3.3">
-                        <ui:include src="Aeb/pages/AebPageE3_3.xhtml" />
-                    </pf:tab>
-                    <pf:tab title="Blatt B1">
-                        <ui:include src="Aeb/pages/AebPageB1.xhtml" />
-                    </pf:tab>
-                    <pf:tab title="Kalkulationsunterlagen">
-                        <ui:include src="CalcDocuments.xhtml" />
-                    </pf:tab>
-                    <pf:tab title="Personalausstattung Psychosomatik">
-                        <ui:include src="PersonalAgreed.xhtml" />
-                    </pf:tab>
-                    <pf:tab title="Regionale und Strukturelle Besonderheiten">
-                        <ui:include src="RegionStructurParticularities.xhtml" />
-                    </pf:tab>
-                    <pf:tab title="Strukturinformationen">
-                        <ui:include src="StructureInformation.xhtml" />
-                    </pf:tab>
-                    <ui:remove>
-                        <pf:tab title="PIA-Daten">
-                            Kommt noch
-                        </pf:tab>
-                    </ui:remove>
-                </pf:tabView>
+            <pf:commandButton styleClass="btnPsy"
+                              value="Datensatz ändern"
+                              action="#{edit.change()}"
+                              update="@form"
+                              immediate="true"
+                              rendered="#{edit.isReadOnly()}"/>
+            <pf:commandButton styleClass="btnPsy"
+                              value="Speichern"
+                              action="#{edit.save()}"
+                              update="@(.ui-message) @form"
+                              immediate="true"
+                              rendered="#{!edit.isReadOnly()}"/>
+            <pf:commandButton value="Ans InEK senden"
+                              update="@(.ui-message) @form"
+                              action="#{edit.send()}"
+                              styleClass="btnSend arrow-right"
+                              rendered="#{!edit.isReadOnly()}"/>
 
-                <br />
-
-                <pf:commandButton styleClass="btnPsy"
-                                  value="Datensatz ändern"
-                                  action="#{edit.change()}"
-                                  update="@form"
-                                  immediate="true"
-                                  rendered="#{edit.isReadOnly()}"/>
-                <pf:commandButton styleClass="btnPsy"
-                                  value="Speichern"
-                                  action="#{edit.save()}"
-                                  update="@(.ui-message) @form"
-                                  immediate="true"
-                                  rendered="#{!edit.isReadOnly()}"/>
-                <pf:commandButton value="Ans InEK senden"
-                                  update="@(.ui-message) @form"
-                                  action="#{edit.send()}"
-                                  styleClass="btnSend arrow-right"
-                                  rendered="#{!edit.isReadOnly()}"/>
-
-            </h:form>
-        </pf:panel>
+        </h:form>
     </ui:define>
 
 </ui:composition>
