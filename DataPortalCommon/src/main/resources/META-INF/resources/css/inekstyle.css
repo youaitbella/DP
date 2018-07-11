@@ -29,6 +29,10 @@
     background-color: lightyellow !important
 }
 
+.ui-inputfield {
+    padding: 2px !important;
+}
+
 .addEntry {
     background-image: none !important;
     background-color:  #e2f5d5 !important;
