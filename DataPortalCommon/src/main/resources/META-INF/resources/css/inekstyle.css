@@ -115,3 +115,34 @@
 .inekUploader span {
     background-color: #a8cce6
 }
+
+/* Tabs Overrides */
+.ui-tabs.ui-tabs-top .ui-tabs-nav.ui-widget-header li {
+    background-color: silver;
+    border-color: #eeeeee darkgrey darkgrey #eeeeee;
+
+}
+
+.ui-tabs.ui-tabs-top .ui-tabs-nav.ui-widget-header li.ui-state-active {
+    background-color: #7f9baf;
+    border-color: #c6d2db #56748a #7f9baf #c6d2db;
+}
+
+.ui-tabs.ui-tabs-top .ui-tabs-nav.ui-widget-header {
+    border-bottom: 3px solid #7f9baf;
+}
+
+.ui-tabs .ui-tabs-nav.ui-widget-header li a {
+    color: black;
+    text-shadow: none;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.ui-tabs .ui-tabs-nav.ui-widget-header li.ui-state-active a, .ui-tabs .ui-tabs-nav.ui-widget-header a {
+    color: white ;
+    text-shadow: none;
+    text-decoration: none;
+    font-weight: bold;
+}
+
