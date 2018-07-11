@@ -10,6 +10,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.data.infotext.entity.InfoText;
 import org.inek.dataportal.common.data.infotext.facade.InfoTextFacade;
 import org.inek.dataportal.common.scope.FeatureScoped;
@@ -24,6 +25,8 @@ public class AdminInfoText implements Serializable {
 
     @Inject
     private InfoTextFacade _infoTextFacade;
+    @Inject
+    private DialogController _dialogController;
 
     //<editor-fold defaultstate="collapsed" desc="List of Info Texts">
     private List<InfoText> _listOfInfoTexts;
@@ -49,16 +52,22 @@ public class AdminInfoText implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Drop Down Text">
     @PostConstruct
     private void initData() {
         _listOfInfoTexts = _infoTextFacade.getAllInfoTexts("DE");
+        _newKey = "";
     }
 
     public void addInfoText() {
         InfoText newText = new InfoText(_newKey);
         _listOfInfoTexts.add(newText);
         _newKey = "";
+    }
+
+    public boolean isNotEmpty(InfoText infoText) {
+
+        return (infoText.getKey().isEmpty());
+
     }
 
     public void save() {
@@ -68,6 +77,7 @@ public class AdminInfoText implements Serializable {
                 _infoTextFacade.save(infoText);
             }
         }
+        _dialogController.showWarningDialog("Die Daten wurden gespeichert", "Infotexte gespeichert");
 
     }
 

@@ -19,45 +19,39 @@
                                  var="infoText" 
                                  value="#{adminInfoText.listOfInfoTexts}" 
                                  rows="25"
+                                 rowIndexVar="rowIndex"
                                  paginator="true"
                                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="5, 10, 25, 50"
-                                 tableStyle="width:auto">
+                                 tableStyle="width:auto"
+                                 tableStyleClass="infoTextTable">
+
 
                     <pf:column headerText="Key">
-                        <h:outputText value="#{infoText.key}" />
+                        <h:outputText id="key"  value="#{infoText.key}"/>         
                     </pf:column>
 
-                    <pf:column headerText="Short Text"> 
-                        <pf:inputText id="shortText"  value="#{infoText.shortText}" maxlength="100" size="89">
+                    <pf:column headerText="Short Text" width="40%"> 
+                        <pf:inputText id="shortText" style="width:97%" value="#{infoText.shortText}" maxlength="100" size="">
                             <pf:ajax />
                         </pf:inputText>               
                     </pf:column>
 
-                    <pf:column headerText="Description">            
-                        <pf:inputTextarea id="description" value="#{infoText.description}" >
+                    <pf:column headerText="Description" width="50%">            
+                        <pf:inputTextarea id="description" style="width:97%" value="#{infoText.description}" >
                             <pf:ajax />
                         </pf:inputTextarea>              
                     </pf:column>
-                    <f:facet name="paginatorBottomRight">
-                        <pf:commandButton value="Infotext hinzufügen" onclick="PF('dlgAddNewInfoText').show();" />
-                    </f:facet>
                 </pf:dataTable>
 
-                <pf:dialog header="Infotext hinzufügen" widgetVar="dlgAddNewInfoText" modal="true" height="100">
-                    <pf:inputText id="newInfoText" value="#{adminInfoText.newKey}">
-                            <pf:ajax />
-                    </pf:inputText>  
-                    <pf:commandButton value="Hinzufügen" id="btnInfoTextAddNew" actionListener="#{adminInfoText.addInfoText}" onclick="PF('dlgAddNewInfoText').hide()" update="infoTextTable"/>
-                    <pf:commandButton value="Abbrechen" id="btnInfoTextAddNewAbbort" onclick="PF('dlgAddNewInfoText').hide()" />
-                </pf:dialog> 
-
-                <pf:dialog header="Gespeichert" widgetVar="dlgSaved" modal="true" height="100">
-                    Deine Änderungen wurden gespeichert
-                    <pf:commandButton value="OK" id="btnOkaySave" onclick="PF('dlgSaved').hide()"/>
-                </pf:dialog> 
-
-                <pf:commandButton value="#{msg.btnSave}" id="btnInfoTextSave" actionListener="#{adminInfoText.save}" onclick="PF('dlgSaved').show()"/>
+    
+                <pf:inputText id="newInfoText" value="#{adminInfoText.newKey}">
+                    <pf:ajax />
+                </pf:inputText>    
+                <pf:commandLink styleClass="bigButton" value="Infotext hinzufügen" id="btnInfoTextAddNew" actionListener="#{adminInfoText.addInfoText}"  update="infoTextTable"/>
+                <br><h:commandLink styleClass="bigButton" value="#{msg.btnSave}" id="btnInfoTextSave" actionListener="#{adminInfoText.save}"/></br> 
+                
+                
 
             </h:form>
 

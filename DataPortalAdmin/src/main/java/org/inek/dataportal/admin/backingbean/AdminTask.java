@@ -24,6 +24,7 @@ import org.inek.dataportal.admin.facade.RoleMappingFacade;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.scope.FeatureScoped;
 import org.inek.dataportal.admin.system.SessionCounter;
+import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.data.adm.facade.InekRoleFacade;
 
 /**
@@ -35,6 +36,8 @@ import org.inek.dataportal.common.data.adm.facade.InekRoleFacade;
 public class AdminTask extends AbstractEditController {
 
     private static final Logger LOGGER = Logger.getLogger("AdminTask");
+    @Inject
+    private DialogController _dialogController;
 
     public AdminTask() {
         //LOGGER.log(Level.INFO, "Ctor AdminTask");
@@ -53,13 +56,8 @@ public class AdminTask extends AbstractEditController {
 
     enum AdminTaskTabs {
 
-        tabAdminTaskSystemStatus,
         tabAdminTaskInekRoles,
         tabAdminTaskRoleMapping,
-        tabAdminTaskMailTemplate,
-        tabAdminTaskIkSupervisor,
-        tabAdminTaskIkAdmin,
-        tabAdminTaskChangeNub,
 
     }
 
@@ -164,12 +162,15 @@ public class AdminTask extends AbstractEditController {
         }
         _mailTemplate = new MailTemplate();
         setTemplateChanged(false);
+        _dialogController.showInfoMessage("Das Template wurde gelöscht.");
         return Pages.AdminTaskMailTemplate.RedirectURL();
     }
 
     public String saveMailTemplate() {
+
         _mailTemplate = _mailTemplateFacade.save(_mailTemplate);
         setTemplateChanged(false);
+        _dialogController.showInfoMessage("Das Template wurde gespeichert.");
         return Pages.AdminTaskMailTemplate.RedirectURL();
     }
 
@@ -236,6 +237,7 @@ public class AdminTask extends AbstractEditController {
         }
         _inekRoles = null;
         setRoleChanged(false);
+        _dialogController.showInfoMessage("Die Daten wurden gespeichert");
         return Pages.AdminTaskInekRoles.RedirectURL();
     }
 
@@ -364,6 +366,7 @@ public class AdminTask extends AbstractEditController {
         }
         setMappingChanged(false);
         _inekRoles = null;
+        _dialogController.showInfoMessage("Die Daten wurden gespeichert");
         return Pages.AdminTaskRoleMapping.RedirectURL();
     }
 
