@@ -7,12 +7,16 @@ package org.inek.dataportal.admin.backingbean;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.faces.application.NavigationHandler;
+import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.controller.DialogController;
+import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.adm.MailTemplate;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.helper.Utils;
@@ -28,9 +32,21 @@ import org.inek.dataportal.common.scope.FeatureScoped;
 public class AdminMailTemplate implements Serializable {
 
     @Inject
+    SessionController _sessionController;
+    @Inject
     private MailTemplateFacade _mailTemplateFacade;
     @Inject
     private DialogController _dialogController;
+
+    @PostConstruct
+    private void init() {
+        if (!_sessionController.isInekUser(Feature.ADMIN)) {
+            _sessionController.logMessage("Non-authorized access to admin task.");
+            FacesContext fc = FacesContext.getCurrentInstance();
+            NavigationHandler nav = fc.getApplication().getNavigationHandler();
+            nav.handleNavigation(fc, null, Pages.NotAllowed.URL());
+        }
+    }
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     public List<SelectItem> getMailTemplates() {

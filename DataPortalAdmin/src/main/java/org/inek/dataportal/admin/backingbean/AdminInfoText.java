@@ -8,11 +8,16 @@ package org.inek.dataportal.admin.backingbean;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.faces.application.NavigationHandler;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.controller.DialogController;
+import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.infotext.entity.InfoText;
 import org.inek.dataportal.common.data.infotext.facade.InfoTextFacade;
+import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.scope.FeatureScoped;
 
 /**
@@ -23,6 +28,8 @@ import org.inek.dataportal.common.scope.FeatureScoped;
 @FeatureScoped
 public class AdminInfoText implements Serializable {
 
+    @Inject
+    private SessionController _sessionController;
     @Inject
     private InfoTextFacade _infoTextFacade;
     @Inject
@@ -53,7 +60,13 @@ public class AdminInfoText implements Serializable {
     //</editor-fold>
 
     @PostConstruct
-    private void initData() {
+    private void init() {
+        if (!_sessionController.isInekUser(Feature.ADMIN)) {
+            _sessionController.logMessage("Non-authorized access to admin task.");
+            FacesContext fc = FacesContext.getCurrentInstance();
+            NavigationHandler nav = fc.getApplication().getNavigationHandler();
+            nav.handleNavigation(fc, null, Pages.NotAllowed.URL());
+        }
         _listOfInfoTexts = _infoTextFacade.getAllInfoTexts("DE");
         _newKey = "";
     }
