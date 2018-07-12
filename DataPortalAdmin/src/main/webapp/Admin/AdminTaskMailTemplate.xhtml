@@ -8,8 +8,8 @@
                 xmlns:c="http://java.sun.com/jsp/jstl/core">
 
     <ui:define name="content">
-
-
+        <h1>Mail-Vorlagen</h1>
+        <br/>
         <h:form id="mailTemplateForm">
             <h:outputLabel for="mnuTemplate" value="#{msg.lblMailTemplate}"/>
             <h:selectOneMenu id="mnuTemplate" styleClass="inputwide" value="#{adminMailTemplate.templateId}" immediate="true" disabled="#{adminMailTemplate.templateChanged}">
