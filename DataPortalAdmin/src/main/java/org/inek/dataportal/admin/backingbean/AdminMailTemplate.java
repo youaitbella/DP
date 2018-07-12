@@ -6,6 +6,7 @@
 package org.inek.dataportal.admin.backingbean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.NavigationHandler;
@@ -47,6 +48,7 @@ public class AdminMailTemplate implements Serializable {
             nav.handleNavigation(fc, null, Pages.NotAllowed.URL());
         }
     }
+    // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     public List<SelectItem> getMailTemplates() {
@@ -126,6 +128,17 @@ public class AdminMailTemplate implements Serializable {
 
     public void mailTemplateChangeListener(AjaxBehaviorEvent event) {
         setTemplateChanged(true);
+    }
+
+    public List<SelectItem> getFeatures() {
+        List<SelectItem> l = new ArrayList<>();
+        SelectItem emptyItem = new SelectItem(null, "");
+        emptyItem.setNoSelectionOption(true);
+        l.add(emptyItem);
+        for (Feature f : Feature.values()) {
+            l.add(new SelectItem(f, f.getDescription()));
+        }
+        return l;
     }
 
 }
