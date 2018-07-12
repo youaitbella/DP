@@ -36,6 +36,7 @@ import javax.validation.constraints.Min;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.api.enums.FeatureState;
 import org.inek.dataportal.common.data.adm.InekRole;
+import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
 import org.inek.dataportal.common.data.ikadmin.entity.AccountIkAdmin;
 
 /**
@@ -522,6 +523,18 @@ public class Account implements Serializable, Person {
 
     public void removeAccountFeature(AccountFeature feature) {
         _features.remove(feature);
+    }
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "arAccountId", referencedColumnName = "acId")
+    private List<AccessRight> _accessRights;
+
+    public List<AccessRight> getAccessRights() {
+        return _accessRights;
+    }
+
+    public void setAccessRights(List<AccessRight> accessRights) {
+        this._accessRights = accessRights;
     }
 
 }

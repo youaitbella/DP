@@ -526,4 +526,34 @@ public class AccessManager implements Serializable {
         return achievedRight.canReadAlways();
     }
 
+    public boolean isReadAllowed(Feature feature, int accountId, int ik) {
+        return false;
+    }
+
+    public boolean isEditAllowed(Feature feature, int accountId, int ik) {
+        return false;
+    }
+
+    public boolean isChangeAllowed(Feature feature, int accountId, int ik) {
+        return false;
+    }
+
+    public boolean isCreateAllowed(Feature feature, int accountId, int ik) {
+        return false;
+    }
+
+    public boolean isSendAllowed(Feature feature, Account account, int ik) {
+
+//        boolean sendAllowed = false
+//
+//        account.getAccessRights().stream()
+//                .filter(c -> c.getIk() == ik && c.getFeature() == feature)
+//                .forEach(c -> {
+//                    if (c.canSeal()) {
+//                        return true;
+//                    }
+//                });
+        return false;
+    }
+
 }
