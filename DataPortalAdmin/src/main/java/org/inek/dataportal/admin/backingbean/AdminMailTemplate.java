@@ -33,22 +33,9 @@ import org.inek.dataportal.common.scope.FeatureScoped;
 public class AdminMailTemplate implements Serializable {
 
     @Inject
-    SessionController _sessionController;
-    @Inject
     private MailTemplateFacade _mailTemplateFacade;
     @Inject
     private DialogController _dialogController;
-
-    @PostConstruct
-    private void init() {
-        if (!_sessionController.isInekUser(Feature.ADMIN)) {
-            _sessionController.logMessage("Non-authorized access to admin task.");
-            FacesContext fc = FacesContext.getCurrentInstance();
-            NavigationHandler nav = fc.getApplication().getNavigationHandler();
-            nav.handleNavigation(fc, null, Pages.NotAllowed.URL());
-        }
-    }
-    // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     public List<SelectItem> getMailTemplates() {

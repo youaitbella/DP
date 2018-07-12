@@ -61,12 +61,6 @@ public class AdminInfoText implements Serializable {
 
     @PostConstruct
     private void init() {
-        if (!_sessionController.isInekUser(Feature.ADMIN)) {
-            _sessionController.logMessage("Non-authorized access to admin task.");
-            FacesContext fc = FacesContext.getCurrentInstance();
-            NavigationHandler nav = fc.getApplication().getNavigationHandler();
-            nav.handleNavigation(fc, null, Pages.NotAllowed.URL());
-        }
         _listOfInfoTexts = _infoTextFacade.getAllInfoTexts("DE");
         _newKey = "";
     }

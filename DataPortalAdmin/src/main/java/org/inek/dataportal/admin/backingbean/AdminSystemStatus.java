@@ -32,16 +32,6 @@ public class AdminSystemStatus implements Serializable {
     @Inject
     private SessionController _sessionController;
 
-    @PostConstruct
-    private void init() {
-        if (!_sessionController.isInekUser(Feature.ADMIN)) {
-            _sessionController.logMessage("Non-authorized access to admin task.");
-            FacesContext fc = FacesContext.getCurrentInstance();
-            NavigationHandler nav = fc.getApplication().getNavigationHandler();
-            nav.handleNavigation(fc, null, Pages.NotAllowed.URL());
-        }
-    }
-
     public int getSessionCount() {
         return SessionCounter.getCount();
     }
