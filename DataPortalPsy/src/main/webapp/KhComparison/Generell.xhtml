@@ -25,24 +25,4 @@
         <pf:ajax event="change" />
     </pf:selectOneMenu>
 
-    <h3 jsf:rendered="#{!edit.isReadOnly()}">
-        AEB aus Excel importieren
-    </h3>
-    <pf:fileUpload styleClass="inekUploader"
-                   rendered="#{!edit.isReadOnly()}"
-                   fileUploadListener="#{edit.handleFileUpload}"
-                   mode="advanced"
-                   fileLimit="1"
-                   fileLimitMessage="Es darf nur eine Datei hochgeladen werden"
-                   invalidFileMessage="Es dürfen nur Excel Dateien hochgeladen werden"
-                   allowTypes="/(\.|\/)(xlsx|xls)$/"
-                   cancelLabel="Abbrechen"
-                   uploadLabel="Datei Hochladen"
-                   label="Exceldatei auswählen"
-                   update="@form"/>
-
-    <pf:inputTextarea value="#{edit.errorMessage}"
-                      rendered="#{edit.errorMessage.length() gt 0}"
-                      style="width: 100%"/>
-
 </ui:composition>

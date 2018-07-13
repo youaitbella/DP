@@ -28,31 +28,12 @@
             <pf:messages>
                 <pf:autoUpdate />
             </pf:messages>
-
+            <div class="headerInformation">
+                <ui:include src="Generell.xhtml" />
+            </div>
             <pf:tabView styleClass="featureTabs" dynamic="true">
-                <pf:tab title="Allgemein">
-                    <ui:include src="Generell.xhtml" />
-                </pf:tab>
-                <pf:tab title="Blatt E1.1">
-                    <ui:include src="Aeb/pages/AebPageE1_1.xhtml" />
-                </pf:tab>
-                <pf:tab title="Blatt E1.2">
-                    <ui:include src="Aeb/pages/AebPageE1_2.xhtml" />
-                </pf:tab>
-                <pf:tab title="Blatt E2">
-                    <ui:include src="Aeb/pages/AebPageE2.xhtml" />
-                </pf:tab>
-                <pf:tab title="Blatt E3.1">
-                    <ui:include src="Aeb/pages/AebPageE3_1.xhtml" />
-                </pf:tab>
-                <pf:tab title="Blatt E3.2">
-                    <ui:include src="Aeb/pages/AebPageE3_2.xhtml" />
-                </pf:tab>
-                <pf:tab title="Blatt E3.3">
-                    <ui:include src="Aeb/pages/AebPageE3_3.xhtml" />
-                </pf:tab>
-                <pf:tab title="Blatt B1">
-                    <ui:include src="Aeb/pages/AebPageB1.xhtml" />
+                <pf:tab title="AEB">
+                    <ui:include src="Aeb/AebSummary.xhtml" />
                 </pf:tab>
                 <pf:tab title="Kalkulationsunterlagen">
                     <ui:include src="CalcDocuments.xhtml" />
@@ -66,11 +47,6 @@
                 <pf:tab title="Strukturinformationen">
                     <ui:include src="StructureInformation.xhtml" />
                 </pf:tab>
-                <ui:remove>
-                    <pf:tab title="PIA-Daten">
-                        Kommt noch
-                    </pf:tab>
-                </ui:remove>
             </pf:tabView>
 
             <br />

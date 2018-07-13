@@ -526,34 +526,49 @@ public class AccessManager implements Serializable {
         return achievedRight.canReadAlways();
     }
 
-    public boolean isReadAllowed(Feature feature, int accountId, int ik) {
+    public boolean isReadAllowed(Feature feature, Account account, int ik) {
         return false;
     }
 
-    public boolean isEditAllowed(Feature feature, int accountId, int ik) {
+    public boolean isEditAllowed(Feature feature, Account account, int ik) {
         return false;
     }
 
-    public boolean isChangeAllowed(Feature feature, int accountId, int ik) {
+    public boolean isChangeAllowed(Feature feature, Account account, int ik) {
         return false;
     }
 
-    public boolean isCreateAllowed(Feature feature, int accountId, int ik) {
-        return false;
+    public boolean isCreateAllowed(Feature feature, Account account, int ik) {
+        boolean createAllowed = false;
+        for (AccessRight right : account.getAccessRights()) {
+            if (right.getIk() == ik && right.getFeature() == feature) {
+                if (right.canCreate()) {
+                    createAllowed = true;
+                }
+            }
+        }
+        return createAllowed;
     }
 
     public boolean isSendAllowed(Feature feature, Account account, int ik) {
+        boolean sendAllowed = false;
+        for (AccessRight right : account.getAccessRights()) {
+            if (right.getIk() == ik && right.getFeature() == feature) {
+                if (right.canSeal()) {
+                    sendAllowed = true;
+                }
+            }
+        }
+        return sendAllowed;
 
-//        boolean sendAllowed = false
-//
 //        account.getAccessRights().stream()
 //                .filter(c -> c.getIk() == ik && c.getFeature() == feature)
 //                .forEach(c -> {
 //                    if (c.canSeal()) {
-//                        return true;
+//                        sendAllowed = true;
 //                    }
 //                });
-        return false;
     }
 
+    //@Deprecated
 }

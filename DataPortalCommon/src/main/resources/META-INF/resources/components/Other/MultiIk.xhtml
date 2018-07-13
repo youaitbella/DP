@@ -36,7 +36,7 @@
                               value="#{cc.attrs.value}" >
                 <f:selectItem rendered="#{cc.attrs.value eq 0}" itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
                 <f:selectItems value="#{cc.attrs.ikList}"/>
-                <pf:ajax event="change" listener="#{cc.attrs.listener}" update="#{cc.attrs.updateElement} @this" />
+                <pf:ajax event="change" listener="#{cc.attrs.listener}" update="#{cc.attrs.updateElement} @this hospitalName" />
             </pf:selectOneMenu>
 
             <pf:inputText readonly="true" value="#{cc.attrs.value}" rendered="#{cc.attrs.readonly or cc.attrs.isFixed}"/>
