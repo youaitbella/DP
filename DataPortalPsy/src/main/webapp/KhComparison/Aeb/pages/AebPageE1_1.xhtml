@@ -28,7 +28,7 @@
             <pf:inputText id="peppId"
                           value="#{page.pepp}"
                           maxlength="5"
-                          disabled="#{edit.isReadOnly()}" >
+                          readonly="#{edit.isReadOnly()}" >
                 <pf:ajax event="change" oncomplete="#{edit.peppChanged(page)}" update="listpagee11" immediate="true" />
             </pf:inputText>
             <pf:message for="peppId" />
@@ -36,7 +36,7 @@
         <pf:column headerText="Vergütungsklasse">
             <pf:inputNumber id="vclasse11"
                             value="#{page.compensationClass}"
-                            disabled="#{edit.isReadOnly()}"
+                            readonly="#{edit.isReadOnly()}"
                             decimalPlaces="0"
                             inputStyle="width: 100%; text-align: right">
                 <pf:ajax event="change" oncomplete="#{edit.peppChanged(page)}" update="listpagee11" immediate="true" />
@@ -46,7 +46,7 @@
         <pf:column headerText="Fallzahl" style="text-align: right">
             <pf:inputNumber id="casecountid"
                             value="#{page.caseCount}"
-                            disabled="#{edit.isReadOnly()}"
+                            readonly="#{edit.isReadOnly()}"
                             decimalPlaces="0"
                             inputStyle="width: 100%; text-align: right">
                 <pf:ajax event="change" oncomplete="#{edit.peppChanged(page)}" update="listpagee11" immediate="true" />
@@ -61,7 +61,7 @@
         <pf:column headerText="Berechnungstage" style="text-align: right">
             <pf:inputNumber id="calcdaysIde11"
                             value="#{page.calculationDays}"
-                            disabled="#{edit.isReadOnly()}"
+                            readonly="#{edit.isReadOnly()}"
                             decimalPlaces="0"
                             inputStyle="width: 100%; text-align: right">
                 <pf:ajax event="change" oncomplete="#{edit.peppChanged(page)}" update="listpagee11" immediate="true" />

@@ -27,7 +27,7 @@
         </pf:column>
         <pf:column headerText="Stellenbesetzung für eine vollständige Umsetzung der Psych-PV in VK" style="text-align: right">
             <pf:inputNumber value="#{personal.complete}"
-                            disabled="#{edit.isReadOnly()}"
+                            readonly="#{edit.isReadOnly()}"
                             decimalPlaces="2"
                             inputStyle="width: 100%; text-align: right">
                 <pf:ajax />
@@ -35,7 +35,7 @@
         </pf:column>
         <pf:column headerText="Stellenbesetzung als Budgetgrundlage in VK" style="text-align: right">
             <pf:inputNumber value="#{personal.budget}"
-                            disabled="#{edit.isReadOnly()}"
+                            readonly="#{edit.isReadOnly()}"
                             decimalPlaces="2"
                             inputStyle="width: 100%; text-align: right">
                 <pf:ajax />
@@ -43,7 +43,7 @@
         </pf:column>
         <pf:column headerText="Durchschnittskosten je VK in Euro" style="text-align: right">
             <pf:inputNumber value="#{personal.averageCost}"
-                            disabled="#{edit.isReadOnly()}"
+                            readonly="#{edit.isReadOnly()}"
                             symbol=" €"
                             symbolPosition="s"
                             decimalPlaces="2"

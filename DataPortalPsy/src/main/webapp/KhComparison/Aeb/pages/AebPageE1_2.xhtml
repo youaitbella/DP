@@ -28,14 +28,14 @@
         <pf:column headerText="ET-Nr.">
             <pf:inputText value="#{page.et}"
                           maxlength="8"
-                          disabled="#{edit.isReadOnly()}">
+                          readonly="#{edit.isReadOnly()}">
                 <pf:ajax event="change" oncomplete="#{edit.etChanged(page)}" update="listpagee12" immediate="true" />
             </pf:inputText>
         </pf:column>
         <pf:column headerText="Anzahl Berechnungstage" style="text-align: right">
             <pf:inputNumber id="calcdaysIde12"
                             value="#{page.calculationDays}"
-                            disabled="#{edit.isReadOnly()}"
+                            readonly="#{edit.isReadOnly()}"
                             decimalPlaces="0"
                             inputStyle="width: 100%; text-align: right">
                 <pf:ajax event="change" oncomplete="#{edit.etChanged(page)}" update="listpagee12" immediate="true" />

@@ -28,14 +28,14 @@
         <pf:column headerText="ZE-Nr.">
             <pf:inputText value="#{page.ze}"
                           maxlength="8"
-                          disabled="#{edit.isReadOnly()}">
+                          readonly="#{edit.isReadOnly()}">
                 <pf:ajax event="change" oncomplete="#{edit.zeChanged(page)}" update="listpagee2" immediate="true" />
             </pf:inputText>
         </pf:column>
         <pf:column headerText="Anzahl der ZE" style="text-align: right">
             <pf:inputNumber id="calcdaysIde2"
                             value="#{page.zeCount}"
-                            disabled="#{edit.isReadOnly()}"
+                            readonly="#{edit.isReadOnly()}"
                             decimalPlaces="0"
                             inputStyle="width: 100%; text-align: right">
                 <pf:ajax event="change" oncomplete="#{edit.zeChanged(page)}" update="listpagee2" immediate="true" />

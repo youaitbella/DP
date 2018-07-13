@@ -30,13 +30,13 @@
             <pf:column headerText="Entgelt nach § 6 BPflV">
                 <pf:inputText value="#{page.renumeration}"
                               maxlength="9"
-                              disabled="#{edit.isReadOnly()}" >
+                              readonly="#{edit.isReadOnly()}" >
                     <pf:ajax event="change" update="@all" immediate="true" />
                 </pf:inputText>
             </pf:column>
             <pf:column headerText="Entgeltschlüssel nach § 301 SGB V">
                 <pf:inputText value="#{page.renumerationKey}"
-                              disabled="#{edit.isReadOnly()}"
+                              readonly="#{edit.isReadOnly()}"
                               maxlength="10"
                               style="width: 100%;">
                     <pf:ajax event="change" update="listpagee31" immediate="true" />
@@ -44,7 +44,7 @@
             </pf:column>
             <pf:column headerText="Fallzahl (fallbezogene Entgelte)" style="text-align: right">
                 <pf:inputNumber value="#{page.caseCount}"
-                                disabled="#{edit.isReadOnly()}"
+                                readonly="#{edit.isReadOnly()}"
                                 decimalPlaces="0"
                                 inputStyle="width: 100%; text-align: right;">
                     <pf:ajax event="change" update="listpagee31" immediate="true" />
@@ -56,7 +56,7 @@
             </pf:column>
             <pf:column headerText="Entgelthöhe (in €)" style="text-align: right">
                 <pf:inputNumber value="#{page.renumerationValue}"
-                                disabled="#{edit.isReadOnly()}"
+                                readonly="#{edit.isReadOnly()}"
                                 symbol=" €"
                                 symbolPosition="s"
                                 decimalPlaces="2"
@@ -81,7 +81,7 @@
             </pf:column>
             <pf:column headerText="Anzahl der Fälle mit Abschlägen" style="text-align: right">
                 <pf:inputNumber value="#{page.caseCountDeductions}"
-                                disabled="#{edit.isReadOnly()}"
+                                readonly="#{edit.isReadOnly()}"
                                 decimalPlaces="0"
                                 inputStyle="width: 100%; text-align: right">
                     <pf:ajax event="change" update="listpagee31" immediate="true" />
@@ -92,7 +92,7 @@
             </pf:column>
             <pf:column headerText="Anzahl der Tage mit Abschlägen" style="text-align: right">
                 <pf:inputNumber value="#{page.dayCountDeductions}"
-                                disabled="#{edit.isReadOnly()}"
+                                readonly="#{edit.isReadOnly()}"
                                 decimalPlaces="0"
                                 inputStyle="width: 100%; text-align: right">
                     <pf:ajax event="change" update="listpagee31" immediate="true" />
@@ -103,7 +103,7 @@
             </pf:column>
             <pf:column headerText="Abschlag je Tag (in €)" style="text-align: right">
                 <pf:inputNumber value="#{page.deductionPerDay}"
-                                disabled="#{edit.isReadOnly()}"
+                                readonly="#{edit.isReadOnly()}"
                                 symbol=" €"
                                 symbolPosition="s"
                                 decimalPlaces="2"
@@ -124,7 +124,7 @@
             </pf:column>
             <pf:column headerText="Anzahl der Fälle mit Zuschlägen" style="text-align: right">
                 <pf:inputNumber value="#{page.caseCountSurcharges}"
-                                disabled="#{edit.isReadOnly()}"
+                                readonly="#{edit.isReadOnly()}"
                                 decimalPlaces="0"
                                 inputStyle="width: 100%; text-align: right">
                     <pf:ajax event="change" update="listpagee31" immediate="true" />
@@ -135,7 +135,7 @@
             </pf:column>
             <pf:column headerText="Anzahl der Tage mit Zuschlägen" style="text-align: right">
                 <pf:inputNumber value="#{page.dayCountSurcharges}"
-                                disabled="#{edit.isReadOnly()}"
+                                readonly="#{edit.isReadOnly()}"
                                 decimalPlaces="2"
                                 inputStyle="width: 100%; text-align: right">
                     <pf:ajax event="change" update="listpagee31" immediate="true" />
@@ -146,7 +146,7 @@
             </pf:column>
             <pf:column headerText="Zuschlag je Tag (in €)" style="text-align: right">
                 <pf:inputNumber value="#{page.surchargesPerDay}"
-                                disabled="#{edit.isReadOnly()}"
+                                readonly="#{edit.isReadOnly()}"
                                 symbol=" €"
                                 symbolPosition="s"
                                 decimalPlaces="2"

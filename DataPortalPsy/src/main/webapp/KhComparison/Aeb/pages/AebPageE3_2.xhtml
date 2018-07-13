@@ -28,27 +28,27 @@
         <pf:column headerText="Zusatzentgelt nach § 6 BPflV">
             <pf:inputText value="#{page.ze}"
                           maxlength="9"
-                          disabled="#{edit.isReadOnly()}" >
+                          readonly="#{edit.isReadOnly()}" >
                 <pf:ajax />
             </pf:inputText>
         </pf:column>
         <pf:column headerText="Entgeltschlüssel nach § 301 SGB V">
             <pf:inputText value="#{page.renumerationKey}"
-                          disabled="#{edit.isReadOnly()}"
+                          readonly="#{edit.isReadOnly()}"
                           style="width: 100%;">
                 <pf:ajax />
             </pf:inputText>
         </pf:column>
         <pf:column headerText="OPS-Kode">
             <pf:inputText value="#{page.ops}"
-                          disabled="#{edit.isReadOnly()}"
+                          readonly="#{edit.isReadOnly()}"
                           style="width: 100%;">
                 <pf:ajax />
             </pf:inputText>
         </pf:column>
         <pf:column headerText="Anzahl" style="text-align: right">
             <pf:inputNumber value="#{page.count}"
-                            disabled="#{edit.isReadOnly()}"
+                            readonly="#{edit.isReadOnly()}"
                             decimalPlaces="0"
                             inputStyle="width: 100%; text-align: right">
                 <pf:ajax event="change" update="listpagee32" immediate="true" />
@@ -59,7 +59,7 @@
         </pf:column>
         <pf:column headerText="Entgeldhöhe" style="text-align: right">
             <pf:inputNumber value="#{page.renumerationValue}"
-                            disabled="#{edit.isReadOnly()}"
+                            readonly="#{edit.isReadOnly()}"
                             symbol=" €"
                             symbolPosition="s"
                             decimalPlaces="2"

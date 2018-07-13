@@ -32,7 +32,7 @@
         </pf:column>
         <pf:column headerText="Beschreibung">
             <pf:inputText value="#{doc.description}"
-                          disabled="#{edit.isReadOnly()}"
+                          readonly="#{edit.isReadOnly()}"
                           style="width: 100%;">
                 <pf:ajax />
             </pf:inputText>

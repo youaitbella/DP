@@ -32,14 +32,14 @@
         </pf:column>
         <pf:column headerText="Benennung der Besonderheit">
             <pf:inputText value="#{region.name}"
-                          disabled="#{edit.isReadOnly()}"
+                          readonly="#{edit.isReadOnly()}"
                           style="width: 100%;">
                 <pf:ajax />
             </pf:inputText>
         </pf:column>
         <pf:column headerText="Beschreibung">
             <pf:inputTextarea value="#{region.description}"
-                              disabled="#{edit.isReadOnly()}"
+                              readonly="#{edit.isReadOnly()}"
                               style="width: 100%;">
                 <pf:ajax />
             </pf:inputTextarea>

@@ -18,49 +18,49 @@
                               require="true"
                               requiredMessage="Bitte geben Sie den Gesamtbetrag an"
                               labelText="Gesamtbetrag für den Vereinbarungszeitraum"
-                              disabled="#{edit.isReadOnly()}"/>
+                              readonly="#{edit.isReadOnly()}"/>
         </div>
         <div class="ui-g-6">
             <inek:InputNumber value="#{edit.aebBaseInformation.aebPageB1.changedTotal}"
                               require="true"
                               requiredMessage="Bitte geben Sie den Veränderten Gesamtbetrag an"
                               labelText="Veränderter Gesamtbetrag (§ 3 Absatz 2 Satz 5)"
-                              disabled="#{edit.isReadOnly()}" />
+                              readonly="#{edit.isReadOnly()}" />
         </div>
         <div class="ui-g-6">
             <inek:InputNumber value="#{edit.aebBaseInformation.aebPageB1.changedProceedsBudget}"
                               require="true"
                               requiredMessage="Bitte geben Sie das Veränderte Erlösbudget an"
                               labelText="Verändertes Erlösbudget (§ 3 Absatz 2 Satz 5)"
-                              disabled="#{edit.isReadOnly()}" />
+                              readonly="#{edit.isReadOnly()}" />
         </div>
         <div class="ui-g-6">
             <inek:InputNumber value="#{edit.aebBaseInformation.aebPageB1.sumValuationRadioRenumeration}"
                               require="true"
                               requiredMessage="Bitte geben Sie die Summe mit Bewertungsrelationen bewertete Entgelte an"
                               labelText="Summe mit Bewertungsrelationen bewertete Entgelte"
-                              disabled="#{edit.isReadOnly()}" />
+                              readonly="#{edit.isReadOnly()}" />
         </div>
         <div class="ui-g-6">
             <inek:InputNumber value="#{edit.aebBaseInformation.aebPageB1.sumEffectivValuationRadio}"
                               require="true"
                               requiredMessage="Bitte geben Sie die Summe der effektiven Bewertungsrelationen (Anlage E1) an"
                               labelText="Summe der effektiven Bewertungsrelationen (Anlage E1)"
-                              disabled="#{edit.isReadOnly()}" />
+                              readonly="#{edit.isReadOnly()}" />
         </div>
         <div class="ui-g-6">
             <inek:InputNumber value="#{edit.aebBaseInformation.aebPageB1.basisRenumerationValueCompensation}"
                               require="true"
                               requiredMessage="Bitte geben Sie den krankenhausindividueller Basisentgeltwert mit Ausgleichen an"
                               labelText="krankenhausindividueller Basisentgeltwert mit Ausgleichen"
-                              disabled="#{edit.isReadOnly()}" />
+                              readonly="#{edit.isReadOnly()}" />
         </div>
         <div class="ui-g-6">
             <inek:InputNumber value="#{edit.aebBaseInformation.aebPageB1.basisRenumerationValueNoCompensation}"
                               require="true"
                               requiredMessage="Bitte geben Sie den Basisentgeltwert ohne Ausgleiche und Ausgleichsbeträge aus Berichtigungen an"
                               labelText="nachrichtlich: Basisentgeltwert ohne Ausgleiche und Ausgleichsbeträge aus Berichtigungen"
-                              disabled="#{edit.isReadOnly()}" />
+                              readonly="#{edit.isReadOnly()}" />
         </div>
     </div>
 
