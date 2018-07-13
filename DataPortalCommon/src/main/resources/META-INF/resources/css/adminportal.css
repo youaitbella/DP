@@ -1375,6 +1375,7 @@ html.progress * {
   background-image: url("/DataPortal/javax.faces.resource/Icon/small/menu_active.png.xhtml");
 }
 .infoTextTable tr:nth-child(even) td {
+    width:auto;
     background-color: #dddddd;
     color: #000;
 }

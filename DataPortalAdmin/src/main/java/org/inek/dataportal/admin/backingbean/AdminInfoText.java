@@ -8,8 +8,11 @@ package org.inek.dataportal.admin.backingbean;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.application.NavigationHandler;
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.api.enums.Feature;
@@ -18,6 +21,7 @@ import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.infotext.entity.InfoText;
 import org.inek.dataportal.common.data.infotext.facade.InfoTextFacade;
 import org.inek.dataportal.common.enums.Pages;
+import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.scope.FeatureScoped;
 
 /**
@@ -71,9 +75,17 @@ public class AdminInfoText implements Serializable {
         _newKey = "";
     }
 
-    public boolean isNotEmpty(InfoText infoText) {
+    public void checkInput(FacesContext context, UIComponent component, Object value) {
 
-        return (infoText.getKey().isEmpty());
+        String input = "" + value;
+        for (InfoText infoText : _listOfInfoTexts) {
+
+            if (infoText.getKey().equals(input)) {
+                String msg = "Der Schlüssel existiert bereits.";
+                throw new ValidatorException(new FacesMessage(msg));
+            }
+
+        }
 
     }
 
@@ -81,11 +93,15 @@ public class AdminInfoText implements Serializable {
 
         for (InfoText infoText : _listOfInfoTexts) {
             if (infoText.getModified()) {
-                _infoTextFacade.save(infoText);
+                infoText = _infoTextFacade.save(infoText);
             }
         }
         _dialogController.showWarningDialog("Die Daten wurden gespeichert", "Infotexte gespeichert");
 
+    }
+
+    public void error() {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Fehler!", "Der Schlüssel existiert bereits."));
     }
 
 }
