@@ -18,6 +18,7 @@ import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.scope.FeatureScoped;
 import org.inek.dataportal.psy.khcomparison.entity.AEBBaseInformation;
+import org.inek.dataportal.psy.khcomparison.entity.StructureInformation;
 import org.inek.dataportal.psy.khcomparison.facade.AEBFacade;
 
 /**
@@ -35,8 +36,9 @@ public class Summary {
     @Inject
     private SessionController _sessionController;
 
-    private List<AEBBaseInformation> _listComplete;
-    private List<AEBBaseInformation> _listWorking;
+    private List<AEBBaseInformation> _listComplete = new ArrayList<>();
+    private List<AEBBaseInformation> _listWorking = new ArrayList<>();
+    private List<StructureInformation> _listStructureInformation = new ArrayList<>();
 
     public List<AEBBaseInformation> getListComplete() {
         return _listComplete;
@@ -54,12 +56,19 @@ public class Summary {
         this._listWorking = listWorking;
     }
 
+    public List<StructureInformation> getListStructureInformation() {
+        return _listStructureInformation;
+    }
+
+    public void setListStructureInformation(List<StructureInformation> listStructureInformation) {
+        this._listStructureInformation = listStructureInformation;
+    }
+
     @PostConstruct
     public void init() {
-        _listComplete = new ArrayList<>();
-        _listWorking = new ArrayList<>();
         _listComplete.addAll(getAebsByStatusAndAccount(WorkflowStatus.Provided));
         setWorkingList();
+        setStructureInformationList();
     }
 
     private void setWorkingList() {
@@ -76,8 +85,16 @@ public class Summary {
         return Pages.KhComparisonEdit.URL();
     }
 
+    public String structureInformationOpen() {
+        return Pages.StructureInformationEdit.URL();
+    }
+
     public boolean isCreateEntryAllowed() {
         return !getAllowedIks().isEmpty();
+    }
+
+    public boolean isCreateStructureInformationAllowed() {
+        return true;
     }
 
     public List<Integer> getAllowedIks() {
@@ -96,5 +113,21 @@ public class Summary {
     public void deleteBaseInformation(AEBBaseInformation info) {
         _aebfacade.deleteBaseInformation(info);
         setWorkingList();
+    }
+
+    private void setStructureInformationList() {
+        List<Integer> iks = new ArrayList<>();
+        for (Integer ik : _sessionController.getAccount().getFullIkSet()) {
+            if (_aebfacade.structureInformaionAvailable(ik)) {
+                iks.add(ik);
+            }
+        }
+        for (Integer ik : iks) {
+            if (_accessManager.isReadAllowed(Feature.AEB,
+                    _sessionController.getAccount(),
+                    ik)) {
+                _listStructureInformation.add(_aebfacade.getStructureInformationByIk(ik));
+            }
+        }
     }
 }

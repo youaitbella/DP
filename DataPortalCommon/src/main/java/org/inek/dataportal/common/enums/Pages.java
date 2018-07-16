@@ -181,6 +181,7 @@ public enum Pages {
     //
     KhComparisonSummary("/KhComparison/Summary"),
     KhComparisonEdit("/KhComparison/Edit"),
+    StructureInformationEdit("/KhComparison/StructureInformation/StructureInformationEdit"),
     PartKhComparison("/KhComparison/PartKhComparison"),
     //
     NotAllowed("/Common/NotAllowed"),

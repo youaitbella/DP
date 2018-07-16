@@ -106,14 +106,6 @@ public class Edit {
         this._aebBaseInformation = aebBaseInformation;
     }
 
-    public List<SelectItem> getAccommodationItems() {
-        return _aebListItemFacade.getAccommodationItems();
-    }
-
-    public List<SelectItem> getAmbulantItems() {
-        return _aebListItemFacade.getAmbulantItems();
-    }
-
     public List<SelectItem> getStructureCategories() {
         return _aebListItemFacade.getStructureCategorie();
     }
@@ -133,8 +125,6 @@ public class Edit {
 
     private AEBBaseInformation createNewAebBaseInformation() {
         AEBBaseInformation info = new AEBBaseInformation();
-        info.setStructureInformation(new StructureInformation());
-        info.getStructureInformation().setBaseInformation(info);
 
         for (OccupationalCategory cat : _psychStaffFacade.getOccupationalCategories()) {
             PersonalAgreed agreed = new PersonalAgreed();

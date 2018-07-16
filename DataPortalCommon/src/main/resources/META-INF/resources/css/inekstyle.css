@@ -155,3 +155,21 @@
     border-bottom: 3px solid #7f9baf;
     background-color: #eeeeee;
 }
+
+/* Fieldset */
+
+.inekFieldset {
+    background-color: transparent;
+    margin-bottom: 10px;
+}
+
+.inekFieldset legend {
+    background-image: none !important;
+    background-color: #7f9baf !important;
+    min-width: 100px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 4px;
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
+}

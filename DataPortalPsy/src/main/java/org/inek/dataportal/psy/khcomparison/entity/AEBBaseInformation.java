@@ -157,17 +157,6 @@ public class AEBBaseInformation implements Serializable {
     //</editor-fold>
 
     @OneToOne(mappedBy = "_baseInformation", cascade = CascadeType.ALL)
-    private StructureInformation _structureInformation;
-
-    public StructureInformation getStructureInformation() {
-        return _structureInformation;
-    }
-
-    public void setStructureInformation(StructureInformation structureInformation) {
-        _structureInformation = structureInformation;
-    }
-
-    @OneToOne(mappedBy = "_baseInformation", cascade = CascadeType.ALL)
     private AEBPageB1 _aebPageB1;
 
     public AEBPageB1 getAebPageB1() {

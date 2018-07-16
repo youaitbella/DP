@@ -1,6 +1,7 @@
 package org.inek.dataportal.psy.khcomparison.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 import javax.persistence.*;
 
@@ -18,7 +19,7 @@ public class StructureInformation implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "siId")
-    private Integer _id;
+    private int _id;
 
     public int getId() {
         return _id;
@@ -29,17 +30,89 @@ public class StructureInformation implements Serializable {
     }
     // </editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="BaseInformation">
-    @OneToOne
-    @JoinColumn(name = "siBaseInformationId")
-    private AEBBaseInformation _baseInformation;
+    // <editor-fold defaultstate="collapsed" desc="Property Version">
+    @Column(name = "siVersion")
+    @Version
+    private int _version;
+    // </editor-fold>
 
-    public AEBBaseInformation getBaseInformation() {
-        return _baseInformation;
+    //<editor-fold defaultstate="collapsed" desc="Property Ik">
+    @Column(name = "siIk")
+    private int _ik;
+
+    public int getIk() {
+        return _ik;
     }
 
-    public void setBaseInformation(AEBBaseInformation baseInformation) {
-        this._baseInformation = baseInformation;
+    public void setIk(int ik) {
+        _ik = ik;
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property CreatedFrom">
+    @Column(name = "siCreatedFrom")
+    private int _createdFrom;
+
+    public int getCreatedFrom() {
+        return _createdFrom;
+    }
+
+    public void setCreatedFrom(int createdFrom) {
+        _createdFrom = createdFrom;
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property Last Change">
+    @Column(name = "siLastChangeFrom")
+    private int _lastChangeFrom;
+
+    public int getLastChangeFrom() {
+        return _lastChangeFrom;
+    }
+
+    public void setLastChangeFrom(int lastChangeFrom) {
+        _lastChangeFrom = lastChangeFrom;
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property ValidFrom">
+    @Column(name = "siValidFrom")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date _validFrom = new Date();
+
+    public Date getValidFrom() {
+        return _validFrom;
+    }
+
+    public void setValidFrom(Date validFrom) {
+        this._validFrom = validFrom;
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property ValidTo">
+    @Column(name = "siValidTo")
+    private Date _validTo = new Date();
+
+    public Date getValidTo() {
+        return _validTo;
+    }
+
+    public void setValidTo(Date validTo) {
+        this._validTo = validTo;
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property LastChanged">
+    @Column(name = "siLastChanged")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date _lastChanged = new Date();
+
+    public Date getLastChanged() {
+        return _lastChanged;
+    }
+
+    public void setLastChanged(Date lastChanged) {
+        _lastChanged = lastChanged;
     }
     //</editor-fold>
 
@@ -71,7 +144,7 @@ public class StructureInformation implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property RegionalCare">
     @Column(name = "siRegionalCare")
-    private String _regionalCare;
+    private String _regionalCare = "";
 
     public String getRegionalCare() {
         return _regionalCare;
@@ -84,7 +157,7 @@ public class StructureInformation implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property SPCenterText">
     @Column(name = "siSPCenterText")
-    private String _spCenterText;
+    private String _spCenterText = "";
 
     public String getSPCenterText() {
         return _spCenterText;
@@ -95,22 +168,9 @@ public class StructureInformation implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property SPCenter">
-    @Column(name = "siSPCenter")
-    private Boolean _spCenter;
-
-    public Boolean getSPCenter() {
-        return _spCenter;
-    }
-
-    public void setSPCenter(Boolean spCenter) {
-        _spCenter = spCenter;
-    }
-    //</editor-fold>
-
     //<editor-fold defaultstate="collapsed" desc="Property AccommodationText">
     @Column(name = "siAccommodationText")
-    private String _accommodationText;
+    private String _accommodationText = "";
 
     public String getAccommodationText() {
         return _accommodationText;
@@ -134,22 +194,9 @@ public class StructureInformation implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property PsychiatricCombine">
-    @Column(name = "siPsychiatricCombine")
-    private Boolean _psychiatricCombine;
-
-    public Boolean getPsychiatricCombine() {
-        return _psychiatricCombine;
-    }
-
-    public void setPsychiatricCombine(Boolean psychiatricCombine) {
-        _psychiatricCombine = psychiatricCombine;
-    }
-    //</editor-fold>
-
     //<editor-fold defaultstate="collapsed" desc="Property CareProvider">
     @Column(name = "siCareProvider")
-    private String _careProvider;
+    private String _careProvider = "";
 
     public String getCareProvider() {
         return _careProvider;
@@ -162,7 +209,7 @@ public class StructureInformation implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property PerformanceAreas">
     @Column(name = "siPerformanceAreas")
-    private String _performanceAreas;
+    private String _performanceAreas = "";
 
     public String getPerformanceAreas() {
         return _performanceAreas;
@@ -175,7 +222,7 @@ public class StructureInformation implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property SocialPsychiatryService">
     @Column(name = "siSocialPsychiatryService")
-    private String _socialPsychiatryService;
+    private String _socialPsychiatryService = "";
 
     public String getSocialPsychiatryService() {
         return _socialPsychiatryService;
@@ -201,7 +248,7 @@ public class StructureInformation implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property AmbulantPerformanceMain">
     @Column(name = "siAmbulantPerformanceMain")
-    private String _ambulantPerformanceMain;
+    private String _ambulantPerformanceMain = "";
 
     public String getAmbulantPerformanceMain() {
         return _ambulantPerformanceMain;
@@ -214,7 +261,7 @@ public class StructureInformation implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property AmbulantStructure">
     @Column(name = "siAmbulantStructure")
-    private String _ambulantStructure;
+    private String _ambulantStructure = "";
 
     public String getAmbulantStructure() {
         return _ambulantStructure;
@@ -227,7 +274,7 @@ public class StructureInformation implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property DismissManagement">
     @Column(name = "siDismissManagement")
-    private String _dismissManagement;
+    private String _dismissManagement = "";
 
     public String getDismissManagement() {
         return _dismissManagement;
@@ -241,25 +288,30 @@ public class StructureInformation implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 29 * hash + this._bedCount;
-        hash = 29 * hash + this._therapyPartCount;
-        hash = 29 * hash + Objects.hashCode(this._regionalCare);
-        hash = 29 * hash + Objects.hashCode(this._spCenterText);
-        hash = 29 * hash + Objects.hashCode(this._spCenter);
-        hash = 29 * hash + Objects.hashCode(this._accommodationText);
-        hash = 29 * hash + this._accommodationId;
-        hash = 29 * hash + Objects.hashCode(this._psychiatricCombine);
-        hash = 29 * hash + Objects.hashCode(this._careProvider);
-        hash = 29 * hash + Objects.hashCode(this._performanceAreas);
-        hash = 29 * hash + Objects.hashCode(this._socialPsychiatryService);
-        hash = 29 * hash + this._ambulantPerformanceId;
-        hash = 29 * hash + Objects.hashCode(this._ambulantPerformanceMain);
-        hash = 29 * hash + Objects.hashCode(this._dismissManagement);
+        hash = 37 * hash + this._version;
+        hash = 37 * hash + this._ik;
+        hash = 37 * hash + this._createdFrom;
+        hash = 37 * hash + this._lastChangeFrom;
+        hash = 37 * hash + Objects.hashCode(this._validFrom);
+        hash = 37 * hash + Objects.hashCode(this._validTo);
+        hash = 37 * hash + Objects.hashCode(this._lastChanged);
+        hash = 37 * hash + this._bedCount;
+        hash = 37 * hash + this._therapyPartCount;
+        hash = 37 * hash + Objects.hashCode(this._regionalCare);
+        hash = 37 * hash + Objects.hashCode(this._spCenterText);
+        hash = 37 * hash + Objects.hashCode(this._accommodationText);
+        hash = 37 * hash + this._accommodationId;
+        hash = 37 * hash + Objects.hashCode(this._careProvider);
+        hash = 37 * hash + Objects.hashCode(this._performanceAreas);
+        hash = 37 * hash + Objects.hashCode(this._socialPsychiatryService);
+        hash = 37 * hash + this._ambulantPerformanceId;
+        hash = 37 * hash + Objects.hashCode(this._ambulantPerformanceMain);
+        hash = 37 * hash + Objects.hashCode(this._ambulantStructure);
+        hash = 37 * hash + Objects.hashCode(this._dismissManagement);
         return hash;
     }
 
     @Override
-    @SuppressWarnings("CyclomaticComplexity")
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -271,6 +323,18 @@ public class StructureInformation implements Serializable {
             return false;
         }
         final StructureInformation other = (StructureInformation) obj;
+        if (this._version != other._version) {
+            return false;
+        }
+        if (this._ik != other._ik) {
+            return false;
+        }
+        if (this._createdFrom != other._createdFrom) {
+            return false;
+        }
+        if (this._lastChangeFrom != other._lastChangeFrom) {
+            return false;
+        }
         if (this._bedCount != other._bedCount) {
             return false;
         }
@@ -304,16 +368,19 @@ public class StructureInformation implements Serializable {
         if (!Objects.equals(this._ambulantPerformanceMain, other._ambulantPerformanceMain)) {
             return false;
         }
+        if (!Objects.equals(this._ambulantStructure, other._ambulantStructure)) {
+            return false;
+        }
         if (!Objects.equals(this._dismissManagement, other._dismissManagement)) {
             return false;
         }
-        if (!Objects.equals(this._id, other._id)) {
+        if (!Objects.equals(this._validFrom, other._validFrom)) {
             return false;
         }
-        if (!Objects.equals(this._spCenter, other._spCenter)) {
+        if (!Objects.equals(this._validTo, other._validTo)) {
             return false;
         }
-        if (!Objects.equals(this._psychiatricCombine, other._psychiatricCombine)) {
+        if (!Objects.equals(this._lastChanged, other._lastChanged)) {
             return false;
         }
         return true;

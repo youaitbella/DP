@@ -13,6 +13,7 @@ import javax.transaction.Transactional;
 import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.psy.khcomparison.entity.AEBBaseInformation;
+import org.inek.dataportal.psy.khcomparison.entity.StructureInformation;
 
 /**
  *
@@ -24,6 +25,13 @@ public class AEBFacade extends AbstractDataAccess {
     public AEBBaseInformation findAEBBaseInformation(int id) {
         String sql = "SELECT bi FROM AEBBaseInformation bi WHERE bi._id = :id";
         TypedQuery<AEBBaseInformation> query = getEntityManager().createQuery(sql, AEBBaseInformation.class);
+        query.setParameter("id", id);
+        return query.getSingleResult();
+    }
+
+    public StructureInformation findStructureInformation(int id) {
+        String sql = "SELECT si FROM StructureInformation si WHERE si._id = :id";
+        TypedQuery<StructureInformation> query = getEntityManager().createQuery(sql, StructureInformation.class);
         query.setParameter("id", id);
         return query.getSingleResult();
     }
@@ -41,6 +49,20 @@ public class AEBFacade extends AbstractDataAccess {
         query.setParameter("status", status.getId());
         query.setParameter("accId", accId);
         return query.getResultList();
+    }
+
+    public boolean structureInformaionAvailable(int ik) {
+        String sql = "SELECT si FROM StructureInformation si WHERE si._ik = :ik";
+        TypedQuery<StructureInformation> query = getEntityManager().createQuery(sql, StructureInformation.class);
+        query.setParameter("ik", ik);
+        return !query.getResultList().isEmpty();
+    }
+
+    public StructureInformation getStructureInformationByIk(int ik) {
+        String sql = "SELECT si FROM StructureInformation si WHERE si._ik = :ik order by si._validFrom desc";
+        TypedQuery<StructureInformation> query = getEntityManager().createQuery(sql, StructureInformation.class);
+        query.setParameter("ik", ik);
+        return query.getResultList().get(0);
     }
 
     public List<Integer> getAllowedIks(int accountId, int year) {
@@ -71,6 +93,15 @@ public class AEBFacade extends AbstractDataAccess {
             return aebBaseInformation;
         }
         return merge(aebBaseInformation);
+    }
+
+    @Transactional
+    public StructureInformation save(StructureInformation info) {
+        if (info.getId() == 0) {
+            persist(info);
+            return info;
+        }
+        return merge(info);
     }
 
     public void deleteBaseInformation(AEBBaseInformation info) {

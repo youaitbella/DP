@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:pf="http://primefaces.org/ui"
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/Other">
+    <ui:remove>
+        <inek:MultiIk label="#{msg.lblIkShort}"
+                      required="true"
+                      value="#{edit.aebBaseInformation.ik}"
+                      readonly="#{edit.isReadOnly()}"
+                      listener="#{edit.ikChanged()}"
+                      ikList="#{edit.allowedIks}"/>
+    </ui:remove>
+
+    <script type="text/javascript">
+        PrimeFaces.locales ['de'] = {
+            closeText: 'Schließen',
+            prevText: 'Zurück',
+            nextText: 'Weiter',
+            monthNames: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
+            monthNamesShort: ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'],
+            dayNames: ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'],
+            dayNamesShort: ['Son', 'Mon', 'Die', 'Mit', 'Don', 'Fre', 'Sam'],
+            dayNamesMin: ['S', 'M', 'D', 'M ', 'D', 'F ', 'S'],
+            weekHeader: 'Woche',
+            firstDay: 1,
+            isRTL: false,
+            showMonthAfterYear: false,
+            yearSuffix: '',
+            timeOnlyTitle: 'Nur Zeit',
+            timeText: 'Zeit',
+            hourText: 'Stunde',
+            minuteText: 'Minute',
+            secondText: 'Sekunde',
+            currentText: 'Aktuelles Datum',
+            ampm: false,
+            month: 'Monat',
+            week: 'Woche',
+            day: 'Tag',
+            allDayText: 'Ganzer Tag'
+        };
+    </script>
+
+    <pf:outputLabel class="formLabel"
+                    value="IK: "
+                    for="ik" />
+    <pf:inputText id="ik"
+                  value="#{editStructureInformation.structureInformation.ik}" >
+        <pf:ajax />
+    </pf:inputText>
+
+    <div style="text-align: right;">
+        <pf:outputLabel class="formLabel"
+                        value="Gültig von: "
+                        for="validFrom" />
+        <pf:calendar id="validFrom"
+                     value="#{editStructureInformation.structureInformation.validFrom}"
+                     locale="de"
+                     navigator="true"
+                     pattern="dd.mm.yyyy"
+                     inputStyle="text-align: right;">
+            <pf:ajax />
+        </pf:calendar>
+    </div>
+
+</ui:composition>

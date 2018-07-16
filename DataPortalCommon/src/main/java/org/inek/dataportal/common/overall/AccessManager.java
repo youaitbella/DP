@@ -527,7 +527,7 @@ public class AccessManager implements Serializable {
     }
 
     public boolean isReadAllowed(Feature feature, Account account, int ik) {
-        return false;
+        return true;
     }
 
     public boolean isEditAllowed(Feature feature, Account account, int ik) {
