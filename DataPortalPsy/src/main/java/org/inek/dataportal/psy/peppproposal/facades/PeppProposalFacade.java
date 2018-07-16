@@ -30,18 +30,19 @@ import org.inek.dataportal.common.utils.KeyValueLevel;
 @Stateless
 public class PeppProposalFacade extends AbstractFacade<PeppProposal> {
 
-    @Inject private PeppProposalCommentFacade _commentFacade;
-    @Inject private AccountFacade _accountFacade;
+    @Inject
+    private PeppProposalCommentFacade _commentFacade;
+    @Inject
+    private AccountFacade _accountFacade;
 
     public PeppProposalFacade() {
         super(PeppProposal.class);
     }
 
-    
     public List<PeppProposal> findAll(int accountId, DataSet dataSet) {
         return findAll(accountId, -1, dataSet);
     }
-    
+
     public List<PeppProposal> findAll(int accountId, int year, DataSet dataSet) {
         if (dataSet == DataSet.None) {
             return new ArrayList<>();
@@ -60,10 +61,10 @@ public class PeppProposalFacade extends AbstractFacade<PeppProposal> {
             order = cb.desc(request.get("_id"));
         }
         Predicate checkYear;
-        if (year > 0){
-            checkYear = cb.equal(request.get("_targetYear"), year);  
-        }else{
-            checkYear = cb.notEqual(request.get("_targetYear"), year);  
+        if (year > 0) {
+            checkYear = cb.equal(request.get("_targetYear"), year);
+        } else {
+            checkYear = cb.notEqual(request.get("_targetYear"), year);
         }
         if (dataSet == DataSet.All) {
             cq.select(request).where(cb.and(sealed, checkYear)).orderBy(order);
@@ -89,7 +90,7 @@ public class PeppProposalFacade extends AbstractFacade<PeppProposal> {
         Level oldLevel = LOGGER.getLevel();
         LOGGER.setLevel(Level.INFO);
         for (KeyValueLevel kv : doc) {
-            LOGGER.log(Level.INFO, "{0} ^ Key: {1} ^ Length: {2} ^ Value: {3}", 
+            LOGGER.log(Level.INFO, "{0} ^ Key: {1} ^ Length: {2} ^ Value: {3}",
                     new Object[]{data.getClass().getSimpleName(), kv.getKey(), kv.getValue().toString().length(), kv.getValue()});
         }
         LOGGER.setLevel(oldLevel);
@@ -98,29 +99,31 @@ public class PeppProposalFacade extends AbstractFacade<PeppProposal> {
     public List<ProposalInfo> getPeppProposalInfos(int accountId, DataSet dataSet) {
         return getPeppProposalInfos(accountId, -1, dataSet);
     }
+
     public List<ProposalInfo> getPeppProposalInfos(int accountId, int year, DataSet dataSet) {
         List<PeppProposal> peppProposals = findAll(accountId, year, dataSet);
         List<ProposalInfo> peppProposalInfos = new ArrayList<>();
         for (PeppProposal peppProposal : peppProposals) {
-            ProposalInfo ppInfo = new ProposalInfo(peppProposal.getId(), peppProposal.getName(), 
+            ProposalInfo ppInfo = new ProposalInfo(peppProposal.getId(), peppProposal.getName(),
                     peppProposal.getTargetYear(), peppProposal.getStatus());
             peppProposalInfos.add(ppInfo);
         }
         return peppProposalInfos;
     }
 
-
     /**
      * returns a list with the distinct account ids of all provided proposals
-     * @return 
+     *
+     * @return
      */
-    public List<Integer> getProposalAccounts(){
+    public List<Integer> getProposalAccounts() {
         int base = 16;  // todo: determine base
         int fromId = base * 100000;
         int toId = fromId + 99999;
         String statement = "select distinct ppAccountId from PeppProposal where ppId between ?1 and ?2 and ppStatus = 10";
         Query query = getEntityManager().createNativeQuery(statement).setParameter(1, fromId).setParameter(2, toId);
-        @SuppressWarnings("unchecked") List<Integer> result = query.getResultList();
+        @SuppressWarnings("unchecked")
+        List<Integer> result = query.getResultList();
         return result;
     }
 
@@ -142,12 +145,26 @@ public class PeppProposalFacade extends AbstractFacade<PeppProposal> {
         query.setParameter("accountIds", accountIds);
         return query.getResultList();
     }
-    
+
     public List<PeppProposal> find(List<Integer> requestIds) {
         String jpql = "SELECT p FROM PeppProposal p WHERE p._id in :requestIds  ";
         TypedQuery<PeppProposal> query = getEntityManager().createQuery(jpql, PeppProposal.class);
         query.setParameter("requestIds", requestIds);
         return query.getResultList();
     }
-    
+
+    public Boolean updatePeppProposalDb(String id) {
+        String sql = "update PeppProposal.dbo.Proposal\n"
+                + "set prStatusId = 200\n"
+                + "where prExternalId = '" + id + "'";
+        Query query = getEntityManager().createNativeQuery(sql);
+
+        try {
+            query.executeUpdate();
+            return true;
+        } catch (Exception ex) {
+            return false;
+        }
+    }
+
 }

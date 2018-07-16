@@ -55,15 +55,22 @@ import org.inek.dataportal.psy.peppproposal.enums.PeppProposalCategory;
 public class EditPeppProposal extends AbstractEditController {
 
     private static final Logger LOGGER = Logger.getLogger("EditPeppProposal");
-    @Inject private AccessManager _accessManager;
+    @Inject
+    private AccessManager _accessManager;
 
     // <editor-fold defaultstate="collapsed" desc="fields">
-    @Inject private SessionController _sessionController;
-    @Inject private SessionHelper _sessionHelper;
-    @Inject private ProcedureFacade _procedureFacade;
-    @Inject private DiagnosisFacade _diagnosisFacade;
-    @Inject private PeppProposalFacade _peppProposalFacade;
-    @Inject private ApplicationTools _appTools;
+    @Inject
+    private SessionController _sessionController;
+    @Inject
+    private SessionHelper _sessionHelper;
+    @Inject
+    private ProcedureFacade _procedureFacade;
+    @Inject
+    private DiagnosisFacade _diagnosisFacade;
+    @Inject
+    private PeppProposalFacade _peppProposalFacade;
+    @Inject
+    private ApplicationTools _appTools;
     private String _script;
     private PeppProposal _peppProposal;
 
@@ -92,7 +99,7 @@ public class EditPeppProposal extends AbstractEditController {
         tabPPDocuments,
     }
     // </editor-fold>
-    
+
     public EditPeppProposal() {
         //System.out.println("ctor EditPeppProposal");
     }
@@ -215,7 +222,7 @@ public class EditPeppProposal extends AbstractEditController {
         return getPeppProposal().getCategory() == PeppProposalCategory.SYSTEM;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Codes">
     public String searchDiag() {
         return searchCode(CodeType.Diag);
@@ -292,7 +299,7 @@ public class EditPeppProposal extends AbstractEditController {
         }
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Tab Documents">
     public boolean isAnonymousData() {
         return getPeppProposal().isAnonymousData() == null ? false : getPeppProposal().isAnonymousData();
@@ -365,21 +372,20 @@ public class EditPeppProposal extends AbstractEditController {
     }
 
     /**
-     * This function seals a peppProposal. Usually it can only be called if the
-     * peppProposal to seal is confirmed. As a precaution, it performs some
-     * checks which have been done in peppProposalSeal.
+     * This function seals a peppProposal. Usually it can only be called if the peppProposal to seal is confirmed. As a
+     * precaution, it performs some checks which have been done in peppProposalSeal.
      *
      * @return
      */
     public String sealPeppProposal() {
         if (!peppProposalIsComplete()) {
-            return getActiveTopic().getOutcome();
+            return "";
         }
 
         _peppProposal.setStatus(WorkflowStatus.Provided.getId());
         _peppProposal.setDateSealed(Calendar.getInstance().getTime());
         _peppProposal.setSealedBy(_sessionController.getAccountId());
-        if (_peppProposal.getLastModified() == null ){
+        if (_peppProposal.getLastModified() == null) {
             setModifiedInfo();
         }
         _peppProposal = _peppProposalFacade.savePeppProposal(_peppProposal);
@@ -474,12 +480,12 @@ public class EditPeppProposal extends AbstractEditController {
         PeppProposal peppProposal = getPeppProposal();
         newTopic = checkField(newTopic, peppProposal.getName(), "lblAppellation", "form:name", PeppProposalTabs.tabPPAddress);
         newTopic = checkField(
-                newTopic, 
-                peppProposal.getCategory() == null || peppProposal.getCategory() == PeppProposalCategory.UNKNOWN 
-                        ? null 
-                        : peppProposal.getCategory().name(), 
-                "lblCategory", 
-                "form:category", 
+                newTopic,
+                peppProposal.getCategory() == null || peppProposal.getCategory() == PeppProposalCategory.UNKNOWN
+                ? null
+                : peppProposal.getCategory().name(),
+                "lblCategory",
+                "form:category",
                 PeppProposalTabs.tabPPAddress
         );
         newTopic = checkField(newTopic, peppProposal.getInstitute(), "lblPeppProposalingInstitute",
@@ -496,7 +502,7 @@ public class EditPeppProposal extends AbstractEditController {
         newTopic = checkField(newTopic, peppProposal.getSolution(), "lblSuggestedSolution", "form:solution", PeppProposalTabs.tabPPSolution);
         if (peppProposal.getDocuments() != null && peppProposal.getDocuments().size() > 0
                 || peppProposal.getDocumentsOffline() != null && peppProposal.getDocumentsOffline().length() > 0) {
-            newTopic = checkField(newTopic, peppProposal.isAnonymousData() ? "true" : "", "lblAnonymousData", 
+            newTopic = checkField(newTopic, peppProposal.isAnonymousData() ? "true" : "", "lblAnonymousData",
                     "form:anonymousData", PeppProposalTabs.tabPPDocuments);
         }
 
@@ -524,7 +530,7 @@ public class EditPeppProposal extends AbstractEditController {
         return newTopic;
     }
 
-    private String checkField(String newTopic, Integer value, Integer minValue, Integer maxValue, String msgKey, 
+    private String checkField(String newTopic, Integer value, Integer minValue, Integer maxValue, String msgKey,
             String elementId, PeppProposalTabs tab) {
         if (value == null
                 || minValue != null && value.intValue() < minValue.intValue()
@@ -540,8 +546,10 @@ public class EditPeppProposal extends AbstractEditController {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Request correction">
-    @Inject private AccountFacade _accountFacade;
-    @Inject private MessageService _messageService;
+    @Inject
+    private AccountFacade _accountFacade;
+    @Inject
+    private MessageService _messageService;
 
     public String requestCorrection() {
         if (!isReadOnly()) {
