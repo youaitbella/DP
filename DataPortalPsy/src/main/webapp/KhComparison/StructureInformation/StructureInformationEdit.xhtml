@@ -31,10 +31,11 @@
                          value="#{editStructureInformation.structureInformation.validFrom}"
                          locale="de"
                          navigator="true"
-                         pattern="dd.mm.yyyy"
+                         pattern="dd.MM.yyyy"
                          inputStyle="text-align: right;">
                 <pf:ajax />
             </pf:calendar>
+            <br />
             <br />
             <pf:commandButton styleClass="btnPsy"
                               value="Neue Gültigkeit speichern"
@@ -66,7 +67,7 @@
 
             <pf:commandButton styleClass="btnPsy"
                               value="Neue Gültigkeit speichern"
-                              onclick="PF('dialogValidFrom').show();"
+                              onclick="PF('dialogValidFrom').show(); changeDialogColor('info');"
                               rendered="#{!editStructureInformation.isReadOnly()}"/>
 
             <br />

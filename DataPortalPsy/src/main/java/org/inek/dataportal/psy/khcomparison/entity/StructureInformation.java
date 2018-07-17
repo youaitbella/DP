@@ -311,6 +311,7 @@ public class StructureInformation implements Serializable {
         return hash;
     }
 
+    @SuppressWarnings("CyclomaticComplexity")
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

@@ -5,13 +5,16 @@
  */
 package org.inek.dataportal.psy.khcomparison.backingbean;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.overall.AccessManager;
@@ -19,6 +22,7 @@ import org.inek.dataportal.common.scope.FeatureScoped;
 import org.inek.dataportal.psy.khcomparison.entity.*;
 import org.inek.dataportal.psy.khcomparison.facade.AEBFacade;
 import org.inek.dataportal.psy.khcomparison.facade.AEBListItemFacade;
+import org.inek.dataportal.psy.khcomparison.facade.ActionLogFacade;
 
 /**
  *
@@ -38,10 +42,13 @@ public class EditStructureInformation {
     private AEBListItemFacade _aebListItemFacade;
     @Inject
     private AccessManager _accessManager;
+    @Inject
+    private ActionLogFacade _actionLogFacade;
 
     private StructureInformation _structureInformation;
     private Boolean _readOnly;
     private Date _newValidFromDate = new Date();
+    private List<ActionLog> _actions = new ArrayList<>();
 
     @PostConstruct
     public void init() {
@@ -111,6 +118,7 @@ public class EditStructureInformation {
         _structureInformation.setLastChanged(new Date());
         try {
             _structureInformation = _aebFacade.save(_structureInformation);
+            saveActionLogs(_actions);
             _dialogController.showSaveDialog();
         } catch (Exception ex) {
             _dialogController.showErrorDialog("Fehler beim Speichern", "Vorgang abgebrochen");
@@ -153,5 +161,34 @@ public class EditStructureInformation {
         newInfo.setSocialPsychiatryService(info.getSocialPsychiatryService());
         newInfo.setTherapyPartCount(info.getTherapyPartCount());
         return newInfo;
+    }
+
+    public void handleChange(ValueChangeEvent event) {
+        createActionLog(event.getComponent().getId(),
+                event.getOldValue().toString(),
+                event.getNewValue().toString());
+    }
+
+    private void createActionLog(String field, String oldValue, String newValue) {
+        if (_actions.stream().anyMatch(c -> c.getField().equals(field))) {
+            _actions.stream()
+                    .filter(c -> c.getField().equals(field))
+                    .findFirst()
+                    .get()
+                    .setNewValue(newValue);
+        } else {
+            ActionLog log = new ActionLog(_sessionController.getAccountId(),
+                    Feature.AEB.name(),
+                    "StructureInformation",
+                    field,
+                    oldValue,
+                    newValue);
+            _actions.add(log);
+        }
+    }
+
+    private void saveActionLogs(List<ActionLog> actions) {
+        _actionLogFacade.saveActionLogs(actions);
+        actions.clear();
     }
 }

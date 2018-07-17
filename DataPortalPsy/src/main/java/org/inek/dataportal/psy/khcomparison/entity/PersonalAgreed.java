@@ -83,19 +83,6 @@ public class PersonalAgreed implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property Budget">
-    @Column(name = "paBudget")
-    private double _budget;
-
-    public double getBudget() {
-        return _budget;
-    }
-
-    public void setBudget(double Budget) {
-        _budget = Budget;
-    }
-    //</editor-fold>
-
     //<editor-fold defaultstate="collapsed" desc="Property AverageCost">
     @Column(name = "paAverageCost")
     private double _averageCost;
@@ -115,7 +102,6 @@ public class PersonalAgreed implements Serializable {
         hash = 43 * hash + Objects.hashCode(this._baseInformation);
         hash = 43 * hash + Objects.hashCode(this._occupationalCategory);
         hash = 43 * hash + (int) (Double.doubleToLongBits(this._complete) ^ (Double.doubleToLongBits(this._complete) >>> 32));
-        hash = 43 * hash + (int) (Double.doubleToLongBits(this._budget) ^ (Double.doubleToLongBits(this._budget) >>> 32));
         hash = 43 * hash + (int) (Double.doubleToLongBits(this._averageCost) ^ (Double.doubleToLongBits(this._averageCost) >>> 32));
         return hash;
     }
@@ -133,9 +119,6 @@ public class PersonalAgreed implements Serializable {
         }
         final PersonalAgreed other = (PersonalAgreed) obj;
         if (Double.doubleToLongBits(this._complete) != Double.doubleToLongBits(other._complete)) {
-            return false;
-        }
-        if (Double.doubleToLongBits(this._budget) != Double.doubleToLongBits(other._budget)) {
             return false;
         }
         if (Double.doubleToLongBits(this._averageCost) != Double.doubleToLongBits(other._averageCost)) {

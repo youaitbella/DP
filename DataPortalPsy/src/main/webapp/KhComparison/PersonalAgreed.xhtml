@@ -15,6 +15,7 @@
                   value="#{edit.aebBaseInformation.personalAgreed}"
                   emptyMessage="Keine Einträge vorhanden"
                   tableStyle="table-layout: auto"
+                  sortBy="#{personal.occupationalCategoryId}"
                   tableStyleClass="inekTablePsy">
         <pf:column headerText="Personalgruppe">
             <pf:outputLabel value="#{personal.occupationalCategory.personnelGroup.name}" />
@@ -22,19 +23,11 @@
         <pf:column headerText="Nr.">
             <pf:outputLabel value="#{personal.occupationalCategory.id}" />
         </pf:column>
-        <pf:column headerText="Berufsgruppen der Psych-PV">
+        <pf:column headerText="Berufsgruppen">
             <pf:outputLabel value="#{personal.occupationalCategory.name}" />
         </pf:column>
-        <pf:column headerText="Stellenbesetzung für eine vollständige Umsetzung der Psych-PV in VK" style="text-align: right">
+        <pf:column headerText="Stellenbesetzung in VK" style="text-align: right">
             <pf:inputNumber value="#{personal.complete}"
-                            readonly="#{edit.isReadOnly()}"
-                            decimalPlaces="2"
-                            inputStyle="width: 100%; text-align: right">
-                <pf:ajax />
-            </pf:inputNumber>
-        </pf:column>
-        <pf:column headerText="Stellenbesetzung als Budgetgrundlage in VK" style="text-align: right">
-            <pf:inputNumber value="#{personal.budget}"
                             readonly="#{edit.isReadOnly()}"
                             decimalPlaces="2"
                             inputStyle="width: 100%; text-align: right">

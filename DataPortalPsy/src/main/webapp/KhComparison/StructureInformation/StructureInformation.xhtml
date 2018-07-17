@@ -34,7 +34,12 @@
             <div class="ui-g-12">
                 <pf:outputLabel class="formLabel"
                                 value="Stichpunktartige Beschreibung der strukturellen und personellen Besonderheiten duch die regionalen Versorgungsverpflichtung:*" />
-                <pf:inputTextarea id="regionId" rows="10" cols="50" value="#{editStructureInformation.structureInformation.regionalCare}" readonly="#{editStructureInformation.isReadOnly()}">
+                <pf:inputTextarea id="regionalCare"
+                                  rows="10"
+                                  cols="50"
+                                  value="#{editStructureInformation.structureInformation.regionalCare}"
+                                  readonly="#{editStructureInformation.isReadOnly()}"
+                                  valueChangeListener="#{editStructureInformation.handleChange}">
                     <pf:ajax />
                 </pf:inputTextarea>
             </div>
@@ -55,7 +60,12 @@
             <div class="ui-g-9">
                 <pf:outputLabel class="formLabel"
                                 value="Beschreibung der strukturellen und personellen Besonderheiten für patienten mit gesetzlicher Unterbringung:*" />
-                <pf:inputTextarea rows="10" cols="50" value="#{editStructureInformation.structureInformation.accommodationText}" readonly="#{editStructureInformation.isReadOnly()}">
+                <pf:inputTextarea id="accommodationText"
+                                  rows="10"
+                                  cols="50"
+                                  value="#{editStructureInformation.structureInformation.accommodationText}"
+                                  readonly="#{editStructureInformation.isReadOnly()}"
+                                  valueChangeListener="#{editStructureInformation.handleChange}">
                     <pf:ajax />
                 </pf:inputTextarea>
             </div>
@@ -70,7 +80,12 @@
             <div class="ui-g-12">
                 <pf:outputLabel class="formLabel"
                                 value="Leistungsangebot und Leistungsschwerpunkte:*" />
-                <pf:inputTextarea rows="10" cols="50" value="#{editStructureInformation.structureInformation.SPCenterText}" readonly="#{editStructureInformation.isReadOnly()}">
+                <pf:inputTextarea id="SPCenterText"
+                                  rows="10"
+                                  cols="50"
+                                  value="#{editStructureInformation.structureInformation.SPCenterText}"
+                                  readonly="#{editStructureInformation.isReadOnly()}"
+                                  valueChangeListener="#{editStructureInformation.handleChange}">
                     <pf:ajax />
                 </pf:inputTextarea>
             </div>
@@ -85,7 +100,12 @@
             <div class="ui-g-6">
                 <pf:outputLabel class="formLabel"
                                 value="Wesentliche eingebundene Leistungserbringer:*" />
-                <pf:inputTextarea rows="10" cols="50" value="#{editStructureInformation.structureInformation.careProvider}" readonly="#{editStructureInformation.isReadOnly()}">
+                <pf:inputTextarea id="careProvider"
+                                  rows="10"
+                                  cols="50"
+                                  value="#{editStructureInformation.structureInformation.careProvider}"
+                                  readonly="#{editStructureInformation.isReadOnly()}"
+                                  valueChangeListener="#{editStructureInformation.handleChange}">
                     <pf:ajax />
                 </pf:inputTextarea>
             </div>
@@ -93,7 +113,12 @@
             <div class="ui-g-6">
                 <pf:outputLabel class="formLabel"
                                 value="Zentrale Leistungsbereiche:*" />
-                <pf:inputTextarea rows="10" cols="50" value="#{editStructureInformation.structureInformation.performanceAreas}" readonly="#{editStructureInformation.isReadOnly()}">
+                <pf:inputTextarea id="performanceAreas"
+                                  rows="10"
+                                  cols="50"
+                                  value="#{editStructureInformation.structureInformation.performanceAreas}"
+                                  readonly="#{editStructureInformation.isReadOnly()}"
+                                  valueChangeListener="#{editStructureInformation.handleChange}">
                     <pf:ajax />
                 </pf:inputTextarea>
             </div>
@@ -108,7 +133,12 @@
             <div class="ui-g-12">
                 <pf:outputLabel class="formLabel"
                                 value="Beschreibung der örtlichen Versorgungssituation im vertragsärztlichen/therapeutischen Bereich:*" />
-                <pf:inputTextarea rows="10" cols="50" value="#{editStructureInformation.structureInformation.ambulantStructure}" readonly="#{editStructureInformation.isReadOnly()}">
+                <pf:inputTextarea id="ambulantStructure"
+                                  rows="10"
+                                  cols="50"
+                                  value="#{editStructureInformation.structureInformation.ambulantStructure}"
+                                  readonly="#{editStructureInformation.isReadOnly()}"
+                                  valueChangeListener="#{editStructureInformation.handleChange}">
                     <pf:ajax />
                 </pf:inputTextarea>
             </div>
@@ -123,7 +153,12 @@
             <div class="ui-g-12">
                 <pf:outputLabel class="formLabel"
                                 value="Beschreibung:*" />
-                <pf:inputTextarea rows="10" cols="50" value="#{editStructureInformation.structureInformation.socialPsychiatryService}" readonly="#{editStructureInformation.isReadOnly()}">
+                <pf:inputTextarea id="socialPsychiatryService"
+                                  rows="10"
+                                  cols="50"
+                                  value="#{editStructureInformation.structureInformation.socialPsychiatryService}"
+                                  readonly="#{editStructureInformation.isReadOnly()}"
+                                  valueChangeListener="#{editStructureInformation.handleChange}">
                     <pf:ajax />
                 </pf:inputTextarea>
             </div>
@@ -144,7 +179,12 @@
             <div class="ui-g-9">
                 <pf:outputLabel class="formLabel"
                                 value="Angabe der Leistungsschwerpunkte:*" />
-                <pf:inputTextarea rows="10" cols="50" value="#{editStructureInformation.structureInformation.ambulantPerformanceMain}" readonly="#{editStructureInformation.isReadOnly()}">
+                <pf:inputTextarea id="ambulantPerformanceMain"
+                                  rows="10"
+                                  cols="50"
+                                  value="#{editStructureInformation.structureInformation.ambulantPerformanceMain}"
+                                  readonly="#{editStructureInformation.isReadOnly()}"
+                                  valueChangeListener="#{editStructureInformation.handleChange}">
                     <pf:ajax />
                 </pf:inputTextarea>
             </div>
@@ -159,7 +199,12 @@
             <div class="ui-g-12">
                 <pf:outputLabel class="formLabel"
                                 value="Leistungsschwerpunkte:*" />
-                <pf:inputTextarea rows="10" cols="50" value="#{editStructureInformation.structureInformation.dismissManagement}" readonly="#{editStructureInformation.isReadOnly()}">
+                <pf:inputTextarea id="dismissManagement"
+                                  rows="10"
+                                  cols="50"
+                                  value="#{editStructureInformation.structureInformation.dismissManagement}"
+                                  readonly="#{editStructureInformation.isReadOnly()}"
+                                  valueChangeListener="#{editStructureInformation.handleChange}">
                     <pf:ajax />
                 </pf:inputTextarea>
             </div>
