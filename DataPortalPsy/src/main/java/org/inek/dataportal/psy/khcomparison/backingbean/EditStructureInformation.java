@@ -110,17 +110,13 @@ public class EditStructureInformation {
     }
 
     public void setReadOnly() {
-//        if (_structureInformation != null) {
-//            setReadOnly(_accessManager.isReadOnly(Feature.AEB,
-//                    _aebBaseInformation.getStatus(),
-//                    _sessionController.getAccountId(),
-//                    _aebBaseInformation.getIk()));
-//        } else if (_aebBaseInformation.getIk() == 0) {
-//            setReadOnly(false);
-//        } else {
-//            setReadOnly(true);
-//        }
-        setReadOnly(false);
+        if (_structureInformation != null) {
+            setReadOnly(!_accessManager.isEditAllowed(Feature.AEB,
+                    _sessionController.getAccount(),
+                    _structureInformation.getIk()));
+        } else {
+            setReadOnly(false);
+        }
     }
 
     private StructureInformation createNewStructureInformation() {
@@ -226,5 +222,11 @@ public class EditStructureInformation {
     private void reloadStructureInformation(int id) {
         _structureInformation = _aebFacade.findStructureInformation(id);
         setReadOnly(_structureInformation.getId() != _editableId);
+    }
+
+    public Boolean canSend() {
+        return _accessManager.isEditAllowed(Feature.AEB,
+                _sessionController.getAccount(),
+                _structureInformation.getIk());
     }
 }

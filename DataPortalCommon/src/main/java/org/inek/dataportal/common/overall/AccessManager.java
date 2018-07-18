@@ -527,15 +527,27 @@ public class AccessManager implements Serializable {
     }
 
     public boolean isReadAllowed(Feature feature, Account account, int ik) {
-        return true;
+        boolean readAllowed = false;
+        for (AccessRight right : account.getAccessRights()) {
+            if (right.getIk() == ik && right.getFeature() == feature) {
+                if (right.canRead()) {
+                    readAllowed = true;
+                }
+            }
+        }
+        return readAllowed;
     }
 
     public boolean isEditAllowed(Feature feature, Account account, int ik) {
-        return false;
-    }
-
-    public boolean isChangeAllowed(Feature feature, Account account, int ik) {
-        return false;
+        boolean editAllowed = false;
+        for (AccessRight right : account.getAccessRights()) {
+            if (right.getIk() == ik && right.getFeature() == feature) {
+                if (right.canWrite()) {
+                    editAllowed = true;
+                }
+            }
+        }
+        return editAllowed;
     }
 
     public boolean isCreateAllowed(Feature feature, Account account, int ik) {
@@ -560,14 +572,6 @@ public class AccessManager implements Serializable {
             }
         }
         return sendAllowed;
-
-//        account.getAccessRights().stream()
-//                .filter(c -> c.getIk() == ik && c.getFeature() == feature)
-//                .forEach(c -> {
-//                    if (c.canSeal()) {
-//                        sendAllowed = true;
-//                    }
-//                });
     }
 
     //@Deprecated

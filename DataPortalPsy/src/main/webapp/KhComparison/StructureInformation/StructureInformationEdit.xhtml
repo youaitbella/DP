@@ -70,13 +70,13 @@
                               value="Speichern"
                               action="#{editStructureInformation.save()}"
                               update="@(.ui-message) @form"
-                              rendered="#{!editStructureInformation.isReadOnly()}"/>
+                              rendered="#{!editStructureInformation.isReadOnly() and editStructureInformation.canSave()}"/>
 
             <pf:commandButton styleClass="btnPsy"
                               value="Neue Gültigkeit speichern"
                               update="@(.ui-message) @form"
                               onclick="PF('dialogValidFrom').show(); changeDialogColor('info');"
-                              rendered="#{!editStructureInformation.isReadOnly()}"/>
+                              rendered="#{!editStructureInformation.isReadOnly()  and editStructureInformation.canSave()}"/>
 
             <br />
             <br />
