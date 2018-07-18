@@ -52,19 +52,27 @@
                   value="#{editStructureInformation.structureInformation.ik}" >
         <pf:ajax />
     </pf:inputText>
+    <br />
+    <pf:outputLabel class="formLabel"
+                    value="Gültig von: "
+                    for="validFrom" />
+    <pf:calendar id="validFrom"
+                 value="#{editStructureInformation.structureInformation.validFrom}"
+                 locale="de"
+                 navigator="true"
+                 pattern="dd.MM.yyyy"
+                 inputStyle="text-align: right;"
+                 readonly="true">
+    </pf:calendar>
 
     <div style="text-align: right;">
-        <pf:outputLabel class="formLabel"
-                        value="Gültig von: "
-                        for="validFrom" />
-        <pf:calendar id="validFrom"
-                     value="#{editStructureInformation.structureInformation.validFrom}"
-                     locale="de"
-                     navigator="true"
-                     pattern="dd.MM.yyyy"
-                     inputStyle="text-align: right;">
-            <pf:ajax />
-        </pf:calendar>
+        <pf:selectOneListbox valueChangeListener="#{editStructureInformation.handleChangeStructureInformation}">
+            <pf:ajax update="@form" />
+            <f:selectItems value="#{editStructureInformation.allStructureInformations}"
+                           var="structure"
+                           itemLabel="#{editStructureInformation.convertDate(structure.validFrom)}"
+                           itemValue="#{structure.id}" />
+        </pf:selectOneListbox>
     </div>
 
 </ui:composition>

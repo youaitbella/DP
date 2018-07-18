@@ -23,25 +23,32 @@
         <pf:dialog header="Gültigkeitsdatum auswählen"
                    widgetVar="dialogValidFrom"
                    resizable="false"
+                   dynamic="true"
                    modal="true">
-            <pf:outputLabel class="formLabel"
-                            value="Neues Gültigkeitsdatum: "
-                            for="validFromNew" />
-            <pf:calendar id="validFromNew"
-                         value="#{editStructureInformation.structureInformation.validFrom}"
-                         locale="de"
-                         navigator="true"
-                         pattern="dd.MM.yyyy"
-                         inputStyle="text-align: right;">
-                <pf:ajax />
-            </pf:calendar>
-            <br />
-            <br />
-            <pf:commandButton styleClass="btnPsy"
-                              value="Neue Gültigkeit speichern"
-                              action="#{editStructureInformation.saveNewValidFrom()}"
-                              rendered="#{!editStructureInformation.isReadOnly()}"
-                              oncomplete="PF('dialogValidFrom').hide();"/>
+            <h:form>
+                <pf:outputLabel class="formLabel"
+                                value="Neues Gültigkeitsdatum: "
+                                for="validFromNew" />
+                <pf:calendar id="validFromNew"
+                             value="#{editStructureInformation.newValidFromDate}"
+                             mindate="#{editStructureInformation.structureInformation.validFrom}"
+                             validator="#{editStructureInformation.checkDate}"
+                             locale="de"
+                             navigator="true"
+                             pattern="dd.MM.yyyy"
+                             mask="true"
+                             inputStyle="text-align: right;">
+                    <pf:ajax event="dateSelect" update="validFromNewMessage" />
+                    <pf:ajax event="change" update="validFromNewMessage" />
+                </pf:calendar>
+                <pf:message id="validFromNewMessage" for="validFromNew" />
+
+                <pf:commandButton styleClass="btnPsy"
+                                  value="Neue Gültigkeit speichern"
+                                  actionListener="#{editStructureInformation.saveNewValidFrom()}"
+                                  rendered="#{!editStructureInformation.isReadOnly()}"
+                                  onsuccess="PF('dialogValidFrom').hide();"/>
+            </h:form>
         </pf:dialog>
 
         <h:form>
@@ -67,6 +74,7 @@
 
             <pf:commandButton styleClass="btnPsy"
                               value="Neue Gültigkeit speichern"
+                              update="@(.ui-message) @form"
                               onclick="PF('dialogValidFrom').show(); changeDialogColor('info');"
                               rendered="#{!editStructureInformation.isReadOnly()}"/>
 

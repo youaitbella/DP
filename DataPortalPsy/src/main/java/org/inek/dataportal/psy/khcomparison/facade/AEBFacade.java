@@ -65,6 +65,13 @@ public class AEBFacade extends AbstractDataAccess {
         return query.getResultList().get(0);
     }
 
+    public List<StructureInformation> getAllStructureInformationByIk(int ik) {
+        String sql = "SELECT si FROM StructureInformation si WHERE si._ik = :ik order by si._validFrom";
+        TypedQuery<StructureInformation> query = getEntityManager().createQuery(sql, StructureInformation.class);
+        query.setParameter("ik", ik);
+        return query.getResultList();
+    }
+
     public List<Integer> getAllowedIks(int accountId, int year) {
         String sql = "select distinct aaiIK from dbo.AccountAdditionalIK\n"
                 + "where aaiAccountId = " + accountId + "\n"

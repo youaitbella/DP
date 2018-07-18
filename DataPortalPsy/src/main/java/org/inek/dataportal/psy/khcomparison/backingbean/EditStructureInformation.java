@@ -5,13 +5,17 @@
  */
 package org.inek.dataportal.psy.khcomparison.backingbean;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
+import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.api.enums.Feature;
@@ -49,6 +53,8 @@ public class EditStructureInformation {
     private Boolean _readOnly;
     private Date _newValidFromDate = new Date();
     private List<ActionLog> _actions = new ArrayList<>();
+    private List<StructureInformation> _allStructureInformations = new ArrayList<>();
+    private int _editableId;
 
     @PostConstruct
     public void init() {
@@ -57,8 +63,18 @@ public class EditStructureInformation {
             _structureInformation = createNewStructureInformation();
         } else {
             _structureInformation = _aebFacade.findStructureInformation(Integer.parseInt(id));
+            _editableId = _structureInformation.getId();
+            setAllStructureInformations(_aebFacade.getAllStructureInformationByIk(_structureInformation.getIk()));
         }
         setReadOnly();
+    }
+
+    public List<StructureInformation> getAllStructureInformations() {
+        return _allStructureInformations;
+    }
+
+    public void setAllStructureInformations(List<StructureInformation> allStructureInformations) {
+        this._allStructureInformations = allStructureInformations;
     }
 
     public Date getNewValidFromDate() {
@@ -132,11 +148,10 @@ public class EditStructureInformation {
         newInformation.setLastChangeFrom(_sessionController.getAccountId());
         newInformation.setLastChanged(new Date());
 
-        _structureInformation.setLastChangeFrom(_sessionController.getAccountId());
-        _structureInformation.setLastChanged(new Date());
         try {
-            _aebFacade.save(_structureInformation);
             _structureInformation = _aebFacade.save(newInformation);
+            _actions.clear();
+            _editableId = _structureInformation.getId();
             _dialogController.showSaveDialog();
         } catch (Exception ex) {
             _dialogController.showErrorDialog("Fehler beim Speichern", "Vorgang abgebrochen");
@@ -190,5 +205,26 @@ public class EditStructureInformation {
     private void saveActionLogs(List<ActionLog> actions) {
         _actionLogFacade.saveActionLogs(actions);
         actions.clear();
+    }
+
+    public void checkDate(FacesContext context, UIComponent component, Object value) {
+        Date input = (Date) value;
+        if (input.before(_structureInformation.getValidFrom()) || input.equals(_structureInformation.getValidFrom())) {
+            String msg = "Die neue Gültigkeit muss nach der jetzigen sein";
+            throw new ValidatorException(new FacesMessage(msg));
+        }
+    }
+
+    public String convertDate(Date date) {
+        return (new SimpleDateFormat("dd.MM.yyyy")).format(date);
+    }
+
+    public void handleChangeStructureInformation(ValueChangeEvent event) {
+        reloadStructureInformation(Integer.parseInt(event.getNewValue().toString()));
+    }
+
+    private void reloadStructureInformation(int id) {
+        _structureInformation = _aebFacade.findStructureInformation(id);
+        setReadOnly(_structureInformation.getId() != _editableId);
     }
 }
