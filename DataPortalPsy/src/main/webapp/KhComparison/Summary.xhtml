@@ -82,7 +82,7 @@
                     </pf:column>
                     <pf:column headerText="Bezeichnung" >
                         <h:link outcome="#{summary.structureInformationOpen()}"
-                                value="#{applicationTools.retrieveHospitalInfo(ik)}" >
+                                value="#{applicationTools.retrieveHospitalInfo(structureInformation.ik)}" >
                             <f:param name="id" value="#{structureInformation.id}"/>
                         </h:link>
                     </pf:column>

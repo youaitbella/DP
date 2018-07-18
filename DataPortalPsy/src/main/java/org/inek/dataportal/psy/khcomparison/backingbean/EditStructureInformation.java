@@ -224,7 +224,7 @@ public class EditStructureInformation {
         setReadOnly(_structureInformation.getId() != _editableId);
     }
 
-    public Boolean canSend() {
+    public Boolean canSave() {
         return _accessManager.isEditAllowed(Feature.AEB,
                 _sessionController.getAccount(),
                 _structureInformation.getIk());
