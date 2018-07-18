@@ -26,6 +26,12 @@ public class InfoText implements Serializable {
         _modified = true;
     }
 
+    public InfoText(String key, String lang) {
+        _key = key;
+        _language = lang;
+        _modified = true;
+    }
+
     //<editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -93,7 +99,7 @@ public class InfoText implements Serializable {
     public void setModified() {
         _modified = true;
     }
-    // </editor-fold>    
+    // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Language">
     @Column(name = "itLanguage")

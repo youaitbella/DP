@@ -22,16 +22,30 @@ public class InfoTextHelper {
     @Inject
     private InfoTextFacade _infoTextFacade;
 
-    private String getInfoText(String key, String language) {
+    private String getInfoText(String key, String language, Boolean shortText) {
         try {
             InfoText it = _infoTextFacade.getInfoText(key.toUpperCase(), language.toUpperCase());
-            return it.getShortText();
+            if (shortText) {
+                return it.getShortText();
+            } else {
+                return it.getDescription();
+            }
         } catch (NoResultException ex) {
-            return "No text found for " + key;
+            addMissingInfoText(key, language);
+            return "";
         }
     }
 
-    public String getInfoText(String key) {
-        return getInfoText(key, "DE");
+    public String getShortInfoText(String key) {
+        return getInfoText(key, "DE", true);
+    }
+
+    public String getLongInfoText(String key) {
+        return getInfoText(key, "DE", false);
+    }
+
+    private void addMissingInfoText(String key, String language) {
+        InfoText it = new InfoText(key, language);
+        _infoTextFacade.save(it);
     }
 }
