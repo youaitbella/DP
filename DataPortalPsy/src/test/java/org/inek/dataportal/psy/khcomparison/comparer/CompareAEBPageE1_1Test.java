@@ -74,7 +74,7 @@ public class CompareAEBPageE1_1Test {
         List<AEBPageE1_1> list2 = new ArrayList<>();
 
         list1.add(createNewPage("P00A2", 1, 10, 0));
-        list2.add(createNewPage("P00A2", 1, 11, 0));
+        list2.add(createNewPage("P00A2", 1, 10, 0));
 
         com.compareAEBPageE1_1(list1, list2);
         Assertions.assertThat(com.getResult()).as(com.getResult()).isEmpty();
@@ -101,7 +101,7 @@ public class CompareAEBPageE1_1Test {
         List<AEBPageE1_1> list2 = new ArrayList<>();
 
         list1.add(createNewPage("P00A2", 1, 0, 10));
-        list2.add(createNewPage("P00A2", 1, 0, 11));
+        list2.add(createNewPage("P00A2", 1, 0, 10));
 
         com.compareAEBPageE1_1(list1, list2);
         Assertions.assertThat(com.getResult()).as(com.getResult()).isEmpty();

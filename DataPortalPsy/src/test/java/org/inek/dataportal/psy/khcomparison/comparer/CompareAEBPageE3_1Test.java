@@ -73,7 +73,7 @@ public class CompareAEBPageE3_1Test {
         List<AEBPageE3_1> list2 = new ArrayList<>();
 
         list1.add(createNewPage("P001Z", "P02", 10, 0, 0, 0, 0, 0, 0, 0));
-        list2.add(createNewPage("P001Z", "P02", 11, 0, 0, 0, 0, 0, 0, 0));
+        list2.add(createNewPage("P001Z", "P02", 10, 0, 0, 0, 0, 0, 0, 0));
 
         com.compareAEBPageE3_1(list1, list2);
         Assertions.assertThat(com.getResult()).as(com.getResult()).isEmpty();
@@ -100,7 +100,7 @@ public class CompareAEBPageE3_1Test {
         List<AEBPageE3_1> list2 = new ArrayList<>();
 
         list1.add(createNewPage("P001Z", "P02", 0, 10, 0, 0, 0, 0, 0, 0));
-        list2.add(createNewPage("P001Z", "P02", 0, 11, 0, 0, 0, 0, 0, 0));
+        list2.add(createNewPage("P001Z", "P02", 0, 10, 0, 0, 0, 0, 0, 0));
 
         com.compareAEBPageE3_1(list1, list2);
         Assertions.assertThat(com.getResult()).as(com.getResult()).isEmpty();
@@ -127,7 +127,7 @@ public class CompareAEBPageE3_1Test {
         List<AEBPageE3_1> list2 = new ArrayList<>();
 
         list1.add(createNewPage("P001Z", "P02", 0, 0, 10, 0, 0, 0, 0, 0));
-        list2.add(createNewPage("P001Z", "P02", 0, 0, 11, 0, 0, 0, 0, 0));
+        list2.add(createNewPage("P001Z", "P02", 0, 0, 10, 0, 0, 0, 0, 0));
 
         com.compareAEBPageE3_1(list1, list2);
         Assertions.assertThat(com.getResult()).as(com.getResult()).isEmpty();
@@ -154,7 +154,7 @@ public class CompareAEBPageE3_1Test {
         List<AEBPageE3_1> list2 = new ArrayList<>();
 
         list1.add(createNewPage("P001Z", "P02", 0, 0, 0, 10, 0, 0, 0, 0));
-        list2.add(createNewPage("P001Z", "P02", 0, 0, 0, 11, 0, 0, 0, 0));
+        list2.add(createNewPage("P001Z", "P02", 0, 0, 0, 10, 0, 0, 0, 0));
 
         com.compareAEBPageE3_1(list1, list2);
         Assertions.assertThat(com.getResult()).as(com.getResult()).isEmpty();
@@ -181,7 +181,7 @@ public class CompareAEBPageE3_1Test {
         List<AEBPageE3_1> list2 = new ArrayList<>();
 
         list1.add(createNewPage("P001Z", "P02", 0, 0, 0, 0, 10, 0, 0, 0));
-        list2.add(createNewPage("P001Z", "P02", 0, 0, 0, 0, 11, 0, 0, 0));
+        list2.add(createNewPage("P001Z", "P02", 0, 0, 0, 0, 10, 0, 0, 0));
 
         com.compareAEBPageE3_1(list1, list2);
         Assertions.assertThat(com.getResult()).as(com.getResult()).isEmpty();
@@ -208,7 +208,7 @@ public class CompareAEBPageE3_1Test {
         List<AEBPageE3_1> list2 = new ArrayList<>();
 
         list1.add(createNewPage("P001Z", "P02", 0, 0, 0, 0, 0, 10, 0, 0));
-        list2.add(createNewPage("P001Z", "P02", 0, 0, 0, 0, 0, 11, 0, 0));
+        list2.add(createNewPage("P001Z", "P02", 0, 0, 0, 0, 0, 10, 0, 0));
 
         com.compareAEBPageE3_1(list1, list2);
         Assertions.assertThat(com.getResult()).as(com.getResult()).isEmpty();
@@ -235,7 +235,7 @@ public class CompareAEBPageE3_1Test {
         List<AEBPageE3_1> list2 = new ArrayList<>();
 
         list1.add(createNewPage("P001Z", "P02", 0, 0, 0, 0, 0, 0, 10, 0));
-        list2.add(createNewPage("P001Z", "P02", 0, 0, 0, 0, 0, 0, 11, 0));
+        list2.add(createNewPage("P001Z", "P02", 0, 0, 0, 0, 0, 0, 10, 0));
 
         com.compareAEBPageE3_1(list1, list2);
         Assertions.assertThat(com.getResult()).as(com.getResult()).isEmpty();
@@ -262,7 +262,7 @@ public class CompareAEBPageE3_1Test {
         List<AEBPageE3_1> list2 = new ArrayList<>();
 
         list1.add(createNewPage("P001Z", "P02", 0, 0, 0, 0, 0, 0, 0, 10));
-        list2.add(createNewPage("P001Z", "P02", 0, 0, 0, 0, 0, 0, 0, 11));
+        list2.add(createNewPage("P001Z", "P02", 0, 0, 0, 0, 0, 0, 0, 10));
 
         com.compareAEBPageE3_1(list1, list2);
         Assertions.assertThat(com.getResult()).as(com.getResult()).isEmpty();

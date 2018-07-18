@@ -74,7 +74,7 @@ public class CompareAEBPageE2Test {
         List<AEBPageE2> list2 = new ArrayList<>();
 
         list1.add(createNewPage("ZP2018-30", 10));
-        list2.add(createNewPage("ZP2018-30", 11));
+        list2.add(createNewPage("ZP2018-30", 10));
 
         com.compareAEBPageE2(list1, list2);
         Assertions.assertThat(com.getResult()).as(com.getResult()).isEmpty();

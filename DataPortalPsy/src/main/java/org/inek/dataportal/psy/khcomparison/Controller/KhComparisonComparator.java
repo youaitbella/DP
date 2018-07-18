@@ -11,7 +11,7 @@ import org.inek.dataportal.psy.khcomparison.entity.*;
 @SuppressWarnings("LineLength")
 public class KhComparisonComparator {
 
-    private static final double TOLERANCE = 10;
+    private static final double TOLERANCE = 0;
 
     private String _result = "";
 

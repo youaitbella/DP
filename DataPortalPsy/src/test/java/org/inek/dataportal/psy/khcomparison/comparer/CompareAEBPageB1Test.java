@@ -42,7 +42,7 @@ public class CompareAEBPageB1Test {
         KhComparisonComparator com = new KhComparisonComparator();
 
         com.compareAEBPageB1(createNewPage(10, 0, 0, 0, 0, 0, 0),
-                createNewPage(11, 0, 0, 0, 0, 0, 0));
+                createNewPage(10, 0, 0, 0, 0, 0, 0));
         Assertions.assertThat(com.getResult()).isEmpty();
 
         com.compareAEBPageB1(createNewPage(10, 0, 0, 0, 0, 0, 0),
@@ -60,7 +60,7 @@ public class CompareAEBPageB1Test {
         KhComparisonComparator com = new KhComparisonComparator();
 
         com.compareAEBPageB1(createNewPage(0, 10, 0, 0, 0, 0, 0),
-                createNewPage(0, 11, 0, 0, 0, 0, 0));
+                createNewPage(0, 10, 0, 0, 0, 0, 0));
         Assertions.assertThat(com.getResult()).isEmpty();
 
         com.compareAEBPageB1(createNewPage(0, 10, 0, 0, 0, 0, 0),
@@ -78,7 +78,7 @@ public class CompareAEBPageB1Test {
         KhComparisonComparator com = new KhComparisonComparator();
 
         com.compareAEBPageB1(createNewPage(0, 0, 10, 0, 0, 0, 0),
-                createNewPage(0, 0, 11, 0, 0, 0, 0));
+                createNewPage(0, 0, 10, 0, 0, 0, 0));
         Assertions.assertThat(com.getResult()).isEmpty();
 
         com.compareAEBPageB1(createNewPage(0, 0, 10, 0, 0, 0, 0),
@@ -96,7 +96,7 @@ public class CompareAEBPageB1Test {
         KhComparisonComparator com = new KhComparisonComparator();
 
         com.compareAEBPageB1(createNewPage(0, 0, 0, 10, 0, 0, 0),
-                createNewPage(0, 0, 0, 11, 0, 0, 0));
+                createNewPage(0, 0, 0, 10, 0, 0, 0));
         Assertions.assertThat(com.getResult()).isEmpty();
 
         com.compareAEBPageB1(createNewPage(0, 0, 0, 10, 0, 0, 0),
