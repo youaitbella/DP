@@ -294,6 +294,9 @@ public class Edit {
 
     public List<Integer> getValideDatayears(List<Integer> allowedYears, List<Integer> usedYears) {
         allowedYears.removeAll(usedYears);
+//        if (_aebBaseInformation.getStatus().getId() > WorkflowStatus.New.getId()) {
+//            allowedYears.add(_aebBaseInformation.getYear());
+//        }
         return allowedYears;
     }
 

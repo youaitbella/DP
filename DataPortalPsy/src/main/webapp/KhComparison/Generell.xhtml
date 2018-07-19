@@ -8,21 +8,25 @@
                 xmlns:pf="http://primefaces.org/ui"
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/Other">
 
-    <inek:MultiIk label="#{msg.lblIkShort}"
-                  required="true"
-                  value="#{edit.aebBaseInformation.ik}"
-                  readonly="#{edit.isReadOnly()}"
-                  listener="#{edit.ikChanged()}"
-                  ikList="#{edit.allowedIks}"/>
+    <inek:MultiIkYear labelIk="#{msg.lblIkShort}"
+                      required="true"
+                      valueIk="#{edit.aebBaseInformation.ik}"
+                      readonly="#{edit.isReadOnly()}"
+                      listenerIk="#{edit.ikChanged()}"
+                      ikList="#{edit.allowedIks}"
+                      labelYear="Vereinbarungsjahr"
+                      valueYear="#{edit.aebBaseInformation.year}"
+                      yearList="#{edit.validDatayears}" />
 
-
-    <pf:outputLabel value="Vereinbahrungsjahr:" />
-    <pf:selectOneMenu id="year"
-                      value="#{edit.aebBaseInformation.year}"
-                      disabled="#{edit.isReadOnly()}">
-        <f:selectItem rendered="#{edit.aebBaseInformation.year eq 0}" itemLabel="#{edit.aebBaseInformation.year}" itemValue="#{edit.aebBaseInformation.year}" noSelectionOption="true" />
-        <f:selectItems value="#{edit.validDatayears}" />
-        <pf:ajax event="change" />
-    </pf:selectOneMenu>
+    <ui:remove>
+        <pf:outputLabel value="Vereinbahrungsjahr:" />
+        <pf:selectOneMenu id="year"
+                          value="#{edit.aebBaseInformation.year}"
+                          disabled="#{edit.isReadOnly()}">
+            <f:selectItem rendered="#{edit.aebBaseInformation.year eq 0}" itemLabel="#{edit.aebBaseInformation.year}" itemValue="#{edit.aebBaseInformation.year}" noSelectionOption="true" />
+            <f:selectItems value="#{edit.validDatayears}" />
+            <pf:ajax event="change" />
+        </pf:selectOneMenu>
+    </ui:remove>
 
 </ui:composition>
