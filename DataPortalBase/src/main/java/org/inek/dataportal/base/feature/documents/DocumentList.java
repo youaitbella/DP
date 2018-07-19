@@ -22,14 +22,20 @@ import org.inek.dataportal.common.helper.structures.DocInfo;
 
 @Named
 @ViewScoped
-public class DocumentList implements Serializable{
-    
-    @Inject private AccountFacade _accFacade;
-    @Inject private AccountDocumentFacade _accountDocFacade;
-    @Inject private SessionController _sessionController;
-    @Inject private PortalMessageFacade _messageFacade;
-    @Inject private CooperationRequestFacade _cooperationRequestFacade;
-    @Inject private ConfigFacade _configFacade;
+public class DocumentList implements Serializable {
+
+    @Inject
+    private AccountFacade _accFacade;
+    @Inject
+    private AccountDocumentFacade _accountDocFacade;
+    @Inject
+    private SessionController _sessionController;
+    @Inject
+    private PortalMessageFacade _messageFacade;
+    @Inject
+    private CooperationRequestFacade _cooperationRequestFacade;
+    @Inject
+    private ConfigFacade _configFacade;
 
     private String _filter = "";
 
@@ -49,9 +55,7 @@ public class DocumentList implements Serializable{
     private List<DocInfo> _documents = Collections.emptyList();
 
     private void ensureDocuments() {
-        if (_documents.isEmpty()) {
-            _documents = _accountDocFacade.getDocInfos(_sessionController.getAccountId());
-        }
+        _documents = _accountDocFacade.getDocInfos(_sessionController.getAccountId());
     }
 
     public List<DocInfo> getDocuments() {
@@ -135,11 +139,11 @@ public class DocumentList implements Serializable{
         }
         return "" + count;
     }
-    
+
     public boolean hasSelected() {
         return _documents.stream().anyMatch((_doc) -> (_doc.isSelected()));
     }
-    
+
     public void sendDocumentsToProcess() {
         List<AccountIk> senders = new ArrayList<>();
         List<DocInfo> _processDocs = new ArrayList<>();
@@ -149,35 +153,36 @@ public class DocumentList implements Serializable{
     }
 
     private void createSenderList(List<DocInfo> _processDocs, List<AccountIk> senders) {
-        for(DocInfo info : _documents) {
-            if(!info.isSelected()) {
+        for (DocInfo info : _documents) {
+            if (!info.isSelected()) {
                 continue;
             }
             _processDocs.add(info);
             AccountIk accIk = new AccountIk(info.getAgentId(), info.getSenderIk());
             boolean contains = false;
-            for(AccountIk ai : senders) {
-                if(ai.getIk() == info.getSenderIk()&& info.getAgentId() == ai.getAccountId()) {
+            for (AccountIk ai : senders) {
+                if (ai.getIk() == info.getSenderIk() && info.getAgentId() == ai.getAccountId()) {
                     contains = true;
                     break;
                 }
             }
-            if(contains)
+            if (contains) {
                 continue;
+            }
             senders.add(accIk);
         }
     }
 
     private void createTransferFiles(List<AccountIk> senders, List<DocInfo> _processDocs) {
-        for(AccountIk accIk : senders) {
+        for (AccountIk accIk : senders) {
             List<AccountDocument> docs = new ArrayList<>();
             String email = _accFacade.findAccount(accIk.getAccountId()).getEmail();
             String subject = "InEK Datenportal - Dokument(e) für IK " + accIk.getIk() + " bearbeitet";
-            if(accIk.getIk() < 1) {
+            if (accIk.getIk() < 1) {
                 subject = "InEK Datenportal - Dokument(e) bearbeitet";
             }
-            for(DocInfo info : _processDocs) {
-                if(info.getAgentId() != accIk.getAccountId() || info.getSenderIk() != accIk.getIk()) {
+            for (DocInfo info : _processDocs) {
+                if (info.getAgentId() != accIk.getAccountId() || info.getSenderIk() != accIk.getIk()) {
                     continue;
                 }
                 AccountDocument doc = _accountDocFacade.find(info.getId());
@@ -186,22 +191,23 @@ public class DocumentList implements Serializable{
             try {
                 TransferFileCreator.createInekDocumentFiles(_configFacade, docs, email, subject);
                 markDocsAsProcessed(docs);
+            } catch (Exception ex) {
             }
-            catch(Exception ex) { }
         }
     }
-    
+
     private void markDocsAsProcessed(List<AccountDocument> docs) {
-        for(AccountDocument doc : docs) {
+        for (AccountDocument doc : docs) {
             doc.setSendToProcess(true);
             _accountDocFacade.merge(doc);
         }
     }
-    
+
     private class AccountIk {
+
         private Integer _accountId;
         private Integer _ik;
-        
+
         AccountIk(Integer accountId, Integer ik) {
             _accountId = accountId;
             _ik = ik;
@@ -224,7 +230,7 @@ public class DocumentList implements Serializable{
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="Property SortCriteria + state">    
+    // <editor-fold defaultstate="collapsed" desc="Property SortCriteria + state">
     private String _sortCriteria = "";
     private boolean _isDescending = false;
 
@@ -248,6 +254,6 @@ public class DocumentList implements Serializable{
     public String getSortCriteria() {
         return _sortCriteria;
     }
-    // </editor-fold>    
+    // </editor-fold>
 
 }

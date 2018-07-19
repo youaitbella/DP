@@ -19,7 +19,7 @@
                 <h:commandButton value="Filtern" styleClass="smallButton" action="#{documentList.reload}" immediate="false"/>
             </div>
 
-            <h:dataTable rendered="#{documentList.renderDocList()}"  headerClass="list-header" id="tblDocList" 
+            <h:dataTable rendered="#{documentList.renderDocList()}"  headerClass="list-header" id="tblDocList"
                          value="#{documentList.documents}" var="doc" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colIcon, colValue, colValue, colValue, colValue">
 
                 <h:column id="colRead">
@@ -37,7 +37,7 @@
                     </f:facet>
                     <h:commandLink action="#{editDocument.deleteDocument(doc.id)}"  onclick="#{editDocument.getConfirmMessage(doc.name, doc.createdString)}" rendered="#{doc.read}">
                         <h:graphicImage alt="Löschen" name="Icon/small/delete.png" title="Löschen" value=""/>
-                        <f:ajax render="@form"/>
+                        <f:ajax render="form"/>
                     </h:commandLink>
                 </h:column>
 

@@ -9,6 +9,10 @@
         <param-name>javax.faces.CLIENT_WINDOW_MODE</param-name>
         <param-value>url</param-value>
     </context-param>
+    <context-param>
+        <param-name>primefaces.MOVE_SCRIPTS_TO_BOTTOM</param-name>
+        <param-value>true</param-value>
+    </context-param>
 
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
