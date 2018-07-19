@@ -403,6 +403,10 @@ public class EditUserMaintenance extends AbstractEditController {
         return _customerFacade.getCustomerByIK(ik).getName();
     }
 
+    public String hasIkAdminText(int ik) {
+        return (_ikAdminFacade.hasIkAdmin(ik)) ? getCustomerName(ik) + " (IK Admin vorhanden)" : getCustomerName(ik);
+    }
+
     public Boolean isValidIk(int ik) {
         return _customerFacade.isValidIK("" + ik);
     }
