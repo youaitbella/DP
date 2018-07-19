@@ -8,9 +8,15 @@
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
 
     <ui:define name="content">
+        
+        
         <h:form id="tabForm">
+            
+            
             <h1><h:commandLink value="#{featureMsg.nameADMIN}" /></h1>
             <div class="tab">
+                <h1>Rollenzuweisung</h1>
+                <br/>
                 <ul class="tab">
                     <ui:repeat value="#{adminTask.visibleTopics}" var="topic" varStatus="status" rendered="#{sessionController.isInekUser('ADMIN')}">
                         <!--li class="# {topic.active ? 'activetab' : 'tab'} # {status.index lt 3 ? 'element33' : 'element25'}"-->
@@ -25,7 +31,7 @@
 
         </h:form>
 
-        <div class="edit" jsf:rendered="#{sessionController.isInekUser('ADMIN')}">
+        <div class="edit">
             <ui:insert name="editContent" >Content</ui:insert>
         </div>
 

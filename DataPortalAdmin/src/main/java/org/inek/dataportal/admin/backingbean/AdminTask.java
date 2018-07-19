@@ -24,6 +24,7 @@ import org.inek.dataportal.admin.facade.RoleMappingFacade;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.scope.FeatureScoped;
 import org.inek.dataportal.admin.system.SessionCounter;
+import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.data.adm.facade.InekRoleFacade;
 
 /**
@@ -35,6 +36,8 @@ import org.inek.dataportal.common.data.adm.facade.InekRoleFacade;
 public class AdminTask extends AbstractEditController {
 
     private static final Logger LOGGER = Logger.getLogger("AdminTask");
+    @Inject
+    private DialogController _dialogController;
 
     public AdminTask() {
         //LOGGER.log(Level.INFO, "Ctor AdminTask");
@@ -45,27 +48,17 @@ public class AdminTask extends AbstractEditController {
 
     @Override
     protected void addTopics() {
-        addTopic(AdminTaskTabs.tabAdminTaskSystemStatus.name(), Pages.AdminTaskSystemStatus.URL());
+
         addTopic(AdminTaskTabs.tabAdminTaskInekRoles.name(), Pages.AdminTaskInekRoles.URL());
         addTopic(AdminTaskTabs.tabAdminTaskRoleMapping.name(), Pages.AdminTaskRoleMapping.URL());
-        addTopic(AdminTaskTabs.tabAdminTaskMailTemplate.name(), Pages.AdminTaskMailTemplate.URL());
-        addTopic(AdminTaskTabs.tabAdminTaskIkSupervisor.name(), Pages.AdminTaskIkSupervisor.URL());
-        addTopic(AdminTaskTabs.tabAdminTaskIkAdmin.name(), Pages.AdminTaskIkAdmin.URL());
-        addTopic(AdminTaskTabs.tabAdminTaskChangeNub.name(), Pages.AdminTaskChangeNub.URL());
-        addTopic(AdminTaskTabs.tabAdminTaskInfoText.name(), Pages.AdminTaskInfoText.URL());
 
     }
 
     enum AdminTaskTabs {
 
-        tabAdminTaskSystemStatus,
         tabAdminTaskInekRoles,
         tabAdminTaskRoleMapping,
-        tabAdminTaskMailTemplate,
-        tabAdminTaskIkSupervisor,
-        tabAdminTaskIkAdmin,
-        tabAdminTaskChangeNub,
-        tabAdminTaskInfoText;
+
     }
 
     @PostConstruct
@@ -77,111 +70,6 @@ public class AdminTask extends AbstractEditController {
             nav.handleNavigation(fc, null, Pages.NotAllowed.URL());
         }
     }
-
-    // <editor-fold defaultstate="collapsed" desc="tab Status">
-    public int getSessionCount() {
-        return SessionCounter.getCount();
-    }
-
-    public void clearCache() {
-        _accountFacade.clearCache();
-        Utils.showMessageInBrowser("Cache cleared.");
-    }
-
-    public String getProcessorInfo() {
-        Runtime runtime = Runtime.getRuntime();
-        return "Processor cores " + runtime.availableProcessors();
-    }
-
-    public String getMemoryInfo() {
-        int MB = 1024 * 1024;
-        Runtime runtime = Runtime.getRuntime();
-        return "Speicher: max " + runtime.maxMemory() / MB + ", total " + runtime.totalMemory() / MB + "; free " + runtime.
-                freeMemory() / MB;
-    }
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="tab MailTemplate">
-    @Inject
-    private MailTemplateFacade _mailTemplateFacade;
-
-    // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
-    public List<SelectItem> getMailTemplates() {
-        List<SelectItem> l = _mailTemplateFacade.getMailTemplateInfos();
-        SelectItem emptyItem = new SelectItem(-1, Utils.getMessage("itemNewEntry"));
-        emptyItem.setNoSelectionOption(true);
-        l.add(emptyItem);
-        return l;
-    }
-
-    public List<SelectItem> getMailTemplatesCert() {
-        List<SelectItem> l = _mailTemplateFacade.getMailTemplateInfosByFeature(Feature.CERT);
-        SelectItem emptyItem = new SelectItem(-1, Utils.getMessage("itemNewEntry"));
-        emptyItem.setNoSelectionOption(true);
-        l.add(emptyItem);
-        return l;
-    }
-
-    private MailTemplate _mailTemplate = new MailTemplate();
-
-    public MailTemplate getMailTemplate() {
-        return _mailTemplate;
-    }
-
-    public void setMailTemplate(MailTemplate mailTemplate) {
-        _mailTemplate = mailTemplate;
-    }
-
-    public int getTemplateId() {
-        return _mailTemplate.getId();
-    }
-
-    public void setTemplateId(int templateId) {
-        if (templateId != _mailTemplate.getId()) {
-            if (templateId == -1) {
-                _mailTemplate = new MailTemplate();
-            } else {
-                _mailTemplate = _mailTemplateFacade.find(templateId);
-            }
-            setTemplateChanged(false);
-        }
-    }
-
-    private boolean _templateChanged = false;
-
-    public boolean isTemplateChanged() {
-        return _templateChanged;
-    }
-
-    public void setTemplateChanged(boolean isChanged) {
-        _templateChanged = isChanged;
-    }
-    // </editor-fold>
-
-    public String newMailTemplate() {
-        _mailTemplate = new MailTemplate();
-        return Pages.AdminTaskMailTemplate.RedirectURL();
-    }
-
-    public String deleteMailTemplate() {
-        if (_mailTemplate.getId() > 0) {
-            _mailTemplateFacade.remove(_mailTemplate);
-        }
-        _mailTemplate = new MailTemplate();
-        setTemplateChanged(false);
-        return Pages.AdminTaskMailTemplate.RedirectURL();
-    }
-
-    public String saveMailTemplate() {
-        _mailTemplate = _mailTemplateFacade.save(_mailTemplate);
-        setTemplateChanged(false);
-        return Pages.AdminTaskMailTemplate.RedirectURL();
-    }
-
-    public void mailTemplateChangeListener(AjaxBehaviorEvent event) {
-        setTemplateChanged(true);
-    }
-    // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="tab InEK roles">
     private boolean _roleChanged = false;
@@ -241,6 +129,7 @@ public class AdminTask extends AbstractEditController {
         }
         _inekRoles = null;
         setRoleChanged(false);
+        _dialogController.showInfoMessage("Die Daten wurden gespeichert");
         return Pages.AdminTaskInekRoles.RedirectURL();
     }
 
@@ -369,6 +258,7 @@ public class AdminTask extends AbstractEditController {
         }
         setMappingChanged(false);
         _inekRoles = null;
+        _dialogController.showInfoMessage("Die Daten wurden gespeichert");
         return Pages.AdminTaskRoleMapping.RedirectURL();
     }
 

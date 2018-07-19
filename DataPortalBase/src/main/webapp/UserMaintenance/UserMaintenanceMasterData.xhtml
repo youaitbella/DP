@@ -137,7 +137,7 @@
                             <pf:message id="ikInput_m" for="ikInput" />
                         </pf:column>
                         <pf:column headerText="Name">
-                            <pf:outputLabel id="customerName" value="#{editUserMaintenance.getCustomerName(accountIk.IK)}" />
+                            <pf:outputLabel id="customerName" value="#{editUserMaintenance.hasIkAdminText(accountIk.IK)}" />
                         </pf:column>
                     </pf:dataTable>
                     <br />

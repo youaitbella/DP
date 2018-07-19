@@ -19,6 +19,7 @@ import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.data.cooperation.facade.CooperationRightFacade;
 import org.inek.dataportal.common.enums.CooperativeRight;
 import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.scope.FeatureScoped;
@@ -29,11 +30,16 @@ import org.inek.dataportal.common.scope.FeatureScoped;
  */
 @Named
 @FeatureScoped(name = "AdminTask")
-public class AdminIkSupervisor implements Serializable{
+public class AdminIkSupervisor implements Serializable {
 
-    @Inject private CooperationRightFacade _cooperationRightFacade;
-    @Inject private SessionController _sessionController;
-    @Inject private AccountFacade _accountFacade;
+    @Inject
+    private CooperationRightFacade _cooperationRightFacade;
+    @Inject
+    private SessionController _sessionController;
+    @Inject
+    private AccountFacade _accountFacade;
+    @Inject
+    private DialogController _dialogController;
     private int _ik;
     private Account _account;
     private Feature _feature = Feature.NUB;
@@ -76,9 +82,10 @@ public class AdminIkSupervisor implements Serializable{
     }
 
     public String saveIkSupervisor() {
-        _sessionController.logMessage("Create IK supervisor: account=" + _account.getId() 
+        _sessionController.logMessage("Create IK supervisor: account=" + _account.getId()
                 + ", feature=" + _feature + ", ik=" + _ik + ", right=" + _cooperativeRight.name());
         _cooperationRightFacade.createIkSupervisor(_feature, _ik, _account.getId(), _cooperativeRight);
+        _dialogController.showInfoMessage("Die Daten wurden gespeichert");
         return "";
     }
     // </editor-fold>
@@ -93,7 +100,7 @@ public class AdminIkSupervisor implements Serializable{
     }
 
     public String deleteIkSupervisor(IkSupervisorInfo info) {
-        _sessionController.logMessage("Delete IK supervisor: account=" + info.getAccount().getId() 
+        _sessionController.logMessage("Delete IK supervisor: account=" + info.getAccount().getId()
                 + ", feature=" + info.getFeature() + ", ik=" + info.getIk() + ", right=" + info.getRight().name());
         _cooperationRightFacade.deleteCooperationRight(-1, info.getAccount().getId(), info.getFeature(), info.getIk());
         return "";
@@ -116,15 +123,16 @@ public class AdminIkSupervisor implements Serializable{
     }
 
     public void setIk(Integer ik) {
-        if (ik == null){
+        if (ik == null) {
             ik = 0;
         }
         _ik = ik;
     }
 
     public Integer getIk() {
-        return _ik > 0 ? _ik : null ;
+        return _ik > 0 ? _ik : null;
     }
+
     public CooperativeRight getCooperativeRight() {
         return _cooperativeRight;
     }
@@ -132,5 +140,5 @@ public class AdminIkSupervisor implements Serializable{
     public void setCooperativeRight(CooperativeRight cooperativeRight) {
         _cooperativeRight = cooperativeRight;
     }
-    
+
 }

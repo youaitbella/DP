@@ -20,6 +20,11 @@
                       javax.faces.component.UIComponent,
                       java.lang.Object)" />
         <cc:attribute name="validatorMessage" default="" type="java.lang.String"/>
+        <cc:attribute name="updateComponents" default="" type="java.lang.String"/>
+        <cc:attribute name="ajaxEvents" default="blur" type="java.lang.String"/>
+        <cc:attribute name="StyleClass" default="" type="java.lang.String"/>
+        <cc:attribute name="Style" default="" type="java.lang.String"/>
+        <cc:attribute name="Ajax" default="true" type="java.lang.Boolean"/>
     </cc:interface>
 
     <!-- IMPLEMENTATION -->
@@ -38,7 +43,11 @@
                               disabled="#{cc.attrs.disabled}"
                               validator="#{cc.attrs.validatorFunction}"
                               validatorMessage="#{cc.attrs.validatorMessage}"
-                              styleClass="#{cc.attrs.require ? ' required ' : ''}" />
+                              styleClass="#{cc.attrs.require ? ' required ' : ''} #{cc.attrs.StyleClass}"
+                              style="#{cc.attrs.Style}"
+                              readonly="#{cc.attrs.readonly}" >
+                    <pf:ajax rendered="#{cc.attrs.Ajax}" event="#{cc.attrs.ajaxEvents}" update="#{cc.attrs.updateComponents}" />
+                </pf:inputText>
                 <span jsf:rendered="#{cc.attrs.longInfoText.length() > 0}" class="ui-inputgroup-addon" onclick="PF('longInfo').toggle()" style="cursor: help; border: none; background-color: #7f9baf"><i class="fa fa-question" style="color: #ffffff"></i></span>
             </div>
             <pf:tooltip rendered="#{cc.attrs.shortInfoText.length() > 0}" for="text" showEvent="focus" hideEvent="blur" value="#{cc.attrs.shortInfoText}" />

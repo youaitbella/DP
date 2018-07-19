@@ -79,25 +79,13 @@ public class EditDocument extends AbstractEditController {
         return "";
     }
 
-    public String
-            deleteDocument(int docId
-            ) {
-        AccountDocument doc
-                = _accDocFacade
-                        .find(docId
-                        );
+    public String deleteDocument(int docId) {
+        AccountDocument doc = _accDocFacade.find(docId);
 
-        if (doc
-                != null && _sessionController
-                        .getAccountId() == doc
-                        .getAccountId()) {
-            _accDocFacade
-                    .remove(doc
-                    );
-
+        if (doc != null && _sessionController.getAccountId() == doc.getAccountId()) {
+            _accDocFacade.remove(doc);
         }
         return "";
-
     }
 
     public String

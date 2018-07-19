@@ -7,13 +7,13 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:c="http://java.sun.com/jsp/jstl/core">
 
-    <ui:define name="editContent">
-
-
-        <h:form id="maiTemplateForm">
+    <ui:define name="content">
+        <h1>Mail-Vorlagen</h1>
+        <br/>
+        <h:form id="mailTemplateForm">
             <h:outputLabel for="mnuTemplate" value="#{msg.lblMailTemplate}"/>
-            <h:selectOneMenu id="mnuTemplate" styleClass="inputwide" value="#{adminTask.templateId}" immediate="true" disabled="#{adminTask.templateChanged}">
-                <f:selectItems value="#{adminTask.mailTemplates}" var="template" itemLabel="#{template.label}" itemValue="#{template.value}"/>
+            <h:selectOneMenu id="mnuTemplate" styleClass="inputwide" value="#{adminMailTemplate.templateId}" immediate="true" disabled="#{adminMailTemplate.templateChanged}">
+                <f:selectItems value="#{adminMailTemplate.mailTemplates}" var="template" itemLabel="#{template.label}" itemValue="#{template.value}"/>
                 <f:ajax render="@form" />
             </h:selectOneMenu>
 
@@ -23,11 +23,11 @@
                 <h:outputLabel for="txtTemplateName" value="#{msg.lblName}"/>
                 <h:message for="txtTemplateName" id="msgTemplateName" styleClass="errorMessage"/>
                 <h:inputText id="txtTemplateName"
-                             value="#{adminTask.mailTemplate.name}"
+                             value="#{adminMailTemplate.mailTemplate.name}"
                              styleClass="inputwide"
                              required="true"
-                             disabled="#{adminTask.mailTemplate == null}">
-                    <f:ajax render="@this msgTemplateName mnuTemplate btnMailTemplateSave :logout:remaining" listener="#{adminTask.mailTemplateChangeListener}"/>
+                             disabled="#{adminMailTemplate.mailTemplate == null}">
+                    <f:ajax render="@this msgTemplateName mnuTemplate btnMailTemplateSave :logout:remaining" listener="#{adminMailTemplate.mailTemplateChangeListener}"/>
                 </h:inputText>
             </div>
 
@@ -36,11 +36,11 @@
                 <h:message for="mnuFeature" id="msgFeature" styleClass="errorMessage"/>
                 <h:selectOneMenu id="mnuFeature"
                                  styleClass="inputwide"
-                                 value="#{adminTask.mailTemplate.feature}"
+                                 value="#{adminMailTemplate.mailTemplate.feature}"
                                  required="true"
-                                 disabled="#{adminTask.mailTemplate == null}">
-                    <f:selectItems value="#{adminTask.features}" var="feature" itemLabel="#{feature.label}" itemValue="#{feature}"/>
-                    <f:ajax render="@this msgFeature mnuTemplate btnMailTemplateSave :logout:remaining" listener="#{adminTask.mailTemplateChangeListener}"/>
+                                 disabled="#{adminMailTemplate.mailTemplate == null}">
+                    <f:selectItems value="#{adminMailTemplate.features}" var="feature" itemLabel="#{feature.label}" itemValue="#{feature}"/>
+                    <f:ajax render="@this msgFeature mnuTemplate btnMailTemplateSave :logout:remaining" listener="#{adminMailTemplate.mailTemplateChangeListener}"/>
                 </h:selectOneMenu>
             </div>
 
@@ -48,12 +48,12 @@
                 <h:outputLabel for="txtFrom" value="#{msg.lblFrom}"/>
                 <h:message for="txtFrom" id="msgFrom" styleClass="errorMessage"/>
                 <h:inputText id="txtFrom"
-                             value="#{adminTask.mailTemplate.from}"
+                             value="#{adminMailTemplate.mailTemplate.from}"
                              styleClass="inputwide"
                              required="true"
-                             disabled="#{adminTask.mailTemplate == null}">
+                             disabled="#{adminMailTemplate.mailTemplate == null}">
                     <f:validator validatorId="EmailValidator"/>
-                    <f:ajax render="@this msgFrom mnuTemplate btnMailTemplateSave :logout:remaining" listener="#{adminTask.mailTemplateChangeListener}"/>
+                    <f:ajax render="@this msgFrom mnuTemplate btnMailTemplateSave :logout:remaining" listener="#{adminMailTemplate.mailTemplateChangeListener}"/>
                 </h:inputText>
             </div>
 
@@ -61,12 +61,12 @@
                 <h:outputLabel for="txtBcc" value="#{msg.lblBcc}"/>
                 <h:message for="txtBcc" id="msgBcc" styleClass="errorMessage"/>
                 <h:inputText id="txtBcc"
-                             value="#{adminTask.mailTemplate.bcc}"
+                             value="#{adminMailTemplate.mailTemplate.bcc}"
                              styleClass="inputwide"
                              required="false"
-                             disabled="#{adminTask.mailTemplate == null}">
+                             disabled="#{adminMailTemplate.mailTemplate == null}">
                     <f:validator validatorId="MultiEmailValidator"/>
-                    <f:ajax render="@this msgBcc mnuTemplate btnMailTemplateSave :logout:remaining" listener="#{adminTask.mailTemplateChangeListener}"/>
+                    <f:ajax render="@this msgBcc mnuTemplate btnMailTemplateSave :logout:remaining" listener="#{adminMailTemplate.mailTemplateChangeListener}"/>
                 </h:inputText>
             </div>
 
@@ -74,11 +74,11 @@
                 <h:outputLabel for="txtMailSubject" value="#{msg.lblMailSubject}"/>
                 <h:message for="txtMailSubject" id="msgMailSubject" styleClass="errorMessage"/>
                 <h:inputText id="txtMailSubject"
-                             value="#{adminTask.mailTemplate.subject}"
+                             value="#{adminMailTemplate.mailTemplate.subject}"
                              styleClass="inputwide"
                              required="true"
-                             disabled="#{adminTask.mailTemplate == null}">
-                    <f:ajax render="@this msgMailSubject mnuTemplate btnMailTemplateSave :logout:remaining" listener="#{adminTask.mailTemplateChangeListener}"/>
+                             disabled="#{adminMailTemplate.mailTemplate == null}">
+                    <f:ajax render="@this msgMailSubject mnuTemplate btnMailTemplateSave :logout:remaining" listener="#{adminMailTemplate.mailTemplateChangeListener}"/>
                 </h:inputText>
             </div>
 
@@ -86,22 +86,22 @@
                 <h:outputLabel for="txtMailBody" value="#{msg.lblMailBody}"/>
                 <h:message for="txtMailBody" id="msgMailBody" styleClass="errorMessage"/>
                 <h:inputTextarea id="txtMailBody"
-                                 value="#{adminTask.mailTemplate.body}"
+                                 value="#{adminMailTemplate.mailTemplate.body}"
                                  styleClass="areaHuge"
                                  required="true"
-                                 disabled="#{adminTask.mailTemplate == null}">
-                    <f:ajax render="@this msgMailBody mnuTemplate btnMailTemplateSave :logout:remaining" listener="#{adminTask.mailTemplateChangeListener}"/>
+                                 disabled="#{adminMailTemplate.mailTemplate == null}">
+                    <f:ajax render="@this msgMailBody mnuTemplate btnMailTemplateSave :logout:remaining" listener="#{adminMailTemplate.mailTemplateChangeListener}"/>
                 </h:inputTextarea>
             </div>
 
 
             <div class="toolBar">
-                <h:commandLink styleClass="bigButton" value="#{msg.btnDelete}" action="#{adminTask.deleteMailTemplate}" immediate="true">
+                <h:commandLink styleClass="bigButton" value="#{msg.btnDelete}" action="#{adminMailTemplate.deleteMailTemplate}" immediate="true">
                     <cb:confirmDelete/>
                 </h:commandLink>
                 <h:commandLink styleClass="bigButton" value="#{msg.btnSave}"
-                               id="btnMailTemplateSave" action="#{adminTask.saveMailTemplate}"
-                               immediate="false" disabled="#{adminTask.mailTemplate == null || !adminTask.templateChanged}"/>
+                               id="btnMailTemplateSave" action="#{adminMailTemplate.saveMailTemplate}"
+                               immediate="false" disabled="#{adminMailTemplate.mailTemplate == null || !adminMailTemplate.templateChanged}"/>
             </div>
 
         </h:form>

@@ -1,59 +1,65 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                template="AdminTask.xhtml"
+                template="/Templates/PortalMenuTemplate.xhtml"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
-                xmlns:jsf="http://xmlns.jcp.org/jsf"
                 xmlns:pf="http://primefaces.org/ui">
 
 
-    <ui:define name="editContent">
+    <ui:define name="content">
+        <h1>Infotexte</h1>
+        <br/>
+        <h:form id="infoTextForm">
 
-        <h:form>
+            <pf:dataTable id ="infoTextTable"
+                          var="infoText"
+                          value="#{adminInfoText.listOfInfoTexts}"
+                          rows="25"
+                          paginator="true"
+                          paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                          rowsPerPageTemplate="5, 10, 25, 50"
+                          tableStyleClass="infoTextTable">
 
-            
-            <pf:dataTable    id ="infoTextTable" 
-                             var="infoText" 
-                             value="#{adminInfoText.listOfInfoTexts}" 
-                             rows="25"
-                             paginator="true"
-                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                             rowsPerPageTemplate="5, 10, 25, 50">
 
-                <pf:column headerText="Key">
-                    <h:outputText value="#{infoText.key}" />
+                <pf:column headerText="Key" width="15%">
+                    <h:outputText id="key"  value="#{infoText.key}"/>
                 </pf:column>
 
-                <pf:column headerText="Short Text"> 
-                    <pf:inputText id="shortText"  value="#{infoText.shortText}" >
+                <pf:column headerText="Short Text" width="40%">
+                    <pf:inputText id="shortText" style="width:97%" value="#{infoText.shortText}" maxlength="100" size="">
                         <pf:ajax />
-                    </pf:inputText>               
+                    </pf:inputText>
                 </pf:column>
 
-                <pf:column headerText="Description">            
-                    <pf:inputTextarea id="description" value="#{infoText.description}" >
+                <pf:column headerText="Description" width="45%">
+                    <pf:inputTextarea id="description" style="width:97%" value="#{infoText.description}" >
                         <pf:ajax />
-                    </pf:inputTextarea>              
+                    </pf:inputTextarea>
                 </pf:column>
-                <f:facet name="paginatorBottomRight">
-                    <pf:commandButton value="Infotext hinzufügen" onclick="PF('dlgAddNewInfoText').show();" />
-                </f:facet>
             </pf:dataTable>
-            
-            <pf:dialog header="Infotext hinzufügen" widgetVar="dlgAddNewInfoText" modal="true" height="100">
-                <pf:inputText id="newInfoText" value="#{adminInfoText.newKey}">
-                        <pf:ajax />
-                </pf:inputText>  
-                <pf:commandButton value="Hinzufügen" id="btnInfoTextAddNew" actionListener="#{adminInfoText.addInfoText}" onclick="PF('dlgAddNewInfoText').hide()" update="infoTextTable"/>
-                <pf:commandButton value="Abbrechen" id="btnInfoTextAddNewAbbort" onclick="PF('dlgAddNewInfoText').hide()" />
-            </pf:dialog> 
-            
-            <pf:commandButton value="#{msg.btnSave}" id="btnInfoTextSave" actionListener="#{adminInfoText.save}"/>
-            
+
+            <ui:remove>
+                <pf:inputText id="newInfoText"
+                              value="#{adminInfoText.newKey}"
+                              required="true"
+                              validator="#{adminInfoText.checkInput}"
+                              validatorMessage="Der Schlüssel existiert bereits."
+                              >
+                    <pf:ajax update ="msgNewInfoText"/>
+                </pf:inputText>
+                <pf:commandLink styleClass="bigButton" value="Infotext hinzufügen" id="btnInfoTextAddNew" action="#{adminInfoText.addInfoText}"  update ="infoTextTable: newInfoText"/>
+                <br/><pf:message for="newInfoText" id="msgNewInfoText" display="error" />
+            </ui:remove>
+            <br/><pf:commandLink styleClass="bigButton" value="#{msg.btnSave}" id="btnInfoTextSave" action="#{adminInfoText.save}" immediate="true"/>
+
+
+
         </h:form>
+
     </ui:define>
+
 </ui:composition>

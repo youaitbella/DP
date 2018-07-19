@@ -1,28 +1,33 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                template="AdminTask.xhtml"
+                template="/Templates/PortalMenuTemplate.xhtml"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:c="http://java.sun.com/jsp/jstl/core">
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf">
 
-    <ui:define name="editContent">
-        <div>
-            Aktive Sessions: #{adminTask.sessionCount}
-        </div>
-        <div>
-            #{adminTask.processorInfo}
-        </div>
-        <div>
-            #{adminTask.memoryInfo}
-        </div>
-        <div style="margin-top: 10em;">
-            <h:form>
-                <h:commandLink styleClass="bigButton" value="Clear Cache" actionListener="#{adminTask.clearCache}">
-                    <f:ajax/>
-                </h:commandLink>
-            </h:form>
-        </div>
-    </ui:define>
+    
+        <ui:define name="content"> 
+            <h1>Systemstatus</h1>
+            <br/>
+            <div>
+                Aktive Sessions: #{adminSystemStatus.sessionCount}
+            </div>
+            <div>
+                #{adminSystemStatus.processorInfo}
+}            </div>
+            <div>
+                #{adminSystemStatus.memoryInfo}
+            </div>
+            <div style="margin-top: 10em;">
+                <h:form>
+                    <h:commandLink styleClass="bigButton" value="Clear Cache" actionListener="#{adminSystemStatus.clearCache}">
+                        <f:ajax/>
+                    </h:commandLink>
+                </h:form>
+            </div>
+        </ui:define>
+    
 </ui:composition>
