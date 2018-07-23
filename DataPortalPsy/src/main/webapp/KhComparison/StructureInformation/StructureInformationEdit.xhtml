@@ -31,18 +31,15 @@
                                 for="validFromNew" />
                 <pf:calendar id="validFromNew"
                              value="#{editStructureInformation.newValidFromDate}"
-                             mindate="#{editStructureInformation.structureInformation.validFrom}"
-                             validator="#{editStructureInformation.checkDate}"
                              locale="de"
                              navigator="true"
                              pattern="dd.MM.yyyy"
                              mask="true"
                              inputStyle="text-align: right;">
-                    <pf:ajax event="dateSelect" update="validFromNewMessage" />
                     <pf:ajax event="change" update="validFromNewMessage" />
                 </pf:calendar>
                 <pf:message id="validFromNewMessage" for="validFromNew" />
-
+                <br />
                 <pf:commandButton styleClass="btnPsy"
                                   value="Neue Gültigkeit speichern"
                                   actionListener="#{editStructureInformation.saveNewValidFrom()}"
@@ -69,14 +66,8 @@
             <pf:commandButton styleClass="btnPsy"
                               value="Speichern"
                               action="#{editStructureInformation.save()}"
-                              update="@(.ui-message) @form"
+                              update="@form"
                               rendered="#{!editStructureInformation.isReadOnly() and editStructureInformation.canSave()}"/>
-
-            <pf:commandButton styleClass="btnPsy"
-                              value="Neue Gültigkeit speichern"
-                              update="@(.ui-message) @form"
-                              onclick="PF('dialogValidFrom').show(); changeDialogColor('info');"
-                              rendered="#{!editStructureInformation.isReadOnly()  and editStructureInformation.canSave()}"/>
 
             <br />
             <br />

@@ -161,11 +161,12 @@
 .inekFieldset {
     background-color: transparent;
     margin-bottom: 10px;
+    border: none;
 }
 
 .inekFieldset legend {
     background-image: none !important;
-    background-color: transparent !important;
+    background-color: #e2f5d5 !important;
     min-width: 100px;
     font-weight: bold;
     cursor: pointer;

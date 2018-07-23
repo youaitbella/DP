@@ -13,9 +13,6 @@
         <cc:attribute name="isFixed"/>
         <cc:attribute name="value" type="java.lang.Integer"/>
         <cc:attribute name="required" default="true"/>
-        <cc:attribute name="listener" method-signature="void f(javax.faces.context.FacesContext,
-                      javax.faces.component.UIComponent,
-                      java.lang.Object)"/>
         <cc:attribute name="readonly" default="false"/>
         <cc:attribute name="updateElement"/>
         <cc:attribute name="label" default="IK"/>
@@ -36,7 +33,7 @@
                               value="#{cc.attrs.value}" >
                 <f:selectItem rendered="#{cc.attrs.value eq 0}" itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
                 <f:selectItems value="#{cc.attrs.ikList}"/>
-                <pf:ajax event="change" listener="#{cc.attrs.listener}" update="#{cc.attrs.updateElement} @this hospitalName msgMultiIk" />
+                <pf:ajax event="change" update="#{cc.attrs.updateElement} @this hospitalName msgMultiIk" />
             </pf:selectOneMenu>
 
             <pf:inputText readonly="true" value="#{cc.attrs.value}" rendered="#{cc.attrs.readonly or cc.attrs.isFixed}"/>

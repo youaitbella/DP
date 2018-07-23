@@ -310,9 +310,7 @@ public class Edit {
         List<Integer> iks = new ArrayList<>();
         for (Integer ik : _aebFacade.getAllowedIks(_sessionController.getAccountId(),
                 Utils.getTargetYear(Feature.AEB))) {
-            if (_accessManager.isAccessAllowed(Feature.AEB, WorkflowStatus.Taken,
-                    _sessionController.getAccountId(),
-                    ik)) {
+            if (_accessManager.isCreateAllowed(Feature.AEB, _sessionController.getAccount(), ik)) {
                 iks.add(ik);
             }
         }

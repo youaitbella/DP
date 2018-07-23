@@ -10,12 +10,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
-import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
-import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.api.enums.Feature;
@@ -61,12 +58,27 @@ public class EditStructureInformation {
         String id = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id");
         if (id == null || "new".equals(id)) {
             _structureInformation = createNewStructureInformation();
+            setReadOnly(false);
         } else {
             _structureInformation = _aebFacade.findStructureInformation(Integer.parseInt(id));
             _editableId = _structureInformation.getId();
             setAllStructureInformations(_aebFacade.getAllStructureInformationByIk(_structureInformation.getIk()));
+            setReadOnly();
         }
-        setReadOnly();
+    }
+
+    public List<Integer> getAllowedIks() {
+        List<Integer> iks = new ArrayList<>();
+        for (Integer ik : _sessionController.getAccount().getFullIkSet()) {
+            if (!_aebFacade.structureInformaionAvailable(ik)) {
+                if (_accessManager.isCreateAllowed(Feature.AEB,
+                        _sessionController.getAccount(),
+                        ik)) {
+                    iks.add(ik);
+                }
+            }
+        }
+        return iks;
     }
 
     public List<StructureInformation> getAllStructureInformations() {
@@ -148,6 +160,7 @@ public class EditStructureInformation {
             _structureInformation = _aebFacade.save(newInformation);
             _actions.clear();
             _editableId = _structureInformation.getId();
+            setAllStructureInformations(_aebFacade.getAllStructureInformationByIk(_structureInformation.getIk()));
             _dialogController.showSaveDialog();
         } catch (Exception ex) {
             _dialogController.showErrorDialog("Fehler beim Speichern", "Vorgang abgebrochen");
@@ -201,14 +214,6 @@ public class EditStructureInformation {
     private void saveActionLogs(List<ActionLog> actions) {
         _actionLogFacade.saveActionLogs(actions);
         actions.clear();
-    }
-
-    public void checkDate(FacesContext context, UIComponent component, Object value) {
-        Date input = (Date) value;
-        if (input.before(_structureInformation.getValidFrom()) || input.equals(_structureInformation.getValidFrom())) {
-            String msg = "Die neue Gültigkeit muss nach der jetzigen sein";
-            throw new ValidatorException(new FacesMessage(msg));
-        }
     }
 
     public String convertDate(Date date) {

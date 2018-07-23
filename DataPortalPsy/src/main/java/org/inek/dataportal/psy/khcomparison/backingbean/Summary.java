@@ -7,11 +7,13 @@ package org.inek.dataportal.psy.khcomparison.backingbean;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.controller.SessionController;
+import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.helper.Utils;
@@ -66,19 +68,28 @@ public class Summary {
 
     @PostConstruct
     public void init() {
-        _listComplete.addAll(getAebsByStatusAndAccount(WorkflowStatus.Provided));
         setWorkingList();
+        setCompleteList();
         setStructureInformationList();
     }
 
     private void setWorkingList() {
         _listWorking.clear();
-        _listWorking.addAll(getAebsByStatusAndAccount(WorkflowStatus.New));
-        _listWorking.addAll(getAebsByStatusAndAccount(WorkflowStatus.CorrectionRequested));
+        for (AccessRight right : _sessionController.getAccount().getAccessRights().stream()
+                .filter(c -> c.canRead() && c.getFeature() == Feature.AEB)
+                .collect(Collectors.toList())) {
+            _listWorking.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.New, right.getIk()));
+            _listWorking.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.CorrectionRequested, right.getIk()));
+        }
     }
 
-    private List<AEBBaseInformation> getAebsByStatusAndAccount(WorkflowStatus status) {
-        return _aebfacade.getAllByStatusAndAccount(status, _sessionController.getAccountId());
+    private void setCompleteList() {
+        _listComplete.clear();
+        for (AccessRight right : _sessionController.getAccount().getAccessRights().stream()
+                .filter(c -> c.canRead() && c.getFeature() == Feature.AEB)
+                .collect(Collectors.toList())) {
+            _listWorking.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.Provided, right.getIk()));
+        }
     }
 
     public String khComparisonOpen() {
@@ -90,24 +101,24 @@ public class Summary {
     }
 
     public boolean isCreateEntryAllowed() {
-        return !getAllowedIks().isEmpty();
+        for (Integer ik : _aebfacade.getAllowedIks(_sessionController.getAccountId(),
+                Utils.getTargetYear(Feature.AEB))) {
+            if (_accessManager.isCreateAllowed(Feature.AEB, _sessionController.getAccount(), ik)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean isCreateStructureInformationAllowed() {
-        return true;
-    }
-
-    public List<Integer> getAllowedIks() {
-        List<Integer> iks = new ArrayList<>();
-        for (Integer ik : _aebfacade.getAllowedIks(_sessionController.getAccountId(),
-                Utils.getTargetYear(Feature.AEB))) {
-            if (_accessManager.isAccessAllowed(Feature.AEB, WorkflowStatus.Taken,
-                    _sessionController.getAccountId(),
-                    ik)) {
-                iks.add(ik);
+        for (Integer ik : _sessionController.getAccount().getFullIkSet()) {
+            if (!_aebfacade.structureInformaionAvailable(ik)) {
+                if (_accessManager.isCreateAllowed(Feature.AEB, _sessionController.getAccount(), ik)) {
+                    return true;
+                }
             }
         }
-        return iks;
+        return false;
     }
 
     public void deleteBaseInformation(AEBBaseInformation info) {
@@ -116,18 +127,21 @@ public class Summary {
     }
 
     private void setStructureInformationList() {
-        List<Integer> iks = new ArrayList<>();
         for (Integer ik : _sessionController.getAccount().getFullIkSet()) {
             if (_aebfacade.structureInformaionAvailable(ik)) {
-                iks.add(ik);
+                if (_accessManager.isReadAllowed(Feature.AEB, _sessionController.getAccount(), ik)) {
+                    _listStructureInformation.add(_aebfacade.getStructureInformationByIk(ik));
+                }
             }
         }
-        for (Integer ik : iks) {
-            if (_accessManager.isReadAllowed(Feature.AEB,
-                    _sessionController.getAccount(),
-                    ik)) {
-                _listStructureInformation.add(_aebfacade.getStructureInformationByIk(ik));
-            }
-        }
+    }
+
+    public Boolean isDeleteAllowed(int ik) {
+        return !_sessionController.getAccount().getAccessRights().stream()
+                .filter(c -> c.getFeature() == Feature.AEB
+                && c.getIk() == ik
+                && c.canWrite())
+                .collect(Collectors.toList())
+                .isEmpty();
     }
 }

@@ -41,8 +41,8 @@
                 <f:selectItems value="#{cc.attrs.ikList}"/>
                 <pf:ajax event="change" listener="#{cc.attrs.listenerIk}" update="#{cc.attrs.updateElement} @this hospitalName msgMultiIk ikMulti" />
             </pf:selectOneMenu>
-            <pf:inputText readonly="true" value="#{cc.attrs.value}" rendered="#{cc.attrs.readonly or cc.attrs.isFixed}"/>
-            <h:outputLabel id="hospitalName" styleClass="label marginLeft" value="#{applicationTools.retrieveHospitalInfo(cc.attrs.value)}"/>
+            <pf:inputText readonly="true" value="#{cc.attrs.valueIk}" rendered="#{cc.attrs.readonly or cc.attrs.isFixed}"/>
+            <h:outputLabel id="hospitalName" styleClass="label marginLeft" value="#{applicationTools.retrieveHospitalInfo(cc.attrs.valueIk)}"/>
             <pf:message for="ikMulti" id="msgMultiIk"/>
 
             <!-- Year -->
@@ -54,7 +54,7 @@
                               requiredMessage="#{msg.msgValueNeeded}"
                               value="#{cc.attrs.valueYear}"
                               style="min-width: 100px;">
-                <f:selectItem rendered="#{cc.attrs.valueYear eq 0}" itemLabel="#{cc.attrs.valueYear}" itemValue="#{cc.attrs.valueYear}" noSelectionOption="true" />
+                <f:selectItem rendered="#{cc.attrs.valueYear eq 0}" itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{cc.attrs.valueYear}" noSelectionOption="true" />
                 <f:selectItems value="#{cc.attrs.yearList}"/>
                 <pf:ajax event="change" update="#{cc.attrs.updateElement} @this ikYearMessage ikYear" />
             </pf:selectOneMenu>

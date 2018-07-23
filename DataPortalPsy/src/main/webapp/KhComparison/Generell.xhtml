@@ -11,7 +11,7 @@
     <inek:MultiIkYear labelIk="#{msg.lblIkShort}"
                       required="true"
                       valueIk="#{edit.aebBaseInformation.ik}"
-                      readonly="#{edit.isReadOnly()}"
+                      readonly="#{edit.isReadOnly() or edit.aebBaseInformation.id ne 0}"
                       listenerIk="#{edit.ikChanged()}"
                       ikList="#{edit.allowedIks}"
                       labelYear="Vereinbarungsjahr"

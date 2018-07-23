@@ -7,14 +7,7 @@
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
                 xmlns:pf="http://primefaces.org/ui"
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/Other">
-    <ui:remove>
-        <inek:MultiIk label="#{msg.lblIkShort}"
-                      required="true"
-                      value="#{edit.aebBaseInformation.ik}"
-                      readonly="#{edit.isReadOnly()}"
-                      listener="#{edit.ikChanged()}"
-                      ikList="#{edit.allowedIks}"/>
-    </ui:remove>
+
 
     <script type="text/javascript">
         PrimeFaces.locales ['de'] = {
@@ -44,42 +37,41 @@
             allDayText: 'Ganzer Tag'
         };
     </script>
-
     <div class="ui-g ui-fluid">
         <div class="ui-g-3">
-            <pf:outputLabel class="formLabel"
-                            value="IK: "
-                            for="ik" />
-            <pf:inputText id="ik"
-                          value="#{editStructureInformation.structureInformation.ik}"
-                          readonly="#{editStructureInformation.allStructureInformations.size() > 0}">
-                <pf:ajax />
-            </pf:inputText>
+            <inek:MultiIkNoListener label="#{msg.lblIkShort}"
+                                    required="true"
+                                    value="#{editStructureInformation.structureInformation.ik}"
+                                    readonly="#{editStructureInformation.isReadOnly() or editStructureInformation.structureInformation.id gt 0}"
+                                    ikList="#{editStructureInformation.allowedIks}" />
         </div>
         <div class="ui-g-3">
             <pf:outputLabel class="formLabel"
-                            value="Gültig von: "
+                            value="Aktuelle Gültigkeit: "
                             for="validFrom" />
-            <pf:calendar id="validFrom"
-                         value="#{editStructureInformation.structureInformation.validFrom}"
-                         locale="de"
-                         navigator="true"
-                         pattern="dd.MM.yyyy"
-                         inputStyle="text-align: right;"
-                         readonly="true">
-            </pf:calendar>
+            <pf:inputText id="validFrom"
+                          value="#{editStructureInformation.convertDate(editStructureInformation.structureInformation.validFrom)}"
+                          style="text-align: right;"
+                          readonly="true" />
+        </div>
+        <div class="ui-g-3">
+            <pf:commandButton style="margin-top: 10px;"
+                              styleClass="btnPsy"
+                              value="Neue Gültigkeit speichern"
+                              update="@form"
+                              onclick="PF('dialogValidFrom').show(); changeDialogColor('info');"
+                              rendered="#{(!editStructureInformation.isReadOnly() and editStructureInformation.canSave()) or editStructureInformation.structureInformation.id eq 0}"/>
         </div>
         <div class="ui-g-2">
             <pf:outputLabel class="formLabel"
                             value="Früherer Gültigkeiten: " />
-            <pf:selectOneListbox valueChangeListener="#{editStructureInformation.handleChangeStructureInformation}"
-                                 rendered="#{editStructureInformation.allStructureInformations.size() > 0}">
+            <pf:selectOneMenu valueChangeListener="#{editStructureInformation.handleChangeStructureInformation}">
                 <pf:ajax update="@form" />
                 <f:selectItems value="#{editStructureInformation.allStructureInformations}"
                                var="structure"
                                itemLabel="#{editStructureInformation.convertDate(structure.validFrom)}"
                                itemValue="#{structure.id}" />
-            </pf:selectOneListbox>
+            </pf:selectOneMenu>
         </div>
     </div>
 
