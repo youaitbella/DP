@@ -18,9 +18,6 @@
         <cc:attribute name="listenerIk" method-signature="void f(javax.faces.context.FacesContext,
                       javax.faces.component.UIComponent,
                       java.lang.Object)"/>
-        <cc:attribute name="listenerYear" method-signature="void f(javax.faces.context.FacesContext,
-                      javax.faces.component.UIComponent,
-                      java.lang.Object)"/>
         <cc:attribute name="readonly" default="false"/>
         <cc:attribute name="updateElement"/>
         <cc:attribute name="labelIk" default="IK"/>
@@ -59,7 +56,7 @@
                               style="min-width: 100px;">
                 <f:selectItem rendered="#{cc.attrs.valueYear eq 0}" itemLabel="#{cc.attrs.valueYear}" itemValue="#{cc.attrs.valueYear}" noSelectionOption="true" />
                 <f:selectItems value="#{cc.attrs.yearList}"/>
-                <pf:ajax event="change" listener="#{cc.attrs.listenerYear}" update="#{cc.attrs.updateElement} @this ikYearMessage ikYear" />
+                <pf:ajax event="change" update="#{cc.attrs.updateElement} @this ikYearMessage ikYear" />
             </pf:selectOneMenu>
             <pf:inputText readonly="true" value="#{cc.attrs.valueYear}" rendered="#{cc.attrs.readonly or cc.attrs.isFixed}"/>
             <pf:message for="ikYear" id="ikYearMessage"/>

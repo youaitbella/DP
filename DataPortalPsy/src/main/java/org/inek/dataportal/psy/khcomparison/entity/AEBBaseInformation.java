@@ -156,6 +156,19 @@ public class AEBBaseInformation implements Serializable {
     }
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Property Typ">
+    @Column(name = "biTyp")
+    private int _typ;
+
+    public int getTyp() {
+        return _typ;
+    }
+
+    public void setTyp(int typ) {
+        this._typ = typ;
+    }
+    //</editor-fold>
+
     @OneToOne(mappedBy = "_baseInformation", cascade = CascadeType.ALL)
     private AEBPageB1 _aebPageB1;
 

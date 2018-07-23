@@ -125,7 +125,7 @@ public class Edit {
 
     private AEBBaseInformation createNewAebBaseInformation() {
         AEBBaseInformation info = new AEBBaseInformation();
-
+        info.setTyp(0);
         for (OccupationalCategory cat : _psychStaffFacade.getOccupationalCategories()) {
             PersonalAgreed agreed = new PersonalAgreed();
             agreed.setOccupationalCategory(cat);
