@@ -45,26 +45,25 @@
                     <ui:include src="CalcDocuments.xhtml" />
                 </pf:tab>
             </pf:tabView>
-
-            <br />
-
-            <pf:commandButton styleClass="btnPsy"
-                              value="Datensatz ändern"
-                              action="#{edit.change()}"
-                              update="@form"
-                              immediate="true"
-                              rendered="#{edit.isReadOnly()}"/>
-            <pf:commandButton styleClass="btnPsy"
-                              value="Speichern"
-                              action="#{edit.save()}"
-                              update="@(.ui-message) @form"
-                              immediate="true"
-                              rendered="#{!edit.isReadOnly()}"/>
-            <pf:commandButton value="Ans InEK senden"
-                              update="@(.ui-message) @form"
-                              action="#{edit.send()}"
-                              styleClass="btnSend arrow-right"
-                              rendered="#{!edit.isReadOnly()}"/>
+            <div class="footerInformation">
+                <pf:commandButton styleClass="btnPsy"
+                                  value="Datensatz ändern"
+                                  action="#{edit.change()}"
+                                  update="@form"
+                                  immediate="true"
+                                  rendered="#{edit.isReadOnly()}"/>
+                <pf:commandButton styleClass="btnPsy"
+                                  value="Speichern"
+                                  action="#{edit.save()}"
+                                  update="@(.ui-message) @form"
+                                  immediate="true"
+                                  rendered="#{!edit.isReadOnly()}"/>
+                <pf:commandButton value="Ans InEK senden"
+                                  update="@(.ui-message) @form"
+                                  action="#{edit.send()}"
+                                  styleClass="btnSend arrow-right"
+                                  rendered="#{!edit.isReadOnly()}"/>
+            </div>
 
         </h:form>
     </ui:define>

@@ -78,8 +78,8 @@ public class Summary {
         for (AccessRight right : _sessionController.getAccount().getAccessRights().stream()
                 .filter(c -> c.canRead() && c.getFeature() == Feature.AEB)
                 .collect(Collectors.toList())) {
-            _listWorking.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.New, right.getIk()));
-            _listWorking.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.CorrectionRequested, right.getIk()));
+            _listWorking.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.New, right.getIk(), 0));
+            _listWorking.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.CorrectionRequested, right.getIk(), 0));
         }
     }
 
@@ -88,7 +88,7 @@ public class Summary {
         for (AccessRight right : _sessionController.getAccount().getAccessRights().stream()
                 .filter(c -> c.canRead() && c.getFeature() == Feature.AEB)
                 .collect(Collectors.toList())) {
-            _listWorking.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.Provided, right.getIk()));
+            _listWorking.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.Provided, right.getIk(), 0));
         }
     }
 
@@ -102,7 +102,7 @@ public class Summary {
 
     public boolean isCreateEntryAllowed() {
         for (Integer ik : _aebfacade.getAllowedIks(_sessionController.getAccountId(),
-                Utils.getTargetYear(Feature.AEB))) {
+                Utils.getTargetYear(Feature.AEB), 0)) {
             if (_accessManager.isCreateAllowed(Feature.AEB, _sessionController.getAccount(), ik)) {
                 return true;
             }

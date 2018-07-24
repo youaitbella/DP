@@ -288,7 +288,7 @@ public class Edit {
     }
 
     public void ikChanged() {
-        List<Integer> usedYears = _aebFacade.getUsedDataYears(_aebBaseInformation.getIk());
+        List<Integer> usedYears = _aebFacade.getUsedDataYears(_aebBaseInformation.getIk(), 0);
         setValidDatayears(getValideDatayears(getAllowedDataYears(), usedYears));
     }
 
@@ -309,7 +309,7 @@ public class Edit {
     public List<Integer> getAllowedIks() {
         List<Integer> iks = new ArrayList<>();
         for (Integer ik : _aebFacade.getAllowedIks(_sessionController.getAccountId(),
-                Utils.getTargetYear(Feature.AEB))) {
+                Utils.getTargetYear(Feature.AEB), 0)) {
             if (_accessManager.isCreateAllowed(Feature.AEB, _sessionController.getAccount(), ik)) {
                 iks.add(ik);
             }

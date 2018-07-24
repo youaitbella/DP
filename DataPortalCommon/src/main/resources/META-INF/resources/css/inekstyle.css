@@ -156,6 +156,14 @@
     background-color: #eeeeee;
 }
 
+/* FooterInformation */
+
+.footerInformation {
+    padding: 10px;
+    border-top: 3px solid #7f9baf;
+    background-color: #eeeeee;
+}
+
 /* Fieldset */
 
 .inekFieldset {
