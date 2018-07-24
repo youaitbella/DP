@@ -112,10 +112,8 @@ public class Edit {
 
     public void setReadOnly() {
         if (_aebBaseInformation != null) {
-            setReadOnly(_accessManager.isReadOnly(Feature.AEB,
-                    _aebBaseInformation.getStatus(),
-                    _sessionController.getAccountId(),
-                    _aebBaseInformation.getIk()));
+            setReadOnly(!_accessManager.isReadAllowed(Feature.AEB,
+                    _sessionController.getAccount(), _aebBaseInformation.getIk()));
         } else if (_aebBaseInformation.getIk() == 0) {
             setReadOnly(false);
         } else {

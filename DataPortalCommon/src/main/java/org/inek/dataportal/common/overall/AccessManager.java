@@ -19,12 +19,14 @@ import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.data.cooperation.entities.CooperationRight;
 import org.inek.dataportal.common.enums.CooperativeRight;
 import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.common.data.cooperation.facade.CooperationRightFacade;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
 import org.inek.dataportal.common.enums.Right;
 import org.inek.dataportal.common.data.ikadmin.facade.IkAdminFacade;
+import org.inek.dataportal.common.enums.ConfigKey;
 
 /**
  * This class provides access to cooperations rights for one request. Depending on the current data, a couple of
@@ -51,6 +53,8 @@ public class AccessManager implements Serializable {
     private AccountFacade _accountFacade;
     @Inject
     private IkAdminFacade _ikAdminFacade;
+    @Inject
+    private ConfigFacade _configFacade;
 
     /**
      * gets the cooperation rights by delegating the first request to the service and retrieving them from a local cache
@@ -527,6 +531,9 @@ public class AccessManager implements Serializable {
     }
 
     public boolean isReadAllowed(Feature feature, Account account, int ik) {
+        if (!_configFacade.readConfigBool(ConfigKey.IkAdminEnable)) {
+            return true;
+        }
         boolean readAllowed = false;
         for (AccessRight right : account.getAccessRights()) {
             if (right.getIk() == ik && right.getFeature() == feature) {
@@ -539,6 +546,9 @@ public class AccessManager implements Serializable {
     }
 
     public boolean isEditAllowed(Feature feature, Account account, int ik) {
+        if (!_configFacade.readConfigBool(ConfigKey.IkAdminEnable)) {
+            return true;
+        }
         boolean editAllowed = false;
         for (AccessRight right : account.getAccessRights()) {
             if (right.getIk() == ik && right.getFeature() == feature) {
@@ -551,6 +561,9 @@ public class AccessManager implements Serializable {
     }
 
     public boolean isCreateAllowed(Feature feature, Account account, int ik) {
+        if (!_configFacade.readConfigBool(ConfigKey.IkAdminEnable)) {
+            return true;
+        }
         boolean createAllowed = false;
         for (AccessRight right : account.getAccessRights()) {
             if (right.getIk() == ik && right.getFeature() == feature) {
@@ -563,6 +576,9 @@ public class AccessManager implements Serializable {
     }
 
     public boolean isSendAllowed(Feature feature, Account account, int ik) {
+        if (!_configFacade.readConfigBool(ConfigKey.IkAdminEnable)) {
+            return true;
+        }
         boolean sendAllowed = false;
         for (AccessRight right : account.getAccessRights()) {
             if (right.getIk() == ik && right.getFeature() == feature) {
@@ -573,6 +589,4 @@ public class AccessManager implements Serializable {
         }
         return sendAllowed;
     }
-
-    //@Deprecated
 }
