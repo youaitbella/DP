@@ -68,26 +68,27 @@
                               action="#{summary.khComparisonOpen()}"
                               rendered="#{summary.isCreateEntryAllowed()}"
                               styleClass="btnPsy"/>
-
-            <div class="ui-g-12">
-                <h2>Strukturinformationen</h2>
-                <pf:dataTable value="#{summary.listStructureInformation}"
-                              var="structureInformation"
-                              emptyMessage="Keine Einträge vorhanden"
-                              tableStyleClass="inekTablePsy">
-                    <pf:column headerText="IK" >
-                        <h:link outcome="#{summary.structureInformationOpen()}"
-                                value="#{structureInformation.ik}" >
-                            <f:param name="id" value="#{structureInformation.id}"/>
-                        </h:link>
-                    </pf:column>
-                    <pf:column headerText="Bezeichnung" >
-                        <h:link outcome="#{summary.structureInformationOpen()}"
-                                value="#{applicationTools.retrieveHospitalInfo(structureInformation.ik)}" >
-                            <f:param name="id" value="#{structureInformation.id}"/>
-                        </h:link>
-                    </pf:column>
-                </pf:dataTable>
+            <div class="ui-g ui-fluid" >
+                <div class="ui-g-12">
+                    <h2>Strukturinformationen</h2>
+                    <pf:dataTable value="#{summary.listStructureInformation}"
+                                  var="structureInformation"
+                                  emptyMessage="Keine Einträge vorhanden"
+                                  tableStyleClass="inekTablePsy">
+                        <pf:column headerText="IK" >
+                            <h:link outcome="#{summary.structureInformationOpen()}"
+                                    value="#{structureInformation.ik}" >
+                                <f:param name="id" value="#{structureInformation.id}"/>
+                            </h:link>
+                        </pf:column>
+                        <pf:column headerText="Bezeichnung" >
+                            <h:link outcome="#{summary.structureInformationOpen()}"
+                                    value="#{applicationTools.retrieveHospitalInfo(structureInformation.ik)}" >
+                                <f:param name="id" value="#{structureInformation.id}"/>
+                            </h:link>
+                        </pf:column>
+                    </pf:dataTable>
+                </div>
             </div>
 
             <pf:commandButton value="Neue Strukturinformation erstellen"
