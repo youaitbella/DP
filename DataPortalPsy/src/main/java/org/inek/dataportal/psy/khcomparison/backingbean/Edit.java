@@ -5,6 +5,7 @@
  */
 package org.inek.dataportal.psy.khcomparison.backingbean;
 
+import org.inek.dataportal.common.data.KhComparison.entities.*;
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,13 +22,10 @@ import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.scope.FeatureScoped;
-import org.inek.dataportal.psy.khcomparison.checker.AebChecker;
-import org.inek.dataportal.psy.khcomparison.entity.*;
-import org.inek.dataportal.psy.khcomparison.facade.AEBFacade;
-import org.inek.dataportal.psy.khcomparison.facade.AEBListItemFacade;
-import org.inek.dataportal.psy.khcomparison.importer.AebImporter;
-import org.inek.dataportal.psy.psychstaff.entity.OccupationalCategory;
-import org.inek.dataportal.psy.psychstaff.facade.PsychStaffFacade;
+import org.inek.dataportal.common.data.KhComparison.checker.AebChecker;
+import org.inek.dataportal.common.data.KhComparison.facade.AEBFacade;
+import org.inek.dataportal.common.data.KhComparison.facade.AEBListItemFacade;
+import org.inek.dataportal.common.data.KhComparison.importer.AebImporter;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -48,8 +46,6 @@ public class Edit {
     private DialogController _dialogController;
     @Inject
     private AEBListItemFacade _aebListItemFacade;
-    @Inject
-    private PsychStaffFacade _psychStaffFacade;
     @Inject
     private AccessManager _accessManager;
 
@@ -124,7 +120,7 @@ public class Edit {
     private AEBBaseInformation createNewAebBaseInformation() {
         AEBBaseInformation info = new AEBBaseInformation();
         info.setTyp(0);
-        for (OccupationalCategory cat : _psychStaffFacade.getOccupationalCategories()) {
+        for (OccupationalCategory cat : _aebFacade.getOccupationalCategories()) {
             PersonalAgreed agreed = new PersonalAgreed();
             agreed.setOccupationalCategory(cat);
             info.addPersonalAgreed(agreed);

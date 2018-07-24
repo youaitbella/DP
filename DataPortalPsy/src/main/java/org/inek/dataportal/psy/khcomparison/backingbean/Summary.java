@@ -19,9 +19,9 @@ import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.scope.FeatureScoped;
-import org.inek.dataportal.psy.khcomparison.entity.AEBBaseInformation;
-import org.inek.dataportal.psy.khcomparison.entity.StructureInformation;
-import org.inek.dataportal.psy.khcomparison.facade.AEBFacade;
+import org.inek.dataportal.common.data.KhComparison.entities.AEBBaseInformation;
+import org.inek.dataportal.common.data.KhComparison.entities.StructureInformation;
+import org.inek.dataportal.common.data.KhComparison.facade.AEBFacade;
 
 /**
  *

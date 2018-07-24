@@ -9,7 +9,7 @@ import org.assertj.core.api.Assertions;
 import java.util.ArrayList;
 import java.util.List;
 import org.inek.dataportal.psy.khcomparison.Controller.KhComparisonComparator;
-import org.inek.dataportal.psy.khcomparison.entity.AEBPageE3_1;
+import org.inek.dataportal.common.data.KhComparison.entities.AEBPageE3_1;
 import org.junit.jupiter.api.Test;
 
 /**

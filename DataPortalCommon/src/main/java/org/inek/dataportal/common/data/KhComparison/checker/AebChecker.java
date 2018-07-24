@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.psy.khcomparison.checker;
+package org.inek.dataportal.common.data.KhComparison.checker;
 
-import org.inek.dataportal.psy.khcomparison.entity.*;
-import org.inek.dataportal.psy.khcomparison.facade.AEBListItemFacade;
+import org.inek.dataportal.common.data.KhComparison.entities.*;
+import org.inek.dataportal.common.data.KhComparison.facade.AEBListItemFacade;
 
 /**
  *

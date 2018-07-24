@@ -1,4 +1,4 @@
-package org.inek.dataportal.psy.khcomparison.entity;
+package org.inek.dataportal.common.data.KhComparison.entities;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -9,15 +9,15 @@ import javax.persistence.*;
  * @author lautenti
  */
 @Entity
-@Table(name = "AEBPage_E2", schema = "psy")
-public class AEBPageE2 implements Serializable {
+@Table(name = "RegionStructurParticularities", schema = "psy")
+public class RegionStructurParticularities implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "peId")
+    @Column(name = "rspId")
     private Integer _id;
 
     public int getId() {
@@ -31,7 +31,7 @@ public class AEBPageE2 implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="BaseInformation">
     @ManyToOne
-    @JoinColumn(name = "peBaseInformationId")
+    @JoinColumn(name = "rspBaseInformationId")
     private AEBBaseInformation _baseInformation;
 
     public AEBBaseInformation getBaseInformation() {
@@ -43,56 +43,52 @@ public class AEBPageE2 implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property Ze">
-    @Column(name = "peZe")
-    private String _ze = "";
+    //<editor-fold defaultstate="collapsed" desc="Property StructureCategorieId">
+    @Column(name = "rspStructureCategorieId")
+    private int _structureCategorieId;
 
-    public String getZe() {
-        return _ze;
+    public int getStructureCategorieId() {
+        return _structureCategorieId;
     }
 
-    public void setZe(String ze) {
-        _ze = ze;
-    }
-    //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="Property ZeCount">
-    @Column(name = "peZeCount")
-    private int _zeCount;
-
-    public int getZeCount() {
-        return _zeCount;
-    }
-
-    public void setZeCount(int zeCount) {
-        _zeCount = zeCount;
+    public void setStructureCategorieId(int structureCategorieId) {
+        this._structureCategorieId = structureCategorieId;
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property ValuationRadioDay">
-    @Column(name = "peValuationRadioDay")
-    private double _valuationRadioDay;
+    //<editor-fold defaultstate="collapsed" desc="Property Name">
+    @Column(name = "rspName")
+    private String _name = "";
 
-    public double getValuationRadioDay() {
-        return _valuationRadioDay;
+    public String getName() {
+        return _name;
     }
 
-    public void setValuationRadioDay(double valuationRadioDay) {
-        _valuationRadioDay = valuationRadioDay;
+    public void setName(String name) {
+        this._name = name;
     }
     //</editor-fold>
 
-    public double getSumValuationRadio() {
-        return _zeCount * _valuationRadioDay;
+    //<editor-fold defaultstate="collapsed" desc="Property Description">
+    @Column(name = "rspDescription")
+    private String _description = "";
+
+    public String getDescription() {
+        return _description;
     }
+
+    public void setDescription(String description) {
+        this._description = description;
+    }
+    //</editor-fold>
 
     @Override
     public int hashCode() {
-        int hash = 5;
+        int hash = 3;
         hash = 23 * hash + Objects.hashCode(this._baseInformation);
-        hash = 23 * hash + Objects.hashCode(this._ze);
-        hash = 23 * hash + this._zeCount;
-        hash = 23 * hash + (int) (Double.doubleToLongBits(this._valuationRadioDay) ^ (Double.doubleToLongBits(this._valuationRadioDay) >>> 32));
+        hash = 23 * hash + this._structureCategorieId;
+        hash = 23 * hash + Objects.hashCode(this._name);
+        hash = 23 * hash + Objects.hashCode(this._description);
         return hash;
     }
 
@@ -107,14 +103,14 @@ public class AEBPageE2 implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final AEBPageE2 other = (AEBPageE2) obj;
-        if (this._zeCount != other._zeCount) {
+        final RegionStructurParticularities other = (RegionStructurParticularities) obj;
+        if (this._structureCategorieId != other._structureCategorieId) {
             return false;
         }
-        if (Double.doubleToLongBits(this._valuationRadioDay) != Double.doubleToLongBits(other._valuationRadioDay)) {
+        if (!Objects.equals(this._name, other._name)) {
             return false;
         }
-        if (!Objects.equals(this._ze, other._ze)) {
+        if (!Objects.equals(this._description, other._description)) {
             return false;
         }
         if (!Objects.equals(this._id, other._id)) {

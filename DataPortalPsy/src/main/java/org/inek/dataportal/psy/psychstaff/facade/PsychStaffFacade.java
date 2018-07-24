@@ -28,8 +28,8 @@ import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
 import org.inek.dataportal.common.enums.Right;
 import org.inek.dataportal.psy.psychstaff.entity.ExclusionFact;
-import org.inek.dataportal.psy.psychstaff.entity.OccupationalCategory;
-import org.inek.dataportal.psy.psychstaff.entity.PersonnelGroup;
+import org.inek.dataportal.common.data.KhComparison.entities.PersonnelGroup;
+import org.inek.dataportal.common.data.KhComparison.entities.OccupationalCategory;
 import org.inek.dataportal.psy.psychstaff.entity.StaffProof;
 import org.inek.dataportal.psy.psychstaff.entity.StaffProofAgreed;
 import org.inek.dataportal.psy.psychstaff.entity.StaffProofEffective;
@@ -47,7 +47,8 @@ import org.inek.dataportal.psy.psychstaff.enums.PsychType;
 public class PsychStaffFacade extends AbstractDataAccess {
 
     private static final Logger LOGGER = Logger.getLogger("PsychStaffFacade");
-    @Inject private ConfigFacade _configFacade;
+    @Inject
+    private ConfigFacade _configFacade;
 
     public StaffProof findStaffProof(int id) {
         EntityGraph graph = getEntityManager().createEntityGraph(StaffProof.class);
@@ -95,7 +96,7 @@ public class PsychStaffFacade extends AbstractDataAccess {
         if (!allowedIks.isEmpty()) {
             sql += " or spmIk in (" + allowedIks + ")";
         }
-        sql +=")\r\n";
+        sql += ")\r\n";
         if (dataSet == DataSet.AllSealed) {
             sql += " and spmStatusApx1 = 10 \n"
                     + " and (spmExclusionFactId1 > 0 \n"
@@ -247,5 +248,5 @@ public class PsychStaffFacade extends AbstractDataAccess {
     public List<ExclusionFact> findAllExclusionFacts() {
         return findAll(ExclusionFact.class);
     }
-    
+
 }

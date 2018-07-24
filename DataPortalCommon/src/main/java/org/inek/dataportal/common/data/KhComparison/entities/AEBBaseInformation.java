@@ -1,4 +1,4 @@
-package org.inek.dataportal.psy.khcomparison.entity;
+package org.inek.dataportal.common.data.KhComparison.entities;
 
 import java.io.Serializable;
 import java.time.LocalDate;

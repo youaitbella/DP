@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.psy.khcomparison.importer;
+package org.inek.dataportal.common.data.KhComparison.importer;
 
-import org.inek.dataportal.psy.khcomparison.entity.*;
+import org.inek.dataportal.common.data.KhComparison.entities.*;
 import java.io.InputStream;
 import org.apache.poi.ss.usermodel.*;
 

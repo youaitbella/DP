@@ -1,8 +1,15 @@
 package org.inek.dataportal.psy.khcomparison.Controller;
 
+import org.inek.dataportal.common.data.KhComparison.entities.AEBPageB1;
+import org.inek.dataportal.common.data.KhComparison.entities.AEBPageE3_3;
+import org.inek.dataportal.common.data.KhComparison.entities.AEBPageE3_2;
+import org.inek.dataportal.common.data.KhComparison.entities.AEBPageE1_2;
+import org.inek.dataportal.common.data.KhComparison.entities.AEBPageE1_1;
+import org.inek.dataportal.common.data.KhComparison.entities.AEBBaseInformation;
+import org.inek.dataportal.common.data.KhComparison.entities.AEBPageE2;
+import org.inek.dataportal.common.data.KhComparison.entities.AEBPageE3_1;
 import java.util.List;
 import java.util.NoSuchElementException;
-import org.inek.dataportal.psy.khcomparison.entity.*;
 
 /**
  *

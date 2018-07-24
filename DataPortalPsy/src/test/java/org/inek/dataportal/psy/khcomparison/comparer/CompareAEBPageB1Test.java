@@ -7,7 +7,7 @@ package org.inek.dataportal.psy.khcomparison.comparer;
 
 import org.assertj.core.api.Assertions;
 import org.inek.dataportal.psy.khcomparison.Controller.KhComparisonComparator;
-import org.inek.dataportal.psy.khcomparison.entity.AEBPageB1;
+import org.inek.dataportal.common.data.KhComparison.entities.AEBPageB1;
 import org.junit.jupiter.api.Test;
 
 /**

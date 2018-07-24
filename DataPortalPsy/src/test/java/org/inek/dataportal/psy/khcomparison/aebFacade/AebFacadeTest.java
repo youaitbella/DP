@@ -11,8 +11,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
-import org.inek.dataportal.psy.khcomparison.entity.StructureInformation;
-import org.inek.dataportal.psy.khcomparison.facade.AEBFacade;
+import org.inek.dataportal.common.data.KhComparison.entities.StructureInformation;
+import org.inek.dataportal.common.data.KhComparison.facade.AEBFacade;
 import org.junit.jupiter.api.Test;
 
 /**

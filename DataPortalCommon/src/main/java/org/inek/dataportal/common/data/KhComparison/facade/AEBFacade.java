@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.psy.khcomparison.facade;
+package org.inek.dataportal.common.data.KhComparison.facade;
 
 import java.util.Date;
 import java.util.List;
@@ -14,8 +14,9 @@ import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.psy.khcomparison.entity.AEBBaseInformation;
-import org.inek.dataportal.psy.khcomparison.entity.StructureInformation;
+import org.inek.dataportal.common.data.KhComparison.entities.AEBBaseInformation;
+import org.inek.dataportal.common.data.KhComparison.entities.OccupationalCategory;
+import org.inek.dataportal.common.data.KhComparison.entities.StructureInformation;
 
 /**
  *
@@ -154,5 +155,9 @@ public class AEBFacade extends AbstractDataAccess {
 
     public void deleteBaseInformation(AEBBaseInformation info) {
         remove(info);
+    }
+
+    public List<OccupationalCategory> getOccupationalCategories() {
+        return findAll(OccupationalCategory.class);
     }
 }

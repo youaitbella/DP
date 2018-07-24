@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.psy.khcomparison.facade;
+package org.inek.dataportal.common.data.KhComparison.facade;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

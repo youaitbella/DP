@@ -5,6 +5,8 @@
  */
 package org.inek.dataportal.psy.khcomparison.backingbean;
 
+import org.inek.dataportal.common.data.KhComparison.entities.ActionLog;
+import org.inek.dataportal.common.data.KhComparison.entities.StructureInformation;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,10 +22,9 @@ import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.scope.FeatureScoped;
-import org.inek.dataportal.psy.khcomparison.entity.*;
-import org.inek.dataportal.psy.khcomparison.facade.AEBFacade;
-import org.inek.dataportal.psy.khcomparison.facade.AEBListItemFacade;
-import org.inek.dataportal.psy.khcomparison.facade.ActionLogFacade;
+import org.inek.dataportal.common.data.KhComparison.facade.AEBFacade;
+import org.inek.dataportal.common.data.KhComparison.facade.AEBListItemFacade;
+import org.inek.dataportal.common.data.KhComparison.facade.ActionLogFacade;
 
 /**
  *

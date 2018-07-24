@@ -1,9 +1,8 @@
-package org.inek.dataportal.psy.khcomparison.entity;
+package org.inek.dataportal.common.data.KhComparison.entities;
 
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.*;
-import org.inek.dataportal.psy.psychstaff.entity.OccupationalCategory;
 
 /**
  *

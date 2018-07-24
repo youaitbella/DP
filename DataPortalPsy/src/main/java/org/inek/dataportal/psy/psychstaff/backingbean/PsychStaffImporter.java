@@ -11,7 +11,6 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.Part;
-import org.inek.dataportal.psy.psychstaff.entity.OccupationalCategory;
 import org.inek.dataportal.psy.psychstaff.entity.StaffProof;
 import org.inek.dataportal.psy.psychstaff.entity.StaffProofAgreed;
 import org.inek.dataportal.psy.psychstaff.entity.StaffProofEffective;
@@ -19,12 +18,14 @@ import org.inek.dataportal.psy.psychstaff.entity.StaffProofExplanation;
 import org.inek.dataportal.psy.psychstaff.enums.PsychType;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.utils.StringUtil;
+import org.inek.dataportal.common.data.KhComparison.entities.OccupationalCategory;
 
 /**
  *
  * @author muellermi
  */
 public class PsychStaffImporter {
+
     private static final String NOTHING_TO_IMPORT = "Nichts zu importieren";
     private static final String LIMIT_SEQ_OCCUPASIONAL_GROUP = "Die laufende Nummer der Berufsgruppe muss zwischen 1 und 7 liegen";
     private static final String NUMBER_6_VALID_FOR_KIDS_ONLY = "Die laufende Nummer 6 (Logopädie) ist nur bei KJP zulässig";
@@ -69,7 +70,7 @@ public class PsychStaffImporter {
         if (occupationalCategoryId < 1 || occupationalCategoryId > 7) {
             throw new IllegalArgumentException(LIMIT_SEQ_OCCUPASIONAL_GROUP);
         }
-        if (occupationalCategoryId == 6 && type == PsychType.Adults){
+        if (occupationalCategoryId == 6 && type == PsychType.Adults) {
             throw new IllegalArgumentException(NUMBER_6_VALID_FOR_KIDS_ONLY);
         }
         double staffingComplete = StringUtil.parseLocalizedDouble(data[2]);
@@ -124,7 +125,7 @@ public class PsychStaffImporter {
         if (occupationalCategoryId < 1 || occupationalCategoryId > 7) {
             throw new IllegalArgumentException(LIMIT_SEQ_OCCUPASIONAL_GROUP);
         }
-        if (occupationalCategoryId == 6 && type == PsychType.Adults){
+        if (occupationalCategoryId == 6 && type == PsychType.Adults) {
             throw new IllegalArgumentException(NUMBER_6_VALID_FOR_KIDS_ONLY);
         }
         double staffingComplete = StringUtil.parseLocalizedDouble(data[2]);
@@ -180,7 +181,7 @@ public class PsychStaffImporter {
         if (occupationalCategoryId < 1 || occupationalCategoryId > 7) {
             throw new IllegalArgumentException(LIMIT_SEQ_OCCUPASIONAL_GROUP);
         }
-        if (occupationalCategoryId == 6 && type == PsychType.Adults){
+        if (occupationalCategoryId == 6 && type == PsychType.Adults) {
             throw new IllegalArgumentException(NUMBER_6_VALID_FOR_KIDS_ONLY);
         }
         OccupationalCategory occupationalCategory = obtainOccupationalCategory(staffProof, type, occupationalCategoryId);

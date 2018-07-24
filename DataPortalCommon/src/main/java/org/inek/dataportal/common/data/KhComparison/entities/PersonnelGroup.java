@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.psy.psychstaff.entity;
+package org.inek.dataportal.common.data.KhComparison.entities;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -31,16 +31,16 @@ public class PersonnelGroup implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "pgId")
     private int _id;
-    
+
     public int getId() {
         return _id;
     }
-    
+
     public void setId(int id) {
         this._id = id;
     }
     //</editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property Name">
     @Column(name = "pgName")
     @Documentation(key = "lblName")
@@ -64,7 +64,7 @@ public class PersonnelGroup implements Serializable {
         hash = 97 * hash + Objects.hashCode(this._name);
         return hash;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -85,11 +85,11 @@ public class PersonnelGroup implements Serializable {
         }
         return true;
     }
-    
+
     @Override
     public String toString() {
         return _name;
     }
     //</editor-fold>
-    
+
 }
