@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.psy.khcomparison.backingbean;
+package org.inek.dataportal.insurance.khcomparison.backingbean;
 
 import org.inek.dataportal.common.data.KhComparison.entities.*;
 import java.io.ByteArrayInputStream;
@@ -20,7 +20,6 @@ import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.scope.FeatureScoped;
 import org.inek.dataportal.common.data.KhComparison.checker.AebChecker;
 import org.inek.dataportal.common.data.KhComparison.checker.AebComparer;
@@ -48,8 +47,6 @@ public class Edit {
     private DialogController _dialogController;
     @Inject
     private AEBListItemFacade _aebListItemFacade;
-    @Inject
-    private AccessManager _accessManager;
 
     private AEBBaseInformation _aebBaseInformation;
     private List<Integer> _validDatayears = new ArrayList<>();
@@ -110,10 +107,11 @@ public class Edit {
 
     public void setReadOnly() {
         if (_aebBaseInformation != null) {
-            setReadOnly(!_accessManager.isReadAllowed(Feature.AEB,
-                    _sessionController.getAccount(), _aebBaseInformation.getIk()));
-        } else if (_aebBaseInformation.getIk() == 0) {
-            setReadOnly(false);
+            if (_aebBaseInformation.getStatus() == WorkflowStatus.Provided) {
+                setReadOnly(true);
+            } else {
+                setReadOnly(false);
+            }
         } else {
             setReadOnly(true);
         }
@@ -121,7 +119,7 @@ public class Edit {
 
     private AEBBaseInformation createNewAebBaseInformation() {
         AEBBaseInformation info = new AEBBaseInformation();
-        info.setTyp(0);
+        info.setTyp(1);
         for (OccupationalCategory cat : _aebFacade.getOccupationalCategories()) {
             PersonalAgreed agreed = new PersonalAgreed();
             agreed.setOccupationalCategory(cat);
@@ -145,7 +143,7 @@ public class Edit {
                 _dialogController.showErrorDialog("Fehler beim Speichern", "Vorgang abgebrochen");
             }
         } else {
-            _dialogController.showWarningDialog("Fehler beim Speichern", "Bitte geben Sie eine gültige IK und Datenjahr an");
+            _dialogController.showWarningDialog("Fehler beim Speichern", "Bitte geben Sie eine gültige IK und Jahr an");
         }
     }
 
@@ -158,7 +156,7 @@ public class Edit {
                     "Es wurden Unterschiede in bereits abgegeben Information für die IK "
                     + _aebBaseInformation.getIk() + " festgestellt");
         }
-        return Pages.KhComparisonSummary.URL();
+        return Pages.InsuranceKhComparisonSummary.URL();
     }
 
     private Boolean aebContainsDifferences() {
@@ -301,19 +299,16 @@ public class Edit {
     public String change() {
         _aebBaseInformation.setStatus(WorkflowStatus.CorrectionRequested);
         _aebBaseInformation = _aebFacade.save(_aebBaseInformation);
-        return Pages.KhComparisonSummary.URL();
+        return Pages.InsuranceKhComparisonSummary.URL();
     }
 
     public void ikChanged() {
-        List<Integer> usedYears = _aebFacade.getUsedDataYears(_aebBaseInformation.getIk(), 0);
+        List<Integer> usedYears = _aebFacade.getUsedDataYears(_aebBaseInformation.getIk(), 1);
         setValidDatayears(getValideDatayears(getAllowedDataYears(), usedYears));
     }
 
     public List<Integer> getValideDatayears(List<Integer> allowedYears, List<Integer> usedYears) {
         allowedYears.removeAll(usedYears);
-//        if (_aebBaseInformation.getStatus().getId() > WorkflowStatus.New.getId()) {
-//            allowedYears.add(_aebBaseInformation.getYear());
-//        }
         return allowedYears;
     }
 
@@ -324,17 +319,8 @@ public class Edit {
     }
 
     public List<Integer> getAllowedIks() {
-        List<Integer> iks = new ArrayList<>();
-        for (Integer ik : _aebFacade.getAllowedIks(_sessionController.getAccountId(),
-                Utils.getTargetYear(Feature.AEB), 0)) {
-            if (_accessManager.isCreateAllowed(Feature.AEB, _sessionController.getAccount(), ik)) {
-                iks.add(ik);
-            }
-        }
-        if (_aebBaseInformation.getIk() != 0) {
-            iks.add(_aebBaseInformation.getIk());
-        }
-        return iks;
+        return _aebFacade.getAllowedIksForInsurance(_sessionController.getAccountId(),
+                Utils.getTargetYear(Feature.AEB), 1);
     }
 
     private boolean baseInfoisComplete(AEBBaseInformation info) {

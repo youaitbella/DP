@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/Input"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:pf="http://primefaces.org/ui">
+
+    <h4>
+        E1.1 Aufstellung der tagesbezogenen pauschalierenden Entgelte für die Psychiatrie und Psychosomatik (PEPP)
+    </h4>
+    <pf:dataTable id="listpagee11"
+                  var="page"
+                  value="#{edit.aebBaseInformation.aebPageE1_1}"
+                  widgetVar="pagesE11"
+                  emptyMessage="Keine Einträge vorhanden"
+                  tableStyleClass="inekTableDrg">
+        <pf:column class="colIcon" rendered="#{!edit.isReadOnly()}">
+            <pf:commandLink action="#{edit.removePageE1_1(page)}"
+                            update="listpagee11"
+                            process="@this">
+                <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value=""/>
+            </pf:commandLink>
+        </pf:column>
+        <pf:column headerText="PEPP">
+            <pf:inputText id="peppId"
+                          value="#{page.pepp}"
+                          maxlength="5"
+                          readonly="#{edit.isReadOnly()}" >
+                <pf:ajax event="change" oncomplete="#{edit.peppChanged(page)}" update="listpagee11" immediate="true" />
+            </pf:inputText>
+            <pf:message for="peppId" />
+        </pf:column>
+        <pf:column headerText="Vergütungsklasse">
+            <pf:inputNumber id="vclasse11"
+                            value="#{page.compensationClass}"
+                            readonly="#{edit.isReadOnly()}"
+                            decimalPlaces="0"
+                            inputStyle="width: 100%; text-align: right">
+                <pf:ajax event="change" oncomplete="#{edit.peppChanged(page)}" update="listpagee11" immediate="true" />
+            </pf:inputNumber>
+            <pf:message for="vclasse11" />
+        </pf:column>
+        <pf:column headerText="Fallzahl" style="text-align: right">
+            <pf:inputNumber id="casecountid"
+                            value="#{page.caseCount}"
+                            readonly="#{edit.isReadOnly()}"
+                            decimalPlaces="0"
+                            inputStyle="width: 100%; text-align: right">
+                <pf:ajax event="change" oncomplete="#{edit.peppChanged(page)}" update="listpagee11" immediate="true" />
+            </pf:inputNumber>
+            <pf:message for="casecountid" />
+            <f:facet name="footer">
+                <pf:outputLabel value="#{edit.aebBaseInformation.aebPageE1_1.stream().map(c -> c.getCaseCount()).sum()}" >
+                    <f:convertNumber groupingUsed="true" minFractionDigits="0" />
+                </pf:outputLabel>
+            </f:facet>
+        </pf:column>
+        <pf:column headerText="Berechnungstage" style="text-align: right">
+            <pf:inputNumber id="calcdaysIde11"
+                            value="#{page.calculationDays}"
+                            readonly="#{edit.isReadOnly()}"
+                            decimalPlaces="0"
+                            inputStyle="width: 100%; text-align: right">
+                <pf:ajax event="change" oncomplete="#{edit.peppChanged(page)}" update="listpagee11" immediate="true" />
+            </pf:inputNumber>
+            <pf:message for="calcdaysIde11" />
+            <f:facet name="footer">
+                <pf:outputLabel value="#{edit.aebBaseInformation.aebPageE1_1.stream().map(c -> c.getCalculationDays()).sum()}" >
+                    <f:convertNumber groupingUsed="true" minFractionDigits="0" />
+                </pf:outputLabel>
+            </f:facet>
+        </pf:column>
+        <pf:column headerText="Bewertungsrelation / Tag" style="text-align: right">
+            <pf:outputLabel value="#{page.valuationRadioDay}" >
+                <f:convertNumber groupingUsed="true" minFractionDigits="4" />
+            </pf:outputLabel>
+        </pf:column>
+        <pf:column headerText="Summe der Bewertungsrelation" style="text-align: right">
+            <pf:outputLabel value="#{page.sumValuationRadio}" >
+                <f:convertNumber groupingUsed="true" minFractionDigits="4" />
+            </pf:outputLabel>
+            <f:facet name="footer">
+                <pf:outputLabel value="#{edit.aebBaseInformation.aebPageE1_1.stream().map(c -> c.getSumValuationRadio()).sum()}" >
+                    <f:convertNumber groupingUsed="true" minFractionDigits="4" />
+                </pf:outputLabel>
+            </f:facet>
+        </pf:column>
+
+    </pf:dataTable>
+
+    <div class="ui-md-5">
+        <pf:commandButton value="Weiteren Eintrag hinzufügen"
+                          class="addEntryDrg"
+                          icon="fa fa-plus"
+                          process="@this"
+                          action="#{edit.addNewPageE1_1()}"
+                          rendered="#{!edit.isReadOnly()}"
+                          update="listpagee11"/>
+    </div>
+</ui:composition>

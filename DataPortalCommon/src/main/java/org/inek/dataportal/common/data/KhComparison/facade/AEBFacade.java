@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.ejb.Stateless;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
@@ -30,6 +31,23 @@ public class AEBFacade extends AbstractDataAccess {
         TypedQuery<AEBBaseInformation> query = getEntityManager().createQuery(sql, AEBBaseInformation.class);
         query.setParameter("id", id);
         return query.getSingleResult();
+    }
+
+    public AEBBaseInformation findAEBBaseInformation(int ik, int year, int typ, WorkflowStatus status) {
+        String sql = "SELECT bi FROM AEBBaseInformation bi WHERE bi._year = :year "
+                + "and bi._ik = :ik "
+                + "and bi._typ = :typ "
+                + "and bi._statusId = :status";
+        TypedQuery<AEBBaseInformation> query = getEntityManager().createQuery(sql, AEBBaseInformation.class);
+        query.setParameter("ik", ik);
+        query.setParameter("year", year);
+        query.setParameter("typ", typ);
+        query.setParameter("status", status.getId());
+        try {
+            return query.getSingleResult();
+        } catch (NoResultException ex) {
+            return null;
+        }
     }
 
     public StructureInformation findStructureInformation(int id) {
@@ -116,6 +134,19 @@ public class AEBFacade extends AbstractDataAccess {
         String sql = "select distinct aaiIK from dbo.AccountAdditionalIK\n"
                 + "where aaiAccountId = " + accountId + "\n"
                 + "and aaiIK not in (\n"
+                + "select biIk from psy.AEBBaseInformation\n"
+                + "where biDataYear >= " + year + " \n"
+                + "and biTyp = " + typ + ")";
+        Query query = getEntityManager().createNativeQuery(sql);
+        @SuppressWarnings("unchecked")
+        List<Integer> result = query.getResultList();
+        return result;
+    }
+
+    public List<Integer> getAllowedIksForInsurance(int accountId, int year, int typ) {
+        String sql = "select distinct ikaIk from insurance.ikAgent\n"
+                + "where ikaAccountId = " + accountId + "\n"
+                + "and ikaIk not in (\n"
                 + "select biIk from psy.AEBBaseInformation\n"
                 + "where biDataYear >= " + year + " \n"
                 + "and biTyp = " + typ + ")";

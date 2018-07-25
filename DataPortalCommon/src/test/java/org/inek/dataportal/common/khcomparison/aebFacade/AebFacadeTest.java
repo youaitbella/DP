@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.psy.khcomparison.aebFacade;
+package org.inek.dataportal.common.khcomparison.aebFacade;
 
 import org.assertj.core.api.Assertions;
 import java.util.ArrayList;

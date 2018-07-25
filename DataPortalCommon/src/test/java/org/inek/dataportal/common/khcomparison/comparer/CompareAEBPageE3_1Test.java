@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.psy.khcomparison.comparer;
+package org.inek.dataportal.common.khcomparison.comparer;
 
 import org.assertj.core.api.Assertions;
 import java.util.ArrayList;
 import java.util.List;
-import org.inek.dataportal.psy.khcomparison.Controller.KhComparisonComparator;
+import org.inek.dataportal.common.data.KhComparison.checker.AebComparer;
 import org.inek.dataportal.common.data.KhComparison.entities.AEBPageE3_1;
 import org.junit.jupiter.api.Test;
 
@@ -24,7 +24,7 @@ public class CompareAEBPageE3_1Test {
 
     @Test
     public void compareDifferentCountEntrysTest() {
-        KhComparisonComparator com = new KhComparisonComparator();
+        AebComparer com = new AebComparer();
 
         List<AEBPageE3_1> list1 = new ArrayList<>();
         List<AEBPageE3_1> list2 = new ArrayList<>();
@@ -44,7 +44,7 @@ public class CompareAEBPageE3_1Test {
 
     @Test
     public void compareDifferentRenumerationTest() {
-        KhComparisonComparator com = new KhComparisonComparator();
+        AebComparer com = new AebComparer();
 
         List<AEBPageE3_1> list1 = new ArrayList<>();
         List<AEBPageE3_1> list2 = new ArrayList<>();
@@ -67,7 +67,7 @@ public class CompareAEBPageE3_1Test {
 
     @Test
     public void compareDifferentCaseCountTest() {
-        KhComparisonComparator com = new KhComparisonComparator();
+        AebComparer com = new AebComparer();
 
         List<AEBPageE3_1> list1 = new ArrayList<>();
         List<AEBPageE3_1> list2 = new ArrayList<>();
@@ -94,7 +94,7 @@ public class CompareAEBPageE3_1Test {
 
     @Test
     public void compareDifferentRenumerationValueTest() {
-        KhComparisonComparator com = new KhComparisonComparator();
+        AebComparer com = new AebComparer();
 
         List<AEBPageE3_1> list1 = new ArrayList<>();
         List<AEBPageE3_1> list2 = new ArrayList<>();
@@ -121,7 +121,7 @@ public class CompareAEBPageE3_1Test {
 
     @Test
     public void compareDifferentCaseCountDeductionTest() {
-        KhComparisonComparator com = new KhComparisonComparator();
+        AebComparer com = new AebComparer();
 
         List<AEBPageE3_1> list1 = new ArrayList<>();
         List<AEBPageE3_1> list2 = new ArrayList<>();
@@ -148,7 +148,7 @@ public class CompareAEBPageE3_1Test {
 
     @Test
     public void compareDifferentDaysCountDeductionTest() {
-        KhComparisonComparator com = new KhComparisonComparator();
+        AebComparer com = new AebComparer();
 
         List<AEBPageE3_1> list1 = new ArrayList<>();
         List<AEBPageE3_1> list2 = new ArrayList<>();
@@ -175,7 +175,7 @@ public class CompareAEBPageE3_1Test {
 
     @Test
     public void compareDifferentDeductionDaysTest() {
-        KhComparisonComparator com = new KhComparisonComparator();
+        AebComparer com = new AebComparer();
 
         List<AEBPageE3_1> list1 = new ArrayList<>();
         List<AEBPageE3_1> list2 = new ArrayList<>();
@@ -202,7 +202,7 @@ public class CompareAEBPageE3_1Test {
 
     @Test
     public void compareDifferentCaseCountSurchargesTest() {
-        KhComparisonComparator com = new KhComparisonComparator();
+        AebComparer com = new AebComparer();
 
         List<AEBPageE3_1> list1 = new ArrayList<>();
         List<AEBPageE3_1> list2 = new ArrayList<>();
@@ -229,7 +229,7 @@ public class CompareAEBPageE3_1Test {
 
     @Test
     public void compareDifferentDayCountSurchargesTest() {
-        KhComparisonComparator com = new KhComparisonComparator();
+        AebComparer com = new AebComparer();
 
         List<AEBPageE3_1> list1 = new ArrayList<>();
         List<AEBPageE3_1> list2 = new ArrayList<>();
@@ -256,7 +256,7 @@ public class CompareAEBPageE3_1Test {
 
     @Test
     public void compareDifferentSurchargesDaysTest() {
-        KhComparisonComparator com = new KhComparisonComparator();
+        AebComparer com = new AebComparer();
 
         List<AEBPageE3_1> list1 = new ArrayList<>();
         List<AEBPageE3_1> list2 = new ArrayList<>();

@@ -1,4 +1,4 @@
-package org.inek.dataportal.psy.khcomparison.Controller;
+package org.inek.dataportal.common.data.KhComparison.checker;
 
 import org.inek.dataportal.common.data.KhComparison.entities.AEBPageB1;
 import org.inek.dataportal.common.data.KhComparison.entities.AEBPageE3_3;
@@ -16,9 +16,7 @@ import java.util.NoSuchElementException;
  * @author lautenti
  */
 @SuppressWarnings("LineLength")
-public class KhComparisonComparator {
-
-    private static final double TOLERANCE = 0;
+public class AebComparer {
 
     private String _result = "";
 
@@ -30,10 +28,10 @@ public class KhComparisonComparator {
         this._result = result;
     }
 
-    public KhComparisonComparator() {
+    public AebComparer() {
     }
 
-    public void compare(AEBBaseInformation info1, AEBBaseInformation info2) {
+    public Boolean compare(AEBBaseInformation info1, AEBBaseInformation info2) {
         compareAEBPageE1_1(info1.getAebPageE1_1(), info2.getAebPageE1_1());
         compareAEBPageE1_2(info1.getAebPageE1_2(), info2.getAebPageE1_2());
         compareAEBPageE2(info1.getAebPageE2(), info2.getAebPageE2());
@@ -41,6 +39,8 @@ public class KhComparisonComparator {
         compareAEBPageE3_2(info1.getAebPageE3_2(), info2.getAebPageE3_2());
         compareAEBPageE3_3(info1.getAebPageE3_3(), info2.getAebPageE3_3());
         compareAEBPageB1(info1.getAebPageB1(), info2.getAebPageB1());
+
+        return _result.isEmpty();
     }
 
     public void compareAEBPageE1_1(List<AEBPageE1_1> listPage1, List<AEBPageE1_1> listPage2) {
@@ -247,26 +247,14 @@ public class KhComparisonComparator {
     }
 
     private void compareInt(int value1, int value2, String page) {
-        double z = value1 - value2;
-        z = Math.abs(z);
-        double p = (value1 + value2) / 2;
-        p = (z / p) * 100;
-        p = Math.abs(p);
-        p = Math.round(p * 100.0) / 100.0;
-        if (p > TOLERANCE) {
-            addMessage(page + ": Unterschied von " + p + " %");
+        if (value1 != value2) {
+            addMessage(page + ": Unterschied von " + value1 + " zu " + value2);
         }
     }
 
     private void compareDouble(double value1, double value2, String page) {
-        double z = value1 - value2;
-        z = Math.abs(z);
-        double p = (value1 + value2) / 2;
-        p = (z / p) * 100;
-        p = Math.abs(p);
-        p = Math.round(p * 100.0) / 100.0;
-        if (p > TOLERANCE) {
-            addMessage(page + ": Unterschied von " + Math.round(p) + " %");
+        if (value1 != value2) {
+            addMessage(page + ": Unterschied von " + Math.round(100.0 * value1) / 100.0 + " zu " + Math.round(100.0 * value2) / 100.0);
         }
     }
 

@@ -26,6 +26,7 @@ public class InsuranceController extends AbstractFeatureController {
         topics.addTopic(Utils.getMessage("lblInsuranceNub"), Pages.InsuranceSummary.URL());
         topics.addTopic(Utils.getMessage("lblInsuranceSpecificFuntions"), Pages.InsuranceSpecificFunctionSummary.URL());
         topics.addTopic("Psych-Personalnachweis: Überprüfung der Signatur", Pages.InsuranceCheckSignature.URL());
+        topics.addTopic("Krankenhausvergleich Datenerfassung", Pages.InsuranceKhComparisonSummary.URL());
     }
 
     @Override

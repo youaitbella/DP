@@ -16,7 +16,7 @@
                 <h:commandLink value="Datenerfassung für den Krankenhausvergleich" action="#{sessionController.navigate(sessionTools.pages.KhComparisonSummary)}" immediate="true"/>
             </h1>
         </h:form>
-        <h:form>
+        <h:form id="mainForm">
             <pf:messages>
                 <pf:autoUpdate />
             </pf:messages>
@@ -24,34 +24,28 @@
                 <ui:include src="Generell.xhtml" />
             </div>
             <pf:tabView styleClass="featureTabs" dynamic="true">
-                <pf:tab title="AEB">
+                <pf:tab title="AEB" >
                     <ui:include src="Aeb/AebSummary.xhtml" />
                 </pf:tab>
-                <pf:tab title="Personalausstattung Psychosomatik">
-                    <ui:include src="PersonalAgreed.xhtml" />
-                </pf:tab>
-                <pf:tab title="Regionale und Strukturelle Besonderheiten">
-                    <ui:include src="RegionStructurParticularities.xhtml" />
-                </pf:tab>
-                <pf:tab title="(Fallback) Kalkulationsunterlagen">
+                <pf:tab title="Kalkulationsunterlagen">
                     <ui:include src="CalcDocuments.xhtml" />
                 </pf:tab>
             </pf:tabView>
             <div class="footerInformation">
-                <pf:commandButton styleClass="btnPsy"
+                <pf:commandButton styleClass="btnInsurance"
                                   value="Datensatz ändern"
                                   action="#{edit.change()}"
-                                  update="@form"
+                                  update="@all"
                                   immediate="true"
-                                  rendered="#{edit.isReadOnly()}"/>
-                <pf:commandButton styleClass="btnPsy"
+                                  rendered="#{edit.isReadOnly()}" />
+                <pf:commandButton styleClass="btnInsurance"
                                   value="Speichern"
                                   action="#{edit.save()}"
-                                  update="@(.ui-message) @form"
+                                  update="@(.ui-message) @all"
                                   immediate="true"
                                   rendered="#{!edit.isReadOnly()}"/>
                 <pf:commandButton value="Ans InEK senden"
-                                  update="@(.ui-message) @form"
+                                  update="@(.ui-message) @all"
                                   action="#{edit.send()}"
                                   styleClass="btnSend arrow-right"
                                   rendered="#{!edit.isReadOnly()}"/>

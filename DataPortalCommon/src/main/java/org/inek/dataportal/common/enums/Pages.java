@@ -184,6 +184,9 @@ public enum Pages {
     StructureInformationEdit("/KhComparison/StructureInformation/StructureInformationEdit"),
     PartKhComparison("/KhComparison/PartKhComparison"),
     //
+    InsuranceKhComparisonSummary("/Insurance/KhComparison/Summary"),
+    InsuranceKhComparisonEdit("/Insurance/KhComparison/Edit"),
+    //
     NotAllowed("/Common/NotAllowed"),
     PrintView("/Common/PrintView"),
     PrintMultipleView("/Common/PrintMultipleView"),

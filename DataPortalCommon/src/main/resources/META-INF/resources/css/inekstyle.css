@@ -29,9 +29,16 @@
     padding: 2px !important;
 }
 
-.addEntry {
+.addEntryPsy {
     background-image: none !important;
     background-color:  #e2f5d5 !important;
+    margin-top: 5px;
+    cursor: pointer;
+}
+
+.addEntryDrg {
+    background-image: none !important;
+    background-color:  #ddeffd !important;
     margin-top: 5px;
     cursor: pointer;
 }
@@ -57,6 +64,8 @@
     padding-right: 10px;
 }
 
+/* Send Button */
+
 .btnSend span {
     background-image: none !important;
     background-color: #4aa628 !important;
@@ -78,6 +87,8 @@
     padding-left: 10px;
 }
 
+/* Buttons */
+
 .btnPsy span {
     background-image: none !important;
     background-color: #437a1e !important;
@@ -93,26 +104,47 @@
     background-color: #60ab2e !important;
 }
 
-.inekTablePsy th{
+.btnInsurance span {
+    background-image: none !important;
+    background-color: #604040 !important;
+    color: #ffffff !important;
+    min-width: 150px;
+    text-shadow: none;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.btnInsurance span:hover {
+    background-color: #a06666 !important;
+}
+
+/* Tables */
+
+.inekTablePsy th, tfoot td{
     background-image: none !important;
     background-color: #e2f5d5 !important
 }
 
+.inekTableDrg th, tfoot td{
+    background-image: none !important;
+    background-color: #ddeffd !important
+}
+
+.inekTableDrg tr:nth-child(even) td,
 .inekTablePsy tr:nth-child(even) td {
     background-color: #dddddd;
     color: #000;
 }
 
-.inekTablePsy tfoot td{
-    background-image: none !important;
-    background-color: #e2f5d5 !important
-}
+/* Uploader */
 
 .inekUploader span {
     background-color: #a8cce6
 }
 
 /* Tabs Overrides */
+
 .ui-tabs.ui-tabs-top .ui-tabs-nav.ui-widget-header li {
     background-color: silver;
     border-color: #eeeeee darkgrey darkgrey #eeeeee;

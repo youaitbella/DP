@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.psy.khcomparison.comparer;
+package org.inek.dataportal.common.khcomparison.comparer;
 
 import org.assertj.core.api.Assertions;
-import org.inek.dataportal.psy.khcomparison.Controller.KhComparisonComparator;
+import org.inek.dataportal.common.data.KhComparison.checker.AebComparer;
 import org.inek.dataportal.common.data.KhComparison.entities.AEBPageB1;
 import org.junit.jupiter.api.Test;
 
@@ -22,7 +22,7 @@ public class CompareAEBPageB1Test {
 
     @Test
     public void compareDifferentEqualsTest() {
-        KhComparisonComparator com = new KhComparisonComparator();
+        AebComparer com = new AebComparer();
 
         com.compareAEBPageB1(createNewPage(0, 0, 0, 0, 0, 0, 0),
                 createNewPage(0, 0, 0, 0, 0, 0, 0));
@@ -39,7 +39,7 @@ public class CompareAEBPageB1Test {
 
     @Test
     public void compareDifferentTotalAgreementTest() {
-        KhComparisonComparator com = new KhComparisonComparator();
+        AebComparer com = new AebComparer();
 
         com.compareAEBPageB1(createNewPage(10, 0, 0, 0, 0, 0, 0),
                 createNewPage(10, 0, 0, 0, 0, 0, 0));
@@ -57,7 +57,7 @@ public class CompareAEBPageB1Test {
 
     @Test
     public void compareDifferentChangedTotalTest() {
-        KhComparisonComparator com = new KhComparisonComparator();
+        AebComparer com = new AebComparer();
 
         com.compareAEBPageB1(createNewPage(0, 10, 0, 0, 0, 0, 0),
                 createNewPage(0, 10, 0, 0, 0, 0, 0));
@@ -75,7 +75,7 @@ public class CompareAEBPageB1Test {
 
     @Test
     public void compareDifferentChangedProceedsBudgetTest() {
-        KhComparisonComparator com = new KhComparisonComparator();
+        AebComparer com = new AebComparer();
 
         com.compareAEBPageB1(createNewPage(0, 0, 10, 0, 0, 0, 0),
                 createNewPage(0, 0, 10, 0, 0, 0, 0));
@@ -93,7 +93,7 @@ public class CompareAEBPageB1Test {
 
     @Test
     public void compareDifferentsetSumValuationRadioRenumerationTest() {
-        KhComparisonComparator com = new KhComparisonComparator();
+        AebComparer com = new AebComparer();
 
         com.compareAEBPageB1(createNewPage(0, 0, 0, 10, 0, 0, 0),
                 createNewPage(0, 0, 0, 10, 0, 0, 0));

@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.psy.khcomparison.comparer;
+package org.inek.dataportal.common.khcomparison.comparer;
 
 import org.assertj.core.api.Assertions;
 import java.util.ArrayList;
 import java.util.List;
-import org.inek.dataportal.psy.khcomparison.Controller.KhComparisonComparator;
+import org.inek.dataportal.common.data.KhComparison.checker.AebComparer;
 import org.inek.dataportal.common.data.KhComparison.entities.AEBPageE1_2;
 import org.junit.jupiter.api.Test;
 
@@ -24,7 +24,7 @@ public class CompareAEBPageE1_2Test {
 
     @Test
     public void compareDifferentCountEntrysTest() {
-        KhComparisonComparator com = new KhComparisonComparator();
+        AebComparer com = new AebComparer();
 
         List<AEBPageE1_2> list1 = new ArrayList<>();
         List<AEBPageE1_2> list2 = new ArrayList<>();
@@ -44,7 +44,7 @@ public class CompareAEBPageE1_2Test {
 
     @Test
     public void compareDifferentEtTest() {
-        KhComparisonComparator com = new KhComparisonComparator();
+        AebComparer com = new AebComparer();
 
         List<AEBPageE1_2> list1 = new ArrayList<>();
         List<AEBPageE1_2> list2 = new ArrayList<>();
@@ -68,7 +68,7 @@ public class CompareAEBPageE1_2Test {
 
     @Test
     public void compareDifferentCalculationDaysTest() {
-        KhComparisonComparator com = new KhComparisonComparator();
+        AebComparer com = new AebComparer();
 
         List<AEBPageE1_2> list1 = new ArrayList<>();
         List<AEBPageE1_2> list2 = new ArrayList<>();

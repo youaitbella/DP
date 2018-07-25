@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.psy.khcomparison.backingbean;
+package org.inek.dataportal.insurance.khcomparison.backingbean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,7 +70,6 @@ public class Summary {
     public void init() {
         setWorkingList();
         setCompleteList();
-        setStructureInformationList();
     }
 
     private void setWorkingList() {
@@ -78,8 +77,8 @@ public class Summary {
         for (AccessRight right : _sessionController.getAccount().getAccessRights().stream()
                 .filter(c -> c.canRead() && c.getFeature() == Feature.AEB)
                 .collect(Collectors.toList())) {
-            _listWorking.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.New, right.getIk(), 0));
-            _listWorking.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.CorrectionRequested, right.getIk(), 0));
+            _listWorking.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.New, right.getIk(), 1));
+            _listWorking.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.CorrectionRequested, right.getIk(), 1));
         }
     }
 
@@ -88,16 +87,12 @@ public class Summary {
         for (AccessRight right : _sessionController.getAccount().getAccessRights().stream()
                 .filter(c -> c.canRead() && c.getFeature() == Feature.AEB)
                 .collect(Collectors.toList())) {
-            _listComplete.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.Provided, right.getIk(), 0));
+            _listComplete.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.Provided, right.getIk(), 1));
         }
     }
 
     public String khComparisonOpen() {
-        return Pages.KhComparisonEdit.URL();
-    }
-
-    public String structureInformationOpen() {
-        return Pages.StructureInformationEdit.URL();
+        return Pages.InsuranceKhComparisonEdit.URL();
     }
 
     public boolean isCreateEntryAllowed() {
@@ -110,30 +105,9 @@ public class Summary {
         return false;
     }
 
-    public boolean isCreateStructureInformationAllowed() {
-        for (Integer ik : _sessionController.getAccount().getFullIkSet()) {
-            if (!_aebfacade.structureInformaionAvailable(ik)) {
-                if (_accessManager.isCreateAllowed(Feature.AEB, _sessionController.getAccount(), ik)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
     public void deleteBaseInformation(AEBBaseInformation info) {
         _aebfacade.deleteBaseInformation(info);
         setWorkingList();
-    }
-
-    private void setStructureInformationList() {
-        for (Integer ik : _sessionController.getAccount().getFullIkSet()) {
-            if (_aebfacade.structureInformaionAvailable(ik)) {
-                if (_accessManager.isReadAllowed(Feature.AEB, _sessionController.getAccount(), ik)) {
-                    _listStructureInformation.add(_aebfacade.getStructureInformationByIk(ik));
-                }
-            }
-        }
     }
 
     public Boolean isDeleteAllowed(int ik) {
