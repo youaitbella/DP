@@ -26,7 +26,11 @@ import org.inek.dataportal.common.data.KhComparison.checker.AebComparer;
 import org.inek.dataportal.common.data.KhComparison.facade.AEBFacade;
 import org.inek.dataportal.common.data.KhComparison.facade.AEBListItemFacade;
 import org.inek.dataportal.common.data.KhComparison.importer.AebImporter;
+import org.inek.dataportal.common.data.account.entities.Account;
+import org.inek.dataportal.common.data.account.facade.AccountFacade;
+import org.inek.dataportal.common.data.adm.MailTemplate;
 import org.inek.dataportal.common.enums.Pages;
+import org.inek.dataportal.common.mail.Mailer;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -47,6 +51,10 @@ public class Edit {
     private DialogController _dialogController;
     @Inject
     private AEBListItemFacade _aebListItemFacade;
+    @Inject
+    private AccountFacade _accountFacade;
+    @Inject
+    private Mailer _mailer;
 
     private AEBBaseInformation _aebBaseInformation;
     private List<Integer> _validDatayears = new ArrayList<>();
@@ -331,6 +339,21 @@ public class Edit {
     }
 
     private void sendContainsDifferencesMail(AEBBaseInformation info1, AEBBaseInformation info2, String result) {
-        //TODO Email versenden
+        MailTemplate template = _mailer.getMailTemplate("KH-Vergleich Unterschiede");
+        template.setSubject(template.getSubject().replace("{ik}", String.valueOf(info1.getIk())));
+        template.setSubject(template.getSubject().replace("{year}", String.valueOf(info1.getYear())));
+
+        template.setBody(template.getBody().replace("{ik}", String.valueOf(info1.getIk())));
+        template.setBody(template.getBody().replace("{year}", String.valueOf(info1.getYear())));
+
+        template.setBody(template.getBody().replace("{results}", result));
+
+        Account ac1 = _accountFacade.findAccount(info1.getLastChangeFrom());
+        Account ac2 = _accountFacade.findAccount(info2.getLastChangeFrom());
+
+        template.setBody(template.getBody().replace("{salutation1}", _mailer.getSalutation(ac1)));
+        template.setBody(template.getBody().replace("{salutation2}", _mailer.getSalutation(ac2)));
+
+        _mailer.sendMailTemplate(template, ac1.getEmail() + ";" + ac2.getEmail());
     }
 }
