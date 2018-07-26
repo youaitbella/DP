@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:pf="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="value"/>
+        <cc:attribute name="decimalPlaces" default="0" />
+        <cc:attribute name="pattern" default=""/>
+        <cc:attribute name="render" default="true"/>
+        <cc:attribute name="symbol" default=""/>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <div>
+        <cc:implementation>
+            <pf:outputLabel value="#{cc.attrs.value} #{cc.attrs.symbol}"
+                            rendered="#{cc.attrs.render}">
+                <f:convertNumber groupingUsed="true"
+                                 minFractionDigits="#{cc.attrs.decimalPlaces}"
+                                 locale="de_DE"
+                                 pattern="#{cc.attrs.pattern}"/>
+            </pf:outputLabel>
+        </cc:implementation>
+    </div>
+</html>

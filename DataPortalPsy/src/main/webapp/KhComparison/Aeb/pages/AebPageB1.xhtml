@@ -12,63 +12,68 @@
         B1 Gesamtbetrag und Basisentgeltwert nach § 3 Bundespflegesatzverordnung für die Kalenderjahre 2013 bis 2018
     </h4>
 
-    <div class="ui-g ui-fluid">
-        <div class="ui-g-6">
-            <inek:InputNumber value="#{edit.aebBaseInformation.aebPageB1.totalAgreementPeriod}"
-                              require="true"
-                              requiredMessage="Bitte geben Sie den Gesamtbetrag an"
-                              labelText="Gesamtbetrag für den Vereinbarungszeitraum"
-                              decimalPlaces="2"
-                              readonly="#{edit.isReadOnly()}"/>
-        </div>
-        <div class="ui-g-6">
-            <inek:InputNumber value="#{edit.aebBaseInformation.aebPageB1.changedTotal}"
-                              require="true"
-                              requiredMessage="Bitte geben Sie den Veränderten Gesamtbetrag an"
-                              labelText="Veränderter Gesamtbetrag (§ 3 Absatz 2 Satz 5)"
-                              decimalPlaces="2"
-                              readonly="#{edit.isReadOnly()}" />
-        </div>
-        <div class="ui-g-6">
-            <inek:InputNumber value="#{edit.aebBaseInformation.aebPageB1.changedProceedsBudget}"
-                              require="true"
-                              requiredMessage="Bitte geben Sie das Veränderte Erlösbudget an"
-                              labelText="Verändertes Erlösbudget (§ 3 Absatz 2 Satz 5)"
-                              decimalPlaces="2"
-                              readonly="#{edit.isReadOnly()}" />
-        </div>
-        <div class="ui-g-6">
-            <inek:InputNumber value="#{edit.aebBaseInformation.aebPageB1.sumValuationRadioRenumeration}"
-                              require="true"
-                              requiredMessage="Bitte geben Sie die Summe mit Bewertungsrelationen bewertete Entgelte an"
-                              labelText="Summe mit Bewertungsrelationen bewertete Entgelte"
-                              decimalPlaces="2"
-                              readonly="#{edit.isReadOnly()}" />
-        </div>
-        <div class="ui-g-6">
-            <inek:InputNumber value="#{edit.aebBaseInformation.aebPageB1.sumEffectivValuationRadio}"
-                              require="true"
-                              requiredMessage="Bitte geben Sie die Summe der effektiven Bewertungsrelationen (Anlage E1) an"
-                              labelText="Summe der effektiven Bewertungsrelationen (Anlage E1)"
-                              decimalPlaces="2"
-                              readonly="#{edit.isReadOnly()}" />
-        </div>
-        <div class="ui-g-6">
-            <inek:InputNumber value="#{edit.aebBaseInformation.aebPageB1.basisRenumerationValueCompensation}"
-                              require="true"
-                              requiredMessage="Bitte geben Sie den krankenhausindividueller Basisentgeltwert mit Ausgleichen an"
-                              labelText="krankenhausindividueller Basisentgeltwert mit Ausgleichen"
-                              decimalPlaces="2"
-                              readonly="#{edit.isReadOnly()}" />
-        </div>
-        <div class="ui-g-6">
-            <inek:InputNumber value="#{edit.aebBaseInformation.aebPageB1.basisRenumerationValueNoCompensation}"
-                              require="true"
-                              requiredMessage="Bitte geben Sie den Basisentgeltwert ohne Ausgleiche und Ausgleichsbeträge aus Berichtigungen an"
-                              labelText="nachrichtlich: Basisentgeltwert ohne Ausgleiche und Ausgleichsbeträge aus Berichtigungen"
-                              decimalPlaces="2"
-                              readonly="#{edit.isReadOnly()}" />
-        </div>
-    </div>
+    <pf:panelGrid columns="3"
+                  class="inekPanelGrid"
+                  columnClasses="colCenter, colLeft, colRight">
+
+        <pf:outputLabel value="lfd. Nr."
+                        style="font-weight: bold;"/>
+        <pf:outputLabel value="" />
+        <pf:outputLabel value="" />
+
+        <pf:outputLabel value="1" />
+        <pf:outputLabel value="Gesamtbetrag für das laufende Jahr" />
+        <inek:InputNumber value="#{edit.aebBaseInformation.aebPageB1.totalAgreementPeriod}"
+                          symbol=" €"
+                          decimalPlaces="2"
+                          readonly="#{edit.isReadOnly()}"/>
+
+        <pf:outputLabel value="10" />
+        <pf:outputLabel value="Veränderter Gesamtbetrag (§ 3 Absatz 2 Satz 5)" />
+        <inek:InputNumber value="#{edit.aebBaseInformation.aebPageB1.changedTotal}"
+                          symbol=" €"
+                          decimalPlaces="2"
+                          readonly="#{edit.isReadOnly()}"/>
+
+        <pf:outputLabel value="13" />
+        <pf:outputLabel value="Verändertes Erlösbudget (§ 3 Absatz 2 Satz 5)" />
+        <inek:InputNumber value="#{edit.aebBaseInformation.aebPageB1.changedProceedsBudget}"
+                          symbol=" €"
+                          decimalPlaces="2"
+                          readonly="#{edit.isReadOnly()}"/>
+
+        <pf:outputLabel value="" />
+        <pf:outputLabel value="Ermittlung des Basientgeldwerts:"
+                        style="font-weight: bold;"/>
+        <pf:outputLabel value="" />
+
+        <pf:outputLabel value="16" />
+        <pf:outputLabel value="Summe mit Bewertungsrelationen bewertete Entgelte" />
+        <inek:InputNumber value="#{edit.aebBaseInformation.aebPageB1.sumValuationRadioRenumeration}"
+                          symbol=" €"
+                          decimalPlaces="2"
+                          readonly="#{edit.isReadOnly()}"/>
+
+        <pf:outputLabel value="17" />
+        <pf:outputLabel value="Summe der effektiven Bewertungsrelationen (Anlage E1)" />
+        <inek:InputNumber value="#{edit.aebBaseInformation.aebPageB1.sumEffectivValuationRadio}"
+                          symbol=" €"
+                          decimalPlaces="3"
+                          readonly="#{edit.isReadOnly()}"/>
+
+        <pf:outputLabel value="18" />
+        <pf:outputLabel value="Krankenhausindividueller Basisentgeltwert mit Ausgleichen" />
+        <inek:InputNumber value="#{edit.aebBaseInformation.aebPageB1.basisRenumerationValueCompensation}"
+                          decimalPlaces="3"
+                          readonly="#{edit.isReadOnly()}"/>
+
+        <pf:outputLabel value="19" />
+        <pf:outputLabel value="nachrichtlich: Basisentgeltwert ohne Ausgleiche und Ausgleichsbeträge aus Berichtigungen" />
+        <inek:InputNumber value="#{edit.aebBaseInformation.aebPageB1.basisRenumerationValueCompensation}"
+                          symbol=" €"
+                          decimalPlaces="3"
+                          readonly="#{edit.isReadOnly()}"/>
+
+    </pf:panelGrid>
 
 </ui:composition>

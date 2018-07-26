@@ -5,6 +5,7 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:jsf="http://xmlns.jcp.org/jsf"
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/Input"
+                xmlns:inekOutput="http://xmlns.jcp.org/jsf/composite/components/Output"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
                 xmlns:pf="http://primefaces.org/ui">
 
@@ -25,7 +26,7 @@
                 <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value=""/>
             </pf:commandLink>
         </pf:column>
-        <pf:column headerText="Zusatzentgelt nach § 6 BPflV">
+        <pf:column headerText="Zusatzentgelt nach § 6 BPflV" sortBy="#{page.ze}" sortable="true">
             <pf:inputText value="#{page.ze}"
                           maxlength="9"
                           readonly="#{edit.isReadOnly()}" >
@@ -68,11 +69,9 @@
             </pf:inputNumber>
         </pf:column>
         <pf:column headerText="Erlössumme" style="text-align: right">
-            <pf:outputLabel value="#{page.sumProceeds} €" />
+            <inekOutput:OutputCurrency value="#{page.sumProceeds}" />
             <f:facet name="footer">
-                <pf:outputLabel value="#{edit.aebBaseInformation.aebPageE3_2.stream().map(c -> c.getSumProceeds()).sum()} €" >
-                    <f:convertNumber groupingUsed="true" minFractionDigits="2" />
-                </pf:outputLabel>
+                <inekOutput:OutputCurrency value="#{edit.aebBaseInformation.aebPageE3_2.stream().map(c -> c.getSumProceeds()).sum()}" />
             </f:facet>
         </pf:column>
     </pf:dataTable>

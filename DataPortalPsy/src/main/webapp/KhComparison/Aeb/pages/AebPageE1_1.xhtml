@@ -24,7 +24,7 @@
                 <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value=""/>
             </pf:commandLink>
         </pf:column>
-        <pf:column headerText="PEPP">
+        <pf:column headerText="PEPP" sortBy="#{page.pepp}" sortable="true">
             <pf:inputText id="peppId"
                           value="#{page.pepp}"
                           maxlength="5"
@@ -93,7 +93,7 @@
 
     <div class="ui-md-5">
         <pf:commandButton value="Weiteren Eintrag hinzufügen"
-                          class="addEntry"
+                          class="addEntryPsy"
                           icon="fa fa-plus"
                           process="@this"
                           action="#{edit.addNewPageE1_1()}"

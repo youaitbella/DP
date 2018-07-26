@@ -19,6 +19,8 @@
         <cc:attribute name="maxValue" default="999999999999999" />
         <cc:attribute name="minValue" default="-999999999999999" />/>
         <cc:attribute name="thousendSeperator" default="." type="java.lang.String"/>
+        <cc:attribute name="symbol" default="" type="java.lang.String"/>
+        <cc:attribute name="symbolPosition" default="s" type="java.lang.String"/>
     </cc:interface>
 
     <!-- IMPLEMENTATION -->
@@ -39,6 +41,8 @@
                                 minValue="#{cc.attrs.minValue}"
                                 thousandSeparator="#{cc.attrs.thousendSeperator}"
                                 readonly="#{cc.attrs.readonly}"
+                                symbol="#{cc.attrs.symbol}"
+                                symbolPosition="#{cc.attrs.symbolPosition}"
                                 inputStyle="text-align: right">
                     <pf:ajax />
                 </pf:inputNumber>
