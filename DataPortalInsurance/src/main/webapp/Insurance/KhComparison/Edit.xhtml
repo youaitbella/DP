@@ -13,7 +13,7 @@
     <ui:define name="content">
         <h:form>
             <h1>
-                <h:commandLink value="Datenerfassung für den Krankenhausvergleich" action="#{sessionController.navigate(sessionTools.pages.KhComparisonSummary)}" immediate="true"/>
+                <h:commandLink value="Datenerfassung für den Krankenhausvergleich" action="#{sessionController.navigate(sessionTools.pages.InsuranceKhComparisonSummary)}" immediate="true"/>
             </h1>
         </h:form>
         <h:form id="mainForm">
@@ -29,6 +29,9 @@
                 </pf:tab>
                 <pf:tab title="Kalkulationsunterlagen">
                     <ui:include src="CalcDocuments.xhtml" />
+                </pf:tab>
+                <pf:tab title="(Fallback) Regionale und Strukturelle Besonderheiten">
+                    <ui:include src="RegionStructurParticularities.xhtml" />
                 </pf:tab>
             </pf:tabView>
             <div class="footerInformation">

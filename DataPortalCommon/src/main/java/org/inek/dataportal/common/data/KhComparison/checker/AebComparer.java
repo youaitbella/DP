@@ -248,25 +248,25 @@ public class AebComparer {
 
     private void compareInt(int value1, int value2, String page) {
         if (value1 != value2) {
-            addMessage(page + ": Unterschied von " + value1 + " zu " + value2);
+            addMessage(page + ": Unterschied von KK: " + value1 + " zu KH: " + value2);
         }
     }
 
     private void compareDouble(double value1, double value2, String page) {
         if (value1 != value2) {
-            addMessage(page + ": Unterschied von " + Math.round(100.0 * value1) / 100.0 + " zu " + Math.round(100.0 * value2) / 100.0);
+            addMessage(page + ": Unterschied von KK: " + Math.round(100.0 * value1) / 100.0 + " zu KH: " + Math.round(100.0 * value2) / 100.0);
         }
     }
 
     private void compareString(String value1, String value2, String page) {
         if (!value1.toUpperCase().equals(value2.toUpperCase())) {
-            addMessage(page + ": Unterschied von " + value1 + " - " + value2);
+            addMessage(page + ": Unterschied von KK: " + value1 + " - KH: " + value2);
         }
     }
 
     private <T> void compareListSize(List<T> list1, List<T> list2, String pageTitel) {
         if (list1.size() != list2.size()) {
-            addMessage(pageTitel + ": Unterschiedliche Anzahl von Datensätzen");
+            addMessage(pageTitel + ": Unterschiedliche Anzahl von Datensätzen KK: " + list1.size() + " - KH: " + list2.size());
         }
     }
 }

@@ -15,12 +15,14 @@ public class ActionLog implements Serializable {
     public ActionLog(int accountId,
             String area,
             String form,
+            int entryId,
             String field,
             String oldValue,
             String newValue) {
         this._accountId = accountId;
         this._area = area;
         this._form = form;
+        this._entryId = entryId;
         this._field = field;
         this._oldValue = oldValue;
         this._newValue = newValue;
@@ -72,7 +74,20 @@ public class ActionLog implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property Area">
+    //<editor-fold defaultstate="collapsed" desc="Property EntryId">
+    @Column(name = "alEntryId")
+    private int _entryId;
+
+    public int getEntryId() {
+        return _entryId;
+    }
+
+    public void setEntryId(int entryId) {
+        this._entryId = entryId;
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property Form">
     @Column(name = "alForm")
     private String _form = "";
 

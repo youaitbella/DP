@@ -205,6 +205,7 @@ public class EditStructureInformation {
             ActionLog log = new ActionLog(_sessionController.getAccountId(),
                     Feature.AEB.name(),
                     "StructureInformation",
+                    _structureInformation.getId(),
                     field,
                     oldValue,
                     newValue);

@@ -172,9 +172,9 @@ public class Edit {
     private Boolean aebContainsDifferences() {
         AebComparer comparer = new AebComparer();
         AEBBaseInformation info = _aebFacade.findAEBBaseInformation(_aebBaseInformation.getIk(),
-                _aebBaseInformation.getYear(), 0, WorkflowStatus.Provided);
+                _aebBaseInformation.getYear(), 1, WorkflowStatus.Provided);
         if (info != null) {
-            if (!comparer.compare(_aebBaseInformation, info)) {
+            if (!comparer.compare(info, _aebBaseInformation)) {
                 setErrorMessage(comparer.getResult());
                 sendContainsDifferencesMail(_aebBaseInformation, info, comparer.getResult());
                 return true;
