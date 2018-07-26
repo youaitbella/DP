@@ -89,19 +89,6 @@ public class StructureInformation implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property ValidTo">
-    @Column(name = "siValidTo")
-    private Date _validTo = new Date();
-
-    public Date getValidTo() {
-        return _validTo;
-    }
-
-    public void setValidTo(Date validTo) {
-        this._validTo = validTo;
-    }
-    //</editor-fold>
-
     //<editor-fold defaultstate="collapsed" desc="Property LastChanged">
     @Column(name = "siLastChanged")
     @Temporal(TemporalType.TIMESTAMP)
@@ -293,7 +280,6 @@ public class StructureInformation implements Serializable {
         hash = 37 * hash + this._createdFrom;
         hash = 37 * hash + this._lastChangeFrom;
         hash = 37 * hash + Objects.hashCode(this._validFrom);
-        hash = 37 * hash + Objects.hashCode(this._validTo);
         hash = 37 * hash + Objects.hashCode(this._lastChanged);
         hash = 37 * hash + this._bedCount;
         hash = 37 * hash + this._therapyPartCount;
@@ -376,9 +362,6 @@ public class StructureInformation implements Serializable {
             return false;
         }
         if (!Objects.equals(this._validFrom, other._validFrom)) {
-            return false;
-        }
-        if (!Objects.equals(this._validTo, other._validTo)) {
             return false;
         }
         if (!Objects.equals(this._lastChanged, other._lastChanged)) {

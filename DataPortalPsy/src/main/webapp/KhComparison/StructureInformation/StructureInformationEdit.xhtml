@@ -67,6 +67,7 @@
                               value="Speichern"
                               action="#{editStructureInformation.save()}"
                               update="@form"
+                              immediate="true"
                               rendered="#{!editStructureInformation.isReadOnly() and editStructureInformation.canSave()}"/>
 
             <br />
