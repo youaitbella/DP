@@ -22,6 +22,8 @@ import org.inek.dataportal.common.scope.FeatureScoped;
 import org.inek.dataportal.common.data.KhComparison.entities.AEBBaseInformation;
 import org.inek.dataportal.common.data.KhComparison.entities.StructureInformation;
 import org.inek.dataportal.common.data.KhComparison.facade.AEBFacade;
+import org.inek.dataportal.common.data.access.ConfigFacade;
+import org.inek.dataportal.common.enums.ConfigKey;
 
 /**
  *
@@ -37,6 +39,8 @@ public class Summary {
     private AccessManager _accessManager;
     @Inject
     private SessionController _sessionController;
+    @Inject
+    private ConfigFacade _configFacade;
 
     private List<AEBBaseInformation> _listComplete = new ArrayList<>();
     private List<AEBBaseInformation> _listWorking = new ArrayList<>();
@@ -75,20 +79,33 @@ public class Summary {
 
     private void setWorkingList() {
         _listWorking.clear();
-        for (AccessRight right : _sessionController.getAccount().getAccessRights().stream()
-                .filter(c -> c.canRead() && c.getFeature() == Feature.AEB)
-                .collect(Collectors.toList())) {
-            _listWorking.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.New, right.getIk(), 0));
-            _listWorking.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.CorrectionRequested, right.getIk(), 0));
+        if (_configFacade.readConfigBool(ConfigKey.IkAdminEnable)) {
+            for (AccessRight right : _sessionController.getAccount().getAccessRights().stream()
+                    .filter(c -> c.canRead() && c.getFeature() == Feature.AEB)
+                    .collect(Collectors.toList())) {
+                _listWorking.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.New, right.getIk(), 0));
+                _listWorking.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.CorrectionRequested, right.getIk(), 0));
+            }
+        } else {
+            for (Integer ik : _sessionController.getAccount().getFullIkSet()) {
+                _listWorking.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.New, ik, 0));
+                _listWorking.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.CorrectionRequested, ik, 0));
+            }
         }
     }
 
     private void setCompleteList() {
         _listComplete.clear();
-        for (AccessRight right : _sessionController.getAccount().getAccessRights().stream()
-                .filter(c -> c.canRead() && c.getFeature() == Feature.AEB)
-                .collect(Collectors.toList())) {
-            _listComplete.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.Provided, right.getIk(), 0));
+        if (_configFacade.readConfigBool(ConfigKey.IkAdminEnable)) {
+            for (AccessRight right : _sessionController.getAccount().getAccessRights().stream()
+                    .filter(c -> c.canRead() && c.getFeature() == Feature.AEB)
+                    .collect(Collectors.toList())) {
+                _listComplete.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.Provided, right.getIk(), 0));
+            }
+        } else {
+            for (Integer ik : _sessionController.getAccount().getFullIkSet()) {
+                _listComplete.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.Provided, ik, 0));
+            }
         }
     }
 
