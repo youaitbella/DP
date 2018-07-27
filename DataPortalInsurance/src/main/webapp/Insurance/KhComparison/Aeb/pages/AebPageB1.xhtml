@@ -43,7 +43,7 @@
                           readonly="#{edit.isReadOnly()}"/>
 
         <pf:outputLabel value="" />
-        <pf:outputLabel value="Ermittlung des Basientgeldwerts:"
+        <pf:outputLabel value="Ermittlung des Basisentgeltwerts:"
                         style="font-weight: bold;"/>
         <pf:outputLabel value="" />
 
@@ -57,21 +57,21 @@
         <pf:outputLabel value="17" />
         <pf:outputLabel value="Summe der effektiven Bewertungsrelationen (Anlage E1)" />
         <inek:InputNumber value="#{edit.aebBaseInformation.aebPageB1.sumEffectivValuationRadio}"
-                          symbol=" €"
-                          decimalPlaces="3"
+                          decimalPlaces="4"
                           readonly="#{edit.isReadOnly()}"/>
 
         <pf:outputLabel value="18" />
         <pf:outputLabel value="Krankenhausindividueller Basisentgeltwert mit Ausgleichen" />
         <inek:InputNumber value="#{edit.aebBaseInformation.aebPageB1.basisRenumerationValueCompensation}"
-                          decimalPlaces="3"
+                          symbol=" €"
+                          decimalPlaces="2"
                           readonly="#{edit.isReadOnly()}"/>
 
         <pf:outputLabel value="19" />
         <pf:outputLabel value="nachrichtlich: Basisentgeltwert ohne Ausgleiche und Ausgleichsbeträge aus Berichtigungen" />
-        <inek:InputNumber value="#{edit.aebBaseInformation.aebPageB1.basisRenumerationValueCompensation}"
+        <inek:InputNumber value="#{edit.aebBaseInformation.aebPageB1.basisRenumerationValueNoCompensation}"
                           symbol=" €"
-                          decimalPlaces="3"
+                          decimalPlaces="2"
                           readonly="#{edit.isReadOnly()}"/>
 
     </pf:panelGrid>
