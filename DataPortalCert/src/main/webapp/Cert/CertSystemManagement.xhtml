@@ -9,32 +9,31 @@
                 xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
                 xmlns:jsf="http://xmlns.jcp.org/jsf"
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common"
-                >
+                xmlns:pf="http://primefaces.org/ui" >
 
     <ui:define name="editContent" >
-        <h:form id="form"  enctype="multipart/form-data" >
-            
+        <h:form id="form">
+
             <a href="http://vservices01:8080/CertificationService" target="_blank" class="bigButton">Prüfdienst</a><br/><br/>
-            
+
             <h:outputLabel for="mnuSystem" value="#{msg.lblSystem}:" styleClass="label15"/>
-            <h:selectOneMenu id="mnuSystem" styleClass="input"  value="#{certManager.systemId}" immediate="true" disabled="#{certManager.systemChanged}">
+            <h:selectOneMenu id="mnuSystem" styleClass="input"  value="#{certManager.systemId}" immediate="true">
                 <f:selectItems value="#{certManager.systems}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
                 <f:ajax render="@form :logout:remaining"  />
             </h:selectOneMenu>
-            <inek:LabeledCheckbox value="#{certManager.active}" 
-                                  label=" Nur Aktive Systeme" 
+            <inek:LabeledCheckbox value="#{certManager.active}"
+                                  label=" Nur Aktive Systeme"
                                   styleClassComponent="inlineBlock"
                                   renderElement="@form"/>
-            
+
             <h2>Systemeinstellungen</h2>
 
             <div class="inputPart">
                 <h:outputLabel for="mnuDomain" value="#{msg.lblDomain}:" styleClass="label15"/>
-                <h:selectOneMenu id="mnuDomain" 
-                                 styleClass="input" 
-                                 value="#{certManager.system.remunerationId}" 
-                                 immediate="true" 
-                                 disabled="#{certManager.systemChanged}">
+                <h:selectOneMenu id="mnuDomain"
+                                 styleClass="input"
+                                 value="#{certManager.system.remunerationId}"
+                                 immediate="true">
                     <f:selectItems value="#{certManager.remunerationDomains}" var="domain" itemLabel="#{domain.label}" itemValue="#{domain.value}"/>
                     <f:ajax render="@form msgDomain certButtons:btnSystemSave :logout:remaining" />
                 </h:selectOneMenu>
@@ -48,7 +47,7 @@
                              styleClass="inputshort"
                              required="true"
                              disabled="#{certManager.system == null}">
-                    <f:ajax render="@this msgYearData mnuSystem certButtons:btnSystemSave :logout:remaining" listener="#{certManager.systemChangeListener}"/>
+                    <f:ajax render="@this msgYearData mnuSystem certButtons:btnSystemSave :logout:remaining"/>
                 </h:inputText>
                 <h:message for="txtYearData" id="msgYearData" styleClass="errorMessage"/>
             </div>
@@ -60,7 +59,7 @@
                              styleClass="inputshort"
                              required="true"
                              disabled="#{certManager.system == null}">
-                    <f:ajax render="@this msgYearSystem mnuSystem certButtons:btnSystemSave :logout:remaining" listener="#{certManager.systemChangeListener}"/>
+                    <f:ajax render="@this msgYearSystem mnuSystem certButtons:btnSystemSave :logout:remaining"/>
                 </h:inputText>
                 <h:message for="txtYearSystem" id="msgYearSystem" styleClass="errorMessage"/>
             </div>
@@ -71,26 +70,26 @@
                     <f:ajax render="@this mnuSystem chkApproval certButtons:btnSystemSave chkApproval chkSpecManual :logout:remaining" listener="#{certManager.systemChangeListener}"/>
                 </h:selectBooleanCheckbox>
             </div>
-            
+
             <div class="inputPart">
                 <h:outputLabel for="chkSpecManual" value="Spec-Manual OK:" styleClass="label15"/>
                 <h:selectBooleanCheckbox id="chkSpecManual" value="#{certManager.system.specManual}" disabled="#{certManager.disableCheckAndSpecCheckbox()}">
-                    <f:ajax render="@this mnuSystem chkApproval certButtons:btnSystemSave :logout:remaining" listener="#{certManager.systemChangeListener}"/>
+                    <f:ajax render="@this mnuSystem chkApproval certButtons:btnSystemSave :logout:remaining"/>
                 </h:selectBooleanCheckbox>
             </div>
-            
-            
+
+
             <div class="inputPart">
                 <h:outputLabel for="chkApproval" value="#{msg.lblApproval}:" styleClass="label15"/>
                 <h:selectBooleanCheckbox id="chkApproval" value="#{certManager.system.approved}" disabled="#{certManager.disableApprovedCheckbox()}">
-                    <f:ajax render="@this mnuSystem certButtons:btnSystemSave chkCheckList chkSpecManual :logout:remaining" listener="#{certManager.systemChangeListener}"/>
+                    <f:ajax render="@this mnuSystem certButtons:btnSystemSave chkCheckList chkSpecManual :logout:remaining"/>
                 </h:selectBooleanCheckbox>
             </div>
 
             <div class="inputPart">
                 <h:outputLabel for="chkArchived" value="Aktiv:" styleClass="label15"/>
                 <h:selectBooleanCheckbox id="chkArchived" value="#{certManager.system.active}">
-                    <f:ajax render="@this mnuSystem chkApproval certButtons:btnSystemSave :logout:remaining" listener="#{certManager.systemChangeListener}"/>
+                    <f:ajax render="@this mnuSystem chkApproval certButtons:btnSystemSave :logout:remaining" />
                 </h:selectBooleanCheckbox>
             </div>
             <div class="inputPart">
@@ -99,7 +98,7 @@
                              value="#{certManager.system.password}"
                              styleClass="inputmedium"
                              disabled="#{certManager.system == null}">
-                    <f:ajax render="@this mnuSystem certButtons:btnSystemSave :logout:remaining" listener="#{certManager.systemChangeListener}"/>
+                    <f:ajax render="@this mnuSystem certButtons:btnSystemSave :logout:remaining" />
                 </h:inputText>
             </div>
 
@@ -108,157 +107,130 @@
             <div jsf:rendered="#{certManager.system.id > 0}">
                 <h2>Systemdaten</h2>
 
-                <div class="inputPart">
-                    <h:inputFile styleClass="hide" id="specFile" value="#{certManager.file}" title="#{msg.btnUploadSpec}"
-                                 p:fileNamePattern=".*\.exe" p:maxFileSize="1000000000">
-                        <f:ajax listener="#{certManager.uploadSpec(systemId)}"
-                                render="@form :logout:remaining certButtons:btnSystemSave"/>
-                        <f:validator validatorId="FileUploadValidator"/>
-                    </h:inputFile>
-                    <h:outputLabel styleClass="bigButton" value="#{msg.btnUploadSpec}" onclick="clickElementById('form:specFile')"/>
-                    <h:message id="msgSpecFile" for="specFile" styleClass="errorMessage"/>
-                    <h:outputLabel value="#{editCert.getSpecFileName(certManager.systemId, true)}"/>
-                </div>
+                <pf:panelGrid columns="2" >
+                    <pf:fileUpload fileUploadListener="#{certManager.handleSpecUpload}"
+                                   mode="advanced"
+                                   auto="true"
+                                   dragDropSupport="false"
+                                   allowTypes="/(\.|\/)(exe)$/"
+                                   label="Spec hochladen"
+                                   update="specName"/>
+                    <pf:outputLabel id="specName"
+                                    value="#{editCert.getSpecFileName(certManager.systemId, true)}"/>
 
-                <div class="inputPart">
-                    <h:inputFile styleClass="hide" id="testFile" value="#{certManager.file}" title="#{msg.btnUploadTest}"
-                                 p:contentType="application/binary;application/x-zip-compressed;application/octet-stream;application/zip"
-                                 p:fileNamePattern=".*\.zip" p:maxFileSize="1000000000">
-                        <f:ajax listener="#{certManager.uploadTestData(systemId)}"
-                                render="@form :logout:remaining certButtons:btnSystemSave"/>
-                        <f:validator validatorId="FileUploadValidator"/>
-                    </h:inputFile>
-                    <h:outputLabel styleClass="bigButton" value="#{msg.btnUploadTest}" onclick="clickElementById('form:testFile');"/>
-                    <h:message id="msgTestFile" for="testFile" styleClass="errorMessage"/>
-                    <h:outputLabel value="#{editCert.getTestFileName(certManager.systemId, true)}"/>
-                </div>
+                    <pf:fileUpload fileUploadListener="#{certManager.handleTestUpload}"
+                                   mode="advanced"
+                                   auto="true"
+                                   dragDropSupport="false"
+                                   allowTypes="/(\.|\/)(zip)$/"
+                                   label="Testdaten hochladen"
+                                   update="testName"/>
+                    <pf:outputLabel id="testName"
+                                    value="#{editCert.getTestFileName(certManager.systemId, true)}"/>
 
-                <div class="inputPart">
-                    <h:inputFile styleClass="hide" id="certFile" value="#{certManager.file}" title="#{msg.btnUploadCert}"
-                                 p:contentType="application/binary;application/x-zip-compressed;application/octet-stream;application/zip"
-                                 p:fileNamePattern=".*\.zip" p:maxFileSize="1000000000">
-                        <f:ajax listener="#{certManager.uploadCertData(systemId)}"
-                                render="@form :logout:remaining certButtons:btnSystemSave"/>
-                        <f:validator validatorId="FileUploadValidator"/>
-                    </h:inputFile>
-                    <h:outputLabel styleClass="bigButton" value="#{msg.btnUploadCert}" onclick="clickElementById('form:certFile');"/>
-                    <h:message id="msgCertFile" for="certFile" styleClass="errorMessage"/>
-                    <h:outputLabel value="#{editCert.getCertFileName(certManager.systemId, true)}"/>
-                </div>
+                    <pf:fileUpload fileUploadListener="#{certManager.handleCertUpload}"
+                                   mode="advanced"
+                                   auto="true"
+                                   dragDropSupport="false"
+                                   allowTypes="/(\.|\/)(zip)$/"
+                                   label="Zertdaten hochladen"
+                                   update="certName"/>
+                    <pf:outputLabel id="certName"
+                                    value="#{editCert.getCertFileName(certManager.systemId, true)}"/>
 
+                </pf:panelGrid>
 
                 <br/>
 
                 <h2>#{msg.lblAssignedManufactorers}</h2>
-                <h:commandLink styleClass="bigButton" value="#{msg.btnReset}"
-                               immediate="true"
-                               action="#{certManager.resetSystem}">
-                    <cb:confirmReset/>
-                </h:commandLink>
+                <pf:commandLink styleClass="bigButton" value="#{msg.btnReset}"
+                                immediate="true"
+                                action="#{certManager.resetSystem}">
+                    <pf:confirm header="Sicher zurücksetzen?"
+                                message="Wollem Sie wirklich das System zurücksetzen?" />
+                </pf:commandLink>
 
-                <h:outputLabel value="" styleClass="element50"/> <!-- fill element only -->
-                <h:outputLabel id="changeId" rendered="#{certManager.systemChanged}" value="Daten geändert" styleClass="changed"/>
-
-                <h:dataTable id="tableManufactorers" rendered="#{!empty certManager.system.grouperList}"  headerClass="list-header"
-                             value="#{certManager.system.grouperList}" var="grouper" columnClasses="colIcon, colValue, col17, colValue, colValue"
-                             styleClass="ruledTable marginTop">
-                    <h:column id="colDeleteId" >
-                        <f:facet name="header">
-                            <h:outputText value=""/>
-                        </f:facet>
-                        <h:commandLink immediate="true" >
+                <pf:dataTable id="tableManufactorers"
+                              rendered="#{!empty certManager.system.grouperList}"
+                              value="#{certManager.system.grouperList}"
+                              var="grouper"
+                              tableStyle="table-layout: auto;"
+                              tableStyleClass="inekTableDrg">
+                    <pf:column headerText="">
+                        <pf:commandLink immediate="true"
+                                        action="#{certManager.deleteGrouper(grouper)}"
+                                        update="tableManufactorers">
                             <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value=""/>
-                            <cb:confirmDelete/>
-                            <f:ajax render="@all :logout:remaining" listener="#{certManager.deleteGrouper(grouper)}"/>
-                        </h:commandLink>
-                    </h:column>
+                            <pf:confirm header="Wirklich löschen?"
+                                        message="Wollen Sie #{certManager.getAccountDisplayName(grouper.accountId)} wirklich löschen?" />
+                        </pf:commandLink>
+                    </pf:column>
 
-                    <h:column id="colName">
-                        <f:facet name="header">
-                            <h:outputText value="Hersteller"/>
-                        </f:facet>
-                        <h:selectOneMenu rendered="#{grouper.accountId le 0}"
-                                         styleClass="inputlong" id="mnuAgent" value="#{grouper.accountId}">
+                    <pf:column headerText="Hersteller">
+                        <pf:selectOneMenu rendered="#{grouper.accountId le 0}"
+                                          id="mnuAgent"
+                                          value="#{grouper.accountId}">
                             <f:selectItems value="#{certManager.certAccounts}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
-                            <f:ajax event="change" render="@this mnuSystem btnSystemSave :logout:remaining certButtons:btnSystemSave" listener="#{certManager.systemChangeListener}" />
-                        </h:selectOneMenu>
+                            <pf:ajax />
+                        </pf:selectOneMenu>
                         <h:outputText rendered="#{grouper.accountId gt 0}"
                                       value="#{certManager.getAccountDisplayName(grouper.accountId)} (#{grouper.accountId})"/>
-                    </h:column>
+                    </pf:column>
 
-                    <h:column id="colStatus" >
-                        <f:facet name="header">
-                            <h:outputText value="Status"/>
-                        </f:facet>
+                    <pf:column headerText="Status" >
                         <h:outputText value="#{grouper.certStatus.label}"/>
-                    </h:column>
-                    
-                    <h:column id="colMailed" >
-                        <f:facet name="header">
-                            <h:outputText value="@"/>
-                        </f:facet>
-                        <h:graphicImage rendered="#{certGrouperResults.needMail(grouper)}"  title="#{certGrouperResults.getMailDate(grouper)}" name="Icon/small/#{certGrouperResults.getMailIcon(grouper)}" />
-                    </h:column>
+                    </pf:column>
 
-                    <h:column id="colPass">
-                        <f:facet name="header">
-                            <h:outputText value="#{msg.lblPasswordRequest}"/>
-                        </f:facet>
+                    <pf:column headerText="Freigabe bis">
+                        <pf:calendar value="#{grouper.approvedUntil}"
+                                     pattern="dd.MM.yyyy">
+                            <pf:ajax />
+                        </pf:calendar>
+                    </pf:column>
+
+                    <pf:column headerText="Passwort angefragt">
                         <h:outputText rendered="#{grouper.accountId gt 0 and grouper.passwordRequest ne null}"
                                       value="#{grouper.passwordRequest}">
                             <f:convertDateTime pattern="dd.MM.yyyy"/>
                         </h:outputText>
-                        <h:commandLink rendered="#{grouper.accountId gt 0 and grouper.passwordRequest eq null}"
-                                       styleClass="midButton" value="#{msg.btnSetDate}">
-                            <f:ajax render="@form :logout:remaining certButtons:btnSystemSave" listener="#{certManager.passwordRequest(grouper)}"/>
-                        </h:commandLink>
-                    </h:column>
+                        <pf:commandButton value="Angefragt"
+                                          rendered="#{grouper.accountId gt 0 and grouper.passwordRequest eq null}"
+                                          action="#{certManager.passwordRequest(grouper)}"
+                                          update="tableManufactorers"/>
+                    </pf:column>
 
-                    <h:column id="colResults">
-                        <f:facet name="header">
-                            <h:outputText value="Ergebnisse"/>
-                        </f:facet>
-                        <h:commandLink styleClass="midButton" value="Ergebnis" action="#{certGrouperResults.showResults(grouper)}">
-                            <f:ajax render="@form :logout:remaining"/>
-                        </h:commandLink>
-                    </h:column>
-                    
-                    <h:column id="colHp">
-                        <f:facet name="header">
-                            <h:outputText value="HP"/>
-                        </f:facet>
-                        <h:commandLink styleClass="certWebsiteButton #{certManager.getCertHpInactiveClass(grouper)}" 
-                                       disabled="#{certManager.isCertVendorOnWebsite(grouper)}"
-                                       title="#{certManager.getCertWebsiteDate(grouper)}">
-                            <f:ajax render="@form :logout:remaining certButtons:btnSystemSave" listener="#{certManager.addedHp(grouper)}"/>
-                        </h:commandLink>
-                    </h:column>
-                </h:dataTable>
+                    <pf:column headerText="Ergebnis">
+                        <pf:commandButton value="Ergebnis"
+                                          action="#{certGrouperResults.showResults(grouper)}"
+                                          update="@all"/>
+                    </pf:column>
 
-                <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}" >
-                    <f:ajax event="click" render="@form certButtons:btnSystemSave :logout:remaining" listener="#{certManager.addNewGrouper}"/>
-                </h:commandLink>
+                    <pf:column headerText="HP">
+                        <pf:commandLink styleClass="certWebsiteButton #{certManager.getCertHpInactiveClass(grouper)}"
+                                        title="#{certManager.getCertWebsiteDate(grouper)}"
+                                        action="#{certManager.addedHp(grouper)}">
+                            <pf:ajax update="tableManufactorers" />
+                        </pf:commandLink>
+                    </pf:column>
+                </pf:dataTable>
+
+                <pf:commandButton styleClass="newEntryDrg"
+                                  value="#{msg.btnAddEntry}"
+                                  action="#{certManager.addNewGrouper}"
+                                  update="tableManufactorers" />
 
                 <hr/>
             </div>
-        </h:form>
-        
-        <h:form id="certButtons">
-            <h:commandLink styleClass="bigButton" value="Übersicht" action="#{certManager.ExportCertGrouper}" immediate="true">
+
+            <h:commandLink styleClass="bigButton" value="Übersicht" action="#{certManager.ExportCertGrouper}">
             </h:commandLink>
-            <h:commandLink styleClass="bigButton" value="System #{msg.btnDelete}" action="#{certManager.deleteSystem}" immediate="true">
+            <h:commandLink styleClass="bigButton" value="System #{msg.btnDelete}" action="#{certManager.deleteSystem}">
                 <cb:confirmDelete/>
             </h:commandLink>
-            <h:commandLink styleClass="bigButton #{certManager.systemChanged ? 'changed' : ''}" value="#{msg.btnSave}"
+            <h:commandLink styleClass="bigButton" value="#{msg.btnSave}"
                            id="btnSystemSave"
-                           immediate="false"
-                           disabled="#{certManager.system == null || !certManager.systemChanged}"
+                           disabled="#{certManager.system == null}"
                            action="#{certManager.saveSystem}"/>
-            <h:commandLink styleClass="bigButton" value="#{msg.btnCancel}"
-                           immediate="true"
-                           action="#{certManager.cancelSystem}">
-                <cb:confirmCancel/>
-            </h:commandLink>
 
         </h:form>
     </ui:define>

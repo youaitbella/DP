@@ -11,53 +11,16 @@
                 >
 
     <ui:define name="editContent">
-        <h:outputStylesheet name="css/fileuploader.css" />
-        <h:outputScript name="script/fileuploader.js" target="head"/>
-        <script>
-            var fileCounter = 0;
-            function createUploader(label) {
-                var uploader = new qq.FileUploader({element: document.getElementById('file-uploader'),
-                    action: '#{request.contextPath}/upload/CertUploadServlet',
-                    debug: true,
-                    allowedExtensions: ['zip'], //['zip', '7z', 'rar', 'gpg', 'pgp'],
-                    onSubmit: function (id, fileName) {
-                        fileCounter++;
-                    },
-                    onCancel: function (id, fileName) {
-                        fileCounter--;
-                        if (fileCounter === 0) {
-                            //window.location = '/DataPortal/DropBox/DropBoxUpload.xhtml';
-                        }
-                    },
-                    onComplete: function (id, fileName, responseJSON) {
-                        fileCounter--;
-                        if (fileCounter === 0) {
-                            // To display the uploaded file, we need to refresh the page.
-                            // Window location would force a non-JSF navigation, ignoring our existing conversation
-                            //window.location = '/DataPortal/DropBox/DropBoxUpload.xhtml';
-                            // Thus, let JS click an element to get a JSF refresh
-                            document.getElementById('form:refresh').click();
-                        }
-                    },
-                    template: '<div class="qq-uploader">' +
-                            '<div class="qq-upload-drop-area"><span>Dateien mittels Ziehen und Ablegen hochladen.</span></div>' +
-                            '<div class="qq-upload-button">' + label + '</div>' +
-                            '<ul class="qq-upload-list"></ul>' +
-                            '</div>'
-                });
-            }
-        </script>
-        <h:form id="form" enctype="multipart/form-data" >
+        <h:form id="form" >
 
             <h:outputLabel for="mnuSystem" value="#{msg.lblSystem}:" styleClass="label15"/>
             <h:selectOneMenu id="mnuSystem" styleClass="input" value="#{certCertification.systemId}"
                              immediate="true" disabled="#{certCertification.grouperChanged}">
-                <!--onchange="jsf.ajax.request(this, event, {render: 'form :logout:remaining'});"-->
                 <f:selectItems value="#{certCertification.systems4Account}" var="system" itemLabel="#{system.label}" itemValue="#{system.value}"/>
                 <f:ajax render="@form :logout:remaining"/>
             </h:selectOneMenu>
 
-            <div id="systemData" jsf:rendered="#{certCertification.grouper.id ge 0}">
+            <div id="systemData" jsf:rendered="#{certCertification.grouper.id ne null}">
 
                 <h2>#{msg.lblDownload}</h2>
 
@@ -81,26 +44,17 @@
 
                 <h2>#{msg.lblUpload}</h2>
 
-                <div id="file-uploader" jsf:rendered="#{((certCertification.grouper.certStatus eq 'TestSucceed' or certCertification.grouper.certStatus eq 'CertFailed1') and empty certCertification.grouper.name)}">
+                <div id="file-uploader"
+                     jsf:rendered="#{((certCertification.grouper.certStatus eq 'TestSucceed' or certCertification.grouper.certStatus eq 'CertFailed1') and empty certCertification.grouper.name)}">
                     #{msg.msgGrouperNameRequired}
                 </div>
-                <div id="file-uploader" jsf:rendered="#{certCertification.grouper.certStatus eq 'PasswordRequested' or certCertification.grouper.certStatus eq 'TestFailed1' or certCertification.grouper.certStatus eq 'TestFailed2' or ((certCertification.grouper.certStatus eq 'TestSucceed' or certCertification.grouper.certStatus eq 'CertFailed1') and !empty certCertification.grouper.name)}">
+                <div id="file-uploader"
+                     jsf:rendered="#{certCertification.grouper.certStatus eq 'PasswordRequested' or certCertification.grouper.certStatus eq 'TestFailed1' or certCertification.grouper.certStatus eq 'TestFailed2' or ((certCertification.grouper.certStatus eq 'TestSucceed' or certCertification.grouper.certStatus eq 'CertFailed1') and !empty certCertification.grouper.name)}">
                     <script>
                         createUploader("#{msg.btnUpload} #{certCertification.expectedFileName}");
                     </script>
                 </div>
-                <!-- next comes a hidden element to force a JSF conform refresh -->
                 <h:commandLink id="refresh" style="display: none" action="#{certCertification.refresh}" value="refresh"/>
-
-                <!--div class="inputPart" jsf:rendered="# {certCertification.grouper.certStatus eq 'PasswordRequested' or certCertification.grouper.certStatus eq 'TestFailed1' or certCertification.grouper.certStatus eq 'TestFailed2' or certCertification.grouper.certStatus eq 'TestSucceed' or certCertification.grouper.certStatus eq 'CertFailed1'}">
-                    <input id="form:testResult" type="file" name="form:testResult" class="hide" title="Upload Testergebnisse"
-                           onchange="uploadFile('form:testResult');
-                                   jsf.ajax.request(this, event, {render: 'form :logout:remaining', delay: '1000'});" />
-                    <h:outputLabel styleClass="bigButton" value="# {msg.btnUpload} # {certCertification.expectedFileName}" onclick="clickElementById('form:testResult');"/>
-                    <progress id="progressBar" style="visibility: hidden;" value="0" max="100"></progress>
-                    <h:message id="msgTestResult" for="testResult" styleClass="errorMessage"/>
-                </div-->
-
 
                 <div class="inputPart">
                     <h:outputLabel value="#{certCertification.resultFileName}"/>

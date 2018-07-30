@@ -14,10 +14,8 @@ import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.cert.entities.Grouper;
-import org.inek.dataportal.cert.entities.MapEmailReceiverLabel;
 import org.inek.dataportal.cert.entities.RemunerationSystem;
 import org.inek.dataportal.cert.facade.EmailLogFacade;
-import org.inek.dataportal.cert.facade.EmailReceiverLabelFacade;
 import org.inek.dataportal.cert.facade.GrouperFacade;
 import org.inek.dataportal.cert.facade.SystemFacade;
 import org.inek.dataportal.common.controller.SessionController;
@@ -71,9 +69,6 @@ public class CertMail implements Serializable {
     private AccountFacade _accFacade;
 
     @Inject
-    private EmailReceiverLabelFacade _emailReceiverLabelFacade;
-
-    @Inject
     private MailTemplateFacade _emailTemplateFacade;
 
     @Inject
@@ -122,16 +117,6 @@ public class CertMail implements Serializable {
             singleReceivers.add(new SelectItem(acc.getId(), acc.getCompany() + " (" + acc.getEmail() + ")"));
         });
         return singleReceivers.toArray(new SelectItem[singleReceivers.size()]);
-    }
-
-    public SelectItem[] getEmailReceiverLists() {
-        List<SelectItem> emailReceivers = new ArrayList<>();
-        emailReceivers.add(new SelectItem(""));
-        List<MapEmailReceiverLabel> labels = _emailReceiverLabelFacade.findAll();
-        labels.stream().forEach((rl) -> {
-            emailReceivers.add(new SelectItem(rl.getLabel()));
-        });
-        return emailReceivers.toArray(new SelectItem[emailReceivers.size()]);
     }
 
     public List<SelectItem> getEmailAddressForPreview() {

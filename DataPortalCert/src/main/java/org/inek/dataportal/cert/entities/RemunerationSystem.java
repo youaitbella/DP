@@ -6,7 +6,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -69,7 +68,8 @@ public class RemunerationSystem implements Serializable {
     @Column(name = "syYearData")
     private int _yearData;
 
-    @Min(value = 2010) @Max(2030)
+    @Min(value = 2010)
+    @Max(2030)
     public int getYearData() {
         return _yearData;
     }
@@ -83,7 +83,8 @@ public class RemunerationSystem implements Serializable {
     @Column(name = "syYearSystem")
     private int _yearSystem;
 
-    @Min(2010) @Max(2030)
+    @Min(2010)
+    @Max(2030)
     public int getYearSystem() {
         return _yearSystem;
     }
@@ -102,8 +103,9 @@ public class RemunerationSystem implements Serializable {
     }
 
     public void setApproved(boolean approved) {
-        if(_checkList == true && _specManual == true)
+        if (_checkList == true && _specManual == true) {
             _approved = approved;
+        }
     }
     // </editor-fold>
 
@@ -119,7 +121,7 @@ public class RemunerationSystem implements Serializable {
         _password = password;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property SpecManual">
     @Column(name = "sySpecManual")
     private boolean _specManual = false;
@@ -129,12 +131,13 @@ public class RemunerationSystem implements Serializable {
     }
 
     public void setSpecManual(boolean specManual) {
-        if(specManual == false && _approved == true)
+        if (specManual == false && _approved == true) {
             return;
+        }
         _specManual = specManual;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property CheckList">
     @Column(name = "syCheckList")
     private boolean _checkList = false;
@@ -144,12 +147,13 @@ public class RemunerationSystem implements Serializable {
     }
 
     public void setCheckList(boolean checkList) {
-        if(checkList == false && _approved == true)
+        if (checkList == false && _approved == true) {
             return;
+        }
         _checkList = checkList;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property Archived">
     @Column(name = "syIsActive")
     private boolean _active = false;
@@ -164,8 +168,8 @@ public class RemunerationSystem implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="List Grouper">
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "grSystemId", referencedColumnName = "syId")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "grSystemId")
     private List<Grouper> _grouperList = new ArrayList<>();
 
     public List<Grouper> getGrouperList() {
@@ -195,7 +199,7 @@ public class RemunerationSystem implements Serializable {
         return getDisplayName().replace("/", "_");
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Version">
     @Column(name = "syVersion")
     @Version
@@ -208,11 +212,9 @@ public class RemunerationSystem implements Serializable {
     public void setVersion(int version) {
         this._version = version;
     }
-    
 
     // </editor-fold>
     // </editor-fold>
-    
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public boolean equals(Object object) {

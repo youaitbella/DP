@@ -27,6 +27,7 @@ import org.inek.dataportal.common.controller.AbstractEditController;
 import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.common.helper.StreamHelper;
 import org.inek.dataportal.common.scope.FeatureScoped;
+import org.primefaces.model.UploadedFile;
 
 /**
  *
@@ -38,10 +39,13 @@ public class EditCert extends AbstractEditController {
 
     private static final Logger LOGGER = Logger.getLogger("EditCert");
 
-    @Inject private ConfigFacade _config;
-    @Inject private SessionController _sessionController;
-    @Inject private SystemFacade _systemFacade;
-    
+    @Inject
+    private ConfigFacade _config;
+    @Inject
+    private SessionController _sessionController;
+    @Inject
+    private SystemFacade _systemFacade;
+
 //    @PostConstruct
 //    private void init() {
 //        LOGGER.log(Level.WARNING, "Init EditCert");
@@ -125,8 +129,8 @@ public class EditCert extends AbstractEditController {
     }
 
     /**
-     * Get the upload folder, depending on the system (determines folder parent)
-     * and ensures the existence of this folder
+     * Get the upload folder, depending on the system (determines folder parent) and ensures the existence of this
+     * folder
      *
      * @param system
      * @param folderName
@@ -142,14 +146,14 @@ public class EditCert extends AbstractEditController {
         }
         return Optional.of(folder);
     }
-   // <editor-fold defaultstate="collapsed" desc="SystemRoot">
+    // <editor-fold defaultstate="collapsed" desc="SystemRoot">
+
     public File getSystemRoot(RemunerationSystem system) {
         File root = new File(_config.readConfig(ConfigKey.CertiFolderRoot), "System " + system.getYearSystem());
         File systemRoot = new File(root, system.getFileName());
         return systemRoot;
     }
     // </editor-fold>
-    
 
     /**
      * gets the last file (in alphabetical order) matching the file name pattern
@@ -168,12 +172,12 @@ public class EditCert extends AbstractEditController {
         return lastFile;
     }
 
-    public void uploadFile(Part uploadFile, File target) {
+    public void uploadFile(UploadedFile uploadFile, File target) {
         if (uploadFile == null) {
             return;
         }
-        LOGGER.log(Level.INFO, "uploading file {0}", uploadFile.getSubmittedFileName());
-        try (InputStream inStream = uploadFile.getInputStream();
+        LOGGER.log(Level.INFO, "uploading file {0}", uploadFile.getFileName());
+        try (InputStream inStream = uploadFile.getInputstream();
                 BufferedOutputStream dest = new BufferedOutputStream(new FileOutputStream(target), Const.BUFFER_SIZE)) {
             new StreamHelper().copyStream(inStream, dest);
         } catch (IOException e) {

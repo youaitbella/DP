@@ -17,7 +17,6 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.OptimisticLockException;
 import org.inek.dataportal.api.helper.Const;
 import org.inek.dataportal.cert.entities.Grouper;
 import org.inek.dataportal.common.controller.SessionController;
@@ -41,20 +40,24 @@ import org.inek.dataportal.cert.facade.SystemFacade;
  */
 @Named
 @FeatureScoped(name = "Certification")
-public class CertCertification implements Serializable{
+public class CertCertification implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger("CertCertification");
 
-    @Inject private SessionController _sessionController;
-    @Inject private SystemFacade _systemFacade;
-    @Inject private GrouperFacade _grouperFacade;
+    @Inject
+    private SessionController _sessionController;
+    @Inject
+    private SystemFacade _systemFacade;
+    @Inject
+    private GrouperFacade _grouperFacade;
 
     public List<SelectItem> getSystems4Account() {
 
         List<SelectItem> list = new ArrayList<>();
         List<RemunerationSystem> remunerationSystems = _systemFacade.getRemunerationSystems(_sessionController.getAccountId());
         for (RemunerationSystem system : remunerationSystems) {
-            if (system.isApproved()) {
+            if (system.isApproved() && _grouperFacade.grouperHasApproveForSystem(_sessionController.getAccountId(),
+                    system.getId(), new Date())) {
                 list.add(new SelectItem(system.getId(), system.getDisplayName()));
             }
         }
@@ -75,20 +78,15 @@ public class CertCertification implements Serializable{
     }
 
     public int getSystemId() {
-        return _grouper.getSystemId();
+        if (_grouper.getSystem() == null) {
+            return -1;
+        }
+        return _grouper.getSystem().getId();
     }
 
     public void setSystemId(int systemId) {
-        if (systemId != _grouper.getId()) {
-            if (systemId <= 0) {
-                _grouper = new Grouper();
-            } else {
-                _grouper = _grouperFacade.findByAccountAndSystemId(_sessionController.getAccountId(), systemId);
-                _file = "";
-                //cleanupUploadFiles();
-            }
-            setGrouperChanged(false);
-        }
+        _grouper = _grouperFacade.findByAccountAndSystemId(_sessionController.getAccountId(), systemId);
+        _file = "";
     }
 
     private boolean _grouperChanged = false;
@@ -144,11 +142,11 @@ public class CertCertification implements Serializable{
     }
 
     private String download(String folder, String fileNameBase, String extension) {
-        if (_grouper.getSystemId() <= 0) {
+        if (_grouper.getSystem().getId() <= 0) {
             return "";
         }
         EditCert editCert = FeatureScopedContextHolder.Instance.getBean(EditCert.class);
-        File file = editCert.getCertFile(_grouper.getSystemId(), folder, fileNameBase, extension, false);
+        File file = editCert.getCertFile(_grouper.getSystem().getId(), folder, fileNameBase, extension, false);
         FacesContext facesContext = FacesContext.getCurrentInstance();
         ExternalContext externalContext = facesContext.getExternalContext();
         try {
@@ -213,12 +211,13 @@ public class CertCertification implements Serializable{
         return new File(uploadFolder.get(), outFile).getAbsolutePath();
     }
 
-    @Inject private GrouperActionFacade _actionFacade;
+    @Inject
+    private GrouperActionFacade _actionFacade;
 
     public void logAction(String message) {
         GrouperAction action = new GrouperAction();
         action.setAccountId(_grouper.getAccountId());
-        action.setSystemId(_grouper.getSystemId());
+        action.setSystemId(_grouper.getSystem().getId());
         action.setAction(message);
         _actionFacade.merge(action);
     }
@@ -229,9 +228,9 @@ public class CertCertification implements Serializable{
     }
 
     private Optional<File> getUploadFolder(EditCert editCert) {
-        RemunerationSystem system = _systemFacade.findFresh(_grouper.getSystemId());
+        RemunerationSystem system = _systemFacade.findFresh(_grouper.getSystem().getId());
         if (system == null) {
-            LOGGER.log(Level.WARNING, "upload, missing system with id {0}", _grouper.getSystemId());
+            LOGGER.log(Level.WARNING, "upload, missing system with id {0}", _grouper.getSystem().getId());
             return Optional.empty();
         }
         Optional<File> uploadFolderBase = editCert.getUploadFolder(system, "Ergebnis");
@@ -257,14 +256,15 @@ public class CertCertification implements Serializable{
         }
     }
 
-    @Inject private Mailer _mailer;
+    @Inject
+    private Mailer _mailer;
 
     public String saveFile() {
         setPersistUploadFile();
-        RemunerationSystem system = _systemFacade.findFresh(_grouper.getSystemId());
+        RemunerationSystem system = _systemFacade.findFresh(_grouper.getSystem().getId());
         Account account = _sessionController.getAccount();
         String phone = account.getPhone();
-        if (phone.trim().isEmpty()){
+        if (phone.trim().isEmpty()) {
             phone = account.getCustomerPhone();
         }
         String msg = "Account: \t\t" + account.getId() + "\r\n"
@@ -324,35 +324,15 @@ public class CertCertification implements Serializable{
 
     public void save() {
         try {
-            Grouper savedGrouper = _grouperFacade.merge(_grouper);
-            _grouper = savedGrouper;
+            _grouper = _grouperFacade.merge(_grouper);
         } catch (Exception ex) {
-            if (!(ex.getCause() instanceof OptimisticLockException)) {
-                throw ex;
-            }
-            mergeGrouper();
-        }
-    }
 
-    private void mergeGrouper() {
-        _sessionController.logMessage("ConcurrentUpdate CertCertification: grouper=" + _grouper.getId());
-        Grouper currentGrouper = _grouperFacade.findFresh(_grouper.getId());
-        currentGrouper.setName(_grouper.getName());
-        currentGrouper.setEmailCopy(_grouper.getEmailCopy());
-        currentGrouper.setDownloadTest(_grouper.getDownloadTest());
-        currentGrouper.setDownloadSpec(_grouper.getDownloadSpec());
-        currentGrouper.setDownloadCert(_grouper.getDownloadCert());
-        currentGrouper.setCertUpload1(_grouper.getCertUpload1());
-        currentGrouper.setCertUpload2(_grouper.getCertUpload2());
-        currentGrouper.setTestUpload1(_grouper.getTestUpload1());
-        currentGrouper.setTestUpload2(_grouper.getTestUpload2());
-        currentGrouper.setTestUpload3(_grouper.getTestUpload3());
-        _grouper = _grouperFacade.merge(currentGrouper);
+        }
     }
 
     public String cancelSystem() {
         cleanupUploadFiles();
-        setSystemId(_grouper.getSystemId());
+        setSystemId(_grouper.getSystem().getId());
         return Pages.CertCertification.RedirectURL();
     }
 
