@@ -67,7 +67,7 @@
             <div class="inputPart">
                 <h:outputLabel for="chkCheckList" value="Check-Liste OK:" styleClass="label15"/>
                 <h:selectBooleanCheckbox id="chkCheckList" value="#{certManager.system.checkList}" disabled="#{certManager.disableCheckAndSpecCheckbox()}">
-                    <f:ajax render="@this mnuSystem chkApproval certButtons:btnSystemSave chkApproval chkSpecManual :logout:remaining" listener="#{certManager.systemChangeListener}"/>
+                    <f:ajax render="@this mnuSystem chkApproval certButtons:btnSystemSave chkApproval chkSpecManual :logout:remaining"/>
                 </h:selectBooleanCheckbox>
             </div>
 
@@ -151,7 +151,7 @@
                 </pf:commandLink>
 
                 <pf:dataTable id="tableManufactorers"
-                              rendered="#{!empty certManager.system.grouperList}"
+                              emptyMessage="Keine Einträge vorhanden"
                               value="#{certManager.system.grouperList}"
                               var="grouper"
                               tableStyle="table-layout: auto;"

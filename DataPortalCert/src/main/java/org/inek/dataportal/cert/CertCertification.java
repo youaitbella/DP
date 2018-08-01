@@ -3,27 +3,30 @@ package org.inek.dataportal.cert;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
-import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.apache.poi.util.IOUtils;
 import org.inek.dataportal.api.helper.Const;
+import org.inek.dataportal.cert.comparer.CertComparer;
+import org.inek.dataportal.cert.comparer.CertFileHelper;
 import org.inek.dataportal.cert.entities.Grouper;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.helper.StreamHelper;
-import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.scope.FeatureScoped;
 import org.inek.dataportal.common.scope.FeatureScopedContextHolder;
 import org.inek.dataportal.common.mail.Mailer;
@@ -33,6 +36,11 @@ import org.inek.dataportal.cert.entities.RemunerationSystem;
 import org.inek.dataportal.cert.facade.GrouperActionFacade;
 import org.inek.dataportal.cert.facade.GrouperFacade;
 import org.inek.dataportal.cert.facade.SystemFacade;
+import org.inek.dataportal.common.data.access.ConfigFacade;
+import org.inek.dataportal.common.enums.ConfigKey;
+import org.inek.dataportal.common.enums.RemunSystem;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
 
 /**
  *
@@ -50,21 +58,49 @@ public class CertCertification implements Serializable {
     private SystemFacade _systemFacade;
     @Inject
     private GrouperFacade _grouperFacade;
+    @Inject
+    private ConfigFacade _configFacade;
 
-    public List<SelectItem> getSystems4Account() {
+    private int _compareResult;
+    private UploadedFile _file;
+    private RemunerationSystem _system;
 
-        List<SelectItem> list = new ArrayList<>();
+    public RemunerationSystem getSystem() {
+        return _system;
+    }
+
+    public void setSystem(RemunerationSystem system) {
+        this._system = system;
+    }
+
+    public UploadedFile getFile() {
+        return _file;
+    }
+
+    public void setFile(UploadedFile file) {
+        this._file = file;
+    }
+
+    public List<RemunerationSystem> getSystems4Account() {
+        List<RemunerationSystem> systems = new ArrayList<>();
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+        cal.set(Calendar.HOUR, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        Date today = cal.getTime();
+
         List<RemunerationSystem> remunerationSystems = _systemFacade.getRemunerationSystems(_sessionController.getAccountId());
         for (RemunerationSystem system : remunerationSystems) {
             if (system.isApproved() && _grouperFacade.grouperHasApproveForSystem(_sessionController.getAccountId(),
-                    system.getId(), new Date())) {
-                list.add(new SelectItem(system.getId(), system.getDisplayName()));
+                    system.getId(),
+                    today)) {
+                systems.add(system);
             }
         }
-        SelectItem emptyItem = new SelectItem(-1, Utils.getMessage("itemChoose"));
-        emptyItem.setNoSelectionOption(true);
-        list.add(emptyItem);
-        return list;
+        return systems;
     }
 
     private Grouper _grouper = new Grouper();
@@ -75,18 +111,6 @@ public class CertCertification implements Serializable {
 
     public void setGrouper(Grouper grouper) {
         _grouper = grouper;
-    }
-
-    public int getSystemId() {
-        if (_grouper.getSystem() == null) {
-            return -1;
-        }
-        return _grouper.getSystem().getId();
-    }
-
-    public void setSystemId(int systemId) {
-        _grouper = _grouperFacade.findByAccountAndSystemId(_sessionController.getAccountId(), systemId);
-        _file = "";
     }
 
     private boolean _grouperChanged = false;
@@ -101,16 +125,6 @@ public class CertCertification implements Serializable {
 
     public void grouperChangeListener(AjaxBehaviorEvent event) {
         setGrouperChanged(true);
-    }
-
-    private String _file = "";
-
-    public String getFile() {
-        return _file;
-    }
-
-    public void setFile(String file) {
-        _file = file;
     }
 
     public String downloadSpec() {
@@ -164,8 +178,8 @@ public class CertCertification implements Serializable {
         return "";
     }
 
-    public String getExpectedFileName() {
-        switch (_grouper.getCertStatus()) {
+    public String getExpectedFileName(Grouper grouper) {
+        switch (grouper.getCertStatus()) {
             case PasswordRequested:
             case TestUpload1:
                 return "TestDaten v1";
@@ -187,28 +201,10 @@ public class CertCertification implements Serializable {
     }
 
     public String getResultFileName() {
-        Optional<File> uploadFolder = getUploadFolder();
-        if (!uploadFolder.isPresent()) {
-            return "";
+        if (_file != null) {
+            return _file.getFileName();
         }
-        EditCert editCert = FeatureScopedContextHolder.Instance.getBean(EditCert.class);
-        String fileNamePattern = getExpectedFileName() + ".zip(\\.upload)?";
-        File file = editCert.getLastFile(uploadFolder.get(), fileNamePattern);
-        String prefix = "";
-        if (_file != null && !_file.isEmpty()) {
-            prefix = _file + " geladen als ";
-        }
-        return prefix + file.getName().replace(".upload", " [ungespeichert]");
-    }
-
-    public String getUploadFileName(EditCert editCert) {
-        Optional<File> uploadFolder = getUploadFolder(editCert);
-        if (!uploadFolder.isPresent()) {
-            return "";
-        }
-        String prefix = getExpectedFileName();
-        String outFile = prefix + ".zip.upload";
-        return new File(uploadFolder.get(), outFile).getAbsolutePath();
+        return "";
     }
 
     @Inject
@@ -220,26 +216,6 @@ public class CertCertification implements Serializable {
         action.setSystemId(_grouper.getSystem().getId());
         action.setAction(message);
         _actionFacade.merge(action);
-    }
-
-    private Optional<File> getUploadFolder() {
-        EditCert editCert = FeatureScopedContextHolder.Instance.getBean(EditCert.class);
-        return getUploadFolder(editCert);
-    }
-
-    private Optional<File> getUploadFolder(EditCert editCert) {
-        RemunerationSystem system = _systemFacade.findFresh(_grouper.getSystem().getId());
-        if (system == null) {
-            LOGGER.log(Level.WARNING, "upload, missing system with id {0}", _grouper.getSystem().getId());
-            return Optional.empty();
-        }
-        Optional<File> uploadFolderBase = editCert.getUploadFolder(system, "Ergebnis");
-        if (!uploadFolderBase.isPresent()) {
-            return Optional.empty();
-        }
-        File uploadFolder = new File(uploadFolderBase.get(), "" + _sessionController.getAccountId());
-        createMarkerFile(uploadFolder);
-        return Optional.of(uploadFolder);
     }
 
     private void createMarkerFile(File uploadFolder) {
@@ -260,8 +236,24 @@ public class CertCertification implements Serializable {
     private Mailer _mailer;
 
     public String saveFile() {
-        setPersistUploadFile();
-        RemunerationSystem system = _systemFacade.findFresh(_grouper.getSystem().getId());
+        File folder = getUploadPath(_grouper);
+
+        String filename = getExpectedFileName(_grouper);
+        String extension = CertFileHelper.getExtension(_file.getFileName());
+
+        try (OutputStream outStream = new FileOutputStream(new File(folder, filename + "." + extension))) {
+            IOUtils.copy(_file.getInputstream(), outStream);
+            _file.getInputstream().close();
+        } catch (Exception ex) {
+            //Todo Fehlermeldung anzeigen
+        }
+
+        setNewStatus(filename, _grouper);
+        return "";
+    }
+
+    private Boolean sendEmailToInek() {
+        RemunerationSystem system = _grouper.getSystem();
         Account account = _sessionController.getAccount();
         String phone = account.getPhone();
         if (phone.trim().isEmpty()) {
@@ -272,85 +264,104 @@ public class CertCertification implements Serializable {
                 + "Ansprechpartner: \t" + account.getFirstName() + " " + account.getLastName() + "\r\n"
                 + "Telefon: \t\t" + phone + "\r\n\r\n"
                 + system.getDisplayName() + "\r\n"
-                + _grouper.getCertStatus().getLabel() + "\r\n";
-        _mailer.sendMailFrom("edv.zert@inek-drg.de", "edv.zert@inek-drg.de", "", "", "Upload Ergebnis " + system.getDisplayName(), msg);
-        return saveOther();
+                + _grouper.getCertStatus().getLabel() + "\r\n"
+                + "Ergenis des Vergleiches: " + _compareResult + " Fehler\r\n";
+        return _mailer.sendMailFrom("edv.zert@inek-drg.de", "edv.zert@inek-drg.de", "", "", "Upload Ergebnis " + system.getDisplayName(), msg);
+    }
+
+    private File getUploadPath(Grouper grouper) {
+        File folder = new File(CertFileHelper.getSystemRoot(grouper.getSystem()), "Ergebnis");
+        File uploadFolder = new File(folder, "" + grouper.getAccountId());
+        try {
+            if (!uploadFolder.exists()) {
+                uploadFolder.mkdirs();
+            }
+            createMarkerFile(uploadFolder);
+        } catch (Exception ex) {
+            LOGGER.log(Level.WARNING, "upload, error during creating folder {0}", folder.getAbsolutePath());
+        }
+        return uploadFolder;
     }
 
     public String saveOther() {
         save();
-        setGrouperChanged(false);
         return "";
     }
 
-    private void setPersistUploadFile() {
-        Optional<File> uploadFolder = getUploadFolder();
-        if (!uploadFolder.isPresent()) {
-            return;
-        }
-        EditCert editCert = FeatureScopedContextHolder.Instance.getBean(EditCert.class);
-        String fileName = getExpectedFileName() + ".zip.upload";
-        File file = editCert.getLastFile(uploadFolder.get(), fileName);
-        if (!file.getName().equals(fileName)) {
-            return;
-        }
+    private void setNewStatus(String fileName, Grouper grouper) {
         if (fileName.startsWith("TestDaten v1")) {
-            _grouper.setTestUpload1(new Date());
-            _grouper.setCertStatus(CertStatus.TestUpload1);
+            grouper.setTestUpload1(new Date());
+            grouper.setCertStatus(CertStatus.TestUpload1);
         }
         if (fileName.startsWith("TestDaten v2")) {
-            _grouper.setTestUpload2(new Date());
-            _grouper.setCertStatus(CertStatus.TestUpload2);
+            grouper.setTestUpload2(new Date());
+            grouper.setCertStatus(CertStatus.TestUpload2);
         }
         if (fileName.startsWith("TestDaten v3")) {
-            _grouper.setTestUpload3(new Date());
-            _grouper.setCertStatus(CertStatus.TestUpload3);
+            grouper.setTestUpload3(new Date());
+            grouper.setCertStatus(CertStatus.TestUpload3);
         }
         if (fileName.startsWith("ZertDaten v1")) {
-            _grouper.setCertUpload1(new Date());
-            _grouper.setCertStatus(CertStatus.CertUpload1);
+            grouper.setCertUpload1(new Date());
+            grouper.setCertStatus(CertStatus.CertUpload1);
         }
         if (fileName.startsWith("ZertDaten v2")) {
-            _grouper.setCertUpload2(new Date());
-            _grouper.setCertStatus(CertStatus.CertUpload2);
+            grouper.setCertUpload2(new Date());
+            grouper.setCertStatus(CertStatus.CertUpload2);
         }
-        File target = new File(file.getAbsolutePath().substring(0, file.getAbsolutePath().length() - 7));
-        if (target.exists()) {
-            target.delete();
-        }
-        _file = "";
-        file.renameTo(target);
     }
 
     public void save() {
         try {
+            saveFile();
+            if (_configFacade.readConfigBool(ConfigKey.CertCompareOnUpload)) {
+                String referenceFile = CertFileHelper.getReferenceFile(_grouper);
+                String resultFile = CertFileHelper.getResultFile(_grouper);
+
+                CertComparer comparer = new CertComparer();
+
+                _compareResult = comparer.compare(resultFile, referenceFile,
+                        _grouper.getSystem().getRemunerationSystem() == RemunSystem.DRG,
+                        CertFileHelper.isCertPhase(_grouper));
+            } else {
+                _compareResult = -2;
+            }
+
+            sendEmailToInek();
+
             _grouper = _grouperFacade.merge(_grouper);
+            //Todo Benachrichtigung über erfolgreichen upload
         } catch (Exception ex) {
-
+            LOGGER.log(Level.SEVERE, "Error during compare", ex);
         }
     }
 
-    public String cancelSystem() {
-        cleanupUploadFiles();
-        setSystemId(_grouper.getSystem().getId());
-        return Pages.CertCertification.RedirectURL();
+    public void handleFileUpload(FileUploadEvent event) {
+        _file = event.getFile();
+        //Todo Nachricht das uplaod erfolgreich
     }
 
-    private void cleanupUploadFiles() {
-        deleteFiles(getUploadFolder().get(), ".*\\.upload");
-    }
-
-    public void deleteFiles(File dir, final String fileNamePattern) {
-        if (!dir.exists()) {
-            return;
-        }
-        for (File file : dir.listFiles((File file) -> file.isFile() && file.getName().matches(fileNamePattern))) {
-            file.delete();
+    public Boolean isTestUploadEnabled() {
+        switch (_grouper.getCertStatus()) {
+            case PasswordRequested:
+            case TestFailed1:
+            case TestFailed2:
+                return true;
+            default:
+                return false;
         }
     }
 
-    public String refresh() {
-        return "";
+    public Boolean isCertUploadEnabled() {
+        switch (_grouper.getCertStatus()) {
+            case TestSucceed:
+            case CertFailed1:
+                if (_grouper.getName().isEmpty()) {
+                    return false;
+                }
+                return true;
+            default:
+                return false;
+        }
     }
-
 }

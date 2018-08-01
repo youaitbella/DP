@@ -8,17 +8,32 @@
                 xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 xmlns:jsf="http://xmlns.jcp.org/jsf"
-                >
+                xmlns:pf="http://primefaces.org/ui">
 
     <ui:define name="editContent">
         <h:form id="form" >
+            <pf:dialog widgetVar="dialogProcess" header="Daten werden verarbeitet" modal="true" closable="false">
+                <pf:graphicImage name="Image/loadingbar.gif" />
+            </pf:dialog>
 
-            <h:outputLabel for="mnuSystem" value="#{msg.lblSystem}:" styleClass="label15"/>
-            <h:selectOneMenu id="mnuSystem" styleClass="input" value="#{certCertification.systemId}"
-                             immediate="true" disabled="#{certCertification.grouperChanged}">
-                <f:selectItems value="#{certCertification.systems4Account}" var="system" itemLabel="#{system.label}" itemValue="#{system.value}"/>
-                <f:ajax render="@form :logout:remaining"/>
-            </h:selectOneMenu>
+            <pf:selectOneMenu value="#{certCertification.system}"
+                              valueChangeListener=""
+                              var="system">
+                <f:selectItems value="#{certCertification.systems4Account}"
+                               var="system"
+                               itemLabel="#{system.displayName}"
+                               itemValue="#{system.id}"/>
+                <pf:ajax event="change" update="@form"/>
+            </pf:selectOneMenu>
+
+            <ui:remove>
+                <h:outputLabel for="mnuSystem" value="#{msg.lblSystem}:" styleClass="label15"/>
+                <h:selectOneMenu id="mnuSystem" styleClass="input" value="#{certCertification.systemId}"
+                                 immediate="true" disabled="#{certCertification.grouperChanged}">
+                    <f:selectItems value="#{certCertification.systems4Account}" var="system" itemLabel="#{system.label}" itemValue="#{system.value}"/>
+                    <f:ajax render="@form :logout:remaining"/>
+                </h:selectOneMenu>
+            </ui:remove>
 
             <div id="systemData" jsf:rendered="#{certCertification.grouper.id ne null}">
 
@@ -44,31 +59,31 @@
 
                 <h2>#{msg.lblUpload}</h2>
 
-                <div id="file-uploader"
-                     jsf:rendered="#{((certCertification.grouper.certStatus eq 'TestSucceed' or certCertification.grouper.certStatus eq 'CertFailed1') and empty certCertification.grouper.name)}">
-                    #{msg.msgGrouperNameRequired}
-                </div>
-                <div id="file-uploader"
-                     jsf:rendered="#{certCertification.grouper.certStatus eq 'PasswordRequested' or certCertification.grouper.certStatus eq 'TestFailed1' or certCertification.grouper.certStatus eq 'TestFailed2' or ((certCertification.grouper.certStatus eq 'TestSucceed' or certCertification.grouper.certStatus eq 'CertFailed1') and !empty certCertification.grouper.name)}">
-                    <script>
-                        createUploader("#{msg.btnUpload} #{certCertification.expectedFileName}");
-                    </script>
-                </div>
-                <h:commandLink id="refresh" style="display: none" action="#{certCertification.refresh}" value="refresh"/>
+                <pf:fileUpload fileUploadListener="#{certCertification.handleFileUpload}"
+                               rendered="#{certCertification.isTestUploadEnabled()}"
+                               mode="advanced"
+                               label="Testdaten auswählen"
+                               uploadLabel="Hochladen"
+                               cancelLabel="Abbrechen"
+                               dragDropSupport="true"
+                               update="needSave"
+                               fileLimit="1"
+                               allowTypes="/(\.|\/)(zip|7z|rar|gpg|pgp)$/" />
 
-                <div class="inputPart">
-                    <h:outputLabel value="#{certCertification.resultFileName}"/>
-                    <h:outputLabel rendered="#{certCertification.grouper.certStatus eq 'TestUpload1' or certCertification.grouper.certStatus eq 'TestUpload2' or certCertification.grouper.certStatus eq 'TestUpload3' or certCertification.grouper.certStatus eq 'CertUpload1' or certCertification.grouper.certStatus eq 'CertUpload2'}"
-                                   value=" #{msg.lblUnderTest}"/>
-                </div>
+                <pf:fileUpload fileUploadListener="#{certCertification.handleFileUpload}"
+                               rendered="#{certCertification.isCertUploadEnabled()}"
+                               label="Zertdaten auswählen"
+                               uploadLabel="Hochladen"
+                               cancelLabel="Abbrechen"
+                               mode="advanced"
+                               dragDropSupport="true"
+                               update="needSave"
+                               fileLimit="1"
+                               allowTypes="/(\.|\/)(zip|7z|rar|gpg|pgp)$/" />
 
-                <div class="inputPart" jsf:rendered="#{certCertification.resultFileName.endsWith('[ungespeichert]')}">
-                    <h:commandLink id="btnConfirmFile" styleClass="bigButton" value="#{msg.btnSave}"
-                                   action="#{certCertification.saveFile}"
-                                   immediate="true" disabled="false">
-                        <f:ajax render="@form :logout:remaining"/>
-                    </h:commandLink>
-                </div>
+                <pf:outputLabel id="needSave"
+                                value="Bitte Speichern Sie die Eingabe vom #{certCertification.resultFileName}"
+                                rendered="#{certCertification.resultFileName ne ''}" />
 
                 <h2>#{msg.lblOther}</h2>
 
@@ -82,23 +97,13 @@
                     </h:inputText>
                     <h:message for="txtGrouperName" id="msgGrouperName" styleClass="errorMessage"/>
                 </div>
-
-                <div class="inputPart">
-                    <h:outputLabel for="txtEmailCopy" value="#{msg.lblEmailCopy}:" styleClass="label15"/>
-                    <h:inputText id="txtEmailCopy"
-                                 value="#{certCertification.grouper.emailCopy}"
-                                 styleClass="input">
-                        <f:ajax render="@this msgEmailCopy mnuSystem :logout:remaining" listener="#{certCertification.grouperChangeListener}"/>
-                    </h:inputText>
-                    <h:message for="txtEmailCopy" id="msgEmailCopy" styleClass="errorMessage"/>
-                </div>
-
                 <div class="toolBar">
-                    <h:commandLink id="btnSaveOther" styleClass="bigButton" value="#{msg.btnSave}"
-                                   action="#{certCertification.saveOther}"
-                                   immediate="false" disabled="false">
-                        <f:ajax render="@form :logout:remaining"/>
-                    </h:commandLink>
+                    <pf:commandButton value="Speichern"
+                                      actionListener="#{certCertification.saveOther}"
+                                      onstart="PF('dialogProcess').show();"
+                                      oncomplete="PF('dialogProcess').hide();"
+                                      update="@form"
+                                      immediate="false"/>
                 </div>
 
             </div>

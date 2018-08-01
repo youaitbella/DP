@@ -1,6 +1,8 @@
 package org.inek.dataportal.cert;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -17,6 +19,7 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.apache.poi.util.IOUtils;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.cert.entities.RemunerationSystem;
@@ -25,12 +28,13 @@ import org.inek.dataportal.cert.facade.GrouperFacade;
 import org.inek.dataportal.cert.facade.SystemFacade;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.cert.comparer.CertFileHelper;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.common.data.access.ConfigFacade;
+import org.inek.dataportal.common.enums.RemunSystem;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.scope.FeatureScoped;
-import org.inek.dataportal.common.scope.FeatureScopedContextHolder;
 import org.inek.dataportal.common.utils.DateUtils;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
@@ -351,31 +355,38 @@ public class CertManager implements Serializable {
     }
 
     public void uploadCertFile(String folder, String fileNameBase, String extension, UploadedFile file) {
-        int systemId = _system.getId();
-        EditCert editCert = FeatureScopedContextHolder.Instance.getBean(EditCert.class);
-        RemunerationSystem system = editCert.getSystem(systemId);
-        if (system == null) {
-            return;
+        String base = CertFileHelper.getSysDir(_system) + "\\" + folder;
+
+        String outFileName = fileNameBase + "_"
+                + _system.getFileName() + "_("
+                + DateUtils.todayAnsi() + ")."
+                + extension;
+
+        try {
+            OutputStream outStream = new FileOutputStream(new File(base, outFileName));
+            IOUtils.copy(file.getInputstream(), outStream);
+            file.getInputstream().close();
+            outStream.close();
+        } catch (Exception ex) {
+            String mesaage = ex.getMessage();
+            //Todo Fehlermeldung anzeigen
         }
 
-        Optional<File> uploadFolder = editCert.getUploadFolder(system, folder);
-        if (!uploadFolder.isPresent()) {
-            return;
-        }
-        String fileNamePattern = fileNameBase + "_" + system.getFileName() + "_.*\\.upload";
-        deleteFiles(uploadFolder.get(), fileNamePattern);
-        String outFile = fileNameBase + "_" + system.getFileName() + "_(" + DateUtils.todayAnsi() + ")." + extension + ".upload";
-        editCert.uploadFile(file, new File(uploadFolder.get(), outFile));
-    }
-
-    private void copyEmail(Grouper newGrouper) {
-        Grouper source = newGrouper;
-        for (Grouper grouper : _grouperFacade.findByAccountId(newGrouper.getAccountId())) {
-            if (grouper.getId() > source.getId()) {
-                source = grouper;
-            }
-        }
-        newGrouper.setEmailCopy(source.getEmailCopy());
+//        int systemId = _system.getId();
+//        EditCert editCert = FeatureScopedContextHolder.Instance.getBean(EditCert.class);
+//        RemunerationSystem system = editCert.getSystem(systemId);
+//        if (system == null) {
+//            return;
+//        }
+//
+//        Optional<File> uploadFolder = editCert.getUploadFolder(system, folder);
+//        if (!uploadFolder.isPresent()) {
+//            return;
+//        }
+//        String fileNamePattern = fileNameBase + "_" + system.getFileName() + "_.*\\.upload";
+//        deleteFiles(uploadFolder.get(), fileNamePattern);
+        //      String outFile = fileNameBase + "_" + system.getFileName() + "_(" + DateUtils.todayAnsi() + ")." + extension + ".upload";
+//        editCert.uploadFile(file, new File(uploadFolder.get(), outFile));
     }
 
     public boolean disableApprovedCheckbox() {
