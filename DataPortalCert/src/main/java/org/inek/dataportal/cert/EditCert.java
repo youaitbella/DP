@@ -46,15 +46,6 @@ public class EditCert extends AbstractEditController {
     @Inject
     private SystemFacade _systemFacade;
 
-//    @PostConstruct
-//    private void init() {
-//        LOGGER.log(Level.WARNING, "Init EditCert");
-//    }
-//
-//    @PreDestroy
-//    private void destroy() {
-//        LOGGER.log(Level.WARNING, "Destroy EditCert");
-//    }
     @Override
     protected void addTopics() {
         if (_sessionController.isInekUser(Feature.CERT)) {

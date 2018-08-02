@@ -7,7 +7,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -16,6 +15,7 @@ import java.util.logging.Logger;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.apache.poi.util.IOUtils;
@@ -64,6 +64,15 @@ public class CertCertification implements Serializable {
     private int _compareResult;
     private UploadedFile _file;
     private RemunerationSystem _system;
+    private Grouper _grouper;
+
+    public Grouper getGrouper() {
+        return _grouper;
+    }
+
+    public void setGrouper(Grouper grouper) {
+        _grouper = grouper;
+    }
 
     public RemunerationSystem getSystem() {
         return _system;
@@ -81,9 +90,7 @@ public class CertCertification implements Serializable {
         this._file = file;
     }
 
-    public List<RemunerationSystem> getSystems4Account() {
-        List<RemunerationSystem> systems = new ArrayList<>();
-
+    public List<Grouper> getGrouper4Account() {
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
         cal.set(Calendar.HOUR, 0);
@@ -92,25 +99,15 @@ public class CertCertification implements Serializable {
         cal.set(Calendar.MILLISECOND, 0);
         Date today = cal.getTime();
 
-        List<RemunerationSystem> remunerationSystems = _systemFacade.getRemunerationSystems(_sessionController.getAccountId());
-        for (RemunerationSystem system : remunerationSystems) {
-            if (system.isApproved() && _grouperFacade.grouperHasApproveForSystem(_sessionController.getAccountId(),
-                    system.getId(),
-                    today)) {
-                systems.add(system);
-            }
+        List<Grouper> groupers = _grouperFacade.findByAccountIdAndDate(_sessionController.getAccountId(), today);
+        if (groupers.size() > 0) {
+            setGrouper(groupers.get(0));
         }
-        return systems;
+        return groupers;
     }
 
-    private Grouper _grouper = new Grouper();
-
-    public Grouper getGrouper() {
-        return _grouper;
-    }
-
-    public void setGrouper(Grouper grouper) {
-        _grouper = grouper;
+    public void grouperChanged(ValueChangeEvent event) {
+        System.out.println("New value: " + event.getNewValue());
     }
 
     private boolean _grouperChanged = false;
@@ -125,6 +122,10 @@ public class CertCertification implements Serializable {
 
     public void grouperChangeListener(AjaxBehaviorEvent event) {
         setGrouperChanged(true);
+    }
+
+    public void grouperChanged() {
+        int i = 1;
     }
 
     public String downloadSpec() {

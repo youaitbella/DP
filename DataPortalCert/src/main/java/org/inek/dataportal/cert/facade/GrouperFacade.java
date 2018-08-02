@@ -28,6 +28,19 @@ public class GrouperFacade extends AbstractDataAccess {
         return getEntityManager().createQuery(query, Grouper.class).setParameter("id", accountId).getResultList();
     }
 
+    public List<Grouper> findByAccountIdAndDate(int accountId, Date date) {
+        String query = "SELECT g FROM Grouper g JOIN RemunerationSystem s on g._system._id = s._id WHERE "
+                + "g._accountId = :acId AND "
+                + "g._system._approved = true AND "
+                + "s._active = 1 AND "
+                + "g._approvedUntil >= :date";
+
+        return getEntityManager().createQuery(query, Grouper.class)
+                .setParameter("acId", accountId)
+                .setParameter("date", date)
+                .getResultList();
+    }
+
     public Grouper findByAccountAndSystemId(int accountId, int systemId) {
         String jpql = "SELECT g FROM Grouper g WHERE g._accountId = :accId and g._system._id = :sysId";
         try {
@@ -75,18 +88,5 @@ public class GrouperFacade extends AbstractDataAccess {
         String query = "SELECT g FROM Grouper g JOIN RemunerationSystem s on g._system._id = s._id WHERE "
                 + "g._certStatus = 90 AND g._websiteRelease IS NULL AND s._active = 1";
         return getEntityManager().createQuery(query, Grouper.class).getResultList();
-    }
-
-    public boolean grouperHasApproveForSystem(int acId, int systemId, Date date) {
-        String query = "SELECT g FROM Grouper g JOIN RemunerationSystem s on g._system._id = s._id WHERE "
-                + "g._accountId = :acId AND "
-                + "g._system._id = :sysId AND "
-                + "s._active = 1 AND "
-                + "g._approvedUntil >= :date";
-        return !getEntityManager().createQuery(query, Grouper.class)
-                .setParameter("acId", acId)
-                .setParameter("sysId", systemId)
-                .setParameter("date", date)
-                .getResultList().isEmpty();
     }
 }

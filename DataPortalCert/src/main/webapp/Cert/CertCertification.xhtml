@@ -16,14 +16,13 @@
                 <pf:graphicImage name="Image/loadingbar.gif" />
             </pf:dialog>
 
-            <pf:selectOneMenu value="#{certCertification.system}"
-                              valueChangeListener=""
-                              var="system">
-                <f:selectItems value="#{certCertification.systems4Account}"
-                               var="system"
-                               itemLabel="#{system.displayName}"
-                               itemValue="#{system.id}"/>
-                <pf:ajax event="change" update="@form"/>
+            <pf:selectOneMenu var="grouper"
+                              valueChangeListener="#{certCertification.grouperChanged}" >
+                <f:selectItems value="#{certCertification.grouper4Account}"
+                               var="grouperItem"
+                               itemLabel="#{grouperItem.system.displayName}"
+                               itemValue="#{grouperItem}"/>
+                <pf:ajax update="systemData" />
             </pf:selectOneMenu>
 
             <ui:remove>
@@ -35,55 +34,60 @@
                 </h:selectOneMenu>
             </ui:remove>
 
-            <div id="systemData" jsf:rendered="#{certCertification.grouper.id ne null}">
+            <pf:panel id="systemData" rendered="#{certCertification.grouper.id ne null}">
 
                 <h2>#{msg.lblDownload}</h2>
 
                 <div class="inputPart">
                     <h:commandLink styleClass="bigButton" value="#{msg.btnDownloadSpec}" immediate="true"
                                    action="#{certCertification.downloadSpec}"/>
-                    <h:outputLabel value="#{editCert.getSpecFileName(certCertification.systemId, false)}"/>
+                    <h:outputLabel value="#{editCert.getSpecFileName(certCertification.grouper.system.id, false)}"/>
                 </div>
 
                 <div class="inputPart">
                     <h:commandLink styleClass="bigButton" value="#{msg.btnDownloadTest}"  immediate="true"
                                    action="#{certCertification.downloadTest}"/>
-                    <h:outputLabel value="#{editCert.getTestFileName(certCertification.systemId, false)}"/>
+                    <h:outputLabel value="#{editCert.getTestFileName(certCertification.grouper.system.id, false)}"/>
                 </div>
 
                 <div class="inputPart" jsf:rendered="#{certCertification.grouper.certStatus.status ge 20}">
                     <h:commandLink styleClass="bigButton" value="#{msg.btnDownloadCert}"  immediate="true"
                                    action="#{certCertification.downloadCert}"/>
-                    <h:outputLabel value="#{editCert.getCertFileName(certCertification.systemId, false)}"/>
+                    <h:outputLabel value="#{editCert.getCertFileName(certCertification.grouper.system.id, false)}"/>
                 </div>
 
-                <h2>#{msg.lblUpload}</h2>
+                <div jsf:rendered="#{certCertification.isCertUploadEnabled() or certCertification.isTestUploadEnabled()}">
+                    <h2>#{msg.lblUpload}</h2>
 
-                <pf:fileUpload fileUploadListener="#{certCertification.handleFileUpload}"
-                               rendered="#{certCertification.isTestUploadEnabled()}"
-                               mode="advanced"
-                               label="Testdaten auswählen"
-                               uploadLabel="Hochladen"
-                               cancelLabel="Abbrechen"
-                               dragDropSupport="true"
-                               update="needSave"
-                               fileLimit="1"
-                               allowTypes="/(\.|\/)(zip|7z|rar|gpg|pgp)$/" />
+                    <pf:fileUpload fileUploadListener="#{certCertification.handleFileUpload}"
+                                   rendered="#{certCertification.isTestUploadEnabled()}"
+                                   mode="advanced"
+                                   label="Testdaten auswählen"
+                                   uploadLabel="Hochladen"
+                                   cancelLabel="Abbrechen"
+                                   dragDropSupport="true"
+                                   update="needSave"
+                                   fileLimit="1"
+                                   allowTypes="/(\.|\/)(zip|7z|rar|gpg|pgp)$/" />
 
-                <pf:fileUpload fileUploadListener="#{certCertification.handleFileUpload}"
-                               rendered="#{certCertification.isCertUploadEnabled()}"
-                               label="Zertdaten auswählen"
-                               uploadLabel="Hochladen"
-                               cancelLabel="Abbrechen"
-                               mode="advanced"
-                               dragDropSupport="true"
-                               update="needSave"
-                               fileLimit="1"
-                               allowTypes="/(\.|\/)(zip|7z|rar|gpg|pgp)$/" />
+                    <pf:fileUpload fileUploadListener="#{certCertification.handleFileUpload}"
+                                   rendered="#{certCertification.isCertUploadEnabled()}"
+                                   label="Zertdaten auswählen"
+                                   uploadLabel="Hochladen"
+                                   cancelLabel="Abbrechen"
+                                   mode="advanced"
+                                   dragDropSupport="true"
+                                   update="needSave"
+                                   fileLimit="1"
+                                   allowTypes="/(\.|\/)(zip|7z|rar|gpg|pgp)$/" />
 
-                <pf:outputLabel id="needSave"
-                                value="Bitte Speichern Sie die Eingabe vom #{certCertification.resultFileName}"
-                                rendered="#{certCertification.resultFileName ne ''}" />
+                    <pf:outputLabel id="needSave"
+                                    value="Bitte Speichern Sie die Eingabe vom #{certCertification.resultFileName}"
+                                    rendered="#{certCertification.resultFileName ne ''}" />
+                    <pf:outputLabel value="Daten in Prüfung"
+                                    rendered="#{!certCertification.isCertUploadEnabled() and !certCertification.isTestUploadEnabled()}" />
+
+                </div>
 
                 <h2>#{msg.lblOther}</h2>
 
@@ -106,7 +110,7 @@
                                       immediate="false"/>
                 </div>
 
-            </div>
+            </pf:panel>
         </h:form>
     </ui:define>
 
