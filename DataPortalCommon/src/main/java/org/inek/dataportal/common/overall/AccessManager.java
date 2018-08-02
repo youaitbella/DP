@@ -43,10 +43,14 @@ public class AccessManager implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger("AccessManager");
 
-    @Inject private CooperationRightFacade _cooperationRightFacade;
-    @Inject private SessionController _sessionController;
-    @Inject private AccountFacade _accountFacade;
-    @Inject private IkAdminFacade _ikAdminFacade;
+    @Inject
+    private CooperationRightFacade _cooperationRightFacade;
+    @Inject
+    private SessionController _sessionController;
+    @Inject
+    private AccountFacade _accountFacade;
+    @Inject
+    private IkAdminFacade _ikAdminFacade;
 
     /**
      * gets the cooperation rights by delegating the first request to the service and retrieving them from a local cache
@@ -354,6 +358,17 @@ public class AccessManager implements Serializable {
         return ownerId != account.getId() && isSealedEnabled(feature, state, ownerId, ik);
     }
 
+    public boolean isDeleteEnabled(Feature feature, int accountId, int ik) {
+        if (ik > 0) {
+            for (AccessRight accessRight : obtainAccessRights(feature)) {
+                if (accessRight.getIk() == ik && accessRight.getAccountId() == accountId) {
+                    return accessRight.canWrite() || accessRight.canSeal();
+                }
+            }
+        }
+        return false;
+    }
+
     /**
      * update is enabled when correction is requested by inek and it's the user's data or the user is allowed to seal or
      * to write.
@@ -474,7 +489,7 @@ public class AccessManager implements Serializable {
     public Set<Integer> determineAccountIds(Feature feature, Predicate<CooperationRight> canRead) {
         Set<Integer> ids = new LinkedHashSet<>();
         Account account = _sessionController.getAccount();
-        if (account == null){
+        if (account == null) {
             LOGGER.log(Level.WARNING, "Accessmanager called without logged in user");
             return ids;
         }

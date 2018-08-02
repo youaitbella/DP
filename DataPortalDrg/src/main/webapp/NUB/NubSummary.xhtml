@@ -51,13 +51,13 @@
                     </h:panelGroup>
 
                     <div jsf:id="NubEdit" style="margin-left:16px; padding-bottom: 1em;">
-                        <h:outputLabel value="Dieser Kooperationspartner hat noch keine NUB-Anfrage zur Freigabe an Sie gesendet" 
+                        <h:outputLabel value="Dieser Kooperationspartner hat noch keine NUB-Anfrage zur Freigabe an Sie gesendet"
                                        rendered="#{treeNode['class'].simpleName eq 'AccountTreeNode' and treeNode.expanded and treeNode.children.size() eq 0}"/>
-                        <h:outputLabel value="Für dieses IK sind noch keine NUB-Anfragen vorhanden" 
+                        <h:outputLabel value="Für dieses IK sind noch keine NUB-Anfragen vorhanden"
                                        rendered="#{treeNode['class'].simpleName eq 'CustomerTreeNode' and cc.attrs.accountNode.expanded and cc.attrs.accountNode.children.size() eq 0}"/>
 
-                        <nub:NubRequestNode parentNode="#{treeNode}" isSealed="false" 
-                                            showDelete="#{treeNode.id == sessionController.accountId ? 'true' : 'false'}" 
+                        <nub:NubRequestNode parentNode="#{treeNode}" isSealed="false"
+                                            showDelete="#{treeNode.id == sessionController.accountId ? 'true' : 'false'}"
                                             rendered="#{treeNode.expanded and treeNode.children.size() gt 0}"/>
                     </div>
                 </div>
@@ -80,17 +80,17 @@
 
             <div class="toolBar marginLeft">
                 <h:commandLink styleClass="bigButton #{applicationTools.isEnabled('IsNubCreateEnabled') ? '' : 'buttonDisabled'}"
-                               action="#{nubRequestList.newNubRequest}" 
+                               action="#{nubRequestList.newNubRequest}"
                                disabled="#{not applicationTools.isEnabled('IsNubCreateEnabled')}"
                                immediate="true" value="#{msg.btnNewProposal}">
                     <f:param name="id" value="new"/>
                 </h:commandLink>
                 <h:commandLink styleClass="bigButton #{applicationTools.isEnabled('IsNubCreateEnabled') ? '' : 'buttonDisabled'}"
-                               action="#{nubRequestList.newNubRequestFromTemplate}" 
+                               action="#{nubRequestList.newNubRequestFromTemplate}"
                                disabled="#{not applicationTools.isEnabled('IsNubCreateEnabled')}"
                                immediate="true" value="#{msg.lblNewFromTemplate}"/>
                 <h:commandLink styleClass="bigButton #{applicationTools.isEnabled('IsNubCreateEnabled') ? '' : 'buttonDisabled'}"
-                               action="#{nubRequestList.gotoNubInfo}" 
+                               action="#{nubRequestList.gotoNubInfo}"
                                rendered="#{sessionController.hospital}"
                                immediate="true" value="#{msg.lblNubMethodInfo}"/>
                 <div jsf:rendered="#{not applicationTools.isEnabled('IsNubCreateEnabled')}">
@@ -126,9 +126,9 @@
                                 <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(treeNode.accountId)}" value="#{treeNode.town}" immediate="true"/>
                             </h:panelGroup>
                             <div jsf:id="NubShow" style="margin-left:16px; padding-bottom: 1em;">
-                                <nub:NubRequestNode parentNode="#{treeNode}" 
-                                                    isSealed="true" 
-                                                    showDelete="#{treeNode.id == sessionController.accountId ? 'true' : 'false'}" 
+                                <nub:NubRequestNode parentNode="#{treeNode}"
+                                                    isSealed="true"
+                                                    showDelete="#{treeNode.id == sessionController.accountId ? 'true' : 'false'}"
                                                     rendered="#{treeNode.expanded}"/>
                             </div>
                         </div>
