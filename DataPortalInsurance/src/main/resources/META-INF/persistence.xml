@@ -58,6 +58,21 @@
         <class>org.inek.dataportal.common.specificfunction.entity.SpecificFunctionRequest</class>
         <class>org.inek.dataportal.common.specificfunction.entity.TypeExtraCharge</class>
         <class>org.inek.dataportal.common.data.infotext.entity.InfoText</class>
+        <class>org.inek.dataportal.common.data.KhComparison.entities.AEBBaseInformation</class>
+        <class>org.inek.dataportal.common.data.KhComparison.entities.AEBPageB1</class>
+        <class>org.inek.dataportal.common.data.KhComparison.entities.AEBPageE1_1</class>
+        <class>org.inek.dataportal.common.data.KhComparison.entities.AEBPageE1_2</class>
+        <class>org.inek.dataportal.common.data.KhComparison.entities.AEBPageE2</class>
+        <class>org.inek.dataportal.common.data.KhComparison.entities.AEBPageE3_1</class>
+        <class>org.inek.dataportal.common.data.KhComparison.entities.AEBPageE3_2</class>
+        <class>org.inek.dataportal.common.data.KhComparison.entities.AEBPageE3_3</class>
+        <class>org.inek.dataportal.common.data.KhComparison.entities.ActionLog</class>
+        <class>org.inek.dataportal.common.data.KhComparison.entities.OccupationalCategory</class>
+        <class>org.inek.dataportal.common.data.KhComparison.entities.PersonalAgreed</class>
+        <class>org.inek.dataportal.common.data.KhComparison.entities.PersonnelGroup</class>
+        <class>org.inek.dataportal.common.data.KhComparison.entities.PsyDocument</class>
+        <class>org.inek.dataportal.common.data.KhComparison.entities.RegionStructurParticularities</class>
+        <class>org.inek.dataportal.common.data.KhComparison.entities.StructureInformation</class>
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
         <properties>
             <property name="eclipselink.jpa.uppercase-column-names" value="true"/>

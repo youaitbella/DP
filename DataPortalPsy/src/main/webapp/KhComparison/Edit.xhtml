@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/Templates/PortalMenuTemplate.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:pf="http://primefaces.org/ui">
+
+
+    <ui:define name="content">
+        <h:form>
+            <h1>
+                <h:commandLink value="Datenerfassung für den Krankenhausvergleich" action="#{sessionController.navigate(sessionTools.pages.KhComparisonSummary)}" immediate="true"/>
+            </h1>
+        </h:form>
+        <h:form>
+            <pf:messages>
+                <pf:autoUpdate />
+            </pf:messages>
+            <div class="headerInformation">
+                <ui:include src="Generell.xhtml" />
+            </div>
+            <pf:tabView styleClass="featureTabs" dynamic="true">
+                <pf:tab title="AEB">
+                    <ui:include src="Aeb/AebSummary.xhtml" />
+                </pf:tab>
+                <pf:tab title="Personalausstattung Psychosomatik">
+                    <ui:include src="PersonalAgreed.xhtml" />
+                </pf:tab>
+                <pf:tab title="Regionale und Strukturelle Besonderheiten">
+                    <ui:include src="RegionStructurParticularities.xhtml" />
+                </pf:tab>
+                <pf:tab title="(Fallback) Kalkulationsunterlagen">
+                    <ui:include src="CalcDocuments.xhtml" />
+                </pf:tab>
+            </pf:tabView>
+            <div class="footerInformation">
+                <pf:commandButton styleClass="btnPsy"
+                                  value="Datensatz ändern"
+                                  action="#{edit.change()}"
+                                  update="@form"
+                                  immediate="true"
+                                  rendered="#{edit.isReadOnly()}"/>
+                <pf:commandButton styleClass="btnPsy"
+                                  value="Speichern"
+                                  action="#{edit.save()}"
+                                  update="@(.ui-message) @form"
+                                  immediate="true"
+                                  rendered="#{!edit.isReadOnly()}"/>
+                <pf:commandButton value="Ans InEK senden"
+                                  update="@(.ui-message) @form"
+                                  action="#{edit.send()}"
+                                  styleClass="btnSend arrow-right"
+                                  rendered="#{!edit.isReadOnly()}"/>
+            </div>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

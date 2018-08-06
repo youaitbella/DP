@@ -19,12 +19,14 @@ import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.data.cooperation.entities.CooperationRight;
 import org.inek.dataportal.common.enums.CooperativeRight;
 import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.common.data.cooperation.facade.CooperationRightFacade;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
 import org.inek.dataportal.common.enums.Right;
 import org.inek.dataportal.common.data.ikadmin.facade.IkAdminFacade;
+import org.inek.dataportal.common.enums.ConfigKey;
 
 /**
  * This class provides access to cooperations rights for one request. Depending on the current data, a couple of
@@ -43,10 +45,16 @@ public class AccessManager implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger("AccessManager");
 
-    @Inject private CooperationRightFacade _cooperationRightFacade;
-    @Inject private SessionController _sessionController;
-    @Inject private AccountFacade _accountFacade;
-    @Inject private IkAdminFacade _ikAdminFacade;
+    @Inject
+    private CooperationRightFacade _cooperationRightFacade;
+    @Inject
+    private SessionController _sessionController;
+    @Inject
+    private AccountFacade _accountFacade;
+    @Inject
+    private IkAdminFacade _ikAdminFacade;
+    @Inject
+    private ConfigFacade _configFacade;
 
     /**
      * gets the cooperation rights by delegating the first request to the service and retrieving them from a local cache
@@ -354,6 +362,17 @@ public class AccessManager implements Serializable {
         return ownerId != account.getId() && isSealedEnabled(feature, state, ownerId, ik);
     }
 
+    public boolean isDeleteEnabled(Feature feature, int accountId, int ik) {
+        if (ik > 0) {
+            for (AccessRight accessRight : obtainAccessRights(feature)) {
+                if (accessRight.getIk() == ik && accessRight.getAccountId() == accountId) {
+                    return accessRight.canWrite() || accessRight.canSeal();
+                }
+            }
+        }
+        return false;
+    }
+
     /**
      * update is enabled when correction is requested by inek and it's the user's data or the user is allowed to seal or
      * to write.
@@ -474,7 +493,7 @@ public class AccessManager implements Serializable {
     public Set<Integer> determineAccountIds(Feature feature, Predicate<CooperationRight> canRead) {
         Set<Integer> ids = new LinkedHashSet<>();
         Account account = _sessionController.getAccount();
-        if (account == null){
+        if (account == null) {
             LOGGER.log(Level.WARNING, "Accessmanager called without logged in user");
             return ids;
         }
@@ -522,4 +541,63 @@ public class AccessManager implements Serializable {
         return achievedRight.canReadAlways();
     }
 
+    public boolean isReadAllowed(Feature feature, Account account, int ik) {
+        if (!_configFacade.readConfigBool(ConfigKey.IkAdminEnable)) {
+            return true;
+        }
+        boolean readAllowed = false;
+        for (AccessRight right : account.getAccessRights()) {
+            if (right.getIk() == ik && right.getFeature() == feature) {
+                if (right.canRead()) {
+                    readAllowed = true;
+                }
+            }
+        }
+        return readAllowed;
+    }
+
+    public boolean isEditAllowed(Feature feature, Account account, int ik) {
+        if (!_configFacade.readConfigBool(ConfigKey.IkAdminEnable)) {
+            return true;
+        }
+        boolean editAllowed = false;
+        for (AccessRight right : account.getAccessRights()) {
+            if (right.getIk() == ik && right.getFeature() == feature) {
+                if (right.canWrite()) {
+                    editAllowed = true;
+                }
+            }
+        }
+        return editAllowed;
+    }
+
+    public boolean isCreateAllowed(Feature feature, Account account, int ik) {
+        if (!_configFacade.readConfigBool(ConfigKey.IkAdminEnable)) {
+            return true;
+        }
+        boolean createAllowed = false;
+        for (AccessRight right : account.getAccessRights()) {
+            if (right.getIk() == ik && right.getFeature() == feature) {
+                if (right.canCreate()) {
+                    createAllowed = true;
+                }
+            }
+        }
+        return createAllowed;
+    }
+
+    public boolean isSendAllowed(Feature feature, Account account, int ik) {
+        if (!_configFacade.readConfigBool(ConfigKey.IkAdminEnable)) {
+            return true;
+        }
+        boolean sendAllowed = false;
+        for (AccessRight right : account.getAccessRights()) {
+            if (right.getIk() == ik && right.getFeature() == feature) {
+                if (right.canSeal()) {
+                    sendAllowed = true;
+                }
+            }
+        }
+        return sendAllowed;
+    }
 }

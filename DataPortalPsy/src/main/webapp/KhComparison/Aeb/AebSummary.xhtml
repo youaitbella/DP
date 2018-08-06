@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:pf="http://primefaces.org/ui">
+
+    <h3 jsf:rendered="#{!edit.isReadOnly()}">
+        AEB aus Excel importieren
+    </h3>
+    <pf:fileUpload styleClass="inekUploader"
+                   rendered="#{!edit.isReadOnly()}"
+                   fileUploadListener="#{edit.handleFileUpload}"
+                   mode="advanced"
+                   fileLimit="1"
+                   fileLimitMessage="Es darf nur eine Datei hochgeladen werden"
+                   invalidFileMessage="Es dürfen nur Excel Dateien hochgeladen werden"
+                   allowTypes="/(\.|\/)(xlsx|xls)$/"
+                   cancelLabel="Abbrechen"
+                   uploadLabel="Datei Hochladen"
+                   label="Exceldatei auswählen"
+                   update="@form"/>
+
+    <pf:inputTextarea value="#{edit.errorMessage}"
+                      rendered="#{edit.errorMessage.length() gt 0}"
+                      style="width: 100%"/>
+
+    <br />
+    <br />
+
+    <pf:tabView styleClass="featureTabs" dynamic="true">
+        <pf:tab title="Blatt E1.1">
+            <ui:include src="pages/AebPageE1_1.xhtml" />
+        </pf:tab>
+        <pf:tab title="Blatt E1.2">
+            <ui:include src="pages/AebPageE1_2.xhtml" />
+        </pf:tab>
+        <pf:tab title="Blatt E2">
+            <ui:include src="pages/AebPageE2.xhtml" />
+        </pf:tab>
+        <pf:tab title="Blatt E3.1">
+            <ui:include src="pages/AebPageE3_1.xhtml" />
+        </pf:tab>
+        <pf:tab title="Blatt E3.2">
+            <ui:include src="pages/AebPageE3_2.xhtml" />
+        </pf:tab>
+        <pf:tab title="Blatt E3.3">
+            <ui:include src="pages/AebPageE3_3.xhtml" />
+        </pf:tab>
+        <pf:tab title="Blatt B1">
+            <ui:include src="pages/AebPageB1.xhtml" />
+        </pf:tab>
+    </pf:tabView>
+
+</ui:composition>

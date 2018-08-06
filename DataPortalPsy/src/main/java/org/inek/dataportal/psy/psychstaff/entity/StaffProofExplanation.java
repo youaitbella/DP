@@ -12,6 +12,7 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import org.inek.dataportal.psy.psychstaff.enums.PsychType;
+import org.inek.dataportal.common.data.KhComparison.entities.OccupationalCategory;
 
 /**
  *
@@ -32,29 +33,29 @@ public class StaffProofExplanation implements Serializable {
     public StaffProofExplanation() {
         this._psychType = PsychType.Unknown;
     }
-    
+
     public int getId() {
         return _id;
     }
-    
+
     public void setId(int id) {
         this._id = id;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property StaffProofMasterId">
     @Column(name = "spxStaffProofMasterId")
     private int _staffProofMasterId;
-    
+
     public int getStaffProofMasterId() {
         return _staffProofMasterId;
     }
-    
+
     public void setStaffProofMasterId(int staffProofMasterId) {
         _staffProofMasterId = staffProofMasterId;
     }
     //</editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property PsychType">
     @Column(name = "spxPsychType")
     private PsychType _psychType;
@@ -83,17 +84,17 @@ public class StaffProofExplanation implements Serializable {
     @OneToOne()
     @PrimaryKeyJoinColumn(name = "spxOccupationalCategoryId")
     private OccupationalCategory _occupationalCategory;
-    
+
     public OccupationalCategory getOccupationalCategory() {
         return _occupationalCategory;
     }
-    
+
     public void setOccupationalCategory(OccupationalCategory occupationalCategory) {
         _occupationalCategory = occupationalCategory;
         _occupationalCategoryId = occupationalCategory.getId();
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property DeductedSpecialist">
     @Column(name = "spxDeductedSpecialist")
     private int _deductedSpecialistId;
@@ -110,44 +111,44 @@ public class StaffProofExplanation implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property EffectiveOccupationalCategory">
     @Column(name = "spxEffectiveOccupationalCategory")
     private String _effectiveOccupationalCategory = "";
-    
+
     @Size(max = 250)
     public String getEffectiveOccupationalCategory() {
         return _effectiveOccupationalCategory;
     }
-    
+
     public void setEffectiveOccupationalCategory(String effectiveOccupationalCategory) {
         _effectiveOccupationalCategory = effectiveOccupationalCategory;
     }
     //</editor-fold>
-   
+
     //<editor-fold defaultstate="collapsed" desc="Property DeductedFullVigor">
     @Column(name = "spxDeductedFullVigor")
     private double _deductedFullVigor;
-    
+
     public double getDeductedFullVigor() {
         return _deductedFullVigor;
     }
-    
+
     public void setDeductedFullVigor(double deductedFullVigor) {
         _deductedFullVigor = deductedFullVigor;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property Explanation">
     @Column(name = "spxExplanation")
     private String _explanation = "";
-    
+
     @Size(max = 2000)
     public String getExplanation() {
         return _explanation;
     }
-    
+
     public void setExplanation(String explanation) {
         _explanation = explanation;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="hashCode, equals, toString">
     @Override
     public int hashCode() {
@@ -159,7 +160,7 @@ public class StaffProofExplanation implements Serializable {
         return hash;
     }
 
-    @Override    
+    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;

@@ -15,6 +15,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import org.inek.dataportal.psy.psychstaff.enums.PsychType;
+import org.inek.dataportal.common.data.KhComparison.entities.OccupationalCategory;
 
 /**
  *
@@ -35,29 +36,29 @@ public class StaffProofAgreed implements Serializable {
     public StaffProofAgreed() {
         this._psychType = PsychType.Unknown;
     }
-    
+
     public int getId() {
         return _id;
     }
-    
+
     public void setId(int id) {
         this._id = id;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property StaffProofMasterId">
     @Column(name = "spaStaffProofMasterId")
     private int _staffProofMasterId;
-    
+
     public int getStaffProofMasterId() {
         return _staffProofMasterId;
     }
-    
+
     public void setStaffProofMasterId(int staffProofMasterId) {
         _staffProofMasterId = staffProofMasterId;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property OccupationalCategoryId">
     @Column(name = "spaOccupationalCategoryId")
     private int _occupationalCategoryId;
@@ -73,11 +74,11 @@ public class StaffProofAgreed implements Serializable {
     @OneToOne()
     @PrimaryKeyJoinColumn(name = "spaOccupationalCategoryId")
     private OccupationalCategory _occupationalCategory;
-    
+
     public OccupationalCategory getOccupationalCategory() {
         return _occupationalCategory;
     }
-    
+
     public void setOccupationalCategory(OccupationalCategory occupationalCategory) {
         _occupationalCategory = occupationalCategory;
         _occupationalCategoryId = occupationalCategory.getId();
@@ -100,48 +101,48 @@ public class StaffProofAgreed implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Property StaffingComplete">
     @Column(name = "spaStaffingComplete")
     private double _staffingComplete;
-    
+
     public double getStaffingComplete() {
         return _staffingComplete;
     }
-    
+
     public void setStaffingComplete(double staffingComplete) {
         _staffingComplete = staffingComplete;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property StaffingBudget">
     @Column(name = "spaStaffingBudget")
     private double _staffingBudget;
-    
+
     public double getStaffingBudget() {
         return _staffingBudget;
     }
-    
+
     public void setStaffingBudget(double staffingBudget) {
         _staffingBudget = staffingBudget;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property AvgCost">
     @Column(name = "spaAvgCost")
     private double _avgCost;
-    
+
     public double getAvgCost() {
         return _avgCost;
     }
-    
+
     public void setAvgCost(double avgCost) {
         _avgCost = avgCost;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="hashCode, equals, toString">
     @Override
     public int hashCode() {
         return _id;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -154,11 +155,11 @@ public class StaffProofAgreed implements Serializable {
 
         return _id == other._id;
     }
-    
+
     @Override
     public String toString() {
         return StaffProofAgreed.class.getName() + " ID [" + _id + "]";
     }
     //</editor-fold>
-    
+
 }

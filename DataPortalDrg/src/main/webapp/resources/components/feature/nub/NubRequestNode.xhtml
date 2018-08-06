@@ -8,7 +8,7 @@
 
     <!-- INTERFACE -->
     <cc:interface>
-        <cc:attribute name="parentNode" class="org.inek.dataportal.helper.tree.AccountTreeNode"/> 
+        <cc:attribute name="parentNode" class="org.inek.dataportal.helper.tree.AccountTreeNode"/>
         <cc:attribute name="showDelete" default="true"/>
         <cc:attribute name="showSelectBox" default="true"/>
         <cc:attribute name="isSealed" default="true"/>
@@ -18,9 +18,9 @@
     <cc:implementation>
         <!-- cc.attrs.parentNode.children.stream().sorted((n1, n2) -> n1.proposalInfo.name.compareTo(n2.proposalInfo.name)).toList() -->
         <h:dataTable   headerClass="list-header" value="#{cc.attrs.parentNode.sortedChildren}" id="NubRequests"
-                       var="node" width="100%" rowClasses="row1, row2" 
+                       var="node" width="100%" rowClasses="row1, row2"
                        columnClasses="#{cc.attrs.showSelectBox.equals('true') ? 'colIcon, ' : ''} colIcon, colIcon, colIcon, #{cc.attrs.isSealed.equals('true') ? 'colId, colShortCentered, ' : ''} coIk, colValue">
-            
+
             <h:column rendered="#{cc.attrs.showSelectBox}">
                 <f:facet name="header">
                     <h:outputText value=""/>
@@ -43,7 +43,8 @@
                 <f:facet name="header">
                     <h:outputText value=""/>
                 </f:facet>
-                <h:commandLink action="#{nubRequestList.deleteNubRequest(node.proposalInfo.id)}" immediate="true" rendered="#{cc.attrs.showDelete and node.proposalInfo.status.value lt 90}"
+                <h:commandLink action="#{nubRequestList.deleteNubRequest(node.proposalInfo.id)}" immediate="true"
+                               rendered="#{cc.attrs.showDelete and node.proposalInfo.status.value lt 90 or (nubSessionTools.isDeleteAllowedForNub(node.proposalInfo.ik) and node.proposalInfo.status.value lt 90)}"
                                onclick="#{nubRequestList.getConfirmMessage(node.proposalInfo.id)}">
                     <h:graphicImage alt="löschen" name="Icon/small/#{node.proposalInfo.status.value le 9 ? 'delete.png' : 'cross.png'}"
                                     title="#{node.proposalInfo.status.value le 9 ? 'Löschen' : 'Zurückziehen'}" value=""/>
@@ -55,7 +56,7 @@
                     <h:outputText value=""/>
                 </f:facet>
                 <h:commandLink action="#{nubRequestList.editNubRequest(node.proposalInfo.id)}" immediate="true" rendered="#{node.proposalInfo.status.icon.length() gt 0}">
-                    <h:graphicImage alt="Status" name="Icon/small/#{node.proposalInfo.status.icon}"  
+                    <h:graphicImage alt="Status" name="Icon/small/#{node.proposalInfo.status.icon}"
                                     title="#{node.proposalInfo.status.value == 1 ? nubRequestList.getRejectReason(node.proposalInfo.id) : node.proposalInfo.status.description}" />
                     <f:param name="id" value="#{node.proposalInfo.id}"/>
                 </h:commandLink>

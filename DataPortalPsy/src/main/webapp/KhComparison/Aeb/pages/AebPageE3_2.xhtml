@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/Input"
+                xmlns:inekOutput="http://xmlns.jcp.org/jsf/composite/components/Output"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:pf="http://primefaces.org/ui">
+
+    <h4>
+        E3.2  Aufstellung der Zusatzentgelte
+    </h4>
+    <pf:dataTable id="listpagee32"
+                  var="page"
+                  value="#{edit.aebBaseInformation.aebPageE3_2}"
+                  widgetVar="pagesE32"
+                  emptyMessage="Keine Einträge vorhanden"
+                  tableStyleClass="inekTablePsy">
+
+        <pf:column class="colIcon" rendered="#{!edit.isReadOnly()}">
+            <pf:commandLink action="#{edit.removePageE3_2(page)}"
+                            update="listpagee32"
+                            process="@this">
+                <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value=""/>
+            </pf:commandLink>
+        </pf:column>
+        <pf:column headerText="Zusatzentgelt nach § 6 BPflV" sortBy="#{page.ze}" sortable="true">
+            <pf:inputText value="#{page.ze}"
+                          maxlength="9"
+                          readonly="#{edit.isReadOnly()}" >
+                <pf:ajax />
+            </pf:inputText>
+        </pf:column>
+        <pf:column headerText="Entgeltschlüssel nach § 301 SGB V">
+            <pf:inputText value="#{page.renumerationKey}"
+                          readonly="#{edit.isReadOnly()}"
+                          style="width: 100%;">
+                <pf:ajax />
+            </pf:inputText>
+        </pf:column>
+        <pf:column headerText="OPS-Kode">
+            <pf:inputText value="#{page.ops}"
+                          readonly="#{edit.isReadOnly()}"
+                          style="width: 100%;">
+                <pf:ajax />
+            </pf:inputText>
+        </pf:column>
+        <pf:column headerText="Anzahl" style="text-align: right">
+            <pf:inputNumber value="#{page.count}"
+                            readonly="#{edit.isReadOnly()}"
+                            decimalPlaces="0"
+                            inputStyle="width: 100%; text-align: right">
+                <pf:ajax event="change" update="listpagee32" immediate="true" />
+            </pf:inputNumber>
+            <f:facet name="footer">
+                <pf:outputLabel value="#{edit.aebBaseInformation.aebPageE3_2.stream().map(c -> c.getCount()).sum()}" />
+            </f:facet>
+        </pf:column>
+        <pf:column headerText="Entgelthöhe" style="text-align: right">
+            <pf:inputNumber value="#{page.renumerationValue}"
+                            readonly="#{edit.isReadOnly()}"
+                            symbol=" €"
+                            symbolPosition="s"
+                            decimalPlaces="2"
+                            inputStyle="width: 100%; text-align: right">
+                <pf:ajax event="change" update="listpagee32" immediate="true" />
+            </pf:inputNumber>
+        </pf:column>
+        <pf:column headerText="Erlössumme" style="text-align: right">
+            <inekOutput:OutputCurrency value="#{page.sumProceeds}" />
+            <f:facet name="footer">
+                <inekOutput:OutputCurrency value="#{edit.aebBaseInformation.aebPageE3_2.stream().map(c -> c.getSumProceeds()).sum()}" />
+            </f:facet>
+        </pf:column>
+    </pf:dataTable>
+
+    <div class="ui-md-5">
+        <pf:commandButton value="Weiteren Eintrag hinzufügen"
+                          class="addEntryPsy"
+                          icon="fa fa-plus"
+                          process="@this"
+                          action="#{edit.addNewPageE3_2()}"
+                          rendered="#{!edit.isReadOnly()}"
+                          update="listpagee32"/>
+    </div>
+</ui:composition>

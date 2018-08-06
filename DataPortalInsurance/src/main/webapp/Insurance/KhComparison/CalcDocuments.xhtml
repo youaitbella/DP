@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/Input"
+                xmlns:inekold="http://xmlns.jcp.org/jsf/composite/components/common"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:pf="http://primefaces.org/ui">
+
+
+    <h4>
+        Hochgeladene Dateien
+    </h4>
+
+    <pf:dataTable id="liscalcdoc"
+                  var="doc"
+                  value="#{edit.aebBaseInformation.psyDocument}"
+                  emptyMessage="Keine Einträge vorhanden"
+                  tableStyle="table-layout: auto"
+                  tableStyleClass="inekTableDrg">
+        <pf:column class="colIcon" rendered="#{!edit.isReadOnly()}">
+            <pf:commandLink action="#{edit.removeDocument(doc)}"
+                            update="liscalcdoc"
+                            process="@this">
+                <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value=""/>
+            </pf:commandLink>
+        </pf:column>
+        <pf:column headerText="Dokument">
+            <pf:outputLabel value="#{doc.name}" />
+        </pf:column>
+        <pf:column headerText="Beschreibung">
+            <pf:inputText value="#{doc.description}"
+                          readonly="#{edit.isReadOnly()}"
+                          style="width: 100%;">
+                <pf:ajax />
+            </pf:inputText>
+        </pf:column>
+        <pf:column>
+            <pf:commandButton value="Download"
+                              ajax="false"
+                              styleClass="btnDownload">
+                <pf:fileDownload value="#{edit.downloadDocument(doc)}" />
+            </pf:commandButton>
+        </pf:column>
+    </pf:dataTable>
+
+    <h3 jsf:rendered="#{!edit.isReadOnly()}">
+        Dateien hochladen
+    </h3>
+    <pf:fileUpload styleClass="inekUploader"
+                   rendered="#{!edit.isReadOnly()}"
+                   fileUploadListener="#{edit.handleDocumentUpload}"
+                   mode="advanced"
+                   multiple="true"
+                   cancelLabel="Abbrechen"
+                   uploadLabel="Datei Hochladen"
+                   label="Dateien auswählen"
+                   update="liscalcdoc"/>
+
+</ui:composition>

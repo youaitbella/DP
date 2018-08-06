@@ -50,23 +50,35 @@ import org.inek.dataportal.common.utils.KeyValueLevel;
 
 // todo: devide into several classes, use a specialized TreeNodeObserver on every level
 // todo: use customer node for iks managed by ikAdmin
-@Named @SessionScoped
+@Named
+@SessionScoped
 public class NubSessionTools implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger("NubSessionTools");
     private static final long serialVersionUID = 1L;
 
-    @Inject private CooperationRightFacade _cooperationRightFacade;
-    @Inject private NubRequestFacade _nubRequestFacade;
-    @Inject private SessionController _sessionController;
-    @Inject private ApplicationTools _appTools;
-    @Inject private Instance<AccountTreeNodeObserver> _accountTreeNodeObserverProvider;
-    @Inject private Instance<EditRootTreeNodeObserver> _editRootTreeNodeObserver;
-    @Inject private Instance<ViewRootTreeNodeObserver> _viewRootTreeNodeObserver;
-    @Inject private AccountFacade _accountFacade;
-    @Inject private AccessManager _accessManager;
-    @Inject private Mailer _mailer;
-    @Inject private CustomerFacade _customerFacade;
+    @Inject
+    private CooperationRightFacade _cooperationRightFacade;
+    @Inject
+    private NubRequestFacade _nubRequestFacade;
+    @Inject
+    private SessionController _sessionController;
+    @Inject
+    private ApplicationTools _appTools;
+    @Inject
+    private Instance<AccountTreeNodeObserver> _accountTreeNodeObserverProvider;
+    @Inject
+    private Instance<EditRootTreeNodeObserver> _editRootTreeNodeObserver;
+    @Inject
+    private Instance<ViewRootTreeNodeObserver> _viewRootTreeNodeObserver;
+    @Inject
+    private AccountFacade _accountFacade;
+    @Inject
+    private AccessManager _accessManager;
+    @Inject
+    private Mailer _mailer;
+    @Inject
+    private CustomerFacade _customerFacade;
 
     private RootNode _rootNode;
     private AccountTreeNode _accountNode;
@@ -280,7 +292,7 @@ public class NubSessionTools implements Serializable {
     }
 
     public boolean isSealEnabled(NubRequest nubRequest) {
-        if (nubRequest.getIk() <= 0){
+        if (nubRequest.getIk() <= 0) {
             return false;
         }
         if (!_appTools.isEnabled(ConfigKey.IsNubSendEnabled)) {
@@ -412,7 +424,7 @@ public class NubSessionTools implements Serializable {
     }
 
     public boolean sendNubConfirmationMail(NubRequest nubRequest) {
-        boolean isRetired = nubRequest.getStatus() ==  WorkflowStatus.Retired;
+        boolean isRetired = nubRequest.getStatus() == WorkflowStatus.Retired;
 
         Account current = _sessionController.getAccount();
         Account other = isRetired ? _accountFacade.findAccount(nubRequest.getSealedBy()) : _accountFacade.findAccount(nubRequest.getAccountId());
@@ -426,7 +438,7 @@ public class NubSessionTools implements Serializable {
             other = current;
         }
         String templateName = isRetired
-                ? "NUB retire confirmation" 
+                ? "NUB retire confirmation"
                 : "NUB confirmation";
         MailTemplate template = _mailer.getMailTemplate(templateName);
         if (template == null) {
@@ -595,6 +607,10 @@ public class NubSessionTools implements Serializable {
         String script = "alert ('" + msg.replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
         _sessionController.setScript(script);
         return "";
+    }
+
+    public Boolean isDeleteAllowedForNub(int ik) {
+        return _accessManager.isDeleteEnabled(Feature.NUB, _sessionController.getAccountId(), ik);
     }
 
 }
