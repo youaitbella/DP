@@ -53,11 +53,8 @@ public class AccessManager implements Serializable {
     private AccountFacade _accountFacade;
     @Inject
     private IkAdminFacade _ikAdminFacade;
-<<<<<<< HEAD
-=======
     @Inject
     private ConfigFacade _configFacade;
->>>>>>> AEB
 
     /**
      * gets the cooperation rights by delegating the first request to the service and retrieving them from a local cache
