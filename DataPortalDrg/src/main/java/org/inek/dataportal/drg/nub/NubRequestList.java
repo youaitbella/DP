@@ -16,9 +16,12 @@ import org.inek.dataportal.common.utils.DocumentationUtil;
 @RequestScoped
 public class NubRequestList {
 
-    @Inject private NubSessionTools _nubSessionTools;
-    @Inject private NubRequestFacade _nubRequestFacade;
-    @Inject private SessionController _sessionController;
+    @Inject
+    private NubSessionTools _nubSessionTools;
+    @Inject
+    private NubRequestFacade _nubRequestFacade;
+    @Inject
+    private SessionController _sessionController;
 
     public String getRejectReason(int requestId) {
         String reason = WorkflowStatus.Rejected.getDescription();
@@ -30,7 +33,7 @@ public class NubRequestList {
     }
 
     public String newNubRequest() {
-        // if the user hit the browser's back-button, a request might be still active. 
+        // if the user hit the browser's back-button, a request might be still active.
         // To prevent invoking the wrong, we destroy all Feature scoped beans first
         FeatureScopedContextHolder.Instance.destroyBeansOfScope("EditNubRequest");
         return Pages.NubEditAddress.URL();
@@ -66,16 +69,14 @@ public class NubRequestList {
         if (nubRequest == null) {
             return "";
         }
-        if (_sessionController.isMyAccount(nubRequest.getAccountId())) {
-            if (nubRequest.getStatus().getId() < WorkflowStatus.Provided.getId()) {
-                _nubRequestFacade.delete(nubRequest);
-            } else if (nubRequest.getExternalState().trim().isEmpty()) {
-                nubRequest.setStatus(WorkflowStatus.Retired);
-                nubRequest.setLastChangedBy(_sessionController.getAccountId());
-                _nubRequestFacade.saveNubRequest(nubRequest);
-                _nubSessionTools.sendNubConfirmationMail(nubRequest);
+        if (nubRequest.getStatus().getId() < WorkflowStatus.Provided.getId()) {
+            _nubRequestFacade.delete(nubRequest);
+        } else if (nubRequest.getExternalState().trim().isEmpty()) {
+            nubRequest.setStatus(WorkflowStatus.Retired);
+            nubRequest.setLastChangedBy(_sessionController.getAccountId());
+            _nubRequestFacade.saveNubRequest(nubRequest);
+            _nubSessionTools.sendNubConfirmationMail(nubRequest);
 
-            }
         }
         return "";
     }
