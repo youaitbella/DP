@@ -1,6 +1,5 @@
 package org.inek.dataportal.cert;
 
-import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -12,21 +11,16 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.apache.poi.util.IOUtils;
-import org.inek.dataportal.api.helper.Const;
 import org.inek.dataportal.cert.comparer.CertComparer;
 import org.inek.dataportal.cert.comparer.CertFileHelper;
 import org.inek.dataportal.cert.entities.Grouper;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.common.enums.Pages;
-import org.inek.dataportal.common.helper.StreamHelper;
 import org.inek.dataportal.common.scope.FeatureScoped;
 import org.inek.dataportal.common.scope.FeatureScopedContextHolder;
 import org.inek.dataportal.common.mail.Mailer;
@@ -35,11 +29,13 @@ import org.inek.dataportal.cert.entities.GrouperAction;
 import org.inek.dataportal.cert.entities.RemunerationSystem;
 import org.inek.dataportal.cert.facade.GrouperActionFacade;
 import org.inek.dataportal.cert.facade.GrouperFacade;
-import org.inek.dataportal.cert.facade.SystemFacade;
+import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.RemunSystem;
 import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 
 /**
@@ -55,11 +51,11 @@ public class CertCertification implements Serializable {
     @Inject
     private SessionController _sessionController;
     @Inject
-    private SystemFacade _systemFacade;
-    @Inject
     private GrouperFacade _grouperFacade;
     @Inject
     private ConfigFacade _configFacade;
+    @Inject
+    private DialogController _dialogController;
 
     private int _compareResult;
     private UploadedFile _file;
@@ -128,55 +124,55 @@ public class CertCertification implements Serializable {
         int i = 1;
     }
 
-    public String downloadSpec() {
+    public StreamedContent downloadTest() {
+        if (_grouper.getDownloadTest() == null) {
+            _grouper.setDownloadTest(new Date());
+            save();
+        }
+        logAction("Download Test");
+
+        EditCert editCert = FeatureScopedContextHolder.Instance.getBean(EditCert.class);
+        File file = editCert.getCertFile(_grouper.getSystem().getId(), "Daten", "Testdaten", "zip", false);
+        try {
+            return new DefaultStreamedContent(new FileInputStream(file),
+                    Helper.getContentType(file.getName()), file.getName());
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+    public StreamedContent downloadCert() {
+        if (_grouper.getDownloadCert() == null) {
+            _grouper.setDownloadCert(new Date());
+            save();
+        }
+        logAction("Download Zert");
+
+        EditCert editCert = FeatureScopedContextHolder.Instance.getBean(EditCert.class);
+        File file = editCert.getCertFile(_grouper.getSystem().getId(), "Daten", "Zertdaten", "zip", false);
+        try {
+            return new DefaultStreamedContent(new FileInputStream(file),
+                    Helper.getContentType(file.getName()), file.getName());
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+    public StreamedContent downloadSpec() {
         if (_grouper.getDownloadSpec() == null) {
             _grouper.setDownloadSpec(new Date());
             save();
         }
         logAction("Download Spec");
 
-        return download("Spec", "Grouper-Spezifikation", "exe");
-    }
-
-    public String downloadTest() {
-        if (_grouper.getDownloadTest() == null) {
-            _grouper.setDownloadTest(new Date());
-            save();
-        }
-        logAction("Download Test");
-        return download("Daten", "Testdaten", "zip");
-    }
-
-    public String downloadCert() {
-        if (_grouper.getDownloadCert() == null) {
-            _grouper.setDownloadCert(new Date());
-            save();
-        }
-        logAction("Download Zert");
-        return download("Daten", "Zertdaten", "zip");
-    }
-
-    private String download(String folder, String fileNameBase, String extension) {
-        if (_grouper.getSystem().getId() <= 0) {
-            return "";
-        }
         EditCert editCert = FeatureScopedContextHolder.Instance.getBean(EditCert.class);
-        File file = editCert.getCertFile(_grouper.getSystem().getId(), folder, fileNameBase, extension, false);
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        ExternalContext externalContext = facesContext.getExternalContext();
+        File file = editCert.getCertFile(_grouper.getSystem().getId(), "Spec", "Grouper-Spezifikation", "exe", false);
         try {
-            try (BufferedInputStream is = new BufferedInputStream(new FileInputStream(file), Const.BUFFER_SIZE)) {
-                externalContext.setResponseHeader("Content-Type", Helper.getContentType(file.getName()));
-                externalContext.setResponseHeader("Content-Length", "");
-                externalContext.setResponseHeader("Content-Disposition", "attachment;filename=\"" + file.getName() + "\"");
-                new StreamHelper().copyStream(is, externalContext.getResponseOutputStream());
-            }
-        } catch (IOException ex) {
-            LOGGER.log(Level.SEVERE, null, ex);
-            return Pages.Error.URL();
+            return new DefaultStreamedContent(new FileInputStream(file),
+                    Helper.getContentType(file.getName()), file.getName());
+        } catch (Exception ex) {
+            return null;
         }
-        facesContext.responseComplete();
-        return "";
     }
 
     public String getExpectedFileName(Grouper grouper) {
@@ -331,15 +327,16 @@ public class CertCertification implements Serializable {
             sendEmailToInek();
 
             _grouper = _grouperFacade.merge(_grouper);
-            //Todo Benachrichtigung über erfolgreichen upload
+            _dialogController.showSaveDialog();
         } catch (Exception ex) {
+            _dialogController.showErrorDialog("Fehler beim speichern", "Fehler beim Speichern. Bitte versuchen Sie es erneut oder wenden Sie sich an das InEK");
             LOGGER.log(Level.SEVERE, "Error during compare", ex);
         }
     }
 
     public void handleFileUpload(FileUploadEvent event) {
         _file = event.getFile();
-        //Todo Nachricht das uplaod erfolgreich
+        _dialogController.showInfoDialog("Dateiupload erfolgreich", _file.getFileName() + " wurde erfolgreich hochgeladen");
     }
 
     public Boolean isTestUploadEnabled() {

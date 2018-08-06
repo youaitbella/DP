@@ -104,6 +104,21 @@
     background-color: #60ab2e !important;
 }
 
+.btnDrg span {
+    background-image: none !important;
+    background-color: #043358 !important;
+    color: #ffffff !important;
+    min-width: 150px;
+    text-shadow: none;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.btnDrg span:hover {
+    background-color: #ddeffd !important;
+}
+
 .btnInsurance span {
     background-image: none !important;
     background-color: #604040 !important;
@@ -225,6 +240,13 @@
 
 .inekPanelGrid tr,
 .inekPanelGrid td {
+    background-color: transparent;
+    border: none !important;
+}
+
+/* Panel  */
+
+.inekPanel {
     background-color: transparent;
     border: none !important;
 }

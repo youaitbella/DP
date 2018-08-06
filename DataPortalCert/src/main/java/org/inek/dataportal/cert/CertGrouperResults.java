@@ -78,7 +78,7 @@ public class CertGrouperResults implements Serializable {
         _templateEmailCertificate = "";
         _runs = 0;
         _dateChecked = new Date();
-        return Pages.CertGrouperResults.RedirectURL();
+        return Pages.CertGrouperResults.URL();
     }
 
     public String getSystemName() {

@@ -17,7 +17,8 @@
             </pf:dialog>
 
             <pf:selectOneMenu var="grouper"
-                              valueChangeListener="#{certCertification.grouperChanged}" >
+                              valueChangeListener="#{certCertification.grouperChanged}"
+                              rendered="#{certCertification.grouper4Account.size() gt 0}">
                 <f:selectItems value="#{certCertification.grouper4Account}"
                                var="grouperItem"
                                itemLabel="#{grouperItem.system.displayName}"
@@ -25,36 +26,42 @@
                 <pf:ajax update="systemData" />
             </pf:selectOneMenu>
 
-            <ui:remove>
-                <h:outputLabel for="mnuSystem" value="#{msg.lblSystem}:" styleClass="label15"/>
-                <h:selectOneMenu id="mnuSystem" styleClass="input" value="#{certCertification.systemId}"
-                                 immediate="true" disabled="#{certCertification.grouperChanged}">
-                    <f:selectItems value="#{certCertification.systems4Account}" var="system" itemLabel="#{system.label}" itemValue="#{system.value}"/>
-                    <f:ajax render="@form :logout:remaining"/>
-                </h:selectOneMenu>
-            </ui:remove>
+            <pf:outputLabel value="Es sind keine System zur Auswahl vorhanden"
+                            rendered="#{certCertification.grouper4Account.size() eq 0}" />
 
-            <pf:panel id="systemData" rendered="#{certCertification.grouper.id ne null}">
+            <pf:panel styleClass="inekPanel"
+                      id="systemData"
+                      rendered="#{certCertification.grouper.id ne null}">
 
                 <h2>#{msg.lblDownload}</h2>
 
-                <div class="inputPart">
-                    <h:commandLink styleClass="bigButton" value="#{msg.btnDownloadSpec}" immediate="true"
-                                   action="#{certCertification.downloadSpec}"/>
+                <pf:panelGrid columns="2"
+                              styleClass="inekPanelGrid">
+                    <pf:commandButton styleClass="btnDownload"
+                                      ajax="false"
+                                      value="#{msg.btnDownloadSpec}" >
+                        <pf:fileDownload value="#{certCertification.downloadSpec()}" />
+                    </pf:commandButton>
                     <h:outputLabel value="#{editCert.getSpecFileName(certCertification.grouper.system.id, false)}"/>
-                </div>
 
-                <div class="inputPart">
-                    <h:commandLink styleClass="bigButton" value="#{msg.btnDownloadTest}"  immediate="true"
-                                   action="#{certCertification.downloadTest}"/>
+                    <pf:commandButton styleClass="btnDownload"
+                                      ajax="false"
+                                      value="#{msg.btnDownloadTest}">
+                        <pf:fileDownload value="#{certCertification.downloadTest()}" />
+                    </pf:commandButton>
+
                     <h:outputLabel value="#{editCert.getTestFileName(certCertification.grouper.system.id, false)}"/>
-                </div>
 
-                <div class="inputPart" jsf:rendered="#{certCertification.grouper.certStatus.status ge 20}">
-                    <h:commandLink styleClass="bigButton" value="#{msg.btnDownloadCert}"  immediate="true"
-                                   action="#{certCertification.downloadCert}"/>
-                    <h:outputLabel value="#{editCert.getCertFileName(certCertification.grouper.system.id, false)}"/>
-                </div>
+                    <pf:commandButton styleClass="btnDownload"
+                                      ajax="false"
+                                      value="#{msg.btnDownloadCert}"
+                                      rendered="#{certCertification.grouper.certStatus.status ge 20}">
+                        <pf:fileDownload value="#{certCertification.downloadCert()}" />
+                    </pf:commandButton>
+                    <h:outputLabel value="#{editCert.getCertFileName(certCertification.grouper.system.id, false)}"
+                                   rendered="#{certCertification.grouper.certStatus.status ge 20}"/>
+
+                </pf:panelGrid>
 
                 <div jsf:rendered="#{certCertification.isCertUploadEnabled() or certCertification.isTestUploadEnabled()}">
                     <h2>#{msg.lblUpload}</h2>
@@ -104,9 +111,10 @@
                 <div class="toolBar">
                     <pf:commandButton value="Speichern"
                                       actionListener="#{certCertification.saveOther}"
+                                      styleClass="btnDrg"
                                       onstart="PF('dialogProcess').show();"
                                       oncomplete="PF('dialogProcess').hide();"
-                                      update="@form"
+                                      update="@all"
                                       immediate="false"/>
                 </div>
 

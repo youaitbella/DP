@@ -14,7 +14,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
-import javax.annotation.PreDestroy;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
@@ -29,6 +28,7 @@ import org.inek.dataportal.cert.facade.SystemFacade;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.cert.comparer.CertFileHelper;
+import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.common.data.access.ConfigFacade;
@@ -57,11 +57,8 @@ public class CertManager implements Serializable {
     private GrouperFacade _grouperFacade;
     @Inject
     private SessionController _sessionController;
-
-    @PreDestroy
-    private void preDestroy() {
-        cleanupUploadFiles();
-    }
+    @Inject
+    private DialogController _dialogController;
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     public List<SelectItem> getSystems() {
@@ -101,7 +98,6 @@ public class CertManager implements Serializable {
     private void setSystemId(int systemId, boolean force) {
         if (force || systemId != _system.getId()) {
             if (_system.getId() > 0) {
-                cleanupUploadFiles();
             }
             if (systemId == -1) {
                 _system = new RemunerationSystem();
@@ -152,46 +148,11 @@ public class CertManager implements Serializable {
     public String saveSystem() {
         try {
             _system = _systemFacade.save(_system);
+            _dialogController.showSaveDialog();
         } catch (Exception ex) {
-
+            _dialogController.showErrorDialog("Fehler beim speichern", "Fehler beim Speichern. Bitte versuchen Sie es erneut");
         }
-
-//        List<Grouper> savedGroupers = new ArrayList<>();
-//        for (Grouper grouper : _system.getGrouperList()) {
-//            if (grouper.getId() == -1) {
-//                copyEmail(grouper);
-//            }
-//            try {
-//                savedGroupers.add(_grouperFacade.merge(grouper));
-//            } catch (Exception ex) {
-//                if ((ex.getCause() instanceof OptimisticLockException)) {
-//                    _sessionController.alertClient("Die Daten wurden bereits von einem anderen Benutzer geändert. Speichern nicht möglich.");
-//                    return "";
-//                }
-//                savedGroupers.add(mergeGrouper(grouper));
-//            }
-//        }
-//        _system.setGrouperList(savedGroupers);
-//        try {
-//            _systemFacade.save(_system);
-//        } catch (Exception ex) {
-//            if ((ex.getCause() instanceof OptimisticLockException)) {
-//                _sessionController.alertClient("Die Daten wurden bereits von einem anderen Benutzer geändert. Speichern nicht möglich.");
-//                return "";
-//            }
-//        }
-//
-//        _system = _systemFacade.findFresh(_system.getId());
-//        persistFiles(new File(getSystemRoot(_system), "Spec"));
-//        persistFiles(new File(getSystemRoot(_system), "Daten"));
         return "";
-    }
-
-    private Grouper mergeGrouper(Grouper grouper) {
-        Grouper currentGrouper = _grouperFacade.findFresh(grouper.getId());
-        currentGrouper.setPasswordRequest(grouper.getPasswordRequest());
-        currentGrouper.setCertStatus(grouper.getCertStatus());
-        return _grouperFacade.merge(currentGrouper);
     }
 
     public String resetSystem() {
@@ -224,33 +185,6 @@ public class CertManager implements Serializable {
     public String cancelSystem() {
         setSystemId(_system.getId(), true);
         return "";
-    }
-
-    private void cleanupUploadFiles() {
-        deleteFiles(new File(getSystemRoot(_system), "Spec"), ".*\\.upload");
-        deleteFiles(new File(getSystemRoot(_system), "Daten"), ".*\\.upload");
-    }
-
-    public void deleteFiles(File dir, final String fileNamePattern) {
-        if (!dir.exists()) {
-            return;
-        }
-        for (File file : dir.listFiles((File file) -> file.isFile() && file.getName().matches(fileNamePattern))) {
-            file.delete();
-        }
-    }
-
-    private void persistFiles(File dir) {
-        if (!dir.exists()) {
-            return;
-        }
-        for (File file : dir.listFiles((File file) -> file.isFile() && file.getName().endsWith(".upload"))) {
-            File target = new File(file.getAbsolutePath().substring(0, file.getAbsolutePath().length() - 7));
-            if (target.exists()) {
-                target.delete();
-            }
-            file.renameTo(target);
-        }
     }
 
     public void activeSystemChangeListener(AjaxBehaviorEvent event) {
@@ -371,22 +305,6 @@ public class CertManager implements Serializable {
             String mesaage = ex.getMessage();
             //Todo Fehlermeldung anzeigen
         }
-
-//        int systemId = _system.getId();
-//        EditCert editCert = FeatureScopedContextHolder.Instance.getBean(EditCert.class);
-//        RemunerationSystem system = editCert.getSystem(systemId);
-//        if (system == null) {
-//            return;
-//        }
-//
-//        Optional<File> uploadFolder = editCert.getUploadFolder(system, folder);
-//        if (!uploadFolder.isPresent()) {
-//            return;
-//        }
-//        String fileNamePattern = fileNameBase + "_" + system.getFileName() + "_.*\\.upload";
-//        deleteFiles(uploadFolder.get(), fileNamePattern);
-        //      String outFile = fileNameBase + "_" + system.getFileName() + "_(" + DateUtils.todayAnsi() + ")." + extension + ".upload";
-//        editCert.uploadFile(file, new File(uploadFolder.get(), outFile));
     }
 
     public boolean disableApprovedCheckbox() {

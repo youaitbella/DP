@@ -14,7 +14,9 @@
     <ui:define name="editContent" >
         <h:form id="form">
 
-            <a href="http://vservices01:8080/CertificationService" target="_blank" class="bigButton">Prüfdienst</a><br/><br/>
+            <a href="http://vservices01:8080/CertificationService"
+               target="_blank"
+               class="bigButton">Prüfdienst</a><br/><br/>
 
             <h:outputLabel for="mnuSystem" value="#{msg.lblSystem}:" styleClass="label15"/>
             <h:selectOneMenu id="mnuSystem" styleClass="input"  value="#{certManager.systemId}" immediate="true">
@@ -107,14 +109,15 @@
             <div jsf:rendered="#{certManager.system.id > 0}">
                 <h2>Systemdaten</h2>
 
-                <pf:panelGrid columns="2" >
+                <pf:panelGrid columns="2" styleClass="inekPanelGrid">
                     <pf:fileUpload fileUploadListener="#{certManager.handleSpecUpload}"
                                    mode="advanced"
                                    auto="true"
                                    dragDropSupport="false"
                                    allowTypes="/(\.|\/)(exe)$/"
                                    label="Spec hochladen"
-                                   update="specName"/>
+                                   update="specName"
+                                   styleClass="inekUploader"/>
                     <pf:outputLabel id="specName"
                                     value="#{editCert.getSpecFileName(certManager.systemId, true)}"/>
 
@@ -124,7 +127,8 @@
                                    dragDropSupport="false"
                                    allowTypes="/(\.|\/)(zip)$/"
                                    label="Testdaten hochladen"
-                                   update="testName"/>
+                                   update="testName"
+                                   styleClass="inekUploader"/>
                     <pf:outputLabel id="testName"
                                     value="#{editCert.getTestFileName(certManager.systemId, true)}"/>
 
@@ -134,7 +138,8 @@
                                    dragDropSupport="false"
                                    allowTypes="/(\.|\/)(zip)$/"
                                    label="Zertdaten hochladen"
-                                   update="certName"/>
+                                   update="certName"
+                                   styleClass="inekUploader"/>
                     <pf:outputLabel id="certName"
                                     value="#{editCert.getCertFileName(certManager.systemId, true)}"/>
 
@@ -214,7 +219,8 @@
                     </pf:column>
                 </pf:dataTable>
 
-                <pf:commandButton styleClass="newEntryDrg"
+                <pf:commandButton styleClass="addEntryDrg"
+                                  icon="fa fa-plus"
                                   value="#{msg.btnAddEntry}"
                                   action="#{certManager.addNewGrouper}"
                                   update="tableManufactorers" />
