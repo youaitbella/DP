@@ -6,10 +6,6 @@
     color: #000000 !important
 }
 
-.ui-widget-content {
-    background: #eeeeee !important
-}
-
 .ui-inputfield.ui-state-focus {
     background-color: #C6D2DB !important
 }
@@ -23,4 +19,226 @@
 
 .ui-tooltip .ui-tooltip-text {
     background-color: #7f9baf !important
+}
+
+.ui-inputfield.required {
+    background-color: lightyellow !important
+}
+
+.ui-inputfield {
+    padding: 2px !important;
+}
+
+.addEntryPsy {
+    background-image: none !important;
+    background-color:  #e2f5d5 !important;
+    margin-top: 5px;
+    cursor: pointer;
+}
+
+.addEntryDrg {
+    background-image: none !important;
+    background-color:  #ddeffd !important;
+    margin-top: 5px;
+    cursor: pointer;
+}
+
+.btnDownload span {
+    background-image: none !important;
+    background-color: #7f9baf !important;
+    color: #ffffff !important;
+    min-width: 100px;
+    text-shadow: none;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.btnDownload span:hover {
+    background-color: #a8cce6 !important;
+}
+
+.btnDownload :before {
+    content: '\f063';
+    font-family: 'FontAwesome';
+    padding-right: 10px;
+}
+
+/* Send Button */
+
+.btnSend span {
+    background-image: none !important;
+    background-color: #4aa628 !important;
+    color: #ffffff !important;
+    min-width: 150px;
+    text-shadow: none;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.btnSend span:hover {
+    background-color: #5eca37 !important;
+}
+
+.btnSend :after {
+    content: '\f061';
+    font-family: 'FontAwesome';
+    padding-left: 10px;
+}
+
+/* Buttons */
+
+.btnPsy span {
+    background-image: none !important;
+    background-color: #437a1e !important;
+    color: #ffffff !important;
+    min-width: 150px;
+    text-shadow: none;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.btnPsy span:hover {
+    background-color: #60ab2e !important;
+}
+
+.btnInsurance span {
+    background-image: none !important;
+    background-color: #604040 !important;
+    color: #ffffff !important;
+    min-width: 150px;
+    text-shadow: none;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.btnInsurance span:hover {
+    background-color: #a06666 !important;
+}
+
+/* Tables */
+
+.inekTablePsy th,
+.inekTablePsy tfoot td{
+    background-image: none !important;
+    background-color: #e2f5d5 !important
+}
+
+.inekTableDrg th,
+.inekTableDrg tfoot td{
+    background-image: none !important;
+    background-color: #ddeffd !important
+}
+
+.inekTableDrg tr:nth-child(even) td,
+.inekTablePsy tr:nth-child(even) td {
+    background-color: #dddddd;
+    color: #000;
+}
+
+/* Uploader */
+
+.inekUploader span {
+    background-color: #a8cce6
+}
+
+/* Tabs Overrides */
+
+.ui-tabs.ui-tabs-top .ui-tabs-nav.ui-widget-header li {
+    background-color: silver;
+    border-color: #eeeeee darkgrey darkgrey #eeeeee;
+
+}
+
+.ui-tabs.ui-tabs-top .ui-tabs-nav.ui-widget-header li.ui-state-active {
+    background-color: #7f9baf;
+    border-color: #c6d2db #56748a #7f9baf #c6d2db;
+}
+
+.ui-tabs.ui-tabs-top .ui-tabs-nav.ui-widget-header {
+    border-bottom: 3px solid #7f9baf;
+}
+
+.ui-tabs .ui-tabs-nav.ui-widget-header li a {
+    color: black;
+    text-shadow: none;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.ui-tabs .ui-tabs-nav.ui-widget-header li.ui-state-active a, .ui-tabs .ui-tabs-nav.ui-widget-header a {
+    color: white;
+    text-shadow: none;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.ui-tabs-panels {
+    background-color: #eeeeee;
+}
+
+/* HeaderInformation */
+
+.headerInformation {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-bottom: 3px solid #7f9baf;
+    background-color: #eeeeee;
+}
+
+/* FooterInformation */
+
+.footerInformation {
+    padding: 10px;
+    border-top: 3px solid #7f9baf;
+    background-color: #eeeeee;
+}
+
+/* Fieldset */
+
+.inekFieldset {
+    background-color: transparent;
+    margin-bottom: 10px;
+    border: none;
+}
+
+.inekFieldset legend {
+    background-image: none !important;
+    background-color: #e2f5d5 !important;
+    min-width: 100px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 4px;
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
+}
+
+/* PanelGrid  */
+
+.inekPanelGrid {
+    width: 100%
+}
+
+.inekPanelGrid tr,
+.inekPanelGrid td {
+    background-color: transparent;
+    border: none !important;
+}
+
+/* Col Definitions */
+
+.colLeft {
+    text-align: left;
+}
+
+.colCenter {
+    text-align: center;
+}
+
+.colRight {
+    text-align: right;
 }

@@ -1,7 +1,6 @@
 package org.inek.dataportal.common.controller;
 
 import java.io.Serializable;
-import java.util.logging.Logger;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -17,17 +16,28 @@ import org.primefaces.PrimeFaces;
 public class DialogController implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private static final Logger LOGGER = Logger.getLogger("SessionController");
 
-    public void showWarningDialog(String message, String title) {
-        PrimeFaces.current().dialog().showMessageDynamic(new FacesMessage(FacesMessage.SEVERITY_WARN, title, message));
+    public void showWarningDialog(String title, String message) {
+        PrimeFaces.current().executeScript("swal('" + title + "', '" + message + "', 'warning');");
     }
 
-    public void showInfoDialog(String message, String title) {
-        PrimeFaces.current().dialog().showMessageDynamic(new FacesMessage(FacesMessage.SEVERITY_INFO, title, message));
+    public void showInfoDialog(String title, String message) {
+        PrimeFaces.current().executeScript("swal('" + title + "', '" + message + "', 'info');");
+    }
+
+    public void showErrorDialog(String title, String message) {
+        PrimeFaces.current().executeScript("swal('" + title + "', '" + message + "', 'error');");
     }
 
     public void showInfoMessage(String message) {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(message));
+    }
+
+    public void showSaveDialog() {
+        PrimeFaces.current().executeScript("swal('Speichern erfolgreich', 'Ihre Daten wurden erfolgreich gespeichert', 'success');");
+    }
+
+    public void showSendDialog() {
+        PrimeFaces.current().executeScript("swal('Daten Gesendet', 'Ihre Daten wurden erfolgreich an das InEK gesendet', 'success');");
     }
 }

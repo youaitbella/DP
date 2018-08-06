@@ -200,3 +200,16 @@ function showProgressCursor(data) {
             break;
     }
 }
+
+//Change the Headercolor of Dialogs
+function changeDialogColor(action) {
+    if (action === 'save') {
+        $('.ui-dialog.ui-widget-content .ui-dialog-titlebar').css({"background-color": "#5bf770"});
+    } else if (action === 'delete') {
+        $('.ui-dialog.ui-widget-content .ui-dialog-titlebar').css({"background-color": "#ea4848"});
+    } else if (action === 'info') {
+        $('.ui-dialog.ui-widget-content .ui-dialog-titlebar').css({"background-color": "#a8cce6"});
+    } else {
+        console.log('Unknown action');
+    }
+}

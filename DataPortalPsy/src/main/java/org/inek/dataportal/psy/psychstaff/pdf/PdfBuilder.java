@@ -410,7 +410,7 @@ public class PdfBuilder extends PdfPageEventHelper {
         document.addHeader("", "");
         document.addProducer();
     }
-    //</editor-fold>    
+    //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="addLogo">
     private void addLogo(Document document, String bereich, String anlage, String sig)
@@ -495,19 +495,19 @@ public class PdfBuilder extends PdfPageEventHelper {
         tb1.addCell(tb_Hosp);
 
     }
-    //</editor-fold>    
+    //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="addHeader0">
     private void addHeader0(PdfPTable tb, List<String> l) {
         l.stream().forEach(e -> addCell(tb, e, SMALLBOLD, Element.ALIGN_CENTER, BaseColor.LIGHT_GRAY));
     }
-    //</editor-fold> 
+    //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="addHeader">
     private void addHeader(PdfPTable tb, List<String> l) {
         l.stream().forEach(e -> addCell(tb, e, SMALLBOLD, Element.ALIGN_CENTER, BaseColor.LIGHT_GRAY));
     }
-    //</editor-fold>  
+    //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="addRow">
     private void addRow(PdfPTable tb, String lfdNr, StaffProofAgreed staffProofAgreed) {
@@ -524,7 +524,7 @@ public class PdfBuilder extends PdfPageEventHelper {
         addCell(tb, String.valueOf(formatter2.format(staffProofAgreed.getAvgCost())),
                 SMALL, Element.ALIGN_RIGHT, BaseColor.WHITE);
     }
-    //</editor-fold>  
+    //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="addRow2">
     private void addRow2(PdfPTable tb, String lfdNr, StaffProofEffective staffProofEffective) {
@@ -544,7 +544,7 @@ public class PdfBuilder extends PdfPageEventHelper {
         addCell(tb, _editPsyStaff.determineFactor(staffProofEffective),
                 SMALL, Element.ALIGN_RIGHT, BaseColor.WHITE);
     }
-    //</editor-fold>  
+    //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="addCell">
     void addCell(PdfPTable tb, String text, Font f, int align, BaseColor bg) {
@@ -586,7 +586,7 @@ public class PdfBuilder extends PdfPageEventHelper {
         p.setSpacingAfter(spacing);
         document.add(p);
     }
-    //</editor-fold>     
+    //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="addNote">
     private void addNote(Document document, String text, int spacingBefore, int spacingAfter) throws DocumentException {
@@ -596,7 +596,7 @@ public class PdfBuilder extends PdfPageEventHelper {
         p.setSpacingAfter(spacingAfter);
         document.add(p);
     }
-    //</editor-fold> 
+    //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="addSignaturArea">
     private void addSignaturArea(Document document) throws DocumentException {
@@ -613,7 +613,7 @@ public class PdfBuilder extends PdfPageEventHelper {
         }
         document.add(signaturArea);
     }
-    //</editor-fold>    
+    //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="addSignaturAreaA2">
     private void addSignaturAreaA2(Document document) throws DocumentException {

@@ -1,4 +1,4 @@
-package org.inek.dataportal.psy.Aeb.Controller;
+package org.inek.dataportal.psy.khcomparison.Controller;
 
 import org.inek.dataportal.common.controller.AbstractFeatureController;
 import org.inek.dataportal.common.controller.SessionController;
@@ -8,22 +8,22 @@ import org.inek.dataportal.common.helper.Topics;
 
 /**
  *
- * @author muellermi
+ * @author lautenti
  */
-public class AebController extends AbstractFeatureController {
+public class KhComparisonController extends AbstractFeatureController {
 
-    public AebController(SessionController sessionController) {
+    public KhComparisonController(SessionController sessionController) {
         super(sessionController);
     }
 
     @Override
     protected void addTopics(Topics topics) {
-        topics.addTopic("Aufstellung der Entgelte und Budgetermittlung", Pages.AebSummary.URL());
+        topics.addTopic("Krankenhausvergleich Datenerfassung", Pages.KhComparisonSummary.URL());
     }
 
     @Override
     public String getMainPart() {
-        return Pages.PartAeb.URL();
+        return Pages.PartKhComparison.URL();
     }
 
     @Override

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.psy.psychstaff.entity;
+package org.inek.dataportal.common.data.KhComparison.entities;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -33,30 +33,30 @@ public class OccupationalCategory implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ocId")
     private int _id;
-    
+
     public int getId() {
         return _id;
     }
-    
+
     public void setId(int id) {
         this._id = id;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property PersonnelGroupId">
     @OneToOne()
     @PrimaryKeyJoinColumn(name = "ocPersonnelGroupId")
     private PersonnelGroup _personnelGroup;
-    
+
     public PersonnelGroup getPersonnelGroup() {
         return _personnelGroup;
     }
-    
+
     public void setPersonnelGroup(PersonnelGroup personnelGroup) {
         this._personnelGroup = personnelGroup;
     }
     //</editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property Name">
     @Column(name = "ocName")
     @Documentation(key = "lblName")
@@ -80,7 +80,7 @@ public class OccupationalCategory implements Serializable {
         hash = 97 * hash + Objects.hashCode(_name);
         return hash;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -101,11 +101,11 @@ public class OccupationalCategory implements Serializable {
         }
         return true;
     }
-    
+
     @Override
     public String toString() {
         return _name;
     }
     //</editor-fold>
-    
+
 }

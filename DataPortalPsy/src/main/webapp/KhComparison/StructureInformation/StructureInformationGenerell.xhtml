@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:pf="http://primefaces.org/ui"
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/Other">
+
+
+    <script type="text/javascript">
+        PrimeFaces.locales ['de'] = {
+            closeText: 'Schließen',
+            prevText: 'Zurück',
+            nextText: 'Weiter',
+            monthNames: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
+            monthNamesShort: ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'],
+            dayNames: ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'],
+            dayNamesShort: ['Son', 'Mon', 'Die', 'Mit', 'Don', 'Fre', 'Sam'],
+            dayNamesMin: ['S', 'M', 'D', 'M ', 'D', 'F ', 'S'],
+            weekHeader: 'Woche',
+            firstDay: 1,
+            isRTL: false,
+            showMonthAfterYear: false,
+            yearSuffix: '',
+            timeOnlyTitle: 'Nur Zeit',
+            timeText: 'Zeit',
+            hourText: 'Stunde',
+            minuteText: 'Minute',
+            secondText: 'Sekunde',
+            currentText: 'Aktuelles Datum',
+            ampm: false,
+            month: 'Monat',
+            week: 'Woche',
+            day: 'Tag',
+            allDayText: 'Ganzer Tag'
+        };
+    </script>
+    <div class="ui-g ui-fluid">
+        <div class="ui-g-3">
+            <inek:MultiIkNoListener label="#{msg.lblIkShort}"
+                                    required="true"
+                                    value="#{editStructureInformation.structureInformation.ik}"
+                                    readonly="#{editStructureInformation.isReadOnly() or editStructureInformation.structureInformation.id gt 0}"
+                                    ikList="#{editStructureInformation.allowedIks}" />
+        </div>
+        <div class="ui-g-3">
+            <pf:outputLabel class="formLabel"
+                            value="Aktuelle Gültigkeit: "
+                            for="validFrom" />
+            <pf:inputText id="validFrom"
+                          value="#{editStructureInformation.convertDate(editStructureInformation.structureInformation.validFrom)}"
+                          style="text-align: right;"
+                          readonly="true" />
+        </div>
+        <div class="ui-g-3">
+            <pf:commandButton style="margin-top: 10px;"
+                              styleClass="btnPsy"
+                              value="Neue Gültigkeit eintragen"
+                              update="@form"
+                              onclick="PF('dialogValidFrom').show(); changeDialogColor('info');"
+                              rendered="#{(!editStructureInformation.isReadOnly() and editStructureInformation.canSave()) or editStructureInformation.structureInformation.id eq 0}"/>
+        </div>
+        <div class="ui-g-2">
+            <pf:outputLabel class="formLabel"
+                            value="Früherer Gültigkeiten: " />
+            <pf:selectOneMenu valueChangeListener="#{editStructureInformation.handleChangeStructureInformation}">
+                <pf:ajax update="@form" />
+                <f:selectItems value="#{editStructureInformation.allStructureInformations}"
+                               var="structure"
+                               itemLabel="#{editStructureInformation.convertDate(structure.validFrom)}"
+                               itemValue="#{structure.id}" />
+            </pf:selectOneMenu>
+        </div>
+    </div>
+
+</ui:composition>

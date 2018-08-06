@@ -1,0 +1,218 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/Input"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:pf="http://primefaces.org/ui">
+
+    <pf:fieldset legend="Allgemeine Angaben"
+                 toggleable="true"
+                 class="inekFieldset">
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-4">
+                <inek:InputNumber value="#{editStructureInformation.structureInformation.bedCount}"
+                                  labelText="Bettenzahl"
+                                  readonly="#{editStructureInformation.isReadOnly()}"/>
+            </div>
+            <div class="ui-g-4">
+                <inek:InputNumber value="#{editStructureInformation.structureInformation.therapyPartCount}"
+                                  labelText="Anzahl teilstationärer Therapieplätze"
+                                  readonly="#{editStructureInformation.isReadOnly()}" />
+            </div>
+        </div>
+    </pf:fieldset>
+
+    <pf:fieldset legend="Regionale Versorgungsverpflichtung"
+                 toggleable="true"
+                 class="inekFieldset"
+                 collapsed="#{editStructureInformation.structureInformation.regionalCare.length() eq 0}">
+
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12">
+                <pf:outputLabel class="formLabel"
+                                value="Stichpunktartige Beschreibung der strukturellen und personellen Besonderheiten duch die regionalen Versorgungsverpflichtung:*" />
+                <pf:inputTextarea id="regionalCare"
+                                  rows="10"
+                                  cols="50"
+                                  value="#{editStructureInformation.structureInformation.regionalCare}"
+                                  readonly="#{editStructureInformation.isReadOnly()}"
+                                  valueChangeListener="#{editStructureInformation.handleChange}">
+                    <pf:ajax />
+                </pf:inputTextarea>
+            </div>
+        </div>
+    </pf:fieldset>
+
+    <pf:fieldset legend="Gesetzliche Unterbringung"
+                 toggleable="true"
+                 class="inekFieldset"
+                 collapsed="#{editStructureInformation.structureInformation.accommodationText.length() eq 0}">
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-3">
+                <pf:outputLabel class="formLabel" value="Unterbringung:* " />
+                <pf:selectOneMenu value="#{editStructureInformation.structureInformation.accommodationId}" disabled="#{editStructureInformation.isReadOnly()}">
+                    <f:selectItems value="#{editStructureInformation.accommodationItems}"/>
+                </pf:selectOneMenu>
+            </div>
+        </div>
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12">
+                <pf:outputLabel class="formLabel"
+                                value="Beschreibung der strukturellen und personellen Besonderheiten für patienten mit gesetzlicher Unterbringung:*" />
+                <pf:inputTextarea id="accommodationText"
+                                  rows="10"
+                                  cols="50"
+                                  value="#{editStructureInformation.structureInformation.accommodationText}"
+                                  readonly="#{editStructureInformation.isReadOnly()}"
+                                  valueChangeListener="#{editStructureInformation.handleChange}">
+                    <pf:ajax />
+                </pf:inputTextarea>
+            </div>
+        </div>
+    </pf:fieldset>
+
+    <pf:fieldset legend="Sozialpädiatrisches Zentrum gem. § 119 SGB V"
+                 toggleable="true"
+                 class="inekFieldset"
+                 collapsed="#{editStructureInformation.structureInformation.SPCenterText.length() eq 0}">
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12">
+                <pf:outputLabel class="formLabel"
+                                value="Leistungsangebot und Leistungsschwerpunkte:*" />
+                <pf:inputTextarea id="SPCenterText"
+                                  rows="10"
+                                  cols="50"
+                                  value="#{editStructureInformation.structureInformation.SPCenterText}"
+                                  readonly="#{editStructureInformation.isReadOnly()}"
+                                  valueChangeListener="#{editStructureInformation.handleChange}">
+                    <pf:ajax />
+                </pf:inputTextarea>
+            </div>
+        </div>
+    </pf:fieldset>
+
+    <pf:fieldset legend="Vorliegen und Struktur eines gemeindepsychiatrischen Verbunds"
+                 toggleable="true"
+                 class="inekFieldset"
+                 collapsed="#{editStructureInformation.structureInformation.careProvider.length() eq 0 and editStructureInformation.structureInformation.performanceAreas.length() eq 0}">
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-6">
+                <pf:outputLabel class="formLabel"
+                                value="Wesentliche eingebundene Leistungserbringer:*" />
+                <pf:inputTextarea id="careProvider"
+                                  rows="10"
+                                  cols="50"
+                                  value="#{editStructureInformation.structureInformation.careProvider}"
+                                  readonly="#{editStructureInformation.isReadOnly()}"
+                                  valueChangeListener="#{editStructureInformation.handleChange}">
+                    <pf:ajax />
+                </pf:inputTextarea>
+            </div>
+
+            <div class="ui-g-6">
+                <pf:outputLabel class="formLabel"
+                                value="Zentrale Leistungsbereiche:*" />
+                <pf:inputTextarea id="performanceAreas"
+                                  rows="10"
+                                  cols="50"
+                                  value="#{editStructureInformation.structureInformation.performanceAreas}"
+                                  readonly="#{editStructureInformation.isReadOnly()}"
+                                  valueChangeListener="#{editStructureInformation.handleChange}">
+                    <pf:ajax />
+                </pf:inputTextarea>
+            </div>
+        </div>
+    </pf:fieldset>
+
+    <pf:fieldset legend="Struktur der ambulanten Versorgung"
+                 toggleable="true"
+                 class="inekFieldset"
+                 collapsed="#{editStructureInformation.structureInformation.ambulantStructure.length() eq 0}">
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12">
+                <pf:outputLabel class="formLabel"
+                                value="Beschreibung der örtlichen Versorgungssituation im vertragsärztlichen/therapeutischen Bereich:*" />
+                <pf:inputTextarea id="ambulantStructure"
+                                  rows="10"
+                                  cols="50"
+                                  value="#{editStructureInformation.structureInformation.ambulantStructure}"
+                                  readonly="#{editStructureInformation.isReadOnly()}"
+                                  valueChangeListener="#{editStructureInformation.handleChange}">
+                    <pf:ajax />
+                </pf:inputTextarea>
+            </div>
+        </div>
+    </pf:fieldset>
+
+    <pf:fieldset legend="Umfang und Struktur der Sozialpsychiatrischen Dienste"
+                 toggleable="true"
+                 class="inekFieldset"
+                 collapsed="#{editStructureInformation.structureInformation.socialPsychiatryService.length() eq 0}">
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12">
+                <pf:outputLabel class="formLabel"
+                                value="Beschreibung:*" />
+                <pf:inputTextarea id="socialPsychiatryService"
+                                  rows="10"
+                                  cols="50"
+                                  value="#{editStructureInformation.structureInformation.socialPsychiatryService}"
+                                  readonly="#{editStructureInformation.isReadOnly()}"
+                                  valueChangeListener="#{editStructureInformation.handleChange}">
+                    <pf:ajax />
+                </pf:inputTextarea>
+            </div>
+        </div>
+    </pf:fieldset>
+
+    <pf:fieldset legend="Ambulante Leistungserbringung"
+                 toggleable="true"
+                 class="inekFieldset"
+                 collapsed="#{editStructureInformation.structureInformation.ambulantPerformanceMain.length() eq 0}">
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-3">
+                <pf:outputLabel class="formLabel" value="Form:* " />
+                <pf:selectOneMenu value="#{editStructureInformation.structureInformation.ambulantPerformanceId}" disabled="#{editStructureInformation.isReadOnly()}">
+                    <f:selectItems value="#{editStructureInformation.ambulantItems}"/>
+                </pf:selectOneMenu>
+            </div>
+        </div>
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12">
+                <pf:outputLabel class="formLabel"
+                                value="Angabe der Leistungsschwerpunkte:*" />
+                <pf:inputTextarea id="ambulantPerformanceMain"
+                                  rows="10"
+                                  cols="50"
+                                  value="#{editStructureInformation.structureInformation.ambulantPerformanceMain}"
+                                  readonly="#{editStructureInformation.isReadOnly()}"
+                                  valueChangeListener="#{editStructureInformation.handleChange}">
+                    <pf:ajax />
+                </pf:inputTextarea>
+            </div>
+        </div>
+    </pf:fieldset>
+
+    <pf:fieldset legend="Leistungen im Rahmen des Entlassmanagements"
+                 toggleable="true"
+                 class="inekFieldset"
+                 collapsed="#{editStructureInformation.structureInformation.dismissManagement.length() eq 0}">
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12">
+                <pf:outputLabel class="formLabel"
+                                value="Leistungsschwerpunkte:*" />
+                <pf:inputTextarea id="dismissManagement"
+                                  rows="10"
+                                  cols="50"
+                                  value="#{editStructureInformation.structureInformation.dismissManagement}"
+                                  readonly="#{editStructureInformation.isReadOnly()}"
+                                  valueChangeListener="#{editStructureInformation.handleChange}">
+                    <pf:ajax />
+                </pf:inputTextarea>
+            </div>
+        </div>
+    </pf:fieldset>
+
+</ui:composition>

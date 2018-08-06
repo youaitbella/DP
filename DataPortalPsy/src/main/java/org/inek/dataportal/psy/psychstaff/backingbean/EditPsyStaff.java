@@ -37,7 +37,6 @@ import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.controller.AbstractEditController;
 import org.inek.dataportal.psy.psychstaff.entity.ExclusionFact;
-import org.inek.dataportal.psy.psychstaff.entity.OccupationalCategory;
 import org.inek.dataportal.psy.psychstaff.entity.StaffProof;
 import org.inek.dataportal.psy.psychstaff.entity.StaffProofAgreed;
 import org.inek.dataportal.psy.psychstaff.entity.StaffProofDocument;
@@ -50,6 +49,7 @@ import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.scope.FeatureScoped;
 import org.inek.dataportal.common.utils.DateUtils;
 import org.inek.dataportal.common.controller.ReportController;
+import org.inek.dataportal.common.data.KhComparison.entities.OccupationalCategory;
 
 /**
  *
@@ -155,7 +155,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         } catch (NumberFormatException ex) {
             LOGGER.log(Level.WARNING, "EditPsyStaff called with non-numeric id: {0}", idString);
         }
-        // assgin _staffproof to prevent from null exceptions, 
+        // assgin _staffproof to prevent from null exceptions,
         // coz some methodes like isReadOnly are queried before navigation to error page took place
         _staffProof = new StaffProof();
         return false;
@@ -208,7 +208,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     }
 
     public void exclusionFactChanged1() {
-        // since a exclusionFactConverter would create a new object (can be solved with JSF 2.3), 
+        // since a exclusionFactConverter would create a new object (can be solved with JSF 2.3),
         // we only use the id and retrieve the appropriate ExclusionFact
         ExclusionFact ef = obtainExclusionFacts()
                 .stream()
@@ -219,7 +219,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     }
 
     public void exclusionFactChanged2() {
-        // since a exclusionFactConverter would create a new object (can be solved with JSF 2.3), 
+        // since a exclusionFactConverter would create a new object (can be solved with JSF 2.3),
         // we only use the id and retrieve the appropriate ExclusionFact
         ExclusionFact ef = obtainExclusionFacts()
                 .stream()
@@ -897,7 +897,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         }
         return _exclusionFacts;
     }
-    
+
     public void setLastChangeAtNow() {
         _staffProof.setLastChanged(Calendar.getInstance().getTime());
         _staffProof = _psychStaffFacade.saveStaffProof(_staffProof);

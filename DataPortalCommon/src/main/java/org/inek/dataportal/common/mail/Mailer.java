@@ -169,6 +169,12 @@ public class Mailer {
         return salutation;
     }
 
+    public String getSalutation(Person person) {
+        String salutation = person.getGender() == 1 ? "Frau " : "Herr ";
+        salutation += person.getTitle() + " " + person.getLastName();
+        return salutation;
+    }
+
     public boolean sendActivationMail(AccountRequest accountRequest) {
         MailTemplate template = getMailTemplate("AccountActivationMail");
         if (template == null) {

@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/Input"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:pf="http://primefaces.org/ui">
+
+    <h4>
+        B1 Gesamtbetrag und Basisentgeltwert nach § 3 Bundespflegesatzverordnung für die Kalenderjahre 2013 bis 2018
+    </h4>
+
+    <pf:panelGrid columns="3"
+                  class="inekPanelGrid"
+                  columnClasses="colCenter, colLeft, colRight">
+
+        <pf:outputLabel value="lfd. Nr."
+                        style="font-weight: bold;"/>
+        <pf:outputLabel value="" />
+        <pf:outputLabel value="" />
+
+        <pf:outputLabel value="1" />
+        <pf:outputLabel value="Gesamtbetrag für das laufende Jahr" />
+        <inek:InputNumber value="#{edit.aebBaseInformation.aebPageB1.totalAgreementPeriod}"
+                          symbol=" €"
+                          decimalPlaces="2"
+                          readonly="#{edit.isReadOnly()}"/>
+
+        <pf:outputLabel value="10" />
+        <pf:outputLabel value="Veränderter Gesamtbetrag (§ 3 Absatz 2 Satz 5)" />
+        <inek:InputNumber value="#{edit.aebBaseInformation.aebPageB1.changedTotal}"
+                          symbol=" €"
+                          decimalPlaces="2"
+                          readonly="#{edit.isReadOnly()}"/>
+
+        <pf:outputLabel value="13" />
+        <pf:outputLabel value="Verändertes Erlösbudget (§ 3 Absatz 2 Satz 5)" />
+        <inek:InputNumber value="#{edit.aebBaseInformation.aebPageB1.changedProceedsBudget}"
+                          symbol=" €"
+                          decimalPlaces="2"
+                          readonly="#{edit.isReadOnly()}"/>
+
+        <pf:outputLabel value="" />
+        <pf:outputLabel value="Ermittlung des Basisentgeltwerts:"
+                        style="font-weight: bold;"/>
+        <pf:outputLabel value="" />
+
+        <pf:outputLabel value="16" />
+        <pf:outputLabel value="Summe mit Bewertungsrelationen bewertete Entgelte" />
+        <inek:InputNumber value="#{edit.aebBaseInformation.aebPageB1.sumValuationRadioRenumeration}"
+                          symbol=" €"
+                          decimalPlaces="2"
+                          readonly="#{edit.isReadOnly()}"/>
+
+        <pf:outputLabel value="17" />
+        <pf:outputLabel value="Summe der effektiven Bewertungsrelationen (Anlage E1)" />
+        <inek:InputNumber value="#{edit.aebBaseInformation.aebPageB1.sumEffectivValuationRadio}"
+                          decimalPlaces="4"
+                          readonly="#{edit.isReadOnly()}"/>
+
+        <pf:outputLabel value="18" />
+        <pf:outputLabel value="Krankenhausindividueller Basisentgeltwert mit Ausgleichen" />
+        <inek:InputNumber value="#{edit.aebBaseInformation.aebPageB1.basisRenumerationValueCompensation}"
+                          symbol=" €"
+                          decimalPlaces="2"
+                          readonly="#{edit.isReadOnly()}"/>
+
+        <pf:outputLabel value="19" />
+        <pf:outputLabel value="nachrichtlich: Basisentgeltwert ohne Ausgleiche und Ausgleichsbeträge aus Berichtigungen" />
+        <inek:InputNumber value="#{edit.aebBaseInformation.aebPageB1.basisRenumerationValueNoCompensation}"
+                          symbol=" €"
+                          decimalPlaces="2"
+                          readonly="#{edit.isReadOnly()}"/>
+
+    </pf:panelGrid>
+
+</ui:composition>

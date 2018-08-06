@@ -18,6 +18,7 @@ import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.psy.psychstaff.enums.PsychType;
 import org.inek.dataportal.common.utils.Crypt;
 import org.inek.dataportal.common.utils.Documentation;
+import org.inek.dataportal.common.data.KhComparison.entities.OccupationalCategory;
 
 /**
  *
@@ -371,7 +372,7 @@ public class StaffProof implements Serializable, StatusEntity {
     public void setStatusApx1Changed(Date statusApx1Changed) {
         _statusApx1Changed = statusApx1Changed;
     }
-    //</editor-fold>    
+    //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property StatusApx1">
     @Column(name = "spmStatusApx1")

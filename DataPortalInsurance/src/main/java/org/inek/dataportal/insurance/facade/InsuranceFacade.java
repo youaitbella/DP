@@ -134,7 +134,8 @@ public class InsuranceFacade extends AbstractDataAccess {
                 + "where (prIk = " + ik + " or nppProxyIk = " + ik + ") and prYear = " + year + " and prStatus between 20 and 21 "
                 + "order by prDatenportalId";
         Query query = getEntityManager().createNativeQuery(sql, InsuranceNubMethodInfo.class);
-        @SuppressWarnings("unchecked") List<InsuranceNubMethodInfo> result = query.getResultList();
+        @SuppressWarnings("unchecked")
+        List<InsuranceNubMethodInfo> result = query.getResultList();
         return result;
     }
 
@@ -193,8 +194,17 @@ public class InsuranceFacade extends AbstractDataAccess {
             return (String) resultList.get(0);
         }
         return "unbekannte oder ungültige Signatur";
-        
+
     }
 
-    
+    public List<Integer> getAgentsIk(int accountId) {
+        String sql = "select distinct ikaIk\n"
+                + "from insurance.ikAgent\n"
+                + "where ikaAccountId = " + accountId;
+        @SuppressWarnings("unchecked")
+        List<Integer> resultList = getEntityManager().createNativeQuery(sql).getResultList();
+
+        return resultList;
+    }
+
 }

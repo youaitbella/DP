@@ -50,7 +50,9 @@ public enum ConfigKey {
     ExceptionEmail("PortalAdmin@inek-drg.de"),
     ManagerEmail("dsportalanmeldungen@inek-drg.de"),
     ReportValidity(120),
-    DocumentSetRead(false);
+    DocumentSetRead(false),
+    IkAdminEnable(true),
+    isKhComparisionInsuranceEnabled(false);
     //
     private final Object _defaultValue;
 

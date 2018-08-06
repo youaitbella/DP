@@ -39,11 +39,20 @@
             <link type="text/css" rel="stylesheet" href="#{request.contextPath}/javax.faces.resource/css/#{sessionController.css}.xhtml?version=#{applicationTools.version}" />
             <script type="text/javascript" src="#{request.contextPath}/javax.faces.resource/script/clientutils.js.xhtml?version=#{applicationTools.version}"></script>
             <h:outputStylesheet name="css/inekstyle.css" />
+            <h:outputScript name="script/sweetalert.min.js"/>
             <h:outputScript library="primefaces" name="jquery/jquery.js" />
             <h:outputScript library="primefaces" name="jquery/jquery-plugins.js" />
         </h:head>
 
         <h:body>
+            <pf:ajaxStatus style="display:block;position:absolute;bottom: 5px;right: 5px;z-index:100">
+                <f:facet name="start">
+                    <pf:graphicImage height="100" width="100" name="Image/load.gif" />
+                </f:facet>
+                <f:facet name="complete">
+                    <h:outputText value="" />
+                </f:facet>
+            </pf:ajaxStatus>
             <pf:confirmDialog global="true" showEffect="fade" hideEffect="fade" widgetVar="confirmDialog">
                 <pf:commandButton value="Ja" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
                 <pf:commandButton value="Nein" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
