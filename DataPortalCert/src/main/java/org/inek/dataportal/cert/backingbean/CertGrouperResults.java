@@ -1,4 +1,4 @@
-package org.inek.dataportal.cert;
+package org.inek.dataportal.cert.backingbean;
 
 import java.io.File;
 import java.io.Serializable;
@@ -19,6 +19,8 @@ import org.inek.dataportal.cert.facade.SystemFacade;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.cert.enums.CertMailType;
+import org.inek.dataportal.cert.enums.CertStatus;
 import org.inek.dataportal.common.enums.Genders;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.data.account.facade.AccountFacade;

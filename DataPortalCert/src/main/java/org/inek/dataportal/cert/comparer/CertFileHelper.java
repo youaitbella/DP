@@ -6,7 +6,7 @@
 package org.inek.dataportal.cert.comparer;
 
 import java.io.File;
-import org.inek.dataportal.cert.CertStatus;
+import org.inek.dataportal.cert.enums.CertStatus;
 
 import org.inek.dataportal.cert.entities.Grouper;
 import org.inek.dataportal.cert.entities.RemunerationSystem;

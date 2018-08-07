@@ -1,4 +1,4 @@
-package org.inek.dataportal.cert;
+package org.inek.dataportal.cert.backingbean;
 
 import java.io.Serializable;
 import java.util.List;
@@ -8,8 +8,9 @@ import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.data.adm.MailTemplate;
-import org.inek.dataportal.cert.CertMailType;
+import org.inek.dataportal.cert.enums.CertMailType;
 import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.cert.enums.CertMailType;
 import org.inek.dataportal.common.mail.MailTemplateFacade;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.scope.FeatureScoped;

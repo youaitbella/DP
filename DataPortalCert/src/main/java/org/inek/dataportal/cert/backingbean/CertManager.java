@@ -1,4 +1,4 @@
-package org.inek.dataportal.cert;
+package org.inek.dataportal.cert.backingbean;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -27,6 +27,7 @@ import org.inek.dataportal.cert.facade.GrouperFacade;
 import org.inek.dataportal.cert.facade.SystemFacade;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.cert.enums.CertStatus;
 import org.inek.dataportal.cert.comparer.CertFileHelper;
 import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.enums.Pages;
@@ -187,7 +188,7 @@ public class CertManager implements Serializable {
         return "";
     }
 
-    public void activeSystemChangeListener(AjaxBehaviorEvent event) {
+    public void activeSystemChsaangeListener(AjaxBehaviorEvent event) {
         setActive(true);
     }
 
@@ -237,12 +238,11 @@ public class CertManager implements Serializable {
     public void addNewGrouper() {
         Grouper grouper = new Grouper();
         grouper.setSystem(_system);
-        _system.getGrouperList().add(grouper);
+        _system.addGrouper(grouper);
     }
 
-    public String deleteGrouper(Grouper grouper) {
-        _system.getGrouperList().remove(grouper);
-        return "";
+    public void deleteGrouper(Grouper grouper) {
+        _system.removeGrouper(grouper);
     }
 
     public void passwordRequest(Grouper grouper) {
@@ -258,13 +258,6 @@ public class CertManager implements Serializable {
         return grouper.getWebsiteRelease() != null;
     }
 
-    public String getCertHpInactiveClass(Grouper grouper) {
-        if (isCertVendorOnWebsite(grouper)) {
-            return "certWebsiteButtonInactive";
-        }
-        return "";
-    }
-
     public String getCertWebsiteDate(Grouper grouper) {
         if (isCertVendorOnWebsite(grouper)) {
             SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
@@ -275,17 +268,14 @@ public class CertManager implements Serializable {
 
     public void handleSpecUpload(FileUploadEvent event) {
         uploadCertFile("Spec", "Grouper-Spezifikation", "exe", event.getFile());
-        // TODO Benachrichtigung
     }
 
     public void handleTestUpload(FileUploadEvent event) {
         uploadCertFile("Daten", "Testdaten", "zip", event.getFile());
-        // TODO Benachrichtigung
     }
 
     public void handleCertUpload(FileUploadEvent event) {
         uploadCertFile("Daten", "Zertdaten", "zip", event.getFile());
-        // TODO Benachrichtigung
     }
 
     public void uploadCertFile(String folder, String fileNameBase, String extension, UploadedFile file) {
@@ -301,9 +291,11 @@ public class CertManager implements Serializable {
             IOUtils.copy(file.getInputstream(), outStream);
             file.getInputstream().close();
             outStream.close();
+            _dialogController.showInfoDialog("Upload erfolgreich", "Der Upload von "
+                    + file.getFileName() + " wurde erfolgreich durchgeführt");
         } catch (Exception ex) {
-            String mesaage = ex.getMessage();
-            //Todo Fehlermeldung anzeigen
+            _dialogController.showErrorDialog("Fehler beim Upload", "Die Datei konnte nicht "
+                    + "erfolgreich hochgeladen werden: " + ex.getMessage());
         }
     }
 
@@ -333,12 +325,9 @@ public class CertManager implements Serializable {
         return list;
     }
 
-    // <editor-fold defaultstate="collapsed" desc="SystemRoot">
     public File getSystemRoot(RemunerationSystem system) {
         File root = new File(_config.readConfig(ConfigKey.CertiFolderRoot), "System " + system.getYearSystem());
         File systemRoot = new File(root, system.getFileName());
         return systemRoot;
     }
-    // </editor-fold>
-
 }

@@ -179,8 +179,16 @@ public class RemunerationSystem implements Serializable {
     public void setGrouperList(List<Grouper> grouperList) {
         _grouperList = grouperList;
     }
-    // </editor-fold>
 
+    public void removeGrouper(Grouper grouper) {
+        _grouperList.remove(grouper);
+    }
+
+    public void addGrouper(Grouper grouper) {
+        _grouperList.add(grouper);
+    }
+
+    // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="DisplayName">
     public String getDisplayName() {
         String yearInfo;

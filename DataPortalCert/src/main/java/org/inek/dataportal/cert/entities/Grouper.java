@@ -17,7 +17,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
-import org.inek.dataportal.cert.CertStatus;
+import org.inek.dataportal.cert.enums.CertStatus;
 import org.inek.dataportal.common.data.account.entities.Account;
 
 /**
@@ -26,6 +26,7 @@ import org.inek.dataportal.common.data.account.entities.Account;
  */
 @Entity
 @Table(name = "Grouper", schema = "crt")
+@SuppressWarnings("JavaNCSS")
 public class Grouper implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -429,37 +430,39 @@ public class Grouper implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 53 * hash + this._version;
-        hash = 53 * hash + this._accountId;
-        hash = 53 * hash + Objects.hashCode(this._account);
-        hash = 53 * hash + this._certStatus;
-        hash = 53 * hash + Objects.hashCode(this._name);
-        hash = 53 * hash + Objects.hashCode(this._emailCopy);
-        hash = 53 * hash + Objects.hashCode(this._passwordRequest);
-        hash = 53 * hash + Objects.hashCode(this._downloadSpec);
-        hash = 53 * hash + Objects.hashCode(this._downloadTest);
-        hash = 53 * hash + Objects.hashCode(this._testUpload1);
-        hash = 53 * hash + Objects.hashCode(this._testCheck1);
-        hash = 53 * hash + this._testError1;
-        hash = 53 * hash + Objects.hashCode(this._testUpload2);
-        hash = 53 * hash + Objects.hashCode(this._testCheck2);
-        hash = 53 * hash + this._testError2;
-        hash = 53 * hash + Objects.hashCode(this._testUpload3);
-        hash = 53 * hash + Objects.hashCode(this._testCheck3);
-        hash = 53 * hash + this._testError3;
-        hash = 53 * hash + Objects.hashCode(this._certUpload1);
-        hash = 53 * hash + Objects.hashCode(this._downloadCert);
-        hash = 53 * hash + Objects.hashCode(this._certCheck1);
-        hash = 53 * hash + this._certError1;
-        hash = 53 * hash + Objects.hashCode(this._certUpload2);
-        hash = 53 * hash + Objects.hashCode(this._certCheck2);
-        hash = 53 * hash + this._certError2;
-        hash = 53 * hash + Objects.hashCode(this._certification);
-        hash = 53 * hash + Objects.hashCode(this._websiteRelease);
-        hash = 53 * hash + Objects.hashCode(this._approvedUntil);
+        hash = 83 * hash + this._version;
+        hash = 83 * hash + Objects.hashCode(this._system);
+        hash = 83 * hash + this._accountId;
+        hash = 83 * hash + Objects.hashCode(this._account);
+        hash = 83 * hash + this._certStatus;
+        hash = 83 * hash + Objects.hashCode(this._name);
+        hash = 83 * hash + Objects.hashCode(this._emailCopy);
+        hash = 83 * hash + Objects.hashCode(this._passwordRequest);
+        hash = 83 * hash + Objects.hashCode(this._downloadSpec);
+        hash = 83 * hash + Objects.hashCode(this._downloadTest);
+        hash = 83 * hash + Objects.hashCode(this._testUpload1);
+        hash = 83 * hash + Objects.hashCode(this._testCheck1);
+        hash = 83 * hash + this._testError1;
+        hash = 83 * hash + Objects.hashCode(this._testUpload2);
+        hash = 83 * hash + Objects.hashCode(this._testCheck2);
+        hash = 83 * hash + this._testError2;
+        hash = 83 * hash + Objects.hashCode(this._testUpload3);
+        hash = 83 * hash + Objects.hashCode(this._testCheck3);
+        hash = 83 * hash + this._testError3;
+        hash = 83 * hash + Objects.hashCode(this._certUpload1);
+        hash = 83 * hash + Objects.hashCode(this._downloadCert);
+        hash = 83 * hash + Objects.hashCode(this._certCheck1);
+        hash = 83 * hash + this._certError1;
+        hash = 83 * hash + Objects.hashCode(this._certUpload2);
+        hash = 83 * hash + Objects.hashCode(this._certCheck2);
+        hash = 83 * hash + this._certError2;
+        hash = 83 * hash + Objects.hashCode(this._certification);
+        hash = 83 * hash + Objects.hashCode(this._websiteRelease);
+        hash = 83 * hash + Objects.hashCode(this._approvedUntil);
         return hash;
     }
 
+    @SuppressWarnings("CyclomaticComplexity")
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -469,6 +472,97 @@ public class Grouper implements Serializable {
             return false;
         }
         if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Grouper other = (Grouper) obj;
+        if (this._version != other._version) {
+            return false;
+        }
+        if (this._accountId != other._accountId) {
+            return false;
+        }
+        if (this._certStatus != other._certStatus) {
+            return false;
+        }
+        if (this._testError1 != other._testError1) {
+            return false;
+        }
+        if (this._testError2 != other._testError2) {
+            return false;
+        }
+        if (this._testError3 != other._testError3) {
+            return false;
+        }
+        if (this._certError1 != other._certError1) {
+            return false;
+        }
+        if (this._certError2 != other._certError2) {
+            return false;
+        }
+        if (!Objects.equals(this._name, other._name)) {
+            return false;
+        }
+        if (!Objects.equals(this._emailCopy, other._emailCopy)) {
+            return false;
+        }
+        if (!Objects.equals(this._id, other._id)) {
+            return false;
+        }
+        if (!Objects.equals(this._system, other._system)) {
+            return false;
+        }
+        if (!Objects.equals(this._account, other._account)) {
+            return false;
+        }
+        if (!Objects.equals(this._passwordRequest, other._passwordRequest)) {
+            return false;
+        }
+        if (!Objects.equals(this._downloadSpec, other._downloadSpec)) {
+            return false;
+        }
+        if (!Objects.equals(this._downloadTest, other._downloadTest)) {
+            return false;
+        }
+        if (!Objects.equals(this._testUpload1, other._testUpload1)) {
+            return false;
+        }
+        if (!Objects.equals(this._testCheck1, other._testCheck1)) {
+            return false;
+        }
+        if (!Objects.equals(this._testUpload2, other._testUpload2)) {
+            return false;
+        }
+        if (!Objects.equals(this._testCheck2, other._testCheck2)) {
+            return false;
+        }
+        if (!Objects.equals(this._testUpload3, other._testUpload3)) {
+            return false;
+        }
+        if (!Objects.equals(this._testCheck3, other._testCheck3)) {
+            return false;
+        }
+        if (!Objects.equals(this._certUpload1, other._certUpload1)) {
+            return false;
+        }
+        if (!Objects.equals(this._downloadCert, other._downloadCert)) {
+            return false;
+        }
+        if (!Objects.equals(this._certCheck1, other._certCheck1)) {
+            return false;
+        }
+        if (!Objects.equals(this._certUpload2, other._certUpload2)) {
+            return false;
+        }
+        if (!Objects.equals(this._certCheck2, other._certCheck2)) {
+            return false;
+        }
+        if (!Objects.equals(this._certification, other._certification)) {
+            return false;
+        }
+        if (!Objects.equals(this._websiteRelease, other._websiteRelease)) {
+            return false;
+        }
+        if (!Objects.equals(this._approvedUntil, other._approvedUntil)) {
             return false;
         }
         return true;

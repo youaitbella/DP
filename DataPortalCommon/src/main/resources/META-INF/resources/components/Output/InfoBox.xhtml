@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="value"/>>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <div>
+        <cc:implementation>
+            <div class="inekInfoBox">
+                #{cc.attrs.value}
+            </div>
+        </cc:implementation>
+    </div>
+</html>

@@ -148,12 +148,14 @@
                 <br/>
 
                 <h2>#{msg.lblAssignedManufactorers}</h2>
-                <pf:commandLink styleClass="bigButton" value="#{msg.btnReset}"
-                                immediate="true"
-                                action="#{certManager.resetSystem}">
-                    <pf:confirm header="Sicher zurücksetzen?"
-                                message="Wollem Sie wirklich das System zurücksetzen?" />
-                </pf:commandLink>
+                <div onclick="changeDialogColor('delete');">
+                    <pf:commandLink styleClass="bigButton" value="#{msg.btnReset}"
+                                    immediate="true"
+                                    action="#{certManager.resetSystem}">
+                        <pf:confirm header="Sicher zurücksetzen?"
+                                    message="Wollem Sie wirklich das System zurücksetzen? Hiermit werden alle Grouper auf den Anfangsstatus zurückgesetzt" />
+                    </pf:commandLink>
+                </div>
 
                 <pf:dataTable id="tableManufactorers"
                               emptyMessage="Keine Einträge vorhanden"
@@ -162,13 +164,15 @@
                               tableStyle="table-layout: auto;"
                               tableStyleClass="inekTableDrg">
                     <pf:column headerText="">
-                        <pf:commandLink immediate="true"
-                                        action="#{certManager.deleteGrouper(grouper)}"
-                                        update="tableManufactorers">
-                            <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value=""/>
-                            <pf:confirm header="Wirklich löschen?"
-                                        message="Wollen Sie #{certManager.getAccountDisplayName(grouper.accountId)} wirklich löschen?" />
-                        </pf:commandLink>
+                        <div onclick="changeDialogColor('delete');">
+                            <pf:commandLink immediate="true"
+                                            action="#{certManager.deleteGrouper(grouper)}"
+                                            update="tableManufactorers">
+                                <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value=""/>
+                                <pf:confirm header="Wirklich löschen?"
+                                            message="Wollen Sie #{certManager.getAccountDisplayName(grouper.accountId)} wirklich löschen?" />
+                            </pf:commandLink>
+                        </div>
                     </pf:column>
 
                     <pf:column headerText="Hersteller">
@@ -188,7 +192,8 @@
 
                     <pf:column headerText="Freigabe bis">
                         <pf:calendar value="#{grouper.approvedUntil}"
-                                     pattern="dd.MM.yyyy">
+                                     pattern="dd.MM.yyyy"
+                                     inputStyle="text-align: right;">
                             <pf:ajax />
                         </pf:calendar>
                     </pf:column>
@@ -210,11 +215,12 @@
                                           update="@all"/>
                     </pf:column>
 
-                    <pf:column headerText="HP">
-                        <pf:commandLink styleClass="certWebsiteButton #{certManager.getCertHpInactiveClass(grouper)}"
-                                        title="#{certManager.getCertWebsiteDate(grouper)}"
-                                        action="#{certManager.addedHp(grouper)}">
-                            <pf:ajax update="tableManufactorers" />
+                    <pf:column headerText="HP" style="text-align: center;">
+                        <pf:commandLink actionListener="#{certManager.addedHp(grouper)}"
+                                        update="tableManufactorers">
+                            <i class="fa fa-home fa-lg"
+                               style="color: #{grouper.websiteRelease ne null ? 'green' : 'red'}"
+                               aria-hidden="true"></i>
                         </pf:commandLink>
                     </pf:column>
                 </pf:dataTable>

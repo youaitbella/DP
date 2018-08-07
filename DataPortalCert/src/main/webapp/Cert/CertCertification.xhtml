@@ -8,26 +8,43 @@
                 xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 xmlns:jsf="http://xmlns.jcp.org/jsf"
-                xmlns:pf="http://primefaces.org/ui">
+                xmlns:pf="http://primefaces.org/ui"
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/Output"
+                xmlns:inekInput="http://xmlns.jcp.org/jsf/composite/components/Input">
 
     <ui:define name="editContent">
-        <h:form id="form" >
-            <pf:dialog widgetVar="dialogProcess" header="Daten werden verarbeitet" modal="true" closable="false">
-                <pf:graphicImage name="Image/loadingbar.gif" />
-            </pf:dialog>
+        <pf:dialog widgetVar="dialogProcess"
+                   header="Daten werden verarbeitet"
+                   modal="true"
+                   closable="false"
+                   resizable="false">
+            <div style="text-align: center; width: 100%;">
+                <div class="inekLoader" style="text-align: center;"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+            </div>
+        </pf:dialog>
 
-            <pf:selectOneMenu var="grouper"
-                              valueChangeListener="#{certCertification.grouperChanged}"
-                              rendered="#{certCertification.grouper4Account.size() gt 0}">
-                <f:selectItems value="#{certCertification.grouper4Account}"
-                               var="grouperItem"
-                               itemLabel="#{grouperItem.system.displayName}"
-                               itemValue="#{grouperItem}"/>
-                <pf:ajax update="systemData" />
-            </pf:selectOneMenu>
+        <h:form id="form">
 
-            <pf:outputLabel value="Es sind keine System zur Auswahl vorhanden"
-                            rendered="#{certCertification.grouper4Account.size() eq 0}" />
+            <div class="ui-g ui-fluid">
+                <div class="ui-g-6 ui-md-6">
+                    <pf:outputLabel class="formLabel"
+                                    value="Systemauswahl:"
+                                    rendered="#{certCertification.grouper4Account.size() gt 0}"/>
+                    <pf:selectOneMenu id="grouperSelection"
+                                      value="#{certCertification.grouperId}"
+                                      rendered="#{certCertification.grouper4Account.size() gt 0}">
+                        <f:selectItem itemValue="#{null}" itemLabel="Bitte System auswählen" noSelectionOption="true" />
+                        <f:selectItems value="#{certCertification.grouper4Account}"
+                                       var="grouperItem"
+                                       itemLabel="#{grouperItem.system.displayName}"
+                                       itemValue="#{grouperItem.id}"/>
+                        <pf:ajax  update="form" />
+                    </pf:selectOneMenu>
+                </div>
+            </div>
+
+            <inek:InfoBox rendered="#{certCertification.grouper4Account.size() eq 0}"
+                          value="Es sind keine Systeme zur Auswahl vorhanden" />
 
             <pf:panel styleClass="inekPanel"
                       id="systemData"
@@ -49,7 +66,6 @@
                                       value="#{msg.btnDownloadTest}">
                         <pf:fileDownload value="#{certCertification.downloadTest()}" />
                     </pf:commandButton>
-
                     <h:outputLabel value="#{editCert.getTestFileName(certCertification.grouper.system.id, false)}"/>
 
                     <pf:commandButton styleClass="btnDownload"
@@ -63,59 +79,66 @@
 
                 </pf:panelGrid>
 
-                <div jsf:rendered="#{certCertification.isCertUploadEnabled() or certCertification.isTestUploadEnabled()}">
-                    <h2>#{msg.lblUpload}</h2>
 
-                    <pf:fileUpload fileUploadListener="#{certCertification.handleFileUpload}"
-                                   rendered="#{certCertification.isTestUploadEnabled()}"
-                                   mode="advanced"
-                                   label="Testdaten auswählen"
-                                   uploadLabel="Hochladen"
-                                   cancelLabel="Abbrechen"
-                                   dragDropSupport="true"
-                                   update="needSave"
-                                   fileLimit="1"
-                                   allowTypes="/(\.|\/)(zip|7z|rar|gpg|pgp)$/" />
+                <h2>#{msg.lblUpload}</h2>
 
-                    <pf:fileUpload fileUploadListener="#{certCertification.handleFileUpload}"
-                                   rendered="#{certCertification.isCertUploadEnabled()}"
-                                   label="Zertdaten auswählen"
-                                   uploadLabel="Hochladen"
-                                   cancelLabel="Abbrechen"
-                                   mode="advanced"
-                                   dragDropSupport="true"
-                                   update="needSave"
-                                   fileLimit="1"
-                                   allowTypes="/(\.|\/)(zip|7z|rar|gpg|pgp)$/" />
+                <pf:fileUpload id="uploadTest"
+                               fileUploadListener="#{certCertification.handleFileUpload}"
+                               rendered="#{certCertification.isTestUploadEnabled()}"
+                               mode="advanced"
+                               label="Testdaten auswählen"
+                               uploadLabel="Hochladen"
+                               cancelLabel="Abbrechen"
+                               dragDropSupport="true"
+                               update="systemData"
+                               oncomplete="window.location.reload();"
+                               fileLimit="1"
+                               allowTypes="/(\.|\/)(zip|7z|rar|gpg|pgp)$/"
+                               styleClass="inekUploader"/>
 
-                    <pf:outputLabel id="needSave"
-                                    value="Bitte Speichern Sie die Eingabe vom #{certCertification.resultFileName}"
-                                    rendered="#{certCertification.resultFileName ne ''}" />
-                    <pf:outputLabel value="Daten in Prüfung"
-                                    rendered="#{!certCertification.isCertUploadEnabled() and !certCertification.isTestUploadEnabled()}" />
+                <pf:fileUpload id="uploadCert"
+                               fileUploadListener="#{certCertification.handleFileUpload}"
+                               rendered="#{certCertification.isCertUploadEnabled()}"
+                               label="Zertdaten auswählen"
+                               uploadLabel="Hochladen"
+                               cancelLabel="Abbrechen"
+                               mode="advanced"
+                               dragDropSupport="true"
+                               fileLimit="1"
+                               update="systemData"
+                               oncomplete="window.location.reload();"
+                               allowTypes="/(\.|\/)(zip|7z|rar|gpg|pgp)$/"
+                               styleClass="inekUploader" />
 
-                </div>
+                <inek:InfoBox id="needSave"
+                              rendered="#{certCertification.resultFileName ne ''}"
+                              value="Bitte Speichern Sie die Eingabe von #{certCertification.resultFileName}" />
+
+                <inek:InfoBox rendered="#{certCertification.inCheckPhase()}"
+                              value="Daten in Prüfung" />
+
+                <inek:InfoBox rendered="#{certCertification.grouper.certStatus.status eq 90 or certCertification.grouper.certStatus.status eq 40}"
+                              value="Zertifizierung bestanden" />
 
                 <h2>#{msg.lblOther}</h2>
 
-                <div class="inputPart">
-                    <h:outputLabel for="txtGrouperName" value="#{msg.lblGrouperName}:" styleClass="label15"/>
-                    <h:inputText id="txtGrouperName"
-                                 value="#{certCertification.grouper.name}"
-                                 styleClass="input"
-                                 required="false">
-                        <f:ajax render=":logout:remaining" listener="#{certCertification.grouperChangeListener}"/>
-                    </h:inputText>
-                    <h:message for="txtGrouperName" id="msgGrouperName" styleClass="errorMessage"/>
+                <div class="ui-g ui-fluid">
+                    <div class="ui-g-6 ui-md-6">
+                        <inekInput:InputText value="#{certCertification.grouper.name}"
+                                             labelText="Groupername:"
+                                             require="true"
+                                             requiredMessage="Bitte geben Sie einen Groupernamen an"/>
+                    </div>
                 </div>
+
                 <div class="toolBar">
                     <pf:commandButton value="Speichern"
                                       actionListener="#{certCertification.saveOther}"
                                       styleClass="btnDrg"
-                                      onstart="PF('dialogProcess').show();"
+                                      onstart="changeDialogColor('info'); PF('dialogProcess').show();"
                                       oncomplete="PF('dialogProcess').hide();"
-                                      update="@all"
-                                      immediate="false"/>
+                                      update="systemData"
+                                      rendered="#{certCertification.grouper.certStatus.status ne 90 and certCertification.grouper.certStatus.status ne 40 }"/>
                 </div>
 
             </pf:panel>
