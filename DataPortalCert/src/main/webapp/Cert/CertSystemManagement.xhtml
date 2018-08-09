@@ -115,7 +115,7 @@
                                    update="specName"
                                    styleClass="inekUploader"/>
                     <pf:outputLabel id="specName"
-                                    value="#{editCert.getSpecFileName(certManager.systemId, true)}"/>
+                                    value="#{editCert.getSpecFileName(certManager.systemId)}"/>
 
                     <pf:fileUpload fileUploadListener="#{certManager.handleTestUpload}"
                                    mode="advanced"
@@ -126,7 +126,7 @@
                                    update="testName"
                                    styleClass="inekUploader"/>
                     <pf:outputLabel id="testName"
-                                    value="#{editCert.getTestFileName(certManager.systemId, true)}"/>
+                                    value="#{editCert.getTestFileName(certManager.systemId)}"/>
 
                     <pf:fileUpload fileUploadListener="#{certManager.handleCertUpload}"
                                    mode="advanced"
@@ -137,7 +137,7 @@
                                    update="certName"
                                    styleClass="inekUploader"/>
                     <pf:outputLabel id="certName"
-                                    value="#{editCert.getCertFileName(certManager.systemId, true)}"/>
+                                    value="#{editCert.getCertFileName(certManager.systemId)}"/>
 
                 </pf:panelGrid>
 

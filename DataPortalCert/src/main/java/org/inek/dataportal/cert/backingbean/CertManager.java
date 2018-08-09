@@ -24,10 +24,9 @@ import org.inek.dataportal.cert.entities.RemunerationSystem;
 import org.inek.dataportal.cert.entities.Grouper;
 import org.inek.dataportal.cert.facade.GrouperFacade;
 import org.inek.dataportal.cert.facade.SystemFacade;
-import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.cert.enums.CertStatus;
-import org.inek.dataportal.cert.comparer.CertFileHelper;
+import org.inek.dataportal.cert.Helper.CertFileHelper;
 import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.data.account.facade.AccountFacade;
@@ -304,10 +303,7 @@ public class CertManager implements Serializable {
     }
 
     public boolean disableCheckAndSpecCheckbox() {
-        if (_system.isApproved()) {
-            return true;
-        }
-        return false;
+        return _system.isApproved();
     }
 
     public void ExportCertGrouper() {
@@ -320,11 +316,5 @@ public class CertManager implements Serializable {
             list.add(new SelectItem(val.getId(), val.getName()));
         }
         return list;
-    }
-
-    public File getSystemRoot(RemunerationSystem system) {
-        File root = new File(_config.readConfig(ConfigKey.CertiFolderRoot), "System " + system.getYearSystem());
-        File systemRoot = new File(root, system.getFileName());
-        return systemRoot;
     }
 }

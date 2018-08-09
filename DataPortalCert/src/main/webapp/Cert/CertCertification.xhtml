@@ -59,14 +59,14 @@
                                       value="#{msg.btnDownloadSpec}" >
                         <pf:fileDownload value="#{certCertification.downloadSpec()}" />
                     </pf:commandButton>
-                    <h:outputLabel value="#{editCert.getSpecFileName(certCertification.grouper.system.id, false)}"/>
+                    <h:outputLabel value="#{editCert.getSpecFileName(certCertification.grouper.system.id)}"/>
 
                     <pf:commandButton styleClass="btnDownload"
                                       ajax="false"
                                       value="#{msg.btnDownloadTest}">
                         <pf:fileDownload value="#{certCertification.downloadTest()}" />
                     </pf:commandButton>
-                    <h:outputLabel value="#{editCert.getTestFileName(certCertification.grouper.system.id, false)}"/>
+                    <h:outputLabel value="#{editCert.getTestFileName(certCertification.grouper.system.id)}"/>
 
                     <pf:commandButton styleClass="btnDownload"
                                       ajax="false"
@@ -74,7 +74,7 @@
                                       rendered="#{certCertification.grouper.certStatus.status ge 20}">
                         <pf:fileDownload value="#{certCertification.downloadCert()}" />
                     </pf:commandButton>
-                    <h:outputLabel value="#{editCert.getCertFileName(certCertification.grouper.system.id, false)}"
+                    <h:outputLabel value="#{editCert.getCertFileName(certCertification.grouper.system.id)}"
                                    rendered="#{certCertification.grouper.certStatus.status ge 20}"/>
 
                 </pf:panelGrid>

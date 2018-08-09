@@ -1,33 +1,17 @@
 package org.inek.dataportal.cert;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.zip.Adler32;
-import java.util.zip.CheckedInputStream;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.http.Part;
 import org.inek.dataportal.cert.entities.RemunerationSystem;
 import org.inek.dataportal.cert.facade.SystemFacade;
 import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.api.helper.Const;
+import org.inek.dataportal.cert.Helper.CertFileHelper;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.controller.AbstractEditController;
-import org.inek.dataportal.common.data.access.ConfigFacade;
-import org.inek.dataportal.common.helper.StreamHelper;
 import org.inek.dataportal.common.scope.FeatureScoped;
-import org.primefaces.model.UploadedFile;
 
 /**
  *
@@ -39,8 +23,6 @@ public class EditCert extends AbstractEditController {
 
     private static final Logger LOGGER = Logger.getLogger("EditCert");
 
-    @Inject
-    private ConfigFacade _config;
     @Inject
     private SessionController _sessionController;
     @Inject
@@ -66,45 +48,24 @@ public class EditCert extends AbstractEditController {
         tabCertification;
     }
 
-    public File getCertFile(int systemId, String folder, String fileNameBase, String extension, boolean includeUpload) {
-        RemunerationSystem system = getSystem(systemId);
-        if (system == null) {
-            return null;
-        }
+    public String getSpecFileName(int systemId) {
+        return getCertFileName(systemId, "Spec", "Grouper-Spezifikation", "exe");
+    }
 
-        Optional<File> uploadFolder = getUploadFolder(system, folder);
-        if (!uploadFolder.isPresent()) {
-            return null;
-        }
+    public String getTestFileName(int systemId) {
+        return getCertFileName(systemId, "Daten", "Testdaten", "zip");
+    }
 
-        String fileNamePattern = fileNameBase + "_" + system.getFileName()
-                + "_\\(\\d{4}-\\d{2}-\\d{2}\\)." + extension
-                + (includeUpload ? "(\\.upload)?" : "");
-        return getLastFile(uploadFolder.get(), fileNamePattern);
+    public String getCertFileName(int systemId) {
+        return getCertFileName(systemId, "Daten", "Zertdaten", "zip");
     }
 
     public String getCertFileName(int systemId, String folder, String fileNameBase, String extension) {
-        return getCertFileName(systemId, folder, fileNameBase, extension, false);
-    }
-
-    public String getSpecFileName(int systemId, boolean includeUpload) {
-        return getCertFileName(systemId, "Spec", "Grouper-Spezifikation", "exe", includeUpload);
-    }
-
-    public String getTestFileName(int systemId, boolean includeUpload) {
-        return getCertFileName(systemId, "Daten", "Testdaten", "zip", includeUpload);
-    }
-
-    public String getCertFileName(int systemId, boolean includeUpload) {
-        return getCertFileName(systemId, "Daten", "Zertdaten", "zip", includeUpload);
-    }
-
-    public String getCertFileName(int systemId, String folder, String fileNameBase, String extension, boolean includeUpload) {
         if (systemId <= 0) {
             return "";
         }
-        String fileName = getCertFile(systemId, folder, fileNameBase, extension, includeUpload).getName();
-        return fileName.replace(".upload", " [ungespeichert]");
+        String fileName = CertFileHelper.getCertFile(_systemFacade.findFresh(systemId), folder, fileNameBase, extension).getName();
+        return fileName;
     }
 
     public RemunerationSystem getSystem(int systemId) {
@@ -117,82 +78,4 @@ public class EditCert extends AbstractEditController {
         }
         return system;
     }
-
-    /**
-     * Get the upload folder, depending on the system (determines folder parent) and ensures the existence of this
-     * folder
-     *
-     * @param system
-     * @param folderName
-     * @return folder if ok, null otherwise
-     */
-    public Optional<File> getUploadFolder(RemunerationSystem system, String folderName) {
-        File folder = new File(getSystemRoot(system), folderName);
-        try {
-            folder.mkdirs();
-        } catch (Exception ex) {
-            LOGGER.log(Level.WARNING, "upload, error during creating folder {0}", folder.getAbsolutePath());
-            return Optional.empty();
-        }
-        return Optional.of(folder);
-    }
-    // <editor-fold defaultstate="collapsed" desc="SystemRoot">
-
-    public File getSystemRoot(RemunerationSystem system) {
-        File root = new File(_config.readConfig(ConfigKey.CertiFolderRoot), "System " + system.getYearSystem());
-        File systemRoot = new File(root, system.getFileName());
-        return systemRoot;
-    }
-    // </editor-fold>
-
-    /**
-     * gets the last file (in alphabetical order) matching the file name pattern
-     *
-     * @param dir
-     * @param fileNamePattern
-     * @return
-     */
-    public File getLastFile(File dir, final String fileNamePattern) {
-        File lastFile = new File("");
-        for (File file : dir.listFiles((File file) -> file.isFile() && file.getName().matches(fileNamePattern))) {
-            if (file.getName().compareTo(lastFile.getName()) > 0) {
-                lastFile = file;
-            }
-        }
-        return lastFile;
-    }
-
-    public void uploadFile(UploadedFile uploadFile, File target) {
-        if (uploadFile == null) {
-            return;
-        }
-        LOGGER.log(Level.INFO, "uploading file {0}", uploadFile.getFileName());
-        try (InputStream inStream = uploadFile.getInputstream();
-                BufferedOutputStream dest = new BufferedOutputStream(new FileOutputStream(target), Const.BUFFER_SIZE)) {
-            new StreamHelper().copyStream(inStream, dest);
-        } catch (IOException e) {
-            LOGGER.log(Level.WARNING, "upload exception: {0}", e.getMessage());
-        }
-    }
-
-    public void uploadAndUnzipFile(Part uploadFile, File target) {
-        if (uploadFile == null) {
-            return;
-        }
-        LOGGER.log(Level.INFO, "uploading file {0}", uploadFile.getSubmittedFileName());
-        try (InputStream inStream = uploadFile.getInputStream();
-                CheckedInputStream checksum = new CheckedInputStream(inStream, new Adler32());
-                ZipInputStream zis = new ZipInputStream(new BufferedInputStream(checksum))) {
-            ZipEntry entry;
-            while ((entry = zis.getNextEntry()) != null) {
-                try (BufferedOutputStream dest = new BufferedOutputStream(new FileOutputStream(target), Const.BUFFER_SIZE)) {
-                    new StreamHelper().copyStream(zis, dest);
-                    dest.flush();
-                }
-            }
-        } catch (IOException e) {
-            LOGGER.log(Level.WARNING, "upload exception: {0}", e.getMessage());
-        }
-    }
-
 }

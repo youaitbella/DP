@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.cert.comparer;
+package org.inek.dataportal.cert.Helper;
 
 import java.io.File;
 import org.inek.dataportal.cert.enums.CertStatus;
@@ -70,6 +70,37 @@ public final class CertFileHelper {
     public static String getExtension(String name) {
         String[] split = name.split("\\.");
         return split[split.length - 1];
+    }
+
+    public static File getCertFile(RemunerationSystem system, String folder, String fileNameBase, String extension) {
+        File uploadFolder = getUploadFolder(system, folder);
+
+        String fileNamePattern = fileNameBase + "_" + system.getFileName()
+                + "_\\(\\d{4}-\\d{2}-\\d{2}\\)." + extension;
+
+        return getLastFile(uploadFolder, fileNamePattern);
+    }
+
+    private static File getLastFile(File dir, final String fileNamePattern) {
+        File lastFile = new File("");
+        for (File file : dir.listFiles((File file) -> file.isFile() && file.getName().matches(fileNamePattern))) {
+            if (file.getName().compareTo(lastFile.getName()) > 0) {
+                lastFile = file;
+            }
+        }
+        return lastFile;
+    }
+
+    private static File getUploadFolder(RemunerationSystem system, String folderName) {
+        File folder = new File(getSystemRoot(system), folderName);
+        try {
+            if (!folder.exists()) {
+                folder.mkdirs();
+            }
+        } catch (Exception ex) {
+
+        }
+        return folder;
     }
 
 }

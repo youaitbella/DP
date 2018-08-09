@@ -10,7 +10,7 @@
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/Input">
 
     <ui:define name="editContent">
-        <h2>Emailversand</h2>
+        <h2>Weitere E-Mail-Adressen welche Zertifizierungsbenachrichtigungen erhalten sollen</h2>
 
         <h:form id="frmEmailSending">
 
@@ -33,7 +33,7 @@
                                 </pf:commandLink>
                             </div>
                         </pf:column>
-                        <pf:column headerText="CC-Mail">
+                        <pf:column headerText="E-Mail">
                             <inek:InputTextValidator value="#{item.email}"
                                                      validatorFunction="#{certGrouperCc.checkEmail}"
                                                      validatorMessage="Bitte eine gültige E-Mail eingeben"/>
