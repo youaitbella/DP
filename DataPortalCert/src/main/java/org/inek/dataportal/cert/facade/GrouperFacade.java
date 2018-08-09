@@ -84,6 +84,14 @@ public class GrouperFacade extends AbstractDataAccess {
         super.remove(ae);
     }
 
+    public AdditionalEmail saveAdditionalEmailCc(AdditionalEmail ae) {
+        if (ae.getId() == null) {
+            persist(ae);
+            return ae;
+        }
+        return merge(ae);
+    }
+
     public List<Grouper> getGrouperWithoutWebsideRealease() {
         String query = "SELECT g FROM Grouper g JOIN RemunerationSystem s on g._system._id = s._id WHERE "
                 + "g._certStatus = 90 AND g._websiteRelease IS NULL AND s._active = 1";

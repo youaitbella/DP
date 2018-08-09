@@ -19,7 +19,6 @@ import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.apache.poi.util.IOUtils;
-import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.cert.entities.RemunerationSystem;
 import org.inek.dataportal.cert.entities.Grouper;
@@ -56,8 +55,6 @@ public class CertManager implements Serializable {
     private SystemFacade _systemFacade;
     @Inject
     private GrouperFacade _grouperFacade;
-    @Inject
-    private SessionController _sessionController;
     @Inject
     private DialogController _dialogController;
 

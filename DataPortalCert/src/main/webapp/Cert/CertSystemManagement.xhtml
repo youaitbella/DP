@@ -14,10 +14,6 @@
     <ui:define name="editContent" >
         <h:form id="form">
 
-            <a href="http://vservices01:8080/CertificationService"
-               target="_blank"
-               class="bigButton">Prüfdienst</a><br/><br/>
-
             <h:outputLabel for="mnuSystem" value="#{msg.lblSystem}:" styleClass="label15"/>
             <h:selectOneMenu id="mnuSystem" styleClass="input"  value="#{certManager.systemId}" immediate="true">
                 <f:selectItems value="#{certManager.systems}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
@@ -147,15 +143,7 @@
 
                 <br/>
 
-                <h2>#{msg.lblAssignedManufactorers}</h2>
-                <div onclick="changeDialogColor('delete');">
-                    <pf:commandLink styleClass="bigButton" value="#{msg.btnReset}"
-                                    immediate="true"
-                                    action="#{certManager.resetSystem}">
-                        <pf:confirm header="Sicher zurücksetzen?"
-                                    message="Wollem Sie wirklich das System zurücksetzen? Hiermit werden alle Grouper auf den Anfangsstatus zurückgesetzt" />
-                    </pf:commandLink>
-                </div>
+                <h2>Grouperhersteller</h2>
 
                 <pf:dataTable id="tableManufactorers"
                               emptyMessage="Keine Einträge vorhanden"
@@ -234,15 +222,26 @@
                 <hr/>
             </div>
 
-            <h:commandLink styleClass="bigButton" value="Übersicht" action="#{certManager.ExportCertGrouper}">
-            </h:commandLink>
-            <h:commandLink styleClass="bigButton" value="System #{msg.btnDelete}" action="#{certManager.deleteSystem}">
-                <cb:confirmDelete/>
-            </h:commandLink>
-            <h:commandLink styleClass="bigButton" value="#{msg.btnSave}"
-                           id="btnSystemSave"
-                           disabled="#{certManager.system == null}"
-                           action="#{certManager.saveSystem}"/>
+            <div onclick="changeDialogColor('delete');" style="float: left;">
+                <h:commandLink styleClass="bigButton" value="Übersicht" action="#{certManager.ExportCertGrouper}">
+                </h:commandLink>
+                <h:commandLink styleClass="bigButton" value="System #{msg.btnDelete}" action="#{certManager.deleteSystem}">
+                    <cb:confirmDelete/>
+                </h:commandLink>
+                <pf:commandLink styleClass="bigButton" value="System zurücksetzen"
+                                immediate="true"
+                                action="#{certManager.resetSystem}">
+                    <pf:confirm header="Sicher zurücksetzen?"
+                                message="Wollem Sie wirklich das System zurücksetzen? Hiermit werden alle Grouper auf den Anfangsstatus zurückgesetzt" />
+                </pf:commandLink>
+            </div>
+
+            <div style="text-align: right">
+                <h:commandLink styleClass="bigButton" value="#{msg.btnSave}"
+                               id="btnSystemSave"
+                               disabled="#{certManager.system == null}"
+                               action="#{certManager.saveSystem}"/>
+            </div>
 
         </h:form>
     </ui:define>

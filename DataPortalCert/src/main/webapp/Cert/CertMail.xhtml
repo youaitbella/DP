@@ -6,13 +6,13 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
-                >
+                xmlns:pf="http://primefaces.org/ui">
 
     <ui:define name="editContent">
         <h2>Emailversand</h2>
 
         <h:form id="frmEmailSending">
-            
+
             <div class="inputPart">
                 <h:outputLabel styleClass="label30">
                     Template:
@@ -20,11 +20,11 @@
                 <h:selectOneMenu id="selectedTemplate" styleClass="inputmedium" value="#{certMail.selectedTemplate}">
                     <f:selectItems value="#{certMail.emailTemplates}"/>
                     <f:ajax event="change" render="@all :logout:remaining"/>
-                </h:selectOneMenu> 
+                </h:selectOneMenu>
             </div>
-            
+
             <br/>
-            
+
             <div class="inputPart">
                 <h:outputLabel styleClass="label30">
                     System-Empfängerliste:
@@ -34,7 +34,7 @@
                     <f:ajax event="change" render="@all :logout:remaining" listener="#{certMail.changedSystemReceiver}" />
                 </h:selectOneMenu>
             </div>
-            
+
             <h:dataTable rendered="#{certMail.renderEmailReceiverTable()}" value="#{certMail.receiverEmails}"
                          headerClass="list-header" id="tblEmailReceiversTemplate"
                          var="er" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colValue">
@@ -65,32 +65,32 @@
                     <h:outputLabel value="#{er.ccEmails}"/>
                 </h:column>
             </h:dataTable>
-            
+
             <br />
-            
+
             <div class="inputPart">
                 <h:outputLabel styleClass="label30">
                     Anhang:
                 </h:outputLabel>
                 <h:inputText id="txtAttachment" value="#{certMail.attachement}" styleClass="inputlong">
                     <f:ajax event="blur" render="@this :logout:remaining" />
-                </h:inputText> 
+                </h:inputText>
             </div>
-            
+
             <br />
-            
+
             <div class="inputPart" style="text-align: center; width:99%;">
                 <h:message for="btnPreview" styleClass="errorMessage" style="border: red solid thin; padding: 3px"/>
             </div>
-            
+
             <div class="inputPart" style="float: right;">
                 <h:commandLink id="btnPreview" styleClass="bigButton" value="Email-Vorschau" action="#{certMail.showPreview}" binding="#{certMail.previewButton}"/>
             </div>
             <div style="clear: both;"/>
         </h:form>
-        
+
         <br />
-        
+
         <h:panelGroup id="pnlEmailPreview" rendered="#{certMail.previewEnabled()}">
             <h2>
                 Email-Vorschau
@@ -103,17 +103,17 @@
                         <f:ajax event="change" render="@form :logout:remaining" listener="#{certMail.changedPreviewReceiver}"/>
                     </h:selectOneMenu>
                 </div>
-                
+
                 <div class="inputPart">
                     <h:outputLabel styleClass="label15" value="Betreff:" />
                     <h:inputText styleClass="inputlong" id="previewSubject" value="#{certMail.previewSubject}" readonly="true"/>
                 </div>
-                
+
                 <div class="inputPart">
                     <h:outputLabel styleClass="label15" value="Inhalt:" />
                     <h:inputTextarea styleClass="areaHuge" id="previewBody" value="#{certMail.previewBody}" readonly="true"/>
                 </div>
-                
+
                 <h:panelGroup rendered="#{certMail.renderAttachementText()}" style="float: left;">
                     <h:outputLabel id="lblAttachement" style="color: darkgreen; font-weight: bolder; font-size: 10pt;">
                         #{certMail.attachement}
@@ -121,7 +121,7 @@
                 </h:panelGroup>
             </h:form>
             <br style="clear: both;"/>
-            
+
             <h:dataTable rendered="#{certMail.renderEmailSentSuccessTable()}" value="#{certMail.emailSentSuccess}" headerClass="list-header" id="tblEmailSentSuccess"
                          var="ess" width="100%" rowClasses="row1, row2" columnClasses="colValue, colValue, colValue">
                 <h:column id="colMailAddress" >
@@ -143,10 +143,26 @@
                     <h:outputLabel value="#{ess.result}"/>
                 </h:column>
             </h:dataTable>
-            
+
             <h:form id="frmSendMails">
                 <div class="inputPart" style="float: right;">
+
+                    <h:panelGrid columns="2" cellpadding="5">
+                        <pf:outputLabel for="@next" value="Neues Freigabe Datum setzen: " />
+                        <pf:selectBooleanCheckbox value="#{certMail.setNewValidUntilDates}">
+                            <pf:ajax />
+                        </pf:selectBooleanCheckbox>
+                        <pf:calendar value="#{certMail.selectedValidUntilDate}"
+                                     pattern="dd.MM.yyyy"
+                                     inputStyle="text-align: right;">
+                            <pf:ajax />
+                        </pf:calendar>
+                    </h:panelGrid>
+
+                    <br />
+
                     <h:commandLink id="btnSendMails" styleClass="bigButton" value="Emails abschicken" action="#{certMail.sendMails()}"/>
+
                 </div>
             </h:form>
             <div style="clear: both;" />

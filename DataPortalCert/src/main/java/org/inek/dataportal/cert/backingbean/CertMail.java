@@ -2,6 +2,8 @@ package org.inek.dataportal.cert.backingbean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -49,7 +51,25 @@ public class CertMail implements Serializable {
     private String _attachement = "";
     private UIComponent _previewButton;
     private final List<EmailSentInfo> _emailSentInfoDataTable = new ArrayList<>();
+    private Date _selectedValidUntilDate;
+    private Boolean _setNewValidUntilDates = false;
     //</editor-fold>
+
+    public Date getSelectedValidUntilDate() {
+        return _selectedValidUntilDate;
+    }
+
+    public void setSelectedValidUntilDate(Date selectedValidUntilDate) {
+        this._selectedValidUntilDate = selectedValidUntilDate;
+    }
+
+    public Boolean getSetNewValidUntilDates() {
+        return _setNewValidUntilDates;
+    }
+
+    public void setSetNewValidUntilDates(Boolean setNewValidUntilDates) {
+        this._setNewValidUntilDates = setNewValidUntilDates;
+    }
 
     //<editor-fold defaultstate="collapsed" desc="Email receiver lists - fields.">
     private String _selectedTemplate = "";
@@ -192,6 +212,11 @@ public class CertMail implements Serializable {
                 .getAccount()
                 .getId();
         buildPreviewEmail();
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+        cal.add(Calendar.DATE, 28);
+        setSelectedValidUntilDate(cal.getTime());
         return "";
     }
 
@@ -354,6 +379,12 @@ public class CertMail implements Serializable {
                                 a.getCcEmails(), mt.getBcc(), subject, body, _attachement)) {
                             throw new Exception("Fehler bei Mailversand!");
                         }
+
+                        if (_setNewValidUntilDates) {
+                            a.getGrouper().setApprovedUntil(_selectedValidUntilDate);
+                            _grouperFacade.merge(a.getGrouper());
+                        }
+
                         _emailSentInfoDataTable.add(new EmailSentInfo(a.getGrouper().getAccount().getEmail(), mt.getBcc(), "Erfolgreich"));
                     } catch (Exception ex) {
                         _emailSentInfoDataTable
