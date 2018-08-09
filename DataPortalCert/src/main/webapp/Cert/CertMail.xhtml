@@ -145,24 +145,19 @@
             </h:dataTable>
 
             <h:form id="frmSendMails">
+                <h:panelGrid columns="3" cellpadding="10">
+                    <pf:outputLabel for="@next" value="Neues Freigabe Datum setzen: " />
+                    <pf:selectBooleanCheckbox value="#{certMail.setNewValidUntilDates}">
+                        <pf:ajax />
+                    </pf:selectBooleanCheckbox>
+                    <pf:calendar value="#{certMail.selectedValidUntilDate}"
+                                 pattern="dd.MM.yyyy"
+                                 inputStyle="text-align: right;">
+                        <pf:ajax />
+                    </pf:calendar>
+                </h:panelGrid>
                 <div class="inputPart" style="float: right;">
-
-                    <h:panelGrid columns="2" cellpadding="5">
-                        <pf:outputLabel for="@next" value="Neues Freigabe Datum setzen: " />
-                        <pf:selectBooleanCheckbox value="#{certMail.setNewValidUntilDates}">
-                            <pf:ajax />
-                        </pf:selectBooleanCheckbox>
-                        <pf:calendar value="#{certMail.selectedValidUntilDate}"
-                                     pattern="dd.MM.yyyy"
-                                     inputStyle="text-align: right;">
-                            <pf:ajax />
-                        </pf:calendar>
-                    </h:panelGrid>
-
-                    <br />
-
                     <h:commandLink id="btnSendMails" styleClass="bigButton" value="Emails abschicken" action="#{certMail.sendMails()}"/>
-
                 </div>
             </h:form>
             <div style="clear: both;" />
