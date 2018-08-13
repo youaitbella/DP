@@ -21,7 +21,7 @@
             <artifactId>DataPortalAPI</artifactId>
             <version>${project.version}</version>
         </dependency>
-        
+
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>DataPortalCommon</artifactId>
@@ -75,6 +75,15 @@
             <artifactId>jackson-databind</artifactId>
             <type>jar</type>
         </dependency>
+        <dependency>
+            <groupId>org.primefaces</groupId>
+            <artifactId>primefaces</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.primefaces.themes</groupId>
+            <artifactId>all-themes</artifactId>
+        </dependency>
+
 
     </dependencies>
 

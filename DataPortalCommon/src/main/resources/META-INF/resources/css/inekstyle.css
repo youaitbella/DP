@@ -121,12 +121,14 @@
 
 /* Tables */
 
+.inekTablePaginatorPsy div,
 .inekTablePsy th,
 .inekTablePsy tfoot td{
     background-image: none !important;
     background-color: #e2f5d5 !important
 }
 
+.inekTablePaginatorDrg div,
 .inekTableDrg th,
 .inekTableDrg tfoot td{
     background-image: none !important;

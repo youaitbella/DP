@@ -19,8 +19,6 @@ import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.common.specificfunction.entity.CenterName;
 import org.inek.dataportal.common.specificfunction.entity.RelatedName;
-import org.inek.dataportal.common.specificfunction.entity.RequestAgreedCenter;
-import org.inek.dataportal.common.specificfunction.entity.RequestProjectedCenter;
 import org.inek.dataportal.common.specificfunction.entity.SpecificFunction;
 import org.inek.dataportal.common.specificfunction.entity.SpecificFunctionRequest;
 import org.inek.dataportal.common.specificfunction.entity.TypeExtraCharge;
@@ -135,7 +133,8 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
         String jpql = "select s._dataYear from SpecificFunctionRequest s where s._accountId in :accountIds and s._statusId >= 10";
         Query query = getEntityManager().createQuery(jpql);
         query.setParameter(ACCOUNT_IDS, accountIds);
-        @SuppressWarnings("unchecked") HashSet<Integer> result = new HashSet<>(query.getResultList());
+        @SuppressWarnings("unchecked")
+        HashSet<Integer> result = new HashSet<>(query.getResultList());
         return result;
     }
 
@@ -163,7 +162,6 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
 //                merge(item);
 //            }
 //        }
-
         return merge(request);
     }
 
@@ -184,7 +182,8 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
                 + "     and cciaReportTypeId in (1, 3) \n"
                 + "     and rmDataYear = " + Utils.getTargetYear(Feature.SPECIFIC_FUNCTION);
         Query query = getEntityManager().createNativeQuery(sql, Account.class);
-        @SuppressWarnings("unchecked") List<Account> result = query.getResultList();
+        @SuppressWarnings("unchecked")
+        List<Account> result = query.getResultList();
         return result;
     }
 
@@ -194,7 +193,7 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
         String sql = "select RequestMaster.* from spf.RequestMaster "
                 + (sqlFilter.length() > 0 ? " join CallCenterDB.dbo.ccCustomer on rmik=cuIK " : "")
                 + "where rmStatusId in (3, 10)"
-                + (year > 2000 ? " and rmDataYear = " + year : "") ;
+                + (year > 2000 ? " and rmDataYear = " + year : "");
         if (sqlFilter.length() > 0) {
             sql = sql + "\n"
                     + "    and (cast (rmIk as varchar) = " + sqlFilter
@@ -207,10 +206,9 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
         return result;
     }
 
-    public List<SpecificFunctionRequest> getSpecificFunctionsForInekAndYear(int year) {
-        String jpql = "select spf from SpecificFunctionRequest spf where spf._statusId in (3, 10) and spf._dataYear = :year";
+    public List<SpecificFunctionRequest> getSpecificFunctionsForInek() {
+        String jpql = "select spf from SpecificFunctionRequest spf where spf._statusId in (3, 10)";
         TypedQuery<SpecificFunctionRequest> query = getEntityManager().createQuery(jpql, SpecificFunctionRequest.class);
-        query.setParameter(YEAR, year);
         List<SpecificFunctionRequest> result = query.getResultList();
         return result;
     }

@@ -26,14 +26,17 @@ import org.inek.dataportal.api.enums.PortalType;
 import org.inek.dataportal.common.enums.Stage;
 import org.inek.dataportal.common.helper.EnvironmentInfo;
 
-@Named @ApplicationScoped
+@Named
+@ApplicationScoped
 public class ApplicationTools {
 
     private Properties _properties;
 
     private static final Logger LOGGER = Logger.getLogger("ApplicationTools");
-    @Inject private ConfigFacade _config;
-    @Inject private InfoDataFacade _info;
+    @Inject
+    private ConfigFacade _config;
+    @Inject
+    private InfoDataFacade _info;
 
     @PostConstruct
     private void init() {
@@ -123,7 +126,8 @@ public class ApplicationTools {
         return _config.readPortalAddress(portalType, stage);
     }
 
-    @Inject private CustomerFacade _customerFacade;
+    @Inject
+    private CustomerFacade _customerFacade;
     private final Map<Integer, String> _hospitalInfo = new ConcurrentHashMap<>();
 
     public String retrieveHospitalInfo(int ik) {
@@ -139,7 +143,23 @@ public class ApplicationTools {
         return info;
     }
 
-    public void cleanHospitalInfoCache(){
+    public String retrieveHospitalName(int ik) {
+        Customer c = _customerFacade.getCustomerByIK(ik);
+        if (c == null || c.getName() == null) {
+            return "";
+        }
+        return c.getName();
+    }
+
+    public String retrieveHospitalTown(int ik) {
+        Customer c = _customerFacade.getCustomerByIK(ik);
+        if (c == null || c.getTown() == null) {
+            return "";
+        }
+        return c.getTown();
+    }
+
+    public void cleanHospitalInfoCache() {
         _hospitalInfo.clear();
     }
 }

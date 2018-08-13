@@ -9,7 +9,7 @@
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
                 xmlns:jsf="http://xmlns.jcp.org/jsf"
                 xmlns:spf="http://xmlns.jcp.org/jsf/composite/components/feature/specificfunction"
-                >
+                xmlns:pf="http://primefaces.org/ui">
 
     <ui:define name="content">
         #{specificFunctionRequestTreeHandler.refreshNodes()}
@@ -96,30 +96,65 @@
                 </div>
             </ui:repeat>
 
-            <div jsf:rendered="#{sessionController.isInekUser('SPECIFIC_FUNCTION')}">
+            <pf:panel class="inekPanel" rendered="#{sessionController.isInekUser('SPECIFIC_FUNCTION')}">
                 <h2>An das InEK gesendete Besondere Aufgaben / Zentrum</h2>
 
-                <div class="inputPart">
-                    <h:outputLabel for="txtYear" styleClass="label marginRight" value="#{msg.lblYearBudget}"/>
-                    <h:inputText id="txtYear" styleClass="inputshort marginRight" value="#{inekSpfTreeHandler.year}">
-                        <f:ajax/>
-                    </h:inputText>
-                    <h:outputLabel for="txtFilter" styleClass="label marginRight" value="#{msg.lblFilter}"/>
-                    <h:inputText id="txtFilter" styleClass="inputmedium marginRight" value="#{inekSpfTreeHandler.filter}">
-                        <f:ajax/>
-                    </h:inputText>
-                    <h:commandLink styleClass="button" value="#{msg.btnRefreshList}">
-                        <f:ajax render="@form :logout:remaining"/>
-                    </h:commandLink>
-                </div>
+                <pf:dataTable value="#{specificFunctionSummary.inekSpecificFunctions}"
+                              var="specificRequestItem"
+                              widgetVar="specificRequestItemInek"
+                              emptyMessage="Keine Einträge vorhanden"
+                              sortBy="#{specificRequestItem.year}"
+                              expandableRowGroups="true"
+                              rows="50"
+                              paginator="true"
+                              rowsPerPageTemplate="15,25,50,100"
+                              tableStyleClass="inekTableDrg"
+                              tableStyle="table-layout: auto;"
+                              styleClass="inekTablePaginatorDrg">
+                    <pf:column>
+                        <h:link outcome="#{specificFunctionRequestList.edit()}">
+                            <f:param name="id" value="#{specificRequestItem.id}"/>
+                            <h:graphicImage alt="Status" name="Icon/small/#{specificRequestItem.status.icon}"
+                                            title="#{specificRequestItem.status.description}" value=""/>
+                        </h:link>
+                    </pf:column>
 
-                <div style="margin-left:16px; padding-bottom: 1em;">
-                    <spf:RequestNode parentNode="#{inekSpfTreeHandler.rootNode}"
-                                     showDelete="false" showSelectBox="false"
-                                     rendered="#{inekSpfTreeHandler.rootNode.children.size() gt 0}"/>
-                </div>
-            </div>
+                    <pf:column headerText="Jahr" sortBy="#{specificRequestItem.year}" filterBy="#{specificRequestItem.year}" filterMatchMode="contains" >
+                        #{specificRequestItem.year}
+                    </pf:column>
 
+                    <pf:column headerText="IK" sortBy="#{specificRequestItem.ik}" filterBy="#{specificRequestItem.ik}" filterMatchMode="contains" >
+                        #{specificRequestItem.ik}
+                    </pf:column>
+
+                    <pf:column headerText="Name" sortBy="#{specificRequestItem.hospitalName}" filterBy="#{specificRequestItem.hospitalName}" filterMatchMode="contains">
+                        #{specificRequestItem.hospitalName}
+                    </pf:column>
+
+                    <pf:column headerText="Ort" sortBy="#{specificRequestItem.town}" filterBy="#{specificRequestItem.town}" filterMatchMode="contains">
+                        #{specificRequestItem.town}
+                    </pf:column>
+
+                    <pf:column headerText="Gesendet am" sortBy="#{specificRequestItem.sendDate}">
+                        <h:outputText value="#{specificRequestItem.sendDate}" >
+                            <f:convertDateTime pattern="dd.MM.yyyy" />
+                        </h:outputText>
+                    </pf:column>
+
+                    <pf:column headerText="VK" sortBy="#{specificRequestItem.code}" filterBy="#{specificRequestItem.code}" filterMatchMode="contains">
+                        #{specificRequestItem.code}
+                    </pf:column>
+
+                    <pf:column style="width:32px;text-align: center">
+                        <h:link outcome="#{specificFunctionRequestList.edit()}">
+                            <f:param name="id" value="#{specificRequestItem.id}"/>
+                            <i class="fa fa-search fa-lg" />
+                        </h:link>
+                    </pf:column>
+
+                </pf:dataTable>
+
+            </pf:panel>
 
         </h:form>
     </ui:define>

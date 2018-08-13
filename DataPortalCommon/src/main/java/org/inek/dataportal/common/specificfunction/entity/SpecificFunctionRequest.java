@@ -137,7 +137,7 @@ public class SpecificFunctionRequest implements Serializable, StatusEntity {
         this._sealed = sealed;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property StatusId">
     @Column(name = "rmStatusId")
     private int _statusId;
@@ -164,7 +164,7 @@ public class SpecificFunctionRequest implements Serializable, StatusEntity {
 
     // <editor-fold defaultstate="collapsed" desc="Property Gender">
     @Column(name = "rmGender")
-    
+
     @Documentation(key = "lblSalutation", omitOnValues = "0", translateValue = "1=salutationFemale;2=salutationMale")
     private int _gender = 0;
 
@@ -322,7 +322,7 @@ public class SpecificFunctionRequest implements Serializable, StatusEntity {
         _noteInek = noteInek;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public int hashCode() {
