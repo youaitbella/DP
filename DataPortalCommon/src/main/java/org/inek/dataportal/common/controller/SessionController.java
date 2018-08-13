@@ -703,7 +703,7 @@ public class SessionController implements Serializable {
             return "InEK-Datenportal.pdf";
         }
         if (_account.getEmail().toLowerCase().endsWith("@inek-drg.de")) {
-            return "InEK-DatenportalIntern.pdf";
+            return "intern/InEK-DatenportalIntern.pdf";
         }
         if (_account.getFeatures().stream().anyMatch(f -> f.getFeature() == Feature.CERT)) {
             return "InEK-DatenportalZerti.pdf";
