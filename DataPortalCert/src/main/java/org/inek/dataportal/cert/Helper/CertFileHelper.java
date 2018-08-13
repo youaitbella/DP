@@ -68,8 +68,11 @@ public final class CertFileHelper {
     }
 
     public static String getExtension(String name) {
-        String[] split = name.split("\\.");
-        return split[split.length - 1];
+        if (name.contains(".") && !name.endsWith(".")) {
+            String[] split = name.split("\\.");
+            return split[split.length - 1];
+        }
+        return "";
     }
 
     public static File getCertFile(RemunerationSystem system, String folder, String fileNameBase, String extension) {

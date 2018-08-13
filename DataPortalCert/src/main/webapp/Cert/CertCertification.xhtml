@@ -56,14 +56,16 @@
                               styleClass="inekPanelGrid">
                     <pf:commandButton styleClass="btnDownload"
                                       ajax="false"
-                                      value="#{msg.btnDownloadSpec}" >
+                                      value="#{msg.btnDownloadSpec}"
+                                      immediate="true">
                         <pf:fileDownload value="#{certCertification.downloadSpec()}" />
                     </pf:commandButton>
                     <h:outputLabel value="#{editCert.getSpecFileName(certCertification.grouper.system.id)}"/>
 
                     <pf:commandButton styleClass="btnDownload"
                                       ajax="false"
-                                      value="#{msg.btnDownloadTest}">
+                                      value="#{msg.btnDownloadTest}"
+                                      immediate="true">
                         <pf:fileDownload value="#{certCertification.downloadTest()}" />
                     </pf:commandButton>
                     <h:outputLabel value="#{editCert.getTestFileName(certCertification.grouper.system.id)}"/>
@@ -71,7 +73,8 @@
                     <pf:commandButton styleClass="btnDownload"
                                       ajax="false"
                                       value="#{msg.btnDownloadCert}"
-                                      rendered="#{certCertification.grouper.certStatus.status ge 20}">
+                                      rendered="#{certCertification.grouper.certStatus.status ge 20}"
+                                      immediate="true">
                         <pf:fileDownload value="#{certCertification.downloadCert()}" />
                     </pf:commandButton>
                     <h:outputLabel value="#{editCert.getCertFileName(certCertification.grouper.system.id)}"

@@ -28,9 +28,9 @@ import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.cert.enums.CertStatus;
 import org.inek.dataportal.cert.Helper.CertFileHelper;
 import org.inek.dataportal.common.controller.DialogController;
+import org.inek.dataportal.common.controller.ReportController;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.data.account.facade.AccountFacade;
-import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.common.enums.RemunSystem;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.scope.FeatureScoped;
@@ -49,13 +49,13 @@ public class CertManager implements Serializable {
     private static final Logger LOGGER = Logger.getLogger("CertManager");
 
     @Inject
-    private ConfigFacade _config;
-    @Inject
     private SystemFacade _systemFacade;
     @Inject
     private GrouperFacade _grouperFacade;
     @Inject
     private DialogController _dialogController;
+    @Inject
+    private ReportController _reportController;
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     public List<SelectItem> getSystems() {
@@ -307,7 +307,7 @@ public class CertManager implements Serializable {
     }
 
     public void ExportCertGrouper() {
-        //_reportController.createSingleDocument("CertGrouperAkt.xlsx", _system.getId());
+        _reportController.createSingleDocument("CertGrouperAkt.xlsx", _system.getId());
     }
 
     public List getRemunerationDomains() {
