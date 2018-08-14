@@ -108,7 +108,7 @@ public class CertManager implements Serializable {
         }
     }
 
-    private boolean _active = true;
+    private boolean _active = false;
 
     public boolean isActive() {
         return _active;
@@ -145,6 +145,7 @@ public class CertManager implements Serializable {
     public String saveSystem() {
         try {
             _system = _systemFacade.save(_system);
+            setSystemId(_system.getId());
             _dialogController.showSaveDialog();
         } catch (Exception ex) {
             _dialogController.showErrorDialog("Fehler beim speichern", "Fehler beim Speichern. Bitte versuchen Sie es erneut");
