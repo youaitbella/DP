@@ -55,6 +55,7 @@ public class SpecificFunctionSummary implements Serializable {
             item.setTown(_applicationTools.retrieveHospitalTown(req.getIk()));
             item.setSendDate(req.getSealed());
             item.setCode(req.getCode());
+            item.generateLfdNumber();
             _inekSpecificFunctions.add(item);
         }
     }
@@ -69,6 +70,7 @@ public class SpecificFunctionSummary implements Serializable {
         private String _town;
         private Date _sendDate;
         private String _code;
+        private String _lfdNumber;
 
         public int getId() {
             return _id;
@@ -134,5 +136,18 @@ public class SpecificFunctionSummary implements Serializable {
             this._code = code;
         }
 
+        public String getLfdNumber() {
+            return _lfdNumber;
+        }
+
+        public void setLfdNumber(String lfdNumber) {
+            this._lfdNumber = lfdNumber;
+        }
+
+        public void generateLfdNumber() {
+            if (!_code.isEmpty()) {
+                setLfdNumber(_code.substring(_code.length() - 3, _code.length()));
+            }
+        }
     }
 }

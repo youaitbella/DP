@@ -105,9 +105,9 @@
                               emptyMessage="Keine Einträge vorhanden"
                               sortBy="#{specificRequestItem.year}"
                               expandableRowGroups="true"
-                              rows="50"
+                              rows="300"
                               paginator="true"
-                              rowsPerPageTemplate="15,25,50,100"
+                              rowsPerPageTemplate="25,50,100,300,500"
                               tableStyleClass="inekTableDrg"
                               tableStyle="table-layout: auto;"
                               styleClass="inekTablePaginatorDrg">
@@ -119,43 +119,59 @@
                         </h:link>
                     </pf:column>
 
-                    <pf:column headerText="Jahr" sortBy="#{specificRequestItem.year}" filterBy="#{specificRequestItem.year}" filterMatchMode="contains" >
-                        #{specificRequestItem.year}
+                    <pf:column headerText="Lfd-Nr" sortBy="#{specificRequestItem.lfdNumber}" filterBy="#{specificRequestItem.lfdNumber}" filterMatchMode="contains">
+                        <h:link outcome="#{specificFunctionRequestList.edit()}">
+                            <f:param name="id" value="#{specificRequestItem.id}"/>
+                            #{specificRequestItem.lfdNumber}
+                        </h:link>
                     </pf:column>
 
                     <pf:column headerText="IK" sortBy="#{specificRequestItem.ik}" filterBy="#{specificRequestItem.ik}" filterMatchMode="contains" >
-                        #{specificRequestItem.ik}
+                        <h:link outcome="#{specificFunctionRequestList.edit()}">
+                            <f:param name="id" value="#{specificRequestItem.id}"/>
+                            #{specificRequestItem.ik}
+                        </h:link>
                     </pf:column>
 
                     <pf:column headerText="Name" sortBy="#{specificRequestItem.hospitalName}" filterBy="#{specificRequestItem.hospitalName}" filterMatchMode="contains">
-                        #{specificRequestItem.hospitalName}
+                        <h:link outcome="#{specificFunctionRequestList.edit()}">
+                            <f:param name="id" value="#{specificRequestItem.id}"/>
+                            #{specificRequestItem.hospitalName}
+                        </h:link>
                     </pf:column>
 
                     <pf:column headerText="Ort" sortBy="#{specificRequestItem.town}" filterBy="#{specificRequestItem.town}" filterMatchMode="contains">
-                        #{specificRequestItem.town}
+                        <h:link outcome="#{specificFunctionRequestList.edit()}">
+                            <f:param name="id" value="#{specificRequestItem.id}"/>
+                            #{specificRequestItem.town}
+                        </h:link>
+                    </pf:column>
+
+                    <pf:column headerText="Jahr" sortBy="#{specificRequestItem.year}" filterBy="#{specificRequestItem.year}" filterMatchMode="contains" >
+                        <h:link outcome="#{specificFunctionRequestList.edit()}">
+                            <f:param name="id" value="#{specificRequestItem.id}"/>
+                            #{specificRequestItem.year}
+                        </h:link>
                     </pf:column>
 
                     <pf:column headerText="Gesendet am" sortBy="#{specificRequestItem.sendDate}">
-                        <h:outputText value="#{specificRequestItem.sendDate}" >
-                            <f:convertDateTime pattern="dd.MM.yyyy" />
-                        </h:outputText>
+                        <h:link outcome="#{specificFunctionRequestList.edit()}">
+                            <f:param name="id" value="#{specificRequestItem.id}"/>
+                            <h:outputText value="#{specificRequestItem.sendDate}" >
+                                <f:convertDateTime pattern="dd.MM.yyyy" />
+                            </h:outputText>
+                        </h:link>
                     </pf:column>
 
                     <pf:column headerText="VK" sortBy="#{specificRequestItem.code}" filterBy="#{specificRequestItem.code}" filterMatchMode="contains">
-                        #{specificRequestItem.code}
-                    </pf:column>
-
-                    <pf:column style="width:32px;text-align: center">
                         <h:link outcome="#{specificFunctionRequestList.edit()}">
                             <f:param name="id" value="#{specificRequestItem.id}"/>
-                            <i class="fa fa-search fa-lg" />
+                            #{specificRequestItem.code}
                         </h:link>
                     </pf:column>
 
                 </pf:dataTable>
-
             </pf:panel>
-
         </h:form>
     </ui:define>
 </ui:composition>
