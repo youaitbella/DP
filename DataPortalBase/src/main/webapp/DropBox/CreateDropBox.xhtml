@@ -18,26 +18,26 @@
             <div class="edit">
                 <ui:remove>
                     <hr/>
-                    <inek:MultiIk value="#{dropBoxCreator.ik}" 
+                    <inek:MultiIk value="#{dropBoxCreator.ik}"
                                   ikList="#{dropBoxCreator.senderIks}"
-                                  listener="#{dropBoxCreator.ikChanged}" 
+                                  listener="#{dropBoxCreator.ikChanged}"
                                   label="Absender-IK"
                                   styleClassLabel="label15"
-                                  readonly="false" 
+                                  readonly="false"
                                   isFixed="false">
                     </inek:MultiIk>
                     <br/>
                 </ui:remove>
-                
+
                 <p>
                 <h:outputLabel styleClass="label" for="description" value="#{msg.lblDescription}:"/>
                 <h:message id="msgDescription" for="description" styleClass="errorMessage"/>
                 <br/>
-                <h:inputText id="description" 
-                             value="#{dropBoxCreator.description}" 
-                             required="true" 
+                <h:inputText id="description"
+                             value="#{dropBoxCreator.description}"
+                             required="true"
                              maxlength="250"
-                             requiredMessage="#{msg.msgValueNeeded}" 
+                             requiredMessage="#{msg.msgValueNeeded}"
                              styleClass="input">
                     <f:ajax event="blur" render=":logout:remaining"/>
                 </h:inputText>
@@ -53,9 +53,10 @@
                 </p>
 
                 <h:panelGroup rendered="#{dropBoxCreator.ikRequired}" styleClass="hintWide" id="DatenDienst">
-                    Für die Krankenhaus Datenlieferung können Sie auch den <a href="http://g-drg.de/cms/Datenlieferung_gem._21_KHEntgG/InEK_DatenDienst" target="blank">InEK DatenDienst</a> zum Prüfen, Verschlüsseln und Senden nutzen.
-                    Zu einer Krankenhaus Datenlieferung gehören nicht nur die Daten gemäß $ 21 KHEntgG, sondern beispielsweise auch Erläuterungen zu Protokollen sowie Antworten auf Nachfragen, jeweils nebst allen zugehörigen Dateien.
-                    Es handelt sich um solche Dateien mit Krankenhausbezug, für welche das InEK Datenportal kein spezielles Formular zur Verfügung stellt.
+                    Als „Krankenhaus Datenlieferung“ gelten Datenlieferungen gem. §21 KHEntgG, Investitionskosten, Erläuterungen zu Protokollen,
+                    Antworten zu Nachfragen nebst zugehörigen Dateien wie z.B. Rechnungen, Dateien für Referenten usw. Sie können dafür auch den <a href="http://g-drg.de/cms/Datenlieferung_gem._21_KHEntgG/InEK_DatenDienst" target="blank">InEK DatenDienst</a> zum Prüfen,
+                    Verschlüsseln und Senden nutzen. Der InEK Daten Dienst nutzt das Dropboxverfahren im Hintergrund.
+                    Bitte nutzen Sie „Individuelle Datenlieferung für EDV“ nur nach Absprache mit der EDV des InEK!
                 </h:panelGroup>
 
                 <h:panelGroup rendered="#{!dropBoxCreator.ikRequired}" styleClass="warningWide">
