@@ -205,7 +205,6 @@ public enum Pages {
     AdminTaskInekRoles("/Admin/AdminTaskInekRoles"),
     AdminTaskRoleMapping("/Admin/AdminTaskRoleMapping"),
     AdminTaskMailTemplate("/Admin/AdminTaskMailTemplate"),
-    AdminTaskIkSupervisor("/Admin/AdminTaskIkSupervisor"),
     AdminTaskIkAdmin("/Admin/AdminTaskIkAdmin"),
     AdminTaskChangeNub("/Admin/AdminTaskChangeNub"),
     AdminTaskUploadDoc("/Admin/AdminTaskUploadDoc"),

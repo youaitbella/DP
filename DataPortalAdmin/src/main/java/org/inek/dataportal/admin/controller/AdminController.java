@@ -22,7 +22,6 @@ public class AdminController extends AbstractFeatureController {
         topics.addTopic(Utils.getMessage("tabAdminTaskInekRoles"), Pages.AdminTaskInekRoles.URL());
         topics.addTopic(Utils.getMessage("tabAdminTaskInfoText"), Pages.AdminTaskInfoText.URL());
         topics.addTopic(Utils.getMessage("tabAdminTaskMailTemplate"), Pages.AdminTaskMailTemplate.URL());
-        topics.addTopic(Utils.getMessage("tabAdminTaskIkSupervisor"), Pages.AdminTaskIkSupervisor.URL());
         topics.addTopic(Utils.getMessage("tabAdminTaskChangeNub"), Pages.AdminTaskChangeNub.URL());
         topics.addTopic(Utils.getMessage("tabAdminTaskSystemStatus"), Pages.AdminTaskSystemStatus.URL());
         topics.addTopic(Utils.getMessage("tabAdminTaskIkAdmin"), Pages.AdminTaskIkAdmin.URL());
