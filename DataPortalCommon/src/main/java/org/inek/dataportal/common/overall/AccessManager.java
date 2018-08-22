@@ -99,9 +99,6 @@ public class AccessManager implements Serializable {
                 .findAny()
                 .orElse(new CooperationRight())
                 .getCooperativeRight();
-        if (needIkSupervisor(feature, account, ik)) {
-            cooperativeRight = cooperativeRight.withoutSupervision();
-        }
         return supervisorRight.mergeRights(cooperativeRight);
     }
 
@@ -258,45 +255,7 @@ public class AccessManager implements Serializable {
                 isSupervisor())
                 .collect(Collectors.toList());
 
-        if (!needIkSupervisor(feature, account, ik)) {
-            // No ik supervisor needed. Must request approval if at least one supervisor exists
-            return coopSupervisors.size() > 0;
-        }
-
-        boolean isSelfIkSupervisor = getCooperationRights(feature, account)
-                .stream()
-                .anyMatch(r -> r.getOwnerId() == -1 && r.getIk() == ik && r.getPartnerId() == account.getId());
-
-        if (!isSelfIkSupervisor) {
-            // user is not himself ik supervisor --> needs to request approval
-            return true;
-        }
-
-        // user is ik supervisor himself
-        // he needs to request approval, if he granted supervison rights to any other ik supervisor
-        boolean hasGrantedSupervision = coopSupervisors
-                .stream()
-                .anyMatch(cr -> getCooperationRights(feature, account)
-                .stream()
-                .anyMatch(r -> r.getOwnerId() == -1 && r.getIk() == ik && r.getPartnerId() == cr.getPartnerId()));
-
-        return hasGrantedSupervision;
-    }
-
-    /**
-     * Determines, if data needs to be sealed by any ik supervisor.
-     *
-     * @param feature
-     * @param account
-     * @param ik
-     *
-     * @return
-     */
-    public boolean needIkSupervisor(Feature feature, Account account, int ik) {
-        boolean needIkSupervisor = getCooperationRights(feature, account)
-                .stream()
-                .anyMatch(r -> r.getOwnerId() == -1 && r.getIk() == ik);
-        return needIkSupervisor;
+        return coopSupervisors.size() > 0;
     }
 
     /**

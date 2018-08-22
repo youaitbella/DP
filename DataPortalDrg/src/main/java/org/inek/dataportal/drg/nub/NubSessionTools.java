@@ -100,55 +100,12 @@ public class NubSessionTools implements Serializable {
         refreshNodes();
     }
 
-    // Seal own NUB is a marker, whether a NUB may be sealed by the owner (true)
-    // or by a supervisor only (false)
-    // It is used in coopearative environment
-    private Map<Integer, Boolean> _sealOwnNub;
-
-    public Map<Integer, Boolean> getSealOwnNub() {
-        ensureSealOwnNub();
-        return _sealOwnNub;
-    }
-
-    /**
-     * clears cache of sealOwnNub e.g. to ensure update after changing rights.
-     */
-    public void clearCache() {
-        _sealOwnNub = null;
-    }
-
-    private void ensureSealOwnNub() {
-        if (_sealOwnNub != null) {
-            return;
-        }
-        _sealOwnNub = new HashMap<>();
-        Account account = _sessionController.getAccount();
-        for (int ik : account.getFullIkSet()) {
-            // allowed for own NUB if supervisor herself or no supervisor exists
-            _sealOwnNub.put(ik, _cooperationRightFacade.isIkSupervisor(Feature.NUB, ik, account.getId())
-                    || !_cooperationRightFacade.hasSupervisor(Feature.NUB, ik));
-        }
-        List<CooperationRight> rights = _cooperationRightFacade
-                .getGrantedCooperationRights(account.getId(), Feature.NUB);
-        for (CooperationRight right : rights) {
-            if (right.getCooperativeRight().equals(CooperativeRight.ReadCompletedSealSupervisor)
-                    || right.getCooperativeRight().equals(CooperativeRight.ReadWriteCompletedSealSupervisor)
-                    || right.getCooperativeRight().equals(CooperativeRight.ReadWriteSealSupervisor)) {
-                _sealOwnNub.put(right.getIk(), Boolean.FALSE);
-            }
-        }
-    }
-
     public CooperativeRight getCooperativeRight(NubRequest nubRequest) {
         return _cooperationRightFacade.getCooperativeRight(
                 nubRequest.getAccountId(),
                 _sessionController.getAccountId(),
                 Feature.NUB,
                 nubRequest.getIk());
-    }
-
-    public CooperativeRight getSupervisorRight(NubRequest nub) {
-        return _cooperationRightFacade.getIkSupervisorRight(Feature.NUB, nub.getIk(), _sessionController.getAccountId());
     }
 
     public RootNode getEditNode() {

@@ -82,7 +82,6 @@ public class EditNubRequest extends AbstractEditController {
     private NubRequest _nubRequest;
     private NubRequest _nubRequestBaseline;
     private CooperativeRight _cooperativeRight;
-    private CooperativeRight _supervisorRight;
 
     @Override
     protected void addTopics() {
@@ -165,7 +164,6 @@ public class EditNubRequest extends AbstractEditController {
             _nubRequestBaseline = newNubRequest();
             _nubRequestBaseline.setCreatedBy(_sessionController.getAccountId());
             ensureCooperativeRight(_nubRequest);
-            ensureSupervisorRight(_nubRequest);
         } else {
             _nubRequest = loadNubRequest(id);
             if (_nubRequest == null) {
@@ -203,8 +201,7 @@ public class EditNubRequest extends AbstractEditController {
             return true;
         }
         ensureCooperativeRight(nubRequest);
-        ensureSupervisorRight(nubRequest);
-        return !_cooperativeRight.equals(CooperativeRight.None) || !_supervisorRight.equals(CooperativeRight.None);
+        return !_cooperativeRight.equals(CooperativeRight.None);
     }
 
     private boolean isOwnNub(NubRequest nubRequest) {
@@ -214,12 +211,6 @@ public class EditNubRequest extends AbstractEditController {
     private void ensureCooperativeRight(NubRequest nubRequest) {
         if (_cooperativeRight == null) {
             _cooperativeRight = _nubSessionTools.getCooperativeRight(nubRequest);
-        }
-    }
-
-    private void ensureSupervisorRight(NubRequest nubRequest) {
-        if (_supervisorRight == null) {
-            _supervisorRight = _nubSessionTools.getSupervisorRight(nubRequest);
         }
     }
 

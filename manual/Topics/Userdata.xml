@@ -36,7 +36,7 @@
     <para styleclass="Normal"></para>
     <para styleclass="Heading3"><text styleclass="Heading3" translate="true">Zur Freigabe durch Partner</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Button"><text styleclass="Normal" translate="true">Haben Sie einem Kooperationspartner das Recht der Supervision eingeräumt (oder ist im Falle von NUB ein von Ihnen abweichender IK-Supervisor eingerichtet), so können Sie den Datensatz nicht mehr direkt an das InEK senden. Vielmehr markieren Sie den Datensatz </text><text styleclass="Button" translate="true">[ zur Freigabe durch Partner ]</text><text styleclass="Normal" translate="true">. Diese Schaltfläche ersetzt die Senden-Schaltfläche.</text></para>
+    <para styleclass="Button"><text styleclass="Normal" translate="true">Haben Sie einem Kooperationspartner das Recht der Supervision eingeräumt, so können Sie den Datensatz nicht mehr direkt an das InEK senden. Vielmehr markieren Sie den Datensatz </text><text styleclass="Button" translate="true">[ zur Freigabe durch Partner ]</text><text styleclass="Normal" translate="true">. Diese Schaltfläche ersetzt die Senden-Schaltfläche.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Image Caption"><image src="ApprovalButton.png" scale="100.00%" styleclass="Image Caption"></image></para>
     <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Freigabe durch Partner</text></para>

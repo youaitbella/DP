@@ -181,9 +181,6 @@
       <topicref type="topic" id="422485472934299" build="ALL" modified="2015-09-01T16:52:59.083Z" icon="0" href="Korrektur-NUB-Anfrage">
         <caption translate="true">Korrektur NUB-Anfrage</caption>
       </topicref>
-      <topicref type="topic" id="415475298526563" build="ALL" modified="2013-09-30T10:10:10.031Z" icon="0" href="IKSupervisor">
-        <caption translate="true">IK-Supervisor</caption>
-      </topicref>
       <topicref type="topic" id="426153048001155" build="ALL" modified="2016-09-02T10:17:27.546Z" icon="0" href="TransferNUB">
         <caption translate="true">NUB-Anfragen übertragen</caption>
       </topicref>

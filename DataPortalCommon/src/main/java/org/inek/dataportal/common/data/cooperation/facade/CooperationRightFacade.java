@@ -10,7 +10,6 @@ import org.inek.dataportal.common.data.cooperation.entities.CooperationRight;
 import org.inek.dataportal.common.enums.CooperativeRight;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.data.AbstractFacade;
-import org.inek.dataportal.common.data.IkSupervisorInfo;
 
 @Stateless
 public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
@@ -119,47 +118,6 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
         return getCooperationRight(ownerId, partnerId, feature, ik == null ? -1 : ik).getCooperativeRight();
     }
 
-    public CooperativeRight getIkSupervisorRight(Feature feature, Integer ik, int accountId) {
-        return getCooperativeRight(-1, accountId, feature, ik);
-    }
-
-    
-    /**
-     * Checks, whether a declared supervisor exists for given feature and ik A
-     * declared supervisor cannot be establish herself by cooperation feature A
-     * declared supervisor will be created by system admin: ownerId = -1,
-     * partnerId = supervisor thus supervisor will be forced to be partner of
-     * all others
-     *
-     * @param feature
-     * @param ik
-     * @return
-     */
-    public boolean hasSupervisor(Feature feature, Integer ik) {
-        List<CooperationRight> cooperationRights = getIkSupervisorRights(ik, feature);
-        return cooperationRights.stream().anyMatch((cooperationRight) -> (cooperationRight.getCooperativeRight().isSupervisor()));
-    }
-
-    public List<CooperationRight> getIkSupervisorRights(Integer ik, Feature feature) {
-        if (ik == null || ik < 0) {
-            return new ArrayList<>();
-        }
-        String query = "SELECT cor FROM CooperationRight cor "
-                + "WHERE cor._ownerId = -1 "
-                + "and cor._ik = :ik "
-                + "and cor._feature = :feature";
-        List<CooperationRight> cooperationRights = getEntityManager()
-                .createQuery(query, CooperationRight.class)
-                .setParameter("ik", ik)
-                .setParameter("feature", feature)
-                .getResultList();
-        return cooperationRights;
-    }
-
-    public boolean isIkSupervisor(Feature feature, Integer ik, int accountId) {
-        return getIkSupervisorRight(feature, ik, accountId).isSupervisor();
-    }
-
     public Set<Integer> getAccountIdsByFeatureAndIk(Feature feature, int ik) {
         String jpql = "select acId from dbo.account "
                 + "join accountFeature on acId = afaccountId and afFeatureId = ?1 "
@@ -182,31 +140,6 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
             return right;
         }
         return merge(right);
-    }
-
-    public List<IkSupervisorInfo> getIkSupervisorInfos() {
-        String jpql = "SELECT r._feature, r._ik, a, r._cooperativeRight FROM CooperationRight r JOIN Account a "
-                + "WHERE r._partnerId = a._id and r._ownerId = -1 order by r._feature, r._ik, a._lastName";
-        // sadly this is not a list of the expected type, but of object[]
-        //List<IkSupervisorInfo> infos = getEntityManager().createQuery(jpql, IkSupervisorInfo.class).getResultList();
-        //return infos;
-        
-        // although the compiler tells us something else, this is whalt we get
-        List<IkSupervisorInfo> infos = new ArrayList<>();
-        @SuppressWarnings("unchecked") List<Object[]> objects = getEntityManager().createQuery(jpql).getResultList();
-        for (Object[] obj : objects){
-            IkSupervisorInfo info = new IkSupervisorInfo((Feature)obj[0], (int)obj[1], (Account)obj[2], (CooperativeRight)obj[3]);
-            infos.add(info);
-        }
-        return infos;
-    }
-
-    public void createIkSupervisor(Feature feature, int ik, Integer accountId, CooperativeRight _right) {
-        CooperationRight existingRight = getCooperationRight(-1, accountId, feature, ik);
-        if (existingRight.getId() > 0){return;}  // to prevent multiple save
-        CooperationRight right = new CooperationRight(-1, accountId, ik, feature);
-        right.setCooperativeRight(_right);
-        save(right);
     }
 
     public void deleteCooperationRight(int ownerId, int partnerId, Feature feature, int ik) {
