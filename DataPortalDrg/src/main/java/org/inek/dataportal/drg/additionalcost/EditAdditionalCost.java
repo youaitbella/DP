@@ -9,6 +9,7 @@ import org.inek.dataportal.drg.additionalcost.entity.AdditionalCost;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -256,17 +257,13 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
         // dummy listener, used by component MultiIk - do not delete
     }
 
-    public List<SelectItem> getIks() {
-        Account account = _sessionController.getAccount();
-        Set<Integer> iks = account.getFullIkSet();
-        if (_additionalCost != null && _additionalCost.getIk() > 0) {
-            iks.add(_additionalCost.getIk());
+    private Set<Integer> _iks = new HashSet<>();
+
+    public Set<Integer> getIks() {
+        if (_iks.isEmpty()) {
+            _iks = _accessManager.ObtainIksForCreation(Feature.ADDITIONAL_COST);
         }
-        List<SelectItem> items = new ArrayList<>();
-        for (int ik : iks) {
-            items.add(new SelectItem(ik));
-        }
-        return items;
+        return _iks;
     }
     // </editor-fold>
 

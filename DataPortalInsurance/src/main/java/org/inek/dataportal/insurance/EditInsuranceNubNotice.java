@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -113,11 +114,13 @@ public class EditInsuranceNubNotice extends AbstractEditController {
         _notice.setInsuranceName(_customerFacade.getCustomerByIK(_notice.getInsuranceIk()).getName());
     }
 
+    private Set<Integer> _iks = new HashSet<>();
+
     public Set<Integer> getValidIks() {
-        Set<Integer> iks = _sessionController.getAccount().getFullIkSet();
-        Set<Integer> deniedIks = _accessManager.retrieveDenyedManagedIks(Feature.INSURANCE);
-        iks.removeAll(deniedIks);
-        return iks;
+        if (_iks.isEmpty()) {
+            _iks = _accessManager.ObtainIksForCreation(Feature.INSURANCE);
+        }
+        return _iks;
     }
 
     private InsuranceNubNotice _notice;

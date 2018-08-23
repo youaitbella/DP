@@ -5,12 +5,14 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -25,7 +27,6 @@ import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.common.data.cooperation.facade.CooperationRightFacade;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
 import org.inek.dataportal.common.enums.Right;
-import org.inek.dataportal.common.data.ikadmin.facade.IkAdminFacade;
 import org.inek.dataportal.common.enums.ConfigKey;
 
 /**
@@ -52,8 +53,6 @@ public class AccessManager implements Serializable {
     @Inject
     private AccountFacade _accountFacade;
     @Inject
-    private IkAdminFacade _ikAdminFacade;
-    @Inject
     private ConfigFacade _configFacade;
 
     /**
@@ -72,7 +71,7 @@ public class AccessManager implements Serializable {
         return _cooperationRights.get(feature);
     }
 
-    private Map<Feature, List<CooperationRight>> _cooperationRights = new HashMap<>();
+    private final Map<Feature, List<CooperationRight>> _cooperationRights = new HashMap<>();
 
     /**
      * Determines and returns the achieved rights. A user might get rights from two sources: ik supervision or
@@ -102,35 +101,38 @@ public class AccessManager implements Serializable {
         return supervisorRight.mergeRights(cooperativeRight);
     }
 
-    private final Map<Feature, List<AccessRight>> _featureAccessRights = new HashMap<>();
 
-    public List<AccessRight> obtainAccessRights(Feature feature) {
-        if (!_featureAccessRights.containsKey(feature)) {
-            _featureAccessRights.put(feature,
-                    _ikAdminFacade.findAccessRightsByAccountAndFeature(_sessionController.getAccount(), feature));
-        }
-        return _featureAccessRights.get(feature);
+    private Stream<AccessRight> obtainAccessRights(Feature feature) {
+        return _sessionController
+                .getAccount()
+                .getAccessRights()
+                .stream()
+                .filter(r -> r.getFeature() == feature);
     }
 
     public Set<Integer> retrieveAllowedManagedIks(Feature feature) {
         return obtainAccessRights(feature)
-                .stream()
                 .filter(r -> r.getRight() != Right.Deny)
                 .map(r -> r.getIk())
                 .collect(Collectors.toSet());
     }
 
-    public Set<Integer> retrieveDenyedManagedIks(Feature feature) {
+    public Set<Integer> retrieveDeniedManagedIks(Feature feature) {
         return obtainAccessRights(feature)
-                .stream()
                 .filter(r -> r.getRight() == Right.Deny)
+                .map(r -> r.getIk())
+                .collect(Collectors.toSet());
+    }
+
+    public Set<Integer> retrieveDeniedForCreationIks(Feature feature) {
+        return obtainAccessRights(feature)
+                .filter(r -> !r.getRight().canCreate())
                 .map(r -> r.getIk())
                 .collect(Collectors.toSet());
     }
 
     public Set<Integer> retrieveAllManagedIks(Feature feature) {
         return obtainAccessRights(feature)
-                .stream()
                 .map(r -> r.getIk())
                 .collect(Collectors.toSet());
     }
@@ -157,10 +159,9 @@ public class AccessManager implements Serializable {
         }
 
         if (ik > 0) {
-            for (AccessRight accessRight : obtainAccessRights(feature)) {
-                if (accessRight.getIk() == ik) {
-                    return accessRight.canRead();
-                }
+            Optional<AccessRight> right = obtainAccessRights(feature).filter(r -> r.getIk() == ik).findFirst();
+            if (right.isPresent()){
+                return right.get().canRead();
             }
         }
 
@@ -190,10 +191,9 @@ public class AccessManager implements Serializable {
             return true;
         }
         if (ik > 0) {
-            for (AccessRight accessRight : obtainAccessRights(feature)) {
-                if (accessRight.getIk() == ik) {
-                    return !accessRight.canWrite();
-                }
+            Optional<AccessRight> right = obtainAccessRights(feature).filter(r -> r.getIk() == ik).findFirst();
+            if (right.isPresent()){
+                return right.get().canWrite();
             }
         }
         if (ownerId == _sessionController.getAccountId()) {
@@ -284,10 +284,9 @@ public class AccessManager implements Serializable {
             return false;
         }
         if (ik > 0) {
-            for (AccessRight accessRight : obtainAccessRights(feature)) {
-                if (accessRight.getIk() == ik) {
-                    return accessRight.canSeal();
-                }
+            Optional<AccessRight> right = obtainAccessRights(feature).filter(r -> r.getIk() == ik).findFirst();
+            if (right.isPresent()){
+                return right.get().canSeal();
             }
         }
 
@@ -323,10 +322,9 @@ public class AccessManager implements Serializable {
 
     public boolean isDeleteEnabled(Feature feature, int accountId, int ik) {
         if (ik > 0) {
-            for (AccessRight accessRight : obtainAccessRights(feature)) {
-                if (accessRight.getIk() == ik && accessRight.getAccountId() == accountId) {
-                    return accessRight.canWrite() || accessRight.canSeal();
-                }
+            Optional<AccessRight> right = obtainAccessRights(feature).filter(r -> r.getIk() == ik).findFirst();
+            if (right.isPresent()){
+                return right.get().canWrite() || right.get().canSeal();
             }
         }
         return false;
@@ -351,10 +349,9 @@ public class AccessManager implements Serializable {
             return false;
         }
         if (ik > 0) {
-            for (AccessRight accessRight : obtainAccessRights(feature)) {
-                if (accessRight.getIk() == ik) {
-                    return accessRight.canWrite() || accessRight.canSeal();
-                }
+            Optional<AccessRight> right = obtainAccessRights(feature).filter(r -> r.getIk() == ik).findFirst();
+            if (right.isPresent()){
+                return right.get().canWrite() || right.get().canSeal();
             }
         }
         Account account = _sessionController.getAccount();
@@ -559,4 +556,19 @@ public class AccessManager implements Serializable {
         }
         return sendAllowed;
     }
+
+    public Set<Integer> ObtainIksForCreation(Feature feature) {
+        Set<Integer> iks = _sessionController.getAccount().getFullIkSet();
+        Set<Integer> deniedIks = retrieveDeniedForCreationIks(feature);
+        iks.removeAll(deniedIks);
+        return iks;
+    }
+
+    public Set<Integer> ObtainAllowedIks(Feature feature) {
+        Set<Integer> iks = _sessionController.getAccount().getFullIkSet();
+        Set<Integer> deniedIks = retrieveDeniedManagedIks(feature);
+        iks.removeAll(deniedIks);
+        return iks;
+    }
+
 }

@@ -12,6 +12,7 @@ import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -124,9 +125,9 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
         request.setPhone(account.getPhone());
         request.setMail(account.getEmail());
         //request.setDataYear(Utils.getTargetYear(Feature.SPECIFIC_FUNCTION));
-        List<SelectItem> iks = getIks();
+        Set<Integer> iks = getIks();
         if (iks.size() == 1) {
-            request.setIk((int) iks.get(0).getValue());
+            request.setIk(iks.stream().findFirst().get());
         }
         return request;
     }
@@ -460,21 +461,13 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
         _availableYears = null;
     }
 
-    public List<SelectItem> getIks() {
-        Account account = _sessionController.getAccount();
-        Set<Integer> iks = account.getFullIkSet();
-        if (_request != null && _request.getIk() > 0) {
-            iks.add(_request.getIk());
+    private Set<Integer> _iks = new HashSet<>();
+
+    public Set<Integer> getIks() {
+        if (_iks.isEmpty()) {
+            _iks = _accessManager.ObtainIksForCreation(Feature.SPECIFIC_FUNCTION);
         }
-        List<SelectItem> items = new ArrayList<>();
-        Set<Integer> deniedIks = _accessManager.retrieveDenyedManagedIks(Feature.SPECIFIC_FUNCTION);
-        for (int ik : iks) {
-            if (deniedIks.contains(ik)) {
-                continue;
-            }
-            items.add(new SelectItem(ik));
-        }
-        return items;
+        return _iks;
     }
 
     public void addProjectedCenter() {

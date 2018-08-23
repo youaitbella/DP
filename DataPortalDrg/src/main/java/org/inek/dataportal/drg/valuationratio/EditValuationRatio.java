@@ -19,6 +19,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.validation.ValidationException;
+import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.overall.ApplicationTools;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
@@ -33,6 +34,7 @@ import org.inek.dataportal.common.controller.AbstractEditController;
 import org.inek.dataportal.common.data.adm.MailTemplate;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.mail.Mailer;
+import org.inek.dataportal.common.overall.AccessManager;
 
 /**
  *
@@ -55,6 +57,7 @@ public class EditValuationRatio extends AbstractEditController {
     @Inject
     private SessionController _sessionController;
     @Inject private ApplicationTools _appTools;
+    @Inject private AccessManager _accessManager;
 
     @PostConstruct
     private void init() {
@@ -198,7 +201,7 @@ public class EditValuationRatio extends AbstractEditController {
         int dataYear = _valuationRatio == null ? Calendar.getInstance().get(Calendar.YEAR) - 1 : _valuationRatio.getDataYear();
 
         List<SelectItem> items = new ArrayList<>();
-        for (int ik : _sessionController.getAccount().getFullIkSet()) {
+        for (int ik : _accessManager.ObtainIksForCreation(Feature.VALUATION_RATIO)) {
             if (!_valuationRatioFacade.existsValuationRatio(ik, dataYear)) {
                 items.add(new SelectItem(ik));
             }

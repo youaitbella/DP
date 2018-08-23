@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -119,7 +120,8 @@ public class EditNubRequest extends AbstractEditController {
     }
 
     public String getPatientsPastText() {
-        return String.format(Utils.getMessage("lblNubPatientsPast"), _nubRequest.getTargetYear() - 2, _nubRequest.getTargetYear() - 1);
+        return String.format(Utils.getMessage("lblNubPatientsPast"), _nubRequest.getTargetYear() - 2, _nubRequest.
+                getTargetYear() - 1);
     }
 
     public void changedIk() {
@@ -194,7 +196,7 @@ public class EditNubRequest extends AbstractEditController {
         if (isOwnNub(nubRequest)) {
             return true;
         }
-        if (_accessManager.retrieveDenyedManagedIks(Feature.NUB).contains(nubRequest.getIk())) {
+        if (_accessManager.retrieveDeniedManagedIks(Feature.NUB).contains(nubRequest.getIk())) {
             return false;
         }
         if (_accessManager.retrieveAllowedManagedIks(Feature.NUB).contains(nubRequest.getIk())) {
@@ -231,11 +233,13 @@ public class EditNubRequest extends AbstractEditController {
         return items;
     }
 
+    private Set<Integer> _iks = new HashSet<>();
+
     public Set<Integer> getIks() {
-        Set<Integer> iks = _sessionController.getAccount().getFullIkSet();
-        Set<Integer> deniedIks = _accessManager.retrieveDenyedManagedIks(Feature.NUB);
-        iks.removeAll(deniedIks);
-        return iks;
+        if (_iks.isEmpty()) {
+            _iks = _accessManager.ObtainIksForCreation(Feature.NUB);
+        }
+        return _iks;
     }
 
     public void checkPostalCode(FacesContext context, UIComponent component, Object value) {
@@ -418,7 +422,8 @@ public class EditNubRequest extends AbstractEditController {
         Map<String, String> documentationFields = DocumentationUtil.getFieldTranslationMap(_nubRequest);
 
         String msgKey = _nubRequest.isSealed() ? "msgNubDatasetSealed" : collisions.isEmpty() ? "msgMergeOk" : "msgMergeCollision";
-        _sessionController.logMessage("ConcurrentUpdate [" + msgKey.substring(3) + "], NUB: " + modifiedNubRequest.getId());
+        _sessionController.logMessage("ConcurrentUpdate [" + msgKey.substring(3) + "], NUB: " + modifiedNubRequest.
+                getId());
         String msg = Utils.getMessage(msgKey);
         for (String fieldName : collisions) {
             msg += "\r\n### " + documentationFields.get(fieldName) + " ###";
@@ -439,7 +444,8 @@ public class EditNubRequest extends AbstractEditController {
     }
 
     private Map<String, FieldValues> getDifferencesUser(NubRequest modifiedNubRequest, List<Class> excludedTypes) {
-        Map<String, FieldValues> differencesUser = ObjectUtils.getDifferences(_nubRequestBaseline, modifiedNubRequest, excludedTypes);
+        Map<String, FieldValues> differencesUser = ObjectUtils.
+                getDifferences(_nubRequestBaseline, modifiedNubRequest, excludedTypes);
         differencesUser.remove("_status");
         differencesUser.remove("_lastChangedBy");
         return differencesUser;
@@ -450,7 +456,8 @@ public class EditNubRequest extends AbstractEditController {
             // sealed by partner. By definition this is the new version and there are no differences
             return Collections.emptyMap();
         }
-        Map<String, FieldValues> differencesPartner = ObjectUtils.getDifferences(_nubRequestBaseline, _nubRequest, excludedTypes);
+        Map<String, FieldValues> differencesPartner = ObjectUtils.
+                getDifferences(_nubRequestBaseline, _nubRequest, excludedTypes);
         differencesPartner.remove("_status");
         differencesPartner.remove("_version");
         differencesPartner.remove("_lastChangedBy");
@@ -487,7 +494,8 @@ public class EditNubRequest extends AbstractEditController {
     }
 
     public boolean isReadOnly() {
-        return _accessManager.isReadOnly(Feature.NUB, _nubRequest.getStatus(), _nubRequest.getAccountId(), _nubRequest.getIk());
+        return _accessManager.isReadOnly(Feature.NUB, _nubRequest.getStatus(), _nubRequest.getAccountId(), _nubRequest.
+                getIk());
     }
 
     public boolean isRejectedNub() {
@@ -502,7 +510,8 @@ public class EditNubRequest extends AbstractEditController {
         if (!_appTools.isEnabled(ConfigKey.IsNubSendEnabled)) {
             return false;
         }
-        return _accessManager.isUpdateEnabled(Feature.NUB, _nubRequest.getStatus(), _nubRequest.getAccountId(), _nubRequest.getIk());
+        return _accessManager.
+                isUpdateEnabled(Feature.NUB, _nubRequest.getStatus(), _nubRequest.getAccountId(), _nubRequest.getIk());
     }
 
     public boolean isApprovalRequestEnabled() {
@@ -528,7 +537,8 @@ public class EditNubRequest extends AbstractEditController {
     }
 
     public boolean isTakeEnabled() {
-        return _accessManager.isTakeEnabled(Feature.NUB, _nubRequest.getStatus(), _nubRequest.getAccountId(), _nubRequest.getIk());
+        return _accessManager.
+                isTakeEnabled(Feature.NUB, _nubRequest.getStatus(), _nubRequest.getAccountId(), _nubRequest.getIk());
     }
 
     /**
@@ -748,7 +758,8 @@ public class EditNubRequest extends AbstractEditController {
 
     public List<NubFormerRequestMerged> getAllNubIds() {
         if (_formerRequests.isEmpty() && _nubRequest.getIk() > 0) {
-            _formerRequests = _nubRequestFacade.getExistingNubIds(_nubRequest.getIk(), _formerNubIdFilterText.replaceAll(" ", "%"), _maxYearOnly);
+            _formerRequests = _nubRequestFacade.getExistingNubIds(_nubRequest.getIk(), _formerNubIdFilterText.
+                    replaceAll(" ", "%"), _maxYearOnly);
         }
         return _formerRequests;
     }
