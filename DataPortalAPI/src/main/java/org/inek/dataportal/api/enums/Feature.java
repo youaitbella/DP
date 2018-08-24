@@ -2,10 +2,6 @@ package org.inek.dataportal.api.enums;
 
 import org.inek.dataportal.api.helper.FeatureMessageHandler;
 
-/**
- *
- * @author muellermi
- */
 public enum Feature {
 
     ADMIN(1, "Administration", NeedApproval.No, PortalType.ADMIN, IkReference.None, Selectable.No, Shareable.No),

@@ -45,15 +45,24 @@ import org.inek.dataportal.common.enums.ConfigKey;
 public class AccessManager implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger("AccessManager");
-
-    @Inject
+    
     private CooperationRightFacade _cooperationRightFacade;
-    @Inject
     private SessionController _sessionController;
-    @Inject
     private AccountFacade _accountFacade;
-    @Inject
     private ConfigFacade _configFacade;
+
+    public AccessManager(){}
+    
+    @Inject
+    public AccessManager(CooperationRightFacade cooperationRightFacade,
+            SessionController sessionController,
+            AccountFacade accountFacade,
+            ConfigFacade configFacade) {
+        _cooperationRightFacade = cooperationRightFacade;
+        _sessionController = sessionController;
+        _accountFacade = accountFacade;
+        _configFacade = configFacade;
+    }
 
     /**
      * gets the cooperation rights by delegating the first request to the service and retrieving them from a local cache

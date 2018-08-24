@@ -85,9 +85,9 @@
                                immediate="true" value="#{msg.btnNewProposal}">
                     <f:param name="id" value="new"/>
                 </h:commandLink>
-                <h:commandLink styleClass="bigButton #{applicationTools.isEnabled('IsNubCreateEnabled') ? '' : 'buttonDisabled'}"
+                <h:commandLink styleClass="bigButton #{applicationTools.isEnabled('IsNubCreateEnabled') and nubSessionTools.createAllowed ? '' : 'buttonDisabled'}"
                                action="#{nubRequestList.newNubRequestFromTemplate}"
-                               disabled="#{not applicationTools.isEnabled('IsNubCreateEnabled')}"
+                               disabled="#{not applicationTools.isEnabled('IsNubCreateEnabled') or not nubSessionTools.createAllowed}"
                                immediate="true" value="#{msg.lblNewFromTemplate}"/>
                 <h:commandLink styleClass="bigButton #{applicationTools.isEnabled('IsNubCreateEnabled') ? '' : 'buttonDisabled'}"
                                action="#{nubRequestList.gotoNubInfo}"
