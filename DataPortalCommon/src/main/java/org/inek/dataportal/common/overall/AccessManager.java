@@ -101,7 +101,6 @@ public class AccessManager implements Serializable {
         return supervisorRight.mergeRights(cooperativeRight);
     }
 
-
     private Stream<AccessRight> obtainAccessRights(Feature feature) {
         return _sessionController
                 .getAccount()
@@ -160,7 +159,7 @@ public class AccessManager implements Serializable {
 
         if (ik > 0) {
             Optional<AccessRight> right = obtainAccessRights(feature).filter(r -> r.getIk() == ik).findFirst();
-            if (right.isPresent()){
+            if (right.isPresent()) {
                 return right.get().canRead();
             }
         }
@@ -192,7 +191,7 @@ public class AccessManager implements Serializable {
         }
         if (ik > 0) {
             Optional<AccessRight> right = obtainAccessRights(feature).filter(r -> r.getIk() == ik).findFirst();
-            if (right.isPresent()){
+            if (right.isPresent()) {
                 return right.get().canWrite();
             }
         }
@@ -285,7 +284,7 @@ public class AccessManager implements Serializable {
         }
         if (ik > 0) {
             Optional<AccessRight> right = obtainAccessRights(feature).filter(r -> r.getIk() == ik).findFirst();
-            if (right.isPresent()){
+            if (right.isPresent()) {
                 return right.get().canSeal();
             }
         }
@@ -323,7 +322,7 @@ public class AccessManager implements Serializable {
     public boolean isDeleteEnabled(Feature feature, int accountId, int ik) {
         if (ik > 0) {
             Optional<AccessRight> right = obtainAccessRights(feature).filter(r -> r.getIk() == ik).findFirst();
-            if (right.isPresent()){
+            if (right.isPresent()) {
                 return right.get().canWrite() || right.get().canSeal();
             }
         }
@@ -350,7 +349,7 @@ public class AccessManager implements Serializable {
         }
         if (ik > 0) {
             Optional<AccessRight> right = obtainAccessRights(feature).filter(r -> r.getIk() == ik).findFirst();
-            if (right.isPresent()){
+            if (right.isPresent()) {
                 return right.get().canWrite() || right.get().canSeal();
             }
         }
@@ -562,6 +561,10 @@ public class AccessManager implements Serializable {
         Set<Integer> deniedIks = retrieveDeniedForCreationIks(feature);
         iks.removeAll(deniedIks);
         return iks;
+    }
+
+    public Boolean isCreateAllowed(Feature feature) {
+        return !ObtainIksForCreation(Feature.NUB).isEmpty();
     }
 
     public Set<Integer> ObtainAllowedIks(Feature feature) {

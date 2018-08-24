@@ -571,6 +571,6 @@ public class NubSessionTools implements Serializable {
     }
 
     public Boolean getCreateAllowed() {
-        return !_accessManager.ObtainIksForCreation(Feature.NUB).isEmpty();
+        return _accessManager.isCreateAllowed(Feature.NUB);
     }
 }
