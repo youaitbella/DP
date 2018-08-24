@@ -7,9 +7,8 @@ package org.inek.dataportal.admin.backingbean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -21,6 +20,7 @@ import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.admin.dao.IkAccount;
+import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.enums.Right;
 import org.inek.dataportal.common.data.account.entities.AccountFeature;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
@@ -33,23 +33,35 @@ import org.inek.dataportal.common.scope.FeatureScoped;
  * @author muellermi
  */
 @Named
-@FeatureScoped(name = "AdminTask")
+@FeatureScoped
 public class IkAdmin implements Serializable {
 
-    @Inject private SessionController _sessionController;
-    @Inject private AccountFacade _accountFacade;
-    @Inject private IkAdminFacade _ikAdminFacade;
+    @Inject
+    private SessionController _sessionController;
+    @Inject
+    private AccountFacade _accountFacade;
+    @Inject
+    private IkAdminFacade _ikAdminFacade;
+    @Inject
+    private DialogController _dialogController;
+
     private int _ik;
     private Account _account;
     private String _mailDomain;
 
-    private List<Account> _accounts = new ArrayList<>();
+    private List<IkAccount> _adminAccounts = new ArrayList<>();
 
-    public List<IkAccount> getIkAccounts() {
-        if (_accounts.isEmpty()) {
-            _accounts = _accountFacade.getIkAdminAccounts();
-        }
-        return IkAccount.createFromAccounts(_accounts);
+    public List<IkAccount> getAdminAccounts() {
+        return _adminAccounts;
+    }
+
+    public void setAdminAccounts(List<IkAccount> adminAccounts) {
+        this._adminAccounts = adminAccounts;
+    }
+
+    @PostConstruct
+    private void init() {
+        createAdminAccountList();
     }
 
     public String deleteIkAdmin(IkAccount ikAccount) {
@@ -58,7 +70,7 @@ public class IkAdmin implements Serializable {
         _sessionController.logMessage("Delete IK Admin: account=" + account.getId() + ", ik=" + ik);
         account.removeIkAdmin(ik);
         _accountFacade.merge(account);
-        _accounts.clear();  // force reload
+        createAdminAccountList();
         return "";
     }
 
@@ -114,8 +126,8 @@ public class IkAdmin implements Serializable {
             collectExistingAccess(_ik);
         }
         _accountFacade.merge(_account);
-
-        _accounts.clear();  // force reload
+        _dialogController.showSaveDialog();
+        createAdminAccountList();
         return "";
     }
     // </editor-fold>
@@ -129,7 +141,7 @@ public class IkAdmin implements Serializable {
         List<Account> accounts = _accountFacade.getAccounts4Ik(ik);
         for (Account account : accounts) {
             for (AccountFeature feature : account.getFeatures()) {
-                if (feature.getFeature().getIkReference() != IkReference.Hospital 
+                if (feature.getFeature().getIkReference() != IkReference.Hospital
                         || accessRights
                                 .stream()
                                 .anyMatch(ar -> ar.getAccountId() == account.getId() && ar.getFeature() == feature.getFeature())) {
@@ -161,4 +173,8 @@ public class IkAdmin implements Serializable {
         return _ik > 0 ? _ik : null;
     }
 
+    private void createAdminAccountList() {
+        List<Account> ikAdminAccounts = _accountFacade.getIkAdminAccounts();
+        setAdminAccounts(IkAccount.createFromAccounts(ikAdminAccounts));
+    }
 }
