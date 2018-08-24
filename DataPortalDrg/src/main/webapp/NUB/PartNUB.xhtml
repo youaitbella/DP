@@ -19,11 +19,11 @@
                                  rendered="#{nubSessionTools.accountNode.children.size() gt 0}"/>
 
             <p>
-                <h:commandLink styleClass="bigButton #{applicationTools.isEnabled('IsNubCreateEnabled') ? '' : 'buttonDisabled'}"
+                <h:commandLink styleClass="bigButton #{applicationTools.isEnabled('IsNubCreateEnabled') and nubSessionTools.createAllowed ? '' : 'buttonDisabled'}"
                                action="#{nubRequestList.newNubRequest}"
                                immediate="true"
                                value="#{msg.btnNewRequest}"
-                               disabled="#{not applicationTools.isEnabled('IsNubCreateEnabled')}">
+                               disabled="#{not applicationTools.isEnabled('IsNubCreateEnabled') or not nubSessionTools.createAllowed}">
                     <f:param name="id" value="new"/>
                 </h:commandLink>
 

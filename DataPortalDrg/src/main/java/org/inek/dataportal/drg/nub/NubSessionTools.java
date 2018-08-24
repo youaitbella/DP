@@ -570,4 +570,7 @@ public class NubSessionTools implements Serializable {
         return _accessManager.isDeleteEnabled(Feature.NUB, _sessionController.getAccountId(), ik);
     }
 
+    public Boolean getCreateAllowed() {
+        return !_accessManager.ObtainIksForCreation(Feature.NUB).isEmpty();
+    }
 }
