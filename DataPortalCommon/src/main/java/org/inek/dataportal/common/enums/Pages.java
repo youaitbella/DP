@@ -228,7 +228,6 @@ public enum Pages {
     //
     DocumentsSummary("/Documents/DocumentsSummary"),
     DocumentUploadFromInek("/Documents/UploadFromInek"),
-    DocumentUploadToInek("/Documents/UploadToInek"),
     DocumentsApproval("/Documents/Approval"),
     ListDocuments("/Documents/ListDocuments"),
     ListDocumentsInek("/Documents/ListDocumentsInek"),

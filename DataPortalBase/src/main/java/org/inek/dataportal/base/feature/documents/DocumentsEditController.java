@@ -35,12 +35,8 @@ public class DocumentsEditController extends AbstractEditController {
                 addTopic(DocumentsTabs.tabUploadFromInek.name(), Pages.DocumentUploadFromInek.URL());
                 addTopic(DocumentsTabs.tabViewUploaded.name(), Pages.DocumentsViewer.URL());
             }
-            if (_sessionController.isInekUser(Feature.ADMIN)) {
-                addTopic(DocumentsTabs.tabUploadToInek.name(), Pages.DocumentUploadToInek.URL());
-            }
         } else {
             addTopic(DocumentsTabs.tabDocuments.name(), Pages.ListDocuments.URL());
-            //addTopic(DocumentsTabs.tabUploadToInek.name(), Pages.DocumentUploadToInek.URL());
         }
     }
 
