@@ -51,6 +51,7 @@ public enum ConfigKey {
     ManagerEmail("dsportalanmeldungen@inek-drg.de"),
     ReportValidity(120),
     DocumentSetRead(false),
+    CertCompareOnUpload(true),
     IkAdminEnable(true),
     isKhComparisionInsuranceEnabled(false);
     //

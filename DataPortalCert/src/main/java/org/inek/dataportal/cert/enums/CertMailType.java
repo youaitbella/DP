@@ -1,4 +1,4 @@
-package org.inek.dataportal.cert;
+package org.inek.dataportal.cert.enums;
 
 import java.util.ArrayList;
 import java.util.List;

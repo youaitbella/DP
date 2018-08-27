@@ -6,7 +6,6 @@ package org.inek.dataportal.cert.controller;
 
 import java.io.Serializable;
 import javax.enterprise.context.Dependent;
-import org.inek.dataportal.cert.CertController;
 import org.inek.dataportal.common.controller.FeatureFactory;
 import org.inek.dataportal.common.controller.IFeatureController;
 import org.inek.dataportal.common.controller.SessionController;

@@ -21,9 +21,9 @@
                 <ul class="tab">
                     <c:forEach items="#{editCert.visibleTopics}" var="topic">
                         <li class="#{topic.active ? 'activetab' : 'tab'}">
-                            <h:commandLink value="#{topic.title}" action="#{editCert.changeTabPage(topic.key)}"
-                                           immediate="true">
-                            </h:commandLink>
+                        <h:commandLink value="#{topic.title}" action="#{editCert.changeTabPage(topic.key)}"
+                                       immediate="true">
+                        </h:commandLink>
                         </li>
                     </c:forEach>
                 </ul>
@@ -32,8 +32,6 @@
 
         <div class="edit">
             <ui:insert name="editContent">Content</ui:insert>
-            <h:form id="buttons">
-            </h:form>
         </div>
 
     </ui:define>

@@ -5,6 +5,7 @@
 package org.inek.dataportal.cert.entities;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,20 +22,20 @@ import javax.persistence.Table;
 public class AdditionalEmail implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "caeId")
-    private int _id = -1;
+    private Integer _id;
 
-    public int getId() {
+    public Integer getId() {
         return _id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this._id = id;
     }
-    
+
     @Column(name = "caeAccountId")
     private int _accountId = 0;
 
@@ -45,7 +46,7 @@ public class AdditionalEmail implements Serializable {
     public void setAccountId(int accountId) {
         this._accountId = accountId;
     }
-    
+
     @Column(name = "caeEmail")
     private String _email = "";
 
@@ -60,13 +61,16 @@ public class AdditionalEmail implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 89 * hash + this.getId();
-        hash = 89 * hash + this._accountId;
+        hash = 37 * hash + this._accountId;
+        hash = 37 * hash + Objects.hashCode(this._email);
         return hash;
     }
 
     @Override
     public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
         if (obj == null) {
             return false;
         }
@@ -74,7 +78,13 @@ public class AdditionalEmail implements Serializable {
             return false;
         }
         final AdditionalEmail other = (AdditionalEmail) obj;
-        return getId() == other.getId() && getEmail().equals(other.getEmail()) && getAccountId() == other.getAccountId();
+        if (this._accountId != other._accountId) {
+            return false;
+        }
+        if (!Objects.equals(this._email, other._email)) {
+            return false;
+        }
+        return true;
     }
 
 }

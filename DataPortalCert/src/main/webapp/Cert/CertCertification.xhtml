@@ -8,146 +8,150 @@
                 xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 xmlns:jsf="http://xmlns.jcp.org/jsf"
-                >
+                xmlns:pf="http://primefaces.org/ui"
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/Output"
+                xmlns:inekInput="http://xmlns.jcp.org/jsf/composite/components/Input">
 
     <ui:define name="editContent">
-        <h:outputStylesheet name="css/fileuploader.css" />
-        <h:outputScript name="script/fileuploader.js" target="head"/>
-        <script>
-            var fileCounter = 0;
-            function createUploader(label) {
-                var uploader = new qq.FileUploader({element: document.getElementById('file-uploader'),
-                    action: '#{request.contextPath}/upload/CertUploadServlet',
-                    debug: true,
-                    allowedExtensions: ['zip'], //['zip', '7z', 'rar', 'gpg', 'pgp'],
-                    onSubmit: function (id, fileName) {
-                        fileCounter++;
-                    },
-                    onCancel: function (id, fileName) {
-                        fileCounter--;
-                        if (fileCounter === 0) {
-                            //window.location = '/DataPortal/DropBox/DropBoxUpload.xhtml';
-                        }
-                    },
-                    onComplete: function (id, fileName, responseJSON) {
-                        fileCounter--;
-                        if (fileCounter === 0) {
-                            // To display the uploaded file, we need to refresh the page.
-                            // Window location would force a non-JSF navigation, ignoring our existing conversation
-                            //window.location = '/DataPortal/DropBox/DropBoxUpload.xhtml';
-                            // Thus, let JS click an element to get a JSF refresh
-                            document.getElementById('form:refresh').click();
-                        }
-                    },
-                    template: '<div class="qq-uploader">' +
-                            '<div class="qq-upload-drop-area"><span>Dateien mittels Ziehen und Ablegen hochladen.</span></div>' +
-                            '<div class="qq-upload-button">' + label + '</div>' +
-                            '<ul class="qq-upload-list"></ul>' +
-                            '</div>'
-                });
-            }
-        </script>
-        <h:form id="form" enctype="multipart/form-data" >
+        <pf:dialog widgetVar="dialogProcess"
+                   header="Daten werden verarbeitet"
+                   modal="true"
+                   closable="false"
+                   resizable="false">
+            <div style="text-align: center; width: 100%;">
+                <div class="inekLoader" style="text-align: center;"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+            </div>
+        </pf:dialog>
 
-            <h:outputLabel for="mnuSystem" value="#{msg.lblSystem}:" styleClass="label15"/>
-            <h:selectOneMenu id="mnuSystem" styleClass="input" value="#{certCertification.systemId}"
-                             immediate="true" disabled="#{certCertification.grouperChanged}">
-                <!--onchange="jsf.ajax.request(this, event, {render: 'form :logout:remaining'});"-->
-                <f:selectItems value="#{certCertification.systems4Account}" var="system" itemLabel="#{system.label}" itemValue="#{system.value}"/>
-                <f:ajax render="@form :logout:remaining"/>
-            </h:selectOneMenu>
+        <h:form id="form">
 
-            <div id="systemData" jsf:rendered="#{certCertification.grouper.id ge 0}">
+            <h:outputLink style="float: right;"
+                          class="bigButton"
+                          target="blank"
+                          value="https://daten.inek.org/manual/zert/Zert-Handbuch.pdf">
+                Handbuch herrunterladen
+            </h:outputLink>
+
+            <div class="ui-g ui-fluid">
+                <div class="ui-g-6 ui-md-6">
+                    <pf:outputLabel class="formLabel"
+                                    value="Systemauswahl:"
+                                    rendered="#{certCertification.grouper4Account.size() gt 0}"/>
+                    <pf:selectOneMenu id="grouperSelection"
+                                      value="#{certCertification.grouperId}"
+                                      rendered="#{certCertification.grouper4Account.size() gt 0}">
+                        <f:selectItem itemValue="#{null}" itemLabel="Bitte System auswählen" noSelectionOption="true" />
+                        <f:selectItems value="#{certCertification.grouper4Account}"
+                                       var="grouperItem"
+                                       itemLabel="#{grouperItem.system.displayName}"
+                                       itemValue="#{grouperItem.id}"/>
+                        <pf:ajax  update="form" />
+                    </pf:selectOneMenu>
+                </div>
+            </div>
+
+            <inek:InfoBox rendered="#{certCertification.grouper4Account.size() eq 0}"
+                          value="Es sind keine Systeme zur Auswahl vorhanden" />
+
+            <pf:panel styleClass="inekPanel"
+                      id="systemData"
+                      rendered="#{certCertification.grouper.id ne null}">
 
                 <h2>#{msg.lblDownload}</h2>
 
-                <div class="inputPart">
-                    <h:commandLink styleClass="bigButton" value="#{msg.btnDownloadSpec}" immediate="true"
-                                   action="#{certCertification.downloadSpec}"/>
-                    <h:outputLabel value="#{editCert.getSpecFileName(certCertification.systemId, false)}"/>
-                </div>
+                <pf:panelGrid columns="2"
+                              styleClass="inekPanelGrid">
+                    <pf:commandButton styleClass="btnDownload"
+                                      ajax="false"
+                                      value="#{msg.btnDownloadSpec}"
+                                      immediate="true">
+                        <pf:fileDownload value="#{certCertification.downloadSpec()}" />
+                    </pf:commandButton>
+                    <h:outputLabel value="#{editCert.getSpecFileName(certCertification.grouper.system.id)}"/>
 
-                <div class="inputPart">
-                    <h:commandLink styleClass="bigButton" value="#{msg.btnDownloadTest}"  immediate="true"
-                                   action="#{certCertification.downloadTest}"/>
-                    <h:outputLabel value="#{editCert.getTestFileName(certCertification.systemId, false)}"/>
-                </div>
+                    <pf:commandButton styleClass="btnDownload"
+                                      ajax="false"
+                                      value="#{msg.btnDownloadTest}"
+                                      immediate="true">
+                        <pf:fileDownload value="#{certCertification.downloadTest()}" />
+                    </pf:commandButton>
+                    <h:outputLabel value="#{editCert.getTestFileName(certCertification.grouper.system.id)}"/>
 
-                <div class="inputPart" jsf:rendered="#{certCertification.grouper.certStatus.status ge 20}">
-                    <h:commandLink styleClass="bigButton" value="#{msg.btnDownloadCert}"  immediate="true"
-                                   action="#{certCertification.downloadCert}"/>
-                    <h:outputLabel value="#{editCert.getCertFileName(certCertification.systemId, false)}"/>
-                </div>
+                    <pf:commandButton styleClass="btnDownload"
+                                      ajax="false"
+                                      value="#{msg.btnDownloadCert}"
+                                      rendered="#{certCertification.grouper.certStatus.status ge 20}"
+                                      immediate="true">
+                        <pf:fileDownload value="#{certCertification.downloadCert()}" />
+                    </pf:commandButton>
+                    <h:outputLabel value="#{editCert.getCertFileName(certCertification.grouper.system.id)}"
+                                   rendered="#{certCertification.grouper.certStatus.status ge 20}"/>
+
+                </pf:panelGrid>
+
 
                 <h2>#{msg.lblUpload}</h2>
 
-                <div id="file-uploader" jsf:rendered="#{((certCertification.grouper.certStatus eq 'TestSucceed' or certCertification.grouper.certStatus eq 'CertFailed1') and empty certCertification.grouper.name)}">
-                    #{msg.msgGrouperNameRequired}
-                </div>
-                <div id="file-uploader" jsf:rendered="#{certCertification.grouper.certStatus eq 'PasswordRequested' or certCertification.grouper.certStatus eq 'TestFailed1' or certCertification.grouper.certStatus eq 'TestFailed2' or ((certCertification.grouper.certStatus eq 'TestSucceed' or certCertification.grouper.certStatus eq 'CertFailed1') and !empty certCertification.grouper.name)}">
-                    <script>
-                        createUploader("#{msg.btnUpload} #{certCertification.expectedFileName}");
-                    </script>
-                </div>
-                <!-- next comes a hidden element to force a JSF conform refresh -->
-                <h:commandLink id="refresh" style="display: none" action="#{certCertification.refresh}" value="refresh"/>
+                <pf:fileUpload id="uploadTest"
+                               fileUploadListener="#{certCertification.handleFileUpload}"
+                               rendered="#{certCertification.isTestUploadEnabled()}"
+                               mode="advanced"
+                               label="Testdaten auswählen"
+                               uploadLabel="Hochladen"
+                               cancelLabel="Abbrechen"
+                               dragDropSupport="true"
+                               update="systemData"
+                               oncomplete="window.location.reload();"
+                               fileLimit="1"
+                               allowTypes="/(\.|\/)(zip|7z|rar|gpg|pgp)$/"
+                               styleClass="inekUploader"/>
 
-                <!--div class="inputPart" jsf:rendered="# {certCertification.grouper.certStatus eq 'PasswordRequested' or certCertification.grouper.certStatus eq 'TestFailed1' or certCertification.grouper.certStatus eq 'TestFailed2' or certCertification.grouper.certStatus eq 'TestSucceed' or certCertification.grouper.certStatus eq 'CertFailed1'}">
-                    <input id="form:testResult" type="file" name="form:testResult" class="hide" title="Upload Testergebnisse"
-                           onchange="uploadFile('form:testResult');
-                                   jsf.ajax.request(this, event, {render: 'form :logout:remaining', delay: '1000'});" />
-                    <h:outputLabel styleClass="bigButton" value="# {msg.btnUpload} # {certCertification.expectedFileName}" onclick="clickElementById('form:testResult');"/>
-                    <progress id="progressBar" style="visibility: hidden;" value="0" max="100"></progress>
-                    <h:message id="msgTestResult" for="testResult" styleClass="errorMessage"/>
-                </div-->
+                <pf:fileUpload id="uploadCert"
+                               fileUploadListener="#{certCertification.handleFileUpload}"
+                               rendered="#{certCertification.isCertUploadEnabled()}"
+                               label="Zertdaten auswählen"
+                               uploadLabel="Hochladen"
+                               cancelLabel="Abbrechen"
+                               mode="advanced"
+                               dragDropSupport="true"
+                               fileLimit="1"
+                               update="systemData"
+                               oncomplete="window.location.reload();"
+                               allowTypes="/(\.|\/)(zip|7z|rar|gpg|pgp)$/"
+                               styleClass="inekUploader" />
 
+                <inek:InfoBox id="needSave"
+                              rendered="#{certCertification.resultFileName ne ''}"
+                              value="Bitte Speichern Sie die Eingabe von #{certCertification.resultFileName}" />
 
-                <div class="inputPart">
-                    <h:outputLabel value="#{certCertification.resultFileName}"/>
-                    <h:outputLabel rendered="#{certCertification.grouper.certStatus eq 'TestUpload1' or certCertification.grouper.certStatus eq 'TestUpload2' or certCertification.grouper.certStatus eq 'TestUpload3' or certCertification.grouper.certStatus eq 'CertUpload1' or certCertification.grouper.certStatus eq 'CertUpload2'}"
-                                   value=" #{msg.lblUnderTest}"/>
-                </div>
+                <inek:InfoBox rendered="#{certCertification.inCheckPhase()}"
+                              value="Daten in Prüfung" />
 
-                <div class="inputPart" jsf:rendered="#{certCertification.resultFileName.endsWith('[ungespeichert]')}">
-                    <h:commandLink id="btnConfirmFile" styleClass="bigButton" value="#{msg.btnSave}"
-                                   action="#{certCertification.saveFile}"
-                                   immediate="true" disabled="false">
-                        <f:ajax render="@form :logout:remaining"/>
-                    </h:commandLink>
-                </div>
+                <inek:InfoBox rendered="#{certCertification.grouper.certStatus.status eq 90 or certCertification.grouper.certStatus.status eq 40}"
+                              value="Zertifizierung bestanden" />
 
                 <h2>#{msg.lblOther}</h2>
 
-                <div class="inputPart">
-                    <h:outputLabel for="txtGrouperName" value="#{msg.lblGrouperName}:" styleClass="label15"/>
-                    <h:inputText id="txtGrouperName"
-                                 value="#{certCertification.grouper.name}"
-                                 styleClass="input"
-                                 required="false">
-                        <f:ajax render=":logout:remaining" listener="#{certCertification.grouperChangeListener}"/>
-                    </h:inputText>
-                    <h:message for="txtGrouperName" id="msgGrouperName" styleClass="errorMessage"/>
-                </div>
-
-                <div class="inputPart">
-                    <h:outputLabel for="txtEmailCopy" value="#{msg.lblEmailCopy}:" styleClass="label15"/>
-                    <h:inputText id="txtEmailCopy"
-                                 value="#{certCertification.grouper.emailCopy}"
-                                 styleClass="input">
-                        <f:ajax render="@this msgEmailCopy mnuSystem :logout:remaining" listener="#{certCertification.grouperChangeListener}"/>
-                    </h:inputText>
-                    <h:message for="txtEmailCopy" id="msgEmailCopy" styleClass="errorMessage"/>
+                <div class="ui-g ui-fluid">
+                    <div class="ui-g-6 ui-md-6">
+                        <inekInput:InputText value="#{certCertification.grouper.name}"
+                                             labelText="Groupername:"
+                                             require="true"
+                                             requiredMessage="Bitte geben Sie einen Groupernamen an"/>
+                    </div>
                 </div>
 
                 <div class="toolBar">
-                    <h:commandLink id="btnSaveOther" styleClass="bigButton" value="#{msg.btnSave}"
-                                   action="#{certCertification.saveOther}"
-                                   immediate="false" disabled="false">
-                        <f:ajax render="@form :logout:remaining"/>
-                    </h:commandLink>
+                    <pf:commandButton value="Speichern"
+                                      actionListener="#{certCertification.saveOther}"
+                                      styleClass="btnDrg"
+                                      onstart="changeDialogColor('info'); PF('dialogProcess').show();"
+                                      oncomplete="PF('dialogProcess').hide();"
+                                      update="systemData"
+                                      rendered="#{certCertification.grouper.certStatus.status ne 90 and certCertification.grouper.certStatus.status ne 40 }"/>
                 </div>
 
-            </div>
+            </pf:panel>
         </h:form>
     </ui:define>
 

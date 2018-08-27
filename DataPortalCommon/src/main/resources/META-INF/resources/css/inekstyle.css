@@ -104,6 +104,21 @@
     background-color: #60ab2e !important;
 }
 
+.btnDrg span {
+    background-image: none !important;
+    background-color: #043358 !important;
+    color: #ffffff !important;
+    min-width: 150px;
+    text-shadow: none;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.btnDrg span:hover {
+    background-color: #7f9baf !important;
+}
+
 .btnInsurance span {
     background-image: none !important;
     background-color: #604040 !important;
@@ -231,6 +246,13 @@
     border: none !important;
 }
 
+/* Panel  */
+
+.inekPanel {
+    background-color: transparent;
+    border: none !important;
+}
+
 /* Col Definitions */
 
 .colLeft {
@@ -244,3 +266,114 @@
 .colRight {
     text-align: right;
 }
+
+/* InfoBox */
+
+.inekInfoBox {
+    width: 100%;
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: #1e9f75;
+    position: relative;
+    color: white;
+    font-size: 1.5em;
+}
+
+.inekInfoBox:before {
+    content: "\f05a";
+    font-family: FontAwesome;
+}
+
+
+
+/* Loader */
+
+.inekLoader {
+    display: inline-block;
+    position: relative;
+    width: 64px;
+    height: 64px;
+}
+.inekLoader div {
+    animation: inekLoader 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    transform-origin: 32px 32px;
+}
+.inekLoader div:after {
+    content: " ";
+    display: block;
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #000000;
+    margin: -3px 0 0 -3px;
+}
+.inekLoader div:nth-child(1) {
+    animation-delay: -0.036s;
+}
+.inekLoader div:nth-child(1):after {
+    top: 50px;
+    left: 50px;
+}
+.inekLoader div:nth-child(2) {
+    animation-delay: -0.072s;
+}
+.inekLoader div:nth-child(2):after {
+    top: 54px;
+    left: 45px;
+}
+.inekLoader div:nth-child(3) {
+    animation-delay: -0.108s;
+}
+.inekLoader div:nth-child(3):after {
+    top: 57px;
+    left: 39px;
+}
+.inekLoader div:nth-child(4) {
+    animation-delay: -0.144s;
+}
+.inekLoader div:nth-child(4):after {
+    top: 58px;
+    left: 32px;
+}
+.inekLoader div:nth-child(5) {
+    animation-delay: -0.18s;
+}
+.inekLoader div:nth-child(5):after {
+    top: 57px;
+    left: 25px;
+}
+.inekLoader div:nth-child(6) {
+    animation-delay: -0.216s;
+}
+.inekLoader div:nth-child(6):after {
+    top: 54px;
+    left: 19px;
+}
+.inekLoader div:nth-child(7) {
+    animation-delay: -0.252s;
+}
+.inekLoader div:nth-child(7):after {
+    top: 50px;
+    left: 14px;
+}
+.inekLoader div:nth-child(8) {
+    animation-delay: -0.288s;
+}
+.inekLoader div:nth-child(8):after {
+    top: 45px;
+    left: 10px;
+}
+@keyframes inekLoader {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.cert;
+package org.inek.dataportal.cert.enums;
 
 /**
  *
@@ -16,8 +16,6 @@ public enum CertStatus {
     TestUpload1(10, "Testphase v1, Daten geliefert"),
     TestFailed1(11, "Testphase v1, Fehlerhaft"),
     TestUpload2(12, "Testphase v2, Daten geliefert"),
-    TestFailed2(13, "Testphase v2, Fehlerhaft"),
-    TestUpload3(14, "Testphase v3, Daten geliefert"),
     TestSucceed(20, "Testphase erfolgreich"),
     CertUpload1(30, "Zertiphase v1, Daten geliefert"),
     CertFailed1(31, "Zertiphase v1, Fehlerhaft"),
@@ -32,11 +30,13 @@ public enum CertStatus {
     }
 
     private final int _status;
+
     public int getStatus() {
         return _status;
     }
 
     private final String _label;
+
     public String getLabel() {
         return _label;
     }

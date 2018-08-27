@@ -1,4 +1,4 @@
-package org.inek.dataportal.cert;
+package org.inek.dataportal.cert.backingbean;
 
 import java.io.File;
 import java.io.Serializable;
@@ -19,6 +19,8 @@ import org.inek.dataportal.cert.facade.SystemFacade;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.cert.enums.CertMailType;
+import org.inek.dataportal.cert.enums.CertStatus;
 import org.inek.dataportal.common.enums.Genders;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.data.account.facade.AccountFacade;
@@ -78,11 +80,11 @@ public class CertGrouperResults implements Serializable {
         _templateEmailCertificate = "";
         _runs = 0;
         _dateChecked = new Date();
-        return Pages.CertGrouperResults.RedirectURL();
+        return Pages.CertGrouperResults.URL();
     }
 
     public String getSystemName() {
-        return _sysFacade.findFresh(_grouper.getSystemId()).getDisplayName();
+        return _grouper.getSystem().getDisplayName();
     }
 
     public String getCompanyName() {
@@ -149,7 +151,6 @@ public class CertGrouperResults implements Serializable {
         List<MailTemplate> mts = _mtFacade.findTemplatesByFeature(Feature.CERT);
         switch (_grouper.getCertStatus()) {
             case TestFailed1:
-            case TestFailed2:
                 addTemplatesToList(temp, mts, CertMailType.ErrorTest);
                 break;
             case CertFailed1:
@@ -180,9 +181,6 @@ public class CertGrouperResults implements Serializable {
             switch (_grouper.getCertStatus()) {
                 case TestFailed1:
                     errors = _grouper.getTestError1();
-                    break;
-                case TestFailed2:
-                    errors = _grouper.getTestError2();
                     break;
                 case CertFailed1:
                     errors = _grouper.getCertError1();
@@ -217,10 +215,6 @@ public class CertGrouperResults implements Serializable {
                 numofMails = 1;
                 mailType = CertMailType.ErrorTest;
                 break;
-            case TestFailed2:
-                numofMails = 2;
-                mailType = CertMailType.ErrorTest;
-                break;
             case TestSucceed:
                 numofMails = 1;
                 mailType = CertMailType.PassedTest;
@@ -235,7 +229,7 @@ public class CertGrouperResults implements Serializable {
             return false;
         }
         return _elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(
-                _grouper.getSystemId(), _grouper.getAccountId(), mailType.getId()
+                _grouper.getSystem().getId(), _grouper.getAccountId(), mailType.getId()
         ).size() >= numofMails;
     }
 
@@ -412,8 +406,8 @@ public class CertGrouperResults implements Serializable {
         } else {
             filename = "ZertDaten v" + _runs + "_Diff.xls";
         }
-        String grouperYear = _sysFacade.findFresh(_grouper.getSystemId()).getYearSystem() + "";
-        String folderSystemName = _sysFacade.findFresh(_grouper.getSystemId()).getDisplayName().replace("/", "_");
+        String grouperYear = _sysFacade.findFresh(_grouper.getSystem().getId()).getYearSystem() + "";
+        String folderSystemName = _sysFacade.findFresh(_grouper.getSystem().getId()).getDisplayName().replace("/", "_");
         return "\\\\vFileserver01\\company$\\EDV\\Projekte\\Zertifizierung\\Pruefung"
                 + "\\System " + grouperYear + "\\" + folderSystemName + "\\Ergebnis\\" + _grouper.getAccountId()
                 + "\\" + filename;
@@ -421,9 +415,9 @@ public class CertGrouperResults implements Serializable {
 
     public boolean renderReceivedCertificationEmail() {
         return _elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(
-                _grouper.getSystemId(), _grouper.getAccountId(), CertMailType.Certificate.getId()).isEmpty()
+                _grouper.getSystem().getId(), _grouper.getAccountId(), CertMailType.Certificate.getId()).isEmpty()
                 && _elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(
-                        _grouper.getSystemId(), _grouper.getAccountId(), CertMailType.Certified.getId()).size() > 0
+                        _grouper.getSystem().getId(), _grouper.getAccountId(), CertMailType.Certified.getId()).size() > 0
                 && _grouper.getCertStatus() == CertStatus.CertSucceed;
     }
 
@@ -457,7 +451,7 @@ public class CertGrouperResults implements Serializable {
         }
         String subject = _mtFacade.findByName(_templateEmailCertificate).getSubject();
         subject = subject.replace("{company}", _accFacade.findAccount(_grouper.getAccountId()).getCompany());
-        subject = subject.replace("{system}", _sysFacade.findFresh(_grouper.getSystemId()).getDisplayName());
+        subject = subject.replace("{system}", _grouper.getSystem().getDisplayName());
         return subject;
     }
 
@@ -469,7 +463,7 @@ public class CertGrouperResults implements Serializable {
         body = body.replace("{salutation}", buildEmailSalutation(_receiverEmailCertificate));
         body = body.replace("{company}", _accFacade.findAccount(_grouper.getAccountId()).getCompany());
         body = body.replace("{product}", _grouper.getName());
-        body = body.replace("{system}", _sysFacade.findFresh(_grouper.getSystemId()).getDisplayName());
+        body = body.replace("{system}", _grouper.getSystem().getDisplayName());
         body = body.replace("{certdate}", new SimpleDateFormat("dd.MM.yyyy").format(getCertDate()));
         body = body.replace("{name}", _sessionController.getAccount().getFirstName() + " " + _sessionController.getAccount().getLastName());
         return body;
@@ -516,7 +510,7 @@ public class CertGrouperResults implements Serializable {
             el.setReceiverAccountId(_accFacade.findByMailOrUser(_receiverEmailCertificate).getId());
             el.setSenderAccountId(_sessionController.getAccountId());
             el.setSent(new Date());
-            el.setSystemId(_grouper.getSystemId());
+            el.setSystemId(_grouper.getSystem().getId());
             el.setTemplateId(_mtFacade.findByName(_templateEmailCertificate).getId());
             _grouper.setCertStatus(CertStatus.CertificationPassed);
             _grouper.setCertification(new Date());
@@ -548,7 +542,7 @@ public class CertGrouperResults implements Serializable {
         }
         lookForNumberOfRuns();
         String subject = _mtFacade.findByName(_selectedTemplate).getSubject();
-        subject = subject.replace("{system}", _sysFacade.findFresh(_grouper.getSystemId()).getDisplayName());
+        subject = subject.replace("{system}", _grouper.getSystem().getDisplayName());
         subject = subject.replace("{run}", _runs + "");
         return subject;
     }
@@ -561,7 +555,7 @@ public class CertGrouperResults implements Serializable {
         String body = _mtFacade.findByName(_selectedTemplate).getBody();
         body = body.replace("{salutation}", buildEmailSalutation(_accFacade.findAccount(_grouper.getAccountId()).getEmail()));
         body = body.replace("{sender}", _sessionController.getAccount().getFirstName() + " " + _sessionController.getAccount().getLastName());
-        body = body.replace("{system}", _sysFacade.findFresh(_grouper.getSystemId()).getDisplayName());
+        body = body.replace("{system}", _grouper.getSystem().getDisplayName());
         body = body.replace("{errors}", errors);
         return body;
     }
@@ -595,7 +589,6 @@ public class CertGrouperResults implements Serializable {
             case CertUpload2:
             case TestUpload1:
             case TestUpload2:
-            case TestUpload3:
                 return true;
             default:
                 return false;
@@ -616,15 +609,6 @@ public class CertGrouperResults implements Serializable {
             case TestUpload2:
                 _grouper.setTestError2(_numErrors);
                 _grouper.setTestCheck2(_dateChecked);
-                if (_numErrors == 0) {
-                    _grouper.setCertStatus(CertStatus.TestSucceed);
-                } else {
-                    _grouper.setCertStatus(CertStatus.TestFailed2);
-                }
-                break;
-            case TestUpload3:
-                _grouper.setTestError3(_numErrors);
-                _grouper.setTestCheck3(_dateChecked);
                 if (_numErrors == 0) {
                     _grouper.setCertStatus(CertStatus.TestSucceed);
                 } else {
@@ -701,7 +685,7 @@ public class CertGrouperResults implements Serializable {
             el.setReceiverAccountId(_accFacade.findByMailOrUser(getReiceiver()).getId());
             el.setSenderAccountId(_sessionController.getAccount().getId());
             el.setSent(new Date());
-            el.setSystemId(_grouper.getSystemId());
+            el.setSystemId(_grouper.getSystem().getId());
             el.setTemplateId(_mtFacade.findByName(_selectedTemplate).getId());
             el.setType(_mtFacade.findByName(_selectedTemplate).getType());
             _elFacade.save(el);
@@ -745,22 +729,11 @@ public class CertGrouperResults implements Serializable {
                 _grouper.setCertStatus(CertStatus.TestFailed1);
                 _grouper.setTestUpload2(null);
                 break;
-            case TestFailed2:
-                _grouper.setCertStatus(CertStatus.TestUpload2);
-                _grouper.setTestError2(-1);
-                _grouper.setTestCheck2(null);
-                break;
-            case TestUpload3:
-                _grouper.setCertStatus(CertStatus.TestFailed2);
-                _grouper.setTestUpload3(null);
-                break;
             case TestSucceed:
                 if (_grouper.getTestError1() == 0) {
                     _grouper.setCertStatus(CertStatus.TestUpload1);
                 } else if (_grouper.getTestError2() == 0) {
                     _grouper.setCertStatus(CertStatus.TestUpload2);
-                } else if (_grouper.getTestError3() == 0) {
-                    _grouper.setCertStatus(CertStatus.TestUpload3);
                 }
                 break;
             case CertUpload1:
@@ -794,7 +767,6 @@ public class CertGrouperResults implements Serializable {
     public boolean needMail(Grouper grouper) {
         switch (grouper.getCertStatus()) {
             case TestFailed1:
-            case TestFailed2:
             case TestSucceed:
             case CertFailed1:
             case CertSucceed:
@@ -809,17 +781,12 @@ public class CertGrouperResults implements Serializable {
         if (!needMail(grouper)) {
             return "";
         }
-        int sysId = grouper.getSystemId();
+        int sysId = grouper.getSystem().getId();
         int grId = grouper.getAccountId();
         String mailImage = "mail.png";
         switch (grouper.getCertStatus()) {
             case TestFailed1:
                 if (_elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(sysId, grId, CertMailType.ErrorTest.getId()).size() == 1) {
-                    return mailImage;
-                }
-                break;
-            case TestFailed2:
-                if (_elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(sysId, grId, CertMailType.ErrorTest.getId()).size() == 2) {
                     return mailImage;
                 }
                 break;
@@ -853,19 +820,13 @@ public class CertGrouperResults implements Serializable {
         if (!needMail(grouper)) {
             return "";
         }
-        int sysId = grouper.getSystemId();
+        int sysId = grouper.getSystem().getId();
         int grId = grouper.getAccountId();
         switch (grouper.getCertStatus()) {
             case TestFailed1:
                 if (_elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(sysId, grId, CertMailType.ErrorTest.getId()).size() == 1) {
                     return sdf.format(_elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(sysId, grId,
                             CertMailType.ErrorTest.getId()).get(0).getSent());
-                }
-                break;
-            case TestFailed2:
-                if (_elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(sysId, grId, CertMailType.ErrorTest.getId()).size() == 2) {
-                    return sdf.format(_elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(sysId, grId,
-                            CertMailType.ErrorTest.getId()).get(1).getSent());
                 }
                 break;
             case TestSucceed:

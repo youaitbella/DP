@@ -1,6 +1,8 @@
-package org.inek.dataportal.cert;
+package org.inek.dataportal.cert.backingbean;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -12,29 +14,29 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
-import javax.annotation.PreDestroy;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.OptimisticLockException;
-import javax.servlet.http.Part;
-import org.inek.dataportal.common.controller.ReportController;
-import org.inek.dataportal.common.controller.SessionController;
+import org.apache.poi.util.IOUtils;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.cert.entities.RemunerationSystem;
 import org.inek.dataportal.cert.entities.Grouper;
 import org.inek.dataportal.cert.facade.GrouperFacade;
 import org.inek.dataportal.cert.facade.SystemFacade;
-import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.cert.enums.CertStatus;
+import org.inek.dataportal.cert.Helper.CertFileHelper;
+import org.inek.dataportal.common.controller.DialogController;
+import org.inek.dataportal.common.controller.ReportController;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.data.account.facade.AccountFacade;
-import org.inek.dataportal.common.data.access.ConfigFacade;
+import org.inek.dataportal.common.enums.RemunSystem;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.scope.FeatureScoped;
-import org.inek.dataportal.common.scope.FeatureScopedContextHolder;
 import org.inek.dataportal.common.utils.DateUtils;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
 
 /**
  *
@@ -46,18 +48,14 @@ public class CertManager implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger("CertManager");
 
-    @Inject private ConfigFacade _config;
     @Inject
     private SystemFacade _systemFacade;
     @Inject
     private GrouperFacade _grouperFacade;
     @Inject
-    private SessionController _sessionController;
-
-    @PreDestroy
-    private void preDestroy() {
-        cleanupUploadFiles();
-    }
+    private DialogController _dialogController;
+    @Inject
+    private ReportController _reportController;
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     public List<SelectItem> getSystems() {
@@ -97,7 +95,6 @@ public class CertManager implements Serializable {
     private void setSystemId(int systemId, boolean force) {
         if (force || systemId != _system.getId()) {
             if (_system.getId() > 0) {
-                cleanupUploadFiles();
             }
             if (systemId == -1) {
                 _system = new RemunerationSystem();
@@ -108,11 +105,10 @@ public class CertManager implements Serializable {
                         (o1, o2) -> o1.getAccount().getCompany().compareToIgnoreCase(o2.getAccount().getCompany()));
 
             }
-            setSystemChanged(false);
         }
     }
 
-    private boolean _active = true;
+    private boolean _active = false;
 
     public boolean isActive() {
         return _active;
@@ -120,16 +116,6 @@ public class CertManager implements Serializable {
 
     public void setActive(boolean active) {
         this._active = active;
-    }
-
-    private boolean _systemChanged = false;
-
-    public boolean isSystemChanged() {
-        return _systemChanged;
-    }
-
-    public void setSystemChanged(boolean isChanged) {
-        _systemChanged = isChanged;
     }
 
     // </editor-fold>
@@ -143,7 +129,6 @@ public class CertManager implements Serializable {
             _systemFacade.remove(_system);
         }
         _system = new RemunerationSystem();
-        setSystemChanged(false);
         return Pages.CertSystemManagement.RedirectURL();
     }
 
@@ -158,43 +143,14 @@ public class CertManager implements Serializable {
     }
 
     public String saveSystem() {
-        List<Grouper> savedGroupers = new ArrayList<>();
-        for (Grouper grouper : _system.getGrouperList()) {
-            if (grouper.getId() == -1) {
-                copyEmail(grouper);
-            }
-            try {
-                savedGroupers.add(_grouperFacade.merge(grouper));
-            } catch (Exception ex) {
-                if ((ex.getCause() instanceof OptimisticLockException)) {
-                    _sessionController.alertClient("Die Daten wurden bereits von einem anderen Benutzer geändert. Speichern nicht möglich.");
-                    return "";
-                }
-                savedGroupers.add(mergeGrouper(grouper));
-            }
-        }
-        _system.setGrouperList(savedGroupers);
         try {
-            _systemFacade.save(_system);
+            _system = _systemFacade.save(_system);
+            setSystemId(_system.getId());
+            _dialogController.showSaveDialog();
         } catch (Exception ex) {
-            if ((ex.getCause() instanceof OptimisticLockException)) {
-                _sessionController.alertClient("Die Daten wurden bereits von einem anderen Benutzer geändert. Speichern nicht möglich.");
-                return "";
-            }
+            _dialogController.showErrorDialog("Fehler beim speichern", "Fehler beim Speichern. Bitte versuchen Sie es erneut");
         }
-        
-        _system = _systemFacade.findFresh(_system.getId());
-        persistFiles(new File(getSystemRoot(_system), "Spec"));
-        persistFiles(new File(getSystemRoot(_system), "Daten"));
-        setSystemChanged(false);
         return "";
-    }
-
-    private Grouper mergeGrouper(Grouper grouper) {
-        Grouper currentGrouper = _grouperFacade.findFresh(grouper.getId());
-        currentGrouper.setPasswordRequest(grouper.getPasswordRequest());
-        currentGrouper.setCertStatus(grouper.getCertStatus());
-        return _grouperFacade.merge(currentGrouper);
     }
 
     public String resetSystem() {
@@ -221,7 +177,6 @@ public class CertManager implements Serializable {
             grouper.setCertification(null);
             grouper.setCertStatus(CertStatus.New);
         }
-        setSystemChanged(true);
         return "";
     }
 
@@ -230,38 +185,7 @@ public class CertManager implements Serializable {
         return "";
     }
 
-    private void cleanupUploadFiles() {
-        deleteFiles(new File(getSystemRoot(_system), "Spec"), ".*\\.upload");
-        deleteFiles(new File(getSystemRoot(_system), "Daten"), ".*\\.upload");
-    }
-
-    public void deleteFiles(File dir, final String fileNamePattern) {
-        if (!dir.exists()) {
-            return;
-        }
-        for (File file : dir.listFiles((File file) -> file.isFile() && file.getName().matches(fileNamePattern))) {
-            file.delete();
-        }
-    }
-
-    private void persistFiles(File dir) {
-        if (!dir.exists()) {
-            return;
-        }
-        for (File file : dir.listFiles((File file) -> file.isFile() && file.getName().endsWith(".upload"))) {
-            File target = new File(file.getAbsolutePath().substring(0, file.getAbsolutePath().length() - 7));
-            if (target.exists()) {
-                target.delete();
-            }
-            file.renameTo(target);
-        }
-    }
-
-    public void systemChangeListener(AjaxBehaviorEvent event) {
-        setSystemChanged(true);
-    }
-
-    public void activeSystemChangeListener(AjaxBehaviorEvent event) {
+    public void activeSystemChsaangeListener(AjaxBehaviorEvent event) {
         setActive(true);
     }
 
@@ -281,7 +205,7 @@ public class CertManager implements Serializable {
         _system.getGrouperList().stream().filter(g -> g.getAccountId() > 0).mapToInt(g -> g.getAccountId()).forEach(i -> grouperAccountIds.add(i));
         return _certAccounts.stream().filter(i -> !grouperAccountIds.contains((int) i.getValue())).collect(Collectors.toList());
     }
-    
+
     public List<Account> getAllGrouperAccounts() {
         return _accountFacade.getAccounts4Feature(Feature.CERT);
     }
@@ -310,37 +234,25 @@ public class CertManager implements Serializable {
 
     public void addNewGrouper() {
         Grouper grouper = new Grouper();
-        grouper.setSystemId(_system.getId());
-        setSystemChanged(true);
-        _system.getGrouperList().add(grouper);
+        grouper.setSystem(_system);
+        _system.addGrouper(grouper);
     }
 
-    public String deleteGrouper(Grouper grouper) {
-        _system.getGrouperList().remove(grouper);
-        setSystemChanged(true);
-        return "";
+    public void deleteGrouper(Grouper grouper) {
+        _system.removeGrouper(grouper);
     }
 
     public void passwordRequest(Grouper grouper) {
         grouper.setPasswordRequest(Calendar.getInstance().getTime());
         grouper.setCertStatus(CertStatus.PasswordRequested);
-        setSystemChanged(true);
     }
 
     public void addedHp(Grouper grouper) {
         grouper.setWebsiteRelease(Calendar.getInstance().getTime());
-        setSystemChanged(true);
     }
 
     public boolean isCertVendorOnWebsite(Grouper grouper) {
         return grouper.getWebsiteRelease() != null;
-    }
-
-    public String getCertHpInactiveClass(Grouper grouper) {
-        if (isCertVendorOnWebsite(grouper)) {
-            return "certWebsiteButtonInactive";
-        }
-        return "";
     }
 
     public String getCertWebsiteDate(Grouper grouper) {
@@ -351,55 +263,37 @@ public class CertManager implements Serializable {
         return "";
     }
 
-    private Part _file;
-
-    public Part getFile() {
-        return _file;
+    public void handleSpecUpload(FileUploadEvent event) {
+        uploadCertFile("Spec", "Grouper-Spezifikation", "exe", event.getFile());
     }
 
-    public void setFile(Part file) {
-        _file = file;
+    public void handleTestUpload(FileUploadEvent event) {
+        uploadCertFile("Daten", "Testdaten", "zip", event.getFile());
     }
 
-    public void uploadSpec(int systemId) {
-        uploadCertFile("Spec", "Grouper-Spezifikation", "exe");
+    public void handleCertUpload(FileUploadEvent event) {
+        uploadCertFile("Daten", "Zertdaten", "zip", event.getFile());
     }
 
-    public void uploadTestData(int systemId) {
-        uploadCertFile("Daten", "Testdaten", "zip");
-    }
+    public void uploadCertFile(String folder, String fileNameBase, String extension, UploadedFile file) {
+        String base = CertFileHelper.getSysDir(_system) + "\\" + folder;
 
-    public void uploadCertData(int systemId) {
-        uploadCertFile("Daten", "Zertdaten", "zip");
-    }
+        String outFileName = fileNameBase + "_"
+                + _system.getFileName() + "_("
+                + DateUtils.todayAnsi() + ")."
+                + extension;
 
-    public void uploadCertFile(String folder, String fileNameBase, String extension) {
-        int systemId = _system.getId();
-        EditCert editCert = FeatureScopedContextHolder.Instance.getBean(EditCert.class);
-        RemunerationSystem system = editCert.getSystem(systemId);
-        if (system == null) {
-            return;
+        try {
+            OutputStream outStream = new FileOutputStream(new File(base, outFileName));
+            IOUtils.copy(file.getInputstream(), outStream);
+            file.getInputstream().close();
+            outStream.close();
+            _dialogController.showInfoDialog("Upload erfolgreich", "Der Upload von "
+                    + file.getFileName() + " wurde erfolgreich durchgeführt");
+        } catch (Exception ex) {
+            _dialogController.showErrorDialog("Fehler beim Upload", "Die Datei konnte nicht "
+                    + "erfolgreich hochgeladen werden: " + ex.getMessage());
         }
-
-        Optional<File> uploadFolder = editCert.getUploadFolder(system, folder);
-        if (!uploadFolder.isPresent()) {
-            return;
-        }
-        String fileNamePattern = fileNameBase + "_" + system.getFileName() + "_.*\\.upload";
-        deleteFiles(uploadFolder.get(), fileNamePattern);
-        String outFile = fileNameBase + "_" + system.getFileName() + "_(" + DateUtils.todayAnsi() + ")." + extension + ".upload";
-        editCert.uploadFile(_file, new File(uploadFolder.get(), outFile));
-        setSystemChanged(true);
-    }
-
-    private void copyEmail(Grouper newGrouper) {
-        Grouper source = newGrouper;
-        for (Grouper grouper : _grouperFacade.findByAccountId(newGrouper.getAccountId())) {
-            if (grouper.getId() > source.getId()) {
-                source = grouper;
-            }
-        }
-        newGrouper.setEmailCopy(source.getEmailCopy());
     }
 
     public boolean disableApprovedCheckbox() {
@@ -410,16 +304,13 @@ public class CertManager implements Serializable {
     }
 
     public boolean disableCheckAndSpecCheckbox() {
-        if (_system.isApproved()) {
-            return true;
-        }
-        return false;
+        return _system.isApproved();
     }
-    
+
     public void ExportCertGrouper() {
-        //_reportController.createSingleDocument("CertGrouperAkt.xlsx", _system.getId());
+        _reportController.createSingleDocument("CertGrouperAkt.xlsx", _system.getId());
     }
-    
+
     public List getRemunerationDomains() {
         List<SelectItem> list = new ArrayList<>();
         for (RemunSystem val : RemunSystem.values()) {
@@ -427,13 +318,4 @@ public class CertManager implements Serializable {
         }
         return list;
     }
-    
-   // <editor-fold defaultstate="collapsed" desc="SystemRoot">
-    public File getSystemRoot(RemunerationSystem system) {
-        File root = new File(_config.readConfig(ConfigKey.CertiFolderRoot), "System " + system.getYearSystem());
-        File systemRoot = new File(root, system.getFileName());
-        return systemRoot;
-    }
-    // </editor-fold>
-    
 }

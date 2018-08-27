@@ -6,56 +6,50 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
-                >
+                xmlns:pf="http://primefaces.org/ui"
+                xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/Input">
 
     <ui:define name="editContent">
-        <h2>Emailversand</h2>
+        <h2>Weitere E-Mail-Adressen welche Zertifizierungsbenachrichtigungen erhalten sollen</h2>
 
         <h:form id="frmEmailSending">
-            
-            <div class="inputPart">
-                <h:outputLabel styleClass="label30">
-                    Hersteller:
-                </h:outputLabel>
-                <h:selectOneMenu id="selectedTemplate" styleClass="inputmedium" value="#{certGrouperCc.selectedAccountId}">
-                    <f:selectItem itemValue="#{null}" itemLabel="Bitte wählen..." />
-                    <f:selectItems value="#{certManager.allGrouperAccounts}" 
-                                   var="item"
-                                   itemLabel="#{item.company} - #{item.email}" itemValue="#{item.id}"/>
-                    <f:ajax event="change" render="@all :logout:remaining" listener="#{certGrouperCc.selectedAccountChanged}"/>
-                </h:selectOneMenu> 
+
+            <div class="ui-g ui-fluid">
+                <div class="ui-g-8 ui-md-6">
+                    <pf:dataTable id="tblEmailReceiversTemplate"
+                                  value="#{certGrouperCc.additionalEmails}"
+                                  var="item"
+                                  emptyMessage="Keine Einträge vorhanden"
+                                  tableStyle="table-layout: auto;"
+                                  tableStyleClass="inekTableDrg">
+                        <pf:column class="colIcon" >
+                            <div onclick="changeDialogColor('delete');">
+                                <pf:commandLink immediate="true"
+                                                action="#{certGrouperCc.deleteAdditionalCc(item)}"
+                                                update="tblEmailReceiversTemplate">
+                                    <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value=""/>
+                                    <pf:confirm header="Wirklich löschen?"
+                                                message="Wollen Sie den Eintrag wirklich löschen?" />
+                                </pf:commandLink>
+                            </div>
+                        </pf:column>
+                        <pf:column headerText="E-Mail">
+                            <inek:InputTextValidator value="#{item.email}"
+                                                     validatorFunction="#{certGrouperCc.checkEmail}"
+                                                     validatorMessage="Bitte eine gültige E-Mail eingeben"/>
+                        </pf:column>
+                    </pf:dataTable>
+                </div>
             </div>
-                        
-            <h:dataTable rendered="#{certGrouperCc.selectedAccountId > 0}" value="#{certGrouperCc.additionalEmails}"
-                         headerClass="list-header" id="tblEmailReceiversTemplate"
-                         var="item" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colValue">
-                <h:column id="colDelete">
-                    <h:commandLink immediate="true" rendered="#{item.id gt 0}">
-                        <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value=""/>
-                        <cb:confirmDelete/>
-                        <f:ajax render="@all :logout:remaining" listener="#{certGrouperCc.deleteAdditionalCc(item)}"/>
-                    </h:commandLink>
-                </h:column>
-                <h:column id="colCc">
-                    <f:facet name="header">
-                        <h:outputText value="CC-Mail"/>
-                    </f:facet>
-                    <h:outputLabel value="#{item.email}" rendered="#{item.id gt 0}"/>
-                    <h:inputText styleClass="inputmedium" rendered="#{item.id le 0 or item.id == null}" value="#{item.email}">
-                        <f:ajax event="blur" render="@this :logout:remaining" />
-                    </h:inputText>
-                </h:column>
-            </h:dataTable>
-            <h:commandLink id="addButton" styleClass="addButton inputPart" value="#{msg.btnAddEntry}" rendered="#{certGrouperCc.selectedAccountId > 0}">
-                <f:ajax event="click" render="@form :logout:remaining" listener="#{certGrouperCc.addNewAdditonalEmail}"/>
-            </h:commandLink>
-            
-            <div class="inputPart" style="float: right;">
-                <h:commandLink styleClass="bigButton" value="Speichern" action="#{certGrouperCc.saveGrouperCcs}"/>
-            </div>
-            <div style="clear: both;" />
-            
-            
+            <pf:commandButton styleClass="addEntryDrg"
+                              icon="fa fa-plus"
+                              value="#{msg.btnAddEntry}"
+                              action="#{certGrouperCc.addNewAdditonalEmail}"
+                              update="@(.ui-message) tblEmailReceiversTemplate" />
+
+            <br />
+            <br />
+            <h:commandLink styleClass="bigButton" value="Speichern" action="#{certGrouperCc.saveGrouperCcs}"/>
         </h:form>
 
     </ui:define>
