@@ -41,7 +41,6 @@ public class DocumentsEditController extends AbstractEditController {
     }
 
     private enum DocumentsTabs {
-        tabUploadToInek,
         tabUploadFromInek,
         tabApproval,
         tabViewUploaded,
