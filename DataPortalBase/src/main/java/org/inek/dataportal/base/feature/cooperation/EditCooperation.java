@@ -141,16 +141,16 @@ public class EditCooperation extends AbstractEditController {
         if (userHasSubscribedFeature(feature)) {
             EnsureCooperationRights();
             Optional<CooperationRight> optionalRight = _cooperationRights.stream().filter(r -> r.getFeature() == feature).findFirst();
-            CooperationRight right = optionalRight.orElseGet(() -> addAndReturnMissingCooperationRight(feature));
+            CooperationRight right = optionalRight.orElseGet(() -> addAndReturnMissingCooperationRight(feature, -1));
             _cooperationInfos.add(new CooperationInfo(feature, cooperativeRights.get(), right));
         }
     }
 
-    private CooperationRight addAndReturnMissingCooperationRight(Feature feature) {
+    private CooperationRight addAndReturnMissingCooperationRight(Feature feature, int ik) {
         CooperationRight right = new CooperationRight(
                 _sessionController.getAccountId(),
                 getPartnerAccount().getId(),
-                -1,
+                ik,
                 feature
         );
         _cooperationRights.add(right);
@@ -272,15 +272,8 @@ public class EditCooperation extends AbstractEditController {
             if (_cooperationRights.stream().anyMatch(r -> r.getFeature() == feature && r.getIk() == ik)) {
                 continue;
             }
-            CooperationRight right = new CooperationRight(
-                    _sessionController.getAccountId(),
-                    getPartnerAccount().getId(),
-                    ik,
-                    feature
-            );
-            _cooperationRights.add(right);
+            addAndReturnMissingCooperationRight(feature, ik);
         }
-
     }
 
     public List<SelectItem> getCooperativeRights() {

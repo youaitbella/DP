@@ -45,14 +45,15 @@ import org.inek.dataportal.common.enums.ConfigKey;
 public class AccessManager implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger("AccessManager");
-    
+
     private CooperationRightFacade _cooperationRightFacade;
     private SessionController _sessionController;
     private AccountFacade _accountFacade;
     private ConfigFacade _configFacade;
 
-    public AccessManager(){}
-    
+    public AccessManager() {
+    }
+
     @Inject
     public AccessManager(CooperationRightFacade cooperationRightFacade,
             SessionController sessionController,
@@ -84,8 +85,7 @@ public class AccessManager implements Serializable {
 
     /**
      * Determines and returns the achieved rights. A user might get rights from two sources: ik supervision or
-     * individual. If an ik supervisor is needed, than and individiual supervising right is canceled. If both rights are
-     * provided, than determine the higher rights.
+     * individual. 
      *
      * @param feature
      * @param partnerId
@@ -95,19 +95,13 @@ public class AccessManager implements Serializable {
      */
     private CooperativeRight getAchievedRight(Feature feature, int partnerId, int ik) {
         Account account = _sessionController.getAccount();
-        CooperativeRight supervisorRight = getCooperationRights(feature, account)
-                .stream()
-                .filter(r -> r.getOwnerId() == -1 && r.getIk() == ik && r.getPartnerId() == account.getId())
-                .findAny()
-                .orElse(new CooperationRight())
-                .getCooperativeRight();
         CooperativeRight cooperativeRight = getCooperationRights(feature, account)
                 .stream()
                 .filter(r -> r.getOwnerId() == partnerId && r.getIk() == ik && r.getPartnerId() == account.getId())
                 .findAny()
                 .orElse(new CooperationRight())
                 .getCooperativeRight();
-        return supervisorRight.mergeRights(cooperativeRight);
+        return cooperativeRight;
     }
 
     private Stream<AccessRight> obtainAccessRights(Feature feature) {
@@ -263,8 +257,8 @@ public class AccessManager implements Serializable {
 
         List<CooperationRight> coopSupervisors = getCooperationRights(feature, account)
                 .stream()
-                .filter(r -> r.getOwnerId() == account.getId() && r.getIk() == ik && r.getCooperativeRight().
-                isSupervisor())
+                .filter(r -> r.getOwnerId() == account.getId()
+                && r.getIk() == ik && r.getCooperativeRight().isSupervisor())
                 .collect(Collectors.toList());
 
         return coopSupervisors.size() > 0;
@@ -409,26 +403,8 @@ public class AccessManager implements Serializable {
      */
     public Set<Integer> getPartnerIks(Feature feature, int partnerId) {
         if (!_partnerIks.containsKey(partnerId)) {
-            //System.out.println("getPartnerIks " + partnerId);
             Account account = _sessionController.getAccount();
             Set<Integer> iks = getIksFromCooperativeRights(feature, account, partnerId);
-            // next check, whether the user is aupervisor for this feature and if an ik of the partner is supervised
-            boolean isSupervisor = getCooperationRights(feature, account)
-                    .stream()
-                    .anyMatch(r -> r.getOwnerId() == -1 && r.getIk() > 0 && r.getPartnerId() == account.getId());
-            if (isSupervisor) {
-                Account partnerAccount = _accountFacade.findAccount(partnerId);
-                Set<Integer> partnerIks = partnerAccount.getFullIkSet();
-                for (int ik : partnerIks) {
-                    boolean isSupervised = getCooperationRights(feature, account)
-                            .stream()
-                            .anyMatch(r -> r.getOwnerId() == -1 && r.getIk() == ik && r.getPartnerId() == account.
-                            getId());
-                    if (isSupervised) {
-                        iks.add(ik);
-                    }
-                }
-            }
             _partnerIks.put(partnerId, iks);
         }
         return _partnerIks.get(partnerId);
@@ -473,9 +449,6 @@ public class AccessManager implements Serializable {
                 .forEach((right) -> {
                     if (right.getOwnerId() >= 0) {
                         ids.add(right.getOwnerId());
-                    } else if (right.getOwnerId() == -1 && right.getIk() > 0) {
-                        // user is supervisor, lets get all account ids, which might be supervised
-                        ids.addAll(_cooperationRightFacade.getAccountIdsByFeatureAndIk(feature, right.getIk()));
                     }
                 });
         //ids.remove(_sessionController.getAccountId());  // remove own id (if in set)

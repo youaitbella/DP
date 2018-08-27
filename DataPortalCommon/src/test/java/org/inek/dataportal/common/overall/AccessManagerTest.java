@@ -7,7 +7,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
+import org.inek.dataportal.common.data.account.facade.AccountFacade;
+import org.inek.dataportal.common.data.cooperation.entities.CooperationRight;
+import org.inek.dataportal.common.data.cooperation.facade.CooperationRightFacade;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
+import org.inek.dataportal.common.enums.CooperativeRight;
 import org.inek.dataportal.common.enums.Right;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -33,7 +37,7 @@ public class AccessManagerTest {
         AccessManager accessManager = new AccessManager(null, sessionController, null, null);
         return accessManager;
     }
-    
+
     @Test
     public void retrieveAllowedManagedIksReturnsTheOnlyOneAllowedIk() {
         List<AccessRight> accessRights = new ArrayList<>();
@@ -252,6 +256,27 @@ public class AccessManagerTest {
 
     @Test
     public void testGetPartnerIks() {
+        Feature feature = Feature.NUB;
+
+        SessionController sessionController = mock(SessionController.class);
+        AccountFacade accountFacade = mock(AccountFacade.class);
+        CooperationRightFacade cooperationRightFacade = mock(CooperationRightFacade.class);
+
+        Account userAccount = mock(Account.class);
+        when(userAccount.getId()).thenReturn(1);
+        Account partnerAccount = mock(Account.class);
+        when(partnerAccount.getId()).thenReturn(2);
+
+        List<CooperationRight> cooperationRights = new ArrayList<>();
+        cooperationRights.add(new CooperationRight(partnerAccount.getId(), userAccount.getId(), allowedIk, feature, CooperativeRight.ReadWriteSeal));
+        
+        when(sessionController.getAccount()).thenReturn(userAccount);
+        when(cooperationRightFacade.getCooperationRights(feature, userAccount)).thenReturn(cooperationRights);
+        
+        AccessManager accessManager = new AccessManager(cooperationRightFacade, sessionController, accountFacade, null);
+
+        Set<Integer> partnerIks = accessManager.getPartnerIks(feature, partnerAccount.getId());
+        assertThat(partnerIks).isNotNull().isNotEmpty().containsOnly(allowedIk);
     }
 
     @Test

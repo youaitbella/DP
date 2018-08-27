@@ -26,23 +26,23 @@ import org.inek.dataportal.common.enums.CooperativeRight;
 @Entity
 @Table(name = "CooperationRight", schema = "usr")
 public class CooperationRight implements Serializable {
-    
+
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "corId")
     private int _id = -1;
-    
+
     @Column(name = "corOwnerId")
     private int _ownerId;
-    
+
     @Column(name = "corPartnerId")
     private int _partnerId;
-    
+
     @Column(name = "corIk")
     private int _ik;
-    
+
     @Column(name = "corFeatureId")
     @Convert(converter = FeatureConverter.class)
     private Feature _feature;
@@ -51,12 +51,19 @@ public class CooperationRight implements Serializable {
     @Enumerated(EnumType.STRING)
     private CooperativeRight _cooperativeRight = CooperativeRight.None;
 
-    public CooperationRight(){}
-    public CooperationRight(int ownerId, int partnerId, int ik, Feature feature){
-        _ownerId=ownerId;
-        _partnerId=partnerId;
-        _ik=ik;
-        _feature=feature;
+    public CooperationRight() {
+    }
+
+    public CooperationRight(int ownerId, int partnerId, int ik, Feature feature) {
+        this(ownerId, partnerId, ik, feature, CooperativeRight.None);
+    }
+
+    public CooperationRight(int ownerId, int partnerId, int ik, Feature feature, CooperativeRight cooperativeRight) {
+        _ownerId = ownerId;
+        _partnerId = partnerId;
+        _ik = ik;
+        _feature = feature;
+        _cooperativeRight = cooperativeRight;
     }
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter">
@@ -108,13 +115,11 @@ public class CooperationRight implements Serializable {
         _cooperativeRight = cooperativeRight;
     }
 
-
     // </editor-fold>
-
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public int hashCode() {
-        if (_id >= 0){
+        if (_id >= 0) {
             return _id;
         }
         int hash = 3;
@@ -131,7 +136,7 @@ public class CooperationRight implements Serializable {
             return false;
         }
         CooperationRight other = (CooperationRight) object;
-        if (_id >= 0){
+        if (_id >= 0) {
             return _id == other._id;
         }
         return _ownerId == other._ownerId
