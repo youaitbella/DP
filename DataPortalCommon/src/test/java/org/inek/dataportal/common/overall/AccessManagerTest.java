@@ -34,7 +34,7 @@ public class AccessManagerTest {
         Account account = mock(Account.class);
         when(account.getAccessRights()).thenReturn(accessRights);
         when(sessionController.getAccount()).thenReturn(account);
-        AccessManager accessManager = new AccessManager(null, sessionController, null, null);
+        AccessManager accessManager = new AccessManager(null, sessionController, null);
         return accessManager;
     }
 
@@ -259,7 +259,6 @@ public class AccessManagerTest {
         Feature feature = Feature.NUB;
 
         SessionController sessionController = mock(SessionController.class);
-        AccountFacade accountFacade = mock(AccountFacade.class);
         CooperationRightFacade cooperationRightFacade = mock(CooperationRightFacade.class);
 
         Account userAccount = mock(Account.class);
@@ -273,7 +272,7 @@ public class AccessManagerTest {
         when(sessionController.getAccount()).thenReturn(userAccount);
         when(cooperationRightFacade.getCooperationRights(feature, userAccount)).thenReturn(cooperationRights);
         
-        AccessManager accessManager = new AccessManager(cooperationRightFacade, sessionController, accountFacade, null);
+        AccessManager accessManager = new AccessManager(cooperationRightFacade, sessionController, null);
 
         Set<Integer> partnerIks = accessManager.getPartnerIks(feature, partnerAccount.getId());
         assertThat(partnerIks).isNotNull().isNotEmpty().containsOnly(allowedIk);

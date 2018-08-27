@@ -48,7 +48,6 @@ public class AccessManager implements Serializable {
 
     private CooperationRightFacade _cooperationRightFacade;
     private SessionController _sessionController;
-    private AccountFacade _accountFacade;
     private ConfigFacade _configFacade;
 
     public AccessManager() {
@@ -57,11 +56,9 @@ public class AccessManager implements Serializable {
     @Inject
     public AccessManager(CooperationRightFacade cooperationRightFacade,
             SessionController sessionController,
-            AccountFacade accountFacade,
             ConfigFacade configFacade) {
         _cooperationRightFacade = cooperationRightFacade;
         _sessionController = sessionController;
-        _accountFacade = accountFacade;
         _configFacade = configFacade;
     }
 
