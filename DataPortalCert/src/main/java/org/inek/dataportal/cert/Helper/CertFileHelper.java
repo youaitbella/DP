@@ -50,8 +50,6 @@ public final class CertFileHelper {
                 return 1;
             case TestUpload2:
                 return 2;
-            case TestUpload3:
-                return 3;
             case CertUpload1:
                 return 1;
             case CertUpload2:

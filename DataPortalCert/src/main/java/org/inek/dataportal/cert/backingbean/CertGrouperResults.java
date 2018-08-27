@@ -151,7 +151,6 @@ public class CertGrouperResults implements Serializable {
         List<MailTemplate> mts = _mtFacade.findTemplatesByFeature(Feature.CERT);
         switch (_grouper.getCertStatus()) {
             case TestFailed1:
-            case TestFailed2:
                 addTemplatesToList(temp, mts, CertMailType.ErrorTest);
                 break;
             case CertFailed1:
@@ -182,9 +181,6 @@ public class CertGrouperResults implements Serializable {
             switch (_grouper.getCertStatus()) {
                 case TestFailed1:
                     errors = _grouper.getTestError1();
-                    break;
-                case TestFailed2:
-                    errors = _grouper.getTestError2();
                     break;
                 case CertFailed1:
                     errors = _grouper.getCertError1();
@@ -217,10 +213,6 @@ public class CertGrouperResults implements Serializable {
                 break;
             case TestFailed1:
                 numofMails = 1;
-                mailType = CertMailType.ErrorTest;
-                break;
-            case TestFailed2:
-                numofMails = 2;
                 mailType = CertMailType.ErrorTest;
                 break;
             case TestSucceed:
@@ -597,7 +589,6 @@ public class CertGrouperResults implements Serializable {
             case CertUpload2:
             case TestUpload1:
             case TestUpload2:
-            case TestUpload3:
                 return true;
             default:
                 return false;
@@ -618,15 +609,6 @@ public class CertGrouperResults implements Serializable {
             case TestUpload2:
                 _grouper.setTestError2(_numErrors);
                 _grouper.setTestCheck2(_dateChecked);
-                if (_numErrors == 0) {
-                    _grouper.setCertStatus(CertStatus.TestSucceed);
-                } else {
-                    _grouper.setCertStatus(CertStatus.TestFailed2);
-                }
-                break;
-            case TestUpload3:
-                _grouper.setTestError3(_numErrors);
-                _grouper.setTestCheck3(_dateChecked);
                 if (_numErrors == 0) {
                     _grouper.setCertStatus(CertStatus.TestSucceed);
                 } else {
@@ -747,22 +729,11 @@ public class CertGrouperResults implements Serializable {
                 _grouper.setCertStatus(CertStatus.TestFailed1);
                 _grouper.setTestUpload2(null);
                 break;
-            case TestFailed2:
-                _grouper.setCertStatus(CertStatus.TestUpload2);
-                _grouper.setTestError2(-1);
-                _grouper.setTestCheck2(null);
-                break;
-            case TestUpload3:
-                _grouper.setCertStatus(CertStatus.TestFailed2);
-                _grouper.setTestUpload3(null);
-                break;
             case TestSucceed:
                 if (_grouper.getTestError1() == 0) {
                     _grouper.setCertStatus(CertStatus.TestUpload1);
                 } else if (_grouper.getTestError2() == 0) {
                     _grouper.setCertStatus(CertStatus.TestUpload2);
-                } else if (_grouper.getTestError3() == 0) {
-                    _grouper.setCertStatus(CertStatus.TestUpload3);
                 }
                 break;
             case CertUpload1:
@@ -796,7 +767,6 @@ public class CertGrouperResults implements Serializable {
     public boolean needMail(Grouper grouper) {
         switch (grouper.getCertStatus()) {
             case TestFailed1:
-            case TestFailed2:
             case TestSucceed:
             case CertFailed1:
             case CertSucceed:
@@ -817,11 +787,6 @@ public class CertGrouperResults implements Serializable {
         switch (grouper.getCertStatus()) {
             case TestFailed1:
                 if (_elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(sysId, grId, CertMailType.ErrorTest.getId()).size() == 1) {
-                    return mailImage;
-                }
-                break;
-            case TestFailed2:
-                if (_elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(sysId, grId, CertMailType.ErrorTest.getId()).size() == 2) {
                     return mailImage;
                 }
                 break;
@@ -862,12 +827,6 @@ public class CertGrouperResults implements Serializable {
                 if (_elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(sysId, grId, CertMailType.ErrorTest.getId()).size() == 1) {
                     return sdf.format(_elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(sysId, grId,
                             CertMailType.ErrorTest.getId()).get(0).getSent());
-                }
-                break;
-            case TestFailed2:
-                if (_elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(sysId, grId, CertMailType.ErrorTest.getId()).size() == 2) {
-                    return sdf.format(_elFacade.findEmailLogsBySystemIdAndGrouperIdAndType(sysId, grId,
-                            CertMailType.ErrorTest.getId()).get(1).getSent());
                 }
                 break;
             case TestSucceed:

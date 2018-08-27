@@ -173,9 +173,6 @@ public class CertCertification implements Serializable {
             case TestFailed1:
             case TestUpload2:
                 return "TestDaten v2";
-            case TestFailed2:
-            case TestUpload3:
-                return "TestDaten v3";
             case TestSucceed:
             case CertUpload1:
                 return "ZertDaten v1";
@@ -304,10 +301,6 @@ public class CertCertification implements Serializable {
             grouper.setTestUpload2(new Date());
             grouper.setCertStatus(CertStatus.TestUpload2);
         }
-        if (fileName.startsWith("TestDaten v3")) {
-            grouper.setTestUpload3(new Date());
-            grouper.setCertStatus(CertStatus.TestUpload3);
-        }
         if (fileName.startsWith("ZertDaten v1")) {
             grouper.setCertUpload1(new Date());
             grouper.setCertStatus(CertStatus.CertUpload1);
@@ -354,7 +347,6 @@ public class CertCertification implements Serializable {
         switch (_grouper.getCertStatus()) {
             case PasswordRequested:
             case TestFailed1:
-            case TestFailed2:
                 return true;
             default:
                 return false;
@@ -378,7 +370,6 @@ public class CertCertification implements Serializable {
         switch (_grouper.getCertStatus()) {
             case TestUpload1:
             case TestUpload2:
-            case TestUpload3:
             case CertUpload1:
             case CertUpload2:
                 return true;
