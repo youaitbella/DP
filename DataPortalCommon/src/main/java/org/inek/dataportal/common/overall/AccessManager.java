@@ -130,8 +130,8 @@ public class AccessManager implements Serializable {
 
     /**
      * In normal workflow, only data the user has access to, will be displayed in the lists. But if some user tries to
-     * open data by its id (via URL), this might be an non-authorized access. Within ta dialog, it should be tested,
-     * wheater at access is allowed or not. For a uniform interface, we pass in the state although it is ignored yet. It
+     * open data by its id (via URL), this might be an non-authorized access. Within the dialog, it should be tested,
+     * wheater the access is allowed or not. For a uniform interface, we pass in the state although it is ignored yet. It
      * migt be respected in the future.
      *
      * @param feature
