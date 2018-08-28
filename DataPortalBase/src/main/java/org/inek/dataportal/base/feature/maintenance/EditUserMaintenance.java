@@ -358,19 +358,19 @@ public class EditUserMaintenance extends AbstractEditController {
     }
 
     private void checkIKAdminRights(Account account) {
-        for (int in : account.getFullIkSet()) {
-            if (_ikAdminFacade.hasIkAdmin(in)) {
+        for (int ik : account.getFullIkSet()) {
+            if (_ikAdminFacade.hasIkAdmin(ik)) {
                 boolean hasNewEntry = false;
                 for (AccountFeature feature : account.getFeatures()) {
                     if (feature.getFeature().getIkReference() == IkReference.Hospital
-                            && _ikAdminFacade.findAccessRightsByAccountIkAndFeature(account, in, feature.getFeature()).isEmpty()) {
-                        AccessRight accessRight = new AccessRight(account.getId(), in, feature.getFeature(), Right.Deny);
+                            && _ikAdminFacade.findAccessRightsByAccountIkAndFeature(account, ik, feature.getFeature()).isEmpty()) {
+                        AccessRight accessRight = new AccessRight(account.getId(), ik, feature.getFeature(), Right.Deny);
                         _ikAdminFacade.saveAccessRight(accessRight);
                         hasNewEntry = true;
                     }
                 }
                 if (hasNewEntry) {
-                    notifyIkAdmin(in, account);
+                    notifyIkAdmin(ik, account);
                 }
             }
         }
