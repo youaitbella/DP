@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpSession;
@@ -28,8 +27,11 @@ public class DocumentUploadServlet extends AbstractUploadServlet {
         DocumentUpload docUpload = FeatureScopedContextHolder.Instance.getBean(DocumentUpload.class, map);
 
         List<AccountDocument> documents = docUpload.getDocuments();
-        Optional<AccountDocument> optDoc = documents.stream().filter(d -> d.getName().equals(filename)).findFirst();
-        AccountDocument document = optDoc.orElse(new AccountDocument(filename));
+        AccountDocument document = documents
+                .stream()
+                .filter(d -> d.getName().equals(filename))
+                .findFirst()
+                .orElse(new AccountDocument(filename));
         if (!documents.contains(document)) {
             documents.add(document);
         }
@@ -38,15 +40,15 @@ public class DocumentUploadServlet extends AbstractUploadServlet {
 
     private int getInitialSize(HttpUtil httpUtil) {
         long initialSize;
-        try{
-            initialSize  = Long.parseLong(httpUtil.getRequest().getHeader("Content-Length"));
-        } catch (NumberFormatException ex){
+        try {
+            initialSize = Long.parseLong(httpUtil.getRequest().getHeader("Content-Length"));
+        } catch (NumberFormatException ex) {
             initialSize = Const.BUFFER_SIZE;
         }
-        if (initialSize > Integer.MAX_VALUE - 8){
+        if (initialSize > Integer.MAX_VALUE - 8) {
             return Integer.MAX_VALUE - 8;
         }
-        return (int)initialSize;
+        return (int) initialSize;
     }
 
 }
