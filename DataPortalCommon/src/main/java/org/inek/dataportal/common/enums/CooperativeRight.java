@@ -26,10 +26,11 @@ public enum CooperativeRight {
 
     
     /**
-     * rights are defined as a three letter string read: 0 = none; 1 = when
-     * sealed; 2 = when at least completed; 3 = always write: 0 = none; 1 = when
-     * sealed; 2 = when at least completed; 3 = always seal: 0 = none; 1 = yes;
-     * 2 = yes as supervisor
+     * rights are defined as a four character string 
+     * read: 0 = none; 1 = when sealed; 2 = when at least completed; 3 = always 
+     * write: 0 = none; 1 = when sealed; 2 = when at least completed; 3 = always 
+     * take: 0 = none; 1 = yes
+     * seal: 0 = none; 1 = yes; 2 = yes as supervisor
      */
     private final String _rights;
 

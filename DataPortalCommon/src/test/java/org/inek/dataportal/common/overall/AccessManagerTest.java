@@ -3,6 +3,7 @@ package org.inek.dataportal.common.overall;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.controller.SessionController;
@@ -12,6 +13,7 @@ import org.inek.dataportal.common.data.cooperation.facade.CooperationRightFacade
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
 import org.inek.dataportal.common.enums.CooperativeRight;
 import org.inek.dataportal.common.enums.Right;
+import org.inek.dataportal.common.enums.WorkflowStatus;
 import static org.inek.dataportal.common.overall.AccessManager.canReadCompleted;
 import static org.inek.dataportal.common.overall.AccessManager.canReadSealed;
 import static org.mockito.Mockito.mock;
@@ -24,49 +26,91 @@ import org.junit.jupiter.api.Test;
  */
 public class AccessManagerTest {
 
-    private final int allowedIk = 222222222;
-    private final int deniedIk = 333333333;
-    private final int testIk4 = 444444444;
-    private final int testIk5 = 555555555;
-    private final int testIk6 = 666666666;
+    private final int testIk1 = 111111111;
+    private final int testIk2 = 222222222;
+    private final int testIk3 = 333333333;
+    private final int allowedIk = testIk1;
+    private final int deniedIk = testIk2;
 
+    private final int userAccountId = 4711;
+    private final int noneAccountId = 0;
+    private final int readWriteSealAccountId = 1;
+    private final int readSealedAccountId = 2;
+    private final Feature testFeature = Feature.NUB;
+    
     public AccessManagerTest() {
     }
 
+    public AccessManager obtainAccessManager() {
+        return obtainAccessManager(new ArrayList<>(), false);
+    }
+
     public AccessManager obtainAccessManager(List<AccessRight> accessRights) {
+        return obtainAccessManager(accessRights, false);
+    }
+
+    public AccessManager obtainAccessManager(List<AccessRight> accessRights, boolean isInekUser) {
+        List<CooperationRight> cooperationRights = new ArrayList<>();
+        cooperationRights.add(
+                new CooperationRight(noneAccountId, userAccountId, testIk1, testFeature, CooperativeRight.None));
+        cooperationRights.add(
+                new CooperationRight(readWriteSealAccountId, userAccountId, testIk1, testFeature, CooperativeRight.ReadWriteSeal));
+        cooperationRights.add(
+                new CooperationRight(readSealedAccountId, userAccountId, testIk2, testFeature, CooperativeRight.ReadSealed));
+        cooperationRights.add(
+                new CooperationRight(readSealedAccountId, userAccountId, -1, Feature.DRG_PROPOSAL, CooperativeRight.ReadSealed));
+
+        return obtainAccessManager(accessRights, cooperationRights, isInekUser);
+    }
+
+    public AccessManager obtainAccessManager(List<AccessRight> accessRights, List<CooperationRight> cooperationRights,
+            boolean isInekUser) {
+
+        Account userAccount = mock(Account.class);
+        when(userAccount.getId()).thenReturn(userAccountId);
+
+        when(userAccount.getAccessRights()).thenReturn(accessRights);
+
         SessionController sessionController = mock(SessionController.class);
-        Account account = mock(Account.class);
-        when(account.getAccessRights()).thenReturn(accessRights);
-        when(sessionController.getAccount()).thenReturn(account);
-        AccessManager accessManager = new AccessManager(null, sessionController);
+        when(sessionController.isInekUser(testFeature)).thenReturn(isInekUser);
+        when(sessionController.getAccount()).thenReturn(userAccount);
+        when(sessionController.getAccountId()).thenReturn(userAccountId);
+
+        CooperationRightFacade cooperationRightFacade = mock(CooperationRightFacade.class);
+        when(cooperationRightFacade.getCooperationRights(testFeature, userAccount))
+                .thenReturn(cooperationRights.stream().filter(r -> r.getFeature() == testFeature).collect(Collectors.toList()));
+        when(cooperationRightFacade.getCooperationRights(Feature.DRG_PROPOSAL, userAccount))
+                .thenReturn(cooperationRights.stream().filter(r -> r.getFeature() == Feature.DRG_PROPOSAL).collect(Collectors.toList()));
+
+        AccessManager accessManager = new AccessManager(cooperationRightFacade, sessionController);
         return accessManager;
     }
 
     @Test
     public void retrieveAllowedManagedIksReturnsTheOnlyOneAllowedIk() {
         List<AccessRight> accessRights = new ArrayList<>();
-        accessRights.add(new AccessRight(0, allowedIk, Feature.NUB, Right.Read));
+        accessRights.add(new AccessRight(0, allowedIk, testFeature, Right.Read));
         AccessManager accessManager = obtainAccessManager(accessRights);
-        Set<Integer> result = accessManager.retrieveAllowedManagedIks(Feature.NUB);
+        Set<Integer> result = accessManager.retrieveAllowedManagedIks(testFeature);
         assertThat(result).isNotNull().isNotEmpty().containsOnly(allowedIk);
     }
 
     @Test
     public void retrieveAllowedManagedIksReturnsOnlyOneAllowedIkOutOfMultipleIk() {
         List<AccessRight> accessRights = new ArrayList<>();
-        accessRights.add(new AccessRight(0, allowedIk, Feature.NUB, Right.Read));
-        accessRights.add(new AccessRight(0, deniedIk, Feature.NUB, Right.Deny));
+        accessRights.add(new AccessRight(0, allowedIk, testFeature, Right.Read));
+        accessRights.add(new AccessRight(0, deniedIk, testFeature, Right.Deny));
         AccessManager accessManager = obtainAccessManager(accessRights);
-        Set<Integer> result = accessManager.retrieveAllowedManagedIks(Feature.NUB);
+        Set<Integer> result = accessManager.retrieveAllowedManagedIks(testFeature);
         assertThat(result).isNotNull().isNotEmpty().containsOnly(allowedIk);
     }
 
     @Test
     public void retrieveAllowedManagedIksReturnsNoIkForListOfDeniedIk() {
         List<AccessRight> accessRights = new ArrayList<>();
-        accessRights.add(new AccessRight(0, deniedIk, Feature.NUB, Right.Deny));
+        accessRights.add(new AccessRight(0, deniedIk, testFeature, Right.Deny));
         AccessManager accessManager = obtainAccessManager(accessRights);
-        Set<Integer> result = accessManager.retrieveAllowedManagedIks(Feature.NUB);
+        Set<Integer> result = accessManager.retrieveAllowedManagedIks(testFeature);
         assertThat(result).isNotNull().isEmpty();
     }
 
@@ -74,15 +118,15 @@ public class AccessManagerTest {
     public void retrieveAllowedManagedIksReturnsNoIkForEmptyAccessRights() {
         List<AccessRight> accessRights = new ArrayList<>();
         AccessManager accessManager = obtainAccessManager(accessRights);
-        Set<Integer> result = accessManager.retrieveAllowedManagedIks(Feature.NUB);
+        Set<Integer> result = accessManager.retrieveAllowedManagedIks(testFeature);
         assertThat(result).isNotNull().isEmpty();
     }
 
     @Test
     public void retrieveAllowedManagedIksReturnsNoIkForWrongFeature() {
         List<AccessRight> accessRights = new ArrayList<>();
-        accessRights.add(new AccessRight(0, allowedIk, Feature.NUB, Right.Read));
-        accessRights.add(new AccessRight(0, deniedIk, Feature.NUB, Right.Deny));
+        accessRights.add(new AccessRight(0, allowedIk, testFeature, Right.Read));
+        accessRights.add(new AccessRight(0, deniedIk, testFeature, Right.Deny));
         AccessManager accessManager = obtainAccessManager(accessRights);
         Set<Integer> result = accessManager.retrieveAllowedManagedIks(Feature.CERT);
         assertThat(result).isNotNull().isEmpty();
@@ -91,28 +135,28 @@ public class AccessManagerTest {
     @Test
     public void retrieveDeniedManagedIksReturnsOnlyOneDeniedIk() {
         List<AccessRight> accessRights = new ArrayList<>();
-        accessRights.add(new AccessRight(0, deniedIk, Feature.NUB, Right.Deny));
+        accessRights.add(new AccessRight(0, deniedIk, testFeature, Right.Deny));
         AccessManager accessManager = obtainAccessManager(accessRights);
-        Set<Integer> result = accessManager.retrieveDeniedManagedIks(Feature.NUB);
+        Set<Integer> result = accessManager.retrieveDeniedManagedIks(testFeature);
         assertThat(result).isNotNull().isNotEmpty().containsOnly(deniedIk);
     }
 
     @Test
     public void retrieveDeniedManagedIksReturnsOnlyOneDeniedIkOutOfMultipleIk() {
         List<AccessRight> accessRights = new ArrayList<>();
-        accessRights.add(new AccessRight(0, allowedIk, Feature.NUB, Right.Read));
-        accessRights.add(new AccessRight(0, deniedIk, Feature.NUB, Right.Deny));
+        accessRights.add(new AccessRight(0, allowedIk, testFeature, Right.Read));
+        accessRights.add(new AccessRight(0, deniedIk, testFeature, Right.Deny));
         AccessManager accessManager = obtainAccessManager(accessRights);
-        Set<Integer> result = accessManager.retrieveDeniedManagedIks(Feature.NUB);
+        Set<Integer> result = accessManager.retrieveDeniedManagedIks(testFeature);
         assertThat(result).isNotNull().isNotEmpty().containsOnly(deniedIk);
     }
 
     @Test
     public void retrieveDeniedManagedIksReturnsNoIkForListOfDeniedIk() {
         List<AccessRight> accessRights = new ArrayList<>();
-        accessRights.add(new AccessRight(0, allowedIk, Feature.NUB, Right.Read));
+        accessRights.add(new AccessRight(0, allowedIk, testFeature, Right.Read));
         AccessManager accessManager = obtainAccessManager(accessRights);
-        Set<Integer> result = accessManager.retrieveDeniedManagedIks(Feature.NUB);
+        Set<Integer> result = accessManager.retrieveDeniedManagedIks(testFeature);
         assertThat(result).isNotNull().isEmpty();
     }
 
@@ -120,15 +164,15 @@ public class AccessManagerTest {
     public void retrieveDeniedManagedIksReturnsNoIkForEmptyAccessRights() {
         List<AccessRight> accessRights = new ArrayList<>();
         AccessManager accessManager = obtainAccessManager(accessRights);
-        Set<Integer> result = accessManager.retrieveDeniedManagedIks(Feature.NUB);
+        Set<Integer> result = accessManager.retrieveDeniedManagedIks(testFeature);
         assertThat(result).isNotNull().isEmpty();
     }
 
     @Test
     public void retrieveDeniedManagedIksReturnsNoIkForWrongFeature() {
         List<AccessRight> accessRights = new ArrayList<>();
-        accessRights.add(new AccessRight(0, allowedIk, Feature.NUB, Right.Read));
-        accessRights.add(new AccessRight(0, deniedIk, Feature.NUB, Right.Deny));
+        accessRights.add(new AccessRight(0, allowedIk, testFeature, Right.Read));
+        accessRights.add(new AccessRight(0, deniedIk, testFeature, Right.Deny));
         AccessManager accessManager = obtainAccessManager(accessRights);
         Set<Integer> result = accessManager.retrieveDeniedManagedIks(Feature.CERT);
         assertThat(result).isNotNull().isEmpty();
@@ -137,28 +181,28 @@ public class AccessManagerTest {
     @Test
     public void retrieveDeniedForCreationIksReturnsOnlyOneDeniedForCreationIk() {
         List<AccessRight> accessRights = new ArrayList<>();
-        accessRights.add(new AccessRight(0, allowedIk, Feature.NUB, Right.Read));
+        accessRights.add(new AccessRight(0, allowedIk, testFeature, Right.Read));
         AccessManager accessManager = obtainAccessManager(accessRights);
-        Set<Integer> result = accessManager.retrieveDeniedForCreationIks(Feature.NUB);
+        Set<Integer> result = accessManager.retrieveDeniedForCreationIks(testFeature);
         assertThat(result).isNotNull().isNotEmpty().containsOnly(allowedIk);
     }
 
     @Test
     public void retrieveDeniedForCreationIksReturnsEmptyIfTheOnlyOneIkIsAllowedForCreation() {
         List<AccessRight> accessRights = new ArrayList<>();
-        accessRights.add(new AccessRight(0, allowedIk, Feature.NUB, Right.Create));
+        accessRights.add(new AccessRight(0, allowedIk, testFeature, Right.Create));
         AccessManager accessManager = obtainAccessManager(accessRights);
-        Set<Integer> result = accessManager.retrieveDeniedForCreationIks(Feature.NUB);
+        Set<Integer> result = accessManager.retrieveDeniedForCreationIks(testFeature);
         assertThat(result).isNotNull().isEmpty();
     }
 
     @Test
     public void retrieveDeniedForCreationIksReturnsOnlyOneDeniedForCreationIkOutOfMultipleIk() {
         List<AccessRight> accessRights = new ArrayList<>();
-        accessRights.add(new AccessRight(0, allowedIk, Feature.NUB, Right.Create));
-        accessRights.add(new AccessRight(0, deniedIk, Feature.NUB, Right.Deny));
+        accessRights.add(new AccessRight(0, allowedIk, testFeature, Right.Create));
+        accessRights.add(new AccessRight(0, deniedIk, testFeature, Right.Deny));
         AccessManager accessManager = obtainAccessManager(accessRights);
-        Set<Integer> result = accessManager.retrieveDeniedForCreationIks(Feature.NUB);
+        Set<Integer> result = accessManager.retrieveDeniedForCreationIks(testFeature);
         assertThat(result).isNotNull().isNotEmpty().containsOnly(deniedIk);
     }
 
@@ -166,15 +210,15 @@ public class AccessManagerTest {
     public void retrieveDeniedForCreationIksReturnsNoIkForEmptyAccessRights() {
         List<AccessRight> accessRights = new ArrayList<>();
         AccessManager accessManager = obtainAccessManager(accessRights);
-        Set<Integer> result = accessManager.retrieveDeniedForCreationIks(Feature.NUB);
+        Set<Integer> result = accessManager.retrieveDeniedForCreationIks(testFeature);
         assertThat(result).isNotNull().isEmpty();
     }
 
     @Test
     public void retrieveDeniedForCreationIksReturnsNoIkForWrongFeature() {
         List<AccessRight> accessRights = new ArrayList<>();
-        accessRights.add(new AccessRight(0, allowedIk, Feature.NUB, Right.Read));
-        accessRights.add(new AccessRight(0, deniedIk, Feature.NUB, Right.Deny));
+        accessRights.add(new AccessRight(0, allowedIk, testFeature, Right.Read));
+        accessRights.add(new AccessRight(0, deniedIk, testFeature, Right.Deny));
         AccessManager accessManager = obtainAccessManager(accessRights);
         Set<Integer> result = accessManager.retrieveDeniedForCreationIks(Feature.CERT);
         assertThat(result).isNotNull().isEmpty();
@@ -183,15 +227,49 @@ public class AccessManagerTest {
     @Test
     public void retrieveAllManagedIksReturnsAllIkForFeature() {
         List<AccessRight> accessRights = new ArrayList<>();
-        accessRights.add(new AccessRight(0, allowedIk, Feature.NUB, Right.Read));
-        accessRights.add(new AccessRight(0, deniedIk, Feature.NUB, Right.Deny));
+        accessRights.add(new AccessRight(0, allowedIk, testFeature, Right.Read));
+        accessRights.add(new AccessRight(0, deniedIk, testFeature, Right.Deny));
         AccessManager accessManager = obtainAccessManager(accessRights);
-        Set<Integer> result = accessManager.retrieveDeniedForCreationIks(Feature.NUB);
+        Set<Integer> result = accessManager.retrieveDeniedForCreationIks(testFeature);
         assertThat(result).isNotNull().isNotEmpty().contains(allowedIk).contains(deniedIk);
     }
 
     @Test
-    public void testIsAccessAllowed_3args() {
+    public void isAccessAllowedForInekUserReturnsTrue() {
+
+        List<AccessRight> accessRights = new ArrayList<>();
+        AccessManager accessManager = obtainAccessManager(accessRights, true);
+        boolean result = accessManager.isAccessAllowed(testFeature, WorkflowStatus.Accepted, -1, -1);
+        assertThat(result).isTrue();
+
+    }
+
+    @Test
+    public void isAccessAllowedForOwnIdWithoutIkReturnsTrue() {
+
+        List<AccessRight> accessRights = new ArrayList<>();
+        AccessManager accessManager = obtainAccessManager(accessRights);
+        boolean result = accessManager.isAccessAllowed(testFeature, WorkflowStatus.Accepted, userAccountId, -1);
+        assertThat(result).isTrue();
+    }
+
+    @Test
+    public void isAccessAllowedForReadSealedAccountIdWithoutIkReturnsFalse() {
+
+        List<AccessRight> accessRights = new ArrayList<>();
+        AccessManager accessManager = obtainAccessManager(accessRights);
+        boolean result = accessManager.
+                isAccessAllowed(Feature.DRG_PROPOSAL, WorkflowStatus.Accepted, readSealedAccountId, -1);
+        assertThat(result).isTrue();
+    }
+
+    @Test
+    public void isAccessAllowedForNoneAccountIdWithoutIkReturnsFalse() {
+
+        List<AccessRight> accessRights = new ArrayList<>();
+        AccessManager accessManager = obtainAccessManager(accessRights);
+        boolean result = accessManager.isAccessAllowed(testFeature, WorkflowStatus.Accepted, noneAccountId, -1);
+        assertThat(result).isFalse();
     }
 
     @Test
@@ -270,93 +348,46 @@ public class AccessManagerTest {
     public void testCanWriteAlways() {
     }
 
-    public AccessManager obtainAccessManager(Account userAccount, Feature feature,
-            List<CooperationRight> cooperationRights) {
-        SessionController sessionController = mock(SessionController.class);
-        when(sessionController.getAccount()).thenReturn(userAccount);
-        CooperationRightFacade cooperationRightFacade = mock(CooperationRightFacade.class);
-        when(cooperationRightFacade.getCooperationRights(feature, userAccount)).thenReturn(cooperationRights);
-        AccessManager accessManager = new AccessManager(cooperationRightFacade, sessionController);
-        return accessManager;
-    }
-
     @Test
     public void determineAccountIdsForNullAccountReturnsEmptySet() {
 
         SessionController sessionController = mock(SessionController.class);
         when(sessionController.getAccount()).thenReturn(null);
         AccessManager accessManager = new AccessManager(null, sessionController);
-        Set<Integer> result = accessManager.determineAccountIds(Feature.NUB, canReadSealed());
+        Set<Integer> result = accessManager.determineAccountIds(testFeature, canReadSealed());
         assertThat(result).isNotNull().isEmpty();
 
     }
 
     @Test
     public void determineAccountIdsForAccountNotNullReturnsSetOfPartnerIdsWithAtLeastReadCompleated() {
-        Feature feature = Feature.NUB;
+        Feature feature = testFeature;
 
-        Account partnerAccount = mock(Account.class);
-        when(partnerAccount.getId()).thenReturn(2);
-
-        Account partner2Account = mock(Account.class);
-        when(partner2Account.getId()).thenReturn(3);
-
-        Account userAccount = mock(Account.class);
-        when(userAccount.getId()).thenReturn(1);
-
-        List<CooperationRight> cooperationRights = new ArrayList<>();
-        cooperationRights.add(
-                new CooperationRight(partnerAccount.getId(), userAccount.getId(), testIk4, feature, CooperativeRight.ReadWriteSeal));
-        cooperationRights.add(
-                new CooperationRight(partner2Account.getId(), userAccount.getId(), testIk5, feature, CooperativeRight.ReadSealed));
-
-        AccessManager accessManager = obtainAccessManager(userAccount, feature, cooperationRights);
+        AccessManager accessManager = obtainAccessManager();
 
         Set<Integer> result = accessManager.determineAccountIds(feature, canReadCompleted());
-        assertThat(result).isNotNull().isNotEmpty().containsOnly(1, 2);
+        assertThat(result).isNotNull().isNotEmpty().containsOnly(userAccountId, readWriteSealAccountId);
 
     }
 
     @Test
     public void determineAccountIdsForAccountNotNullReturnsSetOfPartnerIdsWithAtLeastReadSealed() {
-        Feature feature = Feature.NUB;
-
-        Account userAccount = mock(Account.class);
-        when(userAccount.getId()).thenReturn(1);
-
-        Account partnerAccount = mock(Account.class);
-        when(partnerAccount.getId()).thenReturn(2);
-
-        Account partner2Account = mock(Account.class);
-        when(partner2Account.getId()).thenReturn(3);
-
-        List<CooperationRight> cooperationRights = new ArrayList<>();
-        cooperationRights.add(
-                new CooperationRight(partnerAccount.getId(), userAccount.getId(), testIk4, feature, CooperativeRight.ReadWriteSeal));
-        cooperationRights.add(
-                new CooperationRight(partner2Account.getId(), userAccount.getId(), testIk5, feature, CooperativeRight.ReadSealed));
-
-
-        AccessManager accessManager = obtainAccessManager(userAccount, feature, cooperationRights);
+        Feature feature = testFeature;
+        AccessManager accessManager = obtainAccessManager();
 
         Set<Integer> result = accessManager.determineAccountIds(feature, canReadSealed());
-        assertThat(result).isNotNull().isNotEmpty().containsOnly(1, 2, 3);
+        assertThat(result).isNotNull().isNotEmpty().
+                containsOnly(userAccountId, readWriteSealAccountId, readSealedAccountId);
 
     }
 
     @Test
     public void determineAccountIdsForAccountWitoutPartnersReturnsOnlyOwnAccount() {
-        Feature feature = Feature.NUB;
-
-        Account userAccount = mock(Account.class);
-        when(userAccount.getId()).thenReturn(1);
-
-        List<CooperationRight> cooperationRights = new ArrayList<>();
-
-        AccessManager accessManager = obtainAccessManager(userAccount, feature, cooperationRights);
+        Feature feature = testFeature;
+        AccessManager accessManager = obtainAccessManager(new ArrayList<>(), new ArrayList<>(), false);
 
         Set<Integer> result = accessManager.determineAccountIds(feature, canReadSealed());
-        assertThat(result).isNotNull().isNotEmpty().containsOnly(1);
+        assertThat(result).isNotNull().isNotEmpty().containsOnly(userAccountId);
 
     }
 

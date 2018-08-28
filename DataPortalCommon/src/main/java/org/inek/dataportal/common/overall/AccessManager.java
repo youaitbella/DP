@@ -74,8 +74,7 @@ public class AccessManager implements Serializable {
     private final Map<Feature, List<CooperationRight>> _cooperationRights = new HashMap<>();
 
     /**
-     * Determines and returns the achieved rights. A user might get rights from two sources: ik supervision or
-     * individual.
+     * Determines and returns the achieved rights as granted by the partner.
      *
      * @param feature
      * @param partnerId
@@ -124,10 +123,6 @@ public class AccessManager implements Serializable {
     }
 
     public Set<Integer> retrieveAllManagedIks(Feature feature) {
-        // todo: Is it sufficcient to retrieve the rights from the user access rights only?
-        // It's ok, if, and only if all ik are emntioned for every feature here
-        // todo check: if an admin adds a featue, will this add rights for all managed ik? Or just the one ik the admin manages?
-        // maybe we need to check against a distincts ik list of the user's access rights or a global list of managed ik
         return obtainAccessRights(feature)
                 .map(r -> r.getIk())
                 .collect(Collectors.toSet());
