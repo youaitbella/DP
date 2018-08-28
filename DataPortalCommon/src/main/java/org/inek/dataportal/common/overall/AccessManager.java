@@ -1,13 +1,12 @@
 package org.inek.dataportal.common.overall;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,13 +20,10 @@ import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.data.cooperation.entities.CooperationRight;
 import org.inek.dataportal.common.enums.CooperativeRight;
 import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.common.data.cooperation.facade.CooperationRightFacade;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
 import org.inek.dataportal.common.enums.Right;
-import org.inek.dataportal.common.enums.ConfigKey;
 
 /**
  * This class provides access to cooperations rights for one request. Depending on the current data, a couple of
@@ -48,18 +44,15 @@ public class AccessManager implements Serializable {
 
     private CooperationRightFacade _cooperationRightFacade;
     private SessionController _sessionController;
-    private ConfigFacade _configFacade;
 
     public AccessManager() {
     }
 
     @Inject
     public AccessManager(CooperationRightFacade cooperationRightFacade,
-            SessionController sessionController,
-            ConfigFacade configFacade) {
+            SessionController sessionController) {
         _cooperationRightFacade = cooperationRightFacade;
         _sessionController = sessionController;
-        _configFacade = configFacade;
     }
 
     /**
@@ -82,7 +75,7 @@ public class AccessManager implements Serializable {
 
     /**
      * Determines and returns the achieved rights. A user might get rights from two sources: ik supervision or
-     * individual. 
+     * individual.
      *
      * @param feature
      * @param partnerId
@@ -153,7 +146,7 @@ public class AccessManager implements Serializable {
      * @return
      */
     public boolean isAccessAllowed(Feature feature, WorkflowStatus state, int ownerId) {
-        return AccessManager.this.isAccessAllowed(feature, state, ownerId, -1);
+        return isAccessAllowed(feature, state, ownerId, -1);
     }
 
     public boolean isAccessAllowed(Feature feature, WorkflowStatus state, int ownerId, int ik) {
@@ -388,37 +381,6 @@ public class AccessManager implements Serializable {
         return getAchievedRight(feature, ownerId, ik).canTake();
     }
 
-    private final Map<Integer, Set<Integer>> _partnerIks = new ConcurrentHashMap<>();
-
-    /**
-     * Collects all iks for given feature and partner where the current account achieved rights.
-     *
-     * @param feature
-     * @param partnerId
-     *
-     * @return
-     */
-    public Set<Integer> getPartnerIks(Feature feature, int partnerId) {
-        if (!_partnerIks.containsKey(partnerId)) {
-            Account account = _sessionController.getAccount();
-            Set<Integer> iks = getIksFromCooperativeRights(feature, account, partnerId);
-            _partnerIks.put(partnerId, iks);
-        }
-        return _partnerIks.get(partnerId);
-
-    }
-
-    private Set<Integer> getIksFromCooperativeRights(Feature feature, Account account, int partnerId) {
-        // get iks from cooperative rights
-        Set<Integer> iks = getCooperationRights(feature, account)
-                .stream()
-                .filter(r -> r.getOwnerId() == partnerId && r.getPartnerId() == account.getId()
-                && r.getIk() > 0 && r.getCooperativeRight() != CooperativeRight.None)
-                .map(r -> r.getIk())
-                .collect(Collectors.toSet());
-        return iks;
-    }
-
     public static Predicate<CooperationRight> canReadCompleted() {
         return r -> r.getCooperativeRight().canReadCompleted();
     }
@@ -427,28 +389,21 @@ public class AccessManager implements Serializable {
         return r -> r.getCooperativeRight().canReadSealed();
     }
 
-    public static Predicate<CooperationRight> canWriteAlways() {
-        return r -> r.getCooperativeRight().canWriteAlways();
-    }
-
     public Set<Integer> determineAccountIds(Feature feature, Predicate<CooperationRight> canRead) {
-        Set<Integer> ids = new LinkedHashSet<>();
         Account account = _sessionController.getAccount();
         if (account == null) {
             LOGGER.log(Level.WARNING, "Accessmanager called without logged in user");
-            return ids;
+            return Collections.EMPTY_SET;
         }
-        ids.add(account.getId());  // user always has the right to see his own
-        getCooperationRights(feature, account)
+
+        Set<Integer> ids = getCooperationRights(feature, account)
                 .stream()
-                .filter((right) -> right.getPartnerId() == account.getId())
+                .filter(right -> right.getPartnerId() == account.getId())
                 .filter(canRead)
-                .forEach((right) -> {
-                    if (right.getOwnerId() >= 0) {
-                        ids.add(right.getOwnerId());
-                    }
-                });
-        //ids.remove(_sessionController.getAccountId());  // remove own id (if in set)
+                .map(right -> right.getOwnerId())
+                .collect(Collectors.toSet());
+        ids.add(account.getId());  // user always has the right to see his own
+
         return ids;
     }
 
@@ -480,9 +435,6 @@ public class AccessManager implements Serializable {
     }
 
     public boolean isReadAllowed(Feature feature, Account account, int ik) {
-        if (!_configFacade.readConfigBool(ConfigKey.IkAdminEnable)) {
-            return true;
-        }
         boolean readAllowed = false;
         for (AccessRight right : account.getAccessRights()) {
             if (right.getIk() == ik && right.getFeature() == feature) {
@@ -495,9 +447,6 @@ public class AccessManager implements Serializable {
     }
 
     public boolean isEditAllowed(Feature feature, Account account, int ik) {
-        if (!_configFacade.readConfigBool(ConfigKey.IkAdminEnable)) {
-            return true;
-        }
         boolean editAllowed = false;
         for (AccessRight right : account.getAccessRights()) {
             if (right.getIk() == ik && right.getFeature() == feature) {
@@ -510,9 +459,6 @@ public class AccessManager implements Serializable {
     }
 
     public boolean isCreateAllowed(Feature feature, Account account, int ik) {
-        if (!_configFacade.readConfigBool(ConfigKey.IkAdminEnable)) {
-            return true;
-        }
         boolean createAllowed = false;
         for (AccessRight right : account.getAccessRights()) {
             if (right.getIk() == ik && right.getFeature() == feature) {
@@ -525,9 +471,6 @@ public class AccessManager implements Serializable {
     }
 
     public boolean isSendAllowed(Feature feature, Account account, int ik) {
-        if (!_configFacade.readConfigBool(ConfigKey.IkAdminEnable)) {
-            return true;
-        }
         boolean sendAllowed = false;
         for (AccessRight right : account.getAccessRights()) {
             if (right.getIk() == ik && right.getFeature() == feature) {

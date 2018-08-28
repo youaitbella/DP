@@ -7,12 +7,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.common.data.cooperation.entities.CooperationRight;
 import org.inek.dataportal.common.data.cooperation.facade.CooperationRightFacade;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
 import org.inek.dataportal.common.enums.CooperativeRight;
 import org.inek.dataportal.common.enums.Right;
+import static org.inek.dataportal.common.overall.AccessManager.canReadCompleted;
+import static org.inek.dataportal.common.overall.AccessManager.canReadSealed;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import org.junit.jupiter.api.Test;
@@ -25,6 +26,9 @@ public class AccessManagerTest {
 
     private final int allowedIk = 222222222;
     private final int deniedIk = 333333333;
+    private final int testIk4 = 444444444;
+    private final int testIk5 = 555555555;
+    private final int testIk6 = 666666666;
 
     public AccessManagerTest() {
     }
@@ -34,7 +38,7 @@ public class AccessManagerTest {
         Account account = mock(Account.class);
         when(account.getAccessRights()).thenReturn(accessRights);
         when(sessionController.getAccount()).thenReturn(account);
-        AccessManager accessManager = new AccessManager(null, sessionController, null);
+        AccessManager accessManager = new AccessManager(null, sessionController);
         return accessManager;
     }
 
@@ -255,30 +259,6 @@ public class AccessManagerTest {
     }
 
     @Test
-    public void testGetPartnerIks() {
-        Feature feature = Feature.NUB;
-
-        SessionController sessionController = mock(SessionController.class);
-        CooperationRightFacade cooperationRightFacade = mock(CooperationRightFacade.class);
-
-        Account userAccount = mock(Account.class);
-        when(userAccount.getId()).thenReturn(1);
-        Account partnerAccount = mock(Account.class);
-        when(partnerAccount.getId()).thenReturn(2);
-
-        List<CooperationRight> cooperationRights = new ArrayList<>();
-        cooperationRights.add(new CooperationRight(partnerAccount.getId(), userAccount.getId(), allowedIk, feature, CooperativeRight.ReadWriteSeal));
-        
-        when(sessionController.getAccount()).thenReturn(userAccount);
-        when(cooperationRightFacade.getCooperationRights(feature, userAccount)).thenReturn(cooperationRights);
-        
-        AccessManager accessManager = new AccessManager(cooperationRightFacade, sessionController, null);
-
-        Set<Integer> partnerIks = accessManager.getPartnerIks(feature, partnerAccount.getId());
-        assertThat(partnerIks).isNotNull().isNotEmpty().containsOnly(allowedIk);
-    }
-
-    @Test
     public void testCanReadCompleted_0args() {
     }
 
@@ -290,8 +270,94 @@ public class AccessManagerTest {
     public void testCanWriteAlways() {
     }
 
+    public AccessManager obtainAccessManager(Account userAccount, Feature feature,
+            List<CooperationRight> cooperationRights) {
+        SessionController sessionController = mock(SessionController.class);
+        when(sessionController.getAccount()).thenReturn(userAccount);
+        CooperationRightFacade cooperationRightFacade = mock(CooperationRightFacade.class);
+        when(cooperationRightFacade.getCooperationRights(feature, userAccount)).thenReturn(cooperationRights);
+        AccessManager accessManager = new AccessManager(cooperationRightFacade, sessionController);
+        return accessManager;
+    }
+
     @Test
-    public void testDetermineAccountIds() {
+    public void determineAccountIdsForNullAccountReturnsEmptySet() {
+
+        SessionController sessionController = mock(SessionController.class);
+        when(sessionController.getAccount()).thenReturn(null);
+        AccessManager accessManager = new AccessManager(null, sessionController);
+        Set<Integer> result = accessManager.determineAccountIds(Feature.NUB, canReadSealed());
+        assertThat(result).isNotNull().isEmpty();
+
+    }
+
+    @Test
+    public void determineAccountIdsForAccountNotNullReturnsSetOfPartnerIdsWithAtLeastReadCompleated() {
+        Feature feature = Feature.NUB;
+
+        Account partnerAccount = mock(Account.class);
+        when(partnerAccount.getId()).thenReturn(2);
+
+        Account partner2Account = mock(Account.class);
+        when(partner2Account.getId()).thenReturn(3);
+
+        Account userAccount = mock(Account.class);
+        when(userAccount.getId()).thenReturn(1);
+
+        List<CooperationRight> cooperationRights = new ArrayList<>();
+        cooperationRights.add(
+                new CooperationRight(partnerAccount.getId(), userAccount.getId(), testIk4, feature, CooperativeRight.ReadWriteSeal));
+        cooperationRights.add(
+                new CooperationRight(partner2Account.getId(), userAccount.getId(), testIk5, feature, CooperativeRight.ReadSealed));
+
+        AccessManager accessManager = obtainAccessManager(userAccount, feature, cooperationRights);
+
+        Set<Integer> result = accessManager.determineAccountIds(feature, canReadCompleted());
+        assertThat(result).isNotNull().isNotEmpty().containsOnly(1, 2);
+
+    }
+
+    @Test
+    public void determineAccountIdsForAccountNotNullReturnsSetOfPartnerIdsWithAtLeastReadSealed() {
+        Feature feature = Feature.NUB;
+
+        Account userAccount = mock(Account.class);
+        when(userAccount.getId()).thenReturn(1);
+
+        Account partnerAccount = mock(Account.class);
+        when(partnerAccount.getId()).thenReturn(2);
+
+        Account partner2Account = mock(Account.class);
+        when(partner2Account.getId()).thenReturn(3);
+
+        List<CooperationRight> cooperationRights = new ArrayList<>();
+        cooperationRights.add(
+                new CooperationRight(partnerAccount.getId(), userAccount.getId(), testIk4, feature, CooperativeRight.ReadWriteSeal));
+        cooperationRights.add(
+                new CooperationRight(partner2Account.getId(), userAccount.getId(), testIk5, feature, CooperativeRight.ReadSealed));
+
+
+        AccessManager accessManager = obtainAccessManager(userAccount, feature, cooperationRights);
+
+        Set<Integer> result = accessManager.determineAccountIds(feature, canReadSealed());
+        assertThat(result).isNotNull().isNotEmpty().containsOnly(1, 2, 3);
+
+    }
+
+    @Test
+    public void determineAccountIdsForAccountWitoutPartnersReturnsOnlyOwnAccount() {
+        Feature feature = Feature.NUB;
+
+        Account userAccount = mock(Account.class);
+        when(userAccount.getId()).thenReturn(1);
+
+        List<CooperationRight> cooperationRights = new ArrayList<>();
+
+        AccessManager accessManager = obtainAccessManager(userAccount, feature, cooperationRights);
+
+        Set<Integer> result = accessManager.determineAccountIds(feature, canReadSealed());
+        assertThat(result).isNotNull().isNotEmpty().containsOnly(1);
+
     }
 
     @Test
