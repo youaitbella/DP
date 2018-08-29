@@ -29,9 +29,9 @@
 
             <c:forEach items="#{modelIntentionList.partners}" var="partner" rendered="#{modelIntentionList.partners.size() > 0}">
                 <div class="paddingElement">
-                    <h:commandLink styleClass="third" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.firstName} #{partner.lastName}" immediate="true"/>
-                    <h:commandLink styleClass="third" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.company}" immediate="true"/>
-                    <h:commandLink styleClass="third" action="#{cooperationManager.managePartner(partner.id)}" value="#{partner.town}" immediate="true"/>
+                    <h:outputText styleClass="third" value="#{partner.firstName} #{partner.lastName}"/>
+                    <h:outputText styleClass="third" value="#{partner.company}"/>
+                    <h:outputText styleClass="third" value="#{partner.town}"/>
                 </div>
                 <model:ModelIntentionList list="#{modelIntentionList.getModelIntentions4Account(partner.id)}"/>
             </c:forEach>

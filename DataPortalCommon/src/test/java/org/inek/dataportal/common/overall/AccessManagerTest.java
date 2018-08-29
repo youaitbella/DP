@@ -265,7 +265,6 @@ public class AccessManagerTest {
 
     @Test
     public void isAccessAllowedForNoneAccountIdWithoutIkReturnsFalse() {
-
         List<AccessRight> accessRights = new ArrayList<>();
         AccessManager accessManager = obtainAccessManager(accessRights);
         boolean result = accessManager.isAccessAllowed(testFeature, WorkflowStatus.Accepted, noneAccountId, -1);
@@ -274,7 +273,6 @@ public class AccessManagerTest {
 
     @Test
     public void isAccessAllowedForOwnAccountIdWithDeniedIkReturnsFalse() {
-
         List<AccessRight> accessRights = new ArrayList<>();
         accessRights.add(new AccessRight(userAccountId, deniedIk, testFeature, Right.Deny));
         AccessManager accessManager = obtainAccessManager(accessRights);
@@ -284,7 +282,6 @@ public class AccessManagerTest {
 
     @Test
     public void isAccessAllowedForOwnAccountIdWithAllowedIkReturnsTrue() {
-
         List<AccessRight> accessRights = new ArrayList<>();
         accessRights.add(new AccessRight(userAccountId, allowedIk, testFeature, Right.Write));
         AccessManager accessManager = obtainAccessManager(accessRights);
@@ -293,47 +290,19 @@ public class AccessManagerTest {
     }
 
     @Test
-    public void testIsAccessAllowed_4args() {
+    public void testIsReadOnly() {
     }
 
     @Test
-    public void testIsReadOnly_3args() {
+    public void testIsApprovalRequestEnabled() {
     }
 
     @Test
-    public void testIsReadOnly_4args() {
+    public void testIsSealedEnabled() {
     }
 
     @Test
-    public void testIsApprovalRequestEnabled_3args() {
-    }
-
-    @Test
-    public void testIsApprovalRequestEnabled_4args() {
-    }
-
-    @Test
-    public void testIsApprovalRequestEnabled_5args() {
-    }
-
-    @Test
-    public void testIsSealedEnabled_3args() {
-    }
-
-    @Test
-    public void testIsSealedEnabled_4args() {
-    }
-
-    @Test
-    public void testIsSealedEnabled_5args() {
-    }
-
-    @Test
-    public void testIsRequestCorrectionEnabled_3args() {
-    }
-
-    @Test
-    public void testIsRequestCorrectionEnabled_4args() {
+    public void testIsRequestCorrectionEnabled() {
     }
 
     @Test
@@ -341,27 +310,19 @@ public class AccessManagerTest {
     }
 
     @Test
-    public void testIsUpdateEnabled_3args() {
+    public void testIsUpdateEnabled() {
     }
 
     @Test
-    public void testIsUpdateEnabled_4args() {
+    public void testIsTakeEnabled() {
     }
 
     @Test
-    public void testIsTakeEnabled_3args() {
+    public void testCanReadCompleted() {
     }
 
     @Test
-    public void testIsTakeEnabled_4args() {
-    }
-
-    @Test
-    public void testCanReadCompleted_0args() {
-    }
-
-    @Test
-    public void testCanReadSealed_0args() {
+    public void testCanReadSealed() {
     }
 
     @Test

@@ -24,15 +24,15 @@
                         <h:graphicImage alt="auf/zuklappen" name="Icon/small/#{accountNode.expanded ? 'ButtonMinus.png' : 'ButtonPlus.png'}" title="Details auf/zuklappen" value=""/>
                         <f:ajax render="@this proposalEdit :logout:remaining"/>
                     </h:commandLink>
-                    <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.accountId)}" value="#{accountNode.displayName}" immediate="true"/>
-                    <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.accountId)}" value="#{accountNode.company}" immediate="true"/>
-                    <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.accountId)}" value="#{accountNode.town}" immediate="true"/>
+                    <h:outputText styleClass="third marginTop" value="#{accountNode.displayName}"/>
+                    <h:outputText styleClass="third marginTop" value="#{accountNode.company}"/>
+                    <h:outputText styleClass="third marginTop" value="#{accountNode.town}"/>
 
                     <div jsf:id="proposalEdit" style="margin-left:16px; padding-bottom: 1em;">
                         <h:outputLabel value="Dieser Kooperationspartner hat noch keine Vorschläge zur Freigabe an Sie gesendet" rendered="#{accountNode.expanded and accountNode.children.size() eq 0}"/>
                         <feature:DrgProposalNode parentNode="#{accountNode}" isSealed="false" 
-                                              showDelete="#{accountNode.id == sessionController.accountId ? 'true' : 'false'}" 
-                                              rendered="#{accountNode.expanded and accountNode.children.size() gt 0}"/>
+                                                 showDelete="#{accountNode.id == sessionController.accountId ? 'true' : 'false'}" 
+                                                 rendered="#{accountNode.expanded and accountNode.children.size() gt 0}"/>
                     </div>
                 </div>
             </ui:repeat>
@@ -62,14 +62,14 @@
                                 <h:graphicImage alt="auf/zuklappen" name="Icon/small/#{accountNode.expanded ? 'ButtonMinus.png' : 'ButtonPlus.png'}" title="Details auf/zuklappen" value=""/>
                                 <f:ajax render="@this proposalShow :logout:remaining"/>
                             </h:commandLink>
-                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.accountId)}" value="#{accountNode.displayName}" immediate="true"/>
-                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.accountId)}" value="#{accountNode.company}" immediate="true"/>
-                            <h:commandLink styleClass="third marginTop" action="#{cooperationManager.managePartner(accountNode.accountId)}" value="#{accountNode.town}" immediate="true"/>
+                            <h:outputText styleClass="third marginTop" value="#{accountNode.displayName}"/>
+                            <h:outputText styleClass="third marginTop" value="#{accountNode.company}"/>
+                            <h:outputText styleClass="third marginTop" value="#{accountNode.town}"/>
                             <div jsf:id="proposalShow" style="margin-left:16px; padding-bottom: 1em;">
                                 <feature:DrgProposalNode parentNode="#{accountNode}" 
-                                                      isSealed="true" 
-                                                      showDelete="#{accountNode.id == sessionController.accountId ? 'true' : 'false'}" 
-                                                      rendered="#{accountNode.expanded}"/>
+                                                         isSealed="true" 
+                                                         showDelete="#{accountNode.id == sessionController.accountId ? 'true' : 'false'}" 
+                                                         rendered="#{accountNode.expanded}"/>
                             </div>
                         </div>
                     </ui:repeat>
