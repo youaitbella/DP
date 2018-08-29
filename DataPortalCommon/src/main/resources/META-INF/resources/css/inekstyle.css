@@ -147,16 +147,34 @@
 .inekTablePsy th,
 .inekTablePsy tfoot td{
     background-image: none !important;
-    background-color: #e2f5d5 !important
+    background-color: #e2f5d5 !important;
+    border: none;
 }
 
 .inekTablePaginatorDrg div,
 .inekTableDrg th,
 .inekTableDrg tfoot td{
     background-image: none !important;
-    background-color: #ddeffd !important
+    background-color: #ddeffd !important;
+    border: none;
 }
 
+.inekTablePaginatorBase div,
+.inekTableBase th,
+.inekTableBase tfoot td{
+    background-image: none !important;
+    background-color: #7f9baf !important;
+    border: none;
+}
+
+.inekTableBase th span,
+.inekTableBase tfoot td span {
+    color: white;
+    text-shadow: none;
+    font-weight: bold;
+}
+
+.inekTableBase tr:nth-child(even) td,
 .inekTableDrg tr:nth-child(even) td,
 .inekTablePsy tr:nth-child(even) td {
     background-color: #dddddd;
