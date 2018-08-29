@@ -3,6 +3,7 @@ package org.inek.dataportal.common.overall;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -388,7 +389,7 @@ public class AccessManager implements Serializable {
         Account account = _sessionController.getAccount();
         if (account == null) {
             LOGGER.log(Level.WARNING, "Accessmanager called without logged in user");
-            return Collections.EMPTY_SET;
+            return new HashSet<>();
         }
 
         Set<Integer> ids = getCooperationRights(feature, account)
