@@ -244,7 +244,12 @@ public class EditInsuranceNubNotice extends AbstractEditController {
     }
 
     public void validateQuantity(FacesContext context, UIComponent component, Object value) {
-        int x = Integer.parseInt(value + "");
+        int x;
+        try {
+            x = Integer.parseInt(value + "");
+        } catch (NumberFormatException ex) {
+            x = -1;
+        }
         if (x <= 0) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Der Mindestwert beträgt 1", "Der Mindestwert beträgt 1");
             throw new ValidatorException(msg);
@@ -252,7 +257,12 @@ public class EditInsuranceNubNotice extends AbstractEditController {
     }
 
     public void validateAmount(FacesContext context, UIComponent component, Object value) {
-        double x = Double.parseDouble(value + "");
+        double x;
+        try {
+            x = Double.parseDouble(value + "");
+        } catch (NumberFormatException ex) {
+            x = -1;
+        }
         if (x < 0) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Der Mindestwert beträgt 0", "Der Mindestwert beträgt 0");
             throw new ValidatorException(msg);
