@@ -134,6 +134,13 @@
     background-color: #a06666 !important;
 }
 
+.btnDrg,
+.btnPsy
+.btnInsurance {
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
 /* Tables */
 
 .inekTablePaginatorPsy div,
@@ -220,12 +227,31 @@
 .inekFieldset {
     background-color: transparent;
     margin-bottom: 10px;
+    margin-top: 10px;
     border: none;
 }
 
 .inekFieldset legend {
     background-image: none !important;
     background-color: #e2f5d5 !important;
+    min-width: 100px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 4px;
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
+}
+
+.inekFieldsetDrg {
+    background-color: transparent;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    border: none;
+}
+
+.inekFieldsetDrg legend {
+    background-image: none !important;
+    background-color: #ddeffd !important;
     min-width: 100px;
     font-weight: bold;
     cursor: pointer;
@@ -286,8 +312,6 @@
     content: "\f05a";
     font-family: FontAwesome;
 }
-
-
 
 /* Loader */
 

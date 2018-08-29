@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:pf='http://primefaces.org/ui'>
+
+    <div>
+        <h2>Benutzer und / oder Funktion hinzufügen</h2>
+
+        <h:form>
+            <pf:outputLabel styleClass="label element10em"
+                            value="Benuter: "
+                            for="selectAccount" />
+            <pf:selectOneMenu value="#{ikAdminTasks.accountId}"
+                              id="selectAccount">
+                <f:selectItems value="#{ikAdminTasks.accounts}"
+                               var="ac"
+                               itemValue="#{ac.id}"
+                               itemLabel="#{ac.lastName}, #{ac.firstName}"/>
+                <pf:ajax event="change" update="missingFeatures" />
+            </pf:selectOneMenu>
+
+            <br />
+
+            <h:outputLabel styleClass="label element10em" value="Funktion"/>
+            <pf:selectOneMenu id="missingFeatures" value="#{ikAdminTasks.featureId}" >
+                <f:selectItem itemLabel="#{msg.itemChoose}" itemValue="#{0}" noSelectionOption="true"/>
+                <f:selectItems value="#{ikAdminTasks.missingFeatures}" var="f" itemValue="#{f.id}" itemLabel="#{f.description}"/>
+                <pf:ajax />
+            </pf:selectOneMenu>
+
+            <br />
+            <br />
+
+            <pf:commandButton value="Hinzufügen"
+                              action="#{ikAdminTasks.addAccessRight()}"
+                              styleClass="btnDrg"
+                              immediate="true" />
+        </h:form>
+    </div>
+</ui:composition>
+
