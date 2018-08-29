@@ -69,7 +69,10 @@ public class IkAdminTasks implements Serializable {
     }
 
     public List<Account> getAccounts() {
-        return _accounts;
+        return _accounts
+                .stream()
+                .sorted((p1, p2) -> p1.getLastName().compareTo(p2.getLastName()))
+                .collect(Collectors.toList());
     }
 
     public void setAccounts(List<Account> accounts) {
@@ -222,6 +225,9 @@ public class IkAdminTasks implements Serializable {
 
     private void buildAccountList() {
         _accounts.clear();
+
+        _accounts.addAll(_accountFacade.getAccounts4Ik(_ik));
+
         String[] mailDomains = _sessionController
                 .getAccount()
                 .getAdminIks()
@@ -236,7 +242,7 @@ public class IkAdminTasks implements Serializable {
             String domain = mailDomain.trim();
             _accounts.addAll(_accountFacade.findAccountsByMailDomain((domain.startsWith("@") ? "" : "@") + domain)
                     .stream()
-                    .filter(c -> c.getFullIkSet().contains(_ik))
+                    .filter(c -> !c.getFullIkSet().contains(_ik))
                     .collect(Collectors.toList()));
         }
     }
