@@ -225,6 +225,16 @@ public class AccessManagerTest {
     }
 
     @Test
+    public void retrieveAllowedForCreationIksReturnsOnlyOneDeniedForCreationIkOutOfMultipleIk() {
+        List<AccessRight> accessRights = new ArrayList<>();
+        accessRights.add(new AccessRight(userAccountId, allowedIk, testFeature, Right.Create));
+        accessRights.add(new AccessRight(userAccountId, deniedIk, testFeature, Right.Deny));
+        AccessManager accessManager = obtainAccessManager(accessRights);
+        Set<Integer> result = accessManager.retrieveAllowedForCreationIks(testFeature);
+        assertThat(result).isNotNull().isNotEmpty().containsOnly(allowedIk);
+    }
+
+    @Test
     public void retrieveAllManagedIksReturnsAllIkForFeature() {
         List<AccessRight> accessRights = new ArrayList<>();
         accessRights.add(new AccessRight(userAccountId, allowedIk, testFeature, Right.Read));
@@ -405,10 +415,6 @@ public class AccessManagerTest {
 
     @Test
     public void testIsCreateAllowed_3args() {
-    }
-
-    @Test
-    public void testIsSendAllowed() {
     }
 
     @Test

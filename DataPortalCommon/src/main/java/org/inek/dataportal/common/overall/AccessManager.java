@@ -123,6 +123,13 @@ public class AccessManager implements Serializable {
                 .collect(Collectors.toSet());
     }
 
+    public Set<Integer> retrieveAllowedForCreationIks(Feature feature) {
+        return obtainAccessRights(feature)
+                .filter(r -> r.getRight().canCreate())
+                .map(r -> r.getIk())
+                .collect(Collectors.toSet());
+    }
+
     public Set<Integer> retrieveAllManagedIks(Feature feature) {
         return obtainAccessRights(feature)
                 .map(r -> r.getIk())
@@ -132,8 +139,8 @@ public class AccessManager implements Serializable {
     /**
      * In normal workflow, only data the user has access to, will be displayed in the lists. But if some user tries to
      * open data by its id (via URL), this might be an non-authorized access. Within the dialog, it should be tested,
-     * wheater the access is allowed or not. For a uniform interface, we pass in the state although it is ignored yet. It
-     * migt be respected in the future.
+     * wheater the access is allowed or not. For a uniform interface, we pass in the state although it is ignored yet.
+     * It migt be respected in the future.
      *
      * @param feature
      * @param state
@@ -454,31 +461,21 @@ public class AccessManager implements Serializable {
         return editAllowed;
     }
 
-    public boolean isCreateAllowed(Feature feature, Account account, int ik) {
-        boolean createAllowed = false;
-        for (AccessRight right : account.getAccessRights()) {
-            if (right.getIk() == ik && right.getFeature() == feature) {
-                if (right.canCreate()) {
-                    createAllowed = true;
-                }
-            }
-        }
-        return createAllowed;
-    }
-
-    public boolean isSendAllowed(Feature feature, Account account, int ik) {
-        boolean sendAllowed = false;
-        for (AccessRight right : account.getAccessRights()) {
-            if (right.getIk() == ik && right.getFeature() == feature) {
-                if (right.canSeal()) {
-                    sendAllowed = true;
-                }
-            }
-        }
-        return sendAllowed;
-    }
-
     public Set<Integer> ObtainIksForCreation(Feature feature) {
+        if (feature == Feature.AEB) {
+            // quick and dirty: AEB needs to have an ik admin. 
+            // during the transition time we simply check for this feature
+            //
+            // solution 1: we add an appropriate property to the feature(s) and handle it here :: denied
+            //
+            // solution 2: Independly of ik admin we provide rights for every ik-user-feature combination :: accepted
+            //             default: if ik admin is present: true, else: false
+            //             There is no need to approve functions; instead InEK grants rights (like ik admin) for non-administered ik
+            //             Once this solution is implemented, we only need to return retrieveAllowedForCreationIks(feature);
+            //             and cut off the virtual "else" part
+            return retrieveAllowedForCreationIks(feature);
+        }
+
         Set<Integer> iks = _sessionController.getAccount().getFullIkSet();
         Set<Integer> deniedIks = retrieveDeniedForCreationIks(feature);
         iks.removeAll(deniedIks);
@@ -486,7 +483,7 @@ public class AccessManager implements Serializable {
     }
 
     public Boolean isCreateAllowed(Feature feature) {
-        return !ObtainIksForCreation(Feature.NUB).isEmpty();
+        return ObtainIksForCreation(feature).size() > 0;
     }
 
     public Set<Integer> ObtainAllowedIks(Feature feature) {

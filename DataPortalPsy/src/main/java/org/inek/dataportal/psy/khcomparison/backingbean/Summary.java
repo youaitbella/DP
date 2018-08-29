@@ -118,24 +118,11 @@ public class Summary {
     }
 
     public boolean isCreateEntryAllowed() {
-        for (Integer ik : _aebfacade.getAllowedIks(_sessionController.getAccountId(),
-                Utils.getTargetYear(Feature.AEB), 0)) {
-            if (_accessManager.isCreateAllowed(Feature.AEB, _sessionController.getAccount(), ik)) {
-                return true;
-            }
-        }
-        return false;
+        return _accessManager.isCreateAllowed(Feature.AEB);
     }
 
     public boolean isCreateStructureInformationAllowed() {
-        for (Integer ik : _sessionController.getAccount().getFullIkSet()) {
-            if (!_aebfacade.structureInformaionAvailable(ik)) {
-                if (_accessManager.isCreateAllowed(Feature.AEB, _sessionController.getAccount(), ik)) {
-                    return true;
-                }
-            }
-        }
-        return false;
+        return _accessManager.isCreateAllowed(Feature.AEB);
     }
 
     public void deleteBaseInformation(AEBBaseInformation info) {

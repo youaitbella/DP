@@ -96,13 +96,12 @@ public class Summary {
     }
 
     public boolean isCreateEntryAllowed() {
-        for (Integer ik : _aebfacade.getAllowedIks(_sessionController.getAccountId(),
-                Utils.getTargetYear(Feature.AEB), 0)) {
-            if (_accessManager.isCreateAllowed(Feature.AEB, _sessionController.getAccount(), ik)) {
-                return true;
-            }
-        }
-        return false;
+        // todo: this is an insurance, reating data about in in place of a hospital (fallback)
+        // Thus creation does NOT depend on the administerd rights
+        // the insurance need to provide a list of IK which are managed by the user
+        
+        // for testing purpose:
+        return _accessManager.isCreateAllowed(Feature.AEB);
     }
 
     public void deleteBaseInformation(AEBBaseInformation info) {

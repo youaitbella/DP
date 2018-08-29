@@ -10,6 +10,7 @@ import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
@@ -331,18 +332,8 @@ public class Edit {
         return years;
     }
 
-    public List<Integer> getAllowedIks() {
-        List<Integer> iks = new ArrayList<>();
-        for (Integer ik : _aebFacade.getAllowedIks(_sessionController.getAccountId(),
-                Utils.getTargetYear(Feature.AEB), 0)) {
-            if (_accessManager.isCreateAllowed(Feature.AEB, _sessionController.getAccount(), ik)) {
-                iks.add(ik);
-            }
-        }
-        if (_aebBaseInformation.getIk() != 0) {
-            iks.add(_aebBaseInformation.getIk());
-        }
-        return iks;
+    public Set<Integer> getAllowedIks() {
+        return _accessManager.ObtainIksForCreation(Feature.AEB);
     }
 
     private boolean baseInfoisComplete(AEBBaseInformation info) {

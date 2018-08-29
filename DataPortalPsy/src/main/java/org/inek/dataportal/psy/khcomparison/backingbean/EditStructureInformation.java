@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
@@ -68,18 +69,8 @@ public class EditStructureInformation {
         }
     }
 
-    public List<Integer> getAllowedIks() {
-        List<Integer> iks = new ArrayList<>();
-        for (Integer ik : _sessionController.getAccount().getFullIkSet()) {
-            if (!_aebFacade.structureInformaionAvailable(ik)) {
-                if (_accessManager.isCreateAllowed(Feature.AEB,
-                        _sessionController.getAccount(),
-                        ik)) {
-                    iks.add(ik);
-                }
-            }
-        }
-        return iks;
+    public Set<Integer> getAllowedIks() {
+        return _accessManager.ObtainIksForCreation(Feature.AEB);
     }
 
     public List<StructureInformation> getAllStructureInformations() {
