@@ -1,9 +1,7 @@
 package org.inek.dataportal.base.feature.maintenance;
 
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -16,7 +14,6 @@ import org.inek.dataportal.common.overall.ApplicationTools;
 import org.inek.dataportal.common.overall.SessionTools;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.common.data.account.entities.AccountIk;
 import org.inek.dataportal.common.data.account.entities.AccountFeature;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.api.enums.FeatureState;
@@ -374,6 +371,31 @@ public class EditUserMaintenance extends AbstractEditController {
                 }
             }
         }
+
+    /* future version
+        
+        for (int ik : account.getFullIkSet()) {
+            boolean hasNewEntry = false;
+            for (AccountFeature feature : account.getFeatures()) {
+                if (feature.getFeature().getIkReference() == IkReference.Hospital
+                        && _ikAdminFacade.findAccessRightsByAccountIkAndFeature(account, ik, feature.getFeature()).
+                                isEmpty()) {
+                    AccessRight accessRight = new AccessRight(account.getId(), ik, feature.getFeature(), _ikAdminFacade.
+                            hasIkAdmin(ik) ? Right.Deny : Right.All);  // todo: if InEK does not approve features anymor but rights, then chang to Deny always
+                    _ikAdminFacade.saveAccessRight(accessRight);
+                    hasNewEntry = true;
+                }
+            }
+            if (hasNewEntry) {
+                if (_ikAdminFacade.hasIkAdmin(ik)) {
+                    notifyIkAdmin(ik, account);
+                } else {
+                    // todo: email InEK
+                }
+            }
+        }
+        
+        */
     }
 
     private void notifyIkAdmin(int ik, Account account) {
