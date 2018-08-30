@@ -45,15 +45,18 @@ public class AccessManager implements Serializable {
 
     private CooperationRightFacade _cooperationRightFacade;
     private SessionController _sessionController;
+    private ManagedIkCache _ikCache;
 
     public AccessManager() {
     }
 
     @Inject
     public AccessManager(CooperationRightFacade cooperationRightFacade,
-            SessionController sessionController) {
+            SessionController sessionController,
+            ManagedIkCache ikCache) {
         _cooperationRightFacade = cooperationRightFacade;
         _sessionController = sessionController;
+        _ikCache = ikCache;
     }
 
     /**
@@ -95,6 +98,7 @@ public class AccessManager implements Serializable {
     }
 
     private Stream<AccessRight> obtainAccessRights(Feature feature) {
+                
         return _sessionController
                 .getAccount()
                 .getAccessRights()

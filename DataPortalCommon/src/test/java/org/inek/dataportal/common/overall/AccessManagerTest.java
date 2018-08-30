@@ -82,7 +82,8 @@ public class AccessManagerTest {
         when(cooperationRightFacade.getCooperationRights(Feature.DRG_PROPOSAL, userAccount))
                 .thenReturn(cooperationRights.stream().filter(r -> r.getFeature() == Feature.DRG_PROPOSAL).collect(Collectors.toList()));
 
-        AccessManager accessManager = new AccessManager(cooperationRightFacade, sessionController);
+        ManagedIkCache ikCache = mock (ManagedIkCache.class);
+        AccessManager accessManager = new AccessManager(cooperationRightFacade, sessionController, ikCache);
         return accessManager;
     }
 
@@ -344,7 +345,7 @@ public class AccessManagerTest {
 
         SessionController sessionController = mock(SessionController.class);
         when(sessionController.getAccount()).thenReturn(null);
-        AccessManager accessManager = new AccessManager(null, sessionController);
+        AccessManager accessManager = new AccessManager(null, sessionController, null);
         Set<Integer> result = accessManager.determineAccountIds(testFeature, canReadSealed());
         assertThat(result).isNotNull().isEmpty();
     }

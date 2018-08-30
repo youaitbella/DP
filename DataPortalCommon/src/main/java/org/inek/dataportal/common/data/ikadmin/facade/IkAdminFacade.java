@@ -106,4 +106,10 @@ public class IkAdminFacade extends AbstractDataAccess {
         return query.getResultList();
     }
 
+    public List<Integer> loadAllManagegIks() {
+        String jpql = "select distinct a._ik from AccountIkAdmin a";
+        TypedQuery<Integer> query = getEntityManager().createQuery(jpql, Integer.class);
+        return query.getResultList();
+    }
+
 }
