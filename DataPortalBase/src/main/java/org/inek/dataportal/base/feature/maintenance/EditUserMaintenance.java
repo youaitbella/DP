@@ -381,7 +381,8 @@ public class EditUserMaintenance extends AbstractEditController {
                         && _ikAdminFacade.findAccessRightsByAccountIkAndFeature(account, ik, feature.getFeature()).
                                 isEmpty()) {
                     AccessRight accessRight = new AccessRight(account.getId(), ik, feature.getFeature(), _ikAdminFacade.
-                            hasIkAdmin(ik) ? Right.Deny : Right.All);  // todo: if InEK does not approve features anymor but rights, then chang to Deny always
+                            hasIkAdmin(ik) ? Right.Deny : Right.All);  
+        // todo: if InEK does not approve features anymor but rights, then chang to Deny always
                     _ikAdminFacade.saveAccessRight(accessRight);
                     hasNewEntry = true;
                 }
