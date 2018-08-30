@@ -439,18 +439,6 @@ public class AccessManager implements Serializable {
         return achievedRight.canReadAlways();
     }
 
-    public boolean isReadAllowed(Feature feature, Account account, int ik) {
-        boolean readAllowed = false;
-        for (AccessRight right : account.getAccessRights()) {
-            if (right.getIk() == ik && right.getFeature() == feature) {
-                if (right.canRead()) {
-                    readAllowed = true;
-                }
-            }
-        }
-        return readAllowed;
-    }
-
     public Set<Integer> ObtainIksForCreation(Feature feature) {
         if (feature == Feature.AEB) {
             // quick and dirty: AEB needs to have an ik admin. 

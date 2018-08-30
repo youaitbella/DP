@@ -7,6 +7,7 @@ package org.inek.dataportal.psy.khcomparison.backingbean;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -131,9 +132,10 @@ public class Summary {
     }
 
     private void setStructureInformationList() {
+        Set<Integer> allowedIks = _accessManager.ObtainAllowedIks(Feature.AEB);
         for (Integer ik : _sessionController.getAccount().getFullIkSet()) {
             if (_aebfacade.structureInformaionAvailable(ik)) {
-                if (_accessManager.isReadAllowed(Feature.AEB, _sessionController.getAccount(), ik)) {
+                if (allowedIks.contains(ik)) {
                     _listStructureInformation.add(_aebfacade.getStructureInformationByIk(ik));
                 }
             }
