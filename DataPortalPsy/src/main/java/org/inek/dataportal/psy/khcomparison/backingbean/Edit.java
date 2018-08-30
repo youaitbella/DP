@@ -10,9 +10,9 @@ import java.io.ByteArrayInputStream;
 import java.time.Year;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
@@ -317,19 +317,19 @@ public class Edit {
 
     public void ikChanged() {
         List<Integer> usedYears = _aebFacade.getUsedDataYears(_aebBaseInformation.getIk(), 0);
-        List<Integer> possibleYears = getAllowedDataYears();
+        List<Integer> possibleYears = _aebFacade.getPossibleDataYears();
         possibleYears.removeAll(usedYears);
         setValidDatayears(possibleYears);
     }
 
-    public List<Integer> getAllowedDataYears() {
-        List<Integer> years = new ArrayList<>();
-        IntStream.rangeClosed(2018, Year.now().getValue() + 1).forEach(y -> years.add(y));
-        return years;
-    }
 
     public Set<Integer> getAllowedIks() {
-        return _accessManager.ObtainIksForCreation(Feature.AEB);
+        Set<Integer> allowedIks = _accessManager.ObtainIksForCreation(Feature.AEB);
+        Set<Integer> iks = _aebFacade.retrievePossibleIks(allowedIks, 0);
+        if (_aebBaseInformation.getIk() != 0) {
+            iks.add(_aebBaseInformation.getIk());
+        }
+        return iks;
     }
 
     private boolean baseInfoisComplete(AEBBaseInformation info) {

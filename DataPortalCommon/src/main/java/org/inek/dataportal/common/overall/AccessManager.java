@@ -441,6 +441,7 @@ public class AccessManager implements Serializable {
 
     public Set<Integer> ObtainIksForCreation(Feature feature) {
         if (feature == Feature.AEB) {
+            // todo:
             // quick and dirty: AEB needs to have an ik admin. 
             // during the transition time we simply check for this feature
             //
@@ -451,6 +452,9 @@ public class AccessManager implements Serializable {
             //             There is no need to approve functions; instead InEK grants rights (like ik admin) for non-administered ik
             //             Once this solution is implemented, we only need to return retrieveAllowedForCreationIks(feature);
             //             and cut off the virtual "else" part
+            
+            // todo: 
+            // ### if we are member of an insurance, then the allowed iks depend on a list the insuranc provided to InEK ###
             return retrieveAllowedForCreationIks(feature);
         }
 

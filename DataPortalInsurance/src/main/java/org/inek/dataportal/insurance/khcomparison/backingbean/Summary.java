@@ -7,6 +7,7 @@ package org.inek.dataportal.insurance.khcomparison.backingbean;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -101,7 +102,8 @@ public class Summary {
         // the insurance need to provide a list of IK which are managed by the user
         
         // for testing purpose:
-        return _accessManager.isCreateAllowed(Feature.AEB);
+        Set<Integer> allowedIks = _accessManager.ObtainIksForCreation(Feature.AEB);
+        return _aebfacade.retrievePossibleIks(allowedIks, 1).size() > 0;
     }
 
     public void deleteBaseInformation(AEBBaseInformation info) {

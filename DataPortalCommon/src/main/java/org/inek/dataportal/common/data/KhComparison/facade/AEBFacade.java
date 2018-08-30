@@ -5,9 +5,16 @@
  */
 package org.inek.dataportal.common.data.KhComparison.facade;
 
+import java.time.Year;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import javafx.util.Pair;
 import javax.ejb.Stateless;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -130,17 +137,36 @@ public class AEBFacade extends AbstractDataAccess {
         return query.getResultList();
     }
 
-    public List<Integer> getAllowedIks(int accountId, int year, int typ) {
-        String sql = "select distinct aaiIK from dbo.AccountAdditionalIK\n"
-                + "where aaiAccountId = " + accountId + "\n"
-                + "and aaiIK not in (\n"
-                + "select biIk from psy.AEBBaseInformation\n"
-                + "where biDataYear >= " + year + " \n"
-                + "and biTyp = " + typ + ")";
+    public Set<Pair<Integer, Integer>> retrieveIkYearPairs(Collection<Integer> iks, int typ) {
+        String ikList = iks.stream().map(ik -> "" + ik).collect(Collectors.joining(", "));
+        String sql = "select distinct biIk, biDataYear \n"
+                + "from psy.AEBBaseInformation \n"
+                + "where biIk in (" + ikList + ") \n"
+                + "    and biTyp = " + typ;
         Query query = getEntityManager().createNativeQuery(sql);
-        @SuppressWarnings("unchecked")
-        List<Integer> result = query.getResultList();
-        return result;
+        @SuppressWarnings("unchecked") List<Object[]> objects = query.getResultList();
+
+        return objects.stream().map(obj -> new Pair<>((int) obj[0], (int) obj[1])).collect(Collectors.toSet());
+    }
+
+    public Set<Integer> retrievePossibleIks(Set<Integer> allowedIks, int typ) {
+        Set<Pair<Integer, Integer>> existingIkYearPairs = retrieveIkYearPairs(allowedIks, typ);
+        List<Integer> possibleYears = getPossibleDataYears();
+
+        Set<Integer> possibleIks = allowedIks
+                .stream()
+                .filter(ik -> possibleYears
+                .stream()
+                .anyMatch(year -> !existingIkYearPairs.contains(new Pair<>(ik, year))))
+                .collect(Collectors.toSet());
+        return possibleIks;
+    }
+
+    public List<Integer> getPossibleDataYears() {
+        List<Integer> years = new ArrayList<>();
+        IntStream.rangeClosed(2018, Year.now().getValue() + 1).
+                forEach((int y) -> years.add(y));
+        return years;
     }
 
     public List<Integer> getAllowedIksForInsurance(int accountId, int year, int typ) {
@@ -191,4 +217,5 @@ public class AEBFacade extends AbstractDataAccess {
     public List<OccupationalCategory> getOccupationalCategories() {
         return findAll(OccupationalCategory.class);
     }
+
 }

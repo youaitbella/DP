@@ -10,8 +10,10 @@ import org.inek.dataportal.common.data.KhComparison.entities.StructureInformatio
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
@@ -71,7 +73,11 @@ public class EditStructureInformation {
     }
 
     public Set<Integer> getAllowedIks() {
-        return _accessManager.ObtainIksForCreation(Feature.AEB);
+        Set<Integer> allowedIks = _accessManager.ObtainIksForCreation(Feature.AEB);
+        return allowedIks
+                .stream()
+                .filter(ik -> !_aebFacade.structureInformaionAvailable(ik))
+                .collect(Collectors.toSet());
     }
 
     public List<StructureInformation> getAllStructureInformations() {

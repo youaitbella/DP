@@ -314,15 +314,9 @@ public class Edit {
 
     public void ikChanged() {
         List<Integer> usedYears = _aebFacade.getUsedDataYears(_aebBaseInformation.getIk(), 1);
-        List<Integer> possibleYears = getAllowedDataYears();
+        List<Integer> possibleYears = _aebFacade.getPossibleDataYears();
         possibleYears.removeAll(usedYears);
         setValidDatayears(possibleYears);
-    }
-
-    public List<Integer> getAllowedDataYears() {
-        List<Integer> years = new ArrayList<>();
-        IntStream.rangeClosed(2018, Year.now().getValue() + 1).forEach(y -> years.add(y));
-        return years;
     }
 
     public List<Integer> getAllowedIks() {
