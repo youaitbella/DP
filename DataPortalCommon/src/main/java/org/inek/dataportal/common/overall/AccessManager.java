@@ -195,6 +195,8 @@ public class AccessManager implements Serializable {
                 return right.get().canWrite();
             }
         }
+        if (feature == Feature.AEB){return true;} // temp. quick solution, see comment at ObtainIksForCreation and #88
+        
         if (ownerId == _sessionController.getAccountId()) {
             return false;
         }
@@ -447,18 +449,6 @@ public class AccessManager implements Serializable {
             }
         }
         return readAllowed;
-    }
-
-    public boolean isEditAllowed(Feature feature, Account account, int ik) {
-        boolean editAllowed = false;
-        for (AccessRight right : account.getAccessRights()) {
-            if (right.getIk() == ik && right.getFeature() == feature) {
-                if (right.canWrite()) {
-                    editAllowed = true;
-                }
-            }
-        }
-        return editAllowed;
     }
 
     public Set<Integer> ObtainIksForCreation(Feature feature) {
