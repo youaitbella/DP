@@ -7,7 +7,9 @@ package org.inek.dataportal.psy.khcomparison.backingbean;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
+import javafx.util.Pair;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -84,7 +86,8 @@ public class Summary {
                     .filter(c -> c.canRead() && c.getFeature() == Feature.AEB)
                     .collect(Collectors.toList())) {
                 _listWorking.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.New, right.getIk(), 0));
-                _listWorking.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.CorrectionRequested, right.getIk(), 0));
+                _listWorking.
+                        addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.CorrectionRequested, right.getIk(), 0));
             }
         } else {
             for (Integer ik : _sessionController.getAccount().getFullIkSet()) {
@@ -118,11 +121,14 @@ public class Summary {
     }
 
     public boolean isCreateEntryAllowed() {
-        return _accessManager.isCreateAllowed(Feature.AEB);
+        Set<Integer> allowedIks = _accessManager.ObtainIksForCreation(Feature.AEB);
+        return _aebfacade.retrievePossibleIks(allowedIks, 0).size() > 0;
     }
 
     public boolean isCreateStructureInformationAllowed() {
-        return _accessManager.isCreateAllowed(Feature.AEB);
+        Set<Integer> allowedIks = _accessManager.ObtainIksForCreation(Feature.AEB);
+        return allowedIks.stream().
+                anyMatch(ik -> !_aebfacade.structureInformaionAvailable(ik));
     }
 
     public void deleteBaseInformation(AEBBaseInformation info) {
@@ -131,9 +137,10 @@ public class Summary {
     }
 
     private void setStructureInformationList() {
+        Set<Integer> allowedIks = _accessManager.ObtainAllowedIks(Feature.AEB);
         for (Integer ik : _sessionController.getAccount().getFullIkSet()) {
             if (_aebfacade.structureInformaionAvailable(ik)) {
-                if (_accessManager.isReadAllowed(Feature.AEB, _sessionController.getAccount(), ik)) {
+                if (allowedIks.contains(ik)) {
                     _listStructureInformation.add(_aebfacade.getStructureInformationByIk(ik));
                 }
             }

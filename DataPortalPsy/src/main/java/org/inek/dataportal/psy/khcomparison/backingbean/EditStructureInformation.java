@@ -10,8 +10,10 @@ import org.inek.dataportal.common.data.KhComparison.entities.StructureInformatio
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
@@ -26,6 +28,7 @@ import org.inek.dataportal.common.scope.FeatureScoped;
 import org.inek.dataportal.common.data.KhComparison.facade.AEBFacade;
 import org.inek.dataportal.common.data.KhComparison.facade.AEBListItemFacade;
 import org.inek.dataportal.common.data.KhComparison.facade.ActionLogFacade;
+import org.inek.dataportal.common.enums.WorkflowStatus;
 
 /**
  *
@@ -70,7 +73,11 @@ public class EditStructureInformation {
     }
 
     public Set<Integer> getAllowedIks() {
-        return _accessManager.ObtainIksForCreation(Feature.AEB);
+        Set<Integer> allowedIks = _accessManager.ObtainIksForCreation(Feature.AEB);
+        return allowedIks
+                .stream()
+                .filter(ik -> !_aebFacade.structureInformaionAvailable(ik))
+                .collect(Collectors.toSet());
     }
 
     public List<StructureInformation> getAllStructureInformations() {
@@ -115,8 +122,10 @@ public class EditStructureInformation {
 
     public void setReadOnly() {
         if (_structureInformation != null) {
-            setReadOnly(!_accessManager.isEditAllowed(Feature.AEB,
-                    _sessionController.getAccount(),
+            setReadOnly(_accessManager.isReadOnly(
+                    Feature.AEB,
+                    WorkflowStatus.New,
+                    _sessionController.getAccountId(),
                     _structureInformation.getIk()));
         } else {
             setReadOnly(false);
@@ -223,8 +232,10 @@ public class EditStructureInformation {
     }
 
     public Boolean canSave() {
-        return _accessManager.isEditAllowed(Feature.AEB,
-                _sessionController.getAccount(),
+        return _accessManager.isReadOnly(
+                Feature.AEB,
+                WorkflowStatus.New,
+                _sessionController.getAccountId(),
                 _structureInformation.getIk());
     }
 }

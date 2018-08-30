@@ -7,9 +7,11 @@ package org.inek.dataportal.insurance.khcomparison.backingbean;
 
 import org.inek.dataportal.common.data.KhComparison.entities.*;
 import java.io.ByteArrayInputStream;
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.IntStream;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
@@ -312,18 +314,9 @@ public class Edit {
 
     public void ikChanged() {
         List<Integer> usedYears = _aebFacade.getUsedDataYears(_aebBaseInformation.getIk(), 1);
-        setValidDatayears(getValideDatayears(getAllowedDataYears(), usedYears));
-    }
-
-    public List<Integer> getValideDatayears(List<Integer> allowedYears, List<Integer> usedYears) {
-        allowedYears.removeAll(usedYears);
-        return allowedYears;
-    }
-
-    public List<Integer> getAllowedDataYears() {
-        List<Integer> years = new ArrayList<>();
-        years.add(2018);
-        return years;
+        List<Integer> possibleYears = _aebFacade.getPossibleDataYears();
+        possibleYears.removeAll(usedYears);
+        setValidDatayears(possibleYears);
     }
 
     public List<Integer> getAllowedIks() {

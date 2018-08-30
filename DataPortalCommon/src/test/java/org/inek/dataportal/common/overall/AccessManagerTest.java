@@ -406,18 +406,6 @@ public class AccessManagerTest {
     }
 
     @Test
-    public void testIsReadAllowed() {
-    }
-
-    @Test
-    public void testIsEditAllowed() {
-    }
-
-    @Test
-    public void testIsCreateAllowed_3args() {
-    }
-
-    @Test
     public void testObtainIksForCreation() {
     }
 

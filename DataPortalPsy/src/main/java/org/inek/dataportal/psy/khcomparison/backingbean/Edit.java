@@ -7,10 +7,13 @@ package org.inek.dataportal.psy.khcomparison.backingbean;
 
 import org.inek.dataportal.common.data.KhComparison.entities.*;
 import java.io.ByteArrayInputStream;
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.IntStream;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
@@ -119,8 +122,7 @@ public class Edit {
 
     public void setReadOnly() {
         if (_aebBaseInformation != null) {
-            setReadOnly(!_accessManager.isReadAllowed(Feature.AEB,
-                    _sessionController.getAccount(), _aebBaseInformation.getIk()));
+            setReadOnly(!_accessManager.ObtainAllowedIks(Feature.AEB).contains(_aebBaseInformation.getIk()));
         } else if (_aebBaseInformation.getIk() == 0) {
             setReadOnly(false);
         } else {
@@ -315,25 +317,19 @@ public class Edit {
 
     public void ikChanged() {
         List<Integer> usedYears = _aebFacade.getUsedDataYears(_aebBaseInformation.getIk(), 0);
-        setValidDatayears(getValideDatayears(getAllowedDataYears(), usedYears));
+        List<Integer> possibleYears = _aebFacade.getPossibleDataYears();
+        possibleYears.removeAll(usedYears);
+        setValidDatayears(possibleYears);
     }
 
-    public List<Integer> getValideDatayears(List<Integer> allowedYears, List<Integer> usedYears) {
-        allowedYears.removeAll(usedYears);
-//        if (_aebBaseInformation.getStatus().getId() > WorkflowStatus.New.getId()) {
-//            allowedYears.add(_aebBaseInformation.getYear());
-//        }
-        return allowedYears;
-    }
-
-    public List<Integer> getAllowedDataYears() {
-        List<Integer> years = new ArrayList<>();
-        years.add(2018);
-        return years;
-    }
 
     public Set<Integer> getAllowedIks() {
-        return _accessManager.ObtainIksForCreation(Feature.AEB);
+        Set<Integer> allowedIks = _accessManager.ObtainIksForCreation(Feature.AEB);
+        Set<Integer> iks = _aebFacade.retrievePossibleIks(allowedIks, 0);
+        if (_aebBaseInformation.getIk() != 0) {
+            iks.add(_aebBaseInformation.getIk());
+        }
+        return iks;
     }
 
     private boolean baseInfoisComplete(AEBBaseInformation info) {
