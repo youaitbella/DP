@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:pf='http://primefaces.org/ui'>
+
+    <h2>Berechtigungen</h2>
+    <h:form>
+        <pf:dataTable id="accessRights"
+                      value="#{ikAdminTasks.accessRights}"
+                      var="right"
+                      emptyMessage="Keine Einträge vorhanden"
+                      rows="50"
+                      paginator="true"
+                      rowsPerPageTemplate="25,50,100,300"
+                      tableStyleClass="inekTableBase"
+                      tableStyle="table-layout: auto;"
+                      styleClass="inekTablePaginatorBase"
+                      sortBy="#{right.user.lastName}">
+
+            <pf:column headerText="Anwender" filterBy="#{right.user.lastName} #{right.user.firstName}" sortBy="#{right.user.lastName} #{right.user.firstName}" filterMatchMode="contains">
+                <h:outputText value="#{right.user.lastName}, #{right.user.firstName}"/>
+            </pf:column>
+
+            <pf:column headerText="E-Mail" filterBy="#{right.user.email}" sortBy="#{right.user.email}">
+                <h:outputText value="#{right.user.email}"/>
+            </pf:column>
+
+            <pf:column headerText="Funktion" filterBy="#{right.feature.description}" sortBy="#{right.feature.description}">
+                <h:outputText value="#{right.feature.description}"/>
+            </pf:column>
+
+            <pf:column headerText="Recht">
+                <pf:selectOneMenu value="#{right.right}">
+                    <f:converter converterId="JsfRightConverter"/>
+                    <f:selectItems value="#{ikAdminTasks.rights}" var="r" itemValue="#{r.key}" itemLabel="#{r.description}"/>
+                    <pf:ajax />
+                </pf:selectOneMenu>
+            </pf:column>
+
+        </pf:dataTable>
+
+        <pf:commandButton value="#{msg.btnSave}"
+                          action="#{ikAdminTasks.saveAccessRights()}"
+                          styleClass="btnDrg"
+                          immediate="true" />
+
+    </h:form>
+</ui:composition>
+

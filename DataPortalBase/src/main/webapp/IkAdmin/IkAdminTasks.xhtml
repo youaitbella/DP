@@ -9,35 +9,27 @@
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
-                xmlns:jsf="http://xmlns.jcp.org/jsf">
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:pf="http://primefaces.org/ui">
 
     <ui:define name="content">
 
-        <h:form id="ikadmin">
+        <h:form>
             <h1>
-                <h:commandLink action="#{sessionController.navigate(sessionTools.pages.IkAdminSummary)}" 
-                               value="#{featureMsg.nameIK_ADMIN} - #{ikAdminTasks.ik} #{applicationTools.retrieveHospitalInfo(ikAdminTasks.ik)}" 
-                               immediate="true"/> 
+                <h:commandLink action="#{sessionController.navigate(sessionTools.pages.IkAdminSummary)}"
+                               value="#{featureMsg.nameIK_ADMIN} - #{ikAdminTasks.ik} #{applicationTools.retrieveHospitalInfo(ikAdminTasks.ik)}"
+                               immediate="true"/>
             </h1>
-
-            <div class="tab" jsf:id="ikAdminMenu">
-                <ul class="tab">
-                    <ui:repeat value="#{ikAdminTasks.visibleTopics}" var="topic" varStatus="status">
-                        <li class="#{topic.active ? 'activetab' : 'tab'}">
-                        <h:commandLink value="#{topic.title}" 
-                                       styleClass="fullWithCentered">
-                            <f:ajax listener="#{ikAdminTasks.changeTabPage(topic.key)}" render="@form"/>
-                        </h:commandLink>
-                        </li>
-                    </ui:repeat>
-                </ul>
-            </div>
-
-            <div class="edit">
-                <ui:include src="#{ikAdminTasks.activeTopic.outcome}" />
-            </div>
-
         </h:form>
+
+        <pf:tabView styleClass="featureTabs" dynamic="true">
+            <pf:tab title="Rechteverwaltung">
+                <ui:include src="rightmanagement/rightManagement.xhtml" />
+            </pf:tab>
+            <pf:tab title="Funktionszuweisung">
+                <ui:include src="usermanagement/userManagement.xhtml" />
+            </pf:tab>
+        </pf:tabView>
 
     </ui:define>
 

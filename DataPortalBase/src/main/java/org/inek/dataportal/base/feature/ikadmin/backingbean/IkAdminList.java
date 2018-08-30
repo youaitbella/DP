@@ -1,30 +1,60 @@
 package org.inek.dataportal.base.feature.ikadmin.backingbean;
 
-import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
-import javax.faces.view.ViewScoped;
+import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.common.data.account.facade.AccountFacade;
+import org.inek.dataportal.common.data.ikadmin.entity.AccountIkAdmin;
+import org.inek.dataportal.common.scope.FeatureScoped;
 
 @Named
-@ViewScoped
-public class IkAdminList implements Serializable{
+@FeatureScoped
+public class IkAdminList {
 
-    @Inject private AccountFacade _accountFacade;
-    private boolean _showDisclaimer;
+    @Inject
+    private SessionController _sessionController;
 
-    public boolean isShowDisclaimer() {
-        return _showDisclaimer;
+    private List<Integer> _adminIks = new ArrayList<>();
+    private Account _account;
+
+    public Account getAccount() {
+        return _account;
     }
 
-    public void setShowDisclaimer(boolean showDisclaimer) {
-        _showDisclaimer = showDisclaimer;
+    public void setAccount(Account account) {
+        this._account = account;
     }
-    
-    public void setDisclaimerDate(Account account){
-        account.setIkAdminDisclaimer(new Date());
-        _accountFacade.merge(account);
+
+    public List<Integer> getAdminIks() {
+        return _adminIks;
     }
+
+    public void setAdminIks(List<Integer> adminIks) {
+        this._adminIks = adminIks;
+    }
+
+    @PostConstruct
+    public void init() {
+        setAdminIksList();
+        setAccount(_sessionController.getAccount());
+    }
+
+    public void setDisclaimerDate() {
+        _sessionController.getAccount().setIkAdminDisclaimer(new Date());
+        _sessionController.saveAccount();
+        setAdminIksList();
+        setAccount(_sessionController.getAccount());
+    }
+
+    private void setAdminIksList() {
+        _adminIks.clear();
+        for (AccountIkAdmin aik : _sessionController.getAccount().getAdminIks()) {
+            _adminIks.add(aik.getIk());
+        }
+    }
+
 }

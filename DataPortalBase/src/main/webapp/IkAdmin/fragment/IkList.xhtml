@@ -3,56 +3,57 @@
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
-                >
+                xmlns:pf="http://primefaces.org/ui">
+    <h:form id="form1">
+        <pf:dataTable id="ikList"
+                      value="#{ikAdminList.adminIks}"
+                      var="ik"
+                      style="padding: 10px;"
+                      tableStyleClass="inekTableBase"
+                      tableStyle="table-layout: auto;"
+                      rendered="#{ikAdminList.account.disclaimerConfirmed}">
+            <pf:column headerText="IK">
+                <h:link outcome="#{sessionTools.pages.IkAdminTasks}"
+                        value="#{ik}" >
+                    <f:param name="ik" value="#{ik}"/>
+                </h:link>
+            </pf:column>
 
-    <h:dataTable value="#{sessionController.account.adminIks}" var="item"
-                 rowClasses="row1, row2" rendered="#{sessionController.account.disclaimerConfirmed}">
+            <pf:column headerText="Krankenhaus">
+                <h:link outcome="#{sessionTools.pages.IkAdminTasks}"
+                        value="#{applicationTools.retrieveHospitalInfo(ik)}" >
+                    <f:param name="ik" value="#{ik}"/>
+                </h:link>
+            </pf:column>
+        </pf:dataTable>
 
-        <h:column>
-            <f:facet name="header">#{msg.lblIkShort}</f:facet>
-            <h:link outcome="#{sessionTools.pages.IkAdminTasks}"
-                    value="#{item.ik}" >
-                <f:param name="ik" value="#{item.ik}"/>
-            </h:link>
-        </h:column>
+        <pf:fieldset id="ikListDisclaimer"
+                     legend="Nutzungshinweis"
+                     toggleable="true"
+                     class="inekFieldsetDrg"
+                     collapsed="#{ikAdminList.account.disclaimerConfirmed}">
+            <h:panelGrid columns="1" cellpadding="5">
+                <p>
+                    Als IK-Admin bestimmen Sie, welche Rechte die für Ihre Institution im InEK-Datenportal angemeldeten Anwender besitzen.
+                    Mit der Rechtevergabe entscheiden Sie entsprechend, welche Daten zu Ihrer Institution vom jeweiligen Anwender gesehen, geändert, sowie an das InEK gesendet werden dürfen.
+                    Ein künftig neu registrierter Anwender besitzt initial keine Rechte.
+                    Anwender, die bereits vor Einrichtung des IK-Admins registriert waren, wurden initial mit Ihren bisherigen Rechten ausgestattet.
+                </p>
+                <p>
+                    Für jede Funktion, welche von Ihrem Haus genutzt werden soll, benötigt mindestens ein Anwender das Recht, die Daten zu bearbeiten und an das InEK senden zu können.
+                    Anderenfalls lässt sich die betreffende Funktion nicht im gewünschten Maße nutzen.
+                </p>
+                <p>
+                    Weitere Details entnehmen Sie bitte dem Anwenderhandbuch.
+                </p>
+            </h:panelGrid>
 
-        <h:column>
-            <f:facet name="header">Institution</f:facet>
-            <h:link outcome="#{sessionTools.pages.IkAdminTasks}"
-                    value="#{applicationTools.retrieveHospitalInfo(item.ik)}" >
-                <f:param name="ik" value="#{item.ik}"/>
-            </h:link>
-        </h:column>
+        </pf:fieldset>
 
-    </h:dataTable>
-
-    <h:commandLink rendered="#{sessionController.account.disclaimerConfirmed}"
-                   styleClass="button"
-                   value="&nbsp; Nutzungshinweis anzeigen &nbsp;"
-                   actionListener="#{ikAdminList.setShowDisclaimer(true)}"
-                   immediate="true"/>
-
-    <h:panelGroup rendered="#{not sessionController.account.disclaimerConfirmed or ikAdminList.showDisclaimer}">
-        <h3>Nutzungshinweis</h3>
-        <p>
-            Als IK-Admin bestimmen Sie, welche Rechte die für Ihre Institution im InEK-Datenportal angemeldeten Anwender besitzen. 
-            Mit der Rechtevergabe entscheiden Sie entsprechend, welche Daten zu Ihrer Institution vom jeweiligen Anwender gesehen, geändert, sowie an das InEK gesendet werden dürfen. 
-            Ein künftig neu registrierter Anwender besitzt initial keine Rechte. 
-            Anwender, die bereits vor Einrichtung des IK-Admins registriert waren, wurden initial mit Ihren bisherigen Rechten ausgestattet.
-        </p>
-        <p>
-            Für jede Funktion, welche von Ihrem Haus genutzt werden soll, benötigt mindestens ein Anwender das Recht, die Daten zu bearbeiten und an das InEK senden zu können. 
-            Anderenfalls lässt sich die betreffende Funktion nicht im gewünschten Maße nutzen. 
-        </p>
-        <p>
-            Weitere Details entnehmen Sie bitte dem Anwenderhandbuch. 
-        </p>
-    </h:panelGroup>
-
-    <h:commandLink rendered="#{not sessionController.account.disclaimerConfirmed}"
-                   styleClass="bigButton"
-                   value="&nbsp; Ich habe den Nutzungshinweis zur Kenntniss genommen &nbsp;"
-                   actionListener="#{ikAdminList.setDisclaimerDate(sessionController.account)}"
-                   immediate="true"/>
-
+        <h:commandLink rendered="#{not ikAdminList.account.disclaimerConfirmed}"
+                       styleClass="bigButton"
+                       value="&nbsp; Ich habe den Nutzungshinweis zur Kenntniss genommen &nbsp;"
+                       actionListener="#{ikAdminList.setDisclaimerDate()}"
+                       immediate="true"/>
+    </h:form>
 </ui:composition>

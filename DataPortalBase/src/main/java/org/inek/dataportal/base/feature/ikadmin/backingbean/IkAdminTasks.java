@@ -7,8 +7,7 @@ package org.inek.dataportal.base.feature.ikadmin.backingbean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -25,15 +24,14 @@ import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.api.enums.IkReference;
+import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.data.account.facade.AccountFacade;
-import org.inek.dataportal.common.controller.AbstractEditController;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
 import org.inek.dataportal.common.data.ikadmin.entity.User;
 import org.inek.dataportal.common.enums.Right;
 import org.inek.dataportal.common.data.ikadmin.facade.IkAdminFacade;
 import org.inek.dataportal.common.helper.Utils;
-import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -41,10 +39,9 @@ import org.primefaces.context.RequestContext;
  */
 @Named
 @ViewScoped
-public class IkAdminTasks extends AbstractEditController implements Serializable {
+public class IkAdminTasks implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger("IkAdminTasks");
-    private static final String TOPIC_USER = "topicUserManagement";
 
     @Inject
     private SessionController _sessionController;
@@ -52,28 +49,62 @@ public class IkAdminTasks extends AbstractEditController implements Serializable
     private IkAdminFacade _ikAdminFacade;
     @Inject
     private AccountFacade _accountFacade;
+    @Inject
+    private DialogController _dialogController;
 
+    private List<AccessRight> _accessRights;
+    private List<Right> _rights = new ArrayList<>();
     private int _ik;
+    private int _accountId;
+    private Account _account;
+    private List<Account> _accounts = new ArrayList<>();
+
+    public int getAccountId() {
+        return _accountId;
+    }
+
+    public void setAccountId(int accountId) {
+        this._accountId = accountId;
+        setAccount(_accountFacade.findAccount(accountId));
+    }
+
+    public List<Account> getAccounts() {
+        return _accounts
+                .stream()
+                .sorted((p1, p2) -> p1.getLastName().compareTo(p2.getLastName()))
+                .collect(Collectors.toList());
+    }
+
+    public void setAccounts(List<Account> accounts) {
+        this._accounts = accounts;
+    }
+
+    public Account getAccount() {
+        return _account;
+    }
+
+    public void setAccount(Account account) {
+        this._account = account;
+    }
 
     public int getIk() {
         return _ik;
     }
 
-    @Override
-    protected void addTopics() {
-        addTopic(TOPIC_USER, Pages.IkAdminUser.URL());
+    public List<Right> getRights() {
+        return _rights;
     }
 
-    @Override
-    protected void topicChanged() {
-//        if (_sessionController.getAccount().isAutoSave() && !isReadOnly()) {
-//            save(false);
-//        }
+    public void setRights(List<Right> rights) {
+        this._rights = rights;
     }
 
-    @Override
-    protected String getOutcome() {
-        return "";
+    public List<AccessRight> getAccessRights() {
+        return _accessRights;
+    }
+
+    public void setAccessRights(List<AccessRight> accessRights) {
+        this._accessRights = accessRights;
     }
 
     @PostConstruct
@@ -85,6 +116,9 @@ public class IkAdminTasks extends AbstractEditController implements Serializable
             int ik = Integer.parseInt(ikParam);
             if (_sessionController.getAccount().getAdminIks().stream().anyMatch(a -> a.getIk() == ik)) {
                 _ik = ik;
+                _accessRights = _ikAdminFacade.findAccessRights(_ik);
+                buildRightList();
+                buildAccountList();
                 return;
             }
         } catch (NumberFormatException ex) {
@@ -93,22 +127,8 @@ public class IkAdminTasks extends AbstractEditController implements Serializable
         Utils.navigate(Pages.NotAllowed.RedirectURL());
     }
 
-    // <editor-fold defaultstate="collapsed" desc="User Management">
-    private List<AccessRight> _accessRights;
-
-    public List<AccessRight> getAccessRights() {
-        if (_accessRights == null) {
-            _accessRights = _ikAdminFacade.findAccessRights(_ik);
-        }
-        return _accessRights;
-    }
-
-    public List<Right> getRights() {
-        List<Right> rights = new ArrayList<>();
-        for (Right right : Right.values()) {
-            rights.add(right);
-        }
-        return rights;
+    private void buildRightList() {
+        _rights.addAll(Arrays.asList(Right.values()));
     }
 
     public String saveAccessRights() {
@@ -117,27 +137,18 @@ public class IkAdminTasks extends AbstractEditController implements Serializable
                 for (AccessRight accessRight : _accessRights) {
                     _ikAdminFacade.saveAccessRight(accessRight);
                 }
-                _sessionController.alertClient("Berechtigungen gespeichert");
+                _dialogController.showSaveDialog();
                 return null;
             } else {
-                addMessage("");
+                _dialogController.showWarningDialog("Fehler beim speichern", "Für eine oder mehrere Funktionen "
+                        + "besteht kein Zugriff durch einen Benutzer. Bitte passen Sie die Berechtigungen so an, "
+                        + "dass mindesten ein Benutzer die Daten einsehen kann.");
                 return null;
             }
         } catch (Exception ex) {
             LOGGER.log(Level.WARNING, ex.getMessage());
             return Pages.Error.URL();
         }
-    }
-
-    private int _accountId;
-
-    public int getAccountId() {
-        return _accountId;
-    }
-
-    public void setAccountId(int accountId) {
-        _accountId = accountId;
-        _featureId = 0;
     }
 
     private int _featureId;
@@ -150,18 +161,16 @@ public class IkAdminTasks extends AbstractEditController implements Serializable
         _featureId = featureId;
     }
 
-    private final Map<Integer, Account> _accounts = new HashMap<>();
-
     public Set<Feature> getMissingFeatures() {
         Set<Feature> features = new HashSet<>();
-        if (_accountId <= 0) {
+        if (_account == null) {
             return features;
         }
         for (Feature feature : Feature.values()) {
             if (feature.getIkReference() != IkReference.Hospital) {
                 continue;
             }
-            if (_accessRights.stream().anyMatch(r -> r.getAccountId() == _accountId && r.getFeature() == feature)) {
+            if (_accessRights.stream().anyMatch(r -> r.getAccountId() == _account.getId() && r.getFeature() == feature)) {
                 continue;
             }
             features.add(feature);
@@ -169,71 +178,26 @@ public class IkAdminTasks extends AbstractEditController implements Serializable
         return features;
     }
 
-    private boolean ensureAccount(int userId) {
-        if (_accounts.containsKey(userId)) {
-            return true;
-        }
-        Account account = _accountFacade.findAccount(userId);
-        if (account == null) {
-            return false;
-        }
-        _accounts.put(userId, account);
-        return true;
-    }
-
-    public Collection<Account> getAccounts() {
-        ensureAccounts();
-        return _accounts
-                .values()
-                .stream()
-                .sorted((a1, a2) -> a1.getLastName().compareTo(a2.getLastName()))
-                .collect(Collectors.toList());
-    }
-
-    private void ensureAccounts() {
-        if (_accounts.isEmpty()) {
-            List<Account> accounts = _accountFacade.getAccounts4Ik(_ik);
-            for (Account account : accounts) {
-                _accounts.put(account.getId(), account);
-            }
-            String[] mailDomains = _sessionController
-                    .getAccount()
-                    .getAdminIks()
-                    .stream()
-                    .filter(a -> a.getIk() == _ik)
-                    .map(a -> a.getMailDomain())
-                    .findAny()
-                    .orElse("")
-                    .split(";");
-            for (String mailDomain : mailDomains) {
-                String domain = mailDomain.trim();
-                List<Account> mailAccounts = _accountFacade.findAccountsByMailDomain((domain.startsWith("@") ? "" : "@") + domain);
-                for (Account account : mailAccounts) {
-                    _accounts.put(account.getId(), account);
-                }
-            }
-        }
-    }
-
     public void addAccessRight() {
-        if (_accountId == 0 || _featureId == 0) {
+        if (_account == null || _featureId == 0) {
             return;
         }
-        ensureAccount(_accountId);
-        Account account = _accounts.get(_accountId);
+
         Feature feature = Feature.getFeatureFromId(_featureId);
-        User user = createUserFromAccount(account);
+        User user = createUserFromAccount(_account);
         AccessRight accessRight = new AccessRight(user, _ik, feature, Right.Deny);
         _ikAdminFacade.saveAccessRight(accessRight);
         _accessRights.add(accessRight);
-        if (!account.getFullIkSet().contains(_ik)) {
-            account.addIk(_ik);
+        if (!_account.getFullIkSet().contains(_ik)) {
+            _account.addIk(_ik);
         }
-        if (account.getFeatures().stream().noneMatch(f -> f.getFeature() == feature)) {
-            account.addFeature(feature, true);
+        if (_account.getFeatures().stream().noneMatch(f -> f.getFeature() == feature)) {
+            _account.addFeature(feature, true);
         }
-        _accountFacade.updateAccount(account);
+        _accountFacade.updateAccount(_account);
         _featureId = 0;
+
+        _dialogController.showSaveDialog();
     }
     // </editor-fold>
 
@@ -259,8 +223,27 @@ public class IkAdminTasks extends AbstractEditController implements Serializable
         return true;
     }
 
-    private void addMessage(String message) {
-        RequestContext context = RequestContext.getCurrentInstance();
-        context.execute("PF('dialog').show();");
+    private void buildAccountList() {
+        _accounts.clear();
+
+        _accounts.addAll(_accountFacade.getAccounts4Ik(_ik));
+
+        String[] mailDomains = _sessionController
+                .getAccount()
+                .getAdminIks()
+                .stream()
+                .filter(a -> a.getIk() == _ik)
+                .map(a -> a.getMailDomain())
+                .findAny()
+                .orElse("")
+                .split(";");
+
+        for (String mailDomain : mailDomains) {
+            String domain = mailDomain.trim();
+            _accounts.addAll(_accountFacade.findAccountsByMailDomain((domain.startsWith("@") ? "" : "@") + domain)
+                    .stream()
+                    .filter(c -> !c.getFullIkSet().contains(_ik))
+                    .collect(Collectors.toList()));
+        }
     }
 }
