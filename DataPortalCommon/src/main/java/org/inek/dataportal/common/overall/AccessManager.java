@@ -192,7 +192,7 @@ public class AccessManager implements Serializable {
         if (ik > 0) {
             Optional<AccessRight> right = obtainAccessRights(feature).filter(r -> r.getIk() == ik).findFirst();
             if (right.isPresent()) {
-                return right.get().canWrite();
+                return !right.get().canWrite();
             }
         }
         if (feature == Feature.AEB){return true;} // temp. quick solution, see comment at ObtainIksForCreation and #88
