@@ -163,15 +163,8 @@
 .inekTableBase th,
 .inekTableBase tfoot td{
     background-image: none !important;
-    background-color: #7f9baf !important;
-    border: none;
-}
-
-.inekTableBase th span,
-.inekTableBase tfoot td span {
-    color: white;
-    text-shadow: none;
-    font-weight: bold;
+    background-color: transparent !important;
+    border: none !important;
 }
 
 .inekTableBase tr:nth-child(even) td,

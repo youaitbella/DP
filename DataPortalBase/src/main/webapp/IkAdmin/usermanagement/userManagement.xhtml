@@ -18,6 +18,7 @@
                             for="selectAccount" />
             <pf:selectOneMenu value="#{ikAdminTasks.accountId}"
                               id="selectAccount">
+                <f:selectItem itemLabel="#{msg.itemChoose}" itemValue="#{0}" noSelectionOption="true"/>
                 <f:selectItems value="#{ikAdminTasks.accounts}"
                                var="ac"
                                itemValue="#{ac.id}"
