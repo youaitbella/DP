@@ -73,7 +73,7 @@ public class EditStructureInformation {
     }
 
     public Set<Integer> getAllowedIks() {
-        Set<Integer> allowedIks = _accessManager.ObtainIksForCreation(Feature.AEB);
+        Set<Integer> allowedIks = _accessManager.ObtainIksForCreation(Feature.HC_HOSPITAL);
         return allowedIks
                 .stream()
                 .filter(ik -> !_aebFacade.structureInformaionAvailable(ik))
@@ -122,8 +122,7 @@ public class EditStructureInformation {
 
     public void setReadOnly() {
         if (_structureInformation != null) {
-            setReadOnly(_accessManager.isReadOnly(
-                    Feature.AEB,
+            setReadOnly(_accessManager.isReadOnly(Feature.HC_HOSPITAL,
                     WorkflowStatus.New,
                     _sessionController.getAccountId(),
                     _structureInformation.getIk()));
@@ -203,7 +202,7 @@ public class EditStructureInformation {
                     .setNewValue(newValue);
         } else {
             ActionLog log = new ActionLog(_sessionController.getAccountId(),
-                    Feature.AEB.name(),
+                    Feature.HC_HOSPITAL.name(),
                     "StructureInformation",
                     _structureInformation.getId(),
                     field,
@@ -232,8 +231,7 @@ public class EditStructureInformation {
     }
 
     public Boolean canSave() {
-        return _accessManager.isReadOnly(
-                Feature.AEB,
+        return _accessManager.isReadOnly(Feature.HC_HOSPITAL,
                 WorkflowStatus.New,
                 _sessionController.getAccountId(),
                 _structureInformation.getIk());

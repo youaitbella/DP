@@ -199,7 +199,7 @@ public class AccessManager implements Serializable {
                 return !right.get().canWrite();
             }
         }
-        if (feature == Feature.AEB){return true;} // temp. quick solution, see comment at ObtainIksForCreation and #88
+        if (feature == Feature.HC_HOSPITAL){return true;} // temp. quick solution, see comment at ObtainIksForCreation and #88
         
         if (ownerId == _sessionController.getAccountId()) {
             return false;
@@ -444,9 +444,9 @@ public class AccessManager implements Serializable {
     }
 
     public Set<Integer> ObtainIksForCreation(Feature feature) {
-        if (feature == Feature.AEB) {
+        if (feature == Feature.HC_HOSPITAL) {
             // todo:
-            // quick and dirty: AEB needs to have an ik admin. 
+            // quick and dirty: HC_HOSPITAL needs to have an ik admin. 
             // during the transition time we simply check for this feature
             //
             // solution 1: we add an appropriate property to the feature(s) and handle it here :: denied

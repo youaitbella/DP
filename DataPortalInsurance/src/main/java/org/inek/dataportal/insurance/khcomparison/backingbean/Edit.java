@@ -321,7 +321,7 @@ public class Edit {
 
     public List<Integer> getAllowedIks() {
         return _aebFacade.getAllowedIksForInsurance(_sessionController.getAccountId(),
-                Utils.getTargetYear(Feature.AEB), 1);
+                Utils.getTargetYear(Feature.HC_HOSPITAL), 1);
     }
 
     private boolean baseInfoisComplete(AEBBaseInformation info) {

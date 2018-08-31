@@ -122,7 +122,7 @@ public class Edit {
 
     public void setReadOnly() {
         if (_aebBaseInformation != null) {
-            setReadOnly(!_accessManager.ObtainAllowedIks(Feature.AEB).contains(_aebBaseInformation.getIk()));
+            setReadOnly(!_accessManager.ObtainAllowedIks(Feature.HC_HOSPITAL).contains(_aebBaseInformation.getIk()));
         } else if (_aebBaseInformation.getIk() == 0) {
             setReadOnly(false);
         } else {
@@ -324,7 +324,7 @@ public class Edit {
 
 
     public Set<Integer> getAllowedIks() {
-        Set<Integer> allowedIks = _accessManager.ObtainIksForCreation(Feature.AEB);
+        Set<Integer> allowedIks = _accessManager.ObtainIksForCreation(Feature.HC_HOSPITAL);
         Set<Integer> iks = _aebFacade.retrievePossibleIks(allowedIks, 0);
         if (_aebBaseInformation.getIk() != 0) {
             iks.add(_aebBaseInformation.getIk());

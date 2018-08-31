@@ -26,7 +26,10 @@ public enum Feature {
     // todo: make VALUATION_RATIO shareable
     VALUATION_RATIO(18, "Gezielte Absenkung", NeedApproval.Yes, PortalType.DRG, IkReference.Hospital, Selectable.Yes, Shareable.No),
     IK_ADMIN(19, "IK-Administration", NeedApproval.No, PortalType.BASE, IkReference.None, Selectable.No, Shareable.No),
-    AEB(20, "Aufstellung der Entgelte und Budgetermittlung", NeedApproval.Yes, PortalType.PSY, IkReference.Hospital, Selectable.No, Shareable.No);
+    HC_HOSPITAL(20, "Krankenhausvergleich (Funktionen für Krankenhaus)",
+            NeedApproval.Yes, PortalType.PSY, IkReference.Hospital, Selectable.No, Shareable.No),
+    HC_INSURANCE(21, "Krankenhausvergleich (Funktionen für Krankenkassen)",
+            NeedApproval.Yes, PortalType.INSURANCE, IkReference.Insurance, Selectable.No, Shareable.No);
 
     Feature(int id, String description, NeedApproval needApproval, PortalType portalType,
             IkReference ikReference, Selectable selectable, Shareable shareable) {

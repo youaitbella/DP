@@ -83,7 +83,7 @@ public class Summary {
         _listWorking.clear();
         if (_configFacade.readConfigBool(ConfigKey.IkAdminEnable)) {
             for (AccessRight right : _sessionController.getAccount().getAccessRights().stream()
-                    .filter(c -> c.canRead() && c.getFeature() == Feature.AEB)
+                    .filter(c -> c.canRead() && c.getFeature() == Feature.HC_HOSPITAL)
                     .collect(Collectors.toList())) {
                 _listWorking.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.New, right.getIk(), 0));
                 _listWorking.
@@ -101,7 +101,7 @@ public class Summary {
         _listComplete.clear();
         if (_configFacade.readConfigBool(ConfigKey.IkAdminEnable)) {
             for (AccessRight right : _sessionController.getAccount().getAccessRights().stream()
-                    .filter(c -> c.canRead() && c.getFeature() == Feature.AEB)
+                    .filter(c -> c.canRead() && c.getFeature() == Feature.HC_HOSPITAL)
                     .collect(Collectors.toList())) {
                 _listComplete.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.Provided, right.getIk(), 0));
             }
@@ -121,12 +121,12 @@ public class Summary {
     }
 
     public boolean isCreateEntryAllowed() {
-        Set<Integer> allowedIks = _accessManager.ObtainIksForCreation(Feature.AEB);
+        Set<Integer> allowedIks = _accessManager.ObtainIksForCreation(Feature.HC_HOSPITAL);
         return _aebfacade.retrievePossibleIks(allowedIks, 0).size() > 0;
     }
 
     public boolean isCreateStructureInformationAllowed() {
-        Set<Integer> allowedIks = _accessManager.ObtainIksForCreation(Feature.AEB);
+        Set<Integer> allowedIks = _accessManager.ObtainIksForCreation(Feature.HC_HOSPITAL);
         return allowedIks.stream().
                 anyMatch(ik -> !_aebfacade.structureInformaionAvailable(ik));
     }
@@ -137,7 +137,7 @@ public class Summary {
     }
 
     private void setStructureInformationList() {
-        Set<Integer> allowedIks = _accessManager.ObtainAllowedIks(Feature.AEB);
+        Set<Integer> allowedIks = _accessManager.ObtainAllowedIks(Feature.HC_HOSPITAL);
         for (Integer ik : _sessionController.getAccount().getFullIkSet()) {
             if (_aebfacade.structureInformaionAvailable(ik)) {
                 if (allowedIks.contains(ik)) {
@@ -149,7 +149,7 @@ public class Summary {
 
     public Boolean isDeleteAllowed(int ik) {
         return !_sessionController.getAccount().getAccessRights().stream()
-                .filter(c -> c.getFeature() == Feature.AEB
+                .filter(c -> c.getFeature() == Feature.HC_HOSPITAL
                 && c.getIk() == ik
                 && c.canWrite())
                 .collect(Collectors.toList())

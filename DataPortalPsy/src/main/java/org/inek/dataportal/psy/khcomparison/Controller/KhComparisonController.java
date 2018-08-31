@@ -28,7 +28,7 @@ public class KhComparisonController extends AbstractFeatureController {
 
     @Override
     public Feature getFeature() {
-        return Feature.AEB;
+        return Feature.HC_HOSPITAL;
     }
 
 }

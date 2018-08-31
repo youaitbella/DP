@@ -33,7 +33,7 @@ public class FeatureFactoryImpl implements FeatureFactory, Serializable {
                 return new ModelIntentionController(sessionController);
             case PSYCH_STAFF:
                 return new PsychStaffController(sessionController);
-            case AEB:
+            case HC_HOSPITAL:
                 return new KhComparisonController(sessionController);
             default:
                 throw new IllegalArgumentException("no such controller");
