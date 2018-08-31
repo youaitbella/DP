@@ -17,12 +17,15 @@ public enum Feature {
     CERT(11, "Zertifizierung", NeedApproval.ByInekOrIkAdmin, PortalType.CERT, IkReference.None, Selectable.Yes, Shareable.No),
     AGENCY(12, "Behörde", NeedApproval.ByInekOrIkAdmin, PortalType.BASE, IkReference.None, Selectable.Yes, Shareable.No),
     INSURANCE(13, "Krankenkasse", NeedApproval.ByInekOrIkAdmin, PortalType.INSURANCE, IkReference.None, Selectable.Yes, Shareable.No),
-    CALCULATION_HOSPITAL(14, "Teilnahme Kostenkalkulation", NeedApproval.ByInekOrIkAdmin, PortalType.CALC, IkReference.Hospital, Selectable.Yes, Shareable.Yes),
+    CALCULATION_HOSPITAL(14, "Teilnahme Kostenkalkulation", NeedApproval.ByInekOrIkAdmin,
+            PortalType.CALC, IkReference.Hospital, Selectable.Yes, Shareable.Yes),
     SPECIFIC_FUNCTION(15, "Besondere Aufgaben", NeedApproval.ByInekOrIkAdmin, PortalType.DRG, IkReference.Hospital, Selectable.Yes, Shareable.Yes),
     // todo: make ADDITIONAL_COST shareable
-    ADDITIONAL_COST(16, "Finanzierung von Mehrkosten", NeedApproval.ByInekOrIkAdmin, PortalType.DRG, IkReference.Hospital, Selectable.Yes, Shareable.No),
+    ADDITIONAL_COST(16, "Finanzierung von Mehrkosten", NeedApproval.ByInekOrIkAdmin,
+            PortalType.DRG, IkReference.Hospital, Selectable.Yes, Shareable.No),
     // todo: make PSYCH_STAFF shareable
-    PSYCH_STAFF(17, "Psych-Personalnachweis-Vereinbarung", NeedApproval.ByInekOrIkAdmin, PortalType.PSY, IkReference.Hospital, Selectable.Yes, Shareable.No),
+    PSYCH_STAFF(17, "Psych-Personalnachweis-Vereinbarung", NeedApproval.ByInekOrIkAdmin,
+            PortalType.PSY, IkReference.Hospital, Selectable.Yes, Shareable.No),
     // todo: make VALUATION_RATIO shareable
     VALUATION_RATIO(18, "Gezielte Absenkung", NeedApproval.ByInekOrIkAdmin, PortalType.DRG, IkReference.Hospital, Selectable.Yes, Shareable.No),
     IK_ADMIN(19, "IK-Administration", NeedApproval.No, PortalType.BASE, IkReference.None, Selectable.No, Shareable.No),
