@@ -30,9 +30,9 @@ public enum Feature {
     VALUATION_RATIO(18, "Gezielte Absenkung", ManagedBy.InekOrIkAdmin, PortalType.DRG, IkReference.Hospital, Selectable.Yes, Shareable.No),
     IK_ADMIN(19, "IK-Administration", ManagedBy.None, PortalType.BASE, IkReference.None, Selectable.No, Shareable.No),
     HC_HOSPITAL(20, "Krankenhausvergleich (Funktionen für Krankenhaus)",
-            ManagedBy.InekOrIkAdmin, PortalType.PSY, IkReference.Hospital, Selectable.Yes, Shareable.No),
+            ManagedBy.IkAdminOnly, PortalType.PSY, IkReference.Hospital, Selectable.Yes, Shareable.No),
     HC_INSURANCE(21, "Krankenhausvergleich (Funktionen für Krankenkassen)",
-            ManagedBy.InekOrIkAdmin, PortalType.INSURANCE, IkReference.Insurance, Selectable.Yes, Shareable.No);
+            ManagedBy.IkAdminOnly, PortalType.INSURANCE, IkReference.Insurance, Selectable.Yes, Shareable.No);
 
     Feature(int id, String description, ManagedBy managedBy, PortalType portalType,
             IkReference ikReference, Selectable selectable, Shareable shareable) {

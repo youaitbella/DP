@@ -68,7 +68,6 @@ public class AccessManagerTest {
 
         Account userAccount = mock(Account.class);
         when(userAccount.getId()).thenReturn(userAccountId);
-
         when(userAccount.getAccessRights()).thenReturn(accessRights);
 
         SessionController sessionController = mock(SessionController.class);
