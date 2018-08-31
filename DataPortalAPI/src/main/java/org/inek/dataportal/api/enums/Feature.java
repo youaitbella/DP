@@ -66,7 +66,7 @@ public enum Feature {
         return _managedBy == ManagedBy.InekOrIkAdmin;
     }
 
-    public ManagedBy ManagedBy(){
+    public ManagedBy getManagedBy(){
         return _managedBy;
     }
     
