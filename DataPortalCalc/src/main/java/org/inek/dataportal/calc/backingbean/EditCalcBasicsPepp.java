@@ -623,6 +623,8 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
             if (_calcBasics != null && _calcBasics.getIk() > 0) {
                 iks.add(_calcBasics.getIk());
             }
+            Set<Integer> deniedIks = _accessManager.retrieveDeniedForCreationIks(Feature.CALCULATION_HOSPITAL);
+            iks.removeAll(deniedIks);
 
             _ikItems = new ArrayList<>();
             for (int ik : iks) {

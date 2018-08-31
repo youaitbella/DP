@@ -170,9 +170,9 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         Account account = _sessionController.getAccount();
         StaffProof staffProof = new StaffProof();
         staffProof.setAccountId(account.getId());
-        List<SelectItem> iks = getIks();
+        Set<Integer> iks = getIks();
         if (iks.size() == 1) {
-            staffProof.setIk((int) iks.get(0).getValue());
+            staffProof.setIk(iks.stream().findFirst().get());
             setYearToFirstAvailable(staffProof);
         }
         ExclusionFact noneFact = obtainExclusionFacts()
@@ -579,17 +579,8 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         return "";
     }
 
-    public List<SelectItem> getIks() {
-        Account account = _sessionController.getAccount();
-        Set<Integer> iks = account.getFullIkSet();
-        if (_staffProof != null && _staffProof.getIk() > 0) {
-            iks.add(_staffProof.getIk());
-        }
-        List<SelectItem> items = new ArrayList<>();
-        for (int ik : iks) {
-            items.add(new SelectItem(ik));
-        }
-        return items;
+    public Set<Integer> getIks() {
+        return _accessManager.ObtainIksForCreation(Feature.PSYCH_STAFF);
     }
     // </editor-fold>
 

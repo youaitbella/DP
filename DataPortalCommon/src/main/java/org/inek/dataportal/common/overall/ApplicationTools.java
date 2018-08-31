@@ -33,10 +33,10 @@ public class ApplicationTools {
     private Properties _properties;
 
     private static final Logger LOGGER = Logger.getLogger("ApplicationTools");
-    @Inject
-    private ConfigFacade _config;
-    @Inject
-    private InfoDataFacade _info;
+    @Inject private ConfigFacade _config;
+    @Inject private InfoDataFacade _info;
+    @Inject private CustomerFacade _customerFacade;
+    private final Map<Integer, String> _hospitalInfo = new ConcurrentHashMap<>();
 
     @PostConstruct
     private void init() {
@@ -125,10 +125,6 @@ public class ApplicationTools {
     public String readPortalAddress(PortalType portalType, Stage stage) {
         return _config.readPortalAddress(portalType, stage);
     }
-
-    @Inject
-    private CustomerFacade _customerFacade;
-    private final Map<Integer, String> _hospitalInfo = new ConcurrentHashMap<>();
 
     public String retrieveHospitalInfo(int ik) {
         if (_hospitalInfo.containsKey(ik)) {

@@ -79,7 +79,8 @@ public class EditStatementOfParticipance extends AbstractEditController {
     private boolean _obligatorInv;
 
     private boolean statementIsNoParticipation() {
-        return !_statement.isDrgCalc() && !_statement.isPsyCalc() && !_statement.isInvCalc() && !_statement.isTpgCalc() && !_statement.isObdCalc();
+        return !_statement.isDrgCalc() && !_statement.isPsyCalc() && !_statement.isInvCalc() && !_statement.isTpgCalc() && !_statement.
+                isObdCalc();
     }
 
     enum StatementOfParticipanceTabs {
@@ -189,7 +190,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
         try {
             int id = Integer.parseInt("" + idObject);
             StatementOfParticipance statement = _calcFacade.findStatementOfParticipance(id);
-            if (_accessManager.isAccessAllowed(Feature.CALCULATION_HOSPITAL, statement.getStatus(), 
+            if (_accessManager.isAccessAllowed(Feature.CALCULATION_HOSPITAL, statement.getStatus(),
                     statement.getAccountId(), statement.getIk())) {
                 updateObligatorySetting(statement);
                 return statement;
@@ -223,7 +224,8 @@ public class EditStatementOfParticipance extends AbstractEditController {
             statement.setObligatory(domain.contains("obligatory"));
             if (statement.isObligatory()) {
                 statement.setObligatoryFollowingYears(_calcFacade.isObligatoryFollowingYear(ik, year));
-                statement.setInvCalc(_calcFacade.isObligateInCalcType(ik, year, 4) || _calcFacade.isParticipationInCalcType(ik, year - 1, 4));
+                statement.setInvCalc(_calcFacade.isObligateInCalcType(ik, year, 4) || _calcFacade.
+                        isParticipationInCalcType(ik, year - 1, 4));
                 setObligatorDrg(_calcFacade.isObligateInCalcType(ik, year, 1));
                 setObligatorPsy(_calcFacade.isObligateInCalcType(ik, year, 3));
                 setObligatorInv(_calcFacade.isObligateInCalcType(ik, year, 4));
@@ -232,8 +234,10 @@ public class EditStatementOfParticipance extends AbstractEditController {
                     statement.setObligatoryCalcType(2);
                 }
 
-                statement.setDrgCalc(isDrg && (isObligatorDrg() || isObligatorPsy() || _calcFacade.isParticipationInCalcType(ik, year - 1, 1)));
-                statement.setPsyCalc(isPsy && (isObligatorDrg() || isObligatorPsy() || _calcFacade.isParticipationInCalcType(ik, year - 1, 3)));
+                statement.setDrgCalc(isDrg && (isObligatorDrg() || isObligatorPsy() || _calcFacade.
+                        isParticipationInCalcType(ik, year - 1, 1)));
+                statement.setPsyCalc(isPsy && (isObligatorDrg() || isObligatorPsy() || _calcFacade.
+                        isParticipationInCalcType(ik, year - 1, 3)));
                 statement.setTpgCalc(_calcFacade.isParticipationInCalcType(ik, year - 1, 5));
                 statement.setObdCalc(_calcFacade.isParticipationInCalcType(ik, year - 1, 7));
                 if (isObligatorDrg() && isObligatorPsy()) {
@@ -288,7 +292,8 @@ public class EditStatementOfParticipance extends AbstractEditController {
 
     public List<CalcContact> getContacts(boolean isConsultant) {
         ensureContacts(_statement);
-        return _statement.getContacts().stream().filter(c -> c.isConsultant() == isConsultant).collect(Collectors.toList());
+        return _statement.getContacts().stream().filter(c -> c.isConsultant() == isConsultant).collect(Collectors.
+                toList());
     }
 
     public List<CalcContact> getHospitalContacts() {
@@ -302,8 +307,10 @@ public class EditStatementOfParticipance extends AbstractEditController {
 
     @Override
     protected void addTopics() {
-        addTopic(StatementOfParticipanceTabs.tabStatementOfParticipanceAddress.name(), Pages.StatementOfParticipanceEditAddress.URL());
-        addTopic(StatementOfParticipanceTabs.tabStatementOfParticipanceStatements.name(), Pages.StatementOfParticipanceEditStatements.URL());
+        addTopic(StatementOfParticipanceTabs.tabStatementOfParticipanceAddress.name(), Pages.StatementOfParticipanceEditAddress.
+                URL());
+        addTopic(StatementOfParticipanceTabs.tabStatementOfParticipanceStatements.name(), Pages.StatementOfParticipanceEditStatements.
+                URL());
     }
 
     public void enableDisablePageElements() {
@@ -324,16 +331,17 @@ public class EditStatementOfParticipance extends AbstractEditController {
     }
 
     public boolean isExplanationPageEnabled() {
-        boolean enable = (!_statement.isObligatory() || _statement.getObligatoryCalcType() > 1 || _statement.isObligatoryFollowingYears()
+        boolean enable = (!_statement.isObligatory() || _statement.getObligatoryCalcType() > 1 || _statement.
+                isObligatoryFollowingYears()
                 || (isObligatorInv() && !isObligatorDrg() && !isObligatorPsy()))
                 && (_statement.isDrgCalc() || _statement.isPsyCalc());
         return enable;
     }
-    
+
     public boolean isInInekRole() {
         // todo: move to a central place, using a more general concept
         for (InekRole role : _sessionController.getAccount().getInekRoles()) {
-            if(role.getText().equals("TE Admin")) {
+            if (role.getText().equals("TE Admin")) {
                 return true;
             }
         }
@@ -382,7 +390,9 @@ public class EditStatementOfParticipance extends AbstractEditController {
         if (isInInekRole()) {
             return false;
         }
-        return _accessManager.isReadOnly(Feature.CALCULATION_HOSPITAL, _statement.getStatus(), _statement.getAccountId(), _statement.getIk());
+        return _accessManager.
+                isReadOnly(Feature.CALCULATION_HOSPITAL, _statement.getStatus(), _statement.getAccountId(), _statement.
+                        getIk());
     }
 
     public String save() {
@@ -391,7 +401,8 @@ public class EditStatementOfParticipance extends AbstractEditController {
 
         if (isValidId(_statement.getId())) {
             // CR+LF or LF only will be replaced by "\r\n"
-            String script = "alert ('" + Utils.getMessage("msgSaveAndMentionSend").replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
+            String script = "alert ('" + Utils.getMessage("msgSaveAndMentionSend").replace("\r\n", "\n").
+                    replace("\n", "\\r\\n") + "');";
             _sessionController.setScript(script);
             return null;
         }
@@ -411,11 +422,11 @@ public class EditStatementOfParticipance extends AbstractEditController {
         if (!_appTools.isEnabled(ConfigKey.IsStatemenOfParticipanceSendEnabled)) {
             return false;
         }
-         
+
         if (isInInekRole()) {
             return true;
         }
-        return _accessManager.isSealedEnabled(Feature.CALCULATION_HOSPITAL, _statement.getStatus(), 
+        return _accessManager.isSealedEnabled(Feature.CALCULATION_HOSPITAL, _statement.getStatus(),
                 _statement.getAccountId(), _statement.getIk());
     }
 
@@ -423,7 +434,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
         if (!_appTools.isEnabled(ConfigKey.IsStatemenOfParticipanceSendEnabled)) {
             return false;
         }
-        return _accessManager.isApprovalRequestEnabled(Feature.CALCULATION_HOSPITAL, _statement.getStatus(), 
+        return _accessManager.isApprovalRequestEnabled(Feature.CALCULATION_HOSPITAL, _statement.getStatus(),
                 _statement.getAccountId(), _statement.getIk());
     }
 
@@ -431,7 +442,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
         if (!_appTools.isEnabled(ConfigKey.IsStatemenOfParticipanceSendEnabled)) {
             return false;
         }
-        return _accessManager.isRequestCorrectionEnabled(Feature.CALCULATION_HOSPITAL, _statement.getStatus(), 
+        return _accessManager.isRequestCorrectionEnabled(Feature.CALCULATION_HOSPITAL, _statement.getStatus(),
                 _statement.getAccountId(), _statement.getIk());
     }
 
@@ -445,8 +456,8 @@ public class EditStatementOfParticipance extends AbstractEditController {
     private Mailer _mailer;
 
     /**
-     * This function seals a statement of participance if possible. Sealing is possible, if all mandatory fields are fulfilled. After sealing, the
-     * statement od participance can not be edited anymore and is available for the InEK.
+     * This function seals a statement of participance if possible. Sealing is possible, if all mandatory fields are
+     * fulfilled. After sealing, the statement od participance can not be edited anymore and is available for the InEK.
      *
      * @return
      */
@@ -455,7 +466,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
         setDistibutionModelAndMuliyear();
 
         populateDefaultsForUnreachableFields();
-        if(!statementIsNoParticipation()) {
+        if (!statementIsNoParticipation()) {
             if (!statementIsComplete()) {
                 return getActiveTopic().getOutcome();
             }
@@ -463,7 +474,7 @@ public class EditStatementOfParticipance extends AbstractEditController {
         _statement.setStatus(WorkflowStatus.Provided);
         setModifiedInfo();
         _statement.setSealed(new Date());
-        
+
         for (StatementOfParticipance sop : _calcFacade.listStatementOfParticipanceByIk(_statement.getIk())) {
             sop.setStatus(WorkflowStatus.Retired);
             _calcFacade.saveStatementOfParticipance(sop);
@@ -508,7 +519,8 @@ public class EditStatementOfParticipance extends AbstractEditController {
 
     @SuppressWarnings("CyclomaticComplexity")
     private boolean missingContact() {
-        for (CalcContact cc : _statement.getContacts().stream().filter(c -> !c.isConsultant()).collect(Collectors.toList())) {
+        for (CalcContact cc : _statement.getContacts().stream().filter(c -> !c.isConsultant()).collect(Collectors.
+                toList())) {
             if (!cc.isDrg() && !cc.isInv() && !cc.isObd() && !cc.isPsy() && !cc.isTpg()) {
                 _sessionController.setScript("alert('Für die folgenden Felder ist noch eine Eingabe erforderlich:\\n\\n"
                         + "Jedem Ansprechpartner ist mindestens ein Kalkulationsbereich (DRG, PSY, INV, TPG, OBD) zuzuordnen.')");
@@ -516,10 +528,12 @@ public class EditStatementOfParticipance extends AbstractEditController {
             }
         }
         if (_statement.isConsultantSendMail()) {
-            for (CalcContact cc : _statement.getContacts().stream().filter(c -> c.isConsultant()).collect(Collectors.toList())) {
+            for (CalcContact cc : _statement.getContacts().stream().filter(c -> c.isConsultant()).collect(Collectors.
+                    toList())) {
                 if (!cc.isDrg() && !cc.isInv() && !cc.isObd() && !cc.isPsy() && !cc.isTpg()) {
-                    _sessionController.setScript("alert('Für die folgenden Felder ist noch eine Eingabe erforderlich:\\n\\n"
-                            + "Jedem Berater ist mindestens ein Kalkulationsbereich (DRG, PSY, INV, TPG, OBD) zuzuordnen.')");
+                    _sessionController.
+                            setScript("alert('Für die folgenden Felder ist noch eine Eingabe erforderlich:\\n\\n"
+                                    + "Jedem Berater ist mindestens ein Kalkulationsbereich (DRG, PSY, INV, TPG, OBD) zuzuordnen.')");
                     return true;
                 }
             }
@@ -545,7 +559,8 @@ public class EditStatementOfParticipance extends AbstractEditController {
             _statement.setConsultantCompany("");
             _statement.setConsultantSendMail(false);
             _statement.getContacts();
-            List<CalcContact> consultContacts = _statement.getContacts().stream().filter(c -> c.isConsultant()).collect(Collectors.toList());
+            List<CalcContact> consultContacts = _statement.getContacts().stream().filter(c -> c.isConsultant()).
+                    collect(Collectors.toList());
             consultContacts.forEach((consultContact) -> {
                 _statement.getContacts().remove(consultContact);
             });
@@ -584,8 +599,9 @@ public class EditStatementOfParticipance extends AbstractEditController {
 
     public void copyForResend() {
         if (_statement.getStatusId() == 10 && !_appTools.isEnabled(ConfigKey.IsStatemenOfParticipanceResendEnabled)) {
-            _sessionController.setScript("alert('Eine Änderung der Teilnahmeerklärung im Datenportal ist leider nicht mehr möglich. "
-                    + "Bitte teilen Sie Ihre Änderungswünsche Ihrem zuständigen Referenten mit.');");
+            _sessionController.
+                    setScript("alert('Eine Änderung der Teilnahmeerklärung im Datenportal ist leider nicht mehr möglich. "
+                            + "Bitte teilen Sie Ihre Änderungswünsche Ihrem zuständigen Referenten mit.');");
             return;
         }
         _statement.setId(-1);
@@ -654,7 +670,8 @@ public class EditStatementOfParticipance extends AbstractEditController {
                     StatementOfParticipanceTabs.tabStatementOfParticipanceAddress);
         }
         if (statement.isConsultantSendMail()) {
-            List<CalcContact> consultantContacts = _statement.getContacts().stream().filter(c -> c.isConsultant()).collect(Collectors.toList());
+            List<CalcContact> consultantContacts = _statement.getContacts().stream().filter(c -> c.isConsultant()).
+                    collect(Collectors.toList());
             if (consultantContacts.isEmpty() || consultantContacts.get(0).isEmpty()) {
                 applyMessageValues(message, "lblNeedContactConsultant",
                         StatementOfParticipanceTabs.tabStatementOfParticipanceAddress, "sop:contactConsultant");
@@ -712,7 +729,8 @@ public class EditStatementOfParticipance extends AbstractEditController {
         return false;
     }
 
-    private void checkField(MessageContainer message, String value, String msgKey, String elementId, StatementOfParticipanceTabs tab) {
+    private void checkField(MessageContainer message, String value, String msgKey, String elementId,
+            StatementOfParticipanceTabs tab) {
         if (Utils.isNullOrEmpty(value)) {
             applyMessageValues(message, msgKey, tab, elementId);
         }
@@ -727,7 +745,8 @@ public class EditStatementOfParticipance extends AbstractEditController {
         }
     }
 
-    private void applyMessageValues(MessageContainer message, String msgKey, StatementOfParticipanceTabs tab, String elementId) {
+    private void applyMessageValues(MessageContainer message, String msgKey, StatementOfParticipanceTabs tab,
+            String elementId) {
         message.setMessage(message.getMessage() + "\\r\\n" + Utils.getMessage(msgKey));
         if (message.getTopic().isEmpty()) {
             message.setTopic(tab.name());
@@ -793,6 +812,8 @@ public class EditStatementOfParticipance extends AbstractEditController {
         if (_statement != null && _statement.getIk() > 0) {
             iks.add(_statement.getIk());
         }
+        Set<Integer> deniedIks = _accessManager.retrieveDeniedForCreationIks(Feature.CALCULATION_HOSPITAL);
+        iks.removeAll(deniedIks);
 
         List<SelectItem> items = new ArrayList<>();
         for (int ik : iks) {
@@ -806,7 +827,8 @@ public class EditStatementOfParticipance extends AbstractEditController {
             // paranoid check. usually the ik cannot be changed, once the statement is stored
             setObligatorDrg(false);
             setObligatorPsy(false);
-            _statement = retrievePriorData(_statement.getIk(), _statement.getDataYear(), _sessionController.getAccount().getId());
+            _statement = retrievePriorData(_statement.getIk(), _statement.getDataYear(), _sessionController.getAccount().
+                    getId());
             enableDisablePageElements();
         }
     }
