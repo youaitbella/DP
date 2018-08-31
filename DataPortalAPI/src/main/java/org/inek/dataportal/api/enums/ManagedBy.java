@@ -9,6 +9,6 @@ package org.inek.dataportal.api.enums;
  *
  * @author muellermi
  */
-public enum NeedApproval {
-    No, ByInekOrIkAdmin, ByIkAdminOnly;
+public enum ManagedBy {
+    None, InekOrIkAdmin, IkAdminOnly;
 }
