@@ -5,31 +5,24 @@
  */
 package org.inek.dataportal.common.enums;
 
-import org.inek.dataportal.common.helper.Utils;
-
 /**
  *
  * @author schlappajo
  */
-public enum Genders {
+public enum CustomerTyp {
 
-    NoAttribute(0, "enmNoAttribute"),
-    Male(2, "enmGenderMale"),
-    Female(1, "enmGenderFemale");
+    Hospital(0, "Krankenhaus"),
+    Insurance(1, "Krankenkasse");
 
     private final int _id;
     private final String _textId;
 
-    Genders(int id, String textId) {
+    CustomerTyp(int id, String textId) {
         _id = id;
         _textId = textId;
     }
 
     public int id() {
         return _id;
-    }
-
-    public String gender() {
-        return Utils.getMessage(_textId);
     }
 }
