@@ -76,8 +76,8 @@ public class ConfigFacade extends AbstractDataAccess {
     public boolean readConfigBool(Feature feature) {
         Config config = findFresh(Config.class, FEATURE + feature.name());
         if (config == null) {
-            saveConfig(feature, true);
-            return true;
+            saveConfig(feature, false);
+            return false;
         }
         return Boolean.parseBoolean(config.getValue());
     }
