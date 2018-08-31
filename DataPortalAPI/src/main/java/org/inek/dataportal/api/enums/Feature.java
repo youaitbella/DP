@@ -6,7 +6,8 @@ public enum Feature {
 
     ADMIN(1, "Administration", ManagedBy.None, PortalType.ADMIN, IkReference.None, Selectable.No, Shareable.No),
     USER_MAINTENANCE(2, "Stammdaten", ManagedBy.None, PortalType.BASE, IkReference.None, Selectable.No, Shareable.No),
-    NUB(3, "Neue Untersuchungs- und Behandlungsmethoden", ManagedBy.None, PortalType.DRG, IkReference.Hospital, Selectable.Yes, Shareable.Yes),
+    NUB(3, "Neue Untersuchungs- und Behandlungsmethoden", 
+            ManagedBy.None, PortalType.DRG, IkReference.Hospital, Selectable.Yes, Shareable.Yes),
     REQUEST_SYSTEM(4, "Anfrageverfahren", ManagedBy.None, PortalType.BASE, IkReference.None, Selectable.Yes, Shareable.No),
     DROPBOX(5, "DropBox", ManagedBy.InekOrIkAdmin, PortalType.BASE, IkReference.Hospital, Selectable.Yes, Shareable.No),
     PEPP_PROPOSAL(6, "PEPP-Vorschlagsverfahren", ManagedBy.None, PortalType.PSY, IkReference.None, Selectable.Yes, Shareable.Yes),
@@ -17,12 +18,14 @@ public enum Feature {
     CERT(11, "Zertifizierung", ManagedBy.InekOrIkAdmin, PortalType.CERT, IkReference.None, Selectable.Yes, Shareable.No),
     AGENCY(12, "Behörde", ManagedBy.InekOrIkAdmin, PortalType.BASE, IkReference.None, Selectable.Yes, Shareable.No),
     INSURANCE(13, "Krankenkasse", ManagedBy.InekOrIkAdmin, PortalType.INSURANCE, IkReference.None, Selectable.Yes, Shareable.No),
-    CALCULATION_HOSPITAL(14, "Teilnahme Kostenkalkulation", ManagedBy.InekOrIkAdmin, PortalType.CALC, IkReference.Hospital, Selectable.Yes, Shareable.Yes),
+    CALCULATION_HOSPITAL(14, "Teilnahme Kostenkalkulation", 
+            ManagedBy.InekOrIkAdmin, PortalType.CALC, IkReference.Hospital, Selectable.Yes, Shareable.Yes),
     SPECIFIC_FUNCTION(15, "Besondere Aufgaben", ManagedBy.InekOrIkAdmin, PortalType.DRG, IkReference.Hospital, Selectable.Yes, Shareable.Yes),
     // todo: make ADDITIONAL_COST shareable
     ADDITIONAL_COST(16, "Finanzierung von Mehrkosten", ManagedBy.InekOrIkAdmin, PortalType.DRG, IkReference.Hospital, Selectable.Yes, Shareable.No),
     // todo: make PSYCH_STAFF shareable
-    PSYCH_STAFF(17, "Psych-Personalnachweis-Vereinbarung", ManagedBy.InekOrIkAdmin, PortalType.PSY, IkReference.Hospital, Selectable.Yes, Shareable.No),
+    PSYCH_STAFF(17, "Psych-Personalnachweis-Vereinbarung", 
+            ManagedBy.InekOrIkAdmin, PortalType.PSY, IkReference.Hospital, Selectable.Yes, Shareable.No),
     // todo: make VALUATION_RATIO shareable
     VALUATION_RATIO(18, "Gezielte Absenkung", ManagedBy.InekOrIkAdmin, PortalType.DRG, IkReference.Hospital, Selectable.Yes, Shareable.No),
     IK_ADMIN(19, "IK-Administration", ManagedBy.None, PortalType.BASE, IkReference.None, Selectable.No, Shareable.No),
