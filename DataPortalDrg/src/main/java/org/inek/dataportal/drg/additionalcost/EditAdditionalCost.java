@@ -116,9 +116,9 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
         additionalCost.setPeriodTo(defaultYear);
         additionalCost.setRepaymentPeriodFrom(defaultYear);
         additionalCost.setRepaymentPeriodTo(defaultYear);
-        Set<Integer> iks = account.getFullIkSet();
+        Set<Integer> iks = getIks();
         if (iks.size() == 1) {
-            additionalCost.setIk(iks.iterator().next());
+            additionalCost.setIk(iks.stream().findFirst().get());
         }
 
         return additionalCost;

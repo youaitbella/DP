@@ -166,6 +166,12 @@ public class EditNubRequest extends AbstractEditController {
             _nubRequestBaseline = newNubRequest();
             _nubRequestBaseline.setCreatedBy(_sessionController.getAccountId());
             ensureCooperativeRight(_nubRequest);
+            Set<Integer> iks = getIks();
+            if (iks.size() == 1) {
+                int ik = iks.stream().findFirst().get();
+                _nubRequest.setIk(ik);
+                _nubRequestBaseline.setIk(ik);
+            }
         } else {
             _nubRequest = loadNubRequest(id);
             if (_nubRequest == null) {
