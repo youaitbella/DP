@@ -7,13 +7,10 @@ package org.inek.dataportal.psy.khcomparison.backingbean;
 
 import org.inek.dataportal.common.data.KhComparison.entities.*;
 import java.io.ByteArrayInputStream;
-import java.time.Year;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.IntStream;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
@@ -23,7 +20,6 @@ import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.scope.FeatureScoped;
 import org.inek.dataportal.common.data.KhComparison.checker.AebChecker;
@@ -34,6 +30,7 @@ import org.inek.dataportal.common.data.KhComparison.importer.AebImporter;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.common.data.adm.MailTemplate;
+import org.inek.dataportal.common.enums.CustomerTyp;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.mail.Mailer;
 import org.primefaces.event.FileUploadEvent;
@@ -132,7 +129,7 @@ public class Edit {
 
     private AEBBaseInformation createNewAebBaseInformation() {
         AEBBaseInformation info = new AEBBaseInformation();
-        info.setTyp(0);
+        info.setTyp(CustomerTyp.Hospital.id());
         for (OccupationalCategory cat : _aebFacade.getOccupationalCategories()) {
             PersonalAgreed agreed = new PersonalAgreed();
             agreed.setOccupationalCategory(cat);
@@ -316,16 +313,15 @@ public class Edit {
     }
 
     public void ikChanged() {
-        List<Integer> usedYears = _aebFacade.getUsedDataYears(_aebBaseInformation.getIk(), 0);
+        List<Integer> usedYears = _aebFacade.getUsedDataYears(_aebBaseInformation.getIk(), CustomerTyp.Hospital.id());
         List<Integer> possibleYears = _aebFacade.getPossibleDataYears();
         possibleYears.removeAll(usedYears);
         setValidDatayears(possibleYears);
     }
 
-
     public Set<Integer> getAllowedIks() {
         Set<Integer> allowedIks = _accessManager.ObtainIksForCreation(Feature.HC_HOSPITAL);
-        Set<Integer> iks = _aebFacade.retrievePossibleIks(allowedIks, 0);
+        Set<Integer> iks = _aebFacade.retrievePossibleIks(allowedIks, CustomerTyp.Hospital.id());
         if (_aebBaseInformation.getIk() != 0) {
             iks.add(_aebBaseInformation.getIk());
         }

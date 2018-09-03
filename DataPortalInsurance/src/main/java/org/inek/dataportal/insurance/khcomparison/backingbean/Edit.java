@@ -7,11 +7,9 @@ package org.inek.dataportal.insurance.khcomparison.backingbean;
 
 import org.inek.dataportal.common.data.KhComparison.entities.*;
 import java.io.ByteArrayInputStream;
-import java.time.Year;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.IntStream;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
@@ -31,6 +29,7 @@ import org.inek.dataportal.common.data.KhComparison.importer.AebImporter;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.common.data.adm.MailTemplate;
+import org.inek.dataportal.common.enums.CustomerTyp;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.mail.Mailer;
 import org.primefaces.event.FileUploadEvent;
@@ -129,7 +128,7 @@ public class Edit {
 
     private AEBBaseInformation createNewAebBaseInformation() {
         AEBBaseInformation info = new AEBBaseInformation();
-        info.setTyp(1);
+        info.setTyp(CustomerTyp.Insurance.id());
         for (OccupationalCategory cat : _aebFacade.getOccupationalCategories()) {
             PersonalAgreed agreed = new PersonalAgreed();
             agreed.setOccupationalCategory(cat);
@@ -313,7 +312,7 @@ public class Edit {
     }
 
     public void ikChanged() {
-        List<Integer> usedYears = _aebFacade.getUsedDataYears(_aebBaseInformation.getIk(), 1);
+        List<Integer> usedYears = _aebFacade.getUsedDataYears(_aebBaseInformation.getIk(), CustomerTyp.Insurance.id());
         List<Integer> possibleYears = _aebFacade.getPossibleDataYears();
         possibleYears.removeAll(usedYears);
         setValidDatayears(possibleYears);
@@ -321,7 +320,7 @@ public class Edit {
 
     public List<Integer> getAllowedIks() {
         return _aebFacade.getAllowedIksForInsurance(_sessionController.getAccountId(),
-                Utils.getTargetYear(Feature.HC_HOSPITAL), 1);
+                Utils.getTargetYear(Feature.HC_HOSPITAL), CustomerTyp.Insurance.id());
     }
 
     private boolean baseInfoisComplete(AEBBaseInformation info) {

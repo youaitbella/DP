@@ -17,12 +17,12 @@ import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.scope.FeatureScoped;
 import org.inek.dataportal.common.data.KhComparison.entities.AEBBaseInformation;
 import org.inek.dataportal.common.data.KhComparison.entities.StructureInformation;
 import org.inek.dataportal.common.data.KhComparison.facade.AEBFacade;
+import org.inek.dataportal.common.enums.CustomerTyp;
 
 /**
  *
@@ -78,8 +78,8 @@ public class Summary {
         for (AccessRight right : _sessionController.getAccount().getAccessRights().stream()
                 .filter(c -> c.canRead() && c.getFeature() == Feature.HC_HOSPITAL)
                 .collect(Collectors.toList())) {
-            _listWorking.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.New, right.getIk(), 1));
-            _listWorking.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.CorrectionRequested, right.getIk(), 1));
+            _listWorking.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.New, right.getIk(), CustomerTyp.Insurance.id()));
+            _listWorking.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.CorrectionRequested, right.getIk(), CustomerTyp.Insurance.id()));
         }
     }
 
@@ -88,7 +88,7 @@ public class Summary {
         for (AccessRight right : _sessionController.getAccount().getAccessRights().stream()
                 .filter(c -> c.canRead() && c.getFeature() == Feature.HC_HOSPITAL)
                 .collect(Collectors.toList())) {
-            _listComplete.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.Provided, right.getIk(), 1));
+            _listComplete.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.Provided, right.getIk(), CustomerTyp.Insurance.id()));
         }
     }
 
@@ -100,10 +100,10 @@ public class Summary {
         // todo: this is an insurance, reating data about in in place of a hospital (fallback)
         // Thus creation does NOT depend on the administerd rights
         // the insurance need to provide a list of IK which are managed by the user
-        
+
         // for testing purpose:
         Set<Integer> allowedIks = _accessManager.ObtainIksForCreation(Feature.HC_HOSPITAL);
-        return _aebfacade.retrievePossibleIks(allowedIks, 1).size() > 0;
+        return _aebfacade.retrievePossibleIks(allowedIks, CustomerTyp.Insurance.id()).size() > 0;
     }
 
     public void deleteBaseInformation(AEBBaseInformation info) {

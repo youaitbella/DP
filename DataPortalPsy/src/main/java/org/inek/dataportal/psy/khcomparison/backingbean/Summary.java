@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-import javafx.util.Pair;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -18,7 +17,6 @@ import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.scope.FeatureScoped;
 import org.inek.dataportal.common.data.KhComparison.entities.AEBBaseInformation;
@@ -26,6 +24,7 @@ import org.inek.dataportal.common.data.KhComparison.entities.StructureInformatio
 import org.inek.dataportal.common.data.KhComparison.facade.AEBFacade;
 import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.common.enums.ConfigKey;
+import org.inek.dataportal.common.enums.CustomerTyp;
 
 /**
  *
@@ -85,14 +84,14 @@ public class Summary {
             for (AccessRight right : _sessionController.getAccount().getAccessRights().stream()
                     .filter(c -> c.canRead() && c.getFeature() == Feature.HC_HOSPITAL)
                     .collect(Collectors.toList())) {
-                _listWorking.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.New, right.getIk(), 0));
+                _listWorking.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.New, right.getIk(), CustomerTyp.Hospital.id()));
                 _listWorking.
-                        addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.CorrectionRequested, right.getIk(), 0));
+                        addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.CorrectionRequested, right.getIk(), CustomerTyp.Hospital.id()));
             }
         } else {
             for (Integer ik : _sessionController.getAccount().getFullIkSet()) {
-                _listWorking.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.New, ik, 0));
-                _listWorking.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.CorrectionRequested, ik, 0));
+                _listWorking.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.New, ik, CustomerTyp.Hospital.id()));
+                _listWorking.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.CorrectionRequested, ik, CustomerTyp.Hospital.id()));
             }
         }
     }
@@ -103,11 +102,11 @@ public class Summary {
             for (AccessRight right : _sessionController.getAccount().getAccessRights().stream()
                     .filter(c -> c.canRead() && c.getFeature() == Feature.HC_HOSPITAL)
                     .collect(Collectors.toList())) {
-                _listComplete.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.Provided, right.getIk(), 0));
+                _listComplete.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.Provided, right.getIk(), CustomerTyp.Hospital.id()));
             }
         } else {
             for (Integer ik : _sessionController.getAccount().getFullIkSet()) {
-                _listComplete.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.Provided, ik, 0));
+                _listComplete.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.Provided, ik, CustomerTyp.Hospital.id()));
             }
         }
     }
@@ -122,7 +121,7 @@ public class Summary {
 
     public boolean isCreateEntryAllowed() {
         Set<Integer> allowedIks = _accessManager.ObtainIksForCreation(Feature.HC_HOSPITAL);
-        return _aebfacade.retrievePossibleIks(allowedIks, 0).size() > 0;
+        return _aebfacade.retrievePossibleIks(allowedIks, CustomerTyp.Hospital.id()).size() > 0;
     }
 
     public boolean isCreateStructureInformationAllowed() {
