@@ -571,6 +571,9 @@ public class NubSessionTools implements Serializable {
     }
 
     public Boolean getCreateAllowed() {
-        return _accessManager.isCreateAllowed(Feature.NUB);
+        // do not restrict like this:
+        // return _accessManager.isCreateAllowed(Feature.NUB);
+        // because everybody is allowed to create templetes
+        return true;
     }
 }
