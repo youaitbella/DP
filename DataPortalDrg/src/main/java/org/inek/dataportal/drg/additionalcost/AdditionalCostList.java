@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.api.helper.FeatureMessageHandler;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.enums.DataSet;
@@ -13,6 +14,7 @@ import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.drg.additionalcost.facade.AdditionalCostFacade;
 import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.scope.FeatureScopedContextHolder;
 import org.inek.dataportal.common.utils.DocumentationUtil;
 
@@ -20,10 +22,21 @@ import org.inek.dataportal.common.utils.DocumentationUtil;
 @RequestScoped
 public class AdditionalCostList {
 
-    private static final Logger LOGGER = Logger.getLogger("AdditionalCostListLogger");
+    private AdditionalCostFacade _addFacade;
+    private SessionController _sessionController;
+    private AccessManager _accessManager;
 
-    @Inject private AdditionalCostFacade _addFacade;
-    @Inject private SessionController _sessionController;
+    public AdditionalCostList() {
+    }
+
+    @Inject 
+    public AdditionalCostList(AdditionalCostFacade addFacade,
+            SessionController sessionController,
+            AccessManager accessManager) {
+        _addFacade = addFacade;
+        _sessionController = sessionController;
+        _accessManager = accessManager;
+    }
 
     public List<AdditionalCost> getOpenAdditionalCosts() {
         return _addFacade.getAdditionalCosts(_sessionController.getAccountId(), DataSet.AllOpen);
@@ -42,11 +55,12 @@ public class AdditionalCostList {
 
     public String getConfirmMessage(int adId) {
         AdditionalCost add = _addFacade.findAdditionalCost(adId);
-        String msg = "Meldung für " + add.getIk()+ "\n"
+        String msg = "Meldung für " + add.getIk() + "\n"
                 + (add.getStatusId() <= 9 ? Utils.getMessage("msgConfirmDelete") : Utils.getMessage("msgConfirmRetire"));
         msg = msg.replace("\r\n", "\n").replace("\n", "\\r\\n").replace("'", "\\'").replace("\"", "\\'");
         return "return confirm ('" + msg + "');";
     }
+
     public String deleteAdditionalCost(int adId) {
         AdditionalCost add = _addFacade.findAdditionalCost(adId);
         if (add == null) {
@@ -62,12 +76,16 @@ public class AdditionalCostList {
         }
         return "";
     }
-    
+
     public String printNotice(int adId) {
         Utils.getFlash().put("headLine", FeatureMessageHandler.getMessage("nameADDITIONAL_COST"));
         Utils.getFlash().put("targetPage", Pages.AdditionalCostSummary.URL());
         Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(_addFacade.findAdditionalCost(adId)));
         return Pages.PrintView.URL();
+    }
+
+    public boolean getCreateAllowed() {
+        return _accessManager.isCreateAllowed(Feature.ADDITIONAL_COST);
     }
 
 }

@@ -18,10 +18,11 @@
             <h4><h:outputLabel value="#{msg.infoOpenADDITIONAL_COST}"/></h4> 
             <ac:AdditionalCostList list="#{additionalCostList.openAdditionalCosts}"/>
             
-            <h:commandLink styleClass="bigButton"
+            <h:commandLink styleClass="bigButton #{additionalCostList.createAllowed ? '' : 'buttonDisabled'}"
                            action="#{additionalCostList.editAdditionalCost}"
                            immediate="true"
                            value="#{msg.btnNewAdditionalCost}"
+                           disabled="#{not additionalCostList.createAllowed}">
                            >
                 <f:param name="id" value="new"/>
             </h:commandLink>

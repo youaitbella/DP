@@ -1,6 +1,7 @@
 package org.inek.dataportal.common.overall;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -37,19 +38,24 @@ public class AccessManagerTest {
     private final int readWriteSealAccountId = 1;
     private final int readSealedAccountId = 2;
     private final Feature testFeature = Feature.NUB;
-    
+
     public AccessManagerTest() {
     }
 
-    public AccessManager obtainAccessManager() {
+    private AccessManager obtainAccessManager() {
         return obtainAccessManager(new ArrayList<>(), false);
     }
 
-    public AccessManager obtainAccessManager(List<AccessRight> accessRights) {
+    private AccessManager obtainAccessManager(List<AccessRight> accessRights) {
         return obtainAccessManager(accessRights, false);
     }
 
-    public AccessManager obtainAccessManager(List<AccessRight> accessRights, boolean isInekUser) {
+    private AccessManager obtainAccessManager(List<AccessRight> accessRights, boolean isInekUser) {
+        Set<Integer> fullIkSet = new HashSet<>();
+        return obtainAccessManager(accessRights, isInekUser, fullIkSet);
+    }
+    
+    private AccessManager obtainAccessManager(List<AccessRight> accessRights, boolean isInekUser, Set<Integer> fullIkSet) {
         List<CooperationRight> cooperationRights = new ArrayList<>();
         cooperationRights.add(
                 new CooperationRight(noneAccountId, userAccountId, testIk1, testFeature, CooperativeRight.None));
@@ -60,15 +66,22 @@ public class AccessManagerTest {
         cooperationRights.add(
                 new CooperationRight(readSealedAccountId, userAccountId, -1, Feature.DRG_PROPOSAL, CooperativeRight.ReadSealed));
 
-        return obtainAccessManager(accessRights, cooperationRights, isInekUser);
+        return obtainAccessManager(accessRights, cooperationRights, isInekUser, fullIkSet);
     }
 
-    public AccessManager obtainAccessManager(List<AccessRight> accessRights, List<CooperationRight> cooperationRights,
+    private AccessManager obtainAccessManager(List<AccessRight> accessRights, List<CooperationRight> cooperationRights,
             boolean isInekUser) {
+        Set<Integer> fullIkSet = new HashSet<>();
+        return obtainAccessManager(accessRights, cooperationRights, isInekUser, fullIkSet);
+    }
+
+    private AccessManager obtainAccessManager(List<AccessRight> accessRights, List<CooperationRight> cooperationRights,
+            boolean isInekUser, Set<Integer> fullIkSet) {
 
         Account userAccount = mock(Account.class);
         when(userAccount.getId()).thenReturn(userAccountId);
         when(userAccount.getAccessRights()).thenReturn(accessRights);
+        when(userAccount.getFullIkSet()).thenReturn(fullIkSet);
 
         SessionController sessionController = mock(SessionController.class);
         when(sessionController.isInekUser(testFeature)).thenReturn(isInekUser);
@@ -77,11 +90,13 @@ public class AccessManagerTest {
 
         CooperationRightFacade cooperationRightFacade = mock(CooperationRightFacade.class);
         when(cooperationRightFacade.getCooperationRights(testFeature, userAccount))
-                .thenReturn(cooperationRights.stream().filter(r -> r.getFeature() == testFeature).collect(Collectors.toList()));
+                .thenReturn(cooperationRights.stream().filter(r -> r.getFeature() == testFeature).collect(Collectors.
+                        toList()));
         when(cooperationRightFacade.getCooperationRights(Feature.DRG_PROPOSAL, userAccount))
-                .thenReturn(cooperationRights.stream().filter(r -> r.getFeature() == Feature.DRG_PROPOSAL).collect(Collectors.toList()));
+                .thenReturn(cooperationRights.stream().filter(r -> r.getFeature() == Feature.DRG_PROPOSAL).
+                        collect(Collectors.toList()));
 
-        ManagedIkCache ikCache = mock (ManagedIkCache.class);
+        ManagedIkCache ikCache = mock(ManagedIkCache.class);
         AccessManager accessManager = new AccessManager(cooperationRightFacade, sessionController, ikCache);
         return accessManager;
     }
@@ -406,11 +421,50 @@ public class AccessManagerTest {
     }
 
     @Test
-    public void testObtainIksForCreation() {
+    public void obtainIksForCreationOnDeniedIkReturnsEmpty() {
+        List<AccessRight> accessRights = new ArrayList<>();
+        accessRights.add(new AccessRight(userAccountId, deniedIk, Feature.ADDITIONAL_COST, Right.Deny));
+        accessRights.add(new AccessRight(userAccountId, deniedIk, Feature.NUB, Right.Write));
+        accessRights.add(new AccessRight(userAccountId, deniedIk, Feature.SPECIFIC_FUNCTION, Right.All));
+
+        Set<Integer> fullIkSet = new HashSet<>();
+        fullIkSet.add(deniedIk);
+
+        AccessManager accessManager = obtainAccessManager(accessRights, false, fullIkSet);
+        Set<Integer> result = accessManager.ObtainIksForCreation(Feature.ADDITIONAL_COST);
+        assertThat(result).isNotNull().isEmpty();
     }
 
     @Test
-    public void testIsCreateAllowed_Feature() {
+    public void obtainIksForCreationOnDeniedIkPlusAdditionalIkReturnsAdditionalIkOnly() {
+        List<AccessRight> accessRights = new ArrayList<>();
+        accessRights.add(new AccessRight(userAccountId, deniedIk, Feature.ADDITIONAL_COST, Right.Deny));
+        accessRights.add(new AccessRight(userAccountId, deniedIk, Feature.NUB, Right.Write));
+        accessRights.add(new AccessRight(userAccountId, deniedIk, Feature.SPECIFIC_FUNCTION, Right.All));
+
+        Set<Integer> fullIkSet = new HashSet<>();
+        fullIkSet.add(deniedIk);
+        fullIkSet.add(testIk3);
+
+        AccessManager accessManager = obtainAccessManager(accessRights, false, fullIkSet);
+        Set<Integer> result = accessManager.ObtainIksForCreation(Feature.ADDITIONAL_COST);
+        assertThat(result).isNotNull().containsOnly(testIk3);
+    }
+
+    @Test
+    public void obtainIksForCreationOnAllowedIkPlusAdditionalIkReturnsBothIk() {
+        List<AccessRight> accessRights = new ArrayList<>();
+        accessRights.add(new AccessRight(userAccountId, allowedIk, Feature.ADDITIONAL_COST, Right.Create));
+        accessRights.add(new AccessRight(userAccountId, allowedIk, Feature.NUB, Right.Write));
+        accessRights.add(new AccessRight(userAccountId, allowedIk, Feature.SPECIFIC_FUNCTION, Right.All));
+
+        Set<Integer> fullIkSet = new HashSet<>();
+        fullIkSet.add(allowedIk);
+        fullIkSet.add(testIk3);
+
+        AccessManager accessManager = obtainAccessManager(accessRights, false, fullIkSet);
+        Set<Integer> result = accessManager.ObtainIksForCreation(Feature.ADDITIONAL_COST);
+        assertThat(result).isNotNull().containsOnly(testIk3, allowedIk);
     }
 
     @Test
