@@ -117,8 +117,6 @@ Für Anforderungen einzelner Features wird auf die entsprechenden Dokumente verw
 
 [Kalkulationshaus](calc/CalculationHospital.md)
 
-[IK-Admin](IkAdmin.md)
-
 ### 3.3 Nicht funktionale Anforderungen
 
 * Kurze Antwortzeiten für die Anwender. Als Messlatte gilt hier < 1 Sek. bei Normallast und Nutzung einer DSL-Verbindung, < 2 Sek. bei höherem Datenaufkommen (100 Anwender parallel)
@@ -390,85 +388,10 @@ Realisiert wird jedes Feature als Bean, die einer einheitlichen Schnittstelle "F
 
 ### 6.11 Spezielle Konzepte einzelner Funktionen
 
-#### 6.11.1 Kooperative Rechtevergabe
+#### 6.11.1 Zugriffsrechte
 
-Das InEK Datenportal steht jedem offen. 
-Insofern sind – soweit kein IK Admin (siehe unten) eingerichtet – alle externen Anwender "gleich". 
-Ein jeder Anwender kann erst einmal nur die Daten sehen, die er selbst erfasst. 
-Arbeiten in einem Krankenhaus mehrere Personen an einem Thema, kann es sinnvoll sein, die Daten eines anderen Anwenders lesen oder bearbeiten zu können. 
-Hierfür sind dem Anwender spezielle Rechte zu erteilen. 
-
-Ist ein IK-Admin eingerichtet, so erfolgt die Rechtevergabe über diese Instanz. 
-Im Standard-Fall, also ohne IK-Admin, bedeutet Rechtevergabe, dass der Besitzer der Daten dem anderen Anwender die Zugriffsrechte erteilen kann. 
-Hier steht also ein kooperierender Gedanke im Vordergrund. 
-Entsprechend wird diese Art der Rechteverwaltung im Folgenden als "kooperative Rechtevergabe" bezeichnet.
-
-Die Rechtevergabe setzt voraus, dass der andere Anwender auch existiert. 
-Anders als in einem sozialen Netzwerk sind die Anwender im InEK Datenportal nicht öffentlich sichtbar. 
-Auch erfolgt bei der Angabe der "fremden" Anwenderkennung / E-Mail-Adresse keine Rückmeldung, ob diese existiert, um ein Test auf Vorhandensein zu unterbinden. 
-Stattdessen muss der eingetragene Anwender sich erst als Kooperationspartner bestätigen. 
-Bestätigte Kontakte können in der Rechtevergabe wie auch für andere Funktionen, z.B. Nachrichtenversand, genutzt werden.
-
-Optional: Um zu verhindern, dass ein Anwender von ein und demselben anderen Anwender immer wieder mit Kooperationsanfragen bombardiert wird, kann ein anfragender Anwender blockiert werden.
-
-##### 6.11.1.1	Erteilbare Rechte
-
-Ein Anwender kann dem Kooperationspartner für seine Daten diese Rechte (in unterschiedlichen Kombinationen) zuweisen:
-
-* Kein Zugriff
-* Lesen
-* Ändern
-* (Als Supervisor) ans InEK senden
-* Besitz übernehmen
-
-Die Zuweisung erfolgt getrennt für jedes Feature, das eine kooperative Rechtevergabe unterstützt. 
-Je nach Feature kann diese Rechtevergabe auch getrennt nach IK erfolgen.
-
-Soweit kooperativ oder ein IK-Supervisor eingerichtet ist, kann ein Anwender – sofern nicht selbst Supervisor für diese Funktion – seine Daten nicht mehr an das InEK senden. 
-Der entsprechende Button wir ausgetauscht durch einen "zur Freigabe durch Partner".
-
-Hat ein Anwender von einem Kooperationspartner Rechte erhalten, so werden die "fremden" Daten bei den betreffenden Features in eigenen Listen (je Partner) geführt.
-
-Die Zugriffsrechte innerhalb des jeweiligen Features werden in eine zentrale Abfrage gekapselt.
-
-##### 6.11.1.2 IK-Admin
-
-Beim Datenportal gibt es keine zentrale Benutzeranlage. 
-Es kann sich jeder am Portal anmelden und diverse Funktionen nutzen. 
-Bestimmte Funktionen haben einen direkten Bezug zu einem bestimmten Krankenhaus, repräsentiert mittels eines Institut-Kennzeichens (IK). 
-Während viele Benutzer die dezentrale Benutzeranlage begrüßen, gibt es aber auch solche, die eine zentrale Kontrolle der Aktivitäten für ihr IK wünschen. 
-Hierfür dient die Funktion des IK-Amins. 
-Diese Rolle kann für ein IK durchaus mehreren Anwendern zugeteilt werden. 
-Diese Rolle wird einem Anwender manuell durch den System-Admin des Datenportals zugewiesen. 
-Diesem Vorgang geht zwingend eine Prüfung voraus, ob der Anwender diese Rolle überhaupt einnehmen darf. 
-Dies ist organisatorisch zu regeln, z.B. durch schriftliche Anfrage bei der betreffenden Krankenhausleitung.
-
-Der IK-Admin kann für das betreffende IK
-
-* Die Liste der Anwender mit Bezug zu diesem IK einsehen
-* Festlegen, welcher Anwender welche Funktion für dieses IK nutzen kann
-* Die "kooperative" Rechtevergabe überschreiben
-
-##### 6.11.1.3 IK-Supervisor
-
-Im Rahmen der kooperativen Rechtevergabe kann ein Anwender darauf verzichten, Daten an das InEK zu übermitteln. 
-Diese Tätigkeit gibt er damit an einen Supervisor ab. 
-Ist (mindestens) ein IK-Supervisor vorhanden, so kann der Anwender – sofern nicht selbst der IK-Supervisor – keine Daten mehr an das InEK übermitteln. 
-Diese Freigabe erfolgt dann zwingend durch einen IK-Supervisor.
-
-Ein IK-Supervisor wird vom InEK manuell für die Kombination einer IK und einer Funktion, z.B. NUB, eingerichtet. 
-Voraussetzung ist eine entsprechende Erklärung der betreffenden Krankenhausleitung. 
-Die Krankenhausleitung ist verantwortlich, eine gewünschte Rücknahme der IK-Supervisorrechte an das InEK zu melden.
-
-
-##### 6.11.1.4 Freigabe-Buttons
-
-Jeder Datensatz, z.B. eine Nub-Anfrage, ein DRG-Vorschlag etc. kann beliebig editiert und zwischengespeichert werden. 
-Ist der Datensatz fertig erfasst, wird er direkt oder über eine Prüfinstanz (Supervisor) an das InEK übermittelt.
-Dafür stehen alternativ zwei Buttons zu Verfügung:
-
-1. Zur Freigabe an Kooperationspartner
-2. Senden ans InEK
+Der Zugriff auf die Daten wird durch entsprechende Rechte bestimmt. Dabei wird zwischen Daten des Anwenders und Daten eines Instituts unterschieden.
+Eine detaillierte Beschreibung findet sich im Dokument [Zugriffsrechte](Zugriffsrechte.md).
 
 #### 6.11.2 NUB
 
