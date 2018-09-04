@@ -15,6 +15,9 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.inek.dataportal.common.overall.ApplicationTools;
 import org.inek.dataportal.common.data.common.CustomerType;
 import org.inek.dataportal.common.data.account.entities.Account;
@@ -63,8 +66,6 @@ public class SessionController implements Serializable {
     private CooperationRequestFacade _coopFacade;
     @Inject
     private ApplicationTools _appTools;
-    @Inject
-    private CustomerFacade _customerFacade;
     @Inject
     private transient FeatureHolder _featureHolder;
 
@@ -209,16 +210,31 @@ public class SessionController implements Serializable {
     }
 
     private void invalidateSession() {
-        String sessionId = retrieveSessionId();
-        if (sessionId.length() > 0) {
-            try {
-                //LOGGER.log(Level.INFO, "invalidateSession: old session {0}", sessionId);
-                FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-                FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-            } catch (Exception ex) {
-                LOGGER.log(Level.WARNING, "Exception during invalidatesesion");
-            }
+        FacesContext ctxt = FacesContext.getCurrentInstance();
+        if (ctxt == null) {
+            return;
         }
+        try {
+            HttpServletRequest request = (HttpServletRequest) ctxt.getExternalContext().getRequest();
+            HttpServletResponse response = (HttpServletResponse) ctxt.getExternalContext().getResponse();
+            response.setContentType("text/html");
+
+            Cookie[] cookies = request.getCookies();
+
+            // Delete all the cookies
+            if (cookies != null) {
+
+                for (Cookie cookie : cookies) {
+                    cookie.setValue(null);
+                    cookie.setMaxAge(0);
+                    response.addCookie(cookie);
+                }
+            }
+            FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        } catch (Exception ex) {
+            LOGGER.log(Level.WARNING, "Exception during invalidatesesion");
+        }
+
     }
 
     public void logMessage(String msg) {
@@ -383,13 +399,15 @@ public class SessionController implements Serializable {
      *
      * @param mailOrUser
      * @param password
-     * @param loginInfo An infostring|mes
+     * @param loginInfo  An infostring|mes
      * @param portalType to be displayed
      *
      * @return
      */
     public boolean login(String mailOrUser, String password, String loginInfo, PortalType portalType) {
-        if (inconsistentState()) {
+        if (_featureHolder == null) {
+            invalidateSession();
+            _account = null;
             return false;
         }
         _portalType = portalType;
@@ -401,18 +419,6 @@ public class SessionController implements Serializable {
         initFeatures();
         logMessage((_account != null ? "Login successful: " : "Login failed: ") + loginInfo);
         return _account != null;
-    }
-
-    private boolean inconsistentState() {
-        if (_featureHolder == null) {
-            // sometimes, when the app had gone away whilst the user was logged in, the browser might became inconsitent
-            // In such a case the _featureHolder -even if injected- had been null. A browser restart fixed this local problem
-            // Hopefulle due to blue green deployment, this problem would not appear anymore...
-            alertClient("Um das Datenportal nutzen zu können, schließen Sie bitte erst Ihren Browser und starten diesen neu.");
-            _account = null;
-            return true;
-        }
-        return false;
     }
 
     public boolean isElderInternetExplorer() {
@@ -485,7 +491,7 @@ public class SessionController implements Serializable {
     private Account addFeature(Account account, Feature feature) {
         AccountFeature accFeature = new AccountFeature();
         accFeature.setFeature(feature);
-        FeatureState state = feature.getNeedsApproval()? FeatureState.NEW : FeatureState.SIMPLE;
+        FeatureState state = feature.getNeedsApproval() ? FeatureState.NEW : FeatureState.SIMPLE;
         accFeature.setFeatureState(state);
         accFeature.setSequence(account.getFeatures().size());
         account.getFeatures().add(accFeature);
@@ -555,7 +561,7 @@ public class SessionController implements Serializable {
      * @param needsWriteAccess
      *
      * @return true, if the current user is within any InEK role for the requested feature and either has write access
-     * enabled or no write access is requested
+     *         enabled or no write access is requested
      */
     public boolean isInekUser(Feature requestedFeature, boolean needsWriteAccess) {
         if (requestedFeature != Feature.DOCUMENTS && !isInternalClient()) {
