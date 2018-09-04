@@ -115,6 +115,8 @@ Das InEK Datenportal dient der strukturierten Übermittlung von Daten an das InE
 Aufgrund der recht umfassend dargestellten Use Cases, wird hier auf eine detaillierte Beschreibung der übergreifenden funktionalen Anforderungen (z.B Registrierung, Anmeldung etc.) weitgehend verzichtet.
 Für Anforderungen einzelner Features wird auf die entsprechenden Dokumente verwiesen.
 
+[IK-Admin](IkAdmin.md)
+
 [Kalkulationshaus](calc/CalculationHospital.md)
 
 ### 3.3 Nicht funktionale Anforderungen
@@ -388,7 +390,7 @@ Realisiert wird jedes Feature als Bean, die einer einheitlichen Schnittstelle "F
 
 ### 6.11 Spezielle Konzepte einzelner Funktionen
 
-#### 6.11.1 Zugriffsrechte
+#### 6.11.1 <a name="AccessRights"></a> Zugriffsrechte
 
 Der Zugriff auf die Daten wird durch entsprechende Rechte bestimmt. Dabei wird zwischen Daten des Anwenders und Daten eines Instituts unterschieden.
 Eine detaillierte Beschreibung findet sich im Dokument [Zugriffsrechte](Zugriffsrechte.md).
