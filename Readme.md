@@ -9,16 +9,16 @@ Dies wird ergänzt um Modul-spezifische Dokumente.
 
 **DataPortal** umfasst diese Module:
 
-1. [AccountService](PortalResources/src/site/AccountService.md) 
-3. [DataPortalAPI](PortalResources/src/site/DataPortalAPI.md) 
+1. [AccountService](AccountService/src/site/markdown/AccountService.md) 
+3. [DataPortalAPI](DataPortalAPI/src/site/markdown/DataPortalAPI.md) 
 2. [DataPortalCommon](DataPortalCommon/src/site/markdown/DataPortalCommon.md) umfasst die gemeinsam genutzten Ressourcen und Bibliotheken.
 2. [DataPortalAdmin](DataPortalAdmin/src/site/DataPortalAdmin.md) beinhaltet administrative Funktionen für den System-Administrator und kann nur InEK-intern genutzt werden. Funktionen für den IK-Admin sind hier nicht enthalten.
-3. [DataPortalBase](PortalResources/src/site/DataPortalBase.md) 
-4. [DataPortalCalc](PortalResources/src/site/DataPortalCalc.md) 
-5. [DataPortalCert](PortalResources/src/site/DataPortalCert.md) 
-6. [DataPortalDrg](PortalResources/src/site/DataPortalDrg.md) 
-7. [DataPortalInsurance](PortalResources/src/site/DataPortalInsurance.md) 
-8. [DataPortalPsy](PortalResources/src/site/DataPortalPsy.md) 
+3. [DataPortalBase](DataPortalBase/src/site/markdown/DataPortalBase.md) 
+4. [DataPortalCalc](DataPortalCalt/src/site/markdown/DataPortalCalc.md) 
+5. [DataPortalCert](DataPortalCert/src/site/markdown/DataPortalCert.md) 
+6. [DataPortalDrg](DataPortalDrg/src/site/markdown/DataPortalDrg.md) 
+7. [DataPortalInsurance](DataPortalInsurance/src/site/markdown/DataPortalInsurance.md) 
+8. [DataPortalPsy](DataPortalPsy/src/site/markdown/DataPortalPsy.md) 
 
 Eine Kopie der gemeinsam genutzten Teile (DataPortalCommon) wird im Build-Vorgang zusammen mit der jeweiligen Hauptanwendung in eine WAR-Datei (Web ARchive) gepackt.
 Hiervon ausgenommen sind die Services, die als eigenständige Einheiten entwickelt und genutzt werden. 
