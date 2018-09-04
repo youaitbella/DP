@@ -39,9 +39,11 @@ public class RequestController implements Serializable {
     public void forceLoginIfNotLoggedIn(ComponentSystemEvent e) {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         String viewId = facesContext.getViewRoot().getViewId();
-        if (loginByToken(facesContext.getExternalContext())) {
-            facesContext.getApplication().getNavigationHandler()
-                    .handleNavigation(facesContext, null, viewId + "?faces-redirect=true");
+        if (viewId.startsWith("/Login")) {
+            handleLoginViews(facesContext);
+            return;
+        }
+        if (loginByToken(facesContext)) {
             return;
         }
         if (_sessionController.isLoggedIn()) {
@@ -57,17 +59,31 @@ public class RequestController implements Serializable {
         }
     }
 
-    private boolean loginByToken(ExternalContext externalContext) {
+    public void handleLoginViews(FacesContext facesContext) {
+        String sessionId = facesContext.getExternalContext().getSessionId(false);
+        if (sessionId == null) {
+            facesContext.getExternalContext().getSessionId(true);
+        }
+    }
+
+    private boolean loginByToken(FacesContext facesContext) {
+        ExternalContext externalContext = facesContext.getExternalContext();
         String token = externalContext.getRequestParameterMap().get("token");
         String portal = externalContext.getRequestParameterMap().get("portal");
         if (token == null || portal == null) {
             return false;
         }
         try {
-            return _sessionController.loginByToken(token, PortalType.valueOf(portal));
+            if (_sessionController.loginByToken(token, PortalType.valueOf(portal))) {
+                String viewId = facesContext.getViewRoot().getViewId();
+                facesContext.getApplication().getNavigationHandler()
+                        .handleNavigation(facesContext, null, viewId + "?faces-redirect=true");
+
+            }
         } catch (Exception ex) {
-            return false;
+            LOGGER.log(Level.SEVERE, null, ex);
         }
+        return false;
     }
 
     public String getForceLogoutIfLoggedIn() {

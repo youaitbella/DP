@@ -34,7 +34,6 @@ import org.inek.dataportal.common.data.adm.facade.LogFacade;
 import org.inek.dataportal.common.data.cooperation.facade.CooperationRequestFacade;
 import org.inek.dataportal.common.data.adm.InekRole;
 import org.inek.dataportal.common.data.adm.Log;
-import org.inek.dataportal.common.data.icmt.facade.CustomerFacade;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Stage;
 import org.inek.dataportal.common.helper.NotLoggedInException;
@@ -176,8 +175,11 @@ public class SessionController implements Serializable {
         int minutes = maxInterval / Const.SECONDS_PER_MINUTE;
         int seconds = maxInterval % Const.SECONDS_PER_MINUTE;
         //substract some seconds to ensure the client will log-out before the session expires
-        minutes--;
-        seconds = 55;
+        seconds -= 5;
+        if (seconds < 0) {
+            seconds += Const.SECONDS_PER_MINUTE;
+            minutes--;
+        }
         return "" + minutes + ":" + (seconds < 10 ? "0" + seconds : seconds);
     }
     // </editor-fold>
@@ -230,7 +232,8 @@ public class SessionController implements Serializable {
                     response.addCookie(cookie);
                 }
             }
-            FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+            ctxt.getExternalContext().invalidateSession();
+            ctxt.getExternalContext().getSessionId(true);
         } catch (Exception ex) {
             LOGGER.log(Level.WARNING, "Exception during invalidatesesion");
         }
@@ -383,7 +386,6 @@ public class SessionController implements Serializable {
         if (_account == null) {
             return;
         }
-        FacesContext.getCurrentInstance().getExternalContext().getSessionId(true);
         int sessionTimeout = (_portalType == PortalType.CALC
                 || _portalType == PortalType.CERT
                 || _portalType == PortalType.BASE) ? Const.SECONDS_PER_HOUR : Const.SECONDS_PER_HOUR / 2;

@@ -8,10 +8,6 @@
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-    <ui:define name="metaData">
-        <f:event type="preRenderView" listener="#{requestController.forceLoginIfNotLoggedIn}"/>
-    </ui:define>
-
     <ui:define name="userInfo">
 
         <c:if test="#{sessionController.loggedIn}">
