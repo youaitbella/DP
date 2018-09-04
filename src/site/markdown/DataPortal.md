@@ -1,7 +1,8 @@
-# InEK Datenportal
+# Allgemeine Projektdokumentation InEK Datenportal
 
-DataPortal ein das Modul von [DataPortal](../../../../Readme.md). 
-Es handelt sich um die Hauptanwendung zur strukturierten Kommunikation mit Krankenhäusern und sonstigen externen Instituten oder Personen.
+Diese Dokumentation ist Bestandteil des Prokejts [DataPortal](../../../../Readme.md). 
+
+Das InEk Datenportal ist eine Suite von Web-Anwendungen zur strukturierten Kommunikation mit Krankenhäusern und sonstigen externen Instituten oder Personen.
 
 Zum Zeitpunkt des Projektstart (2011) erhält das InEK zahlreiche Datenlieferungen in unterschiedlichen Formaten per Mail. 
 Das Verfahren ist fehleranfällig (Nicht-Einhaltung des Formats, verlorene Emails etc.) und soll daher durch ein Web-Portal ersetzt werden. 
