@@ -2,6 +2,7 @@ package org.inek.dataportal.common.overall;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -30,6 +31,10 @@ public class ManagedIkCache {
     
     public List<Integer> retrieveManagedIks() {
         return _managedIks;
+    }
+
+    public boolean contains(Integer ik) {
+        return _managedIks.contains(ik);
     }
 
 }
