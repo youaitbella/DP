@@ -527,7 +527,7 @@ public class Account implements Serializable, Person {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "arAccountId", referencedColumnName = "acId")
-    private List<AccessRight> _accessRights;
+    private List<AccessRight> _accessRights = new ArrayList<>();
 
     public List<AccessRight> getAccessRights() {
         return _accessRights;
