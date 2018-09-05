@@ -1,7 +1,6 @@
 package org.inek.dataportal.common.overall;
 
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -97,47 +96,41 @@ public class AccessManager implements Serializable {
         return cooperativeRight;
     }
 
-    private Stream<AccessRight> obtainAccessRights(Feature feature) {
-                
+    private Stream<AccessRight> obtainAccessRights(Feature feature, Predicate<AccessRight> predicate) {
         return _sessionController
                 .getAccount()
                 .getAccessRights()
                 .stream()
-                .filter(r -> r.getFeature() == feature);
+                .filter(r -> r.getFeature() == feature)
+                .filter(predicate);
+    }
+
+    public Set<Integer> retrieveIkSet(Feature feature, Predicate<AccessRight> predicate) {
+        return obtainAccessRights(feature, predicate)
+                .map(r -> r.getIk())
+                .collect(Collectors.toSet());
     }
 
     public Set<Integer> retrieveAllowedManagedIks(Feature feature) {
-        return obtainAccessRights(feature)
-                .filter(r -> r.getRight() != Right.Deny)
-                .map(r -> r.getIk())
-                .collect(Collectors.toSet());
+        Predicate<AccessRight> predicate = r -> r.getRight() != Right.Deny && _ikCache.contains(r.getIk());
+        return retrieveIkSet(feature, predicate);
     }
 
     public Set<Integer> retrieveDeniedManagedIks(Feature feature) {
-        return obtainAccessRights(feature)
-                .filter(r -> r.getRight() == Right.Deny)
-                .map(r -> r.getIk())
-                .collect(Collectors.toSet());
+        Predicate<AccessRight> predicate = r -> r.getRight() == Right.Deny && _ikCache.contains(r.getIk());
+        return retrieveIkSet(feature, predicate);
     }
 
     public Set<Integer> retrieveDeniedForCreationIks(Feature feature) {
-        return obtainAccessRights(feature)
-                .filter(r -> !r.getRight().canCreate())
-                .map(r -> r.getIk())
-                .collect(Collectors.toSet());
+        return retrieveIkSet(feature, r -> !r.getRight().canCreate());
     }
 
     public Set<Integer> retrieveAllowedForCreationIks(Feature feature) {
-        return obtainAccessRights(feature)
-                .filter(r -> r.getRight().canCreate())
-                .map(r -> r.getIk())
-                .collect(Collectors.toSet());
+        return retrieveIkSet(feature, r -> r.getRight().canCreate());
     }
 
     public Set<Integer> retrieveAllManagedIks(Feature feature) {
-        return obtainAccessRights(feature)
-                .map(r -> r.getIk())
-                .collect(Collectors.toSet());
+        return retrieveIkSet(feature, r -> _ikCache.contains(r.getIk()));
     }
 
     /**
@@ -162,7 +155,7 @@ public class AccessManager implements Serializable {
         }
 
         if (ik > 0) {
-            Optional<AccessRight> right = obtainAccessRights(feature).filter(r -> r.getIk() == ik).findFirst();
+            Optional<AccessRight> right = obtainAccessRights(feature, r -> r.getIk() == ik).findFirst();
             if (right.isPresent()) {
                 return right.get().canRead();
             }
@@ -194,7 +187,7 @@ public class AccessManager implements Serializable {
             return true;
         }
         if (ik > 0) {
-            Optional<AccessRight> right = obtainAccessRights(feature).filter(r -> r.getIk() == ik).findFirst();
+            Optional<AccessRight> right = obtainAccessRights(feature, r -> r.getIk() == ik).findFirst();
             if (right.isPresent()) {
                 return !right.get().canWrite();
             }
@@ -289,7 +282,7 @@ public class AccessManager implements Serializable {
             return false;
         }
         if (ik > 0) {
-            Optional<AccessRight> right = obtainAccessRights(feature).filter(r -> r.getIk() == ik).findFirst();
+            Optional<AccessRight> right = obtainAccessRights(feature, r -> r.getIk() == ik).findFirst();
             if (right.isPresent()) {
                 return right.get().canSeal();
             }
@@ -327,7 +320,7 @@ public class AccessManager implements Serializable {
 
     public boolean isDeleteEnabled(Feature feature, int accountId, int ik) {
         if (ik > 0) {
-            Optional<AccessRight> right = obtainAccessRights(feature).filter(r -> r.getIk() == ik).findFirst();
+            Optional<AccessRight> right = obtainAccessRights(feature, r -> r.getIk() == ik).findFirst();
             if (right.isPresent()) {
                 return right.get().canWrite() || right.get().canSeal();
             }
@@ -354,7 +347,7 @@ public class AccessManager implements Serializable {
             return false;
         }
         if (ik > 0) {
-            Optional<AccessRight> right = obtainAccessRights(feature).filter(r -> r.getIk() == ik).findFirst();
+            Optional<AccessRight> right = obtainAccessRights(feature, r -> r.getIk() == ik).findFirst();
             if (right.isPresent()) {
                 return right.get().canWrite() || right.get().canSeal();
             }

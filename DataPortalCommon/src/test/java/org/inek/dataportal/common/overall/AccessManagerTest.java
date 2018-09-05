@@ -27,67 +27,66 @@ import org.junit.jupiter.api.Test;
  */
 public class AccessManagerTest {
 
-    private final int testIk1 = 111111111;
-    private final int testIk2 = 222222222;
-    private final int testIk3 = 333333333;
-    private final int allowedIk = testIk1;
-    private final int deniedIk = testIk2;
-
+    //<editor-fold defaultstate="collapsed" desc="Prepare test data">
+    private final int unmanagedIk1 = 111111111;
+    private final int unmanagedIk2 = 222222222;
+    private final int unmanagedIk3 = 333333333;
+    private final int allowedIk = 444444444;
+    private final int deniedIk = 555555555;
+    
     private final int userAccountId = 4711;
     private final int noneAccountId = 0;
     private final int readWriteSealAccountId = 1;
     private final int readSealedAccountId = 2;
     private final Feature testFeature = Feature.NUB;
-
+    
     public AccessManagerTest() {
     }
-
+    
     private AccessManager obtainAccessManager() {
         return obtainAccessManager(new ArrayList<>(), false);
     }
-
+    
     private AccessManager obtainAccessManager(List<AccessRight> accessRights) {
         return obtainAccessManager(accessRights, false);
     }
-
+    
     private AccessManager obtainAccessManager(List<AccessRight> accessRights, boolean isInekUser) {
-        Set<Integer> fullIkSet = new HashSet<>();
-        return obtainAccessManager(accessRights, isInekUser, fullIkSet);
+        return obtainAccessManager(accessRights, isInekUser, obtainFullIkSet());
     }
     
     private AccessManager obtainAccessManager(List<AccessRight> accessRights, boolean isInekUser, Set<Integer> fullIkSet) {
         List<CooperationRight> cooperationRights = new ArrayList<>();
         cooperationRights.add(
-                new CooperationRight(noneAccountId, userAccountId, testIk1, testFeature, CooperativeRight.None));
+                new CooperationRight(noneAccountId, userAccountId, unmanagedIk1, testFeature, CooperativeRight.None));
         cooperationRights.add(
-                new CooperationRight(readWriteSealAccountId, userAccountId, testIk1, testFeature, CooperativeRight.ReadWriteSeal));
+                new CooperationRight(readWriteSealAccountId, userAccountId, unmanagedIk1, testFeature, CooperativeRight.ReadWriteSeal));
         cooperationRights.add(
-                new CooperationRight(readSealedAccountId, userAccountId, testIk2, testFeature, CooperativeRight.ReadSealed));
+                new CooperationRight(readSealedAccountId, userAccountId, unmanagedIk2, testFeature, CooperativeRight.ReadSealed));
         cooperationRights.add(
                 new CooperationRight(readSealedAccountId, userAccountId, -1, Feature.DRG_PROPOSAL, CooperativeRight.ReadSealed));
-
+        
         return obtainAccessManager(accessRights, cooperationRights, isInekUser, fullIkSet);
     }
-
+    
     private AccessManager obtainAccessManager(List<AccessRight> accessRights, List<CooperationRight> cooperationRights,
             boolean isInekUser) {
-        Set<Integer> fullIkSet = new HashSet<>();
-        return obtainAccessManager(accessRights, cooperationRights, isInekUser, fullIkSet);
+        return obtainAccessManager(accessRights, cooperationRights, isInekUser, obtainFullIkSet());
     }
-
+    
     private AccessManager obtainAccessManager(List<AccessRight> accessRights, List<CooperationRight> cooperationRights,
             boolean isInekUser, Set<Integer> fullIkSet) {
-
+        
         Account userAccount = mock(Account.class);
         when(userAccount.getId()).thenReturn(userAccountId);
         when(userAccount.getAccessRights()).thenReturn(accessRights);
         when(userAccount.getFullIkSet()).thenReturn(fullIkSet);
-
+        
         SessionController sessionController = mock(SessionController.class);
         when(sessionController.isInekUser(testFeature)).thenReturn(isInekUser);
         when(sessionController.getAccount()).thenReturn(userAccount);
         when(sessionController.getAccountId()).thenReturn(userAccountId);
-
+        
         CooperationRightFacade cooperationRightFacade = mock(CooperationRightFacade.class);
         when(cooperationRightFacade.getCooperationRights(testFeature, userAccount))
                 .thenReturn(cooperationRights.stream().filter(r -> r.getFeature() == testFeature).collect(Collectors.
@@ -95,12 +94,28 @@ public class AccessManagerTest {
         when(cooperationRightFacade.getCooperationRights(Feature.DRG_PROPOSAL, userAccount))
                 .thenReturn(cooperationRights.stream().filter(r -> r.getFeature() == Feature.DRG_PROPOSAL).
                         collect(Collectors.toList()));
-
+        
         ManagedIkCache ikCache = mock(ManagedIkCache.class);
+        when(ikCache.contains(allowedIk)).thenReturn(true);
+        when(ikCache.contains(deniedIk)).thenReturn(true);
+        when(ikCache.contains(unmanagedIk1)).thenReturn(false);
+        when(ikCache.contains(unmanagedIk2)).thenReturn(false);
+        when(ikCache.contains(unmanagedIk3)).thenReturn(false);
         AccessManager accessManager = new AccessManager(cooperationRightFacade, sessionController, ikCache);
         return accessManager;
     }
-
+    
+    private Set<Integer> obtainFullIkSet() {
+        Set<Integer> fullIkSet = new HashSet<>();
+        fullIkSet.add(unmanagedIk1);
+        fullIkSet.add(unmanagedIk2);
+        fullIkSet.add(unmanagedIk2);
+        fullIkSet.add(allowedIk);
+        fullIkSet.add(deniedIk);
+        return fullIkSet;
+    }
+    //</editor-fold>
+    
     @Test
     public void retrieveAllowedManagedIksReturnsTheOnlyOneAllowedIk() {
         List<AccessRight> accessRights = new ArrayList<>();
@@ -114,7 +129,8 @@ public class AccessManagerTest {
     public void retrieveAllowedManagedIksReturnsOnlyOneAllowedIkOutOfMultipleIk() {
         List<AccessRight> accessRights = new ArrayList<>();
         accessRights.add(new AccessRight(userAccountId, allowedIk, testFeature, Right.Read));
-        accessRights.add(new AccessRight(userAccountId, deniedIk, testFeature, Right.Deny));
+        accessRights.add(new AccessRight(userAccountId, deniedIk, testFeature, Right.Deny));  
+        accessRights.add(new AccessRight(userAccountId, unmanagedIk1, testFeature, Right.All));  
         AccessManager accessManager = obtainAccessManager(accessRights);
         Set<Integer> result = accessManager.retrieveAllowedManagedIks(testFeature);
         assertThat(result).isNotNull().isNotEmpty().containsOnly(allowedIk);
@@ -255,8 +271,8 @@ public class AccessManagerTest {
         accessRights.add(new AccessRight(userAccountId, allowedIk, testFeature, Right.Read));
         accessRights.add(new AccessRight(userAccountId, deniedIk, testFeature, Right.Deny));
         AccessManager accessManager = obtainAccessManager(accessRights);
-        Set<Integer> result = accessManager.retrieveDeniedForCreationIks(testFeature);
-        assertThat(result).isNotNull().isNotEmpty().contains(allowedIk).contains(deniedIk);
+        Set<Integer> result = accessManager.retrieveAllManagedIks(testFeature);
+        assertThat(result).isNotNull().isNotEmpty().containsOnly(allowedIk, deniedIk);
     }
 
     @Test
@@ -444,11 +460,11 @@ public class AccessManagerTest {
 
         Set<Integer> fullIkSet = new HashSet<>();
         fullIkSet.add(deniedIk);
-        fullIkSet.add(testIk3);
+        fullIkSet.add(unmanagedIk1);
 
         AccessManager accessManager = obtainAccessManager(accessRights, false, fullIkSet);
         Set<Integer> result = accessManager.ObtainIksForCreation(Feature.ADDITIONAL_COST);
-        assertThat(result).isNotNull().containsOnly(testIk3);
+        assertThat(result).isNotNull().containsOnly(unmanagedIk1);
     }
 
     @Test
@@ -460,15 +476,16 @@ public class AccessManagerTest {
 
         Set<Integer> fullIkSet = new HashSet<>();
         fullIkSet.add(allowedIk);
-        fullIkSet.add(testIk3);
+        fullIkSet.add(unmanagedIk1);
 
         AccessManager accessManager = obtainAccessManager(accessRights, false, fullIkSet);
         Set<Integer> result = accessManager.ObtainIksForCreation(Feature.ADDITIONAL_COST);
-        assertThat(result).isNotNull().containsOnly(testIk3, allowedIk);
+        assertThat(result).isNotNull().containsOnly(unmanagedIk1, allowedIk);
     }
 
     @Test
     public void testObtainAllowedIks() {
     }
+
 
 }
