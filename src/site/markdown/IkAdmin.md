@@ -124,4 +124,9 @@ Soweit ein Anwender ein Feature zufügt und für alle IKs ein IK-Admin vorhanden
 Die Liste der möglichen IKs wird wie bisher aus den Anwenderstammdaten gelesen. 
 Für jedes IK wird geprüft, ob ein IK-Admin vorhanden ist. Sofern ja, gelten die Berechtigungen entsprechend der Berechtigungstabellen, andernfalls kann der Anwender das IK im Feature wie bisher nutzen.
 
+## Besonderheiten Krankenhausvergleich
+
+Für die Nutzung des Krankenhausvergleichs ist die Nutzer-Verwaltung zwingend über den IK-Admin zu steuren.
+Um dies allgemein zu halten, wird der IK-Admin-Zwang mittels Eigenschaft des betreffenden Features gesteuert, so dass dies auch für andere Bereche genutzt werden kann.
+
 [Zurück zum Hauptdokument](DataPortal.md#FunctionalRequirements)
