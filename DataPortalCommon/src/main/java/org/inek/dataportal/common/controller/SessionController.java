@@ -220,22 +220,20 @@ public class SessionController implements Serializable {
             HttpServletRequest request = (HttpServletRequest) ctxt.getExternalContext().getRequest();
             HttpServletResponse response = (HttpServletResponse) ctxt.getExternalContext().getResponse();
             response.setContentType("text/html");
-
-            Cookie[] cookies = request.getCookies();
+            ctxt.getExternalContext().invalidateSession();
+            ctxt.getExternalContext().getSessionId(true);
 
             // Delete all the cookies
+            Cookie[] cookies = request.getCookies();
             if (cookies != null) {
-
                 for (Cookie cookie : cookies) {
                     cookie.setValue(null);
                     cookie.setMaxAge(0);
                     response.addCookie(cookie);
                 }
             }
-            ctxt.getExternalContext().invalidateSession();
-            ctxt.getExternalContext().getSessionId(true);
         } catch (Exception ex) {
-            LOGGER.log(Level.WARNING, "Exception during invalidatesesion");
+            LOGGER.log(Level.WARNING, "Exception during invalidatesesion: {0}", ex.getMessage());
         }
 
     }
