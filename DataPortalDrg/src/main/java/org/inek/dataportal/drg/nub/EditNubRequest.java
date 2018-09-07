@@ -189,6 +189,13 @@ public class EditNubRequest extends AbstractEditController {
             NubRequest nubRequest = _nubRequestFacade.findFresh(id);
             if (nubRequest != null && hasSufficientRights(nubRequest)) {
                 _nubRequestBaseline = _nubRequestFacade.find(id);
+                if (nubRequest.getIk() <= 0) {
+                    Set<Integer> iks = getIks();
+                    if (iks.size() == 1) {
+                        int ik = iks.stream().findFirst().get();
+                        nubRequest.setIk(ik);
+                    }
+                }
                 return nubRequest;
             }
         } catch (NumberFormatException ex) {
