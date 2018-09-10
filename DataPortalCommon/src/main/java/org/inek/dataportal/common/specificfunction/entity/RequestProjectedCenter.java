@@ -1,7 +1,5 @@
 package org.inek.dataportal.common.specificfunction.entity;
 
-import org.inek.dataportal.common.specificfunction.entity.CenterName;
-import org.inek.dataportal.common.specificfunction.entity.SpecificFunction;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
@@ -182,6 +180,7 @@ public class RequestProjectedCenter implements Serializable {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public int hashCode() {
         if (_id != null) {
@@ -197,7 +196,6 @@ public class RequestProjectedCenter implements Serializable {
         return hash;
     }
 
-    // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     @SuppressWarnings("CyclomaticComplexity")
     public boolean equals(Object obj) {

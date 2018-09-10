@@ -1,6 +1,7 @@
 package org.inek.dataportal.insurance.specificfunction.entity;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 
@@ -14,7 +15,7 @@ public class AgreedRemunerationKeys implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "arkId")
-    private int _id = -1;
+    private Integer _id = -1;
 
     public int getId() {
         return _id;
@@ -61,7 +62,7 @@ public class AgreedRemunerationKeys implements Serializable {
     }
     
     @Column(name = "arkSpecificFunctionAgreementId")
-    private int _specificFunctionAgreementId;
+    private int _specificFunctionAgreementId = -1;
 
     public int getSpecificFunctionAgreementId() {
         return _specificFunctionAgreementId;
@@ -82,4 +83,50 @@ public class AgreedRemunerationKeys implements Serializable {
     public void setScope(int scope) {
         this._scope = scope;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 97 * hash + Objects.hashCode(this._id);
+        hash = 97 * hash + Objects.hashCode(this._number);
+        hash = 97 * hash + Objects.hashCode(this._text);
+        hash = 97 * hash + Float.floatToIntBits(this._amount);
+        hash = 97 * hash + Objects.hashCode(this._specificFunctionAgreementId);
+        hash = 97 * hash + this._scope;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final AgreedRemunerationKeys other = (AgreedRemunerationKeys) obj;
+        if (Float.floatToIntBits(this._amount) != Float.floatToIntBits(other._amount)) {
+            return false;
+        }
+        if (this._scope != other._scope) {
+            return false;
+        }
+        if (!Objects.equals(this._number, other._number)) {
+            return false;
+        }
+        if (!Objects.equals(this._text, other._text)) {
+            return false;
+        }
+        if (!Objects.equals(this._id, other._id)) {
+            return false;
+        }
+        if (!Objects.equals(this._specificFunctionAgreementId, other._specificFunctionAgreementId)) {
+            return false;
+        }
+        return true;
+    }
+    
 }

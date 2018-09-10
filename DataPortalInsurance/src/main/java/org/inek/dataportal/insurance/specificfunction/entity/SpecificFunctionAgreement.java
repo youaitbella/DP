@@ -28,7 +28,7 @@ public class SpecificFunctionAgreement implements Serializable, StatusEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "amId")
-    private int _id = -1;
+    private Integer _id = -1;
 
     @Override
     public int getId() {
@@ -354,20 +354,6 @@ public class SpecificFunctionAgreement implements Serializable, StatusEntity {
     }
     // </editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property AgreedRemunerationkeys">
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "arkSpecificFunctionAgreementId", referencedColumnName = "amId")
-    private List<AgreedRemunerationKeys> _remunerationKeys = new ArrayList<>();
-
-    public List<AgreedRemunerationKeys> getRemunerationKeys() {
-        return _remunerationKeys;
-    }
-
-    public void setRemunerationKeys(List<AgreedRemunerationKeys> remunerationKeys) {
-        this._remunerationKeys = remunerationKeys;
-    }
-    //</editor-fold>
-    
     //<editor-fold defaultstate="collapsed" desc="Property AgreedCenter">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "acAgreedMasterId", referencedColumnName = "amId")
@@ -383,6 +369,20 @@ public class SpecificFunctionAgreement implements Serializable, StatusEntity {
     }
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Property AgreedRemunerationkeys">
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "arkSpecificFunctionAgreementId", referencedColumnName = "amId")
+    private List<AgreedRemunerationKeys> _remunerationKeys = new ArrayList<>();
+
+    public List<AgreedRemunerationKeys> getRemunerationKeys() {
+        return _remunerationKeys;
+    }
+
+    public void setRemunerationKeys(List<AgreedRemunerationKeys> remunerationKeys) {
+        this._remunerationKeys = remunerationKeys;
+    }
+    //</editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="Property NoteInek">
     @Column(name = "amNoteInek")
     @Documentation(name = "Bemerkung InEK", rank = 175, omitOnEmpty = true)

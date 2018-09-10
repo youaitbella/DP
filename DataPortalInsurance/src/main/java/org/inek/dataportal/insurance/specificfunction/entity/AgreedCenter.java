@@ -33,7 +33,7 @@ public class AgreedCenter implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "acId")
-    private int _id = -1;
+    private Integer _id = -1;
 
     public int getId() {
         return _id;
@@ -241,11 +241,10 @@ public class AgreedCenter implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public int hashCode() {
-        if (_id > 0) {
+        if (_id != null) {
             return _id;
         }
         int hash = 7;
-        hash = 97 * hash + this._id;
         hash = 97 * hash + this._agreedMasterId;
         hash = 97 * hash + Objects.hashCode(this._otherCenterName);
         hash = 97 * hash + Objects.hashCode(this._location);
@@ -267,10 +266,13 @@ public class AgreedCenter implements Serializable {
             return false;
         }
         final AgreedCenter other = (AgreedCenter) obj;
-        if (_id > 0 || other._id > 0) {
-            return _id == other._id;
+        if (_id != null) {
+            return Objects.equals(_id, other._id);
         }
-        if (this._agreedMasterId != other._agreedMasterId) {
+        if (other._id != null){
+            return false;
+        }
+        if (!Objects.equals(this._agreedMasterId, other._agreedMasterId)) {
             return false;
         }
         if (this._costSum != other._costSum) {
@@ -298,7 +300,7 @@ public class AgreedCenter implements Serializable {
     // </editor-fold>
 
     public boolean isEmpty() {
-        return _id <= 0
+        return _id == null
                 && _centerId == 0
                 && _otherCenterName.isEmpty()
                 && _location.isEmpty()
