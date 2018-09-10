@@ -20,7 +20,7 @@
             <link rel="shortcut icon" type="image/x-icon" href="#{request.contextPath}/javax.faces.resource/Icon/small/InEK.ico.xhtml"/>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
             <meta name="msapplication-config" content="none"/>
-
+            
             <ui:remove>
                 <!--
                 Do not load the JSF AJAX library, although it might be needed for direct access.
@@ -38,12 +38,12 @@
                 <h:outputStylesheet name="css/dataportal.css"/>
                 <h:outputScript name="script/clientutils.js"/>
             </ui:remove>
-
+            
             <link type="text/css" rel="stylesheet" href="#{request.contextPath}/javax.faces.resource/css/#{sessionController.css}.xhtml?version=#{applicationTools.version}" />
-            <script type="text/javascript" src="#{request.contextPath}/javax.faces.resource/script/inek-client-utils.js.xhtml?version=#{applicationTools.version}"></script>
+            <script type="text/javascript" src="#{request.contextPath}/javax.faces.resource/script/clientutils.js.xhtml?version=#{applicationTools.version}"></script>
             <h:outputStylesheet name="css/inekstyle.css" />
             <h:outputScript name="script/sweetalert.min.js"/>
-            <!-- if we need the browser object, add this polyfill: h:outputScript name="script/browser-polyfill.min.js"/-->
+            <h:outputScript name="script/browser-polyfill.min.js"/>
             <h:outputScript library="primefaces" name="jquery/jquery.js" />
             <h:outputScript library="primefaces" name="jquery/jquery-plugins.js" />
         </h:head>
@@ -173,22 +173,31 @@
                 </script>
             </h:form>
 
-            <!-- Piwik ->
-            <script type="text/javascript">
-              var _paq = _paq || [];
-              _paq.push(["setDomains", ["*.daten.inek.org"]]);
-              _paq.push(['trackPageView']);
-              _paq.push(['enableLinkTracking']);
-              (function() {
-                var u="http://services.g-drg.de/piwik/";
-                _paq.push(['setTrackerUrl', u+'piwik.php']);
-                _paq.push(['setSiteId', 6]);
-                var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-                g.type='text/javascript'; g.async=true; g.defer=true; g.src='# {request.contextPath}/javax.faces.resource/script/piwik.js.xhtml'; s.parentNode.insertBefore(g,s);
-              })();
-            </script>
-            <noscript><p><img src="http://services.g-drg.de/piwik/piwik.php?idsite=6" style="border:0;" alt="" /></p></noscript>
-            <!- End Piwik Code -->
-        </h:body>
-    </f:view>
-</html>
+            <ui:remove>
+                <script type="text/javascript">
+                    $(function () {
+                        $('.title-placeholder').each(function (k, v) {
+                            $(v).attr('placeholder', $(v).attr('title'));
+                        });
+                    });
+                    </script>
+                </ui:remove>
+                <!-- Piwik ->
+                <script type="text/javascript">
+                  var _paq = _paq || [];
+                  _paq.push(["setDomains", ["*.daten.inek.org"]]);
+                  _paq.push(['trackPageView']);
+                  _paq.push(['enableLinkTracking']);
+                  (function() {
+                    var u="http://services.g-drg.de/piwik/";
+                    _paq.push(['setTrackerUrl', u+'piwik.php']);
+                    _paq.push(['setSiteId', 6]);
+                    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+                    g.type='text/javascript'; g.async=true; g.defer=true; g.src='# {request.contextPath}/javax.faces.resource/script/piwik.js.xhtml'; s.parentNode.insertBefore(g,s);
+                  })();
+                </script>
+                <noscript><p><img src="http://services.g-drg.de/piwik/piwik.php?idsite=6" style="border:0;" alt="" /></p></noscript>
+                <!- End Piwik Code -->
+            </h:body>
+        </f:view>
+    </html>
