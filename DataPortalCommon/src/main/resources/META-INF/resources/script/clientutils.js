@@ -10,6 +10,7 @@ function init() {
     startTimer();
     setFocus();
 }
+
 function startTimer() {
     interval = setInterval(updateSessionTimer, 1000); // every second
 }
@@ -48,6 +49,17 @@ function setFocus(id) {
             break;
         }
     }
+}
+
+function addOnLoadFunction(func) {
+    var functionChain = window.onload;
+    if (typeof window.onload !== "function")
+        window.onload = func;
+    else
+        window.onload = function () {
+            functionChain();
+            func();
+        };
 }
 
 function clickElementById(id) {
@@ -177,53 +189,6 @@ function onError(error) {
     console.log(`Error removing cookie: ${error}`);
 }
 
-function removeCookie(url) {
-    var browser = new Browser();
-    var removing = browser.cookies.remove({
-        url: url,
-        name: "JSESSIONID"
-    });
-    //removing.then(onRemoved, onError);
-    return removing;
-}
-
-function deleteCookie(module) {
-    document.cookie = "JSESSIONID=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/" + module + ";";
-}
-
-function removeCookies() {
-    var modules = [
-        "DataPortalAdmin",
-        "DataPortal",
-        "DataPortalCalc",
-        "DataPortalCert",
-        "DataPortalDrg",
-        "DataPortalInsurance",
-        "DataPortalPsy"
-    ];
-    var ctxt = window.location.pathname.split('/')[1];
-    var basePath = window.location.protocol + "//" + window.location.host + "/";
-    var removings = [];
-    modules.forEach(function (module) {
-        if (module !== ctxt) {
-           removings.push(removeCookie(basePath + module));
-        }
-    });
-    removings.all.then(onRemoved, onError);
-            
-}
-
-function addOnLoadFunction(func) {
-    var functionChain = window.onload;
-    if (typeof window.onload !== "function")
-        window.onload = func;
-    else
-        window.onload = function () {
-            functionChain();
-            func();
-        };
-}
-
 /*
  * usage in page:
  *         <script>
@@ -258,3 +223,4 @@ function changeDialogColor(action) {
         console.log('Unknown action');
     }
 }
+

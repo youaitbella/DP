@@ -59,7 +59,7 @@
                             '</div>'
                 });
             }
-            addOnLoadFunction(createUploader);
+            //addOnLoadFunction(createUploader);
         </script>
         <h1><h:link value="#{msg.lblNUB}" outcome="#{sessionTools.pages.NubSummary}"/></h1>
         <br/>
@@ -79,6 +79,9 @@
         <br/>
         <div class="inputPart">
             <div id="file-uploader">
+                <script>
+                    createUploader();
+                </script>
                 <noscript>
                     <div class="inputPart">Please enable JavaScript to use the file upload.</div>
                     <!-- or put a simple form for upload here -->
@@ -86,6 +89,7 @@
             </div>
             <h:link styleClass="bigButton" value="Zur NUB Liste" outcome="#{sessionTools.pages.NubSummary}"/>
         </div>
+        
     </ui:define>
 
 </ui:composition>
