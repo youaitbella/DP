@@ -697,7 +697,9 @@ public class EditNubRequest extends AbstractEditController {
 
     public void downloadTemplate() {
         String content = getNubController().createTemplate(_nubRequest);
-        Utils.downloadText(content, _nubRequest.getName() + ".nub", "UTF-8");
+        // the InternetExplorer does not escape linebreaks, thus get rid off
+        String name = _nubRequest.getName().replace("\r\n", " ").replace("\r", " ").replace("\n", " ");
+        Utils.downloadText(content, name + ".nub", "UTF-8");
     }
 
     @Inject
