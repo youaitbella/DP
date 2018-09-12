@@ -313,7 +313,7 @@ public class Edit {
     }
 
     public void ikChanged() {
-        List<Integer> usedYears = _aebFacade.getUsedDataYears(_aebBaseInformation.getIk(), CustomerTyp.Hospital.id());
+        List<Integer> usedYears = _aebFacade.getUsedDataYears(_aebBaseInformation.getIk(), CustomerTyp.Hospital);
         List<Integer> possibleYears = _aebFacade.getPossibleDataYears();
         possibleYears.removeAll(usedYears);
         setValidDatayears(possibleYears);
@@ -321,7 +321,7 @@ public class Edit {
 
     public Set<Integer> getAllowedIks() {
         Set<Integer> allowedIks = _accessManager.ObtainIksForCreation(Feature.HC_HOSPITAL);
-        Set<Integer> iks = _aebFacade.retrievePossibleIks(allowedIks, CustomerTyp.Hospital.id());
+        Set<Integer> iks = _aebFacade.retrievePossibleIks(allowedIks, CustomerTyp.Hospital);
         if (_aebBaseInformation.getIk() != 0) {
             iks.add(_aebBaseInformation.getIk());
         }

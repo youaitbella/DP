@@ -196,15 +196,4 @@ public class InsuranceFacade extends AbstractDataAccess {
         return "unbekannte oder ungültige Signatur";
 
     }
-
-    public List<Integer> getAgentsIk(int accountId) {
-        String sql = "select distinct ikaIk\n"
-                + "from insurance.ikAgent\n"
-                + "where ikaAccountId = " + accountId;
-        @SuppressWarnings("unchecked")
-        List<Integer> resultList = getEntityManager().createNativeQuery(sql).getResultList();
-
-        return resultList;
-    }
-
 }

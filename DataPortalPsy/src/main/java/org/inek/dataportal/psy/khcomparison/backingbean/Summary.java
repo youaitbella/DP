@@ -84,14 +84,14 @@ public class Summary {
             for (AccessRight right : _sessionController.getAccount().getAccessRights().stream()
                     .filter(c -> c.canRead() && c.getFeature() == Feature.HC_HOSPITAL)
                     .collect(Collectors.toList())) {
-                _listWorking.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.New, right.getIk(), CustomerTyp.Hospital.id()));
+                _listWorking.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.New, right.getIk(), CustomerTyp.Hospital));
                 _listWorking.
-                        addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.CorrectionRequested, right.getIk(), CustomerTyp.Hospital.id()));
+                        addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.CorrectionRequested, right.getIk(), CustomerTyp.Hospital));
             }
         } else {
             for (Integer ik : _sessionController.getAccount().getFullIkSet()) {
-                _listWorking.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.New, ik, CustomerTyp.Hospital.id()));
-                _listWorking.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.CorrectionRequested, ik, CustomerTyp.Hospital.id()));
+                _listWorking.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.New, ik, CustomerTyp.Hospital));
+                _listWorking.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.CorrectionRequested, ik, CustomerTyp.Hospital));
             }
         }
     }
@@ -102,11 +102,11 @@ public class Summary {
             for (AccessRight right : _sessionController.getAccount().getAccessRights().stream()
                     .filter(c -> c.canRead() && c.getFeature() == Feature.HC_HOSPITAL)
                     .collect(Collectors.toList())) {
-                _listComplete.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.Provided, right.getIk(), CustomerTyp.Hospital.id()));
+                _listComplete.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.Provided, right.getIk(), CustomerTyp.Hospital));
             }
         } else {
             for (Integer ik : _sessionController.getAccount().getFullIkSet()) {
-                _listComplete.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.Provided, ik, CustomerTyp.Hospital.id()));
+                _listComplete.addAll(_aebfacade.getAllByStatusAndIk(WorkflowStatus.Provided, ik, CustomerTyp.Hospital));
             }
         }
     }
@@ -121,7 +121,7 @@ public class Summary {
 
     public boolean isCreateEntryAllowed() {
         Set<Integer> allowedIks = _accessManager.ObtainIksForCreation(Feature.HC_HOSPITAL);
-        return _aebfacade.retrievePossibleIks(allowedIks, CustomerTyp.Hospital.id()).size() > 0;
+        return _aebfacade.retrievePossibleIks(allowedIks, CustomerTyp.Hospital).size() > 0;
     }
 
     public boolean isCreateStructureInformationAllowed() {

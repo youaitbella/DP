@@ -25,6 +25,7 @@ import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.data.KhComparison.entities.AEBBaseInformation;
 import org.inek.dataportal.common.data.KhComparison.entities.OccupationalCategory;
 import org.inek.dataportal.common.data.KhComparison.entities.StructureInformation;
+import org.inek.dataportal.common.enums.CustomerTyp;
 
 /**
  *
@@ -71,14 +72,14 @@ public class AEBFacade extends AbstractDataAccess {
         return query.getResultList();
     }
 
-    public List<AEBBaseInformation> getAllByStatusAndIk(WorkflowStatus status, int ik, int typ) {
+    public List<AEBBaseInformation> getAllByStatusAndIk(WorkflowStatus status, int ik, CustomerTyp typ) {
         String sql = "SELECT bi FROM AEBBaseInformation bi WHERE bi._statusId = :status "
                 + "and bi._ik = :ik "
                 + "and bi._typ = :typ";
         TypedQuery<AEBBaseInformation> query = getEntityManager().createQuery(sql, AEBBaseInformation.class);
         query.setParameter("status", status.getId());
         query.setParameter("ik", ik);
-        query.setParameter("typ", typ);
+        query.setParameter("typ", typ.id());
         return query.getResultList();
     }
 
@@ -137,19 +138,19 @@ public class AEBFacade extends AbstractDataAccess {
         return query.getResultList();
     }
 
-    public Set<Pair<Integer, Integer>> retrieveIkYearPairs(Collection<Integer> iks, int typ) {
+    public Set<Pair<Integer, Integer>> retrieveIkYearPairs(Collection<Integer> iks, CustomerTyp typ) {
         String ikList = iks.stream().map(ik -> "" + ik).collect(Collectors.joining(", "));
         String sql = "select distinct biIk, biDataYear \n"
                 + "from psy.AEBBaseInformation \n"
                 + "where biIk in (" + ikList + ") \n"
-                + "    and biTyp = " + typ;
+                + "    and biTyp = " + typ.id();
         Query query = getEntityManager().createNativeQuery(sql);
         @SuppressWarnings("unchecked") List<Object[]> objects = query.getResultList();
 
         return objects.stream().map(obj -> new Pair<>((int) obj[0], (int) obj[1])).collect(Collectors.toSet());
     }
 
-    public Set<Integer> retrievePossibleIks(Set<Integer> allowedIks, int typ) {
+    public Set<Integer> retrievePossibleIks(Set<Integer> allowedIks, CustomerTyp typ) {
         Set<Pair<Integer, Integer>> existingIkYearPairs = retrieveIkYearPairs(allowedIks, typ);
         List<Integer> possibleYears = getPossibleDataYears();
 
@@ -169,23 +170,10 @@ public class AEBFacade extends AbstractDataAccess {
         return years;
     }
 
-    public List<Integer> getAllowedIksForInsurance(int accountId, int year, int typ) {
-        String sql = "select distinct ikaIk from insurance.ikAgent\n"
-                + "where ikaAccountId = " + accountId + "\n"
-                + "and ikaIk not in (\n"
-                + "select biIk from psy.AEBBaseInformation\n"
-                + "where biDataYear >= " + year + " \n"
-                + "and biTyp = " + typ + ")";
-        Query query = getEntityManager().createNativeQuery(sql);
-        @SuppressWarnings("unchecked")
-        List<Integer> result = query.getResultList();
-        return result;
-    }
-
-    public List<Integer> getUsedDataYears(int ik, int typ) {
+    public List<Integer> getUsedDataYears(int ik, CustomerTyp typ) {
         String sql = "select distinct biDataYear from psy.AEBBaseInformation\n"
                 + "where biIk = " + ik + "\n"
-                + "and biTyp = " + typ;
+                + "and biTyp = " + typ.id();
         Query query = getEntityManager().createNativeQuery(sql);
         @SuppressWarnings("unchecked")
         List<Integer> result = query.getResultList();

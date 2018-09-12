@@ -10,6 +10,7 @@ import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
@@ -32,6 +33,7 @@ import org.inek.dataportal.common.data.adm.MailTemplate;
 import org.inek.dataportal.common.enums.CustomerTyp;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.mail.Mailer;
+import org.inek.dataportal.common.overall.AccessManager;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -56,6 +58,8 @@ public class Edit {
     private AccountFacade _accountFacade;
     @Inject
     private Mailer _mailer;
+    @Inject
+    private AccessManager _accessManager;
 
     private AEBBaseInformation _aebBaseInformation;
     private List<Integer> _validDatayears = new ArrayList<>();
@@ -312,15 +316,20 @@ public class Edit {
     }
 
     public void ikChanged() {
-        List<Integer> usedYears = _aebFacade.getUsedDataYears(_aebBaseInformation.getIk(), CustomerTyp.Insurance.id());
+        List<Integer> usedYears = _aebFacade.getUsedDataYears(_aebBaseInformation.getIk(), CustomerTyp.Insurance);
         List<Integer> possibleYears = _aebFacade.getPossibleDataYears();
         possibleYears.removeAll(usedYears);
         setValidDatayears(possibleYears);
     }
 
-    public List<Integer> getAllowedIks() {
-        return _aebFacade.getAllowedIksForInsurance(_sessionController.getAccountId(),
-                Utils.getTargetYear(Feature.HC_HOSPITAL), CustomerTyp.Insurance.id());
+    public Set<Integer> getAllowedIks() {
+                Set<Integer> allowedIks = _accessManager.ObtainIksForCreation(Feature.HC_INSURANCE);
+        Set<Integer> iks = _aebFacade.retrievePossibleIks(allowedIks, CustomerTyp.Insurance);
+        if (_aebBaseInformation.getIk() != 0) {
+            iks.add(_aebBaseInformation.getIk());
+        }
+        return iks;
+
     }
 
     private boolean baseInfoisComplete(AEBBaseInformation info) {
