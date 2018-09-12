@@ -2,8 +2,12 @@ package org.inek.dataportal.common.controller;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
 import java.net.HttpURLConnection;
 import static java.net.HttpURLConnection.HTTP_OK;
+import java.net.InetAddress;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.util.HashSet;
 import java.util.List;
@@ -27,6 +31,9 @@ import org.inek.dataportal.api.enums.FeatureState;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.api.enums.PortalType;
 import org.inek.dataportal.api.helper.Const;
+import static org.inek.dataportal.api.helper.Const.REQUEST_ID;
+import static org.inek.dataportal.api.helper.Const.REQUEST_TOKEN;
+import static org.inek.dataportal.api.helper.Const.SERVICE_PORT;
 import org.inek.dataportal.common.helper.EnvironmentInfo;
 import org.inek.dataportal.common.data.access.CustomerTypeFacade;
 import org.inek.dataportal.common.data.account.facade.AccountFacade;
@@ -291,9 +298,9 @@ public class SessionController implements Serializable {
         if (url.isEmpty()) {
             return;
         }
+        try {
         url = url + "?token=" + getToken() + "&portal=" + portalType.name();
         performLogout("");
-        try {
             FacesContext.getCurrentInstance().getExternalContext().redirect(url);
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
@@ -308,42 +315,44 @@ public class SessionController implements Serializable {
         return url;
     }
 
-    public String getToken() {
-        // todo: retrieve service address from a common place, e.g. database
-        String address = "http://vubuntu01:9999/AccountService/api/account/id/{0}".replace("{0}", "" + getAccountId());
-        try {
-            URL url = new URL(address);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-            if (conn.getResponseCode() != HTTP_OK) {
-                throw new IOException("HTTP error code : " + conn.getResponseCode());
-            }
-            String token = StreamHelper.toString(conn.getInputStream());
-            conn.disconnect();
-            return token;
-        } catch (IOException ex) {
-            LOGGER.log(Level.SEVERE, null, ex);
-            alertClient("Beim AccountService trat ein Fehler auf");
-            return "";
+    public String getToken() throws IOException {
+        return request(REQUEST_TOKEN, "" + getAccountId());
+    }
+
+    private String request(String type, String data) throws IOException {
+        try (DatagramSocket socket = new DatagramSocket()) {
+            socket.setSoTimeout(100);
+            broadcast(socket, type + data);
+            return receive(socket);
         }
     }
 
+    private static void broadcast(DatagramSocket socket, String broadcastMessage) throws IOException {
+        InetAddress address = InetAddress.getByName("192.168.0.255");
+        socket.setBroadcast(true);
+
+        byte[] buffer = broadcastMessage.getBytes();
+
+        DatagramPacket packet = new DatagramPacket(buffer, buffer.length, address, SERVICE_PORT);
+        socket.send(packet);
+    }
+
+    private static String receive(DatagramSocket socket) throws IOException {
+        byte[] buf = new byte[256];
+        DatagramPacket packet = new DatagramPacket(buf, buf.length);
+        socket.receive(packet);
+        String data = new String(packet.getData(), 0, packet.getLength());
+        return data;
+    }
+
+
     private int getId(String token) {
-        String address = "http://vubuntu01:9999/AccountService/api/account/token/{0}".replace("{0}", token);
+        String idString;
         try {
-            URL url = new URL(address);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-            if (conn.getResponseCode() != HTTP_OK) {
-                throw new IOException("HTTP error code : " + conn.getResponseCode());
-            }
-            String idString = StreamHelper.toString(conn.getInputStream());
-            conn.disconnect();
-            return Integer.parseInt(idString);
-        } catch (Exception ex) {
-            LOGGER.log(Level.SEVERE, null, ex);
-            alertClient("Beim AccountService trat ein Fehler auf");
-            return -123;
+            idString = request(REQUEST_ID, token);
+        return Integer.parseInt(idString);
+        } catch (IOException ex) {
+            return Integer.MIN_VALUE;
         }
     }
 
