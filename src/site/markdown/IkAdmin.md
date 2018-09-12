@@ -46,12 +46,33 @@ Damit wird die Sicherheit erhöht und der Verwaltungsaufwand verteilt und reduzi
 ### Sichtbarkeit und Übertragung von Daten
 
 - Die Sichtbarkeit von Daten ohne IK-Bezug respektive ohne IK-Admin für ein IK wird unverändert kooperativ geregelt
-- Der Zugriff auf Daten mit IK-Bezug wird durch den IK-Admin festgelegt.
-- Daten mit IK-Bezug, kann der IK-Admin von einem Anwenderkonto auf ein anderes übertragen, sofern dieser Anwender über die entsprechenden Rechte verfügt
+- Sofern ein IK-Admin vorhanden, wird der Zugriff auf Daten mit IK-Bezug wird durch den IK-Admin festgelegt
+- Ist ein IK-Admin Pflicht, kann die betreffende Funktion nur von Anwendern genutzt werden, welche durch einen IK-Admin berechtigt wurden
+
+### Besondere Sichtbarkeiten
+
+Derzeit nur für den Krankenhausvergleich sind besondere Berechtigungen erforderlich:
+
+Ein Krankenkassenmitarbeiter kann die Funktion nur nutzen, wenn vom IK-Admin freigeschaltet.
+Ein Kassenmitarbeiter darf die Daten von Krankenhäuseren, für die er (als Verhandler) zuständig ist sehen.
+Bestimmte Daten können die Mitarbeiter der "federführenden" Krankenkasse Daten als Backup namens dem IK eines Krankenhauses erfassen.
+Seitens der GKV wird eine Liste, welche Kasse für welches Haus federführend ist, übermittelt.
+
+Feature, KK-IK, KH-IK 
+
+Feature und KH-IK bilden dabei einen eindeutigen Schlüssel. 
+Dies erlaubt, dieses Konzept künftig auch für andere Funktionen nutzen zu können.
+Innerhalb einer Funktion ist die KH-IK eindeutig, so dass nur eine federführende Krankenkasse zugewiesen werden kann.
+Nach Feature und KK-IK abgerufen, liefert diese Liste die erlaubten Krankenhäuser, für die eine Erfassung als Backup zulässig ist.
+Im Sinne einer allgemeinen Verwendungsmöglichkeit werden die Begrifflichkeiten erweitert:
+
+Id, FeatureId, UserIK, DataIK 
+
+UserIK ist dabei das IK für welches der Anwender arbeitet, DataIK das IK für welches Daten erfasst werden können.
+Id ist ein zusätzlich eingeführter technischer Schlüssel (PK).
 
 ### weitere Funktionen
 
-- Der IK-Admin verwaltet die IK-Supervisoren
 - Der IK-Admin erhält eine Übersicht mit allen der IK zugeordneten Anwenderkonten
 - Der IK-Admin kann eine oder mehrere zulässige Mail-Domains (wie "@musterhospital.de") festlegen. Die Mail-Domain schränkt den "Besitzer" von Daten ein (*). Möchte ein Anwender seine Mailadresse auf eine nicht-zulässige Domain umstellen, so wird (nach Hinweis) das betreffende IK aus seiner Zuständigkeit entfernt. Die o.a. Zuweisung von IK und Funktionen erfolgt dagegen unabhängig von der Mail-Domain.
 - Der Anwender erhält zu seinen IKs eine Übersicht, welche IK-Admins für die einzelnen IKs zuständig sind
