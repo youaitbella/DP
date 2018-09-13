@@ -147,6 +147,8 @@ public class AccountFacade extends AbstractDataAccess {
     @Inject
     private IkAdminFacade _ikAdminFacade;
 
+    // todo: define access rights for new features instead of approving features.
+    // see checkIKAdminRights and create one unified method
     public Account updateAccount(Account account) {
         for (AccountFeature accFeature : account.getFeatures()) {
             if (accFeature.getFeatureState() == FeatureState.NEW) {

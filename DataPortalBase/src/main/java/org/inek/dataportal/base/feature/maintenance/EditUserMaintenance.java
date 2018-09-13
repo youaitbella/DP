@@ -352,25 +352,6 @@ public class EditUserMaintenance extends AbstractEditController {
 
     private void checkIKAdminRights(Account account) {
         for (int ik : account.getFullIkSet()) {
-            if (_ikAdminFacade.hasIkAdmin(ik)) {
-                boolean hasNewEntry = false;
-                for (AccountFeature feature : account.getFeatures()) {
-                    if (feature.getFeature().getIkReference() == IkReference.Hospital
-                            && _ikAdminFacade.findAccessRightsByAccountIkAndFeature(account, ik, feature.getFeature()).isEmpty()) {
-                        AccessRight accessRight = new AccessRight(account.getId(), ik, feature.getFeature(), Right.Deny);
-                        _ikAdminFacade.saveAccessRight(accessRight);
-                        hasNewEntry = true;
-                    }
-                }
-                if (hasNewEntry) {
-                    notifyIkAdmin(ik, account);
-                }
-            }
-        }
-
-    /* future version
-        
-        for (int ik : account.getFullIkSet()) {
             boolean hasNewEntry = false;
             for (AccountFeature feature : account.getFeatures()) {
                 if (feature.getFeature().getIkReference() == IkReference.Hospital
@@ -378,7 +359,7 @@ public class EditUserMaintenance extends AbstractEditController {
                                 isEmpty()) {
                     AccessRight accessRight = new AccessRight(account.getId(), ik, feature.getFeature(), _ikAdminFacade.
                             hasIkAdmin(ik) ? Right.Deny : Right.All);  
-        // todo: if InEK does not approve features anymor but rights, then chang to Deny always
+                    // todo: if InEK does not approve features anymore but rights, then change above to Deny always
                     _ikAdminFacade.saveAccessRight(accessRight);
                     hasNewEntry = true;
                 }
@@ -391,8 +372,6 @@ public class EditUserMaintenance extends AbstractEditController {
                 }
             }
         }
-        
-        */
     }
 
     private void notifyIkAdmin(int ik, Account account) {
