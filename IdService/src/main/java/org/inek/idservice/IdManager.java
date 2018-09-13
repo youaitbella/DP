@@ -25,7 +25,7 @@ public class IdManager {
         return uuid;
     }
 
-    public String getAccountId(String token) {
+    public String getId(String token) {
         String id = "";
         IdInfo accountInfo = _accountInfos.remove(token);
         long ts = new Date().getTime();

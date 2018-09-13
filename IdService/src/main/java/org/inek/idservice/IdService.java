@@ -51,7 +51,7 @@ public class IdService {
         try {
             DatagramPacket packet = receivePacket(socket);
             String inData = new String(packet.getData(), 0, packet.getLength());
-            LOGGER.log(Level.INFO, "Data received: " + inData);
+            LOGGER.log(Level.FINE, "Data received: " + inData);
             String outData = determineAnswer(inData);
             sendAnswer(outData, packet, socket);
         } catch (SocketTimeoutException ex) {
@@ -72,10 +72,12 @@ public class IdService {
     private String determineAnswer(String inData) {
         String outData = "";
         if (inData.startsWith(REQUEST_TOKEN)) {
-            outData = _idManager.getToken(inData.substring(REQUEST_TOKEN.length()));
+            String id = inData.substring(REQUEST_TOKEN.length());
+            outData = _idManager.getToken(id);
         }
         if (inData.startsWith(REQUEST_ID)) {
-            outData = _idManager.getAccountId(inData.substring(REQUEST_ID.length()));
+            String token = inData.substring(REQUEST_ID.length());
+            outData = _idManager.getId(token);
         }
         return outData;
     }
@@ -88,7 +90,7 @@ public class IdService {
         byte[] outBuf = outData.getBytes();
         DatagramPacket outpacket = new DatagramPacket(outBuf, outBuf.length, packet.getAddress(), packet.getPort());
         socket.send(outpacket);
-        LOGGER.log(Level.INFO, "Data send: " + outData);
+        LOGGER.log(Level.FINE, "Data send: " + outData);
     }
 
 }
