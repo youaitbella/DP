@@ -7,15 +7,34 @@ import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+import javax.ejb.Singleton;
+import javax.ejb.Startup;
+import javax.ejb.Timeout;
+import javax.ejb.TimerService;
 import static org.inek.dataportal.api.helper.Const.REQUEST_ID;
 import static org.inek.dataportal.api.helper.Const.REQUEST_TOKEN;
 import static org.inek.dataportal.api.helper.Const.SERVICE_PORT;
 
+@Singleton
+@Startup
 public class IdService {
 
     public static final Logger LOGGER = Logger.getLogger(IdService.class.getName());
     private final IdManager _idManager = new IdManager();
+    @Resource private TimerService timerService;
 
+    @PostConstruct
+    private void setTimer() {
+        LOGGER.log(Level.INFO, "Trigger IdService");
+        timerService.createTimer(1000, "Created trigger for IdService");
+    }
+
+    // if we annotate the run metho with post construct, a deploy cannot be performed properly
+    // because this method never ends
+    // thus we start a timer during postconstruct which triggers the run method after delay
+    @Timeout
     public void run() {
         LOGGER.log(Level.INFO, "Starting IdService");
         try (DatagramSocket socket = new DatagramSocket(SERVICE_PORT)) {

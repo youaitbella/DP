@@ -32,7 +32,7 @@
         <module>DataPortalPsy</module>
 
         <module>IdService</module>
-        <module>AccountService</module>
+        <!-- temp disable module>AccountService</module-->
     </modules>
 
 

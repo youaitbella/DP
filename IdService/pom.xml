@@ -12,13 +12,19 @@
     </parent>
 
     <artifactId>IdService</artifactId>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
 
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>DataPortalAPI</artifactId>
             <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -42,9 +48,10 @@
     </dependencies>
 
 
-    <build>
+    <build> 
         <finalName>${project.artifactId}</finalName>
-        <plugins>
+        
+        <!--plugins> use this for packaging as jar
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -69,7 +76,7 @@
                     </archive>
                 </configuration>
             </plugin>
-        </plugins>
+        </plugins-->
     </build>
 
 </project>
