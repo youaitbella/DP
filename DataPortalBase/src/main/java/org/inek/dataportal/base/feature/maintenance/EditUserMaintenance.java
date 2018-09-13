@@ -198,10 +198,6 @@ public class EditUserMaintenance extends AbstractEditController {
             throw new ValidatorException(new FacesMessage(msg));
         }
     }
-
-    public String getIkRequired() {
-        return _sessionTools.isHospital(getAccount().getCustomerTypeId()) ? "true" : "false";
-    }
     // </editor-fold>
 
     public void addNewIK() {

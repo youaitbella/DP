@@ -138,8 +138,8 @@ public class Register implements Serializable {
      *
      * @return
      */
-    public String getIkRequired() {
-        return _sessionTools.isHospital(_accountRequest.getCustomerTypeId()) ? "true" : "false";
+    public boolean getIkRequired() {
+        return _sessionTools.isHospital(_accountRequest.getCustomerTypeId());
     }
 
     public void checkApproval(FacesContext context, UIComponent component, Object value) {
@@ -171,7 +171,7 @@ public class Register implements Serializable {
 
     public void checkIk(FacesContext context, UIComponent component, Object value) {
         try {
-            if ((int) value == -1 && getIkRequired().equals("false")) {
+            if ((int) value == -1 && !getIkRequired()) {
                 return;
             }
         } catch (Exception ex) {

@@ -4,14 +4,12 @@
  */
 package org.inek.dataportal.common.requestmanager;
 
-import java.util.Objects;
 import java.util.UUID;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import org.inek.dataportal.common.data.icmt.entities.Customer;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.data.account.entities.AccountFeatureRequest;
 import org.inek.dataportal.common.enums.ConfigKey;
@@ -19,7 +17,6 @@ import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.api.helper.Const;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.data.icmt.facade.ContactRoleFacade;
-import org.inek.dataportal.common.data.icmt.facade.CustomerFacade;
 import org.inek.dataportal.common.data.account.facade.AccountFeatureRequestFacade;
 import org.inek.dataportal.common.data.adm.MailTemplate;
 import org.inek.dataportal.common.data.access.ConfigFacade;
@@ -40,8 +37,6 @@ public class FeatureRequestHandler {
     @Inject
     private ContactRoleFacade _roleFacade;
     @Inject
-    private CustomerFacade _customerFacade;
-    @Inject
     private ConfigFacade _config;
 
     public boolean handleFeatureRequest(Account account, Feature feature) {
@@ -60,12 +55,11 @@ public class FeatureRequestHandler {
         featureRequest.setAccountId(account.getId());
         featureRequest.setFeature(feature);
         featureRequest.setApprovalKey(UUID.randomUUID().toString());
-        if (sendApprovalRequestMail(account, featureRequest)) {
-            featureRequest.tagCreationDate();
-            _facade.save(featureRequest);
-            return true;
-        }
-        return false;
+        sendApprovalRequestMail(account, featureRequest);
+        featureRequest.tagCreationDate();
+        _facade.save(featureRequest);
+
+        return true;
     }
 
     @Inject
