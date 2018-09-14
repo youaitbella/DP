@@ -185,6 +185,7 @@ public enum Pages {
     PartKhComparison("/KhComparison/PartKhComparison"),
     //
     InsuranceKhComparisonSummary("/Insurance/KhComparison/Summary"),
+    PartHospitalComparisonInsurance("/Insurance/KhComparison/PartHospitalComparison"),
     InsuranceKhComparisonEdit("/Insurance/KhComparison/Edit"),
     //
     NotAllowed("/Common/NotAllowed"),

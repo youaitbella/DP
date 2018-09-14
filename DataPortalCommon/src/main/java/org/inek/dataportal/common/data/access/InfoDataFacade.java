@@ -13,7 +13,6 @@ import javax.persistence.criteria.Root;
 import org.inek.dataportal.common.data.common.ListFeature;
 import org.inek.dataportal.common.data.common.ListWorkflowStatus;
 import org.inek.dataportal.common.data.common.TrashMail;
-import org.inek.dataportal.common.enums.WorkflowStatus;
 
 /**
  * This is a facade to various informative data
@@ -35,7 +34,7 @@ public class InfoDataFacade extends AbstractDataAccess {
     }
 
     public void saveListFeature(ListFeature listFeature) {
-        persist(listFeature);
+        merge(listFeature);
     }
 
     public List<ListWorkflowStatus> findAllListWorkflowStatus(){
@@ -43,6 +42,6 @@ public class InfoDataFacade extends AbstractDataAccess {
     }
 
     public void saveListWorkflowStatus(ListWorkflowStatus listWorkflowStatus) {
-        persist(listWorkflowStatus);
+        merge(listWorkflowStatus);
     }
 }

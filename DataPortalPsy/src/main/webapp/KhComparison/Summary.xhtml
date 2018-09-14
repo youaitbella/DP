@@ -67,7 +67,11 @@
             <pf:commandButton value="Neuen Datensatz erstellen"
                               action="#{summary.khComparisonOpen()}"
                               rendered="#{summary.isCreateEntryAllowed()}"
-                              styleClass="btnPsy"/>
+                              styleClass="btnPsy"
+                              immediate="true">
+                <f:param name="id" value="new"/>
+            </pf:commandButton>
+            
             <div class="ui-g ui-fluid" >
                 <div class="ui-g-12">
                     <h2>Strukturinformationen</h2>

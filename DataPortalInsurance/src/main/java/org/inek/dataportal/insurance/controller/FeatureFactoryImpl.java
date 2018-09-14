@@ -11,6 +11,7 @@ import org.inek.dataportal.common.controller.IFeatureController;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.insurance.InsuranceController;
+import org.inek.dataportal.insurance.khcomparison.controller.HospitalComparisonInsuranceController;
 
 /**
  *
@@ -25,6 +26,8 @@ public class FeatureFactoryImpl implements FeatureFactory, Serializable{
         switch (feature) {
             case INSURANCE:
                 return new InsuranceController(sessionController);
+            case HC_INSURANCE:
+                return new HospitalComparisonInsuranceController(sessionController);
             default:
                 throw new IllegalArgumentException("no such controller");
         }

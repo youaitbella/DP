@@ -32,6 +32,7 @@ import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.common.data.adm.MailTemplate;
 import org.inek.dataportal.common.enums.CustomerTyp;
 import org.inek.dataportal.common.enums.Pages;
+import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.mail.Mailer;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
@@ -69,8 +70,8 @@ public class Edit {
     public void init() {
         String id = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id");
         if (id == null) {
-            _aebBaseInformation = createNewAebBaseInformation();
-            _aebBaseInformation.setCreatedFrom(_sessionController.getAccountId());
+            Utils.navigate(Pages.NotAllowed.RedirectURL());
+            return;
         } else if ("new".equals(id)) {
             _aebBaseInformation = createNewAebBaseInformation();
             _aebBaseInformation.setCreatedFrom(_sessionController.getAccountId());
@@ -138,6 +139,10 @@ public class Edit {
 
         info.setAebPageB1(new AEBPageB1());
         info.getAebPageB1().setBaseInformation(info);
+        if (getAllowedIks().size() == 1){
+            int ik = getAllowedIks().stream().findFirst().get();
+            info.setIk(ik);
+        }
         return info;
     }
 
@@ -322,9 +327,6 @@ public class Edit {
     public Set<Integer> getAllowedIks() {
         Set<Integer> allowedIks = _accessManager.ObtainIksForCreation(Feature.HC_HOSPITAL);
         Set<Integer> iks = _aebFacade.retrievePossibleIks(allowedIks, CustomerTyp.Hospital);
-        if (_aebBaseInformation.getIk() != 0) {
-            iks.add(_aebBaseInformation.getIk());
-        }
         return iks;
     }
 
