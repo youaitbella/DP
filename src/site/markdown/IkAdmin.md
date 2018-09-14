@@ -71,6 +71,15 @@ Id, FeatureId, UserIK, DataIK
 UserIK ist dabei das IK für welches der Anwender arbeitet, DataIK das IK für welches Daten erfasst werden können.
 Id ist ein zusätzlich eingeführter technischer Schlüssel (PK).
 
+Beim Krankenhausvergleich verhandelt ein Kassenmitarbeiter mit mehreren Krankenhäusern, deren Daten ersehen und ggf. (weil federführend) bearbeiten darf.
+Diese Zuständigkeit für mehrere Krankenhäuser wird ebenfalls vom IK-Admin verwaltet.
+Damit dies künftig auch für andere Funktionen genutzt werden kann, wird dies unter Angabe eine Feature gespeichert.
+
+Id, UserId, FeatureId, UserIK, ResponsibleIK
+
+Der Anwender ist für eine bestimmte Funktion und IK Zuständig für andere IK.
+
+
 ### weitere Funktionen
 
 - Der IK-Admin erhält eine Übersicht mit allen der IK zugeordneten Anwenderkonten
