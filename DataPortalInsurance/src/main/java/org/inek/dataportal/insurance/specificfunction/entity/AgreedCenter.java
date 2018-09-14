@@ -33,7 +33,7 @@ public class AgreedCenter implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "acId")
-    private Integer _id = -1;
+    private Integer _id;
 
     public int getId() {
         return _id;
@@ -295,7 +295,7 @@ public class AgreedCenter implements Serializable {
 
     @Override
     public String toString() {
-        return "RequestProjectedCenter[id=" + _id + "]";
+        return "AgreedCenter[id=" + _id + "]";
     }
     // </editor-fold>
 

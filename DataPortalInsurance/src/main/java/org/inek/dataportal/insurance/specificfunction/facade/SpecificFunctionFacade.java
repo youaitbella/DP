@@ -110,22 +110,6 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
             return agreement;
         }
 
-        for (AgreedCenter item : agreement.getAgreedCenters()) {
-            if (item.getId() == -1) {
-                persist(item);
-            } else {
-                merge(item);
-            }
-        }
-
-        for (AgreedRemunerationKeys item : agreement.getRemunerationKeys()) {
-            if (item.getId() == -1) {
-                persist(item);
-            } else {
-                merge(item);
-            }
-        }
-
         return merge(agreement);
     }
 

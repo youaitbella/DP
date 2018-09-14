@@ -15,7 +15,7 @@ public class AgreedRemunerationKeys implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "arkId")
-    private Integer _id = -1;
+    private Integer _id;
 
     public int getId() {
         return _id;

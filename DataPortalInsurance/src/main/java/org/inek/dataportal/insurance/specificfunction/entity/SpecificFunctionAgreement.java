@@ -357,6 +357,7 @@ public class SpecificFunctionAgreement implements Serializable, StatusEntity {
     //<editor-fold defaultstate="collapsed" desc="Property AgreedCenter">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "acAgreedMasterId", referencedColumnName = "amId")
+    @OrderBy(value = "_sequence")
     @Documentation(name = "vereinbarte Kostenstellen", omitOnEmpty = true)
     private List<AgreedCenter> _agreedCenters = new Vector<>();
 
@@ -372,6 +373,7 @@ public class SpecificFunctionAgreement implements Serializable, StatusEntity {
     //<editor-fold defaultstate="collapsed" desc="Property AgreedRemunerationkeys">
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "arkSpecificFunctionAgreementId", referencedColumnName = "amId")
+    @OrderBy(value = "_number")
     private List<AgreedRemunerationKeys> _remunerationKeys = new ArrayList<>();
 
     public List<AgreedRemunerationKeys> getRemunerationKeys() {
