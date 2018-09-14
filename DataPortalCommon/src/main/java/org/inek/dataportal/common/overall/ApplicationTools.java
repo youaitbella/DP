@@ -54,6 +54,15 @@ public class ApplicationTools {
                 listFeature.setDescription(feature.getDescription());
                 _info.saveListFeature(listFeature);
             }
+            listFeatures.stream()
+                    .filter(f -> f.getId() == feature.getId())
+                    .filter(f -> !f.getName().equals(feature.name()) || !f.getDescription().equals(feature.
+                    getDescription()))
+                    .forEach(listFeature -> {
+                        listFeature.setName(feature.name());
+                        listFeature.setDescription(feature.getDescription());
+                        _info.saveListFeature(listFeature);
+                    });
         }
     }
 
