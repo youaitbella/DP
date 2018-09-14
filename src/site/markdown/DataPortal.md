@@ -119,6 +119,8 @@ Für Anforderungen einzelner Features wird auf die entsprechenden Dokumente verw
 
 [Kalkulationshaus](calc/CalculationHospital.md)
 
+[Krankenhausvergleich](Krankenhausvergleich.md)
+
 ### 3.3 Nicht funktionale Anforderungen
 
 * Kurze Antwortzeiten für die Anwender. Als Messlatte gilt hier < 1 Sek. bei Normallast und Nutzung einer DSL-Verbindung, < 2 Sek. bei höherem Datenaufkommen (100 Anwender parallel)
