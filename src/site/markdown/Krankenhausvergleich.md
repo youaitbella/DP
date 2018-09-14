@@ -33,7 +33,7 @@ Liegen Daten von beiden Partnern vor, so werden im Vergleich die Daten des prim�
 Insofern sind die Eingaben der beiden Partner getrennt zu erfassen und zu speichern.
 Insbesondere dürfen Korrekturen nur im "eigenen" Datenstand erfolgen.
 
-Die Berechtigung der Anwender erfolgt grundsätzlich über einen IK-Admin.
+Die Berechtigung der Anwender erfolgt grundsätzlich über einen IK-Admin.  
 
 Krankenhaus lieferverplichtet:
 Der IK-Admin des Krankenhauses legt auf Ebene eines IK fest, welcher Anwender mit welchen Rechten die zu dem betreffenden IK gehörenden Daten bearbeiten darf.
