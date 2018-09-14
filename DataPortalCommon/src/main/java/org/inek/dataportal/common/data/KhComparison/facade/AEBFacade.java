@@ -138,7 +138,8 @@ public class AEBFacade extends AbstractDataAccess {
         return query.getResultList();
     }
 
-    public Set<Pair<Integer, Integer>> retrieveIkYearPairs(Collection<Integer> iks, CustomerTyp typ) {
+    private Set<Pair<Integer, Integer>> retrieveIkYearPairs(Collection<Integer> iks, CustomerTyp typ) {
+        if(iks.isEmpty()){return new HashSet<>();}
         String ikList = iks.stream().map(ik -> "" + ik).collect(Collectors.joining(", "));
         String sql = "select distinct biIk, biDataYear \n"
                 + "from psy.AEBBaseInformation \n"
