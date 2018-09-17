@@ -231,7 +231,7 @@ public class EditStructureInformation {
     }
 
     public Boolean canSave() {
-        return _accessManager.isReadOnly(Feature.HC_HOSPITAL,
+        return !_accessManager.isReadOnly(Feature.HC_HOSPITAL,
                 WorkflowStatus.New,
                 _sessionController.getAccountId(),
                 _structureInformation.getIk());

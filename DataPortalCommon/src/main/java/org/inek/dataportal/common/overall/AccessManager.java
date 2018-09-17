@@ -133,7 +133,7 @@ public class AccessManager implements Serializable {
             return iks;
         }
         iks = _ikCache.retriveResponsibleForIks(feature, _sessionController.getAccount(), iks);
-        if (feature.getIkReference() == IkReference.ByResposibilityAndCorrelation){
+        if (feature.getIkReference() == IkReference.ByResposibilityAndCorrelation) {
             iks = _ikCache.retriveCorreletedIks(feature, iks);
         }
         return iks;
@@ -196,22 +196,28 @@ public class AccessManager implements Serializable {
         if (state.getId() >= WorkflowStatus.Provided.getId()) {
             return true;
         }
+        if (feature.getManagedBy() != ManagedBy.None && ik <= 0) {
+            return true;
+        }
+        if (feature.getManagedBy() == ManagedBy.IkAdminOnly && !_ikCache.contains(ik)) {
+            return true;
+        }
         if (ik > 0) {
             Optional<AccessRight> right = obtainAccessRights(feature, r -> r.getIk() == ik).findFirst();
-            if (right.isPresent()) {
-                return !right.get().canWrite();
+            if (right.isPresent()) {   // nesting may be simplified according to #88
+                boolean readOnly = !right.get().canWrite();
+                if (readOnly || _ikCache.contains(ik)) {
+                    return readOnly;
+                }
             }
         }
-        if (feature == Feature.HC_HOSPITAL) {
-            return true;
-        } // temp. quick solution, see comment at ObtainIksForCreation and #88
 
         if (ownerId == _sessionController.getAccountId()) {
             return false;
         }
         CooperativeRight right = getAchievedRight(feature, ownerId, ik);
-        return !right.canWriteAlways() && !(state.getId() >= WorkflowStatus.ApprovalRequested.getId() && right.
-                canWriteCompleted());
+        return !right.canWriteAlways()
+                && !(state.getId() >= WorkflowStatus.ApprovalRequested.getId() && right.canWriteCompleted());
     }
 
     /**
