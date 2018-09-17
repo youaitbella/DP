@@ -11,6 +11,6 @@ package org.inek.dataportal.api.enums;
  */
 public enum IkReference {
     None,
-    Hospital,
-    Insurance;
+    Direct,
+    ByResposibility;
 }
