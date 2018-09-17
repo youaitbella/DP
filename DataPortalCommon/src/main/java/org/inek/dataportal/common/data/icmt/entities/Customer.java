@@ -7,7 +7,6 @@ package org.inek.dataportal.common.data.icmt.entities;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
-import java.util.logging.Logger;
 import javax.persistence.*;
 
 /**
@@ -17,7 +16,6 @@ import javax.persistence.*;
 @Entity
 @Table(name = "ccCustomer", catalog="CallCenterDB", schema="dbo")
 public class Customer implements Serializable {
-    private static final Logger LOGGER = Logger.getLogger("Customer");
 
     private static final long serialVersionUID = 1L;
 
@@ -54,12 +52,12 @@ public class Customer implements Serializable {
     @Column(name = "cuIK")
     private Integer _ik = -1;
 
-    public Integer getIK() {
+    public int getIK() {
         return _ik;
     }
 
-    public void setIK(Integer IK) {
-        this._ik = IK;
+    public void setIK(int IK) {
+        _ik = IK;
     }
     // </editor-fold>
 
@@ -76,19 +74,7 @@ public class Customer implements Serializable {
     }
     // </editor-fold>
     
-    // <editor-fold defaultstate="collapsed" desc="Property Town">
-    @Column(name = "cuCity")
-    private String _town;
-
-    public String getTown() {
-        return _town;
-    }
-
-    public void setTown(String town) {
-        this._town = town;
-    }
-    // </editor-fold>
-    
+    // <editor-fold defaultstate="collapsed" desc="Property Street">
     @Column(name = "cuStreet")
     private String _street;
 
@@ -97,9 +83,11 @@ public class Customer implements Serializable {
     }
 
     public void setStreet(String street) {
-        this._street = street;
+        _street = street;
     }
+    // </editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc="Property PostCode">
     @Column(name = "cuPostCode")
     private String _postCode;
 
@@ -110,7 +98,34 @@ public class Customer implements Serializable {
     public void setPostCode(String postCode) {
         this._postCode = postCode;
     }
+    // </editor-fold>
        
+    // <editor-fold defaultstate="collapsed" desc="Property Town">
+    @Column(name = "cuCity")
+    private String _town;
+
+    public String getTown() {
+        return _town;
+    }
+
+    public void setTown(String town) {
+        _town = town;
+    }
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Property CustomerTypeId">
+    @Column(name = "cuCustomerTypeId")
+    private Integer _customerTypeId;
+
+    public int getIK() {
+        return _customerTypeId;
+    }
+
+    public void setIK(int customerTypeId) {
+        _customerTypeId = customerTypeId;
+    }
+    // </editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc="Property ObligateCalculationYear">
     @Column(name = "cuObligateCalculationYear")
     private int _obligateCalculationYear;
