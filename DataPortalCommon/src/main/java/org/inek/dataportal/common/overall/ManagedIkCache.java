@@ -59,11 +59,11 @@ public class ManagedIkCache {
                 .collect(Collectors.toSet());
     }
 
-    Set<Integer> retriveCorreletedIks(Feature feature, Set<Integer> iks) {
+    Set<Integer> retriveCorrelatedIks(Feature feature, Set<Integer> userIks, Set<Integer> requestedIks) {
         Set<Integer> correlatedIks = _ikCorrelations
                 .stream()
                 .filter(c -> c.getFeature() == feature)
-                .filter(c -> iks.contains(c.getUserIk()))
+                .filter(c -> userIks.contains(c.getUserIk()) && requestedIks.contains(c.getDataIk()))
                 .map(c -> c.getDataIk())
                 .collect(Collectors.toSet());
         return correlatedIks;

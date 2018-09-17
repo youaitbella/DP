@@ -132,11 +132,11 @@ public class AccessManager implements Serializable {
         if (feature.getIkReference() == IkReference.None || feature.getIkReference() == IkReference.Direct) {
             return iks;
         }
-        iks = _ikCache.retriveResponsibleForIks(feature, _sessionController.getAccount(), iks);
+        Set<Integer> responsibleForIks = _ikCache.retriveResponsibleForIks(feature, _sessionController.getAccount(), iks);
         if (feature.getIkReference() == IkReference.ByResposibilityAndCorrelation) {
-            iks = _ikCache.retriveCorreletedIks(feature, iks);
+            responsibleForIks = _ikCache.retriveCorrelatedIks(feature, iks, responsibleForIks);
         }
-        return iks;
+        return responsibleForIks;
     }
 
     public Set<Integer> retrieveAllManagedIks(Feature feature) {

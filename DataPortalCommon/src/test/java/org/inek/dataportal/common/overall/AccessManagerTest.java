@@ -109,7 +109,7 @@ public class AccessManagerTest {
         Set<Integer> correlatedIks = new HashSet<>();
         correlatedIks.add(unmanagedIk1);
         when(ikCache.retriveResponsibleForIks(Feature.HC_INSURANCE, userAccount, accountIks)).thenReturn(responibleForIks);
-        when(ikCache.retriveCorreletedIks(Feature.HC_INSURANCE, responibleForIks)).thenReturn(correlatedIks);
+        when(ikCache.retriveCorrelatedIks(Feature.HC_INSURANCE, accountIks, responibleForIks)).thenReturn(correlatedIks);
         AccessManager accessManager = new AccessManager(cooperationRightFacade, sessionController, ikCache);
         return accessManager;
     }
