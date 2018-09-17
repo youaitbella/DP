@@ -22,6 +22,7 @@ import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
+import org.inek.dataportal.common.data.ikadmin.entity.AccountResponsibility;
 import org.inek.dataportal.common.data.ikadmin.entity.IkCorrelation;
 import org.inek.dataportal.common.data.ikadmin.entity.User;
 
@@ -123,13 +124,16 @@ public class IkAdminFacade extends AbstractDataAccess {
         return query.getResultList();
     }
 
-    public Map<Integer, Set<Integer>> loadAllCorrelatedIks() {
-        List<IkCorrelation> correlations = findAll(IkCorrelation.class);
-
-        Map<Integer, Set<Integer>> iks = correlations
-                .stream()
-                .collect(Collectors.groupingBy(c -> c.getUserIk(), mapping(IkCorrelation::getDataIk, toSet())));
-        return iks;
+    public List<IkCorrelation> loadAllCorrelations() {
+        return findAll(IkCorrelation.class);
     }
 
+    public List<AccountResponsibility> loadAccountResponsibilities (Feature feature, Account account, Set<Integer> accountIks){
+        String jpql = "select ar from AccountResponsibility ar where ar._userIk in :accountIks and ar._accountId = :accountId and ar._feature = :feature";
+        TypedQuery<AccountResponsibility> query = getEntityManager().createQuery(jpql, AccountResponsibility.class);
+        query.setParameter("accountIks", accountIks);
+        query.setParameter("accountId", account.getId());
+        query.setParameter("feature", feature);
+        return query.getResultList();
+    }
 }

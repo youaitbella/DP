@@ -21,6 +21,7 @@ import org.inek.dataportal.common.data.cooperation.entities.CooperationRight;
 import org.inek.dataportal.common.enums.CooperativeRight;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.api.enums.IkReference;
+import org.inek.dataportal.api.enums.ManagedBy;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.data.cooperation.facade.CooperationRightFacade;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
@@ -128,13 +129,16 @@ public class AccessManager implements Serializable {
 
     public Set<Integer> retrieveAllowedForCreationIks(Feature feature) {
         Set<Integer> iks = retrieveIkSet(feature, r -> r.getRight().canCreate());
-        if (feature.getIkReference() == IkReference.None || feature.getIkReference() == IkReference.Direct){
-        return iks;
+        if (feature.getIkReference() == IkReference.None || feature.getIkReference() == IkReference.Direct) {
+            return iks;
         }
-        iks = _ikCache.retriveResponsibleForIks(iks);
+        iks = _ikCache.retriveResponsibleForIks(feature, _sessionController.getAccount(), iks);
+        if (feature.getIkReference() == IkReference.ByResposibilityAndCorrelation){
+            iks = _ikCache.retriveCorreletedIks(feature, iks);
+        }
         return iks;
     }
-    
+
     public Set<Integer> retrieveAllManagedIks(Feature feature) {
         return retrieveIkSet(feature, r -> _ikCache.contains(r.getIk()));
     }
@@ -198,8 +202,10 @@ public class AccessManager implements Serializable {
                 return !right.get().canWrite();
             }
         }
-        if (feature == Feature.HC_HOSPITAL){return true;} // temp. quick solution, see comment at ObtainIksForCreation and #88
-        
+        if (feature == Feature.HC_HOSPITAL) {
+            return true;
+        } // temp. quick solution, see comment at ObtainIksForCreation and #88
+
         if (ownerId == _sessionController.getAccountId()) {
             return false;
         }
@@ -443,21 +449,7 @@ public class AccessManager implements Serializable {
     }
 
     public Set<Integer> ObtainIksForCreation(Feature feature) {
-        if (feature == Feature.HC_HOSPITAL) {
-            // todo:
-            // quick and dirty: HC_HOSPITAL needs to have an ik admin. 
-            // during the transition time we simply check for this feature
-            //
-            // solution 1: we add an appropriate property to the feature(s) and handle it here :: denied
-            //
-            // solution 2: Independly of ik admin we provide rights for every ik-user-feature combination :: accepted
-            //             default: if ik admin is present: true, else: false
-            //             There is no need to approve functions; instead InEK grants rights (like ik admin) for non-administered ik
-            //             Once this solution is implemented, we only need to return retrieveAllowedForCreationIks(feature);
-            //             and cut off the virtual "else" part
-            
-            // todo: 
-            // ### if we are member of an insurance, then the allowed iks depend on a list the insuranc provided to InEK ###
+        if (feature.getManagedBy() == ManagedBy.IkAdminOnly) {
             return retrieveAllowedForCreationIks(feature);
         }
 

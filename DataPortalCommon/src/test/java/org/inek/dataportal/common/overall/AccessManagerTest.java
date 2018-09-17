@@ -101,6 +101,15 @@ public class AccessManagerTest {
         when(ikCache.contains(unmanagedIk1)).thenReturn(false);
         when(ikCache.contains(unmanagedIk2)).thenReturn(false);
         when(ikCache.contains(unmanagedIk3)).thenReturn(false);
+        Set<Integer> accountIks = new HashSet<>();
+        accountIks.add(allowedIk);
+        Set<Integer> responibleForIks = new HashSet<>();
+        responibleForIks.add(unmanagedIk1);
+        responibleForIks.add(unmanagedIk2);
+        Set<Integer> correlatedIks = new HashSet<>();
+        correlatedIks.add(unmanagedIk1);
+        when(ikCache.retriveResponsibleForIks(Feature.HC_INSURANCE, userAccount, accountIks)).thenReturn(responibleForIks);
+        when(ikCache.retriveCorreletedIks(Feature.HC_INSURANCE, responibleForIks)).thenReturn(correlatedIks);
         AccessManager accessManager = new AccessManager(cooperationRightFacade, sessionController, ikCache);
         return accessManager;
     }
@@ -265,6 +274,26 @@ public class AccessManagerTest {
         assertThat(result).isNotNull().isNotEmpty().containsOnly(allowedIk);
     }
 
+    @Test
+    public void retrieveAllowedForCreationIksReturnsOnlyOneCorrelatedAndResponsibleIK() {
+        List<AccessRight> accessRights = new ArrayList<>();
+        accessRights.add(new AccessRight(userAccountId, allowedIk, Feature.HC_INSURANCE, Right.Create));
+        accessRights.add(new AccessRight(userAccountId, deniedIk, Feature.HC_INSURANCE, Right.Deny));
+        AccessManager accessManager = obtainAccessManager(accessRights);
+        Set<Integer> result = accessManager.retrieveAllowedForCreationIks(Feature.HC_INSURANCE);
+        assertThat(result).isNotNull().isNotEmpty().containsOnly(unmanagedIk1);
+    }
+    
+    @Test
+    public void retrieveAllowedForCreationIksReturnsEmptyForNoneIkWithCreateRight() {
+        List<AccessRight> accessRights = new ArrayList<>();
+        accessRights.add(new AccessRight(userAccountId, allowedIk, Feature.HC_INSURANCE, Right.Write));
+        accessRights.add(new AccessRight(userAccountId, deniedIk, Feature.HC_INSURANCE, Right.Create));
+        AccessManager accessManager = obtainAccessManager(accessRights);
+        Set<Integer> result = accessManager.retrieveAllowedForCreationIks(Feature.HC_INSURANCE);
+        assertThat(result).isNotNull().isEmpty();
+    }
+    
     @Test
     public void retrieveAllManagedIksReturnsAllIkForFeature() {
         List<AccessRight> accessRights = new ArrayList<>();

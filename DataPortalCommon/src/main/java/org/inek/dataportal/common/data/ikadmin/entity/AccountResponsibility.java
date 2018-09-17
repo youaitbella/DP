@@ -25,7 +25,7 @@ public class AccountResponsibility implements Serializable {
     public AccountResponsibility(int accountId, Feature feature, int userIk, int dataIk){
         _accountId = accountId;
         _feature = feature;
-        _accountId = userIk;
+        _userIk = userIk;
         _dataIk = dataIk;
     }
     
@@ -46,7 +46,7 @@ public class AccountResponsibility implements Serializable {
     
     // <editor-fold defaultstate="collapsed" desc="Property AccountId">
     @Column(name = "arAccountId")
-    private int _accountId = -1;
+    private int _accountId;
 
     public int getAccountId() {
         return _accountId;
@@ -73,7 +73,7 @@ public class AccountResponsibility implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property UserIk">
     @Column(name = "arUserIk")
-    private int _userIk = -1;
+    private int _userIk;
 
     public int getUserIk() {
         return _userIk;
@@ -86,7 +86,7 @@ public class AccountResponsibility implements Serializable {
   
     // <editor-fold defaultstate="collapsed" desc="Property DataIk">
     @Column(name = "arDataIk")
-    private int _dataIk = -1;
+    private int _dataIk;
 
     public int getDataIk() {
         return _dataIk;
