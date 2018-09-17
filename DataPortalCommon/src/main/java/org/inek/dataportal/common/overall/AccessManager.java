@@ -192,6 +192,7 @@ public class AccessManager implements Serializable {
         return isReadOnly(feature, state, ownerId, -1);
     }
 
+    @SuppressWarnings("CyclomaticComplexity")  // todo: remove annotation after implementing #88
     public boolean isReadOnly(Feature feature, WorkflowStatus state, int ownerId, int ik) {
         if (state.getId() >= WorkflowStatus.Provided.getId()) {
             return true;
