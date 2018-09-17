@@ -27,7 +27,6 @@ import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.api.enums.FeatureState;
 import org.inek.dataportal.api.enums.IkReference;
 import org.inek.dataportal.common.data.AbstractDataAccess;
-import org.inek.dataportal.common.data.icmt.facade.CustomerFacade;
 import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
 import org.inek.dataportal.common.enums.Right;
@@ -49,8 +48,6 @@ public class AccountFacade extends AbstractDataAccess {
 
     @Inject
     private AccountPwdFacade _accountPwdFacade;
-    @Inject
-    private CustomerFacade _customerFacade;
     @Inject
     private FeatureRequestHandler _requestHandler;
     @Inject

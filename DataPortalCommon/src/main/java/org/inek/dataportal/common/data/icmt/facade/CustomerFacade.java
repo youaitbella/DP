@@ -28,7 +28,7 @@ public class CustomerFacade extends AbstractFacade<Customer> {
         TypedQuery<Customer> q = getEntityManager().createQuery(query);
         try {
             return q.getSingleResult();
-        } catch (NoResultException e) {
+        } catch (Exception e) {
             Customer customer = new Customer();
             customer.setIK(ik);
             String ikString = "" + ik;
@@ -78,7 +78,7 @@ public class CustomerFacade extends AbstractFacade<Customer> {
         try {
             q.getSingleResult();
             return true;
-        } catch (NoResultException e) {
+        } catch (Exception e) {
             return false;
         }
     }
