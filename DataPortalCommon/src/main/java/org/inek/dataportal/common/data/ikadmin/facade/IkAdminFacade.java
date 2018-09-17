@@ -129,7 +129,8 @@ public class IkAdminFacade extends AbstractDataAccess {
     }
 
     public List<AccountResponsibility> loadAccountResponsibilities (Feature feature, Account account, Set<Integer> accountIks){
-        String jpql = "select ar from AccountResponsibility ar where ar._userIk in :accountIks and ar._accountId = :accountId and ar._feature = :feature";
+        String jpql = "select ar from AccountResponsibility ar "
+                + "where ar._userIk in :accountIks and ar._accountId = :accountId and ar._feature = :feature";
         TypedQuery<AccountResponsibility> query = getEntityManager().createQuery(jpql, AccountResponsibility.class);
         query.setParameter("accountIks", accountIks);
         query.setParameter("accountId", account.getId());
