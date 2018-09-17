@@ -12,5 +12,6 @@ package org.inek.dataportal.api.enums;
 public enum IkReference {
     None,
     Direct,
-    ByResposibility;
+    ByResposibility,
+    ByResposibilityAndCorrelation;
 }

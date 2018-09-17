@@ -5,7 +5,15 @@
  */
 package org.inek.dataportal.common.data.ikadmin.facade;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.mapping;
+import static java.util.stream.Collectors.toSet;
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
@@ -14,6 +22,7 @@ import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
+import org.inek.dataportal.common.data.ikadmin.entity.IkCorrelation;
 import org.inek.dataportal.common.data.ikadmin.entity.User;
 
 /**
@@ -74,8 +83,10 @@ public class IkAdminFacade extends AbstractDataAccess {
 
     /**
      * Checks for a list of iks, which of them are managed by an ik admin
+     *
      * @param iks
-     * @return managedIks 
+     *
+     * @return managedIks
      */
     public List<Integer> dertermineManagegIks(List<Integer> iks) {
         String jpql = "select distinct a._ik from AccountIkAdmin a where a._ik in :iks";
@@ -110,6 +121,15 @@ public class IkAdminFacade extends AbstractDataAccess {
         String jpql = "select distinct a._ik from AccountIkAdmin a";
         TypedQuery<Integer> query = getEntityManager().createQuery(jpql, Integer.class);
         return query.getResultList();
+    }
+
+    public Map<Integer, Set<Integer>> loadAllCorrelatedIks() {
+        List<IkCorrelation> correlations = findAll(IkCorrelation.class);
+
+        Map<Integer, Set<Integer>> iks = correlations
+                .stream()
+                .collect(Collectors.groupingBy(c -> c.getUserIk(), mapping(IkCorrelation::getDataIk, toSet())));
+        return iks;
     }
 
 }

@@ -20,10 +20,7 @@ public class CustomerFacade extends AbstractFacade<Customer> {
         super(Customer.class);
     }
 
-    public Customer getCustomerByIK(Integer ik) {
-        if (ik == null) {
-            return new Customer();
-        }
+    public Customer getCustomerByIK(int ik) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Customer> query = cb.createQuery(Customer.class);
         Root<Customer> root = query.from(Customer.class);

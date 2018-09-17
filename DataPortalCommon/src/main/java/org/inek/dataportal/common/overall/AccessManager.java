@@ -20,6 +20,7 @@ import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.data.cooperation.entities.CooperationRight;
 import org.inek.dataportal.common.enums.CooperativeRight;
 import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.api.enums.IkReference;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.data.cooperation.facade.CooperationRightFacade;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
@@ -126,9 +127,14 @@ public class AccessManager implements Serializable {
     }
 
     public Set<Integer> retrieveAllowedForCreationIks(Feature feature) {
-        return retrieveIkSet(feature, r -> r.getRight().canCreate());
+        Set<Integer> iks = retrieveIkSet(feature, r -> r.getRight().canCreate());
+        if (feature.getIkReference() == IkReference.None || feature.getIkReference() == IkReference.Direct){
+        return iks;
+        }
+        iks = _ikCache.retriveResponsibleForIks(iks);
+        return iks;
     }
-
+    
     public Set<Integer> retrieveAllManagedIks(Feature feature) {
         return retrieveIkSet(feature, r -> _ikCache.contains(r.getIk()));
     }

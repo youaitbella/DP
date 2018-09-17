@@ -31,8 +31,8 @@ public enum Feature {
     IK_ADMIN(19, "IK-Administration", ManagedBy.None, PortalType.BASE, IkReference.None, Selectable.No, Shareable.No),
     HC_HOSPITAL(20, "Krankenhausvergleich (Funktionen für Krankenhaus)",
             ManagedBy.IkAdminOnly, PortalType.PSY, IkReference.Direct, Selectable.Yes, Shareable.No),
-    HC_INSURANCE(21, "Krankenhausvergleich (Funktionen für Krankenkassen)",
-            ManagedBy.IkAdminOnly, PortalType.INSURANCE, IkReference.ByResposibility, Selectable.Yes, Shareable.No);
+    HC_INSURANCE(21, "Krankenhausvergleich (Funktionen für Krankenkasse)",
+            ManagedBy.IkAdminOnly, PortalType.INSURANCE, IkReference.ByResposibilityAndCorrelation, Selectable.Yes, Shareable.No);
 
     Feature(int id, String description, ManagedBy managedBy, PortalType portalType,
             IkReference ikReference, Selectable selectable, Shareable shareable) {
