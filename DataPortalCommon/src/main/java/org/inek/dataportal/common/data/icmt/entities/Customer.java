@@ -117,11 +117,11 @@ public class Customer implements Serializable {
     @Column(name = "cuCustomerTypeId")
     private Integer _customerTypeId;
 
-    public int getIK() {
+    public int getCustomerTypeId() {
         return _customerTypeId;
     }
 
-    public void setIK(int customerTypeId) {
+    public void setCustomerTypeId(int customerTypeId) {
         _customerTypeId = customerTypeId;
     }
     // </editor-fold>
