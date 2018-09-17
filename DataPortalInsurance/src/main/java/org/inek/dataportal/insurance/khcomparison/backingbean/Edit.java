@@ -141,7 +141,7 @@ public class Edit {
 
         info.setAebPageB1(new AEBPageB1());
         info.getAebPageB1().setBaseInformation(info);
-        if (getAllowedIks().size() == 1){
+        if (getAllowedIks().size() == 1) {
             int ik = getAllowedIks().stream().findFirst().get();
             info.setIk(ik);
         }
@@ -257,7 +257,8 @@ public class Edit {
                 _dialogController.showInfoDialog("Upload abgeschlossen", "Ihre Daten wurden erfolgreich hochgeladen");
             }
         } catch (Exception ex) {
-            _dialogController.showWarningDialog("Upload fehlgeschlagen", "Fehler beim Upload. Bitte versuchen Sie es erneut");
+            _dialogController.
+                    showWarningDialog("Upload fehlgeschlagen", "Fehler beim Upload. Bitte versuchen Sie es erneut");
         }
     }
 
@@ -327,7 +328,7 @@ public class Edit {
     }
 
     public Set<Integer> getAllowedIks() {
-                Set<Integer> allowedIks = _accessManager.ObtainIksForCreation(Feature.HC_INSURANCE);
+        Set<Integer> allowedIks = _accessManager.ObtainIksForCreation(Feature.HC_INSURANCE);
         Set<Integer> iks = _aebFacade.retrievePossibleIks(allowedIks, CustomerTyp.Insurance);
         return iks;
 

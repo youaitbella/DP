@@ -1,6 +1,5 @@
 package org.inek.idservice;
 
-import org.inek.idservice.IdService;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -19,7 +18,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author muellermi
  */
-public class BroadcastTest {
+public class CI_BroadcastTest {
 
     private static final String ID = "12345";
     private static final int DELAY = 10;

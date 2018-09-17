@@ -21,7 +21,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author lautenti
  */
-public class AccountRequestFacadeTest {
+public class CI_AccountRequestFacadeTest {
 
     private static EntityManager em;
     private static EntityTransaction transaction;
@@ -50,7 +50,7 @@ public class AccountRequestFacadeTest {
         return dbUrl.substring(0, indexOf);
     }
 
-    public AccountRequestFacadeTest() {
+    public CI_AccountRequestFacadeTest() {
     }
 
     @Test

@@ -82,51 +82,6 @@
                 <version>3.2.0</version>
             </plugin>
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>3.0.0</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                        <configuration>
-                            <suppressionsLocation>checkstyle-suppressions.xml</suppressionsLocation>
-                            <suppressionsFileExpression>checkstyle.suppressions.file</suppressionsFileExpression>
-                            <configLocation>checkstyle-int-config.xml</configLocation>
-                            <sourceDirectories>
-                                <sourceDirectory>src/main/java</sourceDirectory>
-                            </sourceDirectories>
-                            <consoleOutput>true</consoleOutput>
-                            <failsOnError>true</failsOnError>
-                            <failOnViolation>true</failOnViolation>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-pmd-plugin</artifactId>
-                <version>3.7</version>
-                <configuration>
-                    <rulesets>
-                        <!-- Two rule sets that come bundled with PMD -->
-                        <!--                        <ruleset>/rulesets/java/braces.xml</ruleset>
-                        <ruleset>/rulesets/java/naming.xml</ruleset>-->
-                        <ruleset>/rulesets/java/javabeans.xml</ruleset>
-                    </rulesets>
-                </configuration>
-                <!--                <executions>
-                    <execution>
-                        <goals>
-                            <goal>check</goal>
-                            <goal>cpd-check</goal>
-                        </goals>
-                    </execution>
-                </executions>-->
-            </plugin>
 
         </plugins>
 
@@ -206,6 +161,52 @@
                                 </goals>
                             </execution>
                         </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-checkstyle-plugin</artifactId>
+                        <version>3.0.0</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>check</goal>
+                                </goals>
+                                <configuration>
+                                    <suppressionsLocation>checkstyle-suppressions.xml</suppressionsLocation>
+                                    <suppressionsFileExpression>checkstyle.suppressions.file</suppressionsFileExpression>
+                                    <configLocation>checkstyle-int-config.xml</configLocation>
+                                    <sourceDirectories>
+                                        <sourceDirectory>src/main/java</sourceDirectory>
+                                    </sourceDirectories>
+                                    <consoleOutput>true</consoleOutput>
+                                    <failsOnError>true</failsOnError>
+                                    <failOnViolation>true</failOnViolation>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-pmd-plugin</artifactId>
+                        <version>3.7</version>
+                        <configuration>
+                            <rulesets>
+                                <!-- Two rule sets that come bundled with PMD -->
+                                <!--                        <ruleset>/rulesets/java/braces.xml</ruleset>
+                                <ruleset>/rulesets/java/naming.xml</ruleset>-->
+                                <ruleset>/rulesets/java/javabeans.xml</ruleset>
+                            </rulesets>
+                        </configuration>
+                        <!--                <executions>
+                            <execution>
+                                <goals>
+                                    <goal>check</goal>
+                                    <goal>cpd-check</goal>
+                                </goals>
+                            </execution>
+                        </executions>-->
                     </plugin>
 
                 </plugins>

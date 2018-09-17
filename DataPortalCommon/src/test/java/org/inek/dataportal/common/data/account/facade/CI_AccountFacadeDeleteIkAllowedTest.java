@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author lautenti
  */
-public class AccountFacadeDeleteIkAllowedTest {
+public class CI_AccountFacadeDeleteIkAllowedTest {
 
     private static EntityManager em;
     private static EntityTransaction transaction;
@@ -53,7 +53,7 @@ public class AccountFacadeDeleteIkAllowedTest {
         return dbUrl.substring(0, indexOf);
     }
 
-    public AccountFacadeDeleteIkAllowedTest() {
+    public CI_AccountFacadeDeleteIkAllowedTest() {
     }
 
     @Test
