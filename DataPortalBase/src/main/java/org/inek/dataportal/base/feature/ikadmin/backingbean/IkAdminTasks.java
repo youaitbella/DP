@@ -167,7 +167,7 @@ public class IkAdminTasks implements Serializable {
             return features;
         }
         for (Feature feature : Feature.values()) {
-            if (feature.getIkReference() != IkReference.Hospital) {
+            if (feature.getIkReference() == IkReference.None) {
                 continue;
             }
             if (_accessRights.stream().anyMatch(r -> r.getAccountId() == _account.getId() && r.getFeature() == feature)) {

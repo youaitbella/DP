@@ -152,7 +152,7 @@ public class AccountFacade extends AbstractDataAccess {
     public Account updateAccount(Account account) {
         for (AccountFeature accFeature : account.getFeatures()) {
             if (accFeature.getFeatureState() == FeatureState.NEW) {
-                if (accFeature.getFeature().getIkReference() == IkReference.Hospital
+                if (accFeature.getFeature().getIkReference() != IkReference.None
                         && updateIfManaged(account, accFeature)) {
                     continue;
                 }

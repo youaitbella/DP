@@ -141,7 +141,7 @@ public class IkAdmin implements Serializable {
         List<Account> accounts = _accountFacade.getAccounts4Ik(ik);
         for (Account account : accounts) {
             for (AccountFeature feature : account.getFeatures()) {
-                if (feature.getFeature().getIkReference() != IkReference.Hospital
+                if (feature.getFeature().getIkReference() == IkReference.None
                         || accessRights
                                 .stream()
                                 .anyMatch(ar -> ar.getAccountId() == account.getId() && ar.getFeature() == feature.getFeature())) {
