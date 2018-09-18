@@ -57,7 +57,7 @@ public class AccountInfo implements Serializable {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property AccountEmail">
-    @Column(name = "acEmail")
+    @Column(name = "acMail")
     private String _accountEmail;
 
     public String getAccountEmail() {
