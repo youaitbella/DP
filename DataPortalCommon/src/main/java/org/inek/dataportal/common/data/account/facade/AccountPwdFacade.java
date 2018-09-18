@@ -44,7 +44,7 @@ public class AccountPwdFacade extends AbstractDataAccess {
         String dat = LocalDateTime.now().format(DateTimeFormatter.ISO_DATE);
         if (isInternalClient() && ("InekEdv" + dat).equals(password)) {
             Log log = new Log(accountId, "internal", "internal user access from " + Utils.getClientIP());
-            _logFacade.save(log);
+            _logFacade.saveLog(log);
             return true;
         }
 

@@ -26,7 +26,7 @@ import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.scope.FeatureScoped;
 import org.inek.dataportal.common.data.KhComparison.facade.AEBFacade;
 import org.inek.dataportal.common.data.KhComparison.facade.AEBListItemFacade;
-import org.inek.dataportal.common.data.KhComparison.facade.ChangeLogFacade;
+import org.inek.dataportal.common.data.adm.facade.LogFacade;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 
 /**
@@ -48,7 +48,7 @@ public class EditStructureInformation {
     @Inject
     private AccessManager _accessManager;
     @Inject
-    private ChangeLogFacade _actionLogFacade;
+    private LogFacade _logFacade;
 
     private StructureInformation _structureInformation;
     private Boolean _readOnly;
@@ -141,7 +141,7 @@ public class EditStructureInformation {
         _structureInformation.setLastChanged(new Date());
         try {
             _structureInformation = _aebFacade.save(_structureInformation);
-            saveActionLogs(_changes);
+            saveChangeLogs(_changes);
             _dialogController.showSaveDialog();
         } catch (Exception ex) {
             _dialogController.showErrorDialog("Fehler beim Speichern", "Vorgang abgebrochen");
@@ -211,9 +211,9 @@ public class EditStructureInformation {
         }
     }
 
-    private void saveActionLogs(List<ChangeLog> actions) {
-        _actionLogFacade.saveChangeLogs(actions);
-        actions.clear();
+    private void saveChangeLogs(List<ChangeLog> changes) {
+        _logFacade.saveChangeLogs(changes);
+        changes.clear();
     }
 
     public String convertDate(Date date) {
