@@ -62,7 +62,7 @@
                               onclick="PF('dialogValidFrom').show(); changeDialogColor('info');"
                               rendered="#{(!editStructureInformation.isReadOnly() and editStructureInformation.canSave()) or editStructureInformation.structureInformation.id eq 0}">
                 <pf:confirm header="Wollen Sie inhaltlich Daten ändern, die ab/seit einem bestimmten Zeitraum gültig sind?"
-                            message="Sofern Sie nur inhaltliche Daten ändern wollen klicken Sie bitte auf den Speichern Button am Ende der Strukturinformationen" />
+                            message="Sofern Sie nur redaktionelle Änderungen (z.B. Korrekturen) vornehmen wollen, brechen Sie diesen Vorgang mittels 'nein' ab und ändern die Daten ohne Angabe einer neuen Gültigkeit." />
             </pf:commandButton>
         </div>
         <div class="ui-g-2">
