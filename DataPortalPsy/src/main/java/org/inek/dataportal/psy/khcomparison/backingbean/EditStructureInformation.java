@@ -26,7 +26,7 @@ import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.scope.FeatureScoped;
 import org.inek.dataportal.common.data.KhComparison.facade.AEBFacade;
 import org.inek.dataportal.common.data.KhComparison.facade.AEBListItemFacade;
-import org.inek.dataportal.common.data.KhComparison.facade.ActionLogFacade;
+import org.inek.dataportal.common.data.KhComparison.facade.ChangeLogFacade;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 
 /**
@@ -48,7 +48,7 @@ public class EditStructureInformation {
     @Inject
     private AccessManager _accessManager;
     @Inject
-    private ActionLogFacade _actionLogFacade;
+    private ChangeLogFacade _actionLogFacade;
 
     private StructureInformation _structureInformation;
     private Boolean _readOnly;
@@ -212,7 +212,7 @@ public class EditStructureInformation {
     }
 
     private void saveActionLogs(List<ChangeLog> actions) {
-        _actionLogFacade.saveActionLogs(actions);
+        _actionLogFacade.saveChangeLogs(actions);
         actions.clear();
     }
 

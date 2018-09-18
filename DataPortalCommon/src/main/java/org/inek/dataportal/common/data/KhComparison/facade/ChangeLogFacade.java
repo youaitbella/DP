@@ -16,10 +16,10 @@ import org.inek.dataportal.common.data.adm.ChangeLog;
  * @author lautenti
  */
 @Stateless
-public class ActionLogFacade extends AbstractDataAccess {
+public class ChangeLogFacade extends AbstractDataAccess {
 
     @Transactional
-    public void saveActionLogs(List<ChangeLog> actions) {
+    public void saveChangeLogs(List<ChangeLog> actions) {
         for (ChangeLog ac : actions) {
             if (ac.getId() == 0) {
                 persist(ac);
