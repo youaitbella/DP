@@ -253,6 +253,14 @@
     padding-bottom: 4px !important;
 }
 
+.inekFieldset .ui-icon-plusthick {
+    background-position: -32px -16px;
+}
+
+.inekFieldset .ui-icon-minusthick {
+    background-position: -64px -16px;
+}
+
 .inekFieldsetDrg {
     background-color: transparent;
     margin-bottom: 10px;

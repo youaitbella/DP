@@ -54,13 +54,16 @@
                           style="text-align: right;"
                           readonly="true" />
         </div>
-        <div class="ui-g-3">
+        <div class="ui-g-3" onclick="changeDialogColor('info')">
             <pf:commandButton style="margin-top: 10px;"
                               styleClass="btnPsy"
                               value="Neue Gültigkeit eintragen"
                               update="@form"
                               onclick="PF('dialogValidFrom').show(); changeDialogColor('info');"
-                              rendered="#{(!editStructureInformation.isReadOnly() and editStructureInformation.canSave()) or editStructureInformation.structureInformation.id eq 0}"/>
+                              rendered="#{(!editStructureInformation.isReadOnly() and editStructureInformation.canSave()) or editStructureInformation.structureInformation.id eq 0}">
+                <pf:confirm header="Wollen Sie inhaltlich Daten ändern, die ab/seit einem bestimmten Zeitraum gültig sind?"
+                            message="Sofern Sie nur inhaltliche Daten ändern wollen klicken Sie bitte auf den Speichern Button am Ende der Strukturinformationen" />
+            </pf:commandButton>
         </div>
         <div class="ui-g-2">
             <pf:outputLabel class="formLabel"
