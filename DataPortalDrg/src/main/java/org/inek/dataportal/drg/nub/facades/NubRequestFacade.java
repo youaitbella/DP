@@ -19,6 +19,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
+import javax.inject.Inject;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -26,7 +27,10 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.data.account.entities.Account;
+import org.inek.dataportal.common.data.adm.ActionLog;
+import org.inek.dataportal.common.data.adm.facade.LogFacade;
 import org.inek.dataportal.drg.nub.entities.NubFormerRequest;
 import org.inek.dataportal.drg.nub.entities.NubFormerRequestMerged;
 import org.inek.dataportal.drg.nub.entities.NubMethodInfo;
@@ -47,7 +51,6 @@ public class NubRequestFacade extends AbstractDataAccess {
     private static final String FIELD_ID = "_id";
     private static final String FIELD_STATUS = "_status";
     private static final String IK = "ik";
-    private static final String ACCOUNT_ID = "accountId";
     private static final String STATUS_HIGH = "statusHigh";
     private static final String STATUS_LOW = "statusLow";
     private static final String YEAR = "year";
@@ -58,6 +61,17 @@ public class NubRequestFacade extends AbstractDataAccess {
 
     public NubRequest findFresh(int id) {
         return super.findFresh(NubRequest.class, id);
+    }
+
+    private LogFacade _logFacade;
+
+    public LogFacade getLogFacade() {
+        return _logFacade;
+    }
+
+    @Inject
+    public void setLogFacade(LogFacade logFacade) {
+        _logFacade = logFacade;
     }
 
     public List<NubRequest> findAll(int accountId, DataSet dataSet, String filter) {
@@ -162,12 +176,19 @@ public class NubRequestFacade extends AbstractDataAccess {
         if (nubRequest.getStatus() == WorkflowStatus.Unknown) {
             nubRequest.setStatus(WorkflowStatus.New);
         }
-
         if (nubRequest.getId() == -1) {
             persist(nubRequest);
+            logAction(nubRequest);
             return nubRequest;
         }
+        logAction(nubRequest);
         return merge(nubRequest);
+    }
+
+    private void logAction(NubRequest nubRequest) {
+        ActionLog actionLog = new ActionLog(nubRequest.getAccountId(), Feature.NUB, nubRequest.getId(), nubRequest.
+                getStatus());
+        _logFacade.saveActionLog(actionLog);
     }
 
     public List<ProposalInfo> getNubRequestInfos(int accountId, int ik, int year, DataSet dataSet, String filter) {
@@ -412,8 +433,8 @@ public class NubRequestFacade extends AbstractDataAccess {
                         m.setName(nr.getName());
                         return m;
                     }).forEachOrdered((m) -> {
-                        list.add(m);
-                    });
+                list.add(m);
+            });
         }
 
         if (!maxYearOnly) {
@@ -431,8 +452,8 @@ public class NubRequestFacade extends AbstractDataAccess {
                             m.setName(nfr.getName());
                             return m;
                         }).forEachOrdered((m) -> {
-                            list.add(m);
-                        });
+                    list.add(m);
+                });
             }
         }
         return list;

@@ -17,11 +17,11 @@ import org.inek.dataportal.common.enums.WorkflowStatus;
 @Table(name = "ActionLog", schema = "adm")
 public class ActionLog implements Serializable {
 
-    public ActionLog(Account account,
+    public ActionLog(int accountId,
             Feature feature,
             int entryId,
             WorkflowStatus workflowStatus) {
-        _accountId = account.getId();
+        _accountId = accountId;
         _feature = feature;
         _entryId = entryId;
         _workflowStatus = workflowStatus;
