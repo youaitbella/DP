@@ -14,7 +14,6 @@ public class QualityTest {
     
     @Test
     public void testObjectsWithSameNonNullIdShallBeTreatedAsEqual() {
-        System.out.println("testObjectsWithSameNonNullIdShallBeTreatedAsEqual");
         Quality instance = new Quality();
         instance.setId(4711);
         instance.setIndicator("instance");
@@ -26,7 +25,6 @@ public class QualityTest {
 
     @Test
     public void testObjectsWithSameNonNullIdShallHaveSameHash() {
-        System.out.println("testObjectsWithSameNonNullIdShallHaveSameHash");
         Quality instance = new Quality();
         instance.setId(4711);
         instance.setIndicator("instance");
@@ -38,7 +36,6 @@ public class QualityTest {
 
     @Test
     public void testObjectsWithSameNullIdAndSameTypeAndIndicatorShallBeTreatedAsEqual() {
-        System.out.println("testObjectsWithSameNullIdAndSameTypeAndIndicatorShallBeTreatedAsEqual");
         Quality instance = new Quality();
         instance.setTypeId(1);
         instance.setIndicator("indicator");
@@ -50,7 +47,6 @@ public class QualityTest {
 
     @Test
     public void testObjectsWithSameNullIdAndSameTypeAndIndicatorShallHaveSameHash() {
-        System.out.println("testObjectsWithSameNullIdAndSameTypeAndIndicatorShallHaveSameHash");
         Quality instance = new Quality();
         instance.setTypeId(1);
         instance.setIndicator("indicator");
@@ -62,7 +58,6 @@ public class QualityTest {
 
     @Test
     public void testObjectsWithSameNullIdAndDifferentTypeShallBeTreatedAsDifferent() {
-        System.out.println("testObjectsWithSameNullIdAndDifferentTypeShallBeTreatedAsDifferent");
         Quality instance = new Quality();
         instance.setTypeId(1);
         instance.setIndicator("indicator");
@@ -74,7 +69,6 @@ public class QualityTest {
 
     @Test
     public void testObjectsWithSameNullIdAndDifferentTypeShallHaveDifferentHash() {
-        System.out.println("testObjectsWithSameNullIdAndDifferentTypeShallHaveDifferentHash");
         Quality instance = new Quality();
         instance.setTypeId(1);
         instance.setIndicator("indicator");
@@ -86,7 +80,6 @@ public class QualityTest {
 
     @Test
     public void testObjectsWithSameNullIdAndDifferentIndicatorShallBeTreatedAsDifferent() {
-        System.out.println("testObjectsWithSameNullIdAndDifferentIndicatorShallBeTreatedAsDifferent");
         Quality instance = new Quality();
         instance.setTypeId(1);
         instance.setIndicator("indicator");
@@ -98,7 +91,6 @@ public class QualityTest {
 
     @Test
     public void testObjectsWithSameNullIdAndDifferentIndicatorShallHaveDifferentHash() {
-        System.out.println("testObjectsWithSameNullIdAndDifferentIndicatorShallHaveDifferentHash");
         Quality instance = new Quality();
         instance.setTypeId(1);
         instance.setIndicator("indicator");
@@ -110,7 +102,6 @@ public class QualityTest {
 
     @Test
     public void testObjectsWithDifferentIdsShallBeTreatedAsDifferent() {
-        System.out.println("testObjectsWithDifferentIdsShallBeTreatedAsDifferent");
         Quality instance = new Quality();
         instance.setId(4711);
         instance.setTypeId(1);
@@ -124,7 +115,6 @@ public class QualityTest {
 
     @Test
     public void testObjectsWithDifferentIdsShallHaveDifferentHash() {
-        System.out.println("testObjectsWithDifferentIdsShallBeTreatedAsDifferent");
         Quality instance = new Quality();
         instance.setId(4711);
         instance.setTypeId(1);
@@ -138,7 +128,6 @@ public class QualityTest {
 
     @Test
     public void testObjectsWithNullIdAndOtherIdShallBeTreatedAsDifferent() {
-        System.out.println("testObjectsWithNullIdAndOtherIdShallBeTreatedAsDifferent");
         Quality instance = new Quality();
         instance.setId(null);
         instance.setTypeId(1);
@@ -152,7 +141,6 @@ public class QualityTest {
 
     @Test
     public void testObjectsWithNullIdAndOtherIdShallHaveDifferentHash() {
-        System.out.println("testObjectsWithNullIdAndOtherIdShallHaveDifferentHash");
         Quality instance = new Quality();
         instance.setId(null);
         instance.setTypeId(1);

@@ -15,7 +15,6 @@ public class ModelLifeTest {
     
     @Test
     public void testObjectsWithSameNonNullIdShallBeTreatedAsEqual() {
-        System.out.println("testOöbjectsWithSameNonNullIdShallBeTreatedAsEqual");
         ModelLife instance = new ModelLife();
         instance.setId(4711);
         ModelLife other = new ModelLife();
@@ -25,7 +24,6 @@ public class ModelLifeTest {
     
     @Test
     public void testObjectsWithDifferentNonNullIdShallBeTreatedAsDifferent() {
-        System.out.println("testObjectsWithDifferentNonNullIdShallBeTreatedAsDifferent");
         ModelLife instance = new ModelLife();
         instance.setId(4711);
         ModelLife other = new ModelLife();
@@ -36,7 +34,6 @@ public class ModelLifeTest {
     
     @Test
     public void testObjectsWithSameNonNullSameDateShallBeTreatedAsEqual() {
-        System.out.println("testObjectsWithSameNonNullSameDateShallBeTreatedAsEqual");
         ModelLife instance = new ModelLife();
         instance.setId(4711);
         instance.setStartDate(Helper.dateFromString("2014-01-01"));
@@ -48,7 +45,6 @@ public class ModelLifeTest {
     
     @Test
     public void testObjectsWithNonNullIdDifferentDateShallBeTreatedAsDifferent() {
-        System.out.println("testObjectsWithNonNullIdDifferentDateShallBeTreatedAsDifferent");
         ModelLife instance = new ModelLife();
         instance.setId(4711);
         instance.setStartDate(Helper.dateFromString("2014-01-01"));
@@ -60,7 +56,6 @@ public class ModelLifeTest {
     
     @Test
     public void testObjectsWithSameNonNullIdSameDateSameDurationShallBeTreatedAsEqual() {
-        System.out.println("testObjectsWithSameNonNullIdSameDateSameDurationShallBeTreatedAsEqual");
         ModelLife instance = new ModelLife();
         instance.setId(4711);
         instance.setStartDate(Helper.dateFromString("2014-01-01"));
@@ -74,7 +69,6 @@ public class ModelLifeTest {
        
     @Test
     public void testObjectsWithSameNonNullIdDifferentDateSameDurationShallBeTreatedAsEqual() {
-        System.out.println("testObjectsWithSameNonNullIdDifferentDateSameDurationShallBeTreatedAsEqual");
         ModelLife instance = new ModelLife();
         instance.setId(4711);
         instance.setStartDate(Helper.dateFromString("2014-01-01"));
@@ -89,7 +83,6 @@ public class ModelLifeTest {
     
     @Test
     public void testObjectsWithNullIdDifferentDateSameDurationShallBeTreatedAsDifferent() {
-        System.out.println("testObjectsWithNullIdDifferentDateSameDurationShallBeTreatedAsDifferent");
         ModelLife instance = new ModelLife();
         instance.setStartDate(Helper.dateFromString("2014-01-01"));
         instance.setMonthDuration(5);
@@ -103,7 +96,6 @@ public class ModelLifeTest {
     
     @Test
     public void testObjectsWithSameNonNullIdShallHaveSameHash() {
-        System.out.println("testObjectsWithSameNonNullIdShallHaveSameHash");
         ModelLife instance = new ModelLife();
         instance.setId(4711);
         ModelLife other = new ModelLife();
@@ -113,7 +105,6 @@ public class ModelLifeTest {
  
     @Test
     public void testObjectsWithSameNonNullIdAndSameDateShallHaveSameHash() {
-        System.out.println("testObjectsWithSameNonNullIdAndSameDurationShallHaveSameHash");
         ModelLife instance = new ModelLife();
         instance.setId(4711);
         instance.setStartDate(Helper.dateFromString("2014-01-01"));
@@ -125,7 +116,6 @@ public class ModelLifeTest {
     
     @Test
     public void testObjectsWithDifferentNonNullIdShallHaveDifferentHash() {
-        System.out.println("testObjectsWithDifferentNonNullIdShallHaveDifferentHash");
         ModelLife instance = new ModelLife();
         instance.setId(4711);
         ModelLife other = new ModelLife();
@@ -135,7 +125,6 @@ public class ModelLifeTest {
     
     @Test
     public void testObjectsWithNonNullIdAndDifferentDateShallHaveDifferentHash() {
-        System.out.println("testObjectsWithNonNullIdAndDifferentDateShallHaveDifferentHash");
         ModelLife instance = new ModelLife();
         instance.setId(4711);
         instance.setStartDate(Helper.dateFromString("2014-01-01"));
@@ -147,7 +136,6 @@ public class ModelLifeTest {
     
     @Test
     public void testObjectsWithSameNonNullIdAndSameDateSameDurationShallHaveSameHash() {
-        System.out.println("testObjectsWithSameNonNullIdAndSameDateSameDurationShallHaveSameHash");
         ModelLife instance = new ModelLife();
         instance.setId(4711);
         instance.setStartDate(Helper.dateFromString("2014-01-01"));
@@ -161,7 +149,6 @@ public class ModelLifeTest {
     
     @Test
     public void testObjectsWithNonNullIdAndDifferentDateSameDurationShallHaveDifferentHash() {
-        System.out.println("testObjectsWithNonNullIdAndDifferentDateSameDurationShallHaveDifferentHash");
         ModelLife instance = new ModelLife();
         instance.setId(4711);
         instance.setStartDate(Helper.dateFromString("2014-01-01"));
@@ -175,7 +162,6 @@ public class ModelLifeTest {
  
     @Test
     public void testObjectsWithNullIdAndDifferentDateSameDurationShallHaveDifferentHash() {
-        System.out.println("testObjectsWithNullIdAndDifferentDateSameDurationShallHaveDifferentHash");
         ModelLife instance = new ModelLife();
         instance.setStartDate(Helper.dateFromString("2014-01-01"));
         instance.setMonthDuration(5);

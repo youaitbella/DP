@@ -24,7 +24,6 @@ public class RemunerationTest {
     
     @Test
     public void testObjectsWithSameNonNullIdShallBeTreatedAsEqual() {
-        System.out.println("testObjectsWithSameNonNullIdShallBeTreatedAsEqual");
         Remuneration instance = new Remuneration();
         instance.setId(new Long("123456"));
         instance.setText("Hallo_1");
@@ -36,7 +35,6 @@ public class RemunerationTest {
     
     @Test
     public void testObjectsWithSameNonNullIdShallHaveSameHash() {
-        System.out.println("testObjectsWithSameNonNullIdShallHaveSameHash");
         Remuneration instance = new Remuneration();
         instance.setId(new Long("123456"));
         instance.setText("Hallo_1");
@@ -48,7 +46,6 @@ public class RemunerationTest {
     
     @Test
     public void testObjectsWithSameNullIdAndSameTypeAndIndicatorShallBeTreatedAsEqual() {
-        System.out.println("testObjectsWithSameNullIdAndSameTypeAndIndicatorShallBeTreatedAsEqual");
         Remuneration instance = new Remuneration();
         instance.setCode("A888999A");
         instance.setText("Equal");
@@ -60,7 +57,6 @@ public class RemunerationTest {
     
     @Test
     public void testObjectsWithSameNullIdAndSameTypeAndIndicatorShallHaveSameHash() {
-        System.out.println("testObjectsWithSameNullIdAndSameTypeAndIndicatorShallHaveSameHash");
         Remuneration instance = new Remuneration();
         instance.setCode("A888999A");
         instance.setText("Equal");
@@ -72,7 +68,6 @@ public class RemunerationTest {
     
     @Test
     public void testObjectsWithSameNullIdAndDifferentTypeShallBeTreatedAsDifferent() {
-        System.out.println("testObjectsWithSameNullIdAndDifferentTypeShallBeTreatedAsDifferent");
         Remuneration instance = new Remuneration();
         instance.setCode("A888999A");
         instance.setText("Equal");
@@ -84,7 +79,6 @@ public class RemunerationTest {
     
     @Test
     public void testObjectsWithSameNullIdAndDifferentTypeShallHaveDifferentHash() {
-        System.out.println("testObjectsWithSameNullIdAndDifferentTypeShallHaveDifferentHash");
         Remuneration instance = new Remuneration();
         instance.setCode("A888999A");
         instance.setText("Equal");
@@ -96,7 +90,6 @@ public class RemunerationTest {
     
     @Test
     public void testObjectsWithSameNullIdAndDifferentIndicatorShallBeTreatedAsDifferent() {
-        System.out.println("testObjectsWithSameNullIdAndDifferentIndicatorShallBeTreatedAsDifferent");
         Remuneration instance = new Remuneration();
         instance.setCode("A888999A");
         instance.setText("Different_1");
@@ -108,7 +101,6 @@ public class RemunerationTest {
     
     @Test
     public void testObjectsWithSameNullIdAndDifferentIndicatorShallHaveDifferentHash() {
-        System.out.println("testObjectsWithSameNullIdAndDifferentIndicatorShallHaveDifferentHash");
         Remuneration instance = new Remuneration();
         instance.setCode("A888999A");
         instance.setText("Different_1");
@@ -120,7 +112,6 @@ public class RemunerationTest {
     
     @Test
     public void testObjectsWithDifferentIdsShallBeTreatedAsDifferent() {
-        System.out.println("testObjectsWithDifferentIdsShallBeTreatedAsDifferent");
         // abgeändert
         Remuneration instance = new Remuneration();
         instance.setId(new Long("123456"));
@@ -135,7 +126,6 @@ public class RemunerationTest {
     
     @Test
     public void testObjectsWithDifferentIdsShallHaveDifferentHash() {
-        System.out.println("testObjectsWithDifferentIdsShallBeTreatedAsDifferent");
         Remuneration instance = new Remuneration();
         instance.setId(new Long("123456"));
         instance.setCode("A888999A");
@@ -149,7 +139,6 @@ public class RemunerationTest {
     
     @Test
     public void testObjectsWithNullIdAndOtherIdShallBeTreatedAsDifferent() {
-        System.out.println("testObjectsWithNullIdAndOtherIdShallBeTreatedAsDifferent");
         Remuneration instance = new Remuneration();
         instance.setId(null);
         instance.setCode("A888999A");
@@ -163,7 +152,6 @@ public class RemunerationTest {
     
     @Test
     public void testObjectsWithNullIdAndOtherIdShallHaveDifferentHash() {
-        System.out.println("testObjectsWithNullIdAndOtherIdShallHaveDifferentHash");
         Remuneration instance = new Remuneration();
         instance.setId(null);
         instance.setCode("A888999A");

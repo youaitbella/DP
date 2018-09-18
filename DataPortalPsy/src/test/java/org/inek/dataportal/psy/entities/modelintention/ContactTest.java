@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 public class ContactTest {
     @Test
     public void testObjectsWithSameNonNullIdShallBeTreatedAsEqual() {
-        System.out.println("testObjectsWithSameNonNullIdShallBeTreatedAsEqual");
         ModelIntentionContact instance = new ModelIntentionContact();
         instance.setId(4711);
         ModelIntentionContact other = new ModelIntentionContact();
@@ -23,7 +22,6 @@ public class ContactTest {
     
     @Test
     public void testObjectsWithDifferentNonNullIdShallBeTreatedAsDifferent() {
-        System.out.println("testObjectsWithDifferentNonNullIdShallBeTreatedAsDifferent");
         ModelIntentionContact instance = new ModelIntentionContact();
         instance.setId(4711);
         ModelIntentionContact other = new ModelIntentionContact();
@@ -34,7 +32,6 @@ public class ContactTest {
     
     @Test
     public void testObjectsWithSameNonNullSameDateShallBeTreatedAsEqual() {
-        System.out.println("testObjectsWithSameNonNullSameTypeShallBeTreatedAsEqual");
         ModelIntentionContact instance = new ModelIntentionContact();
         instance.setId(4711);
         instance.setContactTypeId(1);
@@ -46,7 +43,6 @@ public class ContactTest {
     
     @Test
     public void testObjectsWithSameNonNullSameIKShallBeTreatedAsEqual() {
-        System.out.println("testObjectsWithSameNonNullSameIKShallBeTreatedAsEqual");
         ModelIntentionContact instance = new ModelIntentionContact();
         instance.setId(4711);
         instance.setIk(123456789);
@@ -59,7 +55,6 @@ public class ContactTest {
     
     @Test
     public void testObjectsWithNonNullIdDifferentDateShallBeTreatedAsDifferent() {
-        System.out.println("testObjectsWithNonNullIdDifferentTypeShallBeTreatedAsDifferent");
         ModelIntentionContact instance = new ModelIntentionContact();
         instance.setId(4711);
         instance.setContactTypeId(1);
@@ -71,7 +66,6 @@ public class ContactTest {
     
     @Test
     public void testObjectsWithNonNullIdDifferentIDShallBeTreatedAsDifferent() {
-        System.out.println("testObjectsWithNonNullIdDifferentIDShallBeTreatedAsDifferent");
         ModelIntentionContact instance = new ModelIntentionContact();
         instance.setId(4711);
         instance.setIk(123456789);
@@ -83,7 +77,6 @@ public class ContactTest {
     
     @Test
     public void testObjectsWithNullIdDifferentIKShallBeTreatedAsDifferent() {
-        System.out.println("testObjectsWithNullIdDifferentIKShallBeTreatedAsDifferent");
         ModelIntentionContact instance = new ModelIntentionContact();
         instance.setIk(123456789);
         ModelIntentionContact other = new ModelIntentionContact();
@@ -93,7 +86,6 @@ public class ContactTest {
     
     @Test
     public void testObjectsWithNullIdDifferentTypeShallBeTreatedAsDifferent() {
-        System.out.println("testObjectsWithNullIdDifferentTypeShallBeTreatedAsDifferent");
         ModelIntentionContact instance = new ModelIntentionContact();
         instance.setContactTypeId(1);
         ModelIntentionContact other = new ModelIntentionContact();
@@ -103,7 +95,6 @@ public class ContactTest {
     
     @Test
     public void testObjectsWithNullIdDifferentNameShallBeTreatedAsDifferent() {
-        System.out.println("testObjectsWithNullIdDifferentNameShallBeTreatedAsDifferent");
         ModelIntentionContact instance = new ModelIntentionContact();
         instance.setName("Test1");
         ModelIntentionContact other = new ModelIntentionContact();
@@ -116,7 +107,6 @@ public class ContactTest {
     
     @Test
     public void testObjectsWithSameNonNullIdShallHaveSameHash() {
-        System.out.println("testObjectsWithSameNonNullIdShallHaveSameHash");
         ModelIntentionContact instance = new ModelIntentionContact();
         instance.setId(4711);
         ModelIntentionContact other = new ModelIntentionContact();
@@ -126,7 +116,6 @@ public class ContactTest {
  
     @Test
     public void testObjectsWithSameNonNullIdAndSameTypeShallHaveSameHash() {
-        System.out.println("testObjectsWithSameNonNullIdAndSameTypeShallHaveSameHash");
         ModelIntentionContact instance = new ModelIntentionContact();
         instance.setId(4711);
         instance.setContactTypeId(1);
@@ -138,7 +127,6 @@ public class ContactTest {
     
     @Test
     public void testObjectsWithSameNonNullIdAndSameIKShallHaveSameHash() {
-        System.out.println("testObjectsWithSameNonNullIdAndSameTypeShallHaveSameHash");
         ModelIntentionContact instance = new ModelIntentionContact();
         instance.setId(4711);
         instance.setIk(123456789);
@@ -151,7 +139,6 @@ public class ContactTest {
     
     @Test
     public void testObjectsWithDifferentNonNullIdShallHaveDifferentHash() {
-        System.out.println("testObjectsWithDifferentNonNullIdShallHaveDifferentHash");
         ModelIntentionContact instance = new ModelIntentionContact();
         instance.setId(4711);
         ModelIntentionContact other = new ModelIntentionContact();
@@ -161,7 +148,6 @@ public class ContactTest {
     
     @Test
     public void testObjectsWithNonNullIdAndDifferentTypeShallHaveDifferentHash() {
-        System.out.println("testObjectsWithNonNullIdAndDifferentTypeShallHaveDifferentHash");
         ModelIntentionContact instance = new ModelIntentionContact();
         instance.setId(4711);
         instance.setContactTypeId(1);
@@ -173,7 +159,6 @@ public class ContactTest {
     
     @Test
     public void testObjectsWithNonNullIdAndDifferentIKShallHaveDifferentHash() {
-        System.out.println("testObjectsWithNonNullIdAndDifferentIKShallHaveDifferentHash");
         ModelIntentionContact instance = new ModelIntentionContact();
         instance.setId(4711);
         instance.setIk(123456789);
@@ -184,7 +169,6 @@ public class ContactTest {
     }
     
     public void testObjectsWithNullIdAndDifferentIKShallHaveDifferentHash() {
-        System.out.println("testObjectsWithNullIdAndDifferentIKShallHaveDifferentHash");
         ModelIntentionContact instance = new ModelIntentionContact();
         instance.setIk(123456789);
         ModelIntentionContact other = new ModelIntentionContact();
@@ -194,7 +178,6 @@ public class ContactTest {
  
     @Test
     public void testObjectsWithNullIdAndDifferentTypeShallHaveDifferentHash() {
-        System.out.println("testObjectsWithNullIdAndDifferentTypeShallHaveDifferentHash");
         ModelIntentionContact instance = new ModelIntentionContact();
         instance.setContactTypeId(1);
         ModelIntentionContact other = new ModelIntentionContact();
@@ -204,7 +187,6 @@ public class ContactTest {
 
     @Test
     public void testObjectsWithNullIdAndDifferentNameShallHaveDifferentHash() {
-        System.out.println("testObjectsWithNullIdAndDifferentNameShallHaveDifferentHash");
         ModelIntentionContact instance = new ModelIntentionContact();
         instance.setName("Test1");
         ModelIntentionContact other = new ModelIntentionContact();

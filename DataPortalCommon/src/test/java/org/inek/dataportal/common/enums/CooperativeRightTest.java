@@ -17,13 +17,11 @@ public class CooperativeRightTest {
 
     @Test
     public void assertExcpectedEnumCount() {
-        System.out.println("assertExcpectedEnumCount");
         Assertions.assertThat(CooperativeRight.values().length).isEqualTo(15);
     }
 
     @Test
     public void testCanReadAlways() {
-        System.out.println("canReadAlways");
         assertFalse(CooperativeRight.None.canReadAlways());
         assertTrue(CooperativeRight.ReadOnly.canReadAlways());
         assertFalse(CooperativeRight.ReadSealed.canReadAlways());
@@ -42,7 +40,6 @@ public class CooperativeRightTest {
 
     @Test
     public void testCanReadCompleted() {
-        System.out.println("canReadCompleted");
         assertFalse(CooperativeRight.None.canReadCompleted());
         assertTrue(CooperativeRight.ReadOnly.canReadCompleted());
         assertFalse(CooperativeRight.ReadSealed.canReadCompleted());
@@ -62,7 +59,6 @@ public class CooperativeRightTest {
 
     @Test
     public void testCanReadSealed() {
-        System.out.println("canReadSealed");
         assertFalse(CooperativeRight.None.canReadSealed());
         assertTrue(CooperativeRight.ReadOnly.canReadSealed());
         assertTrue(CooperativeRight.ReadSealed.canReadSealed());
@@ -82,7 +78,6 @@ public class CooperativeRightTest {
 
     @Test
     public void testCanWriteAlways() {
-        System.out.println("canWriteAlways");
         assertFalse(CooperativeRight.None.canWriteAlways());
         assertFalse(CooperativeRight.ReadOnly.canWriteAlways());
         assertFalse(CooperativeRight.ReadSealed.canWriteAlways());
@@ -102,7 +97,6 @@ public class CooperativeRightTest {
 
     @Test
     public void testCanWriteCompleted() {
-        System.out.println("canWriteCompleted");
         assertFalse(CooperativeRight.None.canWriteCompleted());
         assertFalse(CooperativeRight.ReadOnly.canWriteCompleted());
         assertFalse(CooperativeRight.ReadSealed.canWriteCompleted());
@@ -122,7 +116,6 @@ public class CooperativeRightTest {
 
     @Test
     public void testCanSeal() {
-        System.out.println("canSeal");
         assertFalse(CooperativeRight.None.canSeal());
         assertFalse(CooperativeRight.ReadOnly.canSeal());
         assertFalse(CooperativeRight.ReadSealed.canSeal());
@@ -142,7 +135,6 @@ public class CooperativeRightTest {
 
     @Test
     public void testIsSupervisor() {
-        System.out.println("canSeal");
         assertFalse(CooperativeRight.None.isSupervisor());
         assertFalse(CooperativeRight.ReadOnly.isSupervisor());
         assertFalse(CooperativeRight.ReadSealed.isSupervisor());
@@ -162,7 +154,6 @@ public class CooperativeRightTest {
 
     @Test
     public void testCanTake() {
-        System.out.println("canTake");
         assertFalse(CooperativeRight.None.canTake());
         assertFalse(CooperativeRight.ReadOnly.canTake());
         assertFalse(CooperativeRight.ReadSealed.canTake());
@@ -182,7 +173,6 @@ public class CooperativeRightTest {
 
     @Test
     public void testMerge() {
-        System.out.println("testMerge");
         Assertions.assertThat(CooperativeRight.ReadWriteCompleted.mergeRights(CooperativeRight.ReadSealSupervisor))
                 .isEqualTo(CooperativeRight.ReadAllWriteCompletedSealSupervisor);
         Assertions.assertThat(CooperativeRight.ReadCompleted.mergeRights(CooperativeRight.ReadSealSupervisor))

@@ -46,7 +46,6 @@ public class AgreedPatientsTest {
      */
     @Test
     public void testAgreedPatientsHashCodeWithNullIdButDate() {
-        System.out.println("testAgreedPatientsHashCodeWithNullIdButDate");
         AgreedPatients instance = new AgreedPatients();
         instance.setId(null);
         Date d = new Date();
@@ -61,7 +60,6 @@ public class AgreedPatientsTest {
     
     @Test
     public void testAgreedPatientsHashCodeWithId() {
-        System.out.println("testAgreedPatientsHashCodeWithId");
         AgreedPatients instance = new AgreedPatients();
         instance.setId(4711);
         AgreedPatients other = new AgreedPatients();
@@ -71,7 +69,6 @@ public class AgreedPatientsTest {
     
     @Test
     public void testAgreedPatientsEqualsWithNullId() {
-        System.out.println("testAgreedPatientsEqualsWithNullId");
         AgreedPatients instance = new AgreedPatients();
         instance.setId(null);
         Date d = new Date();
@@ -86,7 +83,6 @@ public class AgreedPatientsTest {
     
     @Test
     public void testAgreedPatientsEqualsWithId() {
-        System.out.println("testAgreedPatientsHashCodeWithId");
         AgreedPatients instance = new AgreedPatients();
         instance.setId(null);
         Date d = new Date();

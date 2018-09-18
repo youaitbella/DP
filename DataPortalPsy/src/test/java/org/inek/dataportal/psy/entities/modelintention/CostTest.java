@@ -28,7 +28,6 @@ public class CostTest {
     
     @Test
     public void testObjectsWithSameNonNullIdShallBeTreatedAsEqual() {
-        System.out.println("testObjectsWithSameNonNullIdShallBeTreatedAsEqual");
         Cost instance = new Cost();
         instance.setId(1);
         instance.setRemunerationCode("Different_1");
@@ -40,7 +39,6 @@ public class CostTest {
     
     @Test
     public void testObjectsWithSameNonNullIdShallHaveSameHash() {
-        System.out.println("testObjectsWithSameNonNullIdShallHaveSameHash");
         Cost instance = new Cost();
         instance.setId(1);
         instance.setRemunerationCode("Different_1");
@@ -52,7 +50,6 @@ public class CostTest {
     
     @Test
     public void testObjectsWithSameNullIdAndSameTypeAndIndicatorShallBeTreatedAsEqual() {
-        System.out.println("testObjectsWithSameNullIdAndSameTypeAndIndicatorShallBeTreatedAsEqual");
         Cost instance = new Cost();
         instance.setIk(1);
         instance.setRemunerationCode("Equal");
@@ -64,7 +61,6 @@ public class CostTest {
     
     @Test
     public void testObjectsWithSameNullIdAndSameTypeAndIndicatorShallHaveSameHash() {
-        System.out.println("testObjectsWithSameNullIdAndSameTypeAndIndicatorShallHaveSameHash");
         Cost instance = new Cost();
         instance.setIk(1);
         instance.setRemunerationCode("Equal");
@@ -76,7 +72,6 @@ public class CostTest {
     
     @Test
     public void testObjectsWithSameNullIdAndDifferentTypeShallBeTreatedAsDifferent() {
-        System.out.println("testObjectsWithSameNullIdAndDifferentTypeShallBeTreatedAsDifferent");
         Cost instance = new Cost();
         instance.setIk(1);
         instance.setRemunerationCode("Equal");
@@ -88,7 +83,6 @@ public class CostTest {
     
     @Test
     public void testObjectsWithSameNullIdAndDifferentTypeShallHaveDifferentHash() {
-        System.out.println("testObjectsWithSameNullIdAndDifferentTypeShallHaveDifferentHash");
         Cost instance = new Cost();
         instance.setIk(1);
         instance.setRemunerationCode("Equal");
@@ -100,7 +94,6 @@ public class CostTest {
     
     @Test
     public void testObjectsWithSameNullIdAndDifferentIndicatorShallBeTreatedAsDifferent() {
-        System.out.println("testObjectsWithSameNullIdAndDifferentIndicatorShallBeTreatedAsDifferent");
         Cost instance = new Cost();
         instance.setIk(1);
         instance.setRemunerationCode("Different_1");
@@ -112,7 +105,6 @@ public class CostTest {
     
     @Test
     public void testObjectsWithSameNullIdAndDifferentIndicatorShallHaveDifferentHash() {
-        System.out.println("testObjectsWithSameNullIdAndDifferentIndicatorShallHaveDifferentHash");
         Cost instance = new Cost();
         instance.setIk(1);
         instance.setRemunerationCode("Different_1");
@@ -124,7 +116,6 @@ public class CostTest {
     
     @Test
     public void testObjectsWithDifferentIdsShallBeTreatedAsDifferent() {
-        System.out.println("testObjectsWithDifferentIdsShallBeTreatedAsDifferent");
         Cost instance = new Cost();
         instance.setId(1);
         instance.setIk(1);
@@ -142,7 +133,6 @@ public class CostTest {
     
     @Test
     public void testObjectsWithDifferentIdsShallHaveDifferentHash() {
-        System.out.println("testObjectsWithDifferentIdsShallBeTreatedAsDifferent");
         Cost instance = new Cost();
         instance.setId(1);
         instance.setIk(1);
@@ -160,7 +150,6 @@ public class CostTest {
     
     @Test
     public void testObjectsWithNullIdAndOtherIdShallBeTreatedAsDifferent() {
-        System.out.println("testObjectsWithNullIdAndOtherIdShallBeTreatedAsDifferent");
         Cost instance = new Cost();
         instance.setId(null);
         instance.setIk(1);
@@ -178,7 +167,6 @@ public class CostTest {
     
     @Test
     public void testObjectsWithNullIdAndOtherIdShallHaveDifferentHash() {
-        System.out.println("testObjectsWithNullIdAndOtherIdShallHaveDifferentHash");
         Cost instance = new Cost();
         instance.setId(null);
         instance.setIk(1);

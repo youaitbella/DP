@@ -24,7 +24,6 @@ public class TestSecurePassword {
 
     @Test
     public void checkPoorPassword() {
-        System.out.println("checkSecurePasswordTest");
         Map<String, Quality> passwordList = new HashMap<>();
         
         passwordList.put("'#", Quality.Poor);
@@ -40,7 +39,6 @@ public class TestSecurePassword {
 
     @Test
     public void checkMediumPassword() {
-        System.out.println("checkSecurePasswordTest");
         Map<String, Quality> passwordList = new HashMap<>();
         
         passwordList.put("hallo1234x", Quality.Medium);
@@ -53,7 +51,6 @@ public class TestSecurePassword {
 
     @Test
     public void checkGoodPassword() {
-        System.out.println("checkSecurePasswordTest");
         Map<String, Quality> passwordList = new HashMap<>();
         
         passwordList.put("pppppppppppppppppp", Quality.Good);
@@ -65,7 +62,6 @@ public class TestSecurePassword {
 
     @Test
     public void checkStrongPassword() {
-        System.out.println("checkSecurePasswordTest");
         Map<String, Quality> passwordList = new HashMap<>();
         
         passwordList.put("L&§MNUu3", Quality.Strong);

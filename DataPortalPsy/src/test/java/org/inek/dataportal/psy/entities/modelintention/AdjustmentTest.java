@@ -29,7 +29,6 @@ public class AdjustmentTest {
     
     @Test
     public void testObjectsWithSameNonNullIdShallBeTreatedAsEqual() {
-        System.out.println("testObjectsWithSameNonNullIdShallBeTreatedAsEqual");
         Adjustment instance = new Adjustment();
         instance.setId(1);
         instance.setAdjustmentTypeId(1);
@@ -41,7 +40,6 @@ public class AdjustmentTest {
     
     @Test
     public void testObjectsWithSameNonNullIdShallHaveSameHash() {
-        System.out.println("testObjectsWithSameNonNullIdShallHaveSameHash");
         Adjustment instance = new Adjustment();
         instance.setId(1);
         instance.setAdjustmentTypeId(1);
@@ -53,7 +51,6 @@ public class AdjustmentTest {
     
     @Test 
     public void testObjectsWithSameNullIdAndSameTypeAndIndicatorShallBeTreatedAsEqual() {
-        System.out.println("testObjectsWithSameNullIdAndSameTypeAndIndicatorShallBeTreatedAsEqual");
         Date date = java.util.Calendar.getInstance().getTime();
         Adjustment instance = new Adjustment();
         instance.setAdjustmentTypeId(1);
@@ -66,7 +63,6 @@ public class AdjustmentTest {
     
     @Test 
     public void testObjectsWithSameNullIdAndSameTypeAndIndicatorShallHaveSameHash() {
-        System.out.println("testObjectsWithSameNullIdAndSameTypeAndIndicatorShallHaveSameHash");
         Date date = java.util.Calendar.getInstance().getTime();
         Adjustment instance = new Adjustment();
         instance.setAdjustmentTypeId(1);
@@ -79,7 +75,6 @@ public class AdjustmentTest {
     
     @Test
     public void testObjectsWithSameNullIdAndDifferentTypeShallBeTreatedAsDifferent() {
-        System.out.println("testObjectsWithSameNullIdAndDifferentTypeShallBeTreatedAsDifferent");
         Date date = java.util.Calendar.getInstance().getTime();
         Adjustment instance = new Adjustment();
         instance.setAdjustmentTypeId(1);
@@ -92,7 +87,6 @@ public class AdjustmentTest {
     
     @Test
     public void testObjectsWithSameNullIdAndDifferentTypeShallHaveDifferentHash() {
-        System.out.println("testObjectsWithSameNullIdAndDifferentTypeShallHaveDifferentHash");
         Date date = java.util.Calendar.getInstance().getTime();
         Adjustment instance = new Adjustment();
         instance.setAdjustmentTypeId(1);
@@ -105,7 +99,6 @@ public class AdjustmentTest {
     
     @Test
     public void testObjectsWithSameNullIdAndDifferentIndicatorShallBeTreatedAsDifferent() {
-        System.out.println("testObjectsWithSameNullIdAndDifferentIndicatorShallBeTreatedAsDifferent");
         Date date1 = java.util.Calendar.getInstance().getTime();
         java.util.Calendar c = java.util.Calendar.getInstance();
         c.setTime(new Date()); 
@@ -122,7 +115,6 @@ public class AdjustmentTest {
     
     @Test
     public void testObjectsWithSameNullIdAndDifferentIndicatorShallHaveDifferentHash() {
-        System.out.println("testObjectsWithSameNullIdAndDifferentIndicatorShallHaveDifferentHash");
         Date date1 = java.util.Calendar.getInstance().getTime();
         java.util.Calendar c = java.util.Calendar.getInstance();
         c.setTime(new Date()); 
@@ -139,7 +131,6 @@ public class AdjustmentTest {
     
     @Test
     public void testObjectsWithDifferentIdsShallBeTreatedAsDifferent() {
-        System.out.println("testObjectsWithDifferentIdsShallBeTreatedAsDifferent");
         Date date = java.util.Calendar.getInstance().getTime();
         Adjustment instance = new Adjustment();
         instance.setId(1);
@@ -154,7 +145,6 @@ public class AdjustmentTest {
     
     @Test
     public void testObjectsWithDifferentIdsShallHaveDifferentHash() {
-        System.out.println("testObjectsWithDifferentIdsShallBeTreatedAsDifferent");
         Date date = java.util.Calendar.getInstance().getTime();
         Adjustment instance = new Adjustment();
         instance.setId(1);
@@ -169,7 +159,6 @@ public class AdjustmentTest {
     
     @Test
     public void testObjectsWithNullIdAndOtherIdShallBeTreatedAsDifferent() {
-        System.out.println("testObjectsWithNullIdAndOtherIdShallBeTreatedAsDifferent");
         Date date = java.util.Calendar.getInstance().getTime();
         Adjustment instance = new Adjustment();
         instance.setId(null);
@@ -186,7 +175,6 @@ public class AdjustmentTest {
     
     @Test
     public void testObjectsWithNullIdAndOtherIdShallHaveDifferentHash() {
-        System.out.println("testObjectsWithNullIdAndOtherIdShallHaveDifferentHash");
         Date date = java.util.Calendar.getInstance().getTime();
         Adjustment instance = new Adjustment();
         instance.setId(null);

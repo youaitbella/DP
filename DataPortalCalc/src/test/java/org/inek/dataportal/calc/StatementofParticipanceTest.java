@@ -50,7 +50,7 @@ public class StatementofParticipanceTest {
         
         statement.getContacts().add(c1);
         MessageContainer message = edit.composeMissingFieldsMessage(statement);
-        System.out.println(message.getMessage());
+        //todo: check fopr the right message! System.out.println(message.getMessage());
         assertTrue(message.containsMessage());
     }
     
@@ -84,7 +84,7 @@ public class StatementofParticipanceTest {
         
         statement.getContacts().add(c1);
         MessageContainer message = edit.composeMissingFieldsMessage(statement);
-        System.out.println(message.getMessage());
+        //todo: check fopr the right message! System.out.println(message.getMessage());
         assertFalse(message.containsMessage());
     }
     
@@ -118,7 +118,7 @@ public class StatementofParticipanceTest {
         
         statement.getContacts().add(c1);
         MessageContainer message = edit.composeMissingFieldsMessage(statement);
-        System.out.println(message.getMessage());
+        //todo: check fopr the right message! System.out.println(message.getMessage());
         assertTrue(message.containsMessage());
     }
     
@@ -154,7 +154,7 @@ public class StatementofParticipanceTest {
         
         statement.getContacts().add(c1);
         MessageContainer message = edit.composeMissingFieldsMessage(statement);
-        System.out.println(message.getMessage());
+        //todo: check fopr the right message! System.out.println(message.getMessage());
         assertTrue(message.containsMessage());
     }
     
@@ -190,7 +190,7 @@ public class StatementofParticipanceTest {
         
         statement.getContacts().add(c1);
         MessageContainer message = edit.composeMissingFieldsMessage(statement);
-        System.out.println(message.getMessage());
+        //todo: check fopr the right message! System.out.println(message.getMessage());
         assertFalse(message.containsMessage());
     }
     
@@ -226,7 +226,7 @@ public class StatementofParticipanceTest {
         
         statement.getContacts().add(c1);
         MessageContainer message = edit.composeMissingFieldsMessage(statement);
-        System.out.println(message.getMessage());
+        //todo: check fopr the right message! System.out.println(message.getMessage());
         assertTrue(message.containsMessage());
     }
     
@@ -263,7 +263,7 @@ public class StatementofParticipanceTest {
         
         statement.getContacts().add(c1);
         MessageContainer message = edit.composeMissingFieldsMessage(statement);
-        System.out.println(message.getMessage());
+        //todo: check fopr the right message! System.out.println(message.getMessage());
         assertFalse(message.containsMessage());
     }
     
@@ -315,7 +315,7 @@ public class StatementofParticipanceTest {
         statement.getContacts().add(c1);
         statement.getContacts().add(c2);
         MessageContainer message = edit.composeMissingFieldsMessage(statement);
-        System.out.println(message.getMessage());
+        //todo: check fopr the right message! System.out.println(message.getMessage());
         assertTrue(message.containsMessage());
     }
     
@@ -367,7 +367,7 @@ public class StatementofParticipanceTest {
         statement.getContacts().add(c1);
         statement.getContacts().add(c2);
         MessageContainer message = edit.composeMissingFieldsMessage(statement);
-        System.out.println(message.getMessage());
+        //todo: check fopr the right message! System.out.println(message.getMessage());
         assertFalse(message.containsMessage());
     }
     
@@ -422,7 +422,7 @@ public class StatementofParticipanceTest {
         statement.getContacts().add(c1);
         statement.getContacts().add(c2);
         MessageContainer message = edit.composeMissingFieldsMessage(statement);
-        System.out.println(message.getMessage());
+        //todo: check fopr the right message! System.out.println(message.getMessage());
         assertTrue(message.containsMessage());
     }
     
@@ -478,7 +478,7 @@ public class StatementofParticipanceTest {
         statement.getContacts().add(c1);
         statement.getContacts().add(c2);
         MessageContainer message = edit.composeMissingFieldsMessage(statement);
-        System.out.println(message.getMessage());
+        //todo: check fopr the right message! System.out.println(message.getMessage());
         assertFalse(message.containsMessage());
     }
 
@@ -535,7 +535,7 @@ public class StatementofParticipanceTest {
         statement.getContacts().add(c1);
         statement.getContacts().add(c2);
         MessageContainer message = edit.composeMissingFieldsMessage(statement);
-        System.out.println(message.getMessage());
+        //todo: check fopr the right message! System.out.println(message.getMessage());
         assertTrue(message.containsMessage());
     }
 }
