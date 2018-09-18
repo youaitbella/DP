@@ -5,8 +5,8 @@ import java.util.Date;
 import java.util.Objects;
 import javax.persistence.*;
 import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.data.converter.FeatureConverter;
+import org.inek.dataportal.common.data.converter.WorkflowStatusConverter;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 
 /**
@@ -87,6 +87,7 @@ public class ActionLog implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property WorkflowStatus">
     @Column(name = "alWorkflowStatusId")
+    @Convert(converter = WorkflowStatusConverter.class)
     private WorkflowStatus _workflowStatus ;
 
     public WorkflowStatus getWorkflowStatus() {

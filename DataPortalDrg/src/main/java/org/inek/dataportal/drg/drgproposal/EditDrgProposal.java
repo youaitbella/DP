@@ -126,7 +126,7 @@ public class EditDrgProposal extends AbstractEditController {
     private DrgProposal loadDrgProposal(Object drgId) {
         try {
             int id = Integer.parseInt("" + drgId);
-            DrgProposal drgProposal = _drgProposalFacade.findFresh(id);
+            DrgProposal drgProposal = _drgProposalFacade.find(id);
             if (_accessManager.isAccessAllowed(Feature.DRG_PROPOSAL, drgProposal.getStatus(), drgProposal.getAccountId())) {
                 return drgProposal;
             }

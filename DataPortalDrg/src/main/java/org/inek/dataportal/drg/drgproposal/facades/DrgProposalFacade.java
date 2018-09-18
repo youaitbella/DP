@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -14,23 +14,35 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.transaction.Transactional;
+import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.common.data.AbstractDataAccess;
+import org.inek.dataportal.common.data.adm.ActionLog;
+import org.inek.dataportal.common.data.adm.facade.LogFacade;
 import org.inek.dataportal.drg.drgproposal.entities.DrgProposal;
 import org.inek.dataportal.common.enums.DataSet;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.helper.structures.ProposalInfo;
-import org.inek.dataportal.common.utils.DocumentationUtil;
-import org.inek.dataportal.common.utils.KeyValueLevel;
 
 /**
  *
  * @author muellermi
  */
 @Stateless
-public class DrgProposalFacade extends AbstractFacade<DrgProposal> {
+public class DrgProposalFacade extends AbstractDataAccess {
 
-    public DrgProposalFacade() {
-        super(DrgProposal.class);
+    // <editor-fold defaultstate="collapsed" desc="Property LogFacade">
+    private LogFacade _logFacade;
+
+    public LogFacade getLogFacade() {
+        return _logFacade;
     }
+
+    @Inject
+    public void setLogFacade(LogFacade logFacade) {
+        _logFacade = logFacade;
+    }
+    // </editor-fold>
 
     public List<DrgProposal> findAll(int accountId, DataSet dataSet) {
         return findAll(accountId, -1, dataSet);
@@ -72,24 +84,22 @@ public class DrgProposalFacade extends AbstractFacade<DrgProposal> {
     }
 
     public DrgProposal saveDrgProposal(DrgProposal drgProposal) {
-        // logData(drgProposal); // un-comment if loggin is needed again
         if (drgProposal.getId() == null) {
             persist(drgProposal);
+            logAction(drgProposal);
             return drgProposal;
         }
+        logAction(drgProposal);
         return merge(drgProposal);
     }
 
-    private void logData(Object data) {
-        List<KeyValueLevel> doc = DocumentationUtil.getDocumentation(data);
-        // ensure these messages to be logged
-        Level oldLevel = LOGGER.getLevel();
-        LOGGER.setLevel(Level.INFO);
-        for (KeyValueLevel kv : doc) {
-            LOGGER.log(Level.INFO, "{0} ^ Key: {1} ^ Length: {2} ^ Value: {3}",
-                    new Object[]{data.getClass().getSimpleName(), kv.getKey(), kv.getValue().toString().length(), kv.getValue()});
-        }
-        LOGGER.setLevel(oldLevel);
+    @Transactional
+    private void logAction(DrgProposal proposal) {
+        ActionLog actionLog = new ActionLog(proposal.getAccountId(),
+                Feature.DRG_PROPOSAL,
+                proposal.getId(),
+                proposal.getStatus());
+        _logFacade.saveActionLog(actionLog);
     }
 
     public List<ProposalInfo> getDrgProposalInfos(int accountId, DataSet dataSet) {
@@ -123,7 +133,8 @@ public class DrgProposalFacade extends AbstractFacade<DrgProposal> {
         return result;
     }
 
-    public Set<Integer> checkAccountsForProposalOfYear(Set<Integer> accountIds, int year, WorkflowStatus statusLow, WorkflowStatus statusHigh) {
+    public Set<Integer> checkAccountsForProposalOfYear(Set<Integer> accountIds, int year, WorkflowStatus statusLow,
+            WorkflowStatus statusHigh) {
         String jpql = "SELECT DISTINCT p._accountId FROM DrgProposal p "
                 + "WHERE p._accountId in :accountIds and (p._targetYear = :year or -1 = :year) "
                 + "    and p._status between :statusLow and :statusHigh";
@@ -163,6 +174,16 @@ public class DrgProposalFacade extends AbstractFacade<DrgProposal> {
         } catch (Exception ex) {
             return false;
         }
+    }
+
+    public DrgProposal find(int proposalId) {
+        return findFresh(DrgProposal.class, proposalId);
+    }
+    
+    public void delete(DrgProposal entity){
+        remove(entity);
+        entity.setStatus(WorkflowStatus.Deleted);
+        logAction(entity);
     }
 
 }

@@ -17,7 +17,8 @@ public enum WorkflowStatus {
     Updated(16, "Angenommen", "accept.png"),  // updated. to the user it looks like accepted
     Taken(20, "Angenommen", "accept.png"),  // taken into NUB tool. The external view is like Accepted
     TakenUpdated(21, "Angenommen", "accept.png"),  // taken into NUB tool after correction. The external view is like Accepted
-    Retired(200, "Zurückgezogen", "delete-cross.png")
+    Retired(200, "Zurückgezogen", "delete-cross.png"),
+    Deleted(999, "Gelöscht", "delete-cross.png")  // just to store status in ActionLog
     ;
 
     private final int _value;

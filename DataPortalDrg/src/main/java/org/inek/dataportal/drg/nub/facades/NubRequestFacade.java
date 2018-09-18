@@ -63,6 +63,7 @@ public class NubRequestFacade extends AbstractDataAccess {
         return super.findFresh(NubRequest.class, id);
     }
 
+    // <editor-fold defaultstate="collapsed" desc="Property LogFacade">
     private LogFacade _logFacade;
 
     public LogFacade getLogFacade() {
@@ -73,6 +74,7 @@ public class NubRequestFacade extends AbstractDataAccess {
     public void setLogFacade(LogFacade logFacade) {
         _logFacade = logFacade;
     }
+    // </editor-fold>
 
     public List<NubRequest> findAll(int accountId, DataSet dataSet, String filter) {
         return findAll(accountId, -1, -1, dataSet, filter);
@@ -186,8 +188,10 @@ public class NubRequestFacade extends AbstractDataAccess {
     }
 
     private void logAction(NubRequest nubRequest) {
-        ActionLog actionLog = new ActionLog(nubRequest.getAccountId(), Feature.NUB, nubRequest.getId(), nubRequest.
-                getStatus());
+        ActionLog actionLog = new ActionLog(nubRequest.getAccountId(),
+                Feature.NUB,
+                nubRequest.getId(),
+                nubRequest.getStatus());
         _logFacade.saveActionLog(actionLog);
     }
 
@@ -543,6 +547,8 @@ public class NubRequestFacade extends AbstractDataAccess {
 
     public void delete(NubRequest nubRequest) {
         remove(nubRequest);
+        nubRequest.setStatus(WorkflowStatus.Deleted);
+        logAction(nubRequest);
     }
 
 }
