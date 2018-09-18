@@ -1,26 +1,28 @@
-package org.inek.dataportal.common.data.KhComparison.entities;
+package org.inek.dataportal.common.data.adm;
 
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
+import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.common.data.converter.FeatureConverter;
 
 /**
  *
  * @author lautenti
  */
 @Entity
-@Table(name = "ActionLog", schema = "adm")
-public class ActionLog implements Serializable {
+@Table(name = "ChangeLog", schema = "adm")
+public class ChangeLog implements Serializable {
 
-    public ActionLog(int accountId,
-            String area,
+    public ChangeLog(int accountId,
+            Feature feature,
             String form,
             int entryId,
             String field,
             String oldValue,
             String newValue) {
         this._accountId = accountId;
-        this._area = area;
+        this._feature = feature;
         this._form = form;
         this._entryId = entryId;
         this._field = field;
@@ -28,7 +30,7 @@ public class ActionLog implements Serializable {
         this._newValue = newValue;
     }
 
-    public ActionLog() {
+    public ChangeLog() {
     }
 
     private static final long serialVersionUID = 1L;
@@ -36,7 +38,7 @@ public class ActionLog implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "alId")
+    @Column(name = "clId")
     private int _id;
 
     public int getId() {
@@ -48,8 +50,22 @@ public class ActionLog implements Serializable {
     }
     // </editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Property TimeStamp">
+    @Column(name = "clTimeStamp")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date _timeStamp = new Date();
+
+    public Date getTimeStamp() {
+        return _timeStamp;
+    }
+
+    public void setTimeStamp(Date timeStamp) {
+        this._timeStamp = timeStamp;
+    }
+    //</editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc="Property AccountId">
-    @Column(name = "alAccountId")
+    @Column(name = "clAccountId")
     private int _accountId;
 
     public int getAccountId() {
@@ -61,34 +77,22 @@ public class ActionLog implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property Area">
-    @Column(name = "alArea")
-    private String _area = "";
+    //<editor-fold defaultstate="collapsed" desc="Property Feature">
+    @Column(name = "clFeatureId")
+    @Convert(converter = FeatureConverter.class)
+    private Feature _feature;
 
-    public String getArea() {
-        return _area;
+    public Feature getFeature() {
+        return _feature;
     }
 
-    public void setArea(String area) {
-        this._area = area;
-    }
-    //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="Property EntryId">
-    @Column(name = "alEntryId")
-    private int _entryId;
-
-    public int getEntryId() {
-        return _entryId;
-    }
-
-    public void setEntryId(int entryId) {
-        this._entryId = entryId;
+    public void setFeature(Feature feature) {
+        this._feature = feature;
     }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property Form">
-    @Column(name = "alForm")
+    @Column(name = "clForm")
     private String _form = "";
 
     public String getForm() {
@@ -100,8 +104,34 @@ public class ActionLog implements Serializable {
     }
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Property Entity">
+    @Column(name = "clEntity")
+    private String _entity = "";
+
+    public String getEntity() {
+        return _entity;
+    }
+
+    public void setEntity(String entity) {
+        this._entity = entity;
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property EntryId">
+    @Column(name = "clEntryId")
+    private int _entryId;
+
+    public int getEntryId() {
+        return _entryId;
+    }
+
+    public void setEntryId(int entryId) {
+        this._entryId = entryId;
+    }
+    //</editor-fold>
+
     //<editor-fold defaultstate="collapsed" desc="Property Field">
-    @Column(name = "alField")
+    @Column(name = "clField")
     private String _field = "";
 
     public String getField() {
@@ -114,7 +144,7 @@ public class ActionLog implements Serializable {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property OldValue">
-    @Column(name = "alOldValue")
+    @Column(name = "clOldValue")
     private String _oldValue = "";
 
     public String getOldValue() {
@@ -127,7 +157,7 @@ public class ActionLog implements Serializable {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property NewValue">
-    @Column(name = "alNewValue")
+    @Column(name = "clNewValue")
     private String _newValue = "";
 
     public String getNewValue() {
@@ -139,17 +169,4 @@ public class ActionLog implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property ChangedDate">
-    @Column(name = "alChangedDate")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date _changeDate = new Date();
-
-    public Date getChangeDate() {
-        return _changeDate;
-    }
-
-    public void setChangeDate(Date changeDate) {
-        this._changeDate = changeDate;
-    }
-    //</editor-fold>
 }

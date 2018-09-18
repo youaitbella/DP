@@ -5,12 +5,11 @@
  */
 package org.inek.dataportal.psy.khcomparison.backingbean;
 
-import org.inek.dataportal.common.data.KhComparison.entities.ActionLog;
+import org.inek.dataportal.common.data.adm.ChangeLog;
 import org.inek.dataportal.common.data.KhComparison.entities.StructureInformation;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -54,7 +53,7 @@ public class EditStructureInformation {
     private StructureInformation _structureInformation;
     private Boolean _readOnly;
     private Date _newValidFromDate = new Date();
-    private List<ActionLog> _actions = new ArrayList<>();
+    private List<ChangeLog> _changes = new ArrayList<>();
     private List<StructureInformation> _allStructureInformations = new ArrayList<>();
     private int _editableId;
 
@@ -142,7 +141,7 @@ public class EditStructureInformation {
         _structureInformation.setLastChanged(new Date());
         try {
             _structureInformation = _aebFacade.save(_structureInformation);
-            saveActionLogs(_actions);
+            saveActionLogs(_changes);
             _dialogController.showSaveDialog();
         } catch (Exception ex) {
             _dialogController.showErrorDialog("Fehler beim Speichern", "Vorgang abgebrochen");
@@ -158,7 +157,7 @@ public class EditStructureInformation {
 
         try {
             _structureInformation = _aebFacade.save(newInformation);
-            _actions.clear();
+            _changes.clear();
             _editableId = _structureInformation.getId();
             setAllStructureInformations(_aebFacade.getAllStructureInformationByIk(_structureInformation.getIk()));
             _dialogController.showSaveDialog();
@@ -194,25 +193,25 @@ public class EditStructureInformation {
     }
 
     private void createActionLog(String field, String oldValue, String newValue) {
-        if (_actions.stream().anyMatch(c -> c.getField().equals(field))) {
-            _actions.stream()
+        if (_changes.stream().anyMatch(c -> c.getField().equals(field))) {
+            _changes.stream()
                     .filter(c -> c.getField().equals(field))
                     .findFirst()
                     .get()
                     .setNewValue(newValue);
         } else {
-            ActionLog log = new ActionLog(_sessionController.getAccountId(),
-                    Feature.HC_HOSPITAL.name(),
+            ChangeLog log = new ChangeLog(_sessionController.getAccountId(),
+                    Feature.HC_HOSPITAL,
                     "StructureInformation",
                     _structureInformation.getId(),
                     field,
                     oldValue,
                     newValue);
-            _actions.add(log);
+            _changes.add(log);
         }
     }
 
-    private void saveActionLogs(List<ActionLog> actions) {
+    private void saveActionLogs(List<ChangeLog> actions) {
         _actionLogFacade.saveActionLogs(actions);
         actions.clear();
     }

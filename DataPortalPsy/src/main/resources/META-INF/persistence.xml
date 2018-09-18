@@ -12,6 +12,8 @@
         <class>org.inek.dataportal.common.data.adm.MapAccountInekRoleId</class>
         <class>org.inek.dataportal.common.data.adm.ReportTemplate</class>
         <class>org.inek.dataportal.common.data.adm.RoleMapping</class>
+        <class>org.inek.dataportal.common.data.adm.ActionLog</class>
+        <class>org.inek.dataportal.common.data.adm.ChangeLog</class>
         <class>org.inek.dataportal.common.data.common.CostCenter</class>
         <class>org.inek.dataportal.common.data.common.CostType</class>
         <class>org.inek.dataportal.common.data.common.ListFeature</class>
@@ -61,7 +63,6 @@
         <class>org.inek.dataportal.common.data.KhComparison.entities.AEBPageE3_1</class>
         <class>org.inek.dataportal.common.data.KhComparison.entities.AEBPageE3_2</class>
         <class>org.inek.dataportal.common.data.KhComparison.entities.AEBPageE3_3</class>
-        <class>org.inek.dataportal.common.data.KhComparison.entities.ActionLog</class>
         <class>org.inek.dataportal.common.data.KhComparison.entities.OccupationalCategory</class>
         <class>org.inek.dataportal.common.data.KhComparison.entities.PersonalAgreed</class>
         <class>org.inek.dataportal.common.data.KhComparison.entities.PersonnelGroup</class>

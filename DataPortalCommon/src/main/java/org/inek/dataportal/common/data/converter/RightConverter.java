@@ -16,7 +16,6 @@ import org.inek.dataportal.common.enums.Right;
 @Converter(autoApply = true)
 public class RightConverter implements AttributeConverter<Right, String> {
 
-
     @Override
     public String convertToDatabaseColumn(Right right) {
         return right.getKey();

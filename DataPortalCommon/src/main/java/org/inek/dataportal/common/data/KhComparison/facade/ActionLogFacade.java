@@ -9,7 +9,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.transaction.Transactional;
 import org.inek.dataportal.common.data.AbstractDataAccess;
-import org.inek.dataportal.common.data.KhComparison.entities.ActionLog;
+import org.inek.dataportal.common.data.adm.ChangeLog;
 
 /**
  *
@@ -19,8 +19,8 @@ import org.inek.dataportal.common.data.KhComparison.entities.ActionLog;
 public class ActionLogFacade extends AbstractDataAccess {
 
     @Transactional
-    public void saveActionLogs(List<ActionLog> actions) {
-        for (ActionLog ac : actions) {
+    public void saveActionLogs(List<ChangeLog> actions) {
+        for (ChangeLog ac : actions) {
             if (ac.getId() == 0) {
                 persist(ac);
             }
