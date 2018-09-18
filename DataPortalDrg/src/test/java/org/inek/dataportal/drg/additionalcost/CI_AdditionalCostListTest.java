@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class AdditionalCostListTest {
+public class CI_AdditionalCostListTest {
 
     @Test
     public void confirmMessageWithLowStatusReturnsDeleteMessage() {

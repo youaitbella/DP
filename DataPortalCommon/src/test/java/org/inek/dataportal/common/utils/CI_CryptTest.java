@@ -5,7 +5,6 @@
  */
 package org.inek.dataportal.common.utils;
 
-import org.inek.dataportal.common.utils.Crypt;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +12,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author muellermi
  */
-public class CryptTest {
+public class CI_CryptTest {
 
     @Test
     public void testGetHash() {
