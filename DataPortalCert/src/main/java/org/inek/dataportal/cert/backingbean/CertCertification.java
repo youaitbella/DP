@@ -327,8 +327,8 @@ public class CertCertification implements Serializable {
                 } else {
                     _compareResult = -2;
                 }
+                sendEmailToInek();
             }
-            sendEmailToInek();
             _grouper = _grouperFacade.merge(_grouper);
             _dialogController.showSaveDialog();
             _file = null;
