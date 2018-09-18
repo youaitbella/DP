@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author muellermi
  */
-public class AccessManagerTest {
+public class CI_AccessManagerTest {
 
     //<editor-fold defaultstate="collapsed" desc="Prepare test data">
     private final int unmanagedIk1 = 111111111;
@@ -40,7 +40,7 @@ public class AccessManagerTest {
     private final int readSealedAccountId = 2;
     private final Feature testFeature = Feature.NUB;
     
-    public AccessManagerTest() {
+    public CI_AccessManagerTest() {
     }
     
     private AccessManager obtainAccessManager() {
