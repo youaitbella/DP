@@ -8,6 +8,7 @@ import javax.ejb.Stateless;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 import org.inek.dataportal.common.data.AbstractDataAccess;
+import org.inek.dataportal.common.data.adm.ActionLog;
 import org.inek.dataportal.common.data.adm.ChangeLog;
 import org.inek.dataportal.common.data.adm.Log;
 import org.inek.dataportal.common.utils.DateUtils;
@@ -29,6 +30,10 @@ public class LogFacade extends AbstractDataAccess{
     }
 
     public void saveLog(Log log) {
+        persist(log);
+    }
+
+    public void saveActionLog(ActionLog log) {
         persist(log);
     }
 

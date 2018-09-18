@@ -2,6 +2,7 @@ package org.inek.dataportal.common.data.adm;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 import javax.persistence.*;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.data.account.entities.Account;
@@ -20,9 +21,9 @@ public class ActionLog implements Serializable {
             Feature feature,
             int entryId,
             WorkflowStatus workflowStatus) {
-        this._accountId = account.getId();
-        this._feature = feature;
-        this._entryId = entryId;
+        _accountId = account.getId();
+        _feature = feature;
+        _entryId = entryId;
         _workflowStatus = workflowStatus;
     }
 
@@ -75,15 +76,6 @@ public class ActionLog implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property WorkflowStatus">
-    @Column(name = "alWorkflowStatusId")
-    private WorkflowStatus _workflowStatus ;
-
-    public WorkflowStatus getWorkflowStatus() {
-        return _workflowStatus;
-    }
-    //</editor-fold>
-
     //<editor-fold defaultstate="collapsed" desc="Property EntryId">
     @Column(name = "alEntryId")
     private int _entryId;
@@ -93,4 +85,50 @@ public class ActionLog implements Serializable {
     }
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Property WorkflowStatus">
+    @Column(name = "alWorkflowStatusId")
+    private WorkflowStatus _workflowStatus ;
+
+    public WorkflowStatus getWorkflowStatus() {
+        return _workflowStatus;
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="hashCode, equals">
+    @Override
+    public int hashCode() {
+        return 59;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ActionLog other = (ActionLog) obj;
+        if (_id != other._id) {
+            return false;
+        }
+        if (_accountId != other._accountId) {
+            return false;
+        }
+        if (_entryId != other._entryId) {
+            return false;
+        }
+        if (!Objects.equals(_timeStamp, other._timeStamp)) {
+            return false;
+        }
+        if (_feature != other._feature) {
+            return false;
+        }
+        return true;
+    }
+    //</editor-fold>
+    
 }

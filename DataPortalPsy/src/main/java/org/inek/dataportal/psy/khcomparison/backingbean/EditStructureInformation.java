@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
@@ -193,22 +194,21 @@ public class EditStructureInformation {
     }
 
     private void createActionLog(String field, String oldValue, String newValue) {
-        if (_changes.stream().anyMatch(c -> c.getField().equals(field))) {
-            _changes.stream()
-                    .filter(c -> c.getField().equals(field))
-                    .findFirst()
-                    .get()
-                    .setNewValue(newValue);
-        } else {
-            ChangeLog log = new ChangeLog(_sessionController.getAccountId(),
-                    Feature.HC_HOSPITAL,
-                    "StructureInformation",
-                    _structureInformation.getId(),
-                    field,
-                    oldValue,
-                    newValue);
-            _changes.add(log);
+        Optional<ChangeLog> oldChange = _changes.stream()
+                .filter(c -> c.getField().equals(field))
+                .findFirst();
+        if (oldChange.isPresent()) {
+            _changes.remove(oldChange.get());
         }
+        ChangeLog log = new ChangeLog(_sessionController.getAccountId(),
+                Feature.HC_HOSPITAL,
+                "StructureInformation",
+                _structureInformation.getId(),
+                _structureInformation.getClass().getSimpleName(),
+                field,
+                oldValue,
+                newValue);
+        _changes.add(log);
     }
 
     private void saveChangeLogs(List<ChangeLog> changes) {

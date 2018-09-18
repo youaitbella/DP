@@ -2,6 +2,7 @@ package org.inek.dataportal.common.data.adm;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 import javax.persistence.*;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.data.converter.FeatureConverter;
@@ -18,16 +19,18 @@ public class ChangeLog implements Serializable {
             Feature feature,
             String form,
             int entryId,
+            String entity,
             String field,
             String oldValue,
             String newValue) {
-        this._accountId = accountId;
-        this._feature = feature;
-        this._form = form;
-        this._entryId = entryId;
-        this._field = field;
-        this._oldValue = oldValue;
-        this._newValue = newValue;
+        _accountId = accountId;
+        _feature = feature;
+        _form = form;
+        _entryId = entryId;
+        _entity = entity;
+        _field = field;
+        _oldValue = oldValue;
+        _newValue = newValue;
     }
 
     public ChangeLog() {
@@ -58,10 +61,6 @@ public class ChangeLog implements Serializable {
     public Date getTimeStamp() {
         return _timeStamp;
     }
-
-    public void setTimeStamp(Date timeStamp) {
-        this._timeStamp = timeStamp;
-    }
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Property AccountId">
@@ -70,10 +69,6 @@ public class ChangeLog implements Serializable {
 
     public int getAccountId() {
         return _accountId;
-    }
-
-    public void setAccountId(int accountId) {
-        this._accountId = accountId;
     }
     //</editor-fold>
 
@@ -85,10 +80,6 @@ public class ChangeLog implements Serializable {
     public Feature getFeature() {
         return _feature;
     }
-
-    public void setFeature(Feature feature) {
-        this._feature = feature;
-    }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property Form">
@@ -97,10 +88,6 @@ public class ChangeLog implements Serializable {
 
     public String getForm() {
         return _form;
-    }
-
-    public void setForm(String form) {
-        this._form = form;
     }
     //</editor-fold>
 
@@ -111,10 +98,6 @@ public class ChangeLog implements Serializable {
     public String getEntity() {
         return _entity;
     }
-
-    public void setEntity(String entity) {
-        this._entity = entity;
-    }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property EntryId">
@@ -123,10 +106,6 @@ public class ChangeLog implements Serializable {
 
     public int getEntryId() {
         return _entryId;
-    }
-
-    public void setEntryId(int entryId) {
-        this._entryId = entryId;
     }
     //</editor-fold>
 
@@ -137,10 +116,6 @@ public class ChangeLog implements Serializable {
     public String getField() {
         return _field;
     }
-
-    public void setField(String field) {
-        this._field = field;
-    }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property OldValue">
@@ -149,10 +124,6 @@ public class ChangeLog implements Serializable {
 
     public String getOldValue() {
         return _oldValue;
-    }
-
-    public void setOldValue(String oldValue) {
-        this._oldValue = oldValue;
     }
     //</editor-fold>
 
@@ -163,10 +134,52 @@ public class ChangeLog implements Serializable {
     public String getNewValue() {
         return _newValue;
     }
-
-    public void setNewValue(String newValue) {
-        this._newValue = newValue;
-    }
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="hashCode, equals">
+    @Override
+    public int hashCode() {
+        return 89;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ChangeLog other = (ChangeLog) obj;
+        if (_id != other._id) {
+            return false;
+        }
+        if (_accountId != other._accountId) {
+            return false;
+        }
+        if (_entryId != other._entryId) {
+            return false;
+        }
+        if (!Objects.equals(_form, other._form)) {
+            return false;
+        }
+        if (!Objects.equals(_entity, other._entity)) {
+            return false;
+        }
+        if (!Objects.equals(_field, other._field)) {
+            return false;
+        }
+        if (!Objects.equals(_timeStamp, other._timeStamp)) {
+            return false;
+        }
+        if (_feature != other._feature) {
+            return false;
+        }
+        return true;
+    }
+    //</editor-fold>
+    
 }
