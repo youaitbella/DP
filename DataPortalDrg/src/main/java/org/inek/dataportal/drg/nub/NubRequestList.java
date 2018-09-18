@@ -69,11 +69,11 @@ public class NubRequestList {
         if (nubRequest == null) {
             return "";
         }
+        nubRequest.setLastChangedBy(_sessionController.getAccountId());
         if (nubRequest.getStatus().getId() < WorkflowStatus.Provided.getId()) {
             _nubRequestFacade.delete(nubRequest);
         } else if (nubRequest.getExternalState().trim().isEmpty()) {
             nubRequest.setStatus(WorkflowStatus.Retired);
-            nubRequest.setLastChangedBy(_sessionController.getAccountId());
             _nubRequestFacade.saveNubRequest(nubRequest);
             _nubSessionTools.sendNubConfirmationMail(nubRequest);
 

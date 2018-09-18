@@ -188,7 +188,7 @@ public class NubRequestFacade extends AbstractDataAccess {
     }
 
     private void logAction(NubRequest nubRequest) {
-        ActionLog actionLog = new ActionLog(nubRequest.getAccountId(),
+        ActionLog actionLog = new ActionLog(nubRequest.getLastChangedBy(),
                 Feature.NUB,
                 nubRequest.getId(),
                 nubRequest.getStatus());

@@ -242,6 +242,7 @@ public class NubSessionTools implements Serializable {
             NubRequest copy = ObjectUtils.copy(nubRequest);
             copy.setId(-1);
             copy.setTargetYear(targetYear);
+            nubRequest.setLastChangedBy(_sessionController.getAccountId());
             _nubRequestFacade.delete(nubRequest);
             nubRequest = copy;
         }
