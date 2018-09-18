@@ -14,7 +14,7 @@ import javax.persistence.*;
  * @author muellermi
  */
 @Entity
-@Table(name = "ccCustomer", catalog="CallCenterDB", schema="dbo")
+@Table(name = "ccCustomer", catalog = "CallCenterDB", schema = "dbo")
 public class Customer implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -32,7 +32,7 @@ public class Customer implements Serializable {
         this._contacts = contacts;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property CustomerId">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -73,7 +73,7 @@ public class Customer implements Serializable {
         this._name = name;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property Street">
     @Column(name = "cuStreet")
     private String _street;
@@ -86,7 +86,7 @@ public class Customer implements Serializable {
         _street = street;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property PostCode">
     @Column(name = "cuPostCode")
     private String _postCode;
@@ -99,7 +99,7 @@ public class Customer implements Serializable {
         this._postCode = postCode;
     }
     // </editor-fold>
-       
+
     // <editor-fold defaultstate="collapsed" desc="Property Town">
     @Column(name = "cuCity")
     private String _town;
@@ -112,7 +112,7 @@ public class Customer implements Serializable {
         _town = town;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property CustomerTypeId">
     @Column(name = "cuCustomerTypeId")
     private Integer _customerTypeId;
@@ -125,22 +125,23 @@ public class Customer implements Serializable {
         _customerTypeId = customerTypeId;
     }
     // </editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property ObligateCalculationYear">
     @Column(name = "cuObligateCalculationYear")
     private int _obligateCalculationYear;
+
     public int getObligateCalculationYear() {
         return _obligateCalculationYear;
     }
-    
+
     public void setObligateCalculationYear(int obligateCalculationYear) {
         this._obligateCalculationYear = obligateCalculationYear;
     }
     //</editor-fold>
-    
+
     @PrePersist
     @PreUpdate
-    private void preventUpdate(){
+    private void preventUpdate() {
         throw new IllegalStateException("Attempt to write customer");
     }
 
