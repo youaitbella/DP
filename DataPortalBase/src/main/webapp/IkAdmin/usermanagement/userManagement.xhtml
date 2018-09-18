@@ -22,7 +22,7 @@
                 <f:selectItems value="#{ikAdminTasks.accounts}"
                                var="ac"
                                itemValue="#{ac.id}"
-                               itemLabel="#{ac.lastName}, #{ac.firstName}"/>
+                               itemLabel="#{ac.lastName}, #{ac.firstName} (#{ac.email})"/>
                 <pf:ajax event="change" update="missingFeatures" />
             </pf:selectOneMenu>
 
