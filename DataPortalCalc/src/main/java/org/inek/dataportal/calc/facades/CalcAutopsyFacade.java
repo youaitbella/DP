@@ -20,6 +20,7 @@ import org.inek.dataportal.calc.entities.sop.StatementOfParticipance;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.data.AbstractDataAccess;
+import org.inek.dataportal.common.data.AbstractDataAccessWithActionLog;
 import org.inek.dataportal.common.data.adm.facade.LogFacade;
 import org.inek.dataportal.common.helper.Utils;
 
@@ -29,23 +30,7 @@ import org.inek.dataportal.common.helper.Utils;
  */
 @RequestScoped
 @Transactional
-public class CalcAutopsyFacade extends AbstractDataAccess {
-
-    // <editor-fold defaultstate="collapsed" desc="Property LogFacade">
-    private LogFacade _logFacade;
-
-    @Inject
-    public void setLogFacade(LogFacade logFacade) {
-        _logFacade = logFacade;
-    }
-    // </editor-fold>
-
-    private void logAction(CalcBasicsAutopsy entity) {
-        _logFacade.saveActionLog(Feature.CALCULATION_HOSPITAL,
-                entity.getClass().getSimpleName(),
-                entity.getId(),
-                entity.getStatus());
-    }
+public class CalcAutopsyFacade extends AbstractDataAccessWithActionLog {
 
     public Set<Integer> obtainIks4NewBasicsAutopsy(int accountId, int year, boolean testMode) {
         String sql = "select distinct sopIk \n"
@@ -90,7 +75,6 @@ public class CalcAutopsyFacade extends AbstractDataAccess {
     public CalcBasicsAutopsy saveCalcBasicsAutopsy(CalcBasicsAutopsy calcBasics) {
         if (calcBasics.getId() == -1) {
             persist(calcBasics);
-            logAction(calcBasics);
             return calcBasics;
         }
 
@@ -102,15 +86,12 @@ public class CalcAutopsyFacade extends AbstractDataAccess {
             }
         }
 
-        logAction(calcBasics);
         CalcBasicsAutopsy merged = merge(calcBasics);
         return merged;
     }
 
     public void delete(CalcBasicsAutopsy calcBasics) {
         remove(calcBasics);
-        calcBasics.setStatus(WorkflowStatus.Deleted);
-        logAction(calcBasics);
     }
 
     public boolean existActiveCalcBasicsAutopsy(int ik) {

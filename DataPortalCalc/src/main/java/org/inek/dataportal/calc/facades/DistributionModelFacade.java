@@ -9,19 +9,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
-import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.calc.entities.CalcHospitalInfo;
 import org.inek.dataportal.calc.entities.cdm.DistributionModel;
 import org.inek.dataportal.calc.entities.cdm.DistributionModelDetail;
 import org.inek.dataportal.calc.enums.CalcHospitalFunction;
 import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.common.data.AbstractDataAccess;
-import org.inek.dataportal.common.data.adm.facade.LogFacade;
+import org.inek.dataportal.common.data.AbstractDataAccessWithActionLog;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.utils.StringUtil;
 
@@ -31,24 +28,8 @@ import org.inek.dataportal.common.utils.StringUtil;
  */
 @RequestScoped
 @Transactional
-public class DistributionModelFacade extends AbstractDataAccess {
+public class DistributionModelFacade extends AbstractDataAccessWithActionLog {
 
-    // <editor-fold defaultstate="collapsed" desc="Property LogFacade">
-    private LogFacade _logFacade;
-
-    @Inject
-    public void setLogFacade(LogFacade logFacade) {
-        _logFacade = logFacade;
-    }
-    // </editor-fold>
-
-    private void logAction(DistributionModel entity) {
-        _logFacade.saveActionLog(Feature.CALCULATION_HOSPITAL,
-                entity.getClass().getSimpleName(),
-                entity.getId(),
-                entity.getStatus());
-    }
-    
     public DistributionModel findDistributionModel(int id) {
         return findFresh(DistributionModel.class, id);
     }
@@ -146,7 +127,6 @@ public class DistributionModelFacade extends AbstractDataAccess {
 
         if (model.getId() == -1) {
             persist(model);
-            logAction(model);
             return model;
         }
 
@@ -157,14 +137,11 @@ public class DistributionModelFacade extends AbstractDataAccess {
                 merge(detail);
             }
         }
-        logAction(model);
         return merge(model);
     }
 
     public void delete(DistributionModel model) {
         remove(model);
-        model.setStatus(WorkflowStatus.Deleted);
-        logAction(model);
     }
 
     public List<Account> getInekAccounts(int year, String filter) {

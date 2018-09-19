@@ -13,6 +13,7 @@ import org.inek.dataportal.drg.additionalcost.entity.AdditionalCost;
 import org.inek.dataportal.common.enums.DataSet;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.data.AbstractDataAccess;
+import org.inek.dataportal.common.data.AbstractDataAccessWithActionLog;
 import org.inek.dataportal.common.data.adm.facade.LogFacade;
 
 /**
@@ -20,16 +21,7 @@ import org.inek.dataportal.common.data.adm.facade.LogFacade;
  * @author aitbellayo
  */
 @Stateless
-public class AdditionalCostFacade extends AbstractDataAccess {
-
-    // <editor-fold defaultstate="collapsed" desc="Property LogFacade">
-    private LogFacade _logFacade;
-
-    @Inject
-    public void setLogFacade(LogFacade logFacade) {
-        _logFacade = logFacade;
-    }
-    // </editor-fold>
+public class AdditionalCostFacade extends AbstractDataAccessWithActionLog {
 
     public AdditionalCost findAdditionalCost(int id) {
         return find(AdditionalCost.class, id);
@@ -58,10 +50,8 @@ public class AdditionalCostFacade extends AbstractDataAccess {
         }
         if (_additionalCost.getId() == -1) {
             persist(_additionalCost);
-            logAction(_additionalCost);
             return _additionalCost;
         }
-        logAction(_additionalCost);
         return merge(_additionalCost);
     }
 
@@ -69,16 +59,8 @@ public class AdditionalCostFacade extends AbstractDataAccess {
         return super.merge(entity);
     }
     
-    private void logAction(AdditionalCost entity) {
-        _logFacade.saveActionLog(Feature.ADDITIONAL_COST,
-                entity.getId(),
-                entity.getStatus());
-    }
-
     public void deleteAdditionalCost(AdditionalCost additionalCost) {
         remove(additionalCost);
-        additionalCost.setStatus(WorkflowStatus.Deleted);
-        logAction(additionalCost);
         
     }
 

@@ -4,7 +4,6 @@
  */
 package org.inek.dataportal.drg.nub.facades;
 
-import org.inek.dataportal.common.data.AbstractDataAccess;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -19,7 +18,6 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
-import javax.inject.Inject;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -27,9 +25,8 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.common.data.AbstractDataAccessWithActionLog;
 import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.common.data.adm.facade.LogFacade;
 import org.inek.dataportal.drg.nub.entities.NubFormerRequest;
 import org.inek.dataportal.drg.nub.entities.NubFormerRequestMerged;
 import org.inek.dataportal.drg.nub.entities.NubMethodInfo;
@@ -45,7 +42,7 @@ import org.inek.dataportal.common.utils.DateUtils;
  * @author muellermi
  */
 @Singleton
-public class NubRequestFacade extends AbstractDataAccess {
+public class NubRequestFacade extends AbstractDataAccessWithActionLog {
 
     private static final String FIELD_ID = "_id";
     private static final String FIELD_STATUS = "_status";
@@ -61,15 +58,6 @@ public class NubRequestFacade extends AbstractDataAccess {
     public NubRequest findFresh(int id) {
         return super.findFresh(NubRequest.class, id);
     }
-
-    // <editor-fold defaultstate="collapsed" desc="Property LogFacade">
-    private LogFacade _logFacade;
-
-    @Inject
-    public void setLogFacade(LogFacade logFacade) {
-        _logFacade = logFacade;
-    }
-    // </editor-fold>
 
     public List<NubRequest> findAll(int accountId, DataSet dataSet, String filter) {
         return findAll(accountId, -1, -1, dataSet, filter);
@@ -175,17 +163,9 @@ public class NubRequestFacade extends AbstractDataAccess {
         }
         if (nubRequest.getId() == -1) {
             persist(nubRequest);
-            logAction(nubRequest);
             return nubRequest;
         }
-        logAction(nubRequest);
         return merge(nubRequest);
-    }
-
-    private void logAction(NubRequest nubRequest) {
-        _logFacade.saveActionLog(Feature.NUB,
-                nubRequest.getId(),
-                nubRequest.getStatus());
     }
 
     public List<ProposalInfo> getNubRequestInfos(int accountId, int ik, int year, DataSet dataSet, String filter) {
@@ -540,8 +520,6 @@ public class NubRequestFacade extends AbstractDataAccess {
 
     public void delete(NubRequest nubRequest) {
         remove(nubRequest);
-        nubRequest.setStatus(WorkflowStatus.Deleted);
-        logAction(nubRequest);
     }
 
 }

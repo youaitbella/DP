@@ -20,6 +20,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Version;
 import javax.validation.constraints.Size;
+import org.inek.dataportal.common.data.iface.StatusEntity;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.utils.Documentation;
 
@@ -30,7 +31,7 @@ import org.inek.dataportal.common.utils.Documentation;
 @Entity
 @Table(name = "NubProposal")
 @SuppressWarnings("MethodCount")
-public class NubRequest implements Serializable {
+public class NubRequest implements Serializable, StatusEntity {
 
     private static final long serialVersionUID = 1L;
     private static final byte MISSING_VALUE = (byte) 255;

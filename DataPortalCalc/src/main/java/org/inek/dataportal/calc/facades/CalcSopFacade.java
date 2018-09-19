@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.Vector;
 import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
@@ -18,10 +17,9 @@ import org.inek.dataportal.calc.entities.sop.CalcContact;
 import org.inek.dataportal.calc.entities.sop.StatementOfParticipance;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.calc.entities.CalcHospitalInfo;
-import org.inek.dataportal.common.data.adm.facade.LogFacade;
+import org.inek.dataportal.common.data.AbstractDataAccessWithActionLog;
 
 /**
  *
@@ -29,24 +27,8 @@ import org.inek.dataportal.common.data.adm.facade.LogFacade;
  */
 @RequestScoped
 @Transactional
-public class CalcSopFacade extends AbstractDataAccess {
+public class CalcSopFacade extends AbstractDataAccessWithActionLog {
     
-    // <editor-fold defaultstate="collapsed" desc="Property LogFacade">
-    private LogFacade _logFacade;
-
-    @Inject
-    public void setLogFacade(LogFacade logFacade) {
-        _logFacade = logFacade;
-    }
-    // </editor-fold>
-
-    private void logAction(StatementOfParticipance entity) {
-        _logFacade.saveActionLog(Feature.CALCULATION_HOSPITAL,
-                entity.getClass().getSimpleName(),
-                entity.getId(),
-                entity.getStatus());
-    }
-
     public StatementOfParticipance findStatementOfParticipance(int id) {
         return findFresh(StatementOfParticipance.class, id);
     }
@@ -81,8 +63,6 @@ public class CalcSopFacade extends AbstractDataAccess {
 
     public void delete(StatementOfParticipance statement) {
         remove(statement);
-        statement.setStatus(WorkflowStatus.Deleted);
-        logAction(statement);
     }
 
     public boolean existActiveStatementOfParticipance(int ik) {
@@ -102,7 +82,6 @@ public class CalcSopFacade extends AbstractDataAccess {
 
         if (statementOfParticipance.getId() == -1) {
             persist(statementOfParticipance);
-            logAction(statementOfParticipance);
             return statementOfParticipance;
         }
         // whilst persist stores all contacts of the list,
@@ -116,7 +95,6 @@ public class CalcSopFacade extends AbstractDataAccess {
             }
         }
         StatementOfParticipance statement = merge(statementOfParticipance);
-        logAction(statement);
         return statement;
     }
 

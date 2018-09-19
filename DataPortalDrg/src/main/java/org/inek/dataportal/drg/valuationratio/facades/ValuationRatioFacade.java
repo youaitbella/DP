@@ -4,14 +4,11 @@
  */
 package org.inek.dataportal.drg.valuationratio.facades;
 
-import org.inek.dataportal.common.data.AbstractDataAccess;
 import java.util.List;
 import java.util.Set;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.persistence.TypedQuery;
-import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.common.data.adm.facade.LogFacade;
+import org.inek.dataportal.common.data.AbstractDataAccessWithActionLog;
 import org.inek.dataportal.drg.valuationratio.entities.ValuationRatio;
 import org.inek.dataportal.drg.valuationratio.entities.ValuationRatioDrgCount;
 import org.inek.dataportal.drg.valuationratio.entities.ValuationRatioMedian;
@@ -23,16 +20,7 @@ import org.inek.dataportal.common.enums.WorkflowStatus;
  * @author muellermi
  */
 @Stateless
-public class ValuationRatioFacade extends AbstractDataAccess {
-
-    // <editor-fold defaultstate="collapsed" desc="Property LogFacade">
-    private LogFacade _logFacade;
-
-    @Inject
-    public void setLogFacade(LogFacade logFacade) {
-        _logFacade = logFacade;
-    }
-    // </editor-fold>
+public class ValuationRatioFacade extends AbstractDataAccessWithActionLog {
 
     public ValuationRatio findValuationRatio(int id) {
         return super.find(ValuationRatio.class, id);
@@ -112,7 +100,6 @@ public class ValuationRatioFacade extends AbstractDataAccess {
         } else {
             vr = merge(vr);
         }
-        logAction(vr);
         return vr;
     }
 
@@ -122,14 +109,6 @@ public class ValuationRatioFacade extends AbstractDataAccess {
    
     public void delete(ValuationRatio vr) {
         remove(vr);
-        vr.setStatus(WorkflowStatus.Deleted);
-        logAction(vr);
-    }
-
-    private void logAction(ValuationRatio entity) {
-        _logFacade.saveActionLog(Feature.VALUATION_RATIO,
-                entity.getId(),
-                entity.getStatus());
     }
     
 }

@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -13,9 +12,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.common.data.AbstractDataAccess;
-import org.inek.dataportal.common.data.adm.facade.LogFacade;
+import org.inek.dataportal.common.data.AbstractDataAccessWithActionLog;
 import org.inek.dataportal.drg.drgproposal.entities.DrgProposal;
 import org.inek.dataportal.common.enums.DataSet;
 import org.inek.dataportal.common.enums.WorkflowStatus;
@@ -26,16 +23,7 @@ import org.inek.dataportal.common.helper.structures.ProposalInfo;
  * @author muellermi
  */
 @Stateless
-public class DrgProposalFacade extends AbstractDataAccess {
-
-    // <editor-fold defaultstate="collapsed" desc="Property LogFacade">
-    private LogFacade _logFacade;
-
-    @Inject
-    public void setLogFacade(LogFacade logFacade) {
-        _logFacade = logFacade;
-    }
-    // </editor-fold>
+public class DrgProposalFacade extends AbstractDataAccessWithActionLog {
 
     public List<DrgProposal> findAll(int accountId, DataSet dataSet) {
         return findAll(accountId, -1, dataSet);
@@ -79,17 +67,9 @@ public class DrgProposalFacade extends AbstractDataAccess {
     public DrgProposal saveDrgProposal(DrgProposal drgProposal) {
         if (drgProposal.getId() == null) {
             persist(drgProposal);
-            logAction(drgProposal);
             return drgProposal;
         }
-        logAction(drgProposal);
         return merge(drgProposal);
-    }
-
-    private void logAction(DrgProposal proposal) {
-        _logFacade.saveActionLog(Feature.DRG_PROPOSAL,
-                proposal.getId(),
-                proposal.getStatus());
     }
 
     public List<ProposalInfo> getDrgProposalInfos(int accountId, DataSet dataSet) {
@@ -172,8 +152,6 @@ public class DrgProposalFacade extends AbstractDataAccess {
 
     public void delete(DrgProposal entity) {
         remove(entity);
-        entity.setStatus(WorkflowStatus.Deleted);
-        logAction(entity);
     }
 
 }

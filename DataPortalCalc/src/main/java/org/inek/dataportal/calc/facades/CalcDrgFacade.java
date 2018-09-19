@@ -10,7 +10,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
@@ -25,12 +24,10 @@ import org.inek.dataportal.calc.entities.drg.KglOpAn;
 import org.inek.dataportal.calc.entities.sop.StatementOfParticipance;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.data.iface.BaseIdValue;
 import org.inek.dataportal.calc.entities.drg.KGLListOverviewPersonalType;
 import org.inek.dataportal.common.data.AbstractDataAccessWithActionLog;
-import org.inek.dataportal.common.data.adm.facade.LogFacade;
 
 /**
  *
