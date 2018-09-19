@@ -7,6 +7,7 @@ import java.util.Date;
 import javax.persistence.*;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.data.converter.WorkflowStatusConverter;
+import org.inek.dataportal.common.data.iface.StatusEntity;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.utils.Documentation;
@@ -17,7 +18,7 @@ import org.inek.dataportal.common.utils.Documentation;
  */
 @Entity
 @Table(name = "ValuationRatio", schema = "vr")
-public class ValuationRatio implements Serializable {
+public class ValuationRatio implements Serializable, StatusEntity {
 
     private static final long serialVersionUID = 1L;
 

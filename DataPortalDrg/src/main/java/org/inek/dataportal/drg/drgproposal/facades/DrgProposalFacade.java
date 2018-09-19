@@ -65,7 +65,7 @@ public class DrgProposalFacade extends AbstractDataAccessWithActionLog {
     }
 
     public DrgProposal saveDrgProposal(DrgProposal drgProposal) {
-        if (drgProposal.getId() == null) {
+        if (drgProposal.getId() == -1) {
             persist(drgProposal);
             return drgProposal;
         }

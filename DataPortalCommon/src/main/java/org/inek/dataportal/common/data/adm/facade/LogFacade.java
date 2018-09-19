@@ -8,7 +8,6 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
-import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.common.data.adm.ActionLog;

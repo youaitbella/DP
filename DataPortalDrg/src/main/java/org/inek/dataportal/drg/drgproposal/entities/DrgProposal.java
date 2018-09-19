@@ -24,6 +24,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Version;
+import org.inek.dataportal.common.data.iface.StatusEntity;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.utils.Documentation;
 import org.inek.dataportal.drg.drgproposal.enums.DrgProposalCategory;
@@ -35,13 +36,13 @@ import org.inek.dataportal.drg.drgproposal.enums.DrgProposalChangeMethod;
  */
 @Entity
 @Table(name = "DrgProposal")
-public class DrgProposal implements Serializable {
+public class DrgProposal implements Serializable, StatusEntity {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "prId")
-    private Integer _id;
+    private Integer _id = -1;
 
     // <editor-fold defaultstate="collapsed" desc="Property Version">
     @Column(name = "prVersion")
@@ -233,11 +234,11 @@ public class DrgProposal implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
-    public Integer getId() {
+    public int getId() {
         return _id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         _id = id;
     }
 
@@ -587,7 +588,7 @@ public class DrgProposal implements Serializable {
             return false;
         }
         DrgProposal other = (DrgProposal) object;
-        if ((_id == null && other.getId() != null) || (_id != null && !_id.equals(other.getId()))) {
+        if ((_id == null && other._id != null) || (_id != null && !_id.equals(other._id))) {
             return false;
         }
         return true;
