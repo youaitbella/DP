@@ -49,7 +49,11 @@ public class LogFacade extends AbstractDataAccess {
     }
 
     public void saveActionLog(Feature feature, int entryId, WorkflowStatus status) {
-        ActionLog log = new ActionLog(_sessionController.getAccountId(), feature, entryId, status);
+        saveActionLog(feature, "", entryId, status);
+    }
+
+    public void saveActionLog(Feature feature, String entity, int entryId, WorkflowStatus status) {
+        ActionLog log = new ActionLog(_sessionController.getAccountId(), feature, entity, entryId, status);
         persist(log);
     }
 

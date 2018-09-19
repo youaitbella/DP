@@ -123,7 +123,7 @@ public class ValuationRatioFacade extends AbstractDataAccess {
     }
 
     private void logAction(ValuationRatio entity) {
-        _logFacade.saveActionLog(Feature.ADDITIONAL_COST,
+        _logFacade.saveActionLog(Feature.VALUATION_RATIO,
                 entity.getId(),
                 entity.getStatus());
     }

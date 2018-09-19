@@ -9,12 +9,12 @@
         <class>org.inek.dataportal.common.data.adm.Config</class>
         <class>org.inek.dataportal.common.data.adm.InekRole</class>
         <class>org.inek.dataportal.common.data.adm.Log</class>
+        <class>org.inek.dataportal.common.data.adm.ActionLog</class>
+        <class>org.inek.dataportal.common.data.adm.ChangeLog</class>
         <class>org.inek.dataportal.common.data.adm.MailTemplate</class>
         <class>org.inek.dataportal.common.data.adm.MapAccountInekRoleId</class>
         <class>org.inek.dataportal.common.data.adm.ReportTemplate</class>
         <class>org.inek.dataportal.common.data.adm.RoleMapping</class>
-        <class>org.inek.dataportal.common.data.adm.ActionLog</class>
-        <class>org.inek.dataportal.common.data.adm.ChangeLog</class>
         <class>org.inek.dataportal.common.data.common.CostCenter</class>
         <class>org.inek.dataportal.common.data.common.CostType</class>
         <class>org.inek.dataportal.common.data.common.ListFeature</class>

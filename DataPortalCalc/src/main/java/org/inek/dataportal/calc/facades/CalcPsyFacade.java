@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
@@ -20,6 +21,7 @@ import org.inek.dataportal.calc.entities.sop.StatementOfParticipance;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.data.AbstractDataAccess;
+import org.inek.dataportal.common.data.adm.facade.LogFacade;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.data.iface.BaseIdValue;
 
@@ -30,6 +32,22 @@ import org.inek.dataportal.common.data.iface.BaseIdValue;
 @RequestScoped
 @Transactional
 public class CalcPsyFacade extends AbstractDataAccess {
+
+    // <editor-fold defaultstate="collapsed" desc="Property LogFacade">
+    private LogFacade _logFacade;
+
+    @Inject
+    public void setLogFacade(LogFacade logFacade) {
+        _logFacade = logFacade;
+    }
+    // </editor-fold>
+
+    private void logAction(PeppCalcBasics entity) {
+        _logFacade.saveActionLog(Feature.CALCULATION_HOSPITAL,
+                entity.getClass().getSimpleName(),
+                entity.getId(),
+                entity.getStatus());
+    }
 
 
     public Set<Integer> obtainIks4NewBasicsPepp(int accountId, int year, boolean testMode) {
@@ -100,6 +118,7 @@ public class CalcPsyFacade extends AbstractDataAccess {
     public PeppCalcBasics saveCalcBasicsPepp(PeppCalcBasics calcBasics) {
         if (calcBasics.getId() == -1) {
             persist(calcBasics);
+            logAction(calcBasics);
             return calcBasics;
         }
 
@@ -116,11 +135,14 @@ public class CalcPsyFacade extends AbstractDataAccess {
         saveIdList(calcBasics.getRadiologyLaboratories());
 
         PeppCalcBasics merged = merge(calcBasics);
+        logAction(merged);
         return merged;
     }
 
     public void delete(PeppCalcBasics calcBasics) {
         remove(calcBasics);
+        calcBasics.setStatus(WorkflowStatus.Deleted);
+        logAction(calcBasics);
     }
 
     public boolean existActiveCalcBasicsPsy(int ik) {

@@ -21,8 +21,17 @@ public class ActionLog implements Serializable {
             Feature feature,
             int entryId,
             WorkflowStatus workflowStatus) {
+        this (accountId, feature, "", entryId, workflowStatus);
+    }
+
+    public ActionLog(int accountId,
+            Feature feature,
+            String entity,
+            int entryId,
+            WorkflowStatus workflowStatus) {
         _accountId = accountId;
         _feature = feature;
+        _entity = entity;
         _entryId = entryId;
         _workflowStatus = workflowStatus;
     }
@@ -76,6 +85,15 @@ public class ActionLog implements Serializable {
     }
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Property Entity">
+    @Column(name = "alEntity")
+    private String _entity = "";
+
+    public String getEntity() {
+        return _entity;
+    }
+    //</editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc="Property EntryId">
     @Column(name = "alEntryId")
     private int _entryId;
