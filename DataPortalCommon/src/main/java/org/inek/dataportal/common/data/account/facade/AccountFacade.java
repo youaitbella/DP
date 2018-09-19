@@ -155,9 +155,8 @@ public class AccountFacade extends AbstractDataAccess {
                 }
                 Feature feature = accFeature.getFeature();
                 if (feature.getNeedsApproval()) {
-                    if (_requestHandler.handleFeatureRequest(account, feature)) {
-                        accFeature.setFeatureState(FeatureState.REQUESTED);
-                    }
+                    _requestHandler.handleFeatureRequest(account, feature);
+                    accFeature.setFeatureState(FeatureState.REQUESTED);
                 } else {
                     accFeature.setFeatureState(FeatureState.SIMPLE);
                 }
