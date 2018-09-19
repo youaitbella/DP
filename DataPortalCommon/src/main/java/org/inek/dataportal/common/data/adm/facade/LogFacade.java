@@ -38,8 +38,20 @@ public class LogFacade extends AbstractDataAccess {
 
     @Asynchronous
     private void removeOldEntries() {
+        removeOldLogs();
+        removeOldActionLogs();
+    }
+
+    private void removeOldLogs() {
         Date logDate = DateUtils.getDateWithDayOffset(-90);
         String sql = "DELETE FROM Log l WHERE l._creationDate < :date";
+        Query query = getEntityManager().createQuery(sql);
+        query.setParameter("date", logDate).executeUpdate();
+    }
+
+    private void removeOldActionLogs() {
+        Date logDate = DateUtils.getDateWithDayOffset(-400);
+        String sql = "DELETE FROM ActionLog l WHERE l._timeStamp < :date";
         Query query = getEntityManager().createQuery(sql);
         query.setParameter("date", logDate).executeUpdate();
     }

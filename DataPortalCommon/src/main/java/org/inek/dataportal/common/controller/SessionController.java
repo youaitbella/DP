@@ -68,7 +68,7 @@ public class SessionController implements Serializable {
     @Inject
     private ApplicationTools _appTools;
     @Inject
-    private transient FeatureHolder _featureHolder;
+    private FeatureHolder _featureHolder;
 
     public ApplicationTools getApplicationTools() {
         return _appTools;
@@ -394,7 +394,6 @@ public class SessionController implements Serializable {
         sessionTimeout = (_account.getEmail().toLowerCase().endsWith("@inek-drg.de")
                 && isInternalClient()) ? 2 * Const.SECONDS_PER_HOUR : sessionTimeout; // session timeout extended to 4 hour for internal user
         FacesContext.getCurrentInstance().getExternalContext().setSessionMaxInactiveInterval(sessionTimeout);
-
     }
 
     /**
@@ -410,8 +409,11 @@ public class SessionController implements Serializable {
      */
     public boolean login(String mailOrUser, String password, String loginInfo, PortalType portalType) {
         if (_featureHolder == null) {
-            invalidateSession();
             _account = null;
+            // sometimes, when the app had gone away whilst the user was logged in, the browser might became inconsitent
+            // In such a case the _featureHolder -even if injected- had been null. A browser restart fixed this local problem
+            // Hopefulle due to blue green deployment, this problem would not appear anymore...
+            alertClient("Um das Datenportal nutzen zu können, schließen Sie bitte erst Ihren Browser und starten diesen neu.");
             return false;
         }
         _portalType = portalType;

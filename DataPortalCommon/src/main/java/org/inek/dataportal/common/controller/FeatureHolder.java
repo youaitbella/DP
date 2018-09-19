@@ -1,5 +1,6 @@
 package org.inek.dataportal.common.controller;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -19,7 +20,7 @@ import org.inek.dataportal.common.helper.Topics;
  * @author muellermi
  */
 @Dependent
-public class FeatureHolder {
+public class FeatureHolder implements Serializable{
 
     @Inject private FeatureFactory _featureFactory;
     private final Map<String, IFeatureController> _featureControllers = new LinkedHashMap<>(); // keeps order
