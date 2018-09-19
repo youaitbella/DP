@@ -18,6 +18,10 @@ import org.inek.dataportal.common.data.AbstractDataAccess;
 @Stateless
 public class GrouperFacade extends AbstractDataAccess {
 
+    public Grouper merge(Grouper grouper) {
+        return super.merge(grouper);
+    }
+
     public List<Grouper> findBySystemId(int systemId) {
         String query = "SELECT g FROM Grouper g WHERE g._systemId = :id";
         return getEntityManager().createQuery(query, Grouper.class).setParameter("id", systemId).getResultList();

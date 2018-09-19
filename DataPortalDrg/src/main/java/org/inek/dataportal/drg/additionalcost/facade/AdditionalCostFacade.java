@@ -65,6 +65,10 @@ public class AdditionalCostFacade extends AbstractDataAccess {
         return merge(_additionalCost);
     }
 
+    public AdditionalCost merge(AdditionalCost entity) {
+        return super.merge(entity);
+    }
+    
     private void logAction(AdditionalCost entity) {
         _logFacade.saveActionLog(Feature.ADDITIONAL_COST,
                 entity.getId(),

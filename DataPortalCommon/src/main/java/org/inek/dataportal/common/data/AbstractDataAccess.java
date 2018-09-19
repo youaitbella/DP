@@ -40,7 +40,7 @@ public abstract class AbstractDataAccess {
         _em = em;
     }
 
-    public void persist(Object entity) {
+    protected void persist(Object entity) {
         try {
             _em.persist(entity);
             _em.flush();
@@ -53,7 +53,7 @@ public abstract class AbstractDataAccess {
         }
     }
 
-    public <T> T merge(T entity) {
+    protected <T> T merge(T entity) {
         try {
             T mergedEntity = _em.merge(entity);
             _em.flush();

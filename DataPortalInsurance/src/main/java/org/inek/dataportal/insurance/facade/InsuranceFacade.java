@@ -70,6 +70,10 @@ public class InsuranceFacade extends AbstractDataAccess {
         }
     }
 
+    public InsuranceNubNotice merge(InsuranceNubNotice entity) {
+        return super.merge(entity);
+    }
+
     public List<DosageForm> getDosageForms() {
         return findAll(DosageForm.class);
     }

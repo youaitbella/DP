@@ -29,6 +29,7 @@ import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.data.iface.BaseIdValue;
 import org.inek.dataportal.calc.entities.drg.KGLListOverviewPersonalType;
+import org.inek.dataportal.common.data.AbstractDataAccessWithActionLog;
 import org.inek.dataportal.common.data.adm.facade.LogFacade;
 
 /**
@@ -37,23 +38,8 @@ import org.inek.dataportal.common.data.adm.facade.LogFacade;
  */
 @RequestScoped
 @Transactional
-public class CalcDrgFacade extends AbstractDataAccess {
+public class CalcDrgFacade extends AbstractDataAccessWithActionLog {
 
-    // <editor-fold defaultstate="collapsed" desc="Property LogFacade">
-    private LogFacade _logFacade;
-
-    @Inject
-    public void setLogFacade(LogFacade logFacade) {
-        _logFacade = logFacade;
-    }
-    // </editor-fold>
-
-    private void logAction(DrgCalcBasics entity) {
-        _logFacade.saveActionLog(Feature.CALCULATION_HOSPITAL,
-                entity.getClass().getSimpleName(),
-                entity.getId(),
-                entity.getStatus());
-    }
 
     public DrgCalcBasics findCalcBasicsDrg(int id) {
         return findFresh(DrgCalcBasics.class, id);
@@ -79,7 +65,6 @@ public class CalcDrgFacade extends AbstractDataAccess {
             opAn.setBaseInformationId(calcBasics.getId());
             persist(opAn);
             calcBasics.setOpAn(opAn);
-            logAction(calcBasics);
             return calcBasics;
         }
 
@@ -109,7 +94,6 @@ public class CalcDrgFacade extends AbstractDataAccess {
         saveIdList(calcBasics.getPkmsAlternatives());
         saveIdList(calcBasics.getPersonalAccountings());
         saveIdList(calcBasics.getOverviewPersonals());
-        logAction(calcBasics);
         return merge(calcBasics);
     }
 
@@ -203,8 +187,6 @@ public class CalcDrgFacade extends AbstractDataAccess {
             calcBasics.setOpAn(null);
         }
         remove(calcBasics);
-        calcBasics.setStatus(WorkflowStatus.Deleted);
-        logAction(calcBasics);
     }
 
     public boolean existActiveCalcBasicsDrg(int ik) {

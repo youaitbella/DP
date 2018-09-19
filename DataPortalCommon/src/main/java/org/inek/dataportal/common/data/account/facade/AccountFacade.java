@@ -231,6 +231,10 @@ public class AccountFacade extends AbstractDataAccess {
         return true;
     }
 
+    public Account merge(Account account) {
+        return super.merge(account);
+    }
+
     public void setNewIk(Account acc, int ik) {
         if (ik > 100000000 && ik < 999999999) {
             acc.addIk(ik);

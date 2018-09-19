@@ -85,6 +85,10 @@ public class AccountPwdFacade extends AbstractDataAccess {
         persist(accountPwd);
     }
 
+    public AccountPwd merge(AccountPwd accountPwd) {
+        return super.merge(accountPwd);
+    }
+
     public boolean isWeakPassword(String password) {
         return find(WeakPassword.class, password) != null;
     }

@@ -116,6 +116,10 @@ public class ValuationRatioFacade extends AbstractDataAccess {
         return vr;
     }
 
+    public ValuationRatio merge(ValuationRatio entity) {
+        return super.merge(entity);
+    }
+   
     public void delete(ValuationRatio vr) {
         remove(vr);
         vr.setStatus(WorkflowStatus.Deleted);
