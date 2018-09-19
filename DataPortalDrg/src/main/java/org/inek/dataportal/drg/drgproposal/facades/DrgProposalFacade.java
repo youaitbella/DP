@@ -93,13 +93,10 @@ public class DrgProposalFacade extends AbstractDataAccess {
         return merge(drgProposal);
     }
 
-    @Transactional
     private void logAction(DrgProposal proposal) {
-        ActionLog actionLog = new ActionLog(proposal.getAccountId(),
-                Feature.DRG_PROPOSAL,
+        _logFacade.saveActionLog(Feature.DRG_PROPOSAL,
                 proposal.getId(),
                 proposal.getStatus());
-        _logFacade.saveActionLog(actionLog);
     }
 
     public List<ProposalInfo> getDrgProposalInfos(int accountId, DataSet dataSet) {
@@ -179,8 +176,8 @@ public class DrgProposalFacade extends AbstractDataAccess {
     public DrgProposal find(int proposalId) {
         return findFresh(DrgProposal.class, proposalId);
     }
-    
-    public void delete(DrgProposal entity){
+
+    public void delete(DrgProposal entity) {
         remove(entity);
         entity.setStatus(WorkflowStatus.Deleted);
         logAction(entity);

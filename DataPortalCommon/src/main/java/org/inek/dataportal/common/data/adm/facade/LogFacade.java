@@ -5,22 +5,37 @@ import java.util.List;
 import javax.ejb.Asynchronous;
 import javax.ejb.Schedule;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
+import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.common.data.adm.ActionLog;
 import org.inek.dataportal.common.data.adm.ChangeLog;
 import org.inek.dataportal.common.data.adm.Log;
+import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.utils.DateUtils;
 
 @Stateless
-public class LogFacade extends AbstractDataAccess{
+public class LogFacade extends AbstractDataAccess {
+
+    private SessionController _sessionController;
+
+    public SessionController getSessionController() {
+        return _sessionController;
+    }
+
+    @Inject
+    public void setSessionController(SessionController sessionController) {
+        _sessionController = sessionController;
+    }
 
     @Schedule(hour = "2", minute = "30", info = "once a day")
     private void startRemoveOldEntries() {
         removeOldEntries();
     }
-    
+
     @Asynchronous
     private void removeOldEntries() {
         Date logDate = DateUtils.getDateWithDayOffset(-90);
@@ -33,7 +48,8 @@ public class LogFacade extends AbstractDataAccess{
         persist(log);
     }
 
-    public void saveActionLog(ActionLog log) {
+    public void saveActionLog(Feature feature, int entryId, WorkflowStatus status) {
+        ActionLog log = new ActionLog(_sessionController.getAccountId(), feature, entryId, status);
         persist(log);
     }
 
@@ -48,5 +64,5 @@ public class LogFacade extends AbstractDataAccess{
         }
         actions.clear();
     }
-    
+
 }

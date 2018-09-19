@@ -188,11 +188,9 @@ public class NubRequestFacade extends AbstractDataAccess {
     }
 
     private void logAction(NubRequest nubRequest) {
-        ActionLog actionLog = new ActionLog(nubRequest.getLastChangedBy(),
-                Feature.NUB,
+        _logFacade.saveActionLog(Feature.NUB,
                 nubRequest.getId(),
                 nubRequest.getStatus());
-        _logFacade.saveActionLog(actionLog);
     }
 
     public List<ProposalInfo> getNubRequestInfos(int accountId, int ik, int year, DataSet dataSet, String filter) {
