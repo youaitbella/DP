@@ -1,7 +1,6 @@
 package org.inek.dataportal.common.data;
 
 import javax.inject.Inject;
-import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.data.adm.facade.LogFacade;
 import org.inek.dataportal.common.data.iface.StatusEntity;
 import org.inek.dataportal.common.enums.WorkflowStatus;
@@ -18,8 +17,7 @@ public abstract class AbstractDataAccessWithActionLog extends AbstractDataAccess
     // </editor-fold>
 
     private void logAction(StatusEntity entity) {
-        _logFacade.saveActionLog(Feature.CALCULATION_HOSPITAL,
-                entity.getClass().getSimpleName(),
+        _logFacade.saveActionLog(entity.getClass().getSimpleName(),
                 entity.getId(),
                 entity.getStatus());
     }

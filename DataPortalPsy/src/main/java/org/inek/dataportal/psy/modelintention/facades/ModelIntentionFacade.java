@@ -22,8 +22,8 @@ import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.psy.modelintention.entities.ModelIntention;
 import org.inek.dataportal.common.enums.DataSet;
 import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.common.data.AbstractDataAccessWithActionLog;
 import org.inek.dataportal.psy.modelintention.enums.UserSet;
-import org.inek.dataportal.common.data.AbstractFacade;
 import org.inek.dataportal.common.helper.structures.EntityInfo;
 
 /**
@@ -31,14 +31,13 @@ import org.inek.dataportal.common.helper.structures.EntityInfo;
  * @author vohldo
  */
 @Stateless
-public class ModelIntentionFacade extends AbstractFacade<ModelIntention> {
+public class ModelIntentionFacade extends AbstractDataAccessWithActionLog {
 
     @Inject private SessionController _sessionController;
 
-    public ModelIntentionFacade() {
-        super(ModelIntention.class);
+    public ModelIntention find(int id){
+        return find(ModelIntention.class, id);
     }
-
     
     public List<ModelIntention> findAll(Set<Integer> accountIds, DataSet dataSet, UserSet userSet) {
         if (userSet == UserSet.AllUsers) {
@@ -93,7 +92,7 @@ public class ModelIntentionFacade extends AbstractFacade<ModelIntention> {
     }
 
     public ModelIntention saveModelIntention(ModelIntention modelIntention) {
-        if (modelIntention.getId() == null) {
+        if (modelIntention.getId() == -1) {
             persist(modelIntention);
             return modelIntention;
         }
@@ -128,4 +127,7 @@ public class ModelIntentionFacade extends AbstractFacade<ModelIntention> {
         return intentionInfos;
     }
 
+    public void remove (ModelIntention intention){
+        super.remove(intention);
+    }
 }

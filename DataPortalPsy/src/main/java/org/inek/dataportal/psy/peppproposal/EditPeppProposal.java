@@ -134,7 +134,7 @@ public class EditPeppProposal extends AbstractEditController {
     private PeppProposal loadPeppProposal(Object ppId) {
         try {
             int id = Integer.parseInt("" + ppId);
-            PeppProposal peppProposal = _peppProposalFacade.findFresh(id);
+            PeppProposal peppProposal = _peppProposalFacade.find(id);
             if (_accessManager.isAccessAllowed(Feature.PEPP_PROPOSAL, peppProposal.getStatus(), peppProposal.getAccountId())) {
                 return peppProposal;
             }

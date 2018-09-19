@@ -16,7 +16,7 @@ public class QualityDynamicTable extends DynamicTable<Quality> {
     @Override
     protected void addNewEntry() {
         Quality quality = new Quality();
-        if (getModelIntention().getId() != null) {
+        if (getModelIntention().getId() != -1) {
             quality.setModelIntentionId(getModelIntention().getId());
         }
         quality.setTypeId(_typeId);

@@ -12,7 +12,7 @@ public class RemunerationDynamicTable extends DynamicTable<Remuneration> {
     @Override
     protected void addNewEntry() {
         Remuneration remuneration = new Remuneration();
-        if (getModelIntention().getId() != null) {
+        if (getModelIntention().getId() != -1) {
             remuneration.setModelIntentionId(getModelIntention().getId());
         }
         getList().add(remuneration);

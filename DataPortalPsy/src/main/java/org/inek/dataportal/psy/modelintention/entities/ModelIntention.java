@@ -20,6 +20,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import org.inek.dataportal.common.data.iface.StatusEntity;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.utils.Documentation;
 
@@ -30,7 +31,7 @@ import org.inek.dataportal.common.utils.Documentation;
 @Entity
 @Table(name = "ModelIntention", schema = "mvh")
 @SuppressWarnings("MethodCount")
-public class ModelIntention implements Serializable {
+public class ModelIntention implements Serializable, StatusEntity {
 
     private static final long serialVersionUID = 1L;
 
@@ -38,13 +39,15 @@ public class ModelIntention implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "miId")
-    private Integer _id;
+    private Integer _id = -1;
 
-    public Integer getId() {
+    @Override
+    public int getId() {
         return _id;
     }
 
-    public void setId(Integer miId) {
+    @Override
+    public void setId(int miId) {
         this._id = miId;
     }
     // </editor-fold>
@@ -880,6 +883,7 @@ public class ModelIntention implements Serializable {
     private int _status = 0;
 
     @Documentation(name = "Bearbeitungsstatus", rank = 10)
+    @Override
     public WorkflowStatus getStatus() {
         return WorkflowStatus.fromValue(_status);
     }
@@ -888,6 +892,7 @@ public class ModelIntention implements Serializable {
         _status = value;
     }
 
+    @Override
     public void setStatus(WorkflowStatus status) {
         _status = status.getId();
     }
@@ -1080,7 +1085,7 @@ public class ModelIntention implements Serializable {
             return false;
         }
         ModelIntention other = (ModelIntention) object;
-        if ((_id == null && other.getId() != null) || (_id != null && !_id.equals(other.getId()))) {
+        if ((_id == null && other._id != null) || (_id != null && !_id.equals(other._id))) {
             return false;
         }
         return true;

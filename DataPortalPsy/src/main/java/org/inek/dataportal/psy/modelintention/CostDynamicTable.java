@@ -13,7 +13,7 @@ public class CostDynamicTable extends DynamicTable<Cost> {
     @Override
     protected void addNewEntry() {
         Cost cost = new Cost();
-        if (getModelIntention().getId() != null) {
+        if (getModelIntention().getId() != -1) {
             cost.setModelIntentionId(getModelIntention().getId());
         }
         getList().add(cost);

@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 import javax.persistence.*;
-import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.common.data.converter.FeatureConverter;
 import org.inek.dataportal.common.data.converter.WorkflowStatusConverter;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 
@@ -18,19 +16,10 @@ import org.inek.dataportal.common.enums.WorkflowStatus;
 public class ActionLog implements Serializable {
 
     public ActionLog(int accountId,
-            Feature feature,
-            int entryId,
-            WorkflowStatus workflowStatus) {
-        this (accountId, feature, "", entryId, workflowStatus);
-    }
-
-    public ActionLog(int accountId,
-            Feature feature,
             String entity,
             int entryId,
             WorkflowStatus workflowStatus) {
         _accountId = accountId;
-        _feature = feature;
         _entity = entity;
         _entryId = entryId;
         _workflowStatus = workflowStatus;
@@ -72,16 +61,6 @@ public class ActionLog implements Serializable {
 
     public int getAccountId() {
         return _accountId;
-    }
-    //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="Property Feature">
-    @Column(name = "alFeatureId")
-    @Convert(converter = FeatureConverter.class)
-    private Feature _feature;
-
-    public Feature getFeature() {
-        return _feature;
     }
     //</editor-fold>
 
@@ -141,9 +120,6 @@ public class ActionLog implements Serializable {
             return false;
         }
         if (!Objects.equals(_timeStamp, other._timeStamp)) {
-            return false;
-        }
-        if (_feature != other._feature) {
             return false;
         }
         return true;

@@ -4,6 +4,7 @@ import org.inek.dataportal.api.helper.FeatureMessageHandler;
 
 public enum Feature {
 
+    UNKNOWN(0, "<unknown>", ManagedBy.None, PortalType.COMMON, IkReference.None, Selectable.No, Shareable.No),
     ADMIN(1, "Administration", ManagedBy.None, PortalType.ADMIN, IkReference.None, Selectable.No, Shareable.No),
     USER_MAINTENANCE(2, "Stammdaten", ManagedBy.None, PortalType.BASE, IkReference.None, Selectable.No, Shareable.No),
     NUB(3, "Neue Untersuchungs- und Behandlungsmethoden", 

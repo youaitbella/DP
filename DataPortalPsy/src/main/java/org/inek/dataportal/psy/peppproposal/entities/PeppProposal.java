@@ -21,6 +21,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Version;
 import org.inek.dataportal.common.data.common.ProcedureInfo;
+import org.inek.dataportal.common.data.iface.StatusEntity;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.utils.Documentation;
 import org.inek.dataportal.psy.peppproposal.enums.PeppProposalCategory;
@@ -31,13 +32,13 @@ import org.inek.dataportal.psy.peppproposal.enums.PeppProposalCategory;
  */
 @Entity
 @Table(name = "PeppProposal")
-public class PeppProposal implements Serializable {
+public class PeppProposal implements Serializable, StatusEntity {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ppId")
-    private Integer _id;
+    private Integer _id = -1;
 
     // <editor-fold defaultstate="collapsed" desc="Property Version">
     @Column(name = "ppVersion")
@@ -218,11 +219,11 @@ public class PeppProposal implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
-    public Integer getId() {
+    public int getId() {
         return _id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         _id = id;
     }
 
@@ -558,7 +559,7 @@ public class PeppProposal implements Serializable {
             return false;
         }
         PeppProposal other = (PeppProposal) object;
-        if ((_id == null && other.getId() != null) || (_id != null && !_id.equals(other.getId()))) {
+        if ((_id == null && other._id != null) || (_id != null && !_id.equals(other._id))) {
             return false;
         }
         return true;

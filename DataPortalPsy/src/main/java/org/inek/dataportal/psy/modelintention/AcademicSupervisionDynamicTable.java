@@ -13,7 +13,7 @@ public class AcademicSupervisionDynamicTable extends DynamicTable<AcademicSuperv
     @Override
     protected void addNewEntry() {
         AcademicSupervision supervision = new AcademicSupervision();
-        if (getModelIntention().getId() != null) {
+        if (getModelIntention().getId() != -1) {
             supervision.setModelIntentionId(getModelIntention().getId());
         }
         getList().add(supervision);

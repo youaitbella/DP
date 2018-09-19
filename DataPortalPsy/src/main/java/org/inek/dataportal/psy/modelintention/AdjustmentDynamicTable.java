@@ -12,7 +12,7 @@ public class AdjustmentDynamicTable extends DynamicTable<Adjustment> {
     @Override
     protected void addNewEntry() {
         Adjustment adjustment = new Adjustment();
-        if (getModelIntention().getId() != null) {
+        if (getModelIntention().getId() != -1) {
             adjustment.setModelIntentionId(getModelIntention().getId());
         }
         getList().add(adjustment);

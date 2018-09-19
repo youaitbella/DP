@@ -12,7 +12,7 @@ public class ModelLifeDynamicTable extends DynamicTable<ModelLife> {
     @Override
     protected void addNewEntry() {
         ModelLife modelLife = new ModelLife();
-        if (getModelIntention().getId() != null) {
+        if (getModelIntention().getId() != -1) {
             modelLife.setModelIntentionId(getModelIntention().getId());
         }
         getList().add(modelLife);

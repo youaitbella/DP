@@ -12,7 +12,7 @@ public class AgreedPatientsDynamicTable extends DynamicTable<AgreedPatients> {
     @Override
     protected void addNewEntry() {
         AgreedPatients agreedPatients = new AgreedPatients();
-        if (getModelIntention().getId() != null) {
+        if (getModelIntention().getId() != -1) {
             agreedPatients.setModelIntentionId(getModelIntention().getId());
         }
         getList().add(agreedPatients);

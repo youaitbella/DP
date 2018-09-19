@@ -1,13 +1,11 @@
 package org.inek.dataportal.psy.peppproposal.facades;
 
-import org.inek.dataportal.common.data.AbstractFacade;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -15,10 +13,10 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import org.inek.dataportal.common.data.AbstractDataAccessWithActionLog;
 import org.inek.dataportal.psy.peppproposal.entities.PeppProposal;
 import org.inek.dataportal.common.enums.DataSet;
 import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.common.helper.structures.ProposalInfo;
 import org.inek.dataportal.common.utils.DocumentationUtil;
 import org.inek.dataportal.common.utils.KeyValueLevel;
@@ -28,17 +26,12 @@ import org.inek.dataportal.common.utils.KeyValueLevel;
  * @author muellermi
  */
 @Stateless
-public class PeppProposalFacade extends AbstractFacade<PeppProposal> {
+public class PeppProposalFacade extends AbstractDataAccessWithActionLog {
 
-    @Inject
-    private PeppProposalCommentFacade _commentFacade;
-    @Inject
-    private AccountFacade _accountFacade;
-
-    public PeppProposalFacade() {
-        super(PeppProposal.class);
+    public PeppProposal find(int id) {
+        return findFresh(PeppProposal.class, id);
     }
-
+    
     public List<PeppProposal> findAll(int accountId, DataSet dataSet) {
         return findAll(accountId, -1, dataSet);
     }
@@ -77,7 +70,7 @@ public class PeppProposalFacade extends AbstractFacade<PeppProposal> {
 
     public PeppProposal savePeppProposal(PeppProposal peppProposal) {
         // logData(peppProposal); // un-comment if loggin is needed again
-        if (peppProposal.getId() == null) {
+        if (peppProposal.getId() == -1) {
             persist(peppProposal);
             return peppProposal;
         }
@@ -167,4 +160,7 @@ public class PeppProposalFacade extends AbstractFacade<PeppProposal> {
         }
     }
 
+    public void remove (PeppProposal entity){
+        super.remove(entity);
+    }
 }

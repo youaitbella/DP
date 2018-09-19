@@ -294,8 +294,8 @@ public class SessionController implements Serializable {
             return;
         }
         try {
-        url = url + "?token=" + getToken() + "&portal=" + portalType.name();
-        performLogout("");
+            url = url + "?token=" + getToken() + "&portal=" + portalType.name();
+            performLogout("");
             FacesContext.getCurrentInstance().getExternalContext().redirect(url);
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
@@ -340,12 +340,11 @@ public class SessionController implements Serializable {
         return data;
     }
 
-
     private int getId(String token) {
         String idString;
         try {
             idString = request(REQUEST_ID, token);
-        return Integer.parseInt(idString);
+            return Integer.parseInt(idString);
         } catch (IOException ex) {
             return Integer.MIN_VALUE;
         }
@@ -361,7 +360,7 @@ public class SessionController implements Serializable {
                 getLocalServerName();
         int id = getId(token);
         _account = _accountFacade.findAccount(id);
-        if (_account == null) {
+        if (_account == null || _featureHolder == null) {
             logMessage("Login by token failed: " + loginInfo);
             _featureHolder.clear();
         } else {

@@ -23,7 +23,7 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.DataSet;
-import org.inek.dataportal.common.data.AbstractDataAccess;
+import org.inek.dataportal.common.data.AbstractDataAccessWithActionLog;
 import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
 import org.inek.dataportal.common.enums.Right;
@@ -44,7 +44,7 @@ import org.inek.dataportal.psy.psychstaff.enums.PsychType;
 //@Transactional
 // can't use CDI, need EJB to enable inject into entity
 @Stateless
-public class PsychStaffFacade extends AbstractDataAccess {
+public class PsychStaffFacade extends AbstractDataAccessWithActionLog {
 
     private static final Logger LOGGER = Logger.getLogger("PsychStaffFacade");
     @Inject
