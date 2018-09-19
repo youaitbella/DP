@@ -4,12 +4,12 @@
  */
 package org.inek.dataportal.insurance.facade;
 
-import org.inek.dataportal.common.data.AbstractDataAccess;
 import java.util.List;
 import java.util.Optional;
 import javax.ejb.Stateless;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import org.inek.dataportal.common.data.AbstractDataAccessWithActionLog;
 import org.inek.dataportal.common.data.common.RemunerationType;
 import org.inek.dataportal.insurance.entities.DosageForm;
 import org.inek.dataportal.insurance.entities.InsuranceNubNotice;
@@ -25,7 +25,7 @@ import org.inek.dataportal.common.enums.WorkflowStatus;
  * @author muellermi
  */
 @Stateless
-public class InsuranceFacade extends AbstractDataAccess {
+public class InsuranceFacade extends AbstractDataAccessWithActionLog {
 
     public InsuranceNubNotice findNubNotice(int id) {
         return super.find(InsuranceNubNotice.class, id);

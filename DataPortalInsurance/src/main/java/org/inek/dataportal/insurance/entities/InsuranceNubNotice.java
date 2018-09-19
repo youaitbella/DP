@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Objects;
 import javax.persistence.*;
 import javax.validation.Valid;
+import org.inek.dataportal.common.data.iface.StatusEntity;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.utils.Documentation;
 
@@ -18,7 +19,7 @@ import org.inek.dataportal.common.utils.Documentation;
  */
 @Entity
 @Table(name = "InsuranceNubNotice")
-public class InsuranceNubNotice implements Serializable {
+public class InsuranceNubNotice implements Serializable, StatusEntity {
 
     private static final long serialVersionUID = 1L;
 
@@ -84,11 +85,13 @@ public class InsuranceNubNotice implements Serializable {
         _workflowStatusId = value;
     }
     
-    public WorkflowStatus getWorkflowStatus() {
+    @Override
+    public WorkflowStatus getStatus() {
         return WorkflowStatus.fromValue(_workflowStatusId);
     }
 
-    public void setWorkflowStatus(WorkflowStatus value) {
+    @Override
+    public void setStatus(WorkflowStatus value) {
         _workflowStatusId = value.getId();
     }    
     // </editor-fold>

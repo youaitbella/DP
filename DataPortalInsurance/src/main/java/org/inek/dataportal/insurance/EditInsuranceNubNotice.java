@@ -316,7 +316,7 @@ public class EditInsuranceNubNotice extends AbstractEditController {
             _sessionController.alertClient(validatorMessage);
             return "";
         }
-        _notice.setWorkflowStatus(WorkflowStatus.Provided);
+        _notice.setStatus(WorkflowStatus.Provided);
         try {
             _insuranceFacade.merge(_notice);
             _insuranceFacade.clearCache();
