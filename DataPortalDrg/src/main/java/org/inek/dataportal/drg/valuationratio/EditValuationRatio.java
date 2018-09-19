@@ -186,7 +186,7 @@ public class EditValuationRatio extends AbstractEditController {
     }
 
     public boolean getReadOnly() {
-        if (_valuationRatio.getStatus() >= WorkflowStatus.Provided.getId()) {
+        if (_valuationRatio.getStatusId() >= WorkflowStatus.Provided.getId()) {
             return true;
         }
         return false;
@@ -229,7 +229,7 @@ public class EditValuationRatio extends AbstractEditController {
      * @return
      */
     public String provide() {
-        _valuationRatio.setStatus(WorkflowStatus.Provided.getId());
+        _valuationRatio.setStatus(WorkflowStatus.Provided);
         try {
             _valuationRatioFacade.merge(_valuationRatio);
             _valuationRatioFacade.clearCache();

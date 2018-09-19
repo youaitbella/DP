@@ -1,6 +1,5 @@
 package org.inek.dataportal.drg.drgproposal.facades;
 
-import org.inek.dataportal.common.data.AbstractFacade;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -14,10 +13,8 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import javax.transaction.Transactional;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.data.AbstractDataAccess;
-import org.inek.dataportal.common.data.adm.ActionLog;
 import org.inek.dataportal.common.data.adm.facade.LogFacade;
 import org.inek.dataportal.drg.drgproposal.entities.DrgProposal;
 import org.inek.dataportal.common.enums.DataSet;
@@ -33,10 +30,6 @@ public class DrgProposalFacade extends AbstractDataAccess {
 
     // <editor-fold defaultstate="collapsed" desc="Property LogFacade">
     private LogFacade _logFacade;
-
-    public LogFacade getLogFacade() {
-        return _logFacade;
-    }
 
     @Inject
     public void setLogFacade(LogFacade logFacade) {

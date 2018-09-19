@@ -43,7 +43,6 @@ public enum WorkflowStatus {
         return _value;
     }
 
-    @Deprecated
     public int getValue() {
         return _value;
     }

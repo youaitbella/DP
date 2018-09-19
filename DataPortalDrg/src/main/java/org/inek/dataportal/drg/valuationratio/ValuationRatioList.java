@@ -44,7 +44,7 @@ public class ValuationRatioList {
     public String getConfirmMessage(int valuationRatioId) {
         ValuationRatio vr = _valuationRatioFacade.findFreshValuationRatio(valuationRatioId);
         String msg = "Meldung für " + vr.getIk() + "\n"
-                + (vr.getStatus() <= 9 ? Utils.getMessage("msgConfirmDelete") : Utils.getMessage("msgConfirmRetire"));
+                + (vr.getStatusId() <= 9 ? Utils.getMessage("msgConfirmDelete") : Utils.getMessage("msgConfirmRetire"));
         msg = msg.replace("\r\n", "\n").replace("\n", "\\r\\n").replace("'", "\\'").replace("\"", "\\'");
         return "return confirm ('" + msg + "');";
     }
@@ -55,10 +55,10 @@ public class ValuationRatioList {
             return "";
         }
         if (_sessionController.isMyAccount(valuationratio.getAccountId())) {
-            if (valuationratio.getStatus() < WorkflowStatus.Provided.getId()) {
+            if (valuationratio.getStatusId() < WorkflowStatus.Provided.getId()) {
                 _valuationRatioFacade.delete(valuationratio);
             } else {
-                valuationratio.setStatus(WorkflowStatus.Retired.getId());
+                valuationratio.setStatus(WorkflowStatus.Retired);
                 _valuationRatioFacade.saveValuationRatio(valuationratio);
             }
         }

@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 import javax.persistence.*;
 import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.common.data.converter.WorkflowStatusConverter;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.utils.Documentation;
@@ -241,21 +242,22 @@ public class ValuationRatio implements Serializable {
         this._validFrom = validFrom;
     }
     
-    public WorkflowStatus getWorkflowStatus() {
-        return WorkflowStatus.fromValue(_status);
-    }
-    
     @Column(name = "vrStatus")
-    private int _status = WorkflowStatus.New.getId();
+    @Convert(converter = WorkflowStatusConverter.class)
+    private WorkflowStatus _status = WorkflowStatus.New;
 
-    public int getStatus() {
+    public WorkflowStatus getStatus() {
         return _status;
     }
-
-    public void setStatus(int status) {
-        this._status = status;
+    
+    public void setStatus(WorkflowStatus status) {
+        _status = status;
     }
     
+    public int getStatusId() {
+        return _status.getId();
+    }
+
     @PrePersist
     private void tagCreationDate() {
         _creationDate = Calendar.getInstance().getTime();

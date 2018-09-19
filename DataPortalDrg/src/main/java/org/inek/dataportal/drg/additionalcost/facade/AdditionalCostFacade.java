@@ -4,13 +4,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.drg.additionalcost.entity.AdditionalCost;
 import org.inek.dataportal.common.enums.DataSet;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.data.AbstractDataAccess;
+import org.inek.dataportal.common.data.adm.facade.LogFacade;
 
 /**
  *
@@ -18,6 +21,15 @@ import org.inek.dataportal.common.data.AbstractDataAccess;
  */
 @Stateless
 public class AdditionalCostFacade extends AbstractDataAccess {
+
+    // <editor-fold defaultstate="collapsed" desc="Property LogFacade">
+    private LogFacade _logFacade;
+
+    @Inject
+    public void setLogFacade(LogFacade logFacade) {
+        _logFacade = logFacade;
+    }
+    // </editor-fold>
 
     public AdditionalCost findAdditionalCost(int id) {
         return find(AdditionalCost.class, id);
@@ -32,7 +44,8 @@ public class AdditionalCostFacade extends AbstractDataAccess {
                 + "WHERE n._accountId = :accountId and n._statusId BETWEEN :minStatus AND :maxStatus ORDER BY n._id";
         TypedQuery<AdditionalCost> query = getEntityManager().createQuery(sql, AdditionalCost.class);
         int minStatus = dataSet == DataSet.AllOpen ? WorkflowStatus.New.getId() : WorkflowStatus.Provided.getId();
-        int maxStatus = dataSet == DataSet.AllOpen ? WorkflowStatus.Provided.getId() - 1 : WorkflowStatus.Retired.getId();
+        int maxStatus = dataSet == DataSet.AllOpen ? WorkflowStatus.Provided.getId() - 1 : WorkflowStatus.Retired.
+                getId();
         query.setParameter("accountId", accountId);
         query.setParameter("minStatus", minStatus);
         query.setParameter("maxStatus", maxStatus);
@@ -45,16 +58,28 @@ public class AdditionalCostFacade extends AbstractDataAccess {
         }
         if (_additionalCost.getId() == -1) {
             persist(_additionalCost);
+            logAction(_additionalCost);
             return _additionalCost;
         }
+        logAction(_additionalCost);
         return merge(_additionalCost);
     }
 
-    public void deleteAdditionalCost(AdditionalCost _additionalCost) {
-        remove(_additionalCost);
+    private void logAction(AdditionalCost entity) {
+        _logFacade.saveActionLog(Feature.ADDITIONAL_COST,
+                entity.getId(),
+                entity.getStatus());
     }
 
-    public List<Account> loadRequestAccountsForYear(Set<Integer> accountIds, int year, WorkflowStatus statusLow, WorkflowStatus statusHigh) {
+    public void deleteAdditionalCost(AdditionalCost additionalCost) {
+        remove(additionalCost);
+        additionalCost.setStatus(WorkflowStatus.Deleted);
+        logAction(additionalCost);
+        
+    }
+
+    public List<Account> loadRequestAccountsForYear(Set<Integer> accountIds, int year, WorkflowStatus statusLow,
+            WorkflowStatus statusHigh) {
         String jpql = "select distinct a "
                 + "from Account a join AdditionalCost s "
                 + "where a._id = s._accountId and s._calenderYear = :year "

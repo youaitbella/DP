@@ -8,7 +8,10 @@ import org.inek.dataportal.common.data.AbstractDataAccess;
 import java.util.List;
 import java.util.Set;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.TypedQuery;
+import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.common.data.adm.facade.LogFacade;
 import org.inek.dataportal.drg.valuationratio.entities.ValuationRatio;
 import org.inek.dataportal.drg.valuationratio.entities.ValuationRatioDrgCount;
 import org.inek.dataportal.drg.valuationratio.entities.ValuationRatioMedian;
@@ -21,6 +24,15 @@ import org.inek.dataportal.common.enums.WorkflowStatus;
  */
 @Stateless
 public class ValuationRatioFacade extends AbstractDataAccess {
+
+    // <editor-fold defaultstate="collapsed" desc="Property LogFacade">
+    private LogFacade _logFacade;
+
+    @Inject
+    public void setLogFacade(LogFacade logFacade) {
+        _logFacade = logFacade;
+    }
+    // </editor-fold>
 
     public ValuationRatio findValuationRatio(int id) {
         return super.find(ValuationRatio.class, id);
@@ -59,11 +71,12 @@ public class ValuationRatioFacade extends AbstractDataAccess {
     }
 
     public boolean existsValuationRatio(int ik, int year) {
-        String sql = "SELECT n FROM ValuationRatio n "
-                + "WHERE n._dataYear = :dtYear and n._ik = :IK and n._status <= 20";
-        TypedQuery<ValuationRatio> query = getEntityManager().createQuery(sql, ValuationRatio.class);
+        String jpql = "SELECT n FROM ValuationRatio n "
+                + "WHERE n._dataYear = :dtYear and n._ik = :IK and n._status <= :status";
+        TypedQuery<ValuationRatio> query = getEntityManager().createQuery(jpql, ValuationRatio.class);
         query.setParameter("dtYear", year);
         query.setParameter("IK", ik);
+        query.setParameter("status", WorkflowStatus.Taken);
         if (query.getResultList().isEmpty()) {
             return false;
         }
@@ -74,8 +87,8 @@ public class ValuationRatioFacade extends AbstractDataAccess {
         String sql = "SELECT n FROM ValuationRatio n "
                 + "WHERE n._accountId = :accountId and n._status BETWEEN :minStatus AND :maxStatus ORDER BY n._dataYear, n._id";
         TypedQuery<ValuationRatio> query = getEntityManager().createQuery(sql, ValuationRatio.class);
-        int minStatus = dataSet == DataSet.AllOpen ? WorkflowStatus.New.getId() : WorkflowStatus.Provided.getId();
-        int maxStatus = dataSet == DataSet.AllOpen ? WorkflowStatus.Provided.getId() - 1 : WorkflowStatus.Retired.getId();
+        WorkflowStatus minStatus = dataSet == DataSet.AllOpen ? WorkflowStatus.New : WorkflowStatus.Provided;
+        WorkflowStatus maxStatus = dataSet == DataSet.AllOpen ? WorkflowStatus.ApprovalRequested : WorkflowStatus.Retired;
         query.setParameter("accountId", accountId);
         query.setParameter("minStatus", minStatus);
         query.setParameter("maxStatus", maxStatus);
@@ -97,12 +110,22 @@ public class ValuationRatioFacade extends AbstractDataAccess {
         if (vr.getId() == -1) {
             persist(vr);
         } else {
-            merge(vr);
+            vr = merge(vr);
         }
+        logAction(vr);
         return vr;
     }
 
     public void delete(ValuationRatio vr) {
         remove(vr);
+        vr.setStatus(WorkflowStatus.Deleted);
+        logAction(vr);
     }
+
+    private void logAction(ValuationRatio entity) {
+        _logFacade.saveActionLog(Feature.ADDITIONAL_COST,
+                entity.getId(),
+                entity.getStatus());
+    }
+    
 }

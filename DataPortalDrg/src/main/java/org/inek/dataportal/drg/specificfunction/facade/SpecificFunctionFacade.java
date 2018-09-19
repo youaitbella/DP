@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
@@ -17,6 +18,7 @@ import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.data.AbstractDataAccess;
+import org.inek.dataportal.common.data.adm.facade.LogFacade;
 import org.inek.dataportal.common.specificfunction.entity.CenterName;
 import org.inek.dataportal.common.specificfunction.entity.RelatedName;
 import org.inek.dataportal.common.specificfunction.entity.SpecificFunction;
@@ -41,6 +43,15 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
     private static final String ACCOUNT_IDS = "accountIds";
     private static final String CODE = "code";
     private static final String ACCOUNT_ID = "accountId";
+
+    // <editor-fold defaultstate="collapsed" desc="Property LogFacade">
+    private LogFacade _logFacade;
+
+    @Inject
+    public void setLogFacade(LogFacade logFacade) {
+        _logFacade = logFacade;
+    }
+    // </editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Specific Function Request">
     public SpecificFunctionRequest findSpecificFunctionRequest(int id) {
@@ -145,30 +156,26 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
 
         if (request.getId() == -1) {
             persist(request);
+            logAction(request);
             return request;
         }
-
-//        for (RequestProjectedCenter item : request.getRequestProjectedCenters()) {
-//            if (item.getId() == -1) {
-//                persist(item);
-//            } else {
-//                merge(item);
-//            }
-//        }
-//        for (RequestAgreedCenter item : request.getRequestAgreedCenters()) {
-//            if (item.getId() == -1) {
-//                persist(item);
-//            } else {
-//                merge(item);
-//            }
-//        }
+        logAction(request);
         return merge(request);
     }
 
     public void deleteSpecificFunctionRequest(SpecificFunctionRequest statement) {
         remove(statement);
+        statement.setStatus(WorkflowStatus.Deleted);
+        logAction(statement);
     }
 
+    private void logAction(SpecificFunctionRequest entity) {
+        _logFacade.saveActionLog(Feature.SPECIFIC_FUNCTION,
+                entity.getId(),
+                entity.getStatus());
+    }
+
+    
     public List<Account> getInekAccounts() {
         String sql = "select distinct account.*\n"
                 + "from spf.RequestMaster\n"

@@ -29,7 +29,6 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.common.data.adm.ActionLog;
 import org.inek.dataportal.common.data.adm.facade.LogFacade;
 import org.inek.dataportal.drg.nub.entities.NubFormerRequest;
 import org.inek.dataportal.drg.nub.entities.NubFormerRequestMerged;
@@ -65,10 +64,6 @@ public class NubRequestFacade extends AbstractDataAccess {
 
     // <editor-fold defaultstate="collapsed" desc="Property LogFacade">
     private LogFacade _logFacade;
-
-    public LogFacade getLogFacade() {
-        return _logFacade;
-    }
 
     @Inject
     public void setLogFacade(LogFacade logFacade) {
