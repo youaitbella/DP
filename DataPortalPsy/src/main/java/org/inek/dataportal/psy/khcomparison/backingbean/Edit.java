@@ -120,9 +120,13 @@ public class Edit {
 
     public void setReadOnly() {
         if (_aebBaseInformation != null) {
-            setReadOnly(!_accessManager.ObtainAllowedIks(Feature.HC_HOSPITAL).contains(_aebBaseInformation.getIk()));
-        } else if (_aebBaseInformation.getIk() == 0) {
-            setReadOnly(false);
+            if (_aebBaseInformation.getIk() <= 0){
+                setReadOnly(false);
+            }else{
+                setReadOnly(_accessManager.isReadOnly(Feature.HC_HOSPITAL, _aebBaseInformation.getStatus(), 
+                        _sessionController.getAccountId(), 
+                        _aebBaseInformation.getIk()));
+            }
         } else {
             setReadOnly(true);
         }
