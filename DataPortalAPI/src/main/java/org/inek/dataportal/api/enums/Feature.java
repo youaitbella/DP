@@ -4,44 +4,49 @@ import org.inek.dataportal.api.helper.FeatureMessageHandler;
 
 public enum Feature {
 
-    UNKNOWN(0, "<unknown>", ManagedBy.None, PortalType.COMMON, IkReference.None, Selectable.No, Shareable.No),
-    ADMIN(1, "Administration", ManagedBy.None, PortalType.ADMIN, IkReference.None, Selectable.No, Shareable.No),
-    USER_MAINTENANCE(2, "Stammdaten", ManagedBy.None, PortalType.BASE, IkReference.None, Selectable.No, Shareable.No),
+    UNKNOWN(0, "<unknown>", ManagedBy.None, PortalType.COMMON, IkReference.None, IkUsage.Unknown, Selectable.No, Shareable.No),
+    ADMIN(1, "Administration", ManagedBy.None, PortalType.ADMIN, IkReference.None, IkUsage.Unknown, Selectable.No, Shareable.No),
+    USER_MAINTENANCE(2, "Stammdaten", ManagedBy.None, PortalType.BASE, IkReference.None, IkUsage.Unknown, Selectable.No, Shareable.No),
     NUB(3, "Neue Untersuchungs- und Behandlungsmethoden", 
-            ManagedBy.None, PortalType.DRG, IkReference.Direct, Selectable.Yes, Shareable.Yes),
-    REQUEST_SYSTEM(4, "Anfrageverfahren", ManagedBy.None, PortalType.BASE, IkReference.None, Selectable.Yes, Shareable.No),
-    DROPBOX(5, "DropBox", ManagedBy.InekOrIkAdmin, PortalType.BASE, IkReference.Direct, Selectable.Yes, Shareable.No),
-    PEPP_PROPOSAL(6, "PEPP-Vorschlagsverfahren", ManagedBy.None, PortalType.PSY, IkReference.None, Selectable.Yes, Shareable.Yes),
-    DRG_PROPOSAL(7, "DRG-Vorschlagsverfahren", ManagedBy.None, PortalType.DRG, IkReference.None, Selectable.Yes, Shareable.Yes),
-    COOPERATION(8, "Kooperation", ManagedBy.None, PortalType.BASE, IkReference.None, Selectable.Yes, Shareable.No),
-    MODEL_INTENTION(9, "Modellvorhaben Psy", ManagedBy.None, PortalType.PSY, IkReference.None, Selectable.Yes, Shareable.Yes),
-    DOCUMENTS(10, "Dokumente", ManagedBy.None, PortalType.BASE, IkReference.None, Selectable.No, Shareable.No),
-    CERT(11, "Zertifizierung", ManagedBy.InekOrIkAdmin, PortalType.CERT, IkReference.None, Selectable.Yes, Shareable.No),
-    AGENCY(12, "Behörde", ManagedBy.InekOrIkAdmin, PortalType.BASE, IkReference.None, Selectable.Yes, Shareable.No),
-    INSURANCE(13, "Krankenkasse", ManagedBy.InekOrIkAdmin, PortalType.INSURANCE, IkReference.None, Selectable.Yes, Shareable.No),
+            ManagedBy.None, PortalType.DRG, IkReference.Hospital, IkUsage.Direct, Selectable.Yes, Shareable.Yes),
+    REQUEST_SYSTEM(4, "Anfrageverfahren", ManagedBy.None, PortalType.BASE, IkReference.None, IkUsage.Unknown, Selectable.Yes, Shareable.No),
+    DROPBOX(5, "DropBox", ManagedBy.InekOrIkAdmin, PortalType.BASE, IkReference.Hospital, IkUsage.Direct, Selectable.Yes, Shareable.No),
+    PEPP_PROPOSAL(6, "PEPP-Vorschlagsverfahren", ManagedBy.None, PortalType.PSY, IkReference.None, IkUsage.Unknown, Selectable.Yes, Shareable.Yes),
+    DRG_PROPOSAL(7, "DRG-Vorschlagsverfahren", ManagedBy.None, PortalType.DRG, IkReference.None, IkUsage.Unknown, Selectable.Yes, Shareable.Yes),
+    COOPERATION(8, "Kooperation", ManagedBy.None, PortalType.BASE, IkReference.None, IkUsage.Unknown, Selectable.Yes, Shareable.No),
+    MODEL_INTENTION(9, "Modellvorhaben Psy", ManagedBy.None, PortalType.PSY, IkReference.None, IkUsage.Unknown, Selectable.Yes, Shareable.Yes),
+    DOCUMENTS(10, "Dokumente", ManagedBy.None, PortalType.BASE, IkReference.None, IkUsage.Unknown, Selectable.No, Shareable.No),
+    CERT(11, "Zertifizierung", ManagedBy.InekOrIkAdmin, PortalType.CERT, IkReference.None, IkUsage.Unknown, Selectable.Yes, Shareable.No),
+    AGENCY(12, "Behörde", ManagedBy.InekOrIkAdmin, PortalType.BASE, IkReference.None, IkUsage.Unknown, Selectable.Yes, Shareable.No),
+    INSURANCE(13, "Krankenkasse", ManagedBy.InekOrIkAdmin, PortalType.INSURANCE, IkReference.None, IkUsage.Unknown, Selectable.Yes, Shareable.No),
     CALCULATION_HOSPITAL(14, "Teilnahme Kostenkalkulation", 
-            ManagedBy.InekOrIkAdmin, PortalType.CALC, IkReference.Direct, Selectable.Yes, Shareable.Yes),
-    SPECIFIC_FUNCTION(15, "Besondere Aufgaben", ManagedBy.InekOrIkAdmin, PortalType.DRG, IkReference.Direct, Selectable.Yes, Shareable.Yes),
+            ManagedBy.InekOrIkAdmin, PortalType.CALC, IkReference.Hospital, IkUsage.Direct, Selectable.Yes, Shareable.Yes),
+    SPECIFIC_FUNCTION(15, "Besondere Aufgaben", 
+            ManagedBy.InekOrIkAdmin, PortalType.DRG, IkReference.Hospital, IkUsage.Direct, Selectable.Yes, Shareable.Yes),
     // todo: make ADDITIONAL_COST shareable
-    ADDITIONAL_COST(16, "Finanzierung von Mehrkosten", ManagedBy.InekOrIkAdmin, PortalType.DRG, IkReference.Direct, Selectable.Yes, Shareable.No),
+    ADDITIONAL_COST(16, "Finanzierung von Mehrkosten", 
+            ManagedBy.InekOrIkAdmin, PortalType.DRG, IkReference.Hospital, IkUsage.Direct, Selectable.Yes, Shareable.No),
     // todo: make PSYCH_STAFF shareable
     PSYCH_STAFF(17, "Psych-Personalnachweis-Vereinbarung", 
-            ManagedBy.InekOrIkAdmin, PortalType.PSY, IkReference.Direct, Selectable.Yes, Shareable.No),
+            ManagedBy.InekOrIkAdmin, PortalType.PSY, IkReference.Hospital, IkUsage.Direct, Selectable.Yes, Shareable.No),
     // todo: make VALUATION_RATIO shareable
-    VALUATION_RATIO(18, "Gezielte Absenkung", ManagedBy.InekOrIkAdmin, PortalType.DRG, IkReference.Direct, Selectable.Yes, Shareable.No),
-    IK_ADMIN(19, "IK-Administration", ManagedBy.None, PortalType.BASE, IkReference.None, Selectable.No, Shareable.No),
+    VALUATION_RATIO(18, "Gezielte Absenkung", 
+            ManagedBy.InekOrIkAdmin, PortalType.DRG, IkReference.Hospital, IkUsage.Direct, Selectable.Yes, Shareable.No),
+    IK_ADMIN(19, "IK-Administration", ManagedBy.None, PortalType.BASE, IkReference.None, IkUsage.Unknown, Selectable.No, Shareable.No),
     HC_HOSPITAL(20, "Krankenhausvergleich (Funktionen für Krankenhaus)",
-            ManagedBy.IkAdminOnly, PortalType.PSY, IkReference.Direct, Selectable.Yes, Shareable.No),
+            ManagedBy.IkAdminOnly, PortalType.PSY, IkReference.Hospital, IkUsage.Direct, Selectable.Yes, Shareable.No),
     HC_INSURANCE(21, "Krankenhausvergleich (Funktionen für Krankenkasse)",
-            ManagedBy.IkAdminOnly, PortalType.INSURANCE, IkReference.ByResposibilityAndCorrelation, Selectable.Yes, Shareable.No);
+            ManagedBy.IkAdminOnly, PortalType.INSURANCE, IkReference.Insurance, IkUsage.ByResposibilityAndCorrelation, Selectable.Yes, Shareable.No);
 
     Feature(int id, String description, ManagedBy managedBy, PortalType portalType,
-            IkReference ikReference, Selectable selectable, Shareable shareable) {
+            IkReference ikReference, IkUsage ikUsage,
+            Selectable selectable, Shareable shareable) {
         _id = id;
         _description = description;
         _managedBy = managedBy;
         _portalType = portalType;
         _ikReference = ikReference;
+        _ikUsage = ikUsage;
         _selectable = selectable;
         _shareable = shareable;
     }
@@ -84,6 +89,12 @@ public enum Feature {
 
     public IkReference getIkReference() {
         return _ikReference;
+    }
+
+    private final IkUsage _ikUsage;
+
+    public IkUsage getIkUsage() {
+        return _ikUsage;
     }
 
     private final Selectable _selectable;

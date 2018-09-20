@@ -9,8 +9,9 @@ package org.inek.dataportal.api.enums;
  *
  * @author muellermi
  */
-public enum IkReference {
-    None,
-    Hospital,
-    Insurance;
+public enum IkUsage {
+    Unknown,
+    Direct,
+    ByResposibility,
+    ByResposibilityAndCorrelation;
 }

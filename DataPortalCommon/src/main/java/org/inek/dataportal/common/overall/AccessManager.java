@@ -21,6 +21,7 @@ import org.inek.dataportal.common.data.cooperation.entities.CooperationRight;
 import org.inek.dataportal.common.enums.CooperativeRight;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.api.enums.IkReference;
+import org.inek.dataportal.api.enums.IkUsage;
 import org.inek.dataportal.api.enums.ManagedBy;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.data.cooperation.facade.CooperationRightFacade;
@@ -129,11 +130,12 @@ public class AccessManager implements Serializable {
 
     public Set<Integer> retrieveAllowedForCreationIks(Feature feature) {
         Set<Integer> iks = retrieveIkSet(feature, r -> r.getRight().canCreate());
-        if (feature.getIkReference() == IkReference.None || feature.getIkReference() == IkReference.Direct) {
+        if (feature.getIkReference() == IkReference.None || feature.getIkUsage()== IkUsage.Direct) {
+            // todo: Oce we distinguish between IkReference.Hospital and .Insurence, then filter iks
             return iks;
         }
         Set<Integer> responsibleForIks = _ikCache.retriveResponsibleForIks(feature, _sessionController.getAccount(), iks);
-        if (feature.getIkReference() == IkReference.ByResposibilityAndCorrelation) {
+        if (feature.getIkUsage()== IkUsage.ByResposibilityAndCorrelation) {
             responsibleForIks = _ikCache.retriveCorrelatedIks(feature, iks, responsibleForIks);
         }
         return responsibleForIks;
