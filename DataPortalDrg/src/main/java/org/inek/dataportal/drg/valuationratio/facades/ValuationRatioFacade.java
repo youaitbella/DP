@@ -55,7 +55,7 @@ public class ValuationRatioFacade extends AbstractDataAccessWithActionLog {
                 .filter(vr -> vr.getDataYear() == dataYear)
                 .filter(vr -> vr.getDrg().equals(drg))
                 .findFirst()
-                .orElse(null);
+                .orElse(new ValuationRatioDrgCount());
     }
 
     public boolean existsValuationRatio(int ik, int year) {

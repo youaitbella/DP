@@ -147,6 +147,9 @@ public enum Pages {
     CertGrouperResults("/Cert/CertGrouperResults"),
     CertGrouperCc("/Cert/CertGrouperCc"),
     //
+    Care("/care/structure"),
+    PartCare("/care/structure"),
+    //
     PartAgency("/Agency/PartAgency"),
     //
     PartInsurance("/Insurance/PartInsurance"),

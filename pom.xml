@@ -24,8 +24,9 @@
 
         <module>DataPortalBase</module>
         <module>DataPortalAdmin</module>
-        <module>DataPortalCert</module>
         <module>DataPortalCalc</module>
+        <module>DataPortalCare</module>
+        <module>DataPortalCert</module>
         <module>DataPortalDrg</module>
         <module>DataPortalInek</module>
         <module>DataPortalInsurance</module>

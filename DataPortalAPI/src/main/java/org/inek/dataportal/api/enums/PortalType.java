@@ -12,6 +12,7 @@ public enum PortalType {
     INSURANCE("Zu den Krankenkassen-Funktionen", "Krankenkasse"),
     CERT("Zur Zertifizierung", "Zertifizierung"),
     CALC("Zur Teilnahme Kostenkalkulation", "Teilnahme Kostenkalkulation"),
+    CARE("Pflegepersonaluntergrenzen", "Pflegepersonaluntergrenzen"),
     INEK("Zu den Internen Funktionen", "InEK Intern"),
     ADMIN("Zum Admin-Bereich", "Admin");
 
