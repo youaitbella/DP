@@ -34,9 +34,9 @@ public enum Feature {
             ManagedBy.InekOrIkAdmin, PortalType.DRG, IkReference.Hospital, IkUsage.Direct, Selectable.Yes, Shareable.No),
     IK_ADMIN(19, "IK-Administration", ManagedBy.None, PortalType.BASE, IkReference.None, IkUsage.Unknown, Selectable.No, Shareable.No),
     HC_HOSPITAL(20, "Krankenhausvergleich (Funktionen für Krankenhaus)",
-            ManagedBy.IkAdminOnly, PortalType.PSY, IkReference.Hospital, IkUsage.Direct, Selectable.Yes, Shareable.No),
+            ManagedBy.IkAdminOnly, PortalType.PSY, IkReference.Hospital, IkUsage.Direct, Selectable.No, Shareable.No),
     HC_INSURANCE(21, "Krankenhausvergleich (Funktionen für Krankenkasse)",
-            ManagedBy.IkAdminOnly, PortalType.INSURANCE, IkReference.Insurance, IkUsage.ByResposibilityAndCorrelation, Selectable.Yes, Shareable.No),
+            ManagedBy.IkAdminOnly, PortalType.INSURANCE, IkReference.Insurance, IkUsage.ByResposibilityAndCorrelation, Selectable.No, Shareable.No),
     CARE(22, "Pflegeuntergrenzen", ManagedBy.IkAdminOnly, PortalType.CARE, IkReference.Hospital, IkUsage.Direct, Selectable.No, Shareable.No);
 
     Feature(int id, String description, ManagedBy managedBy, PortalType portalType,
