@@ -247,18 +247,22 @@ public class Edit {
     }
 
     public void handleFileUpload(FileUploadEvent event) {
-        AebImporter importer = new AebImporter();
-        AebChecker checker = new AebChecker(_aebListItemFacade);
-        try {
-            if (importer.startImport(_aebBaseInformation, event.getFile().getInputstream())) {
-                checker.checkAeb(_aebBaseInformation);
-                setErrorMessage(checker.getMessage());
-                setErrorMessage(getErrorMessage() + "\n \n --> " + importer.getCounter() + " Zeilen eingelesen");
-                _dialogController.showInfoDialog("Upload abgeschlossen", "Ihre Daten wurden erfolgreich hochgeladen");
+        if (_aebBaseInformation.getYear() > 0) {
+            AebImporter importer = new AebImporter();
+            AebChecker checker = new AebChecker(_aebListItemFacade);
+            try {
+                if (importer.startImport(_aebBaseInformation, event.getFile().getInputstream())) {
+                    checker.checkAeb(_aebBaseInformation);
+                    setErrorMessage(checker.getMessage());
+                    setErrorMessage(getErrorMessage() + "\n \n --> " + importer.getCounter() + " Zeilen eingelesen");
+                    _dialogController.showInfoDialog("Upload abgeschlossen", "Ihre Daten wurden erfolgreich hochgeladen");
+                }
+            } catch (Exception ex) {
+                _dialogController.
+                        showWarningDialog("Upload fehlgeschlagen", "Fehler beim Upload. Bitte versuchen Sie es erneut");
             }
-        } catch (Exception ex) {
-            _dialogController.
-                    showWarningDialog("Upload fehlgeschlagen", "Fehler beim Upload. Bitte versuchen Sie es erneut");
+        } else {
+            _dialogController.showInfoDialog("Fehler beim Upload", "Bitte wählen Sie ein Vereinbahrungsjahr aus um den Import zu benutzen");
         }
     }
 
