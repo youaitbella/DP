@@ -6,16 +6,16 @@ import java.io.Serializable;
  *
  * @author muellermi
  */
-public class MapAccountIk implements Serializable {
+public class MapIkAdminFeature implements Serializable {
 
-    private int _accountId;
-    private int _ik;
+    private int _ikAdminId;
+    private int _featureId;
 
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 89 * hash + this._accountId;
-        hash = 89 * hash + this._ik;
+        hash = 89 * hash + this._ikAdminId;
+        hash = 89 * hash + this._featureId;
         return hash;
     }
 
@@ -27,8 +27,8 @@ public class MapAccountIk implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final MapAccountIk other = (MapAccountIk) obj;
-        return _accountId == other._accountId && _ik == other._ik;
+        final MapIkAdminFeature other = (MapIkAdminFeature) obj;
+        return _ikAdminId == other._ikAdminId && _featureId == other._featureId;
     }
 
 }

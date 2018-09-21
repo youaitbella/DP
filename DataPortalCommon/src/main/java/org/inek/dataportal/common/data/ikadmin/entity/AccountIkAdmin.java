@@ -13,8 +13,7 @@ import javax.persistence.*;
  * @author muellermi
  */
 @Entity
-@Table(name = "mapAccountIkAdmin", schema = "ikadm")
-@IdClass(MapAccountIk.class)
+@Table(name = "IkAdmin", schema = "ikadm")
 public class AccountIkAdmin implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -26,9 +25,25 @@ public class AccountIkAdmin implements Serializable {
         _mailDomain = mailDomain;
     }
     
+ 
+    //<editor-fold defaultstate="collapsed" desc="Property Id">
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "iaId")
+    private Integer _id = -1;
+
+    public int getId() {
+        return _id;
+    }
+
+    public void setId(int id) {
+        _id = id;
+    }
+    //</editor-fold>
+       
     // <editor-fold defaultstate="collapsed" desc="Property AccountId">
     @Id
-    @Column(name = "aiaAccountId")
+    @Column(name = "iaAccountId")
     private int _accountId = -1;
 
     public int getAccountId() {
@@ -42,7 +57,7 @@ public class AccountIkAdmin implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="Property Ik">
     @Id
-    @Column(name = "aiaIk")
+    @Column(name = "iaIk")
     private int _ik = -1;
 
     public int getIk() {
@@ -55,7 +70,7 @@ public class AccountIkAdmin implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property MailDomain">
-    @Column(name = "aiaMailDomain")
+    @Column(name = "iaMailDomain")
     private String _mailDomain;
     public String getMailDomain() {
         return _mailDomain;
@@ -69,11 +84,7 @@ public class AccountIkAdmin implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="hashCode & equals">
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 47 * hash + this._accountId;
-        hash = 47 * hash + this._ik;
-        hash = 47 * hash + Objects.hashCode(this._mailDomain);
-        return hash;
+        return 47;
     }
 
     @Override
@@ -95,6 +106,9 @@ public class AccountIkAdmin implements Serializable {
             return false;
         }
         if (!Objects.equals(this._mailDomain, other._mailDomain)) {
+            return false;
+        }
+        if (!Objects.equals(this._id, other._id)) {
             return false;
         }
         return true;
