@@ -62,6 +62,7 @@
     <class>org.inek.dataportal.common.data.account.entities.AccountIk</class>
     <class>org.inek.dataportal.common.data.infotext.entity.InfoText</class>
     <class>org.inek.dataportal.common.data.ikadmin.entity.IkAdmin</class>
+    <class>org.inek.dataportal.common.data.ikadmin.entity.IkAdminFeature</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="eclipselink.jpa.uppercase-column-names" value="true"/>

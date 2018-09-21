@@ -1,20 +1,37 @@
 package org.inek.dataportal.common.data.ikadmin.entity;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.*;
+import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.common.data.converter.FeatureConverter;
 
 @Entity
-@Table(name = "mapIkAdminFeature", schema = "ikadm")
-@IdClass(MapIkAdminFeature.class)
+@Table(name = "IkAdminFeature", schema = "ikadm")
 public class IkAdminFeature implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     public IkAdminFeature(){}
-    public IkAdminFeature(int AccountId, int ik){
+    public IkAdminFeature(int AccountId, Feature feature){
         _ikAdminId = AccountId;
-        _featureId = ik;
+        _feature = feature;
     }
+    
+    //<editor-fold defaultstate="collapsed" desc="Property Id">
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "iafId")
+    private Integer _id = -1;
+
+    public int getId() {
+        return _id;
+    }
+
+    public void setId(int id) {
+        _id = id;
+    }
+    //</editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Property IkAdminId">
     @Id
@@ -33,14 +50,15 @@ public class IkAdminFeature implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property FeatureId">
     @Id
     @Column(name = "iafFeatureId")
-    private int _featureId = -1;
+    @Convert(converter = FeatureConverter.class)
+    private Feature _feature;
 
-    public int getFeatureId() {
-        return _featureId;
+    public Feature getFeature() {
+        return _feature;
     }
 
-    public void setFeatureId(int id) {
-        _featureId = id;
+    public void setFeature(Feature feature) {
+        _feature = feature;
     }
     // </editor-fold>
 
@@ -65,11 +83,15 @@ public class IkAdminFeature implements Serializable {
         if (this._ikAdminId != other._ikAdminId) {
             return false;
         }
-        if (this._featureId != other._featureId) {
+        if (!Objects.equals(this._id, other._id)) {
+            return false;
+        }
+        if (this._feature != other._feature) {
             return false;
         }
         return true;
     }
     // </editor-fold>
+
 
 }

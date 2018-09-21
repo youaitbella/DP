@@ -5,8 +5,11 @@
 package org.inek.dataportal.common.data.ikadmin.entity;
 
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.*;
+import org.inek.dataportal.api.enums.Feature;
 
 /**
  *
@@ -42,7 +45,6 @@ public class IkAdmin implements Serializable {
     //</editor-fold>
        
     // <editor-fold defaultstate="collapsed" desc="Property AccountId">
-    @Id
     @Column(name = "iaAccountId")
     private int _accountId = -1;
 
@@ -56,7 +58,6 @@ public class IkAdmin implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Ik">
-    @Id
     @Column(name = "iaIk")
     private int _ik = -1;
 
@@ -80,7 +81,33 @@ public class IkAdmin implements Serializable {
         _mailDomain = mailDomain;
     }
     // </editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Property IkAdminFeatures">
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "iafIkAdminId", referencedColumnName = "iaId")
+    @OrderBy("_feature")
+    private List<IkAdminFeature> _ikAdminFeatures;
 
+    public List<IkAdminFeature> getIkAdminFeatures() {
+        return Collections.unmodifiableList(_ikAdminFeatures);
+    }
+
+    public void setIkAdminFeatures(List<IkAdminFeature> ikAdminFeatures) {
+        _ikAdminFeatures = ikAdminFeatures;
+    }
+
+    public void removeIkAdminFeature(Feature feature) {
+        _ikAdminFeatures.removeIf(ai -> ai.getFeature()== feature);
+    }
+
+    public void addIkAdminFeature(Feature feature) {
+        if (_ikAdminFeatures.stream().anyMatch(ai -> ai.getFeature() == feature)){
+            return;
+        }
+        _ikAdminFeatures.add(new IkAdminFeature(_accountId, feature));
+    }
+    // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="hashCode & equals">
     @Override
     public int hashCode() {
