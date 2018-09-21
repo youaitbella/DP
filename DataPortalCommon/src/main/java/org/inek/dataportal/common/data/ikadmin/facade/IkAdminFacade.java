@@ -90,7 +90,7 @@ public class IkAdminFacade extends AbstractDataAccess {
      * @return managedIks
      */
     public List<Integer> dertermineManagegIks(List<Integer> iks) {
-        String jpql = "select distinct a._ik from AccountIkAdmin a where a._ik in :iks";
+        String jpql = "select distinct a._ik from IkAdmin a where a._ik in :iks";
         TypedQuery<Integer> query = getEntityManager().createQuery(jpql, Integer.class);
         query.setParameter("iks", iks);
         return query.getResultList();
@@ -105,7 +105,7 @@ public class IkAdminFacade extends AbstractDataAccess {
     }
 
     public boolean hasIkAdmin(int ik) {
-        String sql = "select cast(sign(count(0)) as bit) as hasAdmin from ikadm.mapAccountIkAdmin where aiaIk = " + ik;
+        String sql = "select cast(sign(count(0)) as bit) as hasAdmin from ikadm.IkAdmin where iaIk = " + ik;
         Query query = getEntityManager().createNativeQuery(sql);
         boolean hasIkAdmin = (boolean) query.getSingleResult();
         return hasIkAdmin;
@@ -113,13 +113,13 @@ public class IkAdminFacade extends AbstractDataAccess {
 
     @SuppressWarnings("unchecked")
     public List<Account> findIkAdmins(int ik) {
-        String sql = "select Account.* from ikadm.mapAccountIkAdmin join Account on aiaAccountId = acId where aiaIk = " + ik;
+        String sql = "select Account.* from ikadm.IkAdmin join Account on iaAccountId = acId where iaIk = " + ik;
         Query query = getEntityManager().createNativeQuery(sql, Account.class);
         return query.getResultList();
     }
 
     public List<Integer> loadAllManagegIks() {
-        String jpql = "select distinct a._ik from AccountIkAdmin a";
+        String jpql = "select distinct a._ik from IkAdmin a";
         TypedQuery<Integer> query = getEntityManager().createQuery(jpql, Integer.class);
         return query.getResultList();
     }

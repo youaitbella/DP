@@ -245,7 +245,7 @@ public class Account implements Serializable, Person {
 
     // <editor-fold defaultstate="collapsed" desc="Property AdminIks">
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "aiaAccountId", referencedColumnName = "acId")
+    @JoinColumn(name = "iaAccountId", referencedColumnName = "acId")
     @OrderBy("_ik")
     private List<IkAdmin> _adminIks;
 

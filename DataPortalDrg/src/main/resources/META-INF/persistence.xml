@@ -52,7 +52,7 @@
         <class>org.inek.dataportal.common.data.cooperation.entities.PortalMessage</class>
         <class>org.inek.dataportal.common.data.ikadmin.entity.AccessRight</class>
         <class>org.inek.dataportal.common.data.ikadmin.entity.IkCorrelation</class>
-        <class>org.inek.dataportal.common.data.ikadmin.entity.AccountIkAdmin</class>
+        <class>org.inek.dataportal.common.data.ikadmin.entity.IkAdmin</class>
         <class>org.inek.dataportal.common.data.ikadmin.entity.User</class>
         <class>org.inek.dataportal.common.specificfunction.entity.CenterName</class>
         <class>org.inek.dataportal.common.specificfunction.entity.RelatedName</class>

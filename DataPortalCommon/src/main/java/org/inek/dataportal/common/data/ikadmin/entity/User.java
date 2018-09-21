@@ -12,7 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * An excert of Account for fast info within AccountIkAdmin
+ * An excerpt of Account for fast info within IkAdmin
  * @author muellermi
  */
 @Entity
