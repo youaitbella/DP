@@ -27,6 +27,10 @@ public class NubTemplateUploadServlet extends AbstractUploadServlet {
             NubController controller = (NubController) _sessionController.getFeatureController(Feature.NUB);
             byte[] buffer = stream2blob(is);
             String fileText = new String(buffer, "UTF-8");
+            String bom = "" + (char)239 + (char)187 + (char)191;
+            if (fileText.startsWith(bom)){
+                fileText = fileText.substring(3);
+            }
             int pos = fileText.lastIndexOf(NubFieldKey.CheckSum + "=");
             if (pos < 0) {
                 throw new IOException("Formatfehler");
