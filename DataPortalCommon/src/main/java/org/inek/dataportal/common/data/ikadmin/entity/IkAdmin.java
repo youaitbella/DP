@@ -14,12 +14,12 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "IkAdmin", schema = "ikadm")
-public class AccountIkAdmin implements Serializable {
+public class IkAdmin implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public AccountIkAdmin(){}
-    public AccountIkAdmin(int AccountId, int ik, String mailDomain){
+    public IkAdmin(){}
+    public IkAdmin(int AccountId, int ik, String mailDomain){
         _accountId = AccountId;
         _ik = ik;
         _mailDomain = mailDomain;
@@ -98,7 +98,7 @@ public class AccountIkAdmin implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final AccountIkAdmin other = (AccountIkAdmin) obj;
+        final IkAdmin other = (IkAdmin) obj;
         if (this._accountId != other._accountId) {
             return false;
         }

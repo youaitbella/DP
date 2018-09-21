@@ -8,7 +8,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.common.data.ikadmin.entity.AccountIkAdmin;
+import org.inek.dataportal.common.data.ikadmin.entity.IkAdmin;
 import org.inek.dataportal.common.scope.FeatureScoped;
 
 @Named
@@ -52,7 +52,7 @@ public class IkAdminList {
 
     private void setAdminIksList() {
         _adminIks.clear();
-        for (AccountIkAdmin aik : _sessionController.getAccount().getAdminIks()) {
+        for (IkAdmin aik : _sessionController.getAccount().getAdminIks()) {
             _adminIks.add(aik.getIk());
         }
     }

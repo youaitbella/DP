@@ -37,7 +37,7 @@ import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.api.enums.FeatureState;
 import org.inek.dataportal.common.data.adm.InekRole;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
-import org.inek.dataportal.common.data.ikadmin.entity.AccountIkAdmin;
+import org.inek.dataportal.common.data.ikadmin.entity.IkAdmin;
 
 /**
  *
@@ -247,13 +247,13 @@ public class Account implements Serializable, Person {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "aiaAccountId", referencedColumnName = "acId")
     @OrderBy("_ik")
-    private List<AccountIkAdmin> _adminIks;
+    private List<IkAdmin> _adminIks;
 
-    public List<AccountIkAdmin> getAdminIks() {
+    public List<IkAdmin> getAdminIks() {
         return _adminIks;
     }
 
-    public void setAdminIks(List<AccountIkAdmin> adminIks) {
+    public void setAdminIks(List<IkAdmin> adminIks) {
         this._adminIks = adminIks;
     }
 
@@ -269,12 +269,12 @@ public class Account implements Serializable, Person {
      * @return
      */
     public boolean addIkAdmin(int ik, String mailDomain) {
-        Optional<AccountIkAdmin> admin = _adminIks.stream().filter(ai -> ai.getIk() == ik).findAny();
+        Optional<IkAdmin> admin = _adminIks.stream().filter(ai -> ai.getIk() == ik).findAny();
         if (admin.isPresent()) {
             admin.get().setMailDomain(mailDomain);
             return false;
         }
-        _adminIks.add(new AccountIkAdmin(_id, ik, mailDomain));
+        _adminIks.add(new IkAdmin(_id, ik, mailDomain));
         return true;
     }
     // </editor-fold>
