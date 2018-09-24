@@ -149,6 +149,8 @@ public enum Pages {
     //
     Care("/care/structure"),
     PartCare("/care/structure"),
+    CareDeptSummary("/care/Dept/deptSummary"),
+    CareDeptEdit("/care/Dept/deptEdit"),
     //
     PartAgency("/Agency/PartAgency"),
     //

@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:pf="http://primefaces.org/ui"
+                xmlns:inekIk="http://xmlns.jcp.org/jsf/composite/components/Other" >
+
+    <h:form id="form">
+        <inekIk:MultiIk label="#{msg.lblIkShort}"
+                        required="true"
+                        value="#{deptEdit.deptBaseInformation.ik}"
+                        ikList="#{deptEdit.validIks}"
+                        readonly="#{deptEdit.isReadOnly}"
+                        listener="#{deptEdit.ikChanged()}"
+                        updateElement="form:deptSelection"/>
+
+        <pf:selectOneMenu id="deptSelection"
+                          value="#{deptEdit.selectedDept}"
+                          disabled="#{deptEdit.isReadOnly}">
+            <pf:ajax event="change" update="stationTable" />
+            <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
+            <f:selectItems value="#{deptEdit.deptBaseInformation.depts}" var="dept" itemLabel="Standort: #{dept.locationCode} Fachabteilung: #{dept.deptName}" />
+        </pf:selectOneMenu>
+
+        <pf:dataTable rendered="#{deptEdit.selectedDept ne null}"
+                      id="stationTable"
+                      value="#{deptEdit.selectedDept.deptStations}"
+                      var="deptStation"
+                      emptyMessage="Keine Einträge vorhanden">
+            <pf:column headerText="Bezeichnung der Station">
+                #{deptStation.stationName}
+            </pf:column>
+            <pf:column headerText="Anzahl Betten">
+                #{deptStation.beds}
+            </pf:column>
+        </pf:dataTable>
+
+        <pf:commandButton id="addNewStation"
+                          value="Neue Station eintragen"
+                          action="#{deptEdit.createNewDeptStation()}"
+                          rendered="#{!deptEdit.isReadOnly and deptEdit.selectedDept ne null}"
+                          immediate="true"
+                          update="stationTable"/>
+    </h:form>
+
+</ui:composition>
+

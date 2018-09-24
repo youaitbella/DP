@@ -15,7 +15,7 @@ public class CareController extends AbstractFeatureController {
 
     @Override
     protected void addTopics(Topics topics) {
-            topics.addTopic(Utils.getMessage("lblCare"), Pages.Care.URL());
+        topics.addTopic(Utils.getMessage("lblCare"), Pages.CareDeptSummary.URL());
     }
 
     @Override

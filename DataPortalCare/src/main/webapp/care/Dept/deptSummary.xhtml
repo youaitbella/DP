@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/Templates/PortalMenuTemplate.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:cb="http://inek.org/dataportal/clientbehaviour"
+                xmlns:pf="http://primefaces.org/ui">
+
+    <ui:define name="content">
+        <h1>Pflegeuntergrenzen</h1>
+        <pf:panel style="background-color: #eeeeee;">
+            <div class="ui-g ui-fluid" >
+                <div class="ui-g-6">
+                    <h2>Daten in Erfassung</h2>
+                    <pf:dataTable id="erfassungtable"
+                                  value="#{deptSummary.listWorking}"
+                                  var="baseInformation"
+                                  emptyMessage="Keine Einträge vorhanden">
+                        <pf:column class="colIcon">
+                            <pf:commandLink action="#{deptSummary.deleteBaseInformation(baseInformation)}"
+                                            update="@all"
+                                            process="@this"
+                                            rendered="#{deptSummary.isDeleteAllowed(baseInformation.ik)}">
+                                <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value=""/>
+                            </pf:commandLink>
+                        </pf:column>
+                        <pf:column headerText="IK" >
+                            <h:link outcome="#{deptSummary.careDeptStationOpen()}"
+                                    value="#{baseInformation.ik}" >
+                                <f:param name="id" value="#{baseInformation.id}"/>
+                            </h:link>
+                        </pf:column>
+                        <pf:column headerText="Vereinbarungsjahr" >
+                            <h:link outcome="#{summary.careDeptStationOpen()}"
+                                    value="#{baseInformation.year}" >
+                                <f:param name="id" value="#{baseInformation.id}"/>
+                            </h:link>
+                        </pf:column>
+                    </pf:dataTable>
+                </div>
+                <div class="ui-g-6">
+                    <h2>An das InEK gesendet</h2>
+                    <pf:dataTable value="#{deptSummary.listComplete}"
+                                  var="baseInformation"
+                                  emptyMessage="Keine Einträge vorhanden">
+                        <pf:column headerText="IK" >
+                            <h:link outcome="#{deptSummary.careDeptStationOpen()}"
+                                    value="#{baseInformation.ik}" >
+                                <f:param name="id" value="#{baseInformation.id}"/>
+                            </h:link>
+                        </pf:column>
+                        <pf:column headerText="Vereinbarungsjahr" >
+                            <h:link outcome="#{deptSummary.careDeptStationOpen()}"
+                                    value="#{baseInformation.year}" >
+                                <f:param name="id" value="#{baseInformation.id}"/>
+                            </h:link>
+                        </pf:column>
+                    </pf:dataTable>
+                </div>
+            </div>
+
+            <pf:commandButton value="Neuen Datensatz erstellen"
+                              action="#{deptSummary.careDeptStationOpen()}"
+                              rendered="#{deptSummary.isCreateEntryAllowed()}"
+                              immediate="true">
+                <f:param name="id" value="new"/>
+            </pf:commandButton>
+
+        </pf:panel>
+
+    </ui:define>
+
+</ui:composition>
+
