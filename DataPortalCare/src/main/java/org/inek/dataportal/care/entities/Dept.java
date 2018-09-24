@@ -65,8 +65,8 @@ public class Dept implements Serializable {
         return _deptName;
     }
 
-    public void setDeptName(String _deptName) {
-        this._deptName = _deptName;
+    public void setDeptName(String deptName) {
+        this._deptName = deptName;
     }
     //</editor-fold>
 
