@@ -129,7 +129,7 @@ public class EditStructureInformation {
     }
 
     public void save() {
-        if (_structureInformation.getIk() > 0) {
+        if (_structureInformation.getIk() > 0 && (_structureInformation.getBedCount() != 0 || _structureInformation.getTherapyPartCount() != 0)) {
             _structureInformation.setLastChangeFrom(_sessionController.getAccountId());
             _structureInformation.setLastChanged(new Date());
             try {
@@ -140,7 +140,7 @@ public class EditStructureInformation {
                 _dialogController.showErrorDialog("Fehler beim Speichern", "Vorgang abgebrochen");
             }
         } else {
-            _dialogController.showInfoDialog("Daten nicht vollständig", "Bitte wählen Sie eine IK aus");
+            _dialogController.showInfoDialog("Daten nicht vollständig", "Bitte wählen Sie eine IK und geben Sie eine Anzahl Planbetten bzw. teilstationärer Therapieplätze an.");
         }
     }
 
