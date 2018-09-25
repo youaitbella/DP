@@ -20,32 +20,6 @@ import org.inek.dataportal.common.data.AbstractDataAccess;
 @Stateless
 public class AEBListItemFacade extends AbstractDataAccess {
 
-    public List<SelectItem> getAccommodationItems() {
-        String sql = "select acId, acName from psy.AEBListAccommodation";
-        Query query = getEntityManager().createNativeQuery(sql);
-        @SuppressWarnings("unchecked")
-        List<Object[]> result = query.getResultList();
-
-        List<SelectItem> items = new ArrayList<>();
-        for (Object[] resultElement : result) {
-            items.add(new SelectItem(resultElement[0].toString(), resultElement[1].toString()));
-        }
-        return items;
-    }
-
-    public List<SelectItem> getAmbulantItems() {
-        String sql = "select apId, apName from psy.AEBListAmbulantPerformance";
-        Query query = getEntityManager().createNativeQuery(sql);
-        @SuppressWarnings("unchecked")
-        List<Object[]> result = query.getResultList();
-
-        List<SelectItem> items = new ArrayList<>();
-        for (Object[] resultElement : result) {
-            items.add(new SelectItem(resultElement[0].toString(), resultElement[1].toString()));
-        }
-        return items;
-    }
-
     public List<SelectItem> getStructureCategorie() {
         String sql = "select scId, scName from psy.listStructureCategorie";
         Query query = getEntityManager().createNativeQuery(sql);

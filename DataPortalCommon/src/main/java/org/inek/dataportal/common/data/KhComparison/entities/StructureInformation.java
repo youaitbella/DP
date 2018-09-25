@@ -168,19 +168,6 @@ public class StructureInformation implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property AccommodationId">
-    @Column(name = "siAccommodationId")
-    private int _accommodationId;
-
-    public int getAccommodationId() {
-        return _accommodationId;
-    }
-
-    public void setAccommodationId(int accommodationId) {
-        _accommodationId = accommodationId;
-    }
-    //</editor-fold>
-
     //<editor-fold defaultstate="collapsed" desc="Property CareProvider">
     @Column(name = "siCareProvider")
     private String _careProvider = "";
@@ -217,19 +204,6 @@ public class StructureInformation implements Serializable {
 
     public void setSocialPsychiatryService(String performanceAreas) {
         _socialPsychiatryService = performanceAreas;
-    }
-    //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="Property AmbulantPerformanceId">
-    @Column(name = "siAmbulantPerformanceId")
-    private int _ambulantPerformanceId;
-
-    public int getAmbulantPerformanceId() {
-        return _ambulantPerformanceId;
-    }
-
-    public void setAmbulantPerformanceId(int ambulantPerformanceId) {
-        _ambulantPerformanceId = ambulantPerformanceId;
     }
     //</editor-fold>
 
@@ -286,11 +260,9 @@ public class StructureInformation implements Serializable {
         hash = 37 * hash + Objects.hashCode(this._regionalCare);
         hash = 37 * hash + Objects.hashCode(this._spCenterText);
         hash = 37 * hash + Objects.hashCode(this._accommodationText);
-        hash = 37 * hash + this._accommodationId;
         hash = 37 * hash + Objects.hashCode(this._careProvider);
         hash = 37 * hash + Objects.hashCode(this._performanceAreas);
         hash = 37 * hash + Objects.hashCode(this._socialPsychiatryService);
-        hash = 37 * hash + this._ambulantPerformanceId;
         hash = 37 * hash + Objects.hashCode(this._ambulantPerformanceMain);
         hash = 37 * hash + Objects.hashCode(this._ambulantStructure);
         hash = 37 * hash + Objects.hashCode(this._dismissManagement);
@@ -326,12 +298,6 @@ public class StructureInformation implements Serializable {
             return false;
         }
         if (this._therapyPartCount != other._therapyPartCount) {
-            return false;
-        }
-        if (this._accommodationId != other._accommodationId) {
-            return false;
-        }
-        if (this._ambulantPerformanceId != other._ambulantPerformanceId) {
             return false;
         }
         if (!Objects.equals(this._regionalCare, other._regionalCare)) {

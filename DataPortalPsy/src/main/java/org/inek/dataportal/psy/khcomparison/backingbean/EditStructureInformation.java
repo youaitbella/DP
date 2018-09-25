@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
-import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.api.enums.Feature;
@@ -112,14 +111,6 @@ public class EditStructureInformation {
         this._structureInformation = structureInformation;
     }
 
-    public List<SelectItem> getAccommodationItems() {
-        return _aebListItemFacade.getAccommodationItems();
-    }
-
-    public List<SelectItem> getAmbulantItems() {
-        return _aebListItemFacade.getAmbulantItems();
-    }
-
     public void setReadOnly() {
         if (_structureInformation != null) {
             setReadOnly(_accessManager.isReadOnly(Feature.HC_HOSPITAL,
@@ -138,14 +129,18 @@ public class EditStructureInformation {
     }
 
     public void save() {
-        _structureInformation.setLastChangeFrom(_sessionController.getAccountId());
-        _structureInformation.setLastChanged(new Date());
-        try {
-            _structureInformation = _aebFacade.save(_structureInformation);
-            saveChangeLogs(_changes);
-            _dialogController.showSaveDialog();
-        } catch (Exception ex) {
-            _dialogController.showErrorDialog("Fehler beim Speichern", "Vorgang abgebrochen");
+        if (_structureInformation.getIk() > 0) {
+            _structureInformation.setLastChangeFrom(_sessionController.getAccountId());
+            _structureInformation.setLastChanged(new Date());
+            try {
+                _structureInformation = _aebFacade.save(_structureInformation);
+                saveChangeLogs(_changes);
+                _dialogController.showSaveDialog();
+            } catch (Exception ex) {
+                _dialogController.showErrorDialog("Fehler beim Speichern", "Vorgang abgebrochen");
+            }
+        } else {
+            _dialogController.showInfoDialog("Daten nicht vollständig", "Bitte wählen Sie eine IK aus");
         }
     }
 
@@ -169,9 +164,7 @@ public class EditStructureInformation {
 
     public StructureInformation copyStructureInformation(StructureInformation info) {
         StructureInformation newInfo = new StructureInformation();
-        newInfo.setAccommodationId(info.getAccommodationId());
         newInfo.setAccommodationText(info.getAccommodationText());
-        newInfo.setAmbulantPerformanceId(info.getAmbulantPerformanceId());
         newInfo.setAmbulantPerformanceMain(info.getAmbulantPerformanceMain());
         newInfo.setAmbulantStructure(info.getAmbulantStructure());
         newInfo.setBedCount(info.getBedCount());

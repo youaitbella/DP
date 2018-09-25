@@ -51,14 +51,6 @@
                  class="inekFieldset"
                  collapsed="#{editStructureInformation.structureInformation.accommodationText.length() eq 0}">
         <div class="ui-g ui-fluid">
-            <div class="ui-g-3">
-                <pf:outputLabel class="formLabel" value="Unterbringung:* " />
-                <pf:selectOneMenu value="#{editStructureInformation.structureInformation.accommodationId}" disabled="#{editStructureInformation.isReadOnly()}">
-                    <f:selectItems value="#{editStructureInformation.accommodationItems}"/>
-                </pf:selectOneMenu>
-            </div>
-        </div>
-        <div class="ui-g ui-fluid">
             <div class="ui-g-12">
                 <pf:outputLabel class="formLabel"
                                 value="Beschreibung der strukturellen und personellen Besonderheiten für patienten mit gesetzlicher Unterbringung:*" />
@@ -98,14 +90,6 @@
                  toggleable="true"
                  class="inekFieldset"
                  collapsed="#{editStructureInformation.structureInformation.ambulantPerformanceMain.length() eq 0}">
-        <div class="ui-g ui-fluid">
-            <div class="ui-g-3">
-                <pf:outputLabel class="formLabel" value="Form:* " />
-                <pf:selectOneMenu value="#{editStructureInformation.structureInformation.ambulantPerformanceId}" disabled="#{editStructureInformation.isReadOnly()}">
-                    <f:selectItems value="#{editStructureInformation.ambulantItems}"/>
-                </pf:selectOneMenu>
-            </div>
-        </div>
         <div class="ui-g ui-fluid">
             <div class="ui-g-12">
                 <pf:outputLabel class="formLabel"
