@@ -46,7 +46,7 @@
         </div>
     </pf:fieldset>
 
-    <pf:fieldset legend="Besonderheiten bei der gesetzlicher Unterbringung"
+    <pf:fieldset legend="Besonderheiten bei der gesetzlichen Unterbringung"
                  toggleable="true"
                  class="inekFieldset"
                  collapsed="#{editStructureInformation.structureInformation.accommodationText.length() eq 0}">
@@ -98,6 +98,26 @@
                                   rows="10"
                                   cols="50"
                                   value="#{editStructureInformation.structureInformation.ambulantPerformanceMain}"
+                                  readonly="#{editStructureInformation.isReadOnly()}"
+                                  valueChangeListener="#{editStructureInformation.handleChange}">
+                    <pf:ajax />
+                </pf:inputTextarea>
+            </div>
+        </div>
+    </pf:fieldset>
+
+    <pf:fieldset legend="Leistungen im Rahmen des Entlassmanagements"
+                 toggleable="true"
+                 class="inekFieldset"
+                 collapsed="#{editStructureInformation.structureInformation.dismissManagement.length() eq 0}">
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12">
+                <pf:outputLabel class="formLabel"
+                                value="Leistungsschwerpunkte:*" />
+                <pf:inputTextarea id="dismissManagement"
+                                  rows="10"
+                                  cols="50"
+                                  value="#{editStructureInformation.structureInformation.dismissManagement}"
                                   readonly="#{editStructureInformation.isReadOnly()}"
                                   valueChangeListener="#{editStructureInformation.handleChange}">
                     <pf:ajax />
@@ -179,24 +199,6 @@
         </div>
     </pf:fieldset>
 
-    <pf:fieldset legend="Leistungen im Rahmen des Entlassmanagements"
-                 toggleable="true"
-                 class="inekFieldset"
-                 collapsed="#{editStructureInformation.structureInformation.dismissManagement.length() eq 0}">
-        <div class="ui-g ui-fluid">
-            <div class="ui-g-12">
-                <pf:outputLabel class="formLabel"
-                                value="Leistungsschwerpunkte:*" />
-                <pf:inputTextarea id="dismissManagement"
-                                  rows="10"
-                                  cols="50"
-                                  value="#{editStructureInformation.structureInformation.dismissManagement}"
-                                  readonly="#{editStructureInformation.isReadOnly()}"
-                                  valueChangeListener="#{editStructureInformation.handleChange}">
-                    <pf:ajax />
-                </pf:inputTextarea>
-            </div>
-        </div>
-    </pf:fieldset>
+
 
 </ui:composition>
