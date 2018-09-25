@@ -63,12 +63,14 @@
             </div>
 
             <br />
-            <pf:commandButton styleClass="btnPsy"
-                              value="Speichern"
-                              action="#{editStructureInformation.save()}"
-                              update="@form"
-                              immediate="true"
-                              rendered="#{!editStructureInformation.isReadOnly() and editStructureInformation.canSave()}"/>
+            <div class="footerInformation">
+                <pf:commandButton styleClass="btnPsy"
+                                  value="Speichern"
+                                  action="#{editStructureInformation.save()}"
+                                  update="@form"
+                                  immediate="true"
+                                  rendered="#{!editStructureInformation.isReadOnly()}"/>
+            </div>
 
             <br />
             <br />

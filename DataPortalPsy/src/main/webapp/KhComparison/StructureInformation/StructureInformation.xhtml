@@ -14,7 +14,7 @@
         <div class="ui-g ui-fluid">
             <div class="ui-g-4">
                 <inek:InputNumber value="#{editStructureInformation.structureInformation.bedCount}"
-                                  labelText="Bettenzahl"
+                                  labelText="Planbetten"
                                   readonly="#{editStructureInformation.isReadOnly()}"/>
             </div>
             <div class="ui-g-4">
@@ -46,7 +46,7 @@
         </div>
     </pf:fieldset>
 
-    <pf:fieldset legend="Besonderheiten bei gesetzlicher Unterbringung"
+    <pf:fieldset legend="Besonderheiten bei der gesetzlicher Unterbringung"
                  toggleable="true"
                  class="inekFieldset"
                  collapsed="#{editStructureInformation.structureInformation.accommodationText.length() eq 0}">
@@ -74,7 +74,7 @@
         </div>
     </pf:fieldset>
 
-    <pf:fieldset legend="Sozialpädiatrisches Zentrum gem. § 119 SGB V"
+    <pf:fieldset legend="Sozialpädiatrisches Zentrum gem. § 119 SGB V am Krankenhaus vorhanden"
                  toggleable="true"
                  class="inekFieldset"
                  collapsed="#{editStructureInformation.structureInformation.SPCenterText.length() eq 0}">
@@ -86,6 +86,34 @@
                                   rows="10"
                                   cols="50"
                                   value="#{editStructureInformation.structureInformation.SPCenterText}"
+                                  readonly="#{editStructureInformation.isReadOnly()}"
+                                  valueChangeListener="#{editStructureInformation.handleChange}">
+                    <pf:ajax />
+                </pf:inputTextarea>
+            </div>
+        </div>
+    </pf:fieldset>
+
+    <pf:fieldset legend="Ambulante Leistungserbringung des Krankenhauses"
+                 toggleable="true"
+                 class="inekFieldset"
+                 collapsed="#{editStructureInformation.structureInformation.ambulantPerformanceMain.length() eq 0}">
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-3">
+                <pf:outputLabel class="formLabel" value="Form:* " />
+                <pf:selectOneMenu value="#{editStructureInformation.structureInformation.ambulantPerformanceId}" disabled="#{editStructureInformation.isReadOnly()}">
+                    <f:selectItems value="#{editStructureInformation.ambulantItems}"/>
+                </pf:selectOneMenu>
+            </div>
+        </div>
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12">
+                <pf:outputLabel class="formLabel"
+                                value="Angabe der Leistungsschwerpunkte:*" />
+                <pf:inputTextarea id="ambulantPerformanceMain"
+                                  rows="10"
+                                  cols="50"
+                                  value="#{editStructureInformation.structureInformation.ambulantPerformanceMain}"
                                   readonly="#{editStructureInformation.isReadOnly()}"
                                   valueChangeListener="#{editStructureInformation.handleChange}">
                     <pf:ajax />
@@ -127,7 +155,7 @@
         </div>
     </pf:fieldset>
 
-    <pf:fieldset legend="Struktur der ambulanten Versorgung"
+    <pf:fieldset legend="Ambulante Infrastruktur im Umfeld des Krankenhauses"
                  toggleable="true"
                  class="inekFieldset"
                  collapsed="#{editStructureInformation.structureInformation.ambulantStructure.length() eq 0}">
@@ -159,34 +187,6 @@
                                   rows="10"
                                   cols="50"
                                   value="#{editStructureInformation.structureInformation.socialPsychiatryService}"
-                                  readonly="#{editStructureInformation.isReadOnly()}"
-                                  valueChangeListener="#{editStructureInformation.handleChange}">
-                    <pf:ajax />
-                </pf:inputTextarea>
-            </div>
-        </div>
-    </pf:fieldset>
-
-    <pf:fieldset legend="Ambulante Leistungserbringung"
-                 toggleable="true"
-                 class="inekFieldset"
-                 collapsed="#{editStructureInformation.structureInformation.ambulantPerformanceMain.length() eq 0}">
-        <div class="ui-g ui-fluid">
-            <div class="ui-g-3">
-                <pf:outputLabel class="formLabel" value="Form:* " />
-                <pf:selectOneMenu value="#{editStructureInformation.structureInformation.ambulantPerformanceId}" disabled="#{editStructureInformation.isReadOnly()}">
-                    <f:selectItems value="#{editStructureInformation.ambulantItems}"/>
-                </pf:selectOneMenu>
-            </div>
-        </div>
-        <div class="ui-g ui-fluid">
-            <div class="ui-g-12">
-                <pf:outputLabel class="formLabel"
-                                value="Angabe der Leistungsschwerpunkte:*" />
-                <pf:inputTextarea id="ambulantPerformanceMain"
-                                  rows="10"
-                                  cols="50"
-                                  value="#{editStructureInformation.structureInformation.ambulantPerformanceMain}"
                                   readonly="#{editStructureInformation.isReadOnly()}"
                                   valueChangeListener="#{editStructureInformation.handleChange}">
                     <pf:ajax />
