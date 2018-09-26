@@ -26,7 +26,7 @@ public class Dept implements Serializable {
         return _id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         _id = id;
     }
     // </editor-fold>
@@ -43,20 +43,8 @@ public class Dept implements Serializable {
     public void setBaseInformation(DeptBaseInformation baseInformation) {
         this._baseInformation = baseInformation;
     }
-
     //</editor-fold>
-    //<editor-fold defaultstate="collapsed" desc="Property Location Code">
-    @Column(name = "deLocationNumber")
-    private int _locationCode;
 
-    public int getLocationCode() {
-        return _locationCode;
-    }
-
-    public void setLocationCode(int locationCode) {
-        this._locationCode = locationCode;
-    }
-    //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="Property Dept Name">
     @Column(name = "deDeptName")
     private String _deptName = "";
@@ -67,6 +55,19 @@ public class Dept implements Serializable {
 
     public void setDeptName(String deptName) {
         this._deptName = deptName;
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property Dept Area Id">
+    @Column(name = "deDeptAreaId")
+    private int _deptArea;
+
+    public int getDeptArea() {
+        return _deptArea;
+    }
+
+    public void setDeptArea(int deptArea) {
+        this._deptArea = deptArea;
     }
     //</editor-fold>
 
@@ -97,7 +98,6 @@ public class Dept implements Serializable {
         int hash = 7;
         hash = 59 * hash + Objects.hashCode(this._id);
         hash = 59 * hash + Objects.hashCode(this._baseInformation);
-        hash = 59 * hash + this._locationCode;
         hash = 59 * hash + Objects.hashCode(this._deptName);
         hash = 59 * hash + Objects.hashCode(this._deptStations);
         return hash;
@@ -115,9 +115,6 @@ public class Dept implements Serializable {
             return false;
         }
         final Dept other = (Dept) obj;
-        if (this._locationCode != other._locationCode) {
-            return false;
-        }
         if (!Objects.equals(this._deptName, other._deptName)) {
             return false;
         }

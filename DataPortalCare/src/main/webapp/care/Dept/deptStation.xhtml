@@ -6,45 +6,130 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xmlns:pf="http://primefaces.org/ui"
-                xmlns:inekIk="http://xmlns.jcp.org/jsf/composite/components/Other" >
+                xmlns:inekIk="http://xmlns.jcp.org/jsf/composite/components/Other"
+                xmlns:inekInput="http://xmlns.jcp.org/jsf/composite/components/Input"
+                xmlns:inekIcon="http://xmlns.jcp.org/jsf/composite/components/Icons"
+                xmlns:jsf="http://xmlns.jcp.org/jsf">
 
-    <h:form id="form">
-        <inekIk:MultiIk label="#{msg.lblIkShort}"
-                        required="true"
-                        value="#{deptEdit.deptBaseInformation.ik}"
-                        ikList="#{deptEdit.validIks}"
-                        readonly="#{deptEdit.isReadOnly}"
-                        listener="#{deptEdit.ikChanged()}"
-                        updateElement="form:deptSelection"/>
 
-        <pf:selectOneMenu id="deptSelection"
-                          value="#{deptEdit.selectedDept}"
-                          disabled="#{deptEdit.isReadOnly}">
-            <pf:ajax event="change" update="stationTable" />
-            <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
-            <f:selectItems value="#{deptEdit.deptBaseInformation.depts}" var="dept" itemLabel="Standort: #{dept.locationCode} Fachabteilung: #{dept.deptName}" />
-        </pf:selectOneMenu>
+    <inekIk:MultiIk label="#{msg.lblIkShort}"
+                    required="true"
+                    value="#{deptEdit.deptBaseInformation.ik}"
+                    ikList="#{deptEdit.validIks}"
+                    readonly="#{deptEdit.isReadOnly}"
+                    listener="#{deptEdit.ikChanged()}"
+                    isFixed="#{deptEdit.deptBaseInformation.id gt 0}"
+                    updateElement="form"/>
 
-        <pf:dataTable rendered="#{deptEdit.selectedDept ne null}"
-                      id="stationTable"
-                      value="#{deptEdit.selectedDept.deptStations}"
-                      var="deptStation"
-                      emptyMessage="Keine Einträge vorhanden">
-            <pf:column headerText="Bezeichnung der Station">
-                #{deptStation.stationName}
+    <div style="border: 3px solid #7f9baf; padding: 5px;">
+        Hier kommt ein langer Text rein, warum wir diese Daten erfassen
+    </div>
+
+    <h2>§ 3 Abs. 2 FAB</h2>
+
+    <pf:repeat value="#{deptEdit.getDeptsByArea(1)}" var="dept">
+        <h4>Stationsangaben für #{dept.deptName}</h4>
+        <pf:dataTable id="depTable"
+                      value="#{dept.deptStations}"
+                      emptyMessage="Noch keine Stationen erfasst"
+                      var="station">
+            <pf:column class="colIcon">
+                <inekIcon:DeleteIcon deleteFunction="#{deptEdit.deleteStationFromDept(dept, station)}"
+                                     show="#{!deptEdit.isReadOnly}"
+                                     updateElement="form"/>
             </pf:column>
-            <pf:column headerText="Anzahl Betten">
-                #{deptStation.beds}
+            <pf:column headerText="Stationsbezeichnung">
+                <inekInput:InputText value="#{station.stationName}"
+                                     require="true"
+                                     Style="width: -webkit-fill-available;"
+                                     requiredMessage="Bitte geben Sie einen aussagekräftigen Stationsnamen an"
+                                     readonly="#{deptEdit.isReadOnly}"/>
+            </pf:column>
+            <pf:column headerText="Standort">
+                <inekInput:InputNumber value="#{station.locationCode}"
+                                       require="true"
+                                       readonly="#{deptEdit.isReadOnly}"/>
             </pf:column>
         </pf:dataTable>
 
-        <pf:commandButton id="addNewStation"
-                          value="Neue Station eintragen"
-                          action="#{deptEdit.createNewDeptStation()}"
-                          rendered="#{!deptEdit.isReadOnly and deptEdit.selectedDept ne null}"
-                          immediate="true"
-                          update="stationTable"/>
-    </h:form>
+        <pf:commandButton value="Station zur #{dept.deptName} hinzufügen"
+                          actionListener="#{deptEdit.addNewStation(dept)}"
+                          process="@this"
+                          immediate="false"
+                          update="depTable"/>
+
+    </pf:repeat>
+
+    <h2>§ 3 Abs. 2 DRG-Liste</h2>
+
+    <pf:repeat value="#{deptEdit.getDeptsByArea(2)}" var="dept">
+        <h4>Stationsangaben für #{dept.deptName}</h4>
+        <pf:dataTable id="depTable"
+                      value="#{dept.deptStations}"
+                      emptyMessage="Noch keine Stationen erfasst"
+                      var="station">
+            <pf:column class="colIcon">
+                <inekIcon:DeleteIcon deleteFunction="#{deptEdit.deleteStationFromDept(dept, station)}"
+                                     show="#{!deptEdit.isReadOnly}"
+                                     updateElement="form"/>
+            </pf:column>
+            <pf:column headerText="Stationsbezeichnung">
+                <inekInput:InputText value="#{station.stationName}"
+                                     Style="width: -webkit-fill-available;"
+                                     require="true"
+                                     requiredMessage="Bitte geben Sie einen aussagekräftigen Stationsnamen an"
+                                     readonly="#{deptEdit.isReadOnly}"
+                                     updateComponents="form"/>
+            </pf:column>
+            <pf:column headerText="Standort">
+                <inekInput:InputNumber value="#{station.locationCode}"
+                                       require="true"
+                                       readonly="#{deptEdit.isReadOnly}"/>
+            </pf:column>
+        </pf:dataTable>
+
+        <pf:commandButton value="Station zur #{dept.deptName} hinzufügen"
+                          actionListener="#{deptEdit.addNewStation(dept)}"
+                          process="@this"
+                          immediate="false"
+                          update="depTable"/>
+    </pf:repeat>
+
+
+    <h2 jsf:rendered="#{deptEdit.getDeptsByArea(3).size() gt 0}">§ 3 Abs. 2 OPS</h2>
+
+    <pf:repeat value="#{deptEdit.getDeptsByArea(3)}" var="dept">
+        <h4>Stationsangaben für #{dept.deptName}</h4>
+        <pf:dataTable id="depTable"
+                      value="#{dept.deptStations}"
+                      emptyMessage="Noch keine Stationen erfasst"
+                      var="station">
+            <pf:column class="colIcon">
+                <inekIcon:DeleteIcon deleteFunction="#{deptEdit.deleteStationFromDept(dept, station)}"
+                                     show="#{!deptEdit.isReadOnly}"
+                                     updateElement="form"/>
+            </pf:column>
+            <pf:column headerText="Stationsbezeichnung">
+                <inekInput:InputText value="#{station.stationName}"
+                                     Style="width: -webkit-fill-available;"
+                                     require="true"
+                                     requiredMessage="Bitte geben Sie einen aussagekräftigen Stationsnamen an"
+                                     readonly="#{deptEdit.isReadOnly}"
+                                     updateComponents="form"/>
+            </pf:column>
+            <pf:column headerText="Standort">
+                <inekInput:InputNumber value="#{station.locationCode}"
+                                       require="true"
+                                       readonly="#{deptEdit.isReadOnly}"/>
+            </pf:column>
+        </pf:dataTable>
+
+        <pf:commandButton value="Station zur #{dept.deptName} hinzufügen"
+                          actionListener="#{deptEdit.addNewStation(dept)}"
+                          process="@this"
+                          immediate="false"
+                          update="depTable"/>
+    </pf:repeat>
 
 </ui:composition>
 

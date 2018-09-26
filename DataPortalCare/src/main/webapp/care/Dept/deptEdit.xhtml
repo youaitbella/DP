@@ -14,20 +14,21 @@
         <h1>Pflegeuntergrenzen</h1>
 
         <pf:panel style="background-color: #eeeeee;">
+            <h:form id="form">
+                <ui:include src="deptStation.xhtml" />
 
-            <ui:include src="deptStation.xhtml" />
+                <div class="footerInformation">
+                    <pf:commandButton value="Speichern ohne Senden"
+                                      action="#{deptEdit.save()}"
+                                      rendered="#{!deptEdit.isReadOnly}"
+                                      update="@(.ui-message) @form"/>
 
-            <div class="footerInformation">
-                <pf:commandButton value="Speichern"
-                                  action="#{deptEdit.save()}"
-                                  rendered="#{!deptEdit.isReadOnly}"
-                                  immediate="true"/>
-
-                <pf:commandButton value="Ans InEK senden"
-                                  action="#{deptEdit.send()}"
-                                  rendered="#{!deptEdit.isReadOnly}"
-                                  immediate="true"/>
-            </div>
+                    <pf:commandButton value="Meldung abschließend ans InEK senden"
+                                      action="#{deptEdit.send()}"
+                                      rendered="#{!deptEdit.isReadOnly}"
+                                      update="@(.ui-message) @form"/>
+                </div>
+            </h:form>
         </pf:panel>
     </ui:define>
 

@@ -17,6 +17,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
+import org.inek.dataportal.care.entities.Dept;
 import org.inek.dataportal.care.entities.DeptBaseInformation;
 import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.common.enums.WorkflowStatus;
@@ -65,9 +66,10 @@ public class DeptFacade extends AbstractDataAccess {
             return new HashSet<>();
         }
         String ikList = iks.stream().map(ik -> "" + ik).collect(Collectors.joining(", "));
-        String sql = "select distinct biIk, biDataYear \n"
-                + "from psy.AEBBaseInformation \n"
-                + "where biIk in (" + ikList + ") \n";
+        String sql = "select distinct dbiIk, dbiYear \n"
+                + "from care.DeptBaseInformation \n"
+                + "where dbiIk in (" + ikList + ") "
+                + "and dbiStatusId < 200\n";
         Query query = getEntityManager().createNativeQuery(sql);
         @SuppressWarnings("unchecked")
         List<Object[]> objects = query.getResultList();
@@ -90,7 +92,7 @@ public class DeptFacade extends AbstractDataAccess {
 
     public List<Integer> getPossibleDataYears() {
         List<Integer> years = new ArrayList<>();
-        years.add(2018);
+        years.add(2017);
         return years;
     }
 
@@ -105,6 +107,26 @@ public class DeptFacade extends AbstractDataAccess {
 
     public void deleteBaseInformation(DeptBaseInformation info) {
         remove(info);
+    }
+
+    public void prefillDeptsForBaseInformation(DeptBaseInformation info) {
+        String sql = "select bipdept, bipArea\n"
+                + "from care.DeptInekPrefill\n"
+                + "where bipIk = " + info.getIk() + " \n"
+                + "and bipyear = " + info.getYear() + "";
+
+        @SuppressWarnings("unchecked")
+        List<Object[]> results = getEntityManager().createNativeQuery(sql).getResultList();
+
+        info.getDepts().clear();
+
+        results.stream().forEach((record) -> {
+            Dept dept = new Dept();
+            dept.setBaseInformation(info);
+            dept.setDeptName((String) record[0]);
+            dept.setDeptArea((int) record[1]);
+            info.addDept(dept);
+        });
     }
 
 }

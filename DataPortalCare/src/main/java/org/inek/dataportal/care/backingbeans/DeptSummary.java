@@ -7,6 +7,7 @@ package org.inek.dataportal.care.backingbeans;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -74,7 +75,7 @@ public class DeptSummary {
     private void setCompleteList() {
         _listComplete.clear();
         for (AccessRight right : _sessionController.getAccount().getAccessRights().stream()
-                .filter(c -> c.canRead() && c.getFeature() == Feature.HC_HOSPITAL)
+                .filter(c -> c.canRead() && c.getFeature() == Feature.CARE)
                 .collect(Collectors.toList())) {
             _listComplete.addAll(_deptFacade.getAllByStatusAndIk(WorkflowStatus.Provided, right.getIk()));
         }
@@ -85,10 +86,8 @@ public class DeptSummary {
     }
 
     public boolean isCreateEntryAllowed() {
-        //Todo Just for development
-        return true;
-        //Set<Integer> allowedIks = _accessManager.ObtainIksForCreation(Feature.CARE);
-        //return _deptFacade.retrievePossibleIks(allowedIks).size() > 0;
+        Set<Integer> allowedIks = _accessManager.ObtainIksForCreation(Feature.CARE);
+        return _deptFacade.retrievePossibleIks(allowedIks).size() > 0;
     }
 
     public void deleteBaseInformation(DeptBaseInformation info) {

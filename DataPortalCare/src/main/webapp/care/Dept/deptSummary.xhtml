@@ -7,7 +7,8 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
-                xmlns:pf="http://primefaces.org/ui">
+                xmlns:pf="http://primefaces.org/ui"
+                xmlns:inekIcon="http://xmlns.jcp.org/jsf/composite/components/Icons">
 
     <ui:define name="content">
         <h1>Pflegeuntergrenzen</h1>
@@ -20,12 +21,8 @@
                                   var="baseInformation"
                                   emptyMessage="Keine Einträge vorhanden">
                         <pf:column class="colIcon">
-                            <pf:commandLink action="#{deptSummary.deleteBaseInformation(baseInformation)}"
-                                            update="@all"
-                                            process="@this"
-                                            rendered="#{deptSummary.isDeleteAllowed(baseInformation.ik)}">
-                                <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value=""/>
-                            </pf:commandLink>
+                            <inekIcon:DeleteIcon deleteFunction="#{deptSummary.deleteBaseInformation(baseInformation)}"
+                                                 show="#{deptSummary.isDeleteAllowed(baseInformation.ik)}" />
                         </pf:column>
                         <pf:column headerText="IK" >
                             <h:link outcome="#{deptSummary.careDeptStationOpen()}"
@@ -33,9 +30,9 @@
                                 <f:param name="id" value="#{baseInformation.id}"/>
                             </h:link>
                         </pf:column>
-                        <pf:column headerText="Vereinbarungsjahr" >
-                            <h:link outcome="#{summary.careDeptStationOpen()}"
-                                    value="#{baseInformation.year}" >
+                        <pf:column headerText="Krankenhaus" >
+                            <h:link outcome="#{deptSummary.careDeptStationOpen()}"
+                                    value="#{applicationTools.retrieveHospitalName(baseinformation.ik)}" >
                                 <f:param name="id" value="#{baseInformation.id}"/>
                             </h:link>
                         </pf:column>
@@ -52,9 +49,9 @@
                                 <f:param name="id" value="#{baseInformation.id}"/>
                             </h:link>
                         </pf:column>
-                        <pf:column headerText="Vereinbarungsjahr" >
+                        <pf:column headerText="Krankenhaus" >
                             <h:link outcome="#{deptSummary.careDeptStationOpen()}"
-                                    value="#{baseInformation.year}" >
+                                    value="#{applicationTools.retrieveHospitalName(baseinformation.ik)}" >
                                 <f:param name="id" value="#{baseInformation.id}"/>
                             </h:link>
                         </pf:column>
@@ -62,7 +59,7 @@
                 </div>
             </div>
 
-            <pf:commandButton value="Neuen Datensatz erstellen"
+            <pf:commandButton value="Neue Meldung erstellen"
                               action="#{deptSummary.careDeptStationOpen()}"
                               rendered="#{deptSummary.isCreateEntryAllowed()}"
                               immediate="true">

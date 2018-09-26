@@ -7,13 +7,17 @@ package org.inek.dataportal.care.backingbeans;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.care.entities.Dept;
 import org.inek.dataportal.care.entities.DeptBaseInformation;
+import org.inek.dataportal.care.entities.DeptStation;
 import org.inek.dataportal.care.facades.DeptFacade;
 import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.controller.SessionController;
@@ -87,16 +91,24 @@ public class DeptEdit {
         } else if ("new".equals(id)) {
             _deptBaseInformation = createNewDeptBaseInformation();
             _deptBaseInformation.setCreatedFrom(_sessionController.getAccountId());
+            loadValidIks();
+
+            if (_validIks.size() == 1) {
+                _deptBaseInformation.setIk((int) _validIks.toArray()[0]);
+                preloadDataForIk(_deptBaseInformation);
+            }
         } else {
             _deptBaseInformation = _deptFacade.findDeptBaseInformation(Integer.parseInt(id));
         }
         setReadOnly();
-        loadValidIks();
     }
 
     private void setReadOnly() {
         if (_deptBaseInformation != null) {
-            setIsReadOnly(false);
+            setIsReadOnly(_accessManager.isReadOnly(Feature.CARE,
+                    _deptBaseInformation.getStatus(),
+                    _sessionController.getAccountId(),
+                    _deptBaseInformation.getIk()));
         }
     }
 
@@ -105,13 +117,13 @@ public class DeptEdit {
 
         info.setStatus(WorkflowStatus.New);
         info.setCreated(new Date());
-        info.setYear(2018);
+        info.setYear(2017);
 
         return info;
     }
 
     public void ikChanged() {
-        // Todo Preload Stations
+        preloadDataForIk(_deptBaseInformation);
     }
 
     public void createNewDeptStation() {
@@ -144,6 +156,24 @@ public class DeptEdit {
         iks.add(222222222);
 
         setValidIks(iks);
+    }
+
+    public void addNewStation(Dept dept) {
+        dept.addNewDeptStation();
+    }
+
+    private void preloadDataForIk(DeptBaseInformation info) {
+        _deptFacade.prefillDeptsForBaseInformation(info);
+    }
+
+    public List<Dept> getDeptsByArea(int area) {
+        return _deptBaseInformation.getDepts().stream()
+                .filter(c -> c.getDeptArea() == area)
+                .collect(Collectors.toList());
+    }
+
+    public void deleteStationFromDept(Dept dept, DeptStation station) {
+        dept.removeDeptStation(station);
     }
 
 }

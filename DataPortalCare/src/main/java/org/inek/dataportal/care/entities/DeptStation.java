@@ -43,19 +43,6 @@ public class DeptStation implements Serializable {
     }
 
     //</editor-fold>
-    //<editor-fold defaultstate="collapsed" desc="Property Location Code">
-    @Column(name = "desBeds")
-    private int _beds;
-
-    public int getBeds() {
-        return _beds;
-    }
-
-    public void setBeds(int beds) {
-        this._beds = beds;
-    }
-    //</editor-fold>
-
     //<editor-fold defaultstate="collapsed" desc="Property Dept Name">
     @Column(name = "desName")
     private String _stationName = "";
@@ -69,13 +56,26 @@ public class DeptStation implements Serializable {
     }
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Property Dept Location Code">
+    @Column(name = "desLocationCode")
+    private int _locationCode;
+
+    public int getLocationCode() {
+        return _locationCode;
+    }
+
+    public void setLocationCode(int locationCode) {
+        this._locationCode = locationCode;
+    }
+    //</editor-fold>
+
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 67 * hash + Objects.hashCode(this._id);
-        hash = 67 * hash + Objects.hashCode(this._dept);
-        hash = 67 * hash + this._beds;
-        hash = 67 * hash + Objects.hashCode(this._stationName);
+        int hash = 7;
+        hash = 17 * hash + Objects.hashCode(this._id);
+        hash = 17 * hash + Objects.hashCode(this._dept);
+        hash = 17 * hash + Objects.hashCode(this._stationName);
+        hash = 17 * hash + this._locationCode;
         return hash;
     }
 
@@ -91,7 +91,7 @@ public class DeptStation implements Serializable {
             return false;
         }
         final DeptStation other = (DeptStation) obj;
-        if (this._beds != other._beds) {
+        if (this._locationCode != other._locationCode) {
             return false;
         }
         if (!Objects.equals(this._stationName, other._stationName)) {

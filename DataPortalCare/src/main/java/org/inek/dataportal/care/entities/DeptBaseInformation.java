@@ -177,4 +177,8 @@ public class DeptBaseInformation implements Serializable {
     public void removeDept(Dept dept) {
         _depts.remove(dept);
     }
+
+    public void addDept(Dept dept) {
+        _depts.add(dept);
+    }
 }
