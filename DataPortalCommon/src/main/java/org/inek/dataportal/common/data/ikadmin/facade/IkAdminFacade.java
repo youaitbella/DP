@@ -5,7 +5,10 @@
  */
 package org.inek.dataportal.common.data.ikadmin.facade;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.Query;
@@ -16,6 +19,8 @@ import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
 import org.inek.dataportal.common.data.ikadmin.entity.AccountResponsibility;
+import org.inek.dataportal.common.data.ikadmin.entity.IkAdmin;
+import org.inek.dataportal.common.data.ikadmin.entity.IkAdminFeature;
 import org.inek.dataportal.common.data.ikadmin.entity.IkCorrelation;
 import org.inek.dataportal.common.data.ikadmin.entity.User;
 
@@ -119,10 +124,26 @@ public class IkAdminFacade extends AbstractDataAccess {
         return query.getResultList();
     }
 
-    public List<Integer> loadAllManagegIks() {
+    public List<Integer> loadAllManagedIks() {
         String jpql = "select distinct a._ik from IkAdmin a";
         TypedQuery<Integer> query = getEntityManager().createQuery(jpql, Integer.class);
         return query.getResultList();
+    }
+
+    public Map<Integer, Set<Feature>> loadAllManagedIkWithFeatures() {
+        List<IkAdmin> ikAdmins = findAllFresh(IkAdmin.class);
+        Map<Integer, Set<Feature>> managedIkWithFeatures = new HashMap<>();
+        for (IkAdmin ikAdmin : ikAdmins) {
+            Integer ik = ikAdmin.getIk();
+            if (!managedIkWithFeatures.containsKey(ik)){
+                managedIkWithFeatures.put(ik, new HashSet<>());
+            }
+            Set<Feature> features = managedIkWithFeatures.get(ik);
+            for (IkAdminFeature ikAdminFeature : ikAdmin.getIkAdminFeatures()) {
+                features.add(ikAdminFeature.getFeature());
+            }
+        }
+        return managedIkWithFeatures;
     }
 
     public List<IkCorrelation> loadAllCorrelations() {
