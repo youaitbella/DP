@@ -47,7 +47,7 @@ public class IkAdminFeature implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property FeatureId">
+    // <editor-fold defaultstate="collapsed" desc="Property Feature">
     @Id
     @Column(name = "iafFeatureId")
     @Convert(converter = FeatureConverter.class)

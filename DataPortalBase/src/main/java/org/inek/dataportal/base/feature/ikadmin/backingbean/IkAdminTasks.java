@@ -23,6 +23,7 @@ import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
+import org.inek.dataportal.common.data.ikadmin.entity.IkAdminFeature;
 import org.inek.dataportal.common.data.ikadmin.entity.User;
 import org.inek.dataportal.common.enums.Right;
 import org.inek.dataportal.common.data.ikadmin.facade.IkAdminFacade;
@@ -102,7 +103,15 @@ public class IkAdminTasks implements Serializable {
             int ik = Integer.parseInt(ikParam);
             if (_sessionController.getAccount().getAdminIks().stream().anyMatch(a -> a.getIk() == ik)) {
                 _ik = ik;
-                _accessRights = _ikAdminFacade.findAccessRights(_ik);
+                List<IkAdminFeature> ikAdminFeatures = _sessionController
+                        .getAccount()
+                        .getAdminIks()
+                        .stream()
+                        .filter(a -> a.getIk() == ik)
+                        .findAny()
+                        .get()
+                        .getIkAdminFeatures();
+                _accessRights = _ikAdminFacade.findAccessRights(_ik, ikAdminFeatures);
                 buildAccountList();
                 return;
             }
