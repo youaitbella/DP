@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.inek.dataportal.base.feature.ikadmin.backingbean;
 
 import java.io.Serializable;
@@ -33,10 +28,6 @@ import org.inek.dataportal.common.enums.Right;
 import org.inek.dataportal.common.data.ikadmin.facade.IkAdminFacade;
 import org.inek.dataportal.common.helper.Utils;
 
-/**
- *
- * @author muellermi
- */
 @Named
 @ViewScoped
 public class IkAdminTasks implements Serializable {
@@ -53,7 +44,6 @@ public class IkAdminTasks implements Serializable {
     private DialogController _dialogController;
 
     private List<AccessRight> _accessRights;
-    private List<Right> _rights = new ArrayList<>();
     private int _ik;
     private int _accountId;
     private Account _account;
@@ -92,11 +82,7 @@ public class IkAdminTasks implements Serializable {
     }
 
     public List<Right> getRights() {
-        return _rights;
-    }
-
-    public void setRights(List<Right> rights) {
-        this._rights = rights;
+        return Arrays.asList(Right.values());
     }
 
     public List<AccessRight> getAccessRights() {
@@ -117,7 +103,6 @@ public class IkAdminTasks implements Serializable {
             if (_sessionController.getAccount().getAdminIks().stream().anyMatch(a -> a.getIk() == ik)) {
                 _ik = ik;
                 _accessRights = _ikAdminFacade.findAccessRights(_ik);
-                buildRightList();
                 buildAccountList();
                 return;
             }
@@ -125,10 +110,6 @@ public class IkAdminTasks implements Serializable {
             // ignore here and handle after catch
         }
         Utils.navigate(Pages.NotAllowed.RedirectURL());
-    }
-
-    private void buildRightList() {
-        _rights.addAll(Arrays.asList(Right.values()));
     }
 
     public String saveAccessRights() {
