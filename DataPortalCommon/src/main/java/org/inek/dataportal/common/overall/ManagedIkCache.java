@@ -1,7 +1,9 @@
 package org.inek.dataportal.common.overall;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
@@ -18,7 +20,7 @@ import org.inek.dataportal.common.data.ikadmin.facade.IkAdminFacade;
 public class ManagedIkCache {
 
     private IkAdminFacade _ikAdminFacade;
-    private List<Integer> _managedIks = new ArrayList<>();
+    private Map<Integer, Set<Feature>> _managedIks = new HashMap<>();
     private List<IkCorrelation> _ikCorrelations = new ArrayList<>();
 
     public ManagedIkCache() {
@@ -31,16 +33,20 @@ public class ManagedIkCache {
 
     @PostConstruct
     private void load() {
-        _managedIks = _ikAdminFacade.loadAllManagegIks();
+        _managedIks = _ikAdminFacade.loadAllManagedIkWithFeatures();
         _ikCorrelations = _ikAdminFacade.loadAllCorrelations();
     }
 
-    public List<Integer> retrieveManagedIks() {
-        return _managedIks;
+    public Set<Integer> retrieveManagedIks() {
+        return _managedIks.keySet();
     }
 
     public boolean contains(Integer ik) {
-        return _managedIks.contains(ik);
+        return _managedIks.keySet().contains(ik);
+    }
+
+    public boolean isManaged(Integer ik, Feature feature) {
+        return _managedIks.containsKey(ik) && _managedIks.get(ik).contains(feature);
     }
 
     /**

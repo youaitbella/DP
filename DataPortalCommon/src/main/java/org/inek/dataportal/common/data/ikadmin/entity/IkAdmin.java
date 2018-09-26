@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.Vector;
 import javax.persistence.*;
 import org.inek.dataportal.api.enums.Feature;
 
@@ -86,7 +87,7 @@ public class IkAdmin implements Serializable {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "iafIkAdminId", referencedColumnName = "iaId")
     @OrderBy("_feature")
-    private List<IkAdminFeature> _ikAdminFeatures;
+    private List<IkAdminFeature> _ikAdminFeatures = new Vector<>();
 
     public List<IkAdminFeature> getIkAdminFeatures() {
         return Collections.unmodifiableList(_ikAdminFeatures);
