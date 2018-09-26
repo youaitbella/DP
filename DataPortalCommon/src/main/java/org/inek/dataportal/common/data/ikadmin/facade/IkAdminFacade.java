@@ -7,7 +7,6 @@ package org.inek.dataportal.common.data.ikadmin.facade;
 
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
@@ -17,7 +16,6 @@ import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
 import org.inek.dataportal.common.data.ikadmin.entity.AccountResponsibility;
-import org.inek.dataportal.common.data.ikadmin.entity.IkAdminFeature;
 import org.inek.dataportal.common.data.ikadmin.entity.IkCorrelation;
 import org.inek.dataportal.common.data.ikadmin.entity.User;
 
@@ -36,11 +34,10 @@ public class IkAdminFacade extends AbstractDataAccess {
         return query.getResultList();
     }
 
-    public List<AccessRight> findAccessRights(int ik, List<IkAdminFeature> ikAdminFeatures) {
+    public List<AccessRight> findAccessRights(int ik, List<Feature> features) {
         String jpql = "select ar from AccessRight ar where ar._ik = :ik and ar._feature in :features";
         TypedQuery<AccessRight> query = getEntityManager().createQuery(jpql, AccessRight.class);
         query.setParameter("ik", ik);
-        List<Feature> features = ikAdminFeatures.stream().map(af -> af.getFeature()).collect(Collectors.toList());
         query.setParameter("features", features);
         return query.getResultList();
     }

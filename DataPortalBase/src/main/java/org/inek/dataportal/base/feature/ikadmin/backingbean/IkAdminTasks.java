@@ -23,7 +23,6 @@ import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
-import org.inek.dataportal.common.data.ikadmin.entity.IkAdminFeature;
 import org.inek.dataportal.common.data.ikadmin.entity.User;
 import org.inek.dataportal.common.enums.Right;
 import org.inek.dataportal.common.data.ikadmin.facade.IkAdminFacade;
@@ -103,15 +102,8 @@ public class IkAdminTasks implements Serializable {
             int ik = Integer.parseInt(ikParam);
             if (_sessionController.getAccount().getAdminIks().stream().anyMatch(a -> a.getIk() == ik)) {
                 _ik = ik;
-                List<IkAdminFeature> ikAdminFeatures = _sessionController
-                        .getAccount()
-                        .getAdminIks()
-                        .stream()
-                        .filter(a -> a.getIk() == ik)
-                        .findAny()
-                        .get()
-                        .getIkAdminFeatures();
-                _accessRights = _ikAdminFacade.findAccessRights(_ik, ikAdminFeatures);
+                List<Feature> features = obtainManageableFeatures(ik);
+                _accessRights = _ikAdminFacade.findAccessRights(_ik, features);
                 buildAccountList();
                 return;
             }
@@ -119,6 +111,22 @@ public class IkAdminTasks implements Serializable {
             // ignore here and handle after catch
         }
         Utils.navigate(Pages.NotAllowed.RedirectURL());
+    }
+
+    private List<Feature> obtainManageableFeatures(int ik) {
+        List<Feature> features = _sessionController
+                .getAccount()
+                .getAdminIks()
+                .stream()
+                .filter(a -> a.getIk() == ik)
+                .findAny()
+                .get()
+                .getIkAdminFeatures()
+                .stream()
+                .map(af -> af.getFeature())
+                .filter(f -> f.getIkReference() !=  IkReference.None)
+                .collect(Collectors.toList());
+        return features;
     }
 
     public String saveAccessRights() {
@@ -156,10 +164,7 @@ public class IkAdminTasks implements Serializable {
         if (_account == null) {
             return features;
         }
-        for (Feature feature : Feature.values()) {
-            if (feature.getIkReference() == IkReference.None) {
-                continue;
-            }
+        for (Feature feature : obtainManageableFeatures(_ik)) {
             if (_accessRights.stream().anyMatch(r -> r.getAccountId() == _account.getId() && r.getFeature() == feature)) {
                 continue;
             }
