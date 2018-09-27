@@ -36,6 +36,10 @@
             day: 'Tag',
             allDayText: 'Ganzer Tag'
         };
+
+        function changeDialogFontSize() {
+            $('.ui-dialog.ui-widget-content .ui-dialog-content').css({"font-size": "1.2em"});
+        }
     </script>
     <div class="ui-g ui-fluid">
         <div class="ui-g-3">
@@ -54,7 +58,7 @@
                           style="text-align: right;"
                           readonly="true" />
         </div>
-        <div class="ui-g-3" onclick="changeDialogColor('delete')">
+        <div class="ui-g-3" onclick="changeDialogColor('delete'); changeDialogFontSize();">
             <pf:commandButton style="margin-top: 10px;"
                               styleClass="btnPsy"
                               value="Neue Gültigkeit eintragen"
@@ -62,7 +66,7 @@
                               onclick="PF('dialogValidFrom').show(); changeDialogColor('info');"
                               rendered="#{(!editStructureInformation.isReadOnly() and editStructureInformation.canSave()) or editStructureInformation.structureInformation.id eq 0}">
                 <pf:confirm header="Wollen Sie inhaltlich Daten ändern, die ab/seit einem bestimmten Zeitraum gültig sind?"
-                            message="Sofern Sie nur redaktionelle Änderungen (z.B. Korrekturen) vornehmen wollen, brechen Sie diesen Vorgang mittels 'nein' ab und ändern die Daten ohne Angabe einer neuen Gültigkeit." />
+                            message="Sofern Sie nur redaktionelle Änderungen (z.B. Korrekturen) vornehmen wollen, brechen Sie diesen Vorgang mittels 'nein' ab und ändern die Daten ohne Angabe einer neuen Gültigkeit."/>
             </pf:commandButton>
         </div>
         <div class="ui-g-2">
