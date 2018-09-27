@@ -9,11 +9,12 @@ import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.data.ikadmin.entity.IkAdmin;
 import org.junit.jupiter.api.Test;
 
-public class IkAdminFacadeTest extends IkAdminFacade{
+public class IkAdminFacadeTest extends IkAdminFacade {
+
     private static final int IK1 = 111111111;
     private static final int IK2 = 222222222;
     private static final int IK3 = 333333333;
-    
+
     public IkAdminFacadeTest() {
     }
 
@@ -31,8 +32,9 @@ public class IkAdminFacadeTest extends IkAdminFacade{
         Set<Feature> features3 = managedIkWithFeatures.get(IK3);
         assertThat(features3).isNotNull().isEmpty();
     }
-    
+
     @Override
+    @SuppressWarnings("unchecked")
     protected <T> List<T> findAllFresh(Class<T> entityClass) {
         List<IkAdmin> ikAdmins = new ArrayList<>();
 
@@ -56,7 +58,6 @@ public class IkAdminFacadeTest extends IkAdminFacade{
 
         admin = new IkAdmin(3, IK1, "");
         ikAdmins.add(admin);
-
         return (List<T>) ikAdmins;
     }
 }
