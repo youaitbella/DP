@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
-<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+<topic template="Default" lasteditedby="palenma" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
   <title translate="true">Berechtigungen zuweisen</title>
   <body>
     <header>
@@ -10,28 +10,37 @@
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Als IK-Admin verwalten Sie die Zugriffsrechte auf alle Daten zu diesem IK. Es liegt somit in Ihrer Verantwortung, die Rechte so zu vergeben, dass die Funktionen des </text><var styleclass="Normal">&lt;%TITLE%&gt;s</var><text styleclass="Normal" translate="true"> entsprechend den Anforderungen Ihres Instituts/Krankenhauses genutzt werden können.Vor der erstmaligen Nutzung der IK-Admin-Funktionalität erfolgt ein entsprechender Hinweis.</text></para>
     <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
     <para styleclass="Image Caption"><image src="IkAdmin00.png" scale="100.00%" styleclass="Image Caption"></image></para>
     <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Hinweis zur Nutzung der IK-Admin-Funktionalität</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Nach einmaliger Bestätigung mittels </text><text styleclass="Button" translate="true">[ Ich habe den Nutzungshinweis zur Kenntniss genommen ]</text><text styleclass="Normal" translate="true"> werden die Institute gelistet, deren Zugriffsrechte Sie im </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> administrieren können. Bei Bedarf können Sie den Nutzungshinweis jederzeit mit </text><text styleclass="Button" translate="true">[ Nutzungshinweis anzeigen ]</text><text styleclass="Normal" translate="true"> nochmals einblenden.</text></para>
-    <para styleclass="Image Caption"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
     <para styleclass="Image Caption"><image src="IkAdmin01.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"></para>
     <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> IK-Liste des IK-Admins</text></para>
+    <para styleclass="Image Caption"></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Wählen Sie aus dieser Liste das IK aus, für welches Sie die Berechtigungen bearbeiten möchten. Das </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> öffnet den Dialog zur Benutzerverwaltung.</text></para>
+    <para styleclass="Normal"></para>
     <para styleclass="Normal"></para>
     <para styleclass="Image Caption"><image src="IkAdmin02.png" scale="100.00%" styleclass="Image Caption"></image></para>
     <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Benutzer und Berechtigungen verwalten</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Dieser Dialog ist zweigeteilt: Im oberen Bereich können Sie einen Benutzer nebst der gewünschten Funktion auswählen und dem unteren Bereich zufügen. In der Auswahlbox </text><text styleclass="Normal" style="font-weight:bold;" translate="true">Benutzer</text><text styleclass="Normal" translate="true"> werden alle Anwender aufgeführt, die in ihren Stammdaten das entsprechende IK eingetragen haben sowie solche, deren Mailadresse zu der für das Institut hinterlegten Domäne gehört. Die Auswahlbox </text><text styleclass="Normal" style="font-weight:bold;" translate="true">Funktion</text><text styleclass="Normal" translate="true"> zeigt alle Funktionen, für die Sie Rechte vergeben können.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Dieser Dialog ist zweigeteilt, im oberen Bereich können Sie zwischen </text><text styleclass="Normal" style="font-weight:bold;" translate="true">Rechteverwaltung</text><text styleclass="Normal" translate="true"> und </text><text styleclass="Normal" style="font-weight:bold;" translate="true">Funktionszuweisung</text><text styleclass="Normal" translate="true"> wechseln. Sie können in der Rechteverwaltung dem Benutzer die Rechte der gewünschten Funktion auswählen. In der Auswahlbox </text><text styleclass="Normal" style="font-weight:bold;" translate="true">Anwender</text><text styleclass="Normal" translate="true"> werden alle Anwender aufgeführt, die in ihren Stammdaten das entsprechende IK eingetragen haben sowie solche, deren Mailadresse zu der für das Institut hinterlegten Domäne gehört. Die Auswahlbox </text><text styleclass="Normal" style="font-weight:bold;" translate="true">Funktion</text><text styleclass="Normal" translate="true"> zeigt alle Funktionen, für die Sie in der Auswahlbox </text><text styleclass="Normal" style="font-weight:bold;" translate="true">Recht</text><text styleclass="Normal" translate="true"> Rechte vergeben können.</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Der untere Bereich listet alle hinterlegten Berechtigungen und erlaubt Ihnen, diese zu bearbeiten. Die Rechte können Sie dabei aus einer Lister möglicher Berechtigungen auswählen. Diese sind selbsterklärend. Eine besondere Stellung nimmt &quot;Zugriff verboten&quot; ein, da dies kein Recht einräumt, sondern Rechte entzieht. Wird der Zugriff verboten, kann der Anwender auch auf solche Daten (entsprechend IK und Funktion) nicht mehr zugreifen, die er früher einmal selber erfasst hat.</text></para>
+    <para styleclass="Image Caption"><image src="IkAdmin03.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true">&#32;</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Der Bereich </text><text styleclass="Normal" style="font-weight:bold;" translate="true">Funktionszuweisung</text><text styleclass="Normal" translate="true"> listet alle Benutzer auf und erlaubt es Ihnen dem jeweiligen Benutzer eine Funktion hinzuzufügen. Wenn man eine Funktion hinzufügt,wird diese Automatisch mit dem </text><text styleclass="Normal" style="font-weight:bold;" translate="true">Recht </text><text styleclass="Normal" translate="true">Zugriff verboten versehen.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Damit man für die Funktion die jeweiligen Rechte bekommt muss man diese in der Rechteverwaltung ändern.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Die folgenden Funktionen sind bereits für die künftige Verwaltung via IK-Admin vorgesehen, können aber derzeit nur von dem Anwender genutzt werden, welcher die Daten angelegt hat</text></para>
-    <list id="1" type="ul" listtype="bullet" formatstring="&#183;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Symbol; font-size:11pt; color:#000000;">
-      <li styleclass="Normal"><text styleclass="Normal" translate="true">Finanzierung von Mehrkosten</text></li>
-      <li styleclass="Normal"><text styleclass="Normal" translate="true">Gezielte Absenkung</text></li>
+    <list id="28" type="ul" listtype="bullet" formatstring="&#183;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Symbol; font-size:11pt; color:#000000;">
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Finanzierung von Mehrkosten</text></li>
+      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Gezielte Absenkung</text></li>
     </list>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Um eine Funktion in Ihrem Haus nutzen zu können benötigt mindestens ein Anwender Zugriff auf diese. Haben Sie für eine Funktion allen Anwendern den Zugriff verboten, kann die betreffende Funktion nicht genutzt werden. Das </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> zeigt in einem solchen Fall beim Speichern eine entsprechende Warnung, so dass Sie eine versehentliche Fehlkonfiguration korrigieren können. Da nicht in jedem Krankenhaus alle Funktionen des </text><var styleclass="Normal">&lt;%TITLE%&gt;s</var><text styleclass="Normal" translate="true"> genutzt werden, erfolgt eine derartige Prüfung nicht, wenn bei keinem Anwender die betreffende Funktion eingetragen ist.</text></para>

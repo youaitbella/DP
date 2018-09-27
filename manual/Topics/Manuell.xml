@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="palenma" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Eingabe über die Oberfläche</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Eingabe über die Oberfläche</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die erste Möglichkeit wäre, dass Sie jede PEPP mit der Hand eintragen.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sie würden beim klicken auf &quot;Weiteren Eintrag hinzufügen&quot; dieses leere Feld kriegen, wo Sie die jeweiligen Daten eingeben.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><image src="AEB_E1_1_EintragPerHand.PNG" scale="100.00%" styleclass="Image Caption"></image></para>
+  </body>
+</topic>

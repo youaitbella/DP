@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="palenma" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Eingabe über den Import einer Excel Tabelle</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Eingabe über den Import einer Excel Tabelle</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Image Caption" style="font-style:normal;" translate="true">Die zweite Möglichkeit wäre, dass Sie eine Excel Tabelle hochladen gemäß der AEB Vorlage.</text></para>
+    <para styleclass="Normal"><text styleclass="Image Caption" style="font-style:normal;" translate="true">Sie müssen hierfür erst einmal das Vereinbarungsjahr auswählen.</text></para>
+    <para styleclass="Normal"><text styleclass="Image Caption" style="font-style:normal;" translate="true">Das Vereinbarungsjahr wird mit dem Jahr des Kataloges gleichgestellt.</text></para>
+    <para styleclass="Normal"><text styleclass="Image Caption" style="font-style:normal;" translate="true">D.h. Vereinbarungsjahr 2018 -&gt; Katalogjahr 2018.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><image src="AEB_Excel_Upload.PNG" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Image Caption" style="font-style:normal;" translate="true">Wenn Sie dann die Excel Tabelle hochgeladen haben, wird Ihnen nun angezeigt wie viele Zeilen eingelesen wurden und ob es Fehler bzw. Abweichungen zum Katalog gibt.</text></para>
+    <para styleclass="Normal"><text styleclass="Image Caption" style="font-style:normal;" translate="true">Diese werden Ihnen in einer Box angezeigt.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><image src="AEB_Excel_UploadFehler.PNG" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Image Caption" style="font-style:normal;" translate="true">Wenn alles erfolgreich ist sollte Ihnen nun solch eine Ansicht angezeigt werden.</text></para>
+    <para styleclass="Normal"></para>
+  </body>
+</topic>

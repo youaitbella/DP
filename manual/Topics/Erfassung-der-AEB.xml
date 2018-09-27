@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="palenma" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Erfassung der AEB</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Erfassung der AEB</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">In der AEB haben Sie grundsätzlich 2 Möglichkeiten für die Dateneingabe.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Image Caption"><image src="AEB_E1_1.PNG" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> xxx</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Wichtig zu wissen, es ist eine Test Tabelle, d.h. die Daten auf dem Bild werden mit den Daten von Ihnen abweichen. </text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sie sehen, dass Bewertungsrelation/Tag und Summe der Bewertungsrelation nicht veränderbar sind.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Diese 2 Spalten werden durch die anderen Spalten berechnet und werden deshalb von uns vorgegeben.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die restlichen Blätter sind wie E1.1 aufgebaut, bis auf Blatt B1.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><image src="AEB_B1.PNG" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">In Blatt B1 ist es wichtig zu wissen, dass dort nur die Zeilen angezeigt werden, die mit der lfd. Nr. gleich sind.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die restlichen Zeilen werden hier nicht angezeigt.</text></para>
+  </body>
+</topic>
