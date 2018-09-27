@@ -41,6 +41,36 @@
             $('.ui-dialog.ui-widget-content .ui-dialog-content').css({"font-size": "1.2em"});
         }
     </script>
+
+    <pf:dialog header="Gültigkeitsdatum auswählen"
+               widgetVar="dialogValidFrom"
+               resizable="false"
+               dynamic="true"
+               modal="true">
+
+        <pf:outputLabel class="formLabel"
+                        value="Neues Gültigkeitsdatum: "
+                        for="validFromNew" />
+        <pf:calendar id="validFromNew"
+                     value="#{editStructureInformation.newValidFromDate}"
+                     locale="de"
+                     navigator="true"
+                     pattern="dd.MM.yyyy"
+                     mask="true"
+                     inputStyle="text-align: right;">
+            <pf:ajax event="change" update="validFromNewMessage" />
+        </pf:calendar>
+        <pf:message id="validFromNewMessage" for="validFromNew" />
+        <br />
+        <pf:commandButton styleClass="btnPsy"
+                          value="Neue Gültigkeit speichern"
+                          actionListener="#{editStructureInformation.saveNewValidFrom()}"
+                          rendered="#{!editStructureInformation.isReadOnly()}"
+                          onsuccess="PF('dialogValidFrom').hide();"
+                          update="@form"/>
+
+    </pf:dialog>
+
     <div class="ui-g ui-fluid">
         <div class="ui-g-3">
             <inek:MultiIkNoListener label="#{msg.lblIkShort}"
@@ -63,7 +93,7 @@
                               styleClass="btnPsy"
                               value="Neue Gültigkeit eintragen"
                               update="@form"
-                              onclick="PF('dialogValidFrom').show(); changeDialogColor('info');"
+                              oncomplete="PF('dialogValidFrom').show(); changeDialogColor('info');"
                               rendered="#{(!editStructureInformation.isReadOnly() and editStructureInformation.canSave()) or editStructureInformation.structureInformation.id eq 0}">
                 <pf:confirm header="Wollen Sie inhaltlich Daten ändern, die ab/seit einem bestimmten Zeitraum gültig sind?"
                             message="Sofern Sie nur redaktionelle Änderungen (z.B. Korrekturen) vornehmen wollen, brechen Sie diesen Vorgang mittels 'nein' ab und ändern die Daten ohne Angabe einer neuen Gültigkeit."/>
@@ -72,7 +102,8 @@
         <div class="ui-g-2">
             <pf:outputLabel class="formLabel"
                             value="Frühere Gültigkeiten: " />
-            <pf:selectOneMenu valueChangeListener="#{editStructureInformation.handleChangeStructureInformation}">
+            <pf:selectOneMenu id="otherValidTos"
+                              valueChangeListener="#{editStructureInformation.handleChangeStructureInformation}">
                 <pf:ajax update="@form" />
                 <f:selectItems value="#{editStructureInformation.allStructureInformations}"
                                var="structure"
