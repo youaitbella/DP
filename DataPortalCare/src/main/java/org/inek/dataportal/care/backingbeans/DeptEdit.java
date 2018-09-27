@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
@@ -21,9 +22,12 @@ import org.inek.dataportal.care.entities.DeptStation;
 import org.inek.dataportal.care.facades.DeptFacade;
 import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.controller.SessionController;
+import org.inek.dataportal.common.data.adm.MailTemplate;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.common.helper.MailTemplateHelper;
 import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.common.mail.Mailer;
 import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.scope.FeatureScoped;
 
@@ -43,6 +47,8 @@ public class DeptEdit {
     private AccessManager _accessManager;
     @Inject
     private DeptFacade _deptFacade;
+    @Inject
+    private Mailer _mailer;
 
     private DeptBaseInformation _deptBaseInformation;
     private Boolean _isReadOnly;
@@ -136,6 +142,11 @@ public class DeptEdit {
 
         try {
             _deptBaseInformation = _deptFacade.save(_deptBaseInformation);
+            if (_deptBaseInformation.getStatus() == WorkflowStatus.Provided) {
+                sendMail("Care Senden Bestätigung");
+            } else {
+                sendMail("Care Speicher Bestätigung");
+            }
             _dialogController.showSaveDialog();
         } catch (Exception ex) {
             _dialogController.showErrorDialog("Fehler beim speichern", "Ihre Daten konnten nicht gespeichert werden."
@@ -145,7 +156,7 @@ public class DeptEdit {
 
     public void send() {
         _deptBaseInformation.setSend(new Date());
-        _deptBaseInformation.setStatus(WorkflowStatus.Taken);
+        _deptBaseInformation.setStatus(WorkflowStatus.Provided);
         save();
         setIsReadOnly(true);
     }
@@ -174,6 +185,17 @@ public class DeptEdit {
 
     public void deleteStationFromDept(Dept dept, DeptStation station) {
         dept.removeDeptStation(station);
+    }
+
+    private void sendMail(String mailTemplateName) {
+        String salutation = _mailer.getFormalSalutation(_sessionController.getAccount());
+
+        MailTemplate template = _mailer.getMailTemplate(mailTemplateName);
+        MailTemplateHelper.setPlaceholderInTemplateBody(template, "{salutation}", salutation);
+        if (!_mailer.sendMailTemplate(template, _sessionController.getAccount().getEmail())) {
+            _mailer.sendException(Level.SEVERE,
+                    "Fehler beim Emailversand an " + _deptBaseInformation.getIk() + "(Care)", new Exception());
+        }
     }
 
 }
