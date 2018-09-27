@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
+import javax.ejb.Schedule;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -32,6 +33,7 @@ public class ManagedIkCache {
     }
 
     @PostConstruct
+    @Schedule(hour = "2", minute = "15", info = "once a day")
     private void load() {
         _managedIks = _ikAdminFacade.loadAllManagedIkWithFeatures();
         _ikCorrelations = _ikAdminFacade.loadAllCorrelations();
