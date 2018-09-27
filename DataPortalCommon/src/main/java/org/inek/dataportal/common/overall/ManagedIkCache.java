@@ -41,10 +41,6 @@ public class ManagedIkCache {
         return _managedIks.keySet();
     }
 
-    public boolean contains(Integer ik) {
-        return _managedIks.keySet().contains(ik);
-    }
-
     public boolean isManaged(Integer ik, Feature feature) {
         return _managedIks.containsKey(ik) && _managedIks.get(ik).contains(feature);
     }

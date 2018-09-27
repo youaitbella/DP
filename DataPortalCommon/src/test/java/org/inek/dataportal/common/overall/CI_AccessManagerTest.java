@@ -96,11 +96,11 @@ public class CI_AccessManagerTest {
                         collect(Collectors.toList()));
         
         ManagedIkCache ikCache = mock(ManagedIkCache.class);
-        when(ikCache.contains(allowedIk)).thenReturn(true);
-        when(ikCache.contains(deniedIk)).thenReturn(true);
-        when(ikCache.contains(unmanagedIk1)).thenReturn(false);
-        when(ikCache.contains(unmanagedIk2)).thenReturn(false);
-        when(ikCache.contains(unmanagedIk3)).thenReturn(false);
+        when(ikCache.isManaged(allowedIk, testFeature)).thenReturn(true);
+        when(ikCache.isManaged(deniedIk, testFeature)).thenReturn(true);
+        when(ikCache.isManaged(unmanagedIk1, testFeature)).thenReturn(false);
+        when(ikCache.isManaged(unmanagedIk2, testFeature)).thenReturn(false);
+        when(ikCache.isManaged(unmanagedIk3, testFeature)).thenReturn(false);
         Set<Integer> accountIks = new HashSet<>();
         accountIks.add(allowedIk);
         Set<Integer> responibleForIks = new HashSet<>();

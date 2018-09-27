@@ -115,12 +115,12 @@ public class AccessManager implements Serializable {
     }
 
     public Set<Integer> retrieveAllowedManagedIks(Feature feature) {
-        Predicate<AccessRight> predicate = r -> r.getRight() != Right.Deny && _ikCache.contains(r.getIk());
+        Predicate<AccessRight> predicate = r -> r.getRight() != Right.Deny && _ikCache.isManaged(r.getIk(), feature);
         return retrieveIkSet(feature, predicate);
     }
 
     public Set<Integer> retrieveDeniedManagedIks(Feature feature) {
-        Predicate<AccessRight> predicate = r -> r.getRight() == Right.Deny && _ikCache.contains(r.getIk());
+        Predicate<AccessRight> predicate = r -> r.getRight() == Right.Deny && _ikCache.isManaged(r.getIk(), feature);
         return retrieveIkSet(feature, predicate);
     }
 
@@ -131,7 +131,7 @@ public class AccessManager implements Serializable {
     public Set<Integer> retrieveAllowedForCreationIks(Feature feature) {
         Set<Integer> iks = retrieveIkSet(feature, r -> r.getRight().canCreate());
         if (feature.getIkReference() == IkReference.None || feature.getIkUsage()== IkUsage.Direct) {
-            // todo: Oce we distinguish between IkReference.Hospital and .Insurence, then filter iks
+            // todo: Once we distinguish between IkReference.Hospital and .Insurence, then filter iks
             return iks;
         }
         Set<Integer> responsibleForIks = _ikCache.retriveResponsibleForIks(feature, _sessionController.getAccount(), iks);
@@ -142,7 +142,7 @@ public class AccessManager implements Serializable {
     }
 
     public Set<Integer> retrieveAllManagedIks(Feature feature) {
-        return retrieveIkSet(feature, r -> _ikCache.contains(r.getIk()));
+        return retrieveIkSet(feature, r -> _ikCache.isManaged(r.getIk(), feature));
     }
 
     /**
@@ -199,17 +199,17 @@ public class AccessManager implements Serializable {
         if (state.getId() >= WorkflowStatus.Provided.getId()) {
             return true;
         }
-        if (feature.getManagedBy() != ManagedBy.None && ik <= 0) {
-            return true;
+        if (state == WorkflowStatus.New && ik <= 0) {
+            return !isCreateAllowed(feature);
         }
-        if (feature.getManagedBy() == ManagedBy.IkAdminOnly && !_ikCache.contains(ik)) {
+        if (feature.getManagedBy() == ManagedBy.IkAdminOnly && !_ikCache.isManaged(ik, feature)) {
             return true;
         }
         if (ik > 0) {
             Optional<AccessRight> right = obtainAccessRights(feature, r -> r.getIk() == ik).findFirst();
             if (right.isPresent()) {   // nesting may be simplified according to #88
                 boolean readOnly = !right.get().canWrite();
-                if (readOnly || _ikCache.contains(ik)) {
+                if (readOnly || _ikCache.isManaged(ik, feature)) {
                     return readOnly;
                 }
             }
