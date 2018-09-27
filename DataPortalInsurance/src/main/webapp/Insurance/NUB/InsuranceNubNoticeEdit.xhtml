@@ -32,6 +32,7 @@
                               value="#{editInsuranceNubNotice.notice.insuranceIk}"
                               ikList="#{editInsuranceNubNotice.validIks}"
                               listener="#{editInsuranceNubNotice.ikChanged()}">
+                    <f:ajax event="clientChange" render="buttons"/>
                 </inek:MultiIk>
 
                 <div class="inputPart">
@@ -59,7 +60,7 @@
                         <f:converter converterId="IntegerConverter" />
                         <f:ajax event="change" listener="#{editInsuranceNubNotice.ikChanged()}" />
                         <f:ajax event="blur" 
-                                render="@this :logout:remaining msgHospitalIk hospitalName messageForm"/>
+                                render="@this :logout:remaining msgHospitalIk hospitalName messageForm buttons"/>
                     </h:inputText>
                     <h:outputText id="hospitalName" styleClass="marginLeft" value="#{applicationTools.retrieveHospitalInfo(editInsuranceNubNotice.notice.hospitalIk)}"/>
                 </div>

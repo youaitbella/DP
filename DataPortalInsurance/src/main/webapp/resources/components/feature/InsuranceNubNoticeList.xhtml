@@ -32,8 +32,8 @@
                     </f:facet>
                     <h:commandLink action="#{insuranceNubNoticeList.deleteNotice(notice.id)}" immediate="true"
                                    onclick="#{insuranceNubNoticeList.getConfirmMessage(notice.id)}">
-                        <h:graphicImage alt="löschen" name="Icon/small/#{notice.workflowStatus.value le 9 ? 'delete.png' : 'cross.png'}"
-                                        title="#{notice.workflowStatus.value le 9 ? 'Löschen' : 'Zurückziehen'}" value=""/>
+                        <h:graphicImage alt="löschen" name="Icon/small/#{notice.status.value le 9 ? 'delete.png' : 'cross.png'}"
+                                        title="#{notice.status.value le 9 ? 'Löschen' : 'Zurückziehen'}" value=""/>
                     </h:commandLink>
                 </h:column>
 
@@ -42,7 +42,7 @@
                         <h:outputText value=""/>
                     </f:facet>
                     <h:commandLink action="#{insuranceNubNoticeList.editNotice}" immediate="true" >
-                        <h:graphicImage alt="Status" name="Icon/small/#{notice.workflowStatus.icon}" value="" title="#{notice.workflowStatus.description}" rendered="#{notice.workflowStatus.icon.length() gt 0}"/>
+                        <h:graphicImage alt="Status" name="Icon/small/#{notice.status.icon}" value="" title="#{notice.status.description}" rendered="#{notice.status.icon.length() gt 0}"/>
                         <f:param name="id" value="#{notice.id}"/>
                     </h:commandLink>
                 </h:column>

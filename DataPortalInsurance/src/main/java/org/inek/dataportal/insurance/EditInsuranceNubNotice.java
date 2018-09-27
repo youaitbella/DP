@@ -172,7 +172,7 @@ public class EditInsuranceNubNotice extends AbstractEditController {
     }
 
     public boolean getProvideEnabled() {
-        return true;
+        return _notice.getInsuranceIk() > 0 && _notice.getHospitalIk() > 0;
     }
 
     public int getMaxYear() {
