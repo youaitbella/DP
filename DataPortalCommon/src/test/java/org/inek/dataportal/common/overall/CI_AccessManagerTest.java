@@ -97,6 +97,7 @@ public class CI_AccessManagerTest {
         
         ManagedIkCache ikCache = mock(ManagedIkCache.class);
         when(ikCache.isManaged(allowedIk, testFeature)).thenReturn(true);
+        when(ikCache.isManaged(allowedIk, Feature.HC_INSURANCE)).thenReturn(true);
         when(ikCache.isManaged(deniedIk, testFeature)).thenReturn(true);
         when(ikCache.isManaged(unmanagedIk1, testFeature)).thenReturn(false);
         when(ikCache.isManaged(unmanagedIk2, testFeature)).thenReturn(false);

@@ -130,6 +130,7 @@ public class AccessManager implements Serializable {
 
     public Set<Integer> retrieveAllowedForCreationIks(Feature feature) {
         Set<Integer> iks = retrieveIkSet(feature, r -> r.getRight().canCreate());
+        iks.removeIf(ik -> feature.getManagedBy() == ManagedBy.IkAdminOnly && !_ikCache.isManaged(ik, feature));
         if (feature.getIkReference() == IkReference.None || feature.getIkUsage()== IkUsage.Direct) {
             // todo: Once we distinguish between IkReference.Hospital and .Insurence, then filter iks
             return iks;
