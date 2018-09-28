@@ -470,6 +470,9 @@ public class AccessManager implements Serializable {
     }
 
     public Boolean isCreateAllowed(Feature feature) {
+        if (feature.getIkReference() == IkReference.None){
+            return true;
+        }
         return ObtainIksForCreation(feature).size() > 0;
     }
 

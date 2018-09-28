@@ -507,8 +507,11 @@ public class EditNubRequest extends AbstractEditController {
     }
 
     public boolean isReadOnly() {
+        if (_nubRequest.getIk() <= 0 && _nubRequest.getStatus() == WorkflowStatus.New){
+            return false;
+        }
         return _accessManager.isReadOnly(Feature.NUB, _nubRequest.getStatus(), _nubRequest.getAccountId(), _nubRequest.
-                getIk());
+                getIk()) ;
     }
 
     public boolean isRejectedNub() {

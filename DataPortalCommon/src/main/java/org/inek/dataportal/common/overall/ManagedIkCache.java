@@ -25,7 +25,7 @@ public class ManagedIkCache {
 
     private Map<Integer, Set<Feature>> _managedIks = new HashMap<>();
     private List<IkCorrelation> _ikCorrelations = new ArrayList<>();
-    private ReentrantLock _lock = new ReentrantLock();
+    private final ReentrantLock _writeLock = new ReentrantLock();
 
     public ManagedIkCache() {
     }
@@ -35,58 +35,83 @@ public class ManagedIkCache {
         _ikAdminFacade = ikAdminFacade;
     }
 
-    @Schedule(hour = "2", minute = "15", info = "once a day")
+    @Schedule(hour = "*", minute = "*/30", info = "every 30 minutes")
     private void timedReset() {
         reset();
     }
 
     @Asynchronous
     public void reset() {
-        loadManagedIks();
-        loadIkCorrelations();
+        if (_writeLock.isLocked()) {
+            return;
+        }
+        _writeLock.lock();
+        try {
+            loadManagedIks();
+            loadIkCorrelations();
+        } finally {
+            _writeLock.unlock();
+        }
     }
 
     private void loadIkCorrelations() {
-        _lock.lock();
+        _writeLock.lock();
         try {
             if (!_ikCorrelations.isEmpty()) {
                 return;
             }
             _ikCorrelations = _ikAdminFacade.loadAllCorrelations();
         } finally {
-            _lock.unlock();
+            _writeLock.unlock();
         }
     }
 
     private void loadManagedIks() {
-        _lock.lock();
+        _writeLock.lock();
         try {
             if (!_managedIks.isEmpty()) {
                 return;
             }
             _managedIks = _ikAdminFacade.loadAllManagedIkWithFeatures();
         } finally {
-            _lock.unlock();
+            _writeLock.unlock();
         }
     }
 
+    /**
+     * Indicates that an ik feature combination has an admin. Due to performance reasons, this is NOT locked. Instead we
+     * check for the writeLock after the read, whether the lock is set then and retry. In very rare (almost unexpected)
+     * cases this might return a tolerated false negative.
+     *
+     * @param ik
+     * @param feature
+     *
+     * @return
+     */
     public boolean isManaged(Integer ik, Feature feature) {
         if (_managedIks.isEmpty()) {
             loadManagedIks();
         }
-        return _managedIks.containsKey(ik) && _managedIks.get(ik).contains(feature);
+        boolean isManaged;
+        do {
+            isManaged = _managedIks.containsKey(ik) && _managedIks.get(ik).contains(feature);
+        } while (_writeLock.isLocked());
+        return isManaged;
     }
 
     Set<Integer> retriveCorrelatedIks(Feature feature, Set<Integer> userIks, Set<Integer> requestedIks) {
         if (_ikCorrelations.isEmpty()) {
             loadIkCorrelations();
         }
-        Set<Integer> correlatedIks = _ikCorrelations
-                .stream()
-                .filter(c -> c.getFeature() == feature)
-                .filter(c -> userIks.contains(c.getUserIk()) && requestedIks.contains(c.getDataIk()))
-                .map(c -> c.getDataIk())
-                .collect(Collectors.toSet());
+        Set<Integer> correlatedIks;
+        do {
+            correlatedIks = _ikCorrelations
+                    .stream()
+                    .filter(c -> c.getFeature() == feature)
+                    .filter(c -> userIks.contains(c.getUserIk()) && requestedIks.contains(c.getDataIk()))
+                    .map(c -> c.getDataIk())
+                    .collect(Collectors.toSet());
+        } while (_writeLock.isLocked());
         return correlatedIks;
     }
 

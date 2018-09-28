@@ -8,7 +8,7 @@ public enum Feature {
     ADMIN(1, "Administration", ManagedBy.None, PortalType.ADMIN, IkReference.None, IkUsage.Unknown, Selectable.No, Shareable.No),
     USER_MAINTENANCE(2, "Stammdaten", ManagedBy.None, PortalType.BASE, IkReference.None, IkUsage.Unknown, Selectable.No, Shareable.No),
     NUB(3, "Neue Untersuchungs- und Behandlungsmethoden", 
-            ManagedBy.None, PortalType.DRG, IkReference.Hospital, IkUsage.Direct, Selectable.Yes, Shareable.Yes),
+            ManagedBy.InekOrIkAdmin, PortalType.DRG, IkReference.Hospital, IkUsage.Direct, Selectable.Yes, Shareable.Yes),
     REQUEST_SYSTEM(4, "Anfrageverfahren", ManagedBy.None, PortalType.BASE, IkReference.None, IkUsage.Unknown, Selectable.Yes, Shareable.No),
     DROPBOX(5, "DropBox", ManagedBy.InekOrIkAdmin, PortalType.BASE, IkReference.Hospital, IkUsage.Direct, Selectable.Yes, Shareable.No),
     PEPP_PROPOSAL(6, "PEPP-Vorschlagsverfahren", ManagedBy.None, PortalType.PSY, IkReference.None, IkUsage.Unknown, Selectable.Yes, Shareable.Yes),
