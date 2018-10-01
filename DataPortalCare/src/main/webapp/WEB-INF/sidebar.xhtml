@@ -1,0 +1,37 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:pf="http://primefaces.org/ui"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+    xmlns:po="http://primefaces.org/omega">
+    <h:form id="menuform">
+        <div class="sidebar">
+            <div class="nano">
+                <div class="nano-content sidebar-scroll-content">
+                    <div class="logo">
+                        <pf:graphicImage name="images/logo.png" library="omega-layout"/>
+                    </div>
+
+                    <div class="profile" style="padding-top: 100px;">
+                        <a id="profile-button" href="#">
+                            <span class="username">#{msg.lblWelcome} #{sessionController.user}</span>
+                            <br />
+                            <pf:commandLink value="#{msg.btnLogout}" actionListener="#{sessionController.logout}" ajax="false"/>
+                        </a>
+                    </div>
+
+                    <div class="menu">
+                        <po:menu>
+                            <c:forEach items="#{sessionController.topics}" var="topic">
+                                <pf:menuitem value="#{topic.title}"
+                                             action="#{sessionController.navigate(topic.outcome)}"/>
+                            </c:forEach>
+                        </po:menu>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </h:form>
+</ui:composition>

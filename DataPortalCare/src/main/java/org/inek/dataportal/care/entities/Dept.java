@@ -96,10 +96,8 @@ public class Dept implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 59 * hash + Objects.hashCode(this._id);
         hash = 59 * hash + Objects.hashCode(this._baseInformation);
         hash = 59 * hash + Objects.hashCode(this._deptName);
-        hash = 59 * hash + Objects.hashCode(this._deptStations);
         return hash;
     }
 
@@ -122,9 +120,6 @@ public class Dept implements Serializable {
             return false;
         }
         if (!Objects.equals(this._baseInformation, other._baseInformation)) {
-            return false;
-        }
-        if (!Objects.equals(this._deptStations, other._deptStations)) {
             return false;
         }
         return true;

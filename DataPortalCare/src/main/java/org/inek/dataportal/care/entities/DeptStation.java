@@ -41,8 +41,8 @@ public class DeptStation implements Serializable {
     public void setDept(Dept dept) {
         this._dept = dept;
     }
-
     //</editor-fold>
+
     //<editor-fold defaultstate="collapsed" desc="Property Dept Name">
     @Column(name = "desName")
     private String _stationName = "";
@@ -72,7 +72,6 @@ public class DeptStation implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 17 * hash + Objects.hashCode(this._id);
         hash = 17 * hash + Objects.hashCode(this._dept);
         hash = 17 * hash + Objects.hashCode(this._stationName);
         hash = 17 * hash + this._locationCode;

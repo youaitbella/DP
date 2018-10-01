@@ -2,7 +2,7 @@
 <!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
 
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                template="/Templates/PortalMenuTemplate.xhtml"
+                template="/WEB-INF/template.xhtml"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
@@ -10,19 +10,84 @@
                 xmlns:pf="http://primefaces.org/ui"
                 xmlns:inekIcon="http://xmlns.jcp.org/jsf/composite/components/Icons">
 
+    <ui:define name="title">Mitteilung gem. § 5 PpUGV zur Umsetzung von Pflegepersonaluntergrenzen</ui:define>
+
     <ui:define name="content">
-        <h1>Pflegeuntergrenzen</h1>
-        <pf:panel style="background-color: #eeeeee;">
-            <div class="ui-g ui-fluid" >
-                <div class="ui-g-6">
-                    <h2>Daten in Erfassung</h2>
+        <ui:remove>
+            <h1>Pflegeuntergrenzen</h1>
+            <pf:panel style="background-color: #eeeeee;">
+                <div class="ui-g ui-fluid" >
+                    <div class="ui-g-6">
+                        <h2>Daten in Erfassung</h2>
+                        <pf:dataTable id="erfassungtable"
+                                      value="#{deptSummary.listWorking}"
+                                      var="baseInformation"
+                                      emptyMessage="Keine Einträge vorhanden">
+                            <pf:column>
+                                <inekIcon:DeleteIcon deleteFunction="#{deptSummary.deleteBaseInformation(baseInformation)}"
+                                                     show="#{deptSummary.isDeleteAllowed(baseInformation.ik)}" />
+                            </pf:column>
+                            <pf:column headerText="IK" >
+                                <h:link outcome="#{deptSummary.careDeptStationOpen()}"
+                                        value="#{baseInformation.ik}" >
+                                    <f:param name="id" value="#{baseInformation.id}"/>
+                                </h:link>
+                            </pf:column>
+                            <pf:column headerText="Krankenhaus" >
+                                <h:link outcome="#{deptSummary.careDeptStationOpen()}"
+                                        value="#{applicationTools.retrieveHospitalName(baseinformation.ik)}" >
+                                    <f:param name="id" value="#{baseInformation.id}"/>
+                                </h:link>
+                            </pf:column>
+                        </pf:dataTable>
+                    </div>
+                    <div class="ui-g-6">
+                        <h2>An das InEK gesendet</h2>
+                        <pf:dataTable value="#{deptSummary.listComplete}"
+                                      var="baseInformation"
+                                      emptyMessage="Keine Einträge vorhanden">
+                            <pf:column headerText="IK" >
+                                <h:link outcome="#{deptSummary.careDeptStationOpen()}"
+                                        value="#{baseInformation.ik}" >
+                                    <f:param name="id" value="#{baseInformation.id}"/>
+                                </h:link>
+                            </pf:column>
+                            <pf:column headerText="Krankenhaus" >
+                                <h:link outcome="#{deptSummary.careDeptStationOpen()}"
+                                        value="#{applicationTools.retrieveHospitalName(baseinformation.ik)}" >
+                                    <f:param name="id" value="#{baseInformation.id}"/>
+                                </h:link>
+                            </pf:column>
+                        </pf:dataTable>
+                    </div>
+                </div>
+
+                <pf:commandButton value="Neue Meldung erstellen"
+                                  action="#{deptSummary.careDeptStationOpen()}"
+                                  rendered="#{deptSummary.isCreateEntryAllowed()}"
+                                  immediate="true">
+                    <f:param name="id" value="new"/>
+                </pf:commandButton>
+
+            </pf:panel>
+        </ui:remove>
+
+        <div class="ui-g">
+            <div class="card">
+                <h1>Übersicht über Ihre Daten</h1>
+                <div class="ui-g-12 ui-lg-6">
                     <pf:dataTable id="erfassungtable"
                                   value="#{deptSummary.listWorking}"
                                   var="baseInformation"
                                   emptyMessage="Keine Einträge vorhanden">
-                        <pf:column class="colIcon">
+                        <f:facet name="header">
+                            In Erfassung
+                        </f:facet>
+                        <pf:column style="width: 20px;">
                             <inekIcon:DeleteIcon deleteFunction="#{deptSummary.deleteBaseInformation(baseInformation)}"
-                                                 show="#{deptSummary.isDeleteAllowed(baseInformation.ik)}" />
+                                                 show="#{deptSummary.isDeleteAllowed(baseInformation.ik)}"
+                                                 showConfirmDialog="true"
+                                                 updateElement="erfassungtable"/>
                         </pf:column>
                         <pf:column headerText="IK" >
                             <h:link outcome="#{deptSummary.careDeptStationOpen()}"
@@ -37,13 +102,25 @@
                             </h:link>
                         </pf:column>
                     </pf:dataTable>
+
+                    <pf:commandButton value="Neue Meldung erstellen"
+                                      action="#{deptSummary.careDeptStationOpen()}"
+                                      rendered="#{deptSummary.isCreateEntryAllowed()}"
+                                      immediate="true"
+                                      style="margin-bottom:10px; margin-top: 10px;">
+                        <f:param name="id" value="new"/>
+                    </pf:commandButton>
                 </div>
-                <div class="ui-g-6">
-                    <h2>An das InEK gesendet</h2>
+
+                <div class="ui-g-12 ui-lg-6">
+
                     <pf:dataTable value="#{deptSummary.listComplete}"
                                   var="baseInformation"
                                   emptyMessage="Keine Einträge vorhanden">
-                        <pf:column headerText="IK" >
+                        <f:facet name="header">
+                            An das InEK gesendet
+                        </f:facet>
+                        <pf:column headerText="IK">
                             <h:link outcome="#{deptSummary.careDeptStationOpen()}"
                                     value="#{baseInformation.ik}" >
                                 <f:param name="id" value="#{baseInformation.id}"/>
@@ -56,17 +133,10 @@
                             </h:link>
                         </pf:column>
                     </pf:dataTable>
+
                 </div>
             </div>
-
-            <pf:commandButton value="Neue Meldung erstellen"
-                              action="#{deptSummary.careDeptStationOpen()}"
-                              rendered="#{deptSummary.isCreateEntryAllowed()}"
-                              immediate="true">
-                <f:param name="id" value="new"/>
-            </pf:commandButton>
-
-        </pf:panel>
+        </div>
 
     </ui:define>
 

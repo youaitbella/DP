@@ -10,16 +10,22 @@
                       javax.faces.component.UIComponent,
                       java.lang.Object)"/>
         <cc:attribute name="show" default="true"/>
+        <cc:attribute name="showConfirmDialog" default="false"/>
         <cc:attribute name="updateElement"/>
     </cc:interface>
 
     <!-- IMPLEMENTATION -->
     <cc:implementation>
-        <pf:commandLink action="#{cc.attrs.deleteFunction}"
-                        update="#{cc.attrs.updateElement}"
-                        process="@this"
-                        rendered="#{cc.attrs.show}">
-            <i class="fa fa-trash" style="color: red;"/>
-        </pf:commandLink>
+        <div onclick="changeDialogColor('delete')">
+            <pf:commandLink action="#{cc.attrs.deleteFunction}"
+                            update="#{cc.attrs.updateElement}"
+                            process="@this"
+                            rendered="#{cc.attrs.show}">
+                <i class="fa fa-trash" style="color: red;"/>
+                <pf:confirm rendered="#{cc.attrs.showConfirmDialog}"
+                            header="Wollen Sie den Eintrag wirklich löschen?"
+                            message="Gelöschte Einträge können Sie nicht wiederherstellen. Wollen Sie den Eintrag wirklich löschen?" />
+            </pf:commandLink>
+        </div>
     </cc:implementation>
 </html>

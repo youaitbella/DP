@@ -181,4 +181,5 @@ public class DeptBaseInformation implements Serializable {
     public void addDept(Dept dept) {
         _depts.add(dept);
     }
+
 }

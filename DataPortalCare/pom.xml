@@ -75,6 +75,14 @@
             <artifactId>primefaces</artifactId>
         </dependency>
 
+
+        <dependency>
+            <groupId>org.primefaces</groupId>
+            <artifactId>omegamenu</artifactId>
+            <version>1.1.4</version>
+        </dependency>
+
+
         <dependency>
             <groupId>org.primefaces.themes</groupId>
             <artifactId>all-themes</artifactId>

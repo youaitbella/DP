@@ -2,21 +2,56 @@
 <!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
 
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                template="/Templates/PortalMenuTemplate.xhtml"
+                template="/WEB-INF/template.xhtml"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 xmlns:pf="http://primefaces.org/ui">
 
+
+    <ui:define name="title">Mitteilung gem. § 5 PpUGV zur Umsetzung von Pflegepersonaluntergrenzen</ui:define>
+
     <ui:define name="content">
 
-        <h1>Pflegeuntergrenzen</h1>
+        <h:form id="form">
+            <div style="margin-top: 10px;">
+                <pf:commandButton value="Zurück zur Übersicht"
+                                  icon="fa fa-arrow-left"
+                                  action="#{sessionController.navigate(sessionTools.pages.CareDeptSummary)}"
+                                  immediate="true"/>
 
-        <pf:panel style="background-color: #eeeeee;">
-            <h:form id="form">
-                <ui:include src="deptStation.xhtml" />
+                <pf:commandButton value="Hilfe?"
+                                  icon="fa fa-info"
+                                  action="#{sessionController.navigate(sessionTools.pages.CareDeptSummary)}"
+                                  immediate="true"/>
+            </div>
 
+            <ui:include src="deptStation.xhtml" />
+
+
+            <div class="ui-g">
+                <div class="card">
+                    <div class="ui-g-12">
+
+                        <pf:commandButton value="Speichern ohne Senden"
+                                          action="#{deptEdit.save()}"
+                                          rendered="#{!deptEdit.isReadOnly}"
+                                          style="margin-left: 10px;"
+                                          update="@(.ui-message) @form"/>
+
+                        <pf:commandButton value="Meldung abschließend ans InEK senden"
+                                          action="#{deptEdit.send()}"
+                                          rendered="#{!deptEdit.isReadOnly}"
+                                          styleClass="green-button"
+                                          style="margin-left: 10px;"
+                                          update="@(.ui-message) @form"/>
+
+                    </div>
+                </div>
+            </div>
+
+            <ui:remove>
                 <div class="footerInformation">
                     <pf:commandButton value="Speichern ohne Senden"
                                       action="#{deptEdit.save()}"
@@ -26,10 +61,12 @@
                     <pf:commandButton value="Meldung abschließend ans InEK senden"
                                       action="#{deptEdit.send()}"
                                       rendered="#{!deptEdit.isReadOnly}"
+                                      icon="fa fa-arrow-right"
                                       update="@(.ui-message) @form"/>
                 </div>
-            </h:form>
-        </pf:panel>
+            </ui:remove>
+        </h:form>
+
     </ui:define>
 
 </ui:composition>
