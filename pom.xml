@@ -28,7 +28,7 @@
         <module>DataPortalCare</module>
         <module>DataPortalCert</module>
         <module>DataPortalDrg</module>
-        <module>DataPortalInek</module>
+        <!--module>DataPortalInek</module-->
         <module>DataPortalInsurance</module>
         <module>DataPortalPsy</module>
 
