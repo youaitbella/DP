@@ -104,7 +104,7 @@
                             </h:link>
                         </pf:column>
 
-                        <pf:column headerText="Betreuer" sortBy="#{calc.agentName}" filterBy="#{calc.agentName}" filterValue="#{sessionController.account.lastName} , #{sessionController.account.firstName}">
+                        <pf:column headerText="Betreuer" sortBy="#{calc.agentName}" filterBy="#{calc.agentName}" filterValue="#{sessionController.account.combinedName}">
                             <f:facet name="filter">
                                 <pf:selectOneMenu onchange="PF('kgall').filter()" >
                                     <f:selectItem itemLabel="Alle" itemValue="#{null}" noSelectionOption="true" />

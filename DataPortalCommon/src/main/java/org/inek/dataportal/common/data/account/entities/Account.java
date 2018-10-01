@@ -124,6 +124,19 @@ public class Account implements Serializable, Person {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Property CombinedName">
+    public String getCombinedName() {
+        // this property is a kind of dummy to prevent from "illegal setter syntax" when using like
+        //filterValue="#{sessionController.account.lastName}, #{sessionController.account.firstName}"
+        // such usage may be replaced now by
+        //filterValue="#{sessionController.account.combinedName}"
+        return _lastName + ", " + _firstName;
+    }
+
+    public void setCombinedName(String combinedName) {
+    }
+    // </editor-fold>
+
     // <editor-fold defaultstate="collapsed" desc="Property Mail">
     @Column(name = "acMail")
     private String _email;
