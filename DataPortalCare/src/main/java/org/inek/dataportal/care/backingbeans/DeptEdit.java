@@ -141,6 +141,7 @@ public class DeptEdit {
         _deptBaseInformation.setLastChanged(new Date());
 
         try {
+            removeEmptyStations(_deptBaseInformation);
             _deptBaseInformation = _deptFacade.save(_deptBaseInformation);
             if (_deptBaseInformation.getStatus() == WorkflowStatus.Provided) {
                 sendMail("Care Senden Bestätigung");
@@ -185,6 +186,16 @@ public class DeptEdit {
 
     public void deleteStationFromDept(Dept dept, DeptStation station) {
         dept.removeDeptStation(station);
+    }
+
+    private void removeEmptyStations(DeptBaseInformation info) {
+        for (Dept dept : info.getDepts()) {
+            for (int i = 0; i < dept.getDeptStations().size(); i++) {
+                if (dept.getDeptStations().get(i).getStationName().isEmpty()) {
+                    dept.getDeptStations().remove(i);
+                }
+            }
+        }
     }
 
     private void sendMail(String mailTemplateName) {
