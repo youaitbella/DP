@@ -18,13 +18,10 @@
         </a>
 
         <div id="topbar-icons" class="animated">
-            <ui:remove>
-                <h:form id="logoutForm">
-                    <pf:commandLink actionListener="#{sessionController.navigate(sessionTools.pages.UserMaintenanceMasterData)}">
-                        <i class="topbar-icon fa fa-gear fa-2x" />
-                    </pf:commandLink>
-                </h:form>
-            </ui:remove>
+            <h:form id="logoutForm">
+                <span class="username">#{sessionController.user}</span>
+                <pf:commandLink value="(#{msg.btnLogout})" actionListener="#{sessionController.logout}" ajax="false"/>
+            </h:form>
         </div>
 
     </div>

@@ -14,15 +14,7 @@
                         <pf:graphicImage name="images/logo.png" library="omega-layout"/>
                     </div>
 
-                    <div class="profile" style="padding-top: 100px;">
-                        <a id="profile-button" href="#">
-                            <span class="username">#{msg.lblWelcome} #{sessionController.user}</span>
-                            <br />
-                            <pf:commandLink value="#{msg.btnLogout}" actionListener="#{sessionController.logout}" ajax="false"/>
-                        </a>
-                    </div>
-
-                    <div class="menu">
+                    <div class="menu" style="padding-top: 50px;">
                         <po:menu>
                             <c:forEach items="#{sessionController.topics}" var="topic">
                                 <pf:menuitem value="#{topic.title}"
