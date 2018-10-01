@@ -10,7 +10,8 @@ import java.util.Map;
  */
 public class DataImporterPool implements Serializable {
 
-    private final Map<String, DataImporter<?,?>> importers = new HashMap<>();
+    private static final long serialVersionUID = 1L;
+    private final Map<String, DataImporter<?, ?>> importers = new HashMap<>();
 
     @SuppressWarnings("MultipleStringLiterals")
     public DataImporterPool() {

@@ -19,6 +19,8 @@ import org.inek.dataportal.common.enums.Pages;
  */
 public class FlowFactory implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     @Produces
     @FlowDefinition
     public Flow defineFlow(@FlowBuilderParameter FlowBuilder flowBuilder) {

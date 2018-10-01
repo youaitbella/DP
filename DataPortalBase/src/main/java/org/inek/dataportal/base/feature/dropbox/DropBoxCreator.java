@@ -28,6 +28,7 @@ import org.inek.dataportal.common.overall.ApplicationTools;
 @ViewScoped
 public class DropBoxCreator implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     @Inject private org.inek.dataportal.base.feature.dropbox.facade.DropBoxFacade _dropBoxFacade;
     @Inject private SessionController _sessionController;
     @Inject private ApplicationTools _appTools;

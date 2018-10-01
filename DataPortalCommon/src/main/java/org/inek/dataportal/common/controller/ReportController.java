@@ -20,8 +20,9 @@ import org.inek.dataportal.common.helper.Utils;
  * @author muellermi
  */
 public class ReportController implements Serializable {
-    private static final Logger LOGGER = Logger.getLogger("ReportController");
 
+    private static final Logger LOGGER = Logger.getLogger("ReportController");
+    private static final long serialVersionUID = 1L;
     @Inject
     private AdminFacade _adminFacade;
 

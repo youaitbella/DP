@@ -58,7 +58,7 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
 
     // <editor-fold defaultstate="collapsed" desc="fields & enums">
     private static final Logger LOGGER = Logger.getLogger("EditSpecificFunctionAgreement");
-
+    private static final long serialVersionUID = 1L;
     @Inject private AccessManager _accessManager;
     @Inject private SessionController _sessionController;
     @Inject private SpecificFunctionFacade _specificFunctionFacade;
@@ -322,7 +322,7 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
         checkField(message, request.getPhone(), "lblPhone", "specificFuntion:phone");
         checkField(message, request.getMail(), "lblMail", "specificFuntion:mail");
         checkField(message, request.getTypeExtraCharge(), 0, 9, "lblTypeExtraCharge", "specificFuntion:typeExtraCharge");
-        
+
 // todo        
 //        if (!request.isWillNegotiate() && !request.isHasAgreement()) {
 //            applyMessageValues(message, "Bitte mindestens eine zu verhandelnde oder vorhandene Vereinbarung angeben", "");

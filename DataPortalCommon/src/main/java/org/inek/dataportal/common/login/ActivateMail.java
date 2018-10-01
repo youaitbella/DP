@@ -19,16 +19,16 @@ import org.inek.dataportal.common.data.account.facade.AccountFacade;
  */
 @Named
 @RequestScoped
-public class ActivateMail implements Serializable{
+public class ActivateMail implements Serializable {
+
+    private static final long serialVersionUID = 1L;
     @Inject private SessionController _sessionController;
     @Inject private AccountFacade _accountFacade;
     private String _email;
     private String _password;
     private String _key;
 
-
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
-
     public String getEmail() {
         return _email;
     }

@@ -43,6 +43,7 @@ import org.inek.dataportal.common.enums.Right;
 @RequestScoped
 public class AccessManager implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger("AccessManager");
 
     private CooperationRightFacade _cooperationRightFacade;

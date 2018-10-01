@@ -36,6 +36,7 @@ import org.inek.dataportal.common.scope.FeatureScoped;
 @FeatureScoped
 public class IkAdmin implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     @Inject
     private SessionController _sessionController;
     @Inject

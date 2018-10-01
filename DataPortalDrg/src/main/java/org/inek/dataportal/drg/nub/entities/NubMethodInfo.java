@@ -14,9 +14,10 @@ import javax.persistence.Id;
  *
  * @author muellermi
  */
-@Entity 
+@Entity
 public class NubMethodInfo implements Serializable {
-    
+
+    private static final long serialVersionUID = 1L;
     // <editor-fold defaultstate="collapsed" desc="Property RowNum">
     @Column(name = "rowNum")
     @Id

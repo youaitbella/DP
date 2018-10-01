@@ -14,7 +14,7 @@ public final class ErrorCounter implements Serializable {
 
     @SuppressWarnings("ConstantName")
     private static final Map<String, ErrorCounter> counters = new HashMap<>();
-
+    private static final long serialVersionUID = 1L;
     private String _errorMsg = "";
     private int _infoColumnCount = 0;
     private int _errorRowCount = 0;

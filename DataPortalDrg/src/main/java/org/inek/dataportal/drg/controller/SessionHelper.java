@@ -15,8 +15,9 @@ import org.inek.dataportal.drg.drgproposal.facades.DrgFacade;
  */
 @Named
 @SessionScoped
-public class SessionHelper implements Serializable{
-    
+public class SessionHelper implements Serializable {
+
+    private static final long serialVersionUID = 1L;
     @Inject private ProcedureFacade _procedureFacade;
     @Inject private DiagnosisFacade _diagnosisFacade;
     @Inject private DrgFacade _drgFacade;

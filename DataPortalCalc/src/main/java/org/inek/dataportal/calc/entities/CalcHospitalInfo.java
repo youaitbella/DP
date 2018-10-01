@@ -26,6 +26,8 @@ import org.inek.dataportal.common.enums.WorkflowStatus;
 @IdClass(CalcHospitalInfoId.class)
 public class CalcHospitalInfo implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     public CalcHospitalInfo() {
     }
 

@@ -19,6 +19,7 @@ import org.inek.dataportal.common.data.account.facade.AccountFacade;
 @RequestScoped
 public class ActivatePassword implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     @Inject private SessionController _sessionController;
     @Inject private AccountFacade _accountFacade;
     private String _emailOrUser;

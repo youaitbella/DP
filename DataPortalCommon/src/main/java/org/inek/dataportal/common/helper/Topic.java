@@ -13,6 +13,7 @@ import java.io.Serializable;
  */
 public class Topic implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private final String _key;
     private final String _title;
     private final String _outcome;

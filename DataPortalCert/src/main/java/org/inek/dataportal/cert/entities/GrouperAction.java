@@ -18,6 +18,7 @@ import javax.persistence.Temporal;
 @Table(name = "GrouperAction", schema = "crt")
 public class GrouperAction implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

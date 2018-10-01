@@ -19,8 +19,9 @@ import org.inek.dataportal.base.feature.dropbox.facade.DropBoxTypeFacade;
  */
 @Named
 @SessionScoped
-public class DropBoxTools implements Serializable{
+public class DropBoxTools implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private Map<Integer, DropBoxType> _dropBoxTypes;
     @Inject
     private transient DropBoxTypeFacade _dropBoxTypeFacade;
@@ -49,5 +50,5 @@ public class DropBoxTools implements Serializable{
         }
         return dropboxTypeItems;
     }
-    
+
 }

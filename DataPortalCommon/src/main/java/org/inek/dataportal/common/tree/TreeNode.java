@@ -13,6 +13,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public abstract class TreeNode implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private final TreeNode _parent;
 
     protected TreeNode(TreeNode parent) {

@@ -16,6 +16,8 @@ import org.inek.dataportal.common.data.account.entities.Account;
  */
 public class IkAccount implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     public static List<IkAccount> createFromAccounts(List<Account> accounts) {
         List<IkAccount> ikAccounts = new ArrayList<>();
         accounts.forEach(account -> {

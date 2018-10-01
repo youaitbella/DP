@@ -49,6 +49,7 @@ import org.inek.dataportal.calc.CalcBasicsTransferFileCreator;
 public class EditCalcBasicsAutopsy extends AbstractEditController implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="fields & enums">
+    private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger("EditCalcBasicsAutopsy");
 
     @Inject private AccessManager _accessManager;

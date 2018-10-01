@@ -45,6 +45,7 @@ import org.inek.dataportal.common.mail.Mailer;
 @FeatureScoped(name = "DocumentUpload")
 public class DocumentUpload implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     @Inject private SessionController _sessionController;
     @Inject private AccountFacade _accountFacade;
     @Inject private Mailer _mailer;

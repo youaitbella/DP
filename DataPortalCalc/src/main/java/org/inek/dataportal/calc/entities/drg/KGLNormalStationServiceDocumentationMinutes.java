@@ -24,6 +24,7 @@ import org.inek.dataportal.common.utils.Documentation;
 @Table(name = "KGLNormalStationServiceDocumentationMinutes", schema = "calc")
 public class KGLNormalStationServiceDocumentationMinutes implements Serializable, BaseIdValue {
 
+    private static final long serialVersionUID = 1L;
     //<editor-fold defaultstate="collapsed" desc="Property _id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

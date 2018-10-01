@@ -28,7 +28,8 @@ import org.inek.dataportal.common.utils.Documentation;
 @Table(name = "KGLListEndoscopyAmbulant", schema = "calc")
 @XmlRootElement
 public class KGLListEndoscopyAmbulant implements Serializable, BaseIdValue {
-    
+
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "leaId", updatable = false, nullable = false)

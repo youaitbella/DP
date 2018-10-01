@@ -77,6 +77,7 @@ import org.inek.dataportal.common.controller.ReportController;
 public class EditCalcBasicsPepp extends AbstractEditController implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="fields & enums">
+    private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger("EditCalcBasicsPepp");
     private static final int ONE_HOUR = 3600;
 

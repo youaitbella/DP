@@ -19,6 +19,7 @@ import javax.persistence.Table;
 @Table(name = "listFeature")
 public class ListFeature implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     //<editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @Column(name = "feId")

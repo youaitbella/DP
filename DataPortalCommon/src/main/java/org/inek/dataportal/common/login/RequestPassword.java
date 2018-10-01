@@ -25,15 +25,15 @@ import org.inek.dataportal.common.overall.SessionTools;
 @Named
 @RequestScoped
 public class RequestPassword implements Serializable {
+
+    private static final long serialVersionUID = 1L;
     @Inject private AccountFacade _accountFacade;
     @Inject private SessionTools _sessionTools;
     private String _email;
     private String _password;
     private String _repeatPassword;
 
-
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
-
     public String getEmail() {
         return _email;
     }

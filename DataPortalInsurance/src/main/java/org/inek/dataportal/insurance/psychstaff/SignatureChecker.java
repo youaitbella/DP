@@ -14,6 +14,7 @@ import org.inek.dataportal.insurance.facade.InsuranceFacade;
 @ViewScoped
 public class SignatureChecker implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private String _signature;
     private String _checkResult;
     @Inject private InsuranceFacade _data;

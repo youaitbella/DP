@@ -21,6 +21,8 @@ import org.inek.dataportal.api.enums.PortalType;
 @RequestScoped
 public class Login implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     public Login() {
         //System.out.println("ctor Login");
     }

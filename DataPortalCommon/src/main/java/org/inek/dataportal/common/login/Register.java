@@ -31,6 +31,7 @@ import org.inek.dataportal.common.overall.SessionTools;
 @RequestScoped
 public class Register implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private boolean _approved;
     private String _password;
     private String _repeatPassword;

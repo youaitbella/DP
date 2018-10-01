@@ -24,6 +24,7 @@ import org.inek.dataportal.common.helper.structures.DocInfo;
 @ViewScoped
 public class DocumentList implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     @Inject
     private AccountFacade _accFacade;
     @Inject

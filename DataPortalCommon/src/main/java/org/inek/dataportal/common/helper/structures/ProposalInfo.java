@@ -7,12 +7,13 @@ import org.inek.dataportal.common.enums.WorkflowStatus;
  *
  * @author muellermi
  */
-public class ProposalInfo implements Serializable{
+public class ProposalInfo implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private int _id;
     private String _name;
     private int _year;
-    private WorkflowStatus _status;  
+    private WorkflowStatus _status;
     private int _ik;
 
     public ProposalInfo() {

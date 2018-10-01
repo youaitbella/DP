@@ -58,7 +58,7 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
 
     // <editor-fold defaultstate="collapsed" desc="fields & enums">
     private static final Logger LOGGER = Logger.getLogger("EditSpecificFunctionRequest");
-
+    private static final long serialVersionUID = 1L;
     @Inject
     private AccessManager _accessManager;
     @Inject

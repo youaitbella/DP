@@ -26,6 +26,7 @@ import org.inek.dataportal.drg.specificfunction.facade.SpecificFunctionFacade;
 @ViewScoped
 public class SpecificFunctionSummary implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     @Inject
     private SpecificFunctionFacade _specificFunctionFacade;
     @Inject

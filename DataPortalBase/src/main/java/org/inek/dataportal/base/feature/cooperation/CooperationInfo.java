@@ -17,6 +17,7 @@ import org.inek.dataportal.api.enums.Feature;
  */
 public class CooperationInfo implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private final Feature _feature;
     private final List<SelectItem> _selectItems;
     private final CooperationRight _right;

@@ -62,6 +62,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
 
     // <editor-fold defaultstate="collapsed" desc="fields & enums">
     private static final Logger LOGGER = Logger.getLogger("EditPsyStaff");
+    private static final long serialVersionUID = 1L;
     private static final String TOPIC_BASE = "topicBaseData";
     private static final String TOPIC_ADULTS1 = "topicAppendix1Adults";
     private static final String TOPIC_KIDS1 = "topicAppendix1Kids";

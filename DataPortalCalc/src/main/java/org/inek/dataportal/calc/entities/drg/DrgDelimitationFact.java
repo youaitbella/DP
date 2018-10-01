@@ -27,6 +27,7 @@ import org.inek.dataportal.common.utils.IgnoreOnCompare;
 @Table(name = "KGLListDelimitationFact", schema = "calc")
 public class DrgDelimitationFact implements Serializable, BaseIdValue {
 
+    private static final long serialVersionUID = 1L;
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

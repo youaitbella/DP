@@ -28,6 +28,7 @@ import org.inek.dataportal.common.scope.FeatureScoped;
 @FeatureScoped(name = "Certification")
 public class CertGrouperCc implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     @Inject
     private GrouperFacade _grouperFacade;
     @Inject

@@ -25,6 +25,7 @@ import org.inek.dataportal.drg.nub.facades.NubRequestFacade;
 @Named
 public class NubMethodInfoController implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     @Inject private NubRequestFacade _nubRequestFacade;
 
     // <editor-fold defaultstate="collapsed" desc="NubMethodInfos head + tail">    

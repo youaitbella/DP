@@ -41,7 +41,7 @@ import org.inek.dataportal.common.mail.Mailer;
 public class CertMail implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger("CertMail");
-
+    private static final long serialVersionUID = 1L;
     //<editor-fold defaultstate="collapsed" desc="Email creation/preview fields.">
     private boolean _previewEnabled = false;
     private final List<String> _emailList = new ArrayList<>();

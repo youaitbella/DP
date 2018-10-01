@@ -27,6 +27,7 @@ import org.inek.dataportal.common.data.cooperation.facade.CooperationRequestEmai
 @RequestScoped
 public class Activate implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     @Inject private SessionController _sessionController;
     @Inject private AccountFacade _accountFacade;
     @Inject private CooperationRequestEmailFacade _coopRequestEmailFacade;

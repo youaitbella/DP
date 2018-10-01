@@ -80,6 +80,7 @@ import org.inek.dataportal.calc.CalcBasicsTransferFileCreator;
 public class EditCalcBasicsDrg extends AbstractEditController implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="fields & enums">
+    private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger("EditCalcBasicsDrg");
 
     @Inject

@@ -36,6 +36,7 @@ import org.inek.dataportal.common.faceletvalidators.EmailValidator;
 @SessionScoped
 public class SessionTools implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private List<SelectItem> _roleItems;
     private List<SelectItem> _customerTypeItems;
     private List<Integer> _hospitals;

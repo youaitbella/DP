@@ -20,9 +20,10 @@ import org.inek.dataportal.common.helper.Topics;
  * @author muellermi
  */
 @Dependent
-public class FeatureHolder implements Serializable{
+public class FeatureHolder implements Serializable {
 
     @Inject private FeatureFactory _featureFactory;
+    private static final long serialVersionUID = 1L;
     private final Map<String, IFeatureController> _featureControllers = new LinkedHashMap<>(); // keeps order
     private final Set<PortalType> _portalTypes = new HashSet<>();
     private final Topics _topics = new Topics();

@@ -9,8 +9,9 @@ import java.util.Date;
  *
  * @author muellermi
  */
-public class DocInfo implements Serializable{
+public class DocInfo implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private final int _id;
     private final String _name;
     private final String _domain;

@@ -28,7 +28,7 @@ import org.inek.dataportal.common.helper.Utils;
 public class RequestController implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger("RequestController");
-
+    private static final long serialVersionUID = 1L;
     @Inject private SessionController _sessionController;
 
     /**

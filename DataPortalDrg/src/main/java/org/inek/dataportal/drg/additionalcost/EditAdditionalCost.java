@@ -49,7 +49,7 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
 
     // <editor-fold defaultstate="collapsed" desc="fields & enums">
     private static final Logger LOGGER = Logger.getLogger("EditAdditionalCostRequest");
-
+    private static final long serialVersionUID = 1L;
     @Inject private AccessManager _accessManager;
     @Inject private SessionController _sessionController;
     @Inject private AdditionalCostFacade _additionalCostFacade;
@@ -59,7 +59,7 @@ public class EditAdditionalCost extends AbstractEditController implements Serial
     private static final int LAST_YEAR = 2021;
     private static final int FIRST_YEAR = 2017;
     private AdditionalCost _additionalCost;
-    
+
     public AdditionalCost getAdditionalCost() {
         return _additionalCost;
     }

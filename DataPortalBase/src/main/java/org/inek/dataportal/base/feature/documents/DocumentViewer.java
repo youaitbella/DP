@@ -20,6 +20,7 @@ import org.inek.dataportal.common.helper.structures.DocInfo;
 @ViewScoped
 public class DocumentViewer implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     @Inject private AccountDocumentFacade _accountDocFacade;
     @Inject private SessionController _sessionController;
     @Inject private PortalMessageFacade _messageFacade;

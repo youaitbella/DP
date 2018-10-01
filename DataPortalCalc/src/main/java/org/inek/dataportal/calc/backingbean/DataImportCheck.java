@@ -25,6 +25,7 @@ import org.inek.dataportal.common.utils.StringUtil;
  */
 public class DataImportCheck<T, I> implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private final ErrorCounter counter;
     private final QuintConsumer<T, String, BiConsumer<T, I>, String, ErrorCounter> check;
     private final BiConsumer<T, I> assign;

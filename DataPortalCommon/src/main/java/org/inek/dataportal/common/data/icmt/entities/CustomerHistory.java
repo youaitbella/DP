@@ -24,6 +24,7 @@ import javax.persistence.TemporalType;
 @Table(name = "CustomerHistory", catalog = "CallCenterDB", schema = "dbo")
 public class CustomerHistory implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     //<editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

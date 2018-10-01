@@ -8,6 +8,7 @@ import java.io.Serializable;
  */
 public class MapAccountInekRoleId implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private int _accountId;
     private int _inekRoleId;
 

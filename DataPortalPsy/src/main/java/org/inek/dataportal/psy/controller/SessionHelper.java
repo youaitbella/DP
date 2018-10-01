@@ -15,8 +15,9 @@ import org.inek.dataportal.common.data.access.ProcedureFacade;
  */
 @Named
 @SessionScoped
-public class SessionHelper implements Serializable{
-    
+public class SessionHelper implements Serializable {
+
+    private static final long serialVersionUID = 1L;
     @Inject private ProcedureFacade _procedureFacade;
     @Inject private DiagnosisFacade _diagnosisFacade;
     @Inject private PeppFacade _peppFacade;
@@ -30,5 +31,4 @@ public class SessionHelper implements Serializable{
         return _searchController;
     }
 
-    
 }

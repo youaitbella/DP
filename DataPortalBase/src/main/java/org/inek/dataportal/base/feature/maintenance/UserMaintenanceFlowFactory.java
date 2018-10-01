@@ -18,18 +18,18 @@ import org.inek.dataportal.common.enums.Pages;
  *
  * @author muellermi
  */
+public class UserMaintenanceFlowFactory implements Serializable {
 
-public class UserMaintenanceFlowFactory implements Serializable{
+    private static final long serialVersionUID = 1L;
+
     @Produces @FlowDefinition
-    public Flow defineUserMaintenanceFlow( @FlowBuilderParameter FlowBuilder flowBuilder) {
-        String flowId = "UserMaintenance";   
-        flowBuilder.id("", flowId); 
-        
-        
+    public Flow defineUserMaintenanceFlow(@FlowBuilderParameter FlowBuilder flowBuilder) {
+        String flowId = "UserMaintenance";
+        flowBuilder.id("", flowId);
+
         flowBuilder.viewNode(flowId, Pages.UserMaintenanceMasterData.URL()).markAsStartNode();
-        
-        
+
         return flowBuilder.getFlow();
     }
-    
+
 }

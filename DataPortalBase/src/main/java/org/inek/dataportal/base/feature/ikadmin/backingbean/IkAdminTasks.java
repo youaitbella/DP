@@ -32,6 +32,7 @@ import org.inek.dataportal.common.helper.Utils;
 @ViewScoped
 public class IkAdminTasks implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger("IkAdminTasks");
 
     @Inject
@@ -124,7 +125,7 @@ public class IkAdminTasks implements Serializable {
                 .getIkAdminFeatures()
                 .stream()
                 .map(af -> af.getFeature())
-                .filter(f -> f.getIkReference() !=  IkReference.None)
+                .filter(f -> f.getIkReference() != IkReference.None)
                 .collect(Collectors.toList());
         return features;
     }

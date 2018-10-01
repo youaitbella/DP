@@ -27,6 +27,7 @@ import org.inek.dataportal.common.scope.FeatureScoped;
 @FeatureScoped
 public class AdminSystemStatus implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     @Inject
     private AccountFacade _accountFacade;
     @Inject

@@ -43,6 +43,7 @@ import org.inek.dataportal.common.utils.StringUtil;
  */
 public final class DataImporter<T extends BaseIdValue, S extends StatusEntity> implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger(DataImporter.class.getName());
 
     @SuppressWarnings({"MethodLength", "JavaNCSS", "MultipleStringLiterals"})

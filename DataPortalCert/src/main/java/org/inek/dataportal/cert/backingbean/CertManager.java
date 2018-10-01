@@ -47,7 +47,7 @@ import org.primefaces.model.UploadedFile;
 public class CertManager implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger("CertManager");
-
+    private static final long serialVersionUID = 1L;
     @Inject
     private SystemFacade _systemFacade;
     @Inject

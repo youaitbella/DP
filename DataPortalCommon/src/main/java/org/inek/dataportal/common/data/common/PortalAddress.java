@@ -17,6 +17,8 @@ import org.inek.dataportal.common.enums.Stage;
 @Entity
 @Table(name = "listPortalAddress")
 public class PortalAddress implements Serializable {
+
+    private static final long serialVersionUID = 1L;
     //<editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @Column(name = "paId")

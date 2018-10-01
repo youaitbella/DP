@@ -34,6 +34,7 @@ import org.inek.dataportal.common.mail.Mailer;
 @FeatureScoped
 public class EditDropBox implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger("EditDropBox");
     @Inject private SessionController _sessionController;
     @Inject private DropBoxFacade _dropBoxFacade;

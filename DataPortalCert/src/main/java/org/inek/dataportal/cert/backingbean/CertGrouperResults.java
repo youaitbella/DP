@@ -38,6 +38,7 @@ import org.inek.dataportal.common.mail.Mailer;
 @SuppressWarnings("JavaNCSS")
 public class CertGrouperResults implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger("CertGrouperResults");
     private Grouper _grouper;
     private int _runs = 0;

@@ -12,6 +12,7 @@ import javax.persistence.Id;
 @Entity
 public class InsuranceNubMethodInfo implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     // <editor-fold defaultstate="collapsed" desc="Property RequestId">
     @Column(name = "prDatenportalId")
     @Id
@@ -77,7 +78,6 @@ public class InsuranceNubMethodInfo implements Serializable {
         this._sequence = sequence;
     }
     // </editor-fold>
-
 
     @Override
     public String toString() {

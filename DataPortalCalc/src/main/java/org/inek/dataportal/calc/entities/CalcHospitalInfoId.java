@@ -14,6 +14,7 @@ import org.inek.dataportal.calc.enums.CalcInfoType;
  */
 public class CalcHospitalInfoId implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private int _id;
     private CalcInfoType _type;
 

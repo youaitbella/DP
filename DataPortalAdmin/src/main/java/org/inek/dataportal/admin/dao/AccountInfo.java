@@ -18,6 +18,7 @@ import javax.persistence.Transient;
 @Entity
 public class AccountInfo implements Serializable {
 
+    private static final long serialVersionUID = 1L;
 //    public AccountInfo() {
 //    }
 //

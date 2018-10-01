@@ -25,6 +25,7 @@ import org.inek.dataportal.common.enums.RemunSystem;
 @Table(name = "System", schema = "crt")
 public class RemunerationSystem implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     // <editor-fold defaultstate="collapsed" desc="Properties">
     // <editor-fold defaultstate="collapsed" desc="id">
     @Id

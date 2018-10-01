@@ -36,6 +36,7 @@ public class PsychStaffList implements Serializable {
 
     // <editor-fold defaultstate="collapsed" desc="fields">
     private static final Logger LOGGER = Logger.getLogger(PsychStaffList.class.getName());
+    private static final long serialVersionUID = 1L;
 
 // todo    @Inject private Facade Facade;
     @Inject private ApplicationTools _appTools;

@@ -15,6 +15,7 @@ import java.util.List;
  */
 public class Topics implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     // usually only a handfull of topics will be managed by this class
     // thus, a simple ArrayList is used
     private List<Topic> _topics = new ArrayList<>();

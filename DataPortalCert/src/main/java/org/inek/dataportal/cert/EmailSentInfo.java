@@ -11,8 +11,9 @@ import java.io.Serializable;
  *
  * @author muellermi
  */
-public class EmailSentInfo implements Serializable{
+public class EmailSentInfo implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private final String _receipient;
     private final String _bcc;
     private final String _result;
