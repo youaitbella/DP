@@ -63,7 +63,7 @@
             </pf:confirmDialog>
 
             <h:inputText value="" styleClass="hide"><f:ajax/></h:inputText> <!-- dummy to ensure jsf.js -->
-            <div class="noPrint warningWide" jsf:rendered="#{sessionController.elderInternetExplorer}">
+            <div class="noPrint warningWide" jsf:rendered="#{browserTools.elderInternetExplorer}">
                 <h5>
                     Ihr Browser wurde als ältere Version des Internet-Explorers erkannt.
                     Bekanntermaßen kann dies (insbesondere bei Versionen kleiner 9) zu unerwarteten Fehlern ("Abstürzen") führen.
@@ -137,16 +137,16 @@
                             <h3 class="warningWide">#{msg.msgEnableScript}</h3>
                         </noscript>
                         <h:form id="browsertest" rendered="false">
-                            <div jsf:rendered="#{!sessionController.testPerformed}">
+                            <div jsf:rendered="#{!browserTools.testPerformed}">
                                 <script>
                                     function test() {
                                         document.getElementById('browsertest:testclick').click();
                                     }
                                     addOnLoadFunction(test);
                                 </script>
-                                <h:commandLink id="testclick" action="#{sessionController.testClick}" immediate="true" value="testclick" style="display: none"/>
+                                <h:commandLink id="testclick" action="#{browserTools.testClick}" immediate="true" value="testclick" style="display: none"/>
                             </div>
-                            <div jsf:rendered="#{sessionController.testPerformed and !sessionController.clickable}">
+                            <div jsf:rendered="#{browserTools.testPerformed and !browserTools.clickable}">
                                 <h3 class="warningWide">Ihr Browser unterstützt nicht alle erforderlichen Funktionen. Bitte lesen Sie das Handbuch, Abschnitt "getestete Browser".</h3>
                             </div>
                         </h:form>

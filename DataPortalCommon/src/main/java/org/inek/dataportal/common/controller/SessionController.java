@@ -426,26 +426,6 @@ public class SessionController implements Serializable {
         return _account != null;
     }
 
-    public boolean isElderInternetExplorer() {
-        String userAgent = Utils.getUserAgent();
-        if (userAgent == null) {
-            return false;
-        }
-        String search = "compatible; MSIE";
-        int pos = userAgent.indexOf(search);
-        if (pos < 0) {
-            return false;
-        }
-        int posAfter = userAgent.indexOf(";", pos + search.length());
-        String versionString = userAgent.substring(pos + search.length(), posAfter).trim();
-        try {
-            Float version = Float.parseFloat(versionString);
-            return version < 9;
-        } catch (NumberFormatException ex) {
-            return true;
-        }
-    }
-
     private void initFeatures() {
         _featureHolder.clear();
         if (_account == null) {
@@ -659,54 +639,6 @@ public class SessionController implements Serializable {
             }
         }
         return null;
-    }
-
-    private boolean _testPerformed = false;
-
-    public boolean isTestPerformed() {
-        return _testPerformed;
-    }
-
-    public void setTestPerformed(boolean testPerformed) {
-        _testPerformed = testPerformed;
-    }
-
-    private boolean _clickable = false;
-
-    public boolean isClickable() {
-        return _clickable;
-    }
-
-    public void setClickable(boolean clickable) {
-        _clickable = clickable;
-    }
-
-    public String testClick() {
-        _clickable = true;
-        setTestPerformed(true);
-        return Pages.Login.URL();
-    }
-
-    private String _windowName;
-
-    public String getWindowName() {
-        return _windowName;
-    }
-
-    public void setWindowName(String windowName) {
-        if (_windowName == null) {
-            // first access
-            _windowName = "#DataPortal#" + UUID.randomUUID();
-        } else if (!windowName.equals(_windowName)) {
-            // new tab or window
-            //performLogout("DoubleWindow");
-            Utils.navigate(Pages.DoubleWindow.RedirectURL());
-        }
-    }
-
-    public String navigateLogin() {
-        _windowName = null;
-        return Pages.Login.RedirectURL();
     }
 
     public String getManual() {
