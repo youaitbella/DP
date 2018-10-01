@@ -6,9 +6,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceUnit;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -22,6 +20,7 @@ import org.eclipse.persistence.jpa.JpaQuery;
  */
 @Deprecated
 public abstract class AbstractFacade<T> {
+    private static final long serialVersionUID = 1L;
 
     protected static final Logger LOGGER = Logger.getLogger("Facade");
 

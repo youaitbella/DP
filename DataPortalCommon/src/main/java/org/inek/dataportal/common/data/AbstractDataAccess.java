@@ -15,6 +15,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import org.eclipse.persistence.jpa.JpaQuery;
 
 public abstract class AbstractDataAccess {
+    private static final long serialVersionUID = 1L;
 
     protected static final Logger LOGGER = Logger.getLogger("DataAccess");
 

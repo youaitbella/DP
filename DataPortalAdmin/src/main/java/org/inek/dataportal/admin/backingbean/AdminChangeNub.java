@@ -24,6 +24,7 @@ import org.inek.dataportal.admin.facade.AdminFacade;
 @Named
 @FeatureScoped(name = "AdminTask")
 public class AdminChangeNub implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @Inject private SessionController _sessionController;
     @Inject private AccountFacade _accountFacade;

@@ -27,6 +27,7 @@ import org.inek.dataportal.common.scope.FeatureScoped;
 @Named
 @FeatureScoped
 public class AdminInfoText implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @Inject
     private SessionController _sessionController;

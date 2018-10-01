@@ -8,16 +8,12 @@ package org.inek.dataportal.admin.backingbean;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.PostConstruct;
-import javax.faces.application.NavigationHandler;
-import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.controller.DialogController;
-import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.adm.MailTemplate;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.helper.Utils;
@@ -31,6 +27,7 @@ import org.inek.dataportal.common.scope.FeatureScoped;
 @Named
 @FeatureScoped
 public class AdminMailTemplate implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @Inject
     private MailTemplateFacade _mailTemplateFacade;
