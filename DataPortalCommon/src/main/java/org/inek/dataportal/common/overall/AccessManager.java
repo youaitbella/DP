@@ -109,7 +109,7 @@ public class AccessManager implements Serializable {
                 .filter(predicate);
     }
 
-    public Set<Integer> retrieveIkSet(Feature feature, Predicate<AccessRight> predicate) {
+    private Set<Integer> retrieveIkSet(Feature feature, Predicate<AccessRight> predicate) {
         return obtainAccessRights(feature, predicate)
                 .map(r -> r.getIk())
                 .collect(Collectors.toSet());
@@ -123,10 +123,6 @@ public class AccessManager implements Serializable {
     public Set<Integer> retrieveDeniedManagedIks(Feature feature) {
         Predicate<AccessRight> predicate = r -> r.getRight() == Right.Deny && _ikCache.isManaged(r.getIk(), feature);
         return retrieveIkSet(feature, predicate);
-    }
-
-    public Set<Integer> retrieveDeniedForCreationIks(Feature feature) {
-        return retrieveIkSet(feature, r -> !r.getRight().canCreate());
     }
 
     public Set<Integer> retrieveAllowedForCreationIks(Feature feature) {
@@ -468,6 +464,10 @@ public class AccessManager implements Serializable {
         Set<Integer> deniedIks = retrieveDeniedForCreationIks(feature);
         iks.removeAll(deniedIks);
         return iks;
+    }
+
+    private Set<Integer> retrieveDeniedForCreationIks(Feature feature) {
+        return retrieveIkSet(feature, r -> !r.getRight().canCreate());
     }
 
     public Boolean isCreateAllowed(Feature feature) {

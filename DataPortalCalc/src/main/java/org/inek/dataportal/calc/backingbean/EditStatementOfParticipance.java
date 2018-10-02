@@ -812,8 +812,8 @@ public class EditStatementOfParticipance extends AbstractEditController {
         if (_statement != null && _statement.getIk() > 0) {
             iks.add(_statement.getIk());
         }
-        Set<Integer> deniedIks = _accessManager.retrieveDeniedForCreationIks(Feature.CALCULATION_HOSPITAL);
-        iks.removeAll(deniedIks);
+        Set<Integer> allowedIks = _accessManager.retrieveAllowedForCreationIks(Feature.CALCULATION_HOSPITAL);
+        iks.removeIf(ik -> !allowedIks.contains(ik));
 
         List<SelectItem> items = new ArrayList<>();
         for (int ik : iks) {

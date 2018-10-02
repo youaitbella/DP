@@ -220,52 +220,6 @@ public class CI_AccessManagerTest {
     }
 
     @Test
-    public void retrieveDeniedForCreationIksReturnsOnlyOneDeniedForCreationIk() {
-        List<AccessRight> accessRights = new ArrayList<>();
-        accessRights.add(new AccessRight(userAccountId, allowedIk, testFeature, Right.Read));
-        AccessManager accessManager = obtainAccessManager(accessRights);
-        Set<Integer> result = accessManager.retrieveDeniedForCreationIks(testFeature);
-        assertThat(result).isNotNull().isNotEmpty().containsOnly(allowedIk);
-    }
-
-    @Test
-    public void retrieveDeniedForCreationIksReturnsEmptyIfTheOnlyOneIkIsAllowedForCreation() {
-        List<AccessRight> accessRights = new ArrayList<>();
-        accessRights.add(new AccessRight(userAccountId, allowedIk, testFeature, Right.Create));
-        AccessManager accessManager = obtainAccessManager(accessRights);
-        Set<Integer> result = accessManager.retrieveDeniedForCreationIks(testFeature);
-        assertThat(result).isNotNull().isEmpty();
-    }
-
-    @Test
-    public void retrieveDeniedForCreationIksReturnsOnlyOneDeniedForCreationIkOutOfMultipleIk() {
-        List<AccessRight> accessRights = new ArrayList<>();
-        accessRights.add(new AccessRight(userAccountId, allowedIk, testFeature, Right.Create));
-        accessRights.add(new AccessRight(userAccountId, deniedIk, testFeature, Right.Deny));
-        AccessManager accessManager = obtainAccessManager(accessRights);
-        Set<Integer> result = accessManager.retrieveDeniedForCreationIks(testFeature);
-        assertThat(result).isNotNull().isNotEmpty().containsOnly(deniedIk);
-    }
-
-    @Test
-    public void retrieveDeniedForCreationIksReturnsNoIkForEmptyAccessRights() {
-        List<AccessRight> accessRights = new ArrayList<>();
-        AccessManager accessManager = obtainAccessManager(accessRights);
-        Set<Integer> result = accessManager.retrieveDeniedForCreationIks(testFeature);
-        assertThat(result).isNotNull().isEmpty();
-    }
-
-    @Test
-    public void retrieveDeniedForCreationIksReturnsNoIkForWrongFeature() {
-        List<AccessRight> accessRights = new ArrayList<>();
-        accessRights.add(new AccessRight(userAccountId, allowedIk, testFeature, Right.Read));
-        accessRights.add(new AccessRight(userAccountId, deniedIk, testFeature, Right.Deny));
-        AccessManager accessManager = obtainAccessManager(accessRights);
-        Set<Integer> result = accessManager.retrieveDeniedForCreationIks(Feature.CERT);
-        assertThat(result).isNotNull().isEmpty();
-    }
-
-    @Test
     public void retrieveAllowedForCreationIksReturnsOnlyOneDeniedForCreationIkOutOfMultipleIk() {
         List<AccessRight> accessRights = new ArrayList<>();
         accessRights.add(new AccessRight(userAccountId, allowedIk, testFeature, Right.Create));

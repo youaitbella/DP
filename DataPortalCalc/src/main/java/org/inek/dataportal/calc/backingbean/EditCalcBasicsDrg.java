@@ -801,8 +801,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             boolean testMode = _appTools.isEnabled(ConfigKey.TestMode);
             int year = Utils.getTargetYear(Feature.CALCULATION_HOSPITAL);
             Set<Integer> iks = _calcDrgFacade.obtainIks4NewBasicsDrg(_sessionController.getAccountId(), year, testMode);
-            Set<Integer> deniedIks = _accessManager.retrieveDeniedForCreationIks(Feature.CALCULATION_HOSPITAL);
-            iks.removeAll(deniedIks);
+            Set<Integer> allowedIks = _accessManager.retrieveAllowedForCreationIks(Feature.CALCULATION_HOSPITAL);
+            iks.removeIf(ik -> !allowedIks.contains(ik));
             if (_calcBasics != null && _calcBasics.getIk() > 0) {
                 iks.add(_calcBasics.getIk());
             }
