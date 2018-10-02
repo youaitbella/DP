@@ -8,69 +8,51 @@
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xmlns:cb="http://inek.org/dataportal/clientbehaviour"
                 xmlns:pf="http://primefaces.org/ui"
-                xmlns:inekIcon="http://xmlns.jcp.org/jsf/composite/components/Icons">
+                xmlns:inekIcon="http://xmlns.jcp.org/jsf/composite/components/Icons"
+                xmlns:jsf="http://xmlns.jcp.org/jsf">
 
     <ui:define name="title">Mitteilung gem. § 5 PpUGV</ui:define>
 
     <ui:define name="content">
-        <ui:remove>
-            <h1>Pflegeuntergrenzen</h1>
-            <pf:panel style="background-color: #eeeeee;">
-                <div class="ui-g ui-fluid" >
-                    <div class="ui-g-6">
-                        <h2>Daten in Erfassung</h2>
-                        <pf:dataTable id="erfassungtable"
-                                      value="#{deptSummary.listWorking}"
-                                      var="baseInformation"
-                                      emptyMessage="Keine Einträge vorhanden">
-                            <pf:column>
-                                <inekIcon:DeleteIcon deleteFunction="#{deptSummary.deleteBaseInformation(baseInformation)}"
-                                                     show="#{deptSummary.isDeleteAllowed(baseInformation.ik)}" />
-                            </pf:column>
-                            <pf:column headerText="IK" >
-                                <h:link outcome="#{deptSummary.careDeptStationOpen()}"
-                                        value="#{baseInformation.ik}" >
-                                    <f:param name="id" value="#{baseInformation.id}"/>
-                                </h:link>
-                            </pf:column>
-                            <pf:column headerText="Krankenhaus" >
-                                <h:link outcome="#{deptSummary.careDeptStationOpen()}"
-                                        value="#{applicationTools.retrieveHospitalName(baseinformation.ik)}" >
-                                    <f:param name="id" value="#{baseInformation.id}"/>
-                                </h:link>
-                            </pf:column>
-                        </pf:dataTable>
-                    </div>
-                    <div class="ui-g-6">
-                        <h2>An das InEK gesendet</h2>
-                        <pf:dataTable value="#{deptSummary.listComplete}"
-                                      var="baseInformation"
-                                      emptyMessage="Keine Einträge vorhanden">
-                            <pf:column headerText="IK" >
-                                <h:link outcome="#{deptSummary.careDeptStationOpen()}"
-                                        value="#{baseInformation.ik}" >
-                                    <f:param name="id" value="#{baseInformation.id}"/>
-                                </h:link>
-                            </pf:column>
-                            <pf:column headerText="Krankenhaus" >
-                                <h:link outcome="#{deptSummary.careDeptStationOpen()}"
-                                        value="#{applicationTools.retrieveHospitalName(baseinformation.ik)}" >
-                                    <f:param name="id" value="#{baseInformation.id}"/>
-                                </h:link>
-                            </pf:column>
-                        </pf:dataTable>
-                    </div>
-                </div>
 
-                <pf:commandButton value="Neue Meldung erstellen"
-                                  action="#{deptSummary.careDeptStationOpen()}"
-                                  rendered="#{deptSummary.isCreateEntryAllowed()}"
-                                  immediate="true">
-                    <f:param name="id" value="new"/>
-                </pf:commandButton>
-
-            </pf:panel>
-        </ui:remove>
+        <div class="ui-g" jsf:rendered="#{deptSummary.isInekUser()}">
+            <div class="card">
+                <h:form>
+                    <h1>InEK Intern</h1>
+                    <pf:dataTable id="inektable"
+                                  value="#{deptSummary.listInek}"
+                                  var="baseInformation"
+                                  emptyMessage="Keine Daten vorhanden"
+                                  rows="50"
+                                  paginator="true"
+                                  rowsPerPageTemplate="15,25,50,100">
+                        <f:facet name="header">
+                            Übersicht über alle erfassten Daten
+                        </f:facet>
+                        <pf:column style="width: 20px;">
+                            <inekIcon:StatusIcon StatusId="#{baseInformation.statusId}"/>
+                        </pf:column>
+                        <pf:column headerText="IK" filterBy="#{baseInformation.ik}" sortBy="#{baseInformation.ik}">
+                            <h:link outcome="#{deptSummary.careDeptStationOpen()}"
+                                    value="#{baseInformation.ik}" >
+                                <f:param name="id" value="#{baseInformation.id}"/>
+                            </h:link>
+                        </pf:column>
+                        <pf:column headerText="Krankenhaus" filterBy="#{baseInformation.hospitalName}" sortBy="#{baseInformation.hospitalName}">
+                            <h:link outcome="#{deptSummary.careDeptStationOpen()}"
+                                    value="#{baseInformation.hospitalName}" >
+                                <f:param name="id" value="#{baseInformation.id}"/>
+                            </h:link>
+                        </pf:column>
+                        <pf:column headerText="Letze Änderung" >
+                            <h:outputText value="#{baseInformation.lastChangeDate}" >
+                                <f:convertDateTime pattern="dd.MM.yyyy" />
+                            </h:outputText>
+                        </pf:column>
+                    </pf:dataTable>
+                </h:form>
+            </div>
+        </div>
 
         <div class="ui-g">
             <div class="card">

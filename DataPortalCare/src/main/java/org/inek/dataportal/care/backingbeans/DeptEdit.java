@@ -6,7 +6,6 @@
 package org.inek.dataportal.care.backingbeans;
 
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
@@ -23,6 +22,7 @@ import org.inek.dataportal.care.facades.DeptFacade;
 import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.adm.MailTemplate;
+import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.helper.MailTemplateHelper;
@@ -163,11 +163,8 @@ public class DeptEdit {
     }
 
     private void loadValidIks() {
-        Set<Integer> iks = new HashSet<>();
-
-        iks.add(222222222);
-
-        setValidIks(iks);
+        Set<Integer> allowedIks = _accessManager.ObtainIksForCreation(Feature.CARE);
+        setValidIks(_deptFacade.retrievePossibleIks(allowedIks));
     }
 
     public void addNewStation(Dept dept) {
@@ -207,6 +204,27 @@ public class DeptEdit {
             _mailer.sendException(Level.SEVERE,
                     "Fehler beim Emailversand an " + _deptBaseInformation.getIk() + "(Care)", new Exception());
         }
+    }
+
+    public Boolean changeAllowed() {
+        if (_deptBaseInformation == null || _deptBaseInformation.getStatusId() < 10) {
+            return false;
+        } else {
+            for (AccessRight right : _sessionController.getAccount().getAccessRights().stream()
+                    .filter(c -> c.canWrite() && c.getFeature() == Feature.CARE)
+                    .collect(Collectors.toList())) {
+                if (right.getIk() == _deptBaseInformation.getIk()) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+    }
+
+    public void change() {
+        _deptBaseInformation.setStatus(WorkflowStatus.CorrectionRequested);
+        setIsReadOnly(false);
     }
 
 }

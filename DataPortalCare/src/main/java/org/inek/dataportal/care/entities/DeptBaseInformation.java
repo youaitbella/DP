@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
+import org.inek.dataportal.common.data.iface.StatusEntity;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 
 /**
@@ -16,7 +17,7 @@ import org.inek.dataportal.common.enums.WorkflowStatus;
  */
 @Entity
 @Table(name = "DeptBaseInformation", schema = "care")
-public class DeptBaseInformation implements Serializable {
+public class DeptBaseInformation implements Serializable, StatusEntity {
 
     private static final long serialVersionUID = 1L;
 

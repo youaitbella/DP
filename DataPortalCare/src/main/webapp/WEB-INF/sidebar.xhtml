@@ -11,7 +11,9 @@
             <div class="nano">
                 <div class="nano-content sidebar-scroll-content">
                     <div class="logo">
-                        <pf:graphicImage name="images/logo.png" library="omega-layout"/>
+                        <pf:graphicImage name="images/logo.png"
+                                         library="omega-layout"/>
+                        <div style="float: right; font-size: 60px; color: white; padding-right: 50px; padding-top: 5px;">DP</div>
                     </div>
 
                     <div class="menu" style="padding-top: 50px;">
@@ -20,6 +22,11 @@
                                 <pf:menuitem value="#{topic.title}"
                                              action="#{sessionController.navigate(topic.outcome)}"/>
                             </c:forEach>
+                            <pf:menuitem value="#{msg.lblUserManual}"
+                                         icon="fa fa-book"
+                                         target="blank"
+                                         url="https://daten.inek.org/manual/#{sessionController.manual}"/>
+
                         </po:menu>
                     </div>
                 </div>

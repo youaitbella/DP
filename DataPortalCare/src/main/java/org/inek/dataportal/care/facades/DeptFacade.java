@@ -19,7 +19,7 @@ import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import org.inek.dataportal.care.entities.Dept;
 import org.inek.dataportal.care.entities.DeptBaseInformation;
-import org.inek.dataportal.common.data.AbstractDataAccess;
+import org.inek.dataportal.common.data.AbstractDataAccessWithActionLog;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 
 /**
@@ -27,7 +27,7 @@ import org.inek.dataportal.common.enums.WorkflowStatus;
  * @author lautenti
  */
 @Stateless
-public class DeptFacade extends AbstractDataAccess {
+public class DeptFacade extends AbstractDataAccessWithActionLog {
 
     public DeptBaseInformation findDeptBaseInformation(int id) {
         String sql = "SELECT bi FROM DeptBaseInformation bi WHERE bi._id = :id";
@@ -127,6 +127,13 @@ public class DeptFacade extends AbstractDataAccess {
             dept.setDeptArea((int) record[1]);
             info.addDept(dept);
         });
+    }
+
+    public List<DeptBaseInformation> getAllByStatus(WorkflowStatus status) {
+        String sql = "SELECT bi FROM DeptBaseInformation bi WHERE bi._statusId = :status ";
+        TypedQuery<DeptBaseInformation> query = getEntityManager().createQuery(sql, DeptBaseInformation.class);
+        query.setParameter("status", status.getId());
+        return query.getResultList();
     }
 
 }

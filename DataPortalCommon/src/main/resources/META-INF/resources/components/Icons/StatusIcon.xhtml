@@ -2,30 +2,16 @@
 <!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:cc="http://xmlns.jcp.org/jsf/composite"
-      xmlns:pf="http://primefaces.org/ui">
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
 
     <!-- INTERFACE -->
     <cc:interface>
-        <cc:attribute name="deleteFunction" method-signature="void f(javax.faces.context.FacesContext,
-                      javax.faces.component.UIComponent,
-                      java.lang.Object)"/>
-        <cc:attribute name="show" default="true"/>
-        <cc:attribute name="showConfirmDialog" default="false"/>
-        <cc:attribute name="updateElement"/>
+        <cc:attribute name="StatusId" />
     </cc:interface>
 
     <!-- IMPLEMENTATION -->
     <cc:implementation>
-        <div onclick="changeDialogColor('delete')">
-            <pf:commandLink action="#{cc.attrs.deleteFunction}"
-                            update="#{cc.attrs.updateElement}"
-                            process="@this"
-                            rendered="#{cc.attrs.show}">
-                <i class="fa fa-trash" style="color: red;"/>
-                <pf:confirm rendered="#{cc.attrs.showConfirmDialog}"
-                            header="Wollen Sie den Eintrag wirklich löschen?"
-                            message="Gelöschte Einträge können Sie nicht wiederherstellen. Wollen Sie den Eintrag wirklich löschen?" />
-            </pf:commandLink>
-        </div>
+        <i jsf:rendered="#{cc.attrs.StatusId eq 3}" class="fa fa-pencil" title="Daten zurückgezogen"> </i>
+        <i jsf:rendered="#{cc.attrs.StatusId eq 10}" class="fa fa-check" style="color: green;" title="Ans InEK gesendet"> </i>
     </cc:implementation>
 </html>

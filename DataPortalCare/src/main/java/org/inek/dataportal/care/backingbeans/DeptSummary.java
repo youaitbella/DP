@@ -5,7 +5,9 @@
  */
 package org.inek.dataportal.care.backingbeans;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -20,6 +22,7 @@ import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.overall.AccessManager;
+import org.inek.dataportal.common.overall.ApplicationTools;
 import org.inek.dataportal.common.scope.FeatureScoped;
 
 /**
@@ -28,8 +31,10 @@ import org.inek.dataportal.common.scope.FeatureScoped;
  */
 @Named
 @FeatureScoped
-public class DeptSummary {
+public class DeptSummary implements Serializable {
 
+    @Inject
+    private ApplicationTools _applicationTools;
     @Inject
     private AccessManager _accessManager;
     @Inject
@@ -39,6 +44,7 @@ public class DeptSummary {
 
     private List<DeptBaseInformation> _listComplete = new ArrayList<>();
     private List<DeptBaseInformation> _listWorking = new ArrayList<>();
+    private List<listItem> _listInek = new ArrayList<>();
 
     public List<DeptBaseInformation> getListComplete() {
         return _listComplete;
@@ -56,10 +62,21 @@ public class DeptSummary {
         this._listWorking = listWorking;
     }
 
+    public List<listItem> getListInek() {
+        return _listInek;
+    }
+
+    public void setListInek(List<listItem> listInek) {
+        this._listInek = listInek;
+    }
+
     @PostConstruct
     public void init() {
         setWorkingList();
         setCompleteList();
+        if (isInekUser()) {
+            setInekList();
+        }
     }
 
     private void setWorkingList() {
@@ -79,6 +96,12 @@ public class DeptSummary {
                 .collect(Collectors.toList())) {
             _listComplete.addAll(_deptFacade.getAllByStatusAndIk(WorkflowStatus.Provided, right.getIk()));
         }
+    }
+
+    private void setInekList() {
+        _listInek.clear();
+        _listInek.addAll(createListItems(_deptFacade.getAllByStatus(WorkflowStatus.Provided)));
+        _listInek.addAll(createListItems(_deptFacade.getAllByStatus(WorkflowStatus.CorrectionRequested)));
     }
 
     public String careDeptStationOpen() {
@@ -102,5 +125,87 @@ public class DeptSummary {
                 && c.canWrite())
                 .collect(Collectors.toList())
                 .isEmpty();
+    }
+
+    public Boolean isInekUser() {
+        return _sessionController.isInekUser(Feature.CARE);
+    }
+
+    public List<listItem> createListItems(List<DeptBaseInformation> baseInfos) {
+        List<listItem> listItems = new ArrayList<>();
+
+        for (DeptBaseInformation info : baseInfos) {
+            listItem item = new listItem();
+            item.setId(info.getId());
+            item.setIk(info.getIk());
+            item.setHospitalName(_applicationTools.retrieveHospitalName(info.getIk()));
+            item.setLastChangeDate(info.getLastChanged());
+            item.setStatusId(info.getStatusId());
+
+            listItems.add(item);
+        }
+
+        return listItems;
+    }
+
+    public class listItem implements Serializable {
+
+        private int _id;
+        private int _ik;
+        private int _statusId;
+        private String _hospitalName;
+        private Date _lastChangeDate;
+
+        public listItem() {
+
+        }
+
+        public listItem(int id, int ik, int statusId, String hospitalName, Date lastChangeDate) {
+            this._id = id;
+            this._ik = ik;
+            this._statusId = statusId;
+            this._hospitalName = hospitalName;
+            this._lastChangeDate = lastChangeDate;
+        }
+
+        public int getId() {
+            return _id;
+        }
+
+        public void setId(int id) {
+            this._id = id;
+        }
+
+        public int getIk() {
+            return _ik;
+        }
+
+        public void setIk(int ik) {
+            this._ik = ik;
+        }
+
+        public int getStatusId() {
+            return _statusId;
+        }
+
+        public void setStatusId(int statusId) {
+            this._statusId = statusId;
+        }
+
+        public String getHospitalName() {
+            return _hospitalName;
+        }
+
+        public void setHospitalName(String hospitalName) {
+            this._hospitalName = hospitalName;
+        }
+
+        public Date getLastChangeDate() {
+            return _lastChangeDate;
+        }
+
+        public void setLastChangeDate(Date lastChangeDate) {
+            this._lastChangeDate = lastChangeDate;
+        }
     }
 }

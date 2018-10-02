@@ -33,6 +33,12 @@
                 <div class="card">
                     <div class="ui-g-12">
 
+                        <pf:commandButton value="Datensatz ändern"
+                                          action="#{deptEdit.change()}"
+                                          rendered="#{deptEdit.changeAllowed()}"
+                                          style="margin-left: 10px;"
+                                          update="@(.ui-message) @form"/>
+
                         <pf:commandButton value="Speichern ohne Senden"
                                           action="#{deptEdit.save()}"
                                           rendered="#{!deptEdit.isReadOnly}"
@@ -45,6 +51,7 @@
                                           styleClass="green-button"
                                           style="margin-left: 10px;"
                                           icon="fa fa-arrow-right"
+                                          iconPos="right"
                                           update="@(.ui-message) @form"/>
 
                     </div>
