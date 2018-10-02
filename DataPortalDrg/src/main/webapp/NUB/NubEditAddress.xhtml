@@ -228,7 +228,6 @@
                              value="#{editNubRequest.nubRequest.proxyIKs}"
                              validator="#{editNubRequest.checkProxyIKs}"
                              >
-                <f:validateLength maximum="500"/>
                 <f:ajax event="blur" render="@this :logout:remaining msgNubProxyIks" listener="#{editNubRequest.formatProxyIks}"/>
             </h:inputTextarea>
         </div>
