@@ -466,8 +466,8 @@ public class Account implements Serializable, Person {
         }
         _additionalIKs = accountIks;
     }
-
     // </editor-fold>
+
     public Set<Integer> getFullIkSet() {
         Set<Integer> iks = new HashSet<>();
         for (AccountIk addIk : _additionalIKs) {
@@ -541,6 +541,7 @@ public class Account implements Serializable, Person {
         _features.remove(feature);
     }
 
+    // <editor-fold defaultstate="collapsed" desc="Property AccessRight">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "arAccountId", referencedColumnName = "acId")
     private List<AccessRight> _accessRights = new ArrayList<>();
@@ -552,5 +553,6 @@ public class Account implements Serializable, Person {
     public void setAccessRights(List<AccessRight> accessRights) {
         this._accessRights = accessRights;
     }
+    // </editor-fold>
 
 }

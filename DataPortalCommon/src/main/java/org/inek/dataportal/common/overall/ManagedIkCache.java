@@ -99,7 +99,7 @@ public class ManagedIkCache {
         return isManaged;
     }
 
-    Set<Integer> retriveCorrelatedIks(Feature feature, Set<Integer> userIks, Set<Integer> requestedIks) {
+    public Set<Integer> retriveCorrelatedIks(Feature feature, Set<Integer> userIks, Set<Integer> requestedIks) {
         if (_ikCorrelations.isEmpty()) {
             loadIkCorrelations();
         }
@@ -125,7 +125,7 @@ public class ManagedIkCache {
      *
      * @return
      */
-    Set<Integer> retriveResponsibleForIks(Feature feature, Account account, Set<Integer> iks) {
+    public Set<Integer> retriveResponsibleForIks(Feature feature, Account account, Set<Integer> iks) {
         return _ikAdminFacade
                 .loadAccountResponsibilities(feature, account, iks)
                 .stream()

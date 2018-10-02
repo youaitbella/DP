@@ -115,16 +115,21 @@ public class AccessManager implements Serializable {
                 .collect(Collectors.toSet());
     }
 
+    /**
+     * retrieve all ik depending on the user's access rights where a manager exists
+     * @param feature
+     * @return 
+     */
     public Set<Integer> retrieveAllowedManagedIks(Feature feature) {
         Predicate<AccessRight> predicate = r -> r.getRight() != Right.Deny && _ikCache.isManaged(r.getIk(), feature);
         return retrieveIkSet(feature, predicate);
     }
 
-    public Set<Integer> retrieveDeniedManagedIks(Feature feature) {
-        Predicate<AccessRight> predicate = r -> r.getRight() == Right.Deny && _ikCache.isManaged(r.getIk(), feature);
-        return retrieveIkSet(feature, predicate);
-    }
-
+    /**
+     * 
+     * @param feature
+     * @return 
+     */
     public Set<Integer> retrieveAllowedForCreationIks(Feature feature) {
         Set<Integer> iks = retrieveIkSet(feature, r -> r.getRight().canCreate());
         iks.removeIf(ik -> feature.getManagedBy() == ManagedBy.IkAdminOnly && !_ikCache.isManaged(ik, feature));
@@ -165,6 +170,12 @@ public class AccessManager implements Serializable {
         }
 
         if (ik > 0) {
+            if (feature.getIkUsage() == IkUsage.ByResposibility || feature.getIkUsage() == IkUsage.ByResposibilityAndCorrelation){
+                
+            }
+            if (feature.getManagedBy() == ManagedBy.IkAdminOnly && !_ikCache.isManaged(ik, feature)){
+                return false;
+            }
             Optional<AccessRight> right = obtainAccessRights(feature, r -> r.getIk() == ik).findFirst();
             if (right.isPresent()) {
                 return right.get().canRead();
@@ -179,6 +190,7 @@ public class AccessManager implements Serializable {
         return right != CooperativeRight.None;
     }
 
+    
     /**
      * Data is readonly when provided to InEK or is owned by someone else and no edit right is granted to current user.
      *
@@ -482,6 +494,11 @@ public class AccessManager implements Serializable {
         Set<Integer> deniedIks = retrieveDeniedManagedIks(feature);
         iks.removeAll(deniedIks);
         return iks;
+    }
+
+    private Set<Integer> retrieveDeniedManagedIks(Feature feature) {
+        Predicate<AccessRight> predicate = r -> r.getRight() == Right.Deny && _ikCache.isManaged(r.getIk(), feature);
+        return retrieveIkSet(feature, predicate);
     }
 
 }
