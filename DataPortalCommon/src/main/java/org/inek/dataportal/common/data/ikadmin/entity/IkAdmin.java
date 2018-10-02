@@ -22,14 +22,25 @@ public class IkAdmin implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public IkAdmin(){}
-    public IkAdmin(int AccountId, int ik, String mailDomain){
+    public IkAdmin() {
+    }
+
+    public IkAdmin(int AccountId, int ik, String mailDomain) {
         _accountId = AccountId;
         _ik = ik;
         _mailDomain = mailDomain;
     }
-    
- 
+
+    public IkAdmin(int AccountId, int ik, String mailDomain, List<Feature> features) {
+        _accountId = AccountId;
+        _ik = ik;
+        _mailDomain = mailDomain;
+
+        for (Feature fe : features) {
+            addIkAdminFeature(fe);
+        }
+    }
+
     //<editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,7 +55,7 @@ public class IkAdmin implements Serializable {
         _id = id;
     }
     //</editor-fold>
-       
+
     // <editor-fold defaultstate="collapsed" desc="Property AccountId">
     @Column(name = "iaAccountId")
     private int _accountId = -1;
@@ -74,6 +85,7 @@ public class IkAdmin implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="Property MailDomain">
     @Column(name = "iaMailDomain")
     private String _mailDomain;
+
     public String getMailDomain() {
         return _mailDomain;
     }
@@ -82,11 +94,10 @@ public class IkAdmin implements Serializable {
         _mailDomain = mailDomain;
     }
     // </editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property IkAdminFeatures">
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "iafIkAdminId", referencedColumnName = "iaId")
-    @OrderBy("_feature")
+    @OneToMany(mappedBy = "_ikAdmin", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "iafIkAdminId")
     private List<IkAdminFeature> _ikAdminFeatures = new Vector<>();
 
     public List<IkAdminFeature> getIkAdminFeatures() {
@@ -98,17 +109,17 @@ public class IkAdmin implements Serializable {
     }
 
     public void removeIkAdminFeature(Feature feature) {
-        _ikAdminFeatures.removeIf(ai -> ai.getFeature()== feature);
+        _ikAdminFeatures.removeIf(ai -> ai.getFeature() == feature);
     }
 
     public void addIkAdminFeature(Feature feature) {
-        if (_ikAdminFeatures.stream().anyMatch(ai -> ai.getFeature() == feature)){
+        if (_ikAdminFeatures.stream().anyMatch(ai -> ai.getFeature() == feature)) {
             return;
         }
-        _ikAdminFeatures.add(new IkAdminFeature(_accountId, feature));
+        _ikAdminFeatures.add(new IkAdminFeature(this, feature));
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="hashCode & equals">
     @Override
     public int hashCode() {
@@ -142,6 +153,5 @@ public class IkAdmin implements Serializable {
         return true;
     }
     // </editor-fold>
-
 
 }

@@ -12,12 +12,14 @@ public class IkAdminFeature implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public IkAdminFeature(){}
-    public IkAdminFeature(int AccountId, Feature feature){
-        _ikAdminId = AccountId;
+    public IkAdminFeature() {
+    }
+
+    public IkAdminFeature(IkAdmin ikAdmin, Feature feature) {
+        _ikAdmin = ikAdmin;
         _feature = feature;
     }
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,20 +34,20 @@ public class IkAdminFeature implements Serializable {
         _id = id;
     }
     //</editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property IkAdminId">
-    @Id
-    @Column(name = "iafIkAdminId")
-    private int _ikAdminId = -1;
+    @ManyToOne
+    @JoinColumn(name = "iafIkAdminId")
+    private IkAdmin _ikAdmin;
 
-    public int getIkAdminId() {
-        return _ikAdminId;
+    public IkAdmin getIkAdmin() {
+        return _ikAdmin;
     }
 
-    public void setIkAdminId(int id) {
-        _ikAdminId = id;
+    public void setIkAdmin(IkAdmin ikAdmin) {
+        this._ikAdmin = ikAdmin;
     }
-    // </editor-fold>
+    //</editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Feature">
     @Id
@@ -65,7 +67,11 @@ public class IkAdminFeature implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="hashCode & equals">
     @Override
     public int hashCode() {
-        return 101;
+        int hash = 7;
+        hash = 97 * hash + Objects.hashCode(this._id);
+        hash = 97 * hash + Objects.hashCode(this._ikAdmin);
+        hash = 97 * hash + Objects.hashCode(this._feature);
+        return hash;
     }
 
     @Override
@@ -80,10 +86,10 @@ public class IkAdminFeature implements Serializable {
             return false;
         }
         final IkAdminFeature other = (IkAdminFeature) obj;
-        if (this._ikAdminId != other._ikAdminId) {
+        if (!Objects.equals(this._id, other._id)) {
             return false;
         }
-        if (!Objects.equals(this._id, other._id)) {
+        if (!Objects.equals(this._ikAdmin, other._ikAdmin)) {
             return false;
         }
         if (this._feature != other._feature) {
@@ -92,6 +98,4 @@ public class IkAdminFeature implements Serializable {
         return true;
     }
     // </editor-fold>
-
-
 }

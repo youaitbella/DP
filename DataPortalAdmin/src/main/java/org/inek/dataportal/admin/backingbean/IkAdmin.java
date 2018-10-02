@@ -7,7 +7,9 @@ package org.inek.dataportal.admin.backingbean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -20,10 +22,13 @@ import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.admin.dao.IkAccount;
+import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.api.enums.ManagedBy;
 import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.enums.Right;
 import org.inek.dataportal.common.data.account.entities.AccountFeature;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
+import org.inek.dataportal.common.data.ikadmin.entity.IkAdminFeature;
 import org.inek.dataportal.common.data.ikadmin.facade.IkAdminFacade;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.scope.FeatureScoped;
@@ -51,6 +56,24 @@ public class IkAdmin implements Serializable {
     private String _mailDomain;
 
     private List<IkAccount> _adminAccounts = new ArrayList<>();
+    private List<Feature> _validFeatures = new ArrayList<>();
+    private List<Feature> _selectedFeatures = new ArrayList<>();
+
+    public List<Feature> getValidFeatures() {
+        return _validFeatures;
+    }
+
+    public void setValidFeatures(List<Feature> validFeatures) {
+        this._validFeatures = validFeatures;
+    }
+
+    public List<Feature> getSelectedFeatures() {
+        return _selectedFeatures;
+    }
+
+    public void setSelectedFeatures(List<Feature> selectedFeatures) {
+        this._selectedFeatures = selectedFeatures;
+    }
 
     public List<IkAccount> getAdminAccounts() {
         return _adminAccounts;
@@ -63,6 +86,7 @@ public class IkAdmin implements Serializable {
     @PostConstruct
     private void init() {
         createAdminAccountList();
+        createValidFeaturesList();
     }
 
     public String deleteIkAdmin(IkAccount ikAccount) {
@@ -79,6 +103,10 @@ public class IkAdmin implements Serializable {
         _account = ikAccount.getAccount();
         _ik = ikAccount.getIk();
         _mailDomain = ikAccount.getMailDomain();
+        _selectedFeatures.clear();
+        for (IkAdminFeature ikAdminFeature : ikAccount.getIkAdminFeatures()) {
+            _selectedFeatures.add(ikAdminFeature.getFeature());
+        }
     }
 
     public String getEmail() {
@@ -122,7 +150,7 @@ public class IkAdmin implements Serializable {
     }
 
     public String saveIkAdmin() {
-        if (_account.addIkAdmin(_ik, _mailDomain)) {
+        if (_account.addIkAdmin(_ik, _mailDomain, _selectedFeatures)) {
             _sessionController.logMessage("Added IK Admin: account=" + _account.getId() + ", ik=" + _ik);
             collectExistingAccess(_ik);
         }
@@ -134,8 +162,7 @@ public class IkAdmin implements Serializable {
     // </editor-fold>
 
     /**
-     * If for an ik an ik admin is created (and none existed before) then we need to collect existing accesses and store
-     * them in the access rights
+     * If for an ik an ik admin is created (and none existed before) then we need to collect existing accesses and store them in the access rights
      */
     private void collectExistingAccess(int ik) {
         List<AccessRight> accessRights = _ikAdminFacade.findAccessRights(ik);
@@ -177,5 +204,12 @@ public class IkAdmin implements Serializable {
     private void createAdminAccountList() {
         List<Account> ikAdminAccounts = _accountFacade.getIkAdminAccounts();
         setAdminAccounts(IkAccount.createFromAccounts(ikAdminAccounts));
+    }
+
+    private void createValidFeaturesList() {
+        _validFeatures.clear();
+        _validFeatures.addAll(Arrays.asList(Feature.values()).stream()
+                .filter(c -> c.getManagedBy() != ManagedBy.None)
+                .collect(Collectors.toList()));
     }
 }

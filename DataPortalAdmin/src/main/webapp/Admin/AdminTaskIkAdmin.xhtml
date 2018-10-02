@@ -61,6 +61,18 @@
                                       styleClass="inputlong"
                                       singleLine="true"/>
 
+                    <pf:selectManyMenu value="#{ikAdmin.selectedFeatures}"
+                                       style="width: 100%;"
+                                       var="f"
+                                       filter="true"
+                                       filterMatchMode="contains"
+                                       showCheckbox="true">
+                        <f:selectItems value="#{ikAdmin.validFeatures}" var="feature" itemLabel="#{featur.description}" itemValue="#{feature}" />
+                        <pf:column>
+                            <h:outputText value="#{f.description}" />
+                        </pf:column>
+                    </pf:selectManyMenu>
+
                 </div>
                 <br/>
 

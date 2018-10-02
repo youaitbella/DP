@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import org.inek.dataportal.common.data.account.entities.Account;
+import org.inek.dataportal.common.data.ikadmin.entity.IkAdminFeature;
 
 /**
  *
@@ -25,23 +26,26 @@ public class IkAccount implements Serializable {
                 ikAccounts.add(new IkAccount(account,
                         ai.getIk(),
                         ai.getMailDomain(),
-                        account.getFirstName() + " " + account.getLastName()));
+                        account.getFirstName() + " " + account.getLastName(),
+                        ai.getIkAdminFeatures()));
             });
         });
         return ikAccounts;
     }
 
-    public IkAccount(Account account, int ik, String mailDomain, String userName) {
+    public IkAccount(Account account, int ik, String mailDomain, String userName, List<IkAdminFeature> ikAdminFeatures) {
         _account = account;
         _ik = ik;
         _mailDomain = mailDomain;
         _userName = userName;
+        _ikAdminFeatures = ikAdminFeatures;
     }
 
     private Account _account;
     private int _ik;
     private String _mailDomain;
     private String _userName;
+    private List<IkAdminFeature> _ikAdminFeatures = new ArrayList<>();
 
     public Account getAccount() {
         return _account;
@@ -75,4 +79,11 @@ public class IkAccount implements Serializable {
         this._userName = userName;
     }
 
+    public List<IkAdminFeature> getIkAdminFeatures() {
+        return _ikAdminFeatures;
+    }
+
+    public void setIkAdminFeatures(List<IkAdminFeature> ikAdminFeatures) {
+        this._ikAdminFeatures = ikAdminFeatures;
+    }
 }
