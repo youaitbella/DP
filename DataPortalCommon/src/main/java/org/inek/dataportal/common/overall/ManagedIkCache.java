@@ -35,7 +35,8 @@ public class ManagedIkCache {
         _ikAdminFacade = ikAdminFacade;
     }
 
-    @Schedule(hour = "*", minute = "*/30", info = "every 30 minutes")
+    //@Schedule(hour = "*", minute = "*/30", info = "every 30 minutes")
+    @Schedule(hour = "*", minute = "*", second = "*/15")
     private void timedReset() {
         reset();
     }
@@ -47,8 +48,8 @@ public class ManagedIkCache {
         }
         _writeLock.lock();
         try {
-            loadManagedIks();
-            loadIkCorrelations();
+            _ikCorrelations.clear();
+            _managedIks.clear();
         } finally {
             _writeLock.unlock();
         }
