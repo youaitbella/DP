@@ -117,28 +117,38 @@ public class AccessManager implements Serializable {
 
     /**
      * retrieve all ik depending on the user's access rights where a manager exists
+     *
      * @param feature
-     * @return 
+     *
+     * @return
      */
     public Set<Integer> retrieveAllowedManagedIks(Feature feature) {
         Predicate<AccessRight> predicate = r -> r.getRight() != Right.Deny && _ikCache.isManaged(r.getIk(), feature);
-        return retrieveIkSet(feature, predicate);
+        Set<Integer> iks = retrieveIkSet(feature, predicate);
+        if (feature.getIkUsage() == IkUsage.Direct) {
+            return iks;
+        }
+        Set<Integer> responsibleForIks = _ikCache.
+                retriveResponsibleForIks(feature, _sessionController.getAccount(), iks);
+        return responsibleForIks;
     }
 
     /**
-     * 
+     *
      * @param feature
-     * @return 
+     *
+     * @return
      */
     public Set<Integer> retrieveAllowedForCreationIks(Feature feature) {
         Set<Integer> iks = retrieveIkSet(feature, r -> r.getRight().canCreate());
         iks.removeIf(ik -> feature.getManagedBy() == ManagedBy.IkAdminOnly && !_ikCache.isManaged(ik, feature));
-        if (feature.getIkReference() == IkReference.None || feature.getIkUsage()== IkUsage.Direct) {
+        if (feature.getIkReference() == IkReference.None || feature.getIkUsage() == IkUsage.Direct) {
             // todo: Once we distinguish between IkReference.Hospital and .Insurence, then filter iks
             return iks;
         }
-        Set<Integer> responsibleForIks = _ikCache.retriveResponsibleForIks(feature, _sessionController.getAccount(), iks);
-        if (feature.getIkUsage()== IkUsage.ByResposibilityAndCorrelation) {
+        Set<Integer> responsibleForIks = _ikCache.
+                retriveResponsibleForIks(feature, _sessionController.getAccount(), iks);
+        if (feature.getIkUsage() == IkUsage.ByResposibilityAndCorrelation) {
             responsibleForIks = _ikCache.retriveCorrelatedIks(feature, iks, responsibleForIks);
         }
         return responsibleForIks;
@@ -170,10 +180,10 @@ public class AccessManager implements Serializable {
         }
 
         if (ik > 0) {
-            if (feature.getIkUsage() == IkUsage.ByResposibility || feature.getIkUsage() == IkUsage.ByResposibilityAndCorrelation){
-                
+            if (feature.getIkUsage() == IkUsage.ByResposibility || feature.getIkUsage() == IkUsage.ByResposibilityAndCorrelation) {
+
             }
-            if (feature.getManagedBy() == ManagedBy.IkAdminOnly && !_ikCache.isManaged(ik, feature)){
+            if (feature.getManagedBy() == ManagedBy.IkAdminOnly && !_ikCache.isManaged(ik, feature)) {
                 return false;
             }
             Optional<AccessRight> right = obtainAccessRights(feature, r -> r.getIk() == ik).findFirst();
@@ -190,7 +200,6 @@ public class AccessManager implements Serializable {
         return right != CooperativeRight.None;
     }
 
-    
     /**
      * Data is readonly when provided to InEK or is owned by someone else and no edit right is granted to current user.
      *
@@ -204,7 +213,7 @@ public class AccessManager implements Serializable {
         return isReadOnly(feature, state, ownerId, -1);
     }
 
-    @SuppressWarnings("CyclomaticComplexity")  // todo: remove annotation after implementing #88
+    @SuppressWarnings("CyclomaticComplexity") // todo: remove annotation after implementing #88
     public boolean isReadOnly(Feature feature, WorkflowStatus state, int ownerId, int ik) {
         if (state.getId() >= WorkflowStatus.Provided.getId()) {
             return true;
@@ -483,7 +492,7 @@ public class AccessManager implements Serializable {
     }
 
     public Boolean isCreateAllowed(Feature feature) {
-        if (feature.getIkReference() == IkReference.None){
+        if (feature.getIkReference() == IkReference.None) {
             return true;
         }
         return ObtainIksForCreation(feature).size() > 0;
