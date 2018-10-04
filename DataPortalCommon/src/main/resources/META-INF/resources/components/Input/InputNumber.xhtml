@@ -38,13 +38,14 @@
                                 value="#{cc.attrs.value}"
                                 disabled="#{cc.attrs.disabled}"
                                 inputStyleClass="#{cc.attrs.require ? ' required ' : ''} #{cc.attrs.StyleClass}"
-                                inputStyle="#{cc.attrs.Style} text-align: right"
+                                inputStyle="text-align: right; #{cc.attrs.Style}"
                                 decimalPlaces="#{cc.attrs.decimalPlaces}"
                                 maxValue="#{cc.attrs.maxValue}"
                                 minValue="#{cc.attrs.minValue}"
                                 thousandSeparator="#{cc.attrs.thousendSeperator}"
                                 readonly="#{cc.attrs.readonly}"
                                 symbol="#{cc.attrs.symbol}"
+                                style="width: 100%;"
                                 symbolPosition="#{cc.attrs.symbolPosition}">
                     <pf:ajax />
                 </pf:inputNumber>

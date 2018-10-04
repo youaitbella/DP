@@ -43,10 +43,11 @@
                                 validator="#{cc.attrs.validatorFunction}"
                                 validatorMessage="#{cc.attrs.validatorMessage}"
                                 inputStyleClass="#{cc.attrs.require ? ' required ' : ''} #{cc.attrs.StyleClass}"
-                                inputStyle="#{cc.attrs.Style} text-align: right"
+                                inputStyle="text-align: right; #{cc.attrs.Style}"
                                 decimalPlaces="#{cc.attrs.decimalPlaces}"
                                 maxValue="#{cc.attrs.maxValue}"
                                 minValue="#{cc.attrs.minValue}"
+                                style="width: 100%;"
                                 thousandSeparator="#{cc.attrs.thousendSeperator}"/>
                 <span jsf:rendered="#{cc.attrs.longInfoText.length() > 0}" class="ui-inputgroup-addon" onclick="PF('longInfo').toggle()" style="cursor: help; border: none; background-color: #7f9baf"><i class="fa fa-question" style="color: #ffffff"></i></span>
             </div>
