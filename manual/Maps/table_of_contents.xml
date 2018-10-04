@@ -285,6 +285,9 @@
         <topicref type="topic" id="433705791488111" build="ALL" modified="2018-09-27T13:08:38.193Z" icon="0" href="Import-Excel">
           <caption translate="true">Eingabe über den Import einer Excel Tabelle</caption>
         </topicref>
+        <topicref type="topic" id="433772894240907" build="ALL" modified="2018-10-04T08:24:14.609Z" icon="0" href="Verhalten-bei-Differenzen">
+          <caption translate="true">Verhalten bei Differenzen</caption>
+        </topicref>
       </topicref>
       <topicref type="topic" id="433703023940061" build="ALL" modified="2018-09-27T10:54:54.482Z" icon="0" href="Erfassung-der-Personalaustattu">
         <caption translate="true">Erfassung der Personalaustattung Psychosomatik</caption>

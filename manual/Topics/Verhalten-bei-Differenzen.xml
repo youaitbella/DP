@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="lautenti" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Verhalten bei Differenzen</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Verhalten bei Differenzen</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sollten Sie die AEB über die Schaltfläche „Ans InEK Senden“ an das InEK senden und es wurden bereits Daten von Seiten der Krankenkasse oder des Krankenhauses erfasst, werden die eingegeben Werte verglichen. Sollten bei diesen Vergleich Fehler festgestellt werden, so werden bei Seiten per E-Mail benachrichtigt. Die E-Mail geht an den jeweiligen der Benutzer der die Daten im Datenportal erfasst hat.</text></para>
+  </body>
+</topic>

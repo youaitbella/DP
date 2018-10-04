@@ -1,24 +1,27 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
-<topic template="Default" lasteditedby="palenma" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+<topic template="Default" lasteditedby="lautenti" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
   <title translate="true">Eingabe über den Import einer Excel Tabelle</title>
   <body>
     <header>
       <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Eingabe über den Import einer Excel Tabelle</text></para>
     </header>
-    <para styleclass="Normal"><text styleclass="Image Caption" style="font-style:normal;" translate="true">Die zweite Möglichkeit wäre, dass Sie eine Excel Tabelle hochladen gemäß der AEB Vorlage.</text></para>
-    <para styleclass="Normal"><text styleclass="Image Caption" style="font-style:normal;" translate="true">Sie müssen hierfür erst einmal das Vereinbarungsjahr auswählen.</text></para>
-    <para styleclass="Normal"><text styleclass="Image Caption" style="font-style:normal;" translate="true">Das Vereinbarungsjahr wird mit dem Jahr des Kataloges gleichgestellt.</text></para>
-    <para styleclass="Normal"><text styleclass="Image Caption" style="font-style:normal;" translate="true">D.h. Vereinbarungsjahr 2018 -&gt; Katalogjahr 2018.</text></para>
+    <para styleclass="Normal"><text styleclass="Image Caption" style="font-size:11pt; font-style:normal;" translate="true">Alternativ zur Erfassung über die Oberfläche haben Sie die Möglichkeit die AEB aus Excel zu importieren. Die Auwahl eines Vereinbarungsjahres ist dafür zwingend notwendig. Ohne ein angegebenes Vereinbarungsjahr können Sie den Upload nicht benutzen. </text></para>
+    <para styleclass="Normal"><text styleclass="Image Caption" style="font-size:11pt; font-style:normal;" translate="true">Nachdem Sie ein Vereinbarungsjahr ausgewählt haben wählen Sie die entsprechende Datei aus und klicken auf „Excel hochladen“.</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><image src="AEB_Excel_Upload.PNG" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Normal"><text styleclass="Image Caption" style="font-size:11pt; font-weight:bold; font-style:normal;" translate="true">Wichtig: Bereits erfasste Daten werden durch einen Upload überschrieben! </text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Image Caption" style="font-style:normal;" translate="true">Wenn Sie dann die Excel Tabelle hochgeladen haben, wird Ihnen nun angezeigt wie viele Zeilen eingelesen wurden und ob es Fehler bzw. Abweichungen zum Katalog gibt.</text></para>
-    <para styleclass="Normal"><text styleclass="Image Caption" style="font-style:normal;" translate="true">Diese werden Ihnen in einer Box angezeigt.</text></para>
+    <para styleclass="Normal" style="text-align:center;"><image src="AEB_Excel_Upload.PNG" scale="100.00%" styleclass="Image Caption"></image></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><image src="AEB_Excel_UploadFehler.PNG" scale="100.00%" styleclass="Image Caption"></image></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Image Caption" style="font-style:normal;" translate="true">Wenn alles erfolgreich ist sollte Ihnen nun solch eine Ansicht angezeigt werden.</text></para>
+    <para styleclass="Normal"><text styleclass="Image Caption" style="font-size:11pt; font-style:normal;" translate="true">Wenn der Upload erfolgreich war bekommen Sie eine entsprechende Meldung. Unter dem Upload Bereich erscheint ein Importprotokoll. Dort können Sie Fehlermeldungen und die Anzahl der eingelesenen Zeilen sehen.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Image Caption" style="font-size:11pt; font-weight:bold; font-style:normal;" translate="true">Wichtig: Sollten in der Excel Datei in den berechneten Spalten andere Werte stehen als wir gemäß dem Vereinbarungsjahr ermittelt haben wird eine entsprechende Meldung im Importprotokoll ausgegeben und mit den berechnetet Werten des InEK überschrieben.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal" style="text-align:center;"><image src="AEB_Excel_UploadFehler.PNG" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"></para>
     <para styleclass="Normal"></para>
   </body>
 </topic>

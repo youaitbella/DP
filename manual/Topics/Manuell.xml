@@ -1,14 +1,20 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
-<topic template="Default" lasteditedby="palenma" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+<topic template="Default" lasteditedby="lautenti" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
   <title translate="true">Eingabe über die Oberfläche</title>
   <body>
     <header>
       <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Eingabe über die Oberfläche</text></para>
     </header>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die erste Möglichkeit wäre, dass Sie jede PEPP mit der Hand eintragen.</text></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sie würden beim klicken auf &quot;Weiteren Eintrag hinzufügen&quot; dieses leere Feld kriegen, wo Sie die jeweiligen Daten eingeben.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sie haben im InEK Datenportal die Möglichkeit die Informationen zur AEB über die Oberfläche zu erfassen. Die Tabellen (Blatt E1.1 / Blatt E1.2 / Blatt E2 / Blatt E3.1 / Blatt E3.2 / Blatt E3.3 / Blatt B1) sind entsprechend der Struktur der AEB Tabellen im Excelformat. </text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><image src="AEB_E1_1_EintragPerHand.PNG" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Spalten die kein Eingabefeld besitzen werden anhand des Kataloges gemäß ausgewählten Vereinbarungsjahr berechnet. </text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal" style="text-align:center;"><image src="AEB_E1_1_EintragPerHand.PNG" scale="100.00%" styleclass="Image Caption"><caption translate="true"><![CDATA[Erfassung der von Blatt E1.1 über die Oberfläche]]></caption></image></para>
+    <para styleclass="Normal" style="text-align:center;"></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold;" translate="true">Hinweis zu Blatt B1: Bitte füllen Sie nur die laufenden Nummern 1, 10, 13, 16, 17, 18, 19 aus. </text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal" style="text-align:center;"><image src="AEB_B1.PNG" scale="100.00%" styleclass="Image Caption"><caption translate="true"><![CDATA[Ansicht Blatt B1]]></caption></image></para>
   </body>
 </topic>
