@@ -154,6 +154,19 @@ public class IkAdmin implements Serializable {
             _sessionController.logMessage("Added IK Admin: account=" + _account.getId() + ", ik=" + _ik);
             collectExistingAccess(_ik);
         }
+
+        if (!_account.getFullIkSet().contains(_ik)) {
+            _account.addIk(_ik);
+        }
+
+        for (Feature fe : _selectedFeatures.stream()
+                .filter(c -> c.getManagedBy() == ManagedBy.IkAdminOnly)
+                .collect(Collectors.toList())) {
+            if (_account.getFeatures().stream().noneMatch(f -> f.getFeature() == fe)) {
+                _account.addFeature(fe, true);
+            }
+        }
+
         _accountFacade.merge(_account);
         _dialogController.showSaveDialog();
         createAdminAccountList();
