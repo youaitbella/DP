@@ -96,7 +96,7 @@ public class DeptEdit {
             return;
         } else if ("new".equals(id)) {
             _deptBaseInformation = createNewDeptBaseInformation();
-            _deptBaseInformation.setCreatedFrom(_sessionController.getAccountId());
+            _deptBaseInformation.setCreatedBy(_sessionController.getAccountId());
             loadValidIks();
 
             if (_validIks.size() == 1) {
@@ -137,7 +137,7 @@ public class DeptEdit {
     }
 
     public void save() {
-        _deptBaseInformation.setLastChangeFrom(_sessionController.getAccountId());
+        _deptBaseInformation.setLastChangeBy(_sessionController.getAccountId());
         _deptBaseInformation.setLastChanged(new Date());
 
         try {

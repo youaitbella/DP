@@ -68,29 +68,29 @@ public class DeptBaseInformation implements Serializable, StatusEntity {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property CreatedFrom">
-    @Column(name = "dbiCreatedFrom")
-    private int _createdFrom;
+    //<editor-fold defaultstate="collapsed" desc="Property CreatedBy">
+    @Column(name = "dbiCreatedBy")
+    private int _createdBy;
 
-    public int getCreatedFrom() {
-        return _createdFrom;
+    public int getCreatedBy() {
+        return _createdBy;
     }
 
-    public void setCreatedFrom(int createdFrom) {
-        _createdFrom = createdFrom;
+    public void setCreatedBy(int createdBy) {
+        _createdBy = createdBy;
     }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property Last Change">
-    @Column(name = "dbiLastChangeFrom")
-    private int _lastChangeFrom;
+    @Column(name = "dbiLastChangeBy")
+    private int _lastChangeBy;
 
-    public int getLastChangeFrom() {
-        return _lastChangeFrom;
+    public int getLastChangeBy() {
+        return _lastChangeBy;
     }
 
-    public void setLastChangeFrom(int lastChangeFrom) {
-        _lastChangeFrom = lastChangeFrom;
+    public void setLastChangeBy(int lastChangeBy) {
+        _lastChangeBy = lastChangeBy;
     }
     //</editor-fold>
 

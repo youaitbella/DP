@@ -11,17 +11,6 @@
                 xmlns:inekIcon="http://xmlns.jcp.org/jsf/composite/components/Icons"
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
 
-    <ui:remove>
-        <inekIk:MultiIk label="#{msg.lblIkShort}"
-                        required="true"
-                        value="#{deptEdit.deptBaseInformation.ik}"
-                        ikList="#{deptEdit.validIks}"
-                        readonly="#{deptEdit.isReadOnly}"
-                        listener="#{deptEdit.ikChanged()}"
-                        isFixed="#{deptEdit.deptBaseInformation.id gt 0}"
-                        updateElement="form"/>
-    </ui:remove>
-
     <div class="ui-g">
         <div class="card">
             <div class="ui-g-12">
@@ -37,7 +26,7 @@
             </div>
 
 
-            <div class="ui-g-12">
+            <div class="ui-g-12" jsf:rendered="#{deptEdit.getDeptsByArea(1).size() gt 0}">
 
                 <h1>Angaben zu § 3 Abs. 2 Nr. 1 FAB</h1>
                 <pf:repeat value="#{deptEdit.getDeptsByArea(1)}" var="dept">
@@ -79,7 +68,7 @@
 
             </div>
 
-            <div class="ui-g-12">
+            <div class="ui-g-12" jsf:rendered="#{deptEdit.getDeptsByArea(2).size() gt 0}">
 
                 <h1>Angaben zu § 3 Abs. 2 Nr. 2 DRG-Liste</h1>
 
