@@ -246,15 +246,71 @@ public class Account implements Serializable, Person {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Property Features">
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "afAccountId", referencedColumnName = "acId")
     @OrderBy("_sequence")
     private List<AccountFeature> _features;
 
+    public void setFeatures(List<AccountFeature> features) {
+        _features = features;
+    }
+
+    public List<AccountFeature> getFeatures() {
+        if (_features == null) {
+            _features = new ArrayList<>();
+        }
+        return _features;
+    }
+
+    public void removeAccountFeature(AccountFeature feature) {
+        _features.remove(feature);
+    }
+
+    public void addFeature(Feature feature, boolean isApproved) {
+        FeatureState state = feature.getNeedsApproval()
+                ? (isApproved ? FeatureState.APPROVED : FeatureState.NEW)
+                : FeatureState.SIMPLE;
+        _features.add(new AccountFeature(_features.size(), state, feature));
+    }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Property AdditionalIks">
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "aaiAccountId", referencedColumnName = "acId")
     @OrderBy("_ik")
-    private List<AccountIk> _additionalIKs;
+    private List<AccountIk> _additionalIKs = new ArrayList<>();
+
+    public void addIk(int ik) {
+        _additionalIKs.add(new AccountIk(_id, ik));
+    }
+
+    public void removeIk(int ik) {
+        _additionalIKs.removeIf(a -> a.getIK() == ik);
+    }
+
+    public List<AccountIk> getAccountIks() {
+        return new CopyOnWriteArrayList<>(_additionalIKs);
+    }
+
+    public void removeDuplicateIks() {
+        List<AccountIk> accountIks = new ArrayList<>();
+        for (AccountIk additionalIK : _additionalIKs) {
+            if (accountIks.stream().noneMatch(a -> a.getIK() == additionalIK.getIK())) {
+                accountIks.add(additionalIK);
+            }
+        }
+        _additionalIKs = accountIks;
+    }
+
+    public Set<Integer> getFullIkSet() {
+        Set<Integer> iks = new HashSet<>();
+        for (AccountIk addIk : _additionalIKs) {
+            iks.add(addIk.getIK());
+        }
+        return iks;
+    }
+    // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property AdminIks">
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
@@ -279,6 +335,7 @@ public class Account implements Serializable, Person {
      *
      * @param ik
      * @param mailDomain
+     *
      * @return
      */
     public boolean addIkAdmin(int ik, String mailDomain, List<Feature> features) {
@@ -421,61 +478,7 @@ public class Account implements Serializable, Person {
         _messageCopy = messageCopy;
     }
 
-    public void addFeature(Feature feature, boolean isApproved) {
-        FeatureState state = feature.getNeedsApproval()
-                ? (isApproved ? FeatureState.APPROVED : FeatureState.NEW)
-                : FeatureState.SIMPLE;
-        _features.add(new AccountFeature(_features.size(), state, feature));
-    }
-
-    public void setFeatures(List<AccountFeature> features) {
-        _features = features;
-    }
-
-    public List<AccountFeature> getFeatures() {
-        if (_features == null) {
-            _features = new ArrayList<>();
-        }
-        return _features;
-    }
-
-    public void addIk(int ik) {
-        if (_additionalIKs == null) {
-            _additionalIKs = new ArrayList<>();
-        }
-        _additionalIKs.add(new AccountIk(_id, ik));
-    }
-
-    public void removeIk(int ik) {
-        _additionalIKs.removeIf(a -> a.getIK() == ik);
-    }
-
-    public List<AccountIk> getAccountIks() {
-        if (_additionalIKs == null) {
-            _additionalIKs = new ArrayList<>();
-        }
-        return new CopyOnWriteArrayList<>(_additionalIKs);
-    }
-
-    public void removeDuplicateIks() {
-        List<AccountIk> accountIks = new ArrayList<>();
-        for (AccountIk additionalIK : _additionalIKs) {
-            if (accountIks.stream().noneMatch(a -> a.getIK() == additionalIK.getIK())) {
-                accountIks.add(additionalIK);
-            }
-        }
-        _additionalIKs = accountIks;
-    }
     // </editor-fold>
-
-    public Set<Integer> getFullIkSet() {
-        Set<Integer> iks = new HashSet<>();
-        for (AccountIk addIk : _additionalIKs) {
-            iks.add(addIk.getIK());
-        }
-        return iks;
-    }
-
     @PrePersist
     @PreUpdate
     public void tagModifiedDate() {
@@ -536,10 +539,6 @@ public class Account implements Serializable, Person {
         _calcRoles = calcRoles;
     }
     // </editor-fold>
-
-    public void removeAccountFeature(AccountFeature feature) {
-        _features.remove(feature);
-    }
 
     // <editor-fold defaultstate="collapsed" desc="Property AccessRight">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)

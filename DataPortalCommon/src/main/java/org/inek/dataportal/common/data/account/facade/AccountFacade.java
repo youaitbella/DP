@@ -216,10 +216,7 @@ public class AccountFacade extends AbstractDataAccess {
             getLogger().log(Level.WARNING, "Password or activation key does not match {0}", mailOrUser);
             return false;
         }
-        Account account = ObjectUtil.copyObject(Account.class, accountRequest);
-        persist(account);
-        setNewIk(account, accountRequest.getIK());
-        merge(account);
+        Account account = createAccount(accountRequest);
         AccountPwd accountPwd = new AccountPwd();
         accountPwd.setAccountId(account.getId());
         String salt = Crypt.getSalt();
@@ -231,14 +228,18 @@ public class AccountFacade extends AbstractDataAccess {
         return true;
     }
 
-    public Account merge(Account account) {
-        return super.merge(account);
+    private Account createAccount(AccountRequest accountRequest) {
+        Account account = ObjectUtil.copyObject(Account.class, accountRequest);
+        int ik = accountRequest.getIK();
+        if (ik > 100000000 && ik < 999999999) {
+            account.addIk(ik);
+        }
+        persist(account);
+        return account;
     }
 
-    public void setNewIk(Account acc, int ik) {
-        if (ik > 100000000 && ik < 999999999) {
-            acc.addIk(ik);
-        }
+    public Account merge(Account account) {
+        return super.merge(account);
     }
 
     public boolean activateMail(String mail, String password, String activationKey) {
