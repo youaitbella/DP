@@ -201,6 +201,7 @@ public class Account implements Serializable, Person {
     private boolean _nubInformationMail = true;
 
     @Column(name = "acIkAdminDisclaimer")
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date _ikAdminDisclaimer = getDefalutDate();
 
     public Date getIkAdminDisclaimer() {
