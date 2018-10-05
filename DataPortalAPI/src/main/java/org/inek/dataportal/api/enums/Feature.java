@@ -50,6 +50,9 @@ public enum Feature {
         _ikUsage = ikUsage;
         _selectable = selectable;
         _shareable = shareable;
+        if (ikUsage == IkUsage.Unknown && ikReference != ikReference.None){
+            throw new IllegalArgumentException();
+        }
     }
 
     private final int _id;
