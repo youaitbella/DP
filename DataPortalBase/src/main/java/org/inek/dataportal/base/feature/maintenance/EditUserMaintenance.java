@@ -240,7 +240,6 @@ public class EditUserMaintenance extends AbstractEditController {
             _dialogController.showWarningDialog("Bitte mindestens eine IK eingeben", "Fehler beim speichern");
         } else {
             checkIKAdminRights(_account);
-            _account.removeDuplicateIks();
             _account = _accountFacade.updateAccount(_account);
             _sessionController.refreshAccount(_account.getId());
             _dialogController.showInfoMessage("Speichern erfolgreich");

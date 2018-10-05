@@ -293,7 +293,7 @@ public class Account implements Serializable, Person {
         return new CopyOnWriteArrayList<>(_additionalIKs);
     }
 
-    public void removeDuplicateIks() {
+    private void removeDuplicateIks() {
         List<AccountIk> accountIks = new ArrayList<>();
         for (AccountIk additionalIK : _additionalIKs) {
             if (accountIks.stream().noneMatch(a -> a.getIK() == additionalIK.getIK())) {
@@ -483,6 +483,7 @@ public class Account implements Serializable, Person {
     @PreUpdate
     public void tagModifiedDate() {
         _lastModified = Calendar.getInstance().getTime();
+        removeDuplicateIks();
     }
 
     @Override
