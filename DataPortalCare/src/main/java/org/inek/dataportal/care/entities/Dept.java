@@ -71,6 +71,19 @@ public class Dept implements Serializable {
     }
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Property Dept Area Id">
+    @Column(name = "deRequired")
+    private Boolean _required;
+
+    public Boolean getRequired() {
+        return _required;
+    }
+
+    public void setRequired(Boolean required) {
+        this._required = required;
+    }
+    //</editor-fold>
+
     @OneToMany(mappedBy = "_dept", cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "desDeptId")
     private List<DeptStation> _deptStations = new ArrayList<>();

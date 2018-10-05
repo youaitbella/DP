@@ -58,13 +58,13 @@ public class DeptStation implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property Dept Location Code">
     @Column(name = "desLocationCode")
-    private int _locationCode;
+    private String _locationCode;
 
-    public int getLocationCode() {
+    public String getLocationCode() {
         return _locationCode;
     }
 
-    public void setLocationCode(int locationCode) {
+    public void setLocationCode(String locationCode) {
         this._locationCode = locationCode;
     }
     //</editor-fold>
@@ -74,7 +74,7 @@ public class DeptStation implements Serializable {
         int hash = 7;
         hash = 17 * hash + Objects.hashCode(this._dept);
         hash = 17 * hash + Objects.hashCode(this._stationName);
-        hash = 17 * hash + this._locationCode;
+        hash = 17 * hash + Objects.hashCode(this._locationCode);
         return hash;
     }
 
@@ -90,7 +90,7 @@ public class DeptStation implements Serializable {
             return false;
         }
         final DeptStation other = (DeptStation) obj;
-        if (this._locationCode != other._locationCode) {
+        if (!Objects.equals(this._locationCode, other._locationCode)) {
             return false;
         }
         if (!Objects.equals(this._stationName, other._stationName)) {

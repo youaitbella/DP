@@ -21,10 +21,10 @@
                                   action="#{sessionController.navigate(sessionTools.pages.CareDeptSummary)}"
                                   immediate="true"/>
 
-                <pf:commandButton value="Hilfe?"
-                                  icon="fa fa-info"
-                                  action="#{sessionController.navigate(sessionTools.pages.CareDeptSummary)}"
-                                  immediate="true"/>
+                <pf:button target="blank"
+                           value="Hilfe?"
+                           icon="fa fa-info"
+                           href="https://www.g-drg.de/Datenlieferung_gem._21_KHEntgG/FAQ" />
             </div>
 
             <ui:include src="deptStation.xhtml" />
