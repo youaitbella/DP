@@ -1,19 +1,18 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.inek.dataportal.common.overall;
 
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.ResourceHandler;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.api.enums.PortalType;
@@ -38,6 +37,8 @@ public class RequestController implements Serializable {
      */
     public void forceLoginIfNotLoggedIn(ComponentSystemEvent e) {
         FacesContext facesContext = FacesContext.getCurrentInstance();
+        addCacheControlToResponse(facesContext);
+        
         String viewId = facesContext.getViewRoot().getViewId();
         if (viewId.startsWith("/Login")) {
             handleLoginViews(facesContext);
@@ -59,6 +60,21 @@ public class RequestController implements Serializable {
         }
     }
 
+    private void addCacheControlToResponse(FacesContext facesContext) {
+        if (facesContext.getPartialViewContext().isPartialRequest()) {
+            return;
+        }
+        ExternalContext externalContext = facesContext.getExternalContext();
+        HttpServletResponse response = (HttpServletResponse) externalContext.getResponse();
+        HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
+        if (!response.containsHeader("Content-Disposition")
+                && !request.getRequestURI().contains(ResourceHandler.RESOURCE_IDENTIFIER)) { // Skip JSF resources (CSS/JS/Images/etc)
+            response.setHeader("Cache-Control", "no-store, must-revalidate"); // HTTP 1.1. without no-cache!
+            response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
+            response.setDateHeader("Expires", 0); // Proxies.
+        }
+    }
+    
     public void handleLoginViews(FacesContext facesContext) {
         String sessionId = facesContext.getExternalContext().getSessionId(false);
         if (sessionId == null) {
