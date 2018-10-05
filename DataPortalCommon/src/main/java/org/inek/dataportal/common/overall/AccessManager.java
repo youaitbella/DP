@@ -132,27 +132,6 @@ public class AccessManager implements Serializable {
         return responsibleForIks;
     }
 
-    /**
-     *
-     * @param feature
-     *
-     * @return
-     */
-    public Set<Integer> retrieveAllowedForCreationIks(Feature feature) {
-        Set<Integer> iks = retrieveIkSet(feature, r -> r.getRight().canCreate());
-        iks.removeIf(ik -> feature.getManagedBy() == ManagedBy.IkAdminOnly && !_ikCache.isManaged(ik, feature));
-        if (feature.getIkReference() == IkReference.None || feature.getIkUsage() == IkUsage.Direct) {
-            // todo: Once we distinguish between IkReference.Hospital and .Insurence, then filter iks
-            return iks;
-        }
-        Set<Integer> responsibleForIks = _sessionController.getAccount().
-                obtainResponsibleForIks(feature, iks);
-        if (feature.getIkUsage() == IkUsage.ByResposibilityAndCorrelation) {
-            responsibleForIks = _ikCache.retriveCorrelatedIks(feature, iks, responsibleForIks);
-        }
-        return responsibleForIks;
-    }
-
     public Set<Integer> retrieveAllManagedIks(Feature feature) {
         return retrieveIkSet(feature, r -> _ikCache.isManaged(r.getIk(), feature));
     }
@@ -200,6 +179,15 @@ public class AccessManager implements Serializable {
         return right != CooperativeRight.None;
     }
 
+    public boolean isWritable(Feature feature, WorkflowStatus state, int ownerId) {
+        return isWritable(feature, state, ownerId, -1);
+    }
+
+    @SuppressWarnings("CyclomaticComplexity") // todo: remove annotation after implementing #88
+    public boolean isWritable(Feature feature, WorkflowStatus state, int ownerId, int ik) {
+        return false;
+    }
+    
     /**
      * Data is readonly when provided to InEK or is owned by someone else and no edit right is granted to current user.
      *
@@ -499,6 +487,21 @@ public class AccessManager implements Serializable {
         return iks;
     }
 
+    private Set<Integer> retrieveAllowedForCreationIks(Feature feature) {
+        Set<Integer> iks = retrieveIkSet(feature, r -> r.getRight().canCreate());
+        iks.removeIf(ik -> feature.getManagedBy() == ManagedBy.IkAdminOnly && !_ikCache.isManaged(ik, feature));
+        if (feature.getIkReference() == IkReference.None || feature.getIkUsage() == IkUsage.Direct) {
+            return iks;
+        }
+        Set<Integer> responsibleForIks = _sessionController.getAccount().
+                obtainResponsibleForIks(feature, iks);
+        if (feature.getIkUsage() == IkUsage.ByResposibilityAndCorrelation) {
+            responsibleForIks = _ikCache.retriveCorrelatedIks(feature, iks, responsibleForIks);
+        }
+        return responsibleForIks;
+    }
+
+    
     private Set<Integer> retrieveDeniedForCreationIks(Feature feature) {
         return retrieveIkSet(feature, r -> !r.getRight().canCreate());
     }

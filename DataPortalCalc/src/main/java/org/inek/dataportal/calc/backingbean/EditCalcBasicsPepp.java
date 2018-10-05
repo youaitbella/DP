@@ -1,16 +1,8 @@
 package org.inek.dataportal.calc.backingbean;
 
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -22,10 +14,6 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
-import java.util.zip.Adler32;
-import java.util.zip.CheckedOutputStream;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 import javax.annotation.PostConstruct;
 import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.FacesContext;
@@ -67,9 +55,6 @@ import org.inek.dataportal.common.helper.structures.MessageContainer;
 import org.inek.dataportal.common.utils.DocumentationUtil;
 import org.inek.dataportal.common.utils.ValueLists;
 import org.inek.dataportal.calc.CalcBasicsTransferFileCreator;
-import org.inek.dataportal.common.helper.StreamHelper;
-import org.inek.dataportal.common.data.adm.ReportTemplate;
-import org.inek.dataportal.common.controller.ReportController;
 
 @Named
 @ViewScoped
@@ -110,15 +95,6 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         this._priorCalcBasics = priorCalcBasics;
     }
 
-    private List<SelectItem> _cachedIks;
-
-    public List<SelectItem> getCachedIks() {
-        return _cachedIks;
-    }
-
-    public void setCachedIks(List<SelectItem> iks) {
-        _cachedIks = iks;
-    }
     // </editor-fold>
 
     @PostConstruct
@@ -217,9 +193,8 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         PeppCalcBasics calcBasics = new PeppCalcBasics();
         calcBasics.setAccountId(account.getId());
         calcBasics.setDataYear(Utils.getTargetYear(Feature.CALCULATION_HOSPITAL));
-        setCachedIks(getIks());
-        if (getCachedIks().size() == 1) {
-            calcBasics.setIk((int) getCachedIks().get(0).getValue());
+        if (getIks().size() == 1) {
+            calcBasics.setIk((int) getIks().get(0).getValue());
         }
 
         retrievePriorData(calcBasics);
@@ -613,26 +588,19 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Tab Address">
-    private List<SelectItem> _ikItems;
-
     public List<SelectItem> getIks() {
-        if (_ikItems == null) {
-            //Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.CALCULATION_HOSPITAL, canReadSealed());
             boolean testMode = _appTools.isEnabled(ConfigKey.TestMode);
             int year = Utils.getTargetYear(Feature.CALCULATION_HOSPITAL);
             Set<Integer> iks = _calcFacade.obtainIks4NewBasicsPepp(_sessionController.getAccountId(), year, testMode);
-            if (_calcBasics != null && _calcBasics.getIk() > 0) {
-                iks.add(_calcBasics.getIk());
-            }
-            Set<Integer> allowedIks = _accessManager.retrieveAllowedForCreationIks(Feature.CALCULATION_HOSPITAL);
+
+            Set<Integer> allowedIks = _accessManager.ObtainIksForCreation(Feature.CALCULATION_HOSPITAL);
             iks.removeIf(ik -> !allowedIks.contains(ik));
 
-            _ikItems = new ArrayList<>();
+            List<SelectItem> ikItems = new ArrayList<>();
             for (int ik : iks) {
-                _ikItems.add(new SelectItem(ik));
+                ikItems.add(new SelectItem(ik));
             }
-        }
-        return _ikItems;
+        return ikItems;
     }
     // </editor-fold>
 

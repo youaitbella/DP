@@ -803,23 +803,18 @@ public class EditStatementOfParticipance extends AbstractEditController {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Tab Address">
-    private List<SelectItem> _iks;
-
     public List<SelectItem> getIks() {
         Account account = _sessionController.getAccount();
         int year = Utils.getTargetYear(Feature.CALCULATION_HOSPITAL);
         Set<Integer> iks = _calcFacade.obtainIks4NewStatementOfParticipance(account.getId(), year);
-        if (_statement != null && _statement.getIk() > 0) {
-            iks.add(_statement.getIk());
-        }
-        Set<Integer> allowedIks = _accessManager.retrieveAllowedForCreationIks(Feature.CALCULATION_HOSPITAL);
+        Set<Integer> allowedIks = _accessManager.ObtainIksForCreation(Feature.CALCULATION_HOSPITAL);
         iks.removeIf(ik -> !allowedIks.contains(ik));
 
-        List<SelectItem> items = new ArrayList<>();
+        List<SelectItem> _ikItems = new ArrayList<>();
         for (int ik : iks) {
-            items.add(new SelectItem(ik));
+            _ikItems.add(new SelectItem(ik));
         }
-        return items;
+        return _ikItems;
     }
 
     public void ikChanged() {

@@ -161,25 +161,21 @@ public class EditCalcBasicsAutopsy extends AbstractEditController implements Ser
         addTopic("TopicFrontPage", Pages.CalcDrgBasics.URL());
     }
 
-    private List<SelectItem> _ikItems;
 
     public List<SelectItem> getIks() {
-        if (_ikItems == null) {
+      
             boolean testMode = _appTools.isEnabled(ConfigKey.TestMode);
             int year = Utils.getTargetYear(Feature.CALCULATION_HOSPITAL);
             Set<Integer> iks = _calcAutopsyFacade.obtainIks4NewBasicsAutopsy(_sessionController.getAccountId(), year, testMode);
-            if (_calcBasics != null && _calcBasics.getIk() > 0) {
-                iks.add(_calcBasics.getIk());
-            }
-            Set<Integer> allowedIks = _accessManager.retrieveAllowedForCreationIks(Feature.CALCULATION_HOSPITAL);
+            Set<Integer> allowedIks = _accessManager.ObtainIksForCreation(Feature.CALCULATION_HOSPITAL);
             iks.removeIf(ik -> !allowedIks.contains(ik));
 
-            _ikItems = new ArrayList<>();
+            List<SelectItem> ikItems = new ArrayList<>();
             for (int ik : iks) {
-                _ikItems.add(new SelectItem(ik));
+                ikItems.add(new SelectItem(ik));
             }
-        }
-        return _ikItems;
+        
+        return ikItems;
     }
 
     public void ikChanged() {

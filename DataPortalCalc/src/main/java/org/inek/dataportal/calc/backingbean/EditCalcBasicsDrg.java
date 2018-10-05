@@ -800,15 +800,12 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         if (_ikItems == null) {
             boolean testMode = _appTools.isEnabled(ConfigKey.TestMode);
             int year = Utils.getTargetYear(Feature.CALCULATION_HOSPITAL);
-            Set<Integer> iks = _calcDrgFacade.obtainIks4NewBasicsDrg(_sessionController.getAccountId(), year, testMode);
-            Set<Integer> allowedIks = _accessManager.retrieveAllowedForCreationIks(Feature.CALCULATION_HOSPITAL);
-            iks.removeIf(ik -> !allowedIks.contains(ik));
-            if (_calcBasics != null && _calcBasics.getIk() > 0) {
-                iks.add(_calcBasics.getIk());
-            }
+            Set<Integer> possibleIks = _calcDrgFacade.obtainIks4NewBasicsDrg(_sessionController.getAccountId(), year, testMode);
+            Set<Integer> allowedIks = _accessManager.ObtainIksForCreation(Feature.CALCULATION_HOSPITAL);
+            possibleIks.removeIf(ik -> !allowedIks.contains(ik));
 
             _ikItems = new ArrayList<>();
-            for (int ik : iks) {
+            for (int ik : possibleIks) {
                 _ikItems.add(new SelectItem(ik));
             }
         }
