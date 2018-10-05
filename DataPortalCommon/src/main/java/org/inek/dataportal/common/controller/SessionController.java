@@ -281,6 +281,7 @@ public class SessionController implements Serializable {
             changePortal(portalType);
             return "";
         } catch (IllegalArgumentException ex) {
+            // its not a portal, its an url
             logMessage("Navigate: URL=" + url);
             setCurrentTopicByUrl(url);
             FeatureScopedContextHolder.Instance.destroyAllBeans();
@@ -297,8 +298,10 @@ public class SessionController implements Serializable {
             url = url + "?token=" + getToken() + "&portal=" + portalType.name();
             performLogout("");
             FacesContext.getCurrentInstance().getExternalContext().redirect(url);
-        } catch (IOException ex) {
+        } catch (Throwable ex) {
             LOGGER.log(Level.SEVERE, null, ex);
+            logMessage("ChangePortal failed: " + obtainConnectionInfo());
+
         }
     }
 
@@ -356,15 +359,13 @@ public class SessionController implements Serializable {
 
     public boolean loginByToken(String token, PortalType portalType) {
         _portalType = portalType;
-        String loginInfo = Utils.getClientIP() + "; UserAgent=" + Utils.getUserAgent() + "; targetServer=" + EnvironmentInfo.
-                getLocalServerName();
         int id = getId(token);
         _account = _accountFacade.findAccount(id);
         if (_account == null || _featureHolder == null) {
-            logMessage("Login by token failed: " + loginInfo);
+            logMessage("Login by token failed: " + obtainConnectionInfo());
             _featureHolder.clear();
         } else {
-            logMessage("Login by token successful: " + loginInfo);
+            logMessage("Login by token successful: " + obtainConnectionInfo());
             initFeatures();
             configureSessionTimeout();
         }
@@ -372,10 +373,14 @@ public class SessionController implements Serializable {
         return _account != null;
     }
 
+    private String obtainConnectionInfo() {
+        return Utils.getClientIP()
+                + "; UserAgent=" + Utils.getUserAgent()
+                + "; targetServer=" + EnvironmentInfo.getLocalServerName();
+    }
+
     public boolean loginAndSetTopics(String mailOrUser, String password, PortalType portalType) {
-        String loginInfo = Utils.getClientIP() + "; UserAgent=" + Utils.getUserAgent() + "; targetServer=" + EnvironmentInfo.
-                getLocalServerName();
-        if (!login(mailOrUser, password, loginInfo, portalType)) {
+        if (!login(mailOrUser, password, obtainConnectionInfo(), portalType)) {
             return false;
         }
 
