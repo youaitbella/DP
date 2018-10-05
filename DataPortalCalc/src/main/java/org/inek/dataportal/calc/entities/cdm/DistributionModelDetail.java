@@ -102,6 +102,7 @@ public class DistributionModelDetail implements Serializable {
     }
 
     @Documentation(name = "KstArtGr", rank = 110)
+    @SuppressWarnings("MagicNumber")
     public String getCostTypeName() {
         Map<Integer, String> costTypes = new HashMap<>();
         costTypes.put(142, "4b");
