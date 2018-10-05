@@ -225,7 +225,61 @@ public class AccountFacade extends AbstractDataAccess {
         _accountPwdFacade.save(accountPwd);
         _accountRequestFacade.remove(accountRequest);
         TransferFileCreator.createEmailTransferFile(_configFacade, account.getEmail());
+        setIkAdminIfOnInekList(account);
         return true;
+    }
+
+    private void setIkAdminIfOnInekList(Account acc) {
+        try {
+            if (accountHasIkAdminRequest(acc)) {
+                List<Feature> features = getFeaturesFromAdminRequest(acc);
+
+                acc.addIkAdmin((int) acc.getFullIkSet().toArray()[0], "", features);
+
+                for (Feature fe : features) {
+                    acc.addFeature(fe, true);
+
+                    AccessRight accessRight = new AccessRight(acc.getId(), (int) acc.getFullIkSet().toArray()[0], fe, Right.All);
+
+                    _ikAdminFacade.saveAccessRight(accessRight);
+                }
+
+                merge(acc);
+            }
+        } catch (Exception e) {
+            LOGGER.log(Level.WARNING, "IK Admin konnte nicht eingetragen werden: {0}", acc.getEmail());
+        }
+    }
+
+    private Boolean accountHasIkAdminRequest(Account acc) {
+        if (acc.getFullIkSet().size() != 1) {
+            return false;
+        }
+
+        String sql = "select * from ikadm.AdminRequest\n"
+                + "where arMail = '" + acc.getEmail() + "'\n"
+                + "and arIk = '" + acc.getFullIkSet().toArray()[0] + "';";
+        Query query = getEntityManager().createNativeQuery(sql);
+        @SuppressWarnings("unchecked")
+        List<Object> result = query.getResultList();
+        return result.size() > 0;
+    }
+
+    private List<Feature> getFeaturesFromAdminRequest(Account acc) {
+        String sql = "select distinct arFeatureId from ikadm.AdminRequest\n"
+                + "where arMail = '" + acc.getEmail() + "'\n"
+                + "and arIk = '" + acc.getFullIkSet().toArray()[0] + "';";
+        Query query = getEntityManager().createNativeQuery(sql);
+        @SuppressWarnings("unchecked")
+        List<Integer> results = query.getResultList();
+
+        List<Feature> features = new ArrayList<>();
+
+        for (Integer featureId : results) {
+            features.add(Feature.getFeatureFromId(featureId));
+        }
+
+        return features;
     }
 
     private Account createAccount(AccountRequest accountRequest) {
