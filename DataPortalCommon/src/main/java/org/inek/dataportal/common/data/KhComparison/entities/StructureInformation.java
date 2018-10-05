@@ -73,8 +73,8 @@ public class StructureInformation implements Serializable {
     }
     //</editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property FeatureState">
-    @Column(name = "afFeatureId")
+    // <editor-fold defaultstate="collapsed" desc="Property Structur Categorie Categorie">
+    @Column(name = "siStructureCategorie")
     @Convert(converter = StructureInformationCategorieConverter.class)
     private StructureInformationCategorie _structureCategorie;
 

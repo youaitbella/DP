@@ -22,10 +22,12 @@ import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.KhComparison.entities.StructureBaseInformation;
+import org.inek.dataportal.common.data.KhComparison.entities.StructureInformation;
 import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.scope.FeatureScoped;
 import org.inek.dataportal.common.data.KhComparison.facade.AEBFacade;
 import org.inek.dataportal.common.data.adm.facade.LogFacade;
+import org.inek.dataportal.common.enums.StructureInformationCategorie;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 
 /**
@@ -100,7 +102,12 @@ public class EditStructureInformation {
 
     private StructureBaseInformation createNewStructureBsseInformation() {
         StructureBaseInformation info = new StructureBaseInformation();
-        //------------------------------------------------------------ Befüllung der Structure Categories
+        for (StructureInformationCategorie cat : StructureInformationCategorie.values()) {
+            info.addNewStructureInformation(cat);
+        }
+        for (StructureInformation sInfo : info.getStructureInformations()) {
+            sInfo.setValidFrom(new Date());
+        }
         info.setCreatedBy(_sessionController.getAccountId());
         return info;
     }
@@ -110,13 +117,13 @@ public class EditStructureInformation {
 //                || _structureBaseInformation.getTherapyPartCount() != 0)) {
 //            _structureBaseInformation.setLastChangeFrom(_sessionController.getAccountId());
 //            _structureBaseInformation.setLastChanged(new Date());
-//            try {
-//                _structureBaseInformation = _aebFacade.save(_structureBaseInformation);
+        try {
+            _structureBaseInformation = _aebFacade.save(_structureBaseInformation);
 //                saveChangeLogs(_changes);
-//                _dialogController.showSaveDialog();
-//            } catch (Exception ex) {
-//                _dialogController.showErrorDialog("Fehler beim Speichern", "Vorgang abgebrochen");
-//            }
+            _dialogController.showSaveDialog();
+        } catch (Exception ex) {
+            _dialogController.showErrorDialog("Fehler beim Speichern", "Vorgang abgebrochen");
+        }
 //        } else {
 //            _dialogController.showInfoDialog("Daten nicht vollständig", "Bitte wählen Sie eine IK "
 //                    + "und geben Sie eine Anzahl Planbetten bzw. teilstationärer Therapieplätze an.");
@@ -161,5 +168,67 @@ public class EditStructureInformation {
                 WorkflowStatus.New,
                 _sessionController.getAccountId(),
                 _structureBaseInformation.getIk());
+    }
+
+    public List<StructureInformationCategorie> getValidStructureCategoriesAreas() {
+        List<StructureInformationCategorie> validInfos = new ArrayList<>();
+
+        for (StructureInformationCategorie infoCat : StructureInformationCategorie.values()) {
+            if (!validInfos.stream().anyMatch(c -> c.getArea().equals(infoCat.getArea()))) {
+                validInfos.add(infoCat);
+            }
+        }
+
+        return validInfos;
+    }
+
+    public List<StructureInformation> getStructureInformationsByArea(String area) {
+        return _structureBaseInformation.getStructureInformations().stream()
+                .filter(c -> c.getStructureCategorie().getArea().equals(area))
+                .collect(Collectors.toList());
+    }
+
+    public void saveNewValidFrom(StructureInformation info) {
+        _structureBaseInformation.addStructureInformation(copyStructureInformationForNewVality(info));
+    }
+
+    public StructureInformation copyStructureInformationForNewVality(StructureInformation info) {
+        StructureInformation newInfo = new StructureInformation();
+        newInfo.setBaseInformation(info.getBaseInformation());
+        newInfo.setContent(info.getContent());
+        newInfo.setStructureCategorie(info.getStructureCategorie());
+        newInfo.setValidFrom(new Date());
+        return newInfo;
+    }
+
+    public Boolean collapsCategorie(String area) {
+        List<StructureInformation> structureInformationsByArea = getStructureInformationsByArea(area);
+
+        if (structureInformationsByArea.size() == 1) {
+            if (structureInformationsByArea.get(0).getContent().isEmpty()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Boolean showNewValityDate(StructureInformation info) {
+        List<StructureInformation> infos = _structureBaseInformation.getStructureInformations().stream()
+                .filter(c -> c.getStructureCategorie() == info.getStructureCategorie())
+                .collect(Collectors.toList());
+
+        return showNewValityDate(info, infos);
+    }
+
+    public Boolean showNewValityDate(StructureInformation info, List<StructureInformation> infos) {
+//        if (infos.size() == 1) {
+//            return true;
+//        }
+//
+//        if (infos.stream().anyMatch(c -> c.getValidFrom().after(info.getValidFrom()))) {
+//            return false;
+//        }
+
+        return true;
     }
 }
