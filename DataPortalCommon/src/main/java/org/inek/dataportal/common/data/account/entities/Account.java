@@ -37,6 +37,7 @@ import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.api.enums.FeatureState;
 import org.inek.dataportal.common.data.adm.InekRole;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
+import org.inek.dataportal.common.data.ikadmin.entity.AccountResponsibility;
 import org.inek.dataportal.common.data.ikadmin.entity.IkAdmin;
 
 /**
@@ -200,22 +201,24 @@ public class Account implements Serializable, Person {
     @Column(name = "acNubInformationMail")
     private boolean _nubInformationMail = true;
 
+    //<editor-fold defaultstate="collapsed" desc="Property IkAdminDisclaimer">
     @Column(name = "acIkAdminDisclaimer")
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date _ikAdminDisclaimer = getDefalutDate();
-
+    
     public Date getIkAdminDisclaimer() {
         return _ikAdminDisclaimer;
     }
-
+    
     public void setIkAdminDisclaimer(Date ikAdminDisclaimer) {
         this._ikAdminDisclaimer = ikAdminDisclaimer;
     }
-
+    
     public boolean isDisclaimerConfirmed() {
         return _ikAdminDisclaimer.after(getDefalutDate());
     }
-
+    //</editor-fold>
+    
     private Date getDefalutDate() {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, 2000);
@@ -353,6 +356,12 @@ public class Account implements Serializable, Person {
     }
     // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Property Responsibilities">
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "arAccountId", referencedColumnName = "acId")
+    private List<AccountResponsibility> _responsibleForIks;
+    // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="Property InekRoles">
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
