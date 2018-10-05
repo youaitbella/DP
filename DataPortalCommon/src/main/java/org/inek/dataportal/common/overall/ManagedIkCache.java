@@ -116,22 +116,4 @@ public class ManagedIkCache {
         return correlatedIks;
     }
 
-    /**
-     * This method retrieves the iks where a user is responsible for, limited by feature and allowed iks Even though
-     * this class is called xxxCache, this method always performs db access.
-     *
-     * @param feature
-     * @param account
-     * @param iks
-     *
-     * @return
-     */
-    public Set<Integer> retriveResponsibleForIks(Feature feature, Account account, Set<Integer> iks) {
-        return _ikAdminFacade
-                .loadAccountResponsibilities(feature, account, iks)
-                .stream()
-                .map(r -> r.getDataIk())
-                .collect(Collectors.toSet());
-    }
-
 }

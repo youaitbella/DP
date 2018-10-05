@@ -128,8 +128,7 @@ public class AccessManager implements Serializable {
         if (feature.getIkUsage() == IkUsage.Direct) {
             return iks;
         }
-        Set<Integer> responsibleForIks = _ikCache.
-                retriveResponsibleForIks(feature, _sessionController.getAccount(), iks);
+        Set<Integer> responsibleForIks = _sessionController.getAccount().obtainResponsibleForIks(feature, iks);
         return responsibleForIks;
     }
 
@@ -146,8 +145,8 @@ public class AccessManager implements Serializable {
             // todo: Once we distinguish between IkReference.Hospital and .Insurence, then filter iks
             return iks;
         }
-        Set<Integer> responsibleForIks = _ikCache.
-                retriveResponsibleForIks(feature, _sessionController.getAccount(), iks);
+        Set<Integer> responsibleForIks = _sessionController.getAccount().
+                obtainResponsibleForIks(feature, iks);
         if (feature.getIkUsage() == IkUsage.ByResposibilityAndCorrelation) {
             responsibleForIks = _ikCache.retriveCorrelatedIks(feature, iks, responsibleForIks);
         }

@@ -8,6 +8,7 @@ import org.inek.dataportal.common.data.account.iface.Person;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.stream.Collectors;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -205,20 +207,20 @@ public class Account implements Serializable, Person {
     @Column(name = "acIkAdminDisclaimer")
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date _ikAdminDisclaimer = getDefalutDate();
-    
+
     public Date getIkAdminDisclaimer() {
         return _ikAdminDisclaimer;
     }
-    
+
     public void setIkAdminDisclaimer(Date ikAdminDisclaimer) {
         this._ikAdminDisclaimer = ikAdminDisclaimer;
     }
-    
+
     public boolean isDisclaimerConfirmed() {
         return _ikAdminDisclaimer.after(getDefalutDate());
     }
     //</editor-fold>
-    
+
     private Date getDefalutDate() {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, 2000);
@@ -339,6 +341,7 @@ public class Account implements Serializable, Person {
      *
      * @param ik
      * @param mailDomain
+     * @param features
      *
      * @return
      */
@@ -360,8 +363,22 @@ public class Account implements Serializable, Person {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "arAccountId", referencedColumnName = "acId")
     private List<AccountResponsibility> _responsibleForIks;
+
+    public Set<Integer> obtainResponsibleForIks(Feature feature, int userIk) {
+        Collection<Integer> userIks = new ArrayList<>();
+        userIks.add(userIk);
+        return obtainResponsibleForIks(feature, userIks);
+    }
+
+    public Set<Integer> obtainResponsibleForIks(Feature feature, Collection<Integer> userIks) {
+        return _responsibleForIks
+                .stream()
+                .filter(r -> r.getFeature() == feature && userIks.contains(r.getUserIk()))
+                .map(r -> r.getDataIk())
+                .collect(Collectors.toSet());
+    }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property InekRoles">
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(

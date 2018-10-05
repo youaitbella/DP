@@ -77,10 +77,17 @@ public class CI_AccessManagerTest {
     private AccessManager obtainAccessManager(List<AccessRight> accessRights, List<CooperationRight> cooperationRights,
             boolean isInekUser, Set<Integer> fullIkSet) {
         
+        Set<Integer> accountIks = new HashSet<>();
+        accountIks.add(allowedIk);
+        Set<Integer> responibleForIks = new HashSet<>();
+        responibleForIks.add(unmanagedIk1);
+        responibleForIks.add(unmanagedIk2);
+        
         Account userAccount = mock(Account.class);
         when(userAccount.getId()).thenReturn(userAccountId);
         when(userAccount.getAccessRights()).thenReturn(accessRights);
         when(userAccount.getFullIkSet()).thenReturn(fullIkSet);
+        when(userAccount.obtainResponsibleForIks(Feature.HC_INSURANCE, accountIks)).thenReturn(responibleForIks);
         
         SessionController sessionController = mock(SessionController.class);
         when(sessionController.isInekUser(testFeature)).thenReturn(isInekUser);
@@ -102,14 +109,11 @@ public class CI_AccessManagerTest {
         when(ikCache.isManaged(unmanagedIk1, testFeature)).thenReturn(false);
         when(ikCache.isManaged(unmanagedIk2, testFeature)).thenReturn(false);
         when(ikCache.isManaged(unmanagedIk3, testFeature)).thenReturn(false);
-        Set<Integer> accountIks = new HashSet<>();
-        accountIks.add(allowedIk);
-        Set<Integer> responibleForIks = new HashSet<>();
-        responibleForIks.add(unmanagedIk1);
-        responibleForIks.add(unmanagedIk2);
+        
+        
         Set<Integer> correlatedIks = new HashSet<>();
         correlatedIks.add(unmanagedIk1);
-        when(ikCache.retriveResponsibleForIks(Feature.HC_INSURANCE, userAccount, accountIks)).thenReturn(responibleForIks);
+        
         when(ikCache.retriveCorrelatedIks(Feature.HC_INSURANCE, accountIks, responibleForIks)).thenReturn(correlatedIks);
         AccessManager accessManager = new AccessManager(cooperationRightFacade, sessionController, ikCache);
         return accessManager;

@@ -52,6 +52,7 @@
         <class>org.inek.dataportal.common.data.ikadmin.entity.IkCorrelation</class>
         <class>org.inek.dataportal.common.data.ikadmin.entity.IkAdmin</class>
         <class>org.inek.dataportal.common.data.ikadmin.entity.IkAdminFeature</class>
+        <class>org.inek.dataportal.common.data.ikadmin.entity.AccountResponsibility</class>
         <class>org.inek.dataportal.common.data.ikadmin.entity.User</class>
         <class>org.inek.dataportal.common.data.infotext.entity.InfoText</class>
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
