@@ -178,6 +178,11 @@ public class CI_AccessManagerTest {
     }
 
     @Test
+    public void retrieveAllowedManagedIksReturnsResponsibleForIks() {
+    // todo
+    }
+    
+    @Test
     public void retrieveAllowedForCreationIksReturnsOnlyOneDeniedForCreationIkOutOfMultipleIk() {
         List<AccessRight> accessRights = new ArrayList<>();
         accessRights.add(new AccessRight(userAccountId, allowedIk, testFeature, Right.Create));
