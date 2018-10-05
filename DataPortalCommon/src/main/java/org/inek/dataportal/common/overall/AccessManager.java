@@ -174,6 +174,7 @@ public class AccessManager implements Serializable {
     }
 
     public boolean isAccessAllowed(Feature feature, WorkflowStatus state, int ownerId, int ik) {
+        // todo: check
         if (_sessionController.isInekUser(feature)) {
             return true;
         }
@@ -214,6 +215,7 @@ public class AccessManager implements Serializable {
 
     @SuppressWarnings("CyclomaticComplexity") // todo: remove annotation after implementing #88
     public boolean isReadOnly(Feature feature, WorkflowStatus state, int ownerId, int ik) {
+        // todo: check
         if (state.getId() >= WorkflowStatus.Provided.getId()) {
             return true;
         }
@@ -262,6 +264,7 @@ public class AccessManager implements Serializable {
 
     public boolean isApprovalRequestEnabled(Feature feature, WorkflowStatus state, int ownerId, int ik,
             boolean hasUpdateButton) {
+        // todo: check
         if (state.getId() >= WorkflowStatus.ApprovalRequested.getId()) {
             return false;
         }
@@ -314,6 +317,7 @@ public class AccessManager implements Serializable {
     }
 
     public boolean isSealedEnabled(Feature feature, WorkflowStatus state, int ownerId, int ik, boolean hasUpdateButton) {
+        // todo: check
         if (hasUpdateButton && state == WorkflowStatus.CorrectionRequested) {
             return false;
         }
@@ -350,6 +354,7 @@ public class AccessManager implements Serializable {
     }
 
     public boolean isRequestCorrectionEnabled(Feature feature, WorkflowStatus state, int ownerId, int ik) {
+        // todo: check
         if (state.getId() != WorkflowStatus.ApprovalRequested.getId()) {
             return false;
         }
@@ -358,6 +363,7 @@ public class AccessManager implements Serializable {
     }
 
     public boolean isDeleteEnabled(Feature feature, int accountId, int ik) {
+        // todo: check
         if (ik > 0) {
             Optional<AccessRight> right = obtainAccessRights(feature, r -> r.getIk() == ik).findFirst();
             if (right.isPresent()) {
@@ -382,6 +388,7 @@ public class AccessManager implements Serializable {
     }
 
     public boolean isUpdateEnabled(Feature feature, WorkflowStatus state, int ownerId, int ik) {
+        // todo: check
         if (state != WorkflowStatus.CorrectionRequested) {
             return false;
         }
@@ -415,6 +422,7 @@ public class AccessManager implements Serializable {
      * @return
      */
     public boolean isTakeEnabled(Feature feature, WorkflowStatus state, int ownerId, int ik) {
+        // todo: check
         Account account = _sessionController.getAccount();
         if (ownerId == account.getId()) {
             return false;
@@ -431,6 +439,7 @@ public class AccessManager implements Serializable {
     }
 
     public Set<Integer> determineAccountIds(Feature feature, Predicate<CooperationRight> canRead) {
+        // todo: check
         Account account = _sessionController.getAccount();
         if (account == null) {
             LOGGER.log(Level.WARNING, "Accessmanager called without logged in user");
@@ -453,6 +462,7 @@ public class AccessManager implements Serializable {
     }
 
     public boolean canReadSealed(Feature feature, int partnerId, int ik) {
+        // todo: check
         CooperativeRight achievedRight = getAchievedRight(feature, partnerId, ik);
         return achievedRight.canReadSealed();
     }
@@ -462,6 +472,7 @@ public class AccessManager implements Serializable {
     }
 
     public boolean canReadCompleted(Feature feature, int partnerId, int ik) {
+        // todo: check
         CooperativeRight achievedRight = getAchievedRight(feature, partnerId, ik);
         return achievedRight.canReadCompleted();
     }
@@ -471,11 +482,13 @@ public class AccessManager implements Serializable {
     }
 
     public boolean canReadAlways(Feature feature, int partnerId, int ik) {
+        // todo: check
         CooperativeRight achievedRight = getAchievedRight(feature, partnerId, ik);
         return achievedRight.canReadAlways();
     }
 
     public Set<Integer> ObtainIksForCreation(Feature feature) {
+        // todo: check
         if (feature.getManagedBy() == ManagedBy.IkAdminOnly) {
             return retrieveAllowedForCreationIks(feature);
         }
@@ -491,6 +504,7 @@ public class AccessManager implements Serializable {
     }
 
     public Boolean isCreateAllowed(Feature feature) {
+        // todo: check
         if (feature.getIkReference() == IkReference.None) {
             return true;
         }
@@ -498,6 +512,7 @@ public class AccessManager implements Serializable {
     }
 
     public Set<Integer> ObtainAllowedIks(Feature feature) {
+        // todo: check
         Set<Integer> iks = _sessionController.getAccount().getFullIkSet();
         Set<Integer> deniedIks = retrieveDeniedManagedIks(feature);
         iks.removeAll(deniedIks);
