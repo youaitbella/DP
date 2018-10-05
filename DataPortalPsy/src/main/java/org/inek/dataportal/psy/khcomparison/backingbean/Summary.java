@@ -20,7 +20,7 @@ import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.scope.FeatureScoped;
 import org.inek.dataportal.common.data.KhComparison.entities.AEBBaseInformation;
-import org.inek.dataportal.common.data.KhComparison.entities.StructureInformation;
+import org.inek.dataportal.common.data.KhComparison.entities.StructureBaseInformation;
 import org.inek.dataportal.common.data.KhComparison.facade.AEBFacade;
 import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.common.enums.ConfigKey;
@@ -45,7 +45,7 @@ public class Summary {
 
     private List<AEBBaseInformation> _listComplete = new ArrayList<>();
     private List<AEBBaseInformation> _listWorking = new ArrayList<>();
-    private List<StructureInformation> _listStructureInformation = new ArrayList<>();
+    private List<StructureBaseInformation> _listStructureBaseInformation = new ArrayList<>();
 
     public List<AEBBaseInformation> getListComplete() {
         return _listComplete;
@@ -63,19 +63,19 @@ public class Summary {
         this._listWorking = listWorking;
     }
 
-    public List<StructureInformation> getListStructureInformation() {
-        return _listStructureInformation;
+    public List<StructureBaseInformation> getListStructureBaseInformation() {
+        return _listStructureBaseInformation;
     }
 
-    public void setListStructureInformation(List<StructureInformation> listStructureInformation) {
-        this._listStructureInformation = listStructureInformation;
+    public void setListStructureInformation(List<StructureBaseInformation> listStructureBaseInformation) {
+        this._listStructureBaseInformation = listStructureBaseInformation;
     }
 
     @PostConstruct
     public void init() {
         setWorkingList();
         setCompleteList();
-        setStructureInformationList();
+        setStructureBaseInformationList();
     }
 
     private void setWorkingList() {
@@ -115,8 +115,8 @@ public class Summary {
         return Pages.KhComparisonEdit.URL();
     }
 
-    public String structureInformationOpen() {
-        return Pages.StructureInformationEdit.URL();
+    public String structureBaseInformationOpen() {
+        return Pages.StructureBaseInformationEdit.URL();
     }
 
     public boolean isCreateEntryAllowed() {
@@ -124,10 +124,10 @@ public class Summary {
         return _aebfacade.retrievePossibleIks(allowedIks, CustomerTyp.Hospital).size() > 0;
     }
 
-    public boolean isCreateStructureInformationAllowed() {
+    public boolean isCreateStructureBaseInformationAllowed() {
         Set<Integer> allowedIks = _accessManager.ObtainIksForCreation(Feature.HC_HOSPITAL);
         return allowedIks.stream().
-                anyMatch(ik -> !_aebfacade.structureInformaionAvailable(ik));
+                anyMatch(ik -> !_aebfacade.structureBaseInformaionAvailable(ik));
     }
 
     public void deleteBaseInformation(AEBBaseInformation info) {
@@ -135,12 +135,12 @@ public class Summary {
         setWorkingList();
     }
 
-    private void setStructureInformationList() {
+    private void setStructureBaseInformationList() {
         Set<Integer> allowedIks = _accessManager.ObtainAllowedIks(Feature.HC_HOSPITAL);
         for (Integer ik : _sessionController.getAccount().getFullIkSet()) {
-            if (_aebfacade.structureInformaionAvailable(ik)) {
+            if (_aebfacade.structureBaseInformaionAvailable(ik)) {
                 if (allowedIks.contains(ik)) {
-                    _listStructureInformation.add(_aebfacade.getStructureInformationByIk(ik));
+                    _listStructureBaseInformation.add(_aebfacade.getStructureBaseInformationByIk(ik));
                 }
             }
         }

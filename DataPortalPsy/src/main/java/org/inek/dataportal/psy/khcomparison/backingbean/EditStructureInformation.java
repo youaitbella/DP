@@ -6,7 +6,6 @@
 package org.inek.dataportal.psy.khcomparison.backingbean;
 
 import org.inek.dataportal.common.data.adm.ChangeLog;
-import org.inek.dataportal.common.data.KhComparison.entities.StructureInformation;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,10 +21,10 @@ import javax.inject.Named;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.controller.SessionController;
+import org.inek.dataportal.common.data.KhComparison.entities.StructureBaseInformation;
 import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.scope.FeatureScoped;
 import org.inek.dataportal.common.data.KhComparison.facade.AEBFacade;
-import org.inek.dataportal.common.data.KhComparison.facade.AEBListItemFacade;
 import org.inek.dataportal.common.data.adm.facade.LogFacade;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 
@@ -44,29 +43,22 @@ public class EditStructureInformation {
     @Inject
     private DialogController _dialogController;
     @Inject
-    private AEBListItemFacade _aebListItemFacade;
-    @Inject
     private AccessManager _accessManager;
     @Inject
     private LogFacade _logFacade;
 
-    private StructureInformation _structureInformation;
+    private StructureBaseInformation _structureBaseInformation;
     private Boolean _readOnly;
-    private Date _newValidFromDate = new Date();
     private List<ChangeLog> _changes = new ArrayList<>();
-    private List<StructureInformation> _allStructureInformations = new ArrayList<>();
-    private int _editableId;
 
     @PostConstruct
     public void init() {
         String id = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id");
         if (id == null || "new".equals(id)) {
-            _structureInformation = createNewStructureInformation();
+            _structureBaseInformation = createNewStructureBsseInformation();
             setReadOnly(false);
         } else {
-            _structureInformation = _aebFacade.findStructureInformation(Integer.parseInt(id));
-            _editableId = _structureInformation.getId();
-            setAllStructureInformations(_aebFacade.getAllStructureInformationByIk(_structureInformation.getIk()));
+            _structureBaseInformation = _aebFacade.findStructureBaseInformation(Integer.parseInt(id));
             setReadOnly();
         }
     }
@@ -75,24 +67,8 @@ public class EditStructureInformation {
         Set<Integer> allowedIks = _accessManager.ObtainIksForCreation(Feature.HC_HOSPITAL);
         return allowedIks
                 .stream()
-                .filter(ik -> !_aebFacade.structureInformaionAvailable(ik))
+                .filter(ik -> !_aebFacade.structureBaseInformaionAvailable(ik))
                 .collect(Collectors.toSet());
-    }
-
-    public List<StructureInformation> getAllStructureInformations() {
-        return _allStructureInformations;
-    }
-
-    public void setAllStructureInformations(List<StructureInformation> allStructureInformations) {
-        this._allStructureInformations = allStructureInformations;
-    }
-
-    public Date getNewValidFromDate() {
-        return _newValidFromDate;
-    }
-
-    public void setNewValidFromDate(Date newDate) {
-        this._newValidFromDate = newDate;
     }
 
     public Boolean isReadOnly() {
@@ -103,83 +79,48 @@ public class EditStructureInformation {
         this._readOnly = readOnly;
     }
 
-    public StructureInformation getStructureInformation() {
-        return _structureInformation;
+    public StructureBaseInformation getStructureBaseInformation() {
+        return _structureBaseInformation;
     }
 
-    public void setStructureInformation(StructureInformation structureInformation) {
-        this._structureInformation = structureInformation;
+    public void setStructureBaseInformation(StructureBaseInformation structureBaseInformation) {
+        this._structureBaseInformation = structureBaseInformation;
     }
 
     public void setReadOnly() {
-        if (_structureInformation != null) {
+        if (_structureBaseInformation != null) {
             setReadOnly(_accessManager.isReadOnly(Feature.HC_HOSPITAL,
                     WorkflowStatus.New,
                     _sessionController.getAccountId(),
-                    _structureInformation.getIk()));
+                    _structureBaseInformation.getIk()));
         } else {
             setReadOnly(false);
         }
     }
 
-    private StructureInformation createNewStructureInformation() {
-        StructureInformation info = new StructureInformation();
-        info.setCreatedFrom(_sessionController.getAccountId());
+    private StructureBaseInformation createNewStructureBsseInformation() {
+        StructureBaseInformation info = new StructureBaseInformation();
+        //------------------------------------------------------------ Befüllung der Structure Categories
+        info.setCreatedBy(_sessionController.getAccountId());
         return info;
     }
 
     public void save() {
-        if (_structureInformation.getIk() > 0 && (_structureInformation.getBedCount() != 0
-                || _structureInformation.getTherapyPartCount() != 0)) {
-            _structureInformation.setLastChangeFrom(_sessionController.getAccountId());
-            _structureInformation.setLastChanged(new Date());
-            try {
-                _structureInformation = _aebFacade.save(_structureInformation);
-                saveChangeLogs(_changes);
-                _dialogController.showSaveDialog();
-            } catch (Exception ex) {
-                _dialogController.showErrorDialog("Fehler beim Speichern", "Vorgang abgebrochen");
-            }
-        } else {
-            _dialogController.showInfoDialog("Daten nicht vollständig", "Bitte wählen Sie eine IK "
-                    + "und geben Sie eine Anzahl Planbetten bzw. teilstationärer Therapieplätze an.");
-        }
-    }
-
-    public void saveNewValidFrom() {
-        StructureInformation newInformation = copyStructureInformation(_structureInformation);
-        newInformation.setValidFrom(getNewValidFromDate());
-
-        newInformation.setLastChangeFrom(_sessionController.getAccountId());
-        newInformation.setLastChanged(new Date());
-
-        try {
-            _structureInformation = _aebFacade.save(newInformation);
-            _changes.clear();
-            _editableId = _structureInformation.getId();
-            setAllStructureInformations(_aebFacade.getAllStructureInformationByIk(_structureInformation.getIk()));
-            _dialogController.showSaveDialog();
-        } catch (Exception ex) {
-            _dialogController.showErrorDialog("Fehler beim Speichern", "Vorgang abgebrochen");
-        }
-    }
-
-    public StructureInformation copyStructureInformation(StructureInformation info) {
-        StructureInformation newInfo = new StructureInformation();
-        newInfo.setAccommodationText(info.getAccommodationText());
-        newInfo.setAmbulantPerformanceMain(info.getAmbulantPerformanceMain());
-        newInfo.setAmbulantStructure(info.getAmbulantStructure());
-        newInfo.setBedCount(info.getBedCount());
-        newInfo.setCareProvider(info.getCareProvider());
-        newInfo.setCreatedFrom(info.getCreatedFrom());
-        newInfo.setDismissManagement(info.getDismissManagement());
-        newInfo.setIk(info.getIk());
-        newInfo.setPerformanceAreas(info.getPerformanceAreas());
-        newInfo.setRegionalCare(info.getRegionalCare());
-        newInfo.setSPCenterText(info.getSPCenterText());
-        newInfo.setSocialPsychiatryService(info.getSocialPsychiatryService());
-        newInfo.setTherapyPartCount(info.getTherapyPartCount());
-        return newInfo;
+//        if (_structureBaseInformation.getIk() > 0 && (_structureBaseInformation.getBedCount() != 0
+//                || _structureBaseInformation.getTherapyPartCount() != 0)) {
+//            _structureBaseInformation.setLastChangeFrom(_sessionController.getAccountId());
+//            _structureBaseInformation.setLastChanged(new Date());
+//            try {
+//                _structureBaseInformation = _aebFacade.save(_structureBaseInformation);
+//                saveChangeLogs(_changes);
+//                _dialogController.showSaveDialog();
+//            } catch (Exception ex) {
+//                _dialogController.showErrorDialog("Fehler beim Speichern", "Vorgang abgebrochen");
+//            }
+//        } else {
+//            _dialogController.showInfoDialog("Daten nicht vollständig", "Bitte wählen Sie eine IK "
+//                    + "und geben Sie eine Anzahl Planbetten bzw. teilstationärer Therapieplätze an.");
+//        }
     }
 
     public void handleChange(ValueChangeEvent event) {
@@ -198,8 +139,8 @@ public class EditStructureInformation {
         ChangeLog log = new ChangeLog(_sessionController.getAccountId(),
                 Feature.HC_HOSPITAL,
                 "StructureInformation",
-                _structureInformation.getId(),
-                _structureInformation.getClass().getSimpleName(),
+                _structureBaseInformation.getId(),
+                _structureBaseInformation.getClass().getSimpleName(),
                 field,
                 oldValue,
                 newValue);
@@ -215,19 +156,10 @@ public class EditStructureInformation {
         return (new SimpleDateFormat("dd.MM.yyyy")).format(date);
     }
 
-    public void handleChangeStructureInformation(ValueChangeEvent event) {
-        reloadStructureInformation(Integer.parseInt(event.getNewValue().toString()));
-    }
-
-    private void reloadStructureInformation(int id) {
-        _structureInformation = _aebFacade.findStructureInformation(id);
-        setReadOnly(_structureInformation.getId() != _editableId);
-    }
-
     public Boolean canSave() {
         return !_accessManager.isReadOnly(Feature.HC_HOSPITAL,
                 WorkflowStatus.New,
                 _sessionController.getAccountId(),
-                _structureInformation.getIk());
+                _structureBaseInformation.getIk());
     }
 }

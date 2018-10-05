@@ -3,6 +3,7 @@
     <persistence-unit name="DataPortalPU" transaction-type="JTA">
         <jta-data-source>jdbc/dataportal</jta-data-source>
         <class>org.inek.dataportal.common.data.converter.FeatureConverter</class>
+        <class>org.inek.dataportal.common.data.converter.StructureInformationCategorieConverter</class>
         <class>org.inek.dataportal.common.data.converter.WorkflowStatusConverter</class>
         <class>org.inek.dataportal.common.data.converter.RightConverter</class>
         <class>org.inek.dataportal.common.data.adm.Announcement</class>
@@ -71,6 +72,7 @@
         <class>org.inek.dataportal.common.data.KhComparison.entities.PsyDocument</class>
         <class>org.inek.dataportal.common.data.KhComparison.entities.RegionStructurParticularities</class>
         <class>org.inek.dataportal.common.data.KhComparison.entities.StructureInformation</class>
+        <class>org.inek.dataportal.common.data.KhComparison.entities.StructureBaseInformation</class>
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
         <properties>
             <property name="eclipselink.jpa.uppercase-column-names" value="true"/>

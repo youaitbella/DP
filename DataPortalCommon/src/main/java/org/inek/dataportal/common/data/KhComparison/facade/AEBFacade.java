@@ -8,7 +8,6 @@ package org.inek.dataportal.common.data.KhComparison.facade;
 import java.time.Year;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -24,7 +23,7 @@ import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.data.KhComparison.entities.AEBBaseInformation;
 import org.inek.dataportal.common.data.KhComparison.entities.OccupationalCategory;
-import org.inek.dataportal.common.data.KhComparison.entities.StructureInformation;
+import org.inek.dataportal.common.data.KhComparison.entities.StructureBaseInformation;
 import org.inek.dataportal.common.enums.CustomerTyp;
 
 /**
@@ -58,9 +57,9 @@ public class AEBFacade extends AbstractDataAccess {
         }
     }
 
-    public StructureInformation findStructureInformation(int id) {
-        String sql = "SELECT si FROM StructureInformation si WHERE si._id = :id";
-        TypedQuery<StructureInformation> query = getEntityManager().createQuery(sql, StructureInformation.class);
+    public StructureBaseInformation findStructureBaseInformation(int id) {
+        String sql = "SELECT si FROM StructureBaseInformation si WHERE si._id = :id";
+        TypedQuery<StructureBaseInformation> query = getEntityManager().createQuery(sql, StructureBaseInformation.class);
         query.setParameter("id", id);
         return query.getSingleResult();
     }
@@ -83,70 +82,32 @@ public class AEBFacade extends AbstractDataAccess {
         return query.getResultList();
     }
 
-    public boolean structureInformaionAvailable(int ik) {
-        String sql = "SELECT si FROM StructureInformation si WHERE si._ik = :ik";
-        TypedQuery<StructureInformation> query = getEntityManager().createQuery(sql, StructureInformation.class);
+    public boolean structureBaseInformaionAvailable(int ik) {
+        String sql = "SELECT si FROM StructureBaseInformation si WHERE si._ik = :ik";
+        TypedQuery<StructureBaseInformation> query = getEntityManager().createQuery(sql, StructureBaseInformation.class);
         query.setParameter("ik", ik);
         return !query.getResultList().isEmpty();
     }
 
-    public StructureInformation getStructureInformationByIk(int ik) {
-        String sql = "SELECT si FROM StructureInformation si WHERE si._ik = :ik order by si._validFrom desc";
-        TypedQuery<StructureInformation> query = getEntityManager().createQuery(sql, StructureInformation.class);
+    public StructureBaseInformation getStructureBaseInformationByIk(int ik) {
+        String sql = "SELECT si FROM StructureBaseInformation si WHERE si._ik = :ik";
+        TypedQuery<StructureBaseInformation> query = getEntityManager().createQuery(sql, StructureBaseInformation.class);
         query.setParameter("ik", ik);
-
-        return findStructureInformationFromDate(query.getResultList(), new Date());
-    }
-
-    public StructureInformation findStructureInformationFromDate(List<StructureInformation> infos, Date date) {
-        if (!infos.stream()
-                .filter(c -> c.getValidFrom().equals(date))
-                .collect(Collectors.toList())
-                .isEmpty()) {
-            return infos.stream()
-                    .filter(c -> c.getValidFrom().equals(date))
-                    .collect(Collectors.toList())
-                    .get(0);
-        }
-        if (infos.stream()
-                .anyMatch(c -> c.getValidFrom().after(date))) {
-            if (infos.stream()
-                    .anyMatch(c -> c.getValidFrom().before(date))) {
-                return infos.stream()
-                        .filter(c -> c.getValidFrom().before(date))
-                        .sorted((p1, p2) -> p2.getValidFrom().compareTo(p1.getValidFrom()))
-                        .collect(Collectors.toList())
-                        .get(0);
-            } else {
-                return infos.stream()
-                        .sorted((p1, p2) -> p1.getValidFrom().compareTo(p2.getValidFrom()))
-                        .collect(Collectors.toList())
-                        .get(0);
-            }
-        } else {
-            return infos.stream()
-                    .sorted((p1, p2) -> p2.getValidFrom().compareTo(p1.getValidFrom()))
-                    .collect(Collectors.toList())
-                    .get(0);
-        }
-    }
-
-    public List<StructureInformation> getAllStructureInformationByIk(int ik) {
-        String sql = "SELECT si FROM StructureInformation si WHERE si._ik = :ik order by si._validFrom";
-        TypedQuery<StructureInformation> query = getEntityManager().createQuery(sql, StructureInformation.class);
-        query.setParameter("ik", ik);
-        return query.getResultList();
+        return query.getSingleResult();
     }
 
     private Set<Pair<Integer, Integer>> retrieveIkYearPairs(Collection<Integer> iks, CustomerTyp typ) {
-        if(iks.isEmpty()){return new HashSet<>();}
+        if (iks.isEmpty()) {
+            return new HashSet<>();
+        }
         String ikList = iks.stream().map(ik -> "" + ik).collect(Collectors.joining(", "));
         String sql = "select distinct biIk, biDataYear \n"
                 + "from psy.AEBBaseInformation \n"
                 + "where biIk in (" + ikList + ") \n"
                 + "    and biTyp = " + typ.id();
         Query query = getEntityManager().createNativeQuery(sql);
-        @SuppressWarnings("unchecked") List<Object[]> objects = query.getResultList();
+        @SuppressWarnings("unchecked")
+        List<Object[]> objects = query.getResultList();
 
         return objects.stream().map(obj -> new Pair<>((int) obj[0], (int) obj[1])).collect(Collectors.toSet());
     }
@@ -191,7 +152,7 @@ public class AEBFacade extends AbstractDataAccess {
     }
 
     @Transactional
-    public StructureInformation save(StructureInformation info) {
+    public StructureBaseInformation save(StructureBaseInformation info) {
         if (info.getId() == 0) {
             persist(info);
             return info;
