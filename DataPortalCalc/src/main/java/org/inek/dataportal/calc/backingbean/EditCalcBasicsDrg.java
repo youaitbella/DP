@@ -115,7 +115,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             }
             _baseLine = _calcDrgFacade.findCalcBasicsDrg(_calcBasics.getId());
             retrievePriorData(_calcBasics);
-            PreloadFunctionsCalcBasicsDrg.populateDelimitationFactsIfAbsent(_calcDrgFacade, _calcBasics, _priorCalcBasics);
+            PreloadFunctionsCalcBasicsDrg.
+                    populateDelimitationFactsIfAbsent(_calcDrgFacade, _calcBasics, _priorCalcBasics);
             loadPriorDataForNormalWardTable(_calcBasics, _priorCalcBasics);
         } else {
             _calcBasics = newCalcBasicsDrg();
@@ -166,7 +167,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     private List<KGLListRadiologyLaboratory> getRadLab(int costCenterId) {
-        return _calcBasics.getRadiologyLaboratories().stream().filter(c -> c.getCostCenterId() == costCenterId).collect(Collectors.toList());
+        return _calcBasics.getRadiologyLaboratories().stream().filter(c -> c.getCostCenterId() == costCenterId).
+                collect(Collectors.toList());
     }
 
     private DrgCalcBasics newCalcBasicsDrg() {
@@ -542,12 +544,14 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         DrgCalcBasics modifiedCalcBasics = _calcBasics;
         _calcBasics = _calcDrgFacade.findCalcBasicsDrg(modifiedCalcBasics.getId());
         if (_calcBasics == null) {
-            _sessionController.logMessage("ConcurrentUpdate [DatasetDeleted], CalcBasicsDrg: " + modifiedCalcBasics.getId());
+            _sessionController.logMessage("ConcurrentUpdate [DatasetDeleted], CalcBasicsDrg: " + modifiedCalcBasics.
+                    getId());
             Utils.navigate(Pages.CalculationHospitalSummary.URL());
             return Utils.getMessage("msgDatasetDeleted");
         }
         if (_calcBasics.isSealed()) {
-            _sessionController.logMessage("ConcurrentUpdate [DatasetSealed], CalcBasicsDrg: " + modifiedCalcBasics.getId());
+            _sessionController.logMessage("ConcurrentUpdate [DatasetSealed], CalcBasicsDrg: " + modifiedCalcBasics.
+                    getId());
             Utils.navigate(Pages.CalculationHospitalSummary.URL());
             return Utils.getMessage("msgDatasetSealed");
         }
@@ -559,7 +563,9 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
         Map<String, String> documentationFields = DocumentationUtil.getFieldTranslationMap(_calcBasics);
 
         String msgKey = collisions.isEmpty() ? "msgMergeOk" : "msgMergeCollision";
-        _sessionController.logMessage("ConcurrentUpdate [" + msgKey.substring(3) + "], CalcBasicsDrg: " + modifiedCalcBasics.getId());
+        _sessionController.
+                logMessage("ConcurrentUpdate [" + msgKey.substring(3) + "], CalcBasicsDrg: " + modifiedCalcBasics.
+                        getId());
         String msg = Utils.getMessage(msgKey);
         for (String fieldName : collisions) {
             msg += "\r\n### " + documentationFields.get(fieldName) + " ###";
@@ -580,7 +586,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     private Map<String, FieldValues> getDifferencesUser(DrgCalcBasics modifiedCalcBasics, List<Class> excludedTypes) {
-        Map<String, FieldValues> differencesUser = ObjectUtils.getDifferences(_baseLine, modifiedCalcBasics, excludedTypes);
+        Map<String, FieldValues> differencesUser = ObjectUtils.
+                getDifferences(_baseLine, modifiedCalcBasics, excludedTypes);
         differencesUser.remove("_statusId");
         return differencesUser;
     }
@@ -593,9 +600,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     private List<String> updateFields(
-            Map<String, 
-            FieldValues> differencesUser, 
-            Map<String, FieldValues> differencesPartner, 
+            Map<String, FieldValues> differencesUser,
+            Map<String, FieldValues> differencesPartner,
             DrgCalcBasics modifiedCalcBasics) {
         List<String> collisions = new ArrayList<>();
         for (String fieldName : differencesUser.keySet()) {
@@ -729,10 +735,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     /**
-     * This function seals a statement od participance if possible. Sealing is
-     * possible, if all mandatory fields are fulfilled. After sealing, the
-     * statement od participance can not be edited anymore and is available for
-     * the InEK.
+     * This function seals a statement od participance if possible. Sealing is possible, if all mandatory fields are
+     * fulfilled. After sealing, the statement od participance can not be edited anymore and is available for the InEK.
      *
      * @return
      */
@@ -794,22 +798,19 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Tab Address">
-    private List<SelectItem> _ikItems;
-
     public List<SelectItem> getIks() {
-        if (_ikItems == null) {
-            boolean testMode = _appTools.isEnabled(ConfigKey.TestMode);
-            int year = Utils.getTargetYear(Feature.CALCULATION_HOSPITAL);
-            Set<Integer> possibleIks = _calcDrgFacade.obtainIks4NewBasicsDrg(_sessionController.getAccountId(), year, testMode);
-            Set<Integer> allowedIks = _accessManager.ObtainIksForCreation(Feature.CALCULATION_HOSPITAL);
-            possibleIks.removeIf(ik -> !allowedIks.contains(ik));
+        boolean testMode = _appTools.isEnabled(ConfigKey.TestMode);
+        int year = Utils.getTargetYear(Feature.CALCULATION_HOSPITAL);
+        Set<Integer> possibleIks = _calcDrgFacade.
+                obtainIks4NewBasicsDrg(_sessionController.getAccountId(), year, testMode);
+        Set<Integer> allowedIks = _accessManager.ObtainIksForCreation(Feature.CALCULATION_HOSPITAL);
+        possibleIks.removeIf(ik -> !allowedIks.contains(ik));
 
-            _ikItems = new ArrayList<>();
-            for (int ik : possibleIks) {
-                _ikItems.add(new SelectItem(ik));
-            }
+        List<SelectItem> ikItems = new ArrayList<>();
+        for (int ik : possibleIks) {
+            ikItems.add(new SelectItem(ik));
         }
-        return _ikItems;
+        return ikItems;
     }
     // </editor-fold>
 
@@ -838,7 +839,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     private void removeEmptyLocations() {
-        _calcBasics.getLocations().removeIf(location -> location.getLocationNo() == 0 && location.getLocation().isEmpty());
+        _calcBasics.getLocations().removeIf(location -> location.getLocationNo() == 0 && location.getLocation().
+                isEmpty());
     }
 
     public void addSpecialUnit() {
@@ -973,7 +975,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
     }
 
     public String diffData(int textId) {
-        DrgNeonatData data = _calcBasics.getNeonateData().stream().filter(d -> d.getContentTextId() == textId).findFirst().get();
+        DrgNeonatData data = _calcBasics.getNeonateData().stream().filter(d -> d.getContentTextId() == textId).
+                findFirst().get();
         BigDecimal priorValue = _priorCalcBasics.getNeonateData().stream()
                 .filter(d -> d.getContentTextId() == textId).map(d -> d.getData()).findFirst().orElse(BigDecimal.ZERO);
         if (data.getContentText().isDiffAsPercent()) {
@@ -1004,7 +1007,8 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
             return "";
         }
         MathContext mc = new MathContext(2);
-        return (currentValue.subtract(priorValue)).divide(priorValue, mc).multiply(new BigDecimal(100)).setScale(1, RoundingMode.HALF_UP) + "%";
+        return (currentValue.subtract(priorValue)).divide(priorValue, mc).multiply(new BigDecimal(100)).
+                setScale(1, RoundingMode.HALF_UP) + "%";
     }
 
     public int getMedInfraSum(int type) {
@@ -1050,6 +1054,5 @@ public class EditCalcBasicsDrg extends AbstractEditController implements Seriali
 
         }
     }
-
 
 }

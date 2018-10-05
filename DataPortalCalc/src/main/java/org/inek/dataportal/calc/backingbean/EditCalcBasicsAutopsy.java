@@ -140,19 +140,20 @@ public class EditCalcBasicsAutopsy extends AbstractEditController implements Ser
     }
 
     public boolean isReadOnly() {
-        return _accessManager.isReadOnly(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId())
+        return _accessManager.isReadOnly(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.
+                getAccountId())
                 || _sessionController.isInekUser(Feature.CALCULATION_HOSPITAL) && !isOwnModel();
     }
 
     private boolean isInekEditable(CalcBasicsAutopsy calcBasics) {
-        return _sessionController.isInekUser(Feature.CALCULATION_HOSPITAL, true) 
-                && calcBasics != null 
+        return _sessionController.isInekUser(Feature.CALCULATION_HOSPITAL, true)
+                && calcBasics != null
                 && (calcBasics.getStatus() == WorkflowStatus.Provided || calcBasics.getStatus() == WorkflowStatus.ReProvided);
     }
 
     private boolean isInekViewable(CalcBasicsAutopsy calcBasics) {
-        return _sessionController.isInekUser(Feature.CALCULATION_HOSPITAL, true) 
-                && calcBasics != null 
+        return _sessionController.isInekUser(Feature.CALCULATION_HOSPITAL, true)
+                && calcBasics != null
                 && calcBasics.getStatusId() >= WorkflowStatus.Provided.getId();
     }
 
@@ -161,20 +162,20 @@ public class EditCalcBasicsAutopsy extends AbstractEditController implements Ser
         addTopic("TopicFrontPage", Pages.CalcDrgBasics.URL());
     }
 
-
     public List<SelectItem> getIks() {
-      
-            boolean testMode = _appTools.isEnabled(ConfigKey.TestMode);
-            int year = Utils.getTargetYear(Feature.CALCULATION_HOSPITAL);
-            Set<Integer> iks = _calcAutopsyFacade.obtainIks4NewBasicsAutopsy(_sessionController.getAccountId(), year, testMode);
-            Set<Integer> allowedIks = _accessManager.ObtainIksForCreation(Feature.CALCULATION_HOSPITAL);
-            iks.removeIf(ik -> !allowedIks.contains(ik));
 
-            List<SelectItem> ikItems = new ArrayList<>();
-            for (int ik : iks) {
-                ikItems.add(new SelectItem(ik));
-            }
-        
+        boolean testMode = _appTools.isEnabled(ConfigKey.TestMode);
+        int year = Utils.getTargetYear(Feature.CALCULATION_HOSPITAL);
+        Set<Integer> iks = _calcAutopsyFacade.
+                obtainIks4NewBasicsAutopsy(_sessionController.getAccountId(), year, testMode);
+        Set<Integer> allowedIks = _accessManager.ObtainIksForCreation(Feature.CALCULATION_HOSPITAL);
+        iks.removeIf(ik -> !allowedIks.contains(ik));
+
+        List<SelectItem> ikItems = new ArrayList<>();
+        for (int ik : iks) {
+            ikItems.add(new SelectItem(ik));
+        }
+
         return ikItems;
     }
 
@@ -188,7 +189,8 @@ public class EditCalcBasicsAutopsy extends AbstractEditController implements Ser
 
         if (isValidId(_calcBasics.getId())) {
             // CR+LF or LF only will be replaced by "\r\n"
-            String script = "alert ('" + Utils.getMessage("msgSaveAndMentionSend").replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
+            String script = "alert ('" + Utils.getMessage("msgSaveAndMentionSend").replace("\r\n", "\n").
+                    replace("\n", "\\r\\n") + "');";
             _sessionController.setScript(script);
             if (_calcBasics.getStatus() == WorkflowStatus.Taken) {
                 return Pages.CalculationHospitalSummary.URL();
@@ -211,14 +213,17 @@ public class EditCalcBasicsAutopsy extends AbstractEditController implements Ser
         if (!_appTools.isEnabled(ConfigKey.IsCalculationBasicsObdSendEnabled)) {
             return false;
         }
-        return _accessManager.isSealedEnabled(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId());
+        return _accessManager.isSealedEnabled(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.
+                getAccountId());
     }
 
     public boolean isApprovalRequestEnabled() {
         if (!_appTools.isEnabled(ConfigKey.IsCalculationBasicsObdSendEnabled)) {
             return false;
         }
-        return _accessManager.isApprovalRequestEnabled(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.getAccountId());
+        return _accessManager.
+                isApprovalRequestEnabled(Feature.CALCULATION_HOSPITAL, _calcBasics.getStatus(), _calcBasics.
+                        getAccountId());
     }
 
     public boolean isRequestCorrectionEnabled() {
@@ -270,8 +275,8 @@ public class EditCalcBasicsAutopsy extends AbstractEditController implements Ser
     @Inject private Mailer _mailer;
 
     private void sendMessage(String name) {
-        Account receiver = _accountFacade.findAccount(_appTools.isEnabled(ConfigKey.TestMode) 
-                ? _sessionController.getAccountId() 
+        Account receiver = _accountFacade.findAccount(_appTools.isEnabled(ConfigKey.TestMode)
+                ? _sessionController.getAccountId()
                 : _calcBasics.getAccountId());
         MailTemplate template = _mailer.getMailTemplate(name);
         String subject = template.getSubject()
@@ -289,8 +294,8 @@ public class EditCalcBasicsAutopsy extends AbstractEditController implements Ser
     }
 
     public boolean isCopyForResendAllowed() {
-        if (_calcBasics.getStatusId() < 10 
-                || _calcBasics.getStatusId() > 20 
+        if (_calcBasics.getStatusId() < 10
+                || _calcBasics.getStatusId() > 20
                 || !_appTools.isEnabled(ConfigKey.IsCalculationBasicsObdSendEnabled)) {
             return false;
         }
@@ -336,7 +341,7 @@ public class EditCalcBasicsAutopsy extends AbstractEditController implements Ser
         _calcBasics = _calcAutopsyFacade.saveCalcBasicsAutopsy(_calcBasics);
 
         CalcBasicsTransferFileCreator.createCalcBasicsTransferFile(_sessionController, _calcBasics);
-        
+
         if (isValidId(_calcBasics.getId())) {
             Utils.getFlash().put("headLine", Utils.getMessage("nameCALCULATION_HOSPITAL"));
             Utils.getFlash().put("targetPage", Pages.CalculationHospitalSummary.URL());
@@ -374,7 +379,8 @@ public class EditCalcBasicsAutopsy extends AbstractEditController implements Ser
         }
     }
 
-    private void checkField(MessageContainer message, Integer value, Integer minValue, Integer maxValue, String msgKey, String elementId) {
+    private void checkField(MessageContainer message, Integer value, Integer minValue, Integer maxValue, String msgKey,
+            String elementId) {
         if (value == null
                 || minValue != null && value < minValue
                 || maxValue != null && value > maxValue) {

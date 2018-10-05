@@ -96,7 +96,6 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     }
 
     // </editor-fold>
-
     @PostConstruct
     private void init() {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
@@ -183,9 +182,9 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
 
     private boolean hasSufficientRights(PeppCalcBasics calcBasics) {
         return _accessManager.isAccessAllowed(Feature.CALCULATION_HOSPITAL,
-                        calcBasics.getStatus(),
-                        calcBasics.getAccountId(),
-                        calcBasics.getIk());
+                calcBasics.getStatus(),
+                calcBasics.getAccountId(),
+                calcBasics.getIk());
     }
 
     private PeppCalcBasics newCalcBasicsPepp() {
@@ -345,12 +344,14 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         PeppCalcBasics modifiedCalcBasics = _calcBasics;
         _calcBasics = _calcFacade.findCalcBasicsPepp(modifiedCalcBasics.getId());
         if (_calcBasics == null) {
-            _sessionController.logMessage("ConcurrentUpdate [DatasetDeleted], CalcBasicsPsy: " + modifiedCalcBasics.getId());
+            _sessionController.logMessage("ConcurrentUpdate [DatasetDeleted], CalcBasicsPsy: " + modifiedCalcBasics.
+                    getId());
             Utils.navigate(Pages.CalculationHospitalSummary.URL());
             return Utils.getMessage("msgDatasetDeleted");
         }
         if (_calcBasics.isSealed()) {
-            _sessionController.logMessage("ConcurrentUpdate [DatasetSealed], CalcBasicsPsy: " + modifiedCalcBasics.getId());
+            _sessionController.logMessage("ConcurrentUpdate [DatasetSealed], CalcBasicsPsy: " + modifiedCalcBasics.
+                    getId());
             Utils.navigate(Pages.CalculationHospitalSummary.URL());
             return Utils.getMessage("msgDatasetSealed");
         }
@@ -362,7 +363,9 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
         Map<String, String> documentationFields = DocumentationUtil.getFieldTranslationMap(_calcBasics);
 
         String msgKey = collisions.isEmpty() ? "msgMergeOk" : "msgMergeCollision";
-        _sessionController.logMessage("ConcurrentUpdate [" + msgKey.substring(3) + "], CalcBasicsDrg: " + modifiedCalcBasics.getId());
+        _sessionController.
+                logMessage("ConcurrentUpdate [" + msgKey.substring(3) + "], CalcBasicsDrg: " + modifiedCalcBasics.
+                        getId());
         String msg = Utils.getMessage(msgKey);
         for (String fieldName : collisions) {
             msg += "\r\n### " + documentationFields.get(fieldName) + " ###";
@@ -383,7 +386,8 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
     }
 
     private Map<String, FieldValues> getDifferencesUser(PeppCalcBasics modifiedCalcBasics, List<Class> excludedTypes) {
-        Map<String, FieldValues> differencesUser = ObjectUtils.getDifferences(_baseLine, modifiedCalcBasics, excludedTypes);
+        Map<String, FieldValues> differencesUser = ObjectUtils.
+                getDifferences(_baseLine, modifiedCalcBasics, excludedTypes);
         differencesUser.remove("_statusId");
         return differencesUser;
     }
@@ -589,17 +593,17 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
 
     // <editor-fold defaultstate="collapsed" desc="Tab Address">
     public List<SelectItem> getIks() {
-            boolean testMode = _appTools.isEnabled(ConfigKey.TestMode);
-            int year = Utils.getTargetYear(Feature.CALCULATION_HOSPITAL);
-            Set<Integer> iks = _calcFacade.obtainIks4NewBasicsPepp(_sessionController.getAccountId(), year, testMode);
+        boolean testMode = _appTools.isEnabled(ConfigKey.TestMode);
+        int year = Utils.getTargetYear(Feature.CALCULATION_HOSPITAL);
+        Set<Integer> iks = _calcFacade.obtainIks4NewBasicsPepp(_sessionController.getAccountId(), year, testMode);
 
-            Set<Integer> allowedIks = _accessManager.ObtainIksForCreation(Feature.CALCULATION_HOSPITAL);
-            iks.removeIf(ik -> !allowedIks.contains(ik));
+        Set<Integer> allowedIks = _accessManager.ObtainIksForCreation(Feature.CALCULATION_HOSPITAL);
+        iks.removeIf(ik -> !allowedIks.contains(ik));
 
-            List<SelectItem> ikItems = new ArrayList<>();
-            for (int ik : iks) {
-                ikItems.add(new SelectItem(ik));
-            }
+        List<SelectItem> ikItems = new ArrayList<>();
+        for (int ik : iks) {
+            ikItems.add(new SelectItem(ik));
+        }
         return ikItems;
     }
     // </editor-fold>
@@ -800,5 +804,5 @@ public class EditCalcBasicsPepp extends AbstractEditController implements Serial
 
         return items;
     }
-   
+
 }
