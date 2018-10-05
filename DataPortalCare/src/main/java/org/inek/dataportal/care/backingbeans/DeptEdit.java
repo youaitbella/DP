@@ -19,6 +19,7 @@ import org.inek.dataportal.care.entities.Dept;
 import org.inek.dataportal.care.entities.DeptBaseInformation;
 import org.inek.dataportal.care.entities.DeptStation;
 import org.inek.dataportal.care.facades.DeptFacade;
+import org.inek.dataportal.care.utils.CareValidator;
 import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.adm.MailTemplate;
@@ -156,10 +157,16 @@ public class DeptEdit {
     }
 
     public void send() {
-        _deptBaseInformation.setSend(new Date());
-        _deptBaseInformation.setStatus(WorkflowStatus.Provided);
-        save();
-        setIsReadOnly(true);
+        String errors = CareValidator.checkDeptBaseinformationIsAllowedToSend(_deptBaseInformation);
+
+        if (errors.isEmpty()) {
+            _deptBaseInformation.setSend(new Date());
+            _deptBaseInformation.setStatus(WorkflowStatus.Provided);
+            save();
+            setIsReadOnly(true);
+        } else {
+            _dialogController.showErrorDialog("Daten nicht vollständig", errors);
+        }
     }
 
     private void loadValidIks() {
