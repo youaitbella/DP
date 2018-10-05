@@ -217,6 +217,7 @@ public class AccountFacade extends AbstractDataAccess {
             return false;
         }
         Account account = createAccount(accountRequest);
+        merge(account);
         AccountPwd accountPwd = new AccountPwd();
         accountPwd.setAccountId(account.getId());
         String salt = Crypt.getSalt();
@@ -246,8 +247,8 @@ public class AccountFacade extends AbstractDataAccess {
 
                 merge(acc);
             }
-        } catch (Exception e) {
-            LOGGER.log(Level.WARNING, "IK Admin konnte nicht eingetragen werden: {0}", acc.getEmail());
+        } catch (Exception ex) {
+            LOGGER.log(Level.WARNING, "IK Admin konnte nicht eingetragen werden: {0}", ex.getMessage());
         }
     }
 
