@@ -110,7 +110,7 @@ public class DeptFacade extends AbstractDataAccessWithActionLog {
     }
 
     public void prefillDeptsForBaseInformation(DeptBaseInformation info) {
-        String sql = "select bipdept, bipArea, bipRequired\n"
+        String sql = "select bipdept, bipArea, bipRequired, bipDeptNumber, bipSensitiveArea\n"
                 + "from care.DeptInekPrefill\n"
                 + "where bipIk = " + info.getIk() + " \n"
                 + "and bipyear = " + info.getYear() + "";
@@ -126,6 +126,8 @@ public class DeptFacade extends AbstractDataAccessWithActionLog {
             dept.setDeptName((String) record[0]);
             dept.setDeptArea((int) record[1]);
             dept.setRequired((Boolean) record[2]);
+            dept.setDeptNumber((int) record[3]);
+            dept.setSensitiveArea((String) record[4]);
             info.addDept(dept);
         });
     }

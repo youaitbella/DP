@@ -58,6 +58,32 @@ public class Dept implements Serializable {
     }
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Property Dept SensitiveArea">
+    @Column(name = "deSensitiveArea")
+    private String _sensitiveArea;
+
+    public String getSensitiveArea() {
+        return _sensitiveArea;
+    }
+
+    public void setSensitiveArea(String sensitiveArea) {
+        this._sensitiveArea = sensitiveArea;
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property Dept Number">
+    @Column(name = "deDeptNumber")
+    private int _deptDeptNumber;
+
+    public int getDeptNumber() {
+        return _deptDeptNumber;
+    }
+
+    public void setDeptNumber(int deptNumber) {
+        this._deptDeptNumber = deptNumber;
+    }
+    //</editor-fold>
+
     //<editor-fold defaultstate="collapsed" desc="Property Dept Area Id">
     @Column(name = "deDeptAreaId")
     private int _deptArea;
@@ -71,7 +97,7 @@ public class Dept implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property Dept Area Id">
+    //<editor-fold defaultstate="collapsed" desc="Property Dept Required">
     @Column(name = "deRequired")
     private Boolean _required;
 
