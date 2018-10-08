@@ -9,6 +9,7 @@ import org.inek.dataportal.common.data.adm.ChangeLog;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -116,9 +117,19 @@ public class EditStructureInformation {
 //            _structureBaseInformation.setLastChangeFrom(_sessionController.getAccountId());
 //            _structureBaseInformation.setLastChanged(new Date());
         try {
-            _structureBaseInformation = _aebFacade.save(_structureBaseInformation);
+
+            String errors = checkForDuplicatedDates(_structureBaseInformation);
+
+            if (errors.equals("")) {
+                _structureBaseInformation = _aebFacade.save(_structureBaseInformation);
 //                saveChangeLogs(_changes);
-            DialogController.showSaveDialog();
+                DialogController.showSaveDialog();
+            } else {
+                DialogController.showInfoDialog("Doppelte Gültigkeiten",
+                        "Sie haben Doppele Gültigkeiten in den folgenden Bereichen: " + errors
+                        + " Bitte geben Sie für jeden Bereich ein gültigkietsdatum nur einmal an");
+            }
+
         } catch (Exception ex) {
             DialogController.showErrorDialog("Fehler beim Speichern", "Vorgang abgebrochen");
         }
@@ -126,6 +137,24 @@ public class EditStructureInformation {
 //            DialogController.showInfoDialog("Daten nicht vollständig", "Bitte wählen Sie eine IK "
 //                    + "und geben Sie eine Anzahl Planbetten bzw. teilstationärer Therapieplätze an.");
 //        }
+    }
+
+    private String checkForDuplicatedDates(StructureBaseInformation info) {
+        Set<String> categories = new HashSet<>();
+        String errors = "";
+
+        for (StructureInformation sInfo : info.getStructureInformations()) {
+            if (info.getStructureInformations().stream().filter(c -> c.getStructureCategorie() == sInfo.getStructureCategorie()
+                    && c.getValidFrom().equals(sInfo.getValidFrom())).count() > 1) {
+                categories.add(errors);
+            }
+        }
+
+        for (String category : categories) {
+            errors += category + ", ";
+        }
+
+        return errors;
     }
 
     public void handleChange(ValueChangeEvent event) {
@@ -168,11 +197,12 @@ public class EditStructureInformation {
                 _structureBaseInformation.getIk());
     }
 
-    public List<StructureInformationCategorie> getValidStructureCategoriesAreas() {
+    public List<StructureInformationCategorie> getValidSingleStructureCategoriesAreas() {
         List<StructureInformationCategorie> validInfos = new ArrayList<>();
 
         for (StructureInformationCategorie infoCat : StructureInformationCategorie.values()) {
-            if (!validInfos.stream().anyMatch(c -> c.getArea().equals(infoCat.getArea()))) {
+            if (!validInfos.stream().anyMatch(c -> c.getArea().equals(infoCat.getArea()))
+                    && infoCat.getCountElements() == 1) {
                 validInfos.add(infoCat);
             }
         }
@@ -219,13 +249,13 @@ public class EditStructureInformation {
     }
 
     public Boolean showNewValityDate(StructureInformation info, List<StructureInformation> infos) {
-//        if (infos.size() == 1) {
-//            return true;
-//        }
-//
-//        if (infos.stream().anyMatch(c -> c.getValidFrom().after(info.getValidFrom()))) {
-//            return false;
-//        }
+        if (infos.size() == 1) {
+            return true;
+        }
+
+        if (infos.stream().anyMatch(c -> c.getValidFrom().after(info.getValidFrom()))) {
+            return false;
+        }
 
         return true;
     }
