@@ -70,8 +70,6 @@ public class EditUserMaintenance extends AbstractEditController {
     private IkAdminFacade _ikAdminFacade;
     @Inject
     private CustomerFacade _customerFacade;
-    @Inject
-    private DialogController _dialogController;
 
     private String _user;
     private String _email;
@@ -237,12 +235,12 @@ public class EditUserMaintenance extends AbstractEditController {
 
     public String save() {
         if (_sessionTools.isHospital(_account.getCustomerTypeId()) && _account.getFullIkSet().isEmpty()) {
-            _dialogController.showWarningDialog("Bitte mindestens eine IK eingeben", "Fehler beim speichern");
+            DialogController.showWarningDialog("Bitte mindestens eine IK eingeben", "Fehler beim speichern");
         } else {
             checkIKAdminRights(_account);
             _account = _accountFacade.updateAccount(_account);
             _sessionController.refreshAccount(_account.getId());
-            _dialogController.showInfoMessage("Speichern erfolgreich");
+            DialogController.showInfoMessage("Speichern erfolgreich");
         }
         return "";
     }
@@ -274,9 +272,9 @@ public class EditUserMaintenance extends AbstractEditController {
         try {
             _account = _accountFacade.updateAccount(_account);
             _sessionController.refreshAccount(_account.getId());
-            _dialogController.showInfoMessage("Speichern erfolgreich");
+            DialogController.showInfoMessage("Speichern erfolgreich");
         } catch (Exception ex) {
-            _dialogController.showInfoMessage("Fehler beim speichern");
+            DialogController.showInfoMessage("Fehler beim speichern");
         }
         return "";
     }
@@ -315,7 +313,7 @@ public class EditUserMaintenance extends AbstractEditController {
         }
         boolean success = _accountPwdFacade.changePassword(getAccount().getId(), _oldPassword, _newPassword);
         if (success) {
-            _dialogController.showInfoMessage(Utils.getMessage("msgPasswordChanged"));
+            DialogController.showInfoMessage(Utils.getMessage("msgPasswordChanged"));
         }
         return success ? "" : Pages.Error.URL();
     }
@@ -326,7 +324,7 @@ public class EditUserMaintenance extends AbstractEditController {
         }
         boolean success = _accountChangeMailFacade.changeMail(getAccount().getId(), getEmail());
         if (success) {
-            _dialogController.showInfoMessage(Utils.getMessage("msgMailChanged"));
+            DialogController.showInfoMessage(Utils.getMessage("msgMailChanged"));
         }
         return success ? "" : Pages.Error.URL();
     }
@@ -344,7 +342,7 @@ public class EditUserMaintenance extends AbstractEditController {
             msg += (msg.isEmpty() ? "" : "\\r\\n") + "Das alte Passwort stimmt nicht überein.";
         }
         if (!msg.isEmpty()) {
-            _dialogController.showWarningDialog(msg, "Falsche Eingabe");
+            DialogController.showWarningDialog(msg, "Falsche Eingabe");
         }
         return msg.isEmpty();
     }

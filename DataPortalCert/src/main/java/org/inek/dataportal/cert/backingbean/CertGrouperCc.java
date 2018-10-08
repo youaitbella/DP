@@ -35,8 +35,6 @@ public class CertGrouperCc implements Serializable {
     private SessionController _sessionController;
     @Inject
     private SessionTools _sessionTools;
-    @Inject
-    private DialogController _diaDialogController;
 
     private List<AdditionalEmail> _additionalEmails;
 
@@ -62,9 +60,9 @@ public class CertGrouperCc implements Serializable {
             _additionalEmails.removeIf(ae -> ae.getEmail().trim().isEmpty());
             _additionalEmails.stream()
                     .forEach(ae -> _grouperFacade.saveAdditionalEmailCc(ae));
-            _diaDialogController.showSaveDialog();
+            DialogController.showSaveDialog();
         } catch (Exception ex) {
-            _diaDialogController.showErrorDialog("Fehler beim Speichern", "Die Daten konnten nicht gespeichert werden");
+            DialogController.showErrorDialog("Fehler beim Speichern", "Die Daten konnten nicht gespeichert werden");
         }
     }
 

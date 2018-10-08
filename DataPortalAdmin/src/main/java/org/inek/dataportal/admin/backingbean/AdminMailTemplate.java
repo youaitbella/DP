@@ -31,8 +31,6 @@ public class AdminMailTemplate implements Serializable {
 
     @Inject
     private MailTemplateFacade _mailTemplateFacade;
-    @Inject
-    private DialogController _dialogController;
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
     public List<SelectItem> getMailTemplates() {
@@ -98,7 +96,7 @@ public class AdminMailTemplate implements Serializable {
         }
         _mailTemplate = new MailTemplate();
         setTemplateChanged(false);
-        _dialogController.showWarningDialog("Das Template wurde gelöscht.", "Gelöscht");
+        DialogController.showWarningDialog("Das Template wurde gelöscht.", "Gelöscht");
         return Pages.AdminTaskMailTemplate.RedirectURL();
     }
 
@@ -106,7 +104,7 @@ public class AdminMailTemplate implements Serializable {
 
         _mailTemplate = _mailTemplateFacade.save(_mailTemplate);
         setTemplateChanged(false);
-        _dialogController.showWarningDialog("Das Template wurde gespeichert.", "Gespeichert");
+        DialogController.showWarningDialog("Das Template wurde gespeichert.", "Gespeichert");
         return Pages.AdminTaskMailTemplate.RedirectURL();
     }
 

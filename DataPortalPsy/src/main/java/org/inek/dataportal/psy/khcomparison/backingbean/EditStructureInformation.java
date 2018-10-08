@@ -43,8 +43,6 @@ public class EditStructureInformation {
     @Inject
     private AEBFacade _aebFacade;
     @Inject
-    private DialogController _dialogController;
-    @Inject
     private AccessManager _accessManager;
     @Inject
     private LogFacade _logFacade;
@@ -120,12 +118,12 @@ public class EditStructureInformation {
         try {
             _structureBaseInformation = _aebFacade.save(_structureBaseInformation);
 //                saveChangeLogs(_changes);
-            _dialogController.showSaveDialog();
+            DialogController.showSaveDialog();
         } catch (Exception ex) {
-            _dialogController.showErrorDialog("Fehler beim Speichern", "Vorgang abgebrochen");
+            DialogController.showErrorDialog("Fehler beim Speichern", "Vorgang abgebrochen");
         }
 //        } else {
-//            _dialogController.showInfoDialog("Daten nicht vollständig", "Bitte wählen Sie eine IK "
+//            DialogController.showInfoDialog("Daten nicht vollständig", "Bitte wählen Sie eine IK "
 //                    + "und geben Sie eine Anzahl Planbetten bzw. teilstationärer Therapieplätze an.");
 //        }
     }

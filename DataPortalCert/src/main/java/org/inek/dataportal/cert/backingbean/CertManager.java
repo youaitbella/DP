@@ -53,8 +53,6 @@ public class CertManager implements Serializable {
     @Inject
     private GrouperFacade _grouperFacade;
     @Inject
-    private DialogController _dialogController;
-    @Inject
     private ReportController _reportController;
 
     // <editor-fold defaultstate="collapsed" desc="getter / setter Definition">
@@ -146,9 +144,9 @@ public class CertManager implements Serializable {
         try {
             _system = _systemFacade.save(_system);
             setSystemId(_system.getId());
-            _dialogController.showSaveDialog();
+            DialogController.showSaveDialog();
         } catch (Exception ex) {
-            _dialogController.showErrorDialog("Fehler beim speichern", "Fehler beim Speichern. Bitte versuchen Sie es erneut");
+            DialogController.showErrorDialog("Fehler beim speichern", "Fehler beim Speichern. Bitte versuchen Sie es erneut");
         }
         return "";
     }
@@ -288,10 +286,10 @@ public class CertManager implements Serializable {
             IOUtils.copy(file.getInputstream(), outStream);
             file.getInputstream().close();
             outStream.close();
-            _dialogController.showInfoDialog("Upload erfolgreich", "Der Upload von "
+            DialogController.showInfoDialog("Upload erfolgreich", "Der Upload von "
                     + file.getFileName() + " wurde erfolgreich durchgeführt");
         } catch (Exception ex) {
-            _dialogController.showErrorDialog("Fehler beim Upload", "Die Datei konnte nicht "
+            DialogController.showErrorDialog("Fehler beim Upload", "Die Datei konnte nicht "
                     + "erfolgreich hochgeladen werden: " + ex.getMessage());
         }
     }

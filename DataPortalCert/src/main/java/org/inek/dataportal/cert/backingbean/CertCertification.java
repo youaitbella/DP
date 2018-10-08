@@ -55,8 +55,6 @@ public class CertCertification implements Serializable {
     private GrouperFacade _grouperFacade;
     @Inject
     private ConfigFacade _configFacade;
-    @Inject
-    private DialogController _dialogController;
 
     private int _compareResult;
     private UploadedFile _file;
@@ -331,10 +329,10 @@ public class CertCertification implements Serializable {
                 sendEmailToInek();
             }
             _grouper = _grouperFacade.merge(_grouper);
-            _dialogController.showSaveDialog();
+            DialogController.showSaveDialog();
             _file = null;
         } catch (Exception ex) {
-            _dialogController.showErrorDialog("Fehler beim speichern",
+            DialogController.showErrorDialog("Fehler beim speichern",
                     "Fehler beim Speichern. Bitte versuchen Sie es erneut oder wenden Sie sich an das InEK");
             LOGGER.log(Level.SEVERE, "Error during compare", ex);
         }

@@ -41,8 +41,6 @@ public class IkAdminTasks implements Serializable {
     private IkAdminFacade _ikAdminFacade;
     @Inject
     private AccountFacade _accountFacade;
-    @Inject
-    private DialogController _dialogController;
 
     private List<AccessRight> _accessRights;
     private int _ik;
@@ -136,10 +134,10 @@ public class IkAdminTasks implements Serializable {
                 for (AccessRight accessRight : _accessRights) {
                     _ikAdminFacade.saveAccessRight(accessRight);
                 }
-                _dialogController.showSaveDialog();
+                DialogController.showSaveDialog();
                 return null;
             } else {
-                _dialogController.showWarningDialog("Fehler beim speichern", "Für eine oder mehrere Funktionen "
+                DialogController.showWarningDialog("Fehler beim speichern", "Für eine oder mehrere Funktionen "
                         + "besteht kein Zugriff durch einen Benutzer. Bitte passen Sie die Berechtigungen so an, "
                         + "dass mindesten ein Benutzer die Daten einsehen kann.");
                 return null;
@@ -193,7 +191,7 @@ public class IkAdminTasks implements Serializable {
         _accountFacade.updateAccount(_account);
         _featureId = 0;
 
-        _dialogController.showSaveDialog();
+        DialogController.showSaveDialog();
     }
     // </editor-fold>
 

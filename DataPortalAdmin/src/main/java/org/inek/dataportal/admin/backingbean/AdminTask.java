@@ -17,13 +17,9 @@ import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.common.data.adm.InekRole;
-import org.inek.dataportal.common.data.adm.MailTemplate;
 import org.inek.dataportal.common.data.adm.RoleMapping;
-import org.inek.dataportal.common.mail.MailTemplateFacade;
 import org.inek.dataportal.admin.facade.RoleMappingFacade;
-import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.scope.FeatureScoped;
-import org.inek.dataportal.admin.system.SessionCounter;
 import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.data.adm.facade.InekRoleFacade;
 
@@ -36,8 +32,6 @@ import org.inek.dataportal.common.data.adm.facade.InekRoleFacade;
 public class AdminTask extends AbstractEditController {
 
     private static final Logger LOGGER = Logger.getLogger("AdminTask");
-    @Inject
-    private DialogController _dialogController;
 
     public AdminTask() {
         //LOGGER.log(Level.INFO, "Ctor AdminTask");
@@ -129,7 +123,7 @@ public class AdminTask extends AbstractEditController {
         }
         _inekRoles = null;
         setRoleChanged(false);
-        _dialogController.showInfoMessage("Die Daten wurden gespeichert");
+        DialogController.showInfoMessage("Die Daten wurden gespeichert");
         return Pages.AdminTaskInekRoles.RedirectURL();
     }
 
@@ -258,7 +252,7 @@ public class AdminTask extends AbstractEditController {
         }
         setMappingChanged(false);
         _inekRoles = null;
-        _dialogController.showInfoMessage("Die Daten wurden gespeichert");
+        DialogController.showInfoMessage("Die Daten wurden gespeichert");
         return Pages.AdminTaskRoleMapping.RedirectURL();
     }
 

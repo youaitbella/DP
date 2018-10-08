@@ -51,8 +51,6 @@ public class Edit {
     @Inject
     private AEBFacade _aebFacade;
     @Inject
-    private DialogController _dialogController;
-    @Inject
     private AEBListItemFacade _aebListItemFacade;
     @Inject
     private AccessManager _accessManager;
@@ -157,12 +155,12 @@ public class Edit {
             _aebBaseInformation.setLastChanged(new Date());
             try {
                 _aebBaseInformation = _aebFacade.save(_aebBaseInformation);
-                _dialogController.showSaveDialog();
+                DialogController.showSaveDialog();
             } catch (Exception ex) {
-                _dialogController.showErrorDialog("Fehler beim Speichern", "Vorgang abgebrochen");
+                DialogController.showErrorDialog("Fehler beim Speichern", "Vorgang abgebrochen");
             }
         } else {
-            _dialogController.showWarningDialog("Fehler beim Speichern", "Bitte geben Sie eine gültige IK und Datenjahr an");
+            DialogController.showWarningDialog("Fehler beim Speichern", "Bitte geben Sie eine gültige IK und Datenjahr an");
         }
     }
 
@@ -171,7 +169,7 @@ public class Edit {
         _aebBaseInformation.setSend(new Date());
         save();
         if (aebContainsDifferences()) {
-            _dialogController.showWarningDialog("Unterschiede in der AEB festgestellt",
+            DialogController.showWarningDialog("Unterschiede in der AEB festgestellt",
                     "Es wurden Unterschiede in bereits abgegeben Information für die IK "
                     + _aebBaseInformation.getIk() + " festgestellt");
         }
@@ -257,13 +255,13 @@ public class Edit {
                     checker.checkAeb(_aebBaseInformation);
                     setErrorMessage(checker.getMessage());
                     setErrorMessage(getErrorMessage() + "\n \n --> " + importer.getCounter() + " Zeilen eingelesen");
-                    _dialogController.showInfoDialog("Upload abgeschlossen", "Ihre Daten wurden erfolgreich hochgeladen");
+                    DialogController.showInfoDialog("Upload abgeschlossen", "Ihre Daten wurden erfolgreich hochgeladen");
                 }
             } catch (Exception ex) {
-                _dialogController.showWarningDialog("Upload fehlgeschlagen", "Fehler beim Upload. Bitte versuchen Sie es erneut");
+                DialogController.showWarningDialog("Upload fehlgeschlagen", "Fehler beim Upload. Bitte versuchen Sie es erneut");
             }
         } else {
-            _dialogController.showInfoDialog("Fehler beim Upload", "Bitte wählen Sie ein Vereinbahrungsjahr aus um den Import zu benutzen");
+            DialogController.showInfoDialog("Fehler beim Upload", "Bitte wählen Sie ein Vereinbahrungsjahr aus um den Import zu benutzen");
         }
     }
 

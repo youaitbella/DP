@@ -48,8 +48,6 @@ public class IkAdmin implements Serializable {
     private AccountFacade _accountFacade;
     @Inject
     private IkAdminFacade _ikAdminFacade;
-    @Inject
-    private DialogController _dialogController;
 
     private int _ik;
     private Account _account;
@@ -168,7 +166,7 @@ public class IkAdmin implements Serializable {
         }
 
         _accountFacade.merge(_account);
-        _dialogController.showSaveDialog();
+        DialogController.showSaveDialog();
         createAdminAccountList();
         return "";
     }

@@ -15,7 +15,6 @@ import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.controller.DialogController;
-import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.infotext.entity.InfoText;
 import org.inek.dataportal.common.data.infotext.facade.InfoTextFacade;
 import org.inek.dataportal.common.scope.FeatureScoped;
@@ -30,11 +29,7 @@ public class AdminInfoText implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Inject
-    private SessionController _sessionController;
-    @Inject
     private InfoTextFacade _infoTextFacade;
-    @Inject
-    private DialogController _dialogController;
 
     //<editor-fold defaultstate="collapsed" desc="List of Info Texts">
     private List<InfoText> _listOfInfoTexts;
@@ -93,7 +88,7 @@ public class AdminInfoText implements Serializable {
                 _infoTextFacade.save(infoText);
             }
         }
-        _dialogController.showInfoDialog("Die Daten wurden gespeichert", "Infotexte gespeichert");
+        DialogController.showInfoDialog("Die Daten wurden gespeichert", "Infotexte gespeichert");
 
     }
 

@@ -43,8 +43,6 @@ public class DeptEdit {
     @Inject
     private SessionController _sessionController;
     @Inject
-    private DialogController _dialogController;
-    @Inject
     private AccessManager _accessManager;
     @Inject
     private DeptFacade _deptFacade;
@@ -149,9 +147,9 @@ public class DeptEdit {
             } else {
                 sendMail("Care Speicher Bestätigung");
             }
-            _dialogController.showSaveDialog();
+            DialogController.showSaveDialog();
         } catch (Exception ex) {
-            _dialogController.showErrorDialog("Fehler beim speichern", "Ihre Daten konnten nicht gespeichert werden."
+            DialogController.showErrorDialog("Fehler beim speichern", "Ihre Daten konnten nicht gespeichert werden."
                     + "Bitte versuchen Sie es erneut");
         }
     }
@@ -165,7 +163,7 @@ public class DeptEdit {
             save();
             setIsReadOnly(true);
         } else {
-            _dialogController.showErrorDialog("Daten nicht vollständig", errors);
+            DialogController.showErrorDialog("Daten nicht vollständig", errors);
         }
     }
 
