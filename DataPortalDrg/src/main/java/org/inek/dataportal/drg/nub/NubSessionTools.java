@@ -506,6 +506,7 @@ public class NubSessionTools implements Serializable {
         int targetAccountId = _sessionController.getAccountId();
         NubRequest copy = ObjectUtils.copy(nubRequest);
         copy.setId(-1);
+        copy.setIk(0);
         copy.setStatus(WorkflowStatus.New);
         copy.setDateSealed(null);
         copy.setSealedBy(0);

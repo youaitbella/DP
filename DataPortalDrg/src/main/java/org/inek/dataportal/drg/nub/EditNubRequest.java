@@ -523,6 +523,10 @@ public class EditNubRequest extends AbstractEditController {
         if (!_appTools.isEnabled(ConfigKey.IsNubSendEnabled)) {
             return false;
         }
+        if (_accessManager.
+                isSealedEnabled(Feature.NUB, _nubRequest.getStatus(), _nubRequest.getAccountId(), _nubRequest.getIk(), true)){
+            return false;
+        }
         return _accessManager.isApprovalRequestEnabled(
                 Feature.NUB,
                 _nubRequest.getStatus(),
