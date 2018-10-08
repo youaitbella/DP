@@ -7,7 +7,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class IdManager {
-    public static final long VALID_TIME = 5000;
+    public static final long VALID_TIME = 10000;
     private final Map<String, IdInfo> _accountInfos = new ConcurrentHashMap<>();
  
     
