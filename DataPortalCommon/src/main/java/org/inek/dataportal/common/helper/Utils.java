@@ -91,6 +91,7 @@ public class Utils {
      * Shows error message
      *
      * @param msg
+     *
      * @return
      */
     public static boolean showMessageInBrowser(String msg) {
@@ -102,12 +103,12 @@ public class Utils {
     }
 
     private static boolean returnMessage(String template, String msg) throws FacesException {
-        FacesContext ctx = FacesContext.getCurrentInstance();
-        ExternalContext extContext = ctx.getExternalContext();
-        if (!ctx.getPartialViewContext().isAjaxRequest()) {
-            ctx.getPartialViewContext().setPartialRequest(true);
-        }
         try {
+            FacesContext ctx = FacesContext.getCurrentInstance();
+            ExternalContext extContext = ctx.getExternalContext();
+            if (!ctx.getPartialViewContext().isAjaxRequest()) {
+                ctx.getPartialViewContext().setPartialRequest(true);
+            }
             extContext.setResponseContentType("text/xml");
             extContext.addResponseHeader("Cache-Control", "no-cache");
             PartialResponseWriter writer
@@ -120,13 +121,14 @@ public class Utils {
             writer.flush();
             ctx.responseComplete();
             return true;
-        } catch (Exception e) {
-            throw new FacesException(e);
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, "Error during returnMessage", ex);
+            throw new FacesException(ex);
         }
     }
 
     public static void logMessageAndLogoff(String msg) {
-        LOGGER.severe(msg);
+        LOGGER.log(Level.WARNING, msg);
         FacesContext facesContext = FacesContext.getCurrentInstance();
         facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, Pages.Login.URL());
 
@@ -211,7 +213,8 @@ public class Utils {
 
     public static String getUserAgent() {
         try {
-            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().
+                    getRequest();
             return request.getHeader("user-agent");
         } catch (Exception ex) {
             return "unknown";
@@ -235,15 +238,19 @@ public class Utils {
             }
             return sb.toString();
         } catch (IOException | NoSuchAlgorithmException ex) {
-            LOGGER.log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, "Error during getChecksum", ex);
         }
         return "";
     }
 
     public static void navigate(String URL) {
-        FacesContext fc = FacesContext.getCurrentInstance();
-        NavigationHandler nav = fc.getApplication().getNavigationHandler();
-        nav.handleNavigation(fc, null, URL);
+        try {
+            FacesContext fc = FacesContext.getCurrentInstance();
+            NavigationHandler nav = fc.getApplication().getNavigationHandler();
+            nav.handleNavigation(fc, null, URL);
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, "Error during navigate", ex);
+        }
     }
 
     public static String downloadDocument(Document document) {
@@ -263,7 +270,8 @@ public class Utils {
         if (contentLength > 0) {
             externalContext.setResponseHeader("Content-Length", "" + contentLength);
         }
-        externalContext.setResponseHeader("Content-Disposition", "attachment;filename*=UTF-8''" + encodeUrl(fileName).replace("+", "_"));
+        externalContext.setResponseHeader("Content-Disposition", "attachment;filename*=UTF-8''" + encodeUrl(fileName).
+                replace("+", "_"));
         try {
             StreamHelper.copyStream(is, externalContext.getResponseOutputStream());
         } catch (IOException ex) {
@@ -292,7 +300,8 @@ public class Utils {
             response.reset();
             response.setContentType(Helper.getContentType(filename));
             response.setHeader("Content-Length", "" + buffer.length);
-            response.setHeader("Content-Disposition", "attachment;filename*=UTF-8''" + encodeUrl(filename).replace("+", "_"));
+            response.setHeader("Content-Disposition", "attachment;filename*=UTF-8''" + encodeUrl(filename).
+                    replace("+", "_"));
             response.getOutputStream().write(buffer);
             response.flushBuffer();
             facesContext.responseComplete();
@@ -338,7 +347,7 @@ public class Utils {
                 return LocalDateTime.now().getYear() - (LocalDateTime.now().getMonthValue() <= 6 ? 2 : 1);
             case CALCULATION_HOSPITAL:
                 // here the target year is the data year which might be in the past
-                return LocalDateTime.now().getYear() -1;
+                return LocalDateTime.now().getYear() - 1;
             case SPECIFIC_FUNCTION:
                 return LocalDateTime.now().getYear();
             case NUB:

@@ -299,7 +299,7 @@ public class SessionController implements Serializable {
             performLogout("");
             FacesContext.getCurrentInstance().getExternalContext().redirect(url);
         } catch (Throwable ex) {
-            LOGGER.log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, "Error during changePortal" + ex.getMessage(), ex);
             logMessage("ChangePortal failed: " + obtainConnectionInfo());
 
         }
@@ -314,15 +314,23 @@ public class SessionController implements Serializable {
     }
 
     public String getToken() throws IOException {
-        return request(REQUEST_TOKEN, "" + getAccountId());
+        String token;
+        int retry = 0;
+        do {
+            token = request(REQUEST_TOKEN, "" + getAccountId());
+        } while ("".equals(token) && 2 < retry++);
+        return token;
     }
 
-    private String request(String type, String data) throws IOException {
+    private String request(String type, String data) {
         try (DatagramSocket socket = new DatagramSocket()) {
             socket.setSoTimeout(100);
             broadcast(socket, type + data);
             return receive(socket);
+        } catch (Throwable ex) {
+            LOGGER.log(Level.SEVERE, "Error during request" + ex.getMessage(), ex);
         }
+        return "";
     }
 
     private static void broadcast(DatagramSocket socket, String broadcastMessage) throws IOException {
@@ -348,7 +356,7 @@ public class SessionController implements Serializable {
         try {
             idString = request(REQUEST_ID, token);
             return Integer.parseInt(idString);
-        } catch (IOException ex) {
+        } catch (NumberFormatException ex) {
             return Integer.MIN_VALUE;
         }
     }
