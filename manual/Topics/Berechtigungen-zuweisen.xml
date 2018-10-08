@@ -1,26 +1,26 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
-<topic template="Default" lasteditedby="palenma" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
   <title translate="true">Berechtigungen zuweisen</title>
   <body>
     <header>
       <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Berechtigungen zuweisen</text></para>
     </header>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sind Sie als IK-Admin hinterlegt, so enthält Ihr Navigationsmenü im </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> den Eintrag </text><text styleclass="Normal" style="font-style:italic;" translate="true">IK-Admin</text><text styleclass="Normal" translate="true">.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sind Sie als Funktionsbeauftragter hinterlegt, so enthält Ihr Navigationsmenü im </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> den Eintrag </text><text styleclass="Normal" style="font-style:italic;" translate="true">Funktionsbeauftragter</text><text styleclass="Normal" translate="true">.</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Als IK-Admin verwalten Sie die Zugriffsrechte auf alle Daten zu diesem IK. Es liegt somit in Ihrer Verantwortung, die Rechte so zu vergeben, dass die Funktionen des </text><var styleclass="Normal">&lt;%TITLE%&gt;s</var><text styleclass="Normal" translate="true"> entsprechend den Anforderungen Ihres Instituts/Krankenhauses genutzt werden können.Vor der erstmaligen Nutzung der IK-Admin-Funktionalität erfolgt ein entsprechender Hinweis.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Als Funktionsbeauftragter verwalten Sie die Zugriffsrechte auf alle Daten zu diesem IK. Es liegt somit in Ihrer Verantwortung, die Rechte so zu vergeben, dass die Funktionen des </text><var styleclass="Normal">&lt;%TITLE%&gt;s</var><text styleclass="Normal" translate="true"> entsprechend den Anforderungen Ihres Instituts/Krankenhauses genutzt werden können.Vor der erstmaligen Nutzung der Funktionsbeauftragter-Funktionalität erfolgt ein entsprechender Hinweis.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"></para>
     <para styleclass="Image Caption"><image src="IkAdmin00.png" scale="100.00%" styleclass="Image Caption"></image></para>
-    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Hinweis zur Nutzung der IK-Admin-Funktionalität</text></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> Hinweis zur Nutzung der Funktionsbeauftragter-Funktionalität</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Nach einmaliger Bestätigung mittels </text><text styleclass="Button" translate="true">[ Ich habe den Nutzungshinweis zur Kenntniss genommen ]</text><text styleclass="Normal" translate="true"> werden die Institute gelistet, deren Zugriffsrechte Sie im </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> administrieren können. Bei Bedarf können Sie den Nutzungshinweis jederzeit mit </text><text styleclass="Button" translate="true">[ Nutzungshinweis anzeigen ]</text><text styleclass="Normal" translate="true"> nochmals einblenden.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Nach einmaliger Bestätigung mittels </text><text styleclass="Button" translate="true">[ Ich habe den Nutzungshinweis zur Kenntnis genommen ]</text><text styleclass="Normal" translate="true"> werden die Institute gelistet, deren Zugriffsrechte Sie im </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> administrieren können. Bei Bedarf können Sie den Nutzungshinweis jederzeit mit </text><text styleclass="Button" translate="true">[ Nutzungshinweis anzeigen ]</text><text styleclass="Normal" translate="true"> nochmals einblenden.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"></para>
     <para styleclass="Image Caption"><image src="IkAdmin01.png" scale="100.00%" styleclass="Image Caption"></image></para>
     <para styleclass="Image Caption"></para>
-    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> IK-Liste des IK-Admins</text></para>
+    <para styleclass="Image Caption"><var styleclass="Image Caption">&lt;%FIGURE%&gt;</var><text styleclass="Image Caption" translate="true"> IK-Liste des Funktionsbeauftragten</text></para>
     <para styleclass="Image Caption"></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Wählen Sie aus dieser Liste das IK aus, für welches Sie die Berechtigungen bearbeiten möchten. Das </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> öffnet den Dialog zur Benutzerverwaltung.</text></para>
@@ -37,8 +37,8 @@
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Der Bereich </text><text styleclass="Normal" style="font-weight:bold;" translate="true">Funktionszuweisung</text><text styleclass="Normal" translate="true"> listet alle Benutzer auf und erlaubt es Ihnen dem jeweiligen Benutzer eine Funktion hinzuzufügen. Wenn man eine Funktion hinzufügt,wird diese Automatisch mit dem </text><text styleclass="Normal" style="font-weight:bold;" translate="true">Recht </text><text styleclass="Normal" translate="true">Zugriff verboten versehen.</text></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Damit man für die Funktion die jeweiligen Rechte bekommt muss man diese in der Rechteverwaltung ändern.</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die folgenden Funktionen sind bereits für die künftige Verwaltung via IK-Admin vorgesehen, können aber derzeit nur von dem Anwender genutzt werden, welcher die Daten angelegt hat</text></para>
-    <list id="28" type="ul" listtype="bullet" formatstring="&#183;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Symbol; font-size:11pt; color:#000000;">
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die folgenden Funktionen sind bereits für die künftige Verwaltung via Funktionsbeauftragten vorgesehen, können aber derzeit nur von dem Anwender genutzt werden, welcher die Daten angelegt hat</text></para>
+    <list id="1" type="ul" listtype="bullet" formatstring="&#183;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Symbol; font-size:11pt; color:#000000;">
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Finanzierung von Mehrkosten</text></li>
       <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Gezielte Absenkung</text></li>
     </list>

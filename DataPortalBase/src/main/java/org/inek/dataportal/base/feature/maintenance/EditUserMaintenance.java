@@ -399,7 +399,7 @@ public class EditUserMaintenance extends AbstractEditController {
     }
 
     public String hasIkAdminText(int ik) {
-        return (_ikAdminFacade.hasIkAdmin(ik)) ? getCustomerName(ik) + " (IK Admin vorhanden)" : getCustomerName(ik);
+        return (_ikAdminFacade.hasIkAdmin(ik)) ? getCustomerName(ik) + " (Funktionsbeauftragter vorhanden)" : getCustomerName(ik);
     }
 
     public Boolean isValidIk(int ik) {

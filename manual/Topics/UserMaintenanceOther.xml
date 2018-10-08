@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
-<topic template="Default" lasteditedby="lautenti" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
   <title translate="true">Passwort / E-Mail ändern</title>
   <body>
     <header>
       <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Passwort / E-Mail ändern</text></para>
     </header>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Bei bedarf können Sie über den Reiter &quot;Passwort / E-Mail ändern&quot; ein neues Passwort vergeben oder eine Änderung der E-Mail-Adresse vornehmen. Sofern Sie nicht als IK-Admin eingetragen sind haben Sie auch hier die Möglichkeit Ihren Zugang im </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> zu löschen. Bitte beachten Sie dass eine Löschung des Zuganges nicht mehr Rückgängig gemacht werden kann.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Bei bedarf können Sie über den Reiter &quot;Passwort / E-Mail ändern&quot; ein neues Passwort vergeben oder eine Änderung der E-Mail-Adresse vornehmen. Sofern Sie nicht als Funktionsbeauftragter eingetragen sind haben Sie auch hier die Möglichkeit Ihren Zugang im </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> zu löschen. Bitte beachten Sie dass eine Löschung des Zuganges nicht mehr Rückgängig gemacht werden kann.</text></para>
   </body>
 </topic>
