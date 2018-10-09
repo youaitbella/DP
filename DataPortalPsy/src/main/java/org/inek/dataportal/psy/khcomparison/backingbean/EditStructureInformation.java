@@ -101,9 +101,8 @@ public class EditStructureInformation {
 
     private StructureBaseInformation createNewStructureBsseInformation() {
         StructureBaseInformation info = new StructureBaseInformation();
-        for (StructureInformationCategorie cat : StructureInformationCategorie.values()) {
-            info.addNewStructureInformation(cat);
-        }
+        info.addNewStructureInformation(StructureInformationCategorie.BedCount);
+        info.addNewStructureInformation(StructureInformationCategorie.TherapyPartCount);
         for (StructureInformation sInfo : info.getStructureInformations()) {
             sInfo.setValidFrom(new Date());
         }
@@ -112,17 +111,22 @@ public class EditStructureInformation {
     }
 
     public void save() {
-//        if (_structureBaseInformation.getIk() > 0 && (_structureBaseInformation.getBedCount() != 0
-//                || _structureBaseInformation.getTherapyPartCount() != 0)) {
-//            _structureBaseInformation.setLastChangeFrom(_sessionController.getAccountId());
-//            _structureBaseInformation.setLastChanged(new Date());
+        if (_structureBaseInformation.getIk() == 0) {
+            DialogController.showInfoDialog("Daten nicht vollständig", "Geben Sie eine IK an.");
+            return;
+        }
+
+        if (!hasTherapyOrBeds(_structureBaseInformation)) {
+            DialogController.showInfoDialog("Daten nicht vollständig", "Geben Sie eine Anzahl Planbetten bzw. teilstationärer Therapieplätze an.");
+            return;
+        }
         try {
-
             String errors = checkForDuplicatedDates(_structureBaseInformation);
-
             if ("".equals(errors)) {
+                _structureBaseInformation.setLastChangeBy(_sessionController.getAccountId());
+                _structureBaseInformation.setLastChanged(new Date());
                 _structureBaseInformation = _aebFacade.save(_structureBaseInformation);
-//                saveChangeLogs(_changes);
+                saveChangeLogs(_changes);
                 DialogController.showSaveDialog();
             } else {
                 DialogController.showInfoDialog("Doppelte Gültigkeiten",
@@ -133,10 +137,27 @@ public class EditStructureInformation {
         } catch (Exception ex) {
             DialogController.showErrorDialog("Fehler beim Speichern", "Vorgang abgebrochen");
         }
-//        } else {
-//            DialogController.showInfoDialog("Daten nicht vollständig", "Bitte wählen Sie eine IK "
-//                    + "und geben Sie eine Anzahl Planbetten bzw. teilstationärer Therapieplätze an.");
-//        }
+    }
+
+    private Boolean hasTherapyOrBeds(StructureBaseInformation baseInfo) {
+        Boolean hasAny = false;
+
+        for (StructureInformation info : baseInfo.getStructureInformations().stream()
+                .filter(c -> c.getStructureCategorie() == StructureInformationCategorie.BedCount
+                || c.getStructureCategorie() == StructureInformationCategorie.TherapyPartCount)
+                .collect(Collectors.toList())) {
+            if (!info.getContent().isEmpty()) {
+                try {
+                    int count = Integer.parseInt(info.getContent());
+                    hasAny = count > 0;
+                } catch (Exception ex) {
+
+                }
+            }
+        }
+
+        return hasAny;
+
     }
 
     private String checkForDuplicatedDates(StructureBaseInformation info) {
@@ -210,14 +231,19 @@ public class EditStructureInformation {
         return validInfos;
     }
 
-    public List<StructureInformation> getStructureInformationsByArea(String area) {
+    public List<StructureInformation> getStructureInformationsByStructureCategorie(String catName) {
         return _structureBaseInformation.getStructureInformations().stream()
-                .filter(c -> c.getStructureCategorie().getArea().equals(area))
+                .filter(c -> c.getStructureCategorie() == StructureInformationCategorie.valueOf(catName))
                 .collect(Collectors.toList());
     }
 
-    public void saveNewValidFrom(StructureInformation info) {
-        _structureBaseInformation.addStructureInformation(copyStructureInformationForNewVality(info));
+    public void saveNewValidFrom(String catName) {
+        StructureInformation newInfo = new StructureInformation();
+        newInfo.setBaseInformation(_structureBaseInformation);
+        newInfo.setStructureCategorie(StructureInformationCategorie.valueOf(catName));
+        newInfo.setValidFrom(new Date());
+        _structureBaseInformation.addStructureInformation(newInfo);
+        //_structureBaseInformation.addStructureInformation(copyStructureInformationForNewVality(info));
     }
 
     public StructureInformation copyStructureInformationForNewVality(StructureInformation info) {
@@ -229,15 +255,12 @@ public class EditStructureInformation {
         return newInfo;
     }
 
-    public Boolean collapsCategorie(String area) {
-        List<StructureInformation> structureInformationsByArea = getStructureInformationsByArea(area);
+    public Boolean collapsCategorie(String catName) {
+        return getStructureInformationsByStructureCategorie(catName).isEmpty();
+    }
 
-        if (structureInformationsByArea.size() == 1) {
-            if (structureInformationsByArea.get(0).getContent().isEmpty()) {
-                return true;
-            }
-        }
-        return false;
+    public StructureInformationCategorie getStructureCategorie(String catName) {
+        return StructureInformationCategorie.valueOf(catName);
     }
 
     public Boolean showNewValityDate(StructureInformation info) {

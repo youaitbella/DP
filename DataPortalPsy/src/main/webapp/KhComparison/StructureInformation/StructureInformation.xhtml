@@ -9,255 +9,536 @@
                 xmlns:pf="http://primefaces.org/ui">
 
 
-    <pf:repeat value="#{editStructureInformation.getValidSingleStructureCategoriesAreas()}" var="structureInformationCategorie">
-        <pf:fieldset legend="#{structureInformationCategorie.area}"
-                     toggleable="true"
-                     class="inekFieldset"
-                     collapsed="#{editStructureInformation.collapsCategorie(structureInformationCategorie.area)}">
+    <!-- Start generell -->
+    <pf:fieldset id="generellId"
+                 legend="Allgemeine Angaben"
+                 toggleable="true"
+                 collapsed="#"
+                 class="inekFieldset">
 
-            <h4>#{structureInformationCategorie.description}</h4>
-
-            <pf:repeat value="#{editStructureInformation.getStructureInformationsByArea(structureInformationCategorie.area)}" var="structureInformation">
-                <div class="ui-g ui-fluid" style="margin-bottom: -20px !important;">
-                    <div class="ui-g-2">
-                        <ui:remove>
-                            <pf:outputLabel class="formLabel"
-                                            value="Gültig ab" />
-                        </ui:remove>
-                        <pf:calendar id="validFromNew"
-                                     value="#{structureInformation.validFrom}"
-                                     readonly="#{editStructureInformation.isReadOnly()}"
-                                     locale="de"
-                                     navigator="true"
-                                     pattern="dd.MM.yyyy"
-                                     mask="true"
-                                     inputStyle="text-align: right;">
-                            <pf:ajax event="change" update="validFromNewMessage" />
-                            <pf:ajax event="dateSelect" update="validFromNewMessage" />
-                        </pf:calendar>
-                        <pf:message id="validFromNewMessage" for="validFromNew" />
-                    </div>
-                    <div class="ui-g-7">
-                        <ui:remove>
-                            <pf:outputLabel class="formLabel"
-                                            value="#{structureInformation.structureCategorie.description}" />
-                        </ui:remove>
-                        <pf:inputTextarea rows="1"
-                                          cols="50"
-                                          value="#{structureInformation.content}"
-                                          readonly="#{editStructureInformation.isReadOnly()}">
-                            <pf:ajax />
-                        </pf:inputTextarea>
-                    </div>
+        <b>#{editStructureInformation.getStructureCategorie('BedCount').description}</b>
+        <br />
+        <pf:repeat value="#{editStructureInformation.getStructureInformationsByStructureCategorie('BedCount')}"
+                   var="structureInformation">
+            <div class="ui-g ui-fluid" style="margin-bottom: -20px !important;">
+                <div class="ui-g-1">
+                    Gültig ab:
                 </div>
-
-
-                <pf:commandButton styleClass="btnPsy"
-                                  style="margin-top: 20px"
-                                  value="Neue Gültigkeit eintragen"
-                                  actionListener="#{editStructureInformation.saveNewValidFrom(structureInformation)}"
-                                  rendered="#{!editStructureInformation.isReadOnly() and editStructureInformation.showNewValityDate(structureInformation)}"
-                                  update="@form"/>
-            </pf:repeat>
-        </pf:fieldset>
-    </pf:repeat>
-
-
-    <ui:remove>
-
-        <pf:fieldset legend="Allgemeine Angaben"
-                     toggleable="true"
-                     class="inekFieldset">
-            <div class="ui-g ui-fluid">
-                <div class="ui-g-4">
-                    <inek:InputNumber value="#{editStructureInformation.structureInformation.bedCount}"
-                                      labelText="Planbetten"
+                <div class="ui-g-2">
+                    <pf:calendar id="validFromBedCount"
+                                 value="#{structureInformation.validFrom}"
+                                 readonly="#{editStructureInformation.isReadOnly()}"
+                                 valueChangeListener="#{editStructureInformation.handleChange}"
+                                 locale="de"
+                                 navigator="true"
+                                 pattern="dd.MM.yyyy"
+                                 mask="true"
+                                 inputStyle="text-align: right;">
+                        <pf:ajax event="change" update="validFromNewMessage" />
+                        <pf:ajax event="dateSelect" update="validFromNewMessage" />
+                    </pf:calendar>
+                    <pf:message id="validFromNewMessage" for="validFromBedCount" />
+                </div>
+                <div class="ui-g-7">
+                    <inek:InputNumber value="#{structureInformation.content}"
                                       readonly="#{editStructureInformation.isReadOnly()}"/>
                 </div>
-                <div class="ui-g-4">
-                    <inek:InputNumber value="#{editStructureInformation.structureInformation.therapyPartCount}"
-                                      labelText="Anzahl teilstationärer Therapieplätze"
-                                      readonly="#{editStructureInformation.isReadOnly()}" />
+            </div>
+        </pf:repeat>
+        <pf:commandButton styleClass="btnPsy"
+                          style="margin-top: 20px"
+                          value="Neuer Eintrag"
+                          actionListener="#{editStructureInformation.saveNewValidFrom('BedCount')}"
+                          rendered="#{!editStructureInformation.isReadOnly()}"
+                          update="generellId"/>
+        <br />
+
+        <b>#{editStructureInformation.getStructureCategorie('TherapyPartCount').description}</b>
+        <br />
+        <pf:repeat value="#{editStructureInformation.getStructureInformationsByStructureCategorie('TherapyPartCount')}"
+                   var="structureInformation">
+            <div class="ui-g ui-fluid" style="margin-bottom: -20px !important;">
+                <div class="ui-g-1">
+                    Gültig ab:
+                </div>
+                <div class="ui-g-2">
+                    <pf:calendar id="validFromNew"
+                                 value="#{structureInformation.validFrom}"
+                                 readonly="#{editStructureInformation.isReadOnly()}"
+                                 valueChangeListener="#{editStructureInformation.handleChange}"
+                                 locale="de"
+                                 navigator="true"
+                                 pattern="dd.MM.yyyy"
+                                 mask="true"
+                                 inputStyle="text-align: right;">
+                        <pf:ajax event="change" update="validFromNewMessage" />
+                        <pf:ajax event="dateSelect" update="validFromNewMessage" />
+                    </pf:calendar>
+                    <pf:message id="validFromNewMessage" for="validFromNew" />
+                </div>
+                <div class="ui-g-7">
+                    <inek:InputNumber value="#{structureInformation.content}"
+                                      readonly="#{editStructureInformation.isReadOnly()}"/>
                 </div>
             </div>
-        </pf:fieldset>
+        </pf:repeat>
+        <pf:commandButton styleClass="btnPsy"
+                          style="margin-top: 20px"
+                          value="Neuer Eintrag"
+                          actionListener="#{editStructureInformation.saveNewValidFrom('TherapyPartCount')}"
+                          rendered="#{!editStructureInformation.isReadOnly()}"
+                          update="generellId"/>
+    </pf:fieldset>
+    <!-- End generell -->
 
-        <pf:fieldset legend="Regionale Versorgungsverpflichtung"
-                     toggleable="true"
-                     class="inekFieldset"
-                     collapsed="#{editStructureInformation.structureInformation.regionalCare.length() eq 0}">
+    <!-- Start reginalCare -->
+    <pf:fieldset id="regionalCareId"
+                 legend="Regionale Versorgungsverpflichtung"
+                 toggleable="true"
+                 collapsed="#{editStructureInformation.collapsCategorie('RegionalCare')}"
+                 class="inekFieldset">
 
-            <div class="ui-g ui-fluid">
-                <div class="ui-g-12">
-                    <pf:outputLabel class="formLabel"
-                                    value="Stichpunktartige Beschreibung der strukturellen und personellen Besonderheiten duch die regionalen Versorgungsverpflichtung:" />
-                    <pf:inputTextarea id="regionalCare"
-                                      rows="10"
+        <b>#{editStructureInformation.getStructureCategorie('RegionalCare').description}</b>
+        <br />
+        <pf:repeat value="#{editStructureInformation.getStructureInformationsByStructureCategorie('RegionalCare')}"
+                   var="structureInformation">
+            <div class="ui-g ui-fluid" style="margin-bottom: -20px !important;">
+                <div class="ui-g-1">
+                    Gültig ab:
+                </div>
+                <div class="ui-g-2">
+                    <pf:calendar id="validFromRegionalCare"
+                                 value="#{structureInformation.validFrom}"
+                                 readonly="#{editStructureInformation.isReadOnly()}"
+                                 valueChangeListener="#{editStructureInformation.handleChange}"
+                                 locale="de"
+                                 navigator="true"
+                                 pattern="dd.MM.yyyy"
+                                 mask="true"
+                                 inputStyle="text-align: right;">
+                        <pf:ajax event="change" update="validFromNewMessage" />
+                        <pf:ajax event="dateSelect" update="validFromNewMessage" />
+                    </pf:calendar>
+                    <pf:message id="validFromNewMessage" for="validFromRegionalCare" />
+                </div>
+                <div class="ui-g-7">
+                    <pf:inputTextarea id="RegionalCare"
+                                      rows="1"
                                       cols="50"
-                                      value="#{editStructureInformation.structureInformation.regionalCare}"
-                                      readonly="#{editStructureInformation.isReadOnly()}"
-                                      valueChangeListener="#{editStructureInformation.handleChange}">
+                                      value="#{structureInformation.content}"
+                                      valueChangeListener="#{editStructureInformation.handleChange}"
+                                      readonly="#{editStructureInformation.isReadOnly()}">
                         <pf:ajax />
                     </pf:inputTextarea>
                 </div>
             </div>
-        </pf:fieldset>
+        </pf:repeat>
+        <pf:commandButton styleClass="btnPsy"
+                          style="margin-top: 20px"
+                          value="Neuer Eintrag"
+                          actionListener="#{editStructureInformation.saveNewValidFrom('RegionalCare')}"
+                          rendered="#{!editStructureInformation.isReadOnly()}"
+                          update="regionalCareId"/>
+    </pf:fieldset>
+    <!-- End reginalCare -->
 
-        <pf:fieldset legend="Besonderheiten bei der gesetzlichen Unterbringung"
-                     toggleable="true"
-                     class="inekFieldset"
-                     collapsed="#{editStructureInformation.structureInformation.accommodationText.length() eq 0}">
-            <div class="ui-g ui-fluid">
-                <div class="ui-g-12">
-                    <pf:outputLabel class="formLabel"
-                                    value="Beschreibung der strukturellen und personellen Besonderheiten für patienten mit gesetzlicher Unterbringung:" />
-                    <pf:inputTextarea id="accommodationText"
-                                      rows="10"
+    <!-- Start accommodationText -->
+    <pf:fieldset id="accommodationTextId"
+                 legend="Besonderheiten bei der gesetzlichen Unterbringung"
+                 toggleable="true"
+                 collapsed="#{editStructureInformation.collapsCategorie('AccommodationText')}"
+                 class="inekFieldset">
+
+        <b>#{editStructureInformation.getStructureCategorie('AccommodationText').description}</b>
+        <br />
+        <pf:repeat value="#{editStructureInformation.getStructureInformationsByStructureCategorie('AccommodationText')}"
+                   var="structureInformation">
+            <div class="ui-g ui-fluid" style="margin-bottom: -20px !important;">
+                <div class="ui-g-1">
+                    Gültig ab:
+                </div>
+                <div class="ui-g-2">
+                    <pf:calendar id="validFromAccommodationText"
+                                 value="#{structureInformation.validFrom}"
+                                 readonly="#{editStructureInformation.isReadOnly()}"
+                                 valueChangeListener="#{editStructureInformation.handleChange}"
+                                 locale="de"
+                                 navigator="true"
+                                 pattern="dd.MM.yyyy"
+                                 mask="true"
+                                 inputStyle="text-align: right;">
+                        <pf:ajax event="change" update="validFromNewMessage" />
+                        <pf:ajax event="dateSelect" update="validFromNewMessage" />
+                    </pf:calendar>
+                    <pf:message id="validFromNewMessage" for="validFromAccommodationText" />
+                </div>
+                <div class="ui-g-7">
+                    <pf:inputTextarea id="AccommodationText"
+                                      rows="1"
                                       cols="50"
-                                      value="#{editStructureInformation.structureInformation.accommodationText}"
-                                      readonly="#{editStructureInformation.isReadOnly()}"
-                                      valueChangeListener="#{editStructureInformation.handleChange}">
+                                      value="#{structureInformation.content}"
+                                      valueChangeListener="#{editStructureInformation.handleChange}"
+                                      readonly="#{editStructureInformation.isReadOnly()}">
                         <pf:ajax />
                     </pf:inputTextarea>
                 </div>
             </div>
-        </pf:fieldset>
+        </pf:repeat>
+        <pf:commandButton styleClass="btnPsy"
+                          style="margin-top: 20px"
+                          value="Neuer Eintrag"
+                          actionListener="#{editStructureInformation.saveNewValidFrom('AccommodationText')}"
+                          rendered="#{!editStructureInformation.isReadOnly()}"
+                          update="accommodationTextId"/>
+    </pf:fieldset>
+    <!-- End accommodationText -->
 
-        <pf:fieldset legend="Sozialpädiatrisches Zentrum gem. § 119 SGB V am Krankenhaus vorhanden"
-                     toggleable="true"
-                     class="inekFieldset"
-                     collapsed="#{editStructureInformation.structureInformation.SPCenterText.length() eq 0}">
-            <div class="ui-g ui-fluid">
-                <div class="ui-g-12">
-                    <pf:outputLabel class="formLabel"
-                                    value="Leistungsangebot und Leistungsschwerpunkte:" />
+    <!-- Start SPCenterText -->
+    <pf:fieldset id="SPCenterTextId"
+                 legend="Sozialpädiatrisches Zentrum gem. § 119 SGB V am Krankenhaus vorhanden"
+                 toggleable="true"
+                 collapsed="#{editStructureInformation.collapsCategorie('SPCenterText')}"
+                 class="inekFieldset">
+
+        <b>#{editStructureInformation.getStructureCategorie('SPCenterText').description}</b>
+        <br />
+        <pf:repeat value="#{editStructureInformation.getStructureInformationsByStructureCategorie('SPCenterText')}"
+                   var="structureInformation">
+            <div class="ui-g ui-fluid" style="margin-bottom: -20px !important;">
+                <div class="ui-g-1">
+                    Gültig ab:
+                </div>
+                <div class="ui-g-2">
+                    <pf:calendar id="validFromSPCenterText"
+                                 value="#{structureInformation.validFrom}"
+                                 readonly="#{editStructureInformation.isReadOnly()}"
+                                 valueChangeListener="#{editStructureInformation.handleChange}"
+                                 locale="de"
+                                 navigator="true"
+                                 pattern="dd.MM.yyyy"
+                                 mask="true"
+                                 inputStyle="text-align: right;">
+                        <pf:ajax event="change" update="validFromNewMessage" />
+                        <pf:ajax event="dateSelect" update="validFromNewMessage" />
+                    </pf:calendar>
+                    <pf:message id="validFromNewMessage" for="validFromSPCenterText" />
+                </div>
+                <div class="ui-g-7">
                     <pf:inputTextarea id="SPCenterText"
-                                      rows="10"
+                                      rows="1"
                                       cols="50"
-                                      value="#{editStructureInformation.structureInformation.SPCenterText}"
-                                      readonly="#{editStructureInformation.isReadOnly()}"
-                                      valueChangeListener="#{editStructureInformation.handleChange}">
+                                      value="#{structureInformation.content}"
+                                      valueChangeListener="#{editStructureInformation.handleChange}"
+                                      readonly="#{editStructureInformation.isReadOnly()}">
                         <pf:ajax />
                     </pf:inputTextarea>
                 </div>
             </div>
-        </pf:fieldset>
+        </pf:repeat>
+        <pf:commandButton styleClass="btnPsy"
+                          style="margin-top: 20px"
+                          value="Neuer Eintrag"
+                          actionListener="#{editStructureInformation.saveNewValidFrom('SPCenterText')}"
+                          rendered="#{!editStructureInformation.isReadOnly()}"
+                          update="SPCenterTextId"/>
+    </pf:fieldset>
+    <!-- End SPCenterText -->
 
-        <pf:fieldset legend="Ambulante Leistungserbringung des Krankenhauses"
-                     toggleable="true"
-                     class="inekFieldset"
-                     collapsed="#{editStructureInformation.structureInformation.ambulantPerformanceMain.length() eq 0}">
-            <div class="ui-g ui-fluid">
-                <div class="ui-g-12">
-                    <pf:outputLabel class="formLabel"
-                                    value="Angabe der Leistungsschwerpunkte:" />
-                    <pf:inputTextarea id="ambulantPerformanceMain"
-                                      rows="10"
+    <!-- Start AmbulantPerformanceMain -->
+    <pf:fieldset id="AmbulantPerformanceMainId"
+                 legend="Ambulante Leistungserbringung des Krankenhauses"
+                 toggleable="true"
+                 collapsed="#{editStructureInformation.collapsCategorie('AmbulantPerformanceMain')}"
+                 class="inekFieldset">
+
+        <b>#{editStructureInformation.getStructureCategorie('AmbulantPerformanceMain').description}</b>
+        <br />
+        <pf:repeat value="#{editStructureInformation.getStructureInformationsByStructureCategorie('AmbulantPerformanceMain')}"
+                   var="structureInformation">
+            <div class="ui-g ui-fluid" style="margin-bottom: -20px !important;">
+                <div class="ui-g-1">
+                    Gültig ab:
+                </div>
+                <div class="ui-g-2">
+                    <pf:calendar id="validFromAmbulantPerformanceMain"
+                                 value="#{structureInformation.validFrom}"
+                                 readonly="#{editStructureInformation.isReadOnly()}"
+                                 valueChangeListener="#{editStructureInformation.handleChange}"
+                                 locale="de"
+                                 navigator="true"
+                                 pattern="dd.MM.yyyy"
+                                 mask="true"
+                                 inputStyle="text-align: right;">
+                        <pf:ajax event="change" update="validFromNewMessage" />
+                        <pf:ajax event="dateSelect" update="validFromNewMessage" />
+                    </pf:calendar>
+                    <pf:message id="validFromNewMessage" for="validFromAmbulantPerformanceMain" />
+                </div>
+                <div class="ui-g-7">
+                    <pf:inputTextarea id="AmbulantPerformanceMain"
+                                      rows="1"
                                       cols="50"
-                                      value="#{editStructureInformation.structureInformation.ambulantPerformanceMain}"
-                                      readonly="#{editStructureInformation.isReadOnly()}"
-                                      valueChangeListener="#{editStructureInformation.handleChange}">
+                                      value="#{structureInformation.content}"
+                                      valueChangeListener="#{editStructureInformation.handleChange}"
+                                      readonly="#{editStructureInformation.isReadOnly()}">
                         <pf:ajax />
                     </pf:inputTextarea>
                 </div>
             </div>
-        </pf:fieldset>
+        </pf:repeat>
+        <pf:commandButton styleClass="btnPsy"
+                          style="margin-top: 20px"
+                          value="Neuer Eintrag"
+                          actionListener="#{editStructureInformation.saveNewValidFrom('AmbulantPerformanceMain')}"
+                          rendered="#{!editStructureInformation.isReadOnly()}"
+                          update="AmbulantPerformanceMainId"/>
+    </pf:fieldset>
+    <!-- End AmbulantPerformanceMain -->
 
-        <pf:fieldset legend="Leistungen im Rahmen des Entlassmanagements"
-                     toggleable="true"
-                     class="inekFieldset"
-                     collapsed="#{editStructureInformation.structureInformation.dismissManagement.length() eq 0}">
-            <div class="ui-g ui-fluid">
-                <div class="ui-g-12">
-                    <pf:outputLabel class="formLabel"
-                                    value="Leistungsschwerpunkte:" />
-                    <pf:inputTextarea id="dismissManagement"
-                                      rows="10"
+    <!-- Start DismissManagement -->
+    <pf:fieldset id="DismissManagementId"
+                 legend="Leistungen im Rahmen des Entlassmanagements"
+                 toggleable="true"
+                 collapsed="#{editStructureInformation.collapsCategorie('DismissManagement')}"
+                 class="inekFieldset">
+
+        <b>#{editStructureInformation.getStructureCategorie('DismissManagement').description}</b>
+        <br />
+        <pf:repeat value="#{editStructureInformation.getStructureInformationsByStructureCategorie('DismissManagement')}"
+                   var="structureInformation">
+            <div class="ui-g ui-fluid" style="margin-bottom: -20px !important;">
+                <div class="ui-g-1">
+                    Gültig ab:
+                </div>
+                <div class="ui-g-2">
+                    <pf:calendar id="validFromDismissManagement"
+                                 value="#{structureInformation.validFrom}"
+                                 readonly="#{editStructureInformation.isReadOnly()}"
+                                 valueChangeListener="#{editStructureInformation.handleChange}"
+                                 locale="de"
+                                 navigator="true"
+                                 pattern="dd.MM.yyyy"
+                                 mask="true"
+                                 inputStyle="text-align: right;">
+                        <pf:ajax event="change" update="validFromNewMessage" />
+                        <pf:ajax event="dateSelect" update="validFromNewMessage" />
+                    </pf:calendar>
+                    <pf:message id="validFromNewMessage" for="validFromDismissManagement" />
+                </div>
+                <div class="ui-g-7">
+                    <pf:inputTextarea id="DismissManagement"
+                                      rows="1"
                                       cols="50"
-                                      value="#{editStructureInformation.structureInformation.dismissManagement}"
-                                      readonly="#{editStructureInformation.isReadOnly()}"
-                                      valueChangeListener="#{editStructureInformation.handleChange}">
+                                      value="#{structureInformation.content}"
+                                      valueChangeListener="#{editStructureInformation.handleChange}"
+                                      readonly="#{editStructureInformation.isReadOnly()}">
                         <pf:ajax />
                     </pf:inputTextarea>
                 </div>
             </div>
-        </pf:fieldset>
+        </pf:repeat>
+        <pf:commandButton styleClass="btnPsy"
+                          style="margin-top: 20px"
+                          value="Neuer Eintrag"
+                          actionListener="#{editStructureInformation.saveNewValidFrom('DismissManagement')}"
+                          rendered="#{!editStructureInformation.isReadOnly()}"
+                          update="DismissManagementId"/>
+    </pf:fieldset>
+    <!-- End DismissManagement -->
 
-        <pf:fieldset legend="Vorliegen und Struktur eines gemeindepsychiatrischen Verbunds"
-                     toggleable="true"
-                     class="inekFieldset"
-                     collapsed="#{editStructureInformation.structureInformation.careProvider.length() eq 0 and editStructureInformation.structureInformation.performanceAreas.length() eq 0}">
-            <div class="ui-g ui-fluid">
-                <div class="ui-g-6">
-                    <pf:outputLabel class="formLabel"
-                                    value="Wesentliche eingebundene Leistungserbringer:" />
-                    <pf:inputTextarea id="careProvider"
-                                      rows="10"
-                                      cols="50"
-                                      value="#{editStructureInformation.structureInformation.careProvider}"
-                                      readonly="#{editStructureInformation.isReadOnly()}"
-                                      valueChangeListener="#{editStructureInformation.handleChange}">
-                        <pf:ajax />
-                    </pf:inputTextarea>
+    <!-- Start CareProvider / PerformanceAreas -->
+    <pf:fieldset id="carePerformanceId"
+                 legend="Vorliegen und Struktur eines gemeindepsychiatrischen Verbunds"
+                 toggleable="true"
+                 collapsed="#{editStructureInformation.collapsCategorie('CareProvider') or editStructureInformation.collapsCategorie('PerformanceAreas')}"
+                 class="inekFieldset">
+
+        <b>#{editStructureInformation.getStructureCategorie('CareProvider').description}</b>
+        <br />
+        <pf:repeat value="#{editStructureInformation.getStructureInformationsByStructureCategorie('CareProvider')}"
+                   var="structureInformation">
+            <div class="ui-g ui-fluid" style="margin-bottom: -20px !important;">
+                <div class="ui-g-1">
+                    Gültig ab:
                 </div>
-
-                <div class="ui-g-6">
-                    <pf:outputLabel class="formLabel"
-                                    value="Zentrale Leistungsbereiche:" />
-                    <pf:inputTextarea id="performanceAreas"
-                                      rows="10"
-                                      cols="50"
-                                      value="#{editStructureInformation.structureInformation.performanceAreas}"
-                                      readonly="#{editStructureInformation.isReadOnly()}"
-                                      valueChangeListener="#{editStructureInformation.handleChange}">
-                        <pf:ajax />
-                    </pf:inputTextarea>
+                <div class="ui-g-2">
+                    <pf:calendar id="validFromCareProvider"
+                                 value="#{structureInformation.validFrom}"
+                                 readonly="#{editStructureInformation.isReadOnly()}"
+                                 valueChangeListener="#{editStructureInformation.handleChange}"
+                                 locale="de"
+                                 navigator="true"
+                                 pattern="dd.MM.yyyy"
+                                 mask="true"
+                                 inputStyle="text-align: right;">
+                        <pf:ajax event="change" update="validFromNewMessage" />
+                        <pf:ajax event="dateSelect" update="validFromNewMessage" />
+                    </pf:calendar>
+                    <pf:message id="validFromNewMessage" for="validFromCareProvider" />
                 </div>
-            </div>
-        </pf:fieldset>
-
-        <pf:fieldset legend="Ambulante Infrastruktur im Umfeld des Krankenhauses"
-                     toggleable="true"
-                     class="inekFieldset"
-                     collapsed="#{editStructureInformation.structureInformation.ambulantStructure.length() eq 0}">
-            <div class="ui-g ui-fluid">
-                <div class="ui-g-12">
-                    <pf:outputLabel class="formLabel"
-                                    value="Beschreibung der örtlichen Versorgungssituation im vertragsärztlichen/therapeutischen Bereich:" />
-                    <pf:inputTextarea id="ambulantStructure"
-                                      rows="10"
+                <div class="ui-g-7">
+                    <pf:inputTextarea id="CareProvider"
+                                      rows="1"
                                       cols="50"
-                                      value="#{editStructureInformation.structureInformation.ambulantStructure}"
-                                      readonly="#{editStructureInformation.isReadOnly()}"
-                                      valueChangeListener="#{editStructureInformation.handleChange}">
-                        <pf:ajax />
-                    </pf:inputTextarea>
-                </div>
-            </div>
-        </pf:fieldset>
-
-        <pf:fieldset legend="Umfang und Struktur der Sozialpsychiatrischen Dienste"
-                     toggleable="true"
-                     class="inekFieldset"
-                     collapsed="#{editStructureInformation.structureInformation.socialPsychiatryService.length() eq 0}">
-            <div class="ui-g ui-fluid">
-                <div class="ui-g-12">
-                    <pf:outputLabel class="formLabel"
-                                    value="Beschreibung:" />
-                    <pf:inputTextarea id="socialPsychiatryService"
-                                      rows="10"
-                                      cols="50"
-                                      value="#{editStructureInformation.structureInformation.socialPsychiatryService}"
-                                      readonly="#{editStructureInformation.isReadOnly()}"
-                                      valueChangeListener="#{editStructureInformation.handleChange}">
+                                      value="#{structureInformation.content}"
+                                      valueChangeListener="#{editStructureInformation.handleChange}"
+                                      readonly="#{editStructureInformation.isReadOnly()}">
                         <pf:ajax />
                     </pf:inputTextarea>
                 </div>
             </div>
-        </pf:fieldset>
+        </pf:repeat>
+        <pf:commandButton styleClass="btnPsy"
+                          style="margin-top: 20px"
+                          value="Neuer Eintrag"
+                          actionListener="#{editStructureInformation.saveNewValidFrom('CareProvider')}"
+                          rendered="#{!editStructureInformation.isReadOnly()}"
+                          update="carePerformanceId"/>
+        <br />
 
-    </ui:remove>
+        <b>#{editStructureInformation.getStructureCategorie('PerformanceAreas').description}</b>
+        <br />
+        <pf:repeat value="#{editStructureInformation.getStructureInformationsByStructureCategorie('PerformanceAreas')}"
+                   var="structureInformation">
+            <div class="ui-g ui-fluid" style="margin-bottom: -20px !important;">
+                <div class="ui-g-1">
+                    Gültig ab:
+                </div>
+                <div class="ui-g-2">
+                    <pf:calendar id="validFromPerformanceAreas"
+                                 value="#{structureInformation.validFrom}"
+                                 readonly="#{editStructureInformation.isReadOnly()}"
+                                 valueChangeListener="#{editStructureInformation.handleChange}"
+                                 locale="de"
+                                 navigator="true"
+                                 pattern="dd.MM.yyyy"
+                                 mask="true"
+                                 inputStyle="text-align: right;">
+                        <pf:ajax event="change" update="validFromNewMessage" />
+                        <pf:ajax event="dateSelect" update="validFromNewMessage" />
+                    </pf:calendar>
+                    <pf:message id="validFromNewMessage" for="validFromPerformanceAreas" />
+                </div>
+                <div class="ui-g-7">
+                    <pf:inputTextarea id="PerformanceAreas"
+                                      rows="1"
+                                      cols="50"
+                                      value="#{structureInformation.content}"
+                                      valueChangeListener="#{editStructureInformation.handleChange}"
+                                      readonly="#{editStructureInformation.isReadOnly()}">
+                        <pf:ajax />
+                    </pf:inputTextarea>
+                </div>
+            </div>
+        </pf:repeat>
+        <pf:commandButton styleClass="btnPsy"
+                          style="margin-top: 20px"
+                          value="Neuer Eintrag"
+                          actionListener="#{editStructureInformation.saveNewValidFrom('PerformanceAreas')}"
+                          rendered="#{!editStructureInformation.isReadOnly()}"
+                          update="carePerformanceId"/>
+    </pf:fieldset>
+    <!-- End CareProvider / PerformanceAreas -->
 
+    <!-- Start AmbulantStructure -->
+    <pf:fieldset id="AmbulantStructureId"
+                 legend="Ambulante Infrastruktur im Umfeld des Krankenhauses"
+                 toggleable="true"
+                 collapsed="#{editStructureInformation.collapsCategorie('AmbulantStructure')}"
+                 class="inekFieldset">
 
+        <b>#{editStructureInformation.getStructureCategorie('AmbulantStructure').description}</b>
+        <br />
+        <pf:repeat value="#{editStructureInformation.getStructureInformationsByStructureCategorie('AmbulantStructure')}"
+                   var="structureInformation">
+            <div class="ui-g ui-fluid" style="margin-bottom: -20px !important;">
+                <div class="ui-g-1">
+                    Gültig ab:
+                </div>
+                <div class="ui-g-2">
+                    <pf:calendar id="validFromAmbulantStructure"
+                                 value="#{structureInformation.validFrom}"
+                                 readonly="#{editStructureInformation.isReadOnly()}"
+                                 valueChangeListener="#{editStructureInformation.handleChange}"
+                                 locale="de"
+                                 navigator="true"
+                                 pattern="dd.MM.yyyy"
+                                 mask="true"
+                                 inputStyle="text-align: right;">
+                        <pf:ajax event="change" update="validFromNewMessage" />
+                        <pf:ajax event="dateSelect" update="validFromNewMessage" />
+                    </pf:calendar>
+                    <pf:message id="validFromNewMessage" for="validFromAmbulantStructure" />
+                </div>
+                <div class="ui-g-7">
+                    <pf:inputTextarea id="AmbulantStructure"
+                                      rows="1"
+                                      cols="50"
+                                      value="#{structureInformation.content}"
+                                      valueChangeListener="#{editStructureInformation.handleChange}"
+                                      readonly="#{editStructureInformation.isReadOnly()}">
+                        <pf:ajax />
+                    </pf:inputTextarea>
+                </div>
+            </div>
+        </pf:repeat>
+        <pf:commandButton styleClass="btnPsy"
+                          style="margin-top: 20px"
+                          value="Neuer Eintrag"
+                          actionListener="#{editStructureInformation.saveNewValidFrom('AmbulantStructure')}"
+                          rendered="#{!editStructureInformation.isReadOnly()}"
+                          update="AmbulantStructureId"/>
+    </pf:fieldset>
+    <!-- End AmbulantStructure -->
 
+    <!-- Start SocialPsychiatryService -->
+    <pf:fieldset id="SocialPsychiatryServiceId"
+                 legend="Umfang und Struktur der Sozialpsychiatrischen Dienste"
+                 toggleable="true"
+                 collapsed="#{editStructureInformation.collapsCategorie('SocialPsychiatryService')}"
+                 class="inekFieldset">
+
+        <b>#{editStructureInformation.getStructureCategorie('SocialPsychiatryService').description}</b>
+        <br />
+        <pf:repeat value="#{editStructureInformation.getStructureInformationsByStructureCategorie('SocialPsychiatryService')}"
+                   var="structureInformation">
+            <div class="ui-g ui-fluid" style="margin-bottom: -20px !important;">
+                <div class="ui-g-1">
+                    Gültig ab:
+                </div>
+                <div class="ui-g-2">
+                    <pf:calendar id="validFromSocialPsychiatryService"
+                                 value="#{structureInformation.validFrom}"
+                                 readonly="#{editStructureInformation.isReadOnly()}"
+                                 valueChangeListener="#{editStructureInformation.handleChange}"
+                                 locale="de"
+                                 navigator="true"
+                                 pattern="dd.MM.yyyy"
+                                 mask="true"
+                                 inputStyle="text-align: right;">
+                        <pf:ajax event="change" update="validFromNewMessage" />
+                        <pf:ajax event="dateSelect" update="validFromNewMessage" />
+                    </pf:calendar>
+                    <pf:message id="validFromNewMessage" for="validFromSocialPsychiatryService" />
+                </div>
+                <div class="ui-g-7">
+                    <pf:inputTextarea id="SocialPsychiatryService"
+                                      rows="1"
+                                      cols="50"
+                                      value="#{structureInformation.content}"
+                                      valueChangeListener="#{editStructureInformation.handleChange}"
+                                      readonly="#{editStructureInformation.isReadOnly()}">
+                        <pf:ajax />
+                    </pf:inputTextarea>
+                </div>
+            </div>
+        </pf:repeat>
+        <pf:commandButton styleClass="btnPsy"
+                          style="margin-top: 20px"
+                          value="Neuer Eintrag"
+                          actionListener="#{editStructureInformation.saveNewValidFrom('SocialPsychiatryService')}"
+                          rendered="#{!editStructureInformation.isReadOnly()}"
+                          update="SocialPsychiatryServiceId"/>
+    </pf:fieldset>
+    <!-- End SocialPsychiatryService -->
 </ui:composition>
