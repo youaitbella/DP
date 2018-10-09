@@ -183,6 +183,67 @@
                                       update="depTable"/>
                 </pf:repeat>
             </div>
+
+            <div class="ui-g-12">
+                <pf:fieldset legend="Veränderte Werte ab 2018 eintragen"
+                             collapsed="true"
+                             toggleable="true">
+
+                    <pf:dataTable id="depTableAfterTargetYear"
+                                  value="#{deptEdit.deptBaseInformation.deptsAftertargetYear}"
+                                  emptyMessage="Noch keine Einträge vorhanden"
+                                  var="deptAfterTargetYear">
+                        <pf:column class="colIcon" style="width: 20px;">
+                            <inekIcon:DeleteIcon deleteFunction="#{deptEdit.deleteDeptAfterTargetYear(deptAfterTargetYear)}"
+                                                 show="#{!deptEdit.isReadOnly}"
+                                                 updateElement="form"/>
+                        </pf:column>
+                        <pf:column headerText="Sensitiver Bereich">
+                            <inekInput:InputText value="#{deptAfterTargetYear.sensitiveArea}"
+                                                 require="true"
+                                                 Style="width: 100%;"
+                                                 requiredMessage="Bitte geben Sie den Bereich an"
+                                                 readonly="#{deptEdit.isReadOnly}"/>
+                        </pf:column>
+                        <pf:column headerText="Fachabteilungsschlüssel">
+                            <inekInput:InputText value="#{deptAfterTargetYear.deptNumber}"
+                                                 require="true"
+                                                 Style="width: 100%;"
+                                                 requiredMessage="Bitte geben Sie einen Fachabteilungsschlüssel"
+                                                 readonly="#{deptEdit.isReadOnly}"/>
+                        </pf:column>
+                        <pf:column headerText="Fachabteilungsname">
+                            <inekInput:InputText value="#{deptAfterTargetYear.deptName}"
+                                                 require="true"
+                                                 Style="width: 100%;"
+                                                 requiredMessage="Bitte geben Sie einen Fachabteilungsnamen ein"
+                                                 readonly="#{deptEdit.isReadOnly}"/>
+                        </pf:column>
+                        <pf:column headerText="Stationsbezeichnung">
+                            <inekInput:InputText value="#{deptAfterTargetYear.stationName}"
+                                                 require="true"
+                                                 Style="width: 100%;"
+                                                 requiredMessage="Bitte geben Sie einen aussagekräftigen Stationsnamen an"
+                                                 readonly="#{deptEdit.isReadOnly}"/>
+                        </pf:column>
+                        <pf:column headerText="Standort">
+                            <inekInput:InputText value="#{deptAfterTargetYear.locationCode}"
+                                                 Style="width: 100%;"
+                                                 readonly="#{deptEdit.isReadOnly}"/>
+                        </pf:column>
+                    </pf:dataTable>
+
+                    <pf:commandButton value="Neuen Eintrag"
+                                      actionListener="#{deptEdit.addNewDeptAfterTargetYear()}"
+                                      process="@this"
+                                      immediate="false"
+                                      rendered="#{!deptEdit.isReadOnly}"
+                                      style="margin-top: 10px;"
+                                      icon="fa fa-plus"
+                                      update="depTableAfterTargetYear"/>
+
+                </pf:fieldset>
+            </div>
         </div>
     </div>
 

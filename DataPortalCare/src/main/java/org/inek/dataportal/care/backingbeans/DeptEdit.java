@@ -18,6 +18,7 @@ import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.care.entities.Dept;
 import org.inek.dataportal.care.entities.DeptBaseInformation;
 import org.inek.dataportal.care.entities.DeptStation;
+import org.inek.dataportal.care.entities.DeptStationsAfterTargetYear;
 import org.inek.dataportal.care.facades.DeptFacade;
 import org.inek.dataportal.care.utils.CareValidator;
 import org.inek.dataportal.common.controller.DialogController;
@@ -176,6 +177,10 @@ public class DeptEdit {
         dept.addNewDeptStation();
     }
 
+    public void addNewDeptAfterTargetYear() {
+        _deptBaseInformation.addNewDeptAfterTargetYear();
+    }
+
     private void preloadDataForIk(DeptBaseInformation info) {
         _deptFacade.prefillDeptsForBaseInformation(info);
     }
@@ -188,6 +193,10 @@ public class DeptEdit {
 
     public void deleteStationFromDept(Dept dept, DeptStation station) {
         dept.removeDeptStation(station);
+    }
+
+    public void deleteDeptAfterTargetYear(DeptStationsAfterTargetYear dept) {
+        _deptBaseInformation.removeDeptAfterTargetYear(dept);
     }
 
     private void removeEmptyStations(DeptBaseInformation info) {

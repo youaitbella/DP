@@ -1,8 +1,6 @@
 package org.inek.dataportal.care.entities;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import javax.persistence.*;
 
@@ -11,15 +9,15 @@ import javax.persistence.*;
  * @author lautenti
  */
 @Entity
-@Table(name = "Dept", schema = "care")
-public class Dept implements Serializable {
+@Table(name = "DeptStationsAfterTargetYear", schema = "care")
+public class DeptStationsAfterTargetYear implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "deId")
+    @Column(name = "dsId")
     private Integer _id;
 
     public int getId() {
@@ -33,7 +31,7 @@ public class Dept implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="BaseInformation">
     @ManyToOne
-    @JoinColumn(name = "deBaseInformationId")
+    @JoinColumn(name = "dsBaseInformationId")
     private DeptBaseInformation _baseInformation;
 
     public DeptBaseInformation getBaseInformation() {
@@ -46,7 +44,7 @@ public class Dept implements Serializable {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property Dept Name">
-    @Column(name = "deDeptName")
+    @Column(name = "dsDeptName")
     private String _deptName = "";
 
     public String getDeptName() {
@@ -59,7 +57,7 @@ public class Dept implements Serializable {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property Dept SensitiveArea">
-    @Column(name = "deSensitiveArea")
+    @Column(name = "dsSensitiveArea")
     private String _sensitiveArea;
 
     public String getSensitiveArea() {
@@ -72,7 +70,7 @@ public class Dept implements Serializable {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property Dept Number">
-    @Column(name = "deDeptNumber")
+    @Column(name = "dsDeptNumber")
     private int _deptNumber;
 
     public int getDeptNumber() {
@@ -85,7 +83,7 @@ public class Dept implements Serializable {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property Dept Area Id">
-    @Column(name = "deDeptAreaId")
+    @Column(name = "dsDeptAreaId")
     private int _deptArea;
 
     public int getDeptArea() {
@@ -97,52 +95,43 @@ public class Dept implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property Dept Required">
-    @Column(name = "deRequired")
-    private Boolean _required;
+    //<editor-fold defaultstate="collapsed" desc="Property Dept Name">
+    @Column(name = "dsName")
+    private String _stationName = "";
 
-    public Boolean getRequired() {
-        return _required;
+    public String getStationName() {
+        return _stationName;
     }
 
-    public void setRequired(Boolean required) {
-        this._required = required;
+    public void setStationName(String stationName) {
+        this._stationName = stationName;
     }
     //</editor-fold>
 
-    @OneToMany(mappedBy = "_dept", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "desDeptId")
-    private List<DeptStation> _deptStations = new ArrayList<>();
+    //<editor-fold defaultstate="collapsed" desc="Property Dept Location Code">
+    @Column(name = "dsLocationCode")
+    private String _locationCode;
 
-    public List<DeptStation> getDeptStations() {
-        return _deptStations;
+    public String getLocationCode() {
+        return _locationCode;
     }
 
-    public void setDeptStations(List<DeptStation> deptStations) {
-        this._deptStations = deptStations;
+    public void setLocationCode(String locationCode) {
+        this._locationCode = locationCode;
     }
-
-    public void addNewDeptStation() {
-        DeptStation deptStation = new DeptStation();
-        deptStation.setDept(this);
-        _deptStations.add(deptStation);
-    }
-
-    public void removeDeptStation(DeptStation deptStation) {
-        _deptStations.remove(deptStation);
-    }
+    //</editor-fold>
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 53 * hash + Objects.hashCode(this._id);
-        hash = 53 * hash + Objects.hashCode(this._baseInformation);
-        hash = 53 * hash + Objects.hashCode(this._deptName);
-        hash = 53 * hash + Objects.hashCode(this._sensitiveArea);
-        hash = 53 * hash + this._deptNumber;
-        hash = 53 * hash + this._deptArea;
-        hash = 53 * hash + Objects.hashCode(this._required);
-        hash = 53 * hash + Objects.hashCode(this._deptStations);
+        int hash = 7;
+        hash = 13 * hash + Objects.hashCode(this._id);
+        hash = 13 * hash + Objects.hashCode(this._baseInformation);
+        hash = 13 * hash + Objects.hashCode(this._deptName);
+        hash = 13 * hash + Objects.hashCode(this._sensitiveArea);
+        hash = 13 * hash + this._deptNumber;
+        hash = 13 * hash + this._deptArea;
+        hash = 13 * hash + Objects.hashCode(this._stationName);
+        hash = 13 * hash + Objects.hashCode(this._locationCode);
         return hash;
     }
 
@@ -157,7 +146,7 @@ public class Dept implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Dept other = (Dept) obj;
+        final DeptStationsAfterTargetYear other = (DeptStationsAfterTargetYear) obj;
         if (this._deptNumber != other._deptNumber) {
             return false;
         }
@@ -170,16 +159,16 @@ public class Dept implements Serializable {
         if (!Objects.equals(this._sensitiveArea, other._sensitiveArea)) {
             return false;
         }
+        if (!Objects.equals(this._stationName, other._stationName)) {
+            return false;
+        }
+        if (!Objects.equals(this._locationCode, other._locationCode)) {
+            return false;
+        }
         if (!Objects.equals(this._id, other._id)) {
             return false;
         }
         if (!Objects.equals(this._baseInformation, other._baseInformation)) {
-            return false;
-        }
-        if (!Objects.equals(this._required, other._required)) {
-            return false;
-        }
-        if (!Objects.equals(this._deptStations, other._deptStations)) {
             return false;
         }
         return true;

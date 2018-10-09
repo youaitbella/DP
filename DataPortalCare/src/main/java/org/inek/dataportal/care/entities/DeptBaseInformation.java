@@ -183,4 +183,30 @@ public class DeptBaseInformation implements Serializable, StatusEntity {
         _depts.add(dept);
     }
 
+    @OneToMany(mappedBy = "_baseInformation", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "dsBaseInformationId")
+    private List<DeptStationsAfterTargetYear> _deptsAftertargetYear = new ArrayList<>();
+
+    public List<DeptStationsAfterTargetYear> getDeptsAftertargetYear() {
+        return _deptsAftertargetYear;
+    }
+
+    public void setDeptsAftertargetYear(List<DeptStationsAfterTargetYear> deptsAftertargetYear) {
+        this._deptsAftertargetYear = deptsAftertargetYear;
+    }
+
+    public void addNewDeptAfterTargetYear() {
+        DeptStationsAfterTargetYear dept = new DeptStationsAfterTargetYear();
+        dept.setBaseInformation(this);
+        _deptsAftertargetYear.add(dept);
+    }
+
+    public void removeDeptAfterTargetYear(DeptStationsAfterTargetYear dept) {
+        _deptsAftertargetYear.remove(dept);
+    }
+
+    public void addDeptAfterTargetYear(DeptStationsAfterTargetYear dept) {
+        _deptsAftertargetYear.add(dept);
+    }
+
 }
