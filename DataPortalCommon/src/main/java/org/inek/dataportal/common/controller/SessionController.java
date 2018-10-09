@@ -244,13 +244,17 @@ public class SessionController implements Serializable {
         if (msg.isEmpty()) {
             return;
         }
-        String sessionId = retrieveSessionId();
-        int accountId = -1;
-        if (_account != null) {
-            accountId = _account.getId();
+        try {
+            String sessionId = retrieveSessionId();
+            int accountId = -1;
+            if (_account != null) {
+                accountId = _account.getId();
+            }
+            Log log = new Log(accountId, sessionId, msg);
+            _logFacade.saveLog(log);
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, "Failed during strore log: {0}", ex.getMessage());
         }
-        Log log = new Log(accountId, sessionId, msg);
-        _logFacade.saveLog(log);
     }
 
     private String retrieveSessionId() {
