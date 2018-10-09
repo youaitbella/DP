@@ -29,22 +29,24 @@ import org.inek.dataportal.common.enums.WorkflowStatus;
 @Stateless
 public class DeptFacade extends AbstractDataAccessWithActionLog {
 
+    private static final String FIELD_STATUS = "status";
+
     public DeptBaseInformation findDeptBaseInformation(int id) {
-        String sql = "SELECT bi FROM DeptBaseInformation bi WHERE bi._id = :id";
-        TypedQuery<DeptBaseInformation> query = getEntityManager().createQuery(sql, DeptBaseInformation.class);
+        String jpql = "SELECT bi FROM DeptBaseInformation bi WHERE bi._id = :id";
+        TypedQuery<DeptBaseInformation> query = getEntityManager().createQuery(jpql, DeptBaseInformation.class);
         query.setParameter("id", id);
         return query.getSingleResult();
     }
 
     public DeptBaseInformation findDeptBaseInformation(int ik, int year, WorkflowStatus status) {
-        String sql = "SELECT bi FROM AEBBaseInformation bi WHERE bi._year = :year "
+        String jpql = "SELECT bi FROM AEBBaseInformation bi WHERE bi._year = :year "
                 + "and bi._ik = :ik "
                 + "and bi._typ = :typ "
-                + "and bi._statusId = :status";
-        TypedQuery<DeptBaseInformation> query = getEntityManager().createQuery(sql, DeptBaseInformation.class);
+                + "and bi._statusId = :";
+        TypedQuery<DeptBaseInformation> query = getEntityManager().createQuery(jpql, DeptBaseInformation.class);
         query.setParameter("ik", ik);
         query.setParameter("year", year);
-        query.setParameter("status", status.getId());
+        query.setParameter(FIELD_STATUS, status.getId());
         try {
             return query.getSingleResult();
         } catch (NoResultException ex) {
@@ -53,10 +55,10 @@ public class DeptFacade extends AbstractDataAccessWithActionLog {
     }
 
     public List<DeptBaseInformation> getAllByStatusAndIk(WorkflowStatus status, int ik) {
-        String sql = "SELECT bi FROM DeptBaseInformation bi WHERE bi._statusId = :status "
+        String jpql = "SELECT bi FROM DeptBaseInformation bi WHERE bi._statusId = :status "
                 + "and bi._ik = :ik";
-        TypedQuery<DeptBaseInformation> query = getEntityManager().createQuery(sql, DeptBaseInformation.class);
-        query.setParameter("status", status.getId());
+        TypedQuery<DeptBaseInformation> query = getEntityManager().createQuery(jpql, DeptBaseInformation.class);
+        query.setParameter(FIELD_STATUS, status.getId());
         query.setParameter("ik", ik);
         return query.getResultList();
     }
@@ -133,9 +135,9 @@ public class DeptFacade extends AbstractDataAccessWithActionLog {
     }
 
     public List<DeptBaseInformation> getAllByStatus(WorkflowStatus status) {
-        String sql = "SELECT bi FROM DeptBaseInformation bi WHERE bi._statusId = :status ";
-        TypedQuery<DeptBaseInformation> query = getEntityManager().createQuery(sql, DeptBaseInformation.class);
-        query.setParameter("status", status.getId());
+        String jpql = "SELECT bi FROM DeptBaseInformation bi WHERE bi._statusId = :status ";
+        TypedQuery<DeptBaseInformation> query = getEntityManager().createQuery(jpql, DeptBaseInformation.class);
+        query.setParameter(FIELD_STATUS, status.getId());
         return query.getResultList();
     }
 
