@@ -435,11 +435,11 @@ public class SessionController implements Serializable {
         _portalType = portalType;
         _account = _accountFacade.getAccount(mailOrUser, password);
         if (_account == null) {
-            logMessage("Login failed: " + loginInfo);
+            logMessage("Login failed (" + mailOrUser + "): " + loginInfo);
             return false;
         }
         initFeatures();
-        logMessage((_account != null ? "Login successful: " : "Login failed: ") + loginInfo);
+        logMessage((_account != null ? "Login successful: " : "Login failed after init features (" + mailOrUser + "): ") + loginInfo);
         return _account != null;
     }
 
