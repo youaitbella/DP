@@ -120,7 +120,7 @@ public class EditStructureInformation {
 
             String errors = checkForDuplicatedDates(_structureBaseInformation);
 
-            if (errors.equals("")) {
+            if ("".equals(errors)) {
                 _structureBaseInformation = _aebFacade.save(_structureBaseInformation);
 //                saveChangeLogs(_changes);
                 DialogController.showSaveDialog();
