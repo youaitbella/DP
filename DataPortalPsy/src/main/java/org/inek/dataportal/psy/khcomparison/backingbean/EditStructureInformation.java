@@ -105,6 +105,7 @@ public class EditStructureInformation {
         info.addNewStructureInformation(StructureInformationCategorie.TherapyPartCount);
         for (StructureInformation sInfo : info.getStructureInformations()) {
             sInfo.setValidFrom(new Date());
+            sInfo.setContent("0");
         }
         info.setCreatedBy(_sessionController.getAccountId());
         return info;
