@@ -12,8 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import org.inek.dataportal.common.utils.Documentation;
@@ -44,8 +44,8 @@ public class OccupationalCategory implements Serializable {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property PersonnelGroupId">
-    @OneToOne()
-    @PrimaryKeyJoinColumn(name = "ocPersonnelGroupId", referencedColumnName = "pgId")
+    @ManyToOne()
+    @JoinColumn(name = "ocPersonnelGroupId")
     private PersonnelGroup _personnelGroup;
 
     public PersonnelGroup getPersonnelGroup() {

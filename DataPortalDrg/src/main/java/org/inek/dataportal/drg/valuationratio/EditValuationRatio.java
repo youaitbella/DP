@@ -140,8 +140,8 @@ public class EditValuationRatio extends AbstractEditController {
                             + "Eine Korrektur ist lediglich im Rahmen +/- 5% möglich. "
                             + "Bei stärkeren Abweichungen ist eine Klärung mit dem InEK erforderlich (E-Mail). "
                             + "Bitte beachten Sie: "
-                            + "Die Fallzahl ist entsprechend der Datenlieferung gemäß §21 KHEntG anzugeben, "
-                            + "auch wenn die Zahl der abgerechneten Fälle davon abweichend ist."));
+                            + "Gemäß Vereinbarung ist die Fallzahl der Datenlieferung gemäß §21 KHEntG entscheidend, "
+                            + "auch wenn die Zahl der abgerechneten Fälle davon abweichen kann."));
         }
     }
 
