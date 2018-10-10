@@ -247,15 +247,14 @@ public class EditStructureInformation {
         //_structureBaseInformation.addStructureInformation(copyStructureInformationForNewVality(info));
     }
 
-    public StructureInformation copyStructureInformationForNewVality(StructureInformation info) {
-        StructureInformation newInfo = new StructureInformation();
-        newInfo.setBaseInformation(info.getBaseInformation());
-        newInfo.setContent(info.getContent());
-        newInfo.setStructureCategorie(info.getStructureCategorie());
-        newInfo.setValidFrom(new Date());
-        return newInfo;
-    }
-
+//    public StructureInformation copyStructureInformationForNewVality(StructureInformation info) {
+//        StructureInformation newInfo = new StructureInformation();
+//        newInfo.setBaseInformation(info.getBaseInformation());
+//        newInfo.setContent(info.getContent());
+//        newInfo.setStructureCategorie(info.getStructureCategorie());
+//        newInfo.setValidFrom(new Date());
+//        return newInfo;
+//    }
     public Boolean collapsCategorie(String catName) {
         return getStructureInformationsByStructureCategorie(catName).isEmpty();
     }
