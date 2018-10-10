@@ -13,6 +13,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.inek.dataportal.care.entities.Dept;
 import org.inek.dataportal.care.entities.DeptBaseInformation;
 import org.inek.dataportal.care.entities.DeptStation;
+import org.inek.dataportal.care.entities.DeptStationsAfterTargetYear;
 
 /**
  *
@@ -32,10 +33,19 @@ public class CareExcelExporter {
     private static final String TABLE_HEADER_4 = "pflegesensitiver Bereich";
     private static final String TABLE_HEADER_5 = "Stationsname (2017)";
     private static final String TABLE_HEADER_6 = "Standort (2017)";
+    private static final String TABLE_HEADER_7 = "Fachabteilungsschlüssel (nach 2017)";
+    private static final String TABLE_HEADER_8 = "Fachabteilungsname (nach 2017)";
+    private static final String TABLE_HEADER_9 = "Stationsname (nach 2017)";
+    private static final String TABLE_HEADER_10 = "Standort (nach 2017)";
+    private static final String TABLE_HEADER_11 = "Anmerkung";
 
     private static final String BEZUG_1 = "ausgewiesene Fachabteilung";
     private static final String BEZUG_2 = "Indikatoren-DRGs";
     private static final String BEZUG_3 = "OPS-Liste Intensivmedizin";
+
+    private static final String TABLE_AFTER_TARGET_HEADER = "Umbenennung oder strukturelle Veränderungen (§ 5 Abs. 4 PpUGV)";
+
+    private int _startTableAfterTargetYearRow = 0;
 
     public InputStream createExcelExportFile(DeptBaseInformation baseInfo, String hospitalName, String hospitalTown) {
         try {
@@ -45,6 +55,8 @@ public class CareExcelExporter {
             setBaseInformations(sheet, baseInfo, hospitalName, hospitalTown);
             setTableHeader(sheet);
             setTable(sheet, baseInfo);
+            setTableAfterTargetYearHeader(sheet, baseInfo);
+            setTableAfterTargetYear(sheet, baseInfo);
             autoSizeCols(sheet);
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             workbook.write(bos);
@@ -111,32 +123,106 @@ public class CareExcelExporter {
         row.getCell(3).setCellStyle(style);
         row.getCell(4).setCellStyle(style);
         row.getCell(5).setCellStyle(style);
+
     }
 
     private void setTable(Sheet sheet, DeptBaseInformation baseInfo) {
-
         int startRow = 7;
         int startCol = 0;
+
+        CellStyle styleBorderd = getCellStyleBorder(sheet);
 
         for (Dept dept : baseInfo.getDepts()) {
             for (DeptStation deptStation : dept.getDeptStations()) {
                 Row row = sheet.createRow(startRow);
                 row.createCell(startCol).setCellValue(getAreaText(dept.getDeptArea()));
-                row.getCell(startCol).setCellStyle(getCellStyleBorder(sheet));
                 row.createCell(startCol + 1).setCellValue(dept.getDeptNumber());
-                row.getCell(startCol + 1).setCellStyle(getCellStyleBorder(sheet));
                 row.createCell(startCol + 2).setCellValue(dept.getDeptName());
-                row.getCell(startCol + 2).setCellStyle(getCellStyleBorder(sheet));
                 row.createCell(startCol + 3).setCellValue(dept.getSensitiveArea());
-                row.getCell(startCol + 3).setCellStyle(getCellStyleBorder(sheet));
                 row.createCell(startCol + 4).setCellValue(deptStation.getStationName());
-                row.getCell(startCol + 4).setCellStyle(getCellStyleBorder(sheet));
                 row.createCell(startCol + 5).setCellValue(deptStation.getLocationCode());
-                row.getCell(startCol + 5).setCellStyle(getCellStyleBorder(sheet));
+
+                for (int i = 0; i < 6; i++) {
+                    row.getCell(i).setCellStyle(styleBorderd);
+                }
+
                 startRow++;
             }
         }
 
+        _startTableAfterTargetYearRow = startRow;
+    }
+
+    private void setTableAfterTargetYear(Sheet sheet, DeptBaseInformation baseInfo) {
+        int startRow = _startTableAfterTargetYearRow;
+        int startCol = 0;
+
+        CellStyle styleBorderd = getCellStyleBorder(sheet);
+
+        for (Dept dept : baseInfo.getDepts()) {
+            for (DeptStationsAfterTargetYear deptStationAfter : dept.getDeptsAftertargetYear()) {
+
+                Row row = sheet.createRow(startRow);
+                row.createCell(startCol).setCellValue(getAreaText(dept.getDeptArea()));
+                row.createCell(startCol + 1).setCellValue(dept.getDeptNumber());
+                row.createCell(startCol + 2).setCellValue(dept.getDeptName());
+                row.createCell(startCol + 3).setCellValue(deptStationAfter.getSensitiveArea());
+                row.createCell(startCol + 4).setCellValue(deptStationAfter.getStationNameTargetYear());
+                row.createCell(startCol + 5).setCellValue(deptStationAfter.getLocationCodeTargetYear());
+                row.createCell(startCol + 6).setCellValue(deptStationAfter.getDeptNumber());
+                row.createCell(startCol + 7).setCellValue(deptStationAfter.getDeptName());
+                row.createCell(startCol + 8).setCellValue(deptStationAfter.getStationName());
+                row.createCell(startCol + 9).setCellValue(deptStationAfter.getLocationCode());
+                row.createCell(startCol + 10).setCellValue(deptStationAfter.getComment());
+                for (int i = 0; i < 11; i++) {
+                    row.getCell(i).setCellStyle(styleBorderd);
+                }
+
+                startRow++;
+            }
+        }
+
+    }
+
+    private void setTableAfterTargetYearHeader(Sheet sheet, DeptBaseInformation baseInfo) {
+
+        int startRow = _startTableAfterTargetYearRow + 2;
+        _startTableAfterTargetYearRow = startRow + 1;
+
+        CellStyle style = getCellStyleBorder(sheet);
+
+        Font font = sheet.getWorkbook().createFont();
+        font.setBold(true);
+        style.setFont(font);
+
+        Row rowHeader = sheet.createRow(startRow - 1);
+        rowHeader.createCell(0).setCellValue(TABLE_AFTER_TARGET_HEADER);
+        rowHeader.getCell(0).setCellStyle(style);
+
+        Row row = sheet.createRow(startRow);
+        row.createCell(0).setCellValue(TABLE_HEADER_1);
+        row.createCell(1).setCellValue(TABLE_HEADER_2);
+        row.createCell(2).setCellValue(TABLE_HEADER_3);
+        row.createCell(3).setCellValue(TABLE_HEADER_4);
+        row.createCell(4).setCellValue(TABLE_HEADER_5);
+        row.createCell(5).setCellValue(TABLE_HEADER_6);
+        //Breitere Seitenborder
+        row.createCell(6).setCellValue(TABLE_HEADER_7);
+        row.createCell(7).setCellValue(TABLE_HEADER_8);
+        row.createCell(8).setCellValue(TABLE_HEADER_9);
+        row.createCell(9).setCellValue(TABLE_HEADER_10);
+        row.createCell(10).setCellValue(TABLE_HEADER_11);
+        row.getCell(0).setCellStyle(style);
+        row.getCell(1).setCellStyle(style);
+        row.getCell(2).setCellStyle(style);
+        row.getCell(3).setCellStyle(style);
+        row.getCell(4).setCellStyle(style);
+        row.getCell(5).setCellStyle(style);
+        row.getCell(6).setCellStyle(style);
+        row.getCell(7).setCellStyle(style);
+        row.getCell(8).setCellStyle(style);
+        row.getCell(9).setCellStyle(style);
+        row.getCell(10).setCellStyle(style);
     }
 
     private String getAreaText(int area) {

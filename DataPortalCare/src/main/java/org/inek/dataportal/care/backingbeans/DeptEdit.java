@@ -112,10 +112,18 @@ public class DeptEdit {
             }
         } else {
             _deptBaseInformation = _deptFacade.findDeptBaseInformation(Integer.parseInt(id));
+            if (!isAccessAllowed(_deptBaseInformation)) {
+                Utils.navigate(Pages.NotAllowed.RedirectURL());
+            }
             loadStationsAfterTargetYear(_deptBaseInformation);
         }
         _deptBaseInformation.getDepts().sort(Comparator.comparing(a -> a.getDeptNumber()));
         setReadOnly();
+    }
+
+    private boolean isAccessAllowed(DeptBaseInformation info) {
+        return _accessManager.isAccessAllowed(Feature.CARE, info.getStatus(),
+                _sessionController.getAccountId(), info.getIk());
     }
 
     private void setReadOnly() {
@@ -190,6 +198,7 @@ public class DeptEdit {
     public void addNewDeptAfterTargetYear(Dept dept) {
         DeptStationsAfterTargetYear station = new DeptStationsAfterTargetYear();
         station.setDept(dept);
+        dept.addDeptAfterTargetYear(station);
         _stationsAfterTargetYear.add(station);
     }
 
@@ -208,6 +217,7 @@ public class DeptEdit {
     }
 
     public void deleteDeptAfterTargetYear(DeptStationsAfterTargetYear dept) {
+        dept.getDept().removeDeptAfterTargetYear(dept);
         _stationsAfterTargetYear.remove(dept);
     }
 
