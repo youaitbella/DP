@@ -16,4 +16,44 @@
                             ikList="#{editStructureInformation.allowedIks}" />
 
 
+    <h3>Filter:</h3>
+    <div>
+        Gültig ab:
+    </div>
+    <pf:calendar id="validFromFilter"
+                 value="#{editStructureInformation.filterValidFrom}"
+                 locale="de"
+                 navigator="true"
+                 pattern="dd.MM.yyyy"
+                 mask="true"
+                 inputStyle="text-align: right;">
+        <pf:ajax event="change" />
+        <pf:ajax event="dateSelect" />
+    </pf:calendar>
+    <div>
+        Gültig bis:
+    </div>
+    <pf:calendar id="validToFilter"
+                 value="#{editStructureInformation.filterValidTo}"
+                 locale="de"
+                 navigator="true"
+                 pattern="dd.MM.yyyy"
+                 mask="true"
+                 inputStyle="text-align: right;">
+        <pf:ajax event="change" />
+        <pf:ajax event="dateSelect" />
+    </pf:calendar>
+    <pf:commandButton styleClass="btnPsy"
+                      value="Anzeigen"
+                      style="margin-left: 10px;"
+                      actionListener="#{editStructureInformation.activateFilterStructureInformation()}"
+                      update="@form"/>
+    <pf:commandButton styleClass="btnPsy"
+                      value="Filter Entfernen"
+                      style="margin-left: 10px;"
+                      actionListener="#{editStructureInformation.deactivateFilterStructureInformation()}"
+                      update="@form"/>
+
+
+
 </ui:composition>

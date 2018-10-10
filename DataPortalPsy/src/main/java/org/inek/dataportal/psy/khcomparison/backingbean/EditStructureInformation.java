@@ -8,6 +8,7 @@ package org.inek.dataportal.psy.khcomparison.backingbean;
 import org.inek.dataportal.common.data.adm.ChangeLog;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -51,6 +52,34 @@ public class EditStructureInformation {
     private StructureBaseInformation _structureBaseInformation;
     private Boolean _readOnly;
     private List<ChangeLog> _changes = new ArrayList<>();
+
+    private Date _filterValidFrom = new Date();
+    private Date _filterValidTo = new Date();
+    private Boolean _filterActive = false;
+
+    public Boolean getFilterActive() {
+        return _filterActive;
+    }
+
+    public void setFilterActive(Boolean filterActive) {
+        this._filterActive = filterActive;
+    }
+
+    public Date getFilterValidFrom() {
+        return _filterValidFrom;
+    }
+
+    public void setFilterValidFrom(Date filterValidFrom) {
+        this._filterValidFrom = filterValidFrom;
+    }
+
+    public Date getFilterValidTo() {
+        return _filterValidTo;
+    }
+
+    public void setFilterValidTo(Date filterValidTo) {
+        this._filterValidTo = filterValidTo;
+    }
 
     @PostConstruct
     public void init() {
@@ -233,9 +262,19 @@ public class EditStructureInformation {
     }
 
     public List<StructureInformation> getStructureInformationsByStructureCategorie(String catName) {
-        return _structureBaseInformation.getStructureInformations().stream()
-                .filter(c -> c.getStructureCategorie() == StructureInformationCategorie.valueOf(catName))
-                .collect(Collectors.toList());
+        if (_filterActive) {
+            return _structureBaseInformation.getStructureInformations().stream()
+                    .filter(c -> c.getStructureCategorie() == StructureInformationCategorie.valueOf(catName)
+                    && (_filterValidFrom.compareTo(c.getValidFrom()) * c.getValidFrom().compareTo(_filterValidTo) >= 0))
+                    .sorted(Comparator.comparing(StructureInformation::getValidFrom, Comparator.nullsLast(Comparator.naturalOrder())))
+                    .collect(Collectors.toList());
+        } else {
+            return _structureBaseInformation.getStructureInformations().stream()
+                    .filter(c -> c.getStructureCategorie() == StructureInformationCategorie.valueOf(catName))
+                    .sorted(Comparator.comparing(StructureInformation::getValidFrom, Comparator.nullsLast(Comparator.naturalOrder())))
+                    .collect(Collectors.toList());
+        }
+
     }
 
     public void saveNewValidFrom(String catName) {
@@ -281,5 +320,13 @@ public class EditStructureInformation {
         }
 
         return true;
+    }
+
+    public void activateFilterStructureInformation() {
+        _filterActive = true;
+    }
+
+    public void deactivateFilterStructureInformation() {
+        _filterActive = false;
     }
 }
