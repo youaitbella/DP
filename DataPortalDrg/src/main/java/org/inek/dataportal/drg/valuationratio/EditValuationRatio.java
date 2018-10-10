@@ -45,6 +45,7 @@ import org.inek.dataportal.common.overall.AccessManager;
 public class EditValuationRatio extends AbstractEditController {
 
     private static final Logger LOGGER = Logger.getLogger("EditValuationRatio");
+    private static final String MSG_CHECK_INPUT = "Bitte korrigieren Sie erst Ihre Eingabe.";
 
     // <editor-fold defaultstate="collapsed" desc="override AbstractEditController">    
     @Override
@@ -103,18 +104,26 @@ public class EditValuationRatio extends AbstractEditController {
         }
     }
 
+    private boolean _validationErrorI68d;
+
     public void validateI68D(FacesContext context, UIComponent component, Object value) {
         try {
             validateRange("I68D", value);
-        } catch (ValidationException ex) {
+            _validationErrorI68d = false;
+        } catch (ValidatorException ex) {
+            _validationErrorI68d = true;
             throw ex;
         }
     }
 
+    private boolean _validationErrorI68e;
+
     public void validateI68E(FacesContext context, UIComponent component, Object value) {
         try {
             validateRange("I68E", value);
+            _validationErrorI68e = false;
         } catch (ValidatorException ex) {
+            _validationErrorI68e = true;
             throw ex;
         }
     }
@@ -124,19 +133,25 @@ public class EditValuationRatio extends AbstractEditController {
             return;
         }
         int val = (int) value;
-        ValuationRatioDrgCount caseCount = _valuationRatioFacade.findValuationRatioDrgCount(_valuationRatio.getIk(), _valuationRatio.getDataYear(),
-                drg);
-        if (caseCount == null) {
-            return;
-        }
-        int minCount = (int) (caseCount.getCount() * 0.95);
-        int maxCount = (int) (caseCount.getCount() * 1.05);
-
-        if (val > maxCount || val < minCount) {
+        if (!checkRange(drg, val)) {
             throw new ValidatorException(
                     new FacesMessage(
-                            drg + ": Die Fallzahl weicht zu stark von den gemäß §21 KHEntG übermittelten Daten ab."));
+                            drg + ": Die Fallzahl weicht zu stark von den gemäß §21 KHEntG übermittelten Daten ab. "
+                            + "Eine Korrektur ist lediglich im Rahmen +/- 5% möglich. "
+                            + "Bei stärkeren Abweichungen ist eine Klärung mit dem InEK erforderlich (E-Mail). "
+                            + "Bitte beachten Sie: "
+                            + "Die Fallzahl ist entsprechend der Datenlieferung gemäß §21 KHEntG anzugeben, "
+                            + "auch wenn die Zahl der abgerechneten Fälle davon abweichend ist."));
         }
+    }
+
+    private boolean checkRange(String drg, int val) {
+        ValuationRatioDrgCount caseCount = _valuationRatioFacade.
+                findValuationRatioDrgCount(_valuationRatio.getIk(), _valuationRatio.getDataYear(),
+                        drg);
+        int minCount = (int) (caseCount.getCount() * 0.95);
+        int maxCount = (int) (caseCount.getCount() * 1.05);
+        return val <= maxCount && val >= minCount;
     }
 
     private ValuationRatio _valuationRatio;
@@ -196,9 +211,9 @@ public class EditValuationRatio extends AbstractEditController {
         return _appTools.isEnabled(ConfigKey.IsValuationRatioSendEnabled);
     }
 
-    
     public List<SelectItem> getIks() {
-        int dataYear = _valuationRatio == null ? Calendar.getInstance().get(Calendar.YEAR) - 1 : _valuationRatio.getDataYear();
+        int dataYear = _valuationRatio == null ? Calendar.getInstance().get(Calendar.YEAR) - 1 : _valuationRatio.
+                getDataYear();
 
         List<SelectItem> items = new ArrayList<>();
         for (int ik : _accessManager.ObtainIksForCreation(Feature.VALUATION_RATIO)) {
@@ -214,6 +229,10 @@ public class EditValuationRatio extends AbstractEditController {
     }
 
     public String save() {
+        if (hasError()) {
+            _sessionController.alertClient(MSG_CHECK_INPUT);
+            return "";
+        }
         try {
             _valuationRatio = _valuationRatioFacade.saveValuationRatio(_valuationRatio);
             _sessionController.alertClient(Utils.getMessage("msgSaveAndMentionSend"));
@@ -223,12 +242,23 @@ public class EditValuationRatio extends AbstractEditController {
         return "";
     }
 
+    public boolean hasError() {
+        return _validationErrorI68d 
+                || _validationErrorI68e 
+                || !checkRange("I68D", _valuationRatio.getI68d()) 
+                || !checkRange("I68E", _valuationRatio.getI68e());
+    }
+
     /**
      * provide the message to InEK
      *
      * @return
      */
     public String provide() {
+        if (hasError()) {
+            _sessionController.alertClient(MSG_CHECK_INPUT);
+            return "";
+        }
         _valuationRatio.setStatus(WorkflowStatus.Provided);
         try {
             _valuationRatioFacade.merge(_valuationRatio);
