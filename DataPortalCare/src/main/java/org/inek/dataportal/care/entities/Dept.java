@@ -73,13 +73,13 @@ public class Dept implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property Dept Number">
     @Column(name = "deDeptNumber")
-    private int _deptNumber;
+    private String _deptNumber;
 
-    public int getDeptNumber() {
+    public String getDeptNumber() {
         return _deptNumber;
     }
 
-    public void setDeptNumber(int deptNumber) {
+    public void setDeptNumber(String deptNumber) {
         this._deptNumber = deptNumber;
     }
     //</editor-fold>
@@ -132,17 +132,43 @@ public class Dept implements Serializable {
         _deptStations.remove(deptStation);
     }
 
+    @OneToMany(mappedBy = "_dept", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "dsDeptId")
+    private List<DeptStationsAfterTargetYear> _deptsAftertargetYear = new ArrayList<>();
+
+    public List<DeptStationsAfterTargetYear> getDeptsAftertargetYear() {
+        return _deptsAftertargetYear;
+    }
+
+    public void setDeptsAftertargetYear(List<DeptStationsAfterTargetYear> deptsAftertargetYear) {
+        this._deptsAftertargetYear = deptsAftertargetYear;
+    }
+
+    public void addNewDeptAfterTargetYear() {
+        DeptStationsAfterTargetYear dept = new DeptStationsAfterTargetYear();
+        dept.setDept(this);
+        _deptsAftertargetYear.add(dept);
+    }
+
+    public void removeDeptAfterTargetYear(DeptStationsAfterTargetYear dept) {
+        _deptsAftertargetYear.remove(dept);
+    }
+
+    public void addDeptAfterTargetYear(DeptStationsAfterTargetYear dept) {
+        _deptsAftertargetYear.add(dept);
+    }
+
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 53 * hash + Objects.hashCode(this._id);
-        hash = 53 * hash + Objects.hashCode(this._baseInformation);
-        hash = 53 * hash + Objects.hashCode(this._deptName);
-        hash = 53 * hash + Objects.hashCode(this._sensitiveArea);
-        hash = 53 * hash + this._deptNumber;
-        hash = 53 * hash + this._deptArea;
-        hash = 53 * hash + Objects.hashCode(this._required);
-        hash = 53 * hash + Objects.hashCode(this._deptStations);
+        hash = 37 * hash + Objects.hashCode(this._id);
+        hash = 37 * hash + Objects.hashCode(this._baseInformation);
+        hash = 37 * hash + Objects.hashCode(this._deptName);
+        hash = 37 * hash + Objects.hashCode(this._sensitiveArea);
+        hash = 37 * hash + Objects.hashCode(this._deptNumber);
+        hash = 37 * hash + this._deptArea;
+        hash = 37 * hash + Objects.hashCode(this._required);
+        hash = 37 * hash + Objects.hashCode(this._deptStations);
         return hash;
     }
 
@@ -158,9 +184,6 @@ public class Dept implements Serializable {
             return false;
         }
         final Dept other = (Dept) obj;
-        if (this._deptNumber != other._deptNumber) {
-            return false;
-        }
         if (this._deptArea != other._deptArea) {
             return false;
         }
@@ -168,6 +191,9 @@ public class Dept implements Serializable {
             return false;
         }
         if (!Objects.equals(this._sensitiveArea, other._sensitiveArea)) {
+            return false;
+        }
+        if (!Objects.equals(this._deptNumber, other._deptNumber)) {
             return false;
         }
         if (!Objects.equals(this._id, other._id)) {
@@ -184,4 +210,5 @@ public class Dept implements Serializable {
         }
         return true;
     }
+
 }

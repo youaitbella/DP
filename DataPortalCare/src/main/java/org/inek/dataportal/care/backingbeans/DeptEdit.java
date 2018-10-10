@@ -5,6 +5,7 @@
  */
 package org.inek.dataportal.care.backingbeans;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -20,6 +21,7 @@ import org.inek.dataportal.care.entities.DeptBaseInformation;
 import org.inek.dataportal.care.entities.DeptStation;
 import org.inek.dataportal.care.entities.DeptStationsAfterTargetYear;
 import org.inek.dataportal.care.facades.DeptFacade;
+import org.inek.dataportal.care.utils.CareExcelExporter;
 import org.inek.dataportal.care.utils.CareValidator;
 import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.controller.SessionController;
@@ -31,7 +33,10 @@ import org.inek.dataportal.common.helper.MailTemplateHelper;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.mail.Mailer;
 import org.inek.dataportal.common.overall.AccessManager;
+import org.inek.dataportal.common.overall.ApplicationTools;
 import org.inek.dataportal.common.scope.FeatureScoped;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 
 /**
  *
@@ -49,19 +54,20 @@ public class DeptEdit {
     private DeptFacade _deptFacade;
     @Inject
     private Mailer _mailer;
+    @Inject
+    private ApplicationTools _applicationTools;
 
     private DeptBaseInformation _deptBaseInformation;
     private Boolean _isReadOnly;
     private Set<Integer> _validIks;
+    private List<DeptStationsAfterTargetYear> _stationsAfterTargetYear = new ArrayList<>();
 
-    private Dept _selectedDept;
-
-    public Dept getSelectedDept() {
-        return _selectedDept;
+    public List<DeptStationsAfterTargetYear> getStationsAfterTargetYear() {
+        return _stationsAfterTargetYear;
     }
 
-    public void setSelectedDept(Dept selectedDept) {
-        this._selectedDept = selectedDept;
+    public void setStationsAfterTargetYear(List<DeptStationsAfterTargetYear> stationsAfterTargetYear) {
+        this._stationsAfterTargetYear = stationsAfterTargetYear;
     }
 
     public Set<Integer> getValidIks() {
@@ -105,6 +111,7 @@ public class DeptEdit {
             }
         } else {
             _deptBaseInformation = _deptFacade.findDeptBaseInformation(Integer.parseInt(id));
+            loadStationsAfterTargetYear(_deptBaseInformation);
         }
         setReadOnly();
     }
@@ -132,10 +139,6 @@ public class DeptEdit {
         preloadDataForIk(_deptBaseInformation);
     }
 
-    public void createNewDeptStation() {
-        _selectedDept.addNewDeptStation();
-    }
-
     public void save() {
         _deptBaseInformation.setLastChangeBy(_sessionController.getAccountId());
         _deptBaseInformation.setLastChanged(new Date());
@@ -150,6 +153,7 @@ public class DeptEdit {
             }
             DialogController.showSaveDialog();
         } catch (Exception ex) {
+            _mailer.sendError("Fehler beim speichern PPUG", ex);
             DialogController.showErrorDialog("Fehler beim speichern", "Ihre Daten konnten nicht gespeichert werden."
                     + "Bitte versuchen Sie es erneut");
         }
@@ -178,7 +182,13 @@ public class DeptEdit {
     }
 
     public void addNewDeptAfterTargetYear() {
-        _deptBaseInformation.addNewDeptAfterTargetYear();
+        _stationsAfterTargetYear.add(new DeptStationsAfterTargetYear());
+    }
+
+    public void addNewDeptAfterTargetYear(Dept dept) {
+        DeptStationsAfterTargetYear station = new DeptStationsAfterTargetYear();
+        station.setDept(dept);
+        _stationsAfterTargetYear.add(station);
     }
 
     private void preloadDataForIk(DeptBaseInformation info) {
@@ -196,7 +206,18 @@ public class DeptEdit {
     }
 
     public void deleteDeptAfterTargetYear(DeptStationsAfterTargetYear dept) {
-        _deptBaseInformation.removeDeptAfterTargetYear(dept);
+        _stationsAfterTargetYear.remove(dept);
+    }
+
+    public StreamedContent exportAsExcel() {
+        CareExcelExporter exporter = new CareExcelExporter();
+        String hospitalName = _applicationTools.retrieveHospitalName(_deptBaseInformation.getIk());
+        String hospitalTown = _applicationTools.retrieveHospitalTown(_deptBaseInformation.getIk());
+        String fileName = "PPUG_" + _deptBaseInformation.getIk();
+        StreamedContent content = new DefaultStreamedContent(exporter.createExcelExportFile(_deptBaseInformation,
+                hospitalName, hospitalTown), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName + ".xlsx");
+
+        return content;
     }
 
     private void removeEmptyStations(DeptBaseInformation info) {
@@ -239,6 +260,13 @@ public class DeptEdit {
     public void change() {
         _deptBaseInformation.setStatus(WorkflowStatus.CorrectionRequested);
         setIsReadOnly(false);
+    }
+
+    private void loadStationsAfterTargetYear(DeptBaseInformation info) {
+        _stationsAfterTargetYear.clear();
+        for (Dept dept : info.getDepts()) {
+            _stationsAfterTargetYear.addAll(dept.getDeptsAftertargetYear());
+        }
     }
 
 }

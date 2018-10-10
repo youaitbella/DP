@@ -29,17 +29,17 @@ public class DeptStationsAfterTargetYear implements Serializable {
     }
     // </editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="BaseInformation">
+    //<editor-fold defaultstate="collapsed" desc="Dept">
     @ManyToOne
-    @JoinColumn(name = "dsBaseInformationId")
-    private DeptBaseInformation _baseInformation;
+    @JoinColumn(name = "dsDeptId")
+    private Dept _dept;
 
-    public DeptBaseInformation getBaseInformation() {
-        return _baseInformation;
+    public Dept getDept() {
+        return _dept;
     }
 
-    public void setBaseInformation(DeptBaseInformation baseInformation) {
-        this._baseInformation = baseInformation;
+    public void setDept(Dept dept) {
+        this._dept = dept;
     }
     //</editor-fold>
 
@@ -71,32 +71,19 @@ public class DeptStationsAfterTargetYear implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property Dept Number">
     @Column(name = "dsDeptNumber")
-    private int _deptNumber;
+    private String _deptNumber;
 
-    public int getDeptNumber() {
+    public String getDeptNumber() {
         return _deptNumber;
     }
 
-    public void setDeptNumber(int deptNumber) {
+    public void setDeptNumber(String deptNumber) {
         this._deptNumber = deptNumber;
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property Dept Area Id">
-    @Column(name = "dsDeptAreaId")
-    private int _deptArea;
-
-    public int getDeptArea() {
-        return _deptArea;
-    }
-
-    public void setDeptArea(int deptArea) {
-        this._deptArea = deptArea;
-    }
-    //</editor-fold>
-
     //<editor-fold defaultstate="collapsed" desc="Property Dept Name">
-    @Column(name = "dsName")
+    @Column(name = "dsStationName")
     private String _stationName = "";
 
     public String getStationName() {
@@ -121,17 +108,58 @@ public class DeptStationsAfterTargetYear implements Serializable {
     }
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Property Dept Name">
+    @Column(name = "dsStationNameTargetYear")
+    private String _stationNameTargetYear = "";
+
+    public String getStationNameTargetYear() {
+        return _stationNameTargetYear;
+    }
+
+    public void setStationNameTargetYear(String stationNameTargetYear) {
+        this._stationNameTargetYear = stationNameTargetYear;
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property Dept Location Code">
+    @Column(name = "dsLocationCodeTargetYear")
+    private String _locationCodeTargetYear;
+
+    public String getLocationCodeTargetYear() {
+        return _locationCodeTargetYear;
+    }
+
+    public void setLocationCodeTargetYear(String locationCodeTargetYear) {
+        this._locationCodeTargetYear = locationCodeTargetYear;
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property Dept Name">
+    @Column(name = "dsComment")
+    private String _comment = "";
+
+    public String getComment() {
+        return _comment;
+    }
+
+    public void setComment(String comment) {
+        this._comment = comment;
+    }
+    //</editor-fold>
+
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 13 * hash + Objects.hashCode(this._id);
-        hash = 13 * hash + Objects.hashCode(this._baseInformation);
-        hash = 13 * hash + Objects.hashCode(this._deptName);
-        hash = 13 * hash + Objects.hashCode(this._sensitiveArea);
-        hash = 13 * hash + this._deptNumber;
-        hash = 13 * hash + this._deptArea;
-        hash = 13 * hash + Objects.hashCode(this._stationName);
-        hash = 13 * hash + Objects.hashCode(this._locationCode);
+        hash = 79 * hash + Objects.hashCode(this._id);
+        hash = 79 * hash + Objects.hashCode(this._dept);
+        hash = 79 * hash + Objects.hashCode(this._deptName);
+        hash = 79 * hash + Objects.hashCode(this._sensitiveArea);
+        hash = 79 * hash + Objects.hashCode(this._deptNumber);
+        hash = 79 * hash + Objects.hashCode(this._stationName);
+        hash = 79 * hash + Objects.hashCode(this._locationCode);
+        hash = 79 * hash + Objects.hashCode(this._stationNameTargetYear);
+        hash = 79 * hash + Objects.hashCode(this._locationCodeTargetYear);
+        hash = 79 * hash + Objects.hashCode(this._comment);
         return hash;
     }
 
@@ -147,16 +175,13 @@ public class DeptStationsAfterTargetYear implements Serializable {
             return false;
         }
         final DeptStationsAfterTargetYear other = (DeptStationsAfterTargetYear) obj;
-        if (this._deptNumber != other._deptNumber) {
-            return false;
-        }
-        if (this._deptArea != other._deptArea) {
-            return false;
-        }
         if (!Objects.equals(this._deptName, other._deptName)) {
             return false;
         }
         if (!Objects.equals(this._sensitiveArea, other._sensitiveArea)) {
+            return false;
+        }
+        if (!Objects.equals(this._deptNumber, other._deptNumber)) {
             return false;
         }
         if (!Objects.equals(this._stationName, other._stationName)) {
@@ -165,10 +190,19 @@ public class DeptStationsAfterTargetYear implements Serializable {
         if (!Objects.equals(this._locationCode, other._locationCode)) {
             return false;
         }
+        if (!Objects.equals(this._stationNameTargetYear, other._stationNameTargetYear)) {
+            return false;
+        }
+        if (!Objects.equals(this._locationCodeTargetYear, other._locationCodeTargetYear)) {
+            return false;
+        }
+        if (!Objects.equals(this._comment, other._comment)) {
+            return false;
+        }
         if (!Objects.equals(this._id, other._id)) {
             return false;
         }
-        if (!Objects.equals(this._baseInformation, other._baseInformation)) {
+        if (!Objects.equals(this._dept, other._dept)) {
             return false;
         }
         return true;

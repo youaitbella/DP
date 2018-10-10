@@ -138,7 +138,7 @@ public class DeptSummary implements Serializable {
             listItem item = new listItem();
             item.setId(info.getId());
             item.setIk(info.getIk());
-            item.setHospitalName(_applicationTools.retrieveHospitalName(info.getIk()));
+            item.setHospitalName(_applicationTools.retrieveHospitalInfo(info.getIk()));
             item.setLastChangeDate(info.getLastChanged());
             item.setStatusId(info.getStatusId());
 

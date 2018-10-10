@@ -13,7 +13,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import javafx.util.Pair;
 import javax.ejb.Stateless;
-import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
@@ -36,22 +35,6 @@ public class DeptFacade extends AbstractDataAccessWithActionLog {
         TypedQuery<DeptBaseInformation> query = getEntityManager().createQuery(jpql, DeptBaseInformation.class);
         query.setParameter("id", id);
         return query.getSingleResult();
-    }
-
-    public DeptBaseInformation findDeptBaseInformation(int ik, int year, WorkflowStatus status) {
-        String jpql = "SELECT bi FROM AEBBaseInformation bi WHERE bi._year = :year "
-                + "and bi._ik = :ik "
-                + "and bi._typ = :typ "
-                + "and bi._statusId = :";
-        TypedQuery<DeptBaseInformation> query = getEntityManager().createQuery(jpql, DeptBaseInformation.class);
-        query.setParameter("ik", ik);
-        query.setParameter("year", year);
-        query.setParameter(FIELD_STATUS, status.getId());
-        try {
-            return query.getSingleResult();
-        } catch (NoResultException ex) {
-            return null;
-        }
     }
 
     public List<DeptBaseInformation> getAllByStatusAndIk(WorkflowStatus status, int ik) {
@@ -128,7 +111,7 @@ public class DeptFacade extends AbstractDataAccessWithActionLog {
             dept.setDeptName((String) record[0]);
             dept.setDeptArea((int) record[1]);
             dept.setRequired((Boolean) record[2]);
-            dept.setDeptNumber((int) record[3]);
+            dept.setDeptNumber((String) record[3]);
             dept.setSensitiveArea((String) record[4]);
             info.addDept(dept);
         });

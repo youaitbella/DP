@@ -16,7 +16,7 @@
 
         <style>
             .card {
-                max-width: 1280px !important;
+                max-width: 1600px !important;
             }
         </style>
 
@@ -44,6 +44,14 @@
                                           rendered="#{deptEdit.changeAllowed()}"
                                           style="margin-left: 10px;"
                                           update="@(.ui-message) @form"/>
+
+                        <pf:commandButton value="Meldung Exportieren"
+                                          ajax="false"
+                                          rendered="#{deptEdit.changeAllowed()}"
+                                          style="margin-left: 10px;"
+                                          icon="ui-icon-arrowthick-1-s">
+                            <pf:fileDownload value="#{deptEdit.exportAsExcel()}" />
+                        </pf:commandButton>
 
                         <pf:commandButton value="Speichern ohne Senden"
                                           action="#{deptEdit.save()}"
