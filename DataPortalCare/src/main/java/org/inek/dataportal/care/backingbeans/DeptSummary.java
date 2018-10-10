@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.api.enums.Feature;
@@ -23,14 +24,13 @@ import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.overall.ApplicationTools;
-import org.inek.dataportal.common.scope.FeatureScoped;
 
 /**
  *
  * @author lautenti
  */
 @Named
-@FeatureScoped
+@ViewScoped
 public class DeptSummary implements Serializable {
 
     @Inject
