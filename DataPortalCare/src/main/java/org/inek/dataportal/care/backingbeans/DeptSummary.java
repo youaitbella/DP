@@ -148,6 +148,10 @@ public class DeptSummary implements Serializable {
         return listItems;
     }
 
+    public String retrieveHospitalName(int ik) {
+        return _applicationTools.retrieveHospitalInfo(ik);
+    }
+
     public class listItem implements Serializable {
 
         private int _id;
@@ -207,5 +211,6 @@ public class DeptSummary implements Serializable {
         public void setLastChangeDate(Date lastChangeDate) {
             this._lastChangeDate = lastChangeDate;
         }
+
     }
 }

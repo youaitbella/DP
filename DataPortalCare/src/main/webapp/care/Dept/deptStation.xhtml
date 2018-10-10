@@ -26,7 +26,7 @@
             <div class="ui-g">
                 <div class="ui-g-10">
                     <pf:outputLabel rendered="#{dept.deptArea ne 3}" value="#{dept.deptNumber} - #{dept.deptName}" />
-                    <pf:outputLabel rendered="#{dept.deptArea eq 3}" value="Intensivmedizin" />
+                    <pf:outputLabel rendered="#{dept.deptArea eq 3}" value="#{dept.sensitiveArea}" />
                 </div>
                 <div class="ui-g-2">
                     <pf:commandButton value="Eintragen"
@@ -218,7 +218,7 @@
 
             <div class="ui-g-12" jsf:rendered="#{deptEdit.deptBaseInformation.ik > 0}">
 
-                <h1>Umbenennung oder strukturelle Veränderungen (§ 5 Abs 4 PpUGV)</h1>
+                <h1>Umbenennung oder strukturelle Veränderungen (§ 5 Abs. 4 PpUGV)</h1>
 
                 <pf:dataTable id="depTableAfterTargetYear"
                               value="#{deptEdit.stationsAfterTargetYear}"
@@ -228,14 +228,14 @@
                     <pf:columnGroup type="header">
                         <pf:row>
                             <pf:column style="width: 20px;" headerText="" />
-                            <pf:column colspan="3" headerText="2017" />
+                            <pf:column colspan="3" headerText="2017" style="border-right-width:5px;" />
                             <pf:column colspan="6" headerText="Nach 2017" />
                         </pf:row>
                         <pf:row>
                             <pf:column style="width: 20px;" headerText="" />
                             <pf:column headerText="Fachabteilung" />
                             <pf:column headerText="Station" />
-                            <pf:column headerText="Standort" />
+                            <pf:column headerText="Standort" style="border-right-width:5px;" />
                             <pf:column headerText="PS Bereich" />
                             <pf:column headerText="FAB - Nummer" />
                             <pf:column headerText="FAB Name" />
@@ -260,7 +260,7 @@
                                              requiredMessage="Bitte geben Sie die Station an"
                                              readonly="#{deptEdit.isReadOnly}"/>
                     </pf:column>
-                    <pf:column headerText="Standort">
+                    <pf:column headerText="Standort" style="border-right-width:5px;">
                         <inekInput:InputText value="#{deptAfterTargetYear.locationCodeTargetYear}"
                                              Style="width: 100%;"
                                              readonly="#{deptEdit.isReadOnly}"/>
@@ -300,9 +300,10 @@
                                              readonly="#{deptEdit.isReadOnly}"/>
                     </pf:column>
                     <pf:column headerText="Anmerkung">
-                        <inputTextarea value="#{deptAfterTargetYear.comment}"
-                                       Style="width: 100%;"
-                                       readonly="#{deptEdit.isReadOnly}"/>
+                        <pf:inputTextarea value="#{deptAfterTargetYear.comment}"
+                                          rows="1"
+                                          style="width: 100%;"
+                                          readonly="#{deptEdit.isReadOnly}"/>
                     </pf:column>
                 </pf:dataTable>
 

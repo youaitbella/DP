@@ -85,7 +85,7 @@
                         </pf:column>
                         <pf:column headerText="Krankenhaus" >
                             <h:link outcome="#{deptSummary.careDeptStationOpen()}"
-                                    value="#{applicationTools.retrieveHospitalName(baseinformation.ik)}" >
+                                    value="#{deptSummary.retrieveHospitalName(baseinformation.ik)}" >
                                 <f:param name="id" value="#{baseInformation.id}"/>
                             </h:link>
                         </pf:column>
@@ -116,7 +116,7 @@
                         </pf:column>
                         <pf:column headerText="Krankenhaus" >
                             <h:link outcome="#{deptSummary.careDeptStationOpen()}"
-                                    value="#{applicationTools.retrieveHospitalName(baseinformation.ik)}" >
+                                    value="#{deptSummary.retrieveHospitalName(baseinformation.ik)}" >
                                 <f:param name="id" value="#{baseInformation.id}"/>
                             </h:link>
                         </pf:column>
