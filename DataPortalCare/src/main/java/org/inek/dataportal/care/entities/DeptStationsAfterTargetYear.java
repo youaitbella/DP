@@ -147,6 +147,7 @@ public class DeptStationsAfterTargetYear implements Serializable {
     }
     //</editor-fold>
 
+    @SuppressWarnings("CyclomaticComplexity")
     @Override
     public int hashCode() {
         int hash = 7;
@@ -163,6 +164,7 @@ public class DeptStationsAfterTargetYear implements Serializable {
         return hash;
     }
 
+    @SuppressWarnings("CyclomaticComplexity")
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

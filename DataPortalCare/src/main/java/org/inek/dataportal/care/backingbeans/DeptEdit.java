@@ -6,6 +6,7 @@
 package org.inek.dataportal.care.backingbeans;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -113,6 +114,7 @@ public class DeptEdit {
             _deptBaseInformation = _deptFacade.findDeptBaseInformation(Integer.parseInt(id));
             loadStationsAfterTargetYear(_deptBaseInformation);
         }
+        _deptBaseInformation.getDepts().sort(Comparator.comparing(a -> a.getDeptNumber()));
         setReadOnly();
     }
 

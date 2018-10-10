@@ -19,11 +19,14 @@
                width="800px">
         <h:outputText value="Für welche Fachabteilung wollen Sie eine Änderung eintragen?" />
 
+        <br />
+
         <pf:repeat value="#{deptEdit.deptBaseInformation.depts}" var="dept">
 
             <div class="ui-g">
                 <div class="ui-g-10">
-                    #{dept.deptNumber} - #{dept.deptName}
+                    <pf:outputLabel rendered="#{dept.deptArea ne 3}" value="#{dept.deptNumber} - #{dept.deptName}" />
+                    <pf:outputLabel rendered="#{dept.deptArea eq 3}" value="Intensivmedizin" />
                 </div>
                 <div class="ui-g-2">
                     <pf:commandButton value="Eintragen"
@@ -78,7 +81,7 @@
 
                 <h1>Angaben zu § 3 Abs. 3 Satz 2 Nr. 1 PpUGV (ausgewiesene Fachabteilung)</h1>
                 <pf:repeat value="#{deptEdit.getDeptsByArea(1)}" var="dept">
-                    <h4>Stationsangaben für Pflegeintensiven Bereich #{dept.sensitiveArea} Fachabteilung #{dept.deptNumber} #{dept.deptName}</h4>
+                    <h3>Stationsangaben für pflegeintensiven Bereich #{dept.sensitiveArea}: Fachabteilung #{dept.deptNumber} #{dept.deptName}</h3>
                     <div class="inekInfoBox" jsf:rendered="#{!dept.required}">
                         Keine Angabe erforderlich
                     </div>
@@ -118,12 +121,14 @@
 
             </div>
 
+            <br />
+
             <div class="ui-g-12" jsf:rendered="#{deptEdit.getDeptsByArea(2).size() gt 0}">
 
                 <h1>Angaben zu § 3 Abs. 2 3 Satz Nr. 2 PpUGV (Indikatoren - DRGs)</h1>
 
                 <pf:repeat value="#{deptEdit.getDeptsByArea(2)}" var="dept">
-                    <h4>Stationsangaben für Pflegeintensiven Bereich #{dept.sensitiveArea} Fachabteilung #{dept.deptNumber} #{dept.deptName}</h4>
+                    <h3>Stationsangaben für pflegeintensiven Bereich #{dept.sensitiveArea}: Fachabteilung #{dept.deptNumber} #{dept.deptName}</h3>
                     <div class="inekInfoBox" jsf:rendered="#{!dept.required}">
                         Keine Angabe erforderlich
                     </div>
@@ -163,12 +168,14 @@
 
             </div>
 
+            <br />
+
             <div class="ui-g-12" jsf:rendered="#{deptEdit.getDeptsByArea(3).size() gt 0}">
 
                 <h1>Angaben zu § 3 Abs. 4 PpUGV (OPS-Liste Intensivmedizin)</h1>
 
                 <pf:repeat value="#{deptEdit.getDeptsByArea(3)}" var="dept">
-                    <h4>Stationsangaben für Pflegeintensiven Bereich #{dept.sensitiveArea}</h4>
+                    <h3>Stationsangaben für pflegeintensiven Bereich #{dept.sensitiveArea}</h3>
                     <div class="inekInfoBox" jsf:rendered="#{!dept.required}">
                         Keine Angabe erforderlich
                     </div>
@@ -206,6 +213,8 @@
                                       update="depTable"/>
                 </pf:repeat>
             </div>
+
+            <br />
 
             <div class="ui-g-12" jsf:rendered="#{deptEdit.deptBaseInformation.ik > 0}">
 
