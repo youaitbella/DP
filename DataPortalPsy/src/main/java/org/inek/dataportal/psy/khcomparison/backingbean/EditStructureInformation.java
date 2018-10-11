@@ -10,7 +10,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -31,6 +30,7 @@ import org.inek.dataportal.common.data.KhComparison.facade.AEBFacade;
 import org.inek.dataportal.common.data.adm.facade.LogFacade;
 import org.inek.dataportal.common.enums.StructureInformationCategorie;
 import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.psy.khcomparison.helper.StructureinformationHelper;
 
 /**
  *
@@ -151,7 +151,7 @@ public class EditStructureInformation {
             return;
         }
         try {
-            String errors = checkForDuplicatedDates(_structureBaseInformation);
+            String errors = StructureinformationHelper.checkForDuplicatedDates(_structureBaseInformation);
             if ("".equals(errors)) {
                 _structureBaseInformation.setLastChangeBy(_sessionController.getAccountId());
                 _structureBaseInformation.setLastChanged(new Date());
@@ -190,25 +190,22 @@ public class EditStructureInformation {
 
     }
 
-    private String checkForDuplicatedDates(StructureBaseInformation info) {
-        Set<String> categories = new HashSet<>();
-        String errors = "";
-
-        for (StructureInformation sInfo : info.getStructureInformations()) {
-            if (info.getStructureInformations().stream().filter(c -> c.getStructureCategorie() == sInfo.getStructureCategorie()
-                    && c.getValidFrom().equals(sInfo.getValidFrom())).count() > 1) {
-                categories.add(errors);
-            }
-        }
-
-        for (String category : categories) {
-            errors += category + ", ";
-        }
-
-        return errors;
+    public void handleChange(ValueChangeEvent event) {
+        createActionLog(event.getComponent().getId(),
+                event.getOldValue().toString(),
+                event.getNewValue().toString());
     }
 
-    public void handleChange(ValueChangeEvent event) {
+    public void handleDateChange(ValueChangeEvent event) {
+        String categorie = (String) event.getComponent().getAttributes().get("categorie");
+
+        Date oldDate = (Date) event.getOldValue();
+        Date newDate = (Date) event.getNewValue();
+
+        if (StructureinformationHelper.newDateChangeOrder(oldDate, newDate, getStructureInformationsByCategorieNoFilter(categorie))) {
+            DialogController.showInfoDialog("Achtung", "Durch das neue Datum wird die Reihenfolge der Gültigkeiten verändert");
+        }
+
         createActionLog(event.getComponent().getId(),
                 event.getOldValue().toString(),
                 event.getNewValue().toString());
@@ -269,12 +266,16 @@ public class EditStructureInformation {
                     .sorted(Comparator.comparing(StructureInformation::getValidFrom, Comparator.nullsLast(Comparator.naturalOrder())))
                     .collect(Collectors.toList());
         } else {
-            return _structureBaseInformation.getStructureInformations().stream()
-                    .filter(c -> c.getStructureCategorie() == StructureInformationCategorie.valueOf(catName))
-                    .sorted(Comparator.comparing(StructureInformation::getValidFrom, Comparator.nullsLast(Comparator.naturalOrder())))
-                    .collect(Collectors.toList());
+            return getStructureInformationsByCategorieNoFilter(catName);
         }
 
+    }
+
+    private List<StructureInformation> getStructureInformationsByCategorieNoFilter(String catName) {
+        return _structureBaseInformation.getStructureInformations().stream()
+                .filter(c -> c.getStructureCategorie() == StructureInformationCategorie.valueOf(catName))
+                .sorted(Comparator.comparing(StructureInformation::getValidFrom, Comparator.nullsLast(Comparator.naturalOrder())))
+                .collect(Collectors.toList());
     }
 
     public void saveNewValidFrom(String catName) {
@@ -283,17 +284,8 @@ public class EditStructureInformation {
         newInfo.setStructureCategorie(StructureInformationCategorie.valueOf(catName));
         newInfo.setValidFrom(new Date());
         _structureBaseInformation.addStructureInformation(newInfo);
-        //_structureBaseInformation.addStructureInformation(copyStructureInformationForNewVality(info));
     }
 
-//    public StructureInformation copyStructureInformationForNewVality(StructureInformation info) {
-//        StructureInformation newInfo = new StructureInformation();
-//        newInfo.setBaseInformation(info.getBaseInformation());
-//        newInfo.setContent(info.getContent());
-//        newInfo.setStructureCategorie(info.getStructureCategorie());
-//        newInfo.setValidFrom(new Date());
-//        return newInfo;
-//    }
     public Boolean collapsCategorie(String catName) {
         return getStructureInformationsByStructureCategorie(catName).isEmpty();
     }
@@ -329,4 +321,9 @@ public class EditStructureInformation {
     public void deactivateFilterStructureInformation() {
         _filterActive = false;
     }
+
+    public void deleteStructureinformation(StructureInformation info) {
+        _structureBaseInformation.removeStructureInformation(info);
+    }
+
 }

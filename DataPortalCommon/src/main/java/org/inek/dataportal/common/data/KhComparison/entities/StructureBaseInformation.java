@@ -115,4 +115,8 @@ public class StructureBaseInformation implements Serializable {
         _structureInformations.add(info);
     }
 
+    public void removeStructureInformation(StructureInformation info) {
+        _structureInformations.remove(info);
+    }
+
 }

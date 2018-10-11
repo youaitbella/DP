@@ -6,6 +6,7 @@
                 xmlns:jsf="http://xmlns.jcp.org/jsf"
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/Input"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:inekIcon="http://xmlns.jcp.org/jsf/composite/components/Icons"
                 xmlns:pf="http://primefaces.org/ui">
 
 
@@ -21,19 +22,20 @@
         <pf:repeat value="#{editStructureInformation.getStructureInformationsByStructureCategorie('BedCount')}"
                    var="structureInformation">
             <div class="ui-g ui-fluid" style="margin-bottom: -10px !important;">
-                <div class="ui-g-1">
+                <div class="ui-g-2">
                     Gültig ab:
                 </div>
-                <div class="ui-g-2">
+                <div class="ui-g-1">
                     <pf:calendar id="validFromBedCount"
                                  value="#{structureInformation.validFrom}"
                                  readonly="#{editStructureInformation.isReadOnly()}"
-                                 valueChangeListener="#{editStructureInformation.handleChange}"
+                                 valueChangeListener="#{editStructureInformation.handleDateChange}"
                                  locale="de"
                                  navigator="true"
                                  pattern="dd.MM.yyyy"
                                  mask="true"
                                  inputStyle="text-align: right;">
+                        <f:attribute name="categorie" value="BedCount" />
                         <pf:ajax event="change" update="validFromNewMessage" />
                         <pf:ajax event="dateSelect" update="validFromNewMessage" />
                     </pf:calendar>
@@ -65,12 +67,13 @@
                     <pf:calendar id="validFromNew"
                                  value="#{structureInformation.validFrom}"
                                  readonly="#{editStructureInformation.isReadOnly()}"
-                                 valueChangeListener="#{editStructureInformation.handleChange}"
+                                 valueChangeListener="#{editStructureInformation.handleDateChange}"
                                  locale="de"
                                  navigator="true"
                                  pattern="dd.MM.yyyy"
                                  mask="true"
                                  inputStyle="text-align: right;">
+                        <f:attribute name="categorie" value="TherapyPartCount" />
                         <pf:ajax event="change" update="validFromNewMessage" />
                         <pf:ajax event="dateSelect" update="validFromNewMessage" />
                     </pf:calendar>
@@ -110,12 +113,13 @@
                     <pf:calendar id="validFromRegionalCare"
                                  value="#{structureInformation.validFrom}"
                                  readonly="#{editStructureInformation.isReadOnly()}"
-                                 valueChangeListener="#{editStructureInformation.handleChange}"
+                                 valueChangeListener="#{editStructureInformation.handleDateChange}"
                                  locale="de"
                                  navigator="true"
                                  pattern="dd.MM.yyyy"
                                  mask="true"
                                  inputStyle="text-align: right;">
+                        <f:attribute name="categorie" value="RegionalCare" />
                         <pf:ajax event="change" update="validFromNewMessage" />
                         <pf:ajax event="dateSelect" update="validFromNewMessage" />
                     </pf:calendar>
@@ -161,12 +165,13 @@
                     <pf:calendar id="validFromAccommodationText"
                                  value="#{structureInformation.validFrom}"
                                  readonly="#{editStructureInformation.isReadOnly()}"
-                                 valueChangeListener="#{editStructureInformation.handleChange}"
+                                 valueChangeListener="#{editStructureInformation.handleDateChange}"
                                  locale="de"
                                  navigator="true"
                                  pattern="dd.MM.yyyy"
                                  mask="true"
                                  inputStyle="text-align: right;">
+                        <f:attribute name="categorie" value="AccommodationText" />
                         <pf:ajax event="change" update="validFromNewMessage" />
                         <pf:ajax event="dateSelect" update="validFromNewMessage" />
                     </pf:calendar>
@@ -212,12 +217,13 @@
                     <pf:calendar id="validFromSPCenterText"
                                  value="#{structureInformation.validFrom}"
                                  readonly="#{editStructureInformation.isReadOnly()}"
-                                 valueChangeListener="#{editStructureInformation.handleChange}"
+                                 valueChangeListener="#{editStructureInformation.handleDateChange}"
                                  locale="de"
                                  navigator="true"
                                  pattern="dd.MM.yyyy"
                                  mask="true"
                                  inputStyle="text-align: right;">
+                        <f:attribute name="categorie" value="SPCenterText" />
                         <pf:ajax event="change" update="validFromNewMessage" />
                         <pf:ajax event="dateSelect" update="validFromNewMessage" />
                     </pf:calendar>
@@ -263,12 +269,13 @@
                     <pf:calendar id="validFromAmbulantPerformanceMain"
                                  value="#{structureInformation.validFrom}"
                                  readonly="#{editStructureInformation.isReadOnly()}"
-                                 valueChangeListener="#{editStructureInformation.handleChange}"
+                                 valueChangeListener="#{editStructureInformation.handleDateChange}"
                                  locale="de"
                                  navigator="true"
                                  pattern="dd.MM.yyyy"
                                  mask="true"
                                  inputStyle="text-align: right;">
+                        <f:attribute name="categorie" value="AmbulantPerformanceMain" />
                         <pf:ajax event="change" update="validFromNewMessage" />
                         <pf:ajax event="dateSelect" update="validFromNewMessage" />
                     </pf:calendar>
@@ -314,12 +321,13 @@
                     <pf:calendar id="validFromDismissManagement"
                                  value="#{structureInformation.validFrom}"
                                  readonly="#{editStructureInformation.isReadOnly()}"
-                                 valueChangeListener="#{editStructureInformation.handleChange}"
+                                 valueChangeListener="#{editStructureInformation.handleDateChange}"
                                  locale="de"
                                  navigator="true"
                                  pattern="dd.MM.yyyy"
                                  mask="true"
                                  inputStyle="text-align: right;">
+                        <f:attribute name="categorie" value="DismissManagement" />
                         <pf:ajax event="change" update="validFromNewMessage" />
                         <pf:ajax event="dateSelect" update="validFromNewMessage" />
                     </pf:calendar>
@@ -365,12 +373,13 @@
                     <pf:calendar id="validFromCareProvider"
                                  value="#{structureInformation.validFrom}"
                                  readonly="#{editStructureInformation.isReadOnly()}"
-                                 valueChangeListener="#{editStructureInformation.handleChange}"
+                                 valueChangeListener="#{editStructureInformation.handleDateChange}"
                                  locale="de"
                                  navigator="true"
                                  pattern="dd.MM.yyyy"
                                  mask="true"
                                  inputStyle="text-align: right;">
+                        <f:attribute name="categorie" value="CareProvider" />
                         <pf:ajax event="change" update="validFromNewMessage" />
                         <pf:ajax event="dateSelect" update="validFromNewMessage" />
                     </pf:calendar>
@@ -408,12 +417,13 @@
                     <pf:calendar id="validFromPerformanceAreas"
                                  value="#{structureInformation.validFrom}"
                                  readonly="#{editStructureInformation.isReadOnly()}"
-                                 valueChangeListener="#{editStructureInformation.handleChange}"
+                                 valueChangeListener="#{editStructureInformation.handleDateChange}"
                                  locale="de"
                                  navigator="true"
                                  pattern="dd.MM.yyyy"
                                  mask="true"
                                  inputStyle="text-align: right;">
+                        <f:attribute name="categorie" value="PerformanceAreas" />
                         <pf:ajax event="change" update="validFromNewMessage" />
                         <pf:ajax event="dateSelect" update="validFromNewMessage" />
                     </pf:calendar>
@@ -459,12 +469,13 @@
                     <pf:calendar id="validFromAmbulantStructure"
                                  value="#{structureInformation.validFrom}"
                                  readonly="#{editStructureInformation.isReadOnly()}"
-                                 valueChangeListener="#{editStructureInformation.handleChange}"
+                                 valueChangeListener="#{editStructureInformation.handleDateChange}"
                                  locale="de"
                                  navigator="true"
                                  pattern="dd.MM.yyyy"
                                  mask="true"
                                  inputStyle="text-align: right;">
+                        <f:attribute name="categorie" value="AmbulantStructure" />
                         <pf:ajax event="change" update="validFromNewMessage" />
                         <pf:ajax event="dateSelect" update="validFromNewMessage" />
                     </pf:calendar>
@@ -510,12 +521,13 @@
                     <pf:calendar id="validFromSocialPsychiatryService"
                                  value="#{structureInformation.validFrom}"
                                  readonly="#{editStructureInformation.isReadOnly()}"
-                                 valueChangeListener="#{editStructureInformation.handleChange}"
+                                 valueChangeListener="#{editStructureInformation.handleDateChange}"
                                  locale="de"
                                  navigator="true"
                                  pattern="dd.MM.yyyy"
                                  mask="true"
                                  inputStyle="text-align: right;">
+                        <f:attribute name="categorie" value="SocialPsychiatryService" />
                         <pf:ajax event="change" update="validFromNewMessage" />
                         <pf:ajax event="dateSelect" update="validFromNewMessage" />
                     </pf:calendar>
