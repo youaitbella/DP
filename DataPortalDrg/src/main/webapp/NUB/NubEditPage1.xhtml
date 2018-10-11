@@ -166,7 +166,7 @@
                              value="#{editNubRequest.nubRequest.procs}"
                              required="#{!editNubRequest.nubRequest.hasNoProcs}"
                              validator="#{editNubRequest.checkProcedureCodes}">
-                <f:validateLength maximum="200"/>
+                <f:validateLength maximum="500"/>
                 <f:ajax event="change" render="@this msgCheckProcs"/>
             </h:inputTextarea>
             <h:selectBooleanCheckbox id="noProc" value="#{editNubRequest.nubRequest.hasNoProcs}" 
