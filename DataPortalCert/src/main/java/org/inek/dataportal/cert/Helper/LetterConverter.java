@@ -16,48 +16,48 @@ import java.util.Map;
  */
 public class LetterConverter {
 
-    private static final Map<String, String> Char2Word = new HashMap<>();
+    private static final Map<String, String> CHAR_2_WORD = new HashMap<>();
 
     static {
-        Char2Word.put("a", "Anton");
-        Char2Word.put("b", "Berta");
-        Char2Word.put("c", "Cäsar");
-        Char2Word.put("d", "Dora");
-        Char2Word.put("e", "Emil");
-        Char2Word.put("f", "Friedrich");
-        Char2Word.put("g", "Gustav");
-        Char2Word.put("h", "Heinrich");
-        Char2Word.put("i", "Ida");
-        Char2Word.put("j", "Julius");
-        Char2Word.put("k", "Kaufmann");
-        Char2Word.put("l", "Ludwig");
-        Char2Word.put("m", "Martha");
-        Char2Word.put("n", "Nordpol");
-        Char2Word.put("o", "Otto");
-        Char2Word.put("ö", "Paula");
-        Char2Word.put("p", "Gustav");
-        Char2Word.put("q", "Quelle");
-        Char2Word.put("r", "Richard");
-        Char2Word.put("s", "Samuel");
-        Char2Word.put("ß", "Eszett");
-        Char2Word.put("t", "Theodor");
-        Char2Word.put("u", "Ulrich");
-        Char2Word.put("ü", "Übermut");
-        Char2Word.put("v", "Viktor");
-        Char2Word.put("w", "Wilhelm");
-        Char2Word.put("x", "Xanthippe");
-        Char2Word.put("y", "Ypsilon");
-        Char2Word.put("z", "Zeppelin");
-        Char2Word.put("1", "Eins");
-        Char2Word.put("2", "Zwei");
-        Char2Word.put("3", "Drei");
-        Char2Word.put("4", "Vier");
-        Char2Word.put("5", "Fünf");
-        Char2Word.put("6", "Sechs");
-        Char2Word.put("7", "Sieben");
-        Char2Word.put("8", "Acht");
-        Char2Word.put("9", "Neun");
-        Char2Word.put("0", "Null");
+        CHAR_2_WORD.put("a", "Anton");
+        CHAR_2_WORD.put("b", "Berta");
+        CHAR_2_WORD.put("c", "Cäsar");
+        CHAR_2_WORD.put("d", "Dora");
+        CHAR_2_WORD.put("e", "Emil");
+        CHAR_2_WORD.put("f", "Friedrich");
+        CHAR_2_WORD.put("g", "Gustav");
+        CHAR_2_WORD.put("h", "Heinrich");
+        CHAR_2_WORD.put("i", "Ida");
+        CHAR_2_WORD.put("j", "Julius");
+        CHAR_2_WORD.put("k", "Kaufmann");
+        CHAR_2_WORD.put("l", "Ludwig");
+        CHAR_2_WORD.put("m", "Martha");
+        CHAR_2_WORD.put("n", "Nordpol");
+        CHAR_2_WORD.put("o", "Otto");
+        CHAR_2_WORD.put("ö", "Paula");
+        CHAR_2_WORD.put("p", "Gustav");
+        CHAR_2_WORD.put("q", "Quelle");
+        CHAR_2_WORD.put("r", "Richard");
+        CHAR_2_WORD.put("s", "Samuel");
+        CHAR_2_WORD.put("ß", "Eszett");
+        CHAR_2_WORD.put("t", "Theodor");
+        CHAR_2_WORD.put("u", "Ulrich");
+        CHAR_2_WORD.put("ü", "Übermut");
+        CHAR_2_WORD.put("v", "Viktor");
+        CHAR_2_WORD.put("w", "Wilhelm");
+        CHAR_2_WORD.put("x", "Xanthippe");
+        CHAR_2_WORD.put("y", "Ypsilon");
+        CHAR_2_WORD.put("z", "Zeppelin");
+        CHAR_2_WORD.put("1", "Eins");
+        CHAR_2_WORD.put("2", "Zwei");
+        CHAR_2_WORD.put("3", "Drei");
+        CHAR_2_WORD.put("4", "Vier");
+        CHAR_2_WORD.put("5", "Fünf");
+        CHAR_2_WORD.put("6", "Sechs");
+        CHAR_2_WORD.put("7", "Sieben");
+        CHAR_2_WORD.put("8", "Acht");
+        CHAR_2_WORD.put("9", "Neun");
+        CHAR_2_WORD.put("0", "Null");
     }
 
     public static List<String> describeLetters(String letterSequence) {
@@ -72,15 +72,15 @@ public class LetterConverter {
     }
 
     static String getWordFromChar(String c) {
-        if (Char2Word.containsKey(c.toLowerCase())) {
-            return c + " = " + Char2Word.get(c.toLowerCase()) + (c.toUpperCase().equals(c) ? "" : "(klein)");
+        if (CHAR_2_WORD.containsKey(c.toLowerCase())) {
+            return c + " = " + CHAR_2_WORD.get(c.toLowerCase()) + (c.toUpperCase().equals(c) ? "" : "(klein)");
         } else {
             return "";
         }
     }
 
     public Map<String, String> getMap() {
-        return Char2Word;
+        return CHAR_2_WORD;
 
     }
 
