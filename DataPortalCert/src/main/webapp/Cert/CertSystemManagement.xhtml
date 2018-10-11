@@ -14,6 +14,13 @@
     <ui:define name="editContent" >
         <h:form id="form">
 
+            <pf:dialog header="Buchstabiertafel" widgetVar="dlgLetter" modal="true">
+                <pf:repeat value="#{certManager.describeLetters()}" var="letter">
+                    <h:outputText value="#{letter}" />
+                    <br />
+                </pf:repeat>
+            </pf:dialog>
+
             <h:outputLabel for="mnuSystem" value="#{msg.lblSystem}:" styleClass="label15"/>
             <h:selectOneMenu id="mnuSystem" styleClass="input"  value="#{certManager.systemId}" immediate="true">
                 <f:selectItems value="#{certManager.systems}" var="item" itemLabel="#{item.label}" itemValue="#{item.value}"/>
@@ -98,6 +105,7 @@
                              disabled="#{certManager.system == null}">
                     <f:ajax render="@this mnuSystem certButtons:btnSystemSave :logout:remaining" />
                 </h:inputText>
+                <i class="fa fa-info-circle fa-lg" onclick="PF('dlgLetter').show();" />
             </div>
 
             <br/>

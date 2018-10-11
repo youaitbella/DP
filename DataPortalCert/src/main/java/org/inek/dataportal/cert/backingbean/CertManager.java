@@ -25,6 +25,7 @@ import org.inek.dataportal.cert.entities.Grouper;
 import org.inek.dataportal.cert.facade.GrouperFacade;
 import org.inek.dataportal.cert.facade.SystemFacade;
 import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.cert.Helper.LetterConverter;
 import org.inek.dataportal.cert.enums.CertStatus;
 import org.inek.dataportal.cert.Helper.CertFileHelper;
 import org.inek.dataportal.common.controller.DialogController;
@@ -315,5 +316,9 @@ public class CertManager implements Serializable {
             list.add(new SelectItem(val.getId(), val.getName()));
         }
         return list;
+    }
+    
+    public List<String> describeLetters(){
+        return LetterConverter.describeLetters(_system.getPassword());
     }
 }
