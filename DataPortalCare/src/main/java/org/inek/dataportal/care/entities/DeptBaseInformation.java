@@ -159,6 +159,7 @@ public class DeptBaseInformation implements Serializable, StatusEntity {
 
     @OneToMany(mappedBy = "_baseInformation", cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "deBaseInformationId")
+    @OrderBy("_deptNumber")
     private List<Dept> _depts = new ArrayList<>();
 
     public List<Dept> getDepts() {
