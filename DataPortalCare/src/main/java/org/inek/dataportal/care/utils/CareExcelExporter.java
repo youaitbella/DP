@@ -240,10 +240,10 @@ public class CareExcelExporter {
 
     private CellStyle getCellStyleBorder(Sheet sheet) {
         CellStyle style = sheet.getWorkbook().createCellStyle();
-        style.setBorderTop(BorderStyle.MEDIUM);
-        style.setBorderBottom(BorderStyle.MEDIUM);
-        style.setBorderLeft(BorderStyle.MEDIUM);
-        style.setBorderRight(BorderStyle.MEDIUM);
+        style.setBorderTop(BorderStyle.THIN);
+        style.setBorderBottom(BorderStyle.THIN);
+        style.setBorderLeft(BorderStyle.THIN);
+        style.setBorderRight(BorderStyle.THIN);
         return style;
     }
 
