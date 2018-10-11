@@ -152,7 +152,7 @@ public class SessionController implements Serializable {
             return false;
         }
         CustomerType type = _typeFacade.find(_account.getCustomerTypeId());
-        return type.isHospital() || isInekUser(Feature.ADMIN);
+        return (type != null && type.isHospital()) || isInekUser(Feature.ADMIN);
     }
 
     public boolean isLoggedIn() {
