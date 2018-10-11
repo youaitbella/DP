@@ -7,6 +7,8 @@ package org.inek.dataportal.psy.khcomparison.backingbean;
 
 import org.inek.dataportal.common.data.adm.ChangeLog;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
@@ -282,8 +284,16 @@ public class EditStructureInformation {
         StructureInformation newInfo = new StructureInformation();
         newInfo.setBaseInformation(_structureBaseInformation);
         newInfo.setStructureCategorie(StructureInformationCategorie.valueOf(catName));
-        newInfo.setValidFrom(new Date());
+        newInfo.setValidFrom(createDate());
         _structureBaseInformation.addStructureInformation(newInfo);
+    }
+
+    private Date createDate() {
+        LocalDate date = LocalDate.now();
+
+        return java.util.Date.from(date.atStartOfDay()
+                .atZone(ZoneId.systemDefault())
+                .toInstant());
     }
 
     public Boolean collapsCategorie(String catName) {
