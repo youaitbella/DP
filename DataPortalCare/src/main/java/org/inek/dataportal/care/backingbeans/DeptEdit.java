@@ -96,7 +96,7 @@ public class DeptEdit {
     }
 
     @PostConstruct
-    public void init() {
+    private void init() {
         String id = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id");
         if (id == null) {
             Utils.navigate(Pages.NotAllowed.RedirectURL());
@@ -123,7 +123,7 @@ public class DeptEdit {
 
     private boolean isAccessAllowed(DeptBaseInformation info) {
         return _accessManager.isAccessAllowed(Feature.CARE, info.getStatus(),
-                _sessionController.getAccountId(), info.getIk());
+                Integer.MIN_VALUE, info.getIk());
     }
 
     private void setReadOnly() {
