@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.api.enums.PortalType;
+import org.inek.dataportal.common.helper.EnvironmentInfo;
 import org.inek.dataportal.common.helper.Utils;
 
 /**
@@ -38,7 +39,7 @@ public class RequestController implements Serializable {
     public void forceLoginIfNotLoggedIn(ComponentSystemEvent e) {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         addCacheControlToResponse(facesContext);
-        
+
         String viewId = facesContext.getViewRoot().getViewId();
         if (viewId.startsWith("/Login")) {
             handleLoginViews(facesContext);
@@ -69,12 +70,12 @@ public class RequestController implements Serializable {
         HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
         if (!response.containsHeader("Content-Disposition")
                 && !request.getRequestURI().contains(ResourceHandler.RESOURCE_IDENTIFIER)) { // Skip JSF resources (CSS/JS/Images/etc)
-            response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); 
+            response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
             response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
             response.setDateHeader("Expires", 0); // Proxies.
         }
     }
-    
+
     public void handleLoginViews(FacesContext facesContext) {
         String sessionId = facesContext.getExternalContext().getSessionId(false);
         if (sessionId == null) {
@@ -86,16 +87,30 @@ public class RequestController implements Serializable {
         ExternalContext externalContext = facesContext.getExternalContext();
         String token = externalContext.getRequestParameterMap().get("token");
         String portal = externalContext.getRequestParameterMap().get("portal");
+        String login = externalContext.getRequestParameterMap().get("login");
+
         if (token == null || portal == null) {
             return false;
         }
         try {
+            String viewId = facesContext.getViewRoot().getViewId();
+            if (!"true".equals(login)) {
+                // if a user does not logout and an other user logs in using the same browser,
+                // then the session of the former user might still be active.
+                // Thus, instead of login by token, we invalidate the session.
+                // Then we add the parameter "login=true" and perform a redirect 
+                // This redirect is essential to perform the login into the new session and not to invalidate the session we just use.
+                String url = EnvironmentInfo.getServerUrlWithContextpath() + viewId + "?token=" + token + "&portal=" + portal + "&login=true";
+                externalContext.invalidateSession();
+                FacesContext.getCurrentInstance().getExternalContext().redirect(url);
+                return true;
+            }
             if (_sessionController.loginByToken(token, PortalType.valueOf(portal))) {
-                String viewId = facesContext.getViewRoot().getViewId();
                 facesContext.getApplication().getNavigationHandler()
                         .handleNavigation(facesContext, null, viewId + "?faces-redirect=true");
-
+                return true;
             }
+            return false;
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
