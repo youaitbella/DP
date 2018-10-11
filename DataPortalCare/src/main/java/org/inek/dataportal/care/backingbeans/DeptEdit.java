@@ -114,6 +114,7 @@ public class DeptEdit {
             _deptBaseInformation = _deptFacade.findDeptBaseInformation(Integer.parseInt(id));
             if (!isAccessAllowed(_deptBaseInformation)) {
                 Utils.navigate(Pages.NotAllowed.RedirectURL());
+                return;
             }
             loadStationsAfterTargetYear(_deptBaseInformation);
         }
@@ -130,7 +131,7 @@ public class DeptEdit {
         if (_deptBaseInformation != null) {
             setIsReadOnly(_accessManager.isReadOnly(Feature.CARE,
                     _deptBaseInformation.getStatus(),
-                    _sessionController.getAccountId(),
+                    Integer.MIN_VALUE,
                     _deptBaseInformation.getIk()));
         }
     }
