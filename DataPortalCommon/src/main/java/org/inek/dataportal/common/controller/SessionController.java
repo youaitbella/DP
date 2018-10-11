@@ -196,7 +196,7 @@ public class SessionController implements Serializable {
             FacesContext.getCurrentInstance().getExternalContext().redirect(url);
             return null;
         } catch (IOException ex) {
-            LOGGER.log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, "Error during logout " + ex.getMessage(), ex);
         }
         return Pages.Login.RedirectURL();
     }
@@ -218,25 +218,29 @@ public class SessionController implements Serializable {
             return;
         }
         try {
-            HttpServletRequest request = (HttpServletRequest) ctxt.getExternalContext().getRequest();
-            HttpServletResponse response = (HttpServletResponse) ctxt.getExternalContext().getResponse();
-            response.setContentType("text/html");
-
-            // Delete all the cookies
-            Cookie[] cookies = request.getCookies();
-            if (cookies != null) {
-                for (Cookie cookie : cookies) {
-                    cookie.setValue(null);
-                    cookie.setMaxAge(0);
-                    response.addCookie(cookie);
-                }
-            }
+            markCookiesDeletable(ctxt);
             ctxt.getExternalContext().invalidateSession();
             ctxt.getExternalContext().getSessionId(true);
         } catch (Exception ex) {
             LOGGER.log(Level.WARNING, "Exception during invalidatesesion: {0}", ex.getMessage());
         }
 
+    }
+
+    private void markCookiesDeletable(FacesContext ctxt) {
+        HttpServletRequest request = (HttpServletRequest) ctxt.getExternalContext().getRequest();
+        HttpServletResponse response = (HttpServletResponse) ctxt.getExternalContext().getResponse();
+        response.setContentType("text/html");
+
+        // Delete all the cookies
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                cookie.setValue(null);
+                cookie.setMaxAge(0);
+                response.addCookie(cookie);
+            }
+        }
     }
 
     public void logMessage(String msg) {
