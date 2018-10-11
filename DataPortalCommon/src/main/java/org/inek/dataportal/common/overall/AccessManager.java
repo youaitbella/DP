@@ -169,6 +169,9 @@ public class AccessManager implements Serializable {
             if (right.isPresent()) {
                 return right.get().canRead();
             }
+            if (feature.getManagedBy() == ManagedBy.IkAdminOnly) {
+                return false;
+            }
         }
 
         if (ownerId == _sessionController.getAccountId()) {
