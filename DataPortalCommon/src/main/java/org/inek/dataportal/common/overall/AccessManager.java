@@ -101,12 +101,10 @@ public class AccessManager implements Serializable {
     }
 
     private Stream<AccessRight> obtainAccessRights(Feature feature, Predicate<AccessRight> predicate) {
-        return _sessionController
+        List<AccessRight> accessRights = _sessionController
                 .getAccount()
-                .getAccessRights()
-                .stream()
-                .filter(r -> r.getFeature() == feature)
-                .filter(predicate);
+                .getAccessRights();
+        return accessRights.stream().filter(r -> r.getFeature() == feature).filter(predicate);
     }
 
     private Set<Integer> retrieveIkSet(Feature feature, Predicate<AccessRight> predicate) {
@@ -190,7 +188,7 @@ public class AccessManager implements Serializable {
     public boolean isWritable(Feature feature, WorkflowStatus state, int ownerId, int ik) {
         return false;
     }
-    
+
     /**
      * Data is readonly when provided to InEK or is owned by someone else and no edit right is granted to current user.
      *
@@ -504,7 +502,6 @@ public class AccessManager implements Serializable {
         return responsibleForIks;
     }
 
-    
     private Set<Integer> retrieveDeniedForCreationIks(Feature feature) {
         return retrieveIkSet(feature, r -> !r.getRight().canCreate());
     }

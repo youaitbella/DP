@@ -170,7 +170,7 @@
                         history.pushState(null, null, document.URL);
                     });
                 </script>
-  </h:form>
+            </h:form>
 
             <ui:remove>
                 <script type="text/javascript">
@@ -181,22 +181,6 @@
                     });
                     </script>
                 </ui:remove>
-                <!-- Piwik ->
-                <script type="text/javascript">
-                  var _paq = _paq || [];
-                  _paq.push(["setDomains", ["*.daten.inek.org"]]);
-                  _paq.push(['trackPageView']);
-                  _paq.push(['enableLinkTracking']);
-                  (function() {
-                    var u="http://services.g-drg.de/piwik/";
-                    _paq.push(['setTrackerUrl', u+'piwik.php']);
-                    _paq.push(['setSiteId', 6]);
-                    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-                    g.type='text/javascript'; g.async=true; g.defer=true; g.src='# {request.contextPath}/javax.faces.resource/script/piwik.js.xhtml'; s.parentNode.insertBefore(g,s);
-                  })();
-                </script>
-                <noscript><p><img src="http://services.g-drg.de/piwik/piwik.php?idsite=6" style="border:0;" alt="" /></p></noscript>
-                <!- End Piwik Code -->
             </h:body>
         </f:view>
     </html>

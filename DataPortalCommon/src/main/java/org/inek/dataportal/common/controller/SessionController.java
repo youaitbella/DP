@@ -38,7 +38,6 @@ import org.inek.dataportal.common.data.adm.InekRole;
 import org.inek.dataportal.common.data.adm.Log;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Stage;
-import org.inek.dataportal.common.helper.NotLoggedInException;
 import org.inek.dataportal.common.helper.Topic;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.mail.Mailer;
@@ -126,15 +125,8 @@ public class SessionController implements Serializable {
 
     private void checkAccount() {
         if (_account == null) {
-            FacesContext facesContext = FacesContext.getCurrentInstance();
-            try {
-                String url = EnvironmentInfo.getServerUrlWithContextpath() + Pages.SessionTimeout.URL();
-                facesContext.getExternalContext().redirect(url);
-            } catch (IOException | IllegalStateException ex) {
-                facesContext.getApplication().getNavigationHandler().
-                        handleNavigation(facesContext, null, Pages.SessionTimeout.URL());
-                throw new NotLoggedInException();
-            }
+            _account = new Account();
+             Utils.navigate(Pages.SessionTimeout.RedirectURL());
         }
     }
 
@@ -384,7 +376,6 @@ public class SessionController implements Serializable {
             initFeatures();
             configureSessionTimeout();
         }
-
         return _account != null;
     }
 
@@ -662,10 +653,7 @@ public class SessionController implements Serializable {
     }
 
     public String getManual() {
-        if (_account == null) {
-            return "InEK-Datenportal.pdf";
-        }
-        if (_account.getEmail().toLowerCase().endsWith("@inek-drg.de")) {
+        if (_account != null && _account.getEmail().toLowerCase().endsWith("@inek-drg.de")) {
             return "intern/InEK-DatenportalIntern.pdf";
         }
         return "InEK-Datenportal.pdf";

@@ -23,7 +23,6 @@ import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.helper.EnvironmentInfo;
-import org.inek.dataportal.common.helper.NotLoggedInException;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.mail.Mailer;
 
@@ -69,8 +68,6 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
             Throwable exception = context.getException();
             if (exception instanceof ViewExpiredException) {
                 targetPage = handleViewExpired(exception, fc, targetPage);
-            } else if (exception instanceof NotLoggedInException) {
-                targetPage = handleNotLoggedIn(exception, targetPage);
             } else if (isWeldException(exception)) {
                 targetPage = handleWeldException(exception, targetPage);
             } else if (exception instanceof ELException && !exception.getMessage().toLowerCase().
@@ -98,14 +95,6 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
         if (!viewExpiredExeption.getViewId().contains("Login.xhtml")) {
             targetPage = Pages.SessionTimeout.RedirectURL();
             requestMap.put("currentViewId", viewExpiredExeption.getViewId());
-        }
-        return targetPage;
-    }
-
-    private String handleNotLoggedIn(Throwable exception, String targetPage) {
-        LOGGER.log(Level.SEVERE, "[Not logged in]", exception.getMessage());
-        if (targetPage.isEmpty()) {
-            targetPage = Pages.SessionTimeout.RedirectURL();
         }
         return targetPage;
     }

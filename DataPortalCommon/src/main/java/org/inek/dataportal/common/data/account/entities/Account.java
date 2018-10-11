@@ -142,7 +142,7 @@ public class Account implements Serializable, Person {
 
     // <editor-fold defaultstate="collapsed" desc="Property Mail">
     @Column(name = "acMail")
-    private String _email;
+    private String _email = "";
 
     @Override
     public String getEmail() {
