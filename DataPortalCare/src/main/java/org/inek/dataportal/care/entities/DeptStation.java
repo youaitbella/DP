@@ -1,11 +1,10 @@
 package org.inek.dataportal.care.entities;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
-import javax.persistence.*;
 
 /**
- *
  * @author lautenti
  */
 @Entity
@@ -14,11 +13,21 @@ public class DeptStation implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    public DeptStation() {
+
+    }
+
+    public DeptStation(DeptStation station) {
+        this._stationName = station.getStationName();
+        this._locationCode = station.getLocationCode();
+    }
+
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "desId")
     private Integer _id;
+
 
     public int getId() {
         return _id;

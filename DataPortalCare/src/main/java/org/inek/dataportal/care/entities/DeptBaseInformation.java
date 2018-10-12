@@ -1,5 +1,9 @@
 package org.inek.dataportal.care.entities;
 
+import org.inek.dataportal.common.data.iface.StatusEntity;
+import org.inek.dataportal.common.enums.WorkflowStatus;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
@@ -7,12 +11,8 @@ import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.*;
-import org.inek.dataportal.common.data.iface.StatusEntity;
-import org.inek.dataportal.common.enums.WorkflowStatus;
 
 /**
- *
  * @author lautenti
  */
 @Entity
@@ -20,6 +20,27 @@ import org.inek.dataportal.common.enums.WorkflowStatus;
 public class DeptBaseInformation implements Serializable, StatusEntity {
 
     private static final long serialVersionUID = 1L;
+
+    public DeptBaseInformation() {
+
+    }
+
+    public DeptBaseInformation(DeptBaseInformation deptBaseInformation) {
+        this._created = deptBaseInformation.getCreated();
+        this._createdBy = deptBaseInformation.getCreatedBy();
+        this._ik = deptBaseInformation.getIk();
+        this._year = deptBaseInformation.getYear();
+        this._statusId = deptBaseInformation.getStatusId();
+        this._send = deptBaseInformation.getSend();
+        this._lastChangeBy = deptBaseInformation.getLastChangeBy();
+        this._lastChanged = deptBaseInformation.getLastChanged();
+
+        for (Dept dept : deptBaseInformation.getDepts()) {
+            Dept newDept = new Dept(dept);
+            newDept.setBaseInformation(this);
+            addDept(newDept);
+        }
+    }
 
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
@@ -184,4 +205,7 @@ public class DeptBaseInformation implements Serializable, StatusEntity {
         _depts.add(dept);
     }
 
+    public void setIdNull() {
+        _id = null;
+    }
 }

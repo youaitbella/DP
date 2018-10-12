@@ -58,6 +58,7 @@ public class DeptEdit {
     private ApplicationTools _applicationTools;
 
     private DeptBaseInformation _deptBaseInformation;
+    private DeptBaseInformation _oldDeptbaseInformation;
     private Boolean _isReadOnly;
     private Set<Integer> _validIks;
     private List<DeptStationsAfterTargetYear> _stationsAfterTargetYear = new ArrayList<>();
@@ -153,8 +154,12 @@ public class DeptEdit {
         _deptBaseInformation.setLastChanged(new Date());
 
         try {
-            //removeEmptyStations(_deptBaseInformation);
+            if (_deptBaseInformation.getStatus() == WorkflowStatus.CorrectionRequested) {
+                _deptFacade.save(_oldDeptbaseInformation);
+            }
+
             _deptBaseInformation = _deptFacade.save(_deptBaseInformation);
+
             if (_deptBaseInformation.getStatus() == WorkflowStatus.Provided) {
                 sendMail("Care Senden Bestätigung");
             } else {
@@ -257,7 +262,14 @@ public class DeptEdit {
 
     public void change() {
         _deptBaseInformation.setStatus(WorkflowStatus.CorrectionRequested);
+        _oldDeptbaseInformation = copyBaseInformation(_deptBaseInformation);
         setIsReadOnly(false);
+    }
+
+    private DeptBaseInformation copyBaseInformation(DeptBaseInformation deptBaseInformation) {
+        DeptBaseInformation baseInfo = new DeptBaseInformation(deptBaseInformation);
+        baseInfo.setStatus(WorkflowStatus.Retired);
+        return baseInfo;
     }
 
     private void loadStationsAfterTargetYear(DeptBaseInformation info) {

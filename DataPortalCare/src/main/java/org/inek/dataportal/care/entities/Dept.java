@@ -1,13 +1,12 @@
 package org.inek.dataportal.care.entities;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import javax.persistence.*;
 
 /**
- *
  * @author lautenti
  */
 @Entity
@@ -15,6 +14,31 @@ import javax.persistence.*;
 public class Dept implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    public Dept() {
+    }
+
+
+    public Dept(Dept dept) {
+        this._deptArea = dept.getDeptArea();
+        this._deptName = dept.getDeptName();
+        this._deptNumber = dept.getDeptNumber();
+        this._sensitiveArea = dept.getSensitiveArea();
+        this._required = dept.getRequired();
+
+        for (DeptStation station : dept.getDeptStations()) {
+            DeptStation newStation = new DeptStation(station);
+            newStation.setDept(this);
+            addDeptStation(station);
+        }
+
+        for (DeptStationsAfterTargetYear afterTargetYearStation : dept.getDeptsAftertargetYear()) {
+            DeptStationsAfterTargetYear newStation = new DeptStationsAfterTargetYear(afterTargetYearStation);
+            newStation.setDept(this);
+            addDeptAfterTargetYear(newStation);
+        }
+    }
+
 
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
@@ -128,6 +152,10 @@ public class Dept implements Serializable {
         _deptStations.add(deptStation);
     }
 
+    private void addDeptStation(DeptStation station) {
+        _deptStations.add(station);
+    }
+
     public void removeDeptStation(DeptStation deptStation) {
         _deptStations.remove(deptStation);
     }
@@ -168,7 +196,6 @@ public class Dept implements Serializable {
         hash = 37 * hash + Objects.hashCode(this._deptNumber);
         hash = 37 * hash + this._deptArea;
         hash = 37 * hash + Objects.hashCode(this._required);
-        hash = 37 * hash + Objects.hashCode(this._deptStations);
         return hash;
     }
 
