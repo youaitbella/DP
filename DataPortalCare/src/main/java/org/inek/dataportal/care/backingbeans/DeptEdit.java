@@ -225,7 +225,7 @@ public class DeptEdit {
         CareExcelExporter exporter = new CareExcelExporter();
         String hospitalName = _applicationTools.retrieveHospitalName(_deptBaseInformation.getIk());
         String hospitalTown = _applicationTools.retrieveHospitalTown(_deptBaseInformation.getIk());
-        String fileName = "PPUG_" + _deptBaseInformation.getIk();
+        String fileName = "Mitteilung gem. Paragraph 5 PpUGV_" + _deptBaseInformation.getIk();
         StreamedContent content = new DefaultStreamedContent(exporter.createExcelExportFile(_deptBaseInformation,
                 hospitalName, hospitalTown), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName + ".xlsx");
 
@@ -237,7 +237,11 @@ public class DeptEdit {
         String salutation = _mailer.getFormalSalutation(_sessionController.getAccount());
 
         MailTemplate template = _mailer.getMailTemplate(mailTemplateName);
+        MailTemplateHelper.setPlaceholderInTemplateSubject(template, "{ik}", Integer.toString(_deptBaseInformation.getIk()));
+
         MailTemplateHelper.setPlaceholderInTemplateBody(template, "{salutation}", salutation);
+        MailTemplateHelper.setPlaceholderInTemplateBody(template, "{ik}", Integer.toString(_deptBaseInformation.getIk()));
+
         if (!_mailer.sendMailTemplate(template, _sessionController.getAccount().getEmail())) {
             _mailer.sendException(Level.SEVERE,
                     "Fehler beim Emailversand an " + _deptBaseInformation.getIk() + "(Care)", new Exception());
