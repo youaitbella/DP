@@ -2,11 +2,7 @@
 <!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:jsf="http://xmlns.jcp.org/jsf"
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/Input"
-                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-                xmlns:inekIcon="http://xmlns.jcp.org/jsf/composite/components/Icons"
                 xmlns:pf="http://primefaces.org/ui">
 
 
@@ -22,10 +18,10 @@
         <pf:repeat value="#{editStructureInformation.getStructureInformationsByStructureCategorie('BedCount')}"
                    var="structureInformation">
             <div class="ui-g ui-fluid" style="margin-bottom: -10px !important;">
-                <div class="ui-g-2">
+                <div class="ui-g-1">
                     Gültig ab:
                 </div>
-                <div class="ui-g-1">
+                <div class="ui-g-2">
                     <pf:calendar id="validFromBedCount"
                                  value="#{structureInformation.validFrom}"
                                  readonly="#{editStructureInformation.isReadOnly()}"
@@ -43,7 +39,7 @@
                 </div>
                 <div class="ui-g-9">
                     <inek:InputNumber value="#{structureInformation.content}"
-                                      readonly="#{editStructureInformation.isReadOnly()}"/>
+                                      readonly="#{editStructureInformation.isReadOnly()}" />
                 </div>
             </div>
         </pf:repeat>
@@ -52,7 +48,7 @@
                           value="Neuer Eintrag"
                           actionListener="#{editStructureInformation.saveNewValidFrom('BedCount')}"
                           rendered="#{!editStructureInformation.isReadOnly()}"
-                          update="generellId"/>
+                          update="generellId" />
         <br />
 
         <b>#{editStructureInformation.getStructureCategorie('TherapyPartCount').description}</b>
@@ -81,7 +77,7 @@
                 </div>
                 <div class="ui-g-9">
                     <inek:InputNumber value="#{structureInformation.content}"
-                                      readonly="#{editStructureInformation.isReadOnly()}"/>
+                                      readonly="#{editStructureInformation.isReadOnly()}" />
                 </div>
             </div>
         </pf:repeat>
@@ -90,7 +86,7 @@
                           value="Neuer Eintrag"
                           actionListener="#{editStructureInformation.saveNewValidFrom('TherapyPartCount')}"
                           rendered="#{!editStructureInformation.isReadOnly()}"
-                          update="generellId"/>
+                          update="generellId" />
     </pf:fieldset>
     <!-- End generell -->
 
@@ -142,7 +138,7 @@
                           value="Neuer Eintrag"
                           actionListener="#{editStructureInformation.saveNewValidFrom('RegionalCare')}"
                           rendered="#{!editStructureInformation.isReadOnly()}"
-                          update="regionalCareId"/>
+                          update="regionalCareId" />
     </pf:fieldset>
     <!-- End reginalCare -->
 
@@ -194,7 +190,7 @@
                           value="Neuer Eintrag"
                           actionListener="#{editStructureInformation.saveNewValidFrom('AccommodationText')}"
                           rendered="#{!editStructureInformation.isReadOnly()}"
-                          update="accommodationTextId"/>
+                          update="accommodationTextId" />
     </pf:fieldset>
     <!-- End accommodationText -->
 
@@ -246,7 +242,7 @@
                           value="Neuer Eintrag"
                           actionListener="#{editStructureInformation.saveNewValidFrom('SPCenterText')}"
                           rendered="#{!editStructureInformation.isReadOnly()}"
-                          update="SPCenterTextId"/>
+                          update="SPCenterTextId" />
     </pf:fieldset>
     <!-- End SPCenterText -->
 
@@ -259,8 +255,9 @@
 
         <b>#{editStructureInformation.getStructureCategorie('AmbulantPerformanceMain').description}</b>
         <br />
-        <pf:repeat value="#{editStructureInformation.getStructureInformationsByStructureCategorie('AmbulantPerformanceMain')}"
-                   var="structureInformation">
+        <pf:repeat
+                value="#{editStructureInformation.getStructureInformationsByStructureCategorie('AmbulantPerformanceMain')}"
+                var="structureInformation">
             <div class="ui-g ui-fluid" style="margin-bottom: -10px !important;">
                 <div class="ui-g-1">
                     Gültig ab:
@@ -298,7 +295,7 @@
                           value="Neuer Eintrag"
                           actionListener="#{editStructureInformation.saveNewValidFrom('AmbulantPerformanceMain')}"
                           rendered="#{!editStructureInformation.isReadOnly()}"
-                          update="AmbulantPerformanceMainId"/>
+                          update="AmbulantPerformanceMainId" />
     </pf:fieldset>
     <!-- End AmbulantPerformanceMain -->
 
@@ -350,7 +347,7 @@
                           value="Neuer Eintrag"
                           actionListener="#{editStructureInformation.saveNewValidFrom('DismissManagement')}"
                           rendered="#{!editStructureInformation.isReadOnly()}"
-                          update="DismissManagementId"/>
+                          update="DismissManagementId" />
     </pf:fieldset>
     <!-- End DismissManagement -->
 
@@ -402,7 +399,7 @@
                           value="Neuer Eintrag"
                           actionListener="#{editStructureInformation.saveNewValidFrom('CareProvider')}"
                           rendered="#{!editStructureInformation.isReadOnly()}"
-                          update="carePerformanceId"/>
+                          update="carePerformanceId" />
         <br />
 
         <b>#{editStructureInformation.getStructureCategorie('PerformanceAreas').description}</b>
@@ -446,7 +443,7 @@
                           value="Neuer Eintrag"
                           actionListener="#{editStructureInformation.saveNewValidFrom('PerformanceAreas')}"
                           rendered="#{!editStructureInformation.isReadOnly()}"
-                          update="carePerformanceId"/>
+                          update="carePerformanceId" />
     </pf:fieldset>
     <!-- End CareProvider / PerformanceAreas -->
 
@@ -498,7 +495,7 @@
                           value="Neuer Eintrag"
                           actionListener="#{editStructureInformation.saveNewValidFrom('AmbulantStructure')}"
                           rendered="#{!editStructureInformation.isReadOnly()}"
-                          update="AmbulantStructureId"/>
+                          update="AmbulantStructureId" />
     </pf:fieldset>
     <!-- End AmbulantStructure -->
 
@@ -511,8 +508,9 @@
 
         <b>#{editStructureInformation.getStructureCategorie('SocialPsychiatryService').description}</b>
         <br />
-        <pf:repeat value="#{editStructureInformation.getStructureInformationsByStructureCategorie('SocialPsychiatryService')}"
-                   var="structureInformation">
+        <pf:repeat
+                value="#{editStructureInformation.getStructureInformationsByStructureCategorie('SocialPsychiatryService')}"
+                var="structureInformation">
             <div class="ui-g ui-fluid" style="margin-bottom: -10px !important;">
                 <div class="ui-g-1">
                     Gültig ab:
@@ -550,7 +548,7 @@
                           value="Neuer Eintrag"
                           actionListener="#{editStructureInformation.saveNewValidFrom('SocialPsychiatryService')}"
                           rendered="#{!editStructureInformation.isReadOnly()}"
-                          update="SocialPsychiatryServiceId"/>
+                          update="SocialPsychiatryServiceId" />
     </pf:fieldset>
     <!-- End SocialPsychiatryService -->
 </ui:composition>
