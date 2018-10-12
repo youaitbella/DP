@@ -58,6 +58,15 @@ public class LetterConverter {
         CHAR_2_WORD.put("8", "Acht");
         CHAR_2_WORD.put("9", "Neun");
         CHAR_2_WORD.put("0", "Null");
+        CHAR_2_WORD.put("!", "Ausrufezeichen");
+        CHAR_2_WORD.put("?", "Fragezeichen");
+        CHAR_2_WORD.put(".", "Punkt");
+        CHAR_2_WORD.put(",", "Komma");
+        CHAR_2_WORD.put("#", "Hashtag");
+        CHAR_2_WORD.put("$", "Dollar");
+        CHAR_2_WORD.put("&", "Kaufmannsund");
+        CHAR_2_WORD.put("-", "Bindestrich");
+        CHAR_2_WORD.put("_", "Unterstrich");
     }
 
     public static List<String> describeLetters(String letterSequence) {
