@@ -27,7 +27,7 @@ public class CareValidator {
         String errorMessages = "";
         Boolean hasNoStation = true;
         for (Dept dept : info.getDepts().stream()
-                .filter(c -> c.isRequired())
+                .filter(c -> c.getRequired())
                 .collect(Collectors.toList())) {
             if (dept.getDeptStations().size() > 0) {
                 hasNoStation = false;
@@ -35,7 +35,7 @@ public class CareValidator {
         }
 
         if (hasNoStation && info.getDepts().stream()
-                .filter(c -> c.isRequired()).count() > 0) {
+                .filter(c -> c.getRequired()).count() > 0) {
             errorMessages = NO_STATIONS_MESSAGE;
         }
 

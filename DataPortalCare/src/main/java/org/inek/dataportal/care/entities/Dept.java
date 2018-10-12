@@ -101,7 +101,7 @@ public class Dept implements Serializable {
     @Column(name = "deRequired")
     private Boolean _required;
 
-    public Boolean isRequired() {
+    public Boolean getRequired() {
         return _required;
     }
 

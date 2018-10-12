@@ -5,17 +5,6 @@
  */
 package org.inek.dataportal.care.backingbeans;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.stream.Collectors;
-import javax.annotation.PostConstruct;
-import javax.faces.context.FacesContext;
-import javax.inject.Inject;
-import javax.inject.Named;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.care.entities.Dept;
 import org.inek.dataportal.care.entities.DeptBaseInformation;
@@ -39,8 +28,18 @@ import org.inek.dataportal.common.scope.FeatureScoped;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
+import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
+import javax.inject.Inject;
+import javax.inject.Named;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.stream.Collectors;
+
 /**
- *
  * @author lautenti
  */
 @Named
@@ -118,7 +117,6 @@ public class DeptEdit {
             }
             loadStationsAfterTargetYear(_deptBaseInformation);
         }
-//        _deptBaseInformation.getDepts().sort(Comparator.comparing(a -> a.getDeptNumber()));
         setReadOnly();
     }
 

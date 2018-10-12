@@ -72,7 +72,7 @@
                             In Erfassung
                         </f:facet>
                         <pf:column style="width: 20px;">
-                            <inekIcon:DeleteIcon deleteFunction="#{deptSummary.deleteBaseInformation(baseInformation)}"
+                            <inekIcon:DeleteIcon deleteFunction="#{deptSummary.deleteBaseInformation(baseInformation.baseInfo)}"
                                                  show="#{deptSummary.isDeleteAllowed(baseInformation.ik)}"
                                                  showConfirmDialog="true"
                                                  updateElement="erfassungtable"/>
@@ -85,7 +85,7 @@
                         </pf:column>
                         <pf:column headerText="Krankenhaus" >
                             <h:link outcome="#{deptSummary.careDeptStationOpen()}"
-                                    value="#{deptSummary.retrieveHospitalName(baseinformation.ik)}" >
+                                    value="#{baseInformation.hospitalName}" >
                                 <f:param name="id" value="#{baseInformation.id}"/>
                             </h:link>
                         </pf:column>
@@ -116,7 +116,7 @@
                         </pf:column>
                         <pf:column headerText="Krankenhaus" >
                             <h:link outcome="#{deptSummary.careDeptStationOpen()}"
-                                    value="#{deptSummary.retrieveHospitalName(baseinformation.ik)}" >
+                                    value="#{baseInformation.hospitalName}" >
                                 <f:param name="id" value="#{baseInformation.id}"/>
                             </h:link>
                         </pf:column>

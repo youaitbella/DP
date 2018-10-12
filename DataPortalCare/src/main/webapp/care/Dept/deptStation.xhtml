@@ -2,14 +2,11 @@
 <!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
 
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xmlns:pf="http://primefaces.org/ui"
                 xmlns:inekIk="http://xmlns.jcp.org/jsf/composite/components/Other"
                 xmlns:inekInput="http://xmlns.jcp.org/jsf/composite/components/Input"
                 xmlns:inekIcon="http://xmlns.jcp.org/jsf/composite/components/Icons"
-                xmlns:inekOutput="http://xmlns.jcp.org/jsf/composite/components/Output"
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
 
 
@@ -31,7 +28,7 @@
                 <div class="ui-g-2">
                     <pf:commandButton value="Eintragen"
                                       action="#{deptEdit.addNewDeptAfterTargetYear(dept)}"
-                                      update="@form"/>
+                                      update="@form" />
                 </div>
             </div>
 
@@ -73,7 +70,7 @@
                                    readonly="#{deptEdit.isReadOnly}"
                                    listener="#{deptEdit.ikChanged()}"
                                    isFixed="#{deptEdit.deptBaseInformation.id gt 0}"
-                                   updateElement="form"/>
+                                   updateElement="form" />
 
             </div>
 
@@ -92,19 +89,19 @@
                         <pf:column class="colIcon" style="width: 20px;">
                             <inekIcon:DeleteIcon deleteFunction="#{deptEdit.deleteStationFromDept(dept, station)}"
                                                  show="#{!deptEdit.isReadOnly}"
-                                                 updateElement="form"/>
+                                                 updateElement="form" />
                         </pf:column>
                         <pf:column headerText="Stationsbezeichnung">
                             <inekInput:InputText value="#{station.stationName}"
                                                  require="true"
                                                  Style="width: 100%;"
                                                  requiredMessage="Bitte geben Sie einen aussagekräftigen Stationsnamen an"
-                                                 readonly="#{deptEdit.isReadOnly}"/>
+                                                 readonly="#{deptEdit.isReadOnly}" />
                         </pf:column>
                         <pf:column headerText="Standort">
                             <inekInput:InputText value="#{station.locationCode}"
                                                  Style="width: 100%;"
-                                                 readonly="#{deptEdit.isReadOnly}"/>
+                                                 readonly="#{deptEdit.isReadOnly}" />
                         </pf:column>
                     </pf:dataTable>
 
@@ -115,7 +112,7 @@
                                       rendered="#{!deptEdit.isReadOnly}"
                                       style="margin-top: 10px;"
                                       icon="fa fa-plus"
-                                      update="depTable"/>
+                                      update="depTable" />
 
                 </pf:repeat>
 
@@ -139,7 +136,7 @@
                         <pf:column style="width: 20px;">
                             <inekIcon:DeleteIcon deleteFunction="#{deptEdit.deleteStationFromDept(dept, station)}"
                                                  show="#{!deptEdit.isReadOnly}"
-                                                 updateElement="form"/>
+                                                 updateElement="form" />
                         </pf:column>
                         <pf:column headerText="Stationsbezeichnung">
                             <inekInput:InputText value="#{station.stationName}"
@@ -147,12 +144,12 @@
                                                  require="true"
                                                  requiredMessage="Bitte geben Sie einen aussagekräftigen Stationsnamen an"
                                                  readonly="#{deptEdit.isReadOnly}"
-                                                 updateComponents="form"/>
+                                                 updateComponents="form" />
                         </pf:column>
                         <pf:column headerText="Standort">
                             <inekInput:InputText value="#{station.locationCode}"
                                                  Style="width: 100%;"
-                                                 readonly="#{deptEdit.isReadOnly}"/>
+                                                 readonly="#{deptEdit.isReadOnly}" />
                         </pf:column>
                     </pf:dataTable>
 
@@ -163,7 +160,7 @@
                                       rendered="#{!deptEdit.isReadOnly}"
                                       style="margin-top: 10px;"
                                       icon="fa fa-plus"
-                                      update="depTable"/>
+                                      update="depTable" />
                 </pf:repeat>
 
             </div>
@@ -186,7 +183,7 @@
                         <pf:column class="colIcon" style="width: 20px;">
                             <inekIcon:DeleteIcon deleteFunction="#{deptEdit.deleteStationFromDept(dept, station)}"
                                                  show="#{!deptEdit.isReadOnly}"
-                                                 updateElement="form"/>
+                                                 updateElement="form" />
                         </pf:column>
                         <pf:column headerText="Stationsbezeichnung">
                             <inekInput:InputText value="#{station.stationName}"
@@ -194,12 +191,12 @@
                                                  require="true"
                                                  requiredMessage="Bitte geben Sie einen aussagekräftigen Stationsnamen an"
                                                  readonly="#{deptEdit.isReadOnly}"
-                                                 updateComponents="form"/>
+                                                 updateComponents="form" />
                         </pf:column>
                         <pf:column headerText="Standort">
                             <inekInput:InputText value="#{station.locationCode}"
                                                  Style="width: 100%;"
-                                                 readonly="#{deptEdit.isReadOnly}"/>
+                                                 readonly="#{deptEdit.isReadOnly}" />
                         </pf:column>
                     </pf:dataTable>
 
@@ -210,7 +207,7 @@
                                       rendered="#{!deptEdit.isReadOnly}"
                                       style="margin-top: 10px;"
                                       icon="fa fa-plus"
-                                      update="depTable"/>
+                                      update="depTable" />
                 </pf:repeat>
             </div>
 
@@ -248,29 +245,30 @@
                     <pf:column class="colIcon" style="width: 20px;">
                         <inekIcon:DeleteIcon deleteFunction="#{deptEdit.deleteDeptAfterTargetYear(deptAfterTargetYear)}"
                                              show="#{!deptEdit.isReadOnly}"
-                                             updateElement="form"/>
+                                             updateElement="form" />
                     </pf:column>
                     <pf:column headerText="Fachabteilung">
-                        <pf:outputLabel value="#{deptAfterTargetYear.dept.deptNumber} - #{deptAfterTargetYear.dept.deptName}" />
+                        <pf:outputLabel
+                                value="#{deptAfterTargetYear.dept.deptNumber} - #{deptAfterTargetYear.dept.deptName}" />
                     </pf:column>
                     <pf:column headerText="Station">
                         <inekInput:InputText value="#{deptAfterTargetYear.stationNameTargetYear}"
                                              require="true"
                                              Style="width: 100%;"
                                              requiredMessage="Bitte geben Sie die Station an"
-                                             readonly="#{deptEdit.isReadOnly}"/>
+                                             readonly="#{deptEdit.isReadOnly}" />
                     </pf:column>
                     <pf:column headerText="Standort" style="border-right-width:5px;">
                         <inekInput:InputText value="#{deptAfterTargetYear.locationCodeTargetYear}"
                                              Style="width: 100%;"
-                                             readonly="#{deptEdit.isReadOnly}"/>
+                                             readonly="#{deptEdit.isReadOnly}" />
                     </pf:column>
                     <pf:column headerText="PS Bereich">
                         <inekInput:InputText value="#{deptAfterTargetYear.sensitiveArea}"
                                              require="true"
                                              Style="width: 100%;"
                                              requiredMessage="Bitte geben Sie einen Sensitiven Bereich ein"
-                                             readonly="#{deptEdit.isReadOnly}"/>
+                                             readonly="#{deptEdit.isReadOnly}" />
                     </pf:column>
                     <pf:column headerText="FAB - Nummer">
                         <inekInput:InputText value="#{deptAfterTargetYear.deptNumber}"
@@ -278,32 +276,32 @@
                                              maxlength="4"
                                              Style="width: 100%;"
                                              requiredMessage="Bitte geben Sie eine FAB - Nummer an"
-                                             readonly="#{deptEdit.isReadOnly}"/>
+                                             readonly="#{deptEdit.isReadOnly}" />
                     </pf:column>
                     <pf:column headerText="FAB Name">
                         <inekInput:InputText value="#{deptAfterTargetYear.deptName}"
                                              require="true"
                                              Style="width: 100%;"
                                              requiredMessage="Bitte geben Sie einen FAB Namen an"
-                                             readonly="#{deptEdit.isReadOnly}"/>
+                                             readonly="#{deptEdit.isReadOnly}" />
                     </pf:column>
                     <pf:column headerText="Station">
                         <inekInput:InputText value="#{deptAfterTargetYear.stationName}"
                                              require="true"
                                              Style="width: 100%;"
                                              requiredMessage="Bitte geben Sie eine Station an"
-                                             readonly="#{deptEdit.isReadOnly}"/>
+                                             readonly="#{deptEdit.isReadOnly}" />
                     </pf:column>
                     <pf:column headerText="Standort">
                         <inekInput:InputText value="#{deptAfterTargetYear.locationCode}"
                                              Style="width: 100%;"
-                                             readonly="#{deptEdit.isReadOnly}"/>
+                                             readonly="#{deptEdit.isReadOnly}" />
                     </pf:column>
                     <pf:column headerText="Anmerkung">
                         <pf:inputTextarea value="#{deptAfterTargetYear.comment}"
                                           rows="1"
                                           style="width: 100%;"
-                                          readonly="#{deptEdit.isReadOnly}"/>
+                                          readonly="#{deptEdit.isReadOnly}" />
                     </pf:column>
                 </pf:dataTable>
 
@@ -313,7 +311,7 @@
                                   rendered="#{!deptEdit.isReadOnly}"
                                   style="margin-top: 10px;"
                                   icon="fa fa-plus"
-                                  update="depTableAfterTargetYear"/>
+                                  update="depTableAfterTargetYear" />
             </div>
         </div>
     </div>

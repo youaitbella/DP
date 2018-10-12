@@ -42,23 +42,23 @@ public class DeptSummary implements Serializable {
     @Inject
     private DeptFacade _deptFacade;
 
-    private List<DeptBaseInformation> _listComplete = new ArrayList<>();
-    private List<DeptBaseInformation> _listWorking = new ArrayList<>();
+    private List<listItem> _listComplete = new ArrayList<>();
+    private List<listItem> _listWorking = new ArrayList<>();
     private List<listItem> _listInek = new ArrayList<>();
 
-    public List<DeptBaseInformation> getListComplete() {
+    public List<listItem> getListComplete() {
         return _listComplete;
     }
 
-    public void setListComplete(List<DeptBaseInformation> listComplete) {
+    public void setListComplete(List<listItem> listComplete) {
         this._listComplete = listComplete;
     }
 
-    public List<DeptBaseInformation> getListWorking() {
+    public List<listItem> getListWorking() {
         return _listWorking;
     }
 
-    public void setListWorking(List<DeptBaseInformation> listWorking) {
+    public void setListWorking(List<listItem> listWorking) {
         this._listWorking = listWorking;
     }
 
@@ -84,8 +84,8 @@ public class DeptSummary implements Serializable {
         for (AccessRight right : _sessionController.getAccount().getAccessRights().stream()
                 .filter(c -> c.canRead() && c.getFeature() == Feature.CARE)
                 .collect(Collectors.toList())) {
-            _listWorking.addAll(_deptFacade.getAllByStatusAndIk(WorkflowStatus.New, right.getIk()));
-            _listWorking.addAll(_deptFacade.getAllByStatusAndIk(WorkflowStatus.CorrectionRequested, right.getIk()));
+            _listWorking.addAll(createListItems(_deptFacade.getAllByStatusAndIk(WorkflowStatus.New, right.getIk())));
+            _listWorking.addAll(createListItems(_deptFacade.getAllByStatusAndIk(WorkflowStatus.CorrectionRequested, right.getIk())));
         }
     }
 
@@ -94,7 +94,7 @@ public class DeptSummary implements Serializable {
         for (AccessRight right : _sessionController.getAccount().getAccessRights().stream()
                 .filter(c -> c.canRead() && c.getFeature() == Feature.CARE)
                 .collect(Collectors.toList())) {
-            _listComplete.addAll(_deptFacade.getAllByStatusAndIk(WorkflowStatus.Provided, right.getIk()));
+            _listComplete.addAll(createListItems(_deptFacade.getAllByStatusAndIk(WorkflowStatus.Provided, right.getIk())));
         }
     }
 
@@ -141,7 +141,7 @@ public class DeptSummary implements Serializable {
             item.setHospitalName(_applicationTools.retrieveHospitalInfo(info.getIk()));
             item.setLastChangeDate(info.getLastChanged());
             item.setStatusId(info.getStatusId());
-
+            item.setBaseInfo(info);
             listItems.add(item);
         }
 
@@ -159,6 +159,7 @@ public class DeptSummary implements Serializable {
         private int _statusId;
         private String _hospitalName;
         private Date _lastChangeDate;
+        private DeptBaseInformation _baseInfo;
 
         public listItem() {
 
@@ -170,6 +171,14 @@ public class DeptSummary implements Serializable {
             this._statusId = statusId;
             this._hospitalName = hospitalName;
             this._lastChangeDate = lastChangeDate;
+        }
+
+        public DeptBaseInformation getBaseInfo() {
+            return _baseInfo;
+        }
+
+        public void setBaseInfo(DeptBaseInformation baseInfo) {
+            this._baseInfo =_baseInfo;
         }
 
         public int getId() {
