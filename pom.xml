@@ -9,7 +9,7 @@
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!--timestamp>${maven.build.timestamp}</timestamp-->
-        <timestamp>${build.time}</timestamp>
+        <timestamp>${maven.build.timestamp}</timestamp>
         <maven.build.timestamp.format>yyyy.MM.dd.HHmm</maven.build.timestamp.format>
     </properties>
 
