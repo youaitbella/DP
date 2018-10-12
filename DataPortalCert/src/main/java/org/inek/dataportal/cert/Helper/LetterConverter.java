@@ -58,7 +58,7 @@ public class LetterConverter {
         CHAR_2_WORD.put("8", "Acht");
         CHAR_2_WORD.put("9", "Neun");
         CHAR_2_WORD.put("0", "Null");
-        CHAR_2_WORD.put("!", "Ausrufezeichen");
+        CHAR_2_WORD.put("!", "Ausrufungszeichen");
         CHAR_2_WORD.put("?", "Fragezeichen");
         CHAR_2_WORD.put(".", "Punkt");
         CHAR_2_WORD.put(",", "Komma");
