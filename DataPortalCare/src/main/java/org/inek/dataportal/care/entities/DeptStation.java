@@ -20,6 +20,8 @@ public class DeptStation implements Serializable {
     public DeptStation(DeptStation station) {
         this._stationName = station.getStationName();
         this._locationCode = station.getLocationCode();
+        this._deptNumber = station.getDeptNumber();
+        this._deptName = station.getDeptName();
     }
 
     // <editor-fold defaultstate="collapsed" desc="Property Id">
@@ -78,40 +80,48 @@ public class DeptStation implements Serializable {
     }
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Property Dept Name">
+    @Column(name = "desDeptName")
+    private String _deptName = "";
+
+    public String getDeptName() {
+        return _deptName;
+    }
+
+    public void setDeptName(String deptName) {
+        this._deptName = deptName;
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property Dept Number">
+    @Column(name = "desDeptNumber")
+    private String _deptNumber = "";
+
+    public String getDeptNumber() {
+        return _deptNumber;
+    }
+
+    public void setDeptNumber(String deptNumber) {
+        this._deptNumber = deptNumber;
+    }
+    //</editor-fold>
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DeptStation that = (DeptStation) o;
+        return Objects.equals(_id, that._id) &&
+                Objects.equals(_dept, that._dept) &&
+                Objects.equals(_stationName, that._stationName) &&
+                Objects.equals(_locationCode, that._locationCode) &&
+                Objects.equals(_deptName, that._deptName) &&
+                Objects.equals(_deptNumber, that._deptNumber);
+    }
+
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 17 * hash + Objects.hashCode(this._dept);
-        hash = 17 * hash + Objects.hashCode(this._stationName);
-        hash = 17 * hash + Objects.hashCode(this._locationCode);
-        return hash;
+        return Objects.hash(_id, _dept, _stationName, _locationCode, _deptName, _deptNumber);
     }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final DeptStation other = (DeptStation) obj;
-        if (!Objects.equals(this._locationCode, other._locationCode)) {
-            return false;
-        }
-        if (!Objects.equals(this._stationName, other._stationName)) {
-            return false;
-        }
-        if (!Objects.equals(this._id, other._id)) {
-            return false;
-        }
-        if (!Objects.equals(this._dept, other._dept)) {
-            return false;
-        }
-        return true;
-    }
-
 }

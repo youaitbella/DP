@@ -29,8 +29,9 @@ public class CareExcelExporter {
     private static final String SEND_AT = "Übermittlung an das InEK:";
 
     private static final String TABLE_HEADER_1 = "Bezug PpUGV";
-    private static final String TABLE_HEADER_2 = "Fachabteilungsschlüssel (2017)";
-    private static final String TABLE_HEADER_3 = "Fachabteilungsname (2017)";
+    private static final String TABLE_HEADER_2 = "Fachabteilungsschlüssel (§ 21-Daten, 2017)";
+    private static final String TABLE_HEADER_3 = "Fachabteilungsname (§ 21-Daten, 2017)";
+    private static final String TABLE_HEADER_3_1 = "Fachabteilungsname (Eingabe KH, 2017)";
     private static final String TABLE_HEADER_4 = "pflegesensitiver Bereich";
     private static final String TABLE_HEADER_5 = "Stationsname (2017)";
     private static final String TABLE_HEADER_6 = "Standort (2017)";
@@ -117,15 +118,17 @@ public class CareExcelExporter {
         row.createCell(0).setCellValue(TABLE_HEADER_1);
         row.createCell(1).setCellValue(TABLE_HEADER_2);
         row.createCell(2).setCellValue(TABLE_HEADER_3);
-        row.createCell(3).setCellValue(TABLE_HEADER_4);
-        row.createCell(4).setCellValue(TABLE_HEADER_5);
-        row.createCell(5).setCellValue(TABLE_HEADER_6);
+        row.createCell(3).setCellValue(TABLE_HEADER_3_1);
+        row.createCell(4).setCellValue(TABLE_HEADER_4);
+        row.createCell(5).setCellValue(TABLE_HEADER_5);
+        row.createCell(6).setCellValue(TABLE_HEADER_6);
         row.getCell(0).setCellStyle(style);
         row.getCell(1).setCellStyle(style);
         row.getCell(2).setCellStyle(style);
         row.getCell(3).setCellStyle(style);
         row.getCell(4).setCellStyle(style);
         row.getCell(5).setCellStyle(style);
+        row.getCell(6).setCellStyle(style);
 
     }
 
@@ -141,11 +144,12 @@ public class CareExcelExporter {
                 row.createCell(startCol).setCellValue(getAreaText(dept.getDeptArea()));
                 row.createCell(startCol + 1).setCellValue(dept.getDeptNumber());
                 row.createCell(startCol + 2).setCellValue(dept.getDeptName());
-                row.createCell(startCol + 3).setCellValue(dept.getSensitiveArea());
-                row.createCell(startCol + 4).setCellValue(deptStation.getStationName());
-                row.createCell(startCol + 5).setCellValue(deptStation.getLocationCode());
+                row.createCell(startCol + 3).setCellValue(deptStation.getDeptName());
+                row.createCell(startCol + 4).setCellValue(dept.getSensitiveArea());
+                row.createCell(startCol + 5).setCellValue(deptStation.getStationName());
+                row.createCell(startCol + 6).setCellValue(deptStation.getLocationCode());
 
-                for (int i = 0; i < 6; i++) {
+                for (int i = 0; i < 7; i++) {
                     row.getCell(i).setCellStyle(styleBorderd);
                 }
 
@@ -167,15 +171,16 @@ public class CareExcelExporter {
                 row.createCell(startCol).setCellValue(getAreaText(dept.getDeptArea()));
                 row.createCell(startCol + 1).setCellValue(dept.getDeptNumber());
                 row.createCell(startCol + 2).setCellValue(dept.getDeptName());
-                row.createCell(startCol + 3).setCellValue(deptStationAfter.getSensitiveArea());
-                row.createCell(startCol + 4).setCellValue(deptStationAfter.getStationNameTargetYear());
-                row.createCell(startCol + 5).setCellValue(deptStationAfter.getLocationCodeTargetYear());
-                row.createCell(startCol + 6).setCellValue(deptStationAfter.getDeptNumber());
-                row.createCell(startCol + 7).setCellValue(deptStationAfter.getDeptName());
-                row.createCell(startCol + 8).setCellValue(deptStationAfter.getStationName());
-                row.createCell(startCol + 9).setCellValue(deptStationAfter.getLocationCode());
-                row.createCell(startCol + 10).setCellValue(deptStationAfter.getComment());
-                for (int i = 0; i < 11; i++) {
+                row.createCell(startCol + 3).setCellValue(deptStationAfter.getDeptNameHospital());
+                row.createCell(startCol + 4).setCellValue(deptStationAfter.getSensitiveArea());
+                row.createCell(startCol + 5).setCellValue(deptStationAfter.getStationNameTargetYear());
+                row.createCell(startCol + 6).setCellValue(deptStationAfter.getLocationCodeTargetYear());
+                row.createCell(startCol + 7).setCellValue(deptStationAfter.getDeptNumber());
+                row.createCell(startCol + 8).setCellValue(deptStationAfter.getDeptName());
+                row.createCell(startCol + 9).setCellValue(deptStationAfter.getStationName());
+                row.createCell(startCol + 10).setCellValue(deptStationAfter.getLocationCode());
+                row.createCell(startCol + 11).setCellValue(deptStationAfter.getComment());
+                for (int i = 0; i < 12; i++) {
                     row.getCell(i).setCellStyle(styleBorderd);
                 }
 
@@ -199,15 +204,15 @@ public class CareExcelExporter {
         row.createCell(0).setCellValue(TABLE_HEADER_1);
         row.createCell(1).setCellValue(TABLE_HEADER_2);
         row.createCell(2).setCellValue(TABLE_HEADER_3);
-        row.createCell(3).setCellValue(TABLE_HEADER_4);
-        row.createCell(4).setCellValue(TABLE_HEADER_5);
-        row.createCell(5).setCellValue(TABLE_HEADER_6);
-        //Breitere Seitenborder
-        row.createCell(6).setCellValue(TABLE_HEADER_7);
-        row.createCell(7).setCellValue(TABLE_HEADER_8);
-        row.createCell(8).setCellValue(TABLE_HEADER_9);
-        row.createCell(9).setCellValue(TABLE_HEADER_10);
-        row.createCell(10).setCellValue(TABLE_HEADER_11);
+        row.createCell(3).setCellValue(TABLE_HEADER_3);
+        row.createCell(4).setCellValue(TABLE_HEADER_4);
+        row.createCell(5).setCellValue(TABLE_HEADER_5);
+        row.createCell(6).setCellValue(TABLE_HEADER_6);
+        row.createCell(7).setCellValue(TABLE_HEADER_7);
+        row.createCell(8).setCellValue(TABLE_HEADER_8);
+        row.createCell(9).setCellValue(TABLE_HEADER_9);
+        row.createCell(10).setCellValue(TABLE_HEADER_10);
+        row.createCell(11).setCellValue(TABLE_HEADER_11);
         row.getCell(0).setCellStyle(style);
         row.getCell(1).setCellStyle(style);
         row.getCell(2).setCellStyle(style);
@@ -219,6 +224,7 @@ public class CareExcelExporter {
         row.getCell(8).setCellStyle(style);
         row.getCell(9).setCellStyle(style);
         row.getCell(10).setCellStyle(style);
+        row.getCell(11).setCellStyle(style);
     }
 
     private String getAreaText(int area) {

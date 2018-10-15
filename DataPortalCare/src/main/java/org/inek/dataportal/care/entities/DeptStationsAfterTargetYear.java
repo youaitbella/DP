@@ -22,6 +22,7 @@ public class DeptStationsAfterTargetYear implements Serializable {
         this._stationName = afterTargetYearStation.getStationName();
         this._deptNumber = afterTargetYearStation.getDeptNumber();
         this._deptName = afterTargetYearStation.getDeptName();
+        this._deptNameHospital = afterTargetYearStation.getDeptNameHospital();
         this._locationCode = afterTargetYearStation.getLocationCode();
         this._sensitiveArea = afterTargetYearStation.getSensitiveArea();
         this._comment = afterTargetYearStation.getComment();
@@ -67,6 +68,19 @@ public class DeptStationsAfterTargetYear implements Serializable {
 
     public void setDeptName(String deptName) {
         this._deptName = deptName;
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Property Dept Name">
+    @Column(name = "dsDeptNameHospital")
+    private String _deptNameHospital = "";
+
+    public String getDeptNameHospital() {
+        return _deptNameHospital;
+    }
+
+    public void setDeptNameHospital(String deptNameHospital) {
+        this._deptNameHospital = deptNameHospital;
     }
     //</editor-fold>
 
@@ -161,66 +175,29 @@ public class DeptStationsAfterTargetYear implements Serializable {
     }
     //</editor-fold>
 
-    @SuppressWarnings("CyclomaticComplexity")
+
     @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 79 * hash + Objects.hashCode(this._id);
-        hash = 79 * hash + Objects.hashCode(this._dept);
-        hash = 79 * hash + Objects.hashCode(this._deptName);
-        hash = 79 * hash + Objects.hashCode(this._sensitiveArea);
-        hash = 79 * hash + Objects.hashCode(this._deptNumber);
-        hash = 79 * hash + Objects.hashCode(this._stationName);
-        hash = 79 * hash + Objects.hashCode(this._locationCode);
-        hash = 79 * hash + Objects.hashCode(this._stationNameTargetYear);
-        hash = 79 * hash + Objects.hashCode(this._locationCodeTargetYear);
-        hash = 79 * hash + Objects.hashCode(this._comment);
-        return hash;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DeptStationsAfterTargetYear that = (DeptStationsAfterTargetYear) o;
+        return Objects.equals(_id, that._id) &&
+                Objects.equals(_dept, that._dept) &&
+                Objects.equals(_deptName, that._deptName) &&
+                Objects.equals(_deptNameHospital, that._deptNameHospital) &&
+                Objects.equals(_sensitiveArea, that._sensitiveArea) &&
+                Objects.equals(_deptNumber, that._deptNumber) &&
+                Objects.equals(_stationName, that._stationName) &&
+                Objects.equals(_locationCode, that._locationCode) &&
+                Objects.equals(_stationNameTargetYear, that._stationNameTargetYear) &&
+                Objects.equals(_locationCodeTargetYear, that._locationCodeTargetYear) &&
+                Objects.equals(_comment, that._comment);
     }
 
-    @SuppressWarnings("CyclomaticComplexity")
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final DeptStationsAfterTargetYear other = (DeptStationsAfterTargetYear) obj;
-        if (!Objects.equals(this._deptName, other._deptName)) {
-            return false;
-        }
-        if (!Objects.equals(this._sensitiveArea, other._sensitiveArea)) {
-            return false;
-        }
-        if (!Objects.equals(this._deptNumber, other._deptNumber)) {
-            return false;
-        }
-        if (!Objects.equals(this._stationName, other._stationName)) {
-            return false;
-        }
-        if (!Objects.equals(this._locationCode, other._locationCode)) {
-            return false;
-        }
-        if (!Objects.equals(this._stationNameTargetYear, other._stationNameTargetYear)) {
-            return false;
-        }
-        if (!Objects.equals(this._locationCodeTargetYear, other._locationCodeTargetYear)) {
-            return false;
-        }
-        if (!Objects.equals(this._comment, other._comment)) {
-            return false;
-        }
-        if (!Objects.equals(this._id, other._id)) {
-            return false;
-        }
-        if (!Objects.equals(this._dept, other._dept)) {
-            return false;
-        }
-        return true;
+    public int hashCode() {
+
+        return Objects.hash(_id, _dept, _deptName, _deptNameHospital, _sensitiveArea, _deptNumber, _stationName, _locationCode,
+                _stationNameTargetYear, _locationCodeTargetYear, _comment);
     }
 }

@@ -91,6 +91,13 @@
                                                  show="#{!deptEdit.isReadOnly}"
                                                  updateElement="form" />
                         </pf:column>
+                        <pf:column headerText="Fachabteilungsname">
+                            <inekInput:InputText value="#{station.deptName}"
+                                                 require="true"
+                                                 Style="width: 100%;"
+                                                 requiredMessage="Bitte geben Sie den Fachabteilungsnamen aus Ihrem Haus ein"
+                                                 readonly="#{deptEdit.isReadOnly}" />
+                        </pf:column>
                         <pf:column headerText="Stationsbezeichnung">
                             <inekInput:InputText value="#{station.stationName}"
                                                  require="true"
@@ -98,7 +105,7 @@
                                                  requiredMessage="Bitte geben Sie einen aussagekräftigen Stationsnamen an"
                                                  readonly="#{deptEdit.isReadOnly}" />
                         </pf:column>
-                        <pf:column headerText="Standort">
+                        <pf:column headerText="Standort" style="width: 100px;">
                             <inekInput:InputText value="#{station.locationCode}"
                                                  Style="width: 100%;"
                                                  readonly="#{deptEdit.isReadOnly}" />
@@ -138,6 +145,13 @@
                                                  show="#{!deptEdit.isReadOnly}"
                                                  updateElement="form" />
                         </pf:column>
+                        <pf:column headerText="Fachabteilungsname">
+                            <inekInput:InputText value="#{station.deptName}"
+                                                 require="true"
+                                                 Style="width: 100%;"
+                                                 requiredMessage="Bitte geben Sie den Fachabteilungsnamen aus Ihrem Haus ein"
+                                                 readonly="#{deptEdit.isReadOnly}" />
+                        </pf:column>
                         <pf:column headerText="Stationsbezeichnung">
                             <inekInput:InputText value="#{station.stationName}"
                                                  Style="width: 100%;"
@@ -146,7 +160,7 @@
                                                  readonly="#{deptEdit.isReadOnly}"
                                                  updateComponents="form" />
                         </pf:column>
-                        <pf:column headerText="Standort">
+                        <pf:column headerText="Standort" style="width: 100px;">
                             <inekInput:InputText value="#{station.locationCode}"
                                                  Style="width: 100%;"
                                                  readonly="#{deptEdit.isReadOnly}" />
@@ -185,6 +199,19 @@
                                                  show="#{!deptEdit.isReadOnly}"
                                                  updateElement="form" />
                         </pf:column>
+                        <pf:column headerText="Fachabteilungsnr." style="width: 120px;">
+                            <inekInput:InputText value="#{station.deptName}"
+                                                 Style="width: 100%;"
+                                                 maxlength="4"
+                                                 readonly="#{deptEdit.isReadOnly}" />
+                        </pf:column>
+                        <pf:column headerText="Fachabteilungsname">
+                            <inekInput:InputText value="#{station.deptName}"
+                                                 require="true"
+                                                 Style="width: 100%;"
+                                                 requiredMessage="Bitte geben Sie den Fachabteilungsnamen aus Ihrem Haus ein"
+                                                 readonly="#{deptEdit.isReadOnly}" />
+                        </pf:column>
                         <pf:column headerText="Stationsbezeichnung">
                             <inekInput:InputText value="#{station.stationName}"
                                                  Style="width: 100%;"
@@ -193,7 +220,7 @@
                                                  readonly="#{deptEdit.isReadOnly}"
                                                  updateComponents="form" />
                         </pf:column>
-                        <pf:column headerText="Standort">
+                        <pf:column headerText="Standort" style="width: 100px;">
                             <inekInput:InputText value="#{station.locationCode}"
                                                  Style="width: 100%;"
                                                  readonly="#{deptEdit.isReadOnly}" />
@@ -225,12 +252,13 @@
                     <pf:columnGroup type="header">
                         <pf:row>
                             <pf:column style="width: 20px;" headerText="" />
-                            <pf:column colspan="3" headerText="2017" style="border-right-width:5px;" />
+                            <pf:column colspan="4" headerText="2017" style="border-right-width:5px;" />
                             <pf:column colspan="6" headerText="Nach 2017" />
                         </pf:row>
                         <pf:row>
                             <pf:column style="width: 20px;" headerText="" />
                             <pf:column headerText="Fachabteilung" />
+                            <pf:column headerText="Fachabteilung gem. KH" />
                             <pf:column headerText="Station" />
                             <pf:column headerText="Standort" style="border-right-width:5px;" />
                             <pf:column headerText="PS Bereich" />
@@ -250,6 +278,13 @@
                     <pf:column headerText="Fachabteilung">
                         <pf:outputLabel
                                 value="#{deptAfterTargetYear.dept.deptNumber} - #{deptAfterTargetYear.dept.deptName}" />
+                    </pf:column>
+                    <pf:column headerText="Fachabteilung gem. KH">
+                        <inekInput:InputText value="#{deptAfterTargetYear.deptNameHospital}"
+                                             require="true"
+                                             Style="width: 100%;"
+                                             requiredMessage="Bitte geben Sie den Fachabteilungsnamen an"
+                                             readonly="#{deptEdit.isReadOnly}" />
                     </pf:column>
                     <pf:column headerText="Station">
                         <inekInput:InputText value="#{deptAfterTargetYear.stationNameTargetYear}"

@@ -97,7 +97,7 @@ public class Dept implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property Dept Number">
     @Column(name = "deDeptNumber")
-    private String _deptNumber;
+    private String _deptNumber = "";
 
     public String getDeptNumber() {
         return _deptNumber;
@@ -149,6 +149,7 @@ public class Dept implements Serializable {
     public void addNewDeptStation() {
         DeptStation deptStation = new DeptStation();
         deptStation.setDept(this);
+        deptStation.setDeptName(_deptName);
         _deptStations.add(deptStation);
     }
 
