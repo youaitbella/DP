@@ -176,6 +176,7 @@ public class DeptStationsAfterTargetYear implements Serializable {
     //</editor-fold>
 
 
+    @SuppressWarnings("CyclomaticComplexity")
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
