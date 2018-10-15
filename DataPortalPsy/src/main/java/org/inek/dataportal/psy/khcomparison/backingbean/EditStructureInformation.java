@@ -5,37 +5,31 @@
  */
 package org.inek.dataportal.psy.khcomparison.backingbean;
 
-import org.inek.dataportal.common.data.adm.ChangeLog;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
-import javax.annotation.PostConstruct;
-import javax.faces.context.FacesContext;
-import javax.faces.event.ValueChangeEvent;
-import javax.inject.Inject;
-import javax.inject.Named;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.KhComparison.entities.StructureBaseInformation;
 import org.inek.dataportal.common.data.KhComparison.entities.StructureInformation;
-import org.inek.dataportal.common.overall.AccessManager;
-import org.inek.dataportal.common.scope.FeatureScoped;
 import org.inek.dataportal.common.data.KhComparison.facade.AEBFacade;
+import org.inek.dataportal.common.data.adm.ChangeLog;
 import org.inek.dataportal.common.data.adm.facade.LogFacade;
 import org.inek.dataportal.common.enums.StructureInformationCategorie;
 import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.common.overall.AccessManager;
+import org.inek.dataportal.common.scope.FeatureScoped;
 import org.inek.dataportal.psy.khcomparison.helper.StructureinformationHelper;
 
+import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
+import javax.inject.Inject;
+import javax.inject.Named;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.*;
+import java.util.stream.Collectors;
+
 /**
- *
  * @author lautenti
  */
 @Named
@@ -163,7 +157,7 @@ public class EditStructureInformation {
             } else {
                 DialogController.showInfoDialog("Doppelte Gültigkeiten",
                         "Sie haben Doppele Gültigkeiten in den folgenden Bereichen: " + errors
-                        + " Bitte geben Sie für jeden Bereich ein gültigkietsdatum nur einmal an");
+                                + " Bitte geben Sie für jeden Bereich ein gültigkietsdatum nur einmal an");
             }
 
         } catch (Exception ex) {
@@ -176,7 +170,7 @@ public class EditStructureInformation {
 
         for (StructureInformation info : baseInfo.getStructureInformations().stream()
                 .filter(c -> c.getStructureCategorie() == StructureInformationCategorie.BedCount
-                || c.getStructureCategorie() == StructureInformationCategorie.TherapyPartCount)
+                        || c.getStructureCategorie() == StructureInformationCategorie.TherapyPartCount)
                 .collect(Collectors.toList())) {
             if (!info.getContent().isEmpty()) {
                 try {
@@ -236,10 +230,6 @@ public class EditStructureInformation {
         changes.clear();
     }
 
-    public String convertDate(Date date) {
-        return (new SimpleDateFormat("dd.MM.yyyy")).format(date);
-    }
-
     public Boolean canSave() {
         return !_accessManager.isReadOnly(Feature.HC_HOSPITAL,
                 WorkflowStatus.New,
@@ -247,26 +237,10 @@ public class EditStructureInformation {
                 _structureBaseInformation.getIk());
     }
 
-    public List<StructureInformationCategorie> getValidSingleStructureCategoriesAreas() {
-        List<StructureInformationCategorie> validInfos = new ArrayList<>();
-
-        for (StructureInformationCategorie infoCat : StructureInformationCategorie.values()) {
-            if (!validInfos.stream().anyMatch(c -> c.getArea().equals(infoCat.getArea()))
-                    && infoCat.getCountElements() == 1) {
-                validInfos.add(infoCat);
-            }
-        }
-
-        return validInfos;
-    }
-
     public List<StructureInformation> getStructureInformationsByStructureCategorie(String catName) {
         if (_filterActive) {
-            return _structureBaseInformation.getStructureInformations().stream()
-                    .filter(c -> c.getStructureCategorie() == StructureInformationCategorie.valueOf(catName)
-                    && (_filterValidFrom.compareTo(c.getValidFrom()) * c.getValidFrom().compareTo(_filterValidTo) >= 0))
-                    .sorted(Comparator.comparing(StructureInformation::getValidFrom, Comparator.nullsLast(Comparator.naturalOrder())))
-                    .collect(Collectors.toList());
+            return StructureinformationHelper.getStructureInformationsByStructureCategorieFiltered(_structureBaseInformation, catName,
+                    _filterValidFrom, _filterValidTo);
         } else {
             return getStructureInformationsByCategorieNoFilter(catName);
         }
@@ -334,6 +308,11 @@ public class EditStructureInformation {
 
     public void deleteStructureinformation(StructureInformation info) {
         _structureBaseInformation.removeStructureInformation(info);
+    }
+
+    public Boolean structureInformationReadonly(StructureInformation info) {
+        return StructureinformationHelper.structureInformationIsReadonly(info,
+                getStructureInformationsByStructureCategorie(info.getStructureCategorie().name()));
     }
 
 }

@@ -27,7 +27,7 @@ public class StructureinformationHelperTest {
     }
 
     @Test
-    public void newDateChangeOrderNoOrderChange() {
+    public void newDateChangeOrderNoOrderChangeTest() {
         List<StructureInformation> structureInformations = new ArrayList<>();
         structureInformations.add(createNewInfo(createDate(1, 1, 2018), ""));
         structureInformations.add(createNewInfo(createDate(5, 1, 2018), ""));
@@ -39,7 +39,7 @@ public class StructureinformationHelperTest {
     }
 
     @Test
-    public void newDateChangeOrderWithOrderChange() {
+    public void newDateChangeOrderWithOrderChangeTest() {
         List<StructureInformation> structureInformations = new ArrayList<>();
         structureInformations.add(createNewInfo(createDate(1, 1, 2018), ""));
         structureInformations.add(createNewInfo(createDate(5, 1, 2018), ""));
@@ -51,7 +51,7 @@ public class StructureinformationHelperTest {
     }
 
     @Test
-    public void newDateChangeOrderNoOrderChangeDoubleDate() {
+    public void newDateChangeOrderNoOrderChangeDoubleDateTest() {
         List<StructureInformation> structureInformations = new ArrayList<>();
         structureInformations.add(createNewInfo(createDate(5, 1, 2018), ""));
         structureInformations.add(createNewInfo(createDate(5, 1, 2018), ""));
@@ -63,7 +63,7 @@ public class StructureinformationHelperTest {
     }
 
     @Test
-    public void newDateChangeOrderWithOrderChangeDoubleDateIsOldDate() {
+    public void newDateChangeOrderWithOrderChangeDoubleDateIsOldDateTest() {
         List<StructureInformation> structureInformations = new ArrayList<>();
         structureInformations.add(createNewInfo(createDate(1, 1, 2018), ""));
         structureInformations.add(createNewInfo(createDate(5, 1, 2018), ""));
@@ -75,7 +75,7 @@ public class StructureinformationHelperTest {
     }
 
     @Test
-    public void newDateChangeOrderWithOrderChangeDoubleDate() {
+    public void newDateChangeOrderWithOrderChangeDoubleDateTest() {
         List<StructureInformation> structureInformations = new ArrayList<>();
         structureInformations.add(createNewInfo(createDate(5, 1, 2018), ""));
         structureInformations.add(createNewInfo(createDate(5, 1, 2018), ""));
@@ -87,7 +87,7 @@ public class StructureinformationHelperTest {
     }
 
     @Test
-    public void checkForDuplicatedDatesWithNoDuplicates() {
+    public void checkForDuplicatedDatesWithNoDuplicatesTest() {
         StructureBaseInformation baseInfo = new StructureBaseInformation();
         List<StructureInformation> structureInformations = new ArrayList<>();
         structureInformations.add(createNewInfo(createDate(5, 1, 2018), "", StructureInformationCategorie.RegionalCare));
@@ -101,7 +101,7 @@ public class StructureinformationHelperTest {
     }
 
     @Test
-    public void checkForDuplicatedDatesWithDuplicates() {
+    public void checkForDuplicatedDatesWithDuplicatesTest() {
         StructureBaseInformation baseInfo = new StructureBaseInformation();
         List<StructureInformation> structureInformations = new ArrayList<>();
         structureInformations.add(createNewInfo(createDate(4, 1, 2018), "", StructureInformationCategorie.RegionalCare));
@@ -116,7 +116,7 @@ public class StructureinformationHelperTest {
     }
 
     @Test
-    public void checkForDuplicatedDatesWithDuplicatesIn2Categories() {
+    public void checkForDuplicatedDatesWithDuplicatesIn2CategoriesTest() {
         StructureBaseInformation baseInfo = new StructureBaseInformation();
         List<StructureInformation> structureInformations = new ArrayList<>();
         structureInformations.add(createNewInfo(createDate(4, 1, 2018), "", StructureInformationCategorie.RegionalCare));
@@ -132,6 +132,125 @@ public class StructureinformationHelperTest {
 
         Assertions.assertThat(StructureinformationHelper.checkForDuplicatedDates(baseInfo))
                 .contains(StructureInformationCategorie.SPCenterText.getArea());
+    }
+
+    @Test
+    public void structureInformationIsReadonlyTestWithNewEnryTest() {
+        List<StructureInformation> structureInformations = new ArrayList<>();
+        structureInformations.add(createNewInfo(createDate(4, 1, 2018), "", StructureInformationCategorie.RegionalCare));
+        structureInformations.add(createNewInfo(createDate(6, 1, 2018), "", StructureInformationCategorie.RegionalCare));
+
+        StructureInformation info1 = structureInformations.get(0);
+
+        Assertions.assertThat(StructureinformationHelper.structureInformationIsReadonly(info1, structureInformations)).isFalse();
+    }
+
+    @Test
+    public void structureInformationIsReadonlyTestWithExistEnryTest() {
+        List<StructureInformation> structureInformations = new ArrayList<>();
+        structureInformations.add(createNewInfo(createDate(4, 1, 2018), "", StructureInformationCategorie.RegionalCare));
+        structureInformations.add(createNewInfo(createDate(6, 1, 2018), "", StructureInformationCategorie.RegionalCare));
+
+        StructureInformation info1 = structureInformations.get(0);
+        StructureInformation info2 = structureInformations.get(1);
+
+        info1.setId(5);
+        info2.setId(10);
+
+        Assertions.assertThat(StructureinformationHelper.structureInformationIsReadonly(info1, structureInformations)).isTrue();
+        Assertions.assertThat(StructureinformationHelper.structureInformationIsReadonly(info2, structureInformations)).isFalse();
+    }
+
+    @Test
+    public void structureInformationIsReadonlyTestWithExistEnrysTest() {
+        List<StructureInformation> structureInformations = new ArrayList<>();
+        structureInformations.add(createNewInfo(createDate(4, 1, 2018), "", StructureInformationCategorie.RegionalCare));
+        structureInformations.add(createNewInfo(createDate(6, 1, 2018), "", StructureInformationCategorie.RegionalCare));
+
+        StructureInformation info1 = structureInformations.get(0);
+        StructureInformation info2 = structureInformations.get(1);
+
+        info1.setId(5);
+
+        Assertions.assertThat(StructureinformationHelper.structureInformationIsReadonly(info1, structureInformations)).isFalse();
+        Assertions.assertThat(StructureinformationHelper.structureInformationIsReadonly(info2, structureInformations)).isFalse();
+    }
+
+    @Test
+    public void getStructureInformationsByStructureCategorieFilteredWithDateBeforeValidFromTest() {
+        StructureBaseInformation baseInfo = new StructureBaseInformation();
+        List<StructureInformation> structureInformations = new ArrayList<>();
+
+        StructureInformation info1 = createNewInfo(createDate(4, 1, 2018), "", StructureInformationCategorie.RegionalCare);
+        StructureInformation info2 = createNewInfo(createDate(4, 2, 2018), "", StructureInformationCategorie.RegionalCare);
+        StructureInformation info3 = createNewInfo(createDate(15, 2, 2018), "", StructureInformationCategorie.RegionalCare);
+
+        structureInformations.add(info1);
+        structureInformations.add(info2);
+        structureInformations.add(info3);
+
+        baseInfo.setStructureInformations(structureInformations);
+
+        Date validFrom = createDate(1, 2, 2018);
+        Date validUntil = createDate(2, 3, 2018);
+
+        Assertions.assertThat(StructureinformationHelper.getStructureInformationsByStructureCategorieFiltered(baseInfo,
+                StructureInformationCategorie.RegionalCare.name(), validFrom, validUntil)).isNotEmpty()
+                .as(info1.getValidFrom().toString()).contains(info1)
+                .as(info2.getValidFrom().toString()).contains(info2)
+                .as(info3.getValidFrom().toString()).contains(info3);
+    }
+
+    @Test
+    public void getStructureInformationsByStructureCategorieFilteredWithDateEqualsValidFromTest() {
+        StructureBaseInformation baseInfo = new StructureBaseInformation();
+        List<StructureInformation> structureInformations = new ArrayList<>();
+
+        StructureInformation info1 = createNewInfo(createDate(4, 1, 2018), "", StructureInformationCategorie.RegionalCare);
+        StructureInformation info2 = createNewInfo(createDate(4, 2, 2018), "", StructureInformationCategorie.RegionalCare);
+        StructureInformation info3 = createNewInfo(createDate(15, 2, 2018), "", StructureInformationCategorie.RegionalCare);
+
+        structureInformations.add(info1);
+        structureInformations.add(info2);
+        structureInformations.add(info3);
+
+        baseInfo.setStructureInformations(structureInformations);
+
+        Date validFrom = createDate(4, 2, 2018);
+        Date validUntil = createDate(2, 3, 2018);
+
+        Assertions.assertThat(StructureinformationHelper.getStructureInformationsByStructureCategorieFiltered(baseInfo,
+                StructureInformationCategorie.RegionalCare.name(), validFrom, validUntil)).isNotEmpty()
+                .as(info1.getValidFrom().toString()).doesNotContain(info1)
+                .as(info2.getValidFrom().toString()).contains(info2)
+                .as(info3.getValidFrom().toString()).contains(info3);
+        Assertions.assertThat(StructureinformationHelper.structureInformationIsReadonly(info2, structureInformations)).isFalse();
+    }
+
+    @Test
+    public void getStructureInformationsByStructureCategorieFilteredWithDateAftersValidToTest() {
+        StructureBaseInformation baseInfo = new StructureBaseInformation();
+        List<StructureInformation> structureInformations = new ArrayList<>();
+
+        StructureInformation info1 = createNewInfo(createDate(4, 1, 2018), "", StructureInformationCategorie.RegionalCare);
+        StructureInformation info2 = createNewInfo(createDate(4, 2, 2018), "", StructureInformationCategorie.RegionalCare);
+        StructureInformation info3 = createNewInfo(createDate(15, 2, 2018), "", StructureInformationCategorie.RegionalCare);
+
+        structureInformations.add(info1);
+        structureInformations.add(info2);
+        structureInformations.add(info3);
+
+        baseInfo.setStructureInformations(structureInformations);
+
+        Date validFrom = createDate(4, 2, 2018);
+        Date validUntil = createDate(10, 2, 2018);
+
+        Assertions.assertThat(StructureinformationHelper.getStructureInformationsByStructureCategorieFiltered(baseInfo,
+                StructureInformationCategorie.RegionalCare.name(), validFrom, validUntil)).isNotEmpty()
+                .as(info1.getValidFrom().toString()).doesNotContain(info1)
+                .as(info2.getValidFrom().toString()).contains(info2)
+                .as(info3.getValidFrom().toString()).doesNotContain(info3);
+        Assertions.assertThat(StructureinformationHelper.structureInformationIsReadonly(info2, structureInformations)).isFalse();
     }
 
     private StructureInformation createNewInfo(Date validFrom, String content, StructureInformationCategorie cat) {

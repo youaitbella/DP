@@ -5,17 +5,14 @@
  */
 package org.inek.dataportal.psy.khcomparison.helper;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 import org.inek.dataportal.common.data.KhComparison.entities.StructureBaseInformation;
 import org.inek.dataportal.common.data.KhComparison.entities.StructureInformation;
+import org.inek.dataportal.common.enums.StructureInformationCategorie;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
- *
  * @author lautenti
  */
 public class StructureinformationHelper {
@@ -72,6 +69,46 @@ public class StructureinformationHelper {
             }
         }
         return false;
+    }
+
+    public static Boolean structureInformationIsReadonly(StructureInformation info, List<StructureInformation> structureInformations) {
+        if (info.getId() == 0) {
+            return false;
+        }
+
+        if (structureInformations.stream()
+                .filter(c -> c.getId() > 0)
+                .anyMatch(c -> c.getValidFrom().after(info.getValidFrom()))) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static List<StructureInformation> getStructureInformationsByStructureCategorieFiltered(StructureBaseInformation baseInfo, String catName,
+                                                                                                  Date filterFrom, Date filterUntil) {
+
+        List<StructureInformation> structureInformations = baseInfo.getStructureInformations().stream()
+                .filter(c -> c.getStructureCategorie() == StructureInformationCategorie.valueOf(catName))
+                .collect(Collectors.toList());
+
+        structureInformations.removeIf(c -> c.getValidFrom().after(filterUntil));
+
+        if (structureInformations.stream().anyMatch(c -> c.getValidFrom().equals(filterFrom))) {
+            structureInformations.removeIf(c -> c.getValidFrom().before(filterFrom));
+        } else {
+            Optional<StructureInformation> first = structureInformations.stream()
+                    .filter(c -> c.getValidFrom().before(filterFrom))
+                    .min(Comparator.comparing(StructureInformation::getValidFrom, Comparator.nullsLast(Comparator.reverseOrder())));
+
+            first.ifPresent(structureInformation -> structureInformations.removeIf(c -> c.getValidFrom()
+                    .before(structureInformation.getValidFrom())));
+        }
+
+        return structureInformations.stream()
+                .sorted(Comparator.comparing(StructureInformation::getValidFrom, Comparator.nullsLast(Comparator.naturalOrder())))
+                .collect(Collectors.toList());
+
     }
 
     public static class Tupel {
