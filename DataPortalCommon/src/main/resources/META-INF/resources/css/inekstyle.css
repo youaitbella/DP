@@ -235,10 +235,14 @@
 
 /* Fieldset */
 
+.ui-fieldset-content {
+    margin-left: 20px !important;
+}
+
 .inekFieldset {
     background-color: transparent;
     margin-bottom: 10px;
-    margin-top: 10px;
+    margin-top: 30px;
     border: none;
 }
 
