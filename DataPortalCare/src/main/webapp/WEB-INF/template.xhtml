@@ -14,7 +14,6 @@
             <meta name="apple-mobile-web-app-capable" content="yes" />
         </f:facet>
         <f:metadata>
-            <f:phaseListener type="org.inek.dataportal.common.overall.LifeCycleListener"/>
             <f:event type="preRenderView" listener="#{requestController.forceLoginIfNotLoggedIn}"/>
         </f:metadata>
         <title>#{msg.lblApplicationName} #{request.serverName.contains('daten.inek.org') ? '' : request.serverName}</title>
