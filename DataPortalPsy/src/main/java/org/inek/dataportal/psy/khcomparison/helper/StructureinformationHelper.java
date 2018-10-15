@@ -71,7 +71,8 @@ public class StructureinformationHelper {
         return false;
     }
 
-    public static Boolean structureInformationIsReadonly(StructureInformation info, List<StructureInformation> structureInformations, Date currentDate) {
+    public static Boolean structureInformationIsReadonly(StructureInformation info, List<StructureInformation> structureInformations,
+                                                         Date currentDate) {
         if (info.getId() == 0) {
             return false;
         }
