@@ -20,16 +20,14 @@
                    var="structureInformation">
             <div class="ui-g ui-fluid" style="margin-bottom: -10px !important;">
 
-                <ui:remove>
-                        <pf:commandLink action="#{editStructureInformation.deleteStructureinformation(structureInformation)}"
-                                        update="@form"
-                                        process="@this"
-                                        rendered="#{editStructureInformation.isReadOnly() or not editStructureInformation.structureInformationReadonly(structureInformation)}">
-                            <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value=""/>
-                        </pf:commandLink>
-                </ui:remove>
-
-                <div class="ui-g-1">
+                <div class="ui-g-2" style="margin-right: -50px;">
+                    <pf:commandLink
+                            action="#{editStructureInformation.deleteStructureinformation(structureInformation)}"
+                            update="@form"
+                            process="@this"
+                            rendered="#{editStructureInformation.isReadOnly() or not editStructureInformation.structureInformationReadonly(structureInformation)}">
+                        <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value="" />
+                    </pf:commandLink>
                     Gültig ab:
                 </div>
 
@@ -52,7 +50,7 @@
 
                 <div class="ui-g-2">
                     <inek:InputNumber value="#{structureInformation.content}"
-                                      readonly="#{editStructureInformation.isReadOnly() or editStructureInformation.structureInformationReadonly(structureInformation)}" />
+                                      disabled="#{editStructureInformation.isReadOnly() or editStructureInformation.structureInformationReadonly(structureInformation)}" />
                 </div>
 
 
@@ -71,7 +69,14 @@
         <pf:repeat value="#{editStructureInformation.getStructureInformationsByStructureCategorie('TherapyPartCount')}"
                    var="structureInformation">
             <div class="ui-g ui-fluid" style="margin-bottom: -10px !important;">
-                <div class="ui-g-1">
+                <div class="ui-g-2" style="margin-right: -50px;">
+                    <pf:commandLink
+                            action="#{editStructureInformation.deleteStructureinformation(structureInformation)}"
+                            update="@form"
+                            process="@this"
+                            rendered="#{editStructureInformation.isReadOnly() or not editStructureInformation.structureInformationReadonly(structureInformation)}">
+                        <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value="" />
+                    </pf:commandLink>
                     Gültig ab:
                 </div>
                 <div class="ui-g-2">
@@ -92,7 +97,7 @@
                 </div>
                 <div class="ui-g-2">
                     <inek:InputNumber value="#{structureInformation.content}"
-                                      readonly="#{editStructureInformation.isReadOnly() or editStructureInformation.structureInformationReadonly(structureInformation)}" />
+                                      disabled="#{editStructureInformation.isReadOnly() or editStructureInformation.structureInformationReadonly(structureInformation)}" />
                 </div>
             </div>
         </pf:repeat>
@@ -117,7 +122,14 @@
         <pf:repeat value="#{editStructureInformation.getStructureInformationsByStructureCategorie('RegionalCare')}"
                    var="structureInformation">
             <div class="ui-g ui-fluid" style="margin-bottom: -10px !important;">
-                <div class="ui-g-1">
+                <div class="ui-g-2" style="margin-right: -50px;">
+                    <pf:commandLink
+                            action="#{editStructureInformation.deleteStructureinformation(structureInformation)}"
+                            update="@form"
+                            process="@this"
+                            rendered="#{editStructureInformation.isReadOnly() or not editStructureInformation.structureInformationReadonly(structureInformation)}">
+                        <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value="" />
+                    </pf:commandLink>
                     Gültig ab:
                 </div>
                 <div class="ui-g-2">
@@ -136,13 +148,13 @@
                     </pf:calendar>
                     <pf:message id="validFromNewMessage" for="validFromRegionalCare" />
                 </div>
-                <div class="ui-g-9">
+                <div class="ui-g-8">
                     <pf:inputTextarea id="RegionalCare"
                                       rows="1"
                                       cols="50"
                                       value="#{structureInformation.content}"
                                       valueChangeListener="#{editStructureInformation.handleChange}"
-                                      readonly="#{editStructureInformation.isReadOnly() or editStructureInformation.structureInformationReadonly(structureInformation)}">
+                                      disabled="#{editStructureInformation.isReadOnly() or editStructureInformation.structureInformationReadonly(structureInformation)}">
                         <pf:ajax />
                     </pf:inputTextarea>
                 </div>
@@ -169,7 +181,14 @@
         <pf:repeat value="#{editStructureInformation.getStructureInformationsByStructureCategorie('AccommodationText')}"
                    var="structureInformation">
             <div class="ui-g ui-fluid" style="margin-bottom: -10px !important;">
-                <div class="ui-g-1">
+                <div class="ui-g-2" style="margin-right: -50px;">
+                    <pf:commandLink
+                            action="#{editStructureInformation.deleteStructureinformation(structureInformation)}"
+                            update="@form"
+                            process="@this"
+                            rendered="#{editStructureInformation.isReadOnly() or not editStructureInformation.structureInformationReadonly(structureInformation)}">
+                        <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value="" />
+                    </pf:commandLink>
                     Gültig ab:
                 </div>
                 <div class="ui-g-2">
@@ -188,13 +207,13 @@
                     </pf:calendar>
                     <pf:message id="validFromNewMessage" for="validFromAccommodationText" />
                 </div>
-                <div class="ui-g-9">
+                <div class="ui-g-8">
                     <pf:inputTextarea id="AccommodationText"
                                       rows="1"
                                       cols="50"
                                       value="#{structureInformation.content}"
                                       valueChangeListener="#{editStructureInformation.handleChange}"
-                                      readonly="#{editStructureInformation.isReadOnly() or editStructureInformation.structureInformationReadonly(structureInformation)}">
+                                      disabled="#{editStructureInformation.isReadOnly() or editStructureInformation.structureInformationReadonly(structureInformation)}">
                         <pf:ajax />
                     </pf:inputTextarea>
                 </div>
@@ -221,7 +240,14 @@
         <pf:repeat value="#{editStructureInformation.getStructureInformationsByStructureCategorie('SPCenterText')}"
                    var="structureInformation">
             <div class="ui-g ui-fluid" style="margin-bottom: -10px !important;">
-                <div class="ui-g-1">
+                <div class="ui-g-2" style="margin-right: -50px;">
+                    <pf:commandLink
+                            action="#{editStructureInformation.deleteStructureinformation(structureInformation)}"
+                            update="@form"
+                            process="@this"
+                            rendered="#{editStructureInformation.isReadOnly() or not editStructureInformation.structureInformationReadonly(structureInformation)}">
+                        <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value="" />
+                    </pf:commandLink>
                     Gültig ab:
                 </div>
                 <div class="ui-g-2">
@@ -240,13 +266,13 @@
                     </pf:calendar>
                     <pf:message id="validFromNewMessage" for="validFromSPCenterText" />
                 </div>
-                <div class="ui-g-9">
+                <div class="ui-g-8">
                     <pf:inputTextarea id="SPCenterText"
                                       rows="1"
                                       cols="50"
                                       value="#{structureInformation.content}"
                                       valueChangeListener="#{editStructureInformation.handleChange}"
-                                      readonly="#{editStructureInformation.isReadOnly() or editStructureInformation.structureInformationReadonly(structureInformation)}">
+                                      disabled="#{editStructureInformation.isReadOnly() or editStructureInformation.structureInformationReadonly(structureInformation)}">
                         <pf:ajax />
                     </pf:inputTextarea>
                 </div>
@@ -274,7 +300,14 @@
                 value="#{editStructureInformation.getStructureInformationsByStructureCategorie('AmbulantPerformanceMain')}"
                 var="structureInformation">
             <div class="ui-g ui-fluid" style="margin-bottom: -10px !important;">
-                <div class="ui-g-1">
+                <div class="ui-g-2" style="margin-right: -50px;">
+                    <pf:commandLink
+                            action="#{editStructureInformation.deleteStructureinformation(structureInformation)}"
+                            update="@form"
+                            process="@this"
+                            rendered="#{editStructureInformation.isReadOnly() or not editStructureInformation.structureInformationReadonly(structureInformation)}">
+                        <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value="" />
+                    </pf:commandLink>
                     Gültig ab:
                 </div>
                 <div class="ui-g-2">
@@ -293,13 +326,13 @@
                     </pf:calendar>
                     <pf:message id="validFromNewMessage" for="validFromAmbulantPerformanceMain" />
                 </div>
-                <div class="ui-g-9">
+                <div class="ui-g-8">
                     <pf:inputTextarea id="AmbulantPerformanceMain"
                                       rows="1"
                                       cols="50"
                                       value="#{structureInformation.content}"
                                       valueChangeListener="#{editStructureInformation.handleChange}"
-                                      readonly="#{editStructureInformation.isReadOnly() or editStructureInformation.structureInformationReadonly(structureInformation)}">
+                                      disabled="#{editStructureInformation.isReadOnly() or editStructureInformation.structureInformationReadonly(structureInformation)}">
                         <pf:ajax />
                     </pf:inputTextarea>
                 </div>
@@ -326,7 +359,14 @@
         <pf:repeat value="#{editStructureInformation.getStructureInformationsByStructureCategorie('DismissManagement')}"
                    var="structureInformation">
             <div class="ui-g ui-fluid" style="margin-bottom: -10px !important;">
-                <div class="ui-g-1">
+                <div class="ui-g-2" style="margin-right: -50px;">
+                    <pf:commandLink
+                            action="#{editStructureInformation.deleteStructureinformation(structureInformation)}"
+                            update="@form"
+                            process="@this"
+                            rendered="#{editStructureInformation.isReadOnly() or not editStructureInformation.structureInformationReadonly(structureInformation)}">
+                        <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value="" />
+                    </pf:commandLink>
                     Gültig ab:
                 </div>
                 <div class="ui-g-2">
@@ -345,13 +385,13 @@
                     </pf:calendar>
                     <pf:message id="validFromNewMessage" for="validFromDismissManagement" />
                 </div>
-                <div class="ui-g-9">
+                <div class="ui-g-8">
                     <pf:inputTextarea id="DismissManagement"
                                       rows="1"
                                       cols="50"
                                       value="#{structureInformation.content}"
                                       valueChangeListener="#{editStructureInformation.handleChange}"
-                                      readonly="#{editStructureInformation.isReadOnly() or editStructureInformation.structureInformationReadonly(structureInformation)}">
+                                      disabled="#{editStructureInformation.isReadOnly() or editStructureInformation.structureInformationReadonly(structureInformation)}">
                         <pf:ajax />
                     </pf:inputTextarea>
                 </div>
@@ -378,7 +418,14 @@
         <pf:repeat value="#{editStructureInformation.getStructureInformationsByStructureCategorie('CareProvider')}"
                    var="structureInformation">
             <div class="ui-g ui-fluid" style="margin-bottom: -10px !important;">
-                <div class="ui-g-1">
+                <div class="ui-g-2" style="margin-right: -50px;">
+                    <pf:commandLink
+                            action="#{editStructureInformation.deleteStructureinformation(structureInformation)}"
+                            update="@form"
+                            process="@this"
+                            rendered="#{editStructureInformation.isReadOnly() or not editStructureInformation.structureInformationReadonly(structureInformation)}">
+                        <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value="" />
+                    </pf:commandLink>
                     Gültig ab:
                 </div>
                 <div class="ui-g-2">
@@ -397,13 +444,13 @@
                     </pf:calendar>
                     <pf:message id="validFromNewMessage" for="validFromCareProvider" />
                 </div>
-                <div class="ui-g-9">
+                <div class="ui-g-8">
                     <pf:inputTextarea id="CareProvider"
                                       rows="1"
                                       cols="50"
                                       value="#{structureInformation.content}"
                                       valueChangeListener="#{editStructureInformation.handleChange}"
-                                      readonly="#{editStructureInformation.isReadOnly() or editStructureInformation.structureInformationReadonly(structureInformation)}">
+                                      disabled="#{editStructureInformation.isReadOnly() or editStructureInformation.structureInformationReadonly(structureInformation)}">
                         <pf:ajax />
                     </pf:inputTextarea>
                 </div>
@@ -422,7 +469,14 @@
         <pf:repeat value="#{editStructureInformation.getStructureInformationsByStructureCategorie('PerformanceAreas')}"
                    var="structureInformation">
             <div class="ui-g ui-fluid" style="margin-bottom: -10px !important;">
-                <div class="ui-g-1">
+                <div class="ui-g-2" style="margin-right: -50px;">
+                    <pf:commandLink
+                            action="#{editStructureInformation.deleteStructureinformation(structureInformation)}"
+                            update="@form"
+                            process="@this"
+                            rendered="#{editStructureInformation.isReadOnly() or not editStructureInformation.structureInformationReadonly(structureInformation)}">
+                        <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value="" />
+                    </pf:commandLink>
                     Gültig ab:
                 </div>
                 <div class="ui-g-2">
@@ -441,13 +495,13 @@
                     </pf:calendar>
                     <pf:message id="validFromNewMessage" for="validFromPerformanceAreas" />
                 </div>
-                <div class="ui-g-9">
+                <div class="ui-g-8">
                     <pf:inputTextarea id="PerformanceAreas"
                                       rows="1"
                                       cols="50"
                                       value="#{structureInformation.content}"
                                       valueChangeListener="#{editStructureInformation.handleChange}"
-                                      readonly="#{editStructureInformation.isReadOnly() or editStructureInformation.structureInformationReadonly(structureInformation)}">
+                                      disabled="#{editStructureInformation.isReadOnly() or editStructureInformation.structureInformationReadonly(structureInformation)}">
                         <pf:ajax />
                     </pf:inputTextarea>
                 </div>
@@ -474,7 +528,14 @@
         <pf:repeat value="#{editStructureInformation.getStructureInformationsByStructureCategorie('AmbulantStructure')}"
                    var="structureInformation">
             <div class="ui-g ui-fluid" style="margin-bottom: -10px !important;">
-                <div class="ui-g-1">
+                <div class="ui-g-2" style="margin-right: -50px;">
+                    <pf:commandLink
+                            action="#{editStructureInformation.deleteStructureinformation(structureInformation)}"
+                            update="@form"
+                            process="@this"
+                            rendered="#{editStructureInformation.isReadOnly() or not editStructureInformation.structureInformationReadonly(structureInformation)}">
+                        <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value="" />
+                    </pf:commandLink>
                     Gültig ab:
                 </div>
                 <div class="ui-g-2">
@@ -493,13 +554,13 @@
                     </pf:calendar>
                     <pf:message id="validFromNewMessage" for="validFromAmbulantStructure" />
                 </div>
-                <div class="ui-g-9">
+                <div class="ui-g-8">
                     <pf:inputTextarea id="AmbulantStructure"
                                       rows="1"
                                       cols="50"
                                       value="#{structureInformation.content}"
                                       valueChangeListener="#{editStructureInformation.handleChange}"
-                                      readonly="#{editStructureInformation.isReadOnly() or editStructureInformation.structureInformationReadonly(structureInformation)}">
+                                      disabled="#{editStructureInformation.isReadOnly() or editStructureInformation.structureInformationReadonly(structureInformation)}">
                         <pf:ajax />
                     </pf:inputTextarea>
                 </div>
@@ -527,7 +588,14 @@
                 value="#{editStructureInformation.getStructureInformationsByStructureCategorie('SocialPsychiatryService')}"
                 var="structureInformation">
             <div class="ui-g ui-fluid" style="margin-bottom: -10px !important;">
-                <div class="ui-g-1">
+                <div class="ui-g-2" style="margin-right: -50px;">
+                    <pf:commandLink
+                            action="#{editStructureInformation.deleteStructureinformation(structureInformation)}"
+                            update="@form"
+                            process="@this"
+                            rendered="#{editStructureInformation.isReadOnly() or not editStructureInformation.structureInformationReadonly(structureInformation)}">
+                        <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value="" />
+                    </pf:commandLink>
                     Gültig ab:
                 </div>
                 <div class="ui-g-2">
@@ -546,13 +614,13 @@
                     </pf:calendar>
                     <pf:message id="validFromNewMessage" for="validFromSocialPsychiatryService" />
                 </div>
-                <div class="ui-g-9">
+                <div class="ui-g-8">
                     <pf:inputTextarea id="SocialPsychiatryService"
                                       rows="1"
                                       cols="50"
                                       value="#{structureInformation.content}"
                                       valueChangeListener="#{editStructureInformation.handleChange}"
-                                      readonly="#{editStructureInformation.isReadOnly() or editStructureInformation.structureInformationReadonly(structureInformation)}">
+                                      disabled="#{editStructureInformation.isReadOnly() or editStructureInformation.structureInformationReadonly(structureInformation)}">
                         <pf:ajax />
                     </pf:inputTextarea>
                 </div>

@@ -71,14 +71,19 @@ public class StructureinformationHelper {
         return false;
     }
 
-    public static Boolean structureInformationIsReadonly(StructureInformation info, List<StructureInformation> structureInformations) {
+    public static Boolean structureInformationIsReadonly(StructureInformation info, List<StructureInformation> structureInformations, Date currentDate) {
         if (info.getId() == 0) {
+            return false;
+        }
+
+        if (info.getValidFrom().after(currentDate) || info.getValidFrom().equals(currentDate)) {
             return false;
         }
 
         if (structureInformations.stream()
                 .filter(c -> c.getId() > 0)
-                .anyMatch(c -> c.getValidFrom().after(info.getValidFrom()))) {
+                .anyMatch(c -> c.getValidFrom().after(info.getValidFrom()) &&
+                        (c.getValidFrom().before(currentDate)) || c.getValidFrom().equals(currentDate))) {
             return true;
         } else {
             return false;

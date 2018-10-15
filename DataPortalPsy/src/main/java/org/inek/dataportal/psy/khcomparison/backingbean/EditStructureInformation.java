@@ -258,11 +258,11 @@ public class EditStructureInformation {
         StructureInformation newInfo = new StructureInformation();
         newInfo.setBaseInformation(_structureBaseInformation);
         newInfo.setStructureCategorie(StructureInformationCategorie.valueOf(catName));
-        newInfo.setValidFrom(createDate());
+        newInfo.setValidFrom(createCurrentDate());
         _structureBaseInformation.addStructureInformation(newInfo);
     }
 
-    private Date createDate() {
+    private Date createCurrentDate() {
         LocalDate date = LocalDate.now();
 
         return java.util.Date.from(date.atStartOfDay()
@@ -304,6 +304,8 @@ public class EditStructureInformation {
 
     public void deactivateFilterStructureInformation() {
         _filterActive = false;
+        _filterValidFrom = createCurrentDate();
+        _filterValidTo = createCurrentDate();
     }
 
     public void deleteStructureinformation(StructureInformation info) {
@@ -312,7 +314,7 @@ public class EditStructureInformation {
 
     public Boolean structureInformationReadonly(StructureInformation info) {
         return StructureinformationHelper.structureInformationIsReadonly(info,
-                getStructureInformationsByStructureCategorie(info.getStructureCategorie().name()));
+                getStructureInformationsByStructureCategorie(info.getStructureCategorie().name()), createCurrentDate());
     }
 
 }

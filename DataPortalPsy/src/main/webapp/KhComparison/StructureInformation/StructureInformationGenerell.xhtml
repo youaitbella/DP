@@ -4,62 +4,72 @@
                 xmlns:pf="http://primefaces.org/ui"
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/Other">
 
+    <pf:panel id="headerInformations" style="background-color: #eeeeee; border: none;">
+        <inek:MultiIkNoListener label="#{msg.lblIkShort}"
+                                required="true"
+                                value="#{editStructureInformation.structureBaseInformation.ik}"
+                                readonly="#{editStructureInformation.isReadOnly() or editStructureInformation.structureBaseInformation.id gt 0}"
+                                ikList="#{editStructureInformation.allowedIks}" />
 
-    <inek:MultiIkNoListener label="#{msg.lblIkShort}"
-                            required="true"
-                            value="#{editStructureInformation.structureBaseInformation.ik}"
-                            readonly="#{editStructureInformation.isReadOnly() or editStructureInformation.structureBaseInformation.id gt 0}"
-                            ikList="#{editStructureInformation.allowedIks}" />
+        <pf:commandButton styleClass="btnPsy"
+                          value="Speichern"
+                          action="#{editStructureInformation.save()}"
+                          update="@form"
+                          immediate="true"
+                          rendered="#{!editStructureInformation.isReadOnly()}"/>
 
 
-    <h3>Filter:</h3>
 
-    <div class="ui-g ui-fluid" style="margin-bottom: -10px !important;">
-        <div class="ui-g-1">
-            Gültig ab:
-        </div>
-        <div class="ui-g-2">
-            <pf:calendar id="validFromFilter"
-                         value="#{editStructureInformation.filterValidFrom}"
-                         locale="de"
-                         navigator="true"
-                         pattern="dd.MM.yyyy"
-                         mask="true"
-                         inputStyle="text-align: right;">
-                <pf:ajax event="change" />
-                <pf:ajax event="dateSelect" />
-            </pf:calendar>
-        </div>
+        <h3>Filter:</h3>
 
-        <div class="ui-g-1">
-            Gültig bis:
-        </div>
-        <div class="ui-g-2">
-            <pf:calendar id="validToFilter"
-                         value="#{editStructureInformation.filterValidTo}"
-                         locale="de"
-                         navigator="true"
-                         pattern="dd.MM.yyyy"
-                         mask="true"
-                         inputStyle="text-align: right;">
-                <pf:ajax event="change" />
-                <pf:ajax event="dateSelect" />
-            </pf:calendar>
-        </div>
+        <div class="ui-g ui-fluid" style="margin-bottom: -10px !important;">
+            <div class="ui-g-1">
+                Gültig ab:
+            </div>
+            <div class="ui-g-2">
+                <pf:calendar id="validFromFilter"
+                             value="#{editStructureInformation.filterValidFrom}"
+                             locale="de"
+                             navigator="true"
+                             pattern="dd.MM.yyyy"
+                             mask="true"
+                             inputStyle="text-align: right;">
+                    <pf:ajax event="change" />
+                    <pf:ajax event="dateSelect" />
+                </pf:calendar>
+            </div>
 
-        <div class="ui-g-2">
-            <pf:commandButton styleClass="btnPsy"
-                              value="Anzeigen"
-                              style="margin-left: 10px;"
-                              actionListener="#{editStructureInformation.activateFilterStructureInformation()}"
-                              update="@form" />
+            <div class="ui-g-1">
+                Gültig bis:
+            </div>
+            <div class="ui-g-2">
+                <pf:calendar id="validToFilter"
+                             value="#{editStructureInformation.filterValidTo}"
+                             locale="de"
+                             navigator="true"
+                             pattern="dd.MM.yyyy"
+                             mask="true"
+                             inputStyle="text-align: right;">
+                    <pf:ajax event="change" />
+                    <pf:ajax event="dateSelect" />
+                </pf:calendar>
+            </div>
+
+            <div class="ui-g-2">
+                <pf:commandButton styleClass="btnPsy"
+                                  value="Anzeigen"
+                                  style="margin-left: 10px;"
+                                  actionListener="#{editStructureInformation.activateFilterStructureInformation()}"
+                                  update="@form" />
+            </div>
+            <div class="ui-g-2">
+                <pf:commandButton styleClass="btnPsy"
+                                  value="Filter Entfernen"
+                                  style="margin-left: 10px;"
+                                  actionListener="#{editStructureInformation.deactivateFilterStructureInformation()}"
+                                  update="@form" />
+            </div>
         </div>
-        <div class="ui-g-2">
-            <pf:commandButton styleClass="btnPsy"
-                              value="Filter Entfernen"
-                              style="margin-left: 10px;"
-                              actionListener="#{editStructureInformation.deactivateFilterStructureInformation()}"
-                              update="@form" />
-        </div>
-    </div>
+    </pf:panel>
+    <pf:sticky target="headerInformations" />
 </ui:composition>
