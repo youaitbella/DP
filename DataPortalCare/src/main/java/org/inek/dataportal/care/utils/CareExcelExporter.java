@@ -21,7 +21,8 @@ import org.inek.dataportal.care.entities.DeptStationsAfterTargetYear;
  */
 public class CareExcelExporter {
 
-    private static final String SHEET_NAME = "Umsetzung PpUGV";
+    private static final String SHEET_NAME_1 = "Umsetzung PpUGV";
+    private static final String SHEET_NAME_2 = "§ 5 Abs. 4 PpUGV";
     private static final String IK = "IK-Nummer:";
     private static final String KH_NAME = "Name des Krankenhauses:";
     private static final String KH_TOWN = "Ort:";
@@ -43,21 +44,23 @@ public class CareExcelExporter {
     private static final String BEZUG_2 = "Indikatoren-DRGs";
     private static final String BEZUG_3 = "OPS-Liste Intensivmedizin";
 
-    private static final String TABLE_AFTER_TARGET_HEADER = "Umbenennung oder strukturelle Veränderungen (§ 5 Abs. 4 PpUGV)";
-
-    private int _startTableAfterTargetYearRow = 0;
-
     public InputStream createExcelExportFile(DeptBaseInformation baseInfo, String hospitalName, String hospitalTown) {
         try {
             Workbook workbook = new XSSFWorkbook();
-            Sheet sheet = workbook.createSheet(SHEET_NAME);
+            Sheet sheet1 = workbook.createSheet(SHEET_NAME_1);
 
-            setBaseInformations(sheet, baseInfo, hospitalName, hospitalTown);
-            setTableHeader(sheet);
-            setTable(sheet, baseInfo);
-            setTableAfterTargetYearHeader(sheet, baseInfo);
-            setTableAfterTargetYear(sheet, baseInfo);
-            autoSizeCols(sheet);
+            setBaseInformations(sheet1, baseInfo, hospitalName, hospitalTown);
+            setTableHeader(sheet1);
+            setTable(sheet1, baseInfo);
+            if (baseInfo.getDepts().stream().anyMatch(c -> c.getDeptsAftertargetYear().size() > 0)) {
+                Sheet sheet2 = workbook.createSheet(SHEET_NAME_2);
+                setBaseInformations(sheet2, baseInfo, hospitalName, hospitalTown);
+                setTableAfterTargetYearHeader(sheet2, baseInfo);
+                setTableAfterTargetYear(sheet2, baseInfo);
+                autoSizeCols(sheet2);
+            }
+            autoSizeCols(sheet1);
+
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             workbook.write(bos);
             byte[] barray = bos.toByteArray();
@@ -149,12 +152,10 @@ public class CareExcelExporter {
                 startRow++;
             }
         }
-
-        _startTableAfterTargetYearRow = startRow;
     }
 
     private void setTableAfterTargetYear(Sheet sheet, DeptBaseInformation baseInfo) {
-        int startRow = _startTableAfterTargetYearRow;
+        int startRow = 7;
         int startCol = 0;
 
         CellStyle styleBorderd = getCellStyleBorder(sheet);
@@ -186,18 +187,13 @@ public class CareExcelExporter {
 
     private void setTableAfterTargetYearHeader(Sheet sheet, DeptBaseInformation baseInfo) {
 
-        int startRow = _startTableAfterTargetYearRow + 2;
-        _startTableAfterTargetYearRow = startRow + 1;
+        int startRow = 6;
 
         CellStyle style = getCellStyleBorder(sheet);
 
         Font font = sheet.getWorkbook().createFont();
         font.setBold(true);
         style.setFont(font);
-
-        Row rowHeader = sheet.createRow(startRow - 1);
-        rowHeader.createCell(0).setCellValue(TABLE_AFTER_TARGET_HEADER);
-        rowHeader.getCell(0).setCellStyle(style);
 
         Row row = sheet.createRow(startRow);
         row.createCell(0).setCellValue(TABLE_HEADER_1);
