@@ -24,10 +24,10 @@ public class IkAdminFeature implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "iafId")
-    private Integer _id = -1;
+    private Integer _id;
 
     public int getId() {
-        return _id;
+        return _id == null ? -1 : _id;
     }
 
     public void setId(int id) {

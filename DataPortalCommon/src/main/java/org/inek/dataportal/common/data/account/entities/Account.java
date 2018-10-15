@@ -322,7 +322,7 @@ public class Account implements Serializable, Person {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "iaAccountId", referencedColumnName = "acId")
     @OrderBy("_ik")
-    private List<IkAdmin> _adminIks;
+    private List<IkAdmin> _adminIks = new ArrayList<>();
 
     public List<IkAdmin> getAdminIks() {
         return _adminIks;
@@ -352,6 +352,7 @@ public class Account implements Serializable, Person {
             for (Feature fe : features) {
                 admin.get().addIkAdminFeature(fe);
             }
+            admin.get().removeIkAdminFeaturesIfNotInList(features);
             return false;
         }
         _adminIks.add(new IkAdmin(_id, ik, mailDomain, features));

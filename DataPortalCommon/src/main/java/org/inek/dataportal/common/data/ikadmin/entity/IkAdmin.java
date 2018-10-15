@@ -152,6 +152,10 @@ public class IkAdmin implements Serializable {
         }
         return true;
     }
+
+    public void removeIkAdminFeaturesIfNotInList(List<Feature> features) {
+        _ikAdminFeatures.removeIf(c -> !features.contains(c.getFeature()));
+    }
     // </editor-fold>
 
 }
