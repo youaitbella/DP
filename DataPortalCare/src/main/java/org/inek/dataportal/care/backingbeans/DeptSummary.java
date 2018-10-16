@@ -185,7 +185,7 @@ public class DeptSummary implements Serializable {
         }
 
         public void setBaseInfo(DeptBaseInformation baseInfo) {
-            this._baseInfo =_baseInfo;
+            this._baseInfo = baseInfo;
         }
 
         public int getId() {
