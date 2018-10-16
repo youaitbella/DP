@@ -74,6 +74,29 @@
 
             </div>
 
+            <div class="ui-g-12">
+                <h1>Umsetzung der Verordnung zur Festlegung von Pflegepersonaluntergrenzen in pflegesensitiven Bereichen in Krankenhäusern (PpUGV)</h1>
+                <div style="text-align: justify; border: 1px solid #ffa727; padding: 10px;">
+                    <br />
+                    Die nach § 5 PpUGV geforderten Angaben Ihres Krankenhauses können Sie in diesem Bereich des InEK-Datenportals eintragen und an das InEK übermitteln. Zur Vereinfachung der Dateneingabe haben wir Ihnen die Eingabefelder bereits mit den in unserem Schreiben übermittelten, identifizierten pflegesensitiven Bereiche Ihres Krankenhauses vor befüllt. Lediglich die Informationen nach § 5 Abs. 3 PpUGV, die aus den §-21-Datensätzen nicht abgeleitet werden können, sind von Ihnen zu ergänzen. Sie können Ihre Eingaben jederzeit speichern ohne diese direkt an das InEK zu übermitteln. Über die Speicherung der Daten erhalten Sie eine Informationsmail. So können Sie schrittweise arbeiten und erst nach Beendigung der Eingabe die Daten an das InEK übermitteln (Button „an das InEK senden“). Nach erfolgreicher Übermittlung erhalten Sie eine Bestätigungsmail über den erfolgreichen Dateneingang im InEK.
+                    <br />
+                    <br />
+                    Nach erfolgreicher Übermittlung an das InEK können Sie die übermittelten Daten in eine Excel-Tabelle exportieren und an die örtlichen Vertragsparteien nach § 11 KHEntgG weiterleiten (§ 5 Abs. 3 PpUGV). Eine erneute Erfassung der Daten zur Weiterleitung an die örtlichen Vertragsparteien ist also nicht erforderlich.
+                    <br />
+                    <br />
+                    Bitte geben Sie die Namen der Fachabteilungen und Stationen möglichst nachvollziehbar ein. Verwenden Sie neben ggf. intern verwendeten Kurzbezeichnung („Station G1“) auch Klartexte zur besseren Nachvollziehbarkeit („Station G1 – Innere Medizin, Schwerpunkt Geriatrie“).
+                    <br />
+                    <br />
+                    Bitte geben Sie in der Spalte „Fachabteilung“ den in Ihrem Krankenhaus verwendeten Namen der Fachabteilung an. Nach § 5 Abs. 3 PpUGV sind Angaben für sämtliche zu diesen Fachabteilungen gehörenden Stationen einzutragen. Wenn Ihr Krankenhaus über mehrere Standorte verfügt, sind die Angaben Standortbezogen vorzunehmen. Zu jedem Eintrag ist zunächst nur eine Datenzeile auf Stationsebene eingeblendet. Mit dem +-Button können Sie die Anzahl der einzugebenden Zeilen bedarfsweise erhöhen.
+                    <br />
+                    <br />
+                    Bei einem Fehleintrag können Sie die Zeile mit dem „Papierkorb“-Button wieder löschen.
+                    <br />
+                    <br />
+                    Bei Fragen konsultieren Sie bitte den Text der Rechtsverordnung sowie die auf unserer Internetseite bereitgestellte <a href="https://www.g-drg.de/Umsetzung_der_Verordnung_zur_Festlegung_von_Pflegepersonaluntergrenzen_in_pflegesensitiven_Bereichen_in_Krankenhaeusern_PpUGV/FAQ">FAQ-Liste</a>. Bei darüber hinaus gehenden Fragestellungen können Sie sich gerne an das InEK wenden (per E-Mail: <a href="mailto:PPUGV-Umsetzung@inek-drg.de">PPUGV-Umsetzung@inek-drg.de</a> bzw. per Telefon: (02241) 93 82 500).
+                </div>
+            </div>
+
             <div class="ui-g-12" jsf:rendered="#{deptEdit.getDeptsByArea(1).size() gt 0}">
 
                 <h1>Angaben zu § 3 Abs. 3 Satz 2 Nr. 1 PpUGV (ausgewiesene Fachabteilung)</h1>
@@ -277,7 +300,7 @@
                     </pf:column>
                     <pf:column headerText="Fachabteilung">
                         <pf:outputLabel
-                                value="#{deptAfterTargetYear.dept.deptNumber} - #{deptAfterTargetYear.dept.deptName}" />
+                            value="#{deptAfterTargetYear.dept.deptNumber} - #{deptAfterTargetYear.dept.deptName}" />
                     </pf:column>
                     <pf:column headerText="Fachabteilung gem. KH">
                         <inekInput:InputText value="#{deptAfterTargetYear.deptNameHospital}"

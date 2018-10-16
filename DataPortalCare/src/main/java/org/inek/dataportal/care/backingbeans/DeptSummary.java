@@ -19,7 +19,9 @@ import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.care.entities.DeptBaseInformation;
 import org.inek.dataportal.care.facades.DeptFacade;
 import org.inek.dataportal.common.controller.SessionController;
+import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
+import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.overall.AccessManager;
@@ -41,6 +43,8 @@ public class DeptSummary implements Serializable {
     private SessionController _sessionController;
     @Inject
     private DeptFacade _deptFacade;
+    @Inject
+    private ConfigFacade _configFacade;
 
     private List<listItem> _listComplete = new ArrayList<>();
     private List<listItem> _listWorking = new ArrayList<>();
@@ -109,6 +113,9 @@ public class DeptSummary implements Serializable {
     }
 
     public boolean isCreateEntryAllowed() {
+        if (!_configFacade.readConfigBool(ConfigKey.IsCareCreateEnabled)) {
+            return false;
+        }
         Set<Integer> allowedIks = _accessManager.ObtainIksForCreation(Feature.CARE);
         return _deptFacade.retrievePossibleIks(allowedIks).size() > 0;
     }

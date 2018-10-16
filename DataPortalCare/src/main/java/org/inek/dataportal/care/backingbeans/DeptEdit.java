@@ -15,8 +15,10 @@ import org.inek.dataportal.care.utils.CareExcelExporter;
 import org.inek.dataportal.care.utils.CareValidator;
 import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.controller.SessionController;
+import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.common.data.adm.MailTemplate;
 import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
+import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.helper.MailTemplateHelper;
@@ -56,6 +58,8 @@ public class DeptEdit {
     private Mailer _mailer;
     @Inject
     private ApplicationTools _applicationTools;
+    @Inject
+    private ConfigFacade _configFacade;
 
     private DeptBaseInformation _deptBaseInformation;
     private DeptBaseInformation _oldDeptbaseInformation;
@@ -249,6 +253,9 @@ public class DeptEdit {
     }
 
     public Boolean changeAllowed() {
+        if(!_configFacade.readConfigBool(ConfigKey.IsCareChangeEnabled)) {
+            return false;
+        }
         if (_deptBaseInformation == null || _deptBaseInformation.getStatusId() < 10) {
             return false;
         } else {
@@ -262,6 +269,25 @@ public class DeptEdit {
 
             return false;
         }
+    }
+
+    public Boolean excelExportAllowed() {
+        if (_deptBaseInformation == null || _deptBaseInformation.getStatusId() < 10) {
+            return false;
+        } else {
+            for (AccessRight right : _sessionController.getAccount().getAccessRights().stream()
+                    .filter(c -> c.canRead() && c.getFeature() == Feature.CARE)
+                    .collect(Collectors.toList())) {
+                if (right.getIk() == _deptBaseInformation.getIk()) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+
+    public Boolean sendAllowed() {
+        return _configFacade.readConfigBool(ConfigKey.IsCareSendEnabled);
     }
 
     public void change() {
