@@ -108,8 +108,7 @@
 
             </div>
 
-            <div class="ui-g-12" jsf:rendered="#{deptEdit.getDeptsByArea(1).size() gt 0}">
-
+            <div style="margin-top: 20px;" class="ui-g-12" jsf:rendered="#{deptEdit.getDeptsByArea(1).size() gt 0}">
                 <h1>Angaben zu § 3 Abs. 3 Satz 2 Nr. 1 PpUGV (ausgewiesene Fachabteilung)</h1>
                 <pf:repeat value="#{deptEdit.getDeptsByArea(1)}" var="dept">
                     <h3>Stationsangaben für pflegesensitiver Bereich #{dept.sensitiveArea}: Fachabteilung #{dept.deptNumber} #{dept.deptName}</h3>
@@ -161,7 +160,7 @@
 
             <br />
 
-            <div class="ui-g-12" jsf:rendered="#{deptEdit.getDeptsByArea(2).size() gt 0}">
+            <div style="margin-top: 20px;" class="ui-g-12" jsf:rendered="#{deptEdit.getDeptsByArea(2).size() gt 0}">
 
                 <h1>Angaben zu § 3 Abs. 2 3 Satz Nr. 2 PpUGV (Indikatoren - DRGs)</h1>
 
@@ -215,7 +214,7 @@
 
             <br />
 
-            <div class="ui-g-12" jsf:rendered="#{deptEdit.getDeptsByArea(3).size() gt 0}">
+            <div style="margin-top: 20px;" class="ui-g-12" jsf:rendered="#{deptEdit.getDeptsByArea(3).size() gt 0}">
 
                 <h1>Angaben zu § 3 Abs. 4 PpUGV (OPS-Liste Intensivmedizin)</h1>
 
@@ -278,7 +277,7 @@
 
             <br />
 
-            <div class="ui-g-12" jsf:rendered="#{deptEdit.deptBaseInformation.ik > 0}">
+            <div style="margin-top: 20px;" class="ui-g-12" jsf:rendered="#{deptEdit.deptBaseInformation.ik > 0}">
 
                 <h1>Umbenennung oder strukturelle Veränderungen (§ 5 Abs. 4 PpUGV)</h1>
 

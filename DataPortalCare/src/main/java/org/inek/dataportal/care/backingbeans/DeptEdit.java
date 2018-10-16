@@ -158,7 +158,7 @@ public class DeptEdit {
         _deptBaseInformation.setLastChanged(new Date());
 
         try {
-            if (_deptBaseInformation.getStatus() == WorkflowStatus.CorrectionRequested) {
+            if (_oldDeptbaseInformation != null && _deptBaseInformation.getStatus() == WorkflowStatus.CorrectionRequested) {
                 _deptFacade.save(_oldDeptbaseInformation);
             }
 
