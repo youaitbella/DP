@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="lautenti" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Meldung exportieren</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Meldung exportieren</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Nach erfolgreicher Übermittlung an das InEK (über den Button &quot;Meldung abschließend ans InEK senden&quot;) können Sie die übermittelten Daten in eine Excel-Tabelle exportieren (über den Button &quot;Meldung exportieren (Excel)&quot;) und an die örtlichen Vertragsparteien nach § 11 KHEntgG weiterleiten (§ 5 Abs. 3 PpUGV). Eine erneute Erfassung der Daten zur Weiterleitung an die örtlichen Vertragsparteien ist also nicht erforderlich. </text></para>
+  </body>
+</topic>

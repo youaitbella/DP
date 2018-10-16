@@ -160,7 +160,7 @@
       <config-value name="autohelpstart">0</config-value>
       <config-value name="autohelpincrement">1</config-value>
       <config-value name="autohelpanchor">0</config-value>
-      <config-value name="searchpath">.\;.\Baggage\;..\web\resources\Icon\small\</config-value>
+      <config-value name="searchpath">.\;.\Baggage\;..\web\resources\Icon\small\;.\Baggage\care\</config-value>
       <config-group name="custombuilds">
         <config-value name="DEMO">Demo Build</config-value>
         <config-value name="USER1">Zerti</config-value>
@@ -392,6 +392,7 @@ document.write('</frameset>');
       <file-mod href="UploadDocumentForInek.xml"/>
       <file-mod href="Zertifizierung.xml" build="USER1,USER2"/>
       <file-mod href="Teilnahme-Kostenkalkulation---.xml" build="USER2"/>
+      <file-mod href="Datenerfassung-zum-Krankenhaus.xml"/>
     </file>
     <file href="Baggage/*.*" build="ALL" filetype="baggage"/>
   </project-files>

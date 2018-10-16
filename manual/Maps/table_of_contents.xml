@@ -275,7 +275,7 @@
         <caption translate="true">Datenexport</caption>
       </topicref>
     </topicref>
-    <topicref type="topic" id="433704401956148" build="ALL" modified="2018-09-27T09:46:07.092Z" icon="0" href="Datenerfassung-zum-Krankenhaus">
+    <topicref type="topic" id="433704401956148" modified="2018-10-16T11:04:08.175Z" icon="0" href="Datenerfassung-zum-Krankenhaus">
       <caption translate="true">Datenerfassung zum Krankenhausvergleich</caption>
       <topicref type="topic" id="433702792101813" build="ALL" modified="2018-09-27T09:46:30.087Z" icon="0" href="Erfassung-der-AEB">
         <caption translate="true">Erfassung der AEB</caption>
@@ -322,6 +322,24 @@
     </topicref>
     <topicref type="topic" id="432343253748790" build="USER2" modified="2018-05-14T11:41:21.245Z" icon="0" href="Teilnahme-Kostenkalkulation---">
       <caption translate="true">Teilnahme Kostenkalkulation - Managersicht</caption>
+    </topicref>
+  </topicref>
+  <topicref type="topic" id="433893870280954" build="ALL" modified="2018-10-16T09:42:58.748Z" icon="0" href="Pflegepersonaluntergrenzen">
+    <caption translate="true">Pflegepersonaluntergrenzen</caption>
+    <topicref type="topic" id="43391030246485" build="ALL" modified="2018-10-16T10:04:55.358Z" icon="0" href="Neue-Mitteilung-gem_-_-5-PpUGV">
+      <caption translate="true">Neue Mitteilung gem. § 5 PpUGV erstellen</caption>
+    </topicref>
+    <topicref type="topic" id="433894065000689" build="ALL" modified="2018-10-16T10:05:18.861Z" icon="0" href="Daten-eintragen">
+      <caption translate="true">Daten eintragen</caption>
+    </topicref>
+    <topicref type="topic" id="433893324250151" build="ALL" modified="2018-10-16T10:05:42.815Z" icon="0" href="Umbenennung-oder-strukturelle-">
+      <caption translate="true">Umbenennung oder strukturelle Veränderungen (§ 5 Abs. 4 PpUGV) eintragen</caption>
+    </topicref>
+    <topicref type="topic" id="433893038855642" build="ALL" modified="2018-10-16T10:08:20.703Z" icon="0" href="Meldung-exportieren">
+      <caption translate="true">Meldung exportieren</caption>
+    </topicref>
+    <topicref type="topic" id="433893953185218" build="ALL" modified="2018-10-16T10:43:19.622Z" icon="0" href="Hilfe">
+      <caption translate="true">Hilfe</caption>
     </topicref>
   </topicref>
   <topicref type="topic" id="426207377323422" build="ALL" modified="2016-09-07T15:29:02.542Z" icon="0" href="Insurance">

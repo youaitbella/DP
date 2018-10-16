@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="lautenti" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Pflegepersonaluntergrenzen</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Pflegepersonaluntergrenzen</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die nach § 5 PpUGV geforderten Angaben zu Ihrem Krankenhaus können Sie in diesem Bereich des InEK-Datenportals eintragen und an das InEK übermitteln. Zur Vereinfachung der Dateneingabe haben wir Ihnen die Eingabefelder bereits mit den in unserem Schreiben übermittelten, identifizierten pflegesensitiven Bereiche Ihres Krankenhauses vor befüllt. Lediglich die Informationen nach § 5 Abs. 3 PpUGV, die aus den §-21-Datensätzen nicht abgeleitet werden können, sind von Ihnen zu ergänzen. Sie können Ihre Eingaben jederzeit speichern ohne diese direkt an das InEK zu übermitteln. Über die Speicherung der Daten erhalten Sie eine Informationsmail. So können Sie schrittweise arbeiten und erst nach Beendigung der Eingabe die Daten an das InEK übermitteln (Button „Meldung abschließend ans InEK senden“). Nach erfolgreicher Übermittlung erhalten Sie eine Bestätigungsmail über den erfolgreichen Dateneingang im InEK.</text></para>
+  </body>
+</topic>

@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="lautenti" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Umbenennung oder strukturelle Veränderungen (§ 5 Abs. 4 PpUGV) eintragen</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Umbenennung oder strukturelle Veränderungen (§ 5 Abs. 4 PpUGV) eintragen</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Alle Angaben beziehen sich auf die Situation in Ihrem Krankenhaus im Datenjahr 2017. Bei Änderungen im Sinne des § 5 Abs. 4 PpUGV (ersatzloser Wegfall, Umbenennung, strukturelle Veränderungen) geben Sie diese bitte im entsprechenden Bereich am unteren Ende des Datenportals an. </text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><image src="care_umbenennungen.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sofern sie eine Umbenennung oder strukturelle Veränderung eintragen wollen klicken Sie auf den Button &quot;Neuen Eintrag&quot; am Ende des Formulars. Im folgenden Fenster können Sie die Fachabteilung auswählen für die Sie eine Änderung eintragen wollen. </text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal" style="text-align:center;"><image src="care_umbenennung_selectiopn.png" scale="100.00%" styleclass="Image Caption"></image></para>
+  </body>
+</topic>

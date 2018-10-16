@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="lautenti" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Neue Mitteilung gem. § 5 PpUGV erstellen</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Neue Mitteilung gem. § 5 PpUGV erstellen</text></para>
+    </header>
+    <para styleclass="Normal"><image src="care_summary.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">In der Übersicht sehen Sie alle Meldungen für die Krankenhäuser, für die Sie Berechtigungen von den entsprechenden Funktionsbeauftragten erhalten haben. Die Meldungen in der linken Tabelle befinden sich in Erfassung und wurden noch nicht vollständig an das InEK übermittelt. Sofern die Meldung an das InEK erfolgte befindet sich die Meldung in der rechten Tabelle. Ein Löschen der gesendeten Meldungen ist nicht möglich.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Über den Button &quot;Neue Meldung erstellen&quot; können Sie eine neue Meldung erstellen. Der Button ist nicht vorhanden, wenn eine der folgenden Bedingungen zutrifft: </text></para>
+    <para styleclass="Normal"></para>
+    <list id="1" type="ul" listtype="bullet" formatstring="&#183;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Symbol; font-size:11pt; color:#000000;">
+      <li styleclass="Normal"><text styleclass="Normal" translate="true">Die Funktion ist von Seiten des InEK deaktiviert.</text></li>
+      <li styleclass="Normal"><text styleclass="Normal" translate="true">Sie haben für kein Krankenhaus die Berechtigung Daten anzulegen.</text></li>
+      <li styleclass="Normal"><text styleclass="Normal" translate="true">Es existieren schon Daten für die Krankenhäuser, für die Sie berechtigt sind.</text></li>
+    </list>
+  </body>
+</topic>
