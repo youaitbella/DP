@@ -162,6 +162,8 @@ public class IkAdmin implements Serializable {
                 .collect(Collectors.toList())) {
             if (_account.getFeatures().stream().noneMatch(f -> f.getFeature() == fe)) {
                 _account.addFeature(fe, true);
+                AccessRight accessRight = new AccessRight(_account.getId(), _ik, fe, Right.All);
+                _ikAdminFacade.saveAccessRight(accessRight);
             }
         }
 
