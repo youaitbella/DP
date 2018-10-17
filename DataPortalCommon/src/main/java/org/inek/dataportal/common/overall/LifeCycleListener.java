@@ -7,20 +7,26 @@ import javax.faces.component.html.*;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
- *
  * @author mmueller
  */
 public class LifeCycleListener implements PhaseListener {
 
     private static final String STYLE = " required ";
+    public static final Logger LOGGER = Logger.getLogger(LifeCycleListener.class.getName());
 
     @Override
     public void beforePhase(PhaseEvent event) {
-        UIViewRoot root = event.getFacesContext().getViewRoot();
-        if (root != null && event.getPhaseId() == PhaseId.RENDER_RESPONSE) {
-            markRequired(root, root);
+        try {
+            UIViewRoot root = event.getFacesContext().getViewRoot();
+            if (root != null && event.getPhaseId() == PhaseId.RENDER_RESPONSE) {
+                markRequired(root, root);
+            }
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage());
         }
     }
 
@@ -69,42 +75,42 @@ public class LifeCycleListener implements PhaseListener {
         if (field instanceof HtmlOutputLabel) {
             HtmlOutputLabel element = (HtmlOutputLabel) field;
             String oldStyle = element.getStyleClass();
-            if (!required && (oldStyle == null || oldStyle.isEmpty() )) {
+            if (!required && (oldStyle == null || oldStyle.isEmpty())) {
                 return;
             }
             element.setStyleClass(updateStyle(oldStyle, required));
         } else if (field instanceof HtmlInputText) {
             HtmlInputText element = (HtmlInputText) field;
             String oldStyle = element.getStyleClass();
-            if (!required && (oldStyle == null || oldStyle.isEmpty() )) {
+            if (!required && (oldStyle == null || oldStyle.isEmpty())) {
                 return;
             }
             element.setStyleClass(updateStyle(oldStyle, required));
         } else if (field instanceof HtmlInputTextarea) {
             HtmlInputTextarea element = (HtmlInputTextarea) field;
             String oldStyle = element.getStyleClass();
-            if (!required && (oldStyle == null || oldStyle.isEmpty() )) {
+            if (!required && (oldStyle == null || oldStyle.isEmpty())) {
                 return;
             }
             element.setStyleClass(updateStyle(oldStyle, required));
         } else if (field instanceof HtmlInputSecret) {
             HtmlInputSecret element = (HtmlInputSecret) field;
             String oldStyle = element.getStyleClass();
-            if (!required && (oldStyle == null || oldStyle.isEmpty() )) {
+            if (!required && (oldStyle == null || oldStyle.isEmpty())) {
                 return;
             }
             element.setStyleClass(updateStyle(oldStyle, required));
         } else if (field instanceof HtmlSelectOneMenu) {
             HtmlSelectOneMenu element = (HtmlSelectOneMenu) field;
             String oldStyle = element.getStyleClass();
-            if (!required && (oldStyle == null || oldStyle.isEmpty() )) {
+            if (!required && (oldStyle == null || oldStyle.isEmpty())) {
                 return;
             }
             element.setStyleClass(updateStyle(oldStyle, required));
         } else if (field instanceof HtmlSelectOneRadio) {
             HtmlSelectOneRadio element = (HtmlSelectOneRadio) field;
             String oldStyle = element.getStyleClass();
-            if (!required && (oldStyle == null || oldStyle.isEmpty() )) {
+            if (!required && (oldStyle == null || oldStyle.isEmpty())) {
                 return;
             }
             element.setStyleClass(updateStyle(oldStyle, required));
