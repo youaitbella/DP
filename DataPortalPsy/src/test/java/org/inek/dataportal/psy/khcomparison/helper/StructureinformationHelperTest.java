@@ -5,20 +5,20 @@
  */
 package org.inek.dataportal.psy.khcomparison.helper;
 
+import org.assertj.core.api.Assertions;
+import org.inek.dataportal.common.data.KhComparison.entities.StructureBaseInformation;
+import org.inek.dataportal.common.data.KhComparison.entities.StructureInformation;
+import org.inek.dataportal.common.enums.StructureInformationCategorie;
+import org.junit.jupiter.api.Test;
+
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import org.junit.jupiter.api.Test;
-import org.assertj.core.api.Assertions;
-import org.inek.dataportal.common.data.KhComparison.entities.StructureBaseInformation;
-import org.inek.dataportal.common.data.KhComparison.entities.StructureInformation;
-import org.inek.dataportal.common.enums.StructureInformationCategorie;
 
 /**
- *
  * @author lautenti
  */
 public class StructureinformationHelperTest {
@@ -234,7 +234,8 @@ public class StructureinformationHelperTest {
                 StructureInformationCategorie.RegionalCare.name(), validFrom, validUntil)).isNotEmpty()
                 .as(info1.getValidFrom().toString()).contains(info1)
                 .as(info2.getValidFrom().toString()).contains(info2)
-                .as(info3.getValidFrom().toString()).contains(info3);
+                .as(info3.getValidFrom().toString()).contains(info3)
+                .size().isEqualTo(3);
     }
 
     @Test
@@ -259,7 +260,8 @@ public class StructureinformationHelperTest {
                 StructureInformationCategorie.RegionalCare.name(), validFrom, validUntil)).isNotEmpty()
                 .as(info1.getValidFrom().toString()).doesNotContain(info1)
                 .as(info2.getValidFrom().toString()).contains(info2)
-                .as(info3.getValidFrom().toString()).contains(info3);
+                .as(info3.getValidFrom().toString()).contains(info3)
+                .size().isEqualTo(2);
     }
 
     @Test
@@ -284,7 +286,34 @@ public class StructureinformationHelperTest {
                 StructureInformationCategorie.RegionalCare.name(), validFrom, validUntil)).isNotEmpty()
                 .as(info1.getValidFrom().toString()).doesNotContain(info1)
                 .as(info2.getValidFrom().toString()).contains(info2)
-                .as(info3.getValidFrom().toString()).doesNotContain(info3);
+                .as(info3.getValidFrom().toString()).doesNotContain(info3)
+                .size().isEqualTo(1);
+    }
+
+    @Test
+    public void getStructureInformationsByStructureCategorieFilteredWithDateAftersValidToLongRangeTest() {
+        StructureBaseInformation baseInfo = new StructureBaseInformation();
+        List<StructureInformation> structureInformations = new ArrayList<>();
+
+        StructureInformation info1 = createNewInfo(createDate(4, 1, 2018), "", StructureInformationCategorie.RegionalCare);
+        StructureInformation info2 = createNewInfo(createDate(4, 2, 2018), "", StructureInformationCategorie.RegionalCare);
+        StructureInformation info3 = createNewInfo(createDate(15, 2, 2019), "", StructureInformationCategorie.RegionalCare);
+
+        structureInformations.add(info1);
+        structureInformations.add(info2);
+        structureInformations.add(info3);
+
+        baseInfo.setStructureInformations(structureInformations);
+
+        Date validFrom = createDate(1, 1, 2019);
+        Date validUntil = createDate(31, 12, 2019);
+
+        Assertions.assertThat(StructureinformationHelper.getStructureInformationsByStructureCategorieFiltered(baseInfo,
+                StructureInformationCategorie.RegionalCare.name(), validFrom, validUntil)).isNotEmpty()
+                .as(info1.getValidFrom().toString()).doesNotContain(info1)
+                .as(info2.getValidFrom().toString()).contains(info2)
+                .as(info3.getValidFrom().toString()).contains(info3)
+                .size().isEqualTo(2);
     }
 
     private StructureInformation createNewInfo(Date validFrom, String content, StructureInformationCategorie cat) {

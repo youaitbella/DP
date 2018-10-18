@@ -157,7 +157,7 @@ public class EditStructureInformation {
             } else {
                 DialogController.showInfoDialog("Doppelte Gültigkeiten",
                         "Sie haben Doppele Gültigkeiten in den folgenden Bereichen: " + errors
-                                + " Bitte geben Sie für jeden Bereich ein gültigkietsdatum nur einmal an");
+                                + " Bitte geben Sie für jeden Bereich ein Gültigkietsdatum nur einmal an");
             }
 
         } catch (Exception ex) {
