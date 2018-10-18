@@ -29,7 +29,7 @@ public class Dept implements Serializable {
         for (DeptStation station : dept.getDeptStations()) {
             DeptStation newStation = new DeptStation(station);
             newStation.setDept(this);
-            addDeptStation(station);
+            addDeptStation(newStation);
         }
 
         for (DeptStationsAfterTargetYear afterTargetYearStation : dept.getDeptsAftertargetYear()) {
@@ -195,7 +195,6 @@ public class Dept implements Serializable {
         hash = 37 * hash + Objects.hashCode(this._deptName);
         hash = 37 * hash + Objects.hashCode(this._sensitiveArea);
         hash = 37 * hash + Objects.hashCode(this._deptNumber);
-        hash = 37 * hash + this._deptArea;
         hash = 37 * hash + Objects.hashCode(this._required);
         return hash;
     }
@@ -231,9 +230,6 @@ public class Dept implements Serializable {
             return false;
         }
         if (!Objects.equals(this._required, other._required)) {
-            return false;
-        }
-        if (!Objects.equals(this._deptStations, other._deptStations)) {
             return false;
         }
         return true;
