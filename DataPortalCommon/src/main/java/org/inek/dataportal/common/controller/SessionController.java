@@ -323,7 +323,7 @@ public class SessionController implements Serializable {
 
     private String request(String type, String data) {
         try (DatagramSocket socket = new DatagramSocket()) {
-            socket.setSoTimeout(100);
+            socket.setSoTimeout(300);
             broadcast(socket, type + data);
             return receive(socket);
         } catch (Throwable ex) {
@@ -333,8 +333,8 @@ public class SessionController implements Serializable {
     }
 
     private static void broadcast(DatagramSocket socket, String broadcastMessage) throws IOException {
-        InetAddress address = InetAddress.getByName("192.168.0.255");
-        socket.setBroadcast(true);
+        InetAddress address = InetAddress.getByName("192.168.0.190");
+        //socket.setBroadcast(true);
 
         byte[] buffer = broadcastMessage.getBytes();
 

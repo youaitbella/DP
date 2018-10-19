@@ -89,7 +89,7 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
     }
 
     private String handleViewExpired(Throwable exception, FacesContext fc, String targetPage) {
-        LOGGER.log(Level.SEVERE, "[View expired]", exception.getMessage());
+        LOGGER.log(Level.SEVERE, "[View expired] " + exception.getMessage() , exception);
         ViewExpiredException viewExpiredExeption = (ViewExpiredException) exception;
         Map<String, Object> requestMap = fc.getExternalContext().getRequestMap();
         if (!viewExpiredExeption.getViewId().contains("Login.xhtml")) {
