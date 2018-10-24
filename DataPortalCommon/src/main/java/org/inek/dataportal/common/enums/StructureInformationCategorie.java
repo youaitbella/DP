@@ -6,7 +6,6 @@
 package org.inek.dataportal.common.enums;
 
 /**
- *
  * @author muellermi
  */
 public enum StructureInformationCategorie {
@@ -24,20 +23,20 @@ public enum StructureInformationCategorie {
     AmbulantStructure("Ambulante Infrastruktur im Umfeld des Krankenhauses",
             "Beschreibung der örtlichen Versorgungssituation im vertragsärztlichen/therapeutischen Bereich"),
     SocialPsychiatryService("Umfang und Struktur der Sozialpsychiatrischen Dienste", "Beschreibung"),
-    Other("Sonstiges", "Hier können Sie weitere Bereiche im Umfeld Ihres Hauses beschreiben, die Ihrer Meinung nach Einfluss auf die Kostenstruktur Ihrer Einrichtung haben"),;
+    Other("Sonstiges", "Hier können Sie weitere Bereiche im Umfeld Ihres Hauses beschreiben, " +
+            "die Ihrer Meinung nach Einfluss auf die Kostenstruktur Ihrer Einrichtung haben"),;
+
+    private final String _area;
+    private final String _description;
 
     StructureInformationCategorie(String area, String description) {
         _area = area;
         _description = description;
     }
 
-    private final String _area;
-
     public String getArea() {
         return _area;
     }
-
-    private final String _description;
 
     public String getDescription() {
         return _description;
