@@ -20,6 +20,7 @@ import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.common.helper.MailTemplateHelper;
 import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.scope.FeatureScoped;
 import org.inek.dataportal.common.data.KhComparison.checker.AebChecker;
@@ -155,7 +156,12 @@ public class Edit {
             _aebBaseInformation.setLastChanged(new Date());
             try {
                 _aebBaseInformation = _aebFacade.save(_aebBaseInformation);
-                DialogController.showSaveDialog();
+                if(_aebBaseInformation.getStatus() == WorkflowStatus.Provided) {
+                    DialogController.showSendDialog();
+                }
+                else {
+                    DialogController.showSaveDialog();
+                }
             } catch (Exception ex) {
                 DialogController.showErrorDialog("Fehler beim Speichern", "Vorgang abgebrochen");
             }
@@ -345,19 +351,20 @@ public class Edit {
 
     private void sendContainsDifferencesMail(AEBBaseInformation info1, AEBBaseInformation info2, String result) {
         MailTemplate template = _mailer.getMailTemplate("KH-Vergleich Unterschiede");
-        template.setSubject(template.getSubject().replace("{ik}", String.valueOf(info1.getIk())));
-        template.setSubject(template.getSubject().replace("{year}", String.valueOf(info1.getYear())));
 
-        template.setBody(template.getBody().replace("{ik}", String.valueOf(info1.getIk())));
-        template.setBody(template.getBody().replace("{year}", String.valueOf(info1.getYear())));
+        MailTemplateHelper.setPlaceholderInTemplateSubject(template, "{ik}", String.valueOf(info1.getIk()));
+        MailTemplateHelper.setPlaceholderInTemplateSubject(template, "{year}", String.valueOf(info1.getYear()));
 
-        template.setBody(template.getBody().replace("{results}", result));
+        MailTemplateHelper.setPlaceholderInTemplateBody(template, "{ik}", String.valueOf(info1.getIk()));
+        MailTemplateHelper.setPlaceholderInTemplateBody(template, "{year}", String.valueOf(info1.getYear()));
+
+        MailTemplateHelper.setPlaceholderInTemplateBody(template, "{results}", result);
 
         Account ac1 = _accountFacade.findAccount(info1.getLastChangeFrom());
         Account ac2 = _accountFacade.findAccount(info2.getLastChangeFrom());
 
-        template.setBody(template.getBody().replace("{salutation1}", _mailer.getSalutation(ac1)));
-        template.setBody(template.getBody().replace("{salutation2}", _mailer.getSalutation(ac2)));
+        MailTemplateHelper.setPlaceholderInTemplateBody(template, "{salutation1}", _mailer.getSalutation(ac1));
+        MailTemplateHelper.setPlaceholderInTemplateBody(template, "{salutation2}", _mailer.getSalutation(ac2));
 
         _mailer.sendMailTemplate(template, ac1.getEmail() + ";" + ac2.getEmail());
     }

@@ -634,4 +634,64 @@
                           update="SocialPsychiatryServiceId" />
     </pf:fieldset>
     <!-- End SocialPsychiatryService -->
+
+    <!-- Start Other -->
+    <pf:fieldset id="OtherId"
+                 legend="Sonstiges"
+                 toggleable="true"
+                 collapsed="#{editStructureInformation.collapsCategorie('Other')}"
+                 class="inekFieldset">
+
+        <b>#{editStructureInformation.getStructureCategorie('Other').description}</b>
+        <br />
+        <pf:repeat
+                value="#{editStructureInformation.getStructureInformationsByStructureCategorie('Other')}"
+                var="structureInformation">
+            <div class="ui-g ui-fluid" style="margin-bottom: -10px !important;">
+                <div class="ui-g-2" style="margin-right: -50px;">
+                    <pf:commandLink
+                            action="#{editStructureInformation.deleteStructureinformation(structureInformation)}"
+                            update="@form"
+                            process="@this"
+                            rendered="#{editStructureInformation.isReadOnly() or not editStructureInformation.structureInformationReadonly(structureInformation)}">
+                        <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value="" />
+                    </pf:commandLink>
+                    Gültig ab:
+                </div>
+                <div class="ui-g-2">
+                    <pf:calendar id="validFromOther"
+                                 value="#{structureInformation.validFrom}"
+                                 disabled="#{editStructureInformation.isReadOnly() or editStructureInformation.structureInformationReadonly(structureInformation)}"
+                                 valueChangeListener="#{editStructureInformation.handleDateChange}"
+                                 locale="de"
+                                 navigator="true"
+                                 pattern="dd.MM.yyyy"
+                                 mask="true"
+                                 inputStyle="text-align: right;">
+                        <f:attribute name="categorie" value="Other" />
+                        <pf:ajax event="change" update="validFromNewMessage" />
+                        <pf:ajax event="dateSelect" update="validFromNewMessage" />
+                    </pf:calendar>
+                    <pf:message id="validFromNewMessage" for="validFromOther" />
+                </div>
+                <div class="ui-g-8">
+                    <pf:inputTextarea id="Other"
+                                      rows="1"
+                                      cols="50"
+                                      value="#{structureInformation.content}"
+                                      valueChangeListener="#{editStructureInformation.handleChange}"
+                                      disabled="#{editStructureInformation.isReadOnly() or editStructureInformation.structureInformationReadonly(structureInformation)}">
+                        <pf:ajax />
+                    </pf:inputTextarea>
+                </div>
+            </div>
+        </pf:repeat>
+        <pf:commandButton styleClass="btnPsy"
+                          style="margin-top: 20px"
+                          value="Neuer Eintrag"
+                          actionListener="#{editStructureInformation.saveNewValidFrom('Other')}"
+                          rendered="#{!editStructureInformation.isReadOnly()}"
+                          update="OtherId" />
+    </pf:fieldset>
+    <!-- End Other -->
 </ui:composition>

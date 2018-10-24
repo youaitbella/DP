@@ -23,7 +23,8 @@ public enum StructureInformationCategorie {
     PerformanceAreas("Vorliegen und Struktur eines gemeindepsychiatrischen Verbunds", "Zentrale Leistungsbereiche"),
     AmbulantStructure("Ambulante Infrastruktur im Umfeld des Krankenhauses",
             "Beschreibung der örtlichen Versorgungssituation im vertragsärztlichen/therapeutischen Bereich"),
-    SocialPsychiatryService("Umfang und Struktur der Sozialpsychiatrischen Dienste", "Beschreibung");
+    SocialPsychiatryService("Umfang und Struktur der Sozialpsychiatrischen Dienste", "Beschreibung"),
+    Other("Sonstiges", "Hier können Sie weitere Bereiche im Umfeld Ihres Hauses beschreiben, die Ihrer Meinung nach Einfluss auf die Kostenstruktur Ihrer Einrichtung haben"),;
 
     StructureInformationCategorie(String area, String description) {
         _area = area;

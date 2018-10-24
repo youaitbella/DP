@@ -21,7 +21,6 @@
 
     <!-- IMPLEMENTATION -->
     <cc:implementation>
-        <div>
             <h:outputLabel styleClass="label10 #{cc.attrs.required and not cc.attrs.readonly and not cc.attrs.isFixed ? ' required ' : ''}" for="ikMulti" value="#{cc.attrs.label}:"/>
 
             <pf:selectOneMenu styleClass="#{cc.attrs.required ? ' required ' : ''}"
@@ -41,7 +40,5 @@
             <h:outputLabel id="hospitalName" styleClass="label marginLeft" value="#{applicationTools.retrieveHospitalInfo(cc.attrs.value)}"/>
 
             <pf:message for="ikMulti" id="msgMultiIk"/>
-        </div>
-        <br/>
     </cc:implementation>
 </html>
