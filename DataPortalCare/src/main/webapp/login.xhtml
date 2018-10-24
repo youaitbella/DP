@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:pf="http://primefaces.org/ui"
+      xmlns:inekInput="http://xmlns.jcp.org/jsf/composite/components/Input">
+
+<h:head>
+    <f:facet name="first">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+    </f:facet>
+    <title>InEK Datenportal</title>
+    <h:outputScript name="js/sweetalert.min.js" library="omega-layout" />
+</h:head>
+
+<h:body styleClass="login-body">
+
+    <div id="login-wrapper">
+        <pf:graphicImage name="images/logo_large.jpg" library="omega-layout" />
+        <h:form>
+            <div id="login-container">
+                <span class="title">InEK Datenportal</span>
+
+                <div class="ui-g ui-fluid">
+                    <div class="ui-g-12">
+                        <inekInput:InputText value="#{loginCare.emailOrUser}"
+                                             require="true"
+                                             requiredMessage="Bitte geben Sie Ihre Anmeldeinformationen an"
+                                             labelText="Email / Benutzername" />
+                    </div>
+                    <div class="ui-g-12">
+                        <pf:password id="password"
+                                     value="#{loginCare.password}"
+                                     placeholder="Passwort"
+                                     required="true"
+                                     requiredMessage="Bitte geben Sie das Passwort ein"
+                                     feedback="false">
+                            <pf:ajax event="blur" />
+                        </pf:password>
+                        <pf:message for="password" />
+                    </div>
+                    <div class="ui-g-12">
+                        <pf:link>Passwort vergessen?</pf:link>
+                    </div>
+                    <div class="ui-g-12">
+                        <pf:commandButton id="loginButton"
+                                          value="Einloggen"
+                                          icon="fa fa-check"
+                                          action="#{loginCare.login()}"
+                                          update="@(.ui-message)" />
+                    </div>
+                    <div class="ui-g-12">
+                        <pf:button value="Registrieren"
+                                   icon="fa fa-check" />
+                    </div>
+                </div>
+            </div>
+        </h:form>
+
+        <div class="login-footer">@#{sessionTools.currentYear} InEK GmbH</div>
+    </div>
+
+    <h:outputStylesheet name="css/layout.css" library="omega-layout" />
+</h:body>
+
+</html>
