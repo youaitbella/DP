@@ -5,42 +5,42 @@
  */
 package org.inek.dataportal.psy.khcomparison.backingbean;
 
-import org.inek.dataportal.common.data.KhComparison.entities.*;
-import java.io.ByteArrayInputStream;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
-import javax.annotation.PostConstruct;
-import javax.faces.context.FacesContext;
-import javax.faces.model.SelectItem;
-import javax.inject.Inject;
-import javax.inject.Named;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.common.helper.MailTemplateHelper;
-import org.inek.dataportal.common.overall.AccessManager;
-import org.inek.dataportal.common.scope.FeatureScoped;
-import org.inek.dataportal.common.data.KhComparison.checker.AebChecker;
 import org.inek.dataportal.common.data.KhComparison.checker.AebComparer;
+import org.inek.dataportal.common.data.KhComparison.entities.*;
 import org.inek.dataportal.common.data.KhComparison.facade.AEBFacade;
 import org.inek.dataportal.common.data.KhComparison.facade.AEBListItemFacade;
-import org.inek.dataportal.common.data.KhComparison.importer.AebImporter;
+import org.inek.dataportal.common.data.KhComparison.helper.AebCleanerHelper;
+import org.inek.dataportal.common.data.KhComparison.helper.AebUploadHelper;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.common.data.adm.MailTemplate;
 import org.inek.dataportal.common.enums.CustomerTyp;
 import org.inek.dataportal.common.enums.Pages;
+import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.common.helper.MailTemplateHelper;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.mail.Mailer;
+import org.inek.dataportal.common.overall.AccessManager;
+import org.inek.dataportal.common.scope.FeatureScoped;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
+import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
+import javax.inject.Inject;
+import javax.inject.Named;
+import java.io.ByteArrayInputStream;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
+
 /**
- *
  * @author lautenti
  */
 @Named
@@ -156,10 +156,10 @@ public class Edit {
             _aebBaseInformation.setLastChanged(new Date());
             try {
                 _aebBaseInformation = _aebFacade.save(_aebBaseInformation);
-                if(_aebBaseInformation.getStatus() == WorkflowStatus.Provided) {
+                if (_aebBaseInformation.getStatus() == WorkflowStatus.Provided) {
                     DialogController.showSendDialog();
-                }
-                else {
+                    sendSendMail(_aebBaseInformation);
+                } else {
                     DialogController.showSaveDialog();
                 }
             } catch (Exception ex) {
@@ -177,7 +177,7 @@ public class Edit {
         if (aebContainsDifferences()) {
             DialogController.showWarningDialog("Unterschiede in der AEB festgestellt",
                     "Es wurden Unterschiede in bereits abgegeben Information für die IK "
-                    + _aebBaseInformation.getIk() + " festgestellt");
+                            + _aebBaseInformation.getIk() + " festgestellt");
         }
         return Pages.KhComparisonSummary.URL();
     }
@@ -253,31 +253,15 @@ public class Edit {
     }
 
     public void handleFileUpload(FileUploadEvent event) {
-        if (_aebBaseInformation.getYear() > 0) {
-            AebImporter importer = new AebImporter();
-            AebChecker checker = new AebChecker(_aebListItemFacade);
-            try {
-                if (importer.startImport(_aebBaseInformation, event.getFile().getInputstream())) {
-                    checker.checkAeb(_aebBaseInformation);
-                    setErrorMessage(checker.getMessage());
-                    setErrorMessage(getErrorMessage() + "\n \n --> " + importer.getCounter() + " Zeilen eingelesen");
-                    DialogController.showInfoDialog("Upload abgeschlossen", "Ihre Daten wurden erfolgreich hochgeladen");
-                }
-            } catch (Exception ex) {
-                DialogController.showWarningDialog("Upload fehlgeschlagen", "Fehler beim Upload. Bitte versuchen Sie es erneut");
-            }
-        } else {
-            DialogController.showInfoDialog("Fehler beim Upload", "Bitte wählen Sie ein Vereinbahrungsjahr aus um den Import zu benutzen");
+        try {
+            setErrorMessage(AebUploadHelper.handleAebUpload(_aebBaseInformation, event.getFile().getInputstream(), _aebListItemFacade));
+        } catch (Exception ex) {
+            DialogController.showWarningDialog("Upload fehlgeschlagen", "Fehler beim Upload. Bitte versuchen Sie es erneut");
         }
     }
 
     private void removeEmptyEntries(AEBBaseInformation baseInformation) {
-        baseInformation.getAebPageE1_1().removeIf(c -> c.getPepp().length() == 0);
-        baseInformation.getAebPageE1_2().removeIf(c -> c.getEt().length() == 0);
-        baseInformation.getAebPageE2().removeIf(c -> c.getZe().length() == 0);
-        baseInformation.getAebPageE3_1().removeIf(c -> c.getRenumeration().length() == 0);
-        baseInformation.getAebPageE3_2().removeIf(c -> c.getZe().length() == 0);
-        baseInformation.getAebPageE3_3().removeIf(c -> c.getRenumeration().length() == 0);
+        AebCleanerHelper.removeEmptyEntries(baseInformation);
     }
 
     public void peppChanged(AEBPageE1_1 page) {
@@ -349,14 +333,23 @@ public class Edit {
         return false;
     }
 
+    private void sendSendMail(AEBBaseInformation info) {
+        MailTemplate template = _mailer.getMailTemplate("KH-Vergleich Senden bestätigung");
+
+        MailTemplateHelper.setPlaceholderInTemplate(template, "{ik}", String.valueOf(info.getIk()));
+        MailTemplateHelper.setPlaceholderInTemplate(template, "{year}", String.valueOf(info.getYear()));
+
+        MailTemplateHelper.setPlaceholderInTemplateBody(template, "{salutation}",
+                _mailer.getFormalSalutation(_sessionController.getAccount()));
+
+        _mailer.sendMailTemplate(template, _sessionController.getAccount().getEmail());
+    }
+
     private void sendContainsDifferencesMail(AEBBaseInformation info1, AEBBaseInformation info2, String result) {
         MailTemplate template = _mailer.getMailTemplate("KH-Vergleich Unterschiede");
 
-        MailTemplateHelper.setPlaceholderInTemplateSubject(template, "{ik}", String.valueOf(info1.getIk()));
-        MailTemplateHelper.setPlaceholderInTemplateSubject(template, "{year}", String.valueOf(info1.getYear()));
-
-        MailTemplateHelper.setPlaceholderInTemplateBody(template, "{ik}", String.valueOf(info1.getIk()));
-        MailTemplateHelper.setPlaceholderInTemplateBody(template, "{year}", String.valueOf(info1.getYear()));
+        MailTemplateHelper.setPlaceholderInTemplate(template, "{ik}", String.valueOf(info1.getIk()));
+        MailTemplateHelper.setPlaceholderInTemplate(template, "{year}", String.valueOf(info1.getYear()));
 
         MailTemplateHelper.setPlaceholderInTemplateBody(template, "{results}", result);
 

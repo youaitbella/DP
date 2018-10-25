@@ -25,4 +25,9 @@ public class MailTemplateHelper {
         template.setSubject(subject);
     }
 
+    public static void setPlaceholderInTemplate(MailTemplate template, String placeholder, String newValue) {
+        setPlaceholderInTemplateSubject(template, placeholder, newValue);
+        setPlaceholderInTemplateBody(template, placeholder, newValue);
+
+    }
 }
