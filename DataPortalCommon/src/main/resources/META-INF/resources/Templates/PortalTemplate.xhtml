@@ -40,9 +40,9 @@
             </ui:remove>
 
             <link type="text/css" rel="stylesheet" href="#{request.contextPath}/javax.faces.resource/css/#{sessionController.css}.xhtml?version=#{applicationTools.version}" />
+            <h:outputScript name="script/sweetalert.min.js"/>
             <script type="text/javascript" src="#{request.contextPath}/javax.faces.resource/script/clientutils.js.xhtml?version=#{applicationTools.version}"></script>
             <h:outputStylesheet name="css/inekstyle.css" />
-            <h:outputScript name="script/sweetalert.min.js"/>
             <h:outputScript library="primefaces" name="jquery/jquery.js" />
             <h:outputScript library="primefaces" name="jquery/jquery-plugins.js" />
         </h:head>
@@ -81,7 +81,9 @@
                         <div id="globalLinks">
                             <ul>
                                 <li class="firstelement"><a href="http://g-drg.de/cms" title="zur Startseite wechseln">Home</a></li>
-                                <li class="lastelement"><a href="http://g-drg.de/cms/Impressum" title="zum Impressum wechseln">#{msg.lblImprint}</a></li>
+                                <li><a href="http://g-drg.de/cms/Impressum" title="zum Impressum wechseln">#{msg.lblImprint}</a></li>
+                                <li><a href="mailto:Anfragen@Datenstelle.de">E-Mail: Anfragen@Datenstelle.de</a></li>
+                                <li class="lastelement"><a href="#">Tel.: +49 2241 9382-38</a></li>
                             </ul>
                             <ui:insert name="userInfo">userInfo</ui:insert>
                         </div>
@@ -118,6 +120,11 @@
                                 <li>
                                     <a href="https://daten.inek.org/manual/#{sessionController.manual}" target="blank"  title="#{msg.titleManual}">#{msg.lblUserManual}</a>
                                 </li>
+                                <ui:remove>
+                                    <li onclick="showHelpDialog();">
+                                        <a href="#">Hilfe / Unterstützung</a>
+                                    </li>
+                                </ui:remove>
                             </ul>
                         </h:form>
 
