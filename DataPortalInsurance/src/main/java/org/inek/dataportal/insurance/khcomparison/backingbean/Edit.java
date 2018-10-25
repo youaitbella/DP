@@ -347,11 +347,8 @@ public class Edit {
     private void sendContainsDifferencesMail(AEBBaseInformation info1, AEBBaseInformation info2, String result) {
         MailTemplate template = _mailer.getMailTemplate("KH-Vergleich Unterschiede");
 
-        MailTemplateHelper.setPlaceholderInTemplateSubject(template, "{ik}", String.valueOf(info1.getIk()));
-        MailTemplateHelper.setPlaceholderInTemplateSubject(template, "{year}", String.valueOf(info1.getYear()));
-
-        MailTemplateHelper.setPlaceholderInTemplateBody(template, "{ik}", String.valueOf(info1.getIk()));
-        MailTemplateHelper.setPlaceholderInTemplateBody(template, "{year}", String.valueOf(info1.getYear()));
+        MailTemplateHelper.setPlaceholderInTemplate(template, "{ik}", String.valueOf(info1.getIk()));
+        MailTemplateHelper.setPlaceholderInTemplate(template, "{year}", String.valueOf(info1.getYear()));
 
         MailTemplateHelper.setPlaceholderInTemplateBody(template, "{results}", result);
 
