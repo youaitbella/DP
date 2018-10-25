@@ -35,6 +35,7 @@ import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.ByteArrayInputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -337,6 +338,12 @@ public class Edit {
 
         MailTemplateHelper.setPlaceholderInTemplate(template, "{ik}", String.valueOf(info.getIk()));
         MailTemplateHelper.setPlaceholderInTemplate(template, "{year}", String.valueOf(info.getYear()));
+
+        String date = new SimpleDateFormat("dd.MM.yyyy").format(info.getLastChanged());
+        String time = new SimpleDateFormat("HH:mm").format(info.getLastChanged());
+
+        MailTemplateHelper.setPlaceholderInTemplateBody(template, "{date}", date);
+        MailTemplateHelper.setPlaceholderInTemplateBody(template, "{time}", time);
 
         MailTemplateHelper.setPlaceholderInTemplateBody(template, "{salutation}",
                 _mailer.getFormalSalutation(_sessionController.getAccount()));
