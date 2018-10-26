@@ -6,15 +6,18 @@
     <header>
       <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Ansicht filtern</text></para>
     </header>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Um sich einen spezifischen Stand anzuschauen haben Sie die Möglichkeit die Einträge zu filtern. Sie können ein Gültigkeitszeitraum angeben in dem Sie alle gültigen Informationen sehen. Der Gültigkeitszeitraum kann beliebig gewählt werden. Über den Button &quot;Anzeigen&quot; aktivieren Sie die Filterung. Über den Button &quot;Filter Entfernen&quot; wird der Filter gelöscht und alle Einträge werden wieder angezeigt.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Um sich einen spezifischen Stand anzuschauen, haben Sie die Möglichkeit, die Einträge zu filtern. Innerhalb eines ausgewählten Gültigkeitszeitraums werden Ihnen für diesen Zeitraum gültigen Informationen angezeigt. Der Gültigkeitszeitraum kann beliebig gewählt werden. Über den Button &quot;Anzeigen&quot; aktivieren Sie die Filterfunktion. Über den Button &quot;Filter Entfernen&quot; wird der Filter gelöscht und alle Einträge werden wieder angezeigt.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><image src="filtering.png" scale="100.00%" styleclass="Image Caption"></image></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Beispiel: Es Existieren folgende Informationen:</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><table styleclass="Default" rowcount="5" colcount="2">
+    <para styleclass="Normal"><table styleclass="Default" rowcount="7" colcount="3">
       <tr style="vertical-align:top">
+        <td style="vertical-align:middle; width:185px; border-top:none; border-right:none; border-left:none;">
+          <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold;" translate="true">Bereich</text></para>
+        </td>
         <td style="vertical-align:middle; width:185px; border-top:none; border-right:none; border-left:none;">
           <para styleclass="Normal"><text styleclass="Normal" style="font-weight:bold;" translate="true">Bezeichnung</text></para>
         </td>
@@ -25,10 +28,15 @@
       <tr style="vertical-align:top">
         <td style="width:185px;">
         </td>
+        <td style="width:185px;">
+        </td>
         <td style="width:179px;">
         </td>
       </tr>
       <tr style="vertical-align:top">
+        <td style="width:185px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Bereich 1</text></para>
+        </td>
         <td style="width:185px;">
           <para styleclass="Normal"><text styleclass="Normal" translate="true">Information 1</text></para>
         </td>
@@ -38,6 +46,9 @@
       </tr>
       <tr style="vertical-align:top">
         <td style="width:185px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Bereich 1</text></para>
+        </td>
+        <td style="width:185px;">
           <para styleclass="Normal"><text styleclass="Normal" translate="true">Information 2</text></para>
         </td>
         <td style="width:179px;">
@@ -46,10 +57,35 @@
       </tr>
       <tr style="vertical-align:top">
         <td style="width:185px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Bereich 1</text></para>
+        </td>
+        <td style="width:185px;">
           <para styleclass="Normal"><text styleclass="Normal" translate="true">Information 3</text></para>
         </td>
         <td style="width:179px;">
           <para styleclass="Normal"><text styleclass="Normal" translate="true">10.01.2019</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:185px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Bereich 2</text></para>
+        </td>
+        <td style="width:185px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Information 4</text></para>
+        </td>
+        <td style="width:179px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">10.02.2018</text></para>
+        </td>
+      </tr>
+      <tr style="vertical-align:top">
+        <td style="width:185px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Bereich 2</text></para>
+        </td>
+        <td style="width:185px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">Information 5</text></para>
+        </td>
+        <td style="width:179px;">
+          <para styleclass="Normal"><text styleclass="Normal" translate="true">05.10.2018</text></para>
         </td>
       </tr>
     </table></para>
@@ -59,6 +95,8 @@
     <list id="1" type="ul" listtype="bullet" formatstring="&#183;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Symbol; font-size:11pt; color:#000000;">
       <li styleclass="Normal"><text styleclass="Normal" translate="true">Information 1</text></li>
       <li styleclass="Normal"><text styleclass="Normal" translate="true">Information 2</text></li>
+      <li styleclass="Normal"><text styleclass="Normal" translate="true">Information 4</text></li>
+      <li styleclass="Normal"><text styleclass="Normal" translate="true">Information 5</text></li>
     </list>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Information 1 war zwar bereits vor dem 01.01.2018 gültig allerdings endete Ihre Gültigkeit erst am 25.03.2018. Somit ist die Information 1 für die Filterung relevant für den Zeitraum 01.01.2018 bis 25.03.2018.</text></para>

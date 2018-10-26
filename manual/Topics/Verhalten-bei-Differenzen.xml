@@ -6,6 +6,6 @@
     <header>
       <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Verhalten bei Differenzen</text></para>
     </header>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sollten Sie die AEB über die Schaltfläche „Ans InEK Senden“ an das InEK senden und es wurden bereits Daten von Seiten der Krankenkasse oder des Krankenhauses erfasst, werden die eingegeben Werte verglichen. Sollten bei diesen Vergleich Fehler festgestellt werden, so werden bei Seiten per E-Mail benachrichtigt. Die E-Mail geht an den jeweiligen der Benutzer der die Daten im Datenportal erfasst hat.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sollten Sie die AEB über die Schaltfläche „Ans InEK Senden“ an das InEK senden und es wurden bereits Daten von Seiten der Krankenkasse oder des Krankenhauses erfasst, werden die eingegeben Werte verglichen. Sollten bei diesen Vergleich Fehler festgestellt werden, so werden das Krankenhaus und die Krankenkasse per E-Mail benachrichtigt. Die E-Mail geht an den jeweiligen Benutzer, der die Daten im Datenportal erfasst hat.</text></para>
   </body>
 </topic>

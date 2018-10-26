@@ -6,9 +6,9 @@
     <header>
       <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Eingabe über die Oberfläche</text></para>
     </header>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sie haben im InEK Datenportal die Möglichkeit die Informationen zur AEB über die Oberfläche zu erfassen. Die Tabellen (Blatt E1.1 / Blatt E1.2 / Blatt E2 / Blatt E3.1 / Blatt E3.2 / Blatt E3.3 / Blatt B1) sind entsprechend der Struktur der AEB Tabellen im Excelformat. </text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sie haben im InEK Datenportal die Möglichkeit, die Informationen zur AEB über die Oberfläche zu erfassen. Die Tabellen (Blatt E1.1 / Blatt E1.2 / Blatt E2 / Blatt E3.1 / Blatt E3.2 / Blatt E3.3 / Blatt B1) sind entsprechend der Struktur der AEB Tabellen im Excelformat. </text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Spalten die kein Eingabefeld besitzen werden anhand des Kataloges gemäß ausgewählten Vereinbarungsjahr berechnet. </text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Spalten, die kein Eingabefeld besitzen werden anhand des Kataloges gemäß dem ausgewählten Vereinbarungsjahr berechnet. </text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal" style="text-align:center;"><image src="AEB_E1_1_EintragPerHand.PNG" scale="100.00%" styleclass="Image Caption"><caption translate="true"><![CDATA[Erfassung der von Blatt E1.1 über die Oberfläche]]></caption></image></para>
     <para styleclass="Normal" style="text-align:center;"></para>

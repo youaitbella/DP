@@ -6,21 +6,21 @@
     <header>
       <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Bestehende Information bearbeiten</text></para>
     </header>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sie können die Informationen jederzeit bearbeiten. Über das Löschsymbol können Sie jederzeit einen Eintrag löschen / bearbeiten. Sollten Sie eine Information nicht löschen / bearbeiten können ist kein Löschsymbol vorhanden und die Eingabefelder sind Grau hinterlegt</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sie können die Informationen jederzeit bearbeiten. Über das Löschsymbol können Sie einen Eintrag löschen / bearbeiten. Sollten Sie eine Information nicht löschen / bearbeiten können, ist kein Löschsymbol vorhanden und die Eingabefelder sind grau hinterlegt</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal" style="text-align:center;"><image src="new_info.png" scale="100.00%" styleclass="Image Caption"></image></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sie können einen Eintrag löschen / bearbeiten wenn:</text></para>
-    <list id="5" type="ul" listtype="bullet" formatstring="&#183;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Symbol; font-size:11pt; color:#000000;">
-      <li styleclass="Normal"><text styleclass="Normal" translate="true">Das Gültigkeitsdatum in der Zukunft liegt oder dem heutigen Datum entspricht</text></li>
-      <li styleclass="Normal"><text styleclass="Normal" translate="true">Sie einen neuen Eintrag gemacht haben und noch nicht gespeichert haben</text></li>
-      <li styleclass="Normal"><text styleclass="Normal" translate="true">Das Gültigkeitsdatum in der Vergangenheit liegt aber die Information zum heutigen Tag noch gültig ist</text></li>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sie können einen Eintrag löschen / bearbeiten wenn</text></para>
+    <list id="2" type="ul" listtype="bullet" formatstring="&#183;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Symbol; font-size:11pt; color:#000000;">
+      <li styleclass="Normal"><text styleclass="Normal" translate="true">das Gültigkeitsdatum in der Zukunft liegt oder dem heutigen Datum entspricht,</text></li>
+      <li styleclass="Normal"><text styleclass="Normal" translate="true">Sie einen neuen Eintrag gemacht haben und noch nicht gespeichert haben,</text></li>
+      <li styleclass="Normal"><text styleclass="Normal" translate="true">das Gültigkeitsdatum in der Vergangenheit liegt, aber die Information zum heutigen Tag noch gültig ist.</text></li>
     </list>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sie können einen Eintrag </text><text styleclass="Normal" style="font-weight:bold; text-decoration:underline;" translate="true">NICHT</text><text styleclass="Normal" translate="true"> löschen / bearbeiten wenn:</text></para>
-    <list id="0" type="ul" listtype="bullet" formatstring="&#183;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Symbol; font-size:11pt; color:#000000;">
-      <li styleclass="Normal"><text styleclass="Normal" translate="true">Das Gültigkeitsdatum in der Vergangenheit liegt und zum heutigen Tag eine andere gültige Information existiert</text></li>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sie können einen Eintrag </text><text styleclass="Normal" style="font-weight:bold; text-decoration:underline;" translate="true">NICHT</text><text styleclass="Normal" translate="true"> löschen / bearbeiten wenn</text></para>
+    <list id="3" type="ul" listtype="bullet" formatstring="&#183;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Symbol; font-size:11pt; color:#000000;">
+      <li styleclass="Normal"><text styleclass="Normal" translate="true">das Gültigkeitsdatum in der Vergangenheit liegt und zum heutigen Tag eine andere gültige Information existiert.</text></li>
     </list>
   </body>
 </topic>
