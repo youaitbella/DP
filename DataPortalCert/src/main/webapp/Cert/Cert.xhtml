@@ -17,7 +17,7 @@
             <h1>
                 #{featureMsg.nameCERT}
             </h1>
-            <h:panelGroup rendered="#{sessionController.isInekUser('CERT')}" styleClass="tab" layout="block">
+            <h:panelGroup styleClass="tab" layout="block">
                 <ul class="tab">
                     <c:forEach items="#{editCert.visibleTopics}" var="topic">
                         <li class="#{topic.active ? 'activetab' : 'tab'}">
