@@ -275,7 +275,7 @@
         <caption translate="true">Datenexport</caption>
       </topicref>
     </topicref>
-    <topicref type="topic" id="433704401956148" modified="2018-10-16T11:04:08.175Z" icon="0" href="Datenerfassung-zum-Krankenhaus">
+    <topicref type="topic" id="433704401956148" build="ALL" modified="2018-10-26T11:42:08.513Z" icon="0" href="Datenerfassung-zum-Krankenhaus">
       <caption translate="true">Datenerfassung zum Krankenhausvergleich</caption>
       <topicref type="topic" id="433702792101813" build="ALL" modified="2018-09-27T09:46:30.087Z" icon="0" href="Erfassung-der-AEB">
         <caption translate="true">Erfassung der AEB</caption>
@@ -297,6 +297,21 @@
       </topicref>
       <topicref type="topic" id="43370475451363" build="ALL" modified="2018-09-27T11:01:07.064Z" icon="0" href="(Fallback)Kalkulationsunterlag">
         <caption translate="true">(Fallback)Kalkulationsunterlagen</caption>
+      </topicref>
+    </topicref>
+    <topicref type="topic" id="433994162001251" build="ALL" modified="2018-10-26T10:40:03.913Z" icon="0" href="Structurinformationen">
+      <caption translate="true">Strukturinformationen</caption>
+      <topicref type="topic" id="433995960392291" build="ALL" modified="2018-10-26T10:39:47.171Z" icon="0" href="Neue-Structurinformation-anleg">
+        <caption translate="true">Neue Strukturinformation anlegen</caption>
+      </topicref>
+      <topicref type="topic" id="43399087470021" build="ALL" modified="2018-10-26T09:53:32.089Z" icon="0" href="Neue-Information-eintragen">
+        <caption translate="true">Neue Information eintragen</caption>
+      </topicref>
+      <topicref type="topic" id="433993601551240" build="ALL" modified="2018-10-26T09:53:48.833Z" icon="0" href="Bestehende-Information-bearbei">
+        <caption translate="true">Bestehende Information bearbeiten</caption>
+      </topicref>
+      <topicref type="topic" id="433992046608393" build="ALL" modified="2018-10-26T09:54:29.695Z" icon="0" href="Ansicht-filtern">
+        <caption translate="true">Ansicht filtern</caption>
       </topicref>
     </topicref>
   </topicref>
@@ -352,42 +367,6 @@
     </topicref>
     <topicref type="topic" id="431597413763570" build="ALL" modified="2018-02-28T12:54:43.193Z" icon="0" href="InsurancePsych">
       <caption translate="true">Psych-Personalnachweis</caption>
-    </topicref>
-  </topicref>
-  <topicref type="topic" id="431995674349646" build="USER1,USER2" modified="2018-04-09T13:05:04.588Z" icon="0" href="Zertifizierung">
-    <caption translate="true">Zertifizierung</caption>
-    <topicref type="topic" id="424515529806881" build="USER1" modified="2016-03-22T11:43:12.266Z" icon="0" href="CertifyGrouper">
-      <caption translate="true">Grouper-Zertifizierung</caption>
-    </topicref>
-    <topicref type="topic" id="419394139251408" build="USER2" modified="2016-03-22T11:43:41.152Z" icon="0" href="GrouperCertification">
-      <caption translate="true">Grouper-Zertifizierung - Managersicht</caption>
-      <topicref type="topic" id="422984980682292" build="ALL" modified="2015-10-21T14:19:59.175Z" icon="0" href="Systemverwaltung">
-        <caption translate="true">Systemverwaltung</caption>
-        <topicref type="topic" id="422987636500921" build="ALL" modified="2015-10-21T15:39:18.469Z" icon="0" href="Grouperstatus">
-          <caption translate="true">Grouperstatus</caption>
-        </topicref>
-        <topicref type="topic" id="422988308748370" build="ALL" modified="2015-10-21T15:54:34.901Z" icon="0" href="Ergebnis">
-          <caption translate="true">Ergebnis</caption>
-        </topicref>
-      </topicref>
-      <topicref type="topic" id="422987052331027" build="ALL" modified="2015-10-21T14:20:14.215Z" icon="0" href="E-Mail-Template">
-        <caption translate="true">E-Mail-Template</caption>
-        <topicref type="topic" id="423048653803773" build="ALL" modified="2015-10-27T16:27:57.093Z" icon="0" href="E-Mail-Typ">
-          <caption translate="true">E-Mail-Typ</caption>
-        </topicref>
-        <topicref type="topic" id="423047224023237" build="ALL" modified="2015-10-27T16:30:18.888Z" icon="0" href="E-Mail-Platzhalter">
-          <caption translate="true">E-Mail-Platzhalter</caption>
-        </topicref>
-      </topicref>
-      <topicref type="topic" id="422985181019370" build="ALL" modified="2015-10-21T14:20:20.805Z" icon="0" href="Mailversand">
-        <caption translate="true">Mailversand</caption>
-      </topicref>
-      <topicref type="topic" id="422985586821799" build="ALL" modified="2015-10-21T14:20:33.951Z" icon="0" href="Grouperzertifizierung">
-        <caption translate="true">Grouperzertifizierung</caption>
-      </topicref>
-      <topicref type="topic" id="423005735963257" build="ALL" modified="2015-10-23T11:22:41.021Z" icon="0" href="Pruefservice">
-        <caption translate="true">Prüfservice</caption>
-      </topicref>
     </topicref>
   </topicref>
   <topicref type="topic" id="418795822620952" build="ALL" modified="2014-08-28T11:15:02.765Z" icon="0" href="SpecialTasks">

@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="lautenti" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Neue Information eintragen</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Neue Information eintragen</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Öffnen Sie für das eintragen einer neuen Information die entsprechende Strukturinformation. Öffnen Sie die entsprechende Kategorie und fügen Sie über den Button &quot;Eintrag hinzufügen&quot; der Kategorie eine neue Information hinzu.</text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal" style="text-align:center;"><image src="new_info.png" scale="100.00%" styleclass="Image Caption"></image></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Wählen Sie das Gültigkeitsdatum ab wann diese Information gilt. Es können Datumswerte die in der Zukunft und in der Vergangenheit liegen. Sollte sich durch einen neuen Gültigkeitswert die Reihenfolge der vorhandenen Informationen in einer Kategorie verschieben bekommen Sie eine entsprechenden Hinweis. </text></para>
+    <para styleclass="Normal"></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Bitte beachten Sie: Pro Kategorie können Sie ein Gültigkeitsdatum nur einmal angeben. Bitte Tragen Sie bei Doppelten Datumswerten die Informationen in einen Eintrag zusammen. Eine mehrzeilige Eingabe ist möglich.</text></para>
+    <para styleclass="Normal" style="text-align:center;"></para>
+  </body>
+</topic>

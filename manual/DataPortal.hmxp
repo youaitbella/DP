@@ -160,7 +160,7 @@
       <config-value name="autohelpstart">0</config-value>
       <config-value name="autohelpincrement">1</config-value>
       <config-value name="autohelpanchor">0</config-value>
-      <config-value name="searchpath">.\;.\Baggage\;..\web\resources\Icon\small\;.\Baggage\care\</config-value>
+      <config-value name="searchpath">.\;.\Baggage\;..\web\resources\Icon\small\;.\Baggage\care\;.\Baggage\kh-vergleich\</config-value>
       <config-group name="custombuilds">
         <config-value name="DEMO">Demo Build</config-value>
         <config-value name="USER1">Zerti</config-value>
@@ -182,6 +182,7 @@
       <config-value name="make3include">HTML</config-value>
       <config-value name="make3status">*</config-value>
       <config-value name="imageshortcuts">delete.png;</config-value>
+      <config-group name="bookmarks"/>
     </config-group>
     <config-group name="user">
       <config-group name="muellermi">
@@ -386,13 +387,9 @@ document.write('</frameset>');
   <xi:include parse="xml" href="Maps/table_of_contents.xml"/>
   <project-files>
     <file href="Topics/*.xml" build="ALL" filetype="topic">
-      <file-mod href="GrouperCertification.xml" build="USER2"/>
-      <file-mod href="CertifyGrouper.xml" build="USER1"/>
       <file-mod href="Dokumente---Managersicht.xml" build="USER2"/>
       <file-mod href="UploadDocumentForInek.xml"/>
-      <file-mod href="Zertifizierung.xml" build="USER1,USER2"/>
       <file-mod href="Teilnahme-Kostenkalkulation---.xml" build="USER2"/>
-      <file-mod href="Datenerfassung-zum-Krankenhaus.xml"/>
     </file>
     <file href="Baggage/*.*" build="ALL" filetype="baggage"/>
   </project-files>

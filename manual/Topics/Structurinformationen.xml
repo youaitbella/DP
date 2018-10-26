@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
+<topic template="Default" lasteditedby="lautenti" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+  <title translate="true">Strukturinformationen</title>
+  <body>
+    <header>
+      <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Strukturinformationen</text></para>
+    </header>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die strukturellen Informationen sind nach der erstmaligen Anmeldung einzugeben und immer dann zu aktualisieren, wenn sich substantielle Veränderungen ergeben, die Einfluss auf die Höhe des krankenhausindividuellen Basisentgeltwerts haben und damit Relevanz im leistungsbezogenen Krankenhausvergleich erlangen können. Eine zwingende jährliche Aktualisierung dieser strukturellen Informationen ist nicht erforderlich. Bitte beachten Sie, dass Sie als Anwender von Ihrem Haus als Funktionsbeauftragter ernannt werden oder die Rechte von einem schon ernannten Anwender bekommen müssen um die Daten zu sehen bzw. zu ändern.</text></para>
+  </body>
+</topic>
