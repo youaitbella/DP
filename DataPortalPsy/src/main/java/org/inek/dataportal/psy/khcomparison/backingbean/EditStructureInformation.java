@@ -176,6 +176,9 @@ public class EditStructureInformation {
                 try {
                     int count = Integer.parseInt(info.getContent());
                     hasAny = count > 0;
+                    if(hasAny) {
+                        return hasAny;
+                    }
                 } catch (Exception ex) {
 
                 }
