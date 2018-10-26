@@ -5,27 +5,18 @@
  */
 package org.inek.dataportal.common.data.ikadmin.facade;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.common.data.AbstractDataAccess;
+import org.inek.dataportal.common.data.account.entities.Account;
+import org.inek.dataportal.common.data.ikadmin.entity.*;
+
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
-import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.common.data.AbstractDataAccess;
-import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
-import org.inek.dataportal.common.data.ikadmin.entity.AccountResponsibility;
-import org.inek.dataportal.common.data.ikadmin.entity.IkAdmin;
-import org.inek.dataportal.common.data.ikadmin.entity.IkAdminFeature;
-import org.inek.dataportal.common.data.ikadmin.entity.IkCorrelation;
-import org.inek.dataportal.common.data.ikadmin.entity.User;
+import java.util.*;
 
 /**
- *
  * @author muellermi
  */
 @RequestScoped
@@ -92,7 +83,6 @@ public class IkAdminFacade extends AbstractDataAccess {
      * Checks for a list of iks, which of them are managed by an ik admin
      *
      * @param iks
-     *
      * @return managedIks
      */
     public List<Integer> dertermineManagegIks(List<Integer> iks) {
@@ -117,6 +107,16 @@ public class IkAdminFacade extends AbstractDataAccess {
         return hasIkAdmin;
     }
 
+    public boolean hasIkAdmin(int ik, int featureId) {
+        String sql = "select cast(sign(count(0)) as bit) as hasAdmin from ikadm.IkAdmin "
+                + "join ikadm.IkAdminFeature on iafIkAdminId = iaId "
+                + "where iaIk = " + ik
+                + " and iafFeatureId = " + featureId;
+        Query query = getEntityManager().createNativeQuery(sql);
+        boolean hasIkAdmin = (boolean) query.getSingleResult();
+        return hasIkAdmin;
+    }
+
     @SuppressWarnings("unchecked")
     public List<Account> findIkAdmins(int ik) {
         String sql = "select Account.* from ikadm.IkAdmin join Account on iaAccountId = acId where iaIk = " + ik;
@@ -135,7 +135,7 @@ public class IkAdminFacade extends AbstractDataAccess {
         Map<Integer, Set<Feature>> managedIkWithFeatures = new HashMap<>();
         for (IkAdmin ikAdmin : ikAdmins) {
             Integer ik = ikAdmin.getIk();
-            if (!managedIkWithFeatures.containsKey(ik)){
+            if (!managedIkWithFeatures.containsKey(ik)) {
                 managedIkWithFeatures.put(ik, new HashSet<>());
             }
             Set<Feature> features = managedIkWithFeatures.get(ik);
