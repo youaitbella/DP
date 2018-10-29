@@ -275,7 +275,7 @@
         <caption translate="true">Datenexport</caption>
       </topicref>
     </topicref>
-    <topicref type="topic" id="433704401956148" modified="2018-10-29T08:41:37.005Z" icon="0" href="Datenerfassung-zum-Krankenhaus">
+    <topicref type="topic" id="433704401956148" modified="2018-10-29T11:39:49.488Z" icon="0" href="Datenerfassung-zum-Krankenhaus">
       <caption translate="true">Datenerfassung zum Krankenhausvergleich</caption>
       <topicref type="topic" id="433702792101813" build="ALL" modified="2018-09-27T09:46:30.087Z" icon="0" href="Erfassung-der-AEB">
         <caption translate="true">Erfassung der AEB</caption>
@@ -299,7 +299,7 @@
         <caption translate="true">(Fallback)Kalkulationsunterlagen</caption>
       </topicref>
     </topicref>
-    <topicref type="topic" id="433994162001251" modified="2018-10-29T08:41:31.469Z" icon="0" href="Structurinformationen">
+    <topicref type="topic" id="433994162001251" modified="2018-10-29T11:39:44.892Z" icon="0" href="Structurinformationen">
       <caption translate="true">Strukturinformationen</caption>
       <topicref type="topic" id="433995960392291" build="ALL" modified="2018-10-26T10:39:47.171Z" icon="0" href="Neue-Structurinformation-anleg">
         <caption translate="true">Neue Strukturinformation anlegen</caption>

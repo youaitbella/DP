@@ -6,7 +6,7 @@
     <header>
       <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Ansicht filtern</text></para>
     </header>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Um sich einen spezifischen Stand anzuschauen, haben Sie die Möglichkeit, die Einträge zu filtern. Innerhalb eines ausgewählten Gültigkeitszeitraums werden Ihnen für diesen Zeitraum gültigen Informationen angezeigt. Der Gültigkeitszeitraum kann beliebig gewählt werden. Über den Button &quot;Anzeigen&quot; aktivieren Sie die Filterfunktion. Über den Button &quot;Filter Entfernen&quot; wird der Filter gelöscht und alle Einträge werden wieder angezeigt.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Um sich einen spezifischen Stand anzuschauen, haben Sie die Möglichkeit, die Einträge zu filtern. Innerhalb eines ausgewählten Gültigkeitszeitraums werden Ihnen die für diesen Zeitraum gültigen Informationen angezeigt. Der Gültigkeitszeitraum kann beliebig gewählt werden. Über den Button &quot;Anzeigen&quot; aktivieren Sie die Filterfunktion. Über den Button &quot;Filter Entfernen&quot; wird der Filter gelöscht und alle Einträge werden wieder angezeigt.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><image src="filtering.png" scale="100.00%" styleclass="Image Caption"></image></para>
@@ -101,6 +101,6 @@
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Information 1 war zwar bereits vor dem 01.01.2018 gültig allerdings endete Ihre Gültigkeit erst am 25.03.2018. Somit ist die Information 1 für die Filterung relevant für den Zeitraum 01.01.2018 bis 25.03.2018.</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Information 3 wird Ihnen nicht angezeigt, da sie erst nach dem angegebene Gültig bis Datum gültig ist.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die Information 3 wird Ihnen nicht angezeigt, da diese Information erst nach dem ausgewählten Zeitraum beginnt.</text></para>
   </body>
 </topic>

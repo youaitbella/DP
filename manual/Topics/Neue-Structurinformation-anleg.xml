@@ -6,12 +6,12 @@
     <header>
       <para styleclass="Heading1"><text styleclass="Heading1" translate="true">Neue Strukturinformation anlegen</text></para>
     </header>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sofern noch keine Strukturinformationen zu Ihrem Haus vorhanden sind, können Sie im PSY-Portal unter den Punkt &quot;Krankenhaus Datenerfassung&quot; mit dem Button &quot;Neue Strukturinformation erstellen&quot; eine neuen Datensatz anlegen. Sofern schon ein Datensatz vorhanden ist, sehen Sie den Eintrag in der Liste und der Button ist nicht Sichtbar.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Sofern noch keine Strukturinformationen zu Ihrem Haus vorhanden sind, können Sie im PSY-Portal unter den Punkt &quot;Krankenhaus Datenerfassung&quot; mit dem Button &quot;Neue Strukturinformation erstellen&quot; eine neuen Datensatz anlegen. Sofern schon ein Datensatz vorhanden ist, sehen Sie den Eintrag in der Liste und der Button ist nicht sichtbar.</text></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><image src="summary_new_Entry.png" scale="100.00%" styleclass="Image Caption"></image></para>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><image src="summary_exists_Entry.png" scale="100.00%" styleclass="Image Caption"></image></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Bitte wählen Sie vor dem ersten Speichern eine IK aus und geben Sie die Anzahl der Planbetten oder teilstationäre Therapieplätze an.</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Bitte wählen Sie vor dem ersten Speichern eine IK aus und geben Sie die Anzahl der Planbetten bzw. die Anzahl der teilstationären Therapieplätze an.</text></para>
   </body>
 </topic>
