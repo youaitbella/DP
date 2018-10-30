@@ -236,6 +236,10 @@ public class StructureinformationHelperTest {
                 .as(info2.getValidFrom().toString()).contains(info2)
                 .as(info3.getValidFrom().toString()).contains(info3)
                 .size().isEqualTo(3);
+
+        Assertions.assertThat(info1.getValidFrom()).isEqualTo(createDate(4, 1, 2018));
+        Assertions.assertThat(info2.getValidFrom()).isEqualTo(createDate(4, 2, 2018));
+        Assertions.assertThat(info3.getValidFrom()).isEqualTo(createDate(15, 2, 2018));
     }
 
     @Test
@@ -262,6 +266,10 @@ public class StructureinformationHelperTest {
                 .as(info2.getValidFrom().toString()).contains(info2)
                 .as(info3.getValidFrom().toString()).contains(info3)
                 .size().isEqualTo(2);
+
+        Assertions.assertThat(info1.getValidFrom()).isEqualTo(createDate(4, 1, 2018));
+        Assertions.assertThat(info2.getValidFrom()).isEqualTo(createDate(4, 2, 2018));
+        Assertions.assertThat(info3.getValidFrom()).isEqualTo(createDate(15, 2, 2018));
     }
 
     @Test
@@ -288,6 +296,10 @@ public class StructureinformationHelperTest {
                 .as(info2.getValidFrom().toString()).contains(info2)
                 .as(info3.getValidFrom().toString()).doesNotContain(info3)
                 .size().isEqualTo(1);
+
+        Assertions.assertThat(info1.getValidFrom()).isEqualTo(createDate(4, 1, 2018));
+        Assertions.assertThat(info2.getValidFrom()).isEqualTo(createDate(4, 2, 2018));
+        Assertions.assertThat(info3.getValidFrom()).isEqualTo(createDate(15, 2, 2018));
     }
 
     @Test
@@ -314,6 +326,10 @@ public class StructureinformationHelperTest {
                 .as(info2.getValidFrom().toString()).contains(info2)
                 .as(info3.getValidFrom().toString()).contains(info3)
                 .size().isEqualTo(2);
+
+        Assertions.assertThat(info1.getValidFrom()).isEqualTo(createDate(4, 1, 2018));
+        Assertions.assertThat(info2.getValidFrom()).isEqualTo(createDate(4, 2, 2018));
+        Assertions.assertThat(info3.getValidFrom()).isEqualTo(createDate(15, 2, 2019));
     }
 
     private StructureInformation createNewInfo(Date validFrom, String content, StructureInformationCategorie cat) {

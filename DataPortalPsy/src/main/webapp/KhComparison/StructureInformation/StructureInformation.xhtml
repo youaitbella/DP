@@ -6,14 +6,12 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:pf="http://primefaces.org/ui">
 
-
     <!-- Start generell -->
     <pf:fieldset id="generellId"
                  legend="Allgemeine Angaben"
                  toggleable="true"
-                 collapsed="#"
+                 collapsed="false"
                  class="inekFieldset">
-
         <b>#{editStructureInformation.getStructureCategorie('BedCount').description}</b>
         <br />
         <pf:repeat value="#{editStructureInformation.getStructureInformationsByStructureCategorie('BedCount')}"

@@ -93,7 +93,6 @@ public class StructureinformationHelper {
 
     public static List<StructureInformation> getStructureInformationsByStructureCategorieFiltered(StructureBaseInformation baseInfo, String catName,
                                                                                                   Date filterFrom, Date filterUntil) {
-
         List<StructureInformation> structureInformations = baseInfo.getStructureInformations().stream()
                 .filter(c -> c.getStructureCategorie() == StructureInformationCategorie.valueOf(catName))
                 .collect(Collectors.toList());
@@ -105,14 +104,14 @@ public class StructureinformationHelper {
         } else {
             Optional<StructureInformation> first = structureInformations.stream()
                     .filter(c -> c.getValidFrom().before(filterFrom))
-                    .min(Comparator.comparing(StructureInformation::getValidFrom, Comparator.nullsLast(Comparator.reverseOrder())));
+                    .max(Comparator.comparing(StructureInformation::getValidFrom));
 
             first.ifPresent(structureInformation -> structureInformations.removeIf(c -> c.getValidFrom()
                     .before(structureInformation.getValidFrom())));
         }
 
         return structureInformations.stream()
-                .sorted(Comparator.comparing(StructureInformation::getValidFrom, Comparator.nullsLast(Comparator.naturalOrder())))
+                .sorted(Comparator.comparing(StructureInformation::getValidFrom))
                 .collect(Collectors.toList());
 
     }

@@ -61,6 +61,7 @@
                                   value="Anzeigen"
                                   style="margin-left: 10px;"
                                   actionListener="#{editStructureInformation.activateFilterStructureInformation()}"
+                                  process="@this"
                                   update="@form" />
             </div>
             <div class="ui-g-2">
@@ -68,6 +69,7 @@
                                   value="Filter Entfernen"
                                   style="margin-left: 10px;"
                                   actionListener="#{editStructureInformation.deactivateFilterStructureInformation()}"
+                                  process="@this"
                                   update="@form" />
             </div>
         </div>
