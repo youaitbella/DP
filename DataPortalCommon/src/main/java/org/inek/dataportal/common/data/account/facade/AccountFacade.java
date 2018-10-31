@@ -196,8 +196,10 @@ public class AccountFacade extends AbstractDataAccess {
             emptyAccount.setUser("");
             emptyAccount.setId(account.getId());
             merge(emptyAccount);
-            AccountPwd accountPwd = _accountPwdFacade.find(account.getId());
-            _accountPwdFacade.delete(accountPwd);
+            AccountPwd accountPwd = _accountPwdFacade.find(emptyAccount.getId());
+            if(accountPwd != null) {
+                _accountPwdFacade.delete(accountPwd);
+            }
         }
     }
 
