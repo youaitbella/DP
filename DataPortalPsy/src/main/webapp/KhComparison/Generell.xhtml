@@ -1,32 +1,17 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:jsf="http://xmlns.jcp.org/jsf"
-                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-                xmlns:pf="http://primefaces.org/ui"
                 xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/Other">
 
     <inek:MultiIkYear labelIk="#{msg.lblIkShort}"
-                      required="true"
+                      required="false"
                       valueIk="#{edit.aebBaseInformation.ik}"
                       readonly="#{edit.isReadOnly() or edit.aebBaseInformation.id ne -1}"
                       listenerIk="#{edit.ikChanged()}"
                       ikList="#{edit.allowedIks}"
                       labelYear="Vereinbarungsjahr"
                       valueYear="#{edit.aebBaseInformation.year}"
-                      yearList="#{edit.validDatayears}" />
-
-    <ui:remove>
-        <pf:outputLabel value="Vereinbahrungsjahr:" />
-        <pf:selectOneMenu id="year"
-                          value="#{edit.aebBaseInformation.year}"
-                          disabled="#{edit.isReadOnly()}">
-            <f:selectItem rendered="#{edit.aebBaseInformation.year eq 0}" itemLabel="#{edit.aebBaseInformation.year}" itemValue="#{edit.aebBaseInformation.year}" noSelectionOption="true" />
-            <f:selectItems value="#{edit.validDatayears}" />
-            <pf:ajax event="change" />
-        </pf:selectOneMenu>
-    </ui:remove>
+                      yearList="#{edit.validDatayears}"
+                      updateElement="@form" />
 
 </ui:composition>

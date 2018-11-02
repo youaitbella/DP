@@ -36,10 +36,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.ByteArrayInputStream;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author lautenti
@@ -62,7 +59,7 @@ public class Edit {
     private Mailer _mailer;
 
     private AEBBaseInformation _aebBaseInformation;
-    private List<Integer> _validDatayears = new ArrayList<>();
+    private Set<Integer> _validDatayears = new HashSet<>();
     private Boolean _readOnly;
     private String _errorMessage = "";
 
@@ -98,11 +95,11 @@ public class Edit {
         this._readOnly = readOnly;
     }
 
-    public List<Integer> getValidDatayears() {
+    public Set<Integer> getValidDatayears() {
         return _validDatayears;
     }
 
-    public void setValidDatayears(List<Integer> validDatayears) {
+    public void setValidDatayears(Set<Integer> validDatayears) {
         this._validDatayears = validDatayears;
     }
 
@@ -318,7 +315,7 @@ public class Edit {
         List<Integer> usedYears = _aebFacade.getUsedDataYears(_aebBaseInformation.getIk(), CustomerTyp.Hospital);
         List<Integer> possibleYears = _aebFacade.getPossibleDataYears();
         possibleYears.removeAll(usedYears);
-        setValidDatayears(possibleYears);
+        setValidDatayears(new HashSet<>(possibleYears));
     }
 
     public Set<Integer> getAllowedIks() {

@@ -5,24 +5,32 @@
  */
 package org.inek.dataportal.common.data.KhComparison.importer;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.inek.dataportal.common.data.KhComparison.entities.*;
+
 import java.io.InputStream;
-import org.apache.poi.ss.usermodel.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
- *
  * @author lautenti
  */
 public class AebImporter {
 
+    public static final Logger LOGGER = Logger.getLogger(AebImporter.class.getName());
+
     public static final int MAX_ROWS = 100;
-    public static final String PAGE_E1_1 = "29 E1.1 V";
-    public static final String PAGE_E1_2 = "30 E1.2 V";
-    public static final String PAGE_E2 = "31 E2 V";
-    public static final String PAGE_E3_1 = "32 E3.1 V";
-    public static final String PAGE_E3_2 = "33 E3.2 V";
-    public static final String PAGE_E3_3 = "34 E3.3 V";
-    public static final String PAGE_B1 = "35 B1";
+    public static final String PAGE_E1_1 = "E1.1 V";
+    public static final String PAGE_E1_2 = "E1.2 V";
+    public static final String PAGE_E2 = "E2 V";
+    public static final String PAGE_E3_1 = "E3.1 V";
+    public static final String PAGE_E3_2 = "E3.2 V";
+    public static final String PAGE_E3_3 = "E3.3 V";
+    public static final String PAGE_B1 = "B1";
+    public static final String PAGE_B1_ANLAGE = "Anlage";
 
     private int _counter = 0;
 
@@ -38,34 +46,25 @@ public class AebImporter {
         info.clearAebPages();
         try (Workbook workbook = WorkbookFactory.create(file)) {
             for (Sheet s : workbook) {
-                switch (s.getSheetName()) {
-                    case PAGE_E1_1:
-                        importPageE1_1(s, info);
-                        break;
-                    case PAGE_E1_2:
-                        importPageE1_2(s, info);
-                        break;
-                    case PAGE_E2:
-                        importPageE2(s, info);
-                        break;
-                    case PAGE_E3_1:
-                        importPageE3_1(s, info);
-                        break;
-                    case PAGE_E3_2:
-                        importPageE3_2(s, info);
-                        break;
-                    case PAGE_E3_3:
-                        importPageE3_3(s, info);
-                        break;
-                    case PAGE_B1:
-                        importPageB1(s, info);
-                        break;
-                    default:
-                        break;
+                if (s.getSheetName().contains(PAGE_E1_1)) {
+                    importPageE1_1(s, info);
+                } else if (s.getSheetName().contains(PAGE_E1_2)) {
+                    importPageE1_2(s, info);
+                } else if (s.getSheetName().contains(PAGE_E2)) {
+                    importPageE2(s, info);
+                } else if (s.getSheetName().contains(PAGE_E3_1)) {
+                    importPageE3_1(s, info);
+                } else if (s.getSheetName().contains(PAGE_E3_2)) {
+                    importPageE3_2(s, info);
+                } else if (s.getSheetName().contains(PAGE_E3_3)) {
+                    importPageE3_3(s, info);
+                } else if (s.getSheetName().contains(PAGE_B1) && !s.getSheetName().contains(PAGE_B1_ANLAGE)) {
+                    importPageB1(s, info);
                 }
             }
             return true;
         } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, "Fehler beim AEB Import", ex);
             return false;
         }
     }

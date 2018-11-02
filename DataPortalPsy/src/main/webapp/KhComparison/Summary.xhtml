@@ -22,9 +22,12 @@
                                   tableStyleClass="inekTablePsy">
                         <pf:column class="colIcon">
                             <pf:commandLink action="#{summary.deleteBaseInformation(baseInformation)}"
-                                            update="@all"
+                                            update="erfassungtable"
                                             process="@this"
                                             rendered="#{summary.isDeleteAllowed(baseInformation.ik)}">
+                                <pf:confirm rendered="#{cc.attrs.showConfirmDialog}"
+                                            header="Wollen Sie den Eintrag wirklich löschen?"
+                                            message="Gelöschte Einträge können Sie nicht wiederherstellen. Wollen Sie den Eintrag wirklich löschen?" />
                                 <h:graphicImage alt="löschen" name="Icon/small/delete.png" title="Löschen" value=""/>
                             </pf:commandLink>
                         </pf:column>
