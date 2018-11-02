@@ -96,6 +96,8 @@ public class PortalExceptionHandler extends ExceptionHandlerWrapper {
             targetPage = Pages.SessionTimeout.RedirectURL();
             requestMap.put("currentViewId", viewExpiredExeption.getViewId());
         }
+        SendExeptionMessage("[View expired] ReuqestPage: " + fc.getExternalContext().getRequestMap() + " TargetPage: " + targetPage +
+                " / " + exception.getMessage() +  exception);
         return targetPage;
     }
 
