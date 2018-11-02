@@ -3,7 +3,7 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:pf="http://primefaces.org/ui"
-      xmlns:inekInput="http://xmlns.jcp.org/jsf/composite/components/Input">
+      xmlns:inekInput="http://xmlns.jcp.org/jsf/composite/components/Input" xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <h:head>
     <f:facet name="first">
@@ -42,9 +42,11 @@
                         </pf:password>
                         <pf:message for="password" />
                     </div>
-                    <div class="ui-g-12">
-                        <pf:link>Passwort vergessen?</pf:link>
-                    </div>
+                    <ui:remove>
+                        <div class="ui-g-12">
+                            <pf:link>Passwort vergessen?</pf:link>
+                        </div>
+                    </ui:remove>
                     <div class="ui-g-12">
                         <pf:commandButton id="loginButton"
                                           value="Einloggen"
@@ -52,10 +54,12 @@
                                           action="#{loginCare.login()}"
                                           update="@(.ui-message)" />
                     </div>
-                    <div class="ui-g-12">
-                        <pf:button value="Registrieren"
-                                   icon="fa fa-check" />
-                    </div>
+                    <ui:remove>
+                        <div class="ui-g-12">
+                            <pf:button value="Registrieren"
+                                       icon="fa fa-check" />
+                        </div>
+                    </ui:remove>
                 </div>
             </div>
         </h:form>
