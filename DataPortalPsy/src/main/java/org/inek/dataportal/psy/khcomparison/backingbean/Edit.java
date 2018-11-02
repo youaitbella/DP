@@ -169,15 +169,20 @@ public class Edit {
     }
 
     public String send() {
-        _aebBaseInformation.setStatus(WorkflowStatus.Provided);
-        _aebBaseInformation.setSend(new Date());
-        save();
-        if (aebContainsDifferences()) {
-            DialogController.showWarningDialog("Unterschiede in der AEB festgestellt",
-                    "Es wurden Unterschiede in bereits abgegeben Information für die IK "
-                            + _aebBaseInformation.getIk() + " festgestellt");
+        if (baseInfoisComplete(_aebBaseInformation)) {
+            _aebBaseInformation.setStatus(WorkflowStatus.Provided);
+            _aebBaseInformation.setSend(new Date());
+            save();
+            if (aebContainsDifferences()) {
+                DialogController.showWarningDialog("Unterschiede in der AEB festgestellt",
+                        "Es wurden Unterschiede in bereits abgegeben Information für die IK "
+                                + _aebBaseInformation.getIk() + " festgestellt");
+            }
+            return Pages.KhComparisonSummary.URL();
+        } else {
+            DialogController.showWarningDialog("Fehler beim Speichern", "Bitte geben Sie eine gültige IK und Datenjahr an");
+            return "";
         }
-        return Pages.KhComparisonSummary.URL();
     }
 
     private Boolean aebContainsDifferences() {
