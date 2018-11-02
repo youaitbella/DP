@@ -14,6 +14,7 @@ import java.util.Map;
  *
  * @author palenma
  */
+@SuppressWarnings("JavaNCSS")
 public class LetterConverter {
 
     private static final Map<String, String> CHAR_2_WORD = new HashMap<>();
