@@ -20,6 +20,7 @@ public class LetterConverter {
 
     static {
         CHAR_2_WORD.put("a", "Anton");
+        CHAR_2_WORD.put("ä", "Ärger");
         CHAR_2_WORD.put("b", "Berta");
         CHAR_2_WORD.put("c", "Cäsar");
         CHAR_2_WORD.put("d", "Dora");
@@ -34,8 +35,8 @@ public class LetterConverter {
         CHAR_2_WORD.put("m", "Martha");
         CHAR_2_WORD.put("n", "Nordpol");
         CHAR_2_WORD.put("o", "Otto");
-        CHAR_2_WORD.put("ö", "Paula");
-        CHAR_2_WORD.put("p", "Gustav");
+        CHAR_2_WORD.put("ö", "Ökonom");
+        CHAR_2_WORD.put("p", "Paula");
         CHAR_2_WORD.put("q", "Quelle");
         CHAR_2_WORD.put("r", "Richard");
         CHAR_2_WORD.put("s", "Samuel");
@@ -67,6 +68,7 @@ public class LetterConverter {
         CHAR_2_WORD.put("&", "Kaufmannsund");
         CHAR_2_WORD.put("-", "Bindestrich");
         CHAR_2_WORD.put("_", "Unterstrich");
+        CHAR_2_WORD.put("/", "Schrägstrich");
     }
 
     public static List<String> describeLetters(String letterSequence) {
