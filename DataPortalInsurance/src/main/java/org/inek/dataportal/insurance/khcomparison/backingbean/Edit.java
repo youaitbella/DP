@@ -12,6 +12,7 @@ import org.inek.dataportal.common.data.KhComparison.checker.AebComparer;
 import org.inek.dataportal.common.data.KhComparison.entities.*;
 import org.inek.dataportal.common.data.KhComparison.facade.AEBFacade;
 import org.inek.dataportal.common.data.KhComparison.facade.AEBListItemFacade;
+import org.inek.dataportal.common.data.KhComparison.helper.AebCheckerHelper;
 import org.inek.dataportal.common.data.KhComparison.helper.AebCleanerHelper;
 import org.inek.dataportal.common.data.KhComparison.helper.AebUploadHelper;
 import org.inek.dataportal.common.data.account.entities.Account;
@@ -170,15 +171,20 @@ public class Edit {
     }
 
     public String send() {
-        _aebBaseInformation.setStatus(WorkflowStatus.Provided);
-        _aebBaseInformation.setSend(new Date());
-        save();
-        if (aebContainsDifferences()) {
-            DialogController.showWarningDialog("Unterschiede in der AEB festgestellt",
-                    "Es wurden Unterschiede in bereits abgegeben Information für die IK "
-                            + _aebBaseInformation.getIk() + " festgestellt");
+        if (baseInfoisComplete(_aebBaseInformation)) {
+            _aebBaseInformation.setStatus(WorkflowStatus.Provided);
+            _aebBaseInformation.setSend(new Date());
+            save();
+            if (aebContainsDifferences()) {
+                DialogController.showWarningDialog("Unterschiede in der AEB festgestellt",
+                        "Es wurden Unterschiede in bereits abgegeben Information für die IK "
+                                + _aebBaseInformation.getIk() + " festgestellt");
+            }
+            return Pages.InsuranceKhComparisonSummary.URL();
+        } else {
+            DialogController.showWarningDialog("Fehler beim Speichern", "Bitte geben Sie eine gültige IK und Datenjahr an");
+            return "";
         }
-        return Pages.InsuranceKhComparisonSummary.URL();
     }
 
     private Boolean aebContainsDifferences() {
@@ -327,10 +333,7 @@ public class Edit {
     }
 
     private boolean baseInfoisComplete(AEBBaseInformation info) {
-        if (info.getIk() != 0 && info.getYear() != 0) {
-            return true;
-        }
-        return false;
+        return AebCheckerHelper.baseInfoisComplete(info);
     }
 
     private void sendSendMail(AEBBaseInformation info) {

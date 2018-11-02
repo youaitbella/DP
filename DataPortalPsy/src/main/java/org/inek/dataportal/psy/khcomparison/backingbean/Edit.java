@@ -12,6 +12,7 @@ import org.inek.dataportal.common.data.KhComparison.checker.AebComparer;
 import org.inek.dataportal.common.data.KhComparison.entities.*;
 import org.inek.dataportal.common.data.KhComparison.facade.AEBFacade;
 import org.inek.dataportal.common.data.KhComparison.facade.AEBListItemFacade;
+import org.inek.dataportal.common.data.KhComparison.helper.AebCheckerHelper;
 import org.inek.dataportal.common.data.KhComparison.helper.AebCleanerHelper;
 import org.inek.dataportal.common.data.KhComparison.helper.AebUploadHelper;
 import org.inek.dataportal.common.data.account.entities.Account;
@@ -330,10 +331,7 @@ public class Edit {
     }
 
     private boolean baseInfoisComplete(AEBBaseInformation info) {
-        if (info.getIk() != 0 && info.getYear() != 0) {
-            return true;
-        }
-        return false;
+        return AebCheckerHelper.baseInfoisComplete(info);
     }
 
     private void sendSendMail(AEBBaseInformation info) {
