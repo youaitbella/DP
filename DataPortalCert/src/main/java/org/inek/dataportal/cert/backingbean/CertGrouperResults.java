@@ -239,7 +239,7 @@ public class CertGrouperResults implements Serializable {
     }
 
     public String getCC() {
-        return _grouper.getEmailCopy();
+        return Mailer.buildCC(_grouperFacade.findGrouperEmailReceivers(_grouper.getAccount()));
     }
 
     public String getBCC() {
