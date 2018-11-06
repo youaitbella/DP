@@ -87,7 +87,7 @@ public class LetterConverter {
         String result = "";
         if (CHAR_2_WORD.containsKey(c.toLowerCase())) {
             result = c + " = " + CHAR_2_WORD.get(c.toLowerCase()) + (c.toUpperCase().equals(c) ? "" : "(klein)");
-            if(result.equals("ß = Eszett(klein)")){
+            if("ß = Eszett(klein)".equals(result)){
                     result = "ß = Eszett";      
             }else {
                 return result;
