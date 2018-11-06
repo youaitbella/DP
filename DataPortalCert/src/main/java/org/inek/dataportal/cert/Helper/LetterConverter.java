@@ -84,11 +84,16 @@ public class LetterConverter {
     }
 
     static String getWordFromChar(String c) {
+        String result = "";
         if (CHAR_2_WORD.containsKey(c.toLowerCase())) {
-            return c + " = " + CHAR_2_WORD.get(c.toLowerCase()) + (c.toUpperCase().equals(c) ? "" : "(klein)");
-        } else {
-            return "";
+            result = c + " = " + CHAR_2_WORD.get(c.toLowerCase()) + (c.toUpperCase().equals(c) ? "" : "(klein)");
+            if(result.equals("ß = Eszett(klein)")){
+                    result = "ß = Eszett";      
+            }else {
+                return result;
+            }
         }
+        return result;
     }
 
     public Map<String, String> getMap() {
