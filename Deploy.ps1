@@ -50,7 +50,7 @@ function getTargetSystem {
 }
 
 function getMode { 
-    [String[]] $AvailibleModes = "redeploy","install"
+    [String[]] $AvailibleModes = "redeploy","deploy"
 
     return $AvailibleModes | Out-GridView -PassThru -Title "Modus auswählen"
 }
