@@ -235,7 +235,10 @@ public class AccountFacade extends AbstractDataAccess {
     private void setIkAdminIfOnInekList(Account acc) {
         try {
             if (accountHasIkAdminRequest(acc)) {
+
                 List<Feature> features = getFeaturesFromAdminRequest(acc);
+
+                LOGGER.log(Level.INFO, "Found IK Admin Request: {0}", acc.getEmail() + " " + acc.getFullIkSet().toArray()[0] );
 
                 acc.addIkAdmin((int) acc.getFullIkSet().toArray()[0], "", features);
 
@@ -248,6 +251,8 @@ public class AccountFacade extends AbstractDataAccess {
                 }
 
                 merge(acc);
+            }else {
+                LOGGER.log(Level.INFO, "No Admin Request found: {0}", acc.getEmail());
             }
         } catch (Exception ex) {
             LOGGER.log(Level.WARNING, "IK Admin konnte nicht eingetragen werden: {0}", ex.getMessage());
