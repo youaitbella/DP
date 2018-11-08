@@ -4,6 +4,7 @@
  */
 package org.inek.dataportal.base.feature.dropbox.facade;
 
+import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.common.data.AbstractFacade;
 import java.io.File;
 import java.util.Calendar;
@@ -27,11 +28,7 @@ import org.inek.dataportal.common.enums.ConfigKey;
  * @author muellermi
  */
 @Stateless
-public class DropBoxFacade extends AbstractFacade<DropBox> {
-
-    public DropBoxFacade() {
-        super(DropBox.class);
-    }
+public class DropBoxFacade extends AbstractDataAccess {
 
     public List<DropBox> findAll(int accountId, boolean isClosed) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
@@ -160,4 +157,27 @@ public class DropBoxFacade extends AbstractFacade<DropBox> {
         return query.getResultList();
     }
 
+    public List<DropBox> getDropBoxesForIk(int ik, Boolean complete) {
+        String jpql = "SELECT d from DropBox d WHERE d._IK = :ik and d._isComplete = :complete ";
+        TypedQuery<DropBox> query = getEntityManager().createQuery(jpql, DropBox.class);
+        query.setParameter("ik", ik);
+        query.setParameter("complete", complete);
+        return query.getResultList();
+    }
+
+    public List<DropBox> getDropBoxesForIkAndAccount(int ik, int accountId, Boolean complete) {
+        String jpql = "SELECT d from DropBox d WHERE d._IK = :ik and d._isComplete = :complete and d._accountId = :accId";
+        TypedQuery<DropBox> query = getEntityManager().createQuery(jpql, DropBox.class);
+        query.setParameter("ik", ik);
+        query.setParameter("accId", accountId);
+        query.setParameter("complete", complete);
+        return query.getResultList();
+    }
+
+    public DropBox findById(int id) {
+        String jpql = "SELECT d from DropBox d WHERE d._dropBoxId = :id";
+        TypedQuery<DropBox> query = getEntityManager().createQuery(jpql, DropBox.class);
+        query.setParameter("id", id);
+        return query.getSingleResult();
+    }
 }

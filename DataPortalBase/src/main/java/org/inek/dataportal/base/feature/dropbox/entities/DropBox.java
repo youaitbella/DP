@@ -1,5 +1,7 @@
 package org.inek.dataportal.base.feature.dropbox.entities;
 
+import org.inek.dataportal.common.data.account.entities.Account;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
@@ -28,6 +30,17 @@ public class DropBox implements Serializable {
     private DropBoxType _dropboxType;
     @Column(name = "dbAccountId")
     private Integer _accountId;
+
+    // <editor-fold defaultstate="collapsed" desc="Property Account">
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "dbAccountId", updatable = false, insertable = false)
+    private Account _account;
+
+    public Account getAccount() {
+        return _account;
+    }
+    // </editor-fold>
+
     @Column(name = "dbIk")
     private Integer _IK;
     @Column(name = "dbIsComplete")

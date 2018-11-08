@@ -4,24 +4,24 @@
  */
 package org.inek.dataportal.base.feature.dropbox;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import javax.faces.model.SelectItem;
-import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
 import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.base.feature.dropbox.entities.DropBox;
+import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.overall.ApplicationTools;
 
+import javax.faces.model.SelectItem;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 /**
- *
  * @author muellermi
  */
 @Named
@@ -29,11 +29,16 @@ import org.inek.dataportal.common.overall.ApplicationTools;
 public class DropBoxCreator implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Inject private org.inek.dataportal.base.feature.dropbox.facade.DropBoxFacade _dropBoxFacade;
-    @Inject private SessionController _sessionController;
-    @Inject private ApplicationTools _appTools;
-    @Inject private DropBoxTools _dropboxTools;
-    @Inject private AccessManager _accessManager;
+    @Inject
+    private org.inek.dataportal.base.feature.dropbox.facade.DropBoxFacade _dropBoxFacade;
+    @Inject
+    private SessionController _sessionController;
+    @Inject
+    private ApplicationTools _appTools;
+    @Inject
+    private DropBoxTools _dropboxTools;
+    @Inject
+    private AccessManager _accessManager;
 
     private int _dropboxTypeId = 1;
     private int _ik;
@@ -66,11 +71,16 @@ public class DropBoxCreator implements Serializable {
 
     // </editor-fold>
     public List<SelectItem> getIkItems() {
-        Set<Integer> _iks = _accessManager.ObtainIksForCreation(Feature.DROPBOX);
+        Set<Integer> iks = _accessManager.ObtainIksForCreation(Feature.DROPBOX);
+        Set<Integer> ownIks = _sessionController.getAccount().getFullIkSet();
+        ownIks.removeAll(_accessManager.retrieveAllManagedIks(Feature.DROPBOX));
+        iks.addAll(ownIks);
+
         List<SelectItem> ikItems = new ArrayList<>();
-        for (int ik : _iks) {
+        for (int ik : iks) {
             ikItems.add(new SelectItem(ik, ik + " " + _appTools.retrieveHospitalInfo(ik)));
         }
+
         if (ikItems.size() > 1) {
             ikItems.add(0, new SelectItem(null, Utils.getMessage("lblChooseEntry")));
         }

@@ -5,6 +5,7 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       >
     <ui:composition>
+        <ui:remove>
         <h2>
             <h:commandLink action="#{sessionController.navigate(sessionTools.pages.DropBoxSummary)}" value="#{msg.lblDropBoxSystem}" immediate="true"/>
         </h2>
@@ -15,8 +16,9 @@
                 <h:link styleClass="bigButton" outcome="#{sessionTools.pages.DropBoxCreate}" value="#{msg.btnNewDropBox}"/>
             </p>
             <br/>
-            <h:outputLabel styleClass="label" rendered ="#{dropBoxList.sealedDropBoxes.size() > 0}" value="sowie #{dropBoxList.sealedDropBoxes.size()} abgeschlossene DropBoxen"/>
+            <h:outputLabel styleClass="label" rendered ="#{dropBoxSummary.sealedDropBoxes.size() > 0}" value="sowie #{dropBoxSummary.sealedDropBoxes.size()} abgeschlossene DropBoxen"/>
         </div>
+        </ui:remove>
     </ui:composition>
 </html>
 

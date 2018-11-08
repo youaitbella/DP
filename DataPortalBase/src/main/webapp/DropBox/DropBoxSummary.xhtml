@@ -3,52 +3,68 @@
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 template="/Templates/PortalMenuTemplate.xhtml"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:h="http://xmlns.jcp.org/jsf/html">
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:pf="http://primefaces.org/ui">
 
     <ui:define name="content">
         <h1>#{msg.lblDropBoxSystem}</h1>
         <h:form>
             <div class="paddingElement">
-                <ui:include src="#{sessionTools.pages.ListDropBox}"/>
+                <ui:include src="#{sessionTools.pages.ListDropBox}" />
                 <p>
-                    <h:link styleClass="bigButton" outcome="#{sessionTools.pages.DropBoxCreate}" value="#{msg.btnNewDropBox}"/>
+                    <h:link styleClass="bigButton" outcome="#{sessionTools.pages.DropBoxCreate}"
+                            value="#{msg.btnNewDropBox}" />
                 </p>
 
-                <h:panelGroup rendered="#{dropBoxList.sealedDropBoxes.size() > 0}">
-                    <br/>
-                    <h:outputLabel styleClass="label" value="Bereits abgeschlossene DropBoxen"/>
+                <pf:dataTable value="#{dropBoxSummary.dropBoxesSend}"
+                              var="box"
+                              emptyMessage="Keine Daten vorhanden"
+                              rows="50"
+                              paginator="true"
+                              rowsPerPageTemplate="25,50,100,300"
+                              tableStyleClass="inekTableBase"
+                              tableStyle="table-layout: auto; width: 99%;"
+                              styleClass="inekTablePaginatorBase">
 
-                    <h:dataTable  headerClass="list-header" id="tblCompletedDropBoxes" value="#{dropBoxList.sealedDropBoxes}" var="p" width="100%" rowClasses="row1, row2" columnClasses="colIK, colValue">
-                        <h:column id="colIK">
-                            <f:facet name="header">
-                                <h:outputText value="#{msg.lblIK}"/>
-                            </f:facet>
-                            <h:commandLink action="#{dropBoxList.editDropBox(p.dropBoxId)}" value="#{p.IK}" immediate="true"/>
-                        </h:column>
+                    <f:facet name="header">
+                        Abgeschlossene DropBoxen
+                    </f:facet>
 
-                        <h:column id="colDescription">
-                            <f:facet name="header">
-                                <h:outputText value="#{msg.lblDescription}"/>
-                            </f:facet>
-                            <h:commandLink action="#{dropBoxList.editDropBox(p.dropBoxId)}" value="#{p.description}" immediate="true"/>
-                        </h:column>
-
-                        <h:column id="colType">
-                            <f:facet name="header">
-                                <h:outputText value="#{msg.lblType}"/>
-                            </f:facet>
-                            <h:commandLink action="#{dropBoxList.editDropBox(p.dropBoxId)}" value="#{p.dropboxType.name}" immediate="true"/>
-                        </h:column>
-
-                        <h:column id="colValidUntil">
-                            <f:facet name="header">
-                                <h:outputText value="#{msg.lblValidUntil}"/>
-                            </f:facet>
-                            <h:commandLink action="#{dropBoxList.editDropBox(p.dropBoxId)}" value="#{dropBoxList.validUntil(p)}" immediate="true"/>
-                        </h:column>
-
-                    </h:dataTable>
-                </h:panelGroup>
+                    <pf:column headerText="IK" sortable="true" sortBy="#{box.ik}" filterable="true"
+                               filterBy="#{box.ik}">
+                        <h:link outcome="#{dropBoxSummary.openDropBox()}"
+                                value="#{box.ik}">
+                            <f:param name="dbId" value="#{box.id}" />
+                        </h:link>
+                    </pf:column>
+                    <pf:column headerText="Beschreibung" sortable="true" sortBy="#{box.description}" filterable="true"
+                               filterBy="#{box.description}" filterMatchMode="contains">
+                        <h:link outcome="#{dropBoxSummary.openDropBox()}"
+                                value="#{box.description}">
+                            <f:param name="dbId" value="#{box.id}" />
+                        </h:link>
+                    </pf:column>
+                    <pf:column headerText="Typ" sortable="true" sortBy="#{box.type}" filterable="true"
+                               filterBy="#{box.type}" filterMatchMode="contains">
+                        <h:link outcome="#{dropBoxSummary.openDropBox()}"
+                                value="#{box.type}">
+                            <f:param name="dbId" value="#{box.id}" />
+                        </h:link>
+                    </pf:column>
+                    <pf:column headerText="Gesendet am">
+                        <h:link outcome="#{dropBoxSummary.openDropBox()}"
+                                value="#{dropBoxSummary.formatDate(box.sendAt)}">
+                            <f:param name="dbId" value="#{box.id}" />
+                        </h:link>
+                    </pf:column>
+                    <pf:column headerText="Erstellt von" sortable="true" sortBy="#{box.createdBy}" filterable="true"
+                               filterBy="#{box.createdBy}">
+                        <h:link outcome="#{dropBoxSummary.openDropBox()}"
+                                value="#{box.createdBy}">
+                            <f:param name="dbId" value="#{box.id}" />
+                        </h:link>
+                    </pf:column>
+                </pf:dataTable>
             </div>
         </h:form>
     </ui:define>

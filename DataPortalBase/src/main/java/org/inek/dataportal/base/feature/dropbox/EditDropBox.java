@@ -5,29 +5,33 @@
  */
 package org.inek.dataportal.base.feature.dropbox;
 
+import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.api.helper.Const;
+import org.inek.dataportal.base.feature.dropbox.entities.DropBox;
+import org.inek.dataportal.base.feature.dropbox.entities.DropBoxItem;
+import org.inek.dataportal.base.feature.dropbox.facade.DropBoxFacade;
+import org.inek.dataportal.common.controller.DialogController;
+import org.inek.dataportal.common.controller.SessionController;
+import org.inek.dataportal.common.enums.Pages;
+import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.common.mail.Mailer;
+import org.inek.dataportal.common.overall.AccessManager;
+import org.inek.dataportal.common.scope.FeatureScoped;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.persistence.Access;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
-import javax.inject.Inject;
-import javax.inject.Named;
-import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.base.feature.dropbox.entities.DropBox;
-import org.inek.dataportal.base.feature.dropbox.entities.DropBoxItem;
-import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.api.helper.Const;
-import org.inek.dataportal.common.enums.Pages;
-import org.inek.dataportal.base.feature.dropbox.facade.DropBoxFacade;
-import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.common.scope.FeatureScoped;
-import org.inek.dataportal.common.mail.Mailer;
 
 /**
- *
  * @author muellermi
  */
 @Named
@@ -36,9 +40,15 @@ public class EditDropBox implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger("EditDropBox");
-    @Inject private SessionController _sessionController;
-    @Inject private DropBoxFacade _dropBoxFacade;
+    @Inject
+    private SessionController _sessionController;
+    @Inject
+    private DropBoxFacade _dropBoxFacade;
     private DropBox _dropBox;
+    @Inject
+    private Mailer _mailer;
+    @Inject
+    private AccessManager _accessManager;
 
     public EditDropBox() {
         //System.out.println("ctor EditDropBox");
@@ -52,21 +62,16 @@ public class EditDropBox implements Serializable {
 
     }
 
-    @PreDestroy
-    private void destroy() {
-        //LOGGER.log(Level.WARNING, "Destroy EditDropBox");
-    }
-
     private DropBox loadDropBox(Object dbId) {
         DropBoxController dropBoxController = (DropBoxController) _sessionController.getFeatureController(Feature.DROPBOX);
         try {
             int id = Integer.parseInt("" + dbId);
-            DropBox dropBox = _dropBoxFacade.find(id);
-            if (_sessionController.isMyAccount(dropBox.getAccountId())) {
+            DropBox dropBox = _dropBoxFacade.findById(id);
+            if (_accessManager.isAccessAllowed(Feature.DROPBOX, WorkflowStatus.New, dropBox.getAccountId(), dropBox.getIK())) {
                 dropBoxController.setCurrentDropBox(dropBox);
                 return dropBox;
             }
-            LOGGER.log(Level.WARNING, "No DropBox found for id {0}", dbId);
+            DialogController.showAccessDeniedDialog();
         } catch (NumberFormatException ex) {
             LOGGER.log(Level.WARNING, ex.getMessage());
         }
@@ -86,7 +91,7 @@ public class EditDropBox implements Serializable {
     public String deleteFile(String fileName) {
         DropBoxController dropBoxController = (DropBoxController) _sessionController.getFeatureController(Feature.DROPBOX);
         dropBoxController.deleteFileOfDropBox(_dropBox, fileName);
-        return ""; //Pages.DropBoxUpload.URL();
+        return "";
     }
 
     public String formatSize(long size) {
@@ -110,9 +115,10 @@ public class EditDropBox implements Serializable {
         DropBoxController dropBoxController = (DropBoxController) _sessionController.getFeatureController(Feature.DROPBOX);
         try {
             File target = dropBoxController.sealDropBox(_dropBoxFacade, _dropBox);
-            if (!_dropBox.getDropboxType().isNeedsIK()){
+            if (!_dropBox.getDropboxType().isNeedsIK()) {
                 notifyInek(target);
             }
+            DialogController.showSendDialog();
             return Pages.DropBoxUpload.URL();
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, null, e);
@@ -124,9 +130,8 @@ public class EditDropBox implements Serializable {
         return "";
     }
 
-    @Inject private Mailer _mailer;
     private void notifyInek(File target) {
-        _mailer.sendMail("edv@inek-drg.de", "DropBox", "Neue Dokumente per DropBox geliefert: " + target.getAbsolutePath() 
+        _mailer.sendMail("edv@inek-drg.de", "DropBox", "Neue Dokumente per DropBox geliefert: " + target.getAbsolutePath()
                 + "\r\nAbsender: [" + _sessionController.getAccount().getId() + "] " + _sessionController.getAccount().getCompany()
                 + "\r\nBeschreibung: " + _dropBox.getDescription());
     }
