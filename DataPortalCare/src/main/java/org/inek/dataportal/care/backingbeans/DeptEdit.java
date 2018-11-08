@@ -32,8 +32,10 @@ import org.primefaces.model.StreamedContent;
 
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -45,8 +47,8 @@ import java.util.stream.Collectors;
  * @author lautenti
  */
 @Named
-@FeatureScoped
-public class DeptEdit {
+@ViewScoped
+public class DeptEdit implements Serializable {
 
     @Inject
     private SessionController _sessionController;
@@ -211,6 +213,9 @@ public class DeptEdit {
     }
 
     public List<Dept> getDeptsByArea(int area) {
+        if (_deptBaseInformation == null) {
+            return new ArrayList<Dept>();
+        }
         return _deptBaseInformation.getDepts().stream()
                 .filter(c -> c.getDeptArea() == area)
                 .collect(Collectors.toList());
@@ -253,7 +258,7 @@ public class DeptEdit {
     }
 
     public Boolean changeAllowed() {
-        if(!_configFacade.readConfigBool(ConfigKey.IsCareChangeEnabled)) {
+        if (!_configFacade.readConfigBool(ConfigKey.IsCareChangeEnabled)) {
             return false;
         }
         if (_deptBaseInformation == null || _deptBaseInformation.getStatusId() < 10) {
