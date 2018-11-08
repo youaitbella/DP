@@ -24,6 +24,7 @@
                 <h:form>
                     <h1>InEK Intern</h1>
                     <pf:dataTable id="inektable"
+                                  widgetVar="inekTableDepst"
                                   value="#{deptSummary.listInek}"
                                   var="baseInformation"
                                   emptyMessage="Keine Daten vorhanden"
@@ -36,24 +37,25 @@
                         <pf:column style="width: 20px;">
                             <inekIcon:StatusIcon StatusId="#{baseInformation.statusId}"/>
                         </pf:column>
-                        <pf:column headerText="IK" filterBy="#{baseInformation.ik}" sortBy="#{baseInformation.ik}">
+                        <pf:column headerText="IK" filterBy="#{baseInformation.ik}" sortable="true" sortBy="#{baseInformation.ik}">
                             <h:link outcome="#{deptSummary.careDeptStationOpen()}"
                                     value="#{baseInformation.ik}" >
                                 <f:param name="id" value="#{baseInformation.id}"/>
                             </h:link>
                         </pf:column>
-                        <pf:column headerText="Krankenhaus" filterBy="#{baseInformation.hospitalName}" sortBy="#{baseInformation.hospitalName}">
+                        <pf:column headerText="Krankenhaus" filterBy="#{baseInformation.hospitalName}" sortable="true" sortBy="#{baseInformation.hospitalName}">
                             <h:link outcome="#{deptSummary.careDeptStationOpen()}"
                                     value="#{baseInformation.hospitalName}" >
                                 <f:param name="id" value="#{baseInformation.id}"/>
                             </h:link>
                         </pf:column>
-                        <pf:column headerText="Letze Änderung" >
+                        <pf:column headerText="Letze Änderung" sortable="true" sortBy="#{baseInformation.lastChangeDate}">
                             <h:outputText value="#{baseInformation.lastChangeDate}" >
                                 <f:convertDateTime pattern="dd.MM.yyyy" />
                             </h:outputText>
                         </pf:column>
                     </pf:dataTable>
+                    <pf:remoteCommand autoRun="true" oncomplete="PF('inekTableDepst').filter();" />
                 </h:form>
             </div>
         </div>
