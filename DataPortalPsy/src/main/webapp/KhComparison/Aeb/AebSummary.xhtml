@@ -12,7 +12,7 @@
     <h:outputLink style="padding-left: 10px;"
                   target="blank"
                   rendered="#{!edit.isReadOnly()}"
-                  value="https://daten.inek.org/manual/zert/Zert-Handbuch.pdf">
+                  value="https://daten.inek.org/vorlagen/psych/Vorlage_AEB_Datenportal.xlsx">
         Vorlage Herrunterladen
     </h:outputLink>
 
@@ -20,6 +20,8 @@
                    rendered="#{!edit.isReadOnly()}"
                    fileUploadListener="#{edit.handleFileUpload}"
                    mode="advanced"
+                   onstart="PF('dialogProcess').show()"
+                   oncomplete="PF('dialogProcess').hide()"
                    fileLimit="1"
                    fileLimitMessage="Es darf nur eine Datei hochgeladen werden"
                    invalidFileMessage="Es dürfen nur Excel Dateien hochgeladen werden"

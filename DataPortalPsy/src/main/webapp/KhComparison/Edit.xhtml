@@ -16,6 +16,27 @@
             <pf:messages>
                 <pf:autoUpdate />
             </pf:messages>
+
+            <pf:dialog widgetVar="dialogProcess"
+                       header="Daten werden verarbeitet"
+                       modal="true"
+                       closable="false"
+                       resizable="false"
+                       height="80px">
+                <div style="text-align: center; width: 100%;">
+                    <div class="inekLoader" style="text-align: center;">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                </div>
+            </pf:dialog>
+
             <div class="headerInformation">
                 <ui:include src="Generell.xhtml" />
             </div>
@@ -42,12 +63,16 @@
                                   rendered="#{edit.isReadOnly()}"/>
                 <pf:commandButton styleClass="btnPsy"
                                   value="Speichern"
+                                  onstart="PF('dialogProcess').show()"
+                                  oncomplete="PF('dialogProcess').hide()"
                                   action="#{edit.save()}"
                                   update="@(.ui-message) @form"
                                   immediate="true"
                                   rendered="#{!edit.isReadOnly()}"/>
                 <pf:commandButton value="Ans InEK senden"
                                   update="@(.ui-message) @form"
+                                  onstart="PF('dialogProcess').show()"
+                                  oncomplete="PF('dialogProcess').hide()"
                                   action="#{edit.send()}"
                                   styleClass="btnSend arrow-right"
                                   rendered="#{!edit.isReadOnly()}"/>

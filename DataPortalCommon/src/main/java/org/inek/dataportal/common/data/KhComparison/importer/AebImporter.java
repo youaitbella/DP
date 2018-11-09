@@ -22,7 +22,7 @@ public class AebImporter {
 
     public static final Logger LOGGER = Logger.getLogger(AebImporter.class.getName());
 
-    public static final int MAX_ROWS = 100;
+    public static final int MAX_ROWS = 10000;
     public static final String PAGE_E1_1 = "E1.1 V";
     public static final String PAGE_E1_2 = "E1.2 V";
     public static final String PAGE_E2 = "E2 V";
@@ -44,24 +44,33 @@ public class AebImporter {
 
     public Boolean startImport(AEBBaseInformation info, InputStream file) {
         info.clearAebPages();
+        LOGGER.log(Level.INFO, "Start AEB import: " + info.getIk() + " " + info.getYear());
         try (Workbook workbook = WorkbookFactory.create(file)) {
             for (Sheet s : workbook) {
                 if (s.getSheetName().contains(PAGE_E1_1)) {
+                    LOGGER.log(Level.INFO, "Start Sheet " + PAGE_E1_1);
                     importPageE1_1(s, info);
                 } else if (s.getSheetName().contains(PAGE_E1_2)) {
+                    LOGGER.log(Level.INFO, "Start Sheet " + PAGE_E1_2);
                     importPageE1_2(s, info);
                 } else if (s.getSheetName().contains(PAGE_E2)) {
+                    LOGGER.log(Level.INFO, "Start Sheet " + PAGE_E2);
                     importPageE2(s, info);
                 } else if (s.getSheetName().contains(PAGE_E3_1)) {
+                    LOGGER.log(Level.INFO, "Start Sheet " + PAGE_E3_1);
                     importPageE3_1(s, info);
                 } else if (s.getSheetName().contains(PAGE_E3_2)) {
+                    LOGGER.log(Level.INFO, "Start Sheet " + PAGE_E3_2);
                     importPageE3_2(s, info);
                 } else if (s.getSheetName().contains(PAGE_E3_3)) {
+                    LOGGER.log(Level.INFO, "Start Sheet " + PAGE_E3_3);
                     importPageE3_3(s, info);
                 } else if (s.getSheetName().contains(PAGE_B1)) {
+                    LOGGER.log(Level.INFO, "Start Sheet " + PAGE_B1);
                     importPageB1(s, info);
                 }
             }
+            LOGGER.log(Level.INFO, "End AEB import: " + info.getIk() + " " + info.getYear());
             return true;
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "Fehler beim AEB Import", ex);
@@ -71,9 +80,9 @@ public class AebImporter {
 
     private void importPageE1_1(Sheet sheet, AEBBaseInformation info) {
         int rowStart = 2;
-        int rowEnd = getEndRow(sheet, rowStart, MAX_ROWS);
+        int rowEnd = getEndRow(sheet);
 
-        for (int i = rowStart; i < rowEnd; i++) {
+        for (int i = rowStart; i <= rowEnd; i++) {
             AEBPageE1_1 page = new AEBPageE1_1();
             page.setPepp(getStringFromCell(sheet.getRow(i).getCell(0)));
             page.setCompensationClass(getIntFromCell(sheet.getRow(i).getCell(1)));
@@ -87,9 +96,9 @@ public class AebImporter {
 
     private void importPageE1_2(Sheet sheet, AEBBaseInformation info) {
         int rowStart = 2;
-        int rowEnd = getEndRow(sheet, rowStart, MAX_ROWS);
+        int rowEnd = getEndRow(sheet);
 
-        for (int i = rowStart; i < rowEnd; i++) {
+        for (int i = rowStart; i <= rowEnd; i++) {
             AEBPageE1_2 page = new AEBPageE1_2();
             page.setEt(getStringFromCell(sheet.getRow(i).getCell(0)));
             page.setCalculationDays(getIntFromCell(sheet.getRow(i).getCell(1)));
@@ -101,9 +110,9 @@ public class AebImporter {
 
     private void importPageE2(Sheet sheet, AEBBaseInformation info) {
         int rowStart = 2;
-        int rowEnd = getEndRow(sheet, rowStart, MAX_ROWS);
+        int rowEnd = getEndRow(sheet);
 
-        for (int i = rowStart; i < rowEnd; i++) {
+        for (int i = rowStart; i <= rowEnd; i++) {
             AEBPageE2 page = new AEBPageE2();
             page.setZe(getStringFromCell(sheet.getRow(i).getCell(0)));
             page.setZeCount(getIntFromCell(sheet.getRow(i).getCell(1)));
@@ -115,9 +124,9 @@ public class AebImporter {
 
     private void importPageE3_1(Sheet sheet, AEBBaseInformation info) {
         int rowStart = 2;
-        int rowEnd = getEndRow(sheet, rowStart, MAX_ROWS);
+        int rowEnd = getEndRow(sheet);
 
-        for (int i = rowStart; i < rowEnd; i++) {
+        for (int i = rowStart; i <= rowEnd; i++) {
             AEBPageE3_1 page = new AEBPageE3_1();
             page.setRenumeration(getStringFromCell(sheet.getRow(i).getCell(0)));
             page.setRenumerationKey(getStringFromCell(sheet.getRow(i).getCell(1)));
@@ -136,9 +145,9 @@ public class AebImporter {
 
     private void importPageE3_2(Sheet sheet, AEBBaseInformation info) {
         int rowStart = 2;
-        int rowEnd = getEndRow(sheet, rowStart, MAX_ROWS);
+        int rowEnd = getEndRow(sheet);
 
-        for (int i = rowStart; i < rowEnd; i++) {
+        for (int i = rowStart; i <= rowEnd; i++) {
             AEBPageE3_2 page = new AEBPageE3_2();
             page.setZe(getStringFromCell(sheet.getRow(i).getCell(0)));
             page.setRenumerationKey(getStringFromCell(sheet.getRow(i).getCell(1)));
@@ -152,9 +161,9 @@ public class AebImporter {
 
     private void importPageE3_3(Sheet sheet, AEBBaseInformation info) {
         int rowStart = 2;
-        int rowEnd = getEndRow(sheet, rowStart, MAX_ROWS);
+        int rowEnd = getEndRow(sheet);
 
-        for (int i = rowStart; i < rowEnd; i++) {
+        for (int i = rowStart; i <= rowEnd; i++) {
             AEBPageE3_3 page = new AEBPageE3_3();
             page.setRenumeration(getStringFromCell(sheet.getRow(i).getCell(0)));
             page.setRenumerationKey(getStringFromCell(sheet.getRow(i).getCell(1)));
@@ -168,7 +177,7 @@ public class AebImporter {
 
     private void importPageB1(Sheet sheet, AEBBaseInformation info) {
         int rowStart = 2;
-        int rowEnd = getEndRowForB1(sheet, rowStart, MAX_ROWS);
+        int rowEnd = getEndRow(sheet);
 
         info.getAebPageB1().setTotalAgreementPeriod(getValueForForB1(sheet, rowStart, rowEnd, 1));
         info.getAebPageB1().setChangedTotal(getValueForForB1(sheet, rowStart, rowEnd, 10));
@@ -182,7 +191,7 @@ public class AebImporter {
     }
 
     private Double getValueForForB1(Sheet sheet, int rowStart, int rowEnd, int runningNumber) {
-        for (int i = rowStart ; i < rowEnd; i++) {
+        for (int i = rowStart ; i <= rowEnd; i++) {
             try {
                 if ((int)sheet.getRow(i).getCell(0).getNumericCellValue() == runningNumber) {
                     return getDoubleFromCell(sheet.getRow(i).getCell(2));
@@ -197,37 +206,9 @@ public class AebImporter {
         return 0.0;
     }
 
-    private int getEndRowForB1(Sheet sheet, int startRow, int maxRow) {
-        int rowEnd = 0;
-        for (int i = startRow; i <= maxRow; i++) {
-            if (sheet.getRow(i) == null || sheet.getRow(i).getCell(0) == null) {
-                rowEnd = i;
-                break;
-            }
-
-            int value = getIntFromCell(sheet.getRow(i).getCell(0));
-            if (value == 0 || LASTROW_VALUE.equals(value) || "".equals(value)) {
-                rowEnd = i;
-                break;
-            }
-        }
-        return rowEnd;
-    }
-
-    private int getEndRow(Sheet sheet, int startRow, int maxRow) {
-        int rowEnd = 0;
-        for (int i = startRow; i <= maxRow; i++) {
-            if (sheet.getRow(i) == null || sheet.getRow(i).getCell(0) == null) {
-                rowEnd = i;
-                break;
-            }
-            String value = getStringFromCell(sheet.getRow(i).getCell(0));
-            if (value == null || LASTROW_VALUE.equals(value) || "".equals(value)) {
-                rowEnd = i;
-                break;
-            }
-        }
-        return rowEnd;
+    private int getEndRow(Sheet sheet) {
+        LOGGER.log(Level.INFO, sheet.getSheetName() + " EndRows: " + sheet.getLastRowNum());
+        return sheet.getLastRowNum();
     }
 
     private String getStringFromCell(Cell cell) {
