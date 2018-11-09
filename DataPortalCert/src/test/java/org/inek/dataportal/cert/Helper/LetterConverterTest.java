@@ -75,12 +75,12 @@ public class LetterConverterTest {
         for (String key : CHAR_2_WORD.keySet()) {
             List<String> result = new ArrayList<String>();
             result = LetterConverter.describeLetters(key);
-            if(result.get(0).contains("(klein)")){
-                assertThat(result.get(0)).isEqualTo(key + " = " + CHAR_2_WORD.get(key)+"(klein)");
+
+            if (!key.matches("[^a-z ä-ü ]")) {
+                    assertThat(result.get(0)).isEqualTo(key + " = " + CHAR_2_WORD.get(key)+"(klein)");
             }else{
-                assertThat(result.get(0)).isEqualTo(key + " = " + CHAR_2_WORD.get(key)); 
-            }
-            
+                    assertThat(result.get(0)).isEqualTo(key + " = " + CHAR_2_WORD.get(key)); 
+            } 
         }
     }
     @Test
