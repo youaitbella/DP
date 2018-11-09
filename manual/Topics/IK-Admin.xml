@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
-<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+<topic template="Default" lasteditedby="lautenti" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
   <title translate="true">Funktionsbeauftragter</title>
   <body>
     <header>
@@ -30,23 +30,13 @@
     <para styleclass="Normal"></para>
     <para styleclass="Heading2"><text styleclass="Heading2" translate="true">Funktionen mit IK-Bezug</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die folgenden Funktionen haben einen eindeutigen IK-Bezug und sind deshalb für die Rechtevergabe über einen Funktionsbeauftragten vorgesehen:</text></para>
+    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die folgenden Funktionen können von einem Funktionsbeauftragten verwaltet werden:</text></para>
     <para styleclass="Normal"></para>
-    <para styleclass="Normal"><var styleclass="Normal">&lt;%TITLE_DRG%&gt;</var></para>
     <list id="1" type="ul" listtype="bullet" formatstring="&#183;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Symbol; font-size:11pt; color:#000000;">
       <li styleclass="Normal"><text styleclass="Normal" translate="true">Anfragen zu neuen Untersuchungs- und Behandlungsmethoden (NUB)</text></li>
       <li styleclass="Normal"><text styleclass="Normal" translate="true">Besondere Aufgaben / Zentrumszuschlag</text></li>
-      <li styleclass="Normal"><text styleclass="Normal" translate="true">Finanzierung von Mehrkosten</text></li>
+      <li styleclass="Normal"><text styleclass="Normal" translate="true">DropBox</text></li>
       <li styleclass="Normal"><text styleclass="Normal" translate="true">Gezielte Absenkung</text></li>
-    </list>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"><var styleclass="Normal">&lt;%TITLE_PSY%&gt;</var></para>
-    <list id="1" type="ul" listtype="bullet" formatstring="&#183;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Symbol; font-size:11pt; color:#000000;">
-      <li styleclass="Normal"><text styleclass="Normal" translate="true">Psych-Personalnachweis-Vereinbarung</text></li>
-    </list>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Kostenkalkulation</text></para>
-    <list id="1" type="ul" listtype="bullet" formatstring="&#183;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Normal" style="font-family:Symbol; font-size:11pt; color:#000000;">
       <li styleclass="Normal"><text styleclass="Normal" translate="true">Teilnahme Kostenkalkulation</text></li>
     </list>
     <para styleclass="Normal"></para>

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../helpproject.xsl" ?>
-<topic template="Default" lasteditedby="muellermi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
+<topic template="Default" lasteditedby="lautenti" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../helpproject.xsd">
   <title translate="true">Berechtigungen zuweisen</title>
   <body>
     <header>
@@ -36,12 +36,6 @@
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Der Bereich </text><text styleclass="Normal" style="font-weight:bold;" translate="true">Funktionszuweisung</text><text styleclass="Normal" translate="true"> listet alle Benutzer auf und erlaubt es Ihnen dem jeweiligen Benutzer eine Funktion hinzuzufügen. Wenn man eine Funktion hinzufügt,wird diese Automatisch mit dem </text><text styleclass="Normal" style="font-weight:bold;" translate="true">Recht </text><text styleclass="Normal" translate="true">Zugriff verboten versehen.</text></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Damit man für die Funktion die jeweiligen Rechte bekommt muss man diese in der Rechteverwaltung ändern.</text></para>
-    <para styleclass="Normal"></para>
-    <para styleclass="Normal"><text styleclass="Normal" translate="true">Die folgenden Funktionen sind bereits für die künftige Verwaltung via Funktionsbeauftragten vorgesehen, können aber derzeit nur von dem Anwender genutzt werden, welcher die Daten angelegt hat</text></para>
-    <list id="1" type="ul" listtype="bullet" formatstring="&#183;" format-charset="SYMBOL_CHARSET" levelreset="true" legalstyle="false" startfrom="1" styleclass="Bullet Text" style="font-family:Symbol; font-size:11pt; color:#000000;">
-      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Finanzierung von Mehrkosten</text></li>
-      <li styleclass="Bullet Text"><text styleclass="Bullet Text" translate="true">Gezielte Absenkung</text></li>
-    </list>
     <para styleclass="Normal"></para>
     <para styleclass="Normal"><text styleclass="Normal" translate="true">Um eine Funktion in Ihrem Haus nutzen zu können benötigt mindestens ein Anwender Zugriff auf diese. Haben Sie für eine Funktion allen Anwendern den Zugriff verboten, kann die betreffende Funktion nicht genutzt werden. Das </text><var styleclass="Normal">&lt;%TITLE%&gt;</var><text styleclass="Normal" translate="true"> zeigt in einem solchen Fall beim Speichern eine entsprechende Warnung, so dass Sie eine versehentliche Fehlkonfiguration korrigieren können. Da nicht in jedem Krankenhaus alle Funktionen des </text><var styleclass="Normal">&lt;%TITLE%&gt;s</var><text styleclass="Normal" translate="true"> genutzt werden, erfolgt eine derartige Prüfung nicht, wenn bei keinem Anwender die betreffende Funktion eingetragen ist.</text></para>
     <para styleclass="Normal"></para>

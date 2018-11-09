@@ -17,18 +17,6 @@
               <task-build-event id="Copy to Server" event-kind="after" command="D:\projects\DataPortal\manual\deployDatenportalHandbuch2Apache.bat"/>
             </task-build-events>
           </export-task>
-          <export-task name="Handbuch Grouperhersteller" format="PDF">
-            <task-config-group name="settings">
-              <task-config-value name="outputfile">.\output\InEK-DatenportalZerti.pdf</task-config-value>
-              <task-config-value name="template">.\template\WebRequest.mnl</task-config-value>
-              <task-config-value name="table_of_contents">Inhaltsverzeichnis</task-config-value>
-              <task-config-value name="make4include">PDF,USER1</task-config-value>
-              <task-config-value name="make4status">*</task-config-value>
-            </task-config-group>
-            <task-build-events>
-              <task-build-event id="Copy to Server" event-kind="after" command="D:\projects\DataPortal\manual\deployDatenportalZertiHandbuch2Apache.bat"/>
-            </task-build-events>
-          </export-task>
           <export-task name="Handbuch intern" format="PDF">
             <task-config-group name="settings">
               <task-config-value name="outputfile">.\output\InEK-DatenportalIntern.pdf</task-config-value>
