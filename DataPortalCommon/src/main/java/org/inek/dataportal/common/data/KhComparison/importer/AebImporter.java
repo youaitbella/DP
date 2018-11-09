@@ -30,7 +30,7 @@ public class AebImporter {
     public static final String PAGE_E3_2 = "E3.2 V";
     public static final String PAGE_E3_3 = "E3.3 V";
     public static final String PAGE_B1 = "B1";
-    public static final String PAGE_B1_ANLAGE = "Anlage";
+    public static final String LASTROW_VALUE = "";
 
     private int _counter = 0;
 
@@ -58,7 +58,7 @@ public class AebImporter {
                     importPageE3_2(s, info);
                 } else if (s.getSheetName().contains(PAGE_E3_3)) {
                     importPageE3_3(s, info);
-                } else if (s.getSheetName().contains(PAGE_B1) && !s.getSheetName().contains(PAGE_B1_ANLAGE)) {
+                } else if (s.getSheetName().contains(PAGE_B1)) {
                     importPageB1(s, info);
                 }
             }
@@ -70,7 +70,7 @@ public class AebImporter {
     }
 
     private void importPageE1_1(Sheet sheet, AEBBaseInformation info) {
-        int rowStart = 10;
+        int rowStart = 2;
         int rowEnd = getEndRow(sheet, rowStart, MAX_ROWS);
 
         for (int i = rowStart; i < rowEnd; i++) {
@@ -86,7 +86,7 @@ public class AebImporter {
     }
 
     private void importPageE1_2(Sheet sheet, AEBBaseInformation info) {
-        int rowStart = 10;
+        int rowStart = 2;
         int rowEnd = getEndRow(sheet, rowStart, MAX_ROWS);
 
         for (int i = rowStart; i < rowEnd; i++) {
@@ -100,7 +100,7 @@ public class AebImporter {
     }
 
     private void importPageE2(Sheet sheet, AEBBaseInformation info) {
-        int rowStart = 8;
+        int rowStart = 2;
         int rowEnd = getEndRow(sheet, rowStart, MAX_ROWS);
 
         for (int i = rowStart; i < rowEnd; i++) {
@@ -114,7 +114,7 @@ public class AebImporter {
     }
 
     private void importPageE3_1(Sheet sheet, AEBBaseInformation info) {
-        int rowStart = 10;
+        int rowStart = 2;
         int rowEnd = getEndRow(sheet, rowStart, MAX_ROWS);
 
         for (int i = rowStart; i < rowEnd; i++) {
@@ -135,7 +135,7 @@ public class AebImporter {
     }
 
     private void importPageE3_2(Sheet sheet, AEBBaseInformation info) {
-        int rowStart = 9;
+        int rowStart = 2;
         int rowEnd = getEndRow(sheet, rowStart, MAX_ROWS);
 
         for (int i = rowStart; i < rowEnd; i++) {
@@ -151,7 +151,7 @@ public class AebImporter {
     }
 
     private void importPageE3_3(Sheet sheet, AEBBaseInformation info) {
-        int rowStart = 9;
+        int rowStart = 2;
         int rowEnd = getEndRow(sheet, rowStart, MAX_ROWS);
 
         for (int i = rowStart; i < rowEnd; i++) {
@@ -167,21 +167,62 @@ public class AebImporter {
     }
 
     private void importPageB1(Sheet sheet, AEBBaseInformation info) {
-        info.getAebPageB1().setTotalAgreementPeriod(getDoubleFromCell(sheet.getRow(12).getCell(2)));
-        info.getAebPageB1().setChangedTotal(getDoubleFromCell(sheet.getRow(25).getCell(2)));
-        info.getAebPageB1().setChangedProceedsBudget(getDoubleFromCell(sheet.getRow(28).getCell(2)));
-        info.getAebPageB1().setSumValuationRadioRenumeration(getDoubleFromCell(sheet.getRow(34).getCell(2)));
-        info.getAebPageB1().setSumEffectivValuationRadio(getDoubleFromCell(sheet.getRow(35).getCell(2)));
-        info.getAebPageB1().setBasisRenumerationValueCompensation(getDoubleFromCell(sheet.getRow(36).getCell(2)));
-        info.getAebPageB1().setBasisRenumerationValueNoCompensation(getDoubleFromCell(sheet.getRow(37).getCell(2)));
+        int rowStart = 2;
+        int rowEnd = getEndRowForB1(sheet, rowStart, MAX_ROWS);
+
+        info.getAebPageB1().setTotalAgreementPeriod(getValueForForB1(sheet, rowStart, rowEnd, 1));
+        info.getAebPageB1().setChangedTotal(getValueForForB1(sheet, rowStart, rowEnd, 10));
+        info.getAebPageB1().setChangedProceedsBudget(getValueForForB1(sheet, rowStart, rowEnd, 13));
+        info.getAebPageB1().setSumValuationRadioRenumeration(getValueForForB1(sheet, rowStart, rowEnd, 16));
+        info.getAebPageB1().setSumEffectivValuationRadio(getValueForForB1(sheet, rowStart, rowEnd, 17));
+        info.getAebPageB1().setBasisRenumerationValueCompensation(getValueForForB1(sheet, rowStart, rowEnd, 18));
+        info.getAebPageB1().setBasisRenumerationValueNoCompensation(getValueForForB1(sheet, rowStart, rowEnd, 19));
+
         _counter++;
+    }
+
+    private Double getValueForForB1(Sheet sheet, int rowStart, int rowEnd, int runningNumber) {
+        for (int i = rowStart ; i < rowEnd; i++) {
+            try {
+                if ((int)sheet.getRow(i).getCell(0).getNumericCellValue() == runningNumber) {
+                    return getDoubleFromCell(sheet.getRow(i).getCell(2));
+                }
+            }
+            catch (Exception ex) {
+                LOGGER.log(Level.WARNING, "Sheet B1 row: " + i, ex);
+                return 0.0;
+            }
+        }
+        LOGGER.log(Level.WARNING, "Sheet B1 runningNumber: " + runningNumber + " not found");
+        return 0.0;
+    }
+
+    private int getEndRowForB1(Sheet sheet, int startRow, int maxRow) {
+        int rowEnd = 0;
+        for (int i = startRow; i <= maxRow; i++) {
+            if (sheet.getRow(i) == null || sheet.getRow(i).getCell(0) == null) {
+                rowEnd = i;
+                break;
+            }
+
+            int value = getIntFromCell(sheet.getRow(i).getCell(0));
+            if (value == 0 || LASTROW_VALUE.equals(value) || "".equals(value)) {
+                rowEnd = i;
+                break;
+            }
+        }
+        return rowEnd;
     }
 
     private int getEndRow(Sheet sheet, int startRow, int maxRow) {
         int rowEnd = 0;
         for (int i = startRow; i <= maxRow; i++) {
+            if (sheet.getRow(i) == null || sheet.getRow(i).getCell(0) == null) {
+                rowEnd = i;
+                break;
+            }
             String value = getStringFromCell(sheet.getRow(i).getCell(0));
-            if ("Summe".equals(value) || "".equals(value)) {
+            if (value == null || LASTROW_VALUE.equals(value) || "".equals(value)) {
                 rowEnd = i;
                 break;
             }
@@ -190,7 +231,17 @@ public class AebImporter {
     }
 
     private String getStringFromCell(Cell cell) {
-        return cell.getStringCellValue();
+        try {
+            String value = cell.getStringCellValue();
+            if (value == null) {
+                return "";
+            }
+            return value;
+        }
+        catch (Exception ex) {
+            return "";
+        }
+
     }
 
     private int getIntFromCell(Cell cell) {

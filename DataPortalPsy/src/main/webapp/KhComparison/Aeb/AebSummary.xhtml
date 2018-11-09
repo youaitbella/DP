@@ -1,15 +1,21 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:jsf="http://xmlns.jcp.org/jsf"
-                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
                 xmlns:pf="http://primefaces.org/ui">
 
     <h3 jsf:rendered="#{!edit.isReadOnly()}">
         AEB aus Excel importieren
     </h3>
+
+    <h:outputLink style="padding-left: 10px;"
+                  target="blank"
+                  rendered="#{!edit.isReadOnly()}"
+                  value="https://daten.inek.org/manual/zert/Zert-Handbuch.pdf">
+        Vorlage Herrunterladen
+    </h:outputLink>
+
     <pf:fileUpload styleClass="inekUploader"
                    rendered="#{!edit.isReadOnly()}"
                    fileUploadListener="#{edit.handleFileUpload}"
@@ -21,11 +27,11 @@
                    cancelLabel="Abbrechen"
                    uploadLabel="Datei Hochladen"
                    label="Exceldatei auswählen"
-                   update="@form"/>
+                   update="@form" />
 
     <pf:inputTextarea value="#{edit.errorMessage}"
                       rendered="#{edit.errorMessage.length() gt 0}"
-                      style="width: 100%"/>
+                      style="width: 100%" />
 
     <br />
     <br />
