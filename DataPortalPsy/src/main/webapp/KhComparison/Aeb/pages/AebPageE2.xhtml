@@ -16,6 +16,9 @@
     <pf:dataTable id="listpagee2"
                   var="page"
                   value="#{edit.aebBaseInformation.aebPageE2}"
+                  rows="50"
+                  paginator="true"
+                  rowsPerPageTemplate="25,50,100,300"
                   widgetVar="pagesE2"
                   emptyMessage="Keine Einträge vorhanden"
                   tableStyleClass="inekTablePsy">
@@ -30,7 +33,7 @@
             <pf:inputText value="#{page.ze}"
                           maxlength="8"
                           readonly="#{edit.isReadOnly()}">
-                <pf:ajax event="change" oncomplete="#{edit.zeChanged(page)}" update="listpagee2" immediate="true" />
+                <pf:ajax event="change" listener="#{edit.zeChanged(page)}" update="listpagee2" immediate="true" />
             </pf:inputText>
         </pf:column>
         <pf:column headerText="Anzahl der ZE" style="text-align: right">
@@ -39,7 +42,7 @@
                             readonly="#{edit.isReadOnly()}"
                             decimalPlaces="0"
                             inputStyle="width: 100%; text-align: right">
-                <pf:ajax event="change" oncomplete="#{edit.zeChanged(page)}" update="listpagee2" immediate="true" />
+                <pf:ajax event="change" listener="#{edit.zeChanged(page)}" update="listpagee2" immediate="true" />
             </pf:inputNumber>
             <pf:message for="calcdaysIde2" />
         </pf:column>

@@ -14,6 +14,9 @@
     <pf:dataTable id="listpagee11"
                   var="page"
                   value="#{edit.aebBaseInformation.aebPageE1_1}"
+                  rows="50"
+                  paginator="true"
+                  rowsPerPageTemplate="25,50,100,300"
                   widgetVar="pagesE11"
                   emptyMessage="Keine Einträge vorhanden"
                   tableStyleClass="inekTablePsy">
@@ -29,7 +32,7 @@
                           value="#{page.pepp}"
                           maxlength="5"
                           readonly="#{edit.isReadOnly()}" >
-                <pf:ajax event="change" oncomplete="#{edit.peppChanged(page)}" update="listpagee11" immediate="true" />
+                <pf:ajax event="change" listener="#{edit.peppChanged(page)}" update="listpagee11" immediate="true" />
             </pf:inputText>
             <pf:message for="peppId" />
         </pf:column>
@@ -39,7 +42,7 @@
                             readonly="#{edit.isReadOnly()}"
                             decimalPlaces="0"
                             inputStyle="width: 100%; text-align: right">
-                <pf:ajax event="change" oncomplete="#{edit.peppChanged(page)}" update="listpagee11" immediate="true" />
+                <pf:ajax event="change" listener="#{edit.peppChanged(page)}" update="listpagee11" immediate="true" />
             </pf:inputNumber>
             <pf:message for="vclasse11" />
         </pf:column>
@@ -49,7 +52,7 @@
                             readonly="#{edit.isReadOnly()}"
                             decimalPlaces="0"
                             inputStyle="width: 100%; text-align: right">
-                <pf:ajax event="change" oncomplete="#{edit.peppChanged(page)}" update="listpagee11" immediate="true" />
+                <pf:ajax event="change" listener="#{edit.peppChanged(page)}" update="listpagee11" immediate="true" />
             </pf:inputNumber>
             <pf:message for="casecountid" />
             <f:facet name="footer">
@@ -64,7 +67,7 @@
                             readonly="#{edit.isReadOnly()}"
                             decimalPlaces="0"
                             inputStyle="width: 100%; text-align: right">
-                <pf:ajax event="change" oncomplete="#{edit.peppChanged(page)}" update="listpagee11" immediate="true" />
+                <pf:ajax event="change" listener="#{edit.peppChanged(page)}" update="listpagee11" immediate="true" />
             </pf:inputNumber>
             <pf:message for="calcdaysIde11" />
             <f:facet name="footer">
