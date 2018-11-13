@@ -194,6 +194,7 @@ public class AccountFacade extends AbstractDataAccess {
             Account emptyAccount = new Account();
             emptyAccount.setEmail("deleted"); // write non-emailaddress to indicate this is an deleted account
             emptyAccount.setUser("");
+            emptyAccount.setDeactivated(true);
             emptyAccount.setId(account.getId());
             merge(emptyAccount);
             AccountPwd accountPwd = _accountPwdFacade.find(emptyAccount.getId());
