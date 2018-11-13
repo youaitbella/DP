@@ -141,8 +141,6 @@ public class CalcDrgFacade extends AbstractDataAccessWithActionLog {
                 + "join CallCenterDB.dbo.CustomerCalcInfo on cuId = cciCustomerId "
                 + "where cciInfoTypeId in (1,2) and cciValidTo > " + year + " and cciCalcTypeId in (1, 3, 4, 6)"
                 + "     and cuIk in (\n"
-                + "             select acIk from dbo.Account where acIk > 0 and acId = " + accountId + "\n"
-                + "             union \n"
                 + "             select aaiIK from dbo.AccountAdditionalIK where aaiAccountId = " + accountId + "\n"
                 + "     ) \n"
                 + "     and r2.mcrRoleId is null\n"

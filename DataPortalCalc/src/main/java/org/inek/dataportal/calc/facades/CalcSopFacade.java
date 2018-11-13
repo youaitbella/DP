@@ -129,8 +129,6 @@ public class CalcSopFacade extends AbstractDataAccessWithActionLog {
                 + "left join calc.StatementOfParticipance on cuIk = sopIk and sopDataYear = " + year + "\n"
                 + "where cciInfoTypeId in (1,2) and cciValidTo >= '" + maxValidDate + "' and cciCalcTypeId in (1, 3, 4, 5, 5, 6, 7)\n"
                 + "    and cuIk in (\n"
-                + "        select acIk from dbo.Account where acIk > 0 and acId = " + accountId + "\n"
-                + "        union \n"
                 + "        select aaiIK from dbo.AccountAdditionalIK where aaiAccountId = " + accountId + "\n"
                 + "    ) \n"
                 + "    and sopId is null \n"

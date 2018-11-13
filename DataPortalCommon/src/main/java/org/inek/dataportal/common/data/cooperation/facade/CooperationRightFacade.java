@@ -114,24 +114,9 @@ public class CooperationRightFacade extends AbstractFacade<CooperationRight> {
             return new CooperationRight(ownerId, partnerId, ik, feature);
         }
     }
+
     public CooperativeRight getCooperativeRight(int ownerId, int partnerId, Feature feature, Integer ik) {
         return getCooperationRight(ownerId, partnerId, feature, ik == null ? -1 : ik).getCooperativeRight();
-    }
-
-    public Set<Integer> getAccountIdsByFeatureAndIk(Feature feature, int ik) {
-        String jpql = "select acId from dbo.account "
-                + "join accountFeature on acId = afaccountId and afFeatureId = ?1 "
-                + "where acIk = ?2 "
-                + "union "
-                + "select aaiAccountId from dbo.AccountAdditionalIK "
-                + "join accountFeature on aaiAccountId = afaccountId and afFeatureId = ?1 "
-                + "where aaiAccountId is not null and aaiIk = ?2";
-        @SuppressWarnings("unchecked") HashSet<Integer> result = new HashSet<>(getEntityManager()
-                .createNativeQuery(jpql)
-                .setParameter(1, feature.getId())
-                .setParameter(2, ik)
-                .getResultList());
-        return result;
     }
 
     public CooperationRight save(CooperationRight right) {

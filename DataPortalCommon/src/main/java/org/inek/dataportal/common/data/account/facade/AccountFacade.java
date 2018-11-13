@@ -435,7 +435,7 @@ public class AccountFacade extends AbstractDataAccess {
         String sql = "select distinct a.* \n"
                 + "from dbo.Account a\n"
                 + "left join dbo.AccountAdditionalIK on acId = aaiAccountId\n"
-                + "where acIK = " + ik + " or aaiIK = " + ik + "\n"
+                + "where aaiIK = " + ik + "\n"
                 + "  or acMail in (\n"
                 + "     select cdDetails\n"
                 + "     from CallCenterDb.dbo.ccCustomer\n"
@@ -455,22 +455,6 @@ public class AccountFacade extends AbstractDataAccess {
         TypedQuery<Account> query = getEntityManager().createQuery(jpql, Account.class);
         query.setParameter("mailDomain", "%" + mailDomain);
         return query.getResultList();
-    }
-
-    public Set<Integer> obtainIks4Accounts(Set<Integer> accountIds) {
-        String accountIdList = accountIds.stream().map(i -> i.toString()).collect(Collectors.joining(", "));
-        String sql = "select acIk"
-                + "\r\n from dbo.Account"
-                + "\r\n where acId in (" + accountIdList + ")"
-                + "\r\n union"
-                + "\r\n select aaiIK"
-                + "\r\n from dbo.Account"
-                + "\r\n join dbo.AccountAdditionalIK on acId = aaiAccountId"
-                + "\r\n where acId in (" + accountIdList + ")";
-        Query query = getEntityManager().createNativeQuery(sql, Integer.class);
-        @SuppressWarnings("unchecked")
-        HashSet<Integer> result = new HashSet<>(query.getResultList());
-        return result;
     }
 
     public void obtainRoleInfo(int ik, Collection<Account> accounts) {
