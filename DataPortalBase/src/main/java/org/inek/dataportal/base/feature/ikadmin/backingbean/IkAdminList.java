@@ -1,9 +1,11 @@
 package org.inek.dataportal.base.feature.ikadmin.backingbean;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.controller.SessionController;
@@ -12,8 +14,8 @@ import org.inek.dataportal.common.data.ikadmin.entity.IkAdmin;
 import org.inek.dataportal.common.scope.FeatureScoped;
 
 @Named
-@FeatureScoped
-public class IkAdminList {
+@ViewScoped
+public class IkAdminList implements Serializable {
 
     @Inject
     private SessionController _sessionController;
