@@ -7,8 +7,8 @@ import javax.ejb.Startup;
 @Singleton
 public class DocumentScannerConfig {
 
-    public Boolean _scanEnabled = true;
-    public Boolean _removeOldDocumentsEnabled = true;
+    private Boolean _scanEnabled = true;
+    private Boolean _removeOldDocumentsEnabled = true;
 
     public Boolean isScanEnabled() {
         return _scanEnabled;
