@@ -62,7 +62,7 @@ public class Mailer {
     }
 
     public boolean sendMail(String recipient, String bcc, String subject, String body) {
-        return sendMailFrom("datenportal@inek.org", recipient, bcc, subject, body);
+        return sendMailFrom("DSAnfragen@inek-drg.de", recipient, bcc, subject, body);
     }
 
     public boolean sendMailFrom(String from, String recipient, String bcc, String subject, String body) {
@@ -96,7 +96,7 @@ public class Mailer {
             Session session = Session.getDefaultInstance(properties);
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(from));
-            message.setSender(new InternetAddress("InEK-Datenportal <datenportal@inek.org>"));
+            message.setSender(new InternetAddress("InEK-Datenportal <DSAnfragen@inek-drg.de>"));
             if (_config.readConfigBool(ConfigKey.TestMode) && !_config.getDatabaseName().equals("DataPortal")) {
                 addReceipients(message, "dataportaldev@inek-drg.de", Message.RecipientType.TO);
                 body = createTestBody(recipient, cc, bcc) + body;

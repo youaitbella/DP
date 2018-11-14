@@ -439,7 +439,7 @@ public class DocumentUpload implements Serializable {
         String bcc = template.getBcc();
         String subject = template.getSubject();
 
-        _mailer.sendMailFrom("datenportal@inek.org", account.getEmail(), bcc, subject, body);
+        _mailer.sendMailFrom("DSAnfragen@inek-drg.de", account.getEmail(), bcc, subject, body);
     }
 
 }
