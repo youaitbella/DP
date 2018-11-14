@@ -1,8 +1,10 @@
-package org.inek.dataportal.base.utils.timed;
+package org.inek.documentScanner;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
+
+import org.inek.documentScanner.timed.DocumentLoader;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;

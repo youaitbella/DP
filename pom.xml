@@ -33,7 +33,9 @@
         <module>DataPortalPsy</module>
 
         <module>IdService</module>
-        <!-- temp disable module>AccountService</module-->
+
+        <!-- Scanner für Doc Uploads-->
+        <module>DocumentScanner</module>
     </modules>
 
 
