@@ -360,6 +360,24 @@ public class Account implements Serializable, Person {
     }
     // </editor-fold>
 
+
+    public boolean addIkAdmin(int ik, String mailDomain, Feature feature) {
+        Optional<IkAdmin> admin = _adminIks.stream().filter(ai -> ai.getIk() == ik).findAny();
+        if (admin.isPresent()) {
+            admin.get().setMailDomain(mailDomain);
+            if (!admin.get().getIkAdminFeatures().stream().anyMatch(c -> c.getFeature() == feature)) {
+                admin.get().addIkAdminFeature(feature);
+            }
+            return false;
+        }
+
+        List<Feature> features = new ArrayList<>();
+        features.add(feature);
+
+        _adminIks.add(new IkAdmin(_id, ik, mailDomain, features));
+        return true;
+    }
+
     // <editor-fold defaultstate="collapsed" desc="Property Responsibilities">
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "arAccountId", referencedColumnName = "acId")

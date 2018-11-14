@@ -237,18 +237,25 @@ public class AccountFacade extends AbstractDataAccess {
         try {
             if (accountHasIkAdminRequest(acc)) {
 
+                LOGGER.log(Level.INFO, "Found IK Admin Request: {0}", acc.getEmail() );
+
                 List<Feature> features = getFeaturesFromAdminRequest(acc);
-
-                LOGGER.log(Level.INFO, "Found IK Admin Request: {0}", acc.getEmail() + " " + acc.getFullIkSet().toArray()[0] );
-
-                acc.addIkAdmin((int) acc.getFullIkSet().toArray()[0], "", features);
+                List<AccessRight> rights = new ArrayList<>();
 
                 for (Feature fe : features) {
+                    List<Integer> iks = getIksForAdminRequestFeature(acc, fe);
+                    for (int ik : iks) {
+                        if(!acc.getFullIkSet().contains(ik)) {
+                            acc.addIk(ik);
+                        }
+                        acc.addIkAdmin(ik, "", fe);
+                        rights.add(new AccessRight(acc.getId(), ik, fe, Right.All));
+                    }
                     acc.addFeature(fe, true);
+                }
 
-                    AccessRight accessRight = new AccessRight(acc.getId(), (int) acc.getFullIkSet().toArray()[0], fe, Right.All);
-
-                    _ikAdminFacade.saveAccessRight(accessRight);
+                for (AccessRight right : rights) {
+                    _ikAdminFacade.saveAccessRight(right);
                 }
 
                 merge(acc);
@@ -256,8 +263,19 @@ public class AccountFacade extends AbstractDataAccess {
                 LOGGER.log(Level.INFO, "No Admin Request found: {0}", acc.getEmail());
             }
         } catch (Exception ex) {
-            LOGGER.log(Level.WARNING, "IK Admin konnte nicht eingetragen werden: {0}", ex.getMessage());
+            LOGGER.log(Level.SEVERE, "IK Admin konnte nicht eingetragen werden: {0}", ex.getMessage());
         }
+    }
+
+    private List<Integer> getIksForAdminRequestFeature(Account acc, Feature fe) {
+        String sql = "select distinct arIk from ikadm.AdminRequest\n"
+                + "where arMail = '" + acc.getEmail() + "'\n"
+                + "and arFeatureId = '" + fe.getId() + "';";
+        Query query = getEntityManager().createNativeQuery(sql);
+        @SuppressWarnings("unchecked")
+        List<Integer> results = query.getResultList();
+
+        return results;
     }
 
     private Boolean accountHasIkAdminRequest(Account acc) {
@@ -266,8 +284,7 @@ public class AccountFacade extends AbstractDataAccess {
         }
 
         String sql = "select * from ikadm.AdminRequest\n"
-                + "where arMail = '" + acc.getEmail() + "'\n"
-                + "and arIk = '" + acc.getFullIkSet().toArray()[0] + "';";
+                + "where arMail = '" + acc.getEmail() + "';";
         Query query = getEntityManager().createNativeQuery(sql);
         @SuppressWarnings("unchecked")
         List<Object> result = query.getResultList();
@@ -276,8 +293,7 @@ public class AccountFacade extends AbstractDataAccess {
 
     private List<Feature> getFeaturesFromAdminRequest(Account acc) {
         String sql = "select distinct arFeatureId from ikadm.AdminRequest\n"
-                + "where arMail = '" + acc.getEmail() + "'\n"
-                + "and arIk = '" + acc.getFullIkSet().toArray()[0] + "';";
+                + "where arMail = '" + acc.getEmail() + "';";
         Query query = getEntityManager().createNativeQuery(sql);
         @SuppressWarnings("unchecked")
         List<Integer> results = query.getResultList();
