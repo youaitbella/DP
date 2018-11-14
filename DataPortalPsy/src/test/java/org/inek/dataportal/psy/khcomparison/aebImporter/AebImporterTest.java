@@ -17,6 +17,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
+//import org.junit.jupiter.api.Assumptions;
+
+
 /**
  * @author lautenti
  */
@@ -26,7 +29,7 @@ public class AebImporterTest {
 
     }
 
-
+    @Test
     public void fullImportTest() {
         File file = new File("D:\\tmp\\Vorlage_AEB_2018_für_Datenportal_Final.xlsx");
         Assumptions.assumeThat(file.isFile()).isTrue();
@@ -43,16 +46,15 @@ public class AebImporterTest {
 
         Assertions.assertThat(importer.startImport(baseInfo, inputStream)).isTrue();
 
-        Assertions.assertThat(baseInfo.getAebPageE1_1()).hasSize(31);
-        Assertions.assertThat(baseInfo.getAebPageE1_2()).hasSize(5);
-        Assertions.assertThat(baseInfo.getAebPageE2()).hasSize(3);
-        Assertions.assertThat(baseInfo.getAebPageE3_1()).hasSize(1);
-        Assertions.assertThat(baseInfo.getAebPageE3_2()).hasSize(2);
-        Assertions.assertThat(baseInfo.getAebPageE3_3()).hasSize(1);
-        Assertions.assertThat(baseInfo.getAebPageB1().getTotalAgreementPeriod()).isEqualTo(3500000);
+        Assertions.assertThat(baseInfo.getAebPageE1_1()).hasSize(290);
+        Assertions.assertThat(baseInfo.getAebPageE1_2()).hasSize(10);
+        Assertions.assertThat(baseInfo.getAebPageE2()).hasSize(0);
+        Assertions.assertThat(baseInfo.getAebPageE3_1()).hasSize(0);
+        Assertions.assertThat(baseInfo.getAebPageE3_2()).hasSize(0);
+        Assertions.assertThat(baseInfo.getAebPageE3_3()).hasSize(0);
     }
 
-    
+    @Test
     public void importB1DifferentOrderTest() {
         File file = new File("D:\\tmp\\AEB_TestB1.xlsx");
         Assumptions.assumeThat(file.isFile()).isTrue();
@@ -75,7 +77,7 @@ public class AebImporterTest {
         Assertions.assertThat(baseInfo.getAebPageB1().getSumValuationRadioRenumeration()).isEqualTo(4492550);
         Assertions.assertThat(baseInfo.getAebPageB1().getSumEffectivValuationRadio()).isEqualTo(52);
         Assertions.assertThat(baseInfo.getAebPageB1().getBasisRenumerationValueCompensation()).isEqualTo(1.45);
-        Assertions.assertThat(baseInfo.getAebPageB1().getBasisRenumerationValueNoCompensation()).isEqualTo(100);
+        Assertions.assertThat(baseInfo.getAebPageB1().getBasisRenumerationValueNoCompensation()).isEqualTo(1);
     }
 
 }
