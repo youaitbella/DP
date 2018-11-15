@@ -894,7 +894,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         _staffProof.setLastChanged(Calendar.getInstance().getTime());
         try {
             _staffProof = _psychStaffFacade.saveStaffProof(_staffProof);
-            DialogController.showSaveDialog();
+            DialogController.showSuccessDialog("Aktion erfolgreich", "Das Datum wurde erfolgreich zurückgesetzt");
         }
         catch (Exception ex) {
             DialogController.showErrorDialog("Unbekannter Fehler beim speichern", ex.getMessage());
