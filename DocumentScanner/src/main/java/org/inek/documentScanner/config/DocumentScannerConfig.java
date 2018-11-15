@@ -2,9 +2,11 @@ package org.inek.documentScanner.config;
 
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Named;
 
-@Startup
-@Singleton
+@Named
+@ApplicationScoped
 public class DocumentScannerConfig {
 
     private Boolean _scanEnabled = true;
