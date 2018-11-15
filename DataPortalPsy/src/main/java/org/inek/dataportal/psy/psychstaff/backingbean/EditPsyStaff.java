@@ -27,6 +27,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.OptimisticLockException;
 import javax.servlet.http.Part;
+
+import com.sun.org.apache.bcel.internal.generic.INSTANCEOF;
+import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.overall.ApplicationTools;
 import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.controller.SessionController;
@@ -50,6 +53,8 @@ import org.inek.dataportal.common.scope.FeatureScoped;
 import org.inek.dataportal.common.utils.DateUtils;
 import org.inek.dataportal.common.controller.ReportController;
 import org.inek.dataportal.common.data.KhComparison.entities.OccupationalCategory;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
 
 /**
  *
@@ -116,15 +121,14 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
 
     @Override
     protected void topicChanged() {
-        if (!isReadOnly()) {
-            save(false);
-        }
+        //Deactivate save on Tabchange
+
+        //if (!isReadOnly()) {
+            //save(false);
+        //}
     }
 
-//    @Override
-//    protected String getOutcome() {
-//        return "";
-//    }
+
     @PostConstruct
     private void init() {
         FacesContext context = FacesContext.getCurrentInstance();
@@ -160,6 +164,13 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         // coz some methodes like isReadOnly are queried before navigation to error page took place
         _staffProof = new StaffProof();
         return false;
+    }
+
+    public void handleFileUpload(FileUploadEvent event) {
+        LOGGER.log(Level.INFO, "File uplaoded: " + event.getFile().getFileName());
+        putDocument(event.getFile().getFileName(), event.getFile().getContents());
+        DialogController.showInfoDialog("Upload erfolgreich",
+                "Die Datei " + event.getFile().getFileName() + " wurde erfolgreich hochgeladen");
     }
 
     private boolean hasSufficientRights(StaffProof staffProof) {
@@ -316,10 +327,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         if (_staffProof == null) {
             return true;
         }
-//        if (_sessionController.isInekUser(Feature.PSYCH_STAFF)
-//                && _staffProof.getAccountId() != _sessionController.getAccountId()) {
-//            return true;
-//        }
+
         if (isCompleteSinceMoreThan3Days()) {
             return true;
         }
@@ -333,14 +341,12 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
 
     private String save(boolean showMessage) {
         if (IsReasonMissing()) {
-            String script = "alert ('Bitte geben Sie zum Ausnahmetatbestand eine Begründung an.');";
-            _sessionController.setScript(script);
+            DialogController.showInfoDialog("Speichern nicht möglich", "Bitte geben Sie zum Ausnahmetatbestand eine Begründung an.");
             return null;
         }
         if (_staffProof.getYear() < 2016) {
-            String script = "alert ('Ohne Angabe eines Datenjahrs können Sie nicht speichern.\\r\\n"
-                    + "Je IK kann jedes Datenjahr nur einmal gewählt werden.');";
-            _sessionController.setScript(script);
+            DialogController.showInfoDialog("Speichern nicht möglich",
+                    "Ohne Angabe eines Datenjahrs können Sie nicht speichern. Je IK kann jedes Datenjahr nur einmal gewählt werden.");
             return null;
         }
         cleanUneededReason();
@@ -356,10 +362,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
 
             if (_staffProof.getId() >= 0) {
                 if (showMessage) {
-                    // CR+LF or LF only will be replaced by "\r\n"
-                    String script = "alert ('" + Utils.getMessage("msgSave").replace("\r\n", "\n").
-                            replace("\n", "\\r\\n") + "');";
-                    _sessionController.setScript(script);
+                    DialogController.showSaveDialog();
                 }
                 return null;
             } else {
@@ -367,10 +370,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
             }
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "Exception during save PsychStaff", ex);
-            if (ex.getCause() instanceof OptimisticLockException) {
-                LOGGER.log(Level.WARNING, "Optimistic Lock Exception during save PsychStaff");
-                return null;
-            }
+            return null;
         }
 
         return Pages.Error.URL();
@@ -892,6 +892,12 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
 
     public void setLastChangeAtNow() {
         _staffProof.setLastChanged(Calendar.getInstance().getTime());
-        _staffProof = _psychStaffFacade.saveStaffProof(_staffProof);
+        try {
+            _staffProof = _psychStaffFacade.saveStaffProof(_staffProof);
+            DialogController.showSaveDialog();
+        }
+        catch (Exception ex) {
+            DialogController.showErrorDialog("Unbekannter Fehler beim speichern", ex.getMessage());
+        }
     }
 }
