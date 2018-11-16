@@ -105,6 +105,7 @@ public class AebImporter {
         return correctFormat;
     }
 
+    @SuppressWarnings({"CyclomaticComplexity", "JavaNCSS"})
     private boolean checkAllSheets(Workbook workbook) {
         List<String> availaibleSheetNames = new ArrayList<>();
 
