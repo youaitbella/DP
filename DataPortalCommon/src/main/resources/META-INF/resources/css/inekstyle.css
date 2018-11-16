@@ -180,6 +180,11 @@
     background-color: #a8cce6
 }
 
+.inekUploader div {
+    background-color: transparent;
+    border: none;
+}
+
 /* Tabs Overrides */
 
 .ui-tabs.ui-tabs-top .ui-tabs-nav.ui-widget-header li {

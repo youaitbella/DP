@@ -201,6 +201,10 @@ public class EditStructureInformation {
         Date oldDate = (Date) event.getOldValue();
         Date newDate = (Date) event.getNewValue();
 
+        if (oldDate == null || newDate == null) {
+            return;
+        }
+
         if (StructureinformationHelper.newDateChangeOrder(oldDate, newDate, getStructureInformationsByCategorieNoFilter(categorie))) {
             DialogController.showInfoDialog("Achtung", "Durch das neue Datum wird die Reihenfolge der Gültigkeiten verändert");
         }

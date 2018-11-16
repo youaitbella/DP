@@ -14,7 +14,7 @@ public enum StructureInformationCategorie {
     RegionalCare("Regionale Versorgungsverpflichtung",
             "Stichpunktartige Beschreibung der strukturellen und personellen Besonderheiten duch die regionalen Versorgungsverpflichtung"),
     AccommodationText("Besonderheiten bei der gesetzlichen Unterbringung",
-            "Beschreibung der strukturellen und personellen Besonderheiten für patienten mit gesetzlicher Unterbringung"),
+            "Beschreibung der strukturellen und personellen Besonderheiten für Patienten mit gesetzlicher Unterbringung"),
     SPCenterText("Sozialpädiatrisches Zentrum gem. § 119 SGB V am Krankenhaus vorhanden", "Leistungsangebot und Leistungsschwerpunkte"),
     AmbulantPerformanceMain("Ambulante Leistungserbringung des Krankenhauses", "Angabe der Leistungsschwerpunkte"),
     DismissManagement("Leistungen im Rahmen des Entlassmanagements", "Leistungsschwerpunkte"),
