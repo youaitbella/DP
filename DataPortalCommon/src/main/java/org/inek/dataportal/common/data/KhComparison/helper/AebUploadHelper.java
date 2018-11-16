@@ -24,8 +24,12 @@ public class AebUploadHelper {
                 message = checker.getMessage() + "\n \n --> " + importer.getCounter() + " Zeilen eingelesen";
                 DialogController.showInfoDialog("Upload abgeschlossen", "Ihre Daten wurden erfolgreich hochgeladen");
             }
+            else {
+                message = importer.getErrorMessage();
+                DialogController.showInfoDialog("Fehler beim Upload", "Bitte überprüfen Sie die hochgeladenen Datei auf Formatfehler.");
+            }
         } else {
-            DialogController.showInfoDialog("Fehler beim Upload", "Bitte wählen Sie ein Vereinbahrungsjahr aus um den Import zu benutzen");
+            DialogController.showInfoDialog("Fehler beim Upload", "Bitte wählen Sie ein Vereinbahrungsjahr aus um den Import zu benutzen.");
         }
         return message;
     }

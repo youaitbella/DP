@@ -5,6 +5,9 @@
  */
 package org.inek.dataportal.psy.khcomparison.aebImporter;
 
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.Assumptions;
 import org.inek.dataportal.common.data.KhComparison.entities.AEBBaseInformation;
@@ -52,6 +55,24 @@ public class AebImporterTest {
         Assertions.assertThat(baseInfo.getAebPageE3_1()).hasSize(0);
         Assertions.assertThat(baseInfo.getAebPageE3_2()).hasSize(0);
         Assertions.assertThat(baseInfo.getAebPageE3_3()).hasSize(0);
+    }
+
+    @Test
+    public void wrongFormatTest() {
+        File file = new File("D:\\tmp\\Vorlage_AEB_2018_für_Datenportal_FalschesFormat.xlsx");
+        Assumptions.assumeThat(file.isFile()).isTrue();
+        InputStream inputStream = null;
+        try {
+            inputStream = new FileInputStream(file);
+        } catch (Exception ex) {
+
+        }
+
+        AebImporter importer = new AebImporter();
+        AEBBaseInformation baseInfo = new AEBBaseInformation();
+        baseInfo.setAebPageB1(new AEBPageB1());
+
+        Assertions.assertThat(importer.startImport(baseInfo, inputStream)).isFalse();
     }
 
     @Test
