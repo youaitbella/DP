@@ -19,7 +19,6 @@ public enum Pages {
     UserMaintenanceMasterData("/UserMaintenance/UserMaintenanceMasterData"),
     UserMaintenanceFeatures("/UserMaintenance/UserMaintenanceFeatures"),
     UserMaintenanceOther("/UserMaintenance/UserMaintenanceOther"),
-    UserMaintenanceConfig("/UserMaintenance/UserMaintenanceConfig"),
     //
     PartNub("/NUB/PartNUB"),
     NubSummary("/NUB/NubSummary"),
@@ -199,7 +198,6 @@ public enum Pages {
     Error("/Common/Error"),
     DataError("/Common/DataError"),
     SessionTimeout("/Common/TimeOut"),
-    DoubleWindow("/Common/DoubleWindow"),
     InvalidConversation("/Common/InvalidConversation"),
     SearchCode("/Common/SearchCode"),
     //
