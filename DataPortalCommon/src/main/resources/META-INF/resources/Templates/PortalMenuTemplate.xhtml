@@ -12,7 +12,7 @@
 
         <c:if test="#{sessionController.loggedIn}">
             <h:form id="logout">
-                <h:outputLabel styleClass="label" value="#{msg.lblWelcome} #{sessionController.user}"/>
+                <h:outputLabel styleClass="label" value="#{sessionController.user}"/>
                 <h:outputLabel styleClass="light" value=" (#{msg.lblAutoLogout} "/>
                 <h:outputText id="remaining" styleClass="light" value="#{sessionController.remainingTime}"/>
                 <h:outputLabel styleClass="light" value=") "/>
