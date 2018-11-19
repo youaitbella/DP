@@ -4,17 +4,21 @@
  */
 package org.inek.dataportal.insurance;
 
-import java.io.IOException;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
-import java.util.Scanner;
-import java.util.Set;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
+import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.common.controller.AbstractEditController;
+import org.inek.dataportal.common.controller.SessionController;
+import org.inek.dataportal.common.data.access.ProcedureFacade;
+import org.inek.dataportal.common.data.account.entities.Account;
+import org.inek.dataportal.common.data.common.RemunerationType;
+import org.inek.dataportal.common.data.icmt.facade.CustomerFacade;
+import org.inek.dataportal.common.enums.Pages;
+import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.common.overall.AccessManager;
+import org.inek.dataportal.common.scope.FeatureScoped;
+import org.inek.dataportal.insurance.entities.*;
+import org.inek.dataportal.insurance.facade.InsuranceFacade;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.EJBException;
 import javax.enterprise.inject.Instance;
@@ -26,27 +30,12 @@ import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.Part;
-import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.insurance.entities.DosageForm;
-import org.inek.dataportal.insurance.entities.InsuranceNubNotice;
-import org.inek.dataportal.insurance.entities.InsuranceNubNoticeItem;
-import org.inek.dataportal.insurance.entities.Unit;
-import org.inek.dataportal.insurance.entities.InsuranceNubMethodInfo;
-import org.inek.dataportal.common.enums.Pages;
-import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.insurance.facade.InsuranceFacade;
-import org.inek.dataportal.common.controller.AbstractEditController;
-import org.inek.dataportal.common.data.access.ProcedureFacade;
-import org.inek.dataportal.common.data.common.RemunerationType;
-import org.inek.dataportal.common.data.icmt.facade.CustomerFacade;
-import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.common.overall.AccessManager;
-import org.inek.dataportal.common.scope.FeatureScoped;
+import java.io.IOException;
+import java.util.*;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 /**
- *
  * @author muellermi
  */
 @Named
@@ -54,12 +43,6 @@ import org.inek.dataportal.common.scope.FeatureScoped;
 public class EditInsuranceNubNotice extends AbstractEditController {
 
     private static final Logger LOGGER = Logger.getLogger("EditInsuranceNubNotice");
-
-    // <editor-fold defaultstate="collapsed" desc="override AbstractEditController">
-    @Override
-    protected void addTopics() {
-    }
-
     // </editor-fold>
     @Inject
     private InsuranceFacade _insuranceFacade;
@@ -71,6 +54,19 @@ public class EditInsuranceNubNotice extends AbstractEditController {
     private CustomerFacade _customerFacade;
     @Inject
     private AccessManager _accessManager;
+    private Set<Integer> _iks = new HashSet<>();
+    private InsuranceNubNotice _notice;
+    private List<InsuranceNubMethodInfo> _nubInfos = null;
+    private Part _file;
+    private String _importMessage = "";
+    @Inject
+    private Instance<NoticeItemImporter> _importProvider;
+    private boolean _showJournal = false;
+
+    // <editor-fold defaultstate="collapsed" desc="override AbstractEditController">
+    @Override
+    protected void addTopics() {
+    }
 
     @PostConstruct
     private void init() {
@@ -112,16 +108,15 @@ public class EditInsuranceNubNotice extends AbstractEditController {
         _notice.setInsuranceName(_customerFacade.getCustomerByIK(_notice.getInsuranceIk()).getName());
     }
 
-    private Set<Integer> _iks = new HashSet<>();
-
     public Set<Integer> getValidIks() {
         if (_iks.isEmpty()) {
             _iks = _accessManager.ObtainIksForCreation(Feature.INSURANCE);
         }
+        if (_iks.size() == 1) {
+            _notice.setInsuranceIk(_iks.iterator().next());
+        }
         return _iks;
     }
-
-    private InsuranceNubNotice _notice;
 
     public InsuranceNubNotice getNotice() {
         return _notice;
@@ -135,7 +130,7 @@ public class EditInsuranceNubNotice extends AbstractEditController {
                 .stream()
                 .sorted((n, m) -> n.getMethodName().compareTo(m.getMethodName()))
                 .map(i -> new SelectItem(i.getRequestId(), i.getMethodName() + " [N" + i.getRequestId() + "]", i.
-                getRequestName()))
+                        getRequestName()))
                 .collect(Collectors.toList());
     }
 
@@ -147,11 +142,9 @@ public class EditInsuranceNubNotice extends AbstractEditController {
                 .stream()
                 .sorted((n, m) -> Integer.compare(n.getSequence(), m.getSequence()))
                 .map(i -> new SelectItem(i.getRequestId(),
-                i.getSequence() + " - " + i.getMethodName() + " [N" + i.getRequestId() + "]", i.getRequestName()))
+                        i.getSequence() + " - " + i.getMethodName() + " [N" + i.getRequestId() + "]", i.getRequestName()))
                 .collect(Collectors.toList());
     }
-
-    private List<InsuranceNubMethodInfo> _nubInfos = null;
 
     public List<InsuranceNubMethodInfo> getNubMethodInfos() {
         if (_notice.getHospitalIk() < 0 && _notice.getYear() < 0) {
@@ -328,8 +321,6 @@ public class EditInsuranceNubNotice extends AbstractEditController {
         }
     }
 
-    private Part _file;
-
     public Part getFile() {
         return _file;
     }
@@ -338,14 +329,9 @@ public class EditInsuranceNubNotice extends AbstractEditController {
         _file = file;
     }
 
-    private String _importMessage = "";
-
     public String getImportMessage() {
         return _importMessage;
     }
-
-    @Inject
-    private Instance<NoticeItemImporter> _importProvider;
 
     public void uploadNotices() {
         try {
@@ -383,8 +369,6 @@ public class EditInsuranceNubNotice extends AbstractEditController {
         _showJournal = !_showJournal;
         return "";
     }
-
-    private boolean _showJournal = false;
 
     public boolean isShowJournal() {
         return _showJournal;
