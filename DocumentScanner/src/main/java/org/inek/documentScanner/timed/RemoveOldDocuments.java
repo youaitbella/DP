@@ -29,18 +29,18 @@ public class RemoveOldDocuments {
     private void removeOldDocuments() {
         if (_documentScannerConfig.isRemoveOldDocumentsEnabled()) {
             LOGGER.log(Level.INFO, "Start removing old docs");
-            sweepOldDocuments();
-            LOGGER.log(Level.INFO, "End removing old docs");
+            deleteOldDocuments();
         }
         else {
-            LOGGER.log(Level.INFO, "Removing old Documents is disabled by config");
+            LOGGER.log(Level.INFO, "Removing old documents is disabled by config");
         }
     }
 
     @Asynchronous
-    private void sweepOldDocuments() {
+    private void deleteOldDocuments() {
         try {
-            _accountDocumentFacade.removeOldDocuments();
+            int removedDocs = _accountDocumentFacade.removeOldDocuments();
+            LOGGER.log(Level.INFO, "Removed docs: " + removedDocs);
         }
         catch(Exception ex) {
             LOGGER.log(Level.SEVERE, "Error during removing old docs: " + ex.getMessage(), ex);

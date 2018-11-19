@@ -23,11 +23,11 @@ import java.util.logging.Level;
 @Stateless
 public class AccountDocumentFacade extends AbstractDataAccess {
 
-    public void removeOldDocuments() {
+    public int removeOldDocuments() {
         String sql = "DELETE FROM AccountDocument d WHERE d._validUntil < :date";
         Query query = getEntityManager().createQuery(sql, AccountDocument.class);
         query.setParameter("date", Calendar.getInstance().getTime());
-        query.executeUpdate();
+        return query.executeUpdate();
     }
 
     public AccountDocument save(AccountDocument accountDocument) {

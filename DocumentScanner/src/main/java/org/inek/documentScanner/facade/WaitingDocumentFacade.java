@@ -15,26 +15,19 @@ import java.util.logging.Level;
 @Stateless
 public class WaitingDocumentFacade extends AbstractDataAccess {
 
-//    @Schedule(hour = "2", minute = "30", info = "once a day")
-//    // for test: @Schedule(hour = "*", minute = "*/1", info = "once a minute")
-//    private void startDeleteOldDocuments() {
-//        LOGGER.log(Level.INFO, "Start deleting old documents");
-//        deleteOldDocuments();
-//        LOGGER.log(Level.INFO, "Finished deleting old documents");
-//    }
-//
-//    @Asynchronous
-//    private void deleteOldDocuments() {
-//        String sql = "SELECT p FROM WaitingDocument p WHERE p._timestamp < :referenceDate";
-//        TypedQuery<WaitingDocument> query = getEntityManager().createQuery(sql, WaitingDocument.class);
-//        query.setParameter("referenceDate", DateUtils.getDateWithDayOffset(-60));
-//        List<WaitingDocument> docs = query.getResultList();
-//        for (WaitingDocument doc : docs) {
-//            LOGGER.log(Level.INFO, "Delete old waiting document {0} of agent {1}", new Object[]{doc.getName(),
-//                    doc.getAgentAccountId()});
-//            remove(doc);
-//        }
-//    }
+
+    @Asynchronous
+    public void deleteOldDocuments() {
+        String sql = "SELECT p FROM WaitingDocument p WHERE p._timestamp < :referenceDate";
+        TypedQuery<WaitingDocument> query = getEntityManager().createQuery(sql, WaitingDocument.class);
+        query.setParameter("referenceDate", DateUtils.getDateWithDayOffset(-60));
+        List<WaitingDocument> docs = query.getResultList();
+        for (WaitingDocument doc : docs) {
+            LOGGER.log(Level.INFO, "Delete old waiting document {0} of agent {1}", new Object[]{doc.getName(),
+                    doc.getAgentAccountId()});
+            remove(doc);
+        }
+    }
 
     public void save(WaitingDocument waitingDocument) {
         persist(waitingDocument);
