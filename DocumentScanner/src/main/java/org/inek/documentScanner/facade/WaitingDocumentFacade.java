@@ -5,7 +5,6 @@ import org.inek.dataportal.common.data.account.entities.WaitingDocument;
 import org.inek.dataportal.common.utils.DateUtils;
 
 import javax.ejb.Asynchronous;
-import javax.ejb.Schedule;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 import java.util.List;

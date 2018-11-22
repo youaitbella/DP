@@ -38,8 +38,6 @@ public class DocumentLoader {
     private static final String ARCHIV_DIR = "Imported";
     private static final String FAILED_DIR = "Failed";
 
-    private static final String SCAN_DIR_TEST = "//vFileserver01/company$/EDV/Datenportal.local/documents";
-
 
     @Inject
     private ConfigFacade _config;
@@ -99,10 +97,8 @@ public class DocumentLoader {
             return;
         }
         setWaitCounter(100);
-        //File baseDir = new File(_config.readConfig(ConfigKey.FolderRoot), _config.
-        //        readConfig(ConfigKey.FolderDocumentScanBase));
-
-        File baseDir = new File(SCAN_DIR_TEST);
+        File baseDir = new File(_config.readConfig(ConfigKey.FolderRoot), _config.
+                readConfig(ConfigKey.FolderDocumentScanBase));
 
         if (!baseDir.exists()) {
             baseDir.mkdirs();
@@ -126,6 +122,7 @@ public class DocumentLoader {
             }
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage());
+            _mailer.sendError("Error Documenscanner", ex);
         }
 
     }

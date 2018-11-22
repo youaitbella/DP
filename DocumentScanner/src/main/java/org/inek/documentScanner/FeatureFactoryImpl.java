@@ -13,11 +13,10 @@ import javax.enterprise.context.Dependent;
 import java.io.Serializable;
 
 /**
- *
  * @author muellermi
  */
 @Dependent
-public class FeatureFactoryImpl implements FeatureFactory, Serializable{
+public class FeatureFactoryImpl implements FeatureFactory, Serializable {
 
     @Override
     public IFeatureController createController(Feature feature, SessionController sessionController) {

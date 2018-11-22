@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-        <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-                "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html">
-    <head>
-        <title>DocumentScanner</title>
-    </head>
-    <body>
-    <h:form>
-        <h1 style="background-color: #{documentScannerBean.documentScanStatus ? 'green' : 'red'}">Aktueller Status von DocumentenScan Scanning: #{documentScannerBean.documentScanStatus}</h1>
+<head>
+    <title>DocumentScanner</title>
+</head>
+<body>
+<h:form>
+    <h1 style="background-color: #{documentScannerBean.documentScanStatus ? 'green' : 'red'}">Aktueller Status von DocumentenScan Scanning: #{documentScannerBean.documentScanStatus}</h1>
 
-        <h:commandButton actionListener="#{documentScannerBean.switchDocumentScanner()}"
-                         value="Status ändern" />
+    <h:commandButton actionListener="#{documentScannerBean.switchDocumentScanner()}"
+                     value="Status ändern" />
 
-        <h1 style="background-color: #{documentScannerBean.removingOldDocumentsStatus ? 'green' : 'red'}">Aktueller Status vom löschen alter Dokumente: #{documentScannerBean.removingOldDocumentsStatus}</h1>
+    <h1 style="background-color: #{documentScannerBean.removingOldDocumentsStatus ? 'green' : 'red'}">Aktueller Status vom löschen alter Dokumente: #{documentScannerBean.removingOldDocumentsStatus}</h1>
 
-        <h:commandButton actionListener="#{documentScannerBean.switchRemovingOldDocuments()}"
-                         value="Status ändern" />
+    <h:commandButton actionListener="#{documentScannerBean.switchRemovingOldDocuments()}"
+                     value="Status ändern" />
 
-        <h1 style="background-color: #{documentScannerBean.removingOldWaitingDocumentsStatus ? 'green' : 'red'}">Aktueller Status vom löschen alter WatingDokumente: #{documentScannerBean.removingOldWaitingDocumentsStatus}</h1>
+    <h1 style="background-color: #{documentScannerBean.removingOldWaitingDocumentsStatus ? 'green' : 'red'}">Aktueller Status vom löschen alter WatingDokumente: #{documentScannerBean.removingOldWaitingDocumentsStatus}</h1>
 
-        <h:commandButton actionListener="#{documentScannerBean.switchRemovingOldWaitingDocuments()}"
-                         value="Status ändern" />
+    <h:commandButton actionListener="#{documentScannerBean.switchRemovingOldWaitingDocuments()}"
+                     value="Status ändern" />
 
-    </h:form>
-    </body>
+</h:form>
+</body>
 </html>

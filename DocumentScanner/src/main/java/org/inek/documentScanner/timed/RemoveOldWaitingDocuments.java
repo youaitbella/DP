@@ -24,8 +24,8 @@ public class RemoveOldWaitingDocuments {
     private WaitingDocumentFacade _waitingDocumentFacade;
 
 
-    //@Schedule(hour = "2", minute = "15", info = "once a day")
-    @Schedule(hour = "*", minute = "*/1", info = "every 1 minute")
+    @Schedule(hour = "2", minute = "15", info = "once a day")
+    //@Schedule(hour = "*", minute = "*/1", info = "every 1 minute")
     private void removeOldDocuments() {
         if (_documentScannerConfig.isRemoveOldDocumentsEnabled()) {
             LOGGER.log(Level.INFO, "Start removing old waitingdocs");

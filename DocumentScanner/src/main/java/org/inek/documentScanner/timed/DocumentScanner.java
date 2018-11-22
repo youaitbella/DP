@@ -27,8 +27,7 @@ public class DocumentScanner {
         if (_documentScannerConfig.isScanEnabled()) {
             LOGGER.log(Level.INFO, "Start scanning docs");
             _documentLoader.scanDocumentRoot();
-        }
-        else {
+        } else {
             LOGGER.log(Level.INFO, "Scanning is disabled by config");
         }
     }
