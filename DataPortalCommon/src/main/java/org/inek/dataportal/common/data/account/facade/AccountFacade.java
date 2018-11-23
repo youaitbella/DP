@@ -279,10 +279,6 @@ public class AccountFacade extends AbstractDataAccess {
     }
 
     private Boolean accountHasIkAdminRequest(Account acc) {
-        if (acc.getFullIkSet().size() != 1) {
-            return false;
-        }
-
         String sql = "select * from ikadm.AdminRequest\n"
                 + "where arMail = '" + acc.getEmail() + "';";
         Query query = getEntityManager().createNativeQuery(sql);
