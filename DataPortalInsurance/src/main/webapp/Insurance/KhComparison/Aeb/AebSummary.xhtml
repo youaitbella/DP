@@ -10,6 +10,14 @@
     <h3 jsf:rendered="#{!edit.isReadOnly()}">
         AEB aus Excel importieren
     </h3>
+
+    <pf:commandButton ajax="false"
+                      style="margin-left: 5px;"
+                      styleClass="btnDrg"
+                      onclick="window.open('https://daten.inek.org/vorlagen/psych/Vorlage_AEB_Datenportal.xlsx')"
+                      rendered="#{!edit.isReadOnly()}"
+                      value="Vorlage herunterladen" />
+
     <pf:fileUpload styleClass="inekUploader"
                    rendered="#{!edit.isReadOnly()}"
                    fileUploadListener="#{edit.handleFileUpload}"

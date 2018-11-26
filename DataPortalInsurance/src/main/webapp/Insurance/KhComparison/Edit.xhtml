@@ -20,6 +20,27 @@
             <pf:messages>
                 <pf:autoUpdate />
             </pf:messages>
+
+            <pf:dialog widgetVar="dialogProcess"
+                       header="Daten werden verarbeitet"
+                       modal="true"
+                       closable="false"
+                       resizable="false"
+                       height="80px">
+                <div style="text-align: center; width: 100%;">
+                    <div class="inekLoader" style="text-align: center;">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                </div>
+            </pf:dialog>
+
             <div class="headerInformation">
                 <ui:include src="Generell.xhtml" />
             </div>
@@ -44,12 +65,16 @@
                 <pf:commandButton styleClass="btnInsurance"
                                   value="Speichern"
                                   action="#{edit.save()}"
+                                  onstart="PF('dialogProcess').show()"
+                                  oncomplete="PF('dialogProcess').hide()"
                                   update="@(.ui-message) @all"
                                   immediate="true"
                                   rendered="#{!edit.isReadOnly()}"/>
                 <pf:commandButton value="Ans InEK senden"
                                   update="@(.ui-message) @all"
                                   action="#{edit.send()}"
+                                  onstart="PF('dialogProcess').show()"
+                                  oncomplete="PF('dialogProcess').hide()"
                                   styleClass="btnSend arrow-right"
                                   rendered="#{!edit.isReadOnly()}"/>
             </div>
