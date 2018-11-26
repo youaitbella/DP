@@ -155,7 +155,7 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
     //</editor-fold>
 
     public SpecificFunctionRequest findSpecificFunctionRequestByCode(String code) {
-        String jpql = "select spf from SpecificFunctionRequest spf where spf._code = :code";
+        String jpql = "select spf from SpecificFunctionRequest spf where spf._code = :code and spf._statusId = 10";
         TypedQuery<SpecificFunctionRequest> query = getEntityManager().createQuery(jpql, SpecificFunctionRequest.class);
         query.setParameter(CODE, code);
         try {
