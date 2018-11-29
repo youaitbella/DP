@@ -22,13 +22,10 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
-import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.OptimisticLockException;
 import javax.servlet.http.Part;
 
-import com.sun.org.apache.bcel.internal.generic.INSTANCEOF;
 import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.overall.ApplicationTools;
 import org.inek.dataportal.common.overall.AccessManager;
@@ -54,7 +51,6 @@ import org.inek.dataportal.common.utils.DateUtils;
 import org.inek.dataportal.common.controller.ReportController;
 import org.inek.dataportal.common.data.KhComparison.entities.OccupationalCategory;
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.UploadedFile;
 
 /**
  *
