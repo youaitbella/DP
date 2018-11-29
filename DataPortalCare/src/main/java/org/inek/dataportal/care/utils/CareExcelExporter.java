@@ -189,16 +189,15 @@ public class CareExcelExporter {
                 row.createCell(startCol).setCellValue(getAreaText(dept.getDeptArea()));
                 row.createCell(startCol + 1).setCellValue(dept.getDeptNumber());
                 row.createCell(startCol + 2).setCellValue(dept.getDeptName());
-                row.createCell(startCol + 3).setCellValue(deptStationAfter.getDeptNameHospital());
-                row.createCell(startCol + 4).setCellValue(deptStationAfter.getSensitiveArea());
-                row.createCell(startCol + 5).setCellValue(deptStationAfter.getStationNameTargetYear());
-                row.createCell(startCol + 6).setCellValue(deptStationAfter.getLocationCodeTargetYear());
-                row.createCell(startCol + 7).setCellValue(deptStationAfter.getDeptNumber());
-                row.createCell(startCol + 8).setCellValue(deptStationAfter.getDeptName());
-                row.createCell(startCol + 9).setCellValue(deptStationAfter.getStationName());
-                row.createCell(startCol + 10).setCellValue(deptStationAfter.getLocationCode());
-                row.createCell(startCol + 11).setCellValue(deptStationAfter.getComment());
-                for (int i = 0; i < 12; i++) {
+                row.createCell(startCol + 3).setCellValue(deptStationAfter.getSensitiveArea());
+                row.createCell(startCol + 4).setCellValue(deptStationAfter.getStationNameTargetYear());
+                row.createCell(startCol + 5).setCellValue(deptStationAfter.getLocationCodeTargetYear());
+                row.createCell(startCol + 6).setCellValue(deptStationAfter.getDeptNumber());
+                row.createCell(startCol + 7).setCellValue(deptStationAfter.getDeptName());
+                row.createCell(startCol + 8).setCellValue(deptStationAfter.getStationName());
+                row.createCell(startCol + 9).setCellValue(deptStationAfter.getLocationCode());
+                row.createCell(startCol + 10).setCellValue(deptStationAfter.getComment());
+                for (int i = 0; i < 11; i++) {
                     row.getCell(i).setCellStyle(styleBorderd);
                 }
 
