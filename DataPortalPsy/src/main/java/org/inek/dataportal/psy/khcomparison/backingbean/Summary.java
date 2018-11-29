@@ -5,29 +5,31 @@
  */
 package org.inek.dataportal.psy.khcomparison.backingbean;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
-import javax.inject.Named;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
-import org.inek.dataportal.common.enums.Pages;
-import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.common.overall.AccessManager;
-import org.inek.dataportal.common.scope.FeatureScoped;
 import org.inek.dataportal.common.data.KhComparison.entities.AEBBaseInformation;
 import org.inek.dataportal.common.data.KhComparison.entities.StructureBaseInformation;
 import org.inek.dataportal.common.data.KhComparison.facade.AEBFacade;
 import org.inek.dataportal.common.data.access.ConfigFacade;
+import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.CustomerTyp;
+import org.inek.dataportal.common.enums.Pages;
+import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.common.overall.AccessManager;
+import org.inek.dataportal.common.scope.FeatureScoped;
+
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
+import javax.inject.Named;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
- *
  * @author lautenti
  */
 @Named
@@ -46,6 +48,16 @@ public class Summary {
     private List<AEBBaseInformation> _listComplete = new ArrayList<>();
     private List<AEBBaseInformation> _listWorking = new ArrayList<>();
     private List<StructureBaseInformation> _listStructureBaseInformation = new ArrayList<>();
+
+    private List<AebListEntry> _listInek = new ArrayList<>();
+
+    public List<AebListEntry> getListInek() {
+        return _listInek;
+    }
+
+    public void setListInek(List<AebListEntry> listInek) {
+        this._listInek = listInek;
+    }
 
     public List<AEBBaseInformation> getListComplete() {
         return _listComplete;
@@ -75,7 +87,18 @@ public class Summary {
     public void init() {
         setWorkingList();
         setCompleteList();
+        if (_sessionController.isInekUser("HC_HOSPITAL")) {
+            setInekList();
+        }
         setStructureBaseInformationList();
+    }
+
+    private void setInekList() {
+        _listInek.clear();
+
+        for(AEBBaseInformation info : _aebfacade.getAllByStatus(WorkflowStatus.Provided)) {
+            _listInek.add(new AebListEntry(info));
+        }
     }
 
     private void setWorkingList() {
@@ -149,9 +172,75 @@ public class Summary {
     public Boolean isDeleteAllowed(int ik) {
         return !_sessionController.getAccount().getAccessRights().stream()
                 .filter(c -> c.getFeature() == Feature.HC_HOSPITAL
-                && c.getIk() == ik
-                && c.canWrite())
+                        && c.getIk() == ik
+                        && c.canWrite())
                 .collect(Collectors.toList())
                 .isEmpty();
+    }
+
+    public class AebListEntry implements Serializable {
+        private int _id;
+        private int _ik;
+        private int _year;
+        private String _type;
+        private Date _sendAt;
+        private String _sendBy;
+
+        public AebListEntry(AEBBaseInformation baseInfo) {
+            setId(baseInfo.getId());
+            setIk(baseInfo.getIk());
+            setYear(baseInfo.getYear());
+            setType(baseInfo.getTyp() == CustomerTyp.Hospital.id() ? "Krankenhaus" : "Krankenkassen");
+            setSendAt(baseInfo.getSend());
+            setSendBy(baseInfo.getLastChangeFrom() + "");
+        }
+
+        public int getId() {
+            return _id;
+        }
+
+        public void setId(int id) {
+            this._id = id;
+        }
+
+        public int getIk() {
+            return _ik;
+        }
+
+        public void setIk(int ik) {
+            this._ik = ik;
+        }
+
+        public int getYear() {
+            return _year;
+        }
+
+        public void setYear(int year) {
+            this._year = year;
+        }
+
+        public String getType() {
+            return _type;
+        }
+
+        public void setType(String type) {
+            this._type = type;
+        }
+
+        public Date getSendAt() {
+            return _sendAt;
+        }
+
+        public void setSendAt(Date sendAt) {
+            this._sendAt = sendAt;
+        }
+
+        public String getSendBy() {
+            return _sendBy;
+        }
+
+        public void setSendBy(String sendBy) {
+            this._sendBy = sendBy;
+        }
     }
 }

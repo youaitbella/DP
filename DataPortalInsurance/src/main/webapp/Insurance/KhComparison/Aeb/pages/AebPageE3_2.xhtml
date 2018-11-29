@@ -28,13 +28,14 @@
         </pf:column>
         <pf:column headerText="Zusatzentgelt nach § 6 BPflV" sortBy="#{page.ze}" sortable="true">
             <pf:inputText value="#{page.ze}"
-                          maxlength="9"
+                          maxlength="15"
                           readonly="#{edit.isReadOnly()}" >
                 <pf:ajax />
             </pf:inputText>
         </pf:column>
         <pf:column headerText="Entgeltschlüssel nach § 301 SGB V">
             <pf:inputText value="#{page.renumerationKey}"
+                          maxlength="10"
                           readonly="#{edit.isReadOnly()}"
                           style="width: 100%;">
                 <pf:ajax />
@@ -42,6 +43,7 @@
         </pf:column>
         <pf:column headerText="OPS-Kode">
             <pf:inputText value="#{page.ops}"
+                          maxlength="10"
                           readonly="#{edit.isReadOnly()}"
                           style="width: 100%;">
                 <pf:ajax />

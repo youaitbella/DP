@@ -163,6 +163,7 @@ public class Edit {
                 }
             } catch (Exception ex) {
                 DialogController.showErrorDialog("Fehler beim Speichern", "Vorgang abgebrochen");
+                _mailer.sendError("AEB Fehler beim speichern", ex);
             }
         } else {
             DialogController.showWarningDialog("Fehler beim Speichern", "Bitte geben Sie eine gültige IK und Datenjahr an");

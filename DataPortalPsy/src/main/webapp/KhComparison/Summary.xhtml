@@ -12,6 +12,52 @@
     <ui:define name="content">
         <h1>Krankenhaus Datenerfassung</h1>
         <pf:panel style="background-color: #eeeeee;">
+
+            <div class="ui-g ui-fluid" jsf:rendered="#{sessionController.isInekUser('HC_HOSPITAL')}">
+                <div class="ui-g-12">
+                    <h2>Übersicht InEK</h2>
+                    <pf:dataTable id="inekTable"
+                                  value="#{summary.listInek}"
+                                  rows="50"
+                                  paginator="true"
+                                  rowsPerPageTemplate="25,50,100,300"
+                                  var="listEntry"
+                                  emptyMessage="Keine Einträge vorhanden"
+                                  tableStyleClass="inekTablePsy">
+                        <pf:column headerText="IK" filterable="true" filterBy="#{listEntry.ik}" sortable="true" sortBy="#{listEntry.ik}">
+                            <h:link outcome="#{summary.khComparisonOpen()}"
+                                    value="#{listEntry.ik}" >
+                                <f:param name="id" value="#{listEntry.id}"/>
+                            </h:link>
+                        </pf:column>
+                        <pf:column headerText="Vereinbarungsjahr" >
+                            <h:link outcome="#{summary.khComparisonOpen()}"
+                                    value="#{listEntry.year}" >
+                                <f:param name="id" value="#{listEntry.id}"/>
+                            </h:link>
+                        </pf:column>
+                        <pf:column headerText="Gesendet am" >
+                            <h:link outcome="#{summary.khComparisonOpen()}"
+                                    value="#{listEntry.sendAt}" >
+                                <f:param name="id" value="#{listEntry.id}"/>
+                            </h:link>
+                        </pf:column>
+                        <pf:column headerText="Gesendet von" >
+                            <h:link outcome="#{summary.khComparisonOpen()}"
+                                    value="#{listEntry.sendBy}" >
+                                <f:param name="id" value="#{listEntry.id}"/>
+                            </h:link>
+                        </pf:column>
+                        <pf:column headerText="Herkunft" >
+                            <h:link outcome="#{summary.khComparisonOpen()}"
+                                    value="#{listEntry.type}" >
+                                <f:param name="id" value="#{listEntry.id}"/>
+                            </h:link>
+                        </pf:column>
+                    </pf:dataTable>
+                </div>
+            </div>
+
             <div class="ui-g ui-fluid" >
                 <div class="ui-g-6">
                     <h2>Daten in Erfassung</h2>
