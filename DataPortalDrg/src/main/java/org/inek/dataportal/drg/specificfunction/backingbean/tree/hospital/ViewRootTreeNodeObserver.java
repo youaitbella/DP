@@ -27,7 +27,8 @@ public class ViewRootTreeNodeObserver implements TreeNodeObserver {
     @Override
     public Collection<TreeNode> obtainChildren(TreeNode treeNode) {
         Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.SPECIFIC_FUNCTION, canReadSealed());
-        Set<Integer> years = _specificFunctionFacade.getRequestCalcYears(accountIds);
+        Set<Integer> managedIks = _accessManager.retrieveAllowedManagedIks(Feature.SPECIFIC_FUNCTION);
+        Set<Integer> years = _specificFunctionFacade.getRequestCalcYears(accountIds, managedIks);
         List<? extends TreeNode> oldChildren = new ArrayList<>(treeNode.getChildren());
         Collection<TreeNode> children = new ArrayList<>();
         int targetYear = Utils.getTargetYear(Feature.SPECIFIC_FUNCTION);

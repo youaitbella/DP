@@ -129,10 +129,20 @@ public class SpecificFunctionFacade extends AbstractDataAccessWithActionLog {
         return query.getResultList();
     }
 
-    public Set<Integer> getRequestCalcYears(Set<Integer> accountIds) {
-        String jpql = "select s._dataYear from SpecificFunctionRequest s where s._accountId in :accountIds and s._statusId >= 10";
+    public Set<Integer> getRequestCalcYears(Set<Integer> accountIds, Set<Integer> managedIks) {
+        String jpql = "select s._dataYear from SpecificFunctionRequest s "
+                + "where s._statusId >= 10 and ("
+                + (accountIds.isEmpty() ? "1=2" : "s._accountId in :" + ACCOUNT_IDS)
+                + " or "
+                + (managedIks.isEmpty() ? "1=2" : "s._ik in :" + MANAGED_IKS)
+                + ")";
         Query query = getEntityManager().createQuery(jpql);
-        query.setParameter(ACCOUNT_IDS, accountIds);
+        if (!accountIds.isEmpty()) {
+            query.setParameter(ACCOUNT_IDS, accountIds);
+        }
+        if (!managedIks.isEmpty()) {
+            query.setParameter(MANAGED_IKS, managedIks);
+        }
         @SuppressWarnings("unchecked")
         HashSet<Integer> result = new HashSet<>(query.getResultList());
         return result;
