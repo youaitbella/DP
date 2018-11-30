@@ -34,7 +34,7 @@ public class EditRootTreeNodeObserver implements TreeNodeObserver {
 
     @Override
     public Collection<TreeNode> obtainChildren(TreeNode treeNode) {
-        List<? extends TreeNode> oldChildren = new ArrayList<>(treeNode.getChildren());
+        List<TreeNode> oldChildren = new ArrayList<>(treeNode.getChildren());
         
         Collection<TreeNode> children = obtainCustomerNodes(oldChildren, treeNode);
         children.addAll(obtainAccountNodes(oldChildren, treeNode));
@@ -42,24 +42,22 @@ public class EditRootTreeNodeObserver implements TreeNodeObserver {
     }
 
     private Collection<TreeNode> obtainCustomerNodes(
-            List<? extends TreeNode> oldChildren, 
+            List<TreeNode> oldChildren, 
             TreeNode treeNode) {
         Collection<TreeNode> children = new ArrayList<>();
         for (int ik : _accessManager.retrieveAllowedManagedIks(Feature.SPECIFIC_FUNCTION)) {
-            Optional<? extends TreeNode> existing = oldChildren
+            TreeNode childNode = oldChildren
                     .stream()
                     .filter(n -> n instanceof CustomerTreeNode && n.getId() == ik)
-                    .findFirst();
-            CustomerTreeNode childNode = existing.isPresent()
-                    ? (CustomerTreeNode) existing.get()
-                    : createCustomerNode(treeNode, ik);
+                    .findFirst()
+                    .orElseGet(() -> createCustomerNode(treeNode, ik));
             children.add((TreeNode) childNode);
             childNode.expand();  // auto-expand all edit nodes by default
         }
         return children;
     }
 
-    private CustomerTreeNode createCustomerNode(TreeNode parent, int ik) {
+    private TreeNode createCustomerNode(TreeNode parent, int ik) {
         Customer customer = _customerFacade.getCustomerByIK(ik);
         return CustomerTreeNode.create(parent, customer, _customerTreeNodeObserverProvider.get());
     }
