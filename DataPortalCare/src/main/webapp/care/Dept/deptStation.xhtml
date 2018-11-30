@@ -47,7 +47,7 @@
             margin-bottom: 5px;
             padding-top: 5px;
             padding-bottom: 5px;
-            background-color: #209e53;
+            background-color: #267747;
             position: relative;
             color: white;
             font-size: 1.2em;
@@ -119,9 +119,8 @@
                                   value="#{dept.deptStations}"
                                   emptyMessage="Keine Einträge vorhanden"
                                   var="station">
-                        <pf:column class="colIcon" style="width: 20px;">
+                        <pf:column class="colIcon" style="width: 20px;" rendered="#{!deptEdit.isReadOnly}">
                             <inekIcon:DeleteIcon deleteFunction="#{deptEdit.deleteStationFromDept(dept, station)}"
-                                                 show="#{!deptEdit.isReadOnly}"
                                                  updateElement="form" />
                         </pf:column>
                         <pf:column headerText="Fachabteilungsname">
@@ -173,9 +172,8 @@
                                   value="#{dept.deptStations}"
                                   emptyMessage="Keine Einträge vorhanden"
                                   var="station">
-                        <pf:column style="width: 20px;">
+                        <pf:column style="width: 20px;" rendered="#{!deptEdit.isReadOnly}">
                             <inekIcon:DeleteIcon deleteFunction="#{deptEdit.deleteStationFromDept(dept, station)}"
-                                                 show="#{!deptEdit.isReadOnly}"
                                                  updateElement="form" />
                         </pf:column>
                         <pf:column headerText="Fachabteilungsname">
@@ -231,9 +229,8 @@
                                   value="#{dept.deptStations}"
                                   emptyMessage="Keine Einträge vorhanden"
                                   var="station">
-                        <pf:column class="colIcon" style="width: 20px;">
+                        <pf:column class="colIcon" style="width: 20px;" rendered="#{!deptEdit.isReadOnly}">
                             <inekIcon:DeleteIcon deleteFunction="#{deptEdit.deleteStationFromDept(dept, station)}"
-                                                 show="#{!deptEdit.isReadOnly}"
                                                  updateElement="form" />
                         </pf:column>
                         <pf:column headerText="Fachabteilungsnr." style="width: 120px;">
