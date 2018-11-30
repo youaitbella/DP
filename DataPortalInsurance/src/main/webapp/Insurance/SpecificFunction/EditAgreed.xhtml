@@ -28,7 +28,8 @@
                                   readonly="#{editSpecificFunctionAgreement.readOnly or editSpecificFunctionAgreement.agreement.ik > 0}"
                                   renderElement="@form">
                 </inek:LabeledText>
-                <h:outputLabel value="Daten erfassen" styleClass="button marginLeft"/>
+                <h:outputLabel value="Daten erfassen" styleClass="button marginLeft"
+                               rendered="#{editSpecificFunctionAgreement.agreement.ik le 0}"/>
 
                 <div jsf:id="spfData" jsf:rendered="#{editSpecificFunctionAgreement.agreement.ik gt 0}">
 
@@ -155,8 +156,7 @@
                                    action="#{editSpecificFunctionAgreement.save}"
                                    value="#{msg.btnSave}"
                                    immediate="true"
-                                   rendered="#{!editSpecificFunctionAgreement.readOnly and editSpecificFunctionAgreement.agreement.ik > 0 
-                                               or sessionController.isInekUser('SPECIFIC_FUNCTION')}">
+                                   rendered="#{!editSpecificFunctionAgreement.readOnly and editSpecificFunctionAgreement.agreement.ik > 0}">
                     </h:commandLink>
 
                     <h:commandLink styleClass="bigButton"
