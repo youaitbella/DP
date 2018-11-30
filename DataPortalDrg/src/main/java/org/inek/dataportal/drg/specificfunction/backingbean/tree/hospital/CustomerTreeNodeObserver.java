@@ -25,11 +25,10 @@ public class CustomerTreeNodeObserver implements TreeNodeObserver {
     public Collection<TreeNode> obtainChildren(TreeNode treeNode) {
         int ik = ((CustomerTreeNode) treeNode).getIk();
         List<SpecificFunctionRequest> infos;
-        if (treeNode.getParent() instanceof YearTreeNode) {
-            int year = treeNode.getParent().getId();
-            infos = obtainRequestsForRead(ik, year);
-        } else {
+        if (treeNode.getParent().getId() == 1) {
             infos = obtainRequestsForEdit(ik);
+        } else {
+            infos = obtainRequestsForRead(ik);
         }
         Collection<TreeNode> children = new ArrayList<>();
         for (SpecificFunctionRequest info : infos) {
@@ -38,12 +37,12 @@ public class CustomerTreeNodeObserver implements TreeNodeObserver {
         return children;
     }
 
-    private List<SpecificFunctionRequest> obtainRequestsForRead(int ik, int year) {
+    private List<SpecificFunctionRequest> obtainRequestsForRead(int ik) {
         WorkflowStatus statusLow = WorkflowStatus.Provided;
         WorkflowStatus statusHigh = WorkflowStatus.Retired;
         return _specificFunctionFacade.obtainSpecificFunctionRequests(
                 ik,
-                year,
+                0,
                 statusLow,
                 statusHigh);
     }

@@ -55,34 +55,23 @@
 
             <h4><h:outputLabel value="#{msg.infoProvidedData}"/></h4>
 
-            <ui:repeat value="#{specificFunctionRequestTreeHandler.viewNode.children}" var="year">
-                <p>
-                <h:commandLink action="#{year.toggle}" immediate="true" >
-                    <h:graphicImage alt="auf/zuklappen" name="Icon/small/#{year.expanded ? 'ButtonMinus.png' : 'ButtonPlus.png'}" title="Details auf/zuklappen" value=""/>
-                    <f:ajax render="@this Year :logout:remaining"/>
-                </h:commandLink>
-                <h:commandLink styleClass="block marginTop" action="#{year.toggle}" value="Besondere Aufgaben für #{year.id}" immediate="true" />
-                </p>
-                <div jsf:id="Year">
-                    <ui:repeat value="#{year.children}" var="treeNode" varStatus="status">
-                        <div style="margin-left:16px;">
-                            <h:commandLink action="#{treeNode.toggle}" immediate="true" >
-                                <h:graphicImage alt="auf/zuklappen" name="Icon/small/#{treeNode.expanded ? 'ButtonMinus.png' : 'ButtonPlus.png'}" title="Details auf/zuklappen" value=""/>
-                                <f:ajax render="@this proposalShow :logout:remaining"/>
-                            </h:commandLink>
-                            <h:panelGroup>
-                                <h:outputText styleClass="third marginTop" value="#{treeNode.displayName}"/>
-                                <h:outputText styleClass="third marginTop" value="#{treeNode.company}"/>
-                                <h:outputText styleClass="third marginTop" value="#{treeNode.town}"/>
-                            </h:panelGroup>
-                            <div jsf:id="proposalShow" style="margin-left:16px; padding-bottom: 1em;">
-                                <h:outputLabel value="Zu diesem IK sind derzeit keine Daten vorhanden" rendered="#{treeNode.expanded and treeNode.children.size() eq 0}"/>
-                                <spf:RequestNode parentNode="#{treeNode}"
-                                                 showDelete="true" showSelectBox="false"
-                                                 rendered="#{treeNode.children.size() gt 0}"/>
-                            </div>
-                        </div>
-                    </ui:repeat>
+            <ui:repeat value="#{specificFunctionRequestTreeHandler.viewNode.children}" var="treeNode" varStatus="status">
+                <div style="margin-left:16px;">
+                    <h:commandLink action="#{treeNode.toggle}" immediate="true" >
+                        <h:graphicImage alt="auf/zuklappen" name="Icon/small/#{treeNode.expanded ? 'ButtonMinus.png' : 'ButtonPlus.png'}" title="Details auf/zuklappen" value=""/>
+                        <f:ajax render="@this proposalShow :logout:remaining"/>
+                    </h:commandLink>
+                    <h:panelGroup>
+                        <h:outputText styleClass="third marginTop" value="#{treeNode.displayName}"/>
+                        <h:outputText styleClass="third marginTop" value="#{treeNode.company}"/>
+                        <h:outputText styleClass="third marginTop" value="#{treeNode.town}"/>
+                    </h:panelGroup>
+                    <div jsf:id="proposalShow" style="margin-left:16px; padding-bottom: 1em;">
+                        <h:outputLabel value="Zu diesem IK sind derzeit keine Daten vorhanden" rendered="#{treeNode.expanded and treeNode.children.size() eq 0}"/>
+                        <spf:RequestNode parentNode="#{treeNode}"
+                                         showDelete="true" showSelectBox="false"
+                                         rendered="#{treeNode.children.size() gt 0}"/>
+                    </div>
                 </div>
             </ui:repeat>
 
