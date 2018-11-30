@@ -9,8 +9,8 @@ package org.inek.dataportal.common.enums;
  * @author muellermi
  */
 public enum StructureInformationCategorie {
-    BedCount("Allgemeine Angaben", "Planbetten"),
-    TherapyPartCount("Allgemeine Angaben", "Anzahl teilstationärer Therapieplätze"),
+    BedCount("Allgemeine Angaben", "Anzahl Planbetten (vollstationär)"),
+    TherapyPartCount("Allgemeine Angaben", "Anzahl Therapieplätze (teilstationär)"),
     RegionalCare("Regionale Versorgungsverpflichtung",
             "Stichpunktartige Beschreibung der strukturellen und personellen Besonderheiten duch die regionalen Versorgungsverpflichtung"),
     AccommodationText("Besonderheiten bei der gesetzlichen Unterbringung",
