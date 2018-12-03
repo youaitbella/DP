@@ -25,3 +25,9 @@ DataPortalCalc/faces-config.NavData
 /DataPortalCare/nbproject/
 DataPortalInek/nb-configuration.xml
 DataPortalCare/src/site/~$alitaetssicherungCare.docx
+installAllToTest.cmd
+deployAppToTest.cmd
+deployAppToProduction.cmd
+deployAllToTest.cmd
+deployAllToProduction.cmd
+deployAllTo.cmd

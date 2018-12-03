@@ -124,12 +124,14 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
         List<SelectItem> iks = getIks();
         if (iks.size() == 1) {
             int ik = (int) iks.get(0).getValue();
-            agreement.setInsuranceIk(ik);
             Customer customer = _customerFacade.getCustomerByIK(ik);
-            agreement.setInsuranceName(customer.getName());
-            agreement.setInsuranceStreet(customer.getStreet());
-            agreement.setInsurancePostCode(customer.getPostCode());
-            agreement.setInsuranceTown(customer.getTown());
+            if (customer.getCustomerTypeId() == 77) {  // todo: remove magic number
+                agreement.setInsuranceIk(ik);
+                agreement.setInsuranceName(customer.getName());
+                agreement.setInsuranceStreet(customer.getStreet());
+                agreement.setInsurancePostCode(customer.getPostCode());
+                agreement.setInsuranceTown(customer.getTown());
+            }
         }
         return agreement;
     }
