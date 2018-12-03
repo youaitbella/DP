@@ -8,7 +8,6 @@ package org.inek.dataportal.insurance.specificfunction.backingbean;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +24,6 @@ import org.inek.dataportal.common.overall.ApplicationTools;
 import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.common.data.account.entities.AccountIk;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.enums.Pages;
@@ -34,6 +32,8 @@ import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.common.controller.AbstractEditController;
 import org.inek.dataportal.common.data.adm.MailTemplate;
 import org.inek.dataportal.common.data.adm.facade.InekRoleFacade;
+import org.inek.dataportal.common.data.icmt.entities.Customer;
+import org.inek.dataportal.common.data.icmt.facade.CustomerFacade;
 import org.inek.dataportal.insurance.specificfunction.entity.AgreedCenter;
 import org.inek.dataportal.insurance.specificfunction.entity.AgreedRemunerationKeys;
 import org.inek.dataportal.common.specificfunction.entity.CenterName;
@@ -63,6 +63,7 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
     @Inject private SessionController _sessionController;
     @Inject private SpecificFunctionFacade _specificFunctionFacade;
     @Inject private ApplicationTools _appTools;
+    @Inject private CustomerFacade _customerFacade;
 
     private SpecificFunctionAgreement _agreement;
 
@@ -120,6 +121,16 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
         agreement.setMail(account.getEmail());
         agreement.setDataYear(Utils.getTargetYear(Feature.SPECIFIC_FUNCTION));
         agreement.getRemunerationKeys().add(new AgreedRemunerationKeys());
+        List<SelectItem> iks = getIks();
+        if (iks.size() == 1) {
+            int ik = (int) iks.get(0).getValue();
+            agreement.setInsuranceIk(ik);
+            Customer customer = _customerFacade.getCustomerByIK(ik);
+            agreement.setInsuranceName(customer.getName());
+            agreement.setInsuranceStreet(customer.getStreet());
+            agreement.setInsurancePostCode(customer.getPostCode());
+            agreement.setInsuranceTown(customer.getTown());
+        }
         return agreement;
     }
 
@@ -135,7 +146,8 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
         if (_sessionController.isInekUser(Feature.SPECIFIC_FUNCTION) && !_appTools.isEnabled(ConfigKey.TestMode)) {
             return true;
         }
-        return _accessManager.isReadOnly(Feature.INSURANCE, _agreement.getStatus(), _agreement.getAccountId(), _agreement.getIk());
+        return _accessManager.
+                isReadOnly(Feature.INSURANCE, _agreement.getStatus(), _agreement.getAccountId(), _agreement.getIk());
     }
 
     @Override
@@ -151,7 +163,8 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
 
         if (isValidId(_agreement.getId())) {
             // CR+LF or LF only will be replaced by "\r\n"
-            String script = "alert ('" + Utils.getMessage("msgSaveAndMentionSend").replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
+            String script = "alert ('" + Utils.getMessage("msgSaveAndMentionSend").replace("\r\n", "\n").
+                    replace("\n", "\\r\\n") + "');";
             _sessionController.setScript(script);
             return null;
         }
@@ -166,7 +179,8 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
 
         if (isValidId(_agreement.getId())) {
             // CR+LF or LF only will be replaced by "\r\n"
-            String script = "alert ('" + Utils.getMessage("msgSaveAndMentionSend").replace("\r\n", "\n").replace("\n", "\\r\\n") + "');";
+            String script = "alert ('" + Utils.getMessage("msgSaveAndMentionSend").replace("\r\n", "\n").
+                    replace("\n", "\\r\\n") + "');";
             _sessionController.setScript(script);
             sendMessage("Besondere Aufgaben / Zentrum: Vertragskennzeichen");
             return null;
@@ -209,7 +223,8 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
         if (_agreement == null) {
             return false;
         }
-        return _accessManager.isSealedEnabled(Feature.SPECIFIC_FUNCTION, _agreement.getStatus(), _agreement.getAccountId());
+        return _accessManager.isSealedEnabled(Feature.SPECIFIC_FUNCTION, _agreement.getStatus(), _agreement.
+                getAccountId());
     }
 
     public boolean isApprovalRequestEnabled() {
@@ -219,7 +234,8 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
         if (_agreement == null) {
             return false;
         }
-        return _accessManager.isApprovalRequestEnabled(Feature.SPECIFIC_FUNCTION, _agreement.getStatus(), _agreement.getAccountId());
+        return _accessManager.isApprovalRequestEnabled(Feature.SPECIFIC_FUNCTION, _agreement.getStatus(), _agreement.
+                getAccountId());
     }
 
     public boolean isRequestCorrectionEnabled() {
@@ -257,7 +273,8 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
     }
 
     public boolean isTakeEnabled() {
-        return _accessManager.isTakeEnabled(Feature.SPECIFIC_FUNCTION, _agreement.getStatus(), _agreement.getAccountId());
+        return _accessManager.
+                isTakeEnabled(Feature.SPECIFIC_FUNCTION, _agreement.getStatus(), _agreement.getAccountId());
     }
 
     /**
@@ -353,7 +370,8 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
         }
     }
 
-    private void checkField(MessageContainer message, Integer value, Integer minValue, Integer maxValue, String msgKey, String elementId) {
+    private void checkField(MessageContainer message, Integer value, Integer minValue, Integer maxValue, String msgKey,
+            String elementId) {
         if (value == null
                 || minValue != null && value < minValue
                 || maxValue != null && value > maxValue) {
@@ -458,13 +476,15 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
     }
 
     public void changeCode() {
-        SpecificFunctionRequest request = _specificFunctionFacade.findSpecificFunctionRequestByCode(_agreement.getCode());
+        SpecificFunctionRequest request = _specificFunctionFacade.
+                findSpecificFunctionRequestByCode(_agreement.getCode());
         if (request.getIk() < 1) {
             Utils.showMessageInBrowser("Das Vertragskennzeichen " + _agreement.getCode() + " ist unbekannt.");
             return;
         }
         if (_specificFunctionFacade.SpecificFunctionAgreementExists(_agreement.getCode())) {
-            Utils.showMessageInBrowser("Zum Vertragskennzeichen " + _agreement.getCode() + " wurden bereits Daten erfasst.");
+            Utils.
+                    showMessageInBrowser("Zum Vertragskennzeichen " + _agreement.getCode() + " wurden bereits Daten erfasst.");
             return;
         }
         _agreement.setIk(request.getIk());
