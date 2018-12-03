@@ -261,8 +261,8 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
     }
 
     /**
-     * This function seals a statement od participance if possible. Sealing is possible, if all mandatory fields are
-     * fulfilled. After sealing, the statement od participance can not be edited anymore and is available for the InEK.
+     * This function seals a statement of participance if possible. Sealing is possible, if all mandatory fields are
+     * fulfilled. After sealing, the statement of participance can not be edited anymore and is available for the InEK.
      *
      * @return
      */
