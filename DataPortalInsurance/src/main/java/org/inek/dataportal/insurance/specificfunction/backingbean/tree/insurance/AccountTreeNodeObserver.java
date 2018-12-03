@@ -24,7 +24,6 @@ import org.inek.dataportal.insurance.specificfunction.backingbean.tree.SpecificF
 import org.inek.dataportal.common.tree.entityTree.AccountTreeNode;
 import org.inek.dataportal.common.tree.TreeNode;
 import org.inek.dataportal.common.tree.TreeNodeObserver;
-import org.inek.dataportal.common.tree.YearTreeNode;
 
 /**
  *
@@ -45,11 +44,10 @@ public class AccountTreeNodeObserver implements TreeNodeObserver{
     private Collection<TreeNode> obtainAccountNodeChildren(AccountTreeNode treeNode) {
         int partnerId = treeNode.getId();
         List<SpecificFunctionAgreement> infos;
-        if (treeNode.getParent() instanceof YearTreeNode) {
-            int year = treeNode.getParent().getId();
-            infos = obtainAgreementsForRead(partnerId, year);
-        } else {
+        if (treeNode.getParent().getId() == 1) {
             infos = obtainAgreementsForEdit(partnerId);
+        } else {
+            infos = obtainAgreementsForRead(partnerId);
         }
         Collection<TreeNode> children = new ArrayList<>();
         for (SpecificFunctionAgreement info : infos) {
@@ -58,7 +56,7 @@ public class AccountTreeNodeObserver implements TreeNodeObserver{
         return children;
     }
     
-    private List<SpecificFunctionAgreement> obtainAgreementsForRead(int partnerId, int year) {
+    private List<SpecificFunctionAgreement> obtainAgreementsForRead(int partnerId) {
         WorkflowStatus statusLow = WorkflowStatus.Provided;
         WorkflowStatus statusHigh = WorkflowStatus.Retired;
         if (partnerId != _sessionController.getAccountId()) {
@@ -68,7 +66,7 @@ public class AccountTreeNodeObserver implements TreeNodeObserver{
                 statusHigh = WorkflowStatus.Unknown;
             }
         }
-        return _specificFunctionFacade.obtainSpecificFunctionAgreements(partnerId, year, statusLow, statusHigh);
+        return _specificFunctionFacade.obtainSpecificFunctionAgreements(partnerId, 0, statusLow, statusHigh);
     }
     
     private List<SpecificFunctionAgreement> obtainAgreementsForEdit(int partnerId) {

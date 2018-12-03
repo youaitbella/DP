@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.inek.dataportal.insurance.specificfunction.backingbean.tree.insurance;
 
 import java.util.ArrayList;
@@ -15,47 +10,64 @@ import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import org.inek.dataportal.common.overall.AccessManager;
 import static org.inek.dataportal.common.overall.AccessManager.canReadSealed;
+import org.inek.dataportal.common.controller.SessionController;
+import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.insurance.specificfunction.facade.SpecificFunctionFacade;
-import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.common.tree.RootNode;
+import org.inek.dataportal.common.tree.entityTree.AccountTreeNode;
 import org.inek.dataportal.common.tree.TreeNode;
 import org.inek.dataportal.common.tree.TreeNodeObserver;
-import org.inek.dataportal.common.tree.YearTreeNode;
 
 /**
  *
  * @author aitbellayo
  */
 @Dependent
-public class ViewRootTreeNodeObserver implements TreeNodeObserver {
-
-    @Inject    private AccessManager _accessManager;
-    @Inject    private SpecificFunctionFacade _specificFunctionFacade;
+public class ViewRootTreeNodeObserver implements TreeNodeObserver{
+    
+    @Inject private AccessManager _accessManager;
+    @Inject private SpecificFunctionFacade _specificFunctionFacade;
+    @Inject private SessionController _sessionController;
     @Inject private Instance<AccountTreeNodeObserver> _accountTreeNodeObserver;
 
     @Override
     public Collection<TreeNode> obtainChildren(TreeNode treeNode) {
-        return obtainViewNodeChildren((RootNode) treeNode); //To change body of generated methods, choose Tools | Templates.
+        return obtainViewNodeChildren(treeNode); 
     }
 
-    private Collection<TreeNode> obtainViewNodeChildren(RootNode treeNode) {
+    private Collection<TreeNode> obtainViewNodeChildren(TreeNode treeNode) {
         Set<Integer> accountIds = _accessManager.determineAccountIds(Feature.SPECIFIC_FUNCTION, canReadSealed());
-        Set<Integer> years = _specificFunctionFacade.getAgreementCalcYears(accountIds);
-        int targetYear = Utils.getTargetYear(Feature.SPECIFIC_FUNCTION);
-        List<? extends TreeNode> oldChildren = new ArrayList<>(treeNode.getChildren());
+        List<Account> accounts = _specificFunctionFacade.loadAgreementAccountsForYear(accountIds, 0,
+                WorkflowStatus.Provided, WorkflowStatus.Retired);
+        Account currentUser = _sessionController.getAccount();
+        if (accounts.contains(currentUser)) {
+            // ensure current user is first, if in list
+            accounts.remove(currentUser);
+            accounts.add(0, currentUser);
+        }
+        List<TreeNode> oldChildren = new ArrayList<>(treeNode.getChildren());
         Collection<TreeNode> children = new ArrayList<>();
-        for (Integer year : years) {
-            Optional<? extends TreeNode> existing = oldChildren.stream().filter(n -> n.getId() == year).findFirst();
-            YearTreeNode childNode = existing.isPresent() ? (YearTreeNode) existing.get() : YearTreeNode.
-                    create(treeNode, year, _accountTreeNodeObserver.get());
+        for (Account account : accounts) {
+            int id = account.getId();
+            TreeNode childNode = oldChildren
+                    .stream()
+                    .filter(n -> n.getId() == id)
+                    .findFirst()
+                    .orElseGet(() -> createAccountNode(treeNode, account));
             children.add((TreeNode) childNode);
             oldChildren.remove(childNode);
-            if (year == targetYear) {
+            if (account == currentUser) {
+                // auto expand user's own data
                 childNode.expand();
             }
         }
         return children;
     }
-
+    
+    private TreeNode createAccountNode(TreeNode parent, Account account) {
+        return AccountTreeNode.create(parent, account, _accountTreeNodeObserver.get());
+    }
+    
 }
+
