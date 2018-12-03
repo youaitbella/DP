@@ -7,7 +7,7 @@
 # - Powershell in der neuesten Version (5+)
 #
 #Anleitung
-# Erlauben von Powershellscripten: cmd -> Set-executionpolicy -executionpolicy unrestricted
+# Erlauben von Powershellscripten: cmd als Admin öffnen -> powershell -> Set-executionpolicy -executionpolicy unrestricted
 # Falls gewünscht kann die Ausführung mit Set-ExecutionPolicy -ExecutionPolicy Restricted wieder aktiviert werden
 # Script ausführen (Rechtsklick -> Mit Powershell ausführen) und den Aweisungen in der Oberfläche oder in der Konsole folgen!!!
 # Viel Spaß
