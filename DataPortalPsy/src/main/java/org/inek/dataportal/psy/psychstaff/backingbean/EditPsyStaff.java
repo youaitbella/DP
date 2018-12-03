@@ -6,54 +6,45 @@
 package org.inek.dataportal.psy.psychstaff.backingbean;
 
 import com.itextpdf.text.DocumentException;
-import java.io.IOException;
-import java.io.Serializable;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.common.controller.AbstractEditController;
+import org.inek.dataportal.common.controller.DialogController;
+import org.inek.dataportal.common.controller.ReportController;
+import org.inek.dataportal.common.controller.SessionController;
+import org.inek.dataportal.common.data.KhComparison.entities.OccupationalCategory;
+import org.inek.dataportal.common.data.account.entities.Account;
+import org.inek.dataportal.common.data.adm.MailTemplate;
+import org.inek.dataportal.common.enums.ConfigKey;
+import org.inek.dataportal.common.enums.Pages;
+import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.common.helper.MailTemplateHelper;
+import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.common.mail.Mailer;
+import org.inek.dataportal.common.overall.AccessManager;
+import org.inek.dataportal.common.overall.ApplicationTools;
+import org.inek.dataportal.common.scope.FeatureScoped;
+import org.inek.dataportal.common.utils.DateUtils;
+import org.inek.dataportal.psy.psychstaff.entity.*;
+import org.inek.dataportal.psy.psychstaff.enums.PsychType;
+import org.inek.dataportal.psy.psychstaff.facade.PsychStaffFacade;
+import org.inek.dataportal.psy.psychstaff.pdf.PdfBuilder;
+import org.primefaces.event.FileUploadEvent;
+
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.Part;
-
-import org.inek.dataportal.common.controller.DialogController;
-import org.inek.dataportal.common.overall.ApplicationTools;
-import org.inek.dataportal.common.overall.AccessManager;
-import org.inek.dataportal.common.controller.SessionController;
-import org.inek.dataportal.common.data.account.entities.Account;
-import org.inek.dataportal.common.enums.ConfigKey;
-import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.common.enums.Pages;
-import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.common.controller.AbstractEditController;
-import org.inek.dataportal.psy.psychstaff.entity.ExclusionFact;
-import org.inek.dataportal.psy.psychstaff.entity.StaffProof;
-import org.inek.dataportal.psy.psychstaff.entity.StaffProofAgreed;
-import org.inek.dataportal.psy.psychstaff.entity.StaffProofDocument;
-import org.inek.dataportal.psy.psychstaff.entity.StaffProofEffective;
-import org.inek.dataportal.psy.psychstaff.entity.StaffProofExplanation;
-import org.inek.dataportal.psy.psychstaff.enums.PsychType;
-import org.inek.dataportal.psy.psychstaff.facade.PsychStaffFacade;
-import org.inek.dataportal.psy.psychstaff.pdf.PdfBuilder;
-import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.common.scope.FeatureScoped;
-import org.inek.dataportal.common.utils.DateUtils;
-import org.inek.dataportal.common.controller.ReportController;
-import org.inek.dataportal.common.data.KhComparison.entities.OccupationalCategory;
-import org.primefaces.event.FileUploadEvent;
+import java.io.IOException;
+import java.io.Serializable;
+import java.security.NoSuchAlgorithmException;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
- *
  * @author muellermi
  */
 @SuppressWarnings("JavaNCSS")
@@ -78,24 +69,29 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     private ReportController _reportController;
     private PsychStaffFacade _psychStaffFacade;
     private ApplicationTools _appTools;
+    private Mailer _mailer;
+    private StaffProof _staffProof;
+    private Part _file;
+    private List<ExclusionFact> _exclusionFacts;
 
     public EditPsyStaff() {
     }
 
     @Inject
     public EditPsyStaff(AccessManager accessManager,
-            SessionController sessionController,
-            ReportController reportController,
-            PsychStaffFacade psychStaffFacade,
-            ApplicationTools appTools) {
+                        SessionController sessionController,
+                        ReportController reportController,
+                        PsychStaffFacade psychStaffFacade,
+                        ApplicationTools appTools,
+                        Mailer mailer) {
         _accessManager = accessManager;
         _sessionController = sessionController;
         _reportController = reportController;
         _psychStaffFacade = psychStaffFacade;
         _appTools = appTools;
+        _mailer = mailer;
     }
-
-    private StaffProof _staffProof;
+    // </editor-fold>
 
     public StaffProof getStaffProof() {
         return _staffProof;
@@ -104,7 +100,6 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     public void setStaffProof(StaffProof staffProof) {
         _staffProof = staffProof;
     }
-    // </editor-fold>
 
     @Override
     protected void addTopics() {
@@ -120,10 +115,9 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         //Deactivate save on Tabchange
 
         //if (!isReadOnly()) {
-            //save(false);
+        //save(false);
         //}
     }
-
 
     @PostConstruct
     private void init() {
@@ -507,8 +501,15 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     public String close() {
         if (updateStatus(WorkflowStatus.Provided)) {
             save(false);
+            sendMailIfComplete();
         }
         return null;
+    }
+
+    private void sendMailIfComplete() {
+        if (isComplete()) {
+            sendConfirmMail();
+        }
     }
 
     private boolean updateStatus(WorkflowStatus newStatus) {
@@ -563,8 +564,9 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         return _accessManager != null
                 && _staffProof != null
                 && _accessManager.isTakeEnabled(Feature.PSYCH_STAFF, _staffProof.getStatus(),
-                        _staffProof.getAccountId(), _staffProof.getIk());
+                _staffProof.getAccountId(), _staffProof.getIk());
     }
+    // </editor-fold>
 
     public String take() {
         if (!isTakeEnabled()) {
@@ -579,7 +581,6 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     public Set<Integer> getIks() {
         return _accessManager.ObtainIksForCreation(Feature.PSYCH_STAFF);
     }
-    // </editor-fold>
 
     public String determineFactor(StaffProofEffective effective) {
         if (_staffProof.getExclusionFactId1() > 0) {
@@ -621,8 +622,6 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
     public double sumEffectiveStaffingDeductionOther(PsychType type) {
         return _staffProof.getStaffProofsEffective(type).stream().mapToDouble(i -> i.getStaffingDeductionOther()).sum();
     }
-
-    private Part _file;
 
     public Part getFile() {
         return _file;
@@ -670,7 +669,25 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
             document.setSignature(signature);
             _staffProof.addStaffProofDocument(document);
             save(true);
+            sendMailIfComplete();
         }
+    }
+
+    private void sendConfirmMail() {
+        MailTemplate template = _mailer.getMailTemplate("PSY-PV Send Confirmation");
+
+        MailTemplateHelper.setPlaceholderInTemplateBody(template,"{salutation}",
+                _mailer.getFormalSalutation(_sessionController.getAccount()));
+        MailTemplateHelper.setPlaceholderInTemplate(template, "{ik}", String.valueOf(_staffProof.getIk()));
+        MailTemplateHelper.setPlaceholderInTemplate(template, "{year}", String.valueOf(_staffProof.getYear()));
+        try {
+            _mailer.sendMailTemplate(template, _sessionController.getAccount().getEmail());
+        }
+        catch (Exception ex) {
+            LOGGER.log(Level.WARNING, ex.getMessage());
+            _mailer.sendError("PSY-PV", ex);
+        }
+
     }
 
     public String refresh() {
@@ -810,7 +827,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
                 .getStaffProofExplanations(type)
                 .stream()
                 .filter(e -> e.getOccupationalCategory().getId() == occupationalCategory.getId() && e.
-                getDeductedSpecialistId() == key)
+                        getDeductedSpecialistId() == key)
                 .mapToDouble(e -> e.getDeductedFullVigor())
                 .sum();
         if (deductionCount - sum > 0) {
@@ -818,8 +835,8 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
                     .getStaffProofExplanations(type)
                     .stream()
                     .anyMatch(e -> e.getOccupationalCategory().getId() == occupationalCategory.getId()
-                    && e.getDeductedSpecialistId() == key
-                    && e.getDeductedFullVigor() == 0);
+                            && e.getDeductedSpecialistId() == key
+                            && e.getDeductedFullVigor() == 0);
             if (!existsEmpty) {
                 _staffProof.addStaffProofExplanation(type, occupationalCategory, key);
             }
@@ -837,7 +854,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         return obtainExclusionFacts()
                 .stream()
                 .filter(f -> f.getYearFrom() <= _staffProof.getYear() && f.getYearTo() >= _staffProof.getYear() && f.
-                isAffectsApx1())
+                        isAffectsApx1())
                 .collect(Collectors.toList());
     }
 
@@ -845,7 +862,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         return obtainExclusionFacts()
                 .stream()
                 .filter(f -> f.getYearFrom() <= _staffProof.getYear() && f.getYearTo() >= _staffProof.getYear() && f.
-                isAffectsApx2())
+                        isAffectsApx2())
                 .collect(Collectors.toList());
     }
 
@@ -877,8 +894,6 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         return _appTools.retrieveHospitalInfo(_staffProof.getIk());
     }
 
-    private List<ExclusionFact> _exclusionFacts;
-
     public List<ExclusionFact> obtainExclusionFacts() {
         if (_exclusionFacts == null) {
             _exclusionFacts = _psychStaffFacade.findAllExclusionFacts();
@@ -891,8 +906,7 @@ public class EditPsyStaff extends AbstractEditController implements Serializable
         try {
             _staffProof = _psychStaffFacade.saveStaffProof(_staffProof);
             DialogController.showSuccessDialog("Aktion erfolgreich", "Das Datum wurde erfolgreich zurückgesetzt");
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             DialogController.showErrorDialog("Unbekannter Fehler beim speichern", ex.getMessage());
         }
     }
