@@ -164,10 +164,7 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
         addCentersIfMissing();
 
         if (isValidId(_agreement.getId())) {
-            // CR+LF or LF only will be replaced by "\r\n"
-            String script = "alert ('" + Utils.getMessage("msgSaveAndMentionSend").replace("\r\n", "\n").
-                    replace("\n", "\\r\\n") + "');";
-            _sessionController.setScript(script);
+            _sessionController.alertClient(Utils.getMessage("msgSaveAndMentionSend"));
             return null;
         }
         return Pages.Error.URL();
@@ -180,10 +177,7 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
         addCentersIfMissing();
 
         if (isValidId(_agreement.getId())) {
-            // CR+LF or LF only will be replaced by "\r\n"
-            String script = "alert ('" + Utils.getMessage("msgSaveAndMentionSend").replace("\r\n", "\n").
-                    replace("\n", "\\r\\n") + "');";
-            _sessionController.setScript(script);
+            _sessionController.alertClient(Utils.getMessage("msgSaveAndMentionSend"));
             sendMessage("Besondere Aufgaben / Zentrum: Vertragskennzeichen");
             return null;
         }
