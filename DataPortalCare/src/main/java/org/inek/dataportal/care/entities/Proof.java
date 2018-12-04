@@ -1,7 +1,11 @@
 package org.inek.dataportal.care.entities;
 
+import org.inek.dataportal.care.enums.Months;
+import org.inek.dataportal.care.enums.Shift;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -21,8 +25,8 @@ public class Proof implements Serializable {
 
     public Proof(Proof proof) {
         this._deptStation = new DeptStation(proof.getDeptStation());
-        this._shift = proof.getShift();
-        this._month = proof.getMonth();
+        this._shift = proof.getShift().getId();
+        this._month = proof.getMonth().getId();
         this._countShift = proof.getCountShift();
         this._nurse = proof.getNurse();
         this._helpeNurse = proof.getHelpNurse();
@@ -80,12 +84,12 @@ public class Proof implements Serializable {
     @Column(name = "prShift")
     private int _shift;
 
-    public int getShift() {
-        return _shift;
+    public Shift getShift() {
+        return Shift.getById(_shift);
     }
 
-    public void setShift(int shift) {
-        this._shift = shift;
+    public void setShift(Shift shift) {
+        this._shift = shift.getId();
     }
     //</editor-fold>
 
@@ -93,13 +97,14 @@ public class Proof implements Serializable {
     @Column(name = "prMonth")
     private int _month;
 
-    public int getMonth() {
-        return _month;
+    public Months getMonth() {
+        return Months.getById(_month);
     }
 
-    public void setMonth(int month) {
-        this._month = month;
+    public void setMonth(Months month) {
+        this._month = month.getId();
     }
+
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property CountShift">

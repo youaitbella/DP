@@ -1,0 +1,275 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package org.inek.dataportal.care.backingbeans;
+
+import org.inek.dataportal.api.enums.Feature;
+import org.inek.dataportal.care.entities.DeptStation;
+import org.inek.dataportal.care.entities.ProofRegulationBaseInformation;
+import org.inek.dataportal.care.facades.ProofFacade;
+import org.inek.dataportal.care.utils.ProofFiller;
+import org.inek.dataportal.common.controller.DialogController;
+import org.inek.dataportal.common.controller.SessionController;
+import org.inek.dataportal.common.data.access.ConfigFacade;
+import org.inek.dataportal.common.data.adm.MailTemplate;
+import org.inek.dataportal.common.data.ikadmin.entity.AccessRight;
+import org.inek.dataportal.common.enums.ConfigKey;
+import org.inek.dataportal.common.enums.Pages;
+import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.common.helper.MailTemplateHelper;
+import org.inek.dataportal.common.helper.Utils;
+import org.inek.dataportal.common.mail.Mailer;
+import org.inek.dataportal.common.overall.AccessManager;
+import org.primefaces.event.FlowEvent;
+
+import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
+
+/**
+ * @author lautenti
+ */
+@Named
+@ViewScoped
+public class ProofEdit implements Serializable {
+
+    private static final Logger LOGGER = Logger.getLogger("ProofEdit");
+    @Inject
+    private SessionController _sessionController;
+    @Inject
+    private AccessManager _accessManager;
+    @Inject
+    private ProofFacade _proofFacade;
+    @Inject
+    private ConfigFacade _configFacade;
+    @Inject
+    private Mailer _mailer;
+    private ProofRegulationBaseInformation _proofRegulationBaseInformation;
+    private Boolean _isReadOnly;
+    private Set<Integer> _validIks;
+    private Set<Integer> _validYears;
+    private Set<Integer> _validQuarters;
+
+    public Set<Integer> getValidIks() {
+        return _validIks;
+    }
+
+    public void setValidIks(Set<Integer> validIks) {
+        this._validIks = validIks;
+    }
+
+    public Set<Integer> getValidYears() {
+        return _validYears;
+    }
+
+    public void setValidYears(Set<Integer> validYears) {
+        this._validYears = validYears;
+    }
+
+    public Set<Integer> getValidQuarters() {
+        return _validQuarters;
+    }
+
+    public void setValidQuarters(Set<Integer> validQuarters) {
+        this._validQuarters = validQuarters;
+    }
+
+    public Boolean getIsReadOnly() {
+        return _isReadOnly;
+    }
+
+    public void setIsReadOnly(Boolean isReadOnly) {
+        this._isReadOnly = isReadOnly;
+    }
+
+    public ProofRegulationBaseInformation getProofRegulationBaseInformation() {
+        return _proofRegulationBaseInformation;
+    }
+
+    public void setProofRegulationBaseInformation(ProofRegulationBaseInformation proofRegulationBaseInformation) {
+        this._proofRegulationBaseInformation = proofRegulationBaseInformation;
+    }
+
+    @PostConstruct
+    private void init() {
+        String id = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id");
+        if (id == null) {
+            Utils.navigate(Pages.NotAllowed.RedirectURL());
+            return;
+        } else if ("new".equals(id)) {
+            _proofRegulationBaseInformation = createNewBaseInformation();
+            _proofRegulationBaseInformation.setCreatedBy(_sessionController.getAccountId());
+
+            // Begin Testdaten
+
+            List<DeptStation> stations = _proofFacade.getDeptStationsForProof(222222222, 2017);
+            ProofFiller.createProofEntrysFromStations(_proofRegulationBaseInformation, stations, 2018, 1);
+            // Ende Testdaten
+
+            loadValidIks();
+
+            if (_validIks.size() == 1) {
+                _proofRegulationBaseInformation.setIk((int) _validIks.toArray()[0]);
+                preloadDataForIk(_proofRegulationBaseInformation);
+            }
+        } else {
+            _proofRegulationBaseInformation = _proofFacade.findBaseInformation(Integer.parseInt(id));
+            if (!isAccessAllowed(_proofRegulationBaseInformation)) {
+                Utils.navigate(Pages.NotAllowed.RedirectURL());
+                return;
+            }
+        }
+        setReadOnly();
+    }
+
+    public String onFlowProcess(FlowEvent event) {
+        return event.getNewStep();
+    }
+
+    private boolean isAccessAllowed(ProofRegulationBaseInformation info) {
+        return _accessManager.isAccessAllowed(Feature.CARE, info.getStatus(),
+                Integer.MIN_VALUE, info.getIk());
+    }
+
+    private void setReadOnly() {
+        if (_proofRegulationBaseInformation != null) {
+            setIsReadOnly(_accessManager.isReadOnly(Feature.CARE,
+                    _proofRegulationBaseInformation.getStatus(),
+                    Integer.MIN_VALUE,
+                    _proofRegulationBaseInformation.getIk()));
+        }
+    }
+
+    private ProofRegulationBaseInformation createNewBaseInformation() {
+        ProofRegulationBaseInformation info = new ProofRegulationBaseInformation();
+
+        info.setStatus(WorkflowStatus.New);
+        info.setCreated(new Date());
+
+        return info;
+    }
+
+    public void ikChanged() {
+        loadValidYears(_proofRegulationBaseInformation.getIk());
+    }
+
+    public void validYearsChanged() {
+        loadValidQuarter(_proofRegulationBaseInformation.getIk(), _proofRegulationBaseInformation.getYear());
+    }
+
+    private void loadValidQuarter(int ik, int year) {
+        _validQuarters = _proofFacade.getValidQuarter(ik, year);
+    }
+
+    private void loadValidYears(int ik) {
+        _validYears = _proofFacade.getValidYears(ik);
+    }
+
+    public void firstSave() {
+        List<DeptStation> stations = _proofFacade.getDeptStationsForProof(_proofRegulationBaseInformation.getIk(),
+                _proofRegulationBaseInformation.getYear() - 2);
+        ProofFiller.createProofEntrysFromStations(_proofRegulationBaseInformation, stations,
+                _proofRegulationBaseInformation.getYear(), _proofRegulationBaseInformation.getQuarter());
+        save();
+    }
+
+    public void save() {
+        _proofRegulationBaseInformation.setLastChangeBy(_sessionController.getAccountId());
+        _proofRegulationBaseInformation.setLastChanged(new Date());
+
+        try {
+            _proofRegulationBaseInformation = _proofFacade.save(_proofRegulationBaseInformation);
+
+            if (_proofRegulationBaseInformation.getStatus() == WorkflowStatus.Provided) {
+                sendMail("Care Proof Senden Bestätigung");
+            } else {
+                sendMail("Care Proof Speicher Bestätigung");
+            }
+            DialogController.showSaveDialog();
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, "Fehler beim speichern PPUGV: " + ex.getMessage(), ex);
+            _mailer.sendError("Fehler beim speichern PPUGV", ex);
+            DialogController.showErrorDialog("Fehler beim speichern", "Ihre Daten konnten nicht gespeichert werden."
+                    + "Bitte versuchen Sie es erneut");
+        }
+    }
+
+    private void sendMail(String mailTemplateName) {
+        String salutation = _mailer.getFormalSalutation(_sessionController.getAccount());
+
+        MailTemplate template = _mailer.getMailTemplate(mailTemplateName);
+        MailTemplateHelper.setPlaceholderInTemplateSubject(template, "{ik}", Integer.toString(_proofRegulationBaseInformation.getIk()));
+
+        MailTemplateHelper.setPlaceholderInTemplateBody(template, "{salutation}", salutation);
+        MailTemplateHelper.setPlaceholderInTemplateBody(template, "{ik}", Integer.toString(_proofRegulationBaseInformation.getIk()));
+
+        if (!_mailer.sendMailTemplate(template, _sessionController.getAccount().getEmail())) {
+            LOGGER.log(Level.SEVERE, "Fehler beim Emailversand an " + _proofRegulationBaseInformation.getIk() + "(Care Proof)");
+            _mailer.sendException(Level.SEVERE,
+                    "Fehler beim Emailversand an " + _proofRegulationBaseInformation.getIk() + "(Care Proof)", new Exception());
+        }
+    }
+
+    public void send() {
+        /*String errors = CareValidator.checkDeptBaseinformationIsAllowedToSend(_deptBaseInformation);
+
+        if (errors.isEmpty()) {
+            _deptBaseInformation.setSend(new Date());
+            _deptBaseInformation.setStatus(WorkflowStatus.Provided);
+            save();
+            setIsReadOnly(true);
+        } else {
+            DialogController.showErrorDialog("Daten nicht vollständig", errors);
+        }*/
+    }
+
+    private void loadValidIks() {
+        Set<Integer> allowedIks = _accessManager.ObtainIksForCreation(Feature.CARE);
+        setValidIks(_proofFacade.retrievePossibleIks(allowedIks));
+    }
+
+    private void preloadDataForIk(ProofRegulationBaseInformation info) {
+        //_deptFacade.prefillDeptsForBaseInformation(info);
+    }
+
+    public Boolean changeAllowed() {
+        if (!_configFacade.readConfigBool(ConfigKey.IsCareProofChangeEnabled)) {
+            return false;
+        }
+        if (_proofRegulationBaseInformation == null || _proofRegulationBaseInformation.getStatusId() < 10) {
+            return false;
+        } else {
+            for (AccessRight right : _sessionController.getAccount().getAccessRights().stream()
+                    .filter(c -> c.canWrite() && c.getFeature() == Feature.CARE)
+                    .collect(Collectors.toList())) {
+                if (right.getIk() == _proofRegulationBaseInformation.getIk()) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+    }
+
+    public Boolean sendAllowed() {
+        return _configFacade.readConfigBool(ConfigKey.IsCareSendEnabled);
+    }
+
+    public void change() {
+        /*_deptBaseInformation.setStatus(WorkflowStatus.CorrectionRequested);
+        _oldDeptbaseInformation = copyBaseInformation(_deptBaseInformation);
+        setIsReadOnly(false);*/
+    }
+
+}

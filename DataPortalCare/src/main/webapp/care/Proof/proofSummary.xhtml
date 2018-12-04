@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/WEB-INF/template.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:pf="http://primefaces.org/ui"
+                xmlns:inekIcon="http://xmlns.jcp.org/jsf/composite/components/Icons"
+                xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+    <ui:define name="title">Nachweisvereinbarung</ui:define>
+
+    <ui:define name="content">
+
+        <style>
+            .card {
+                max-width: 1280px !important;
+            }
+        </style>
+
+        <div class="ui-g">
+            <div class="card">
+                <h1>Übersicht über Ihre Daten</h1>
+                <div class="ui-g-12 ui-lg-6">
+
+                    <pf:commandButton value="Neue Meldung erstellen"
+                                      action="#{proofSummary.careProofStationOpen()}"
+                                      rendered="#{proofSummary.isCreateEntryAllowed()}"
+                                      immediate="true"
+                                      style="margin-bottom:10px; margin-top: 10px;">
+                        <f:param name="id" value="new"/>
+                    </pf:commandButton>
+                </div>
+
+                <div class="ui-g-12 ui-lg-6">
+
+
+                </div>
+            </div>
+        </div>
+
+    </ui:define>
+
+</ui:composition>
+
