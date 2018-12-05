@@ -1,15 +1,19 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
                 template="/WEB-INF/template.xhtml"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:inekIk="http://xmlns.jcp.org/jsf/composite/components/Other"
+                xmlns:inekDialog="http://xmlns.jcp.org/jsf/composite/components/Dialog"
                 xmlns:pf="http://primefaces.org/ui">
 
 
     <ui:define name="title">Nachweisvereinbarung</ui:define>
 
     <ui:define name="content">
+
+        <inekDialog:ProcessDialog varName="dlgLoadingData" headerText="Daten werden geladen" />
 
         <h:form id="form">
             <div style="margin-top: 10px;">
@@ -25,7 +29,7 @@
             </div>
 
             <div class="ui-g">
-                <div class="card">
+                <div class="card" style="min-width: 500px;">
                     <div class="ui-g-12">
                         <pf:wizard flowListener="#{proofEdit.onFlowProcess}"
                                    backLabel="Zurück"
@@ -65,7 +69,7 @@
                             <pf:tab id="quarter" title="Quartal">
                                 <pf:panel header="Quartal Auswahl">
                                     <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
-                                        <pf:outputLabel for="selectQuarter" value="Jahr:" />
+                                        <pf:outputLabel for="selectQuarter" value="Quartal:" />
 
                                         <pf:selectOneMenu id="selectQuarter"
                                                           title="Quartal"
@@ -76,14 +80,15 @@
                                                     rendered="#{proofEdit.proofRegulationBaseInformation.quarter eq 0}"
                                                     itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}"
                                                     noSelectionOption="true" />
-                                            <f:selectItems value="#{proofEdit.validQuarters}" />
+                                            <f:selectItems value="#{proofEdit.validQuarters}" var="quarter" itemLabel="Quartal #{quarter}"/>
                                         </pf:selectOneMenu>
                                     </h:panelGrid>
                                     <pf:message for="selectQuarter" id="msgselectQuarter" />
 
                                     <pf:commandButton value="Daten erfassen"
+                                                      onclick="PF('dlgLoadingData').show()"
+                                                      oncomplete="PF('dlgLoadingData').hide()"
                                                       action="#{proofEdit.firstSave()}"
-                                                      process="@this"
                                                       style="margin-left: 10px;"
                                                       update="@form" />
                                 </pf:panel>
@@ -93,7 +98,7 @@
                 </div>
             </div>
 
-            <div class="ui-g">
+            <div class="ui-g" jsf:rendered="#{proofEdit.proofRegulationBaseInformation.id gt 0}">
                 <div class="card">
                     <div class="ui-g-12">
                         <ui:include src="proof.xhtml" />
@@ -101,7 +106,7 @@
                 </div>
             </div>
 
-            <div class="ui-g">
+            <div class="ui-g" jsf:rendered="#{proofEdit.proofRegulationBaseInformation.id gt 0}">
                 <div class="card">
                     <div class="ui-g-12">
                         <pf:commandButton value="Datensatz ändern"

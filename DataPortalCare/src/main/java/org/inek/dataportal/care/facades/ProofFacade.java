@@ -5,8 +5,6 @@
  */
 package org.inek.dataportal.care.facades;
 
-import javafx.util.Pair;
-import org.inek.dataportal.care.entities.Dept;
 import org.inek.dataportal.care.entities.DeptBaseInformation;
 import org.inek.dataportal.care.entities.DeptStation;
 import org.inek.dataportal.care.entities.ProofRegulationBaseInformation;
@@ -16,12 +14,11 @@ import org.inek.dataportal.common.enums.WorkflowStatus;
 import javax.ejb.Stateless;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import javax.transaction.Transactional;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
- *
  * @author lautenti
  */
 @Stateless
@@ -43,41 +40,85 @@ public class ProofFacade extends AbstractDataAccessWithActionLog {
         return query.getResultList();
     }
 
-    private Set<Pair<Integer, Integer>> retrieveIkYearPairs(Collection<Integer> iks) {
-        if (iks.isEmpty()) {
-            return new HashSet<>();
+    public Set<Integer> retrievePossibleIks(Set<Integer> allowedIks) {
+        Set<Integer> possibleIks = new HashSet<>();
+        Set<Integer> possibleYears = getPossibleYears();
+
+        for (int ik : allowedIks) {
+            if (newEntryPossibleForIk(ik, possibleYears)) {
+                possibleIks.add(ik);
+            }
         }
-        String ikList = iks.stream().map(ik -> "" + ik).collect(Collectors.joining(", "));
-        String sql = "select distinct dbiIk, dbiYear \n"
-                + "from care.DeptBaseInformation \n"
-                + "where dbiIk in (" + ikList + ") "
-                + "and dbiStatusId < 200\n";
+
+        return possibleIks;
+    }
+
+    public Set<Integer> retrievePossibleYears(int ik) {
+        Set<Integer> possibleYearsForCreation = new HashSet<>();
+        Set<Integer> possibleYears = getPossibleYears();
+
+        for (int year : possibleYears) {
+            if (newEntryPossibleForYear(ik, year)) {
+                possibleYearsForCreation.add(year);
+            }
+        }
+        return possibleYearsForCreation;
+    }
+
+    public Set<Integer> retrievePossibleQuarter(int ik, int year) {
+        Set<Integer> possibleQuarters = new HashSet<>();
+        possibleQuarters.add(1);
+        possibleQuarters.add(2);
+        possibleQuarters.add(3);
+        possibleQuarters.add(4);
+
+        List<Object[]> existsQuarters = getQuartersForValidEntrys(ik, year);
+
+        for (Object quarter : existsQuarters) {
+            if (possibleQuarters.contains(quarter)) {
+                possibleQuarters.remove(quarter);
+            }
+        }
+
+        return possibleQuarters;
+    }
+
+    private boolean newEntryPossibleForYear(int ik, int year) {
+        List<Object[]> quartersForValidEntrys = getQuartersForValidEntrys(ik, year);
+        return quartersForValidEntrys.size() < 4;
+    }
+
+
+    private boolean newEntryPossibleForIk(int ik, Set<Integer> possibleYears) {
+        for (int year : possibleYears) {
+            List<Object[]> quartersForValidEntrys = getQuartersForValidEntrys(ik, year);
+
+            if (quartersForValidEntrys.size() < 4) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private List<Object[]> getQuartersForValidEntrys(int ik, int year) {
+        String sql = "select prbiQuarter \n" +
+                "from care.ProofRegulationBaseInformation \n" +
+                "where prbiIk = " + ik + " \n" +
+                "and prbiYear = " + year + " \n" +
+                "and prbiQuarter in (1,2,3,4) \n" +
+                "and prbiStatusId in (0, 3, 10)";
+
         Query query = getEntityManager().createNativeQuery(sql);
+
         @SuppressWarnings("unchecked")
         List<Object[]> objects = query.getResultList();
 
-        return objects.stream().map(obj -> new Pair<>((int) obj[0], (int) obj[1])).collect(Collectors.toSet());
+        return objects;
     }
 
-    public Set<Integer> retrievePossibleIks(Set<Integer> allowedIks) {
-        //todo machen
-        /*Set<Pair<Integer, Integer>> existingIkYearPairs = retrieveIkYearPairs(allowedIks);
-        List<Integer> possibleYears = getPossibleDataYears();
-
-        Set<Integer> possibleIks = allowedIks
-                .stream()
-                .filter(ik -> possibleYears
-                .stream()
-                .anyMatch(year -> !existingIkYearPairs.contains(new Pair<>(ik, year))))
-                .collect(Collectors.toSet());
-        return possibleIks;*/
-
-        return allowedIks;
-    }
-
-    public List<Integer> getPossibleDataYears() {
-        List<Integer> years = new ArrayList<>();
-        years.add(2017);
+    private Set<Integer> getPossibleYears() {
+        Set<Integer> years = new HashSet<>();
+        years.add(2019);
         return years;
     }
 
@@ -114,11 +155,4 @@ public class ProofFacade extends AbstractDataAccessWithActionLog {
         return query.getResultList();
     }
 
-    public Set<Integer> getValidYears(int ik) {
-        return null;
-    }
-
-    public Set<Integer> getValidQuarter(int ik, int year) {
-        return null;
-    }
 }

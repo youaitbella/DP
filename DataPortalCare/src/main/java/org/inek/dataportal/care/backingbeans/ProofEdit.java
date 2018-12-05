@@ -111,12 +111,6 @@ public class ProofEdit implements Serializable {
             _proofRegulationBaseInformation = createNewBaseInformation();
             _proofRegulationBaseInformation.setCreatedBy(_sessionController.getAccountId());
 
-            // Begin Testdaten
-
-            List<DeptStation> stations = _proofFacade.getDeptStationsForProof(222222222, 2017);
-            ProofFiller.createProofEntrysFromStations(_proofRegulationBaseInformation, stations, 2018, 1);
-            // Ende Testdaten
-
             loadValidIks();
 
             if (_validIks.size() == 1) {
@@ -169,11 +163,11 @@ public class ProofEdit implements Serializable {
     }
 
     private void loadValidQuarter(int ik, int year) {
-        _validQuarters = _proofFacade.getValidQuarter(ik, year);
+        _validQuarters = _proofFacade.retrievePossibleQuarter(ik, year);
     }
 
     private void loadValidYears(int ik) {
-        _validYears = _proofFacade.getValidYears(ik);
+        _validYears = _proofFacade.retrievePossibleYears(ik);
     }
 
     public void firstSave() {
@@ -199,9 +193,9 @@ public class ProofEdit implements Serializable {
             DialogController.showSaveDialog();
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "Fehler beim speichern PPUGV: " + ex.getMessage(), ex);
-            _mailer.sendError("Fehler beim speichern PPUGV", ex);
+            _mailer.sendError("Fehler beim speichern PPUGV: " + ex.getMessage(), ex);
             DialogController.showErrorDialog("Fehler beim speichern", "Ihre Daten konnten nicht gespeichert werden."
-                    + "Bitte versuchen Sie es erneut");
+                    + "Bitte versuchen Sie es erneut. Fehlercode: " + ex.getMessage());
         }
     }
 

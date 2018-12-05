@@ -60,13 +60,13 @@ public class ProofRegulationBaseInformation implements Serializable, StatusEntit
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Version">
-    @Column(name = "prbVersion")
+    @Column(name = "prbiVersion")
     @Version
     private int _version;
     // </editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="dataYear">
-    @Column(name = "prbYear")
+    @Column(name = "prbiYear")
     private int _year;
 
     public int getYear() {
@@ -92,7 +92,7 @@ public class ProofRegulationBaseInformation implements Serializable, StatusEntit
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Signature">
-    @Column(name = "prbSignature")
+    @Column(name = "prbiSignature")
     private String _signature = "";
 
     public String getSignature() {
@@ -105,7 +105,7 @@ public class ProofRegulationBaseInformation implements Serializable, StatusEntit
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property Ik">
-    @Column(name = "prbIK")
+    @Column(name = "prbiIK")
     private int _ik;
 
     public int getIk() {
@@ -118,7 +118,7 @@ public class ProofRegulationBaseInformation implements Serializable, StatusEntit
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property CreatedBy">
-    @Column(name = "prbCreatedBy")
+    @Column(name = "prbiCreatedBy")
     private int _createdBy;
 
     public int getCreatedBy() {
@@ -131,7 +131,7 @@ public class ProofRegulationBaseInformation implements Serializable, StatusEntit
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property Last Change">
-    @Column(name = "prbLastChangeBy")
+    @Column(name = "prbiLastChangeBy")
     private int _lastChangeBy;
 
     public int getLastChangeBy() {
@@ -144,7 +144,7 @@ public class ProofRegulationBaseInformation implements Serializable, StatusEntit
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property Created">
-    @Column(name = "prbCreated")
+    @Column(name = "prbiCreated")
     @Temporal(TemporalType.TIMESTAMP)
     private Date _created = new Date();
 
@@ -158,7 +158,7 @@ public class ProofRegulationBaseInformation implements Serializable, StatusEntit
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property LastChanged">
-    @Column(name = "prbLastChanged")
+    @Column(name = "prbiLastChanged")
     @Temporal(TemporalType.TIMESTAMP)
     private Date _lastChanged = new Date();
 
@@ -172,7 +172,7 @@ public class ProofRegulationBaseInformation implements Serializable, StatusEntit
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property Send">
-    @Column(name = "prbSend")
+    @Column(name = "prbiSend")
     @Temporal(TemporalType.TIMESTAMP)
     private Date _send = Date.from(LocalDate.of(2000, Month.JANUARY, 1).atStartOfDay().toInstant(ZoneOffset.UTC));
 
@@ -186,7 +186,7 @@ public class ProofRegulationBaseInformation implements Serializable, StatusEntit
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property StatusId">
-    @Column(name = "prbStatusId")
+    @Column(name = "prbiStatusId")
     private int _statusId;
 
     public int getStatusId() {
