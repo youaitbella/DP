@@ -32,7 +32,7 @@ public class DropBox implements Serializable {
     private Integer _accountId;
 
     // <editor-fold defaultstate="collapsed" desc="Property Account">
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "dbAccountId", updatable = false, insertable = false)
     private Account _account;
 
