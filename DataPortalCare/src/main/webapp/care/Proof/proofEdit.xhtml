@@ -19,7 +19,7 @@
             <div style="margin-top: 10px;">
                 <pf:commandButton value="Zurück zur Übersicht"
                                   icon="fa fa-arrow-left"
-                                  action="#{sessionController.navigate(sessionTools.pages.CareProofSummary)}"
+                                  action="#{proofEdit.navigateToSummary()}"
                                   immediate="true" />
 
                 <pf:button target="blank"
@@ -30,7 +30,7 @@
 
             <div class="ui-g">
                 <div class="card" style="min-width: 500px;">
-                    <div class="ui-g-12">
+                    <div class="ui-g-12" jsf:rendered="#{proofEdit.proofRegulationBaseInformation.id lt 0}">
                         <pf:wizard flowListener="#{proofEdit.onFlowProcess}"
                                    backLabel="Zurück"
                                    nextLabel="Weiter"
@@ -80,7 +80,8 @@
                                                     rendered="#{proofEdit.proofRegulationBaseInformation.quarter eq 0}"
                                                     itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}"
                                                     noSelectionOption="true" />
-                                            <f:selectItems value="#{proofEdit.validQuarters}" var="quarter" itemLabel="Quartal #{quarter}"/>
+                                            <f:selectItems value="#{proofEdit.validQuarters}" var="quarter"
+                                                           itemLabel="Quartal #{quarter}" />
                                         </pf:selectOneMenu>
                                     </h:panelGrid>
                                     <pf:message for="selectQuarter" id="msgselectQuarter" />
@@ -94,7 +95,24 @@
                                 </pf:panel>
                             </pf:tab>
                         </pf:wizard>
+
                     </div>
+
+                    <div class="ui-g-12" jsf:rendered="#{proofEdit.proofRegulationBaseInformation.id gt 0}">
+                        <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5"
+                                     rendered="#{proofEdit.proofRegulationBaseInformation.id gt 0}">
+                            <pf:outputLabel value="IK:" />
+                            <pf:outputLabel value="#{proofEdit.proofRegulationBaseInformation.ik}" />
+                            <pf:outputLabel value="Jahr:" />
+                            <pf:outputLabel value="#{proofEdit.proofRegulationBaseInformation.year}" />
+                            <pf:outputLabel value="Quartal:" />
+                            <pf:outputLabel value="Q#{proofEdit.proofRegulationBaseInformation.quarter}" />
+                            <pf:outputLabel value="Signatur:" />
+                            <pf:outputLabel value="#{proofEdit.proofRegulationBaseInformation.signature}" />
+                        </h:panelGrid>
+
+                    </div>
+
                 </div>
             </div>
 

@@ -9,6 +9,7 @@ import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.care.entities.DeptStation;
 import org.inek.dataportal.care.entities.ProofRegulationBaseInformation;
 import org.inek.dataportal.care.facades.ProofFacade;
+import org.inek.dataportal.care.utils.BaseDataManager;
 import org.inek.dataportal.care.utils.ProofFiller;
 import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.controller.SessionController;
@@ -60,6 +61,8 @@ public class ProofEdit implements Serializable {
     private Set<Integer> _validIks;
     private Set<Integer> _validYears;
     private Set<Integer> _validQuarters;
+
+    private BaseDataManager _baseDatamanager;
 
     public Set<Integer> getValidIks() {
         return _validIks;
@@ -176,6 +179,11 @@ public class ProofEdit implements Serializable {
         ProofFiller.createProofEntrysFromStations(_proofRegulationBaseInformation, stations,
                 _proofRegulationBaseInformation.getYear(), _proofRegulationBaseInformation.getQuarter());
         save();
+        loadBaseDataManager();
+    }
+
+    private void loadBaseDataManager() {
+        _baseDatamanager = new BaseDataManager(_proofRegulationBaseInformation.getYear());
     }
 
     public void save() {
@@ -264,6 +272,10 @@ public class ProofEdit implements Serializable {
         /*_deptBaseInformation.setStatus(WorkflowStatus.CorrectionRequested);
         _oldDeptbaseInformation = copyBaseInformation(_deptBaseInformation);
         setIsReadOnly(false);*/
+    }
+
+    public void navigateToSummary() {
+        Utils.navigate(Pages.CareProofSummary.RedirectURL());
     }
 
 }

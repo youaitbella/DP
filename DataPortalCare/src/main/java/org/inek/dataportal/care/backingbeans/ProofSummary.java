@@ -7,7 +7,7 @@ package org.inek.dataportal.care.backingbeans;
 
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.care.entities.DeptBaseInformation;
-import org.inek.dataportal.care.facades.DeptFacade;
+import org.inek.dataportal.care.entities.ProofRegulationBaseInformation;
 import org.inek.dataportal.care.facades.ProofFacade;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.access.ConfigFacade;
@@ -19,6 +19,7 @@ import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.overall.ApplicationTools;
 
 import javax.annotation.PostConstruct;
+import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -30,10 +31,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- *
  * @author lautenti
  */
-@Named
+@ManagedBean
 @ViewScoped
 public class ProofSummary implements Serializable {
 
@@ -78,30 +78,30 @@ public class ProofSummary implements Serializable {
 
     @PostConstruct
     public void init() {
-        /*setWorkingList();
+        setWorkingList();
         setCompleteList();
-        if (isInekUser()) {
+        /*if (isInekUser()) {
             setInekList();
         }*/
     }
 
     private void setWorkingList() {
-        /*_listWorking.clear();
+        _listWorking.clear();
         for (AccessRight right : _sessionController.getAccount().getAccessRights().stream()
                 .filter(c -> c.canRead() && c.getFeature() == Feature.CARE)
                 .collect(Collectors.toList())) {
-            _listWorking.addAll(createListItems(_deptFacade.getAllByStatusAndIk(WorkflowStatus.New, right.getIk())));
-            _listWorking.addAll(createListItems(_deptFacade.getAllByStatusAndIk(WorkflowStatus.CorrectionRequested, right.getIk())));
-        }*/
+            _listWorking.addAll(createListItems(_proofFacade.getAllByStatusAndIk(WorkflowStatus.New, right.getIk())));
+            _listWorking.addAll(createListItems(_proofFacade.getAllByStatusAndIk(WorkflowStatus.CorrectionRequested, right.getIk())));
+        }
     }
 
     private void setCompleteList() {
-        /*_listComplete.clear();
+        _listComplete.clear();
         for (AccessRight right : _sessionController.getAccount().getAccessRights().stream()
                 .filter(c -> c.canRead() && c.getFeature() == Feature.CARE)
                 .collect(Collectors.toList())) {
-            _listComplete.addAll(createListItems(_deptFacade.getAllByStatusAndIk(WorkflowStatus.Provided, right.getIk())));
-        }*/
+            _listComplete.addAll(createListItems(_proofFacade.getAllByStatusAndIk(WorkflowStatus.Provided, right.getIk())));
+        }
     }
 
     private void setInekList() {
@@ -122,16 +122,16 @@ public class ProofSummary implements Serializable {
         return _proofFacade.retrievePossibleIks(allowedIks).size() > 0;
     }
 
-    public void deleteBaseInformation(DeptBaseInformation info) {
-        /*_deptFacade.deleteBaseInformation(info);
-        setWorkingList();*/
+    public void deleteBaseInformation(ProofRegulationBaseInformation info) {
+        _proofFacade.deleteBaseInformation(info);
+        setWorkingList();
     }
 
     public Boolean isDeleteAllowed(int ik) {
         return !_sessionController.getAccount().getAccessRights().stream()
                 .filter(c -> c.getFeature() == Feature.CARE
-                && c.getIk() == ik
-                && c.canWrite())
+                        && c.getIk() == ik
+                        && c.canWrite())
                 .collect(Collectors.toList())
                 .isEmpty();
     }
@@ -140,16 +140,18 @@ public class ProofSummary implements Serializable {
         return _sessionController.isInekUser(Feature.CARE);
     }
 
-    public List<listItem> createListItems(List<DeptBaseInformation> baseInfos) {
+    public List<listItem> createListItems(List<ProofRegulationBaseInformation> baseInfos) {
         List<listItem> listItems = new ArrayList<>();
 
-        for (DeptBaseInformation info : baseInfos) {
+        for (ProofRegulationBaseInformation info : baseInfos) {
             listItem item = new listItem();
             item.setId(info.getId());
             item.setIk(info.getIk());
             item.setHospitalName(_applicationTools.retrieveHospitalInfo(info.getIk()));
             item.setLastChangeDate(info.getLastChanged());
             item.setStatusId(info.getStatusId());
+            item.setYear(info.getYear());
+            item.setQuarter(info.getQuarter());
             item.setBaseInfo(info);
             listItems.add(item);
         }
@@ -166,27 +168,31 @@ public class ProofSummary implements Serializable {
         private int _id;
         private int _ik;
         private int _statusId;
+        private int _year;
+        private int _quarter;
         private String _hospitalName;
         private Date _lastChangeDate;
-        private DeptBaseInformation _baseInfo;
+        private ProofRegulationBaseInformation _baseInfo;
 
         public listItem() {
 
         }
 
-        public listItem(int id, int ik, int statusId, String hospitalName, Date lastChangeDate) {
+        public listItem(int id, int ik, int statusId, int year, int quarter, String hospitalName, Date lastChangeDate) {
             this._id = id;
             this._ik = ik;
             this._statusId = statusId;
+            this._year = year;
+            this._quarter = quarter;
             this._hospitalName = hospitalName;
             this._lastChangeDate = lastChangeDate;
         }
 
-        public DeptBaseInformation getBaseInfo() {
+        public ProofRegulationBaseInformation getBaseInfo() {
             return _baseInfo;
         }
 
-        public void setBaseInfo(DeptBaseInformation baseInfo) {
+        public void setBaseInfo(ProofRegulationBaseInformation baseInfo) {
             this._baseInfo = baseInfo;
         }
 
@@ -213,6 +219,14 @@ public class ProofSummary implements Serializable {
         public void setStatusId(int statusId) {
             this._statusId = statusId;
         }
+
+        public int getYear() { return _year; }
+
+        public void setYear(int year) { this._year = year; }
+
+        public int getQuarter() { return _quarter; }
+
+        public void setQuarter(int quarter) { this._quarter = quarter; }
 
         public String getHospitalName() {
             return _hospitalName;

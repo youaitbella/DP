@@ -209,6 +209,27 @@ public class Proof implements Serializable {
         this._proofObjection = proofObjection;
     }
 
+    @Transient
+    private double _ppug;
+
+    @Transient
+    private double _part;
+
+    public double getPpug() {
+        return _ppug;
+    }
+
+    public void setPpug(double ppug) {
+        this._ppug = ppug;
+    }
+
+    public double getPart() {
+        return _part;
+    }
+
+    public void setPart(double part) {
+        this._part = part;
+    }
 
     @SuppressWarnings("CyclomaticComplexity")
     @Override

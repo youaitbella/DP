@@ -1,46 +1,105 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
 
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 template="/WEB-INF/template.xhtml"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:pf="http://primefaces.org/ui"
-                xmlns:inekIcon="http://xmlns.jcp.org/jsf/composite/components/Icons"
-                xmlns:jsf="http://xmlns.jcp.org/jsf">
+                xmlns:inekIcon="http://xmlns.jcp.org/jsf/composite/components/Icons">
 
     <ui:define name="title">Nachweisvereinbarung</ui:define>
 
     <ui:define name="content">
 
-        <style>
-            .card {
-                max-width: 1280px !important;
-            }
-        </style>
-
         <div class="ui-g">
             <div class="card">
                 <h1>Übersicht über Ihre Daten</h1>
                 <div class="ui-g-12 ui-lg-6">
-
+                    <pf:dataTable id="workingtable"
+                                  value="#{proofSummary.listWorking}"
+                                  var="baseInformation"
+                                  emptyMessage="Keine Einträge vorhanden">
+                        <f:facet name="header">
+                            In Erfassung
+                        </f:facet>
+                        <pf:column style="width: 20px;">
+                            <inekIcon:DeleteIcon
+                                    deleteFunction="#{proofSummary.deleteBaseInformation(baseInformation.baseInfo)}"
+                                    show="#{proofSummary.isDeleteAllowed(baseInformation.ik)}"
+                                    showConfirmDialog="true"
+                                    updateElement="workingtable" />
+                        </pf:column>
+                        <pf:column headerText="IK">
+                            <h:link outcome="#{proofSummary.careProofStationOpen()}"
+                                    value="#{baseInformation.ik}">
+                                <f:param name="id" value="#{baseInformation.id}" />
+                            </h:link>
+                        </pf:column>
+                        <pf:column headerText="Krankenhaus">
+                            <h:link outcome="#{proofSummary.careProofStationOpen()}"
+                                    value="#{baseInformation.hospitalName}">
+                                <f:param name="id" value="#{baseInformation.id}" />
+                            </h:link>
+                        </pf:column>
+                        <pf:column headerText="Jahr">
+                            <h:link outcome="#{proofSummary.careProofStationOpen()}"
+                                    value="#{baseInformation.year}">
+                                <f:param name="id" value="#{baseInformation.id}" />
+                            </h:link>
+                        </pf:column>
+                        <pf:column headerText="Quartal">
+                            <h:link outcome="#{proofSummary.careProofStationOpen()}"
+                                    value="Q#{baseInformation.quarter}">
+                                <f:param name="id" value="#{baseInformation.id}" />
+                            </h:link>
+                        </pf:column>
+                    </pf:dataTable>
                     <pf:commandButton value="Neue Meldung erstellen"
                                       action="#{proofSummary.careProofStationOpen()}"
                                       rendered="#{proofSummary.isCreateEntryAllowed()}"
                                       immediate="true"
                                       style="margin-bottom:10px; margin-top: 10px;">
-                        <f:param name="id" value="new"/>
+                        <f:param name="id" value="new" />
                     </pf:commandButton>
                 </div>
 
                 <div class="ui-g-12 ui-lg-6">
 
-
+                    <pf:dataTable id="listComplete"
+                                  value="#{proofSummary.listComplete}"
+                                  var="baseInformation"
+                                  emptyMessage="Keine Einträge vorhanden">
+                        <f:facet name="header">
+                            An das InEK gesendet
+                        </f:facet>
+                        <pf:column headerText="IK">
+                            <h:link outcome="#{proofSummary.careProofStationOpen()}"
+                                    value="#{baseInformation.ik}">
+                                <f:param name="id" value="#{baseInformation.id}" />
+                            </h:link>
+                        </pf:column>
+                        <pf:column headerText="Krankenhaus">
+                            <h:link outcome="#{proofSummary.careProofStationOpen()}"
+                                    value="#{baseInformation.hospitalName}">
+                                <f:param name="id" value="#{baseInformation.id}" />
+                            </h:link>
+                        </pf:column>
+                        <pf:column headerText="Jahr">
+                            <h:link outcome="#{proofSummary.careProofStationOpen()}"
+                                    value="#{baseInformation.year}">
+                                <f:param name="id" value="#{baseInformation.id}" />
+                            </h:link>
+                        </pf:column>
+                        <pf:column headerText="Quartal">
+                            <h:link outcome="#{proofSummary.careProofStationOpen()}"
+                                    value="Q#{baseInformation.quarter}">
+                                <f:param name="id" value="#{baseInformation.id}" />
+                            </h:link>
+                        </pf:column>
+                    </pf:dataTable>
                 </div>
             </div>
         </div>
-
     </ui:define>
-
 </ui:composition>
 

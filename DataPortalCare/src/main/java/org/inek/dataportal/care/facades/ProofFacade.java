@@ -31,10 +31,10 @@ public class ProofFacade extends AbstractDataAccessWithActionLog {
         return query.getSingleResult();
     }
 
-    public List<DeptBaseInformation> getAllByStatusAndIk(WorkflowStatus status, int ik) {
-        String jpql = "SELECT bi FROM DeptBaseInformation bi WHERE bi._statusId = :status "
+    public List<ProofRegulationBaseInformation> getAllByStatusAndIk(WorkflowStatus status, int ik) {
+        String jpql = "SELECT bi FROM ProofRegulationBaseInformation bi WHERE bi._statusId = :status "
                 + "and bi._ik = :ik";
-        TypedQuery<DeptBaseInformation> query = getEntityManager().createQuery(jpql, DeptBaseInformation.class);
+        TypedQuery<ProofRegulationBaseInformation> query = getEntityManager().createQuery(jpql, ProofRegulationBaseInformation.class);
         query.setParameter("status", status.getId());
         query.setParameter("ik", ik);
         return query.getResultList();
@@ -130,7 +130,7 @@ public class ProofFacade extends AbstractDataAccessWithActionLog {
         return merge(deptBaseInformation);
     }
 
-    public void deleteBaseInformation(DeptBaseInformation info) {
+    public void deleteBaseInformation(ProofRegulationBaseInformation info) {
         remove(info);
     }
 
