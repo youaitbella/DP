@@ -13,6 +13,7 @@ import org.inek.dataportal.care.facades.BaseDataFacade;
 import org.inek.dataportal.care.facades.ProofFacade;
 import org.inek.dataportal.care.utils.BaseDataManager;
 import org.inek.dataportal.care.utils.CallculatorPpug;
+import org.inek.dataportal.care.utils.CareSignatureCreater;
 import org.inek.dataportal.care.utils.ProofFiller;
 import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.controller.SessionController;
@@ -29,7 +30,6 @@ import org.inek.dataportal.common.overall.AccessManager;
 import org.primefaces.event.FlowEvent;
 
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -228,16 +228,11 @@ public class ProofEdit implements Serializable {
     }
 
     public void send() {
-        /*String errors = CareValidator.checkDeptBaseinformationIsAllowedToSend(_deptBaseInformation);
-
-        if (errors.isEmpty()) {
-            _deptBaseInformation.setSend(new Date());
-            _deptBaseInformation.setStatus(WorkflowStatus.Provided);
-            save();
-            setIsReadOnly(true);
-        } else {
-            DialogController.showErrorDialog("Daten nicht vollständig", errors);
-        }*/
+        _proofRegulationBaseInformation.setSend(new Date());
+        _proofRegulationBaseInformation.setStatus(WorkflowStatus.Provided);
+        _proofRegulationBaseInformation.setSignature(CareSignatureCreater.createPvSignature());
+        save();
+        setIsReadOnly(true);
     }
 
     private void loadValidIks() {
