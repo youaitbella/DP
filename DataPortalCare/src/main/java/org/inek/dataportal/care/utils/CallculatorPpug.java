@@ -4,6 +4,11 @@ import org.inek.dataportal.care.entities.Proof;
 
 public class CallculatorPpug {
 
+    public static void calculateAll(Proof proof) {
+        calculatePatientPerNurse(proof, proof.getPart());
+        calculateCountHelpeNurseChargeable(proof, proof.getPart());
+    }
+
     public static void calculatePatientPerNurse(Proof proof, double part) {
         double nurse = proof.getNurse();
         double helpNurse = proof.getHelpNurse();

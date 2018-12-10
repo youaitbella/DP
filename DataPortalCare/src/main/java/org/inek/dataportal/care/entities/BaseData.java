@@ -62,26 +62,26 @@ public class BaseData implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property pbdPpug">
     @Column(name = "pbdPpug")
-    private int _ppug;
+    private double _ppug;
 
-    public int getPpug() {
+    public double getPpug() {
         return _ppug;
     }
 
-    public void setPpug(int ppug) {
+    public void setPpug(double ppug) {
         this._ppug = ppug;
     }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property pbdPart">
     @Column(name = "pbdPart")
-    private int _part;
+    private double _part;
 
-    public int getPart() {
+    public double getPart() {
         return _part;
     }
 
-    public void setPart(int part) {
+    public void setPart(double part) {
         this._part = part;
     }
     //</editor-fold>

@@ -7,9 +7,12 @@ package org.inek.dataportal.care.backingbeans;
 
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.care.entities.DeptStation;
+import org.inek.dataportal.care.entities.Proof;
 import org.inek.dataportal.care.entities.ProofRegulationBaseInformation;
+import org.inek.dataportal.care.facades.BaseDataFacade;
 import org.inek.dataportal.care.facades.ProofFacade;
 import org.inek.dataportal.care.utils.BaseDataManager;
+import org.inek.dataportal.care.utils.CallculatorPpug;
 import org.inek.dataportal.care.utils.ProofFiller;
 import org.inek.dataportal.common.controller.DialogController;
 import org.inek.dataportal.common.controller.SessionController;
@@ -26,6 +29,7 @@ import org.inek.dataportal.common.overall.AccessManager;
 import org.primefaces.event.FlowEvent;
 
 import javax.annotation.PostConstruct;
+import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -52,6 +56,8 @@ public class ProofEdit implements Serializable {
     private AccessManager _accessManager;
     @Inject
     private ProofFacade _proofFacade;
+    @Inject
+    private BaseDataFacade _baseDataFacade;
     @Inject
     private ConfigFacade _configFacade;
     @Inject
@@ -115,17 +121,14 @@ public class ProofEdit implements Serializable {
             _proofRegulationBaseInformation.setCreatedBy(_sessionController.getAccountId());
 
             loadValidIks();
-
-            if (_validIks.size() == 1) {
-                _proofRegulationBaseInformation.setIk((int) _validIks.toArray()[0]);
-                preloadDataForIk(_proofRegulationBaseInformation);
-            }
         } else {
             _proofRegulationBaseInformation = _proofFacade.findBaseInformation(Integer.parseInt(id));
             if (!isAccessAllowed(_proofRegulationBaseInformation)) {
                 Utils.navigate(Pages.NotAllowed.RedirectURL());
                 return;
             }
+            loadBaseDataManager();
+            _baseDatamanager.fillBaseDataToProofs(_proofRegulationBaseInformation.getProofs());
         }
         setReadOnly();
     }
@@ -180,10 +183,11 @@ public class ProofEdit implements Serializable {
                 _proofRegulationBaseInformation.getYear(), _proofRegulationBaseInformation.getQuarter());
         save();
         loadBaseDataManager();
+        _baseDatamanager.fillBaseDataToProofs(_proofRegulationBaseInformation.getProofs());
     }
 
     private void loadBaseDataManager() {
-        _baseDatamanager = new BaseDataManager(_proofRegulationBaseInformation.getYear());
+        _baseDatamanager = new BaseDataManager(_proofRegulationBaseInformation.getYear(), _baseDataFacade);
     }
 
     public void save() {
@@ -241,10 +245,6 @@ public class ProofEdit implements Serializable {
         setValidIks(_proofFacade.retrievePossibleIks(allowedIks));
     }
 
-    private void preloadDataForIk(ProofRegulationBaseInformation info) {
-        //_deptFacade.prefillDeptsForBaseInformation(info);
-    }
-
     public Boolean changeAllowed() {
         if (!_configFacade.readConfigBool(ConfigKey.IsCareProofChangeEnabled)) {
             return false;
@@ -276,6 +276,12 @@ public class ProofEdit implements Serializable {
 
     public void navigateToSummary() {
         Utils.navigate(Pages.CareProofSummary.RedirectURL());
+    }
+
+    public void proofValueChanged(Proof proof) {
+        CallculatorPpug.calculateAll(proof);
+        //Todo Werte berechnen
+
     }
 
 }

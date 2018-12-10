@@ -5,85 +5,113 @@
                 xmlns:inekOutput="http://xmlns.jcp.org/jsf/composite/components/Output"
                 xmlns:pf="http://primefaces.org/ui">
 
-                <pf:dataTable id="proofTable"
-                              value="#{proofEdit.proofRegulationBaseInformation.proofs}"
-                              tableStyle="table-layout: auto"
-                              emptyMessage="Keine Einträge vorhanden"
-                              sortBy="#{proof.deptStation.dept.sensitiveArea}"
-                              expandableRowGroups="true"
-                              var="proof">
-                    <ui:remove>
-                        <pf:headerRow>
-                            <pf:column colspan="13">
-                                <pf:outputLabel
-                                        value="pflegesensitiver Bereich: #{proof.deptStation.dept.sensitiveArea}" />
-                            </pf:column>
-                        </pf:headerRow>
-                    </ui:remove>
+    <pf:dataTable id="proofTable"
+                  value="#{proofEdit.proofRegulationBaseInformation.proofs}"
+                  rows="50"
+                  paginator="true"
+                  rowsPerPageTemplate="25,50,100,300"
+                  tableStyle="table-layout: auto"
+                  emptyMessage="Keine Einträge vorhanden"
+                  sortBy="#{proof.deptStation.dept.sensitiveArea}"
+                  expandableRowGroups="true"
+                  var="proof">
+        <ui:remove>
+            <pf:headerRow>
+                <pf:column colspan="13">
+                    <pf:outputLabel
+                            value="pflegesensitiver Bereich: #{proof.deptStation.dept.sensitiveArea}" />
+                </pf:column>
+            </pf:headerRow>
+        </ui:remove>
 
-                    <pf:column groupRow="true" headerText="pflegesensitiver Bereich im Krankenhaus gem. § 3 PpUGV">
-                        <pf:outputLabel value="#{proof.deptStation.dept.sensitiveArea}" />
-                    </pf:column>
-                    <pf:column groupRow="true" headerText="Fachabteilungsschlüssel in §-21-Daten">
-                        <pf:outputLabel value="#{proof.deptStation.deptNumber}" />
-                    </pf:column>
-                    <pf:column groupRow="true" headerText="Fachabteilung">
-                        <pf:outputLabel value="#{proof.deptStation.deptName}" />
-                    </pf:column>
-                    <pf:column groupRow="true" headerText="Station">
-                        <pf:outputLabel value="#{proof.deptStation.stationName}" />
-                    </pf:column>
-                    <pf:column groupRow="true" headerText="Standort">
-                        <pf:outputLabel value="#{proof.deptStation.locationCode}" />
-                    </pf:column>
-                    <pf:column groupRow="true" headerText="Monat">
-                        <pf:outputLabel value="#{proof.month.name}" />
-                    </pf:column>
-                    <pf:column headerText="Schicht">
-                        <pf:outputLabel value="#{proof.shift.name}" />
-                    </pf:column>
-                    <pf:column headerText="Anzahl Schichten (Summe)">
-                        <inekInput:InputNumber value="#{proof.countShift}"
-                                               minValue="0"
-                                               maxValue="31"
-                                               require="true"
-                                               requiredMessage="Bitte die Anzahl der Schichten angeben" />
-                    </pf:column>
-                    <pf:column headerText="durchschnittliche Pflegepersonalausstattung Pflegefachkräfte">
-                        <inekInput:InputNumber value="#{proof.nurse}"
-                                               decimalPlaces="2"
-                                               minValue="0"
-                                               require="true"
-                                               requiredMessage="Bitte geben Sie einen Wert ein" />
-                    </pf:column>
-                    <pf:column headerText="durchschnittliche Pflegepersonalausstattung Pflegehilfskräfte">
-                        <inekInput:InputNumber value="#{proof.helpNurse}"
-                                               decimalPlaces="2"
-                                               minValue="0"
-                                               require="true"
-                                               requiredMessage="Bitte geben Sie einen Wert ein" />
-                    </pf:column>
-                    <pf:column headerText="durchschnittliche Patientenbelegung">
-                        <inekInput:InputNumber value="#{proof.patientOccupancy}"
-                                               decimalPlaces="2"
-                                               minValue="0"
-                                               require="true"
-                                               requiredMessage="Bitte geben Sie einen Wert ein" />
-                    </pf:column>
-                    <pf:column headerText="Anzahl Schichten, in denen die PPUG im Monat nicht eingehalten wurde">
-                        <inekInput:InputNumber value="#{proof.patientPerNurse}"
-                                               minValue="0"
-                                               require="true"
-                                               requiredMessage="Bitte geben Sie einen Wert ein" />
-                    </pf:column>
-                    <pf:column headerText="rechnerische Anzahl Patienten je Pflegekraft">
-                        <inekOutput:OutputNumber value="#{proof.patientPerNurse}"
-                                                 decimalPlaces="2" />
-                    </pf:column>
-                    <pf:column headerText="Anzahl Pflegehilfskräfte anrechenbar für PPUG">
-                        <inekOutput:OutputNumber value="#{proof.patientPerNurse}"
-                                                 decimalPlaces="2" />
-                    </pf:column>
-                </pf:dataTable>
+        <pf:column groupRow="true" headerText="pflegesensitiver Bereich im Krankenhaus gem. § 3 PpUGV">
+            <pf:outputLabel value="#{proof.deptStation.dept.sensitiveArea}" />
+        </pf:column>
+        <pf:column groupRow="true" headerText="Fachabteilungsschlüssel in §-21-Daten">
+            <pf:outputLabel value="#{proof.deptStation.deptNumber}" />
+        </pf:column>
+        <pf:column groupRow="true" headerText="Fachabteilung">
+            <pf:outputLabel value="#{proof.deptStation.deptName}" />
+        </pf:column>
+        <pf:column groupRow="true" headerText="Station">
+            <pf:outputLabel value="#{proof.deptStation.stationName}" />
+        </pf:column>
+        <pf:column groupRow="true" headerText="Standort">
+            <pf:outputLabel value="#{proof.deptStation.locationCode}" />
+        </pf:column>
+        <pf:column groupRow="true" headerText="Monat">
+            <pf:outputLabel value="#{proof.month.name}" />
+        </pf:column>
+        <pf:column headerText="Schicht">
+            <pf:outputLabel value="#{proof.shift.name}" />
+        </pf:column>
+        <pf:column headerText="Anzahl Schichten (Summe)">
+            <inekInput:InputNumber value="#{proof.countShift}"
+                                   minValue="0"
+                                   maxValue="31"
+                                   require="true"
+                                   requiredMessage="Bitte die Anzahl der Schichten angeben" />
+        </pf:column>
+        <pf:column headerText="durchschnittliche Pflegepersonalausstattung Pflegefachkräfte">
+            <pf:inputNumber id="proofNurseId"
+                            value="#{proof.nurse}"
+                            decimalPlaces="2"
+                            minValue="0"
+                            require="true"
+                            requiredMessage="Bitte geben Sie einen Wert ein"
+                            inputStyle="width: 100%; text-align: right">
+                <pf:ajax event="change" listener="#{proofEdit.proofValueChanged(proof)}"
+                         update="proofTable"
+                         immediate="true" />
+            </pf:inputNumber>
+            <pf:message for="proofNurseId" />
+        </pf:column>
+        <pf:column headerText="durchschnittliche Pflegepersonalausstattung Pflegehilfskräfte">
+            <pf:inputNumber id="proofHelpNurseId"
+                            value="#{proof.helpNurse}"
+                            decimalPlaces="2"
+                            minValue="0"
+                            require="true"
+                            requiredMessage="Bitte geben Sie einen Wert ein"
+                            inputStyle="width: 100%; text-align: right">
+                <pf:ajax event="change" listener="#{proofEdit.proofValueChanged(proof)}"
+                         update="proofTable"
+                         immediate="true" />
+            </pf:inputNumber>
+            <pf:message for="proofHelpNurseId" />
+        </pf:column>
+        <pf:column headerText="durchschnittliche Patientenbelegung">
+            <pf:inputNumber id="proofPatientOccupancy"
+                            value="#{proof.patientOccupancy}"
+                            decimalPlaces="2"
+                            minValue="0"
+                            require="true"
+                            requiredMessage="Bitte geben Sie einen Wert ein"
+                            inputStyle="width: 100%; text-align: right">
+                <pf:ajax event="change" listener="#{proofEdit.proofValueChanged(proof)}"
+                         update="proofTable"
+                         immediate="true" />
+            </pf:inputNumber>
+            <pf:message for="proofPatientOccupancy" />
+        </pf:column>
+        <pf:column headerText="Anzahl Schichten, in denen die PPUG im Monat nicht eingehalten wurde">
+            <inekInput:InputNumber value="#{proof.patientPerNurse}"
+                                   minValue="0"
+                                   require="true"
+                                   requiredMessage="Bitte geben Sie einen Wert ein" />
+        </pf:column>
+        <pf:column headerText="rechnerische Anzahl Patienten je Pflegekraft">
+            <inekOutput:OutputNumber id="patientPerNurseId"
+                                     colorRed="#{proof.patientPerNurse gt proof.ppug}"
+                                     value="#{proof.patientPerNurse}"
+                                     decimalPlaces="2" />
+        </pf:column>
+        <pf:column headerText="Anzahl Pflegehilfskräfte anrechenbar für PPUG">
+            <inekOutput:OutputNumber id="countHelpeNurseChargeableId"
+                                     colorRed="#{proof.countHelpeNurseChargeable gt proof.part}"
+                                     value="#{proof.countHelpeNurseChargeable}"
+                                     decimalPlaces="2" />
+        </pf:column>
+    </pf:dataTable>
 </ui:composition>
 

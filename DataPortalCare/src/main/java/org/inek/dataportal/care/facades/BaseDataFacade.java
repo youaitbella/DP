@@ -6,7 +6,7 @@
 package org.inek.dataportal.care.facades;
 
 import org.inek.dataportal.care.entities.BaseData;
-import org.inek.dataportal.common.data.AbstractDataAccessWithActionLog;
+import org.inek.dataportal.common.data.AbstractDataAccess;
 
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
@@ -16,7 +16,8 @@ import java.util.List;
  * @author lautenti
  */
 @Stateless
-public class BaseDataFacade extends AbstractDataAccessWithActionLog {
+public class BaseDataFacade extends AbstractDataAccess {
+
     public List<BaseData> getAllBaseData() {
         String jpql = "SELECT bd FROM BaseData bd";
         TypedQuery<BaseData> query = getEntityManager().createQuery(jpql, BaseData.class);

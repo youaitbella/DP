@@ -11,13 +11,14 @@
         <cc:attribute name="decimalPlaces" default="0" />
         <cc:attribute name="pattern" default=""/>
         <cc:attribute name="render" default="true"/>
+        <cc:attribute name="colorRed" default="false"/>
         <cc:attribute name="symbol" default=""/>
     </cc:interface>
 
     <!-- IMPLEMENTATION -->
-    <div>
         <cc:implementation>
             <pf:outputLabel value="#{cc.attrs.value} #{cc.attrs.symbol}"
+                            style="#{cc.attrs.colorRed ? 'color: red; ' : ''}"
                             rendered="#{cc.attrs.render}">
                 <f:convertNumber groupingUsed="true"
                                  minFractionDigits="#{cc.attrs.decimalPlaces}"
@@ -25,5 +26,4 @@
                                  pattern="#{cc.attrs.pattern}"/>
             </pf:outputLabel>
         </cc:implementation>
-    </div>
 </html>

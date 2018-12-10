@@ -1,27 +1,29 @@
 package org.inek.dataportal.care.utils;
 
 import org.inek.dataportal.care.entities.BaseData;
+import org.inek.dataportal.care.entities.Proof;
 import org.inek.dataportal.care.enums.Shift;
 import org.inek.dataportal.care.facades.BaseDataFacade;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
 
 public class BaseDataManager {
 
     private List<BaseData> _baseData = new ArrayList<>();
 
-    @Inject
-    private BaseDataFacade _baseDataFacade;
 
-    public BaseDataManager() {
-        _baseData.addAll(_baseDataFacade.getAllBaseData());
+
+    public BaseDataManager(BaseDataFacade facade) {
+        _baseData.addAll(facade.getAllBaseData());
     }
 
-    public BaseDataManager(int year) {
-        _baseData.addAll(_baseDataFacade.getAllBaseDataByYear(year));
+    public BaseDataManager(int year, BaseDataFacade facade) {
+        _baseData.addAll(facade.getAllBaseDataByYear(year));
     }
 
     public BaseDataManager(List<BaseData> baseData) {
@@ -53,5 +55,35 @@ public class BaseDataManager {
                 .filter(c -> c.getSensitiveAreaId() == sensitivAreaId)
                 .filter(c -> c.getShift() == shift)
                 .collect(Collectors.toList());
+    }
+
+    public void fillBaseDataToProofs(List<Proof> proofs) {
+        for(Proof pr : proofs) {
+            fillBaseDataToProof(pr);
+        }
+    }
+
+    private void fillBaseDataToProof(Proof proof) {
+        proof.setPpug(getPpugBySensitivAreaAndShift(convertSensitivArea(proof.getDeptStation().getDept().getSensitiveArea()), proof.getShift()));
+        proof.setPart(getPartBySensitivAreaAndShift(convertSensitivArea(proof.getDeptStation().getDept().getSensitiveArea()), proof.getShift()));
+    }
+
+    private int convertSensitivArea(String area) {
+        switch (area) {
+            case "Intensivmedizin":
+                return 1;
+            case "Geriatrie":
+                return 2;
+            case "Herzchirurgie":
+                return 3;
+            case "Unfallchirurgie":
+                return 4;
+            case "Kardiologie":
+                return 5;
+            case "Neurologie":
+                return 6;
+            default:
+                return 0;
+        }
     }
 }
