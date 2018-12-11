@@ -9,9 +9,7 @@ import org.inek.dataportal.common.data.account.facade.AccountFacade;
 import org.inek.dataportal.common.data.adm.MailTemplate;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.mail.Mailer;
-import org.inek.documentScanner.facade.AccountDocumentFacade;
-import org.inek.documentScanner.facade.DocumentDomainFacade;
-import org.inek.documentScanner.facade.WaitingDocumentFacade;
+import org.inek.documentScanner.facade.DocumentScannerFacade;
 
 import javax.ejb.Asynchronous;
 import javax.ejb.Stateless;
@@ -44,11 +42,7 @@ public class DocumentLoader {
     @Inject
     private AccountFacade _accountFacade;
     @Inject
-    private AccountDocumentFacade _accountDocFacade;
-    @Inject
-    private WaitingDocumentFacade _waitingDocFacade;
-    @Inject
-    private DocumentDomainFacade _docDomain;
+    private DocumentScannerFacade _docFacade;
     @Inject
     private Mailer _mailer;
 
@@ -191,11 +185,11 @@ public class DocumentLoader {
         doc.setContent(files.get(name));
         doc.setName(name);
         doc.setValidity(validity);
-        DocumentDomain domain = _docDomain.findOrCreateForName(importInfo.getDomain(name));
+        DocumentDomain domain = _docFacade.findOrCreateForName(importInfo.getDomain(name));
         doc.setDomain(domain);
         doc.setAgentAccountId(importInfo.getUploadAccount().getId());
-        _accountDocFacade.save(doc);
-        _accountDocFacade.clearCache();
+        _docFacade.saveAccountDocument(doc);
+        _docFacade.clearCache();
         LOGGER.log(Level.INFO, "Document created: {0} for account {1}", new Object[]{name, account.getId()});
     }
 
@@ -240,12 +234,12 @@ public class DocumentLoader {
         doc.setContent(content);
         doc.setName(name);
         doc.setValidity(validity);
-        DocumentDomain domain = _docDomain.findOrCreateForName(importInfo.getDomain(name));
+        DocumentDomain domain = _docFacade.findOrCreateForName(importInfo.getDomain(name));
         doc.setDomain(domain);
         doc.setAgentAccountId(importInfo.getApprovalAccount().getId());
         doc.setIk(importInfo.getIk());
         doc.setJsonMail(jsonMail.toString());
-        _waitingDocFacade.save(doc);
+        _docFacade.saveWaitingDocument(doc);
         LOGGER.log(Level.INFO, "Document created for approval: {0} for account {1}",
                 new Object[]{name, importInfo.getApprovalAccount().getId()});
     }
