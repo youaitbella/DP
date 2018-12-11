@@ -1,4 +1,4 @@
-package org.inek.documentScanner.timed;
+package org.inek.documentScanner.business;
 
 import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.common.data.account.entities.Account;

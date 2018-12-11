@@ -1,5 +1,6 @@
 package org.inek.documentScanner.timed;
 
+import org.inek.documentScanner.business.DocumentLoader;
 import org.inek.documentScanner.config.DocumentScannerConfig;
 
 import javax.ejb.Schedule;
