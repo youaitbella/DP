@@ -44,10 +44,10 @@
                   sortBy="#{proof.proofRegulationStation.sensitiveArea.name}"
                   expandableRowGroups="true">
 
-        <pf:column groupRow="true" headerText="pflegesensitiver Bereich im Krankenhaus gem. § 3 PpUGV">
+        <pf:column groupRow="true" headerText="pflegesensitiver Bereich">
             <pf:outputLabel value="#{proof.proofRegulationStation.sensitiveArea.name}" />
         </pf:column>
-        <pf:column groupRow="true" headerText="Fachabteilungsschlüssel in §-21-Daten">
+        <pf:column groupRow="true" headerText="FAB Schlüssel">
             <pf:outputLabel value="#{proof.proofRegulationStation.fabNumber}" />
         </pf:column>
         <pf:column groupRow="true" headerText="Fachabteilung">
@@ -140,17 +140,15 @@
 
     <pf:dataTable id="exceptionsFactsTable"
                   value="#{proofEdit.exceptionsFacts}"
-                  rows="50"
-                  paginator="true"
-                  rowsPerPageTemplate="25,50,100,300"
-                  tableStyle="table-layout: auto"
+                  tableStyle="width: auto;"
                   emptyMessage="Keine Einträge vorhanden"
                   var="exceptionFact"
                   rendered="#{proofEdit.exceptionsFacts.size() gt 0}">
-        <pf:column groupRow="true" headerText="pflegesensitiver Bereich im Krankenhaus gem. § 3 PpUGV">
+
+        <pf:column groupRow="true" headerText="pflegesensitiver Bereich">
             <pf:outputLabel value="#{exceptionFact.proof.proofRegulationStation.sensitiveArea.name}" />
         </pf:column>
-        <pf:column groupRow="true" headerText="Fachabteilungsschlüssel in §-21-Daten">
+        <pf:column groupRow="true" headerText="FAB Schlüssel">
             <pf:outputLabel value="#{exceptionFact.proof.proofRegulationStation.fabNumber}" />
         </pf:column>
         <pf:column groupRow="true" headerText="Fachabteilung">
@@ -178,8 +176,8 @@
                 <f:selectItem
                         itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}"
                         noSelectionOption="true" />
-                <f:selectItems value="1" itemLabel="Ausnahme Nr. 1" />
-                <f:selectItems value="2" itemLabel="Ausnahme Nr. 2" />
+                <f:selectItem itemValue="#{1}" itemLabel="Ausnahme Nr. 1" />
+                <f:selectItem itemValue="#{2}" itemLabel="Ausnahme Nr. 2" />
                 <pf:ajax event="change" />
             </pf:selectOneMenu>
         </pf:column>

@@ -314,6 +314,7 @@ public class ProofEdit implements Serializable {
         ProofExceptionFact exceptionFact = new ProofExceptionFact();
         exceptionFact.setProof(proof);
         proof.setExceptionFact(exceptionFact);
+        _exceptionsFacts.add(exceptionFact);
     }
 
 }

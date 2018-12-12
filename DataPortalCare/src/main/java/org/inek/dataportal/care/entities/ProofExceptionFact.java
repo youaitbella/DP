@@ -67,7 +67,7 @@ public class ProofExceptionFact implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Property Statement">
     @Column(name = "pefStatement")
-    private String _statement;
+    private String _statement = "";
 
     public String getStatement() {
         return _statement;
