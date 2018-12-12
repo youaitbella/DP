@@ -2,6 +2,7 @@ package org.inek.dataportal.care.utils;
 
 import org.inek.dataportal.care.entities.BaseData;
 import org.inek.dataportal.care.entities.Proof;
+import org.inek.dataportal.care.enums.SensitiveArea;
 import org.inek.dataportal.care.enums.Shift;
 import org.inek.dataportal.care.facades.BaseDataFacade;
 
@@ -30,8 +31,8 @@ public class BaseDataManager {
         _baseData.addAll(baseData);
     }
 
-    public double getPpugBySensitivAreaAndShift(int sensitivAreaId, Shift shift) {
-        List<BaseData> baseDatas = getBaseData(sensitivAreaId, shift);
+    public double getPpugBySensitivAreaAndShift(SensitiveArea sensitivArea, Shift shift) {
+        List<BaseData> baseDatas = getBaseData(sensitivArea, shift);
 
         if (baseDatas.size() > 1 || baseDatas.size() < 1) {
             return -1;
@@ -40,8 +41,8 @@ public class BaseDataManager {
         return baseDatas.get(0).getPpug();
     }
 
-    public double getPartBySensitivAreaAndShift(int sensitivAreaId, Shift shift) {
-        List<BaseData> baseDatas = getBaseData(sensitivAreaId, shift);
+    public double getPartBySensitivAreaAndShift(SensitiveArea sensitivArea, Shift shift) {
+        List<BaseData> baseDatas = getBaseData(sensitivArea, shift);
 
         if (baseDatas.size() > 1 || baseDatas.size() < 1) {
             return -1;
@@ -50,9 +51,9 @@ public class BaseDataManager {
         return baseDatas.get(0).getPart();
     }
 
-    private List<BaseData> getBaseData(int sensitivAreaId, Shift shift) {
+    private List<BaseData> getBaseData(SensitiveArea sensitivArea, Shift shift) {
         return _baseData.stream()
-                .filter(c -> c.getSensitiveAreaId() == sensitivAreaId)
+                .filter(c -> c.getSensitiveArea() == sensitivArea)
                 .filter(c -> c.getShift() == shift)
                 .collect(Collectors.toList());
     }
@@ -64,7 +65,7 @@ public class BaseDataManager {
     }
 
     private void fillBaseDataToProof(Proof proof) {
-        proof.setPpug(getPpugBySensitivAreaAndShift(proof.getProofRegulationStation().getSensitiveAreaId(), proof.getShift()));
-        proof.setPart(getPartBySensitivAreaAndShift(proof.getProofRegulationStation().getSensitiveAreaId(), proof.getShift()));
+        proof.setPpug(getPpugBySensitivAreaAndShift(proof.getProofRegulationStation().getSensitiveArea(), proof.getShift()));
+        proof.setPart(getPartBySensitivAreaAndShift(proof.getProofRegulationStation().getSensitiveArea(), proof.getShift()));
     }
 }

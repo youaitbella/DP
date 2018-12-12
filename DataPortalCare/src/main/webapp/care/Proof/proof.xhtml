@@ -12,32 +12,32 @@
                   rowsPerPageTemplate="25,50,100,300"
                   tableStyle="table-layout: auto"
                   emptyMessage="Keine Einträge vorhanden"
-                  sortBy="#{proof.deptStation.dept.sensitiveArea}"
-                  expandableRowGroups="true"
-                  var="proof">
+                  var="proof"
+                  sortBy="#{proof.proofRegulationStation.sensitiveArea.name}"
+                  expandableRowGroups="true">
         <ui:remove>
             <pf:headerRow>
                 <pf:column colspan="13">
                     <pf:outputLabel
-                            value="pflegesensitiver Bereich: #{proof.deptStation.dept.sensitiveArea}" />
+                            value="pflegesensitiver Bereich: #{proof.proofRegulationStation.sensitiveArea.name}" />
                 </pf:column>
             </pf:headerRow>
         </ui:remove>
 
         <pf:column groupRow="true" headerText="pflegesensitiver Bereich im Krankenhaus gem. § 3 PpUGV">
-            <pf:outputLabel value="#{proof.deptStation.dept.sensitiveArea}" />
+            <pf:outputLabel value="#{proof.proofRegulationStation.sensitiveArea.name}" />
         </pf:column>
         <pf:column groupRow="true" headerText="Fachabteilungsschlüssel in §-21-Daten">
-            <pf:outputLabel value="#{proof.deptStation.deptNumber}" />
+            <pf:outputLabel value="#{proof.proofRegulationStation.fabNumber}" />
         </pf:column>
         <pf:column groupRow="true" headerText="Fachabteilung">
-            <pf:outputLabel value="#{proof.deptStation.deptName}" />
+            <pf:outputLabel value="#{proof.proofRegulationStation.fabName}" />
         </pf:column>
         <pf:column groupRow="true" headerText="Station">
-            <pf:outputLabel value="#{proof.deptStation.stationName}" />
+            <pf:outputLabel value="#{proof.proofRegulationStation.stationName}" />
         </pf:column>
         <pf:column groupRow="true" headerText="Standort">
-            <pf:outputLabel value="#{proof.deptStation.locationCode}" />
+            <pf:outputLabel value="#{proof.proofRegulationStation.locationCode}" />
         </pf:column>
         <pf:column groupRow="true" headerText="Monat">
             <pf:outputLabel value="#{proof.month.name}" />

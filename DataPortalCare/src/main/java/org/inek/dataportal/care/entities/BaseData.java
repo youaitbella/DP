@@ -1,5 +1,6 @@
 package org.inek.dataportal.care.entities;
 
+import org.inek.dataportal.care.enums.SensitiveArea;
 import org.inek.dataportal.care.enums.Shift;
 
 import javax.persistence.*;
@@ -38,12 +39,12 @@ public class BaseData implements Serializable {
     @Column(name = "pbdSensitiveAreaId")
     private int _sensitiveAreaId;
 
-    public int getSensitiveAreaId() {
-        return _sensitiveAreaId;
+    public SensitiveArea getSensitiveArea() {
+        return SensitiveArea.getById(_sensitiveAreaId);
     }
 
-    public void setSensitiveAreaId(int sensitiveAreaId) {
-        this._sensitiveAreaId = sensitiveAreaId;
+    public void setSensitiveArea(SensitiveArea sensitiveArea) {
+        this._sensitiveAreaId = sensitiveArea.getId();
     }
     //</editor-fold>
 
