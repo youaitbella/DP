@@ -31,3 +31,4 @@ deployAppToProduction.cmd
 deployAllToTest.cmd
 deployAllToProduction.cmd
 deployAllTo.cmd
+DocumentScanner/nb-configuration.xml
