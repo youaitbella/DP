@@ -1,4 +1,4 @@
-package org.inek.dataportal.insurance;
+package org.inek.dataportal.insurance.nub;
 
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.controller.AbstractEditController;
@@ -103,7 +103,7 @@ public class EditInsuranceNubNotice extends AbstractEditController {
 
     public Set<Integer> getValidIks() {
         if (_iks.isEmpty()) {
-            _iks = _accessManager.ObtainIksForCreation(Feature.INSURANCE)
+            _iks = _accessManager.ObtainIksForCreation(Feature.NUB_NOTICE)
                     .stream()
                     .filter(i -> i >= 100000000 && i < 199999999)  // only insurance ik
                     .collect(Collectors.toSet());
@@ -310,7 +310,7 @@ public class EditInsuranceNubNotice extends AbstractEditController {
         try {
             _notice = _insuranceFacade.saveNubNotice(_notice);
             _sessionController.alertClient("NUB-Meldung wurde erfolgreich eingereicht.");
-            return Pages.InsuranceSummary.RedirectURL();
+            return Pages.InsuranceNubNoticeSummary.RedirectURL();
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Error during save NubNotice: {0}", e.getMessage());
             _sessionController.alertClient(Utils.getMessage("msgSaveError"));

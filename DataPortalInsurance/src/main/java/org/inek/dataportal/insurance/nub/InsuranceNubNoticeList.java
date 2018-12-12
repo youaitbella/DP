@@ -1,4 +1,4 @@
-package org.inek.dataportal.insurance;
+package org.inek.dataportal.insurance.nub;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -64,7 +64,7 @@ public class InsuranceNubNoticeList {
     
     public String printNotice(int noticeId) {
         Utils.getFlash().put("headLine", Utils.getMessage("nameINSURANCE"));
-        Utils.getFlash().put("targetPage", Pages.InsuranceSummary.URL());
+        Utils.getFlash().put("targetPage", Pages.InsuranceNubNoticeSummary.URL());
         Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(_insuranceFacade.findNubNotice(noticeId)));
         return Pages.PrintView.URL();
     }

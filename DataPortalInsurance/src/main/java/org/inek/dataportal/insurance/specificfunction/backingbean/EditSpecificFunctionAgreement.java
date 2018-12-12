@@ -106,7 +106,7 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
     }
 
     private boolean hasSufficientRights(SpecificFunctionAgreement calcBasics) {
-        return _accessManager.isAccessAllowed(Feature.INSURANCE, calcBasics.getStatus(), calcBasics.getAccountId());
+        return _accessManager.isAccessAllowed(Feature.SPF_INSURANCE, calcBasics.getStatus(), calcBasics.getAccountId());
     }
 
     private SpecificFunctionAgreement newSpecificFunctionAgreement() {
@@ -149,7 +149,7 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
             return true;
         }
         return _accessManager.
-                isReadOnly(Feature.INSURANCE, _agreement.getStatus(), _agreement.getAccountId(), _agreement.getIk());
+                isReadOnly(Feature.SPF_INSURANCE, _agreement.getStatus(), _agreement.getAccountId(), _agreement.getIk());
     }
 
     @Override

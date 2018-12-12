@@ -9,20 +9,6 @@
       xmlns:feature="http://xmlns.jcp.org/jsf/composite/components/feature"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:composition>
-        <h2>
-            <h:commandLink action="#{sessionController.navigate(sessionTools.pages.InsuranceSummary)}" value="#{msg.lblInsuranceNub}" immediate="true"/>
-        </h2>
-
-        <feature:InsuranceNubNoticeList list="#{insuranceNubNoticeList.openNotices}"/>
-
-        <div class="toolBar marginLeft">
-            <h:commandLink styleClass="bigButton" action="#{insuranceNubNoticeList.editNotice}" 
-                           immediate="true" value="#{msg.btnInsuranceNubMessage}">
-                <f:param name="id" value="new"/>
-            </h:commandLink>
-        </div>
-
-
 
         #{specificFunctionAgreementTreeHandler.refreshNodes()}
 
