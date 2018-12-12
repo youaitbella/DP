@@ -63,7 +63,7 @@ public class InsuranceNubNoticeList {
     }
     
     public String printNotice(int noticeId) {
-        Utils.getFlash().put("headLine", Utils.getMessage("nameINSURANCE"));
+        Utils.getFlash().put("headLine", Utils.getMessage("nameNUB_NOTICE"));
         Utils.getFlash().put("targetPage", Pages.InsuranceNubNoticeSummary.URL());
         Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(_insuranceFacade.findNubNotice(noticeId)));
         return Pages.PrintView.URL();
