@@ -8,6 +8,7 @@ package org.inek.dataportal.care.facades;
 import org.inek.dataportal.care.entities.DeptBaseInformation;
 import org.inek.dataportal.care.entities.DeptStation;
 import org.inek.dataportal.care.entities.ProofRegulationBaseInformation;
+import org.inek.dataportal.care.entities.ProofRegulationStation;
 import org.inek.dataportal.common.data.AbstractDataAccessWithActionLog;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 
@@ -141,15 +142,12 @@ public class ProofFacade extends AbstractDataAccessWithActionLog {
         return query.getResultList();
     }
 
-    public List<DeptStation> getDeptStationsForProof(int ik, int year) {
+    public List<ProofRegulationStation> getStationsForProof(int ik, int year) {
         String jpql = "SELECT ds " +
-                "FROM DeptStation ds " +
-                "JOIN ds._dept d " +
-                "JOIN d._baseInformation bi " +
-                "WHERE bi._statusId = 10 " +
-                "AND bi._ik = :ik " +
-                "AND bi._year = :year";
-        TypedQuery<DeptStation> query = getEntityManager().createQuery(jpql, DeptStation.class);
+                "FROM ProofRegulationStation ds " +
+                "WHERE ds._ik = :ik " +
+                "AND ds._year = :year";
+        TypedQuery<ProofRegulationStation> query = getEntityManager().createQuery(jpql, ProofRegulationStation.class);
         query.setParameter("ik", ik);
         query.setParameter("year", year);
         return query.getResultList();

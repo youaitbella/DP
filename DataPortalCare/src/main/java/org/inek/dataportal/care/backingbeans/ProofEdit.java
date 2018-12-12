@@ -9,6 +9,7 @@ import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.care.entities.DeptStation;
 import org.inek.dataportal.care.entities.Proof;
 import org.inek.dataportal.care.entities.ProofRegulationBaseInformation;
+import org.inek.dataportal.care.entities.ProofRegulationStation;
 import org.inek.dataportal.care.facades.BaseDataFacade;
 import org.inek.dataportal.care.facades.ProofFacade;
 import org.inek.dataportal.care.utils.BaseDataManager;
@@ -177,7 +178,7 @@ public class ProofEdit implements Serializable {
     }
 
     public void firstSave() {
-        List<DeptStation> stations = _proofFacade.getDeptStationsForProof(_proofRegulationBaseInformation.getIk(),
+        List<ProofRegulationStation> stations = _proofFacade.getStationsForProof(_proofRegulationBaseInformation.getIk(),
                 _proofRegulationBaseInformation.getYear() - 2);
         ProofFiller.createProofEntrysFromStations(_proofRegulationBaseInformation, stations,
                 _proofRegulationBaseInformation.getYear(), _proofRegulationBaseInformation.getQuarter());

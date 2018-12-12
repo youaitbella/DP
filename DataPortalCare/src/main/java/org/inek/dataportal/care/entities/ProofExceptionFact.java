@@ -8,25 +8,25 @@ import java.util.Objects;
  * @author lautenti
  */
 @Entity
-@Table(name = "ProofObjection", schema = "care")
-public class ProofObjection implements Serializable {
+@Table(name = "ProofExceptionFact", schema = "care")
+public class ProofExceptionFact implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public ProofObjection() {
+    public ProofExceptionFact() {
     }
 
 
-    public ProofObjection(ProofObjection proofObjection) {
-        this._objectionId = proofObjection.getObjectionId();
-        this._statement = proofObjection.getStatement();
+    public ProofExceptionFact(ProofExceptionFact proofExceptionFact) {
+        this._exceptionFactId = proofExceptionFact.getExceptionFactId();
+        this._statement = proofExceptionFact.getStatement();
     }
 
 
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "poId")
+    @Column(name = "pefId")
     private Integer _id;
 
     public int getId() {
@@ -40,7 +40,7 @@ public class ProofObjection implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Proof">
     @OneToOne
-    @JoinColumn(name = "poProofId")
+    @JoinColumn(name = "pefProofId")
     private Proof _proof;
 
     public Proof getProof() {
@@ -53,20 +53,20 @@ public class ProofObjection implements Serializable {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property ObjectionId">
-    @Column(name = "prObjectionId")
-    private int _objectionId;
+    @Column(name = "pefExceptionFactId")
+    private int _exceptionFactId;
 
-    public int getObjectionId() {
-        return _objectionId;
+    public int getExceptionFactId() {
+        return _exceptionFactId;
     }
 
-    public void setObjectionId(int objectionId) {
-        this._objectionId = objectionId;
+    public void setExceptionFactId(int exceptionFactId) {
+        this._exceptionFactId = exceptionFactId;
     }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property Statement">
-    @Column(name = "poStatement")
+    @Column(name = "pefStatement")
     private String _statement;
 
     public String getStatement() {
@@ -83,14 +83,14 @@ public class ProofObjection implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ProofObjection that = (ProofObjection) o;
-        return _objectionId == that._objectionId &&
+        ProofExceptionFact that = (ProofExceptionFact) o;
+        return _exceptionFactId == that._exceptionFactId &&
                 Objects.equals(_proof, that._proof) &&
                 Objects.equals(_statement, that._statement);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(_proof, _objectionId, _statement);
+        return Objects.hash(_proof, _exceptionFactId, _statement);
     }
 }

@@ -64,26 +64,7 @@ public class BaseDataManager {
     }
 
     private void fillBaseDataToProof(Proof proof) {
-        proof.setPpug(getPpugBySensitivAreaAndShift(convertSensitivArea(proof.getDeptStation().getDept().getSensitiveArea()), proof.getShift()));
-        proof.setPart(getPartBySensitivAreaAndShift(convertSensitivArea(proof.getDeptStation().getDept().getSensitiveArea()), proof.getShift()));
-    }
-
-    private int convertSensitivArea(String area) {
-        switch (area) {
-            case "Intensivmedizin":
-                return 1;
-            case "Geriatrie":
-                return 2;
-            case "Herzchirurgie":
-                return 3;
-            case "Unfallchirurgie":
-                return 4;
-            case "Kardiologie":
-                return 5;
-            case "Neurologie":
-                return 6;
-            default:
-                return 0;
-        }
+        proof.setPpug(getPpugBySensitivAreaAndShift(proof.getProofRegulationStation().getSensitiveAreaId(), proof.getShift()));
+        proof.setPart(getPartBySensitivAreaAndShift(proof.getProofRegulationStation().getSensitiveAreaId(), proof.getShift()));
     }
 }

@@ -21,10 +21,11 @@ import java.util.stream.Collectors;
  */
 public class ProofFiller {
 
-    public static void createProofEntrysFromStations(ProofRegulationBaseInformation info, List<DeptStation> stationList, int year, int quarter) {
+    public static void createProofEntrysFromStations(ProofRegulationBaseInformation info, List<ProofRegulationStation> stationList,
+                                                     int year, int quarter) {
         List<MonthInfo> monthInfosFromQuarter = getMonthInfosFromQuarter(quarter, year);
 
-        for (DeptStation station : stationList) {
+        for (ProofRegulationStation station : stationList) {
             for (MonthInfo monthInfo : monthInfosFromQuarter) {
                 for(Shift shift : Shift.values()) {
                     Proof proof = new Proof();
@@ -32,7 +33,7 @@ public class ProofFiller {
                     proof.setMonth(monthInfo.getMonth());
                     proof.setCountShift(monthInfo.getDaysInMonth());
                     proof.setShift(shift);
-                    proof.setDeptStation(station);
+                    proof.setProofRegulationStation(station);
                     info.addProof(proof);
                 }
             }

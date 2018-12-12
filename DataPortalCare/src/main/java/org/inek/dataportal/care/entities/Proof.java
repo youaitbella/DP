@@ -5,9 +5,6 @@ import org.inek.dataportal.care.enums.Shift;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.Month;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -24,7 +21,7 @@ public class Proof implements Serializable {
 
 
     public Proof(Proof proof) {
-        this._deptStation = new DeptStation(proof.getDeptStation());
+        this._proofRegulationStation = proof.getProofRegulationStation();
         this._shift = proof.getShift().getId();
         this._month = proof.getMonth().getId();
         this._countShift = proof.getCountShift();
@@ -54,15 +51,15 @@ public class Proof implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Dept Station">
     @ManyToOne
-    @JoinColumn(name = "prDeptStationId")
-    private DeptStation _deptStation;
+    @JoinColumn(name = "prProofRegulationStationId")
+    private ProofRegulationStation _proofRegulationStation;
 
-    public DeptStation getDeptStation() {
-        return _deptStation;
+    public ProofRegulationStation getProofRegulationStation() {
+        return _proofRegulationStation;
     }
 
-    public void setDeptStation(DeptStation deptStation) {
-        this._deptStation = deptStation;
+    public void setProofRegulationStation(ProofRegulationStation proofRegulationStation) {
+        this._proofRegulationStation = proofRegulationStation;
     }
     //</editor-fold>
 
@@ -199,14 +196,14 @@ public class Proof implements Serializable {
     //</editor-fold>
 
     @OneToOne(mappedBy = "_proof", cascade = CascadeType.ALL)
-    private ProofObjection _proofObjection;
+    private ProofExceptionFact _proofExceptionFact;
 
-    public ProofObjection getProofObjection() {
-        return _proofObjection;
+    public ProofExceptionFact getExceptionFact() {
+        return _proofExceptionFact;
     }
 
-    public void setProofObjection(ProofObjection proofObjection) {
-        this._proofObjection = proofObjection;
+    public void setExceptionFact(ProofExceptionFact proofExceptionFact) {
+        this._proofExceptionFact = proofExceptionFact;
     }
 
     @Transient
@@ -246,13 +243,13 @@ public class Proof implements Serializable {
                 Double.compare(proof._countShiftNotRespected, _countShiftNotRespected) == 0 &&
                 Double.compare(proof._patientPerNurse, _patientPerNurse) == 0 &&
                 Double.compare(proof._countHelpeNurseChargeable, _countHelpeNurseChargeable) == 0 &&
-                Objects.equals(_deptStation, proof._deptStation) &&
+                Objects.equals(_proofRegulationStation, proof._proofRegulationStation) &&
                 Objects.equals(_baseInformation, proof._baseInformation);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(_deptStation, _baseInformation, _shift, _month, _countShift, _nurse, _helpeNurse, _patientOccupancy,
+        return Objects.hash(_proofRegulationStation, _baseInformation, _shift, _month, _countShift, _nurse, _helpeNurse, _patientOccupancy,
                 _countShiftNotRespected, _patientPerNurse, _countHelpeNurseChargeable);
     }
 }
