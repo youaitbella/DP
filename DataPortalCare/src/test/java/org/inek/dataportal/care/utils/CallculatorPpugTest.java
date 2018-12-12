@@ -97,6 +97,7 @@ class CallculatorPpugTest {
         entrys.add(new TestEntry(createProof( 2.5, 0.5, 28.75), 0.2, 9.58));
         entrys.add(new TestEntry(createProof( 3, 0.25, 25), 0.1, 7.69));
         entrys.add(new TestEntry(createProof( 4, 1, 12), 0.08, 2.76));
+        entrys.add(new TestEntry(createProof( 3.5, 1.5, 42), 0.2, 9.59));
         return entrys;
     }
 

@@ -200,7 +200,7 @@ public class ProofEdit implements Serializable {
 
     public void firstSave() {
         List<ProofRegulationStation> stations = _proofFacade.getStationsForProof(_proofRegulationBaseInformation.getIk(),
-                _proofRegulationBaseInformation.getYear() - 2);
+                _proofRegulationBaseInformation.getYear());
         ProofFiller.createProofEntrysFromStations(_proofRegulationBaseInformation, stations,
                 _proofRegulationBaseInformation.getYear(), _proofRegulationBaseInformation.getQuarter());
         save();
@@ -218,6 +218,7 @@ public class ProofEdit implements Serializable {
 
         try {
             _proofRegulationBaseInformation = _proofFacade.save(_proofRegulationBaseInformation);
+            _baseDatamanager.fillBaseDataToProofs(_proofRegulationBaseInformation.getProofs());
 
             if (_proofRegulationBaseInformation.getStatus() == WorkflowStatus.Provided) {
                 sendMail("Care Proof Senden Bestätigung");
@@ -297,6 +298,16 @@ public class ProofEdit implements Serializable {
 
     public void proofValueChanged(Proof proof) {
         CallculatorPpug.calculateAll(proof);
+    }
+
+    public double calculatePatientPerNurse(Proof proof) {
+        CallculatorPpug.calculateAll(proof);
+        return proof.getPatientPerNurse();
+    }
+
+    public double calculateCountHelpeNurseChargeable(Proof proof) {
+        CallculatorPpug.calculateAll(proof);
+        return proof.getCountHelpeNurseChargeable();
     }
 
     public void addNewException(Proof proof) {

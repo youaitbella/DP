@@ -6,14 +6,10 @@
                 xmlns:inekOutput="http://xmlns.jcp.org/jsf/composite/components/Output"
                 xmlns:pf="http://primefaces.org/ui">
 
-    <pf:dialog header="Stationsauswahl"
+    <pf:dialog header="Für welche Station wollen Sie eine Ausnahme eintragen?"
                widgetVar="dlgStationSelection"
                modal="true"
                width="800px">
-        <pf:outputLabel value="Für welche Station wollen Sie eine Ausnahme eintragen?" />
-
-        <br />
-
         <pf:repeat value="#{proofEdit.proofRegulationBaseInformation.proofs}" var="proof">
 
             <div class="ui-g">
@@ -60,7 +56,7 @@
         <pf:column groupRow="true" headerText="Station">
             <pf:outputLabel value="#{proof.proofRegulationStation.stationName}" />
         </pf:column>
-        <pf:column groupRow="true" headerText="Standort">
+        <pf:column headerText="Standort">
             <pf:outputLabel value="#{proof.proofRegulationStation.locationCode}" />
         </pf:column>
         <pf:column groupRow="true" headerText="Monat">
@@ -86,7 +82,7 @@
                             requiredMessage="Bitte geben Sie einen Wert ein"
                             inputStyle="width: 100%; text-align: right"
                             readonly="#{proofEdit.isReadOnly}">
-                <pf:ajax event="change" listener="#{proofEdit.proofValueChanged(proof)}"
+                <pf:ajax event="change"
                          update="proofTable"
                          immediate="true" />
             </pf:inputNumber>
@@ -101,7 +97,7 @@
                             requiredMessage="Bitte geben Sie einen Wert ein"
                             inputStyle="width: 100%; text-align: right"
                             readonly="#{proofEdit.isReadOnly}">
-                <pf:ajax event="change" listener="#{proofEdit.proofValueChanged(proof)}"
+                <pf:ajax event="change"
                          update="proofTable"
                          immediate="true" />
             </pf:inputNumber>
@@ -116,14 +112,14 @@
                             requiredMessage="Bitte geben Sie einen Wert ein"
                             inputStyle="width: 100%; text-align: right"
                             readonly="#{proofEdit.isReadOnly}">
-                <pf:ajax event="change" listener="#{proofEdit.proofValueChanged(proof)}"
+                <pf:ajax event="change"
                          update="proofTable"
                          immediate="true" />
             </pf:inputNumber>
             <pf:message for="proofPatientOccupancy" />
         </pf:column>
         <pf:column headerText="Anzahl Schichten, in denen die PPUG im Monat nicht eingehalten wurde">
-            <inekInput:InputNumber value="#{proof.patientPerNurse}"
+            <inekInput:InputNumber value="#{proof.countShiftNotRespected}"
                                    minValue="0"
                                    require="true"
                                    requiredMessage="Bitte geben Sie einen Wert ein"
@@ -131,14 +127,13 @@
         </pf:column>
         <pf:column headerText="rechnerische Anzahl Patienten je Pflegekraft">
             <inekOutput:OutputNumber id="patientPerNurseId"
-                                     colorRed="#{proof.patientPerNurse gt proof.ppug}"
-                                     value="#{proof.patientPerNurse}"
+                                     colorRed="#{proofEdit.calculatePatientPerNurse(proof) gt proof.ppug}"
+                                     value="#{proofEdit.calculatePatientPerNurse(proof)}"
                                      decimalPlaces="2" />
         </pf:column>
         <pf:column headerText="Anzahl Pflegehilfskräfte anrechenbar für PPUG">
             <inekOutput:OutputNumber id="countHelpeNurseChargeableId"
-                                     colorRed="#{proof.countHelpeNurseChargeable gt proof.part}"
-                                     value="#{proof.countHelpeNurseChargeable}"
+                                     value="#{proofEdit.calculateCountHelpeNurseChargeable(proof)}"
                                      decimalPlaces="2" />
         </pf:column>
     </pf:dataTable>
@@ -151,7 +146,7 @@
                   tableStyle="table-layout: auto"
                   emptyMessage="Keine Einträge vorhanden"
                   var="exceptionFact"
-                  rendered="#{proofEdit.exceptionsFacts.size gt 0}">
+                  rendered="#{proofEdit.exceptionsFacts.size() gt 0}">
         <pf:column groupRow="true" headerText="pflegesensitiver Bereich im Krankenhaus gem. § 3 PpUGV">
             <pf:outputLabel value="#{exceptionFact.proof.proofRegulationStation.sensitiveArea.name}" />
         </pf:column>
