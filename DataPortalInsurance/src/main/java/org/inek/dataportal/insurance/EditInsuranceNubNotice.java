@@ -103,7 +103,10 @@ public class EditInsuranceNubNotice extends AbstractEditController {
 
     public Set<Integer> getValidIks() {
         if (_iks.isEmpty()) {
-            _iks = _accessManager.ObtainIksForCreation(Feature.INSURANCE);
+            _iks = _accessManager.ObtainIksForCreation(Feature.INSURANCE)
+                    .stream()
+                    .filter(i -> i >= 100000000 && i < 199999999)  // only insurance ik
+                    .collect(Collectors.toSet());
         }
         if (_iks.size() == 1) {
             _notice.setInsuranceIk(_iks.iterator().next());
