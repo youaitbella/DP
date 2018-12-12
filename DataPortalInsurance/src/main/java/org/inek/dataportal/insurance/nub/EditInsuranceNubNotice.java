@@ -1,8 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-package org.inek.dataportal.insurance;
+package org.inek.dataportal.insurance.nub;
 
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.controller.AbstractEditController;
@@ -32,18 +28,15 @@ import javax.inject.Named;
 import javax.servlet.http.Part;
 import java.io.IOException;
 import java.util.*;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-/**
- * @author muellermi
- */
 @Named
 @FeatureScoped
 public class EditInsuranceNubNotice extends AbstractEditController {
 
     private static final Logger LOGGER = Logger.getLogger("EditInsuranceNubNotice");
-    // </editor-fold>
     @Inject
     private InsuranceFacade _insuranceFacade;
     @Inject
@@ -110,7 +103,10 @@ public class EditInsuranceNubNotice extends AbstractEditController {
 
     public Set<Integer> getValidIks() {
         if (_iks.isEmpty()) {
-            _iks = _accessManager.ObtainIksForCreation(Feature.INSURANCE);
+            _iks = _accessManager.ObtainIksForCreation(Feature.NUB_NOTICE)
+                    .stream()
+                    .filter(i -> i >= 100000000 && i < 199999999)  // only insurance ik
+                    .collect(Collectors.toSet());
         }
         if (_iks.size() == 1) {
             _notice.setInsuranceIk(_iks.iterator().next());
@@ -273,7 +269,8 @@ public class EditInsuranceNubNotice extends AbstractEditController {
         try {
             _notice = _insuranceFacade.saveNubNotice(_notice);
             _sessionController.alertClient(Utils.getMessage("msgSaveAndMentionSend"));
-        } catch (EJBException e) {
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error during save NubNotice: {0}", e.getMessage());
             _sessionController.alertClient(Utils.getMessage("msgSaveError"));
         }
         return "";
@@ -286,11 +283,12 @@ public class EditInsuranceNubNotice extends AbstractEditController {
      */
     public String provide() {
         String validatorMessage = "";
-        int lines = 1;
         if (_notice.getItems().isEmpty()) {
             validatorMessage = "Es gibt keine Meldungen, die ans InEK gesendet werden könnten.";
         }
+        int lines = 0;
         for (InsuranceNubNoticeItem item : _notice.getItems()) {
+            lines++;
             if ("N0".equals(item.getExternalId())) {
                 validatorMessage += "Zeile " + lines + ": Name ist ein Pflichtfeld.\n";
             }
@@ -303,7 +301,6 @@ public class EditInsuranceNubNotice extends AbstractEditController {
             if (item.getRemunerationTypeCharId().length() != 0 && item.getRemunerationTypeCharId().length() != 8) {
                 validatorMessage += "Zeile " + lines + ": Entgeltschlüssel muss 8 Zeichen lang sein.\n";
             }
-            lines++;
         }
         if (!"".equals(validatorMessage)) {
             _sessionController.alertClient(validatorMessage);
@@ -311,11 +308,11 @@ public class EditInsuranceNubNotice extends AbstractEditController {
         }
         _notice.setStatus(WorkflowStatus.Provided);
         try {
-            _insuranceFacade.merge(_notice);
-            _insuranceFacade.clearCache();
+            _notice = _insuranceFacade.saveNubNotice(_notice);
             _sessionController.alertClient("NUB-Meldung wurde erfolgreich eingereicht.");
-            return Pages.InsuranceSummary.RedirectURL();
-        } catch (EJBException ex) {
+            return Pages.InsuranceNubNoticeSummary.RedirectURL();
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error during save NubNotice: {0}", e.getMessage());
             _sessionController.alertClient(Utils.getMessage("msgSaveError"));
             return "";
         }

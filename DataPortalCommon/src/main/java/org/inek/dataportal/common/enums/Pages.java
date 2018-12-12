@@ -155,8 +155,8 @@ public enum Pages {
     //
     PartAgency("/Agency/PartAgency"),
     //
-    PartInsurance("/Insurance/PartInsurance"),
-    InsuranceSummary("/Insurance/NUB/InsuranceSummary"),
+    PartInsuranceNubNotice("/Insurance/NUB/PartInsuranceNubNotice"),
+    InsuranceNubNoticeSummary("/Insurance/NUB/InsuranceNubNoticeSummary"),
     InsuranceNubNoticeEdit("/Insurance/NUB/InsuranceNubNoticeEdit"),
     InsuranceCheckSignature("/Insurance/PsychStaff/CheckSignature"),
     //
@@ -168,6 +168,7 @@ public enum Pages {
     SpecificFunctionSummary("/SpecificFunction/Hospital/SpecificFunctionSummary"),
     SpecificFunctionEditRequest("/SpecificFunction/Hospital/EditRequest"),
     //
+    PartInsuranceSpecificFunction("/Insurance/SpecificFunction/PartInsuranceSpecificFunction"),
     InsuranceSpecificFunctionSummary("/Insurance/SpecificFunction/SpecificFunctionSummary"),
     InsuranceSpecificFunctionEditAgreement("/Insurance/SpecificFunction/EditAgreed"),
     //

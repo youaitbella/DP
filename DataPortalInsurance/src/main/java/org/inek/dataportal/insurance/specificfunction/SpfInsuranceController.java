@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates and open the template in
  * the editor.
  */
-package org.inek.dataportal.insurance;
+package org.inek.dataportal.insurance.specificfunction;
 
 import org.inek.dataportal.common.controller.AbstractFeatureController;
 import org.inek.dataportal.common.controller.SessionController;
@@ -15,29 +15,25 @@ import org.inek.dataportal.common.helper.Utils;
  *
  * @author muellermi
  */
-public class InsuranceController extends AbstractFeatureController {
+public class SpfInsuranceController extends AbstractFeatureController {
 
-    public InsuranceController(SessionController sessionController) {
+    public SpfInsuranceController(SessionController sessionController) {
         super(sessionController);
     }
 
     @Override
     protected void addTopics(Topics topics) {
-        topics.addTopic(Utils.getMessage("lblInsuranceNub"), Pages.InsuranceSummary.URL());
         topics.addTopic(Utils.getMessage("lblInsuranceSpecificFuntions"), Pages.InsuranceSpecificFunctionSummary.URL());
-        topics.addTopic("Psych-Personalnachweis: Überprüfung der Signatur", Pages.InsuranceCheckSignature.URL());
-        //Funktion Krankenhausvergleich für KK deaktivieren
-        //topics.addTopic("Krankenhausvergleich Datenerfassung", Pages.InsuranceKhComparisonSummary.URL());
     }
 
     @Override
     public String getMainPart() {
-        return Pages.PartInsurance.URL();
+        return Pages.PartInsuranceSpecificFunction.URL();
     }
 
     @Override
     public Feature getFeature() {
-        return Feature.INSURANCE;
+        return Feature.SPF_INSURANCE;
     }
 
 }

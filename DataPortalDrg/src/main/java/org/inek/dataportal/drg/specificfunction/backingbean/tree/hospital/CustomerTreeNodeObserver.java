@@ -14,7 +14,6 @@ import org.inek.dataportal.common.specificfunction.tree.SpecificFunctionRequestT
 import org.inek.dataportal.common.tree.entityTree.CustomerTreeNode;
 import org.inek.dataportal.common.tree.TreeNode;
 import org.inek.dataportal.common.tree.TreeNodeObserver;
-import org.inek.dataportal.common.tree.YearTreeNode;
 
 public class CustomerTreeNodeObserver implements TreeNodeObserver {
 

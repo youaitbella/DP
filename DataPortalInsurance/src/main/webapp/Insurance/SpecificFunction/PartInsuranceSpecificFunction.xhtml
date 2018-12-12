@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html [<!ENTITY nbsp "&#160;">]>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:inek="http://xmlns.jcp.org/jsf/composite/components/common"
+      xmlns:spf="http://xmlns.jcp.org/jsf/composite/components/feature"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:feature="http://xmlns.jcp.org/jsf/composite/components/feature"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition>
+
+        #{specificFunctionAgreementTreeHandler.refreshNodes()}
+
+        <h2>
+            <h:commandLink action="#{sessionController.navigate(sessionTools.pages.InsuranceSpecificFunctionSummary)}" 
+                           value="#{msg.lblInsuranceSpecificFuntions}" immediate="true"/>
+        </h2>
+
+        <feature:SpecificFunctionList list="#{specificFunctionAgreementTreeHandler.editNode.children}"/>
+
+        <div class="toolBar marginLeft">
+            <h:commandLink styleClass="bigButton #{specificFunctionAgreementList.newAllowed? '' : 'buttonDisabled'}"
+                           action="#{specificFunctionAgreementList.newRequest()}"
+                           immediate="true"
+                           value="#{msg.btnNewSpecificFunctionRequest}"
+                           disabled="#{!specificFunctionAgreementList.newAllowed}"
+                           >
+                <f:param name="id" value="new"/>
+            </h:commandLink>
+        </div>
+
+    </ui:composition>
+</html>
+

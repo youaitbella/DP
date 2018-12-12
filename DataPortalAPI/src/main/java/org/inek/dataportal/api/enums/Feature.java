@@ -18,10 +18,11 @@ public enum Feature {
     DOCUMENTS(10, "Dokumente", ManagedBy.None, PortalType.BASE, IkReference.None, IkUsage.Unknown, Selectable.No, Shareable.No),
     CERT(11, "Zertifizierung", ManagedBy.InekOrIkAdmin, PortalType.CERT, IkReference.None, IkUsage.Unknown, Selectable.Yes, Shareable.No),
     AGENCY(12, "Behörde", ManagedBy.InekOrIkAdmin, PortalType.BASE, IkReference.None, IkUsage.Unknown, Selectable.Yes, Shareable.No),
-    INSURANCE(13, "Krankenkasse", ManagedBy.InekOrIkAdmin, PortalType.INSURANCE, IkReference.None, IkUsage.Unknown, Selectable.Yes, Shareable.No),
+    SPF_INSURANCE(13, "Besondere Aufgaben / Zentrumszuschlag (Funktion für Krankenkasse)", 
+            ManagedBy.InekOrIkAdmin, PortalType.INSURANCE, IkReference.None, IkUsage.Unknown, Selectable.Yes, Shareable.No),
     CALCULATION_HOSPITAL(14, "Teilnahme Kostenkalkulation", 
             ManagedBy.InekOrIkAdmin, PortalType.CALC, IkReference.Hospital, IkUsage.Direct, Selectable.Yes, Shareable.Yes),
-    SPECIFIC_FUNCTION(15, "Besondere Aufgaben", 
+    SPECIFIC_FUNCTION(15, "Besondere Aufgaben / Zentrumszuschlag (Funktionen für Krankenhaus)", 
             ManagedBy.InekOrIkAdmin, PortalType.DRG, IkReference.Hospital, IkUsage.Direct, Selectable.Yes, Shareable.Yes),
     // todo: make ADDITIONAL_COST shareable
     ADDITIONAL_COST(16, "Finanzierung von Mehrkosten", 
@@ -37,7 +38,11 @@ public enum Feature {
             ManagedBy.IkAdminOnly, PortalType.PSY, IkReference.Hospital, IkUsage.Direct, Selectable.No, Shareable.No),
     HC_INSURANCE(21, "Krankenhausvergleich (Funktionen für Krankenkasse)",
             ManagedBy.IkAdminOnly, PortalType.INSURANCE, IkReference.Insurance, IkUsage.ByResposibilityAndCorrelation, Selectable.No, Shareable.No),
-    CARE(22, "Pflegepersonaluntergrenzen", ManagedBy.IkAdminOnly, PortalType.CARE, IkReference.Hospital, IkUsage.Direct, Selectable.No, Shareable.No);
+    CARE(22, "Pflegepersonaluntergrenzen", ManagedBy.IkAdminOnly, PortalType.CARE, IkReference.Hospital, IkUsage.Direct, Selectable.No, Shareable.No),
+    NUB_NOTICE(23, "NUB-Meldung (durch Krankenkasse)", 
+            ManagedBy.InekOrIkAdmin, PortalType.INSURANCE, IkReference.None, IkUsage.Unknown, Selectable.Yes, Shareable.No),
+    PSYCH_STAFF_INSURANCE(24, "Psych-PV Signaturprüfung (Funktion für Krankenkasse)", 
+            ManagedBy.InekOrIkAdmin, PortalType.INSURANCE, IkReference.None, IkUsage.Unknown, Selectable.Yes, Shareable.No);
 
     Feature(int id, String description, ManagedBy managedBy, PortalType portalType,
             IkReference ikReference, IkUsage ikUsage,

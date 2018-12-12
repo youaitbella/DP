@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.documentScanner.timed;
+package org.inek.documentScanner.business;
 
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.data.account.facade.AccountFacade;

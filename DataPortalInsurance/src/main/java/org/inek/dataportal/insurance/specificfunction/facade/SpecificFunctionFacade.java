@@ -67,11 +67,15 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
     public List<SpecificFunctionAgreement> obtainSpecificFunctionAgreements(int accountId, int year,
             WorkflowStatus statusLow, WorkflowStatus statusHigh) {
         String jpql = "SELECT s FROM SpecificFunctionAgreement s "
-                + "WHERE s._accountId = :accountId and s._dataYear = :year and s._statusId between :statusLow and :statusHigh ORDER BY s._id DESC";
+                + "WHERE s._accountId = :accountId "
+                + (year > 0 ? "   and s._dataYear = :year " : "")
+                + "   and s._statusId between :statusLow and :statusHigh ORDER BY s._id DESC";
         TypedQuery<SpecificFunctionAgreement> query = getEntityManager().
                 createQuery(jpql, SpecificFunctionAgreement.class);
         query.setParameter(ACCOUNT_ID, accountId);
-        query.setParameter(YEAR, year);
+        if (year > 0) {
+            query.setParameter(YEAR, year);
+        }
         query.setParameter(STATUS_LOW, statusLow.getId());
         query.setParameter(STATUS_HIGH, statusHigh.getId());
         return query.getResultList();
@@ -82,10 +86,13 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
         String jpql = "select distinct a "
                 + "from Account a "
                 + "join SpecificFunctionAgreement s "
-                + "where a._id = s._accountId and s._dataYear = :year "
+                + "where a._id = s._accountId "
+                + (year > 0 ? "    and s._dataYear = :year " : "")
                 + "    and s._statusId between :statusLow and :statusHigh and s._accountId in :accountIds";
         TypedQuery<Account> query = getEntityManager().createQuery(jpql, Account.class);
-        query.setParameter(YEAR, year);
+        if (year > 0) {
+            query.setParameter(YEAR, year);
+        }
         query.setParameter(STATUS_LOW, statusLow.getId());
         query.setParameter(STATUS_HIGH, statusHigh.getId());
         query.setParameter(ACCOUNT_IDS, accountIds);
@@ -165,5 +172,4 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
         }
     }
 
-    
 }

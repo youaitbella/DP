@@ -10,8 +10,10 @@ import org.inek.dataportal.common.controller.FeatureFactory;
 import org.inek.dataportal.common.controller.IFeatureController;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.insurance.InsuranceController;
+import org.inek.dataportal.insurance.nub.NubNoticeController;
 import org.inek.dataportal.insurance.khcomparison.controller.HospitalComparisonInsuranceController;
+import org.inek.dataportal.insurance.psychstaff.PsyStaffInsuranceController;
+import org.inek.dataportal.insurance.specificfunction.SpfInsuranceController;
 
 /**
  *
@@ -24,8 +26,12 @@ public class FeatureFactoryImpl implements FeatureFactory, Serializable{
     public IFeatureController createController(Feature feature, SessionController sessionController) {
 
         switch (feature) {
-            case INSURANCE:
-                return new InsuranceController(sessionController);
+            case NUB_NOTICE:
+                return new NubNoticeController(sessionController);
+            case SPF_INSURANCE:
+                return new SpfInsuranceController(sessionController);
+            case PSYCH_STAFF_INSURANCE:
+                return new PsyStaffInsuranceController(sessionController);
             case HC_INSURANCE:
                 return new HospitalComparisonInsuranceController(sessionController);
             default:
