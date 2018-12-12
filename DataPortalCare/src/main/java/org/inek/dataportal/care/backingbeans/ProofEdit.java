@@ -6,8 +6,8 @@
 package org.inek.dataportal.care.backingbeans;
 
 import org.inek.dataportal.api.enums.Feature;
-import org.inek.dataportal.care.entities.DeptStation;
 import org.inek.dataportal.care.entities.Proof;
+import org.inek.dataportal.care.entities.ProofExceptionFact;
 import org.inek.dataportal.care.entities.ProofRegulationBaseInformation;
 import org.inek.dataportal.care.entities.ProofRegulationStation;
 import org.inek.dataportal.care.facades.BaseDataFacade;
@@ -36,6 +36,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -68,6 +69,16 @@ public class ProofEdit implements Serializable {
     private Set<Integer> _validIks;
     private Set<Integer> _validYears;
     private Set<Integer> _validQuarters;
+
+    private List<ProofExceptionFact> _exceptionsFacts = new ArrayList<>();
+
+    public List<ProofExceptionFact> getExceptionsFacts() {
+        return _exceptionsFacts;
+    }
+
+    public void setExceptionsFacts(List<ProofExceptionFact> exceptionsFacts) {
+        this._exceptionsFacts = exceptionsFacts;
+    }
 
     private BaseDataManager _baseDatamanager;
 
@@ -129,9 +140,19 @@ public class ProofEdit implements Serializable {
                 return;
             }
             loadBaseDataManager();
+            fillExceptionsFactsList(_proofRegulationBaseInformation);
             _baseDatamanager.fillBaseDataToProofs(_proofRegulationBaseInformation.getProofs());
         }
         setReadOnly();
+    }
+
+    private void fillExceptionsFactsList(ProofRegulationBaseInformation info) {
+        _exceptionsFacts.clear();
+        for (Proof proof : info.getProofs().stream()
+                .filter(c -> c.getExceptionFact() != null)
+                .collect(Collectors.toList())) {
+            _exceptionsFacts.add(proof.getExceptionFact());
+        }
     }
 
     public String onFlowProcess(FlowEvent event) {
@@ -276,8 +297,12 @@ public class ProofEdit implements Serializable {
 
     public void proofValueChanged(Proof proof) {
         CallculatorPpug.calculateAll(proof);
-        //Todo Werte berechnen
+    }
 
+    public void addNewException(Proof proof) {
+        ProofExceptionFact exceptionFact = new ProofExceptionFact();
+        exceptionFact.setProof(proof);
+        proof.setExceptionFact(exceptionFact);
     }
 
 }
