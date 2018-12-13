@@ -296,10 +296,6 @@ public class ProofEdit implements Serializable {
         Utils.navigate(Pages.CareProofSummary.RedirectURL());
     }
 
-    public void proofValueChanged(Proof proof) {
-        CallculatorPpug.calculateAll(proof);
-    }
-
     public double calculatePatientPerNurse(Proof proof) {
         CallculatorPpug.calculateAll(proof);
         return proof.getPatientPerNurse();
@@ -315,6 +311,17 @@ public class ProofEdit implements Serializable {
         exceptionFact.setProof(proof);
         proof.setExceptionFact(exceptionFact);
         _exceptionsFacts.add(exceptionFact);
+    }
+
+    public void deleteExceptionsFact(ProofExceptionFact exceptionFact) {
+        _exceptionsFacts.remove(exceptionFact);
+        exceptionFact.setProof(null);
+    }
+
+    public List<Proof> getProofsForExceptionFact() {
+        return _proofRegulationBaseInformation.getProofs().stream()
+                .filter(c -> c.getPatientPerNurse() > c.getPpug())
+                .collect(Collectors.toList());
     }
 
 }
