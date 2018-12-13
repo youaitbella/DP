@@ -3,11 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.insurance.entities;
+package org.inek.dataportal.insurance.nub.entities;
 
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -16,14 +18,15 @@ import javax.persistence.Table;
  * @author muellermi
  */
 @Entity
-@Table(name = "Category", catalog = "NUB", schema = "dbo")
-public class InekMethod implements Serializable {
-    
-    private static final long serialVersionUID = 1L;
+@Table(name = "listUnit")
+public class Unit implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+    
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
-    @Column(name = "caId")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "uId")
     private int _id = -1;
 
     public int getId() {
@@ -35,18 +38,19 @@ public class InekMethod implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property Name">
-    @Column(name = "caName")
-    private String _name = "";
+    // <editor-fold defaultstate="collapsed" desc="Property Text">
+    @Column(name = "uText")
+    private String _text = "";
 
-    public String getName() {
-        return _name;
+    public String getText() {
+        return _text;
     }
 
-    public void setName(String value) {
-        _name = value;
+    public void setText(String text) {
+        _text = text;
     }
     // </editor-fold>
+    
 
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
@@ -56,17 +60,19 @@ public class InekMethod implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        if (!(object instanceof InekMethod)) {
+        if (!(object instanceof Unit)) {
             return false;
         }
-        InekMethod other = (InekMethod) object;
+        Unit other = (Unit) object;
         return _id == other._id;
     }
 
     @Override
     public String toString() {
-        return "org.inek.entities.InekMethod[id=" + _id + "]";
+        return "org.inek.entities.DosageForm[id=" + _id + "]";
     }
     // </editor-fold>
+
+    
     
 }

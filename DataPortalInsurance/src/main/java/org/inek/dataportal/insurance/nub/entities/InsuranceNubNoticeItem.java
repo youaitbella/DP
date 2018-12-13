@@ -1,4 +1,4 @@
-package org.inek.dataportal.insurance.entities;
+package org.inek.dataportal.insurance.nub.entities;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

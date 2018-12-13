@@ -11,12 +11,12 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import org.inek.dataportal.common.data.AbstractDataAccessWithActionLog;
 import org.inek.dataportal.common.data.common.RemunerationType;
-import org.inek.dataportal.insurance.entities.DosageForm;
-import org.inek.dataportal.insurance.entities.InsuranceNubNotice;
-import org.inek.dataportal.insurance.entities.Unit;
-import org.inek.dataportal.insurance.entities.InekMethod;
-import org.inek.dataportal.insurance.entities.InsuranceNubNoticeItem;
-import org.inek.dataportal.insurance.entities.InsuranceNubMethodInfo;
+import org.inek.dataportal.insurance.nub.entities.DosageForm;
+import org.inek.dataportal.insurance.nub.entities.InsuranceNubNotice;
+import org.inek.dataportal.insurance.nub.entities.Unit;
+import org.inek.dataportal.insurance.nub.entities.InekMethod;
+import org.inek.dataportal.insurance.nub.entities.InsuranceNubNoticeItem;
+import org.inek.dataportal.insurance.nub.entities.InsuranceNubMethodInfo;
 import org.inek.dataportal.common.enums.DataSet;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 
