@@ -36,32 +36,16 @@ public class InsuranceFacade extends AbstractDataAccessWithActionLog {
         return super.findFresh(InsuranceNubNotice.class, id);
     }
 
-    public List<InsuranceNubNotice> getAccountNotices(int accountId, DataSet dataSet) {
-        String sql = "SELECT n FROM InsuranceNubNotice n "
-                + "WHERE n._accountId = :accountId and n._workflowStatusId BETWEEN :minStatus AND :maxStatus ORDER BY n._year, n._id";
-        TypedQuery<InsuranceNubNotice> query = getEntityManager().createQuery(sql, InsuranceNubNotice.class);
-        int minStatus = dataSet == DataSet.AllOpen ? WorkflowStatus.New.getId() : WorkflowStatus.Provided.getId();
-        int maxStatus = dataSet == DataSet.AllOpen ? WorkflowStatus.Provided.getId() - 1 : WorkflowStatus.Retired.
-                getId();
-        query.setParameter("accountId", accountId);
-        query.setParameter("minStatus", minStatus);
-        query.setParameter("maxStatus", maxStatus);
-        return query.getResultList();
-
-    }
-
     public List<InsuranceNubNoticeInfo> getAccountNoticeInfos(int accountId, DataSet dataSet) {
         String sql = "SELECT NEW org.inek.dataportal.insurance.nub.dao.InsuranceNubNoticeInfo"
                 + "(n._id, n._creationDate, n._workflowStatusId, n._year, n._hospitalIk) "
                 + "FROM InsuranceNubNotice n "
                 + "WHERE n._accountId = :accountId and n._workflowStatusId BETWEEN :minStatus AND :maxStatus ORDER BY n._year, n._id";
         TypedQuery<InsuranceNubNoticeInfo> query = getEntityManager().createQuery(sql, InsuranceNubNoticeInfo.class);
-        int minStatus = dataSet == DataSet.AllOpen ? WorkflowStatus.New.getId() : WorkflowStatus.Provided.getId();
-        int maxStatus = dataSet == DataSet.AllOpen ? WorkflowStatus.Provided.getId() - 1 : WorkflowStatus.Retired.
-                getId();
+
         query.setParameter("accountId", accountId);
-        query.setParameter("minStatus", minStatus);
-        query.setParameter("maxStatus", maxStatus);
+        query.setParameter("minStatus", dataSet.getMinStatus().getId());
+        query.setParameter("maxStatus", dataSet.getMaxStatus().getId());
         return query.getResultList();
 
     }
