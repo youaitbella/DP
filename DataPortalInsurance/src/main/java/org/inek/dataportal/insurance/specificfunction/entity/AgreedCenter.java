@@ -25,8 +25,8 @@ public class AgreedCenter implements Serializable {
     public AgreedCenter() {
     }
 
-    public AgreedCenter(int masterId) {
-        _agreedMasterId = masterId;
+    public AgreedCenter(SpecificFunctionAgreement master) {
+        _agreedMaster = master;
     }
 
     // <editor-fold defaultstate="collapsed" desc="Property Id">
@@ -44,16 +44,17 @@ public class AgreedCenter implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property AgreedMasterId">
-    @Column(name = "acAgreedMasterId")
-    private int _agreedMasterId = -1;
+    // <editor-fold defaultstate="collapsed" desc="Property AgreedMaster">
+    @ManyToOne
+    @JoinColumn(name = "acAgreedMasterId")
+    private SpecificFunctionAgreement _agreedMaster;
 
-    public int getAgreedMasterId() {
-        return _agreedMasterId;
+    public SpecificFunctionAgreement getAgreedMaster() {
+        return _agreedMaster;
     }
 
-    public void setAgreedMasterId(int agreedMasterId) {
-        _agreedMasterId = agreedMasterId;
+    public void setAgreedMaster(SpecificFunctionAgreement agreedMaster) {
+        _agreedMaster = agreedMaster;
     }
     // </editor-fold>
 
@@ -124,7 +125,7 @@ public class AgreedCenter implements Serializable {
                 @JoinColumn(name = "acsfAgreedCenterId", referencedColumnName = "acId")},
             inverseJoinColumns = {
                 @JoinColumn(name = "acsfSpecificFunctionId", referencedColumnName = "sfId", unique = true)}
-            )
+    )
     @Documentation(name = "Besondere Aufgaben")
     private List<SpecificFunction> _specificFunctions = new Vector<>();
 
@@ -241,16 +242,7 @@ public class AgreedCenter implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public int hashCode() {
-        if (_id != null) {
-            return _id;
-        }
-        int hash = 7;
-        hash = 97 * hash + this._agreedMasterId;
-        hash = 97 * hash + Objects.hashCode(this._otherCenterName);
-        hash = 97 * hash + Objects.hashCode(this._location);
-        hash = 97 * hash + Objects.hashCode(this._otherSpecificFunction);
-
-        return hash;
+        return 2441;
     }
 
     @Override
@@ -269,10 +261,10 @@ public class AgreedCenter implements Serializable {
         if (_id != null) {
             return Objects.equals(_id, other._id);
         }
-        if (other._id != null){
+        if (other._id != null) {
             return false;
         }
-        if (!Objects.equals(this._agreedMasterId, other._agreedMasterId)) {
+        if (!Objects.equals(this._agreedMaster, other._agreedMaster)) {
             return false;
         }
         if (this._costSum != other._costSum) {

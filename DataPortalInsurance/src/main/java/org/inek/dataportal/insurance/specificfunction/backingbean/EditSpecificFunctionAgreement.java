@@ -260,7 +260,6 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
         _agreement.setId(-1);
         for (AgreedCenter agreedCenter : _agreement.getAgreedCenters()) {
             agreedCenter.setId(-1);
-            agreedCenter.setAgreedMasterId(-1);
         }
         _specificFunctionFacade.saveSpecificFunctionAgreement(_agreement);
         sendMessage("BA Konkretisierung");
@@ -421,7 +420,7 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
     }
 
     public void addAgreedCenter() {
-        AgreedCenter center = new AgreedCenter(_agreement.getId());
+        AgreedCenter center = new AgreedCenter(_agreement);
         int lastSequence = 0;
         for (AgreedCenter agreedCenter : _agreement.getAgreedCenters()) {
             lastSequence = agreedCenter.getSequence();
