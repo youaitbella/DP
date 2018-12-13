@@ -22,8 +22,8 @@ public class RequestProjectedCenter implements Serializable {
     public RequestProjectedCenter() {
     }
 
-    public RequestProjectedCenter(int masterId) {
-        _requestMasterId = masterId;
+    public RequestProjectedCenter(SpecificFunctionRequest master) {
+        _requestMaster = master;
     }
 
     // <editor-fold defaultstate="collapsed" desc="Property Id">
@@ -42,15 +42,16 @@ public class RequestProjectedCenter implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property RequestMasterId">
-    @Column(name = "rpcRequestMasterId")
-    private Integer _requestMasterId = -1;
+    @ManyToOne
+    @JoinColumn(name = "rpcRequestMasterId")
+    private SpecificFunctionRequest _requestMaster;
 
-    public int getRequestMasterId() {
-        return _requestMasterId;
+    public SpecificFunctionRequest getRequestMaster() {
+        return _requestMaster;
     }
 
-    public void setRequestMasterId(int requestMasterId) {
-        _requestMasterId = requestMasterId;
+    public void setRequestMaster(SpecificFunctionRequest requestMaster) {
+        _requestMaster = requestMaster;
     }
     // </editor-fold>
 
@@ -183,17 +184,7 @@ public class RequestProjectedCenter implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public int hashCode() {
-        if (_id != null) {
-            return _id;
-        }
-        int hash = 7;
-        hash = 97 * hash + this._requestMasterId;
-        hash = 97 * hash + Objects.hashCode(this._otherCenterName);
-        hash = 97 * hash + Objects.hashCode(this._location);
-        hash = 97 * hash + Objects.hashCode(this._otherSpecificFunction);
-        hash = 97 * hash + this._typeId;
-        hash = 97 * hash + this._estimatedPatientCount;
-        return hash;
+        return 2447;
     }
 
     @Override
@@ -215,7 +206,7 @@ public class RequestProjectedCenter implements Serializable {
         if (other._id != null){
             return false;
         }
-        if (!Objects.equals(this._requestMasterId, other._requestMasterId)) {
+        if (!Objects.equals(this._requestMaster, other._requestMaster)) {
             return false;
         }
         if (this._typeId != other._typeId) {

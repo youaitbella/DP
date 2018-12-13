@@ -279,7 +279,6 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
         _request.setId(-1);
         for (RequestProjectedCenter requestProjectedCenter : _request.getRequestProjectedCenters()) {
             requestProjectedCenter.setId(-1);
-            requestProjectedCenter.setRequestMasterId(-1);
         }
         for (RequestAgreedCenter requestAgreedCenter : _request.getRequestAgreedCenters()) {
             requestAgreedCenter.setId(-1);
@@ -471,7 +470,7 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
     }
 
     public void addProjectedCenter() {
-        RequestProjectedCenter center = new RequestProjectedCenter(_request.getId());
+        RequestProjectedCenter center = new RequestProjectedCenter(_request);
         _request.getRequestProjectedCenters().add(center);
     }
 
