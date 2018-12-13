@@ -1,9 +1,11 @@
 package org.inek.dataportal.common.specificfunction.entity;
 
+import com.sun.javafx.UnmodifiableArrayList;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneOffset;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
@@ -283,29 +285,57 @@ public class SpecificFunctionRequest implements Serializable, StatusEntity {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "rpcRequestMasterId", referencedColumnName = "rmId")
     @Documentation(name = "geplante Vereinbarung", omitOnEmpty = true)
-    private List<RequestProjectedCenter> _requestProjectedCenters = new Vector<>();
+    private final List<RequestProjectedCenter> _requestProjectedCenters = new Vector<>();
 
     public List<RequestProjectedCenter> getRequestProjectedCenters() {
-        return _requestProjectedCenters;
+        return Collections.unmodifiableList(_requestProjectedCenters) ;
+    }
+    
+    public void addProjectedCenter() {
+        RequestProjectedCenter center = new RequestProjectedCenter(this);
+        _requestProjectedCenters.add(center);
     }
 
-    public void setRequestProjectedCenters(List<RequestProjectedCenter> requestProjectedCenters) {
-        this._requestProjectedCenters = requestProjectedCenters;
+    public void deleteProjectedCenter(RequestProjectedCenter center) {
+        _requestProjectedCenters.remove(center);
     }
+    
+    public void removeEmptyProjectedCenters() {
+        _requestProjectedCenters.removeIf(c -> c.isEmpty());
+        for (RequestProjectedCenter center : _requestProjectedCenters) {
+            if (!center.getSpecificFunctions().stream().anyMatch(f -> f.getId() == -1)) {
+                center.setOtherSpecificFunction("");
+            }
+        }
+    }
+    
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Property RequestAgreedCenter">
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "racRequestMasterId", referencedColumnName = "rmId")
     @Documentation(name = "vorliegende Vereinbarung", omitOnEmpty = true)
-    private List<RequestAgreedCenter> _requestAgreedCenters = new Vector<>();
+    private final List<RequestAgreedCenter> _requestAgreedCenters = new Vector<>();
 
     public List<RequestAgreedCenter> getRequestAgreedCenters() {
-        return _requestAgreedCenters;
+        return Collections.unmodifiableList(_requestAgreedCenters);
+    }
+    
+    public void addAgreedCenter() {
+        RequestAgreedCenter center = new RequestAgreedCenter(this);
+        _requestAgreedCenters.add(center);
     }
 
-    public void setRequestAgreedCenters(List<RequestAgreedCenter> requestAgreedCenters) {
-        this._requestAgreedCenters = requestAgreedCenters;
+    public void deleteAgreedCenter(RequestAgreedCenter center) {
+        _requestAgreedCenters.remove(center);
+    }
+
+    public void removeEmptyAgreedCenters() {
+        _requestAgreedCenters.removeIf(c -> c.isEmpty());
+    }
+
+    public void deleteRequestAgreedCenters() {
+        _requestAgreedCenters.clear();
     }
     //</editor-fold>
 

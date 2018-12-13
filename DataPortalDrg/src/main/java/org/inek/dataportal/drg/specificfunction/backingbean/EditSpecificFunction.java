@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.inek.dataportal.drg.specificfunction.backingbean;
 
 import java.io.Serializable;
@@ -282,7 +277,6 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
         }
         for (RequestAgreedCenter requestAgreedCenter : _request.getRequestAgreedCenters()) {
             requestAgreedCenter.setId(-1);
-            requestAgreedCenter.setRequestMasterId(-1);
         }
         _specificFunctionFacade.saveSpecificFunctionRequest(_request);
         sendMessage("BA Konkretisierung");
@@ -328,7 +322,7 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
 
     public void clearRequestAgreedCentersForSave(SpecificFunctionRequest request) {
         if (!request.isHasAgreement()) {
-            request.getRequestAgreedCenters().clear();
+            request.deleteRequestAgreedCenters();
         }
     }
 
@@ -470,41 +464,27 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
     }
 
     public void addProjectedCenter() {
-        RequestProjectedCenter center = new RequestProjectedCenter(_request);
-        _request.getRequestProjectedCenters().add(center);
+        _request.addProjectedCenter();
     }
 
     public void deleteProjectedCenter(RequestProjectedCenter center) {
-        _request.getRequestProjectedCenters().remove(center);
+        _request.deleteProjectedCenter(center);
     }
 
     public void addAgreedCenter() {
-        RequestAgreedCenter center = new RequestAgreedCenter(_request.getId());
-        _request.getRequestAgreedCenters().add(center);
+        _request.addAgreedCenter();
     }
 
     public void deleteAgreedCenter(RequestAgreedCenter center) {
-        _request.getRequestAgreedCenters().remove(center);
+        _request.deleteAgreedCenter(center);
     }
     // </editor-fold>
 
     private void removeEmptyCenters() {
-        removeEmptyProjectedCenters();
-        removeEmptyAgreedCenters();
+        _request.removeEmptyProjectedCenters();
+        _request.removeEmptyAgreedCenters();
     }
 
-    private void removeEmptyProjectedCenters() {
-        _request.getRequestProjectedCenters().removeIf(c -> c.isEmpty());
-        for (RequestProjectedCenter center : _request.getRequestProjectedCenters()) {
-            if (!center.getSpecificFunctions().stream().anyMatch(f -> f.getId() == -1)) {
-                center.setOtherSpecificFunction("");
-            }
-        }
-    }
-
-    private void removeEmptyAgreedCenters() {
-        _request.getRequestAgreedCenters().removeIf(c -> c.isEmpty());
-    }
 
     private void addCentersIfMissing() {
         if (_request.getRequestProjectedCenters().isEmpty()) {

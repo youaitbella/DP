@@ -20,8 +20,8 @@ public class RequestAgreedCenter implements Serializable {
     public RequestAgreedCenter() {
     }
 
-    public RequestAgreedCenter(int masterId) {
-        _requestMasterId = masterId;
+    public RequestAgreedCenter(SpecificFunctionRequest master) {
+        _requestMaster = master;
     }
 
     // <editor-fold defaultstate="collapsed" desc="Property Id">
@@ -39,16 +39,16 @@ public class RequestAgreedCenter implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property RequestMasterId">
-    @Column(name = "racRequestMasterId")
-    private int _requestMasterId = -1;
+    // <editor-fold defaultstate="collapsed" desc="Property RequestMaster">
+    @JoinColumn(name = "racRequestMasterId")
+    private SpecificFunctionRequest _requestMaster;
 
-    public int getRequestMasterId() {
-        return _requestMasterId;
+    public SpecificFunctionRequest getRequestMaster() {
+        return _requestMaster;
     }
 
-    public void setRequestMasterId(int requestMasterId) {
-        _requestMasterId = requestMasterId;
+    public void setRequestMaster(SpecificFunctionRequest requestMaster) {
+        _requestMaster = requestMaster;
     }
     // </editor-fold>
 
@@ -115,15 +115,7 @@ public class RequestAgreedCenter implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public int hashCode() {
-        if (_id != null) {
-            return _id;
-        }
-        int hash = 7;
-        hash = 11 * hash + this._requestMasterId;
-        hash = 11 * hash + Objects.hashCode(this._center);
-        hash = 11 * hash + Objects.hashCode(this._remunerationKey);
-        hash = 11 * hash + Objects.hashCode(this._amount);
-        return hash;
+        return 2461;
     }
 
     @Override
@@ -144,7 +136,7 @@ public class RequestAgreedCenter implements Serializable {
         if (other._id != null) {
             return false;
         }
-        if (!Objects.equals(this._requestMasterId, other._requestMasterId)) {
+        if (!Objects.equals(this._requestMaster, other._requestMaster)) {
             return false;
         }
         if (!Objects.equals(this._center, other._center)) {
