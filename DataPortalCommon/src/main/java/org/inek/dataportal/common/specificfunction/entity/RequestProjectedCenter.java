@@ -66,24 +66,12 @@ public class RequestProjectedCenter implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property CenterId">
-    @Column(name = "rpcCenterId")
-    private int _centerId;
-
-    public int getCenterId() {
-        return _centerId;
-    }
-
-    public void setCenterId(int value) {
-        _centerId = value;
-    }
-    // </editor-fold>
-
     // <editor-fold defaultstate="collapsed" desc="Property CenterName">
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REFRESH)
     @PrimaryKeyJoinColumn(name = "rpcCenterId")
+    @JoinColumn(name = "rpcCenterId")
     @Documentation(name = "Zentrum")
-    private CenterName _centerName;
+    private CenterName _centerName = new CenterName();
 
     public CenterName getCenterName() {
         return _centerName;
@@ -133,7 +121,7 @@ public class RequestProjectedCenter implements Serializable {
                 @JoinColumn(name = "pcsfProjectedCenterId", referencedColumnName = "rpcId")},
             inverseJoinColumns = {
                 @JoinColumn(name = "pcsfSpecificFunctionId", referencedColumnName = "sfId", unique = true)}
-            )
+    )
     @Documentation(name = "Besondere Aufgaben")
     private List<SpecificFunction> _specificFunctions = new Vector<>();
 
@@ -214,7 +202,7 @@ public class RequestProjectedCenter implements Serializable {
         if (_id != null) {
             return Objects.equals(_id, other._id);
         }
-        if (other._id != null){
+        if (other._id != null) {
             return false;
         }
         if (!Objects.equals(this._requestMaster, other._requestMaster)) {
@@ -246,7 +234,7 @@ public class RequestProjectedCenter implements Serializable {
 
     public boolean isEmpty() {
         return _id == null
-                && _centerId == 0
+                && _centerName.getId() <= 0
                 && _otherCenterName.isEmpty()
                 && _location.isEmpty()
                 && _specificFunctions.isEmpty()

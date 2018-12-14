@@ -84,19 +84,18 @@
                                  styleClass="element25em"
                                  required="true"
                                  requiredMessage="#{msg.msgValueNeeded}"
-                                 value="#{center.centerId}"
+                                 value="#{center.centerName}"
                                  hideNoSelectionOption="true"  
                                  readonly="#{editSpecificFunctionAgreement.readOnly}">
-                    <f:selectItem itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}" noSelectionOption="true"/>
-                    <f:selectItems value="#{editSpecificFunctionAgreement.centerNames}" var="centerName" itemValue="#{centerName.id}" itemLabel="#{centerName.name}"/>
-                    <f:selectItem itemLabel="Sonstiges (bitte angeben)" itemValue="#{-1}"/>
+                    <f:converter converterId="CenterNameConverter"/>
+                    <f:selectItems value="#{editSpecificFunctionAgreement.getCenterNames(centerName.id)}" var="centerName" itemValue="#{centerName}" itemLabel="#{centerName.name}"/>
                     <f:ajax event="change" render="@form :logout:remaining msgCenterName"/>
                 </h:selectOneMenu>
                 <h:message for="centerName" id="msgCenterName" styleClass="errorMessage"/>
 
                 <h:panelGroup id="otherName" 
                               styleClass="element100"
-                              rendered="#{center.centerId eq -1}">
+                              rendered="#{center.centerName.id eq -1}">
                     <h:inputText id="txtCenterOtherName"
                                  title="Bezeichung eines sonstigen Zentrums"
                                  styleClass="element100"

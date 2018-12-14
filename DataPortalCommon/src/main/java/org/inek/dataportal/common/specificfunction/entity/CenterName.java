@@ -25,24 +25,32 @@ import org.inek.dataportal.common.utils.Documentation;
 public class CenterName implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    public CenterName() {
+    }
+
+    public CenterName(int id, String name) {
+        _id = id;
+        _name = name;
+    }
     
     //<editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "cnId")
     private int _id;
-    
+
     public int getId() {
         return _id;
     }
-    
+
     public void setId(int id) {
         this._id = id;
     }
     //</editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property Name">
-    @Column(name = "cnName")
+    @Column(name = "cnName", updatable = false, insertable = false)
     @Documentation(key = "lblName")
     private String _name = "";
 
@@ -64,7 +72,7 @@ public class CenterName implements Serializable {
         hash = 97 * hash + Objects.hashCode(this._name);
         return hash;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -85,11 +93,11 @@ public class CenterName implements Serializable {
         }
         return true;
     }
-    
+
     @Override
     public String toString() {
         return _name;
     }
     //</editor-fold>
-    
+
 }

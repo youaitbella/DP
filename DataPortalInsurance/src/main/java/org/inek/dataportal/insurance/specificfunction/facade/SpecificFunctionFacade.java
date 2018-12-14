@@ -115,13 +115,29 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Common">
-    public List<CenterName> getCenterNames() {
-        return findAll(CenterName.class)
+    private List<CenterName> _centerNames;
+
+    public List<CenterName> getCenterNames(boolean includeNoneOption) {
+        if (_centerNames == null) {
+            _centerNames = findAll(CenterName.class)
+                    .stream()
+                    .sorted((n1, n2) -> obtainSortName(n1).compareTo(obtainSortName(n2)))
+                    .collect(Collectors.toList());
+        }
+        return _centerNames
                 .stream()
-                .filter(n -> n.getId() > 0)
-                .sorted((n1, n2) -> (n1.getId() == -1 ? "ZZZ" : n1.getName()).compareTo((n2.getId() == -1 ? "ZZZ" : n2.
-                getName())))
+                .filter(n -> includeNoneOption || n.getId() != 0)
                 .collect(Collectors.toList());
+    }
+
+    private String obtainSortName(CenterName center){
+        if (center.getId() == -1){
+            return "zzz";  // sort to end
+        }
+        if (center.getId() == 0){
+            return " ";  // sort to begin
+        }
+        return center.getName(); // sort by name
     }
 
     public List<RelatedName> getRelatedNames() {

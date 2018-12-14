@@ -442,8 +442,8 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
         }
     }
 
-    public List<CenterName> getCenterNames() {
-        return _specificFunctionFacade.getCenterNames();
+    public List<CenterName> getCenterNames(int id) {
+        return _specificFunctionFacade.getCenterNames(id == 0);
     }
 
     public List<RelatedName> getRelatedNames() {

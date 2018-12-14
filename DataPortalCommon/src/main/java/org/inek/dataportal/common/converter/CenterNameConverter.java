@@ -11,14 +11,16 @@ public class CenterNameConverter implements Converter {
 
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
-        CenterName center = new CenterName();
         try {
-            int id = Integer.parseInt(value);
-            center.setId(id);
+            String[] parts = value.split("[|]");
+            if (parts.length == 2) {
+                int id = Integer.parseInt(parts[0]);
+                return new CenterName(id, parts[1]);
+            }
         } catch (NumberFormatException e) {
             // ignore
         }
-        return center;
+        return new CenterName();
     }
 
     @Override
@@ -27,7 +29,7 @@ public class CenterNameConverter implements Converter {
             return "";
         }
         CenterName center = (CenterName) value;
-        return "" + center.getId();
+        return center.getId() + "|" + center.getName();
     }
 
 }

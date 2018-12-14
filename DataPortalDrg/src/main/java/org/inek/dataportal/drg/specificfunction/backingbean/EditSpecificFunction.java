@@ -369,7 +369,7 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
             if (center.isEmpty()) {
                 continue;
             }
-            if (center.getCenterId() == -1) {
+            if (center.getCenterName().getId() == -1) {
                 checkField(message, center.getOtherCenterName(), "Bitte Art des Zentrums angeben", "");
             }
             if (center.getSpecificFunctions().isEmpty()) {
@@ -495,8 +495,8 @@ public class EditSpecificFunction extends AbstractEditController implements Seri
         }
     }
 
-    public List<CenterName> getCenterNames() {
-        return _specificFunctionFacade.getCenterNames();
+    public List<CenterName> getCenterNames(int id) {
+        return _specificFunctionFacade.getCenterNames(id == 0);
     }
 
     public List<SpecificFunction> getSpecificFunctions() {
