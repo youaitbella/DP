@@ -102,7 +102,9 @@ public class RequestAgreedCenter implements Serializable {
     @Documentation(name = "Prozent", omitOnValues = "0")
     private double _percent;
 
-    @Min(0)
+    //@Min(0)
+    // even thought Min is allowed to be used on double, this somtimes causes a validation failure
+    // this seems to be a known bug - we use JSF validation instead
     public double getPercent() {
         return _percent;
     }
