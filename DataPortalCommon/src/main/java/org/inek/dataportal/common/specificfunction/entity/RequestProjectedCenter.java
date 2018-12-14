@@ -26,6 +26,17 @@ public class RequestProjectedCenter implements Serializable {
         _requestMaster = master;
     }
 
+    public RequestProjectedCenter(RequestProjectedCenter template) {
+        _centerId = template._centerId;
+        _centerName = template._centerName;
+        _otherCenterName = template._otherCenterName;
+        _location = template._location;
+        _specificFunctions.addAll(template._specificFunctions);
+        _otherSpecificFunction = template._otherSpecificFunction;
+        _typeId = template._typeId;
+        _estimatedPatientCount = template._estimatedPatientCount;
+    }
+
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

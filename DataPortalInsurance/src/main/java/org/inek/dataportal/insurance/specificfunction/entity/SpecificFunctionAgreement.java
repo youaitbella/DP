@@ -5,7 +5,9 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 import javax.persistence.*;
@@ -359,14 +361,26 @@ public class SpecificFunctionAgreement implements Serializable, StatusEntity {
     @JoinColumn(name = "acAgreedMasterId", referencedColumnName = "amId")
     @OrderBy(value = "_sequence")
     @Documentation(name = "vereinbarte Kostenstellen", omitOnEmpty = true)
-    private List<AgreedCenter> _agreedCenters = new Vector<>();
+    private final List<AgreedCenter> _agreedCenters = new Vector<>();
 
     public List<AgreedCenter> getAgreedCenters() {
-        return _agreedCenters;
+        return Collections.unmodifiableList(_agreedCenters);
+    }
+    
+    public AgreedCenter addAgreedCenter() {
+        AgreedCenter center = new AgreedCenter(this);
+        int lastSequence = _agreedCenters.stream().mapToInt(c -> c.getSequence()).max().orElse(0);
+        center.setSequence(lastSequence + 1);
+        _agreedCenters.add(center);
+        return center;
+    }
+    
+    public void deleteAgreedCenter(AgreedCenter center) {
+        _agreedCenters.remove(center);
     }
 
-    public void setAgreedCenters(List<AgreedCenter> agreedCenters) {
-        this._agreedCenters = agreedCenters;
+    public void removeEmptyAgreedCenters() {
+        _agreedCenters.removeIf(c -> c.isEmpty());
     }
     //</editor-fold>
 
@@ -476,4 +490,8 @@ public class SpecificFunctionAgreement implements Serializable, StatusEntity {
     public void removeAgreedCenterRemunerationKey(AgreedRemunerationKeys key) {
         getRemunerationKeys().remove(key);
     }
+
+
+
+
 }

@@ -420,17 +420,11 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
     }
 
     public void addAgreedCenter() {
-        AgreedCenter center = new AgreedCenter(_agreement);
-        int lastSequence = 0;
-        for (AgreedCenter agreedCenter : _agreement.getAgreedCenters()) {
-            lastSequence = agreedCenter.getSequence();
-        }
-        center.setSequence(lastSequence + 1);
-        _agreement.getAgreedCenters().add(center);
+        _agreement.addAgreedCenter();
     }
 
     public void deleteAgreedCenter(AgreedCenter center) {
-        _agreement.getAgreedCenters().remove(center);
+        _agreement.deleteAgreedCenter(center);
     }
     // </editor-fold>
 
@@ -439,13 +433,7 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
     }
 
     private void removeEmptyAgreedCenters() {
-        Iterator<AgreedCenter> iter = _agreement.getAgreedCenters().iterator();
-        while (iter.hasNext()) {
-            AgreedCenter center = iter.next();
-            if (center.isEmpty()) {
-                iter.remove();
-            }
-        }
+        _agreement.removeEmptyAgreedCenters();
     }
 
     private void addCentersIfMissing() {
