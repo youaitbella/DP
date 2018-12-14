@@ -27,7 +27,6 @@ public class RequestProjectedCenter implements Serializable {
     }
 
     public RequestProjectedCenter(RequestProjectedCenter template) {
-        _centerId = template._centerId;
         _centerName = template._centerName;
         _otherCenterName = template._otherCenterName;
         _location = template._location;
