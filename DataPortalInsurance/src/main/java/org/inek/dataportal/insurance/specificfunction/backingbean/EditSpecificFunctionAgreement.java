@@ -120,7 +120,7 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
         agreement.setPhone(account.getPhone());
         agreement.setMail(account.getEmail());
         agreement.setDataYear(Utils.getTargetYear(Feature.SPECIFIC_FUNCTION));
-        agreement.getRemunerationKeys().add(new AgreedRemunerationKeys());
+        agreement.addAgreedCenterRemunerationKey();
         List<SelectItem> iks = getIks();
         if (iks.size() == 1) {
             int ik = (int) iks.get(0).getValue();

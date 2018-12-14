@@ -388,14 +388,20 @@ public class SpecificFunctionAgreement implements Serializable, StatusEntity {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "arkSpecificFunctionAgreementId", referencedColumnName = "amId")
     @OrderBy(value = "_number")
-    private List<AgreedRemunerationKeys> _remunerationKeys = new ArrayList<>();
+    private final List<AgreedRemunerationKeys> _remunerationKeys = new ArrayList<>();
 
     public List<AgreedRemunerationKeys> getRemunerationKeys() {
-        return _remunerationKeys;
+        return Collections.unmodifiableList(_remunerationKeys);
     }
 
-    public void setRemunerationKeys(List<AgreedRemunerationKeys> remunerationKeys) {
-        this._remunerationKeys = remunerationKeys;
+    public void addAgreedCenterRemunerationKey() {
+        AgreedRemunerationKeys key = new AgreedRemunerationKeys();
+        key.setSpecificFunctionAgreement(this);
+        _remunerationKeys.add(key);
+    }
+    
+    public void removeAgreedCenterRemunerationKey(AgreedRemunerationKeys key) {
+        _remunerationKeys.remove(key);
     }
     //</editor-fold>
     
@@ -481,15 +487,6 @@ public class SpecificFunctionAgreement implements Serializable, StatusEntity {
     }
     // </editor-fold>
     
-    public void addAgreedCenterRemunerationKey() {
-        AgreedRemunerationKeys key = new AgreedRemunerationKeys();
-        key.setSpecificFunctionAgreementId(this.getId());
-        getRemunerationKeys().add(key);
-    }
-    
-    public void removeAgreedCenterRemunerationKey(AgreedRemunerationKeys key) {
-        getRemunerationKeys().remove(key);
-    }
 
 
 

@@ -27,7 +27,7 @@ public class SpecificFunctionAgreementTest {
     @Test
     public void removeEmptyAgreedCentersReturns0IfTheListContainsEmptyCentersOnly() {
         SpecificFunctionAgreement agreement = new SpecificFunctionAgreement();
-        AgreedCenter center = agreement.addAgreedCenter();
+        agreement.addAgreedCenter();
         agreement.addAgreedCenter();
         agreement.removeEmptyAgreedCenters();
         assertThat(agreement.getAgreedCenters().size()).isEqualTo(0);

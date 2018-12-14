@@ -61,15 +61,16 @@ public class AgreedRemunerationKeys implements Serializable {
         this._amount = amount;
     }
     
-    @Column(name = "arkSpecificFunctionAgreementId")
-    private int _specificFunctionAgreementId = -1;
+    @ManyToOne
+    @JoinColumn(name = "arkSpecificFunctionAgreementId")
+    private SpecificFunctionAgreement _specificFunctionAgreement;
 
-    public int getSpecificFunctionAgreementId() {
-        return _specificFunctionAgreementId;
+    public SpecificFunctionAgreement getSpecificFunctionAgreement() {
+        return _specificFunctionAgreement;
     }
 
-    public void setSpecificFunctionAgreementId(int specificFunctionAgreementId) {
-        this._specificFunctionAgreementId = specificFunctionAgreementId;
+    public void setSpecificFunctionAgreement(SpecificFunctionAgreement specificFunctionAgreement) {
+        this._specificFunctionAgreement = specificFunctionAgreement;
     }
     
     // none = -1, all centres = 0 or sequence
@@ -91,7 +92,7 @@ public class AgreedRemunerationKeys implements Serializable {
         hash = 97 * hash + Objects.hashCode(this._number);
         hash = 97 * hash + Objects.hashCode(this._text);
         hash = 97 * hash + Float.floatToIntBits(this._amount);
-        hash = 97 * hash + Objects.hashCode(this._specificFunctionAgreementId);
+        hash = 97 * hash + Objects.hashCode(this._specificFunctionAgreement);
         hash = 97 * hash + this._scope;
         return hash;
     }
@@ -123,7 +124,7 @@ public class AgreedRemunerationKeys implements Serializable {
         if (!Objects.equals(this._id, other._id)) {
             return false;
         }
-        if (!Objects.equals(this._specificFunctionAgreementId, other._specificFunctionAgreementId)) {
+        if (!Objects.equals(this._specificFunctionAgreement, other._specificFunctionAgreement)) {
             return false;
         }
         return true;
