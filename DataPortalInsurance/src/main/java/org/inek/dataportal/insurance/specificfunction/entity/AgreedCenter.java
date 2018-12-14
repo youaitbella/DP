@@ -282,7 +282,7 @@ public class AgreedCenter implements Serializable {
         if (!Objects.equals(this._otherSpecificFunction, other._otherSpecificFunction)) {
             return false;
         }
-        return true;
+        return _sequence == other._sequence;
     }
 
     @Override

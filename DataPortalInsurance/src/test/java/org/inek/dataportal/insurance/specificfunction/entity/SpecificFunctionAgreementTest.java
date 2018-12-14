@@ -1,5 +1,7 @@
 package org.inek.dataportal.insurance.specificfunction.entity;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -51,13 +53,29 @@ public class SpecificFunctionAgreementTest {
         agreement.removeEmptyAgreedCenters();
         assertThat(agreement.getAgreedCenters().size()).isEqualTo(2);
     }
+    
+    @Test
+    public void addAgreedCenterReturnsSequencenumbers_1_2_3_AfterAdding3Centers(){
+        SpecificFunctionAgreement agreement = new SpecificFunctionAgreement();
+        agreement.addAgreedCenter();
+        agreement.addAgreedCenter();
+        agreement.addAgreedCenter();
+        
+        List<Integer> seqNumbers = agreement.getAgreedCenters().stream().map(c -> c.getSequence()).collect(Collectors.toList());
+        assertThat(seqNumbers).isNotNull().isNotEmpty().containsOnly(1, 2, 3);
+    }
 
-//    public void deleteAgreedCenter(AgreedCenter center) {
-//        _agreedCenters.remove(center);
-//    }
-//
-//    public void removeEmptyAgreedCenters() {
-//        _agreedCenters.removeIf(c -> c.isEmpty());
-//    }
-//    
+    @Test
+    public void addAgreedCenterReturnsSequencenumbers_1_2_4_AfterAdding4Centers(){
+        SpecificFunctionAgreement agreement = new SpecificFunctionAgreement();
+        agreement.addAgreedCenter();
+        agreement.addAgreedCenter();
+        AgreedCenter center = agreement.addAgreedCenter();
+        agreement.addAgreedCenter();
+        
+        agreement.deleteAgreedCenter(center);
+        List<Integer> seqNumbers = agreement.getAgreedCenters().stream().map(c -> c.getSequence()).collect(Collectors.toList());
+        assertThat(seqNumbers).isNotNull().isNotEmpty().containsOnly(1, 2, 4);
+    }
+
 }
