@@ -80,9 +80,9 @@ public class ProofSummary implements Serializable {
     public void init() {
         setWorkingList();
         setCompleteList();
-        /*if (isInekUser()) {
+        if(isInekUser()) {
             setInekList();
-        }*/
+        }
     }
 
     private void setWorkingList() {
@@ -105,9 +105,10 @@ public class ProofSummary implements Serializable {
     }
 
     private void setInekList() {
-        /*_listInek.clear();
-        _listInek.addAll(createListItems(_deptFacade.getAllByStatus(WorkflowStatus.Provided)));
-        _listInek.addAll(createListItems(_deptFacade.getAllByStatus(WorkflowStatus.CorrectionRequested)));*/
+        _listInek.clear();
+        _listInek.addAll(createListItems(_proofFacade.getAllByStatus(WorkflowStatus.Provided)));
+        _listInek.addAll(createListItems(_proofFacade.getAllByStatus(WorkflowStatus.CorrectionRequested)));
+        _listInek.addAll(createListItems(_proofFacade.getAllByStatus(WorkflowStatus.Retired)));
     }
 
     public String careProofStationOpen() {
@@ -153,6 +154,7 @@ public class ProofSummary implements Serializable {
             item.setYear(info.getYear());
             item.setQuarter(info.getQuarter());
             item.setBaseInfo(info);
+            item.setSignature(info.getSignature());
             listItems.add(item);
         }
 
@@ -172,20 +174,11 @@ public class ProofSummary implements Serializable {
         private int _quarter;
         private String _hospitalName;
         private Date _lastChangeDate;
+        private String _signature;
         private ProofRegulationBaseInformation _baseInfo;
 
         public listItem() {
 
-        }
-
-        public listItem(int id, int ik, int statusId, int year, int quarter, String hospitalName, Date lastChangeDate) {
-            this._id = id;
-            this._ik = ik;
-            this._statusId = statusId;
-            this._year = year;
-            this._quarter = quarter;
-            this._hospitalName = hospitalName;
-            this._lastChangeDate = lastChangeDate;
         }
 
         public ProofRegulationBaseInformation getBaseInfo() {
@@ -244,5 +237,12 @@ public class ProofSummary implements Serializable {
             this._lastChangeDate = lastChangeDate;
         }
 
+        public String getSignature() {
+            return _signature;
+        }
+
+        public void setSignature(String signature) {
+            this._signature = signature;
+        }
     }
 }
