@@ -3,25 +3,22 @@
 
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 template="/WEB-INF/template.xhtml"
-                xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:pf="http://primefaces.org/ui"
-                xmlns:inekIcon="http://xmlns.jcp.org/jsf/composite/components/Icons"
-                xmlns:jsf="http://xmlns.jcp.org/jsf">
+                xmlns:pf="http://primefaces.org/ui">
 
     <ui:define name="title">Pflegepersonaluntergrenzen</ui:define>
 
     <ui:define name="content">
+
         <div class="ui-g">
             <div class="card">
-                <div class="ui-g-12 ui-lg-6">
-                    <pf:commandButton value="Zur Mitteilung §5"
+                <div class="ui-g-12">
+                    <pf:commandButton value="Zur Mitteilung nach §5"
                                       icon="fa fa-arrow-left"
                                       action="#{sessionController.navigate(sessionTools.pages.CareDeptSummary)}"
                                       immediate="true" />
                 </div>
 
-                <div class="ui-g-12 ui-lg-6">
+                <div class="ui-g-12">
                     <pf:commandButton value="Zur Nachweisvereinbarung"
                                       icon="fa fa-arrow-left"
                                       action="#{sessionController.navigate(sessionTools.pages.CareProofSummary)}"

@@ -138,11 +138,13 @@
 
                         <pf:commandButton value="Vorlage herrunterladen (Excel)"
                                           ajax="false"
-                                          style="margin-left: 10px;"
                                           onclick="PrimeFaces.monitorDownload(start, stop);"
                                           icon="ui-icon-arrowthick-1-s">
                             <pf:fileDownload value="#{proofEdit.downloadExcelTemplate()}" />
                         </pf:commandButton>
+
+                        <br />
+                        <br />
 
                         <pf:fileUpload fileUploadListener="#{proofEdit.handleFileUpload}"
                                        mode="advanced"
@@ -184,12 +186,16 @@
 
                         <pf:commandButton value="Speichern ohne Senden"
                                           action="#{proofEdit.save()}"
+                                          onstart="PF('dlgLoadingData').show()"
+                                          oncomplete="PF('dlgLoadingData').hide()"
                                           rendered="#{!proofEdit.isReadOnly}"
                                           style="margin-left: 10px;"
                                           update="@(.ui-message) @form" />
 
                         <pf:commandButton value="Meldung abschließend ans InEK senden"
                                           action="#{proofEdit.send()}"
+                                          onstart="PF('dlgLoadingData').show()"
+                                          oncomplete="PF('dlgLoadingData').hide()"
                                           rendered="#{!proofEdit.isReadOnly and proofEdit.sendAllowed()}"
                                           styleClass="green-button"
                                           style="margin-left: 10px;"

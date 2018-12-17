@@ -17,6 +17,7 @@
                 <div class="ui-g-12 ui-lg-6">
                     <pf:dataTable id="workingtable"
                                   value="#{proofSummary.listWorking}"
+                                  style="table-layout: auto;"
                                   var="baseInformation"
                                   emptyMessage="Keine Einträge vorhanden">
                         <f:facet name="header">
@@ -66,6 +67,7 @@
                 <div class="ui-g-12 ui-lg-6">
                     <pf:dataTable id="listComplete"
                                   value="#{proofSummary.listComplete}"
+                                  style="table-layout: auto;"
                                   var="baseInformation"
                                   emptyMessage="Keine Einträge vorhanden">
                         <f:facet name="header">

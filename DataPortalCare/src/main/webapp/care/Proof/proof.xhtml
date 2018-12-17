@@ -31,6 +31,7 @@
         </pf:repeat>
     </pf:dialog>
 
+    <div>
     <pf:dataTable id="proofTable"
                   value="#{proofEdit.proofRegulationBaseInformation.proofs}"
                   rows="50"
@@ -42,25 +43,26 @@
                   sortBy="#{proof.proofRegulationStation.sensitiveArea.name}"
                   expandableRowGroups="true">
 
-        <pf:column groupRow="true" headerText="pflegesensitiver Bereich">
+        <pf:column groupRow="true" headerText="pflegesensitiver Bereich" sortable="true"
+                   sortBy="#{proof.proofRegulationStation.sensitiveArea.name}">
             <pf:outputLabel value="#{proof.proofRegulationStation.sensitiveArea.name}" />
         </pf:column>
-        <pf:column headerText="FAB Schlüssel">
+        <pf:column headerText="FAB Schlüssel" sortable="true" sortBy="#{proof.proofRegulationStation.fabNumber}">
             <pf:outputLabel value="#{proof.proofRegulationStation.fabNumber}" />
         </pf:column>
-        <pf:column headerText="Fachabteilung">
+        <pf:column headerText="Fachabteilung" sortable="true" sortBy="#{proof.proofRegulationStation.fabName}">
             <pf:outputLabel value="#{proof.proofRegulationStation.fabName}" />
         </pf:column>
-        <pf:column headerText="Station">
+        <pf:column headerText="Station" sortable="true" sortBy="#{proof.proofRegulationStation.stationName}">
             <pf:outputLabel value="#{proof.proofRegulationStation.stationName}" />
         </pf:column>
-        <pf:column headerText="Standort">
+        <pf:column headerText="Standort" sortable="true" sortBy="#{proof.proofRegulationStation.locationCode}">
             <pf:outputLabel value="#{proof.proofRegulationStation.locationCode}" />
         </pf:column>
-        <pf:column headerText="Monat">
+        <pf:column headerText="Monat" sortable="true" sortBy="#{proof.month.name}">
             <pf:outputLabel value="#{proof.month.name}" />
         </pf:column>
-        <pf:column headerText="Schicht">
+        <pf:column headerText="Schicht" sortable="true" sortBy="#{proof.shift.name}">
             <pf:outputLabel value="#{proof.shift.name}" />
         </pf:column>
         <pf:column headerText="Anzahl Schichten (Summe)">
@@ -128,19 +130,19 @@
                                    requiredMessage="Bitte geben Sie einen Wert ein"
                                    readonly="#{proofEdit.isReadOnly}" />
         </pf:column>
-        <pf:column headerText="rechnerische Anzahl Patienten je Pflegekraft">
+        <pf:column headerText="rechnerische Anzahl Patienten je Pflegekraft" style="text-align: right;">
             <inekOutput:OutputNumber id="patientPerNurseId"
                                      colorRed="#{proofEdit.calculatePatientPerNurse(proof) gt proof.ppug}"
                                      value="#{proofEdit.calculatePatientPerNurse(proof)}"
                                      decimalPlaces="2" />
         </pf:column>
-        <pf:column headerText="Anzahl Pflegehilfskräfte anrechenbar für PPUG">
+        <pf:column headerText="Anzahl Pflegehilfskräfte anrechenbar für PPUG" style="text-align: right;">
             <inekOutput:OutputNumber id="countHelpeNurseChargeableId"
                                      value="#{proofEdit.calculateCountHelpeNurseChargeable(proof)}"
                                      decimalPlaces="2" />
         </pf:column>
     </pf:dataTable>
-
+    </div>
     <br />
 
     <h1>Ausnahmetatbestände</h1>
@@ -160,25 +162,30 @@
                     updateElement="form:exceptionsFactsTable" />
         </pf:column>
 
-        <pf:column headerText="pflegesensitiver Bereich">
+        <pf:column headerText="pflegesensitiver Bereich" sortable="true"
+                   sortBy="#{exceptionFact.proof.proofRegulationStation.sensitiveArea.name}">
             <pf:outputLabel value="#{exceptionFact.proof.proofRegulationStation.sensitiveArea.name}" />
         </pf:column>
-        <pf:column headerText="FAB Schlüssel">
+        <pf:column headerText="FAB Schlüssel" sortable="true"
+                   sortBy="#{exceptionFact.proof.proofRegulationStation.fabNumber}">
             <pf:outputLabel value="#{exceptionFact.proof.proofRegulationStation.fabNumber}" />
         </pf:column>
-        <pf:column headerText="Fachabteilung">
+        <pf:column headerText="Fachabteilung" sortable="true"
+                   sortBy="#{exceptionFact.proof.proofRegulationStation.fabName}">
             <pf:outputLabel value="#{exceptionFact.proof.proofRegulationStation.fabName}" />
         </pf:column>
-        <pf:column headerText="Station">
+        <pf:column headerText="Station" sortable="true"
+                   sortBy="#{exceptionFact.proof.proofRegulationStation.stationName}">
             <pf:outputLabel value="#{exceptionFact.proof.proofRegulationStation.stationName}" />
         </pf:column>
-        <pf:column headerText="Standort">
+        <pf:column headerText="Standort" sortable="true"
+                   sortBy="#{exceptionFact.proof.proofRegulationStation.locationCode}">
             <pf:outputLabel value="#{exceptionFact.proof.proofRegulationStation.locationCode}" />
         </pf:column>
-        <pf:column headerText="Monat">
+        <pf:column headerText="Monat" sortable="true" sortBy="#{exceptionFact.proof.month.name}">
             <pf:outputLabel value="#{exceptionFact.proof.month.name}" />
         </pf:column>
-        <pf:column headerText="Schicht">
+        <pf:column headerText="Schicht" sortable="true" sortBy="#{exceptionFact.proof.shift.name}">
             <pf:outputLabel value="#{exceptionFact.proof.shift.name}" />
         </pf:column>
         <pf:column headerText="Ausnahmetatbestand">
@@ -192,7 +199,7 @@
                         itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}"
                         noSelectionOption="true" />
                 <f:selectItems value="#{proofEdit.listExceptionsFacts}" />
-                <pf:ajax event="change" update="selectExeptionMessage"/>
+                <pf:ajax event="change" update="selectExeptionMessage" />
             </pf:selectOneMenu>
             <pf:message id="selectExeptionMessage" for="selectExeption" />
         </pf:column>
