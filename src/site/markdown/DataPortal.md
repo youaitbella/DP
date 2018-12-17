@@ -256,6 +256,10 @@ Die Datenhaltung erfolgt entsprechend der InEK-Infratruktur auf einem SQL Server
 
 ### 6.1 Fachliche Strukturen und Modelle
 
+####6.1.1 <a name="ManageAccess"></a>Freischaltung von Funktionen durch Rechteerteilung
+
+[ManageAccess](ManageAccess.md)
+
 ### 6.2 Typische Muster und Strukturen
 
 ### 6.3 Benutzeroberfläche
