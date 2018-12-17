@@ -5,6 +5,8 @@ import org.inek.dataportal.care.enums.Shift;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -31,6 +33,8 @@ public class Proof implements Serializable {
         this._countShiftNotRespected = proof.getCountShiftNotRespected();
         this._patientPerNurse = proof.getPatientPerNurse();
         this._countHelpeNurseChargeable = proof.getCountHelpeNurseChargeable();
+
+        //Todo ProofsExceptions list
     }
 
 
@@ -195,15 +199,24 @@ public class Proof implements Serializable {
     }
     //</editor-fold>
 
-    @OneToOne(mappedBy = "_proof", cascade = CascadeType.ALL)
-    private ProofExceptionFact _proofExceptionFact;
+    @OneToMany(mappedBy = "_proof", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "pefProofId")
+    private List<ProofExceptionFact> _proofExceptionFact = new ArrayList<>();
 
-    public ProofExceptionFact getExceptionFact() {
+    public List<ProofExceptionFact> getExceptionFact() {
         return _proofExceptionFact;
     }
 
-    public void setExceptionFact(ProofExceptionFact proofExceptionFact) {
+    public void setExceptionFact(List<ProofExceptionFact> proofExceptionFact) {
         this._proofExceptionFact = proofExceptionFact;
+    }
+
+    public void addExceptionFact(ProofExceptionFact fact) {
+        _proofExceptionFact.add(fact);
+    }
+
+    public void removeExceptionFact(ProofExceptionFact fact) {
+        _proofExceptionFact.remove(fact);
     }
 
     @Transient

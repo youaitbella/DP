@@ -12,11 +12,9 @@ import org.inek.dataportal.care.entities.ProofRegulationBaseInformation;
 import org.inek.dataportal.care.entities.ProofRegulationStation;
 import org.inek.dataportal.care.facades.BaseDataFacade;
 import org.inek.dataportal.care.facades.ProofFacade;
-import org.inek.dataportal.care.utils.BaseDataManager;
-import org.inek.dataportal.care.utils.CallculatorPpug;
-import org.inek.dataportal.care.utils.CareSignatureCreater;
-import org.inek.dataportal.care.utils.ProofFiller;
+import org.inek.dataportal.care.utils.*;
 import org.inek.dataportal.common.controller.DialogController;
+import org.inek.dataportal.common.controller.ReportController;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.common.data.adm.MailTemplate;
@@ -28,10 +26,14 @@ import org.inek.dataportal.common.helper.MailTemplateHelper;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.mail.Mailer;
 import org.inek.dataportal.common.overall.AccessManager;
+import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.FlowEvent;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -64,13 +66,32 @@ public class ProofEdit implements Serializable {
     private ConfigFacade _configFacade;
     @Inject
     private Mailer _mailer;
+
     private ProofRegulationBaseInformation _proofRegulationBaseInformation;
     private Boolean _isReadOnly;
+    private String _uploadMessage;
     private Set<Integer> _validIks;
     private Set<Integer> _validYears;
     private Set<Integer> _validQuarters;
-
     private List<ProofExceptionFact> _exceptionsFacts = new ArrayList<>();
+    private BaseDataManager _baseDatamanager;
+    private List<SelectItem> _listExceptionsFacts;
+
+    public List<SelectItem> getListExceptionsFacts() {
+        return _listExceptionsFacts;
+    }
+
+    public void setListExceptionsFacts(List<SelectItem> listExceptionsFacts) {
+        this._listExceptionsFacts = listExceptionsFacts;
+    }
+
+    public String getUploadMessage() {
+        return _uploadMessage;
+    }
+
+    public void setUploadMessage(String uploadMessage) {
+        this._uploadMessage = uploadMessage;
+    }
 
     public List<ProofExceptionFact> getExceptionsFacts() {
         return _exceptionsFacts;
@@ -79,8 +100,6 @@ public class ProofEdit implements Serializable {
     public void setExceptionsFacts(List<ProofExceptionFact> exceptionsFacts) {
         this._exceptionsFacts = exceptionsFacts;
     }
-
-    private BaseDataManager _baseDatamanager;
 
     public Set<Integer> getValidIks() {
         return _validIks;
@@ -140,18 +159,23 @@ public class ProofEdit implements Serializable {
                 return;
             }
             loadBaseDataManager();
+            loadExceptionsFactsList();
             fillExceptionsFactsList(_proofRegulationBaseInformation);
             _baseDatamanager.fillBaseDataToProofs(_proofRegulationBaseInformation.getProofs());
         }
         setReadOnly();
     }
 
+    private void loadExceptionsFactsList() {
+        _listExceptionsFacts = _proofFacade.getExceptionsFactsForYear(_proofRegulationBaseInformation.getYear());
+    }
+
     private void fillExceptionsFactsList(ProofRegulationBaseInformation info) {
         _exceptionsFacts.clear();
         for (Proof proof : info.getProofs().stream()
-                .filter(c -> c.getExceptionFact() != null)
+                .filter(c -> c.getExceptionFact().size() > 0)
                 .collect(Collectors.toList())) {
-            _exceptionsFacts.add(proof.getExceptionFact());
+            _exceptionsFacts.addAll(proof.getExceptionFact());
         }
     }
 
@@ -203,8 +227,9 @@ public class ProofEdit implements Serializable {
                 _proofRegulationBaseInformation.getYear());
         ProofFiller.createProofEntrysFromStations(_proofRegulationBaseInformation, stations,
                 _proofRegulationBaseInformation.getYear(), _proofRegulationBaseInformation.getQuarter());
-        save();
         loadBaseDataManager();
+        loadExceptionsFactsList();
+        save();
         _baseDatamanager.fillBaseDataToProofs(_proofRegulationBaseInformation.getProofs());
     }
 
@@ -309,13 +334,13 @@ public class ProofEdit implements Serializable {
     public void addNewException(Proof proof) {
         ProofExceptionFact exceptionFact = new ProofExceptionFact();
         exceptionFact.setProof(proof);
-        proof.setExceptionFact(exceptionFact);
+        proof.addExceptionFact(exceptionFact);
         _exceptionsFacts.add(exceptionFact);
     }
 
     public void deleteExceptionsFact(ProofExceptionFact exceptionFact) {
         _exceptionsFacts.remove(exceptionFact);
-        exceptionFact.setProof(null);
+        exceptionFact.getProof().removeExceptionFact(exceptionFact);
     }
 
     public List<Proof> getProofsForExceptionFact() {
@@ -324,4 +349,33 @@ public class ProofEdit implements Serializable {
                 .collect(Collectors.toList());
     }
 
+    public void handleFileUpload(FileUploadEvent event) {
+        try {
+            ProofImporter importer = new ProofImporter();
+            importer.handleProofUpload(_proofRegulationBaseInformation, event.getFile().getInputstream());
+            setUploadMessage(importer.getMessage());
+        } catch (Exception ex) {
+            DialogController.showWarningDialog("Upload fehlgeschlagen", "Fehler beim Upload. Bitte versuchen Sie es erneut");
+            LOGGER.log(Level.WARNING, "Error on upload ppugv-excel: " + ex.getMessage(), ex);
+        }
+    }
+
+    public StreamedContent downloadExcelTemplate() {
+
+        /* TODO: use ReportServer*/
+        /*byte[] singleDocument = _reportController.getSingleDocument("PPUGV_Poof_Upload_Template",
+        _proofRegulationBaseInformation.getId(), "TestName");
+
+        StreamedContent content = new DefaultStreamedContent(new ByteArrayInputStream(singleDocument),
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Test.xlsx");
+        return content;*/
+
+        ProofExcelExporter exporter = new ProofExcelExporter();
+        String fileName = "Upload_Vorlage";
+        StreamedContent content = new DefaultStreamedContent(exporter.createExcelExportFile(_proofRegulationBaseInformation),
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName + ".xlsx");
+
+        return content;
+
+    }
 }

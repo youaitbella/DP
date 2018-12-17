@@ -13,7 +13,19 @@
 
     <ui:define name="content">
 
+        <script type="text/javascript">
+            function start() {
+                PF('dlgGeneratingData').show();
+            }
+
+            function stop() {
+                PF('dlgGeneratingData').hide();
+            }
+        </script>
+
         <inekDialog:ProcessDialog varName="dlgLoadingData" headerText="Daten werden geladen" />
+        <inekDialog:ProcessDialog varName="dlgImportData" headerText="Daten werden importiert" />
+        <inekDialog:ProcessDialog varName="dlgGeneratingData" headerText="Daten werden generiert" />
 
         <h:form id="form">
             <div style="margin-top: 10px;">
@@ -113,6 +125,44 @@
 
                     </div>
 
+                </div>
+            </div>
+
+
+            <div class="ui-g" jsf:rendered="#{proofEdit.proofRegulationBaseInformation.id gt 0}">
+                <div class="card" style="min-width: 500px;">
+                    <div class="ui-g-12">
+                        <inekDialog:ProcessDialog varName="dlgImportData" headerText="Daten werden importiert" />
+
+                        <h1>Excelimport</h1>
+
+                        <pf:commandButton value="Vorlage herrunterladen (Excel)"
+                                          ajax="false"
+                                          style="margin-left: 10px;"
+                                          onclick="PrimeFaces.monitorDownload(start, stop);"
+                                          icon="ui-icon-arrowthick-1-s">
+                            <pf:fileDownload value="#{proofEdit.downloadExcelTemplate()}" />
+                        </pf:commandButton>
+
+                        <pf:fileUpload rendered="#{!proofEdit.isReadOnly}"
+                                       fileUploadListener="#{proofEdit.handleFileUpload}"
+                                       mode="advanced"
+                                       onstart="PF('dlgImportData').show()"
+                                       oncomplete="PF('dlgImportData').hide()"
+                                       fileLimit="1"
+                                       fileLimitMessage="Es darf nur eine Datei hochgeladen werden"
+                                       invalidFileMessage="Es dürfen nur Excel (.xlsx) Dateien hochgeladen werden"
+                                       allowTypes="/(\.|\/)(xlsx)$/"
+                                       cancelLabel="Abbrechen"
+                                       uploadLabel="Datei Hochladen"
+                                       label="Exceldatei auswählen"
+                                       update="@form" />
+
+                            <pf:inputTextarea value="#{proofEdit.uploadMessage}"
+                                              rendered="#{proofEdit.uploadMessage.length() gt 0}"
+                                              style="width: 100%" />
+
+                    </div>
                 </div>
             </div>
 

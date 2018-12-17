@@ -5,16 +5,16 @@
  */
 package org.inek.dataportal.care.facades;
 
-import org.inek.dataportal.care.entities.DeptBaseInformation;
-import org.inek.dataportal.care.entities.DeptStation;
 import org.inek.dataportal.care.entities.ProofRegulationBaseInformation;
 import org.inek.dataportal.care.entities.ProofRegulationStation;
 import org.inek.dataportal.common.data.AbstractDataAccessWithActionLog;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 
 import javax.ejb.Stateless;
+import javax.faces.model.SelectItem;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -135,9 +135,9 @@ public class ProofFacade extends AbstractDataAccessWithActionLog {
         remove(info);
     }
 
-    public List<DeptBaseInformation> getAllByStatus(WorkflowStatus status) {
-        String jpql = "SELECT bi FROM DeptBaseInformation bi WHERE bi._statusId = :status ";
-        TypedQuery<DeptBaseInformation> query = getEntityManager().createQuery(jpql, DeptBaseInformation.class);
+    public List<ProofRegulationBaseInformation> getAllByStatus(WorkflowStatus status) {
+        String jpql = "SELECT bi FROM ProofRegulationBaseInformation bi WHERE bi._statusId = :status ";
+        TypedQuery<ProofRegulationBaseInformation> query = getEntityManager().createQuery(jpql, ProofRegulationBaseInformation.class);
         query.setParameter("status", status.getId());
         return query.getResultList();
     }
@@ -151,6 +151,29 @@ public class ProofFacade extends AbstractDataAccessWithActionLog {
         query.setParameter("ik", ik);
         query.setParameter("year", year);
         return query.getResultList();
+    }
+
+    public List<SelectItem> getExceptionsFactsForYear(int year) {
+        String sql = "select lefId, lefTitle\n" +
+                "from care.listExceptionFact\n" +
+                "where lefValidFrom <= " + year + "\n" +
+                "and lefValidTo >= " + year;
+
+        Query query = getEntityManager().createNativeQuery(sql);
+
+        @SuppressWarnings("unchecked")
+        List<Object[]> objects = query.getResultList();
+
+        List<SelectItem> items = new ArrayList<>();
+
+        for (Object[] obj : objects) {
+            SelectItem item = new SelectItem();
+            item.setValue((int)obj[0]);
+            item.setLabel((String)obj[1]);
+            items.add(item);
+        }
+
+        return items;
     }
 
 }

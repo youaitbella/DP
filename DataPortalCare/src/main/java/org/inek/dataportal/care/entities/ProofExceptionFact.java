@@ -39,7 +39,7 @@ public class ProofExceptionFact implements Serializable {
     // </editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Proof">
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "pefProofId")
     private Proof _proof;
 

@@ -6,20 +6,20 @@
                 xmlns:inekOutput="http://xmlns.jcp.org/jsf/composite/components/Output"
                 xmlns:pf="http://primefaces.org/ui">
 
-    <pf:dialog header="Für welche Station wollen Sie eine Ausnahme eintragen?"
+    <pf:dialog id="dlgStationSelectionid"
+               header="Für welche Station wollen Sie eine Ausnahme eintragen?"
                widgetVar="dlgStationSelection"
                modal="true"
                width="800px">
         <pf:repeat value="#{proofEdit.proofsForExceptionFact}" var="proof">
-
             <div class="ui-g">
                 <div class="ui-g-10">
-                    <pf:outputLabel value="#{proof.proofRegulationStation.sensitiveArea.name}" />
-                    <pf:outputLabel value="#{proof.proofRegulationStation.fabNumber}" />
-                    <pf:outputLabel value="#{proof.proofRegulationStation.fabName}" />
-                    <pf:outputLabel value="#{proof.proofRegulationStation.stationName}" />
-                    <pf:outputLabel value="#{proof.proofRegulationStation.locationCode}" />
-                    <pf:outputLabel value="#{proof.month.name}" />
+                    <pf:outputLabel value="#{proof.proofRegulationStation.sensitiveArea.name} - " />
+                    <pf:outputLabel value="#{proof.proofRegulationStation.fabNumber} - " />
+                    <pf:outputLabel value="#{proof.proofRegulationStation.fabName} - " />
+                    <pf:outputLabel value="#{proof.proofRegulationStation.stationName} - " />
+                    <pf:outputLabel value="#{proof.proofRegulationStation.locationCode} - " />
+                    <pf:outputLabel value="#{proof.month.name} - " />
                     <pf:outputLabel value="#{proof.shift.name}" />
                 </div>
                 <div class="ui-g-2">
@@ -28,9 +28,7 @@
                                       update="@form" />
                 </div>
             </div>
-
         </pf:repeat>
-
     </pf:dialog>
 
     <pf:dataTable id="proofTable"
@@ -47,19 +45,19 @@
         <pf:column groupRow="true" headerText="pflegesensitiver Bereich">
             <pf:outputLabel value="#{proof.proofRegulationStation.sensitiveArea.name}" />
         </pf:column>
-        <pf:column groupRow="true" headerText="FAB Schlüssel">
+        <pf:column headerText="FAB Schlüssel">
             <pf:outputLabel value="#{proof.proofRegulationStation.fabNumber}" />
         </pf:column>
-        <pf:column groupRow="true" headerText="Fachabteilung">
+        <pf:column headerText="Fachabteilung">
             <pf:outputLabel value="#{proof.proofRegulationStation.fabName}" />
         </pf:column>
-        <pf:column groupRow="true" headerText="Station">
+        <pf:column headerText="Station">
             <pf:outputLabel value="#{proof.proofRegulationStation.stationName}" />
         </pf:column>
         <pf:column headerText="Standort">
             <pf:outputLabel value="#{proof.proofRegulationStation.locationCode}" />
         </pf:column>
-        <pf:column groupRow="true" headerText="Monat">
+        <pf:column headerText="Monat">
             <pf:outputLabel value="#{proof.month.name}" />
         </pf:column>
         <pf:column headerText="Schicht">
@@ -143,6 +141,8 @@
         </pf:column>
     </pf:dataTable>
 
+    <br />
+
     <h1>Ausnahmetatbestände</h1>
 
     <pf:dataTable id="exceptionsFactsTable"
@@ -150,15 +150,14 @@
                   tableStyle="width: auto;"
                   emptyMessage="Keine Einträge vorhanden"
                   var="exceptionFact"
-                  rendered="#{proofEdit.exceptionsFacts.size() gt 0}"
                   xmlns:inekIcon="http://xmlns.jcp.org/jsf/composite/components/Icons">
 
         <pf:column style="width: 20px;">
-                <inekIcon:DeleteIcon
-                        deleteFunction="#{proofEdit.deleteExceptionsFact(exceptionFact)}"
-                        show="#{proofEdit.exceptionsFacts.size() gt 0}"
-                        showConfirmDialog="true"
-                        updateElement="exceptionsFactsTable" />
+            <inekIcon:DeleteIcon
+                    deleteFunction="#{proofEdit.deleteExceptionsFact(exceptionFact)}"
+                    show="#{proofEdit.exceptionsFacts.size() gt 0}"
+                    showConfirmDialog="true"
+                    updateElement="form:exceptionsFactsTable" />
         </pf:column>
 
         <pf:column headerText="pflegesensitiver Bereich">
@@ -192,10 +191,10 @@
                 <f:selectItem
                         itemLabel="#{msg.lblChooseEntryShort}" itemValue="#{0}"
                         noSelectionOption="true" />
-                <f:selectItem itemValue="#{1}" itemLabel="Ausnahme Nr. 1" />
-                <f:selectItem itemValue="#{2}" itemLabel="Ausnahme Nr. 2" />
-                <pf:ajax event="change" />
+                <f:selectItems value="#{proofEdit.listExceptionsFacts}" />
+                <pf:ajax event="change" update="selectExeptionMessage"/>
             </pf:selectOneMenu>
+            <pf:message id="selectExeptionMessage" for="selectExeption" />
         </pf:column>
         <pf:column headerText="Erläuterung">
             <pf:inputTextarea value="#{exceptionFact.statement}"
@@ -206,12 +205,12 @@
     </pf:dataTable>
 
     <pf:commandButton value="Neuen Ausnahmetatbestand hinzufügen"
-                      onclick="PF('dlgStationSelection').show();"
+                      oncomplete="PF('dlgStationSelection').show();"
                       immediate="false"
                       rendered="#{!proofEdit.isReadOnly}"
                       style="margin-top: 10px;"
                       icon="fa fa-plus"
-                      update="exceptionsFactsTable" />
+                      update="dlgStationSelectionid" />
 
 </ui:composition>
 
