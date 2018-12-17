@@ -34,7 +34,11 @@ public class Proof implements Serializable {
         this._patientPerNurse = proof.getPatientPerNurse();
         this._countHelpeNurseChargeable = proof.getCountHelpeNurseChargeable();
 
-        //Todo ProofsExceptions list
+        for (ProofExceptionFact exceptionFact : proof.getExceptionFact()) {
+            ProofExceptionFact newExceptionFact = new ProofExceptionFact(exceptionFact);
+            newExceptionFact.setProof(this);
+            addExceptionFact(newExceptionFact);
+        }
     }
 
 

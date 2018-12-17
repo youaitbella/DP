@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.inek.dataportal.care.backingbeans;
 
 import org.inek.dataportal.api.enums.Feature;
@@ -14,7 +9,6 @@ import org.inek.dataportal.care.facades.BaseDataFacade;
 import org.inek.dataportal.care.facades.ProofFacade;
 import org.inek.dataportal.care.utils.*;
 import org.inek.dataportal.common.controller.DialogController;
-import org.inek.dataportal.common.controller.ReportController;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.common.data.access.ConfigFacade;
 import org.inek.dataportal.common.data.adm.MailTemplate;
@@ -38,6 +32,9 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -68,6 +65,7 @@ public class ProofEdit implements Serializable {
     private Mailer _mailer;
 
     private ProofRegulationBaseInformation _proofRegulationBaseInformation;
+    private ProofRegulationBaseInformation _oldProofRegulationBaseInformation;
     private Boolean _isReadOnly;
     private String _uploadMessage;
     private Set<Integer> _validIks;
@@ -242,15 +240,21 @@ public class ProofEdit implements Serializable {
         _proofRegulationBaseInformation.setLastChanged(new Date());
 
         try {
+            if (_oldProofRegulationBaseInformation != null && _proofRegulationBaseInformation.getStatus() == WorkflowStatus.CorrectionRequested) {
+                _proofFacade.save(_oldProofRegulationBaseInformation);
+            }
+
             _proofRegulationBaseInformation = _proofFacade.save(_proofRegulationBaseInformation);
             _baseDatamanager.fillBaseDataToProofs(_proofRegulationBaseInformation.getProofs());
 
+
             if (_proofRegulationBaseInformation.getStatus() == WorkflowStatus.Provided) {
                 sendMail("Care Proof Senden Bestätigung");
+                DialogController.showSendDialog();
             } else {
                 sendMail("Care Proof Speicher Bestätigung");
+                DialogController.showSaveDialog();
             }
-            DialogController.showSaveDialog();
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "Fehler beim speichern PPUGV: " + ex.getMessage(), ex);
             _mailer.sendError("Fehler beim speichern PPUGV: " + ex.getMessage(), ex);
@@ -312,9 +316,21 @@ public class ProofEdit implements Serializable {
     }
 
     public void change() {
-        /*_deptBaseInformation.setStatus(WorkflowStatus.CorrectionRequested);
-        _oldDeptbaseInformation = copyBaseInformation(_deptBaseInformation);
-        setIsReadOnly(false);*/
+        _oldProofRegulationBaseInformation = copyBaseInformation(_proofRegulationBaseInformation);
+        _proofRegulationBaseInformation.setStatus(WorkflowStatus.CorrectionRequested);
+        _proofRegulationBaseInformation.setSignature("");
+        _proofRegulationBaseInformation.setSend(Date.from(LocalDate.of(2000, Month.JANUARY, 1).atStartOfDay().toInstant(ZoneOffset.UTC)));
+        _proofRegulationBaseInformation.setCreated(new Date());
+        _proofRegulationBaseInformation.setCreatedBy(_sessionController.getAccountId());
+        setIsReadOnly(false);
+    }
+
+    private ProofRegulationBaseInformation copyBaseInformation(ProofRegulationBaseInformation baseInfo) {
+        ProofRegulationBaseInformation newInfo = new ProofRegulationBaseInformation(baseInfo);
+        newInfo.setStatus(WorkflowStatus.Retired);
+        newInfo.setLastChangeBy(_sessionController.getAccountId());
+        newInfo.setLastChanged(new Date());
+        return newInfo;
     }
 
     public void navigateToSummary() {

@@ -113,7 +113,7 @@ public class ProofRegulationStation implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property prsStationName">
+    //<editor-fold defaultstate="collapsed" desc="Property prsLocationCode">
     @Column(name = "prsLocationCode")
     private String _locationCode;
 

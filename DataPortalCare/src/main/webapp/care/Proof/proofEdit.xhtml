@@ -129,7 +129,7 @@
             </div>
 
 
-            <div class="ui-g" jsf:rendered="#{proofEdit.proofRegulationBaseInformation.id gt 0}">
+            <div class="ui-g" jsf:rendered="#{proofEdit.proofRegulationBaseInformation.id gt 0 and !proofEdit.isReadOnly}">
                 <div class="card" style="min-width: 500px;">
                     <div class="ui-g-12">
                         <inekDialog:ProcessDialog varName="dlgImportData" headerText="Daten werden importiert" />
@@ -144,8 +144,7 @@
                             <pf:fileDownload value="#{proofEdit.downloadExcelTemplate()}" />
                         </pf:commandButton>
 
-                        <pf:fileUpload rendered="#{!proofEdit.isReadOnly}"
-                                       fileUploadListener="#{proofEdit.handleFileUpload}"
+                        <pf:fileUpload fileUploadListener="#{proofEdit.handleFileUpload}"
                                        mode="advanced"
                                        onstart="PF('dlgImportData').show()"
                                        oncomplete="PF('dlgImportData').hide()"
@@ -182,6 +181,7 @@
                                           rendered="#{proofEdit.changeAllowed()}"
                                           style="margin-left: 10px;"
                                           update="@(.ui-message) @form" />
+
                         <pf:commandButton value="Speichern ohne Senden"
                                           action="#{proofEdit.save()}"
                                           rendered="#{!proofEdit.isReadOnly}"

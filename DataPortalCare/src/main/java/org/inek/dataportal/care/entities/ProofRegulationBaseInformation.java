@@ -40,7 +40,7 @@ public class ProofRegulationBaseInformation implements Serializable, StatusEntit
         for (Proof proof : baseInformation.getProofs()) {
             Proof newProof = new Proof(proof);
             newProof.setBaseInformation(this);
-            addProof(proof);
+            addProof(newProof);
         }
     }
 
