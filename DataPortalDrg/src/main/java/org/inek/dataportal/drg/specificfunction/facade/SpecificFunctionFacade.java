@@ -20,7 +20,7 @@ import org.inek.dataportal.common.data.AbstractDataAccessWithActionLog;
 import org.inek.dataportal.common.specificfunction.entity.CenterName;
 import org.inek.dataportal.common.specificfunction.entity.RelatedName;
 import org.inek.dataportal.common.specificfunction.entity.SpecificFunction;
-import org.inek.dataportal.common.specificfunction.entity.SpecificFunctionRequest;
+import org.inek.dataportal.drg.specificfunction.entity.SpecificFunctionRequest;
 import org.inek.dataportal.common.specificfunction.entity.TypeExtraCharge;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.utils.StringUtil;

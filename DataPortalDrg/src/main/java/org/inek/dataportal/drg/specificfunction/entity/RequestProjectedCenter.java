@@ -1,4 +1,4 @@
-package org.inek.dataportal.common.specificfunction.entity;
+package org.inek.dataportal.drg.specificfunction.entity;
 
 import java.io.Serializable;
 import java.util.List;
@@ -7,12 +7,10 @@ import java.util.Vector;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
+import org.inek.dataportal.common.specificfunction.entity.CenterName;
+import org.inek.dataportal.common.specificfunction.entity.SpecificFunction;
 import org.inek.dataportal.common.utils.Documentation;
 
-/**
- *
- * @author muellermi
- */
 @Entity
 @Table(name = "RequestProjectedCenter", schema = "spf")
 public class RequestProjectedCenter implements Serializable {
@@ -51,7 +49,7 @@ public class RequestProjectedCenter implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property RequestMasterId">
+    // <editor-fold defaultstate="collapsed" desc="Property RequestMaster">
     @ManyToOne
     @JoinColumn(name = "rpcRequestMasterId")
     private SpecificFunctionRequest _requestMaster;
@@ -66,10 +64,10 @@ public class RequestProjectedCenter implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property CenterName">
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "rpcCenterId")
+    @OneToOne
+    @PrimaryKeyJoinColumn(name = "rpcCenterId")
     @Documentation(name = "Zentrum")
-    private CenterName _centerName = new CenterName();
+    private CenterName _centerName;
 
     public CenterName getCenterName() {
         return _centerName;

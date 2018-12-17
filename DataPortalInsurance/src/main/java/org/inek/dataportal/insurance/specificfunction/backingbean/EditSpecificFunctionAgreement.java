@@ -8,7 +8,6 @@ package org.inek.dataportal.insurance.specificfunction.backingbean;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -35,12 +34,10 @@ import org.inek.dataportal.common.data.adm.facade.InekRoleFacade;
 import org.inek.dataportal.common.data.icmt.entities.Customer;
 import org.inek.dataportal.common.data.icmt.facade.CustomerFacade;
 import org.inek.dataportal.insurance.specificfunction.entity.AgreedCenter;
-import org.inek.dataportal.insurance.specificfunction.entity.AgreedRemunerationKeys;
 import org.inek.dataportal.common.specificfunction.entity.CenterName;
 import org.inek.dataportal.common.specificfunction.entity.RelatedName;
 import org.inek.dataportal.common.specificfunction.entity.SpecificFunction;
 import org.inek.dataportal.insurance.specificfunction.entity.SpecificFunctionAgreement;
-import org.inek.dataportal.common.specificfunction.entity.SpecificFunctionRequest;
 import org.inek.dataportal.common.specificfunction.entity.TypeExtraCharge;
 import org.inek.dataportal.insurance.specificfunction.facade.SpecificFunctionFacade;
 import org.inek.dataportal.common.helper.Utils;
@@ -340,7 +337,7 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
             if (center.isEmpty()) {
                 continue;
             }
-            if (center.getCenterId() == -1) {
+            if (center.getCenterName().getId() == -1) {
                 checkField(message, center.getOtherCenterName(), "Bitte Art des Zentrums angeben", "");
             }
             if (center.getSpecificFunctions().isEmpty()) {
@@ -459,9 +456,8 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
     }
 
     public void changeCode() {
-        SpecificFunctionRequest request = _specificFunctionFacade.
-                findSpecificFunctionRequestByCode(_agreement.getCode());
-        if (request.getIk() < 1) {
+        int ik  = _specificFunctionFacade.findIkOfSpecificFunctionRequestByCode(_agreement.getCode());
+        if (ik < 1) {
             Utils.showMessageInBrowser("Das Vertragskennzeichen " + _agreement.getCode() + " ist unbekannt.");
             return;
         }
@@ -470,7 +466,7 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
                     showMessageInBrowser("Zum Vertragskennzeichen " + _agreement.getCode() + " wurden bereits Daten erfasst.");
             return;
         }
-        _agreement.setIk(request.getIk());
+        _agreement.setIk(ik);
     }
 
     public List<SelectItem> getSpecificFunctionRemunerationScopes() {

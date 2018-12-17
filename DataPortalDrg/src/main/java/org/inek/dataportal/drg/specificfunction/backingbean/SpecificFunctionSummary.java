@@ -15,7 +15,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.overall.ApplicationTools;
-import org.inek.dataportal.common.specificfunction.entity.SpecificFunctionRequest;
+import org.inek.dataportal.drg.specificfunction.entity.SpecificFunctionRequest;
 import org.inek.dataportal.drg.specificfunction.facade.SpecificFunctionFacade;
 
 /**

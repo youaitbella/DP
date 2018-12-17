@@ -1,6 +1,5 @@
-package org.inek.dataportal.common.specificfunction.entity;
+package org.inek.dataportal.drg.specificfunction.entity;
 
-import com.sun.javafx.UnmodifiableArrayList;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;

@@ -15,7 +15,6 @@ import org.inek.dataportal.insurance.specificfunction.entity.SpecificFunctionAgr
 import org.inek.dataportal.common.specificfunction.entity.CenterName;
 import org.inek.dataportal.common.specificfunction.entity.RelatedName;
 import org.inek.dataportal.common.specificfunction.entity.SpecificFunction;
-import org.inek.dataportal.common.specificfunction.entity.SpecificFunctionRequest;
 import org.inek.dataportal.common.specificfunction.entity.TypeExtraCharge;
 
 @RequestScoped
@@ -166,14 +165,14 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
     }
     //</editor-fold>
 
-    public SpecificFunctionRequest findSpecificFunctionRequestByCode(String code) {
-        String jpql = "select spf from SpecificFunctionRequest spf where spf._code = :code and spf._statusId = 10";
-        TypedQuery<SpecificFunctionRequest> query = getEntityManager().createQuery(jpql, SpecificFunctionRequest.class);
-        query.setParameter(CODE, code);
+    public int findIkOfSpecificFunctionRequestByCode(String code) {
+        String sql = "select rmIk from spf.RequestMaster where rmCode = ?";
+        Query query = getEntityManager().createNativeQuery(sql, Integer.class);
+        query.setParameter(1, code);
         try {
-            return query.getSingleResult();
+            return (Integer) query.getSingleResult();
         } catch (Exception ex) {
-            return new SpecificFunctionRequest();
+            return -1;
         }
     }
 

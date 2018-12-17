@@ -58,22 +58,9 @@ public class AgreedCenter implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property CenterId">
-    @Column(name = "acCenterId")
-    private int _centerId;
-
-    public int getCenterId() {
-        return _centerId;
-    }
-
-    public void setCenterId(int value) {
-        _centerId = value;
-    }
-    // </editor-fold>
-
     // <editor-fold defaultstate="collapsed" desc="Property CenterName">
-    @OneToOne
-    @PrimaryKeyJoinColumn(name = "acCenterId")
+    @ManyToOne
+    @JoinColumn(name = "acCenterId")
     @Documentation(name = "Zentrum")
     private CenterName _centerName;
 
@@ -293,7 +280,7 @@ public class AgreedCenter implements Serializable {
 
     public boolean isEmpty() {
         return _id == null
-                && _centerId == 0
+                && _centerName.getId() == 0
                 && _otherCenterName.isEmpty()
                 && _location.isEmpty()
                 && _specificFunctions.isEmpty()

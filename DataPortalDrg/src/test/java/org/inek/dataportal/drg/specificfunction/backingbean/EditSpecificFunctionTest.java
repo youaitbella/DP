@@ -6,8 +6,8 @@
 package org.inek.dataportal.drg.specificfunction.backingbean;
 
 import org.assertj.core.api.Assertions;
-import org.inek.dataportal.common.specificfunction.entity.RequestAgreedCenter;
-import org.inek.dataportal.common.specificfunction.entity.SpecificFunctionRequest;
+import org.inek.dataportal.drg.specificfunction.entity.RequestAgreedCenter;
+import org.inek.dataportal.drg.specificfunction.entity.SpecificFunctionRequest;
 import org.junit.jupiter.api.Test;
 
 /**

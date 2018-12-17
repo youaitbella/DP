@@ -1,4 +1,4 @@
-package org.inek.dataportal.common.specificfunction.entity;
+package org.inek.dataportal.drg.specificfunction.entity;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -7,10 +7,6 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import org.inek.dataportal.common.utils.Documentation;
 
-/**
- *
- * @author muellermi
- */
 @Entity
 @Table(name = "RequestAgreedCenter", schema = "spf")
 public class RequestAgreedCenter implements Serializable {
@@ -40,6 +36,7 @@ public class RequestAgreedCenter implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property RequestMaster">
+    @ManyToOne
     @JoinColumn(name = "racRequestMasterId")
     private SpecificFunctionRequest _requestMaster;
 
