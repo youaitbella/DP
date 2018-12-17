@@ -38,7 +38,7 @@ public class CenterName implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "cnId")
-    private int _id;
+    private Integer _id = 0;
 
     public int getId() {
         return _id;

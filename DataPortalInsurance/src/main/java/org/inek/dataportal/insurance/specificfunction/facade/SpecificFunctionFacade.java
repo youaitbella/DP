@@ -167,10 +167,11 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
 
     public int findIkOfSpecificFunctionRequestByCode(String code) {
         String sql = "select rmIk from spf.RequestMaster where rmCode = ?";
-        Query query = getEntityManager().createNativeQuery(sql, Integer.class);
+        Query query = getEntityManager().createNativeQuery(sql);
         query.setParameter(1, code);
         try {
-            return (Integer) query.getSingleResult();
+            List resultList = query.getResultList();
+            return (Integer) resultList.get(0);
         } catch (Exception ex) {
             return -1;
         }

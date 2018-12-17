@@ -59,10 +59,13 @@ public class AgreedCenter implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property CenterName">
+    @Column(name = "rpcCenterId")
+    private int _centerId;
+    
     @ManyToOne
-    @JoinColumn(name = "acCenterId")
+    @JoinColumn(name = "acCenterId", insertable = false, updatable = false)
     @Documentation(name = "Zentrum")
-    private CenterName _centerName;
+    private CenterName _centerName = new CenterName();
 
     public CenterName getCenterName() {
         return _centerName;
@@ -70,6 +73,7 @@ public class AgreedCenter implements Serializable {
 
     public void setCenterName(CenterName value) {
         _centerName = value;
+        _centerId = value.getId();
     }
     // </editor-fold>
 

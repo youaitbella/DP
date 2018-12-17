@@ -64,10 +64,13 @@ public class RequestProjectedCenter implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property CenterName">
-    @OneToOne
-    @PrimaryKeyJoinColumn(name = "rpcCenterId")
+    @Column(name = "rpcCenterId")
+    private int _centerId;
+    
+    @ManyToOne
+    @JoinColumn(name = "rpcCenterId", insertable = false, updatable = false)
     @Documentation(name = "Zentrum")
-    private CenterName _centerName;
+    private CenterName _centerName = new CenterName();
 
     public CenterName getCenterName() {
         return _centerName;
@@ -75,6 +78,7 @@ public class RequestProjectedCenter implements Serializable {
 
     public void setCenterName(CenterName value) {
         _centerName = value;
+        _centerId = value.getId();
     }
     // </editor-fold>
 
