@@ -40,7 +40,7 @@ public class RequestProjectedCenter implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "rpcId")
-    private Integer _id;
+    private Integer _id = -1;
 
     public int getId() {
         return _id;
@@ -66,8 +66,7 @@ public class RequestProjectedCenter implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property CenterName">
-    @OneToOne(cascade = CascadeType.REFRESH)
-    @PrimaryKeyJoinColumn(name = "rpcCenterId")
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "rpcCenterId")
     @Documentation(name = "Zentrum")
     private CenterName _centerName = new CenterName();

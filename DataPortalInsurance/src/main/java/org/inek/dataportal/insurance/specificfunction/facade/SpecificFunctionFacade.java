@@ -132,7 +132,7 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
 
     private String obtainSortName(CenterName center){
         if (center.getId() == -1){
-            return "zzz";  // sort to end
+            return "üüü";  // sort to end
         }
         if (center.getId() == 0){
             return " ";  // sort to begin
@@ -149,11 +149,11 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
                 .collect(Collectors.toList());
     }
 
-    public List<SpecificFunction> getSpecificFunctions(boolean includeOther) {
+    public List<SpecificFunction> getSpecificFunctionsForInsurance() {
         return findAll(SpecificFunction.class)
                 .stream()
-                .filter(f -> includeOther || f.getId() > 0)
-                .sorted((f1, f2) -> (f1.getId() == -1 ? 999 : f1.getId()) - (f2.getId() == -1 ? 999 : f2.getId()))
+                .filter(f -> f.getId() > 0)
+                .sorted((f1, f2) -> f1.getId() - f2.getId())
                 .collect(Collectors.toList());
     }
 

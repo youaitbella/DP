@@ -455,7 +455,7 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
     }
 
     public List<SpecificFunction> getSpecificFunctions() {
-        return _specificFunctionFacade.getSpecificFunctions(false);
+        return _specificFunctionFacade.getSpecificFunctionsForInsurance();
     }
 
     public void changeCode() {
