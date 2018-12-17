@@ -41,7 +41,7 @@ public class Proof implements Serializable {
     private Integer _id;
 
     public int getId() {
-        return _id;
+        return _id == null ? -1 : _id;
     }
 
     public void setId(Integer id) {

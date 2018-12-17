@@ -28,4 +28,13 @@ public enum Shift {
         }
         return null;
     }
+
+    public static  Shift getByName(String name) {
+        for (Shift shift : Shift.values()) {
+            if (shift.getName().toUpperCase().equals(name.toUpperCase())) {
+                return shift;
+            }
+        }
+        return null;
+    }
 }

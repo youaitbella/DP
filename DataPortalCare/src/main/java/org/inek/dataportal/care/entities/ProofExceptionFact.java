@@ -52,7 +52,7 @@ public class ProofExceptionFact implements Serializable {
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="Property ObjectionId">
+    //<editor-fold defaultstate="collapsed" desc="Property pefExceptionFactId">
     @Column(name = "pefExceptionFactId")
     private int _exceptionFactId;
 

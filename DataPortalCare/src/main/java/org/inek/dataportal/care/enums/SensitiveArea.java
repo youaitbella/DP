@@ -32,4 +32,13 @@ public enum SensitiveArea {
         }
         return null;
     }
+
+    public static  SensitiveArea getByName(String name) {
+        for (SensitiveArea sArea : SensitiveArea.values()) {
+            if (sArea.getName().toUpperCase().equals(name.toUpperCase())) {
+                return sArea;
+            }
+        }
+        return null;
+    }
 }

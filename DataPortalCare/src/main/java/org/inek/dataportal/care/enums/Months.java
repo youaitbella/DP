@@ -38,4 +38,13 @@ public enum Months {
         }
         return null;
     }
+
+    public static  Months getByName(String name) {
+        for (Months month : Months.values()) {
+            if (month.getName().toUpperCase().equals(name.toUpperCase())) {
+                return month;
+            }
+        }
+        return null;
+    }
 }
