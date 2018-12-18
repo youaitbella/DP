@@ -27,7 +27,8 @@
         <inekDialog:ProcessDialog varName="dlgImportData" headerText="Daten werden importiert" />
         <inekDialog:ProcessDialog varName="dlgGeneratingData" headerText="Daten werden generiert" />
 
-        <h:form id="form">
+        <h:form id="form" onkeypress="if( event.keyCode == 13){event.keyCode=0;}">
+
             <div style="margin-top: 10px;">
                 <pf:commandButton value="Zurück zur Übersicht"
                                   icon="fa fa-arrow-left"
@@ -129,7 +130,8 @@
             </div>
 
 
-            <div class="ui-g" jsf:rendered="#{proofEdit.proofRegulationBaseInformation.id gt 0 and !proofEdit.isReadOnly}">
+            <div class="ui-g"
+                 jsf:rendered="#{proofEdit.proofRegulationBaseInformation.id gt 0 and !proofEdit.isReadOnly}">
                 <div class="card" style="min-width: 500px;">
                     <div class="ui-g-12">
                         <inekDialog:ProcessDialog varName="dlgImportData" headerText="Daten werden importiert" />
@@ -159,9 +161,9 @@
                                        label="Exceldatei auswählen"
                                        update="@form" />
 
-                            <pf:inputTextarea value="#{proofEdit.uploadMessage}"
-                                              rendered="#{proofEdit.uploadMessage.length() gt 0}"
-                                              style="width: 100%" />
+                        <pf:inputTextarea value="#{proofEdit.uploadMessage}"
+                                          rendered="#{proofEdit.uploadMessage.length() gt 0}"
+                                          style="width: 100%" />
 
                     </div>
                 </div>

@@ -157,7 +157,7 @@
         <pf:column style="width: 20px;">
             <inekIcon:DeleteIcon
                     deleteFunction="#{proofEdit.deleteExceptionsFact(exceptionFact)}"
-                    show="#{proofEdit.exceptionsFacts.size() gt 0}"
+                    show="#{!proofEdit.isReadOnly}"
                     showConfirmDialog="true"
                     updateElement="form:exceptionsFactsTable" />
         </pf:column>
