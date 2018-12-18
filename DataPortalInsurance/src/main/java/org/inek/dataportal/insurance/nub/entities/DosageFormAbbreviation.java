@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.insurance.entities;
+package org.inek.dataportal.insurance.nub.entities;
 
 import java.io.Serializable;
 import java.util.Objects;

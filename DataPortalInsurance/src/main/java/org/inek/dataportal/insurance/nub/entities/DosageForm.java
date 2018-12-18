@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.inek.dataportal.insurance.entities;
+package org.inek.dataportal.insurance.nub.entities;
 
 import java.io.Serializable;
 import javax.persistence.Column;
@@ -18,15 +18,15 @@ import javax.persistence.Table;
  * @author muellermi
  */
 @Entity
-@Table(name = "listUnit")
-public class Unit implements Serializable {
+@Table(name = "listDosageForm")
+public class DosageForm implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "uId")
+    @Column(name = "dfId")
     private int _id = -1;
 
     public int getId() {
@@ -39,7 +39,7 @@ public class Unit implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property Text">
-    @Column(name = "uText")
+    @Column(name = "dfText")
     private String _text = "";
 
     public String getText() {
@@ -60,10 +60,10 @@ public class Unit implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        if (!(object instanceof Unit)) {
+        if (!(object instanceof DosageForm)) {
             return false;
         }
-        Unit other = (Unit) object;
+        DosageForm other = (DosageForm) object;
         return _id == other._id;
     }
 

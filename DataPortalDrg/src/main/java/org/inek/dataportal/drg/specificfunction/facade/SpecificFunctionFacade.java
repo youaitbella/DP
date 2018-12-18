@@ -20,7 +20,7 @@ import org.inek.dataportal.common.data.AbstractDataAccessWithActionLog;
 import org.inek.dataportal.common.specificfunction.entity.CenterName;
 import org.inek.dataportal.common.specificfunction.entity.RelatedName;
 import org.inek.dataportal.common.specificfunction.entity.SpecificFunction;
-import org.inek.dataportal.common.specificfunction.entity.SpecificFunctionRequest;
+import org.inek.dataportal.drg.specificfunction.entity.SpecificFunctionRequest;
 import org.inek.dataportal.common.specificfunction.entity.TypeExtraCharge;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.utils.StringUtil;
@@ -218,15 +218,31 @@ public class SpecificFunctionFacade extends AbstractDataAccessWithActionLog {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Common">
-    public List<CenterName> getCenterNames() {
-        return findAll(CenterName.class)
+    private List<CenterName> _centerNames;
+
+    public List<CenterName> getCenterNames(boolean includeNoneOption) {
+        if (_centerNames == null) {
+            _centerNames = findAll(CenterName.class)
+                    .stream()
+                    .sorted((n1, n2) -> obtainSortName(n1).compareTo(obtainSortName(n2)))
+                    .collect(Collectors.toList());
+        }
+        return _centerNames
                 .stream()
-                .filter(n -> n.getId() > 0)
-                .sorted((n1, n2) -> (n1.getId() == -1 ? "ZZZ" : n1.getName()).compareTo((n2.getId() == -1 ? "ZZZ" : n2.
-                getName())))
+                .filter(n -> includeNoneOption || n.getId() != 0)
                 .collect(Collectors.toList());
     }
 
+    private String obtainSortName(CenterName center){
+        if (center.getId() == -1){
+            return "üüü";  // sort to end
+        }
+        if (center.getId() == 0){
+            return " ";  // sort to begin
+        }
+        return center.getName(); // sort by name
+    }
+      
     public List<RelatedName> getRelatedNames() {
         return findAll(RelatedName.class)
                 .stream()
@@ -236,10 +252,9 @@ public class SpecificFunctionFacade extends AbstractDataAccessWithActionLog {
                 .collect(Collectors.toList());
     }
 
-    public List<SpecificFunction> getSpecificFunctions(boolean includeOther) {
+    public List<SpecificFunction> getSpecificFunctionsForHospital() {
         return findAll(SpecificFunction.class)
                 .stream()
-                .filter(f -> includeOther || f.getId() > 0)
                 .sorted((f1, f2) -> (f1.getId() == -1 ? 999 : f1.getId()) - (f2.getId() == -1 ? 999 : f2.getId()))
                 .collect(Collectors.toList());
     }

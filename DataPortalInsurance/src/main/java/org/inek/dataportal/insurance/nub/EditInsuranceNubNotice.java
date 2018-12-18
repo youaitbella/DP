@@ -1,5 +1,10 @@
 package org.inek.dataportal.insurance.nub;
 
+import org.inek.dataportal.insurance.nub.entities.InsuranceNubNoticeItem;
+import org.inek.dataportal.insurance.nub.entities.InsuranceNubMethodInfo;
+import org.inek.dataportal.insurance.nub.entities.InsuranceNubNotice;
+import org.inek.dataportal.insurance.nub.entities.DosageForm;
+import org.inek.dataportal.insurance.nub.entities.Unit;
 import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.controller.AbstractEditController;
 import org.inek.dataportal.common.controller.SessionController;
@@ -12,7 +17,6 @@ import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.overall.AccessManager;
 import org.inek.dataportal.common.scope.FeatureScoped;
-import org.inek.dataportal.insurance.entities.*;
 import org.inek.dataportal.insurance.facade.InsuranceFacade;
 
 import javax.annotation.PostConstruct;

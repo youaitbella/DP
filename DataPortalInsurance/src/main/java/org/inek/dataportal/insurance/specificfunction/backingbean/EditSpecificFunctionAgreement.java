@@ -8,7 +8,6 @@ package org.inek.dataportal.insurance.specificfunction.backingbean;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -35,12 +34,10 @@ import org.inek.dataportal.common.data.adm.facade.InekRoleFacade;
 import org.inek.dataportal.common.data.icmt.entities.Customer;
 import org.inek.dataportal.common.data.icmt.facade.CustomerFacade;
 import org.inek.dataportal.insurance.specificfunction.entity.AgreedCenter;
-import org.inek.dataportal.insurance.specificfunction.entity.AgreedRemunerationKeys;
 import org.inek.dataportal.common.specificfunction.entity.CenterName;
 import org.inek.dataportal.common.specificfunction.entity.RelatedName;
 import org.inek.dataportal.common.specificfunction.entity.SpecificFunction;
 import org.inek.dataportal.insurance.specificfunction.entity.SpecificFunctionAgreement;
-import org.inek.dataportal.common.specificfunction.entity.SpecificFunctionRequest;
 import org.inek.dataportal.common.specificfunction.entity.TypeExtraCharge;
 import org.inek.dataportal.insurance.specificfunction.facade.SpecificFunctionFacade;
 import org.inek.dataportal.common.helper.Utils;
@@ -120,7 +117,7 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
         agreement.setPhone(account.getPhone());
         agreement.setMail(account.getEmail());
         agreement.setDataYear(Utils.getTargetYear(Feature.SPECIFIC_FUNCTION));
-        agreement.getRemunerationKeys().add(new AgreedRemunerationKeys());
+        agreement.addAgreedCenterRemunerationKey();
         List<SelectItem> iks = getIks();
         if (iks.size() == 1) {
             int ik = (int) iks.get(0).getValue();
@@ -260,7 +257,6 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
         _agreement.setId(-1);
         for (AgreedCenter agreedCenter : _agreement.getAgreedCenters()) {
             agreedCenter.setId(-1);
-            agreedCenter.setAgreedMasterId(-1);
         }
         _specificFunctionFacade.saveSpecificFunctionAgreement(_agreement);
         sendMessage("BA Konkretisierung");
@@ -341,7 +337,7 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
             if (center.isEmpty()) {
                 continue;
             }
-            if (center.getCenterId() == -1) {
+            if (center.getCenterName().getId() == -1) {
                 checkField(message, center.getOtherCenterName(), "Bitte Art des Zentrums angeben", "");
             }
             if (center.getSpecificFunctions().isEmpty()) {
@@ -421,17 +417,11 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
     }
 
     public void addAgreedCenter() {
-        AgreedCenter center = new AgreedCenter(_agreement.getId());
-        int lastSequence = 0;
-        for (AgreedCenter agreedCenter : _agreement.getAgreedCenters()) {
-            lastSequence = agreedCenter.getSequence();
-        }
-        center.setSequence(lastSequence + 1);
-        _agreement.getAgreedCenters().add(center);
+        _agreement.addAgreedCenter();
     }
 
     public void deleteAgreedCenter(AgreedCenter center) {
-        _agreement.getAgreedCenters().remove(center);
+        _agreement.deleteAgreedCenter(center);
     }
     // </editor-fold>
 
@@ -440,13 +430,7 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
     }
 
     private void removeEmptyAgreedCenters() {
-        Iterator<AgreedCenter> iter = _agreement.getAgreedCenters().iterator();
-        while (iter.hasNext()) {
-            AgreedCenter center = iter.next();
-            if (center.isEmpty()) {
-                iter.remove();
-            }
-        }
+        _agreement.removeEmptyAgreedCenters();
     }
 
     private void addCentersIfMissing() {
@@ -455,8 +439,8 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
         }
     }
 
-    public List<CenterName> getCenterNames() {
-        return _specificFunctionFacade.getCenterNames();
+    public List<CenterName> getCenterNames(int id) {
+        return _specificFunctionFacade.getCenterNames(id == 0);
     }
 
     public List<RelatedName> getRelatedNames() {
@@ -468,13 +452,12 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
     }
 
     public List<SpecificFunction> getSpecificFunctions() {
-        return _specificFunctionFacade.getSpecificFunctions(false);
+        return _specificFunctionFacade.getSpecificFunctionsForInsurance();
     }
 
     public void changeCode() {
-        SpecificFunctionRequest request = _specificFunctionFacade.
-                findSpecificFunctionRequestByCode(_agreement.getCode());
-        if (request.getIk() < 1) {
+        int ik  = _specificFunctionFacade.findIkOfSpecificFunctionRequestByCode(_agreement.getCode());
+        if (ik < 1) {
             Utils.showMessageInBrowser("Das Vertragskennzeichen " + _agreement.getCode() + " ist unbekannt.");
             return;
         }
@@ -483,7 +466,7 @@ public class EditSpecificFunctionAgreement extends AbstractEditController implem
                     showMessageInBrowser("Zum Vertragskennzeichen " + _agreement.getCode() + " wurden bereits Daten erfasst.");
             return;
         }
-        _agreement.setIk(request.getIk());
+        _agreement.setIk(ik);
     }
 
     public List<SelectItem> getSpecificFunctionRemunerationScopes() {

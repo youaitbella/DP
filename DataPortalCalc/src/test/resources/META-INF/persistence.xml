@@ -12,9 +12,11 @@
             <property name="javax.persistence.schema-generation.database.action" value="create-or-extend-tables"/>
             <property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
             <property name="eclipselink.ddl-generation.output-mode" value="both"/>
-            <property name="eclipselink.logging.level" value="FINE"/>
             <property name="eclipselink.jpa.uppercase-column-names" value="true"/>
             <property name="eclipselink.cache.shared.default" value="false"/>
+            <property name="eclipselink.logging.logger" value="JavaLogger"/>
+            <property name="eclipselink.logging.level" value="INFO"/>       
+            <property name="eclipselink.logging.parameters" value="true"/>     
         </properties>
     </persistence-unit>
 </persistence>

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.inek.dataportal.insurance.specificfunction.facade;
 
 import java.util.HashSet;
@@ -16,19 +11,12 @@ import javax.transaction.Transactional;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.common.data.AbstractDataAccess;
-import org.inek.dataportal.insurance.specificfunction.entity.AgreedCenter;
-import org.inek.dataportal.insurance.specificfunction.entity.AgreedRemunerationKeys;
 import org.inek.dataportal.insurance.specificfunction.entity.SpecificFunctionAgreement;
 import org.inek.dataportal.common.specificfunction.entity.CenterName;
 import org.inek.dataportal.common.specificfunction.entity.RelatedName;
 import org.inek.dataportal.common.specificfunction.entity.SpecificFunction;
-import org.inek.dataportal.common.specificfunction.entity.SpecificFunctionRequest;
 import org.inek.dataportal.common.specificfunction.entity.TypeExtraCharge;
 
-/**
- *
- * @author muellermi
- */
 @RequestScoped
 @Transactional
 public class SpecificFunctionFacade extends AbstractDataAccess {
@@ -126,13 +114,29 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Common">
-    public List<CenterName> getCenterNames() {
-        return findAll(CenterName.class)
+    private List<CenterName> _centerNames;
+
+    public List<CenterName> getCenterNames(boolean includeNoneOption) {
+        if (_centerNames == null) {
+            _centerNames = findAll(CenterName.class)
+                    .stream()
+                    .sorted((n1, n2) -> obtainSortName(n1).compareTo(obtainSortName(n2)))
+                    .collect(Collectors.toList());
+        }
+        return _centerNames
                 .stream()
-                .filter(n -> n.getId() > 0)
-                .sorted((n1, n2) -> (n1.getId() == -1 ? "ZZZ" : n1.getName()).compareTo((n2.getId() == -1 ? "ZZZ" : n2.
-                getName())))
+                .filter(n -> includeNoneOption || n.getId() != 0)
                 .collect(Collectors.toList());
+    }
+
+    private String obtainSortName(CenterName center){
+        if (center.getId() == -1){
+            return "üüü";  // sort to end
+        }
+        if (center.getId() == 0){
+            return " ";  // sort to begin
+        }
+        return center.getName(); // sort by name
     }
 
     public List<RelatedName> getRelatedNames() {
@@ -144,11 +148,11 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
                 .collect(Collectors.toList());
     }
 
-    public List<SpecificFunction> getSpecificFunctions(boolean includeOther) {
+    public List<SpecificFunction> getSpecificFunctionsForInsurance() {
         return findAll(SpecificFunction.class)
                 .stream()
-                .filter(f -> includeOther || f.getId() > 0)
-                .sorted((f1, f2) -> (f1.getId() == -1 ? 999 : f1.getId()) - (f2.getId() == -1 ? 999 : f2.getId()))
+                .filter(f -> f.getId() > 0)
+                .sorted((f1, f2) -> f1.getId() - f2.getId())
                 .collect(Collectors.toList());
     }
 
@@ -161,14 +165,14 @@ public class SpecificFunctionFacade extends AbstractDataAccess {
     }
     //</editor-fold>
 
-    public SpecificFunctionRequest findSpecificFunctionRequestByCode(String code) {
-        String jpql = "select spf from SpecificFunctionRequest spf where spf._code = :code and spf._statusId = 10";
-        TypedQuery<SpecificFunctionRequest> query = getEntityManager().createQuery(jpql, SpecificFunctionRequest.class);
-        query.setParameter(CODE, code);
+    public int findIkOfSpecificFunctionRequestByCode(String code) {
+        String sql = "select rmIk from spf.RequestMaster where rmStatusId = 10 and rmCode = ?";
+        Query query = getEntityManager().createNativeQuery(sql);
+        query.setParameter(1, code);
         try {
-            return query.getSingleResult();
+            return (Integer) query.getSingleResult();
         } catch (Exception ex) {
-            return new SpecificFunctionRequest();
+            return -1;
         }
     }
 

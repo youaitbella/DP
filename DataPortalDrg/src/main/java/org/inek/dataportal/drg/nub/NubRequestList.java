@@ -3,6 +3,7 @@ package org.inek.dataportal.drg.nub;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.inek.dataportal.common.controller.ReportController;
 import org.inek.dataportal.common.controller.SessionController;
 import org.inek.dataportal.drg.nub.entities.NubRequest;
 import org.inek.dataportal.common.enums.Pages;
@@ -10,18 +11,29 @@ import org.inek.dataportal.common.enums.WorkflowStatus;
 import org.inek.dataportal.drg.nub.facades.NubRequestFacade;
 import org.inek.dataportal.common.helper.Utils;
 import org.inek.dataportal.common.scope.FeatureScopedContextHolder;
-import org.inek.dataportal.common.utils.DocumentationUtil;
 
 @Named
 @RequestScoped
 public class NubRequestList {
 
-    @Inject
     private NubSessionTools _nubSessionTools;
-    @Inject
     private NubRequestFacade _nubRequestFacade;
-    @Inject
     private SessionController _sessionController;
+    private ReportController _reportController;
+
+    public NubRequestList() {
+    }
+
+    @Inject
+    public NubRequestList(NubSessionTools nubSessionTools,
+            NubRequestFacade nubRequestFacade,
+            SessionController sessionController,
+            ReportController reportController) {
+        _nubSessionTools = nubSessionTools;
+        _nubRequestFacade = nubRequestFacade;
+        _sessionController = sessionController;
+        _reportController = reportController;
+    }
 
     public String getRejectReason(int requestId) {
         String reason = WorkflowStatus.Rejected.getDescription();
@@ -82,12 +94,8 @@ public class NubRequestList {
     }
 
     public String printNubRequest(int requestId) {
-        NubRequest nubRequest = _nubRequestFacade.find(requestId);
-
-        Utils.getFlash().put("headLine", Utils.getMessage("nameNUB") + " " + nubRequest.getExternalId());
-        Utils.getFlash().put("targetPage", Pages.NubSummary.URL());
-        Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(nubRequest));
-        return Pages.PrintView.URL();
+        _reportController.createSingleDocument("NUB.pdf", requestId, "NUB_N" + requestId + ".pdf");
+        return "";
     }
 
     public String getExternalState(int requestId) {

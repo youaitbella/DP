@@ -4,7 +4,9 @@
       xmlns:cc="http://xmlns.jcp.org/jsf/composite"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
 
     <!-- INTERFACE -->
     <cc:interface>
@@ -13,8 +15,8 @@
 
     <!-- IMPLEMENTATION -->
     <cc:implementation>
-        <div class="paddingElement">
-            <h:dataTable rendered="#{cc.attrs.list.size() > 0}"  headerClass="list-header" 
+        <div class="paddingElement" jsf:rendered="#{cc.attrs.list.size() > 0}">
+            <h:dataTable   headerClass="list-header" 
                          value="#{cc.attrs.list}" var="notice" width="100%" rowClasses="row1, row2" columnClasses="colIcon, colIcon, colIcon, colId, colValue">
 
                 <h:column  >

@@ -11,7 +11,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.overall.ApplicationTools;
 import org.inek.dataportal.insurance.specificfunction.entity.SpecificFunctionAgreement;
-import org.inek.dataportal.common.specificfunction.entity.SpecificFunctionRequest;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
@@ -42,7 +41,7 @@ public class SpecificFunctionAgreementList {
         return Pages.InsuranceSpecificFunctionEditAgreement.URL();
     }
 
-    public String print(SpecificFunctionRequest request) {
+    public String print(SpecificFunctionAgreement request) {
         Utils.getFlash().put("headLine", Utils.getMessage("nameSPECIFIC_FUNCTION"));
         Utils.getFlash().put("targetPage", Pages.SpecificFunctionSummary.URL());
         Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(request));

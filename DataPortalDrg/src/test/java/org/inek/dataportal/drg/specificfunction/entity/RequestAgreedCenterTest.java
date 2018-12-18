@@ -1,4 +1,4 @@
-package org.inek.dataportal.common.specificfunction.entity;
+package org.inek.dataportal.drg.specificfunction.entity;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertFalse;

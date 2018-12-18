@@ -571,11 +571,10 @@ public class EditNubRequest extends AbstractEditController {
             _nubRequest = _nubRequestFacade.saveNubRequest(_nubRequest);
             if (isValidId(_nubRequest.getId())) {
                 _nubSessionTools.sendNubConfirmationMail(_nubRequest);
-
-                Utils.getFlash().put("headLine", Utils.getMessage("nameNUB") + " " + _nubRequest.getExternalId());
-                Utils.getFlash().put("targetPage", Pages.NubSummary.URL());
-                Utils.getFlash().put("printContent", DocumentationUtil.getDocumentation(_nubRequest));
-                return Pages.PrintView.URL();
+                _sessionController.alertClient("Ihre NUB  wurde zur weiteren Bearbeitung an das InEK übermittelt. "
+                        + "Sofern erforderlich, können Sie die Daten zu Ihrer NUB "
+                        + "jederzeit mittels Drucksymbol in der Listenansicht als PDF generieren.");
+                return Pages.NubSummary.URL();
             }
         } catch (Exception ex) {
             if (isNewRequest || !(ex.getCause() instanceof OptimisticLockException)) {

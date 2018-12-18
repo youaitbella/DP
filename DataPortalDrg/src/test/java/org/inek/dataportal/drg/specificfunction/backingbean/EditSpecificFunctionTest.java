@@ -6,8 +6,8 @@
 package org.inek.dataportal.drg.specificfunction.backingbean;
 
 import org.assertj.core.api.Assertions;
-import org.inek.dataportal.common.specificfunction.entity.RequestAgreedCenter;
-import org.inek.dataportal.common.specificfunction.entity.SpecificFunctionRequest;
+import org.inek.dataportal.drg.specificfunction.entity.RequestAgreedCenter;
+import org.inek.dataportal.drg.specificfunction.entity.SpecificFunctionRequest;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -28,15 +28,15 @@ public class EditSpecificFunctionTest {
         Assertions.assertThat(request.getRequestAgreedCenters().isEmpty()).isTrue().as("List should be empty");
 
         request.setHasAgreement(true);
-        request.getRequestAgreedCenters().add(new RequestAgreedCenter());
+        request.addAgreedCenter();
         edit.clearRequestAgreedCentersForSave(request);
         Assertions.assertThat(request.getRequestAgreedCenters().isEmpty()).isFalse().as("1 Element shoukd be in List");
-        request.getRequestAgreedCenters().add(new RequestAgreedCenter());
+        request.addAgreedCenter();
         edit.clearRequestAgreedCentersForSave(request);
         Assertions.assertThat(request.getRequestAgreedCenters().size() == 2).isTrue().as("2 Element shoukd be in List");
 
         request.setHasAgreement(false);
-        request.getRequestAgreedCenters().add(new RequestAgreedCenter());
+        request.addAgreedCenter();
         edit.clearRequestAgreedCentersForSave(request);
         Assertions.assertThat(request.getRequestAgreedCenters().isEmpty()).isTrue().as("List should be empty");
     }

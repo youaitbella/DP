@@ -11,14 +11,15 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import org.inek.dataportal.common.data.AbstractDataAccessWithActionLog;
 import org.inek.dataportal.common.data.common.RemunerationType;
-import org.inek.dataportal.insurance.entities.DosageForm;
-import org.inek.dataportal.insurance.entities.InsuranceNubNotice;
-import org.inek.dataportal.insurance.entities.Unit;
-import org.inek.dataportal.insurance.entities.InekMethod;
-import org.inek.dataportal.insurance.entities.InsuranceNubNoticeItem;
-import org.inek.dataportal.insurance.entities.InsuranceNubMethodInfo;
+import org.inek.dataportal.insurance.nub.entities.DosageForm;
+import org.inek.dataportal.insurance.nub.entities.InsuranceNubNotice;
+import org.inek.dataportal.insurance.nub.entities.Unit;
+import org.inek.dataportal.insurance.nub.entities.InekMethod;
+import org.inek.dataportal.insurance.nub.entities.InsuranceNubNoticeItem;
+import org.inek.dataportal.insurance.nub.entities.InsuranceNubMethodInfo;
 import org.inek.dataportal.common.enums.DataSet;
 import org.inek.dataportal.common.enums.WorkflowStatus;
+import org.inek.dataportal.insurance.nub.dao.InsuranceNubNoticeInfo;
 
 /**
  *
@@ -35,16 +36,16 @@ public class InsuranceFacade extends AbstractDataAccessWithActionLog {
         return super.findFresh(InsuranceNubNotice.class, id);
     }
 
-    public List<InsuranceNubNotice> getAccountNotices(int accountId, DataSet dataSet) {
-        String sql = "SELECT n FROM InsuranceNubNotice n "
+    public List<InsuranceNubNoticeInfo> getAccountNoticeInfos(int accountId, DataSet dataSet) {
+        String sql = "SELECT NEW org.inek.dataportal.insurance.nub.dao.InsuranceNubNoticeInfo"
+                + "(n._id, n._creationDate, n._workflowStatusId, n._year, n._hospitalIk) "
+                + "FROM InsuranceNubNotice n "
                 + "WHERE n._accountId = :accountId and n._workflowStatusId BETWEEN :minStatus AND :maxStatus ORDER BY n._year, n._id";
-        TypedQuery<InsuranceNubNotice> query = getEntityManager().createQuery(sql, InsuranceNubNotice.class);
-        int minStatus = dataSet == DataSet.AllOpen ? WorkflowStatus.New.getId() : WorkflowStatus.Provided.getId();
-        int maxStatus = dataSet == DataSet.AllOpen ? WorkflowStatus.Provided.getId() - 1 : WorkflowStatus.Retired.
-                getId();
+        TypedQuery<InsuranceNubNoticeInfo> query = getEntityManager().createQuery(sql, InsuranceNubNoticeInfo.class);
+
         query.setParameter("accountId", accountId);
-        query.setParameter("minStatus", minStatus);
-        query.setParameter("maxStatus", maxStatus);
+        query.setParameter("minStatus", dataSet.getMinStatus().getId());
+        query.setParameter("maxStatus", dataSet.getMaxStatus().getId());
         return query.getResultList();
 
     }

@@ -13,7 +13,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.helper.Utils;
-import org.inek.dataportal.common.specificfunction.tree.SpecificFunctionRequestTreeNode;
 import org.inek.dataportal.common.tree.RootNode;
 import org.inek.dataportal.common.tree.TreeNode;
 import org.inek.dataportal.common.tree.TreeNodeObserver;
@@ -65,11 +64,11 @@ public class SpecificFunctionAgreementTreeHandler implements Serializable {
     }
 
     public void selectAll() {
-        _rootNode.selectAll(SpecificFunctionRequestTreeNode.class, true);
+        //_rootNode.selectAll(SpecificFunctionRequestTreeNode.class, true);
     }
 
     public String deselectAll() {
-        _rootNode.selectAll(SpecificFunctionRequestTreeNode.class, false);
+        //_rootNode.selectAll(SpecificFunctionRequestTreeNode.class, false);
         return "";
     }
 

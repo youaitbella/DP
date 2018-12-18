@@ -68,8 +68,6 @@ public enum ConfigKey {
     }
 
     public String getDefault() {
-        if (_defaultValue instanceof String) {
-        }
         return "" + _defaultValue;
     }
 

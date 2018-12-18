@@ -1,4 +1,4 @@
-package org.inek.dataportal.common.specificfunction.entity;
+package org.inek.dataportal.drg.specificfunction.entity;
 
 import java.io.Serializable;
 import java.util.List;
@@ -7,12 +7,10 @@ import java.util.Vector;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
+import org.inek.dataportal.common.specificfunction.entity.CenterName;
+import org.inek.dataportal.common.specificfunction.entity.SpecificFunction;
 import org.inek.dataportal.common.utils.Documentation;
 
-/**
- *
- * @author muellermi
- */
 @Entity
 @Table(name = "RequestProjectedCenter", schema = "spf")
 public class RequestProjectedCenter implements Serializable {
@@ -22,15 +20,25 @@ public class RequestProjectedCenter implements Serializable {
     public RequestProjectedCenter() {
     }
 
-    public RequestProjectedCenter(int masterId) {
-        _requestMasterId = masterId;
+    public RequestProjectedCenter(SpecificFunctionRequest master) {
+        _requestMaster = master;
+    }
+
+    public RequestProjectedCenter(RequestProjectedCenter template) {
+        _centerName = template._centerName;
+        _otherCenterName = template._otherCenterName;
+        _location = template._location;
+        _specificFunctions.addAll(template._specificFunctions);
+        _otherSpecificFunction = template._otherSpecificFunction;
+        _typeId = template._typeId;
+        _estimatedPatientCount = template._estimatedPatientCount;
     }
 
     // <editor-fold defaultstate="collapsed" desc="Property Id">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "rpcId")
-    private Integer _id;
+    private Integer _id = -1;
 
     public int getId() {
         return _id;
@@ -41,37 +49,28 @@ public class RequestProjectedCenter implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property RequestMasterId">
-    @Column(name = "rpcRequestMasterId")
-    private Integer _requestMasterId = -1;
+    // <editor-fold defaultstate="collapsed" desc="Property RequestMaster">
+    @ManyToOne
+    @JoinColumn(name = "rpcRequestMasterId")
+    private SpecificFunctionRequest _requestMaster;
 
-    public int getRequestMasterId() {
-        return _requestMasterId;
+    public SpecificFunctionRequest getRequestMaster() {
+        return _requestMaster;
     }
 
-    public void setRequestMasterId(int requestMasterId) {
-        _requestMasterId = requestMasterId;
-    }
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Property CenterId">
-    @Column(name = "rpcCenterId")
-    private int _centerId;
-
-    public int getCenterId() {
-        return _centerId;
-    }
-
-    public void setCenterId(int value) {
-        _centerId = value;
+    public void setRequestMaster(SpecificFunctionRequest requestMaster) {
+        _requestMaster = requestMaster;
     }
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property CenterName">
-    @OneToOne
-    @PrimaryKeyJoinColumn(name = "rpcCenterId")
+    @Column(name = "rpcCenterId")
+    private int _centerId;
+    
+    @ManyToOne
+    @JoinColumn(name = "rpcCenterId", insertable = false, updatable = false)
     @Documentation(name = "Zentrum")
-    private CenterName _centerName;
+    private CenterName _centerName = new CenterName();
 
     public CenterName getCenterName() {
         return _centerName;
@@ -79,6 +78,7 @@ public class RequestProjectedCenter implements Serializable {
 
     public void setCenterName(CenterName value) {
         _centerName = value;
+        _centerId = value.getId();
     }
     // </editor-fold>
 
@@ -121,7 +121,7 @@ public class RequestProjectedCenter implements Serializable {
                 @JoinColumn(name = "pcsfProjectedCenterId", referencedColumnName = "rpcId")},
             inverseJoinColumns = {
                 @JoinColumn(name = "pcsfSpecificFunctionId", referencedColumnName = "sfId", unique = true)}
-            )
+    )
     @Documentation(name = "Besondere Aufgaben")
     private List<SpecificFunction> _specificFunctions = new Vector<>();
 
@@ -183,17 +183,7 @@ public class RequestProjectedCenter implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public int hashCode() {
-        if (_id != null) {
-            return _id;
-        }
-        int hash = 7;
-        hash = 97 * hash + this._requestMasterId;
-        hash = 97 * hash + Objects.hashCode(this._otherCenterName);
-        hash = 97 * hash + Objects.hashCode(this._location);
-        hash = 97 * hash + Objects.hashCode(this._otherSpecificFunction);
-        hash = 97 * hash + this._typeId;
-        hash = 97 * hash + this._estimatedPatientCount;
-        return hash;
+        return 2447;
     }
 
     @Override
@@ -212,10 +202,10 @@ public class RequestProjectedCenter implements Serializable {
         if (_id != null) {
             return Objects.equals(_id, other._id);
         }
-        if (other._id != null){
+        if (other._id != null) {
             return false;
         }
-        if (!Objects.equals(this._requestMasterId, other._requestMasterId)) {
+        if (!Objects.equals(this._requestMaster, other._requestMaster)) {
             return false;
         }
         if (this._typeId != other._typeId) {
@@ -244,7 +234,7 @@ public class RequestProjectedCenter implements Serializable {
 
     public boolean isEmpty() {
         return _id == null
-                && _centerId == 0
+                && _centerName.getId() <= 0
                 && _otherCenterName.isEmpty()
                 && _location.isEmpty()
                 && _specificFunctions.isEmpty()

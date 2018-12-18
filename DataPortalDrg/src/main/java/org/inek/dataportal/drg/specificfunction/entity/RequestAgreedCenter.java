@@ -1,4 +1,4 @@
-package org.inek.dataportal.common.specificfunction.entity;
+package org.inek.dataportal.drg.specificfunction.entity;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -7,10 +7,6 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import org.inek.dataportal.common.utils.Documentation;
 
-/**
- *
- * @author muellermi
- */
 @Entity
 @Table(name = "RequestAgreedCenter", schema = "spf")
 public class RequestAgreedCenter implements Serializable {
@@ -20,8 +16,8 @@ public class RequestAgreedCenter implements Serializable {
     public RequestAgreedCenter() {
     }
 
-    public RequestAgreedCenter(int masterId) {
-        _requestMasterId = masterId;
+    public RequestAgreedCenter(SpecificFunctionRequest master) {
+        _requestMaster = master;
     }
 
     // <editor-fold defaultstate="collapsed" desc="Property Id">
@@ -39,16 +35,17 @@ public class RequestAgreedCenter implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Property RequestMasterId">
-    @Column(name = "racRequestMasterId")
-    private int _requestMasterId = -1;
+    // <editor-fold defaultstate="collapsed" desc="Property RequestMaster">
+    @ManyToOne
+    @JoinColumn(name = "racRequestMasterId")
+    private SpecificFunctionRequest _requestMaster;
 
-    public int getRequestMasterId() {
-        return _requestMasterId;
+    public SpecificFunctionRequest getRequestMaster() {
+        return _requestMaster;
     }
 
-    public void setRequestMasterId(int requestMasterId) {
-        _requestMasterId = requestMasterId;
+    public void setRequestMaster(SpecificFunctionRequest requestMaster) {
+        _requestMaster = requestMaster;
     }
     // </editor-fold>
 
@@ -102,7 +99,9 @@ public class RequestAgreedCenter implements Serializable {
     @Documentation(name = "Prozent", omitOnValues = "0")
     private double _percent;
 
-    @Min(0)
+    //@Min(0)
+    // even thought Min is allowed to be used on double, this somtimes causes a validation failure
+    // this seems to be a known bug - we use JSF validation instead
     public double getPercent() {
         return _percent;
     }
@@ -115,15 +114,7 @@ public class RequestAgreedCenter implements Serializable {
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public int hashCode() {
-        if (_id != null) {
-            return _id;
-        }
-        int hash = 7;
-        hash = 11 * hash + this._requestMasterId;
-        hash = 11 * hash + Objects.hashCode(this._center);
-        hash = 11 * hash + Objects.hashCode(this._remunerationKey);
-        hash = 11 * hash + Objects.hashCode(this._amount);
-        return hash;
+        return 2461;
     }
 
     @Override
@@ -144,7 +135,7 @@ public class RequestAgreedCenter implements Serializable {
         if (other._id != null) {
             return false;
         }
-        if (!Objects.equals(this._requestMasterId, other._requestMasterId)) {
+        if (!Objects.equals(this._requestMaster, other._requestMaster)) {
             return false;
         }
         if (!Objects.equals(this._center, other._center)) {

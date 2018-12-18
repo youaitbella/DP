@@ -1,18 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package org.inek.dataportal.common.specificfunction.tree;
+package org.inek.dataportal.drg.specificfunction.backingbean.tree;
 
-import org.inek.dataportal.common.specificfunction.entity.SpecificFunctionRequest;
 import org.inek.dataportal.common.tree.TreeNode;
 import org.inek.dataportal.common.tree.TreeNodeObserver;
+import org.inek.dataportal.drg.specificfunction.entity.SpecificFunctionRequest;
 
-/**
- *
- * @author muellermi
- */
 public final class SpecificFunctionRequestTreeNode extends TreeNode{
     
     private final SpecificFunctionRequest _request;

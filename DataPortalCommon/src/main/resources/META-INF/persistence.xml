@@ -54,20 +54,20 @@
     <class>org.inek.dataportal.common.data.ikadmin.entity.User</class>
     <class>org.inek.dataportal.common.specificfunction.entity.CenterName</class>
     <class>org.inek.dataportal.common.specificfunction.entity.RelatedName</class>
-    <class>org.inek.dataportal.common.specificfunction.entity.RequestAgreedCenter</class>
-    <class>org.inek.dataportal.common.specificfunction.entity.RequestProjectedCenter</class>
     <class>org.inek.dataportal.common.specificfunction.entity.SpecificFunction</class>
-    <class>org.inek.dataportal.common.specificfunction.entity.SpecificFunctionRequest</class>
     <class>org.inek.dataportal.common.specificfunction.entity.TypeExtraCharge</class>
     <class>org.inek.dataportal.common.data.account.entities.AccountIk</class>
     <class>org.inek.dataportal.common.data.infotext.entity.InfoText</class>
     <class>org.inek.dataportal.common.data.ikadmin.entity.IkAdmin</class>
     <class>org.inek.dataportal.common.data.ikadmin.entity.IkAdminFeature</class>
-        <class>org.inek.dataportal.common.data.ikadmin.entity.AccountResponsibility</class>
+    <class>org.inek.dataportal.common.data.ikadmin.entity.AccountResponsibility</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="eclipselink.jpa.uppercase-column-names" value="true"/>
       <property name="eclipselink.cache.shared.default" value="false"/>
+      <property name="eclipselink.logging.logger" value="JavaLogger"/>
+      <property name="eclipselink.logging.level" value="INFO"/>
+      <property name="eclipselink.logging.parameters" value="true"/>
     </properties>
   </persistence-unit>
 </persistence>

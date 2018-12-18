@@ -5,7 +5,9 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 import javax.persistence.*;
@@ -83,7 +85,7 @@ public class SpecificFunctionAgreement implements Serializable, StatusEntity {
         this._insuranceIk = insuranceIk;
     }
     //</editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property InsuranceName">
     @Column(name = "amInsuranceName")
     @Documentation(key = "lblInsuranceName")
@@ -98,7 +100,7 @@ public class SpecificFunctionAgreement implements Serializable, StatusEntity {
         _insuranceName = insuranceName;
     }
     // </editor-fold>
-   
+
     // <editor-fold defaultstate="collapsed" desc="Property InsuranceStreet">
     @Column(name = "amInsuranceStreet")
     @Documentation(key = "lblStreet")
@@ -113,7 +115,7 @@ public class SpecificFunctionAgreement implements Serializable, StatusEntity {
         _insuranceStreet = insuranceStreet;
     }
     // </editor-fold>
-   
+
     // <editor-fold defaultstate="collapsed" desc="Property InsurancePostCode">
     @Column(name = "amInsurancePostCode")
     @Documentation(key = "lblPostalCode")
@@ -128,7 +130,7 @@ public class SpecificFunctionAgreement implements Serializable, StatusEntity {
         _insurancePostCode = insurancePostCode;
     }
     // </editor-fold>
-   
+
     // <editor-fold defaultstate="collapsed" desc="Property InsuranceTown">
     @Column(name = "amInsuranceTown")
     @Documentation(key = "lblTown")
@@ -143,7 +145,7 @@ public class SpecificFunctionAgreement implements Serializable, StatusEntity {
         _insuranceTown = insuranceTown;
     }
     // </editor-fold>
-   
+
     //<editor-fold defaultstate="collapsed" desc="Property AccountId">
     @Column(name = "amAccountId")
     private int _accountId;
@@ -198,7 +200,7 @@ public class SpecificFunctionAgreement implements Serializable, StatusEntity {
         this._sealed = sealed;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Property StatusId">
     @Column(name = "amStatusId")
     private int _statusId;
@@ -225,7 +227,6 @@ public class SpecificFunctionAgreement implements Serializable, StatusEntity {
 
     // <editor-fold defaultstate="collapsed" desc="Property Gender">
     @Column(name = "amGender")
-    
     @Documentation(key = "lblSalutation", omitOnValues = "0", translateValue = "1=salutationFemale;2=salutationMale")
     private int _gender = 0;
 
@@ -327,7 +328,7 @@ public class SpecificFunctionAgreement implements Serializable, StatusEntity {
         this._ik = ik;
     }
     //</editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property SpecificInstitution">
     @Column(name = "amSpecificInstitution")
     private boolean _specificInstitution = true;
@@ -359,14 +360,29 @@ public class SpecificFunctionAgreement implements Serializable, StatusEntity {
     @JoinColumn(name = "acAgreedMasterId", referencedColumnName = "amId")
     @OrderBy(value = "_sequence")
     @Documentation(name = "vereinbarte Kostenstellen", omitOnEmpty = true)
-    private List<AgreedCenter> _agreedCenters = new Vector<>();
+    private final List<AgreedCenter> _agreedCenters = new Vector<>();
 
     public List<AgreedCenter> getAgreedCenters() {
-        return _agreedCenters;
+        return Collections.unmodifiableList(_agreedCenters);
     }
 
-    public void setAgreedCenters(List<AgreedCenter> agreedCenters) {
-        this._agreedCenters = agreedCenters;
+    public AgreedCenter addAgreedCenter() {
+        AgreedCenter center = new AgreedCenter(this);
+        int lastSequence = _agreedCenters.stream().mapToInt(c -> c.getSequence()).max().orElse(0);
+        center.setSequence(lastSequence + 1);
+        _agreedCenters.add(center);
+        return center;
+    }
+
+    public void deleteAgreedCenter(AgreedCenter center) {
+        _agreedCenters.remove(center);
+    }
+
+    public void removeEmptyAgreedCenters() {
+        if (_agreedCenters.isEmpty()) {
+            return;
+        }
+        _agreedCenters.removeIf(c -> c.isEmpty());
     }
     //</editor-fold>
 
@@ -374,17 +390,23 @@ public class SpecificFunctionAgreement implements Serializable, StatusEntity {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "arkSpecificFunctionAgreementId", referencedColumnName = "amId")
     @OrderBy(value = "_number")
-    private List<AgreedRemunerationKeys> _remunerationKeys = new ArrayList<>();
+    private final List<AgreedRemunerationKeys> _remunerationKeys = new ArrayList<>();
 
     public List<AgreedRemunerationKeys> getRemunerationKeys() {
-        return _remunerationKeys;
+        return Collections.unmodifiableList(_remunerationKeys);
     }
 
-    public void setRemunerationKeys(List<AgreedRemunerationKeys> remunerationKeys) {
-        this._remunerationKeys = remunerationKeys;
+    public void addAgreedCenterRemunerationKey() {
+        AgreedRemunerationKeys key = new AgreedRemunerationKeys();
+        key.setSpecificFunctionAgreement(this);
+        _remunerationKeys.add(key);
+    }
+
+    public void removeAgreedCenterRemunerationKey(AgreedRemunerationKeys key) {
+        _remunerationKeys.remove(key);
     }
     //</editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property NoteInek">
     @Column(name = "amNoteInek")
     @Documentation(name = "Bemerkung InEK", rank = 175, omitOnEmpty = true)
@@ -398,7 +420,7 @@ public class SpecificFunctionAgreement implements Serializable, StatusEntity {
         _noteInek = noteInek;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property BudgetYear">
     @Column(name = "amBudgetYear")
     @Documentation(name = "Budgetjahr", rank = 180, omitOnEmpty = true)
@@ -412,7 +434,7 @@ public class SpecificFunctionAgreement implements Serializable, StatusEntity {
         this._budgetYear = budgetYear;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property BudgetDate">
     @Column(name = "amBudgetDate")
     @Documentation(name = "Genehmigung Budget", rank = 185, omitOnEmpty = true)
@@ -420,8 +442,9 @@ public class SpecificFunctionAgreement implements Serializable, StatusEntity {
     private Date _budgetDate = new Date(0);
 
     public Date getBudgetDate() {
-        if(_budgetDate.getTime() == 0)
+        if (_budgetDate.getTime() == 0) {
             return null;
+        }
         return _budgetDate;
     }
 
@@ -429,7 +452,7 @@ public class SpecificFunctionAgreement implements Serializable, StatusEntity {
         this._budgetDate = budgetDate;
     }
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc="Property TypeExtraCharge">
     @Column(name = "amTypeExtraChargeId")
     @Documentation(name = "Art des Zustandekommens des Zuschlags")
@@ -443,8 +466,7 @@ public class SpecificFunctionAgreement implements Serializable, StatusEntity {
         this._typeExtraCharge = typeExtraCharge;
     }
     // </editor-fold>
-    
-    
+
     // <editor-fold defaultstate="collapsed" desc="hashCode / equals / toString">
     @Override
     public int hashCode() {
@@ -466,14 +488,5 @@ public class SpecificFunctionAgreement implements Serializable, StatusEntity {
         return "AgreedMaster[id=" + _id + "]";
     }
     // </editor-fold>
-    
-    public void addAgreedCenterRemunerationKey() {
-        AgreedRemunerationKeys key = new AgreedRemunerationKeys();
-        key.setSpecificFunctionAgreementId(this.getId());
-        getRemunerationKeys().add(key);
-    }
-    
-    public void removeAgreedCenterRemunerationKey(AgreedRemunerationKeys key) {
-        getRemunerationKeys().remove(key);
-    }
+
 }

@@ -10,7 +10,7 @@ import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.common.data.adm.MailTemplate;
 import org.inek.dataportal.common.data.adm.facade.InekRoleFacade;
 import org.inek.dataportal.common.overall.ApplicationTools;
-import org.inek.dataportal.common.specificfunction.entity.SpecificFunctionRequest;
+import org.inek.dataportal.drg.specificfunction.entity.SpecificFunctionRequest;
 import org.inek.dataportal.common.enums.ConfigKey;
 import org.inek.dataportal.common.enums.Pages;
 import org.inek.dataportal.common.enums.WorkflowStatus;
