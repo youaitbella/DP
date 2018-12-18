@@ -59,7 +59,7 @@ public class AgreedCenter implements Serializable {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Property CenterName">
-    @Column(name = "rpcCenterId")
+    @Column(name = "acCenterId")
     private int _centerId;
     
     @ManyToOne
