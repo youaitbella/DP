@@ -238,9 +238,10 @@ public class EditUserMaintenance extends AbstractEditController {
             DialogController.showWarningDialog("Bitte mindestens eine IK eingeben", "Fehler beim speichern");
         } else {
             checkIKAdminRights(_account);
+            _account.setUser(_user);
             _account = _accountFacade.updateAccount(_account);
             _sessionController.refreshAccount(_account.getId());
-            DialogController.showInfoMessage("Speichern erfolgreich");
+            DialogController.showSaveDialog();
         }
         return "";
     }
@@ -272,7 +273,7 @@ public class EditUserMaintenance extends AbstractEditController {
         try {
             _account = _accountFacade.updateAccount(_account);
             _sessionController.refreshAccount(_account.getId());
-            DialogController.showInfoMessage("Speichern erfolgreich");
+            DialogController.showSaveDialog();
         } catch (Exception ex) {
             DialogController.showInfoMessage("Fehler beim speichern");
         }
