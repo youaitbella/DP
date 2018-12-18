@@ -38,7 +38,8 @@ public class AccountTreeNodeObserver implements TreeNodeObserver {
     public Collection<TreeNode> obtainChildren(TreeNode treeNode) {
         Account partner = ((AccountTreeNode) treeNode).getAccount();
         List<SpecificFunctionRequest> infos;
-        if (treeNode.getParent().getId() == 1) {
+        if (treeNode.getParent() == null // within part, there is no parent
+                || treeNode.getParent().getId() == 1) {
             infos = obtainRequestsForEdit(partner);
         } else {
             infos = obtainRequestsForRead(partner);
