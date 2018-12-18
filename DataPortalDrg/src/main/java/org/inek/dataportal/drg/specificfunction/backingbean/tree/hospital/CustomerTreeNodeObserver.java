@@ -41,7 +41,6 @@ public class CustomerTreeNodeObserver implements TreeNodeObserver {
         WorkflowStatus statusHigh = WorkflowStatus.Retired;
         return _specificFunctionFacade.obtainSpecificFunctionRequests(
                 ik,
-                0,
                 statusLow,
                 statusHigh);
     }
@@ -51,7 +50,6 @@ public class CustomerTreeNodeObserver implements TreeNodeObserver {
         WorkflowStatus statusHigh = WorkflowStatus.ApprovalRequested;
         return _specificFunctionFacade.obtainSpecificFunctionRequests(
                 ik,
-                0,
                 statusLow,
                 statusHigh);
     }

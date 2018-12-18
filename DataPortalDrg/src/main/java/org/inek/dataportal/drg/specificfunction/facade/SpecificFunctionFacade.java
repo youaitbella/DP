@@ -50,19 +50,14 @@ public class SpecificFunctionFacade extends AbstractDataAccessWithActionLog {
     public List<SpecificFunctionRequest> obtainSpecificFunctionRequests(
             int accountId,
             int ik,
-            int year,
             WorkflowStatus statusLow,
             WorkflowStatus statusHigh) {
         String jpql = "SELECT s FROM SpecificFunctionRequest s "
                 + "WHERE s._accountId = :accountId"
                 + (ik > 0 ? " and s._ik = :ik" : "")
-                + (year > 0 ? " and s._dataYear = :year" : "")
                 + " and s._statusId between :statusLow and :statusHigh ORDER BY s._id DESC";
         TypedQuery<SpecificFunctionRequest> query = getEntityManager().createQuery(jpql, SpecificFunctionRequest.class);
         query.setParameter(ACCOUNT_ID, accountId);
-        if (year > 0) {
-            query.setParameter(YEAR, year);
-        }
         query.setParameter(IK, ik);
         query.setParameter(STATUS_LOW, statusLow.getId());
         query.setParameter(STATUS_HIGH, statusHigh.getId());
@@ -71,18 +66,13 @@ public class SpecificFunctionFacade extends AbstractDataAccessWithActionLog {
 
     public List<SpecificFunctionRequest> obtainSpecificFunctionRequests(
             int ik,
-            int year,
             WorkflowStatus statusLow,
             WorkflowStatus statusHigh) {
         String jpql = "SELECT s FROM SpecificFunctionRequest s "
                 + "WHERE s._ik = :ik"
-                + (year > 0 ? " and s._dataYear = :year" : "")
                 + " and s._statusId between :statusLow and :statusHigh ORDER BY s._id DESC";
         TypedQuery<SpecificFunctionRequest> query = getEntityManager().createQuery(jpql, SpecificFunctionRequest.class);
         query.setParameter(IK, ik);
-        if (year > 0) {
-            query.setParameter(YEAR, year);
-        }
         query.setParameter(STATUS_LOW, statusLow.getId());
         query.setParameter(STATUS_HIGH, statusHigh.getId());
         return query.getResultList();

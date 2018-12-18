@@ -38,11 +38,10 @@ public class AccountTreeNodeObserver implements TreeNodeObserver {
     public Collection<TreeNode> obtainChildren(TreeNode treeNode) {
         Account partner = ((AccountTreeNode) treeNode).getAccount();
         List<SpecificFunctionRequest> infos;
-        if (treeNode.getParent() instanceof YearTreeNode) {
-            int year = treeNode.getParent().getId();
-            infos = obtainRequestsForRead(partner, year);
-        } else {
+        if (treeNode.getParent().getId() == 1) {
             infos = obtainRequestsForEdit(partner);
+        } else {
+            infos = obtainRequestsForRead(partner);
         }
         Collection<TreeNode> children = new ArrayList<>();
         for (SpecificFunctionRequest info : infos) {
@@ -51,7 +50,7 @@ public class AccountTreeNodeObserver implements TreeNodeObserver {
         return children;
     }
 
-    private List<SpecificFunctionRequest> obtainRequestsForRead(Account account, int year) {
+    private List<SpecificFunctionRequest> obtainRequestsForRead(Account account) {
         List<SpecificFunctionRequest> requests = new ArrayList<>();
         Set<Integer> ikSet = account.getFullIkSet();
         ikSet.removeAll(_accessManager.retrieveAllManagedIks(Feature.SPECIFIC_FUNCTION));
@@ -65,7 +64,6 @@ public class AccountTreeNodeObserver implements TreeNodeObserver {
             List<SpecificFunctionRequest> ikRequests = _specificFunctionFacade.obtainSpecificFunctionRequests(
                     account.getId(),
                     ik,
-                    year,
                     statusLow,
                     statusHigh);
             requests.addAll(ikRequests);
@@ -90,7 +88,6 @@ public class AccountTreeNodeObserver implements TreeNodeObserver {
             List<SpecificFunctionRequest> ikRequests = _specificFunctionFacade.obtainSpecificFunctionRequests(
                     account.getId(),
                     ik,
-                    0,
                     statusLow,
                     statusHigh);
             requests.addAll(ikRequests);
