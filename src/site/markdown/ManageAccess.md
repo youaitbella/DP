@@ -27,4 +27,8 @@ Im Bereich Admin bietet das Datenportal eine Suchfunktion nach Anwender:
 - Suche nach IK
 - Suche nach Teilen der Email
 
+Nach Auswahl des Anwenders werden dessen IK-Funktion-Kombinationen, für die kein Funktionsbeauftragter existiert, mit den aktuellen Berechtigungen gelistet.
+Diese können nun durch den Admin (InEK Mitarbeiter) geändert werden.
+
+
 [Zurück zum Hauptdokument](DataPortal.md#ManageAccess)
