@@ -124,6 +124,10 @@ public class AccessManager implements Serializable {
      *
      * @return
      */
+    public Set<Integer> retrieveAllManagedIks(Feature feature) {
+        return retrieveIkSet(feature, r -> _ikCache.isManaged(r.getIk(), feature));
+    }
+
     public Set<Integer> retrieveAllowedManagedIks(Feature feature) {
         Predicate<AccessRight> predicate = r -> r.getRight() != Right.Deny && _ikCache.isManaged(r.getIk(), feature);
         Set<Integer> iks = retrieveIkSet(feature, predicate);
@@ -134,10 +138,12 @@ public class AccessManager implements Serializable {
         return responsibleForIks;
     }
 
-    public Set<Integer> retrieveAllManagedIks(Feature feature) {
-        return retrieveIkSet(feature, r -> _ikCache.isManaged(r.getIk(), feature));
+    public Set<Integer> retrieveDeniedManagedIks(Feature feature) {
+        Predicate<AccessRight> predicate = r -> r.getRight() == Right.Deny && _ikCache.isManaged(r.getIk(), feature);
+        return retrieveIkSet(feature, predicate);
     }
 
+    
     /**
      * In normal workflow, only data the user has access to, will be displayed in the lists. But if some user tries to
      * open data by its id (via URL), this might be an non-authorized access. Within the dialog, it should be tested,
@@ -524,11 +530,6 @@ public class AccessManager implements Serializable {
         Set<Integer> deniedIks = retrieveDeniedManagedIks(feature);
         iks.removeAll(deniedIks);
         return iks;
-    }
-
-    private Set<Integer> retrieveDeniedManagedIks(Feature feature) {
-        Predicate<AccessRight> predicate = r -> r.getRight() == Right.Deny && _ikCache.isManaged(r.getIk(), feature);
-        return retrieveIkSet(feature, predicate);
     }
 
 }

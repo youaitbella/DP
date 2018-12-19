@@ -4,17 +4,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import org.inek.dataportal.api.enums.Feature;
 import org.inek.dataportal.common.data.account.entities.Account;
 import org.inek.dataportal.drg.additionalcost.entity.AdditionalCost;
 import org.inek.dataportal.common.enums.DataSet;
 import org.inek.dataportal.common.enums.WorkflowStatus;
-import org.inek.dataportal.common.data.AbstractDataAccess;
 import org.inek.dataportal.common.data.AbstractDataAccessWithActionLog;
-import org.inek.dataportal.common.data.adm.facade.LogFacade;
 
 /**
  *
